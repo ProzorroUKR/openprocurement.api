@@ -18,7 +18,7 @@ from openprocurement.api.models import (
     ContactPoint as BaseContactPoint, plain_role
 )
 from openprocurement.api.validation import (
-    validate_cpv_group, validate_items_uniq
+    validate_cpv_group, validate_items_uniq, validate_classification_id
 )
 from openprocurement.tender.core.models import (
     ITender,
@@ -569,7 +569,7 @@ class Tender(BaseTender):
     tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
     auctionPeriod = ModelType(TenderAuctionPeriod, default={})
     documents = ListType(ModelType(Document), default=list())  # All documents and attachments related to the tender.
-    items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
+    items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq, validate_classification_id])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     complaints = ListType(ComplaintModelType(Complaint), default=list())
     contracts = ListType(ModelType(Contract), default=list())
     cancellations = ListType(ModelType(Cancellation), default=list())
