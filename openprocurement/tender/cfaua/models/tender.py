@@ -15,8 +15,8 @@ from openprocurement.api.models import (
 )
 from openprocurement.api.utils import get_now
 from openprocurement.api.validation import (
-    validate_cpv_group, validate_items_uniq
-)
+    validate_cpv_group, validate_items_uniq,
+    validate_classification_id)
 from openprocurement.tender.cfaua.validation import validate_max_awards_number, validate_max_agreement_duration_period
 from openprocurement.tender.cfaua.interfaces import (
     ICloseFrameworkAgreementUA
@@ -87,7 +87,8 @@ class CloseFrameworkAgreementUA(Tender):
     enquiryPeriod = ModelType(EnquiryPeriod, required=False)
     guarantee = ModelType(Guarantee)
     hasEnquiries = BooleanType()  # A Yes/No field as to whether enquiries were part of tender process.
-    items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
+    items = ListType(ModelType(Item), required=True, min_size=1,
+                     validators=[validate_cpv_group, validate_items_uniq, validate_classification_id])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     features = ListType(ModelType(Feature), validators=[validate_features_uniq])
     minimalStep = ModelType(Value, required=True)
     numberOfBidders = IntType()  # The number of unique tenderers who participated in the tender
