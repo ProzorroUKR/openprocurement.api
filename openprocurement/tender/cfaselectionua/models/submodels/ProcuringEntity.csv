@@ -1,5 +1,5 @@
 rolename,name_ru,additionalIdentifiers,kind,name,address,additionalContactPoints,name_en,identifier,contactPoint,__parent__
-edit_active.tendering,1,1,,1,1,1,1,1,1,
+edit_active.tendering,,,,,,,,,,
 default,1,1,1,1,1,1,1,1,1,
 embedded,1,1,1,1,1,1,1,1,1,
 view,1,1,1,1,1,1,1,1,1,

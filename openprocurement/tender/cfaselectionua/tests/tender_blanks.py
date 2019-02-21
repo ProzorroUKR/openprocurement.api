@@ -2248,6 +2248,7 @@ def edit_tender_in_active_enquiries(self):
         'items[0].classification',
         'items[0].additionalClassifications[0]',
         'tenderPeriod.startDate',
+        'procuringEntity'
     )
 
     data = {
@@ -2296,6 +2297,34 @@ def edit_tender_in_active_enquiries(self):
                 }
             }
         ],
+        "procuringEntity": {
+            "name": "Державне управління справами1",
+            "kind": "other",
+            "identifier": {
+                "scheme": "UA-EDR",
+                "id": "0000000",
+                "uri": "http://www.dus1.gov.ua/"
+            },
+            "address": {
+                "countryName": "Україна 1",
+                "postalCode": "01220 1",
+                "region": "м. Київ 1",
+                "locality": "м. Київ 1",
+                "streetAddress": "вул. Банкова, 11, корпус 11"
+            },
+            "contactPoint": {
+                "name": "Державне управління справами 1",
+                "telephone": "0440000001",
+                "availableLanguage": "uk"
+            },
+            "additionalContactPoints": [
+                {
+                    "name": "Державне управління справами 2",
+                    "telephone": "044000001",
+                    "availableLanguage": "en"
+                }
+            ]
+        },
         'tenderPeriod': {
             'startDate': (get_now() + timedelta(days=10)).isoformat(),
             'endDate': (get_now() + timedelta(days=33)).isoformat()

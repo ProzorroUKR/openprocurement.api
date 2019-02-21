@@ -64,6 +64,9 @@ def validate_bid(request):
     if not supplier_contract:
         raise_operation_error(request, 'Bid is not a member of agreement')
 
+    if bid.lotValues and supplier_contract.value and bid.lotValues[0].value.amount > supplier_contract.value.amount:
+        raise_operation_error(request, 'Bid value.amount can\'t be greater than contact value.amount.')
+
     contract_parameters = {(p.code, p.value) for p in supplier_contract.parameters}
     bid_parameters = {(p.code, p.value) for p in bid.parameters}
     if not bid_parameters.issubset(contract_parameters):
