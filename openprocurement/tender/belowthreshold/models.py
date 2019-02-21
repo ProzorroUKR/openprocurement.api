@@ -21,7 +21,7 @@ from openprocurement.api.utils import (
 
 from openprocurement.api.constants import TZ
 from openprocurement.api.validation import (
-    validate_items_uniq, validate_cpv_group
+    validate_items_uniq, validate_cpv_group, validate_classification_id
 )
 
 from openprocurement.tender.core.models import ITender
@@ -123,7 +123,7 @@ class Tender(BaseTender):
             'contracting': whitelist('doc_id', 'owner'),
         }
 
-    items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
+    items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_items_uniq, validate_classification_id])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     value = ModelType(Value, required=True)  # The total estimated value of the procurement.
     enquiryPeriod = ModelType(PeriodEndRequired, required=True)  # The period during which enquiries may be made and will be answered.
     tenderPeriod = ModelType(PeriodEndRequired, required=True)  # The period when the tender is open for submissions. The end date is the closing date for tender submissions.
