@@ -1,0 +1,6 @@
+rolename,status,unitPrices,parameters,suppliers,bidID,date,awardID,id,__parent__,value
+edit,1,1,1,1,1,1,1,1,1,
+default,1,1,1,1,1,1,1,1,,1
+create,1,1,1,1,1,1,1,1,1,
+embedded,1,1,1,1,1,1,1,1,,1
+view,1,1,1,1,1,1,1,1,,1
