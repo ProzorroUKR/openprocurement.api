@@ -1,0 +1,54 @@
+[
+  {
+      "code": "OCDS-123454-AIR-INTAKE",
+      "featureOf": "item",
+      "relatedItem": "1",
+      "title": "Потужність всмоктування",
+      "title_en": "Air Intake",
+      "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
+      "enum": [
+          {
+              "value": 0.01,
+              "title": "До 1000 Вт"
+          },
+          {
+              "value": 0.04,
+              "title": "Більше 1000 Вт"
+          }
+      ]
+  },
+  {
+      "code": "OCDS-123454-YEARS",
+      "featureOf": "tenderer",
+      "title": "Років на ринку",
+      "title_en": "Years trading",
+      "description": "Кількість років, які організація учасник працює на ринку",
+      "enum": [
+          {
+              "value": 0.03,
+              "title": "До 3 років"
+          },
+          {
+              "value": 0.07,
+              "title": "Більше 3 років"
+          }
+      ]
+  },
+  {
+      "code": "OCDS-123454-POSTPONEMENT",
+      "featureOf": "tenderer",
+      "title": "Відстрочка платежу",
+      "title_en": "Postponement of payment",
+      "description": "Термін відстрочки платежу",
+      "enum": [
+          {
+              "value": 0.3,
+              "title": "До 90 днів"
+          },
+          {
+              "value": 0.07,
+              "title": "Більше 90 днів"
+          }
+      ]
+  }
+]
