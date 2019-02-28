@@ -1,0 +1,6 @@
+rolename,status,agreementNumber,rationale_ru,rationale_en,dateSigned,rationale,date,id,__parent__,rationaleType,modifications
+edit,1,1,1,1,1,1,1,1,,1,1
+default,1,1,1,1,1,1,1,1,,1,1
+create,,1,1,1,1,1,,,,1,1
+embedded,1,1,1,1,1,1,1,1,,1,1
+view,1,1,1,1,1,1,1,1,,1,1

@@ -1,0 +1,28 @@
+{
+    "name": "Державне управління справами",
+    "kind": "general",
+    "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/"
+    },
+    "address": {
+        "countryName": "Україна",
+        "postalCode": "01220",
+        "region": "м. Київ",
+        "locality": "м. Київ",
+        "streetAddress": "вул. Банкова, 11, корпус 1"
+    },
+    "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "0440000000",
+        "availableLanguage": "en"
+    },
+    "additionalContactPoints": [
+        {
+            "name": "Державне управління справами 1",
+            "telephone": "0440000000",
+            "availableLanguage": "uk"
+        }
+    ]
+}

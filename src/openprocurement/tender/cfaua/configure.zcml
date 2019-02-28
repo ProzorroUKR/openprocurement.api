@@ -1,0 +1,118 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+    <include package="zope.component" file="meta.zcml" />
+
+    <!-- getAdapter(tender, openprocurement.api.interfaces.IContentConfigurator) -->
+    <adapter
+        factory=".adapters.configurator.CloseFrameworkAgreementUAConfigurator"
+        provides="openprocurement.api.interfaces.IContentConfigurator"
+        for=".interfaces.ICloseFrameworkAgreementUA"
+        />
+
+    <!-- Serializable Fields: getAdapter(tender, interfaces.ISerializableTenderField, 'fieldname') -->
+
+    <adapter
+        name="next_check"
+        factory=".adapters.tender.serializable.next_check.SerializableTenderNextCheck"
+        provides="openprocurement.api.interfaces.ISerializable"
+        for=".interfaces.ICloseFrameworkAgreementUA"
+        />
+
+    <adapter
+        name="serializable_enquiryPeriod"
+        factory=".adapters.tender.serializable.enquiryperiod.SerializableTenderEnquiryPeriod"
+        provides="openprocurement.api.interfaces.ISerializable"
+        for=".interfaces.ICloseFrameworkAgreementUA"
+        />
+
+    <adapter
+        name="serializable_guarantee"
+        factory=".adapters.tender.serializable.guarantee.SerializableTenderGuarantee"
+        provides="openprocurement.api.interfaces.ISerializable"
+        for=".interfaces.ICloseFrameworkAgreementUA"
+        />
+
+    <adapter
+        name="serializable_value"
+        factory=".adapters.tender.serializable.value.SerializableTenderMultilotValue"
+        provides="openprocurement.api.interfaces.ISerializable"
+        for=".interfaces.ICloseFrameworkAgreementUA"
+        />
+
+    <adapter
+        name="numberOfBids"
+        factory=".adapters.tender.serializable.numberofbids.SerializableTenderNumberOfBids"
+        provides="openprocurement.api.interfaces.ISerializable"
+        for=".interfaces.ICloseFrameworkAgreementUA"
+        />
+
+    <adapter
+        name="complaintPeriod"
+        factory=".adapters.tender.serializable.complaintperiod.SerializableTenderComplaintPeriod"
+        provides="openprocurement.api.interfaces.ISerializable"
+        for=".interfaces.ICloseFrameworkAgreementUA"
+        />
+
+    <!--<adapter-->
+        <!--factory="openprocurement.tender.cfaua.adapters.tender.serializable.minimalstep.SerializableTenderMinimalStep"-->
+        <!--provides="openprocurement.tender.cfaua.interfaces.ISerializableTenderMinimalStep"-->
+        <!--for="openprocurement.tender.cfaua.interfaces.ICloseFrameworkAgreementUA"-->
+        <!--/>-->
+    <adapter
+        name="serializable_minimalStep"
+        factory=".adapters.tender.serializable.minimalstep.SerializableTenderMinimalStep"
+        provides="openprocurement.api.interfaces.ISerializable"
+        for=".interfaces.ICloseFrameworkAgreementUA"
+        />
+
+
+    <!-- Validators -->
+    <adapter
+        name="tenderPeriod"
+        factory=".adapters.tender.validators.tenderperiod.TenderPeriodValidate"
+        provides="openprocurement.api.interfaces.IValidator"
+        for=".interfaces.ICloseFrameworkAgreementUA"
+        />
+
+    <adapter
+        name="items"
+        factory=".adapters.tender.validators.items.TenderCPVItemsValidate"
+        provides="openprocurement.api.interfaces.IValidator"
+        for=".interfaces.ICloseFrameworkAgreementUA"
+        />
+
+    <adapter
+        name="features"
+        factory=".adapters.tender.validators.features.TenderFeaturesValidate"
+        provides="openprocurement.api.interfaces.IValidator"
+        for=".interfaces.ICloseFrameworkAgreementUA"
+        />
+
+    <adapter
+        name="auctionUrl"
+        factory=".adapters.tender.validators.auctionurl.TenderAuctionUrlValidate"
+        provides="openprocurement.api.interfaces.IValidator"
+        for=".interfaces.ICloseFrameworkAgreementUA"
+        />
+
+    <adapter
+        name="minimalStep"
+        factory=".adapters.tender.validators.minimalstep.MinimalStepValidate"
+        provides="openprocurement.api.interfaces.IValidator"
+        for=".interfaces.ICloseFrameworkAgreementUA"
+        />
+
+    <adapter
+        name="awardPeriod"
+        factory=".adapters.tender.validators.awardperiod.AwardPeriodValidate"
+        provides="openprocurement.api.interfaces.IValidator"
+        for=".interfaces.ICloseFrameworkAgreementUA"
+        />
+
+    <adapter
+        name="lots"
+        factory=".adapters.tender.validators.lots.LotsValidate"
+        provides="openprocurement.api.interfaces.IValidator"
+        for=".interfaces.ICloseFrameworkAgreementUA"
+        />
+
+</configure>

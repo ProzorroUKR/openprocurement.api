@@ -1,7 +1,7 @@
 import os
 from setuptools import setup, find_packages
 
-version = '2.4.30dp'
+version = '2.5-rc2'
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -26,6 +26,8 @@ requires = [
     'setuptools',
     'tzlocal',
     'zope.component',
+    'zope.configuration',
+    'esculator',
 ]
 test_requires = requires + [
     'webtest',
@@ -41,10 +43,34 @@ entry_points = {
         'main = openprocurement.api.app:main'
     ],
     'openprocurement.api.plugins': [
-        'api = openprocurement.api.includeme:includeme'
+        'api = openprocurement.api.includeme:includeme',
+        'tender_core = openprocurement.tender.core.includeme:includeme',
+        'planning = openprocurement.planning.api:includeme',
+        'contracting = openprocurement.contracting.api:includeme',
+        'agreementCore = openprocurement.agreement.core.includeme:includeme',
+        'historical.core = openprocurement.historical.core.includeme:includeme',
+        'historical.tender = openprocurement.historical.tender:includeme',
+    ],
+    'openprocurement.tender.core.plugins': [
+        'belowThreshold = openprocurement.tender.belowthreshold.includeme:includeme',
+        'aboveThresholdUA = openprocurement.tender.openua.includeme:includeme',
+        'aboveThresholdEU = openprocurement.tender.openeu.includeme:includeme',
+        'aboveThresholdUA.defense = openprocurement.tender.openuadefense.includeme:includeme',
+        'reporting = openprocurement.tender.limited.includeme:includeme',
+        'negotiation = openprocurement.tender.limited.includeme:includeme_negotiation',
+        'negotiation.quick = openprocurement.tender.limited.includeme:includeme_negotiation_quick',
+        'competitivedialogue = openprocurement.tender.competitivedialogue.includeme:includeme',
+        'esco = openprocurement.tender.esco.includeme:includeme',
+        'closeFrameworkAgreementUA = openprocurement.tender.cfaua.includeme:includeme',
+        'closeFrameworkAgreementSelectionUA = openprocurement.tender.cfaselectionua.includeme:includeme',
+    ],
+    'openprocurement.agreements.core.plugins': [
+        'cfAgreementUA = openprocurement.agreement.cfaua.includeme:includeme'
     ],
     'openprocurement.api.migrations': [
-        'tenders = openprocurement.api.migration:migrate_data'
+        'tenders = openprocurement.api.migration:migrate_data',
+        'contracts = openprocurement.contracting.api.migration:migrate_data',
+        'plans = openprocurement.planning.api.migration:migrate_data',
     ],
     'console_scripts': [
         'bootstrap_api_security = openprocurement.api.database:bootstrap_api_security'

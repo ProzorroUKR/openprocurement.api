@@ -1,0 +1,16 @@
+[
+    {
+        "value": {
+            "amount": 469,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+        }
+    },
+    {
+        "value": {
+            "amount": 479,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+        }
+    }
+]

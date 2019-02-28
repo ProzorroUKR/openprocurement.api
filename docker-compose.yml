@@ -1,0 +1,17 @@
+version: '3'
+services:
+  api:
+    image: prozorro/api:monorepo
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      SANDBOX_MODE: 'True'
+      CONSTANTS_FILE_PATH: '/app/etc/constants.ini'
+    depends_on:
+      - couchdb
+  couchdb:
+    image: "couchdb:1.6"
+    environment:
+      COUCHDB_USER: op
+      COUCHDB_PASSWORD: op

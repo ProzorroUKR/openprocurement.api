@@ -7,13 +7,11 @@ from ConfigParser import ConfigParser, DEFAULTSECT
 from iso8601 import parse_date
 from pytz import timezone
 from datetime import datetime
-from pkg_resources import get_distribution
 from logging import getLogger
 from requests import Session
 
-PKG = get_distribution(__package__)
-LOGGER = getLogger(PKG.project_name)
-VERSION = '{}.{}'.format(int(PKG.parsed_version[0]), int(PKG.parsed_version[1]) if PKG.parsed_version[1].isdigit() else 0)
+LOGGER = getLogger('openprocurement.api')
+VERSION = '2.5'
 ROUTE_PREFIX = '/api/{}'.format(VERSION)
 SESSION = Session()
 SCHEMA_VERSION = 24
