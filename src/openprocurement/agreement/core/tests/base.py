@@ -8,7 +8,7 @@ from copy import deepcopy
 from contextlib import contextmanager
 from uuid import uuid4
 from urllib import urlencode
-from openprocurement.api.constants import SESSION
+from openprocurement.api.constants import SESSION, VERSION
 from openprocurement.api.utils import get_now
 from requests.models import Response
 
@@ -22,7 +22,7 @@ class PrefixedRequestClass(webtest.app.TestRequest):
 
     @classmethod
     def blank(cls, path, *args, **kwargs):
-        path = '/api/%s%s' % ('2.4', path)
+        path = '/api/%s%s' % (VERSION, path)
         return webtest.app.TestRequest.blank(path, *args, **kwargs)
 
 

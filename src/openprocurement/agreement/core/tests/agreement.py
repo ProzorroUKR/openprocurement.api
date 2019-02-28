@@ -4,6 +4,7 @@ import unittest
 
 from copy import deepcopy
 from mock import MagicMock, patch
+from openprocurement.api.constants import VERSION
 from openprocurement.agreement.core.resource import IsAgreement
 from openprocurement.agreement.core.tests.base import BaseAgreementTest, TEST_AGREEMENT
 from openprocurement.agreement.core.traversal import factory
@@ -257,7 +258,7 @@ class TraversalAgreementTest(BaseAgreementTest):
         agreement.title = 'test_factory'
 
         request = MagicMock()
-        request.url = 'http://localhost/api/2.4/agreements'
+        request.url = 'http://localhost/api/' + VERSION + '/agreements'
         request.matchdict = {'agreement_id': data['agreementID'],
                              'document_id': '9a750db83cc64b34a879221513c13805'}
         request.agreement = agreement
