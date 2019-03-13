@@ -6,6 +6,7 @@ from openprocurement.api.utils import (
     context_unpack,
     raise_operation_error
 )
+from openprocurement.tender.belowthreshold.utils import add_contract
 
 from openprocurement.tender.core.utils import (
     save_tender, optendersresource, apply_patch, calculate_business_date,
@@ -310,13 +311,7 @@ class TenderAwardResource(APIResource):
         award_status = award.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if award_status == 'pending' and award.status == 'active':
-            tender.contracts.append(type(tender).contracts.model_class({
-                'awardID': award.id,
-                'suppliers': award.suppliers,
-                'value': award.value,
-                'date': get_now(),
-                'items': [i for i in tender.items if i.relatedLot == award.lotID],
-                'contractID': '{}-{}{}'.format(tender.tenderID, self.server_id, len(tender.contracts) + 1)}))
+            add_contract(self.request, award)
             add_next_award(self.request)
         elif award_status == 'active' and award.status == 'cancelled':
             for i in tender.contracts:
