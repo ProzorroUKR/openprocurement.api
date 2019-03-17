@@ -1,14 +1,13 @@
-FROM prozorro/base
+FROM python:2.7-jessie
 
 COPY requirements.txt /app/
+RUN pip install -r requirements.txt
 
 WORKDIR /app
-RUN pip install --upgrade pip && pip install -r requirements.txt
-
 COPY . /app
-RUN pip install -e .
+RUN pip install --upgrade pip && pip install -e .
 
-ENV PYTHONPATH "/app/src/openprocurement.api/src:${PYTHONPATH}"
+ENV PYTHONPATH "/app/src:${PYTHONPATH}"
 
 EXPOSE 80
 

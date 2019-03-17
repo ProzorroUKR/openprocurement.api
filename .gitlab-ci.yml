@@ -1,197 +1,185 @@
-image: docker:stable
+stages:
+  - build
+  - test
+  # - deploy
+  # - cleanup
 
 variables:
   COUCHDB_USER: op
   COUCHDB_PASSWORD: op
+  GIT_STRATEGY: none
 
-services:
-  - docker:dind
+Build:
+  stage: build
+  script:
+    - type multiwerf && source <(multiwerf use 1.0 beta)
+    - type werf && source <(werf ci-env gitlab --tagging-strategy tag-or-branch --verbose)
+    - werf build-and-publish --stages-storage :local
+  tags:
+    - shell
+  except:
+    - schedules
+  variables:
+    GIT_STRATEGY: fetch
 
-stages:
-  - test
-
-##### UNIT TESTING STAGES
-
-.test:
-  image: prozorro/api:monorepo
+.test: &base_test_sandbox
+  image: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
   stage: test
   services:
     - couchdb:1.6
-  before_script:
-    - pip install -r requirements.txt
-    - pip install -e .
+  tags:
+    - docker
   script:
+    - cd /app
     - export MODULE_DIR=$(echo $MODULE | sed -e 's/[\ ]/\//g')
     - export MODULE_NAME=$(echo $MODULE | sed -e 's/[\ ]/\./g')
     - py.test src/openprocurement/$MODULE_DIR --cov=openprocurement.$MODULE_NAME -v --color=yes
+    - SANDBOX_MODE=True py.test src/openprocurement/$MODULE_DIR --cov=openprocurement.$MODULE_NAME -v --color=yes
   coverage: '/TOTAL\s+\d+\s+\d+\s+(\d+%)/'
 
-.test_sandbox:
-  extends: .test
-  variables:
-    SANDBOX_MODE: 'True'
-
-.test_prod:
-  extends: .test
-  variables:
-    SANDBOX_MODE: ''
-
 test_sandbox_api:
-  extends: .test_sandbox
+  <<: *base_test_sandbox
   variables:
     MODULE: api
 
 test_sandbox_tender_core:
-  extends: .test_sandbox
+  <<: *base_test_sandbox
   variables:
     MODULE: tender core
 
 test_sandbox_contracting:
-  extends: .test_sandbox
+  <<: *base_test_sandbox
   variables:
     MODULE: contracting
 
 test_sandbox_planning:
-  extends: .test_sandbox
+  <<: *base_test_sandbox
   variables:
     MODULE: planning
 
 test_sandbox_tender_belowthreshold:
-  extends: .test_sandbox
+  <<: *base_test_sandbox
   variables:
     MODULE: tender belowthreshold
 
 test_sandbox_tender_openua:
-  extends: .test_sandbox
+  <<: *base_test_sandbox
   variables:
     MODULE: tender openua
 
 test_sandbox_tender_openeu:
-  extends: .test_sandbox
+  <<: *base_test_sandbox
   variables:
     MODULE: tender openeu
 
 test_sandbox_tender_openuadefense:
-  extends: .test_sandbox
+  <<: *base_test_sandbox
   variables:
     MODULE: tender openuadefense
 
 test_sandbox_tender_competitivedialogue:
-  extends: .test_sandbox
+  <<: *base_test_sandbox
   variables:
     MODULE: tender competitivedialogue
 
 test_sandbox_tender_limited:
-  extends: .test_sandbox
+  <<: *base_test_sandbox
   variables:
     MODULE: tender limited
 
 test_sandbox_tender_esco:
-  extends: .test_sandbox
+  <<: *base_test_sandbox
   variables:
     MODULE: tender esco
 
 test_sandbox_tender_cfaua:
-  extends: .test_sandbox
+  <<: *base_test_sandbox
   variables:
     MODULE: tender cfaua
 
 test_sandbox_tender_cfaselectionua:
-  extends: .test_sandbox
+  <<: *base_test_sandbox
   variables:
     MODULE: tender cfaselectionua
     
 test_sandbox_agreement_core:
-  extends: .test_sandbox
+  <<: *base_test_sandbox
   variables:
     MODULE: agreement core
 
 test_sandbox_agreement_cfaua:
-  extends: .test_sandbox
+  <<: *base_test_sandbox
   variables:
     MODULE: agreement cfaua
 
 test_sandbox_historical:
-  extends: .test_sandbox
+  <<: *base_test_sandbox
   variables:
     MODULE: historical
 
-test_prod_api:
-  extends: .test_prod
-  variables:
-    MODULE: api
+# .base_deploy: &base_deploy
+#   stage: deploy
+#   script:
+#     - type multiwerf && source <(multiwerf use 1.0 beta)
+#     - type werf && source <(werf ci-env gitlab --tagging-strategy tag-or-branch --verbose)
+#     ## Next command makes deploy and will be discussed further
+#     - werf deploy --stages-storage :local
+#         --set "global.ci_url=$(echo ${CI_ENVIRONMENT_URL} | cut -d / -f 3)"
+#   ## It is important that the deploy stage depends on the build stage. If the build stage fails, deploy stage should not start.
+#   dependencies:
+#     - Build
+#   tags:
+#     - werf
 
-test_prod_tender_core:
-  extends: .test_prod
-  variables:
-    MODULE: tender core
+# Review:
+#   <<: *base_deploy
+#   environment:
+#     name: review/${CI_COMMIT_REF_SLUG}
+#     ## Of course, you need to change domain suffix (`kube.DOMAIN`) of the url if you want to use it in you helm templates.
+#     url: http://${CI_PROJECT_NAME}-${CI_COMMIT_REF_SLUG}.kube.DOMAIN
+#     on_stop: Stop review
+#   only:
+#     - branches
+#   except:
+#     - master
+#     - schedules
 
-test_prod_contracting:
-  extends: .test_prod
-  variables:
-    MODULE: contracting
+# Stop review:
+#   stage: deploy
+#   script:
+#     - type multiwerf && source <(multiwerf use 1.0 beta)
+#     - type werf && source <(werf ci-env gitlab --tagging-strategy tag-or-branch --verbose)
+#     - werf dismiss --with-namespace
+#   environment:
+#     name: review/${CI_COMMIT_REF_SLUG}
+#     action: stop
+#   tags:
+#     - shell
+#   only:
+#     - branches
+#   except:
+#     - master
+#     - schedules
+#   when: manual
 
-test_prod_planning:
-  extends: .test_prod
-  variables:
-    MODULE: planning
+# Deploy to Stage:
+#   <<: *base_deploy
+#   environment:
+#     name: stage
+#     url: http://${CI_PROJECT_NAME}-${CI_COMMIT_REF_SLUG}.kube.DOMAIN
+#   only:
+#     - master
+#   except:
+#     - schedules
 
-test_prod_tender_belowthreshold:
-  extends: .test_prod
-  variables:
-    MODULE: tender belowthreshold
-
-test_prod_tender_openua:
-  extends: .test_prod
-  variables:
-    MODULE: tender openua
-
-test_prod_tender_openeu:
-  extends: .test_prod
-  variables:
-    MODULE: tender openeu
-
-test_prod_tender_openuadefense:
-  extends: .test_prod
-  variables:
-    MODULE: tender openuadefense
-
-test_prod_tender_competitivedialogue:
-  extends: .test_prod
-  variables:
-    MODULE: tender competitivedialogue
-
-test_prod_tender_limited:
-  extends: .test_prod
-  variables:
-    MODULE: tender limited
-
-test_prod_tender_esco:
-  extends: .test_prod
-  variables:
-    MODULE: tender esco
-
-test_prod_tender_cfaua:
-  extends: .test_prod
-  variables:
-    MODULE: tender cfaua
-
-test_prod_tender_cfaselectionua:
-  extends: .test_prod
-  variables:
-    MODULE: tender cfaselectionua
-    
-test_prod_agreement_core:
-  extends: .test_prod
-  variables:
-    MODULE: agreement core
-
-test_prod_agreement_cfaua:
-  extends: .test_prod
-  variables:
-    MODULE: agreement cfaua
-
-test_prod_historical:
-  extends: .test_prod
-  variables:
-    MODULE: historical
+# Cleanup:
+#   stage: cleanup
+#   script:
+#     - type multiwerf && source <(multiwerf use 1.0 beta)
+#     - type werf && source <(werf ci-env gitlab --tagging-strategy tag-or-branch --verbose)
+#     - docker login -u nobody -p ${WERF_IMAGES_CLEANUP_PASSWORD} ${WERF_IMAGES_REPO}
+#     - werf cleanup --stages-storage :local
+#   only:
+#     - schedules
+#   tags:
+#     - shell
