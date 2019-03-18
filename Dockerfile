@@ -1,3 +1,4 @@
+# Dockerfile is not optimized, for optimized build use werf.yml
 FROM python:2.7-slim-jessie
 
 RUN apt-get update && apt-get install -y libsodium-dev git libevent-dev libzmq-dev libffi-dev libssl-dev gcc

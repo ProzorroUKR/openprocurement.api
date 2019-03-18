@@ -1,8 +1,6 @@
 stages:
   - build
   - test
-  # - deploy
-  # - cleanup
 
 variables:
   COUCHDB_USER: op
@@ -205,70 +203,3 @@ test_prod_historical:
   extends: .test_prod
   variables:
     MODULE: historical
-
-# .base_deploy: &base_deploy
-#   stage: deploy
-#   script:
-#     - type multiwerf && source <(multiwerf use 1.0 beta)
-#     - type werf && source <(werf ci-env gitlab --tagging-strategy tag-or-branch --verbose)
-#     ## Next command makes deploy and will be discussed further
-#     - werf deploy --stages-storage :local
-#         --set "global.ci_url=$(echo ${CI_ENVIRONMENT_URL} | cut -d / -f 3)"
-#   ## It is important that the deploy stage depends on the build stage. If the build stage fails, deploy stage should not start.
-#   dependencies:
-#     - Build
-#   tags:
-#     - werf
-
-# Review:
-#   <<: *base_deploy
-#   environment:
-#     name: review/${CI_COMMIT_REF_SLUG}
-#     ## Of course, you need to change domain suffix (`kube.DOMAIN`) of the url if you want to use it in you helm templates.
-#     url: http://${CI_PROJECT_NAME}-${CI_COMMIT_REF_SLUG}.kube.DOMAIN
-#     on_stop: Stop review
-#   only:
-#     - branches
-#   except:
-#     - master
-#     - schedules
-
-# Stop review:
-#   stage: deploy
-#   script:
-#     - type multiwerf && source <(multiwerf use 1.0 beta)
-#     - type werf && source <(werf ci-env gitlab --tagging-strategy tag-or-branch --verbose)
-#     - werf dismiss --with-namespace
-#   environment:
-#     name: review/${CI_COMMIT_REF_SLUG}
-#     action: stop
-#   tags:
-#     - shell
-#   only:
-#     - branches
-#   except:
-#     - master
-#     - schedules
-#   when: manual
-
-# Deploy to Stage:
-#   <<: *base_deploy
-#   environment:
-#     name: stage
-#     url: http://${CI_PROJECT_NAME}-${CI_COMMIT_REF_SLUG}.kube.DOMAIN
-#   only:
-#     - master
-#   except:
-#     - schedules
-
-# Cleanup:
-#   stage: cleanup
-#   script:
-#     - type multiwerf && source <(multiwerf use 1.0 beta)
-#     - type werf && source <(werf ci-env gitlab --tagging-strategy tag-or-branch --verbose)
-#     - docker login -u nobody -p ${WERF_IMAGES_CLEANUP_PASSWORD} ${WERF_IMAGES_REPO}
-#     - werf cleanup --stages-storage :local
-#   only:
-#     - schedules
-#   tags:
-#     - shell
