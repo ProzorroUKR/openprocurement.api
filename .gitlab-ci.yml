@@ -22,7 +22,7 @@ Build:
   variables:
     GIT_STRATEGY: fetch
 
-.test: &base_test_sandbox
+.test:
   image: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
   stage: test
   services:
@@ -34,86 +34,175 @@ Build:
     - export MODULE_DIR=$(echo $MODULE | sed -e 's/[\ ]/\//g')
     - export MODULE_NAME=$(echo $MODULE | sed -e 's/[\ ]/\./g')
     - py.test src/openprocurement/$MODULE_DIR --cov=openprocurement.$MODULE_NAME -v --color=yes
-    - SANDBOX_MODE=True py.test src/openprocurement/$MODULE_DIR --cov=openprocurement.$MODULE_NAME -v --color=yes
   coverage: '/TOTAL\s+\d+\s+\d+\s+(\d+%)/'
 
+.test_sandbox:
+  extends: .test
+  variables:
+    SANDBOX_MODE: 'True'
+
+.test_prod:
+  extends: .test
+  variables:
+    SANDBOX_MODE: ''
+
 test_sandbox_api:
-  <<: *base_test_sandbox
+  extends: .test_sandbox
   variables:
     MODULE: api
 
 test_sandbox_tender_core:
-  <<: *base_test_sandbox
+  extends: .test_sandbox
   variables:
     MODULE: tender core
 
 test_sandbox_contracting:
-  <<: *base_test_sandbox
+  extends: .test_sandbox
   variables:
     MODULE: contracting
 
 test_sandbox_planning:
-  <<: *base_test_sandbox
+  extends: .test_sandbox
   variables:
     MODULE: planning
 
 test_sandbox_tender_belowthreshold:
-  <<: *base_test_sandbox
+  extends: .test_sandbox
   variables:
     MODULE: tender belowthreshold
 
 test_sandbox_tender_openua:
-  <<: *base_test_sandbox
+  extends: .test_sandbox
   variables:
     MODULE: tender openua
 
 test_sandbox_tender_openeu:
-  <<: *base_test_sandbox
+  extends: .test_sandbox
   variables:
     MODULE: tender openeu
 
 test_sandbox_tender_openuadefense:
-  <<: *base_test_sandbox
+  extends: .test_sandbox
   variables:
     MODULE: tender openuadefense
 
 test_sandbox_tender_competitivedialogue:
-  <<: *base_test_sandbox
+  extends: .test_sandbox
   variables:
     MODULE: tender competitivedialogue
 
 test_sandbox_tender_limited:
-  <<: *base_test_sandbox
+  extends: .test_sandbox
   variables:
     MODULE: tender limited
 
 test_sandbox_tender_esco:
-  <<: *base_test_sandbox
+  extends: .test_sandbox
   variables:
     MODULE: tender esco
 
 test_sandbox_tender_cfaua:
-  <<: *base_test_sandbox
+  extends: .test_sandbox
   variables:
     MODULE: tender cfaua
 
 test_sandbox_tender_cfaselectionua:
-  <<: *base_test_sandbox
+  extends: .test_sandbox
   variables:
     MODULE: tender cfaselectionua
     
 test_sandbox_agreement_core:
-  <<: *base_test_sandbox
+  extends: .test_sandbox
   variables:
     MODULE: agreement core
 
 test_sandbox_agreement_cfaua:
-  <<: *base_test_sandbox
+  extends: .test_sandbox
   variables:
     MODULE: agreement cfaua
 
 test_sandbox_historical:
-  <<: *base_test_sandbox
+  extends: .test_sandbox
+  variables:
+    MODULE: historical
+
+test_prod_api:
+  extends: .test_prod
+  variables:
+    MODULE: api
+
+test_prod_tender_core:
+  extends: .test_prod
+  variables:
+    MODULE: tender core
+
+test_prod_contracting:
+  extends: .test_prod
+  variables:
+    MODULE: contracting
+
+test_prod_planning:
+  extends: .test_prod
+  variables:
+    MODULE: planning
+
+test_prod_tender_belowthreshold:
+  extends: .test_prod
+  variables:
+    MODULE: tender belowthreshold
+
+test_prod_tender_openua:
+  extends: .test_prod
+  variables:
+    MODULE: tender openua
+
+test_prod_tender_openeu:
+  extends: .test_prod
+  variables:
+    MODULE: tender openeu
+
+test_prod_tender_openuadefense:
+  extends: .test_prod
+  variables:
+    MODULE: tender openuadefense
+
+test_prod_tender_competitivedialogue:
+  extends: .test_prod
+  variables:
+    MODULE: tender competitivedialogue
+
+test_prod_tender_limited:
+  extends: .test_prod
+  variables:
+    MODULE: tender limited
+
+test_prod_tender_esco:
+  extends: .test_prod
+  variables:
+    MODULE: tender esco
+
+test_prod_tender_cfaua:
+  extends: .test_prod
+  variables:
+    MODULE: tender cfaua
+
+test_prod_tender_cfaselectionua:
+  extends: .test_prod
+  variables:
+    MODULE: tender cfaselectionua
+
+test_prod_agreement_core:
+  extends: .test_prod
+  variables:
+    MODULE: agreement core
+
+test_prod_agreement_cfaua:
+  extends: .test_prod
+  variables:
+    MODULE: agreement cfaua
+
+test_prod_historical:
+  extends: .test_prod
   variables:
     MODULE: historical
 
