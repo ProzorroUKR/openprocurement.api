@@ -4,7 +4,7 @@ from openprocurement.api.validation import validate_data, validate_json_data, OP
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.utils import get_now  # move
 from openprocurement.api.utils import update_logging_context, error_handler, raise_operation_error, check_document_batch # XXX tender context
-from openprocurement.tender.core.constants import AMOUNT_NET_PERCENTAGE
+from openprocurement.tender.core.constants import AMOUNT_NET_COEF
 from openprocurement.tender.core.utils import calculate_business_date
 from schematics.exceptions import ValidationError
 
@@ -476,12 +476,12 @@ def validate_update_contract_value_amounts(request):
                 raise_operation_error(
                     request, 'Value amountNet should be less or equal to amount ({})'.format(amount))
 
-            percentage = Decimal(str(AMOUNT_NET_PERCENTAGE)) if isinstance(amount_net, Decimal) else AMOUNT_NET_PERCENTAGE
-            amount_max = amount_net + amount_net * percentage
+            coef = Decimal(str(AMOUNT_NET_COEF)) if isinstance(amount_net, Decimal) else AMOUNT_NET_COEF
+            amount_max = amount_net * coef
             if amount > amount_max:
                 raise_operation_error(
                     request, 'Value amount can\'t be greater than amountNet ({}) for {}%'.format(
-                        float(amount_net), AMOUNT_NET_PERCENTAGE * 100, float(amount_max)))
+                        float(amount_net), coef * 100 - 100, float(amount_max)))
 
 
 def validate_contract_signing(request):

@@ -2,7 +2,6 @@
 from openprocurement.api.utils import update_logging_context, error_handler, raise_operation_error
 from openprocurement.api.validation import validate_json_data, validate_data, OPERATIONS
 from openprocurement.contracting.api.models import Contract, Change
-from openprocurement.tender.core.constants import AMOUNT_NET_PERCENTAGE
 
 
 def validate_contract_data(request):

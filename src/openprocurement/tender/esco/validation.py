@@ -1,7 +1,4 @@
-from decimal import Decimal
-
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.core.constants import AMOUNT_NET_PERCENTAGE
 
 
 def validate_update_contract_value(request):
