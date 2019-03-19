@@ -466,25 +466,17 @@ def validate_update_contract_value(request):
                     raise_operation_error(
                         request, 'Value amount should be less or equal to awarded amount ({}) '
                                  'if VAT included'.format(award.value.amount))
-                amount_net_min = amount - amount * AMOUNT_NET_PERCENTAGE
-                if amount_net < amount_net_min:
-                    raise_operation_error(
-                        request, 'Value amountNet can\'t be less than amount ({}) for {}% ({}) '
-                                 'if VAT included'.format(amount, AMOUNT_NET_PERCENTAGE * 100, amount_net_min))
             else:
                 if amount_net > award.value.amount:
                     raise_operation_error(
                         request, 'Value amountNet should be less or equal to awarded amount ({}) '
                                  'if VAT not included'.format(award.value.amount))
-                if amount < award.value.amount:
-                    raise_operation_error(
-                        request, 'Value amount should be greater or equal to awarded amount ({}) '
-                                 'if VAT not included'.format(award.value.amount))
-                amount_max = amount_net + amount_net * AMOUNT_NET_PERCENTAGE
-                if amount > amount_max:
-                    raise_operation_error(
-                        request, 'Value amount can\'t be greater than amountNet ({}) for {}% ({}) '
-                                 'if VAT not included'.format(amount_net, AMOUNT_NET_PERCENTAGE * 100, amount_max))
+
+            amount_max = amount_net + amount_net * AMOUNT_NET_PERCENTAGE
+            if amount > amount_max:
+                raise_operation_error(
+                    request, 'Value amount can\'t be greater than amountNet ({}) for {}% ({})'.format(
+                        amount_net, AMOUNT_NET_PERCENTAGE * 100, amount_max))
 
 
 def validate_contract_signing(request):
