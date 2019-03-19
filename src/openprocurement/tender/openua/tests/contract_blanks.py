@@ -125,7 +125,7 @@ def patch_tender_contract(self):
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(
         response.json['errors'][0]["description"],
-        "Value amount can't be greater than amountNet (80.0) for 20.0%)")
+        "Value amount can't be greater than amountNet (80.0) for 20.0%")
 
     response = self.app.patch_json(
         '/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract['id'], self.tender_token),
