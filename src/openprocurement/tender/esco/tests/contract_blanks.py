@@ -53,16 +53,15 @@ def patch_tender_contract(self):
     self.assertEqual(response.status_code, 403)
     self.assertEqual(
         response.json['errors'][0]["description"],
-        "Value amountNet should be less or equal to awarded amount ({})".format(
+        "Value amountNet should be less or equal to amount ({})".format(
             self.expected_contract_amount))
 
     response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
         self.tender_id, contract['id'], self.tender_token),
-        {"data": {"value": {"amountNet": 0}}}, status=403)
+        {"data": {"value": {"amountNet": 10}}}, status=403)
     self.assertEqual(response.status_code, 403)
     self.assertIn(
-        "Value amountNet can't be less than amount ({}) for 20.0%".format(
-            self.expected_contract_amount),
+        "Value amount can't be greater than amountNet (10.0) for 20.0%",
         response.json['errors'][0]["description"])
 
     response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(

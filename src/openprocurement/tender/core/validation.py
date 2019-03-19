@@ -476,12 +476,12 @@ def validate_update_contract_value_amounts(request):
                 raise_operation_error(
                     request, 'Value amountNet should be less or equal to amount ({})'.format(amount))
 
-            percentage = Decimal(AMOUNT_NET_PERCENTAGE) if isinstance(amount_net, Decimal) else AMOUNT_NET_PERCENTAGE
+            percentage = Decimal(str(AMOUNT_NET_PERCENTAGE)) if isinstance(amount_net, Decimal) else AMOUNT_NET_PERCENTAGE
             amount_max = amount_net + amount_net * percentage
             if amount > amount_max:
                 raise_operation_error(
-                    request, 'Value amount can\'t be greater than amountNet ({}) for {}% ({})'.format(
-                        amount_net, AMOUNT_NET_PERCENTAGE * 100, amount_max))
+                    request, 'Value amount can\'t be greater than amountNet ({}) for {}%'.format(
+                        float(amount_net), AMOUNT_NET_PERCENTAGE * 100, float(amount_max)))
 
 
 def validate_contract_signing(request):
