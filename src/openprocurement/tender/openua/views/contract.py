@@ -12,8 +12,8 @@ from openprocurement.tender.core.validation import (
     validate_patch_contract_data,
     validate_update_contract_value,
     validate_update_contract_only_for_active_lots,
-    validate_contract_operation_not_in_allowed_status
-)
+    validate_contract_operation_not_in_allowed_status,
+    validate_update_contract_value_amounts)
 from openprocurement.tender.core.utils import (
     save_tender,
     apply_patch,
