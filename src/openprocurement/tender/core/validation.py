@@ -454,25 +454,30 @@ def validate_update_contract_value(request):
 
         # New behavior for contracts with amountNet set
         if amount_net is not None:
+            if amount_net > award.value.amount:
+                raise_operation_error(
+                    request, 'Value amountNet should be less or equal to awarded amount ({})'.format(
+                        award.value.amount))
+
+            if value.get('valueAddedTaxIncluded') and amount > award.value.amount:
+                raise_operation_error(
+                    request, 'Value amount should be less or equal to awarded amount ({}) '
+                             'if VAT included'.format(award.value.amount))
+
+
+def validate_update_contract_value_amounts(request):
+    value = request.validated['data'].get('value')
+    if value:
+        amount_net = value.get('amountNet')
+        amount = value.get('amount')
+
+        if amount_net is not None:
             if amount_net > amount:
-                raise_operation_error(request, 'Value amountNet should be less or equal to amount ({})'.format(amount))
+                raise_operation_error(
+                    request, 'Value amountNet should be less or equal to amount ({})'.format(amount))
 
-            if value.get('valueAddedTaxIncluded'):
-                if amount_net > award.value.amount:
-                    raise_operation_error(
-                        request, 'Value amountNet should be less or equal to awarded amount ({}) '
-                                 'if VAT included'.format(award.value.amount))
-                if amount > award.value.amount:
-                    raise_operation_error(
-                        request, 'Value amount should be less or equal to awarded amount ({}) '
-                                 'if VAT included'.format(award.value.amount))
-            else:
-                if amount_net > award.value.amount:
-                    raise_operation_error(
-                        request, 'Value amountNet should be less or equal to awarded amount ({}) '
-                                 'if VAT not included'.format(award.value.amount))
-
-            amount_max = amount_net + amount_net * AMOUNT_NET_PERCENTAGE
+            percentage = Decimal(AMOUNT_NET_PERCENTAGE) if isinstance(amount_net, Decimal) else AMOUNT_NET_PERCENTAGE
+            amount_max = amount_net + amount_net * percentage
             if amount > amount_max:
                 raise_operation_error(
                     request, 'Value amount can\'t be greater than amountNet ({}) for {}% ({})'.format(

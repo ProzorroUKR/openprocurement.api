@@ -12,14 +12,14 @@ from openprocurement.api.utils import (
 
 from openprocurement.contracting.api.utils import (
     contractingresource, apply_patch, contract_serialize, set_ownership,
-    save_contract)
+    save_contract
+)
 from openprocurement.contracting.api.validation import (
     validate_contract_data,
     validate_patch_contract_data,
     validate_credentials_generate,
     validate_contract_update_not_in_allowed_status,
-    validate_terminate_contract_without_amountPaid,
-    validate_update_contract_value
+    validate_terminate_contract_without_amountPaid
 )
 from openprocurement.contracting.api.design import (
     FIELDS,
@@ -30,6 +30,7 @@ from openprocurement.contracting.api.design import (
     contracts_real_by_local_seq_view,
     contracts_test_by_local_seq_view,
 )
+from openprocurement.tender.core.validation import validate_update_contract_value_amounts
 
 VIEW_MAP = {
     u'': contracts_real_by_dateModified_view,
@@ -101,7 +102,7 @@ class ContractResource(ContractsResource):
 
     @json_view(content_type="application/json", permission='edit_contract',
                validators=(validate_patch_contract_data,
-                           validate_update_contract_value,
+                           validate_update_contract_value_amounts,
                            validate_contract_update_not_in_allowed_status))
     def patch(self):
         """Contract Edit (partial)

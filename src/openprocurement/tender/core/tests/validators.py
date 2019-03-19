@@ -2,7 +2,10 @@
 import unittest
 import mock
 
-from openprocurement.tender.core.validation import validate_update_contract_value
+from openprocurement.tender.core.validation import (
+    validate_update_contract_value,
+    validate_update_contract_value_amounts
+)
 from pyramid.httpexceptions import HTTPError
 
 
@@ -51,7 +54,7 @@ class TestValidateUpdateContractValue(unittest.TestCase):
         error_handler_mock.return_value = HTTPError
 
         with self.assertRaises(HTTPError):
-            validate_update_contract_value(request)
+            validate_update_contract_value_amounts(request)
 
         request.errors.add.assert_called_once_with(
             'body', 'data', 'Value amountNet should be less or equal to amount (100)')
@@ -74,7 +77,7 @@ class TestValidateUpdateContractValue(unittest.TestCase):
         award = mock.MagicMock(id='test_id', value=mock.MagicMock(amount=100))
         request = mock.MagicMock(validated={})
         request.validated['tender'] = mock.MagicMock(awards=[award])
-        value = { 'amount': 105, 'amountNet': 95, 'currency': 'USD', 'valueAddedTaxIncluded': False}
+        value = {'amount': 105, 'amountNet': 95, 'currency': 'USD', 'valueAddedTaxIncluded': False}
         request.validated['data'] = {'value': value}
         request.context.value.to_native.return_value.get = lambda x: value[x]
         request.context.awardID = 'test_id'
