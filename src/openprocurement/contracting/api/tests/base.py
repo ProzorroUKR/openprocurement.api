@@ -97,6 +97,7 @@ test_contract_data = {
     u"value": {
         u"currency": u"UAH",
         u"amount": 238.0,
+        u"amountNet": 238.0,
         u"valueAddedTaxIncluded": True
         },
     u"dateSigned": get_now().isoformat(),
@@ -111,6 +112,9 @@ test_contract_data = {
 
 test_contract_data_wo_items = deepcopy(test_contract_data)
 del test_contract_data_wo_items['items']
+
+test_contract_data_wo_value_amount_net = deepcopy(test_contract_data)
+del test_contract_data_wo_value_amount_net['value']['amountNet']
 
 
 documents = [

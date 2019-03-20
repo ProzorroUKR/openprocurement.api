@@ -23,7 +23,7 @@ from openprocurement.api.validation import validate_items_uniq
 from openprocurement.api.models import (
     plain_role, schematics_default_role, schematics_embedded_role
 )
-from openprocurement.tender.core.models import Administrator_role
+from openprocurement.tender.core.models import Administrator_role, ContractValue
 
 contract_create_role = (whitelist(
     'id', 'awardID', 'contractID', 'contractNumber', 'title', 'title_en',
@@ -175,6 +175,7 @@ class Contract(SchematicsDocument, BaseContract):
     changes = ListType(ModelType(Change), default=list())
     documents = ListType(ModelType(Document), default=list())
     amountPaid = ModelType(Value)
+    value = ModelType(ContractValue)
     terminationDetails = StringType()
 
     create_accreditation = 3  # TODO

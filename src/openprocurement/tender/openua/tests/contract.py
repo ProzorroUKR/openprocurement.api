@@ -17,6 +17,7 @@ from openprocurement.tender.openua.tests.contract_blanks import (
     patch_tender_contract,
     create_tender_contract,
     patch_tender_contract_datesigned,
+    patch_tender_contract_vat_not_included,
 )
 
 
@@ -44,6 +45,37 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest, TenderContractResou
     test_create_tender_contract = snitch(create_tender_contract)
     test_patch_tender_contract_datesigned = snitch(patch_tender_contract_datesigned)
     test_patch_tender_contract = snitch(patch_tender_contract)
+
+
+class TenderContractVATNotIncludedResourceTest(BaseTenderUAContentWebTest, TenderContractResourceTestMixin):
+    initial_status = 'active.qualification'
+    initial_bids = test_bids
+
+    def create_award(self):
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('token', ''))
+        response = self.app.post_json('/tenders/{}/awards'.format(
+            self.tender_id),
+            {'data': {
+                'suppliers': [test_organization], 'status': 'pending',
+                'bid_id': self.initial_bids[0]['id'],
+                'value': {
+                    'amount': self.initial_bids[0]["value"]["amount"],
+                    'currency': self.initial_bids[0]["value"]["currency"],
+                    'valueAddedTaxIncluded': False
+                }}})
+        self.app.authorization = auth
+        award = response.json['data']
+        self.award_id = award['id']
+        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
+            self.tender_id, self.award_id, self.tender_token),
+            {"data": {"status": "active", 'qualified': True, 'eligible': True}})
+
+    def setUp(self):
+        super(TenderContractVATNotIncludedResourceTest, self).setUp()
+        self.create_award()
+
+    test_patch_tender_contract_vat_not_included = snitch(patch_tender_contract_vat_not_included)
 
 
 class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest, TenderContractDocumentResourceTestMixin):

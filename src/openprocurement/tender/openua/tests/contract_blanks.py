@@ -100,14 +100,39 @@ def patch_tender_contract(self):
         '/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract['id'], self.tender_token),
         {"data": {"value": {"amount": 501}}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
-    self.assertEqual(response.json['errors'][0]["description"],
-                     "Value amount should be less or equal to awarded amount (469.0)")
+    self.assertEqual(
+        response.json['errors'][0]["description"],
+        "Value amount should be less or equal to awarded amount (469.0) if VAT included")
 
     response = self.app.patch_json(
         '/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract['id'], self.tender_token),
-        {"data": {"value": {"amount": 238}}})
+        {"data": {"value": {"amount": 238}}}, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(
+        response.json['errors'][0]["description"],
+        "Value amountNet should be less or equal to amount (238.0)")
+
+    response = self.app.patch_json(
+        '/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract['id'], self.tender_token),
+        {"data": {"value": {"amount": 100, "amountNet": 85}}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.json['data']['value']['amount'], 100)
+    self.assertEqual(response.json['data']['value']['amountNet'], 85)
+
+    response = self.app.patch_json(
+        '/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract['id'], self.tender_token),
+        {"data": {"value": {"amount": 100, "amountNet": 80}}}, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(
+        response.json['errors'][0]["description"],
+        "Value amount can't be greater than amountNet (80.0) for 20.0%")
+
+    response = self.app.patch_json(
+        '/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract['id'], self.tender_token),
+        {"data": {"value": {"amount": 238, "amountNet": 238}}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['value']['amount'], 238)
+    self.assertEqual(response.json['data']['value']['amountNet'], 238)
 
     response = self.app.patch_json(
         '/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract['id'], self.tender_token),
@@ -170,3 +195,63 @@ def patch_tender_contract(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']["status"], "active")
     self.assertEqual(response.json['data']["value"]['amount'], 238)
+
+
+def patch_tender_contract_vat_not_included(self):
+    response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
+    self.contract_id = response.json['data'][0]['id']
+
+    response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+        self.tender_id, self.contract_id, self.tender_token),
+        {"data": {"value": {"currency": "USD"}}},
+        status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.json['errors'][0]["description"], "Can\'t update currency for contract value")
+
+    response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+        self.tender_id, self.contract_id, self.tender_token),
+        {"data": {"value": {"valueAddedTaxIncluded": True}}},
+        status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(
+        response.json['errors'][0]["description"],
+        "Can\'t update valueAddedTaxIncluded for contract value")
+
+    response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+        self.tender_id, self.contract_id, self.tender_token),
+        {"data": {"value": {"amount": 468}}},
+        status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(
+        response.json['errors'][0]["description"],
+        "Value amountNet should be less or equal to amount (468.0)")
+
+    response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+        self.tender_id, self.contract_id, self.tender_token),
+        {"data": {"value": {"amount": 238}}},
+        status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(
+        response.json['errors'][0]["description"],
+        "Value amountNet should be less or equal to amount (238.0)")
+
+    response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+        self.tender_id, self.contract_id, self.tender_token),
+        {"data": {"value": {"amount": 600, "amountNet": 400}}},
+        status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(
+        response.json['errors'][0]["description"],
+        "Value amount can't be greater than amountNet (400.0) for 20.0%")
+
+    response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+        self.tender_id, self.contract_id, self.tender_token),
+        {"data": {"value": {"amount": 400, "amountNet": 399}}})
+    self.assertEqual(response.status, '200 OK')
+
+    response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+        self.tender_id, self.contract_id, self.tender_token),
+        {"data": {"value": {"amount": 470, "amountNet": 460}}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.json['data']['value']['amount'], 470)
+    self.assertEqual(response.json['data']['value']['amountNet'], 460)

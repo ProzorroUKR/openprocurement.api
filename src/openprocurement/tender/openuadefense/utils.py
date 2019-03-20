@@ -9,7 +9,7 @@ from openprocurement.tender.core.utils import (
 from openprocurement.tender.openua.utils import (
     check_complaint_status, add_next_award
 )
-from openprocurement.tender.belowthreshold.utils import check_tender_status
+from openprocurement.tender.belowthreshold.utils import check_tender_status, add_contract
 from openprocurement.tender.core.utils import (
     calculate_business_date as calculate_business_date_base
 )
@@ -84,13 +84,7 @@ def check_status(request):
     now = get_now()
     for award in tender.awards:
         if award.status == 'active' and not any([i.awardID == award.id for i in tender.contracts]):
-            tender.contracts.append(type(tender).contracts.model_class({
-                'awardID': award.id,
-                'suppliers': award.suppliers,
-                'value': award.value,
-                'date': now,
-                'items': [i for i in tender.items if i.relatedLot == award.lotID],
-                'contractID': '{}-{}{}'.format(tender.tenderID, request.registry.server_id, len(tender.contracts) + 1)}))
+            add_contract(request, award, now)
             add_next_award(request)
     if not tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and \
             not has_unanswered_complaints(tender) and not has_unanswered_questions(tender):

@@ -17,5 +17,5 @@ STATUS4ROLE = {
     'complaint_owner': ['draft', 'answered'],
     'reviewers': ['pending'],
     'tender_owner': ['claim'],
-    }
+}
 MIN_BIDS_NUMBER = 2

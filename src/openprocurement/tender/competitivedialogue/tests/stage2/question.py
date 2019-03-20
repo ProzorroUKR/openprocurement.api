@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 import unittest
 
+from copy import deepcopy
+from uuid import uuid4
+
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.question_blanks import (
