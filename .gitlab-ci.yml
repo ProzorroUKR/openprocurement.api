@@ -1,26 +1,34 @@
-image: docker:stable
+stages:
+  - build
+  - test
 
 variables:
   COUCHDB_USER: op
   COUCHDB_PASSWORD: op
+  GIT_STRATEGY: none
 
-services:
-  - docker:dind
-
-stages:
-  - test
-
-##### UNIT TESTING STAGES
+Build:
+  stage: build
+  script:
+    - type multiwerf && source <(multiwerf use 1.0 beta)
+    - type werf && source <(werf ci-env gitlab --tagging-strategy tag-or-branch --verbose)
+    - werf build-and-publish --stages-storage :local
+  tags:
+    - shell
+  except:
+    - schedules
+  variables:
+    GIT_STRATEGY: fetch
 
 .test:
-  image: prozorro/api:monorepo
+  image: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
   stage: test
   services:
     - couchdb:1.6
-  before_script:
-    - pip install -r requirements.txt
-    - pip install -e .
+  tags:
+    - docker
   script:
+    - cd /app
     - export MODULE_DIR=$(echo $MODULE | sed -e 's/[\ ]/\//g')
     - export MODULE_NAME=$(echo $MODULE | sed -e 's/[\ ]/\./g')
     - py.test src/openprocurement/$MODULE_DIR --cov=openprocurement.$MODULE_NAME -v --color=yes
@@ -180,7 +188,7 @@ test_prod_tender_cfaselectionua:
   extends: .test_prod
   variables:
     MODULE: tender cfaselectionua
-    
+
 test_prod_agreement_core:
   extends: .test_prod
   variables:

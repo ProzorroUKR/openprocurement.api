@@ -1,0 +1,38 @@
+project: prozorro-api
+configVersion: 1
+---
+image: ~
+from: python:2.7-slim-jessie
+docker:
+  WORKDIR: /app
+  EXPOSE: "80"
+  ENV:
+    PYTHONPATH: "/app/src/:${PYTHONPATH}"
+    TZ: Europe/Kiev
+    LANG: en_US.UTF-8
+    LC_ALL: en_US.UTF-8
+    LC_LANG: en_US.UTF-8
+    PYTHONIOENCODING: UTF-8
+  CMD: ["chaussette", "--host", "0.0.0.0", "--port", "80", "--backend", "gevent", "paste:etc/service.ini"]
+git:
+- add: /
+  to: /app
+  stageDependencies:
+    install:
+      - "requirements.txt"
+    setup:
+      - '**/*'
+shell:
+  beforeInstall:
+  - apt-get update
+  - apt-get install -y libsodium-dev git libevent-dev libzmq-dev libffi-dev libssl-dev gcc
+  - pip install --upgrade pip
+  install:
+  - pip install --no-cache-dir -r /app/requirements.txt
+  setup:
+  - pip install -e /app
+mount:
+- from: tmp_dir
+  to: /var/lib/apt/lists
+- from: build_dir
+  to: /var/cache/apt

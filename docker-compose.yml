@@ -1,7 +1,6 @@
 version: '3'
 services:
   api:
-    image: prozorro/api:monorepo
     build:
       context: .
       dockerfile: Dockerfile
