@@ -28,7 +28,7 @@ Build:
   tags:
     - kube
   script:
-    - sleep infinity
+    - echo '127.0.0.1  couchdb' >> /etc/hosts
     - cd /app
     - export MODULE_DIR=$(echo $MODULE | sed -e 's/[\ ]/\//g')
     - export MODULE_NAME=$(echo $MODULE | sed -e 's/[\ ]/\./g')
