@@ -1028,7 +1028,8 @@ def single_award_tender(self):
     self.db.save(tender)
 
     # sign contract
-    self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contract_id, owner_token), {"data": {"status": "active"}})
+    self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contract_id, owner_token), {
+        "data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}})
     # check status
     response = self.app.get('/tenders/{}'.format(tender_id))
     self.assertEqual(response.json['data']['status'], 'complete')
@@ -1156,7 +1157,8 @@ def multiple_awards_tender(self):
     self.db.save(tender)
 
     # sign contract
-    self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contract['id'], owner_token), {"data": {"status": "active"}})
+    self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contract['id'], owner_token), {
+        "data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}})
     # check status
     response = self.app.get('/tenders/{}'.format(tender_id))
     self.assertEqual(response.json['data']['status'], 'complete')
@@ -1278,7 +1280,8 @@ def tender_cancellation(self):
 
     # sign contract
     self.app.authorization = ('Basic', ('broker', ''))
-    self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contract_id, owner_token), {"data": {"status": "active"}})
+    self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contract_id, owner_token), {
+        "data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}})
     response = self.app.get('/tenders/{}'.format(tender_id))
     self.assertEqual(response.status, '200 OK')
     tender = response.json['data']

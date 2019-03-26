@@ -30,7 +30,10 @@ from openprocurement.contracting.api.design import (
     contracts_real_by_local_seq_view,
     contracts_test_by_local_seq_view,
 )
-from openprocurement.tender.core.validation import validate_update_contract_value_amounts
+from openprocurement.tender.core.validation import (
+    validate_update_contract_value_with_award,
+    validate_update_contract_value_amount,
+)
 
 VIEW_MAP = {
     u'': contracts_real_by_dateModified_view,
@@ -102,7 +105,7 @@ class ContractResource(ContractsResource):
 
     @json_view(content_type="application/json", permission='edit_contract',
                validators=(validate_patch_contract_data,
-                           validate_update_contract_value_amounts,
+                           validate_update_contract_value_amount,
                            validate_contract_update_not_in_allowed_status))
     def patch(self):
         """Contract Edit (partial)

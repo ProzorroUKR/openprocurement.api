@@ -17,8 +17,9 @@ from openprocurement.tender.openua.tests.contract_blanks import (
     patch_tender_contract,
     create_tender_contract,
     patch_tender_contract_datesigned,
-    patch_tender_contract_vat_not_included,
 )
+from openprocurement.tender.belowthreshold.tests.contract_blanks import patch_tender_contract_value_vat_not_included, \
+    patch_tender_contract_value
 
 
 class TenderContractResourceTest(BaseTenderUAContentWebTest, TenderContractResourceTestMixin):
@@ -45,6 +46,7 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest, TenderContractResou
     test_create_tender_contract = snitch(create_tender_contract)
     test_patch_tender_contract_datesigned = snitch(patch_tender_contract_datesigned)
     test_patch_tender_contract = snitch(patch_tender_contract)
+    test_patch_tender_contract_value = snitch(patch_tender_contract_value)
 
 
 class TenderContractVATNotIncludedResourceTest(BaseTenderUAContentWebTest, TenderContractResourceTestMixin):
@@ -75,7 +77,7 @@ class TenderContractVATNotIncludedResourceTest(BaseTenderUAContentWebTest, Tende
         super(TenderContractVATNotIncludedResourceTest, self).setUp()
         self.create_award()
 
-    test_patch_tender_contract_vat_not_included = snitch(patch_tender_contract_vat_not_included)
+    test_patch_tender_contract_value_vat_not_included = snitch(patch_tender_contract_value_vat_not_included)
 
 
 class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest, TenderContractDocumentResourceTestMixin):

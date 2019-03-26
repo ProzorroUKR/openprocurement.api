@@ -37,7 +37,8 @@ from openprocurement.tender.limited.tests.contract_blanks import (
     tender_contract_signature_date,
     award_id_change_is_not_allowed
 )
-from openprocurement.tender.openua.tests.contract_blanks import patch_tender_contract_vat_not_included
+from openprocurement.tender.belowthreshold.tests.contract_blanks import patch_tender_contract_value_vat_not_included, \
+    patch_tender_contract_value
 
 
 class TenderContractResourceTest(BaseTenderContentWebTest, TenderContractResourceTestMixin):
@@ -63,6 +64,7 @@ class TenderContractResourceTest(BaseTenderContentWebTest, TenderContractResourc
 
     test_create_tender_contract = snitch(create_tender_contract)
     test_patch_tender_contract = snitch(patch_tender_contract)
+    test_patch_tender_contract_value = snitch(patch_tender_contract_value)
     test_tender_contract_signature_date = snitch(tender_contract_signature_date)
     test_award_id_change_is_not_allowed = snitch(award_id_change_is_not_allowed)
 
@@ -89,7 +91,7 @@ class TenderContractVATNotIncludedResourceTest(BaseTenderContentWebTest, TenderC
         super(TenderContractVATNotIncludedResourceTest, self).setUp()
         self.create_award()
 
-    test_patch_tender_contract_vat_not_included = snitch(patch_tender_contract_vat_not_included)
+    test_patch_tender_contract_value_vat_not_included = snitch(patch_tender_contract_value_vat_not_included)
 
 
 class TenderNegotiationContractResourceTest(TenderContractResourceTest):
@@ -97,6 +99,7 @@ class TenderNegotiationContractResourceTest(TenderContractResourceTest):
     stand_still_period_days = 10
 
     test_patch_tender_contract = snitch(patch_tender_negotiation_contract)
+    test_patch_tender_contract_value = snitch(patch_tender_contract_value)
     test_tender_contract_signature_date = snitch(tender_negotiation_contract_signature_date)
     test_items = snitch(items)
 

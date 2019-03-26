@@ -15,7 +15,9 @@ from openprocurement.tender.core.validation import (
     validate_update_contract_value,
     validate_update_contract_only_for_active_lots,
     validate_contract_operation_not_in_allowed_status,
-    validate_update_contract_value_amounts)
+    validate_update_contract_value_with_award,
+    validate_update_contract_value_amount,
+)
 from openprocurement.tender.cfaselectionua.utils import (
     check_tender_status,
 )
@@ -60,7 +62,7 @@ class TenderAwardContractResource(APIResource):
     @json_view(content_type="application/json", permission='edit_tender', validators=(
             validate_patch_contract_data, validate_contract_operation_not_in_allowed_status,
             validate_update_contract_only_for_active_lots, validate_update_contract_value,
-            validate_update_contract_value_amounts))
+            validate_update_contract_value_with_award, validate_update_contract_value_amount))
     def patch(self):
         """Update of contract
         """

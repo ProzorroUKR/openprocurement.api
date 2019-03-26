@@ -123,13 +123,13 @@ def error_handler(errors, request_params=True):
     return json_error(errors)
 
 
-def raise_operation_error(request, message):
+def raise_operation_error(request, message, status=403, location='body', name='data'):
     """
     This function mostly used in views validators to add access errors and
     raise exceptions if requested operation is forbidden.
     """
-    request.errors.add('body', 'data', message)
-    request.errors.status = 403
+    request.errors.add(location, name, message)
+    request.errors.status = status
     raise error_handler(request.errors)
 
 

@@ -3,7 +3,7 @@ from uuid import uuid4
 from zope.interface import implementer, Interface
 # from couchdb_schematics.document import SchematicsDocument
 from pyramid.security import Allow
-from schematics.types import StringType, BaseType, MD5Type
+from schematics.types import StringType, BaseType, MD5Type, FloatType
 from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
 from schematics.exceptions import ValidationError
@@ -34,7 +34,7 @@ contract_create_role = (whitelist(
 
 contract_edit_role = (whitelist(
     'title', 'title_en', 'title_ru', 'description', 'description_en',
-    'description_ru', 'status', 'period', 'value' , 'items', 'amountPaid',
+    'description_ru', 'status', 'period', 'value', 'items', 'amountPaid',
     'terminationDetails', 'contract_amountPaid',
 ))
 
@@ -174,7 +174,7 @@ class Contract(SchematicsDocument, BaseContract):
     procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
     changes = ListType(ModelType(Change), default=list())
     documents = ListType(ModelType(Document), default=list())
-    amountPaid = ModelType(Value)
+    amountPaid = ModelType(ContractValue)
     value = ModelType(ContractValue)
     terminationDetails = StringType()
 
@@ -235,7 +235,8 @@ class Contract(SchematicsDocument, BaseContract):
     @serializable(serialized_name='amountPaid', serialize_when_none=False, type=ModelType(Value))
     def contract_amountPaid(self):
         if self.amountPaid:
-            return Value(dict(amount=self.amountPaid.amount,
-                              currency=self.value.currency,
-                              valueAddedTaxIncluded=self.value.valueAddedTaxIncluded))
+            return ContractValue(dict(amount=self.amountPaid.amount,
+                                      amountNet=self.amountPaid.amountNet,
+                                      currency=self.value.currency,
+                                      valueAddedTaxIncluded=self.value.valueAddedTaxIncluded))
 

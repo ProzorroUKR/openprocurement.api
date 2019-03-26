@@ -400,7 +400,8 @@ def create_cancellation_on_tender_with_one_complete_lot(self):
     # Sign contract
     response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
     response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
-        self.tender_id, response.json['data'][0]['id'], self.tender_token), {"data": {"status": "active"}})
+        self.tender_id, response.json['data'][0]['id'], self.tender_token), {
+        "data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['status'], 'active')
 

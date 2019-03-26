@@ -1111,7 +1111,8 @@ def proc_1lot_1bid(self):
     self.db.save(tender)
     # sign contract
     self.app.authorization = ('Basic', ('broker', ''))
-    self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contract_id, owner_token), {"data": {"status": "active"}})
+    self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contract_id, owner_token), {
+        "data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}})
     # check status
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.get('/tenders/{}'.format(tender_id))
@@ -1210,7 +1211,8 @@ def proc_1lot_2bid(self):
     self.db.save(tender)
     # sign contract
     self.app.authorization = ('Basic', ('broker', ''))
-    self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contract_id, owner_token), {"data": {"status": "active"}})
+    self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contract_id, owner_token), {
+        "data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}})
     # check status
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.get('/tenders/{}'.format(tender_id))
@@ -1498,7 +1500,8 @@ def proc_2lot_1bid_2com_1win(self):
         self.db.save(tender)
         # sign contract
         self.app.authorization = ('Basic', ('broker', ''))
-        self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contract_id, owner_token), {"data": {"status": "active"}})
+        self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contract_id, owner_token), {
+            "data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}})
     # check status
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.get('/tenders/{}'.format(tender_id))
@@ -1628,7 +1631,8 @@ def proc_2lot_1bid_1com_1win(self):
     self.db.save(tender)
     # sign contract
     self.app.authorization = ('Basic', ('broker', ''))
-    self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contract_id, owner_token), {"data": {"status": "active"}})
+    self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contract_id, owner_token), {
+        "data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}})
     # for second lot
     lot_id = lots[1]
     # get awards
@@ -1744,7 +1748,8 @@ def proc_2lot_2bid_2com_2win(self):
     self.db.save(tender)
     # sign contract
     self.app.authorization = ('Basic', ('broker', ''))
-    self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contract_id, owner_token), {"data": {"status": "active"}})
+    self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contract_id, owner_token), {
+        "data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}})
     # for second lot
     lot_id = lots[1]
     # get awards
@@ -1771,7 +1776,8 @@ def proc_2lot_2bid_2com_2win(self):
     self.db.save(tender)
     # sign contract
     self.app.authorization = ('Basic', ('broker', ''))
-    self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contract_id, owner_token), {"data": {"status": "active"}})
+    self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contract_id, owner_token), {
+        "data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}})
     # check status
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.get('/tenders/{}'.format(tender_id))
@@ -1856,7 +1862,8 @@ def proc_2lot_1feature_2bid_2com_2win(self):
     self.db.save(tender)
     # sign contract
     self.app.authorization = ('Basic', ('broker', ''))
-    self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contract_id, owner_token), {"data": {"status": "active"}})
+    self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contract_id, owner_token), {
+        "data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}})
     # for second lot
     lot_id = lots[1]
     # get awards
@@ -1876,7 +1883,8 @@ def proc_2lot_1feature_2bid_2com_2win(self):
     self.db.save(tender)
     # sign contract
     self.app.authorization = ('Basic', ('broker', ''))
-    self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contract_id, owner_token), {"data": {"status": "active"}})
+    self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contract_id, owner_token), {
+        "data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}})
     # check status
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.get('/tenders/{}'.format(tender_id))

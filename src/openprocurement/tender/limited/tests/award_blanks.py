@@ -372,7 +372,7 @@ def patch_tender_award(self):
     self.assertEqual(contract['awardID'], active_award['id'])
     response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
         self.tender_id, contract['id'], self.tender_token),
-        {"data": {"status": "active"}})
+        {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}})
     self.assertEqual(response.status, '200 OK')
 
     response = self.app.get('/tenders/{}/awards/{}'.format(self.tender_id, award['id']))
@@ -972,7 +972,7 @@ def patch_tender_lot_award(self):
     self.assertEqual(contract['awardID'], active_award['id'])
     response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
         self.tender_id, contract['id'], self.tender_token),
-        {"data": {"status": "active"}})
+        {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}})
     self.assertEqual(response.status, '200 OK')
 
     response = self.app.get('/tenders/{}/awards/{}'.format(self.tender_id, award['id']))
