@@ -48,11 +48,13 @@ class TenderContractResourceTest(BaseTenderContentWebTest, TenderContractResourc
 
     def create_award(self):
         # Create award
-        response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
-            self.tender_id, self.tender_token), {'data': {'suppliers': [test_organization], 'status': 'pending',
-                                                          'qualified': True, 'value': {"amount": 469,
-                                                                                       "currency": "UAH",
-                                                                                       "valueAddedTaxIncluded": True}}})
+        response = self.app.post_json(
+            '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token),
+            {'data': {
+                'suppliers': [test_organization],
+                'status': 'pending',
+                'qualified': True, 'value': {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True}}})
+
         award = response.json['data']
         self.award_id = award['id']
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
@@ -82,6 +84,7 @@ class TenderContractVATNotIncludedResourceTest(BaseTenderContentWebTest, TenderC
                 'status': 'pending',
                 'qualified': True,
                 'value': {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": False}}})
+
         self.award_id = response.json['data']['id']
         self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
             self.tender_id, self.award_id, self.tender_token),
@@ -155,50 +158,61 @@ class TenderNegotiationLot2ContractResourceTest(BaseTenderContentWebTest):
         self.create_award()
 
     def create_award(self):
-        self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
-                            {'data': {'items': self.initial_data['items'] * 2}})
+        self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+            {'data': {'items': self.initial_data['items'] * 2}})
 
         # create lot
-        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
-                                      {'data': test_lots[0]})
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+            {'data': test_lots[0]})
 
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         lot1 = response.json['data']
         self.lot1 = lot1
 
-        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
-                                      {'data': test_lots[0]})
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+            {'data': test_lots[0]})
 
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         lot2 = response.json['data']
         self.lot2 = lot2
 
-        self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
-                            {'data': {'items': [{'relatedLot': lot1['id']},
-                                                {'relatedLot': lot2['id']}]
-                                      }
-                             })
+        self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+            {'data': {'items': [
+                {'relatedLot': lot1['id']},
+                {'relatedLot': lot2['id']}]}})
+
         # Create award
-        response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
-            self.tender_id, self.tender_token), {'data': {'suppliers': [test_organization], 'status': 'pending',
-                                                          'qualified': True, 'value': {"amount": 469,
-                                                                                       "currency": "UAH",
-                                                                                       "valueAddedTaxIncluded": True},
-                                                          'lotID': lot1['id']}})
+        response = self.app.post_json(
+            '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token),
+            {'data': {
+                'suppliers': [test_organization],
+                'status': 'pending',
+                'qualified': True,
+                'value': {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+                'lotID': lot1['id']}})
+
         award = response.json['data']
         self.award1_id = award['id']
-        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
-            self.tender_id, self.award1_id, self.tender_token), {"data": {"status": "active"}})
+        response = self.app.patch_json(
+            '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award1_id, self.tender_token),
+            {"data": {"status": "active"}})
 
         # Create another award
-        response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
-            self.tender_id, self.tender_token), {'data': {'suppliers': [test_organization], 'status': 'pending',
-                                                          'qualified': True, 'value': {"amount": 469,
-                                                                                       "currency": "UAH",
-                                                                                       "valueAddedTaxIncluded": True},
-                                                          'lotID': lot2['id']}})
+        response = self.app.post_json(
+            '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token),
+            {'data': {
+                'suppliers': [test_organization],
+                'status': 'pending',
+                'qualified': True,
+                'value': {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+                'lotID': lot2['id']}})
+
         award = response.json['data']
         self.award2_id = award['id']
         self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
@@ -226,12 +240,17 @@ class TenderNegotiationQuickAccelerationTest(BaseTenderContentWebTest):
 
     def create_award(self):
         # Create award
-        response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
-            self.tender_id, self.tender_token), {'data': {'suppliers': [test_organization], 'status': 'pending'}})
+        response = self.app.post_json(
+            '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token),
+            {'data': {'suppliers': [test_organization], 'status': 'pending'}})
         award = response.json['data']
         self.award_id = award['id']
-        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
-            self.tender_id, self.award_id, self.tender_token), {"data": {'qualified': True, "status": "active"}})
+        self.app.patch_json(
+            '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
+            {"data": {
+                "status": "active",
+                "qualified": True,
+                "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True}}})
 
     def setUp(self):
         super(TenderNegotiationQuickAccelerationTest, self).setUp()
@@ -251,29 +270,32 @@ class TenderNegotiationQuickLotAccelerationTest(TenderNegotiationQuickAccelerati
     time_sleep_in_sec = 3  # time which reduced
 
     def create_award(self):
-        self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
-                            {'data': {'items': self.initial_data['items'] * 2}})
+        self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+            {'data': {'items': self.initial_data['items'] * 2}})
 
         # create lot
-        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
-                                      {'data': test_lots[0]})
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+            {'data': test_lots[0]})
 
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         lot1 = response.json['data']
         self.lot1 = lot1
 
-        self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
-                            {'data': {'items': [{'relatedLot': lot1['id']}]
-                                      }
-                             })
+        self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+            {'data': {'items': [{'relatedLot': lot1['id']}]}})
         # Create award
-        response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
-            self.tender_id, self.tender_token), {'data': {'suppliers': [test_organization], 'status': 'pending',
-                                                          'qualified': True, 'value': {"amount": 469,
-                                                                                       "currency": "UAH",
-                                                                                       "valueAddedTaxIncluded": True},
-                                                          'lotID': lot1['id']}})
+        response = self.app.post_json(
+            '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token),
+            {'data': {
+                'suppliers': [test_organization],
+                'status': 'pending',
+                'qualified': True,
+                'value': {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+                'lotID': lot1['id']}})
         award = response.json['data']
         self.award_id = award['id']
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
@@ -291,12 +313,17 @@ class TenderContractDocumentResourceTest(BaseTenderContentWebTest, TenderContrac
 
     def create_award(self):
         # Create award
-        response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token),
-                                      {'data': {'suppliers': [test_organization], 'status': 'pending'}})
+        response = self.app.post_json(
+            '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token),
+            {'data': {'suppliers': [test_organization], 'status': 'pending'}})
         award = response.json['data']
         self.award_id = award['id']
-        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
-            self.tender_id, self.award_id, self.tender_token), {"data": {"status": "active", 'qualified': True}})
+        self.app.patch_json(
+            '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
+            {"data": {
+                "status": "active",
+                "qualified": True,
+                "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True}}})
 
     def setUp(self):
         super(TenderContractDocumentResourceTest, self).setUp()
@@ -313,29 +340,34 @@ class TenderContractNegotiationLotDocumentResourceTest(TenderContractDocumentRes
     initial_data = test_tender_negotiation_data
 
     def create_award(self):
-        self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
-                            {'data': {'items': self.initial_data['items'] * 2}})
+        self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+            {'data': {'items': self.initial_data['items'] * 2}})
 
         # create lot
-        response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
-                                      {'data': test_lots[0]})
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
+            {'data': test_lots[0]})
 
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         lot1 = response.json['data']
         self.lot1 = lot1
 
-        self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
-                            {'data': {'items': [{'relatedLot': lot1['id']}]
-                                      }
-                             })
+        self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+            {'data': {'items': [{'relatedLot': lot1['id']}]}})
+
         # Create award
-        response = self.app.post_json('/tenders/{}/awards?acc_token={}'.format(
-            self.tender_id, self.tender_token), {'data': {'suppliers': [test_organization], 'status': 'pending',
-                                                          'qualified': True, 'value': {"amount": 469,
-                                                                                       "currency": "UAH",
-                                                                                       "valueAddedTaxIncluded": True},
-                                                          'lotID': lot1['id']}})
+        response = self.app.post_json(
+            '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token),
+            {'data': {
+                'suppliers': [test_organization],
+                'status': 'pending',
+                'qualified': True,
+                'value': {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+                'lotID': lot1['id']}})
+
         award = response.json['data']
         self.award_id = award['id']
         response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(

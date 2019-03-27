@@ -32,7 +32,7 @@ class TestValidateUpdateContractValueWithAward(unittest.TestCase):
         request = mock.MagicMock(validated={})
         request.validated['tender'] = mock.MagicMock(awards=[award])
         value = {'amount': 90, 'amountNet': 80, 'currency': 'USD', 'valueAddedTaxIncluded': True}
-        request.validated['data'] = {'value': value}
+        request.validated['data'] = request.validated['json_data'] = {'value': value}
         request.context.value.to_native.return_value.get = lambda x: value[x]
         request.context.awardID = 'test_id'
         error_handler_mock.return_value = HTTPError
@@ -45,7 +45,7 @@ class TestValidateUpdateContractValueWithAward(unittest.TestCase):
         request = mock.MagicMock(validated={})
         request.validated['tender'] = mock.MagicMock(awards=[award])
         value = {'amount': 105, 'amountNet': 95, 'currency': 'USD', 'valueAddedTaxIncluded': True}
-        request.validated['data'] = {'value': value}
+        request.validated['data'] = request.validated['json_data'] = {'value': value}
         request.context.value.to_native.return_value.get = lambda x: value[x]
         request.context.awardID = 'test_id'
         error_handler_mock.return_value = HTTPError
@@ -62,7 +62,7 @@ class TestValidateUpdateContractValueWithAward(unittest.TestCase):
         request = mock.MagicMock(validated={})
         request.validated['tender'] = mock.MagicMock(awards=[award])
         value = {'amount': 90, 'amountNet': 80, 'currency': 'USD', 'valueAddedTaxIncluded': True}
-        request.validated['data'] = {'value': value}
+        request.validated['data'] = request.validated['json_data'] = {'value': value}
         request.context.value.to_native.return_value.get = lambda x: value[x]
         request.context.awardID = 'test_id'
         error_handler_mock.return_value = HTTPError
@@ -75,7 +75,7 @@ class TestValidateUpdateContractValueWithAward(unittest.TestCase):
         request = mock.MagicMock(validated={})
         request.validated['tender'] = mock.MagicMock(awards=[award])
         value = {'amount': 105, 'amountNet': 95, 'currency': 'USD', 'valueAddedTaxIncluded': False}
-        request.validated['data'] = {'value': value}
+        request.validated['data'] = request.validated['json_data'] = {'value': value}
         request.context.value.to_native.return_value.get = lambda x: value[x]
         request.context.awardID = 'test_id'
         error_handler_mock.return_value = HTTPError
@@ -92,7 +92,7 @@ class TestValidateUpdateContractValueWithAward(unittest.TestCase):
         request = mock.MagicMock(validated={})
         request.validated['tender'] = mock.MagicMock(awards=[award])
         value = {'amount': 105, 'amountNet': 95, 'currency': 'USD', 'valueAddedTaxIncluded': True}
-        request.validated['data'] = {'value': value}
+        request.validated['data'] = request.validated['json_data'] = {'value': value}
         request.context.value.to_native.return_value.get = lambda x: value[x]
         request.context.awardID = 'test_id'
         error_handler_mock.return_value = HTTPError
@@ -105,7 +105,7 @@ class TestValidateUpdateContractValueWithAward(unittest.TestCase):
         request = mock.MagicMock(validated={})
         request.validated['tender'] = mock.MagicMock(awards=[award])
         value = {'amount': 110, 'amountNet': 105, 'currency': 'USD', 'valueAddedTaxIncluded': True}
-        request.validated['data'] = {'value': value}
+        request.validated['data'] = request.validated['json_data'] = {'value': value}
         request.context.value.to_native.return_value.get = lambda x: value[x]
         request.context.awardID = 'test_id'
         error_handler_mock.return_value = HTTPError
@@ -122,7 +122,7 @@ class TestValidateUpdateContractValueAmount(unittest.TestCase):
     def test_amount_net_greater_than_amount_error(self, error_handler_mock):
         request = mock.MagicMock(validated={})
         value = {'amount': 100, 'amountNet': 200, 'currency': 'USD', 'valueAddedTaxIncluded': True}
-        request.validated['data'] = {'value': value}
+        request.validated['data'] = request.validated['json_data'] = {'value': value}
         request.context.value.to_native.return_value.get = lambda x: value[x]
         request.context.awardID = 'test_id'
         error_handler_mock.return_value = HTTPError
@@ -137,7 +137,7 @@ class TestValidateUpdateContractValueAmount(unittest.TestCase):
     def test_amount_net_too_match_less_than_amount_error(self, error_handler_mock):
         request = mock.MagicMock(validated={})
         value = {'amount': 100, 'amountNet': 50, 'currency': 'USD', 'valueAddedTaxIncluded': True}
-        request.validated['data'] = {'value': value}
+        request.validated['data'] = request.validated['json_data'] = {'value': value}
         request.context.value.to_native.return_value.get = lambda x: value[x]
         request.context.awardID = 'test_id'
         error_handler_mock.return_value = HTTPError
@@ -152,7 +152,7 @@ class TestValidateUpdateContractValueAmount(unittest.TestCase):
     def test_amount_net_not_equal_to_amount_error(self, error_handler_mock):
         request = mock.MagicMock(validated={})
         value = {'amount': 100, 'amountNet': 50, 'currency': 'USD', 'valueAddedTaxIncluded': False}
-        request.validated['data'] = {'value': value}
+        request.validated['data'] = request.validated['json_data'] = {'value': value}
         request.context.value.to_native.return_value.get = lambda x: value[x]
         request.context.awardID = 'test_id'
         error_handler_mock.return_value = HTTPError

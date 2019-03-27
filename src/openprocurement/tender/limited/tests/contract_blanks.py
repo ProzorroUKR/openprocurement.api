@@ -688,21 +688,17 @@ def create_two_contract(self):
 
 @unittest.skipUnless(SANDBOX_MODE, "not supported accelerator")
 def create_tender_contract_negotiation_quick(self):
-        response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
-        contract = response.json['data'][0]
-        self.contract_id = contract['id']
+    response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
+    contract = response.json['data'][0]
+    self.contract_id = contract['id']
 
-        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
-            self.tender_id, contract['id'], self.tender_token),
-            {"data": {"value": {"amountNet": contract['value']['amount'] - 1}}})
-        self.assertEqual(response.status, '200 OK')
+    response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+        self.tender_id, self.contract_id, self.tender_token), {"data": {"status": "active"}}, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertIn("Can't sign contract before stand-still period end (", response.json['errors'][0]["description"])
 
-        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
-            self.tender_id, self.contract_id, self.tender_token), {"data": {"status": "active"}}, status=403)
-        self.assertEqual(response.status, '403 Forbidden')
-        self.assertIn("Can't sign contract before stand-still period end (", response.json['errors'][0]["description"])
-
-        time.sleep(self.time_sleep_in_sec)
-        response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
-            self.tender_id, self.contract_id, self.tender_token), {"data": {"status": "active"}})
-        self.assertEqual(response.status, '200 OK')
+    time.sleep(self.time_sleep_in_sec)
+    response = self.app.patch_json(
+        '/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, self.contract_id, self.tender_token),
+        {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}})
+    self.assertEqual(response.status, '200 OK')
