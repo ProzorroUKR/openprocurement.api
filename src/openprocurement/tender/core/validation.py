@@ -464,26 +464,31 @@ def validate_update_contract_value_with_award(request):
                 raise_operation_error(request, 'Amount should be less or equal to awarded amount', name='value')
 
 
-def validate_update_contract_value_amount(request):
-    value = request.validated['data'].get('value')
-    if value:
+def validate_update_contract_value_amount(request, field='value'):
+    contract_value = request.validated['data'].get('value')
+    value = request.validated['data'].get(field)
+    changed_fields = request.validated['json_data'].keys()
+    if value and (field in changed_fields or 'status' in changed_fields):
         contract_amount = value.get('amount')
         contract_amount_net = value.get('amountNet')
-        contract_tax_included = value.get('valueAddedTaxIncluded')
+        contract_tax_included = contract_value.get('valueAddedTaxIncluded')
 
         if not contract_amount_net:
             # TODO: Move to amountNet field validation
             # INFO: Temporary validate only on patch to not break the contracting databridge
-            raise_operation_error(request, dict(amountNet=['This field is required.']), status=422, name='value')
+            raise_operation_error(request, dict(amountNet=['This field is required.']), status=422, name=field)
 
         if contract_tax_included:
             coef = Decimal(str(AMOUNT_NET_COEF)) if isinstance(contract_amount_net, Decimal) else AMOUNT_NET_COEF
             if contract_amount <= contract_amount_net or contract_amount > contract_amount_net * coef:
                 raise_operation_error(request, 'Amount should be greater than amountNet and differ by '
-                                               'no more than {}%'.format(coef * 100 - 100), name='value')
+                                               'no more than {}%'.format(coef * 100 - 100), name=field)
         else:
             if contract_amount != contract_amount_net:
-                raise_operation_error(request, 'Amount and amountNet should be equal', name='value')
+                raise_operation_error(request, 'Amount and amountNet should be equal', name=field)
+
+def validate_update_contract_paid_amount(request):
+    validate_update_contract_value_amount(request, 'amountPaid')
 
 
 def validate_contract_signing(request):

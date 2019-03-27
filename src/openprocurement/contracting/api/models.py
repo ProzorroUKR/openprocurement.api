@@ -239,4 +239,3 @@ class Contract(SchematicsDocument, BaseContract):
                                       amountNet=self.amountPaid.amountNet,
                                       currency=self.value.currency,
                                       valueAddedTaxIncluded=self.value.valueAddedTaxIncluded))
-

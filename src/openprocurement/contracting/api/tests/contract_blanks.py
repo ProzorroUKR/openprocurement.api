@@ -729,7 +729,7 @@ def patch_tender_contract(self):
 
     response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
                                    {"data": {"status": "terminated",
-                                             "amountPaid": {"amount": 100500, "amountNet": 100000},
+                                             "amountPaid": {"amount": 100500, "amountNet": 100500},
                                              "terminationDetails": "sink"}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['status'], 'terminated')
