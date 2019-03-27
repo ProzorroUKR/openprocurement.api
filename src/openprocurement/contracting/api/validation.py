@@ -80,3 +80,15 @@ def validate_add_document_to_active_change(request):
     if "relatedItem" in data and data.get('documentOf') == 'change':
         if not [1 for c in request.validated['contract'].changes if c.id == data['relatedItem'] and c.status == 'pending']:
             raise_operation_error(request, 'Can\'t add document to \'active\' change')
+
+
+def validate_update_contract_value(request, field='value'):
+    value = request.validated['data'].get(field)
+    if value:
+        for ro_attr in ('valueAddedTaxIncluded', 'currency'):
+            if value.get(ro_attr) != request.context.value.to_native().get(ro_attr):
+                raise_operation_error(request, 'Can\'t update {} for contract value'.format(ro_attr))
+
+
+def validate_update_contract_paid(request):
+    validate_update_contract_value(request, 'amountPaid')

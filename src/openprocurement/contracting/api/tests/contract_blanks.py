@@ -670,6 +670,7 @@ def patch_tender_contract(self):
                                        "valueAddedTaxIncluded": False}}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['amountPaid']['amount'], 900)
+    self.assertEqual(response.json['data']['amountPaid']['amountNet'], 800)
     self.assertEqual(response.json['data']['amountPaid']['currency'], "UAH")
     self.assertEqual(response.json['data']['amountPaid']['valueAddedTaxIncluded'], True)
 
@@ -695,30 +696,27 @@ def patch_tender_contract(self):
     self.assertEqual(response.status, '200 OK')
 
     self.assertEqual(response.json['data']['value']['amount'], 235)
+    self.assertEqual(response.json['data']['value']['amountNet'], 230)
     self.assertEqual(response.json['data']['value']['currency'], "UAH")
     self.assertEqual(response.json['data']['value']['valueAddedTaxIncluded'], True)
     self.assertEqual(response.json['data']['amountPaid']['amount'], 900)
+    self.assertEqual(response.json['data']['amountPaid']['amountNet'], 800)
     self.assertEqual(response.json['data']['amountPaid']['currency'], "UAH")
     self.assertEqual(response.json['data']['amountPaid']['valueAddedTaxIncluded'], True)
 
     response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
-                                   {"data": {"value": {"currency": "USD", "valueAddedTaxIncluded": False}}}, status=403)
+                                   {"data": {"value": {"valueAddedTaxIncluded": False}}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(
         response.json['errors'][0]["description"],
-        "Amount and amountNet should be equal")
+        "Can't update valueAddedTaxIncluded for contract value")
 
     response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
-                                   {"data": {"value": {"amount": 235, "amountNet": 235,
-                                                       "currency": "USD", "valueAddedTaxIncluded": False}}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.json['data']['value']['currency'], "USD")
-    self.assertEqual(response.json['data']['value']['valueAddedTaxIncluded'], False)
-    self.assertEqual(response.json['data']['value']['amount'], 235)
-    self.assertEqual(response.json['data']['value']['amountNet'], 235)
-    self.assertEqual(response.json['data']['amountPaid']['amount'], 900)
-    self.assertEqual(response.json['data']['amountPaid']['currency'], "USD")
-    self.assertEqual(response.json['data']['amountPaid']['valueAddedTaxIncluded'], False)
+                                   {"data": {"value": {"currency": "USD"}}}, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(
+        response.json['errors'][0]["description"],
+        "Can't update currency for contract value")
 
     custom_period_start_date = get_now().isoformat()
     custom_period_end_date = (get_now() + timedelta(days=3)).isoformat()
@@ -730,10 +728,20 @@ def patch_tender_contract(self):
     response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
                                    {"data": {"status": "terminated",
                                              "amountPaid": {"amount": 100500, "amountNet": 100500},
+                                             "terminationDetails": "sink"}}, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(
+        response.json['errors'][0]["description"],
+        "Amount should be greater than amountNet and differ by no more than 20.0%")
+
+    response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
+                                   {"data": {"status": "terminated",
+                                             "amountPaid": {"amount": 100500, "amountNet": 100000},
                                              "terminationDetails": "sink"}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['status'], 'terminated')
     self.assertEqual(response.json['data']['amountPaid']['amount'], 100500)
+    self.assertEqual(response.json['data']['amountPaid']['amountNet'], 100000)
     self.assertEqual(response.json['data']['terminationDetails'], 'sink')
 
     response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),

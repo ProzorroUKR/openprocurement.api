@@ -446,7 +446,8 @@ def validate_update_contract_value(request):
 
 def validate_update_contract_value_with_award(request):
     value = request.validated['data'].get('value')
-    if value:
+    changed_fields = request.validated['json_data'].keys()
+    if value and set(['value', 'status']) & set(changed_fields):
         award = [a for a in request.validated['tender'].awards if a.id == request.context.awardID][0]
         contract_amount = value.get('amount')
         contract_amount_net = value.get('amountNet') or contract_amount
@@ -468,7 +469,7 @@ def validate_update_contract_value_amount(request, field='value'):
     contract_value = request.validated['data'].get('value')
     value = request.validated['data'].get(field)
     changed_fields = request.validated['json_data'].keys()
-    if value and (field in changed_fields or 'status' in changed_fields):
+    if value and set([field, 'status']) & set(changed_fields):
         contract_amount = value.get('amount')
         contract_amount_net = value.get('amountNet')
         contract_tax_included = contract_value.get('valueAddedTaxIncluded')
