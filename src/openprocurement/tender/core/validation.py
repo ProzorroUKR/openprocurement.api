@@ -471,13 +471,8 @@ def validate_update_contract_value_amount(request, field='value'):
     changed_fields = request.validated['json_data'].keys()
     if value and set([field, 'status']) & set(changed_fields):
         contract_amount = value.get('amount')
-        contract_amount_net = value.get('amountNet')
+        contract_amount_net = value.get('amountNet') or contract_amount
         contract_tax_included = contract_value.get('valueAddedTaxIncluded')
-
-        if not contract_amount_net:
-            # TODO: Move to amountNet field validation
-            # INFO: Temporary validate only on patch to not break the contracting databridge
-            raise_operation_error(request, dict(amountNet=['This field is required.']), status=422, name=field)
 
         if contract_tax_included:
             coef = Decimal(str(AMOUNT_NET_COEF)) if isinstance(contract_amount_net, Decimal) else AMOUNT_NET_COEF
