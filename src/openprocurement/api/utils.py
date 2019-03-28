@@ -27,7 +27,7 @@ from json import dumps
 from schematics.exceptions import ValidationError
 from couchdb_schematics.document import SchematicsDocument
 from openprocurement.api.events import ErrorDesctiptorEvent
-from openprocurement.api.constants import LOGGER
+from openprocurement.api.constants import LOGGER, JOURNAL_PREFIX
 from openprocurement.api.constants import (
     ADDITIONAL_CLASSIFICATIONS_SCHEMES, DOCUMENT_BLACKLISTED_FIELDS,
     DOCUMENT_WHITELISTED_FIELDS, ROUTE_PREFIX, TZ, SESSION
@@ -519,7 +519,7 @@ def context_unpack(request, msg, params=None):
     logging_context = request.logging_context
     journal_context = msg
     for key, value in logging_context.items():
-        journal_context["JOURNAL_" + key] = value
+        journal_context[JOURNAL_PREFIX + key] = value
     return journal_context
 
 

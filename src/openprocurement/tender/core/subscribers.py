@@ -21,4 +21,5 @@ def extend_tender_logging_context(event):
         params['TENDER_REV'] = request.validated['tender'].rev
         params['TENDERID'] = request.validated['tender'].tenderID
         params['TENDER_STATUS'] = request.validated['tender'].status
+        params['TENDER_MODE'] = request.validated['tender'].mode
         update_logging_context(request, params)

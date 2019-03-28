@@ -216,7 +216,7 @@ class TendersResource(APIResourceListing):
         self.request.validated['tender_src'] = {}
         if save_tender(self.request):
             self.LOGGER.info('Created tender {} ({})'.format(tender_id, tender.tenderID),
-                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_create'}, {'tender_id': tender_id, 'tenderID': tender.tenderID}))
+                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_create'}, {'tender_id': tender_id, 'tenderID': tender.tenderID, 'tender_mode': tender.mode}))
             self.request.response.status = 201
             self.request.response.headers[
                 'Location'] = self.request.route_url('{}:Tender'.format(tender.procurementMethodType), tender_id=tender_id)
