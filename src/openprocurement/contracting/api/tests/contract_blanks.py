@@ -785,11 +785,12 @@ def patch_tender_contract_wo_amount_net(self):
 
     response = self.app.patch_json('/contracts/{}?acc_token={}'.format(
         self.contract['id'], token),
-        {"data": {"value": {"amount": 235}}}, status=422)
-    self.assertEqual(response.status, '422 Unprocessable Entity')
+        {"data": {"value": {"amount": 235}}}, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(
         response.json['errors'],
-        [{"location": "body", "name": "value", "description": {"amountNet": ["This field is required."]}}])
+        [{"location": "body", "name": "value",
+          "description": "Amount should be greater than amountNet and differ by no more than 20.0%"}])
 
     response = self.app.patch_json('/contracts/{}?acc_token={}'.format(
         self.contract['id'], token),
