@@ -10,6 +10,8 @@ variables:
 Build:
   stage: build
   script:
+    - rm -f version.txt
+    - git log -1 > version.txt
     - type multiwerf && source <(multiwerf use 1.0 beta)
     - type werf && source <(werf ci-env gitlab --tagging-strategy tag-or-branch --verbose)
     - werf build-and-publish --stages-storage :local
@@ -30,6 +32,7 @@ Build:
   script:
     - echo '127.0.0.1  couchdb' >> /etc/hosts
     - cd /app
+    - cat version.txt
     - export MODULE_DIR=$(echo $MODULE | sed -e 's/[\ ]/\//g')
     - export MODULE_NAME=$(echo $MODULE | sed -e 's/[\ ]/\./g')
     - py.test src/openprocurement/$MODULE_DIR --cov=openprocurement.$MODULE_NAME -v --color=yes
