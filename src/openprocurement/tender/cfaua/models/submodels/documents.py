@@ -29,7 +29,7 @@ class BidderEUDocument(EUDocument):
         'conflictOfInterest', 'debarments', 'evaluationReports', 'winningBid', 'complaints', 'contractSigned',
         'contractArrangements', 'contractSchedule', 'contractAnnexe', 'contractGuarantees', 'subContract',
         'eligibilityCriteria', 'contractProforma', 'commercialProposal', 'qualificationDocuments',
-        'eligibilityDocuments', 'registerExtract', 'winningBid'
+        'eligibilityDocuments', 'registerExtract', 'registerFiscal', 'winningBid',
     ])
 
     def validate_confidentialityRationale(self, data, val):

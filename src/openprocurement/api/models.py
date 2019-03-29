@@ -463,6 +463,7 @@ class Document(Model):
         'contractAnnexe', 'contractGuarantees', 'subContract',
         'eligibilityCriteria', 'contractProforma', 'commercialProposal',
         'qualificationDocuments', 'eligibilityDocuments', 'registerExtract',
+        'registerFiscal',
     ])
     title = StringType(required=True)  # A title of the document.
     title_en = StringType()
