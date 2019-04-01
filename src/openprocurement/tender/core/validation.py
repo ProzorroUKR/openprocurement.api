@@ -472,15 +472,14 @@ def validate_update_contract_value_amount(request, name='value'):
         contract_amount_net = value.get('amountNet') or contract_amount
         contract_tax_included = request.validated['data'].get('value').get('valueAddedTaxIncluded')
 
-        if contract_amount != 0 and contract_amount_net != 0:
-            if contract_tax_included:
-                coef = Decimal(str(AMOUNT_NET_COEF)) if isinstance(contract_amount_net, Decimal) else AMOUNT_NET_COEF
-                if contract_amount <= contract_amount_net or contract_amount > contract_amount_net * coef:
-                    raise_operation_error(request, 'Amount should be greater than amountNet and differ by '
-                                                   'no more than {}%'.format(coef * 100 - 100), name=name)
-            else:
-                if contract_amount != contract_amount_net:
-                    raise_operation_error(request, 'Amount and amountNet should be equal', name=name)
+        if contract_tax_included:
+            coef = Decimal(str(AMOUNT_NET_COEF)) if isinstance(contract_amount_net, Decimal) else AMOUNT_NET_COEF
+            if contract_amount <= contract_amount_net or contract_amount > contract_amount_net * coef:
+                raise_operation_error(request, 'Amount should be greater than amountNet and differ by '
+                                               'no more than {}%'.format(coef * 100 - 100), name=name)
+        else:
+            if contract_amount != contract_amount_net:
+                raise_operation_error(request, 'Amount and amountNet should be equal', name=name)
 
 
 def validate_contract_signing(request):

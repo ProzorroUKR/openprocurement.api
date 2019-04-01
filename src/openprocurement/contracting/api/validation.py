@@ -85,11 +85,11 @@ def validate_add_document_to_active_change(request):
 
 # contract value and paid
 def validate_update_contract_paid_amount(request):
-    validate_update_contract_value_amount(
-        request, name='amountPaid')
-
     value = request.validated['data'].get('value')
     paid = request.validated['data'].get('amountPaid')
+    if paid.get('amount') != 0 and paid.get('amountNet') != 0:
+        validate_update_contract_value_amount(
+            request, name='amountPaid')
     for attr in ('amount', 'amountNet'):
         if paid and paid.get(attr) > value.get(attr):
             raise_operation_error(request, "AmountPaid {} can`t be greater than "
