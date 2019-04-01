@@ -735,6 +735,12 @@ def patch_tender_contract(self):
         "Amount should be greater than amountNet and differ by no more than 20.0%")
 
     response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
+                                   {"data": {"amountPaid": {"amount": 0, "amountNet": 0}}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.json['data']['amountPaid']['amount'], 0)
+    self.assertEqual(response.json['data']['amountPaid']['amountNet'], 0)
+
+    response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
                                    {"data": {"status": "terminated",
                                              "amountPaid": {"amount": 100, "amountNet": 90},
                                              "terminationDetails": "sink"}})

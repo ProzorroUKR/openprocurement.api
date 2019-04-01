@@ -441,7 +441,7 @@ def validate_update_contract_value(request, name='value', ro_attrs=('currency',)
     if value:
         for ro_attr in ro_attrs:
             field = getattr(request.context, name)
-            if field and value.get(ro_attr) != getattr(field, ro_attr):
+            if field and value.get(ro_attr) != field.to_native().get(ro_attr):
                 raise_operation_error(request, 'Can\'t update {} for contract {}'.format(ro_attr, name), name=name)
 
 
