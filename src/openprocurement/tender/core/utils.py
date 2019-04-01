@@ -281,3 +281,7 @@ def calculate_business_date(date_obj, timedelta_obj, context=None,
                 date_obj += timedelta(1) if timedelta_obj > timedelta() else -timedelta(1)
         return date_obj
     return date_obj + timedelta_obj
+
+def has_requested_fields_changes(request, fieldnames):
+    changed_fields = request.validated['json_data'].keys()
+    return set(fieldnames) & set(changed_fields)

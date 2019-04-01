@@ -302,7 +302,7 @@ def put_contract_document(self):
         self.assertEqual(response.body, 'content3')
 
     response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract_id, self.contract_token),
-                                   {"data": {"status": "terminated", "amountPaid": {"amount": 400, "amountNet": 399}}})
+                                   {"data": {"status": "terminated", "amountPaid": {"amount": 100, "amountNet": 90}}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['status'], 'terminated')
 
@@ -352,7 +352,7 @@ def patch_contract_document(self):
     self.assertEqual('document description', response.json["data"]["description"])
 
     response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract_id, self.contract_token),
-                                   {"data": {"status": "terminated", "amountPaid": {"amount": 455, "amountNet": 454}}})
+                                   {"data": {"status": "terminated", "amountPaid": {"amount": 100, "amountNet": 90}}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['status'], 'terminated')
 

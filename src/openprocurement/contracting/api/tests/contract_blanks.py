@@ -664,13 +664,13 @@ def patch_tender_contract(self):
 
     response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
                                    {"data": {"amountPaid": {
-                                       "amount": 900,
-                                       "amountNet": 800,
+                                       "amount": 100,
+                                       "amountNet": 90,
                                        "currency": "USD",
                                        "valueAddedTaxIncluded": False}}})
     self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.json['data']['amountPaid']['amount'], 900)
-    self.assertEqual(response.json['data']['amountPaid']['amountNet'], 800)
+    self.assertEqual(response.json['data']['amountPaid']['amount'], 100)
+    self.assertEqual(response.json['data']['amountPaid']['amountNet'], 90)
     self.assertEqual(response.json['data']['amountPaid']['currency'], "UAH")
     self.assertEqual(response.json['data']['amountPaid']['valueAddedTaxIncluded'], True)
 
@@ -699,8 +699,8 @@ def patch_tender_contract(self):
     self.assertEqual(response.json['data']['value']['amountNet'], 230)
     self.assertEqual(response.json['data']['value']['currency'], "UAH")
     self.assertEqual(response.json['data']['value']['valueAddedTaxIncluded'], True)
-    self.assertEqual(response.json['data']['amountPaid']['amount'], 900)
-    self.assertEqual(response.json['data']['amountPaid']['amountNet'], 800)
+    self.assertEqual(response.json['data']['amountPaid']['amount'], 100)
+    self.assertEqual(response.json['data']['amountPaid']['amountNet'], 90)
     self.assertEqual(response.json['data']['amountPaid']['currency'], "UAH")
     self.assertEqual(response.json['data']['amountPaid']['valueAddedTaxIncluded'], True)
 
@@ -727,7 +727,7 @@ def patch_tender_contract(self):
 
     response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
                                    {"data": {"status": "terminated",
-                                             "amountPaid": {"amount": 100500, "amountNet": 100500},
+                                             "amountPaid": {"amount": 100, "amountNet": 100},
                                              "terminationDetails": "sink"}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(
@@ -736,12 +736,12 @@ def patch_tender_contract(self):
 
     response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
                                    {"data": {"status": "terminated",
-                                             "amountPaid": {"amount": 100500, "amountNet": 100000},
+                                             "amountPaid": {"amount": 100, "amountNet": 90},
                                              "terminationDetails": "sink"}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['status'], 'terminated')
-    self.assertEqual(response.json['data']['amountPaid']['amount'], 100500)
-    self.assertEqual(response.json['data']['amountPaid']['amountNet'], 100000)
+    self.assertEqual(response.json['data']['amountPaid']['amount'], 100)
+    self.assertEqual(response.json['data']['amountPaid']['amountNet'], 90)
     self.assertEqual(response.json['data']['terminationDetails'], 'sink')
 
     response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
@@ -768,7 +768,8 @@ def patch_tender_contract(self):
     self.assertEqual(response.json['data']["value"]['amount'], 235)
     self.assertEqual(response.json['data']['period']['startDate'], custom_period_start_date)
     self.assertEqual(response.json['data']['period']['endDate'], custom_period_end_date)
-    self.assertEqual(response.json['data']['amountPaid']['amount'], 100500)
+    self.assertEqual(response.json['data']['amountPaid']['amount'], 100)
+    self.assertEqual(response.json['data']['amountPaid']['amountNet'], 90)
     self.assertEqual(response.json['data']['terminationDetails'], 'sink')
 
 
@@ -877,8 +878,8 @@ def generate_credentials(self):
     # terminated contract is also protected
     response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract_id, token2),
                                    {"data": {"status": "terminated", "amountPaid": {
-                                       "amount": 777,
-                                       "amountNet": 776
+                                       "amount": 100,
+                                       "amountNet": 90
                                    }}})
     self.assertEqual(response.status, '200 OK')
 

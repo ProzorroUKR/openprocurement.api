@@ -5,7 +5,7 @@ from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.utils import get_now  # move
 from openprocurement.api.utils import update_logging_context, error_handler, raise_operation_error, check_document_batch # XXX tender context
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF
-from openprocurement.tender.core.utils import calculate_business_date
+from openprocurement.tender.core.utils import calculate_business_date, has_requested_fields_changes
 from schematics.exceptions import ValidationError
 
 
@@ -436,18 +436,18 @@ def validate_update_contract_only_for_active_lots(request):
         raise_operation_error(request, 'Can update contract only in active lot status')
 
 
-def validate_update_contract_value(request):
-    value = request.validated['data'].get('value')
+def validate_update_contract_value(request, name='value', ro_attrs=('currency',)):
+    value = request.validated['data'].get(name)
     if value:
-        for ro_attr in ('currency',):
-            if value.get(ro_attr) != request.context.value.to_native().get(ro_attr):
-                raise_operation_error(request, 'Can\'t update {} for contract value'.format(ro_attr))
+        for ro_attr in ro_attrs:
+            field = getattr(request.context, name)
+            if field and value.get(ro_attr) != getattr(field, ro_attr):
+                raise_operation_error(request, 'Can\'t update {} for contract {}'.format(ro_attr, name), name=name)
 
 
 def validate_update_contract_value_with_award(request):
     value = request.validated['data'].get('value')
-    changed_fields = request.validated['json_data'].keys()
-    if value and set(['value', 'status']) & set(changed_fields):
+    if value and has_requested_fields_changes(request, ('value', 'status')):
         award = [a for a in request.validated['tender'].awards if a.id == request.context.awardID][0]
         contract_amount = value.get('amount')
         contract_amount_net = value.get('amountNet') or contract_amount
@@ -465,26 +465,22 @@ def validate_update_contract_value_with_award(request):
                 raise_operation_error(request, 'Amount should be less or equal to awarded amount', name='value')
 
 
-def validate_update_contract_value_amount(request, field='value'):
-    contract_value = request.validated['data'].get('value')
-    value = request.validated['data'].get(field)
-    changed_fields = request.validated['json_data'].keys()
-    if value and set([field, 'status']) & set(changed_fields):
+def validate_update_contract_value_amount(request, name='value'):
+    value = request.validated['data'].get(name)
+    if value and has_requested_fields_changes(request, (name, 'status')):
         contract_amount = value.get('amount')
         contract_amount_net = value.get('amountNet') or contract_amount
-        contract_tax_included = contract_value.get('valueAddedTaxIncluded')
+        contract_tax_included = request.validated['data'].get('value').get('valueAddedTaxIncluded')
 
-        if contract_tax_included:
-            coef = Decimal(str(AMOUNT_NET_COEF)) if isinstance(contract_amount_net, Decimal) else AMOUNT_NET_COEF
-            if contract_amount <= contract_amount_net or contract_amount > contract_amount_net * coef:
-                raise_operation_error(request, 'Amount should be greater than amountNet and differ by '
-                                               'no more than {}%'.format(coef * 100 - 100), name=field)
-        else:
-            if contract_amount != contract_amount_net:
-                raise_operation_error(request, 'Amount and amountNet should be equal', name=field)
-
-def validate_update_contract_paid_amount(request):
-    validate_update_contract_value_amount(request, 'amountPaid')
+        if contract_amount != 0 and contract_amount_net != 0:
+            if contract_tax_included:
+                coef = Decimal(str(AMOUNT_NET_COEF)) if isinstance(contract_amount_net, Decimal) else AMOUNT_NET_COEF
+                if contract_amount <= contract_amount_net or contract_amount > contract_amount_net * coef:
+                    raise_operation_error(request, 'Amount should be greater than amountNet and differ by '
+                                                   'no more than {}%'.format(coef * 100 - 100), name=name)
+            else:
+                if contract_amount != contract_amount_net:
+                    raise_operation_error(request, 'Amount and amountNet should be equal', name=name)
 
 
 def validate_contract_signing(request):
