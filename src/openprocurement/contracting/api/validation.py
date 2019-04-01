@@ -87,7 +87,7 @@ def validate_add_document_to_active_change(request):
 def validate_update_contract_paid_amount(request):
     value = request.validated['data'].get('value')
     paid = request.validated['data'].get('amountPaid')
-    if paid.get('amount') != 0 and paid.get('amountNet') != 0:
+    if paid and paid.get('amount') != 0 and paid.get('amountNet') != 0:
         validate_update_contract_value_amount(
             request, name='amountPaid')
     for attr in ('amount', 'amountNet'):
