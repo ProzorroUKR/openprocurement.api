@@ -22,7 +22,7 @@ class TestValidateUpdateContractValue(unittest.TestCase):
             validate_update_contract_value(request)
 
         request.errors.add.assert_called_once_with(
-            'body', 'data', 'Can\'t update currency for contract value')
+            'body', 'value', 'Can\'t update currency for contract value')
 
 
 class TestValidateUpdateContractValueWithAward(unittest.TestCase):
