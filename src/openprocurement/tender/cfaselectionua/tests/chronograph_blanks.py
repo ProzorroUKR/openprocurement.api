@@ -382,7 +382,9 @@ def award_switch_to_ignored_on_complete(self):
         i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
     self.db.save(tender)
 
-    response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract_id, self.tender_token), {"data": {"status": "active"}})
+    response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+        self.tender_id, contract_id, self.tender_token
+    ), {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']["status"], "active")

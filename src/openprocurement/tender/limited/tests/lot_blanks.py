@@ -598,7 +598,8 @@ def cancel_lot_after_sing_contract(self):
 
     # Activate contract
     response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
-        self.tender_id, contract['id'], self.tender_token), {"data": {"status": "active"}})
+        self.tender_id, contract['id'], self.tender_token), {
+        "data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['status'], 'active')
 
@@ -739,11 +740,13 @@ def last_lot_complete(self):
     first_contract = response.json['data'][0]
     second_contract = response.json['data'][1]
     response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
-        self.tender_id, first_contract['id'], self.tender_token), {"data": {"status": "active"}})
+        self.tender_id, first_contract['id'], self.tender_token), {
+        "data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['status'], 'active')
     response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
-        self.tender_id, second_contract['id'], self.tender_token), {"data": {"status": "active"}})
+        self.tender_id, second_contract['id'], self.tender_token), {
+        "data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['status'], 'active')
 

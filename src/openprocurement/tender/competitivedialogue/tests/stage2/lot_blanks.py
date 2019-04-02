@@ -1137,7 +1137,7 @@ def one_lot_2bid(self):
     self.app.authorization = ('Basic', ('broker', ''))
     self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract_id,
                                                                        self.tender_token),
-                        {"data": {"status": "active"}})
+                        {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}})
     # check status
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.get('/tenders/{}'.format(self.tender_id))
@@ -1313,7 +1313,7 @@ def one_lot_3bid_1del(self):
     self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id,
                                                                        contract_id,
                                                                        self.tender_token),
-                        {"data": {"status": "active"}})
+                        {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}})
     # check status
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.get('/tenders/{}'.format(self.tender_id))
@@ -1450,7 +1450,7 @@ def one_lot_3bid_1un(self):
     self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id,
                                                                        contract_id,
                                                                        self.tender_token),
-                        {"data": {"status": "active"}})
+                        {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}})
     # check status
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.get('/tenders/{}'.format(self.tender_id))
@@ -1686,7 +1686,7 @@ def two_lot_2bid_2com_2win(self):
     self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id,
                                                                        contract_id,
                                                                        self.tender_token),
-                        {"data": {"status": "active"}})
+                        {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}})
     # for second lot
     lot_id = self.initial_lots[1]['id']
     # get awards
@@ -1720,7 +1720,7 @@ def two_lot_2bid_2com_2win(self):
     self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id,
                                                                        contract_id,
                                                                        self.tender_token),
-                        {"data": {"status": "active"}})
+                        {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}})
     # check status
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.get('/tenders/{}'.format(self.tender_id))
@@ -1896,7 +1896,7 @@ def one_lot_2bid_ua(self):
     self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id,
                                                                        contract_id,
                                                                        self.tender_token),
-                        {"data": {"status": "active"}})
+                        {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}})
     # check status
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.get('/tenders/{}'.format(self.tender_id))
@@ -1997,7 +1997,7 @@ def one_lot_3bid_1un_ua(self):
     self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id,
                                                                        contract_id,
                                                                        self.tender_token),
-                        {"data": {"status": "active"}})
+                        {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}})
     # check status
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.get('/tenders/{}'.format(self.tender_id))
@@ -2117,7 +2117,7 @@ def two_lot_1bid_2com_1win_ua(self):
         self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id,
                                                                         award_id,
                                                                         self.tender_token),
-                            {"data": {"status": "active"}})
+                            {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}})
         # get contract id
         response = self.app.get('/tenders/{}'.format(self.tender_id))
         contract_id = response.json['data']['contracts'][-1]['id']
@@ -2133,7 +2133,7 @@ def two_lot_1bid_2com_1win_ua(self):
         self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id,
                                                                            contract_id,
                                                                            self.tender_token),
-                            {"data": {"status": "active"}})
+                            {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}})
     # check status
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.get('/tenders/{}'.format(self.tender_id))
@@ -2275,7 +2275,7 @@ def two_lot_2bid_2com_2win_ua(self):
     # sign contract
     self.app.authorization = ('Basic', ('broker', ''))
     self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract_id, self.tender_token),
-                        {"data": {"status": "active"}})
+                        {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}})
     # for second lot
     lot_id = self.lots_id[1]
     # get awards
@@ -2309,7 +2309,7 @@ def two_lot_2bid_2com_2win_ua(self):
     self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id,
                                                                        contract_id,
                                                                        self.tender_token),
-                        {"data": {"status": "active"}})
+                        {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}})
     # check status
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.get('/tenders/{}'.format(self.tender_id))

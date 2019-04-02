@@ -336,6 +336,10 @@ def items_without_deliveryDate_quantity(self):
     contract = response.json['data']['contracts'][0]
 
     response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
+        self.tender_id, contract['id'], self.tender_token),
+        {"data": {"value": {"amountNet": contract['value']['amount'] - 1}}})
+
+    response = self.app.patch_json('/tenders/{}/contracts/{}?acc_token={}'.format(
         self.tender_id, contract['id'], self.tender_token), {"data": {
             'status': 'pending',
             "items": [{'quantity': 10,

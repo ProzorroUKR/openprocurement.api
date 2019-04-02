@@ -97,7 +97,7 @@ test_contract_data = {
     u"value": {
         u"currency": u"UAH",
         u"amount": 238.0,
-        u"amountNet": 238.0,
+        u"amountNet": 237.0,
         u"valueAddedTaxIncluded": True
         },
     u"dateSigned": get_now().isoformat(),

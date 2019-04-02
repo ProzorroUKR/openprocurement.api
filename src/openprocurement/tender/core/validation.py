@@ -5,7 +5,7 @@ from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.utils import get_now  # move
 from openprocurement.api.utils import update_logging_context, error_handler, raise_operation_error, check_document_batch # XXX tender context
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF
-from openprocurement.tender.core.utils import calculate_business_date
+from openprocurement.tender.core.utils import calculate_business_date, has_requested_fields_changes
 from schematics.exceptions import ValidationError
 
 
@@ -436,52 +436,50 @@ def validate_update_contract_only_for_active_lots(request):
         raise_operation_error(request, 'Can update contract only in active lot status')
 
 
-def validate_update_contract_value(request):
-    value = request.validated['data'].get('value')
+def validate_update_contract_value(request, name='value', ro_attrs=('currency',)):
+    value = request.validated['data'].get(name)
     if value:
-        for ro_attr in ('valueAddedTaxIncluded', 'currency'):
-            if value.get(ro_attr) != request.context.value.to_native().get(ro_attr):
-                raise_operation_error(request, 'Can\'t update {} for contract value'.format(ro_attr))
+        for ro_attr in ro_attrs:
+            field = getattr(request.context, name)
+            if field and value.get(ro_attr) != field.to_native().get(ro_attr):
+                raise_operation_error(request, 'Can\'t update {} for contract {}'.format(ro_attr, name), name=name)
 
+
+def validate_update_contract_value_with_award(request):
+    value = request.validated['data'].get('value')
+    if value and has_requested_fields_changes(request, ('value', 'status')):
         award = [a for a in request.validated['tender'].awards if a.id == request.context.awardID][0]
-        amount_net = value.get('amountNet')
-        amount = value.get('amount')
+        contract_amount = value.get('amount')
+        contract_amount_net = value.get('amountNet') or contract_amount
+        contract_tax_included = value.get('valueAddedTaxIncluded')
 
-        # Old behavior for contracts with no amountNet set
-        if amount_net is None and amount > award.value.amount:
-            raise_operation_error(
-                request, 'Value amount should be less or equal to awarded amount ({})'.format(award.value.amount))
-
-        # New behavior for contracts with amountNet set
-        if amount_net is not None:
-            if amount_net > award.value.amount:
-                raise_operation_error(
-                    request, 'Value amountNet should be less or equal to awarded amount ({})'.format(
-                        award.value.amount))
-
-            if value.get('valueAddedTaxIncluded') and amount > award.value.amount:
-                raise_operation_error(
-                    request, 'Value amount should be less or equal to awarded amount ({}) '
-                             'if VAT included'.format(award.value.amount))
+        if contract_tax_included:
+            if award.value.valueAddedTaxIncluded:
+                if contract_amount > award.value.amount:
+                    raise_operation_error(request, 'Amount should be less or equal to awarded amount', name='value')
+            else:
+                if contract_amount_net > award.value.amount:
+                    raise_operation_error(request, 'AmountNet should be less or equal to awarded amount', name='value')
+        else:
+            if contract_amount > award.value.amount:
+                raise_operation_error(request, 'Amount should be less or equal to awarded amount', name='value')
 
 
-def validate_update_contract_value_amounts(request):
-    value = request.validated['data'].get('value')
-    if value:
-        amount_net = value.get('amountNet')
-        amount = value.get('amount')
+def validate_update_contract_value_amount(request, name='value'):
+    value = request.validated['data'].get(name)
+    if value and has_requested_fields_changes(request, (name, 'status')):
+        contract_amount = value.get('amount')
+        contract_amount_net = value.get('amountNet') or contract_amount
+        contract_tax_included = request.validated['data'].get('value').get('valueAddedTaxIncluded')
 
-        if amount_net is not None:
-            if amount_net > amount:
-                raise_operation_error(
-                    request, 'Value amountNet should be less or equal to amount ({})'.format(amount))
-
-            coef = Decimal(str(AMOUNT_NET_COEF)) if isinstance(amount_net, Decimal) else AMOUNT_NET_COEF
-            amount_max = amount_net * coef
-            if amount > amount_max:
-                raise_operation_error(
-                    request, 'Value amount can\'t be greater than amountNet ({}) for {}%'.format(
-                        float(amount_net), coef * 100 - 100, float(amount_max)))
+        if contract_tax_included:
+            coef = Decimal(str(AMOUNT_NET_COEF)) if isinstance(contract_amount_net, Decimal) else AMOUNT_NET_COEF
+            if contract_amount <= contract_amount_net or contract_amount > contract_amount_net * coef:
+                raise_operation_error(request, 'Amount should be greater than amountNet and differ by '
+                                               'no more than {}%'.format(coef * 100 - 100), name=name)
+        else:
+            if contract_amount != contract_amount_net:
+                raise_operation_error(request, 'Amount and amountNet should be equal', name=name)
 
 
 def validate_contract_signing(request):
