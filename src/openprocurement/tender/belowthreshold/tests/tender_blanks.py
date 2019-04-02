@@ -1,12 +1,17 @@
 # -*- coding: utf-8 -*-
 import unittest
+
+import mock
 from uuid import uuid4
 from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now
-from openprocurement.api.constants import COORDINATES_REG_EXP, ROUTE_PREFIX, CPV_BLOCK_FROM, \
+from openprocurement.api import validation
+from openprocurement.api.constants import (
+    COORDINATES_REG_EXP, ROUTE_PREFIX, CPV_BLOCK_FROM,
     NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM
+)
 from openprocurement.tender.core.constants import (
     CANT_DELETE_PERIOD_START_DATE_FROM, CPV_ITEMS_CLASS_FROM,
 )
@@ -525,80 +530,6 @@ def create_tender_invalid(self):
             {u'description': [{u'additionalClassifications': [u"One of additional classifications should be one of [ДКПП, NONE, ДК003, ДК015, ДК018]."]}], u'location': u'body', u'name': u'items'}
         ])
 
-    addit_classif = [
-        {"scheme": "INN",
-         "id": "17.21.1",
-         "description": "папір і картон гофровані, паперова й картонна тара"},
-        {"scheme": "INN",
-         "id": "17.21.1",
-         "description": "папір і картон гофровані, паперова й картонна тара"}
-    ]
-    data = self.initial_data["items"][0]["classification"]['id']
-    self.initial_data["items"][0]['classification']['id'] = u"33600000-6"
-    orig_addit_classif = self.initial_data["items"][0]["additionalClassifications"]
-    self.initial_data["items"][0]["additionalClassifications"] = addit_classif
-    response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
-    self.initial_data["items"][0]["additionalClassifications"] = orig_addit_classif
-    self.initial_data["items"][0]["classification"]['id'] = data
-    self.assertEqual(response.status, '422 Unprocessable Entity')
-    self.assertEqual(response.json['errors'], [
-        {u"location": u"body", u"name": u"items", u"description": [
-         u"Item with classification.id=33600000-6 have to contain "
-         u"exactly one additionalClassifications with scheme=INN"]}])
-
-    addit_classif = [
-        {"scheme": "INN",
-         "id": "17.21.1",
-         "description": "папір і картон гофровані, паперова й картонна тара"},
-        {"scheme": "INN",
-         "id": "17.21.1",
-         "description": "папір і картон гофровані, паперова й картонна тара"}
-    ]
-    data = self.initial_data["items"][0]["classification"]['id']
-    self.initial_data["items"][0]['classification']['id'] = u"33611000-6"
-    orig_addit_classif = self.initial_data["items"][0]["additionalClassifications"]
-    self.initial_data["items"][0]["additionalClassifications"] = addit_classif
-    response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
-    self.initial_data["items"][0]["additionalClassifications"] = orig_addit_classif
-    self.initial_data["items"][0]["classification"]['id'] = data
-    self.assertEqual(response.status, '422 Unprocessable Entity')
-    self.assertEqual(response.json['errors'], [
-        {u"location": u"body", u"name": u"items", u"description": [
-         u"Item wich classification.id starts with 336 and contains "
-         u"additionalClassification objects have to contain no more than "
-         u"one additionalClassifications with scheme=INN"]}])
-
-    addit_classif = [
-        {"scheme": "INN",
-         "id": "17.21.1",
-         "description": "папір і картон гофровані, паперова й картонна тара"}
-    ]
-    data = self.initial_data["items"][0]["classification"]['id']
-    self.initial_data["items"][0]['classification']['id'] = u"33611000-6"
-    orig_addit_classif = self.initial_data["items"][0]["additionalClassifications"]
-    self.initial_data["items"][0]["additionalClassifications"] = addit_classif
-    response = self.app.post_json(request_path, {'data': self.initial_data})
-    self.initial_data["items"][0]["additionalClassifications"] = orig_addit_classif
-    self.initial_data["items"][0]["classification"]['id'] = data
-    self.assertEqual(response.status, '201 Created')
-
-    addit_classif = [
-        {"scheme": "NotINN",
-         "id": "17.21.1",
-         "description": "папір і картон гофровані, паперова й картонна тара"},
-        {"scheme": "NotINN",
-         "id": "17.21.1",
-         "description": "папір і картон гофровані, паперова й картонна тара"}
-    ]
-    data = self.initial_data["items"][0]["classification"]['id']
-    self.initial_data["items"][0]['classification']['id'] = u'33652000-5'
-    orig_addit_classif = self.initial_data["items"][0]["additionalClassifications"]
-    self.initial_data["items"][0]["additionalClassifications"] = addit_classif
-    response = self.app.post_json(request_path, {'data': self.initial_data})
-    self.initial_data["items"][0]["additionalClassifications"] = orig_addit_classif
-    self.initial_data["items"][0]["classification"]['id'] = data
-    self.assertEqual(response.status, '201 Created')
-
     data = test_organization["contactPoint"]["telephone"]
     del test_organization["contactPoint"]["telephone"]
     response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
@@ -667,6 +598,98 @@ def create_tender_invalid(self):
     self.assertEqual(response.json['errors'], [
         {u'description': u"'' procuringEntity cannot publish this type of procedure. Only general, special, defense, other are allowed.", u'location': u'procuringEntity', u'name': u'kind'}
     ])
+
+
+def create_tender_with_inn(self):
+    request_path = '/tenders'
+
+    addit_classif = [
+        {"scheme": "INN",
+         "id": "17.21.1",
+         "description": "папір і картон гофровані, паперова й картонна тара"},
+        {"scheme": "INN",
+         "id": "17.21.1",
+         "description": "папір і картон гофровані, паперова й картонна тара"}
+    ]
+    data = self.initial_data["items"][0]["classification"]['id']
+    self.initial_data["items"][0]['classification']['id'] = u"33600000-6"
+    orig_addit_classif = self.initial_data["items"][0]["additionalClassifications"]
+    self.initial_data["items"][0]["additionalClassifications"] = addit_classif
+    if get_now() > validation.CPV_336_INN_FROM:
+        response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.json['errors'], [
+            {u"location": u"body", u"name": u"items", u"description": [
+             u"Item with classification.id=33600000-6 have to contain "
+             u"exactly one additionalClassifications with scheme=INN"]}])
+    else:
+        response = self.app.post_json(request_path, {'data': self.initial_data})
+        self.assertEqual(response.status, '201 Created')
+    self.initial_data["items"][0]["additionalClassifications"] = orig_addit_classif
+    self.initial_data["items"][0]["classification"]['id'] = data
+
+    addit_classif = [
+        {"scheme": "INN",
+         "id": "17.21.1",
+         "description": "папір і картон гофровані, паперова й картонна тара"},
+        {"scheme": "INN",
+         "id": "17.21.1",
+         "description": "папір і картон гофровані, паперова й картонна тара"}
+    ]
+    data = self.initial_data["items"][0]["classification"]['id']
+    self.initial_data["items"][0]['classification']['id'] = u"33611000-6"
+    orig_addit_classif = self.initial_data["items"][0]["additionalClassifications"]
+    self.initial_data["items"][0]["additionalClassifications"] = addit_classif
+    if get_now() > validation.CPV_336_INN_FROM:
+        response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.json['errors'], [
+            {u"location": u"body", u"name": u"items", u"description": [
+             u"Item with classification.id that starts with 336 and contains "
+             u"additionalClassification objects have to contain no more than "
+             u"one additionalClassifications with scheme=INN"]}])
+    else:
+        response = self.app.post_json(request_path, {'data': self.initial_data})
+        self.assertEqual(response.status, '201 Created')
+    self.initial_data["items"][0]["additionalClassifications"] = orig_addit_classif
+    self.initial_data["items"][0]["classification"]['id'] = data
+
+    addit_classif = [
+        {"scheme": "INN",
+         "id": "17.21.1",
+         "description": "папір і картон гофровані, паперова й картонна тара"}
+    ]
+    data = self.initial_data["items"][0]["classification"]['id']
+    self.initial_data["items"][0]['classification']['id'] = u"33611000-6"
+    orig_addit_classif = self.initial_data["items"][0]["additionalClassifications"]
+    self.initial_data["items"][0]["additionalClassifications"] = addit_classif
+    response = self.app.post_json(request_path, {'data': self.initial_data})
+    self.initial_data["items"][0]["additionalClassifications"] = orig_addit_classif
+    self.initial_data["items"][0]["classification"]['id'] = data
+    self.assertEqual(response.status, '201 Created')
+
+    addit_classif = [
+        {"scheme": "NotINN",
+         "id": "17.21.1",
+         "description": "папір і картон гофровані, паперова й картонна тара"},
+        {"scheme": "NotINN",
+         "id": "17.21.1",
+         "description": "папір і картон гофровані, паперова й картонна тара"}
+    ]
+    data = self.initial_data["items"][0]["classification"]['id']
+    self.initial_data["items"][0]['classification']['id'] = u'33652000-5'
+    orig_addit_classif = self.initial_data["items"][0]["additionalClassifications"]
+    self.initial_data["items"][0]["additionalClassifications"] = addit_classif
+    response = self.app.post_json(request_path, {'data': self.initial_data})
+    self.initial_data["items"][0]["additionalClassifications"] = orig_addit_classif
+    self.initial_data["items"][0]["classification"]['id'] = data
+    self.assertEqual(response.status, '201 Created')
+
+
+@mock.patch('openprocurement.api.validation.CPV_336_INN_FROM', get_now() + timedelta(days=1))
+def create_tender_with_inn_before(self):
+    create_tender_with_inn(self)
+    self.assertGreater(validation.CPV_336_INN_FROM, get_now())
 
 
 def create_tender_generated(self):

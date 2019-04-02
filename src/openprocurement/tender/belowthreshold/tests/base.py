@@ -2,7 +2,7 @@
 import os
 from datetime import datetime, timedelta
 
-from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.api.constants import SANDBOX_MODE, get_constant
 from openprocurement.api.utils import apply_data_patch
 from openprocurement.tender.core.tests.base import (
     BaseTenderWebTest as BaseTWT

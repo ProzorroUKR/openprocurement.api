@@ -11,7 +11,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     dateModified_tender,
     tender_not_found,
     tender_funders,
-)
+    create_tender_with_inn, create_tender_with_inn_before)
 
 from openprocurement.tender.limited.tests.base import (
     BaseTenderWebTest,
@@ -107,6 +107,8 @@ class TenderResourceTest(BaseTenderWebTest):
     test_tender_funders = snitch(tender_funders)
     test_tender_with_main_procurement_category = snitch(tender_with_main_procurement_category)
     test_tender_finance_milestones = snitch(tender_finance_milestones)
+    test_create_tender_with_inn = snitch(create_tender_with_inn)
+    test_create_tender_with_inn_before = snitch(create_tender_with_inn_before)
 
 
 class TenderNegotiationResourceTest(TenderResourceTest):

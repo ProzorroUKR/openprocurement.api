@@ -11,7 +11,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     guarantee,
     # TenderUAProcessTest
     invalid_tender_conditions,
-)
+    create_tender_with_inn, create_tender_with_inn_before)
 
 from openprocurement.tender.openua.tests.base import test_tender_data, BaseTenderUAWebTest
 from openprocurement.tender.openua.tests.tender_blanks import (
@@ -66,6 +66,8 @@ class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin, TenderU
     test_guarantee = snitch(guarantee)
     test_tender_with_main_procurement_category = snitch(tender_with_main_procurement_category)
     test_tender_finance_milestones = snitch(tender_finance_milestones)
+    test_create_tender_with_inn = snitch(create_tender_with_inn)
+    test_create_tender_with_inn_before = snitch(create_tender_with_inn_before)
 
 
 class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):

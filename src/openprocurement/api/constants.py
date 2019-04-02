@@ -45,12 +45,15 @@ INN_CODES = read_json('inn.json')
 
 ADDITIONAL_CLASSIFICATIONS_SCHEMES = [u'ДКПП', u'NONE', u'ДК003', u'ДК015', u'ДК018']
 ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017 = [u'ДК003', u'ДК015', u'ДК018', u'specialNorms']
+
+ADDITIONAL_CLASSIFICATIONS_INN_SCHEME = 'INN'
+
+CPV_PHARM_PRODUCTS = '33600000-6'
+
 COORDINATES_REG_EXP = re.compile(r'-?\d{1,3}\.\d+|-?\d{1,3}')
 
 CPV_ITEMS_CLASS_FROM = datetime(2017, 1, 1, tzinfo=TZ)
 CPV_BLOCK_FROM = datetime(2017, 6, 2, tzinfo=TZ)
-
-ATC_INN_CLASSIFICATIONS_FROM = datetime(2017, 12, 22, tzinfo=TZ)
 
 def get_default_constants_file_path():
     return os.path.join(os.path.dirname(os.path.realpath(__file__)), 'constants.ini')
@@ -79,3 +82,5 @@ BUDGET_PERIOD_FROM = get_constant(CONSTANTS_CONFIG, 'BUDGET_PERIOD_FROM')
 # Set non required additionalClassification for classification_id 999999-9
 NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM = get_constant(
     CONSTANTS_CONFIG, 'NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM')
+# Set INN additionalClassification validation required
+CPV_336_INN_FROM = get_constant(CONSTANTS_CONFIG, 'CPV_336_INN_FROM')

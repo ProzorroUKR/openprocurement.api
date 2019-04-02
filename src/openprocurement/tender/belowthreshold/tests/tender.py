@@ -2,7 +2,11 @@
 import os
 import unittest
 
+import mock
+from datetime import timedelta
+
 from openprocurement.api.tests.base import BaseWebTest, snitch
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_data, BaseTenderWebTest
 )
@@ -41,7 +45,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     coordinates_reg_exp,
     # TenderTest
     simple_add_tender,
-)
+    create_tender_with_inn, create_tender_with_inn_before)
 
 
 class TenderResourceTestMixin(object):
@@ -87,6 +91,8 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_patch_tender_jsonpatch = snitch(patch_tender_jsonpatch)
     test_patch_tender = snitch(patch_tender)
     test_required_field_deletion = snitch(required_field_deletion)
+    test_create_tender_with_inn = snitch(create_tender_with_inn)
+    test_create_tender_with_inn_before = snitch(create_tender_with_inn_before)
 
 
 class TenderProcessTest(BaseTenderWebTest):
