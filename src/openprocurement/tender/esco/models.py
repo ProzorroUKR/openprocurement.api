@@ -216,7 +216,7 @@ class ContractESCOValue(BaseESCOValue):
             'cancelled': (view_value_role_esco + whitelist('amountNet')),
         }
 
-    amountNet = DecimalType(min_value=Decimal('0'), required=True, precision=-2)
+    amountNet = DecimalType(min_value=Decimal('0'), precision=-2)
 
 
 class ESCOValue(BaseESCOValue):
