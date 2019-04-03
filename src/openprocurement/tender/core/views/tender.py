@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from functools import partial
 from openprocurement.tender.core.events import TenderInitializeEvent
 from openprocurement.tender.core.design import (
     FIELDS,
@@ -9,17 +8,14 @@ from openprocurement.tender.core.design import (
 )
 
 from openprocurement.api.utils import (
-    get_now, decrypt, encrypt, generate_id, json_view, set_ownership,
-    context_unpack, APIResourceListing
+    get_now, generate_id, json_view, set_ownership, context_unpack, APIResourceListing
 )
 
 from openprocurement.tender.core.utils import (
     save_tender, tender_serialize, optendersresource, generate_tender_id
 )
 
-from openprocurement.tender.core.validation import (
-    validate_patch_tender_data, validate_tender_data,
-)
+from openprocurement.tender.core.validation import validate_tender_data
 
 
 VIEW_MAP = {
@@ -215,11 +211,12 @@ class TendersResource(APIResourceListing):
         self.request.validated['tender'] = tender
         self.request.validated['tender_src'] = {}
         if save_tender(self.request):
-            self.LOGGER.info('Created tender {} ({})'.format(tender_id, tender.tenderID),
-                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_create'}, {'tender_id': tender_id, 'tenderID': tender.tenderID}))
+            self.LOGGER.info('Created tender {} ({})'.format(tender_id, tender.tenderID), extra=context_unpack(
+                self.request, {'MESSAGE_ID': 'tender_create'},
+                {'tender_id': tender_id, 'tenderID': tender.tenderID, 'tender_mode': tender.mode}))
             self.request.response.status = 201
-            self.request.response.headers[
-                'Location'] = self.request.route_url('{}:Tender'.format(tender.procurementMethodType), tender_id=tender_id)
+            self.request.response.headers['Location'] = self.request.route_url(
+                '{}:Tender'.format(tender.procurementMethodType), tender_id=tender_id)
             return {
                 'data': tender.serialize(tender.status),
                 'access': {

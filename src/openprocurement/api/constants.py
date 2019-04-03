@@ -82,5 +82,8 @@ BUDGET_PERIOD_FROM = get_constant(CONSTANTS_CONFIG, 'BUDGET_PERIOD_FROM')
 # Set non required additionalClassification for classification_id 999999-9
 NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM = get_constant(
     CONSTANTS_CONFIG, 'NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM')
+
 # Set INN additionalClassification validation required
 CPV_336_INN_FROM = get_constant(CONSTANTS_CONFIG, 'CPV_336_INN_FROM')
+
+JOURNAL_PREFIX = os.environ.get('JOURNAL_PREFIX', 'JOURNAL_')

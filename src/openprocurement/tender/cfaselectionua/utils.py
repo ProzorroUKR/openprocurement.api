@@ -5,6 +5,7 @@ from logging import getLogger
 from zope.component import queryUtility
 from openprocurement.api.constants import TZ
 from openprocurement.api.models import Value
+from openprocurement.tender.belowthreshold.utils import add_contract
 from openprocurement.tender.cfaselectionua.interfaces import ICFASelectionUAChange
 from openprocurement.tender.cfaselectionua.constants import (
     AGREEMENT_STATUS, AGREEMENT_ITEMS, AGREEMENT_EXPIRED,
@@ -58,13 +59,7 @@ def check_status(request):
     now = get_now()
     for award in tender.awards:
         if award.status == 'active' and not any([i.awardID == award.id for i in tender.contracts]):
-            tender.contracts.append(type(tender).contracts.model_class({
-                'awardID': award.id,
-                'suppliers': award.suppliers,
-                'value': award.value,
-                'date': now,
-                'items': [i for i in tender.items if i.relatedLot == award.lotID],
-                'contractID': '{}-{}{}'.format(tender.tenderID, request.registry.server_id, len(tender.contracts) + 1)}))
+            add_contract(request, award, now)
             add_next_award(request)
     
     after_enquiryPeriod_endDate = not tender.tenderPeriod.startDate and tender.enquiryPeriod.endDate.astimezone(TZ) <= now

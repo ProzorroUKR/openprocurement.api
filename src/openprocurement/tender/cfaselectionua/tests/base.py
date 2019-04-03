@@ -244,7 +244,11 @@ class BaseTenderWebTest(BaseTWT):
                         'title': 'contract title',
                         'description': 'contract description',
                         'awardID': award['id'],
-                        'value': award['value'],
+                        'value': {
+                            'amount': award['value']['amount'],
+                            'amountNet': award['value']['amount'],
+                            'currency': award['value']['currency'],
+                            'valueAddedTaxIncluded': award['value']['valueAddedTaxIncluded']},
                         'suppliers': award['suppliers'],
                         'status': 'pending',
                         'contractID': 'UA-2017-06-21-000001-1',

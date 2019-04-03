@@ -2,6 +2,7 @@
 from openprocurement.api.utils import update_logging_context, error_handler, raise_operation_error
 from openprocurement.api.validation import validate_json_data, validate_data, OPERATIONS
 from openprocurement.contracting.api.models import Contract, Change
+from openprocurement.tender.core.validation import validate_update_contract_value, validate_update_contract_value_amount
 
 
 def validate_contract_data(request):
@@ -80,3 +81,25 @@ def validate_add_document_to_active_change(request):
     if "relatedItem" in data and data.get('documentOf') == 'change':
         if not [1 for c in request.validated['contract'].changes if c.id == data['relatedItem'] and c.status == 'pending']:
             raise_operation_error(request, 'Can\'t add document to \'active\' change')
+
+
+# contract value and paid
+def validate_update_contract_paid_amount(request):
+    value = request.validated['data'].get('value')
+    paid = request.validated['data'].get('amountPaid')
+    if paid and paid.get('amount') != 0 and paid.get('amountNet') != 0:
+        validate_update_contract_value_amount(
+            request, name='amountPaid')
+    for attr in ('amount', 'amountNet'):
+        if paid and paid.get(attr) > value.get(attr):
+            raise_operation_error(request, "AmountPaid {} can`t be greater than "
+                                           "value {}".format(attr, attr), name='amountPaid')
+
+def validate_update_contract_value_readonly(request):
+    validate_update_contract_value(
+        request, name='value', ro_attrs=('valueAddedTaxIncluded', 'currency'))
+
+
+def validate_update_contract_paid_readonly(request):
+    validate_update_contract_value(
+        request, name='amountPaid', ro_attrs=('valueAddedTaxIncluded', 'currency'))

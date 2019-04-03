@@ -216,11 +216,21 @@ def patch_tender_bidder(self):
     self.assertEqual(response.json['errors'], [
         {u'description': [u'value of bid should be less than value of tender'], u'location': u'body', u'name': u'value'}
     ])
+
     response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(
         self.tender_id, bid['id'], bid_token), {"data": {'status': 'active', "value": {"amount": 500}}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     bid = response.json['data']
+
+    response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(
+        self.tender_id, bid['id'], bid_token), {"data": {'status': 'draft'}}, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': u'Can\'t update bid to (draft) status', u'location': u'body', u'name': u'bid'}
+    ])
 
     response = self.app.patch_json('/tenders/{}/bids/{}?acc_token={}'.format(
         self.tender_id, bid['id'], bid_token), {"data": {"value": {"amount": 400}}})
@@ -543,11 +553,8 @@ def bids_invalidation_on_tender_change(self):
 
     # update tender. we can set value that is less than a value in bids as
     # they will be invalidated by this request
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), {"data":
-                                                                                                              {
-                                                                                                                  "value": {
-                                                                                                                      'amount': 300.0}}
-                                                                                                          })
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+        self.tender_id, self.tender_token), {"data": {"value": {'amount': 300.0}}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']["value"]["amount"], 300)
 

@@ -3,11 +3,11 @@ from openprocurement.api.roles import RolesFromCsv
 from schematics.exceptions import ValidationError
 from schematics.types.compound import ModelType
 from schematics.types import StringType
+from openprocurement.tender.core.models import ContractValue
 from openprocurement.api.utils import get_now
 from openprocurement.api.models import (
     Model, ListType,
     Contract as BaseContract,
-    Value,
     Document
 )
 
@@ -16,7 +16,7 @@ class Contract(BaseContract):
     class Options:
         roles = RolesFromCsv('Contract.csv', relative_to=__file__)
 
-    value = ModelType(Value)
+    value = ModelType(ContractValue)
     awardID = StringType(required=True)
     documents = ListType(ModelType(Document), default=list())
 

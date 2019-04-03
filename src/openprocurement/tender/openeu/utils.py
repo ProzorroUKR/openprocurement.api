@@ -13,7 +13,8 @@ from openprocurement.tender.core.utils import (
     has_unanswered_complaints
 )
 from openprocurement.tender.belowthreshold.utils import (
-    check_tender_status
+    check_tender_status,
+    add_contract
 )
 from openprocurement.tender.openua.utils import (
     add_next_award,
@@ -21,8 +22,11 @@ from openprocurement.tender.openua.utils import (
 )
 from openprocurement.tender.openeu.models import Qualification
 from openprocurement.tender.openeu.traversal import (
-    qualifications_factory, bid_financial_documents_factory,
-    bid_eligibility_documents_factory, bid_qualification_documents_factory)
+    qualifications_factory,
+    bid_financial_documents_factory,
+    bid_eligibility_documents_factory,
+    bid_qualification_documents_factory
+)
 
 LOGGER = getLogger(__name__)
 
@@ -116,13 +120,7 @@ def check_status(request):
     configurator = request.content_configurator
     for award in tender.awards:
         if award.status == 'active' and not any([i.awardID == award.id for i in tender.contracts]):
-            tender.contracts.append(type(tender).contracts.model_class({
-                'awardID': award.id,
-                'suppliers': award.suppliers,
-                'value': award.value,
-                'date': now,
-                'items': [i for i in tender.items if i.relatedLot == award.lotID ],
-                'contractID': '{}-{}{}'.format(tender.tenderID, request.registry.server_id, len(tender.contracts) + 1) }))
+            add_contract(request, award, now)
             add_next_award(request, reverse=configurator.reverse_awarding_criteria, awarding_criteria_key=configurator.awarding_criteria_key)
 
     if tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and \

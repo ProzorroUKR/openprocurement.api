@@ -9,6 +9,7 @@ from openprocurement.tender.belowthreshold.tests.contract import (
     TenderContractResourceTestMixin,
     TenderContractDocumentResourceTestMixin
 )
+from openprocurement.tender.belowthreshold.tests.contract_blanks import patch_tender_contract_value
 
 from openprocurement.tender.openua.tests.contract_blanks import (
     # TenderContractResourceTest
@@ -50,6 +51,7 @@ class TenderContractResourceTest(BaseTenderContentWebTest, TenderContractResourc
     test_create_tender_contract = snitch(create_tender_contract)
     test_patch_tender_contract_datesigned = snitch(patch_tender_contract_datesigned)
     test_patch_tender_contract = snitch(patch_tender_contract)
+    test_patch_tender_contract_value = snitch(patch_tender_contract_value)
 
 
 class TenderContractDocumentResourceTest(BaseTenderContentWebTest, TenderContractDocumentResourceTestMixin):

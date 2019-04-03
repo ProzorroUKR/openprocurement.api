@@ -18,7 +18,7 @@ from openprocurement.tender.belowthreshold.tests.contract import (
 from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     # TenderStage2EU(UA)ContractResourceTest
     create_tender_contract,
-)
+    patch_tender_contract_value_vat_not_included, patch_tender_contract_value)
 from openprocurement.tender.openua.tests.contract_blanks import (
     # TenderStage2EU(UA)ContractResourceTest
     patch_tender_contract_datesigned,
@@ -105,7 +105,6 @@ class TenderStage2UAContractResourceTest(BaseCompetitiveDialogUAStage2ContentWeb
     def setUp(self):
         super(TenderStage2UAContractResourceTest, self).setUp()
         # Create award
-        authorization = self.app.authorization
         self.app.authorization = ('Basic', ('token', ''))
         response = self.app.post_json('/tenders/{}/awards'.format(self.tender_id),
                                       {'data': {'suppliers': [author], 'status': 'pending',
@@ -124,6 +123,36 @@ class TenderStage2UAContractResourceTest(BaseCompetitiveDialogUAStage2ContentWeb
     test_create_tender_contract = snitch(create_tender_contract)
     test_patch_tender_contract_datesigned = snitch(patch_tender_contract_datesigned)
     test_patch_tender_contract = snitch(patch_tender_contract)
+    test_patch_tender_contract_value = snitch(patch_tender_contract_value)
+
+
+class TenderContractVATNotIncludedResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
+    initial_status = 'active.qualification'
+    initial_bids = test_tender_bids
+
+    def create_award(self):
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('token', ''))
+        response = self.app.post_json('/tenders/{}/awards'.format(self.tender_id), {'data': {
+            'suppliers': [author],
+            'status': 'pending',
+            'bid_id': self.bids[0]['id'],
+            'value': {
+                'amount': self.initial_data["value"]["amount"],
+                'currency': self.initial_data["value"]["currency"],
+                'valueAddedTaxIncluded': False
+            }}})
+        self.app.authorization = auth
+        self.award_id = response.json['data']['id']
+        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
+            self.tender_id, self.award_id, self.tender_token),
+            {"data": {"status": "active", 'qualified': True, 'eligible': True}})
+
+    def setUp(self):
+        super(TenderContractVATNotIncludedResourceTest, self).setUp()
+        self.create_award()
+
+    test_patch_tender_contract_value_vat_not_included = snitch(patch_tender_contract_value_vat_not_included)
 
 
 class TenderStage2UAContractDocumentResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest, TenderContractDocumentResourceTestMixin):
@@ -159,6 +188,7 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderStage2EUContractDocumentResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2UAContractResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2UAContractDocumentResourceTest))
+    suite.addTest(unittest.makeSuite(TenderContractVATNotIncludedResourceTest))
     return suite
 
 

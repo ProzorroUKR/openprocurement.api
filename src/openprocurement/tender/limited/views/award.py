@@ -8,6 +8,7 @@ from openprocurement.api.utils import (
     error_handler,
     raise_operation_error
 )
+from openprocurement.tender.belowthreshold.utils import add_contract
 
 from openprocurement.tender.core.utils import (
     apply_patch, save_tender, optendersresource, calculate_business_date
@@ -297,13 +298,7 @@ class TenderAwardResource(APIResource):
         award_status = award.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if award_status == 'pending' and award.status == 'active':
-            tender.contracts.append(type(tender).contracts.model_class({
-                'awardID': award.id,
-                'suppliers': award.suppliers,
-                'date': get_now(),
-                'value': award.value,
-                'items': tender.items,
-                'contractID': '{}-{}{}'.format(tender.tenderID, self.server_id, len(tender.contracts) + 1)}))
+            add_contract(self.request, award)
             # add_next_award(self.request)
         elif award_status == 'active' and award.status == 'cancelled':
             for i in tender.contracts:
@@ -497,15 +492,10 @@ class TenderNegotiationAwardResource(TenderAwardResource):
             self.request.errors.status = 403
             raise error_handler(self.request.errors)
         if award_status == 'pending' and award.status == 'active':
-            normalized_end = calculate_normalized_date(get_now(), tender, True)
+            now = get_now()
+            normalized_end = calculate_normalized_date(now, tender, True)
             award.complaintPeriod.endDate = calculate_business_date(normalized_end, self.stand_still_delta, tender)
-            tender.contracts.append(type(tender).contracts.model_class({
-                'awardID': award.id,
-                'suppliers': award.suppliers,
-                'date': get_now(),
-                'value': award.value,
-                'items': [i for i in tender.items if i.relatedLot == award.lotID],
-                'contractID': '{}-{}{}'.format(tender.tenderID, self.server_id, len(tender.contracts) + 1)}))
+            add_contract(self.request, award, now)
             # add_next_award(self.request)
         elif award_status == 'active' and award.status == 'cancelled' and any([i.status == 'satisfied' for i in award.complaints]):
             now = get_now()

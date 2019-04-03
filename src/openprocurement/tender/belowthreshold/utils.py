@@ -60,6 +60,26 @@ def check_ignored_claim(tender):
                 complaint.status = 'ignored'
 
 
+def add_contract(request, award, now=None):
+    tender = request.validated['tender']
+    tender.contracts.append(type(tender).contracts.model_class({
+        'awardID': award.id,
+        'suppliers': award.suppliers,
+        'value': generate_contract_value(tender, award),
+        'date': now or get_now(),
+        'items': [i for i in tender.items if not hasattr(award, 'lotID') or i.relatedLot == award.lotID],
+        'contractID': '{}-{}{}'.format(tender.tenderID, request.registry.server_id, len(tender.contracts) + 1)
+    }))
+
+
+def generate_contract_value(tender, award):
+    if award.value:
+        value = type(tender).contracts.model_class.value.model_class(dict(award.value.items()))
+        value.amountNet = award.value.amount
+        return value
+    return None
+
+
 def check_status(request):
     tender = request.validated['tender']
     now = get_now()
@@ -67,13 +87,7 @@ def check_status(request):
         check_complaint_status(request, complaint, now)
     for award in tender.awards:
         if award.status == 'active' and not any([i.awardID == award.id for i in tender.contracts]):
-            tender.contracts.append(type(tender).contracts.model_class({
-                'awardID': award.id,
-                'suppliers': award.suppliers,
-                'value': award.value,
-                'date': now,
-                'items': [i for i in tender.items if i.relatedLot == award.lotID ],
-                'contractID': '{}-{}{}'.format(tender.tenderID, request.registry.server_id, len(tender.contracts) + 1) }))
+            add_contract(request, award, now)
             add_next_award(request)
         for complaint in award.complaints:
             check_complaint_status(request, complaint, now)

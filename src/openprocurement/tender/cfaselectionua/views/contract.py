@@ -14,7 +14,9 @@ from openprocurement.tender.core.validation import (
     validate_patch_contract_data,
     validate_update_contract_value,
     validate_update_contract_only_for_active_lots,
-    validate_contract_operation_not_in_allowed_status
+    validate_contract_operation_not_in_allowed_status,
+    validate_update_contract_value_with_award,
+    validate_update_contract_value_amount,
 )
 from openprocurement.tender.cfaselectionua.utils import (
     check_tender_status,
@@ -29,8 +31,7 @@ from openprocurement.tender.cfaselectionua.utils import (
 class TenderAwardContractResource(APIResource):
 
     @json_view(content_type="application/json", permission='create_contract', validators=(
-            validate_contract_data, validate_contract_operation_not_in_allowed_status
-    ))
+            validate_contract_data, validate_contract_operation_not_in_allowed_status))
     def collection_post(self):
         """Post a contract for award
         """
@@ -60,8 +61,8 @@ class TenderAwardContractResource(APIResource):
 
     @json_view(content_type="application/json", permission='edit_tender', validators=(
             validate_patch_contract_data, validate_contract_operation_not_in_allowed_status,
-            validate_update_contract_only_for_active_lots, validate_update_contract_value
-    ))
+            validate_update_contract_only_for_active_lots, validate_update_contract_value,
+            validate_update_contract_value_with_award, validate_update_contract_value_amount))
     def patch(self):
         """Update of contract
         """
@@ -74,5 +75,5 @@ class TenderAwardContractResource(APIResource):
         check_tender_status(self.request)
         if save_tender(self.request):
             self.LOGGER.info('Updated tender contract {}'.format(self.request.context.id),
-                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_contract_patch'}))
+                             extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_contract_patch'}))
             return {'data': self.request.context.serialize()}

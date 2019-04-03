@@ -39,18 +39,6 @@ def validate_bid_document_operation_with_not_pending_award(request):
     if request.validated['tender_status'] == 'active.qualification' and not [i for i in request.validated['tender'].awards if i.status == 'pending' and i.bid_id == request.validated['bid_id']]:
         raise_operation_error(request, 'Can\'t {} document because award of bid is not in pending state'.format(OPERATIONS.get(request.method)))
 
-# question
-def validate_add_question(request):
-    tender = request.validated['tender']
-    if tender.status != 'active.enquiries' or tender.enquiryPeriod.startDate and get_now() < tender.enquiryPeriod.startDate or get_now() > tender.enquiryPeriod.endDate:
-        raise_operation_error(request, 'Can add question only in enquiryPeriod')
-
-
-def validate_update_question(request):
-    tender = request.validated['tender']
-    if tender.status != 'active.enquiries':
-        raise_operation_error(request, 'Can\'t update question in current ({}) tender status'.format(tender.status))
-
 # lot
 def validate_lot_operation(request):
     tender = request.validated['tender']

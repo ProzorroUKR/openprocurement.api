@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
+from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 
@@ -7,7 +8,7 @@ from openprocurement.tender.cfaselectionua.tests.base import (
     TenderContentWebTest,
     test_bids,
     test_lots,
-    test_organization
+    test_organization,
 )
 from openprocurement.tender.cfaselectionua.tests.contract_blanks import (
     # TenderContractResourceTest
@@ -29,6 +30,8 @@ from openprocurement.tender.cfaselectionua.tests.contract_blanks import (
     lot2_put_tender_contract_document,
     lot2_patch_tender_contract_document
 )
+from openprocurement.tender.belowthreshold.tests.contract_blanks import patch_tender_contract_value_vat_not_included, \
+    patch_tender_contract_value
 
 
 class TenderContractResourceTestMixin(object):
@@ -52,6 +55,30 @@ class TenderContractResourceTest(TenderContentWebTest, TenderContractResourceTes
     test_create_tender_contract = snitch(create_tender_contract)
     test_create_tender_contract_in_complete_status = snitch(create_tender_contract_in_complete_status)
     test_patch_tender_contract = snitch(patch_tender_contract)
+    test_patch_tender_contract_value = snitch(patch_tender_contract_value)
+
+
+class TenderContractVATNotIncludedResourceTest(TenderContentWebTest, TenderContractResourceTestMixin):
+    initial_status = 'active.awarded'
+    initial_bids = test_bids
+    initial_lots = test_lots
+
+    def update_vat_fields(self, items):
+        for item in items:
+            item['value']['valueAddedTaxIncluded'] = False
+
+    def generate_bids(self, status, start_end='start'):
+        self.initial_bids = deepcopy(self.initial_bids)
+        self.update_vat_fields(self.initial_bids)
+        super(TenderContractVATNotIncludedResourceTest, self).generate_bids(status, start_end)
+
+    def calculate_agreement_contracts_value_amount(self, agreement, items):
+        super(
+            TenderContractVATNotIncludedResourceTest, self
+        ).calculate_agreement_contracts_value_amount(agreement, items)
+        self.update_vat_fields(agreement['contracts'])
+
+    test_patch_tender_contract_value_vat_not_included = snitch(patch_tender_contract_value_vat_not_included)
 
 
 @unittest.skip("Skip multi-lots tests")
@@ -126,6 +153,7 @@ def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderContractResourceTest))
     suite.addTest(unittest.makeSuite(TenderContractDocumentResourceTest))
+    suite.addTest(unittest.makeSuite(TenderContractVATNotIncludedResourceTest))
     return suite
 
 

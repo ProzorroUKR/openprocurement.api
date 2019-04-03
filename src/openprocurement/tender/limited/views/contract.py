@@ -8,7 +8,9 @@ from openprocurement.tender.core.utils import (
 from openprocurement.tender.core.validation import (
     validate_contract_data,
     validate_patch_contract_data,
-    validate_update_contract_value
+    validate_update_contract_value,
+    validate_update_contract_value_with_award,
+    validate_update_contract_value_amount,
 )
 from openprocurement.tender.belowthreshold.views.contract import (
     TenderAwardContractResource as BaseTenderAwardContractResource
@@ -72,7 +74,8 @@ def check_tender_negotiation_status(request):
                    description="Tender contracts")
 class TenderAwardContractResource(BaseTenderAwardContractResource):
 
-    @json_view(content_type="application/json", permission='create_contract', validators=(validate_contract_data, validate_contract_operation_not_in_active))
+    @json_view(content_type="application/json", permission='create_contract', validators=(
+            validate_contract_data, validate_contract_operation_not_in_active))
     def collection_post(self):
         """Post a contract for award
         """
@@ -87,8 +90,11 @@ class TenderAwardContractResource(BaseTenderAwardContractResource):
                                                                                tender_id=tender.id, contract_id=contract['id'])
             return {'data': contract.serialize()}
 
-    @json_view(content_type="application/json", permission='edit_tender', validators=(validate_patch_contract_data, validate_contract_operation_not_in_active, validate_contract_update_in_cancelled,
-               validate_update_contract_value, validate_contract_items_count_modification))
+    @json_view(content_type="application/json", permission='edit_tender', validators=(
+            validate_patch_contract_data, validate_contract_operation_not_in_active,
+            validate_contract_update_in_cancelled, validate_update_contract_value,
+            validate_update_contract_value_with_award, validate_update_contract_value_amount,
+            validate_contract_items_count_modification))
     def patch(self):
         """Update of contract
         """
@@ -114,8 +120,11 @@ class TenderAwardContractResource(BaseTenderAwardContractResource):
                    description="Tender contracts")
 class TenderNegotiationAwardContractResource(TenderAwardContractResource):
     """ Tender Negotiation Award Contract Resource """
-    @json_view(content_type="application/json", permission='edit_tender', validators=(validate_patch_contract_data, validate_contract_operation_not_in_active, validate_contract_update_in_cancelled,
-               validate_contract_with_cancellations_and_contract_signing, validate_update_contract_value, validate_contract_items_count_modification))
+    @json_view(content_type="application/json", permission='edit_tender', validators=(
+            validate_patch_contract_data, validate_contract_operation_not_in_active,
+            validate_contract_update_in_cancelled, validate_contract_with_cancellations_and_contract_signing,
+            validate_update_contract_value, validate_update_contract_value_with_award,
+            validate_update_contract_value_amount, validate_contract_items_count_modification))
     def patch(self):
         """Update of contract
         """

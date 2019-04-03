@@ -11,7 +11,7 @@ from openprocurement.tender.core.utils import (
 from openprocurement.tender.belowthreshold.utils import (
     check_tender_status,
     context_unpack,
-)
+    add_contract)
 from openprocurement.tender.openua.constants import (
     NORMALIZED_COMPLAINT_PERIOD_FROM
 )
@@ -53,13 +53,7 @@ def check_status(request):
     configurator = request.content_configurator
     for award in tender.awards:
         if award.status == 'active' and not any([i.awardID == award.id for i in tender.contracts]):
-            tender.contracts.append(type(tender).contracts.model_class({
-                'awardID': award.id,
-                'suppliers': award.suppliers,
-                'value': award.value,
-                'date': now,
-                'items': [i for i in tender.items if i.relatedLot == award.lotID ],
-                'contractID': '{}-{}{}'.format(tender.tenderID, request.registry.server_id, len(tender.contracts) + 1) }))
+            add_contract(request, award, now)
             add_next_award(request, reverse=configurator.reverse_awarding_criteria, awarding_criteria_key=configurator.awarding_criteria_key)
     if not tender.lots and tender.status == 'active.tendering' and tender.tenderPeriod.endDate <= now and \
         not has_unanswered_complaints(tender) and not has_unanswered_questions(tender):

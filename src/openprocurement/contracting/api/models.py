@@ -23,7 +23,7 @@ from openprocurement.api.validation import validate_items_uniq
 from openprocurement.api.models import (
     plain_role, schematics_default_role, schematics_embedded_role
 )
-from openprocurement.tender.core.models import Administrator_role
+from openprocurement.tender.core.models import Administrator_role, ContractValue
 
 contract_create_role = (whitelist(
     'id', 'awardID', 'contractID', 'contractNumber', 'title', 'title_en',
@@ -34,7 +34,7 @@ contract_create_role = (whitelist(
 
 contract_edit_role = (whitelist(
     'title', 'title_en', 'title_ru', 'description', 'description_en',
-    'description_ru', 'status', 'period', 'value' , 'items', 'amountPaid',
+    'description_ru', 'status', 'period', 'value', 'items', 'amountPaid',
     'terminationDetails', 'contract_amountPaid',
 ))
 
@@ -174,7 +174,8 @@ class Contract(SchematicsDocument, BaseContract):
     procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
     changes = ListType(ModelType(Change), default=list())
     documents = ListType(ModelType(Document), default=list())
-    amountPaid = ModelType(Value)
+    amountPaid = ModelType(ContractValue)
+    value = ModelType(ContractValue)
     terminationDetails = StringType()
 
     create_accreditation = 3  # TODO
@@ -234,7 +235,7 @@ class Contract(SchematicsDocument, BaseContract):
     @serializable(serialized_name='amountPaid', serialize_when_none=False, type=ModelType(Value))
     def contract_amountPaid(self):
         if self.amountPaid:
-            return Value(dict(amount=self.amountPaid.amount,
-                              currency=self.value.currency,
-                              valueAddedTaxIncluded=self.value.valueAddedTaxIncluded))
-
+            return ContractValue(dict(amount=self.amountPaid.amount,
+                                      amountNet=self.amountPaid.amountNet,
+                                      currency=self.value.currency,
+                                      valueAddedTaxIncluded=self.value.valueAddedTaxIncluded))

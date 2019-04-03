@@ -80,6 +80,14 @@ view_value_role_esco = whitelist('amount', 'amountPerformance', 'yearlyPaymentsP
                                  'annualCostsReduction', 'contractDuration',
                                  'currency', 'valueAddedTaxIncluded')
 
+edit_value_role_esco = whitelist('amount', 'amount_escp', 'amountPerformance', 'amountPerformance_npv',
+                                 'yearlyPaymentsPercentage', 'annualCostsReduction', 'contractDuration',
+                                 'currency', 'valueAddedTaxIncluded')
+
+create_value_role_esco = whitelist('amount', 'amount_escp', 'amountPerformance', 'amountPerformance_npv',
+                                   'yearlyPaymentsPercentage', 'annualCostsReduction', 'contractDuration',
+                                   'currency', 'valueAddedTaxIncluded')
+
 
 class IESCOTender(IAboveThresholdEUTender):
     """ Marker interface for ESCO tenders """
@@ -175,13 +183,8 @@ class BaseESCOValue(Value):
         roles = {
             'embedded': view_value_role_esco,
             'view': view_value_role_esco,
-            'create': whitelist('amount', 'amount_escp', 'amountPerformance',
-                                'amountPerformance_npv', 'yearlyPaymentsPercentage',
-                                'annualCostsReduction', 'contractDuration',
-                                'currency', 'valueAddedTaxIncluded'),
-            'edit': whitelist('amount', 'amount_escp', 'amountPerformance', 'amountPerformance_npv',
-                              'yearlyPaymentsPercentage', 'annualCostsReduction', 'contractDuration',
-                              'currency', 'valueAddedTaxIncluded'),
+            'create': create_value_role_esco,
+            'edit': edit_value_role_esco,
             'auction_view': whitelist('amountPerformance', 'yearlyPaymentsPercentage',
                                       'annualCostsReduction', 'contractDuration',
                                       'currency', 'valueAddedTaxIncluded'),
@@ -199,6 +202,21 @@ class BaseESCOValue(Value):
     yearlyPaymentsPercentage = DecimalType(required=True, precision=-5, min_value=Decimal('0'), max_value=Decimal('1'))  # The percentage of annual payments in favor of Bidder
     annualCostsReduction = ListType(DecimalType(), required=True)  # Buyer's annual costs reduction
     contractDuration = ModelType(ContractDuration, required=True)
+
+
+class ContractESCOValue(BaseESCOValue):
+    class Options:
+        roles = {
+            'view': (view_value_role_esco + whitelist('amountNet')),
+            'create': (create_value_role_esco + whitelist('amountNet')),
+            'edit': (edit_value_role_esco + whitelist('amountNet')),
+            'active.awarded': (view_value_role_esco + whitelist('amountNet')),
+            'complete': (view_value_role_esco + whitelist('amountNet')),
+            'unsuccessful': (view_value_role_esco + whitelist('amountNet')),
+            'cancelled': (view_value_role_esco + whitelist('amountNet')),
+        }
+
+    amountNet = DecimalType(min_value=Decimal('0'), precision=-2)
 
 
 class ESCOValue(BaseESCOValue):
@@ -282,10 +300,10 @@ class Contract(BaseEUContract):
     class Options:
         roles = {
             'edit': blacklist('id', 'documents', 'date', 'awardID', 'suppliers',
-                              'items', 'contractID', 'value'),
+                              'items', 'contractID'),
         }
 
-    value = ModelType(BaseESCOValue)
+    value = ModelType(ContractESCOValue)
     items = ListType(ModelType(Item))
 
 

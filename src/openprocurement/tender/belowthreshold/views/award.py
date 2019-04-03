@@ -21,7 +21,8 @@ from openprocurement.tender.core.validation import (
 from openprocurement.tender.belowthreshold.constants import STAND_STILL_TIME
 
 from openprocurement.tender.belowthreshold.utils import (
-    add_next_award
+    add_next_award,
+    add_contract
 )
 
 from openprocurement.tender.belowthreshold.validation import (
@@ -299,14 +300,9 @@ class TenderAwardResource(APIResource):
         award_status = award.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if award_status == 'pending' and award.status == 'active':
-            award.complaintPeriod.endDate = calculate_business_date(get_now(), STAND_STILL_TIME, tender, True)
-            tender.contracts.append(type(tender).contracts.model_class({
-                'awardID': award.id,
-                'suppliers': award.suppliers,
-                'value': award.value,
-                'date': get_now(),
-                'items': [i for i in tender.items if i.relatedLot == award.lotID ],
-                'contractID': '{}-{}{}'.format(tender.tenderID, self.server_id, len(tender.contracts) + 1) }))
+            now = get_now()
+            award.complaintPeriod.endDate = calculate_business_date(now, STAND_STILL_TIME, tender, True)
+            add_contract(self.request, award, now)
             add_next_award(self.request)
         elif award_status == 'active' and award.status == 'cancelled':
             now = get_now()
