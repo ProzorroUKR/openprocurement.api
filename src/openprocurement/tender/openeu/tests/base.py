@@ -15,7 +15,7 @@ from openprocurement.tender.openeu.constants import (
 
 test_bids = [
     {
-        "tenderers": [ {
+        "tenderers": [{
             "name": u"Державне управління справами",
             "name_en": u"State administration",
             "identifier": {
@@ -35,7 +35,8 @@ test_bids = [
                 "name": u"Державне управління справами",
                 "name_en": u"State administration",
                 "telephone": u"0440000000"
-            }
+            },
+            "scale": "micro"
         }],
         "value": {
             "amount": 469,
@@ -67,6 +68,7 @@ test_bids = [
                 "name_en": u"State administration",
                 "telephone": u"0440000000"
             },
+            "scale": "micro"
         }],
         "value": {
             "amount": 479,

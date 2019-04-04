@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
+from datetime import timedelta
+
+import mock
+
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_with_documents,
     create_tender_bid_with_document_invalid,
@@ -480,11 +485,9 @@ def delete_tender_bidder(self):
 
     # update tender. we can set value that is less than a value in bid as
     # they will be invalidated by this request
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), {"data":
-                                                                                                              {
-                                                                                                                  "value": {
-                                                                                                                      'amount': 300.0}}
-                                                                                                          })
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), {"data": {
+        "value": {'amount': 300.0}}
+    })
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']["value"]["amount"], 300)
 
@@ -963,8 +966,69 @@ def bids_activation_on_tender_documents(self):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['status'], 'pending')
 
-# TenderBidFeaturesResourceTest
 
+def create_tender_bid_no_scale_invalid(self):
+    request_path = '/tenders/{}/bids'.format(self.tender_id)
+    response = self.app.post_json(request_path, {'data': {
+        'selfEligible': True,
+        'selfQualified': True,
+        'tenderers': [{
+            key: value for key, value
+            in self.author_data.iteritems()
+            if key != 'scale'
+        }],
+        'value': {'amount': 500}}}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [{u'scale': [u'This field is required.']}],
+         u'location': u'body',
+         u'name': u'tenderers'}
+    ])
+
+
+@mock.patch('openprocurement.api.models.ORGANIZATION_SCALE_FROM', get_now() + timedelta(days=1))
+def create_tender_bid_with_scale_invalid(self):
+    request_path = '/tenders/{}/bids'.format(self.tender_id)
+    test_data = {'data': {
+        'selfEligible': True,
+        'selfQualified': True,
+        'tenderers': [self.author_data],
+        'value': {'amount': 500}
+    }}
+    expected_errors = [{
+        u"location": u"body",
+        u"name": u"tenderers",
+        u"description": [{u"scale": [u"Rogue field"]}]
+    }]
+    response = self.app.post_json(request_path, test_data, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], expected_errors)
+
+
+@mock.patch('openprocurement.api.models.ORGANIZATION_SCALE_FROM', get_now() + timedelta(days=1))
+def create_tender_bid_no_scale(self):
+    request_path = '/tenders/{}/bids'.format(self.tender_id)
+    test_data = {'data': {
+        'selfEligible': True,
+        'selfQualified': True,
+        'tenderers': [{
+            key: value for key, value
+            in self.author_data.iteritems()
+            if key != 'scale'
+        }],
+        'value': {'amount': 500}
+    }}
+    response = self.app.post_json(request_path, test_data)
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertNotIn('scale', response.json['data']['tenderers'][0])
+
+
+# TenderBidFeaturesResourceTest
 
 def features_bidder(self):
     test_features_bids = [

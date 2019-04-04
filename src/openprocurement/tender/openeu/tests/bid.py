@@ -49,7 +49,10 @@ from openprocurement.tender.openeu.tests.bid_blanks import (
     bid_Administrator_change,
     bids_invalidation_on_tender_change,
     bids_activation_on_tender_documents,
-
+    create_tender_bid_no_scale_invalid,
+    create_tender_bid_with_scale_invalid,
+    create_tender_bid_no_scale,
+    # TenderBidBatchDocumentsWithDSResourceTest
     create_tender_bid_with_all_documents,
     create_tender_bid_with_eligibility_document_invalid,
     create_tender_bid_with_financial_document_invalid,
@@ -77,6 +80,9 @@ class Tender2BidResourceTestMixin(object):
     test_deleted_bid_do_not_locks_tender_in_state = snitch(deleted_bid_do_not_locks_tender_in_state)
     test_get_tender_tenderers = snitch(get_tender_tenderers)
     test_bid_Administrator_change = snitch(bid_Administrator_change)
+    test_create_tender_bid_no_scale_invalid = snitch(create_tender_bid_no_scale_invalid)
+    test_create_tender_bid_with_scale_invalid = snitch(create_tender_bid_with_scale_invalid)
+    test_create_tender_bid_no_scale = snitch(create_tender_bid_no_scale)
 
 
 class TenderBidDocumentResourceTestMixin(object):
@@ -138,11 +144,6 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
     test_patch_tender_bidder_document_private_json = snitch(patch_tender_bidder_document_private_json)
     test_put_tender_bidder_document_private_json = snitch(put_tender_bidder_document_private_json)
     test_get_tender_bidder_document_ds = snitch(get_tender_bidder_document_ds)
-
-
-
-class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
-    docservice = True
 
 
 class TenderBidBatchDocumentsWithDSResourceTest(BaseTenderContentWebTest):
