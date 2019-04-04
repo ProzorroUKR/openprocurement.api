@@ -590,3 +590,8 @@ def couchdb_json_decode():
         return json.loads(string_, parse_float=decimal.Decimal)
 
     couchdb.json.use(decode=my_decode, encode=my_encode)
+
+
+def get_tender_date(tender, default=None):
+    revisions = tender.get('revisions')
+    return revisions[0].date if revisions else default

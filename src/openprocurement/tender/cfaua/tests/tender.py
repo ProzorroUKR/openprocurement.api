@@ -6,11 +6,11 @@ from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
-    #TenderProcessTest
+    # TenderProcessTest
     invalid_tender_conditions,
-    #TenderResourceTest
+    # TenderResourceTest
     guarantee,
-)
+    create_tender_with_inn, create_tender_with_inn_before)
 from openprocurement.tender.openua.tests.tender_blanks import (
     empty_listing, tender_fields,
     tender_with_main_procurement_category,
@@ -96,6 +96,8 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_patch_unitprice_with_features = snitch(patch_unitprice_with_features)
     test_tender_with_main_procurement_category = snitch(tender_with_main_procurement_category)
     test_tender_finance_milestones = snitch(tender_finance_milestones)
+    test_create_tender_with_inn = snitch(create_tender_with_inn)
+    test_create_tender_with_inn_before = snitch(create_tender_with_inn_before)
 
     def test_patch_not_author(self):
         response = self.app.post_json('/tenders', {'data': test_tender_w_lot_data})

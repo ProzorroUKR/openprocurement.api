@@ -2,7 +2,12 @@
 from schematics.exceptions import (
     ModelValidationError, ModelConversionError, ValidationError
 )
-from openprocurement.api.utils import apply_data_patch, update_logging_context, error_handler
+
+from openprocurement.api.constants import (
+    ADDITIONAL_CLASSIFICATIONS_INN_SCHEME, CPV_PHARM_PRODUCTS, CPV_336_INN_FROM
+)
+from openprocurement.api.utils import apply_data_patch, update_logging_context, error_handler, get_now, get_tender_date, \
+    get_root
 
 OPERATIONS = {"POST": "add", "PATCH": "update", "PUT": "update", "DELETE": "delete"}
 
@@ -112,12 +117,15 @@ def validate_cpv_group(items, *args):
 
 def validate_classification_id(items, *args):
     for item in items:
-        if item.classification.id.startswith('336'):
+        if get_tender_date(get_root(item['__parent__']), default=get_now()) > CPV_336_INN_FROM:
             schemes = [x.scheme for x in item.additionalClassifications]
-            if item.classification.id == '33600000-6':
-                if schemes.count('INN') != 1:
-                    raise ValidationError(u"Item with classification.id=33600000-6 have to contain exactly one \
-additionalClassifications with scheme=INN")
-            if schemes.count('INN') > 1:
-                raise ValidationError(u"Item wich classification.id starts with 336 and contains \
-additionalClassification objects have to contain no more than one additionalClassifications with scheme=INN")
+            schemes_inn_count = schemes.count(ADDITIONAL_CLASSIFICATIONS_INN_SCHEME)
+            if item.classification.id == CPV_PHARM_PRODUCTS and schemes_inn_count != 1:
+                raise ValidationError(
+                    u"Item with classification.id={} have to contain exactly one additionalClassifications "
+                    u"with scheme={}".format(CPV_PHARM_PRODUCTS, ADDITIONAL_CLASSIFICATIONS_INN_SCHEME))
+            if item.classification.id.startswith(CPV_PHARM_PRODUCTS[:3]) and schemes_inn_count > 1:
+                raise ValidationError(
+                    u"Item with classification.id that starts with {} and contains additionalClassification "
+                    u"objects have to contain no more than one additionalClassifications "
+                    u"with scheme={}".format(CPV_PHARM_PRODUCTS[:3], ADDITIONAL_CLASSIFICATIONS_INN_SCHEME))

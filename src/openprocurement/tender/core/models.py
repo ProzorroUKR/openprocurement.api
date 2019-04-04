@@ -35,7 +35,8 @@ from openprocurement.api.constants import (
 
 from openprocurement.tender.core.constants import (
     CANT_DELETE_PERIOD_START_DATE_FROM,
-    BID_LOTVALUES_VALIDATION_FROM, CPV_ITEMS_CLASS_FROM
+    BID_LOTVALUES_VALIDATION_FROM,
+    CPV_ITEMS_CLASS_FROM
 )
 
 from openprocurement.tender.core.utils import (
