@@ -31,10 +31,8 @@ from openprocurement.tender.cfaua.tests.bid_blanks import (
     create_tender_bid_with_financial_documents,
     create_tender_bid_with_eligibility_documents,
     create_tender_bid_with_qualification_documents,
-    delete_tender_bidder,
     deleted_bid_do_not_locks_tender_in_state,
     deleted_bid_is_not_restorable,
-    get_tender_bidder,
     get_tender_tenderers,
     get_tender_bidder_document,
     get_tender_bidder_document_ds,
@@ -52,23 +50,10 @@ from openprocurement.tender.cfaua.tests.bid_blanks import (
     bid_Administrator_change,
     change_bid_document_in_qualification_st_st,
     post_winningBid_document_in_awarded)
-from openprocurement.tender.openeu.tests.bid import (
-    # Tender2BidResourceTestMixin,
-    TenderBidResourceTestMixin
-)
 
 from openprocurement.tender.openeu.tests.bid_blanks import (
-    # TenderBidDocumentWithDSResourceTest
     patch_tender_bidder_document_private_json,
-    # TenderBidDocumentResourceTest
-    # TenderBidFeaturesResourceTest
-    # TenderBidResourceTest
-
     not_found,
-    # Tender2BidResourceTestMixin
-    # deleted_bid_do_not_locks_tender_in_state,
-    # get_tender_tenderers,
-    # bid_Administrator_change
 )
 
 

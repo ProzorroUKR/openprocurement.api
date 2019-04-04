@@ -28,7 +28,8 @@
           "region": "м. Київ",
           "streetAddress": "вул. Банкова, 11, корпус 1",
           "locality": "м. Київ"
-        }
+        },
+        "scale": "micro"
       }
     ]
   }

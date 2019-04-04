@@ -9,9 +9,9 @@ from openprocurement.api.models import (
     IsoDateTimeType,
     ListType,
     Model,
-    Organization,
+    BusinessOrganization,
     schematics_default_role,
-    schematics_embedded_role
+    schematics_embedded_role,
 )
 from openprocurement.tender.core.models import validate_parameters_uniq
 from openprocurement.tender.cfaua.models.submodels.unitprice import UnitPrice
@@ -29,7 +29,7 @@ class Contract(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     parameters = ListType(ModelType(Parameter), default=list(), validators=[validate_parameters_uniq])
     status = StringType(choices=['active', 'unsuccessful'], default='active')
-    suppliers = ListType(ModelType(Organization))
+    suppliers = ListType(ModelType(BusinessOrganization))
     unitPrices = ListType(ModelType(UnitPrice))
     awardID = StringType()
     bidID = StringType()
