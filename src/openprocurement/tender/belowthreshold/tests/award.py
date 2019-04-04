@@ -67,9 +67,9 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     create_tender_lots_award_document,
     put_tender_lots_award_document,
     patch_tender_lots_award_document,
-    # TenderAwardResourceBeforeOrganizationScaleTest
+    # TenderAwardResourceNoScaleTest
     create_tender_award_with_scale_invalid,
-    create_tender_award_with_no_scale
+    create_tender_award_no_scale
 )
 
 
@@ -120,7 +120,7 @@ class TenderAwardResourceTest(TenderContentWebTest, TenderAwardResourceTestMixin
     test_patch_tender_award_unsuccessful = snitch(patch_tender_award_unsuccessful)
 
 
-class TenderAwardResourceBeforeOrganizationScaleTest(TenderContentWebTest):
+class TenderAwardResourceNoScaleTest(TenderContentWebTest):
     initial_status = 'active.qualification'
 
     def setUp(self):
@@ -130,11 +130,11 @@ class TenderAwardResourceBeforeOrganizationScaleTest(TenderContentWebTest):
         test_bid = deepcopy(test_bids[0])
         test_bid['tenderers'][0].pop('scale')
         self.initial_bids = [test_bid]
-        super(TenderAwardResourceBeforeOrganizationScaleTest, self).setUp()
+        super(TenderAwardResourceNoScaleTest, self).setUp()
         self.app.authorization = ('Basic', ('token', ''))
 
     test_create_tender_award_with_scale_invalid = snitch(create_tender_award_with_scale_invalid)
-    test_create_tender_award_with_no_scale = snitch(create_tender_award_with_no_scale)
+    test_create_tender_award_with_no_scale = snitch(create_tender_award_no_scale)
 
 
 class TenderLotAwardCheckResourceTest(TenderContentWebTest, TenderLotAwardCheckResourceTestMixin):

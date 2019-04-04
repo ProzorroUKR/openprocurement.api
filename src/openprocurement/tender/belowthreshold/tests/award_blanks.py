@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
+from datetime import timedelta
 
+import mock
+
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_organization
 )
@@ -129,25 +133,6 @@ def create_tender_award_invalid(self):
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Can't create award in current (complete) tender status")
-
-
-def create_tender_award_no_scale_invalid(self):
-    self.app.authorization = ('Basic', ('token', ''))
-    request_path = '/tenders/{}/awards'.format(self.tender_id)
-    test_organization_no_scale = deepcopy(test_organization)
-    del test_organization_no_scale['scale']
-    response = self.app.post_json(request_path, {'data': {
-        'suppliers': [test_organization_no_scale],
-        'status': 'pending',
-        'bid_id': self.initial_bids[0]['id']
-    }}, status=422)
-    self.assertEqual(response.status, '422 Unprocessable Entity')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], [
-        {u'description': [{u'scale': [u'This field is required.']}],
-         u'location': u'body', u'name': u'suppliers'}
-    ])
 
 
 def create_tender_award(self):
@@ -410,8 +395,30 @@ def patch_tender_award_Administrator_change(self):
     self.assertEqual(response.json['data']['complaintPeriod']["endDate"], complaintPeriod)
 
 
-# TenderAwardResourceBeforeOrganizationScaleTest
+def create_tender_award_no_scale_invalid(self):
+    self.app.authorization = ('Basic', ('token', ''))
+    request_path = '/tenders/{}/awards'.format(self.tender_id)
+    response = self.app.post_json(request_path, {'data': {
+        'suppliers': [{
+            key: value for key, value
+            in test_organization.iteritems()
+            if key != 'scale'
+        }],
+        'status': 'pending',
+        'bid_id': self.initial_bids[0]['id']
+    }}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [{u'scale': [u'This field is required.']}],
+         u'location': u'body', u'name': u'suppliers'}
+    ])
 
+
+# TenderAwardResourceNoScaleTest
+
+@mock.patch('openprocurement.api.models.ORGANIZATION_SCALE_FROM', get_now() + timedelta(days=1))
 def create_tender_award_with_scale_invalid(self):
     request_path = '/tenders/{}/awards'.format(self.tender_id)
     test_data = {'data': {
@@ -431,10 +438,15 @@ def create_tender_award_with_scale_invalid(self):
     self.assertEqual(response.json['errors'], expected_errors)
 
 
-def create_tender_award_with_no_scale(self):
+@mock.patch('openprocurement.api.models.ORGANIZATION_SCALE_FROM', get_now() + timedelta(days=1))
+def create_tender_award_no_scale(self):
     request_path = '/tenders/{}/awards'.format(self.tender_id)
     test_data = {'data': {
-        'suppliers': [{k: v for k, v in test_organization.iteritems() if k != 'scale'}],
+        'suppliers': [{
+            key: value for key, value
+            in test_organization.iteritems()
+            if key != 'scale'
+        }],
         'status': 'pending',
         'bid_id': self.initial_bids[0]['id']
     }}

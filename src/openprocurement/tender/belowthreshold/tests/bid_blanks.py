@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
+
+import mock
+from datetime import timedelta
+
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_organization
 )
@@ -124,24 +129,7 @@ def create_tender_bid_invalid(self):
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], [
-        {u'description': u"invalid literal for int() with base 10: 'contactPoint'", u'location': u'body', u'name': u'data'},
-    ])
-
-
-def create_tender_bid_no_scale_invalid(self):
-    request_path = '/tenders/{}/bids'.format(self.tender_id)
-    response = self.app.post_json(request_path, {'data': {
-        'tenderers': [{k: v for k, v in test_organization.iteritems() if k != 'scale'}],
-        'value': {'amount': 500}}}, status=422)
-    self.assertEqual(response.status, '422 Unprocessable Entity')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], [
-        {u'description': [{u'scale': [u'This field is required.']}],
-         u'location': u'body',
-         u'name': u'tenderers'}
-    ])
+    self.assertIn(u"invalid literal for int() with base 10", response.json['errors'][0]['description'])
 
 
 def create_tender_bid(self):
@@ -378,8 +366,28 @@ def bid_Administrator_change(self):
     self.assertEqual(response.json['data']["tenderers"][0]["identifier"]["id"], "00000000")
 
 
+def create_tender_bid_no_scale_invalid(self):
+    request_path = '/tenders/{}/bids'.format(self.tender_id)
+    response = self.app.post_json(request_path, {'data': {
+        'tenderers': [{
+            key: value for key, value
+            in test_organization.iteritems()
+            if key != 'scale'
+        }],
+        'value': {'amount': 500}}}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [{u'scale': [u'This field is required.']}],
+         u'location': u'body',
+         u'name': u'tenderers'}
+    ])
+
+
 # TenderBidResourceBeforeOrganizationScaleTest
 
+@mock.patch('openprocurement.api.models.ORGANIZATION_SCALE_FROM', get_now() + timedelta(days=1))
 def create_tender_bid_with_scale_invalid(self):
     request_path = '/tenders/{}/bids'.format(self.tender_id)
     test_data = {'data': {
@@ -398,10 +406,15 @@ def create_tender_bid_with_scale_invalid(self):
     self.assertEqual(response.json['errors'], expected_errors)
 
 
-def create_tender_bid_with_no_scale(self):
+@mock.patch('openprocurement.api.models.ORGANIZATION_SCALE_FROM', get_now() + timedelta(days=1))
+def create_tender_bid_no_scale(self):
     request_path = '/tenders/{}/bids'.format(self.tender_id)
     test_data = {'data': {
-        'tenderers': [{k: v for k, v in test_organization.iteritems() if k != 'scale'}],
+        'tenderers': [{
+            key: value for key, value
+            in test_organization.iteritems()
+            if key != 'scale'
+        }],
         'value': {'amount': 500}
     }}
     response = self.app.post_json(request_path, test_data)
