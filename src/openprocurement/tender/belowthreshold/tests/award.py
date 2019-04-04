@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 import unittest
+import mock
+
 from copy import deepcopy
+from datetime import timedelta
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.adapters import TenderBelowThersholdConfigurator
 from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,
@@ -13,6 +17,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.belowthreshold.tests.award_blanks import (
     # TenderAwardResourceTest
     create_tender_award_invalid,
+    create_tender_award_no_scale_invalid,
     create_tender_award,
     patch_tender_award,
     patch_tender_award_unsuccessful,
@@ -62,11 +67,15 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     create_tender_lots_award_document,
     put_tender_lots_award_document,
     patch_tender_lots_award_document,
+    # TenderAwardResourceBeforeOrganizationScaleTest
+    create_tender_award_with_scale_invalid,
+    create_tender_award_with_no_scale
 )
 
 
 class TenderAwardResourceTestMixin(object):
     test_create_tender_award_invalid = snitch(create_tender_award_invalid)
+    test_create_tender_award_no_scale_invalid = snitch(create_tender_award_no_scale_invalid)
     test_get_tender_award = snitch(get_tender_award)
     test_patch_tender_award_Administrator_change = snitch(patch_tender_award_Administrator_change)
 
@@ -109,6 +118,23 @@ class TenderAwardResourceTest(TenderContentWebTest, TenderAwardResourceTestMixin
     test_create_tender_award = snitch(create_tender_award)
     test_patch_tender_award = snitch(patch_tender_award)
     test_patch_tender_award_unsuccessful = snitch(patch_tender_award_unsuccessful)
+
+
+class TenderAwardResourceBeforeOrganizationScaleTest(TenderContentWebTest):
+    initial_status = 'active.qualification'
+
+    def setUp(self):
+        patcher = mock.patch('openprocurement.api.models.ORGANIZATION_SCALE_FROM', get_now() + timedelta(days=1))
+        patcher.start()
+        self.addCleanup(patcher.stop)
+        test_bid = deepcopy(test_bids[0])
+        test_bid['tenderers'][0].pop('scale')
+        self.initial_bids = [test_bid]
+        super(TenderAwardResourceBeforeOrganizationScaleTest, self).setUp()
+        self.app.authorization = ('Basic', ('token', ''))
+
+    test_create_tender_award_with_scale_invalid = snitch(create_tender_award_with_scale_invalid)
+    test_create_tender_award_with_no_scale = snitch(create_tender_award_with_no_scale)
 
 
 class TenderLotAwardCheckResourceTest(TenderContentWebTest, TenderLotAwardCheckResourceTestMixin):

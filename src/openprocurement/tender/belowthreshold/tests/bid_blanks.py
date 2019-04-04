@@ -129,6 +129,21 @@ def create_tender_bid_invalid(self):
     ])
 
 
+def create_tender_bid_no_scale_invalid(self):
+    request_path = '/tenders/{}/bids'.format(self.tender_id)
+    response = self.app.post_json(request_path, {'data': {
+        'tenderers': [{k: v for k, v in test_organization.iteritems() if k != 'scale'}],
+        'value': {'amount': 500}}}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [
+        {u'description': [{u'scale': [u'This field is required.']}],
+         u'location': u'body',
+         u'name': u'tenderers'}
+    ])
+
+
 def create_tender_bid(self):
     dateModified = self.db.get(self.tender_id).get('dateModified')
 
@@ -363,8 +378,39 @@ def bid_Administrator_change(self):
     self.assertEqual(response.json['data']["tenderers"][0]["identifier"]["id"], "00000000")
 
 
-# TenderBidFeaturesResourceTest
+# TenderBidResourceBeforeOrganizationScaleTest
 
+def create_tender_bid_with_scale_invalid(self):
+    request_path = '/tenders/{}/bids'.format(self.tender_id)
+    test_data = {'data': {
+        'tenderers': [test_organization],
+        'value': {'amount': 500}
+    }}
+    expected_errors = [{
+        u"location": u"body",
+        u"name": u"tenderers",
+        u"description": [{u"scale": [u"Rogue field"]}]
+    }]
+    response = self.app.post_json(request_path, test_data, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], expected_errors)
+
+
+def create_tender_bid_with_no_scale(self):
+    request_path = '/tenders/{}/bids'.format(self.tender_id)
+    test_data = {'data': {
+        'tenderers': [{k: v for k, v in test_organization.iteritems() if k != 'scale'}],
+        'value': {'amount': 500}
+    }}
+    response = self.app.post_json(request_path, test_data)
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertNotIn('scale', response.json['data']['tenderers'][0])
+
+
+# TenderBidFeaturesResourceTest
 
 def features_bid(self):
     test_features_bids = [

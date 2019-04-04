@@ -27,10 +27,13 @@ test_organization = {
     "contactPoint": {
         "name": u"Державне управління справами",
         "telephone": u"0440000000"
-    }
+    },
+    "scale": "micro",
 }
 test_procuringEntity = test_organization.copy()
 test_procuringEntity["kind"] = "general"
+del test_procuringEntity["scale"]
+
 test_tender_data = {
     "title": u"футляри до державних нагород",
     "procuringEntity": test_procuringEntity,
