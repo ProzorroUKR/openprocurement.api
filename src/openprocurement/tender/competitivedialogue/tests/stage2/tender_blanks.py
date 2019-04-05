@@ -1125,6 +1125,7 @@ def tender_funders(self):
     tender_data['funders'] = [deepcopy(test_organization)]
     tender_data['funders'][0]['identifier']['id'] = '44000'
     tender_data['funders'][0]['identifier']['scheme'] = 'XM-DAC'
+    del tender_data['funders'][0]['scale']
     response = self.app.post_json('/tenders', {'data': tender_data})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
@@ -1137,6 +1138,7 @@ def tender_funders(self):
     tender_data['funders'].append(deepcopy(test_organization))
     tender_data['funders'][1]['identifier']['id'] = '44000'
     tender_data['funders'][1]['identifier']['scheme'] = 'XM-DAC'
+    del tender_data['funders'][1]['scale']
     response = self.app.post_json('/tenders', {'data': tender_data}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')

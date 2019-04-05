@@ -9,31 +9,32 @@ from openprocurement.api.tests.base import now
 
 def create_tender_bidder_firm(self):
     request_path = '/tenders/{}/bids'.format(self.tender_id)
-    response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
-                                                          'tenderers': [{
-                                                              "name": u"Державне управління справами",
-                                                              "name_en": u"State administration",
-                                                              "identifier": {
-                                                                  "legalName_en": u"dus.gov.ua",
-                                                                  "scheme": u"UA-EDR",
-                                                                  "id": u"00037256",
-                                                                  "uri": u"http://www.dus.gov.ua/"
-                                                              },
-                                                              "address": {
-                                                                  "countryName": u"Україна",
-                                                                  "postalCode": u"01220",
-                                                                  "region": u"м. Київ",
-                                                                  "locality": u"м. Київ",
-                                                                  "streetAddress": u"вул. Банкова, 11, корпус 1"
-                                                              },
-                                                              "contactPoint": {
-                                                                  "name": u"Державне управління справами",
-                                                                  "name_en": u"State administration",
-                                                                  "telephone": u"0440000000"
-                                                              }
-                                                          }],
-                                                          "value": {"amount": 500}}},
-                                  status=403)
+    response = self.app.post_json(request_path, {'data': {
+        'selfEligible': True, 'selfQualified': True,
+        'tenderers': [{
+            "name": u"Державне управління справами",
+            "name_en": u"State administration",
+            "identifier": {
+                "legalName_en": u"dus.gov.ua",
+                "scheme": u"UA-EDR",
+                "id": u"00037256",
+                "uri": u"http://www.dus.gov.ua/"
+            },
+            "address": {
+                "countryName": u"Україна",
+                "postalCode": u"01220",
+                "region": u"м. Київ",
+                "locality": u"м. Київ",
+                "streetAddress": u"вул. Банкова, 11, корпус 1"
+            },
+            "contactPoint": {
+                "name": u"Державне управління справами",
+                "name_en": u"State administration",
+                "telephone": u"0440000000"
+            },
+            "scale": "micro"
+        }],
+        "value": {"amount": 500}}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
@@ -707,37 +708,34 @@ def create_tender_biddder_invalid_ua(self):
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], [
-        {u'description': u"invalid literal for int() with base 10: 'contactPoint'", u'location': u'body',
-         u'name': u'data'},
-    ])
+    self.assertIn(u"invalid literal for int() with base 10", response.json['errors'][0]['description'])
 
-    response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
-                                                          'tenderers': [{
-                                                              "name": u"Державне управління справами",
-                                                              "name_en": u"State administration",
-                                                              "identifier": {
-                                                                  "legalName_en": u"dus.gov.ua",
-                                                                  "scheme": u"UA-EDR",
-                                                                  "id": u"00037256",
-                                                                  "uri": u"http://www.dus.gov.ua/"
-                                                              },
-                                                              "address": {
-                                                                  "countryName": u"Україна",
-                                                                  "postalCode": u"01220",
-                                                                  "region": u"м. Київ",
-                                                                  "locality": u"м. Київ",
-                                                                  "streetAddress": u"вул. Банкова, 11, корпус 1"
-                                                              },
-                                                              "contactPoint": {
-                                                                  "name": u"Державне управління справами",
-                                                                  "name_en": u"State administration",
-                                                                  "telephone": u"0440000000"
-                                                              }
-                                                          }],
-                                                          "value": {"amount": 500}}},
-                                  status=403)
-
+    response = self.app.post_json(request_path, {'data': {
+        'selfEligible': True, 'selfQualified': True,
+        'tenderers': [{
+            "name": u"Державне управління справами",
+            "name_en": u"State administration",
+            "identifier": {
+                "legalName_en": u"dus.gov.ua",
+                "scheme": u"UA-EDR",
+                "id": u"00037256",
+                "uri": u"http://www.dus.gov.ua/"
+            },
+            "address": {
+                "countryName": u"Україна",
+                "postalCode": u"01220",
+                "region": u"м. Київ",
+                "locality": u"м. Київ",
+                "streetAddress": u"вул. Банкова, 11, корпус 1"
+            },
+            "contactPoint": {
+                "name": u"Державне управління справами",
+                "name_en": u"State administration",
+                "telephone": u"0440000000"
+            },
+            "scale": "micro"
+        }],
+        "value": {"amount": 500}}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
