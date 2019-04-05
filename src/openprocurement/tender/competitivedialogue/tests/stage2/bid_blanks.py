@@ -3,6 +3,7 @@ from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.tests.base import now
+from openprocurement.tender.belowthreshold.tests.base import test_organization
 
 # TenderStage2EUBidResourceTest
 
@@ -11,29 +12,7 @@ def create_tender_bidder_firm(self):
     request_path = '/tenders/{}/bids'.format(self.tender_id)
     response = self.app.post_json(request_path, {'data': {
         'selfEligible': True, 'selfQualified': True,
-        'tenderers': [{
-            "name": u"Державне управління справами",
-            "name_en": u"State administration",
-            "identifier": {
-                "legalName_en": u"dus.gov.ua",
-                "scheme": u"UA-EDR",
-                "id": u"00037256",
-                "uri": u"http://www.dus.gov.ua/"
-            },
-            "address": {
-                "countryName": u"Україна",
-                "postalCode": u"01220",
-                "region": u"м. Київ",
-                "locality": u"м. Київ",
-                "streetAddress": u"вул. Банкова, 11, корпус 1"
-            },
-            "contactPoint": {
-                "name": u"Державне управління справами",
-                "name_en": u"State administration",
-                "telephone": u"0440000000"
-            },
-            "scale": "micro"
-        }],
+        'tenderers': [test_organization],
         "value": {"amount": 500}}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
@@ -712,29 +691,7 @@ def create_tender_biddder_invalid_ua(self):
 
     response = self.app.post_json(request_path, {'data': {
         'selfEligible': True, 'selfQualified': True,
-        'tenderers': [{
-            "name": u"Державне управління справами",
-            "name_en": u"State administration",
-            "identifier": {
-                "legalName_en": u"dus.gov.ua",
-                "scheme": u"UA-EDR",
-                "id": u"00037256",
-                "uri": u"http://www.dus.gov.ua/"
-            },
-            "address": {
-                "countryName": u"Україна",
-                "postalCode": u"01220",
-                "region": u"м. Київ",
-                "locality": u"м. Київ",
-                "streetAddress": u"вул. Банкова, 11, корпус 1"
-            },
-            "contactPoint": {
-                "name": u"Державне управління справами",
-                "name_en": u"State administration",
-                "telephone": u"0440000000"
-            },
-            "scale": "micro"
-        }],
+        'tenderers': [test_organization],
         "value": {"amount": 500}}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
