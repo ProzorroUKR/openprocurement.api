@@ -282,34 +282,33 @@ class TestGetHistoricalData(BaseTenderWebTest):
         self.assertEqual(tendering_historical, tendering)
 
         test_data1 = {
-                  "data": {
-                    "value": {
-                      "amount": 499
+            "data": {
+                "value": {
+                    "amount": 499
+                },
+                "tenderers": [{
+                    "contactPoint": {
+                        "telephone": "+380 (322) 91-69-30",
+                        "name": u"Андрій Олексюк",
+                        "email": "aagt@gmail.com"
                     },
-                    "tenderers": [
-                      {
-                        "contactPoint": {
-                          "telephone": "+380 (322) 91-69-30",
-                          "name": u"Андрій Олексюк",
-                          "email": "aagt@gmail.com"
-                        },
-                        "identifier": {
-                          "scheme": "UA-EDR",
-                          "id": "00137226",
-                          "uri": "http://www.sc.gov.ua/"
-                        },
-                        "name": u"ДКП «Книга»",
-                        "address": {
-                          "countryName": u"Україна",
-                          "postalCode": u"79013",
-                          "region": u"м. Львів",
-                          "streetAddress": u"вул. Островського, 34",
-                          "locality": u"м. Львів"
-                        }
-                      }
-                    ]
-                  }
-                }
+                    "identifier": {
+                        "scheme": "UA-EDR",
+                        "id": "00137226",
+                        "uri": "http://www.sc.gov.ua/"
+                    },
+                    "name": u"ДКП «Книга»",
+                    "address": {
+                        "countryName": u"Україна",
+                        "postalCode": u"79013",
+                        "region": u"м. Львів",
+                        "streetAddress": u"вул. Островського, 34",
+                        "locality": u"м. Львів"
+                    },
+                    "scale": "micro"
+                }]
+            }
+        }
 
         response = self.app.post_json('/tenders/{}/bids'.format(
             tender['id']), test_data1)
