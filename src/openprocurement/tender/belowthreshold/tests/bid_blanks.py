@@ -383,9 +383,6 @@ def create_tender_bid_no_scale_invalid(self):
         u'name': u'tenderers'
     }])
 
-
-# TenderBidResourceBeforeOrganizationScaleTest
-
 @mock.patch('openprocurement.api.models.ORGANIZATION_SCALE_FROM', get_now() + timedelta(days=1))
 def create_tender_bid_with_scale_invalid(self):
     request_path = '/tenders/{}/bids'.format(self.tender_id)
