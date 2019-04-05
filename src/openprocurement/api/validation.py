@@ -6,7 +6,7 @@ from schematics.exceptions import (
 from openprocurement.api.constants import (
     ADDITIONAL_CLASSIFICATIONS_INN_SCHEME, CPV_PHARM_PRODUCTS, CPV_336_INN_FROM
 )
-from openprocurement.api.utils import apply_data_patch, update_logging_context, error_handler, get_now, get_tender_date, \
+from openprocurement.api.utils import apply_data_patch, update_logging_context, error_handler, get_now, get_document_date, \
     get_root
 
 OPERATIONS = {"POST": "add", "PATCH": "update", "PUT": "update", "DELETE": "delete"}
@@ -117,7 +117,7 @@ def validate_cpv_group(items, *args):
 
 def validate_classification_id(items, *args):
     for item in items:
-        if get_tender_date(get_root(item['__parent__']), default=get_now()) > CPV_336_INN_FROM:
+        if get_document_date(get_root(item['__parent__']), default=get_now()) > CPV_336_INN_FROM:
             schemes = [x.scheme for x in item.additionalClassifications]
             schemes_inn_count = schemes.count(ADDITIONAL_CLASSIFICATIONS_INN_SCHEME)
             if item.classification.id == CPV_PHARM_PRODUCTS and schemes_inn_count != 1:
