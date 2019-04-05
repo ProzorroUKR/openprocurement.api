@@ -13,9 +13,6 @@ from schematics.types.serializable import serializable
 class PeriodEndRequired(BasePeriodEndRequired):
     #TODO different validator compared with belowthreshold
     def validate_startDate(self, data, value):
-        # tender = get_tender(data['__parent__'])
-        # if (tender.revisions[0].date if tender.revisions else get_now()) < PERIOD_END_REQUIRED_FROM:
-        #     return
         if value and data.get('endDate') and data.get('endDate') < value:
             raise ValidationError(u"period should begin before its end")
 

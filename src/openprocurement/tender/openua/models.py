@@ -8,7 +8,7 @@ from schematics.transforms import whitelist, blacklist
 from schematics.types import StringType, BooleanType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import get_now, get_document_date
 from openprocurement.api.models import (
     plain_role, listing_role,
     schematics_default_role, schematics_embedded_role, draft_role,
@@ -92,7 +92,8 @@ class PeriodEndRequired(BasePeriodEndRequired):
     #TODO different validator compared with belowthreshold
     def validate_startDate(self, data, value):
         tender = get_tender(data['__parent__'])
-        if (tender.revisions[0].date if tender.revisions else get_now()) < PERIOD_END_REQUIRED_FROM:
+        tender_date = get_document_date(tender, default=get_now())
+        if tender_date < PERIOD_END_REQUIRED_FROM:
             return
         if value and data.get('endDate') and data.get('endDate') < value:
             raise ValidationError(u"period should begin before its end")

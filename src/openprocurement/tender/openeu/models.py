@@ -10,7 +10,7 @@ from schematics.transforms import blacklist, whitelist, export_loop
 from schematics.exceptions import ValidationError
 from urlparse import urlparse, parse_qs
 from string import hexdigits
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import get_now, get_document_date
 from openprocurement.api.constants import TZ
 from openprocurement.api.models import (
     listing_role, Address, Period, Model,
@@ -99,7 +99,9 @@ class BidModelType(ModelType):
             model_class = self.model_class
 
         tender = model_instance.__parent__
-        if (tender.revisions[0].date if tender.revisions else get_now()) > BID_UNSUCCESSFUL_FROM and role not in [None, 'plain'] and getattr(model_instance, 'status') == 'unsuccessful':
+        tender_date = get_document_date(tender, default=get_now())
+        status = getattr(model_instance, 'status')
+        if tender_date > BID_UNSUCCESSFUL_FROM and role not in [None, 'plain'] and status == 'unsuccessful':
             role = 'bid.unsuccessful'
 
         shaped = export_loop(model_class, model_instance,
