@@ -30,6 +30,11 @@ from openprocurement.tender.openua.tests.award_blanks import (
     # TenderLotAwardComplaintResourceTest
     create_tender_lot_award_complaint,
     patch_tender_lot_award_complaint,
+    # TenderAwardResourceTest
+    create_tender_award_no_scale_invalid,
+    # TenderAwardResourceNoScaleTest
+    create_tender_award_with_scale_invalid,
+    create_tender_award_no_scale,
 )
 
 from openprocurement.tender.openeu.tests.award_blanks import (
@@ -54,7 +59,7 @@ from openprocurement.tender.openeu.tests.award_blanks import (
     patch_tender_award_active,
     patch_tender_award_unsuccessful,
     patch_tender_award_Administrator_change,
-    create_tender_award_no_scale_invalid, create_tender_award_with_scale_invalid, create_tender_award_no_scale)
+)
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
     test_bids,
@@ -63,7 +68,6 @@ from openprocurement.tender.openeu.tests.base import (
 
 
 class TenderAwardResourceTestMixin(object):
-
     test_create_tender_award_invalid = snitch(create_tender_award_invalid)
     test_create_tender_award = snitch(create_tender_award)
     test_patch_tender_award = snitch(patch_tender_award)

@@ -49,9 +49,6 @@ from openprocurement.tender.openeu.tests.bid_blanks import (
     bid_Administrator_change,
     bids_invalidation_on_tender_change,
     bids_activation_on_tender_documents,
-    create_tender_bid_no_scale_invalid,
-    create_tender_bid_with_scale_invalid,
-    create_tender_bid_no_scale,
     # TenderBidBatchDocumentsWithDSResourceTest
     create_tender_bid_with_all_documents,
     create_tender_bid_with_eligibility_document_invalid,
@@ -66,6 +63,11 @@ from openprocurement.tender.openeu.tests.bid_blanks import (
 
 )
 
+from openprocurement.tender.openua.tests.bid_blanks import (
+    create_tender_bid_no_scale_invalid,
+    create_tender_bid_with_scale_invalid,
+    create_tender_bid_no_scale
+)
 
 class TenderBidResourceTestMixin(object):
     test_create_tender_bidder = snitch(create_tender_bidder)

@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
 import unittest
+from copy import deepcopy
+
+from datetime import timedelta
+
+import mock
 
 from openprocurement.api.tests.base import (
     snitch
 )
+from openprocurement.api.utils import get_now
 
 from openprocurement.tender.belowthreshold.tests.base import (
     test_lots,
@@ -35,6 +41,10 @@ from openprocurement.tender.openua.tests.award_blanks import (
     patch_tender_award,
     patch_tender_award_active,
     patch_tender_award_unsuccessful,
+    create_tender_award_no_scale_invalid,
+    # TenderAwardResourceNoScaleTest
+    create_tender_award_with_scale_invalid,
+    create_tender_award_no_scale,
     # TenderLotAwardResourceTest
     create_tender_lot_award,
     patch_tender_lot_award,
@@ -72,6 +82,7 @@ class TenderUaAwardComplaintResourceTestMixin(object):
     test_review_tender_award_complaint = snitch(review_tender_award_complaint)
     test_review_tender_award_claim = snitch(review_tender_award_claim)
     test_review_tender_award_stopping_complaint = snitch(review_tender_award_stopping_complaint)
+    test_create_tender_award_no_scale_invalid = snitch(create_tender_award_no_scale_invalid)
 
 
 class TenderAwardResourceTest(BaseTenderUAContentWebTest, TenderAwardResourceTestMixin):
@@ -82,6 +93,23 @@ class TenderAwardResourceTest(BaseTenderUAContentWebTest, TenderAwardResourceTes
     test_patch_tender_award = snitch(patch_tender_award)
     test_patch_tender_award_active = snitch(patch_tender_award_active)
     test_patch_tender_award_unsuccessful = snitch(patch_tender_award_unsuccessful)
+
+
+class TenderAwardResourceNoScaleTest(BaseTenderUAContentWebTest):
+    initial_status = 'active.qualification'
+
+    def setUp(self):
+        patcher = mock.patch('openprocurement.api.models.ORGANIZATION_SCALE_FROM', get_now() + timedelta(days=1))
+        patcher.start()
+        self.addCleanup(patcher.stop)
+        test_bid = deepcopy(test_bids[0])
+        test_bid['tenderers'][0].pop('scale')
+        self.initial_bids = [test_bid]
+        super(TenderAwardResourceNoScaleTest, self).setUp()
+        self.app.authorization = ('Basic', ('token', ''))
+
+    test_create_tender_award_with_scale_invalid = snitch(create_tender_award_with_scale_invalid)
+    test_create_tender_award_with_no_scale = snitch(create_tender_award_no_scale)
 
 
 class TenderLotAwardResourceTest(BaseTenderUAContentWebTest):
