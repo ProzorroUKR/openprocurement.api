@@ -642,18 +642,7 @@ def cancel_lot_with_complaint(self):
     response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(self.tender_id, award['id']),
                                   {"data": {"status": "pending", "title": "Недостатньо інформації",
                                             "description": "Опис",
-                                            "author": {"contactPoint": {"telephone": "+380 (432) 21-69-30",
-                                                                        "name": "Сергій Олексюк",
-                                                                        "email": "soleksuk@gmail.com"},
-                                                       "identifier": {"scheme": "UA-EDR",
-                                                                      "legalName": "Державне комунальне підприємство",
-                                                                      "id": "13313462",
-                                                                      "uri": "http://sch10.edu.vn.ua/"},
-                                                       "name": "ДКП «Школяр»",
-                                                       "address": {"countryName": "Україна", "postalCode": "21100",
-                                                                   "region": "м. Вінниця",
-                                                                   "streetAddress": "вул. Островського, 33",
-                                                                   "locality": "м. Вінниця"}}}})
+                                            "author": test_organization}})
     self.assertEqual(response.status, '201 Created')
 
     # Try to cancel lot
