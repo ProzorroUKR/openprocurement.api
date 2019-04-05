@@ -39,8 +39,6 @@ with open(os.path.join(here, 'data/bids.json')) as _in:
 with open(os.path.join(here, 'data/procuringEntity.json')) as _in:
     test_procuringEntity = json.load(_in)
 
-del test_procuringEntity["scale"]
-
 test_items[0]['id'] = test_agreement['items'][0]['id']
 test_items[0]['deliveryDate'] = {"startDate": (now + timedelta(days=2)).isoformat(),
                                  "endDate": (now + timedelta(days=5)).isoformat()}
