@@ -6,7 +6,7 @@ from esculator import npv, escp
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
 
-from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
 from openprocurement.tender.belowthreshold.tests.contract import (
     TenderContractResourceTestMixin,
     TenderContractDocumentResourceTestMixin
@@ -56,6 +56,7 @@ contract_amount = round(to_decimal(escp(
 class TenderContractResourceTest(BaseESCOContentWebTest, TenderContractResourceTestMixin):
     initial_status = 'active.qualification'
     initial_bids = test_bids
+    author_data = test_author
     initial_auth = ('Basic', ('broker', ''))
     expected_contract_amountPerformance = contract_amountPerformance
     expected_contract_amount = contract_amount

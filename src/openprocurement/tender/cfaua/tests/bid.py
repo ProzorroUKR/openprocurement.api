@@ -6,7 +6,7 @@ from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import (
     test_organization,
-)
+    test_author)
 from openprocurement.tender.cfaua.tests.base import (
     BaseTenderContentWebTest,
     test_features_tender_data,
@@ -80,7 +80,7 @@ class TenderBidResourceTest(BaseTenderLotsContentWebTest):
     initial_auth = ('Basic', ('broker', ''))
     initial_lots = test_lots
     test_bids_data = deepcopy(test_bids)
-    author_data = test_bids[0]['tenderers'][0]
+    author_data = test_author
 
     # test_delete_tender_bidder = snitch(delete_tender_bidder)    # TODO REWRITE THIS TEST
     test_create_tender_bidder = snitch(create_tender_bidder)

@@ -10,7 +10,7 @@ from openprocurement.tender.belowthreshold.tests.lot import (
     TenderLotProcessTestMixin
 )
 
-from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_author
 
 from openprocurement.tender.openua.tests.lot_blanks import (
     # TenderLotResourceTest
@@ -72,7 +72,7 @@ class TenderLotEdgeCasesTest(BaseTenderContentWebTest, TenderLotEdgeCasesTestMix
     initial_auth = ('Basic', ('broker', ''))
     initial_lots = test_lots * 2
     initial_bids = test_bids
-    test_author = test_organization
+    test_author = test_author
 
 
 class TenderLotFeatureResourceTest(BaseTenderContentWebTest, TenderLotFeatureResourceTestMixin):

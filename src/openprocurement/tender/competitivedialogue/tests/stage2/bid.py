@@ -63,9 +63,12 @@ from openprocurement.tender.competitivedialogue.tests.stage2.bid_blanks import (
     put_tender_bidder_document_ua,
 )
 
-author = deepcopy(test_bids[0]["tenderers"][0])
-author['identifier']['id'] = test_shortlistedFirms[0]['identifier']['id']
-author['identifier']['scheme'] = test_shortlistedFirms[0]['identifier']['scheme']
+test_organization_stage2 = deepcopy(test_bids[0]["tenderers"][0])
+test_organization_stage2['identifier']['id'] = test_shortlistedFirms[0]['identifier']['id']
+test_organization_stage2['identifier']['scheme'] = test_shortlistedFirms[0]['identifier']['scheme']
+
+test_bids_stage2 = deepcopy(test_bids)
+test_bids_stage2[0]["tenderers"][0] = test_organization_stage2
 
 
 class TenderStage2EUBidResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest,
@@ -75,8 +78,7 @@ class TenderStage2EUBidResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest,
     initial_status = 'active.tendering'
     initial_auth = ('Basic', ('broker', ''))
     initial_data = test_tender_stage2_data_eu
-    author_data = author
-    test_bids_data = test_bids
+    test_bids_data = test_bids_stage2
 
     test_create_tender_bidder_firm = snitch(create_tender_bidder_firm)
     test_delete_tender_bidder = snitch(delete_tender_bidder_eu)
@@ -88,8 +90,7 @@ class TenderStage2EUBidFeaturesResourceTest(BaseCompetitiveDialogEUStage2Content
     initial_status = 'active.tendering'
     initial_auth = ('Basic', ('broker', ''))
     initial_data = test_tender_stage2_data_eu
-    author_data = author
-    test_bids_data = test_bids
+    test_bids_data = test_bids_stage2
 
     def setUp(self):
         BaseWebTest.setUp(self)
@@ -102,16 +103,15 @@ class TenderStage2EUBidFeaturesResourceTest(BaseCompetitiveDialogEUStage2Content
 class TenderStage2EUBidDocumentResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest, TenderBidDocumentResourceTestMixin):
     initial_auth = ('Basic', ('broker', ''))
     initial_status = 'active.tendering'
-    author_data = author
-    test_bids_data = test_bids
+    test_bids_data = test_bids_stage2
 
     def setUp(self):
         super(TenderStage2EUBidDocumentResourceTest, self).setUp()
         # Create bid
         test_bid_1 = deepcopy(test_bids[0])
-        test_bid_1['tenderers'] = [author]
+        test_bid_1['tenderers'] = [test_organization_stage2]
         test_bid_2 = deepcopy(test_bids[1])
-        test_bid_2['tenderers'] = [author]
+        test_bid_2['tenderers'] = [test_organization_stage2]
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': test_bid_1})
         bid = response.json['data']
         self.bid_id = bid['id']
@@ -128,8 +128,7 @@ class TenderStage2EUBidDocumentResourceTest(BaseCompetitiveDialogEUStage2Content
 class TenderStage2UABidResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
     initial_status = 'active.tendering'
     initial_data = test_tender_stage2_data_ua
-    author_data = author
-    test_bids_data = test_bids
+    test_bids_data = test_bids_stage2
 
     test_create_tender_biddder_invalid = snitch(create_tender_biddder_invalid_ua)
     test_create_tender_bidder = snitch(create_tender_bidder_ua)
@@ -150,8 +149,7 @@ class TenderStage2UABidFeaturesResourceTest(BaseCompetitiveDialogUAStage2Content
 
     initial_status = 'active.tendering'
     initial_data = test_tender_stage2_data_ua
-    author_data = author
-    test_bids_data = test_bids
+    test_bids_data = test_bids_stage2
 
     def setUp(self):
         BaseWebTest.setUp(self)
@@ -163,14 +161,14 @@ class TenderStage2UABidFeaturesResourceTest(BaseCompetitiveDialogUAStage2Content
 
 class TenderStage2UABidDocumentResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest, TenderUABidDocumentResourceTestMixin):
     initial_status = 'active.tendering'
-    author_data = author
+    test_bids_data = test_bids_stage2
 
     def setUp(self):
         super(TenderStage2UABidDocumentResourceTest, self).setUp()
         # Create bid
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
-                                       'tenderers': [author], "value": {"amount": 500}}})
+                                       'tenderers': [test_organization_stage2], "value": {"amount": 500}}})
         bid = response.json['data']
         self.bid_id = bid['id']
         self.bid_token = response.json['access']['token']

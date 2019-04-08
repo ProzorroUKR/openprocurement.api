@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_organization
+    test_organization,
+    test_author
 )
 
 
@@ -9,7 +10,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 
 def create_tender_question_invalid(self):
     response = self.app.post_json('/tenders/some_id/questions', {
-                                  'data': {'title': 'question title', 'description': 'question description', 'author': test_organization}}, status=404)
+                                  'data': {'title': 'question title', 'description': 'question description', 'author': test_author}}, status=404)
     self.assertEqual(response.status, '404 Not Found')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
@@ -106,7 +107,7 @@ def create_tender_question_invalid(self):
     response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id), {'data': {
         'title': 'question title',
         'description': 'question description',
-        'author': test_organization,
+        'author': test_author,
         "questionOf": "lot"
     }}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
@@ -119,7 +120,7 @@ def create_tender_question_invalid(self):
     response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id), {'data': {
         'title': 'question title',
         'description': 'question description',
-        'author': test_organization,
+        'author': test_author,
         "questionOf": "lot",
         "relatedItem": '0' * 32
     }}, status=422)
@@ -133,7 +134,7 @@ def create_tender_question_invalid(self):
     response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id), {'data': {
         'title': 'question title',
         'description': 'question description',
-        'author': test_organization,
+        'author': test_author,
         "questionOf": "item",
         "relatedItem": '0' * 32
     }}, status=422)
@@ -147,7 +148,7 @@ def create_tender_question_invalid(self):
 
 def create_tender_question(self):
     response = self.app.post_json('/tenders/{}/questions'.format(
-        self.tender_id), {'data': {'title': 'question title', 'description': 'question description', 'author': test_organization}})
+        self.tender_id), {'data': {'title': 'question title', 'description': 'question description', 'author': test_author}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     question = response.json['data']
@@ -158,7 +159,7 @@ def create_tender_question(self):
     self.set_status('active.tendering')
 
     response = self.app.post_json('/tenders/{}/questions'.format(
-        self.tender_id), {'data': {'title': 'question title', 'description': 'question description', 'author': test_organization}}, status=403)
+        self.tender_id), {'data': {'title': 'question title', 'description': 'question description', 'author': test_author}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Can add question only in enquiryPeriod")
@@ -166,7 +167,7 @@ def create_tender_question(self):
 
 def patch_tender_question(self):
     response = self.app.post_json('/tenders/{}/questions'.format(
-        self.tender_id), {'data': {'title': 'question title', 'description': 'question description', 'author': test_organization}})
+        self.tender_id), {'data': {'title': 'question title', 'description': 'question description', 'author': test_author}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     question = response.json['data']
@@ -211,7 +212,7 @@ def patch_tender_question(self):
 
 def get_tender_question(self):
     response = self.app.post_json('/tenders/{}/questions'.format(
-        self.tender_id), {'data': {'title': 'question title', 'description': 'question description', 'author': test_organization}})
+        self.tender_id), {'data': {'title': 'question title', 'description': 'question description', 'author': test_author}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     question = response.json['data']
@@ -249,7 +250,7 @@ def get_tender_question(self):
 
 def get_tender_questions(self):
     response = self.app.post_json('/tenders/{}/questions'.format(
-        self.tender_id), {'data': {'title': 'question title', 'description': 'question description', 'author': test_organization}})
+        self.tender_id), {'data': {'title': 'question title', 'description': 'question description', 'author': test_author}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     question = response.json['data']

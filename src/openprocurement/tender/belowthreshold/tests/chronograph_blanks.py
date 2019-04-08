@@ -3,7 +3,7 @@ from datetime import timedelta
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_organization
+    test_organization, test_author
 )
 
 
@@ -219,7 +219,7 @@ def switch_to_ignored_on_complete(self):
     response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), {'data': {
         'title': 'complaint title',
         'description': 'complaint description',
-        'author': test_organization,
+        'author': test_author,
         'status': 'claim'
     }})
     self.assertEqual(response.status, '201 Created')
@@ -239,7 +239,7 @@ def switch_from_pending_to_ignored(self):
     response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), {'data': {
         'title': 'complaint title',
         'description': 'complaint description',
-        'author': test_organization,
+        'author': test_author,
         'status': 'claim'
     }})
     self.assertEqual(response.status, '201 Created')
@@ -260,7 +260,7 @@ def switch_from_pending(self):
         response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), {'data': {
             'title': 'complaint title',
             'description': 'complaint description',
-            'author': test_organization,
+            'author': test_author,
             'status': 'claim'
         }})
         self.assertEqual(response.status, '201 Created')
@@ -286,7 +286,7 @@ def switch_to_complaint(self):
         response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), {'data': {
             'title': 'complaint title',
             'description': 'complaint description',
-            'author': test_organization,
+            'author': test_author,
             'status': 'claim'
         }})
         self.assertEqual(response.status, '201 Created')
@@ -319,7 +319,7 @@ def award_switch_to_ignored_on_complete(self):
     response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, self.award_id, token), {'data': {
         'title': 'complaint title',
         'description': 'complaint description',
-        'author': test_organization,
+        'author': test_author,
         'status': 'claim'
     }})
     self.assertEqual(response.status, '201 Created')
@@ -355,7 +355,7 @@ def award_switch_from_pending_to_ignored(self):
     response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, self.award_id, token), {'data': {
         'title': 'complaint title',
         'description': 'complaint description',
-        'author': test_organization,
+        'author': test_author,
         'status': 'claim'
     }})
     self.assertEqual(response.status, '201 Created')
@@ -377,7 +377,7 @@ def award_switch_from_pending(self):
         response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, self.award_id, token), {'data': {
             'title': 'complaint title',
             'description': 'complaint description',
-            'author': test_organization,
+            'author': test_author,
             'status': 'claim'
             }})
         self.assertEqual(response.status, '201 Created')
@@ -409,7 +409,7 @@ def award_switch_to_complaint(self):
         response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, self.award_id, token), {'data': {
             'title': 'complaint title',
             'description': 'complaint description',
-            'author': test_organization,
+            'author': test_author,
             'status': 'claim'
         }})
         self.assertEqual(response.status, '201 Created')

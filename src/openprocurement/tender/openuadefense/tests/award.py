@@ -9,7 +9,7 @@ import mock
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
 
-from openprocurement.tender.belowthreshold.tests.base import test_lots, test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_lots, test_organization, test_author
 from openprocurement.tender.belowthreshold.tests.award import TenderAwardDocumentResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.award_blanks import (
     # TenderAwardResourceTest
@@ -206,7 +206,7 @@ class TenderAwardComplaintDocumentResourceTest(BaseTenderUAContentWebTest):
         # Create complaint for award
         bid_token = self.initial_bids_tokens[self.initial_bids[0]['id']]
         response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(
-            self.tender_id, self.award_id, bid_token), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}})
+            self.tender_id, self.award_id, bid_token), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_author}})
         complaint = response.json['data']
         self.complaint_id = complaint['id']
         self.complaint_owner_token = response.json['access']['token']
@@ -237,7 +237,7 @@ class Tender2LotAwardComplaintDocumentResourceTest(BaseTenderUAContentWebTest):
         self.app.authorization = auth
         # Create complaint for award
         response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(
-            self.tender_id, self.award_id, bid_token), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}})
+            self.tender_id, self.award_id, bid_token), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_author}})
         complaint = response.json['data']
         self.complaint_id = complaint['id']
         self.complaint_owner_token = response.json['access']['token']

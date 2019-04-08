@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 from openprocurement.api.tests.base import snitch
+from openprocurement.tender.belowthreshold.tests.base import test_author
 from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     create_tender_lot_cancellation,
     patch_tender_lot_cancellation,
@@ -39,7 +40,8 @@ from openprocurement.tender.cfaua.tests.cancellation_blanks import (
 from openprocurement.tender.cfaua.tests.base import (
     BaseTenderContentWebTest,
     test_lots,
-    test_bids)
+    test_bids
+)
 
 no_award_logic = True
 one_lot_restriction = True
@@ -85,7 +87,7 @@ class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest):
 class CancellationTenderAndLotOnAllStage(BaseTenderContentWebTest):
     initial_auth = ('Basic', ('broker', ''))
     initial_bids = test_bids
-    test_author = test_bids[0]["tenderers"][0]
+    test_author = test_author
     # Cancellation tender
     test_cancellation_tender_active_tendering = snitch(cancellation_tender_active_tendering)
     test_cancellation_tender_active_pre_qualification = snitch(cancellation_tender_active_pre_qualification)

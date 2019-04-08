@@ -5,7 +5,7 @@ from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import (
     test_organization,
-)
+    test_author)
 
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     # TenderBidBatchDocumentWithDSResourceTest
@@ -101,7 +101,7 @@ class TenderBidResourceTest(BaseTenderContentWebTest, TenderBidResourceTestMixin
     initial_status = 'active.tendering'
     initial_auth = ('Basic', ('broker', ''))
     test_bids_data = test_bids  # TODO: change attribute identifier
-    author_data = test_bids_data[0]['tenderers'][0]
+    author_data = test_author
 
     test_delete_tender_bidder = snitch(delete_tender_bidder)
     test_bids_invalidation_on_tender_change = snitch(bids_invalidation_on_tender_change)
@@ -153,12 +153,13 @@ class TenderBidBatchDocumentsWithDSResourceTest(BaseTenderContentWebTest):
     initial_status = 'active.tendering'
 
 
-    bid_data_wo_docs = {'tenderers': [test_organization],
-                        'value': {'amount': 500},
-                        'selfEligible': True,
-                        'selfQualified': True,
-                        'documents': []
-        }
+    bid_data_wo_docs = {
+        'tenderers': [test_organization],
+        'value': {'amount': 500},
+        'selfEligible': True,
+        'selfQualified': True,
+        'documents': []
+    }
 
     test_create_tender_bid_with_document_invalid = snitch(create_tender_bid_with_document_invalid)
     test_create_tender_bid_with_document = snitch(create_tender_bid_with_document)

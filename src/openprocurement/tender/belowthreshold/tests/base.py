@@ -30,9 +30,12 @@ test_organization = {
     },
     "scale": "micro",
 }
-test_procuringEntity = test_organization.copy()
+
+test_author = test_organization.copy()
+del test_author["scale"]
+
+test_procuringEntity = test_author.copy()
 test_procuringEntity["kind"] = "general"
-del test_procuringEntity["scale"]
 
 test_tender_data = {
     "title": u"футляри до державних нагород",

@@ -4,6 +4,7 @@ import unittest
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import (
+    test_author,
     test_organization
 )
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
@@ -38,7 +39,7 @@ from openprocurement.tender.openuadefense.tests.base import (
 class TenderBidResourceTest(BaseTenderUAContentWebTest, TenderBidResourceTestMixin):
     initial_status = 'active.tendering'
     test_bids_data = test_bids  # TODO: change attribute identifier
-    author_data = test_organization
+    author_data = test_author
 
 
 class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
@@ -51,13 +52,20 @@ class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
 
 class TenderBidDocumentResourceTest(BaseTenderUAContentWebTest, TenderBidDocumentResourceTestMixin):
     initial_status = 'active.tendering'
-    author_data = test_organization
+    test_bids_data = test_bids
+    author_data = test_author
 
     def setUp(self):
         super(TenderBidDocumentResourceTest, self).setUp()
         # Create bid
-        response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': [test_organization], "value": {"amount": 500}, 'selfEligible': True, 'selfQualified': True}})
+        response = self.app.post_json(
+            '/tenders/{}/bids'.format(self.tender_id),
+            {'data': {
+                'tenderers': [test_organization],
+                "value": {"amount": 500},
+                'selfEligible': True,
+                'selfQualified': True
+            }})
         bid = response.json['data']
         self.bid_id = bid['id']
         self.bid_token = response.json['access']['token']
@@ -67,6 +75,7 @@ class TenderBidDocumentResourceTest(BaseTenderUAContentWebTest, TenderBidDocumen
 
 class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
     docservice = True
+    test_bids_data = test_bids
 
     test_create_tender_bidder_document_json = snitch(create_tender_bidder_document_json)
     test_put_tender_bidder_document_json = snitch(put_tender_bidder_document_json)
@@ -75,13 +84,14 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
 class TenderBidderBatchDocumentsWithDSResourceTest(BaseTenderUAContentWebTest):
     docservice = True
     initial_status = 'active.tendering'
-
-    bid_data_wo_docs = {'tenderers': [test_organization],
-                        'value': {'amount': 500},
-                        'selfEligible': True,
-                        'selfQualified': True,
-                        'documents': []
-        }
+    test_bids_data = test_bids
+    bid_data_wo_docs = {
+        'tenderers': [test_organization],
+        'value': {'amount': 500},
+        'selfEligible': True,
+        'selfQualified': True,
+        'documents': []
+    }
 
     create_tender_bid_with_document_invalid = snitch(create_tender_bid_with_document_invalid)
     create_tender_bid_with_document = snitch(create_tender_bid_with_document)

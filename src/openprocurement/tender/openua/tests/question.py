@@ -4,7 +4,8 @@ import unittest
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_lots, test_organization
+    test_lots,
+    test_author
 )
 
 from openprocurement.tender.belowthreshold.tests.question import TenderQuestionResourceTestMixin
@@ -30,23 +31,24 @@ from openprocurement.tender.openua.tests.question_blanks import (
 
 
 class TenderQuestionResourceTest(BaseTenderUAContentWebTest, TenderQuestionResourceTestMixin):
-
     test_create_tender_question = snitch(create_tender_question)
     test_patch_tender_question = snitch(patch_tender_question)
 
 
 class TenderLotQuestionResourceTest(BaseTenderUAContentWebTest):
     initial_lots = 2 * test_lots
-    author_data = test_organization
+    author_data = test_author
 
     def create_question_for(self, questionOf, relatedItem):
-        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id), {'data': {
-            'title': 'question title',
-            'description': 'question description',
-            "questionOf": questionOf,
-            "relatedItem": relatedItem,
-            'author': test_organization
-        }})
+        response = self.app.post_json(
+            '/tenders/{}/questions'.format(self.tender_id),
+            {'data': {
+                'title': 'question title',
+                'description': 'question description',
+                "questionOf": questionOf,
+                "relatedItem": relatedItem,
+                'author': test_author
+            }})
         self.assertEqual(response.status, '201 Created')
         return response.json['data']['id']
 

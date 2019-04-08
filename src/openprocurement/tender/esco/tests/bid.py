@@ -9,7 +9,7 @@ from openprocurement.tender.esco.tests.base import (
 )
 from openprocurement.tender.belowthreshold.tests.base import (
     test_organization,
-)
+    test_author)
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     # TenderBidBatchDocumentWithDSResourceTest
@@ -78,7 +78,7 @@ bid_amount = round(to_decimal(escp(
 class TenderBidResourceTest(BaseESCOContentWebTest):
     initial_status = 'active.tendering'
     test_bids_data = test_bids
-    author_data = test_bids_data[0]['tenderers'][0]
+    author_data = test_author
     expected_bid_amountPerformance = bid_amountPerformance
     expected_bid_amount = bid_amount
 

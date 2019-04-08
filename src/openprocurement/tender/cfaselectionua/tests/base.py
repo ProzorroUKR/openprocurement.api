@@ -24,6 +24,9 @@ with open(os.path.join(here, 'data/agreement.json')) as _in:
 with open(os.path.join(here, 'data/organization.json')) as _in:
     test_organization = json.load(_in)
 
+test_author = deepcopy(test_organization)
+del test_author['scale']
+
 with open(os.path.join(here, 'data/features.json')) as _in:
     test_features = json.load(_in)
 

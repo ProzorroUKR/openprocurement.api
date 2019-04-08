@@ -2,7 +2,7 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_author
 from openprocurement.tender.belowthreshold.tests.lot_blanks import tender_lot_milestones
 
 
@@ -71,7 +71,7 @@ class TenderLotEdgeCasesTest(BaseTenderContentWebTest):
     initial_auth = ('Basic', ('broker', ''))
     initial_lots = test_lots
     initial_bids = test_bids
-    test_author = test_organization
+    test_author = test_author
 
     test_question_blocking = snitch(question_blocking)
     test_claim_blocking = snitch(claim_blocking)

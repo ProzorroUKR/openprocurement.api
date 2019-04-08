@@ -2,6 +2,7 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.tender.belowthreshold.tests.base import test_author
 
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
@@ -65,6 +66,7 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
 class TenderQualificationResourceTest(BaseTenderContentWebTest):
     initial_status = 'active.tendering'  # 'active.pre-qualification' status sets in setUp
     initial_bids = test_bids
+    author_data = test_author
     initial_auth = ('Basic', ('broker', ''))
 
     def setUp(self):
@@ -146,6 +148,7 @@ class TenderQualificationComplaintResourceTest(BaseTenderContentWebTest):
     initial_status = 'active.tendering'  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_bids
     initial_auth = ('Basic', ('broker', ''))
+    author_data = test_author
 
     def setUp(self):
         super(TenderQualificationComplaintResourceTest, self).setUp()

@@ -27,7 +27,7 @@ def create_tender_bidder_firm(self):
 def delete_tender_bidder_eu(self):
     response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                   {'data': {'selfEligible': True, 'selfQualified': True,
-                                            'tenderers': [self.author_data], "value": {"amount": 500}}})
+                                            'tenderers': [self.test_bids_data[0]['tenderers'][0]], "value": {"amount": 500}}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     bid = response.json['data']
@@ -80,7 +80,7 @@ def delete_tender_bidder_eu(self):
     # create new bid
     response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                   {'data': {'selfEligible': True, 'selfQualified': True,
-                                            'tenderers': [self.author_data], "value": {"amount": 500}}})
+                                            'tenderers': [self.test_bids_data[0]['tenderers'][0]], "value": {"amount": 500}}})
     self.assertEqual(response.status, '201 Created')
     bid = response.json['data']
     bid_token = response.json['access']['token']
@@ -93,10 +93,10 @@ def delete_tender_bidder_eu(self):
 
     response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                   {'data': {'selfEligible': True, 'selfQualified': True,
-                                            'tenderers': [self.author_data], "value": {"amount": 100}}})
+                                            'tenderers': [self.test_bids_data[0]['tenderers'][0]], "value": {"amount": 100}}})
     response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                   {'data': {'selfEligible': True, 'selfQualified': True,
-                                            'tenderers': [self.author_data], "value": {"amount": 101}}})
+                                            'tenderers': [self.test_bids_data[0]['tenderers'][0]], "value": {"amount": 101}}})
 
     # switch to active.pre-qualification
     self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
@@ -181,7 +181,7 @@ def bids_invalidation_on_tender_change_eu(self):
     bids_access = {}
 
     for data in deepcopy(self.test_bids_data[:2]):
-        data['tenderers'] = [self.author_data]
+        data['tenderers'] = [self.test_bids_data[0]['tenderers'][0]]
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
@@ -218,7 +218,7 @@ def bids_invalidation_on_tender_change_eu(self):
     # check that tender status change does not invalidate bids
     # submit one more bid. check for invalid value first
     test_bid = deepcopy(self.test_bids_data[0])
-    test_bid['tenderers'] = [self.author_data]
+    test_bid['tenderers'] = [self.test_bids_data[0]['tenderers'][0]]
     test_bid['value'] = {"amount": 3000}
     response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': test_bid}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
@@ -230,7 +230,7 @@ def bids_invalidation_on_tender_change_eu(self):
     ])
     # and submit valid bid
     data = deepcopy(self.test_bids_data[0])
-    data['tenderers'] = [self.author_data]
+    data['tenderers'] = [self.test_bids_data[0]['tenderers'][0]]
     data['value']['amount'] = 299
     response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data})
     self.assertEqual(response.status, '201 Created')
@@ -240,7 +240,7 @@ def bids_invalidation_on_tender_change_eu(self):
 
     response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                   {'data': {'selfEligible': True, 'selfQualified': True,
-                                            'tenderers': [self.author_data], "value": {"amount": 101}}})
+                                            'tenderers': [self.test_bids_data[0]['tenderers'][0]], "value": {"amount": 101}}})
 
     # switch to active.pre-qualification
     self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
@@ -329,7 +329,7 @@ def bids_invalidation_on_tender_change_eu(self):
 
 
 def ukrainian_author_id(self):
-    multilingual_author = deepcopy(self.author_data)
+    multilingual_author = deepcopy(self.test_bids_data[0]['tenderers'][0])
     multilingual_author['identifier']['id'] = u"Українська мова"
     data = self.initial_data.copy()
     data['shortlistedFirms'][0] = {
@@ -425,7 +425,7 @@ def features_bidder_eu(self):
                 }
                 for i in data['features']
             ],
-            "tenderers": [self.author_data],
+            "tenderers": [self.test_bids_data[0]['tenderers'][0]],
             "value": {
                 "amount": 469,
                 "currency": "UAH",
@@ -443,7 +443,7 @@ def features_bidder_eu(self):
                 }
                 for i in data['features']
             ],
-            "tenderers": [self.author_data],
+            "tenderers": [self.test_bids_data[0]['tenderers'][0]],
             "value": {
                 "amount": 479,
                 "currency": "UAH",
@@ -468,7 +468,7 @@ def features_bidder_eu(self):
 
 def create_tender_bidder_document_nopending_eu(self):
     test_bid = deepcopy(self.test_bids_data[0])
-    test_bid['tenderers'] = [self.author_data]
+    test_bid['tenderers'] = [self.test_bids_data[0]['tenderers'][0]]
     response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': test_bid})
     bid = response.json['data']
     token = response.json['access']['token']
@@ -671,7 +671,7 @@ def create_tender_biddder_invalid_ua(self):
     ])
 
     response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
-                                                          'tenderers': [self.author_data],
+                                                          'tenderers': [self.test_bids_data[0]['tenderers'][0]],
                                                           "value": {"amount": 500, 'currency': "USD"}}}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
@@ -682,7 +682,7 @@ def create_tender_biddder_invalid_ua(self):
     ])
 
     response = self.app.post_json(request_path, {'data': {'selfEligible': True, 'selfQualified': True,
-                                                          'tenderers': self.author_data,
+                                                          'tenderers': self.test_bids_data[0]['tenderers'][0],
                                                           "value": {"amount": 500}}}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
@@ -706,7 +706,7 @@ def create_tender_biddder_invalid_ua(self):
 def create_tender_bidder_ua(self):
     response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                   {'data': {'selfEligible': True, 'selfQualified': True,
-                                            'tenderers': [self.author_data],
+                                            'tenderers': [self.test_bids_data[0]['tenderers'][0]],
                                             'value': {'amount': 500}}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
@@ -749,7 +749,7 @@ def bids_invalidation_on_tender_change_ua(self):
 
     # submit bids
     for data in self.test_bids_data[:2]:
-        data['tenderers'] = [self.author_data]
+        data['tenderers'] = [self.test_bids_data[0]['tenderers'][0]]
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
@@ -778,7 +778,7 @@ def bids_invalidation_on_tender_change_ua(self):
     # check that tender status change does not invalidate bids
     # submit one more bid. check for invalid value first
     test_bid = deepcopy(self.test_bids_data[0])
-    test_bid['tenderers'] = [self.author_data]
+    test_bid['tenderers'] = [self.test_bids_data[0]['tenderers'][0]]
     test_bid['value']['amount'] = 3000
     response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': test_bid}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
@@ -854,7 +854,7 @@ def bids_activation_on_tender_documents_ua(self):
 
     # submit bids
     for data in deepcopy(self.test_bids_data):
-        data['tenderers'] = [self.author_data]
+        data['tenderers'] = [self.test_bids_data[0]['tenderers'][0]]
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
@@ -932,7 +932,7 @@ def features_bidder_ua(self):
                     for i in data['features']
                     ],
                 "tenderers": [
-                    self.author_data
+                    self.test_bids_data[0]['tenderers'][0]
                 ],
                 "value": {
                     "amount": 469,
@@ -951,7 +951,7 @@ def features_bidder_ua(self):
                     for i in data['features']
                     ],
                 "tenderers": [
-                    self.author_data
+                    self.test_bids_data[0]['tenderers'][0]
                 ],
                 "value": {
                     "amount": 479,
@@ -1050,7 +1050,7 @@ def put_tender_bidder_document_ua(self):
 def deleted_bid_is_not_restorable(self):
     response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                   {'data': {'selfEligible': True, 'selfQualified': True,
-                                            'tenderers': [self.author_data], 'value': {'amount': 500}}})
+                                            'tenderers': [self.test_bids_data[0]['tenderers'][0]], 'value': {'amount': 500}}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     bid = response.json['data']
@@ -1120,7 +1120,7 @@ def features_bidder_invalid(self):
         }
     ]
     self.create_tender(initial_data=tender_data)
-    data = {"tenderers": [self.author_data],
+    data = {"tenderers": [self.test_bids_data[0]['tenderers'][0]],
             "value": {
                 "amount": 469,
                 "currency": "UAH",

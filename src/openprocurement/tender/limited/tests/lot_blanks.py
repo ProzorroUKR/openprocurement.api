@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
+
 
 # TenderLotNegotiationResourceTest
 
@@ -642,7 +643,7 @@ def cancel_lot_with_complaint(self):
     response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(self.tender_id, award['id']),
                                   {"data": {"status": "pending", "title": "Недостатньо інформації",
                                             "description": "Опис",
-                                            "author": test_organization}})
+                                            "author": test_author}})
     self.assertEqual(response.status, '201 Created')
 
     # Try to cancel lot

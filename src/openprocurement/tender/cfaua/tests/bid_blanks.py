@@ -1692,7 +1692,7 @@ def bid_Administrator_change(self):
             'data': {
                 'selfEligible': True,
                 'selfQualified': True,
-                'tenderers': [self.author_data],
+                'tenderers': [self.test_bids_data[0]['tenderers'][0]],
                 'lotValues': [{"value": {"amount": 500}, 'relatedLot': self.initial_lots[0]['id']}]
             }
         }
@@ -1723,7 +1723,6 @@ def bids_activation_on_tender_documents(self):
     initial_bids = deepcopy(self.test_bids_data)
     self.convert_bids_for_tender_with_lots(initial_bids, self.initial_lots)
     for data in initial_bids:
-        data['tenderers'] = [self.author_data]
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': data})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
