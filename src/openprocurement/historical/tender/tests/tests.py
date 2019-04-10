@@ -2,6 +2,8 @@
 import os.path
 from jsonpointer import resolve_pointer
 from copy import deepcopy
+
+from mock import patch
 from openprocurement.historical.core.utils import (
     parse_hash,
     _apply_patch
@@ -190,15 +192,16 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
             self.assertEqual(historical_tender, tender)
 
     def test_route_not_find(self):
-        self.app.app.routes_mapper.routelist = [
+        routelist = [
             r for r in self.app.app.routes_mapper.routelist
             if r.name != 'belowThreshold:Tender'
         ]
-        response = self.app.get('/tenders/{}/historical'.format(self.tender_id), status=404)
-        self.assertEqual(response.status, '404 Not Found')
-        self.assertEqual(response.json['errors'], [
-            {u'description': u'Not Found', u'location': u'url', u'name': u'tender_id'}
-        ])
+        with patch.object(self.app.app.routes_mapper, 'routelist', routelist):
+            response = self.app.get('/tenders/{}/historical'.format(self.tender_id), status=404)
+            self.assertEqual(response.status, '404 Not Found')
+            self.assertEqual(response.json['errors'], [
+                {u'description': u'Not Found', u'location': u'url', u'name': u'tender_id'}
+            ])
 
     def test_json_patch_error(self):
         self._update_doc()

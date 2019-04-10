@@ -35,10 +35,10 @@ class HealthTestBase(BaseWebTest):
     return_value = []
 
     def setUp(self):
-        self.db_name += uuid4().hex
-        # self.couchdb_server.create(self.db_name)
+        self.db_name = self.db_name_template + uuid4().hex
         couchdb_server = Mock(spec=CouchdbServer)
         couchdb_server.tasks = MagicMock(return_value=self.return_value)
+        self.original_couch = self.app.app.registry.couchdb_server
         self.app.app.registry.couchdb_server = couchdb_server
         self.db_name = self.db.name
         self.app.authorization = ('Basic', ('token', ''))
@@ -52,6 +52,10 @@ class HealthTestBase(BaseWebTest):
 
         response = self.app.get('/health?health_threshold_func=any', status=503)
         self.assertEqual(response.status, '503 Service Unavailable')
+
+    def tearDown(self):
+        self.app.app.registry.couchdb_server = self.original_couch
+
 
 class HealthTest503(HealthTestBase):
     return_value = [REPLICATION]

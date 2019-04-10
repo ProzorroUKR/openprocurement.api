@@ -2,7 +2,7 @@
 import unittest
 from copy import deepcopy
 
-from openprocurement.api.tests.base import snitch
+from openprocurement.api.tests.base import snitch, BaseWebTest
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization
 
@@ -72,6 +72,7 @@ class CompetitiveDialogueEULotEdgeCasesTest(BaseCompetitiveDialogEUContentWebTes
     test_author = test_organization
 
     def setUp(self):
+        BaseWebTest.setUp(self)
         uniq_bids = [deepcopy(bid) for bid in test_bids]
         for n, bid in enumerate(uniq_bids):
             bid['tenderers'][0]['identifier']['id'] = '00000{}'.format(n)

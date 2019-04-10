@@ -1,6 +1,9 @@
 stages:
   - build
+  - deploy
+  - robot_tests
   - test
+  - cleanup
 
 variables:
   COUCHDB_USER: op
@@ -12,7 +15,10 @@ Build:
   script:
     - type multiwerf && source <(multiwerf use 1.0 beta)
     - type werf && source <(werf ci-env gitlab --tagging-strategy tag-or-branch --verbose)
-    - werf build-and-publish --stages-storage :local
+    - unset WERF_TAG_GIT_BRANCH
+    - werf build-and-publish --stages-storage :local --tag-custom ci-$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA
+  only:
+    - branches
   tags:
     - shell
   except:
@@ -20,13 +26,87 @@ Build:
   variables:
     GIT_STRATEGY: fetch
 
+
+.base_deploy: &base_deploy
+  stage: deploy
+  script:
+    - helm repo add prozorro $REPO_URL
+    - helm upgrade $CI_COMMIT_REF_SLUG --install prozorro/$HELM_CHART --namespace $HELM_NAMESPACE --set $HELM_TAG_PARAMETER=ci-$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA --wait
+  dependencies:
+    - Build
+  tags:
+    - werf
+
+Review:
+  <<: *base_deploy
+  environment:
+    name: review/${CI_COMMIT_REF_SLUG}
+    url: http://api.${CI_COMMIT_REF_SLUG}.${K8S_DOMAIN}/api/2.5/tenders
+    on_stop: Stop review
+  dependencies:
+    - Build
+  only:
+    - branches
+  tags:
+    - shell
+  except:
+    - master
+    - schedules
+
+Run robot tests:
+  stage: robot_tests
+  script:
+    - curl "$JENKINS_URL/buildWithParameters?token=$JENKINS_TOKEN&cause=$CI_COMMIT_REF_SLUG&RELEASE_NAME=$CI_COMMIT_REF_SLUG&API_VERSION=2.5"
+    - echo $JENKINS_URL
+  tags:
+    - shell
+  only:
+    - branches
+  dependencies:
+    - Review
+  except:
+    - master
+    - schedules
+  when: manual
+
+Stop review:
+  stage: deploy
+  script:
+    - helm delete $CI_COMMIT_REF_SLUG --purge
+  environment:
+    name: review/${CI_COMMIT_REF_SLUG}
+    action: stop
+  tags:
+    - shell
+  only:
+    - branches
+  except:
+    - master
+    - schedules
+  when: manual
+
+
+Deploy master:
+  <<: *base_deploy
+  dependencies:
+    - Build
+  only:
+    - master
+  tags:
+    - shell
+  except:
+    - schedules
+
+
 .test:
-  image: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  image: $CI_REGISTRY_IMAGE:ci-$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA
   stage: test
   services:
     - couchdb:1.6
   tags:
     - kube
+  dependencies:
+    - Build
   script:
     - echo '127.0.0.1  couchdb' >> /etc/hosts
     - cd /app
@@ -109,7 +189,7 @@ test_sandbox_tender_cfaselectionua:
   extends: .test_sandbox
   variables:
     MODULE: tender cfaselectionua
-    
+
 test_sandbox_agreement_core:
   extends: .test_sandbox
   variables:
