@@ -3,7 +3,6 @@ stages:
   - deploy
   - robot_tests
   - test
-  - cleanup
 
 variables:
   COUCHDB_USER: op
@@ -53,6 +52,20 @@ Review:
     - master
     - schedules
 
+Deploy master:
+  <<: *base_deploy
+  environment:
+    name: review/${CI_COMMIT_REF_SLUG}
+    url: http://api.${CI_COMMIT_REF_SLUG}.${K8S_DOMAIN}/api/2.5/tenders
+  dependencies:
+    - Build
+  only:
+    - master
+  tags:
+    - shell
+  except:
+    - schedules
+
 Run robot tests:
   stage: robot_tests
   script:
@@ -65,7 +78,6 @@ Run robot tests:
   dependencies:
     - Review
   except:
-    - master
     - schedules
   when: manual
 
@@ -84,19 +96,6 @@ Stop review:
     - master
     - schedules
   when: manual
-
-
-Deploy master:
-  <<: *base_deploy
-  dependencies:
-    - Build
-  only:
-    - master
-  tags:
-    - shell
-  except:
-    - schedules
-
 
 .test:
   image: $CI_REGISTRY_IMAGE:ci-$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA
