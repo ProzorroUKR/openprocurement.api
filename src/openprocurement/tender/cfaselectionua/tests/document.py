@@ -6,6 +6,14 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.cfaselectionua.tests.base import (
     TenderContentWebTest, test_lots
 )
+
+from openprocurement.tender.belowthreshold.tests.document_blanks import (
+    create_tender_document_error,
+    create_tender_document_json_invalid,
+    create_tender_document_json,
+    put_tender_document_json
+)
+
 from openprocurement.tender.cfaselectionua.tests.document_blanks import (
     # TenderDocumentResourceTest
     not_found,
@@ -14,11 +22,6 @@ from openprocurement.tender.cfaselectionua.tests.document_blanks import (
     create_tender_document,
     put_tender_document,
     patch_tender_document,
-    # TenderDocumentWithDSResourceTest
-    create_tender_document_error,
-    create_tender_document_json_invalid,
-    create_tender_document_json,
-    put_tender_document_json
 )
 
 

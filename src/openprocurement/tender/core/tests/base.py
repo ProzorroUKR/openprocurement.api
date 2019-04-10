@@ -16,6 +16,18 @@ from openprocurement.api.utils import SESSION, apply_data_patch
 now = datetime.now()
 
 
+def bad_rs_request(method, url, **kwargs):
+    response = Response()
+    response.status_code = 403
+    response.encoding = 'application/json'
+    response._content = '"Unauthorized: upload_view failed permission check"'
+    response.reason = '403 Forbidden'
+    return response
+
+
+srequest = SESSION.request
+
+
 class BaseTenderWebTest(BaseWebTest):
     initial_data = None
     initial_status = None
@@ -50,6 +62,7 @@ class BaseTenderWebTest(BaseWebTest):
     def setUpDS(self):
         self.app.app.registry.docservice_url = 'http://localhost'
         test = self
+
         def request(method, url, **kwargs):
             response = Response()
             if method == 'POST' and '/upload' in url:
@@ -59,21 +72,6 @@ class BaseTenderWebTest(BaseWebTest):
                 response._content = '{{"data":{{"url":"{url}","hash":"md5:{md5}","format":"application/msword","title":"name.doc"}},"get_url":"{url}"}}'.format(url=url, md5='0'*32)
                 response.reason = '200 OK'
             return response
-
-        self._srequest = SESSION.request
-        SESSION.request = request
-
-    def setUpBadDS(self):
-        self.app.app.registry.docservice_url = 'http://localhost'
-        def request(method, url, **kwargs):
-            response = Response()
-            response.status_code = 403
-            response.encoding = 'application/json'
-            response._content = '"Unauthorized: upload_view failed permission check"'
-            response.reason = '403 Forbidden'
-            return response
-
-        self._srequest = SESSION.request
         SESSION.request = request
 
     def generate_docservice_url(self):
@@ -125,7 +123,8 @@ class BaseTenderWebTest(BaseWebTest):
             self.set_status(self.initial_status)
 
     def tearDownDS(self):
-        SESSION.request = self._srequest
+        SESSION.request = srequest
+        self.app.app.registry.docservice_url = None
 
     def tearDown(self):
         if self.docservice:

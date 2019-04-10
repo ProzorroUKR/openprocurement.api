@@ -2,6 +2,8 @@
 from email.header import Header
 
 # TenderDocumentResourceTest
+from mock import patch
+from openprocurement.tender.core.tests.base import bad_rs_request, srequest
 
 
 def not_found(self):
@@ -367,20 +369,21 @@ def patch_tender_document(self):
 
 
 def create_tender_document_error(self):
-    self.tearDownDS()
-    response = self.app.post('/tenders/{}/documents?acc_token={}'.format(self.tender_id, self.tender_token),
-                             upload_files=[('file', u'укр.doc', 'content')],
-                             status=422)
-    self.assertEqual(response.status, '422 Unprocessable Entity')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't upload document to document service.")
-    self.setUpBadDS()
-    response = self.app.post('/tenders/{}/documents?acc_token={}'.format(self.tender_id, self.tender_token),
-                             upload_files=[('file', u'укр.doc', 'content')],
-                             status=422)
-    self.assertEqual(response.status, '422 Unprocessable Entity')
-    self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['errors'][0]["description"], "Can't upload document to document service.")
+    with patch('openprocurement.api.utils.SESSION', srequest):
+        response = self.app.post('/tenders/{}/documents?acc_token={}'.format(self.tender_id, self.tender_token),
+                                 upload_files=[('file', u'укр.doc', 'content')],
+                                 status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't upload document to document service.")
+
+    with patch('openprocurement.api.utils.SESSION', bad_rs_request):
+        response = self.app.post('/tenders/{}/documents?acc_token={}'.format(self.tender_id, self.tender_token),
+                                 upload_files=[('file', u'укр.doc', 'content')],
+                                 status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['errors'][0]["description"], "Can't upload document to document service.")
 
 
 def create_tender_document_json_invalid(self):

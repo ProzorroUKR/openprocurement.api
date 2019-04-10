@@ -2,7 +2,7 @@
 import unittest
 from copy import deepcopy
 from openprocurement.tender.openeu.tests.base import test_lots
-from openprocurement.api.tests.base import snitch
+from openprocurement.api.tests.base import snitch, BaseWebTest
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUStage2ContentWebTest,
     BaseCompetitiveDialogUAStage2ContentWebTest,
@@ -244,6 +244,7 @@ class TenderStage2EUFeaturesAuctionResourceTest(BaseCompetitiveDialogEUStage2Con
     initial_status = 'active.tendering'
 
     def setUp(self):
+        BaseWebTest.setUp(self)
         self.app.authorization = ('Basic', ('broker', ''))
         data = test_tender_stage2_data_eu.copy()
         item = data['items'][0].copy()
@@ -390,6 +391,7 @@ class TenderStage2UAFeaturesAuctionResourceTest(BaseCompetitiveDialogUAStage2Con
     initial_status = 'active.tendering'
 
     def setUp(self):
+        BaseWebTest.setUp(self)
         self.app.authorization = ('Basic', ('broker', ''))
         data = test_tender_stage2_data_ua.copy()
         item = data['items'][0].copy()
