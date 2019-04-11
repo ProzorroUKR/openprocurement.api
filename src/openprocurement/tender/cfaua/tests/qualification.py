@@ -52,6 +52,7 @@ class TenderQualificationResourceTest(BaseTenderContentWebTest):
     initial_status = 'active.tendering'  # 'active.pre-qualification' status sets in setUp
     initial_bids = test_bids
     initial_auth = ('Basic', ('broker', ''))
+    author_data = test_author
 
     def setUp(self):
         super(TenderQualificationResourceTest, self).setUp()
