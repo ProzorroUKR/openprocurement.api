@@ -159,6 +159,23 @@ class TestUtils(unittest.TestCase):
         model = tender_from_data(request, self.tender_data)
         self.assertIsInstance(model, Tender)
 
+    def test_tender_from_data_revisions(self):
+        request = MagicMock()
+        request.registry.tender_procurementMethodTypes = {"belowThreshold": Tender}
+
+        data = dict(**self.tender_data)
+        data["revisions"] = [dict(rev=i, author="me") for i in range(10)]
+
+        for method in ("GET", "POST", "PATCH", "PUT", "DELETE", "HEAD"):
+            request.environ = {"REQUEST_METHOD": method}
+            model = tender_from_data(request, data)
+
+            if method == "GET":
+                self.assertEqual(len(model.revisions), 1)
+                self.assertEqual(model.revisions[0].rev, "0")
+        else:
+            self.assertEqual(len(model.revisions), 10)
+
     @patch('openprocurement.tender.core.utils.decode_path_info')
     @patch('openprocurement.tender.core.utils.error_handler')
     def test_extract_tender(self, mocked_error_handler, mocked_decode_path):
