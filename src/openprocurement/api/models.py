@@ -20,7 +20,7 @@ from schematics.types.compound import (ModelType, DictType,
                                        ListType as BaseListType)
 from schematics.types.serializable import serializable
 from openprocurement.api.interfaces import ISerializable, IValidator
-from openprocurement.api.utils import get_now, set_parent, get_schematics_document, get_document_date
+from openprocurement.api.utils import get_now, set_parent, get_schematics_document, get_first_revision_date
 from openprocurement.api.constants import (
     CPV_CODES, ORA_CODES, TZ, DK_CODES, CPV_BLOCK_FROM,
     SCALE_CODES, ORGANIZATION_SCALE_FROM,
@@ -592,7 +592,7 @@ class BusinessOrganization(Organization):
         except AttributeError:
             pass
         else:
-            validation_date = get_document_date(schematics_document, default=get_now())
+            validation_date = get_first_revision_date(schematics_document, default=get_now())
             if validation_date >= ORGANIZATION_SCALE_FROM and value is None:
                 raise ValidationError(BaseType.MESSAGES['required'])
             if validation_date < ORGANIZATION_SCALE_FROM and value is not None:

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
 from logging import getLogger
-from openprocurement.api.utils import get_now, get_document_date
+from openprocurement.api.utils import get_now, get_first_revision_date
 from openprocurement.api.constants import TZ, SANDBOX_MODE
 from openprocurement.tender.core.utils import (
     has_unanswered_questions,
@@ -20,7 +20,7 @@ LOGGER = getLogger('openprocurement.tender.openua')
 
 
 def calculate_normalized_date(dt, tender, ceil=False):
-    tender_date = get_document_date(tender, default=get_now())
+    tender_date = get_first_revision_date(tender, default=get_now())
     if tender_date > NORMALIZED_COMPLAINT_PERIOD_FROM and not (SANDBOX_MODE and tender.procurementMethodDetails):
         if ceil:
             return dt.astimezone(TZ).replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1)

@@ -3,7 +3,7 @@ from schematics.types import BooleanType, StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from openprocurement.api.models import ListType
-from openprocurement.api.utils import get_now, get_document_date
+from openprocurement.api.utils import get_now, get_first_revision_date
 from openprocurement.api.roles import RolesFromCsv
 from openprocurement.tender.core.models import Bid as BaseBid, \
     validate_parameters_uniq, bids_validation_wrapper
@@ -27,7 +27,7 @@ class BidModelType(ModelType):
             model_class = self.model_class
 
         tender = model_instance.__parent__
-        tender_date = get_document_date(tender, default=get_now())
+        tender_date = get_first_revision_date(tender, default=get_now())
         status = getattr(model_instance, 'status')
         if tender_date > BID_UNSUCCESSFUL_FROM and role not in [None, 'plain'] and status == 'unsuccessful':
             role = 'bid.unsuccessful'
