@@ -1187,7 +1187,7 @@ def create_tender_lot_qualification_complaint(self):
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     complaint = response.json['data']
-    self.assertEqual(complaint['author']['name'], self.initial_bids[0]["tenderers"][0]['name'])
+    self.assertEqual(complaint['author']['name'], self.author_data['name'])
     self.assertIn('id', complaint)
     self.assertIn(complaint['id'], response.headers['Location'])
 
@@ -1357,7 +1357,7 @@ def create_tender_2lot_qualification_complaint(self):
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     complaint = response.json['data']
-    self.assertEqual(complaint['author']['name'], self.initial_bids[0]["tenderers"][0]['name'])
+    self.assertEqual(complaint['author']['name'], self.author_data['name'])
     self.assertIn('id', complaint)
     self.assertIn(complaint['id'], response.headers['Location'])
 

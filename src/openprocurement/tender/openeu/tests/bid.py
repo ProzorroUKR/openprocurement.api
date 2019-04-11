@@ -108,7 +108,7 @@ class TenderBidResourceTest(BaseTenderContentWebTest, TenderBidResourceTestMixin
 
 
 class TenderBidFeaturesResourceTest(BaseTenderContentWebTest):
-    initial_data = test_features_tender_data
+    initial_data =  test_features_tender_data
     initial_status = 'active.tendering'
     initial_auth = ('Basic', ('broker', ''))
     test_bids_data = test_bids  # TODO: change attribute identificator

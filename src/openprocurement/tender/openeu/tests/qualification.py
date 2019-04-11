@@ -110,7 +110,6 @@ class Tender2LotQualificationResourceTest(TenderQualificationResourceTest):
 
         response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
         self.assertEqual(response.content_type, 'application/json')
-        qualifications = response.json['data']
 
     test_patch_tender_qualifications = snitch(lot_patch_tender_qualifications)
     test_get_tender_qualifications_collection = snitch(lot_get_tender_qualifications_collection)
@@ -169,13 +168,20 @@ class TenderQualificationComplaintResourceTest(BaseTenderContentWebTest):
         self.qualification_id = qualifications[0]['id']
 
         for qualification in qualifications:
-            response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualification['id'], self.tender_token),
-                                           {"data": {"status": "active", "qualified": True, "eligible": True}})
+            response = self.app.patch_json(
+                '/tenders/{}/qualifications/{}?acc_token={}'.format(
+                    self.tender_id, qualification['id'], self.tender_token),
+                {"data": {
+                    "status": "active",
+                    "qualified": True,
+                    "eligible": True
+                }})
             self.assertEqual(response.status, '200 OK')
             self.assertEqual(response.json['data']['status'], 'active')
 
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
-                                       {"data": {"status": "active.pre-qualification.stand-still"}})
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+            {"data": {"status": "active.pre-qualification.stand-still"}})
         self.assertEqual(response.status, '200 OK')
 
     test_create_tender_qualification_complaint_invalid = snitch(create_tender_qualification_complaint_invalid)
@@ -208,11 +214,11 @@ class Tender2LotQualificationComplaintResourceTest(TenderLotQualificationComplai
 
     test_create_tender_qualification_complaint = snitch(create_tender_2lot_qualification_complaint)
     test_patch_tender_qualification_complaint = snitch(patch_tender_2lot_qualification_complaint)
-    test_change_status_to_standstill_with_complaint_cancel_lot = snitch(change_status_to_standstill_with_complaint_cancel_lot)
+    test_change_status_to_standstill_with_complaint_cancel_lot = snitch(
+        change_status_to_standstill_with_complaint_cancel_lot)
 
 
 class Tender2LotQualificationClaimResourceTest(Tender2LotQualificationComplaintResourceTest):
-
     after_qualification_switch_to = "unsuccessful"
 
     def setUp(self):
@@ -235,27 +241,38 @@ class Tender2LotQualificationClaimResourceTest(Tender2LotQualificationComplaintR
 
         for qualification in qualifications:
             if qualification['bidID'] == self.initial_bids[0]['id']:
-                response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualification['id'], self.tender_token),
-                                               {"data": {"status": "active", "qualified": True, "eligible": True}})
+                response = self.app.patch_json(
+                    '/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualification['id'],
+                                                                        self.tender_token),
+                    {"data": {
+                        "status": "active",
+                        "qualified": True,
+                        "eligible": True
+                    }})
                 self.assertEqual(response.status, '200 OK')
                 self.assertEqual(response.json['data']['status'], 'active')
             else:
-                response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualification['id'], self.tender_token),
-                                               {"data": {"status": "unsuccessful"}})
+                response = self.app.patch_json(
+                    '/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualification['id'],
+                                                                        self.tender_token),
+                    {"data": {"status": "unsuccessful"}})
                 self.assertEqual(response.status, '200 OK')
                 self.assertEqual(response.json['data']['status'], 'unsuccessful')
                 self.unsuccessful_qualification_id = qualification['id']
 
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
-                                       {"data": {"status": "active.pre-qualification.stand-still"}})
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+            {"data": {"status": "active.pre-qualification.stand-still"}})
         self.assertEqual(response.status, '200 OK')
 
     test_create_tender_qualification_claim = snitch(create_tender_qualification_claim)
+
 
 class TenderQualificationComplaintDocumentResourceTest(BaseTenderContentWebTest):
     initial_status = 'active.tendering'  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_bids
     initial_auth = ('Basic', ('broker', ''))
+    author_data = test_author
 
     def setUp(self):
         super(TenderQualificationComplaintDocumentResourceTest, self).setUp()
@@ -276,22 +293,27 @@ class TenderQualificationComplaintDocumentResourceTest(BaseTenderContentWebTest)
         self.qualification_id = qualifications[0]['id']
 
         for qualification in qualifications:
-            response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualification['id'], self.tender_token),
-                                           {"data": {"status": "active", "qualified": True, "eligible": True}})
+            response = self.app.patch_json(
+                '/tenders/{}/qualifications/{}?acc_token={}'.format(
+                    self.tender_id, qualification['id'], self.tender_token),
+                {"data": {"status": "active", "qualified": True, "eligible": True}})
             self.assertEqual(response.status, '200 OK')
             self.assertEqual(response.json['data']['status'], 'active')
 
-
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
-                                       {"data": {"status": "active.pre-qualification.stand-still"}})
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+            {"data": {"status": "active.pre-qualification.stand-still"}})
         self.assertEqual(response.status, '200 OK')
 
         # Create complaint for qualification
-        response = self.app.post_json('/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]), {'data': {
-            'title': 'complaint title',
-            'description': 'complaint description',
-            'author': self.initial_bids[0]["tenderers"][0]
-        }})
+        response = self.app.post_json(
+            '/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(
+                self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]),
+            {'data': {
+                'title': 'complaint title',
+                'description': 'complaint description',
+                'author': self.author_data
+            }})
         complaint = response.json['data']
         self.complaint_id = complaint['id']
         self.complaint_owner_token = response.json['access']['token']
@@ -313,8 +335,8 @@ class Tender2LotQualificationComplaintDocumentResourceTest(TenderQualificationCo
 
 
 class TenderIssueCBD1713Test(Tender2LotQualificationResourceTest):
-
     test_switch_bid_status_unsuccessul_to_active = snitch(switch_bid_status_unsuccessul_to_active)
+
 
 def suite():
     suite = unittest.TestSuite()
