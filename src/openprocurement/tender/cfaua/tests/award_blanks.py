@@ -570,7 +570,7 @@ def patch_tender_2lot_award(self):
     self.assertEqual(response.json['errors'][0]["description"], "Can update award only in active lot status")
 
 
-# TenderAwardComplaintDocumentResourceTest
+# TenderAwardComplaintDocumentResourceT
 
 
 def patch_tender_award_complaint_document(self):
@@ -583,6 +583,7 @@ def patch_tender_award_complaint_document(self):
     doc_id = response.json["data"]['id']
     self.assertIn(doc_id, response.headers['Location'])
 
+    self.app.authorization = ('Basic', ('reviewer', ''))
     response = self.app.patch_json(
         '/tenders/{}/awards/{}/complaints/{}/documents/{}'.format(
             self.tender_id, self.award_id, self.complaint_id, doc_id),
@@ -594,6 +595,7 @@ def patch_tender_award_complaint_document(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Can update document only author")
 
+    self.app.authorization = self.initial_auth
     response = self.app.patch_json(
         '/tenders/{}/awards/{}/complaints/{}/documents/{}?acc_token={}'.format(
             self.tender_id, self.award_id, self.complaint_id, doc_id, self.complaint_owner_token),
@@ -654,6 +656,8 @@ def patch_tender_award_complaint_document(self):
     self.assertEqual(
         response.json['errors'][0]["description"],
         "Can't update document in current (complete) tender status")
+
+
 
 
 # Tender2LotAwardComplaintDocumentResourceTest

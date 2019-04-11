@@ -4,7 +4,7 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
 from openprocurement.tender.belowthreshold.tests.contract import (
     TenderContractResourceTestMixin,
     TenderContractDocumentResourceTestMixin
@@ -34,18 +34,29 @@ class TenderContractResourceTest(BaseTenderContentWebTest, TenderContractResourc
     initial_status = 'active.qualification'
     initial_bids = test_bids
     initial_auth = ('Basic', ('broker', ''))
+    author_data = test_author
 
     def setUp(self):
         super(TenderContractResourceTest, self).setUp()
         # Create award
         self.supplier_info = deepcopy(test_organization)
         self.app.authorization = ('Basic', ('token', ''))
-        response = self.app.post_json('/tenders/{}/awards'.format(
-            self.tender_id), {'data': {'suppliers': [self.supplier_info], 'status': 'pending', 'bid_id': self.initial_bids[0]['id'], 'value': {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": True}, 'items': test_tender_data["items"]}})
+        response = self.app.post_json(
+            '/tenders/{}/awards'.format(self.tender_id),
+            {'data': {
+                'suppliers': [self.supplier_info],
+                'status': 'pending',
+                'bid_id': self.initial_bids[0]['id'],
+                'value': {
+                    "amount": 500,
+                    "currency": "UAH",
+                    "valueAddedTaxIncluded": True},
+                'items': test_tender_data["items"]
+            }})
         award = response.json['data']
         self.award_id = award['id']
         self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token), {"data": {"status": "active", "qualified": True, "eligible": True}})
+        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token), {"data": {"status": "active", "qualified": True, "eligible": True}})
 
     test_contract_termination = snitch(contract_termination)
     test_create_tender_contract = snitch(create_tender_contract)
@@ -65,13 +76,30 @@ class TenderContractDocumentResourceTest(BaseTenderContentWebTest, TenderContrac
         # Create award
         supplier_info = deepcopy(test_organization)
         self.app.authorization = ('Basic', ('token', ''))
-        response = self.app.post_json('/tenders/{}/awards'.format(
-            self.tender_id), {'data': {'suppliers': [supplier_info], 'status': 'pending', 'bid_id': self.initial_bids[0]['id']}})
+        response = self.app.post_json(
+            '/tenders/{}/awards'.format(self.tender_id),
+            {'data': {
+                'suppliers': [supplier_info],
+                'status': 'pending',
+                'bid_id': self.initial_bids[0]['id']
+            }})
         award = response.json['data']
         self.award_id = award['id']
-        response = self.app.patch_json('/tenders/{}/awards/{}'.format(self.tender_id, self.award_id), {"data": {"status": "active", "qualified": True, "eligible": True}})
+        self.app.patch_json(
+            '/tenders/{}/awards/{}'.format(self.tender_id, self.award_id),
+            {"data": {
+                "status": "active",
+                "qualified": True,
+                "eligible": True
+            }})
         # Create contract for award
-        response = self.app.post_json('/tenders/{}/contracts'.format(self.tender_id), {'data': {'title': 'contract title', 'description': 'contract description', 'awardID': self.award_id}})
+        response = self.app.post_json(
+            '/tenders/{}/contracts'.format(self.tender_id),
+            {'data': {
+                'title': 'contract title',
+                'description': 'contract description',
+                'awardID': self.award_id
+            }})
         contract = response.json['data']
         self.contract_id = contract['id']
         self.app.authorization = ('Basic', ('broker', ''))

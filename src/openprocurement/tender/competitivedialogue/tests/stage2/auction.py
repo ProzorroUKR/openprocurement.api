@@ -36,13 +36,13 @@ from openprocurement.tender.competitivedialogue.tests.stage2.auction_blanks impo
     patch_tender_with_lots_auction,
 )
 
-author = deepcopy(test_bids[0]["tenderers"][0])
-author['identifier']['id'] = test_shortlistedFirms[0]['identifier']['id']
-author['identifier']['scheme'] = test_shortlistedFirms[0]['identifier']['scheme']
+tenderer_organization = deepcopy(test_bids[0]["tenderers"][0])
+tenderer_organization['identifier']['id'] = test_shortlistedFirms[0]['identifier']['id']
+tenderer_organization['identifier']['scheme'] = test_shortlistedFirms[0]['identifier']['scheme']
 
 test_tender_bids = deepcopy(test_bids[:2])
 for test_bid in test_tender_bids:
-    test_bid['tenderers'] = [author]
+    test_bid['tenderers'] = [tenderer_organization]
 
 
 def prepare_for_auction(self):
@@ -96,7 +96,7 @@ class TenderStage2EUAuctionResourceTest(BaseCompetitiveDialogEUStage2ContentWebT
 
 class TenderStage2EUSameValueAuctionResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
     # initial_status = 'active.auction'
-    tenderer_info = deepcopy(author)
+    tenderer_info = deepcopy(tenderer_organization)
     initial_bids = [
         {
             "tenderers": [
@@ -200,7 +200,7 @@ class TenderStage2EUFeaturesAuctionResourceTest(BaseCompetitiveDialogEUStage2Con
                 ]
             }
         ]
-    tenderer_info = deepcopy(author)
+    tenderer_info = deepcopy(tenderer_organization)
     initial_bids = [
         {
             "parameters": [
@@ -282,7 +282,7 @@ class TenderStage2UASameValueAuctionResourceTest(BaseCompetitiveDialogUAStage2Co
     initial_bids = [
         {
             "tenderers": [
-                author
+                tenderer_organization
             ],
             "value": {
                 "amount": 469,
@@ -347,7 +347,7 @@ class TenderStage2UAFeaturesAuctionResourceTest(BaseCompetitiveDialogUAStage2Con
             ]
         }
     ]
-    tenderer_info = deepcopy(author)
+    tenderer_info = deepcopy(tenderer_organization)
     initial_bids = [
         {
             "parameters": [

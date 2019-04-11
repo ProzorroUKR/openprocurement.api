@@ -32,6 +32,7 @@ class TenderQuestionResourceTest(BaseESCOContentWebTest, TenderQuestionResourceT
 
     initial_auth = ('Basic', ('broker', ''))
     test_bids_data = test_bids
+    author_data = test_author
 
     test_create_tender_question = snitch(create_tender_question)
     test_patch_tender_question = snitch(patch_tender_question)
