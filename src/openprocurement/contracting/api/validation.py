@@ -85,21 +85,31 @@ def validate_add_document_to_active_change(request):
 
 # contract value and paid
 def validate_update_contract_paid_amount(request):
-    value = request.validated['data'].get('value')
-    paid = request.validated['data'].get('amountPaid')
-    if paid and paid.get('amount') != 0 and paid.get('amountNet') != 0:
-        validate_update_contract_value_amount(
-            request, name='amountPaid')
-    for attr in ('amount', 'amountNet'):
-        if paid and paid.get(attr) > value.get(attr):
-            raise_operation_error(request, "AmountPaid {} can`t be greater than "
-                                           "value {}".format(attr, attr), name='amountPaid')
+    data = request.validated['data']
+    value = data.get('value')
+    paid = data.get('amountPaid')
+    if paid:
+        validate_update_contract_value_amount(request, name='amountPaid')
+        for attr in ('amount', 'amountNet'):
+            paid_amount = paid.get(attr)
+            value_amount = value.get(attr)
+            if value_amount and paid_amount > value_amount:
+                raise_operation_error(
+                    request, "AmountPaid {} can`t be greater than value {}".format(attr, attr),
+                    name='amountPaid')
 
 def validate_update_contract_value_readonly(request):
-    validate_update_contract_value(
-        request, name='value', ro_attrs=('valueAddedTaxIncluded', 'currency'))
+    validate_update_contract_value(request, name='value', attrs=('valueAddedTaxIncluded', 'currency'))
 
 
-def validate_update_contract_paid_readonly(request):
-    validate_update_contract_value(
-        request, name='amountPaid', ro_attrs=('valueAddedTaxIncluded', 'currency'))
+def validate_update_contract_value_identical(request, name='amountPaid', attrs=('valueAddedTaxIncluded', 'currency')):
+    data = request.validated['data']
+    json_data = request.validated['json_data']
+    paid = json_data.get(name)
+    value = data.get('value')
+    if paid:
+        for attr in attrs:
+            if paid.get(attr) and value.get(attr) != paid.get(attr):
+                raise_operation_error(
+                    request, '{} of {} should be identical to {} of value of contract'.format(attr, name, attr),
+                    name=name)
