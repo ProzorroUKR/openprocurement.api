@@ -243,7 +243,7 @@ class TenderStage2EUQualificationComplaintDocumentResourceTest(BaseCompetitiveDi
             {'data': {
                 'title': 'complaint title',
                 'description': 'complaint description',
-                'author': self.bids[0]['tenderers'][0]
+                'author': self.author_data
             }})
         complaint = response.json['data']
         self.complaint_id = complaint['id']

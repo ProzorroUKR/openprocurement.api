@@ -9,8 +9,8 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogUAStage2ContentWebTest,
     test_bids,
     test_tenderer,
-    test_tender_stage2_data_eu
-)
+    test_tender_stage2_data_eu,
+    test_author)
 from openprocurement.tender.belowthreshold.tests.contract import (
     TenderContractResourceTestMixin,
     TenderContractDocumentResourceTestMixin
@@ -40,6 +40,7 @@ class TenderStage2EUContractResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
     initial_status = 'active.qualification'
     initial_bids = test_tender_bids
     initial_auth = ('Basic', ('broker', ''))
+    author_data = test_author
 
     def setUp(self):
         super(TenderStage2EUContractResourceTest, self).setUp()
