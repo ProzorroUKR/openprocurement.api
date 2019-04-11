@@ -10,7 +10,7 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.award_blanks import create_tender_award_with_scale_invalid, \
     create_tender_award_no_scale
 from openprocurement.tender.esco.adapters import TenderESCOConfigurator
-from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
 from openprocurement.tender.belowthreshold.tests.award import (
     TenderLotAwardCheckResourceTestMixin,
     TenderAwardComplaintResourceTestMixin,

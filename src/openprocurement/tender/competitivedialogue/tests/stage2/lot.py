@@ -11,7 +11,7 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUWebTest,
     test_tender_stage2_data_ua,
     test_tender_stage2_data_eu,
-    author
+    test_author
 )
 from openprocurement.tender.openeu.tests.base import (
     test_tender_data,
@@ -103,7 +103,7 @@ class TenderStage2EULotEdgeCasesTest(BaseCompetitiveDialogEUStage2ContentWebTest
             bid['tenderers'][0]['identifier']['id'] = identifier['id']
             bid['tenderers'][0]['identifier']['scheme'] = identifier['scheme']
         self.initial_bids = s2_bids
-        self.test_author = author
+        self.test_author = test_author
         super(TenderStage2EULotEdgeCasesTest, self).setUp()
 
 
@@ -302,7 +302,7 @@ class TenderStage2UALotEdgeCasesTest(BaseCompetitiveDialogUAStage2ContentWebTest
             bid['tenderers'][0]['identifier']['id'] = identifier['id']
             bid['tenderers'][0]['identifier']['scheme'] = identifier['scheme']
         self.initial_bids = s2_bids
-        self.test_author = author
+        self.test_author = test_author
         super(TenderStage2UALotEdgeCasesTest, self).setUp()
 
 

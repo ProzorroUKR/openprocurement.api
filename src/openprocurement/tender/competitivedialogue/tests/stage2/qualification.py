@@ -6,8 +6,8 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUStage2ContentWebTest,
     test_bids,
     test_lots,
-    author
-)
+    test_author,
+    test_tenderer)
 from openprocurement.tender.openeu.tests.qualification_blanks import (
     # TenderStage2EUQualificationResourceTest
     post_tender_qualifications,
@@ -56,7 +56,7 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
 )
 test_tender_bids = deepcopy(test_bids[:2])
 for test_bid in test_tender_bids:
-    test_bid['tenderers'] = [author]
+    test_bid['tenderers'] = [test_tenderer]
 
 
 class TenderStage2EUQualificationResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
@@ -143,7 +143,7 @@ class TenderStage2EUQualificationComplaintResourceTest(BaseCompetitiveDialogEUSt
     initial_status = 'active.tendering'  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_tender_bids
     initial_auth = ('Basic', ('broker', ''))
-    author_data = author
+    author_data = test_author
 
     def setUp(self):
         super(TenderStage2EUQualificationComplaintResourceTest, self).setUp()
@@ -203,7 +203,7 @@ class TenderStage2EU2LotQualificationComplaintResourceTest(TenderStage2EULotQual
 class TenderStage2EUQualificationComplaintDocumentResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
     initial_status = 'active.tendering'  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_tender_bids
-    author_data = author
+    author_data = test_author
     initial_auth = ('Basic', ('broker', ''))
 
     def setUp(self):

@@ -90,6 +90,16 @@ test_lots = [
     }
 ]
 
+test_features_tender_eu_data = deepcopy(test_features_tender_data)
+test_features_tender_eu_data['procurementMethodType'] = CD_EU_TYPE
+
+test_tenderer = deepcopy(test_bids[0]["tenderers"][0])
+test_tenderer['identifier']['id'] = test_shortlistedFirms[0]['identifier']['id']
+test_tenderer['identifier']['scheme'] = test_shortlistedFirms[0]['identifier']['scheme']
+
+test_author = deepcopy(test_tenderer)
+del test_author['scale']
+
 
 if SANDBOX_MODE:
     test_tender_data_eu['procurementMethodDetails'] = 'quick, accelerator=1440'
@@ -918,11 +928,3 @@ class BaseCompetitiveDialogUAStage2ContentWebTest(BaseCompetitiveDialogUAWebTest
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         return response
-
-test_features_tender_eu_data = deepcopy(test_features_tender_data)
-test_features_tender_eu_data['procurementMethodType'] = CD_EU_TYPE
-
-author = deepcopy(test_bids[0]["tenderers"][0])
-author['identifier']['id'] = test_shortlistedFirms[0]['identifier']['id']
-author['identifier']['scheme'] = test_shortlistedFirms[0]['identifier']['scheme']
-del author['scale']

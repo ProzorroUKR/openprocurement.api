@@ -8,9 +8,9 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogUAStage2ContentWebTest,
     test_features_tender_eu_data,
     test_bids,
-    test_shortlistedFirms,
     test_tender_stage2_data_eu,
-    test_tender_stage2_data_ua
+    test_tender_stage2_data_ua,
+    test_tenderer
 )
 from openprocurement.tender.belowthreshold.tests.auction import (
     TenderAuctionResourceTestMixin,
@@ -36,13 +36,10 @@ from openprocurement.tender.competitivedialogue.tests.stage2.auction_blanks impo
     patch_tender_with_lots_auction,
 )
 
-tenderer_organization = deepcopy(test_bids[0]["tenderers"][0])
-tenderer_organization['identifier']['id'] = test_shortlistedFirms[0]['identifier']['id']
-tenderer_organization['identifier']['scheme'] = test_shortlistedFirms[0]['identifier']['scheme']
 
 test_tender_bids = deepcopy(test_bids[:2])
 for test_bid in test_tender_bids:
-    test_bid['tenderers'] = [tenderer_organization]
+    test_bid['tenderers'] = [test_tenderer]
 
 
 def prepare_for_auction(self):
@@ -96,7 +93,7 @@ class TenderStage2EUAuctionResourceTest(BaseCompetitiveDialogEUStage2ContentWebT
 
 class TenderStage2EUSameValueAuctionResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
     # initial_status = 'active.auction'
-    tenderer_info = deepcopy(tenderer_organization)
+    tenderer_info = deepcopy(test_tenderer)
     initial_bids = [
         {
             "tenderers": [
@@ -200,7 +197,7 @@ class TenderStage2EUFeaturesAuctionResourceTest(BaseCompetitiveDialogEUStage2Con
                 ]
             }
         ]
-    tenderer_info = deepcopy(tenderer_organization)
+    tenderer_info = deepcopy(test_tenderer)
     initial_bids = [
         {
             "parameters": [
@@ -282,7 +279,7 @@ class TenderStage2UASameValueAuctionResourceTest(BaseCompetitiveDialogUAStage2Co
     initial_bids = [
         {
             "tenderers": [
-                tenderer_organization
+                test_tenderer
             ],
             "value": {
                 "amount": 469,
@@ -347,7 +344,7 @@ class TenderStage2UAFeaturesAuctionResourceTest(BaseCompetitiveDialogUAStage2Con
             ]
         }
     ]
-    tenderer_info = deepcopy(tenderer_organization)
+    tenderer_info = deepcopy(test_tenderer)
     initial_bids = [
         {
             "parameters": [

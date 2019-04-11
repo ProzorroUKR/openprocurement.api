@@ -54,11 +54,13 @@ class TenderComplaintDocumentResourceTest(BaseESCOContentWebTest):
     def setUp(self):
         super(TenderComplaintDocumentResourceTest, self).setUp()
         # Create complaint
-        response = self.app.post_json('/tenders/{}/complaints'.format(
-            self.tender_id), {'data': {'title': 'complaint title',
-                                       'description': 'complaint description',
-                                       'author': test_bids[0]["tenderers"][0]
-                                      }})
+        response = self.app.post_json(
+            '/tenders/{}/complaints'.format(self.tender_id),
+            {'data': {
+                'title': 'complaint title',
+                'description': 'complaint description',
+                'author': self.test_author
+            }})
         complaint = response.json['data']
         self.complaint_id = complaint['id']
         self.complaint_owner_token = response.json['access']['token']

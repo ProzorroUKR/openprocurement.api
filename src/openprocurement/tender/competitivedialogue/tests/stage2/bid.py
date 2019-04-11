@@ -34,9 +34,9 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUStage2ContentWebTest,
     BaseCompetitiveDialogUAStage2ContentWebTest,
     test_bids,
-    test_shortlistedFirms,
     test_tender_stage2_data_eu,
-    test_tender_stage2_data_ua
+    test_tender_stage2_data_ua,
+    test_tenderer
 )
 from openprocurement.tender.competitivedialogue.tests.stage2.bid_blanks import (
     # TenderStage2BidResourceTest
@@ -63,12 +63,9 @@ from openprocurement.tender.competitivedialogue.tests.stage2.bid_blanks import (
     put_tender_bidder_document_ua,
 )
 
-test_organization_stage2 = deepcopy(test_bids[0]["tenderers"][0])
-test_organization_stage2['identifier']['id'] = test_shortlistedFirms[0]['identifier']['id']
-test_organization_stage2['identifier']['scheme'] = test_shortlistedFirms[0]['identifier']['scheme']
 
 test_bids_stage2 = deepcopy(test_bids)
-test_bids_stage2[0]["tenderers"][0] = test_organization_stage2
+test_bids_stage2[0]["tenderers"][0] = test_tenderer
 
 
 class TenderStage2EUBidResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest,
@@ -109,9 +106,9 @@ class TenderStage2EUBidDocumentResourceTest(BaseCompetitiveDialogEUStage2Content
         super(TenderStage2EUBidDocumentResourceTest, self).setUp()
         # Create bid
         test_bid_1 = deepcopy(test_bids[0])
-        test_bid_1['tenderers'] = [test_organization_stage2]
+        test_bid_1['tenderers'] = [test_tenderer]
         test_bid_2 = deepcopy(test_bids[1])
-        test_bid_2['tenderers'] = [test_organization_stage2]
+        test_bid_2['tenderers'] = [test_tenderer]
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': test_bid_1})
         bid = response.json['data']
         self.bid_id = bid['id']
@@ -168,7 +165,7 @@ class TenderStage2UABidDocumentResourceTest(BaseCompetitiveDialogUAStage2Content
         # Create bid
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
                                       {'data': {'selfEligible': True, 'selfQualified': True,
-                                       'tenderers': [test_organization_stage2], "value": {"amount": 500}}})
+                                       'tenderers': [test_tenderer], "value": {"amount": 500}}})
         bid = response.json['data']
         self.bid_id = bid['id']
         self.bid_token = response.json['access']['token']
