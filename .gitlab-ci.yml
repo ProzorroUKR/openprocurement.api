@@ -34,7 +34,7 @@ Build:
   dependencies:
     - Build
   tags:
-    - werf
+    - shell
 
 Review:
   <<: *base_deploy
@@ -46,8 +46,6 @@ Review:
     - Build
   only:
     - branches
-  tags:
-    - shell
   except:
     - master
     - schedules
@@ -61,8 +59,6 @@ Deploy master:
     - Build
   only:
     - master
-  tags:
-    - shell
   except:
     - schedules
 
@@ -104,6 +100,8 @@ Stop review:
     - couchdb:1.6
   tags:
     - kube
+  only:
+    - branches
   dependencies:
     - Build
   script:
