@@ -109,7 +109,7 @@ def validate_update_contract_value_identical(request, name='amountPaid', attrs=(
     value = data.get('value')
     if paid:
         for attr in attrs:
-            if paid.get(attr) and value.get(attr) != paid.get(attr):
+            if paid.get(attr) is not None and value.get(attr) != paid.get(attr):
                 raise_operation_error(
                     request, '{} of {} should be identical to {} of value of contract'.format(attr, name, attr),
                     name=name)
