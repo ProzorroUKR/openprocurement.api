@@ -671,7 +671,7 @@ def patch_tender_contract(self):
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(
         response.json['errors'][0]["description"],
-        "currency of amountPaid should be identical to currency of value of contract")
+        "valueAddedTaxIncluded of amountPaid should be identical to valueAddedTaxIncluded of value of contract")
 
     response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
                                    {"data": {"amountPaid": {
