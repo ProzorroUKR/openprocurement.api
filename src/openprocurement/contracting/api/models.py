@@ -191,6 +191,7 @@ class Contract(SchematicsDocument, BaseContract):
             'default': schematics_default_role,
         }
 
+
     def __local_roles__(self):
         return dict([('{}_{}'.format(self.owner, self.owner_token), 'contract_owner'),
                      ('{}_{}'.format(self.owner, self.tender_token), 'tender_owner')])

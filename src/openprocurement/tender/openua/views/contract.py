@@ -15,6 +15,7 @@ from openprocurement.tender.core.validation import (
     validate_contract_operation_not_in_allowed_status,
     validate_update_contract_value_with_award,
     validate_update_contract_value_amount,
+    validate_update_contract_value_net_required
 )
 from openprocurement.tender.core.utils import (
     save_tender,
@@ -35,6 +36,7 @@ class TenderUaAwardContractResource(TenderAwardContractResource):
             validate_patch_contract_data, validate_contract_operation_not_in_allowed_status,
             validate_update_contract_only_for_active_lots, validate_contract_update_with_accepted_complaint,
             validate_update_contract_value, validate_contract_signing,
+            validate_update_contract_value_net_required,
             validate_update_contract_value_with_award, validate_update_contract_value_amount))
     def patch(self):
         """Update of contract

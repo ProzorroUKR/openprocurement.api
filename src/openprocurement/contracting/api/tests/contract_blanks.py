@@ -667,7 +667,16 @@ def patch_tender_contract(self):
                                        "amount": 100,
                                        "amountNet": 90,
                                        "currency": "USD",
-                                       "valueAddedTaxIncluded": False}}})
+                                       "valueAddedTaxIncluded": False}}}, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(
+        response.json['errors'][0]["description"],
+        "valueAddedTaxIncluded of amountPaid should be identical to valueAddedTaxIncluded of value of contract")
+
+    response = self.app.patch_json('/contracts/{}?acc_token={}'.format(self.contract['id'], token),
+                                   {"data": {"amountPaid": {
+                                       "amount": 100,
+                                       "amountNet": 90}}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.json['data']['amountPaid']['amount'], 100)
     self.assertEqual(response.json['data']['amountPaid']['amountNet'], 90)
@@ -792,12 +801,12 @@ def patch_tender_contract_wo_amount_net(self):
 
     response = self.app.patch_json('/contracts/{}?acc_token={}'.format(
         self.contract['id'], token),
-        {"data": {"value": {"amount": 235}}}, status=403)
-    self.assertEqual(response.status, '403 Forbidden')
+        {"data": {"value": {"amount": 235}}}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(
         response.json['errors'],
-        [{"location": "body", "name": "value",
-          "description": "Amount should be greater than amountNet and differ by no more than 20.0%"}])
+        [{u'description': {u'amountNet': u'This field is required.'},
+          u'location': u'body', u'name': u'value'}])
 
     response = self.app.patch_json('/contracts/{}?acc_token={}'.format(
         self.contract['id'], token),

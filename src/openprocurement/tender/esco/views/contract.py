@@ -7,7 +7,7 @@ from openprocurement.tender.core.validation import (
     validate_update_contract_only_for_active_lots,
     validate_contract_signing,
     validate_update_contract_value_with_award,
-    validate_update_contract_value_amount)
+    validate_update_contract_value_amount, validate_update_contract_value_net_required)
 from openprocurement.tender.esco.validation import (
     validate_update_contract_value_esco
 )
@@ -33,6 +33,7 @@ class TenderESCOContractResource(TenderEUContractResource):
             validate_contract_update_with_accepted_complaint,
             validate_update_contract_value_esco,
             validate_contract_signing,
+            validate_update_contract_value_net_required,
             validate_update_contract_value_with_award,
             validate_update_contract_value_amount,))
     def patch(self):
