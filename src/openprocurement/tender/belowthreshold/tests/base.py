@@ -3,7 +3,7 @@ import os
 from datetime import datetime, timedelta
 
 from openprocurement.api.constants import SANDBOX_MODE, get_constant
-from openprocurement.api.utils import apply_data_patch
+from openprocurement.api.utils import apply_data_patch, get_now
 from openprocurement.tender.core.tests.base import (
     BaseTenderWebTest as BaseTWT
 )
@@ -215,6 +215,7 @@ class BaseTenderWebTest(BaseTWT):
     forbidden_auction_document_create_actions_status = 'active.tendering'  # status, in which adding document to tender auction is forbidden
 
     def set_status(self, status, extra=None):
+        now = get_now()
         data = {'status': status}
         if status == 'active.enquiries':
             data.update({

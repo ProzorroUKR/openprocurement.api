@@ -382,6 +382,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         self.db.save(tender)
 
     def set_status(self, status, extra=None):
+        now = get_now()
         tender = self.db.get(self.tender_id)
 
         def activate_bids():
