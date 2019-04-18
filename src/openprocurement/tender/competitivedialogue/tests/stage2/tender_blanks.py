@@ -1407,12 +1407,6 @@ def patch_tender_1(self):
     tender["status"] = 'active.tendering'
 
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
-                                   {'data': {'tenderPeriod': {
-                                       "endDate": response.json['data']['tenderPeriod']['endDate']}}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
-
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
                                    {'data': {'procuringEntity': {'kind': 'defense'}}})
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
