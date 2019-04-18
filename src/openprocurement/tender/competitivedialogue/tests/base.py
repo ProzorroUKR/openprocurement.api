@@ -474,6 +474,7 @@ class BaseCompetitiveDialogUAStage2WebTest(BaseCompetitiveDialogWebTest):
     initial_data = test_tender_stage2_data_ua
 
     def set_status(self, status, extra=None):
+        now = get_now()
         data = {'status': status}
         if status == 'active.tendering':
             data.update({
@@ -772,6 +773,7 @@ class BaseCompetitiveDialogUAStage2ContentWebTest(BaseCompetitiveDialogUAWebTest
     create_tender = create_tender_stage2
 
     def set_status(self, status, extra=None):
+        now = get_now()
         data = {'status': status}
         if status == 'active.tendering':
             data.update({
