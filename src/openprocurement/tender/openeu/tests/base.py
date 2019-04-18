@@ -414,9 +414,6 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                 "tenderPeriod": {
                     "startDate": (now - TENDERING_DURATION - timedelta(days=1)).isoformat(),
                     "endDate": (now).isoformat(),
-                },
-                "qualificationPeriod": {
-                    "startDate": (now).isoformat(),
                 }
             })
         elif status == 'active.pre-qualification.stand-still':
