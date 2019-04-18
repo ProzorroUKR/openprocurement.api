@@ -382,6 +382,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         self.db.save(tender)
 
     def set_status(self, status, extra=None):
+        now = get_now()
         tender = self.db.get(self.tender_id)
 
         def activate_bids():
@@ -413,9 +414,6 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                 "tenderPeriod": {
                     "startDate": (now - TENDERING_DURATION - timedelta(days=1)).isoformat(),
                     "endDate": (now).isoformat(),
-                },
-                "qualificationPeriod": {
-                    "startDate": (now).isoformat(),
                 }
             })
         elif status == 'active.pre-qualification.stand-still':

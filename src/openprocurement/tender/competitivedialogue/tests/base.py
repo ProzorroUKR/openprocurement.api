@@ -258,6 +258,7 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
         self.db.save(tender)
 
     def set_status(self, status, extra=None):
+        now = get_now()
         data = {'status': status}
         if status == 'active.tendering':
             data.update({
