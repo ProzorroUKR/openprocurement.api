@@ -2,7 +2,7 @@
 import unittest
 from copy import deepcopy
 
-from openprocurement.api.tests.base import snitch, BaseWebTest
+from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     # TenderStage2UABidDocumentResourceTest
@@ -90,7 +90,6 @@ class TenderStage2EUBidFeaturesResourceTest(BaseCompetitiveDialogEUStage2Content
     test_bids_data = test_bids_stage2
 
     def setUp(self):
-        BaseWebTest.setUp(self)
         self.app.authorization = ('Basic', ('broker', ''))
 
     test_features_bidder = snitch(features_bidder_eu)
@@ -107,13 +106,13 @@ class TenderStage2EUBidDocumentResourceTest(BaseCompetitiveDialogEUStage2Content
         # Create bid
         test_bid_1 = deepcopy(test_bids[0])
         test_bid_1['tenderers'] = [test_tenderer]
-        test_bid_2 = deepcopy(test_bids[1])
-        test_bid_2['tenderers'] = [test_tenderer]
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': test_bid_1})
         bid = response.json['data']
         self.bid_id = bid['id']
         self.bid_token = response.json['access']['token']
         # create second bid
+        test_bid_2 = deepcopy(test_bids[1])
+        test_bid_2['tenderers'] = [test_tenderer]
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': test_bid_2})
         bid2 = response.json['data']
         self.bid2_id = bid2['id']
@@ -149,7 +148,6 @@ class TenderStage2UABidFeaturesResourceTest(BaseCompetitiveDialogUAStage2Content
     test_bids_data = test_bids_stage2
 
     def setUp(self):
-        BaseWebTest.setUp(self)
         self.app.authorization = ('Basic', ('broker', ''))
 
     test_features_bidder_ua = snitch(features_bidder_ua)

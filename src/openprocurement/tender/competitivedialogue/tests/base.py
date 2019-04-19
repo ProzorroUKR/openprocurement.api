@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
-import os
 from hashlib import sha512
 from datetime import datetime, timedelta
 from uuid import uuid4
 from copy import deepcopy
-from openprocurement.api.design import sync_design
 from openprocurement.api.constants import SANDBOX_MODE
-from openprocurement.api.utils import apply_data_patch, get_now
+from openprocurement.api.utils import get_now
 from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest as BaseTenderWebTest
 from openprocurement.tender.belowthreshold.tests.base import (
     test_organization
@@ -112,7 +110,6 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
     initial_bids = None
     initial_lots = None
     initial_auth = None
-    relative_to = os.path.dirname(__file__)
     forbidden_lot_actions_status = 'unsuccessful'  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
 
     def go_to_enquiryPeriod_end(self):

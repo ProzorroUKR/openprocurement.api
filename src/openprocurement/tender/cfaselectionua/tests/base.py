@@ -6,12 +6,9 @@ from datetime import datetime, timedelta
 from uuid import uuid4
 
 from openprocurement.api.constants import SANDBOX_MODE, TZ
-from openprocurement.api.utils import apply_data_patch, get_now
-from openprocurement.tender.core.tests.base import (
-    BaseTenderWebTest as BaseTWT
-)
+from openprocurement.api.utils import get_now
+from openprocurement.tender.core.tests.base import BaseCoreWebTest
 from openprocurement.tender.cfaselectionua.adapters.configurator import TenderCfaSelectionUAConfigurator
-from openprocurement.tender.cfaselectionua.constants import ENQUIRY_PERIOD
 from openprocurement.tender.cfaselectionua.tests.periods import periods
 
 
@@ -64,7 +61,7 @@ with open(os.path.join(here, 'data/lots.json')) as _in:
 test_agreement_features = deepcopy(test_agreement)
 test_agreement_features['features'] = test_features
 
-class BaseTenderWebTest(BaseTWT):
+class BaseTenderWebTest(BaseCoreWebTest):
     initial_data = test_tender_data
     initial_agreement = deepcopy(test_agreement)
     initial_status = None
@@ -72,7 +69,6 @@ class BaseTenderWebTest(BaseTWT):
     initial_lots = None
     initial_auth = ('Basic', ('broker', ''))
     docservice = False
-    relative_to = os.path.dirname(__file__)
     # Statuses for test, that will be imported from others procedures
     primary_tender_status = 'draft.pending'  # status, to which tender should be switched from 'draft'
     forbidden_document_modification_actions_status = 'active.tendering'  # status, in which operations with tender documents (adding, updating) are forbidden

@@ -1,12 +1,21 @@
 # -*- coding: utf-8 -*-
+import os
 import unittest
 
+from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.planning.api.models import Plan
-from openprocurement.planning.api.migration import migrate_data, get_db_schema_version, set_db_schema_version, SCHEMA_VERSION
-from openprocurement.planning.api.tests.base import test_plan_data, BaseWebTest
-
+from openprocurement.planning.api.migration import (
+    migrate_data, get_db_schema_version, set_db_schema_version, SCHEMA_VERSION
+)
+from openprocurement.planning.api.tests.base import test_plan_data
 
 class MigrateTest(BaseWebTest):
+    relative_to = os.path.dirname(__file__)
+    initial_auth = ('Basic', ('token', ''))
+
+    def setUp(self):
+        super(MigrateTest, self).setUp()
+        migrate_data(self.app.app.registry)
 
     def test_migrate(self):
         self.assertEqual(get_db_schema_version(self.db), SCHEMA_VERSION)

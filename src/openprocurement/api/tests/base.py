@@ -2,16 +2,16 @@
 import os
 import webtest
 import unittest
-from uuid import uuid4
-from datetime import datetime
+
 from types import FunctionType
 
+from paste.deploy import loadapp
 
 from openprocurement.api.constants import VERSION
 from openprocurement.api.design import sync_design
 
 
-now = datetime.now()
+wsgiapp = None
 
 
 def snitch(func):
@@ -28,7 +28,7 @@ def snitch(func):
                         'test_' + func.func_name, closure=func.func_closure)
 
 
-class PrefixedRequestClass(webtest.app.TestRequest):
+class PrefixedTestRequest(webtest.app.TestRequest):
 
     @classmethod
     def blank(cls, path, *args, **kwargs):
@@ -36,42 +36,34 @@ class PrefixedRequestClass(webtest.app.TestRequest):
         return webtest.app.TestRequest.blank(path, *args, **kwargs)
 
 
-app = webtest.TestApp("config:tests.ini", relative_to=os.path.dirname(__file__))
+class BaseTestApp(webtest.TestApp):
+    RequestClass = PrefixedTestRequest
 
 
 class BaseWebTest(unittest.TestCase):
-
-    """Base Web Test to test openprocurement.api.
+    """
+    Base Web Test to test openprocurement.api.
     It setups the database before each test and delete it after.
     """
-    app = app
-    db_name_template = app.app.registry.db.name
-    initial_auth = None
+    relative_uri = "config:tests.ini"
     relative_to = os.path.dirname(__file__)
+
+    initial_auth = None
 
     @classmethod
     def setUpClass(cls):
-        cls.app.RequestClass = PrefixedRequestClass
+        global wsgiapp
+        wsgiapp = wsgiapp or loadapp(cls.relative_uri, relative_to=cls.relative_to)
+        cls.app = BaseTestApp(wsgiapp)
+        cls.app.RequestClass = PrefixedTestRequest
         cls.couchdb_server = cls.app.app.registry.couchdb_server
         cls.db = cls.app.app.registry.db
-        cls.db_name = cls.db.name
-
-    @classmethod
-    def tearDownClass(cls):
-        try:
-            cls.couchdb_server.delete(cls.db_name)
-        except:
-            pass
 
     def setUp(self):
-        self.db_name = self.db_name_template + uuid4().hex
-        self.couchdb_server.create(self.db_name)
-        db = self.couchdb_server[self.db_name]
-        sync_design(db)
-        self.app.app.registry.db = db
-        self.db = self.app.app.registry.db
-        self.db_name = self.db.name
         self.app.authorization = self.initial_auth
 
     def tearDown(self):
-        self.couchdb_server.delete(self.db_name)
+        db_name = self.db.name
+        self.couchdb_server.delete(db_name)
+        self.db = self.couchdb_server.create(db_name)
+        sync_design(self.db)

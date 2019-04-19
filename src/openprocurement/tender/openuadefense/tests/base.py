@@ -74,7 +74,6 @@ test_features_tender_ua_data["tenderPeriod"] = {
 }
 test_features_tender_ua_data["items"][0]["deliveryDate"] = test_tender_data["items"][0]["deliveryDate"]
 test_features_tender_ua_data["items"][0]["deliveryAddress"] = test_tender_data["items"][0]["deliveryAddress"]
-# test_features_tender_ua_data["tenderPeriod"] = test_features_tender_ua_data["enquiryPeriod"].copy()
 
 
 class BaseTenderUAWebTest(BaseTenderWebTest):
@@ -82,7 +81,6 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
     initial_status = None
     initial_bids = None
     initial_lots = None
-    relative_to = os.path.dirname(__file__)
     forbidden_lot_actions_status = "active.auction"  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
 
     def go_to_enquiryPeriod_end(self):
@@ -246,11 +244,6 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         return response
-
-    def tearDown(self):
-        if self.docservice:
-            self.tearDownDS()
-        del self.couchdb_server[self.db.name]
 
 
 class BaseTenderUAContentWebTest(BaseTenderUAWebTest):

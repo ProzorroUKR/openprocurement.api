@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import uuid
 from copy import deepcopy
-from openprocurement.agreement.core.tests.base import change_auth
+from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.utils import get_now
 from openprocurement.agreement.cfaua.tests.base import TEST_DOCUMENTS

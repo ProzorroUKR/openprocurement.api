@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
-import os
 import unittest
 from openprocurement.tender.core.tests.base import BaseWebTest
 
 
 class TenderResourceTest(BaseWebTest):
-    relative_to = os.path.dirname(__file__)
 
     def test_empty_listing(self):
         response = self.app.get('/tenders')

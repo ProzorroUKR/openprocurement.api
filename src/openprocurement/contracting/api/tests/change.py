@@ -6,7 +6,6 @@ from openprocurement.api.tests.base import (
 )
 
 from openprocurement.contracting.api.tests.base import (
-    BaseWebTest,
     BaseContractContentWebTest,
     test_contract_data
 )
@@ -24,6 +23,8 @@ from openprocurement.contracting.api.tests.change_blanks import (
     change_date_signed_very_old_contracts_data,
     date_signed_on_change_creation_for_very_old_contracts_data,
 )
+
+from openprocurement.tender.core.tests.base import BaseWebTest
 
 
 class ContractNoItemsChangeTest(BaseWebTest):

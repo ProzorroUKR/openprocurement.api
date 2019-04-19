@@ -1,12 +1,7 @@
 # -*- coding: utf-8 -*-
-import os
 import unittest
 
-import mock
-from datetime import timedelta
-
 from openprocurement.api.tests.base import BaseWebTest, snitch
-from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_data, BaseTenderWebTest
 )
@@ -68,7 +63,6 @@ class TenderResourceTestMixin(object):
 
 class TenderTest(BaseWebTest):
     initial_data = test_tender_data
-    relative_to = os.path.dirname(__file__)
 
     test_simple_add_tender = snitch(simple_add_tender)
 
@@ -81,7 +75,6 @@ class TestCoordinatesRegExp(unittest.TestCase):
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     initial_data = test_tender_data
     initial_auth = ('Basic', ('broker', ''))
-    relative_to = os.path.dirname(__file__)
 
     test_guarantee = snitch(guarantee)
     test_create_tender_invalid = snitch(create_tender_invalid)
@@ -97,7 +90,6 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
 
 class TenderProcessTest(BaseTenderWebTest):
     initial_auth = ('Basic', ('broker', ''))
-    relative_to = os.path.dirname(__file__)
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
     test_one_valid_bid_tender = snitch(one_valid_bid_tender)

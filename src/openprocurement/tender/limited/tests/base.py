@@ -57,7 +57,6 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
     initial_status = None
     initial_bids = None
     initial_lots = None
-    relative_to = os.path.dirname(__file__)
     initial_auth = ('Basic', ('broker', ''))
     primary_tender_status = "active"  # status, to which tender should be switched from 'draft'
     forbidden_document_modification_actions_status = "complete"  # status, in which operations with tender documents (adding, updating) are forbidden

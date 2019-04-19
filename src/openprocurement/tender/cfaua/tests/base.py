@@ -459,7 +459,6 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
     initial_bids = None
     initial_lots = None
     initial_auth = None
-    relative_to = os.path.dirname(__file__)
 
     meta_initial_bids = deepcopy(test_bids)
     meta_initial_lots = deepcopy(test_lots)
@@ -510,15 +509,9 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
             self.app.authorization = self.initial_auth
         else:
             self.app.authorization = ('Basic', ('broker', ''))
-        self.couchdb_server = self.app.app.registry.couchdb_server
-        self.db = self.app.app.registry.db
-        if self.docservice:
-            self.setUpDS()
 
     def tearDown(self):
-        if self.docservice:
-            self.tearDownDS()
-        del self.couchdb_server[self.db.name]
+        super(BaseTenderWebTest, self).tearDown()
         self.restore_pure_data()
 
     def check_chronograph(self):
@@ -1085,8 +1078,6 @@ class BaseTenderContentWebTest(BaseTenderWebTest):
 
     meta_initial_bids = deepcopy(test_bids)
     meta_initial_lots = deepcopy(test_lots)
-
-    relative_to = os.path.dirname(__file__)
 
     def setUp(self):
         super(BaseTenderContentWebTest, self).setUp()

@@ -131,6 +131,7 @@ class TestTenderAuctionPeriod(unittest.TestCase):
         should_start_after = datetime.combine(
             (tender_auction_period.startDate.date() + timedelta(days=1)),
              time(0, tzinfo=tender_auction_period.startDate.tzinfo))
+        # TODO: investigate fail starting at 23:24:00 to 24:00:00
         self.assertEqual(
             serialized,
             {'startDate': tender_auction_period.startDate.isoformat(),

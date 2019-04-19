@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
-import os
 from datetime import datetime, timedelta
 from openprocurement.api.constants import SANDBOX_MODE
-from openprocurement.tender.openua.tests.base import (
-    BaseTenderUAWebTest as BaseBaseTenderWebTest
-)
-from openprocurement.api.utils import apply_data_patch, get_now
+from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest
+from openprocurement.api.utils import get_now
 from openprocurement.tender.openeu.constants import (
     TENDERING_DAYS,
     TENDERING_DURATION,
@@ -212,13 +209,12 @@ test_lots = [
 ]
 
 
-class BaseTenderWebTest(BaseBaseTenderWebTest):
+class BaseTenderWebTest(BaseTenderUAWebTest):
     initial_data = test_tender_data
     initial_status = None
     initial_bids = None
     initial_lots = None
     initial_auth = None
-    relative_to = os.path.dirname(__file__)
     forbidden_question_modification_actions_status = 'active.pre-qualification'  # status, in which adding/updating tender questions is forbidden
     question_claim_block_status = "active.pre-qualification"  # status, tender cannot be switched to while it has questions/complaints related to its lot
     # auction role actions
@@ -239,20 +235,8 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         })
 
     def setUp(self):
-        super(BaseBaseTenderWebTest, self).setUp()
-        if self.initial_auth:
-            self.app.authorization = self.initial_auth
-        else:
-            self.app.authorization = ('Basic', ('token', ''))
-        self.couchdb_server = self.app.app.registry.couchdb_server
-        self.db = self.app.app.registry.db
-        if self.docservice:
-            self.setUpDS()
-
-    def tearDown(self):
-        if self.docservice:
-            self.tearDownDS()
-        del self.couchdb_server[self.db.name]
+        super(BaseTenderUAWebTest, self).setUp()
+        self.app.authorization = self.initial_auth or ('Basic', ('token', ''))
 
     def check_chronograph(self):
         authorization = self.app.authorization
@@ -621,7 +605,6 @@ class BaseTenderContentWebTest(BaseTenderWebTest):
     initial_status = None
     initial_bids = None
     initial_lots = None
-    relative_to = os.path.dirname(__file__)
 
     def setUp(self):
         super(BaseTenderContentWebTest, self).setUp()

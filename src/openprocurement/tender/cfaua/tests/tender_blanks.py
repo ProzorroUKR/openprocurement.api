@@ -1355,7 +1355,6 @@ def _awards_to_bids_number(self, max_awards_number, bids_number, expected_awards
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(len(response.json['data']), expected_awards_number)
-    del self.db[self.tender_id]
 
 
 def awards_to_bids_number(self):

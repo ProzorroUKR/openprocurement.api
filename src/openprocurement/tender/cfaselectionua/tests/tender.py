@@ -115,7 +115,6 @@ class TenderResourceTestMixin(object):
 
 class TenderTest(BaseWebTest):
     initial_data = tender_data
-    relative_to = os.path.dirname(__file__)
 
     test_simple_add_tender = snitch(simple_add_tender)
 
@@ -129,7 +128,6 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     initial_data = tender_data
     primary_tender_status = 'draft'
     initial_auth = ('Basic', ('broker', ''))
-    relative_to = os.path.dirname(__file__)
     initial_agreement = test_agreement
     initial_agreement_with_features = test_agreement_features
 
@@ -150,7 +148,6 @@ class TenderProcessTest(BaseTenderWebTest):
     initial_data = tender_data
     primary_tender_status = 'draft'
     initial_auth = ('Basic', ('broker', ''))
-    relative_to = os.path.dirname(__file__)
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
     test_one_valid_bid_tender = snitch(one_valid_bid_tender)

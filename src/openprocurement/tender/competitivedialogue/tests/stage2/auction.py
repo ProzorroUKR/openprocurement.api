@@ -2,7 +2,7 @@
 import unittest
 from copy import deepcopy
 from openprocurement.tender.openeu.tests.base import test_lots
-from openprocurement.api.tests.base import snitch, BaseWebTest
+from openprocurement.api.tests.base import snitch
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUStage2ContentWebTest,
     BaseCompetitiveDialogUAStage2ContentWebTest,
@@ -36,33 +36,9 @@ from openprocurement.tender.competitivedialogue.tests.stage2.auction_blanks impo
     patch_tender_with_lots_auction,
 )
 
-
 test_tender_bids = deepcopy(test_bids[:2])
 for test_bid in test_tender_bids:
     test_bid['tenderers'] = [test_tenderer]
-
-
-def prepare_for_auction(self):
-    """
-    Qualify bids and switch to pre-qualification.stand-still (before auction status)
-    """
-    self.time_shift('active.pre-qualification')
-    self.app.authorization = ('Basic', ('chronograph', ''))
-    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json['data']['status'], "active.pre-qualification")
-
-    self.app.authorization = ('Basic', ('broker', ''))
-    response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(self.tender_id, self.tender_token))
-    for qualification in response.json['data']:
-        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
-            self.tender_id, qualification['id'], self.tender_token),
-            {'data': {"status": "active", "qualified": True, "eligible": True}})
-        self.assertEqual(response.status, '200 OK')
-
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
-                                   {'data': {'status': 'active.pre-qualification.stand-still'}})
-    self.assertEqual(response.status, "200 OK")
 
 
 class TenderStage2EUAuctionResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest, TenderAuctionResourceTestMixin):
@@ -241,15 +217,38 @@ class TenderStage2EUFeaturesAuctionResourceTest(BaseCompetitiveDialogEUStage2Con
     initial_status = 'active.tendering'
 
     def setUp(self):
-        BaseWebTest.setUp(self)
-        self.app.authorization = ('Basic', ('broker', ''))
+        super(TenderStage2EUFeaturesAuctionResourceTest, self).setUp()
+        self.prepare_for_auction()
+
+    def create_tender(self):
         data = test_tender_stage2_data_eu.copy()
         item = data['items'][0].copy()
         item['id'] = "1"
         data['items'] = [item]
         data['features'] = self.features
-        self.create_tender(initial_data=data, initial_bids=self.initial_bids)
-        prepare_for_auction(self)
+        super(TenderStage2EUFeaturesAuctionResourceTest, self).create_tender(
+            initial_data=data, initial_bids=self.initial_bids)
+
+    def prepare_for_auction(self):
+        """
+        Qualify bids and switch to pre-qualification.stand-still (before auction status)
+        """
+        self.time_shift('active.pre-qualification')
+        response = self.check_chronograph()
+        self.assertEqual(response.json['data']['status'], "active.pre-qualification")
+
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(self.tender_id, self.tender_token))
+        for qualification in response.json['data']:
+            response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
+                self.tender_id, qualification['id'], self.tender_token),
+                {'data': {"status": "active", "qualified": True, "eligible": True}})
+            self.assertEqual(response.status, '200 OK')
+
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+            {'data': {'status': 'active.pre-qualification.stand-still'}})
+        self.assertEqual(response.status, "200 OK")
 
     test_get_tender_auction = snitch(get_tender_auction_feature)
     test_post_tender_auction = snitch(post_tender_auction_feature)
@@ -388,7 +387,6 @@ class TenderStage2UAFeaturesAuctionResourceTest(BaseCompetitiveDialogUAStage2Con
     initial_status = 'active.tendering'
 
     def setUp(self):
-        BaseWebTest.setUp(self)
         self.app.authorization = ('Basic', ('broker', ''))
         data = test_tender_stage2_data_ua.copy()
         item = data['items'][0].copy()
