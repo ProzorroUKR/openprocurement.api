@@ -11,7 +11,7 @@ def create_tender_question_invalid_eu(self):
     response = self.app.post_json('/tenders/some_id/questions',
                                   {'data': {'title': 'question title',
                                             'description': 'question description',
-                                            'author': self.test_bids_data[0]['tenderers'][0]}}, status=404)
+                                            'author': self.author_data}}, status=404)
     self.assertEqual(response.status, '404 Not Found')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
@@ -136,7 +136,7 @@ def create_tender_question_invalid_eu(self):
     response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
                                   {'data': {'title': 'question title',
                                             'description': 'question description',
-                                            'author': self.test_bids_data[0]['tenderers'][0],
+                                            'author': self.author_data,
                                             'questionOf': 'lot'}
                                    },
                                   status=422)
@@ -151,7 +151,7 @@ def create_tender_question_invalid_eu(self):
     response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
                                   {'data': {'title': 'question title',
                                             'description': 'question description',
-                                            'author': self.test_bids_data[0]['tenderers'][0],
+                                            'author': self.author_data,
                                             'questionOf': 'lot',
                                             'relatedItem': '0' * 32}
                                    },
@@ -173,7 +173,7 @@ def create_tender_question_eu(self):
     response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
                                   {'data': {'title': 'question title',
                                             'description': 'question description',
-                                            'author': self.test_bids_data[0]['tenderers'][0]}
+                                            'author': self.author_data}
                                    })
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
@@ -189,7 +189,7 @@ def create_tender_question_eu(self):
     response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
                                   {'data': {'title': 'question title',
                                             'description': 'question description',
-                                            'author': self.test_bids_data[0]['tenderers'][0]}},
+                                            'author': self.author_data}},
                                   status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
@@ -202,7 +202,7 @@ def create_tender_question_eu(self):
     response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
                                   {'data': {'title': 'question title',
                                             'description': 'question description',
-                                            'author': self.test_bids_data[0]['tenderers'][0]}},
+                                            'author': self.author_data}},
                                   status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')

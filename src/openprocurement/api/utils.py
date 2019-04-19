@@ -592,6 +592,6 @@ def couchdb_json_decode():
     couchdb.json.use(decode=my_decode, encode=my_encode)
 
 
-def get_tender_date(tender, default=None):
-    revisions = tender.get('revisions')
+def get_first_revision_date(schematics_document, default=None):
+    revisions = schematics_document.get('revisions')
     return revisions[0].date if revisions else default

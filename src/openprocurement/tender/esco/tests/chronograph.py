@@ -3,7 +3,7 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_author
 from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
     # TenderSwitchUnsuccessfulResourceTest
     switch_to_unsuccessful,
@@ -82,7 +82,7 @@ class TenderLotAuctionPeriodResourceTest(BaseESCOContentWebTest):
 class TenderComplaintSwitchResourceTest(BaseESCOContentWebTest):
     initial_status = 'active.tendering'
     initial_bids = test_bids
-    author_data = test_organization
+    author_data = test_author
 
     test_switch_to_complaint = snitch(switch_to_complaint)
 

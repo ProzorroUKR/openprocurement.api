@@ -6,8 +6,8 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUStage2ContentWebTest,
     test_bids,
     test_lots,
-    author
-)
+    test_author,
+    test_tenderer)
 from openprocurement.tender.openeu.tests.qualification_blanks import (
     # TenderStage2EUQualificationResourceTest
     post_tender_qualifications,
@@ -56,7 +56,7 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
 )
 test_tender_bids = deepcopy(test_bids[:2])
 for test_bid in test_tender_bids:
-    test_bid['tenderers'] = [author]
+    test_bid['tenderers'] = [test_tenderer]
 
 
 class TenderStage2EUQualificationResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
@@ -143,6 +143,7 @@ class TenderStage2EUQualificationComplaintResourceTest(BaseCompetitiveDialogEUSt
     initial_status = 'active.tendering'  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_tender_bids
     initial_auth = ('Basic', ('broker', ''))
+    author_data = test_author
 
     def setUp(self):
         super(TenderStage2EUQualificationComplaintResourceTest, self).setUp()
@@ -202,6 +203,7 @@ class TenderStage2EU2LotQualificationComplaintResourceTest(TenderStage2EULotQual
 class TenderStage2EUQualificationComplaintDocumentResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
     initial_status = 'active.tendering'  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_tender_bids
+    author_data = test_author
     initial_auth = ('Basic', ('broker', ''))
 
     def setUp(self):
@@ -223,22 +225,26 @@ class TenderStage2EUQualificationComplaintDocumentResourceTest(BaseCompetitiveDi
         self.qualification_id = qualifications[0]['id']
 
         for qualification in qualifications:
-            response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
-                self.tender_id, qualification['id'], self.tender_token),
+            response = self.app.patch_json(
+                '/tenders/{}/qualifications/{}?acc_token={}'.format(
+                    self.tender_id, qualification['id'], self.tender_token),
                 {'data': {'status': 'active', 'qualified': True, 'eligible': True}})
             self.assertEqual(response.status, '200 OK')
             self.assertEqual(response.json['data']['status'], 'active')
 
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
-                                       {'data': {'status': 'active.pre-qualification.stand-still'}})
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+            {'data': {'status': 'active.pre-qualification.stand-still'}})
         self.assertEqual(response.status, '200 OK')
 
         # Create complaint for qualification
         response = self.app.post_json('/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(
             self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]),
-            {'data': {'title': 'complaint title',
-                      'description': 'complaint description',
-                      'author': self.bids[0]['tenderers'][0]}})
+            {'data': {
+                'title': 'complaint title',
+                'description': 'complaint description',
+                'author': self.author_data
+            }})
         complaint = response.json['data']
         self.complaint_id = complaint['id']
         self.complaint_owner_token = response.json['access']['token']

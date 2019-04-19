@@ -52,6 +52,8 @@ CPV_PHARM_PRODUCTS = '33600000-6'
 
 COORDINATES_REG_EXP = re.compile(r'-?\d{1,3}\.\d+|-?\d{1,3}')
 
+SCALE_CODES = ["micro", "sme", "mid", "large"]
+
 CPV_ITEMS_CLASS_FROM = datetime(2017, 1, 1, tzinfo=TZ)
 CPV_BLOCK_FROM = datetime(2017, 6, 2, tzinfo=TZ)
 
@@ -79,6 +81,7 @@ CONSTANTS_FILE_PATH = os.environ.get('CONSTANTS_FILE_PATH', get_default_constant
 CONSTANTS_CONFIG = load_constants(CONSTANTS_FILE_PATH)
 
 BUDGET_PERIOD_FROM = get_constant(CONSTANTS_CONFIG, 'BUDGET_PERIOD_FROM')
+
 # Set non required additionalClassification for classification_id 999999-9
 NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM = get_constant(
     CONSTANTS_CONFIG, 'NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM')
@@ -87,3 +90,6 @@ NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM = get_constant(
 CPV_336_INN_FROM = get_constant(CONSTANTS_CONFIG, 'CPV_336_INN_FROM')
 
 JOURNAL_PREFIX = os.environ.get('JOURNAL_PREFIX', 'JOURNAL_')
+
+# Add scale field to organization
+ORGANIZATION_SCALE_FROM = get_constant(CONSTANTS_CONFIG, 'ORGANIZATION_SCALE_FROM')

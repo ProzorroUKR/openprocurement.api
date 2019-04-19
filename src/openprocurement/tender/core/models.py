@@ -3,7 +3,7 @@ from uuid import uuid4
 from collections import defaultdict
 from datetime import timedelta, time, datetime
 # from couchdb_schematics.document import SchematicsDocument
-from openprocurement.api.models import OpenprocurementSchematicsDocument
+from openprocurement.api.models import OpenprocurementSchematicsDocument, BusinessOrganization
 from schematics.transforms import whitelist, blacklist, export_loop
 # from iso8601 import parse_date
 from zope.interface import implementer
@@ -364,7 +364,7 @@ class Bid(Model):
     def __local_roles__(self):
         return dict([('{}_{}'.format(self.owner, self.owner_token), 'bid_owner')])
 
-    tenderers = ListType(ModelType(Organization), required=True, min_size=1, max_size=1)
+    tenderers = ListType(ModelType(BusinessOrganization), required=True, min_size=1, max_size=1)
     parameters = ListType(ModelType(Parameter), default=list(), validators=[validate_parameters_uniq])
     lotValues = ListType(ModelType(LotValue), default=list())
     date = IsoDateTimeType(default=get_now)
@@ -643,7 +643,7 @@ class BaseAward(Model):
     status = StringType(required=True, choices=['pending', 'unsuccessful', 'active', 'cancelled'], default='pending')
     date = IsoDateTimeType(default=get_now)
     value = ModelType(Value)
-    suppliers = ListType(ModelType(Organization), required=True, min_size=1, max_size=1)
+    suppliers = ListType(ModelType(BusinessOrganization), required=True, min_size=1, max_size=1)
     documents = ListType(ModelType(Document), default=list())
     items = ListType(ModelType(Item))
 

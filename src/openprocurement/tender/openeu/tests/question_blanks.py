@@ -5,7 +5,7 @@
 def patch_tender_question(self):
     response = self.app.post_json('/tenders/{}/questions'.format(
         self.tender_id), {'data': {'title': 'question title', 'description': 'question description',
-                                   'author': self.test_bids_data[0]['tenderers'][0]}})
+                                   'author': self.author_data}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     question = response.json['data']
@@ -56,7 +56,7 @@ def patch_tender_question(self):
 def answering_question(self):
     response = self.app.post_json('/tenders/{}/questions'.format(
         self.tender_id), {'data': {'title': 'question title', 'description': 'question description',
-                                   'author': self.test_bids_data[0]['tenderers'][0]}})
+                                   'author': self.author_data}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     question = response.json['data']

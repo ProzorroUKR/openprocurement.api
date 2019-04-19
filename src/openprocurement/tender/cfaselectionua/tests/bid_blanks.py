@@ -177,14 +177,7 @@ def create_tender_bid_invalid(self):
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(
-        response.json['errors'],
-        [{
-            u'description': u"invalid literal for int() with base 10: 'contactPoint'",
-            u'location': u'body',
-            u'name': u'data'
-        }]
-    )
+    self.assertIn(u"invalid literal for int() with base 10", response.json['errors'][0]['description'])
 
     # no identifier could be found in agreement
     tenderer = deepcopy(test_organization)

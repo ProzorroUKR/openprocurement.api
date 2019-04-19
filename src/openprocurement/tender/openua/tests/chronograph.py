@@ -5,7 +5,7 @@ from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import (
     test_lots,
-    test_organization
+    test_author
 )
 from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
     # TenderSwitchAuctionResourceTest
@@ -65,7 +65,7 @@ class TenderSwitch1BidResourceTest(BaseTenderUAContentWebTest):
 
 class TenderSwitchAuctionResourceTest(BaseTenderUAContentWebTest, TenderSwitchAuctionResourceTestMixin):
     initial_bids = test_bids
-    author_data = test_organization
+    author_data = test_author
 
     test_switch_to_auction = snitch(switch_to_auction)
 

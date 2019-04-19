@@ -2,7 +2,6 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-
 from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,
     test_features_tender_data,
@@ -17,6 +16,9 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     delete_tender_bid,
     get_tender_tenderers,
     bid_Administrator_change,
+    create_tender_bid_no_scale_invalid,
+    create_tender_bid_with_scale_invalid,
+    create_tender_bid_no_scale,
     # TenderBidFeaturesResourceTest
     features_bid,
     features_bid_invalid,
@@ -46,6 +48,9 @@ class TenderBidResourceTest(TenderContentWebTest):
     test_delete_tender_bid = snitch(delete_tender_bid)
     test_get_tender_tenderers = snitch(get_tender_tenderers)
     test_bid_Administrator_change = snitch(bid_Administrator_change)
+    test_create_tender_bid_no_scale_invalid = snitch(create_tender_bid_no_scale_invalid)
+    test_create_tender_bid_with_scale_invalid = snitch(create_tender_bid_with_scale_invalid)
+    test_create_tender_bid_no_scale = snitch(create_tender_bid_no_scale)
 
 
 class TenderBidFeaturesResourceTest(TenderContentWebTest):
@@ -85,10 +90,11 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
 class TenderBidBatchDocumentWithDSResourceTest(TenderContentWebTest):
     docservice = True
     initial_status = 'active.tendering'
-    bid_data_wo_docs = {'tenderers': [test_organization],
-                        'value': {'amount': 500},
-                        'documents': []
-        }
+    bid_data_wo_docs = {
+        'tenderers': [test_organization],
+        'value': {'amount': 500},
+        'documents': []
+    }
 
     test_create_tender_bid_with_document_invalid = snitch(create_tender_bid_with_document_invalid)
     test_create_tender_bid_with_document = snitch(create_tender_bid_with_document)

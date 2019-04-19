@@ -11,9 +11,11 @@ from openprocurement.api.constants import (
     COORDINATES_REG_EXP, ROUTE_PREFIX, SANDBOX_MODE,
     NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM
 )
-from openprocurement.tender.cfaselectionua.constants import\
-    BOT_NAME, ENQUIRY_PERIOD, MIN_PERIOD_UNTIL_AGREEMENT_END,\
+from openprocurement.tender.belowthreshold.tests.base import test_author
+from openprocurement.tender.cfaselectionua.constants import (
+    BOT_NAME, ENQUIRY_PERIOD, MIN_PERIOD_UNTIL_AGREEMENT_END,
     MIN_ACTIVE_CONTRACTS, AGREEMENT_IDENTIFIER
+)
 from openprocurement.tender.core.constants import (
     CANT_DELETE_PERIOD_START_DATE_FROM, CPV_ITEMS_CLASS_FROM,
 )
@@ -958,6 +960,7 @@ def tender_funders(self):
     tender_data['funders'] = [deepcopy(test_organization)]
     tender_data['funders'][0]['identifier']['id'] = '44000'
     tender_data['funders'][0]['identifier']['scheme'] = 'XM-DAC'
+    del tender_data['funders'][0]['scale']
     response = self.app.post_json('/tenders', {'data': tender_data})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
@@ -971,6 +974,7 @@ def tender_funders(self):
     tender_data['funders'].append(deepcopy(test_organization))
     tender_data['funders'][1]['identifier']['id'] = '44000'
     tender_data['funders'][1]['identifier']['scheme'] = 'XM-DAC'
+    del tender_data['funders'][1]['scale']
     response = self.app.post_json('/tenders', {'data': tender_data}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
@@ -1805,7 +1809,7 @@ def tender_Administrator_change(self):
     self.assertEqual(response.status, '201 Created')
     tender = response.json['data']
 
-    #response = self.app.post_json('/tenders/{}/questions'.format(tender['id']), {'data': {'title': 'question title', 'description': 'question description', 'author': test_organization}})
+    #response = self.app.post_json('/tenders/{}/questions'.format(tender['id']), {'data': {'title': 'question title', 'description': 'question description', 'author': test_author}})
     #self.assertEqual(response.status, '201 Created')
     #self.assertEqual(response.content_type, 'application/json')
     #question = response.json['data']
@@ -1887,7 +1891,7 @@ def invalid_tender_conditions(self):
 
     response = self.app.post_json('/tenders/{}/complaints'.format(tender_id),
                                   {'data': {'title': 'invalid conditions', 'description': 'description',
-                                            'author': test_organization, 'status': 'claim'}}, status=404)
+                                            'author': test_author, 'status': 'claim'}}, status=404)
     self.assertEqual(response.status, '404 Not Found')
     self.assertEqual(response.content_type, 'text/plain')
 

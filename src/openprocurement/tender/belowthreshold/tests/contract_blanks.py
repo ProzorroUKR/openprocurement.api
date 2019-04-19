@@ -4,7 +4,7 @@ from copy import deepcopy
 from openprocurement.api.utils import get_now
 
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_organization
+    test_author
 )
 
 
@@ -183,7 +183,7 @@ def patch_tender_contract(self):
         {'data': {
             'title': 'complaint title',
             'description': 'complaint description',
-            'author': test_organization,
+            'author': test_author,
             'status': 'claim'
         }})
     self.assertEqual(response.status, '201 Created')

@@ -9,7 +9,7 @@ from openprocurement.tender.esco.tests.base import (
 )
 from openprocurement.tender.belowthreshold.tests.base import (
     test_organization,
-)
+    test_author)
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     # TenderBidBatchDocumentWithDSResourceTest
@@ -55,7 +55,7 @@ from openprocurement.tender.esco.tests.bid_blanks import (
     deleted_bid_do_not_locks_tender_in_state,
     create_tender_bid_invalid_funding_kind_budget,
     create_tender_bid_31_12,
-)
+    create_tender_bid_no_scale_invalid, create_tender_bid_with_scale_invalid, create_tender_bid_no_scale)
 from openprocurement.tender.esco.utils import to_decimal
 
 
@@ -78,7 +78,7 @@ bid_amount = round(to_decimal(escp(
 class TenderBidResourceTest(BaseESCOContentWebTest):
     initial_status = 'active.tendering'
     test_bids_data = test_bids
-    author_data = test_bids_data[0]['tenderers'][0]
+    author_data = test_author
     expected_bid_amountPerformance = bid_amountPerformance
     expected_bid_amount = bid_amount
 
@@ -98,6 +98,10 @@ class TenderBidResourceTest(BaseESCOContentWebTest):
 
     test_create_tender_bid_invalid_funding_kind_budget = snitch(create_tender_bid_invalid_funding_kind_budget)
     test_create_tender_bid_31_12 = snitch(create_tender_bid_31_12)
+
+    test_create_tender_bid_no_scale_invalid = snitch(create_tender_bid_no_scale_invalid)
+    test_create_tender_bid_with_scale_invalid = snitch(create_tender_bid_with_scale_invalid)
+    test_create_tender_bid_no_scale = snitch(create_tender_bid_no_scale)
 
 
 class TenderBidFeaturesResourceTest(BaseESCOContentWebTest):

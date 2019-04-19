@@ -5,7 +5,7 @@ from esculator import npv, escp
 from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_author
 from openprocurement.tender.belowthreshold.tests.lot import (
     TenderLotProcessTestMixin
 )
@@ -117,7 +117,7 @@ class TenderLotEdgeCasesTest(BaseESCOContentWebTest, TenderLotEdgeCasesTestMixin
     initial_auth = ('Basic', ('broker', ''))
     initial_lots = test_lots * 2
     initial_bids = test_bids
-    test_author = test_organization
+    test_author = test_author
 
 
 class TenderLotFeatureResourceTest(BaseESCOContentWebTest):

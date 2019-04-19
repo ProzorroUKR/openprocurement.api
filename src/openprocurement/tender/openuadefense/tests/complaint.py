@@ -5,7 +5,8 @@ from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import (
     test_lots,
-    test_organization
+    test_organization,
+    test_author
 )
 from openprocurement.tender.belowthreshold.tests.complaint import TenderComplaintResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
@@ -31,12 +32,12 @@ from openprocurement.tender.openuadefense.tests.base import (
 class TenderComplaintResourceTest(BaseTenderUAContentWebTest,
                                   TenderComplaintResourceTestMixin,
                                   TenderUAComplaintResourceTestMixin):
-    test_author = test_organization
+    test_author = test_author
 
 
 class TenderLotAwardComplaintResourceTest(BaseTenderUAContentWebTest):
     initial_lots = test_lots
-    test_author = test_organization
+    test_author = test_author
 
     test_create_tender_complaint = snitch(create_tender_lot_complaint)
 
@@ -46,19 +47,22 @@ class TenderComplaintDocumentResourceTest(BaseTenderUAContentWebTest):
     def setUp(self):
         super(TenderComplaintDocumentResourceTest, self).setUp()
         # Create complaint
-        response = self.app.post_json('/tenders/{}/complaints'.format(
-            self.tender_id), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}})
+        response = self.app.post_json(
+            '/tenders/{}/complaints'.format(self.tender_id),
+            {'data': {
+                'title': 'complaint title',
+                'description': 'complaint description',
+                'author': test_author
+            }})
         complaint = response.json['data']
         self.complaint_id = complaint['id']
         self.complaint_owner_token = response.json['access']['token']
-    test_author = test_organization
+
+    test_author = test_author
 
     test_not_found = snitch(not_found)
-
     test_create_tender_complaint_document = snitch(create_tender_complaint_document)
-
     test_put_tender_complaint_document = snitch(put_tender_complaint_document)
-
     test_patch_tender_complaint_document = snitch(patch_tender_complaint_document)
 
 

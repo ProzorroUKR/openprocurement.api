@@ -40,9 +40,9 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUStage2ContentWebTest,
     BaseCompetitiveDialogUAStage2ContentWebTest,
     test_bids,
-    author,
-    test_lots
-)
+    test_author,
+    test_lots,
+    test_tenderer)
 
 from openprocurement.tender.competitivedialogue.tests.stage2.chronograph_blanks import (
     # TenderStage2EUSwitchUnsuccessfulResourceTest
@@ -53,7 +53,7 @@ from openprocurement.tender.competitivedialogue.tests.stage2.chronograph_blanks 
 
 test_tender_bids = deepcopy(test_bids[:2])
 for test_bid in test_tender_bids:
-    test_bid['tenderers'] = [author]
+    test_bid['tenderers'] = [test_tenderer]
 
 
 class TenderStage2EUSwitchPreQualificationResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
@@ -84,7 +84,7 @@ class TenderStage2EUAuctionPeriodResourceTest(BaseCompetitiveDialogEUStage2Conte
 
 class TenderStage2EUComplaintSwitchResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
     initial_bids = test_tender_bids
-    author_data = author  # TODO: change attribute identifier
+    author_data = test_author  # TODO: change attribute identifier
 
     test_switch_to_complaint = snitch(switch_to_complaint_eu)
 
@@ -105,7 +105,7 @@ class TenderStage2UASwitch1BidResourceTest(BaseCompetitiveDialogUAStage2ContentW
 
 class TenderStage2UASwitchAuctionResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest, TenderSwitchAuctionResourceTestMixin):
     initial_bids = test_tender_bids
-    author_data = author  # TODO: change attribute identifier
+    author_data = test_author  # TODO: change attribute identifier
 
     test_switch_to_auction = snitch(switch_to_auction_ua)
 

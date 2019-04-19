@@ -8,7 +8,7 @@ from openprocurement.tender.cfaua.tests.question_blanks import (
     lot_create_tender_cancellations_and_questions
 )
 
-from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_author
 from openprocurement.tender.belowthreshold.tests.question import TenderQuestionResourceTestMixin
 
 from openprocurement.tender.openua.tests.question_blanks import (
@@ -32,6 +32,7 @@ class TenderQuestionResourceTest(BaseTenderContentWebTest, TenderQuestionResourc
 
     initial_auth = ('Basic', ('broker', ''))
     test_bids_data = test_bids
+    author_data = test_author
 
     test_create_tender_question = snitch(create_tender_question)
     test_patch_tender_question = snitch(patch_tender_question)
@@ -42,7 +43,7 @@ class TenderLotQuestionResourceTest(BaseTenderContentWebTest):
     initial_lots = test_lots
     initial_auth = ('Basic', ('broker', ''))
     test_bids_data = test_bids
-    author_data = test_organization
+    author_data = test_author
 
     test_create_tender_question = snitch(lot_create_tender_question)
     test_patch_tender_question = snitch(lot_patch_tender_question)

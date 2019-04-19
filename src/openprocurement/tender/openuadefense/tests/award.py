@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
 import unittest
+from copy import deepcopy
+
+from datetime import timedelta
+
+import mock
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 
-from openprocurement.tender.belowthreshold.tests.base import test_lots, test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_lots, test_organization, test_author
 from openprocurement.tender.belowthreshold.tests.award import TenderAwardDocumentResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.award_blanks import (
     # TenderAwardResourceTest
@@ -62,6 +68,9 @@ from openprocurement.tender.openua.tests.award_blanks import (
     # Tender2LotAwardComplaintDocumentResourceTest
     put_tender_lots_award_complaint_document,
     patch_tender_lots_award_complaint_document,
+    create_tender_award_no_scale_invalid,
+    create_tender_award_with_scale_invalid,
+    create_tender_award_no_scale,
 )
 
 from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest
@@ -78,6 +87,24 @@ class TenderAwardResourceTest(BaseTenderUAContentWebTest):
     test_patch_tender_award_unsuccessful = snitch(patch_tender_award_unsuccessful)
     test_get_tender_award = snitch(get_tender_award)
     test_patch_tender_award_Administrator_change = snitch(patch_tender_award_Administrator_change)
+    test_create_tender_award_no_scale_invalid = snitch(create_tender_award_no_scale_invalid)
+
+
+class TenderAwardResourceNoScaleTest(BaseTenderUAContentWebTest):
+    initial_status = 'active.qualification'
+
+    def setUp(self):
+        patcher = mock.patch('openprocurement.api.models.ORGANIZATION_SCALE_FROM', get_now() + timedelta(days=1))
+        patcher.start()
+        self.addCleanup(patcher.stop)
+        test_bid = deepcopy(test_bids[0])
+        test_bid['tenderers'][0].pop('scale')
+        self.initial_bids = [test_bid]
+        super(TenderAwardResourceNoScaleTest, self).setUp()
+        self.app.authorization = ('Basic', ('token', ''))
+
+    test_create_tender_award_with_scale_invalid = snitch(create_tender_award_with_scale_invalid)
+    test_create_tender_award_with_no_scale = snitch(create_tender_award_no_scale)
 
 
 class TenderLotAwardResourceTest(BaseTenderUAContentWebTest):
@@ -179,7 +206,7 @@ class TenderAwardComplaintDocumentResourceTest(BaseTenderUAContentWebTest):
         # Create complaint for award
         bid_token = self.initial_bids_tokens[self.initial_bids[0]['id']]
         response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(
-            self.tender_id, self.award_id, bid_token), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}})
+            self.tender_id, self.award_id, bid_token), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_author}})
         complaint = response.json['data']
         self.complaint_id = complaint['id']
         self.complaint_owner_token = response.json['access']['token']
@@ -210,7 +237,7 @@ class Tender2LotAwardComplaintDocumentResourceTest(BaseTenderUAContentWebTest):
         self.app.authorization = auth
         # Create complaint for award
         response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(
-            self.tender_id, self.award_id, bid_token), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}})
+            self.tender_id, self.award_id, bid_token), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_author}})
         complaint = response.json['data']
         self.complaint_id = complaint['id']
         self.complaint_owner_token = response.json['access']['token']

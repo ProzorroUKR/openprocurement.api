@@ -8,6 +8,8 @@ from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
 from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist, blacklist
+
+from openprocurement.api.constants import SCALE_CODES
 from openprocurement.api.utils import get_now
 from openprocurement.api.models import Contract as BaseContract
 from openprocurement.api.models import OpenprocurementSchematicsDocument as SchematicsDocument
@@ -90,6 +92,11 @@ class Organization(BaseOrganization):
                                        required=False)
 
 
+class BusinessOrganization(Organization):
+    """An organization."""
+    scale = StringType(choices=SCALE_CODES)
+
+
 class ProcuringEntity(Organization):
     """An organization."""
     class Options:
@@ -170,7 +177,7 @@ class Contract(SchematicsDocument, BaseContract):
     owner = StringType()
     mode = StringType(choices=['test'])
     status = StringType(choices=['terminated', 'active'], default='active')
-    suppliers = ListType(ModelType(Organization), min_size=1, max_size=1)
+    suppliers = ListType(ModelType(BusinessOrganization), min_size=1, max_size=1)
     procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
     changes = ListType(ModelType(Change), default=list())
     documents = ListType(ModelType(Document), default=list())

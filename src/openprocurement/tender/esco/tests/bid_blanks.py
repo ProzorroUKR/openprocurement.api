@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
-from datetime import datetime
 
+import mock
+from datetime import datetime, timedelta
 
 # TenderBidResourceTest
+from openprocurement.api.utils import get_now
 
 
 def create_tender_bid_invalid(self):
     response = self.app.post_json('/tenders/some_id/bids', {
-        'data': {'tenderers': [self.author_data], "value": {"amount": 500}}}, status=404)
+        'data': {'tenderers': [self.test_bids_data[0]['tenderers'][0]], "value": {"amount": 500}}}, status=404)
     self.assertEqual(response.status, '404 Not Found')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
@@ -111,7 +113,7 @@ def create_tender_bid_invalid(self):
 
     response = self.app.post_json(request_path,
                                   {'data': {'selfEligible': True, 'selfQualified': True,
-                                            'tenderers': [self.author_data]}}, status=422)
+                                            'tenderers': [self.test_bids_data[0]['tenderers'][0]]}}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
@@ -121,7 +123,7 @@ def create_tender_bid_invalid(self):
 
     response = self.app.post_json(request_path, {'data': {
         'selfEligible': True, 'selfQualified': True,
-        'tenderers': [self.author_data], 'value': {}}}, status=422)
+        'tenderers': [self.test_bids_data[0]['tenderers'][0]], 'value': {}}}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
@@ -134,7 +136,7 @@ def create_tender_bid_invalid(self):
 
     response = self.app.post_json(request_path, {'data': {
         'selfEligible': True, 'selfQualified': True,
-        'tenderers': [self.author_data], 'value': {'amount': 500}}}, status=422)
+        'tenderers': [self.test_bids_data[0]['tenderers'][0]], 'value': {'amount': 500}}}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
@@ -146,7 +148,7 @@ def create_tender_bid_invalid(self):
     ])
 
     response = self.app.post_json(request_path, {'data': {
-        'selfEligible': True, 'selfQualified': True, 'tenderers': [self.author_data],
+        'selfEligible': True, 'selfQualified': True, 'tenderers': [self.test_bids_data[0]['tenderers'][0]],
         'value': {'contractDuration': {'years' : 20}}}}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
@@ -159,7 +161,7 @@ def create_tender_bid_invalid(self):
     ])
 
     response = self.app.post_json(request_path, {'data': {
-        'selfEligible': True, 'selfQualified': True, 'tenderers': [self.author_data],
+        'selfEligible': True, 'selfQualified': True, 'tenderers': [self.test_bids_data[0]['tenderers'][0]],
         'value': {'contractDuration': {'years': 15, 'days': 10}}}}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
@@ -172,7 +174,7 @@ def create_tender_bid_invalid(self):
     ])
 
     response = self.app.post_json(request_path, {'data': {
-        'selfEligible': True, 'selfQualified': True, 'tenderers': [self.author_data],
+        'selfEligible': True, 'selfQualified': True, 'tenderers': [self.test_bids_data[0]['tenderers'][0]],
         'value': {'contractDuration': {'years': 0, 'days': 0}}}}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
@@ -186,7 +188,7 @@ def create_tender_bid_invalid(self):
 
     response = self.app.get('/tenders/{}'.format(self.tender_id))
     response = self.app.post_json(request_path, {'data': {
-        'selfEligible': True, 'selfQualified': True, 'tenderers': [self.author_data],
+        'selfEligible': True, 'selfQualified': True, 'tenderers': [self.test_bids_data[0]['tenderers'][0]],
         'value': {
             'yearlyPaymentsPercentage': 0,
             'contractDuration': {'years': 12},
@@ -202,7 +204,7 @@ def create_tender_bid_invalid(self):
     ])
 
     response = self.app.post_json(request_path, {'data': {
-        'selfEligible': True, 'selfQualified': True, 'tenderers': [self.author_data],
+        'selfEligible': True, 'selfQualified': True, 'tenderers': [self.test_bids_data[0]['tenderers'][0]],
         'value': {
             'yearlyPaymentsPercentage': 0.8,
             'contractDuration': {'years': 12},
@@ -217,7 +219,7 @@ def create_tender_bid_invalid(self):
     ])
 
     response = self.app.post_json(request_path, {'data': {
-        'selfEligible': True, 'selfQualified': True, 'tenderers': [self.author_data],
+        'selfEligible': True, 'selfQualified': True, 'tenderers': [self.test_bids_data[0]['tenderers'][0]],
         'value': {'yearlyPaymentsPercentage': 0.8, 'contractDuration': {'years': 12},
                   'annualCostsReduction': [100]*21, 'currency': 'USD'}}}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
@@ -229,7 +231,7 @@ def create_tender_bid_invalid(self):
     ])
 
     response = self.app.post_json(request_path, {'data': {
-        'selfEligible': True, 'selfQualified': True, 'tenderers': [self.author_data],
+        'selfEligible': True, 'selfQualified': True, 'tenderers': [self.test_bids_data[0]['tenderers'][0]],
         'value': {'yearlyPaymentsPercentage': 0.8, 'contractDuration': {'years': 12},
                   'annualCostsReduction': [100]*21, 'currency': 'UAH',
                   'valueAddedTaxIncluded': False}}}, status=422)
@@ -245,7 +247,7 @@ def create_tender_bid_invalid(self):
     # create bid with given value.amount
     # comment this test while minValue = 0
     # response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': {
-    #     'selfEligible': True, 'selfQualified': True, 'tenderers': [self.author_data],
+    #     'selfEligible': True, 'selfQualified': True, 'tenderers': [self.test_bids_data[0]['tenderers'][0]],
     #     'value': {'contractDuration': 6,
     #               'annualCostsReduction': 300.6,
     #               'yearlyPayments': 0.9,
@@ -270,7 +272,7 @@ def create_tender_bid_invalid_funding_kind_budget(self):
 
     request_path = '/tenders/{}/bids'.format(self.tender_id)
     response = self.app.post_json(request_path, {'data': {
-        'selfEligible': True, 'selfQualified': True, 'tenderers': [self.author_data],
+        'selfEligible': True, 'selfQualified': True, 'tenderers': [self.test_bids_data[0]['tenderers'][0]],
         'value': {'yearlyPaymentsPercentage': 0.6, 'contractDuration': {'years': 12},
                   'annualCostsReduction': [100]*21}}}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
@@ -992,7 +994,7 @@ def deleted_bid_do_not_locks_tender_in_state(self):
     for bid_annual_cost_reduction in ([800] * 21, [750] * 21):
         response = self.app.post_json('/tenders/{}/bids'.format(
             self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
-                                       'tenderers': [self.author_data],
+                                       'tenderers': [self.test_bids_data[0]['tenderers'][0]],
                                        "value": {
                                            "annualCostsReduction": bid_annual_cost_reduction,
                                            "yearlyPaymentsPercentage": 0.9,
@@ -1013,7 +1015,7 @@ def deleted_bid_do_not_locks_tender_in_state(self):
 
     response = self.app.post_json('/tenders/{}/bids'.format(
         self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
-                                   'tenderers': [self.author_data],
+                                   'tenderers': [self.test_bids_data[0]['tenderers'][0]],
                                    "value": {
                                        "annualCostsReduction": [950] * 21,
                                        "yearlyPaymentsPercentage": 0.9,
@@ -1067,6 +1069,65 @@ def deleted_bid_do_not_locks_tender_in_state(self):
     self.assertEqual(response.json['data']['bids'][0]['status'], 'deleted')
     self.assertEqual(response.json['data']['bids'][1]['status'], 'active')
     self.assertEqual(response.json['data']['bids'][2]['status'], 'active')
+
+
+def create_tender_bid_no_scale_invalid(self):
+    request_path = '/tenders/{}/bids'.format(self.tender_id)
+    bid_data = {'data': {"value": {
+        "annualCostsReduction": [950] * 21,
+        "yearlyPaymentsPercentage": 0.9,
+        "contractDuration": {"years": 10}
+    }, 'tenderers': [{
+        key: value for key, value
+        in self.author_data.iteritems()
+        if key != 'scale'
+    }]}}
+    response = self.app.post_json(request_path, bid_data, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [{
+        u'description': [{u'scale': [u'This field is required.']}],
+        u'location': u'body',
+        u'name': u'tenderers'
+    }])
+
+
+@mock.patch('openprocurement.api.models.ORGANIZATION_SCALE_FROM', get_now() + timedelta(days=1))
+def create_tender_bid_with_scale_invalid(self):
+    request_path = '/tenders/{}/bids'.format(self.tender_id)
+    bid_data = {'data': {"value": {
+        "annualCostsReduction": [950] * 21,
+        "yearlyPaymentsPercentage": 0.9,
+        "contractDuration": {"years": 10}
+    }, 'tenderers': [self.test_bids_data[0]['tenderers'][0]]}}
+    response = self.app.post_json(request_path, bid_data, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(response.json['errors'], [{
+        u"location": u"body",
+        u"name": u"tenderers",
+        u"description": [{u"scale": [u"Rogue field"]}]
+    }])
+
+
+@mock.patch('openprocurement.api.models.ORGANIZATION_SCALE_FROM', get_now() + timedelta(days=1))
+def create_tender_bid_no_scale(self):
+    request_path = '/tenders/{}/bids'.format(self.tender_id)
+    bid_data = {'data': {"value": {
+        "annualCostsReduction": [950] * 21,
+        "yearlyPaymentsPercentage": 0.9,
+        "contractDuration": {"years": 10}
+    }, 'tenderers': [{
+        key: value for key, value
+        in self.author_data.iteritems()
+        if key != 'scale'
+    }]}}
+    response = self.app.post_json(request_path, bid_data)
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertNotIn('scale', response.json['data']['tenderers'][0])
 
 # TenderBidFeaturesResourceTest
 

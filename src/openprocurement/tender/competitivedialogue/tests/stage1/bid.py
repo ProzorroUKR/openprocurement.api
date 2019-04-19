@@ -45,7 +45,6 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest, 
     initial_status = 'active.tendering'
     initial_auth = ('Basic', ('broker', ''))
     test_bids_data = test_bids
-    author_data = test_bids_data[0]['tenderers'][0]
 
     test_create_tender_bidder_invalid = snitch(create_tender_bidder_invalid)
     test_status_jumping = snitch(status_jumping)

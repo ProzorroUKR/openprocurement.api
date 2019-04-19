@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
 
 
 def finalize_unsuccessful_award(self, new_award_location, request_path):
@@ -293,7 +293,7 @@ def patch_tender_award_active(self):
                                   {'data': {
                                       'title': 'complaint title',
                                       'description': 'complaint description',
-                                      'author': test_organization,
+                                      'author': test_author,
                                       'status': 'pending'
                                   }})
     self.assertEqual(response.status, '201 Created')
@@ -316,7 +316,7 @@ def patch_tender_award_active(self):
                                   {'data': {
                                       'title': 'complaint title',
                                       'description': 'complaint description',
-                                      'author': test_organization
+                                      'author': test_author
                                   }})
     self.assertEqual(response.status, '201 Created')
 
@@ -356,7 +356,7 @@ def patch_tender_award_unsuccessful(self):
         {'data': {
             'title': 'complaint title',
             'description': 'complaint description',
-            'author': test_organization,
+            'author': test_author,
             'status': 'pending'
         }})
     self.assertEqual(response.status, '201 Created')
@@ -381,7 +381,7 @@ def patch_tender_award_unsuccessful(self):
                                   {'data': {
                                       'title': 'complaint title',
                                       'description': 'complaint description',
-                                      'author': test_organization
+                                      'author': test_author
                                   }})
     self.assertEqual(response.status, '201 Created')
 
@@ -440,8 +440,8 @@ def patch_tender_award_Administrator_change(self):
     self.assertIn("endDate", response.json['data']['complaintPeriod'])
     self.assertEqual(response.json['data']['complaintPeriod']["endDate"], complaintPeriod)
 
-# TenderLotAwardResourceTest
 
+# TenderLotAwardResourceTest
 
 def create_tender_lot_award(self):
         self.app.authorization = ('Basic', ('token', ''))
@@ -582,7 +582,7 @@ def patch_tender_lot_award_unsuccessful(self):
         response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, self.award_id, self.bid_token), {'data': {
             'title': 'complaint title',
             'description': 'complaint description',
-            'author': test_organization,
+            'author': test_author,
             'status': 'pending'
         }})
         self.assertEqual(response.status, '201 Created')
@@ -602,7 +602,7 @@ def patch_tender_lot_award_unsuccessful(self):
         response = self.app.post_json('{}/complaints?acc_token={}'.format(new_award_location[-81:], self.bid_token), {'data': {
             'title': 'complaint title',
             'description': 'complaint description',
-            'author': test_organization
+            'author': test_author
         }})
         self.assertEqual(response.status, '201 Created')
 

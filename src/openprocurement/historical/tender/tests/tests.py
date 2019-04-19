@@ -16,6 +16,7 @@ from openprocurement.historical.core.constants import (
 from openprocurement.tender.belowthreshold.tests.base import (
     BaseTenderWebTest,
     test_tender_data,
+    test_organization,
 )
 
 from openprocurement.historical.core.tests.tests import (
@@ -281,38 +282,8 @@ class TestGetHistoricalData(BaseTenderWebTest):
         tendering['dateModified'] = tendering['dateModified'].split('.')[0]
         self.assertEqual(tendering_historical, tendering)
 
-        test_data1 = {
-                  "data": {
-                    "value": {
-                      "amount": 499
-                    },
-                    "tenderers": [
-                      {
-                        "contactPoint": {
-                          "telephone": "+380 (322) 91-69-30",
-                          "name": u"Андрій Олексюк",
-                          "email": "aagt@gmail.com"
-                        },
-                        "identifier": {
-                          "scheme": "UA-EDR",
-                          "id": "00137226",
-                          "uri": "http://www.sc.gov.ua/"
-                        },
-                        "name": u"ДКП «Книга»",
-                        "address": {
-                          "countryName": u"Україна",
-                          "postalCode": u"79013",
-                          "region": u"м. Львів",
-                          "streetAddress": u"вул. Островського, 34",
-                          "locality": u"м. Львів"
-                        }
-                      }
-                    ]
-                  }
-                }
-
         response = self.app.post_json('/tenders/{}/bids'.format(
-            tender['id']), test_data1)
+            tender['id']), {"data": {"value": {"amount": 499}, "tenderers": [test_organization]}})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
 

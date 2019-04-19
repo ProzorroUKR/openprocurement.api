@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 from openprocurement.api.tests.base import snitch
+from openprocurement.tender.belowthreshold.tests.base import test_author
 
 from openprocurement.tender.belowthreshold.tests.question import TenderQuestionResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.question_blanks import (
@@ -44,7 +45,7 @@ class CompetitiveDialogUAQuestionResourceTest(BaseCompetitiveDialogUAContentWebT
 
 class CompetitiveDialogUAQLotQuestionResourceTest(BaseCompetitiveDialogUAContentWebTest):
     initial_lots = 2 * test_lots
-    author_data = test_bids[0]["tenderers"][0]
+    author_data = test_author
 
     test_create_tender_question = snitch(lot_create_tender_question)
     test_patch_tender_question = snitch(lot_patch_tender_question)
@@ -54,7 +55,7 @@ class CompetitiveDialogEUQuestionResourceTest(BaseCompetitiveDialogEUContentWebT
 
     initial_auth = ('Basic', ('broker', ''))
     test_bids_data = test_bids  # TODO: change attribute identifier
-    author_data = test_bids[0]["tenderers"][0]
+    author_data = test_author
 
     test_create_tender_question_invalid = snitch(create_tender_question_invalid_eu)
     test_create_tender_question = snitch(create_tender_question_eu)
@@ -67,7 +68,7 @@ class CompetitiveDialogEULotQuestionResourceTest(BaseCompetitiveDialogEUContentW
     initial_lots = 2 * test_lots
     initial_auth = ('Basic', ('broker', ''))
     test_bids_data = test_bids  # TODO: change attribute identifier
-    author_data = test_bids[0]["tenderers"][0]
+    author_data = test_author
 
     test_create_tender_question = snitch(lot_create_tender_question)
     test_patch_tender_question = snitch(lot_patch_tender_question)

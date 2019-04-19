@@ -15,5 +15,6 @@
     "contactPoint": {
         "name": "Державне управління справами",
         "telephone": "0440000000"
-    }
+    },
+    "scale": "micro"
 }

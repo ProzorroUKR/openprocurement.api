@@ -23,8 +23,8 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_lots,
     test_shortlistedFirms,
     BaseCompetitiveDialogEUStage2ContentWebTest,
-    BaseCompetitiveDialogUAStage2ContentWebTest
-)
+    BaseCompetitiveDialogUAStage2ContentWebTest,
+    test_author)
 from openprocurement.tender.competitivedialogue.tests.stage1.question_blanks import (
     # TenderStage2QuestionResourceTest
     get_tender_question_eu as get_tender_question,
@@ -41,16 +41,12 @@ from openprocurement.tender.competitivedialogue.tests.stage2.question_blanks imp
 
 from openprocurement.tender.openeu.tests.base import test_bids
 
-author = test_bids[0]["tenderers"][0]
-author['identifier']['id'] = test_shortlistedFirms[0]['identifier']['id']
-author['identifier']['scheme'] = test_shortlistedFirms[0]['identifier']['scheme']
-
 
 class TenderStage2EUQuestionResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
 
     initial_auth = ('Basic', ('broker', ''))
     test_bids_data = test_bids  # TODO: change attribute identifier
-    author_data = author  # TODO: change attribute identifier
+    author_data = test_author  # TODO: change attribute identifier
 
     test_create_tender_question_invalid = snitch(create_tender_question_invalid)
     test_create_question_bad_author = snitch(create_question_bad_author)
@@ -89,7 +85,7 @@ class TenderStage2EULotQuestionResourceTest(BaseCompetitiveDialogEUStage2Content
     initial_lots = 2 * test_lots
     initial_auth = ('Basic', ('broker', ''))
     test_bids_data = test_bids  # TODO: change attribute identifier
-    author_data = author  # TODO: change attribute identifier
+    author_data = test_author  # TODO: change attribute identifier
 
     test_create_tender_question = snitch(create_tender_with_lots_question)
     test_create_question_on_lot_without_perm = snitch(create_question_on_lot_without_perm)
@@ -151,7 +147,7 @@ class TenderStage2UAQuestionResourceTest(BaseCompetitiveDialogUAStage2ContentWeb
 
     initial_auth = ('Basic', ('broker', ''))
     test_bids_data = test_bids  # TODO: change attribute identifier
-    author_data = author  # TODO: change attribute identifier
+    author_data = test_author  # TODO: change attribute identifier
 
     test_create_tender_question_invalid = snitch(create_tender_question_invalid)
     test_create_question_bad_author = snitch(create_question_bad_author)
@@ -190,7 +186,7 @@ class TenderStage2UALotQuestionResourceTest(BaseCompetitiveDialogUAStage2Content
     initial_lots = 2 * test_lots
     initial_auth = ('Basic', ('broker', ''))
     test_bids_data = test_bids  # TODO: change attribute identifier
-    author_data = author  # TODO: change attribute identifier
+    author_data = test_author  # TODO: change attribute identifier
 
     test_create_tender_question = snitch(create_tender_with_lots_question)
     test_create_question_on_lot_without_perm = snitch(create_question_on_lot_without_perm)

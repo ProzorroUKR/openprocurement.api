@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
+from datetime import timedelta
 
+import mock
 from esculator import npv, escp
 from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
+from openprocurement.tender.belowthreshold.tests.award_blanks import create_tender_award_with_scale_invalid, \
+    create_tender_award_no_scale
 from openprocurement.tender.esco.adapters import TenderESCOConfigurator
-from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
 from openprocurement.tender.belowthreshold.tests.award import (
     TenderLotAwardCheckResourceTestMixin,
     TenderAwardComplaintResourceTestMixin,
@@ -87,6 +91,23 @@ class TenderAwardResourceTest(BaseESCOContentWebTest,
     test_patch_tender_award = snitch(patch_tender_award)
 
 
+class TenderAwardResourceNoScaleTest(BaseESCOContentWebTest):
+    initial_status = 'active.qualification'
+
+    def setUp(self):
+        patcher = mock.patch('openprocurement.api.models.ORGANIZATION_SCALE_FROM', get_now() + timedelta(days=1))
+        patcher.start()
+        self.addCleanup(patcher.stop)
+        test_bid = deepcopy(test_bids[0])
+        test_bid['tenderers'][0].pop('scale')
+        self.initial_bids = [test_bid]
+        super(TenderAwardResourceNoScaleTest, self).setUp()
+        self.app.authorization = ('Basic', ('token', ''))
+
+    test_create_tender_award_with_scale_invalid = snitch(create_tender_award_with_scale_invalid)
+    test_create_tender_award_with_no_scale = snitch(create_tender_award_no_scale)
+
+
 class TenderLotAwardCheckResourceTest(BaseESCOContentWebTest,
                                       TenderLotAwardCheckResourceTestMixin):
     initial_status = 'active.tendering'
@@ -100,7 +121,7 @@ class TenderLotAwardCheckResourceTest(BaseESCOContentWebTest,
         'yearlyPaymentsPercentage': 0.9,
         'annualCostsReduction': [100] * 21,
         'contractDuration': {'years': 2, 'days': 10}
-        }
+    }
     reverse = TenderESCOConfigurator.reverse_awarding_criteria
     awarding_key = TenderESCOConfigurator.awarding_criteria_key
 
@@ -178,9 +199,13 @@ class TenderAwardComplaintResourceTest(BaseESCOContentWebTest,
         response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
         self.award_id = response.json['data'][0]['id']
         self.app.authorization = ('Basic', ('broker', ''))
-        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
-            self.tender_id, self.award_id, self.tender_token), {'data': {
-                'status': 'active', "qualified": True, "eligible": True}})
+        self.app.patch_json(
+            '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token), 
+            {'data': {
+                'status': 'active', 
+                "qualified": True, 
+                "eligible": True
+            }})
         self.bid_token = self.initial_bids_tokens[self.initial_bids[0]['id']]
 
 
@@ -200,15 +225,25 @@ class TenderLotAwardComplaintResourceTest(BaseESCOContentWebTest,
         # Create award
         self.app.authorization = ('Basic', ('token', ''))
         bid = self.initial_bids[0]
-        response = self.app.post_json('/tenders/{}/awards'.format(self.tender_id), {'data': {
-            'suppliers': [test_organization], 'status': 'pending', 'bid_id': bid['id'],
-            'lotID': bid['lotValues'][0]['relatedLot']}})
+        response = self.app.post_json(
+            '/tenders/{}/awards'.format(self.tender_id),
+            {'data': {
+                'suppliers': [test_organization],
+                'status': 'pending',
+                'bid_id': bid['id'],
+                'lotID': bid['lotValues'][0]['relatedLot']
+            }})
         award = response.json['data']
         self.award_id = award['id']
         self.app.authorization = ('Basic', ('broker', ''))
-        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
-            self.tender_id, self.award_id, self.tender_token), {'data': {
-                'status': 'active', "qualified": True, "eligible": True}})
+        self.app.patch_json(
+            '/tenders/{}/awards/{}?acc_token={}'.format(
+                self.tender_id, self.award_id, self.tender_token),
+            {'data': {
+                'status': 'active',
+                "qualified": True,
+                "eligible": True
+            }})
         self.bid_token = self.initial_bids_tokens[self.initial_bids[0]['id']]
 
 
@@ -226,19 +261,31 @@ class TenderAwardComplaintDocumentResourceTest(BaseESCOContentWebTest,
         super(TenderAwardComplaintDocumentResourceTest, self).setUp()
         # Create award
         self.app.authorization = ('Basic', ('token', ''))
-        response = self.app.post_json('/tenders/{}/awards'.format(self.tender_id), {'data': {
-            'suppliers': [test_organization], 'status': 'pending',
-            'bid_id': self.initial_bids[0]['id']}})
+        response = self.app.post_json(
+            '/tenders/{}/awards'.format(self.tender_id),
+            {'data': {
+                'suppliers': [test_organization],
+                'status': 'pending',
+                'bid_id': self.initial_bids[0]['id']
+            }})
         award = response.json['data']
         self.award_id = award['id']
-        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
-            self.tender_id, self.award_id, self.tender_token), {'data': {
-                'status': 'active', "qualified": True, "eligible": True}})
+        self.app.patch_json(
+            '/tenders/{}/awards/{}?acc_token={}'.format(
+                self.tender_id, self.award_id, self.tender_token),
+            {'data': {
+                'status': 'active',
+                "qualified": True,
+                "eligible": True
+            }})
         # Create complaint for award
-        response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(
-            self.tender_id, self.award_id), {'data': {
-                'title': 'complaint title', 'description': 'complaint description',
-                'author': test_organization}})
+        response = self.app.post_json(
+            '/tenders/{}/awards/{}/complaints'.format(self.tender_id, self.award_id),
+            {'data': {
+                'title': 'complaint title',
+                'description': 'complaint description',
+                'author': test_author
+            }})
         complaint = response.json['data']
         self.complaint_id = complaint['id']
         self.complaint_owner_token = response.json['access']['token']
@@ -256,19 +303,33 @@ class Tender2LotAwardComplaintDocumentResourceTest(BaseESCOContentWebTest):
         # Create award
         self.app.authorization = ('Basic', ('token', ''))
         bid = self.initial_bids[0]
-        response = self.app.post_json('/tenders/{}/awards'.format(self.tender_id), {'data': {
-            'suppliers': [test_organization], 'status': 'pending', 'bid_id': bid['id'],
-            'lotID': bid['lotValues'][0]['relatedLot']}})
+        response = self.app.post_json(
+            '/tenders/{}/awards'.format(self.tender_id),
+            {'data': {
+                'suppliers': [test_organization],
+                'status': 'pending',
+                'bid_id': bid['id'],
+                'lotID': bid['lotValues'][0]['relatedLot']
+            }})
         award = response.json['data']
         self.award_id = award['id']
-        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(
-            self.tender_id, self.award_id, self.tender_token), {'data': {
-                'status': 'active', "qualified": True, "eligible": True}})
+        self.app.patch_json(
+            '/tenders/{}/awards/{}?acc_token={}'.format(
+                self.tender_id, self.award_id, self.tender_token), 
+            {'data': {
+                'status': 'active',
+                "qualified": True,
+                "eligible": True
+            }})
         # Create complaint for award
-        response = self.app.post_json('/tenders/{}/awards/{}/complaints'.format(
-            self.tender_id, self.award_id), {'data': {
-                'title': 'complaint title', 'description': 'complaint description',
-                'author': test_organization}})
+        response = self.app.post_json(
+            '/tenders/{}/awards/{}/complaints'.format(
+                self.tender_id, self.award_id), 
+            {'data': {
+                'title': 'complaint title', 
+                'description': 'complaint description',
+                'author': test_author
+            }})
         complaint = response.json['data']
         self.complaint_id = complaint['id']
         self.complaint_owner_token = response.json['access']['token']
@@ -287,9 +348,13 @@ class TenderAwardDocumentResourceTest(BaseESCOContentWebTest,
         super(TenderAwardDocumentResourceTest, self).setUp()
         # Create award
         self.app.authorization = ('Basic', ('token', ''))
-        response = self.app.post_json('/tenders/{}/awards'.format(self.tender_id), {'data': {
-            'suppliers': [test_organization], 'status': 'pending',
-            'bid_id': self.initial_bids[0]['id']}})
+        response = self.app.post_json(
+            '/tenders/{}/awards'.format(self.tender_id),
+            {'data': {
+                'suppliers': [test_organization],
+                'status': 'pending',
+                'bid_id': self.initial_bids[0]['id']
+            }})
         award = response.json['data']
         self.award_id = award['id']
 
@@ -305,9 +370,14 @@ class Tender2LotAwardDocumentResourceTest(BaseESCOContentWebTest,
         # Create award
         self.app.authorization = ('Basic', ('token', ''))
         bid = self.initial_bids[0]
-        response = self.app.post_json('/tenders/{}/awards'.format(self.tender_id), {'data': {
-            'suppliers': [test_organization], 'status': 'pending', 'bid_id': bid['id'],
-            'lotID': bid['lotValues'][0]['relatedLot']}})
+        response = self.app.post_json(
+            '/tenders/{}/awards'.format(self.tender_id),
+            {'data': {
+                'suppliers': [test_organization],
+                'status': 'pending',
+                'bid_id': bid['id'],
+                'lotID': bid['lotValues'][0]['relatedLot']
+            }})
         award = response.json['data']
         self.award_id = award['id']
 

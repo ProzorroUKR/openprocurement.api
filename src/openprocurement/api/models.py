@@ -20,9 +20,10 @@ from schematics.types.compound import (ModelType, DictType,
                                        ListType as BaseListType)
 from schematics.types.serializable import serializable
 from openprocurement.api.interfaces import ISerializable, IValidator
-from openprocurement.api.utils import get_now, set_parent, get_schematics_document
+from openprocurement.api.utils import get_now, set_parent, get_schematics_document, get_first_revision_date
 from openprocurement.api.constants import (
     CPV_CODES, ORA_CODES, TZ, DK_CODES, CPV_BLOCK_FROM,
+    SCALE_CODES, ORGANIZATION_SCALE_FROM,
 )
 
 schematics_default_role = SchematicsDocument.Options.roles['default'] + blacklist("__parent__")
@@ -582,6 +583,22 @@ class Organization(Model):
     contactPoint = ModelType(ContactPoint, required=True)
 
 
+class BusinessOrganization(Organization):
+    scale = StringType(choices=SCALE_CODES)
+
+    def validate_scale(self, data, value):
+        try:
+            schematics_document = get_schematics_document(data['__parent__'])
+        except AttributeError:
+            pass
+        else:
+            validation_date = get_first_revision_date(schematics_document, default=get_now())
+            if validation_date >= ORGANIZATION_SCALE_FROM and value is None:
+                raise ValidationError(BaseType.MESSAGES['required'])
+            if validation_date < ORGANIZATION_SCALE_FROM and value is not None:
+                raise ValidationError('Rogue field')
+
+
 class Revision(Model):
     author = StringType()
     date = IsoDateTimeType(default=get_now)
@@ -606,5 +623,5 @@ class Contract(Model):
     dateSigned = IsoDateTimeType()
     documents = ListType(ModelType(Document), default=list())
     items = ListType(ModelType(Item))
-    suppliers = ListType(ModelType(Organization), min_size=1, max_size=1)
+    suppliers = ListType(ModelType(BusinessOrganization), min_size=1, max_size=1)
     date = IsoDateTimeType()

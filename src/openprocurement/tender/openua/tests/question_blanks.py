@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_organization
+    test_organization,
+    test_author
 )
 
 # TenderQuestionResourceTest
@@ -9,7 +10,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 def create_tender_question(self):
     response = self.app.post_json('/tenders/{}/questions'.format(
         self.tender_id),
-        {'data': {'title': 'question title', 'description': 'question description', 'author': test_organization}})
+        {'data': {'title': 'question title', 'description': 'question description', 'author': test_author}})
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     question = response.json['data']
@@ -20,7 +21,7 @@ def create_tender_question(self):
     self.go_to_enquiryPeriod_end()
     response = self.app.post_json('/tenders/{}/questions'.format(
         self.tender_id),
-        {'data': {'title': 'question title', 'description': 'question description', 'author': test_organization}},
+        {'data': {'title': 'question title', 'description': 'question description', 'author': test_author}},
         status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
@@ -29,7 +30,7 @@ def create_tender_question(self):
     self.set_status('active.auction')
     response = self.app.post_json('/tenders/{}/questions'.format(
         self.tender_id),
-        {'data': {'title': 'question title', 'description': 'question description', 'author': test_organization}},
+        {'data': {'title': 'question title', 'description': 'question description', 'author': test_author}},
         status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')

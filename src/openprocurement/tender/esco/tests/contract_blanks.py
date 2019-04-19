@@ -87,7 +87,7 @@ def patch_tender_contract(self):
         self.tender_id, self.award_id, token),
                                   {'data': {'title': 'complaint title',
                                             'description': 'complaint description',
-                                            'author': self.supplier_info}})
+                                            'author': self.author_data}})
     self.assertEqual(response.status, '201 Created')
     complaint = response.json['data']
     owner_token = response.json['access']['token']

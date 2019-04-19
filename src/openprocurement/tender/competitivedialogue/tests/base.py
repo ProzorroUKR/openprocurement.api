@@ -90,6 +90,16 @@ test_lots = [
     }
 ]
 
+test_features_tender_eu_data = deepcopy(test_features_tender_data)
+test_features_tender_eu_data['procurementMethodType'] = CD_EU_TYPE
+
+test_tenderer = deepcopy(test_bids[0]["tenderers"][0])
+test_tenderer['identifier']['id'] = test_shortlistedFirms[0]['identifier']['id']
+test_tenderer['identifier']['scheme'] = test_shortlistedFirms[0]['identifier']['scheme']
+
+test_author = deepcopy(test_tenderer)
+del test_author['scale']
+
 
 if SANDBOX_MODE:
     test_tender_data_eu['procurementMethodDetails'] = 'quick, accelerator=1440'
@@ -468,10 +478,12 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
 
 class BaseCompetitiveDialogEUStage2WebTest(BaseCompetitiveDialogWebTest):
     initial_data = test_tender_stage2_data_eu
+    test_bids_data = test_bids
 
 
 class BaseCompetitiveDialogUAStage2WebTest(BaseCompetitiveDialogWebTest):
     initial_data = test_tender_stage2_data_ua
+    test_bids_data = test_bids
 
     def set_status(self, status, extra=None):
         now = get_now()
@@ -602,7 +614,7 @@ class BaseCompetitiveDialogUAStage2WebTest(BaseCompetitiveDialogWebTest):
                             }
                         }
                         for i in self.initial_lots
-                        ]
+                    ]
                 })
         if extra:
             data.update(extra)
@@ -697,14 +709,14 @@ def create_tender_stage2(self, initial_lots=None, initial_data=None, features=No
     self.tender_token = response.json['access']['token']
     self.tender_id = tender['id']
     self.app.authorization = ('Basic', ('competitive_dialogue', ''))
-    self.app.patch_json('/tenders/{id}?acc_token={token}'.format(id=self.tender_id,
-                                                                 token=self.tender_token),
-                        {'data': {'status': 'draft.stage2'}})
+    self.app.patch_json(
+        '/tenders/{id}?acc_token={token}'.format(id=self.tender_id, token=self.tender_token),
+        {'data': {'status': 'draft.stage2'}})
 
     self.app.authorization = ('Basic', ('broker', ''))
-    self.app.patch_json('/tenders/{id}?acc_token={token}'.format(id=self.tender_id,
-                                                                 token=self.tender_token),
-                        {'data': {'status': 'active.tendering'}})
+    self.app.patch_json(
+        '/tenders/{id}?acc_token={token}'.format(id=self.tender_id, token=self.tender_token),
+        {'data': {'status': 'active.tendering'}})
     self.app.authorization = auth
     if initial_bids:
         self.initial_bids_tokens = {}
@@ -721,7 +733,7 @@ def create_tender_stage2(self, initial_lots=None, initial_data=None, features=No
                         'relatedLot': l['id'],
                     }
                     for l in self.lots
-                    ]
+                ]
             response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': i})
             self.assertEqual(response.status, '201 Created')
             bids.append(response.json['data'])
@@ -758,10 +770,9 @@ class BaseCompetitiveDialogUAStage2ContentWebTest(BaseCompetitiveDialogUAWebTest
         tenderers = []
         for i in xrange(count):
             tenderer = deepcopy(test_bids[0]["tenderers"])
-            tenderer[0]['identifier']['id'] = self.initial_data['shortlistedFirms'][i if i < 3 else 3]['identifier'][
-                'id']
-            tenderer[0]['identifier']['scheme'] = \
-                self.initial_data['shortlistedFirms'][i if i < 3 else 3]['identifier']['scheme']
+            identifier = self.initial_data['shortlistedFirms'][i if i < 3 else 3]['identifier']
+            tenderer[0]['identifier']['id'] = identifier['id']
+            tenderer[0]['identifier']['scheme'] = identifier['scheme']
             tenderers.append(tenderer)
         return tenderers
 
@@ -809,7 +820,7 @@ class BaseCompetitiveDialogUAStage2ContentWebTest(BaseCompetitiveDialogUAWebTest
                             }
                         }
                         for i in self.initial_lots
-                        ]
+                    ]
                 })
         elif status == 'active.qualification':
             data.update({
@@ -839,7 +850,7 @@ class BaseCompetitiveDialogUAStage2ContentWebTest(BaseCompetitiveDialogUAWebTest
                             }
                         }
                         for i in self.initial_lots
-                        ]
+                    ]
                 })
         elif status == 'active.awarded':
             data.update({
@@ -870,7 +881,7 @@ class BaseCompetitiveDialogUAStage2ContentWebTest(BaseCompetitiveDialogUAWebTest
                             }
                         }
                         for i in self.initial_lots
-                        ]
+                    ]
                 })
         elif status == 'complete':
             data.update({
@@ -901,7 +912,7 @@ class BaseCompetitiveDialogUAStage2ContentWebTest(BaseCompetitiveDialogUAWebTest
                             }
                         }
                         for i in self.initial_lots
-                        ]
+                    ]
                 })
         if extra:
             data.update(extra)
@@ -917,10 +928,3 @@ class BaseCompetitiveDialogUAStage2ContentWebTest(BaseCompetitiveDialogUAWebTest
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
         return response
-
-test_features_tender_eu_data = deepcopy(test_features_tender_data)
-test_features_tender_eu_data['procurementMethodType'] = CD_EU_TYPE
-
-author = deepcopy(test_bids[0]["tenderers"][0])
-author['identifier']['id'] = test_shortlistedFirms[0]['identifier']['id']
-author['identifier']['scheme'] = test_shortlistedFirms[0]['identifier']['scheme']

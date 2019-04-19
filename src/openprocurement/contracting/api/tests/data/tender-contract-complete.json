@@ -94,7 +94,8 @@
       "streetAddress": "вул. Банкова, 11, корпус 1",
       "region": "м. Київ",
       "locality": "м. Київ"
-     }
+     },
+     "scale": "micro"
     }
    ],
    "value": {
@@ -172,7 +173,8 @@
       "streetAddress": "вул. Банкова, 11, корпус 1",
       "region": "м. Київ",
       "locality": "м. Київ"
-     }
+     },
+     "scale": "micro"
     }
    ],
    "bid_id": "8ce7344584ad420baed6360424018204",
@@ -251,7 +253,8 @@
       "streetAddress": "вул. Банкова, 11, корпус 1",
       "region": "м. Київ",
       "locality": "м. Київ"
-     }
+     },
+     "scale": "micro"
     }
    ]
   },
@@ -281,7 +284,8 @@
       "streetAddress": "вул. Банкова, 11, корпус 1",
       "region": "м. Київ",
       "locality": "м. Київ"
-     }
+     },
+     "scale": "micro"
     }
    ]
   }

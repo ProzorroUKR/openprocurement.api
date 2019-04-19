@@ -5,7 +5,8 @@ from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import (
     test_organization,
-)
+    test_author,
+    test_bids)
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     # TenderBidDocumentResourceTest
     not_found,
@@ -35,6 +36,9 @@ from openprocurement.tender.openua.tests.bid_blanks import (
     draft2_bids,
     bids_invalidation_on_tender_change,
     bids_activation_on_tender_documents,
+    create_tender_bid_no_scale_invalid,
+    create_tender_bid_with_scale_invalid,
+    create_tender_bid_no_scale,
     # TenderBidFeautreResourceTest
     features_bidder,
     features_bidder_invalid,
@@ -61,6 +65,9 @@ class TenderBidResourceTestMixin(object):
     test_bid_Administrator_change = snitch(bid_Administrator_change)
     test_bids_invalidation_on_tender_change = snitch(bids_invalidation_on_tender_change)
     test_bids_activation_on_tender_documents = snitch(bids_activation_on_tender_documents)
+    test_create_tender_bid_no_scale_invalid = snitch(create_tender_bid_no_scale_invalid)
+    test_create_tender_bid_with_scale_invalid = snitch(create_tender_bid_with_scale_invalid)
+    test_create_tender_bid_no_scale = snitch(create_tender_bid_no_scale)
 
 
 class TenderBidDocumentResourceTestMixin(object):
@@ -73,7 +80,8 @@ class TenderBidDocumentResourceTestMixin(object):
 class TenderBidResourceTest(BaseTenderUAContentWebTest, TenderBidResourceTestMixin):
     initial_data = test_tender_data
     initial_status = 'active.tendering'
-    author_data = test_organization
+    test_bids_data = test_bids
+    author_data = test_author
 
     test_draft1_bid = snitch(draft1_bid)
     test_draft2_bids = snitch(draft2_bids)
@@ -89,14 +97,20 @@ class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
 
 class TenderBidDocumentResourceTest(BaseTenderUAContentWebTest, TenderBidDocumentResourceTestMixin):
     initial_status = 'active.tendering'
-    author_data = test_organization
+    test_bids_data = test_bids
+    author_data = test_author
 
     def setUp(self):
         super(TenderBidDocumentResourceTest, self).setUp()
         # Create bid
-        response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'selfEligible': True, 'selfQualified': True,
-                                       'tenderers': [test_organization], "value": {"amount": 500}}})
+        response = self.app.post_json(
+            '/tenders/{}/bids'.format(self.tender_id),
+            {'data': {
+                'selfEligible': True,
+                'selfQualified': True,
+                'tenderers': [test_organization],
+                "value": {"amount": 500}
+            }})
         bid = response.json['data']
         self.bid_id = bid['id']
         self.bid_token = response.json['access']['token']
@@ -114,13 +128,14 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
 class TenderBidderBatchDocumentWithDSResourceTest(BaseTenderUAContentWebTest):
     docservice = True
     initial_status = 'active.tendering'
-
-    bid_data_wo_docs = {'tenderers': [test_organization],
-                        'value': {'amount': 500},
-                        'selfEligible': True,
-                        'selfQualified': True,
-                        'documents': []
-        }
+    test_bids_data = test_bids
+    bid_data_wo_docs = {
+        'tenderers': [test_organization],
+        'value': {'amount': 500},
+        'selfEligible': True,
+        'selfQualified': True,
+        'documents': []
+    }
 
     create_tender_bid_with_document_invalid = snitch(create_tender_bid_with_document_invalid)
     create_tender_bid_with_document = snitch(create_tender_bid_with_document)

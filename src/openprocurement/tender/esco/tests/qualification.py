@@ -2,6 +2,7 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.tender.belowthreshold.tests.base import test_author
 
 from openprocurement.tender.esco.tests.base import (
     BaseESCOContentWebTest,
@@ -147,6 +148,7 @@ class TenderQualificationComplaintResourceTest(BaseESCOContentWebTest):
     initial_status = 'active.tendering'  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_bids
     initial_auth = ('Basic', ('broker', ''))
+    author_data = test_author
 
     def setUp(self):
         super(TenderQualificationComplaintResourceTest, self).setUp()
@@ -262,6 +264,7 @@ class TenderQualificationComplaintDocumentResourceTest(BaseESCOContentWebTest):
     initial_status = 'active.tendering'  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_bids
     initial_auth = ('Basic', ('broker', ''))
+    author_data = test_author
 
     def setUp(self):
         super(TenderQualificationComplaintDocumentResourceTest, self).setUp()
@@ -302,7 +305,7 @@ class TenderQualificationComplaintDocumentResourceTest(BaseESCOContentWebTest):
                 {'data': {
                     'title': 'complaint title',
                     'description': 'complaint description',
-                    'author': self.initial_bids[0]["tenderers"][0]
+                    'author': self.author_data
                 }})
         complaint = response.json['data']
         self.complaint_id = complaint['id']

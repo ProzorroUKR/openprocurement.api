@@ -6,7 +6,8 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,
     test_lots,
-    test_organization
+    test_organization,
+    test_author
 )
 from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
     # TenderComplaintResourceTest
@@ -33,7 +34,7 @@ class TenderComplaintResourceTestMixin(object):
 
 
 class TenderComplaintResourceTest(TenderContentWebTest, TenderComplaintResourceTestMixin):
-    test_author = test_organization
+    test_author = test_author
 
     test_create_tender_complaint = snitch(create_tender_complaint)
     test_patch_tender_complaint = snitch(patch_tender_complaint)
@@ -42,7 +43,7 @@ class TenderComplaintResourceTest(TenderContentWebTest, TenderComplaintResourceT
 
 class TenderLotAwardComplaintResourceTest(TenderContentWebTest):
     initial_lots = test_lots
-    test_author = test_organization
+    test_author = test_author
     test_lot_award_create_tender_complaint = snitch(lot_award_create_tender_complaint)
 
 
@@ -51,8 +52,13 @@ class TenderComplaintDocumentResourceTest(TenderContentWebTest):
     def setUp(self):
         super(TenderComplaintDocumentResourceTest, self).setUp()
         # Create complaint
-        response = self.app.post_json('/tenders/{}/complaints'.format(
-            self.tender_id), {'data': {'title': 'complaint title', 'description': 'complaint description', 'author': test_organization}})
+        response = self.app.post_json(
+            '/tenders/{}/complaints'.format(self.tender_id), 
+            {'data': {
+                'title': 'complaint title', 
+                'description': 'complaint description',
+                'author': test_author
+            }})
         complaint = response.json['data']
         self.complaint_id = complaint['id']
         self.complaint_owner_token = response.json['access']['token']
