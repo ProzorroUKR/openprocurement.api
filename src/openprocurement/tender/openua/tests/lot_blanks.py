@@ -81,7 +81,7 @@ def patch_tender_currency(self):
     self.assertEqual(lot['value']['currency'], "GBP")
     self.assertEqual(lot['minimalStep']['currency'], "GBP")
 
-    self.go_to_enquiryPeriod_end()
+    self.set_enquiry_period_end()
     response = self.app.patch_json(
         '/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token),
         {"data": {
@@ -168,7 +168,7 @@ def patch_tender_vat(self):
     self.assertFalse(lot['value']['valueAddedTaxIncluded'])
     self.assertEqual(lot['minimalStep']['valueAddedTaxIncluded'], lot['value']['valueAddedTaxIncluded'])
 
-    self.go_to_enquiryPeriod_end()
+    self.set_enquiry_period_end()
     response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(
         self.tender_id, lot['id'], self.tender_token),
         {"data": {

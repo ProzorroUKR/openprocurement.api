@@ -163,7 +163,7 @@ def create_tender_lot(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]['description'], "Can't create lot for tender stage2")
 
-    self.go_to_enquiryPeriod_end()
+    self.set_enquiry_period_end()
     response = self.app.post_json('/tenders/{}/lots'.format(self.tender_id), {'data': self.test_lots_data[0]}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')

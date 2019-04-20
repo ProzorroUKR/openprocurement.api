@@ -106,7 +106,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
                                 lot[period][date] = (
                                     self.now + self.periods[status][startend][period][date]
                                 ).isoformat()
-            self.tender_document_patch.update({'lots': lots})
+                self.tender_document_patch.update({'lots': lots})
         self.save_changes()
 
     def check_chronograph(self):
@@ -276,15 +276,6 @@ class BaseTenderWebTest(BaseCoreWebTest):
         if self.initial_status != status and self.initial_status:
             self.set_status(self.initial_status)
 
-    def get_tender(self, role):
-        authorization = self.app.authorization
-        self.app.authorization = ('Basic', (role, ''))
-
-        response = self.app.get('/tenders/{}'.format(self.tender_id))
-        self.app.authorization = authorization
-        self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
-        return response
-
     def set_status(self, status, extra=None, start_end='start'):
         self.now = get_now()
         self.tender_document = self.db.get(self.tender_id)
@@ -332,13 +323,6 @@ class BaseTenderWebTest(BaseCoreWebTest):
 
         self.save_changes()
         return self.get_tender('chronograph')
-
-    def save_changes(self):
-        if self.tender_document_patch:
-            self.tender_document.update(apply_data_patch(self.tender_document, self.tender_document_patch))
-            self.db.save(self.tender_document)
-            self.tender_document = self.db.get(self.tender_id)
-            self.tender_document_patch = {}
 
 
 class TenderContentWebTest(BaseTenderWebTest):

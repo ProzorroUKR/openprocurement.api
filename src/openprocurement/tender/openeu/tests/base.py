@@ -221,7 +221,7 @@ class BaseTenderWebTest(BaseTenderUAWebTest):
     forbidden_auction_actions_status = 'active.pre-qualification.stand-still'  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
     forbidden_auction_document_create_actions_status = 'active.pre-qualification.stand-still'  # status, in which adding document to tender auction is forbidden
 
-    def go_to_enquiryPeriod_end(self):
+    def set_enquiry_period_end(self):
         now = get_now()
         self.set_status('active.tendering', {
             "enquiryPeriod": {
@@ -249,6 +249,7 @@ class BaseTenderWebTest(BaseTenderUAWebTest):
     def time_shift(self, status, extra=None):
         now = get_now()
         tender = self.db.get(self.tender_id)
+        self.tender_document = tender
         data = {}
         if status == 'enquiryPeriod_ends':
             data.update({
@@ -364,10 +365,11 @@ class BaseTenderWebTest(BaseTenderUAWebTest):
                 })
         if extra:
             data.update(extra)
-        tender.update(apply_data_patch(tender, data))
-        self.db.save(tender)
 
-    def set_status(self, status, extra=None):
+        self.tender_document_patch = data
+        self.save_changes()
+
+    def update_status(self, status, extra=None):
         now = get_now()
         tender = self.db.get(self.tender_id)
 
@@ -544,20 +546,11 @@ class BaseTenderWebTest(BaseTenderUAWebTest):
                         for i in self.initial_lots
                     ]
                 })
+
+        self.tender_document_patch = data
         if extra:
-            data.update(extra)
-
-        tender.update(apply_data_patch(tender, data))
-        self.db.save(tender)
-
-        authorization = self.app.authorization
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        #response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-        response = self.app.get('/tenders/{}'.format(self.tender_id))
-        self.app.authorization = authorization
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        return response
+            self.tender_document_patch.update(extra)
+        self.save_changes()
 
     def prepare_award(self):
         # switch to active.pre-qualification

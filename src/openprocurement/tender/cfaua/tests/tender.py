@@ -76,7 +76,6 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     initial_auth = ('Basic', ('broker', ''))
     initial_data = deepcopy(test_tender_w_lot_data)
     initial_lots = deepcopy(test_lots_w_ids)
-    # test_lots_w_ids_data = test_lots_w_ids  # TODO: change attribute identifier
     initial_bids = deepcopy(test_bids_w_lot_data)
     min_bids_number = MIN_BIDS_NUMBER
 

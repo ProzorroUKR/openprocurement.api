@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import os
 from copy import deepcopy
 from datetime import datetime
 from openprocurement.api.constants import SANDBOX_MODE
@@ -62,23 +61,11 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
     forbidden_document_modification_actions_status = "complete"  # status, in which operations with tender documents (adding, updating) are forbidden
     forbidden_contract_document_modification_actions_status = "complete"  # status, in which operations with tender's contract documents (adding, updating) are forbidden
 
-    def set_status(self, status, extra=None):
-        data = {'status': status}
-
+    def update_status(self, status, extra=None):
+        self.tender_document_patch = {'status': status}
         if extra:
-            data.update(extra)
-
-        tender = self.db.get(self.tender_id)
-        tender.update(apply_data_patch(tender, data))
-        self.db.save(tender)
-
-        # authorization = self.app.authorization
-        #self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.get('/tenders/{}'.format(self.tender_id))
-        #self.app.authorization = authorization
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        return response
+            self.tender_document_patch.update(extra)
+        self.save_changes()
 
 
 class BaseTenderContentWebTest(BaseTenderWebTest):

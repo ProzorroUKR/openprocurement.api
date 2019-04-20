@@ -425,7 +425,7 @@ def patch_tender_ua(self):
     owner_token = response.json['access']['token']
     dateModified = tender.pop('dateModified')
     self.tender_id = tender['id']
-    self.go_to_enquiryPeriod_end()
+    self.set_enquiry_period_end()
 
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {"value": {
         "amount": 501,

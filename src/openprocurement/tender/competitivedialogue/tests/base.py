@@ -112,7 +112,7 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
     initial_auth = None
     forbidden_lot_actions_status = 'unsuccessful'  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
 
-    def go_to_enquiryPeriod_end(self):
+    def set_enquiry_period_end(self):
         now = get_now()
         self.set_status('active.tendering', {
             "enquiryPeriod": {
@@ -127,13 +127,7 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
 
     def setUp(self):
         super(BaseTenderWebTest, self).setUp()
-        self.db = self.app.app.registry.db
-        if self.docservice:
-            self.setUpDS()
-        if self.initial_auth:
-            self.app.authorization = self.initial_auth
-        else:
-            self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = self.initial_auth or ('Basic', ('broker', ''))
 
     def check_chronograph(self):
         authorization = self.app.authorization
@@ -146,6 +140,7 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
     def time_shift(self, status, extra=None):
         now = get_now()
         tender = self.db.get(self.tender_id)
+        self.tender_document = tender
         data = {}
         if status == 'enquiryPeriod_ends':
             data.update({
@@ -261,10 +256,10 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
                 })
         if extra:
             data.update(extra)
-        tender.update(apply_data_patch(tender, data))
-        self.db.save(tender)
+        self.tender_document_patch = data
+        self.save_changes()
 
-    def set_status(self, status, extra=None):
+    def update_status(self, status, extra=None):
         now = get_now()
         data = {'status': status}
         if status == 'active.tendering':
@@ -456,21 +451,11 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
                         for i in self.initial_lots
                     ]
                 })
+
+        self.tender_document_patch = data
         if extra:
-            data.update(extra)
-
-        tender = self.db.get(self.tender_id)
-        tender.update(apply_data_patch(tender, data))
-        self.db.save(tender)
-
-        authorization = self.app.authorization
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        # response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-        response = self.app.get('/tenders/{}'.format(self.tender_id))
-        self.app.authorization = authorization
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        return response
+            self.tender_document_patch.update(extra)
+        self.save_changes()
 
 
 class BaseCompetitiveDialogEUStage2WebTest(BaseCompetitiveDialogWebTest):
@@ -482,7 +467,7 @@ class BaseCompetitiveDialogUAStage2WebTest(BaseCompetitiveDialogWebTest):
     initial_data = test_tender_stage2_data_ua
     test_bids_data = test_bids
 
-    def set_status(self, status, extra=None):
+    def update_status(self, status, extra=None):
         now = get_now()
         data = {'status': status}
         if status == 'active.tendering':
@@ -613,20 +598,12 @@ class BaseCompetitiveDialogUAStage2WebTest(BaseCompetitiveDialogWebTest):
                         for i in self.initial_lots
                     ]
                 })
+
+
+        self.tender_document_patch = data
         if extra:
-            data.update(extra)
-
-        tender = self.db.get(self.tender_id)
-        tender.update(apply_data_patch(tender, data))
-        self.db.save(tender)
-
-        authorization = self.app.authorization
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.get('/tenders/{}'.format(self.tender_id))
-        self.app.authorization = authorization
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        return response
+            self.tender_document_patch.update(extra)
+        self.save_changes()
 
 
 class BaseCompetitiveDialogEUWebTest(BaseCompetitiveDialogWebTest):
@@ -780,7 +757,7 @@ class BaseCompetitiveDialogUAStage2ContentWebTest(BaseCompetitiveDialogUAWebTest
 
     create_tender = create_tender_stage2
 
-    def set_status(self, status, extra=None):
+    def update_status(self, status, extra=None):
         now = get_now()
         data = {'status': status}
         if status == 'active.tendering':
@@ -911,17 +888,9 @@ class BaseCompetitiveDialogUAStage2ContentWebTest(BaseCompetitiveDialogUAWebTest
                         for i in self.initial_lots
                     ]
                 })
+
+
+        self.tender_document_patch = data
         if extra:
-            data.update(extra)
-
-        tender = self.db.get(self.tender_id)
-        tender.update(apply_data_patch(tender, data))
-        self.db.save(tender)
-
-        authorization = self.app.authorization
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.get('/tenders/{}'.format(self.tender_id))
-        self.app.authorization = authorization
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        return response
+            self.tender_document_patch.update(extra)
+        self.save_changes()

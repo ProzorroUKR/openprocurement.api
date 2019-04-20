@@ -55,7 +55,6 @@ class BaseWebTest(unittest.TestCase):
         global wsgiapp
         wsgiapp = wsgiapp or loadapp(cls.relative_uri, relative_to=cls.relative_to)
         cls.app = BaseTestApp(wsgiapp)
-        cls.app.RequestClass = PrefixedTestRequest
         cls.couchdb_server = cls.app.app.registry.couchdb_server
         cls.db = cls.app.app.registry.db
 

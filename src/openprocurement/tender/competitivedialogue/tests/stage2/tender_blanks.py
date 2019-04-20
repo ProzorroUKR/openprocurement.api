@@ -311,7 +311,7 @@ def patch_tender_eu(self):
     tender = response.json['data']
     owner_token = response.json['access']['token']
     self.tender_id = tender['id']
-    self.go_to_enquiryPeriod_end()
+    self.set_enquiry_period_end()
 
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
@@ -702,7 +702,7 @@ def patch_tender_ua(self):
     owner_token = response.json['access']['token']
     self.tender_id = tender['id']
     self.set_status('active.tendering')
-    self.go_to_enquiryPeriod_end()
+    self.set_enquiry_period_end()
     self.app.get('/tenders/{}?acc_token={}'.format(tender['id'], owner_token))
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.patch_json(
