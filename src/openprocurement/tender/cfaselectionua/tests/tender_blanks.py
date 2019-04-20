@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 import jmespath
+import mock
 from uuid import uuid4
 from copy import deepcopy
 from datetime import timedelta
@@ -1222,7 +1223,6 @@ def tender_features(self):
     self.assertNotIn('features', response.json['data'])
 
 
-@unittest.skip("this test requires fixed version of jsonpatch library")
 def patch_tender_jsonpatch(self):
     response = self.app.post_json('/tenders', {'data': self.initial_data})
     self.assertEqual(response.status, '201 Created')
@@ -1673,7 +1673,7 @@ def patch_tender_bot(self):
     self.assertEqual(response.json['data']['status'], 'active.enquiries')
 
 
-@unittest.skipIf(get_now() < CANT_DELETE_PERIOD_START_DATE_FROM, "Can`t delete period start date only from {}".format(CANT_DELETE_PERIOD_START_DATE_FROM))
+@mock.patch('openprocurement.tender.core.models.CANT_DELETE_PERIOD_START_DATE_FROM', get_now() - timedelta(days=1))
 def required_field_deletion(self):
     response = self.app.post_json('/tenders', {'data': self.initial_data})
     self.assertEqual(response.status, '201 Created')

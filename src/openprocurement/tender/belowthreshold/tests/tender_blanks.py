@@ -1255,7 +1255,6 @@ def tender_features(self):
     self.assertNotIn('features', response.json['data'])
 
 
-@unittest.skip("this test requires fixed version of jsonpatch library")
 def patch_tender_jsonpatch(self):
     response = self.app.post_json('/tenders', {'data': self.initial_data})
     self.assertEqual(response.status, '201 Created')
@@ -1458,15 +1457,13 @@ def patch_tender(self):
         "Can't update tender in current (complete) status")
 
 
-@unittest.skipIf(get_now() < CANT_DELETE_PERIOD_START_DATE_FROM,
-                 "Can`t delete period start date only from {}".format(CANT_DELETE_PERIOD_START_DATE_FROM))
+@mock.patch('openprocurement.tender.core.models.CANT_DELETE_PERIOD_START_DATE_FROM', get_now() - timedelta(days=1))
 def required_field_deletion(self):
     response = self.app.post_json('/tenders', {'data': self.initial_data})
     self.assertEqual(response.status, '201 Created')
     tender = response.json['data']
     token = response.json['access']['token']
 
-    # TODO: Test all the required fields
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
         tender['id'], token), {'data': {'enquiryPeriod': {'startDate': None}}}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
