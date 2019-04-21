@@ -26,10 +26,6 @@ srequest = SESSION.request
 
 
 class BaseWebTest(BaseApiWebTest):
-    """Base Web Test to test openprocurement.agreement.cfaua.
-
-    It setups the database before each test and delete it after.
-    """
     initial_auth = ('Basic', ('token', ''))
     docservice = False
     docservice_url = 'http://localhost'
