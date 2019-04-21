@@ -6,12 +6,9 @@ from datetime import datetime, timedelta
 from uuid import uuid4
 
 from openprocurement.api.constants import SANDBOX_MODE, TZ
-from openprocurement.api.utils import apply_data_patch, get_now
-from openprocurement.tender.core.tests.base import (
-    BaseTenderWebTest as BaseTWT
-)
+from openprocurement.api.utils import get_now
+from openprocurement.tender.core.tests.base import BaseCoreWebTest
 from openprocurement.tender.cfaselectionua.adapters.configurator import TenderCfaSelectionUAConfigurator
-from openprocurement.tender.cfaselectionua.constants import ENQUIRY_PERIOD
 from openprocurement.tender.cfaselectionua.tests.periods import periods
 
 
@@ -64,7 +61,7 @@ with open(os.path.join(here, 'data/lots.json')) as _in:
 test_agreement_features = deepcopy(test_agreement)
 test_agreement_features['features'] = test_features
 
-class BaseTenderWebTest(BaseTWT):
+class BaseTenderWebTest(BaseCoreWebTest):
     initial_data = test_tender_data
     initial_agreement = deepcopy(test_agreement)
     initial_status = None
@@ -72,7 +69,6 @@ class BaseTenderWebTest(BaseTWT):
     initial_lots = None
     initial_auth = ('Basic', ('broker', ''))
     docservice = False
-    relative_to = os.path.dirname(__file__)
     # Statuses for test, that will be imported from others procedures
     primary_tender_status = 'draft.pending'  # status, to which tender should be switched from 'draft'
     forbidden_document_modification_actions_status = 'active.tendering'  # status, in which operations with tender documents (adding, updating) are forbidden
@@ -110,16 +106,8 @@ class BaseTenderWebTest(BaseTWT):
                                 lot[period][date] = (
                                     self.now + self.periods[status][startend][period][date]
                                 ).isoformat()
-            self.tender_document_patch.update({'lots': lots})
+                self.tender_document_patch.update({'lots': lots})
         self.save_changes()
-
-    def check_chronograph(self):
-        authorization = self.app.authorization
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-        self.app.authorization = authorization
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
 
     def get_timedelta(self, **kw):
         delta = timedelta(**kw)
@@ -280,15 +268,6 @@ class BaseTenderWebTest(BaseTWT):
         if self.initial_status != status and self.initial_status:
             self.set_status(self.initial_status)
 
-    def get_tender(self, role):
-        authorization = self.app.authorization
-        self.app.authorization = ('Basic', (role, ''))
-
-        response = self.app.get('/tenders/{}'.format(self.tender_id))
-        self.app.authorization = authorization
-        self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
-        return response
-
     def set_status(self, status, extra=None, start_end='start'):
         self.now = get_now()
         self.tender_document = self.db.get(self.tender_id)
@@ -336,13 +315,6 @@ class BaseTenderWebTest(BaseTWT):
 
         self.save_changes()
         return self.get_tender('chronograph')
-
-    def save_changes(self):
-        if self.tender_document_patch:
-            self.tender_document.update(apply_data_patch(self.tender_document, self.tender_document_patch))
-            self.db.save(self.tender_document)
-            self.tender_document = self.db.get(self.tender_id)
-            self.tender_document_patch = {}
 
 
 class TenderContentWebTest(BaseTenderWebTest):

@@ -19,7 +19,6 @@ from openprocurement.agreement.core.utils import (
 from openprocurement.agreement.core.models.agreement import Agreement
 from openprocurement.agreement.core.validation import validate_agreement_data
 from openprocurement.agreement.core.views.agreement import APIAgreementsResource
-from requests import Request
 from schematics.types import StringType
 
 

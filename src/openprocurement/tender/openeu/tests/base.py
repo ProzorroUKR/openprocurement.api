@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
-import os
 from datetime import datetime, timedelta
 from openprocurement.api.constants import SANDBOX_MODE
-from openprocurement.tender.openua.tests.base import (
-    BaseTenderUAWebTest as BaseBaseTenderWebTest
-)
-from openprocurement.api.utils import apply_data_patch, get_now
+from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest
+from openprocurement.api.utils import get_now
 from openprocurement.tender.openeu.constants import (
     TENDERING_DAYS,
     TENDERING_DURATION,
@@ -212,20 +209,19 @@ test_lots = [
 ]
 
 
-class BaseTenderWebTest(BaseBaseTenderWebTest):
+class BaseTenderWebTest(BaseTenderUAWebTest):
     initial_data = test_tender_data
     initial_status = None
     initial_bids = None
     initial_lots = None
     initial_auth = None
-    relative_to = os.path.dirname(__file__)
     forbidden_question_modification_actions_status = 'active.pre-qualification'  # status, in which adding/updating tender questions is forbidden
     question_claim_block_status = "active.pre-qualification"  # status, tender cannot be switched to while it has questions/complaints related to its lot
     # auction role actions
     forbidden_auction_actions_status = 'active.pre-qualification.stand-still'  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
     forbidden_auction_document_create_actions_status = 'active.pre-qualification.stand-still'  # status, in which adding document to tender auction is forbidden
 
-    def go_to_enquiryPeriod_end(self):
+    def set_enquiry_period_end(self):
         now = get_now()
         self.set_status('active.tendering', {
             "enquiryPeriod": {
@@ -239,32 +235,13 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         })
 
     def setUp(self):
-        super(BaseBaseTenderWebTest, self).setUp()
-        if self.initial_auth:
-            self.app.authorization = self.initial_auth
-        else:
-            self.app.authorization = ('Basic', ('token', ''))
-        self.couchdb_server = self.app.app.registry.couchdb_server
-        self.db = self.app.app.registry.db
-        if self.docservice:
-            self.setUpDS()
-
-    def tearDown(self):
-        if self.docservice:
-            self.tearDownDS()
-        del self.couchdb_server[self.db.name]
-
-    def check_chronograph(self):
-        authorization = self.app.authorization
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-        self.app.authorization = authorization
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
+        super(BaseTenderUAWebTest, self).setUp()
+        self.app.authorization = self.initial_auth or ('Basic', ('token', ''))
 
     def time_shift(self, status, extra=None):
         now = get_now()
         tender = self.db.get(self.tender_id)
+        self.tender_document = tender
         data = {}
         if status == 'enquiryPeriod_ends':
             data.update({
@@ -380,10 +357,11 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                 })
         if extra:
             data.update(extra)
-        tender.update(apply_data_patch(tender, data))
-        self.db.save(tender)
 
-    def set_status(self, status, extra=None):
+        self.tender_document_patch = data
+        self.save_changes()
+
+    def update_status(self, status, extra=None):
         now = get_now()
         tender = self.db.get(self.tender_id)
 
@@ -560,20 +538,11 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                         for i in self.initial_lots
                     ]
                 })
+
+        self.tender_document_patch = data
         if extra:
-            data.update(extra)
-
-        tender.update(apply_data_patch(tender, data))
-        self.db.save(tender)
-
-        authorization = self.app.authorization
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        #response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-        response = self.app.get('/tenders/{}'.format(self.tender_id))
-        self.app.authorization = authorization
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        return response
+            self.tender_document_patch.update(extra)
+        self.save_changes()
 
     def prepare_award(self):
         # switch to active.pre-qualification
@@ -621,7 +590,6 @@ class BaseTenderContentWebTest(BaseTenderWebTest):
     initial_status = None
     initial_bids = None
     initial_lots = None
-    relative_to = os.path.dirname(__file__)
 
     def setUp(self):
         super(BaseTenderContentWebTest, self).setUp()

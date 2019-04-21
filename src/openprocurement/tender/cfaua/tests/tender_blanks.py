@@ -518,7 +518,7 @@ def patch_tender_period(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']['agreementDuration'], 'P1DT1M0.2S')
 
-    self.go_to_enquiryPeriod_end()
+    self.set_enquiry_period_end()
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {"description": "new description"}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
@@ -1355,7 +1355,6 @@ def _awards_to_bids_number(self, max_awards_number, bids_number, expected_awards
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(len(response.json['data']), expected_awards_number)
-    del self.db[self.tender_id]
 
 
 def awards_to_bids_number(self):

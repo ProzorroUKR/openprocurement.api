@@ -589,7 +589,7 @@ def patch_tender_period(self):
     owner_token = response.json['access']['token']
     dateModified = tender.pop('dateModified')
     self.tender_id = tender['id']
-    self.go_to_enquiryPeriod_end()
+    self.set_enquiry_period_end()
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {"description": "new description"}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')

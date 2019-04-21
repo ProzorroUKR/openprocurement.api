@@ -97,13 +97,11 @@ class TenderStage2EUAwardResourceTest(BaseCompetitiveDialogEUStage2ContentWebTes
         super(TenderStage2EUAwardResourceTest, self).setUp()
         # switch to active.pre-qualification
         self.set_status('active.pre-qualification', {'id': self.tender_id, 'status': 'active.tendering'})
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+        response = self.check_chronograph()
         self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
 
         # qualify bids
         response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
-        self.app.authorization = ('Basic', ('broker', ''))
         for qualification in response.json['data']:
             response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
                 self.tender_id, qualification['id'], self.tender_token),
@@ -118,8 +116,7 @@ class TenderStage2EUAwardResourceTest(BaseCompetitiveDialogEUStage2ContentWebTes
 
         # switch to active.auction time
         self.set_status('active.auction', {'id': self.tender_id, 'status': 'active.pre-qualification.stand-still'})
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+        response = self.check_chronograph()
         self.assertEqual(response.json['data']['status'], 'active.auction')
 
         # switch to auction role
@@ -154,14 +151,11 @@ class TenderStage2EULotAwardResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
         super(TenderStage2EULotAwardResourceTest, self).setUp()
         # switch to active.pre-qualification
         self.set_status('active.pre-qualification', {'id': self.tender_id, 'status': 'active.tendering'})
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(
-            self.tender_id), {'data': {'id': self.tender_id}})
+        response = self.check_chronograph()
         self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
 
         # qualify bids
         response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
-        self.app.authorization = ('Basic', ('broker', ''))
         for qualification in response.json['data']:
             response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
                 self.tender_id, qualification['id'], self.tender_token),
@@ -176,8 +170,7 @@ class TenderStage2EULotAwardResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
 
         # switch to active.auction
         self.set_status('active.auction', {'id': self.tender_id, 'status': 'active.pre-qualification.stand-still'})
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+        response = self.check_chronograph()
         self.assertEqual(response.json['data']['status'], 'active.auction')
 
         self.app.authorization = ('Basic', ('auction', ''))
@@ -210,13 +203,11 @@ class TenderStage2EU2LotAwardResourceTest(BaseCompetitiveDialogEUStage2ContentWe
         super(TenderStage2EU2LotAwardResourceTest, self).setUp()
         # switch to active.pre-qualification
         self.set_status('active.pre-qualification', {'id': self.tender_id, 'status': 'active.tendering'})
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+        response = self.check_chronograph()
         self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
 
         # qualify bids
         response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
-        self.app.authorization = ('Basic', ('broker', ''))
         for qualification in response.json['data']:
             response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
                 self.tender_id, qualification['id'], self.tender_token),
@@ -230,8 +221,7 @@ class TenderStage2EU2LotAwardResourceTest(BaseCompetitiveDialogEUStage2ContentWe
 
         # switch to active.auction
         self.set_status('active.auction', {'id': self.tender_id, 'status': 'active.pre-qualification.stand-still'})
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+        response = self.check_chronograph()
         self.assertEqual(response.json['data']['status'], 'active.auction')
 
         self.app.authorization = ('Basic', ('auction', ''))
@@ -264,8 +254,7 @@ class TenderStage2EUAwardComplaintResourceTest(BaseCompetitiveDialogEUStage2Cont
         super(TenderStage2EUAwardComplaintResourceTest, self).setUp()
         # switch to active.pre-qualification
         self.set_status('active.pre-qualification', {'id': self.tender_id, 'status': 'active.tendering'})
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+        response = self.check_chronograph()
         self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
 
         # qualify bids
@@ -285,8 +274,7 @@ class TenderStage2EUAwardComplaintResourceTest(BaseCompetitiveDialogEUStage2Cont
 
         # switch to active.auction
         self.set_status('active.auction', {'id': self.tender_id, 'status': 'active.pre-qualification.stand-still'})
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+        response = self.check_chronograph()
         self.assertEqual(response.json['data']['status'], 'active.auction')
 
         self.app.authorization = ('Basic', ('auction', ''))
@@ -323,13 +311,11 @@ class TenderStage2EULotAwardComplaintResourceTest(BaseCompetitiveDialogEUStage2C
 
         # switch to active.pre-qualification
         self.set_status('active.pre-qualification', {'id': self.tender_id, 'status': 'active.tendering'})
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+        response = self.check_chronograph()
         self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
 
         # qualify bids
         response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
-        self.app.authorization = ('Basic', ('broker', ''))
         for qualification in response.json['data']:
             response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
                 self.tender_id, qualification['id'], self.tender_token),
@@ -344,8 +330,7 @@ class TenderStage2EULotAwardComplaintResourceTest(BaseCompetitiveDialogEUStage2C
 
         # switch to active.auction
         self.set_status('active.auction', {'id': self.tender_id, 'status': 'active.pre-qualification.stand-still'})
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+        response = self.check_chronograph()
         self.assertEqual(response.json['data']['status'], 'active.auction')
 
         self.app.authorization = ('Basic', ('auction', ''))

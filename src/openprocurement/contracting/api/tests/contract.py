@@ -8,7 +8,6 @@ from openprocurement.contracting.api.tests.base import (
     test_contract_data,
     test_contract_data_wo_items,
     test_contract_data_wo_value_amount_net,
-    BaseWebTest,
     BaseContractWebTest,
     documents,
 )
@@ -39,6 +38,7 @@ from openprocurement.contracting.api.tests.contract_blanks import (
     contract_wo_items_status_change,
     patch_tender_contract_wo_amount_net
 )
+from openprocurement.tender.core.tests.base import BaseWebTest
 
 
 class ContractTest(BaseWebTest):

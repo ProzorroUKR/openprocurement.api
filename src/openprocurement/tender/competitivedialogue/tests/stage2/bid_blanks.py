@@ -2,8 +2,7 @@
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.tests.base import now
-from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_organization, now
 
 # TenderStage2EUBidResourceTest
 

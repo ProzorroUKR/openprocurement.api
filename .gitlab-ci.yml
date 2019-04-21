@@ -109,7 +109,7 @@ Stop review:
     - cd /app
     - export MODULE_DIR=$(echo $MODULE | sed -e 's/[\ ]/\//g')
     - export MODULE_NAME=$(echo $MODULE | sed -e 's/[\ ]/\./g')
-    - py.test src/openprocurement/$MODULE_DIR --cov=openprocurement.$MODULE_NAME -v --color=yes
+    - py.test src/openprocurement/$MODULE_DIR --maxfail=1 --cov=openprocurement.$MODULE_NAME -v --color=yes
   coverage: '/TOTAL\s+\d+\s+\d+\s+(\d+%)/'
 
 .test_sandbox:
@@ -122,58 +122,23 @@ Stop review:
   variables:
     SANDBOX_MODE: ''
 
-test_sandbox_api:
-  extends: .test_sandbox
-  variables:
-    MODULE: api
-
-test_sandbox_tender_core:
-  extends: .test_sandbox
-  variables:
-    MODULE: tender core
-
-test_sandbox_contracting:
-  extends: .test_sandbox
-  variables:
-    MODULE: contracting
-
-test_sandbox_planning:
-  extends: .test_sandbox
-  variables:
-    MODULE: planning
-
-test_sandbox_tender_belowthreshold:
-  extends: .test_sandbox
-  variables:
-    MODULE: tender belowthreshold
-
-test_sandbox_tender_openua:
-  extends: .test_sandbox
-  variables:
-    MODULE: tender openua
-
-test_sandbox_tender_openeu:
-  extends: .test_sandbox
-  variables:
-    MODULE: tender openeu
-
-test_sandbox_tender_openuadefense:
-  extends: .test_sandbox
-  variables:
-    MODULE: tender openuadefense
-
 test_sandbox_tender_competitivedialogue:
   extends: .test_sandbox
   variables:
     MODULE: tender competitivedialogue
 
-test_sandbox_tender_limited:
-  extends: .test_sandbox
+test_prod_tender_competitivedialogue:
+  extends: .test_prod
   variables:
-    MODULE: tender limited
+    MODULE: tender competitivedialogue
 
 test_sandbox_tender_esco:
   extends: .test_sandbox
+  variables:
+    MODULE: tender esco
+
+test_prod_tender_esco:
+  extends: .test_prod
   variables:
     MODULE: tender esco
 
@@ -182,102 +147,137 @@ test_sandbox_tender_cfaua:
   variables:
     MODULE: tender cfaua
 
-test_sandbox_tender_cfaselectionua:
+test_prod_tender_cfaua:
+  extends: .test_prod
+  variables:
+    MODULE: tender cfaua
+
+test_sandbox_tender_limited:
   extends: .test_sandbox
   variables:
-    MODULE: tender cfaselectionua
-
-test_sandbox_agreement_core:
-  extends: .test_sandbox
-  variables:
-    MODULE: agreement core
-
-test_sandbox_agreement_cfaua:
-  extends: .test_sandbox
-  variables:
-    MODULE: agreement cfaua
-
-test_sandbox_historical:
-  extends: .test_sandbox
-  variables:
-    MODULE: historical
-
-test_prod_api:
-  extends: .test_prod
-  variables:
-    MODULE: api
-
-test_prod_tender_core:
-  extends: .test_prod
-  variables:
-    MODULE: tender core
-
-test_prod_contracting:
-  extends: .test_prod
-  variables:
-    MODULE: contracting
-
-test_prod_planning:
-  extends: .test_prod
-  variables:
-    MODULE: planning
-
-test_prod_tender_belowthreshold:
-  extends: .test_prod
-  variables:
-    MODULE: tender belowthreshold
-
-test_prod_tender_openua:
-  extends: .test_prod
-  variables:
-    MODULE: tender openua
-
-test_prod_tender_openeu:
-  extends: .test_prod
-  variables:
-    MODULE: tender openeu
-
-test_prod_tender_openuadefense:
-  extends: .test_prod
-  variables:
-    MODULE: tender openuadefense
-
-test_prod_tender_competitivedialogue:
-  extends: .test_prod
-  variables:
-    MODULE: tender competitivedialogue
+    MODULE: tender limited
 
 test_prod_tender_limited:
   extends: .test_prod
   variables:
     MODULE: tender limited
 
-test_prod_tender_esco:
-  extends: .test_prod
+test_sandbox_api:
+  extends: .test_sandbox
   variables:
-    MODULE: tender esco
+    MODULE: api
 
-test_prod_tender_cfaua:
+test_prod_api:
   extends: .test_prod
   variables:
-    MODULE: tender cfaua
+    MODULE: api
 
-test_prod_tender_cfaselectionua:
+test_sandbox_tender_openeu:
+  extends: .test_sandbox
+  variables:
+    MODULE: tender openeu
+
+test_prod_tender_openeu:
   extends: .test_prod
   variables:
-    MODULE: tender cfaselectionua
+    MODULE: tender openeu
+
+test_sandbox_tender_openua:
+  extends: .test_sandbox
+  variables:
+    MODULE: tender openua
+
+test_prod_tender_openua:
+  extends: .test_prod
+  variables:
+    MODULE: tender openua
+
+test_sandbox_agreement_core:
+  extends: .test_sandbox
+  variables:
+    MODULE: agreement core
 
 test_prod_agreement_core:
   extends: .test_prod
   variables:
     MODULE: agreement core
 
-test_prod_agreement_cfaua:
+test_sandbox_contracting:
+  extends: .test_sandbox
+  variables:
+    MODULE: contracting
+
+test_prod_contracting:
   extends: .test_prod
   variables:
-    MODULE: agreement cfaua
+    MODULE: contracting
+
+test_sandbox_planning:
+  extends: .test_sandbox
+  variables:
+    MODULE: planning
+
+test_prod_planning:
+  extends: .test_prod
+  variables:
+    MODULE: planning
+
+test_sandbox_historical:
+  extends: .test_sandbox
+  variables:
+    MODULE: historical
 
 test_prod_historical:
   extends: .test_prod
   variables:
     MODULE: historical
+
+test_sandbox_agreement_cfaua:
+  extends: .test_sandbox
+  variables:
+    MODULE: agreement cfaua
+
+test_prod_agreement_cfaua:
+  extends: .test_prod
+  variables:
+    MODULE: agreement cfaua
+
+test_sandbox_tender_belowthreshold:
+  extends: .test_sandbox
+  variables:
+    MODULE: tender belowthreshold
+
+test_prod_tender_belowthreshold:
+  extends: .test_prod
+  variables:
+    MODULE: tender belowthreshold
+
+test_sandbox_tender_core:
+  extends: .test_sandbox
+  variables:
+    MODULE: tender core
+
+test_prod_tender_core:
+  extends: .test_prod
+  variables:
+    MODULE: tender core
+
+test_sandbox_tender_openuadefense:
+  extends: .test_sandbox
+  variables:
+    MODULE: tender openuadefense
+
+test_prod_tender_openuadefense:
+  extends: .test_prod
+  variables:
+    MODULE: tender openuadefense
+
+test_sandbox_tender_cfaselectionua:
+  extends: .test_sandbox
+  variables:
+    MODULE: tender cfaselectionua
+
+test_prod_tender_cfaselectionua:
+  extends: .test_prod
+  variables:
+    MODULE: tender cfaselectionua

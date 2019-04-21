@@ -18,7 +18,7 @@ def create_tender_question(self):
     self.assertIn('id', question)
     self.assertIn(question['id'], response.headers['Location'])
 
-    self.go_to_enquiryPeriod_end()
+    self.set_enquiry_period_end()
     response = self.app.post_json('/tenders/{}/questions'.format(
         self.tender_id),
         {'data': {'title': 'question title', 'description': 'question description', 'author': test_author}},

@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-import os
+from copy import deepcopy
+from uuid import uuid4
+
 from datetime import datetime, timedelta
 
-from openprocurement.api.constants import SANDBOX_MODE, get_constant
-from openprocurement.api.utils import apply_data_patch, get_now
-from openprocurement.tender.core.tests.base import (
-    BaseTenderWebTest as BaseTWT
-)
+from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.api.utils import get_now
+from openprocurement.tender.core.tests.base import BaseCoreWebTest
 from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
 
 now = datetime.now()
@@ -201,14 +201,13 @@ test_features = [
 ]
 
 
-class BaseTenderWebTest(BaseTWT):
+class BaseTenderWebTest(BaseCoreWebTest):
     initial_data = test_tender_data
     initial_status = None
     initial_bids = None
     initial_lots = None
     initial_auth = ('Basic', ('broker', ''))
     docservice = False
-    relative_to = os.path.dirname(__file__)
     min_bids_number = MIN_BIDS_NUMBER
     # Statuses for test, that will be imported from others procedures
     primary_tender_status = 'active.enquiries'  # status, to which tender should be switched from 'draft'
@@ -220,7 +219,7 @@ class BaseTenderWebTest(BaseTWT):
     forbidden_auction_actions_status = 'active.tendering'  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
     forbidden_auction_document_create_actions_status = 'active.tendering'  # status, in which adding document to tender auction is forbidden
 
-    def set_status(self, status, extra=None):
+    def update_status(self, status, extra=None):
         now = get_now()
         data = {'status': status}
         if status == 'active.enquiries':
@@ -362,21 +361,48 @@ class BaseTenderWebTest(BaseTWT):
                         for i in self.initial_lots
                     ]
                 })
+
+        self.tender_document_patch = data
         if extra:
-            data.update(extra)
+            self.tender_document_patch.update(extra)
+        self.save_changes()
 
-        tender = self.db.get(self.tender_id)
-        tender.update(apply_data_patch(tender, data))
-        self.db.save(tender)
-
-        authorization = self.app.authorization
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        #response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-        response = self.app.get('/tenders/{}'.format(self.tender_id))
-        self.app.authorization = authorization
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        return response
+    def create_tender(self):
+        data = deepcopy(self.initial_data)
+        if self.initial_lots:
+            lots = []
+            for i in self.initial_lots:
+                lot = deepcopy(i)
+                lot['id'] = uuid4().hex
+                lots.append(lot)
+            data['lots'] = self.initial_lots = lots
+            for i, item in enumerate(data['items']):
+                item['relatedLot'] = lots[i % len(lots)]['id']
+        response = self.app.post_json('/tenders', {'data': data})
+        tender = response.json['data']
+        self.tender_token = response.json['access']['token']
+        self.tender_id = tender['id']
+        status = tender['status']
+        if self.initial_bids:
+            self.initial_bids_tokens = {}
+            response = self.set_status('active.tendering')
+            status = response.json['data']['status']
+            bids = []
+            for i in self.initial_bids:
+                if self.initial_lots:
+                    i = i.copy()
+                    value = i.pop('value')
+                    i['lotValues'] = [{
+                        'value': value,
+                        'relatedLot': l['id'],
+                    } for l in self.initial_lots]
+                response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': i})
+                self.assertEqual(response.status, '201 Created')
+                bids.append(response.json['data'])
+                self.initial_bids_tokens[response.json['data']['id']] = response.json['access']['token']
+            self.initial_bids = bids
+        if self.initial_status and self.initial_status != status:
+            self.set_status(self.initial_status)
 
 
 class TenderContentWebTest(BaseTenderWebTest):

@@ -42,9 +42,6 @@ class TestDocumentsCreate(BaseDS):
 
 
 class AgreementDocumentWithDSResourceTest(BaseDS):
-    def setUp(self):
-        super(AgreementDocumentWithDSResourceTest, self).setUp()
-
     test_not_found = snitch(not_found)
     test_put_contract_document = snitch(put_contract_document)
 

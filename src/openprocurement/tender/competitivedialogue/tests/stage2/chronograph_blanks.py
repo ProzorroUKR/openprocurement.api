@@ -4,10 +4,7 @@
 
 def switch_to_unsuccessful_eu(self):
     self.set_status('active.pre-qualification', {'status': self.initial_status})
-    self.app.authorization = ('Basic', ('chronograph', ''))
-    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
+    response = self.check_chronograph()
     self.assertEqual(response.json['data']["status"], "unsuccessful")
 
 
@@ -15,17 +12,12 @@ def switch_to_unsuccessful_eu(self):
 
 
 def set_auction_period_2_lot_0_bid_ua(self):
-    self.app.authorization = ('Basic', ('chronograph', ''))
-    response = self.app.patch_json('/tenders/{}'.format(self.tender_id),
-                                   {'data': {'lots': [{'auctionPeriod': {'startDate': '9999-01-01T00:00:00+00:00'}}
-                                                      for i in self.lots]}
-                                    })
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.json['data']["lots"][0]['auctionPeriod']['startDate'], '9999-01-01T00:00:00+00:00')
+    start_date = '9999-01-01T00:00:00+00:00'
+    data = {'data': {'lots': [{'auctionPeriod': {'startDate': start_date}}  for i in self.lots]}}
+    response = self.check_chronograph(data)
+    self.assertEqual(response.json['data']["lots"][0]['auctionPeriod']['startDate'], start_date)
 
-    response = self.app.patch_json('/tenders/{}'.format(self.tender_id),
-                                   {'data': {'lots': [{'auctionPeriod': {'startDate': None}},
-                                                      {'auctionPeriod': {'startDate': None}}]}})
-    self.assertEqual(response.status, '200 OK')
+    data = {'data': {'lots': [{'auctionPeriod': {'startDate': None}}, {'auctionPeriod': {'startDate': None}}]}}
+    response = self.check_chronograph(data)
     self.assertIn('auctionPeriod', response.json['data']["lots"][0])
     self.assertNotIn('startDate', response.json['data']["lots"][0]['auctionPeriod'])

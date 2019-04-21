@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-import os
-from datetime import datetime, timedelta
+from datetime import timedelta
 from copy import deepcopy
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.utils import get_now
@@ -72,15 +71,11 @@ test_features_tender_ua_data["items"][0]["deliveryAddress"] = test_tender_data["
 # test_features_tender_ua_data["tenderPeriod"] = test_features_tender_ua_data["enquiryPeriod"].copy()
 
 
-from openprocurement.api.utils import apply_data_patch
-
-
 class BaseTenderUAWebTest(BaseTenderWebTest):
     initial_data = test_tender_data
     initial_status = None
     initial_bids = None
     initial_lots = None
-    relative_to = os.path.dirname(__file__)
     primary_tender_status = 'active.tendering'  # status, to which tender should be switched from 'draft'
     question_claim_block_status = 'active.auction'  # status, tender cannot be switched to while it has questions/complaints related to its lot
     forbidden_document_modification_actions_status = "active.auction"  # status, in which operations with tender documents (adding, updating) are forbidden
@@ -90,7 +85,7 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
     forbidden_auction_actions_status = 'active.tendering'  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
     forbidden_auction_document_create_actions_status = 'active.tendering'  # status, in which adding document to tender auction is forbidden
 
-    def go_to_enquiryPeriod_end(self):
+    def set_enquiry_period_end(self):
         now = get_now()
         self.set_status('active.tendering', {
             "enquiryPeriod": {
@@ -106,8 +101,8 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
             }
         })
 
-    def set_status(self, status, extra=None):
-        now = get_now()
+    def update_status(self, status, extra=None):
+        self.now = get_now()
         data = {'status': status}
         if status == 'active.tendering':
             data.update({
@@ -237,20 +232,11 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
                         for i in self.initial_lots
                     ]
                 })
+
+        self.tender_document_patch = data
         if extra:
-            data.update(extra)
-
-        tender = self.db.get(self.tender_id)
-        tender.update(apply_data_patch(tender, data))
-        self.db.save(tender)
-
-        authorization = self.app.authorization
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.get('/tenders/{}'.format(self.tender_id))
-        self.app.authorization = authorization
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        return response
+            self.tender_document_patch.update(extra)
+        self.save_changes()
 
 
 class BaseTenderUAContentWebTest(BaseTenderUAWebTest):

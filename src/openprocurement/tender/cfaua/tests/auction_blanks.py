@@ -152,8 +152,7 @@ def tender_go_to_awarded_with_one_lot(self):
 
     # switch to active.awarded
     self.set_status('active.qualification.stand-still', 'end')
-    self.app.authorization = ('Basic', ('chronograph', ''))
-    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json['data']['status'], 'active.awarded')
 
 

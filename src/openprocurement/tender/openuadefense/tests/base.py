@@ -74,7 +74,6 @@ test_features_tender_ua_data["tenderPeriod"] = {
 }
 test_features_tender_ua_data["items"][0]["deliveryDate"] = test_tender_data["items"][0]["deliveryDate"]
 test_features_tender_ua_data["items"][0]["deliveryAddress"] = test_tender_data["items"][0]["deliveryAddress"]
-# test_features_tender_ua_data["tenderPeriod"] = test_features_tender_ua_data["enquiryPeriod"].copy()
 
 
 class BaseTenderUAWebTest(BaseTenderWebTest):
@@ -82,10 +81,9 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
     initial_status = None
     initial_bids = None
     initial_lots = None
-    relative_to = os.path.dirname(__file__)
     forbidden_lot_actions_status = "active.auction"  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
 
-    def go_to_enquiryPeriod_end(self):
+    def set_enquiry_period_end(self):
         now = get_now()
         self.set_status('active.tendering', {
             "enquiryPeriod": {
@@ -101,7 +99,7 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
             }
         })
 
-    def set_status(self, status, extra=None):
+    def update_status(self, status, extra=None):
         now = get_now()
         data = {'status': status}
         if status == 'active.tendering':
@@ -232,25 +230,11 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
                         for i in self.initial_lots
                     ]
                 })
+
+        self.tender_document_patch = data
         if extra:
-            data.update(extra)
-
-        tender = self.db.get(self.tender_id)
-        tender.update(apply_data_patch(tender, data))
-        self.db.save(tender)
-
-        authorization = self.app.authorization
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.get('/tenders/{}'.format(self.tender_id))
-        self.app.authorization = authorization
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        return response
-
-    def tearDown(self):
-        if self.docservice:
-            self.tearDownDS()
-        del self.couchdb_server[self.db.name]
+            self.tender_document_patch.update(extra)
+        self.save_changes()
 
 
 class BaseTenderUAContentWebTest(BaseTenderUAWebTest):

@@ -459,7 +459,6 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
     initial_bids = None
     initial_lots = None
     initial_auth = None
-    relative_to = os.path.dirname(__file__)
 
     meta_initial_bids = deepcopy(test_bids)
     meta_initial_lots = deepcopy(test_lots)
@@ -498,7 +497,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
             if 'value' in bid:
                 bid.pop('value')
 
-    def go_to_enquiryPeriod_end(self):
+    def set_enquiry_period_end(self):
         self.now = get_now()
         self.tender_document = self.db.get(self.tender_id)
         self.tender_document_patch = {}
@@ -506,32 +505,16 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
 
     def setUp(self):
         super(BaseBaseTenderWebTest, self).setUp()
-        if self.initial_auth:
-            self.app.authorization = self.initial_auth
-        else:
-            self.app.authorization = ('Basic', ('broker', ''))
-        self.couchdb_server = self.app.app.registry.couchdb_server
-        self.db = self.app.app.registry.db
-        if self.docservice:
-            self.setUpDS()
+        self.app.authorization = self.initial_auth or ('Basic', ('broker', ''))
 
     def tearDown(self):
-        if self.docservice:
-            self.tearDownDS()
-        del self.couchdb_server[self.db.name]
+        super(BaseTenderWebTest, self).tearDown()
         self.restore_pure_data()
-
-    def check_chronograph(self):
-        authorization = self.app.authorization
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-        self.app.authorization = authorization
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
 
     def time_shift(self, status, extra=None):
         now = get_now()
         tender = self.db.get(self.tender_id)
+        self.tender_document = tender
         data = {}
         if status == 'enquiryPeriod_ends':
             data.update({
@@ -647,8 +630,8 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                 })
         if extra:
             data.update(extra)
-        tender.update(apply_data_patch(tender, data))
-        self.db.save(tender)
+        self.tender_document_patch = data
+        self.save_changes()
 
     def generate_bids(self, status, startend):
         tenderPeriod_startDate = (
@@ -1011,7 +994,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
 
     def prepare_awards(self):
         # switch to active.pre-qualification
-        self.set_status('active.pre-qualification', {'id': self.tender_id, 'status': 'active.tendering'})
+        self.set_status('active.pre-qualification', extra={'id': self.tender_id, 'status': 'active.tendering'})
         self.app.authorization = ('Basic', ('chronograph', ''))
         response = self.app.patch_json('/tenders/{}'.format(
             self.tender_id), {'data': {'id': self.tender_id}})
@@ -1032,7 +1015,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         self.assertEqual(response.json['data']['status'], 'active.pre-qualification.stand-still')
 
         # switch to active.auction
-        self.set_status('active.auction', {'id': self.tender_id, 'status': 'active.pre-qualification.stand-still'})
+        self.set_status('active.auction', extra={'id': self.tender_id, 'status': 'active.pre-qualification.stand-still'})
         self.app.authorization = ('Basic', ('chronograph', ''))
         response = self.app.patch_json('/tenders/{}'.format(
             self.tender_id), {'data': {'id': self.tender_id}})
@@ -1085,8 +1068,6 @@ class BaseTenderContentWebTest(BaseTenderWebTest):
 
     meta_initial_bids = deepcopy(test_bids)
     meta_initial_lots = deepcopy(test_lots)
-
-    relative_to = os.path.dirname(__file__)
 
     def setUp(self):
         super(BaseTenderContentWebTest, self).setUp()

@@ -35,12 +35,10 @@ class HealthTestBase(BaseWebTest):
     return_value = []
 
     def setUp(self):
-        self.db_name = self.db_name_template + uuid4().hex
         couchdb_server = Mock(spec=CouchdbServer)
         couchdb_server.tasks = MagicMock(return_value=self.return_value)
         self.original_couch = self.app.app.registry.couchdb_server
         self.app.app.registry.couchdb_server = couchdb_server
-        self.db_name = self.db.name
         self.app.authorization = ('Basic', ('token', ''))
 
     def test_health_view(self):

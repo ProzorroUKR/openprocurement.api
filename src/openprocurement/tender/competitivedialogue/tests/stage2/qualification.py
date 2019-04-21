@@ -71,11 +71,8 @@ class TenderStage2EUQualificationResourceTest(BaseCompetitiveDialogEUStage2Conte
         self.set_status('active.pre-qualification', extra={'status': 'active.tendering'})
 
         # simulate chronograph tick
-        auth = self.app.authorization
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+        response = self.check_chronograph()
         self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
-        self.app.authorization = auth
 
     test_post_tender_qualifications = snitch(post_tender_qualifications)
     test_get_tender_qualifications_collection = snitch(get_tender_qualifications_collection)
@@ -97,11 +94,8 @@ class TenderStage2EU2LotQualificationResourceTest(BaseCompetitiveDialogEUStage2C
         self.set_status('active.pre-qualification', extra={'status': 'active.tendering'})
 
         # simulate chronograph tick
-        auth = self.app.authorization
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+        response = self.check_chronograph()
         self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
-        self.app.authorization = auth
 
         response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
         self.assertEqual(response.content_type, 'application/json')
@@ -152,11 +146,8 @@ class TenderStage2EUQualificationComplaintResourceTest(BaseCompetitiveDialogEUSt
         self.set_status('active.pre-qualification', extra={'status': 'active.tendering'})
 
         # simulate chronograph tick
-        auth = self.app.authorization
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+        response = self.check_chronograph()
         self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
-        self.app.authorization = auth
 
         response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
         self.assertEqual(response.content_type, 'application/json')
@@ -213,11 +204,8 @@ class TenderStage2EUQualificationComplaintDocumentResourceTest(BaseCompetitiveDi
         self.set_status('active.pre-qualification', extra={'status': 'active.tendering'})
 
         # simulate chronograph tick
-        auth = self.app.authorization
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+        response = self.check_chronograph()
         self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
-        self.app.authorization = auth
 
         response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
         self.assertEqual(response.content_type, 'application/json')

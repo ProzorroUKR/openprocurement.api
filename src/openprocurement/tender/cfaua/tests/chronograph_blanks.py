@@ -6,29 +6,20 @@ def next_check_field_in_active_qualification(self):
     response = self.set_status('active.pre-qualification', 'end')
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
-    self.app.authorization = ('Basic', ('chronograph', ''))
-    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
+    response = self.check_chronograph()
     self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
 
     response = self.set_status('active.pre-qualification.stand-still', 'end')
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
-    self.app.authorization = ('Basic', ('chronograph', ''))
-    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
+    response = self.check_chronograph()
     self.assertEqual(response.json['data']['status'], 'active.auction')
     self.assertIn('next_check', response.json['data'].keys())
 
     response = self.set_status('active.auction', 'end')
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
-    self.app.authorization = ('Basic', ('chronograph', ''))
-    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
+    response = self.check_chronograph()
     self.assertEqual(response.json['data']['status'], 'active.auction')
     self.assertNotIn('next_check', response.json['data'].keys())
 
@@ -38,19 +29,13 @@ def active_tendering_to_pre_qual(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']['status'], 'active.tendering')
-    self.app.authorization = ('Basic', ('chronograph', ''))
-    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
+    response = self.check_chronograph()
     self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
 
 
 def pre_qual_switch_to_stand_still(self):
     self.set_status('active.pre-qualification', 'end')
-    self.app.authorization = ('Basic', ('chronograph', ''))
-    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
+    response = self.check_chronograph()
     self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
 
 # TenderSwitchAuctionResourceTest
@@ -59,10 +44,7 @@ def pre_qual_switch_to_stand_still(self):
 def switch_to_auction(self):
     response = self.set_status('active.pre-qualification.stand-still', 'end')
     self.assertEqual(response.json['data']['status'], 'active.pre-qualification.stand-still')
-    self.app.authorization = ('Basic', ('chronograph', ''))
-    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
+    response = self.check_chronograph()
     self.assertEqual(response.json['data']['status'], 'active.auction')
 
 
@@ -95,19 +77,14 @@ def switch_to_complaint(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']['status'], 'active.tendering')
-    self.app.authorization = ('Basic', ('chronograph', ''))
-    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
+    response = self.check_chronograph()
     self.assertEqual(response.json['data']['status'], 'active.pre-qualification')
     self.assertEqual(response.json['data']['complaints'][-1]['status'], status)
 
 
 def switch_to_unsuccessful(self):
     self.set_status(self.initial_status, 'end')
-    self.app.authorization = ('Basic', ('chronograph', ''))
-    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    response = self.check_chronograph()
     self.assertEqual(response.json['data']['status'], 'unsuccessful')
     if self.initial_lots:
         self.assertEqual(set([i['status'] for i in response.json['data']['lots']]), {'unsuccessful'})
@@ -127,9 +104,7 @@ def switch_to_unsuccessful_from_qualification_stand_still(self):
     self.assertEqual(response.json['data']['status'], 'unsuccessful')
 
     self.set_status('active.qualification.stand-still', 'end')
-    self.app.authorization = ('Basic', ('chronograph', ''))
-    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    response = self.check_chronograph()
     self.assertEqual(response.json['data']['status'], 'unsuccessful')
 
 
@@ -139,9 +114,7 @@ def switch_to_unsuccessful_from_qualification_stand_still(self):
 
 def switch_to_awarded(self):
     self.set_status(self.initial_status, 'end')
-    self.app.authorization = ('Basic', ('chronograph', ''))
-    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-    self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+    response = self.check_chronograph()
 
     self.assertEqual(response.json['data']['status'], 'active.awarded')
     self.assertEqual(len(response.json['data']['agreements']), 1)
@@ -156,16 +129,11 @@ def switch_to_awarded(self):
 
 
 def set_auction_period_0bid(self):
-    self.app.authorization = ('Basic', ('chronograph', ''))
-    response = self.app.patch_json('/tenders/{}'.format(self.tender_id),
-                                   {'data': {"auctionPeriod": {"startDate": "9999-01-01T00:00:00+00:00"}}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.json['data']['auctionPeriod']['startDate'], '9999-01-01T00:00:00+00:00')
-
+    start_date = "9999-01-01T00:00:00+00:00"
+    response = self.check_chronograph({'data': {"auctionPeriod": {"startDate": start_date}}})
+    self.assertEqual(response.json['data']['auctionPeriod']['startDate'], start_date)
     should_start_after = response.json['data']['lots'][0]['auctionPeriod']['shouldStartAfter']
-    response = self.app.patch_json('/tenders/{}'.format(self.tender_id),
-                                   {'data': {"auctionPeriod": {"startDate": None}}})
-    self.assertEqual(response.status, '200 OK')
+    response = self.check_chronograph({'data': {"auctionPeriod": {"startDate": None}}})
     self.assertNotIn('auctionPeriod', response.json['data'])
     self.assertEqual(should_start_after, response.json['data']['lots'][0]['auctionPeriod']['shouldStartAfter'])
 

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
+import os
 import unittest
 
 from openprocurement.agreement.cfaua.tests.base import (
     test_agreement_data,
-    BaseWebTest,
     BaseAgreementContentWebTest
 )
 
@@ -23,11 +23,16 @@ from openprocurement.agreement.cfaua.tests.change_blanks import (
     activate_change_after_1_cancelled
 )
 from openprocurement.api.tests.base import (
-    snitch
+    snitch,
+)
+
+from openprocurement.tender.core.tests.base import (
+    BaseWebTest
 )
 
 
 class AgreementNoItemsChangeTest(BaseWebTest):
+    relative_to = os.path.dirname(__file__)
     initial_data = test_agreement_data
     test_no_items_agreement_change = snitch(no_items_agreement_change)
 
