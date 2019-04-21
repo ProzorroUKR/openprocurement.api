@@ -32,6 +32,7 @@ from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
     award_switch_from_pending,
     award_switch_to_complaint,
 )
+from openprocurement.tender.core.tests.base import change_auth
 
 
 class TenderSwitchTenderingResourceTest(TenderContentWebTest):
@@ -101,13 +102,16 @@ class TenderAwardComplaintSwitchResourceTest(TenderContentWebTest):
     def setUp(self):
         super(TenderAwardComplaintSwitchResourceTest, self).setUp()
         # Create award
-        auth = self.app.authorization
-        self.app.authorization = ('Basic', ('token', ''))
-        response = self.app.post_json('/tenders/{}/awards'.format(
-            self.tender_id), {'data': {'suppliers': [test_organization], 'status': 'pending', 'bid_id': self.initial_bids[0]['id']}})
-        award = response.json['data']
-        self.award_id = award['id']
-        self.app.authorization = auth
+        with change_auth(self.app, ('Basic', ('token', ''))):
+            response = self.app.post_json(
+                '/tenders/{}/awards'.format(self.tender_id),
+                {'data': {
+                    'suppliers': [test_organization],
+                    'status': 'pending',
+                    'bid_id': self.initial_bids[0]['id']
+                }})
+            award = response.json['data']
+            self.award_id = award['id']
 
     test_award_switch_to_ignored_on_complete = snitch(award_switch_to_ignored_on_complete)
     test_award_switch_from_pending_to_ignored = snitch(award_switch_from_pending_to_ignored)
@@ -121,17 +125,15 @@ class TenderLotAwardComplaintSwitchResourceTest(TenderAwardComplaintSwitchResour
     def setUp(self):
         super(TenderAwardComplaintSwitchResourceTest, self).setUp()
         # Create award
-        auth = self.app.authorization
-        self.app.authorization = ('Basic', ('token', ''))
-        response = self.app.post_json('/tenders/{}/awards'.format(self.tender_id), {'data': {
-            'suppliers': [test_organization],
-            'status': 'pending',
-            'bid_id': self.initial_bids[0]['id'],
-            'lotID': self.initial_bids[0]['lotValues'][0]['relatedLot']
-        }})
-        award = response.json['data']
-        self.award_id = award['id']
-        self.app.authorization = auth
+        with change_auth(self.app, ('Basic', ('token', ''))):
+            response = self.app.post_json('/tenders/{}/awards'.format(self.tender_id), {'data': {
+                'suppliers': [test_organization],
+                'status': 'pending',
+                'bid_id': self.initial_bids[0]['id'],
+                'lotID': self.initial_bids[0]['lotValues'][0]['relatedLot']
+            }})
+            award = response.json['data']
+            self.award_id = award['id']
 
 
 def suite():

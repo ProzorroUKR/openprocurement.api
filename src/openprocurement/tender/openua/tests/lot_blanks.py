@@ -272,10 +272,7 @@ def question_blocking(self):
     self.assertEqual(question['relatedItem'], self.initial_lots[0]['id'])
 
     self.set_status(self.question_claim_block_status, extra={"status": "active.tendering"})
-    self.app.authorization = ('Basic', ('chronograph', ''))
-    self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-
-    self.app.authorization = ('Basic', ('broker', ''))
+    response = self.check_chronograph()
     response = self.app.get('/tenders/{}'.format(self.tender_id))
     self.assertEqual(response.json['data']['status'], 'active.tendering')
 
@@ -313,8 +310,7 @@ def claim_blocking(self):
     self.assertEqual(complaint['relatedLot'], self.initial_lots[0]['id'])
 
     self.set_status(self.question_claim_block_status, extra={"status": "active.tendering"})
-    self.app.authorization = ('Basic', ('chronograph', ''))
-    self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+    response = self.check_chronograph()
 
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.get('/tenders/{}'.format(self.tender_id))
@@ -354,10 +350,7 @@ def next_check_value_with_unanswered_question(self):
     self.assertEqual(question['relatedItem'], self.initial_lots[0]['id'])
 
     self.set_status(self.question_claim_block_status, extra={"status": "active.tendering"})
-    self.app.authorization = ('Basic', ('chronograph', ''))
-    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
+    response = self.check_chronograph()
     self.assertEqual(response.json['data']["status"], 'active.tendering')
     self.assertNotIn('next_check', response.json['data'])
 
@@ -375,10 +368,7 @@ def next_check_value_with_unanswered_question(self):
     self.assertIn('next_check', response.json['data'])
     self.assertEqual(response.json['data']['next_check'], response.json['data']['tenderPeriod']['endDate'])
 
-    self.app.authorization = ('Basic', ('chronograph', ''))
-    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
+    response = self.check_chronograph()
     self.assertEqual(response.json['data']["status"], self.question_claim_block_status)
     self.assertIn('next_check', response.json['data'])
     self.assertGreater(response.json['data']['next_check'], response.json['data']['tenderPeriod']['endDate'])
@@ -400,10 +390,7 @@ def next_check_value_with_unanswered_claim(self):
     self.assertEqual(complaint['relatedLot'], self.initial_lots[0]['id'])
 
     self.set_status(self.question_claim_block_status, extra={"status": "active.tendering"})
-    self.app.authorization = ('Basic', ('chronograph', ''))
-    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
+    response = self.check_chronograph()
     self.assertEqual(response.json['data']["status"], 'active.tendering')
     self.assertNotIn('next_check', response.json['data'])
 
@@ -420,11 +407,7 @@ def next_check_value_with_unanswered_claim(self):
     response = self.app.get('/tenders/{}'.format(self.tender_id, ))
     self.assertIn('next_check', response.json['data'])
     self.assertEqual(response.json['data']['next_check'], response.json['data']['tenderPeriod']['endDate'])
-
-    self.app.authorization = ('Basic', ('chronograph', ''))
-    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-    self.assertEqual(response.status, '200 OK')
-    self.assertEqual(response.content_type, 'application/json')
+    response = self.check_chronograph()
     self.assertEqual(response.json['data']["status"], self.question_claim_block_status)
     self.assertIn('next_check', response.json['data'])
     self.assertGreater(response.json['data']['next_check'], response.json['data']['tenderPeriod']['endDate'])

@@ -1179,10 +1179,8 @@ def question_blocking(self):
     self.assertEqual(question['relatedItem'], self.initial_lots[0]['id'])
 
     self.set_status('active.tendering', 'end')
-    self.app.authorization = ('Basic', ('chronograph', ''))
-    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+    response = self.check_chronograph()
 
-    self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.get('/tenders/{}'.format(self.tender_id))
     self.assertEqual(response.json['data']['status'], 'active.tendering')
 
@@ -1210,10 +1208,8 @@ def claim_blocking(self):
     self.assertEqual(complaint['relatedLot'], self.initial_lots[0]['id'])
 
     self.set_status('active.tendering', 'end')
-    self.app.authorization = ('Basic', ('chronograph', ''))
-    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
+    response = self.check_chronograph()
 
-    self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.get('/tenders/{}'.format(self.tender_id))
     self.assertEqual(response.json['data']['status'], 'active.tendering')
 

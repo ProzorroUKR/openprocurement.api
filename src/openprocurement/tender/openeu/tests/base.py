@@ -238,14 +238,6 @@ class BaseTenderWebTest(BaseTenderUAWebTest):
         super(BaseTenderUAWebTest, self).setUp()
         self.app.authorization = self.initial_auth or ('Basic', ('token', ''))
 
-    def check_chronograph(self):
-        authorization = self.app.authorization
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-        self.app.authorization = authorization
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-
     def time_shift(self, status, extra=None):
         now = get_now()
         tender = self.db.get(self.tender_id)

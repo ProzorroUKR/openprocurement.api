@@ -12,11 +12,8 @@ def patch_tender_2lot_auction(self):
     self.assertEqual(response.json['errors'][0]["description"], "Can't update auction urls in current (active.pre-qualification.stand-still) tender status")
 
     self.set_status('active.auction')
-    self.app.authorization = ('Basic', ('chronograph', ''))
-    response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {'data': {'id': self.tender_id}})
-    self.assertEqual(response.status, '200 OK')
+    response = self.check_chronograph()
 
-    self.app.authorization = ('Basic', ('auction', ''))
     response = self.app.patch_json('/tenders/{}/auction'.format(self.tender_id), {'data': {'bids': [{'invalid_field': 'invalid_value'}]}}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
