@@ -102,7 +102,7 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
         })
 
     def update_status(self, status, extra=None):
-        self.now = get_now()
+        now = get_now()
         data = {'status': status}
         if status == 'active.tendering':
             data.update({

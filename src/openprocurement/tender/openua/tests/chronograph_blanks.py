@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-# TenderSwitch0BidResourceTest
 from openprocurement.tender.core.tests.base import change_auth
+
+# TenderSwitch0BidResourceTest
 
 
 def set_auction_period_0bid(self):
@@ -184,7 +185,7 @@ def set_auction_period_lot(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(item['auctionPeriod']['startDate'], start_date)
 
-    data ={'data': {"lots": [{"auctionPeriod": {"startDate": None}} for i in self.initial_lots]}}
+    data = {'data': {"lots": [{"auctionPeriod": {"startDate": None}} for i in self.initial_lots]}}
     response = self.check_chronograph(data)
     item = response.json['data']["lots"][0]
     self.assertEqual(response.status, '200 OK')
