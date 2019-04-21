@@ -45,6 +45,8 @@ class BaseWebTest(unittest.TestCase):
     Base Web Test to test openprocurement.api.
     It setups the database before each test and delete it after.
     """
+    AppClass = BaseTestApp
+
     relative_uri = "config:tests.ini"
     relative_to = os.path.dirname(__file__)
 
@@ -54,7 +56,7 @@ class BaseWebTest(unittest.TestCase):
     def setUpClass(cls):
         global wsgiapp
         wsgiapp = wsgiapp or loadapp(cls.relative_uri, relative_to=cls.relative_to)
-        cls.app = BaseTestApp(wsgiapp)
+        cls.app = cls.AppClass(wsgiapp)
         cls.couchdb_server = cls.app.app.registry.couchdb_server
         cls.db = cls.app.app.registry.db
 
