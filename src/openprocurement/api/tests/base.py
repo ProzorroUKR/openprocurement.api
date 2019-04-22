@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+
 import webtest
 import unittest
 
@@ -39,6 +40,13 @@ class PrefixedTestRequest(webtest.app.TestRequest):
 class BaseTestApp(webtest.TestApp):
     RequestClass = PrefixedTestRequest
 
+    def reset(self):
+        super(BaseTestApp, self).reset()
+        if self.app.registry.db.name in self.app.registry.couchdb_server:
+            self.app.registry.couchdb_server.delete(self.app.registry.db.name)
+        self.app.registry.db = self.app.registry.couchdb_server.create(self.app.registry.db.name)
+        sync_design(self.app.registry.db)
+
 
 class BaseWebTest(unittest.TestCase):
     """
@@ -62,9 +70,4 @@ class BaseWebTest(unittest.TestCase):
 
     def setUp(self):
         self.app.authorization = self.initial_auth
-
-    def tearDown(self):
-        db_name = self.db.name
-        self.couchdb_server.delete(db_name)
-        self.db = self.couchdb_server.create(db_name)
-        sync_design(self.db)
+        self.app.reset()
