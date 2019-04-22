@@ -6,8 +6,6 @@ if 'test' not in __import__('sys').argv[0]:
     gevent.monkey.patch_all()
 import os
 import simplejson
-from couchdb import Server as CouchdbServer, Session
-from couchdb.http import Unauthorized, extract_credentials
 from libnacl.sign import Signer, Verifier
 from libnacl.public import SecretKey, PublicKey
 from logging import getLogger
@@ -18,7 +16,6 @@ from openprocurement.api.constants import ROUTE_PREFIX
 from pkg_resources import iter_entry_points
 from pyramid.authorization import ACLAuthorizationPolicy as AuthorizationPolicy
 from pyramid.config import Configurator
-from pyramid.events import NewRequest, BeforeRender, ContextFound
 from pyramid.renderers import JSON, JSONP
 from pyramid.settings import asbool
 
