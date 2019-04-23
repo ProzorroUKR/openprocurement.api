@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
+from copy import deepcopy
 
 from openprocurement.api.tests.base import (
     BaseWebTest,
@@ -148,6 +149,9 @@ class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
 class TenderStage2UAProcessTest(BaseCompetitiveDialogUAStage2WebTest):
     test_tender_data_ua = test_tender_stage2_data_ua  # TODO: change attribute identifier
     author_data = test_author  # TODO: change attribute identifier
+    
+    def setUp(self):
+        super(TenderStage2UAProcessTest, self).setUp()
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
     test_one_valid_bid_tender_ua = snitch(one_valid_bid_tender_ua)
