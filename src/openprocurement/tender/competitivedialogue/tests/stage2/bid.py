@@ -153,7 +153,12 @@ class TenderStage2UABidFeaturesResourceTest(BaseCompetitiveDialogUAStage2Content
     test_bids_data = test_bids_stage2
 
     def setUp(self):
+        super(TenderStage2UABidFeaturesResourceTest, self).setUp()
         self.app.authorization = ('Basic', ('broker', ''))
+
+    def create_tender(self, initial_data=None):
+        if initial_data:
+            super(TenderStage2UABidFeaturesResourceTest, self).create_tender(initial_data=initial_data)
 
     test_features_bidder_ua = snitch(features_bidder_ua)
     test_features_bidder_invalid_ua = snitch(features_bidder_invalid)
