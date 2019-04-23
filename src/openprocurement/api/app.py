@@ -1,9 +1,14 @@
 # -*- coding: utf-8 -*-
-"""Main entry point
-"""
-if 'test' not in __import__('sys').argv[0]:
+
+def is_test():
+    return any([
+        'test' in __import__('sys').argv[0],
+        'PYTEST_XDIST_WORKER' in __import__('os').environ])
+
+if not is_test():
     import gevent.monkey
     gevent.monkey.patch_all()
+
 import os
 import simplejson
 from libnacl.sign import Signer, Verifier
