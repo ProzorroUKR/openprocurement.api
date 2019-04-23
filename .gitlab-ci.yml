@@ -111,9 +111,11 @@ Stop review:
     - export MODULE_NAME=$(echo $MODULE | sed -e 's/[\ ]/\./g')
     - py.test src/openprocurement/$MODULE_DIR -v 
       --dist=each 
-      --tx=popen//env:SANDBOX_MODE=1 
-      --tx=popen//env:SANDBOX_MODE=
-      --maxfail=1 
+      --tx=popen//id=sand1//pool=sand//env:SANDBOX_MODE=1
+      --tx=popen//id=sand2//pool=sand//env:SANDBOX_MODE=1
+      --tx=popen//id=prod1//pool=prod//env:SANDBOX_MODE=
+      --tx=popen//id=prod2//pool=prod//env:SANDBOX_MODE=
+      --maxfail=1
       --cov=openprocurement.$MODULE_NAME
       --color=yes
   coverage: '/TOTAL\s+\d+\s+\d+\s+(\d+%)/'
