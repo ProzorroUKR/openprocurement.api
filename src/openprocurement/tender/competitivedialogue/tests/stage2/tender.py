@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
+from copy import deepcopy
 
 from openprocurement.api.tests.base import (
     BaseWebTest,

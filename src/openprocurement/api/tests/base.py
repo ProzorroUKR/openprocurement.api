@@ -1,17 +1,29 @@
 # -*- coding: utf-8 -*-
 import os
+
+from paste.deploy.loadwsgi import appconfig
+from uuid import uuid4
+
 import webtest
 import unittest
 
 from types import FunctionType
 
-from paste.deploy import loadapp
-
+from openprocurement.api.app import main as app
 from openprocurement.api.constants import VERSION
 from openprocurement.api.design import sync_design
 
+COUCHBD_NAME_SETTING = 'couchdb.db_name'
+
 
 wsgiapp = None
+
+def make_wsgi_app(uri, name=None, relative_to=None, global_conf=None):
+    global wsgiapp
+    settings = appconfig(uri, name=name, relative_to=relative_to, global_conf=global_conf)
+    settings[COUCHBD_NAME_SETTING] = settings[COUCHBD_NAME_SETTING] + uuid4().hex
+    wsgiapp = wsgiapp or app(None, **settings)
+    return wsgiapp
 
 
 def snitch(func):
@@ -39,6 +51,23 @@ class PrefixedTestRequest(webtest.app.TestRequest):
 class BaseTestApp(webtest.TestApp):
     RequestClass = PrefixedTestRequest
 
+    def __init__(self, *args, **kwargs):
+        super(BaseTestApp, self).__init__(*args, **kwargs)
+
+    def recreate_db(self):
+        self.drop_db(self.app.registry.db.name)
+        return self.create_db()
+
+    def create_db(self):
+        db_name = self.app.registry.settings[COUCHBD_NAME_SETTING] + uuid4().hex
+        self.app.registry.db = self.app.registry.couchdb_server.create(db_name)
+        sync_design(self.app.registry.db)
+        return self.app.registry.db
+
+    def drop_db(self, name):
+        if name and name in self.app.registry.couchdb_server:
+            self.app.registry.couchdb_server.delete(name)
+
 
 class BaseWebTest(unittest.TestCase):
     """
@@ -54,17 +83,13 @@ class BaseWebTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        global wsgiapp
-        wsgiapp = wsgiapp or loadapp(cls.relative_uri, relative_to=cls.relative_to)
-        cls.app = cls.AppClass(wsgiapp)
+        cls.app = cls.AppClass(make_wsgi_app(cls.relative_uri, relative_to=cls.relative_to))
         cls.couchdb_server = cls.app.app.registry.couchdb_server
         cls.db = cls.app.app.registry.db
 
     def setUp(self):
         self.app.authorization = self.initial_auth
+        self.db = self.app.recreate_db()
 
     def tearDown(self):
-        db_name = self.db.name
-        self.couchdb_server.delete(db_name)
-        self.db = self.couchdb_server.create(db_name)
-        sync_design(self.db)
+        self.app.drop_db(self.db.name)

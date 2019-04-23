@@ -50,8 +50,6 @@ class ItemsListing(APIResourceListing):
 class ResourceListingTestCase(BaseWebTest):
 
     def setUp(self):
-        super(ResourceListingTestCase, self).setUp()
-
         self.request = DummyRequest()
         self.request.logging_context = {}
         self.request._registry = self.app.app.registry

@@ -126,7 +126,7 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
         })
 
     def setUp(self):
-        super(BaseTenderWebTest, self).setUp()
+        super(BaseCompetitiveDialogWebTest, self).setUp()
         self.app.authorization = self.initial_auth or ('Basic', ('broker', ''))
 
     def time_shift(self, status, extra=None):

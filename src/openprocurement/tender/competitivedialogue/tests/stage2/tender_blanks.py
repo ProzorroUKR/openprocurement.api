@@ -1738,6 +1738,10 @@ def one_valid_bid_tender_ua(self):
 
     # create bid
     self.app.authorization = ('Basic', ('broker', ''))
+    tender_db = self.db.get(tender['id'])
+    identifier = tender_db['shortlistedFirms'][0]['identifier']
+    self.test_bids_data[0]['tenderers'][0]['identifier']['id'] = identifier['id']
+    self.test_bids_data[0]['tenderers'][0]['identifier']['scheme'] = identifier['scheme']
     self.app.post_json(
         '/tenders/{}/bids'.format(tender_id),
         {'data': {
@@ -1766,10 +1770,15 @@ def one_invalid_and_1draft_bids_tender(self):
     self.app.authorization = ('Basic', ('competitive_dialogue', ''))
     response = self.app.post_json('/tenders',
                                   {"data": self.test_tender_data_ua})
-    tender_id = self.tender_id = response.json['data']['id']
+    tender = response.json['data']
+    tender_id = self.tender_id = tender['id']
     self.set_status('active.tendering')
     # create bid
     self.app.authorization = ('Basic', ('broker', ''))
+    tender_db = self.db.get(tender['id'])
+    identifier = tender_db['shortlistedFirms'][0]['identifier']
+    self.test_bids_data[0]['tenderers'][0]['identifier']['id'] = identifier['id']
+    self.test_bids_data[0]['tenderers'][0]['identifier']['scheme'] = identifier['scheme']
     self.app.post_json(
         '/tenders/{}/bids'.format(tender_id),
         {'data': {
@@ -1805,13 +1814,18 @@ def first_bid_tender(self):
     # create tender
     self.app.authorization = ('Basic', ('competitive_dialogue', ''))
     response = self.app.post_json('/tenders', {"data": self.test_tender_data_ua})
-    tender_id = self.tender_id = response.json['data']['id']
+    tender = response.json['data']
+    tender_id = self.tender_id = tender['id']
     owner_token = response.json['access']['token']
     self.set_status('active.tendering')
     # switch to active.tendering
     self.set_status('active.tendering')
     # create bid
     self.app.authorization = ('Basic', ('broker', ''))
+    tender_db = self.db.get(tender['id'])
+    identifier = tender_db['shortlistedFirms'][0]['identifier']
+    self.test_bids_data[0]['tenderers'][0]['identifier']['id'] = identifier['id']
+    self.test_bids_data[0]['tenderers'][0]['identifier']['scheme'] = identifier['scheme']
     response = self.app.post_json(
         '/tenders/{}/bids'.format(tender_id),
         {'data': {

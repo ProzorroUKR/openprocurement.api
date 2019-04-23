@@ -387,6 +387,7 @@ class TenderStage2UAFeaturesAuctionResourceTest(BaseCompetitiveDialogUAStage2Con
     initial_status = 'active.tendering'
 
     def setUp(self):
+        super(TenderStage2UAFeaturesAuctionResourceTest, self).setUp()
         self.app.authorization = ('Basic', ('broker', ''))
         data = test_tender_stage2_data_ua.copy()
         item = data['items'][0].copy()
@@ -394,6 +395,11 @@ class TenderStage2UAFeaturesAuctionResourceTest(BaseCompetitiveDialogUAStage2Con
         data['items'] = [item]
         data['features'] = self.features
         self.create_tender(initial_data=data, initial_bids=self.initial_bids)
+
+    def create_tender(self, initial_data=None, initial_bids=None):
+        if initial_data:
+            super(TenderStage2UAFeaturesAuctionResourceTest, self).create_tender(
+                initial_data=initial_data, initial_bids=initial_bids)
 
     test_get_tender_auction = snitch(get_tender_auction_feature)
     test_post_tender_auction = snitch(post_tender_auction_feature)
