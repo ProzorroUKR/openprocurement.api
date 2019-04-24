@@ -108,7 +108,6 @@ Stop review:
     - echo '127.0.0.1  couchdb' >> /etc/hosts
     - cd /app
     - export MODULE_DIR=$(echo $MODULE | sed -e 's/[\ ]/\//g')
-    - export MODULE_NAME=$(echo $MODULE | sed -e 's/[\ ]/\./g')
     - py.test src/openprocurement/$MODULE_DIR -v 
       --dist=each 
       --tx=popen//id=sand1//pool=sand//env:DB_NAME=test_sandbox_1//env:SANDBOX_MODE=1
@@ -116,7 +115,7 @@ Stop review:
       --tx=popen//id=prod1//pool=prod//env:DB_NAME=test_prod_1//env:SANDBOX_MODE=
       --tx=popen//id=prod2//pool=prod//env:DB_NAME=test_prod_2//env:SANDBOX_MODE=
       --maxfail=1
-      --cov=openprocurement.$MODULE_NAME
+      --cov=src/openprocurement/$MODULE_DIR
       --color=yes
   coverage: '/TOTAL\s+\d+\s+\d+\s+(\d+%)/'
 
