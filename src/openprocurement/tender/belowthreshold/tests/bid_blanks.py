@@ -384,18 +384,13 @@ def create_tender_bid_no_scale_invalid(self):
     }])
 
 @mock.patch('openprocurement.api.models.ORGANIZATION_SCALE_FROM', get_now() + timedelta(days=1))
-def create_tender_bid_with_scale_invalid(self):
+def create_tender_bid_with_scale_not_required(self):
     request_path = '/tenders/{}/bids'.format(self.tender_id)
     bid_data = {'data': {'value': {'amount': 500}, 'tenderers': [test_organization]}}
-    response = self.app.post_json(request_path, bid_data, status=422)
-    self.assertEqual(response.status, '422 Unprocessable Entity')
+    response = self.app.post_json(request_path, bid_data)
+    self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], [{
-        u"location": u"body",
-        u"name": u"tenderers",
-        u"description": [{u"scale": [u"Rogue field"]}]
-    }])
+    self.assertNotIn('scale', response.json['data'])
 
 
 @mock.patch('openprocurement.api.models.ORGANIZATION_SCALE_FROM', get_now() + timedelta(days=1))

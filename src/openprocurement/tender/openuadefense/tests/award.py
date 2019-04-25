@@ -69,7 +69,7 @@ from openprocurement.tender.openua.tests.award_blanks import (
     put_tender_lots_award_complaint_document,
     patch_tender_lots_award_complaint_document,
     create_tender_award_no_scale_invalid,
-    create_tender_award_with_scale_invalid,
+    create_tender_award_with_scale_not_required,
     create_tender_award_no_scale,
 )
 
@@ -103,7 +103,7 @@ class TenderAwardResourceNoScaleTest(BaseTenderUAContentWebTest):
         super(TenderAwardResourceNoScaleTest, self).setUp()
         self.app.authorization = ('Basic', ('token', ''))
 
-    test_create_tender_award_with_scale_invalid = snitch(create_tender_award_with_scale_invalid)
+    test_create_tender_award_with_scale_not_required = snitch(create_tender_award_with_scale_not_required)
     test_create_tender_award_with_no_scale = snitch(create_tender_award_no_scale)
 
 

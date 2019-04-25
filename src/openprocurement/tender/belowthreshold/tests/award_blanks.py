@@ -523,7 +523,7 @@ def create_tender_award_no_scale_invalid(self):
 # TenderAwardResourceNoScaleTest
 
 @mock.patch('openprocurement.api.models.ORGANIZATION_SCALE_FROM', get_now() + timedelta(days=1))
-def create_tender_award_with_scale_invalid(self):
+def create_tender_award_with_scale_not_required(self):
     self.app.authorization = ('Basic', ('token', ''))
     award_data = {'data': {
         'status': 'pending',
@@ -531,15 +531,10 @@ def create_tender_award_with_scale_invalid(self):
     }}
     if self.initial_bids:
         award_data['data']['bid_id'] = self.initial_bids[0]['id']
-    response = self.app.post_json('/tenders/{}/awards'.format(self.tender_id), award_data, status=422)
-    self.assertEqual(response.status, '422 Unprocessable Entity')
+    response = self.app.post_json('/tenders/{}/awards'.format(self.tender_id), award_data)
+    self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
-    self.assertEqual(response.json['status'], 'error')
-    self.assertEqual(response.json['errors'], [{
-        u"location": u"body",
-        u"name": u"suppliers",
-        u"description": [{u"scale": [u"Rogue field"]}]
-    }])
+    self.assertNotIn('scale', response.json['data'])
 
 
 @mock.patch('openprocurement.api.models.ORGANIZATION_SCALE_FROM', get_now() + timedelta(days=1))

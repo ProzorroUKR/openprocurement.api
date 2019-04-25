@@ -595,8 +595,6 @@ class BusinessOrganization(Organization):
             validation_date = get_first_revision_date(schematics_document, default=get_now())
             if validation_date >= ORGANIZATION_SCALE_FROM and value is None:
                 raise ValidationError(BaseType.MESSAGES['required'])
-            if validation_date < ORGANIZATION_SCALE_FROM and value is not None:
-                raise ValidationError('Rogue field')
 
 
 class Revision(Model):

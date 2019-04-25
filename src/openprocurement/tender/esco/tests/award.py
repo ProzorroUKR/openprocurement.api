@@ -7,7 +7,7 @@ import mock
 from esculator import npv, escp
 from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.award_blanks import create_tender_award_with_scale_invalid, \
+from openprocurement.tender.belowthreshold.tests.award_blanks import create_tender_award_with_scale_not_required, \
     create_tender_award_no_scale
 from openprocurement.tender.esco.adapters import TenderESCOConfigurator
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
@@ -104,7 +104,7 @@ class TenderAwardResourceNoScaleTest(BaseESCOContentWebTest):
         super(TenderAwardResourceNoScaleTest, self).setUp()
         self.app.authorization = ('Basic', ('token', ''))
 
-    test_create_tender_award_with_scale_invalid = snitch(create_tender_award_with_scale_invalid)
+    test_create_tender_award_with_scale_not_required = snitch(create_tender_award_with_scale_not_required)
     test_create_tender_award_with_no_scale = snitch(create_tender_award_no_scale)
 
 
