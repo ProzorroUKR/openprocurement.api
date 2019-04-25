@@ -107,95 +107,133 @@ Stop review:
   script:
     - echo '127.0.0.1  couchdb' >> /etc/hosts
     - cd /app
-    - export MODULE_DIR=$(echo $MODULE | sed -e 's/[\ ]/\//g')
-    - export MODULE_NAME=$(echo $MODULE | sed -e 's/[\ ]/\./g')
-    - py.test src/openprocurement/$MODULE_DIR -v 
-      --dist=each 
-      --tx=popen//id=sand1//pool=sand//env:SANDBOX_MODE=1
-      --tx=popen//id=sand2//pool=sand//env:SANDBOX_MODE=1
-      --tx=popen//id=prod1//pool=prod//env:SANDBOX_MODE=
-      --tx=popen//id=prod2//pool=prod//env:SANDBOX_MODE=
-      --maxfail=1
-      --cov=openprocurement.$MODULE_NAME
-      --color=yes
+    - py.test $TESTS_PATH --cov=$COV_PATH --cov-config=$COV_FILE -v --maxfail=1 --color=yes --dist=each
+      --tx=popen//id=sand//env:DB_NAME=test_sandbox//env:SANDBOX_MODE=1
+      --tx=popen//id=prod//env:DB_NAME=test_prod//env:SANDBOX_MODE=
   coverage: '/TOTAL\s+\d+\s+\d+\s+(\d+%)/'
-
-test_tender_competitivedialogue:
-  extends: .test
-  variables:
-    MODULE: tender competitivedialogue
 
 test_tender_esco:
   extends: .test
   variables:
-    MODULE: tender esco
-
-test_tender_cfaua:
-  extends: .test
-  variables:
-    MODULE: tender cfaua
-
-test_tender_limited:
-  extends: .test
-  variables:
-    MODULE: tender limited
-
-test_api:
-  extends: .test
-  variables:
-    MODULE: api
+    TESTS_PATH: src/openprocurement/tender/esco/tests
+    COV_PATH: src/openprocurement/tender/esco
+    COV_FILE: .coveragerc
 
 test_tender_openeu:
   extends: .test
   variables:
-    MODULE: tender openeu
+    TESTS_PATH: src/openprocurement/tender/openeu/tests
+    COV_PATH: src/openprocurement/tender/openeu
+    COV_FILE: .coveragerc
 
-test_tender_openua:
+test_tender_cfaua:
   extends: .test
   variables:
-    MODULE: tender openua
+    TESTS_PATH: src/openprocurement/tender/cfaua/tests
+    COV_PATH: src/openprocurement/tender/cfaua
+    COV_FILE: .coveragerc
 
-test_agreement_core:
+test_tender_comp_stage2:
   extends: .test
   variables:
-    MODULE: agreement core
-
-test_contracting:
-  extends: .test
-  variables:
-    MODULE: contracting
-
-test_planning:
-  extends: .test
-  variables:
-    MODULE: planning
-
-test_historical:
-  extends: .test
-  variables:
-    MODULE: historical
-
-test_agreement_cfaua:
-  extends: .test
-  variables:
-    MODULE: agreement cfaua
-
-test_tender_belowthreshold:
-  extends: .test
-  variables:
-    MODULE: tender belowthreshold
+    TESTS_PATH: src/openprocurement/tender/competitivedialogue/tests/stage2
+    COV_PATH: src/openprocurement/tender/competitivedialogue/
+    COV_FILE: src/openprocurement/tender/competitivedialogue/tests/stage2/.coveragerc
 
 test_tender_core:
   extends: .test
   variables:
-    MODULE: tender core
+    TESTS_PATH: src/openprocurement/tender/core/tests
+    COV_PATH: src/openprocurement/tender/core
+    COV_FILE: .coveragerc
+
+test_api:
+  extends: .test
+  variables:
+    TESTS_PATH: src/openprocurement/api/tests
+    COV_PATH: src/openprocurement/api
+    COV_FILE: .coveragerc
+
+test_agreement_core:
+  extends: .test
+  variables:
+    TESTS_PATH: src/openprocurement/agreement/core/tests
+    COV_PATH: src/openprocurement/agreement/core
+    COV_FILE: .coveragerc
+
+test_agreement_cfaua:
+  extends: .test
+  variables:
+    TESTS_PATH: src/openprocurement/agreement/cfaua/tests
+    COV_PATH: src/openprocurement/agreement/cfaua
+    COV_FILE: .coveragerc
+
+test_contracting_api:
+  extends: .test
+  variables:
+    TESTS_PATH: src/openprocurement/contracting/api/tests
+    COV_PATH: src/openprocurement/contracting/api
+    COV_FILE: .coveragerc
+
+test_planning_api:
+  extends: .test
+  variables:
+    TESTS_PATH: src/openprocurement/planning/api/tests
+    COV_PATH: src/openprocurement/planning/api
+    COV_FILE: .coveragerc
+
+test_historical_core:
+  extends: .test
+  variables:
+    TESTS_PATH: src/openprocurement/historical/core/tests
+    COV_PATH: src/openprocurement/historical/core
+    COV_FILE: .coveragerc
+
+test_historical_tender:
+  extends: .test
+  variables:
+    TESTS_PATH: src/openprocurement/historical/tender/tests
+    COV_PATH: src/openprocurement/historical/tender
+    COV_FILE: .coveragerc
+
+test_tender_comp_stage1:
+  extends: .test
+  variables:
+    TESTS_PATH: src/openprocurement/tender/competitivedialogue/tests/stage1
+    COV_PATH: src/openprocurement/tender/competitivedialogue/
+    COV_FILE: src/openprocurement/tender/competitivedialogue/tests/stage1/.coveragerc
+
+test_tender_limited:
+  extends: .test
+  variables:
+    TESTS_PATH: src/openprocurement/tender/limited/tests
+    COV_PATH: src/openprocurement/tender/limited
+    COV_FILE: .coveragerc
+
+test_tender_openua:
+  extends: .test
+  variables:
+    TESTS_PATH: src/openprocurement/tender/openua/tests
+    COV_PATH: src/openprocurement/tender/openua
+    COV_FILE: .coveragerc
+
+test_tender_belowthreshold:
+  extends: .test
+  variables:
+    TESTS_PATH: src/openprocurement/tender/belowthreshold/tests
+    COV_PATH: src/openprocurement/tender/belowthreshold
+    COV_FILE: .coveragerc
 
 test_tender_openuadefense:
   extends: .test
   variables:
-    MODULE: tender openuadefense
+    TESTS_PATH: src/openprocurement/tender/openuadefense/tests
+    COV_PATH: src/openprocurement/tender/openuadefense
+    COV_FILE: .coveragerc
 
 test_tender_cfaselectionua:
   extends: .test
   variables:
-    MODULE: tender cfaselectionua
+    TESTS_PATH: src/openprocurement/tender/cfaselectionua/tests
+    COV_PATH: src/openprocurement/tender/cfaselectionua
+    COV_FILE: .coveragerc

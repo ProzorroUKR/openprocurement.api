@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 import os
 
-from paste.deploy.loadwsgi import appconfig
-from uuid import uuid4
+from paste.deploy.loadwsgi import loadapp
 
 import webtest
 import unittest
 
 from types import FunctionType
 
-from openprocurement.api.app import main as app
 from openprocurement.api.constants import VERSION
 from openprocurement.api.design import sync_design
 
@@ -18,11 +16,10 @@ COUCHBD_NAME_SETTING = 'couchdb.db_name'
 
 wsgiapp = None
 
-def make_wsgi_app(uri, name=None, relative_to=None, global_conf=None):
+
+def loadwsgiapp(uri, **kwargs):
     global wsgiapp
-    settings = appconfig(uri, name=name, relative_to=relative_to, global_conf=global_conf)
-    settings[COUCHBD_NAME_SETTING] = settings[COUCHBD_NAME_SETTING] + uuid4().hex
-    wsgiapp = wsgiapp or app(None, **settings)
+    wsgiapp = wsgiapp or loadapp(uri, **kwargs)
     return wsgiapp
 
 
@@ -54,19 +51,24 @@ class BaseTestApp(webtest.TestApp):
     def __init__(self, *args, **kwargs):
         super(BaseTestApp, self).__init__(*args, **kwargs)
 
+    def reset(self):
+        super(BaseTestApp, self).reset()
+        self.recreate_db()
+
     def recreate_db(self):
-        self.drop_db(self.app.registry.db.name)
+        self.drop_db()
         return self.create_db()
 
     def create_db(self):
-        db_name = self.app.registry.settings[COUCHBD_NAME_SETTING] + uuid4().hex
+        db_name = os.environ.get('DB_NAME', self.app.registry.settings[COUCHBD_NAME_SETTING])
         self.app.registry.db = self.app.registry.couchdb_server.create(db_name)
         sync_design(self.app.registry.db)
         return self.app.registry.db
 
-    def drop_db(self, name):
-        if name and name in self.app.registry.couchdb_server:
-            self.app.registry.couchdb_server.delete(name)
+    def drop_db(self):
+        db_name = self.app.registry.db.name
+        if db_name and db_name in self.app.registry.couchdb_server:
+            self.app.registry.couchdb_server.delete(db_name)
 
 
 class BaseWebTest(unittest.TestCase):
@@ -83,7 +85,7 @@ class BaseWebTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.app = cls.AppClass(make_wsgi_app(cls.relative_uri, relative_to=cls.relative_to))
+        cls.app = cls.AppClass(loadwsgiapp(cls.relative_uri, relative_to=cls.relative_to))
         cls.couchdb_server = cls.app.app.registry.couchdb_server
         cls.db = cls.app.app.registry.db
 
@@ -92,4 +94,4 @@ class BaseWebTest(unittest.TestCase):
         self.db = self.app.recreate_db()
 
     def tearDown(self):
-        self.app.drop_db(self.db.name)
+        self.app.drop_db()
