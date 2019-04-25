@@ -104,162 +104,135 @@ Stop review:
     - branches
   dependencies:
     - Build
-  coverage: '/TOTAL\s+\d+\s+\d+\s+(\d+%)/'
-
-.test_single_pool:
-  extends: .test
   script:
     - echo '127.0.0.1  couchdb' >> /etc/hosts
     - cd /app
     - py.test $TESTS_PATH --cov=$COV_PATH --cov-config=$COV_FILE -v --maxfail=1 --color=yes --dist=each
       --tx=popen//id=sand//env:DB_NAME=test_sandbox//env:SANDBOX_MODE=1
       --tx=popen//id=prod//env:DB_NAME=test_prod//env:SANDBOX_MODE=
-
-.test_double_pool:
-  extends: .test
-  script:
-    - echo '127.0.0.1  couchdb' >> /etc/hosts
-    - cd /app
-    - py.test $TESTS_PATH --cov=$COV_PATH --cov-config=$COV_FILE -v --maxfail=1 --color=yes --dist=each
-      --tx=popen//id=sand1//pool=sand//env:DB_NAME=test_sandbox_1//env:SANDBOX_MODE=1
-      --tx=popen//id=sand2//pool=sand//env:DB_NAME=test_sandbox_2//env:SANDBOX_MODE=1
-      --tx=popen//id=prod1//pool=prod//env:DB_NAME=test_prod_1//env:SANDBOX_MODE=
-      --tx=popen//id=prod2//pool=prod//env:DB_NAME=test_prod_2//env:SANDBOX_MODE=
-
-.test_triple_pool:
-  extends: .test
-  script:
-    - echo '127.0.0.1  couchdb' >> /etc/hosts
-    - cd /app
-    - py.test $TESTS_PATH --cov=$COV_PATH --cov-config=$COV_FILE -v --maxfail=1 --color=yes --dist=each
-      --tx=popen//id=sand1//pool=sand//env:DB_NAME=test_sandbox_1//env:SANDBOX_MODE=1
-      --tx=popen//id=sand2//pool=sand//env:DB_NAME=test_sandbox_2//env:SANDBOX_MODE=1
-      --tx=popen//id=sand3//pool=sand//env:DB_NAME=test_sandbox_3//env:SANDBOX_MODE=1
-      --tx=popen//id=prod1//pool=prod//env:DB_NAME=test_prod_1//env:SANDBOX_MODE=
-      --tx=popen//id=prod2//pool=prod//env:DB_NAME=test_prod_2//env:SANDBOX_MODE=
-      --tx=popen//id=prod3//pool=prod//env:DB_NAME=test_prod_3//env:SANDBOX_MODE=
+  coverage: '/TOTAL\s+\d+\s+\d+\s+(\d+%)/'
 
 test_tender_esco:
-  extends: .test_triple_pool
+  extends: .test
   variables:
     TESTS_PATH: src/openprocurement/tender/esco/tests
     COV_PATH: src/openprocurement/tender/esco
     COV_FILE: .coveragerc
 
 test_tender_openeu:
-  extends: .test_triple_pool
+  extends: .test
   variables:
     TESTS_PATH: src/openprocurement/tender/openeu/tests
     COV_PATH: src/openprocurement/tender/openeu
     COV_FILE: .coveragerc
 
 test_tender_cfaua:
-  extends: .test_triple_pool
+  extends: .test
   variables:
     TESTS_PATH: src/openprocurement/tender/cfaua/tests
     COV_PATH: src/openprocurement/tender/cfaua
     COV_FILE: .coveragerc
 
 test_tender_comp_stage2:
-  extends: .test_triple_pool
+  extends: .test
   variables:
     TESTS_PATH: src/openprocurement/tender/competitivedialogue/tests/stage2
     COV_PATH: src/openprocurement/tender/competitivedialogue/
     COV_FILE: src/openprocurement/tender/competitivedialogue/tests/stage2/.coveragerc
 
 test_tender_core:
-  extends: .test_single_pool
+  extends: .test
   variables:
     TESTS_PATH: src/openprocurement/tender/core/tests
     COV_PATH: src/openprocurement/tender/core
     COV_FILE: .coveragerc
 
 test_api:
-  extends: .test_single_pool
+  extends: .test
   variables:
     TESTS_PATH: src/openprocurement/api/tests
     COV_PATH: src/openprocurement/api
     COV_FILE: .coveragerc
 
 test_agreement_core:
-  extends: .test_single_pool
+  extends: .test
   variables:
     TESTS_PATH: src/openprocurement/agreement/core/tests
     COV_PATH: src/openprocurement/agreement/core
     COV_FILE: .coveragerc
 
 test_agreement_cfaua:
-  extends: .test_single_pool
+  extends: .test
   variables:
     TESTS_PATH: src/openprocurement/agreement/cfaua/tests
     COV_PATH: src/openprocurement/agreement/cfaua
     COV_FILE: .coveragerc
 
 test_contracting_api:
-  extends: .test_single_pool
+  extends: .test
   variables:
     TESTS_PATH: src/openprocurement/contracting/api/tests
     COV_PATH: src/openprocurement/contracting/api
     COV_FILE: .coveragerc
 
 test_planning_api:
-  extends: .test_single_pool
+  extends: .test
   variables:
     TESTS_PATH: src/openprocurement/planning/api/tests
     COV_PATH: src/openprocurement/planning/api
     COV_FILE: .coveragerc
 
 test_historical_core:
-  extends: .test_single_pool
+  extends: .test
   variables:
     TESTS_PATH: src/openprocurement/historical/core/tests
     COV_PATH: src/openprocurement/historical/core
     COV_FILE: .coveragerc
 
 test_historical_tender:
-  extends: .test_single_pool
+  extends: .test
   variables:
     TESTS_PATH: src/openprocurement/historical/tender/tests
     COV_PATH: src/openprocurement/historical/tender
     COV_FILE: .coveragerc
 
 test_tender_comp_stage1:
-  extends: .test_double_pool
+  extends: .test
   variables:
     TESTS_PATH: src/openprocurement/tender/competitivedialogue/tests/stage1
     COV_PATH: src/openprocurement/tender/competitivedialogue/
     COV_FILE: src/openprocurement/tender/competitivedialogue/tests/stage1/.coveragerc
 
 test_tender_limited:
-  extends: .test_double_pool
+  extends: .test
   variables:
     TESTS_PATH: src/openprocurement/tender/limited/tests
     COV_PATH: src/openprocurement/tender/limited
     COV_FILE: .coveragerc
 
 test_tender_openua:
-  extends: .test_double_pool
+  extends: .test
   variables:
     TESTS_PATH: src/openprocurement/tender/openua/tests
     COV_PATH: src/openprocurement/tender/openua
     COV_FILE: .coveragerc
 
 test_tender_belowthreshold:
-  extends: .test_double_pool
+  extends: .test
   variables:
     TESTS_PATH: src/openprocurement/tender/belowthreshold/tests
     COV_PATH: src/openprocurement/tender/belowthreshold
     COV_FILE: .coveragerc
 
 test_tender_openuadefense:
-  extends: .test_double_pool
+  extends: .test
   variables:
     TESTS_PATH: src/openprocurement/tender/openuadefense/tests
     COV_PATH: src/openprocurement/tender/openuadefense
     COV_FILE: .coveragerc
 
 test_tender_cfaselectionua:
-  extends: .test_double_pool
+  extends: .test
   variables:
     TESTS_PATH: src/openprocurement/tender/cfaselectionua/tests
     COV_PATH: src/openprocurement/tender/cfaselectionua
