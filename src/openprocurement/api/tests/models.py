@@ -69,15 +69,12 @@ class TestBusinessOrganizationScale(unittest.TestCase):
         )
 
     @mock.patch('openprocurement.api.models.ORGANIZATION_SCALE_FROM', get_now() + timedelta(days=1))
-    def test_validate_rogue(self):
-        organization = BusinessOrganization(dict(scale="micro", **self.organization_data))
+    def test_validate_not_required(self):
+        organization = BusinessOrganization(self.organization_data)
         organization.__parent__ = SchematicsDocument()
-        with self.assertRaises(ModelValidationError) as e:
-            organization.validate()
-        self.assertEqual(
-            e.exception.message,
-            {'scale': [u'Rogue field']}
-        )
+        organization.validate()
+        data = organization.serialize("embedded")
+        self.assertNotIn("scale", data)
 
 
 def suite():

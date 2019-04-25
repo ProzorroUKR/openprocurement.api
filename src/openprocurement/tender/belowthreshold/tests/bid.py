@@ -17,7 +17,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     get_tender_tenderers,
     bid_Administrator_change,
     create_tender_bid_no_scale_invalid,
-    create_tender_bid_with_scale_invalid,
+    create_tender_bid_with_scale_not_required,
     create_tender_bid_no_scale,
     # TenderBidFeaturesResourceTest
     features_bid,
@@ -49,7 +49,7 @@ class TenderBidResourceTest(TenderContentWebTest):
     test_get_tender_tenderers = snitch(get_tender_tenderers)
     test_bid_Administrator_change = snitch(bid_Administrator_change)
     test_create_tender_bid_no_scale_invalid = snitch(create_tender_bid_no_scale_invalid)
-    test_create_tender_bid_with_scale_invalid = snitch(create_tender_bid_with_scale_invalid)
+    test_create_tender_bid_with_scale_not_required = snitch(create_tender_bid_with_scale_not_required)
     test_create_tender_bid_no_scale = snitch(create_tender_bid_no_scale)
 
 

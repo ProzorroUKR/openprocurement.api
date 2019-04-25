@@ -37,7 +37,7 @@ from openprocurement.tender.openua.tests.bid_blanks import (
     bids_invalidation_on_tender_change,
     bids_activation_on_tender_documents,
     create_tender_bid_no_scale_invalid,
-    create_tender_bid_with_scale_invalid,
+    create_tender_bid_with_scale_not_required,
     create_tender_bid_no_scale,
     # TenderBidFeautreResourceTest
     features_bidder,
@@ -66,7 +66,7 @@ class TenderBidResourceTestMixin(object):
     test_bids_invalidation_on_tender_change = snitch(bids_invalidation_on_tender_change)
     test_bids_activation_on_tender_documents = snitch(bids_activation_on_tender_documents)
     test_create_tender_bid_no_scale_invalid = snitch(create_tender_bid_no_scale_invalid)
-    test_create_tender_bid_with_scale_invalid = snitch(create_tender_bid_with_scale_invalid)
+    test_create_tender_bid_with_scale_not_required = snitch(create_tender_bid_with_scale_not_required)
     test_create_tender_bid_no_scale = snitch(create_tender_bid_no_scale)
 
 
