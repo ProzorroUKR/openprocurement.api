@@ -37,7 +37,10 @@ class TestValidateUpdateContractValueWithAward(unittest.TestCase):
         request.context.awardID = 'test_id'
         error_handler_mock.return_value = HTTPError
 
-        validate_update_contract_value_with_award(request)
+        try:
+            validate_update_contract_value_with_award(request)
+        except HTTPError:
+            self.fail("validate_update_contract_value_with_award() raised HTTPError unexpectedly")
 
     def test_fail_tax_included_for_included_award(self, error_handler_mock):
         award = mock.MagicMock(id='test_id', value=mock.MagicMock(amount=100, valueAddedTaxIncluded=True))
@@ -93,7 +96,11 @@ class TestValidateUpdateContractValueWithAward(unittest.TestCase):
         request.context.awardID = 'test_id'
         error_handler_mock.return_value = HTTPError
 
-        validate_update_contract_value_with_award(request)
+
+        try:
+            validate_update_contract_value_with_award(request)
+        except HTTPError:
+            self.fail("validate_update_contract_value_with_award() raised HTTPError unexpectedly")
 
     def test_fail_tax_included_for_not_included_award(self, error_handler_mock):
         award = mock.MagicMock(id='test_id', value=mock.MagicMock(amount=100, valueAddedTaxIncluded=False))
@@ -155,3 +162,24 @@ class TestValidateUpdateContractValueAmount(unittest.TestCase):
 
         request.errors.add.assert_called_once_with(
             'body', 'value', 'Amount and amountNet should be equal')
+
+    def test_amount_net_from_float(self, error_handler_mock):
+        amount = 1478.4
+        amount_net = 1232.0
+        coef = 1.2
+
+        #  the problem and the solution
+        assert amount_net * coef == 1478.3999999999999
+        assert float(str(amount_net * coef)) == 1478.4
+
+        request = mock.MagicMock(validated={})
+        value = {'amount': amount, 'amountNet': amount_net, 'currency': 'USD', 'valueAddedTaxIncluded': True}
+        request.validated['data'] = request.validated['json_data'] = {'value': value}
+        request.context.value.to_native.return_value.get = lambda x: value[x]
+        request.context.awardID = 'test_id'
+        error_handler_mock.return_value = HTTPError
+
+        try:
+            validate_update_contract_value_amount(request)
+        except HTTPError:
+            self.fail("validate_update_contract_value_amount() raised HTTPError unexpectedly")
