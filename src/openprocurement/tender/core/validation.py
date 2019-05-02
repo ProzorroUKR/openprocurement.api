@@ -504,9 +504,11 @@ def validate_update_contract_value_amount(request, name='value'):
             if tax_included:
                 if isinstance(amount_net, Decimal):
                     coef = Decimal(str(AMOUNT_NET_COEF))
+                    amount_max = amount_net * coef
                 else:
                     coef = AMOUNT_NET_COEF
-                if amount <= amount_net or amount > amount_net * coef:
+                    amount_max = float(str(amount_net * coef))
+                if amount <= amount_net or amount > amount_max:
                     raise_operation_error(
                         request,
                         'Amount should be greater than amountNet and differ by '
