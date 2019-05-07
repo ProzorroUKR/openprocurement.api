@@ -20,12 +20,9 @@ from openprocurement.api.validation import (
 from openprocurement.tender.core.models import (
     ITender, validate_features_uniq,
     validate_values_uniq, Feature as BaseFeature,
-    FeatureValue as BaseFeatureValue, create_role,
-    edit_role, view_role, enquiries_role,
-    chronograph_role, chronograph_view_role,
-    Administrator_role, ProcuringEntity as BaseProcuringEntity,
+    FeatureValue as BaseFeatureValue, ProcuringEntity as BaseProcuringEntity,
     get_tender, PeriodStartEndRequired,
-    validate_lots_uniq, Lot as BaseLotUA
+    validate_lots_uniq, Lot as BaseLotUA,
 )
 from openprocurement.tender.core.utils import (
     calculate_business_date
@@ -39,9 +36,7 @@ from openprocurement.tender.openua.constants import (
 )
 from openprocurement.tender.openeu.models import (
     Administrator_bid_role, view_bid_role,
-    pre_qualifications_role, ConfidentialDocument,
-    auction_patch_role, auction_view_role,
-    auction_post_role, embedded_lot_role,
+    ConfidentialDocument, embedded_lot_role,
     default_lot_role, Lot as BaseLotEU,
     Item as BaseEUItem, LotValue as BaseLotValueEU,
     Tender as BaseTenderEU, Bid as BidEU
@@ -57,38 +52,6 @@ from openprocurement.tender.competitivedialogue.constants import (
     STAGE_2_EU_TYPE, STAGE_2_UA_TYPE,
     STAGE2_STATUS, FEATURES_MAX_SUM
 )
-
-
-edit_role_ua = edit_role + blacklist('enquiryPeriod', 'status')
-edit_stage2_pending = whitelist('status')
-edit_stage2_waiting = whitelist('status', 'stage2TenderID')
-view_role_stage1 = (view_role + blacklist('auctionPeriod'))
-pre_qualifications_role_stage1 = (pre_qualifications_role
-                                  + blacklist('auctionPeriod'))
-
-roles = {
-    'plain': plain_role,
-    'create': create_role,
-    'view': view_role_stage1,
-    'listing': listing_role,
-    'active.pre-qualification': pre_qualifications_role_stage1,
-    'active.pre-qualification.stand-still': pre_qualifications_role_stage1,
-    'active.stage2.pending': pre_qualifications_role_stage1,
-    'active.stage2.waiting': pre_qualifications_role_stage1,
-    'edit_active.stage2.pending': whitelist('status'),
-    'draft': (enquiries_role + blacklist('auctionPeriod')),
-    'active.tendering': (enquiries_role + blacklist('auctionPeriod')),
-    'complete': view_role_stage1,
-    'unsuccessful': view_role_stage1,
-
-    'cancelled': view_role_stage1,
-    'chronograph': chronograph_role,
-    'chronograph_view': chronograph_view_role,
-    'Administrator': Administrator_role,
-    'default': schematics_default_role,
-    'contracting': whitelist('doc_id', 'owner'),
-    'competitive_dialogue': edit_stage2_waiting
-}
 
 
 class ICDEUTender(ITender):
@@ -216,7 +179,7 @@ LotStage1 = Lot
 
 
 @implementer(ICDEUTender)
-class Tender(BaseTenderEU):
+class CompetitiveDialogEU(BaseTenderEU):
     procurementMethodType = StringType(default=CD_EU_TYPE)
     status = StringType(choices=['draft', 'active.tendering', 'active.pre-qualification',
                                  'active.pre-qualification.stand-still', 'active.stage2.pending',
@@ -233,7 +196,39 @@ class Tender(BaseTenderEU):
                      validators=[validate_cpv_group, validate_items_uniq])
 
     class Options:
-        roles = roles.copy()
+        namespace = 'Tender'
+        _parent_roles = BaseTenderEU.Options.roles
+
+        _pre_qualifications_role = _parent_roles['active.pre-qualification'] - whitelist('auctionPeriod')
+        _view_role = _parent_roles['view'] - whitelist('auctionPeriod')
+        _tendering_role = _parent_roles['active.tendering'] - whitelist('auctionPeriod')
+
+        roles = {
+            'create': _parent_roles['create'],
+
+            'active.pre-qualification': _pre_qualifications_role,
+            'active.pre-qualification.stand-still': _pre_qualifications_role,
+            'active.stage2.pending': _pre_qualifications_role,
+            'active.stage2.waiting': _pre_qualifications_role,
+            'edit_active.stage2.pending': whitelist('status'),
+
+            'draft': _tendering_role,
+            'active.tendering': _tendering_role,
+
+            'complete': _view_role,
+            'unsuccessful': _view_role,
+            'view': _view_role,
+            'cancelled': _view_role,
+
+            'chronograph': _parent_roles['chronograph'],
+            'chronograph_view': _parent_roles['chronograph_view'],
+            'Administrator': _parent_roles['Administrator'],
+            'default': _parent_roles['default'],
+            'plain': _parent_roles['plain'],
+            'contracting': _parent_roles['contracting'],
+            'listing': _parent_roles['listing'],
+            'competitive_dialogue': whitelist('status', 'stage2TenderID'),
+        }
 
     def get_role(self):
         root = self.__parent__
@@ -272,9 +267,6 @@ class Tender(BaseTenderEU):
         validate_features_custom_weight(self, data, features, FEATURES_MAX_SUM)
 
 
-CompetitiveDialogEU = Tender
-
-
 class LotId(Model):
     id = StringType()
 
@@ -290,7 +282,7 @@ class Firms(Model):
 
 
 @implementer(ICDUATender)
-class Tender(CompetitiveDialogEU):
+class CompetitiveDialogUA(CompetitiveDialogEU):
     procurementMethodType = StringType(default=CD_UA_TYPE)
     title_en = StringType()
     items = ListType(ModelType(BaseUAItem), required=True, min_size=1,
@@ -299,54 +291,7 @@ class Tender(CompetitiveDialogEU):
     stage2TenderID = StringType(required=False)
 
 
-CompetitiveDialogUA = Tender
-
-
 # stage 2 models
-
-hide_dialogue_token = blacklist('dialogue_token')
-close_edit_technical_fields = blacklist('dialogue_token', 'shortlistedFirms', 'dialogueID', 'value', 'features')
-
-
-stage_2_roles = {
-    'plain': plain_role,
-    'create': (blacklist('owner_token', 'tenderPeriod', '_attachments', 'revisions', 'dateModified', 'doc_id', 'bids', 'documents', 'awards', 'questions', 'complaints', 'auctionUrl', 'status', 'auctionPeriod', 'awardPeriod', 'awardCriteria', 'submissionMethod', 'cancellations', 'procurementMethod') + schematics_embedded_role),
-    'edit': whitelist('tenderPeriod'),
-    'edit_draft': whitelist('status'),  # only bridge must change only status
-    'edit_'+STAGE2_STATUS: whitelist('tenderPeriod', 'status'),
-    'edit_active.tendering': whitelist('tenderPeriod', 'items'),
-    'edit_active.pre-qualification': whitelist('status'),
-    'edit_active.pre-qualification.stand-still': whitelist(),
-    'edit_active.auction': whitelist(),
-    'edit_active.qualification': whitelist(),
-    'edit_active.awarded': whitelist(),
-    'edit_complete': whitelist(),
-    'edit_unsuccessful': whitelist(),
-    'edit_cancelled': whitelist(),
-    'view': view_role + hide_dialogue_token,
-    'listing': listing_role,
-    'auction_view': auction_view_role,
-    'auction_post': auction_post_role,
-    'auction_patch': auction_patch_role,
-    'draft': enquiries_role + blacklist('dialogue_token', 'shortlistedFirms'),
-    'draft.stage2': enquiries_role + hide_dialogue_token,
-    'active.tendering': enquiries_role + hide_dialogue_token,
-    'active.pre-qualification': pre_qualifications_role + hide_dialogue_token,
-    'active.pre-qualification.stand-still': pre_qualifications_role + hide_dialogue_token,
-    'active.auction': pre_qualifications_role + hide_dialogue_token,
-    'active.qualification': view_role + hide_dialogue_token,
-    'active.awarded': view_role + hide_dialogue_token,
-    'complete': view_role + hide_dialogue_token,
-    'unsuccessful': view_role + hide_dialogue_token,
-    'cancelled': view_role + hide_dialogue_token,
-    'chronograph': chronograph_role,
-    'chronograph_view': chronograph_view_role,
-    'Administrator': Administrator_role,
-    'default': schematics_default_role,
-    'contracting': whitelist('doc_id', 'owner'),
-    'competitive_dialogue': edit_stage2_waiting
-}
-
 
 def init_PeriodStartEndRequired(tendering_duration):
     def wrapper():
@@ -443,8 +388,11 @@ class Contract(BaseTenderEU.contracts.model_class):
     items = ListType(ModelType(ItemStage2EU))
 
 
+hide_dialogue_token = blacklist('dialogue_token')
+
+
 @implementer(ICDEUStage2Tender)
-class Tender(BaseTenderEU):
+class TenderStage2EU(BaseTenderEU):
     procurementMethodType = StringType(default=STAGE_2_EU_TYPE)
     dialogue_token = StringType(required=True)
     dialogueID = StringType()
@@ -469,15 +417,64 @@ class Tender(BaseTenderEU):
     create_accreditation = 'c'
 
     class Options:
-        roles = stage_2_roles.copy()
+        namespace = 'Tender'
+        _parent_roles = BaseTenderEU.Options.roles
+
+        _pre_qualifications_role = _parent_roles['active.pre-qualification']
+        _view_role = _parent_roles['view'] - whitelist('auctionPeriod')
+
+        _tendering_role = _parent_roles['active.tendering']
+        _all_forbidden = whitelist()
+
+        roles = {
+            'create': _parent_roles['create'] + whitelist('shortlistedFirms', 'dialogueID', 'dialogue_token', 'owner'),
+            'edit': whitelist('tenderPeriod'),
+            'edit_draft': whitelist('status'),  # only bridge must change only status
+            'edit_active.pre-qualification': whitelist('status'),
+            'edit_' + STAGE2_STATUS: whitelist('tenderPeriod', 'status'),
+            'edit_active.tendering': whitelist('tenderPeriod', 'items'),
+
+            'edit_active.pre-qualification.stand-still': _all_forbidden,
+            'edit_active.auction': _all_forbidden,
+            'edit_active.qualification': _all_forbidden,
+            'edit_active.awarded': _all_forbidden,
+            'edit_complete': _all_forbidden,
+            'edit_unsuccessful': _all_forbidden,
+            'edit_cancelled': _all_forbidden,
+
+            'draft': _tendering_role,
+            'draft.stage2': _tendering_role,
+            'active.tendering': _tendering_role,
+
+            'active.pre-qualification': _pre_qualifications_role,
+            'active.pre-qualification.stand-still': _pre_qualifications_role,
+            'active.auction': _pre_qualifications_role,
+
+            'active.qualification': _view_role,
+            'active.awarded': _view_role,
+            'complete': _view_role,
+            'unsuccessful': _view_role,
+            'cancelled': _view_role,
+            'view': _view_role,
+
+            'auction_view': _parent_roles['auction_view'],
+            'auction_post': _parent_roles['auction_post'],
+            'auction_patch': _parent_roles['auction_patch'],
+            'chronograph': _parent_roles['chronograph'],
+            'chronograph_view': _parent_roles['chronograph_view'],
+            'Administrator': _parent_roles['Administrator'],
+            'default': _parent_roles['default'],
+            'plain': _parent_roles['plain'],
+            'contracting': _parent_roles['contracting'],
+            'listing': _parent_roles['listing'],
+            'competitive_dialogue': CompetitiveDialogEU.Options.roles['competitive_dialogue'],
+        }
 
     def __acl__(self):
         return stage2__acl__(self)
 
     def validate_features(self, data, features):
         validate_features_custom_weight(self, data, features, FEATURES_MAX_SUM)
-
-TenderStage2EU = Tender
 
 
 class Award(BaseTenderUA.awards.model_class):
@@ -491,7 +488,7 @@ class Contract(BaseTenderUA.contracts.model_class):
 
 
 @implementer(ICDUAStage2Tender)
-class Tender(BaseTenderUA):
+class TenderStage2UA(BaseTenderUA):
     procurementMethodType = StringType(default=STAGE_2_UA_TYPE)
     dialogue_token = StringType(required=True)
     dialogueID = StringType()
@@ -513,13 +510,11 @@ class Tender(BaseTenderUA):
 
     create_accreditation = 'c'
 
-    class Options:
-        roles = stage_2_roles.copy()
+    class Options(TenderStage2EU.Options):
+        pass
 
     def __acl__(self):
         return stage2__acl__(self)
 
     def validate_features(self, data, features):
         validate_features_custom_weight(self, data, features, FEATURES_MAX_SUM)
-
-TenderStage2UA = Tender

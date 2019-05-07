@@ -46,17 +46,6 @@ from openprocurement.tender.core.validation import (
     validate_LotValue_value, is_positive_float
 )
 
-create_role = (blacklist('owner_token', 'owner', 'contracts', '_attachments', 'revisions', 'date', 'dateModified', 'doc_id', 'tenderID', 'bids', 'documents', 'awards', 'questions', 'complaints', 'auctionUrl', 'status', 'auctionPeriod', 'awardPeriod', 'procurementMethod', 'awardCriteria', 'submissionMethod', 'cancellations') + schematics_embedded_role)
-edit_role = (blacklist('status', 'procurementMethodType', 'lots', 'owner_token', 'owner', '_attachments', 'revisions', 'date', 'dateModified', 'doc_id', 'tenderID', 'bids', 'documents', 'awards', 'questions', 'complaints', 'auctionUrl', 'auctionPeriod', 'awardPeriod', 'procurementMethod', 'awardCriteria', 'submissionMethod', 'mode', 'cancellations') + schematics_embedded_role)
-view_role = (blacklist('owner_token', '_attachments', 'revisions') + schematics_embedded_role)
-auction_view_role = whitelist('tenderID', 'dateModified', 'bids', 'items', 'auctionPeriod', 'minimalStep', 'auctionUrl', 'features', 'lots')
-auction_post_role = whitelist('bids')
-auction_patch_role = whitelist('auctionUrl', 'bids', 'lots')
-enquiries_role = (blacklist('owner_token', '_attachments', 'revisions', 'bids', 'numberOfBids') + schematics_embedded_role)
-auction_role = (blacklist('owner_token', '_attachments', 'revisions', 'bids', 'numberOfBids') + schematics_embedded_role)
-chronograph_role = whitelist('auctionPeriod', 'lots', 'next_check')
-chronograph_view_role = whitelist('status', 'enquiryPeriod', 'tenderPeriod', 'auctionPeriod', 'awardPeriod', 'awards', 'lots', 'doc_id', 'submissionMethodDetails', 'mode', 'numberOfBids', 'complaints')
-Administrator_role = whitelist('status', 'mode', 'procuringEntity', 'auctionPeriod', 'lots')
 
 view_bid_role = (blacklist('owner_token', 'owner') + schematics_default_role)
 Administrator_bid_role = whitelist('tenderers')
@@ -809,8 +798,78 @@ class Milestone(Model):
             raise ValidationError(u"relatedLot should be one of the lots.")
 
 
+# TODO: remove after full refactoring
+# create_role = (blacklist('owner_token', 'owner', 'contracts', '_attachments', 'revisions', 'date', 'dateModified', 'doc_id', 'tenderID', 'bids', 'documents', 'awards', 'questions', 'complaints', 'auctionUrl', 'status', 'auctionPeriod', 'awardPeriod', 'procurementMethod', 'awardCriteria', 'submissionMethod', 'cancellations') + schematics_embedded_role)
+# edit_role = (blacklist('status', 'procurementMethodType', 'lots', 'owner_token', 'owner', '_attachments', 'revisions', 'date', 'dateModified', 'doc_id', 'tenderID', 'bids', 'documents', 'awards', 'questions', 'complaints', 'auctionUrl', 'auctionPeriod', 'awardPeriod', 'procurementMethod', 'awardCriteria', 'submissionMethod', 'mode', 'cancellations') + schematics_embedded_role)
+# view_role = (blacklist('owner_token', '_attachments', 'revisions') + schematics_embedded_role)
+# auction_view_role = whitelist('tenderID', 'dateModified', 'bids', 'items', 'auctionPeriod', 'minimalStep', 'auctionUrl', 'features', 'lots')
+# auction_post_role = whitelist('bids')
+# auction_patch_role = whitelist('auctionUrl', 'bids', 'lots')
+enquiries_role = (blacklist('owner_token', '_attachments', 'revisions', 'bids', 'numberOfBids') + schematics_embedded_role)
+auction_role = (blacklist('owner_token', '_attachments', 'revisions', 'bids', 'numberOfBids') + schematics_embedded_role)
+chronograph_role = whitelist('auctionPeriod', 'lots', 'next_check')
+# chronograph_view_role = whitelist('status', 'enquiryPeriod', 'tenderPeriod', 'auctionPeriod', 'awardPeriod', 'awards', 'lots', 'doc_id', 'submissionMethodDetails', 'mode', 'numberOfBids', 'complaints')
+# Administrator_role = whitelist('status', 'mode', 'procuringEntity', 'auctionPeriod', 'lots')
+
+
+edit_role = whitelist(
+    'awardCriteriaDetails_ru', 'procurementMethodRationale_en', 'eligibilityCriteria', 'eligibilityCriteria_ru',
+    'awardCriteriaDetails_en', 'description', 'milestones', 'procurementMethodRationale_ru', 'description_en',
+    'mainProcurementCategory', 'procurementMethodDetails', 'title', 'awardCriteriaDetails',
+    'submissionMethodDetails_en', 'title_ru', 'procurementMethodRationale', 'eligibilityCriteria_en', 'description_ru',
+    'funders', 'submissionMethodDetails_ru', 'title_en', 'submissionMethodDetails'
+)
+create_role = edit_role + whitelist('mode', 'procurementMethodType')
+
+# enquiries_role = view role = auction_role
+view_role = create_role + whitelist(
+    'date', 'awardCriteria', 'tenderID', 'documents', 'doc_id', 'submissionMethod', 'dateModified', 'status',
+    'procurementMethod', 'owner'
+)
+
+auction_view_role = whitelist(
+    'tenderID', 'dateModified', 'bids', 'items', 'auctionPeriod', 'minimalStep', 'auctionUrl', 'features', 'lots'
+)
+auction_post_role = whitelist('bids')
+auction_patch_role = whitelist('auctionUrl', 'bids', 'lots')
+chronograph_edit_role = whitelist('auctionPeriod', 'lots', 'next_check')  # chronograph_role
+chronograph_view_role = whitelist(
+    'status', 'enquiryPeriod', 'tenderPeriod', 'auctionPeriod', 'awardPeriod', 'awards', 'lots', 'doc_id',
+    'submissionMethodDetails', 'mode', 'numberOfBids', 'complaints'
+)
+Administrator_role = whitelist('status', 'mode', 'procuringEntity', 'auctionPeriod', 'lots')
+
+
 @implementer(ITender)
 class BaseTender(OpenprocurementSchematicsDocument, Model):
+
+    class Options:
+        namespace = 'Tender'
+
+        roles = {
+            "create": create_role,
+            "edit_draft": whitelist('status'),
+            "edit": edit_role,
+            "view": view_role,
+
+            'auction_view': auction_view_role,
+            'auction_post': auction_post_role,
+            'auction_patch': auction_patch_role,
+            'chronograph': chronograph_edit_role,
+            'chronograph_view': chronograph_view_role,
+            'Administrator': Administrator_role,
+
+            'listing': whitelist('dateModified', 'doc_id'),
+            'contracting': whitelist('doc_id', 'owner'),
+
+            'embedded': blacklist("_id", "_rev", "doc_type", "__parent__"),
+            # obj.store() use default role
+            'default': blacklist("doc_id", "__parent__"),
+            # patch = get_revision_changes(tender.serialize("plain"), request.validated['tender_src'])
+            'plain': blacklist('_attachments', 'revisions', 'dateModified', "_id", "_rev", "doc_type",
+                               "__parent__"),
+        }
+
     title = StringType(required=True)
     title_en = StringType()
     title_ru = StringType()
@@ -905,6 +964,7 @@ class Tender(BaseTender):
     edit_accreditation = 2
 
     __name__ = ''
+
     def get_role(self):
         root = self.__parent__
         request = root.request

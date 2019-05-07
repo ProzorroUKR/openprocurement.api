@@ -25,11 +25,6 @@ from openprocurement.api.validation import (
 )
 
 from openprocurement.tender.core.models import ITender
-from openprocurement.tender.core.models import (
-    view_role, create_role, edit_role,
-    auction_view_role, auction_post_role, auction_patch_role, auction_role,
-    chronograph_role, chronograph_view_role,
-)
 
 from openprocurement.tender.core.models import (
     validate_features_uniq, validate_lots_uniq,
@@ -89,38 +84,63 @@ class Tender(BaseTender):
     to submit bids for evaluation and selecting a winner or winners.
     """
     class Options:
+        namespace = 'Tender'
+
+        _core_roles = BaseTender.Options.roles
+
+        # without _serializable_fields they won't be calculated (even though serialized_name is in the role)
+        _serializable_fields = whitelist('tender_guarantee', 'tender_value', 'tender_minimalStep')
+        _edit_fields = _serializable_fields + whitelist(
+            'enquiryPeriod', 'next_check', 'numberOfBidders', 'hasEnquiries', 'features', 'items',
+            'tenderPeriod', 'procuringEntity', 'guarantee', 'value', 'minimalStep',
+        )
+        _read_only_fields = whitelist(
+            'auctionUrl', 'awards', 'awardPeriod', 'questions', 'lots', 'cancellations', 'complaints',
+            'contracts', 'auctionPeriod',
+        )
+
+        _edit_role = _core_roles['edit'] + _edit_fields + whitelist('contracts', 'numberOfBids')
+        _view_tendering_role = _core_roles['view'] + _edit_fields + _read_only_fields
+        _view_role = _view_tendering_role + whitelist('bids', 'numberOfBids')
+
+        _all_forbidden = whitelist()
         roles = {
-            'plain': plain_role,
-            'create': create_role,
-            'edit': edit_role,
-            'edit_draft': draft_role,
-            'edit_active.enquiries': edit_role,
-            'edit_active.tendering': whitelist(),
-            'edit_active.auction': whitelist(),
-            'edit_active.qualification': whitelist(),
-            'edit_active.awarded': whitelist(),
-            'edit_complete': whitelist(),
-            'edit_unsuccessful': whitelist(),
-            'edit_cancelled': whitelist(),
-            'view': view_role,
-            'listing': listing_role,
-            'auction_view': auction_view_role,
-            'auction_post': auction_post_role,
-            'auction_patch': auction_patch_role,
-            'draft': enquiries_role,
-            'active.enquiries': enquiries_role,
-            'active.tendering': enquiries_role,
-            'active.auction': auction_role,
-            'active.qualification': view_role,
-            'active.awarded': view_role,
-            'complete': view_role,
-            'unsuccessful': view_role,
-            'cancelled': view_role,
-            'chronograph': chronograph_role,
-            'chronograph_view': chronograph_view_role,
-            'Administrator': Administrator_role,
-            'default': schematics_default_role,
-            'contracting': whitelist('doc_id', 'owner'),
+            'create': _core_roles['create'] + _edit_role + whitelist('lots'),
+            'edit': _edit_role,
+            'edit_draft': _core_roles['edit_draft'],
+            'edit_active.enquiries': _edit_role,
+
+            'edit_active.tendering': _all_forbidden,
+            'edit_active.auction': _all_forbidden,
+            'edit_active.qualification': _all_forbidden,
+            'edit_active.awarded': _all_forbidden,
+            'edit_complete': _all_forbidden,
+            'edit_unsuccessful': _all_forbidden,
+            'edit_cancelled': _all_forbidden,
+
+            'draft': _view_tendering_role,
+            'active.enquiries': _view_tendering_role,
+            'active.tendering': _view_tendering_role,
+
+            'view': _view_role,
+            'active.auction': _view_role,
+            'active.qualification': _view_role,
+            'active.awarded': _view_role,
+            'complete': _view_role,
+            'unsuccessful': _view_role,
+            'cancelled': _view_role,
+
+            'auction_view': _core_roles['auction_view'],
+            'auction_post': _core_roles['auction_post'],
+            'auction_patch': _core_roles['auction_patch'],
+            'chronograph': _core_roles['chronograph'],
+            'chronograph_view': _core_roles['chronograph_view'],
+            'Administrator': _core_roles['Administrator'],
+
+            'plain': _core_roles['plain'],
+            'listing': _core_roles['listing'],
+            'contracting': _core_roles['contracting'],
+            'default': _core_roles['default'],
         }
 
     items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_items_uniq, validate_classification_id])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.

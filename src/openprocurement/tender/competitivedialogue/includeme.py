@@ -2,7 +2,6 @@
 from logging import getLogger
 from pyramid.interfaces import IRequest
 from openprocurement.api.interfaces import IContentConfigurator
-from openprocurement.tender.competitivedialogue.models import Tender
 from openprocurement.tender.competitivedialogue.models import (
     ICDEUTender, ICDUATender, ICDEUStage2Tender, ICDUAStage2Tender
 )
