@@ -200,7 +200,7 @@ class CompetitiveDialogEU(BaseTenderEU):
         _parent_roles = BaseTenderEU.Options.roles
 
         _pre_qualifications_role = _parent_roles['active.pre-qualification'] - whitelist('auctionPeriod')
-        _view_role = _parent_roles['view'] - whitelist('auctionPeriod')
+        _view_role = _parent_roles['view'] + whitelist('stage2TenderID') - whitelist('auctionPeriod')
         _tendering_role = _parent_roles['active.tendering'] - whitelist('auctionPeriod')
 
         roles = {

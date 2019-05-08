@@ -360,7 +360,7 @@ class Tender(BaseTender):
         _read_only_fields = whitelist(
             'awards', 'lots', 'contracts', 'auctionPeriod', 'complaints',
             # fields below are not covered
-            'auctionUrl', 'awardPeriod', 'questions', 'cancellations',
+            'auctionUrl', 'awardPeriod', 'questions', 'cancellations', 'qualifications',
         )
 
         _tendering_role = _parent_roles['view'] + _edit_fields + _read_only_fields
