@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from decimal import Decimal
+from decimal import Decimal, ROUND_UP
 
 from schematics.types import BaseType
 
@@ -8,7 +8,7 @@ from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.utils import get_now  # move
 from openprocurement.api.utils import update_logging_context, error_handler, raise_operation_error, check_document_batch # XXX tender context
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF
-from openprocurement.tender.core.utils import calculate_business_date, has_requested_fields_changes
+from openprocurement.tender.core.utils import calculate_business_date, has_requested_fields_changes, convert_to_decimal
 from schematics.exceptions import ValidationError
 
 
@@ -496,18 +496,15 @@ def validate_update_contract_value_amount(request, name='value'):
     data = request.validated['data']
     value = data.get(name)
     if value and has_requested_fields_changes(request, (name, 'status')):
-        amount = value.get('amount')
-        amount_net = value.get('amountNet')
+        amount = convert_to_decimal(value.get('amount'))
+        amount_net = convert_to_decimal(value.get('amountNet'))
         tax_included = data.get('value').get('valueAddedTaxIncluded')
 
         if not (amount == 0 and amount_net == 0):
             if tax_included:
-                if isinstance(amount_net, Decimal):
-                    coef = Decimal(str(AMOUNT_NET_COEF))
-                    amount_max = amount_net * coef
-                else:
-                    coef = AMOUNT_NET_COEF
-                    amount_max = float(str(amount_net * coef))
+                coef = convert_to_decimal(AMOUNT_NET_COEF)
+                amount_max = amount_net * coef
+                amount_max = amount_max.quantize(Decimal('1E-2'), rounding=ROUND_UP)
                 if amount <= amount_net or amount > amount_max:
                     raise_operation_error(
                         request,

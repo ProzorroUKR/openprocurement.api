@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from decimal import Decimal
 from re import compile
 from barbecue import chef
 from jsonpointer import resolve_pointer
@@ -291,3 +292,16 @@ def calculate_business_date(date_obj, timedelta_obj, context=None,
 def has_requested_fields_changes(request, fieldnames):
     changed_fields = request.validated['json_data'].keys()
     return set(fieldnames) & set(changed_fields)
+
+def convert_to_decimal(value):
+    """
+    Convert other to Decimal.
+    """
+    if isinstance(value, Decimal):
+        return value
+    if isinstance(value, (int, long)):
+        return Decimal(value)
+    if isinstance(value, (float)):
+        return Decimal(str(value))
+
+    raise TypeError("Unable to convert %s to Decimal" % value)

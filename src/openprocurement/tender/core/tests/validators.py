@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
+from decimal import Decimal
 
 import mock
 
@@ -133,7 +134,7 @@ class TestValidateUpdateContractValueAmount(unittest.TestCase):
         request.errors.add.assert_called_once_with(
             'body', 'value', 'Amount and amountNet should be equal')
 
-    def test_amount_net_from_float(self):
+    def test_from_float(self):
         amount = 1478.4
         amount_net = 1232.0
         coef = 1.2
@@ -141,6 +142,59 @@ class TestValidateUpdateContractValueAmount(unittest.TestCase):
         #  the problem and the solution
         assert amount_net * coef == 1478.3999999999999
         assert float(str(amount_net * coef)) == 1478.4
+
+        request = generate_contract_value_patch_request_mock(
+            contract_value={
+                'amount': amount,
+                'amountNet': amount_net,
+                'currency': 'USD',
+                'valueAddedTaxIncluded': True})
+
+        try:
+            validate_update_contract_value_amount(request)
+        except HTTPError:
+            self.fail("validate_update_contract_value_amount() raised HTTPError unexpectedly")
+
+
+    def test_from_decimal(self):
+        amount = Decimal('1478.4')
+        amount_net = Decimal('1232.0')
+        coef = Decimal('1.2')
+
+        request = generate_contract_value_patch_request_mock(
+            contract_value={
+                'amount': amount,
+                'amountNet': amount_net,
+                'currency': 'USD',
+                'valueAddedTaxIncluded': True})
+
+        try:
+            validate_update_contract_value_amount(request)
+        except HTTPError:
+            self.fail("validate_update_contract_value_amount() raised HTTPError unexpectedly")
+
+    def test_round_up_from_float(self):
+        amount = 120.14
+        amount_net = 100.11
+        coef = 1.2
+
+        request = generate_contract_value_patch_request_mock(
+            contract_value={
+                'amount': amount,
+                'amountNet': amount_net,
+                'currency': 'USD',
+                'valueAddedTaxIncluded': True})
+
+        try:
+            validate_update_contract_value_amount(request)
+        except HTTPError:
+            self.fail("validate_update_contract_value_amount() raised HTTPError unexpectedly")
+
+
+    def test_round_up_from_decimal(self):
+        amount = Decimal('120.14')
+        amount_net = Decimal('100.11')
+        coef = Decimal('1.2')
 
         request = generate_contract_value_patch_request_mock(
             contract_value={
