@@ -502,14 +502,12 @@ def validate_update_contract_value_amount(request, name='value'):
 
         if not (amount == 0 and amount_net == 0):
             if tax_included:
-                coef = convert_to_decimal(AMOUNT_NET_COEF)
-                amount_max = amount_net * coef
-                amount_max = amount_max.quantize(Decimal('1E-2'), rounding=ROUND_UP)
+                amount_max = (amount_net * AMOUNT_NET_COEF).quantize(Decimal('1E-2'), rounding=ROUND_UP)
                 if amount <= amount_net or amount > amount_max:
                     raise_operation_error(
                         request,
                         'Amount should be greater than amountNet and differ by '
-                        'no more than {}%'.format(coef * 100 - 100), name=name)
+                        'no more than {}%'.format(AMOUNT_NET_COEF * 100 - 100), name=name)
             else:
                 if amount != amount_net:
                     raise_operation_error(
