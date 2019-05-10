@@ -21,19 +21,13 @@ from openprocurement.api.models import (
     ListType, Period, Address, PeriodEndRequired,
     IsoDateTimeType, DecimalType
 )
-from openprocurement.api.models import (
-    plain_role, listing_role,
-    schematics_default_role
-)
 from openprocurement.tender.core.models import (
     Tender as BaseTender, EnquiryPeriod, PeriodStartEndRequired,
     Question, Feature as BaseFeature, Guarantee, BaseLot,
     FeatureValue as BaseFeatureValue
 )
 from openprocurement.tender.core.models import (
-    get_tender, view_role, auction_view_role, auction_post_role,
-    auction_patch_role, enquiries_role, chronograph_role,
-    chronograph_view_role, Administrator_role,
+    get_tender,
     embedded_lot_role, default_lot_role,
     validate_features_uniq, validate_lots_uniq,
     bids_validation_wrapper, validate_values_uniq
@@ -66,9 +60,6 @@ from openprocurement.tender.openeu.models import (
     Cancellation, OpenEUDocument as Document,
     Qualification, LotAuctionPeriod,
     Contract as BaseEUContract, BidModelType
-)
-from openprocurement.tender.openeu.models import (
-    edit_role_eu, create_role_eu, pre_qualifications_role
 )
 from openprocurement.tender.openeu.constants import (
     TENDERING_DURATION, QUESTIONS_STAND_STILL, TENDERING_DAYS
@@ -351,52 +342,80 @@ class Feature(BaseFeature):
 class Tender(BaseTender):
     """ ESCO Tender model """
     class Options:
+        namespace = 'Tender'
+        _parent_roles = BaseTender.Options.roles
+        _all_forbidden = whitelist()
+
+        _serializable_fields = whitelist(
+            'tender_enquiryPeriod', 'complaintPeriod', 'next_check', 'tender_minValue',
+            'tender_guarantee', 'tender_minimalStepPercentage', 'tender_yearlyPaymentsPercentageRange',
+            'tender_noticePublicationDate',
+        )
+        _edit_fields = _serializable_fields + whitelist(
+            'procuringEntity', 'tenderPeriod', 'NBUdiscountRate', 'items', 'features', 'yearlyPaymentsPercentageRange',
+            'fundingKind',
+            # fields below are not covered
+            'hasEnquiries', 'numberOfBidders', 'minimalStepPercentage',
+        )
+        _read_only_fields = whitelist(
+            'awards', 'lots', 'contracts', 'auctionPeriod', 'complaints',
+            # fields below are not covered
+            'auctionUrl', 'awardPeriod', 'questions', 'cancellations', 'qualifications', 'qualificationPeriod',
+        )
+
+        _tendering_role = _parent_roles['view'] + _edit_fields + _read_only_fields
+        _view_role = _tendering_role + whitelist('bids', 'numberOfBids')
+        _pre_qualifications_role = _view_role
+
+        _esco_edit_forbidden = whitelist(
+            'minValue', 'tender_minValue', 'minimalStep', 'tender_minimalStep', 'noticePublicationDate',
+            'tender_noticePublicationDate',
+        )
+        _edit_role = _parent_roles['edit'] + _edit_fields - _esco_edit_forbidden
+
         roles = {
-            'plain': plain_role,
-            'create': create_role_eu + blacklist('minValue', 'tender_minValue', 'minimalStep',
-                                                 'tender_minimalStep', 'noticePublicationDate',
-                                                 'tender_noticePublicationDate'),
-            'edit': edit_role_eu + blacklist('minValue', 'tender_minValue', 'minimalStep',
-                                             'tender_minimalStep', 'noticePublicationDate',
-                                             'tender_noticePublicationDate'),
-            'edit_draft': edit_role_eu + blacklist('minValue', 'tender_minValue', 'minimalStep',
-                                                   'tender_minimalStep', 'noticePublicationDate',
-                                                   'tender_noticePublicationDate'),
-            'edit_active.tendering': edit_role_eu + blacklist('minValue', 'tender_minValue',
-                                                              'minimalStep', 'tender_minimalStep',
-                                                              'noticePublicationDate',
-                                                              'tender_noticePublicationDate'),
+            'create': _parent_roles['create'] + _edit_fields + whitelist('lots') - _esco_edit_forbidden,
+            'edit': _edit_role,
+            'edit_draft': _edit_role,
+            'edit_active.tendering': _edit_role,
             'edit_active.pre-qualification': whitelist('status'),
-            'edit_active.pre-qualification.stand-still': whitelist(),
-            'edit_active.auction': whitelist(),
-            'edit_active.qualification': whitelist(),
-            'edit_active.awarded': whitelist(),
-            'edit_complete': whitelist(),
-            'edit_unsuccessful': whitelist(),
-            'edit_cancelled': whitelist(),
-            'view': view_role,
-            'listing': listing_role,
-            'auction_view': auction_view_role + whitelist('NBUdiscountRate', 'minimalStepPercentage',
-                                                          'yearlyPaymentsPercentageRange',
-                                                          'fundingKind', 'procurementMethodType',
-                                                          'noticePublicationDate'),
-            'auction_post': auction_post_role,
-            'auction_patch': auction_patch_role,
-            'draft': enquiries_role,
-            'active.tendering': enquiries_role,
-            'active.pre-qualification': pre_qualifications_role,
-            'active.pre-qualification.stand-still': pre_qualifications_role,
-            'active.auction': pre_qualifications_role,
-            'active.qualification': view_role,
-            'active.awarded': view_role,
-            'complete': view_role,
-            'unsuccessful': view_role,
-            'cancelled': view_role,
-            'chronograph': chronograph_role,
-            'chronograph_view': chronograph_view_role,
-            'Administrator': Administrator_role + whitelist('yearlyPaymentsPercentageRange'),
-            'default': schematics_default_role,
-            'contracting': whitelist('doc_id', 'owner'),
+
+            'edit_active.pre-qualification.stand-still': _all_forbidden,
+            'edit_active.auction': _all_forbidden,
+            'edit_active.qualification': _all_forbidden,
+            'edit_active.awarded': _all_forbidden,
+            'edit_complete': _all_forbidden,
+            'edit_unsuccessful': _all_forbidden,
+            'edit_cancelled': _all_forbidden,
+
+            'draft': _tendering_role,
+            'active.tendering': _tendering_role,
+
+            'active.qualification': _view_role,
+            'active.awarded': _view_role,
+            'complete': _view_role,
+            'unsuccessful': _view_role,
+            'cancelled': _view_role,
+            'view': _view_role,
+
+            'active.pre-qualification': _pre_qualifications_role,
+            'active.pre-qualification.stand-still': _pre_qualifications_role,
+            'active.auction': _pre_qualifications_role,
+
+            'auction_view': _parent_roles['auction_view'] + whitelist(
+                'NBUdiscountRate', 'minimalStepPercentage', 'yearlyPaymentsPercentageRange', 'fundingKind',
+                'procurementMethodType', 'noticePublicationDate',
+            ),
+            'auction_post': _parent_roles['auction_post'],
+            'auction_patch': _parent_roles['auction_patch'],
+            'chronograph': _parent_roles['chronograph'],
+            'chronograph_view': _parent_roles['chronograph_view'],
+            'Administrator': _parent_roles['Administrator'] + whitelist('yearlyPaymentsPercentageRange'),
+
+            'plain': _parent_roles['plain'],
+            'listing': _parent_roles['listing'],
+            'contracting': _parent_roles['contracting'],
+            'default': _parent_roles['default'],
         }
 
     procurementMethodType = StringType(default="esco")

@@ -670,6 +670,7 @@ def create_tender_stage2(self, initial_lots=None, initial_data=None, features=No
         data['features'] = self.features = features
     response = self.app.post_json('/tenders', {'data': data})  # create tender
     tender = response.json['data']
+    self.assertEqual(tender['owner'], 'broker')
     status = response.json['data']['status']
     self.tender = tender
     self.tender_token = response.json['access']['token']

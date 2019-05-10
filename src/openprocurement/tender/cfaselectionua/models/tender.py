@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.roles import RolesFromCsv
 from openprocurement.tender.cfaselectionua.interfaces import ICFASelectionUATender
 from openprocurement.tender.cfaselectionua.models.submodels.agreement import Agreement
 from openprocurement.tender.cfaselectionua.models.submodels.award import Award
@@ -11,6 +10,7 @@ from openprocurement.tender.cfaselectionua.models.submodels.lot import Lot
 from openprocurement.tender.cfaselectionua.models.submodels.organizationAndPocuringEntity import ProcuringEntity
 from schematics.types import StringType, IntType, URLType, BooleanType
 from schematics.types.compound import ModelType
+from schematics.transforms import whitelist
 from zope.interface import implementer, provider
 from pyramid.security import Allow
 from openprocurement.api.models import ListType, Period, Value
@@ -32,7 +32,74 @@ class CFASelectionUATender(BaseTender):
     """
     class Options:
         namespace = 'Tender'
-        roles = RolesFromCsv('Tender.csv', relative_to=__file__)
+        _core_roles = BaseTender.Options.roles
+        _not_implemented = whitelist('mainProcurementCategory', 'milestones')
+        _base_edit = _core_roles['edit'] - _not_implemented + whitelist(
+            'procuringEntity', 'numberOfBidders', 'serializable_guarantee', 'items', 'next_check', 'tender_guarantee',
+            'numberOfBids', 'agreements', 'hasEnquiries'
+        )
+        _edit_role = _base_edit + whitelist('enquiryPeriod', 'tender_minimalStep', 'contracts', 'tenderPeriod',
+                                            'features', 'serializable_minimalStep')
+        _draft_view_role = _core_roles["view"] - _not_implemented + whitelist(
+            'tender_guarantee', 'awardPeriod', 'auctionUrl', 'auctionPeriod', 'next_check', 'procuringEntity',
+            'questions', 'complaints', 'lots', 'items', 'cancellations', 'contracts', 'agreements', 'numberOfBidders',
+            'awards', 'serializable_guarantee', 'hasEnquiries'
+        )
+        _view_tendering_role = _draft_view_role + whitelist(
+            'tender_value', 'tenderPeriod', 'features', 'enquiryPeriod', 'tender_minimalStep', 'serializable_value',
+            'serializable_minimalStep'
+        )
+        _view_role = _view_tendering_role + whitelist('bids', 'numberOfBids')
+        _procurement_method_details = whitelist('procurementMethodDetails')
+        roles = {
+            'create': _base_edit + whitelist('lots', 'procurementMethodType', 'mode'),
+            'edit_draft': _core_roles['edit_draft'] + _procurement_method_details,
+            'edit_draft.pending': whitelist('agreements', 'unsuccessfulReason') + _procurement_method_details,
+            'edit_cancelled': _procurement_method_details,
+            'edit_complete': _procurement_method_details,
+            'edit_unsuccessful': _procurement_method_details,
+            'edit_active.awarded': _procurement_method_details,
+            'edit_active.auction': _procurement_method_details,
+            'edit_active.tendering': _procurement_method_details,
+            'edit_active.qualification': _procurement_method_details,
+            'edit_active.enquiries': whitelist(
+                'description', 'description_en', 'description_ru', 'documents', 'items', 'lots',
+                'procurementMethodDetails', 'serializable_guarantee', 'tenderPeriod', 'tender_guarantee', 'title',
+                'title_en', 'title_ru'
+            ),
+            'edit': _edit_role,
+            'edit_agreement_selection': whitelist('agreements', 'procurementMethodDetails', 'status'),
+
+            'active.tendering': _view_tendering_role,
+            'active.enquiries': _view_tendering_role,
+            'active.auction': _view_tendering_role,
+
+            'draft': _draft_view_role,
+            'draft.pending': _draft_view_role + whitelist('features'),
+            'draft.unsuccessful': _draft_view_role + whitelist('features', 'unsuccessfulReason'),
+
+            'active.awarded': _view_role,
+            'unsuccessful': _view_role,
+            'cancelled': _view_role,
+            'view': _view_role,
+            'active.qualification': _view_role,
+            'complete': _view_role,
+
+            'chronograph': _core_roles['chronograph'] + _procurement_method_details,
+            'chronograph_view': _core_roles['chronograph_view'] + whitelist('agreements') + _procurement_method_details,
+            'Administrator': _core_roles['Administrator'] + _procurement_method_details,
+            'contracting': _core_roles['contracting'] + _procurement_method_details,
+
+            'auction_post': _core_roles['auction_post'] + _procurement_method_details,
+            'auction_patch': _core_roles['auction_patch'] + _procurement_method_details,
+            'auction_view': _core_roles['auction_view'] - whitelist('minimalStep') + whitelist(
+                'serializable_minimalStep') + _procurement_method_details,
+            'listing': _core_roles['listing'] + _procurement_method_details,
+
+            'embedded': _core_roles['embedded'],
+            'plain': _core_roles['plain'],
+            'default': _core_roles['default'],
+        }
 
     items = ListType(ModelType(Item), min_size=1, validators=[validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     value = ModelType(Value)  # The total estimated value of the procurement.

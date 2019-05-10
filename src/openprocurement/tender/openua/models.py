@@ -22,10 +22,7 @@ from openprocurement.api.validation import (
     validate_cpv_group, validate_items_uniq, validate_classification_id
 )
 from openprocurement.tender.core.models import (
-    view_role, create_role, edit_role,
-    auction_view_role, auction_post_role, auction_patch_role,
-    auction_role, chronograph_role, embedded_lot_role,
-    chronograph_view_role, view_bid_role, Administrator_bid_role,
+    view_bid_role, Administrator_bid_role,
     get_tender, validate_lots_uniq, bids_validation_wrapper, Lot,
     ComplaintModelType, Award as BaseAward, Parameter as BaseParameter,
     Bid as BaseBid, Complaint as BaseComplaint,
@@ -43,11 +40,7 @@ from openprocurement.tender.core.utils import (
 from openprocurement.tender.core.validation import (
     validate_LotValue_value,
 )
-from openprocurement.tender.belowthreshold.models import (
-    Tender as BaseTender,
-    enquiries_role,
-    Administrator_role
-)
+from openprocurement.tender.belowthreshold.models import Tender as BaseTender
 from openprocurement.tender.openua.utils import (
     calculate_normalized_date
 )
@@ -59,7 +52,6 @@ from openprocurement.tender.openua.constants import (
     AUCTION_PERIOD_TIME,
     PERIOD_END_REQUIRED_FROM,
 )
-edit_role_ua = edit_role + blacklist('enquiryPeriod', 'status')
 
 
 class IAboveThresholdUATender(ITender):
@@ -293,36 +285,47 @@ class Tender(BaseTender):
     """Data regarding tender process - publicly inviting prospective contractors to submit bids for evaluation and selecting a winner or winners."""
 
     class Options:
+        namespace = 'Tender'
+        _parent_roles = BaseTender.Options.roles
+
+        _edit_role = _parent_roles['edit']
+        _tendering_role = _parent_roles['active.tendering'] + whitelist('complaintPeriod')
+        _view_role = _parent_roles['view']
+        _all_forbidden = whitelist()
         roles = {
-            'plain': plain_role,
-            'create': create_role,
-            'edit': edit_role_ua,
-            'edit_draft': draft_role,
-            'edit_active.tendering': edit_role_ua,
-            'edit_active.auction': whitelist(),
-            'edit_active.qualification': whitelist(),
-            'edit_active.awarded': whitelist(),
-            'edit_complete': whitelist(),
-            'edit_unsuccessful': whitelist(),
-            'edit_cancelled': whitelist(),
-            'view': view_role,
-            'listing': listing_role,
-            'auction_view': auction_view_role,
-            'auction_post': auction_post_role,
-            'auction_patch': auction_patch_role,
-            'draft': enquiries_role,
-            'active.tendering': enquiries_role,
-            'active.auction': auction_role,
-            'active.qualification': view_role,
-            'active.awarded': view_role,
-            'complete': view_role,
-            'unsuccessful': view_role,
-            'cancelled': view_role,
-            'chronograph': chronograph_role,
-            'chronograph_view': chronograph_view_role,
-            'Administrator': Administrator_role,
-            'default': schematics_default_role,
-            'contracting': whitelist('doc_id', 'owner'),
+            'create': _parent_roles['create'],
+            'edit_draft': _parent_roles['edit_draft'],
+            'edit': _edit_role,
+            'edit_active.tendering': _edit_role,
+
+            'edit_active.auction': _all_forbidden,
+            'edit_active.qualification': _all_forbidden,
+            'edit_active.awarded': _all_forbidden,
+            'edit_complete': _all_forbidden,
+            'edit_unsuccessful': _all_forbidden,
+            'edit_cancelled': _all_forbidden,
+
+            'draft': _tendering_role,
+            'active.tendering': _tendering_role,
+            'active.auction': _tendering_role,
+
+            'view': _view_role,
+            'active.qualification': _view_role,
+            'active.awarded': _view_role,
+            'complete': _view_role,
+            'unsuccessful': _view_role,
+            'cancelled': _view_role,
+
+            'chronograph': _parent_roles['chronograph'],
+            'chronograph_view': _parent_roles['chronograph_view'],
+            'Administrator': _parent_roles['Administrator'],
+            'default': _parent_roles['default'],
+            'plain': _parent_roles['plain'],
+            'listing': _parent_roles['listing'],
+            'auction_view': _parent_roles['auction_view'],
+            'auction_post': _parent_roles['auction_post'],
+            'auction_patch': _parent_roles['auction_patch'],
+            'contracting': _parent_roles['contracting'],
         }
 
     __name__ = ''

@@ -31,10 +31,7 @@ from openprocurement.tender.core.models import (
     ComplaintModelType as BaseComplaintModelType,
     EnquiryPeriod,
     PeriodStartEndRequired,
-    create_role, edit_role, view_role,
-    auction_view_role, auction_post_role, auction_patch_role, enquiries_role,
-    auction_role, chronograph_role, chronograph_view_role, view_bid_role,
-    Administrator_bid_role, Administrator_role, schematics_default_role,
+    view_bid_role, Administrator_bid_role, schematics_default_role,
     schematics_embedded_role, embedded_lot_role, default_lot_role,
     get_tender, validate_lots_uniq,
     rounding_shouldStartAfter,
@@ -72,13 +69,6 @@ from openprocurement.tender.openeu.constants import (
     BID_UNSUCCESSFUL_FROM,
     TENDERING_DAYS
 )
-
-
-eu_role = blacklist('enquiryPeriod', 'qualifications')
-edit_role_eu = edit_role + eu_role
-create_role_eu = create_role + eu_role
-pre_qualifications_role = (blacklist('owner_token', '_attachments', 'revisions') + schematics_embedded_role)
-eu_auction_role = auction_role
 
 
 class IAboveThresholdEUTender(ITender):
@@ -528,40 +518,56 @@ class Qualification(Model):
 class Tender(BaseTender):
     """ OpenEU tender model """
     class Options:
+        namespace = 'Tender'
+        _parent_roles = BaseTender.Options.roles
+
+        _edit_role = _parent_roles['edit'] - whitelist('enquiryPeriod')
+        _read_fields = whitelist('qualifications', 'qualificationPeriod', 'complaintPeriod')
+        _tendering_role = _parent_roles['active.tendering'] + _read_fields + whitelist(
+            'tender_enquiryPeriod')
+        _view_role = _parent_roles['view'] + _read_fields
+        _pre_qualifications_role = _view_role
+
+        _all_forbidden = whitelist()
         roles = {
-            'plain': plain_role,
-            'create': create_role_eu,
-            'edit': edit_role_eu,
-            'edit_draft': edit_role_eu,
-            'edit_active.tendering': edit_role_eu,
+            'create': _parent_roles['create'] - whitelist('enquiryPeriod'),
+            'edit': _edit_role,
+            'edit_draft': _edit_role,
+            'edit_active.tendering': _edit_role,
             'edit_active.pre-qualification': whitelist('status'),
-            'edit_active.pre-qualification.stand-still': whitelist(),
-            'edit_active.auction': whitelist(),
-            'edit_active.qualification': whitelist(),
-            'edit_active.awarded': whitelist(),
-            'edit_complete': whitelist(),
-            'edit_unsuccessful': whitelist(),
-            'edit_cancelled': whitelist(),
-            'view': view_role,
-            'listing': listing_role,
-            'auction_view': auction_view_role,
-            'auction_post': auction_post_role,
-            'auction_patch': auction_patch_role,
-            'draft': enquiries_role,
-            'active.tendering': enquiries_role,
-            'active.pre-qualification': pre_qualifications_role,
-            'active.pre-qualification.stand-still': pre_qualifications_role,
-            'active.auction': pre_qualifications_role,
-            'active.qualification': view_role,
-            'active.awarded': view_role,
-            'complete': view_role,
-            'unsuccessful': view_role,
-            'cancelled': view_role,
-            'chronograph': chronograph_role,
-            'chronograph_view': chronograph_view_role,
-            'Administrator': Administrator_role,
-            'default': schematics_default_role,
-            'contracting': whitelist('doc_id', 'owner'),
+
+            'edit_active.pre-qualification.stand-still': _all_forbidden,
+            'edit_active.auction': _all_forbidden,
+            'edit_active.qualification': _all_forbidden,
+            'edit_active.awarded': _all_forbidden,
+            'edit_complete': _all_forbidden,
+            'edit_unsuccessful': _all_forbidden,
+            'edit_cancelled': _all_forbidden,
+
+            'active.pre-qualification': _pre_qualifications_role,
+            'active.pre-qualification.stand-still': _pre_qualifications_role,
+            'active.auction': _pre_qualifications_role,
+
+            'draft': _tendering_role,
+            'active.tendering': _tendering_role,
+
+            'active.qualification': _view_role,
+            'active.awarded': _view_role,
+            'complete': _view_role,
+            'unsuccessful': _view_role,
+            'cancelled': _view_role,
+            'view': _view_role,
+
+            'auction_view': _parent_roles['auction_view'],
+            'auction_post': _parent_roles['auction_post'],
+            'auction_patch': _parent_roles['auction_patch'],
+            'chronograph': _parent_roles['chronograph'],
+            'chronograph_view': _parent_roles['chronograph_view'],
+            'Administrator': _parent_roles['Administrator'],
+            'default': _parent_roles['default'],
+            'plain': _parent_roles['plain'],
+            'contracting': _parent_roles['contracting'],
+            'listing': _parent_roles['listing'],
         }
 
     procurementMethodType = StringType(default="aboveThresholdEU")
