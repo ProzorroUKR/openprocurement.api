@@ -425,7 +425,10 @@ class TenderStage2EU(BaseTenderEU):
         _all_forbidden = whitelist()
 
         roles = {
-            'create': _parent_roles['create'] + _stage2_fields + whitelist('dialogue_token', 'owner'),
+            # competitive bridge creates stage2 tenders and set owners to corresponding brokers
+            # also tenderID is set as "{stage1.tenderID}.2"
+            'create': _parent_roles['create'] + _stage2_fields - whitelist(
+                'tenderPeriod') + whitelist('dialogue_token', 'owner', 'tenderID'),
             'edit': whitelist('tenderPeriod'),
             'edit_draft': whitelist('status'),  # only bridge must change only status
             'edit_active.pre-qualification': whitelist('status'),
