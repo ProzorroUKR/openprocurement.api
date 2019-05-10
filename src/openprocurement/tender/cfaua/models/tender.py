@@ -60,10 +60,9 @@ class CloseFrameworkAgreementUA(Tender):
         )
         _edit_role = _edit_fields + whitelist('numberOfBids')
         _edit_qualification = whitelist('status') + _procurement_method_details
-        _tendering_view_role = _edit_fields + whitelist(
-            'procurementMethod', 'awardCriteria', 'auctionPeriod', 'status', 'dateModified', 'lots', 'enquiryPeriod',
-            'date', 'complaints', 'auctionUrl', 'awardPeriod', 'documents', 'qualifications', 'tenderID', 'mode',
-            'submissionMethod', 'owner', 'questions', 'cancellations', 'awards', 'procurementMethodType', 'doc_id'
+        _tendering_view_role = _core_roles["view"] + _edit_fields + whitelist(
+            'auctionPeriod',   'lots', 'enquiryPeriod', 'complaints', 'auctionUrl', 'awardPeriod', 'qualifications',
+            'questions', 'cancellations', 'awards',
         )
         _view_role = _tendering_view_role + whitelist('numberOfBids', 'bids')
         _complete_view_role = _view_role + whitelist('contractPeriod')
