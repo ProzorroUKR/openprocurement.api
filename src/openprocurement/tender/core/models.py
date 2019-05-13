@@ -555,9 +555,7 @@ class Complaint(Model):
         return super(Complaint, self).serialize(role=role, context=context)
 
     def get_role(self):
-        root = self.__parent__
-        while root.__parent__ is not None:
-            root = root.__parent__
+        root = self.get_root()
         request = root.request
         data = request.json_body['data']
         if request.authenticated_role == 'complaint_owner' and data.get('status', self.status) == 'cancelled':
@@ -833,7 +831,7 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
             "edit": _edit_role,
             "view": _create_role + whitelist(
                 'date', 'awardCriteria', 'tenderID', 'documents', 'doc_id', 'submissionMethod', 'dateModified',
-                'status', 'procurementMethod', 'owner'
+                'status', 'procurementMethod', 'owner', 'plan_id',
             ),
             'auction_view': whitelist(
                 'tenderID', 'dateModified', 'bids', 'items', 'auctionPeriod', 'minimalStep', 'auctionUrl', 'features',
@@ -877,6 +875,30 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
     funders = ListType(ModelType(Organization), validators=[validate_funders_unique, validate_funders_ids])
     mainProcurementCategory = StringType(choices=["goods", "services", "works"])
     milestones = ListType(ModelType(Milestone), validators=[validate_items_uniq, validate_milestones])
+    plan_id = MD5Type()
+
+    def validate_milestones(self, data, value):
+        if isinstance(value, list):
+            sums = defaultdict(float)
+            for milestone in value:
+                if milestone["type"] == 'financing':
+                    percentage = milestone.get("percentage")
+                    if percentage:
+                        sums[milestone.get("relatedLot")] += percentage
+
+            for uid, sum_value in sums.items():
+                if sum_value != 100:
+                    raise ValidationError(
+                        u"Sum of the financial milestone percentages {} is not equal 100{}.".format(
+                            sum_value, u" for lot {}".format(uid) if uid else ""
+                        )
+                    )
+
+    def validate_mainProcurementCategory(self, data, value):
+        validation_date = get_first_revision_date(data, default=get_now())
+        if validation_date >= MPC_REQUIRED_FROM and value is None:
+            raise ValidationError(BaseType.MESSAGES['required'])
+
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
     revisions = ListType(ModelType(Revision), default=list())
 

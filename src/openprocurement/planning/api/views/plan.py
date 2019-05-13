@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from functools import partial
 from logging import getLogger
+from cornice.util import json_error
 from openprocurement.api.utils import (
     context_unpack,
     decrypt,
@@ -9,7 +10,8 @@ from openprocurement.api.utils import (
     generate_id,
     json_view,
     set_ownership,
-    APIResourceListing
+    APIResourceListing,
+    error_handler,
 )
 from openprocurement.planning.api.design import (
     FIELDS,
@@ -32,6 +34,13 @@ from openprocurement.planning.api.validation import (
     validate_patch_plan_data,
     validate_plan_data,
 )
+from openprocurement.tender.core.validation import (
+    validate_tender_data,
+    validate_procurement_type_of_first_stage,
+    validate_tender_matches_plan,
+)
+from openprocurement.tender.core.views.tender import TendersResource
+
 
 LOGGER = getLogger(__name__)
 VIEW_MAP = {
@@ -367,3 +376,27 @@ class PlanResource(APIResource):
         LOGGER.info('Updated plan {}'.format(plan.id),
                     extra=context_unpack(self.request, {'MESSAGE_ID': 'plan_patch'}))
         return {'data': plan.serialize('view')}
+
+
+@opresource(name='Plan Tenders',
+            path='/plans/{plan_id}/tenders',
+            description="Tender creation based on a plan")
+class PlanTendersResource(TendersResource):
+
+    @json_view()
+    def get(self):
+        self.request.errors.add("request", "method", "Not implemented")
+        self.request.errors.status = 501
+        raise json_error(self.request.errors)
+
+    @json_view(
+        content_type="application/json",
+        validators=(validate_tender_data, validate_procurement_type_of_first_stage, validate_tender_matches_plan),
+        permission='create_tender_from_plan'
+    )
+    def post(self):
+        plan = self.request.validated['plan']
+        tender = self.request.validated['tender']
+        tender.plan_id = plan.id
+        result = super(PlanTendersResource, self).post()
+        return result

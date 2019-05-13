@@ -650,7 +650,7 @@ class Tender(BaseTender):
     @serializable(serialized_name="noticePublicationDate", serialize_when_none=False, type=IsoDateTimeType())
     def tender_noticePublicationDate(self):
         if not self.noticePublicationDate and self.status == 'active.tendering':
-            return self.__parent__.request.now
+            return self.get_root().request.now
         else:
             return self.noticePublicationDate
 

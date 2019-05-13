@@ -119,9 +119,7 @@ class Contract(BaseContract):
             raise ValidationError(u"Contract signature date can't be in the future")
 
     def get_role(self):
-        root = self.__parent__
-        while root.__parent__ is not None:
-            root = root.__parent__
+        root = self.get_root()
         request = root.request
         role = 'edit'
         if request.authenticated_role == 'tender_owner':
@@ -341,9 +339,7 @@ class Contract(BaseContract):
         }
 
     def get_role(self):
-        root = self.__parent__
-        while root.__parent__ is not None:
-            root = root.__parent__
+        root = self.get_root()
         request = root.request
         role = 'edit'
         if request.authenticated_role == 'tender_owner':
