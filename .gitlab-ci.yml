@@ -30,6 +30,7 @@ Build:
   stage: deploy
   script:
     - helm repo add prozorro $REPO_URL
+    - helm repo update
     - helm upgrade $CI_COMMIT_REF_SLUG --install prozorro/$HELM_CHART --namespace $HELM_NAMESPACE --set $HELM_TAG_PARAMETER=ci-$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA --wait
   dependencies:
     - Build
