@@ -104,6 +104,7 @@ class CloseFrameworkAgreementUA(Tender):
     title_en = StringType(required=True, min_length=1)
     value = ModelType(Value, required=True)  # The total estimated value of the procurement.
     agreementDuration = IsoDurationType(required=True, validators=[validate_max_agreement_duration_period])
+    mainProcurementCategory = StringType(choices=["goods", "services"])
 
     def __local_roles__(self):
         roles = dict([('{}_{}'.format(self.owner, self.owner_token), 'tender_owner')])

@@ -231,6 +231,7 @@ class Tender(BaseTenderEU):
     lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
     items = ListType(ModelType(BaseEUItem), required=True, min_size=1,
                      validators=[validate_cpv_group, validate_items_uniq])
+    mainProcurementCategory = StringType(choices=["services", "works"])
 
     class Options:
         roles = roles.copy()
@@ -297,6 +298,7 @@ class Tender(CompetitiveDialogEU):
                      validators=[validate_cpv_group, validate_items_uniq])
     procuringEntity = ModelType(BaseProcuringEntity, required=True)
     stage2TenderID = StringType(required=False)
+    mainProcurementCategory = StringType(choices=["services", "works"])
 
 
 CompetitiveDialogUA = Tender

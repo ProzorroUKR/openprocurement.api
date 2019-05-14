@@ -25,13 +25,13 @@ from openprocurement.api.models import (
     schematics_default_role, schematics_embedded_role,
 )
 from openprocurement.api.validation import validate_items_uniq
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import get_now, get_schematics_document, get_first_revision_date
 from openprocurement.api.constants import (
     SANDBOX_MODE, COORDINATES_REG_EXP,
     ADDITIONAL_CLASSIFICATIONS_SCHEMES,
     ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017,
     FUNDERS, NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
-)
+    MPC_REQUIRED_FROM)
 
 from openprocurement.tender.core.constants import (
     CANT_DELETE_PERIOD_START_DATE_FROM,
@@ -854,6 +854,11 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
                             sum_value, u" for lot {}".format(uid) if uid else ""
                         )
                     )
+
+    def validate_mainProcurementCategory(self, data, value):
+        validation_date = get_first_revision_date(data, default=get_now())
+        if validation_date >= MPC_REQUIRED_FROM and value is None:
+            raise ValidationError(BaseType.MESSAGES['required'])
 
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
     revisions = ListType(ModelType(Revision), default=list())
