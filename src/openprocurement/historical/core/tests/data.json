@@ -12,6 +12,7 @@
        "endDate": "2016-06-14T16:56:51.770223+03:00"
    },
    "submissionMethod": "electronicAuction",
+   "mainProcurementCategory": "services",
    "procuringEntity": {
        "contactPoint": {
            "url": "http://kpt.kiev.ua/",

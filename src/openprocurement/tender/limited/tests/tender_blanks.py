@@ -523,7 +523,7 @@ def create_tender_generated(self):
     tender = response.json['data']
     fields = [u'id', u'dateModified', u'tenderID', u'status', u'items',
               u'value', u'procuringEntity', u'owner', u'procurementMethod',
-              u'procurementMethodType', u'title', u'date']
+              u'procurementMethodType', u'title', u'date', u'mainProcurementCategory']
     if u'procurementMethodDetails' in self.initial_data:
         fields.append(u'procurementMethodDetails')
     if "negotiation" == self.initial_data['procurementMethodType']:

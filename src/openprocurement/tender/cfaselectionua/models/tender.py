@@ -98,3 +98,7 @@ class CFASelectionUATender(BaseTender):
         for i in self.bids:
             roles['{}_{}'.format(i.owner, i.owner_token)] = 'bid_owner'
         return roles
+
+    # Non-required mainProcurementCategory
+    def validate_mainProcurementCategory(self, data, value):
+        pass

@@ -479,6 +479,10 @@ class Tender(BaseTenderEU):
     def validate_features(self, data, features):
         validate_features_custom_weight(self, data, features, FEATURES_MAX_SUM)
 
+    # Non-required mainProcurementCategory
+    def validate_mainProcurementCategory(self, data, value):
+        pass
+
 TenderStage2EU = Tender
 
 
@@ -523,5 +527,9 @@ class Tender(BaseTenderUA):
 
     def validate_features(self, data, features):
         validate_features_custom_weight(self, data, features, FEATURES_MAX_SUM)
+
+    # Non-required mainProcurementCategory
+    def validate_mainProcurementCategory(self, data, value):
+        pass
 
 TenderStage2UA = Tender

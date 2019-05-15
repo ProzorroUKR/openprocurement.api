@@ -351,7 +351,7 @@ def create_tender_generated(self):
         set([u'procurementMethodType', u'id', u'dateModified', u'tenderID', u'status', u'enquiryPeriod',
         u'tenderPeriod', u'complaintPeriod', u'minimalStep', u'items', u'value', u'owner', u'procuringEntity',
         u'next_check', u'procurementMethod',u'awardCriteria', u'submissionMethod', u'title', u'title_en', u'date',
-        u'maxAwardsCount', u'agreementDuration', u'lots'])
+        u'maxAwardsCount', u'agreementDuration', u'lots', u'mainProcurementCategory'])
     )
     self.assertNotEqual(data['id'], tender['id'])
     self.assertNotEqual(data['doc_id'], tender['id'])
@@ -1510,3 +1510,37 @@ def tender_features_invalid(self):
     self.assertEqual(response.json['errors'], [
         {u'description': [u'Feature code should be uniq for all features'], u'location': u'body', u'name': u'features'}
     ])
+
+def tender_with_main_procurement_category(self):
+    data = dict(**self.initial_data)
+
+    # test fail creation
+    data["mainProcurementCategory"] = "whiskey,tango,foxtrot"
+    response = self.app.post_json('/tenders', {'data': data}, status=422)
+    self.assertEqual(
+        response.json['errors'],
+        [{
+            "location": "body",
+            "name": "mainProcurementCategory",
+            "description": ["Value must be one of ['goods', 'services']."]
+        }]
+    )
+
+    # test success creation
+    data["mainProcurementCategory"] = "services"
+    response = self.app.post_json('/tenders', {'data': data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertIn('mainProcurementCategory', response.json['data'])
+    self.assertEqual(response.json['data']['status'], "active.tendering")
+    self.assertEqual(response.json['data']['mainProcurementCategory'], "services")
+
+    tender = response.json['data']
+    token = response.json['access']['token']
+    self.tender_id = tender['id']
+
+    # test success update tender in active.tendering status
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token),
+                                   {'data': {'mainProcurementCategory': "goods"}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertIn('mainProcurementCategory', response.json['data'])
+    self.assertEqual(response.json['data']['mainProcurementCategory'], "goods")

@@ -80,6 +80,7 @@ now = datetime.now()
 test_tender_data = {
     "title": u"футляри до державних нагород",
     "title_en": u"Cases for state awards",
+    "mainProcurementCategory": "services",
     "procuringEntity": {
         "kind": 'general',
         "name": u"Державне управління справами",

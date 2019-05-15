@@ -8,7 +8,8 @@ import unittest
 class TestTenderMilestones(unittest.TestCase):
 
     initial_tender_data = dict(
-        title="Tal"
+        title="Tal",
+        mainProcurementCategory='services',
     )
 
     def test_validate_without_milestones(self):
@@ -181,6 +182,7 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
 
     initial_tender_data = dict(
         title="Tal",
+        mainProcurementCategory='services',
         lots=[
             {
                 "id": "a" * 32,

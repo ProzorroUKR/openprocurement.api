@@ -12,7 +12,6 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
 from openprocurement.tender.openua.tests.tender_blanks import (
     # CompetitiveDialogResourceTest
     empty_listing,
-    tender_with_main_procurement_category,
     tender_finance_milestones,
 )
 
@@ -41,8 +40,8 @@ from openprocurement.tender.competitivedialogue.tests.stage1.tender_blanks impor
     create_tender_invalid_ua,
     create_tender_generated_ua,
     patch_tender_1,
-    update_status_complete_owner_ua
-)
+    update_status_complete_owner_ua,
+    tender_with_main_procurement_category)
 
 
 class CompetitiveDialogTest(BaseCompetitiveDialogWebTest):

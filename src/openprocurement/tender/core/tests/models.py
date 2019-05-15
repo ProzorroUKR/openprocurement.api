@@ -187,10 +187,13 @@ class TestTenderMainProcurementCategory(unittest.TestCase):
         )
 
     def test_validate_empty(self):
-        tender = Tender({"title": "whatever"})
-        tender.validate()
-        data = tender.serialize("embedded")
-        self.assertNotIn("mainProcurementCategory", data)
+        with self.assertRaises(ModelValidationError) as e:
+            tender = Tender({"title": "whatever"})
+            tender.validate()
+        self.assertEqual(
+            e.exception.message,
+            {'mainProcurementCategory': [u"This field is required."]}
+        )
 
 
 def suite():

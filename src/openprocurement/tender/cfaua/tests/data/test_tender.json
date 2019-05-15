@@ -1,5 +1,6 @@
 {
     "procurementMethodType": "closeFrameworkAgreementUA",
+    "mainProcurementCategory": "goods",
     "procuringEntity": {
         "kind": "general",
         "name": "Державне управління справами",
