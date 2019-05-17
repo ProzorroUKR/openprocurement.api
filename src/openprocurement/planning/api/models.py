@@ -24,7 +24,7 @@ from openprocurement.planning.api.constants import (
 from pyramid.security import Allow
 from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist, blacklist
-from schematics.types import StringType, IntType, FloatType, BaseType
+from schematics.types import StringType, IntType, FloatType, BaseType, MD5Type
 from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
 from zope.interface import implementer, Interface
@@ -148,9 +148,9 @@ class Document(BaseDocument):
 
 # roles
 plain_role = (blacklist('_attachments', 'revisions', 'dateModified') + schematics_embedded_role)
-create_role = (blacklist('owner_token', 'owner', '_attachments', 'revisions', 'dateModified', 'datePublished', 'planID', 'doc_id', '_attachments') + schematics_embedded_role)
+create_role = (blacklist('owner_token', 'owner', '_attachments', 'revisions', 'dateModified', 'datePublished', 'planID', 'doc_id', '_attachments', 'tender_id') + schematics_embedded_role)
 edit_role = (
-    blacklist('owner_token', 'owner', '_attachments', 'revisions', 'dateModified', 'datePublished', 'doc_id', 'planID', 'mode', '_attachments') + schematics_embedded_role)
+    blacklist('owner_token', 'owner', '_attachments', 'revisions', 'dateModified', 'datePublished', 'doc_id', 'planID', 'mode', '_attachments', 'tender_id') + schematics_embedded_role)
 view_role = (blacklist('owner_token', '_attachments', 'revisions') + schematics_embedded_role)
 listing_role = whitelist('dateModified', 'doc_id')
 revision_role = whitelist('revisions')
@@ -208,7 +208,7 @@ class Plan(SchematicsDocument, Model):
     additionalClassifications = ListType(ModelType(Classification), default=list(), required=False)
 
     documents = ListType(ModelType(Document), default=list())  # All documents and attachments related to the tender.
-
+    tender_id = MD5Type()
     planID = StringType()
     mode = StringType(choices=['test'])  # flag for test data ?
     items = ListType(ModelType(PlanItem), required=False, validators=[validate_items_uniq])

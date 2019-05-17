@@ -25,3 +25,13 @@ def validate_plan_data(request):
 
 def validate_patch_plan_data(request):
     return validate_data(request, Plan, True)
+
+
+def validate_plan_has_not_tender(request):
+    plan = request.validated['plan']
+    if plan.tender_id:
+        request.errors.add(
+            "url", "id", u"This plan has already got a tender"
+        )
+        request.errors.status = 409
+        raise error_handler(request.errors)

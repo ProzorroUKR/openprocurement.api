@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from functools import partial
 from logging import getLogger
 from cornice.util import json_error
 from openprocurement.api.utils import (
@@ -33,6 +32,7 @@ from openprocurement.planning.api.utils import (
 from openprocurement.planning.api.validation import (
     validate_patch_plan_data,
     validate_plan_data,
+    validate_plan_has_not_tender,
 )
 from openprocurement.tender.core.validation import (
     validate_tender_data,
@@ -391,12 +391,20 @@ class PlanTendersResource(TendersResource):
 
     @json_view(
         content_type="application/json",
-        validators=(validate_tender_data, validate_procurement_type_of_first_stage, validate_tender_matches_plan),
+        validators=(
+            validate_plan_has_not_tender, validate_tender_data,
+            validate_procurement_type_of_first_stage, validate_tender_matches_plan
+        ),
         permission='create_tender_from_plan'
     )
     def post(self):
         plan = self.request.validated['plan']
         tender = self.request.validated['tender']
+
         tender.plan_id = plan.id
         result = super(PlanTendersResource, self).post()
+
+        plan.tender_id = tender.id
+        save_plan(self.request)
+
         return result

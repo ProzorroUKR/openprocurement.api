@@ -1,4 +1,6 @@
+# -*- coding: utf-8 -*-
 from openprocurement.planning.api.tests.base import BasePlanWebTest, test_plan_data
+from openprocurement.planning.api.constants import PROCEDURES
 from openprocurement.tender.belowthreshold.tests.base import test_tender_data as below_tender_data
 from openprocurement.tender.cfaua.tests.base import test_tender_w_lot_data as cfa_tender_data
 from openprocurement.tender.competitivedialogue.tests.base import (
@@ -94,6 +96,217 @@ def test_plan_tenders_422(app, plan):
     )
 
 
+test_below_tender_data = deepcopy(below_tender_data)
+test_below_tender_data["procuringEntity"]["identifier"] = test_plan_data["procuringEntity"]["identifier"]
+test_below_tender_data["items"] = test_below_tender_data["items"][:1]
+test_below_tender_data["items"][0]["classification"] = test_plan_data["items"][0]["classification"]
+
+
+def test_fail_identifier_id_validation(app):
+    app.authorization = ('Basic', ("broker", "broker"))
+
+    request_plan_data = deepcopy(test_plan_data)
+    request_plan_data["procuringEntity"]["identifier"]["id"] = "911"
+    response = app.post_json('/plans', {'data': request_plan_data})
+    plan = response.json
+
+    response = app.post_json(
+        '/plans/{}/tenders?acc_token={}'.format(plan["data"]["id"], plan["access"]["token"]),
+        {'data': test_below_tender_data},
+        status=422
+    )
+    errors = response.json["errors"]
+    assert len(errors) == 1
+    assert errors[0]["name"] == "procuringEntity"
+    plan_identifier = plan["data"]["procuringEntity"]["identifier"]
+    tender_identifier = test_below_tender_data["procuringEntity"]["identifier"]
+    assert errors[0]["description"] == "procuringEntity.identifier doesn't match: {} {} != {} {}".format(
+        plan_identifier["scheme"], plan_identifier["id"],
+        tender_identifier["scheme"], tender_identifier["id"],
+    )
+
+
+def test_fail_identifier_scheme_validation(app):
+    app.authorization = ('Basic', ("broker", "broker"))
+
+    request_plan_data = deepcopy(test_plan_data)
+    request_plan_data["procuringEntity"]["identifier"]["scheme"] = "AE-DCCI"
+    response = app.post_json('/plans', {'data': request_plan_data})
+    plan = response.json
+
+    response = app.post_json(
+        '/plans/{}/tenders?acc_token={}'.format(plan["data"]["id"], plan["access"]["token"]),
+        {'data': test_below_tender_data},
+        status=422
+    )
+    errors = response.json["errors"]
+    assert len(errors) == 1
+    assert errors[0]["name"] == "procuringEntity"
+    plan_identifier = plan["data"]["procuringEntity"]["identifier"]
+    tender_identifier = test_below_tender_data["procuringEntity"]["identifier"]
+    assert errors[0]["description"] == "procuringEntity.identifier doesn't match: {} {} != {} {}".format(
+        plan_identifier["scheme"], plan_identifier["id"],
+        tender_identifier["scheme"], tender_identifier["id"],
+    )
+
+
+def test_fail_procurement_method_type_validation(app):
+    app.authorization = ('Basic', ("broker", "broker"))
+
+    request_plan_data = deepcopy(test_plan_data)
+    request_plan_data["tender"]["procurementMethodType"] = "aboveThresholdUA"
+    response = app.post_json('/plans', {'data': request_plan_data})
+    plan = response.json
+
+    response = app.post_json(
+        '/plans/{}/tenders?acc_token={}'.format(plan["data"]["id"], plan["access"]["token"]),
+        {'data': test_below_tender_data},
+        status=422
+    )
+    errors = response.json["errors"]
+    assert len(errors) == 1
+    assert errors[0]["name"] == "procurementMethodType"
+    assert errors[0]["description"] == "procurementMethodType doesn't match: aboveThresholdUA != belowThreshold"
+
+
+def test_success_classification_id(app):
+    request_plan_data = deepcopy(test_plan_data)
+    request_plan_data["classification"] = {
+        "scheme": u"ДК021",
+        "description": "Antiperspirants",
+        "id": "33711120-4",
+    }
+    del request_plan_data["items"]
+
+    app.authorization = ('Basic', ("broker", "broker"))
+    response = app.post_json('/plans', {'data': request_plan_data})
+    plan = response.json
+
+    request_tender_data = deepcopy(test_below_tender_data)
+    request_tender_data["items"][0]["classification"] = {
+        "scheme": u"ДК021",
+        "description": "Make-up preparations",
+        "id": "33711200-9",
+    }
+    response = app.post_json(
+        '/plans/{}/tenders?acc_token={}'.format(plan["data"]["id"], plan["access"]["token"]),
+        {'data': request_tender_data}
+    )
+    assert response.status == '201 Created'
+
+
+def test_fail_classification_id(app):
+    request_plan_data = deepcopy(test_plan_data)
+    request_plan_data["classification"] = {
+        "scheme": u"ДК021",
+        "description": "Personal care products",
+        "id": "33700000-7",
+    }
+    del request_plan_data["items"]
+
+    app.authorization = ('Basic', ("broker", "broker"))
+    response = app.post_json('/plans', {'data': request_plan_data})
+    plan = response.json
+
+    request_tender_data = deepcopy(test_below_tender_data)
+    request_tender_data["items"][0]["classification"] = {
+        "scheme": u"ДК021",
+        "description": "Antiperspirants",
+        "id": "33711120-4",
+    }
+    response = app.post_json(
+        '/plans/{}/tenders?acc_token={}'.format(plan["data"]["id"], plan["access"]["token"]),
+        {'data': request_tender_data},
+        status=422
+    )
+    error_data = response.json["errors"]
+    assert len(error_data) > 0
+    error = error_data[0]
+    assert error['name'] == 'items[0].classification.id'
+    assert error['description'] == "Plan classification.id 33700000-7 and item's 33711120-4 " \
+                                   "should be of the same group 3370"
+
+
+def test_success_classification_id_336(app):
+    request_plan_data = deepcopy(test_plan_data)
+    request_plan_data["classification"] = {
+        "scheme": u"ДК021",
+        "description": "Insulin",
+        "id": "33615100-5",
+    }
+    del request_plan_data["items"]
+
+    app.authorization = ('Basic', ("broker", "broker"))
+    response = app.post_json('/plans', {'data': request_plan_data})
+    plan = response.json
+
+    request_tender_data = deepcopy(test_below_tender_data)
+    request_tender_data["items"] = request_tender_data["items"][:1]
+    request_tender_data["items"][0]["classification"] = {
+        "scheme": u"ДК021",
+        "description": "Medicinal products for dermatology",
+        "id": "33631000-2"
+    }
+    response = app.post_json(
+        '/plans/{}/tenders?acc_token={}'.format(plan["data"]["id"], plan["access"]["token"]),
+        {'data': request_tender_data}
+    )
+    assert response.status == '201 Created'
+
+
+def test_fail_classification_id_336(app):
+    request_plan_data = deepcopy(test_plan_data)
+    request_plan_data["classification"] = {
+        "scheme": u"ДК021",
+        "description": "Pharmaceutical products",
+        "id": "33600000-6",
+    }
+    del request_plan_data["items"]
+
+    app.authorization = ('Basic', ("broker", "broker"))
+    response = app.post_json('/plans', {'data': request_plan_data})
+    plan = response.json
+
+    request_tender_data = deepcopy(test_below_tender_data)
+    request_tender_data["items"] = request_tender_data["items"][:1]
+    request_tender_data["items"][0]["classification"] = {
+        "scheme": u"ДК021",
+        "description": "Makeup kits",
+        "id": "33711420-7",
+    }
+    response = app.post_json(
+        '/plans/{}/tenders?acc_token={}'.format(plan["data"]["id"], plan["access"]["token"]),
+        {'data': request_tender_data},
+        status=422
+    )
+    error_data = response.json["errors"]
+    assert len(error_data) > 0
+    error = error_data[0]
+    assert error['name'] == 'items[0].classification.id'
+    assert error['description'] == "Plan classification.id 33600000-6 and item's 33711420-7 " \
+                                   "should be of the same group 336"
+
+
+def create_plan_for_tender(app, data):
+    request_plan_data = deepcopy(test_plan_data)
+
+    request_plan_data["tender"]["procurementMethodType"] = data["procurementMethodType"]
+    procedure_values = {procedure: k for k, v in PROCEDURES.items() for procedure in v}
+    request_plan_data["tender"]["procurementMethod"] = procedure_values[data["procurementMethodType"]]
+
+    request_plan_data["procuringEntity"]["identifier"]["id"] = data["procuringEntity"]["identifier"]["id"]
+    request_plan_data["procuringEntity"]["identifier"]["scheme"] = data["procuringEntity"]["identifier"]["scheme"]
+
+    request_plan_data["classification"] = data["items"][0]["classification"]
+    request_plan_data["items"][0]["classification"] = request_plan_data["classification"]
+    request_plan_data["items"][1]["classification"] = request_plan_data["classification"]
+    request_plan_data["items"][2]["classification"] = request_plan_data["classification"]
+
+    app.authorization = ('Basic', ("broker", "broker"))
+    response = app.post_json('/plans', {'data': request_plan_data})
+    return response.json
+
+
 test_tenders = [
     below_tender_data,
     cfa_tender_data,
@@ -107,36 +320,13 @@ test_tenders = [
     openua_tender_data,
     defense_tender_data,
 ]
-for n, e in enumerate(test_tenders):
-    test_tenders[n] = deepcopy(e)
 
 
 @pytest.mark.parametrize("tender_request_data", test_tenders)
-def test_fail_validation_plan_tenders_creation(app, plan, tender_request_data):
+def test_success_plan_tenders_creation(app, tender_request_data):
     app.authorization = ('Basic', ("broker", "broker"))
-    response = app.post_json(
-        '/plans/{}/tenders?acc_token={}'.format(plan["data"]["id"], plan["access"]["token"]),
-        {'data': tender_request_data},
-        status=422
-    )
-    errors = response.json["errors"]
-    assert len(errors) == 1
-    assert errors[0]["name"] == "procuringEntity"
-    plan_identifier = test_plan_data["procuringEntity"]["identifier"]
-    tender_identifier = tender_request_data["procuringEntity"]["identifier"]
-    assert errors[0]["description"] == "procuringEntity.identifier doesn't match: {} {} != {} {}".format(
-        plan_identifier["scheme"], plan_identifier["id"],
-        tender_identifier["scheme"], tender_identifier["id"],
-    )
+    plan = create_plan_for_tender(app, tender_request_data)
 
-
-@pytest.mark.parametrize("tender_request_data", test_tenders)
-def test_success_plan_tenders_creation(app, plan, tender_request_data):
-    plan_identifier = test_plan_data["procuringEntity"]["identifier"]
-    tender_request_data["procuringEntity"]["identifier"]["id"] = plan_identifier["id"]
-    tender_request_data["procuringEntity"]["identifier"]["scheme"] = plan_identifier["scheme"]
-
-    app.authorization = ('Basic', ("broker", "broker"))
     response = app.post_json(
         '/plans/{}/tenders?acc_token={}'.format(plan["data"]["id"], plan["access"]["token"]),
         {'data': tender_request_data}
@@ -147,6 +337,23 @@ def test_success_plan_tenders_creation(app, plan, tender_request_data):
     assert tender_data["plan_id"] == plan["data"]["id"]
     assert tender_data["title"] == tender_request_data["title"]
     assert response.headers["Location"] == "http://localhost/api/2.5/tenders/{}".format(tender_data["id"])
+
+    # get plan
+    response = app.get('/plans/{}'.format(plan["data"]["id"]))
+    assert response.json["data"]["tender_id"] == tender_data["id"]
+
+    # add another tender
+    response = app.post_json(
+        '/plans/{}/tenders?acc_token={}'.format(plan["data"]["id"], plan["access"]["token"]),
+        {'data': tender_request_data},
+        status=409
+    )
+    error_data = response.json["errors"]
+    assert len(error_data) == 1
+    error = error_data[0]
+    assert error['location'] == 'url'
+    assert error['name'] == 'id'
+    assert error['description'] == 'This plan has already got a tender'
 
 
 @pytest.mark.parametrize("tender_request_data", test_tenders)

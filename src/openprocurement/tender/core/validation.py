@@ -634,5 +634,27 @@ def validate_tender_matches_plan(request):
                 tender_identifier.scheme, tender_identifier.id,
             )
         )
+
+    if plan.tender.procurementMethodType != tender.procurementMethodType:
+        request.errors.add(
+            "data",
+            "procurementMethodType",
+            u"procurementMethodType doesn't match: {} != {}".format(
+                plan.tender.procurementMethodType, tender.procurementMethodType,
+            )
+        )
+
+    pattern = plan.classification.id[:3] if plan.classification.id.startswith("336") else plan.classification.id[:4]
+    for i, item in enumerate(tender.items):
+        if item.classification.id[:len(pattern)] != pattern:
+            request.errors.add(
+                "data",
+                "items[{}].classification.id".format(i),
+                u"Plan classification.id {} and item's {} should be of the same group {}".format(
+                    plan.classification.id, item.classification.id, pattern
+                )
+            )
+
+    if request.errors:
         request.errors.status = 422
         raise error_handler(request.errors)
