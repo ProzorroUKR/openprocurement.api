@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from functools import wraps
-
 from openprocurement.api.constants import VAT_FROM
 from openprocurement.api.utils import (
     update_logging_context,
@@ -41,18 +39,6 @@ def validate_change_data(request):
 
 def validate_patch_change_data(request):
     return validate_data(request, Change, True)
-
-
-def validate_contract_created_from(date_from):
-    def inner_function(validator):
-        @wraps(validator)
-        def wrapper(request):
-            schematics_document = get_schematics_document(request.validated['contract'])
-            validation_date = get_first_revision_date(schematics_document, default=get_now())
-            if validation_date >= date_from:
-                validator(request)
-        return wrapper
-    return inner_function
 
 
 # changes
@@ -110,18 +96,18 @@ def validate_add_document_to_active_change(request):
 
 
 # contract value and paid
-@validate_contract_created_from(VAT_FROM)
-def validate_update_contracting_value_amount(request):
-    validate_update_contract_value_amount(request)
+def validate_update_contracting_value_amount(request, name='value'):
+    schematics_document = get_schematics_document(request.validated['contract'])
+    validation_date = get_first_revision_date(schematics_document, default=get_now())
+    validate_update_contract_value_amount(request, name=name, allow_equal=validation_date<VAT_FROM)
 
 
-@validate_contract_created_from(VAT_FROM)
 def validate_update_contracting_paid_amount(request):
     data = request.validated['data']
     value = data.get('value')
     paid = data.get('amountPaid')
     if paid:
-        validate_update_contract_value_amount(request, name='amountPaid')
+        validate_update_contracting_value_amount(request, name='amountPaid')
         for attr in ('amount', 'amountNet'):
             paid_amount = paid.get(attr)
             value_amount = value.get(attr)
