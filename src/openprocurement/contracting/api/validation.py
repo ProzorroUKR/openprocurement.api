@@ -1,8 +1,19 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import update_logging_context, error_handler, raise_operation_error
+from openprocurement.api.constants import VAT_FROM
+from openprocurement.api.utils import (
+    update_logging_context,
+    error_handler,
+    raise_operation_error,
+    get_first_revision_date,
+    get_now,
+    get_schematics_document
+)
 from openprocurement.api.validation import validate_json_data, validate_data, OPERATIONS
 from openprocurement.contracting.api.models import Contract, Change
-from openprocurement.tender.core.validation import validate_update_contract_value, validate_update_contract_value_amount
+from openprocurement.tender.core.validation import (
+    validate_update_contract_value,
+    validate_update_contract_value_amount
+)
 
 
 def validate_contract_data(request):
@@ -28,6 +39,7 @@ def validate_change_data(request):
 
 def validate_patch_change_data(request):
     return validate_data(request, Change, True)
+
 
 # changes
 def validate_contract_change_add_not_in_allowed_contract_status(request):
@@ -84,12 +96,18 @@ def validate_add_document_to_active_change(request):
 
 
 # contract value and paid
-def validate_update_contract_paid_amount(request):
+def validate_update_contracting_value_amount(request, name='value'):
+    schematics_document = get_schematics_document(request.validated['contract'])
+    validation_date = get_first_revision_date(schematics_document, default=get_now())
+    validate_update_contract_value_amount(request, name=name, allow_equal=validation_date<VAT_FROM)
+
+
+def validate_update_contracting_paid_amount(request):
     data = request.validated['data']
     value = data.get('value')
     paid = data.get('amountPaid')
     if paid:
-        validate_update_contract_value_amount(request, name='amountPaid')
+        validate_update_contracting_value_amount(request, name='amountPaid')
         for attr in ('amount', 'amountNet'):
             paid_amount = paid.get(attr)
             value_amount = value.get(attr)
@@ -98,11 +116,11 @@ def validate_update_contract_paid_amount(request):
                     request, "AmountPaid {} can`t be greater than value {}".format(attr, attr),
                     name='amountPaid')
 
-def validate_update_contract_value_readonly(request):
+def validate_update_contracting_value_readonly(request):
     validate_update_contract_value(request, name='value', attrs=('valueAddedTaxIncluded', 'currency'))
 
 
-def validate_update_contract_value_identical(request, name='amountPaid', attrs=('valueAddedTaxIncluded', 'currency')):
+def validate_update_contracting_value_identical(request, name='amountPaid', attrs=('valueAddedTaxIncluded', 'currency')):
     data = request.validated['data']
     json_data = request.validated['json_data']
     paid = json_data.get(name)

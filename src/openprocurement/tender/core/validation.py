@@ -453,7 +453,7 @@ def validate_update_contract_value(request, name='value', attrs=('currency',)):
 def validate_update_contract_value_net_required(request, name='value'):
     data = request.validated['data']
     value = data.get(name)
-    if value and has_requested_fields_changes(request, (name, 'status')):
+    if value is not None and has_requested_fields_changes(request, (name, 'status')):
         contract_amount_net = value.get('amountNet')
         if not contract_amount_net:
             raise_operation_error(
@@ -492,7 +492,7 @@ def validate_update_contract_value_with_award(request):
                     name='value')
 
 
-def validate_update_contract_value_amount(request, name='value'):
+def validate_update_contract_value_amount(request, name='value', allow_equal=False):
     data = request.validated['data']
     value = data.get(name)
     if value and has_requested_fields_changes(request, (name, 'status')):
@@ -503,10 +503,15 @@ def validate_update_contract_value_amount(request, name='value'):
         if not (amount == 0 and amount_net == 0):
             if tax_included:
                 amount_max = (amount_net * AMOUNT_NET_COEF).quantize(Decimal('1E-2'), rounding=ROUND_UP)
-                if amount <= amount_net or amount > amount_max:
+                if (amount <= amount_net or amount > amount_max) and not allow_equal:
                     raise_operation_error(
                         request,
                         'Amount should be greater than amountNet and differ by '
+                        'no more than {}%'.format(AMOUNT_NET_COEF * 100 - 100), name=name)
+                elif (amount < amount_net or amount > amount_max) and allow_equal:
+                    raise_operation_error(
+                        request,
+                        'Amount should be equal or greater than amountNet and differ by '
                         'no more than {}%'.format(AMOUNT_NET_COEF * 100 - 100), name=name)
             else:
                 if amount != amount_net:

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import mock
 from uuid import uuid4
 from copy import deepcopy
 from datetime import timedelta
@@ -640,6 +641,8 @@ def contract_items_change(self):
                                    {"data": {"items": []}}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
 
+
+@mock.patch('openprocurement.contracting.api.validation.VAT_FROM', get_now() - timedelta(days=1))
 def patch_tender_contract(self):
     response = self.app.patch_json('/contracts/{}'.format(self.contract['id']), {"data": {"title": "New Title"}}, status=403)
     self.assertEqual(response.status, '403 Forbidden')

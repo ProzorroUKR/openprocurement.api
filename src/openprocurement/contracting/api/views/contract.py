@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from functools import partial
 from openprocurement.api.utils import (
     context_unpack,
     json_view,
@@ -17,9 +16,10 @@ from openprocurement.contracting.api.validation import (
     validate_credentials_generate,
     validate_contract_update_not_in_allowed_status,
     validate_terminate_contract_without_amountPaid,
-    validate_update_contract_value_readonly,
-    validate_update_contract_value_identical,
-    validate_update_contract_paid_amount
+    validate_update_contracting_value_readonly,
+    validate_update_contracting_value_identical,
+    validate_update_contracting_paid_amount,
+    validate_update_contracting_value_amount
 )
 from openprocurement.contracting.api.design import (
     FIELDS,
@@ -31,7 +31,6 @@ from openprocurement.contracting.api.design import (
     contracts_test_by_local_seq_view,
 )
 from openprocurement.tender.core.validation import (
-    validate_update_contract_value_amount,
     validate_update_contract_value_net_required,
 )
 
@@ -106,10 +105,10 @@ class ContractResource(ContractsResource):
     @json_view(content_type="application/json", permission='edit_contract',
                validators=(validate_patch_contract_data,
                            validate_update_contract_value_net_required,
-                           validate_update_contract_value_readonly,
-                           validate_update_contract_value_identical,
-                           validate_update_contract_value_amount,
-                           validate_update_contract_paid_amount,
+                           validate_update_contracting_value_readonly,
+                           validate_update_contracting_value_identical,
+                           validate_update_contracting_value_amount,
+                           validate_update_contracting_paid_amount,
                            validate_contract_update_not_in_allowed_status))
     def patch(self):
         """Contract Edit (partial)
