@@ -51,14 +51,14 @@ def plan(app):
     return response.json
 
 
-def test_get_plan_tenders_501(app, plan):
+def test_get_plan_tenders_405(app, plan):
     app.authorization = ('Basic', ("broker", "broker"))
     response = app.get(
         '/plans/{}/tenders'.format(plan["data"]["id"]),
-        status=501
+        status=405
     )
     assert response.json == {u'status': u'error',
-                             u'errors': [{u'description': u'Not implemented',
+                             u'errors': [{u'description': u'Method not allowed',
                                           u'location': u'request',
                                           u'name': u'method'}]}
 

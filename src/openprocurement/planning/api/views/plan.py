@@ -385,8 +385,8 @@ class PlanTendersResource(TendersResource):
 
     @json_view()
     def get(self):
-        self.request.errors.add("request", "method", "Not implemented")
-        self.request.errors.status = 501
+        self.request.errors.add("request", "method", "Method not allowed")
+        self.request.errors.status = 405
         raise json_error(self.request.errors)
 
     @json_view(
