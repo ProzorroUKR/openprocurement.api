@@ -16,6 +16,7 @@ Build:
     - type werf && source <(werf ci-env gitlab --tagging-strategy tag-or-branch --verbose)
     - unset WERF_TAG_GIT_BRANCH
     - werf build-and-publish --stages-storage :local --tag-custom ci-$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA
+    - if [ $CI_COMMIT_REF_SLUG = 'master' ]; then werf publish --stages-storage :local --tag-git-branch master; fi
   only:
     - branches
   tags:
