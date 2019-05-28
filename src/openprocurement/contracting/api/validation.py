@@ -117,7 +117,13 @@ def validate_update_contracting_paid_amount(request):
                     name='amountPaid')
 
 def validate_update_contracting_value_readonly(request):
-    validate_update_contract_value(request, name='value', attrs=('valueAddedTaxIncluded', 'currency'))
+    schematics_document = get_schematics_document(request.validated['contract'])
+    validation_date = get_first_revision_date(schematics_document, default=get_now())
+    if validation_date < VAT_FROM:
+        attrs = ('currency',)
+    else:
+        attrs = ('valueAddedTaxIncluded', 'currency')
+    validate_update_contract_value(request, name='value', attrs=attrs)
 
 
 def validate_update_contracting_value_identical(request, name='amountPaid', attrs=('valueAddedTaxIncluded', 'currency')):

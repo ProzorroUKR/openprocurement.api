@@ -36,8 +36,10 @@ from openprocurement.contracting.api.tests.contract_blanks import (
     generate_credentials,
     # ContractWOItemsResource4BrokersTest
     contract_wo_items_status_change,
-    patch_tender_contract_wo_amount_net
-)
+    patch_tender_contract_wo_amount_net,
+    patch_tender_contract_identical, patch_tender_contract_readonly, patch_tender_contract_amount,
+    patch_tender_contract_amount_paid_zero, patch_tender_contract_before_vat, patch_tender_contract_readonly_before_vat,
+    patch_tender_contract_before_vat_single_request)
 from openprocurement.tender.core.tests.base import BaseWebTest
 
 
@@ -77,6 +79,13 @@ class ContractResource4BrokersTest(BaseContractWebTest):
     test_contract_status_change = snitch(contract_status_change)
     test_contract_items_change = snitch(contract_items_change)
     test_patch_tender_contract = snitch(patch_tender_contract)
+    test_patch_tender_contract_identical = snitch(patch_tender_contract_identical)
+    test_patch_tender_contract_readonly = snitch(patch_tender_contract_readonly)
+    test_patch_tender_contract_readonly_before_vat = snitch(patch_tender_contract_readonly_before_vat)
+    test_patch_tender_contract_amount = snitch(patch_tender_contract_amount)
+    test_patch_tender_contract_amount_paid_zero = snitch(patch_tender_contract_amount_paid_zero)
+    test_patch_tender_contract_before_vat = snitch(patch_tender_contract_before_vat)
+    test_patch_tender_contract_before_vat_single_request = snitch(patch_tender_contract_before_vat_single_request)
 
 
 class ContractResource4AdministratorTest(BaseContractWebTest):
