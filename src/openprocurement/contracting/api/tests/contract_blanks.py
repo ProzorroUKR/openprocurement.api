@@ -985,11 +985,12 @@ def patch_tender_contract_before_vat_single_request(self):
         '/contracts/{}?acc_token={}'.format(self.contract['id'], token),
         {"data": {
             "value": {
-                "valueAddedTaxIncluded": False,
+                "valueAddedTaxIncluded": "False",
                 "amount": 200,
                 "amountNet": 200
             },
             "amountPaid": {
+                "valueAddedTaxIncluded": "False",
                 "amount": 100,
                 "amountNet": 100
             },
