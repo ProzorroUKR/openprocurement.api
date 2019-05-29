@@ -356,6 +356,50 @@ def test_success_plan_tenders_creation(app, tender_request_data):
     assert error['description'] == 'This plan has already got a tender'
 
 
+def test_tender_creation_modified_date(app):
+    app.authorization = ('Basic', ("broker", "broker"))
+    plan = create_plan_for_tender(app, below_tender_data)
+
+    # get feed last links
+    response = app.get('/plans')
+    date_feed = response.json
+    assert len(date_feed["data"]) == 1
+    assert date_feed["data"][0]["id"] == plan["data"]["id"]
+    assert date_feed["data"][0]["dateModified"] == plan["data"]["dateModified"]
+
+    response = app.get('/plans?feed=changes')
+    change_feed = response.json
+    assert len(change_feed["data"]) == 1
+    assert change_feed["data"][0]["id"] == plan["data"]["id"]
+    assert change_feed["data"][0]["dateModified"] == plan["data"]["dateModified"]
+
+    # post tender
+    response = app.post_json(
+        '/plans/{}/tenders?acc_token={}'.format(plan["data"]["id"], plan["access"]["token"]),
+        {'data': below_tender_data}
+    )
+    assert response.status == '201 Created'
+
+    # get updated plan
+    response = app.get('/plans/{}'.format(plan["data"]["id"]))
+    updated_plan = response.json
+    assert plan["data"]["dateModified"] == updated_plan["data"]["dateModified"]
+
+    # check feeds: date feed is empty, but changes feed shows plan with the same dateModified
+    response = app.get("/" + date_feed["next_page"]["path"].split("/")[-1])
+    new_date_feed = response.json
+    assert new_date_feed != date_feed
+    assert len(new_date_feed["data"]) == 0
+    assert new_date_feed["next_page"]["offset"] == date_feed["next_page"]["offset"]
+
+    response = app.get('/plans?feed=changes&offset={}'.format(change_feed["next_page"]["offset"]))
+    new_change_feed = response.json
+    assert len(new_change_feed["data"]) == 1
+    assert new_change_feed["data"][0]["id"] == plan["data"]["id"]
+    assert new_change_feed["data"][0]["dateModified"] == plan["data"]["dateModified"]
+    assert new_change_feed["next_page"]["offset"] != change_feed["next_page"]["offset"]
+
+
 @pytest.mark.parametrize("tender_request_data", test_tenders)
 def test_fail_pass_plan_id(app, plan, tender_request_data):
     """
