@@ -10,6 +10,8 @@ from openprocurement.api.utils import (
 )
 from openprocurement.api.validation import validate_json_data, validate_data, OPERATIONS
 from openprocurement.contracting.api.models import Contract, Change
+from openprocurement.tender.core.models import ContractValue
+from openprocurement.tender.core.utils import has_requested_fields_changes
 from openprocurement.tender.core.validation import (
     validate_update_contract_value,
     validate_update_contract_value_amount
@@ -116,18 +118,21 @@ def validate_update_contracting_paid_amount(request):
                     request, "AmountPaid {} can`t be greater than value {}".format(attr, attr),
                     name='amountPaid')
 
+
 def validate_update_contracting_value_readonly(request):
-    validate_update_contract_value(request, name='value', attrs=('valueAddedTaxIncluded', 'currency'))
+    schematics_document = get_schematics_document(request.validated['contract'])
+    validation_date = get_first_revision_date(schematics_document, default=get_now())
+    readonly_attrs = ('currency',) if validation_date < VAT_FROM else ('valueAddedTaxIncluded', 'currency')
+    validate_update_contract_value(request, name='value', attrs=readonly_attrs)
 
 
-def validate_update_contracting_value_identical(request, name='amountPaid', attrs=('valueAddedTaxIncluded', 'currency')):
-    data = request.validated['data']
-    json_data = request.validated['json_data']
-    paid = json_data.get(name)
-    value = data.get('value')
-    if paid:
-        for attr in attrs:
-            if paid.get(attr) is not None and value.get(attr) != paid.get(attr):
+def validate_update_contracting_value_identical(request):
+    value = request.validated['data'].get('value')
+    paid = request.validated['json_data'].get('amountPaid')
+    if has_requested_fields_changes(request, ('amountPaid',)):
+        for attr in ('valueAddedTaxIncluded', 'currency'):
+            if paid.get(attr) is not None and value.get(attr) != ContractValue().convert(paid).get(attr):
                 raise_operation_error(
-                    request, '{} of {} should be identical to {} of value of contract'.format(attr, name, attr),
-                    name=name)
+                    request, '{} of {} should be identical to {} of value of contract'.format(
+                        attr, 'amountPaid', attr),
+                    name='amountPaid')
