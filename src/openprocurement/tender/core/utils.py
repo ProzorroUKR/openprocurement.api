@@ -264,34 +264,49 @@ def tender_from_data(request, data, raise_error=True, create=True):
     return model
 
 
-def calculate_business_date(date_obj, timedelta_obj, context=None,
-                            working_days=False):
+def get_tender_accelerator(context):
     if context and 'procurementMethodDetails' in context and context['procurementMethodDetails']:
         re_obj = ACCELERATOR_RE.search(context['procurementMethodDetails'])
         if re_obj and 'accelerator' in re_obj.groupdict():
-            return date_obj + (timedelta_obj / int(re_obj.groupdict()['accelerator']))
+            return int(re_obj.groupdict()['accelerator'])
+    return 0
+
+
+def calculate_business_date(date_obj, timedelta_obj, context=None, working_days=False):
+    accelerator = get_tender_accelerator(context)
+    if accelerator:
+        return date_obj + (timedelta_obj / accelerator)
     if working_days:
         if timedelta_obj > timedelta():
-            if date_obj.weekday() in [5, 6] and WORKING_DAYS.get(date_obj.date().isoformat(), True) or WORKING_DAYS.get(date_obj.date().isoformat(), False):
+            if is_non_working_date(date_obj):
                 date_obj = datetime.combine(date_obj.date(), time(0, tzinfo=date_obj.tzinfo)) + timedelta(1)
-                while date_obj.weekday() in [5, 6] and WORKING_DAYS.get(date_obj.date().isoformat(), True) or WORKING_DAYS.get(date_obj.date().isoformat(), False):
+                while is_non_working_date(date_obj):
                     date_obj += timedelta(1)
         else:
-            if date_obj.weekday() in [5, 6] and WORKING_DAYS.get(date_obj.date().isoformat(), True) or WORKING_DAYS.get(date_obj.date().isoformat(), False):
+            if is_non_working_date(date_obj):
                 date_obj = datetime.combine(date_obj.date(), time(0, tzinfo=date_obj.tzinfo))
-                while date_obj.weekday() in [5, 6] and WORKING_DAYS.get(date_obj.date().isoformat(), True) or WORKING_DAYS.get(date_obj.date().isoformat(), False):
+                while is_non_working_date(date_obj):
                     date_obj -= timedelta(1)
                 date_obj += timedelta(1)
         for _ in xrange(abs(timedelta_obj.days)):
             date_obj += timedelta(1) if timedelta_obj > timedelta() else -timedelta(1)
-            while date_obj.weekday() in [5, 6] and WORKING_DAYS.get(date_obj.date().isoformat(), True) or WORKING_DAYS.get(date_obj.date().isoformat(), False):
+            while is_non_working_date(date_obj):
                 date_obj += timedelta(1) if timedelta_obj > timedelta() else -timedelta(1)
         return date_obj
     return date_obj + timedelta_obj
 
+
+def is_non_working_date(date_obj):
+    return any([
+        date_obj.weekday() in [5, 6] and WORKING_DAYS.get(date_obj.date().isoformat(), True),
+        WORKING_DAYS.get(date_obj.date().isoformat(), False)
+    ])
+
+
 def has_requested_fields_changes(request, fieldnames):
     changed_fields = request.validated['json_data'].keys()
     return set(fieldnames) & set(changed_fields)
+
 
 def convert_to_decimal(value):
     """
