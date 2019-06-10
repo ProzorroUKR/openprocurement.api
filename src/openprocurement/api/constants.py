@@ -32,16 +32,16 @@ def read_json(name):
         data = lang_file.read()
     return loads(data)
 
-CPV_CODES = read_json('cpv.json')
+CPV_CODES = read_json('json/cpv.json')
 CPV_CODES.append('99999999-9')
-DK_CODES = read_json('dk021.json')
-FUNDERS = [(i['scheme'], i['id']) for i in read_json('funders.json')['data']]
+DK_CODES = read_json('json/dk021.json')
+FUNDERS = [(i['scheme'], i['id']) for i in read_json('json/funders.json')['data']]
 #DKPP_CODES = read_json('dkpp.json')
-ORA_CODES = [i['code'] for i in read_json('OrganisationRegistrationAgency.json')['data']]
-WORKING_DAYS = read_json('working_days.json')
+ORA_CODES = [i['code'] for i in read_json('json/OrganisationRegistrationAgency.json')['data']]
+WORKING_DAYS = read_json('json/working_days.json')
 
-ATC_CODES = read_json('atc.json')
-INN_CODES = read_json('inn.json')
+ATC_CODES = read_json('json/atc.json')
+INN_CODES = read_json('json/inn.json')
 
 ADDITIONAL_CLASSIFICATIONS_SCHEMES = [u'ДКПП', u'NONE', u'ДК003', u'ДК015', u'ДК018']
 ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017 = [u'ДК003', u'ДК015', u'ДК018', u'specialNorms']
