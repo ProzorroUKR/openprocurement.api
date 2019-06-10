@@ -229,7 +229,6 @@ class Plan(SchematicsDocument, Model):
         acl = [
             (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_plan'),
             (Allow, '{}_{}'.format(self.owner, self.owner_token), 'upload_plan_documents'),
-            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'create_tender_from_plan'),
         ]
         return acl
 
