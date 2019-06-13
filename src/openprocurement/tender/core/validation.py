@@ -4,8 +4,8 @@ from decimal import Decimal, ROUND_UP
 from schematics.types import BaseType
 
 from openprocurement.api.validation import validate_data, validate_json_data, OPERATIONS
-from openprocurement.api.constants import SANDBOX_MODE
-from openprocurement.api.utils import get_now  # move
+from openprocurement.api.constants import SANDBOX_MODE, COST_SCHEME, COST_CPV_PREFIXES
+from openprocurement.api.utils import get_now, is_cost_classification  # move
 from openprocurement.api.utils import update_logging_context, error_handler, raise_operation_error, check_document_batch # XXX tender context
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF
 from openprocurement.tender.core.utils import calculate_business_date, has_requested_fields_changes, convert_to_decimal
@@ -546,3 +546,21 @@ def validate_contract_signing(request):
 def is_positive_float(value):
     if value <= 0:
         raise ValidationError(u"Float value should be greater than 0.")
+
+
+def validate_cost(classification_id, additional_classifications):
+    cost_count = sum([1 for i in additional_classifications if i['scheme'] == COST_SCHEME])
+    if is_cost_classification(classification_id):
+        if cost_count > 1:
+            raise ValidationError(
+                u"Item shouldn't have more than 1 additionalClassification "
+                u"with scheme {} for cpv starts with {}".format(
+                    COST_SCHEME, ', '.join(COST_CPV_PREFIXES)
+                ))
+    else:
+        if cost_count > 0:
+            raise ValidationError(
+                u"Item shouldn't have additionalClassification with scheme {} "
+                u"for cpv not starts with {}".format(
+                    COST_SCHEME, ', '.join(COST_CPV_PREFIXES)
+                ))

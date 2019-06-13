@@ -1,14 +1,19 @@
 # -*- coding: utf-8 -*-
+import copy
+import mock
 import unittest
 from decimal import Decimal
 
-import mock
+from pyramid.httpexceptions import HTTPError
+from schematics.exceptions import ModelValidationError
 
 from openprocurement.tender.core.validation import (
     validate_update_contract_value_with_award,
     validate_update_contract_value,
-    validate_update_contract_value_amount)
-from pyramid.httpexceptions import HTTPError
+    validate_update_contract_value_amount
+)
+from openprocurement.tender.belowthreshold.models import Tender
+from openprocurement.tender.belowthreshold.tests.base import test_tender_data
 
 
 def generate_contract_value_patch_request_mock(contract_value, award_value=None):
@@ -208,3 +213,76 @@ class TestValidateUpdateContractValueAmount(unittest.TestCase):
         except HTTPError:
             self.fail("validate_update_contract_value_amount() raised HTTPError unexpectedly")
 
+
+class TestTenderAdditionalClassificationCOST(unittest.TestCase):
+
+    valid_cost = {
+        u"scheme": u"CoST",
+        u"id": u"М-06",
+        u"description": u"Київ - Чоп (на м. Будапешт через мм. Львів, Мукачево і Ужгород)",
+    }
+
+    def setUp(self):
+        self.test_tender = copy.deepcopy(test_tender_data)
+
+    def test_validate_without_cost(self):
+        tender = Tender(self.test_tender)
+        tender.validate()
+
+    def test_with_invalid_cpv(self):
+        self.test_tender["items"][0]["additionalClassifications"].append(self.valid_cost)
+        tender = Tender(self.test_tender)
+        with self.assertRaises(ModelValidationError) as e:
+            tender.validate()
+        error_message = e.exception.message['items'][0]['additionalClassifications'][0]
+        self.assertIn(
+            u"Item shouldn't have additionalClassification with scheme CoST for cpv not starts with",
+            error_message
+        )
+
+    def test_cost_with_valid_cpv(self):
+        self.test_tender["items"][0]["classification"]["id"] = "71322200-3"
+        self.test_tender["items"][0]["additionalClassifications"].append(self.valid_cost)
+        tender = Tender(self.test_tender)
+        tender.validate()
+
+    def test_invalid_cost_id(self):
+        self.test_tender["items"][0]["classification"]["id"] = "71322200-3"
+        self.test_tender["items"][0]["additionalClassifications"].append({
+            u"scheme": u"CoST",
+            u"id": u"some invalid id",
+            u"description": u"Київ - Чоп (на м. Будапешт через мм. Львів, Мукачево і Ужгород)",
+        })
+        tender = Tender(self.test_tender)
+        with self.assertRaises(ModelValidationError) as e:
+            tender.validate()
+        error_message = e.exception.message['items'][0]['additionalClassifications'][0]['id'][0]
+        self.assertEqual(error_message, 'CoST id not found in standards')
+
+    def test_invalid_cost_description(self):
+        self.test_tender["items"][0]["classification"]["id"] = "71322200-3"
+        self.test_tender["items"][0]["additionalClassifications"].append({
+            u"scheme": u"CoST",
+            u"id": u"М-06",
+            u"description": u"Some invalid description",
+        })
+        tender = Tender(self.test_tender)
+        with self.assertRaises(ModelValidationError) as e:
+            tender.validate()
+        error_message = e.exception.message['items'][0]['additionalClassifications'][0]['description'][0]
+        self.assertEqual(u"CoST description invalid", error_message)
+
+    def test_more_than_one_cost(self):
+        self.test_tender["items"][0]["classification"]["id"] = "71322200-3"
+        self.test_tender["items"][0]["additionalClassifications"].extend([self.valid_cost, self.valid_cost])
+        tender = Tender(self.test_tender)
+        with self.assertRaises(ModelValidationError) as e:
+            tender.validate()
+        error_message = e.exception.message['items'][0]['additionalClassifications'][0]
+        self.assertIn("Item shouldn't have more than 1 additionalClassification", error_message)
+
+    def test_required_id_description(self):
+        self.test_tender["items"][0]["classification"]["id"] = "71322200-3"
+        self.test_tender["items"][0]["additionalClassifications"].append(self.valid_cost)
+        tender = Tender(self.test_tender)
+        tender.validate()

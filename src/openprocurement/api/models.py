@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import re
 from datetime import datetime, timedelta
 from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
 from iso8601 import parse_date, ParseError
@@ -12,7 +11,6 @@ from hashlib import algorithms, new as hash_new
 from couchdb_schematics.document import SchematicsDocument
 from schematics.exceptions import ConversionError, ValidationError
 from schematics.models import Model as SchematicsModel
-from schematics.models import ModelMeta
 from schematics.transforms import whitelist, blacklist, export_loop, convert
 from schematics.types import (StringType, FloatType, URLType, BooleanType,
                               BaseType, EmailType, MD5Type, DecimalType as BaseDecimalType)
@@ -24,7 +22,7 @@ from openprocurement.api.utils import get_now, set_parent, get_schematics_docume
 from openprocurement.api.constants import (
     CPV_CODES, ORA_CODES, TZ, DK_CODES, CPV_BLOCK_FROM,
     SCALE_CODES, ORGANIZATION_SCALE_FROM,
-)
+    COST_SCHEME, COST)
 
 schematics_default_role = SchematicsDocument.Options.roles['default'] + blacklist("__parent__")
 schematics_embedded_role = SchematicsDocument.Options.roles['embedded'] + blacklist("__parent__")
@@ -383,7 +381,13 @@ class CPVClassification(Classification):
 
 
 class AdditionalClassification(Classification):
-    pass
+    def validate_id(self, data, value):
+        if data['scheme'] == COST_SCHEME and value not in COST:
+            raise ValidationError('{} id not found in standards'.format(COST_SCHEME))
+
+    def validate_description(self, data, value):
+        if data['scheme'] == COST_SCHEME and COST.get(data['id']) != value:
+            raise ValidationError('{} description invalid'.format(COST_SCHEME))
 
 
 class Unit(Model):

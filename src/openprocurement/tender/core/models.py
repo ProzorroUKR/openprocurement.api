@@ -43,7 +43,7 @@ from openprocurement.tender.core.utils import (
     calc_auction_end_time, rounding_shouldStartAfter
 )
 from openprocurement.tender.core.validation import (
-    validate_LotValue_value, is_positive_float
+    validate_LotValue_value, is_positive_float, validate_cost
 )
 
 create_role = (blacklist('owner_token', 'owner', 'contracts', '_attachments', 'revisions', 'date', 'dateModified', 'doc_id', 'tenderID', 'bids', 'documents', 'awards', 'questions', 'complaints', 'auctionUrl', 'status', 'auctionPeriod', 'awardPeriod', 'procurementMethod', 'awardCriteria', 'submissionMethod', 'cancellations') + schematics_embedded_role)
@@ -250,11 +250,13 @@ class Item(BaseItem):
     """A good, service, or work to be contracted."""
     classification = ModelType(CPVClassification, required=True)
     deliveryLocation = ModelType(Location)
+
     def validate_additionalClassifications(self, data, items):
         tender = get_tender(data['__parent__'])
         tender_date = tender.get('revisions')[0].date if tender.get('revisions') else get_now()
         tender_from_2017 = tender_date > CPV_ITEMS_CLASS_FROM
-        not_cpv = data['classification']['id'] == '99999999-9'
+        classification_id = data['classification']['id']
+        not_cpv = classification_id == '99999999-9'
         required = tender_date < NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM and not_cpv
         if not items and (not tender_from_2017 or tender_from_2017 and not_cpv and required):
             raise ValidationError(u'This field is required.')
@@ -262,6 +264,8 @@ class Item(BaseItem):
             raise ValidationError(u"One of additional classifications should be one of [{0}].".format(', '.join(ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017)))
         elif not tender_from_2017 and items and not any([i.scheme in ADDITIONAL_CLASSIFICATIONS_SCHEMES for i in items]):
             raise ValidationError(u"One of additional classifications should be one of [{0}].".format(', '.join(ADDITIONAL_CLASSIFICATIONS_SCHEMES)))
+        validate_cost(classification_id, items)
+
 
     def validate_relatedLot(self, data, relatedLot):
         if relatedLot and isinstance(data['__parent__'], Model) and relatedLot not in [i.id for i in get_tender(data['__parent__']).lots]:

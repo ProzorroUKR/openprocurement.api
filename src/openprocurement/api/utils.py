@@ -30,7 +30,8 @@ from openprocurement.api.events import ErrorDesctiptorEvent
 from openprocurement.api.constants import LOGGER, JOURNAL_PREFIX
 from openprocurement.api.constants import (
     ADDITIONAL_CLASSIFICATIONS_SCHEMES, DOCUMENT_BLACKLISTED_FIELDS,
-    DOCUMENT_WHITELISTED_FIELDS, ROUTE_PREFIX, TZ, SESSION
+    DOCUMENT_WHITELISTED_FIELDS, ROUTE_PREFIX, TZ, SESSION,
+    GMDN_CPV_PREFIXES, COST_CPV_PREFIXES
 )
 from openprocurement.api.interfaces import IOPContent
 from openprocurement.api.interfaces import IContentConfigurator
@@ -595,3 +596,11 @@ def couchdb_json_decode():
 def get_first_revision_date(schematics_document, default=None):
     revisions = schematics_document.get('revisions')
     return revisions[0].date if revisions else default
+
+
+def is_cost_classification(classification_id):
+    return classification_id[:4] in COST_CPV_PREFIXES
+
+
+def is_gmdn_classification(classification_id):
+    return classification_id[:4] in GMDN_CPV_PREFIXES

@@ -36,9 +36,12 @@ CPV_CODES = read_json('json/cpv.json')
 CPV_CODES.append('99999999-9')
 DK_CODES = read_json('json/dk021.json')
 FUNDERS = [(i['scheme'], i['id']) for i in read_json('json/funders.json')['data']]
-#DKPP_CODES = read_json('dkpp.json')
 ORA_CODES = [i['code'] for i in read_json('json/OrganisationRegistrationAgency.json')['data']]
 WORKING_DAYS = read_json('json/working_days.json')
+GMDN = read_json('json/gmdn.json')
+GMDN_CPV_PREFIXES = read_json('json/gmdn_cpv_prefixes.json')
+COST = read_json('json/cost.json')
+COST_CPV_PREFIXES = read_json('json/cost_cpv_prefixes.json')
 
 ATC_CODES = read_json('json/atc.json')
 INN_CODES = read_json('json/inn.json')
@@ -46,7 +49,10 @@ INN_CODES = read_json('json/inn.json')
 ADDITIONAL_CLASSIFICATIONS_SCHEMES = [u'ДКПП', u'NONE', u'ДК003', u'ДК015', u'ДК018']
 ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017 = [u'ДК003', u'ДК015', u'ДК018', u'specialNorms']
 
-ADDITIONAL_CLASSIFICATIONS_INN_SCHEME = 'INN'
+INN_SCHEME = 'INN'
+ATC_SCHEME = 'ATC'
+GMDN_SCHEME = 'GMDN'
+COST_SCHEME = 'CoST'
 
 CPV_PHARM_PRODUCTS = '33600000-6'
 
