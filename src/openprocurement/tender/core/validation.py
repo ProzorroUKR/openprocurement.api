@@ -4,8 +4,12 @@ from decimal import Decimal, ROUND_UP
 from schematics.types import BaseType
 
 from openprocurement.api.validation import validate_data, validate_json_data, OPERATIONS
-from openprocurement.api.constants import SANDBOX_MODE, COST_SCHEME, COST_CPV_PREFIXES
-from openprocurement.api.utils import get_now, is_cost_classification  # move
+from openprocurement.api.constants import (
+    SANDBOX_MODE, COST_SCHEME, COST_CPV_PREFIXES,
+    GMDN_SCHEME, ATC_SCHEME,
+    INN_SCHEME, GMDN_CPV_PREFIXES
+)
+from openprocurement.api.utils import get_now, is_cost_classification, is_gmdn_classification  # move
 from openprocurement.api.utils import update_logging_context, error_handler, raise_operation_error, check_document_batch # XXX tender context
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF
 from openprocurement.tender.core.utils import calculate_business_date, has_requested_fields_changes, convert_to_decimal
@@ -553,14 +557,30 @@ def validate_cost(classification_id, additional_classifications):
     if is_cost_classification(classification_id):
         if cost_count > 1:
             raise ValidationError(
-                u"Item shouldn't have more than 1 additionalClassification "
-                u"with scheme {} for cpv starts with {}".format(
-                    COST_SCHEME, ', '.join(COST_CPV_PREFIXES)
-                ))
-    else:
-        if cost_count > 0:
+                u"Item shouldn't have more than 1 additionalClassification with scheme {}".format(COST_SCHEME))
+    elif cost_count != 0:
+        raise ValidationError(
+            u"Item shouldn't have additionalClassification with scheme {} "
+            u"for cpv not starts with {}".format(
+                COST_SCHEME, ', '.join(COST_CPV_PREFIXES)
+            ))
+
+
+def validate_gmdn(classification_id, additional_classifications):
+    gmdn_count = sum([1 for i in additional_classifications if i['scheme'] == GMDN_SCHEME])
+    if is_gmdn_classification(classification_id):
+        inn_anc_count = sum([1 for i in additional_classifications if i['scheme'] in [INN_SCHEME, ATC_SCHEME]])
+        if 0 not in [inn_anc_count, gmdn_count]:
             raise ValidationError(
-                u"Item shouldn't have additionalClassification with scheme {} "
-                u"for cpv not starts with {}".format(
-                    COST_SCHEME, ', '.join(COST_CPV_PREFIXES)
+                u"Item shouldn't have additionalClassifications with both schemes {}/{} and {}".format(
+                    INN_SCHEME, ATC_SCHEME, GMDN_SCHEME
                 ))
+        if gmdn_count > 1:
+            raise ValidationError(
+                u"Item shouldn't have more than 1 additionalClassification with scheme {}".format(GMDN_SCHEME))
+    elif gmdn_count != 0:
+        raise ValidationError(
+            u"Item shouldn't have additionalClassification with scheme {} "
+            u"for cpv not starts with {}".format(
+                GMDN_SCHEME, ', '.join(GMDN_CPV_PREFIXES)
+            ))
