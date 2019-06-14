@@ -32,19 +32,19 @@ def read_json(name):
         data = lang_file.read()
     return loads(data)
 
-CPV_CODES = read_json('json/cpv.json')
+CPV_CODES = read_json('data/cpv.json')
 CPV_CODES.append('99999999-9')
-DK_CODES = read_json('json/dk021.json')
-FUNDERS = [(i['scheme'], i['id']) for i in read_json('json/funders.json')['data']]
-ORA_CODES = [i['code'] for i in read_json('json/OrganisationRegistrationAgency.json')['data']]
-WORKING_DAYS = read_json('json/working_days.json')
-GMDN = {k: v['name_uk'] for k, v in read_json('json/gmdn.json').items()}
-GMDN_CPV_PREFIXES = read_json('json/gmdn_cpv_prefixes.json')
-COST = read_json('json/cost.json')
-COST_CPV_PREFIXES = read_json('json/cost_cpv_prefixes.json')
+DK_CODES = read_json('data/dk021.json')
+FUNDERS = [(i['scheme'], i['id']) for i in read_json('data/funders.json')['data']]
+ORA_CODES = [i['code'] for i in read_json('data/OrganisationRegistrationAgency.json')['data']]
+WORKING_DAYS = read_json('data/working_days.json')
+GMDN = {k: v['name_uk'] for k, v in read_json('data/gmdn.json').items()}
+GMDN_CPV_PREFIXES = read_json('data/gmdn_cpv_prefixes.json')
+COST = read_json('data/cost.json')
+COST_CPV_PREFIXES = read_json('data/cost_cpv_prefixes.json')
 
-ATC_CODES = read_json('json/atc.json')
-INN_CODES = read_json('json/inn.json')
+ATC_CODES = read_json('data/atc.json')
+INN_CODES = read_json('data/inn.json')
 
 ADDITIONAL_CLASSIFICATIONS_SCHEMES = [u'ДКПП', u'NONE', u'ДК003', u'ДК015', u'ДК018']
 ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017 = [u'ДК003', u'ДК015', u'ДК018', u'specialNorms']
