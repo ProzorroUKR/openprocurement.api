@@ -33,6 +33,7 @@ from openprocurement.planning.api.validation import (
     validate_patch_plan_data,
     validate_plan_data,
     validate_plan_has_not_tender,
+    validate_plan_with_tender,
 )
 from openprocurement.tender.core.validation import (
     validate_tender_data,
@@ -330,7 +331,9 @@ class PlanResource(APIResource):
         plan_data = plan.serialize('view')
         return {'data': plan_data}
 
-    @json_view(content_type="application/json", validators=(validate_patch_plan_data,), permission='edit_plan')
+    @json_view(content_type="application/json",
+               validators=(validate_patch_plan_data, validate_plan_with_tender),
+               permission='edit_plan')
     def patch(self):
         """Plan Edit (partial)
 

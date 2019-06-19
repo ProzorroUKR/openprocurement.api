@@ -102,6 +102,54 @@ test_below_tender_data["items"] = test_below_tender_data["items"][:1]
 test_below_tender_data["items"][0]["classification"] = test_plan_data["items"][0]["classification"]
 
 
+def test_fail_identifier_id_validation(app):
+    app.authorization = ('Basic', ("broker", "broker"))
+
+    request_plan_data = deepcopy(test_plan_data)
+    request_plan_data["procuringEntity"]["identifier"]["id"] = "911"
+    response = app.post_json('/plans', {'data': request_plan_data})
+    plan = response.json
+
+    response = app.post_json(
+        '/plans/{}/tenders?acc_token={}'.format(plan["data"]["id"], plan["access"]["token"]),
+        {'data': test_below_tender_data},
+        status=422
+    )
+    errors = response.json["errors"]
+    assert len(errors) == 1
+    assert errors[0]["name"] == "procuringEntity"
+    plan_identifier = plan["data"]["procuringEntity"]["identifier"]
+    tender_identifier = test_below_tender_data["procuringEntity"]["identifier"]
+    assert errors[0]["description"] == "procuringEntity.identifier doesn't match: {} {} != {} {}".format(
+        plan_identifier["scheme"], plan_identifier["id"],
+        tender_identifier["scheme"], tender_identifier["id"],
+    )
+
+
+def test_fail_identifier_scheme_validation(app):
+    app.authorization = ('Basic', ("broker", "broker"))
+
+    request_plan_data = deepcopy(test_plan_data)
+    request_plan_data["procuringEntity"]["identifier"]["scheme"] = "AE-DCCI"
+    response = app.post_json('/plans', {'data': request_plan_data})
+    plan = response.json
+
+    response = app.post_json(
+        '/plans/{}/tenders?acc_token={}'.format(plan["data"]["id"], plan["access"]["token"]),
+        {'data': test_below_tender_data},
+        status=422
+    )
+    errors = response.json["errors"]
+    assert len(errors) == 1
+    assert errors[0]["name"] == "procuringEntity"
+    plan_identifier = plan["data"]["procuringEntity"]["identifier"]
+    tender_identifier = test_below_tender_data["procuringEntity"]["identifier"]
+    assert errors[0]["description"] == "procuringEntity.identifier doesn't match: {} {} != {} {}".format(
+        plan_identifier["scheme"], plan_identifier["id"],
+        tender_identifier["scheme"], tender_identifier["id"],
+    )
+
+
 def test_fail_procurement_method_type_validation(app):
     app.authorization = ('Basic', ("broker", "broker"))
 
@@ -306,6 +354,79 @@ def test_success_plan_tenders_creation(app, tender_request_data):
     assert error['location'] == 'url'
     assert error['name'] == 'id'
     assert error['description'] == 'This plan has already got a tender'
+
+
+def test_validations_before_and_after_tender(app):
+    app.authorization = ('Basic', ("broker", "broker"))
+    tender_data = deepcopy(below_tender_data)
+    plan = create_plan_for_tender(app, tender_data)
+
+    # changing procuringEntity
+    pe_change = {
+        "identifier": {
+            "scheme": u"UA-EDR",
+            "id": u"111983",
+            "legalName": u"ДП Державне Управління Справами"
+        },
+        "name": u"ДУС"
+    }
+    response = app.patch_json(
+        '/plans/{}?acc_token={}'.format(plan["data"]["id"], plan["access"]["token"]),
+        {'data': {
+            'procuringEntity': pe_change
+        }},
+    )
+    assert response.status == '200 OK'
+
+    # adding tender
+    tender_data["procuringEntity"]["identifier"]["id"] = pe_change["identifier"]["id"]
+    tender_data["procuringEntity"]["identifier"]["scheme"] = pe_change["identifier"]["scheme"]
+    response = app.post_json(
+        '/plans/{}/tenders'.format(plan["data"]["id"]),
+        {'data': tender_data}
+    )
+    assert response.status == '201 Created'
+
+    # try to change procuringEntity
+    response = app.patch_json(
+        '/plans/{}?acc_token={}'.format(plan["data"]["id"], plan["access"]["token"]),
+        {'data': {
+            'procuringEntity': {
+                "identifier": {
+                    "scheme": u"UA-EDR",
+                    "id": u"111983",
+                    "legalName": u"ДП Державне Управління Справами"
+                },
+                "name": u"ДУС"
+            }
+        }},
+        status=422
+    )
+    assert response.json == {u'status': u'error', u'errors': [
+        {u'description': u'Changing this field is not allowed after tender creation',
+         u'location': u'data', u'name': u'procuringEntity'}
+    ]}
+
+    # try to change anything except procuringEntity
+    response = app.patch_json(
+        '/plans/{}?acc_token={}'.format(plan["data"]["id"], plan["access"]["token"]),
+        {'data': {
+            'procurementMethodType': 'whatever',
+            'items': [
+                {"classification": {
+                    "scheme": u"ДК021",
+                    "description": "Antiperspirants",
+                    "id": "33711120-4",
+                }}
+            ],
+            'classification': {
+                "scheme": u"ДК021",
+                "description": "Antiperspirants",
+                "id": "33711120-4",
+            }
+        }}
+    )
+    assert response.status == '200 OK'
 
 
 def test_tender_creation_modified_date(app):

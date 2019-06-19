@@ -32,6 +32,11 @@ from openprocurement.planning.api.tests.plan_blanks import (
     # PlanResourceBeforeBudgetPeriodTest
     create_plan_budget_year,
     patch_plan_budget_year,
+    # Plan Buyers
+    create_plan_without_buyers,
+    fail_create_plan_without_buyers,
+    create_plan_with_buyers,
+    create_plan_with_two_buyers,
 )
 
 test_plan_data_mode_test = test_plan_data.copy()
@@ -40,6 +45,7 @@ test_plan_data_mode_test["mode"] = "test"
 test_data_with_year = deepcopy(test_plan_data)
 test_data_with_year['budget']['year'] = 2018
 del test_data_with_year['budget']['period']
+
 
 class PlanTest(BaseWebTest):
     initial_data = test_plan_data
@@ -81,6 +87,17 @@ class PlanResourceBeforeBudgetPeriodTest(BaseWebTest):
 
     test_create_plan_budget_year = snitch(create_plan_budget_year)
     test_patch_plan_budget_year = snitch(patch_plan_budget_year)
+
+
+@mock.patch('openprocurement.planning.api.models.PLAN_BUYERS_REQUIRED_FROM', get_now() + timedelta(days=1))
+class PlanBuyersTestCase(BaseWebTest):
+    initial_data = test_plan_data
+
+    test_create_plan_without_buyers = snitch(create_plan_without_buyers)
+    test_fail_create_plan_without_buyers = snitch(fail_create_plan_without_buyers)
+    test_create_plan_with_buyers = snitch(create_plan_with_buyers)
+    test_create_plan_with_two_buyers = snitch(create_plan_with_two_buyers)
+
 
 def suite():
     suite = unittest.TestSuite()

@@ -13,10 +13,13 @@ from openprocurement.api.models import Document as BaseDocument
 from openprocurement.api.models import Model, Period, Revision
 from openprocurement.api.models import Unit, CPVClassification, Classification, Identifier
 from openprocurement.api.models import schematics_embedded_role, schematics_default_role, IsoDateTimeType, ListType
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import get_now, get_first_revision_date
 from openprocurement.api.validation import validate_cpv_group, validate_items_uniq
-from openprocurement.api.constants import CPV_ITEMS_CLASS_FROM, ADDITIONAL_CLASSIFICATIONS_SCHEMES, \
-    ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017, NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM
+from openprocurement.api.constants import (
+    CPV_ITEMS_CLASS_FROM, ADDITIONAL_CLASSIFICATIONS_SCHEMES,
+    ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017, NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
+    PLAN_BUYERS_REQUIRED_FROM,
+)
 from openprocurement.planning.api.constants import (
     PROCEDURES,
     MULTI_YEAR_BUDGET_PROCEDURES,
@@ -212,6 +215,7 @@ class Plan(SchematicsDocument, Model):
     planID = StringType()
     mode = StringType(choices=['test'])  # flag for test data ?
     items = ListType(ModelType(PlanItem), required=False, validators=[validate_items_uniq])
+    buyers = ListType(ModelType(PlanOrganization, required=True), min_size=1, max_size=1)
 
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
     dateModified = IsoDateTimeType()
@@ -250,6 +254,11 @@ class Plan(SchematicsDocument, Model):
     def validate_budget(self, data, budget):
         if not budget and data['tender']['procurementMethodType'] != 'esco':
             raise ValidationError(u"This field is required.")
+
+    def validate_buyers(self, data, value):
+        validation_date = get_first_revision_date(data, default=get_now())
+        if validation_date >= PLAN_BUYERS_REQUIRED_FROM and not value:
+            raise ValidationError(BaseType.MESSAGES['required'])
 
     def import_data(self, raw_data, **kw):
         """

@@ -623,6 +623,18 @@ def validate_tender_matches_plan(request):
     plan = request.validated['plan']
     tender = request.validated['tender']
 
+    plan_identifier = plan.procuringEntity.identifier
+    tender_identifier = tender.procuringEntity.identifier
+    if plan_identifier.id != tender_identifier.id or plan_identifier.scheme != tender_identifier.scheme:
+        request.errors.add(
+            "data",
+            "procuringEntity",
+            u"procuringEntity.identifier doesn't match: {} {} != {} {}".format(
+                plan_identifier.scheme, plan_identifier.id,
+                tender_identifier.scheme, tender_identifier.id,
+            )
+        )
+
     if plan.tender.procurementMethodType != tender.procurementMethodType:
         request.errors.add(
             "data",
