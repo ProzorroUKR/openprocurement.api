@@ -608,7 +608,7 @@ def create_plan_generated(self):
     self.assertEqual(response.content_type, 'application/json')
     plan = response.json['data']
     self.assertEqual(set(plan), set([
-        u'id', u'dateModified', u'datePublished', u'planID', u'budget', u'tender',
+        u'id', u'dateModified', u'datePublished', u'planID', u'budget', u'tender', u'buyers',
         u'classification', u'additionalClassifications', u'items', u'procuringEntity', u'owner'
     ]))
     self.assertNotEqual(data['id'], plan['id'])
@@ -975,6 +975,7 @@ def create_plan_without_buyers(self):
 def fail_create_plan_without_buyers(self):
     with mock.patch('openprocurement.planning.api.models.PLAN_BUYERS_REQUIRED_FROM', get_now() - timedelta(seconds=1)):
         data = deepcopy(self.initial_data)
+        del data["buyers"]
         response = self.app.post_json('/plans', {"data": data}, status=422)
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(
