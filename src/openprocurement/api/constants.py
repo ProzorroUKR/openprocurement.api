@@ -40,8 +40,8 @@ ORA_CODES = [i['code'] for i in read_json('data/OrganisationRegistrationAgency.j
 WORKING_DAYS = read_json('data/working_days.json')
 GMDN = {k: v['name_uk'] for k, v in read_json('data/gmdn.json').items()}
 GMDN_CPV_PREFIXES = read_json('data/gmdn_cpv_prefixes.json')
-COST = read_json('data/cost.json')
-COST_CPV_PREFIXES = read_json('data/cost_cpv_prefixes.json')
+UA_ROAD = read_json('data/ua_road.json')
+UA_ROAD_CPV_PREFIXES = read_json('data/ua_road_cpv_prefixes.json')
 
 ATC_CODES = read_json('data/atc.json')
 INN_CODES = read_json('data/inn.json')
@@ -52,7 +52,7 @@ ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017 = [u'ДК003', u'ДК015', u'ДК018', u
 INN_SCHEME = 'INN'
 ATC_SCHEME = 'ATC'
 GMDN_SCHEME = 'GMDN'
-COST_SCHEME = 'CoST'
+UA_ROAD_SCHEME = 'UA-ROAD'
 
 CPV_PHARM_PRODUCTS = '33600000-6'
 

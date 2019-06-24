@@ -5,11 +5,11 @@ from schematics.types import BaseType
 
 from openprocurement.api.validation import validate_data, validate_json_data, OPERATIONS
 from openprocurement.api.constants import (
-    SANDBOX_MODE, COST_SCHEME, COST_CPV_PREFIXES,
+    SANDBOX_MODE, UA_ROAD_SCHEME, UA_ROAD_CPV_PREFIXES,
     GMDN_SCHEME, ATC_SCHEME,
     INN_SCHEME, GMDN_CPV_PREFIXES
 )
-from openprocurement.api.utils import get_now, is_cost_classification, is_gmdn_classification  # move
+from openprocurement.api.utils import get_now, is_ua_road_classification, is_gmdn_classification  # move
 from openprocurement.api.utils import update_logging_context, error_handler, raise_operation_error, check_document_batch # XXX tender context
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF
 from openprocurement.tender.core.utils import calculate_business_date, has_requested_fields_changes, convert_to_decimal
@@ -552,17 +552,17 @@ def is_positive_float(value):
         raise ValidationError(u"Float value should be greater than 0.")
 
 
-def validate_cost(classification_id, additional_classifications):
-    cost_count = sum([1 for i in additional_classifications if i['scheme'] == COST_SCHEME])
-    if is_cost_classification(classification_id):
-        if cost_count > 1:
+def validate_ua_road(classification_id, additional_classifications):
+    road_count = sum([1 for i in additional_classifications if i['scheme'] == UA_ROAD_SCHEME])
+    if is_ua_road_classification(classification_id):
+        if road_count > 1:
             raise ValidationError(
-                u"Item shouldn't have more than 1 additionalClassification with scheme {}".format(COST_SCHEME))
-    elif cost_count != 0:
+                u"Item shouldn't have more than 1 additionalClassification with scheme {}".format(UA_ROAD_SCHEME))
+    elif road_count != 0:
         raise ValidationError(
             u"Item shouldn't have additionalClassification with scheme {} "
             u"for cpv not starts with {}".format(
-                COST_SCHEME, ', '.join(COST_CPV_PREFIXES)
+                UA_ROAD_SCHEME, ', '.join(UA_ROAD_CPV_PREFIXES)
             ))
 
 

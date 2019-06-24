@@ -22,7 +22,7 @@ from openprocurement.api.utils import get_now, set_parent, get_schematics_docume
 from openprocurement.api.constants import (
     CPV_CODES, ORA_CODES, TZ, DK_CODES, CPV_BLOCK_FROM,
     SCALE_CODES, ORGANIZATION_SCALE_FROM,
-    COST_SCHEME, COST, GMDN_SCHEME, GMDN)
+    UA_ROAD_SCHEME, UA_ROAD, GMDN_SCHEME, GMDN)
 
 schematics_default_role = SchematicsDocument.Options.roles['default'] + blacklist("__parent__")
 schematics_embedded_role = SchematicsDocument.Options.roles['embedded'] + blacklist("__parent__")
@@ -382,14 +382,14 @@ class CPVClassification(Classification):
 
 class AdditionalClassification(Classification):
     def validate_id(self, data, value):
-        if data['scheme'] == COST_SCHEME and value not in COST:
-            raise ValidationError('{} id not found in standards'.format(COST_SCHEME))
+        if data['scheme'] == UA_ROAD_SCHEME and value not in UA_ROAD:
+            raise ValidationError('{} id not found in standards'.format(UA_ROAD_SCHEME))
         if data['scheme'] == GMDN_SCHEME and value not in GMDN:
             raise ValidationError('{} id not found in standards'.format(GMDN_SCHEME))
 
     def validate_description(self, data, value):
-        if data['scheme'] == COST_SCHEME and COST.get(data['id']) != value:
-            raise ValidationError('{} description invalid'.format(COST_SCHEME))
+        if data['scheme'] == UA_ROAD_SCHEME and UA_ROAD.get(data['id']) != value:
+            raise ValidationError('{} description invalid'.format(UA_ROAD_SCHEME))
         if data['scheme'] == GMDN_SCHEME and GMDN.get(data['id']) != value:
             raise ValidationError('{} description invalid'.format(GMDN_SCHEME))
 

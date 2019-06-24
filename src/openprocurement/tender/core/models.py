@@ -43,7 +43,7 @@ from openprocurement.tender.core.utils import (
     calc_auction_end_time, rounding_shouldStartAfter
 )
 from openprocurement.tender.core.validation import (
-    validate_LotValue_value, is_positive_float, validate_cost,
+    validate_LotValue_value, is_positive_float, validate_ua_road,
     validate_gmdn)
 
 create_role = (blacklist('owner_token', 'owner', 'contracts', '_attachments', 'revisions', 'date', 'dateModified', 'doc_id', 'tenderID', 'bids', 'documents', 'awards', 'questions', 'complaints', 'auctionUrl', 'status', 'auctionPeriod', 'awardPeriod', 'procurementMethod', 'awardCriteria', 'submissionMethod', 'cancellations') + schematics_embedded_role)
@@ -264,7 +264,7 @@ class Item(BaseItem):
             raise ValidationError(u"One of additional classifications should be one of [{0}].".format(', '.join(ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017)))
         elif not tender_from_2017 and items and not any([i.scheme in ADDITIONAL_CLASSIFICATIONS_SCHEMES for i in items]):
             raise ValidationError(u"One of additional classifications should be one of [{0}].".format(', '.join(ADDITIONAL_CLASSIFICATIONS_SCHEMES)))
-        validate_cost(classification_id, items)
+        validate_ua_road(classification_id, items)
         validate_gmdn(classification_id, items)
 
 

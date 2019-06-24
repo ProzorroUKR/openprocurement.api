@@ -214,10 +214,10 @@ class TestValidateUpdateContractValueAmount(unittest.TestCase):
             self.fail("validate_update_contract_value_amount() raised HTTPError unexpectedly")
 
 
-class TestTenderAdditionalClassificationCOST(unittest.TestCase):
+class TestTenderAdditionalClassificationUAROAD(unittest.TestCase):
 
-    valid_cost = {
-        u"scheme": u"CoST",
+    valid_ua_road = {
+        u"scheme": u"UA-ROAD",
         u"id": u"М-06",
         u"description": u"Київ - Чоп (на м. Будапешт через мм. Львів, Мукачево і Ужгород)",
     }
@@ -226,26 +226,26 @@ class TestTenderAdditionalClassificationCOST(unittest.TestCase):
         self.test_tender = copy.deepcopy(test_tender_data)
 
     def test_with_invalid_cpv(self):
-        self.test_tender["items"][0]["additionalClassifications"].append(self.valid_cost)
+        self.test_tender["items"][0]["additionalClassifications"].append(self.valid_ua_road)
         tender = Tender(self.test_tender)
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
         error_message = e.exception.message['items'][0]['additionalClassifications'][0]
         self.assertIn(
-            u"Item shouldn't have additionalClassification with scheme CoST for cpv not starts with",
+            u"Item shouldn't have additionalClassification with scheme UA-ROAD for cpv not starts with",
             error_message
         )
 
     def test_valid(self):
         self.test_tender["items"][0]["classification"]["id"] = "71322200-3"
-        self.test_tender["items"][0]["additionalClassifications"].append(self.valid_cost)
+        self.test_tender["items"][0]["additionalClassifications"].append(self.valid_ua_road)
         tender = Tender(self.test_tender)
         tender.validate()
 
     def test_invalid_id(self):
         self.test_tender["items"][0]["classification"]["id"] = "71322200-3"
         self.test_tender["items"][0]["additionalClassifications"].append({
-            u"scheme": u"CoST",
+            u"scheme": u"UA-ROAD",
             u"id": u"some invalid id",
             u"description": u"Київ - Чоп (на м. Будапешт через мм. Львів, Мукачево і Ужгород)",
         })
@@ -253,12 +253,12 @@ class TestTenderAdditionalClassificationCOST(unittest.TestCase):
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
         error_message = e.exception.message['items'][0]['additionalClassifications'][0]['id'][0]
-        self.assertEqual(error_message, 'CoST id not found in standards')
+        self.assertEqual(error_message, 'UA-ROAD id not found in standards')
 
     def test_invalid_description(self):
         self.test_tender["items"][0]["classification"]["id"] = "71322200-3"
         self.test_tender["items"][0]["additionalClassifications"].append({
-            u"scheme": u"CoST",
+            u"scheme": u"UA-ROAD",
             u"id": u"М-06",
             u"description": u"Some invalid description",
         })
@@ -266,11 +266,11 @@ class TestTenderAdditionalClassificationCOST(unittest.TestCase):
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
         error_message = e.exception.message['items'][0]['additionalClassifications'][0]['description'][0]
-        self.assertEqual(u"CoST description invalid", error_message)
+        self.assertEqual(u"UA-ROAD description invalid", error_message)
 
-    def test_more_than_one_cost(self):
+    def test_more_than_one_ua_road(self):
         self.test_tender["items"][0]["classification"]["id"] = "71322200-3"
-        self.test_tender["items"][0]["additionalClassifications"] = [self.valid_cost, self.valid_cost]
+        self.test_tender["items"][0]["additionalClassifications"] = [self.valid_ua_road, self.valid_ua_road]
         tender = Tender(self.test_tender)
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
@@ -279,7 +279,7 @@ class TestTenderAdditionalClassificationCOST(unittest.TestCase):
 
     def test_required_id_description(self):
         self.test_tender["items"][0]["classification"]["id"] = "71322200-3"
-        self.test_tender["items"][0]["additionalClassifications"] = [{'scheme': 'CoST'}]
+        self.test_tender["items"][0]["additionalClassifications"] = [{'scheme': 'UA-ROAD'}]
         tender = Tender(self.test_tender)
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
