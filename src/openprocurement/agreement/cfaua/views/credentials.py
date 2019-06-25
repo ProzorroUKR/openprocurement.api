@@ -28,14 +28,12 @@ class AgreementCredentialsResource(APIResource):
     def patch(self):
         agreement = self.request.validated['agreement']
 
-        set_ownership(agreement, self.request)
+        access = set_ownership(agreement, self.request)
         if save_agreement(self.request):
             self.LOGGER.info(
                 'Generate Agreement credentials {}'.format(agreement.id),
                 extra=context_unpack(self.request, {'MESSAGE_ID': 'agreement_patch'}))
             return {
                 'data': agreement.serialize("view"),
-                'access': {
-                    'token': agreement.owner_token
-                }
+                'access': access
             }

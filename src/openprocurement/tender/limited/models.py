@@ -252,9 +252,11 @@ class ReportingTender(BaseTender):
     mode = StringType(choices=['test'])
     cancellations = ListType(ModelType(Cancellation, required=True), default=list())
 
-    create_accreditation = '13'
-    edit_accreditation = 2
+    create_accreditations = (1, 3)
+    edit_accreditations = (2,)
+
     procuring_entity_kinds = ['general', 'special', 'defense', 'other']
+
     block_complaint_status = OpenUATender.block_complaint_status
 
     __parent__ = None
@@ -366,9 +368,12 @@ class NegotiationTender(ReportingTender):
     causeDescription_en = StringType(min_length=1)
     causeDescription_ru = StringType(min_length=1)
     procurementMethodType = StringType(default="negotiation")
-    create_accreditation = 3
-    edit_accreditation = 4
+
+    create_accreditations = (3,)
+    edit_accreditations = (4,)
+
     procuring_entity_kinds = ['general', 'special', 'defense']
+
     lots = ListType(ModelType(Lot, required=True), default=list(), validators=[validate_lots_uniq])
 
     # Required milestones
@@ -389,6 +394,8 @@ class NegotiationQuickTender(NegotiationTender):
     cause = StringType(choices=['quick', 'artContestIP', 'noCompetition', 'twiceUnsuccessful',
                                 'additionalPurchase', 'additionalConstruction', 'stateLegalServices'], required=False)
     procurementMethodType = StringType(default="negotiation.quick")
-    create_accreditation = 3
-    edit_accreditation = 4
+
+    create_accreditations = (3,)
+    edit_accreditations = (4,)
+
     procuring_entity_kinds = ['general', 'special', 'defense']

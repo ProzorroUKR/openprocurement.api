@@ -16,7 +16,7 @@ class TenderReportingConfigurator(TenderConfigurator):
     allowed_statuses_for_complaint_operations_for_roles = STATUS4ROLE
 
     @property
-    def edit_accreditation(self):
+    def edit_accreditations(self):
         raise NotImplementedError
 
 
@@ -30,7 +30,7 @@ class TenderNegotiationConfigurator(TenderConfigurator):
     allowed_statuses_for_complaint_operations_for_roles = STATUS4ROLE
 
     @property
-    def edit_accreditation(self):
+    def edit_accreditations(self):
         raise NotImplementedError
 
 

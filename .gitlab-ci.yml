@@ -113,6 +113,13 @@ Stop review:
       --tx=popen//id=prod//env:DB_NAME=test_prod//env:SANDBOX_MODE=
   coverage: '/TOTAL\s+\d+\s+\d+\s+(\d+%)/'
 
+test_relocation_api:
+  extends: .test
+  variables:
+    TESTS_PATH: src/openprocurement/relocation/api/tests
+    COV_PATH: src/openprocurement/relocation/api
+    COV_FILE: .coveragerc
+
 test_tender_esco:
   extends: .test
   variables:

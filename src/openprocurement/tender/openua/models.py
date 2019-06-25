@@ -353,8 +353,9 @@ class Tender(BaseTender):
                      validators=[validate_cpv_group, validate_items_uniq, validate_classification_id])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     cancellations = ListType(ModelType(Cancellation, required=True), default=list())
 
-    create_accreditation = 3
-    edit_accreditation = 4
+    create_accreditations = (3,)
+    edit_accreditations = (4,)
+
     procuring_entity_kinds = ['general', 'special', 'defense']
     block_tender_complaint_status = ['claim', 'pending', 'accepted', 'satisfied', 'stopping']
     block_complaint_status = ['pending', 'accepted', 'satisfied', 'stopping']

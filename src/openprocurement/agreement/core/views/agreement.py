@@ -30,7 +30,7 @@ class APIAgreementsResource(AgreementsResource):
     )
     def post(self):
         agreement = self.request.validated['agreement']
-        set_ownership(agreement, self.request)  # rewrite as subscriber?
+        access = set_ownership(agreement, self.request)
         self.request.validated['agreement'] = agreement
         self.request.validated['agreement_src'] = {}
         if save_agreement(self.request):
@@ -50,7 +50,5 @@ class APIAgreementsResource(AgreementsResource):
             )
             return {
                 'data': agreement.serialize("view"),
-                'access': {
-                    'token': agreement.owner_token
-                }
+                'access': access
             }

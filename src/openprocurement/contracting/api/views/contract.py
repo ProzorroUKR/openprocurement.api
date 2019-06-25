@@ -77,7 +77,6 @@ class ContractsResource(APIResourceListing):
             doc.__parent__ = contract
             contract.documents.append(doc)
 
-        # set_ownership(contract, self.request) TODO
         self.request.validated['contract'] = contract
         self.request.validated['contract_src'] = {}
         if save_contract(self.request):
@@ -137,13 +136,11 @@ class ContractCredentialsResource(APIResource):
     def patch(self):
         contract = self.request.validated['contract']
 
-        set_ownership(contract, self.request)
+        access = set_ownership(contract, self.request)
         if save_contract(self.request):
             self.LOGGER.info('Generate Contract credentials {}'.format(contract.id),
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'contract_patch'}))
             return {
                 'data': contract.serialize("view"),
-                'access': {
-                    'token': contract.owner_token
-                }
+                'access': access
             }

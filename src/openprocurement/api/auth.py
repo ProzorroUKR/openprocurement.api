@@ -122,3 +122,7 @@ def authenticated_role(request):
 
 def check_accreditation(request, level):
     return "a:{}".format(level) in request.effective_principals
+
+
+def check_accreditations(request, levels):
+    return any([check_accreditation(request, level) for level in levels])

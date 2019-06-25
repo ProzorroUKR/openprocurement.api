@@ -112,11 +112,13 @@ class CloseFrameworkAgreementUA(Tender):
             'default': _core_roles['default'],
         }
 
-    create_accreditation = 3
-    edit_accreditation = 4
+    create_accreditations = (3,)
+    edit_accreditations = (4,)
+
     procuring_entity_kinds = ['general', 'special', 'defense']
     block_tender_complaint_status = ['claim', 'pending', 'accepted', 'satisfied', 'stopping']
     block_complaint_status = ['pending', 'accepted', 'satisfied', 'stopping']
+
     auctionPeriod = ModelType(TenderAuctionPeriod, default={})
     auctionUrl = URLType()
     awards = ListType(ModelType(Award, required=True), default=list())

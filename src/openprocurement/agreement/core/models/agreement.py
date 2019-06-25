@@ -37,6 +37,7 @@ class Agreement(OpenprocurementSchematicsDocument, Model):
     tender_token = StringType(required=True)
     tender_id = StringType(required=True)
     owner_token = StringType(default=lambda: uuid4().hex)
+    transfer_token = StringType(default=lambda: uuid4().hex)
     owner = StringType()
     mode = StringType(choices=['test'])
 

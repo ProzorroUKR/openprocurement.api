@@ -51,7 +51,7 @@ from openprocurement.tender.core.validation import (
 )
 
 
-view_bid_role = (blacklist('owner_token', 'owner') + schematics_default_role)
+view_bid_role = (blacklist('owner_token', 'owner', 'transfer_token') + schematics_default_role)
 Administrator_bid_role = whitelist('tenderers')
 
 default_lot_role = (blacklist('numberOfBids') + schematics_default_role)
@@ -383,6 +383,7 @@ class Bid(Model):
     documents = ListType(ModelType(Document, required=True), default=list())
     participationUrl = URLType()
     owner_token = StringType()
+    transfer_token = StringType()
     owner = StringType()
 
     __name__ = ''
@@ -533,6 +534,7 @@ class Complaint(Model):
     documents = ListType(ModelType(Document, required=True), default=list())
     type = StringType(choices=['claim', 'complaint'], default='claim')  # 'complaint' if status in ['pending'] or 'claim' if status in ['draft', 'claim', 'answered']
     owner_token = StringType()
+    transfer_token = StringType()
     owner = StringType()
     relatedLot = MD5Type()
     # complainant
@@ -883,6 +885,7 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
     tenderID = StringType()  # TenderID should always be the same as the OCID. It is included to make the flattened data structure more convenient.
     owner = StringType()
     owner_token = StringType()
+    transfer_token = StringType()
     mode = StringType(choices=['test'])
     procurementMethodRationale = StringType()  # Justification of procurement method, especially in the case of Limited tendering.
     procurementMethodRationale_en = StringType()
@@ -964,8 +967,8 @@ class Tender(BaseTender):
     eligibilityCriteria_ru = StringType()
     status = StringType(choices=['draft', 'active.enquiries', 'active.tendering', 'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.enquiries')
 
-    create_accreditation = 1
-    edit_accreditation = 2
+    create_accreditations = (1,)
+    edit_accreditations = (2,)
 
     __name__ = ''
 

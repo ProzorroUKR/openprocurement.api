@@ -14,7 +14,7 @@ import simplejson
 from libnacl.sign import Signer, Verifier
 from libnacl.public import SecretKey, PublicKey
 from logging import getLogger
-from openprocurement.api.auth import AuthenticationPolicy, authenticated_role, check_accreditation
+from openprocurement.api.auth import AuthenticationPolicy, authenticated_role, check_accreditations
 from openprocurement.api.database import set_api_security
 from openprocurement.api.utils import forbidden, request_params, couchdb_json_decode
 from openprocurement.api.constants import ROUTE_PREFIX
@@ -40,7 +40,7 @@ def main(global_config, **settings):
     config.add_forbidden_view(forbidden)
     config.add_request_method(request_params, 'params', reify=True)
     config.add_request_method(authenticated_role, reify=True)
-    config.add_request_method(check_accreditation)
+    config.add_request_method(check_accreditations)
     config.add_renderer('json', JSON(serializer=simplejson.dumps))
     config.add_renderer('prettyjson', JSON(indent=4, serializer=simplejson.dumps))
     config.add_renderer('jsonp', JSONP(param_name='opt_jsonp', serializer=simplejson.dumps))

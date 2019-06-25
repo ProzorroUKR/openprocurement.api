@@ -197,7 +197,7 @@ class ValidationAgreementTest(BaseAgreementTest):
         request = MagicMock()
         data = deepcopy(TEST_AGREEMENT)
         model = MagicMock()
-        request.check_accreditation.side_effect = [False, True]
+        request.check_accreditations.side_effect = [False, True]
         mocked_validation_json_data.side_effect = [data, data]
         request.agreement_from_data.side_effect = [model, model]
         with self.assertRaises(Exception) as e:

@@ -122,7 +122,7 @@ class TenderUABidResource(TenderBidResource):
         if bid.status not in self.allowed_bid_status_on_create:
             raise_operation_error(self.request, 'Bid can be added only with status: {}.'.format(self.allowed_bid_status_on_create))
         tender.modified = False
-        set_ownership(bid, self.request)
+        access = set_ownership(bid, self.request)
         tender.bids.append(bid)
         if save_tender(self.request):
             self.LOGGER.info('Created tender bid {}'.format(bid.id),
@@ -131,9 +131,7 @@ class TenderUABidResource(TenderBidResource):
             self.request.response.headers['Location'] = self.request.route_url('{}:Tender Bids'.format(tender.procurementMethodType), tender_id=tender.id, bid_id=bid['id'])
             return {
                 'data': bid.serialize('view'),
-                'access': {
-                    'token': bid.owner_token
-                }
+                'access': access
             }
 
     @json_view(content_type="application/json", permission='edit_bid', validators=(validate_patch_bid_data, validate_bid_operation_not_in_tendering, validate_bid_operation_period,

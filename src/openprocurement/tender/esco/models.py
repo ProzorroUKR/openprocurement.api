@@ -470,10 +470,12 @@ class Tender(BaseTender):
                                                 precision=-5)
     noticePublicationDate = IsoDateTimeType()
 
-    create_accreditation = 3
-    edit_accreditation = 4
+    create_accreditations = (3, )
+    edit_accreditations = (4, )
+
     special_fields = ['fundingKind', 'yearlyPaymentsPercentageRange']
     procuring_entity_kinds = ['general', 'special', 'defense']
+
     block_tender_complaint_status = OpenUATender.block_tender_complaint_status
     block_complaint_status = OpenUATender.block_complaint_status
 
