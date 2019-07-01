@@ -37,6 +37,38 @@ del test_author["scale"]
 test_procuringEntity = test_author.copy()
 test_procuringEntity["kind"] = "general"
 
+test_item = {
+    "description": u"футляри до державних нагород",
+    "classification": {
+        "scheme": u"ДК021",
+        "id": u"44617100-9",
+        "description": u"Cartons"
+    },
+    "additionalClassifications": [
+        {
+            "scheme": u"ДКПП",
+            "id": u"17.21.1",
+            "description": u"папір і картон гофровані, паперова й картонна тара"
+        }
+    ],
+    "unit": {
+        "name": u"item",
+        "code": u"44617100-9"
+    },
+    "quantity": 5,
+    "deliveryDate": {
+        "startDate": (now + timedelta(days=2)).isoformat(),
+        "endDate": (now + timedelta(days=5)).isoformat()
+    },
+    "deliveryAddress": {
+        "countryName": u"Україна",
+        "postalCode": "79000",
+        "region": u"м. Київ",
+        "locality": u"м. Київ",
+        "streetAddress": u"вул. Банкова 1"
+    }
+}
+
 test_tender_data = {
     "title": u"футляри до державних нагород",
     "procuringEntity": test_procuringEntity,
@@ -49,37 +81,7 @@ test_tender_data = {
         "currency": u"UAH"
     },
     "items": [
-        {
-            "description": u"футляри до державних нагород",
-            "classification": {
-                "scheme": u"ДК021",
-                "id": u"44617100-9",
-                "description": u"Cartons"
-            },
-            "additionalClassifications": [
-                {
-                    "scheme": u"ДКПП",
-                    "id": u"17.21.1",
-                    "description": u"папір і картон гофровані, паперова й картонна тара"
-                }
-            ],
-            "unit": {
-                "name": u"item",
-                "code": u"44617100-9"
-            },
-            "quantity": 5,
-            "deliveryDate": {
-                "startDate": (now + timedelta(days=2)).isoformat(),
-                "endDate": (now + timedelta(days=5)).isoformat()
-            },
-            "deliveryAddress": {
-                "countryName": u"Україна",
-                "postalCode": "79000",
-                "region": u"м. Київ",
-                "locality": u"м. Київ",
-                "streetAddress": u"вул. Банкова 1"
-            }
-        }
+        deepcopy(test_item)
     ],
     "enquiryPeriod": {
         "endDate": (now + timedelta(days=7)).isoformat()

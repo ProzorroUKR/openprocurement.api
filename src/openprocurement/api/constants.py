@@ -32,21 +32,27 @@ def read_json(name):
         data = lang_file.read()
     return loads(data)
 
-CPV_CODES = read_json('cpv.json')
+CPV_CODES = read_json('data/cpv.json')
 CPV_CODES.append('99999999-9')
-DK_CODES = read_json('dk021.json')
-FUNDERS = [(i['scheme'], i['id']) for i in read_json('funders.json')['data']]
-#DKPP_CODES = read_json('dkpp.json')
-ORA_CODES = [i['code'] for i in read_json('OrganisationRegistrationAgency.json')['data']]
-WORKING_DAYS = read_json('working_days.json')
+DK_CODES = read_json('data/dk021.json')
+FUNDERS = [(i['scheme'], i['id']) for i in read_json('data/funders.json')['data']]
+ORA_CODES = [i['code'] for i in read_json('data/OrganisationRegistrationAgency.json')['data']]
+WORKING_DAYS = read_json('data/working_days.json')
+GMDN = {k: v['name_uk'] for k, v in read_json('data/gmdn.json').items()}
+GMDN_CPV_PREFIXES = read_json('data/gmdn_cpv_prefixes.json')
+UA_ROAD = read_json('data/ua_road.json')
+UA_ROAD_CPV_PREFIXES = read_json('data/ua_road_cpv_prefixes.json')
 
-ATC_CODES = read_json('atc.json')
-INN_CODES = read_json('inn.json')
+ATC_CODES = read_json('data/atc.json')
+INN_CODES = read_json('data/inn.json')
 
 ADDITIONAL_CLASSIFICATIONS_SCHEMES = [u'ДКПП', u'NONE', u'ДК003', u'ДК015', u'ДК018']
 ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017 = [u'ДК003', u'ДК015', u'ДК018', u'specialNorms']
 
-ADDITIONAL_CLASSIFICATIONS_INN_SCHEME = 'INN'
+INN_SCHEME = 'INN'
+ATC_SCHEME = 'ATC'
+GMDN_SCHEME = 'GMDN'
+UA_ROAD_SCHEME = 'UA-ROAD'
 
 CPV_PHARM_PRODUCTS = '33600000-6'
 

@@ -4,7 +4,7 @@ from schematics.exceptions import (
 )
 
 from openprocurement.api.constants import (
-    ADDITIONAL_CLASSIFICATIONS_INN_SCHEME, CPV_PHARM_PRODUCTS, CPV_336_INN_FROM
+    INN_SCHEME, CPV_PHARM_PRODUCTS, CPV_336_INN_FROM
 )
 from openprocurement.api.utils import (
     apply_data_patch, update_logging_context, error_handler, get_now,
@@ -121,13 +121,13 @@ def validate_classification_id(items, *args):
     for item in items:
         if get_first_revision_date(get_root(item['__parent__']), default=get_now()) > CPV_336_INN_FROM:
             schemes = [x.scheme for x in item.additionalClassifications]
-            schemes_inn_count = schemes.count(ADDITIONAL_CLASSIFICATIONS_INN_SCHEME)
+            schemes_inn_count = schemes.count(INN_SCHEME)
             if item.classification.id == CPV_PHARM_PRODUCTS and schemes_inn_count != 1:
                 raise ValidationError(
                     u"Item with classification.id={} have to contain exactly one additionalClassifications "
-                    u"with scheme={}".format(CPV_PHARM_PRODUCTS, ADDITIONAL_CLASSIFICATIONS_INN_SCHEME))
+                    u"with scheme={}".format(CPV_PHARM_PRODUCTS, INN_SCHEME))
             if item.classification.id.startswith(CPV_PHARM_PRODUCTS[:3]) and schemes_inn_count > 1:
                 raise ValidationError(
                     u"Item with classification.id that starts with {} and contains additionalClassification "
                     u"objects have to contain no more than one additionalClassifications "
-                    u"with scheme={}".format(CPV_PHARM_PRODUCTS[:3], ADDITIONAL_CLASSIFICATIONS_INN_SCHEME))
+                    u"with scheme={}".format(CPV_PHARM_PRODUCTS[:3], INN_SCHEME))
