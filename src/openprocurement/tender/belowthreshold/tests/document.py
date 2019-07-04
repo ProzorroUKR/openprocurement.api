@@ -4,7 +4,8 @@ import unittest
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import (
-    TenderContentWebTest
+    TenderContentWebTest,
+    test_lots
 )
 from openprocurement.tender.belowthreshold.tests.document_blanks import (
     # TenderDocumentResourceTest
@@ -17,7 +18,10 @@ from openprocurement.tender.belowthreshold.tests.document_blanks import (
     create_tender_document_error,
     create_tender_document_json_invalid,
     create_tender_document_json,
-    put_tender_document_json
+    put_tender_document_json,
+    # TenderLotDocumentWithDSResourceTest
+    lot_patch_tender_document_json_lots_none,
+    lot_patch_tender_document_json_items_none
 )
 
 
@@ -35,14 +39,20 @@ class TenderDocumentWithDSResourceTestMixin(object):
 
 
 class TenderDocumentResourceTest(TenderContentWebTest, TenderDocumentResourceTestMixin):
-
     test_create_document_active_tendering_status = snitch(create_document_active_tendering_status)
 
 
 class TenderDocumentWithDSResourceTest(TenderDocumentResourceTest, TenderDocumentWithDSResourceTestMixin):
-
     docservice = True
+
     test_create_tender_document_error = snitch(create_tender_document_error)
+
+class TenderLotDocumentWithDSResourceTest(TenderContentWebTest):
+    initial_lots = test_lots
+    docservice = True
+
+    test_lot_patch_tender_document_json_lots_none = snitch(lot_patch_tender_document_json_lots_none)
+    test_lot_patch_tender_document_json_items_none = snitch(lot_patch_tender_document_json_items_none)
 
 
 def suite():

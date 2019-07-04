@@ -3,8 +3,8 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.tests.base import BaseWebTest
-
 from openprocurement.tender.belowthreshold.tests.base import test_lots
+
 from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     # TenderUAProcessTest
@@ -12,6 +12,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_with_inn,
     create_tender_with_inn_before,
     tender_milestones_required,
+    patch_tender_lots_none,
 )
 
 from openprocurement.tender.openua.tests.tender import TenderUaProcessTestMixin
@@ -48,9 +49,8 @@ class TenderUATest(BaseWebTest):
 
 
 class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin):
-    test_lots_data = test_lots  # TODO: change attribute identifier
-
     initial_data = test_tender_data
+    test_lots_data = test_lots
 
     test_empty_listing = snitch(empty_listing)
     test_create_tender_invalid = snitch(create_tender_invalid)
@@ -62,6 +62,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin):
     test_create_tender_with_inn = snitch(create_tender_with_inn)
     test_create_tender_with_inn_before = snitch(create_tender_with_inn_before)
     test_tender_milestones_required = snitch(tender_milestones_required)
+    test_patch_tender_lots_none = snitch(patch_tender_lots_none)
 
 
 class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):

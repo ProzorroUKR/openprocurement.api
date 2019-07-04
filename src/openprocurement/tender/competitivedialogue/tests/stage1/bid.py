@@ -3,13 +3,18 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.tender.belowthreshold.tests.bid_blanks import (
+    # CompetitiveDialogEU2LotBidResourceTest
+    patch_tender_with_bids_lots_none
+)
 
 from openprocurement.tender.openeu.tests.bid import TenderBidResourceTestMixin
 
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUContentWebTest,
     test_bids,
-    test_features_tender_eu_data
+    test_features_tender_eu_data,
+    test_lots
 )
 from openprocurement.tender.competitivedialogue.tests.stage1.bid_blanks import (
     # CompetitiveDialogEUBidResourceTest
@@ -54,6 +59,14 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest, 
     test_deleted_bid_do_not_locks_tender_in_state = snitch(deleted_bid_do_not_locks_tender_in_state)
     test_get_tender_tenderers = snitch(get_tender_tenderers)
     test_bids_invalidation_on_tender_change = snitch(bids_invalidation_on_tender_change)
+
+
+class CompetitiveDialogEU2LotBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
+    initial_lots = 2 * test_lots
+    test_bids_data = test_bids
+    initial_status = 'active.tendering'
+
+    test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
 
 
 class CompetitiveDialogEUBidFeaturesResourceTest(BaseCompetitiveDialogEUContentWebTest):

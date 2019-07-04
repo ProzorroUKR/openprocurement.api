@@ -188,8 +188,8 @@ class CompetitiveDialogEU(BaseTenderEU):
     TenderID = StringType(required=False)
     stage2TenderID = StringType(required=False)
     features = ListType(ModelType(Feature), validators=[validate_features_uniq])
-    lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
-    items = ListType(ModelType(BaseEUItem), required=True, min_size=1,
+    lots = ListType(ModelType(Lot, required=True), default=list(), validators=[validate_lots_uniq])
+    items = ListType(ModelType(BaseEUItem, required=True), required=True, min_size=1,
                      validators=[validate_cpv_group, validate_items_uniq])
     mainProcurementCategory = StringType(choices=["services", "works"])
 
@@ -270,21 +270,22 @@ class LotId(Model):
     id = StringType()
 
     def validate_id(self, data, lot_id):
-        if lot_id and isinstance(data['__parent__'], Model) and lot_id not in [i.id for i in get_tender(data['__parent__']).lots]:
+        parent = data['__parent__']
+        if lot_id and isinstance(parent, Model) and lot_id not in [lot.id for lot in get_tender(parent).lots if lot]:
             raise ValidationError(u"id should be one of lots")
 
 
 class Firms(Model):
     identifier = ModelType(Identifier, required=True)
     name = StringType(required=True)
-    lots = ListType(ModelType(LotId), default=list())
+    lots = ListType(ModelType(LotId, required=True), default=list())
 
 
 @implementer(ICDUATender)
 class CompetitiveDialogUA(CompetitiveDialogEU):
     procurementMethodType = StringType(default=CD_UA_TYPE)
     title_en = StringType()
-    items = ListType(ModelType(BaseUAItem), required=True, min_size=1,
+    items = ListType(ModelType(BaseUAItem, required=True), required=True, min_size=1,
                      validators=[validate_cpv_group, validate_items_uniq])
     procuringEntity = ModelType(BaseProcuringEntity, required=True)
     stage2TenderID = StringType(required=False)
@@ -380,12 +381,12 @@ ItemStage2UA = Item
 
 class Award(BaseTenderEU.awards.model_class):
 
-    items = ListType(ModelType(ItemStage2EU))
+    items = ListType(ModelType(ItemStage2EU, required=True))
 
 
 class Contract(BaseTenderEU.contracts.model_class):
 
-    items = ListType(ModelType(ItemStage2EU))
+    items = ListType(ModelType(ItemStage2EU, required=True))
 
 
 @implementer(ICDEUStage2Tender)
@@ -401,12 +402,12 @@ class TenderStage2EU(BaseTenderEU):
                  'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled',
                  'unsuccessful', STAGE2_STATUS],
         default='active.tendering')
-    lots = ListType(ModelType(LotStage2EU), default=list(), validators=[validate_lots_uniq])
+    lots = ListType(ModelType(LotStage2EU, required=True), default=list(), validators=[validate_lots_uniq])
     procurementMethod = StringType(choices=['open', 'selective', 'limited'], default='selective')
 
     # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
-    items = ListType(ModelType(ItemStage2EU), required=True, min_size=1, validators=[validate_cpv_group,
-                                                                                     validate_items_uniq])
+    items = ListType(ModelType(ItemStage2EU, required=True), required=True, min_size=1,
+                     validators=[validate_cpv_group, validate_items_uniq])
     awards = ListType(ModelType(Award), default=list())
     contracts = ListType(ModelType(Contract), default=list())
     features = ListType(ModelType(Feature), validators=[validate_features_uniq])
@@ -487,12 +488,12 @@ class TenderStage2EU(BaseTenderEU):
 
 class Award(BaseTenderUA.awards.model_class):
 
-    items = ListType(ModelType(ItemStage2UA))
+    items = ListType(ModelType(ItemStage2UA, required=True))
 
 
 class Contract(BaseTenderUA.contracts.model_class):
 
-    items = ListType(ModelType(ItemStage2UA))
+    items = ListType(ModelType(ItemStage2UA, required=True))
 
 
 @implementer(ICDUAStage2Tender)
@@ -508,9 +509,9 @@ class TenderStage2UA(BaseTenderUA):
                  'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled',
                  'unsuccessful', STAGE2_STATUS],
         default='active.tendering')
-    lots = ListType(ModelType(LotStage2UA), default=list(), validators=[validate_lots_uniq])
-    items = ListType(ModelType(ItemStage2UA), required=True, min_size=1, validators=[validate_cpv_group,
-                                                                                     validate_items_uniq])
+    lots = ListType(ModelType(LotStage2UA, required=True), default=list(), validators=[validate_lots_uniq])
+    items = ListType(ModelType(ItemStage2UA, required=True), required=True, min_size=1,
+                     validators=[validate_cpv_group, validate_items_uniq])
     awards = ListType(ModelType(Award), default=list())
     contracts = ListType(ModelType(Contract), default=list())
     features = ListType(ModelType(Feature), validators=[validate_features_uniq])

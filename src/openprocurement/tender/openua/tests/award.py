@@ -30,6 +30,8 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     get_tender_lot_award_complaints,
     # Tender2LotAwardComplaintDocumentResourceTest
     create_tender_lots_award_complaint_document,
+    # TenderLotAwardResourceTest
+    patch_tender_lot_award_lots_none
 )
 
 from openprocurement.tender.openua.tests.base import (
@@ -121,6 +123,7 @@ class TenderLotAwardResourceTest(BaseTenderUAContentWebTest):
     test_create_lot_award = snitch(create_tender_lot_award)
     test_patch_tender_lot_award = snitch(patch_tender_lot_award)
     test_patch_tender_lot_award_unsuccessful = snitch(patch_tender_lot_award_unsuccessful)
+    test_patch_tender_lot_award_lots_none = snitch(patch_tender_lot_award_lots_none)
 
 
 class Tender2LotAwardResourceTest(BaseTenderUAContentWebTest):

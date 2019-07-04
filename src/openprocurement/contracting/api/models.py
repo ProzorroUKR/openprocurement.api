@@ -73,8 +73,9 @@ class Document(BaseDocument):
     def validate_relatedItem(self, data, relatedItem):
         if not relatedItem and data.get('documentOf') in ['item', 'change']:
             raise ValidationError(u'This field is required.')
-        if relatedItem and isinstance(data['__parent__'], Model):
-            contract = get_contract(data['__parent__'])
+        parent = data['__parent__']
+        if relatedItem and isinstance(parent, Model):
+            contract = get_contract(parent)
             if data.get('documentOf') == 'change' and relatedItem not in [i.id for i in contract.changes]:
                 raise ValidationError(u"relatedItem should be one of changes")
             if data.get('documentOf') == 'item' and relatedItem not in [i.id for i in contract.items]:

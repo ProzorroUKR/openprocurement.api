@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-import unittest
-
 import mock
 from uuid import uuid4
 from copy import deepcopy
@@ -13,12 +11,14 @@ from openprocurement.api.constants import (
     NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM
 )
 from openprocurement.tender.core.constants import (
-    CANT_DELETE_PERIOD_START_DATE_FROM, CPV_ITEMS_CLASS_FROM,
+    CPV_ITEMS_CLASS_FROM,
 )
 from openprocurement.tender.belowthreshold.models import Tender
 from openprocurement.tender.belowthreshold.tests.base import (
     test_organization,
-    test_author
+    test_author,
+    test_lots,
+    set_tender_lots, set_bid_lotvalues,
 )
 
 # TenderTest
@@ -789,7 +789,6 @@ def create_tender_with_inn_before(self):
 
 def create_tender_generated(self):
     data = self.initial_data.copy()
-    #del data['awardPeriod']
     data.update({'id': 'hash', 'doc_id': 'hash2', 'tenderID': 'hash3'})
     response = self.app.post_json('/tenders', {'data': data})
     self.assertEqual(response.status, '201 Created')
@@ -2209,3 +2208,35 @@ def tender_milestones_not_required(self):
     data['milestones'] = []
 
     self.app.post_json('/tenders', {'data': data}, status=201)
+
+
+def patch_tender_lots_none(self):
+    data = deepcopy(self.initial_data)
+
+    set_tender_lots(data, self.test_lots_data)
+
+    response = self.app.post_json('/tenders', {'data': data})
+    self.assertEqual(response.status, '201 Created')
+    self.tender_id = response.json['data']['id']
+    self.token_token = response.json['access']['token']
+
+    response = self.app.patch_json(
+        '/tenders/{}?acc_token={}'.format(self.tender_id, self.token_token),
+        {'data': {'lots': [None]}}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json, {
+        "status": "error",
+        "errors": [{
+            "location": "body",
+            "name": "lots",
+            "description": [["This field is required."]]
+        }, {
+            "location": "body",
+            "name": "items",
+            "description": [{"relatedLot": ["relatedLot should be one of lots"]}]
+        }]
+    })
+
+
+

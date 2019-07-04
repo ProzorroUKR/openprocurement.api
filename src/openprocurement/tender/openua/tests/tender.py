@@ -2,13 +2,16 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-
+from openprocurement.tender.belowthreshold.tests.base import test_lots
 
 from openprocurement.tender.core.tests.base import BaseWebTest
 from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     # TenderUAResourceTest
     guarantee,
+    create_tender_with_inn,
+    create_tender_with_inn_before,
+    patch_tender_lots_none,
     # TenderUAProcessTest
     invalid_tender_conditions,
     create_tender_with_inn,
@@ -16,7 +19,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_milestones_required,
 )
 
-from openprocurement.tender.openua.tests.base import test_tender_data, BaseTenderUAWebTest
+from openprocurement.tender.openua.tests.base import test_tender_data, BaseTenderUAWebTest, test_bids
 from openprocurement.tender.openua.tests.tender_blanks import (
     # Tender UA Test
     simple_add_tender,
@@ -61,6 +64,7 @@ class TenderUATest(BaseWebTest):
 
 class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin, TenderUAResourceTestMixin):
     initial_data = test_tender_data
+    test_lots_data = test_lots
 
     test_create_tender_invalid = snitch(create_tender_invalid)
     test_create_tender_generated = snitch(create_tender_generated)
@@ -71,6 +75,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin, TenderU
     test_tender_finance_milestones = snitch(tender_finance_milestones)
     test_create_tender_with_inn = snitch(create_tender_with_inn)
     test_create_tender_with_inn_before = snitch(create_tender_with_inn_before)
+    test_patch_tender_lots_none = snitch(patch_tender_lots_none)
     test_tender_milestones_required = snitch(tender_milestones_required)
 
 

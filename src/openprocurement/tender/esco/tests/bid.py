@@ -4,18 +4,24 @@ import unittest
 from esculator import npv, escp
 from openprocurement.api.utils import get_now
 from openprocurement.tender.esco.tests.base import (
-    test_bids, test_features_tender_data,
-    BaseESCOContentWebTest, NBU_DISCOUNT_RATE
+    BaseESCOContentWebTest,
+    NBU_DISCOUNT_RATE,
+    test_features_tender_data,
+    test_bids,
+    test_lots
 )
 from openprocurement.tender.belowthreshold.tests.base import (
     test_organization,
-    test_author)
+    test_author
+)
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     # TenderBidBatchDocumentWithDSResourceTest
     create_tender_bid_with_documents,
     create_tender_bid_with_document_invalid,
     create_tender_bid_with_document,
+    # Tender2LotBidResourceTest
+    patch_tender_with_bids_lots_none
 )
 from openprocurement.tender.openeu.tests.bid import TenderBidDocumentResourceTestMixin
 from openprocurement.tender.openeu.tests.bid_blanks import (
@@ -102,6 +108,14 @@ class TenderBidResourceTest(BaseESCOContentWebTest):
     test_create_tender_bid_no_scale_invalid = snitch(create_tender_bid_no_scale_invalid)
     test_create_tender_bid_with_scale_not_required = snitch(create_tender_bid_with_scale_not_required)
     test_create_tender_bid_no_scale = snitch(create_tender_bid_no_scale)
+
+
+class Tender2LotBidResourceTest(BaseESCOContentWebTest):
+    test_bids_data = test_bids
+    initial_lots = 2 * test_lots
+    initial_status = 'active.tendering'
+
+    test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
 
 
 class TenderBidFeaturesResourceTest(BaseESCOContentWebTest):

@@ -14,13 +14,13 @@ class ParameterContract(Model):
     value = DecimalType(required=True)
 
     def validate_code(self, data, code):
-        if isinstance(data['__parent__']['__parent__'], Model) and \
-                        code not in [i.code for i in ((data['__parent__']['__parent__']).features or [])]:
+        agreement = data['__parent__']['__parent__']
+        if isinstance(agreement, Model) and code not in [i.code for i in (agreement.features or [])]:
             raise ValidationError(u"code should be one of feature code.")
 
     def validate_value(self, data, value):
-        if isinstance(data['__parent__']['__parent__'], Model):
-            agreement = data['__parent__']['__parent__']
+        agreement = data['__parent__']['__parent__']
+        if isinstance(agreement, Model):
             codes = dict([(i.code, [x.value for x in i.enum]) for i in (agreement.features or [])])
             if data['code'] in codes and value not in codes[data['code']]:
                 raise ValidationError(u"value should be one of feature value.")

@@ -46,7 +46,7 @@ from openprocurement.tender.openuadefense.tests.lot_blanks import (
 
 
 class TenderLotResourceTest(BaseTenderUAContentWebTest, TenderLotResourceTestMixin, TenderUALotResourceTestMixin):
-    test_lots_data = test_lots  # TODO: change attribute identifier
+    test_lots_data = test_lots
     test_tender_lot_milestones = snitch(tender_lot_milestones)
 
 

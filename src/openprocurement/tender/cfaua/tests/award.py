@@ -21,6 +21,8 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     patch_tender_award_document,
     create_award_document_bot,
     patch_not_author,
+    # TenderLotAwardResourceTest
+    patch_tender_lot_award_lots_none
 )
 
 from openprocurement.tender.openeu.tests.award_blanks import (
@@ -111,6 +113,7 @@ class TenderLotAwardResourceTest(BaseTenderContentWebTest):
     test_patch_tender_award_unsuccessful = snitch(patch_tender_award_unsuccessful)
     test_get_tender_award = snitch(get_tender_award)
     test_patch_tender_award_Administrator_change = snitch(patch_tender_award_Administrator_change)
+    test_patch_tender_lot_award_lots_none = snitch(patch_tender_lot_award_lots_none)
 
 
 class TenderAwardComplaintResourceTest(BaseTenderContentWebTest):

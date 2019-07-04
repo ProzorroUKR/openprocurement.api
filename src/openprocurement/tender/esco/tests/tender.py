@@ -2,8 +2,11 @@
 import unittest
 from openprocurement.tender.openeu.constants import TENDERING_DAYS
 from openprocurement.tender.esco.tests.base import (
-    test_tender_data, test_lots, test_bids,
-    BaseESCOWebTest, BaseESCOContentWebTest,
+    BaseESCOWebTest,
+    BaseESCOContentWebTest,
+    test_tender_data,
+    test_lots,
+    test_bids,
 )
 from openprocurement.api.tests.base import snitch
 
@@ -14,6 +17,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     # TenderResourceTest
     guarantee,
     tender_milestones_not_required,
+    patch_tender_lots_none,
 )
 
 from openprocurement.tender.openua.tests.tender import TenderUAResourceTestMixin
@@ -95,6 +99,7 @@ class TestTenderEU(BaseESCOContentWebTest, TenderResourceTestMixin, TenderUAReso
     test_invalid_bid_tender_lot = snitch(invalid_bid_tender_lot)
     test_tender_with_main_procurement_category = snitch(tender_with_main_procurement_category)
     test_tender_finance_milestones = snitch(tender_finance_milestones)
+    test_patch_tender_lots_none = snitch(patch_tender_lots_none)
 
 
 class TestTenderEUProcess(BaseESCOContentWebTest):

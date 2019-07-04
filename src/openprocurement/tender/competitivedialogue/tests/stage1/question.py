@@ -10,6 +10,7 @@ from openprocurement.tender.belowthreshold.tests.question_blanks import (
     # CompetitiveDialogQLotQuestionResourceTest
     lot_create_tender_question,
     lot_patch_tender_question,
+    lot_patch_tender_question_lots_none,
 )
 
 from openprocurement.tender.openua.tests.question_blanks import (
@@ -49,6 +50,7 @@ class CompetitiveDialogUAQLotQuestionResourceTest(BaseCompetitiveDialogUAContent
 
     test_create_tender_question = snitch(lot_create_tender_question)
     test_patch_tender_question = snitch(lot_patch_tender_question)
+    test_lot_patch_tender_question_lots_none = snitch(lot_patch_tender_question_lots_none)
 
 
 class CompetitiveDialogEUQuestionResourceTest(BaseCompetitiveDialogEUContentWebTest):
@@ -72,6 +74,7 @@ class CompetitiveDialogEULotQuestionResourceTest(BaseCompetitiveDialogEUContentW
 
     test_create_tender_question = snitch(lot_create_tender_question)
     test_patch_tender_question = snitch(lot_patch_tender_question)
+    test_lot_patch_tender_question_lots_none = snitch(lot_patch_tender_question_lots_none)
 
 
 def suite():

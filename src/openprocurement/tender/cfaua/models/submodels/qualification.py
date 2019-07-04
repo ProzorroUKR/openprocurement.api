@@ -40,8 +40,9 @@ class Qualification(Model):
             raise ValidationError(u'This field is required.')
 
     def validate_lotID(self, data, lotID):
-        if isinstance(data['__parent__'], Model):
-            if not lotID and data['__parent__'].lots:
+        parent = data['__parent__']
+        if isinstance(parent, Model):
+            if not lotID and parent.lots:
                 raise ValidationError(u'This field is required.')
-            if lotID and lotID not in [i.id for i in data['__parent__'].lots]:
+            if lotID and lotID not in [lot.id for lot in parent.lots if lot]:
                 raise ValidationError(u"lotID should be one of lots")

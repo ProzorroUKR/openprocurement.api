@@ -30,6 +30,7 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     create_tender_lot_award,
     patch_tender_lot_award,
     patch_tender_lot_award_unsuccessful,
+    patch_tender_lot_award_lots_none,
     # Tender2LotAwardResourceTest
     create_tender_lots_award,
     patch_tender_lots_award,
@@ -70,7 +71,7 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     patch_tender_lots_award_document,
     # TenderAwardResourceNoScaleTest
     create_tender_award_with_scale_not_required,
-    create_tender_award_no_scale
+    create_tender_award_no_scale,
 )
 
 
@@ -164,7 +165,6 @@ class TenderLotAwardCheckResourceTest(TenderContentWebTest, TenderLotAwardCheckR
         response = self.app.get('/tenders/{}'.format(self.tender_id))
         self.assertEqual(response.json['data']['status'], "active.qualification")
 
-
 class TenderLotAwardResourceTest(TenderContentWebTest):
     initial_status = 'active.qualification'
     initial_lots = test_lots
@@ -173,6 +173,7 @@ class TenderLotAwardResourceTest(TenderContentWebTest):
     test_create_tender_lot_award = snitch(create_tender_lot_award)
     test_patch_tender_lot_award = snitch(patch_tender_lot_award)
     test_patch_tender_lot_award_unsuccessful = snitch(patch_tender_lot_award_unsuccessful)
+    test_patch_tender_lot_award_lots_none = snitch(patch_tender_lot_award_lots_none)
 
 
 class Tender2LotAwardResourceTest(TenderContentWebTest):

@@ -7,8 +7,11 @@ import mock
 from esculator import npv, escp
 from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.award_blanks import create_tender_award_with_scale_not_required, \
-    create_tender_award_no_scale
+from openprocurement.tender.belowthreshold.tests.award_blanks import (
+    create_tender_award_with_scale_not_required,
+    create_tender_award_no_scale,
+    patch_tender_lot_award_lots_none
+)
 from openprocurement.tender.esco.adapters import TenderESCOConfigurator
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
 from openprocurement.tender.belowthreshold.tests.award import (

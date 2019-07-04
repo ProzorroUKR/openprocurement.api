@@ -19,7 +19,7 @@ class Award(BaseAward):
         roles = RolesFromCsv('Award.csv', relative_to=__file__)
 
     complaints = ListType(ModelType(Complaint), default=list())
-    items = ListType(ModelType(Item))
+    items = ListType(ModelType(Item, required=True))
     documents = ListType(ModelType(EUDocument), default=list())
     qualified = BooleanType()
     eligible = BooleanType()

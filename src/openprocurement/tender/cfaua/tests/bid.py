@@ -7,6 +7,9 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
     test_organization,
     test_author)
+from openprocurement.tender.belowthreshold.tests.bid_blanks import (
+    patch_tender_with_bids_lots_none
+)
 from openprocurement.tender.cfaua.tests.base import (
     BaseTenderContentWebTest,
     test_features_tender_data,
@@ -93,6 +96,7 @@ class TenderBidResourceTest(BaseTenderLotsContentWebTest):
     test_deleted_bid_do_not_locks_tender_in_state = snitch(deleted_bid_do_not_locks_tender_in_state)
     test_get_tender_tenderers = snitch(get_tender_tenderers)
     test_bid_Administrator_change = snitch(bid_Administrator_change)
+    test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
 
 
 class TenderBidFeaturesResourceTest(BaseTenderLotsContentWebTest):

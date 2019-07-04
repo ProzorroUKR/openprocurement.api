@@ -14,6 +14,7 @@ from openprocurement.tender.belowthreshold.tests.question_blanks import (
     # TenderLotQuestionResourceTest
     lot_create_tender_question,
     lot_patch_tender_question,
+    lot_patch_tender_question_lots_none
 )
 
 from openprocurement.tender.openua.tests.question_blanks import (
@@ -57,6 +58,7 @@ class TenderLotQuestionResourceTest(BaseTenderUAContentWebTest):
     test_tender_has_unanswered_questions = snitch(tender_has_unanswered_questions)
     test_lot_has_unanswered_questions = snitch(lot_has_unanswered_questions)
     test_item_has_unanswered_questions = snitch(item_has_unanswered_questions)
+    test_lot_patch_tender_question_lots_none = snitch(lot_patch_tender_question_lots_none)
 
 
 def suite():

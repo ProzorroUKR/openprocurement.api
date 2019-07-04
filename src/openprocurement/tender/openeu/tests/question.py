@@ -9,6 +9,7 @@ from openprocurement.tender.belowthreshold.tests.question_blanks import (
     # TenderLotQuestionResourceTest
     lot_create_tender_question,
     lot_patch_tender_question,
+    lot_patch_tender_question_lots_none
 )
 
 from openprocurement.tender.openua.tests.question_blanks import (
@@ -48,6 +49,7 @@ class TenderLotQuestionResourceTest(BaseTenderContentWebTest):
 
     test_create_tender_question = snitch(lot_create_tender_question)
     test_patch_tender_question = snitch(lot_patch_tender_question)
+    test_lot_patch_tender_question_lots_none = snitch(lot_patch_tender_question_lots_none)
 
 
 def suite():

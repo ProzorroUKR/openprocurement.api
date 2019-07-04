@@ -88,7 +88,7 @@ class Tender(BaseTender):
     """Data regarding tender process - publicly inviting prospective contractors to submit bids for evaluation and selecting a winner or winners."""
 
     procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items
-    lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
+    lots = ListType(ModelType(Lot, required=True), default=list(), validators=[validate_lots_uniq])
     procurementMethodType = StringType(default="aboveThresholdUA.defense")
     procuring_entity_kinds = ['defense']
 

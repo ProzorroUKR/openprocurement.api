@@ -12,9 +12,12 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     guarantee,
     create_tender_with_inn, create_tender_with_inn_before,
     tender_milestones_required,
+    create_tender_with_inn,
+    create_tender_with_inn_before,
+    patch_tender_lots_none,
 )
 from openprocurement.tender.openua.tests.tender_blanks import (
-    empty_listing, tender_fields,
+    empty_listing,
     tender_finance_milestones,
 )
 from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER
@@ -30,8 +33,6 @@ from openprocurement.tender.cfaua.tests.tender_blanks import (
     one_bid_tender,
     unsuccessful_after_prequalification_tender,
     one_qualificated_bid_tender,
-    multiple_bidders_tender,
-    lost_contract_for_active_award,
     # TenderResourceTest
     create_tender_invalid,
     create_tender_generated,
@@ -52,7 +53,8 @@ from openprocurement.tender.cfaua.tests.tender_blanks import (
     tender_features_invalid,
     extract_tender_credentials,
     patch_unitprice_with_features,
-    tender_with_main_procurement_category)
+    tender_with_main_procurement_category
+)
 
 
 class TenderTest(BaseTenderWebTest):
@@ -78,6 +80,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     initial_data = deepcopy(test_tender_w_lot_data)
     initial_lots = deepcopy(test_lots_w_ids)
     initial_bids = deepcopy(test_bids_w_lot_data)
+    test_lots_data = test_lots_w_ids
     min_bids_number = MIN_BIDS_NUMBER
 
     test_empty_listing = snitch(empty_listing)
@@ -99,6 +102,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_create_tender_with_inn = snitch(create_tender_with_inn)
     test_create_tender_with_inn_before = snitch(create_tender_with_inn_before)
     test_tender_milestones_required = snitch(tender_milestones_required)
+    test_patch_tender_lots_none = snitch(patch_tender_lots_none)
 
     def test_patch_not_author(self):
         response = self.app.post_json('/tenders', {'data': test_tender_w_lot_data})

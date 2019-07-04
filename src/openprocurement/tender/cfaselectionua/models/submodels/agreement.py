@@ -38,7 +38,7 @@ class Agreement(Model):
     description_en = StringType()
     description_ru = StringType()
     documents = ListType(ModelType(Document), default=list())
-    items = ListType(ModelType(Item))
+    items = ListType(ModelType(Item, required=True))
     features = ListType(ModelType(Feature), validators=[validate_features_uniq])
     mode = StringType(choices=['test'])
     owner = StringType()

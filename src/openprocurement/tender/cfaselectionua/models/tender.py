@@ -101,7 +101,7 @@ class CFASelectionUATender(BaseTender):
             'default': _core_roles['default'],
         }
 
-    items = ListType(ModelType(Item), min_size=1, validators=[validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
+    items = ListType(ModelType(Item, required=True), min_size=1, validators=[validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     value = ModelType(Value)  # The total estimated value of the procurement.
     enquiryPeriod = ModelType(PeriodEndRequired, required=False)  # The period during which enquiries may be made and will be answered.
     tenderPeriod = ModelType(PeriodEndRequired, required=False)  # The period when the tender is open for submissions. The end date is the closing date for tender submissions.
@@ -117,7 +117,7 @@ class CFASelectionUATender(BaseTender):
     auctionUrl = URLType()
     cancellations = ListType(ModelType(Cancellation), default=list())
     features = ListType(ModelType(Feature), validators=[validate_features_uniq])
-    lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq], min_size=1, max_size=1)
+    lots = ListType(ModelType(Lot, required=True), default=list(), validators=[validate_lots_uniq], min_size=1, max_size=1)
     guarantee = ModelType(Guarantee)
     status = StringType(choices=['draft', 'draft.pending', 'draft.unsuccessful', 'active.enquiries', 'active.tendering',
                                  'active.auction', 'active.qualification', 'active.awarded', 'complete',

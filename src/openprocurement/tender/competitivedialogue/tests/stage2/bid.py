@@ -7,7 +7,7 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     # TenderStage2UABidDocumentResourceTest
     not_found as not_found_ua,
-)
+    patch_tender_with_bids_lots_none)
 
 from openprocurement.tender.openua.tests.bid import (
     TenderBidDocumentResourceTestMixin as TenderUABidDocumentResourceTestMixin,
@@ -36,8 +36,8 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_bids,
     test_tender_stage2_data_eu,
     test_tender_stage2_data_ua,
-    test_tenderer
-)
+    test_tenderer,
+    test_lots)
 from openprocurement.tender.competitivedialogue.tests.stage2.bid_blanks import (
     # TenderStage2BidResourceTest
     deleted_bid_is_not_restorable,
@@ -81,6 +81,14 @@ class TenderStage2EUBidResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest,
     test_delete_tender_bidder = snitch(delete_tender_bidder_eu)
     test_bids_invalidation_on_tender_change = snitch(bids_invalidation_on_tender_change_eu)
     test_ukrainian_author_id = snitch(ukrainian_author_id)
+
+
+class TenderStage2EU2LotBidResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
+    initial_lots = 2 * test_lots
+    test_bids_data = test_bids_stage2
+    initial_status = 'active.tendering'
+
+    test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
 
 
 class TenderStage2EUBidFeaturesResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
@@ -144,6 +152,14 @@ class TenderStage2UABidResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest)
     test_2_draft_bids = snitch(two_draft_bids)
     test_bids_invalidation_on_tender_change = snitch(bids_invalidation_on_tender_change_ua)
     test_bids_activation_on_tender_documents = snitch(bids_activation_on_tender_documents_ua)
+
+
+class TenderStage2UA2LotBidResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
+    initial_lots = 2 * test_lots
+    test_bids_data = test_bids_stage2
+    initial_status = 'active.tendering'
+
+    test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
 
 
 class TenderStage2UABidFeaturesResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):

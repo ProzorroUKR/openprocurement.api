@@ -2,6 +2,9 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.tender.belowthreshold.tests.question_blanks import (
+    lot_patch_tender_question_lots_none
+)
 from openprocurement.tender.cfaua.tests.question_blanks import (
     lot_create_tender_question,
     lot_patch_tender_question,
@@ -48,6 +51,7 @@ class TenderLotQuestionResourceTest(BaseTenderContentWebTest):
     test_create_tender_question = snitch(lot_create_tender_question)
     test_patch_tender_question = snitch(lot_patch_tender_question)
     test_lot_create_tender_cancellations_and_questions = snitch(lot_create_tender_cancellations_and_questions)
+    test_lot_patch_tender_question_lots_none = snitch(lot_patch_tender_question_lots_none)
 
 
 def suite():

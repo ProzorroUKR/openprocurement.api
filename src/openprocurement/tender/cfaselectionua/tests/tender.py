@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
-import os
 import unittest
 
 from copy import deepcopy
 from openprocurement.api.tests.base import BaseWebTest, snitch
-from uuid import uuid4
 
-from openprocurement.tender.belowthreshold.tests.tender_blanks import tender_milestones_not_required
+from openprocurement.tender.belowthreshold.tests.base import set_tender_lots
+from openprocurement.tender.belowthreshold.tests.tender_blanks import (
+    patch_tender_lots_none,
+    tender_milestones_not_required,
+)
 from openprocurement.tender.cfaselectionua.constants import BOT_NAME
 from openprocurement.tender.cfaselectionua.tests.base import (
     test_lots,
@@ -60,14 +62,8 @@ from openprocurement.tender.cfaselectionua.tests.tender_blanks import (
 
 
 tender_data = deepcopy(test_tender_data)
-lots = []
-for i in test_lots:
-    lot = deepcopy(i)
-    lot['id'] = uuid4().hex
-    lots.append(lot)
-tender_data['lots'] = test_lots = lots
-for i, item in enumerate(tender_data['items']):
-    item['relatedLot'] = lots[i % len(lots)]['id']
+set_tender_lots(tender_data, test_lots)
+test_lots = deepcopy(tender_data['lots'])
 
 
 class BaseTenderWebTest(BaseBaseTenderWebTest):
@@ -131,6 +127,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     initial_auth = ('Basic', ('broker', ''))
     initial_agreement = test_agreement
     initial_agreement_with_features = test_agreement_features
+    test_lots_data = test_lots
 
     agreement_id = '11111111111111111111111111111111'
 
@@ -143,6 +140,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_required_field_deletion = snitch(required_field_deletion)
     test_patch_tender_to_draft_pending = snitch(patch_tender_to_draft_pending)
     test_edit_tender_in_active_enquiries = snitch(edit_tender_in_active_enquiries)
+    test_patch_tender_lots_none = snitch(patch_tender_lots_none)
     test_tender_milestones_not_required = snitch(tender_milestones_not_required)
 
 

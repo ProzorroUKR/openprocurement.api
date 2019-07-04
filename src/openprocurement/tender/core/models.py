@@ -45,7 +45,9 @@ from openprocurement.tender.core.utils import (
     calc_auction_end_time, rounding_shouldStartAfter
 )
 from openprocurement.tender.core.validation import (
-    validate_LotValue_value, is_positive_float, validate_ua_road, validate_gmdn, validate_milestones
+    validate_LotValue_value, is_positive_float,
+    validate_ua_road, validate_gmdn, validate_milestones,
+    validate_bid_value, validate_relatedlot,
 )
 
 
@@ -141,11 +143,12 @@ class Document(BaseDocument):
     def validate_relatedItem(self, data, relatedItem):
         if not relatedItem and data.get('documentOf') in ['item', 'lot']:
             raise ValidationError(u'This field is required.')
-        if relatedItem and isinstance(data['__parent__'], Model):
-            tender = get_tender(data['__parent__'])
-            if data.get('documentOf') == 'lot' and relatedItem not in [i.id for i in tender.lots]:
+        parent = data['__parent__']
+        if relatedItem and isinstance(parent, Model):
+            tender = get_tender(parent)
+            if data.get('documentOf') == 'lot' and relatedItem not in [i.id for i in tender.lots if i]:
                 raise ValidationError(u"relatedItem should be one of lots")
-            if data.get('documentOf') == 'item' and relatedItem not in [i.id for i in tender.items]:
+            if data.get('documentOf') == 'item' and relatedItem not in [i.id for i in tender.items if i]:
                 raise ValidationError(u"relatedItem should be one of items")
 
 
@@ -170,7 +173,8 @@ def bids_validation_wrapper(validation_func):
 
 def validate_dkpp(items, *args):
     if items and not any([i.scheme in ADDITIONAL_CLASSIFICATIONS_SCHEMES for i in items]):
-        raise ValidationError(u"One of additional classifications should be one of [{0}].".format(', '.join(ADDITIONAL_CLASSIFICATIONS_SCHEMES)))
+        raise ValidationError(u"One of additional classifications should be one of [{0}].".format(
+            ', '.join(ADDITIONAL_CLASSIFICATIONS_SCHEMES)))
 
 
 def validate_parameters_uniq(parameters, *args):
@@ -252,16 +256,19 @@ class Item(BaseItem):
         if not items and (not tender_from_2017 or tender_from_2017 and not_cpv and required):
             raise ValidationError(u'This field is required.')
         elif tender_from_2017 and not_cpv and items and not any([i.scheme in ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017 for i in items]):
-            raise ValidationError(u"One of additional classifications should be one of [{0}].".format(', '.join(ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017)))
+            raise ValidationError(u"One of additional classifications should be one of [{0}].".format(
+                ', '.join(ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017)))
         elif not tender_from_2017 and items and not any([i.scheme in ADDITIONAL_CLASSIFICATIONS_SCHEMES for i in items]):
-            raise ValidationError(u"One of additional classifications should be one of [{0}].".format(', '.join(ADDITIONAL_CLASSIFICATIONS_SCHEMES)))
+            raise ValidationError(u"One of additional classifications should be one of [{0}].".format(
+                ', '.join(ADDITIONAL_CLASSIFICATIONS_SCHEMES)))
         validate_ua_road(classification_id, items)
         validate_gmdn(classification_id, items)
 
 
     def validate_relatedLot(self, data, relatedLot):
-        if relatedLot and isinstance(data['__parent__'], Model) and relatedLot not in [i.id for i in get_tender(data['__parent__']).lots]:
-            raise ValidationError(u"relatedLot should be one of lots")
+        parent = data['__parent__']
+        if relatedLot and isinstance(parent, Model):
+            validate_relatedlot(get_tender(parent), relatedLot)
 
 
 class ContractValue(Value):
@@ -282,12 +289,14 @@ class Contract(BaseContract):
     documents = ListType(ModelType(Document), default=list())
 
     def validate_awardID(self, data, awardID):
-        if awardID and isinstance(data['__parent__'], Model) and awardID not in [i.id for i in data['__parent__'].awards]:
+        parent = data['__parent__']
+        if awardID and isinstance(parent, Model) and awardID not in [i.id for i in parent.awards]:
             raise ValidationError(u"awardID should be one of awards")
 
     def validate_dateSigned(self, data, value):
-        if value and isinstance(data['__parent__'], Model):
-            award = [i for i in data['__parent__'].awards if i.id == data['awardID']][0]
+        parent = data['__parent__']
+        if value and isinstance(parent, Model):
+            award = [i for i in parent.awards if i.id == data['awardID']][0]
             if award.complaintPeriod.endDate >= value:
                 raise ValidationError(u"Contract signature date should be after award complaint period end date ({})".format(award.complaintPeriod.endDate.isoformat()))
             if value > get_now():
@@ -312,12 +321,14 @@ class LotValue(Model):
     date = IsoDateTimeType(default=get_now)
 
     def validate_value(self, data, value):
-        if value and isinstance(data['__parent__'], Model) and data['relatedLot']:
-            validate_LotValue_value(get_tender(data['__parent__']), data['relatedLot'], value)
+        parent = data['__parent__']
+        if isinstance(parent, Model):
+            validate_lotvalue_value(get_tender(parent), data['relatedLot'], value)
 
     def validate_relatedLot(self, data, relatedLot):
-        if isinstance(data['__parent__'], Model) and relatedLot not in [i.id for i in get_tender(data['__parent__']).lots]:
-            raise ValidationError(u"relatedLot should be one of lots")
+        parent = data['__parent__']
+        if isinstance(parent, Model):
+            validate_relatedlot(get_tender(parent), relatedLot)
 
 
 class Parameter(Model):
@@ -325,12 +336,14 @@ class Parameter(Model):
     value = FloatType(required=True)
 
     def validate_code(self, data, code):
-        if isinstance(data['__parent__'], Model) and code not in [i.code for i in (get_tender(data['__parent__']).features or [])]:
+        parent = data['__parent__']
+        if isinstance(parent, Model) and code not in [i.code for i in (get_tender(parent).features or [])]:
             raise ValidationError(u"code should be one of feature code.")
 
     def validate_value(self, data, value):
-        if isinstance(data['__parent__'], Model):
-            tender = get_tender(data['__parent__'])
+        parent = data['__parent__']
+        if isinstance(parent, Model):
+            tender = get_tender(parent)
             codes = dict([(i.code, [x.value for x in i.enum]) for i in (tender.features or [])])
             if data['code'] in codes and value not in codes[data['code']]:
                 raise ValidationError(u"value should be one of feature value.")
@@ -396,12 +409,14 @@ class Bid(Model):
         ]
 
     def validate_participationUrl(self, data, url):
-        if url and isinstance(data['__parent__'], Model) and get_tender(data['__parent__']).lots:
+        parent = data['__parent__']
+        if url and isinstance(parent, Model) and get_tender(parent).lots:
             raise ValidationError(u"url should be posted for each lot of bid")
 
     def validate_lotValues(self, data, values):
-        if isinstance(data['__parent__'], Model):
-            tender = data['__parent__']
+        parent = data['__parent__']
+        if isinstance(parent, Model):
+            tender = parent
             if tender.lots and not values:
                 raise ValidationError(u'This field is required.')
             if tender.get('revisions') and tender['revisions'][0].date > BID_LOTVALUES_VALIDATION_FROM and values:
@@ -410,31 +425,22 @@ class Bid(Model):
                     raise ValidationError(u'bids don\'t allow duplicated proposals')
 
     def validate_value(self, data, value):
-        if isinstance(data['__parent__'], Model):
-            tender = data['__parent__']
-            if tender.lots:
-                if value:
-                    raise ValidationError(u"value should be posted for each lot of bid")
-            else:
-                if not value:
-                    raise ValidationError(u'This field is required.')
-                if tender.value.amount < value.amount:
-                    raise ValidationError(u"value of bid should be less than value of tender")
-                if tender.get('value').currency != value.currency:
-                    raise ValidationError(u"currency of bid should be identical to currency of value of tender")
-                if tender.get('value').valueAddedTaxIncluded != value.valueAddedTaxIncluded:
-                    raise ValidationError(u"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of tender")
+        parent = data['__parent__']
+        if isinstance(parent, Model):
+            validate_bid_value(parent, value)
 
     def validate_parameters(self, data, parameters):
-        if isinstance(data['__parent__'], Model):
-            tender = data['__parent__']
+        parent = data['__parent__']
+        if isinstance(parent, Model):
+            tender = parent
             if tender.lots:
                 lots = [i.relatedLot for i in data['lotValues']]
                 items = [i.id for i in tender.items if i.relatedLot in lots]
                 codes = dict([
                     (i.code, [x.value for x in i.enum])
                     for i in (tender.features or [])
-                    if i.featureOf == 'tenderer' or i.featureOf == 'lot' and i.relatedItem in lots or i.featureOf == 'item' and i.relatedItem in items
+                    if i.featureOf == 'tenderer' or i.featureOf == 'lot' and
+                       i.relatedItem in lots or i.featureOf == 'item' and i.relatedItem in items
                 ])
                 if set([i['code'] for i in parameters]) != set(codes):
                     raise ValidationError(u"All features parameters is required.")
@@ -489,11 +495,12 @@ class Question(Model):
     def validate_relatedItem(self, data, relatedItem):
         if not relatedItem and data.get('questionOf') in ['item', 'lot']:
             raise ValidationError(u'This field is required.')
-        if relatedItem and isinstance(data['__parent__'], Model):
-            tender = get_tender(data['__parent__'])
-            if data.get('questionOf') == 'lot' and relatedItem not in [i.id for i in tender.lots]:
+        parent = data['__parent__']
+        if relatedItem and isinstance(parent, Model):
+            tender = get_tender(parent)
+            if data.get('questionOf') == 'lot' and relatedItem not in [i.id for i in tender.lots if i]:
                 raise ValidationError(u"relatedItem should be one of lots")
-            if data.get('questionOf') == 'item' and relatedItem not in [i.id for i in tender.items]:
+            if data.get('questionOf') == 'item' and relatedItem not in [i.id for i in tender.items if i]:
                 raise ValidationError(u"relatedItem should be one of items")
 
 
@@ -593,8 +600,9 @@ class Complaint(Model):
             raise ValidationError(u'This field is required.')
 
     def validate_relatedLot(self, data, relatedLot):
-        if relatedLot and isinstance(data['__parent__'], Model) and relatedLot not in [i.id for i in get_tender(data['__parent__']).lots]:
-            raise ValidationError(u"relatedLot should be one of lots")
+        parent = data['__parent__']
+        if relatedLot and isinstance(parent, Model):
+            validate_relatedlot(get_tender(parent), relatedLot)
 
 
 class Cancellation(Model):
@@ -619,7 +627,8 @@ class Cancellation(Model):
     def validate_relatedLot(self, data, relatedLot):
         if not relatedLot and data.get('cancellationOf') == 'lot':
             raise ValidationError(u'This field is required.')
-        if relatedLot and isinstance(data['__parent__'], Model) and relatedLot not in [i.id for i in data['__parent__'].lots]:
+        parent = data['__parent__']
+        if relatedLot and isinstance(parent, Model) and relatedLot not in [i.id for i in parent.lots if i]:
             raise ValidationError(u"relatedLot should be one of lots")
 
 
@@ -639,7 +648,7 @@ class BaseAward(Model):
     value = ModelType(Value)
     suppliers = ListType(ModelType(BusinessOrganization), required=True, min_size=1, max_size=1)
     documents = ListType(ModelType(Document), default=list())
-    items = ListType(ModelType(Item))
+    items = ListType(ModelType(Item, required=True))
 
 
 class Award(BaseAward):
@@ -662,10 +671,11 @@ class Award(BaseAward):
     complaintPeriod = ModelType(Period)
 
     def validate_lotID(self, data, lotID):
-        if isinstance(data['__parent__'], Model):
-            if not lotID and data['__parent__'].lots:
+        parent = data['__parent__']
+        if isinstance(parent, Model):
+            if not lotID and parent.lots:
                 raise ValidationError(u'This field is required.')
-            if lotID and lotID not in [i.id for i in data['__parent__'].lots]:
+            if lotID and lotID not in [lot.id for lot in parent.lots if lot]:
                 raise ValidationError(u"lotID should be one of lots")
 
 
@@ -694,10 +704,12 @@ class Feature(Model):
     def validate_relatedItem(self, data, relatedItem):
         if not relatedItem and data.get('featureOf') in ['item', 'lot']:
             raise ValidationError(u'This field is required.')
-        if data.get('featureOf') == 'item' and isinstance(data['__parent__'], Model) and relatedItem not in [i.id for i in data['__parent__'].items]:
-            raise ValidationError(u"relatedItem should be one of items")
-        if data.get('featureOf') == 'lot' and isinstance(data['__parent__'], Model) and relatedItem not in [i.id for i in data['__parent__'].lots]:
-            raise ValidationError(u"relatedItem should be one of lots")
+        parent = data['__parent__']
+        if isinstance(parent, Model):
+            if data.get('featureOf') == 'item' and relatedItem not in [i.id for i in parent.items if i]:
+                raise ValidationError(u"relatedItem should be one of items")
+            if data.get('featureOf') == 'lot' and relatedItem not in [i.id for i in parent.lots if i]:
+                raise ValidationError(u"relatedItem should be one of lots")
 
 
 class BaseLot(Model):
