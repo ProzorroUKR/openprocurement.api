@@ -800,7 +800,8 @@ def create_tender_generated(self):
     self.assertEqual(set(tender), set([
         u'procurementMethodType', u'id', u'date', u'dateModified', u'tenderID', u'status', u'enquiryPeriod',
         u'tenderPeriod', u'minimalStep', u'items', u'value', u'procuringEntity', u'next_check',
-        u'procurementMethod', u'awardCriteria', u'submissionMethod', u'title', u'owner', u'mainProcurementCategory']))
+        u'procurementMethod', u'awardCriteria', u'submissionMethod', u'title', u'owner',
+        u'mainProcurementCategory',  u'milestones']))
     self.assertNotEqual(data['id'], tender['id'])
     self.assertNotEqual(data['doc_id'], tender['id'])
     self.assertNotEqual(data['tenderID'], tender['tenderID'])
@@ -2146,7 +2147,7 @@ def tender_finance_milestones(self):
             'title': "deliveryOfGoods",
             'code': 'postpayment',
             'type': 'financing',
-            'duration': {'days': 1488, 'type': 'calendar'},
+            'duration': {'days': 999, 'type': 'calendar'},
             'sequenceNumber': 0,
             'percentage': 54.45,
         },
@@ -2186,3 +2187,25 @@ def tender_finance_milestones(self):
     self.assertEqual(response.status, '200 OK')
     self.assertNotEqual(response.json['data']['milestones'][0]["title"], new_title)
     self.assertEqual(response.json['data']['milestones'][0]["title"], tender['milestones'][0]["title"])
+
+
+def tender_milestones_required(self):
+    data = dict(**self.initial_data)
+    data['milestones'] = []
+
+    response = self.app.post_json('/tenders', {'data': data}, status=422)
+    self.assertEqual(
+        response.json['errors'],
+        [{
+            u"location": u"body",
+            u"name": u"milestones",
+            u'description': [u'Tender should contain at least one milestone']
+        }]
+    )
+
+
+def tender_milestones_not_required(self):
+    data = dict(**self.initial_data)
+    data['milestones'] = []
+
+    self.app.post_json('/tenders', {'data': data}, status=201)

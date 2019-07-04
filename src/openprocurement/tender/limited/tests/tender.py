@@ -11,7 +11,11 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     dateModified_tender,
     tender_not_found,
     tender_funders,
-    create_tender_with_inn, create_tender_with_inn_before)
+    create_tender_with_inn,
+    create_tender_with_inn_before,
+    tender_milestones_required,
+    tender_milestones_not_required,
+)
 
 from openprocurement.tender.limited.tests.base import (
     BaseTenderWebTest,
@@ -72,6 +76,7 @@ class TenderTest(BaseTenderWebTest):
     initial_data = test_tender_data
 
     test_simple_add_tender = snitch(simple_add_tender)
+    test_tender_milestones_not_required = snitch(tender_milestones_not_required)
 
 
 class TenderNegotiationTest(BaseTenderWebTest):
@@ -136,12 +141,14 @@ class TenderNegotiationProcessTest(TenderProcessTest):
     initial_data = test_tender_negotiation_data
 
     test_tender_cause = snitch(tender_cause)
+    test_tender_milestones_required = snitch(tender_milestones_required)
 
 
 class TenderNegotiationQuickProcessTest(TenderNegotiationProcessTest):
     initial_data = test_tender_negotiation_quick_data
 
     test_tender_cause = snitch(tender_cause_quick)
+    test_tender_milestones_required = snitch(tender_milestones_required)
 
 
 def suite():

@@ -25,13 +25,15 @@ from openprocurement.api.models import (
     schematics_default_role, schematics_embedded_role,
 )
 from openprocurement.api.validation import validate_items_uniq
-from openprocurement.api.utils import get_now, get_schematics_document, get_first_revision_date
+from openprocurement.api.utils import get_now, get_first_revision_date, get_root
 from openprocurement.api.constants import (
-    SANDBOX_MODE, COORDINATES_REG_EXP,
+    SANDBOX_MODE,
     ADDITIONAL_CLASSIFICATIONS_SCHEMES,
     ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017,
     FUNDERS, NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
-    MPC_REQUIRED_FROM)
+    MPC_REQUIRED_FROM,
+    MILESTONES_VALIDATION_FROM,
+)
 
 from openprocurement.tender.core.constants import (
     CANT_DELETE_PERIOD_START_DATE_FROM,
@@ -43,8 +45,8 @@ from openprocurement.tender.core.utils import (
     calc_auction_end_time, rounding_shouldStartAfter
 )
 from openprocurement.tender.core.validation import (
-    validate_LotValue_value, is_positive_float, validate_ua_road,
-    validate_gmdn)
+    validate_LotValue_value, is_positive_float, validate_ua_road, validate_gmdn, validate_milestones
+)
 
 create_role = (blacklist('owner_token', 'owner', 'contracts', '_attachments', 'revisions', 'date', 'dateModified', 'doc_id', 'tenderID', 'bids', 'documents', 'awards', 'questions', 'complaints', 'auctionUrl', 'status', 'auctionPeriod', 'awardPeriod', 'procurementMethod', 'awardCriteria', 'submissionMethod', 'cancellations') + schematics_embedded_role)
 edit_role = (blacklist('status', 'procurementMethodType', 'lots', 'owner_token', 'owner', '_attachments', 'revisions', 'date', 'dateModified', 'doc_id', 'tenderID', 'bids', 'documents', 'awards', 'questions', 'complaints', 'auctionUrl', 'auctionPeriod', 'awardPeriod', 'procurementMethod', 'awardCriteria', 'submissionMethod', 'mode', 'cancellations') + schematics_embedded_role)
@@ -782,6 +784,11 @@ class Duration(Model):
     days = IntType(required=True, min_value=1)
     type = StringType(required=True, choices=['working', 'banking', 'calendar'])
 
+    def validate_days(self, data, value):
+        tender = get_root(data['__parent__'])
+        if get_first_revision_date(tender, default=get_now()) > MILESTONES_VALIDATION_FROM and value > 1000:
+            raise ValidationError(u"days shouldn't be more than 1000")
+
 
 class Milestone(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
@@ -795,11 +802,6 @@ class Milestone(Model):
         ]
     )
     description = StringType()
-
-    def validate_description(self, data, value):
-        if data.get('title', '') == "anotherEvent" and not value:
-            raise ValidationError(u"This field is required.")
-
     type = StringType(required=True, choices=['financing'])
     code = StringType(required=True, choices=["prepayment", "postpayment"])
     percentage = FloatType(required=True, max_value=100, validators=[is_positive_float])
@@ -812,6 +814,14 @@ class Milestone(Model):
         tender = data["__parent__"]
         if value is not None and value not in [l.get("id") for l in getattr(tender, "lots", [])]:
             raise ValidationError(u"relatedLot should be one of the lots.")
+
+    def validate_description(self, data, value):
+        if data.get('title', '') == "anotherEvent" and not value:
+            raise ValidationError(u"This field is required.")
+
+        should_validate = get_first_revision_date(data["__parent__"], default=get_now()) > MILESTONES_VALIDATION_FROM
+        if should_validate and value and len(value) > 2000:
+            raise ValidationError('description should contain at most 2000 characters')
 
 
 @implementer(ITender)
@@ -836,30 +846,7 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
         procurementMethodDetails = StringType()
     funders = ListType(ModelType(Organization), validators=[validate_funders_unique, validate_funders_ids])
     mainProcurementCategory = StringType(choices=["goods", "services", "works"])
-    milestones = ListType(ModelType(Milestone), validators=[validate_items_uniq])
-
-    def validate_milestones(self, data, value):
-        if isinstance(value, list):
-            sums = defaultdict(float)
-            for milestone in value:
-                if milestone["type"] == 'financing':
-                    percentage = milestone.get("percentage")
-                    if percentage:
-                        sums[milestone.get("relatedLot")] += percentage
-
-            for uid, sum_value in sums.items():
-                if sum_value != 100:
-                    raise ValidationError(
-                        u"Sum of the financial milestone percentages {} is not equal 100{}.".format(
-                            sum_value, u" for lot {}".format(uid) if uid else ""
-                        )
-                    )
-
-    def validate_mainProcurementCategory(self, data, value):
-        validation_date = get_first_revision_date(data, default=get_now())
-        if validation_date >= MPC_REQUIRED_FROM and value is None:
-            raise ValidationError(BaseType.MESSAGES['required'])
-
+    milestones = ListType(ModelType(Milestone), validators=[validate_items_uniq, validate_milestones])
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
     revisions = ListType(ModelType(Revision), default=list())
 
@@ -894,6 +881,16 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
         if self.mode and self.mode == 'test' and self.procurementMethodDetails and self.procurementMethodDetails != '':
             raise ValidationError(u"procurementMethodDetails should be used with mode test")
 
+
+    def validate_mainProcurementCategory(self, data, value):
+        validation_date = get_first_revision_date(data, default=get_now())
+        if validation_date >= MPC_REQUIRED_FROM and value is None:
+            raise ValidationError(BaseType.MESSAGES['required'])
+
+    def validate_milestones(self, data, value):
+        required = get_first_revision_date(data, default=get_now()) > MILESTONES_VALIDATION_FROM
+        if required and (value is None or len(value) < 1):
+            raise ValidationError('Tender should contain at least one milestone')
 
 class Tender(BaseTender):
     """Data regarding tender process - publicly inviting prospective contractors to submit bids for evaluation and selecting a winner or winners."""

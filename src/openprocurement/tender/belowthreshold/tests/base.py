@@ -36,6 +36,25 @@ del test_author["scale"]
 
 test_procuringEntity = test_author.copy()
 test_procuringEntity["kind"] = "general"
+test_milestones = [
+    {
+        'id': 'a' * 32,
+        'title': "signingTheContract",
+        'code': 'prepayment',
+        'type': 'financing',
+        'duration': {'days': 2, 'type': 'banking'},
+        'sequenceNumber': 0,
+        'percentage': 45.55,
+    },
+    {
+        'title': "deliveryOfGoods",
+        'code': 'postpayment',
+        'type': 'financing',
+        'duration': {'days': 900, 'type': 'calendar'},
+        'sequenceNumber': 0,
+        'percentage': 54.45,
+    },
+]
 
 test_item = {
     "description": u"футляри до державних нагород",
@@ -91,6 +110,7 @@ test_tender_data = {
         "endDate": (now + timedelta(days=14)).isoformat()
     },
     "procurementMethodType": "belowThreshold",
+    "milestones": test_milestones
 }
 if SANDBOX_MODE:
     test_tender_data['procurementMethodDetails'] = 'quick, accelerator=1440'

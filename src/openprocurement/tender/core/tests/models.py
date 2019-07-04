@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import copy
 import unittest
 from mock import patch, MagicMock
 from datetime import datetime, timedelta, time
@@ -160,25 +161,33 @@ class TestQuestionModel(unittest.TestCase):
 
 
 class TestTenderMainProcurementCategory(unittest.TestCase):
+    milestones = {
+        'id': 'a' * 32,
+        'title': "signingTheContract",
+        'code': 'prepayment',
+        'type': 'financing',
+        'duration': {'days': 2, 'type': 'banking'},
+        'sequenceNumber': 0,
+        'percentage': 100,
+    }
+
     def test_validate_valid(self):
-        tender = Tender(
-            {
-                "title": "whatever",
-                "mainProcurementCategory": "goods",
-            }
-        )
+        tender = Tender({
+            "title": "whatever",
+            "mainProcurementCategory": "goods",
+            "milestones": [copy.deepcopy(self.milestones)]
+        })
         tender.validate()
         data = tender.serialize("embedded")
         self.assertIn("mainProcurementCategory", data)
         self.assertIn(data["mainProcurementCategory"], "goods")
 
     def test_validate_not_valid(self):
-        tender = Tender(
-            {
-                "title": "whatever",
-                "mainProcurementCategory": "test",
-            }
-        )
+        tender = Tender({
+            "title": "whatever",
+            "mainProcurementCategory": "test",
+            "milestones": [copy.deepcopy(self.milestones)]
+        })
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
         self.assertEqual(
@@ -188,7 +197,10 @@ class TestTenderMainProcurementCategory(unittest.TestCase):
 
     def test_validate_empty(self):
         with self.assertRaises(ModelValidationError) as e:
-            tender = Tender({"title": "whatever"})
+            tender = Tender({
+                "title": "whatever",
+                "milestones": [copy.deepcopy(self.milestones)]
+            })
             tender.validate()
         self.assertEqual(
             e.exception.message,

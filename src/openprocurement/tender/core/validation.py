@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from collections import defaultdict
 from decimal import Decimal, ROUND_UP
 
 from schematics.types import BaseType
@@ -584,3 +585,21 @@ def validate_gmdn(classification_id, additional_classifications):
             u"for cpv not starts with {}".format(
                 GMDN_SCHEME, ', '.join(GMDN_CPV_PREFIXES)
             ))
+
+
+def validate_milestones(value):
+    if isinstance(value, list):
+        sums = defaultdict(float)
+        for milestone in value:
+            if milestone["type"] == 'financing':
+                percentage = milestone.get("percentage")
+                if percentage:
+                    sums[milestone.get("relatedLot")] += percentage
+
+        for uid, sum_value in sums.items():
+            if sum_value != 100:
+                raise ValidationError(
+                    u"Sum of the financial milestone percentages {} is not equal 100{}.".format(
+                        sum_value, u" for lot {}".format(uid) if uid else ""
+                    )
+                )

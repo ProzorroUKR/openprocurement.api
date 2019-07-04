@@ -974,6 +974,7 @@ def tender_with_nbu_discount_rate(self):
     ])
 
     data = deepcopy(self.initial_data)
+    del data['milestones']
     data.update({'id': 'hash', 'doc_id': 'hash2', 'tenderID': 'hash3', 'NBUdiscountRate': 0.22986})
     response = self.app.post_json('/tenders', {'data': data})
     self.assertEqual(response.status, '201 Created')
@@ -1309,6 +1310,7 @@ def invalid_bid_tender_features(self):
 
 def create_tender_generated(self):
     data = self.initial_data.copy()
+    del data['milestones']
     #del data['awardPeriod']
     data.update({'id': 'hash', 'doc_id': 'hash2', 'tenderID': 'hash3'})
     response = self.app.post_json('/tenders', {'data': data})

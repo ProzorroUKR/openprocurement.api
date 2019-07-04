@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
+import copy
 from datetime import datetime, timedelta
 from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.tender.belowthreshold.tests.base import test_milestones as base_test_milestones
 from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest
 from openprocurement.api.utils import get_now
 from openprocurement.tender.openeu.constants import (
@@ -9,6 +11,8 @@ from openprocurement.tender.openeu.constants import (
     QUESTIONS_STAND_STILL,
     COMPLAINT_STAND_STILL
 )
+
+test_milestones = copy.deepcopy(base_test_milestones)
 
 test_bids = [
     {
@@ -150,6 +154,7 @@ test_tender_data = {
         "endDate": (now + timedelta(days=TENDERING_DAYS+1)).isoformat()
     },
     "procurementMethodType": "aboveThresholdEU",
+    "milestones": test_milestones,
 }
 if SANDBOX_MODE:
     test_tender_data['procurementMethodDetails'] = 'quick, accelerator=1440'

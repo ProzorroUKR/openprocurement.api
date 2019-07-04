@@ -708,5 +708,9 @@ class Tender(BaseTender):
             if bid.status not in ["deleted", "draft"]:
                 bid.status = "invalid"
 
+    # Not required milestones
+    def validate_milestones(self, data, value):
+        pass
+
 
 TenderESCO = Tender

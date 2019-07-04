@@ -296,5 +296,16 @@
   "amount": 500.0,
   "valueAddedTaxIncluded": true
  },
- "awardCriteria": "lowestCost"
+ "awardCriteria": "lowestCost",
+ "milestones": [
+  {
+   "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+   "title": "signingTheContract",
+   "code": "prepayment",
+   "type": "financing",
+   "duration": {"days": 2, "type": "banking"},
+   "sequenceNumber": 0,
+   "percentage": 100
+  }
+ ]
 }

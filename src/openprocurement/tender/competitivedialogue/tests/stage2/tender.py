@@ -43,6 +43,7 @@ from openprocurement.tender.competitivedialogue.tests.stage2.tender_blanks impor
     one_valid_bid_tender_ua,
     one_invalid_and_1draft_bids_tender,
     first_bid_tender,
+    tender_milestones_not_required,
 )
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUStage2WebTest,
@@ -102,6 +103,7 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
     test_tender_Administrator_change = snitch(tender_Administrator_change)
     test_patch_not_author = snitch(patch_not_author)
     test_tender_funders = snitch(tender_funders)
+    test_tender_milestones_not_required = snitch(tender_milestones_not_required)
 
 
 class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
@@ -144,6 +146,7 @@ class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
     test_guarantee = snitch(guarantee)
     test_tender_Administrator_change = snitch(tender_Administrator_change)
     test_patch_not_author = snitch(patch_not_author)
+    test_tender_milestones_not_required = snitch(tender_milestones_not_required)
 
 
 class TenderStage2UAProcessTest(BaseCompetitiveDialogUAStage2WebTest):

@@ -10,7 +10,9 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     invalid_tender_conditions,
     # TenderResourceTest
     guarantee,
-    create_tender_with_inn, create_tender_with_inn_before)
+    create_tender_with_inn, create_tender_with_inn_before,
+    tender_milestones_required,
+)
 from openprocurement.tender.openua.tests.tender_blanks import (
     empty_listing, tender_fields,
     tender_finance_milestones,
@@ -96,6 +98,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_tender_finance_milestones = snitch(tender_finance_milestones)
     test_create_tender_with_inn = snitch(create_tender_with_inn)
     test_create_tender_with_inn_before = snitch(create_tender_with_inn_before)
+    test_tender_milestones_required = snitch(tender_milestones_required)
 
     def test_patch_not_author(self):
         response = self.app.post_json('/tenders', {'data': test_tender_w_lot_data})

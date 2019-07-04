@@ -74,5 +74,16 @@
         "endDate": "2018-09-01T10:10:10"
     },
     "maxAwardsCount": 4,
-    "agreementDuration": "P3Y3M3D"
+    "agreementDuration": "P3Y3M3D",
+    "milestones": [
+        {
+            "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "title": "signingTheContract",
+            "code": "prepayment",
+            "type": "financing",
+            "duration": {"days": 2, "type": "banking"},
+            "sequenceNumber": 0,
+            "percentage": 100
+        }
+    ]
 }

@@ -13,6 +13,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     invalid_tender_conditions,
     # TenderResourceTest
     guarantee,
+    tender_milestones_not_required,
 )
 
 from openprocurement.tender.openua.tests.tender import TenderUAResourceTestMixin
@@ -69,6 +70,7 @@ class TenderESCOTest(BaseESCOWebTest):
     test_items_without_deliveryDate_quantity = snitch(items_without_deliveryDate_quantity)
     test_tender_fundingKind_default = snitch(tender_fundingKind_default)
     test_tender_noticePublicationDate = snitch(tender_noticePublicationDate)
+    test_tender_milestones_not_required = snitch(tender_milestones_not_required)
 
 
 class TestTenderEU(BaseESCOContentWebTest, TenderResourceTestMixin, TenderUAResourceTestMixin):

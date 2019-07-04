@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from datetime import timedelta
+from mock import patch
+from openprocurement.api.utils import get_now
 from schematics.types.compound import ModelType, ListType
 from schematics.exceptions import ModelValidationError
 from openprocurement.tender.core.models import Lot, BaseTender
@@ -14,17 +17,30 @@ class TestTenderMilestones(unittest.TestCase):
 
     def test_validate_without_milestones(self):
         tender = BaseTender(self.initial_tender_data)
-        tender.validate()
-        data = tender.serialize("embedded")
-        self.assertNotIn("milestones", data)
+        with self.assertRaises(ModelValidationError) as e:
+            tender.validate()
+        self.assertEqual(
+            e.exception.message,
+            {'milestones': ['Tender should contain at least one milestone']}
+        )
+
+    def test_regression_milestones(self):
+        with patch('openprocurement.tender.core.models.MILESTONES_VALIDATION_FROM', get_now() + timedelta(days=1)):
+            tender = BaseTender(self.initial_tender_data)
+            tender.validate()
+            data = tender.serialize("embedded")
+            self.assertNotIn("milestones", data)
 
     def test_validate_empty(self):
         initial_data = dict(self.initial_tender_data)
         initial_data.update(milestones=[])
         tender = BaseTender(initial_data)
-        tender.validate()
-        data = tender.serialize("embedded")
-        self.assertNotIn("milestones", data)
+        with self.assertRaises(ModelValidationError) as e:
+            tender.validate()
+        self.assertEqual(
+            e.exception.message,
+            {'milestones': ['Tender should contain at least one milestone']}
+        )
 
     def test_validate_empty_object(self):
         initial_data = dict(self.initial_tender_data)
