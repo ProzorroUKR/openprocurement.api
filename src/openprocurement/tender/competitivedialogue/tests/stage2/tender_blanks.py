@@ -1919,3 +1919,11 @@ def first_bid_tender(self):
     self.app.authorization = ('Basic', ('broker', ''))
     response = self.app.get('/tenders/{}'.format(tender_id))
     self.assertEqual(response.json['data']['status'], 'complete')
+
+
+def tender_milestones_not_required(self):
+    data = dict(**self.initial_data)
+    self.app.authorization = ('Basic', ('competitive_dialogue', ''))
+    data['milestones'] = []
+
+    self.app.post_json('/tenders', {'data': data}, status=201)

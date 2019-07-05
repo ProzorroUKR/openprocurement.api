@@ -6,6 +6,7 @@ from copy import deepcopy
 from openprocurement.api.tests.base import BaseWebTest, snitch
 from uuid import uuid4
 
+from openprocurement.tender.belowthreshold.tests.tender_blanks import tender_milestones_not_required
 from openprocurement.tender.cfaselectionua.constants import BOT_NAME
 from openprocurement.tender.cfaselectionua.tests.base import (
     test_lots,
@@ -142,6 +143,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_required_field_deletion = snitch(required_field_deletion)
     test_patch_tender_to_draft_pending = snitch(patch_tender_to_draft_pending)
     test_edit_tender_in_active_enquiries = snitch(edit_tender_in_active_enquiries)
+    test_tender_milestones_not_required = snitch(tender_milestones_not_required)
 
 
 class TenderProcessTest(BaseTenderWebTest):

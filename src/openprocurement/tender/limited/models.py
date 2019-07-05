@@ -6,7 +6,8 @@ from schematics.types import StringType, MD5Type, BooleanType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from schematics.exceptions import ValidationError
-from openprocurement.api.utils import get_now
+from openprocurement.api.constants import MILESTONES_VALIDATION_FROM
+from openprocurement.api.utils import get_now, get_first_revision_date
 from openprocurement.api.models import (
     draft_role, plain_role, listing_role,
     schematics_default_role, schematics_embedded_role,
@@ -265,6 +266,11 @@ class Tender(BaseTender):
             (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_complaint'),
         ]
 
+    # Not required milestones
+    def validate_milestones(self, data, value):
+        pass
+
+
 ReportingTender = Tender
 Item = BaseItem
 
@@ -350,6 +356,13 @@ class Tender(ReportingTender):
     edit_accreditation = 4
     procuring_entity_kinds = ['general', 'special', 'defense']
     lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
+
+    # Required milestones
+    def validate_milestones(self, data, value):
+        required = get_first_revision_date(data, default=get_now()) > MILESTONES_VALIDATION_FROM
+        if required and (value is None or len(value) < 1):
+            raise ValidationError('Tender should contain at least one milestone')
+
 
 NegotiationTender = Tender
 

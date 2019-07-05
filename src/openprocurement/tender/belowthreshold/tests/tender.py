@@ -40,7 +40,10 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     coordinates_reg_exp,
     # TenderTest
     simple_add_tender,
-    create_tender_with_inn, create_tender_with_inn_before)
+    create_tender_with_inn,
+    create_tender_with_inn_before,
+    tender_milestones_required,
+)
 
 
 class TenderResourceTestMixin(object):
@@ -86,6 +89,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_required_field_deletion = snitch(required_field_deletion)
     test_create_tender_with_inn = snitch(create_tender_with_inn)
     test_create_tender_with_inn_before = snitch(create_tender_with_inn_before)
+    test_tender_milestones_required = snitch(tender_milestones_required)
 
 
 class TenderProcessTest(BaseTenderWebTest):

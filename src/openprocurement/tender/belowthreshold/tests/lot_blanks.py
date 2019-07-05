@@ -1861,7 +1861,7 @@ def tender_lot_milestones(self):
                 'title': "signingTheContract",
                 'code': 'prepayment',
                 'type': 'financing',
-                'duration': {'days': 1488, 'type': 'calendar'},
+                'duration': {'days': 999, 'type': 'calendar'},
                 'sequenceNumber': 2,
                 'percentage': 100,
                 'relatedLot': lot["id"],

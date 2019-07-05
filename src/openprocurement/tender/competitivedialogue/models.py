@@ -482,6 +482,9 @@ class Tender(BaseTenderEU):
     # Non-required mainProcurementCategory
     def validate_mainProcurementCategory(self, data, value):
         pass
+    # Not required milestones
+    def validate_milestones(self, data, value):
+        pass
 
 TenderStage2EU = Tender
 
@@ -530,6 +533,10 @@ class Tender(BaseTenderUA):
 
     # Non-required mainProcurementCategory
     def validate_mainProcurementCategory(self, data, value):
+        pass
+
+    # Not required milestones
+    def validate_milestones(self, data, value):
         pass
 
 TenderStage2UA = Tender

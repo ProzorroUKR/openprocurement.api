@@ -7,6 +7,7 @@ from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTes
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     # CompetitiveDialogResourceTest
     guarantee,
+    tender_milestones_required,
 )
 
 from openprocurement.tender.openua.tests.tender_blanks import (
@@ -72,6 +73,7 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest, TenderReso
     test_try_go_to_ready_stage = snitch(try_go_to_ready_stage_eu)
     test_tender_with_main_procurement_category = snitch(tender_with_main_procurement_category)
     test_tender_finance_milestones = snitch(tender_finance_milestones)
+    test_tender_milestones_required = snitch(tender_milestones_required)
 
 
 class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest, TenderResourceTestMixin):
@@ -88,6 +90,7 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest, TenderReso
     test_update_status_complete_owner_ua = snitch(update_status_complete_owner_ua)
     test_tender_with_main_procurement_category = snitch(tender_with_main_procurement_category)
     test_tender_finance_milestones = snitch(tender_finance_milestones)
+    test_tender_milestones_required = snitch(tender_milestones_required)
 
 
 def suite():

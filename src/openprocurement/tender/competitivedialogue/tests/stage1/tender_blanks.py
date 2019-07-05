@@ -296,7 +296,7 @@ def create_tender_generated_eu(self):
         u'complaintPeriod', u'items', u'value', u'owner',
         u'procuringEntity', u'next_check', u'procurementMethod',
         u'awardCriteria', u'submissionMethod', u'title', u'title_en',
-        u'date', u'minimalStep', u'mainProcurementCategory']))
+        u'date', u'minimalStep', u'mainProcurementCategory', u'milestones']))
     self.assertNotEqual(data['id'], tender['id'])
     self.assertNotEqual(data['doc_id'], tender['id'])
     self.assertNotEqual(data['tenderID'], tender['tenderID'])
@@ -835,7 +835,7 @@ def create_tender_generated_ua(self):
         u'items', u'value', u'procuringEntity',
         u'next_check', u'procurementMethod', u'awardCriteria',
         u'submissionMethod', u'title', u'owner',
-        u'date', u'minimalStep', u'mainProcurementCategory'
+        u'date', u'minimalStep', u'mainProcurementCategory', u'milestones',
     ]))
     self.assertNotEqual(data['id'], tender['id'])
     self.assertNotEqual(data['doc_id'], tender['id'])

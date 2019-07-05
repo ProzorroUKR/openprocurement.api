@@ -145,5 +145,3 @@ class CloseFrameworkAgreementUA(Tender):
         for bid in self.bids:
             if bid.status not in ["deleted", "draft"]:
                 bid.status = "invalid"
-
-
