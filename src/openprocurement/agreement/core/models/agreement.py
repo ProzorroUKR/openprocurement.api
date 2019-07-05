@@ -33,7 +33,7 @@ class Agreement(OpenprocurementSchematicsDocument, Model):
     dateModified = IsoDateTimeType()
     description = StringType()
     title = StringType()
-    revisions = ListType(ModelType(Revision), default=list())
+    revisions = ListType(ModelType(Revision, required=True), default=list())
     tender_token = StringType(required=True)
     tender_id = StringType(required=True)
     owner_token = StringType(default=lambda: uuid4().hex)

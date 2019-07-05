@@ -24,9 +24,10 @@ class Contract(Model):
     status = StringType(
         choices=['active', 'unsuccessful']
     )
-    suppliers = ListType(ModelType(BusinessOrganization))
-    unitPrices = ListType(ModelType(UnitPrice))
+    suppliers = ListType(ModelType(BusinessOrganization, required=True))
+    unitPrices = ListType(ModelType(UnitPrice, required=True))
     awardID = StringType()
     bidID = StringType()
     date = IsoDateTimeType()
-    parameters = ListType(ModelType(Parameter), default=list(), validators=[validate_parameters_uniq])
+    parameters = ListType(ModelType(Parameter, required=True), default=list(),
+                          validators=[validate_parameters_uniq])

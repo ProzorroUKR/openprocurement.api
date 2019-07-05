@@ -45,10 +45,10 @@ class Agreement(BaseAgreement):
     changes = ListType(PolyModelType((ChangeTaxRate, ChangeItemPriceVariation,
                                       ChangePartyWithdrawal, ChangeThirdParty),
                                      claim_function=get_change_class), default=list())
-    documents = ListType(ModelType(Document), default=list())
-    contracts = ListType(ModelType(Contract), default=list())
-    features = ListType(ModelType(Feature), validators=[validate_features_uniq])
-    items = ListType(ModelType(Item))
+    documents = ListType(ModelType(Document, required=True), default=list())
+    contracts = ListType(ModelType(Contract, required=True), default=list())
+    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
+    items = ListType(ModelType(Item, required=True))
     procuringEntity = ModelType(
         ProcuringEntity, required=True
     )

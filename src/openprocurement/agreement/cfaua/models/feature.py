@@ -28,7 +28,8 @@ class Feature(Model):
     description = StringType()
     description_en = StringType()
     description_ru = StringType()
-    enum = ListType(ModelType(FeatureValue), default=list(), min_size=1, validators=[validate_values_uniq])
+    enum = ListType(ModelType(FeatureValue, required=True), default=list(), min_size=1,
+                    validators=[validate_values_uniq])
 
     def validate_relatedItem(self, data, relatedItem):
         if not relatedItem and data.get('featureOf') in ['item', 'lot']:
