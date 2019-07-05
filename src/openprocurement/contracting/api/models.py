@@ -132,7 +132,7 @@ class Item(BaseItem):
         }
 
     classification = ModelType(CPVClassification, required=True)
-    additionalClassifications =  ListType(ModelType(AdditionalClassification, default=list()))
+    additionalClassifications =  ListType(ModelType(AdditionalClassification, required=True), default=list())
 
 
 class Change(Model):
@@ -168,20 +168,21 @@ class Change(Model):
 class Contract(SchematicsDocument, BaseContract):
     """ Contract """
 
-    revisions = ListType(ModelType(Revision), default=list())
+    revisions = ListType(ModelType(Revision, required=True), default=list())
     dateModified = IsoDateTimeType()
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
-    items = ListType(ModelType(Item), required=False, min_size=1, validators=[validate_items_uniq])
+    items = ListType(ModelType(Item, required=True), required=False, min_size=1,
+                     validators=[validate_items_uniq])
     tender_token = StringType(required=True)
     tender_id = StringType(required=True)
     owner_token = StringType(default=lambda: uuid4().hex)
     owner = StringType()
     mode = StringType(choices=['test'])
     status = StringType(choices=['terminated', 'active'], default='active')
-    suppliers = ListType(ModelType(BusinessOrganization), min_size=1, max_size=1)
+    suppliers = ListType(ModelType(BusinessOrganization, required=True), min_size=1, max_size=1)
     procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
-    changes = ListType(ModelType(Change), default=list())
-    documents = ListType(ModelType(Document), default=list())
+    changes = ListType(ModelType(Change, required=True), default=list())
+    documents = ListType(ModelType(Document, required=True), default=list())
     amountPaid = ModelType(ContractValue)
     value = ModelType(ContractValue)
     terminationDetails = StringType()
