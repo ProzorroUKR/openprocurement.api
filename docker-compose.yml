@@ -6,7 +6,6 @@ services:
       dockerfile: Dockerfile
     environment:
       SANDBOX_MODE: 'True'
-      CONSTANTS_FILE_PATH: '/app/etc/constants.ini'
     depends_on:
       - couchdb
   couchdb:

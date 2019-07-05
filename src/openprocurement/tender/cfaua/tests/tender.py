@@ -13,7 +13,6 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_with_inn, create_tender_with_inn_before)
 from openprocurement.tender.openua.tests.tender_blanks import (
     empty_listing, tender_fields,
-    tender_with_main_procurement_category,
     tender_finance_milestones,
 )
 from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER
@@ -50,8 +49,8 @@ from openprocurement.tender.cfaua.tests.tender_blanks import (
     agreement_duration_period,
     tender_features_invalid,
     extract_tender_credentials,
-    patch_unitprice_with_features
-)
+    patch_unitprice_with_features,
+    tender_with_main_procurement_category)
 
 
 class TenderTest(BaseTenderWebTest):

@@ -800,7 +800,7 @@ def create_tender_generated(self):
     self.assertEqual(set(tender), set([
         u'procurementMethodType', u'id', u'date', u'dateModified', u'tenderID', u'status', u'enquiryPeriod',
         u'tenderPeriod', u'minimalStep', u'items', u'value', u'procuringEntity', u'next_check',
-        u'procurementMethod', u'awardCriteria', u'submissionMethod', u'title', u'owner']))
+        u'procurementMethod', u'awardCriteria', u'submissionMethod', u'title', u'owner', u'mainProcurementCategory']))
     self.assertNotEqual(data['id'], tender['id'])
     self.assertNotEqual(data['doc_id'], tender['id'])
     self.assertNotEqual(data['tenderID'], tender['tenderID'])

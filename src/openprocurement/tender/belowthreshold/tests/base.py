@@ -71,6 +71,7 @@ test_item = {
 
 test_tender_data = {
     "title": u"футляри до державних нагород",
+    "mainProcurementCategory": "goods",
     "procuringEntity": test_procuringEntity,
     "value": {
         "amount": 500,

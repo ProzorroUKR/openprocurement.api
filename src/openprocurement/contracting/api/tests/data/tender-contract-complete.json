@@ -1,6 +1,7 @@
 {
  "procurementMethod": "open",
  "status": "complete",
+ "mainProcurementCategory": "services",
  "awardPeriod": {
   "startDate": "2016-05-22T13:28:10.372672+03:00",
   "endDate": "2016-05-22T13:28:10.372672+03:00"
