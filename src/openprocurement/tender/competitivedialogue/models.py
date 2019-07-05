@@ -130,9 +130,9 @@ class Bid(BidEU):
             'deleted': whitelist('id', 'status'),
         }
 
-    documents = ListType(ModelType(Document), default=list())
+    documents = ListType(ModelType(Document, required=True), default=list())
     value = None
-    lotValues = ListType(ModelType(LotValue), default=list())
+    lotValues = ListType(ModelType(LotValue, required=True), default=list())
 
     def validate_value(self, *args, **kwargs):
         pass  # remove validation on stage 1
@@ -146,7 +146,7 @@ class FeatureValue(BaseFeatureValue):
 
 
 class Feature(BaseFeature):
-    enum = ListType(ModelType(FeatureValue), default=list(), min_size=1, validators=[validate_values_uniq])
+    enum = ListType(ModelType(FeatureValue, required=True), default=list(), min_size=1, validators=[validate_values_uniq])
 
 lot_roles = {
     'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'guarantee', 'minimalStep'),
@@ -183,11 +183,11 @@ class CompetitiveDialogEU(BaseTenderEU):
                                  'active.stage2.waiting', 'complete', 'cancelled', 'unsuccessful'],
                         default='active.tendering')
     # A list of all the companies who entered submissions for the tender.
-    bids = SifterListType(ModelType(Bid), default=list(),
+    bids = SifterListType(ModelType(Bid, required=True), default=list(),
                           filter_by='status', filter_in_values=['invalid', 'deleted'])
     TenderID = StringType(required=False)
     stage2TenderID = StringType(required=False)
-    features = ListType(ModelType(Feature), validators=[validate_features_uniq])
+    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     lots = ListType(ModelType(Lot, required=True), default=list(), validators=[validate_lots_uniq])
     items = ListType(ModelType(BaseEUItem, required=True), required=True, min_size=1,
                      validators=[validate_cpv_group, validate_items_uniq])
@@ -394,7 +394,7 @@ class TenderStage2EU(BaseTenderEU):
     procurementMethodType = StringType(default=STAGE_2_EU_TYPE)
     dialogue_token = StringType(required=True)
     dialogueID = StringType()
-    shortlistedFirms = ListType(ModelType(Firms), min_size=3, required=True)
+    shortlistedFirms = ListType(ModelType(Firms, required=True), min_size=3, required=True)
     tenderPeriod = ModelType(PeriodStartEndRequired, required=False,
                              default=init_PeriodStartEndRequired(TENDERING_DURATION_EU))
     status = StringType(
@@ -408,9 +408,9 @@ class TenderStage2EU(BaseTenderEU):
     # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     items = ListType(ModelType(ItemStage2EU, required=True), required=True, min_size=1,
                      validators=[validate_cpv_group, validate_items_uniq])
-    awards = ListType(ModelType(Award), default=list())
-    contracts = ListType(ModelType(Contract), default=list())
-    features = ListType(ModelType(Feature), validators=[validate_features_uniq])
+    awards = ListType(ModelType(Award, required=True), default=list())
+    contracts = ListType(ModelType(Contract, required=True), default=list())
+    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
 
     create_accreditation = 'c'
 
@@ -501,7 +501,7 @@ class TenderStage2UA(BaseTenderUA):
     procurementMethodType = StringType(default=STAGE_2_UA_TYPE)
     dialogue_token = StringType(required=True)
     dialogueID = StringType()
-    shortlistedFirms = ListType(ModelType(Firms), min_size=3, required=True)
+    shortlistedFirms = ListType(ModelType(Firms, required=True), min_size=3, required=True)
     tenderPeriod = ModelType(PeriodStartEndRequired, required=False,
                              default=init_PeriodStartEndRequired(TENDERING_DURATION_UA))
     status = StringType(
@@ -512,9 +512,9 @@ class TenderStage2UA(BaseTenderUA):
     lots = ListType(ModelType(LotStage2UA, required=True), default=list(), validators=[validate_lots_uniq])
     items = ListType(ModelType(ItemStage2UA, required=True), required=True, min_size=1,
                      validators=[validate_cpv_group, validate_items_uniq])
-    awards = ListType(ModelType(Award), default=list())
-    contracts = ListType(ModelType(Contract), default=list())
-    features = ListType(ModelType(Feature), validators=[validate_features_uniq])
+    awards = ListType(ModelType(Award, required=True), default=list())
+    contracts = ListType(ModelType(Contract, required=True), default=list())
+    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     procurementMethod = StringType(choices=['open', 'selective', 'limited'], default='selective')
 
     create_accreditation = 'c'

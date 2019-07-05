@@ -18,7 +18,7 @@ class Contract(BaseContract):
 
     value = ModelType(ContractValue)
     awardID = StringType(required=True)
-    documents = ListType(ModelType(Document), default=list())
+    documents = ListType(ModelType(Document, required=True), default=list())
 
     def validate_awardID(self, data, awardID):
         parent = data['__parent__']

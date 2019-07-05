@@ -153,8 +153,8 @@ class Award(BaseAward):
 
     qualified = BooleanType()
     items = ListType(ModelType(Item, required=True))
-    documents = ListType(ModelType(Document), default=list())
-    complaints = ListType(ModelType(Complaint), default=list())
+    documents = ListType(ModelType(Document, required=True), default=list())
+    complaints = ListType(ModelType(Complaint, required=True), default=list())
     complaintPeriod = ModelType(Period)
 
 
@@ -246,11 +246,11 @@ class ReportingTender(BaseTender):
     procurementMethod = StringType(choices=['open', 'selective', 'limited'], default='limited')  # Specify tendering method as per GPA definitions of Open, Selective, Limited (http://www.wto.org/english/docs_e/legal_e/rev-gpr-94_01_e.htm)
     procurementMethodType = StringType(default="reporting")
     procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
-    awards = ListType(ModelType(Award), default=list())
-    contracts = ListType(ModelType(Contract), default=list())
+    awards = ListType(ModelType(Award, required=True), default=list())
+    contracts = ListType(ModelType(Contract, required=True), default=list())
     status = StringType(choices=['draft', 'active', 'complete', 'cancelled', 'unsuccessful'], default='active')
     mode = StringType(choices=['test'])
-    cancellations = ListType(ModelType(Cancellation), default=list())
+    cancellations = ListType(ModelType(Cancellation, required=True), default=list())
 
     create_accreditation = '13'
     edit_accreditation = 2
@@ -357,8 +357,8 @@ class NegotiationTender(ReportingTender):
 
     items = ListType(ModelType(Item, required=True), required=True, min_size=1,
                      validators=[validate_cpv_group, validate_items_uniq, validate_classification_id])
-    awards = ListType(ModelType(Award), default=list())
-    contracts = ListType(ModelType(Contract), default=list())
+    awards = ListType(ModelType(Award, required=True), default=list())
+    contracts = ListType(ModelType(Contract, required=True), default=list())
     cause = StringType(choices=['artContestIP', 'noCompetition', 'twiceUnsuccessful',
                                 'additionalPurchase', 'additionalConstruction', 'stateLegalServices'],
                        required=True)

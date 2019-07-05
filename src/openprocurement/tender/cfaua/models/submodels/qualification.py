@@ -26,8 +26,8 @@ class Qualification(Model):
     lotID = MD5Type()
     status = StringType(choices=['pending', 'active', 'unsuccessful', 'cancelled'], default='pending')
     date = IsoDateTimeType()
-    documents = ListType(ModelType(EUDocument), default=list())
-    complaints = ListType(ModelType(Complaint), default=list())
+    documents = ListType(ModelType(EUDocument, required=True), default=list())
+    complaints = ListType(ModelType(Complaint, required=True), default=list())
     qualified = BooleanType(default=False)
     eligible = BooleanType(default=False)
 

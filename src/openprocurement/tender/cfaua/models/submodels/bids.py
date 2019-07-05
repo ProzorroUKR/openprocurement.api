@@ -48,15 +48,15 @@ class Bid(BaseBid):
     class Options:
         roles = RolesFromCsv('Bid.csv', relative_to=__file__)
 
-    documents = ListType(ModelType(BidderEUDocument), default=list())
-    financialDocuments = ListType(ModelType(BidderEUDocument), default=list())
-    eligibilityDocuments = ListType(ModelType(BidderEUDocument), default=list())
-    qualificationDocuments = ListType(ModelType(BidderEUDocument), default=list())
-    lotValues = ListType(ModelType(LotValue), default=list())
+    documents = ListType(ModelType(BidderEUDocument, required=True), default=list())
+    financialDocuments = ListType(ModelType(BidderEUDocument, required=True), default=list())
+    eligibilityDocuments = ListType(ModelType(BidderEUDocument, required=True), default=list())
+    qualificationDocuments = ListType(ModelType(BidderEUDocument, required=True), default=list())
+    lotValues = ListType(ModelType(LotValue, required=True), default=list())
     selfQualified = BooleanType(required=True, choices=[True])
     selfEligible = BooleanType(required=True, choices=[True])
     subcontractingDetails = StringType()
-    parameters = ListType(ModelType(BidParameter), default=list(), validators=[validate_parameters_uniq])
+    parameters = ListType(ModelType(BidParameter, required=True), default=list(), validators=[validate_parameters_uniq])
     status = StringType(
         choices=['draft', 'pending', 'active', 'invalid', 'invalid.pre-qualification', 'unsuccessful', 'deleted'],
         default='pending'

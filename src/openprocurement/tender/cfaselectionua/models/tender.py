@@ -108,21 +108,21 @@ class CFASelectionUATender(BaseTender):
     hasEnquiries = BooleanType()  # A Yes/No field as to whether enquiries were part of tender process.
     awardPeriod = ModelType(Period)  # The date or period on which an award is anticipated to be made.
     numberOfBidders = IntType()  # The number of unique tenderers who participated in the tender
-    bids = ListType(ModelType(Bid), default=list())  # A list of all the companies who entered submissions for the tender.
+    bids = ListType(ModelType(Bid, required=True), default=list())  # A list of all the companies who entered submissions for the tender.
     procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
-    awards = ListType(ModelType(Award), default=list())
-    contracts = ListType(ModelType(Contract), default=list())
+    awards = ListType(ModelType(Award, required=True), default=list())
+    contracts = ListType(ModelType(Contract, required=True), default=list())
     auctionPeriod = ModelType(TenderAuctionPeriod, default={})
     minimalStep = ModelType(Value, required=False)
     auctionUrl = URLType()
-    cancellations = ListType(ModelType(Cancellation), default=list())
-    features = ListType(ModelType(Feature), validators=[validate_features_uniq])
+    cancellations = ListType(ModelType(Cancellation, required=True), default=list())
+    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     lots = ListType(ModelType(Lot, required=True), default=list(), validators=[validate_lots_uniq], min_size=1, max_size=1)
     guarantee = ModelType(Guarantee)
     status = StringType(choices=['draft', 'draft.pending', 'draft.unsuccessful', 'active.enquiries', 'active.tendering',
                                  'active.auction', 'active.qualification', 'active.awarded', 'complete',
                                  'cancelled', 'unsuccessful'], default='draft')  # TODO Refactoring status
-    agreements = ListType(ModelType(Agreement), default=list(), min_size=1, max_size=1)
+    agreements = ListType(ModelType(Agreement, required=True), default=list(), min_size=1, max_size=1)
 
     procurementMethod = StringType(choices=['open', 'selective', 'limited'], default='selective')
     procurementMethodType = StringType(default="closeFrameworkAgreementSelectionUA")

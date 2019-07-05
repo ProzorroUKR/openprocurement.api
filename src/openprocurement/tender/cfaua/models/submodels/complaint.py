@@ -20,7 +20,7 @@ class ComplaintModelType(BaseComplaintModelType):
 class Complaint(BaseComplaint):
     class Options:
         roles = RolesFromCsv('Complaint.csv', relative_to=__file__)
-    documents = ListType(ModelType(EUDocument), default=list())
+    documents = ListType(ModelType(EUDocument, required=True), default=list())
     status = StringType(choices=['draft', 'claim', 'answered', 'pending', 'accepted', 'invalid', 'resolved', 'declined', 'cancelled', 'satisfied', 'stopping', 'stopped', 'mistaken'], default='draft')
     acceptance = BooleanType()
     dateAccepted = IsoDateTimeType()

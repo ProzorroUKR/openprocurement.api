@@ -139,17 +139,17 @@ class Tender(BaseTender):
     hasEnquiries = BooleanType()  # A Yes/No field as to whether enquiries were part of tender process.
     awardPeriod = ModelType(Period)  # The date or period on which an award is anticipated to be made.
     numberOfBidders = IntType()  # The number of unique tenderers who participated in the tender
-    bids = ListType(ModelType(Bid), default=list())  # A list of all the companies who entered submissions for the tender.
+    bids = ListType(ModelType(Bid, required=True), default=list())  # A list of all the companies who entered submissions for the tender.
     procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
-    awards = ListType(ModelType(Award), default=list())
-    contracts = ListType(ModelType(Contract), default=list())
+    awards = ListType(ModelType(Award, required=True), default=list())
+    contracts = ListType(ModelType(Contract, required=True), default=list())
     auctionPeriod = ModelType(TenderAuctionPeriod, default={})
     minimalStep = ModelType(Value, required=True)
-    questions = ListType(ModelType(Question), default=list())
-    complaints = ListType(ComplaintModelType(Complaint), default=list())
+    questions = ListType(ModelType(Question, required=True), default=list())
+    complaints = ListType(ComplaintModelType(Complaint, required=True), default=list())
     auctionUrl = URLType()
-    cancellations = ListType(ModelType(Cancellation), default=list())
-    features = ListType(ModelType(Feature), validators=[validate_features_uniq])
+    cancellations = ListType(ModelType(Cancellation, required=True), default=list())
+    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     lots = ListType(ModelType(Lot, required=True), default=list(), validators=[validate_lots_uniq])
     guarantee = ModelType(Guarantee)
 

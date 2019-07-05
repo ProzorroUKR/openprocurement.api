@@ -17,6 +17,7 @@ class Bid(BaseBid):
     class Options:
         roles = RolesFromCsv('Bid.csv', relative_to=__file__)
 
-    parameters = ListType(ModelType(Parameter), default=list(), validators=[validate_parameters_uniq])
+    parameters = ListType(ModelType(Parameter, required=True), default=list(),
+                          validators=[validate_parameters_uniq])
     subcontractingDetails = StringType()
-    lotValues = ListType(ModelType(LotValue), default=list())
+    lotValues = ListType(ModelType(LotValue, required=True), default=list())

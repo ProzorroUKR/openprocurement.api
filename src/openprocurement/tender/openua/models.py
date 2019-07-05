@@ -160,12 +160,12 @@ class Bid(BaseBid):
             'deleted': whitelist('id', 'status'),
         }
 
-    lotValues = ListType(ModelType(LotValue), default=list())
+    lotValues = ListType(ModelType(LotValue, required=True), default=list())
     subcontractingDetails = StringType()
     status = StringType(choices=['draft', 'active', 'invalid', 'deleted'], default='active')
     selfQualified = BooleanType(required=True, choices=[True])
     selfEligible = BooleanType(required=True, choices=[True])
-    parameters = ListType(ModelType(Parameter), default=list(), validators=[validate_parameters_uniq])
+    parameters = ListType(ModelType(Parameter, required=True), default=list(), validators=[validate_parameters_uniq])
 
     def serialize(self, role=None):
         if role and self.status in ['invalid', 'deleted']:
@@ -258,7 +258,7 @@ class Award(BaseAward):
             'edit': whitelist('status', 'qualified', 'eligible', 'title', 'title_en', 'title_ru',
                               'description', 'description_en', 'description_ru'),
         }
-    complaints = ListType(ModelType(Complaint), default=list())
+    complaints = ListType(ModelType(Complaint, required=True), default=list())
     items = ListType(ModelType(Item, required=True))
     qualified = BooleanType(default=False)
     eligible = BooleanType(default=False)
@@ -336,16 +336,22 @@ class Tender(BaseTender):
     enquiryPeriod = ModelType(EnquiryPeriod, required=False)
     tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
     auctionPeriod = ModelType(TenderAuctionPeriod, default={})
-    bids = SifterListType(ModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalid', 'deleted'])  # A list of all the companies who entered submissions for the tender.
-    awards = ListType(ModelType(Award), default=list())
-    contracts = ListType(ModelType(Contract), default=list())
-    complaints = ListType(ComplaintModelType(Complaint), default=list())
+    bids = SifterListType(ModelType(Bid, required=True), default=list(), filter_by='status',
+                          filter_in_values=['invalid', 'deleted'])  # A list of all the companies who entered submissions for the tender.
+    awards = ListType(ModelType(Award, required=True), default=list())
+    contracts = ListType(ModelType(Contract, required=True), default=list())
+    complaints = ListType(ComplaintModelType(Complaint, required=True), default=list())
     procurementMethodType = StringType(default="aboveThresholdUA")
     lots = ListType(ModelType(Lot, required=True), default=list(), validators=[validate_lots_uniq])
-    status = StringType(choices=['draft', 'active.tendering', 'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
+    status = StringType(
+        choices=[
+            'draft', 'active.tendering', 'active.auction', 'active.qualification',
+            'active.awarded', 'complete', 'cancelled', 'unsuccessful'
+        ],
+        default='active.tendering')
     items = ListType(ModelType(Item, required=True), required=True, min_size=1,
                      validators=[validate_cpv_group, validate_items_uniq, validate_classification_id])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
-    cancellations = ListType(ModelType(Cancellation), default=list())
+    cancellations = ListType(ModelType(Cancellation, required=True), default=list())
 
     create_accreditation = 3
     edit_accreditation = 4

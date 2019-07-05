@@ -119,20 +119,20 @@ class CloseFrameworkAgreementUA(Tender):
     block_complaint_status = ['pending', 'accepted', 'satisfied', 'stopping']
     auctionPeriod = ModelType(TenderAuctionPeriod, default={})
     auctionUrl = URLType()
-    awards = ListType(ModelType(Award), default=list())
+    awards = ListType(ModelType(Award, required=True), default=list())
     awardPeriod = ModelType(Period)  # The dat e or period on which an award is anticipated to be made.
     bids = SifterListType(BidModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalid', 'invalid.pre-qualification', 'deleted'])  # A list of all the companies who entered submissions for the tender.
-    cancellations = ListType(ModelType(Cancellation), default=list())
-    complaints = ListType(ComplaintModelType(Complaint), default=list())
+    cancellations = ListType(ModelType(Cancellation, required=True), default=list())
+    complaints = ListType(ComplaintModelType(Complaint, required=True), default=list())
     contractPeriod = ModelType(ContractPeriod, required=False)
-    agreements = ListType(ModelType(Agreement), default=list())
-    documents = ListType(ModelType(EUDocument), default=list())  # All documents and attachments related to the tender.
+    agreements = ListType(ModelType(Agreement, required=True), default=list())
+    documents = ListType(ModelType(EUDocument, required=True), default=list())  # All documents and attachments related to the tender.
     enquiryPeriod = ModelType(EnquiryPeriod, required=False)
     guarantee = ModelType(Guarantee)
     hasEnquiries = BooleanType()  # A Yes/No field as to whether enquiries were part of tender process.
-    items = ListType(ModelType(Item), required=True, min_size=1,
+    items = ListType(ModelType(Item, required=True), required=True, min_size=1,
                      validators=[validate_cpv_group, validate_items_uniq, validate_classification_id])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
-    features = ListType(ModelType(Feature), validators=[validate_features_uniq])
+    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     minimalStep = ModelType(Value, required=True)
     numberOfBidders = IntType()  # The number of unique tenderers who participated in the tender
     maxAwardsCount = IntType(required=True, validators=[validate_max_awards_number])
@@ -140,8 +140,8 @@ class CloseFrameworkAgreementUA(Tender):
     procurementMethodType = StringType(default="closeFrameworkAgreementUA")
     procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
     qualificationPeriod = ModelType(Period)
-    qualifications = ListType(ModelType(Qualification), default=list())
-    questions = ListType(ModelType(Question), default=list())
+    qualifications = ListType(ModelType(Qualification, required=True), default=list())
+    questions = ListType(ModelType(Question, required=True), default=list())
     status = StringType(choices=['draft', 'active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.auction', 'active.qualification', 'active.qualification.stand-still', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
     tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
     title_en = StringType(required=True, min_length=1)

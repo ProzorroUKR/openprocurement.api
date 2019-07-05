@@ -314,7 +314,7 @@ class Bid(BaseEUBid):
     """ ESCO bid model """
 
     value = ModelType(ESCOValue)
-    lotValues = ListType(ModelType(LotValue), default=list())
+    lotValues = ListType(ModelType(LotValue, required=True), default=list())
     selfQualified = BooleanType(required=False)
     selfEligible = BooleanType(required=False)
 
@@ -340,7 +340,7 @@ class FeatureValue(BaseFeatureValue):
 
 
 class Feature(BaseFeature):
-    enum = ListType(ModelType(FeatureValue), default=list(), min_size=1,
+    enum = ListType(ModelType(FeatureValue, required=True), default=list(), min_size=1,
                     validators=[validate_values_uniq])
 
 
@@ -442,21 +442,21 @@ class Tender(BaseTender):
     bids = SifterListType(BidModelType(Bid), default=list(), filter_by='status',
                           filter_in_values=['invalid', 'invalid.pre-qualification', 'deleted'])  # A list of all the companies who entered submissions for the tender.
     procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
-    awards = ListType(ModelType(Award), default=list())
-    contracts = ListType(ModelType(Contract), default=list())
+    awards = ListType(ModelType(Award, required=True), default=list())
+    contracts = ListType(ModelType(Contract, required=True), default=list())
     minimalStep = ModelType(Value, required=False)  # Not required, blocked for create/edit, since we have minimalStepPercentage in esco
     minimalStepPercentage = DecimalType(required=True,
                                         min_value=Decimal('0.005'), max_value=Decimal('0.03'),
                                         precision=-5)
-    questions = ListType(ModelType(Question), default=list())
-    complaints = ListType(ComplaintModelType(Complaint), default=list())
+    questions = ListType(ModelType(Question, required=True), default=list())
+    complaints = ListType(ComplaintModelType(Complaint, required=True), default=list())
     auctionUrl = URLType()
-    cancellations = ListType(ModelType(Cancellation), default=list())
-    features = ListType(ModelType(Feature), validators=[validate_features_uniq])
+    cancellations = ListType(ModelType(Cancellation, required=True), default=list())
+    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     lots = ListType(ModelType(Lot, required=True), default=list(), validators=[validate_lots_uniq])
     guarantee = ModelType(Guarantee)
-    documents = ListType(ModelType(Document), default=list())  # All documents and attachments related to the tender.
-    qualifications = ListType(ModelType(Qualification), default=list())
+    documents = ListType(ModelType(Document, required=True), default=list())  # All documents and attachments related to the tender.
+    qualifications = ListType(ModelType(Qualification, required=True), default=list())
     qualificationPeriod = ModelType(Period)
     status = StringType(choices=['draft', 'active.tendering', 'active.pre-qualification',
                                  'active.pre-qualification.stand-still', 'active.auction',

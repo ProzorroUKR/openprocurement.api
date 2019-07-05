@@ -140,7 +140,7 @@ class Organization(Model):
     name_en = StringType(required=True, min_length=1)
     name_ru = StringType()
     identifier = ModelType(Identifier, required=True)
-    additionalIdentifiers = ListType(ModelType(Identifier))
+    additionalIdentifiers = ListType(ModelType(Identifier, required=True))
     address = ModelType(Address, required=True)
     contactPoint = ModelType(ContactPoint, required=True)
     additionalContactPoints = ListType(ModelType(ContactPoint, required=True),
@@ -168,7 +168,7 @@ OpenEUDocument = Document
 
 
 class Contract(BaseContract):
-    documents = ListType(ModelType(Document), default=list())
+    documents = ListType(ModelType(Document, required=True), default=list())
     items = ListType(ModelType(Item, required=True))
 
 
@@ -178,7 +178,7 @@ class Complaint(BaseComplaint):
             'active.pre-qualification': view_bid_role,
             'active.pre-qualification.stand-still': view_bid_role,
         }
-    documents = ListType(ModelType(Document), default=list())
+    documents = ListType(ModelType(Document, required=True), default=list())
 
     def serialize(self, role=None, context=None):
         if role == 'view' and self.type == 'claim' and get_tender(self).status in ['active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.auction']:
@@ -195,7 +195,7 @@ class Cancellation(BaseCancellation):
             'view': schematics_default_role,
         }
 
-    documents = ListType(ModelType(Document), default=list())
+    documents = ListType(ModelType(Document, required=True), default=list())
     reasonType = StringType(choices=['cancelled', 'unsuccessful'], default='cancelled')
 
 
@@ -393,15 +393,15 @@ class Bid(BaseBid):
             'invalid.pre-qualification': whitelist('id', 'status', 'documents', 'eligibilityDocuments', 'tenderers'),
             'deleted': whitelist('id', 'status'),
         }
-    documents = ListType(ModelType(Document), default=list())
-    financialDocuments = ListType(ModelType(Document), default=list())
-    eligibilityDocuments = ListType(ModelType(Document), default=list())
-    qualificationDocuments = ListType(ModelType(Document), default=list())
-    lotValues = ListType(ModelType(LotValue), default=list())
+    documents = ListType(ModelType(Document, required=True), default=list())
+    financialDocuments = ListType(ModelType(Document, required=True), default=list())
+    eligibilityDocuments = ListType(ModelType(Document, required=True), default=list())
+    qualificationDocuments = ListType(ModelType(Document, required=True), default=list())
+    lotValues = ListType(ModelType(LotValue, required=True), default=list())
     selfQualified = BooleanType(required=True, choices=[True])
     selfEligible = BooleanType(required=True, choices=[True])
     subcontractingDetails = StringType()
-    parameters = ListType(ModelType(Parameter), default=list(), validators=[validate_parameters_uniq])
+    parameters = ListType(ModelType(Parameter, required=True), default=list(), validators=[validate_parameters_uniq])
     status = StringType(choices=['draft','pending', 'active', 'invalid', 'invalid.pre-qualification', 'unsuccessful', 'deleted'],
                         default='pending')
 
@@ -453,9 +453,9 @@ class Award(BaseAward):
         per contracting process e.g. because the contract is split amongst
         different providers, or because it is a standing offer.
     """
-    complaints = ListType(ModelType(Complaint), default=list())
+    complaints = ListType(ModelType(Complaint, required=True), default=list())
     items = ListType(ModelType(Item, required=True))
-    documents = ListType(ModelType(Document), default=list())
+    documents = ListType(ModelType(Document, required=True), default=list())
     qualified = BooleanType()
     eligible = BooleanType()
 
@@ -489,8 +489,8 @@ class Qualification(Model):
     lotID = MD5Type()
     status = StringType(choices=['pending', 'active', 'unsuccessful', 'cancelled'], default='pending')
     date = IsoDateTimeType()
-    documents = ListType(ModelType(Document), default=list())
-    complaints = ListType(ModelType(Complaint), default=list())
+    documents = ListType(ModelType(Document, required=True), default=list())
+    complaints = ListType(ModelType(Complaint, required=True), default=list())
     qualified = BooleanType(default=False)
     eligible = BooleanType(default=False)
 
@@ -573,16 +573,16 @@ class Tender(BaseTender):
     enquiryPeriod = ModelType(EnquiryPeriod, required=False)
     tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
     auctionPeriod = ModelType(TenderAuctionPeriod, default={})
-    documents = ListType(ModelType(Document), default=list())  # All documents and attachments related to the tender.
+    documents = ListType(ModelType(Document, required=True), default=list())  # All documents and attachments related to the tender.
     items = ListType(ModelType(Item, required=True), required=True, min_size=1,
                      validators=[validate_cpv_group, validate_items_uniq, validate_classification_id])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
-    complaints = ListType(ComplaintModelType(Complaint), default=list())
-    contracts = ListType(ModelType(Contract), default=list())
-    cancellations = ListType(ModelType(Cancellation), default=list())
-    awards = ListType(ModelType(Award), default=list())
+    complaints = ListType(ComplaintModelType(Complaint, required=True), default=list())
+    contracts = ListType(ModelType(Contract, required=True), default=list())
+    cancellations = ListType(ModelType(Cancellation, required=True), default=list())
+    awards = ListType(ModelType(Award, required=True), default=list())
     procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
     bids = SifterListType(BidModelType(Bid), default=list(), filter_by='status', filter_in_values=['invalid', 'invalid.pre-qualification', 'deleted'])  # A list of all the companies who entered submissions for the tender.
-    qualifications = ListType(ModelType(Qualification), default=list())
+    qualifications = ListType(ModelType(Qualification, required=True), default=list())
     qualificationPeriod = ModelType(Period)
     lots = ListType(ModelType(Lot, required=True), default=list(), validators=[validate_lots_uniq])
     status = StringType(choices=['draft', 'active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.auction',
