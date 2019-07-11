@@ -608,7 +608,7 @@ def create_plan_generated(self):
     self.assertEqual(response.content_type, 'application/json')
     plan = response.json['data']
     self.assertEqual(set(plan), set([
-        u'id', u'dateModified', u'datePublished', u'planID', u'budget', u'tender',
+        u'id', u'dateModified', u'datePublished', u'planID', u'budget', u'tender', u'buyers',
         u'classification', u'additionalClassifications', u'items', u'procuringEntity', u'owner'
     ]))
     self.assertNotEqual(data['id'], plan['id'])
@@ -964,3 +964,105 @@ def patch_plan_budget_year(self):
         plan = response.json['data']
         self.assertEqual(response.status, '200 OK')
         self.assertNotIn('year', plan['budget'])
+
+
+def create_plan_without_buyers(self):
+    response = self.app.post_json('/plans', {"data": self.initial_data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+
+
+def fail_create_plan_without_buyers(self):
+    with mock.patch('openprocurement.planning.api.models.PLAN_BUYERS_REQUIRED_FROM', get_now() - timedelta(seconds=1)):
+        data = deepcopy(self.initial_data)
+        del data["buyers"]
+        response = self.app.post_json('/plans', {"data": data}, status=422)
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(
+            response.json,
+            {"status": "error",
+             "errors": [{"location": "body", "name": "buyers", "description": ["This field is required."]}]}
+        )
+
+        data["buyers"] = []
+        response = self.app.post_json('/plans', {"data": data}, status=422)
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(
+            response.json,
+            {"status": "error",
+             "errors": [{"location": "body", "name": "buyers", "description": [u'Please provide at least 1 item.']}]}
+        )
+
+        data["buyers"] = [None]
+        response = self.app.post_json('/plans', {"data": data}, status=422)
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(
+            response.json,
+            {u'status': u'error',
+             u'errors': [{u'description': [[u'This field is required.']], u'location': u'body', u'name': u'buyers'}]}
+        )
+
+
+def create_plan_with_buyers(self):
+    self.app.authorization = ('Basic', ('broker', ''))
+    data = deepcopy(self.initial_data)
+    data["buyers"] = [
+        dict(
+            name="",
+            name_en="",
+            identifier=dict(
+                scheme=u"UA-EDR",
+                id=u"111983",
+                legalName=u"ДП Державне Управління Справами",
+            )
+        )
+    ]
+    response = self.app.post_json('/plans', {"data": data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    plan = response.json["data"]
+    self.assertEqual(plan["buyers"], data["buyers"])
+
+    # edit
+    response = self.app.patch_json(
+        '/plans/{}?acc_token={}'.format(plan['id'], response.json["access"]["token"]),
+        {"data": {
+            "buyers": [
+                dict(name="Hello", identifier=dict(id="666")),
+            ]
+        }}
+    )
+    self.assertEqual(response.status, '200 OK')
+    data['buyers'][0]['name'] = "Hello"
+    data['buyers'][0]['identifier']['id'] = "666"
+    self.assertEqual(response.json['data']['buyers'], data['buyers'])
+
+
+def create_plan_with_two_buyers(self):
+    data = deepcopy(self.initial_data)
+    data["buyers"] = [
+        dict(
+            name="1",
+            name_en="1",
+            identifier=dict(
+                scheme=u"UA-EDR",
+                id=u"111983",
+                legalName=u"ДП Державне Управління Справами",
+            )
+        ),
+        dict(
+            name="2",
+            name_en="2",
+            identifier=dict(
+                scheme=u"UA-EDR",
+                id=u"111983",
+                legalName=u"ДП Державне Управління Справами",
+            )
+        ),
+    ]
+    response = self.app.post_json('/plans', {"data": data}, status=422)
+    self.assertEqual(
+        response.json,
+        {"status": "error",
+         "errors": [{"location": "body", "name": "buyers", "description": ["Please provide no more than 1 item."]}]})
+

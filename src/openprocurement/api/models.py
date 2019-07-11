@@ -324,11 +324,15 @@ class Model(SchematicsModel):
         return data
 
     def get_role(self):
+        root = self.get_root()
+        request = root.request
+        return 'Administrator' if request.authenticated_role == 'Administrator' else 'edit'
+
+    def get_root(self):
         root = self.__parent__
         while root.__parent__ is not None:
             root = root.__parent__
-        request = root.request
-        return 'Administrator' if request.authenticated_role == 'Administrator' else 'edit'
+        return root
 
 
 class Value(Model):

@@ -104,6 +104,16 @@ test_plan_data = {
             },
             "name": u"ДУС"
         },
+        "buyers": [
+            {
+                "identifier": {
+                    "scheme": u"UA-EDR",
+                    "id": u"111983",
+                    "legalName": u"ДП Державне Управління Справами"
+                },
+                "name": u"ДУС"
+            }
+        ],
         "budget": {
             "project": {
                 "name": u"proj_name",

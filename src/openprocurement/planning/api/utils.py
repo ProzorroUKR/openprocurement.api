@@ -66,7 +66,8 @@ def save_plan(request):
     if patch:
         plan.revisions.append(Revision({'author': request.authenticated_userid, 'changes': patch, 'rev': plan.rev}))
         old_date_modified = plan.dateModified
-        plan.dateModified = get_now()
+        if getattr(plan, 'modified', True):
+            plan.dateModified = get_now()
         try:
             plan.store(request.registry.db)
         except ModelValidationError, e:  # pragma: no cover

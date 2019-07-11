@@ -25,3 +25,25 @@ def validate_plan_data(request):
 
 def validate_patch_plan_data(request):
     return validate_data(request, Plan, True)
+
+
+def validate_plan_has_not_tender(request):
+    plan = request.validated['plan']
+    if plan.tender_id:
+        request.errors.add(
+            "url", "id", u"This plan has already got a tender"
+        )
+        request.errors.status = 409
+        raise error_handler(request.errors)
+
+
+def validate_plan_with_tender(request):
+    plan = request.validated['plan']
+    if plan.tender_id and "procuringEntity" in request.validated['json_data']:
+        request.errors.add(
+            "data",
+            "procuringEntity",
+            "Changing this field is not allowed after tender creation"
+        )
+        request.errors.status = 422
+        raise error_handler(request.errors)

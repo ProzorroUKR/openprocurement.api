@@ -1,17 +1,12 @@
-
-from datetime import timedelta
 from iso8601 import parse_date
-from openprocurement.api.roles import RolesFromCsv
 from pyramid.security import Allow
-from schematics.exceptions import ValidationError
 from schematics.transforms import blacklist, whitelist
 from schematics.types import IntType, URLType, BooleanType, BaseType
 from schematics.types import StringType
 from schematics.types.compound import ModelType
-from schematics.types.serializable import serializable
 from zope.interface import implementer, provider
 from openprocurement.api.models import (
-    listing_role, Period, ListType, SifterListType, plain_role, IsoDurationType
+    Period, ListType, SifterListType, plain_role, IsoDurationType
 )
 from openprocurement.api.utils import get_now
 from openprocurement.api.validation import (
@@ -37,12 +32,7 @@ from openprocurement.tender.cfaua.models.submodels.qualification import Qualific
 from openprocurement.tender.cfaua.models.submodels.value import Value
 
 from openprocurement.tender.core.models import (
-    EnquiryPeriod,
-    PeriodStartEndRequired,
-    create_role, edit_role, view_role,
-    auction_view_role, auction_post_role, auction_patch_role, enquiries_role,
-    auction_role, chronograph_role, chronograph_view_role, Administrator_role, schematics_default_role,
-    schematics_embedded_role, validate_lots_uniq
+    EnquiryPeriod, PeriodStartEndRequired, validate_lots_uniq
 )
 from openprocurement.tender.core.models import validate_features_uniq, Question, Tender
 from openprocurement.tender.core.utils import (
@@ -54,20 +44,73 @@ from openprocurement.tender.core.utils import (
 from openprocurement.tender.openua.constants import AUCTION_PERIOD_TIME
 
 
-eu_role = blacklist('enquiryPeriod', 'qualifications')
-edit_role_eu = edit_role + eu_role
-create_role_eu = create_role + eu_role
-pre_qualifications_role = (blacklist('owner_token', '_attachments', 'revisions') + schematics_embedded_role)
-eu_auction_role = auction_role
-
-
 @implementer(ICloseFrameworkAgreementUA)
 @provider(ICloseFrameworkAgreementUA)
 class CloseFrameworkAgreementUA(Tender):
     """ OpenEU tender model """
     class Options:
         namespace = 'Tender'
-        roles = RolesFromCsv('CloseFrameworkAgreementUA.csv', relative_to=__file__)
+        _core_roles = Tender.Options.roles
+        _procurement_method_details = whitelist('procurementMethodDetails')
+        _edit_fields = _core_roles["edit"] + whitelist(
+            'tenderPeriod', 'features', 'complaintPeriod', 'agreementDuration', 'next_check', 'procuringEntity',
+            'guarantee', 'serializable_enquiryPeriod', 'minimalStep', 'items', 'qualificationPeriod', 'value',
+            'maxAwardsCount', 'agreements', 'numberOfBidders', 'hasEnquiries', 'serializable_guarantee',
+            'serializable_value', 'serializable_minimalStep'
+        )
+        _edit_role = _edit_fields + whitelist('numberOfBids')
+        _edit_qualification = whitelist('status') + _procurement_method_details
+        _tendering_view_role = _core_roles["view"] + _edit_fields + whitelist(
+            'auctionPeriod',   'lots', 'enquiryPeriod', 'complaints', 'auctionUrl', 'awardPeriod', 'qualifications',
+            'questions', 'cancellations', 'awards',
+        )
+        _view_role = _tendering_view_role + whitelist('numberOfBids', 'bids')
+        _complete_view_role = _view_role + whitelist('contractPeriod')
+        roles = {
+            "create": _edit_role + whitelist('mode', 'procurementMethodType', 'lots'),
+            "edit_draft": _edit_role,
+            "edit": _edit_role,
+            "edit_active.tendering": _edit_role,
+
+            "edit_active.pre-qualification": _edit_qualification,
+            "edit_active.qualification": _edit_qualification,
+
+            "edit_cancelled": _procurement_method_details,
+            "edit_complete": _procurement_method_details,
+            "edit_unsuccessful": _procurement_method_details,
+            "edit_active.awarded": _procurement_method_details,
+            "edit_active.auction": _procurement_method_details,
+            "edit_active.pre-qualification.stand-still": _procurement_method_details,
+
+            "draft": _tendering_view_role + whitelist('contractPeriod'),
+            "active.tendering": _tendering_view_role,
+
+            "cancelled": _view_role,
+            "active.auction": _view_role,
+            "active.pre-qualification.stand-still": _view_role,
+            "active.qualification.stand-still": _view_role,
+
+            "view": _complete_view_role,
+            "active.qualification": _complete_view_role,
+            "active.pre-qualification": _complete_view_role,
+            "complete": _complete_view_role,
+            "active.awarded": _complete_view_role,
+            "unsuccessful": _complete_view_role,
+
+            "contracting": _core_roles['contracting'] + _procurement_method_details,
+            "chronograph": _core_roles['chronograph'] + _procurement_method_details,
+            "chronograph_view": _core_roles['chronograph_view'] + _procurement_method_details,
+            "auction_view": _core_roles['auction_view'] + _procurement_method_details + whitelist(
+                'milestones', 'mainProcurementCategory'),
+            "Administrator": _core_roles['Administrator'] + _procurement_method_details,
+            "auction_post": _core_roles['auction_post'] + _procurement_method_details,
+            "auction_patch": _core_roles['auction_patch'] + _procurement_method_details,
+
+            'listing': _core_roles['listing'] + _procurement_method_details,
+            'embedded': _core_roles['embedded'],
+            'plain': _core_roles['plain'],
+            'default': _core_roles['default'],
+        }
 
     create_accreditation = 3
     edit_accreditation = 4

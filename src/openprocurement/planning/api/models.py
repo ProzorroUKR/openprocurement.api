@@ -13,10 +13,13 @@ from openprocurement.api.models import Document as BaseDocument
 from openprocurement.api.models import Model, Period, Revision
 from openprocurement.api.models import Unit, CPVClassification, Classification, Identifier
 from openprocurement.api.models import schematics_embedded_role, schematics_default_role, IsoDateTimeType, ListType
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import get_now, get_first_revision_date
 from openprocurement.api.validation import validate_cpv_group, validate_items_uniq
-from openprocurement.api.constants import CPV_ITEMS_CLASS_FROM, ADDITIONAL_CLASSIFICATIONS_SCHEMES, \
-    ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017, NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM
+from openprocurement.api.constants import (
+    CPV_ITEMS_CLASS_FROM, ADDITIONAL_CLASSIFICATIONS_SCHEMES,
+    ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017, NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
+    PLAN_BUYERS_REQUIRED_FROM,
+)
 from openprocurement.planning.api.constants import (
     PROCEDURES,
     MULTI_YEAR_BUDGET_PROCEDURES,
@@ -24,7 +27,7 @@ from openprocurement.planning.api.constants import (
 from pyramid.security import Allow
 from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist, blacklist
-from schematics.types import StringType, IntType, FloatType, BaseType
+from schematics.types import StringType, IntType, FloatType, BaseType, MD5Type
 from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
 from zope.interface import implementer, Interface
@@ -148,9 +151,9 @@ class Document(BaseDocument):
 
 # roles
 plain_role = (blacklist('_attachments', 'revisions', 'dateModified') + schematics_embedded_role)
-create_role = (blacklist('owner_token', 'owner', '_attachments', 'revisions', 'dateModified', 'datePublished', 'planID', 'doc_id', '_attachments') + schematics_embedded_role)
+create_role = (blacklist('owner_token', 'owner', '_attachments', 'revisions', 'dateModified', 'datePublished', 'planID', 'doc_id', '_attachments', 'tender_id') + schematics_embedded_role)
 edit_role = (
-    blacklist('owner_token', 'owner', '_attachments', 'revisions', 'dateModified', 'datePublished', 'doc_id', 'planID', 'mode', '_attachments') + schematics_embedded_role)
+    blacklist('owner_token', 'owner', '_attachments', 'revisions', 'dateModified', 'datePublished', 'doc_id', 'planID', 'mode', '_attachments', 'tender_id') + schematics_embedded_role)
 view_role = (blacklist('owner_token', '_attachments', 'revisions') + schematics_embedded_role)
 listing_role = whitelist('dateModified', 'doc_id')
 revision_role = whitelist('revisions')
@@ -208,10 +211,11 @@ class Plan(SchematicsDocument, Model):
     additionalClassifications = ListType(ModelType(Classification), default=list(), required=False)
 
     documents = ListType(ModelType(Document), default=list())  # All documents and attachments related to the tender.
-
+    tender_id = MD5Type()
     planID = StringType()
     mode = StringType(choices=['test'])  # flag for test data ?
     items = ListType(ModelType(PlanItem), required=False, validators=[validate_items_uniq])
+    buyers = ListType(ModelType(PlanOrganization, required=True), min_size=1, max_size=1)
 
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
     dateModified = IsoDateTimeType()
@@ -227,13 +231,9 @@ class Plan(SchematicsDocument, Model):
 
     def __acl__(self):
         acl = [
-            # (Allow, '{}_{}'.format(i.owner, i.owner_token), 'create_award_complaint')
-            # for i in self.bids
-        ]
-        acl.extend([
             (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_plan'),
             (Allow, '{}_{}'.format(self.owner, self.owner_token), 'upload_plan_documents'),
-        ])
+        ]
         return acl
 
     def __repr__(self):
@@ -254,6 +254,11 @@ class Plan(SchematicsDocument, Model):
     def validate_budget(self, data, budget):
         if not budget and data['tender']['procurementMethodType'] != 'esco':
             raise ValidationError(u"This field is required.")
+
+    def validate_buyers(self, data, value):
+        validation_date = get_first_revision_date(data, default=get_now())
+        if validation_date >= PLAN_BUYERS_REQUIRED_FROM and not value:
+            raise ValidationError(BaseType.MESSAGES['required'])
 
     def import_data(self, raw_data, **kw):
         """

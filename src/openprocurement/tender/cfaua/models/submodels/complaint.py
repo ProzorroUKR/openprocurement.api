@@ -38,9 +38,7 @@ class Complaint(BaseComplaint):
         ]
 
     def get_role(self):
-        root = self.__parent__
-        while root.__parent__ is not None:
-            root = root.__parent__
+        root = self.get_root()
         request = root.request
         data = request.json_body['data']
         if request.authenticated_role == 'complaint_owner' and data.get('status', self.status) == 'cancelled':

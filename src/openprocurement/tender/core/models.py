@@ -48,17 +48,6 @@ from openprocurement.tender.core.validation import (
     validate_LotValue_value, is_positive_float, validate_ua_road, validate_gmdn, validate_milestones
 )
 
-create_role = (blacklist('owner_token', 'owner', 'contracts', '_attachments', 'revisions', 'date', 'dateModified', 'doc_id', 'tenderID', 'bids', 'documents', 'awards', 'questions', 'complaints', 'auctionUrl', 'status', 'auctionPeriod', 'awardPeriod', 'procurementMethod', 'awardCriteria', 'submissionMethod', 'cancellations') + schematics_embedded_role)
-edit_role = (blacklist('status', 'procurementMethodType', 'lots', 'owner_token', 'owner', '_attachments', 'revisions', 'date', 'dateModified', 'doc_id', 'tenderID', 'bids', 'documents', 'awards', 'questions', 'complaints', 'auctionUrl', 'auctionPeriod', 'awardPeriod', 'procurementMethod', 'awardCriteria', 'submissionMethod', 'mode', 'cancellations') + schematics_embedded_role)
-view_role = (blacklist('owner_token', '_attachments', 'revisions') + schematics_embedded_role)
-auction_view_role = whitelist('tenderID', 'dateModified', 'bids', 'items', 'auctionPeriod', 'minimalStep', 'auctionUrl', 'features', 'lots')
-auction_post_role = whitelist('bids')
-auction_patch_role = whitelist('auctionUrl', 'bids', 'lots')
-enquiries_role = (blacklist('owner_token', '_attachments', 'revisions', 'bids', 'numberOfBids') + schematics_embedded_role)
-auction_role = (blacklist('owner_token', '_attachments', 'revisions', 'bids', 'numberOfBids') + schematics_embedded_role)
-chronograph_role = whitelist('auctionPeriod', 'lots', 'next_check')
-chronograph_view_role = whitelist('status', 'enquiryPeriod', 'tenderPeriod', 'auctionPeriod', 'awardPeriod', 'awards', 'lots', 'doc_id', 'submissionMethodDetails', 'mode', 'numberOfBids', 'complaints')
-Administrator_role = whitelist('status', 'mode', 'procuringEntity', 'auctionPeriod', 'lots')
 
 view_bid_role = (blacklist('owner_token', 'owner') + schematics_default_role)
 Administrator_bid_role = whitelist('tenderers')
@@ -566,9 +555,7 @@ class Complaint(Model):
         return super(Complaint, self).serialize(role=role, context=context)
 
     def get_role(self):
-        root = self.__parent__
-        while root.__parent__ is not None:
-            root = root.__parent__
+        root = self.get_root()
         request = root.request
         data = request.json_body['data']
         if request.authenticated_role == 'complaint_owner' and data.get('status', self.status) == 'cancelled':
@@ -826,6 +813,47 @@ class Milestone(Model):
 
 @implementer(ITender)
 class BaseTender(OpenprocurementSchematicsDocument, Model):
+
+    class Options:
+        namespace = 'Tender'
+        _edit_role = whitelist(
+            'awardCriteriaDetails_ru', 'procurementMethodRationale_en', 'eligibilityCriteria', 'eligibilityCriteria_ru',
+            'awardCriteriaDetails_en', 'description', 'milestones', 'procurementMethodRationale_ru', 'description_en',
+            'mainProcurementCategory', 'procurementMethodDetails', 'title', 'awardCriteriaDetails',
+            'submissionMethodDetails_en', 'title_ru', 'procurementMethodRationale', 'eligibilityCriteria_en',
+            'description_ru',
+            'funders', 'submissionMethodDetails_ru', 'title_en', 'submissionMethodDetails'
+        )
+        _create_role = _edit_role + whitelist('mode', 'procurementMethodType')
+        roles = {
+            "create": _create_role,
+            "edit_draft": whitelist('status'),
+            "edit": _edit_role,
+            "view": _create_role + whitelist(
+                'date', 'awardCriteria', 'tenderID', 'documents', 'doc_id', 'submissionMethod', 'dateModified',
+                'status', 'procurementMethod', 'owner', 'plan_id',
+            ),
+            'auction_view': whitelist(
+                'tenderID', 'dateModified', 'bids', 'items', 'auctionPeriod', 'minimalStep', 'auctionUrl', 'features',
+                'lots'
+            ),
+            'auction_post': whitelist('bids'),
+            'auction_patch': whitelist('auctionUrl', 'bids', 'lots'),
+            'chronograph': whitelist('auctionPeriod', 'lots', 'next_check'),
+            'chronograph_view': whitelist(
+                'status', 'enquiryPeriod', 'tenderPeriod', 'auctionPeriod', 'awardPeriod', 'awards', 'lots', 'doc_id',
+                'submissionMethodDetails', 'mode', 'numberOfBids', 'complaints'
+            ),
+            'Administrator': whitelist('status', 'mode', 'procuringEntity', 'auctionPeriod', 'lots'),
+            'listing': whitelist('dateModified', 'doc_id'),
+            'contracting': whitelist('doc_id', 'owner'),
+            'embedded': blacklist("_id", "_rev", "doc_type", "__parent__"),
+            'default': blacklist("doc_id", "__parent__"),  # obj.store() use default role
+            'plain': blacklist(  # is used for getting patches
+                '_attachments', 'revisions', 'dateModified', "_id", "_rev", "doc_type", '__parent__',
+            ),
+        }
+
     title = StringType(required=True)
     title_en = StringType()
     title_ru = StringType()
@@ -847,6 +875,30 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
     funders = ListType(ModelType(Organization), validators=[validate_funders_unique, validate_funders_ids])
     mainProcurementCategory = StringType(choices=["goods", "services", "works"])
     milestones = ListType(ModelType(Milestone), validators=[validate_items_uniq, validate_milestones])
+    plan_id = MD5Type()
+
+    def validate_milestones(self, data, value):
+        if isinstance(value, list):
+            sums = defaultdict(float)
+            for milestone in value:
+                if milestone["type"] == 'financing':
+                    percentage = milestone.get("percentage")
+                    if percentage:
+                        sums[milestone.get("relatedLot")] += percentage
+
+            for uid, sum_value in sums.items():
+                if sum_value != 100:
+                    raise ValidationError(
+                        u"Sum of the financial milestone percentages {} is not equal 100{}.".format(
+                            sum_value, u" for lot {}".format(uid) if uid else ""
+                        )
+                    )
+
+    def validate_mainProcurementCategory(self, data, value):
+        validation_date = get_first_revision_date(data, default=get_now())
+        if validation_date >= MPC_REQUIRED_FROM and value is None:
+            raise ValidationError(BaseType.MESSAGES['required'])
+
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
     revisions = ListType(ModelType(Revision), default=list())
 
@@ -912,6 +964,7 @@ class Tender(BaseTender):
     edit_accreditation = 2
 
     __name__ = ''
+
     def get_role(self):
         root = self.__parent__
         request = root.request

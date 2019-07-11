@@ -9,7 +9,6 @@ from schematics.exceptions import ValidationError
 from openprocurement.api.constants import MILESTONES_VALIDATION_FROM
 from openprocurement.api.utils import get_now, get_first_revision_date
 from openprocurement.api.models import (
-    draft_role, plain_role, listing_role,
     schematics_default_role, schematics_embedded_role,
 )
 from openprocurement.api.models import (
@@ -21,9 +20,7 @@ from openprocurement.api.validation import (
     validate_cpv_group, validate_items_uniq, validate_classification_id
 )
 from openprocurement.tender.core.models import (
-    view_role, create_role, edit_role, enquiries_role, view_bid_role,
-    Administrator_role, chronograph_role, chronograph_view_role,
-    embedded_lot_role, default_lot_role, validate_lots_uniq,
+    view_bid_role, embedded_lot_role, default_lot_role, validate_lots_uniq,
     BaseLot, BaseAward
 )
 
@@ -122,9 +119,7 @@ class Contract(BaseContract):
             raise ValidationError(u"Contract signature date can't be in the future")
 
     def get_role(self):
-        root = self.__parent__
-        while root.__parent__ is not None:
-            root = root.__parent__
+        root = self.get_root()
         request = root.request
         role = 'edit'
         if request.authenticated_role == 'tender_owner':
@@ -196,35 +191,53 @@ class ProcuringEntity(BaseProcuringEntity):
 
 
 @implementer(ITender)
-class Tender(BaseTender):
+class ReportingTender(BaseTender):
     """Data regarding tender process - publicly inviting prospective contractors
        to submit bids for evaluation and selecting a winner or winners.
     """
 
     class Options:
+        namespace = 'Tender'
+        _parent_roles = BaseTender.Options.roles
+        _all_forbidden = whitelist()
+
+        _edit_fields = whitelist('procuringEntity', 'items', 'value', 'cause',
+                                 'causeDescription', 'causeDescription_en', 'causeDescription_ru')
+        _edit_role = _parent_roles['edit'] + _edit_fields
+        _read_only_fields = whitelist(
+            'lots', 'contracts',
+            # fields below are not covered by the tests
+            'awards', 'cancellations',
+        )
+        _view_role = _parent_roles['view'] + _edit_fields + _read_only_fields
+
         roles = {
-            'plain': plain_role,
-            'create': create_role,
-            'edit': edit_role,
-            'edit_draft': draft_role,
-            'edit_active': edit_role,
-            'edit_active.awarded': whitelist(),
-            'edit_complete': whitelist(),
-            'edit_unsuccessful': whitelist(),
-            'edit_cancelled': whitelist(),
-            'view': view_role,
-            'listing': listing_role,
-            'draft': enquiries_role,
-            'active': enquiries_role,
-            'active.awarded': view_role,
-            'complete': view_role,
-            'unsuccessful': view_role,
-            'cancelled': view_role,
-            'Administrator': Administrator_role,
-            'chronograph': chronograph_role,  # remove after chronograph fix
-            'chronograph_view': chronograph_view_role, # remove after chronograph fix
-            'default': schematics_default_role,
-            'contracting': whitelist('doc_id', 'owner'),
+            'create': _parent_roles['create'] + _edit_fields + whitelist('lots'),
+
+            'edit_draft': _parent_roles['edit_draft'],
+            'edit': _edit_role,
+            'edit_active': _edit_role,
+
+            'edit_active.awarded': _all_forbidden,
+            'edit_complete': _all_forbidden,
+            'edit_unsuccessful': _all_forbidden,
+            'edit_cancelled': _all_forbidden,
+
+            'view': _view_role,
+            'draft': _view_role,
+            'active': _view_role,
+            'active.awarded': _view_role,
+            'complete': _view_role,
+            'unsuccessful': _view_role,
+            'cancelled': _view_role,
+
+            'Administrator': _parent_roles['Administrator'],
+            'chronograph': _parent_roles['chronograph'],
+            'chronograph_view': _parent_roles['chronograph_view'],
+            'plain': _parent_roles['plain'],
+            'listing': _parent_roles['listing'],
+            'contracting': _parent_roles['contracting'],
+            'default': _parent_roles['default'],
         }
 
     items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq, validate_classification_id])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
@@ -271,7 +284,6 @@ class Tender(BaseTender):
         pass
 
 
-ReportingTender = Tender
 Item = BaseItem
 
 
@@ -317,7 +329,6 @@ class Lot(BaseLot):
                           valueAddedTaxIncluded=self.__parent__.value.valueAddedTaxIncluded))
 
 
-
 class Contract(BaseContract):
     items = ListType(ModelType(Item))
 
@@ -328,9 +339,7 @@ class Contract(BaseContract):
         }
 
     def get_role(self):
-        root = self.__parent__
-        while root.__parent__ is not None:
-            root = root.__parent__
+        root = self.get_root()
         request = root.request
         role = 'edit'
         if request.authenticated_role == 'tender_owner':
@@ -339,8 +348,13 @@ class Contract(BaseContract):
 
 
 @implementer(INegotiationTender)
-class Tender(ReportingTender):
+class NegotiationTender(ReportingTender):
     """ Negotiation """
+
+    class Options:
+        namespace = 'Tender'
+        roles = ReportingTender.Options.roles
+
     items = ListType(ModelType(Item), required=True, min_size=1,
                      validators=[validate_cpv_group, validate_items_uniq, validate_classification_id])
     awards = ListType(ModelType(Award), default=list())
@@ -364,17 +378,17 @@ class Tender(ReportingTender):
             raise ValidationError('Tender should contain at least one milestone')
 
 
-NegotiationTender = Tender
-
-
 @implementer(INegotiationQuickTender)
-class Tender(NegotiationTender):
+class NegotiationQuickTender(NegotiationTender):
     """ Negotiation """
+
+    class Options:
+        namespace = 'Tender'
+        roles = NegotiationTender.Options.roles
+
     cause = StringType(choices=['quick', 'artContestIP', 'noCompetition', 'twiceUnsuccessful',
                                 'additionalPurchase', 'additionalConstruction', 'stateLegalServices'], required=False)
     procurementMethodType = StringType(default="negotiation.quick")
     create_accreditation = 3
     edit_accreditation = 4
     procuring_entity_kinds = ['general', 'special', 'defense']
-
-NegotiationQuickTender = Tender

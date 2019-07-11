@@ -12,7 +12,7 @@ from openprocurement.api.constants import (
 )
 from openprocurement.api.utils import get_now, is_ua_road_classification, is_gmdn_classification  # move
 from openprocurement.api.utils import update_logging_context, error_handler, raise_operation_error, check_document_batch # XXX tender context
-from openprocurement.tender.core.constants import AMOUNT_NET_COEF
+from openprocurement.tender.core.constants import AMOUNT_NET_COEF, FIRST_STAGE_PROCUREMENT_TYPES
 from openprocurement.tender.core.utils import calculate_business_date, has_requested_fields_changes, convert_to_decimal
 from schematics.exceptions import ValidationError
 
@@ -603,3 +603,58 @@ def validate_milestones(value):
                         sum_value, u" for lot {}".format(uid) if uid else ""
                     )
                 )
+
+
+def validate_procurement_type_of_first_stage(request):
+    tender = request.validated['tender']
+    if tender.procurementMethodType not in FIRST_STAGE_PROCUREMENT_TYPES:
+        request.errors.add(
+            "data",
+            "procurementMethodType",
+            u"Should be one of the first stage values: {}".format(
+                FIRST_STAGE_PROCUREMENT_TYPES
+            )
+        )
+        request.errors.status = 422
+        raise error_handler(request.errors)
+
+
+def validate_tender_matches_plan(request):
+    plan = request.validated['plan']
+    tender = request.validated['tender']
+
+    plan_identifier = plan.procuringEntity.identifier
+    tender_identifier = tender.procuringEntity.identifier
+    if plan_identifier.id != tender_identifier.id or plan_identifier.scheme != tender_identifier.scheme:
+        request.errors.add(
+            "data",
+            "procuringEntity",
+            u"procuringEntity.identifier doesn't match: {} {} != {} {}".format(
+                plan_identifier.scheme, plan_identifier.id,
+                tender_identifier.scheme, tender_identifier.id,
+            )
+        )
+
+    if plan.tender.procurementMethodType != tender.procurementMethodType:
+        request.errors.add(
+            "data",
+            "procurementMethodType",
+            u"procurementMethodType doesn't match: {} != {}".format(
+                plan.tender.procurementMethodType, tender.procurementMethodType,
+            )
+        )
+
+    pattern = plan.classification.id[:3] if plan.classification.id.startswith("336") else plan.classification.id[:4]
+    for i, item in enumerate(tender.items):
+        if item.classification.id[:len(pattern)] != pattern:
+            request.errors.add(
+                "data",
+                "items[{}].classification.id".format(i),
+                u"Plan classification.id {} and item's {} should be of the same group {}".format(
+                    plan.classification.id, item.classification.id, pattern
+                )
+            )
+
+    if request.errors:
+        request.errors.status = 422
+        raise error_handler(request.errors)
