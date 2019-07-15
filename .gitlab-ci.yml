@@ -15,7 +15,7 @@ Build:
     - type multiwerf && source <(multiwerf use 1.0 beta)
     - type werf && source <(werf ci-env gitlab --tagging-strategy tag-or-branch --verbose)
     - unset WERF_TAG_GIT_BRANCH
-    - werf build-and-publish --stages-storage :local --tag-custom ci-$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA
+    - werf build-and-publish --stages-storage :local --tag-custom ci-$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA `if [ $CI_COMMIT_REF_SLUG == 'master' ]; then echo "--tag-custom master"; fi`
   only:
     - branches
   tags:
