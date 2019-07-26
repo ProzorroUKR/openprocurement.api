@@ -218,7 +218,7 @@ class TestTenderAdditionalClassificationUAROAD(unittest.TestCase):
 
     valid_ua_road = {
         u"scheme": u"UA-ROAD",
-        u"id": u"М-06",
+        u"id": u"M-06",
         u"description": u"Київ - Чоп (на м. Будапешт через мм. Львів, Мукачево і Ужгород)",
     }
 
