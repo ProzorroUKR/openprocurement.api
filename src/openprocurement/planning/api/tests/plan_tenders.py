@@ -307,6 +307,28 @@ def create_plan_for_tender(app, data):
     return response.json
 
 
+def test_fail_tender_creation(app):
+    app.authorization = ('Basic', ("broker", "broker"))
+    request_tender_data = deepcopy(test_below_tender_data)
+    plan = create_plan_for_tender(app, request_tender_data)
+
+    # rm milestones that causes data error
+    request_tender_data["enquiryPeriod"]["endDate"] = "2019-01-02T00:00:00+02:00"
+
+    response = app.post_json(
+        '/plans/{}/tenders'.format(plan["data"]["id"]),
+        {'data': request_tender_data},
+        status=422
+    )
+    assert response.json == {u'status': u'error', u'errors': [
+        {u'description': {u'startDate': [u'period should begin before its end']},
+         u'location': u'body', u'name': u'enquiryPeriod'}]}
+
+    # get plan form db
+    plan_from_db = app.app.registry.db.get(plan["data"]["id"])
+    assert plan_from_db.get("tender_id") is None
+
+
 test_tenders = [
     below_tender_data,
     cfa_tender_data,
