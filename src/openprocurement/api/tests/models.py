@@ -55,7 +55,7 @@ class TestBusinessOrganizationScale(unittest.TestCase):
             organization.validate()
         self.assertEqual(
             e.exception.message,
-            {'scale': [u"Value must be one of ['micro', 'sme', 'mid', 'large']."]}
+            {'scale': [u"Value must be one of ['micro', 'sme', 'mid', 'large', 'not specified']."]}
         )
 
     def test_validate_required(self):

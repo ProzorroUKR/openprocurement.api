@@ -58,7 +58,7 @@ CPV_PHARM_PRODUCTS = '33600000-6'
 
 COORDINATES_REG_EXP = re.compile(r'-?\d{1,3}\.\d+|-?\d{1,3}')
 
-SCALE_CODES = ["micro", "sme", "mid", "large"]
+SCALE_CODES = ["micro", "sme", "mid", "large", "not specified"]
 
 CPV_ITEMS_CLASS_FROM = datetime(2017, 1, 1, tzinfo=TZ)
 CPV_BLOCK_FROM = datetime(2017, 6, 2, tzinfo=TZ)
