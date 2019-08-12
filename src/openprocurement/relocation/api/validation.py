@@ -91,7 +91,11 @@ def validate_tender(request):
     if request.errors:
         return
     tender = request.validated['tender']
-    if tender.status in ['complete', 'unsuccessful', 'cancelled']:
+    if tender.status in [
+        'complete', 'unsuccessful', 'cancelled',
+        'active.stage2.waiting',
+        'draft.pending', 'draft.unsuccessful'
+    ]:
         request.errors.add(
             'body', 'data',
             'Can\'t update credentials in current ({}) '
