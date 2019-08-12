@@ -406,9 +406,9 @@ class PlanTendersResource(TendersResource):
 
         tender.plan_id = plan.id
         result = super(PlanTendersResource, self).post()
-
-        plan.tender_id = tender.id
-        plan.modified = False
-        save_plan(self.request)
+        if not self.request.errors:
+            plan.tender_id = tender.id
+            plan.modified = False
+            save_plan(self.request)
 
         return result
