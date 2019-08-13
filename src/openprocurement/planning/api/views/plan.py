@@ -403,8 +403,7 @@ class PlanTendersResource(TendersResource):
     def post(self):
         plan = self.request.validated['plan']
         tender = self.request.validated['tender']
-
-        tender.plan_id = plan.id
+        tender.link_plan(plan.id)
         result = super(PlanTendersResource, self).post()
         if not self.request.errors:
             plan.tender_id = tender.id

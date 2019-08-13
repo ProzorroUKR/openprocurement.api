@@ -356,7 +356,7 @@ def test_success_plan_tenders_creation(app, tender_request_data):
     assert response.status == '201 Created'
 
     tender_data = response.json["data"]
-    assert tender_data["plan_id"] == plan["data"]["id"]
+    assert tender_data["plans"] == [{"id": plan["data"]["id"]}]
     assert tender_data["title"] == tender_request_data["title"]
     assert response.headers["Location"] == "http://localhost/api/2.5/tenders/{}".format(tender_data["id"])
 
@@ -496,13 +496,13 @@ def test_tender_creation_modified_date(app):
 
 
 @pytest.mark.parametrize("tender_request_data", test_tenders)
-def test_fail_pass_plan_id(app, plan, tender_request_data):
+def test_fail_pass_plans(app, plan, tender_request_data):
     """
-    plan_id cannot be set via /tenders endpoint
+    "plans" field cannot be set via 'data'
     """
     app.authorization = ('Basic', ("broker", "broker"))
     tender_data = dict(**tender_request_data)
-    tender_data["plan_id"] = plan["data"]["id"]
+    tender_data["plans"] = [{"id": plan["data"]["id"]}]
     response = app.post_json(
         '/tenders',
         {'data': tender_request_data}
@@ -510,7 +510,7 @@ def test_fail_pass_plan_id(app, plan, tender_request_data):
     assert response.status == '201 Created'
     tender_data = response.json["data"]
 
-    assert "plan_id" not in tender_data  # NOT in
+    assert "plans" not in tender_data  # NOT in
     assert tender_data["title"] == tender_request_data["title"]
 
 
