@@ -404,7 +404,7 @@ class PlanTendersResource(TendersResource):
         plan = self.request.validated['plan']
         tender = self.request.validated['tender']
 
-        tender.plan_id = plan.id
+        tender.plans = [plan.id]
         result = super(PlanTendersResource, self).post()
         if not self.request.errors:
             plan.tender_id = tender.id

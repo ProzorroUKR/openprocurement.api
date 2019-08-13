@@ -831,7 +831,7 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
             "edit": _edit_role,
             "view": _create_role + whitelist(
                 'date', 'awardCriteria', 'tenderID', 'documents', 'doc_id', 'submissionMethod', 'dateModified',
-                'status', 'procurementMethod', 'owner', 'plan_id',
+                'status', 'procurementMethod', 'owner', 'plans',
             ),
             'auction_view': whitelist(
                 'tenderID', 'dateModified', 'bids', 'items', 'auctionPeriod', 'minimalStep', 'auctionUrl', 'features',
@@ -875,7 +875,7 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
     funders = ListType(ModelType(Organization), validators=[validate_funders_unique, validate_funders_ids])
     mainProcurementCategory = StringType(choices=["goods", "services", "works"])
     milestones = ListType(ModelType(Milestone), validators=[validate_items_uniq, validate_milestones])
-    plan_id = MD5Type()
+    plans = ListType(MD5Type(required=True))
 
     def validate_milestones(self, data, value):
         if isinstance(value, list):
