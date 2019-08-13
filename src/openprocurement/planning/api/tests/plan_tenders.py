@@ -356,7 +356,7 @@ def test_success_plan_tenders_creation(app, tender_request_data):
     assert response.status == '201 Created'
 
     tender_data = response.json["data"]
-    assert tender_data["plans"] == [plan["data"]["id"]]
+    assert tender_data["plans"] == [{"id": plan["data"]["id"]}]
     assert tender_data["title"] == tender_request_data["title"]
     assert response.headers["Location"] == "http://localhost/api/2.5/tenders/{}".format(tender_data["id"])
 
@@ -502,7 +502,7 @@ def test_fail_pass_plans(app, plan, tender_request_data):
     """
     app.authorization = ('Basic', ("broker", "broker"))
     tender_data = dict(**tender_request_data)
-    tender_data["plans"] = [plan["data"]["id"]]
+    tender_data["plans"] = [{"id": plan["data"]["id"]}]
     response = app.post_json(
         '/tenders',
         {'data': tender_request_data}

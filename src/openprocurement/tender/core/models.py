@@ -811,6 +811,10 @@ class Milestone(Model):
             raise ValidationError('description should contain at most 2000 characters')
 
 
+class PlanRelation(Model):
+    id = MD5Type(required=True)
+
+
 @implementer(ITender)
 class BaseTender(OpenprocurementSchematicsDocument, Model):
 
@@ -875,7 +879,10 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
     funders = ListType(ModelType(Organization), validators=[validate_funders_unique, validate_funders_ids])
     mainProcurementCategory = StringType(choices=["goods", "services", "works"])
     milestones = ListType(ModelType(Milestone), validators=[validate_items_uniq, validate_milestones])
-    plans = ListType(MD5Type(required=True))
+    plans = ListType(ModelType(PlanRelation, required=True), default=list())
+
+    def link_plan(self, plan_id):
+        self.plans.append(PlanRelation({"id": plan_id}))
 
     def validate_milestones(self, data, value):
         if isinstance(value, list):
