@@ -8,22 +8,21 @@ from openprocurement.contracting.api.tests.base import (
     test_tender_token as test_contract_tender_token)
 
 
-class ContractOwnershipChangeTest(BaseWebTest):
+class BaseContractOwnershipChangeTest(BaseWebTest):
     initial_data = test_contract_data
     tender_token = test_contract_tender_token
-    first_owner = 'broker'
-    second_owner = 'broker3'
-    test_owner = 'broker3t'
-    invalid_owner = 'broker1'
+    first_owner = 'brokerx'
     initial_auth = ('Basic', (first_owner, ''))
 
     def setUp(self):
-        super(ContractOwnershipChangeTest, self).setUp()
+        super(BaseContractOwnershipChangeTest, self).setUp()
         self.create_contract()
 
     def create_contract(self):
+        data = deepcopy(self.initial_data)
+        data['owner'] = self.first_owner
         with change_auth(self.app, ('Basic', ('contracting', ''))):
-            response = self.app.post_json('/contracts', {'data': self.initial_data})
+            response = self.app.post_json('/contracts', {'data': data})
         self.contract = response.json['data']
         self.contract_id = self.contract['id']
         response = self.app.patch_json(
@@ -32,6 +31,12 @@ class ContractOwnershipChangeTest(BaseWebTest):
         self.assertEqual(response.status, '200 OK')
         self.contract_token = response.json['access']['token']
         self.contract_transfer = response.json['access']['transfer']
+
+
+class ContractOwnershipChangeTest(BaseContractOwnershipChangeTest):
+    second_owner = 'broker3'
+    test_owner = 'broker3t'
+    invalid_owner = 'broker1'
 
     def test_transfer_required(self):
         response = self.app.post_json(
@@ -80,6 +85,7 @@ class ContractOwnershipChangeTest(BaseWebTest):
 
         # try to use already applied transfer
         data = deepcopy(self.initial_data)
+        data['owner'] = self.first_owner
         data.pop('id')
         with change_auth(self.app, ('Basic', ('contracting', ''))):
             response = self.app.post_json('/contracts', {'data': data})
@@ -132,6 +138,7 @@ class ContractOwnershipChangeTest(BaseWebTest):
             {"data": {"description": "yummy donut"}}, status=403)
         self.assertEqual(response.status, '403 Forbidden')
 
+    def test_transfer_invalid(self):
         response = self.app.post_json(
             '/contracts/{}/ownership'.format(self.contract_id),
             {"data": {"id": 'fake id', 'transfer': 'fake transfer'}}, status=403)
@@ -157,7 +164,7 @@ class ContractOwnershipChangeTest(BaseWebTest):
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.json['errors'], [{
             u'description': u'Broker Accreditation level does not permit ownership change',
-            u'location': u'procurementMethodType',
+            u'location': u'ownership',
             u'name': u'accreditation'
         }])
 
@@ -177,7 +184,7 @@ class ContractOwnershipChangeTest(BaseWebTest):
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.json['errors'], [{
             u'description': u'Broker Accreditation level does not permit ownership change',
-            u'location': u'procurementMethodType',
+            u'location': u'ownership',
             u'name': u'mode'
         }])
 
@@ -211,7 +218,7 @@ class ContractOwnershipChangeTest(BaseWebTest):
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.json['errors'], [{
             u'description': u'Broker Accreditation level does not permit ownership change',
-            u'location': u'procurementMethodType',
+            u'location': u'ownership',
             u'name': u'accreditation'
         }])
 
@@ -230,4 +237,28 @@ class ContractOwnershipChangeTest(BaseWebTest):
             u'description': u"Can't update credentials in current (terminated) contract status",
             u'location': u'body',
             u'name': u'data'
+        }])
+
+
+class ContractOwnerOwnershipChangeTest(BaseContractOwnershipChangeTest):
+    first_owner = 'broker'
+    second_owner = 'broker3'
+    initial_auth = ('Basic', (first_owner, ''))
+
+    def test_owner_accreditation_level(self):
+        # try to use transfer with owner without appropriate accreditation level
+        with change_auth(self.app, ('Basic', (self.second_owner, ''))):
+            response = self.app.post_json('/transfers', {"data": {}})
+        self.assertEqual(response.status, '201 Created')
+        transfer = response.json['data']
+        transfer_tokens = response.json['access']
+        with change_auth(self.app, ('Basic', (self.second_owner, ''))):
+            response = self.app.post_json(
+                '/contracts/{}/ownership'.format(self.contract_id),
+                {"data": {"id": transfer['id'], 'transfer': self.contract_transfer}}, status=403)
+        self.assertEqual(response.status, '403 Forbidden')
+        self.assertEqual(response.json['errors'], [{
+            u'description': u'Owner Accreditation level does not permit ownership change',
+            u'location': u'ownership',
+            u'name': u'accreditation'
         }])

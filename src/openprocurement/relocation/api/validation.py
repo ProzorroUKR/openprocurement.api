@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from hashlib import sha512
+
+from openprocurement.api.auth import check_user_accreditations
 from openprocurement.api.utils import update_logging_context
 from openprocurement.api.validation import validate_json_data, validate_data
 from openprocurement.relocation.api.models import Transfer
@@ -32,14 +34,14 @@ def validate_accreditation_level(request, obj, level_name):
     level = getattr(type(obj), level_name)
     if not request.check_accreditations(level):
         request.errors.add(
-            'procurementMethodType', 'accreditation',
+            'ownership', 'accreditation',
             'Broker Accreditation level does not permit ownership change')
         request.errors.status = 403
         return
 
     if obj.get('mode', None) is None and request.check_accreditations(('t',)):
         request.errors.add(
-            'procurementMethodType', 'mode',
+            'ownership', 'mode',
             'Broker Accreditation level does not permit ownership change')
         request.errors.status = 403
         return
@@ -61,6 +63,32 @@ def validate_plan_accreditation_level(request):
 
 def validate_agreement_accreditation_level(request):
     validate_accreditation_level(request, request.validated['agreement'], 'create_accreditations')
+
+
+def validate_owner_accreditation_level(request, obj):
+    if request.errors:
+        return
+    if not check_user_accreditations(request, obj.owner, ('x',)):
+        request.errors.add(
+            'ownership', 'accreditation',
+            'Owner Accreditation level does not permit ownership change')
+        request.errors.status = 403
+
+
+def validate_tender_owner_accreditation_level(request):
+    validate_owner_accreditation_level(request, request.validated['tender'])
+
+
+def validate_contract_owner_accreditation_level(request):
+    validate_owner_accreditation_level(request, request.validated['contract'])
+
+
+def validate_plan_owner_accreditation_level(request):
+    validate_owner_accreditation_level(request, request.validated['plan'])
+
+
+def validate_agreement_owner_accreditation_level(request):
+    validate_owner_accreditation_level(request, request.validated['agreement'])
 
 
 def validate_transfer_token(request, obj):

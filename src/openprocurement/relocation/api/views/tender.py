@@ -9,6 +9,7 @@ from openprocurement.relocation.api.utils import (
 from openprocurement.relocation.api.validation import (
     validate_ownership_data,
     validate_tender_accreditation_level,
+    validate_tender_owner_accreditation_level,
     validate_tender,
     validate_tender_transfer_token)
 
@@ -20,6 +21,7 @@ class TenderResource(APIResource):
 
     @json_view(permission='create_tender',
                validators=(validate_tender_accreditation_level,
+                           validate_tender_owner_accreditation_level,
                            validate_ownership_data,
                            validate_tender,
                            validate_tender_transfer_token))

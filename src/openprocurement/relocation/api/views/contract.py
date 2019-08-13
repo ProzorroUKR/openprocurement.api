@@ -9,6 +9,7 @@ from openprocurement.relocation.api.utils import (
 from openprocurement.relocation.api.validation import (
     validate_ownership_data,
     validate_contract_accreditation_level,
+    validate_contract_owner_accreditation_level,
     validate_contract,
     validate_contract_transfer_token)
 
@@ -20,6 +21,7 @@ class ContractResource(APIResource):
 
     @json_view(permission='view_contract',
                validators=(validate_contract_accreditation_level,
+                           validate_contract_owner_accreditation_level,
                            validate_ownership_data,
                            validate_contract,
                            validate_contract_transfer_token))

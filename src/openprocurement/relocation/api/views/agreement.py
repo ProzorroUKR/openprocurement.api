@@ -10,6 +10,7 @@ from openprocurement.relocation.api.utils import (
 from openprocurement.relocation.api.validation import (
     validate_ownership_data,
     validate_agreement_accreditation_level,
+    validate_agreement_owner_accreditation_level,
     validate_agreement,
     validate_agreement_transfer_token)
 
@@ -21,6 +22,7 @@ class AgreementResource(APIResource):
 
     @json_view(permission='view_agreement',
                validators=(validate_agreement_accreditation_level,
+                           validate_agreement_owner_accreditation_level,
                            validate_ownership_data,
                            validate_agreement,
                            validate_agreement_transfer_token))
