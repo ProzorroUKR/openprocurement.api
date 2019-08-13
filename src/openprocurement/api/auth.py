@@ -130,13 +130,13 @@ def check_accreditations(request, levels):
     return any([check_accreditation(request, level) for level in levels])
 
 
-def check_user_accreditation(request, userid, level):
+def check_user_accreditation(request, userid, level, default=False):
     policy = request.registry.queryUtility(IAuthenticationPolicy)
     for user in policy.users.values():
         if user['name'] == userid:
             return level in user['level']
-    return False
+    return default
 
 
-def check_user_accreditations(request, userid, levels):
-    return any([check_user_accreditation(request, userid, level) for level in levels])
+def check_user_accreditations(request, userid, levels, default=False):
+    return any([check_user_accreditation(request, userid, level, default=default) for level in levels])

@@ -68,7 +68,7 @@ def validate_agreement_accreditation_level(request):
 def validate_owner_accreditation_level(request, obj):
     if request.errors:
         return
-    if not check_user_accreditations(request, obj.owner, ('x',)):
+    if not check_user_accreditations(request, obj.owner, ('x',), default=True):
         request.errors.add(
             'ownership', 'accreditation',
             'Owner Accreditation level does not permit ownership change')

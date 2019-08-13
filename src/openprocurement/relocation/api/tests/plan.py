@@ -222,3 +222,24 @@ class PlanOwnerOwnershipChangeTest(BasePlanOwnershipChangeTest):
             u'location': u'ownership',
             u'name': u'accreditation'
         }])
+
+    def test_owner_deleted(self):
+        # try to use transfer with owner without appropriate accreditation level
+        with change_auth(self.app, ('Basic', (self.second_owner, ''))):
+            response = self.app.post_json('/transfers', {"data": {}})
+        self.assertEqual(response.status, '201 Created')
+        transfer = response.json['data']
+        transfer_tokens = response.json['access']
+
+        plan_doc = self.db.get(self.plan_id)
+        plan_doc['owner'] = 'deleted_broker'
+        self.db.save(plan_doc)
+
+        with change_auth(self.app, ('Basic', (self.second_owner, ''))):
+            response = self.app.post_json(
+                '/plans/{}/ownership'.format(self.plan_id),
+                {"data": {"id": transfer['id'], 'transfer': self.plan_transfer}})
+        self.assertEqual(response.status, '200 OK')
+        self.assertNotIn('transfer', response.json['data'])
+        self.assertNotIn('transfer_token', response.json['data'])
+        self.assertEqual(self.second_owner, response.json['data']['owner'])
