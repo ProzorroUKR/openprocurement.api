@@ -31,17 +31,6 @@ from openprocurement.tender.openeu.validation import (
                          description="Tender qualification documents")
 class TenderQualificationDocumentResource(APIResource):
 
-    def validate_award_document(self, operation):
-        if self.request.validated['tender_status'] != 'active.pre-qualification':
-            self.request.errors.add('body', 'data', 'Can\'t {} document in current ({}) tender status'.format(operation, self.request.validated['tender_status']))
-            self.request.errors.status = 403
-            return
-        if operation == 'update' and self.request.authenticated_role != (self.context.author or 'tender_owner'):
-            self.request.errors.add('url', 'role', 'Can {} document only author'.format(operation))
-            self.request.errors.status = 403
-            return
-        return True
-
     @json_view(permission='view_tender')
     def collection_get(self):
         """Tender Qualification Documents List"""
