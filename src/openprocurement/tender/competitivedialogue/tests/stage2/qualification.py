@@ -26,8 +26,7 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
     patch_qualification_document,
     create_qualification_document_after_status_change,
     put_qualification_document_after_status_change,
-    create_qualification_document_bot,
-    patch_document_not_author,
+    tender_owner_create_qualification_document,
     # TenderStage2EUQualificationComplaintResourceTest
     create_tender_qualification_complaint_invalid,
     create_tender_qualification_complaint,
@@ -129,8 +128,7 @@ class TenderStage2EUQualificationDocumentResourceTest(BaseCompetitiveDialogEUSta
     test_patch_qualification_document = snitch(patch_qualification_document)
     test_create_qualification_document_after_status_change = snitch(create_qualification_document_after_status_change)
     test_put_qualification_document_after_status_change = snitch(put_qualification_document_after_status_change)
-    test_create_qualification_document_bot = snitch(create_qualification_document_bot)
-    test_patch_document_not_author = snitch(patch_document_not_author)
+    test_tender_owner_create_qualification_document = snitch(tender_owner_create_qualification_document)
 
 
 class TenderStage2EUQualificationComplaintResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):

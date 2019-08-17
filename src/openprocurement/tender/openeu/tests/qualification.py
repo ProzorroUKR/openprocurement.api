@@ -42,13 +42,12 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
     change_status_to_standstill_with_complaint,
     # TenderQualificationDocumentResourceTest
     not_found,
+    tender_owner_create_qualification_document,
     create_qualification_document,
     put_qualification_document,
     patch_qualification_document,
     create_qualification_document_after_status_change,
     put_qualification_document_after_status_change,
-    create_qualification_document_bot,
-    patch_document_not_author,
     # Tender2LotQualificationResourceTest
     lot_patch_tender_qualifications,
     lot_get_tender_qualifications_collection,
@@ -134,13 +133,12 @@ class TenderQualificationDocumentResourceTest(BaseTenderContentWebTest):
         self.assertEqual(len(self.qualifications), 2)
 
     test_not_found = snitch(not_found)
+    test_tender_owner_create_qualification_document = snitch(tender_owner_create_qualification_document)
     test_create_qualification_document = snitch(create_qualification_document)
     test_put_qualification_document = snitch(put_qualification_document)
     test_patch_qualification_document = snitch(patch_qualification_document)
     test_create_qualification_document_after_status_change = snitch(create_qualification_document_after_status_change)
     test_put_qualification_document_after_status_change = snitch(put_qualification_document_after_status_change)
-    test_create_qualification_document_bot = snitch(create_qualification_document_bot)
-    test_patch_document_not_author = snitch(patch_document_not_author)
 
 
 class TenderQualificationComplaintResourceTest(BaseTenderContentWebTest):
