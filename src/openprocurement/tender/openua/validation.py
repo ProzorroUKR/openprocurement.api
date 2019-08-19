@@ -65,3 +65,10 @@ def validate_contract_update_with_accepted_complaint(request):
     tender = request.validated['tender']
     if any([any([c.status == 'accepted' for c in i.complaints]) for i in tender.awards if i.lotID in [a.lotID for a in tender.awards if a.id == request.context.awardID]]):
         raise_operation_error(request, 'Can\'t update contract with accepted complaint')
+
+
+def validate_accepted_complaints(request):
+    if any([any([c.status == 'accepted' for c in i.complaints]) for i in request.validated['tender'].awards if
+            i.lotID == request.validated['award'].lotID]):
+        operation = OPERATIONS.get(request.method)
+        raise_operation_error(request, 'Can\'t {} document with accepted complaint'.format(operation))

@@ -1,108 +1,43 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import (
-    get_file,
-    upload_file,
-    update_file_content_type,
-    json_view,
-    context_unpack,
-    APIResource,
-    raise_operation_error,
-    error_handler
-)
+from openprocurement.api.utils import json_view
 from openprocurement.api.validation import (
     validate_file_update,
     validate_file_upload,
     validate_patch_document_data,
 )
+from openprocurement.tender.core.utils import optendersresource
+from openprocurement.tender.core.views.document import BaseDocumentResource
+from openprocurement.tender.belowthreshold.validation import validate_award_document
 
-from openprocurement.tender.core.utils import (
-    save_tender, optendersresource, apply_patch,
-)
 
 @optendersresource(name='belowThreshold:Tender Award Documents',
                    collection_path='/tenders/{tender_id}/awards/{award_id}/documents',
                    path='/tenders/{tender_id}/awards/{award_id}/documents/{document_id}',
                    procurementMethodType='belowThreshold',
                    description="Tender award documents")
-class TenderAwardDocumentResource(APIResource):
-
-    def validate_award_document(self, operation):
-        """ TODO move validators
-        This class is inherited in openua package, but validate_award_document function has different validators.
-        For now, we have no way to use different validators on methods according to procedure type.
-        """
-        if self.request.validated['tender_status'] != 'active.qualification':
-            raise_operation_error(self.request, 'Can\'t {} document in current ({}) tender status'.format(operation, self.request.validated['tender_status']))
-        if any([i.status != 'active' for i in self.request.validated['tender'].lots if i.id == self.request.validated['award'].lotID]):
-            raise_operation_error(self.request, 'Can {} document only in active lot status'.format(operation))
-        if operation == 'update' and self.request.authenticated_role != (self.context.author or 'tender_owner'):
-            self.request.errors.add('url', 'role', 'Can update document only author')
-            self.request.errors.status = 403
-            raise error_handler(self.request.errors)
-        return True
+class TenderAwardDocumentResource(BaseDocumentResource):
+    context_name = "tender_award"
 
     @json_view(permission='view_tender')
     def collection_get(self):
-        """Tender Award Documents List"""
-        if self.request.params.get('all', ''):
-            collection_data = [i.serialize("view") for i in self.context.documents]
-        else:
-            collection_data = sorted(dict([
-                (i.id, i.serialize("view"))
-                for i in self.context.documents
-            ]).values(), key=lambda i: i['dateModified'])
-        return {'data': collection_data}
+        return super(TenderAwardDocumentResource, self).collection_get()
 
-    @json_view(validators=(validate_file_upload,), permission='upload_tender_documents')
+    @json_view(validators=(validate_file_upload, validate_award_document),
+               permission='upload_tender_documents')
     def collection_post(self):
-        """Tender Award Document Upload
-        """
-        if not self.validate_award_document('add'):
-            return
-        document = upload_file(self.request)
-        document.author = self.request.authenticated_role
-        self.context.documents.append(document)
-        if save_tender(self.request):
-            self.LOGGER.info('Created tender award document {}'.format(document.id),
-                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_document_create'}, {'document_id': document.id}))
-            self.request.response.status = 201
-            document_route = self.request.matched_route.name.replace("collection_", "")
-            self.request.response.headers['Location'] = self.request.current_route_url(_route_name=document_route, document_id=document.id, _query={})
-            return {'data': document.serialize("view")}
+        return super(TenderAwardDocumentResource, self).collection_post()
 
     @json_view(permission='view_tender')
     def get(self):
-        """Tender Award Document Read"""
-        if self.request.params.get('download'):
-            return get_file(self.request)
-        document = self.request.validated['document']
-        document_data = document.serialize("view")
-        document_data['previousVersions'] = [
-            i.serialize("view")
-            for i in self.request.validated['documents']
-            if i.url != document.url
-        ]
-        return {'data': document_data}
+        return super(TenderAwardDocumentResource, self).get()
 
-    @json_view(validators=(validate_file_update,), permission='edit_tender')
+    @json_view(validators=(validate_file_update, validate_award_document),
+               permission='edit_tender')
     def put(self):
-        """Tender Award Document Update"""
-        if not self.validate_award_document('update'):
-            return
-        document = upload_file(self.request)
-        self.request.validated['award'].documents.append(document)
-        if save_tender(self.request):
-            self.LOGGER.info('Updated tender award document {}'.format(self.request.context.id),
-                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_document_put'}))
-            return {'data': document.serialize("view")}
+        return super(TenderAwardDocumentResource, self).put()
 
-    @json_view(content_type="application/json", validators=(validate_patch_document_data,), permission='edit_tender')
+    @json_view(content_type="application/json",
+               validators=(validate_patch_document_data, validate_award_document),
+               permission='edit_tender')
     def patch(self):
-        """Tender Award Document Update"""
-        if not self.validate_award_document('update'):
-            return
-        if apply_patch(self.request, src=self.request.context.serialize()):
-            update_file_content_type(self.request)
-            self.LOGGER.info('Updated tender award document {}'.format(self.request.context.id),
-                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_document_patch'}))
-            return {'data': self.request.context.serialize("view")}
+        return super(TenderAwardDocumentResource, self).patch()
