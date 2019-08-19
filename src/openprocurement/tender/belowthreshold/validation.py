@@ -104,9 +104,14 @@ def validate_cancellation_document_operation_not_in_allowed_status(request):
 
 def validate_award_document(request):
     operation = OPERATIONS.get(request.method)
-    if request.validated['tender_status'] != 'active.qualification':
+
+    allowed_tender_statuses = ['active.qualification']
+    if request.authenticated_role == "bots":
+        allowed_tender_statuses.append('active.awarded')
+    if request.validated['tender_status'] not in allowed_tender_statuses:
         raise_operation_error(request, 'Can\'t {} document in current ({}) tender status'.format(
             operation, request.validated['tender_status']))
+
     if any([i.status != 'active' for i in request.validated['tender'].lots if
             i.id == request.validated['award'].lotID]):
         raise_operation_error(request, 'Can {} document only in active lot status'.format(operation))
