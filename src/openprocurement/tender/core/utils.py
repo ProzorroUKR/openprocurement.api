@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from decimal import Decimal
 from re import compile
-from barbecue import chef
 from jsonpointer import resolve_pointer
 from functools import partial
 from datetime import datetime, time, timedelta
@@ -317,6 +316,6 @@ def convert_to_decimal(value):
     if isinstance(value, (int, long)):
         return Decimal(value)
     if isinstance(value, (float)):
-        return Decimal(str(value))
+        return Decimal(repr(value))
 
     raise TypeError("Unable to convert %s to Decimal" % value)

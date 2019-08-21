@@ -144,9 +144,8 @@ class TestValidateUpdateContractValueAmount(unittest.TestCase):
         amount_net = 1232.0
         coef = 1.2
 
-        #  the problem and the solution
+        #  the problem
         assert amount_net * coef == 1478.3999999999999
-        assert float(str(amount_net * coef)) == 1478.4
 
         request = generate_contract_value_patch_request_mock(
             contract_value={

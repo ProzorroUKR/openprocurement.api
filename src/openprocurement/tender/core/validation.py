@@ -589,15 +589,15 @@ def validate_gmdn(classification_id, additional_classifications):
 
 def validate_milestones(value):
     if isinstance(value, list):
-        sums = defaultdict(float)
+        sums = defaultdict(Decimal)
         for milestone in value:
             if milestone["type"] == 'financing':
                 percentage = milestone.get("percentage")
                 if percentage:
-                    sums[milestone.get("relatedLot")] += percentage
+                    sums[milestone.get("relatedLot")] += convert_to_decimal(percentage)
 
         for uid, sum_value in sums.items():
-            if sum_value != 100:
+            if sum_value != Decimal('100'):
                 raise ValidationError(
                     u"Sum of the financial milestone percentages {} is not equal 100{}.".format(
                         sum_value, u" for lot {}".format(uid) if uid else ""
