@@ -884,23 +884,6 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
     def link_plan(self, plan_id):
         self.plans.append(PlanRelation({"id": plan_id}))
 
-    def validate_milestones(self, data, value):
-        if isinstance(value, list):
-            sums = defaultdict(float)
-            for milestone in value:
-                if milestone["type"] == 'financing':
-                    percentage = milestone.get("percentage")
-                    if percentage:
-                        sums[milestone.get("relatedLot")] += percentage
-
-            for uid, sum_value in sums.items():
-                if sum_value != 100:
-                    raise ValidationError(
-                        u"Sum of the financial milestone percentages {} is not equal 100{}.".format(
-                            sum_value, u" for lot {}".format(uid) if uid else ""
-                        )
-                    )
-
     def validate_mainProcurementCategory(self, data, value):
         validation_date = get_first_revision_date(data, default=get_now())
         if validation_date >= MPC_REQUIRED_FROM and value is None:

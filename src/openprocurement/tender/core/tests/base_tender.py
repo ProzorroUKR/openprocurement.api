@@ -193,6 +193,33 @@ class TestTenderMilestones(unittest.TestCase):
             {'milestones': [u'Sum of the financial milestone percentages 100.001 is not equal 100.']}
         )
 
+    def test_validate_percentage_sum_float_point(self):
+        initial_data = dict(self.initial_tender_data)
+        initial_data.update(
+            milestones=[
+                {
+                    'title': "deliveryOfGoods",
+                    'code': 'prepayment',
+                    'type': 'financing',
+                    'duration': {'days': 2, 'type': 'banking'},
+                    'sequenceNumber': 2,
+                    'percentage': 8.34,
+                }
+            ] * 4 + [
+                {
+                    'title': "endDateOfTheReportingPeriod",
+                    'code': 'postpayment',
+                    'type': 'financing',
+                    'duration': {'days': 2, 'type': 'banking'},
+                    'sequenceNumber': 2,
+                    'percentage': 8.33,
+                }
+            ] * 8
+        )
+
+        tender = BaseTender(initial_data)
+        tender.validate()
+
 
 class TestMultiLotTenderMilestones(unittest.TestCase):
 
