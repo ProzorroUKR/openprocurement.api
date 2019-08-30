@@ -45,7 +45,7 @@ from openprocurement.tender.core.utils import (
     calc_auction_end_time, rounding_shouldStartAfter
 )
 from openprocurement.tender.core.validation import (
-    validate_LotValue_value, is_positive_float,
+    validate_lotvalue_value, is_positive_float,
     validate_ua_road, validate_gmdn, validate_milestones,
     validate_bid_value, validate_relatedlot,
 )
