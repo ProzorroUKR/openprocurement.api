@@ -116,23 +116,6 @@ def validate_award_complaint_update_not_in_allowed_status(request):
         raise_operation_error(request, 'Can\'t update complaint in current ({}) status'.format(request.context.status))
 
 
-# award document
-
-
-def validate_award_document(request):
-    operation = OPERATIONS.get(request.method)
-    if request.validated['tender_status'] != 'active.qualification':
-        raise_operation_error(request, 'Can\'t {} document in current ({}) tender status'.format(
-            operation, request.validated['tender_status']))
-    if any([i.status != 'active' for i in request.validated['tender'].lots if
-            i.id == request.validated['award'].lotID]):
-        raise_operation_error(request, 'Can {} document only in active lot status'.format(operation))
-    if operation == 'update' and request.authenticated_role != (request.context.author or 'tender_owner'):
-        request.errors.add('url', 'role', 'Can update document only author')
-        request.errors.status = 403
-        raise error_handler(request.errors)
-
-
 # contract document
 def validate_cancellation_document_operation_not_in_allowed_status(request):
     if request.validated['tender_status'] in ['complete', 'cancelled', 'unsuccessful']:

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
-
+from webtest import AppError
 import mock
 
 from openprocurement.api.utils import get_now
@@ -2910,7 +2910,10 @@ def patch_tender_award_document(self):
 
 
 def create_award_document_bot(self):
-    self.app.authorization = ('Basic', ('bot', 'bot'))
+    broker_authorization = self.app.authorization
+    bot_authorization = ('Basic', ('bot', 'bot'))
+
+    self.app.authorization = bot_authorization
     response = self.app.post(
         '/tenders/{}/awards/{}/documents'.format(self.tender_id, self.award_id),
         upload_files=[('file', 'edr_request.yaml', 'content')])
@@ -2929,6 +2932,33 @@ def create_award_document_bot(self):
         self.assertIn('Signature=', tender['awards'][-1]['documents'][-1]["url"])
         self.assertIn('KeyID=', tender['awards'][-1]['documents'][-1]["url"])
         self.assertNotIn('Expires=', tender['awards'][-1]['documents'][-1]["url"])
+
+    # set tender to active.awarded status
+    self.app.authorization = broker_authorization
+    try:
+        self.app.patch_json(  # set eligible for procedures where it exists
+            '/tenders/{}/awards/{}?acc_token={}'.format(
+                self.tender_id, self.award_id, self.tender_token
+            ), {"data": {"eligible": True}}
+        )
+    except AppError:
+        pass
+    response = self.app.patch_json(
+        '/tenders/{}/awards/{}?acc_token={}'.format(
+            self.tender_id, self.award_id, self.tender_token
+        ),
+        {"data": {"qualified": True, "status": "active"}}
+    )
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.json['data']['status'], u'active')
+
+    # try upload doc as bot
+    self.app.authorization = bot_authorization
+    response = self.app.post(
+        '/tenders/{}/awards/{}/documents'.format(self.tender_id, self.award_id),
+        upload_files=[('file', 'fiscal_request.yaml', 'content')],
+    )
+    self.assertEqual(response.status, '201 Created')
 
 
 def patch_not_author(self):
