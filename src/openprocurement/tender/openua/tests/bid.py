@@ -6,7 +6,8 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
     test_organization,
     test_author,
-    test_bids)
+    test_lots
+)
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     # TenderBidDocumentResourceTest
     not_found,
@@ -14,13 +15,15 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_with_documents,
     create_tender_bid_with_document_invalid,
     create_tender_bid_with_document,
+    # Tender2LotBidResourceTest
+    patch_tender_with_bids_lots_none
 )
 
 from openprocurement.tender.openua.tests.base import (
     BaseTenderUAContentWebTest,
     test_tender_data,
     test_features_tender_ua_data,
-)
+    test_bids)
 from openprocurement.tender.openua.tests.bid_blanks import (
     # TenderBidResourceTest
     create_tender_biddder_invalid,
@@ -85,6 +88,15 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest, TenderBidResourceTestMix
 
     test_draft1_bid = snitch(draft1_bid)
     test_draft2_bids = snitch(draft2_bids)
+
+
+class Tender2LotBidResourceTest(BaseTenderUAContentWebTest):
+    initial_data = test_tender_data
+    test_bids_data = test_bids
+    initial_lots = 2 * test_lots
+    initial_status = 'active.tendering'
+
+    test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
 
 
 class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):

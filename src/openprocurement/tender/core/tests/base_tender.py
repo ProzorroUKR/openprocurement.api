@@ -243,7 +243,7 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
     )
 
     class MultiLotTender(BaseTender):
-        lots = ListType(ModelType(Lot))
+        lots = ListType(ModelType(Lot, required=True))
 
     def test_validate_related_lot_not_required(self):
         initial_data = dict(self.initial_tender_data)

@@ -12,6 +12,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_with_inn,
     create_tender_with_inn_before,
     tender_milestones_required,
+    patch_tender_lots_none,
 )
 
 from openprocurement.tender.openua.tests.tender import TenderUAResourceTestMixin
@@ -55,7 +56,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin, TenderUARes
 
     initial_auth = ('Basic', ('broker', ''))
     initial_data = test_tender_data
-    test_lots_data = test_lots  # TODO: change attribute identifier
+    test_lots_data = test_lots
     test_bids_data = test_bids
 
     test_create_tender_invalid = snitch(create_tender_invalid)
@@ -69,6 +70,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin, TenderUARes
     test_create_tender_with_inn = snitch(create_tender_with_inn)
     test_create_tender_with_inn_before = snitch(create_tender_with_inn_before)
     test_tender_milestones_required = snitch(tender_milestones_required)
+    test_patch_tender_lots_none = snitch(patch_tender_lots_none)
 
 
     def test_patch_not_author(self):

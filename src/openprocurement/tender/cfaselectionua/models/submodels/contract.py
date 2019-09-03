@@ -18,13 +18,14 @@ class Contract(BaseContract):
 
     value = ModelType(ContractValue)
     awardID = StringType(required=True)
-    documents = ListType(ModelType(Document), default=list())
+    documents = ListType(ModelType(Document, required=True), default=list())
 
     def validate_awardID(self, data, awardID):
-        if awardID and isinstance(data['__parent__'], Model) and awardID not in [i.id for i in data['__parent__'].awards]:
+        parent = data['__parent__']
+        if awardID and isinstance(parent, Model) and awardID not in [i.id for i in parent.awards]:
             raise ValidationError(u"awardID should be one of awards")
 
     def validate_dateSigned(self, data, value):
-        if value and isinstance(data['__parent__'], Model):
-            if value > get_now():
-                raise ValidationError(u"Contract signature date can't be in the future")
+        parent = data['__parent__']
+        if value and isinstance(parent, Model) and value > get_now():
+            raise ValidationError(u"Contract signature date can't be in the future")

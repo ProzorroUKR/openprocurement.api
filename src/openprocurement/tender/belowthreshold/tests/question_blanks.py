@@ -362,3 +362,48 @@ def lot_patch_tender_question(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']["answer"], "answer")
     self.assertIn('dateAnswered', response.json['data'])
+
+
+def lot_patch_tender_question_lots_none(self):
+    response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id, self.tender_token), {'data': {
+        'title': 'question title',
+        'description': 'question description',
+        "questionOf": "lot",
+        "relatedItem": self.initial_lots[0]['id'],
+        'author': self.author_data
+    }})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+
+    response = self.app.patch_json(
+        '/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+        {'data': {'lots': [None]}}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+
+    errors = {error['name']: error['description'] for error in response.json['errors']}
+    self.assertEqual(errors['lots'][0], ["This field is required."])
+    self.assertEqual(errors['questions'][0], {'relatedItem': ['relatedItem should be one of lots']})
+
+
+def lot_patch_tender_question_items_none(self):
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+
+    response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id, self.tender_token), {'data': {
+        'title': 'question title',
+        'description': 'question description',
+        "questionOf": "item",
+        "relatedItem": response.json['data']['items'][0]['id'],
+        'author': self.author_data
+    }})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+
+    response = self.app.patch_json(
+        '/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+        {'data': {'items': [None]}}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+
+    errors = {error['name']: error['description'] for error in response.json['errors']}
+    self.assertEqual(errors['questions'][0], {'relatedItem': ['relatedItem should be one of items']})

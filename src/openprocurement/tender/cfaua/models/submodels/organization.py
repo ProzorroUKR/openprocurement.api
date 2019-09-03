@@ -18,7 +18,7 @@ class Organization(Model):
     name_en = StringType(required=True, min_length=1)
     name_ru = StringType()
     identifier = ModelType(Identifier, required=True)
-    additionalIdentifiers = ListType(ModelType(Identifier))
+    additionalIdentifiers = ListType(ModelType(Identifier, required=True))
     address = ModelType(Address, required=True)
     contactPoint = ModelType(ContactPoint, required=True)
     additionalContactPoints = ListType(ModelType(ContactPoint, required=True),

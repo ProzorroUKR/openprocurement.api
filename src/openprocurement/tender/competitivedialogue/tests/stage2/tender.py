@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import unittest
-from copy import deepcopy
 
 from openprocurement.api.tests.base import (
     BaseWebTest,
@@ -51,7 +50,8 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_stage2_data_ua,
     test_tender_stage2_data_eu,
     test_access_token_stage1,
-    test_author)
+    test_author,
+)
 
 
 class CompetitiveDialogStage2Test(BaseWebTest):
@@ -65,7 +65,7 @@ class CompetitiveDialogStage2Test(BaseWebTest):
 class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest):
     initial_auth = ('Basic', ('competitive_dialogue', ''))
     author_data = test_author
-    initial_data = test_tender_stage2_data_eu  # TODO: change attribute identifier
+    initial_data = test_tender_stage2_data_eu
     test_tender_data_eu = test_tender_stage2_data_eu  # TODO: change attribute identifier
     test_access_token_data = test_access_token_stage1  # TODO: change attribute identifier
 
@@ -107,7 +107,7 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
 
 
 class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
-    initial_data = test_tender_stage2_data_ua  # TODO: change attribute identifier
+    initial_data = test_tender_stage2_data_ua
     test_tender_data_eu = test_tender_stage2_data_eu  # TODO: change attribute identifier
     test_access_token_data = test_access_token_stage1  # TODO: change attribute identifier
     author_data = test_author

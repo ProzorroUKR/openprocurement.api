@@ -90,7 +90,7 @@ class PlanItem(Model):
     """Simple item model for planing"""
     id = StringType(required=True, min_length=1, default=lambda: uuid4().hex)
     classification = ModelType(CPVClassification, required=True)
-    additionalClassifications = ListType(ModelType(Classification), default=list())
+    additionalClassifications = ListType(ModelType(Classification, required=True), default=list())
     unit = ModelType(Unit)  # Description of the unit which the good comes in e.g. hours, kilograms
     quantity = FloatType()  # The number of units required
     deliveryDate = ModelType(Period)
@@ -208,13 +208,14 @@ class Plan(SchematicsDocument, Model):
     # additionalClassifications[0]:scheme
     # additionalClassifications[0]:id
     # additionalClassifications[0]:description
-    additionalClassifications = ListType(ModelType(Classification), default=list(), required=False)
+    additionalClassifications = ListType(ModelType(Classification, required=True),
+                                         default=list(), required=False)
 
-    documents = ListType(ModelType(Document), default=list())  # All documents and attachments related to the tender.
+    documents = ListType(ModelType(Document, required=True), default=list())  # All documents and attachments related to the tender.
     tender_id = MD5Type()
     planID = StringType()
     mode = StringType(choices=['test'])  # flag for test data ?
-    items = ListType(ModelType(PlanItem), required=False, validators=[validate_items_uniq])
+    items = ListType(ModelType(PlanItem, required=True), required=False, validators=[validate_items_uniq])
     buyers = ListType(ModelType(PlanOrganization, required=True), min_size=1, max_size=1)
 
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
@@ -223,7 +224,7 @@ class Plan(SchematicsDocument, Model):
     owner_token = StringType()
     owner = StringType()
     procurementMethodType = StringType()
-    revisions = ListType(ModelType(Revision), default=list())
+    revisions = ListType(ModelType(Revision, required=True), default=list())
 
     create_accreditations = (1, 3,)
 

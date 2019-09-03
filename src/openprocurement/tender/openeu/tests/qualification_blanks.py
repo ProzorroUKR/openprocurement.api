@@ -249,6 +249,22 @@ def lot_patch_tender_qualifications(self):
     self.assertEqual(response.json['data']['status'], 'cancelled')
 
 
+def lot_patch_tender_qualifications_lots_none(self):
+    response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
+    self.assertEqual(response.content_type, 'application/json')
+    qualifications = response.json['data']
+
+    response = self.app.patch_json(
+        '/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+        {'data': {'lots': [None]}}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+
+    errors = {error['name']: error['description'] for error in response.json['errors']}
+    self.assertEqual(errors['lots'][0], ["This field is required."])
+    self.assertEqual(errors['qualifications'][0], {"lotID": ["lotID should be one of lots"]})
+
+
 def lot_get_tender_qualifications_collection(self):
     response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
     self.assertEqual(response.content_type, 'application/json')

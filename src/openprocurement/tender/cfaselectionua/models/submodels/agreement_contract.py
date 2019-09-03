@@ -19,10 +19,11 @@ class AgreementContract(Model):
     class Options:
         roles = RolesFromCsv('AgreementContract.csv', relative_to=__file__)
     id = MD5Type(required=True, default=lambda: uuid4().hex)
-    parameters = ListType(ModelType(ParameterContract), default=list(), validators=[validate_parameters_uniq])
+    parameters = ListType(ModelType(ParameterContract, required=True), default=list(),
+                          validators=[validate_parameters_uniq])
     status = StringType(choices=['active', 'unsuccessful'], default='active')
-    suppliers = ListType(ModelType(BusinessOrganization))
-    unitPrices = ListType(ModelType(UnitPrice))
+    suppliers = ListType(ModelType(BusinessOrganization, required=True))
+    unitPrices = ListType(ModelType(UnitPrice, required=True))
     awardID = StringType()
     bidID = StringType()
     date = IsoDateTimeType()

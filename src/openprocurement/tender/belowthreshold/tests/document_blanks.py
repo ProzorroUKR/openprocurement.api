@@ -703,3 +703,52 @@ def put_tender_document_json(self):
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Can't update document in current ({}) tender status".format(self.forbidden_document_modification_actions_status))
+
+
+def lot_patch_tender_document_json_lots_none(self):
+    response = self.app.post_json('/tenders/{}/documents?acc_token={}'.format(self.tender_id, self.tender_token),
+        {'data': {
+            'title': u'укр.doc',
+            'url': self.generate_docservice_url(),
+            'hash': 'md5:' + '0' * 32,
+            'format': 'application/msword',
+            'documentOf': 'lot',
+            'relatedItem': self.initial_lots[0]['id']
+        }})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+
+    response = self.app.patch_json(
+        '/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+        {'data': {'lots': [None]}}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+
+    errors = {error['name']: error['description'] for error in response.json['errors']}
+    self.assertEqual(errors['lots'][0], ["This field is required."])
+    self.assertEqual(errors['documents'][0], {'relatedItem': ['relatedItem should be one of lots']})
+
+
+def lot_patch_tender_document_json_items_none(self):
+    response = self.app.get('/tenders/{}'.format(self.tender_id))
+
+    response = self.app.post_json('/tenders/{}/documents?acc_token={}'.format(self.tender_id, self.tender_token),
+        {'data': {
+            'title': u'укр.doc',
+            'url': self.generate_docservice_url(),
+            'hash': 'md5:' + '0' * 32,
+            'format': 'application/msword',
+            'documentOf': 'item',
+            'relatedItem': response.json['data']['items'][0]['id']
+        }})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+
+    response = self.app.patch_json(
+        '/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+        {'data': {'items': [None]}}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+
+    errors = {error['name']: error['description'] for error in response.json['errors']}
+    self.assertEqual(errors['documents'][0], {'relatedItem': ['relatedItem should be one of items']})

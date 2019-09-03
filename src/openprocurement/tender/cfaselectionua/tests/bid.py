@@ -3,14 +3,17 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.tender.belowthreshold.tests.bid_blanks import (
+    # TenderBidResourceTest
+    patch_tender_with_bids_lots_none
+)
 
 from openprocurement.tender.cfaselectionua.tests.base import (
     TenderContentWebTest,
-    test_agreement_features,
     test_organization,
     test_lots,
     test_agreement_features,
-)
+    test_bids)
 from openprocurement.tender.cfaselectionua.tests.bid_blanks import (
     # TenderBidResourceTest
     create_tender_bid_invalid,
@@ -43,6 +46,7 @@ from openprocurement.tender.cfaselectionua.tests.bid_blanks import (
 class TenderBidResourceTest(TenderContentWebTest):
     initial_status = 'active.tendering'
     initial_lots = deepcopy(test_lots)
+    test_bids_data = deepcopy(test_bids)
 
     test_create_tender_bid_invalid = snitch(create_tender_bid_invalid)
     test_create_tender_bid = snitch(create_tender_bid)
@@ -51,6 +55,7 @@ class TenderBidResourceTest(TenderContentWebTest):
     test_delete_tender_bid = snitch(delete_tender_bid)
     test_get_tender_tenderers = snitch(get_tender_tenderers)
     test_bid_Administrator_change = snitch(bid_Administrator_change)
+    test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
 
 
 class TenderBidFeaturesResourceTest(TenderContentWebTest):

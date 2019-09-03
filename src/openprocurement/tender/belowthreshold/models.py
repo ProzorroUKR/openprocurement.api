@@ -41,6 +41,7 @@ from openprocurement.tender.core.utils import (
 from openprocurement.tender.core.constants import (
     CPV_ITEMS_CLASS_FROM, COMPLAINT_STAND_STILL_TIME
 )
+from openprocurement.tender.core.validation import validate_minimalstep
 
 
 class LotAuctionPeriod(Period):
@@ -131,25 +132,25 @@ class Tender(BaseTender):
             'default': _core_roles['default'],
         }
 
-    items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_items_uniq, validate_classification_id])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
+    items = ListType(ModelType(Item, required=True), required=True, min_size=1, validators=[validate_items_uniq, validate_classification_id])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     value = ModelType(Value, required=True)  # The total estimated value of the procurement.
     enquiryPeriod = ModelType(PeriodEndRequired, required=True)  # The period during which enquiries may be made and will be answered.
     tenderPeriod = ModelType(PeriodEndRequired, required=True)  # The period when the tender is open for submissions. The end date is the closing date for tender submissions.
     hasEnquiries = BooleanType()  # A Yes/No field as to whether enquiries were part of tender process.
     awardPeriod = ModelType(Period)  # The date or period on which an award is anticipated to be made.
     numberOfBidders = IntType()  # The number of unique tenderers who participated in the tender
-    bids = ListType(ModelType(Bid), default=list())  # A list of all the companies who entered submissions for the tender.
+    bids = ListType(ModelType(Bid, required=True), default=list())  # A list of all the companies who entered submissions for the tender.
     procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
-    awards = ListType(ModelType(Award), default=list())
-    contracts = ListType(ModelType(Contract), default=list())
+    awards = ListType(ModelType(Award, required=True), default=list())
+    contracts = ListType(ModelType(Contract, required=True), default=list())
     auctionPeriod = ModelType(TenderAuctionPeriod, default={})
     minimalStep = ModelType(Value, required=True)
-    questions = ListType(ModelType(Question), default=list())
-    complaints = ListType(ComplaintModelType(Complaint), default=list())
+    questions = ListType(ModelType(Question, required=True), default=list())
+    complaints = ListType(ComplaintModelType(Complaint, required=True), default=list())
     auctionUrl = URLType()
-    cancellations = ListType(ModelType(Cancellation), default=list())
-    features = ListType(ModelType(Feature), validators=[validate_features_uniq])
-    lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
+    cancellations = ListType(ModelType(Cancellation, required=True), default=list())
+    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
+    lots = ListType(ModelType(Lot, required=True), default=list(), validators=[validate_lots_uniq])
     guarantee = ModelType(Guarantee)
 
     procurementMethodType = StringType(default="belowThreshold")
@@ -286,11 +287,13 @@ class Tender(BaseTender):
     def validate_features(self, data, features):
         if features and data['lots'] and any([
             round(vnmax([
-                i
-                for i in features
-                if i.featureOf == 'tenderer' or i.featureOf == 'lot' and i.relatedItem == lot['id'] or i.featureOf == 'item' and i.relatedItem in [j.id for j in data['items'] if j.relatedLot == lot['id']]
-            ]), 15) > 0.3
-            for lot in data['lots']
+                i for i in features
+                if i.featureOf == 'tenderer' or
+                   i.featureOf == 'lot' and
+                   i.relatedItem == lot['id'] or
+                   i.featureOf == 'item' and
+                   i.relatedItem in [j.id for j in data['items'] if j.relatedLot == lot['id']]
+            ]), 15) > 0.3 for lot in data['lots']
         ]):
             raise ValidationError(u"Sum of max value of all features for lot should be less then or equal to 30%")
         elif features and not data['lots'] and round(vnmax(features), 15) > 0.3:
@@ -301,13 +304,7 @@ class Tender(BaseTender):
             raise ValidationError(u"url should be posted for each lot")
 
     def validate_minimalStep(self, data, value):
-        if value and value.amount and data.get('value'):
-            if data.get('value').amount < value.amount:
-                raise ValidationError(u"value should be less than value of tender")
-            if data.get('value').currency != value.currency:
-                raise ValidationError(u"currency should be identical to currency of value of tender")
-            if data.get('value').valueAddedTaxIncluded != value.valueAddedTaxIncluded:
-                raise ValidationError(u"valueAddedTaxIncluded should be identical to valueAddedTaxIncluded of value of tender")
+        validate_minimalstep(data, value)
 
     def validate_tenderPeriod(self, data, period):
         if period and period.startDate and data.get('enquiryPeriod') and data.get('enquiryPeriod').endDate and period.startDate < data.get('enquiryPeriod').endDate:

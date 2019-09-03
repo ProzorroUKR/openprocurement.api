@@ -3,7 +3,9 @@ import unittest
 
 from openprocurement.api.tests.base import BaseWebTest, snitch
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_data, BaseTenderWebTest
+BaseTenderWebTest,
+    test_tender_data,
+    test_lots,
 )
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     # TenderResourceTest
@@ -29,6 +31,9 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_funders,
     tender_with_main_procurement_category,
     tender_finance_milestones,
+    create_tender_with_inn,
+    create_tender_with_inn_before,
+    patch_tender_lots_none,
     # TenderProcessTest
     one_valid_bid_tender,
     one_invalid_bid_tender,
@@ -78,6 +83,7 @@ class TestCoordinatesRegExp(unittest.TestCase):
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     initial_data = test_tender_data
     initial_auth = ('Basic', ('broker', ''))
+    test_lots_data = test_lots
 
     test_guarantee = snitch(guarantee)
     test_create_tender_invalid = snitch(create_tender_invalid)
@@ -90,6 +96,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_create_tender_with_inn = snitch(create_tender_with_inn)
     test_create_tender_with_inn_before = snitch(create_tender_with_inn_before)
     test_tender_milestones_required = snitch(tender_milestones_required)
+    test_patch_tender_lots_none = snitch(patch_tender_lots_none)
 
 
 class TenderProcessTest(BaseTenderWebTest):

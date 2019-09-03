@@ -5,7 +5,9 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,
     test_features_tender_data,
-    test_organization
+    test_organization,
+    test_lots,
+    test_bids
 )
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     # TenderBidResourceTest
@@ -35,6 +37,8 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_with_document_invalid,
     create_tender_bid_with_document,
     create_tender_bid_with_documents,
+    # Tender2LotBidResourceTest
+    patch_tender_with_bids_lots_none
 )
 
 
@@ -51,6 +55,13 @@ class TenderBidResourceTest(TenderContentWebTest):
     test_create_tender_bid_no_scale_invalid = snitch(create_tender_bid_no_scale_invalid)
     test_create_tender_bid_with_scale_not_required = snitch(create_tender_bid_with_scale_not_required)
     test_create_tender_bid_no_scale = snitch(create_tender_bid_no_scale)
+
+class Tender2LotBidResourceTest(TenderContentWebTest):
+    initial_lots = 2 * test_lots
+    test_bids_data = test_bids
+    initial_status = 'active.tendering'
+
+    test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
 
 
 class TenderBidFeaturesResourceTest(TenderContentWebTest):

@@ -35,20 +35,21 @@ class Agreement(Model):
     description = StringType()
     description_en = StringType()
     description_ru = StringType()
-    documents = ListType(ModelType(Document), default=list())
-    features = ListType(ModelType(Feature), validators=[validate_features_uniq])
-    items = ListType(ModelType(Item))
+    documents = ListType(ModelType(Document, required=True), default=list())
+    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
+    items = ListType(ModelType(Item, required=True))
     period = ModelType(Period)
     status = StringType(choices=['pending', 'active', 'cancelled', 'unsuccessful'], default='pending')
-    contracts = ListType(ModelType(Contract))
+    contracts = ListType(ModelType(Contract, required=True))
     title = StringType()
     title_en = StringType()
     title_ru = StringType()
 
     def validate_dateSigned(self, data, value):
+        parent = data['__parent__']
         awards_id = [c.awardID for c in data['contracts']]
-        if value and isinstance(data['__parent__'], Model):
-            award = [i for i in data['__parent__'].awards if i.id in awards_id][0]
+        if value and isinstance(parent, Model):
+            award = [i for i in parent.awards if i.id in awards_id][0]
             if award.complaintPeriod.endDate >= value:
                 raise ValidationError(
                     u"Agreement signature date should be after award complaint period end date ({})".format(

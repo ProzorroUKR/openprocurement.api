@@ -28,14 +28,15 @@ class Feature(Model):
     description = StringType()
     description_en = StringType()
     description_ru = StringType()
-    enum = ListType(ModelType(FeatureValue), default=list(), min_size=1, validators=[validate_values_uniq])
+    enum = ListType(ModelType(FeatureValue, required=True), default=list(), min_size=1,
+                    validators=[validate_values_uniq])
 
     def validate_relatedItem(self, data, relatedItem):
         if not relatedItem and data.get('featureOf') in ['item', 'lot']:
             raise ValidationError(u'This field is required.')
-        if data.get('featureOf') == 'item' and isinstance(data['__parent__'], Model) and \
-                relatedItem not in [i.id for i in data['__parent__'].items]:
-            raise ValidationError(u"relatedItem should be one of items")
-        if data.get('featureOf') == 'lot' and isinstance(data['__parent__'], Model) and \
-                relatedItem not in [i.id for i in data['__parent__'].lots]:
-            raise ValidationError(u"relatedItem should be one of lots")
+        parent = data['__parent__']
+        if isinstance(parent, Model):
+            if data.get('featureOf') == 'item' and relatedItem not in [i.id for i in parent.items if i]:
+                raise ValidationError(u"relatedItem should be one of items")
+            if data.get('featureOf') == 'lot' and relatedItem not in [i.id for i in parent.lots if i]:
+                raise ValidationError(u"relatedItem should be one of lots")

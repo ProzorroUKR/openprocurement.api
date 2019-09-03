@@ -6,6 +6,7 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     create_tender_award_no_scale_invalid,
     create_tender_award_with_scale_not_required,
     create_tender_award_no_scale,
+    patch_tender_lot_award_lots_none
 )
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
 from openprocurement.tender.belowthreshold.tests.award import (
@@ -125,6 +126,13 @@ class TenderNegotiationLotAwardResourceTest(TenderAwardResourceTest):
     test_cancel_award = snitch(cancel_award)
     test_create_award_on_cancel_lot = snitch(create_award_on_cancel_lot)
     test_patch_award_on_cancel_lot = snitch(patch_award_on_cancel_lot)
+
+
+class TenderNegotiation2LotAwardResourceTest(BaseTenderContentWebTest):
+    initial_data = test_tender_negotiation_data
+    initial_lots = 2 * test_lots
+
+    test_patch_tender_lot_award_lots_none = snitch(patch_tender_lot_award_lots_none)
 
 
 class TenderNegotiationQuickAwardResourceTest(TenderNegotiationAwardResourceTest):

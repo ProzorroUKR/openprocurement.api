@@ -52,12 +52,13 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
     lot_patch_tender_qualifications,
     lot_get_tender_qualifications_collection,
     tender_qualification_cancelled,
+    lot_patch_tender_qualifications_lots_none,
     # TenderQualificationResourceTest
     post_tender_qualifications,
     get_tender_qualifications_collection,
     patch_tender_qualifications,
     get_tender_qualifications,
-    patch_tender_qualifications_after_status_change
+    patch_tender_qualifications_after_status_change,
 )
 
 
@@ -113,6 +114,7 @@ class Tender2LotQualificationResourceTest(TenderQualificationResourceTest):
     test_patch_tender_qualifications = snitch(lot_patch_tender_qualifications)
     test_get_tender_qualifications_collection = snitch(lot_get_tender_qualifications_collection)
     test_tender_qualification_cancelled = snitch(tender_qualification_cancelled)
+    test_lot_patch_tender_qualifications_lots_none = snitch(lot_patch_tender_qualifications_lots_none)
 
 
 class TenderQualificationDocumentResourceTest(BaseESCOContentWebTest):

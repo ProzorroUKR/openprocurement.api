@@ -823,6 +823,32 @@ def patch_tender_lot_award_unsuccessful(self):
     self.assertEqual(len(response.json['data']), 4)
 
 
+def patch_tender_lot_award_lots_none(self):
+    auth = self.app.authorization
+    self.app.authorization = ('Basic', ('token', ''))
+    request_path = '/tenders/{}/awards'.format(self.tender_id)
+    bid = {
+        'suppliers': [test_organization],
+        'status': u'pending',
+        'lotID': self.initial_lots[0]['id']
+    }
+    if getattr(self, 'initial_bids', None):
+        bid['bid_id'] = self.initial_bids[0]['id']
+    response = self.app.post_json(request_path, {'data': bid})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+
+    response = self.app.patch_json(
+        '/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
+        {'data': {'lots': [None]}}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, 'application/json')
+
+    errors = {error['name']: error['description'] for error in response.json['errors']}
+    self.assertEqual(errors['lots'][0], ["This field is required."])
+    self.assertEqual(errors['awards'][0], {"lotID": ["lotID should be one of lots"]})
+
+
 # Tender2LotAwardResourceTest
 
 

@@ -224,6 +224,26 @@ test_features = [
 ]
 
 
+def set_tender_lots(tender, lots):
+    tender['lots'] = []
+    for lot in lots:
+        lot = deepcopy(lot)
+        lot['id'] = uuid4().hex
+        tender['lots'].append(lot)
+    for i, item in enumerate(tender['items']):
+        item['relatedLot'] = tender['lots'][i % len(tender['lots'])]['id']
+    return tender
+
+
+def set_bid_lotvalues(bid, lots):
+    value = bid.pop('value', None) or bid['lotValues'][0]['value']
+    bid['lotValues'] = [{
+        'value': value,
+        'relatedLot': lot['id'],
+    } for lot in lots]
+    return bid
+
+
 class BaseTenderWebTest(BaseCoreWebTest):
     initial_data = test_tender_data
     initial_status = None
@@ -393,14 +413,8 @@ class BaseTenderWebTest(BaseCoreWebTest):
     def create_tender(self):
         data = deepcopy(self.initial_data)
         if self.initial_lots:
-            lots = []
-            for i in self.initial_lots:
-                lot = deepcopy(i)
-                lot['id'] = uuid4().hex
-                lots.append(lot)
-            data['lots'] = self.initial_lots = lots
-            for i, item in enumerate(data['items']):
-                item['relatedLot'] = lots[i % len(lots)]['id']
+            set_tender_lots(data, self.initial_lots)
+            self.initial_lots = data['lots']
         response = self.app.post_json('/tenders', {'data': data})
         tender = response.json['data']
         self.tender_token = response.json['access']['token']
@@ -411,15 +425,11 @@ class BaseTenderWebTest(BaseCoreWebTest):
             response = self.set_status('active.tendering')
             status = response.json['data']['status']
             bids = []
-            for i in self.initial_bids:
+            for bid in self.initial_bids:
                 if self.initial_lots:
-                    i = i.copy()
-                    value = i.pop('value')
-                    i['lotValues'] = [{
-                        'value': value,
-                        'relatedLot': l['id'],
-                    } for l in self.initial_lots]
-                response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': i})
+                    bid = bid.copy()
+                    set_bid_lotvalues(bid, self.initial_lots)
+                response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid})
                 self.assertEqual(response.status, '201 Created')
                 bids.append(response.json['data'])
                 self.initial_bids_tokens[response.json['data']['id']] = response.json['access']['token']

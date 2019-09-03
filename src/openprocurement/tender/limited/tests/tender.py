@@ -15,6 +15,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_with_inn_before,
     tender_milestones_required,
     tender_milestones_not_required,
+    patch_tender_lots_none,
 )
 
 from openprocurement.tender.limited.tests.base import (
@@ -118,11 +119,12 @@ class TenderResourceTest(BaseTenderWebTest):
 
 class TenderNegotiationResourceTest(TenderResourceTest):
     initial_data = test_tender_negotiation_data
-    test_lots_data = test_lots  # TODO: change attribute identifier
+    test_lots_data = test_lots
 
     test_field_relatedLot = snitch(field_relatedLot_negotiation)
     test_changing_tender_after_award = snitch(changing_tender_after_award)
     test_initial_lot_date = snitch(initial_lot_date)
+    test_patch_tender_lots_none = snitch(patch_tender_lots_none)
 
 
 class TenderNegotiationQuickResourceTest(TenderNegotiationResourceTest):

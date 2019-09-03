@@ -5,7 +5,8 @@ from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import (
     test_author,
-    test_organization
+    test_organization,
+    test_lots
 )
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     # TenderBidDocumentResourceTest
@@ -14,6 +15,8 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_with_documents,
     create_tender_bid_with_document_invalid,
     create_tender_bid_with_document,
+    # Tender2LotBidResourceTest
+    patch_tender_with_bids_lots_none
 )
 
 from openprocurement.tender.openua.tests.base import test_bids
@@ -40,6 +43,13 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest, TenderBidResourceTestMix
     initial_status = 'active.tendering'
     test_bids_data = test_bids  # TODO: change attribute identifier
     author_data = test_author
+
+class Tender2LotBidResourceTest(BaseTenderUAContentWebTest):
+    test_bids_data = test_bids
+    initial_lots = 2 * test_lots
+    initial_status = 'active.tendering'
+
+    test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
 
 
 class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):

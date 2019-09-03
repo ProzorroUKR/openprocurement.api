@@ -106,7 +106,7 @@ class Complaint(BaseComplaint):
 
 
 class Contract(BaseContract):
-    items = ListType(ModelType(Item))
+    items = ListType(ModelType(Item, required=True))
 
     class Options:
         roles = {
@@ -152,9 +152,9 @@ class Award(BaseAward):
         }
 
     qualified = BooleanType()
-    items = ListType(ModelType(Item))
-    documents = ListType(ModelType(Document), default=list())
-    complaints = ListType(ModelType(Complaint), default=list())
+    items = ListType(ModelType(Item, required=True))
+    documents = ListType(ModelType(Document, required=True), default=list())
+    complaints = ListType(ModelType(Complaint, required=True), default=list())
     complaintPeriod = ModelType(Period)
 
 
@@ -240,16 +240,17 @@ class ReportingTender(BaseTender):
             'default': _parent_roles['default'],
         }
 
-    items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq, validate_classification_id])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
+    items = ListType(ModelType(Item, required=True), required=True, min_size=1,
+                     validators=[validate_cpv_group, validate_items_uniq, validate_classification_id])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     value = ModelType(Value, required=True)  # The total estimated value of the procurement.
     procurementMethod = StringType(choices=['open', 'selective', 'limited'], default='limited')  # Specify tendering method as per GPA definitions of Open, Selective, Limited (http://www.wto.org/english/docs_e/legal_e/rev-gpr-94_01_e.htm)
     procurementMethodType = StringType(default="reporting")
     procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
-    awards = ListType(ModelType(Award), default=list())
-    contracts = ListType(ModelType(Contract), default=list())
+    awards = ListType(ModelType(Award, required=True), default=list())
+    contracts = ListType(ModelType(Contract, required=True), default=list())
     status = StringType(choices=['draft', 'active', 'complete', 'cancelled', 'unsuccessful'], default='active')
     mode = StringType(choices=['test'])
-    cancellations = ListType(ModelType(Cancellation), default=list())
+    cancellations = ListType(ModelType(Cancellation, required=True), default=list())
 
     create_accreditation = '13'
     edit_accreditation = 2
@@ -295,7 +296,7 @@ class Award(ReportingAward):
         if isinstance(data['__parent__'], Model):
             if not lotID and data['__parent__'].lots:
                 raise ValidationError(u'This field is required.')
-            if lotID and lotID not in [i.id for i in data['__parent__'].lots]:
+            if lotID and lotID not in [lot.id for lot in data['__parent__'].lots if lot]:
                 raise ValidationError(u"lotID should be one of lots")
 
     class Options:
@@ -330,7 +331,7 @@ class Lot(BaseLot):
 
 
 class Contract(BaseContract):
-    items = ListType(ModelType(Item))
+    items = ListType(ModelType(Item, required=True))
 
     class Options:
         roles = {
@@ -350,15 +351,14 @@ class Contract(BaseContract):
 @implementer(INegotiationTender)
 class NegotiationTender(ReportingTender):
     """ Negotiation """
-
     class Options:
         namespace = 'Tender'
         roles = ReportingTender.Options.roles
 
-    items = ListType(ModelType(Item), required=True, min_size=1,
+    items = ListType(ModelType(Item, required=True), required=True, min_size=1,
                      validators=[validate_cpv_group, validate_items_uniq, validate_classification_id])
-    awards = ListType(ModelType(Award), default=list())
-    contracts = ListType(ModelType(Contract), default=list())
+    awards = ListType(ModelType(Award, required=True), default=list())
+    contracts = ListType(ModelType(Contract, required=True), default=list())
     cause = StringType(choices=['artContestIP', 'noCompetition', 'twiceUnsuccessful',
                                 'additionalPurchase', 'additionalConstruction', 'stateLegalServices'],
                        required=True)
@@ -369,7 +369,7 @@ class NegotiationTender(ReportingTender):
     create_accreditation = 3
     edit_accreditation = 4
     procuring_entity_kinds = ['general', 'special', 'defense']
-    lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
+    lots = ListType(ModelType(Lot, required=True), default=list(), validators=[validate_lots_uniq])
 
     # Required milestones
     def validate_milestones(self, data, value):

@@ -5,6 +5,7 @@ from copy import deepcopy
 from datetime import datetime, timedelta
 from uuid import uuid4
 from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.tender.belowthreshold.tests.base import set_tender_lots, set_bid_lotvalues
 from openprocurement.tender.openua.tests.base import (
     BaseTenderUAWebTest as BaseBaseTenderWebTest
 )
@@ -64,21 +65,12 @@ with open(os.path.join(BASE_DIR, 'data/test_lots.json')) as fd:
 
 # Prepare data for tender with lot
 test_tender_w_lot_data = deepcopy(test_tender_data)
-test_tender_w_lot_data['lots'] = deepcopy(test_lots)
-test_bids_w_lot_data = deepcopy(test_bids)
-for lot in test_tender_w_lot_data['lots']:
-    lot_id = uuid4().hex
-    lot['id'] = lot_id
-    for item in test_tender_w_lot_data['items']:
-        item['relatedLot'] = lot_id
-    for bid in test_bids_w_lot_data:
-        if 'lotValues' not in bid:
-            bid['lotValues'] = list()
-        bid['lotValues'].append({'value': bid['value'], 'relatedLot': lot_id})
-for bid in test_bids_w_lot_data:
-    if 'value' in bid:
-        bid.pop('value')
+set_tender_lots(test_tender_w_lot_data, test_lots)
 test_lots_w_ids = deepcopy(test_tender_w_lot_data['lots'])
+test_bids_w_lot_data = deepcopy(test_bids)
+for bid in test_bids_w_lot_data:
+    set_bid_lotvalues(bid, test_lots_w_ids)
+
 
 start_date = get_now()
 
@@ -477,25 +469,17 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         cls.backup_pure_data()
 
     @classmethod
-    def backup_pure_data(self):
-        for attr in self.backup_attr_keys:
-            setattr(self, '_{}'.format(attr), deepcopy(getattr(self, attr)))
+    def backup_pure_data(cls):
+        for attr in cls.backup_attr_keys:
+            setattr(cls, '_{}'.format(attr), deepcopy(getattr(cls, attr)))
 
     def restore_pure_data(self):
         for key in self.backup_attr_keys:
             setattr(self, key, deepcopy(getattr(self, '_{}'.format(key))))
 
     def convert_bids_for_tender_with_lots(self, bids, lots):
-        for lot in lots:
-            for bid in bids:
-                if 'value' not in bid:
-                    continue
-                if 'lotValues' not in bid:
-                    bid['lotValues'] = []
-                bid['lotValues'].append({'value': bid['value'], 'relatedLot': lot['id']})
         for bid in bids:
-            if 'value' in bid:
-                bid.pop('value')
+            set_bid_lotvalues(bid, lots)
 
     def set_enquiry_period_end(self):
         self.now = get_now()

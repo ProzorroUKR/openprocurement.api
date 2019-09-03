@@ -14,7 +14,9 @@ from openprocurement.tender.belowthreshold.tests.question_blanks import (
     get_tender_questions,
     # TenderLotQuestionResourceTest
     lot_create_tender_question,
-    lot_patch_tender_question
+    lot_patch_tender_question,
+    lot_patch_tender_question_lots_none,
+    lot_patch_tender_question_items_none
 )
 
 
@@ -36,6 +38,8 @@ class TenderLotQuestionResourceTest(TenderContentWebTest):
 
     test_lot_create_tender_question = snitch(lot_create_tender_question)
     test_lot_patch_tender_question = snitch(lot_patch_tender_question)
+    test_lot_patch_tender_question_lots_none = snitch(lot_patch_tender_question_lots_none)
+    test_lot_patch_tender_question_items_none = snitch(lot_patch_tender_question_items_none)
 
 
 def suite():

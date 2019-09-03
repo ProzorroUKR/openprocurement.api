@@ -11,8 +11,10 @@ from openprocurement.tender.belowthreshold.tests.question_blanks import (
     create_tender_question_invalid,
     # TenderStage2LotQuestionResourceTest
     lot_create_tender_question as create_tender_with_lots_question,
-    lot_patch_tender_question as patch_tender_with_lots_question
-)
+    lot_patch_tender_question as patch_tender_with_lots_question,
+    # TenderStage2EULotQuestionResourceTest
+    # TenderStage2UALotQuestionResourceTest
+    lot_patch_tender_question_lots_none)
 
 from openprocurement.tender.openeu.tests.question_blanks import (
     # TenderStage2QuestionResourceTest
@@ -90,6 +92,7 @@ class TenderStage2EULotQuestionResourceTest(BaseCompetitiveDialogEUStage2Content
     test_create_tender_question = snitch(create_tender_with_lots_question)
     test_create_question_on_lot_without_perm = snitch(create_question_on_lot_without_perm)
     test_patch_tender_question = snitch(patch_tender_with_lots_question)
+    test_lot_patch_tender_question_lots_none = snitch(lot_patch_tender_question_lots_none)
 
     #  TODO: fix test
     def create_question_on_item(self):
@@ -191,6 +194,7 @@ class TenderStage2UALotQuestionResourceTest(BaseCompetitiveDialogUAStage2Content
     test_create_tender_question = snitch(create_tender_with_lots_question)
     test_create_question_on_lot_without_perm = snitch(create_question_on_lot_without_perm)
     test_patch_tender_question = snitch(patch_tender_with_lots_question)
+    test_lot_patch_tender_question_lots_none = snitch(lot_patch_tender_question_lots_none)
 
     #  TODO: fix test
     def create_question_on_item(self):

@@ -8,6 +8,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     # CompetitiveDialogResourceTest
     guarantee,
     tender_milestones_required,
+    patch_tender_lots_none,
 )
 
 from openprocurement.tender.openua.tests.tender_blanks import (
@@ -21,7 +22,9 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_data_eu,
     BaseCompetitiveDialogEUWebTest,
     BaseCompetitiveDialogUAWebTest,
-    BaseCompetitiveDialogWebTest
+    BaseCompetitiveDialogWebTest,
+    test_lots,
+    test_bids,
 )
 from openprocurement.tender.competitivedialogue.tests.stage1.tender_blanks import (
     # CompetitiveDialogTest
@@ -42,7 +45,8 @@ from openprocurement.tender.competitivedialogue.tests.stage1.tender_blanks impor
     create_tender_generated_ua,
     patch_tender_1,
     update_status_complete_owner_ua,
-    tender_with_main_procurement_category)
+    tender_with_main_procurement_category,
+)
 
 
 class CompetitiveDialogTest(BaseCompetitiveDialogWebTest):
@@ -59,7 +63,9 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest, TenderReso
     """
 
     initial_auth = ('Basic', ('broker', ''))
-    initial_data = test_tender_data_eu  # TODO: change attribute identifier
+    initial_data = test_tender_data_eu
+    test_lots_data = test_lots
+    test_bids_data = test_bids
 
     test_empty_listing = snitch(empty_listing)
     test_create_tender_invalid = snitch(create_tender_invalid_eu)
@@ -73,11 +79,13 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest, TenderReso
     test_try_go_to_ready_stage = snitch(try_go_to_ready_stage_eu)
     test_tender_with_main_procurement_category = snitch(tender_with_main_procurement_category)
     test_tender_finance_milestones = snitch(tender_finance_milestones)
+    test_patch_tender_lots_none = snitch(patch_tender_lots_none)
     test_tender_milestones_required = snitch(tender_milestones_required)
 
 
 class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest, TenderResourceTestMixin):
-    initial_data = test_tender_data_ua  # TODO: change attribute identifier
+    initial_data = test_tender_data_ua
+    test_lots_data = test_lots
 
     test_empty_listing = snitch(empty_listing)
     test_create_tender_invalid = snitch(create_tender_invalid_ua)
@@ -91,6 +99,7 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest, TenderReso
     test_tender_with_main_procurement_category = snitch(tender_with_main_procurement_category)
     test_tender_finance_milestones = snitch(tender_finance_milestones)
     test_tender_milestones_required = snitch(tender_milestones_required)
+    test_patch_tender_lots_none = snitch(patch_tender_lots_none)
 
 
 def suite():

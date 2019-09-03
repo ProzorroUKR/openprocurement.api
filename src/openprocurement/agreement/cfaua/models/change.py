@@ -30,8 +30,9 @@ class ChangeTaxRate(ClassicChange):
         roles = RolesFromCsv('ChangeTaxRate.csv', relative_to=__file__)
 
     rationaleType = StringType(default='taxRate')
-    modifications = ListType(ModelType(UnitPriceModification),
-                             validators=[validate_modifications_items_uniq, validate_only_addend_or_only_factor])
+    modifications = ListType(ModelType(UnitPriceModification, required=True),
+                             validators=[validate_modifications_items_uniq,
+                                         validate_only_addend_or_only_factor])
 
 
 class ChangeItemPriceVariation(ClassicChange):
@@ -40,7 +41,7 @@ class ChangeItemPriceVariation(ClassicChange):
         roles = RolesFromCsv('ChangeItemPriceVariation.csv', relative_to=__file__)
 
     rationaleType = StringType(default='itemPriceVariation')
-    modifications = ListType(ModelType(UnitPriceModification),
+    modifications = ListType(ModelType(UnitPriceModification, required=True),
                              validators=[validate_item_price_variation_modifications,
                                          validate_modifications_items_uniq])
 
@@ -51,8 +52,9 @@ class ChangeThirdParty(ClassicChange):
         roles = RolesFromCsv('ChangeThirdParty.csv', relative_to=__file__)
 
     rationaleType = StringType(default='thirdParty')
-    modifications = ListType(ModelType(UnitPriceModification), validators=[validate_third_party_modifications,
-                                                                           validate_modifications_items_uniq])
+    modifications = ListType(ModelType(UnitPriceModification, required=True),
+                             validators=[validate_third_party_modifications,
+                                         validate_modifications_items_uniq])
 
 
 class ChangePartyWithdrawal(ClassicChange):
@@ -61,4 +63,5 @@ class ChangePartyWithdrawal(ClassicChange):
         roles = RolesFromCsv('ChangePartyWithdrawal.csv', relative_to=__file__)
 
     rationaleType = StringType(default='partyWithdrawal')
-    modifications = ListType(ModelType(ContractModification), validators=[validate_modifications_contracts_uniq])
+    modifications = ListType(ModelType(ContractModification, required=True),
+                             validators=[validate_modifications_contracts_uniq])

@@ -248,17 +248,52 @@ def validate_patch_lot_data(request):
     return validate_data(request, model, True)
 
 
-def validate_LotValue_value(tender, relatedLot, value):
-    lots = [i for i in tender.lots if i.id == relatedLot]
-    if not lots:
+def validate_relatedlot(tender, relatedLot):
+    if relatedLot not in [lot.id for lot in tender.lots if lot]:
+        raise ValidationError(u"relatedLot should be one of lots")
+
+
+def validate_lotvalue_value(tender, relatedLot, value):
+    if not value and not relatedLot:
         return
-    lot = lots[0]
+    lot = next((lot for lot in tender.lots if lot and lot.id == relatedLot), None)
+    if not lot:
+        return
     if lot.value.amount < value.amount:
         raise ValidationError(u"value of bid should be less than value of lot")
     if lot.get('value').currency != value.currency:
         raise ValidationError(u"currency of bid should be identical to currency of value of lot")
     if lot.get('value').valueAddedTaxIncluded != value.valueAddedTaxIncluded:
-        raise ValidationError(u"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of lot")
+        raise ValidationError(u"valueAddedTaxIncluded of bid should be identical "
+                              u"to valueAddedTaxIncluded of value of lot")
+
+
+def validate_bid_value(tender, value):
+    if tender.lots:
+        if value:
+            raise ValidationError(u"value should be posted for each lot of bid")
+    else:
+        if not value:
+            raise ValidationError(u'This field is required.')
+        if tender.value.amount < value.amount:
+            raise ValidationError(u"value of bid should be less than value of tender")
+        if tender.get('value').currency != value.currency:
+            raise ValidationError(u"currency of bid should be identical to currency of value of tender")
+        if tender.get('value').valueAddedTaxIncluded != value.valueAddedTaxIncluded:
+            raise ValidationError(u"valueAddedTaxIncluded of bid should be identical "
+                                  u"to valueAddedTaxIncluded of value of tender")
+
+
+def validate_minimalstep(data, value):
+    if value and value.amount and data.get('value'):
+        if data.get('value').amount < value.amount:
+            raise ValidationError(u"value should be less than value of tender")
+        if data.get('value').currency != value.currency:
+            raise ValidationError(u"currency should be identical to currency of value of tender")
+        if data.get('value').valueAddedTaxIncluded != value.valueAddedTaxIncluded:
+            raise ValidationError(u"valueAddedTaxIncluded should be identical "
+                                  u"to valueAddedTaxIncluded of value of tender")
+
 
 # tender
 def validate_tender_status_update_in_terminated_status(request):

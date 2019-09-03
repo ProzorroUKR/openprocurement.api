@@ -152,9 +152,10 @@ class Lot(BaseLot):
                           valueAddedTaxIncluded=self.__parent__.minValue.valueAddedTaxIncluded))
 
     def validate_yearlyPaymentsPercentageRange(self, data, value):
-        if data['__parent__']['fundingKind'] == 'other' and value != Decimal('0.8'):
+        parent = data['__parent__']
+        if parent['fundingKind'] == 'other' and value != Decimal('0.8'):
             raise ValidationError('when tender fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8')
-        if data['__parent__']['fundingKind'] == 'budget' and (value > Decimal('0.8') or value < Decimal('0')):
+        if parent['fundingKind'] == 'budget' and (value > Decimal('0.8') or value < Decimal('0')):
             raise ValidationError('when tender fundingKind is budget, yearlyPaymentsPercentageRange should be less or equal 0.8, and more or equal 0')
 
 
@@ -238,13 +239,14 @@ class ESCOValue(BaseESCOValue):
 
     @bids_validation_wrapper
     def validate_yearlyPaymentsPercentage(self, data, value):
-        tender = get_tender(data['__parent__'])
+        parent = data['__parent__']
+        tender = get_tender(parent)
 
         if tender.fundingKind == 'other' and value < Decimal('0.8'):
             raise ValidationError('yearlyPaymentsPercentage should be greater than 0.8 and less than 1')
         if tender.fundingKind == 'budget':
             if tender.lots:
-                lots = [i for i in tender.lots if i.id == data['__parent__']['relatedLot']]
+                lots = [i for i in tender.lots if i.id == parent['relatedLot']]
 
                 if lots and value > lots[0].yearlyPaymentsPercentageRange:
                     raise ValidationError('yearlyPaymentsPercentage should be greater than 0 and less than {}'.format(
@@ -259,10 +261,13 @@ class LotValue(BaseLotValue):
 
     value = ModelType(ESCOValue, required=True)
 
+    skip = ('invalid', 'deleted', 'draft')
+
     @bids_validation_wrapper
     def validate_value(self, data, value):
-        if value and isinstance(data['__parent__'], Model) and (data['__parent__'].status not in ('invalid', 'deleted', 'draft')) and data['relatedLot']:
-            lots = [i for i in get_tender(data['__parent__']).lots if i.id == data['relatedLot']]
+        parent = data['__parent__']
+        if value and isinstance(parent, Model) and parent.status not in self.skip and data['relatedLot']:
+            lots = [lot for lot in get_tender(parent).lots if lot and lot.id == data['relatedLot']]
             if not lots:
                 return
             lot = lots[0]
@@ -295,28 +300,29 @@ class Contract(BaseEUContract):
         }
 
     value = ModelType(ContractESCOValue)
-    items = ListType(ModelType(Item))
+    items = ListType(ModelType(Item, required=True))
 
 
 class Award(BaseEUAward):
     """ESCO award model"""
 
     value = ModelType(BaseESCOValue)
-    items = ListType(ModelType(Item))
+    items = ListType(ModelType(Item, required=True))
 
 
 class Bid(BaseEUBid):
     """ ESCO bid model """
 
     value = ModelType(ESCOValue)
-    lotValues = ListType(ModelType(LotValue), default=list())
+    lotValues = ListType(ModelType(LotValue, required=True), default=list())
     selfQualified = BooleanType(required=False)
     selfEligible = BooleanType(required=False)
 
     @bids_validation_wrapper
     def validate_value(self, data, value):
-        if isinstance(data['__parent__'], Model):
-            tender = data['__parent__']
+        parent = data['__parent__']
+        if isinstance(parent, Model):
+            tender = parent
             if tender.lots:
                 if value:
                     raise ValidationError(u'value should be posted for each lot of bid')
@@ -334,7 +340,7 @@ class FeatureValue(BaseFeatureValue):
 
 
 class Feature(BaseFeature):
-    enum = ListType(ModelType(FeatureValue), default=list(), min_size=1,
+    enum = ListType(ModelType(FeatureValue, required=True), default=list(), min_size=1,
                     validators=[validate_values_uniq])
 
 
@@ -421,7 +427,7 @@ class Tender(BaseTender):
     procurementMethodType = StringType(default="esco")
     title_en = StringType(required=True, min_length=1)
 
-    items = ListType(ModelType(Item), required=True, min_size=1,
+    items = ListType(ModelType(Item, required=True), required=True, min_size=1,
                      validators=[validate_cpv_group, validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     minValue = ModelType(Value, required=False, default={'amount': 0, 'currency': 'UAH',
                                                          'valueAddedTaxIncluded': True})  # The total estimated value of the procurement.
@@ -436,21 +442,21 @@ class Tender(BaseTender):
     bids = SifterListType(BidModelType(Bid), default=list(), filter_by='status',
                           filter_in_values=['invalid', 'invalid.pre-qualification', 'deleted'])  # A list of all the companies who entered submissions for the tender.
     procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
-    awards = ListType(ModelType(Award), default=list())
-    contracts = ListType(ModelType(Contract), default=list())
+    awards = ListType(ModelType(Award, required=True), default=list())
+    contracts = ListType(ModelType(Contract, required=True), default=list())
     minimalStep = ModelType(Value, required=False)  # Not required, blocked for create/edit, since we have minimalStepPercentage in esco
     minimalStepPercentage = DecimalType(required=True,
                                         min_value=Decimal('0.005'), max_value=Decimal('0.03'),
                                         precision=-5)
-    questions = ListType(ModelType(Question), default=list())
-    complaints = ListType(ComplaintModelType(Complaint), default=list())
+    questions = ListType(ModelType(Question, required=True), default=list())
+    complaints = ListType(ComplaintModelType(Complaint, required=True), default=list())
     auctionUrl = URLType()
-    cancellations = ListType(ModelType(Cancellation), default=list())
-    features = ListType(ModelType(Feature), validators=[validate_features_uniq])
-    lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq])
+    cancellations = ListType(ModelType(Cancellation, required=True), default=list())
+    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
+    lots = ListType(ModelType(Lot, required=True), default=list(), validators=[validate_lots_uniq])
     guarantee = ModelType(Guarantee)
-    documents = ListType(ModelType(Document), default=list())  # All documents and attachments related to the tender.
-    qualifications = ListType(ModelType(Qualification), default=list())
+    documents = ListType(ModelType(Document, required=True), default=list())  # All documents and attachments related to the tender.
+    qualifications = ListType(ModelType(Qualification, required=True), default=list())
     qualificationPeriod = ModelType(Period)
     status = StringType(choices=['draft', 'active.tendering', 'active.pre-qualification',
                                  'active.pre-qualification.stand-still', 'active.auction',
@@ -634,10 +640,6 @@ class Tender(BaseTender):
     @serializable(serialized_name="minimalStep", type=ModelType(Value), serialize_when_none=False)
     def tender_minimalStep(self):
         pass
-        # return Value(dict(
-        #     amount=min([i.minimalStep.amount for i in self.lots]),
-        #     currency=self.minimalStep.currency,
-        #     valueAddedTaxIncluded=self.minimalStep.valueAddedTaxIncluded)) if self.lots else self.minimalStep
 
     @serializable(serialized_name="minimalStepPercentage")
     def tender_minimalStepPercentage(self):
@@ -680,11 +682,6 @@ class Tender(BaseTender):
 
     def validate_minimalStep(self, data, value):
         pass
-    #     if value and value.amount and data.get('minValue'):
-    #         if data.get('minValue').currency != value.currency:
-    #             raise ValidationError(u"currency should be identical to currency of minValue of tender")
-    #         if data.get('minValue').valueAddedTaxIncluded != value.valueAddedTaxIncluded:
-    #             raise ValidationError(u"valueAddedTaxIncluded should be identical to valueAddedTaxIncluded of minValue of tender")
 
     def validate_tenderPeriod(self, data, period):
         # if data['_rev'] is None when tender was created just now

@@ -27,15 +27,15 @@ class Contract(Model):
             'view': schematics_default_role,
         }
     id = MD5Type(required=True, default=lambda: uuid4().hex)
-    parameters = ListType(ModelType(Parameter), default=list(), validators=[validate_parameters_uniq])
+    parameters = ListType(ModelType(Parameter, required=True), default=list(), validators=[validate_parameters_uniq])
     status = StringType(choices=['active', 'unsuccessful'], default='active')
-    suppliers = ListType(ModelType(BusinessOrganization))
-    unitPrices = ListType(ModelType(UnitPrice))
+    suppliers = ListType(ModelType(BusinessOrganization, required=True))
+    unitPrices = ListType(ModelType(UnitPrice, required=True))
     awardID = StringType()
     bidID = StringType()
     date = IsoDateTimeType()
 
     def validate_awardID(self, data, awardID):
-        if awardID and isinstance(data['__parent__'], Model) and \
-                awardID not in [i.id for i in data['__parent__']['__parent__'].awards]:
+        parent = data['__parent__']
+        if awardID and isinstance(parent, Model) and awardID not in [i.id for i in parent['__parent__'].awards]:
             raise ValidationError(u"awardID should be one of awards")
