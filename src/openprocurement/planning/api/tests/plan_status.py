@@ -194,6 +194,9 @@ def test_cancel_plan_1_step(app):
     assert response.json["data"]["cancellation"]["status"] == "active"
     assert response.json["data"]["status"] == "cancelled"
 
+    plan = app.app.registry.db.get(plan_id)
+    assert {c["path"] for c in plan['revisions'][-1]["changes"]} == {"/cancellation", "/status"}
+
 
 @pytest.mark.parametrize("replaced_status", ["draft", "scheduled", "complete"])
 def test_create_cancelled(app, replaced_status):
