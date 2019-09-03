@@ -12,6 +12,7 @@ from openprocurement.api.utils import (
     context_unpack,
     json_view
 )
+from openprocurement.planning.api.validation import validate_plan_not_terminated
 from openprocurement.api.validation import (
     validate_file_update,
     validate_file_upload,
@@ -37,7 +38,8 @@ class PlansDocumentResource(APIResource):
             ]).values(), key=lambda i: i['dateModified'])
         return {'data': collection_data}
 
-    @json_view(permission='upload_plan_documents', validators=(validate_file_upload,))
+    @json_view(permission='upload_plan_documents',
+               validators=(validate_file_upload, validate_plan_not_terminated))
     def collection_post(self):
         """Plan Document Upload"""
         document = upload_file(self.request)
@@ -64,7 +66,8 @@ class PlansDocumentResource(APIResource):
         ]
         return {'data': document_data}
 
-    @json_view(permission='upload_plan_documents', validators=(validate_file_update,))
+    @json_view(permission='upload_plan_documents',
+               validators=(validate_file_update, validate_plan_not_terminated))
     def put(self):
         """Plan Document Update"""
         document = upload_file(self.request)
@@ -74,7 +77,9 @@ class PlansDocumentResource(APIResource):
                         extra=context_unpack(self.request, {'MESSAGE_ID': 'plan_document_put'}))
             return {'data': document.serialize("view")}
 
-    @json_view(content_type="application/json", permission='upload_plan_documents', validators=(validate_patch_document_data,))
+    @json_view(content_type="application/json",
+               permission='upload_plan_documents',
+               validators=(validate_patch_document_data, validate_plan_not_terminated))
     def patch(self):
         """Plan Document Update"""
         if apply_patch(self.request, src=self.request.context.serialize()):

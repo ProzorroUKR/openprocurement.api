@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openprocurement.planning.api.tests.base import BasePlanWebTest, test_plan_data
+from openprocurement.planning.api.tests.base import  app, singleton_app, plan, test_plan_data
 from openprocurement.planning.api.constants import PROCEDURES
 from openprocurement.tender.belowthreshold.tests.base import test_tender_data as below_tender_data
 from openprocurement.tender.cfaua.tests.base import test_tender_w_lot_data as cfa_tender_data
@@ -19,36 +19,8 @@ from openprocurement.tender.openeu.tests.base import test_tender_data as openeu_
 from openprocurement.tender.openua.tests.base import test_tender_data as openua_tender_data
 from openprocurement.tender.openuadefense.tests.base import test_tender_data as defense_tender_data
 from openprocurement.tender.cfaselectionua.tests.tender import tender_data as cfa_selection_tender_data
-from openprocurement.api.tests.base import BaseTestApp, loadwsgiapp
 from copy import deepcopy
-import os.path
 import pytest
-
-
-@pytest.fixture(scope="session")
-def singleton_app():
-    app = BaseTestApp(
-        loadwsgiapp(
-            "config:tests.ini",
-            relative_to=os.path.dirname(__file__)
-        )
-    )
-    return app
-
-
-@pytest.fixture(scope="function")
-def app(singleton_app):
-    singleton_app.authorization = None
-    singleton_app.recreate_db()
-    yield singleton_app
-    singleton_app.drop_db()
-
-
-@pytest.fixture(scope="function")
-def plan(app):
-    app.authorization = ('Basic', ("broker", "broker"))
-    response = app.post_json('/plans', {'data': deepcopy(test_plan_data)})
-    return response.json
 
 
 def test_get_plan_tenders_405(app, plan):
@@ -381,18 +353,27 @@ def test_success_plan_tenders_creation(app, request_tender_data):
     response = app.get('/plans/{}'.format(plan["data"]["id"]))
     assert response.json["data"]["tender_id"] == tender_data["id"]
 
+    # removing status (if the tender was created before the plan statuses release)
+    plan_from_db = app.app.registry.db.get(plan["data"]["id"])
+    del plan_from_db["status"]
+    app.app.registry.db.save(plan_from_db)
+
     # add another tender
     response = app.post_json(
         '/plans/{}/tenders'.format(plan["data"]["id"]),
         {'data': request_tender_data},
-        status=409
+        status=422
     )
     error_data = response.json["errors"]
     assert len(error_data) == 1
     error = error_data[0]
-    assert error['location'] == 'url'
-    assert error['name'] == 'id'
-    assert error['description'] == 'This plan has already got a tender'
+    assert error['location'] == 'data'
+    assert error['name'] == 'tender_id'
+    assert error['description'] == "This plan has already got a tender"
+
+    # check plan status
+    get_response = app.get('/plans/{}'.format(plan["data"]["id"]))
+    assert get_response.json["data"]["status"] == "complete"
 
 
 def test_validations_before_and_after_tender(app):
@@ -426,6 +407,14 @@ def test_validations_before_and_after_tender(app):
         {'data': request_tender_data}
     )
     assert response.status == '201 Created'
+
+    # removing status (if the tender was created before the plan statuses release)
+    plan_from_db = app.app.registry.db.get(plan["data"]["id"])
+    del plan_from_db["status"]
+    app.app.registry.db.save(plan_from_db)
+
+    response = app.get('/plans/{}'.format(plan["data"]["id"]))
+    assert response.json["data"]["status"] == "complete"
 
     # try to change procuringEntity
     response = app.patch_json(
@@ -484,6 +473,16 @@ def test_validations_before_and_after_tender(app):
         }}
     )
     assert response.status == '200 OK'
+
+    # try again
+    response = app.patch_json(
+        '/plans/{}?acc_token={}'.format(plan["data"]["id"], plan["access"]["token"]),
+        {'data': {'procurementMethodType': 'another'}},
+        status=422
+    )
+    assert response.json == {"status": "error", "errors": [
+        {"location": "data", "name": "status",
+         "description": "Can't update plan in 'complete' status"}]}
 
 
 def test_tender_creation_modified_date(app):

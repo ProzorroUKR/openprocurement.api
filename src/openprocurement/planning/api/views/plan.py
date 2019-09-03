@@ -31,6 +31,7 @@ from openprocurement.planning.api.validation import (
     validate_plan_data,
     validate_plan_has_not_tender,
     validate_plan_with_tender,
+    validate_plan_not_terminated,
 )
 from openprocurement.tender.core.validation import (
     validate_tender_data,
@@ -328,7 +329,11 @@ class PlanResource(APIResource):
         return {'data': plan_data}
 
     @json_view(content_type="application/json",
-               validators=(validate_patch_plan_data, validate_plan_with_tender),
+               validators=(
+                   validate_patch_plan_data,
+                   validate_plan_not_terminated,
+                   validate_plan_with_tender,  # we need this because of the plans created before the statuses release
+               ),
                permission='edit_plan')
     def patch(self):
         """Plan Edit (partial)
@@ -391,9 +396,12 @@ class PlanTendersResource(TendersResource):
     @json_view(
         content_type="application/json",
         validators=(
-            validate_plan_has_not_tender, validate_tender_data,
-            validate_procurement_type_of_first_stage, validate_tender_matches_plan,
-            validate_plan_budget_breakdown
+            validate_plan_not_terminated,
+            validate_plan_has_not_tender,  # we need this because of the plans created before the statuses release
+            validate_tender_data,
+            validate_procurement_type_of_first_stage,
+            validate_tender_matches_plan,
+            validate_plan_budget_breakdown,
         ),
         permission='create_tender_from_plan'
     )

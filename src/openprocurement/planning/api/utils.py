@@ -67,14 +67,17 @@ def save_plan(request):
         plan.revisions.append(Revision({'author': request.authenticated_userid, 'changes': patch, 'rev': plan.rev}))
         old_date_modified = plan.dateModified
         if getattr(plan, 'modified', True):
-            plan.dateModified = get_now()
+            now = get_now()
+            plan.dateModified = now
+            if any(c for c in patch if c["path"].startswith("/cancellation/")):
+                plan.cancellation.date = now
         try:
             plan.store(request.registry.db)
-        except ModelValidationError, e:  # pragma: no cover
+        except ModelValidationError as e:  # pragma: no cover
             for i in e.message:
                 request.errors.add('body', i, e.message[i])
             request.errors.status = 422
-        except Exception, e:  # pragma: no cover
+        except Exception as e:  # pragma: no cover
             request.errors.add('body', 'data', str(e))
         else:
             LOGGER.info('Saved plan {}: dateModified {} -> {}'.format(plan.id,

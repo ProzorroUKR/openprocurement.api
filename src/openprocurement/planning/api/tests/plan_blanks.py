@@ -607,10 +607,10 @@ def create_plan_generated(self):
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     plan = response.json['data']
-    self.assertEqual(set(plan), set([
+    self.assertEqual(set(plan), {
         u'id', u'dateModified', u'datePublished', u'planID', u'budget', u'tender', u'buyers',
-        u'classification', u'additionalClassifications', u'items', u'procuringEntity', u'owner'
-    ]))
+        u'classification', u'additionalClassifications', u'items', u'procuringEntity', u'owner', u'status',
+    })
     self.assertNotEqual(data['id'], plan['id'])
     self.assertNotEqual(data['doc_id'], plan['id'])
     self.assertNotEqual(data['planID'], plan['planID'])
@@ -626,7 +626,7 @@ def create_plan(self):
     self.assertEqual(response.content_type, 'application/json')
     plan = response.json['data']
     self.assertEqual(set(plan) - set(self.initial_data),
-                     set([u'id', u'dateModified', u'datePublished', u'planID', u'owner']))
+                     {u'id', u'dateModified', u'datePublished', u'planID', u'owner', u'status'})
     self.assertIn(plan['id'], response.headers['Location'])
 
     response = self.app.get('/plans/{}'.format(plan['id']))
@@ -873,7 +873,7 @@ def esco_plan(self):
     plan = response.json['data']
     self.assertEqual(
         set(plan) - set(self.initial_data),
-        set([u'id', u'dateModified', u'datePublished', u'planID', u'owner']))
+        {u'id', u'dateModified', u'datePublished', u'planID', u'owner', u'status'})
     self.assertNotIn('budget', plan)
     self.assertIn(plan['id'], response.headers['Location'])
 
@@ -884,7 +884,7 @@ def esco_plan(self):
     plan = response.json['data']
     self.assertEqual(
         set(plan) - set(self.initial_data),
-        set([u'id', u'dateModified', u'datePublished', u'planID', u'owner']))
+        {u'id', u'dateModified', u'datePublished', u'planID', u'owner', u'status'})
     self.assertIn('budget', plan)
     self.assertIn(plan['id'], response.headers['Location'])
 
@@ -905,7 +905,7 @@ def cfaua_plan(self):
     plan = response.json['data']
     self.assertEqual(
         set(plan) - set(self.initial_data),
-        set([u'id', u'dateModified', u'datePublished', u'planID', u'owner']))
+        {u'id', u'dateModified', u'datePublished', u'planID', u'owner', u'status'})
     self.assertIn('budget', plan)
     period = plan['budget']['period']
     self.assertNotEqual(
@@ -946,7 +946,7 @@ def create_plan_budget_year(self):
     plan = response.json['data']
     self.assertEqual(
         set(plan) - set(self.initial_data_with_year),
-        set([u'id', u'dateModified', u'datePublished', u'planID', u'owner']))
+        {u'id', u'dateModified', u'datePublished', u'planID', u'owner', u'status'})
     self.assertIn(plan['id'], response.headers['Location'])
     self.assertIn('year', plan['budget'])
 
