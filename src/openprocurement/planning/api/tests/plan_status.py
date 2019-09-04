@@ -338,7 +338,7 @@ def test_fail_complete_manually(app, value):
     app.authorization = ('Basic', ("broker", "broker"))
     test_data = deepcopy(test_plan_data)
     test_data["status"] = "scheduled"
-    test_data["procurementMethodType"] = value
+    test_data["tender"]["procurementMethodType"] = value
     response = app.post_json('/plans', {'data': test_data})
     assert response.status == '201 Created'
     assert response.json["data"]["status"] == "scheduled"
@@ -352,16 +352,18 @@ def test_fail_complete_manually(app, value):
     )
     assert response.json == {"status": "error", "errors": [
         {"location": "body", "name": "status", "description": [
-            "Can't complete plan with '{}' procurementMethodType".format(value)
+            "Can't complete plan with '{}' tender.procurementMethodType".format(value)
         ]}]}
 
 
-@pytest.mark.parametrize("value", ["belowThreshold", "reporting", "", None])
+@pytest.mark.parametrize("value", [("open", "belowThreshold"), ("limited", "reporting"), ("", "")])
 def test_success_complete_manually(app, value):
+    procurement_method, procurement_method_type = value
     app.authorization = ('Basic', ("broker", "broker"))
     test_data = deepcopy(test_plan_data)
     test_data["status"] = "scheduled"
-    test_data["procurementMethodType"] = value
+    test_data["tender"]["procurementMethod"] = procurement_method
+    test_data["tender"]["procurementMethodType"] = procurement_method_type
     response = app.post_json('/plans', {'data': test_data})
     assert response.status == '201 Created'
     assert response.json["data"]["status"] == "scheduled"

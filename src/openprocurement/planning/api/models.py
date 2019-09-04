@@ -303,11 +303,11 @@ class Plan(SchematicsDocument, Model):
             if not isinstance(cancellation, Cancellation) or cancellation.status != "active":
                 raise ValidationError(u"An active cancellation object is required")
         elif status == 'complete':
-            if (not data.get("tender_id") and data.get("procurementMethodType") and
-               data.get("procurementMethodType") not in ("belowThreshold", "reporting")):
-
-                raise ValidationError(u"Can't complete plan with '{}' procurementMethodType".format(
-                    data.get("procurementMethodType")))
+            if not data.get("tender_id"):
+                method = data.get("tender").get("procurementMethodType")
+                if method not in ("belowThreshold", "reporting", ""):
+                    raise ValidationError(
+                        u"Can't complete plan with '{}' tender.procurementMethodType".format(method))
 
     def validate_items(self, data, items):
         cpv_336_group = items[0].classification.id[:3] == '336' if items else False
