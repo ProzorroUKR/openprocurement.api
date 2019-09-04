@@ -53,7 +53,7 @@ class Agreement(BaseAgreement):
         ProcuringEntity, required=True
     )
     terminationDetails = StringType()
-    create_accreditation = 3  # TODO
+    create_accreditations = (3,)  # TODO
 
     def __acl__(self):
         acl = super(Agreement, self).__acl__()

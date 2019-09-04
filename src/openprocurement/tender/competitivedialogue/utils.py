@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 from barbecue import vnmax
 from logging import getLogger
+from hashlib import sha512
 from schematics.exceptions import ValidationError
+from schematics.types import StringType
+
 from openprocurement.api.utils import (
     context_unpack, generate_id, get_now, raise_operation_error,
     set_ownership as api_set_ownership
@@ -194,6 +197,12 @@ def check_status(request):
 
 def set_ownership(item):
     item.owner_token = generate_id()
+    access = {'token': item.owner_token}
+    if isinstance(getattr(type(item), 'transfer_token', None), StringType):
+        transfer = generate_id()
+        item.transfer_token = sha512(transfer).hexdigest()
+        access['transfer'] = transfer
+    return access
 
 
 def prepare_shortlistedFirms(shortlistedFirms):
@@ -252,7 +261,7 @@ def stage2_bid_post(self):
     if bid.status not in self.allowed_bid_status_on_create:
         raise_operation_error(self.request, 'Bid can be added only with status: {}.'.format(self.allowed_bid_status_on_create))
     tender.modified = False
-    api_set_ownership(bid, self.request)
+    access = api_set_ownership(bid, self.request)
     tender.bids.append(bid)
     if save_tender(self.request):
         self.LOGGER.info('Created tender bid {}'.format(bid.id),
@@ -263,7 +272,5 @@ def stage2_bid_post(self):
                                                                            bid_id=bid['id'])
         return {
             'data': bid.serialize('view'),
-            'access': {
-                'token': bid.owner_token
-            }
+            'access': access
         }

@@ -23,12 +23,20 @@ from openprocurement.contracting.api.tests.contract_blanks import (
     create_contract_invalid,
     create_contract_generated,
     create_contract,
+    create_contract_transfer_token,
     # ContractWDocumentsWithDSResourceTest
     create_contract_w_documents,
     # ContractResource4BrokersTest
     contract_status_change,
     contract_items_change,
     patch_tender_contract,
+    patch_tender_contract_identical,
+    patch_tender_contract_readonly,
+    patch_tender_contract_amount,
+    patch_tender_contract_amount_paid_zero,
+    patch_tender_contract_before_vat,
+    patch_tender_contract_readonly_before_vat,
+    patch_tender_contract_before_vat_single_request,
     # ContractResource4AdministratorTest
     contract_administrator_change,
     # ContractCredentialsTest
@@ -36,10 +44,9 @@ from openprocurement.contracting.api.tests.contract_blanks import (
     generate_credentials,
     # ContractWOItemsResource4BrokersTest
     contract_wo_items_status_change,
+    # ContractWOAmountNetResource4BrokersTest
     patch_tender_contract_wo_amount_net,
-    patch_tender_contract_identical, patch_tender_contract_readonly, patch_tender_contract_amount,
-    patch_tender_contract_amount_paid_zero, patch_tender_contract_before_vat, patch_tender_contract_readonly_before_vat,
-    patch_tender_contract_before_vat_single_request)
+)
 from openprocurement.tender.core.tests.base import BaseWebTest
 
 
@@ -61,6 +68,7 @@ class ContractResourceTest(BaseWebTest):
     test_create_contract_invalid = snitch(create_contract_invalid)
     test_create_contract_generated = snitch(create_contract_generated)
     test_create_contract = snitch(create_contract)
+    test_create_contract_transfer_token = snitch(create_contract_transfer_token)
 
 
 class ContractWDocumentsWithDSResourceTest(BaseWebTest):

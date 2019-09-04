@@ -9,14 +9,14 @@ class TenderConfigurator(ContentConfigurator):
     model = None
 
     @property
-    def create_accreditation(self):
+    def create_accreditations(self):
         """ tender create accreditation level """
-        return self.model.create_accreditation
+        return self.model.create_accreditations
 
     @property
-    def edit_accreditation(self):
+    def edit_accreditations(self):
         """ bid create accreditation level """
-        return self.model.edit_accreditation
+        return self.model.edit_accreditations
 
     # Param to configure award criteria
     # Default configuration for awarding is reversed (from lower to higher)

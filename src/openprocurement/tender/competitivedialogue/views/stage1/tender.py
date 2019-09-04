@@ -56,15 +56,13 @@ class TenderStage2EUCredentialsResource(APIResource):
     def patch(self):
         tender = self.request.validated['tender']
 
-        set_ownership(tender)
+        access = set_ownership(tender)
         if save_tender(self.request):
             self.LOGGER.info('Generate Tender stage2 credentials {}'.format(tender.id),
                              extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_patch'}))
             return {
                 'data': tender.serialize("view"),
-                'access': {
-                    'token': tender.owner_token
-                }
+                'access': access
             }
 
 

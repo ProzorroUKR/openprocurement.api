@@ -527,6 +527,18 @@ def create_contract(self):
     self.assertEqual(response.status, '403 Forbidden')
 
 
+def create_contract_transfer_token(self):
+    response = self.app.post_json('/contracts', {"data": self.initial_data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertNotIn('transfer_token', response.json['data'])
+
+    response = self.app.get('/contracts/{}'.format(response.json['data']['id']))
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertNotIn('transfer_token', response.json['data'])
+
+
 # ContractResource4BrokersTest
 
 

@@ -588,9 +588,11 @@ class Tender(BaseTender):
     status = StringType(choices=['draft', 'active.tendering', 'active.pre-qualification', 'active.pre-qualification.stand-still', 'active.auction',
                                  'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.tendering')
 
-    create_accreditation = 3
-    edit_accreditation = 4
+    create_accreditations = (3,)
+    edit_accreditations = (4,)
+
     procuring_entity_kinds = ['general', 'special', 'defense']
+
     block_tender_complaint_status = OpenUATender.block_tender_complaint_status
     block_complaint_status = OpenUATender.block_complaint_status
 

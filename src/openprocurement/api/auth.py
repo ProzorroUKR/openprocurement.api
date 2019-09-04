@@ -4,6 +4,8 @@ from hashlib import sha512
 from pyramid.authentication import BasicAuthAuthenticationPolicy, b64decode
 from ConfigParser import ConfigParser
 
+from pyramid.interfaces import IAuthenticationPolicy
+
 
 class AuthenticationPolicy(BasicAuthAuthenticationPolicy):
     def __init__(self, auth_file, realm='OpenProcurement', debug=False):
@@ -122,3 +124,19 @@ def authenticated_role(request):
 
 def check_accreditation(request, level):
     return "a:{}".format(level) in request.effective_principals
+
+
+def check_accreditations(request, levels):
+    return any([check_accreditation(request, level) for level in levels])
+
+
+def check_user_accreditation(request, userid, level, default=False):
+    policy = request.registry.queryUtility(IAuthenticationPolicy)
+    for user in policy.users.values():
+        if user['name'] == userid:
+            return level in user['level']
+    return default
+
+
+def check_user_accreditations(request, userid, levels, default=False):
+    return any([check_user_accreditation(request, userid, level, default=default) for level in levels])

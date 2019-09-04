@@ -3,10 +3,13 @@ import os
 from copy import deepcopy
 from datetime import datetime
 from uuid import uuid4
+from hashlib import sha512
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.base import BaseWebTest
 
 now = datetime.now()
+
+test_tender_token = uuid4().hex
 
 test_contract_data = {
     u"items": [
@@ -100,7 +103,7 @@ test_contract_data = {
     u"id": uuid4().hex,
     u"contractID": u"UA-2016-03-18-000001-1",
     u"tender_id": uuid4().hex,
-    u"tender_token": uuid4().hex,
+    u"tender_token": sha512(test_tender_token).hexdigest(),
     u"owner": u"broker"
 }
 

@@ -9,7 +9,7 @@ from pyramid.security import Allow
 from pyramid.interfaces import IRouteRequest, IRoutesMapper
 
 from openprocurement.historical.core.constants import (
-    VERSION, HASH, PREVIOUS_HASH, ACCREDITATION_LEVEL, VERSION_BY_DATE
+    VERSION, HASH, PREVIOUS_HASH, ACCREDITATION_LEVELS, VERSION_BY_DATE
 )
 from openprocurement.api.utils import (
     error_handler,
@@ -193,7 +193,7 @@ def validate_header(request):
 
 
 def validate_accreditation(request):
-    if request.authenticated_role != 'Administrator' and not request.check_accreditation(ACCREDITATION_LEVEL):
+    if request.authenticated_role != 'Administrator' and not request.check_accreditations(ACCREDITATION_LEVELS):
         request.errors.add('historical',
                            'accreditation',
                            'Broker Accreditation level does not '

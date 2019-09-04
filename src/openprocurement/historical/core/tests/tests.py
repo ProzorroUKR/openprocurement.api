@@ -7,7 +7,7 @@ from pyramid.testing import DummyRequest
 from pyramid import testing
 from openprocurement.api.auth import (
     AuthenticationPolicy,
-    check_accreditation,
+    check_accreditations,
     authenticated_role
 )
 from pyramid.authorization import ACLAuthorizationPolicy
@@ -124,7 +124,7 @@ class HistoricalResourceTestCase(unittest.TestCase):
         self.config.add_renderer('jsonp', JSONP(param_name='callback'))
         self.config.include("cornice")
         self.config.registry.server_id = uuid4().hex
-        self.config.add_request_method(check_accreditation)
+        self.config.add_request_method(check_accreditations)
         self.authz_policy = ACLAuthorizationPolicy()
         self.config.set_authorization_policy(self.authz_policy)
         self.config.add_subscriber(add_logging_context, NewRequest)

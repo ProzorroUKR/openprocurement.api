@@ -63,7 +63,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
         if self.context.status == 'unsuccessful' and complaint.status == 'claim' and self.context.bidID != complaint.bid_id:
             raise_operation_error(self.request, 'Can add claim only on unsuccessful qualification of your bid')
         complaint.complaintID = '{}.{}{}'.format(tender.tenderID, self.server_id, self.complaints_len(tender) + 1)
-        set_ownership(complaint, self.request)
+        access = set_ownership(complaint, self.request)
         self.context.complaints.append(complaint)
         if save_tender(self.request):
             self.LOGGER.info('Created tender qualification complaint {}'.format(complaint.id),
@@ -72,9 +72,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
             self.request.response.headers['Location'] = self.request.route_url('{}:Tender Qualification Complaints'.format(tender.procurementMethodType), tender_id=tender.id, qualification_id=self.request.validated['qualification_id'], complaint_id=complaint['id'])
             return {
                 'data': complaint.serialize("view"),
-                'access': {
-                    'token': complaint.owner_token
-                }
+                'access': access
             }
 
     @json_view(content_type="application/json", permission='edit_complaint', validators=(validate_patch_complaint_data, validate_update_complaint_not_in_pre_qualification,

@@ -77,11 +77,11 @@ def validate_author(request, shortlistedFirms, obj):
 
 
 def validate_complaint_data_stage2(request):
-    if not request.check_accreditation(request.tender.edit_accreditation):
+    if not request.check_accreditations(request.tender.edit_accreditations):
         request.errors.add('procurementMethodType', 'accreditation', 'Broker Accreditation level does not permit complaint creation')
         request.errors.status = 403
         raise error_handler(request.errors)
-    if request.tender.get('mode', None) is None and request.check_accreditation('t'):
+    if request.tender.get('mode', None) is None and request.check_accreditations(('t',)):
         request.errors.add('procurementMethodType', 'mode', 'Broker Accreditation level does not permit complaint creation')
         request.errors.status = 403
         raise error_handler(request.errors)
@@ -108,11 +108,11 @@ def validate_patch_complaint_data_stage2(request):
 
 
 def validate_post_question_data_stage2(request):
-    if not request.check_accreditation(request.tender.edit_accreditation):
+    if not request.check_accreditations(request.tender.edit_accreditations):
         request.errors.add('procurementMethodType', 'accreditation', 'Broker Accreditation level does not permit question creation')
         request.errors.status = 403
         raise error_handler(request.errors)
-    if request.tender.get('mode', None) is None and request.check_accreditation('t'):
+    if request.tender.get('mode', None) is None and request.check_accreditations(('t',)):
         request.errors.add('procurementMethodType', 'mode', 'Broker Accreditation level does not permit question creation')
         request.errors.status = 403
         raise error_handler(request.errors)

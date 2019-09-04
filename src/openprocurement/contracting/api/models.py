@@ -176,6 +176,7 @@ class Contract(SchematicsDocument, BaseContract):
     tender_token = StringType(required=True)
     tender_id = StringType(required=True)
     owner_token = StringType(default=lambda: uuid4().hex)
+    transfer_token = StringType(default=lambda: uuid4().hex)
     owner = StringType()
     mode = StringType(choices=['test'])
     status = StringType(choices=['terminated', 'active'], default='active')
@@ -187,7 +188,7 @@ class Contract(SchematicsDocument, BaseContract):
     value = ModelType(ContractValue)
     terminationDetails = StringType()
 
-    create_accreditation = 3  # TODO
+    create_accreditations = (3,)  # TODO
 
     class Options:
         roles = {

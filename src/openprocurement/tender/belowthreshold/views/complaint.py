@@ -47,7 +47,7 @@ class TenderComplaintResource(APIResource):
         else:
             complaint.status = 'draft'
         complaint.complaintID = '{}.{}{}'.format(tender.tenderID, self.server_id, sum([len(i.complaints) for i in tender.awards], len(tender.complaints)) + 1)
-        set_ownership(complaint, self.request)
+        access = set_ownership(complaint, self.request)
         tender.complaints.append(complaint)
         if save_tender(self.request):
             self.LOGGER.info('Created tender complaint {}'.format(complaint.id),
@@ -56,9 +56,7 @@ class TenderComplaintResource(APIResource):
             self.request.response.headers['Location'] = self.request.route_url('{}:Tender Complaints'.format(tender.procurementMethodType), tender_id=tender.id, complaint_id=complaint.id)
             return {
                 'data': complaint.serialize(tender.status),
-                'access': {
-                    'token': complaint.owner_token
-                }
+                'access': access
             }
 
     @json_view(permission='view_tender')

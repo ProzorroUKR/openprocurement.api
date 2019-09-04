@@ -13,7 +13,7 @@ def validate_agreement_data(request):
     update_logging_context(request, {'agreement_id': '__new__'})
     data = request.validated['json_data'] = validate_json_data(request)
     model = request.agreement_from_data(data, create=False)
-    if hasattr(request, 'check_accreditation') and not request.check_accreditation(model.create_accreditation):
+    if hasattr(request, 'check_accreditations') and not request.check_accreditations(model.create_accreditations):
         request.errors.add(
             'agreement',
             'accreditation',

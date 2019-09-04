@@ -23,14 +23,12 @@ def validate_tender_data(request):
     data = validate_json_data(request)
 
     model = request.tender_from_data(data, create=False)
-    #if not request.check_accreditation(model.create_accreditation):
-    #if not any([request.check_accreditation(acc) for acc in getattr(model, 'create_accreditations', [getattr(model, 'create_accreditation', '')])]):
-    if not any([request.check_accreditation(acc) for acc in iter(str(model.create_accreditation))]):
+    if not request.check_accreditations(model.create_accreditations):
         request.errors.add('procurementMethodType', 'accreditation', 'Broker Accreditation level does not permit tender creation')
         request.errors.status = 403
         raise error_handler(request.errors)
     data = validate_data(request, model, data=data)
-    if data and data.get('mode', None) is None and request.check_accreditation('t'):
+    if data and data.get('mode', None) is None and request.check_accreditations(('t',)):
         request.errors.add('procurementMethodType', 'mode', 'Broker Accreditation level does not permit tender creation')
         request.errors.status = 403
         raise error_handler(request.errors)
@@ -124,11 +122,11 @@ def validate_tender_auction_data(request):
 
 
 def validate_bid_data(request):
-    if not request.check_accreditation(request.tender.edit_accreditation):
+    if not request.check_accreditations(request.tender.edit_accreditations):
         request.errors.add('procurementMethodType', 'accreditation', 'Broker Accreditation level does not permit bid creation')
         request.errors.status = 403
         raise error_handler(request.errors)
-    if request.tender.get('mode', None) is None and request.check_accreditation('t'):
+    if request.tender.get('mode', None) is None and request.check_accreditations(('t',)):
         request.errors.add('procurementMethodType', 'mode', 'Broker Accreditation level does not permit bid creation')
         request.errors.status = 403
         raise error_handler(request.errors)
@@ -178,11 +176,11 @@ def validate_patch_award_data(request):
 
 
 def validate_question_data(request):
-    if not request.check_accreditation(request.tender.edit_accreditation):
+    if not request.check_accreditations(request.tender.edit_accreditations):
         request.errors.add('procurementMethodType', 'accreditation', 'Broker Accreditation level does not permit question creation')
         request.errors.status = 403
         raise error_handler(request.errors)
-    if request.tender.get('mode', None) is None and request.check_accreditation('t'):
+    if request.tender.get('mode', None) is None and request.check_accreditations(('t',)):
         request.errors.add('procurementMethodType', 'mode', 'Broker Accreditation level does not permit question creation')
         request.errors.status = 403
         raise error_handler(request.errors)
@@ -197,11 +195,11 @@ def validate_patch_question_data(request):
 
 
 def validate_complaint_data(request):
-    if not request.check_accreditation(request.tender.edit_accreditation):
+    if not request.check_accreditations(request.tender.edit_accreditations):
         request.errors.add('procurementMethodType', 'accreditation', 'Broker Accreditation level does not permit complaint creation')
         request.errors.status = 403
         raise error_handler(request.errors)
-    if request.tender.get('mode', None) is None and request.check_accreditation('t'):
+    if request.tender.get('mode', None) is None and request.check_accreditations(('t',)):
         request.errors.add('procurementMethodType', 'mode', 'Broker Accreditation level does not permit complaint creation')
         request.errors.status = 403
         raise error_handler(request.errors)

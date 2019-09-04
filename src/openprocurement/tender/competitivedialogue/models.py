@@ -412,7 +412,8 @@ class TenderStage2EU(BaseTenderEU):
     contracts = ListType(ModelType(Contract, required=True), default=list())
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
 
-    create_accreditation = 'c'
+    create_accreditations = ('c',)
+    transfer_accreditations = (3,)
 
     class Options:
         namespace = 'Tender'
@@ -517,7 +518,8 @@ class TenderStage2UA(BaseTenderUA):
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     procurementMethod = StringType(choices=['open', 'selective', 'limited'], default='selective')
 
-    create_accreditation = 'c'
+    create_accreditations = ('c',)
+    transfer_accreditations = (3,)
 
     class Options(TenderStage2EU.Options):
         pass

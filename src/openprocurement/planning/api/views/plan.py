@@ -223,7 +223,7 @@ class PlansResource(APIResourceListing):
         plan.id = plan_id
 
         plan.planID = generate_plan_id(get_now(), self.db, self.server_id)
-        set_ownership(plan, self.request)
+        access = set_ownership(plan, self.request)
         self.request.validated['plan'] = plan
         self.request.validated['plan_src'] = {}
         if save_plan(self.request):
@@ -235,9 +235,7 @@ class PlansResource(APIResourceListing):
                 'Location'] = self.request.route_url('Plan', plan_id=plan_id)
             return {
                 'data': plan.serialize("view"),
-                'access': {
-                    'token': plan.owner_token
-                }
+                'access': access
             }
 
 

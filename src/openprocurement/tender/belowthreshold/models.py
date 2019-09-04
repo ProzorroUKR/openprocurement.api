@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from schematics.exceptions import ValidationError
-from schematics.transforms import whitelist, blacklist
+from schematics.transforms import whitelist
 from schematics.types import StringType, IntType, URLType, BooleanType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
@@ -42,7 +42,6 @@ from openprocurement.tender.core.constants import (
     CPV_ITEMS_CLASS_FROM, COMPLAINT_STAND_STILL_TIME
 )
 from openprocurement.tender.core.validation import validate_minimalstep
-
 
 class LotAuctionPeriod(Period):
     """The auction period."""
