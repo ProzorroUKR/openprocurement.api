@@ -43,6 +43,32 @@ def test_plan_draft_status(app, mode):
     assert len(response.json['data']) == 0
 
 
+@pytest.mark.parametrize("initial_status", ["scheduled", None])
+def test_fail_update_back_to_draft(app, initial_status):
+    app.authorization = ('Basic', ("broker", "broker"))
+    test_data = deepcopy(test_plan_data)
+
+    test_data["status"] = initial_status
+    response = app.post_json('/plans', {'data': test_data})
+    assert response.json["data"].get("status") == "scheduled"
+    plan_id = response.json["data"]["id"]
+    acc_token = response.json["access"]["token"]
+
+    if initial_status is None:
+        plan = app.app.registry.db.get(plan_id)
+        del plan["status"]
+        app.app.registry.db.save(plan)
+
+    response = app.patch_json(
+        '/plans/{}?acc_token={}'.format(plan_id, acc_token),
+        {"data": {'status': "draft"}},
+        status=422
+    )
+    assert response.json == {u'status': u'error', u'errors': [
+        {u'description': u"Plan status can not be changed back to 'draft'",
+         u'location': u'data', u'name': u'status'}]}
+
+
 def test_update_status_invalid(app):
     app.authorization = ('Basic', ("broker", "broker"))
     test_data = deepcopy(test_plan_data)

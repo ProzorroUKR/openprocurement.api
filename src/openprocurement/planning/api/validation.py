@@ -62,3 +62,15 @@ def validate_plan_not_terminated(request):
         )
         request.errors.status = 422
         raise error_handler(request.errors)
+
+
+def validate_plan_status_update(request):
+    status = request.validated['json_data'].get("status")
+    if status == "draft" and request.validated['plan'].status != status:
+        request.errors.add(
+            "data",
+            "status",
+            "Plan status can not be changed back to 'draft'"
+        )
+        request.errors.status = 422
+        raise error_handler(request.errors)
