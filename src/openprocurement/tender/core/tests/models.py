@@ -4,10 +4,13 @@ import unittest
 from mock import patch, MagicMock
 from datetime import datetime, timedelta, time
 from schematics.exceptions import ModelValidationError
+from schematics.types.compound import ModelType
+from schematics.types import StringType
 from openprocurement.tender.core.models import (
-    PeriodEndRequired, get_tender, Tender, TenderAuctionPeriod, Question
+    PeriodEndRequired, get_tender, Tender, TenderAuctionPeriod, Question, ProcuringEntity
 )
 from openprocurement.api.constants import TZ
+import pytest
 
 
 class TestPeriodEndRequired(unittest.TestCase):
@@ -206,6 +209,59 @@ class TestTenderMainProcurementCategory(unittest.TestCase):
             e.exception.message,
             {'mainProcurementCategory': [u"This field is required."]}
         )
+
+
+class TestTender(Tender):
+    procuringEntity = ModelType(ProcuringEntity, required=True)
+
+    def validate_mainProcurementCategory(self, *_): pass
+
+    def validate_milestones(self, *_): pass
+
+
+@pytest.mark.parametrize(
+    "test_data", [
+        ([], 'general', True),
+        ([], None, True),
+        ([], 'central', True),
+        ([{"id": "a" * 32}], 'general', True),
+        ([{"id": "a" * 32}], None, True),
+        ([{"id": "a" * 32}], 'central', True),
+        ([{"id": "a" * 32}, {"id": "b" * 32}], 'general', False),
+        ([{"id": "a" * 32}, {"id": "b" * 32}], None, False),
+        ([{"id": "a" * 32}, {"id": "b" * 32}], 'central', True),
+    ]
+)
+def test_plans_and_kind_validation(test_data):
+    plans, kind, result = test_data
+    tender = TestTender({
+        "title": "whatever",
+        "procuringEntity": {
+            "name": u"Державне управління справами",
+            "identifier": {
+                "scheme": u"UA-EDR",
+                "id": u"00037256",
+                "uri": u"http://www.dus.gov.ua/"
+            },
+            "address": {
+                "countryName": u"Україна",
+            },
+            "contactPoint": {
+                "name": u"Державне управління справами",
+                "telephone": u"0440000000"
+            },
+            "kind": kind,
+        },
+        "plans": plans
+    })
+    try:
+        tender.validate()
+    except ModelValidationError as e:
+        assert result is False, "No exceptions were expected"
+        assert e.args == (
+            {'plans': ["Linking more than one plan is allowed only if procuringEntity.kind is 'central'"]},)
+    else:
+        assert result is True, "ModelValidationError was expected"
 
 
 def suite():
