@@ -451,6 +451,9 @@ class Bid(Model):
                 raise ValidationError(u"All features parameters is required.")
 
 
+PROCURING_ENTITY_KINDS = ('general', 'special', 'defense', 'other')
+
+
 class ProcuringEntity(Organization):
     """An organization."""
     class Options:
@@ -461,7 +464,7 @@ class ProcuringEntity(Organization):
             'edit_active.tendering': schematics_default_role + blacklist("kind"),
         }
 
-    kind = StringType(choices=['general', 'special', 'defense', 'other'])
+    kind = StringType(choices=PROCURING_ENTITY_KINDS)
 
 
 class Question(Model):
