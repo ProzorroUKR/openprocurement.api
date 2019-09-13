@@ -1,6 +1,7 @@
 PROCEDURES = {
     '': (
         '',
+        'centralizedProcurement',
     ),
     'open': (
         'belowThreshold',
