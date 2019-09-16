@@ -588,7 +588,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
     self.assertEqual(response.json['errors'], [
-        {u'description': u"'' procuringEntity cannot publish this type of procedure. Only general, special, defense, other are allowed.", u'location': u'procuringEntity', u'name': u'kind'}
+        {u'description': u"'' procuringEntity cannot publish this type of procedure. Only general, special, defense, central, other are allowed.", u'location': u'procuringEntity', u'name': u'kind'}
     ])
 
 
