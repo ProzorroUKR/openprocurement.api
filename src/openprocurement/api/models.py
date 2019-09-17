@@ -394,8 +394,6 @@ class AdditionalClassification(Classification):
     def validate_description(self, data, value):
         if data['scheme'] == UA_ROAD_SCHEME and UA_ROAD.get(data['id']) != value:
             raise ValidationError('{} description invalid'.format(UA_ROAD_SCHEME))
-        if data['scheme'] == GMDN_SCHEME and GMDN.get(data['id']) != value:
-            raise ValidationError('{} description invalid'.format(GMDN_SCHEME))
 
 
 class Unit(Model):

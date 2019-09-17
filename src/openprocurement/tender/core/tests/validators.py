@@ -335,10 +335,7 @@ class TestTenderAdditionalClassificationGMDN(unittest.TestCase):
             u"description": u"Адаптометр invalid",
         }]
         tender = Tender(self.test_tender)
-        with self.assertRaises(ModelValidationError) as e:
-            tender.validate()
-        error_message = e.exception.message['items'][0]['additionalClassifications'][0]['description'][0]
-        self.assertEqual(u"GMDN description invalid", error_message)
+        tender.validate()   # description isn't validated
 
     def test_more_than_one_gmdn(self):
         self.test_tender["items"][0]["classification"]["id"] = "33928000-1"
