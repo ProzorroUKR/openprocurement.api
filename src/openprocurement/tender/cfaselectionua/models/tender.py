@@ -13,12 +13,13 @@ from schematics.types.compound import ModelType
 from schematics.transforms import whitelist
 from zope.interface import implementer, provider
 from pyramid.security import Allow
-from openprocurement.api.models import ListType, Period, Value
+from openprocurement.api.models import ListType, Period, Value, Guarantee
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.core.models import (
     validate_lots_uniq,
-    Guarantee, TenderAuctionPeriod,
-    PeriodEndRequired, Tender as BaseTender,
+    TenderAuctionPeriod,
+    PeriodEndRequired,
+    Tender as BaseTender,
     Cancellation,
     validate_features_uniq
 )

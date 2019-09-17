@@ -8,7 +8,7 @@ from barbecue import vnmax
 from zope.interface import implementer
 
 from openprocurement.api.models import (
-    ListType, Period, Value
+    ListType, Period, Value, Guarantee
 )
 
 from openprocurement.api.utils import (
@@ -28,7 +28,7 @@ from openprocurement.tender.core.models import (
 )
 
 from openprocurement.tender.core.models import (
-    Guarantee, ComplaintModelType, TenderAuctionPeriod,
+    ComplaintModelType, TenderAuctionPeriod,
     PeriodEndRequired, Tender as BaseTender, Bid, ProcuringEntity,
     Item, Award, Contract, Question, Cancellation, Feature,
     Lot as BaseLot, Complaint,

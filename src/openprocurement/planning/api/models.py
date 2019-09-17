@@ -3,27 +3,23 @@ from itertools import chain
 from uuid import uuid4
 
 from openprocurement.api.models import OpenprocurementSchematicsDocument as SchematicsDocument
-from openprocurement.api.constants import (
-    CPV_ITEMS_CLASS_FROM,
-    ADDITIONAL_CLASSIFICATIONS_SCHEMES,
-    ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017,
-    BUDGET_PERIOD_FROM
-)
 from openprocurement.api.models import Document as BaseDocument
 from openprocurement.api.models import Model, Period, Revision
-from openprocurement.api.models import Unit, CPVClassification, Classification, Identifier
+from openprocurement.api.models import Unit, CPVClassification, Classification, Identifier, Guarantee
 from openprocurement.api.models import schematics_embedded_role, schematics_default_role, IsoDateTimeType, ListType
 from openprocurement.api.utils import get_now, get_first_revision_date
 from openprocurement.api.validation import validate_cpv_group, validate_items_uniq
 from openprocurement.api.constants import (
     CPV_ITEMS_CLASS_FROM, ADDITIONAL_CLASSIFICATIONS_SCHEMES,
     ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017, NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
-    PLAN_BUYERS_REQUIRED_FROM,
+    PLAN_BUYERS_REQUIRED_FROM, BUDGET_PERIOD_FROM,
 )
 from openprocurement.planning.api.constants import (
     PROCEDURES,
     MULTI_YEAR_BUDGET_PROCEDURES,
-    MULTI_YEAR_BUDGET_MAX_YEARS)
+    MULTI_YEAR_BUDGET_MAX_YEARS,
+    BREAKDOWN_OTHER, BREAKDOWN_TITLES,
+)
 from pyramid.security import Allow
 from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist, blacklist
@@ -61,6 +57,19 @@ class BudgetPeriod(Period):
                 MULTI_YEAR_BUDGET_MAX_YEARS + 1, method_type))
 
 
+class BudgetBreakdownItem(Model):
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    title = StringType(required=True, choices=BREAKDOWN_TITLES)
+    description = StringType()
+    description_en = StringType()
+    description_ru = StringType()
+    value = ModelType(Guarantee, required=True)
+
+    def validate_description(self, data, value):
+        if data.get('title', None) == BREAKDOWN_OTHER and not value:
+            raise ValidationError(BaseType.MESSAGES['required'])
+
+
 class Budget(Model):
     """A budget model """
     id = StringType(required=True)
@@ -75,6 +84,7 @@ class Budget(Model):
     period = ModelType(BudgetPeriod)
     year = IntType(min_value=2000)
     notes = StringType()
+    breakdown = ListType(ModelType(BudgetBreakdownItem, required=True), validators=[validate_items_uniq])
 
     def validate_period(self, data, value):
         if value:
@@ -85,6 +95,15 @@ class Budget(Model):
     def validate_year(self, data, value):
         if value and get_now() >= BUDGET_PERIOD_FROM:
             raise ValidationError(u"Can't use year field, use period field instead")
+
+    def validate_breakdown(self, data, values):
+        if values:
+            currencies = [i.value.currency for i in values]
+            if 'currency' in data:
+                currencies.append(data['currency'])
+            if len(set(currencies)) > 1:
+                raise ValidationError(u"Currency should be identical for all budget breakdown items and budget")
+
 
 class PlanItem(Model):
     """Simple item model for planing"""
@@ -102,7 +121,7 @@ class PlanItem(Model):
         plan = data['__parent__']
         if not plan.classification:
             return
-        plan_from_2017 = (plan.get('revisions')[0].date if plan.get('revisions') else get_now()) > CPV_ITEMS_CLASS_FROM
+        plan_from_2017 = get_first_revision_date(data, default=get_now()) > CPV_ITEMS_CLASS_FROM
         cpv_336_group = plan.classification.id[:3] == '336'
         base_cpv_code = plan.classification.id[:4] if not cpv_336_group and plan_from_2017 else plan.classification.id[:3]
         if not cpv_336_group and plan_from_2017 and (base_cpv_code != classification.id[:4]):
@@ -114,7 +133,7 @@ class PlanItem(Model):
         plan = data['__parent__']
         if not plan.classification:
             return
-        plan_date = plan.get('revisions')[0].date if plan.get('revisions') else get_now()
+        plan_date = get_first_revision_date(data, default=get_now())
         plan_from_2017 = plan_date > CPV_ITEMS_CLASS_FROM
         not_cpv = data['classification']['id'] == '99999999-9'
         if not items and (not plan_from_2017
@@ -248,7 +267,9 @@ class Plan(SchematicsDocument, Model):
 
     def validate_items(self, data, items):
         cpv_336_group = items[0].classification.id[:3] == '336' if items else False
-        if not cpv_336_group and (data.get('revisions')[0].date if data.get('revisions') else get_now()) > CPV_ITEMS_CLASS_FROM and items and len(set([i.classification.id[:4] for i in items])) != 1:
+        if not cpv_336_group and \
+                get_first_revision_date(data, default=get_now()) > CPV_ITEMS_CLASS_FROM and \
+                items and len(set([i.classification.id[:4] for i in items])) != 1:
             raise ValidationError(u"CPV class of items should be identical")
         else:
             validate_cpv_group(items)

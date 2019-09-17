@@ -19,11 +19,12 @@ from openprocurement.api.validation import (
 from openprocurement.api.models import (
     Value, Model, SifterListType,
     ListType, Period, Address, PeriodEndRequired,
-    IsoDateTimeType, DecimalType
+    IsoDateTimeType, DecimalType,
+    Guarantee
 )
 from openprocurement.tender.core.models import (
     Tender as BaseTender, EnquiryPeriod, PeriodStartEndRequired,
-    Question, Feature as BaseFeature, Guarantee, BaseLot,
+    Question, Feature as BaseFeature, BaseLot,
     FeatureValue as BaseFeatureValue
 )
 from openprocurement.tender.core.models import (

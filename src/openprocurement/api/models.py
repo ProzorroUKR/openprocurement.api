@@ -12,17 +12,22 @@ from couchdb_schematics.document import SchematicsDocument
 from schematics.exceptions import ConversionError, ValidationError
 from schematics.models import Model as SchematicsModel
 from schematics.transforms import whitelist, blacklist, export_loop, convert
-from schematics.types import (StringType, FloatType, URLType, BooleanType,
-                              BaseType, EmailType, MD5Type, DecimalType as BaseDecimalType)
-from schematics.types.compound import (ModelType, DictType,
-                                       ListType as BaseListType)
+from schematics.types import (
+    StringType, FloatType, URLType, BooleanType,
+    BaseType, EmailType, MD5Type, DecimalType as BaseDecimalType
+)
+from schematics.types.compound import (
+    ModelType, DictType,
+    ListType as BaseListType
+)
 from schematics.types.serializable import serializable
 from openprocurement.api.interfaces import ISerializable, IValidator
 from openprocurement.api.utils import get_now, set_parent, get_schematics_document, get_first_revision_date
 from openprocurement.api.constants import (
     CPV_CODES, ORA_CODES, TZ, DK_CODES, CPV_BLOCK_FROM,
     SCALE_CODES, ORGANIZATION_SCALE_FROM,
-    UA_ROAD_SCHEME, UA_ROAD, GMDN_SCHEME, GMDN)
+    UA_ROAD_SCHEME, UA_ROAD, GMDN_SCHEME, GMDN
+)
 
 schematics_default_role = SchematicsDocument.Options.roles['default'] + blacklist("__parent__")
 schematics_embedded_role = SchematicsDocument.Options.roles['embedded'] + blacklist("__parent__")
@@ -335,15 +340,13 @@ class Model(SchematicsModel):
         return root
 
 
-class Value(Model):
-    amount = FloatType(required=True, min_value=0)  # Amount as a number.
-    currency = StringType(required=True, default=u'UAH', max_length=3, min_length=3)  # The currency in 3-letter ISO 4217 format.
-    valueAddedTaxIncluded = BooleanType(required=True, default=True)
-
-
 class Guarantee(Model):
     amount = FloatType(required=True, min_value=0)  # Amount as a number.
-    currency = StringType(required=True, default=u'UAH', max_length=3, min_length=3)  # The currency in 3-letter ISO 4217 format.
+    currency = StringType(required=True, default=u'UAH', max_length=3, min_length=3)  # 3-letter ISO 4217 format.
+
+
+class Value(Guarantee):
+    valueAddedTaxIncluded = BooleanType(required=True, default=True)
 
 
 class Period(Model):

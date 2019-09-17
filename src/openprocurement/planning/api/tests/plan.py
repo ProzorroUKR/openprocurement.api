@@ -29,6 +29,13 @@ from openprocurement.planning.api.tests.plan_blanks import (
     plan_not_found,
     esco_plan,
     cfaua_plan,
+    # PlanBudgetBreakdownTest
+    create_plan_with_breakdown,
+    patch_plan_with_breakdown,
+    fail_create_plan_with_breakdown_invalid_title,
+    create_plan_with_breakdown_other_title,
+    fail_create_plan_with_breakdown_other_title,
+    fail_create_plan_with_diff_breakdown_currencies,
     # PlanResourceBeforeBudgetPeriodTest
     create_plan_budget_year,
     patch_plan_budget_year,
@@ -60,7 +67,6 @@ class AccreditationPlanTest(BaseWebTest):
     test_create_plan_accrediatation = snitch(create_plan_accreditation)
 
 
-@mock.patch('openprocurement.planning.api.models.BUDGET_PERIOD_FROM', get_now() - timedelta(days=1))
 class PlanResourceTest(BaseWebTest):
     initial_data = test_plan_data
     initial_data_with_year = test_data_with_year
@@ -80,8 +86,19 @@ class PlanResourceTest(BaseWebTest):
     test_cfaua_plan = snitch(cfaua_plan)
 
 
+class PlanBudgetBreakdownTest(BaseWebTest):
+    initial_data = test_plan_data
+
+    test_create_plan_with_breakdown = snitch(create_plan_with_breakdown)
+    test_patch_plan_with_breakdown = snitch(patch_plan_with_breakdown)
+    test_fail_create_plan_with_breakdown_invalid_title = snitch(fail_create_plan_with_breakdown_invalid_title)
+    test_create_plan_with_breakdown_other_title = snitch(create_plan_with_breakdown_other_title)
+    test_fail_create_plan_with_breakdown_other_title = snitch(fail_create_plan_with_breakdown_other_title)
+    test_fail_create_plan_with_diff_breakdown_currencies = snitch(fail_create_plan_with_diff_breakdown_currencies)
+
+
 @mock.patch('openprocurement.planning.api.models.BUDGET_PERIOD_FROM', get_now() + timedelta(days=1))
-class PlanResourceBeforeBudgetPeriodTest(BaseWebTest):
+class PlanBudgetYearTest(BaseWebTest):
     initial_data = test_plan_data
     initial_data_with_year = test_data_with_year
 

@@ -691,3 +691,16 @@ def validate_tender_matches_plan(request):
     if request.errors:
         request.errors.status = 422
         raise error_handler(request.errors)
+
+
+def validate_plan_budget_breakdown(request):
+    plan = request.validated['plan']
+
+    if not plan.budget or not plan.budget.breakdown:
+        request.errors.add(
+            "data",
+            "budget.breakdown",
+            u"Plan should contain budget breakdown"
+        )
+        request.errors.status = 422
+        raise error_handler(request.errors)

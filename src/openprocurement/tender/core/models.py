@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from uuid import uuid4
 from datetime import timedelta, time, datetime
-from openprocurement.api.models import OpenprocurementSchematicsDocument, BusinessOrganization
+from openprocurement.api.models import OpenprocurementSchematicsDocument, BusinessOrganization, Guarantee
 from schematics.transforms import whitelist, blacklist, export_loop
 from zope.interface import implementer
 from pyramid.security import Allow
@@ -71,11 +71,6 @@ class PeriodEndRequired(BasePeriodEndRequired):
 class PeriodStartEndRequired(Period):
     startDate = IsoDateTimeType(required=True, default=get_now)  # The state date for the period.
     endDate = IsoDateTimeType(required=True, default=get_now)  # The end date for the period.
-
-
-class Guarantee(Model):
-    amount = FloatType(required=True, min_value=0)  # Amount as a number.
-    currency = StringType(required=True, default=u'UAH', max_length=3, min_length=3)  # The currency in 3-letter ISO 4217 format.
 
 
 class ITender(IOPContent):
