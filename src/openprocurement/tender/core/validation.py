@@ -668,7 +668,7 @@ def validate_tender_matches_plan(request):
             )
         )
 
-    if plan.tender.procurementMethodType != tender.procurementMethodType:
+    if plan.tender.procurementMethodType not in (tender.procurementMethodType, "centralizedProcurement"):
         request.errors.add(
             "data",
             "procurementMethodType",
