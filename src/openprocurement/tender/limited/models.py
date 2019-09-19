@@ -255,7 +255,7 @@ class ReportingTender(BaseTender):
     create_accreditations = (1, 3)
     edit_accreditations = (2,)
 
-    procuring_entity_kinds = ['general', 'special', 'defense', 'other']
+    procuring_entity_kinds = ['general', 'special', 'defense', 'central', 'other']
 
     block_complaint_status = OpenUATender.block_complaint_status
 
@@ -372,7 +372,7 @@ class NegotiationTender(ReportingTender):
     create_accreditations = (3,)
     edit_accreditations = (4,)
 
-    procuring_entity_kinds = ['general', 'special', 'defense']
+    procuring_entity_kinds = ['general', 'special', 'defense', 'central']
 
     lots = ListType(ModelType(Lot, required=True), default=list(), validators=[validate_lots_uniq])
 
@@ -398,4 +398,4 @@ class NegotiationQuickTender(NegotiationTender):
     create_accreditations = (3,)
     edit_accreditations = (4,)
 
-    procuring_entity_kinds = ['general', 'special', 'defense']
+    procuring_entity_kinds = ['general', 'special', 'defense', 'central']

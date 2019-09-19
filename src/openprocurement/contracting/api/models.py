@@ -25,7 +25,7 @@ from openprocurement.api.validation import validate_items_uniq
 from openprocurement.api.models import (
     plain_role, schematics_default_role, schematics_embedded_role
 )
-from openprocurement.tender.core.models import Tender, ContractValue
+from openprocurement.tender.core.models import Tender, ContractValue, PROCURING_ENTITY_KINDS
 
 contract_create_role = (whitelist(
     'id', 'awardID', 'contractID', 'contractNumber', 'title', 'title_en',
@@ -107,7 +107,7 @@ class ProcuringEntity(Organization):
             'edit_active': schematics_default_role + blacklist("kind"),
         }
 
-    kind = StringType(choices=['general', 'special', 'defense', 'other'])
+    kind = StringType(choices=PROCURING_ENTITY_KINDS)
 
 
 class CPVClassification(BaseCPVClassification):

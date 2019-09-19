@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 from uuid import uuid4
-from collections import defaultdict
 from datetime import timedelta, time, datetime
-# from couchdb_schematics.document import SchematicsDocument
 from openprocurement.api.models import OpenprocurementSchematicsDocument, BusinessOrganization
 from schematics.transforms import whitelist, blacklist, export_loop
-# from iso8601 import parse_date
 from zope.interface import implementer
 from pyramid.security import Allow
 from schematics.exceptions import ValidationError
@@ -451,6 +448,9 @@ class Bid(Model):
                 raise ValidationError(u"All features parameters is required.")
 
 
+PROCURING_ENTITY_KINDS = ('general', 'special', 'defense', 'central', 'other')
+
+
 class ProcuringEntity(Organization):
     """An organization."""
     class Options:
@@ -461,7 +461,7 @@ class ProcuringEntity(Organization):
             'edit_active.tendering': schematics_default_role + blacklist("kind"),
         }
 
-    kind = StringType(choices=['general', 'special', 'defense', 'other'])
+    kind = StringType(choices=PROCURING_ENTITY_KINDS)
 
 
 class Question(Model):
@@ -900,6 +900,12 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
 
     def link_plan(self, plan_id):
         self.plans.append(PlanRelation({"id": plan_id}))
+
+    def validate_plans(self, data, value):
+        if len(set(i["id"] for i in value)) < len(value):
+            raise ValidationError("The list should not contain duplicates")
+        if len(value) > 1 and data.get("procuringEntity", {}).get("kind", "") != "central":
+            raise ValidationError("Linking more than one plan is allowed only if procuringEntity.kind is 'central'")
 
     def validate_mainProcurementCategory(self, data, value):
         validation_date = get_first_revision_date(data, default=get_now())

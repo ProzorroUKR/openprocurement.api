@@ -1,4 +1,5 @@
 from openprocurement.api.models import Model, schematics_embedded_role, schematics_default_role, ListType, Address
+from openprocurement.tender.core.models import PROCURING_ENTITY_KINDS
 from openprocurement.tender.cfaua.models.submodels.contactpoint import ContactPoint
 from openprocurement.tender.cfaua.models.submodels.identifier import Identifier
 from schematics.transforms import blacklist
@@ -34,4 +35,4 @@ class ProcuringEntity(Organization):
             'edit_active.tendering': schematics_default_role + blacklist("kind"),
         }
 
-    kind = StringType(choices=['general', 'special', 'defense', 'other'])
+    kind = StringType(choices=PROCURING_ENTITY_KINDS)

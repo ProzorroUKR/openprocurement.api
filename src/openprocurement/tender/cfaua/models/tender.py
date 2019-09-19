@@ -115,7 +115,7 @@ class CloseFrameworkAgreementUA(Tender):
     create_accreditations = (3,)
     edit_accreditations = (4,)
 
-    procuring_entity_kinds = ['general', 'special', 'defense']
+    procuring_entity_kinds = ['general', 'special', 'defense', 'central']
     block_tender_complaint_status = ['claim', 'pending', 'accepted', 'satisfied', 'stopping']
     block_complaint_status = ['pending', 'accepted', 'satisfied', 'stopping']
 

@@ -36,7 +36,8 @@ from openprocurement.tender.core.models import (
     get_tender, validate_lots_uniq,
     rounding_shouldStartAfter,
     validate_parameters_uniq,
-    bids_validation_wrapper
+    bids_validation_wrapper,
+    PROCURING_ENTITY_KINDS,
 )
 from openprocurement.tender.core.utils import (
     calculate_business_date,
@@ -156,7 +157,7 @@ class ProcuringEntity(Organization):
             'edit_active.tendering': schematics_default_role + blacklist("kind"),
         }
 
-    kind = StringType(choices=['general', 'special', 'defense', 'other'])
+    kind = StringType(choices=PROCURING_ENTITY_KINDS)
 
 
 class Document(BaseDocument):
@@ -591,7 +592,7 @@ class Tender(BaseTender):
     create_accreditations = (3,)
     edit_accreditations = (4,)
 
-    procuring_entity_kinds = ['general', 'special', 'defense']
+    procuring_entity_kinds = ['general', 'special', 'defense', 'central']
 
     block_tender_complaint_status = OpenUATender.block_tender_complaint_status
     block_complaint_status = OpenUATender.block_complaint_status
