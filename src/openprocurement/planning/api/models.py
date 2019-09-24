@@ -7,7 +7,7 @@ from openprocurement.api.models import Document as BaseDocument
 from openprocurement.api.models import Model, Period, Revision
 from openprocurement.api.models import Unit, CPVClassification, Classification, Identifier, Guarantee
 from openprocurement.api.models import schematics_embedded_role, schematics_default_role, IsoDateTimeType, ListType
-from openprocurement.api.utils import get_now, get_first_revision_date
+from openprocurement.api.utils import get_now, get_first_revision_date, to_decimal
 from openprocurement.api.validation import validate_cpv_group, validate_items_uniq
 from openprocurement.api.constants import (
     CPV_ITEMS_CLASS_FROM, ADDITIONAL_CLASSIFICATIONS_SCHEMES,
@@ -60,9 +60,9 @@ class BudgetPeriod(Period):
 class BudgetBreakdownItem(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     title = StringType(required=True, choices=BREAKDOWN_TITLES)
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
+    description = StringType(max_length=500)
+    description_en = StringType(max_length=500)
+    description_ru = StringType(max_length=500)
     value = ModelType(Guarantee, required=True)
 
     def validate_description(self, data, value):
@@ -102,7 +102,9 @@ class Budget(Model):
             if 'currency' in data:
                 currencies.append(data['currency'])
             if len(set(currencies)) > 1:
-                raise ValidationError(u"Currency should be identical for all budget breakdown items and budget")
+                raise ValidationError(u"Currency should be identical for all budget breakdown values and budget")
+            if sum([to_decimal(i.value.amount) for i in values]) > to_decimal(data['amount']):
+                raise ValidationError(u"Sum of the breakdown values amounts can't be greater than budget amount")
 
 
 class PlanItem(Model):

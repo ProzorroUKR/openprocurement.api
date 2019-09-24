@@ -1074,7 +1074,7 @@ def create_plan_with_breakdown(self):
         id = "f" * 32,
         title="state",
         value=dict(
-            amount=150000,
+            amount=1500,
             currency="UAH"
         )
     )
@@ -1107,7 +1107,7 @@ def patch_plan_with_breakdown(self):
         title="state",
         description="Breakdown state description.",
         value=dict(
-            amount=150000,
+            amount=1500,
             currency="UAH"
         )
     )
@@ -1128,7 +1128,7 @@ def fail_create_plan_with_breakdown_invalid_title(self):
         id = "f" * 32,
         title="test",
         value=dict(
-            amount=150000,
+            amount=1500,
             currency="UAH"
         )
     )
@@ -1154,7 +1154,7 @@ def create_plan_with_breakdown_other_title(self):
         title="other",
         description="For a moment, nothing happened. Then, after a second or so, nothing continued to happen.",
         value=dict(
-            amount=150000,
+            amount=1500,
             currency="UAH"
         )
     )
@@ -1175,7 +1175,7 @@ def fail_create_plan_with_breakdown_other_title(self):
         id = "f" * 32,
         title="other",
         value=dict(
-            amount=150000,
+            amount=1500,
             currency="UAH"
         )
     )
@@ -1199,7 +1199,7 @@ def fail_create_plan_with_diff_breakdown_currencies(self):
         id = "f" * 32,
         title="state",
         value=dict(
-            amount=150000,
+            amount=1500,
             currency="UAH"
         )
     )
@@ -1207,7 +1207,7 @@ def fail_create_plan_with_diff_breakdown_currencies(self):
         id = "0" * 32,
         title="state",
         value=dict(
-            amount=150000,
+            amount=1500,
             currency="USD"
         )
     )
@@ -1217,7 +1217,7 @@ def fail_create_plan_with_diff_breakdown_currencies(self):
 
     expected_errors = [{
         u'description': {u'breakdown': [
-            u'Currency should be identical for all budget breakdown items and budget']},
+            u'Currency should be identical for all budget breakdown values and budget']},
         u'location': u'body',
         u'name': u'budget'
     }]
@@ -1245,3 +1245,27 @@ def fail_create_plan_with_diff_breakdown_currencies(self):
     self.assertEqual(response.content_type, 'application/json')
 
     self.assertEqual(response.json['data']['budget']['currency'], 'UAH')
+
+
+def fail_create_plan_with_amounts_sum_greater(self):
+    self.app.authorization = ('Basic', ('broker', ''))
+    data = deepcopy(self.initial_data)
+    data["budget"]["breakdown"] = [dict(
+        id = "0" * 31 + str(i),
+        title="state",
+        value=dict(
+            amount=1500,
+            currency="UAH"
+        )
+    ) for i in xrange(10)]
+
+    response = self.app.post_json('/plans', {"data": data}, status=422)
+
+    expected_errors = [{
+        u'description': {u'breakdown': [
+            u"Sum of the breakdown values amounts can't be greater than budget amount"]},
+        u'location': u'body',
+        u'name': u'budget'
+    }]
+
+    self.assertEqual(response.json['errors'], expected_errors)

@@ -10,10 +10,10 @@ from openprocurement.api.constants import (
     GMDN_SCHEME, ATC_SCHEME,
     INN_SCHEME, GMDN_CPV_PREFIXES
 )
-from openprocurement.api.utils import get_now, is_ua_road_classification, is_gmdn_classification  # move
+from openprocurement.api.utils import get_now, is_ua_road_classification, is_gmdn_classification, to_decimal  # move
 from openprocurement.api.utils import update_logging_context, error_handler, raise_operation_error, check_document_batch # XXX tender context
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF, FIRST_STAGE_PROCUREMENT_TYPES
-from openprocurement.tender.core.utils import calculate_business_date, has_requested_fields_changes, convert_to_decimal
+from openprocurement.tender.core.utils import calculate_business_date, has_requested_fields_changes
 from schematics.exceptions import ValidationError
 
 
@@ -534,8 +534,8 @@ def validate_update_contract_value_amount(request, name='value', allow_equal=Fal
     data = request.validated['data']
     value = data.get(name)
     if value and has_requested_fields_changes(request, (name, 'status')):
-        amount = convert_to_decimal(value.get('amount'))
-        amount_net = convert_to_decimal(value.get('amountNet'))
+        amount = to_decimal(value.get('amount'))
+        amount_net = to_decimal(value.get('amountNet'))
         tax_included = data.get('value').get('valueAddedTaxIncluded')
 
         if not (amount == 0 and amount_net == 0):
@@ -627,7 +627,7 @@ def validate_milestones(value):
             if milestone["type"] == 'financing':
                 percentage = milestone.get("percentage")
                 if percentage:
-                    sums[milestone.get("relatedLot")] += convert_to_decimal(percentage)
+                    sums[milestone.get("relatedLot")] += to_decimal(percentage)
 
         for uid, sum_value in sums.items():
             if sum_value != Decimal('100'):

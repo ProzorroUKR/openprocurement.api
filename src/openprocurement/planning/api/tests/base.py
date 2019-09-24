@@ -133,7 +133,7 @@ test_plan_data = {
                     "title": u"other",
                     "description": u"Breakdown other description.",
                     "value": {
-                        "amount": 150000,
+                        "amount": 1500,
                         "currency": u"UAH"
 
                     }

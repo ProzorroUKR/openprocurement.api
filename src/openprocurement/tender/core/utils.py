@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from decimal import Decimal
 from re import compile
 from jsonpointer import resolve_pointer
 from functools import partial
@@ -305,17 +304,3 @@ def is_non_working_date(date_obj):
 def has_requested_fields_changes(request, fieldnames):
     changed_fields = request.validated['json_data'].keys()
     return set(fieldnames) & set(changed_fields)
-
-
-def convert_to_decimal(value):
-    """
-    Convert other to Decimal.
-    """
-    if isinstance(value, Decimal):
-        return value
-    if isinstance(value, (int, long)):
-        return Decimal(value)
-    if isinstance(value, (float)):
-        return Decimal(repr(value))
-
-    raise TypeError("Unable to convert %s to Decimal" % value)

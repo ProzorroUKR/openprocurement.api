@@ -36,6 +36,7 @@ from openprocurement.planning.api.tests.plan_blanks import (
     create_plan_with_breakdown_other_title,
     fail_create_plan_with_breakdown_other_title,
     fail_create_plan_with_diff_breakdown_currencies,
+    fail_create_plan_with_amounts_sum_greater,
     # PlanResourceBeforeBudgetPeriodTest
     create_plan_budget_year,
     patch_plan_budget_year,
@@ -43,7 +44,7 @@ from openprocurement.planning.api.tests.plan_blanks import (
     create_plan_without_buyers,
     fail_create_plan_without_buyers,
     create_plan_with_buyers,
-    create_plan_with_two_buyers,
+    create_plan_with_two_buyers
 )
 
 test_plan_data_mode_test = test_plan_data.copy()
@@ -95,6 +96,7 @@ class PlanBudgetBreakdownTest(BaseWebTest):
     test_create_plan_with_breakdown_other_title = snitch(create_plan_with_breakdown_other_title)
     test_fail_create_plan_with_breakdown_other_title = snitch(fail_create_plan_with_breakdown_other_title)
     test_fail_create_plan_with_diff_breakdown_currencies = snitch(fail_create_plan_with_diff_breakdown_currencies)
+    test_fail_create_plan_with_amounts_sum_greater = snitch(fail_create_plan_with_amounts_sum_greater)
 
 
 @mock.patch('openprocurement.planning.api.models.BUDGET_PERIOD_FROM', get_now() + timedelta(days=1))

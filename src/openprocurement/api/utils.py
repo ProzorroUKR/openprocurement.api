@@ -2,6 +2,8 @@
 import os
 import json
 import decimal
+from decimal import Decimal
+
 import simplejson
 import couchdb.json
 from couchdb import util
@@ -613,3 +615,17 @@ def is_ua_road_classification(classification_id):
 
 def is_gmdn_classification(classification_id):
     return classification_id[:4] in GMDN_CPV_PREFIXES
+
+
+def to_decimal(value):
+    """
+    Convert other to Decimal.
+    """
+    if isinstance(value, Decimal):
+        return value
+    if isinstance(value, (int, long)):
+        return Decimal(value)
+    if isinstance(value, (float)):
+        return Decimal(repr(value))
+
+    raise TypeError("Unable to convert %s to Decimal" % value)
