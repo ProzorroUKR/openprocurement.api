@@ -206,6 +206,14 @@
          "description":"A unified code which certifies the legality of one's business and under which one's company is signed in the National Statistics Agency"
       },
       {
+         "category": "BR",
+         "code": "BR-CNPJ",
+         "description": "Brazilian registry of legal entities is called Cadastro Nacional de Pessoas Juridicas. Acronym CNPJ is often used for this register as well as for the identification numbers assigned to Brazilian companies and their branches by national taxation agency (Secretaria da Receita Federal) and stored in this centralized registry.",
+         "name": "Cadastro Nacional da Pessoa Jurídica",
+         "public-database": true,
+         "url": "http://cnpj.info/"
+      },
+      {
          "category":"BY",
          "code":"BY-UNP",
          "name":"Unified State Register of Legal Entities and Individual Entrepreneurs (Ministry of Justice of the Republic of Belarus)",
@@ -444,6 +452,14 @@
          "url":null,
          "public-database":false,
          "description":null
+      },
+      {
+         "category": "GR",
+         "code": "GR-GECR",
+         "description": "In Greece, the business register is called the General Electronic Commercial Registry (Γενικό Εμπορικό Μητρώο, Γ.Ε.ΜΗ., GEMI). It is governed by Law No 3419/2005 (Government Gazette, Series I, No 297/06-12-2005). It records all disclosures of business documents and information.",
+         "name": "General Electronic Commercial Registry",
+         "public-database": true,
+         "url": "https://www.businessregistry.gr/Publicity.aspx"
       },
       {
          "category":"HR",
@@ -789,6 +805,14 @@
          "description":null
       },
       {
+         "category": "PA",
+         "code": "PA-RPP",
+         "description": "The Public Registry of Panama, was created by Law No.13 of January 27, 1913, published in (Official Gazette No.1, 865 of February 12, 1913), as a dependency of the Ministry of Government and Justice, during the first administration of Dr. Belisario Porras. MISSION Upgrade, collect, integrate and ensure the authenticity of the documents, certificates or acts to be recorded to provide legal security of private property to users.",
+         "name": "Registro Público de Panamá",
+         "public-database": false,
+         "url": "https://registro-publico.gob.pa/"
+      },
+      {
          "category":"PK",
          "code":"PK-PCP",
          "name":"Pakistan Centre for Philanthropy",
@@ -867,6 +891,14 @@
          "url":"https://russianpartner.biz/",
          "public-database":true,
          "description":null
+      },
+      {
+         "category": "SA",
+         "code": "SA-CRS",
+         "description": "Commercial Register for Saudi",
+         "name": "Ministry of Commerce and Industry",
+         "public-database": true,
+         "url": "https://mci.gov.sa/en/eservices/Pages/default.aspx"
       },
       {
          "category":"SE",
