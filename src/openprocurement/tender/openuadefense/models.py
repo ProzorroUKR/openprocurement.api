@@ -90,7 +90,7 @@ class Tender(BaseTender):
     procuringEntity = ModelType(ProcuringEntity, required=True)  # The entity managing the procurement, which may be different from the buyer who is paying / using the items
     lots = ListType(ModelType(Lot, required=True), default=list(), validators=[validate_lots_uniq])
     procurementMethodType = StringType(default="aboveThresholdUA.defense")
-    procuring_entity_kinds = ['defense', 'central']
+    procuring_entity_kinds = ['defense']
 
     @serializable(serialized_name="enquiryPeriod", type=ModelType(EnquiryPeriod))
     def tender_enquiryPeriod(self):
