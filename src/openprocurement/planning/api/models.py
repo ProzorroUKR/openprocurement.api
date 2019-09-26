@@ -103,8 +103,11 @@ class Budget(Model):
                 currencies.append(data['currency'])
             if len(set(currencies)) > 1:
                 raise ValidationError(u"Currency should be identical for all budget breakdown values and budget")
-            if sum([to_decimal(i.value.amount) for i in values]) > to_decimal(data['amount']):
-                raise ValidationError(u"Sum of the breakdown values amounts can't be greater than budget amount")
+            plan = data['__parent__']
+            if isinstance(plan, Model) and plan.tender.procurementMethodType != 'esco':
+                amounts = [to_decimal(i.value.amount) for i in values]
+                if sum(amounts) > to_decimal(data['amount']):
+                    raise ValidationError(u"Sum of the breakdown values amounts can't be greater than budget amount")
 
 
 class PlanItem(Model):

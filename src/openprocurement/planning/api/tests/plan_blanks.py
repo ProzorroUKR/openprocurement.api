@@ -1269,3 +1269,9 @@ def fail_create_plan_with_amounts_sum_greater(self):
     }]
 
     self.assertEqual(response.json['errors'], expected_errors)
+
+    data['tender']['procurementMethodType'] = 'esco'
+
+    response = self.app.post_json('/plans', {"data": data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
