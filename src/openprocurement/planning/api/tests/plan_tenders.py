@@ -513,21 +513,19 @@ def test_tender_creation_modified_date(app):
     # get updated plan
     response = app.get('/plans/{}'.format(plan["data"]["id"]))
     updated_plan = response.json
-    assert plan["data"]["dateModified"] == updated_plan["data"]["dateModified"]
+    assert updated_plan["data"]["dateModified"] > plan["data"]["dateModified"]
+    assert updated_plan["data"]["status"] == "complete"
 
-    # check feeds: date feed is empty, but changes feed shows plan with the same dateModified
+    # check feeds are not empty
     response = app.get("/" + date_feed["next_page"]["path"].split("/")[-1])
     new_date_feed = response.json
-    assert new_date_feed != date_feed
-    assert len(new_date_feed["data"]) == 0
-    assert new_date_feed["next_page"]["offset"] == date_feed["next_page"]["offset"]
+    assert len(new_date_feed["data"]) == 1
+    assert new_date_feed["data"][0]["id"] == plan["data"]["id"]
 
     response = app.get('/plans?feed=changes&offset={}'.format(change_feed["next_page"]["offset"]))
     new_change_feed = response.json
     assert len(new_change_feed["data"]) == 1
     assert new_change_feed["data"][0]["id"] == plan["data"]["id"]
-    assert new_change_feed["data"][0]["dateModified"] == plan["data"]["dateModified"]
-    assert new_change_feed["next_page"]["offset"] != change_feed["next_page"]["offset"]
 
 
 @pytest.mark.parametrize("request_tender_data", test_tenders)
