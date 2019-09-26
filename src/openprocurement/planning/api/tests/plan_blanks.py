@@ -1066,3 +1066,212 @@ def create_plan_with_two_buyers(self):
         {"status": "error",
          "errors": [{"location": "body", "name": "buyers", "description": ["Please provide no more than 1 item."]}]})
 
+
+def create_plan_with_breakdown(self):
+    self.app.authorization = ('Basic', ('broker', ''))
+    data = deepcopy(self.initial_data)
+    breakdown_item = dict(
+        id = "f" * 32,
+        title="state",
+        value=dict(
+            amount=1500,
+            currency="UAH"
+        )
+    )
+    data["budget"]["breakdown"] = [breakdown_item]
+
+    response = self.app.post_json('/plans', {"data": data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    plan = response.json["data"]
+    self.assertEqual(plan["budget"]["breakdown"], [breakdown_item])
+
+    response = self.app.patch_json(
+        '/plans/{}?acc_token={}'.format(plan['id'], response.json["access"]["token"]),
+        {"data": {"budget": {"breakdown": [dict(description="Get to the choppa")]}}})
+    self.assertEqual(response.status, '200 OK')
+    breakdown_item['description'] = "Get to the choppa"
+    self.assertEqual(response.json['data']['budget']['breakdown'][0], breakdown_item)
+
+
+def patch_plan_with_breakdown(self):
+    self.app.authorization = ('Basic', ('broker', ''))
+    data = deepcopy(self.initial_data)
+    response = self.app.post_json('/plans', {"data": data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    plan = response.json["data"]
+
+    breakdown_item = dict(
+        id = "f" * 32,
+        title="state",
+        description="Breakdown state description.",
+        value=dict(
+            amount=1500,
+            currency="UAH"
+        )
+    )
+
+    response = self.app.patch_json(
+        '/plans/{}?acc_token={}'.format(plan['id'], response.json["access"]["token"]),
+        {"data": {"budget": {"breakdown": [breakdown_item]}}})
+
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['budget']['breakdown'][0], breakdown_item)
+
+
+def fail_create_plan_with_breakdown_invalid_title(self):
+    self.app.authorization = ('Basic', ('broker', ''))
+    data = deepcopy(self.initial_data)
+    breakdown_item = dict(
+        id = "f" * 32,
+        title="test",
+        value=dict(
+            amount=1500,
+            currency="UAH"
+        )
+    )
+    data["budget"]["breakdown"] = [breakdown_item]
+
+    response = self.app.post_json('/plans', {"data": data}, status=422)
+
+    self.assertEqual(
+        response.json['errors'], [{
+            u'description': {
+                u'breakdown': [{
+                    u'title': [u"Value must be one of ['state', 'crimea', 'local', 'own', 'fund', 'loan', 'other']."]}
+                ]},
+            u'location': u'body',
+            u'name': u'budget'}])
+
+
+def create_plan_with_breakdown_other_title(self):
+    self.app.authorization = ('Basic', ('broker', ''))
+    data = deepcopy(self.initial_data)
+    breakdown_item = dict(
+        id = "f" * 32,
+        title="other",
+        description="For a moment, nothing happened. Then, after a second or so, nothing continued to happen.",
+        value=dict(
+            amount=1500,
+            currency="UAH"
+        )
+    )
+    data["budget"]["breakdown"] = [breakdown_item]
+
+    response = self.app.post_json('/plans', {"data": data})
+
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    plan = response.json["data"]
+    self.assertEqual(plan["budget"]["breakdown"][0], breakdown_item)
+
+
+def fail_create_plan_with_breakdown_other_title(self):
+    self.app.authorization = ('Basic', ('broker', ''))
+    data = deepcopy(self.initial_data)
+    breakdown_item = dict(
+        id = "f" * 32,
+        title="other",
+        value=dict(
+            amount=1500,
+            currency="UAH"
+        )
+    )
+    data["budget"]["breakdown"] = [breakdown_item]
+
+    response = self.app.post_json('/plans', {"data": data}, status=422)
+
+    self.assertEqual(
+        response.json['errors'], [{
+            u'description': {u'breakdown': [{u'description': [u'This field is required.']}]},
+            u'location': u'body',
+            u'name': u'budget'
+        }])
+
+
+def fail_create_plan_with_diff_breakdown_currencies(self):
+    self.app.authorization = ('Basic', ('broker', ''))
+    data = deepcopy(self.initial_data)
+    del data["budget"]["currency"]
+    breakdown_item_1 = dict(
+        id = "f" * 32,
+        title="state",
+        value=dict(
+            amount=1500,
+            currency="UAH"
+        )
+    )
+    breakdown_item_2 = dict(
+        id = "0" * 32,
+        title="state",
+        value=dict(
+            amount=1500,
+            currency="USD"
+        )
+    )
+    data["budget"]["breakdown"] = [breakdown_item_1, breakdown_item_2]
+
+    response = self.app.post_json('/plans', {"data": data}, status=422)
+
+    expected_errors = [{
+        u'description': {u'breakdown': [
+            u'Currency should be identical for all budget breakdown values and budget']},
+        u'location': u'body',
+        u'name': u'budget'
+    }]
+
+    self.assertEqual(response.json['errors'], expected_errors)
+
+    breakdown_item_2['value']['currency'] = 'UAH'
+
+    response = self.app.post_json('/plans', {"data": data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')
+    plan_id = response.json['data']['id']
+    plan_token = response.json['access']['token']
+
+    response = self.app.patch_json(
+        '/plans/{}?acc_token={}'.format(plan_id, plan_token),
+        {"data": {"budget": {"currency": "USD"}}}, status=422)
+
+    self.assertEqual(response.json['errors'], expected_errors)
+
+    response = self.app.patch_json(
+        '/plans/{}?acc_token={}'.format(plan_id, plan_token),
+        {"data": {"budget": {"currency": "UAH"}}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+
+    self.assertEqual(response.json['data']['budget']['currency'], 'UAH')
+
+
+def fail_create_plan_with_amounts_sum_greater(self):
+    self.app.authorization = ('Basic', ('broker', ''))
+    data = deepcopy(self.initial_data)
+    data["budget"]["breakdown"] = [dict(
+        id = "0" * 31 + str(i),
+        title="state",
+        value=dict(
+            amount=1500,
+            currency="UAH"
+        )
+    ) for i in xrange(10)]
+
+    response = self.app.post_json('/plans', {"data": data}, status=422)
+
+    expected_errors = [{
+        u'description': {u'breakdown': [
+            u"Sum of the breakdown values amounts can't be greater than budget amount"]},
+        u'location': u'body',
+        u'name': u'budget'
+    }]
+
+    self.assertEqual(response.json['errors'], expected_errors)
+
+    data['tender']['procurementMethodType'] = 'esco'
+
+    response = self.app.post_json('/plans', {"data": data})
+    self.assertEqual(response.status, '201 Created')
+    self.assertEqual(response.content_type, 'application/json')

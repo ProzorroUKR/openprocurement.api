@@ -127,9 +127,20 @@ test_plan_data = {
             "period": {
                 "startDate": datetime(year=now.year, month=1, day=1).isoformat(),
                 "endDate": datetime(year=now.year, month=12, day=31).isoformat()
-            }
+            },
+            "breakdown": [
+                {
+                    "title": u"other",
+                    "description": u"Breakdown other description.",
+                    "value": {
+                        "amount": 1500,
+                        "currency": u"UAH"
+
+                    }
+                }
+            ]
         }
-    }
+}
 
 
 

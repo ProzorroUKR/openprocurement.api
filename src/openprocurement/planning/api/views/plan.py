@@ -3,14 +3,11 @@ from logging import getLogger
 from cornice.util import json_error
 from openprocurement.api.utils import (
     context_unpack,
-    decrypt,
-    encrypt,
     get_now,
     generate_id,
     json_view,
     set_ownership,
     APIResourceListing,
-    error_handler,
 )
 from openprocurement.planning.api.design import (
     FIELDS,
@@ -39,6 +36,7 @@ from openprocurement.tender.core.validation import (
     validate_tender_data,
     validate_procurement_type_of_first_stage,
     validate_tender_matches_plan,
+    validate_plan_budget_breakdown,
 )
 from openprocurement.tender.core.views.tender import TendersResource
 
@@ -394,7 +392,8 @@ class PlanTendersResource(TendersResource):
         content_type="application/json",
         validators=(
             validate_plan_has_not_tender, validate_tender_data,
-            validate_procurement_type_of_first_stage, validate_tender_matches_plan
+            validate_procurement_type_of_first_stage, validate_tender_matches_plan,
+            validate_plan_budget_breakdown
         ),
         permission='create_tender_from_plan'
     )

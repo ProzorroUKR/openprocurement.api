@@ -304,30 +304,29 @@ def test_fail_classification_id_336(app):
                                    "should be of the same group 336"
 
 
-def create_plan_for_tender(app, data):
-    request_plan_data = deepcopy(test_plan_data)
-
-    request_plan_data["tender"]["procurementMethodType"] = data["procurementMethodType"]
+def create_plan_for_tender(app, tender_data, plan_data):
+    plan_data["tender"]["procurementMethodType"] = tender_data["procurementMethodType"]
     procedure_values = {procedure: k for k, v in PROCEDURES.items() for procedure in v}
-    request_plan_data["tender"]["procurementMethod"] = procedure_values[data["procurementMethodType"]]
+    plan_data["tender"]["procurementMethod"] = procedure_values[tender_data["procurementMethodType"]]
 
-    request_plan_data["procuringEntity"]["identifier"]["id"] = data["procuringEntity"]["identifier"]["id"]
-    request_plan_data["procuringEntity"]["identifier"]["scheme"] = data["procuringEntity"]["identifier"]["scheme"]
+    plan_data["procuringEntity"]["identifier"]["id"] = tender_data["procuringEntity"]["identifier"]["id"]
+    plan_data["procuringEntity"]["identifier"]["scheme"] = tender_data["procuringEntity"]["identifier"]["scheme"]
 
-    request_plan_data["classification"] = data["items"][0]["classification"]
-    request_plan_data["items"][0]["classification"] = request_plan_data["classification"]
-    request_plan_data["items"][1]["classification"] = request_plan_data["classification"]
-    request_plan_data["items"][2]["classification"] = request_plan_data["classification"]
+    plan_data["classification"] = tender_data["items"][0]["classification"]
+    plan_data["items"][0]["classification"] = plan_data["classification"]
+    plan_data["items"][1]["classification"] = plan_data["classification"]
+    plan_data["items"][2]["classification"] = plan_data["classification"]
 
     app.authorization = ('Basic', ("broker", "broker"))
-    response = app.post_json('/plans', {'data': request_plan_data})
+    response = app.post_json('/plans', {'data': plan_data})
     return response.json
 
 
 def test_fail_tender_creation(app):
     app.authorization = ('Basic', ("broker", "broker"))
     request_tender_data = deepcopy(test_below_tender_data)
-    plan = create_plan_for_tender(app, request_tender_data)
+    request_plan_data = deepcopy(test_plan_data)
+    plan = create_plan_for_tender(app, request_tender_data, request_plan_data)
 
     # rm milestones that causes data error
     request_tender_data["enquiryPeriod"]["endDate"] = "2019-01-02T00:00:00+02:00"
@@ -361,20 +360,21 @@ test_tenders = [
 ]
 
 
-@pytest.mark.parametrize("tender_request_data", test_tenders)
-def test_success_plan_tenders_creation(app, tender_request_data):
+@pytest.mark.parametrize("request_tender_data", test_tenders)
+def test_success_plan_tenders_creation(app, request_tender_data):
     app.authorization = ('Basic', ("broker", "broker"))
-    plan = create_plan_for_tender(app, tender_request_data)
+    request_plan_data = deepcopy(test_plan_data)
+    plan = create_plan_for_tender(app, request_tender_data, request_plan_data)
 
     response = app.post_json(
         '/plans/{}/tenders'.format(plan["data"]["id"]),
-        {'data': tender_request_data}
+        {'data': request_tender_data}
     )
     assert response.status == '201 Created'
 
     tender_data = response.json["data"]
     assert tender_data["plans"] == [{"id": plan["data"]["id"]}]
-    assert tender_data["title"] == tender_request_data["title"]
+    assert tender_data["title"] == request_tender_data["title"]
     assert response.headers["Location"] == "http://localhost/api/2.5/tenders/{}".format(tender_data["id"])
 
     # get plan
@@ -384,7 +384,7 @@ def test_success_plan_tenders_creation(app, tender_request_data):
     # add another tender
     response = app.post_json(
         '/plans/{}/tenders'.format(plan["data"]["id"]),
-        {'data': tender_request_data},
+        {'data': request_tender_data},
         status=409
     )
     error_data = response.json["errors"]
@@ -397,8 +397,9 @@ def test_success_plan_tenders_creation(app, tender_request_data):
 
 def test_validations_before_and_after_tender(app):
     app.authorization = ('Basic', ("broker", "broker"))
-    tender_data = deepcopy(below_tender_data)
-    plan = create_plan_for_tender(app, tender_data)
+    request_tender_data = deepcopy(below_tender_data)
+    request_plan_data = deepcopy(test_plan_data)
+    plan = create_plan_for_tender(app, request_tender_data, request_plan_data)
 
     # changing procuringEntity
     pe_change = {
@@ -418,11 +419,11 @@ def test_validations_before_and_after_tender(app):
     assert response.status == '200 OK'
 
     # adding tender
-    tender_data["procuringEntity"]["identifier"]["id"] = pe_change["identifier"]["id"]
-    tender_data["procuringEntity"]["identifier"]["scheme"] = pe_change["identifier"]["scheme"]
+    request_tender_data["procuringEntity"]["identifier"]["id"] = pe_change["identifier"]["id"]
+    request_tender_data["procuringEntity"]["identifier"]["scheme"] = pe_change["identifier"]["scheme"]
     response = app.post_json(
         '/plans/{}/tenders'.format(plan["data"]["id"]),
-        {'data': tender_data}
+        {'data': request_tender_data}
     )
     assert response.status == '201 Created'
 
@@ -446,7 +447,24 @@ def test_validations_before_and_after_tender(app):
          u'location': u'data', u'name': u'procuringEntity'}
     ]}
 
-    # try to change anything except procuringEntity
+    # try to change budgetBreakdown
+    response = app.patch_json(
+        '/plans/{}?acc_token={}'.format(plan["data"]["id"], plan["access"]["token"]),
+        {'data': {
+            'budget': {
+                'breakdown': [{
+                    "description": "Changed description"
+                }]
+            }
+        }},
+        status=422
+    )
+    assert response.json == {u'status': u'error', u'errors': [
+        {u'description': u'Changing this field is not allowed after tender creation',
+         u'location': u'data', u'name': u'budget.breakdown'}
+    ]}
+
+    # try to change anything except procuringEntity and budgetBreakdown
     response = app.patch_json(
         '/plans/{}?acc_token={}'.format(plan["data"]["id"], plan["access"]["token"]),
         {'data': {
@@ -470,7 +488,8 @@ def test_validations_before_and_after_tender(app):
 
 def test_tender_creation_modified_date(app):
     app.authorization = ('Basic', ("broker", "broker"))
-    plan = create_plan_for_tender(app, below_tender_data)
+    request_plan_data = deepcopy(test_plan_data)
+    plan = create_plan_for_tender(app, below_tender_data, request_plan_data)
 
     # get feed last links
     response = app.get('/plans')
@@ -512,23 +531,23 @@ def test_tender_creation_modified_date(app):
     assert new_change_feed["next_page"]["offset"] != change_feed["next_page"]["offset"]
 
 
-@pytest.mark.parametrize("tender_request_data", test_tenders)
-def test_fail_pass_plans(app, plan, tender_request_data):
+@pytest.mark.parametrize("request_tender_data", test_tenders)
+def test_fail_pass_plans(app, plan, request_tender_data):
     """
     "plans" field cannot be set via 'data'
     """
     app.authorization = ('Basic', ("broker", "broker"))
-    tender_data = dict(**tender_request_data)
+    tender_data = dict(**request_tender_data)
     tender_data["plans"] = [{"id": plan["data"]["id"]}]
     response = app.post_json(
         '/tenders',
-        {'data': tender_request_data}
+        {'data': request_tender_data}
     )
     assert response.status == '201 Created'
     tender_data = response.json["data"]
 
     assert "plans" not in tender_data  # NOT in
-    assert tender_data["title"] == tender_request_data["title"]
+    assert tender_data["title"] == request_tender_data["title"]
 
 
 def test_fail_cfa_second_stage_creation(app, plan):
@@ -545,12 +564,12 @@ def test_fail_cfa_second_stage_creation(app, plan):
     assert error['description'].startswith(u"Should be one of the first stage values:")
 
 
-@pytest.mark.parametrize("tender_request_data", [cd_stage2_data_ua, cd_stage2_data_eu])
-def test_fail_cd_second_stage_creation(app, plan, tender_request_data):
+@pytest.mark.parametrize("request_tender_data", [cd_stage2_data_ua, cd_stage2_data_eu])
+def test_fail_cd_second_stage_creation(app, plan, request_tender_data):
     app.authorization = ('Basic', ("broker", "broker"))
     response = app.post_json(
         '/plans/{}/tenders'.format(plan["data"]["id"]),
-        {'data': tender_request_data},
+        {'data': request_tender_data},
         status=403
     )
     error_data = response.json["errors"]
@@ -558,3 +577,30 @@ def test_fail_cd_second_stage_creation(app, plan, tender_request_data):
     error = error_data[0]
     assert error['name'] == 'accreditation'
     assert u"Broker Accreditation level does not permit tender creation" == error['description']
+
+
+def test_fail_tender_creation_without_budget_breakdown(app):
+    app.authorization = ('Basic', ("broker", "broker"))
+    request_plan_data = deepcopy(test_plan_data)
+    request_tender_data = deepcopy(test_below_tender_data)
+    del request_plan_data['budget']['breakdown']
+    plan = create_plan_for_tender(app, request_tender_data, request_plan_data)
+
+    assert 'breakdown' not in plan['data']['budget']
+
+    response = app.post_json(
+        '/plans/{}/tenders'.format(plan["data"]["id"]),
+        {'data': request_tender_data},
+        status=422
+    )
+
+    error_data = response.json["errors"]
+    assert len(error_data) > 0
+    error = error_data[0]
+    assert error['location'] == 'data'
+    assert error['name'] == 'budget.breakdown'
+    assert error['description'] == 'Plan should contain budget breakdown'
+
+    # get plan form db
+    plan_from_db = app.app.registry.db.get(plan["data"]["id"])
+    assert plan_from_db.get("tender_id") is None

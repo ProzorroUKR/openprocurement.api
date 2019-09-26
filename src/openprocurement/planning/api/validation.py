@@ -38,11 +38,15 @@ def validate_plan_has_not_tender(request):
 
 def validate_plan_with_tender(request):
     plan = request.validated['plan']
-    if plan.tender_id and "procuringEntity" in request.validated['json_data']:
-        request.errors.add(
-            "data",
-            "procuringEntity",
-            "Changing this field is not allowed after tender creation"
-        )
-        request.errors.status = 422
-        raise error_handler(request.errors)
+    if plan.tender_id:
+        json_data = request.validated['json_data']
+        names = []
+        if "procuringEntity" in json_data:
+            names.append("procuringEntity")
+        if "budget" in json_data and "breakdown" in json_data['budget']:
+            names.append("budget.breakdown")
+        for name in names:
+            request.errors.add("data", name, "Changing this field is not allowed after tender creation")
+        if request.errors:
+            request.errors.status = 422
+            raise error_handler(request.errors)
