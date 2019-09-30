@@ -173,6 +173,23 @@ class Document(BaseDocument):
     documentOf = StringType(required=False)
 
 
+class Cancellation(Model):
+    class Options:
+        _edit_role = whitelist('reason', 'reason_en', 'status')
+        roles = {
+            'create': _edit_role,
+            'edit': _edit_role,
+            'embedded': schematics_embedded_role,
+            'view': schematics_default_role,
+        }
+
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    date = IsoDateTimeType(default=get_now)
+    reason = StringType(required=True, min_length=1)
+    reason_en = StringType()
+    status = StringType(choices=['pending', 'active'], default='pending')
+
+
 # roles
 plain_role = (blacklist('_attachments', 'revisions', 'dateModified') + schematics_embedded_role)
 create_role = (blacklist('owner_token', 'transfer_token', 'owner', '_attachments', 'revisions', 'dateModified', 'datePublished', 'planID', 'doc_id', '_attachments', 'tender_id') + schematics_embedded_role)
@@ -241,6 +258,8 @@ class Plan(SchematicsDocument, Model):
     mode = StringType(choices=['test'])  # flag for test data ?
     items = ListType(ModelType(PlanItem, required=True), required=False, validators=[validate_items_uniq])
     buyers = ListType(ModelType(PlanOrganization, required=True), min_size=1, max_size=1)
+    status = StringType(choices=['draft', 'scheduled', 'cancelled', 'complete'], default='scheduled')
+    cancellation = ModelType(Cancellation)
 
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
     dateModified = IsoDateTimeType()
@@ -270,6 +289,26 @@ class Plan(SchematicsDocument, Model):
         """A property that is serialized by schematics exports."""
         return self._id
 
+    @serializable(serialized_name='status')
+    def switch_status(self):
+        if isinstance(self.cancellation, Cancellation) and self.cancellation.status == "active":
+            return "cancelled"
+        if self.tender_id is not None:
+            return "complete"
+        return self.status
+
+    def validate_status(self, data, status):
+        if status == 'cancelled':
+            cancellation = data.get("cancellation")
+            if not isinstance(cancellation, Cancellation) or cancellation.status != "active":
+                raise ValidationError(u"An active cancellation object is required")
+        elif status == 'complete':
+            if not data.get("tender_id"):
+                method = data.get("tender").get("procurementMethodType")
+                if method not in ("belowThreshold", "reporting", ""):
+                    raise ValidationError(
+                        u"Can't complete plan with '{}' tender.procurementMethodType".format(method))
+
     def validate_items(self, data, items):
         cpv_336_group = items[0].classification.id[:3] == '336' if items else False
         if not cpv_336_group and \
@@ -296,9 +335,13 @@ class Plan(SchematicsDocument, Model):
             The data to be imported.
         """
         data = self.convert(raw_data, **kw)
-        del_keys = [k for k in data.keys() if data[k] == self.__class__.fields[k].default or data[k] == getattr(self, k)]
+        del_keys = [
+            k for k in data.keys()
+            if data[k] == self.__class__.fields[k].default
+            and k not in ("status",)    # save status even if it's changed to default
+            or data[k] == getattr(self, k)
+        ]
         for k in del_keys:
             del data[k]
-
         self._data.update(data)
         return self

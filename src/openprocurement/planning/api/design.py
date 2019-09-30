@@ -18,14 +18,14 @@ def add_design():
 
 
 plans_all_view = ViewDefinition('plans', 'all', '''function(doc) {
-    if(doc.doc_type == 'Plan') {
+    if(doc.doc_type == 'Plan' && doc.status != 'draft') {
         emit(doc.planID, null);
     }
 }''')
 
 
 plans_by_dateModified_view = ViewDefinition('plans', 'by_dateModified', '''function(doc) {
-    if(doc.doc_type == 'Plan') {
+    if(doc.doc_type == 'Plan' && doc.status != 'draft') {
         var fields=%s, data={};
         for (var i in fields) {
             if (doc[fields[i]]) {
@@ -37,7 +37,7 @@ plans_by_dateModified_view = ViewDefinition('plans', 'by_dateModified', '''funct
 }''' % FIELDS)
 
 plans_real_by_dateModified_view = ViewDefinition('plans', 'real_by_dateModified', '''function(doc) {
-    if(doc.doc_type == 'Plan' && !doc.mode) {
+    if(doc.doc_type == 'Plan' && doc.status != 'draft' && !doc.mode) {
         var fields=%s, data={};
         for (var i in fields) {
             if (doc[fields[i]]) {
@@ -49,7 +49,7 @@ plans_real_by_dateModified_view = ViewDefinition('plans', 'real_by_dateModified'
 }''' % FIELDS)
 
 plans_test_by_dateModified_view = ViewDefinition('plans', 'test_by_dateModified', '''function(doc) {
-    if(doc.doc_type == 'Plan' && doc.mode == 'test') {
+    if(doc.doc_type == 'Plan' && doc.status != 'draft' && doc.mode == 'test') {
         var fields=%s, data={};
         for (var i in fields) {
             if (doc[fields[i]]) {
@@ -61,7 +61,7 @@ plans_test_by_dateModified_view = ViewDefinition('plans', 'test_by_dateModified'
 }''' % FIELDS)
 
 plans_by_local_seq_view = ViewDefinition('plans', 'by_local_seq', '''function(doc) {
-    if(doc.doc_type == 'Plan') {
+    if(doc.doc_type == 'Plan' && doc.status != 'draft') {
         var fields=%s, data={};
         for (var i in fields) {
             if (doc[fields[i]]) {
@@ -73,7 +73,7 @@ plans_by_local_seq_view = ViewDefinition('plans', 'by_local_seq', '''function(do
 }''' % CHANGES_FIELDS)
 
 plans_real_by_local_seq_view = ViewDefinition('plans', 'real_by_local_seq', '''function(doc) {
-    if(doc.doc_type == 'Plan' && !doc.mode) {
+    if(doc.doc_type == 'Plan' && doc.status != 'draft' && !doc.mode) {
         var fields=%s, data={};
         for (var i in fields) {
             if (doc[fields[i]]) {
@@ -85,7 +85,7 @@ plans_real_by_local_seq_view = ViewDefinition('plans', 'real_by_local_seq', '''f
 }''' % CHANGES_FIELDS)
 
 plans_test_by_local_seq_view = ViewDefinition('plans', 'test_by_local_seq', '''function(doc) {
-    if(doc.doc_type == 'Plan' && doc.mode == 'test') {
+    if(doc.doc_type == 'Plan' && doc.status != 'draft' && doc.mode == 'test') {
         var fields=%s, data={};
         for (var i in fields) {
             if (doc[fields[i]]) {

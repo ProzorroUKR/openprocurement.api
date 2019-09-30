@@ -1,8 +1,14 @@
 # -*- coding: utf-8 -*-
 import os
+import pytest
 from copy import deepcopy
 from datetime import datetime, timedelta
 from openprocurement.tender.core.tests.base import BaseWebTest
+from openprocurement.api.tests.base import BaseTestApp, loadwsgiapp
+from uuid import uuid4
+from base64 import b64encode
+from six.moves.urllib_parse import urlencode
+
 
 now = datetime.now()
 test_plan_data = {
@@ -143,8 +149,6 @@ test_plan_data = {
 }
 
 
-
-
 class BasePlanWebTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = test_plan_data
@@ -165,3 +169,39 @@ class BasePlanWebTest(BaseWebTest):
     def tearDown(self):
         del self.db[self.plan_id]
         super(BasePlanWebTest, self).tearDown()
+
+
+@pytest.fixture(scope="session")
+def singleton_app():
+    app = BaseTestApp(
+        loadwsgiapp(
+            "config:tests.ini",
+            relative_to=os.path.dirname(__file__)
+        )
+    )
+    app.app.registry.docservice_url = "http://localhost"
+    return app
+
+
+@pytest.fixture(scope="function")
+def app(singleton_app):
+    singleton_app.authorization = None
+    singleton_app.recreate_db()
+    yield singleton_app
+    singleton_app.drop_db()
+
+
+@pytest.fixture(scope="function")
+def plan(app):
+    app.authorization = ('Basic', ("broker", "broker"))
+    response = app.post_json('/plans', {'data': deepcopy(test_plan_data)})
+    return response.json
+
+
+def generate_docservice_url(app):
+    uuid = uuid4().hex
+    key = app.app.registry.docservice_key
+    keyid = key.hex_vk()[:8]
+    signature = b64encode(key.signature("{}\0{}".format(uuid, '0' * 32)))
+    query = {'Signature': signature, 'KeyID': keyid}
+    return "{}/get/{}?{}".format(app.app.registry.docservice_url, uuid, urlencode(query))
