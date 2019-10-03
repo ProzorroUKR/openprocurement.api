@@ -19,7 +19,8 @@ from openprocurement.contracting.api.validation import (
     validate_update_contracting_value_readonly,
     validate_update_contracting_value_identical,
     validate_update_contracting_paid_amount,
-    validate_update_contracting_value_amount
+    validate_update_contracting_value_amount,
+    validate_update_contract_paid_net_required
 )
 from openprocurement.contracting.api.design import (
     FIELDS,
@@ -31,7 +32,7 @@ from openprocurement.contracting.api.design import (
     contracts_test_by_local_seq_view,
 )
 from openprocurement.tender.core.validation import (
-    validate_update_contract_value_net_required,
+    validate_update_contract_value_net_required
 )
 
 VIEW_MAP = {
@@ -104,6 +105,7 @@ class ContractResource(ContractsResource):
     @json_view(content_type="application/json", permission='edit_contract',
                validators=(validate_patch_contract_data,
                            validate_update_contract_value_net_required,
+                           validate_update_contract_paid_net_required,
                            validate_update_contracting_value_readonly,
                            validate_update_contracting_value_identical,
                            validate_update_contracting_value_amount,

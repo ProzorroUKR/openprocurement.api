@@ -493,7 +493,7 @@ def validate_update_contract_value_net_required(request, name='value'):
     value = data.get(name)
     if value is not None and has_requested_fields_changes(request, (name, 'status')):
         contract_amount_net = value.get('amountNet')
-        if not contract_amount_net:
+        if contract_amount_net is None:
             raise_operation_error(
                 request, dict(amountNet=BaseType.MESSAGES['required']),
                 status=422, name=name)

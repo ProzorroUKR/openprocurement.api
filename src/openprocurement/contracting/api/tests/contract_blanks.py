@@ -1038,6 +1038,18 @@ def patch_tender_contract_wo_amount_net(self):
         {"data": {"value": {"amount": 235, "amountNet": 234}}})
     self.assertEqual(response.status, '200 OK')
 
+    response = self.app.patch_json(
+        '/contracts/{}?acc_token={}'.format(self.contract['id'], token),
+        {"data": {
+            "amountPaid": {"amount": 235},
+            "status": "terminated",
+            "terminationDetails": "sink"
+        }}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(
+        response.json['errors'],
+        [{u'description': {u'amountNet': u'This field is required.'}, u'location': u'body', u'name': u'amountPaid'}])
+
 
 # ContractResource4AdministratorTest
 

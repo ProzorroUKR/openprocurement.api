@@ -14,8 +14,8 @@ from openprocurement.tender.core.models import ContractValue
 from openprocurement.tender.core.utils import has_requested_fields_changes
 from openprocurement.tender.core.validation import (
     validate_update_contract_value,
-    validate_update_contract_value_amount
-)
+    validate_update_contract_value_amount,
+    validate_update_contract_value_net_required)
 
 
 def validate_contract_data(request):
@@ -136,3 +136,7 @@ def validate_update_contracting_value_identical(request):
                     request, '{} of {} should be identical to {} of value of contract'.format(
                         attr, 'amountPaid', attr),
                     name='amountPaid')
+
+
+def validate_update_contract_paid_net_required(request):
+    validate_update_contract_value_net_required(request, name='amountPaid')
