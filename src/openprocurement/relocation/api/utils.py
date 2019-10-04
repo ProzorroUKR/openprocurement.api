@@ -15,16 +15,16 @@ from openprocurement.relocation.api.models import Transfer
 
 transferresource = partial(resource, error_handler=error_handler, factory=factory)
 
-LOGGER = getLogger('openprocurement.relocation.api')
+LOGGER = getLogger("openprocurement.relocation.api")
 
 
 def extract_transfer(request, transfer_id=None):
     db = request.registry.db
     if not transfer_id:
-        transfer_id = request.matchdict['transfer_id']
+        transfer_id = request.matchdict["transfer_id"]
     doc = db.get(transfer_id)
-    if doc is None or doc.get('doc_type') != 'Transfer':
-        request.errors.add('url', 'transfer_id', 'Not Found')
+    if doc is None or doc.get("doc_type") != "Transfer":
+        request.errors.add("url", "transfer_id", "Not Found")
         request.errors.status = 404
         raise error_handler(request.errors)
 
@@ -40,20 +40,20 @@ def save_transfer(request):
     :param request:
     :return: True if Ok
     """
-    transfer = request.validated['transfer']
+    transfer = request.validated["transfer"]
     transfer.date = get_now()
     try:
         transfer.store(request.registry.db)
     except ModelValidationError as e:  # pragma: no cover
         for i in e.message:
-            request.errors.add('body', i, e.message[i])
+            request.errors.add("body", i, e.message[i])
         request.errors.status = 422
     except Exception as e:  # pragma: no cover
-        request.errors.add('body', 'data', str(e))
+        request.errors.add("body", "data", str(e))
     else:
         LOGGER.info(
-            'Saved transfer {}: at {}'.format(transfer.id, get_now().isoformat()),
-            extra=context_unpack(request, {'MESSAGE_ID': 'save_transfer'}),
+            "Saved transfer {}: at {}".format(transfer.id, get_now().isoformat()),
+            extra=context_unpack(request, {"MESSAGE_ID": "save_transfer"}),
         )
         return True
 
