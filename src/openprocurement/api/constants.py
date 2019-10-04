@@ -10,18 +10,18 @@ from datetime import datetime
 from logging import getLogger
 from requests import Session
 
-LOGGER = getLogger('openprocurement.api')
-VERSION = '2.5'
-ROUTE_PREFIX = '/api/{}'.format(VERSION)
+LOGGER = getLogger("openprocurement.api")
+VERSION = "2.5"
+ROUTE_PREFIX = "/api/{}".format(VERSION)
 SESSION = Session()
 SCHEMA_VERSION = 24
-SCHEMA_DOC = 'openprocurement_schema'
+SCHEMA_DOC = "openprocurement_schema"
 
-TZ = timezone(os.environ['TZ'] if 'TZ' in os.environ else 'Europe/Kiev')
-SANDBOX_MODE = os.environ.get('SANDBOX_MODE', False)
+TZ = timezone(os.environ["TZ"] if "TZ" in os.environ else "Europe/Kiev")
+SANDBOX_MODE = os.environ.get("SANDBOX_MODE", False)
 
-DOCUMENT_BLACKLISTED_FIELDS = ('title', 'format', 'url', 'dateModified', 'hash')
-DOCUMENT_WHITELISTED_FIELDS = ('id', 'datePublished', 'author', '__parent__')
+DOCUMENT_BLACKLISTED_FIELDS = ("title", "format", "url", "dateModified", "hash")
+DOCUMENT_WHITELISTED_FIELDS = ("id", "datePublished", "author", "__parent__")
 
 
 def read_json(name):
@@ -35,31 +35,31 @@ def read_json(name):
     return loads(data)
 
 
-CPV_CODES = read_json('data/cpv.json')
-CPV_CODES.append('99999999-9')
-DK_CODES = read_json('data/dk021.json')
-FUNDERS = [(i['scheme'], i['id']) for i in read_json('data/funders.json')['data']]
-ORA_CODES = [i['code'] for i in read_json('data/OrganisationRegistrationAgency.json')['data']]
-WORKING_DAYS = read_json('data/working_days.json')
-GMDN = {k for k in read_json('data/gmdn.json').keys()}
-GMDN_CPV_PREFIXES = read_json('data/gmdn_cpv_prefixes.json')
-UA_ROAD = read_json('data/ua_road.json')
-UA_ROAD_CPV_PREFIXES = read_json('data/ua_road_cpv_prefixes.json')
+CPV_CODES = read_json("data/cpv.json")
+CPV_CODES.append("99999999-9")
+DK_CODES = read_json("data/dk021.json")
+FUNDERS = [(i["scheme"], i["id"]) for i in read_json("data/funders.json")["data"]]
+ORA_CODES = [i["code"] for i in read_json("data/OrganisationRegistrationAgency.json")["data"]]
+WORKING_DAYS = read_json("data/working_days.json")
+GMDN = {k for k in read_json("data/gmdn.json").keys()}
+GMDN_CPV_PREFIXES = read_json("data/gmdn_cpv_prefixes.json")
+UA_ROAD = read_json("data/ua_road.json")
+UA_ROAD_CPV_PREFIXES = read_json("data/ua_road_cpv_prefixes.json")
 
-ATC_CODES = read_json('data/atc.json')
-INN_CODES = read_json('data/inn.json')
+ATC_CODES = read_json("data/atc.json")
+INN_CODES = read_json("data/inn.json")
 
-ADDITIONAL_CLASSIFICATIONS_SCHEMES = [u'ДКПП', u'NONE', u'ДК003', u'ДК015', u'ДК018']
-ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017 = [u'ДК003', u'ДК015', u'ДК018', u'specialNorms']
+ADDITIONAL_CLASSIFICATIONS_SCHEMES = [u"ДКПП", u"NONE", u"ДК003", u"ДК015", u"ДК018"]
+ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017 = [u"ДК003", u"ДК015", u"ДК018", u"specialNorms"]
 
-INN_SCHEME = 'INN'
-ATC_SCHEME = 'ATC'
-GMDN_SCHEME = 'GMDN'
-UA_ROAD_SCHEME = 'UA-ROAD'
+INN_SCHEME = "INN"
+ATC_SCHEME = "ATC"
+GMDN_SCHEME = "GMDN"
+UA_ROAD_SCHEME = "UA-ROAD"
 
-CPV_PHARM_PRODUCTS = '33600000-6'
+CPV_PHARM_PRODUCTS = "33600000-6"
 
-COORDINATES_REG_EXP = re.compile(r'-?\d{1,3}\.\d+|-?\d{1,3}')
+COORDINATES_REG_EXP = re.compile(r"-?\d{1,3}\.\d+|-?\d{1,3}")
 
 SCALE_CODES = ["micro", "sme", "mid", "large", "not specified"]
 
@@ -68,7 +68,7 @@ CPV_BLOCK_FROM = datetime(2017, 6, 2, tzinfo=TZ)
 
 
 def get_default_constants_file_path():
-    return os.path.join(os.path.dirname(os.path.realpath(__file__)), 'constants.ini')
+    return os.path.join(os.path.dirname(os.path.realpath(__file__)), "constants.ini")
 
 
 def load_constants(file_path):
@@ -78,8 +78,8 @@ def load_constants(file_path):
             config.readfp(fp)
     except Exception as e:
         raise type(e)(
-            'Can\'t read file \'{0}\': use current path or override using '
-            'CONSTANTS_FILE_PATH env variable'.format(file_path)
+            "Can't read file '{0}': use current path or override using "
+            "CONSTANTS_FILE_PATH env variable".format(file_path)
         )
     return config
 
@@ -92,31 +92,31 @@ def get_constant(config, constant, section=DEFAULTSECT, parse_func=parse_date_tz
     return parse_func(config.get(section, constant))
 
 
-CONSTANTS_FILE_PATH = os.environ.get('CONSTANTS_FILE_PATH', get_default_constants_file_path())
+CONSTANTS_FILE_PATH = os.environ.get("CONSTANTS_FILE_PATH", get_default_constants_file_path())
 CONSTANTS_CONFIG = load_constants(CONSTANTS_FILE_PATH)
 
-BUDGET_PERIOD_FROM = get_constant(CONSTANTS_CONFIG, 'BUDGET_PERIOD_FROM')
+BUDGET_PERIOD_FROM = get_constant(CONSTANTS_CONFIG, "BUDGET_PERIOD_FROM")
 
 # Set non required additionalClassification for classification_id 999999-9
 NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM = get_constant(
-    CONSTANTS_CONFIG, 'NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM'
+    CONSTANTS_CONFIG, "NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM"
 )
 
 # Set INN additionalClassification validation required
-CPV_336_INN_FROM = get_constant(CONSTANTS_CONFIG, 'CPV_336_INN_FROM')
+CPV_336_INN_FROM = get_constant(CONSTANTS_CONFIG, "CPV_336_INN_FROM")
 
-JOURNAL_PREFIX = os.environ.get('JOURNAL_PREFIX', 'JOURNAL_')
+JOURNAL_PREFIX = os.environ.get("JOURNAL_PREFIX", "JOURNAL_")
 
 # Add scale field to organization
-ORGANIZATION_SCALE_FROM = get_constant(CONSTANTS_CONFIG, 'ORGANIZATION_SCALE_FROM')
+ORGANIZATION_SCALE_FROM = get_constant(CONSTANTS_CONFIG, "ORGANIZATION_SCALE_FROM")
 
 # Add vat validation
-VAT_FROM = get_constant(CONSTANTS_CONFIG, 'VAT_FROM')
+VAT_FROM = get_constant(CONSTANTS_CONFIG, "VAT_FROM")
 
 # Set mainProcurementCategory required
-MPC_REQUIRED_FROM = get_constant(CONSTANTS_CONFIG, 'MPC_REQUIRED_FROM')
+MPC_REQUIRED_FROM = get_constant(CONSTANTS_CONFIG, "MPC_REQUIRED_FROM")
 
-MILESTONES_VALIDATION_FROM = get_constant(CONSTANTS_CONFIG, 'MILESTONES_VALIDATION_FROM')
+MILESTONES_VALIDATION_FROM = get_constant(CONSTANTS_CONFIG, "MILESTONES_VALIDATION_FROM")
 
 # Plan.buyers required
-PLAN_BUYERS_REQUIRED_FROM = get_constant(CONSTANTS_CONFIG, 'PLAN_BUYERS_REQUIRED_FROM')
+PLAN_BUYERS_REQUIRED_FROM = get_constant(CONSTANTS_CONFIG, "PLAN_BUYERS_REQUIRED_FROM")
