@@ -7,8 +7,13 @@ from schematics.exceptions import ModelValidationError
 from schematics.types import StringType
 
 from openprocurement.api.utils import (
-    error_handler, get_revision_changes, context_unpack, apply_data_patch,
-    generate_id, set_modetest_titles, get_now,
+    error_handler,
+    get_revision_changes,
+    context_unpack,
+    apply_data_patch,
+    generate_id,
+    set_modetest_titles,
+    get_now,
 )
 from openprocurement.api.models import Revision
 
@@ -16,8 +21,7 @@ from openprocurement.contracting.api.traversal import factory
 from openprocurement.contracting.api.models import Contract
 
 
-contractingresource = partial(resource, error_handler=error_handler,
-                              factory=factory)
+contractingresource = partial(resource, error_handler=error_handler, factory=factory)
 
 LOGGER = getLogger('openprocurement.contracting.api')
 
@@ -59,28 +63,28 @@ def save_contract(request):
 
     if contract.mode == u'test':
         set_modetest_titles(contract)
-    patch = get_revision_changes(contract.serialize("plain"),
-                                 request.validated['contract_src'])
+    patch = get_revision_changes(contract.serialize("plain"), request.validated['contract_src'])
     if patch:
         contract.revisions.append(
-            Revision({'author': request.authenticated_userid,
-                      'changes': patch, 'rev': contract.rev}))
+            Revision({'author': request.authenticated_userid, 'changes': patch, 'rev': contract.rev})
+        )
         old_date_modified = contract.dateModified
         contract.dateModified = get_now()
         try:
             contract.store(request.registry.db)
-        except ModelValidationError, e:  # pragma: no cover
+        except ModelValidationError as e:  # pragma: no cover
             for i in e.message:
                 request.errors.add('body', i, e.message[i])
             request.errors.status = 422
-        except Exception, e:  # pragma: no cover
+        except Exception as e:  # pragma: no cover
             request.errors.add('body', 'data', str(e))
         else:
-            LOGGER.info('Saved contract {}: dateModified {} -> {}'.format(
-                contract.id, old_date_modified and old_date_modified.isoformat(),
-                contract.dateModified.isoformat()),
-                extra=context_unpack(request, {'MESSAGE_ID': 'save_contract'},
-                                     {'CONTRACT_REV': contract.rev}))
+            LOGGER.info(
+                'Saved contract {}: dateModified {} -> {}'.format(
+                    contract.id, old_date_modified and old_date_modified.isoformat(), contract.dateModified.isoformat()
+                ),
+                extra=context_unpack(request, {'MESSAGE_ID': 'save_contract'}, {'CONTRACT_REV': contract.rev}),
+            )
             return True
 
 

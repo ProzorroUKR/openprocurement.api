@@ -44,16 +44,17 @@ def save_transfer(request):
     transfer.date = get_now()
     try:
         transfer.store(request.registry.db)
-    except ModelValidationError, e:  # pragma: no cover
+    except ModelValidationError as e:  # pragma: no cover
         for i in e.message:
             request.errors.add('body', i, e.message[i])
         request.errors.status = 422
-    except Exception, e:  # pragma: no cover
+    except Exception as e:  # pragma: no cover
         request.errors.add('body', 'data', str(e))
     else:
-        LOGGER.info('Saved transfer {}: at {}'.format(
-            transfer.id, get_now().isoformat()),
-            extra=context_unpack(request, {'MESSAGE_ID': 'save_transfer'}))
+        LOGGER.info(
+            'Saved transfer {}: at {}'.format(transfer.id, get_now().isoformat()),
+            extra=context_unpack(request, {'MESSAGE_ID': 'save_transfer'}),
+        )
         return True
 
 
@@ -71,4 +72,4 @@ def update_ownership(tender, transfer):
 
 def get_transfer_location(request, route_name, *args, **kwargs):
     location = request.route_path(route_name, *args, **kwargs)
-    return location[len(ROUTE_PREFIX):]
+    return location[len(ROUTE_PREFIX) :]
