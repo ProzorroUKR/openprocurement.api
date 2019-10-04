@@ -7,7 +7,8 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     # TenderStage2UABidDocumentResourceTest
     not_found as not_found_ua,
-    patch_tender_with_bids_lots_none)
+    patch_tender_with_bids_lots_none,
+)
 
 from openprocurement.tender.openua.tests.bid import (
     TenderBidDocumentResourceTestMixin as TenderUABidDocumentResourceTestMixin,
@@ -37,7 +38,8 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_stage2_data_eu,
     test_tender_stage2_data_ua,
     test_tenderer,
-    test_lots)
+    test_lots,
+)
 from openprocurement.tender.competitivedialogue.tests.stage2.bid_blanks import (
     # TenderStage2BidResourceTest
     deleted_bid_is_not_restorable,
@@ -68,12 +70,12 @@ test_bids_stage2 = deepcopy(test_bids)
 test_bids_stage2[0]["tenderers"][0] = test_tenderer
 
 
-class TenderStage2EUBidResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest,
-                                    TenderBidResourceTestMixin,
-                                    Tender2BidResourceTestMixin):
+class TenderStage2EUBidResourceTest(
+    BaseCompetitiveDialogEUStage2ContentWebTest, TenderBidResourceTestMixin, Tender2BidResourceTestMixin
+):
 
-    initial_status = 'active.tendering'
-    initial_auth = ('Basic', ('broker', ''))
+    initial_status = "active.tendering"
+    initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_stage2_data_eu
     test_bids_data = test_bids_stage2
 
@@ -86,20 +88,20 @@ class TenderStage2EUBidResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest,
 class TenderStage2EU2LotBidResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
     initial_lots = 2 * test_lots
     test_bids_data = test_bids_stage2
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
 
     test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
 
 
 class TenderStage2EUBidFeaturesResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
-    initial_status = 'active.tendering'
-    initial_auth = ('Basic', ('broker', ''))
+    initial_status = "active.tendering"
+    initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_stage2_data_eu
     test_bids_data = test_bids_stage2
 
     def setUp(self):
         super(TenderStage2EUBidFeaturesResourceTest, self).setUp()
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
 
     def create_tender(self, initial_data=None):
         if initial_data:
@@ -109,33 +111,35 @@ class TenderStage2EUBidFeaturesResourceTest(BaseCompetitiveDialogEUStage2Content
     test_features_bidder_invalid = snitch(features_bidder_invalid)
 
 
-class TenderStage2EUBidDocumentResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest, TenderBidDocumentResourceTestMixin):
-    initial_auth = ('Basic', ('broker', ''))
-    initial_status = 'active.tendering'
+class TenderStage2EUBidDocumentResourceTest(
+    BaseCompetitiveDialogEUStage2ContentWebTest, TenderBidDocumentResourceTestMixin
+):
+    initial_auth = ("Basic", ("broker", ""))
+    initial_status = "active.tendering"
     test_bids_data = test_bids_stage2
 
     def setUp(self):
         super(TenderStage2EUBidDocumentResourceTest, self).setUp()
         # Create bid
         test_bid_1 = deepcopy(test_bids[0])
-        test_bid_1['tenderers'] = [test_tenderer]
-        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': test_bid_1})
-        bid = response.json['data']
-        self.bid_id = bid['id']
-        self.bid_token = response.json['access']['token']
+        test_bid_1["tenderers"] = [test_tenderer]
+        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": test_bid_1})
+        bid = response.json["data"]
+        self.bid_id = bid["id"]
+        self.bid_token = response.json["access"]["token"]
         # create second bid
         test_bid_2 = deepcopy(test_bids[1])
-        test_bid_2['tenderers'] = [test_tenderer]
-        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': test_bid_2})
-        bid2 = response.json['data']
-        self.bid2_id = bid2['id']
-        self.bid2_token = response.json['access']['token']
+        test_bid_2["tenderers"] = [test_tenderer]
+        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": test_bid_2})
+        bid2 = response.json["data"]
+        self.bid2_id = bid2["id"]
+        self.bid2_token = response.json["access"]["token"]
 
     test_create_tender_bidder_document_nopending = snitch(create_tender_bidder_document_nopending_eu)
 
 
 class TenderStage2UABidResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
     initial_data = test_tender_stage2_data_ua
     test_bids_data = test_bids_stage2
 
@@ -157,20 +161,20 @@ class TenderStage2UABidResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest)
 class TenderStage2UA2LotBidResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
     initial_lots = 2 * test_lots
     test_bids_data = test_bids_stage2
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
 
     test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
 
 
 class TenderStage2UABidFeaturesResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
 
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
     initial_data = test_tender_stage2_data_ua
     test_bids_data = test_bids_stage2
 
     def setUp(self):
         super(TenderStage2UABidFeaturesResourceTest, self).setUp()
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
 
     def create_tender(self, initial_data=None):
         if initial_data:
@@ -180,19 +184,29 @@ class TenderStage2UABidFeaturesResourceTest(BaseCompetitiveDialogUAStage2Content
     test_features_bidder_invalid_ua = snitch(features_bidder_invalid)
 
 
-class TenderStage2UABidDocumentResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest, TenderUABidDocumentResourceTestMixin):
-    initial_status = 'active.tendering'
+class TenderStage2UABidDocumentResourceTest(
+    BaseCompetitiveDialogUAStage2ContentWebTest, TenderUABidDocumentResourceTestMixin
+):
+    initial_status = "active.tendering"
     test_bids_data = test_bids_stage2
 
     def setUp(self):
         super(TenderStage2UABidDocumentResourceTest, self).setUp()
         # Create bid
-        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id),
-                                      {'data': {'selfEligible': True, 'selfQualified': True,
-                                       'tenderers': [test_tenderer], "value": {"amount": 500}}})
-        bid = response.json['data']
-        self.bid_id = bid['id']
-        self.bid_token = response.json['access']['token']
+        response = self.app.post_json(
+            "/tenders/{}/bids".format(self.tender_id),
+            {
+                "data": {
+                    "selfEligible": True,
+                    "selfQualified": True,
+                    "tenderers": [test_tenderer],
+                    "value": {"amount": 500},
+                }
+            },
+        )
+        bid = response.json["data"]
+        self.bid_id = bid["id"]
+        self.bid_token = response.json["access"]["token"]
 
     test_not_found = snitch(not_found_ua)
     test_put_tender_bidder_document = snitch(put_tender_bidder_document_ua)
@@ -209,5 +223,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

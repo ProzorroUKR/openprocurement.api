@@ -5,13 +5,12 @@ from openprocurement.tender.openua.tests.base import BaseTenderUAContentWebTest
 
 from openprocurement.tender.belowthreshold.tests.document import (
     TenderDocumentResourceTestMixin,
-    TenderDocumentWithDSResourceTestMixin
+    TenderDocumentWithDSResourceTestMixin,
 )
 
 
 class TenderDocumentResourceTest(BaseTenderUAContentWebTest, TenderDocumentResourceTestMixin):
     docservice = False
-    
 
 
 class TenderDocumentWithDSResourceTest(TenderDocumentResourceTest, TenderDocumentWithDSResourceTestMixin):
@@ -25,5 +24,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

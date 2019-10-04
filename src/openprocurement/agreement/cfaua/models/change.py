@@ -17,51 +17,55 @@ from openprocurement.agreement.cfaua.validation import (
 
 class ClassicChange(BaseChange):
     class Options:
-        namespace = 'Change'
-        roles = RolesFromCsv('Change.csv', relative_to=__file__)
+        namespace = "Change"
+        roles = RolesFromCsv("Change.csv", relative_to=__file__)
 
     agreementNumber = StringType()
-    status = StringType(choices=['pending', 'active', 'cancelled'], default='pending')
+    status = StringType(choices=["pending", "active", "cancelled"], default="pending")
 
 
 class ChangeTaxRate(ClassicChange):
     class Options:
-        namespace = 'Change'
-        roles = RolesFromCsv('ChangeTaxRate.csv', relative_to=__file__)
+        namespace = "Change"
+        roles = RolesFromCsv("ChangeTaxRate.csv", relative_to=__file__)
 
-    rationaleType = StringType(default='taxRate')
-    modifications = ListType(ModelType(UnitPriceModification, required=True),
-                             validators=[validate_modifications_items_uniq,
-                                         validate_only_addend_or_only_factor])
+    rationaleType = StringType(default="taxRate")
+    modifications = ListType(
+        ModelType(UnitPriceModification, required=True),
+        validators=[validate_modifications_items_uniq, validate_only_addend_or_only_factor],
+    )
 
 
 class ChangeItemPriceVariation(ClassicChange):
     class Options:
-        namespace = 'Change'
-        roles = RolesFromCsv('ChangeItemPriceVariation.csv', relative_to=__file__)
+        namespace = "Change"
+        roles = RolesFromCsv("ChangeItemPriceVariation.csv", relative_to=__file__)
 
-    rationaleType = StringType(default='itemPriceVariation')
-    modifications = ListType(ModelType(UnitPriceModification, required=True),
-                             validators=[validate_item_price_variation_modifications,
-                                         validate_modifications_items_uniq])
+    rationaleType = StringType(default="itemPriceVariation")
+    modifications = ListType(
+        ModelType(UnitPriceModification, required=True),
+        validators=[validate_item_price_variation_modifications, validate_modifications_items_uniq],
+    )
 
 
 class ChangeThirdParty(ClassicChange):
     class Options:
-        namespace = 'Change'
-        roles = RolesFromCsv('ChangeThirdParty.csv', relative_to=__file__)
+        namespace = "Change"
+        roles = RolesFromCsv("ChangeThirdParty.csv", relative_to=__file__)
 
-    rationaleType = StringType(default='thirdParty')
-    modifications = ListType(ModelType(UnitPriceModification, required=True),
-                             validators=[validate_third_party_modifications,
-                                         validate_modifications_items_uniq])
+    rationaleType = StringType(default="thirdParty")
+    modifications = ListType(
+        ModelType(UnitPriceModification, required=True),
+        validators=[validate_third_party_modifications, validate_modifications_items_uniq],
+    )
 
 
 class ChangePartyWithdrawal(ClassicChange):
     class Options:
-        namespace = 'Change'
-        roles = RolesFromCsv('ChangePartyWithdrawal.csv', relative_to=__file__)
+        namespace = "Change"
+        roles = RolesFromCsv("ChangePartyWithdrawal.csv", relative_to=__file__)
 
-    rationaleType = StringType(default='partyWithdrawal')
-    modifications = ListType(ModelType(ContractModification, required=True),
-                             validators=[validate_modifications_contracts_uniq])
+    rationaleType = StringType(default="partyWithdrawal")
+    modifications = ListType(
+        ModelType(ContractModification, required=True), validators=[validate_modifications_contracts_uniq]
+    )

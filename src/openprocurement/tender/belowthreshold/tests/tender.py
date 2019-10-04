@@ -2,11 +2,7 @@
 import unittest
 
 from openprocurement.api.tests.base import BaseWebTest, snitch
-from openprocurement.tender.belowthreshold.tests.base import (
-BaseTenderWebTest,
-    test_tender_data,
-    test_lots,
-)
+from openprocurement.tender.belowthreshold.tests.base import BaseTenderWebTest, test_tender_data, test_lots
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     # TenderResourceTest
     listing,
@@ -82,7 +78,7 @@ class TestCoordinatesRegExp(unittest.TestCase):
 
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     initial_data = test_tender_data
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     test_lots_data = test_lots
 
     test_guarantee = snitch(guarantee)
@@ -100,7 +96,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
 
 
 class TenderProcessTest(BaseTenderWebTest):
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
     test_one_valid_bid_tender = snitch(one_valid_bid_tender)
@@ -117,5 +113,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

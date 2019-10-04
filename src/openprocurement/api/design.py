@@ -3,7 +3,7 @@ from couchdb.design import ViewDefinition
 
 
 def add_index_options(doc):
-    doc['options'] = {'local_seq': True}
+    doc["options"] = {"local_seq": True}
 
 
 def sync_design(db):
@@ -11,8 +11,12 @@ def sync_design(db):
     ViewDefinition.sync_many(db, views, callback=add_index_options)
 
 
-conflicts_view = ViewDefinition('conflicts', 'all', '''function(doc) {
+conflicts_view = ViewDefinition(
+    "conflicts",
+    "all",
+    """function(doc) {
     if (doc._conflicts) {
         emit(doc._rev, [doc._rev].concat(doc._conflicts));
     }
-}''')
+}""",
+)

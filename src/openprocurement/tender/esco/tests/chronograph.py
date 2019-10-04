@@ -9,9 +9,7 @@ from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
     switch_to_unsuccessful,
 )
 
-from openprocurement.tender.esco.tests.base import (
-    BaseESCOContentWebTest, test_bids, test_lots
-)
+from openprocurement.tender.esco.tests.base import BaseESCOContentWebTest, test_bids, test_lots
 from openprocurement.tender.openeu.tests.chronograph_blanks import (
     # TenderComplaintSwitchResourceTest
     switch_to_complaint,
@@ -31,7 +29,7 @@ from openprocurement.tender.openua.tests.chronograph_blanks import (
 
 
 class TenderSwitchPreQualificationResourceTest(BaseESCOContentWebTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
     initial_bids = test_bids
 
     test_switch_to_auction = snitch(pre_qual_switch_to_auction)
@@ -44,43 +42,43 @@ class TenderLotSwitchPreQualificationResourceTest(TenderSwitchPreQualificationRe
 
 
 class TenderSwitchAuctionResourceTest(BaseESCOContentWebTest):
-    initial_status = 'active.pre-qualification.stand-still'
+    initial_status = "active.pre-qualification.stand-still"
     initial_bids = test_bids
 
     test_switch_to_auction = snitch(switch_to_auction)
 
 
 class TenderLotSwitchAuctionResourceTest(TenderSwitchAuctionResourceTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
     initial_lots = test_lots
 
 
 class TenderSwitchUnsuccessfulResourceTest(BaseESCOContentWebTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
 
     test_switch_to_unsuccessful = snitch(switch_to_unsuccessful)
 
 
 class TenderLotSwitchUnsuccessfulResourceTest(TenderSwitchUnsuccessfulResourceTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
     initial_lots = test_lots
 
 
 class TenderAuctionPeriodResourceTest(BaseESCOContentWebTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
 
     test_set_auction_period = snitch(set_auction_period)
 
 
 class TenderLotAuctionPeriodResourceTest(BaseESCOContentWebTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
     initial_lots = test_lots
 
     test_set_auction_period = snitch(set_auction_period_lot)
 
 
 class TenderComplaintSwitchResourceTest(BaseESCOContentWebTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
     initial_bids = test_bids
     author_data = test_author
 
@@ -106,5 +104,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

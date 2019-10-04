@@ -12,12 +12,15 @@ def tender_init_handler(event):
     """ initialization handler for closeFrameworkAgreementUA tenders """
     tender = event.tender
     config = getAdapter(tender, IContentConfigurator)
-    endDate = calculate_business_date(tender.tenderPeriod.endDate,
-                                      -config.questions_stand_still, tender)
-    tender.enquiryPeriod = EnquiryPeriod(dict(startDate=tender.tenderPeriod.startDate,
-                                         endDate=endDate,
-                                         invalidationDate=tender.enquiryPeriod and tender.enquiryPeriod.invalidationDate,
-                                         clarificationsUntil=calculate_business_date(endDate, config.enquiry_stand_still, tender, True)))
+    endDate = calculate_business_date(tender.tenderPeriod.endDate, -config.questions_stand_still, tender)
+    tender.enquiryPeriod = EnquiryPeriod(
+        dict(
+            startDate=tender.tenderPeriod.startDate,
+            endDate=endDate,
+            invalidationDate=tender.enquiryPeriod and tender.enquiryPeriod.invalidationDate,
+            clarificationsUntil=calculate_business_date(endDate, config.enquiry_stand_still, tender, True),
+        )
+    )
     now = get_now()
     tender.date = now
     if tender.lots:

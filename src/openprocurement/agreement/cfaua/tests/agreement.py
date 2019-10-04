@@ -22,13 +22,11 @@ from openprocurement.agreement.cfaua.tests.agreement_blanks import (
     agreement_change_tax_rate_preview,
     agreement_change_third_party_preview,
     agreement_changes_patch_from_agreements,
-    create_agreement_with_two_active_contracts
+    create_agreement_with_two_active_contracts,
 )
 from openprocurement.api.tests.base import snitch
 import os
-from openprocurement.agreement.cfaua.tests.base import (
-    TEST_AGREEMENT, TEST_FEATURES, TEST_CHANGE
-)
+from openprocurement.agreement.cfaua.tests.base import TEST_AGREEMENT, TEST_FEATURES, TEST_CHANGE
 from openprocurement.agreement.core.tests.base import BaseAgreementWebTest, BaseAgreementTest
 
 
@@ -36,7 +34,7 @@ class AgreementResources(BaseAgreementWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = TEST_AGREEMENT
     initial_change = TEST_CHANGE
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
         super(AgreementResources, self).setUp()
@@ -46,8 +44,9 @@ class AgreementResources(BaseAgreementWebTest):
     test_get_agreements_by_id = snitch(get_agreements_by_id)
     test_agreement_preview = snitch(agreement_preview)
     test_agreement_change_item_price_variation_preview = snitch(agreement_change_item_price_variation_preview)
-    test_agreement_change_party_withdrawal_cancelled_preview = \
-        snitch(agreement_change_party_withdrawal_cancelled_preview)
+    test_agreement_change_party_withdrawal_cancelled_preview = snitch(
+        agreement_change_party_withdrawal_cancelled_preview
+    )
     test_agreement_change_party_withdrawal_preview = snitch(agreement_change_party_withdrawal_preview)
     test_agreement_change_tax_rate_preview = snitch(agreement_change_tax_rate_preview)
     test_agreement_change_third_party_preview = snitch(agreement_change_third_party_preview)
@@ -56,7 +55,7 @@ class AgreementResources(BaseAgreementWebTest):
 
 class TestTenderAgreement(BaseAgreementTest):
     features = TEST_FEATURES
-    initial_auth = ('Basic', ('agreements', ''))
+    initial_auth = ("Basic", ("agreements", ""))
     initial_data = deepcopy(TEST_AGREEMENT)
     relative_to = os.path.dirname(__file__)
 
@@ -86,5 +85,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

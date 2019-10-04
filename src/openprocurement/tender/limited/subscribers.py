@@ -16,8 +16,13 @@ def tender_init_handler_reporting(event):
     """ initialization handler for tenders 'reporting'"""
     event.tender.date = get_now()
 
+
 # initialization handler for tenders 'negotiation'
-tender_init_handler_negotiation = subscriber(TenderInitializeEvent, procurementMethodType="negotiation")(tender_init_handler_base)
+tender_init_handler_negotiation = subscriber(TenderInitializeEvent, procurementMethodType="negotiation")(
+    tender_init_handler_base
+)
 
 # initialization handler for tenders 'negotiation.quick'
-tender_init_handler_negotiation_quick = subscriber(TenderInitializeEvent, procurementMethodType="negotiation.quick")(tender_init_handler_base)
+tender_init_handler_negotiation_quick = subscriber(TenderInitializeEvent, procurementMethodType="negotiation.quick")(
+    tender_init_handler_base
+)

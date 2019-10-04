@@ -9,7 +9,10 @@ from openprocurement.tender.cfaua.tests.chronograph_blanks import next_check_fie
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
 
 from openprocurement.tender.cfaua.tests.base import (
-    BaseTenderContentWebTest, test_bids, test_lots, test_features_tender_data
+    BaseTenderContentWebTest,
+    test_bids,
+    test_lots,
+    test_features_tender_data,
 )
 from openprocurement.tender.cfaua.tests.chronograph_blanks import (
     # TenderComplaintSwitchResourceTest
@@ -23,16 +26,14 @@ from openprocurement.tender.cfaua.tests.chronograph_blanks import (
     # TenderSwitchPreQualificationStandStillResourceTest
     switch_to_awarded,
     set_auction_period_0bid as set_auction_period,
-    switch_to_unsuccessful_from_qualification_stand_still
+    switch_to_unsuccessful_from_qualification_stand_still,
 )
 
-from openprocurement.tender.openua.tests.chronograph_blanks import (
-    set_auction_period_lot_0bid as set_auction_period_lot,
-)
+from openprocurement.tender.openua.tests.chronograph_blanks import set_auction_period_lot_0bid as set_auction_period_lot
 
 
 class TenderSwitchPreQualificationResourceTest(BaseTenderContentWebTest):
-    initial_status = 'active.pre-qualification'
+    initial_status = "active.pre-qualification"
     initial_bids = test_bids
 
     test_switch_to_pre_qual = snitch(active_tendering_to_pre_qual)
@@ -40,14 +41,14 @@ class TenderSwitchPreQualificationResourceTest(BaseTenderContentWebTest):
 
 
 class TenderSwitchAuctionResourceTest(BaseTenderContentWebTest):
-    initial_status = 'active.pre-qualification.stand-still'
+    initial_status = "active.pre-qualification.stand-still"
     initial_bids = test_bids
 
     test_switch_to_auction = snitch(switch_to_auction)
 
 
 class TenderSwitchUnsuccessfulResourceTest(BaseTenderContentWebTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
 
     test_switch_to_unsuccessful = snitch(switch_to_unsuccessful)
 
@@ -57,34 +58,35 @@ class TenderLotSwitchPreQualificationResourceTest(TenderSwitchPreQualificationRe
 
 
 class TenderLotSwitchAuctionResourceTest(TenderSwitchAuctionResourceTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
     initial_lots = test_lots
     initial_bids = test_bids
 
 
 class TenderLotSwitchUnsuccessfulResourceTest(TenderSwitchUnsuccessfulResourceTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
     initial_lots = test_lots
 
-    test_switch_to_unsuccessful_from_qualification_stand_still = \
-        snitch(switch_to_unsuccessful_from_qualification_stand_still)
+    test_switch_to_unsuccessful_from_qualification_stand_still = snitch(
+        switch_to_unsuccessful_from_qualification_stand_still
+    )
 
 
 class TenderAuctionPeriodResourceTest(BaseTenderContentWebTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
 
     test_set_auction_period = snitch(set_auction_period)
 
 
 class TenderLotAuctionPeriodResourceTest(BaseTenderContentWebTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
     initial_lots = test_lots
 
     test_set_auction_period = snitch(set_auction_period_lot)
 
 
 class TenderComplaintSwitchResourceTest(BaseTenderContentWebTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
     initial_bids = test_bids
     author_data = test_author
 
@@ -96,7 +98,7 @@ class TenderLotComplaintSwitchResourceTest(TenderComplaintSwitchResourceTest):
 
 
 class TenderSwitchStatusesForNextCheckResourceTest(BaseTenderContentWebTest):
-    initial_status = 'active.pre-qualification'
+    initial_status = "active.pre-qualification"
     initial_bids = test_bids
 
     test_next_check_field_in_active_qualification = snitch(next_check_field_in_active_qualification)
@@ -104,20 +106,12 @@ class TenderSwitchStatusesForNextCheckResourceTest(BaseTenderContentWebTest):
 
 class TenderSwitchQualificationStandStillResourceTest(BaseTenderContentWebTest):
     initial_data = test_features_tender_data
-    initial_status = 'active.qualification.stand-still'
+    initial_status = "active.qualification.stand-still"
     initial_bids = deepcopy(test_bids)
 
     def setUp(self):
         for bid in self.initial_bids:
-            bid.update({
-                "parameters": [
-                    {
-                        "code": i["code"],
-                        "value": 0.1,
-                    }
-                    for i in self.initial_data['features']
-                ]
-            })
+            bid.update({"parameters": [{"code": i["code"], "value": 0.1} for i in self.initial_data["features"]]})
         super(TenderSwitchQualificationStandStillResourceTest, self).setUp()
 
     test_switch_to_awarded = snitch(switch_to_awarded)
@@ -141,5 +135,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

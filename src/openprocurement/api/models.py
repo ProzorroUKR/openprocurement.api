@@ -13,33 +13,45 @@ from schematics.exceptions import ConversionError, ValidationError
 from schematics.models import Model as SchematicsModel
 from schematics.transforms import whitelist, blacklist, export_loop, convert
 from schematics.types import (
-    StringType, FloatType, URLType, BooleanType,
-    BaseType, EmailType, MD5Type, DecimalType as BaseDecimalType
+    StringType,
+    FloatType,
+    URLType,
+    BooleanType,
+    BaseType,
+    EmailType,
+    MD5Type,
+    DecimalType as BaseDecimalType,
 )
-from schematics.types.compound import (
-    ModelType, DictType,
-    ListType as BaseListType
-)
+from schematics.types.compound import ModelType, DictType, ListType as BaseListType
 from schematics.types.serializable import serializable
 from openprocurement.api.interfaces import ISerializable, IValidator
 from openprocurement.api.utils import get_now, set_parent, get_schematics_document, get_first_revision_date
 from openprocurement.api.constants import (
-    CPV_CODES, ORA_CODES, TZ, DK_CODES, CPV_BLOCK_FROM,
-    SCALE_CODES, ORGANIZATION_SCALE_FROM,
-    UA_ROAD_SCHEME, UA_ROAD, GMDN_SCHEME, GMDN
+    CPV_CODES,
+    ORA_CODES,
+    TZ,
+    DK_CODES,
+    CPV_BLOCK_FROM,
+    SCALE_CODES,
+    ORGANIZATION_SCALE_FROM,
+    UA_ROAD_SCHEME,
+    UA_ROAD,
+    GMDN_SCHEME,
+    GMDN,
 )
 
-schematics_default_role = SchematicsDocument.Options.roles['default'] + blacklist("__parent__")
-schematics_embedded_role = SchematicsDocument.Options.roles['embedded'] + blacklist("__parent__")
+schematics_default_role = SchematicsDocument.Options.roles["default"] + blacklist("__parent__")
+schematics_embedded_role = SchematicsDocument.Options.roles["embedded"] + blacklist("__parent__")
 
-plain_role = (blacklist('_attachments', 'revisions', 'dateModified') + schematics_embedded_role)
-listing_role = whitelist('dateModified', 'doc_id')
-draft_role = whitelist('status')
+plain_role = blacklist("_attachments", "revisions", "dateModified") + schematics_embedded_role
+listing_role = whitelist("dateModified", "doc_id")
+draft_role = whitelist("status")
 from couchdb_schematics.document import DocumentMeta
 from zope.component import getAdapter, queryAdapter, getAdapters
 
+
 class AdaptiveDict(dict):
-    def __init__(self, context, interface, data, prefix=''):
+    def __init__(self, context, interface, data, prefix=""):
         self.context = context
         self.interface = interface
         self.prefix = prefix
@@ -55,7 +67,7 @@ class AdaptiveDict(dict):
         if key in self.adaptive_items:
             return self.adaptive_items[key]
         if self.prefix and key.startswith(self.prefix):
-            adapter = queryAdapter(self.context, self.interface, key[self.prefix_len:])
+            adapter = queryAdapter(self.context, self.interface, key[self.prefix_len :])
         else:
             adapter = queryAdapter(self.context, self.interface, key)
         if adapter:
@@ -68,7 +80,7 @@ class AdaptiveDict(dict):
 
     def __repr__(self):
         dictrepr = dict.__repr__(self)
-        return '%s(%s)' % (type(self).__name__, dictrepr)
+        return "%s(%s)" % (type(self).__name__, dictrepr)
 
     def keys(self):
         return list(self)
@@ -89,18 +101,10 @@ class AdaptiveDict(dict):
 
 
 class OpenprocurementCouchdbDocumentMeta(DocumentMeta):
-
     def __new__(mcs, name, bases, attrs):
         klass = DocumentMeta.__new__(mcs, name, bases, attrs)
-        klass._validator_functions = AdaptiveDict(
-            klass,
-            IValidator,
-            klass._validator_functions
-        )
-        klass._serializables = AdaptiveDict(
-                klass, ISerializable,
-                klass._serializables,
-            )
+        klass._validator_functions = AdaptiveDict(klass, IValidator, klass._validator_functions)
+        klass._serializables = AdaptiveDict(klass, ISerializable, klass._serializables)
         return klass
 
 
@@ -109,13 +113,14 @@ class OpenprocurementSchematicsDocument(SchematicsDocument):
     __metaclass__ = OpenprocurementCouchdbDocumentMeta
 
     def __init__(self, raw_data=None, deserialize_mapping=None):
-        super(OpenprocurementSchematicsDocument, self).__init__(raw_data=raw_data,
-            deserialize_mapping=deserialize_mapping)
-        if hasattr(self, 'Options') and hasattr(self.Options, 'namespace'):
+        super(OpenprocurementSchematicsDocument, self).__init__(
+            raw_data=raw_data, deserialize_mapping=deserialize_mapping
+        )
+        if hasattr(self, "Options") and hasattr(self.Options, "namespace"):
             self.doc_type = self.Options.namespace
 
-class DecimalType(BaseDecimalType):
 
+class DecimalType(BaseDecimalType):
     def __init__(self, precision=-3, min_value=None, max_value=None, **kwargs):
         super(DecimalType, self).__init__(**kwargs)
         self.min_value, self.max_value = min_value, max_value
@@ -125,7 +130,7 @@ class DecimalType(BaseDecimalType):
         try:
             value = Decimal(value).quantize(self.precision, rounding=ROUND_HALF_UP).normalize()
         except (TypeError, InvalidOperation):
-            raise ConversionError(self.messages['number_coerce'].format(value))
+            raise ConversionError(self.messages["number_coerce"].format(value))
         return value
 
     def to_primitive(self, value, context=None):
@@ -136,9 +141,7 @@ class DecimalType(BaseDecimalType):
 
 
 class IsoDateTimeType(BaseType):
-    MESSAGES = {
-        'parse': u'Could not parse {0}. Should be ISO8601.',
-    }
+    MESSAGES = {"parse": u"Could not parse {0}. Should be ISO8601."}
 
     def to_native(self, value, context=None):
         if isinstance(value, datetime):
@@ -149,7 +152,7 @@ class IsoDateTimeType(BaseType):
                 date = TZ.localize(date)
             return date
         except ParseError:
-            raise ConversionError(self.messages['parse'].format(value))
+            raise ConversionError(self.messages["parse"].format(value))
         except OverflowError as e:
             raise ConversionError(e.message)
 
@@ -158,7 +161,7 @@ class IsoDateTimeType(BaseType):
 
 
 class IsoDurationType(BaseType):
-    ''' Iso Duration format
+    """ Iso Duration format
            P is the duration designator (referred to as "period"), and is always placed at the beginning of the duration.
            Y is the year designator that follows the value for the number of years.
            M is the month designator that follows the value for the number of months.
@@ -169,11 +172,9 @@ class IsoDurationType(BaseType):
            M is the minute designator that follows the value for the number of minutes.
            S is the second designator that follows the value for the number of seconds.
            examples:  'P5000Y72M8W10DT55H3000M5S'
-    '''
+    """
 
-    MESSAGES = {
-        'parse': u'Could not parse {0}. Should be ISO8601 Durations.',
-    }
+    MESSAGES = {"parse": u"Could not parse {0}. Should be ISO8601 Durations."}
 
     def to_native(self, value, context=None):
         if isinstance(value, Duration) or isinstance(value, timedelta):
@@ -181,7 +182,7 @@ class IsoDurationType(BaseType):
         try:
             return parse_duration(value)
         except TypeError:
-            raise ConversionError(self.messages['parse'].format(value))
+            raise ConversionError(self.messages["parse"].format(value))
         except ISO8601Error as e:
             raise ConversionError(e.message)
 
@@ -190,19 +191,15 @@ class IsoDurationType(BaseType):
 
 
 class ListType(BaseListType):
-
-    def export_loop(self, list_instance, field_converter,
-                    role=None, print_none=False):
+    def export_loop(self, list_instance, field_converter, role=None, print_none=False):
         """Loops over each item in the model and applies either the field
         transform or the multitype transform.  Essentially functions the same
         as `transforms.export_loop`.
         """
         data = []
         for value in list_instance:
-            if hasattr(self.field, 'export_loop'):
-                shaped = self.field.export_loop(value, field_converter,
-                                                role=role,
-                                                print_none=print_none)
+            if hasattr(self.field, "export_loop"):
+                shaped = self.field.export_loop(value, field_converter, role=role, print_none=print_none)
                 feels_empty = shaped and len(shaped) == 0
             else:
                 shaped = field_converter(self.field, value)
@@ -226,31 +223,26 @@ class ListType(BaseListType):
 
 
 class SifterListType(ListType):
-    def __init__(self, field, min_size=None, max_size=None,
-                 filter_by=None, filter_in_values=[], **kwargs):
+    def __init__(self, field, min_size=None, max_size=None, filter_by=None, filter_in_values=[], **kwargs):
         self.filter_by = filter_by
         self.filter_in_values = filter_in_values
-        super(SifterListType, self).__init__(field, min_size=min_size,
-                                             max_size=max_size, **kwargs)
+        super(SifterListType, self).__init__(field, min_size=min_size, max_size=max_size, **kwargs)
 
-    def export_loop(self, list_instance, field_converter,
-                    role=None, print_none=False):
+    def export_loop(self, list_instance, field_converter, role=None, print_none=False):
         """ Use the same functionality as original method but apply
         additional filters.
         """
         data = []
         for value in list_instance:
-            if hasattr(self.field, 'export_loop'):
+            if hasattr(self.field, "export_loop"):
                 item_role = role
                 # apply filters
-                if role not in ['plain', None] and self.filter_by and hasattr(value, self.filter_by):
+                if role not in ["plain", None] and self.filter_by and hasattr(value, self.filter_by):
                     val = getattr(value, self.filter_by)
                     if val in self.filter_in_values:
                         item_role = val
 
-                shaped = self.field.export_loop(value, field_converter,
-                                                role=item_role,
-                                                print_none=print_none)
+                shaped = self.field.export_loop(value, field_converter, role=item_role, print_none=print_none)
                 feels_empty = shaped and len(shaped) == 0
             else:
                 shaped = field_converter(self.field, value)
@@ -272,21 +264,20 @@ class SifterListType(ListType):
         elif print_none:
             return data
 
+
 class Model(SchematicsModel):
     __metaclass__ = OpenprocurementCouchdbDocumentMeta
 
     class Options(object):
         """Export options for Document."""
+
         serialize_when_none = False
-        roles = {
-            "default": blacklist("__parent__"),
-            "embedded": blacklist("__parent__"),
-        }
+        roles = {"default": blacklist("__parent__"), "embedded": blacklist("__parent__")}
 
     __parent__ = BaseType()
 
     def __getattribute__(self, name):
-        serializables = super(Model, self).__getattribute__('_serializables')
+        serializables = super(Model, self).__getattribute__("_serializables")
         if name in serializables.adaptive_items:
             return serializables[name](self)
         return super(Model, self).__getattribute__(name)
@@ -300,7 +291,7 @@ class Model(SchematicsModel):
     def __eq__(self, other):
         if isinstance(other, self.__class__):
             for k in self._fields:
-                if k != '__parent__' and self.get(k) != other.get(k):
+                if k != "__parent__" and self.get(k) != other.get(k):
                     return False
             return True
         return NotImplemented
@@ -331,7 +322,7 @@ class Model(SchematicsModel):
     def get_role(self):
         root = self.get_root()
         request = root.request
-        return 'Administrator' if request.authenticated_role == 'Administrator' else 'edit'
+        return "Administrator" if request.authenticated_role == "Administrator" else "edit"
 
     def get_root(self):
         root = self.__parent__
@@ -342,7 +333,7 @@ class Model(SchematicsModel):
 
 class Guarantee(Model):
     amount = FloatType(required=True, min_value=0)  # Amount as a number.
-    currency = StringType(required=True, default=u'UAH', max_length=3, min_length=3)  # 3-letter ISO 4217 format.
+    currency = StringType(required=True, default=u"UAH", max_length=3, min_length=3)  # 3-letter ISO 4217 format.
 
 
 class Value(Guarantee):
@@ -354,7 +345,7 @@ class Period(Model):
     endDate = IsoDateTimeType()  # The end date for the period.
 
     def validate_startDate(self, data, value):
-        if value and data.get('endDate') and data.get('endDate') < value:
+        if value and data.get("endDate") and data.get("endDate") < value:
             raise ValidationError(u"period should begin before its end")
 
 
@@ -372,31 +363,33 @@ class Classification(Model):
 
 
 class CPVClassification(Classification):
-    scheme = StringType(required=True, default=u'CPV', choices=[u'CPV', u'ДК021'])
+    scheme = StringType(required=True, default=u"CPV", choices=[u"CPV", u"ДК021"])
     id = StringType(required=True)
 
     def validate_id(self, data, code):
-        if data.get('scheme') == u'CPV' and code not in CPV_CODES:
-            raise ValidationError(BaseType.MESSAGES['choices'].format(unicode(CPV_CODES)))
-        elif data.get('scheme') == u'ДК021' and code not in DK_CODES:
-            raise ValidationError(BaseType.MESSAGES['choices'].format(unicode(DK_CODES)))
+        if data.get("scheme") == u"CPV" and code not in CPV_CODES:
+            raise ValidationError(BaseType.MESSAGES["choices"].format(unicode(CPV_CODES)))
+        elif data.get("scheme") == u"ДК021" and code not in DK_CODES:
+            raise ValidationError(BaseType.MESSAGES["choices"].format(unicode(DK_CODES)))
 
     def validate_scheme(self, data, scheme):
-        schematics_document = get_schematics_document(data['__parent__'])
-        if (schematics_document.get('revisions')[0].date if schematics_document.get('revisions') else get_now()) > CPV_BLOCK_FROM and scheme != u'ДК021':
-            raise ValidationError(BaseType.MESSAGES['choices'].format(unicode([u'ДК021'])))
+        schematics_document = get_schematics_document(data["__parent__"])
+        if (
+            schematics_document.get("revisions")[0].date if schematics_document.get("revisions") else get_now()
+        ) > CPV_BLOCK_FROM and scheme != u"ДК021":
+            raise ValidationError(BaseType.MESSAGES["choices"].format(unicode([u"ДК021"])))
 
 
 class AdditionalClassification(Classification):
     def validate_id(self, data, value):
-        if data['scheme'] == UA_ROAD_SCHEME and value not in UA_ROAD:
-            raise ValidationError('{} id not found in standards'.format(UA_ROAD_SCHEME))
-        if data['scheme'] == GMDN_SCHEME and value not in GMDN:
-            raise ValidationError('{} id not found in standards'.format(GMDN_SCHEME))
+        if data["scheme"] == UA_ROAD_SCHEME and value not in UA_ROAD:
+            raise ValidationError("{} id not found in standards".format(UA_ROAD_SCHEME))
+        if data["scheme"] == GMDN_SCHEME and value not in GMDN:
+            raise ValidationError("{} id not found in standards".format(GMDN_SCHEME))
 
     def validate_description(self, data, value):
-        if data['scheme'] == UA_ROAD_SCHEME and UA_ROAD.get(data['id']) != value:
-            raise ValidationError('{} description invalid'.format(UA_ROAD_SCHEME))
+        if data["scheme"] == UA_ROAD_SCHEME and UA_ROAD.get(data["id"]) != value:
+            raise ValidationError("{} description invalid".format(UA_ROAD_SCHEME))
 
 
 class Unit(Model):
@@ -429,63 +422,85 @@ class Location(Model):
 class HashType(StringType):
 
     MESSAGES = {
-        'hash_invalid': "Hash type is not supported.",
-        'hash_length': "Hash value is wrong length.",
-        'hash_hex': "Hash value is not hexadecimal.",
+        "hash_invalid": "Hash type is not supported.",
+        "hash_length": "Hash value is wrong length.",
+        "hash_hex": "Hash value is not hexadecimal.",
     }
 
     def to_native(self, value, context=None):
         value = super(HashType, self).to_native(value, context)
 
-        if ':' not in value:
-            raise ValidationError(self.messages['hash_invalid'])
+        if ":" not in value:
+            raise ValidationError(self.messages["hash_invalid"])
 
-        hash_type, hash_value = value.split(':', 1)
+        hash_type, hash_value = value.split(":", 1)
 
         if hash_type not in algorithms:
-            raise ValidationError(self.messages['hash_invalid'])
+            raise ValidationError(self.messages["hash_invalid"])
 
         if len(hash_value) != hash_new(hash_type).digest_size * 2:
-            raise ValidationError(self.messages['hash_length'])
+            raise ValidationError(self.messages["hash_length"])
         try:
             int(hash_value, 16)
         except ValueError:
-            raise ConversionError(self.messages['hash_hex'])
+            raise ConversionError(self.messages["hash_hex"])
         return value
 
 
 class Document(Model):
     class Options:
         roles = {
-            'create': blacklist('id', 'datePublished', 'dateModified', 'author', 'download_url'),
-            'edit': blacklist('id', 'url', 'datePublished', 'dateModified', 'author', 'hash', 'download_url'),
-            'embedded': (blacklist('url', 'download_url') + schematics_embedded_role),
-            'default': blacklist("__parent__"),
-            'view': (blacklist('revisions') + schematics_default_role),
-            'revisions': whitelist('url', 'dateModified'),
+            "create": blacklist("id", "datePublished", "dateModified", "author", "download_url"),
+            "edit": blacklist("id", "url", "datePublished", "dateModified", "author", "hash", "download_url"),
+            "embedded": (blacklist("url", "download_url") + schematics_embedded_role),
+            "default": blacklist("__parent__"),
+            "view": (blacklist("revisions") + schematics_default_role),
+            "revisions": whitelist("url", "dateModified"),
         }
 
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     hash = HashType()
-    documentType = StringType(choices=[
-        'tenderNotice', 'awardNotice', 'contractNotice',
-        'notice', 'biddingDocuments', 'technicalSpecifications',
-        'evaluationCriteria', 'clarifications', 'shortlistedFirms',
-        'riskProvisions', 'billOfQuantity', 'bidders', 'conflictOfInterest',
-        'debarments', 'evaluationReports', 'winningBid', 'complaints',
-        'contractSigned', 'contractArrangements', 'contractSchedule',
-        'contractAnnexe', 'contractGuarantees', 'subContract',
-        'eligibilityCriteria', 'contractProforma', 'commercialProposal',
-        'qualificationDocuments', 'eligibilityDocuments', 'registerExtract',
-        'registerFiscal',
-    ])
+    documentType = StringType(
+        choices=[
+            "tenderNotice",
+            "awardNotice",
+            "contractNotice",
+            "notice",
+            "biddingDocuments",
+            "technicalSpecifications",
+            "evaluationCriteria",
+            "clarifications",
+            "shortlistedFirms",
+            "riskProvisions",
+            "billOfQuantity",
+            "bidders",
+            "conflictOfInterest",
+            "debarments",
+            "evaluationReports",
+            "winningBid",
+            "complaints",
+            "contractSigned",
+            "contractArrangements",
+            "contractSchedule",
+            "contractAnnexe",
+            "contractGuarantees",
+            "subContract",
+            "eligibilityCriteria",
+            "contractProforma",
+            "commercialProposal",
+            "qualificationDocuments",
+            "eligibilityDocuments",
+            "registerExtract",
+            "registerFiscal",
+        ]
+    )
     title = StringType(required=True)  # A title of the document.
     title_en = StringType()
     title_ru = StringType()
     description = StringType()  # A description of the document.
     description_en = StringType()
     description_ru = StringType()
-    format = StringType(required=True, regex='^[-\w]+/[-\.\w\+]+$')
+    format = StringType(required=True, regex="^[-\w]+/[-\.\w\+]+$")
     url = StringType(required=True)  # Link to the document or attachment.
     datePublished = IsoDateTimeType(default=get_now)
     dateModified = IsoDateTimeType(default=get_now)  # Date that the document was last dateModified
@@ -496,9 +511,9 @@ class Document(Model):
     @serializable(serialized_name="url")
     def download_url(self):
         url = self.url
-        if not url or '?download=' not in url:
+        if not url or "?download=" not in url:
             return url
-        doc_id = parse_qs(urlparse(url).query)['download'][-1]
+        doc_id = parse_qs(urlparse(url).query)["download"][-1]
         root = self.__parent__
         parents = []
         while root.__parent__ is not None:
@@ -507,21 +522,22 @@ class Document(Model):
         request = root.request
         if not request.registry.docservice_url:
             return url
-        if 'status' in parents[0] and parents[0].status in type(parents[0])._options.roles:
+        if "status" in parents[0] and parents[0].status in type(parents[0])._options.roles:
             role = parents[0].status
             for index, obj in enumerate(parents):
-                if obj.id != url.split('/')[(index - len(parents)) * 2 - 1]:
+                if obj.id != url.split("/")[(index - len(parents)) * 2 - 1]:
                     break
-                field = url.split('/')[(index - len(parents)) * 2]
+                field = url.split("/")[(index - len(parents)) * 2]
                 if "_" in field:
                     field = field[0] + field.title().replace("_", "")[1:]
                 roles = type(obj)._options.roles
-                if roles[role if role in roles else 'default'](field, []):
+                if roles[role if role in roles else "default"](field, []):
                     return url
         from openprocurement.api.utils import generate_docservice_url
+
         if not self.hash:
-            path = [i for i in urlparse(url).path.split('/') if len(i) == 32 and not set(i).difference(hexdigits)]
-            return generate_docservice_url(request, doc_id, False, '{}/{}'.format(path[0], path[-1]))
+            path = [i for i in urlparse(url).path.split("/") if len(i) == 32 and not set(i).difference(hexdigits)]
+            return generate_docservice_url(request, doc_id, False, "{}/{}".format(path[0], path[-1]))
         return generate_docservice_url(request, doc_id, False)
 
     def import_data(self, raw_data, **kw):
@@ -541,7 +557,9 @@ class Document(Model):
 
 
 class Identifier(Model):
-    scheme = StringType(required=True, choices=ORA_CODES)  # The scheme that holds the unique identifiers used to identify the item being identified.
+    scheme = StringType(
+        required=True, choices=ORA_CODES
+    )  # The scheme that holds the unique identifiers used to identify the item being identified.
     id = BaseType(required=True)  # The identifier of the organization in the selected scheme.
     legalName = StringType()  # The legally registered name of the organization.
     legalName_en = StringType()
@@ -551,6 +569,7 @@ class Identifier(Model):
 
 class Item(Model):
     """A good, service, or work to be contracted."""
+
     id = StringType(required=True, min_length=1, default=lambda: uuid4().hex)
     description = StringType(required=True)  # A description of the goods, services to be provided.
     description_en = StringType()
@@ -575,17 +594,15 @@ class ContactPoint(Model):
     url = URLType()
 
     def validate_email(self, data, value):
-        if not value and not data.get('telephone'):
+        if not value and not data.get("telephone"):
             raise ValidationError(u"telephone or email should be present")
 
 
 class Organization(Model):
     """An organization."""
+
     class Options:
-        roles = {
-            'embedded': schematics_embedded_role,
-            'view': schematics_default_role,
-        }
+        roles = {"embedded": schematics_embedded_role, "view": schematics_default_role}
 
     name = StringType(required=True)
     name_en = StringType()
@@ -601,13 +618,13 @@ class BusinessOrganization(Organization):
 
     def validate_scale(self, data, value):
         try:
-            schematics_document = get_schematics_document(data['__parent__'])
+            schematics_document = get_schematics_document(data["__parent__"])
         except AttributeError:
             pass
         else:
             validation_date = get_first_revision_date(schematics_document, default=get_now())
             if validation_date >= ORGANIZATION_SCALE_FROM and value is None:
-                raise ValidationError(BaseType.MESSAGES['required'])
+                raise ValidationError(BaseType.MESSAGES["required"])
 
 
 class Revision(Model):
@@ -628,7 +645,7 @@ class Contract(Model):
     description = StringType()  # Contract description
     description_en = StringType()
     description_ru = StringType()
-    status = StringType(choices=['pending', 'terminated', 'active', 'cancelled'], default='pending')
+    status = StringType(choices=["pending", "terminated", "active", "cancelled"], default="pending")
     period = ModelType(Period)
     value = ModelType(Value)
     dateSigned = IsoDateTimeType()

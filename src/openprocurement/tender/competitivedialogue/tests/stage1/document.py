@@ -3,17 +3,15 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.document import (
-    TenderDocumentResourceTestMixin
-)
+from openprocurement.tender.belowthreshold.tests.document import TenderDocumentResourceTestMixin
 
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogUAContentWebTest,
-    BaseCompetitiveDialogEUContentWebTest
+    BaseCompetitiveDialogEUContentWebTest,
 )
 from openprocurement.tender.competitivedialogue.tests.stage1.document_blanks import (
     put_tender_document,
-    patch_tender_document
+    patch_tender_document,
 )
 
 #  _____________________________________________________________________
@@ -42,10 +40,11 @@ from openprocurement.tender.competitivedialogue.tests.stage1.document_blanks imp
 # |                                                                     |
 # |___________________________________________________________________sm|
 
+
 class DialogEUDocumentResourceTest(BaseCompetitiveDialogEUContentWebTest, TenderDocumentResourceTestMixin):
     docservice = False
 
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
     test_put_tender_document = snitch(put_tender_document)
     test_patch_tender_document = snitch(patch_tender_document)
@@ -58,7 +57,7 @@ class DialogEUDocumentWithDSResourceTest(DialogEUDocumentResourceTest):
 class DialogUADocumentResourceTest(BaseCompetitiveDialogUAContentWebTest, TenderDocumentResourceTestMixin):
     docservice = False
 
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
     test_put_tender_document = snitch(put_tender_document)
     test_patch_tender_document = snitch(patch_tender_document)
@@ -75,5 +74,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

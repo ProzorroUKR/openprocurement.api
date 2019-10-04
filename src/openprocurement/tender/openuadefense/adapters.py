@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-from openprocurement.tender.openua.adapters import (
-    TenderAboveThresholdUAConfigurator
-)
+from openprocurement.tender.openua.adapters import TenderAboveThresholdUAConfigurator
 from openprocurement.tender.openuadefense.models import Tender
 from openprocurement.tender.openuadefense.constants import (
-    TENDER_PERIOD, TENDERING_EXTRA_PERIOD,
-    CLAIM_SUBMIT_TIME, COMPLAINT_SUBMIT_TIME
+    TENDER_PERIOD,
+    TENDERING_EXTRA_PERIOD,
+    CLAIM_SUBMIT_TIME,
+    COMPLAINT_SUBMIT_TIME,
 )
 
 

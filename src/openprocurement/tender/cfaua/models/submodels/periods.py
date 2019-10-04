@@ -11,9 +11,9 @@ from schematics.types.serializable import serializable
 
 
 class PeriodEndRequired(BasePeriodEndRequired):
-    #TODO different validator compared with belowthreshold
+    # TODO different validator compared with belowthreshold
     def validate_startDate(self, data, value):
-        if value and data.get('endDate') and data.get('endDate') < value:
+        if value and data.get("endDate") and data.get("endDate") < value:
             raise ValidationError(u"period should begin before its end")
 
 
@@ -25,16 +25,22 @@ class TenderAuctionPeriod(Period):
         if self.endDate:
             return
         tender = self.__parent__
-        if tender.lots or tender.status not in ['active.tendering', 'active.pre-qualification.stand-still', 'active.auction']:
+        if tender.lots or tender.status not in [
+            "active.tendering",
+            "active.pre-qualification.stand-still",
+            "active.auction",
+        ]:
             return
         start_after = None
-        if tender.status == 'active.tendering' and tender.tenderPeriod.endDate:
+        if tender.status == "active.tendering" and tender.tenderPeriod.endDate:
             start_after = calculate_business_date(tender.tenderPeriod.endDate, TENDERING_AUCTION, tender)
         elif self.startDate and get_now() > calc_auction_end_time(tender.numberOfBids, self.startDate):
             start_after = calc_auction_end_time(tender.numberOfBids, self.startDate)
         elif tender.qualificationPeriod and tender.qualificationPeriod.endDate:
             decision_dates = [
-                datetime.combine(complaint.dateDecision.date() + timedelta(days=3), time(0, tzinfo=complaint.dateDecision.tzinfo))
+                datetime.combine(
+                    complaint.dateDecision.date() + timedelta(days=3), time(0, tzinfo=complaint.dateDecision.tzinfo)
+                )
                 for qualification in tender.qualifications
                 for complaint in qualification.complaints
                 if complaint.dateDecision
@@ -58,16 +64,21 @@ class LotAuctionPeriod(Period):
             return
         tender = get_tender(self)
         lot = self.__parent__
-        if tender.status not in ['active.tendering', 'active.pre-qualification.stand-still', 'active.auction'] or lot.status != 'active':
+        if (
+            tender.status not in ["active.tendering", "active.pre-qualification.stand-still", "active.auction"]
+            or lot.status != "active"
+        ):
             return
         start_after = None
-        if tender.status == 'active.tendering' and tender.tenderPeriod.endDate:
+        if tender.status == "active.tendering" and tender.tenderPeriod.endDate:
             start_after = calculate_business_date(tender.tenderPeriod.endDate, TENDERING_AUCTION, tender)
         elif self.startDate and get_now() > calc_auction_end_time(lot.numberOfBids, self.startDate):
             start_after = calc_auction_end_time(lot.numberOfBids, self.startDate)
         elif tender.qualificationPeriod and tender.qualificationPeriod.endDate:
             decision_dates = [
-                datetime.combine(complaint.dateDecision.date() + timedelta(days=3), time(0, tzinfo=complaint.dateDecision.tzinfo))
+                datetime.combine(
+                    complaint.dateDecision.date() + timedelta(days=3), time(0, tzinfo=complaint.dateDecision.tzinfo)
+                )
                 for qualification in tender.qualifications
                 for complaint in qualification.complaints
                 if complaint.dateDecision

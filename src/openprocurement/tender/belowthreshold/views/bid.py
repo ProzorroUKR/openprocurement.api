@@ -1,37 +1,31 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import (
-    get_now,
-    set_ownership,
-    json_view,
-    context_unpack,
-    APIResource,
-)
+from openprocurement.api.utils import get_now, set_ownership, json_view, context_unpack, APIResource
 
 from openprocurement.tender.core.validation import (
     validate_bid_data,
     validate_patch_bid_data,
     validate_bid_operation_period,
-    validate_bid_operation_not_in_tendering
+    validate_bid_operation_not_in_tendering,
 )
 
-from openprocurement.tender.belowthreshold.validation import (
-    validate_view_bids,
-    validate_update_bid_status
+from openprocurement.tender.belowthreshold.validation import validate_view_bids, validate_update_bid_status
+
+from openprocurement.tender.core.utils import save_tender, optendersresource, apply_patch
+
+
+@optendersresource(
+    name="belowThreshold:Tender Bids",
+    collection_path="/tenders/{tender_id}/bids",
+    path="/tenders/{tender_id}/bids/{bid_id}",
+    procurementMethodType="belowThreshold",
+    description="Tender bids",
 )
-
-from openprocurement.tender.core.utils import (
-    save_tender, optendersresource, apply_patch,
-)
-
-
-@optendersresource(name='belowThreshold:Tender Bids',
-                   collection_path='/tenders/{tender_id}/bids',
-                   path='/tenders/{tender_id}/bids/{bid_id}',
-                   procurementMethodType='belowThreshold',
-                   description="Tender bids")
 class TenderBidResource(APIResource):
-
-    @json_view(content_type="application/json", permission='create_bid', validators=(validate_bid_data, validate_bid_operation_not_in_tendering, validate_bid_operation_period,))
+    @json_view(
+        content_type="application/json",
+        permission="create_bid",
+        validators=(validate_bid_data, validate_bid_operation_not_in_tendering, validate_bid_operation_period),
+    )
     def collection_post(self):
         """Registration of new bid proposal
 
@@ -113,22 +107,23 @@ class TenderBidResource(APIResource):
         """
         # See https://github.com/open-contracting/standard/issues/78#issuecomment-59830415
         # for more info upon schema
-        tender = self.request.validated['tender']
-        bid = self.request.validated['bid']
+        tender = self.request.validated["tender"]
+        bid = self.request.validated["bid"]
         access = set_ownership(bid, self.request)
         tender.bids.append(bid)
         tender.modified = False
         if save_tender(self.request):
-            self.LOGGER.info('Created tender bid {}'.format(bid.id),
-                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_bid_create'}, {'bid_id': bid.id}))
+            self.LOGGER.info(
+                "Created tender bid {}".format(bid.id),
+                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_bid_create"}, {"bid_id": bid.id}),
+            )
             self.request.response.status = 201
-            self.request.response.headers['Location'] = self.request.route_url('{}:Tender Bids'.format(tender.procurementMethodType), tender_id=tender.id, bid_id=bid['id'])
-            return {
-                'data': bid.serialize('view'),
-                'access': access
-            }
+            self.request.response.headers["Location"] = self.request.route_url(
+                "{}:Tender Bids".format(tender.procurementMethodType), tender_id=tender.id, bid_id=bid["id"]
+            )
+            return {"data": bid.serialize("view"), "access": access}
 
-    @json_view(permission='view_tender', validators=(validate_view_bids,))
+    @json_view(permission="view_tender", validators=(validate_view_bids,))
     def collection_get(self):
         """Bids Listing
 
@@ -163,10 +158,10 @@ class TenderBidResource(APIResource):
             }
 
         """
-        tender = self.request.validated['tender']
-        return {'data': [i.serialize(self.request.validated['tender_status']) for i in tender.bids]}
+        tender = self.request.validated["tender"]
+        return {"data": [i.serialize(self.request.validated["tender_status"]) for i in tender.bids]}
 
-    @json_view(permission='view_tender')
+    @json_view(permission="view_tender")
     def get(self):
         """Retrieving the proposal
 
@@ -196,13 +191,21 @@ class TenderBidResource(APIResource):
             }
 
         """
-        if self.request.authenticated_role == 'bid_owner':
-            return {'data': self.request.context.serialize('view')}
+        if self.request.authenticated_role == "bid_owner":
+            return {"data": self.request.context.serialize("view")}
         validate_view_bids(self.request)
-        return {'data': self.request.context.serialize(self.request.validated['tender_status'])}
+        return {"data": self.request.context.serialize(self.request.validated["tender_status"])}
 
-    @json_view(content_type="application/json", permission='edit_bid', validators=(validate_patch_bid_data, validate_bid_operation_not_in_tendering, validate_bid_operation_period,
-               validate_update_bid_status,))
+    @json_view(
+        content_type="application/json",
+        permission="edit_bid",
+        validators=(
+            validate_patch_bid_data,
+            validate_bid_operation_not_in_tendering,
+            validate_bid_operation_period,
+            validate_update_bid_status,
+        ),
+    )
     def patch(self):
         """Update of proposal
 
@@ -240,21 +243,28 @@ class TenderBidResource(APIResource):
             }
 
         """
-        value = self.request.validated['data'].get("value") and self.request.validated['data']["value"].get("amount")
+        value = self.request.validated["data"].get("value") and self.request.validated["data"]["value"].get("amount")
         if value and value != self.request.context.get("value", {}).get("amount"):
-            self.request.validated['data']['date'] = get_now().isoformat()
+            self.request.validated["data"]["date"] = get_now().isoformat()
         if self.request.context.lotValues:
             lotValues = dict([(i.relatedLot, i.value.amount) for i in self.request.context.lotValues])
-            for lotvalue in self.request.validated['data'].get("lotValues", []):
-                if lotvalue['relatedLot'] in lotValues and lotvalue.get("value", {}).get("amount") != lotValues[lotvalue['relatedLot']]:
-                    lotvalue['date'] = get_now().isoformat()
-        self.request.validated['tender'].modified = False
+            for lotvalue in self.request.validated["data"].get("lotValues", []):
+                if (
+                    lotvalue["relatedLot"] in lotValues
+                    and lotvalue.get("value", {}).get("amount") != lotValues[lotvalue["relatedLot"]]
+                ):
+                    lotvalue["date"] = get_now().isoformat()
+        self.request.validated["tender"].modified = False
         if apply_patch(self.request, src=self.request.context.serialize()):
-            self.LOGGER.info('Updated tender bid {}'.format(self.request.context.id),
-                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_bid_patch'}))
-            return {'data': self.request.context.serialize("view")}
+            self.LOGGER.info(
+                "Updated tender bid {}".format(self.request.context.id),
+                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_bid_patch"}),
+            )
+            return {"data": self.request.context.serialize("view")}
 
-    @json_view(permission='edit_bid', validators=(validate_bid_operation_not_in_tendering, validate_bid_operation_period,))
+    @json_view(
+        permission="edit_bid", validators=(validate_bid_operation_not_in_tendering, validate_bid_operation_period)
+    )
     def delete(self):
         """Cancelling the proposal
 
@@ -286,9 +296,11 @@ class TenderBidResource(APIResource):
         """
         bid = self.request.context
         res = bid.serialize("view")
-        self.request.validated['tender'].bids.remove(bid)
-        self.request.validated['tender'].modified = False
+        self.request.validated["tender"].bids.remove(bid)
+        self.request.validated["tender"].modified = False
         if save_tender(self.request):
-            self.LOGGER.info('Deleted tender bid {}'.format(self.request.context.id),
-                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_bid_delete'}))
-            return {'data': res}
+            self.LOGGER.info(
+                "Deleted tender bid {}".format(self.request.context.id),
+                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_bid_delete"}),
+            )
+            return {"data": res}

@@ -23,45 +23,38 @@ from openprocurement.tender.openeu.tests.complaint_blanks import (
     # TenderComplaintDocumentResourceTest
     put_tender_complaint_document,
 )
-from openprocurement.tender.openeu.tests.base import (
-    BaseTenderContentWebTest,
-    test_bids,
-    test_lots,
-)
+from openprocurement.tender.openeu.tests.base import BaseTenderContentWebTest, test_bids, test_lots
 
 
-class TenderComplaintResourceTest(BaseTenderContentWebTest,
-                                  TenderComplaintResourceTestMixin,
-                                  TenderUAComplaintResourceTestMixin):
-    initial_auth = ('Basic', ('broker', ''))
+class TenderComplaintResourceTest(
+    BaseTenderContentWebTest, TenderComplaintResourceTestMixin, TenderUAComplaintResourceTestMixin
+):
+    initial_auth = ("Basic", ("broker", ""))
     test_author = test_author
 
 
 class TenderLotAwardComplaintResourceTest(BaseTenderContentWebTest):
     initial_lots = test_lots
     test_author = test_author
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
     test_create_tender_complaint = snitch(create_tender_lot_complaint)
 
 
 class TenderComplaintDocumentResourceTest(BaseTenderContentWebTest):
     test_author = test_author
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
         super(TenderComplaintDocumentResourceTest, self).setUp()
         # Create complaint
         response = self.app.post_json(
-            '/tenders/{}/complaints'.format(self.tender_id),
-            {'data': {
-                'title': 'complaint title',
-                'description': 'complaint description',
-                'author': test_author
-            }})
-        complaint = response.json['data']
-        self.complaint_id = complaint['id']
-        self.complaint_owner_token = response.json['access']['token']
+            "/tenders/{}/complaints".format(self.tender_id),
+            {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+        )
+        complaint = response.json["data"]
+        self.complaint_id = complaint["id"]
+        self.complaint_owner_token = response.json["access"]["token"]
 
     test_not_found = snitch(not_found)
     test_create_tender_complaint_document = snitch(create_tender_complaint_document)
@@ -76,5 +69,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

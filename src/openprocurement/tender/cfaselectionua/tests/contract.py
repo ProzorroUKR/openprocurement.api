@@ -28,10 +28,12 @@ from openprocurement.tender.cfaselectionua.tests.contract_blanks import (
     # Tender2LotContractDocumentResourceTest
     lot2_create_tender_contract_document,
     lot2_put_tender_contract_document,
-    lot2_patch_tender_contract_document
+    lot2_patch_tender_contract_document,
 )
-from openprocurement.tender.belowthreshold.tests.contract_blanks import patch_tender_contract_value_vat_not_included, \
-    patch_tender_contract_value
+from openprocurement.tender.belowthreshold.tests.contract_blanks import (
+    patch_tender_contract_value_vat_not_included,
+    patch_tender_contract_value,
+)
 
 
 class TenderContractResourceTestMixin(object):
@@ -48,7 +50,7 @@ class TenderContractDocumentResourceTestMixin(object):
 
 
 class TenderContractResourceTest(TenderContentWebTest, TenderContractResourceTestMixin):
-    initial_status = 'active.awarded'
+    initial_status = "active.awarded"
     initial_bids = test_bids
     initial_lots = test_lots
 
@@ -59,31 +61,31 @@ class TenderContractResourceTest(TenderContentWebTest, TenderContractResourceTes
 
 
 class TenderContractVATNotIncludedResourceTest(TenderContentWebTest, TenderContractResourceTestMixin):
-    initial_status = 'active.awarded'
+    initial_status = "active.awarded"
     initial_bids = test_bids
     initial_lots = test_lots
 
     def update_vat_fields(self, items):
         for item in items:
-            item['value']['valueAddedTaxIncluded'] = False
+            item["value"]["valueAddedTaxIncluded"] = False
 
-    def generate_bids(self, status, start_end='start'):
+    def generate_bids(self, status, start_end="start"):
         self.initial_bids = deepcopy(self.initial_bids)
         self.update_vat_fields(self.initial_bids)
         super(TenderContractVATNotIncludedResourceTest, self).generate_bids(status, start_end)
 
     def calculate_agreement_contracts_value_amount(self, agreement, items):
-        super(
-            TenderContractVATNotIncludedResourceTest, self
-        ).calculate_agreement_contracts_value_amount(agreement, items)
-        self.update_vat_fields(agreement['contracts'])
+        super(TenderContractVATNotIncludedResourceTest, self).calculate_agreement_contracts_value_amount(
+            agreement, items
+        )
+        self.update_vat_fields(agreement["contracts"])
 
     test_patch_tender_contract_value_vat_not_included = snitch(patch_tender_contract_value_vat_not_included)
 
 
 @unittest.skip("Skip multi-lots tests")
 class Tender2LotContractResourceTest(TenderContentWebTest):
-    initial_status = 'active.qualification'
+    initial_status = "active.qualification"
     initial_bids = test_bids
     initial_lots = 2 * test_lots
 
@@ -92,30 +94,38 @@ class Tender2LotContractResourceTest(TenderContentWebTest):
         # Create award
 
         auth = self.app.authorization
-        self.app.authorization = ('Basic', ('token', ''))
-        response = self.app.post_json('/tenders/{}/awards'.format(self.tender_id), {'data': {
-            'suppliers': [test_organization],
-            'status': 'pending',
-            'bid_id': self.initial_bids[0]['id'],
-            'lotID': self.initial_lots[0]['id']
-        }})
-        award = response.json['data']
-        self.award_id = award['id']
+        self.app.authorization = ("Basic", ("token", ""))
+        response = self.app.post_json(
+            "/tenders/{}/awards".format(self.tender_id),
+            {
+                "data": {
+                    "suppliers": [test_organization],
+                    "status": "pending",
+                    "bid_id": self.initial_bids[0]["id"],
+                    "lotID": self.initial_lots[0]["id"],
+                }
+            },
+        )
+        award = response.json["data"]
+        self.award_id = award["id"]
         self.app.authorization = auth
-        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token), {"data": {"status": "active"}})
+        self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+            {"data": {"status": "active"}},
+        )
 
     test_lot2_patch_tender_contract = snitch(lot2_patch_tender_contract)
 
 
 class TenderContractDocumentResourceTest(TenderContentWebTest, TenderContractDocumentResourceTestMixin):
-    initial_status = 'active.awarded'
+    initial_status = "active.awarded"
     initial_bids = test_bids
     initial_lots = test_lots
 
 
 @unittest.skip("Skip multi-lots tests")
 class Tender2LotContractDocumentResourceTest(TenderContentWebTest):
-    initial_status = 'active.qualification'
+    initial_status = "active.qualification"
     initial_bids = test_bids
     initial_lots = 2 * test_lots
 
@@ -123,25 +133,36 @@ class Tender2LotContractDocumentResourceTest(TenderContentWebTest):
         super(Tender2LotContractDocumentResourceTest, self).setUp()
         # Create award
         auth = self.app.authorization
-        self.app.authorization = ('Basic', ('token', ''))
+        self.app.authorization = ("Basic", ("token", ""))
 
-        response = self.app.post_json('/tenders/{}/awards'.format(self.tender_id), {'data': {
-            'suppliers': [test_organization],
-            'status': 'pending',
-            'bid_id': self.initial_bids[0]['id'],
-            'lotID': self.initial_lots[0]['id']
-        }})
-        award = response.json['data']
-        self.award_id = award['id']
+        response = self.app.post_json(
+            "/tenders/{}/awards".format(self.tender_id),
+            {
+                "data": {
+                    "suppliers": [test_organization],
+                    "status": "pending",
+                    "bid_id": self.initial_bids[0]["id"],
+                    "lotID": self.initial_lots[0]["id"],
+                }
+            },
+        )
+        award = response.json["data"]
+        self.award_id = award["id"]
 
         self.app.authorization = auth
-        self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token), {"data": {"status": "active"}})
+        self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+            {"data": {"status": "active"}},
+        )
         # Create contract for award
 
-        self.app.authorization = ('Basic', ('token', ''))
-        response = self.app.post_json('/tenders/{}/contracts'.format(self.tender_id), {'data': {'title': 'contract title', 'description': 'contract description', 'awardID': self.award_id}})
-        contract = response.json['data']
-        self.contract_id = contract['id']
+        self.app.authorization = ("Basic", ("token", ""))
+        response = self.app.post_json(
+            "/tenders/{}/contracts".format(self.tender_id),
+            {"data": {"title": "contract title", "description": "contract description", "awardID": self.award_id}},
+        )
+        contract = response.json["data"]
+        self.contract_id = contract["id"]
         self.app.authorization = auth
 
     lot2_create_tender_contract_document = snitch(lot2_create_tender_contract_document)
@@ -157,5 +178,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

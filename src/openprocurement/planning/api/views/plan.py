@@ -1,14 +1,7 @@
 # -*- coding: utf-8 -*-
 from logging import getLogger
 from cornice.util import json_error
-from openprocurement.api.utils import (
-    context_unpack,
-    get_now,
-    generate_id,
-    json_view,
-    set_ownership,
-    APIResourceListing,
-)
+from openprocurement.api.utils import context_unpack, get_now, generate_id, json_view, set_ownership, APIResourceListing
 from openprocurement.planning.api.design import (
     FIELDS,
     plans_by_dateModified_view,
@@ -24,7 +17,7 @@ from openprocurement.planning.api.utils import (
     plan_serialize,
     apply_patch,
     opresource,
-    APIResource
+    APIResource,
 )
 from openprocurement.planning.api.validation import (
     validate_patch_plan_data,
@@ -45,26 +38,24 @@ from openprocurement.tender.core.views.tender import TendersResource
 
 LOGGER = getLogger(__name__)
 VIEW_MAP = {
-    u'': plans_real_by_dateModified_view,
-    u'test': plans_test_by_dateModified_view,
-    u'_all_': plans_by_dateModified_view,
+    u"": plans_real_by_dateModified_view,
+    u"test": plans_test_by_dateModified_view,
+    u"_all_": plans_by_dateModified_view,
 }
 CHANGES_VIEW_MAP = {
-    u'': plans_real_by_local_seq_view,
-    u'test': plans_test_by_local_seq_view,
-    u'_all_': plans_by_local_seq_view,
+    u"": plans_real_by_local_seq_view,
+    u"test": plans_test_by_local_seq_view,
+    u"_all_": plans_by_local_seq_view,
 }
-FEED = {
-    u'dateModified': VIEW_MAP,
-    u'changes': CHANGES_VIEW_MAP,
-}
+FEED = {u"dateModified": VIEW_MAP, u"changes": CHANGES_VIEW_MAP}
 
 
-@opresource(name='Plans',
-            path='/plans',
-            description="Planing http://ocds.open-contracting.org/standard/r/1__0__0/en/schema/reference/#planning")
+@opresource(
+    name="Plans",
+    path="/plans",
+    description="Planing http://ocds.open-contracting.org/standard/r/1__0__0/en/schema/reference/#planning",
+)
 class PlansResource(APIResourceListing):
-
     def __init__(self, request, context):
         super(PlansResource, self).__init__(request, context)
         # params for listing
@@ -73,10 +64,10 @@ class PlansResource(APIResourceListing):
         self.FEED = FEED
         self.FIELDS = FIELDS
         self.serialize_func = plan_serialize
-        self.object_name_for_listing = 'Plans'
-        self.log_message_id = 'plan_list_custom'
+        self.object_name_for_listing = "Plans"
+        self.log_message_id = "plan_list_custom"
 
-    @json_view(content_type="application/json", permission='create_plan', validators=(validate_plan_data,))
+    @json_view(content_type="application/json", permission="create_plan", validators=(validate_plan_data,))
     def post(self):
         """This API request is targeted to creating new Plan by procuring organizations.
 
@@ -219,32 +210,32 @@ class PlansResource(APIResourceListing):
 }
         """
         plan_id = generate_id()
-        plan = self.request.validated['plan']
+        plan = self.request.validated["plan"]
         plan.id = plan_id
 
         plan.planID = generate_plan_id(get_now(), self.db, self.server_id)
         access = set_ownership(plan, self.request)
-        self.request.validated['plan'] = plan
-        self.request.validated['plan_src'] = {}
+        self.request.validated["plan"] = plan
+        self.request.validated["plan_src"] = {}
         if save_plan(self.request):
-            LOGGER.info('Created plan {} ({})'.format(plan_id, plan.planID),
-                        extra=context_unpack(self.request, {'MESSAGE_ID': 'plan_create'},
-                                             {'plan_id': plan_id, 'planID': plan.planID}))
+            LOGGER.info(
+                "Created plan {} ({})".format(plan_id, plan.planID),
+                extra=context_unpack(
+                    self.request, {"MESSAGE_ID": "plan_create"}, {"plan_id": plan_id, "planID": plan.planID}
+                ),
+            )
             self.request.response.status = 201
-            self.request.response.headers[
-                'Location'] = self.request.route_url('Plan', plan_id=plan_id)
-            return {
-                'data': plan.serialize("view"),
-                'access': access
-            }
+            self.request.response.headers["Location"] = self.request.route_url("Plan", plan_id=plan_id)
+            return {"data": plan.serialize("view"), "access": access}
 
 
-@opresource(name='Plan',
-            path='/plans/{plan_id}',
-            description="Planing http://ocds.open-contracting.org/standard/r/1__0__0/en/schema/reference/#planning")
+@opresource(
+    name="Plan",
+    path="/plans/{plan_id}",
+    description="Planing http://ocds.open-contracting.org/standard/r/1__0__0/en/schema/reference/#planning",
+)
 class PlanResource(APIResource):
-
-    @json_view(permission='view_plan')
+    @json_view(permission="view_plan")
     def get(self):
         """Plan Read
 
@@ -325,18 +316,20 @@ class PlanResource(APIResource):
             }
 
         """
-        plan = self.request.validated['plan']
-        plan_data = plan.serialize('view')
-        return {'data': plan_data}
+        plan = self.request.validated["plan"]
+        plan_data = plan.serialize("view")
+        return {"data": plan_data}
 
-    @json_view(content_type="application/json",
-               validators=(
-                   validate_patch_plan_data,
-                   validate_plan_not_terminated,
-                   validate_plan_status_update,
-                   validate_plan_with_tender,  # we need this because of the plans created before the statuses release
-               ),
-               permission='edit_plan')
+    @json_view(
+        content_type="application/json",
+        validators=(
+            validate_patch_plan_data,
+            validate_plan_not_terminated,
+            validate_plan_status_update,
+            validate_plan_with_tender,  # we need this because of the plans created before the statuses release
+        ),
+        permission="edit_plan",
+    )
     def patch(self):
         """Plan Edit (partial)
 
@@ -377,18 +370,14 @@ class PlanResource(APIResource):
             Content-Type: application/json
 
         """
-        plan = self.request.validated['plan']
-        apply_patch(self.request, src=self.request.validated['plan_src'])
-        LOGGER.info('Updated plan {}'.format(plan.id),
-                    extra=context_unpack(self.request, {'MESSAGE_ID': 'plan_patch'}))
-        return {'data': plan.serialize('view')}
+        plan = self.request.validated["plan"]
+        apply_patch(self.request, src=self.request.validated["plan_src"])
+        LOGGER.info("Updated plan {}".format(plan.id), extra=context_unpack(self.request, {"MESSAGE_ID": "plan_patch"}))
+        return {"data": plan.serialize("view")}
 
 
-@opresource(name='Plan Tenders',
-            path='/plans/{plan_id}/tenders',
-            description="Tender creation based on a plan")
+@opresource(name="Plan Tenders", path="/plans/{plan_id}/tenders", description="Tender creation based on a plan")
 class PlanTendersResource(TendersResource):
-
     @json_view()
     def get(self):
         self.request.errors.add("request", "method", "Method not allowed")
@@ -405,11 +394,11 @@ class PlanTendersResource(TendersResource):
             validate_tender_matches_plan,
             validate_plan_budget_breakdown,
         ),
-        permission='create_tender_from_plan'
+        permission="create_tender_from_plan",
     )
     def post(self):
-        plan = self.request.validated['plan']
-        tender = self.request.validated['tender']
+        plan = self.request.validated["plan"]
+        tender = self.request.validated["tender"]
         tender.link_plan(plan.id)
         result = super(PlanTendersResource, self).post()
         if not self.request.errors:

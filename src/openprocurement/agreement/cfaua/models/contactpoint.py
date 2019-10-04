@@ -5,9 +5,6 @@ from openprocurement.api.models import ContactPoint as BaseContactPoint
 
 class ContactPoint(BaseContactPoint):
     class Options:
-        roles = RolesFromCsv('ContactPoint.csv', relative_to=__file__)
+        roles = RolesFromCsv("ContactPoint.csv", relative_to=__file__)
 
-    availableLanguage = StringType(
-        required=True,
-        choices=['uk', 'en', 'ru'],default='uk'
-    )
+    availableLanguage = StringType(required=True, choices=["uk", "en", "ru"], default="uk")

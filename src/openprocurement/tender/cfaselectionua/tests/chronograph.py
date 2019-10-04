@@ -3,11 +3,7 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.cfaselectionua.tests.base import (
-    TenderContentWebTest,
-    test_lots,
-    test_bids,
-)
+from openprocurement.tender.cfaselectionua.tests.base import TenderContentWebTest, test_lots, test_bids
 from openprocurement.tender.cfaselectionua.tests.chronograph_blanks import (
     # TenderSwitchTenderingResourceTest
     switch_to_tendering,
@@ -36,7 +32,7 @@ from openprocurement.tender.cfaselectionua.tests.chronograph_blanks import (
 
 class TenderSwitchTenderingPeriodStartDateResourceTest(TenderContentWebTest):
     initial_lots = test_lots
-    initial_status = 'active.enquiries'
+    initial_status = "active.enquiries"
     test_switch_to_tendering_by_tenderPeriod_startDate = snitch(switch_to_tendering_by_tenderPeriod_startDate)
 
 
@@ -46,23 +42,23 @@ class TenderSwitchTenderingResourceTest(TenderContentWebTest):
 
 
 class TenderLotSwitchQualificationResourceTest(TenderContentWebTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
     initial_bids = test_bids[:1]
     initial_lots = test_lots
 
-    test_switch_to_qualification = snitch(switch_to_qualification)    
+    test_switch_to_qualification = snitch(switch_to_qualification)
 
 
 class TenderLotSwitchAuctionResourceTest(TenderContentWebTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
     initial_bids = test_bids
     initial_lots = test_lots
-    
-    test_switch_to_auction = snitch(switch_to_auction)    
+
+    test_switch_to_auction = snitch(switch_to_auction)
 
 
 class TenderLotSwitchUnsuccessfulResourceTest(TenderContentWebTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
     initial_lots = test_lots
 
     test_switch_to_unsuccessful = snitch(switch_to_unsuccessful)
@@ -87,5 +83,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

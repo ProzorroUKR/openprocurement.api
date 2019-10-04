@@ -7,7 +7,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_features_tender_data,
     test_organization,
     test_lots,
-    test_bids
+    test_bids,
 )
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     # TenderBidResourceTest
@@ -38,12 +38,12 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_with_document,
     create_tender_bid_with_documents,
     # Tender2LotBidResourceTest
-    patch_tender_with_bids_lots_none
+    patch_tender_with_bids_lots_none,
 )
 
 
 class TenderBidResourceTest(TenderContentWebTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
 
     test_create_tender_bid_invalid = snitch(create_tender_bid_invalid)
     test_create_tender_bid = snitch(create_tender_bid)
@@ -56,33 +56,36 @@ class TenderBidResourceTest(TenderContentWebTest):
     test_create_tender_bid_with_scale_not_required = snitch(create_tender_bid_with_scale_not_required)
     test_create_tender_bid_no_scale = snitch(create_tender_bid_no_scale)
 
+
 class Tender2LotBidResourceTest(TenderContentWebTest):
     initial_lots = 2 * test_lots
     test_bids_data = test_bids
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
 
     test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
 
 
 class TenderBidFeaturesResourceTest(TenderContentWebTest):
     initial_data = test_features_tender_data
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
 
     test_features_bid = snitch(features_bid)
     test_features_bid_invalid = snitch(features_bid_invalid)
 
 
 class TenderBidDocumentResourceTest(TenderContentWebTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
 
     def setUp(self):
         super(TenderBidDocumentResourceTest, self).setUp()
         # Create bid
-        response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': [test_organization], "value": {"amount": 500}}})
-        bid = response.json['data']
-        self.bid_id = bid['id']
-        self.bid_token = response.json['access']['token']
+        response = self.app.post_json(
+            "/tenders/{}/bids".format(self.tender_id),
+            {"data": {"tenderers": [test_organization], "value": {"amount": 500}}},
+        )
+        bid = response.json["data"]
+        self.bid_id = bid["id"]
+        self.bid_token = response.json["access"]["token"]
 
     test_not_found = snitch(not_found)
     test_create_tender_bid_document = snitch(create_tender_bid_document)
@@ -100,12 +103,8 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
 
 class TenderBidBatchDocumentWithDSResourceTest(TenderContentWebTest):
     docservice = True
-    initial_status = 'active.tendering'
-    bid_data_wo_docs = {
-        'tenderers': [test_organization],
-        'value': {'amount': 500},
-        'documents': []
-    }
+    initial_status = "active.tendering"
+    bid_data_wo_docs = {"tenderers": [test_organization], "value": {"amount": 500}, "documents": []}
 
     test_create_tender_bid_with_document_invalid = snitch(create_tender_bid_with_document_invalid)
     test_create_tender_bid_with_document = snitch(create_tender_bid_with_document)
@@ -121,5 +120,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

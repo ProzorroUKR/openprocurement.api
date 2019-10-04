@@ -6,7 +6,7 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import test_lots
 from openprocurement.tender.belowthreshold.tests.cancellation import (
     TenderCancellationResourceTestMixin,
-    TenderCancellationDocumentResourceTestMixin
+    TenderCancellationDocumentResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     # TenderLotCancellationResourceTest
@@ -17,9 +17,7 @@ from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     patch_tender_lots_cancellation,
 )
 
-from openprocurement.tender.openua.tests.base import (
-    BaseTenderUAContentWebTest, test_bids
-)
+from openprocurement.tender.openua.tests.base import BaseTenderUAContentWebTest, test_bids
 from openprocurement.tender.openua.tests.cancellation_blanks import (
     # TenderAwardsCancellationResourceTest
     cancellation_active_award,
@@ -52,7 +50,7 @@ class TenderLotsCancellationResourceTest(BaseTenderUAContentWebTest):
 
 class TenderAwardsCancellationResourceTest(BaseTenderUAContentWebTest):
     initial_lots = 2 * test_lots
-    initial_status = 'active.auction'
+    initial_status = "active.auction"
     initial_bids = test_bids
 
     test_cancellation_active_award = snitch(cancellation_active_award)
@@ -60,14 +58,15 @@ class TenderAwardsCancellationResourceTest(BaseTenderUAContentWebTest):
 
 
 class TenderCancellationDocumentResourceTest(BaseTenderUAContentWebTest, TenderCancellationDocumentResourceTestMixin):
-
     def setUp(self):
         super(TenderCancellationDocumentResourceTest, self).setUp()
         # Create cancellation
-        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(
-            self.tender_id, self.tender_token), {'data': {'reason': 'cancellation reason'}})
-        cancellation = response.json['data']
-        self.cancellation_id = cancellation['id']
+        response = self.app.post_json(
+            "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": {"reason": "cancellation reason"}},
+        )
+        cancellation = response.json["data"]
+        self.cancellation_id = cancellation["id"]
 
 
 def suite():
@@ -77,5 +76,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

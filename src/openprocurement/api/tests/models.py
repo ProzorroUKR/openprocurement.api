@@ -13,12 +13,8 @@ from openprocurement.api.utils import get_now
 
 
 class ItemTestCase(BaseWebTest):
-
     def test_item_quantity(self):
-        data = {
-            "description": "",
-            "quantity": 12.51,
-        }
+        data = {"description": "", "quantity": 12.51}
         item = Item(data)
         item.validate()
         self.assertEqual(item.quantity, data["quantity"])
@@ -26,18 +22,10 @@ class ItemTestCase(BaseWebTest):
 
 class TestBusinessOrganizationScale(unittest.TestCase):
     organization_data = {
-        "contactPoint": {
-            "email": "john.doe@example.com",
-            "name": "John Doe"
-        },
-        "identifier": {
-            "scheme": "UA-EDR",
-            "id": "00137256",
-        },
+        "contactPoint": {"email": "john.doe@example.com", "name": "John Doe"},
+        "identifier": {"scheme": "UA-EDR", "id": "00137256"},
         "name": "John Doe LTD",
-        "address": {
-            "countryName": "Ukraine",
-        }
+        "address": {"countryName": "Ukraine"},
     }
 
     def test_validate_valid(self):
@@ -54,8 +42,7 @@ class TestBusinessOrganizationScale(unittest.TestCase):
         with self.assertRaises(ModelValidationError) as e:
             organization.validate()
         self.assertEqual(
-            e.exception.message,
-            {'scale': [u"Value must be one of ['micro', 'sme', 'mid', 'large', 'not specified']."]}
+            e.exception.message, {"scale": [u"Value must be one of ['micro', 'sme', 'mid', 'large', 'not specified']."]}
         )
 
     def test_validate_required(self):
@@ -63,12 +50,9 @@ class TestBusinessOrganizationScale(unittest.TestCase):
         organization.__parent__ = SchematicsDocument()
         with self.assertRaises(ModelValidationError) as e:
             organization.validate()
-        self.assertEqual(
-            e.exception.message,
-            {'scale': [u'This field is required.']}
-        )
+        self.assertEqual(e.exception.message, {"scale": [u"This field is required."]})
 
-    @mock.patch('openprocurement.api.models.ORGANIZATION_SCALE_FROM', get_now() + timedelta(days=1))
+    @mock.patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
     def test_validate_not_required(self):
         organization = BusinessOrganization(self.organization_data)
         organization.__parent__ = SchematicsDocument()
@@ -84,5 +68,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

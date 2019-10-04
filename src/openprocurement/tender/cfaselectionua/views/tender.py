@@ -2,10 +2,7 @@
 from copy import deepcopy
 from openprocurement.api.utils import context_unpack, json_view, APIResource, get_now, raise_operation_error
 
-from openprocurement.tender.core.utils import (
-    save_tender, optendersresource, apply_patch,
-    calculate_business_date
-)
+from openprocurement.tender.core.utils import save_tender, optendersresource, apply_patch, calculate_business_date
 from openprocurement.tender.cfaselectionua.validation import (
     validate_patch_tender_in_draft_pending,
     validate_patch_tender_bot_only_in_draft_pending,
@@ -25,13 +22,14 @@ from openprocurement.tender.cfaselectionua.validation import (
 from openprocurement.tender.cfaselectionua.constants import AGREEMENT_NOT_FOUND
 
 
-@optendersresource(name='closeFrameworkAgreementSelectionUA:Tender',
-                   path='/tenders/{tender_id}',
-                   procurementMethodType='closeFrameworkAgreementSelectionUA',
-                   description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info")
+@optendersresource(
+    name="closeFrameworkAgreementSelectionUA:Tender",
+    path="/tenders/{tender_id}",
+    procurementMethodType="closeFrameworkAgreementSelectionUA",
+    description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info",
+)
 class TenderResource(APIResource):
-
-    @json_view(permission='view_tender')
+    @json_view(permission="view_tender")
     def get(self):
         """Tender Read
 
@@ -118,19 +116,22 @@ class TenderResource(APIResource):
             }
 
         """
-        if self.request.authenticated_role == 'chronograph':
-            tender_data = self.context.serialize('chronograph_view')
+        if self.request.authenticated_role == "chronograph":
+            tender_data = self.context.serialize("chronograph_view")
         else:
             tender_data = self.context.serialize(self.context.status)
-        return {'data': tender_data}
+        return {"data": tender_data}
 
-    @json_view(content_type="application/json",
-               validators=(validate_patch_tender_data,
-                           validate_tender_status_update_in_terminated_status,
-                           validate_patch_tender_in_draft_pending,
-                           validate_patch_tender_bot_only_in_draft_pending,
-                           ),
-               permission='edit_tender')
+    @json_view(
+        content_type="application/json",
+        validators=(
+            validate_patch_tender_data,
+            validate_tender_status_update_in_terminated_status,
+            validate_patch_tender_in_draft_pending,
+            validate_patch_tender_bot_only_in_draft_pending,
+        ),
+        permission="edit_tender",
+    )
     def patch(self):
         """Tender Edit (partial)
 
@@ -179,20 +180,22 @@ class TenderResource(APIResource):
             }
         """
         tender = self.context
-        if self.request.authenticated_role == 'chronograph':
-            apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
+        if self.request.authenticated_role == "chronograph":
+            apply_patch(self.request, save=False, src=self.request.validated["tender_src"])
             check_status(self.request)
-        elif self.request.authenticated_role == 'agreement_selection':
-            apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
-            if self.request.tender.status == 'active.enquiries':
+        elif self.request.authenticated_role == "agreement_selection":
+            apply_patch(self.request, save=False, src=self.request.validated["tender_src"])
+            if self.request.tender.status == "active.enquiries":
                 check_agreement(self.request, tender)
-                if tender.status == 'active.enquiries':
+                if tender.status == "active.enquiries":
                     tender.enquiryPeriod.startDate = get_now()
                     tender.enquiryPeriod.endDate = calculate_business_date(
-                        tender.enquiryPeriod.startDate, self.request.content_configurator.enquiry_period, tender)
+                        tender.enquiryPeriod.startDate, self.request.content_configurator.enquiry_period, tender
+                    )
                     tender.tenderPeriod.startDate = tender.enquiryPeriod.endDate
                     tender.tenderPeriod.endDate = calculate_business_date(
-                        tender.tenderPeriod.startDate, self.request.content_configurator.tender_period, tender)
+                        tender.tenderPeriod.startDate, self.request.content_configurator.tender_period, tender
+                    )
                     calculate_agreement_contracts_value_amount(self.request, tender)
                     tender.lots[0].minimalStep = deepcopy(tender.lots[0].value)
                     tender.lots[0].minimalStep.amount = round(
@@ -200,29 +203,35 @@ class TenderResource(APIResource):
                     )
                     calculate_tender_features(self.request, tender)
             else:
-                self.LOGGER.info('Switched tender {} to {}'.format(tender.id, 'draft.unsuccessful'),
-                                 extra=context_unpack(self.request, {'MESSAGE_ID': 'switched_tender_draft.unsuccessful'},
-                                {'CAUSE': AGREEMENT_NOT_FOUND}))
+                self.LOGGER.info(
+                    "Switched tender {} to {}".format(tender.id, "draft.unsuccessful"),
+                    extra=context_unpack(
+                        self.request,
+                        {"MESSAGE_ID": "switched_tender_draft.unsuccessful"},
+                        {"CAUSE": AGREEMENT_NOT_FOUND},
+                    ),
+                )
                 tender.unsuccessfulReason = [AGREEMENT_NOT_FOUND]
-        elif self.request.authenticated_role == 'tender_owner' and tender.status == 'active.enquiries':
+        elif self.request.authenticated_role == "tender_owner" and tender.status == "active.enquiries":
             validate_json_data_in_active_enquiries(self.request)
-            apply_patch(self.request,  save=False, data=self.request.validated['data'])
-            if 'items' in self.request.validated['json_data']:
+            apply_patch(self.request, save=False, data=self.request.validated["data"])
+            if "items" in self.request.validated["json_data"]:
                 calculate_agreement_contracts_value_amount(self.request, tender)
         else:
-            default_status = type(tender).fields['status'].default
+            default_status = type(tender).fields["status"].default
             tender_status = tender.status
-            apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
-            if tender_status == default_status and tender.status == 'draft.pending':
+            apply_patch(self.request, save=False, src=self.request.validated["tender_src"])
+            if tender_status == default_status and tender.status == "draft.pending":
                 if not tender.agreements or not tender.items:
                     raise_operation_error(
                         self.request, "Can't switch tender to (draft.pending) status without agreements or items."
                     )
-            if tender_status == default_status and tender.status not in ('draft.pending', default_status):
+            if tender_status == default_status and tender.status not in ("draft.pending", default_status):
                 raise_operation_error(
                     self.request, "Can't switch tender from ({}) to ({}) status.".format(default_status, tender.status)
                 )
         save_tender(self.request)
-        self.LOGGER.info('Updated tender {}'.format(tender.id),
-                    extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_patch'}))
-        return {'data': tender.serialize(tender.status)}
+        self.LOGGER.info(
+            "Updated tender {}".format(tender.id), extra=context_unpack(self.request, {"MESSAGE_ID": "tender_patch"})
+        )
+        return {"data": tender.serialize(tender.status)}

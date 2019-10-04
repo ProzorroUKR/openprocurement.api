@@ -3,8 +3,18 @@
 import unittest
 
 from openprocurement.tender.openua.tests import (
-    auction, award, bid, cancellation, chronograph, complaint, contract,
-    document, lot, question, tender)
+    auction,
+    award,
+    bid,
+    cancellation,
+    chronograph,
+    complaint,
+    contract,
+    document,
+    lot,
+    question,
+    tender,
+)
 
 
 def suite():
@@ -22,5 +32,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

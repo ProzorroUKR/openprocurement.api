@@ -16,9 +16,9 @@ now = datetime.now()
 def bad_rs_request(method, url, **kwargs):
     response = Response()
     response.status_code = 403
-    response.encoding = 'application/json'
+    response.encoding = "application/json"
     response._content = '"Unauthorized: upload_view failed permission check"'
-    response.reason = '403 Forbidden'
+    response.reason = "403 Forbidden"
     return response
 
 
@@ -26,9 +26,9 @@ srequest = SESSION.request
 
 
 class BaseWebTest(BaseApiWebTest):
-    initial_auth = ('Basic', ('token', ''))
+    initial_auth = ("Basic", ("token", ""))
     docservice = False
-    docservice_url = 'http://localhost'
+    docservice_url = "http://localhost"
 
     def setUp(self):
         super(BaseWebTest, self).setUp()
@@ -41,14 +41,15 @@ class BaseWebTest(BaseApiWebTest):
 
         def request(method, url, **kwargs):
             response = Response()
-            if method == 'POST' and '/upload' in url:
+            if method == "POST" and "/upload" in url:
                 url = test.generate_docservice_url()
                 response.status_code = 200
-                response.encoding = 'application/json'
+                response.encoding = "application/json"
                 data = '{{"url":"{url}","hash":"md5:{md5}","format":"{format}","title":"{title}"}}'.format(
-                    url=url, md5='0' * 32, title='name.doc', format='application/msword')
+                    url=url, md5="0" * 32, title="name.doc", format="application/msword"
+                )
                 response._content = '{{"data": {data},"get_url":"{url}"}}'.format(url=url, data=data)
-                response.reason = '200 OK'
+                response.reason = "200 OK"
             return response
 
         SESSION.request = request
@@ -57,8 +58,8 @@ class BaseWebTest(BaseApiWebTest):
         uuid = uuid4().hex
         key = self.app.app.registry.docservice_key
         keyid = key.hex_vk()[:8]
-        signature = b64encode(key.signature("{}\0{}".format(uuid, '0' * 32)))
-        query = {'Signature': signature, 'KeyID': keyid}
+        signature = b64encode(key.signature("{}\0{}".format(uuid, "0" * 32)))
+        query = {"Signature": signature, "KeyID": keyid}
         return "{}/get/{}?{}".format(self.docservice_url, uuid, urlencode(query))
 
     def tearDownDS(self):
@@ -87,10 +88,10 @@ class BaseCoreWebTest(BaseWebTest):
     def set_status(self, status, extra=None):
         self.tender_document = self.db.get(self.tender_id)
         self.update_status(status, extra=extra)
-        return self.get_tender('chronograph')
+        return self.get_tender("chronograph")
 
     def update_status(self, status, extra=None):
-        self.tender_document_patch = {'status': status}
+        self.tender_document_patch = {"status": status}
         if extra:
             self.tender_document_patch.update(extra)
         self.save_changes()
@@ -104,20 +105,20 @@ class BaseCoreWebTest(BaseWebTest):
             self.tender_document_patch = {}
 
     def get_tender(self, role):
-        with change_auth(self.app, ('Basic', (role, ''))):
-            url = '/tenders/{}'.format(self.tender_id)
+        with change_auth(self.app, ("Basic", (role, ""))):
+            url = "/tenders/{}".format(self.tender_id)
             response = self.app.get(url)
-            self.assertEqual(response.status, '200 OK')
-            self.assertEqual(response.content_type, 'application/json')
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.content_type, "application/json")
         return response
 
     def check_chronograph(self, data=None):
-        with change_auth(self.app, ('Basic', ('chronograph', ''))):
-            url = '/tenders/{}'.format(self.tender_id)
-            data = data or {'data': {'id': self.tender_id}}
+        with change_auth(self.app, ("Basic", ("chronograph", ""))):
+            url = "/tenders/{}".format(self.tender_id)
+            data = data or {"data": {"id": self.tender_id}}
             response = self.app.patch_json(url, data)
-            self.assertEqual(response.status, '200 OK')
-            self.assertEqual(response.content_type, 'application/json')
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.content_type, "application/json")
         return response
 
     def delete_tender(self):

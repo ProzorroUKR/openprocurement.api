@@ -14,21 +14,19 @@ from openprocurement.api.models import (
     Period,
     Revision,
     ListType,
-    OpenprocurementSchematicsDocument
-    )
+    OpenprocurementSchematicsDocument,
+)
 
 
 @implementer(IAgreement)
 @provider(IAgreement)
 class Agreement(OpenprocurementSchematicsDocument, Model):
     """ Base agreement model """
+
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     agreementID = StringType()
     # maybe terminated ????
-    status = StringType(
-        choices=['active', 'terminated'],
-        required=True
-        )
+    status = StringType(choices=["active", "terminated"], required=True)
     date = IsoDateTimeType()
     dateModified = IsoDateTimeType()
     description = StringType()
@@ -39,7 +37,7 @@ class Agreement(OpenprocurementSchematicsDocument, Model):
     owner_token = StringType(default=lambda: uuid4().hex)
     transfer_token = StringType(default=lambda: uuid4().hex)
     owner = StringType()
-    mode = StringType(choices=['test'])
+    mode = StringType(choices=["test"])
 
     def import_data(self, raw_data, **kw):
         """
@@ -50,9 +48,7 @@ class Agreement(OpenprocurementSchematicsDocument, Model):
         """
         data = self.convert(raw_data, **kw)
         del_keys = [
-            k for k in data.keys()
-            if data[k] == self.__class__.fields[k].default
-               or data[k] == getattr(self, k)
+            k for k in data.keys() if data[k] == self.__class__.fields[k].default or data[k] == getattr(self, k)
         ]
         for k in del_keys:
             del data[k]
@@ -61,18 +57,19 @@ class Agreement(OpenprocurementSchematicsDocument, Model):
         return self
 
     def __local_roles__(self):
-        return dict([
-            ('{}_{}'.format(self.owner, self.owner_token), 'agreement_owner'),
-            ('{}_{}'.format(self.owner, self.tender_token), 'tender_owner')
-            ])
+        return dict(
+            [
+                ("{}_{}".format(self.owner, self.owner_token), "agreement_owner"),
+                ("{}_{}".format(self.owner, self.tender_token), "tender_owner"),
+            ]
+        )
 
     def __acl__(self):
         acl = [
-            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_agreement'),
-            (Allow, '{}_{}'.format(self.owner, self.tender_token), 'generate_credentials')
+            (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_agreement"),
+            (Allow, "{}_{}".format(self.owner, self.tender_token), "generate_credentials"),
         ]
         return acl
 
-
     def __repr__(self):
-        return '<%s:%r@%r>' % (type(self).__name__, self.id, self.rev)
+        return "<%s:%r@%r>" % (type(self).__name__, self.id, self.rev)

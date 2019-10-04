@@ -3,12 +3,8 @@ from couchdb.design import ViewDefinition
 from openprocurement.api import design
 
 
-FIELDS = [
-    'agreementID',
-]
-CHANGES_FIELDS = FIELDS + [
-    'dateModified',
-]
+FIELDS = ["agreementID"]
+CHANGES_FIELDS = FIELDS + ["dateModified"]
 
 
 def add_design():
@@ -17,14 +13,21 @@ def add_design():
             setattr(design, i, j)
 
 
-agreements_all_view = ViewDefinition('agreements', 'all', '''function(doc) {
+agreements_all_view = ViewDefinition(
+    "agreements",
+    "all",
+    """function(doc) {
     if(doc.doc_type == 'Agreement') {
         emit(doc.agreementID, null);
     }
-}''')
+}""",
+)
 
 
-agreements_by_dateModified_view = ViewDefinition('agreements', 'by_dateModified', '''function(doc) {
+agreements_by_dateModified_view = ViewDefinition(
+    "agreements",
+    "by_dateModified",
+    """function(doc) {
     if(doc.doc_type == 'Agreement') {
         var fields=%s, data={};
         for (var i in fields) {
@@ -34,9 +37,14 @@ agreements_by_dateModified_view = ViewDefinition('agreements', 'by_dateModified'
         }
         emit(doc.dateModified, data);
     }
-}''' % FIELDS)
+}"""
+    % FIELDS,
+)
 
-agreements_real_by_dateModified_view = ViewDefinition('agreements', 'real_by_dateModified', '''function(doc) {
+agreements_real_by_dateModified_view = ViewDefinition(
+    "agreements",
+    "real_by_dateModified",
+    """function(doc) {
     if(doc.doc_type == 'Agreement' && !doc.mode) {
         var fields=%s, data={};
         for (var i in fields) {
@@ -46,9 +54,14 @@ agreements_real_by_dateModified_view = ViewDefinition('agreements', 'real_by_dat
         }
         emit(doc.dateModified, data);
     }
-}''' % FIELDS)
+}"""
+    % FIELDS,
+)
 
-agreements_test_by_dateModified_view = ViewDefinition('agreements', 'test_by_dateModified', '''function(doc) {
+agreements_test_by_dateModified_view = ViewDefinition(
+    "agreements",
+    "test_by_dateModified",
+    """function(doc) {
     if(doc.doc_type == 'Agreement' && doc.mode == 'test') {
         var fields=%s, data={};
         for (var i in fields) {
@@ -58,9 +71,14 @@ agreements_test_by_dateModified_view = ViewDefinition('agreements', 'test_by_dat
         }
         emit(doc.dateModified, data);
     }
-}''' % FIELDS)
+}"""
+    % FIELDS,
+)
 
-agreements_by_local_seq_view = ViewDefinition('agreements', 'by_local_seq', '''function(doc) {
+agreements_by_local_seq_view = ViewDefinition(
+    "agreements",
+    "by_local_seq",
+    """function(doc) {
     if(doc.doc_type == 'Agreement') {
         var fields=%s, data={};
         for (var i in fields) {
@@ -70,9 +88,14 @@ agreements_by_local_seq_view = ViewDefinition('agreements', 'by_local_seq', '''f
         }
         emit(doc._local_seq, data);
     }
-}''' % CHANGES_FIELDS)
+}"""
+    % CHANGES_FIELDS,
+)
 
-agreements_real_by_local_seq_view = ViewDefinition('agreements', 'real_by_local_seq', '''function(doc) {
+agreements_real_by_local_seq_view = ViewDefinition(
+    "agreements",
+    "real_by_local_seq",
+    """function(doc) {
     if(doc.doc_type == 'Agreement' && !doc.mode) {
         var fields=%s, data={};
         for (var i in fields) {
@@ -82,9 +105,14 @@ agreements_real_by_local_seq_view = ViewDefinition('agreements', 'real_by_local_
         }
         emit(doc._local_seq, data);
     }
-}''' % CHANGES_FIELDS)
+}"""
+    % CHANGES_FIELDS,
+)
 
-agreements_test_by_local_seq_view = ViewDefinition('agreements', 'test_by_local_seq', '''function(doc) {
+agreements_test_by_local_seq_view = ViewDefinition(
+    "agreements",
+    "test_by_local_seq",
+    """function(doc) {
     if(doc.doc_type == 'Agreement' && doc.mode == 'test') {
         var fields=%s, data={};
         for (var i in fields) {
@@ -94,10 +122,16 @@ agreements_test_by_local_seq_view = ViewDefinition('agreements', 'test_by_local_
         }
         emit(doc._local_seq, data);
     }
-}''' % CHANGES_FIELDS)
+}"""
+    % CHANGES_FIELDS,
+)
 
-conflicts_view = ViewDefinition('conflicts', 'all', '''function(doc) {
+conflicts_view = ViewDefinition(
+    "conflicts",
+    "all",
+    """function(doc) {
     if (doc._conflicts) {
         emit(doc._rev, [doc._rev].concat(doc._conflicts));
     }
-}''')
+}""",
+)

@@ -1,26 +1,17 @@
 # -*- coding: utf-8 -*-
-from openprocurement.tender.openeu.adapters import (
-    TenderAboveThresholdEUConfigurator
-)
-from openprocurement.tender.openua.adapters import (
-    TenderAboveThresholdUAConfigurator
-)
+from openprocurement.tender.openeu.adapters import TenderAboveThresholdEUConfigurator
+from openprocurement.tender.openua.adapters import TenderAboveThresholdUAConfigurator
 
-from openprocurement.tender.competitivedialogue.constants import (
-    MINIMAL_NUMBER_OF_BIDS
-)
+from openprocurement.tender.competitivedialogue.constants import MINIMAL_NUMBER_OF_BIDS
 from openprocurement.tender.competitivedialogue.models import (
-    CompetitiveDialogEU, CompetitiveDialogUA, TenderStage2EU, TenderStage2UA
+    CompetitiveDialogEU,
+    CompetitiveDialogUA,
+    TenderStage2EU,
+    TenderStage2UA,
 )
-from openprocurement.tender.openua.constants import (
-    TENDER_PERIOD as TENDERING_DURATION_UA,
-)
-from openprocurement.tender.openeu.constants import (
-    TENDERING_DURATION as TENDERING_DURATION_EU,
-)
-from openprocurement.tender.openeu.constants import (
-    PREQUALIFICATION_COMPLAINT_STAND_STILL
-)
+from openprocurement.tender.openua.constants import TENDER_PERIOD as TENDERING_DURATION_UA
+from openprocurement.tender.openeu.constants import TENDERING_DURATION as TENDERING_DURATION_EU
+from openprocurement.tender.openeu.constants import PREQUALIFICATION_COMPLAINT_STAND_STILL
 
 
 class TenderCDEUConfigurator(TenderAboveThresholdEUConfigurator):

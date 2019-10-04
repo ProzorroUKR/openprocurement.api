@@ -9,7 +9,7 @@ from openprocurement.tender.core.models import Lot as BaseLot
 
 class Lot(BaseLot):
     class Options:
-        roles = RolesFromCsv('Lot.csv', relative_to=__file__)
+        roles = RolesFromCsv("Lot.csv", relative_to=__file__)
 
     value = ModelType(Value)
     minimalStep = ModelType(Value, required=False)

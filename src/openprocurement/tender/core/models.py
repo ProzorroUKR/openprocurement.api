@@ -8,26 +8,32 @@ from pyramid.security import Allow
 from schematics.exceptions import ValidationError
 from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
-from schematics.types import (StringType, FloatType, URLType,
-                              BooleanType, BaseType, MD5Type, IntType,)
+from schematics.types import StringType, FloatType, URLType, BooleanType, BaseType, MD5Type, IntType
 from openprocurement.api.interfaces import IOPContent
 from openprocurement.api.models import (
-    Revision, Organization, Model, Period,
-    IsoDateTimeType, ListType, Document as BaseDocument, CPVClassification,
-    Location, Contract as BaseContract, Value,
+    Revision,
+    Organization,
+    Model,
+    Period,
+    IsoDateTimeType,
+    ListType,
+    Document as BaseDocument,
+    CPVClassification,
+    Location,
+    Contract as BaseContract,
+    Value,
     PeriodEndRequired as BasePeriodEndRequired,
 )
 from openprocurement.api.models import Item as BaseItem
-from openprocurement.api.models import (
-    schematics_default_role, schematics_embedded_role,
-)
+from openprocurement.api.models import schematics_default_role, schematics_embedded_role
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.api.utils import get_now, get_first_revision_date, get_root
 from openprocurement.api.constants import (
     SANDBOX_MODE,
     ADDITIONAL_CLASSIFICATIONS_SCHEMES,
     ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017,
-    FUNDERS, NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
+    FUNDERS,
+    NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
     MPC_REQUIRED_FROM,
     MILESTONES_VALIDATION_FROM,
 )
@@ -35,24 +41,27 @@ from openprocurement.api.constants import (
 from openprocurement.tender.core.constants import (
     CANT_DELETE_PERIOD_START_DATE_FROM,
     BID_LOTVALUES_VALIDATION_FROM,
-    CPV_ITEMS_CLASS_FROM
+    CPV_ITEMS_CLASS_FROM,
 )
 
-from openprocurement.tender.core.utils import (
-    calc_auction_end_time, rounding_shouldStartAfter
-)
+from openprocurement.tender.core.utils import calc_auction_end_time, rounding_shouldStartAfter
 from openprocurement.tender.core.validation import (
-    validate_lotvalue_value, is_positive_float,
-    validate_ua_road, validate_gmdn, validate_milestones,
-    validate_bid_value, validate_relatedlot,
+    validate_lotvalue_value,
+    is_positive_float,
+    validate_ua_road,
+    validate_gmdn,
+    validate_milestones,
+    validate_bid_value,
+    validate_relatedlot,
 )
 
 
-view_bid_role = (blacklist('owner_token', 'owner', 'transfer_token') + schematics_default_role)
-Administrator_bid_role = whitelist('tenderers')
+view_bid_role = blacklist("owner_token", "owner", "transfer_token") + schematics_default_role
+Administrator_bid_role = whitelist("tenderers")
 
-default_lot_role = (blacklist('numberOfBids') + schematics_default_role)
-embedded_lot_role = (blacklist('numberOfBids') + schematics_embedded_role)
+default_lot_role = blacklist("numberOfBids") + schematics_default_role
+embedded_lot_role = blacklist("numberOfBids") + schematics_embedded_role
+
 
 class EnquiryPeriod(Period):
     clarificationsUntil = IsoDateTimeType()
@@ -61,11 +70,11 @@ class EnquiryPeriod(Period):
 
 class PeriodEndRequired(BasePeriodEndRequired):
     def validate_startDate(self, data, period):
-        if period and data.get('endDate') and data.get('endDate') < period:
+        if period and data.get("endDate") and data.get("endDate") < period:
             raise ValidationError(u"period should begin before its end")
-        tender = get_tender(data['__parent__'])
-        if tender.get('revisions') and tender['revisions'][0].date > CANT_DELETE_PERIOD_START_DATE_FROM and not period:
-            raise ValidationError([u'This field cannot be deleted'])
+        tender = get_tender(data["__parent__"])
+        if tender.get("revisions") and tender["revisions"][0].date > CANT_DELETE_PERIOD_START_DATE_FROM and not period:
+            raise ValidationError([u"This field cannot be deleted"])
 
 
 class PeriodStartEndRequired(Period):
@@ -91,7 +100,7 @@ class TenderAuctionPeriod(Period):
         if self.endDate:
             return
         tender = self.__parent__
-        if tender.lots or tender.status not in ['active.tendering', 'active.auction']:
+        if tender.lots or tender.status not in ["active.tendering", "active.auction"]:
             return
         if self.startDate and get_now() > calc_auction_end_time(tender.numberOfBids, self.startDate):
             start_after = calc_auction_end_time(tender.numberOfBids, self.startDate)
@@ -101,10 +110,9 @@ class TenderAuctionPeriod(Period):
 
 
 class ComplaintModelType(ModelType):
-    view_claim_statuses = ['active.enquiries', 'active.tendering', 'active.auction']
+    view_claim_statuses = ["active.enquiries", "active.tendering", "active.auction"]
 
-    def export_loop(self, model_instance, field_converter,
-                    role=None, print_none=False):
+    def export_loop(self, model_instance, field_converter, role=None, print_none=False):
         """
         Calls the main `export_loop` implementation because they are both
         supposed to operate on models.
@@ -114,12 +122,10 @@ class ComplaintModelType(ModelType):
         else:
             model_class = self.model_class
 
-        if role in self.view_claim_statuses and getattr(model_instance, 'type') == 'claim':
-            role = 'view_claim'
+        if role in self.view_claim_statuses and getattr(model_instance, "type") == "claim":
+            role = "view_claim"
 
-        shaped = export_loop(model_class, model_instance,
-                             field_converter,
-                             role=role, print_none=print_none)
+        shaped = export_loop(model_class, model_instance, field_converter, role=role, print_none=print_none)
 
         if shaped and len(shaped) == 0 and self.allow_none():
             return shaped
@@ -130,43 +136,47 @@ class ComplaintModelType(ModelType):
 
 
 class Document(BaseDocument):
-    documentOf = StringType(required=True, choices=['tender', 'item', 'lot'], default='tender')
+    documentOf = StringType(required=True, choices=["tender", "item", "lot"], default="tender")
 
     def validate_relatedItem(self, data, relatedItem):
-        if not relatedItem and data.get('documentOf') in ['item', 'lot']:
-            raise ValidationError(u'This field is required.')
-        parent = data['__parent__']
+        if not relatedItem and data.get("documentOf") in ["item", "lot"]:
+            raise ValidationError(u"This field is required.")
+        parent = data["__parent__"]
         if relatedItem and isinstance(parent, Model):
             tender = get_tender(parent)
-            if data.get('documentOf') == 'lot' and relatedItem not in [i.id for i in tender.lots if i]:
+            if data.get("documentOf") == "lot" and relatedItem not in [i.id for i in tender.lots if i]:
                 raise ValidationError(u"relatedItem should be one of lots")
-            if data.get('documentOf') == 'item' and relatedItem not in [i.id for i in tender.items if i]:
+            if data.get("documentOf") == "item" and relatedItem not in [i.id for i in tender.items if i]:
                 raise ValidationError(u"relatedItem should be one of items")
 
 
 def bids_validation_wrapper(validation_func):
     def validator(klass, data, value):
         orig_data = data
-        while not isinstance(data['__parent__'], Tender):
+        while not isinstance(data["__parent__"], Tender):
             # in case this validation wrapper is used for subelement of bid (such as parameters)
             # traverse back to the bid to get possibility to check status  # troo-to-to =)
-            data = data['__parent__']
-        if data['status'] in ('deleted', 'invalid', 'invalid.pre-qualification', 'draft', 'unsuccessful'):
+            data = data["__parent__"]
+        if data["status"] in ("deleted", "invalid", "invalid.pre-qualification", "draft", "unsuccessful"):
             # skip not valid bids
             return
-        tender = data['__parent__']
+        tender = data["__parent__"]
         request = tender.__parent__.request
         if request.method == "PATCH" and isinstance(tender, Tender) and request.authenticated_role == "tender_owner":
             # disable bids validation on tender PATCH requests as tender bids will be invalidated
             return
         return validation_func(klass, orig_data, value)
+
     return validator
 
 
 def validate_dkpp(items, *args):
     if items and not any([i.scheme in ADDITIONAL_CLASSIFICATIONS_SCHEMES for i in items]):
-        raise ValidationError(u"One of additional classifications should be one of [{0}].".format(
-            ', '.join(ADDITIONAL_CLASSIFICATIONS_SCHEMES)))
+        raise ValidationError(
+            u"One of additional classifications should be one of [{0}].".format(
+                ", ".join(ADDITIONAL_CLASSIFICATIONS_SCHEMES)
+            )
+        )
 
 
 def validate_parameters_uniq(parameters, *args):
@@ -218,13 +228,15 @@ class LotAuctionPeriod(Period):
             return
         tender = get_tender(self)
         lot = self.__parent__
-        if tender.status not in ['active.tendering', 'active.auction'] or lot.status != 'active':
+        if tender.status not in ["active.tendering", "active.auction"] or lot.status != "active":
             return
         if self.startDate and get_now() > calc_auction_end_time(lot.numberOfBids, self.startDate):
             start_after = calc_auction_end_time(lot.numberOfBids, self.startDate)
         else:
             decision_dates = [
-                datetime.combine(complaint.dateDecision.date() + timedelta(days=3), time(0, tzinfo=complaint.dateDecision.tzinfo))
+                datetime.combine(
+                    complaint.dateDecision.date() + timedelta(days=3), time(0, tzinfo=complaint.dateDecision.tzinfo)
+                )
                 for complaint in tender.complaints
                 if complaint.dateDecision
             ]
@@ -235,30 +247,43 @@ class LotAuctionPeriod(Period):
 
 class Item(BaseItem):
     """A good, service, or work to be contracted."""
+
     classification = ModelType(CPVClassification, required=True)
     deliveryLocation = ModelType(Location)
 
     def validate_additionalClassifications(self, data, items):
-        tender = get_tender(data['__parent__'])
-        tender_date = tender.get('revisions')[0].date if tender.get('revisions') else get_now()
+        tender = get_tender(data["__parent__"])
+        tender_date = tender.get("revisions")[0].date if tender.get("revisions") else get_now()
         tender_from_2017 = tender_date > CPV_ITEMS_CLASS_FROM
-        classification_id = data['classification']['id']
-        not_cpv = classification_id == '99999999-9'
+        classification_id = data["classification"]["id"]
+        not_cpv = classification_id == "99999999-9"
         required = tender_date < NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM and not_cpv
         if not items and (not tender_from_2017 or tender_from_2017 and not_cpv and required):
-            raise ValidationError(u'This field is required.')
-        elif tender_from_2017 and not_cpv and items and not any([i.scheme in ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017 for i in items]):
-            raise ValidationError(u"One of additional classifications should be one of [{0}].".format(
-                ', '.join(ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017)))
-        elif not tender_from_2017 and items and not any([i.scheme in ADDITIONAL_CLASSIFICATIONS_SCHEMES for i in items]):
-            raise ValidationError(u"One of additional classifications should be one of [{0}].".format(
-                ', '.join(ADDITIONAL_CLASSIFICATIONS_SCHEMES)))
+            raise ValidationError(u"This field is required.")
+        elif (
+            tender_from_2017
+            and not_cpv
+            and items
+            and not any([i.scheme in ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017 for i in items])
+        ):
+            raise ValidationError(
+                u"One of additional classifications should be one of [{0}].".format(
+                    ", ".join(ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017)
+                )
+            )
+        elif (
+            not tender_from_2017 and items and not any([i.scheme in ADDITIONAL_CLASSIFICATIONS_SCHEMES for i in items])
+        ):
+            raise ValidationError(
+                u"One of additional classifications should be one of [{0}].".format(
+                    ", ".join(ADDITIONAL_CLASSIFICATIONS_SCHEMES)
+                )
+            )
         validate_ua_road(classification_id, items)
         validate_gmdn(classification_id, items)
 
-
     def validate_relatedLot(self, data, relatedLot):
-        parent = data['__parent__']
+        parent = data["__parent__"]
         if relatedLot and isinstance(parent, Model):
             validate_relatedlot(get_tender(parent), relatedLot)
 
@@ -270,10 +295,10 @@ class ContractValue(Value):
 class Contract(BaseContract):
     class Options:
         roles = {
-            'create': blacklist('id', 'status', 'date', 'documents', 'dateSigned'),
-            'edit': blacklist('id', 'documents', 'date', 'awardID', 'suppliers', 'items', 'contractID'),
-            'embedded': schematics_embedded_role,
-            'view': schematics_default_role,
+            "create": blacklist("id", "status", "date", "documents", "dateSigned"),
+            "edit": blacklist("id", "documents", "date", "awardID", "suppliers", "items", "contractID"),
+            "embedded": schematics_embedded_role,
+            "view": schematics_default_role,
         }
 
     value = ModelType(ContractValue)
@@ -281,16 +306,20 @@ class Contract(BaseContract):
     documents = ListType(ModelType(Document, required=True), default=list())
 
     def validate_awardID(self, data, awardID):
-        parent = data['__parent__']
+        parent = data["__parent__"]
         if awardID and isinstance(parent, Model) and awardID not in [i.id for i in parent.awards]:
             raise ValidationError(u"awardID should be one of awards")
 
     def validate_dateSigned(self, data, value):
-        parent = data['__parent__']
+        parent = data["__parent__"]
         if value and isinstance(parent, Model):
-            award = [i for i in parent.awards if i.id == data['awardID']][0]
+            award = [i for i in parent.awards if i.id == data["awardID"]][0]
             if award.complaintPeriod.endDate >= value:
-                raise ValidationError(u"Contract signature date should be after award complaint period end date ({})".format(award.complaintPeriod.endDate.isoformat()))
+                raise ValidationError(
+                    u"Contract signature date should be after award complaint period end date ({})".format(
+                        award.complaintPeriod.endDate.isoformat()
+                    )
+                )
             if value > get_now():
                 raise ValidationError(u"Contract signature date can't be in the future")
 
@@ -298,13 +327,13 @@ class Contract(BaseContract):
 class LotValue(Model):
     class Options:
         roles = {
-            'embedded': schematics_embedded_role,
-            'view': schematics_default_role,
-            'create': whitelist('value', 'relatedLot'),
-            'edit': whitelist('value', 'relatedLot'),
-            'auction_view': whitelist('value', 'date', 'relatedLot', 'participationUrl'),
-            'auction_post': whitelist('value', 'date', 'relatedLot'),
-            'auction_patch': whitelist('participationUrl', 'relatedLot'),
+            "embedded": schematics_embedded_role,
+            "view": schematics_default_role,
+            "create": whitelist("value", "relatedLot"),
+            "edit": whitelist("value", "relatedLot"),
+            "auction_view": whitelist("value", "date", "relatedLot", "participationUrl"),
+            "auction_post": whitelist("value", "date", "relatedLot"),
+            "auction_patch": whitelist("participationUrl", "relatedLot"),
         }
 
     value = ModelType(Value, required=True)
@@ -313,12 +342,12 @@ class LotValue(Model):
     date = IsoDateTimeType(default=get_now)
 
     def validate_value(self, data, value):
-        parent = data['__parent__']
+        parent = data["__parent__"]
         if isinstance(parent, Model):
-            validate_lotvalue_value(get_tender(parent), data['relatedLot'], value)
+            validate_lotvalue_value(get_tender(parent), data["relatedLot"], value)
 
     def validate_relatedLot(self, data, relatedLot):
-        parent = data['__parent__']
+        parent = data["__parent__"]
         if isinstance(parent, Model):
             validate_relatedlot(get_tender(parent), relatedLot)
 
@@ -328,49 +357,49 @@ class Parameter(Model):
     value = FloatType(required=True)
 
     def validate_code(self, data, code):
-        parent = data['__parent__']
+        parent = data["__parent__"]
         if isinstance(parent, Model) and code not in [i.code for i in (get_tender(parent).features or [])]:
             raise ValidationError(u"code should be one of feature code.")
 
     def validate_value(self, data, value):
-        parent = data['__parent__']
+        parent = data["__parent__"]
         if isinstance(parent, Model):
             tender = get_tender(parent)
             codes = dict([(i.code, [x.value for x in i.enum]) for i in (tender.features or [])])
-            if data['code'] in codes and value not in codes[data['code']]:
+            if data["code"] in codes and value not in codes[data["code"]]:
                 raise ValidationError(u"value should be one of feature value.")
 
 
 class Bid(Model):
     class Options:
         roles = {
-            'Administrator': Administrator_bid_role,
-            'embedded': view_bid_role,
-            'view': view_bid_role,
-            'create': whitelist('value', 'status', 'tenderers', 'parameters', 'lotValues', 'documents'),
-            'edit': whitelist('value', 'status', 'tenderers', 'parameters', 'lotValues'),
-            'auction_view': whitelist('value', 'lotValues', 'id', 'date', 'parameters', 'participationUrl'),
-            'auction_post': whitelist('value', 'lotValues', 'id', 'date'),
-            'auction_patch': whitelist('id', 'lotValues', 'participationUrl'),
-            'active.enquiries': whitelist(),
-            'active.tendering': whitelist(),
-            'active.auction': whitelist(),
-            'active.qualification': view_bid_role,
-            'active.awarded': view_bid_role,
-            'complete': view_bid_role,
-            'unsuccessful': view_bid_role,
-            'cancelled': view_bid_role,
+            "Administrator": Administrator_bid_role,
+            "embedded": view_bid_role,
+            "view": view_bid_role,
+            "create": whitelist("value", "status", "tenderers", "parameters", "lotValues", "documents"),
+            "edit": whitelist("value", "status", "tenderers", "parameters", "lotValues"),
+            "auction_view": whitelist("value", "lotValues", "id", "date", "parameters", "participationUrl"),
+            "auction_post": whitelist("value", "lotValues", "id", "date"),
+            "auction_patch": whitelist("id", "lotValues", "participationUrl"),
+            "active.enquiries": whitelist(),
+            "active.tendering": whitelist(),
+            "active.auction": whitelist(),
+            "active.qualification": view_bid_role,
+            "active.awarded": view_bid_role,
+            "complete": view_bid_role,
+            "unsuccessful": view_bid_role,
+            "cancelled": view_bid_role,
         }
 
     def __local_roles__(self):
-        return dict([('{}_{}'.format(self.owner, self.owner_token), 'bid_owner')])
+        return dict([("{}_{}".format(self.owner, self.owner_token), "bid_owner")])
 
     tenderers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1, max_size=1)
     parameters = ListType(ModelType(Parameter, required=True), default=list(), validators=[validate_parameters_uniq])
     lotValues = ListType(ModelType(LotValue, required=True), default=list())
     date = IsoDateTimeType(default=get_now)
     id = MD5Type(required=True, default=lambda: uuid4().hex)
-    status = StringType(choices=['active', 'draft'], default='active')
+    status = StringType(choices=["active", "draft"], default="active")
     value = ModelType(Value)
     documents = ListType(ModelType(Document, required=True), default=list())
     participationUrl = URLType()
@@ -378,7 +407,7 @@ class Bid(Model):
     transfer_token = StringType()
     owner = StringType()
 
-    __name__ = ''
+    __name__ = ""
 
     def import_data(self, raw_data, **kw):
         """
@@ -389,7 +418,7 @@ class Bid(Model):
             The data to be imported.
         """
         data = self.convert(raw_data, **kw)
-        del_keys = [ k for k in data.keys() if k != "value" and data[k] is None]
+        del_keys = [k for k in data.keys() if k != "value" and data[k] is None]
         for k in del_keys:
             del data[k]
 
@@ -397,63 +426,67 @@ class Bid(Model):
         return self
 
     def __acl__(self):
-        return [
-            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_bid'),
-        ]
+        return [(Allow, "{}_{}".format(self.owner, self.owner_token), "edit_bid")]
 
     def validate_participationUrl(self, data, url):
-        parent = data['__parent__']
+        parent = data["__parent__"]
         if url and isinstance(parent, Model) and get_tender(parent).lots:
             raise ValidationError(u"url should be posted for each lot of bid")
 
     def validate_lotValues(self, data, values):
-        parent = data['__parent__']
+        parent = data["__parent__"]
         if isinstance(parent, Model):
             tender = parent
             if tender.lots and not values:
-                raise ValidationError(u'This field is required.')
-            if tender.get('revisions') and tender['revisions'][0].date > BID_LOTVALUES_VALIDATION_FROM and values:
+                raise ValidationError(u"This field is required.")
+            if tender.get("revisions") and tender["revisions"][0].date > BID_LOTVALUES_VALIDATION_FROM and values:
                 lots = [i.relatedLot for i in values]
                 if len(lots) != len(set(lots)):
-                    raise ValidationError(u'bids don\'t allow duplicated proposals')
+                    raise ValidationError(u"bids don't allow duplicated proposals")
 
     def validate_value(self, data, value):
-        parent = data['__parent__']
+        parent = data["__parent__"]
         if isinstance(parent, Model):
             validate_bid_value(parent, value)
 
     def validate_parameters(self, data, parameters):
-        parent = data['__parent__']
+        parent = data["__parent__"]
         if isinstance(parent, Model):
             tender = parent
             if tender.lots:
-                lots = [i.relatedLot for i in data['lotValues']]
+                lots = [i.relatedLot for i in data["lotValues"]]
                 items = [i.id for i in tender.items if i.relatedLot in lots]
-                codes = dict([
-                    (i.code, [x.value for x in i.enum])
-                    for i in (tender.features or [])
-                    if i.featureOf == 'tenderer' or i.featureOf == 'lot' and
-                       i.relatedItem in lots or i.featureOf == 'item' and i.relatedItem in items
-                ])
-                if set([i['code'] for i in parameters]) != set(codes):
+                codes = dict(
+                    [
+                        (i.code, [x.value for x in i.enum])
+                        for i in (tender.features or [])
+                        if i.featureOf == "tenderer"
+                        or i.featureOf == "lot"
+                        and i.relatedItem in lots
+                        or i.featureOf == "item"
+                        and i.relatedItem in items
+                    ]
+                )
+                if set([i["code"] for i in parameters]) != set(codes):
                     raise ValidationError(u"All features parameters is required.")
             elif not parameters and tender.features:
-                raise ValidationError(u'This field is required.')
-            elif set([i['code'] for i in parameters]) != set([i.code for i in (tender.features or [])]):
+                raise ValidationError(u"This field is required.")
+            elif set([i["code"] for i in parameters]) != set([i.code for i in (tender.features or [])]):
                 raise ValidationError(u"All features parameters is required.")
 
 
-PROCURING_ENTITY_KINDS = ('general', 'special', 'defense', 'central', 'other')
+PROCURING_ENTITY_KINDS = ("general", "special", "defense", "central", "other")
 
 
 class ProcuringEntity(Organization):
     """An organization."""
+
     class Options:
         roles = {
-            'embedded': schematics_embedded_role,
-            'view': schematics_default_role,
-            'edit_active.enquiries': schematics_default_role + blacklist("kind"),
-            'edit_active.tendering': schematics_default_role + blacklist("kind"),
+            "embedded": schematics_embedded_role,
+            "view": schematics_default_role,
+            "edit_active.enquiries": schematics_default_role + blacklist("kind"),
+            "edit_active.tendering": schematics_default_role + blacklist("kind"),
         }
 
     kind = StringType(choices=PROCURING_ENTITY_KINDS)
@@ -462,72 +495,80 @@ class ProcuringEntity(Organization):
 class Question(Model):
     class Options:
         roles = {
-            'create': whitelist('author', 'title', 'description', 'questionOf', 'relatedItem'),
-            'edit': whitelist('answer'),
-            'embedded': schematics_embedded_role,
-            'view': schematics_default_role,
-            'active.enquiries': (blacklist('author') + schematics_embedded_role),
-            'active.tendering': (blacklist('author') + schematics_embedded_role),
-            'active.auction': (blacklist('author') + schematics_embedded_role),
-            'active.pre-qualification': (blacklist('author') + schematics_embedded_role),
-            'active.pre-qualification.stand-still': (blacklist('author') + schematics_embedded_role),
-            'active.qualification': schematics_default_role,
-            'active.awarded': schematics_default_role,
-            'complete': schematics_default_role,
-            'unsuccessful': schematics_default_role,
-            'cancelled': schematics_default_role,
+            "create": whitelist("author", "title", "description", "questionOf", "relatedItem"),
+            "edit": whitelist("answer"),
+            "embedded": schematics_embedded_role,
+            "view": schematics_default_role,
+            "active.enquiries": (blacklist("author") + schematics_embedded_role),
+            "active.tendering": (blacklist("author") + schematics_embedded_role),
+            "active.auction": (blacklist("author") + schematics_embedded_role),
+            "active.pre-qualification": (blacklist("author") + schematics_embedded_role),
+            "active.pre-qualification.stand-still": (blacklist("author") + schematics_embedded_role),
+            "active.qualification": schematics_default_role,
+            "active.awarded": schematics_default_role,
+            "complete": schematics_default_role,
+            "unsuccessful": schematics_default_role,
+            "cancelled": schematics_default_role,
         }
 
     id = MD5Type(required=True, default=lambda: uuid4().hex)
-    author = ModelType(Organization, required=True)  # who is asking question (contactPoint - person, identification - organization that person represents)
+    author = ModelType(
+        Organization, required=True
+    )  # who is asking question (contactPoint - person, identification - organization that person represents)
     title = StringType(required=True)  # title of the question
     description = StringType()  # description of the question
     date = IsoDateTimeType(default=get_now)  # autogenerated date of posting
     answer = StringType()  # only tender owner can post answer
-    questionOf = StringType(required=True, choices=['tender', 'item', 'lot'], default='tender')
+    questionOf = StringType(required=True, choices=["tender", "item", "lot"], default="tender")
     relatedItem = StringType(min_length=1)
     dateAnswered = IsoDateTimeType()
 
     def validate_relatedItem(self, data, relatedItem):
-        if not relatedItem and data.get('questionOf') in ['item', 'lot']:
-            raise ValidationError(u'This field is required.')
-        parent = data['__parent__']
+        if not relatedItem and data.get("questionOf") in ["item", "lot"]:
+            raise ValidationError(u"This field is required.")
+        parent = data["__parent__"]
         if relatedItem and isinstance(parent, Model):
             tender = get_tender(parent)
-            if data.get('questionOf') == 'lot' and relatedItem not in [i.id for i in tender.lots if i]:
+            if data.get("questionOf") == "lot" and relatedItem not in [i.id for i in tender.lots if i]:
                 raise ValidationError(u"relatedItem should be one of lots")
-            if data.get('questionOf') == 'item' and relatedItem not in [i.id for i in tender.items if i]:
+            if data.get("questionOf") == "item" and relatedItem not in [i.id for i in tender.items if i]:
                 raise ValidationError(u"relatedItem should be one of items")
 
 
 class Complaint(Model):
     class Options:
         roles = {
-            'create': whitelist('author', 'title', 'description', 'status', 'relatedLot'),
-            'draft': whitelist('author', 'title', 'description', 'status'),
-            'cancellation': whitelist('cancellationReason', 'status'),
-            'satisfy': whitelist('satisfied', 'status'),
-            'answer': whitelist('resolution', 'resolutionType', 'status', 'tendererAction'),
-            'action': whitelist('tendererAction'),
-            'review': whitelist('decision', 'status'),
-            'view': view_bid_role,
-            'view_claim': (blacklist('author') + view_bid_role),
-            'active.enquiries': view_bid_role,
-            'active.tendering': view_bid_role,
-            'active.auction': view_bid_role,
-            'active.qualification': view_bid_role,
-            'active.awarded': view_bid_role,
-            'complete': view_bid_role,
-            'unsuccessful': view_bid_role,
-            'cancelled': view_bid_role,
+            "create": whitelist("author", "title", "description", "status", "relatedLot"),
+            "draft": whitelist("author", "title", "description", "status"),
+            "cancellation": whitelist("cancellationReason", "status"),
+            "satisfy": whitelist("satisfied", "status"),
+            "answer": whitelist("resolution", "resolutionType", "status", "tendererAction"),
+            "action": whitelist("tendererAction"),
+            "review": whitelist("decision", "status"),
+            "view": view_bid_role,
+            "view_claim": (blacklist("author") + view_bid_role),
+            "active.enquiries": view_bid_role,
+            "active.tendering": view_bid_role,
+            "active.auction": view_bid_role,
+            "active.qualification": view_bid_role,
+            "active.awarded": view_bid_role,
+            "complete": view_bid_role,
+            "unsuccessful": view_bid_role,
+            "cancelled": view_bid_role,
         }
+
     # system
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     complaintID = StringType()
     date = IsoDateTimeType(default=get_now)  # autogenerated date of posting
-    status = StringType(choices=['draft', 'claim', 'answered', 'pending', 'invalid', 'resolved', 'declined', 'cancelled', 'ignored'], default='draft')
+    status = StringType(
+        choices=["draft", "claim", "answered", "pending", "invalid", "resolved", "declined", "cancelled", "ignored"],
+        default="draft",
+    )
     documents = ListType(ModelType(Document, required=True), default=list())
-    type = StringType(choices=['claim', 'complaint'], default='claim')  # 'complaint' if status in ['pending'] or 'claim' if status in ['draft', 'claim', 'answered']
+    type = StringType(
+        choices=["claim", "complaint"], default="claim"
+    )  # 'complaint' if status in ['pending'] or 'claim' if status in ['draft', 'claim', 'answered']
     owner_token = StringType()
     transfer_token = StringType()
     owner = StringType()
@@ -539,7 +580,7 @@ class Complaint(Model):
     dateSubmitted = IsoDateTimeType()
     # tender owner
     resolution = StringType()
-    resolutionType = StringType(choices=['invalid', 'resolved', 'declined'])
+    resolutionType = StringType(choices=["invalid", "resolved", "declined"])
     dateAnswered = IsoDateTimeType()
     tendererAction = StringType()
     tendererActionDate = IsoDateTimeType()
@@ -554,50 +595,54 @@ class Complaint(Model):
     dateCanceled = IsoDateTimeType()
 
     def serialize(self, role=None, context=None):
-        if role == 'view' and self.type == 'claim' and get_tender(self).status in ['active.enquiries', 'active.tendering']:
-            role = 'view_claim'
+        if (
+            role == "view"
+            and self.type == "claim"
+            and get_tender(self).status in ["active.enquiries", "active.tendering"]
+        ):
+            role = "view_claim"
         return super(Complaint, self).serialize(role=role, context=context)
 
     def get_role(self):
         root = self.get_root()
         request = root.request
-        data = request.json_body['data']
-        if request.authenticated_role == 'complaint_owner' and data.get('status', self.status) == 'cancelled':
-            role = 'cancellation'
-        elif request.authenticated_role == 'complaint_owner' and self.status == 'draft':
-            role = 'draft'
-        elif request.authenticated_role == 'tender_owner' and self.status == 'claim':
-            role = 'answer'
+        data = request.json_body["data"]
+        if request.authenticated_role == "complaint_owner" and data.get("status", self.status) == "cancelled":
+            role = "cancellation"
+        elif request.authenticated_role == "complaint_owner" and self.status == "draft":
+            role = "draft"
+        elif request.authenticated_role == "tender_owner" and self.status == "claim":
+            role = "answer"
         # elif request.authenticated_role == 'tender_owner' and self.status == 'pending':
         #     role = 'action'
-        elif request.authenticated_role == 'complaint_owner' and self.status == 'answered':
-            role = 'satisfy'
+        elif request.authenticated_role == "complaint_owner" and self.status == "answered":
+            role = "satisfy"
         # elif request.authenticated_role == 'reviewers' and self.status == 'pending':
         #     role = 'review'
         else:
-            role = 'invalid'
+            role = "invalid"
         return role
 
     def __local_roles__(self):
-        return dict([('{}_{}'.format(self.owner, self.owner_token), 'complaint_owner')])
+        return dict([("{}_{}".format(self.owner, self.owner_token), "complaint_owner")])
 
     def __acl__(self):
         return [
-            (Allow, 'g:reviewers', 'edit_complaint'),
-            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_complaint'),
-            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'upload_complaint_documents'),
+            (Allow, "g:reviewers", "edit_complaint"),
+            (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_complaint"),
+            (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_complaint_documents"),
         ]
 
     def validate_resolutionType(self, data, resolutionType):
-        if not resolutionType and data.get('status') == 'answered':
-            raise ValidationError(u'This field is required.')
+        if not resolutionType and data.get("status") == "answered":
+            raise ValidationError(u"This field is required.")
 
     def validate_cancellationReason(self, data, cancellationReason):
-        if not cancellationReason and data.get('status') == 'cancelled':
-            raise ValidationError(u'This field is required.')
+        if not cancellationReason and data.get("status") == "cancelled":
+            raise ValidationError(u"This field is required.")
 
     def validate_relatedLot(self, data, relatedLot):
-        parent = data['__parent__']
+        parent = data["__parent__"]
         if relatedLot and isinstance(parent, Model):
             validate_relatedlot(get_tender(parent), relatedLot)
 
@@ -605,10 +650,10 @@ class Complaint(Model):
 class Cancellation(Model):
     class Options:
         roles = {
-            'create': whitelist('reason', 'status', 'cancellationOf', 'relatedLot'),
-            'edit': whitelist('status'),
-            'embedded': schematics_embedded_role,
-            'view': schematics_default_role,
+            "create": whitelist("reason", "status", "cancellationOf", "relatedLot"),
+            "edit": whitelist("status"),
+            "embedded": schematics_embedded_role,
+            "view": schematics_default_role,
         }
 
     id = MD5Type(required=True, default=lambda: uuid4().hex)
@@ -616,21 +661,22 @@ class Cancellation(Model):
     reason_en = StringType()
     reason_ru = StringType()
     date = IsoDateTimeType(default=get_now)
-    status = StringType(choices=['pending', 'active'], default='pending')
+    status = StringType(choices=["pending", "active"], default="pending")
     documents = ListType(ModelType(Document, required=True), default=list())
-    cancellationOf = StringType(required=True, choices=['tender', 'lot'], default='tender')
+    cancellationOf = StringType(required=True, choices=["tender", "lot"], default="tender")
     relatedLot = MD5Type()
 
     def validate_relatedLot(self, data, relatedLot):
-        if not relatedLot and data.get('cancellationOf') == 'lot':
-            raise ValidationError(u'This field is required.')
-        parent = data['__parent__']
+        if not relatedLot and data.get("cancellationOf") == "lot":
+            raise ValidationError(u"This field is required.")
+        parent = data["__parent__"]
         if relatedLot and isinstance(parent, Model) and relatedLot not in [i.id for i in parent.lots if i]:
             raise ValidationError(u"relatedLot should be one of lots")
 
 
 class BaseAward(Model):
     """ Base award """
+
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     title = StringType()  # Award title
     title_en = StringType()
@@ -640,7 +686,7 @@ class BaseAward(Model):
     description = StringType()  # Award description
     description_en = StringType()
     description_ru = StringType()
-    status = StringType(required=True, choices=['pending', 'unsuccessful', 'active', 'cancelled'], default='pending')
+    status = StringType(required=True, choices=["pending", "unsuccessful", "active", "cancelled"], default="pending")
     date = IsoDateTimeType(default=get_now)
     value = ModelType(Value)
     suppliers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1, max_size=1)
@@ -653,25 +699,28 @@ class Award(BaseAward):
         per contracting process e.g. because the contract is split amongst
         different providers, or because it is a standing offer.
     """
+
     class Options:
         roles = {
-            'create': blacklist('id', 'status', 'date', 'documents', 'complaints', 'complaintPeriod'),
-            'edit': whitelist('status', 'title', 'title_en', 'title_ru',
-                              'description', 'description_en', 'description_ru'),
-            'embedded': schematics_embedded_role,
-            'view': schematics_default_role,
-            'Administrator': whitelist('complaintPeriod'),
+            "create": blacklist("id", "status", "date", "documents", "complaints", "complaintPeriod"),
+            "edit": whitelist(
+                "status", "title", "title_en", "title_ru", "description", "description_en", "description_ru"
+            ),
+            "embedded": schematics_embedded_role,
+            "view": schematics_default_role,
+            "Administrator": whitelist("complaintPeriod"),
         }
+
     bid_id = MD5Type(required=True)
     lotID = MD5Type()
     complaints = ListType(ModelType(Complaint, required=True), default=list())
     complaintPeriod = ModelType(Period)
 
     def validate_lotID(self, data, lotID):
-        parent = data['__parent__']
+        parent = data["__parent__"]
         if isinstance(parent, Model):
             if not lotID and parent.lots:
-                raise ValidationError(u'This field is required.')
+                raise ValidationError(u"This field is required.")
             if lotID and lotID not in [lot.id for lot in parent.lots if lot]:
                 raise ValidationError(u"lotID should be one of lots")
 
@@ -688,7 +737,7 @@ class FeatureValue(Model):
 
 class Feature(Model):
     code = StringType(required=True, min_length=1, default=lambda: uuid4().hex)
-    featureOf = StringType(required=True, choices=['tenderer', 'lot', 'item'], default='tenderer')
+    featureOf = StringType(required=True, choices=["tenderer", "lot", "item"], default="tenderer")
     relatedItem = StringType(min_length=1)
     title = StringType(required=True, min_length=1)
     title_en = StringType()
@@ -696,17 +745,18 @@ class Feature(Model):
     description = StringType()
     description_en = StringType()
     description_ru = StringType()
-    enum = ListType(ModelType(FeatureValue, required=True), default=list(), min_size=1,
-                    validators=[validate_values_uniq])
+    enum = ListType(
+        ModelType(FeatureValue, required=True), default=list(), min_size=1, validators=[validate_values_uniq]
+    )
 
     def validate_relatedItem(self, data, relatedItem):
-        if not relatedItem and data.get('featureOf') in ['item', 'lot']:
-            raise ValidationError(u'This field is required.')
-        parent = data['__parent__']
+        if not relatedItem and data.get("featureOf") in ["item", "lot"]:
+            raise ValidationError(u"This field is required.")
+        parent = data["__parent__"]
         if isinstance(parent, Model):
-            if data.get('featureOf') == 'item' and relatedItem not in [i.id for i in parent.items if i]:
+            if data.get("featureOf") == "item" and relatedItem not in [i.id for i in parent.items if i]:
                 raise ValidationError(u"relatedItem should be one of items")
-            if data.get('featureOf') == 'lot' and relatedItem not in [i.id for i in parent.lots if i]:
+            if data.get("featureOf") == "lot" and relatedItem not in [i.id for i in parent.lots if i]:
                 raise ValidationError(u"relatedItem should be one of lots")
 
 
@@ -719,22 +769,43 @@ class BaseLot(Model):
     description_en = StringType()
     description_ru = StringType()
     date = IsoDateTimeType()
-    status = StringType(choices=['active', 'cancelled', 'unsuccessful', 'complete'], default='active')
+    status = StringType(choices=["active", "cancelled", "unsuccessful", "complete"], default="active")
 
 
 class Lot(BaseLot):
     class Options:
         roles = {
-            'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'guarantee', 'minimalStep'),
-            'edit': whitelist('title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'guarantee', 'minimalStep'),
-            'embedded': embedded_lot_role,
-            'view': default_lot_role,
-            'default': default_lot_role,
-            'auction_view': default_lot_role,
-            'auction_patch': whitelist('id', 'auctionUrl'),
-            'chronograph': whitelist('id', 'auctionPeriod'),
-            'chronograph_view': whitelist('id', 'auctionPeriod', 'numberOfBids', 'status'),
-            'Administrator': whitelist('auctionPeriod'),
+            "create": whitelist(
+                "id",
+                "title",
+                "title_en",
+                "title_ru",
+                "description",
+                "description_en",
+                "description_ru",
+                "value",
+                "guarantee",
+                "minimalStep",
+            ),
+            "edit": whitelist(
+                "title",
+                "title_en",
+                "title_ru",
+                "description",
+                "description_en",
+                "description_ru",
+                "value",
+                "guarantee",
+                "minimalStep",
+            ),
+            "embedded": embedded_lot_role,
+            "view": default_lot_role,
+            "default": default_lot_role,
+            "auction_view": default_lot_role,
+            "auction_patch": whitelist("id", "auctionUrl"),
+            "chronograph": whitelist("id", "auctionPeriod"),
+            "chronograph_view": whitelist("id", "auctionPeriod", "numberOfBids", "status"),
+            "Administrator": whitelist("auctionPeriod"),
         }
 
     value = ModelType(Value, required=True)
@@ -761,28 +832,36 @@ class Lot(BaseLot):
 
     @serializable(serialized_name="minimalStep", type=ModelType(Value))
     def lot_minimalStep(self):
-        return Value(dict(amount=self.minimalStep.amount,
-                          currency=self.__parent__.minimalStep.currency,
-                          valueAddedTaxIncluded=self.__parent__.minimalStep.valueAddedTaxIncluded))
+        return Value(
+            dict(
+                amount=self.minimalStep.amount,
+                currency=self.__parent__.minimalStep.currency,
+                valueAddedTaxIncluded=self.__parent__.minimalStep.valueAddedTaxIncluded,
+            )
+        )
 
     @serializable(serialized_name="value", type=ModelType(Value))
     def lot_value(self):
-        return Value(dict(amount=self.value.amount,
-                          currency=self.__parent__.value.currency,
-                          valueAddedTaxIncluded=self.__parent__.value.valueAddedTaxIncluded))
+        return Value(
+            dict(
+                amount=self.value.amount,
+                currency=self.__parent__.value.currency,
+                valueAddedTaxIncluded=self.__parent__.value.valueAddedTaxIncluded,
+            )
+        )
 
     def validate_minimalStep(self, data, value):
-        if value and value.amount and data.get('value'):
-            if data.get('value').amount < value.amount:
+        if value and value.amount and data.get("value"):
+            if data.get("value").amount < value.amount:
                 raise ValidationError(u"value should be less than value of lot")
 
 
 class Duration(Model):
     days = IntType(required=True, min_value=1)
-    type = StringType(required=True, choices=['working', 'banking', 'calendar'])
+    type = StringType(required=True, choices=["working", "banking", "calendar"])
 
     def validate_days(self, data, value):
-        tender = get_root(data['__parent__'])
+        tender = get_root(data["__parent__"])
         if get_first_revision_date(tender, default=get_now()) > MILESTONES_VALIDATION_FROM and value > 1000:
             raise ValidationError(u"days shouldn't be more than 1000")
 
@@ -792,14 +871,18 @@ class Milestone(Model):
     title = StringType(
         required=True,
         choices=[
-            "executionOfWorks", "deliveryOfGoods",
-            "submittingServices", "signingTheContract",
-            "submissionDateOfApplications", "dateOfInvoicing",
-            "endDateOfTheReportingPeriod", "anotherEvent",
-        ]
+            "executionOfWorks",
+            "deliveryOfGoods",
+            "submittingServices",
+            "signingTheContract",
+            "submissionDateOfApplications",
+            "dateOfInvoicing",
+            "endDateOfTheReportingPeriod",
+            "anotherEvent",
+        ],
     )
     description = StringType()
-    type = StringType(required=True, choices=['financing'])
+    type = StringType(required=True, choices=["financing"])
     code = StringType(required=True, choices=["prepayment", "postpayment"])
     percentage = FloatType(required=True, max_value=100, validators=[is_positive_float])
 
@@ -813,12 +896,12 @@ class Milestone(Model):
             raise ValidationError(u"relatedLot should be one of the lots.")
 
     def validate_description(self, data, value):
-        if data.get('title', '') == "anotherEvent" and not value:
+        if data.get("title", "") == "anotherEvent" and not value:
             raise ValidationError(u"This field is required.")
 
         should_validate = get_first_revision_date(data["__parent__"], default=get_now()) > MILESTONES_VALIDATION_FROM
         if should_validate and value and len(value) > 2000:
-            raise ValidationError('description should contain at most 2000 characters')
+            raise ValidationError("description should contain at most 2000 characters")
 
 
 class PlanRelation(Model):
@@ -827,68 +910,117 @@ class PlanRelation(Model):
 
 @implementer(ITender)
 class BaseTender(OpenprocurementSchematicsDocument, Model):
-
     class Options:
-        namespace = 'Tender'
+        namespace = "Tender"
         _edit_role = whitelist(
-            'awardCriteriaDetails_ru', 'procurementMethodRationale_en', 'eligibilityCriteria', 'eligibilityCriteria_ru',
-            'awardCriteriaDetails_en', 'description', 'milestones', 'procurementMethodRationale_ru', 'description_en',
-            'mainProcurementCategory', 'procurementMethodDetails', 'title', 'awardCriteriaDetails',
-            'submissionMethodDetails_en', 'title_ru', 'procurementMethodRationale', 'eligibilityCriteria_en',
-            'description_ru',
-            'funders', 'submissionMethodDetails_ru', 'title_en', 'submissionMethodDetails'
+            "awardCriteriaDetails_ru",
+            "procurementMethodRationale_en",
+            "eligibilityCriteria",
+            "eligibilityCriteria_ru",
+            "awardCriteriaDetails_en",
+            "description",
+            "milestones",
+            "procurementMethodRationale_ru",
+            "description_en",
+            "mainProcurementCategory",
+            "procurementMethodDetails",
+            "title",
+            "awardCriteriaDetails",
+            "submissionMethodDetails_en",
+            "title_ru",
+            "procurementMethodRationale",
+            "eligibilityCriteria_en",
+            "description_ru",
+            "funders",
+            "submissionMethodDetails_ru",
+            "title_en",
+            "submissionMethodDetails",
         )
-        _create_role = _edit_role + whitelist('mode', 'procurementMethodType')
+        _create_role = _edit_role + whitelist("mode", "procurementMethodType")
         roles = {
             "create": _create_role,
-            "edit_draft": whitelist('status'),
+            "edit_draft": whitelist("status"),
             "edit": _edit_role,
-            "view": _create_role + whitelist(
-                'date', 'awardCriteria', 'tenderID', 'documents', 'doc_id', 'submissionMethod', 'dateModified',
-                'status', 'procurementMethod', 'owner', 'plans',
+            "view": _create_role
+            + whitelist(
+                "date",
+                "awardCriteria",
+                "tenderID",
+                "documents",
+                "doc_id",
+                "submissionMethod",
+                "dateModified",
+                "status",
+                "procurementMethod",
+                "owner",
+                "plans",
             ),
-            'auction_view': whitelist(
-                'tenderID', 'dateModified', 'bids', 'items', 'auctionPeriod', 'minimalStep', 'auctionUrl', 'features',
-                'lots'
+            "auction_view": whitelist(
+                "tenderID",
+                "dateModified",
+                "bids",
+                "items",
+                "auctionPeriod",
+                "minimalStep",
+                "auctionUrl",
+                "features",
+                "lots",
             ),
-            'auction_post': whitelist('bids'),
-            'auction_patch': whitelist('auctionUrl', 'bids', 'lots'),
-            'chronograph': whitelist('auctionPeriod', 'lots', 'next_check'),
-            'chronograph_view': whitelist(
-                'status', 'enquiryPeriod', 'tenderPeriod', 'auctionPeriod', 'awardPeriod', 'awards', 'lots', 'doc_id',
-                'submissionMethodDetails', 'mode', 'numberOfBids', 'complaints'
+            "auction_post": whitelist("bids"),
+            "auction_patch": whitelist("auctionUrl", "bids", "lots"),
+            "chronograph": whitelist("auctionPeriod", "lots", "next_check"),
+            "chronograph_view": whitelist(
+                "status",
+                "enquiryPeriod",
+                "tenderPeriod",
+                "auctionPeriod",
+                "awardPeriod",
+                "awards",
+                "lots",
+                "doc_id",
+                "submissionMethodDetails",
+                "mode",
+                "numberOfBids",
+                "complaints",
             ),
-            'Administrator': whitelist('status', 'mode', 'procuringEntity', 'auctionPeriod', 'lots'),
-            'listing': whitelist('dateModified', 'doc_id'),
-            'contracting': whitelist('doc_id', 'owner'),
-            'embedded': blacklist("_id", "_rev", "doc_type", "__parent__"),
-            'default': blacklist("doc_id", "__parent__"),  # obj.store() use default role
-            'plain': blacklist(  # is used for getting patches
-                '_attachments', 'revisions', 'dateModified', "_id", "_rev", "doc_type", '__parent__',
+            "Administrator": whitelist("status", "mode", "procuringEntity", "auctionPeriod", "lots"),
+            "listing": whitelist("dateModified", "doc_id"),
+            "contracting": whitelist("doc_id", "owner"),
+            "embedded": blacklist("_id", "_rev", "doc_type", "__parent__"),
+            "default": blacklist("doc_id", "__parent__"),  # obj.store() use default role
+            "plain": blacklist(  # is used for getting patches
+                "_attachments", "revisions", "dateModified", "_id", "_rev", "doc_type", "__parent__"
             ),
         }
 
     title = StringType(required=True)
     title_en = StringType()
     title_ru = StringType()
-    documents = ListType(ModelType(Document, required=True), default=list())  # All documents and attachments related to the tender.
+    documents = ListType(
+        ModelType(Document, required=True), default=list()
+    )  # All documents and attachments related to the tender.
     description = StringType()
     description_en = StringType()
     description_ru = StringType()
     date = IsoDateTimeType()
     dateModified = IsoDateTimeType()
-    tenderID = StringType()  # TenderID should always be the same as the OCID. It is included to make the flattened data structure more convenient.
+    tenderID = (
+        StringType()
+    )  # TenderID should always be the same as the OCID. It is included to make the flattened data structure more convenient.
     owner = StringType()
     owner_token = StringType()
     transfer_token = StringType()
-    mode = StringType(choices=['test'])
-    procurementMethodRationale = StringType()  # Justification of procurement method, especially in the case of Limited tendering.
+    mode = StringType(choices=["test"])
+    procurementMethodRationale = (
+        StringType()
+    )  # Justification of procurement method, especially in the case of Limited tendering.
     procurementMethodRationale_en = StringType()
     procurementMethodRationale_ru = StringType()
     if SANDBOX_MODE:
         procurementMethodDetails = StringType()
-    funders = ListType(ModelType(Organization, required=True),
-                       validators=[validate_funders_unique, validate_funders_ids])
+    funders = ListType(
+        ModelType(Organization, required=True), validators=[validate_funders_unique, validate_funders_ids]
+    )
     mainProcurementCategory = StringType(choices=["goods", "services", "works"])
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
     plans = ListType(ModelType(PlanRelation, required=True), default=list())
@@ -905,19 +1037,19 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
     def validate_mainProcurementCategory(self, data, value):
         validation_date = get_first_revision_date(data, default=get_now())
         if validation_date >= MPC_REQUIRED_FROM and value is None:
-            raise ValidationError(BaseType.MESSAGES['required'])
+            raise ValidationError(BaseType.MESSAGES["required"])
 
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
     revisions = ListType(ModelType(Revision, required=True), default=list())
 
     def __repr__(self):
-        return '<%s:%r@%r>' % (type(self).__name__, self.id, self.rev)
+        return "<%s:%r@%r>" % (type(self).__name__, self.id, self.rev)
 
     def __local_roles__(self):
-        roles = dict([('{}_{}'.format(self.owner, self.owner_token), 'tender_owner')])
+        roles = dict([("{}_{}".format(self.owner, self.owner_token), "tender_owner")])
         return roles
 
-    @serializable(serialized_name='id')
+    @serializable(serialized_name="id")
     def doc_id(self):
         """A property that is serialized by schematics exports."""
         return self._id
@@ -930,7 +1062,9 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
             The data to be imported.
         """
         data = self.convert(raw_data, **kw)
-        del_keys = [k for k in data.keys() if data[k] == self.__class__.fields[k].default or data[k] == getattr(self, k)]
+        del_keys = [
+            k for k in data.keys() if data[k] == self.__class__.fields[k].default or data[k] == getattr(self, k)
+        ]
         for k in del_keys:
             del data[k]
 
@@ -938,64 +1072,83 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
         return self
 
     def validate_procurementMethodDetails(self, *args, **kw):
-        if self.mode and self.mode == 'test' and self.procurementMethodDetails and self.procurementMethodDetails != '':
+        if self.mode and self.mode == "test" and self.procurementMethodDetails and self.procurementMethodDetails != "":
             raise ValidationError(u"procurementMethodDetails should be used with mode test")
-
 
     def validate_mainProcurementCategory(self, data, value):
         validation_date = get_first_revision_date(data, default=get_now())
         if validation_date >= MPC_REQUIRED_FROM and value is None:
-            raise ValidationError(BaseType.MESSAGES['required'])
+            raise ValidationError(BaseType.MESSAGES["required"])
 
     def validate_milestones(self, data, value):
         required = get_first_revision_date(data, default=get_now()) > MILESTONES_VALIDATION_FROM
         if required and (value is None or len(value) < 1):
-            raise ValidationError('Tender should contain at least one milestone')
+            raise ValidationError("Tender should contain at least one milestone")
+
 
 class Tender(BaseTender):
     """Data regarding tender process - publicly inviting prospective contractors to submit bids for evaluation and selecting a winner or winners."""
-    procurementMethod = StringType(choices=['open', 'selective', 'limited'], default='open')  # Specify tendering method as per GPA definitions of Open, Selective, Limited (http://www.wto.org/english/docs_e/legal_e/rev-gpr-94_01_e.htm)
-    awardCriteria = StringType(choices=['lowestCost', 'bestProposal', 'bestValueToGovernment', 'singleBidOnly'], default='lowestCost')  # Specify the selection criteria, by lowest cost,
+
+    procurementMethod = StringType(
+        choices=["open", "selective", "limited"], default="open"
+    )  # Specify tendering method as per GPA definitions of Open, Selective, Limited (http://www.wto.org/english/docs_e/legal_e/rev-gpr-94_01_e.htm)
+    awardCriteria = StringType(
+        choices=["lowestCost", "bestProposal", "bestValueToGovernment", "singleBidOnly"], default="lowestCost"
+    )  # Specify the selection criteria, by lowest cost,
     awardCriteriaDetails = StringType()  # Any detailed or further information on the selection criteria.
     awardCriteriaDetails_en = StringType()
     awardCriteriaDetails_ru = StringType()
-    submissionMethod = StringType(choices=['electronicAuction', 'electronicSubmission', 'written', 'inPerson'], default='electronicAuction')  # Specify the method by which bids must be submitted, in person, written, or electronic auction
+    submissionMethod = StringType(
+        choices=["electronicAuction", "electronicSubmission", "written", "inPerson"], default="electronicAuction"
+    )  # Specify the method by which bids must be submitted, in person, written, or electronic auction
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
     submissionMethodDetails_en = StringType()
     submissionMethodDetails_ru = StringType()
     eligibilityCriteria = StringType()  # A description of any eligibility criteria for potential suppliers.
     eligibilityCriteria_en = StringType()
     eligibilityCriteria_ru = StringType()
-    status = StringType(choices=['draft', 'active.enquiries', 'active.tendering', 'active.auction', 'active.qualification', 'active.awarded', 'complete', 'cancelled', 'unsuccessful'], default='active.enquiries')
+    status = StringType(
+        choices=[
+            "draft",
+            "active.enquiries",
+            "active.tendering",
+            "active.auction",
+            "active.qualification",
+            "active.awarded",
+            "complete",
+            "cancelled",
+            "unsuccessful",
+        ],
+        default="active.enquiries",
+    )
 
     create_accreditations = (1,)
     edit_accreditations = (2,)
 
-    __name__ = ''
+    __name__ = ""
 
     def get_role(self):
         root = self.__parent__
         request = root.request
-        if request.authenticated_role == 'Administrator':
-            role = 'Administrator'
-        elif request.authenticated_role == 'chronograph':
-            role = 'chronograph'
-        elif request.authenticated_role == 'auction':
-            role = 'auction_{}'.format(request.method.lower())
-        elif request.authenticated_role == 'contracting':
-            role = 'contracting'
+        if request.authenticated_role == "Administrator":
+            role = "Administrator"
+        elif request.authenticated_role == "chronograph":
+            role = "chronograph"
+        elif request.authenticated_role == "auction":
+            role = "auction_{}".format(request.method.lower())
+        elif request.authenticated_role == "contracting":
+            role = "contracting"
         else:
-            role = 'edit_{}'.format(request.context.status)
+            role = "edit_{}".format(request.context.status)
         return role
 
     def __acl__(self):
-        acl = [
-            (Allow, '{}_{}'.format(i.owner, i.owner_token), 'create_award_complaint')
-            for i in self.bids
-        ]
-        acl.extend([
-            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_tender'),
-            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'upload_tender_documents'),
-            (Allow, '{}_{}'.format(self.owner, self.owner_token), 'edit_complaint'),
-        ])
+        acl = [(Allow, "{}_{}".format(i.owner, i.owner_token), "create_award_complaint") for i in self.bids]
+        acl.extend(
+            [
+                (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_tender"),
+                (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_tender_documents"),
+                (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_complaint"),
+            ]
+        )
         return acl

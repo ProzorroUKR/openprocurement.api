@@ -8,7 +8,7 @@ from openprocurement.relocation.api.models import Transfer
 
 
 def validate_transfer_data(request):
-    update_logging_context(request, {'transfer_id': '__new__'})
+    update_logging_context(request, {"transfer_id": "__new__"})
     data = validate_json_data(request)
     if data is None:
         return
@@ -21,135 +21,133 @@ def validate_ownership_data(request):
         return
     data = validate_json_data(request)
 
-    for field in ['id', 'transfer']:
+    for field in ["id", "transfer"]:
         if not data.get(field):
-            request.errors.add('body', field, 'This field is required.')
+            request.errors.add("body", field, "This field is required.")
     if request.errors:
         request.errors.status = 422
         return
-    request.validated['ownership_data'] = data
+    request.validated["ownership_data"] = data
 
 
 def validate_accreditation_level(request, obj, level_name):
     level = getattr(type(obj), level_name)
     if not request.check_accreditations(level):
-        request.errors.add(
-            'ownership', 'accreditation',
-            'Broker Accreditation level does not permit ownership change')
+        request.errors.add("ownership", "accreditation", "Broker Accreditation level does not permit ownership change")
         request.errors.status = 403
         return
 
-    if obj.get('mode', None) is None and request.check_accreditations(('t',)):
-        request.errors.add(
-            'ownership', 'mode',
-            'Broker Accreditation level does not permit ownership change')
+    if obj.get("mode", None) is None and request.check_accreditations(("t",)):
+        request.errors.add("ownership", "mode", "Broker Accreditation level does not permit ownership change")
         request.errors.status = 403
         return
 
 
 def validate_tender_accreditation_level(request):
-    validate_accreditation_level(request, request.validated['tender'], 'transfer_accreditations' if hasattr(
-        request.validated['tender'], 'transfer_accreditations'
-    ) else 'create_accreditations')
+    validate_accreditation_level(
+        request,
+        request.validated["tender"],
+        "transfer_accreditations"
+        if hasattr(request.validated["tender"], "transfer_accreditations")
+        else "create_accreditations",
+    )
 
 
 def validate_contract_accreditation_level(request):
-    validate_accreditation_level(request, request.validated['contract'], 'create_accreditations')
+    validate_accreditation_level(request, request.validated["contract"], "create_accreditations")
 
 
 def validate_plan_accreditation_level(request):
-    validate_accreditation_level(request, request.validated['plan'], 'create_accreditations')
+    validate_accreditation_level(request, request.validated["plan"], "create_accreditations")
 
 
 def validate_agreement_accreditation_level(request):
-    validate_accreditation_level(request, request.validated['agreement'], 'create_accreditations')
+    validate_accreditation_level(request, request.validated["agreement"], "create_accreditations")
 
 
 def validate_owner_accreditation_level(request, obj):
     if request.errors:
         return
-    if not check_user_accreditations(request, obj.owner, ('x',), default=True):
-        request.errors.add(
-            'ownership', 'accreditation',
-            'Owner Accreditation level does not permit ownership change')
+    if not check_user_accreditations(request, obj.owner, ("x",), default=True):
+        request.errors.add("ownership", "accreditation", "Owner Accreditation level does not permit ownership change")
         request.errors.status = 403
 
 
 def validate_tender_owner_accreditation_level(request):
-    validate_owner_accreditation_level(request, request.validated['tender'])
+    validate_owner_accreditation_level(request, request.validated["tender"])
 
 
 def validate_contract_owner_accreditation_level(request):
-    validate_owner_accreditation_level(request, request.validated['contract'])
+    validate_owner_accreditation_level(request, request.validated["contract"])
 
 
 def validate_plan_owner_accreditation_level(request):
-    validate_owner_accreditation_level(request, request.validated['plan'])
+    validate_owner_accreditation_level(request, request.validated["plan"])
 
 
 def validate_agreement_owner_accreditation_level(request):
-    validate_owner_accreditation_level(request, request.validated['agreement'])
+    validate_owner_accreditation_level(request, request.validated["agreement"])
 
 
 def validate_transfer_token(request, obj):
     if request.errors:
         return
-    if obj.transfer_token != sha512(request.validated['ownership_data']['transfer']).hexdigest():
-        request.errors.add('body', 'transfer', 'Invalid transfer')
+    if obj.transfer_token != sha512(request.validated["ownership_data"]["transfer"]).hexdigest():
+        request.errors.add("body", "transfer", "Invalid transfer")
         request.errors.status = 403
 
 
 def validate_tender_transfer_token(request):
-    validate_transfer_token(request, request.validated['tender'])
+    validate_transfer_token(request, request.validated["tender"])
 
 
 def validate_contract_transfer_token(request):
-    validate_transfer_token(request, request.validated['contract'])
+    validate_transfer_token(request, request.validated["contract"])
 
 
 def validate_plan_transfer_token(request):
-    validate_transfer_token(request, request.validated['plan'])
+    validate_transfer_token(request, request.validated["plan"])
 
 
 def validate_agreement_transfer_token(request):
-    validate_transfer_token(request, request.validated['agreement'])
+    validate_transfer_token(request, request.validated["agreement"])
 
 
 def validate_tender(request):
     if request.errors:
         return
-    tender = request.validated['tender']
+    tender = request.validated["tender"]
     if tender.status in [
-        'complete', 'unsuccessful', 'cancelled',
-        'active.stage2.waiting',
-        'draft.pending', 'draft.unsuccessful'
+        "complete",
+        "unsuccessful",
+        "cancelled",
+        "active.stage2.waiting",
+        "draft.pending",
+        "draft.unsuccessful",
     ]:
         request.errors.add(
-            'body', 'data',
-            'Can\'t update credentials in current ({}) '
-            'tender status'.format(tender.status))
+            "body", "data", "Can't update credentials in current ({}) " "tender status".format(tender.status)
+        )
         request.errors.status = 403
 
 
 def validate_contract(request):
     if request.errors:
         return
-    contract = request.validated['contract']
+    contract = request.validated["contract"]
     if contract.status != "active":
         request.errors.add(
-            'body', 'data',
-            'Can\'t update credentials in current ({}) '
-            'contract status'.format(contract.status))
+            "body", "data", "Can't update credentials in current ({}) " "contract status".format(contract.status)
+        )
         request.errors.status = 403
 
 
 def validate_agreement(request):
     if request.errors:
         return
-    agreement = request.validated['agreement']
+    agreement = request.validated["agreement"]
     if agreement.status != "active":
         request.errors.add(
-            'body', 'data',
-            'Can\'t update credentials in current ({}) '
-            'agreement status'.format(agreement.status))
+            "body", "data", "Can't update credentials in current ({}) " "agreement status".format(agreement.status)
+        )
         request.errors.status = 403

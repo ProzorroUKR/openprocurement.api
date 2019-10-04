@@ -6,19 +6,21 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     create_tender_award_no_scale_invalid,
     create_tender_award_with_scale_not_required,
     create_tender_award_no_scale,
-    patch_tender_lot_award_lots_none
+    patch_tender_lot_award_lots_none,
 )
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
 from openprocurement.tender.belowthreshold.tests.award import (
     TenderAwardDocumentResourceTestMixin,
-    TenderAwardComplaintDocumentResourceTestMixin
+    TenderAwardComplaintDocumentResourceTestMixin,
 )
 from openprocurement.tender.limited.tests.base import (
-    BaseTenderContentWebTest, test_tender_data,
+    BaseTenderContentWebTest,
+    test_tender_data,
     test_tender_negotiation_data,
-    test_tender_negotiation_quick_data, test_lots,
+    test_tender_negotiation_quick_data,
+    test_lots,
     test_tender_negotiation_data_2items,
-    test_tender_negotiation_quick_data_2items
+    test_tender_negotiation_quick_data_2items,
 )
 from openprocurement.tender.limited.tests.award_blanks import (
     # TenderAwardDocumentResourceTest
@@ -75,7 +77,7 @@ from openprocurement.tender.limited.tests.award_blanks import (
 
 
 class TenderAwardResourceTest(BaseTenderContentWebTest):
-    initial_status = 'active'
+    initial_status = "active"
     initial_data = test_tender_data
     test_tender_data_local = test_tender_data
     initial_bids = None
@@ -93,7 +95,7 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
 
 
 class TenderAwardComplaintResourceTest(BaseTenderContentWebTest):
-    initial_status = 'active'
+    initial_status = "active"
     initial_data = test_tender_data
     initial_bids = None
 
@@ -144,18 +146,14 @@ class TenderNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
 
     def create_award(self):
         # Create award
-        request_path = '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token)
+        request_path = "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token)
         response = self.app.post_json(
-            request_path,
-            {'data': {
-                'suppliers': [test_organization],
-                'qualified': True,
-                'status': 'pending'
-            }})
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-        award = response.json['data']
-        self.award_id = award['id']
+            request_path, {"data": {"suppliers": [test_organization], "qualified": True, "status": "pending"}}
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        award = response.json["data"]
+        self.award_id = award["id"]
 
     def setUp(self):
         super(TenderNegotiationAwardComplaintResourceTest, self).setUp()
@@ -177,38 +175,38 @@ class TenderLotNegotiationAwardComplaintResourceTest(TenderNegotiationAwardCompl
     def create_award(self):
         # create lot
         response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
-            {'data': test_lots[0]})
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-        self.lot = response.json['data']
-        self.lot_id = self.lot['id']
+            "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token), {"data": test_lots[0]}
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        self.lot = response.json["data"]
+        self.lot_id = self.lot["id"]
 
         # set items to lot
         response = self.app.patch_json(
-            '/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
-            {"data": {
-                "items": [{
-                    "relatedLot": self.lot['id']
-                }]
-            }})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['items'][0]['relatedLot'], self.lot['id'])
+            "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": {"items": [{"relatedLot": self.lot["id"]}]}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json["data"]["items"][0]["relatedLot"], self.lot["id"])
 
         # create award
-        request_path = '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token)
+        request_path = "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token)
         response = self.app.post_json(
             request_path,
-            {'data': {
-                'suppliers': [test_organization],
-                'qualified': True,
-                'status': 'pending',
-                'lotID': self.lot['id']
-            }})
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-        award = response.json['data']
-        self.award_id = award['id']
+            {
+                "data": {
+                    "suppliers": [test_organization],
+                    "qualified": True,
+                    "status": "pending",
+                    "lotID": self.lot["id"],
+                }
+            },
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        award = response.json["data"]
+        self.award_id = award["id"]
 
     test_cancelled_award_with_complaint = snitch(cancelled_lot_award_with_complaint)
 
@@ -223,61 +221,64 @@ class Tender2LotNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
     def create_award(self):
         # create lots
         response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
-            {'data': test_lots[0]})
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-        self.first_lot = response.json['data']
+            "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token), {"data": test_lots[0]}
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        self.first_lot = response.json["data"]
 
-        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.content_type, "application/json")
         response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
-            {'data': test_lots[0]})
-        self.assertEqual(response.status, '201 Created')
-        self.second_lot = response.json['data']
+            "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token), {"data": test_lots[0]}
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.second_lot = response.json["data"]
 
         # set items to lot
         response = self.app.patch_json(
-            '/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
-            {"data": {
-                "items": [
-                    {"relatedLot": self.first_lot['id']},
-                    {"relatedLot": self.second_lot['id']}
-                ]
-            }})
+            "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": {"items": [{"relatedLot": self.first_lot["id"]}, {"relatedLot": self.second_lot["id"]}]}},
+        )
 
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['items'][0]['relatedLot'], self.first_lot['id'])
-        self.assertEqual(response.json['data']['items'][1]['relatedLot'], self.second_lot['id'])
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json["data"]["items"][0]["relatedLot"], self.first_lot["id"])
+        self.assertEqual(response.json["data"]["items"][1]["relatedLot"], self.second_lot["id"])
 
         # create first award
-        request_path = '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token)
+        request_path = "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token)
         response = self.app.post_json(
             request_path,
-            {'data': {
-                'suppliers': [test_organization],
-                'qualified': True,
-                'status': 'pending',
-                'lotID': self.first_lot['id']
-            }})
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-        self.first_award = response.json['data']
-        self.award_id = self.first_award['id']
+            {
+                "data": {
+                    "suppliers": [test_organization],
+                    "qualified": True,
+                    "status": "pending",
+                    "lotID": self.first_lot["id"],
+                }
+            },
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        self.first_award = response.json["data"]
+        self.award_id = self.first_award["id"]
 
         # create second award
-        request_path = '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token)
+        request_path = "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token)
         response = self.app.post_json(
-            request_path, {'data': {
-                'suppliers': [test_organization],
-                'qualified': True,
-                'status': 'pending',
-                'lotID': self.second_lot['id']
-            }})
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-        self.second_award = response.json['data']
-        self.second_award_id = self.second_award['id']
+            request_path,
+            {
+                "data": {
+                    "suppliers": [test_organization],
+                    "qualified": True,
+                    "status": "pending",
+                    "lotID": self.second_lot["id"],
+                }
+            },
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        self.second_award = response.json["data"]
+        self.second_award_id = self.second_award["id"]
 
     test_cancelled_award_with_complaint = snitch(cancelled_2lot_award_with_complaint)
     test_cancelled_active_award_with_complaint = snitch(cancelled_active_award_with_complaint)
@@ -298,62 +299,64 @@ class Tender2LotNegotiationAwardComplaint2ResourceTest(BaseTenderContentWebTest)
     def create_award(self):
         # create lots
         response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
-            {'data': test_lots[0]})
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-        self.first_lot = response.json['data']
+            "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token), {"data": test_lots[0]}
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        self.first_lot = response.json["data"]
 
-        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.content_type, "application/json")
         response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
-            {'data': test_lots[0]})
-        self.assertEqual(response.status, '201 Created')
-        self.second_lot = response.json['data']
+            "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token), {"data": test_lots[0]}
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.second_lot = response.json["data"]
 
         # set items to lot
         response = self.app.patch_json(
-            '/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
-            {"data": {
-                "items": [
-                    {"relatedLot": self.first_lot['id']},
-                    {"relatedLot": self.second_lot['id']}
-                ]
-            }})
+            "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": {"items": [{"relatedLot": self.first_lot["id"]}, {"relatedLot": self.second_lot["id"]}]}},
+        )
 
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['items'][0]['relatedLot'], self.first_lot['id'])
-        self.assertEqual(response.json['data']['items'][1]['relatedLot'], self.second_lot['id'])
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json["data"]["items"][0]["relatedLot"], self.first_lot["id"])
+        self.assertEqual(response.json["data"]["items"][1]["relatedLot"], self.second_lot["id"])
 
         # create first award
-        request_path = '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token)
+        request_path = "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token)
         response = self.app.post_json(
             request_path,
-            {'data': {
-                'suppliers': [test_organization],
-                'qualified': True,
-                'status': 'pending',
-                'lotID': self.first_lot['id']
-            }})
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-        self.first_award = response.json['data']
-        self.award_id = self.first_award['id']
+            {
+                "data": {
+                    "suppliers": [test_organization],
+                    "qualified": True,
+                    "status": "pending",
+                    "lotID": self.first_lot["id"],
+                }
+            },
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        self.first_award = response.json["data"]
+        self.award_id = self.first_award["id"]
 
         # create second award
-        request_path = '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token)
+        request_path = "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token)
         response = self.app.post_json(
             request_path,
-            {'data': {
-                'suppliers': [test_organization],
-                'qualified': True,
-                'status': 'pending',
-                'lotID': self.second_lot['id']
-            }})
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-        self.second_award = response.json['data']
-        self.second_award_id = self.second_award['id']
+            {
+                "data": {
+                    "suppliers": [test_organization],
+                    "qualified": True,
+                    "status": "pending",
+                    "lotID": self.second_lot["id"],
+                }
+            },
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        self.second_award = response.json["data"]
+        self.second_award_id = self.second_award["id"]
 
     test_two_awards_on_one_lot = snitch(two_awards_on_one_lot)
     test_change_lotID_from_unsuccessful_award = snitch(change_lotID_from_unsuccessful_award)
@@ -373,36 +376,30 @@ class TenderLotNegotiationQuickAwardComplaintResourceTest(TenderLotNegotiationAw
     initial_data = test_tender_negotiation_quick_data
 
 
-class TenderNegotiationAwardComplaintDocumentResourceTest(BaseTenderContentWebTest,
-                                                          TenderAwardComplaintDocumentResourceTestMixin):
+class TenderNegotiationAwardComplaintDocumentResourceTest(
+    BaseTenderContentWebTest, TenderAwardComplaintDocumentResourceTestMixin
+):
     initial_data = test_tender_negotiation_data
 
     def setUp(self):
         super(TenderNegotiationAwardComplaintDocumentResourceTest, self).setUp()
         # Create award
-        request_path = '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token)
+        request_path = "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token)
         response = self.app.post_json(
-            request_path,
-            {'data': {
-                'suppliers': [test_organization],
-                'qualified': True,
-                'status': 'pending'
-            }})
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-        award = response.json['data']
-        self.award_id = award['id']
+            request_path, {"data": {"suppliers": [test_organization], "qualified": True, "status": "pending"}}
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        award = response.json["data"]
+        self.award_id = award["id"]
         # Create complaint for award
         response = self.app.post_json(
-            '/tenders/{}/awards/{}/complaints'.format(self.tender_id, self.award_id),
-            {'data': {
-                'title': 'complaint title',
-                'description': 'complaint description',
-                'author': test_author
-            }})
-        complaint = response.json['data']
-        self.complaint_id = complaint['id']
-        self.complaint_owner_token = response.json['access']['token']
+            "/tenders/{}/awards/{}/complaints".format(self.tender_id, self.award_id),
+            {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+        )
+        complaint = response.json["data"]
+        self.complaint_id = complaint["id"]
+        self.complaint_owner_token = response.json["access"]["token"]
 
     test_patch_tender_award_complaint_document = snitch(patch_tender_award_complaint_document)
 
@@ -412,7 +409,7 @@ class TenderNegotiationQuickAwardComplaintDocumentResourceTest(TenderNegotiation
 
 
 class TenderAwardDocumentResourceTest(BaseTenderContentWebTest, TenderAwardDocumentResourceTestMixin):
-    initial_status = 'active'
+    initial_status = "active"
     initial_data = test_tender_data
     initial_bids = None
 
@@ -420,14 +417,11 @@ class TenderAwardDocumentResourceTest(BaseTenderContentWebTest, TenderAwardDocum
         super(TenderAwardDocumentResourceTest, self).setUp()
         # Create award
         response = self.app.post_json(
-            '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token),
-            {'data': {
-                'suppliers': [test_organization],
-                'qualified': True,
-                'status': 'pending'
-            }})
-        award = response.json['data']
-        self.award_id = award['id']
+            "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": {"suppliers": [test_organization], "qualified": True, "status": "pending"}},
+        )
+        award = response.json["data"]
+        self.award_id = award["id"]
 
     test_create_tender_award_document_invalid = snitch(create_tender_award_document_invalid)
     test_patch_not_author = lambda x: 1  # disable edr bot test for now
@@ -443,28 +437,23 @@ class TenderAwardNegotiationQuickDocumentResourceTest(TenderAwardNegotiationDocu
 
 
 class TenderLotAwardNegotiationDocumentResourceTest(TenderAwardNegotiationDocumentResourceTest):
-
     def setUp(self):
         super(TenderAwardDocumentResourceTest, self).setUp()
         # Create lot
         response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token),
-            {'data': test_lots[0]})
+            "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token), {"data": test_lots[0]}
+        )
 
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-        lot = response.json['data']
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        lot = response.json["data"]
         # Create award
         response = self.app.post_json(
-            '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token),
-            {'data': {
-                'suppliers': [test_organization],
-                'qualified': True,
-                'status': 'pending',
-                'lotID': lot['id']
-            }})
-        award = response.json['data']
-        self.award_id = award['id']
+            "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": {"suppliers": [test_organization], "qualified": True, "status": "pending", "lotID": lot["id"]}},
+        )
+        award = response.json["data"]
+        self.award_id = award["id"]
 
 
 class TenderLotAwardNegotiationQuickDocumentResourceTest(TenderLotAwardNegotiationDocumentResourceTest):
@@ -478,5 +467,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

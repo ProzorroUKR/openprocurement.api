@@ -7,21 +7,23 @@ from openprocurement.agreement.cfaua.models.modification import UnitPriceModific
 
 
 def get_change_class(instance, data):
-    return queryUtility(IChange, data['rationaleType'])
+    return queryUtility(IChange, data["rationaleType"])
 
 
 def apply_modifications(request, agreement, save=False):
     warnings = []
     if not save:
-        agreement = agreement.__class__(agreement.serialize('view'))
+        agreement = agreement.__class__(agreement.serialize("view"))
     if not agreement.changes[-1].modifications:
         return
     for modification in agreement.changes[-1].modifications:
         if isinstance(modification, UnitPriceModification):
-            unit_prices = [unit_price
-                           for contract in agreement.contracts
-                           for unit_price in contract.unitPrices
-                           if unit_price.relatedItem == modification.itemId]
+            unit_prices = [
+                unit_price
+                for contract in agreement.contracts
+                for unit_price in contract.unitPrices
+                if unit_price.relatedItem == modification.itemId
+            ]
 
             for unit_price in unit_prices:
                 if modification.addend:
@@ -33,10 +35,8 @@ def apply_modifications(request, agreement, save=False):
         else:
             for contract in agreement.contracts:
                 if contract.id == modification.contractId:
-                    contract.status = 'unsuccessful'
+                    contract.status = "unsuccessful"
                     break
     if agreement.get_active_contracts_count() < MIN_BIDS_NUMBER:
-        warnings.append(
-            u"Min active contracts in FrameworkAgreement less than {}.".format(MIN_BIDS_NUMBER)
-        )
+        warnings.append(u"Min active contracts in FrameworkAgreement less than {}.".format(MIN_BIDS_NUMBER))
     return warnings

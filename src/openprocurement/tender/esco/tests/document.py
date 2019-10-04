@@ -3,7 +3,7 @@ import unittest
 
 from openprocurement.tender.belowthreshold.tests.document import (
     TenderDocumentResourceTestMixin,
-    TenderDocumentWithDSResourceTestMixin
+    TenderDocumentWithDSResourceTestMixin,
 )
 
 from openprocurement.tender.esco.tests.base import BaseESCOContentWebTest
@@ -11,11 +11,10 @@ from openprocurement.tender.esco.tests.base import BaseESCOContentWebTest
 
 class TenderDocumentResourceTest(BaseESCOContentWebTest, TenderDocumentResourceTestMixin):
     docservice = False
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
 
-class TenderDocumentWithDSResourceTest(TenderDocumentResourceTest,
-                                       TenderDocumentWithDSResourceTestMixin):
+class TenderDocumentWithDSResourceTest(TenderDocumentResourceTest, TenderDocumentWithDSResourceTestMixin):
     docservice = True
 
 
@@ -26,5 +25,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

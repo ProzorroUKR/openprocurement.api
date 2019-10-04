@@ -8,9 +8,8 @@ from schematics.types.serializable import serializable
 
 
 class Lot(BaseLot):
-
     class Options:
-        roles = RolesFromCsv('Lot.csv', relative_to=__file__)
+        roles = RolesFromCsv("Lot.csv", relative_to=__file__)
 
     auctionPeriod = ModelType(LotAuctionPeriod, default={})
     value = ModelType(Value, required=True)
@@ -23,6 +22,7 @@ class Lot(BaseLot):
         bids = [
             bid
             for bid in self.__parent__.bids
-            if self.id in [i.relatedLot for i in bid.lotValues if i.status in ["active", "pending"]] and bid.status in ["active", "pending"]
+            if self.id in [i.relatedLot for i in bid.lotValues if i.status in ["active", "pending"]]
+            and bid.status in ["active", "pending"]
         ]
         return len(bids)

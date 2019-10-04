@@ -9,11 +9,9 @@ from schematics.types.compound import ModelType
 
 class Organization(Model):
     """An organization."""
+
     class Options:
-        roles = {
-            'embedded': schematics_embedded_role,
-            'view': schematics_default_role,
-        }
+        roles = {"embedded": schematics_embedded_role, "view": schematics_default_role}
 
     name = StringType(required=True)
     name_en = StringType(required=True, min_length=1)
@@ -22,17 +20,17 @@ class Organization(Model):
     additionalIdentifiers = ListType(ModelType(Identifier, required=True))
     address = ModelType(Address, required=True)
     contactPoint = ModelType(ContactPoint, required=True)
-    additionalContactPoints = ListType(ModelType(ContactPoint, required=True),
-                                       required=False)
+    additionalContactPoints = ListType(ModelType(ContactPoint, required=True), required=False)
 
 
 class ProcuringEntity(Organization):
     """An organization."""
+
     class Options:
         roles = {
-            'embedded': schematics_embedded_role,
-            'view': schematics_default_role,
-            'edit_active.tendering': schematics_default_role + blacklist("kind"),
+            "embedded": schematics_embedded_role,
+            "view": schematics_default_role,
+            "edit_active.tendering": schematics_default_role + blacklist("kind"),
         }
 
     kind = StringType(choices=PROCURING_ENTITY_KINDS)

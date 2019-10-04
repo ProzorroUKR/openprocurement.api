@@ -9,15 +9,15 @@ from openprocurement.tender.core.models import LotValue as BaseLotValue
 
 class LotValue(BaseLotValue):
     class Options:
-        roles = RolesFromCsv('LotValue.csv', relative_to=__file__)
+        roles = RolesFromCsv("LotValue.csv", relative_to=__file__)
+
     subcontractingDetails = StringType()
 
 
 class Bid(BaseBid):
     class Options:
-        roles = RolesFromCsv('Bid.csv', relative_to=__file__)
+        roles = RolesFromCsv("Bid.csv", relative_to=__file__)
 
-    parameters = ListType(ModelType(Parameter, required=True), default=list(),
-                          validators=[validate_parameters_uniq])
+    parameters = ListType(ModelType(Parameter, required=True), default=list(), validators=[validate_parameters_uniq])
     subcontractingDetails = StringType()
     lotValues = ListType(ModelType(LotValue, required=True), default=list())

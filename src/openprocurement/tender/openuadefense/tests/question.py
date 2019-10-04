@@ -3,10 +3,7 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_lots,
-    test_author
-)
+from openprocurement.tender.belowthreshold.tests.base import test_lots, test_author
 from openprocurement.tender.belowthreshold.tests.question import TenderQuestionResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.question_blanks import (
     # TenderQuestionResourceTest
@@ -14,7 +11,7 @@ from openprocurement.tender.belowthreshold.tests.question_blanks import (
     # TenderLotQuestionResourceTest
     lot_create_tender_question,
     lot_patch_tender_question,
-    lot_patch_tender_question_lots_none
+    lot_patch_tender_question_lots_none,
 )
 
 from openprocurement.tender.openua.tests.question_blanks import (
@@ -42,16 +39,19 @@ class TenderLotQuestionResourceTest(BaseTenderUAContentWebTest):
 
     def create_question_for(self, questionOf, relatedItem):
         response = self.app.post_json(
-            '/tenders/{}/questions'.format(self.tender_id),
-            {'data': {
-                'title': 'question title',
-                'description': 'question description',
-                "questionOf": questionOf,
-                "relatedItem": relatedItem,
-                'author': test_author
-            }})
-        self.assertEqual(response.status, '201 Created')
-        return response.json['data']['id']
+            "/tenders/{}/questions".format(self.tender_id),
+            {
+                "data": {
+                    "title": "question title",
+                    "description": "question description",
+                    "questionOf": questionOf,
+                    "relatedItem": relatedItem,
+                    "author": test_author,
+                }
+            },
+        )
+        self.assertEqual(response.status, "201 Created")
+        return response.json["data"]["id"]
 
     test_create_tender_lot_question = snitch(lot_create_tender_question)
     test_patch_tender_lot_question = snitch(lot_patch_tender_question)
@@ -68,5 +68,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

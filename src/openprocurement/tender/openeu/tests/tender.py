@@ -20,33 +20,28 @@ from openprocurement.tender.openua.tests.tender_blanks import (
     tender_with_main_procurement_category,
     tender_finance_milestones,
 )
-from openprocurement.tender.openeu.tests.base import (
-    test_tender_data,
-    BaseTenderWebTest,
-    test_lots,
-    test_bids,
-)
+from openprocurement.tender.openeu.tests.base import test_tender_data, BaseTenderWebTest, test_lots, test_bids
 from openprocurement.tender.openeu.tests.tender_blanks import (
-    #TenderProcessTest
+    # TenderProcessTest
     one_bid_tender,
     unsuccessful_after_prequalification_tender,
     one_qualificated_bid_tender,
     multiple_bidders_tender,
     lost_contract_for_active_award,
-    #TenderResourceTest
+    # TenderResourceTest
     create_tender_invalid,
     create_tender_generated,
     patch_tender,
     invalid_bid_tender_features,
     invalid_bid_tender_lot,
-    #TenderTest
+    # TenderTest
     simple_add_tender,
 )
 
 
 class TenderTest(BaseTenderWebTest):
 
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_data
 
     test_simple_add_tender = snitch(simple_add_tender)
@@ -54,7 +49,7 @@ class TenderTest(BaseTenderWebTest):
 
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin, TenderUAResourceTestMixin):
 
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_data
     test_lots_data = test_lots
     test_bids_data = test_bids
@@ -72,34 +67,37 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin, TenderUARes
     test_tender_milestones_required = snitch(tender_milestones_required)
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
 
-
     def test_patch_not_author(self):
-        response = self.app.post_json('/tenders', {'data': test_tender_data})
-        self.assertEqual(response.status, '201 Created')
-        tender = response.json['data']
-        owner_token = response.json['access']['token']
+        response = self.app.post_json("/tenders", {"data": test_tender_data})
+        self.assertEqual(response.status, "201 Created")
+        tender = response.json["data"]
+        owner_token = response.json["access"]["token"]
 
         authorization = self.app.authorization
-        self.app.authorization = ('Basic', ('bot', 'bot'))
+        self.app.authorization = ("Basic", ("bot", "bot"))
 
-        response = self.app.post('/tenders/{}/documents'.format(tender['id']),
-                                 upload_files=[('file', 'name.doc', 'content')])
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-        doc_id = response.json["data"]['id']
-        self.assertIn(doc_id, response.headers['Location'])
+        response = self.app.post(
+            "/tenders/{}/documents".format(tender["id"]), upload_files=[("file", "name.doc", "content")]
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        doc_id = response.json["data"]["id"]
+        self.assertIn(doc_id, response.headers["Location"])
 
         self.app.authorization = authorization
-        response = self.app.patch_json('/tenders/{}/documents/{}?acc_token={}'.format(tender['id'], doc_id, owner_token),
-                                       {"data": {"description": "document description"}}, status=403)
-        self.assertEqual(response.status, '403 Forbidden')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Can update document only author")
+        response = self.app.patch_json(
+            "/tenders/{}/documents/{}?acc_token={}".format(tender["id"], doc_id, owner_token),
+            {"data": {"description": "document description"}},
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["errors"][0]["description"], "Can update document only author")
 
 
 class TenderProcessTest(BaseTenderWebTest):
 
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_data
     test_bids_data = test_bids
 
@@ -119,5 +117,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

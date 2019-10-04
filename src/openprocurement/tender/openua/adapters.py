@@ -2,8 +2,11 @@
 from openprocurement.tender.core.adapters import TenderConfigurator
 from openprocurement.tender.openua.models import Tender
 from openprocurement.tender.openua.constants import (
-    TENDER_PERIOD, TENDERING_EXTRA_PERIOD, STATUS4ROLE,
-    CLAIM_SUBMIT_TIME, COMPLAINT_SUBMIT_TIME
+    TENDER_PERIOD,
+    TENDERING_EXTRA_PERIOD,
+    STATUS4ROLE,
+    CLAIM_SUBMIT_TIME,
+    COMPLAINT_SUBMIT_TIME,
 )
 
 

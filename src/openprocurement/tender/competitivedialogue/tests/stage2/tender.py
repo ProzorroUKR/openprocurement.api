@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from openprocurement.api.tests.base import (
-    BaseWebTest,
-    snitch,
-)
+from openprocurement.api.tests.base import BaseWebTest, snitch
 
 from openprocurement.tender.openua.tests.tender_blanks import (
     # TenderStage2UAResourceTest
-    empty_listing as empty_listing_ua
+    empty_listing as empty_listing_ua,
 )
 
 from openprocurement.tender.competitivedialogue.tests.stage2.tender_blanks import (
@@ -63,7 +60,7 @@ class CompetitiveDialogStage2Test(BaseWebTest):
 
 
 class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest):
-    initial_auth = ('Basic', ('competitive_dialogue', ''))
+    initial_auth = ("Basic", ("competitive_dialogue", ""))
     author_data = test_author
     initial_data = test_tender_stage2_data_eu
     test_tender_data_eu = test_tender_stage2_data_eu  # TODO: change attribute identifier
@@ -71,18 +68,18 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
 
     def set_tender_status(self, tender, token, status):
         auth = self.app.authorization
-        if status == 'draft.stage2':
-            self.app.authorization = ('Basic', ('competitive_dialogue', ''))
+        if status == "draft.stage2":
+            self.app.authorization = ("Basic", ("competitive_dialogue", ""))
             response = self.app.patch_json(
-                '/tenders/{id}?acc_token={token}'.format(id=tender['id'], token=token),
-                {'data': {'status': status}})
+                "/tenders/{id}?acc_token={token}".format(id=tender["id"], token=token), {"data": {"status": status}}
+            )
             self.app.authorization = auth
             return response
-        if status == 'active.tendering':
-            self.app.authorization = ('Basic', ('broker', ''))
+        if status == "active.tendering":
+            self.app.authorization = ("Basic", ("broker", ""))
             response = self.app.patch_json(
-                '/tenders/{id}?acc_token={token}'.format(id=tender['id'], token=token),
-                {'data': {'status': status}})
+                "/tenders/{id}?acc_token={token}".format(id=tender["id"], token=token), {"data": {"status": status}}
+            )
             self.app.authorization = auth
             return response
 
@@ -114,18 +111,18 @@ class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
 
     def set_tender_status(self, tender, token, status):
         auth = self.app.authorization
-        if status == 'draft.stage2':
-            self.app.authorization = ('Basic', ('competitive_dialogue', ''))
+        if status == "draft.stage2":
+            self.app.authorization = ("Basic", ("competitive_dialogue", ""))
             response = self.app.patch_json(
-                '/tenders/{id}?acc_token={token}'.format(id=tender['id'], token=token),
-                {'data': {'status': status}})
+                "/tenders/{id}?acc_token={token}".format(id=tender["id"], token=token), {"data": {"status": status}}
+            )
             self.app.authorization = auth
             return response
-        if status == 'active.tendering':
-            self.app.authorization = ('Basic', ('broker', ''))
+        if status == "active.tendering":
+            self.app.authorization = ("Basic", ("broker", ""))
             response = self.app.patch_json(
-                '/tenders/{id}?acc_token={token}'.format(id=tender['id'], token=token),
-                {'data': {'status': status}})
+                "/tenders/{id}?acc_token={token}".format(id=tender["id"], token=token), {"data": {"status": status}}
+            )
             self.app.authorization = auth
             return response
 
@@ -159,5 +156,5 @@ class TenderStage2UAProcessTest(BaseCompetitiveDialogUAStage2WebTest):
     test_first_bid_tender = snitch(first_bid_tender)
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

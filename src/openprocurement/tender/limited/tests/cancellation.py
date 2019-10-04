@@ -70,10 +70,12 @@ class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest, TenderCan
     def setUp(self):
         super(TenderCancellationDocumentResourceTest, self).setUp()
         # Create cancellation
-        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(
-            self.tender_id, self.tender_token), {'data': {'reason': 'cancellation reason'}})
-        cancellation = response.json['data']
-        self.cancellation_id = cancellation['id']
+        response = self.app.post_json(
+            "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": {"reason": "cancellation reason"}},
+        )
+        cancellation = response.json["data"]
+        self.cancellation_id = cancellation["id"]
 
 
 class TenderNegotiationCancellationDocumentResourceTest(TenderCancellationDocumentResourceTest):
@@ -93,7 +95,9 @@ class TenderNegotiationLotsCancellationResourceTest(BaseTenderContentWebTest):
     test_cancelled_lot_without_relatedLot = snitch(cancelled_lot_without_relatedLot)
     test_delete_first_lot_second_cancel = snitch(delete_first_lot_second_cancel)
     test_cancel_tender = snitch(cancel_tender)
-    test_create_cancellation_on_tender_with_one_complete_lot = snitch(create_cancellation_on_tender_with_one_complete_lot)
+    test_create_cancellation_on_tender_with_one_complete_lot = snitch(
+        create_cancellation_on_tender_with_one_complete_lot
+    )
     test_cancellation_on_not_active_lot = snitch(cancellation_on_not_active_lot)
 
 
@@ -108,5 +112,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

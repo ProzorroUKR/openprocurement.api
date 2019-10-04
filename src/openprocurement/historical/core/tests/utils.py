@@ -4,21 +4,19 @@ from uuid import uuid4
 import os.path
 import json
 
-from openprocurement.historical.core.utils import (
-    Root, APIHistoricalResource, json_view
-)
+from openprocurement.historical.core.utils import Root, APIHistoricalResource, json_view
 
 here = os.path.dirname(__file__)
-with open(os.path.join(here, 'data.json')) as in_json:
+with open(os.path.join(here, "data.json")) as in_json:
     test_data_with_revisions = json.load(in_json)
 
 
 class Doc(dict):
     __parent__ = None
-    doc_type = 'mock'
-    hash = uuid4().hex,
-    id = test_data_with_revisions['id']
-    rev = test_data_with_revisions['_rev']
+    doc_type = "mock"
+    hash = (uuid4().hex,)
+    id = test_data_with_revisions["id"]
+    rev = test_data_with_revisions["_rev"]
 
     def __init___(self, *args, **kwargs):
         super(Doc, self).__init__(*args, **kwargs)
@@ -34,14 +32,10 @@ class Db(dict):
         super(Db, self).__init__(*args, **kwargs)
         self[mock_doc.id] = deepcopy(mock_doc)
         broken = deepcopy(mock_doc)
-        broken['revisions'][:] = [
-            {'changes': [{
-                'path': '/invalid/path',
-                'op': 'remove'}],
-             "rev": uuid4()}
-            for _ in range(10)
+        broken["revisions"][:] = [
+            {"changes": [{"path": "/invalid/path", "op": "remove"}], "rev": uuid4()} for _ in range(10)
         ]
-        self['broken'] = deepcopy(broken)
+        self["broken"] = deepcopy(broken)
 
     def get(self, key):
         if key in self:
@@ -51,11 +45,11 @@ class Db(dict):
 def dummy_factory(request):
     root = Root(request)
     doc = request.extract_doc_versioned("mock")
-    if not request.matchdict or not request.matchdict.get('doc_id'):
+    if not request.matchdict or not request.matchdict.get("doc_id"):
         return root
-    request.validated['mock_id'] = request.matchdict['doc_id']
+    request.validated["mock_id"] = request.matchdict["doc_id"]
     doc.__parent__ = root
-    request.validated['mock'] = request.validated['db_doc'] = doc
+    request.validated["mock"] = request.validated["db_doc"] = doc
     return doc
 
 
@@ -63,31 +57,22 @@ def cornice_factory(request):
     root = Root(request)
     doc = deepcopy(mock_doc)
     raise
-    if not request.matchdict or not request.matchdict.get('doc_id'):
+    if not request.matchdict or not request.matchdict.get("doc_id"):
         return root
-    request.validated['mock_id'] = request.matchdict['doc_id']
+    request.validated["mock_id"] = request.matchdict["doc_id"]
     doc.__parent__ = root
-    request.validated['mock'] = request.validated['db_doc'] = doc
+    request.validated["mock"] = request.validated["db_doc"] = doc
     return doc
 
 
-@resource(
-    name='MockBase',
-    path='/mock/{doc_id}',
-    factory=cornice_factory
-)
+@resource(name="MockBase", path="/mock/{doc_id}", factory=cornice_factory)
 class DummyBaseResource(APIHistoricalResource):
-
     @json_view()
     def get(self):
         self.context.update({"Base": "OK!"})
         return self.context
 
 
-@resource(
-    name='MockHistorical',
-    path='/mock/{doc_id}/historical',
-    factory=dummy_factory
-)
+@resource(name="MockHistorical", path="/mock/{doc_id}/historical", factory=dummy_factory)
 class DummyHistoricalResource(APIHistoricalResource):
     pass

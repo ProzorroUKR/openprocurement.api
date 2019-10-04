@@ -11,28 +11,24 @@ from openprocurement.api.utils import (
     get_now,
     context_unpack,
     generate_id,
-    error_handler
+    error_handler,
 )
 
 
-LOGGER = logging.getLogger('openprocurement.agreement.core')
+LOGGER = logging.getLogger("openprocurement.agreement.core")
 
 
 def agreement_serialize(request, agreement_data, fields):
     agreement = request.agreement_from_data(agreement_data, raise_error=False)
     agreement.__parent__ = request.context
-    return {
-        i: j for i, j in
-        agreement.serialize("view").items()
-        if i in fields
-        }
+    return {i: j for i, j in agreement.serialize("view").items() if i in fields}
 
 
 def agreement_from_data(request, data, raise_error=True, create=True):
-    agreement_type = data.get('agreementType', DEFAULT_TYPE)
+    agreement_type = data.get("agreementType", DEFAULT_TYPE)
     model = request.registry.agreements_types.get(agreement_type)
     if model is None and raise_error:
-        request.errors.add('data', 'agreementType', 'Not implemented')
+        request.errors.add("data", "agreementType", "Not implemented")
         request.errors.status = 415
         raise error_handler(request.errors)
     if model is not None and create:
@@ -43,12 +39,12 @@ def agreement_from_data(request, data, raise_error=True, create=True):
 def extract_agreement_by_id(request, agreement_id):
     db = request.registry.db
     doc = db.get(agreement_id)
-    if doc is not None and doc.get('doc_type') == 'agreement':
-        request.errors.add('url', 'agreement_id', 'Archived')
+    if doc is not None and doc.get("doc_type") == "agreement":
+        request.errors.add("url", "agreement_id", "Archived")
         request.errors.status = 410
         raise error_handler(request.errors)
-    elif doc is None or doc.get('doc_type') != 'Agreement':
-        request.errors.add('url', 'agreement_id', 'Not Found')
+    elif doc is None or doc.get("doc_type") != "Agreement":
+        request.errors.add("url", "agreement_id", "Not Found")
         request.errors.status = 404
         raise error_handler(request.errors)
     return request.agreement_from_data(doc)
@@ -57,15 +53,15 @@ def extract_agreement_by_id(request, agreement_id):
 def extract_agreement(request):
     try:
         # empty if mounted under a path in mod_wsgi, for example
-        path = decode_path_info(request.environ['PATH_INFO'] or '/')
+        path = decode_path_info(request.environ["PATH_INFO"] or "/")
     except KeyError:
-        path = '/'
+        path = "/"
     except UnicodeDecodeError as e:
         raise URLDecodeError(e.encoding, e.object, e.start, e.end, e.reason)
 
     # extract agreement id
-    parts = path.split('/')
-    if len(parts) < 4 or parts[3] != 'agreements':
+    parts = path.split("/")
+    if len(parts) < 4 or parts[3] != "agreements":
         return
 
     agreement_id = parts[4]
@@ -83,20 +79,17 @@ def save_agreement(request):
     :param request:
     :return: True if Ok
     """
-    agreement = request.validated['agreement']
+    agreement = request.validated["agreement"]
 
-    if agreement.mode == u'test':
+    if agreement.mode == u"test":
         set_modetest_titles(agreement)
-    patch = get_revision_changes(
-        agreement.serialize("plain"),
-        request.validated['agreement_src']
-        )
+    patch = get_revision_changes(agreement.serialize("plain"), request.validated["agreement_src"])
     if patch:
         agreement.revisions.append(
-            type(agreement).revisions.model_class({
-                'author': request.authenticated_userid,
-                'changes': patch, 'rev': agreement.rev
-            }))
+            type(agreement).revisions.model_class(
+                {"author": request.authenticated_userid, "changes": patch, "rev": agreement.rev}
+            )
+        )
 
         old_date_modified = agreement.dateModified
         agreement.dateModified = get_now()
@@ -104,26 +97,24 @@ def save_agreement(request):
             agreement.store(request.registry.db)
         except ModelValidationError as e:  # pragma: no cover
             for i in e.message:
-                request.errors.add('body', i, e.message[i])
+                request.errors.add("body", i, e.message[i])
             request.errors.status = 422
         except Exception as e:  # pragma: no cover
-            request.errors.add('body', 'data', str(e))
+            request.errors.add("body", "data", str(e))
         else:
             LOGGER.info(
-                'Saved agreement {}: dateModified {} -> {}'.format(
-                    agreement.id, old_date_modified and old_date_modified.isoformat(),
-                    agreement.dateModified.isoformat()),
-                    extra=context_unpack(
-                        request,
-                        {'MESSAGE_ID': 'save_agreement'},
-                        {'AGREEMENT_REV': agreement.rev}
-                    )
+                "Saved agreement {}: dateModified {} -> {}".format(
+                    agreement.id,
+                    old_date_modified and old_date_modified.isoformat(),
+                    agreement.dateModified.isoformat(),
+                ),
+                extra=context_unpack(request, {"MESSAGE_ID": "save_agreement"}, {"AGREEMENT_REV": agreement.rev}),
             )
             return True
 
 
 def apply_patch(request, data=None, save=True, src=None):
-    data = request.validated['data'] if data is None else data
+    data = request.validated["data"] if data is None else data
     patch = data and apply_data_patch(src or request.context.serialize(), data)
     if patch:
         request.context.import_data(patch)

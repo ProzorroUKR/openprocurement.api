@@ -3,14 +3,14 @@ import unittest
 
 from openprocurement.tender.belowthreshold.tests.document import (
     TenderDocumentResourceTestMixin,
-    TenderDocumentWithDSResourceTestMixin
+    TenderDocumentWithDSResourceTestMixin,
 )
 
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest,
     test_tender_data,
     test_tender_negotiation_data,
-    test_tender_negotiation_quick_data
+    test_tender_negotiation_quick_data,
 )
 
 
@@ -46,5 +46,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

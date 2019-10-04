@@ -14,4 +14,4 @@ BID_UNSUCCESSFUL_FROM = datetime(2016, 10, 18, tzinfo=TZ)
 MIN_BIDS_NUMBER = 3
 TENDERING_EXTRA_PERIOD = timedelta(days=7)
 CLARIFICATIONS_UNTIL_PERIOD = timedelta(days=5)
-MAX_AGREEMENT_PERIOD = parse_duration('P4Y')
+MAX_AGREEMENT_PERIOD = parse_duration("P4Y")

@@ -8,12 +8,9 @@ from openprocurement.tender.esco.tests.base import (
     NBU_DISCOUNT_RATE,
     test_features_tender_data,
     test_bids,
-    test_lots
+    test_lots,
 )
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_organization,
-    test_author
-)
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     # TenderBidBatchDocumentWithDSResourceTest
@@ -21,7 +18,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_with_document_invalid,
     create_tender_bid_with_document,
     # Tender2LotBidResourceTest
-    patch_tender_with_bids_lots_none
+    patch_tender_with_bids_lots_none,
 )
 from openprocurement.tender.openeu.tests.bid import TenderBidDocumentResourceTestMixin
 from openprocurement.tender.openeu.tests.bid_blanks import (
@@ -61,28 +58,43 @@ from openprocurement.tender.esco.tests.bid_blanks import (
     deleted_bid_do_not_locks_tender_in_state,
     create_tender_bid_invalid_funding_kind_budget,
     create_tender_bid_31_12,
-    create_tender_bid_no_scale_invalid, create_tender_bid_with_scale_not_required, create_tender_bid_no_scale)
+    create_tender_bid_no_scale_invalid,
+    create_tender_bid_with_scale_not_required,
+    create_tender_bid_no_scale,
+)
 from openprocurement.tender.esco.utils import to_decimal
 
 
-bid_amountPerformance = round(to_decimal(npv(
-    test_bids[0]['value']['contractDuration']['years'],
-    test_bids[0]['value']['contractDuration']['days'],
-    test_bids[0]['value']['yearlyPaymentsPercentage'],
-    test_bids[0]['value']['annualCostsReduction'],
-    get_now(),
-    NBU_DISCOUNT_RATE)), 2)
+bid_amountPerformance = round(
+    to_decimal(
+        npv(
+            test_bids[0]["value"]["contractDuration"]["years"],
+            test_bids[0]["value"]["contractDuration"]["days"],
+            test_bids[0]["value"]["yearlyPaymentsPercentage"],
+            test_bids[0]["value"]["annualCostsReduction"],
+            get_now(),
+            NBU_DISCOUNT_RATE,
+        )
+    ),
+    2,
+)
 
-bid_amount = round(to_decimal(escp(
-    test_bids[0]['value']['contractDuration']['years'],
-    test_bids[0]['value']['contractDuration']['days'],
-    test_bids[0]['value']['yearlyPaymentsPercentage'],
-    test_bids[0]['value']['annualCostsReduction'],
-    get_now())), 2)
+bid_amount = round(
+    to_decimal(
+        escp(
+            test_bids[0]["value"]["contractDuration"]["years"],
+            test_bids[0]["value"]["contractDuration"]["days"],
+            test_bids[0]["value"]["yearlyPaymentsPercentage"],
+            test_bids[0]["value"]["annualCostsReduction"],
+            get_now(),
+        )
+    ),
+    2,
+)
 
 
 class TenderBidResourceTest(BaseESCOContentWebTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
     test_bids_data = test_bids
     author_data = test_author
     expected_bid_amountPerformance = bid_amountPerformance
@@ -113,13 +125,13 @@ class TenderBidResourceTest(BaseESCOContentWebTest):
 class Tender2LotBidResourceTest(BaseESCOContentWebTest):
     test_bids_data = test_bids
     initial_lots = 2 * test_lots
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
 
     test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
 
 
 class TenderBidFeaturesResourceTest(BaseESCOContentWebTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
     initial_data = test_features_tender_data
     test_bids_data = test_bids
 
@@ -128,24 +140,22 @@ class TenderBidFeaturesResourceTest(BaseESCOContentWebTest):
 
 
 class TenderBidDocumentResourceTest(BaseESCOContentWebTest, TenderBidDocumentResourceTestMixin):
-    initial_auth = ('Basic', ('broker', ''))
-    initial_status = 'active.tendering'
+    initial_auth = ("Basic", ("broker", ""))
+    initial_status = "active.tendering"
     test_bids_data = test_bids
 
     def setUp(self):
         super(TenderBidDocumentResourceTest, self).setUp()
         # Create bid
-        response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': test_bids[0]})
-        bid = response.json['data']
-        self.bid_id = bid['id']
-        self.bid_token = response.json['access']['token']
+        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": test_bids[0]})
+        bid = response.json["data"]
+        self.bid_id = bid["id"]
+        self.bid_token = response.json["access"]["token"]
         # create second bid
-        response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': test_bids[1]})
-        bid2 = response.json['data']
-        self.bid2_id = bid2['id']
-        self.bid2_token = response.json['access']['token']
+        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": test_bids[1]})
+        bid2 = response.json["data"]
+        self.bid2_id = bid2["id"]
+        self.bid2_token = response.json["access"]["token"]
 
     test_patch_and_put_document_into_invalid_bid = snitch(patch_and_put_document_into_invalid_bid)
     test_create_tender_bidder_document_nopending = snitch(create_tender_bidder_document_nopending)
@@ -165,25 +175,29 @@ class TenderBidDocumentWithoutDSResourceTest(TenderBidDocumentResourceTest):
 
 class TenderBidBatchDocumentsWithDSResourceTest(BaseESCOContentWebTest):
     docservice = True
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
 
     bid_data_wo_docs = {
-        'tenderers': [test_organization],
-        'value': test_bids[0]['value'],
-        'selfEligible': True,
-        'selfQualified': True,
-        'documents': []
-        }
+        "tenderers": [test_organization],
+        "value": test_bids[0]["value"],
+        "selfEligible": True,
+        "selfQualified": True,
+        "documents": [],
+    }
 
     test_create_tender_bid_with_document_invalid = snitch(create_tender_bid_with_document_invalid)
     test_create_tender_bid_with_document = snitch(create_tender_bid_with_document)
     test_create_tender_bid_with_documents = snitch(create_tender_bid_with_documents)
 
-    test_create_tender_bid_with_eligibility_document_invalid = snitch(create_tender_bid_with_eligibility_document_invalid)
+    test_create_tender_bid_with_eligibility_document_invalid = snitch(
+        create_tender_bid_with_eligibility_document_invalid
+    )
     test_create_tender_bid_with_eligibility_document = snitch(create_tender_bid_with_eligibility_document)
     test_create_tender_bid_with_eligibility_documents = snitch(create_tender_bid_with_eligibility_documents)
 
-    test_create_tender_bid_with_qualification_document_invalid = snitch(create_tender_bid_with_qualification_document_invalid)
+    test_create_tender_bid_with_qualification_document_invalid = snitch(
+        create_tender_bid_with_qualification_document_invalid
+    )
     test_create_tender_bid_with_qualification_document = snitch(create_tender_bid_with_qualification_document)
     test_create_tender_bid_with_qualification_documents = snitch(create_tender_bid_with_qualification_documents)
 
@@ -205,5 +219,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

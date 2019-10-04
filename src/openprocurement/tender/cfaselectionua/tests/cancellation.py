@@ -3,9 +3,7 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.cfaselectionua.tests.base import (
-    TenderContentWebTest, test_lots, test_bids
-)
+from openprocurement.tender.cfaselectionua.tests.base import TenderContentWebTest, test_lots, test_bids
 from openprocurement.tender.cfaselectionua.tests.cancellation_blanks import (
     # TenderCancellationResourceTest
     create_tender_cancellation_invalid,
@@ -43,7 +41,7 @@ class TenderCancellationDocumentResourceTestMixin(object):
 
 
 class TenderLotCancellationResourceTest(TenderContentWebTest, TenderCancellationResourceTestMixin):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
     initial_lots = test_lots
     initial_bids = test_bids
 
@@ -53,7 +51,7 @@ class TenderLotCancellationResourceTest(TenderContentWebTest, TenderCancellation
 
 @unittest.skip("Skip multi-lots tests")
 class TenderLotsCancellationResourceTest(TenderContentWebTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
     initial_lots = 2 * test_lots
     initial_bids = test_bids
 
@@ -67,10 +65,12 @@ class TenderCancellationDocumentResourceTest(TenderContentWebTest, TenderCancell
     def setUp(self):
         super(TenderCancellationDocumentResourceTest, self).setUp()
         # Create cancellation
-        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(
-            self.tender_id, self.tender_token), {'data': {'reason': 'cancellation reason'}})
-        cancellation = response.json['data']
-        self.cancellation_id = cancellation['id']
+        response = self.app.post_json(
+            "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": {"reason": "cancellation reason"}},
+        )
+        cancellation = response.json["data"]
+        self.cancellation_id = cancellation["id"]
 
 
 def suite():
@@ -80,5 +80,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

@@ -1,16 +1,18 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.core.utils import optendersresource
-from openprocurement.tender.openua.views.complaint import (
-    TenderUaComplaintResource
+from openprocurement.tender.openua.views.complaint import TenderUaComplaintResource
+
+
+@optendersresource(
+    name="closeFrameworkAgreementUA:Tender Complaints",
+    collection_path="/tenders/{tender_id}/complaints",
+    path="/tenders/{tender_id}/complaints/{complaint_id}",
+    procurementMethodType="closeFrameworkAgreementUA",
+    description="Tender EU complaints",
 )
-
-
-@optendersresource(name='closeFrameworkAgreementUA:Tender Complaints',
-                   collection_path='/tenders/{tender_id}/complaints',
-                   path='/tenders/{tender_id}/complaints/{complaint_id}',
-                   procurementMethodType='closeFrameworkAgreementUA',
-                   description="Tender EU complaints")
 class TenderEUComplaintResource(TenderUaComplaintResource):
-
     def complaints_len(self, tender):
-        return sum([len(i.complaints) for i in tender.awards], sum([len(i.complaints) for i in tender.qualifications], len(tender.complaints)))
+        return sum(
+            [len(i.complaints) for i in tender.awards],
+            sum([len(i.complaints) for i in tender.qualifications], len(tender.complaints)),
+        )

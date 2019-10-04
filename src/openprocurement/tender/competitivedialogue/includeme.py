@@ -3,14 +3,19 @@ from logging import getLogger
 from pyramid.interfaces import IRequest
 from openprocurement.api.interfaces import IContentConfigurator
 from openprocurement.tender.competitivedialogue.models import (
-    ICDEUTender, ICDUATender, ICDEUStage2Tender, ICDUAStage2Tender
+    ICDEUTender,
+    ICDUATender,
+    ICDEUStage2Tender,
+    ICDUAStage2Tender,
 )
 from openprocurement.tender.competitivedialogue.adapters import (
-    TenderCDEUConfigurator, TenderCDUAConfigurator,
-    TenderCDEUStage2Configurator, TenderCDUAStage2Configurator
+    TenderCDEUConfigurator,
+    TenderCDUAConfigurator,
+    TenderCDEUStage2Configurator,
+    TenderCDUAStage2Configurator,
 )
 
-LOGGER = getLogger('openprocurement.tender.competitivedialogue')
+LOGGER = getLogger("openprocurement.tender.competitivedialogue")
 
 
 def includeme(config):
@@ -20,10 +25,13 @@ def includeme(config):
     :return:
     """
     from openprocurement.tender.competitivedialogue.models import (
-        CompetitiveDialogUA, CompetitiveDialogEU,
-        TenderStage2EU, TenderStage2UA
+        CompetitiveDialogUA,
+        CompetitiveDialogEU,
+        TenderStage2EU,
+        TenderStage2UA,
     )
-    LOGGER.info('init competitivedialogue plugin')
+
+    LOGGER.info("init competitivedialogue plugin")
     # add two types of Competitive Dialogue
     config.add_tender_procurementMethodType(CompetitiveDialogUA)
     config.add_tender_procurementMethodType(CompetitiveDialogEU)
@@ -32,15 +40,7 @@ def includeme(config):
     config.scan("openprocurement.tender.competitivedialogue.views.stage1")
     config.scan("openprocurement.tender.competitivedialogue.views.stage2")
     config.scan("openprocurement.tender.competitivedialogue.subscribers")
-    config.registry.registerAdapter(TenderCDEUConfigurator,
-                                    (ICDEUTender, IRequest),
-                                    IContentConfigurator)
-    config.registry.registerAdapter(TenderCDUAConfigurator,
-                                    (ICDUATender, IRequest),
-                                    IContentConfigurator)
-    config.registry.registerAdapter(TenderCDEUStage2Configurator,
-                                    (ICDEUStage2Tender, IRequest),
-                                    IContentConfigurator)
-    config.registry.registerAdapter(TenderCDUAStage2Configurator,
-                                    (ICDUAStage2Tender, IRequest),
-                                    IContentConfigurator)
+    config.registry.registerAdapter(TenderCDEUConfigurator, (ICDEUTender, IRequest), IContentConfigurator)
+    config.registry.registerAdapter(TenderCDUAConfigurator, (ICDUATender, IRequest), IContentConfigurator)
+    config.registry.registerAdapter(TenderCDEUStage2Configurator, (ICDEUStage2Tender, IRequest), IContentConfigurator)
+    config.registry.registerAdapter(TenderCDUAStage2Configurator, (ICDUAStage2Tender, IRequest), IContentConfigurator)

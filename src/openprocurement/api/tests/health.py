@@ -16,18 +16,18 @@ REPLICATION = {
     "docs_written": 231078,
     "missing_revisions_found": 231076,
     "progress": 100,
-    "replication_id":"c54108a5a3c6f23208936eb961611021+continuous+create_target",
+    "replication_id": "c54108a5a3c6f23208936eb961611021+continuous+create_target",
     "revisions_checked": 1000,
-    "source":"http://op_db_reader:*****@source/openprocurement/",
+    "source": "http://op_db_reader:*****@source/openprocurement/",
     "source_seq": 1000,
     "started_on": 1476261621,
     "target": "http://target:*****@target/openprocurement/",
     "type": "replication",
-    "updated_on":1476366001
+    "updated_on": 1476366001,
 }
 
 REPLICATION_OK = copy(REPLICATION)
-REPLICATION_OK['checkpointed_source_seq'] = REPLICATION_OK['source_seq']
+REPLICATION_OK["checkpointed_source_seq"] = REPLICATION_OK["source_seq"]
 
 
 class HealthTestBase(BaseWebTest):
@@ -39,17 +39,17 @@ class HealthTestBase(BaseWebTest):
         couchdb_server.tasks = MagicMock(return_value=self.return_value)
         self.original_couch = self.app.app.registry.couchdb_server
         self.app.app.registry.couchdb_server = couchdb_server
-        self.app.authorization = ('Basic', ('token', ''))
+        self.app.authorization = ("Basic", ("token", ""))
 
     def test_health_view(self):
-        response = self.app.get('/health', status=503)
-        self.assertEqual(response.status, '503 Service Unavailable')
+        response = self.app.get("/health", status=503)
+        self.assertEqual(response.status, "503 Service Unavailable")
 
-        response = self.app.get('/health?health_threshold_func=all', status=503)
-        self.assertEqual(response.status, '503 Service Unavailable')
+        response = self.app.get("/health?health_threshold_func=all", status=503)
+        self.assertEqual(response.status, "503 Service Unavailable")
 
-        response = self.app.get('/health?health_threshold_func=any', status=503)
-        self.assertEqual(response.status, '503 Service Unavailable')
+        response = self.app.get("/health?health_threshold_func=any", status=503)
+        self.assertEqual(response.status, "503 Service Unavailable")
 
     def tearDown(self):
         self.app.app.registry.couchdb_server = self.original_couch
@@ -59,40 +59,38 @@ class HealthTest503(HealthTestBase):
     return_value = [REPLICATION]
 
     def test_health_view(self):
-        response = self.app.get('/health?health_threshold=10000', status=200)
-        self.assertEqual(response.status, '200 OK')
+        response = self.app.get("/health?health_threshold=10000", status=200)
+        self.assertEqual(response.status, "200 OK")
+
 
 class HealthTest200(HealthTestBase):
     return_value = [REPLICATION_OK]
 
-
     def test_health_view(self):
-        response = self.app.get('/health', status=200)
-        self.assertEqual(response.status, '200 OK')
+        response = self.app.get("/health", status=200)
+        self.assertEqual(response.status, "200 OK")
 
-        response = self.app.get('/health?health_threshold_func=all', status=200)
-        self.assertEqual(response.status, '200 OK')
+        response = self.app.get("/health?health_threshold_func=all", status=200)
+        self.assertEqual(response.status, "200 OK")
 
-        response = self.app.get('/health?health_threshold_func=any', status=200)
-        self.assertEqual(response.status, '200 OK')
+        response = self.app.get("/health?health_threshold_func=any", status=200)
+        self.assertEqual(response.status, "200 OK")
 
 
 class HealthTest_all(HealthTestBase):
     return_value = [REPLICATION_OK, REPLICATION_OK]
 
-
     def test_health_view(self):
-        response = self.app.get('/health', status=200)
-        self.assertEqual(response.status, '200 OK')
+        response = self.app.get("/health", status=200)
+        self.assertEqual(response.status, "200 OK")
 
-        response = self.app.get('/health?health_threshold_func=all', status=200)
-        self.assertEqual(response.status, '200 OK')
+        response = self.app.get("/health?health_threshold_func=all", status=200)
+        self.assertEqual(response.status, "200 OK")
 
 
 class HealthTest_any(HealthTestBase):
     return_value = [REPLICATION_OK, REPLICATION]
 
-
     def test_health_view(self):
-        response = self.app.get('/health?health_threshold_func=any', status=200)
-        self.assertEqual(response.status, '200 OK')
+        response = self.app.get("/health?health_threshold_func=any", status=200)
+        self.assertEqual(response.status, "200 OK")

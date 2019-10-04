@@ -6,9 +6,7 @@ from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import test_author
-from openprocurement.tender.belowthreshold.tests.lot import (
-    TenderLotProcessTestMixin
-)
+from openprocurement.tender.belowthreshold.tests.lot import TenderLotProcessTestMixin
 from openprocurement.tender.belowthreshold.tests.lot_blanks import (
     create_tender_lot,
     patch_tender_lot,
@@ -68,25 +66,37 @@ from openprocurement.tender.esco.tests.lot_blanks import (
 from openprocurement.tender.esco.utils import to_decimal
 
 
-lot_bid_amountPerformance = round(to_decimal(npv(
-    test_bids[0]['value']['contractDuration']['years'],
-    test_bids[0]['value']['contractDuration']['days'],
-    test_bids[0]['value']['yearlyPaymentsPercentage'],
-    test_bids[0]['value']['annualCostsReduction'],
-    get_now(),
-    NBU_DISCOUNT_RATE)), 2)
+lot_bid_amountPerformance = round(
+    to_decimal(
+        npv(
+            test_bids[0]["value"]["contractDuration"]["years"],
+            test_bids[0]["value"]["contractDuration"]["days"],
+            test_bids[0]["value"]["yearlyPaymentsPercentage"],
+            test_bids[0]["value"]["annualCostsReduction"],
+            get_now(),
+            NBU_DISCOUNT_RATE,
+        )
+    ),
+    2,
+)
 
-lot_bid_amount = round(to_decimal(escp(
-    test_bids[0]['value']['contractDuration']['years'],
-    test_bids[0]['value']['contractDuration']['days'],
-    test_bids[0]['value']['yearlyPaymentsPercentage'],
-    test_bids[0]['value']['annualCostsReduction'],
-    get_now())), 2)
+lot_bid_amount = round(
+    to_decimal(
+        escp(
+            test_bids[0]["value"]["contractDuration"]["years"],
+            test_bids[0]["value"]["contractDuration"]["days"],
+            test_bids[0]["value"]["yearlyPaymentsPercentage"],
+            test_bids[0]["value"]["annualCostsReduction"],
+            get_now(),
+        )
+    ),
+    2,
+)
 
 
 class TenderLotResourceTest(BaseESCOContentWebTest):
 
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     test_lots_data = test_lots  # TODO: change attribute identifier
     test_bids = test_bids
     initial_data = test_tender_data
@@ -114,7 +124,7 @@ class TenderLotResourceTest(BaseESCOContentWebTest):
 
 
 class TenderLotEdgeCasesTest(BaseESCOContentWebTest, TenderLotEdgeCasesTestMixin):
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     initial_lots = test_lots * 2
     initial_bids = test_bids
     test_author = test_author
@@ -123,9 +133,9 @@ class TenderLotEdgeCasesTest(BaseESCOContentWebTest, TenderLotEdgeCasesTestMixin
 class TenderLotFeatureResourceTest(BaseESCOContentWebTest):
     initial_lots = 2 * test_lots
     # for passing test_tender_min_value while min value = 0
-    initial_lots[0]['minValue'] = {"amount": 0}
-    initial_lots[1]['minValue'] = {"amount": 0}
-    initial_auth = ('Basic', ('broker', ''))
+    initial_lots[0]["minValue"] = {"amount": 0}
+    initial_lots[1]["minValue"] = {"amount": 0}
+    initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_data
     test_lots_data = test_lots
     invalid_feature_value = 0.4
@@ -139,7 +149,7 @@ class TenderLotFeatureResourceTest(BaseESCOContentWebTest):
 
 class TenderLotBidResourceTest(BaseESCOContentWebTest):
     initial_lots = test_lots
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     test_bids_data = test_bids  # TODO: change attribute identifier
     expected_bid_amountPerformance = lot_bid_amountPerformance
     expected_bid_amount = lot_bid_amount
@@ -151,74 +161,46 @@ class TenderLotBidResourceTest(BaseESCOContentWebTest):
 
 class TenderLotFeatureBidResourceTest(BaseESCOContentWebTest):
     initial_lots = test_lots
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_data
     test_bids_data = test_bids  # TODO: change attribute identifier
 
     def setUp(self):
         super(TenderLotFeatureBidResourceTest, self).setUp()
-        self.lot_id = self.initial_lots[0]['id']
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
-            self.tender_id, self.tender_token), {"data": {
-                "items": [
-                    {
-                        'relatedLot': self.lot_id,
-                        'id': '1'
-                    }
-                ],
-                "features": [
-                    {
-                        "code": "code_item",
-                        "featureOf": "item",
-                        "relatedItem": "1",
-                        "title": u"item feature",
-                        "enum": [
-                            {
-                                "value": 0.01,
-                                "title": u"good"
-                            },
-                            {
-                                "value": 0.02,
-                                "title": u"best"
-                            }
-                        ]
-                    },
-                    {
-                        "code": "code_lot",
-                        "featureOf": "lot",
-                        "relatedItem": self.lot_id,
-                        "title": u"lot feature",
-                        "enum": [
-                            {
-                                "value": 0.01,
-                                "title": u"good"
-                            },
-                            {
-                                "value": 0.02,
-                                "title": u"best"
-                            }
-                        ]
-                    },
-                    {
-                        "code": "code_tenderer",
-                        "featureOf": "tenderer",
-                        "title": u"tenderer feature",
-                        "enum": [
-                            {
-                                "value": 0.01,
-                                "title": u"good"
-                            },
-                            {
-                                "value": 0.02,
-                                "title": u"best"
-                            }
-                        ]
-                    }
-                ]
-            }})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['data']['items'][0]['relatedLot'], self.lot_id)
+        self.lot_id = self.initial_lots[0]["id"]
+        response = self.app.patch_json(
+            "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+            {
+                "data": {
+                    "items": [{"relatedLot": self.lot_id, "id": "1"}],
+                    "features": [
+                        {
+                            "code": "code_item",
+                            "featureOf": "item",
+                            "relatedItem": "1",
+                            "title": u"item feature",
+                            "enum": [{"value": 0.01, "title": u"good"}, {"value": 0.02, "title": u"best"}],
+                        },
+                        {
+                            "code": "code_lot",
+                            "featureOf": "lot",
+                            "relatedItem": self.lot_id,
+                            "title": u"lot feature",
+                            "enum": [{"value": 0.01, "title": u"good"}, {"value": 0.02, "title": u"best"}],
+                        },
+                        {
+                            "code": "code_tenderer",
+                            "featureOf": "tenderer",
+                            "title": u"tenderer feature",
+                            "enum": [{"value": 0.01, "title": u"good"}, {"value": 0.02, "title": u"best"}],
+                        },
+                    ],
+                }
+            },
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["data"]["items"][0]["relatedLot"], self.lot_id)
 
     test_create_tender_bid_invalid = snitch(create_tender_feature_bid_invalid)
     test_create_tender_bid = snitch(create_tender_feature_bid)
@@ -255,5 +237,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

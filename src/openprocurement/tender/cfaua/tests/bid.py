@@ -4,12 +4,8 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_organization,
-    test_author)
-from openprocurement.tender.belowthreshold.tests.bid_blanks import (
-    patch_tender_with_bids_lots_none
-)
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
+from openprocurement.tender.belowthreshold.tests.bid_blanks import patch_tender_with_bids_lots_none
 from openprocurement.tender.cfaua.tests.base import (
     BaseTenderContentWebTest,
     test_features_tender_data,
@@ -52,35 +48,32 @@ from openprocurement.tender.cfaua.tests.bid_blanks import (
     create_tender_bidder_document_nopending,
     bid_Administrator_change,
     change_bid_document_in_qualification_st_st,
-    post_winningBid_document_in_awarded)
-
-from openprocurement.tender.openeu.tests.bid_blanks import (
-    patch_tender_bidder_document_private_json,
-    not_found,
+    post_winningBid_document_in_awarded,
 )
+
+from openprocurement.tender.openeu.tests.bid_blanks import patch_tender_bidder_document_private_json, not_found
 
 
 class BaseTenderLotsContentWebTest(BaseTenderContentWebTest):
-
     def convert_bids_for_tender_with_lots(self, bids, lots):
         for lot in lots:
             for bid in bids:
-                if 'value' not in bid:
+                if "value" not in bid:
                     continue
-                if 'lotValues' not in bid:
-                    bid['lotValues'] = []
-                bid['lotValues'].append({'value': bid['value'], 'relatedLot': lot['id']})
+                if "lotValues" not in bid:
+                    bid["lotValues"] = []
+                bid["lotValues"].append({"value": bid["value"], "relatedLot": lot["id"]})
         for bid in bids:
-            if 'value' in bid:
-                bid.pop('value')
+            if "value" in bid:
+                bid.pop("value")
 
     def setUp(self):
         super(BaseTenderLotsContentWebTest, self).setUp()
 
 
 class TenderBidResourceTest(BaseTenderLotsContentWebTest):
-    initial_status = 'active.tendering'
-    initial_auth = ('Basic', ('broker', ''))
+    initial_status = "active.tendering"
+    initial_auth = ("Basic", ("broker", ""))
     initial_lots = test_lots
     test_bids_data = deepcopy(test_bids)
     author_data = test_author
@@ -101,8 +94,8 @@ class TenderBidResourceTest(BaseTenderLotsContentWebTest):
 
 class TenderBidFeaturesResourceTest(BaseTenderLotsContentWebTest):
     initial_data = test_features_tender_data
-    initial_status = 'active.tendering'
-    initial_auth = ('Basic', ('broker', ''))
+    initial_status = "active.tendering"
+    initial_auth = ("Basic", ("broker", ""))
     initial_lots = test_lots
     test_bids_data = deepcopy(test_bids)
 
@@ -111,8 +104,8 @@ class TenderBidFeaturesResourceTest(BaseTenderLotsContentWebTest):
 
 
 class TenderBidDocumentResourceTest(BaseTenderLotsContentWebTest):
-    initial_auth = ('Basic', ('broker', ''))
-    initial_status = 'active.tendering'
+    initial_auth = ("Basic", ("broker", ""))
+    initial_status = "active.tendering"
     test_bids_data = deepcopy(test_bids)
     initial_lots = test_lots
 
@@ -122,11 +115,11 @@ class TenderBidDocumentResourceTest(BaseTenderLotsContentWebTest):
         for x in range(self.min_bids_number):
             bids_data = deepcopy(test_bids)
             self.convert_bids_for_tender_with_lots(bids_data, self.initial_lots)
-            response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bids_data[0]})
-            bid = response.json['data']
-            x = '' if x == 0 else x + 1
-            setattr(self, 'bid{}_id'.format(x), bid['id'])
-            setattr(self, 'bid{}_token'.format(x), response.json['access']['token'])
+            response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bids_data[0]})
+            bid = response.json["data"]
+            x = "" if x == 0 else x + 1
+            setattr(self, "bid{}_id".format(x), bid["id"])
+            setattr(self, "bid{}_token".format(x), response.json["access"]["token"])
 
     test_patch_and_put_document_into_invalid_bid = snitch(patch_and_put_document_into_invalid_bid)
     test_create_tender_bidder_document_nopending = snitch(create_tender_bidder_document_nopending)
@@ -151,26 +144,31 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
 
 class TenderBidBatchDocumentsWithDSResourceTest(BaseTenderLotsContentWebTest):
     docservice = True
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
 
     test_bids_data = deepcopy(test_bids)
-    author_data = test_bids[0]['tenderers'][0]
-    bid_data_wo_docs = {'tenderers': [test_organization],
-                        'value': {'amount': 500},
-                        'selfEligible': True,
-                        'selfQualified': True,
-                        'documents': []
-        }
+    author_data = test_bids[0]["tenderers"][0]
+    bid_data_wo_docs = {
+        "tenderers": [test_organization],
+        "value": {"amount": 500},
+        "selfEligible": True,
+        "selfQualified": True,
+        "documents": [],
+    }
 
     test_create_tender_bid_with_document_invalid = snitch(create_tender_bid_with_document_invalid)
     test_create_tender_bid_with_document = snitch(create_tender_bid_with_document)
     test_create_tender_bid_with_documents = snitch(create_tender_bid_with_documents)
 
-    test_create_tender_bid_with_eligibility_document_invalid = snitch(create_tender_bid_with_eligibility_document_invalid)
+    test_create_tender_bid_with_eligibility_document_invalid = snitch(
+        create_tender_bid_with_eligibility_document_invalid
+    )
     test_create_tender_bid_with_eligibility_document = snitch(create_tender_bid_with_eligibility_document)
     test_create_tender_bid_with_eligibility_documents = snitch(create_tender_bid_with_eligibility_documents)
 
-    test_create_tender_bid_with_qualification_document_invalid = snitch(create_tender_bid_with_qualification_document_invalid)
+    test_create_tender_bid_with_qualification_document_invalid = snitch(
+        create_tender_bid_with_qualification_document_invalid
+    )
     test_create_tender_bid_with_qualification_document = snitch(create_tender_bid_with_qualification_document)
     test_create_tender_bid_with_qualification_documents = snitch(create_tender_bid_with_qualification_documents)
 
@@ -191,5 +189,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

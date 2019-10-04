@@ -10,16 +10,14 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     invalid_tender_conditions,
     # TenderResourceTest
     guarantee,
-    create_tender_with_inn, create_tender_with_inn_before,
+    create_tender_with_inn,
+    create_tender_with_inn_before,
     tender_milestones_required,
     create_tender_with_inn,
     create_tender_with_inn_before,
     patch_tender_lots_none,
 )
-from openprocurement.tender.openua.tests.tender_blanks import (
-    empty_listing,
-    tender_finance_milestones,
-)
+from openprocurement.tender.openua.tests.tender_blanks import empty_listing, tender_finance_milestones
 from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER
 from openprocurement.tender.cfaua.tests.base import (
     test_tender_w_lot_data,
@@ -53,13 +51,13 @@ from openprocurement.tender.cfaua.tests.tender_blanks import (
     tender_features_invalid,
     extract_tender_credentials,
     patch_unitprice_with_features,
-    tender_with_main_procurement_category
+    tender_with_main_procurement_category,
 )
 
 
 class TenderTest(BaseTenderWebTest):
 
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     initial_data = deepcopy(test_tender_w_lot_data)
     initial_lots = deepcopy(test_lots_w_ids)
 
@@ -76,7 +74,7 @@ class TenderCheckStatusTest(BaseTenderContentWebTest):
 
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
 
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     initial_data = deepcopy(test_tender_w_lot_data)
     initial_lots = deepcopy(test_lots_w_ids)
     initial_bids = deepcopy(test_bids_w_lot_data)
@@ -84,7 +82,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     min_bids_number = MIN_BIDS_NUMBER
 
     test_empty_listing = snitch(empty_listing)
-    #test_tender_fields = snitch(tender_fields)  added new field need to copy and fix this test
+    # test_tender_fields = snitch(tender_fields)  added new field need to copy and fix this test
     test_patch_tender_period = snitch(patch_tender_period)
     test_tender_contract_period = snitch(tender_contract_period)
     test_create_tender_invalid = snitch(create_tender_invalid)
@@ -105,32 +103,36 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
 
     def test_patch_not_author(self):
-        response = self.app.post_json('/tenders', {'data': test_tender_w_lot_data})
-        self.assertEqual(response.status, '201 Created')
-        tender = response.json['data']
-        owner_token = response.json['access']['token']
+        response = self.app.post_json("/tenders", {"data": test_tender_w_lot_data})
+        self.assertEqual(response.status, "201 Created")
+        tender = response.json["data"]
+        owner_token = response.json["access"]["token"]
 
         authorization = self.app.authorization
-        self.app.authorization = ('Basic', ('bot', 'bot'))
+        self.app.authorization = ("Basic", ("bot", "bot"))
 
-        response = self.app.post('/tenders/{}/documents'.format(tender['id']),
-                                 upload_files=[('file', 'name.doc', 'content')])
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-        doc_id = response.json["data"]['id']
-        self.assertIn(doc_id, response.headers['Location'])
+        response = self.app.post(
+            "/tenders/{}/documents".format(tender["id"]), upload_files=[("file", "name.doc", "content")]
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        doc_id = response.json["data"]["id"]
+        self.assertIn(doc_id, response.headers["Location"])
 
         self.app.authorization = authorization
-        response = self.app.patch_json('/tenders/{}/documents/{}?acc_token={}'.format(tender['id'], doc_id, owner_token),
-                                       {"data": {"description": "document description"}}, status=403)
-        self.assertEqual(response.status, '403 Forbidden')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Can update document only author")
+        response = self.app.patch_json(
+            "/tenders/{}/documents/{}?acc_token={}".format(tender["id"], doc_id, owner_token),
+            {"data": {"description": "document description"}},
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["errors"][0]["description"], "Can update document only author")
 
 
 class TenderProcessTest(BaseTenderWebTest):
 
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     initial_data = deepcopy(test_tender_w_lot_data)
     initial_lots = deepcopy(test_lots_w_ids)
     initial_bids = deepcopy(test_bids_w_lot_data)
@@ -146,64 +148,72 @@ class TenderProcessTest(BaseTenderWebTest):
 
 
 class TenderPendingAwardsResourceTest(BaseTenderContentWebTest):
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     initial_bids = deepcopy(test_bids_w_lot_data)
 
     def setUp(self):
         # Fix for method create_tender in tender.core and bid.value will be deleted after
         # super(TenderPendingAwardsResourceTest, self).setUp()
         for bid in self.initial_bids:
-            bid['value'] = bid['lotValues'][0]['value']
+            bid["value"] = bid["lotValues"][0]["value"]
 
         super(TenderPendingAwardsResourceTest, self).setUp()
         # switch to active.pre-qualification
-        self.time_shift('active.pre-qualification')
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(self.tender_id), {"data": {"id": self.tender_id}})
+        self.time_shift("active.pre-qualification")
+        self.app.authorization = ("Basic", ("chronograph", ""))
+        response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
         self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.json['data']['status'], "active.pre-qualification")
+        self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
-        self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(self.tender_id, self.tender_token))
-        for qualific in response.json['data']:
-            response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
-                self.tender_id, qualific['id'], self.tender_token), {'data': {"status": "active", "qualified": True, "eligible": True}})
-            self.assertEqual(response.status, '200 OK')
+        self.app.authorization = ("Basic", ("broker", ""))
+        response = self.app.get("/tenders/{}/qualifications?acc_token={}".format(self.tender_id, self.tender_token))
+        for qualific in response.json["data"]:
+            response = self.app.patch_json(
+                "/tenders/{}/qualifications/{}?acc_token={}".format(self.tender_id, qualific["id"], self.tender_token),
+                {"data": {"status": "active", "qualified": True, "eligible": True}},
+            )
+            self.assertEqual(response.status, "200 OK")
 
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
-                                       {"data": {"status": "active.pre-qualification.stand-still"}})
+        response = self.app.patch_json(
+            "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": {"status": "active.pre-qualification.stand-still"}},
+        )
         self.assertEqual(response.status, "200 OK")
 
-        self.set_status('active.auction')
+        self.set_status("active.auction")
 
-        patch_data = {'bids': []}
+        patch_data = {"bids": []}
         for x in range(self.min_bids_number):
-            patch_data['bids'].append({
-                "id": self.initial_bids[x]['id'],
-                "lotValues": [{
-                    "value": {
-                        "amount": 409 + x * 10,
-                        "currency": "UAH",
-                        "valueAddedTaxIncluded": True,
-                    },
-                    "relatedLot": self.initial_lots[0]['id']
-                }]
-            })
+            patch_data["bids"].append(
+                {
+                    "id": self.initial_bids[x]["id"],
+                    "lotValues": [
+                        {
+                            "value": {"amount": 409 + x * 10, "currency": "UAH", "valueAddedTaxIncluded": True},
+                            "relatedLot": self.initial_lots[0]["id"],
+                        }
+                    ],
+                }
+            )
 
-        self.app.authorization = ('Basic', ('auction', ''))
-        response = self.app.post_json('/tenders/{}/auction/{}'.format(self.tender_id, self.initial_lots[0]['id']),
-                                      {'data': patch_data})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        tender = response.json['data']
+        self.app.authorization = ("Basic", ("auction", ""))
+        response = self.app.post_json(
+            "/tenders/{}/auction/{}".format(self.tender_id, self.initial_lots[0]["id"]), {"data": patch_data}
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        tender = response.json["data"]
 
         for x in range(self.min_bids_number):
-            self.assertEqual(tender["bids"][x]['lotValues'][0]['value']['amount'],
-                             patch_data["bids"][x]['lotValues'][0]['value']['amount'])
-            self.assertEqual(tender["awards"][x]['status'], 'pending')  # all awards are in pending status
+            self.assertEqual(
+                tender["bids"][x]["lotValues"][0]["value"]["amount"],
+                patch_data["bids"][x]["lotValues"][0]["value"]["amount"],
+            )
+            self.assertEqual(tender["awards"][x]["status"], "pending")  # all awards are in pending status
 
-    test_patch_tender_active_qualification_2_active_qualification_stand_still = \
-        snitch(patch_tender_active_qualification_2_active_qualification_stand_still)
+    test_patch_tender_active_qualification_2_active_qualification_stand_still = snitch(
+        patch_tender_active_qualification_2_active_qualification_stand_still
+    )
     test_switch_tender_to_active_awarded = snitch(switch_tender_to_active_awarded)
 
 
@@ -216,5 +226,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

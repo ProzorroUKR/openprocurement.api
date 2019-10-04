@@ -1,9 +1,7 @@
 import unittest
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.core.adapters import TenderConfigurator
-from configurator_blanks import (reverse_awarding_criteria_check,
-                                 awarding_criteria_key,
-                                 configurator_model)
+from configurator_blanks import reverse_awarding_criteria_check, awarding_criteria_key, configurator_model
 
 
 class ConfiguratorTestMixin(object):
@@ -15,7 +13,7 @@ class ConfiguratorTestMixin(object):
 class ConfiguratorTest(unittest.TestCase, ConfiguratorTestMixin):
     configurator_class = TenderConfigurator
     reverse_awarding_criteria = False
-    awarding_criteria_key = 'amount'
+    awarding_criteria_key = "amount"
     configurator_model = None
 
 
@@ -25,5 +23,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

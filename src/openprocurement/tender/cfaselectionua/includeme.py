@@ -13,10 +13,10 @@ def includeme(config):
     config.add_tender_procurementMethodType(CFASelectionUATender)
     config.scan("openprocurement.tender.cfaselectionua.views")
     config.scan("openprocurement.tender.cfaselectionua.subscribers")
-    config.registry.registerAdapter(TenderCfaSelectionUAConfigurator,
-                                    (ICFASelectionUATender, IRequest),
-                                    IContentConfigurator)
+    config.registry.registerAdapter(
+        TenderCfaSelectionUAConfigurator, (ICFASelectionUATender, IRequest), IContentConfigurator
+    )
     ZcmlFile(
-        os.path.join(os.path.dirname(os.path.abspath(__file__)), 'configure.zcml'),
-        package=openprocurement.tender.cfaselectionua
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), "configure.zcml"),
+        package=openprocurement.tender.cfaselectionua,
     )

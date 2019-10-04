@@ -3,10 +3,7 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_organization,
-    test_author
-)
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
 
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     # TenderBidBatchDocumentWithDSResourceTest
@@ -14,14 +11,14 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_with_document_invalid,
     create_tender_bid_with_document,
     # Tender2LotBidResourceTest
-    patch_tender_with_bids_lots_none
+    patch_tender_with_bids_lots_none,
 )
 
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
     test_features_tender_data,
     test_bids,
-    test_lots
+    test_lots,
 )
 from openprocurement.tender.openeu.tests.bid_blanks import (
     # TenderBidDocumentWithDSResourceTest
@@ -64,14 +61,14 @@ from openprocurement.tender.openeu.tests.bid_blanks import (
     create_tender_bid_with_financial_documents,
     create_tender_bid_with_eligibility_documents,
     create_tender_bid_with_qualification_documents,
-
 )
 
 from openprocurement.tender.openua.tests.bid_blanks import (
     create_tender_bid_no_scale_invalid,
     create_tender_bid_with_scale_not_required,
-    create_tender_bid_no_scale
+    create_tender_bid_no_scale,
 )
+
 
 class TenderBidResourceTestMixin(object):
     test_create_tender_bidder = snitch(create_tender_bidder)
@@ -102,26 +99,27 @@ class TenderBidDocumentResourceTestMixin(object):
 
 
 class TenderBidResourceTest(BaseTenderContentWebTest, TenderBidResourceTestMixin, Tender2BidResourceTestMixin):
-    initial_status = 'active.tendering'
-    initial_auth = ('Basic', ('broker', ''))
+    initial_status = "active.tendering"
+    initial_auth = ("Basic", ("broker", ""))
     test_bids_data = test_bids  # TODO: change attribute identifier
     author_data = test_author
 
     test_delete_tender_bidder = snitch(delete_tender_bidder)
     test_bids_invalidation_on_tender_change = snitch(bids_invalidation_on_tender_change)
 
+
 class Tender2LotBidResourceTest(BaseTenderContentWebTest):
     test_bids_data = test_bids
     initial_lots = 2 * test_lots
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
 
     test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
 
 
 class TenderBidFeaturesResourceTest(BaseTenderContentWebTest):
-    initial_data =  test_features_tender_data
-    initial_status = 'active.tendering'
-    initial_auth = ('Basic', ('broker', ''))
+    initial_data = test_features_tender_data
+    initial_status = "active.tendering"
+    initial_auth = ("Basic", ("broker", ""))
     test_bids_data = test_bids  # TODO: change attribute identificator
 
     test_features_bidder = snitch(features_bidder)
@@ -129,23 +127,22 @@ class TenderBidFeaturesResourceTest(BaseTenderContentWebTest):
 
 
 class TenderBidDocumentResourceTest(BaseTenderContentWebTest, TenderBidDocumentResourceTestMixin):
-    initial_auth = ('Basic', ('broker', ''))
-    initial_status = 'active.tendering'
+    initial_auth = ("Basic", ("broker", ""))
+    initial_status = "active.tendering"
     test_bids_data = test_bids  # TODO: change attribute identificator
 
     def setUp(self):
         super(TenderBidDocumentResourceTest, self).setUp()
         # Create bid
-        response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': test_bids[0]})
-        bid = response.json['data']
-        self.bid_id = bid['id']
-        self.bid_token = response.json['access']['token']
+        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": test_bids[0]})
+        bid = response.json["data"]
+        self.bid_id = bid["id"]
+        self.bid_token = response.json["access"]["token"]
         # create second bid
-        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': test_bids[1]})
-        bid2 = response.json['data']
-        self.bid2_id = bid2['id']
-        self.bid2_token = response.json['access']['token']
+        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": test_bids[1]})
+        bid2 = response.json["data"]
+        self.bid2_id = bid2["id"]
+        self.bid2_token = response.json["access"]["token"]
 
     test_patch_and_put_document_into_invalid_bid = snitch(patch_and_put_document_into_invalid_bid)
     test_create_tender_bidder_document_nopending = snitch(create_tender_bidder_document_nopending)
@@ -161,26 +158,29 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
 
 class TenderBidBatchDocumentsWithDSResourceTest(BaseTenderContentWebTest):
     docservice = True
-    initial_status = 'active.tendering'
-
+    initial_status = "active.tendering"
 
     bid_data_wo_docs = {
-        'tenderers': [test_organization],
-        'value': {'amount': 500},
-        'selfEligible': True,
-        'selfQualified': True,
-        'documents': []
+        "tenderers": [test_organization],
+        "value": {"amount": 500},
+        "selfEligible": True,
+        "selfQualified": True,
+        "documents": [],
     }
 
     test_create_tender_bid_with_document_invalid = snitch(create_tender_bid_with_document_invalid)
     test_create_tender_bid_with_document = snitch(create_tender_bid_with_document)
     test_create_tender_bid_with_documents = snitch(create_tender_bid_with_documents)
 
-    test_create_tender_bid_with_eligibility_document_invalid = snitch(create_tender_bid_with_eligibility_document_invalid)
+    test_create_tender_bid_with_eligibility_document_invalid = snitch(
+        create_tender_bid_with_eligibility_document_invalid
+    )
     test_create_tender_bid_with_eligibility_document = snitch(create_tender_bid_with_eligibility_document)
     test_create_tender_bid_with_eligibility_documents = snitch(create_tender_bid_with_eligibility_documents)
 
-    test_create_tender_bid_with_qualification_document_invalid = snitch(create_tender_bid_with_qualification_document_invalid)
+    test_create_tender_bid_with_qualification_document_invalid = snitch(
+        create_tender_bid_with_qualification_document_invalid
+    )
     test_create_tender_bid_with_qualification_document = snitch(create_tender_bid_with_qualification_document)
     test_create_tender_bid_with_qualification_documents = snitch(create_tender_bid_with_qualification_documents)
 
@@ -201,5 +201,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

@@ -9,7 +9,7 @@ from openprocurement.tender.belowthreshold.tests.question_blanks import (
     # TenderLotQuestionResourceTest
     lot_create_tender_question,
     lot_patch_tender_question,
-    lot_patch_tender_question_lots_none
+    lot_patch_tender_question_lots_none,
 )
 
 from openprocurement.tender.openua.tests.question_blanks import (
@@ -17,11 +17,7 @@ from openprocurement.tender.openua.tests.question_blanks import (
     create_tender_question,
 )
 
-from openprocurement.tender.esco.tests.base import (
-    BaseESCOContentWebTest,
-    test_bids,
-    test_lots,
-)
+from openprocurement.tender.esco.tests.base import BaseESCOContentWebTest, test_bids, test_lots
 from openprocurement.tender.openeu.tests.question_blanks import (
     # TenderQuestionResourceTest
     patch_tender_question,
@@ -31,7 +27,7 @@ from openprocurement.tender.openeu.tests.question_blanks import (
 
 class TenderQuestionResourceTest(BaseESCOContentWebTest, TenderQuestionResourceTestMixin):
 
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     test_bids_data = test_bids
     author_data = test_author
 
@@ -43,7 +39,7 @@ class TenderQuestionResourceTest(BaseESCOContentWebTest, TenderQuestionResourceT
 class TenderLotQuestionResourceTest(BaseESCOContentWebTest):
 
     initial_lots = 2 * test_lots
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     test_bids_data = test_bids
     author_data = test_author
 
@@ -59,5 +55,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

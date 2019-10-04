@@ -1,43 +1,39 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import (
-    get_now,
-    raise_operation_error
-)
+from openprocurement.api.utils import get_now, raise_operation_error
 from openprocurement.tender.belowthreshold.utils import add_contract
 
-from openprocurement.tender.core.utils import (
-    apply_patch,
-    optendersresource,
-    save_tender,
-    calculate_business_date
-)
+from openprocurement.tender.core.utils import apply_patch, optendersresource, save_tender, calculate_business_date
 
 from openprocurement.tender.core.validation import (
     validate_patch_award_data,
     validate_update_award_only_for_active_lots,
     validate_update_award_in_not_allowed_status,
-    validate_update_award_with_accepted_complaint
+    validate_update_award_with_accepted_complaint,
 )
 from openprocurement.tender.belowthreshold.views.award import TenderAwardResource
-from openprocurement.api.utils import (
-    json_view,
-    context_unpack,
-)
+from openprocurement.api.utils import json_view, context_unpack
 from openprocurement.tender.openuadefense.constants import STAND_STILL_TIME
-from openprocurement.tender.openua.utils import (
-    calculate_normalized_date, add_next_award
+from openprocurement.tender.openua.utils import calculate_normalized_date, add_next_award
+
+
+@optendersresource(
+    name="aboveThresholdUA.defense:Tender Awards",
+    collection_path="/tenders/{tender_id}/awards",
+    path="/tenders/{tender_id}/awards/{award_id}",
+    description="Tender awards",
+    procurementMethodType="aboveThresholdUA.defense",
 )
-
-
-@optendersresource(name='aboveThresholdUA.defense:Tender Awards',
-                   collection_path='/tenders/{tender_id}/awards',
-                   path='/tenders/{tender_id}/awards/{award_id}',
-                   description="Tender awards",
-                   procurementMethodType='aboveThresholdUA.defense')
 class TenderUaAwardResource(TenderAwardResource):
-
-    @json_view(content_type="application/json", permission='edit_tender', validators=(validate_patch_award_data, validate_update_award_in_not_allowed_status,
-               validate_update_award_only_for_active_lots, validate_update_award_with_accepted_complaint))
+    @json_view(
+        content_type="application/json",
+        permission="edit_tender",
+        validators=(
+            validate_patch_award_data,
+            validate_update_award_in_not_allowed_status,
+            validate_update_award_only_for_active_lots,
+            validate_update_award_with_accepted_complaint,
+        ),
+    )
     def patch(self):
         """Update of award
 
@@ -95,17 +91,21 @@ class TenderUaAwardResource(TenderAwardResource):
             }
 
         """
-        tender = self.request.validated['tender']
+        tender = self.request.validated["tender"]
         award = self.request.context
         award_status = award.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
-        if award_status == 'pending' and award.status == 'active':
+        if award_status == "pending" and award.status == "active":
             now = get_now()
             normalized_end = calculate_normalized_date(now, tender, True)
             award.complaintPeriod.endDate = calculate_business_date(normalized_end, STAND_STILL_TIME, tender, True)
             add_contract(self.request, award, now)
             add_next_award(self.request)
-        elif award_status == 'active' and award.status == 'cancelled' and any([i.status == 'satisfied' for i in award.complaints]):
+        elif (
+            award_status == "active"
+            and award.status == "cancelled"
+            and any([i.status == "satisfied" for i in award.complaints])
+        ):
             now = get_now()
             cancelled_awards = []
             for i in tender.awards:
@@ -113,27 +113,31 @@ class TenderUaAwardResource(TenderAwardResource):
                     continue
                 if not i.complaintPeriod.endDate or i.complaintPeriod.endDate > now:
                     i.complaintPeriod.endDate = now
-                i.status = 'cancelled'
+                i.status = "cancelled"
                 cancelled_awards.append(i.id)
             for i in tender.contracts:
                 if i.awardID in cancelled_awards:
-                    i.status = 'cancelled'
+                    i.status = "cancelled"
             add_next_award(self.request)
-        elif award_status == 'active' and award.status == 'cancelled':
+        elif award_status == "active" and award.status == "cancelled":
             now = get_now()
             if award.complaintPeriod.endDate > now:
                 award.complaintPeriod.endDate = now
             for i in tender.contracts:
                 if i.awardID == award.id:
-                    i.status = 'cancelled'
+                    i.status = "cancelled"
             add_next_award(self.request)
-        elif award_status == 'pending' and award.status == 'unsuccessful':
+        elif award_status == "pending" and award.status == "unsuccessful":
             normalized_end = calculate_normalized_date(get_now(), tender, True)
             award.complaintPeriod.endDate = calculate_business_date(normalized_end, STAND_STILL_TIME, tender, True)
             add_next_award(self.request)
-        elif award_status == 'unsuccessful' and award.status == 'cancelled' and any([i.status == 'satisfied' for i in award.complaints]):
-            if tender.status == 'active.awarded':
-                tender.status = 'active.qualification'
+        elif (
+            award_status == "unsuccessful"
+            and award.status == "cancelled"
+            and any([i.status == "satisfied" for i in award.complaints])
+        ):
+            if tender.status == "active.awarded":
+                tender.status = "active.qualification"
                 tender.awardPeriod.endDate = None
             now = get_now()
             if award.complaintPeriod.endDate > now:
@@ -144,15 +148,19 @@ class TenderUaAwardResource(TenderAwardResource):
                     continue
                 if not i.complaintPeriod.endDate or i.complaintPeriod.endDate > now:
                     i.complaintPeriod.endDate = now
-                i.status = 'cancelled'
+                i.status = "cancelled"
                 cancelled_awards.append(i.id)
             for i in tender.contracts:
                 if i.awardID in cancelled_awards:
-                    i.status = 'cancelled'
+                    i.status = "cancelled"
             add_next_award(self.request)
-        elif self.request.authenticated_role != 'Administrator' and not(award_status == 'pending' and award.status == 'pending'):
-            raise_operation_error(self.request, 'Can\'t update award in current ({}) status'.format(award_status))
+        elif self.request.authenticated_role != "Administrator" and not (
+            award_status == "pending" and award.status == "pending"
+        ):
+            raise_operation_error(self.request, "Can't update award in current ({}) status".format(award_status))
         if save_tender(self.request):
-            self.LOGGER.info('Updated tender award {}'.format(self.request.context.id),
-                        extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_award_patch'}))
-            return {'data': award.serialize("view")}
+            self.LOGGER.info(
+                "Updated tender award {}".format(self.request.context.id),
+                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_award_patch"}),
+            )
+            return {"data": award.serialize("view")}

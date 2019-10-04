@@ -9,6 +9,6 @@ def includeme(config):
     config.add_tender_procurementMethodType(Tender)
     config.scan("openprocurement.tender.openeu.views")
     config.scan("openprocurement.tender.openeu.subscribers")
-    config.registry.registerAdapter(TenderAboveThresholdEUConfigurator,
-                                    (IAboveThresholdEUTender, IRequest),
-                                    IContentConfigurator)
+    config.registry.registerAdapter(
+        TenderAboveThresholdEUConfigurator, (IAboveThresholdEUTender, IRequest), IContentConfigurator
+    )

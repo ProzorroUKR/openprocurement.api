@@ -9,7 +9,7 @@ from openprocurement.api.models import Model, IsoDateTimeType
 
 class Change(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
-    status = StringType(choices=['pending', 'active'], default='pending')
+    status = StringType(choices=["pending", "active"], default="pending")
     date = IsoDateTimeType(default=get_now)
     rationale = StringType(required=True, min_length=1)
     rationale_en = StringType()

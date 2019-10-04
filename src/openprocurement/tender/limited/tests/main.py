@@ -2,8 +2,7 @@
 
 import unittest
 
-from openprocurement.tender.limited.tests import (tender, award, contract,
-                                                  document, cancellation)
+from openprocurement.tender.limited.tests import tender, award, contract, document, cancellation
 
 
 def suite():
@@ -16,5 +15,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

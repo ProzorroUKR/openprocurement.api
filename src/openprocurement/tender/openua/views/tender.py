@@ -1,35 +1,31 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.core.validation import (
     validate_tender_period_extension,
-    validate_tender_status_update_in_terminated_status
+    validate_tender_status_update_in_terminated_status,
 )
 from openprocurement.tender.belowthreshold.views.tender import TenderResource
 from openprocurement.tender.openua.validation import validate_patch_tender_ua_data
-from openprocurement.tender.openua.utils import (
-    check_status,
-)
-from openprocurement.api.utils import (
-    json_view,
-    context_unpack,
-    get_now,
-)
-from openprocurement.tender.core.utils import (
-    save_tender,
-    apply_patch,
-    optendersresource,
-    calculate_business_date
-)
+from openprocurement.tender.openua.utils import check_status
+from openprocurement.api.utils import json_view, context_unpack, get_now
+from openprocurement.tender.core.utils import save_tender, apply_patch, optendersresource, calculate_business_date
 from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD
 from openprocurement.tender.core.events import TenderInitializeEvent
 
-@optendersresource(name='aboveThresholdUA:Tender',
-                   path='/tenders/{tender_id}',
-                   procurementMethodType='aboveThresholdUA',
-                   description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info")
+
+@optendersresource(
+    name="aboveThresholdUA:Tender",
+    path="/tenders/{tender_id}",
+    procurementMethodType="aboveThresholdUA",
+    description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info",
+)
 class TenderUAResource(TenderResource):
     """ Resource handler for TenderUA """
 
-    @json_view(content_type="application/json", validators=(validate_patch_tender_ua_data, validate_tender_status_update_in_terminated_status), permission='edit_tender')
+    @json_view(
+        content_type="application/json",
+        validators=(validate_patch_tender_ua_data, validate_tender_status_update_in_terminated_status),
+        permission="edit_tender",
+    )
     def patch(self):
         """Tender Edit (partial)
 
@@ -79,22 +75,28 @@ class TenderUAResource(TenderResource):
 
         """
         tender = self.context
-        data = self.request.validated['data']
+        data = self.request.validated["data"]
 
-        if self.request.authenticated_role == 'tender_owner' and self.request.validated['tender_status'] == 'active.tendering':
-            if 'tenderPeriod' in data and 'endDate' in data['tenderPeriod']:
-                self.request.validated['tender'].tenderPeriod.import_data(data['tenderPeriod'])
+        if (
+            self.request.authenticated_role == "tender_owner"
+            and self.request.validated["tender_status"] == "active.tendering"
+        ):
+            if "tenderPeriod" in data and "endDate" in data["tenderPeriod"]:
+                self.request.validated["tender"].tenderPeriod.import_data(data["tenderPeriod"])
                 validate_tender_period_extension(self.request)
-                self.request.registry.notify(TenderInitializeEvent(self.request.validated['tender']))
-                self.request.validated['data']["enquiryPeriod"] = self.request.validated['tender'].enquiryPeriod.serialize()
+                self.request.registry.notify(TenderInitializeEvent(self.request.validated["tender"]))
+                self.request.validated["data"]["enquiryPeriod"] = self.request.validated[
+                    "tender"
+                ].enquiryPeriod.serialize()
 
-        apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
-        if self.request.authenticated_role == 'chronograph':
+        apply_patch(self.request, save=False, src=self.request.validated["tender_src"])
+        if self.request.authenticated_role == "chronograph":
             check_status(self.request)
-        elif self.request.authenticated_role == 'tender_owner' and tender.status == 'active.tendering':
+        elif self.request.authenticated_role == "tender_owner" and tender.status == "active.tendering":
             # invalidate bids on tender change
             tender.invalidate_bids_data()
         save_tender(self.request)
-        self.LOGGER.info('Updated tender {}'.format(tender.id),
-                    extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_patch'}))
-        return {'data': tender.serialize(tender.status)}
+        self.LOGGER.info(
+            "Updated tender {}".format(tender.id), extra=context_unpack(self.request, {"MESSAGE_ID": "tender_patch"})
+        )
+        return {"data": tender.serialize(tender.status)}

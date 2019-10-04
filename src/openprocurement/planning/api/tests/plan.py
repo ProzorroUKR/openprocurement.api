@@ -7,9 +7,7 @@ from copy import deepcopy
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
 
-from openprocurement.planning.api.tests.base import (
-    test_plan_data, BaseWebTest
-)
+from openprocurement.planning.api.tests.base import test_plan_data, BaseWebTest
 from openprocurement.planning.api.tests.plan_blanks import (
     # PlanTest
     simple_add_plan,
@@ -44,15 +42,15 @@ from openprocurement.planning.api.tests.plan_blanks import (
     create_plan_without_buyers,
     fail_create_plan_without_buyers,
     create_plan_with_buyers,
-    create_plan_with_two_buyers
+    create_plan_with_two_buyers,
 )
 
 test_plan_data_mode_test = test_plan_data.copy()
 test_plan_data_mode_test["mode"] = "test"
 
 test_data_with_year = deepcopy(test_plan_data)
-test_data_with_year['budget']['year'] = 2018
-del test_data_with_year['budget']['period']
+test_data_with_year["budget"]["year"] = 2018
+del test_data_with_year["budget"]["period"]
 
 
 class PlanTest(BaseWebTest):
@@ -99,7 +97,7 @@ class PlanBudgetBreakdownTest(BaseWebTest):
     test_fail_create_plan_with_amounts_sum_greater = snitch(fail_create_plan_with_amounts_sum_greater)
 
 
-@mock.patch('openprocurement.planning.api.models.BUDGET_PERIOD_FROM', get_now() + timedelta(days=1))
+@mock.patch("openprocurement.planning.api.models.BUDGET_PERIOD_FROM", get_now() + timedelta(days=1))
 class PlanBudgetYearTest(BaseWebTest):
     initial_data = test_plan_data
     initial_data_with_year = test_data_with_year
@@ -108,7 +106,7 @@ class PlanBudgetYearTest(BaseWebTest):
     test_patch_plan_budget_year = snitch(patch_plan_budget_year)
 
 
-@mock.patch('openprocurement.planning.api.models.PLAN_BUYERS_REQUIRED_FROM', get_now() + timedelta(days=1))
+@mock.patch("openprocurement.planning.api.models.PLAN_BUYERS_REQUIRED_FROM", get_now() + timedelta(days=1))
 class PlanBuyersTestCase(BaseWebTest):
     initial_data = test_plan_data
 
@@ -124,5 +122,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

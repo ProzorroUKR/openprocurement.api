@@ -2,6 +2,7 @@
 from schematics.types.base import BaseType
 from schematics.types.serializable import Serializable as BaseSerializable
 
+
 class ContentConfigurator(object):
     """ Base OP Content Configuration adapter """
 
@@ -24,8 +25,10 @@ class Serializable(BaseSerializable):
         self.context = tender
         serialized_type = self.context._fields.get(self.serialized_name, self.serialized_type)
         super(Serializable, self).__init__(
-            self.__call__, type=serialized_type, serialized_name=self.serialized_name,
-            serialize_when_none=self.serialize_when_none
+            self.__call__,
+            type=serialized_type,
+            serialized_name=self.serialized_name,
+            serialize_when_none=self.serialize_when_none,
         )
 
     def __call__(self, obj, *args, **kwargs):

@@ -14,7 +14,8 @@ from openprocurement.tender.belowthreshold.tests.question_blanks import (
     lot_patch_tender_question as patch_tender_with_lots_question,
     # TenderStage2EULotQuestionResourceTest
     # TenderStage2UALotQuestionResourceTest
-    lot_patch_tender_question_lots_none)
+    lot_patch_tender_question_lots_none,
+)
 
 from openprocurement.tender.openeu.tests.question_blanks import (
     # TenderStage2QuestionResourceTest
@@ -26,7 +27,8 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_shortlistedFirms,
     BaseCompetitiveDialogEUStage2ContentWebTest,
     BaseCompetitiveDialogUAStage2ContentWebTest,
-    test_author)
+    test_author,
+)
 from openprocurement.tender.competitivedialogue.tests.stage1.question_blanks import (
     # TenderStage2QuestionResourceTest
     get_tender_question_eu as get_tender_question,
@@ -46,7 +48,7 @@ from openprocurement.tender.openeu.tests.base import test_bids
 
 class TenderStage2EUQuestionResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
 
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     test_bids_data = test_bids  # TODO: change attribute identifier
     author_data = test_author  # TODO: change attribute identifier
 
@@ -61,31 +63,43 @@ class TenderStage2EUQuestionResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
     #  TODO: fix test
     def create_question_on_item(self):
         tender = self.db.get(self.tender_id)
-        item = tender['items'][0]
-        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
-                                      {'data': {'title': 'question title',
-                                                'description': 'question description',
-                                                'questionOf': 'item',
-                                                'relatedItem': item['id'],
-                                                'author': self.author_data}})
+        item = tender["items"][0]
+        response = self.app.post_json(
+            "/tenders/{}/questions".format(self.tender_id),
+            {
+                "data": {
+                    "title": "question title",
+                    "description": "question description",
+                    "questionOf": "item",
+                    "relatedItem": item["id"],
+                    "author": self.author_data,
+                }
+            },
+        )
 
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
 
-        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
-                                      {'data': {'title': 'question title',
-                                                'description': 'question description',
-                                                'questionOf': 'tender',
-                                                'author': self.author_data}})
+        response = self.app.post_json(
+            "/tenders/{}/questions".format(self.tender_id),
+            {
+                "data": {
+                    "title": "question title",
+                    "description": "question description",
+                    "questionOf": "tender",
+                    "author": self.author_data,
+                }
+            },
+        )
 
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
 
 
 class TenderStage2EULotQuestionResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
 
     initial_lots = 2 * test_lots
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     test_bids_data = test_bids  # TODO: change attribute identifier
     author_data = test_author  # TODO: change attribute identifier
 
@@ -97,58 +111,75 @@ class TenderStage2EULotQuestionResourceTest(BaseCompetitiveDialogEUStage2Content
     #  TODO: fix test
     def create_question_on_item(self):
         tender = self.db.get(self.tender_id)
-        item = tender['items'][0]
+        item = tender["items"][0]
         new_item = deepcopy(item)
-        new_item['id'] = uuid4().hex
-        new_item['relatedLot'] = self.lots[1]['id']
-        tender['items'] = [item, new_item]
-        for firm in tender['shortlistedFirms']:
-            firm['lots'] = [{'id': self.lots[1]['id']}]
+        new_item["id"] = uuid4().hex
+        new_item["relatedLot"] = self.lots[1]["id"]
+        tender["items"] = [item, new_item]
+        for firm in tender["shortlistedFirms"]:
+            firm["lots"] = [{"id": self.lots[1]["id"]}]
         self.db.save(tender)
 
         # Create question on item
-        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
-                                      {'data': {'title': 'question title',
-                                                'description': 'question description',
-                                                'questionOf': 'item',
-                                                'relatedItem': new_item['id'],
-                                                'author': self.author_data}})
+        response = self.app.post_json(
+            "/tenders/{}/questions".format(self.tender_id),
+            {
+                "data": {
+                    "title": "question title",
+                    "description": "question description",
+                    "questionOf": "item",
+                    "relatedItem": new_item["id"],
+                    "author": self.author_data,
+                }
+            },
+        )
 
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
 
         # Can't create question on item, on which we haven't access
-        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
-                                      {'data': {'title': 'question title',
-                                                'description': 'question description',
-                                                'questionOf': 'item',
-                                                'relatedItem': item['id'],
-                                                'author': self.author_data}},
-                                      status=403)
+        response = self.app.post_json(
+            "/tenders/{}/questions".format(self.tender_id),
+            {
+                "data": {
+                    "title": "question title",
+                    "description": "question description",
+                    "questionOf": "item",
+                    "relatedItem": item["id"],
+                    "author": self.author_data,
+                }
+            },
+            status=403,
+        )
 
-        self.assertEqual(response.status, '403 Forbidden')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': u'Author can\'t create question',
-             u'location': u'body',
-             u'name': u'author'}
-        ])
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [{u"description": u"Author can't create question", u"location": u"body", u"name": u"author"}],
+        )
 
         # Create question on tender
-        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
-                                      {'data': {'title': 'question title',
-                                                'description': 'question description',
-                                                'questionOf': 'tender',
-                                                'author': self.author_data}})
+        response = self.app.post_json(
+            "/tenders/{}/questions".format(self.tender_id),
+            {
+                "data": {
+                    "title": "question title",
+                    "description": "question description",
+                    "questionOf": "tender",
+                    "author": self.author_data,
+                }
+            },
+        )
 
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
 
 
 class TenderStage2UAQuestionResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
 
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     test_bids_data = test_bids  # TODO: change attribute identifier
     author_data = test_author  # TODO: change attribute identifier
 
@@ -163,31 +194,43 @@ class TenderStage2UAQuestionResourceTest(BaseCompetitiveDialogUAStage2ContentWeb
     #  TODO: fix test
     def create_question_on_item(self):
         tender = self.db.get(self.tender_id)
-        item = tender['items'][0]
-        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
-                                      {'data': {'title': 'question title',
-                                                'description': 'question description',
-                                                'questionOf': 'item',
-                                                'relatedItem': item['id'],
-                                                'author': self.author_data}})
+        item = tender["items"][0]
+        response = self.app.post_json(
+            "/tenders/{}/questions".format(self.tender_id),
+            {
+                "data": {
+                    "title": "question title",
+                    "description": "question description",
+                    "questionOf": "item",
+                    "relatedItem": item["id"],
+                    "author": self.author_data,
+                }
+            },
+        )
 
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
 
-        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
-                                      {'data': {'title': 'question title',
-                                                'description': 'question description',
-                                                'questionOf': 'tender',
-                                                'author': self.author_data}})
+        response = self.app.post_json(
+            "/tenders/{}/questions".format(self.tender_id),
+            {
+                "data": {
+                    "title": "question title",
+                    "description": "question description",
+                    "questionOf": "tender",
+                    "author": self.author_data,
+                }
+            },
+        )
 
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
 
 
 class TenderStage2UALotQuestionResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
 
     initial_lots = 2 * test_lots
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     test_bids_data = test_bids  # TODO: change attribute identifier
     author_data = test_author  # TODO: change attribute identifier
 
@@ -199,53 +242,70 @@ class TenderStage2UALotQuestionResourceTest(BaseCompetitiveDialogUAStage2Content
     #  TODO: fix test
     def create_question_on_item(self):
         tender = self.db.get(self.tender_id)
-        item = tender['items'][0]
+        item = tender["items"][0]
         new_item = deepcopy(item)
-        new_item['id'] = uuid4().hex
-        new_item['relatedLot'] = self.lots[1]['id']
-        tender['items'] = [item, new_item]
-        for firm in tender['shortlistedFirms']:
-            firm['lots'] = [{'id': self.lots[1]['id']}]
+        new_item["id"] = uuid4().hex
+        new_item["relatedLot"] = self.lots[1]["id"]
+        tender["items"] = [item, new_item]
+        for firm in tender["shortlistedFirms"]:
+            firm["lots"] = [{"id": self.lots[1]["id"]}]
         self.db.save(tender)
 
         # Create question on item
-        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
-                                      {'data': {'title': 'question title',
-                                                'description': 'question description',
-                                                'questionOf': 'item',
-                                                'relatedItem': new_item['id'],
-                                                'author': self.author_data}})
+        response = self.app.post_json(
+            "/tenders/{}/questions".format(self.tender_id),
+            {
+                "data": {
+                    "title": "question title",
+                    "description": "question description",
+                    "questionOf": "item",
+                    "relatedItem": new_item["id"],
+                    "author": self.author_data,
+                }
+            },
+        )
 
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
 
         # Can't create question on item, on which we haven't access
-        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
-                                      {'data': {'title': 'question title',
-                                                'description': 'question description',
-                                                'questionOf': 'item',
-                                                'relatedItem': item['id'],
-                                                'author': self.author_data}},
-                                      status=403)
+        response = self.app.post_json(
+            "/tenders/{}/questions".format(self.tender_id),
+            {
+                "data": {
+                    "title": "question title",
+                    "description": "question description",
+                    "questionOf": "item",
+                    "relatedItem": item["id"],
+                    "author": self.author_data,
+                }
+            },
+            status=403,
+        )
 
-        self.assertEqual(response.status, '403 Forbidden')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': u'Author can\'t create question',
-             u'location': u'body',
-             u'name': u'author'}
-        ])
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [{u"description": u"Author can't create question", u"location": u"body", u"name": u"author"}],
+        )
 
         # Create question on tender
-        response = self.app.post_json('/tenders/{}/questions'.format(self.tender_id),
-                                      {'data': {'title': 'question title',
-                                                'description': 'question description',
-                                                'questionOf': 'tender',
-                                                'author': self.author_data}})
+        response = self.app.post_json(
+            "/tenders/{}/questions".format(self.tender_id),
+            {
+                "data": {
+                    "title": "question title",
+                    "description": "question description",
+                    "questionOf": "tender",
+                    "author": self.author_data,
+                }
+            },
+        )
 
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
 
 
 def suite():
@@ -257,5 +317,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

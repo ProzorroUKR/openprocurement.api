@@ -4,12 +4,12 @@ from openprocurement.api import design
 
 
 FIELDS = [
-    'auctionPeriod',
-    'status',
-    'tenderID',
-    'lots',
-    'procurementMethodType',
-    'next_check',
+    "auctionPeriod",
+    "status",
+    "tenderID",
+    "lots",
+    "procurementMethodType",
+    "next_check",
     #'auctionUrl',
     #'awardPeriod',
     #'dateModified',
@@ -26,9 +26,7 @@ FIELDS = [
     #'title_ru',
     #'value',
 ]
-CHANGES_FIELDS = FIELDS + [
-    'dateModified',
-]
+CHANGES_FIELDS = FIELDS + ["dateModified"]
 
 
 def add_design():
@@ -37,15 +35,21 @@ def add_design():
             setattr(design, i, j)
 
 
-
-tenders_all_view = ViewDefinition('tenders', 'all', '''function(doc) {
+tenders_all_view = ViewDefinition(
+    "tenders",
+    "all",
+    """function(doc) {
     if(doc.doc_type == 'Tender') {
         emit(doc.tenderID, null);
     }
-}''')
+}""",
+)
 
 
-tenders_by_dateModified_view = ViewDefinition('tenders', 'by_dateModified', '''function(doc) {
+tenders_by_dateModified_view = ViewDefinition(
+    "tenders",
+    "by_dateModified",
+    """function(doc) {
     if(doc.doc_type == 'Tender' && doc.status != 'draft') {
         var fields=%s, data={};
         for (var i in fields) {
@@ -55,9 +59,14 @@ tenders_by_dateModified_view = ViewDefinition('tenders', 'by_dateModified', '''f
         }
         emit(doc.dateModified, data);
     }
-}''' % FIELDS)
+}"""
+    % FIELDS,
+)
 
-tenders_real_by_dateModified_view = ViewDefinition('tenders', 'real_by_dateModified', '''function(doc) {
+tenders_real_by_dateModified_view = ViewDefinition(
+    "tenders",
+    "real_by_dateModified",
+    """function(doc) {
     if(doc.doc_type == 'Tender' && doc.status != 'draft' && !doc.mode) {
         var fields=%s, data={};
         for (var i in fields) {
@@ -67,9 +76,14 @@ tenders_real_by_dateModified_view = ViewDefinition('tenders', 'real_by_dateModif
         }
         emit(doc.dateModified, data);
     }
-}''' % FIELDS)
+}"""
+    % FIELDS,
+)
 
-tenders_test_by_dateModified_view = ViewDefinition('tenders', 'test_by_dateModified', '''function(doc) {
+tenders_test_by_dateModified_view = ViewDefinition(
+    "tenders",
+    "test_by_dateModified",
+    """function(doc) {
     if(doc.doc_type == 'Tender' && doc.status != 'draft' && doc.mode == 'test') {
         var fields=%s, data={};
         for (var i in fields) {
@@ -79,9 +93,14 @@ tenders_test_by_dateModified_view = ViewDefinition('tenders', 'test_by_dateModif
         }
         emit(doc.dateModified, data);
     }
-}''' % FIELDS)
+}"""
+    % FIELDS,
+)
 
-tenders_by_local_seq_view = ViewDefinition('tenders', 'by_local_seq', '''function(doc) {
+tenders_by_local_seq_view = ViewDefinition(
+    "tenders",
+    "by_local_seq",
+    """function(doc) {
     if(doc.doc_type == 'Tender' && doc.status != 'draft') {
         var fields=%s, data={};
         for (var i in fields) {
@@ -91,9 +110,14 @@ tenders_by_local_seq_view = ViewDefinition('tenders', 'by_local_seq', '''functio
         }
         emit(doc._local_seq, data);
     }
-}''' % CHANGES_FIELDS)
+}"""
+    % CHANGES_FIELDS,
+)
 
-tenders_real_by_local_seq_view = ViewDefinition('tenders', 'real_by_local_seq', '''function(doc) {
+tenders_real_by_local_seq_view = ViewDefinition(
+    "tenders",
+    "real_by_local_seq",
+    """function(doc) {
     if(doc.doc_type == 'Tender' && doc.status != 'draft' && !doc.mode) {
         var fields=%s, data={};
         for (var i in fields) {
@@ -103,9 +127,14 @@ tenders_real_by_local_seq_view = ViewDefinition('tenders', 'real_by_local_seq', 
         }
         emit(doc._local_seq, data);
     }
-}''' % CHANGES_FIELDS)
+}"""
+    % CHANGES_FIELDS,
+)
 
-tenders_test_by_local_seq_view = ViewDefinition('tenders', 'test_by_local_seq', '''function(doc) {
+tenders_test_by_local_seq_view = ViewDefinition(
+    "tenders",
+    "test_by_local_seq",
+    """function(doc) {
     if(doc.doc_type == 'Tender' && doc.status != 'draft' && doc.mode == 'test') {
         var fields=%s, data={};
         for (var i in fields) {
@@ -115,4 +144,6 @@ tenders_test_by_local_seq_view = ViewDefinition('tenders', 'test_by_local_seq', 
         }
         emit(doc._local_seq, data);
     }
-}''' % CHANGES_FIELDS)
+}"""
+    % CHANGES_FIELDS,
+)

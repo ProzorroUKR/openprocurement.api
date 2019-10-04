@@ -26,4 +26,4 @@ class TenderConfigurator(ContentConfigurator):
     reverse_awarding_criteria = False
 
     # Defines awarding criteria field name
-    awarding_criteria_key = 'amount'
+    awarding_criteria_key = "amount"

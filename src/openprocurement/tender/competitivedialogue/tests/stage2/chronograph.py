@@ -9,12 +9,11 @@ from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
     switch_to_auction as switch_to_auction_ua,
     # TenderStage2UASwitchBidResourceTest
     switch_to_unsuccessful,
-
 )
 
 from openprocurement.tender.openua.tests.chronograph import (
     TenderSwitchAuctionResourceTestMixin,
-    TenderLotSwitchAuctionResourceTestMixin
+    TenderLotSwitchAuctionResourceTestMixin,
 )
 from openprocurement.tender.openua.tests.chronograph_blanks import (
     # TenderStage2EUAuctionPeriodResourceTest
@@ -33,7 +32,6 @@ from openprocurement.tender.openeu.tests.chronograph_blanks import (
     pre_qual_switch_to_auction as switch_to_auction_pre_qual,
     # TenderStage2EUComplaintSwitchResourceTest
     switch_to_complaint as switch_to_complaint_eu,
-
 )
 
 from openprocurement.tender.competitivedialogue.tests.base import (
@@ -42,7 +40,8 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_bids,
     test_author,
     test_lots,
-    test_tenderer)
+    test_tenderer,
+)
 
 from openprocurement.tender.competitivedialogue.tests.stage2.chronograph_blanks import (
     # TenderStage2EUSwitchUnsuccessfulResourceTest
@@ -53,31 +52,31 @@ from openprocurement.tender.competitivedialogue.tests.stage2.chronograph_blanks 
 
 test_tender_bids = deepcopy(test_bids[:2])
 for test_bid in test_tender_bids:
-    test_bid['tenderers'] = [test_tenderer]
+    test_bid["tenderers"] = [test_tenderer]
 
 
 class TenderStage2EUSwitchPreQualificationResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
     initial_bids = test_tender_bids
 
     test_switch_to_auction = snitch(switch_to_auction_pre_qual)
 
 
 class TenderStage2EUSwitchAuctionResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
-    initial_status = 'active.pre-qualification.stand-still'
+    initial_status = "active.pre-qualification.stand-still"
     initial_bids = test_tender_bids
 
     test_switch_to_auction = snitch(switch_to_auction_eu)
 
 
 class TenderStage2EUSwitchUnsuccessfulResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
 
     test_switch_to_unsuccessful = snitch(switch_to_unsuccessful_eu)
 
 
 class TenderStage2EUAuctionPeriodResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
 
     test_set_auction_period = snitch(set_auction_period_0bid)
 
@@ -103,7 +102,9 @@ class TenderStage2UASwitch1BidResourceTest(BaseCompetitiveDialogUAStage2ContentW
     test_switch_to_unsuccessful = snitch(switch_to_unsuccessful)
 
 
-class TenderStage2UASwitchAuctionResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest, TenderSwitchAuctionResourceTestMixin):
+class TenderStage2UASwitchAuctionResourceTest(
+    BaseCompetitiveDialogUAStage2ContentWebTest, TenderSwitchAuctionResourceTestMixin
+):
     initial_bids = test_tender_bids
     author_data = test_author  # TODO: change attribute identifier
 
@@ -125,8 +126,9 @@ class TenderStage2UALotSwitch1BidResourceTest(BaseCompetitiveDialogUAStage2Conte
     test_switch_to_unsuccessful = snitch(switch_to_unsuccessful_lot_1_bid_ua)
 
 
-class TenderStage2UALotSwitchAuctionResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest,
-                                                 TenderLotSwitchAuctionResourceTestMixin):
+class TenderStage2UALotSwitchAuctionResourceTest(
+    BaseCompetitiveDialogUAStage2ContentWebTest, TenderLotSwitchAuctionResourceTestMixin
+):
     initial_lots = test_lots
     initial_bids = test_tender_bids
 
@@ -167,5 +169,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")
