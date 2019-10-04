@@ -10,22 +10,16 @@ import unittest
 
 class TestTenderMilestones(unittest.TestCase):
 
-    initial_tender_data = dict(
-        title="Tal",
-        mainProcurementCategory='services',
-    )
+    initial_tender_data = dict(title="Tal", mainProcurementCategory="services")
 
     def test_validate_without_milestones(self):
         tender = BaseTender(self.initial_tender_data)
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
-        self.assertEqual(
-            e.exception.message,
-            {'milestones': ['Tender should contain at least one milestone']}
-        )
+        self.assertEqual(e.exception.message, {"milestones": ["Tender should contain at least one milestone"]})
 
     def test_regression_milestones(self):
-        with patch('openprocurement.tender.core.models.MILESTONES_VALIDATION_FROM', get_now() + timedelta(days=1)):
+        with patch("openprocurement.tender.core.models.MILESTONES_VALIDATION_FROM", get_now() + timedelta(days=1)):
             tender = BaseTender(self.initial_tender_data)
             tender.validate()
             data = tender.serialize("embedded")
@@ -37,10 +31,7 @@ class TestTenderMilestones(unittest.TestCase):
         tender = BaseTender(initial_data)
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
-        self.assertEqual(
-            e.exception.message,
-            {'milestones': ['Tender should contain at least one milestone']}
-        )
+        self.assertEqual(e.exception.message, {"milestones": ["Tender should contain at least one milestone"]})
 
     def test_validate_empty_object(self):
         initial_data = dict(self.initial_tender_data)
@@ -51,114 +42,124 @@ class TestTenderMilestones(unittest.TestCase):
             tender.validate()
         self.assertEqual(
             e.exception.message,
-            {'milestones': [
-                {
-                    'title': [u'This field is required.'],
-                    'code': [u'This field is required.'],
-                    'duration': [u'This field is required.'],
-                    'percentage': [u'This field is required.'],
-                    'type': [u'This field is required.'],
-                    'sequenceNumber': [u'This field is required.']
-                }
-            ]}
+            {
+                "milestones": [
+                    {
+                        "title": [u"This field is required."],
+                        "code": [u"This field is required."],
+                        "duration": [u"This field is required."],
+                        "percentage": [u"This field is required."],
+                        "type": [u"This field is required."],
+                        "sequenceNumber": [u"This field is required."],
+                    }
+                ]
+            },
         )
 
     def test_validate_incorrect_required(self):
         initial_data = dict(self.initial_tender_data)
-        initial_data.update(milestones=[{
-            'title': "Title",
-            'code': 1488,
-            'type': 'M',
-            'duration': {},
-            'percentage': 0,
-            'sequenceNumber': -1,
-        }])
+        initial_data.update(
+            milestones=[
+                {"title": "Title", "code": 1488, "type": "M", "duration": {}, "percentage": 0, "sequenceNumber": -1}
+            ]
+        )
         tender = BaseTender(initial_data)
 
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
 
         expected_title_options = [
-            "executionOfWorks", "deliveryOfGoods",
-            "submittingServices", "signingTheContract",
-            "submissionDateOfApplications", "dateOfInvoicing",
-            "endDateOfTheReportingPeriod", "anotherEvent"
+            "executionOfWorks",
+            "deliveryOfGoods",
+            "submittingServices",
+            "signingTheContract",
+            "submissionDateOfApplications",
+            "dateOfInvoicing",
+            "endDateOfTheReportingPeriod",
+            "anotherEvent",
         ]
         expected_codes = ["prepayment", "postpayment"]
-        expected_types = ['financing']
+        expected_types = ["financing"]
         self.assertEqual(
             e.exception.message,
-            {'milestones': [
-                {
-                    'title': [u"Value must be one of {}.".format(expected_title_options)],
-                    'code': [u"Value must be one of {}.".format(expected_codes)],
-                    'type': [u"Value must be one of {}.".format(expected_types)],
-                    'duration': {'type': [u'This field is required.'],
-                                 'days': [u'This field is required.']},
-                    'percentage': [u'Float value should be greater than 0.'],
-                    'sequenceNumber': [u'Int value should be greater than 0.']
-                }]}
+            {
+                "milestones": [
+                    {
+                        "title": [u"Value must be one of {}.".format(expected_title_options)],
+                        "code": [u"Value must be one of {}.".format(expected_codes)],
+                        "type": [u"Value must be one of {}.".format(expected_types)],
+                        "duration": {"type": [u"This field is required."], "days": [u"This field is required."]},
+                        "percentage": [u"Float value should be greater than 0."],
+                        "sequenceNumber": [u"Int value should be greater than 0."],
+                    }
+                ]
+            },
         )
 
     def test_title_other_description_required(self):
         initial_data = dict(self.initial_tender_data)
-        initial_data.update(milestones=[{
-            'title': 'anotherEvent',
-            'code': 'prepayment',
-            'type': 'financing',
-            'duration': {'days': 2, 'type': 'banking'},
-            'percentage': 100,
-            'sequenceNumber': 0,
-        }])
+        initial_data.update(
+            milestones=[
+                {
+                    "title": "anotherEvent",
+                    "code": "prepayment",
+                    "type": "financing",
+                    "duration": {"days": 2, "type": "banking"},
+                    "percentage": 100,
+                    "sequenceNumber": 0,
+                }
+            ]
+        )
 
         tender = BaseTender(initial_data)
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
 
-        self.assertEqual(
-            e.exception.message,
-            {'milestones': [{'description': [u'This field is required.']}]}
-        )
+        self.assertEqual(e.exception.message, {"milestones": [{"description": [u"This field is required."]}]})
 
     def test_title_other_description_empty_invalid(self):
         initial_data = dict(self.initial_tender_data)
-        initial_data.update(milestones=[{
-            'title': 'anotherEvent',
-            'description': u'',
-            'code': 'prepayment',
-            'type': 'financing',
-            'duration': {'days': 2, 'type': 'banking'},
-            'percentage': 100,
-            'sequenceNumber': 1,
-        }])
+        initial_data.update(
+            milestones=[
+                {
+                    "title": "anotherEvent",
+                    "description": u"",
+                    "code": "prepayment",
+                    "type": "financing",
+                    "duration": {"days": 2, "type": "banking"},
+                    "percentage": 100,
+                    "sequenceNumber": 1,
+                }
+            ]
+        )
 
         tender = BaseTender(initial_data)
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
 
-        self.assertEqual(
-            e.exception.message,
-            {'milestones': [{'description': [u'This field is required.']}]}
-        )
+        self.assertEqual(e.exception.message, {"milestones": [{"description": [u"This field is required."]}]})
 
     def test_validate_percentage_too_big(self):
         initial_data = dict(self.initial_tender_data)
-        initial_data.update(milestones=[{
-            'title': "deliveryOfGoods",
-            'code': 'prepayment',
-            'type': 'financing',
-            'duration': {'days': 2, 'type': 'banking'},
-            'percentage': 100.000001,
-            'sequenceNumber': 2,
-        }])
+        initial_data.update(
+            milestones=[
+                {
+                    "title": "deliveryOfGoods",
+                    "code": "prepayment",
+                    "type": "financing",
+                    "duration": {"days": 2, "type": "banking"},
+                    "percentage": 100.000001,
+                    "sequenceNumber": 2,
+                }
+            ]
+        )
 
         tender = BaseTender(initial_data)
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
 
         self.assertEqual(
-            e.exception.message,
-            {'milestones': [{'percentage': [u'Float value should be less than 100.']}]}
+            e.exception.message, {"milestones": [{"percentage": [u"Float value should be less than 100."]}]}
         )
 
     def test_validate_percentage_sum(self):
@@ -166,20 +167,20 @@ class TestTenderMilestones(unittest.TestCase):
         initial_data.update(
             milestones=[
                 {
-                    'title': "deliveryOfGoods",
-                    'code': 'prepayment',
-                    'type': 'financing',
-                    'duration': {'days': 2, 'type': 'banking'},
-                    'sequenceNumber': 2,
-                    'percentage': 49.999,
+                    "title": "deliveryOfGoods",
+                    "code": "prepayment",
+                    "type": "financing",
+                    "duration": {"days": 2, "type": "banking"},
+                    "sequenceNumber": 2,
+                    "percentage": 49.999,
                 },
                 {
-                    'title': "endDateOfTheReportingPeriod",
-                    'code': 'postpayment',
-                    'type': 'financing',
-                    'duration': {'days': 2, 'type': 'banking'},
-                    'sequenceNumber': 2,
-                    'percentage': 50.002,
+                    "title": "endDateOfTheReportingPeriod",
+                    "code": "postpayment",
+                    "type": "financing",
+                    "duration": {"days": 2, "type": "banking"},
+                    "sequenceNumber": 2,
+                    "percentage": 50.002,
                 },
             ]
         )
@@ -190,7 +191,7 @@ class TestTenderMilestones(unittest.TestCase):
 
         self.assertEqual(
             e.exception.message,
-            {'milestones': [u'Sum of the financial milestone percentages 100.001 is not equal 100.']}
+            {"milestones": [u"Sum of the financial milestone percentages 100.001 is not equal 100."]},
         )
 
     def test_validate_percentage_sum_float_point(self):
@@ -198,23 +199,26 @@ class TestTenderMilestones(unittest.TestCase):
         initial_data.update(
             milestones=[
                 {
-                    'title': "deliveryOfGoods",
-                    'code': 'prepayment',
-                    'type': 'financing',
-                    'duration': {'days': 2, 'type': 'banking'},
-                    'sequenceNumber': 2,
-                    'percentage': 8.34,
+                    "title": "deliveryOfGoods",
+                    "code": "prepayment",
+                    "type": "financing",
+                    "duration": {"days": 2, "type": "banking"},
+                    "sequenceNumber": 2,
+                    "percentage": 8.34,
                 }
-            ] * 4 + [
+            ]
+            * 4
+            + [
                 {
-                    'title': "endDateOfTheReportingPeriod",
-                    'code': 'postpayment',
-                    'type': 'financing',
-                    'duration': {'days': 2, 'type': 'banking'},
-                    'sequenceNumber': 2,
-                    'percentage': 8.33,
+                    "title": "endDateOfTheReportingPeriod",
+                    "code": "postpayment",
+                    "type": "financing",
+                    "duration": {"days": 2, "type": "banking"},
+                    "sequenceNumber": 2,
+                    "percentage": 8.33,
                 }
-            ] * 8
+            ]
+            * 8
         )
 
         tender = BaseTender(initial_data)
@@ -225,21 +229,11 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
 
     initial_tender_data = dict(
         title="Tal",
-        mainProcurementCategory='services',
+        mainProcurementCategory="services",
         lots=[
-            {
-                "id": "a" * 32,
-                "title": "#1",
-                "minimalStep": {"amount": 10},
-                "value": {"amount": 100}
-            },
-            {
-                "id": "b" * 32,
-                "title": "#2",
-                "minimalStep": {"amount": 5},
-                "value": {"amount": 50.31}
-            }
-        ]
+            {"id": "a" * 32, "title": "#1", "minimalStep": {"amount": 10}, "value": {"amount": 100}},
+            {"id": "b" * 32, "title": "#2", "minimalStep": {"amount": 5}, "value": {"amount": 50.31}},
+        ],
     )
 
     class MultiLotTender(BaseTender):
@@ -248,14 +242,16 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
     def test_validate_related_lot_not_required(self):
         initial_data = dict(self.initial_tender_data)
         initial_data.update(
-            milestones=[{
-                'title': "deliveryOfGoods",
-                'code': 'prepayment',
-                'type': 'financing',
-                'duration': {'days': 2, 'type': 'banking'},
-                'percentage': 100,
-                'sequenceNumber': 0,
-            }],
+            milestones=[
+                {
+                    "title": "deliveryOfGoods",
+                    "code": "prepayment",
+                    "type": "financing",
+                    "duration": {"days": 2, "type": "banking"},
+                    "percentage": 100,
+                    "sequenceNumber": 0,
+                }
+            ]
         )
 
         tender = self.MultiLotTender(initial_data)
@@ -264,15 +260,17 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
     def test_validate_related_lot_incorrect(self):
         initial_data = dict(self.initial_tender_data)
         initial_data.update(
-            milestones=[{
-                'title': "deliveryOfGoods",
-                'code': 'prepayment',
-                'type': 'financing',
-                'duration': {'days': 2, 'type': 'banking'},
-                'percentage': 50,
-                'sequenceNumber': 0,
-                'relatedLot': 'c' * 32,
-            }],
+            milestones=[
+                {
+                    "title": "deliveryOfGoods",
+                    "code": "prepayment",
+                    "type": "financing",
+                    "duration": {"days": 2, "type": "banking"},
+                    "percentage": 50,
+                    "sequenceNumber": 0,
+                    "relatedLot": "c" * 32,
+                }
+            ]
         )
 
         tender = self.MultiLotTender(initial_data)
@@ -280,8 +278,7 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
             tender.validate()
 
         self.assertEqual(
-            e.exception.message,
-            {'milestones': [{'relatedLot': [u'relatedLot should be one of the lots.']}]}
+            e.exception.message, {"milestones": [{"relatedLot": [u"relatedLot should be one of the lots."]}]}
         )
 
     def test_validate_lot_sum_incorrect(self):
@@ -289,24 +286,24 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
         initial_data.update(
             milestones=[
                 {
-                    'title': "deliveryOfGoods",
-                    'code': 'prepayment',
-                    'type': 'financing',
-                    'duration': {'days': 2, 'type': 'banking'},
-                    'sequenceNumber': 0,
-                    'percentage': 50,
-                    'relatedLot': 'a' * 32,
+                    "title": "deliveryOfGoods",
+                    "code": "prepayment",
+                    "type": "financing",
+                    "duration": {"days": 2, "type": "banking"},
+                    "sequenceNumber": 0,
+                    "percentage": 50,
+                    "relatedLot": "a" * 32,
                 },
                 {
-                    'title': "deliveryOfGoods",
-                    'code': 'postpayment',
-                    'type': 'financing',
-                    'duration': {'days': 15, 'type': 'banking'},
-                    'sequenceNumber': 0,
-                    'percentage': 100,
-                    'relatedLot': 'b' * 32,
-                }
-            ],
+                    "title": "deliveryOfGoods",
+                    "code": "postpayment",
+                    "type": "financing",
+                    "duration": {"days": 15, "type": "banking"},
+                    "sequenceNumber": 0,
+                    "percentage": 100,
+                    "relatedLot": "b" * 32,
+                },
+            ]
         )
 
         tender = self.MultiLotTender(initial_data)
@@ -315,9 +312,11 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
 
         self.assertEqual(
             e.exception.message,
-            {'milestones': [
-                u'Sum of the financial milestone percentages 50.0 is not equal 100 for lot {}.'.format("a" * 32)
-            ]}
+            {
+                "milestones": [
+                    u"Sum of the financial milestone percentages 50.0 is not equal 100 for lot {}.".format("a" * 32)
+                ]
+            },
         )
 
     def test_validate_lot_sum_success(self):
@@ -325,33 +324,33 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
         initial_data.update(
             milestones=[
                 {
-                    'title': "deliveryOfGoods",
-                    'code': 'prepayment',
-                    'type': 'financing',
-                    'duration': {'days': 2, 'type': 'banking'},
-                    'sequenceNumber': 0,
-                    'percentage': 45.55,
-                    'relatedLot': 'b' * 32,
+                    "title": "deliveryOfGoods",
+                    "code": "prepayment",
+                    "type": "financing",
+                    "duration": {"days": 2, "type": "banking"},
+                    "sequenceNumber": 0,
+                    "percentage": 45.55,
+                    "relatedLot": "b" * 32,
                 },
                 {
-                    'title': "deliveryOfGoods",
-                    'code': 'postpayment',
-                    'type': 'financing',
-                    'duration': {'days': 2, 'type': 'banking'},
-                    'sequenceNumber': 0,
-                    'percentage': 54.45,
-                    'relatedLot': 'b' * 32,
+                    "title": "deliveryOfGoods",
+                    "code": "postpayment",
+                    "type": "financing",
+                    "duration": {"days": 2, "type": "banking"},
+                    "sequenceNumber": 0,
+                    "percentage": 54.45,
+                    "relatedLot": "b" * 32,
                 },
                 {
-                    'title': "deliveryOfGoods",
-                    'code': 'prepayment',
-                    'type': 'financing',
-                    'duration': {'days': 2, 'type': 'banking'},
-                    'sequenceNumber': 0,
-                    'percentage': 100.,
-                    'relatedLot': 'a' * 32,
-                }
-            ],
+                    "title": "deliveryOfGoods",
+                    "code": "prepayment",
+                    "type": "financing",
+                    "duration": {"days": 2, "type": "banking"},
+                    "sequenceNumber": 0,
+                    "percentage": 100.0,
+                    "relatedLot": "a" * 32,
+                },
+            ]
         )
 
         tender = self.MultiLotTender(initial_data)
@@ -362,42 +361,42 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
         initial_data.update(
             milestones=[
                 {
-                    'title': "deliveryOfGoods",
-                    'code': 'prepayment',
-                    'type': 'financing',
-                    'duration': {'days': 2, 'type': 'banking'},
-                    'sequenceNumber': 0,
-                    'percentage': 33.333,
-                    'relatedLot': 'b' * 32,
+                    "title": "deliveryOfGoods",
+                    "code": "prepayment",
+                    "type": "financing",
+                    "duration": {"days": 2, "type": "banking"},
+                    "sequenceNumber": 0,
+                    "percentage": 33.333,
+                    "relatedLot": "b" * 32,
                 },
                 {
-                    'title': "deliveryOfGoods",
-                    'code': 'postpayment',
-                    'type': 'financing',
-                    'duration': {'days': 2, 'type': 'banking'},
-                    'sequenceNumber': 0,
-                    'percentage': 33.333,
-                    'relatedLot': 'b' * 32,
+                    "title": "deliveryOfGoods",
+                    "code": "postpayment",
+                    "type": "financing",
+                    "duration": {"days": 2, "type": "banking"},
+                    "sequenceNumber": 0,
+                    "percentage": 33.333,
+                    "relatedLot": "b" * 32,
                 },
                 {
-                    'title': "deliveryOfGoods",
-                    'code': 'prepayment',
-                    'type': 'financing',
-                    'duration': {'days': 2, 'type': 'banking'},
-                    'sequenceNumber': 0,
-                    'percentage': 33.333,
-                    'relatedLot': 'b' * 32,
+                    "title": "deliveryOfGoods",
+                    "code": "prepayment",
+                    "type": "financing",
+                    "duration": {"days": 2, "type": "banking"},
+                    "sequenceNumber": 0,
+                    "percentage": 33.333,
+                    "relatedLot": "b" * 32,
                 },
                 {
-                    'title': "deliveryOfGoods",
-                    'code': 'prepayment',
-                    'type': 'financing',
-                    'duration': {'days': 15, 'type': 'banking'},
-                    'sequenceNumber': 0,
-                    'percentage': 100,
-                    'relatedLot': 'a' * 32,
-                }
-            ],
+                    "title": "deliveryOfGoods",
+                    "code": "prepayment",
+                    "type": "financing",
+                    "duration": {"days": 15, "type": "banking"},
+                    "sequenceNumber": 0,
+                    "percentage": 100,
+                    "relatedLot": "a" * 32,
+                },
+            ]
         )
 
         tender = self.MultiLotTender(initial_data)
@@ -406,9 +405,11 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
 
         self.assertEqual(
             e.exception.message,
-            {'milestones': [
-                u'Sum of the financial milestone percentages 99.999 is not equal 100 for lot {}.'.format(u'b' * 32)
-            ]}
+            {
+                "milestones": [
+                    u"Sum of the financial milestone percentages 99.999 is not equal 100 for lot {}.".format(u"b" * 32)
+                ]
+            },
         )
 
     def test_validate_lot_sum_third_success(self):
@@ -416,60 +417,59 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
         initial_data.update(
             milestones=[
                 {
-                    'title': "deliveryOfGoods",
-                    'code': 'prepayment',
-                    'type': 'financing',
-                    'duration': {'days': 2, 'type': 'banking'},
-                    'sequenceNumber': 0,
-                    'percentage': 33.333,
-                    'relatedLot': 'b' * 32,
+                    "title": "deliveryOfGoods",
+                    "code": "prepayment",
+                    "type": "financing",
+                    "duration": {"days": 2, "type": "banking"},
+                    "sequenceNumber": 0,
+                    "percentage": 33.333,
+                    "relatedLot": "b" * 32,
                 },
                 {
-                    'title': "deliveryOfGoods",
-                    'code': 'prepayment',
-                    'type': 'financing',
-                    'duration': {'days': 2, 'type': 'banking'},
-                    'sequenceNumber': 0,
-                    'percentage': 33.333,
-                    'relatedLot': 'b' * 32,
+                    "title": "deliveryOfGoods",
+                    "code": "prepayment",
+                    "type": "financing",
+                    "duration": {"days": 2, "type": "banking"},
+                    "sequenceNumber": 0,
+                    "percentage": 33.333,
+                    "relatedLot": "b" * 32,
                 },
                 {
-                    'title': "deliveryOfGoods",
-                    'code': 'prepayment',
-                    'type': 'financing',
-                    'duration': {'days': 2, 'type': 'banking'},
-                    'sequenceNumber': 0,
-                    'percentage': 33.334,
-                    'relatedLot': 'b' * 32,
+                    "title": "deliveryOfGoods",
+                    "code": "prepayment",
+                    "type": "financing",
+                    "duration": {"days": 2, "type": "banking"},
+                    "sequenceNumber": 0,
+                    "percentage": 33.334,
+                    "relatedLot": "b" * 32,
                 },
                 {
-                    'title': "deliveryOfGoods",
-                    'code': 'postpayment',
-                    'type': 'financing',
-                    'duration': {'days': 15, 'type': 'banking'},
-                    'sequenceNumber': 0,
-                    'percentage': 100,
-                    'relatedLot': 'a' * 32,
+                    "title": "deliveryOfGoods",
+                    "code": "postpayment",
+                    "type": "financing",
+                    "duration": {"days": 15, "type": "banking"},
+                    "sequenceNumber": 0,
+                    "percentage": 100,
+                    "relatedLot": "a" * 32,
                 },
                 {
-                    'title': "deliveryOfGoods",
-                    'code': 'prepayment',
-                    'type': 'financing',
-                    'duration': {'days': 2, 'type': 'banking'},
-                    'sequenceNumber': 0,
-                    'percentage': 51,
+                    "title": "deliveryOfGoods",
+                    "code": "prepayment",
+                    "type": "financing",
+                    "duration": {"days": 2, "type": "banking"},
+                    "sequenceNumber": 0,
+                    "percentage": 51,
                 },
                 {
-                    'title': "deliveryOfGoods",
-                    'code': 'postpayment',
-                    'type': 'financing',
-                    'duration': {'days': 15, 'type': 'banking'},
-                    'sequenceNumber': 0,
-                    'percentage': 49,
-                }
-            ],
+                    "title": "deliveryOfGoods",
+                    "code": "postpayment",
+                    "type": "financing",
+                    "duration": {"days": 15, "type": "banking"},
+                    "sequenceNumber": 0,
+                    "percentage": 49,
+                },
+            ]
         )
 
         tender = self.MultiLotTender(initial_data)
         tender.validate()
-

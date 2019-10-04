@@ -6,7 +6,7 @@ from openprocurement.planning.api.models import Plan
 
 LOGGER = logging.getLogger(__name__)
 SCHEMA_VERSION = 1
-SCHEMA_DOC = 'openprocurement_plans_schema'
+SCHEMA_DOC = "openprocurement_plans_schema"
 
 
 def get_db_schema_version(db):
@@ -21,14 +21,17 @@ def set_db_schema_version(db, version):
 
 
 def migrate_data(registry, destination=None):
-    if registry.settings.get('plugins') and 'planning' not in registry.settings['plugins'].split(','):
+    if registry.settings.get("plugins") and "planning" not in registry.settings["plugins"].split(","):
         return
     cur_version = get_db_schema_version(registry.db)
     if cur_version == SCHEMA_VERSION:
         return cur_version
     for step in xrange(cur_version, destination or SCHEMA_VERSION):
-        LOGGER.info("Migrate openprocurement plans schema from {} to {}".format(step, step + 1), extra={'MESSAGE_ID': 'migrate_data'})
-        migration_func = globals().get('from{}to{}'.format(step, step + 1))
+        LOGGER.info(
+            "Migrate openprocurement plans schema from {} to {}".format(step, step + 1),
+            extra={"MESSAGE_ID": "migrate_data"},
+        )
+        migration_func = globals().get("from{}to{}".format(step, step + 1))
         if migration_func:
             migration_func(registry)
         set_db_schema_version(registry.db, step + 1)
@@ -38,18 +41,19 @@ def from0to1(registry):
     class Request(object):
         def __init__(self, registry):
             self.registry = registry
-    len(registry.db.view('plans/all', limit=1))
-    results = registry.db.iterview('plans/all', 2 ** 10, include_docs=True, stale='update_after')
+
+    len(registry.db.view("plans/all", limit=1))
+    results = registry.db.iterview("plans/all", 2 ** 10, include_docs=True, stale="update_after")
     docs = []
     request = Request(registry)
     root = Root(request)
     for i in results:
         doc = i.doc
-        if not all([i.get('url', '').startswith(registry.docservice_url) for i in doc.get('documents', [])]):
+        if not all([i.get("url", "").startswith(registry.docservice_url) for i in doc.get("documents", [])]):
             plan = Plan(doc)
             plan.__parent__ = root
             doc = plan.to_primitive()
-            doc['dateModified'] = get_now().isoformat()
+            doc["dateModified"] = get_now().isoformat()
             docs.append(doc)
         if len(docs) >= 2 ** 7:
             registry.db.update(docs)

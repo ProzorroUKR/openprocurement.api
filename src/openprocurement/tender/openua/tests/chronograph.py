@@ -3,10 +3,7 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_lots,
-    test_author
-)
+from openprocurement.tender.belowthreshold.tests.base import test_lots, test_author
 from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
     # TenderSwitchAuctionResourceTest
     switch_to_auction,
@@ -14,10 +11,7 @@ from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
     switch_to_unsuccessful as switch_to_unsuccessful_0bid,
 )
 
-from openprocurement.tender.openua.tests.base import (
-    test_bids,
-    BaseTenderUAContentWebTest
-)
+from openprocurement.tender.openua.tests.base import test_bids, BaseTenderUAContentWebTest
 from openprocurement.tender.openua.tests.chronograph_blanks import (
     # TenderSwitch0BidResourceTest
     set_auction_period_0bid,
@@ -112,5 +106,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

@@ -7,19 +7,19 @@ from pyramid.security import ALL_PERMISSIONS, Allow
 class Root(BaseRoot):
 
     __acl__ = [
-        (Allow, 'g:brokers', 'view_transfer'),
-        (Allow, 'g:brokers', 'create_transfer'),
-        (Allow, 'g:admins', ALL_PERMISSIONS),
+        (Allow, "g:brokers", "view_transfer"),
+        (Allow, "g:brokers", "create_transfer"),
+        (Allow, "g:admins", ALL_PERMISSIONS),
     ]
 
 
 def factory(request):
     root = Root(request)
-    if not request.matchdict or not request.matchdict.get('transfer_id'):
+    if not request.matchdict or not request.matchdict.get("transfer_id"):
         return root
-    request.validated['transfer_id'] = request.matchdict['transfer_id']
+    request.validated["transfer_id"] = request.matchdict["transfer_id"]
     transfer = request.transfer
     transfer.__parent__ = root
-    request.validated['transfer'] = transfer
-    request.validated['id'] = request.matchdict['transfer_id']
+    request.validated["transfer"] = transfer
+    request.validated["id"] = request.matchdict["transfer_id"]
     return transfer

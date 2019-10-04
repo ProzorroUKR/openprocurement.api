@@ -14,6 +14,7 @@ class BusinessOrganization(BaseOrganization):
 
 class Organization(BaseOrganization):
     """An organization."""
+
     contactPoint = ModelType(ContactPoint)
 
 
@@ -21,9 +22,7 @@ class ProcuringEntity(Organization):
     """An organization."""
 
     class Options:
-        roles = RolesFromCsv('ProcuringEntity.csv', relative_to=__file__)
+        roles = RolesFromCsv("ProcuringEntity.csv", relative_to=__file__)
+
     kind = StringType(choices=PROCURING_ENTITY_KINDS)
-    additionalContactPoints = ListType(
-        ModelType(ContactPoint, required=True),
-        required=False
-    )
+    additionalContactPoints = ListType(ModelType(ContactPoint, required=True), required=False)

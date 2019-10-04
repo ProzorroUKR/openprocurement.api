@@ -3,15 +3,13 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.award_blanks import (
-    patch_tender_lot_award_lots_none
-)
+from openprocurement.tender.belowthreshold.tests.award_blanks import patch_tender_lot_award_lots_none
 from openprocurement.tender.cfaselectionua.adapters.configurator import TenderCfaSelectionUAConfigurator
 from openprocurement.tender.cfaselectionua.tests.base import (
     TenderContentWebTest,
     test_bids,
     test_lots,
-    test_organization
+    test_organization,
 )
 from openprocurement.tender.cfaselectionua.tests.award_blanks import (
     # TenderAwardResourceTest
@@ -45,6 +43,7 @@ from openprocurement.tender.cfaselectionua.tests.award_blanks import (
 
 skip_multi_lots = True
 
+
 class TenderAwardResourceTestMixin(object):
     test_create_tender_award_invalid = snitch(create_tender_award_invalid)
     test_get_tender_award = snitch(get_tender_award)
@@ -71,33 +70,34 @@ class Tender2LotAwardDocumentResourceTestMixin(object):
 
 
 class TenderLotAwardCheckResourceTest(TenderContentWebTest, TenderLotAwardCheckResourceTestMixin):
-    initial_status = 'active.auction'
+    initial_status = "active.auction"
     initial_lots = test_lots
     initial_bids = deepcopy(test_bids)
     initial_bids.append(deepcopy(test_bids[0]))
-    initial_bids[1]['tenderers'][0]['name'] = u'Не зовсім Державне управління справами'
-    #initial_bids[1]['tenderers'][0]['identifier']['id'] = u'88837256'
-    initial_bids[2]['tenderers'][0]['name'] = u'Точно не Державне управління справами'
-    #initial_bids[2]['tenderers'][0]['identifier']['id'] = u'44437256'
+    initial_bids[1]["tenderers"][0]["name"] = u"Не зовсім Державне управління справами"
+    # initial_bids[1]['tenderers'][0]['identifier']['id'] = u'88837256'
+    initial_bids[2]["tenderers"][0]["name"] = u"Точно не Державне управління справами"
+    # initial_bids[2]['tenderers'][0]['identifier']['id'] = u'44437256'
     reverse = TenderCfaSelectionUAConfigurator.reverse_awarding_criteria
     awarding_key = TenderCfaSelectionUAConfigurator.awarding_criteria_key
 
     def setUp(self):
         super(TenderLotAwardCheckResourceTest, self).setUp()
-        self.app.authorization = ('Basic', ('auction', ''))
-        response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
-        auction_bids_data = response.json['data']['bids']
+        self.app.authorization = ("Basic", ("auction", ""))
+        response = self.app.get("/tenders/{}/auction".format(self.tender_id))
+        auction_bids_data = response.json["data"]["bids"]
         for lot_id in self.initial_lots:
-            response = self.app.post_json('/tenders/{}/auction/{}'.format(self.tender_id, lot_id['id']),
-                                          {'data': {'bids': auction_bids_data}})
+            response = self.app.post_json(
+                "/tenders/{}/auction/{}".format(self.tender_id, lot_id["id"]), {"data": {"bids": auction_bids_data}}
+            )
             self.assertEqual(response.status, "200 OK")
-            self.assertEqual(response.content_type, 'application/json')
-        response = self.app.get('/tenders/{}'.format(self.tender_id))
-        self.assertEqual(response.json['data']['status'], "active.qualification")
+            self.assertEqual(response.content_type, "application/json")
+        response = self.app.get("/tenders/{}".format(self.tender_id))
+        self.assertEqual(response.json["data"]["status"], "active.qualification")
 
 
 class TenderLotAwardResourceTest(TenderContentWebTest):
-    initial_status = 'active.qualification'
+    initial_status = "active.qualification"
     initial_lots = test_lots
     initial_bids = test_bids
 
@@ -109,7 +109,7 @@ class TenderLotAwardResourceTest(TenderContentWebTest):
 
 @unittest.skipIf(skip_multi_lots, "Skip multi-lots tests")
 class Tender2LotAwardResourceTest(TenderContentWebTest):
-    initial_status = 'active.qualification'
+    initial_status = "active.qualification"
     initial_lots = 2 * test_lots
     initial_bids = test_bids
 
@@ -118,7 +118,7 @@ class Tender2LotAwardResourceTest(TenderContentWebTest):
 
 
 class TenderAwardDocumentResourceTest(TenderContentWebTest, TenderAwardDocumentResourceTestMixin):
-    initial_status = 'active.qualification'
+    initial_status = "active.qualification"
     initial_bids = test_bids
     initial_lots = test_lots
 
@@ -129,7 +129,7 @@ class TenderAwardDocumentWithDSResourceTest(TenderAwardDocumentResourceTest):
 
 @unittest.skipIf(skip_multi_lots, "Skip multi-lots tests")
 class Tender2LotAwardDocumentResourceTest(TenderContentWebTest, Tender2LotAwardDocumentResourceTestMixin):
-    initial_status = 'active.qualification'
+    initial_status = "active.qualification"
     initial_bids = test_bids
     initial_lots = 2 * test_lots
 
@@ -137,12 +137,21 @@ class Tender2LotAwardDocumentResourceTest(TenderContentWebTest, Tender2LotAwardD
         super(Tender2LotAwardDocumentResourceTest, self).setUp()
         # Create award
         auth = self.app.authorization
-        self.app.authorization = ('Basic', ('token', ''))
+        self.app.authorization = ("Basic", ("token", ""))
         bid = self.initial_bids[0]
-        response = self.app.post_json('/tenders/{}/awards'.format(
-            self.tender_id), {'data': {'suppliers': [test_organization], 'status': 'pending', 'bid_id': bid['id'], 'lotID': bid['lotValues'][0]['relatedLot']}})
-        award = response.json['data']
-        self.award_id = award['id']
+        response = self.app.post_json(
+            "/tenders/{}/awards".format(self.tender_id),
+            {
+                "data": {
+                    "suppliers": [test_organization],
+                    "status": "pending",
+                    "bid_id": bid["id"],
+                    "lotID": bid["lotValues"][0]["relatedLot"],
+                }
+            },
+        )
+        award = response.json["data"]
+        self.award_id = award["id"]
         self.app.authorization = auth
 
 
@@ -160,5 +169,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

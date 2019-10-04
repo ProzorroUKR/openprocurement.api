@@ -24,10 +24,7 @@ from openprocurement.tender.openua.tests.tender_blanks import (
     tender_finance_milestones,
 )
 
-from openprocurement.tender.openuadefense.tests.base import (
-    BaseTenderUAWebTest,
-    test_tender_data,
-)
+from openprocurement.tender.openuadefense.tests.base import BaseTenderUAWebTest, test_tender_data
 from openprocurement.tender.openuadefense.tests.tender_blanks import (
     # TenderUATest
     simple_add_tender,
@@ -73,27 +70,32 @@ class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):
     test_one_invalid_bid_tender = snitch(one_invalid_bid_tender)
 
     def test_patch_not_author(self):
-        response = self.app.post_json('/tenders', {'data': test_tender_data})
-        self.assertEqual(response.status, '201 Created')
-        tender = response.json['data']
-        owner_token = response.json['access']['token']
+        response = self.app.post_json("/tenders", {"data": test_tender_data})
+        self.assertEqual(response.status, "201 Created")
+        tender = response.json["data"]
+        owner_token = response.json["access"]["token"]
 
         authorization = self.app.authorization
-        self.app.authorization = ('Basic', ('bot', 'bot'))
+        self.app.authorization = ("Basic", ("bot", "bot"))
 
-        response = self.app.post('/tenders/{}/documents'.format(tender['id']),
-                                 upload_files=[('file', 'name.doc', 'content')])
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-        doc_id = response.json["data"]['id']
-        self.assertIn(doc_id, response.headers['Location'])
+        response = self.app.post(
+            "/tenders/{}/documents".format(tender["id"]), upload_files=[("file", "name.doc", "content")]
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        doc_id = response.json["data"]["id"]
+        self.assertIn(doc_id, response.headers["Location"])
 
         self.app.authorization = authorization
-        response = self.app.patch_json('/tenders/{}/documents/{}?acc_token={}'.format(tender['id'], doc_id, owner_token),
-                                       {"data": {"description": "document description"}}, status=403)
-        self.assertEqual(response.status, '403 Forbidden')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['errors'][0]["description"], "Can update document only author")
+        response = self.app.patch_json(
+            "/tenders/{}/documents/{}?acc_token={}".format(tender["id"], doc_id, owner_token),
+            {"data": {"description": "document description"}},
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["errors"][0]["description"], "Can update document only author")
+
 
 def suite():
     suite = unittest.TestSuite()
@@ -103,5 +105,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

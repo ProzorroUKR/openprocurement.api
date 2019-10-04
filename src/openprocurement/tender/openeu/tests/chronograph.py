@@ -6,16 +6,14 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
 from openprocurement.tender.belowthreshold.tests.chronograph import (
     TenderAwardComplaintSwitchResourceTest,
-    TenderLotSwitchQualificationResourceTest
+    TenderLotSwitchQualificationResourceTest,
 )
 from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
     # TenderSwitchUnsuccessfulResourceTest
     switch_to_unsuccessful,
 )
 
-from openprocurement.tender.openeu.tests.base import (
-    BaseTenderContentWebTest, test_bids, test_lots
-)
+from openprocurement.tender.openeu.tests.base import BaseTenderContentWebTest, test_bids, test_lots
 from openprocurement.tender.openeu.tests.chronograph_blanks import (
     # TenderComplaintSwitchResourceTest
     switch_to_complaint,
@@ -35,7 +33,7 @@ from openprocurement.tender.openua.tests.chronograph_blanks import (
 
 
 class TenderSwitchPreQualificationResourceTest(BaseTenderContentWebTest):
-    initial_status = 'active.pre-qualification'
+    initial_status = "active.pre-qualification"
     initial_bids = test_bids
 
     test_switch_to_pre_qual = snitch(active_tendering_to_pre_qual)
@@ -44,14 +42,14 @@ class TenderSwitchPreQualificationResourceTest(BaseTenderContentWebTest):
 
 
 class TenderSwitchAuctionResourceTest(BaseTenderContentWebTest):
-    initial_status = 'active.pre-qualification.stand-still'
+    initial_status = "active.pre-qualification.stand-still"
     initial_bids = test_bids
 
     test_switch_to_auction = snitch(switch_to_auction)
 
 
 class TenderSwitchUnsuccessfulResourceTest(BaseTenderContentWebTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
 
     test_switch_to_unsuccessful = snitch(switch_to_unsuccessful)
 
@@ -61,31 +59,31 @@ class TenderLotSwitchPreQualificationResourceTest(TenderSwitchPreQualificationRe
 
 
 class TenderLotSwitchAuctionResourceTest(TenderSwitchAuctionResourceTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
     initial_lots = test_lots
     initial_bids = test_bids
 
 
 class TenderLotSwitchUnsuccessfulResourceTest(TenderSwitchUnsuccessfulResourceTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
     initial_lots = test_lots
 
 
 class TenderAuctionPeriodResourceTest(BaseTenderContentWebTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
 
     test_set_auction_period = snitch(set_auction_period)
 
 
 class TenderLotAuctionPeriodResourceTest(BaseTenderContentWebTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
     initial_lots = test_lots
 
     test_set_auction_period = snitch(set_auction_period_lot)
 
 
 class TenderComplaintSwitchResourceTest(BaseTenderContentWebTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
     initial_bids = test_bids
     author_data = test_author
 
@@ -95,21 +93,27 @@ class TenderComplaintSwitchResourceTest(BaseTenderContentWebTest):
 class TenderLotComplaintSwitchResourceTest(TenderComplaintSwitchResourceTest):
     initial_lots = test_lots
 
+
 class TenderLotAwardComplaintSwitchResourceTest(TenderAwardComplaintSwitchResourceTest):
     initial_lots = test_lots
 
     def setUp(self):
         super(TenderAwardComplaintSwitchResourceTest, self).setUp()
         # Create award
-        self.app.authorization = ('Basic', ('token', ''))
-        response = self.app.post_json('/tenders/{}/awards'.format(self.tender_id), {'data': {
-            'suppliers': [test_organization],
-            'status': 'pending',
-            'bid_id': self.initial_bids[0]['id'],
-            'lotID': self.initial_bids[0]['lotValues'][0]['relatedLot']
-        }})
-        award = response.json['data']
-        self.award_id = award['id']
+        self.app.authorization = ("Basic", ("token", ""))
+        response = self.app.post_json(
+            "/tenders/{}/awards".format(self.tender_id),
+            {
+                "data": {
+                    "suppliers": [test_organization],
+                    "status": "pending",
+                    "bid_id": self.initial_bids[0]["id"],
+                    "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"],
+                }
+            },
+        )
+        award = response.json["data"]
+        self.award_id = award["id"]
 
 
 def suite():
@@ -126,5 +130,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

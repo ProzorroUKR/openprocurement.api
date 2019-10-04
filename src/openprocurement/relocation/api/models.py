@@ -9,13 +9,12 @@ from openprocurement.api.models import OpenprocurementSchematicsDocument as Sche
 
 
 class Transfer(SchematicsDocument, Model):
-
     class Options:
         roles = {
-            'plain': plain_role,
-            'default': schematics_default_role,
-            'create': whitelist(),
-            'view': whitelist('id', 'doc_id', 'date', 'usedFor'),
+            "plain": plain_role,
+            "default": schematics_default_role,
+            "create": whitelist(),
+            "view": whitelist("id", "doc_id", "date", "usedFor"),
         }
 
     owner = StringType(min_length=1)
@@ -25,9 +24,9 @@ class Transfer(SchematicsDocument, Model):
     usedFor = StringType(min_length=32)  # object path (e.g. /tenders/{id})
 
     def __repr__(self):
-        return '<%s:%r@%r>' % (type(self).__name__, self.id, self.rev)
+        return "<%s:%r@%r>" % (type(self).__name__, self.id, self.rev)
 
-    @serializable(serialized_name='id')
+    @serializable(serialized_name="id")
     def doc_id(self):
         """A property that is serialized by schematics exports."""
         return self._id

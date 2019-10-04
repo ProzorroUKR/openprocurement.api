@@ -15,9 +15,7 @@ from openprocurement.tender.belowthreshold.tests.document_blanks import (
     put_tender_document_json,
 )
 
-from openprocurement.tender.openuadefense.tests.base import (
-    BaseTenderUAContentWebTest
-)
+from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest
 
 
 class TenderDocumentResourceTest(BaseTenderUAContentWebTest):
@@ -44,5 +42,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

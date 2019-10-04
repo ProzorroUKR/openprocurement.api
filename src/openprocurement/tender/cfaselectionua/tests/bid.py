@@ -5,7 +5,7 @@ from copy import deepcopy
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     # TenderBidResourceTest
-    patch_tender_with_bids_lots_none
+    patch_tender_with_bids_lots_none,
 )
 
 from openprocurement.tender.cfaselectionua.tests.base import (
@@ -13,7 +13,8 @@ from openprocurement.tender.cfaselectionua.tests.base import (
     test_organization,
     test_lots,
     test_agreement_features,
-    test_bids)
+    test_bids,
+)
 from openprocurement.tender.cfaselectionua.tests.bid_blanks import (
     # TenderBidResourceTest
     create_tender_bid_invalid,
@@ -44,7 +45,7 @@ from openprocurement.tender.cfaselectionua.tests.bid_blanks import (
 
 
 class TenderBidResourceTest(TenderContentWebTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
     initial_lots = deepcopy(test_lots)
     test_bids_data = deepcopy(test_bids)
 
@@ -61,7 +62,7 @@ class TenderBidResourceTest(TenderContentWebTest):
 class TenderBidFeaturesResourceTest(TenderContentWebTest):
     initial_agreement = deepcopy(test_agreement_features)
     initial_lots = deepcopy(test_lots)
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
 
     test_features_bid = snitch(features_bid)
     test_features_bid_invalid = snitch(features_bid_invalid)
@@ -71,50 +72,38 @@ class TenderBidFeaturesResourceTest(TenderContentWebTest):
         super(TenderBidFeaturesResourceTest, self).setUp()
         tender = self.db.get(self.tender_id)
         agreement = test_agreement_features
-        agreement['contracts'][0]['parameters'] = [
-            {
-                'code': 'OCDS-123454-AIR-INTAKE',
-                'value': 0.1
-            },
-            {
-                'code': 'OCDS-123454-YEARS',
-                'value': 0.1
-            }
+        agreement["contracts"][0]["parameters"] = [
+            {"code": "OCDS-123454-AIR-INTAKE", "value": 0.1},
+            {"code": "OCDS-123454-YEARS", "value": 0.1},
         ]
-        agreement['contracts'][1]['parameters'] = [
-            {
-                'code': 'OCDS-123454-AIR-INTAKE',
-                'value': 0.15
-            },
-            {
-                'code': 'OCDS-123454-YEARS',
-                'value': 0.15
-            }
+        agreement["contracts"][1]["parameters"] = [
+            {"code": "OCDS-123454-AIR-INTAKE", "value": 0.15},
+            {"code": "OCDS-123454-YEARS", "value": 0.15},
         ]
-        agreement['id'] = tender['agreements'][0]['id']
-        tender['agreements'] = [agreement]
+        agreement["id"] = tender["agreements"][0]["id"]
+        tender["agreements"] = [agreement]
         self.db.save(tender)
 
 
 class TenderBidDocumentResourceTest(TenderContentWebTest):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
     initial_lots = deepcopy(test_lots)
 
     def setUp(self):
         super(TenderBidDocumentResourceTest, self).setUp()
         # Create bid
         response = self.app.post_json(
-            '/tenders/{}/bids'.format(self.tender_id),
+            "/tenders/{}/bids".format(self.tender_id),
             {
-                'data': {
-                    'tenderers': [test_organization],
-                    'lotValues': [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]['id']}]
+                "data": {
+                    "tenderers": [test_organization],
+                    "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
                 }
-            }
+            },
         )
-        bid = response.json['data']
-        self.bid_id = bid['id']
-        self.bid_token = response.json['access']['token']
+        bid = response.json["data"]
+        self.bid_id = bid["id"]
+        self.bid_token = response.json["access"]["token"]
 
     test_not_found = snitch(not_found)
     test_create_tender_bid_document = snitch(create_tender_bid_document)
@@ -133,11 +122,8 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
 class TenderBidBatchDocumentWithDSResourceTest(TenderContentWebTest):
     docservice = True
     initial_lots = deepcopy(test_lots)
-    initial_status = 'active.tendering'
-    bid_data_wo_docs = {'tenderers': [test_organization],
-                        'value': {'amount': 500},
-                        'documents': []
-        }
+    initial_status = "active.tendering"
+    bid_data_wo_docs = {"tenderers": [test_organization], "value": {"amount": 500}, "documents": []}
 
     test_create_tender_bid_with_document_invalid = snitch(create_tender_bid_with_document_invalid)
     test_create_tender_bid_with_document = snitch(create_tender_bid_with_document)
@@ -153,5 +139,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

@@ -1,1 +1,1 @@
-DEFAULT_TYPE = 'cfaua'
+DEFAULT_TYPE = "cfaua"

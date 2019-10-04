@@ -20,7 +20,7 @@ from openprocurement.contracting.api.tests.document_blanks import (
 
 class ContractDocumentResourceTest(BaseContractContentWebTest):
     docservice = False
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
     test_not_found = snitch(not_found)
     test_create_contract_documnet = snitch(create_contract_document)
@@ -36,6 +36,7 @@ class ContractDocumentWithDSResourceTest(ContractDocumentResourceTest):
     test_create_contract_documnet_json = snitch(create_contract_document_json)
     test_put_contract_document_json = snitch(put_contract_document_json)
 
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(ContractDocumentResourceTest))
@@ -43,5 +44,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

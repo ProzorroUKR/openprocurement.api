@@ -61,7 +61,7 @@ from openprocurement.tender.esco.tests.tender_blanks import (
 
 
 class TenderESCOTest(BaseESCOWebTest):
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_data
     test_bids_data = test_bids
 
@@ -79,10 +79,11 @@ class TenderESCOTest(BaseESCOWebTest):
 
 class TestTenderEU(BaseESCOContentWebTest, TenderResourceTestMixin, TenderUAResourceTestMixin):
     """ ESCO tender test """
+
     initialize_initial_data = False
     initial_data = test_tender_data
     # for passing test from TenderUAResourceTestMixin
-    initial_data['minValue'] = {"amount": 0}
+    initial_data["minValue"] = {"amount": 0}
     test_lots_data = test_lots
     test_bids_data = test_bids
     tender_period_duration = TENDERING_DAYS
@@ -124,5 +125,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

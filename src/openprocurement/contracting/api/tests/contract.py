@@ -58,6 +58,7 @@ class ContractTest(BaseWebTest):
 
 class ContractResourceTest(BaseWebTest):
     """ contract resource test """
+
     initial_data = test_contract_data
 
     test_empty_listing = snitch(empty_listing)
@@ -75,14 +76,15 @@ class ContractWDocumentsWithDSResourceTest(BaseWebTest):
     docservice = True
     initial_data = deepcopy(test_contract_data)
     documents = deepcopy(documents)
-    initial_data['documents'] = documents
+    initial_data["documents"] = documents
 
     test_create_contract_w_documents = snitch(create_contract_w_documents)
 
 
 class ContractResource4BrokersTest(BaseContractWebTest):
     """ contract resource test """
-    initial_auth = ('Basic', ('broker', ''))
+
+    initial_auth = ("Basic", ("broker", ""))
 
     test_contract_status_change = snitch(contract_status_change)
     test_contract_items_change = snitch(contract_items_change)
@@ -98,7 +100,8 @@ class ContractResource4BrokersTest(BaseContractWebTest):
 
 class ContractResource4AdministratorTest(BaseContractWebTest):
     """ contract resource test """
-    initial_auth = ('Basic', ('administrator', ''))
+
+    initial_auth = ("Basic", ("administrator", ""))
 
     test_contract_administrator_change = snitch(contract_administrator_change)
 
@@ -106,7 +109,7 @@ class ContractResource4AdministratorTest(BaseContractWebTest):
 class ContractCredentialsTest(BaseContractWebTest):
     """ Contract credentials tests """
 
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     initial_data = test_contract_data
 
     test_get_credentials = snitch(get_credentials)
@@ -115,15 +118,16 @@ class ContractCredentialsTest(BaseContractWebTest):
 
 class ContractWOItemsResource4BrokersTest(BaseContractWebTest):
     initial_data = test_contract_data_wo_items
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
     test_contract_wo_items_status_change = snitch(contract_wo_items_status_change)
 
 
 class ContractWOAmountNetResource4BrokersTest(BaseContractWebTest):
     """ contract resource test """
+
     initial_data = test_contract_data_wo_value_amount_net
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
     test_patch_tender_contract = snitch(patch_tender_contract_wo_amount_net)
 
@@ -141,5 +145,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

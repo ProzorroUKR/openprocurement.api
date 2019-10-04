@@ -2,6 +2,7 @@
 import os, sys
 import csv
 
+
 def get_fields_name(cls):
     fields_name = set(cls._fields._keys)
     fields_name.update(cls._serializables.keys())
@@ -14,18 +15,18 @@ def get_roles_from_object(cls):
     roles = {}
     for role_name in roles_keys:
         rr = cls._options.roles[role_name]
-        roles[role_name] = set([i for i in list(fields_name) if not rr(i, '')])
+        roles[role_name] = set([i for i in list(fields_name) if not rr(i, "")])
     return roles
 
 
 def create_csv_roles(cls):
     roles = get_roles_from_object(cls)
     fields_name = list(get_fields_name(cls))
-    path_role_csv = ''
-    for i in os.path.abspath(sys.modules[cls.__module__].__file__).split('/')[:-1]:
-        path_role_csv += (i + '/')
-    with open('{0}{1}.csv'.format(path_role_csv, cls.__name__), 'wb') as csvfile:
-        fields_name.insert(0, 'rolename')
+    path_role_csv = ""
+    for i in os.path.abspath(sys.modules[cls.__module__].__file__).split("/")[:-1]:
+        path_role_csv += i + "/"
+    with open("{0}{1}.csv".format(path_role_csv, cls.__name__), "wb") as csvfile:
+        fields_name.insert(0, "rolename")
         writer = csv.DictWriter(csvfile, fieldnames=fields_name)
         writer.writeheader()
         writer = csv.writer(csvfile)
@@ -33,7 +34,7 @@ def create_csv_roles(cls):
             row = [role_name]
             for field_name in fields_name[1:]:
                 if field_name in roles[role_name]:
-                   row.append('1')
+                    row.append("1")
                 else:
-                    row.append('')
+                    row.append("")
             writer.writerow(row)

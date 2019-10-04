@@ -6,4 +6,4 @@ class SerializableTenderNumberOfBids(Serializable):
     serialized_name = "numberOfBids"
 
     def __call__(self, obj, *args, **kwargs):
-        return len([bid for bid in obj.bids if bid.status in ("active", "pending",)])
+        return len([bid for bid in obj.bids if bid.status in ("active", "pending")])

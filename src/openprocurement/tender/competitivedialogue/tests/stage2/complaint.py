@@ -23,18 +23,21 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_shortlistedFirms,
     BaseCompetitiveDialogEUStage2ContentWebTest,
     BaseCompetitiveDialogUAStage2ContentWebTest,
-    test_author)
+    test_author,
+)
 
 
-class TenderStage2EUComplaintResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest, TenderComplaintResourceTestMixin, TenderUAComplaintResourceTestMixin):
+class TenderStage2EUComplaintResourceTest(
+    BaseCompetitiveDialogEUStage2ContentWebTest, TenderComplaintResourceTestMixin, TenderUAComplaintResourceTestMixin
+):
 
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     test_author = test_author
 
 
 class TenderStage2EULotAwardComplaintResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
     initial_lots = test_lots
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     test_author = test_author  # TODO: change attribute identifier
 
     test_create_tender_complaint = snitch(create_tender_lot_complaint)
@@ -42,18 +45,18 @@ class TenderStage2EULotAwardComplaintResourceTest(BaseCompetitiveDialogEUStage2C
 
 class TenderStage2EUComplaintDocumentResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
 
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
         super(TenderStage2EUComplaintDocumentResourceTest, self).setUp()
         # Create complaint
-        response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id),
-                                      {'data': {'title': 'complaint title',
-                                                'description': 'complaint description',
-                                                'author': test_author}})
-        complaint = response.json['data']
-        self.complaint_id = complaint['id']
-        self.complaint_owner_token = response.json['access']['token']
+        response = self.app.post_json(
+            "/tenders/{}/complaints".format(self.tender_id),
+            {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+        )
+        complaint = response.json["data"]
+        self.complaint_id = complaint["id"]
+        self.complaint_owner_token = response.json["access"]["token"]
 
     test_not_found = snitch(not_found)
     test_create_tender_complaint_document = snitch(create_tender_complaint_document)
@@ -61,27 +64,32 @@ class TenderStage2EUComplaintDocumentResourceTest(BaseCompetitiveDialogEUStage2C
     test_patch_tender_complaint_document = snitch(patch_tender_complaint_document)
 
 
-class TenderStage2UAComplaintResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest, TenderComplaintResourceTestMixin, TenderUAComplaintResourceTestMixin):
+class TenderStage2UAComplaintResourceTest(
+    BaseCompetitiveDialogUAStage2ContentWebTest, TenderComplaintResourceTestMixin, TenderUAComplaintResourceTestMixin
+):
     test_author = test_author  # TODO: change attribute identifier
 
 
-class TenderStage2UALotAwardComplaintResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest, TenderStage2EULotAwardComplaintResourceTest):
+class TenderStage2UALotAwardComplaintResourceTest(
+    BaseCompetitiveDialogUAStage2ContentWebTest, TenderStage2EULotAwardComplaintResourceTest
+):
     initial_lots = test_lots
     test_author = test_author  # TODO: change attribute identifier
 
 
-class TenderStage2UAComplaintDocumentResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest, TenderStage2EUComplaintDocumentResourceTest):
-
+class TenderStage2UAComplaintDocumentResourceTest(
+    BaseCompetitiveDialogUAStage2ContentWebTest, TenderStage2EUComplaintDocumentResourceTest
+):
     def setUp(self):
         super(TenderStage2UAComplaintDocumentResourceTest, self).setUp()
         # Create complaint
-        response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id),
-                                      {'data': {'title': 'complaint title',
-                                                'description': 'complaint description',
-                                                'author': test_author}})
-        complaint = response.json['data']
-        self.complaint_id = complaint['id']
-        self.complaint_owner_token = response.json['access']['token']
+        response = self.app.post_json(
+            "/tenders/{}/complaints".format(self.tender_id),
+            {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+        )
+        complaint = response.json["data"]
+        self.complaint_id = complaint["id"]
+        self.complaint_owner_token = response.json["access"]["token"]
 
 
 def suite():
@@ -95,5 +103,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

@@ -1,22 +1,23 @@
 # -*- coding: utf-8 -*-
-from schematics.exceptions import (
-    ModelValidationError, ModelConversionError, ValidationError
-)
+from schematics.exceptions import ModelValidationError, ModelConversionError, ValidationError
 
-from openprocurement.api.constants import (
-    INN_SCHEME, CPV_PHARM_PRODUCTS, CPV_336_INN_FROM
-)
+from openprocurement.api.constants import INN_SCHEME, CPV_PHARM_PRODUCTS, CPV_336_INN_FROM
 from openprocurement.api.utils import (
-    apply_data_patch, update_logging_context, error_handler, get_now,
-    get_first_revision_date, get_root
+    apply_data_patch,
+    update_logging_context,
+    error_handler,
+    get_now,
+    get_first_revision_date,
+    get_root,
 )
 
 OPERATIONS = {"POST": "add", "PATCH": "update", "PUT": "update", "DELETE": "delete"}
 
+
 def validate_json_data(request):
     try:
         json = request.json_body
-    except ValueError, e:
+    except ValueError as e:
         request.errors.add('body', 'data', e.message)
         request.errors.status = 422
         raise error_handler(request.errors)
@@ -48,12 +49,12 @@ def validate_data(request, model, partial=False, data=None):
             m.validate()
             method = m.serialize
             role = 'create'
-    except (ModelValidationError, ModelConversionError), e:
+    except (ModelValidationError, ModelConversionError) as e:
         for i in e.message:
             request.errors.add('body', i, e.message[i])
         request.errors.status = 422
         raise error_handler(request.errors)
-    except ValueError, e:
+    except ValueError as e:
         request.errors.add('body', 'data', e.message)
         request.errors.status = 422
         raise error_handler(request.errors)
@@ -125,9 +126,11 @@ def validate_classification_id(items, *args):
             if item.classification.id == CPV_PHARM_PRODUCTS and schemes_inn_count != 1:
                 raise ValidationError(
                     u"Item with classification.id={} have to contain exactly one additionalClassifications "
-                    u"with scheme={}".format(CPV_PHARM_PRODUCTS, INN_SCHEME))
+                    u"with scheme={}".format(CPV_PHARM_PRODUCTS, INN_SCHEME)
+                )
             if item.classification.id.startswith(CPV_PHARM_PRODUCTS[:3]) and schemes_inn_count > 1:
                 raise ValidationError(
                     u"Item with classification.id that starts with {} and contains additionalClassification "
                     u"objects have to contain no more than one additionalClassifications "
-                    u"with scheme={}".format(CPV_PHARM_PRODUCTS[:3], INN_SCHEME))
+                    u"with scheme={}".format(CPV_PHARM_PRODUCTS[:3], INN_SCHEME)
+                )

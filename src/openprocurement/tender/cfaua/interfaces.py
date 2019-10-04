@@ -3,19 +3,21 @@ from zope.interface import Interface
 from openprocurement.tender.core.models import ITender
 
 
-
 class ICloseFrameworkAgreementUA(ITender):
-     pass
+    pass
+
 
 class IValidator(Interface):
-     pass
+    pass
+
 
 class ISerializable(Interface):
-     pass
+    pass
+
 
 class ISerializableTenderField(Interface):
-     pass
+    pass
 
 
 class IValidateTenderField(Interface):
-     pass
+    pass

@@ -15,8 +15,9 @@ class Award(BaseAward):
         per contracting process e.g. because the contract is split amongst
         different providers, or because it is a standing offer.
     """
+
     class Options:
-        roles = RolesFromCsv('Award.csv', relative_to=__file__)
+        roles = RolesFromCsv("Award.csv", relative_to=__file__)
 
     complaints = ListType(ModelType(Complaint, required=True), default=list())
     items = ListType(ModelType(Item, required=True))

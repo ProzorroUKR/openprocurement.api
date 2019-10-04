@@ -23,14 +23,17 @@ SANDBOX_MODE = os.environ.get('SANDBOX_MODE', False)
 DOCUMENT_BLACKLISTED_FIELDS = ('title', 'format', 'url', 'dateModified', 'hash')
 DOCUMENT_WHITELISTED_FIELDS = ('id', 'datePublished', 'author', '__parent__')
 
+
 def read_json(name):
     import os.path
     from json import loads
+
     curr_dir = os.path.dirname(os.path.realpath(__file__))
     file_path = os.path.join(curr_dir, name)
     with open(file_path) as lang_file:
         data = lang_file.read()
     return loads(data)
+
 
 CPV_CODES = read_json('data/cpv.json')
 CPV_CODES.append('99999999-9')
@@ -63,8 +66,10 @@ SCALE_CODES = ["micro", "sme", "mid", "large", "not specified"]
 CPV_ITEMS_CLASS_FROM = datetime(2017, 1, 1, tzinfo=TZ)
 CPV_BLOCK_FROM = datetime(2017, 6, 2, tzinfo=TZ)
 
+
 def get_default_constants_file_path():
     return os.path.join(os.path.dirname(os.path.realpath(__file__)), 'constants.ini')
+
 
 def load_constants(file_path):
     config = ConfigParser()
@@ -72,9 +77,10 @@ def load_constants(file_path):
         with open(file_path) as fp:
             config.readfp(fp)
     except Exception as e:
-        raise type(e), type(e)(
+        raise type(e)(
             'Can\'t read file \'{0}\': use current path or override using '
-            'CONSTANTS_FILE_PATH env variable'.format(file_path)), sys.exc_info()[2]
+            'CONSTANTS_FILE_PATH env variable'.format(file_path)
+        )
     return config
 
 
@@ -93,7 +99,8 @@ BUDGET_PERIOD_FROM = get_constant(CONSTANTS_CONFIG, 'BUDGET_PERIOD_FROM')
 
 # Set non required additionalClassification for classification_id 999999-9
 NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM = get_constant(
-    CONSTANTS_CONFIG, 'NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM')
+    CONSTANTS_CONFIG, 'NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM'
+)
 
 # Set INN additionalClassification validation required
 CPV_336_INN_FROM = get_constant(CONSTANTS_CONFIG, 'CPV_336_INN_FROM')

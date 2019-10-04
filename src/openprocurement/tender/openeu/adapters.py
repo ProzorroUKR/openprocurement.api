@@ -2,12 +2,12 @@
 from openprocurement.tender.core.adapters import TenderConfigurator
 from openprocurement.tender.openeu.models import Tender
 from openprocurement.tender.openua.constants import (
-    TENDERING_EXTRA_PERIOD, STATUS4ROLE,
-    CLAIM_SUBMIT_TIME, COMPLAINT_SUBMIT_TIME
+    TENDERING_EXTRA_PERIOD,
+    STATUS4ROLE,
+    CLAIM_SUBMIT_TIME,
+    COMPLAINT_SUBMIT_TIME,
 )
-from openprocurement.tender.openeu.constants import (
-    TENDERING_DURATION, PREQUALIFICATION_COMPLAINT_STAND_STILL
-)
+from openprocurement.tender.openeu.constants import TENDERING_DURATION, PREQUALIFICATION_COMPLAINT_STAND_STILL
 
 
 class TenderAboveThresholdEUConfigurator(TenderConfigurator):

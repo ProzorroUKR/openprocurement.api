@@ -2,13 +2,11 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.question_blanks import (
-    lot_patch_tender_question_lots_none
-)
+from openprocurement.tender.belowthreshold.tests.question_blanks import lot_patch_tender_question_lots_none
 from openprocurement.tender.cfaua.tests.question_blanks import (
     lot_create_tender_question,
     lot_patch_tender_question,
-    lot_create_tender_cancellations_and_questions
+    lot_create_tender_cancellations_and_questions,
 )
 
 from openprocurement.tender.belowthreshold.tests.base import test_author
@@ -19,11 +17,7 @@ from openprocurement.tender.openua.tests.question_blanks import (
     create_tender_question,
 )
 
-from openprocurement.tender.cfaua.tests.base import (
-    BaseTenderContentWebTest,
-    test_bids,
-    test_lots,
-)
+from openprocurement.tender.cfaua.tests.base import BaseTenderContentWebTest, test_bids, test_lots
 from openprocurement.tender.openeu.tests.question_blanks import (
     # TenderQuestionResourceTest
     patch_tender_question,
@@ -33,7 +27,7 @@ from openprocurement.tender.openeu.tests.question_blanks import (
 
 class TenderQuestionResourceTest(BaseTenderContentWebTest, TenderQuestionResourceTestMixin):
 
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     test_bids_data = test_bids
     author_data = test_author
 
@@ -44,7 +38,7 @@ class TenderQuestionResourceTest(BaseTenderContentWebTest, TenderQuestionResourc
 
 class TenderLotQuestionResourceTest(BaseTenderContentWebTest):
     initial_lots = test_lots
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     test_bids_data = test_bids
     author_data = test_author
 
@@ -61,5 +55,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

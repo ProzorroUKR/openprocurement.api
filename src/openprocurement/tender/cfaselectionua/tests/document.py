@@ -3,15 +3,13 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.cfaselectionua.tests.base import (
-    TenderContentWebTest, test_lots
-)
+from openprocurement.tender.cfaselectionua.tests.base import TenderContentWebTest, test_lots
 
 from openprocurement.tender.belowthreshold.tests.document_blanks import (
     create_tender_document_error,
     create_tender_document_json_invalid,
     create_tender_document_json,
-    put_tender_document_json
+    put_tender_document_json,
 )
 
 from openprocurement.tender.cfaselectionua.tests.document_blanks import (
@@ -41,7 +39,7 @@ class TenderDocumentWithDSResourceTestMixin(object):
 class TenderDocumentResourceTest(TenderContentWebTest, TenderDocumentResourceTestMixin):
 
     initial_lots = test_lots
-    initial_status = 'active.enquiries'
+    initial_status = "active.enquiries"
     test_create_document_active_tendering_status = snitch(create_document_active_tendering_status)
     test_create_document_active_enquiries_status = snitch(create_document_active_enquiries_status)
 
@@ -60,5 +58,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

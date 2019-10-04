@@ -3,10 +3,7 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_lots,
-    test_author
-)
+from openprocurement.tender.belowthreshold.tests.base import test_lots, test_author
 from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
     # TenderSwitch0BidResourceTest
     switch_to_unsuccessful,
@@ -17,7 +14,7 @@ from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
 from openprocurement.tender.openua.tests.base import test_bids
 from openprocurement.tender.openua.tests.chronograph import (
     TenderSwitchAuctionResourceTestMixin,
-    TenderLotSwitchAuctionResourceTestMixin
+    TenderLotSwitchAuctionResourceTestMixin,
 )
 from openprocurement.tender.openua.tests.chronograph_blanks import (
     # TenderLotSwitch0BidResourceTest
@@ -27,15 +24,12 @@ from openprocurement.tender.openua.tests.chronograph_blanks import (
     set_auction_period_0bid,
 )
 
-from openprocurement.tender.openuadefense.tests.base import (
-    BaseTenderUAContentWebTest
-)
+from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest
 from openprocurement.tender.openuadefense.tests.chronograph_blanks import (
     # TenderSwitchAuctionResourceTest
     switch_to_auction,
     # TenderLotSwitch1BidResourceTest
     switch_to_qualification,
-    # TenderLotSwitchAuctionResourceTest
 )
 
 

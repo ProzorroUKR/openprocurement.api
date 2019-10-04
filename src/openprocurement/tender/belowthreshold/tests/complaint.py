@@ -7,7 +7,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,
     test_lots,
     test_organization,
-    test_author
+    test_author,
 )
 from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
     # TenderComplaintResourceTest
@@ -48,20 +48,16 @@ class TenderLotAwardComplaintResourceTest(TenderContentWebTest):
 
 
 class TenderComplaintDocumentResourceTest(TenderContentWebTest):
-
     def setUp(self):
         super(TenderComplaintDocumentResourceTest, self).setUp()
         # Create complaint
         response = self.app.post_json(
-            '/tenders/{}/complaints'.format(self.tender_id), 
-            {'data': {
-                'title': 'complaint title', 
-                'description': 'complaint description',
-                'author': test_author
-            }})
-        complaint = response.json['data']
-        self.complaint_id = complaint['id']
-        self.complaint_owner_token = response.json['access']['token']
+            "/tenders/{}/complaints".format(self.tender_id),
+            {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+        )
+        complaint = response.json["data"]
+        self.complaint_id = complaint["id"]
+        self.complaint_owner_token = response.json["access"]["token"]
 
     test_not_found = snitch(not_found)
     test_create_tender_complaint_document = snitch(create_tender_complaint_document)
@@ -76,5 +72,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

@@ -10,21 +10,19 @@ from openprocurement.tender.cfaselectionua.adapters.configurator import TenderCf
 def tender_init_handler(event):
     """ initialization handler for closeFrameworkAgreementSelectionUA tenders """
     tender = event.tender
-    default_status = type(tender).fields['status'].default
+    default_status = type(tender).fields["status"].default
     if tender.status != default_status:
-        raise Exception(
-            "Allow create tender only in ({default_status}) status".format(default_status=default_status)
-        )
+        raise Exception("Allow create tender only in ({default_status}) status".format(default_status=default_status))
     if not tender.enquiryPeriod:
         tender.enquiryPeriod = PeriodEndRequired()
-        tender.enquiryPeriod['__parent__'] = tender
+        tender.enquiryPeriod["__parent__"] = tender
     if not tender.enquiryPeriod.startDate:
         tender.enquiryPeriod.startDate = get_now()
     if not tender.enquiryPeriod.endDate:
         tender.enquiryPeriod.endDate = tender.enquiryPeriod.startDate + TenderCfaSelectionUAConfigurator.enquiry_period
     if not tender.tenderPeriod:
         tender.tenderPeriod = PeriodEndRequired()
-        tender.tenderPeriod['__parent__'] = tender
+        tender.tenderPeriod["__parent__"] = tender
     if not tender.tenderPeriod.startDate:
         tender.tenderPeriod.startDate = tender.enquiryPeriod.endDate
     if not tender.tenderPeriod.endDate:

@@ -3,15 +3,11 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_features_tender_data,
-    test_lots,
-    test_organization
-)
+from openprocurement.tender.belowthreshold.tests.base import test_features_tender_data, test_lots, test_organization
 from openprocurement.tender.belowthreshold.tests.auction import (
     TenderAuctionResourceTestMixin,
     TenderLotAuctionResourceTestMixin,
-    TenderMultipleLotAuctionResourceTestMixin
+    TenderMultipleLotAuctionResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.auction_blanks import (
     # TenderSameValueAuctionResourceTest
@@ -27,7 +23,7 @@ from openprocurement.tender.belowthreshold.tests.auction_blanks import (
     post_tender_lot_auction_features,
     # TenderFeaturesMultilotAuctionResourceTest
     get_tender_lots_auction_features,
-    post_tender_lots_auction_features
+    post_tender_lots_auction_features,
 )
 
 from openprocurement.tender.openua.tests.base import test_bids
@@ -35,32 +31,26 @@ from openprocurement.tender.openua.tests.base import test_bids
 from openprocurement.tender.openuadefense.tests.base import (
     BaseTenderUAContentWebTest,
     test_tender_data,
-    test_features_tender_ua_data
+    test_features_tender_ua_data,
 )
 
 
 class TenderAuctionResourceTest(BaseTenderUAContentWebTest, TenderAuctionResourceTestMixin):
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
     initial_bids = test_bids
 
-    test_status_that_denies_get_post_patch_auction = 'active.tendering'
-    test_status_that_denies_get_post_patch_auction_document = 'active.tendering'
+    test_status_that_denies_get_post_patch_auction = "active.tendering"
+    test_status_that_denies_get_post_patch_auction_document = "active.tendering"
 
 
 class TenderSameValueAuctionResourceTest(BaseTenderUAContentWebTest):
-    initial_status = 'active.auction'
+    initial_status = "active.auction"
     initial_bids = [
         {
-            "tenderers": [
-                test_organization
-            ],
-            "value": {
-                "amount": 469,
-                "currency": "UAH",
-                "valueAddedTaxIncluded": True
-            },
-            'selfEligible': True,
-            'selfQualified': True,
+            "tenderers": [test_organization],
+            "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "selfEligible": True,
+            "selfQualified": True,
         }
         for i in range(3)
     ]
@@ -83,61 +73,37 @@ class TenderMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestM
 
 class TenderFeaturesAuctionResourceTest(BaseTenderUAContentWebTest):
     initial_data = test_features_tender_ua_data
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
     initial_bids = [
         {
-            "parameters": [
-                {
-                    "code": i["code"],
-                    "value": 0.1,
-                }
-                for i in test_features_tender_data['features']
-            ],
-            "tenderers": [
-                test_organization
-            ],
-            "value": {
-                "amount": 469,
-                "currency": "UAH",
-                "valueAddedTaxIncluded": True
-            },
-            'selfEligible': True,
-            'selfQualified': True,
+            "parameters": [{"code": i["code"], "value": 0.1} for i in test_features_tender_data["features"]],
+            "tenderers": [test_organization],
+            "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "selfEligible": True,
+            "selfQualified": True,
         },
         {
-            "parameters": [
-                {
-                    "code": i["code"],
-                    "value": 0.15,
-                }
-                for i in test_features_tender_data['features']
-            ],
-            "tenderers": [
-                test_organization
-            ],
-            "value": {
-                "amount": 479,
-                "currency": "UAH",
-                "valueAddedTaxIncluded": True
-            },
-            'selfEligible': True,
-            'selfQualified': True,
-        }
+            "parameters": [{"code": i["code"], "value": 0.15} for i in test_features_tender_data["features"]],
+            "tenderers": [test_organization],
+            "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "selfEligible": True,
+            "selfQualified": True,
+        },
     ]
 
     test_get_tender_auction = snitch(get_tender_auction_feature)
     test_post_tender_auction = snitch(post_tender_auction_feature)
 
 
-class TenderFeaturesLotAuctionResourceTest(TenderLotAuctionResourceTestMixin,
-                                           TenderFeaturesAuctionResourceTest):
+class TenderFeaturesLotAuctionResourceTest(TenderLotAuctionResourceTestMixin, TenderFeaturesAuctionResourceTest):
     initial_lots = test_lots
     test_get_tender_auction = snitch(get_tender_lot_auction_features)
     test_post_tender_auction = snitch(post_tender_lot_auction_features)
 
 
-class TenderFeaturesMultilotAuctionResourceTest(TenderMultipleLotAuctionResourceTestMixin,
-                                                TenderFeaturesAuctionResourceTest):
+class TenderFeaturesMultilotAuctionResourceTest(
+    TenderMultipleLotAuctionResourceTestMixin, TenderFeaturesAuctionResourceTest
+):
     initial_lots = test_lots * 2
     test_get_tender_auction = snitch(get_tender_lots_auction_features)
     test_post_tender_auction = snitch(post_tender_lots_auction_features)
@@ -153,5 +119,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

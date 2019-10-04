@@ -13,23 +13,28 @@ from couchdb.http import ResourceConflict
 from openprocurement.api.constants import WORKING_DAYS, SANDBOX_MODE, TZ
 from openprocurement.api.utils import error_handler
 from openprocurement.api.utils import (
-    get_now, context_unpack, get_revision_changes, apply_data_patch,
-    update_logging_context, set_modetest_titles
+    get_now,
+    context_unpack,
+    get_revision_changes,
+    apply_data_patch,
+    update_logging_context,
+    set_modetest_titles,
 )
-from openprocurement.tender.core.constants import (
-    BIDDER_TIME, SERVICE_TIME, AUCTION_STAND_STILL_TIME
-)
+from openprocurement.tender.core.constants import BIDDER_TIME, SERVICE_TIME, AUCTION_STAND_STILL_TIME
 from openprocurement.tender.core.traversal import factory
+
 LOGGER = getLogger('openprocurement.tender.core')
 
 ACCELERATOR_RE = compile(r'.accelerator=(?P<accelerator>\d+)')
 
 
-optendersresource = partial(resource, error_handler=error_handler,
-                            factory=factory)
+optendersresource = partial(resource, error_handler=error_handler, factory=factory)
+
 
 def rounding_shouldStartAfter(start_after, tender, use_from=datetime(2016, 7, 16, tzinfo=TZ)):
-    if (tender.enquiryPeriod and tender.enquiryPeriod.startDate or get_now()) > use_from and not (SANDBOX_MODE and tender.submissionMethodDetails and u'quick' in tender.submissionMethodDetails):
+    if (tender.enquiryPeriod and tender.enquiryPeriod.startDate or get_now()) > use_from and not (
+        SANDBOX_MODE and tender.submissionMethodDetails and u'quick' in tender.submissionMethodDetails
+    ):
         midnigth = datetime.combine(start_after.date(), time(0, tzinfo=start_after.tzinfo))
         if start_after > midnigth:
             start_after = midnigth + timedelta(1)
@@ -55,11 +60,9 @@ def generate_tender_id(ctime, db, server_id=''):
             sleep(1)
         else:
             break
-    return 'UA-{:04}-{:02}-{:02}-{:06}{}'.format(ctime.year,
-                                                 ctime.month,
-                                                 ctime.day,
-                                                 index,
-                                                 server_id and '-' + server_id)
+    return 'UA-{:04}-{:02}-{:02}-{:06}{}'.format(
+        ctime.year, ctime.month, ctime.day, index, server_id and '-' + server_id
+    )
 
 
 def tender_serialize(request, tender_data, fields):
@@ -87,34 +90,36 @@ def save_tender(request):
             if obj and hasattr(obj, "date"):
                 date_path = change['path'].replace('/status', '/date')
                 if obj.date and not any([p for p in patch if date_path == p['path']]):
-                    patch.append({"op": "replace",
-                                  "path": date_path,
-                                  "value": obj.date.isoformat()})
+                    patch.append({"op": "replace", "path": date_path, "value": obj.date.isoformat()})
                 elif not obj.date:
                     patch.append({"op": "remove", "path": date_path})
                 obj.date = now
-        tender.revisions.append(type(tender).revisions.model_class({
-            'author': request.authenticated_userid,
-            'changes': patch,
-            'rev': tender.rev
-        }))
+        tender.revisions.append(
+            type(tender).revisions.model_class(
+                {'author': request.authenticated_userid, 'changes': patch, 'rev': tender.rev}
+            )
+        )
         old_dateModified = tender.dateModified
         if getattr(tender, 'modified', True):
             tender.dateModified = now
         try:
             tender.store(request.registry.db)
-        except ModelValidationError, e:
+        except ModelValidationError as e:
             for i in e.message:
                 request.errors.add('body', i, e.message[i])
             request.errors.status = 422
-        except ResourceConflict, e:  # pragma: no cover
+        except ResourceConflict as e:  # pragma: no cover
             request.errors.add('body', 'data', str(e))
             request.errors.status = 409
-        except Exception, e:  # pragma: no cover
+        except Exception as e:  # pragma: no cover
             request.errors.add('body', 'data', str(e))
         else:
-            LOGGER.info('Saved tender {}: dateModified {} -> {}'.format(tender.id, old_dateModified and old_dateModified.isoformat(), tender.dateModified.isoformat()),
-                        extra=context_unpack(request, {'MESSAGE_ID': 'save_tender'}, {'RESULT': tender.rev}))
+            LOGGER.info(
+                'Saved tender {}: dateModified {} -> {}'.format(
+                    tender.id, old_dateModified and old_dateModified.isoformat(), tender.dateModified.isoformat()
+                ),
+                extra=context_unpack(request, {'MESSAGE_ID': 'save_tender'}, {'RESULT': tender.rev}),
+            )
             return True
 
 
@@ -130,8 +135,7 @@ def apply_patch(request, data=None, save=True, src=None):
 def remove_draft_bids(request):
     tender = request.validated['tender']
     if [bid for bid in tender.bids if getattr(bid, "status", "active") == "draft"]:
-        LOGGER.info('Remove draft bids',
-                    extra=context_unpack(request, {'MESSAGE_ID': 'remove_draft_bids'}))
+        LOGGER.info('Remove draft bids', extra=context_unpack(request, {'MESSAGE_ID': 'remove_draft_bids'}))
         tender.bids = [bid for bid in tender.bids if getattr(bid, "status", "active") != "draft"]
 
 
@@ -143,7 +147,10 @@ def cleanup_bids_for_cancelled_lots(tender):
     cancelled_features = [
         i.code
         for i in (tender.features or [])
-        if i.featureOf == 'lot' and i.relatedItem in cancelled_lots or i.featureOf == 'item' and i.relatedItem in cancelled_items
+        if i.featureOf == 'lot'
+        and i.relatedItem in cancelled_lots
+        or i.featureOf == 'item'
+        and i.relatedItem in cancelled_items
     ]
     for bid in tender.bids:
         bid.documents = [i for i in bid.documents if i.documentOf != 'lot' or i.relatedItem not in cancelled_lots]
@@ -157,19 +164,30 @@ def has_unanswered_questions(tender, filter_cancelled_lots=True):
     if filter_cancelled_lots and tender.lots:
         active_lots = [l.id for l in tender.lots if l.status == 'active']
         active_items = [i.id for i in tender.items if not i.relatedLot or i.relatedLot in active_lots]
-        return any([
-            not i.answer
-            for i in tender.questions
-            if i.questionOf == 'tender' or i.questionOf == 'lot' and i.relatedItem in active_lots or i.questionOf == 'item' and i.relatedItem in active_items
-        ])
+        return any(
+            [
+                not i.answer
+                for i in tender.questions
+                if i.questionOf == 'tender'
+                or i.questionOf == 'lot'
+                and i.relatedItem in active_lots
+                or i.questionOf == 'item'
+                and i.relatedItem in active_items
+            ]
+        )
     return any([not i.answer for i in tender.questions])
 
 
 def has_unanswered_complaints(tender, filter_cancelled_lots=True):
     if filter_cancelled_lots and tender.lots:
         active_lots = [l.id for l in tender.lots if l.status == 'active']
-        return any([i.status in tender.block_tender_complaint_status for i in tender.complaints if not i.relatedLot \
-                    or (i.relatedLot and i.relatedLot in active_lots)])
+        return any(
+            [
+                i.status in tender.block_tender_complaint_status
+                for i in tender.complaints
+                if not i.relatedLot or (i.relatedLot and i.relatedLot in active_lots)
+            ]
+        )
     return any([i.status in tender.block_tender_complaint_status for i in tender.complaints])
 
 
@@ -295,10 +313,12 @@ def calculate_business_date(date_obj, timedelta_obj, context=None, working_days=
 
 
 def is_non_working_date(date_obj):
-    return any([
-        date_obj.weekday() in [5, 6] and WORKING_DAYS.get(date_obj.date().isoformat(), True),
-        WORKING_DAYS.get(date_obj.date().isoformat(), False)
-    ])
+    return any(
+        [
+            date_obj.weekday() in [5, 6] and WORKING_DAYS.get(date_obj.date().isoformat(), True),
+            WORKING_DAYS.get(date_obj.date().isoformat(), False),
+        ]
+    )
 
 
 def has_requested_fields_changes(request, fieldnames):

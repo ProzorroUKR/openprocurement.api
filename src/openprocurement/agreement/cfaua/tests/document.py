@@ -9,20 +9,20 @@ from openprocurement.agreement.cfaua.tests.document_blanks import (
     create_agreement_document_forbidden,
     create_agreement_documents,
     not_found,
-    put_contract_document
+    put_contract_document,
 )
 from openprocurement.agreement.core.tests.base import BaseAgreementWebTest, BaseDSAgreementWebTest
 from openprocurement.agreement.cfaua.tests.base import TEST_AGREEMENT, TEST_DOCUMENTS
 from openprocurement.api.tests.base import snitch
 
 data = deepcopy(TEST_AGREEMENT)
-data['documents'] = TEST_DOCUMENTS
+data["documents"] = TEST_DOCUMENTS
 
 
 class Base(BaseAgreementWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = data
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
 
 class TestDocumentGet(Base):
@@ -33,7 +33,7 @@ class TestDocumentGet(Base):
 class BaseDS(BaseDSAgreementWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = TEST_AGREEMENT
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
 
 class TestDocumentsCreate(BaseDS):

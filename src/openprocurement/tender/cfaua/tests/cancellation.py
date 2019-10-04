@@ -17,7 +17,7 @@ from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
 from openprocurement.tender.openeu.tests.cancellation import TenderCancellationBidsAvailabilityUtils
 from openprocurement.tender.openua.tests.cancellation_blanks import (
     create_tender_cancellation,
-    patch_tender_cancellation
+    patch_tender_cancellation,
 )
 from openprocurement.tender.cfaua.tests.cancellation_blanks import (
     # Cancellation tender
@@ -37,11 +37,7 @@ from openprocurement.tender.cfaua.tests.cancellation_blanks import (
     cancel_lot_active_qualification_stand_still,
     cancel_lot_active_awarded,
 )
-from openprocurement.tender.cfaua.tests.base import (
-    BaseTenderContentWebTest,
-    test_lots,
-    test_bids
-)
+from openprocurement.tender.cfaua.tests.base import BaseTenderContentWebTest, test_lots, test_bids
 
 no_award_logic = True
 one_lot_restriction = True
@@ -49,7 +45,7 @@ one_lot_restriction = True
 
 class TenderCancellationResourceTest(BaseTenderContentWebTest):
 
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
     test_create_tender_cancellation = snitch(create_tender_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_cancellation)
@@ -60,7 +56,7 @@ class TenderCancellationResourceTest(BaseTenderContentWebTest):
 
 class TenderLotCancellationResourceTest(BaseTenderContentWebTest):
     initial_lots = test_lots
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
     test_create_tender_cancellation = snitch(create_tender_lot_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_lot_cancellation)
@@ -68,15 +64,17 @@ class TenderLotCancellationResourceTest(BaseTenderContentWebTest):
 
 class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest):
 
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
         super(TenderCancellationDocumentResourceTest, self).setUp()
         # Create cancellation
-        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(
-            self.tender_id, self.tender_token), {'data': {'reason': 'cancellation reason'}})
-        cancellation = response.json['data']
-        self.cancellation_id = cancellation['id']
+        response = self.app.post_json(
+            "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": {"reason": "cancellation reason"}},
+        )
+        cancellation = response.json["data"]
+        self.cancellation_id = cancellation["id"]
 
     test_not_found = snitch(not_found)
     test_create_tender_cancellation_document = snitch(create_tender_cancellation_document)
@@ -85,7 +83,7 @@ class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest):
 
 
 class CancellationTenderAndLotOnAllStage(BaseTenderContentWebTest):
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     initial_bids = test_bids
     test_author = test_author
     # Cancellation tender
@@ -111,8 +109,6 @@ class CancellationTenderAndLotOnAllStage(BaseTenderContentWebTest):
     test_cancel_lot_active_awarded = snitch(cancel_lot_active_awarded)
 
 
-
-
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderCancellationDocumentResourceTest))
@@ -121,5 +117,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

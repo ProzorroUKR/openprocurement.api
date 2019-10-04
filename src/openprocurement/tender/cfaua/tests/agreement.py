@@ -4,11 +4,7 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.cfaua.tests.base import (
-    BaseTenderContentWebTest,
-    test_bids,
-    test_lots
-)
+from openprocurement.tender.cfaua.tests.base import BaseTenderContentWebTest, test_bids, test_lots
 from openprocurement.tender.cfaua.tests.agreement_blanks import (
     # TenderAgreementResourceTest
     agreement_cancellation,
@@ -45,16 +41,16 @@ class TenderAgreementDocumentResourceTestMixin(object):
 
 
 class TenderAgreementResourceTest(BaseTenderContentWebTest, TenderAgreementResourceTestMixin):
-    initial_status = 'active.awarded'
+    initial_status = "active.awarded"
     initial_bids = test_bids
     initial_lots = test_lots
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
         super(TenderAgreementResourceTest, self).setUp()
-        self.tender = self.app.get('/tenders/{}'.format(self.tender_id)).json['data']
-        self.agreement_id = self.tender['agreements'][0]['id']
-        self.contract_id = self.tender['agreements'][0]['contracts'][0]['id']
+        self.tender = self.app.get("/tenders/{}".format(self.tender_id)).json["data"]
+        self.agreement_id = self.tender["agreements"][0]["id"]
+        self.contract_id = self.tender["agreements"][0]["contracts"][0]["id"]
 
     test_agreement_termination = snitch(agreement_termination)
     test_agreement_cancellation = snitch(agreement_cancellation)
@@ -70,32 +66,32 @@ four_bids += [four_bids[0]]
 
 
 class TenderAgreement4ContractsResourceTest(BaseTenderContentWebTest):
-    initial_status = 'active.awarded'
+    initial_status = "active.awarded"
     initial_bids = four_bids
     initial_lots = test_lots
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
         super(TenderAgreement4ContractsResourceTest, self).setUp()
-        self.tender = self.app.get('/tenders/{}'.format(self.tender_id)).json['data']
-        self.agreement_id = self.tender['agreements'][0]['id']
+        self.tender = self.app.get("/tenders/{}".format(self.tender_id)).json["data"]
+        self.agreement_id = self.tender["agreements"][0]["id"]
 
     test_four_contracts_one_unsuccessful = snitch(four_contracts_one_unsuccessful)
 
 
 class TenderAgreementDocumentResourceTest(BaseTenderContentWebTest, TenderAgreementDocumentResourceTestMixin):
     # initial_data = tender_data
-    initial_status = 'active.awarded'
+    initial_status = "active.awarded"
     initial_bids = test_bids
     initial_lots = test_lots
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
         super(TenderAgreementDocumentResourceTest, self).setUp()
-        self.tender = self.app.get('/tenders/{}'.format(self.tender_id)).json['data']
-        self.agreement_id = self.tender['agreements'][0]['id']
-        self.contract_id = self.tender['agreements'][0]['contracts'][0]['id']
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.tender = self.app.get("/tenders/{}".format(self.tender_id)).json["data"]
+        self.agreement_id = self.tender["agreements"][0]["id"]
+        self.contract_id = self.tender["agreements"][0]["contracts"][0]["id"]
+        self.app.authorization = ("Basic", ("broker", ""))
 
 
 def suite():
@@ -106,5 +102,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

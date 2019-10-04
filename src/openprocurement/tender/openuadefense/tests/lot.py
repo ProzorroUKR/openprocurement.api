@@ -7,15 +7,12 @@ from openprocurement.tender.belowthreshold.tests.base import test_lots
 from openprocurement.tender.belowthreshold.tests.lot import (
     TenderLotResourceTestMixin,
     TenderLotFeatureResourceTestMixin,
-    TenderLotProcessTestMixin
+    TenderLotProcessTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.lot_blanks import tender_lot_milestones
 
 from openprocurement.tender.openua.tests.base import test_bids
-from openprocurement.tender.openua.tests.lot import (
-    TenderUALotResourceTestMixin,
-    TenderUALotProcessTestMixin
-)
+from openprocurement.tender.openua.tests.lot import TenderUALotResourceTestMixin, TenderUALotProcessTestMixin
 from openprocurement.tender.openua.tests.lot_blanks import (
     # TenderLotFeatureResourceTest
     create_tender_bidder_invalid,
@@ -25,10 +22,7 @@ from openprocurement.tender.openua.tests.lot_blanks import (
     create_tender_bidder_feature,
 )
 
-from openprocurement.tender.openuadefense.tests.base import (
-    BaseTenderUAContentWebTest,
-    test_tender_data
-)
+from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest, test_tender_data
 from openprocurement.tender.openuadefense.tests.lot_blanks import (
     # TenderLotEdgeCasesTest
     question_blocking,
@@ -81,67 +75,40 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
 
     def setUp(self):
         super(TenderLotFeatureBidderResourceTest, self).setUp()
-        self.lot_id = self.initial_lots[0]['id']
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), {"data": {
-            "items": [
-                {
-                    'relatedLot': self.lot_id,
-                    'id': '1'
+        self.lot_id = self.initial_lots[0]["id"]
+        response = self.app.patch_json(
+            "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+            {
+                "data": {
+                    "items": [{"relatedLot": self.lot_id, "id": "1"}],
+                    "features": [
+                        {
+                            "code": "code_item",
+                            "featureOf": "item",
+                            "relatedItem": "1",
+                            "title": u"item feature",
+                            "enum": [{"value": 0.01, "title": u"good"}, {"value": 0.02, "title": u"best"}],
+                        },
+                        {
+                            "code": "code_lot",
+                            "featureOf": "lot",
+                            "relatedItem": self.lot_id,
+                            "title": u"lot feature",
+                            "enum": [{"value": 0.01, "title": u"good"}, {"value": 0.02, "title": u"best"}],
+                        },
+                        {
+                            "code": "code_tenderer",
+                            "featureOf": "tenderer",
+                            "title": u"tenderer feature",
+                            "enum": [{"value": 0.01, "title": u"good"}, {"value": 0.02, "title": u"best"}],
+                        },
+                    ],
                 }
-            ],
-            "features": [
-                {
-                    "code": "code_item",
-                    "featureOf": "item",
-                    "relatedItem": "1",
-                    "title": u"item feature",
-                    "enum": [
-                        {
-                            "value": 0.01,
-                            "title": u"good"
-                        },
-                        {
-                            "value": 0.02,
-                            "title": u"best"
-                        }
-                    ]
-                },
-                {
-                    "code": "code_lot",
-                    "featureOf": "lot",
-                    "relatedItem": self.lot_id,
-                    "title": u"lot feature",
-                    "enum": [
-                        {
-                            "value": 0.01,
-                            "title": u"good"
-                        },
-                        {
-                            "value": 0.02,
-                            "title": u"best"
-                        }
-                    ]
-                },
-                {
-                    "code": "code_tenderer",
-                    "featureOf": "tenderer",
-                    "title": u"tenderer feature",
-                    "enum": [
-                        {
-                            "value": 0.01,
-                            "title": u"good"
-                        },
-                        {
-                            "value": 0.02,
-                            "title": u"best"
-                        }
-                    ]
-                }
-            ]
-        }})
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['data']['items'][0]['relatedLot'], self.lot_id)
+            },
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["data"]["items"][0]["relatedLot"], self.lot_id)
 
     test_create_tender_bidder_invalid = snitch(create_tender_bidder_feature_invalid)
     test_create_tender_bidder = snitch(create_tender_bidder_feature)
@@ -171,5 +138,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

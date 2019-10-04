@@ -62,7 +62,7 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest, TenderReso
       Check base work with tender. (crete, get, edit)
     """
 
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_data_eu
     test_lots_data = test_lots
     test_bids_data = test_bids
@@ -110,5 +110,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

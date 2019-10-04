@@ -1,9 +1,5 @@
 import unittest
-from openprocurement.agreement.cfaua.tests import (
-    agreement,
-    contract,
-    document
-)
+from openprocurement.agreement.cfaua.tests import agreement, contract, document
 
 
 def suite():
@@ -14,5 +10,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

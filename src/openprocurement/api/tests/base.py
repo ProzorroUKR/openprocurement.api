@@ -11,7 +11,7 @@ from types import FunctionType
 from openprocurement.api.constants import VERSION
 from openprocurement.api.design import sync_design
 
-COUCHBD_NAME_SETTING = 'couchdb.db_name'
+COUCHBD_NAME_SETTING = "couchdb.db_name"
 
 
 wsgiapp = None
@@ -33,15 +33,13 @@ def snitch(func):
         contains non-executable test functions) for tests and to include
         different set of functions into different test cases.
     """
-    return FunctionType(func.func_code, func.func_globals,
-                        'test_' + func.func_name, closure=func.func_closure)
+    return FunctionType(func.func_code, func.func_globals, "test_" + func.func_name, closure=func.func_closure)
 
 
 class PrefixedTestRequest(webtest.app.TestRequest):
-
     @classmethod
     def blank(cls, path, *args, **kwargs):
-        path = '/api/%s%s' % (VERSION, path)
+        path = "/api/%s%s" % (VERSION, path)
         return webtest.app.TestRequest.blank(path, *args, **kwargs)
 
 
@@ -60,7 +58,7 @@ class BaseTestApp(webtest.TestApp):
         return self.create_db()
 
     def create_db(self):
-        db_name = os.environ.get('DB_NAME', self.app.registry.settings[COUCHBD_NAME_SETTING])
+        db_name = os.environ.get("DB_NAME", self.app.registry.settings[COUCHBD_NAME_SETTING])
         self.app.registry.db = self.app.registry.couchdb_server.create(db_name)
         sync_design(self.app.registry.db)
         return self.app.registry.db
@@ -76,6 +74,7 @@ class BaseWebTest(unittest.TestCase):
     Base Web Test to test openprocurement.api.
     It setups the database before each test and delete it after.
     """
+
     AppClass = BaseTestApp
 
     relative_uri = "config:tests.ini"

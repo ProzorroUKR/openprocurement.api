@@ -1,17 +1,12 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from openprocurement.api.migration import (
-    migrate_data, get_db_schema_version
-)
-from openprocurement.api.constants import (
-    SCHEMA_VERSION
-)
+from openprocurement.api.migration import migrate_data, get_db_schema_version
+from openprocurement.api.constants import SCHEMA_VERSION
 from openprocurement.api.tests.base import BaseWebTest
 
 
 class MigrateTest(BaseWebTest):
-
     def setUp(self):
         super(MigrateTest, self).setUp()
         migrate_data(self.app.app.registry)
@@ -28,5 +23,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

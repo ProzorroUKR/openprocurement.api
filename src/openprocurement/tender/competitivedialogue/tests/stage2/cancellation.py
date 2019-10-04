@@ -9,11 +9,11 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_bids,
     test_shortlistedFirms,
     BaseCompetitiveDialogEUStage2ContentWebTest,
-    BaseCompetitiveDialogUAStage2ContentWebTest
+    BaseCompetitiveDialogUAStage2ContentWebTest,
 )
 from openprocurement.tender.belowthreshold.tests.cancellation import (
     TenderCancellationResourceTestMixin,
-    TenderCancellationDocumentResourceTestMixin
+    TenderCancellationDocumentResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     # TenderStage2LotCancellationResourceTest
@@ -29,11 +29,13 @@ from openprocurement.tender.competitivedialogue.tests.stage2.cancellation_blanks
 
 
 for bid in test_bids:
-    bid['tenderers'][0]['identifier']['id'] = test_shortlistedFirms[0]['identifier']['id']
-    bid['tenderers'][0]['identifier']['scheme'] = test_shortlistedFirms[0]['identifier']['scheme']
+    bid["tenderers"][0]["identifier"]["id"] = test_shortlistedFirms[0]["identifier"]["id"]
+    bid["tenderers"][0]["identifier"]["scheme"] = test_shortlistedFirms[0]["identifier"]["scheme"]
 
 
-class TenderStage2EUCancellationResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest, TenderCancellationResourceTestMixin):
+class TenderStage2EUCancellationResourceTest(
+    BaseCompetitiveDialogEUStage2ContentWebTest, TenderCancellationResourceTestMixin
+):
     pass
 
 
@@ -55,26 +57,30 @@ class TenderStage2EULotsCancellationResourceTest(BaseCompetitiveDialogEUStage2Co
     test_cancellation_active_qualification_j1427 = snitch(cancellation_active_qualification_j1427)
 
 
-class TenderStage2EUCancellationDocumentResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest, TenderCancellationDocumentResourceTestMixin):
-
+class TenderStage2EUCancellationDocumentResourceTest(
+    BaseCompetitiveDialogEUStage2ContentWebTest, TenderCancellationDocumentResourceTestMixin
+):
     def setUp(self):
         super(TenderStage2EUCancellationDocumentResourceTest, self).setUp()
         # Create cancellation
-        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id,
-                                                                                      self.tender_token),
-                                      {'data': {'reason': 'cancellation reason'}})
-        cancellation = response.json['data']
-        self.cancellation_id = cancellation['id']
+        response = self.app.post_json(
+            "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": {"reason": "cancellation reason"}},
+        )
+        cancellation = response.json["data"]
+        self.cancellation_id = cancellation["id"]
 
 
-class TenderStage2UACancellationResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest, TenderCancellationResourceTestMixin):
+class TenderStage2UACancellationResourceTest(
+    BaseCompetitiveDialogUAStage2ContentWebTest, TenderCancellationResourceTestMixin
+):
 
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
 
 class TenderStage2UALotCancellationResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
     initial_lots = test_lots
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
     test_create_tender_cancellation = snitch(create_tender_lot_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_lot_cancellation)
@@ -82,24 +88,27 @@ class TenderStage2UALotCancellationResourceTest(BaseCompetitiveDialogUAStage2Con
 
 class TenderStage2UALotsCancellationResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
     initial_lots = 2 * test_lots
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
     test_create_tender_cancellation = snitch(create_tender_lots_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_lots_cancellation)
 
 
-class TenderStage2UACancellationDocumentResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest, TenderCancellationDocumentResourceTestMixin):
+class TenderStage2UACancellationDocumentResourceTest(
+    BaseCompetitiveDialogUAStage2ContentWebTest, TenderCancellationDocumentResourceTestMixin
+):
 
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
         super(TenderStage2UACancellationDocumentResourceTest, self).setUp()
         # Create cancellation
-        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(self.tender_id,
-                                                                                      self.tender_token),
-                                      {'data': {'reason': 'cancellation reason'}})
-        cancellation = response.json['data']
-        self.cancellation_id = cancellation['id']
+        response = self.app.post_json(
+            "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": {"reason": "cancellation reason"}},
+        )
+        cancellation = response.json["data"]
+        self.cancellation_id = cancellation["id"]
 
 
 def suite():
@@ -115,5 +124,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

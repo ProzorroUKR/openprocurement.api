@@ -1,48 +1,35 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import (
-    json_view,
-    context_unpack,
-    get_now,
-    raise_operation_error
-)
-from openprocurement.tender.core.utils import (
-    optendersresource,
-    save_tender,
-    apply_patch,
-    calculate_business_date
-)
+from openprocurement.api.utils import json_view, context_unpack, get_now, raise_operation_error
+from openprocurement.tender.core.utils import optendersresource, save_tender, apply_patch, calculate_business_date
 from openprocurement.tender.core.validation import (
     validate_tender_period_extension,
     validate_tender_status_update_in_terminated_status,
-    validate_tender_status_update_not_in_pre_qualificaton
+    validate_tender_status_update_not_in_pre_qualificaton,
 )
 from openprocurement.tender.openua.views.tender import TenderUAResource
 from openprocurement.tender.openeu.views.tender import TenderEUResource
-from openprocurement.tender.openeu.constants import (
-    PREQUALIFICATION_COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL
-)
-from openprocurement.tender.openeu.utils import (
-    check_status as check_status_eu, all_bids_are_reviewed
-)
+from openprocurement.tender.openeu.constants import PREQUALIFICATION_COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL
+from openprocurement.tender.openeu.utils import check_status as check_status_eu, all_bids_are_reviewed
 from openprocurement.tender.openua.utils import check_status as check_status_ua
-from openprocurement.tender.competitivedialogue.validation import (
-    validate_patch_tender_stage2_data
-)
-from openprocurement.tender.competitivedialogue.constants import (
-    STAGE_2_EU_TYPE, STAGE_2_UA_TYPE, STAGE2_STATUS
-)
+from openprocurement.tender.competitivedialogue.validation import validate_patch_tender_stage2_data
+from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE, STAGE2_STATUS
 from openprocurement.tender.core.events import TenderInitializeEvent
 
 
-@optendersresource(name='{}:Tender'.format(STAGE_2_UA_TYPE),
-                   path='/tenders/{tender_id}',
-                   procurementMethodType=STAGE_2_UA_TYPE,
-                   description="")
+@optendersresource(
+    name="{}:Tender".format(STAGE_2_UA_TYPE),
+    path="/tenders/{tender_id}",
+    procurementMethodType=STAGE_2_UA_TYPE,
+    description="",
+)
 class TenderStage2UAResource(TenderUAResource):
     """ Resource handler for tender stage 2 UA"""
 
-    @json_view(content_type="application/json", validators=(validate_patch_tender_stage2_data, validate_tender_status_update_in_terminated_status),
-               permission='edit_tender')
+    @json_view(
+        content_type="application/json",
+        validators=(validate_patch_tender_stage2_data, validate_tender_status_update_in_terminated_status),
+        permission="edit_tender",
+    )
     def patch(self):
         """Tender Edit (partial)
 
@@ -92,37 +79,51 @@ class TenderStage2UAResource(TenderUAResource):
 
         """
         tender = self.context
-        data = self.request.validated['data']
+        data = self.request.validated["data"]
 
-        if self.request.authenticated_role == 'tender_owner' and \
-                self.request.validated['tender_status'] in ['active.tendering', STAGE2_STATUS]:
-            if 'tenderPeriod' in data and 'endDate' in data['tenderPeriod']:
-                self.request.validated['tender'].tenderPeriod.import_data(data['tenderPeriod'])
+        if self.request.authenticated_role == "tender_owner" and self.request.validated["tender_status"] in [
+            "active.tendering",
+            STAGE2_STATUS,
+        ]:
+            if "tenderPeriod" in data and "endDate" in data["tenderPeriod"]:
+                self.request.validated["tender"].tenderPeriod.import_data(data["tenderPeriod"])
                 validate_tender_period_extension(self.request)
-                self.request.registry.notify(TenderInitializeEvent(self.request.validated['tender']))
-                self.request.validated['data']["enquiryPeriod"] = self.request.validated['tender'].enquiryPeriod.serialize()
+                self.request.registry.notify(TenderInitializeEvent(self.request.validated["tender"]))
+                self.request.validated["data"]["enquiryPeriod"] = self.request.validated[
+                    "tender"
+                ].enquiryPeriod.serialize()
 
-        apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
-        if self.request.authenticated_role == 'chronograph':
+        apply_patch(self.request, save=False, src=self.request.validated["tender_src"])
+        if self.request.authenticated_role == "chronograph":
             check_status_ua(self.request)
-        elif self.request.authenticated_role == 'tender_owner' and tender.status == 'active.tendering':
+        elif self.request.authenticated_role == "tender_owner" and tender.status == "active.tendering":
             # invalidate bids on tender change
             tender.invalidate_bids_data()
         save_tender(self.request)
-        self.LOGGER.info('Updated tender {}'.format(tender.id),
-                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_patch'}))
-        return {'data': tender.serialize(tender.status)}
+        self.LOGGER.info(
+            "Updated tender {}".format(tender.id), extra=context_unpack(self.request, {"MESSAGE_ID": "tender_patch"})
+        )
+        return {"data": tender.serialize(tender.status)}
 
 
-@optendersresource(name='{}:Tender'.format(STAGE_2_EU_TYPE),
-                   path='/tenders/{tender_id}',
-                   procurementMethodType=STAGE_2_EU_TYPE,
-                   description="")
+@optendersresource(
+    name="{}:Tender".format(STAGE_2_EU_TYPE),
+    path="/tenders/{tender_id}",
+    procurementMethodType=STAGE_2_EU_TYPE,
+    description="",
+)
 class TenderStage2UEResource(TenderEUResource):
     """ Resource handler for tender stage 2 EU"""
 
-    @json_view(content_type="application/json", validators=(validate_patch_tender_stage2_data, validate_tender_status_update_in_terminated_status,
-               validate_tender_status_update_not_in_pre_qualificaton), permission='edit_tender')
+    @json_view(
+        content_type="application/json",
+        validators=(
+            validate_patch_tender_stage2_data,
+            validate_tender_status_update_in_terminated_status,
+            validate_tender_status_update_not_in_pre_qualificaton,
+        ),
+        permission="edit_tender",
+    )
     def patch(self):
         """Tender Edit (partial)
 
@@ -172,31 +173,42 @@ class TenderStage2UEResource(TenderEUResource):
 
         """
         tender = self.context
-        data = self.request.validated['data']
-        if self.request.authenticated_role == 'tender_owner' and \
-                self.request.validated['tender_status'] in ['active.tendering', STAGE2_STATUS]:
-            if 'tenderPeriod' in data and 'endDate' in data['tenderPeriod']:
-                self.request.validated['tender'].tenderPeriod.import_data(data['tenderPeriod'])
+        data = self.request.validated["data"]
+        if self.request.authenticated_role == "tender_owner" and self.request.validated["tender_status"] in [
+            "active.tendering",
+            STAGE2_STATUS,
+        ]:
+            if "tenderPeriod" in data and "endDate" in data["tenderPeriod"]:
+                self.request.validated["tender"].tenderPeriod.import_data(data["tenderPeriod"])
                 validate_tender_period_extension(self.request)
-                self.request.registry.notify(TenderInitializeEvent(self.request.validated['tender']))
-                self.request.validated['data']["enquiryPeriod"] = self.request.validated['tender'].enquiryPeriod.serialize()
+                self.request.registry.notify(TenderInitializeEvent(self.request.validated["tender"]))
+                self.request.validated["data"]["enquiryPeriod"] = self.request.validated[
+                    "tender"
+                ].enquiryPeriod.serialize()
 
-        apply_patch(self.request, save=False, src=self.request.validated['tender_src'])
-        if self.request.authenticated_role == 'chronograph':
+        apply_patch(self.request, save=False, src=self.request.validated["tender_src"])
+        if self.request.authenticated_role == "chronograph":
             check_status_eu(self.request)
-        elif self.request.authenticated_role == 'tender_owner' and tender.status == 'active.tendering':
+        elif self.request.authenticated_role == "tender_owner" and tender.status == "active.tendering":
             tender.invalidate_bids_data()
-        elif self.request.authenticated_role == 'tender_owner' and \
-                self.request.validated['tender_status'] == 'active.pre-qualification' and \
-                tender.status == "active.pre-qualification.stand-still":
+        elif (
+            self.request.authenticated_role == "tender_owner"
+            and self.request.validated["tender_status"] == "active.pre-qualification"
+            and tender.status == "active.pre-qualification.stand-still"
+        ):
             if all_bids_are_reviewed(self.request):
-                tender.qualificationPeriod.endDate = calculate_business_date(get_now(), COMPLAINT_STAND_STILL,
-                                                                             self.request.validated['tender'])
+                tender.qualificationPeriod.endDate = calculate_business_date(
+                    get_now(), COMPLAINT_STAND_STILL, self.request.validated["tender"]
+                )
                 tender.check_auction_time()
             else:
-                raise_operation_error(self.request, 'Can\'t switch to \'active.pre-qualification.stand-still\' while not all bids are qualified')
+                raise_operation_error(
+                    self.request,
+                    "Can't switch to 'active.pre-qualification.stand-still' while not all bids are qualified",
+                )
 
         save_tender(self.request)
-        self.LOGGER.info('Updated tender {}'.format(tender.id),
-                         extra=context_unpack(self.request, {'MESSAGE_ID': 'tender_patch'}))
-        return {'data': tender.serialize(tender.status)}
+        self.LOGGER.info(
+            "Updated tender {}".format(tender.id), extra=context_unpack(self.request, {"MESSAGE_ID": "tender_patch"})
+        )
+        return {"data": tender.serialize(tender.status)}

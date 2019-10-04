@@ -27,7 +27,7 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogUAContentWebTest,
     BaseCompetitiveDialogEUContentWebTest,
     test_lots,
-    test_bids
+    test_bids,
 )
 from openprocurement.tender.competitivedialogue.tests.stage1.question_blanks import (
     # CompetitiveDialogEUQuestionResourceTest
@@ -55,7 +55,7 @@ class CompetitiveDialogUAQLotQuestionResourceTest(BaseCompetitiveDialogUAContent
 
 class CompetitiveDialogEUQuestionResourceTest(BaseCompetitiveDialogEUContentWebTest):
 
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     test_bids_data = test_bids  # TODO: change attribute identifier
     author_data = test_author
 
@@ -68,7 +68,7 @@ class CompetitiveDialogEUQuestionResourceTest(BaseCompetitiveDialogEUContentWebT
 
 class CompetitiveDialogEULotQuestionResourceTest(BaseCompetitiveDialogEUContentWebTest):
     initial_lots = 2 * test_lots
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     test_bids_data = test_bids  # TODO: change attribute identifier
     author_data = test_author
 
@@ -86,5 +86,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

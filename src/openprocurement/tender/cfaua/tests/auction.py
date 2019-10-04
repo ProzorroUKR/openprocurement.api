@@ -14,7 +14,6 @@ from openprocurement.tender.belowthreshold.tests.auction_blanks import (
 )
 
 
-
 from openprocurement.tender.cfaua.tests.base import (
     BaseTenderContentWebTest,
     test_features_tender_data,
@@ -31,10 +30,9 @@ from openprocurement.tender.cfaua.tests.auction_blanks import (
 )
 
 
-
 class AuctionViewTests(BaseTenderContentWebTest):
     initial_bids = test_bids
-    initial_status = 'active.pre-qualification.stand-still'
+    initial_status = "active.pre-qualification.stand-still"
 
     test_get_tender_auction_not_found = snitch(get_tender_auction_not_found)
     test_get_tender_lot_auction = snitch(get_tender_lot_auction)
@@ -43,25 +41,27 @@ class AuctionViewTests(BaseTenderContentWebTest):
     test_post_tender_lot_auction_document = snitch(post_tender_lot_auction_document)
     test_tender_go_to_awarded_with_one_lot = snitch(tender_go_to_awarded_with_one_lot)
 
+
 class AuctionWithBidsOverMaxAwardsTests(BaseTenderContentWebTest):
     """Testing auction with bids over max awards"""
+
     initial_bids = test_bids + deepcopy(test_bids)
-    initial_status = 'active.pre-qualification.stand-still'
+    initial_status = "active.pre-qualification.stand-still"
 
     test_post_tender_auction_all_awards_pending = snitch(post_tender_auction_all_awards_pending)
 
 
-
 class AuctionFeaturesOnPreQualificationStandStillTests(BaseTenderContentWebTest):
-    initial_status = 'active.pre-qualification.stand-still'
+    initial_status = "active.pre-qualification.stand-still"
     initial_data = test_features_tender_data
     initial_bids = test_features_bids
 
     test_get_tender_lot_auction_features = snitch(get_tender_lot_auction_features)
     test_post_tender_lot_auction_features = snitch(post_tender_lot_auction_features)
 
+
 class AuctionFeaturesOnActiveAuctionTests(BaseTenderContentWebTest):
-    initial_status = 'active.auction'
+    initial_status = "active.auction"
     initial_data = test_features_tender_data
     initial_bids = test_features_bids_same_amount
 
@@ -78,5 +78,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

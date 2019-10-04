@@ -2,9 +2,7 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import (
-    TenderContentWebTest, test_lots, test_author
-)
+from openprocurement.tender.belowthreshold.tests.base import TenderContentWebTest, test_lots, test_author
 from openprocurement.tender.belowthreshold.tests.question_blanks import (
     # TenderQuestionResourceTest
     create_tender_question_invalid,
@@ -16,7 +14,7 @@ from openprocurement.tender.belowthreshold.tests.question_blanks import (
     lot_create_tender_question,
     lot_patch_tender_question,
     lot_patch_tender_question_lots_none,
-    lot_patch_tender_question_items_none
+    lot_patch_tender_question_items_none,
 )
 
 
@@ -49,5 +47,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

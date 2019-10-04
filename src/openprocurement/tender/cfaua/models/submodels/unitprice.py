@@ -9,7 +9,7 @@ from openprocurement.tender.cfaua.models.submodels.value import Value as BaseVal
 
 class Value(BaseValue):
 
-    amount = DecimalType(precision=-2, min_value=Decimal('0.0'))
+    amount = DecimalType(precision=-2, min_value=Decimal("0.0"))
 
     def validate_amount(self, data, amount):
         pass

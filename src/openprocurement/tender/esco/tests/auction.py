@@ -7,7 +7,7 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.auction import (
     TenderAuctionResourceTestMixin,
     TenderLotAuctionResourceTestMixin,
-    TenderMultipleLotAuctionResourceTestMixin
+    TenderMultipleLotAuctionResourceTestMixin,
 )
 
 from openprocurement.tender.openeu.tests.auction_blanks import (
@@ -56,36 +56,38 @@ def prepare_for_auction(self):
     """
 
     # switch to active.pre-qualification
-    self.time_shift('active.pre-qualification')
-    self.app.authorization = ('Basic', ('chronograph', ''))
-    response = self.app.patch_json('/tenders/{}'.format(
-        self.tender_id), {"data": {"id": self.tender_id}})
+    self.time_shift("active.pre-qualification")
+    self.app.authorization = ("Basic", ("chronograph", ""))
+    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json['data']['status'], "active.pre-qualification")
+    self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
-    self.app.authorization = ('Basic', ('broker', ''))
-    response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(
-        self.tender_id, self.tender_token))
-    for qualific in response.json['data']:
-        response = self.app.patch_json('/tenders/{}/qualifications/{}?acc_token={}'.format(
-            self.tender_id, qualific['id'], self.tender_token), {'data': {
-                "status": "active", "qualified": True, "eligible": True}})
-        self.assertEqual(response.status, '200 OK')
+    self.app.authorization = ("Basic", ("broker", ""))
+    response = self.app.get("/tenders/{}/qualifications?acc_token={}".format(self.tender_id, self.tender_token))
+    for qualific in response.json["data"]:
+        response = self.app.patch_json(
+            "/tenders/{}/qualifications/{}?acc_token={}".format(self.tender_id, qualific["id"], self.tender_token),
+            {"data": {"status": "active", "qualified": True, "eligible": True}},
+        )
+        self.assertEqual(response.status, "200 OK")
 
     # switch to active.pre-qualification.stand-still
-    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
-        self.tender_id, self.tender_token), {"data": {
-            "status": "active.pre-qualification.stand-still"}})
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"status": "active.pre-qualification.stand-still"}},
+    )
     self.assertEqual(response.status, "200 OK")
 
 
 class TenderAuctionResourceTest(BaseESCOContentWebTest, TenderAuctionResourceTestMixin):
-    #initial_data = tender_data
-    initial_auth = ('Basic', ('broker', ''))
+    # initial_data = tender_data
+    initial_auth = ("Basic", ("broker", ""))
     initial_bids = test_bids
-    initial_bids[1]['value'] = {'yearlyPaymentsPercentage': 0.9,
-                                'annualCostsReduction': [100] * 21,
-                                'contractDuration': {'years': 10, 'days': 10}}
+    initial_bids[1]["value"] = {
+        "yearlyPaymentsPercentage": 0.9,
+        "annualCostsReduction": [100] * 21,
+        "contractDuration": {"years": 10, "days": 10},
+    }
 
     def setUp(self):
         super(TenderAuctionResourceTest, self).setUp()
@@ -96,18 +98,18 @@ class TenderAuctionResourceTest(BaseESCOContentWebTest, TenderAuctionResourceTes
 
 
 class TenderSameValueAuctionResourceTest(BaseESCOContentWebTest):
-    initial_status = 'active.auction'
-    tenderer_info = deepcopy(test_bids[0]['tenderers'])
+    initial_status = "active.auction"
+    tenderer_info = deepcopy(test_bids[0]["tenderers"])
     initial_bids = [
         {
             "tenderers": tenderer_info,
             "value": {
-                'yearlyPaymentsPercentage': 0.9,
-                'annualCostsReduction': [751.5] * 21,
-                'contractDuration': {'years': 10, 'days': 10}
+                "yearlyPaymentsPercentage": 0.9,
+                "annualCostsReduction": [751.5] * 21,
+                "contractDuration": {"years": 10, "days": 10},
             },
-            'selfQualified': True,
-            'selfEligible': True
+            "selfQualified": True,
+            "selfEligible": True,
         }
         for i in range(3)
     ]
@@ -115,35 +117,35 @@ class TenderSameValueAuctionResourceTest(BaseESCOContentWebTest):
     def setUp(self):
         super(TenderSameValueAuctionResourceTest, self).setUp()
         # switch to active.pre-qualification
-        self.set_status('active.pre-qualification', {'status': 'active.tendering'})
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(
-            self.tender_id), {"data": {"id": self.tender_id}})
+        self.set_status("active.pre-qualification", {"status": "active.tendering"})
+        self.app.authorization = ("Basic", ("chronograph", ""))
+        response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
         self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.json['data']['status'], "active.pre-qualification")
+        self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
-        self.app.authorization = ('Basic', ('token', ''))
-        response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
-        for qualific in response.json['data']:
-            response = self.app.patch_json('/tenders/{}/qualifications/{}'.format(
-                self.tender_id, qualific['id']), {'data': {
-                    "status": "active", "qualified": True, "eligible": True}})
-            self.assertEqual(response.status, '200 OK')
+        self.app.authorization = ("Basic", ("token", ""))
+        response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
+        for qualific in response.json["data"]:
+            response = self.app.patch_json(
+                "/tenders/{}/qualifications/{}".format(self.tender_id, qualific["id"]),
+                {"data": {"status": "active", "qualified": True, "eligible": True}},
+            )
+            self.assertEqual(response.status, "200 OK")
 
         # switch to active.pre-qualification.stand-still
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
-            self.tender_id, self.tender_token), {"data": {
-                "status": "active.pre-qualification.stand-still"}})
+        response = self.app.patch_json(
+            "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": {"status": "active.pre-qualification.stand-still"}},
+        )
         self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.json['data']['status'], "active.pre-qualification.stand-still")
+        self.assertEqual(response.json["data"]["status"], "active.pre-qualification.stand-still")
 
         # switch to active.auction
-        self.set_status('active.auction', {'status': 'active.pre-qualification.stand-still'})
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json('/tenders/{}'.format(
-            self.tender_id), {"data": {"id": self.tender_id}})
+        self.set_status("active.auction", {"status": "active.pre-qualification.stand-still"})
+        self.app.authorization = ("Basic", ("chronograph", ""))
+        response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
         self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.json['data']['status'], "active.auction")
+        self.assertEqual(response.json["data"]["status"], "active.auction")
         # self.app.authorization = ('Basic', ('token', ''))
 
     test_post_tender_auction_not_changed = snitch(post_tender_auction_not_changed)
@@ -151,8 +153,8 @@ class TenderSameValueAuctionResourceTest(BaseESCOContentWebTest):
 
 
 class TenderAuctionFieldsTest(BaseESCOContentWebTest):
-    #initial_data = tender_data
-    initial_auth = ('Basic', ('broker', ''))
+    # initial_data = tender_data
+    initial_auth = ("Basic", ("broker", ""))
     initial_bids = test_bids
 
     def setUp(self):
@@ -163,16 +165,14 @@ class TenderAuctionFieldsTest(BaseESCOContentWebTest):
     test_auction_check_noticePublicationDate = snitch(auction_check_noticePublicationDate)
 
 
-class TenderLotAuctionResourceTest(TenderLotAuctionResourceTestMixin,
-                                   TenderAuctionResourceTest):
+class TenderLotAuctionResourceTest(TenderLotAuctionResourceTestMixin, TenderAuctionResourceTest):
     initial_lots = test_lots
     # initial_data = test_tender_data
     test_get_tender_auction = snitch(get_tender_lot_auction)
     test_post_tender_auction = snitch(post_tender_lot_auction)
 
 
-class TenderMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestMixin,
-                                           TenderAuctionResourceTest):
+class TenderMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestMixin, TenderAuctionResourceTest):
     initial_lots = 2 * test_lots
 
     test_get_tender_auction = snitch(get_tender_lots_auction)
@@ -182,42 +182,30 @@ class TenderMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestM
 
 class TenderFeaturesAuctionResourceTest(BaseESCOContentWebTest):
     initial_data = test_features_tender_data
-    tenderer_info = deepcopy(test_bids[0]['tenderers'])
+    tenderer_info = deepcopy(test_bids[0]["tenderers"])
     initial_bids = [
         {
-            "parameters": [
-                {
-                    "code": i["code"],
-                    "value": 0.03,
-                }
-                for i in test_features_tender_data['features']
-            ],
+            "parameters": [{"code": i["code"], "value": 0.03} for i in test_features_tender_data["features"]],
             "tenderers": tenderer_info,
             "value": {
-                'yearlyPaymentsPercentage': 0.9,
-                'annualCostsReduction': [100] * 21,
-                'contractDuration': {'years': 10}
+                "yearlyPaymentsPercentage": 0.9,
+                "annualCostsReduction": [100] * 21,
+                "contractDuration": {"years": 10},
             },
-            'selfQualified': True,
-            'selfEligible': True
+            "selfQualified": True,
+            "selfEligible": True,
         },
         {
-            "parameters": [
-                {
-                    "code": i["code"],
-                    "value": 0.07,
-                }
-                for i in test_features_tender_data['features']
-            ],
+            "parameters": [{"code": i["code"], "value": 0.07} for i in test_features_tender_data["features"]],
             "tenderers": tenderer_info,
             "value": {
-                'yearlyPaymentsPercentage': 0.9,
-                'annualCostsReduction': [100] * 21,
-                'contractDuration': {'years': 10}
+                "yearlyPaymentsPercentage": 0.9,
+                "annualCostsReduction": [100] * 21,
+                "contractDuration": {"years": 10},
             },
-            'selfQualified': True,
-            'selfEligible': True
-        }
+            "selfQualified": True,
+            "selfEligible": True,
+        },
     ]
 
     def setUp(self):
@@ -228,8 +216,7 @@ class TenderFeaturesAuctionResourceTest(BaseESCOContentWebTest):
     test_post_tender_auction = snitch(post_tender_auction_feature)
 
 
-class TenderFeaturesLotAuctionResourceTest(TenderLotAuctionResourceTestMixin,
-                                           TenderFeaturesAuctionResourceTest):
+class TenderFeaturesLotAuctionResourceTest(TenderLotAuctionResourceTestMixin, TenderFeaturesAuctionResourceTest):
     initial_data = test_features_tender_data
     initial_lots = test_lots
 
@@ -237,8 +224,9 @@ class TenderFeaturesLotAuctionResourceTest(TenderLotAuctionResourceTestMixin,
     test_post_tender_auction = snitch(post_tender_lot_auction_feature)
 
 
-class TenderFeaturesMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestMixin,
-                                                   TenderFeaturesAuctionResourceTest):
+class TenderFeaturesMultipleLotAuctionResourceTest(
+    TenderMultipleLotAuctionResourceTestMixin, TenderFeaturesAuctionResourceTest
+):
     initial_data = test_features_tender_data
     initial_lots = 2 * test_lots
 
@@ -257,5 +245,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

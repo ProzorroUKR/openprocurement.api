@@ -6,7 +6,19 @@ class TenderAwardPeriodValidate(object):
         self.context = tender
 
     def __call__(self, cls, data, period):
-        if period and period.startDate and data.get('auctionPeriod') and data.get('auctionPeriod').endDate and period.startDate < data.get('auctionPeriod').endDate:
+        if (
+            period
+            and period.startDate
+            and data.get("auctionPeriod")
+            and data.get("auctionPeriod").endDate
+            and period.startDate < data.get("auctionPeriod").endDate
+        ):
             raise ValidationError(u"period should begin after auctionPeriod")
-        if period and period.startDate and data.get('tenderPeriod') and data.get('tenderPeriod').endDate and period.startDate < data.get('tenderPeriod').endDate:
+        if (
+            period
+            and period.startDate
+            and data.get("tenderPeriod")
+            and data.get("tenderPeriod").endDate
+            and period.startDate < data.get("tenderPeriod").endDate
+        ):
             raise ValidationError(u"period should begin after tenderPeriod")

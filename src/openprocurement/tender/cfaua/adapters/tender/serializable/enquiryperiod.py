@@ -11,10 +11,13 @@ class SerializableTenderEnquiryPeriod(Serializable):
 
     def __call__(self, obj, *args, **kwargs):
         configurator = getAdapter(obj, IContentConfigurator)
-        enquiryPeriod_class = obj._fields['enquiryPeriod']
+        enquiryPeriod_class = obj._fields["enquiryPeriod"]
         endDate = calculate_business_date(obj.tenderPeriod.endDate, -configurator.questions_stand_still, obj)
-        return enquiryPeriod_class(dict(
-            startDate=obj.tenderPeriod.startDate,
-            endDate=endDate,
-            invalidationDate=obj.enquiryPeriod and obj.enquiryPeriod.invalidationDate,
-            clarificationsUntil=calculate_business_date(endDate, configurator.enquiry_stand_still, obj, True)))
+        return enquiryPeriod_class(
+            dict(
+                startDate=obj.tenderPeriod.startDate,
+                endDate=endDate,
+                invalidationDate=obj.enquiryPeriod and obj.enquiryPeriod.invalidationDate,
+                clarificationsUntil=calculate_business_date(endDate, configurator.enquiry_stand_still, obj, True),
+            )
+        )

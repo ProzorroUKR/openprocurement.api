@@ -11,21 +11,15 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUWebTest,
     test_tender_stage2_data_ua,
     test_tender_stage2_data_eu,
-    test_author
+    test_author,
 )
-from openprocurement.tender.openeu.tests.base import (
-    test_tender_data,
-    test_lots,
-    test_bids
-)
+from openprocurement.tender.openeu.tests.base import test_tender_data, test_lots, test_bids
 from openprocurement.tender.belowthreshold.tests.lot_blanks import (
     # TenderStage2EU(UA)LotFeatureResourceTest
     tender_value,
     tender_features_invalid,
 )
-from openprocurement.tender.openeu.tests.lot import (
-    TenderLotEdgeCasesTestMixin
-)
+from openprocurement.tender.openeu.tests.lot import TenderLotEdgeCasesTestMixin
 from openprocurement.tender.competitivedialogue.tests.stage2.lot_blanks import (
     # TenderStage2EU(UA)LotResourceTest
     create_tender_lot_invalid,
@@ -74,12 +68,12 @@ from openprocurement.tender.competitivedialogue.tests.stage2.lot_blanks import (
 
 
 class TenderStage2EULotResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     initial_lots = [deepcopy(test_lots[0]) for i in range(3)]
 
     def setUp(self):
         super(BaseCompetitiveDialogEUStage2ContentWebTest, self).setUp()
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
 
     test_create_tender_lot_invalid = snitch(create_tender_lot_invalid)
     test_patch_tender_lot = snitch(patch_tender_lot)
@@ -93,15 +87,15 @@ class TenderStage2EULotResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest)
 
 
 class TenderStage2EULotEdgeCasesTest(BaseCompetitiveDialogEUStage2ContentWebTest, TenderLotEdgeCasesTestMixin):
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     initial_lots = [deepcopy(test_lots[0]) for i in range(2)]
 
     def setUp(self):
-        identifier = self.initial_data['shortlistedFirms'][0]['identifier']
+        identifier = self.initial_data["shortlistedFirms"][0]["identifier"]
         s2_bids = [deepcopy(bid) for bid in test_bids]
         for bid in s2_bids:
-            bid['tenderers'][0]['identifier']['id'] = identifier['id']
-            bid['tenderers'][0]['identifier']['scheme'] = identifier['scheme']
+            bid["tenderers"][0]["identifier"]["id"] = identifier["id"]
+            bid["tenderers"][0]["identifier"]["scheme"] = identifier["scheme"]
         self.initial_bids = s2_bids
         self.test_author = test_author
         super(TenderStage2EULotEdgeCasesTest, self).setUp()
@@ -109,7 +103,7 @@ class TenderStage2EULotEdgeCasesTest(BaseCompetitiveDialogEUStage2ContentWebTest
 
 class TenderStage2EULotFeatureResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
     initial_lots = [deepcopy(test_lots[0]) for i in range(2)]
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     invalid_feature_value = 1
     max_feature_value = 0.99
     sum_of_max_value_of_all_features = 0.99
@@ -120,7 +114,7 @@ class TenderStage2EULotFeatureResourceTest(BaseCompetitiveDialogEUStage2ContentW
 
 class TenderStage2EULotBidderResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
     initial_lots = deepcopy(test_lots)
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     test_bids_data = test_bids  # TODO: change attribute identifier
 
     test_create_tender_bidder_invalid = snitch(create_tender_bidder_invalid)
@@ -129,55 +123,28 @@ class TenderStage2EULotBidderResourceTest(BaseCompetitiveDialogEUStage2ContentWe
 
 class TenderStage2EULotFeatureBidderResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
     initial_lots = deepcopy(test_lots)
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     initial_features = [
         {
             "code": "code_item",
             "featureOf": "item",
             "relatedItem": "1",
             "title": u"item feature",
-            "enum": [
-                {
-                    "value": 0.01,
-                    "title": u"good"
-                },
-                {
-                    "value": 0.02,
-                    "title": u"best"
-                }
-            ]
+            "enum": [{"value": 0.01, "title": u"good"}, {"value": 0.02, "title": u"best"}],
         },
         {
             "code": "code_lot",
             "featureOf": "lot",
             "relatedItem": "3",
             "title": u"lot feature",
-            "enum": [
-                {
-                    "value": 0.01,
-                    "title": u"good"
-                },
-                {
-                    "value": 0.02,
-                    "title": u"best"
-                }
-            ]
+            "enum": [{"value": 0.01, "title": u"good"}, {"value": 0.02, "title": u"best"}],
         },
         {
             "code": "code_tenderer",
             "featureOf": "tenderer",
             "title": u"tenderer feature",
-            "enum": [
-                {
-                    "value": 0.01,
-                    "title": u"good"
-                },
-                {
-                    "value": 0.02,
-                    "title": u"best"
-                }
-            ]
-        }
+            "enum": [{"value": 0.01, "title": u"good"}, {"value": 0.02, "title": u"best"}],
+        },
     ]
     test_tender_data = test_tender_data  # TODO: change attribute identifier
     test_bids_data = test_bids  # TODO: change attribute identifier
@@ -185,17 +152,17 @@ class TenderStage2EULotFeatureBidderResourceTest(BaseCompetitiveDialogEUStage2Co
     def __init__(self, *args, **kwargs):
         self.id_first_lot = uuid4().hex
         self.id_first_item = uuid4().hex
-        self.initial_lots[0]['id'] = self.id_first_lot
+        self.initial_lots[0]["id"] = self.id_first_lot
         self.initial_data = deepcopy(self.initial_data)
-        self.initial_data['items'][0]['id'] = self.id_first_item
-        self.initial_features[0]['relatedItem'] = self.id_first_lot
-        self.initial_features[1]['relatedItem'] = self.id_first_item
+        self.initial_data["items"][0]["id"] = self.id_first_item
+        self.initial_features[0]["relatedItem"] = self.id_first_lot
+        self.initial_features[1]["relatedItem"] = self.id_first_item
         super(TenderStage2EULotFeatureBidderResourceTest, self).__init__(*args, **kwargs)
 
     def setUp(self):
         super(TenderStage2EULotFeatureBidderResourceTest, self).setUp()
-        self.app.authorization = ('Basic', ('broker', ''))
-        self.lot_id = self.initial_lots[0]['id']
+        self.app.authorization = ("Basic", ("broker", ""))
+        self.lot_id = self.initial_lots[0]["id"]
         self.create_tender(initial_lots=self.initial_lots, features=self.initial_features)
 
     test_create_tender_bidder_invalid = snitch(create_tender_with_features_bidder_invalid)
@@ -209,56 +176,58 @@ class TenderStage2EULotProcessTest(BaseCompetitiveDialogEUWebTest):
 
     def setUp(self):
         super(TenderStage2EULotProcessTest, self).setUp()
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
 
     def create_tenderers(self, count=1):
-        firm = self.initial_data['shortlistedFirms']
+        firm = self.initial_data["shortlistedFirms"]
         tenderers = []
         for i in xrange(count):
             tenderer = deepcopy(test_bids[0]["tenderers"])
-            tenderer[0]['identifier']['id'] = firm[i if i < 3 else 3]['identifier']['id']
-            tenderer[0]['identifier']['scheme'] = firm[i if i < 3 else 3]['identifier']['scheme']
+            tenderer[0]["identifier"]["id"] = firm[i if i < 3 else 3]["identifier"]["id"]
+            tenderer[0]["identifier"]["scheme"] = firm[i if i < 3 else 3]["identifier"]["scheme"]
             tenderers.append(tenderer)
         return tenderers
 
     def create_tender(self, initial_lots, features=None):
         auth = self.app.authorization
-        self.app.authorization = ('Basic', ('competitive_dialogue', ''))
+        self.app.authorization = ("Basic", ("competitive_dialogue", ""))
         data = deepcopy(self.initial_data)
         if initial_lots:
             lots = []
             for i in initial_lots:
                 lot = deepcopy(i)
-                if 'id' not in lot:
-                    lot['id'] = uuid4().hex
+                if "id" not in lot:
+                    lot["id"] = uuid4().hex
                 lots.append(lot)
-            data['lots'] = self.initial_lots = lots
-            for i, item in enumerate(data['items']):
-                item['relatedLot'] = lots[i % len(lots)]['id']
-            for firm in data['shortlistedFirms']:
-                firm['lots'] = [dict(id=lot['id']) for lot in lots]
-            self.lots_id = [lot['id'] for lot in lots]
+            data["lots"] = self.initial_lots = lots
+            for i, item in enumerate(data["items"]):
+                item["relatedLot"] = lots[i % len(lots)]["id"]
+            for firm in data["shortlistedFirms"]:
+                firm["lots"] = [dict(id=lot["id"]) for lot in lots]
+            self.lots_id = [lot["id"] for lot in lots]
         if features:
             for feature in features:
-                if feature['featureOf'] == 'lot':
-                    feature['relatedItem'] = data['lots'][0]['id']
-                if feature['featureOf'] == 'item':
-                    feature['relatedItem'] = data['items'][0]['id']
-            data['features'] = self.features = features
-        response = self.app.post_json('/tenders', {'data': data})
-        tender = response.json['data']
+                if feature["featureOf"] == "lot":
+                    feature["relatedItem"] = data["lots"][0]["id"]
+                if feature["featureOf"] == "item":
+                    feature["relatedItem"] = data["items"][0]["id"]
+            data["features"] = self.features = features
+        response = self.app.post_json("/tenders", {"data": data})
+        tender = response.json["data"]
         self.tender = tender
-        self.tender_token = response.json['access']['token']
-        self.tender_id = tender['id']
-        self.app.authorization = ('Basic', ('competitive_dialogue', ''))
+        self.tender_token = response.json["access"]["token"]
+        self.tender_id = tender["id"]
+        self.app.authorization = ("Basic", ("competitive_dialogue", ""))
         self.app.patch_json(
-            '/tenders/{id}?acc_token={token}'.format(id=self.tender_id, token=self.tender_token),
-            {'data': {'status': 'draft.stage2'}})
+            "/tenders/{id}?acc_token={token}".format(id=self.tender_id, token=self.tender_token),
+            {"data": {"status": "draft.stage2"}},
+        )
 
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
         self.app.patch_json(
-            '/tenders/{id}?acc_token={token}'.format(id=self.tender_id, token=self.tender_token),
-            {'data': {'status': 'active.tendering'}})
+            "/tenders/{id}?acc_token={token}".format(id=self.tender_id, token=self.tender_token),
+            {"data": {"status": "active.tendering"}},
+        )
         self.app.authorization = auth
 
     test_1lot_0bid = snitch(one_lot_0bid)
@@ -296,11 +265,11 @@ class TenderStage2UALotEdgeCasesTest(BaseCompetitiveDialogUAStage2ContentWebTest
     initial_lots = [deepcopy(test_lots[0]) for i in range(2)]
 
     def setUp(self):
-        identifier = self.initial_data['shortlistedFirms'][0]['identifier']
+        identifier = self.initial_data["shortlistedFirms"][0]["identifier"]
         s2_bids = [deepcopy(bid) for bid in test_bids]
         for bid in s2_bids:
-            bid['tenderers'][0]['identifier']['id'] = identifier['id']
-            bid['tenderers'][0]['identifier']['scheme'] = identifier['scheme']
+            bid["tenderers"][0]["identifier"]["id"] = identifier["id"]
+            bid["tenderers"][0]["identifier"]["scheme"] = identifier["scheme"]
         self.initial_bids = s2_bids
         self.test_author = test_author
         super(TenderStage2UALotEdgeCasesTest, self).setUp()
@@ -335,64 +304,37 @@ class TenderStage2UALotFeatureBidderResourceTest(BaseCompetitiveDialogUAStage2Co
             "featureOf": "item",
             "relatedItem": "1",
             "title": u"item feature",
-            "enum": [
-                {
-                    "value": 0.01,
-                    "title": u"good"
-                },
-                {
-                    "value": 0.02,
-                    "title": u"best"
-                }
-            ]
+            "enum": [{"value": 0.01, "title": u"good"}, {"value": 0.02, "title": u"best"}],
         },
         {
             "code": "code_lot",
             "featureOf": "lot",
             "relatedItem": "3",
             "title": u"lot feature",
-            "enum": [
-                {
-                    "value": 0.01,
-                    "title": u"good"
-                },
-                {
-                    "value": 0.02,
-                    "title": u"best"
-                }
-            ]
+            "enum": [{"value": 0.01, "title": u"good"}, {"value": 0.02, "title": u"best"}],
         },
         {
             "code": "code_tenderer",
             "featureOf": "tenderer",
             "title": u"tenderer feature",
-            "enum": [
-                {
-                    "value": 0.01,
-                    "title": u"good"
-                },
-                {
-                    "value": 0.02,
-                    "title": u"best"
-                }
-            ]
-        }
+            "enum": [{"value": 0.01, "title": u"good"}, {"value": 0.02, "title": u"best"}],
+        },
     ]
 
     def __init__(self, *args, **kwargs):
         self.id_first_lot = uuid4().hex
         self.id_first_item = uuid4().hex
-        self.initial_lots[0]['id'] = self.id_first_lot
+        self.initial_lots[0]["id"] = self.id_first_lot
         self.initial_data = deepcopy(self.initial_data)
-        self.initial_data['items'][0]['id'] = self.id_first_item
-        self.initial_features[0]['relatedItem'] = self.id_first_lot
-        self.initial_features[1]['relatedItem'] = self.id_first_item
+        self.initial_data["items"][0]["id"] = self.id_first_item
+        self.initial_features[0]["relatedItem"] = self.id_first_lot
+        self.initial_features[1]["relatedItem"] = self.id_first_item
         super(TenderStage2UALotFeatureBidderResourceTest, self).__init__(*args, **kwargs)
 
     def setUp(self):
         super(TenderStage2UALotFeatureBidderResourceTest, self).setUp()
-        self.app.authorization = ('Basic', ('broker', ''))
-        self.lot_id = self.initial_lots[0]['id']
+        self.app.authorization = ("Basic", ("broker", ""))
+        self.lot_id = self.initial_lots[0]["id"]
         self.create_tender(initial_lots=self.initial_lots, features=self.initial_features)
 
     test_create_tender_bidder_invalid = snitch(create_tender_with_features_bidder_invalid)
@@ -406,56 +348,58 @@ class TenderStage2UALotProcessTest(BaseCompetitiveDialogUAStage2ContentWebTest):
 
     def setUp(self):
         super(BaseCompetitiveDialogUAStage2ContentWebTest, self).setUp()
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
 
     def create_tenderers(self, count=1):
-        firm = self.initial_data['shortlistedFirms']
+        firm = self.initial_data["shortlistedFirms"]
         tenderers = []
         for i in xrange(count):
             tenderer = deepcopy(test_bids[0]["tenderers"])
-            tenderer[0]['identifier']['id'] = firm[i if i < 3 else 3]['identifier']['id']
-            tenderer[0]['identifier']['scheme'] = firm[i if i < 3 else 3]['identifier']['scheme']
+            tenderer[0]["identifier"]["id"] = firm[i if i < 3 else 3]["identifier"]["id"]
+            tenderer[0]["identifier"]["scheme"] = firm[i if i < 3 else 3]["identifier"]["scheme"]
             tenderers.append(tenderer)
         return tenderers
 
     def create_tender(self, initial_lots, features=None):
         auth = self.app.authorization
-        self.app.authorization = ('Basic', ('competitive_dialogue', ''))
+        self.app.authorization = ("Basic", ("competitive_dialogue", ""))
         data = deepcopy(self.initial_data)
         if initial_lots:
             lots = []
             for i in initial_lots:
                 lot = deepcopy(i)
-                if 'id' not in lot:
-                    lot['id'] = uuid4().hex
+                if "id" not in lot:
+                    lot["id"] = uuid4().hex
                 lots.append(lot)
-            data['lots'] = self.initial_lots = lots
-            for i, item in enumerate(data['items']):
-                item['relatedLot'] = lots[i % len(lots)]['id']
-            for firm in data['shortlistedFirms']:
-                firm['lots'] = [dict(id=lot['id']) for lot in lots]
-            self.lots_id = [lot['id'] for lot in lots]
+            data["lots"] = self.initial_lots = lots
+            for i, item in enumerate(data["items"]):
+                item["relatedLot"] = lots[i % len(lots)]["id"]
+            for firm in data["shortlistedFirms"]:
+                firm["lots"] = [dict(id=lot["id"]) for lot in lots]
+            self.lots_id = [lot["id"] for lot in lots]
         if features:
             for feature in features:
-                if feature['featureOf'] == 'lot':
-                    feature['relatedItem'] = data['lots'][0]['id']
-                if feature['featureOf'] == 'item':
-                    feature['relatedItem'] = data['items'][0]['id']
-            data['features'] = self.features = features
-        response = self.app.post_json('/tenders', {'data': data})
-        tender = response.json['data']
+                if feature["featureOf"] == "lot":
+                    feature["relatedItem"] = data["lots"][0]["id"]
+                if feature["featureOf"] == "item":
+                    feature["relatedItem"] = data["items"][0]["id"]
+            data["features"] = self.features = features
+        response = self.app.post_json("/tenders", {"data": data})
+        tender = response.json["data"]
         self.tender = tender
-        self.tender_token = response.json['access']['token']
-        self.tender_id = tender['id']
-        self.app.authorization = ('Basic', ('competitive_dialogue', ''))
+        self.tender_token = response.json["access"]["token"]
+        self.tender_id = tender["id"]
+        self.app.authorization = ("Basic", ("competitive_dialogue", ""))
         self.app.patch_json(
-            '/tenders/{id}?acc_token={token}'.format(id=self.tender_id, token=self.tender_token),
-            {'data': {'status': 'draft.stage2'}})
+            "/tenders/{id}?acc_token={token}".format(id=self.tender_id, token=self.tender_token),
+            {"data": {"status": "draft.stage2"}},
+        )
 
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
         self.app.patch_json(
-            '/tenders/{id}?acc_token={token}'.format(id=self.tender_id, token=self.tender_token),
-            {'data': {'status': 'active.tendering'}})
+            "/tenders/{id}?acc_token={token}".format(id=self.tender_id, token=self.tender_token),
+            {"data": {"status": "active.tendering"}},
+        )
         self.app.authorization = auth
 
     test_1lot_0bid = snitch(one_lot_0bid_ua)
@@ -486,5 +430,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

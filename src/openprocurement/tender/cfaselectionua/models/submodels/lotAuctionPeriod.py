@@ -11,7 +11,7 @@ class LotAuctionPeriod(Period):
     """The auction period."""
 
     class Options:
-        roles = RolesFromCsv('LotAuctionPeriod.csv', relative_to=__file__)
+        roles = RolesFromCsv("LotAuctionPeriod.csv", relative_to=__file__)
 
     @serializable(serialize_when_none=False)
     def shouldStartAfter(self):
@@ -19,9 +19,9 @@ class LotAuctionPeriod(Period):
             return
         tender = get_tender(self)
         lot = self.__parent__
-        if tender.status not in ['active.tendering', 'active.auction'] or lot.status != 'active':
+        if tender.status not in ["active.tendering", "active.auction"] or lot.status != "active":
             return
-        if tender.status == 'active.auction' and lot.numberOfBids < 2:
+        if tender.status == "active.auction" and lot.numberOfBids < 2:
             return
         if self.startDate and get_now() > calc_auction_end_time(lot.numberOfBids, self.startDate):
             start_after = calc_auction_end_time(tender.numberOfBids, self.startDate)

@@ -5,7 +5,7 @@ from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest,
     test_lots,
     test_tender_negotiation_data,
-    test_tender_negotiation_quick_data
+    test_tender_negotiation_quick_data,
 )
 from openprocurement.tender.belowthreshold.tests.lot_blanks import tender_lot_milestones
 from openprocurement.tender.limited.tests.lot_blanks import (
@@ -32,7 +32,7 @@ from openprocurement.tender.limited.tests.lot_blanks import (
 
 
 class TenderLotNegotiationResourceTest(BaseTenderContentWebTest):
-    initial_status = 'active'
+    initial_status = "active"
     initial_data = test_tender_negotiation_data
     initial_bids = None  # test_bids
     test_lots_data = test_lots  # TODO: change attribute identifier

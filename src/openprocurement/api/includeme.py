@@ -8,7 +8,6 @@ from openprocurement.api.utils import get_content_configurator, request_get_now
 def includeme(config):
     config.scan("openprocurement.api.views")
     config.scan("openprocurement.api.subscribers")
-    config.registry.registerAdapter(ContentConfigurator, (IOPContent, IRequest),
-                                    IContentConfigurator)
-    config.add_request_method(get_content_configurator, 'content_configurator', reify=True)
-    config.add_request_method(request_get_now, 'now', reify=True)
+    config.registry.registerAdapter(ContentConfigurator, (IOPContent, IRequest), IContentConfigurator)
+    config.add_request_method(get_content_configurator, "content_configurator", reify=True)
+    config.add_request_method(request_get_now, "now", reify=True)

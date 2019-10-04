@@ -5,7 +5,7 @@ from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.cancellation import (
     TenderCancellationResourceTestMixin,
-    TenderCancellationDocumentResourceTestMixin
+    TenderCancellationDocumentResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     # TenderLotsCancellationResourceTest
@@ -40,25 +40,20 @@ from openprocurement.tender.openeu.tests.cancellation_blanks import (
     bids_on_tender_cancellation_in_awarded,
 )
 
-from openprocurement.tender.esco.tests.base import (
-    BaseESCOContentWebTest,
-    test_bids,
-    test_lots
-)
+from openprocurement.tender.esco.tests.base import BaseESCOContentWebTest, test_bids, test_lots
 
 
 class TenderCancellationResourceTest(BaseESCOContentWebTest, TenderCancellationResourceTestMixin):
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
     test_create_tender_cancellation = snitch(create_tender_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_cancellation)
 
 
-class TenderCancellationBidsAvailabilityTest(BaseESCOContentWebTest,
-                                             TenderCancellationBidsAvailabilityUtils):
-    initial_auth = ('Basic', ('broker', ''))
+class TenderCancellationBidsAvailabilityTest(BaseESCOContentWebTest, TenderCancellationBidsAvailabilityUtils):
+    initial_auth = ("Basic", ("broker", ""))
     initial_bids = test_bids * 2
-    bid_visible_fields = [u'status', u'documents', u'tenderers', u'id', u'eligibilityDocuments']
+    bid_visible_fields = [u"status", u"documents", u"tenderers", u"id", u"eligibilityDocuments"]
     doc_id_by_type = {}
     valid_bids = []
 
@@ -69,7 +64,9 @@ class TenderCancellationBidsAvailabilityTest(BaseESCOContentWebTest,
 
     test_bids_on_tender_cancellation_in_tendering = snitch(bids_on_tender_cancellation_in_tendering)
     test_bids_on_tender_cancellation_in_pre_qualification = snitch(bids_on_tender_cancellation_in_pre_qualification)
-    test_bids_on_tender_cancellation_in_pre_qualification_stand_still = snitch(bids_on_tender_cancellation_in_pre_qualification_stand_still)
+    test_bids_on_tender_cancellation_in_pre_qualification_stand_still = snitch(
+        bids_on_tender_cancellation_in_pre_qualification_stand_still
+    )
     test_bids_on_tender_cancellation_in_auction = snitch(bids_on_tender_cancellation_in_auction)
     test_bids_on_tender_cancellation_in_qualification = snitch(bids_on_tender_cancellation_in_qualification)
     test_bids_on_tender_cancellation_in_awarded = snitch(bids_on_tender_cancellation_in_awarded)
@@ -78,7 +75,7 @@ class TenderCancellationBidsAvailabilityTest(BaseESCOContentWebTest,
 class TenderLotCancellationResourceTest(BaseESCOContentWebTest):
     initial_lots = test_lots
 
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
     test_create_tender_cancellation = snitch(create_tender_lot_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_lot_cancellation)
@@ -87,14 +84,14 @@ class TenderLotCancellationResourceTest(BaseESCOContentWebTest):
 class TenderLotsCancellationResourceTest(BaseESCOContentWebTest):
     initial_lots = 2 * test_lots
 
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
     test_create_tender_cancellation = snitch(create_tender_lots_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_lots_cancellation)
 
 
 class TenderAwardsCancellationResourceTest(BaseESCOContentWebTest):
     initial_lots = 2 * test_lots
-    initial_status = 'active.tendering'
+    initial_status = "active.tendering"
     initial_bids = test_bids
 
     test_cancellation_active_qualification_j1427 = snitch(cancellation_active_qualification_j1427)
@@ -105,17 +102,18 @@ class TenderAwardsCancellationResourceTest(BaseESCOContentWebTest):
     test_cancellation_unsuccessful_award = snitch(cancellation_unsuccessful_award)
 
 
-class TenderCancellationDocumentResourceTest(BaseESCOContentWebTest,
-                                             TenderCancellationDocumentResourceTestMixin):
-    initial_auth = ('Basic', ('broker', ''))
+class TenderCancellationDocumentResourceTest(BaseESCOContentWebTest, TenderCancellationDocumentResourceTestMixin):
+    initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
         super(TenderCancellationDocumentResourceTest, self).setUp()
         # Create cancellation
-        response = self.app.post_json('/tenders/{}/cancellations?acc_token={}'.format(
-            self.tender_id, self.tender_token), {'data': {'reason': 'cancellation reason'}})
-        cancellation = response.json['data']
-        self.cancellation_id = cancellation['id']
+        response = self.app.post_json(
+            "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": {"reason": "cancellation reason"}},
+        )
+        cancellation = response.json["data"]
+        self.cancellation_id = cancellation["id"]
 
 
 def suite():
@@ -129,5 +127,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

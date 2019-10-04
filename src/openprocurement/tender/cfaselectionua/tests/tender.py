@@ -57,34 +57,34 @@ from openprocurement.tender.cfaselectionua.tests.tender_blanks import (
     # TenderTest
     simple_add_tender,
     create_tender_with_available_language,
-    edit_tender_in_active_enquiries
+    edit_tender_in_active_enquiries,
 )
 
 
 tender_data = deepcopy(test_tender_data)
 set_tender_lots(tender_data, test_lots)
-test_lots = deepcopy(tender_data['lots'])
+test_lots = deepcopy(tender_data["lots"])
 
 
 class BaseTenderWebTest(BaseBaseTenderWebTest):
-
     def create_tender_and_prepare_for_bot_patch(self):
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
         data = deepcopy(self.initial_data)
-        data['status'] = 'draft'
-        data['agreements'] = [{'id': self.agreement_id}]
+        data["status"] = "draft"
+        data["agreements"] = [{"id": self.agreement_id}]
 
-        response = self.app.post_json('/tenders', {'data': data})
-        self.assertEqual((response.status, response.content_type), ('201 Created', 'application/json'))
-        tender = response.json['data']
-        self.tender_id = tender['id']
-        owner_token = response.json['access']['token']
-        response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
-                                        {'data': {'status': 'draft.pending'}})
-        self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
-        self.assertEqual(response.json['data']['status'], 'draft.pending')
+        response = self.app.post_json("/tenders", {"data": data})
+        self.assertEqual((response.status, response.content_type), ("201 Created", "application/json"))
+        tender = response.json["data"]
+        self.tender_id = tender["id"]
+        owner_token = response.json["access"]["token"]
+        response = self.app.patch_json(
+            "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"status": "draft.pending"}}
+        )
+        self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
+        self.assertEqual(response.json["data"]["status"], "draft.pending")
 
-        self.app.authorization = ('Basic', (BOT_NAME, ''))
+        self.app.authorization = ("Basic", (BOT_NAME, ""))
         return tender, owner_token
 
 
@@ -110,6 +110,7 @@ class TenderResourceTestMixin(object):
     test_patch_tender_bot = snitch(patch_tender_bot)
     test_create_tender_with_available_language = snitch(create_tender_with_available_language)
 
+
 class TenderTest(BaseWebTest):
     initial_data = tender_data
 
@@ -123,13 +124,13 @@ class TestCoordinatesRegExp(unittest.TestCase):
 
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     initial_data = tender_data
-    primary_tender_status = 'draft'
-    initial_auth = ('Basic', ('broker', ''))
+    primary_tender_status = "draft"
+    initial_auth = ("Basic", ("broker", ""))
     initial_agreement = test_agreement
     initial_agreement_with_features = test_agreement_features
     test_lots_data = test_lots
 
-    agreement_id = '11111111111111111111111111111111'
+    agreement_id = "11111111111111111111111111111111"
 
     # test_guarantee = snitch(guarantee)
     test_create_tender_invalid = snitch(create_tender_invalid)
@@ -146,8 +147,8 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
 
 class TenderProcessTest(BaseTenderWebTest):
     initial_data = tender_data
-    primary_tender_status = 'draft'
-    initial_auth = ('Basic', ('broker', ''))
+    primary_tender_status = "draft"
+    initial_auth = ("Basic", ("broker", ""))
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
     test_one_valid_bid_tender = snitch(one_valid_bid_tender)
@@ -164,5 +165,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

@@ -3,7 +3,7 @@ import unittest
 
 from openprocurement.tender.belowthreshold.tests.document import (
     TenderDocumentResourceTestMixin,
-    TenderDocumentWithDSResourceTestMixin
+    TenderDocumentWithDSResourceTestMixin,
 )
 
 from openprocurement.tender.cfaua.tests.base import BaseTenderContentWebTest
@@ -11,7 +11,7 @@ from openprocurement.tender.cfaua.tests.base import BaseTenderContentWebTest
 
 class TenderDocumentResourceTest(BaseTenderContentWebTest, TenderDocumentResourceTestMixin):
     docservice = False
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
 
 class TenderDocumentWithDSResourceTest(TenderDocumentResourceTest, TenderDocumentWithDSResourceTestMixin):
@@ -25,5 +25,5 @@ def suite():
     return suite
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

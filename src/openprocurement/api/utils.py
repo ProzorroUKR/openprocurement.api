@@ -34,9 +34,14 @@ from couchdb_schematics.document import SchematicsDocument
 from openprocurement.api.events import ErrorDesctiptorEvent
 from openprocurement.api.constants import LOGGER, JOURNAL_PREFIX
 from openprocurement.api.constants import (
-    ADDITIONAL_CLASSIFICATIONS_SCHEMES, DOCUMENT_BLACKLISTED_FIELDS,
-    DOCUMENT_WHITELISTED_FIELDS, ROUTE_PREFIX, TZ, SESSION,
-    GMDN_CPV_PREFIXES, UA_ROAD_CPV_PREFIXES
+    ADDITIONAL_CLASSIFICATIONS_SCHEMES,
+    DOCUMENT_BLACKLISTED_FIELDS,
+    DOCUMENT_WHITELISTED_FIELDS,
+    ROUTE_PREFIX,
+    TZ,
+    SESSION,
+    GMDN_CPV_PREFIXES,
+    UA_ROAD_CPV_PREFIXES,
 )
 from openprocurement.api.interfaces import IOPContent
 from openprocurement.api.interfaces import IContentConfigurator
@@ -46,7 +51,11 @@ json_view = partial(view, renderer='simplejson')
 
 def validate_dkpp(items, *args):
     if items and not any([i.scheme in ADDITIONAL_CLASSIFICATIONS_SCHEMES for i in items]):
-        raise ValidationError(u"One of additional classifications should be one of [{0}].".format(', '.join(ADDITIONAL_CLASSIFICATIONS_SCHEMES)))
+        raise ValidationError(
+            u"One of additional classifications should be one of [{0}].".format(
+                ', '.join(ADDITIONAL_CLASSIFICATIONS_SCHEMES)
+            )
+        )
 
 
 def get_now():
@@ -113,9 +122,7 @@ def generate_docservice_url(request, doc_id, temporary=True, prefix=None):
 
 
 def error_handler(errors, request_params=True):
-    params = {
-        'ERROR_STATUS': errors.status
-    }
+    params = {'ERROR_STATUS': errors.status}
     if request_params:
         params['ROLE'] = str(errors.request.authenticated_role)
         if errors.request.params:
@@ -124,8 +131,10 @@ def error_handler(errors, request_params=True):
         for x, j in errors.request.matchdict.items():
             params[x.upper()] = j
     errors.request.registry.notify(ErrorDesctiptorEvent(errors, params))
-    LOGGER.info('Error on processing request "{}"'.format(dumps(errors, indent=4)),
-                extra=context_unpack(errors.request, {'MESSAGE_ID': 'error_handler'}, params))
+    LOGGER.info(
+        'Error on processing request "{}"'.format(dumps(errors, indent=4)),
+        extra=context_unpack(errors.request, {'MESSAGE_ID': 'error_handler'}, params),
+    )
     return json_error(errors)
 
 
@@ -139,8 +148,14 @@ def raise_operation_error(request, message, status=403, location='body', name='d
     raise error_handler(request.errors)
 
 
-def upload_file(request, blacklisted_fields=DOCUMENT_BLACKLISTED_FIELDS, whitelisted_fields=DOCUMENT_WHITELISTED_FIELDS):
-    first_document = request.validated['documents'][-1] if 'documents' in request.validated and request.validated['documents'] else None
+def upload_file(
+    request, blacklisted_fields=DOCUMENT_BLACKLISTED_FIELDS, whitelisted_fields=DOCUMENT_WHITELISTED_FIELDS
+):
+    first_document = (
+        request.validated['documents'][-1]
+        if 'documents' in request.validated and request.validated['documents']
+        else None
+    )
     if 'data' in request.validated and request.validated['data']:
         document = request.validated['document']
         check_document(request, document, 'body')
@@ -181,29 +196,44 @@ def upload_file(request, blacklisted_fields=DOCUMENT_BLACKLISTED_FIELDS, whiteli
                 setattr(document, attr_name, getattr(first_document, attr_name))
     if request.registry.docservice_url:
         parsed_url = urlparse(request.registry.docservice_url)
-        url = request.registry.docservice_upload_url or urlunsplit((parsed_url.scheme, parsed_url.netloc, '/upload', '', ''))
+        url = request.registry.docservice_upload_url or urlunsplit(
+            (parsed_url.scheme, parsed_url.netloc, '/upload', '', '')
+        )
         files = {'file': (filename, in_file, content_type)}
         doc_url = None
         index = 10
         while index:
             try:
-                r = SESSION.post(url,
-                                files=files,
-                                headers={'X-Client-Request-ID': request.environ.get('REQUEST_ID', '')},
-                                auth=(request.registry.docservice_username, request.registry.docservice_password)
-                                )
+                r = SESSION.post(
+                    url,
+                    files=files,
+                    headers={'X-Client-Request-ID': request.environ.get('REQUEST_ID', '')},
+                    auth=(request.registry.docservice_username, request.registry.docservice_password),
+                )
                 json_data = r.json()
-            except Exception, e:
-                LOGGER.warning("Raised exception '{}' on uploading document to document service': {}.".format(type(e), e),
-                               extra=context_unpack(request, {'MESSAGE_ID': 'document_service_exception'}, {'file_size': in_file.tell()}))
+            except Exception as e:
+                LOGGER.warning(
+                    "Raised exception '{}' on uploading document to document service': {}.".format(type(e), e),
+                    extra=context_unpack(
+                        request, {'MESSAGE_ID': 'document_service_exception'}, {'file_size': in_file.tell()}
+                    ),
+                )
             else:
                 if r.status_code == 200 and json_data.get('data', {}).get('url'):
                     doc_url = json_data['data']['url']
                     doc_hash = json_data['data']['hash']
                     break
                 else:
-                    LOGGER.warning("Error {} on uploading document to document service '{}': {}".format(r.status_code, url, r.text),
-                                   extra=context_unpack(request, {'MESSAGE_ID': 'document_service_error'}, {'ERROR_STATUS': r.status_code, 'file_size': in_file.tell()}))
+                    LOGGER.warning(
+                        "Error {} on uploading document to document service '{}': {}".format(
+                            r.status_code, url, r.text
+                        ),
+                        extra=context_unpack(
+                            request,
+                            {'MESSAGE_ID': 'document_service_error'},
+                            {'ERROR_STATUS': r.status_code, 'file_size': in_file.tell()},
+                        ),
+                    )
             in_file.seek(0)
             index -= 1
         else:
@@ -217,10 +247,12 @@ def upload_file(request, blacklisted_fields=DOCUMENT_BLACKLISTED_FIELDS, whiteli
         filename = "{}_{}".format(document.id, key)
         request.validated['db_doc']['_attachments'][filename] = {
             "content_type": document.format,
-            "data": b64encode(in_file.read())
+            "data": b64encode(in_file.read()),
         }
     document_route = request.matched_route.name.replace("collection_", "")
-    document_path = request.current_route_path(_route_name=document_route, document_id=document.id, _query={'download': key})
+    document_path = request.current_route_path(
+        _route_name=document_route, document_id=document.id, _query={'download': key}
+    )
     document.url = '/' + '/'.join(document_path.split('/')[3:])
     update_logging_context(request, {'file_size': in_file.tell()})
     return document
@@ -251,7 +283,9 @@ def get_file(request):
             else:
                 url = generate_docservice_url(request, key)
         request.response.content_type = document.format.encode('utf-8')
-        request.response.content_disposition = build_header(document.title, filename_compat=quote(document.title.encode('utf-8')))
+        request.response.content_disposition = build_header(
+            document.title, filename_compat=quote(document.title.encode('utf-8'))
+        )
         request.response.status = '302 Moved Temporarily'
         request.response.location = url
         return url
@@ -259,7 +293,9 @@ def get_file(request):
         data = request.registry.db.get_attachment(db_doc_id, filename)
         if data:
             request.response.content_type = document.format.encode('utf-8')
-            request.response.content_disposition = build_header(document.title, filename_compat=quote(document.title.encode('utf-8')))
+            request.response.content_disposition = build_header(
+                document.title, filename_compat=quote(document.title.encode('utf-8'))
+            )
             request.response.body_file = data
             return request.response
         request.errors.add('url', 'download', 'Not Found')
@@ -316,9 +352,11 @@ def check_document(request, document, document_container):
     url = document.url
     parsed_url = urlparse(url)
     parsed_query = dict(parse_qsl(parsed_url.query))
-    if not url.startswith(request.registry.docservice_url) or \
-            len(parsed_url.path.split('/')) != 3 or \
-            set(['Signature', 'KeyID']) != set(parsed_query):
+    if (
+        not url.startswith(request.registry.docservice_url)
+        or len(parsed_url.path.split('/')) != 3
+        or set(['Signature', 'KeyID']) != set(parsed_query)
+    ):
         request.errors.add(document_container, 'url', "Can add document only from document service.")
         request.errors.status = 403
         raise error_handler(request.errors)
@@ -352,9 +390,7 @@ def check_document(request, document, document_container):
 
 def update_document_url(request, document, document_route, route_kwargs):
     key = urlparse(document.url).path.split('/')[-1]
-    route_kwargs.update({'_route_name': document_route,
-                         'document_id': document.id,
-                         '_query': {'download': key}})
+    route_kwargs.update({'_route_name': document_route, 'document_id': document.id, '_query': {'download': key}})
     document_path = request.current_route_path(**route_kwargs)
     document.url = '/' + '/'.join(document_path.split('/')[3:])
     return document
@@ -369,7 +405,9 @@ def check_document_batch(request, document, document_container, route_kwargs):
     # To redefine document_route to get appropriate real document route when bid
     # is created with documents? I hope so :)
     if "Documents" not in document_route:
-        specified_document_route_end = (document_container.lower().rsplit('documents')[0] + ' documents').lstrip().title()
+        specified_document_route_end = (
+            (document_container.lower().rsplit('documents')[0] + ' documents').lstrip().title()
+        )
         document_route = ' '.join([document_route[:-1], specified_document_route_end])
 
     return update_document_url(request, document, document_route, route_kwargs)
@@ -382,7 +420,7 @@ def request_params(request):
         request.errors.add('body', 'data', 'could not decode params')
         request.errors.status = 422
         raise error_handler(request.errors, False)
-    except Exception, e:
+    except Exception as e:
         request.errors.add('body', str(e.__class__.__name__), str(e))
         request.errors.status = 422
         raise error_handler(request.errors, False)
@@ -391,8 +429,8 @@ def request_params(request):
 
 opresource = partial(resource, error_handler=error_handler, factory=factory)
 
-class APIResource(object):
 
+class APIResource(object):
     def __init__(self, request, context):
         self.context = context
         self.request = request
@@ -458,7 +496,9 @@ class APIResourceListing(APIResource):
                 view_offset = '9' if descending else ''
         list_view = view_map.get(mode, view_map[u''])
         if self.update_after:
-            view = partial(list_view, self.db, limit=view_limit, startkey=view_offset, descending=descending, stale='update_after')
+            view = partial(
+                list_view, self.db, limit=view_limit, startkey=view_offset, descending=descending, stale='update_after'
+            )
         else:
             view = partial(list_view, self.db, limit=view_limit, startkey=view_offset, descending=descending)
         if fields:
@@ -471,13 +511,26 @@ class APIResourceListing(APIResource):
                 ]
             else:
                 results = [
-                    (dict([(i, j) for i, j in x.value.items() + [('id', x.id), ('dateModified', x.key)] if
-                           i in view_fields]), x.key)
+                    (
+                        dict(
+                            [
+                                (i, j)
+                                for i, j in x.value.items() + [('id', x.id), ('dateModified', x.key)]
+                                if i in view_fields
+                            ]
+                        ),
+                        x.key,
+                    )
                     for x in view()
                 ]
         else:
             results = [
-                ({'id': i.id, 'dateModified': i.value['dateModified']} if changes else {'id': i.id, 'dateModified': i.key}, i.key)
+                (
+                    {'id': i.id, 'dateModified': i.value['dateModified']}
+                    if changes
+                    else {'id': i.id, 'dateModified': i.key},
+                    i.key,
+                )
                 for i in view()
             ]
         if results:
@@ -499,14 +552,14 @@ class APIResourceListing(APIResource):
             'next_page': {
                 "offset": params['offset'],
                 "path": self.request.route_path(self.object_name_for_listing, _query=params),
-                "uri": self.request.route_url(self.object_name_for_listing, _query=params)
-            }
+                "uri": self.request.route_url(self.object_name_for_listing, _query=params),
+            },
         }
         if descending or offset:
             data['prev_page'] = {
                 "offset": pparams['offset'],
                 "path": self.request.route_path(self.object_name_for_listing, _query=pparams),
-                "uri": self.request.route_url(self.object_name_for_listing, _query=pparams)
+                "uri": self.request.route_url(self.object_name_for_listing, _query=pparams),
             }
         return data
 
@@ -536,30 +589,21 @@ def context_unpack(request, msg, params=None):
 
 
 def get_content_configurator(request):
-    content_type = request.path[len(ROUTE_PREFIX)+1:].split('/')[0][:-1]
+    content_type = request.path[len(ROUTE_PREFIX) + 1 :].split('/')[0][:-1]
     if hasattr(request, content_type):  # content is constructed
         context = getattr(request, content_type)
-        return request.registry.queryMultiAdapter((context, request),
-                                                  IContentConfigurator)
+        return request.registry.queryMultiAdapter((context, request), IContentConfigurator)
 
 
 def fix_url(item, app_url):
     if isinstance(item, list):
-        [
-            fix_url(i, app_url)
-            for i in item
-            if isinstance(i, dict) or isinstance(i, list)
-        ]
+        [fix_url(i, app_url) for i in item if isinstance(i, dict) or isinstance(i, list)]
     elif isinstance(item, dict):
         if "format" in item and "url" in item and '?download=' in item['url']:
             path = item["url"] if item["url"].startswith('/') else '/' + '/'.join(item['url'].split('/')[5:])
             item["url"] = app_url + ROUTE_PREFIX + path
             return
-        [
-            fix_url(item[i], app_url)
-            for i in item
-            if isinstance(item[i], dict) or isinstance(item[i], list)
-        ]
+        [fix_url(item[i], app_url) for i in item if isinstance(item[i], dict) or isinstance(item[i], list)]
 
 
 def encrypt(uuid, name, key):
