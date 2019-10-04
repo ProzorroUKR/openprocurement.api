@@ -1,6 +1,6 @@
 from openprocurement.api.validation import validate_data, validate_json_data, OPERATIONS
 from openprocurement.api.utils import apply_data_patch, error_handler, get_now, raise_operation_error
-from openprocurement.tender.core.utils import calculate_business_date
+from openprocurement.tender.core.utils import calculate_tender_business_date
 
 
 def validate_patch_tender_ua_data(request):
@@ -54,7 +54,7 @@ def validate_update_bid_to_active_status(request):
 def validate_submit_claim_time(request):
     tender = request.context
     claim_submit_time = request.content_configurator.tender_claim_submit_time
-    if get_now() > calculate_business_date(tender.tenderPeriod.endDate, -claim_submit_time, tender):
+    if get_now() > calculate_tender_business_date(tender.tenderPeriod.endDate, -claim_submit_time, tender):
         raise_operation_error(
             request, "Can submit claim not later than {0.days} days before tenderPeriod end".format(claim_submit_time)
         )

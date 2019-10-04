@@ -1,6 +1,6 @@
 from pyramid.events import subscriber
 from openprocurement.tender.core.events import TenderInitializeEvent
-from openprocurement.tender.core.utils import get_now, calculate_business_date
+from openprocurement.tender.core.utils import get_now, calculate_tender_business_date
 from openprocurement.tender.openeu.constants import TENDERING_DURATION as TENDERING_DURATION_EU
 from openprocurement.tender.openua.constants import TENDER_PERIOD as TENDERING_DURATION_UA
 from openprocurement.tender.openua.subscribers import tender_init_handler as tender_init_handler_ua
@@ -12,7 +12,9 @@ def tender_init_handler_1(event):
     """ initialization handler for tenders """
     #  import pdb; pdb.set_trace()
     tender = event.tender
-    tender.tenderPeriod.endDate = calculate_business_date(tender.tenderPeriod.startDate, TENDERING_DURATION_EU, tender)
+    tender.tenderPeriod.endDate = calculate_tender_business_date(
+        tender.tenderPeriod.startDate, TENDERING_DURATION_EU, tender
+    )
     tender_init_handler_eu(event)
 
 
@@ -21,7 +23,9 @@ def tender_init_handler_2(event):
     """ initialization handler for tenders """
     #   import pdb; pdb.set_trace()
     tender = event.tender
-    tender.tenderPeriod.endDate = calculate_business_date(tender.tenderPeriod.startDate, TENDERING_DURATION_UA, tender)
+    tender.tenderPeriod.endDate = calculate_tender_business_date(
+        tender.tenderPeriod.startDate, TENDERING_DURATION_UA, tender
+    )
     tender_init_handler_ua(event)
 
 

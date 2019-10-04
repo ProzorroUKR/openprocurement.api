@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
+from datetime import datetime
+from freezegun import freeze_time
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.tests.base import BaseWebTest
@@ -23,6 +25,7 @@ from openprocurement.tender.openua.tests.tender_blanks import (
     tender_with_main_procurement_category,
     tender_finance_milestones,
 )
+from openprocurement.tender.openuadefense.constants import STAND_STILL_TIME
 
 from openprocurement.tender.openuadefense.tests.base import BaseTenderUAWebTest, test_tender_data
 from openprocurement.tender.openuadefense.tests.tender_blanks import (

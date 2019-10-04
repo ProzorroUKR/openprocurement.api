@@ -5,6 +5,8 @@ from copy import deepcopy
 from datetime import timedelta
 
 import mock
+from iso8601 import parse_date
+from parameterized import parameterized
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
@@ -73,9 +75,11 @@ from openprocurement.tender.openua.tests.award_blanks import (
     create_tender_award_no_scale_invalid,
     create_tender_award_with_scale_not_required,
     create_tender_award_no_scale,
+    # TenderAwardResourceComplaintPeriodTest
+    tender_award_complaint_period,
 )
 
-from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest
+from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest, BaseTenderUAWebTest
 
 
 class TenderAwardResourceTest(BaseTenderUAContentWebTest):
@@ -92,7 +96,7 @@ class TenderAwardResourceTest(BaseTenderUAContentWebTest):
     test_create_tender_award_no_scale_invalid = snitch(create_tender_award_no_scale_invalid)
 
 
-class TenderAwardResourceNoScaleTest(BaseTenderUAContentWebTest):
+class TenderAwardResourceScaleTest(BaseTenderUAContentWebTest):
     initial_status = "active.qualification"
 
     def setUp(self):
@@ -102,11 +106,80 @@ class TenderAwardResourceNoScaleTest(BaseTenderUAContentWebTest):
         test_bid = deepcopy(test_bids[0])
         test_bid["tenderers"][0].pop("scale")
         self.initial_bids = [test_bid]
-        super(TenderAwardResourceNoScaleTest, self).setUp()
+        super(TenderAwardResourceScaleTest, self).setUp()
         self.app.authorization = ("Basic", ("token", ""))
 
     test_create_tender_award_with_scale_not_required = snitch(create_tender_award_with_scale_not_required)
     test_create_tender_award_with_no_scale = snitch(create_tender_award_no_scale)
+
+
+class TenderAwardResourceComplaintPeriodTest(BaseTenderUAWebTest):
+    initial_status = "active.qualification"
+    initial_bids = test_bids
+
+    @parameterized.expand(
+        [
+            [
+                "working_day",
+                "2019-09-16T12:00:00+03:00",  # Tender created on working date
+                "2019-10-01T00:00:00+03:00",  # NORMALIZED_COMPLAINT_PERIOD_FROM in future
+                "2019-10-01T00:00:00+03:00",  # WORKING_DATE_ALLOW_MIDNIGHT_FROM in future
+                "2019-09-20T12:00:00+03:00",  # Award period end date
+                "2019-09-16T12:04:00+03:00",  # Award period end date sandbox mode
+            ],
+            [
+                "working_day",
+                "2019-09-16T12:00:00+03:00",  # Tender created on working date
+                "2019-08-01T00:00:00+03:00",  # NORMALIZED_COMPLAINT_PERIOD_FROM in future
+                "2019-10-01T00:00:00+03:00",  # WORKING_DATE_ALLOW_MIDNIGHT_FROM in future
+                "2019-09-23T00:00:00+03:00",  # Award period end date on last working (but after weekend)
+                "2019-09-16T12:04:00+03:00",  # Award period end date sandbox mode
+            ],
+            [
+                "working_day",
+                "2019-09-16T12:00:00+03:00",  # Tender created on working date
+                "2019-08-01T00:00:00+03:00",  # NORMALIZED_COMPLAINT_PERIOD_FROM in future
+                "2019-08-01T00:00:00+03:00",  # WORKING_DATE_ALLOW_MIDNIGHT_FROM in future
+                "2019-09-21T00:00:00+03:00",  # Award period end date on last working
+                "2019-09-16T12:04:00+03:00",  # Award period end date sandbox mode
+            ],
+            [
+                "non_working_day",
+                "2019-09-15T12:00:00+03:00",  # Tender created on weekend
+                "2019-10-01T00:00:00+03:00",  # NORMALIZED_COMPLAINT_PERIOD_FROM in future
+                "2019-10-01T00:00:00+03:00",  # WORKING_DATE_ALLOW_MIDNIGHT_FROM in future
+                "2019-09-20T00:00:00+03:00",  # Award period end date on last working (but after weekend)
+                "2019-09-15T12:04:00+03:00",  # Award period end date sandbox mode
+            ],
+            [
+                "non_working_day",
+                "2019-09-15T12:00:00+03:00",  # Tender created on weekend
+                "2019-08-01T00:00:00+03:00",  # NORMALIZED_COMPLAINT_PERIOD_FROM in future
+                "2019-10-01T00:00:00+03:00",  # WORKING_DATE_ALLOW_MIDNIGHT_FROM in future
+                "2019-09-20T00:00:00+03:00",  # Award period end date on last working (but after weekend)
+                "2019-09-15T12:04:00+03:00",  # Award period end date sandbox mode
+            ],
+            [
+                "non_working_day",
+                "2019-09-15T12:00:00+03:00",  # Tender created on weekend
+                "2019-08-01T00:00:00+03:00",  # NORMALIZED_COMPLAINT_PERIOD_FROM in future
+                "2019-08-01T00:00:00+03:00",  # WORKING_DATE_ALLOW_MIDNIGHT_FROM in future
+                "2019-09-20T00:00:00+03:00",  # Award period end date on last working
+                "2019-09-15T12:04:00+03:00",  # Award period end date sandbox mode
+            ],
+        ]
+    )
+    def test_tender_award_complaint_period(
+        self, name, date_str, mock_normalized_date_str, mock_midnight_date_str, expected_date_str, expected_sb_date_str
+    ):
+        tender_award_complaint_period(
+            self,
+            parse_date(date_str),
+            parse_date(mock_normalized_date_str),
+            parse_date(mock_midnight_date_str),
+            parse_date(expected_date_str),
+            parse_date(expected_sb_date_str),
+        )
 
 
 class TenderLotAwardResourceTest(BaseTenderUAContentWebTest):

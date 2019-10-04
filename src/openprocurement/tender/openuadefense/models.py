@@ -15,8 +15,11 @@ from openprocurement.tender.core.models import (
     get_tender,
 )
 from openprocurement.tender.openua.models import Tender as BaseTender, IAboveThresholdUATender
-from openprocurement.tender.openua.utils import calculate_normalized_date
-from openprocurement.tender.core.utils import calc_auction_end_time
+from openprocurement.tender.core.utils import (
+    calc_auction_end_time,
+    calculate_complaint_business_date,
+    calculate_clarifications_business_date,
+)
 from openprocurement.tender.openuadefense.constants import (
     TENDER_PERIOD,
     ENQUIRY_STAND_STILL_TIME,
@@ -25,8 +28,7 @@ from openprocurement.tender.openuadefense.constants import (
     COMPLAINT_OLD_SUBMIT_TIME,
     COMPLAINT_OLD_SUBMIT_TIME_BEFORE,
 )
-
-from openprocurement.tender.openuadefense.utils import calculate_business_date
+from openprocurement.tender.openuadefense.utils import calculate_tender_business_date
 
 
 class IAboveThresholdUADefTender(IAboveThresholdUATender):
@@ -85,38 +87,29 @@ class Tender(BaseTender):
     )  # The entity managing the procurement, which may be different from the buyer who is paying / using the items
     lots = ListType(ModelType(Lot, required=True), default=list(), validators=[validate_lots_uniq])
     procurementMethodType = StringType(default="aboveThresholdUA.defense")
-    procuring_entity_kinds = ["defense"]
+    procuring_entity_kinds = ["defense", "central"]
 
     @serializable(serialized_name="enquiryPeriod", type=ModelType(EnquiryPeriod))
     def tender_enquiryPeriod(self):
-        endDate = calculate_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME, self, True)
+        endDate = calculate_tender_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME, self, True)
+        clarificationsUntil = calculate_clarifications_business_date(endDate, ENQUIRY_STAND_STILL_TIME, self, True)
         return EnquiryPeriod(
             dict(
                 startDate=self.tenderPeriod.startDate,
                 endDate=endDate,
                 invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
-                clarificationsUntil=calculate_business_date(endDate, ENQUIRY_STAND_STILL_TIME, self, True),
+                clarificationsUntil=clarificationsUntil,
             )
         )
 
     def validate_tenderPeriod(self, data, period):
-        if period and calculate_business_date(period.startDate, TENDER_PERIOD, data, True) > period.endDate:
+        if period and calculate_tender_business_date(period.startDate, TENDER_PERIOD, data, True) > period.endDate:
             raise ValidationError(u"tenderPeriod should be greater than {0.days} working days".format(TENDER_PERIOD))
 
     @serializable(type=ModelType(Period))
     def complaintPeriod(self):
         if self.tenderPeriod.startDate < COMPLAINT_OLD_SUBMIT_TIME_BEFORE:
-            return Period(
-                dict(
-                    startDate=self.tenderPeriod.startDate,
-                    endDate=calculate_business_date(self.tenderPeriod.endDate, -COMPLAINT_OLD_SUBMIT_TIME, self),
-                )
-            )
+            endDate = calculate_tender_business_date(self.tenderPeriod.endDate, -COMPLAINT_OLD_SUBMIT_TIME, self)
         else:
-            normalized_end = calculate_normalized_date(self.tenderPeriod.endDate, self)
-            return Period(
-                dict(
-                    startDate=self.tenderPeriod.startDate,
-                    endDate=calculate_business_date(normalized_end, -COMPLAINT_SUBMIT_TIME, self, True),
-                )
-            )
+            endDate = calculate_complaint_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME, self)
+        return Period(dict(startDate=self.tenderPeriod.startDate, endDate=endDate))

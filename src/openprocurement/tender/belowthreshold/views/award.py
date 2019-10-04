@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import get_now, json_view, APIResource, context_unpack, raise_operation_error
 
-from openprocurement.tender.core.utils import save_tender, optendersresource, apply_patch, calculate_business_date
+from openprocurement.tender.core.utils import (
+    save_tender,
+    optendersresource,
+    apply_patch,
+    calculate_tender_business_date,
+)
 
 from openprocurement.tender.core.validation import (
     validate_award_data,
@@ -311,7 +316,7 @@ class TenderAwardResource(APIResource):
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if award_status == "pending" and award.status == "active":
             now = get_now()
-            award.complaintPeriod.endDate = calculate_business_date(now, STAND_STILL_TIME, tender, True)
+            award.complaintPeriod.endDate = calculate_tender_business_date(now, STAND_STILL_TIME, tender, True)
             add_contract(self.request, award, now)
             add_next_award(self.request)
         elif award_status == "active" and award.status == "cancelled":
@@ -328,7 +333,7 @@ class TenderAwardResource(APIResource):
                     i.status = "cancelled"
             add_next_award(self.request)
         elif award_status == "pending" and award.status == "unsuccessful":
-            award.complaintPeriod.endDate = calculate_business_date(get_now(), STAND_STILL_TIME, tender, True)
+            award.complaintPeriod.endDate = calculate_tender_business_date(get_now(), STAND_STILL_TIME, tender, True)
             add_next_award(self.request)
         elif (
             award_status == "unsuccessful"

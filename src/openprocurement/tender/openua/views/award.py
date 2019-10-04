@@ -8,9 +8,14 @@ from openprocurement.tender.core.validation import (
 )
 from openprocurement.tender.belowthreshold.views.award import TenderAwardResource
 from openprocurement.api.utils import json_view, context_unpack, get_now, raise_operation_error
-from openprocurement.tender.core.utils import apply_patch, optendersresource, save_tender, calculate_business_date
+from openprocurement.tender.core.utils import (
+    apply_patch,
+    optendersresource,
+    save_tender,
+    calculate_complaint_business_date,
+)
 from openprocurement.tender.openua.constants import STAND_STILL_TIME
-from openprocurement.tender.openua.utils import add_next_award, calculate_normalized_date
+from openprocurement.tender.openua.utils import add_next_award
 
 
 @optendersresource(
@@ -95,8 +100,7 @@ class TenderUaAwardResource(TenderAwardResource):
         configurator = self.request.content_configurator
         if award_status == "pending" and award.status == "active":
             now = get_now()
-            normalized_end = calculate_normalized_date(now, tender, True)
-            award.complaintPeriod.endDate = calculate_business_date(normalized_end, STAND_STILL_TIME, tender)
+            award.complaintPeriod.endDate = calculate_complaint_business_date(now, STAND_STILL_TIME, tender, True)
             add_contract(self.request, award, now)
             add_next_award(
                 self.request,
@@ -138,8 +142,7 @@ class TenderUaAwardResource(TenderAwardResource):
                 awarding_criteria_key=configurator.awarding_criteria_key,
             )
         elif award_status == "pending" and award.status == "unsuccessful":
-            normalized_end = calculate_normalized_date(get_now(), tender, True)
-            award.complaintPeriod.endDate = calculate_business_date(normalized_end, STAND_STILL_TIME, tender)
+            award.complaintPeriod.endDate = calculate_complaint_business_date(get_now(), STAND_STILL_TIME, tender, True)
             add_next_award(
                 self.request,
                 reverse=configurator.reverse_awarding_criteria,

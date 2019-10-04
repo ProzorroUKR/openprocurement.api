@@ -522,7 +522,7 @@ def create_tender_award_no_scale_invalid(self):
     )
 
 
-# TenderAwardResourceNoScaleTest
+# TenderAwardResourceScaleTest
 
 
 @mock.patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))

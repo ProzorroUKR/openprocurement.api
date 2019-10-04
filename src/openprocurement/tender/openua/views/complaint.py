@@ -9,7 +9,12 @@ from openprocurement.tender.core.validation import (
     validate_complaint_operation_not_in_active_tendering,
     validate_update_complaint_not_in_allowed_complaint_status,
 )
-from openprocurement.tender.core.utils import save_tender, apply_patch, optendersresource, calculate_business_date
+from openprocurement.tender.core.utils import (
+    save_tender,
+    apply_patch,
+    optendersresource,
+    calculate_tender_business_date,
+)
 from openprocurement.tender.openua.validation import validate_submit_claim_time
 from openprocurement.tender.openua.constants import CLAIM_SUBMIT_TIME, COMPLAINT_SUBMIT_TIME
 
@@ -105,7 +110,7 @@ class TenderUaComplaintResource(TenderComplaintResource):
             and self.context.status == "draft"
             and data.get("status", self.context.status) == "claim"
         ):
-            if get_now() > calculate_business_date(tender.tenderPeriod.endDate, -CLAIM_SUBMIT_TIME, tender):
+            if get_now() > calculate_tender_business_date(tender.tenderPeriod.endDate, -CLAIM_SUBMIT_TIME, tender):
                 raise_operation_error(
                     self.request,
                     "Can submit claim not later than {0.days} days before tenderPeriod end".format(CLAIM_SUBMIT_TIME),

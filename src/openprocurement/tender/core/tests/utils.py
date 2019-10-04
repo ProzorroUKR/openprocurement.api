@@ -1,22 +1,23 @@
 # -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
-from datetime import datetime, timedelta, time
+
+from datetime import datetime, timedelta
 from mock import patch, MagicMock, call
 from schematics.transforms import wholelist
 from schematics.types import StringType
 from pyramid.exceptions import URLDecodeError
 from openprocurement.tender.core.utils import (
+    SubscribersPicker,
+    isTender,
     generate_tender_id,
     tender_serialize,
     tender_from_data,
-    register_tender_procurementMethodType,
-    calculate_business_date,
-    isTender,
-    SubscribersPicker,
     extract_tender,
+    register_tender_procurementMethodType,
     has_unanswered_complaints,
     has_unanswered_questions,
+    calculate_tender_business_date,
 )
 from openprocurement.api.constants import TZ
 from openprocurement.tender.core.models import Tender as BaseTender, Lot, Complaint, Item, Question
@@ -99,32 +100,15 @@ class TestUtils(unittest.TestCase):
         bellow_threshold = config.registry.tender_procurementMethodTypes.get("bellowThreshold")
         self.assertEqual(bellow_threshold, Tender)
 
-    def test_calculate_business_date(self):
+
+    def test_calculate_tender_business_date(self):
         date_obj = datetime(2017, 10, 7)
         delta_obj = timedelta(days=7)
 
         # Test with accelerator = 1440
         context = {"procurementMethodDetails": "quick, accelerator=1440", "procurementMethodType": "negotiation"}
-        business_date = calculate_business_date(date_obj, delta_obj, context=context, working_days=True)
+        business_date = calculate_tender_business_date(date_obj, delta_obj, tender=context, working_days=True)
         self.assertEqual(business_date, datetime(2017, 10, 7, 0, 7))
-
-        # Test without context and working_days
-        business_date = calculate_business_date(date_obj, delta_obj)
-        self.assertEqual(business_date, datetime(2017, 10, 14))
-
-        # Test with working_days and timedelta_obj > timedelta()
-        business_date = calculate_business_date(date_obj, delta_obj, working_days=True)
-        self.assertEqual(business_date, datetime(2017, 10, 19))
-
-        # Test with working days and timedelta_obj < timedelta()
-        business_date = calculate_business_date(date_obj, timedelta(0), working_days=True)
-        self.assertEqual(business_date, datetime(2017, 10, 7))
-
-        # Another test with working days and timedelta > timedelta()
-        date_obj = datetime(2017, 10, 15)
-        delta_obj = timedelta(1)
-        business_date = calculate_business_date(date_obj, delta_obj, working_days=True)
-        self.assertEqual(business_date, datetime(2017, 10, 18))
 
     @patch("openprocurement.tender.core.utils.error_handler")
     def test_tender_from_data(self, mocked_handler):

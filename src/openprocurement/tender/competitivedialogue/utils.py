@@ -15,7 +15,7 @@ from openprocurement.api.utils import (
 from openprocurement.tender.core.utils import (
     save_tender,
     apply_patch,
-    calculate_business_date,
+    calculate_tender_business_date,
     has_unanswered_questions,
     has_unanswered_complaints,
 )
@@ -100,7 +100,7 @@ def patch_eu(self):
         and tender.status == "active.pre-qualification.stand-still"
     ):
         if all_bids_are_reviewed(self.request):
-            tender.qualificationPeriod.endDate = calculate_business_date(
+            tender.qualificationPeriod.endDate = calculate_tender_business_date(
                 get_now(), COMPLAINT_STAND_STILL, self.request.validated["tender"]
             )
             tender.check_auction_time()

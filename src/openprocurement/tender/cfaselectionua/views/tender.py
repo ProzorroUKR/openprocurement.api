@@ -2,7 +2,12 @@
 from copy import deepcopy
 from openprocurement.api.utils import context_unpack, json_view, APIResource, get_now, raise_operation_error
 
-from openprocurement.tender.core.utils import save_tender, optendersresource, apply_patch, calculate_business_date
+from openprocurement.tender.core.utils import (
+    save_tender,
+    optendersresource,
+    apply_patch,
+    calculate_tender_business_date,
+)
 from openprocurement.tender.cfaselectionua.validation import (
     validate_patch_tender_in_draft_pending,
     validate_patch_tender_bot_only_in_draft_pending,
@@ -189,11 +194,11 @@ class TenderResource(APIResource):
                 check_agreement(self.request, tender)
                 if tender.status == "active.enquiries":
                     tender.enquiryPeriod.startDate = get_now()
-                    tender.enquiryPeriod.endDate = calculate_business_date(
+                    tender.enquiryPeriod.endDate = calculate_tender_business_date(
                         tender.enquiryPeriod.startDate, self.request.content_configurator.enquiry_period, tender
                     )
                     tender.tenderPeriod.startDate = tender.enquiryPeriod.endDate
-                    tender.tenderPeriod.endDate = calculate_business_date(
+                    tender.tenderPeriod.endDate = calculate_tender_business_date(
                         tender.tenderPeriod.startDate, self.request.content_configurator.tender_period, tender
                     )
                     calculate_agreement_contracts_value_amount(self.request, tender)

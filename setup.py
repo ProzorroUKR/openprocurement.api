@@ -28,6 +28,7 @@ requires = [
     'zope.component',
     'zope.configuration',
     'esculator',
+    'dateorro',
     'configparser',
 ]
 test_requires = requires + [
@@ -35,6 +36,8 @@ test_requires = requires + [
     'python-coveralls',
     'mock',
     'jmespath',
+    'freezegun',
+    'parameterized',
 ]
 docs_requires = requires + [
     'sphinxcontrib-httpdomain',

@@ -7,7 +7,12 @@ from openprocurement.api.utils import (
     error_handler,
     raise_operation_error,
 )
-from openprocurement.tender.core.utils import save_tender, apply_patch, optendersresource, calculate_business_date
+from openprocurement.tender.core.utils import (
+    save_tender,
+    apply_patch,
+    optendersresource,
+    calculate_tender_business_date,
+)
 from openprocurement.api.validation import validate_file_upload, validate_file_update, validate_patch_document_data
 from openprocurement.tender.core.validation import (
     validate_document_operation_in_not_allowed_period,
@@ -32,7 +37,7 @@ class TenderUaDocumentResource(TenderDocumentResource):
         """
         if (
             self.request.validated["tender_status"] == "active.tendering"
-            and calculate_business_date(get_now(), TENDERING_EXTRA_PERIOD, self.request.validated["tender"])
+            and calculate_tender_business_date(get_now(), TENDERING_EXTRA_PERIOD, self.request.validated["tender"])
             > self.request.validated["tender"].tenderPeriod.endDate
         ):
             raise_operation_error(

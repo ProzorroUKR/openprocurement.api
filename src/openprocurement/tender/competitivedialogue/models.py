@@ -30,7 +30,7 @@ from openprocurement.tender.core.models import (
     validate_lots_uniq,
     Lot as BaseLotUA,
 )
-from openprocurement.tender.core.utils import calculate_business_date
+from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.openua.models import Item as BaseUAItem, Tender as BaseTenderUA
 from openprocurement.tender.openua.constants import TENDER_PERIOD as TENDERING_DURATION_UA
 from openprocurement.tender.openeu.models import (
@@ -375,7 +375,7 @@ class CompetitiveDialogUA(CompetitiveDialogEU):
 def init_PeriodStartEndRequired(tendering_duration):
     def wrapper():
         return PeriodStartEndRequired(
-            {"startDate": get_now(), "endDate": calculate_business_date(get_now(), tendering_duration)}
+            {"startDate": get_now(), "endDate": calculate_tender_business_date(get_now(), tendering_duration)}
         )
 
     return wrapper

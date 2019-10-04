@@ -13,7 +13,6 @@ from string import hexdigits
 from openprocurement.api.utils import get_now, get_first_revision_date
 from openprocurement.api.constants import TZ
 from openprocurement.api.models import (
-    listing_role,
     Address,
     Period,
     Model,
@@ -22,7 +21,6 @@ from openprocurement.api.models import (
     SifterListType,
     Identifier as BaseIdentifier,
     ContactPoint as BaseContactPoint,
-    plain_role,
 )
 from openprocurement.api.validation import validate_cpv_group, validate_items_uniq, validate_classification_id
 from openprocurement.tender.core.models import (
@@ -50,14 +48,15 @@ from openprocurement.tender.core.models import (
     PROCURING_ENTITY_KINDS,
 )
 from openprocurement.tender.core.utils import (
-    calculate_business_date,
+    calculate_tender_business_date,
     calc_auction_end_time,
     has_unanswered_questions,
     has_unanswered_complaints,
+    calculate_complaint_business_date,
+    calculate_clarifications_business_date,
 )
 from openprocurement.tender.belowthreshold.models import Tender as BaseTender
 from openprocurement.tender.core.validation import validate_lotvalue_value, validate_relatedlot
-from openprocurement.tender.openua.utils import calculate_normalized_date
 from openprocurement.tender.openua.models import (
     Complaint as BaseComplaint,
     Award as BaseAward,
@@ -225,7 +224,7 @@ class TenderAuctionPeriod(Period):
             return
         start_after = None
         if tender.status == "active.tendering" and tender.tenderPeriod.endDate:
-            start_after = calculate_business_date(tender.tenderPeriod.endDate, TENDERING_AUCTION, tender)
+            start_after = calculate_tender_business_date(tender.tenderPeriod.endDate, TENDERING_AUCTION, tender)
         elif self.startDate and get_now() > calc_auction_end_time(tender.numberOfBids, self.startDate):
             start_after = calc_auction_end_time(tender.numberOfBids, self.startDate)
         elif tender.qualificationPeriod and tender.qualificationPeriod.endDate:
@@ -259,7 +258,7 @@ class LotAuctionPeriod(Period):
             return
         start_after = None
         if tender.status == "active.tendering" and tender.tenderPeriod.endDate:
-            start_after = calculate_business_date(tender.tenderPeriod.endDate, TENDERING_AUCTION, tender)
+            start_after = calculate_tender_business_date(tender.tenderPeriod.endDate, TENDERING_AUCTION, tender)
         elif self.startDate and get_now() > calc_auction_end_time(lot.numberOfBids, self.startDate):
             start_after = calc_auction_end_time(lot.numberOfBids, self.startDate)
         elif tender.qualificationPeriod and tender.qualificationPeriod.endDate:
@@ -728,25 +727,21 @@ class Tender(BaseTender):
 
     @serializable(serialized_name="enquiryPeriod", type=ModelType(EnquiryPeriod))
     def tender_enquiryPeriod(self):
-        endDate = calculate_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL, self)
+        endDate = calculate_tender_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL, self)
+        clarificationsUntil = calculate_clarifications_business_date(endDate, ENQUIRY_STAND_STILL_TIME, self, True)
         return EnquiryPeriod(
             dict(
                 startDate=self.tenderPeriod.startDate,
                 endDate=endDate,
                 invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
-                clarificationsUntil=calculate_business_date(endDate, ENQUIRY_STAND_STILL_TIME, self, True),
+                clarificationsUntil=clarificationsUntil,
             )
         )
 
     @serializable(type=ModelType(Period))
     def complaintPeriod(self):
-        normalized_end = calculate_normalized_date(self.tenderPeriod.endDate, self)
-        return Period(
-            dict(
-                startDate=self.tenderPeriod.startDate,
-                endDate=calculate_business_date(normalized_end, -COMPLAINT_SUBMIT_TIME, self),
-            )
-        )
+        endDate = calculate_complaint_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME, self)
+        return Period(dict(startDate=self.tenderPeriod.startDate, endDate=endDate))
 
     @serializable(serialize_when_none=False)
     def next_check(self):
@@ -844,9 +839,9 @@ class Tender(BaseTender):
 
     def validate_tenderPeriod(self, data, period):
         # if data['_rev'] is None when tender was created just now
-        if not data["_rev"] and calculate_business_date(get_now(), -timedelta(minutes=10)) >= period.startDate:
+        if not data["_rev"] and calculate_tender_business_date(get_now(), -timedelta(minutes=10)) >= period.startDate:
             raise ValidationError(u"tenderPeriod.startDate should be in greater than current date")
-        if period and calculate_business_date(period.startDate, TENDERING_DURATION, data) > period.endDate:
+        if period and calculate_tender_business_date(period.startDate, TENDERING_DURATION, data) > period.endDate:
             raise ValidationError(u"tenderPeriod should be greater than {} days".format(TENDERING_DAYS))
 
     @serializable
@@ -860,7 +855,9 @@ class Tender(BaseTender):
             and self.auctionPeriod.startDate
             and self.auctionPeriod.shouldStartAfter
             and self.auctionPeriod.startDate
-            > calculate_business_date(parse_date(self.auctionPeriod.shouldStartAfter), AUCTION_PERIOD_TIME, self, True)
+            > calculate_tender_business_date(
+                parse_date(self.auctionPeriod.shouldStartAfter), AUCTION_PERIOD_TIME, self, True
+            )
         ):
             self.auctionPeriod.startDate = None
         for lot in self.lots:
@@ -869,7 +866,7 @@ class Tender(BaseTender):
                 and lot.auctionPeriod.startDate
                 and lot.auctionPeriod.shouldStartAfter
                 and lot.auctionPeriod.startDate
-                > calculate_business_date(
+                > calculate_tender_business_date(
                     parse_date(lot.auctionPeriod.shouldStartAfter), AUCTION_PERIOD_TIME, self, True
                 )
             ):

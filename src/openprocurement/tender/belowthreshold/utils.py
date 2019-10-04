@@ -10,7 +10,7 @@ from openprocurement.api.utils import get_now, context_unpack
 from openprocurement.tender.core.utils import (
     ACCELERATOR_RE,
     error_handler,
-    calculate_business_date,
+    calculate_tender_business_date,
     cleanup_bids_for_cancelled_lots,
     remove_draft_bids,
 )
@@ -49,7 +49,7 @@ def check_complaint_status(request, complaint, now=None):
         now = get_now()
     if (
         complaint.status == "answered"
-        and calculate_business_date(complaint.dateAnswered, COMPLAINT_STAND_STILL_TIME, request.tender) < now
+        and calculate_tender_business_date(complaint.dateAnswered, COMPLAINT_STAND_STILL_TIME, request.tender) < now
     ):
         complaint.status = complaint.resolutionType
     elif complaint.status == "pending" and complaint.resolutionType and complaint.dateEscalated:

@@ -20,7 +20,7 @@ from openprocurement.tender.cfaselectionua.traversal import agreement_factory
 from openprocurement.tender.core.utils import (
     cleanup_bids_for_cancelled_lots,
     remove_draft_bids,
-    calculate_business_date,
+    calculate_tender_business_date,
 )
 from functools import partial
 from cornice.resource import resource
@@ -320,9 +320,9 @@ def check_period_and_items(request, tender):
         drop_draft_to_unsuccessful(request, tender, AGREEMENT_ITEMS)
         return
 
-    if get_now() > calculate_business_date(
-        tender.agreements[0].period.endDate, -request.content_configurator.agreement_expired_until, tender
-    ):
+    delta = -request.content_configurator.agreement_expired_until
+    date = calculate_tender_business_date(tender.agreements[0].period.endDate, delta, tender)
+    if get_now() > date:
         drop_draft_to_unsuccessful(request, tender, AGREEMENT_EXPIRED)
     elif tender.agreements[0].period.startDate > tender.date:
         drop_draft_to_unsuccessful(request, tender, AGREEMENT_START_DATE)

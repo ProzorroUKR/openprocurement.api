@@ -24,7 +24,7 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     patch_tender_lot_award_lots_none,
 )
 
-from openprocurement.tender.openua.tests.award import TenderUaAwardComplaintResourceTestMixin
+from openprocurement.tender.openua.tests.award import TenderUAAwardComplaintResourceTestMixin
 from openprocurement.tender.openua.tests.award_blanks import (
     # Tender2LotAwardComplaintResourceTest
     create_tender_lots_award_complaint,
@@ -34,7 +34,7 @@ from openprocurement.tender.openua.tests.award_blanks import (
     patch_tender_lot_award_complaint,
     # TenderAwardResourceTest
     create_tender_award_no_scale_invalid,
-    # TenderAwardResourceNoScaleTest
+    # TenderAwardResourceScaleTest
     create_tender_award_with_scale_not_required,
     create_tender_award_no_scale,
 )
@@ -95,7 +95,7 @@ class TenderAwardResourceTest(BaseTenderContentWebTest, TenderAwardResourceTestM
         self.app.authorization = ("Basic", ("broker", ""))
 
 
-class TenderAwardResourceNoScaleTest(BaseTenderContentWebTest):
+class TenderAwardResourceScaleTest(BaseTenderContentWebTest):
     initial_status = "active.qualification"
 
     def setUp(self):
@@ -105,7 +105,7 @@ class TenderAwardResourceNoScaleTest(BaseTenderContentWebTest):
         test_bid = deepcopy(test_bids[0])
         test_bid["tenderers"][0].pop("scale")
         self.initial_bids = [test_bid]
-        super(TenderAwardResourceNoScaleTest, self).setUp()
+        super(TenderAwardResourceScaleTest, self).setUp()
         self.app.authorization = ("Basic", ("token", ""))
 
     test_create_tender_award_with_scale_not_required = snitch(create_tender_award_with_scale_not_required)
@@ -163,7 +163,7 @@ class Tender2LotAwardResourceTest(BaseTenderContentWebTest, Tender2LotAwardResou
 
 
 class TenderAwardComplaintResourceTest(
-    BaseTenderContentWebTest, TenderAwardComplaintResourceTestMixin, TenderUaAwardComplaintResourceTestMixin
+    BaseTenderContentWebTest, TenderAwardComplaintResourceTestMixin, TenderUAAwardComplaintResourceTestMixin
 ):
     # initial_data = tender_data
     initial_status = "active.tendering"

@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
+from decimal import Decimal
 from re import compile
+
+from dateorro import calc_datetime, calc_working_datetime, calc_normalized_datetime
 from jsonpointer import resolve_pointer
 from functools import partial
 from datetime import datetime, time, timedelta
@@ -10,8 +13,14 @@ from pyramid.exceptions import URLDecodeError
 from pyramid.compat import decode_path_info
 from cornice.resource import resource
 from couchdb.http import ResourceConflict
-from openprocurement.api.constants import WORKING_DAYS, SANDBOX_MODE, TZ
-from openprocurement.api.utils import error_handler
+from openprocurement.api.constants import (
+    WORKING_DAYS,
+    SANDBOX_MODE,
+    TZ,
+    WORKING_DATE_ALLOW_MIDNIGHT_FROM,
+    NORMALIZED_CLARIFICATIONS_PERIOD_FROM,
+)
+from openprocurement.api.utils import error_handler, get_first_revision_date
 from openprocurement.api.utils import (
     get_now,
     context_unpack,
@@ -20,7 +29,12 @@ from openprocurement.api.utils import (
     update_logging_context,
     set_modetest_titles,
 )
-from openprocurement.tender.core.constants import BIDDER_TIME, SERVICE_TIME, AUCTION_STAND_STILL_TIME
+from openprocurement.tender.core.constants import (
+    BIDDER_TIME,
+    SERVICE_TIME,
+    AUCTION_STAND_STILL_TIME,
+    NORMALIZED_COMPLAINT_PERIOD_FROM,
+)
 from openprocurement.tender.core.traversal import factory
 
 LOGGER = getLogger("openprocurement.tender.core")
@@ -32,7 +46,7 @@ optendersresource = partial(resource, error_handler=error_handler, factory=facto
 
 
 def rounding_shouldStartAfter(start_after, tender, use_from=datetime(2016, 7, 16, tzinfo=TZ)):
-    if (tender.enquiryPeriod and tender.enquiryPeriod.startDate or get_now()) > use_from and not (
+    if use_from < (tender.enquiryPeriod and tender.enquiryPeriod.startDate or get_now()) and not (
         SANDBOX_MODE and tender.submissionMethodDetails and u"quick" in tender.submissionMethodDetails
     ):
         midnigth = datetime.combine(start_after.date(), time(0, tzinfo=start_after.tzinfo))
@@ -285,42 +299,63 @@ def get_tender_accelerator(context):
         re_obj = ACCELERATOR_RE.search(context["procurementMethodDetails"])
         if re_obj and "accelerator" in re_obj.groupdict():
             return int(re_obj.groupdict()["accelerator"])
-    return 0
+    return None
 
 
-def calculate_business_date(date_obj, timedelta_obj, context=None, working_days=False):
-    accelerator = get_tender_accelerator(context)
-    if accelerator:
-        return date_obj + (timedelta_obj / accelerator)
+def calculate_tender_date(date_obj, timedelta_obj, tender, working_days, calendar=WORKING_DAYS):
+    tender_date = get_first_revision_date(tender, default=get_now())
     if working_days:
-        if timedelta_obj > timedelta():
-            if is_non_working_date(date_obj):
-                date_obj = datetime.combine(date_obj.date(), time(0, tzinfo=date_obj.tzinfo)) + timedelta(1)
-                while is_non_working_date(date_obj):
-                    date_obj += timedelta(1)
-        else:
-            if is_non_working_date(date_obj):
-                date_obj = datetime.combine(date_obj.date(), time(0, tzinfo=date_obj.tzinfo))
-                while is_non_working_date(date_obj):
-                    date_obj -= timedelta(1)
-                date_obj += timedelta(1)
-        for _ in xrange(abs(timedelta_obj.days)):
-            date_obj += timedelta(1) if timedelta_obj > timedelta() else -timedelta(1)
-            while is_non_working_date(date_obj):
-                date_obj += timedelta(1) if timedelta_obj > timedelta() else -timedelta(1)
-        return date_obj
-    return date_obj + timedelta_obj
+        midnight = tender_date > WORKING_DATE_ALLOW_MIDNIGHT_FROM
+        return calc_working_datetime(date_obj, timedelta_obj, midnight, calendar)
+    else:
+        return calc_datetime(date_obj, timedelta_obj)
 
 
-def is_non_working_date(date_obj):
-    return any(
-        [
-            date_obj.weekday() in [5, 6] and WORKING_DAYS.get(date_obj.date().isoformat(), True),
-            WORKING_DAYS.get(date_obj.date().isoformat(), False),
-        ]
-    )
+def calculate_tender_business_date(date_obj, timedelta_obj, tender=None, working_days=False, calendar=WORKING_DAYS):
+    accelerator = get_tender_accelerator(tender)
+    if accelerator:
+        return calc_datetime(date_obj, timedelta_obj, accelerator)
+    return calculate_tender_date(date_obj, timedelta_obj, tender, working_days, calendar)
+
+
+def calculate_complaint_business_date(date_obj, timedelta_obj, tender=None, working_days=False, calendar=WORKING_DAYS):
+    accelerator = get_tender_accelerator(tender)
+    if accelerator:
+        return calc_datetime(date_obj, timedelta_obj, accelerator)
+    tender_date = get_first_revision_date(tender, default=get_now())
+    if tender_date > NORMALIZED_COMPLAINT_PERIOD_FROM:
+        source_date_obj = calc_normalized_datetime(date_obj, ceil=timedelta_obj > timedelta())
+    else:
+        source_date_obj = date_obj
+    return calculate_tender_date(source_date_obj, timedelta_obj, tender, working_days, calendar)
+
+
+def calculate_clarifications_business_date(date_obj, timedelta_obj, tender=None, working_days=False, calendar=WORKING_DAYS):
+    accelerator = get_tender_accelerator(tender)
+    if accelerator:
+        return calc_datetime(date_obj, timedelta_obj, accelerator)
+    tender_date = get_first_revision_date(tender, default=get_now())
+    if tender_date > NORMALIZED_CLARIFICATIONS_PERIOD_FROM:
+        source_date_obj = calc_normalized_datetime(date_obj, ceil=timedelta_obj > timedelta())
+    else:
+        source_date_obj = date_obj
+    return calculate_tender_date(source_date_obj, timedelta_obj, tender, working_days, calendar)
 
 
 def has_requested_fields_changes(request, fieldnames):
     changed_fields = request.validated["json_data"].keys()
     return set(fieldnames) & set(changed_fields)
+
+
+def convert_to_decimal(value):
+    """
+    Convert other to Decimal.
+    """
+    if isinstance(value, Decimal):
+        return value
+    if isinstance(value, (int, long)):
+        return Decimal(value)
+    if isinstance(value, (float)):
+        return Decimal(repr(value))
+
+    raise TypeError("Unable to convert %s to Decimal" % value)

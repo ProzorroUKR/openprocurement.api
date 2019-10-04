@@ -2,7 +2,12 @@
 from openprocurement.api.utils import get_now, json_view, APIResource, context_unpack, raise_operation_error
 from openprocurement.tender.belowthreshold.utils import add_contract
 
-from openprocurement.tender.core.utils import save_tender, optendersresource, apply_patch, calculate_business_date
+from openprocurement.tender.core.utils import (
+    save_tender,
+    optendersresource,
+    apply_patch,
+    calculate_tender_business_date,
+)
 
 from openprocurement.tender.core.validation import (
     validate_award_data,
