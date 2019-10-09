@@ -92,7 +92,8 @@ def validate_agreement_owner_accreditation_level(request):
 def validate_transfer_token(request, obj):
     if request.errors:
         return
-    if obj.transfer_token != sha512(request.validated["ownership_data"]["transfer"]).hexdigest():
+    token = request.validated["ownership_data"]["transfer"]
+    if obj.transfer_token != sha512(token.encode("utf-8")).hexdigest():
         request.errors.add("body", "transfer", "Invalid transfer")
         request.errors.status = 403
 

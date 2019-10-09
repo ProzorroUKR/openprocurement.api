@@ -3,9 +3,6 @@ from email.header import Header
 from openprocurement.api.utils import get_now
 
 
-# ContractDocumentResourceTest
-
-
 def not_found(self):
     response = self.app.get("/contracts/some_id/documents", status=404)
     self.assertEqual(response.status, "404 Not Found")
@@ -504,9 +501,6 @@ def contract_change_document(self):
         response.json["errors"],
         [{"location": "body", "name": "data", "description": "Can't add document to 'active' change"}],
     )
-
-
-# ContractDocumentWithDSResourceTest
 
 
 def create_contract_document_json_invalid(self):

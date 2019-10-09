@@ -7,9 +7,6 @@ from openprocurement.api.utils import get_now
 from openprocurement.agreement.cfaua.tests.base import TEST_DOCUMENTS
 
 
-# TestTenderAgreement
-
-
 def create_agreement(self):
     data = self.initial_data
     data["id"] = uuid.uuid4().hex
@@ -57,7 +54,8 @@ def create_agreement_with_features(self):
     for contract in data["contracts"]:
         contract.update(parameters)
 
-    response = self.app.post_json("/agreements", {"data": data})
+    with change_auth(self.app, ("Basic", ("agreements", ""))) as app:
+        response = self.app.post_json("/agreements", {"data": data})
     self.assertEqual((response.status, response.content_type), ("201 Created", "application/json"))
     agreement = response.json["data"]
     self.assertEqual(agreement["features"], data["features"])
@@ -72,14 +70,14 @@ def patch_agreement_features_invalid(self):
     data["items"] = [item]
     data["features"] = self.features
 
-    response = self.app.post_json("/agreements", {"data": data})
+    with change_auth(self.app, ("Basic", ("agreements", ""))) as app:
+        response = self.app.post_json("/agreements", {"data": data})
     self.assertEqual((response.status, response.content_type), ("201 Created", "application/json"))
     agreement = response.json["data"]
     self.assertEqual(agreement["features"], data["features"])
     agreement = response.json["data"]
     token = response.json["access"]["token"]
 
-    self.app.authorization = ("Basic", ("broker", ""))
     new_features = deepcopy(data["features"])
     new_features[0]["code"] = "OCDS-NEW-CODE"
     response = self.app.patch_json(
@@ -87,9 +85,6 @@ def patch_agreement_features_invalid(self):
     )
     self.assertEqual((response.status, response.content_type), ("403 Forbidden", "application/json"))
     self.assertEqual(response.json["errors"][0]["description"], "Can't change features")
-
-
-# AgreementResources
 
 
 def get_agreements_by_id(self):
@@ -104,7 +99,7 @@ def get_agreements_by_id(self):
     self.assertEqual(response.content_type, "application/json")
 
 
-def extract_credentials(self):
+def generate_credentials(self):
     tender_token = self.initial_data["tender_token"]
     response = self.app.get("/agreements/{}".format(self.agreement_id))
     self.assertEqual(response.status, "200 OK")
@@ -129,13 +124,6 @@ def extract_credentials(self):
 
 
 def agreement_patch_invalid(self):
-    response = self.app.patch_json(
-        "/agreements/{}/credentials?acc_token={}".format(self.agreement_id, self.initial_data["tender_token"]),
-        {"data": ""},
-    )
-    self.assertEqual(response.status, "200 OK")
-
-    token = response.json["access"]["token"]
     for data in [
         {"title": "new title"},
         {
@@ -170,7 +158,7 @@ def agreement_patch_invalid(self):
             }
         },
     ]:
-        response = self.app.patch_json("/agreements/{}?acc_token={}".format(self.agreement_id, token), {"data": data})
+        response = self.app.patch_json("/agreements/{}?acc_token={}".format(self.agreement_id, self.agreement_token), {"data": data})
         self.assertEqual(response.status, "200 OK")
         self.assertIsNone(response.json)
 
@@ -181,14 +169,14 @@ def agreement_patch_invalid(self):
     change_data["rationaleType"] = "thirdParty"
     change_data["modifications"] = [{"itemId": agreement["items"][0]["id"], "factor": 0.001}]
     response = self.app.post_json(
-        "/agreements/{}/changes?acc_token={}".format(self.agreement_id, token), {"data": change_data}
+        "/agreements/{}/changes?acc_token={}".format(self.agreement_id, self.agreement_token), {"data": change_data}
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.json["data"]["status"], "pending")
     change_id = response.json["data"]["id"]
 
     response = self.app.patch_json(
-        "/agreements/{}?acc_token={}".format(self.agreement_id, token), {"data": {"status": "terminated"}}, status=403
+        "/agreements/{}?acc_token={}".format(self.agreement_id, self.agreement_token), {"data": {"status": "terminated"}}, status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
@@ -203,13 +191,13 @@ def agreement_patch_invalid(self):
     )
 
     response = self.app.patch_json(
-        "/agreements/{}/changes/{}?acc_token={}".format(self.agreement_id, change_id, token),
+        "/agreements/{}/changes/{}?acc_token={}".format(self.agreement_id, change_id, self.agreement_token),
         {"data": {"status": "active", "dateSigned": get_now().isoformat()}},
     )
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
 
     response = self.app.patch_json(
-        "/agreements/{}?acc_token={}".format(self.agreement_id, token), {"data": {"status": "terminated"}}
+        "/agreements/{}?acc_token={}".format(self.agreement_id, self.agreement_token), {"data": {"status": "terminated"}}
     )
 
     self.assertEqual(response.status, "200 OK")
@@ -231,9 +219,6 @@ def agreement_patch_invalid(self):
             }
         ],
     )
-
-
-# AgreementListingTests
 
 
 def empty_listing(self):
@@ -389,7 +374,8 @@ def listing(self):
 
     test_agreement_data2 = deepcopy(self.initial_data)
     test_agreement_data2["mode"] = "test"
-    response = self.app.post_json("/agreements", {"data": test_agreement_data2})
+    with change_auth(self.app, ("Basic", ("agreements", ""))) as app:
+        response = self.app.post_json("/agreements", {"data": test_agreement_data2})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
@@ -799,3 +785,42 @@ def create_agreement_with_two_active_contracts(self):
     self.assertEqual(
         response.json["data"]["numberOfContracts"], len([c["id"] for c in data["contracts"] if c["status"] == "active"])
     )
+
+
+def agreement_token_invalid(self):
+    response = self.app.patch_json(
+        "/agreements/{}?acc_token={}".format(self.agreement_id, "fake token"), {"data": {}}, status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"], [{u"description": u"Forbidden", u"location": u"url", u"name": u"permission"}]
+    )
+
+    response = self.app.patch_json(
+        "/agreements/{}?acc_token={}".format(self.agreement_id, "трансфер з кирилицею"), {"data": {}}, status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"], [{u"description": u"Forbidden", u"location": u"url", u"name": u"permission"}]
+    )
+
+
+def generate_credentials_invalid(self):
+    response = self.app.patch_json(
+        "/agreements/{0}/credentials?acc_token={1}".format(self.agreement_id, "fake token"), {"data": ""}, status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"], [{u"description": u"Forbidden", u"location": u"url", u"name": u"permission"}]
+    )
+
+    response = self.app.patch_json(
+        "/agreements/{0}/credentials?acc_token={1}".format(self.agreement_id, "трансфер з кирилицею"),
+        {"data": ""},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"], [{u"description": u"Forbidden", u"location": u"url", u"name": u"permission"}]
+    )
+

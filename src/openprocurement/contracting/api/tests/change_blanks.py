@@ -4,9 +4,6 @@ from copy import deepcopy
 from openprocurement.api.utils import get_now
 
 
-# ContractNoItemsChangeTest
-
-
 def no_items_contract_change(self):
     data = deepcopy(self.initial_data)
     del data["items"]
@@ -58,9 +55,6 @@ def no_items_contract_change(self):
 
     response = self.app.get("/contracts/{}".format(contract["id"]))
     self.assertNotIn("items", response.json["data"])
-
-
-# ContactChangesResourceTest
 
 
 def not_found(self):

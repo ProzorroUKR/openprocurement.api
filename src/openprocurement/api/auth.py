@@ -36,23 +36,12 @@ class AuthenticationPolicy(BasicAuthAuthenticationPolicy):
                 return user["name"]
 
     def check(self, user, request):
-        token = request.params.get("acc_token")
-        auth_groups = ["g:{}".format(user["group"])]
-        for i in user["level"]:
-            auth_groups.append("a:{}".format(i))
-        if not token:
-            token = request.headers.get("X-Access-Token")
-            if not token:
-                if request.method in ["POST", "PUT", "PATCH"] and request.content_type == "application/json":
-                    try:
-                        json = request.json_body
-                    except ValueError:
-                        json = None
-                    token = isinstance(json, dict) and json.get("access", {}).get("token")
-                if not token:
-                    return auth_groups
-        auth_groups.append("{}_{}".format(user["name"], token))
-        auth_groups.append("{}_{}".format(user["name"], sha512(token).hexdigest()))
+        auth_groups = self._get_user_auth_groups(user)
+        token = self._get_access_token(request)
+        if token:
+            token = token.encode("utf-8")
+            auth_groups.append("{}_{}".format(user["name"], token))
+            auth_groups.append("{}_{}".format(user["name"], sha512(token).hexdigest()))
         return auth_groups
 
     def callback(self, username, request):
@@ -64,6 +53,22 @@ class AuthenticationPolicy(BasicAuthAuthenticationPolicy):
             user = self.users.get(token)
             if user:
                 return self.check(user, request)
+
+    def _get_user_auth_groups(self, user):
+        auth_groups = ["g:{}".format(user["group"])]
+        for i in user["level"]:
+            auth_groups.append("a:{}".format(i))
+        return auth_groups
+
+    def _get_access_token(self, request):
+        token = request.params.get("acc_token") or request.headers.get("X-Access-Token")
+        if not token and request.method in ["POST", "PUT", "PATCH"] and request.content_type == "application/json":
+            try:
+                json = request.json_body
+            except ValueError:
+                json = None
+            token = json.get("access", {}).get("token") if isinstance(json, dict) else None
+        return token
 
     def _get_credentials(self, request):
         authorization = request.headers.get("Authorization")

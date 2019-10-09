@@ -5,13 +5,11 @@ from openprocurement.api.tests.base import snitch
 
 from openprocurement.contracting.api.tests.base import BaseContractContentWebTest
 from openprocurement.contracting.api.tests.document_blanks import (
-    # ContractDocumentResourceTest
     not_found,
     create_contract_document,
     put_contract_document,
     patch_contract_document,
     contract_change_document,
-    # ContractDocumentWithDSResourceTest
     create_contract_document_json_invalid,
     create_contract_document_json,
     put_contract_document_json,
@@ -20,7 +18,6 @@ from openprocurement.contracting.api.tests.document_blanks import (
 
 class ContractDocumentResourceTest(BaseContractContentWebTest):
     docservice = False
-    initial_auth = ("Basic", ("broker", ""))
 
     test_not_found = snitch(not_found)
     test_create_contract_documnet = snitch(create_contract_document)

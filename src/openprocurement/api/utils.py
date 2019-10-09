@@ -6,6 +6,7 @@ from decimal import Decimal
 
 import simplejson
 import couchdb.json
+import six
 from couchdb import util
 from logging import getLogger
 from datetime import datetime, timedelta

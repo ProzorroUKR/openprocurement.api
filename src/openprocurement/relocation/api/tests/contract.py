@@ -3,10 +3,8 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.tender.core.tests.base import change_auth
-from openprocurement.contracting.api.tests.base import (
-    test_contract_data,
-    test_tender_token as test_contract_tender_token,
-)
+from openprocurement.contracting.api.tests.data import test_tender_token as test_contract_tender_token, \
+    test_contract_data
 
 
 class BaseContractOwnershipChangeTest(BaseWebTest):

@@ -6,9 +6,8 @@ from datetime import timedelta
 from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.contracting.api.models import Contract
 from openprocurement.api.utils import get_now
-
-
-# ContractTest
+from openprocurement.contracting.api.tests.data import documents
+from openprocurement.tender.core.tests.base import change_auth
 
 
 def simple_add_contract(self):
@@ -30,9 +29,6 @@ def simple_add_contract(self):
     assert u.doc_type == "Contract"
 
     u.delete_instance(self.db)
-
-
-# ContractResourceTest
 
 
 def empty_listing(self):
@@ -109,7 +105,8 @@ def listing(self):
         data = deepcopy(self.initial_data)
         data["id"] = uuid4().hex
         offset = get_now().isoformat()
-        response = self.app.post_json("/contracts", {"data": data})
+        with change_auth(self.app, ("Basic", ("contracting", ""))) as app:
+            response = self.app.post_json("/contracts", {"data": data})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
         contracts.append(response.json["data"])
@@ -184,7 +181,8 @@ def listing(self):
 
     test_contract_data2 = deepcopy(self.initial_data)
     test_contract_data2["mode"] = "test"
-    response = self.app.post_json("/contracts", {"data": test_contract_data2})
+    with change_auth(self.app, ("Basic", ("contracting", ""))) as app:
+        response = self.app.post_json("/contracts", {"data": test_contract_data2})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
@@ -215,7 +213,8 @@ def listing_changes(self):
         data = deepcopy(self.initial_data)
         data["status"] = "active"
         data["id"] = uuid4().hex
-        response = self.app.post_json("/contracts", {"data": data})
+        with change_auth(self.app, ("Basic", ("contracting", ""))) as app:
+            response = self.app.post_json("/contracts", {"data": data})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
         contracts.append(response.json["data"])
@@ -287,7 +286,8 @@ def listing_changes(self):
     test_contract_data2 = self.initial_data.copy()
     test_contract_data2["mode"] = "test"
     test_contract_data2["status"] = "active"
-    response = self.app.post_json("/contracts", {"data": test_contract_data2})
+    with change_auth(self.app, ("Basic", ("contracting", ""))) as app:
+        response = self.app.post_json("/contracts", {"data": test_contract_data2})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
@@ -352,12 +352,10 @@ def not_found(self):
 
     from openprocurement.tender.belowthreshold.tests.base import test_tender_data
 
-    orig_auth = self.app.authorization
-    self.app.authorization = ("Basic", ("broker1", ""))
-    response = self.app.post_json("/tenders", {"data": test_tender_data})
+    with change_auth(self.app, ("Basic", ("broker1", ""))):
+        response = self.app.post_json("/tenders", {"data": test_tender_data})
     self.assertEqual(response.status, "201 Created")
     tender = response.json["data"]
-    self.app.authorization = orig_auth
 
     response = self.app.get("/contracts/{}".format(tender["id"]), status=404)
     self.assertEqual(response.status, "404 Not Found")
@@ -534,9 +532,9 @@ def create_contract(self):
     self.assertIn('{\n    "', response.body)
 
     # broker has no permissions to create contract
-    self.app.authorization = ("Basic", ("broker", ""))
-    response = self.app.post_json("/contracts", {"data": self.initial_data}, status=403)
-    self.assertEqual(response.status, "403 Forbidden")
+    with change_auth(self.app, ("Basic", ("broker", ""))):
+        response = self.app.post_json("/contracts", {"data": self.initial_data}, status=403)
+        self.assertEqual(response.status, "403 Forbidden")
 
 
 def create_contract_transfer_token(self):
@@ -549,9 +547,6 @@ def create_contract_transfer_token(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertNotIn("transfer_token", response.json["data"])
-
-
-# ContractResource4BrokersTest
 
 
 def contract_status_change(self):
@@ -1032,9 +1027,6 @@ def patch_tender_contract_before_vat_single_request(self):
     self.assertEqual(response.json["data"]["amountPaid"]["valueAddedTaxIncluded"], False)
 
 
-# ContractWOAmountNetResource4BrokersTest
-
-
 def patch_tender_contract_wo_amount_net(self):
     tender_token = self.initial_data["tender_token"]
 
@@ -1071,9 +1063,6 @@ def patch_tender_contract_wo_amount_net(self):
         response.json["errors"],
         [{u"description": {u"amountNet": u"This field is required."}, u"location": u"body", u"name": u"amountPaid"}],
     )
-
-
-# ContractResource4AdministratorTest
 
 
 def contract_administrator_change(self):
@@ -1122,9 +1111,6 @@ def contract_administrator_change(self):
     self.assertEqual(response.json["data"]["owner"], self.initial_data["owner"])
     self.assertEqual(response.json["data"]["contractID"], self.initial_data["contractID"])
     self.assertEqual(response.json["data"]["dateSigned"], self.initial_data["dateSigned"])
-
-
-# ContractCredentialsTest
 
 
 def get_credentials(self):
@@ -1191,24 +1177,21 @@ def generate_credentials(self):
     )
 
 
-# ContractWDocumentsWithDSResourceTest
-
-
 def create_contract_w_documents(self):
     data = deepcopy(self.initial_data)
-    # data['documents'] = documents
+    data['documents'] = documents
     response = self.app.post_json("/contracts", {"data": data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     contract = response.json["data"]
     self.assertEqual(contract["status"], "active")
-    for index, doc in enumerate(self.documents):
-        self.assertEqual(response.json["data"]["documents"][index]["id"], self.documents[index]["id"])
+    for index, doc in enumerate(documents):
+        self.assertEqual(response.json["data"]["documents"][index]["id"], doc["id"])
         self.assertEqual(
-            response.json["data"]["documents"][index]["datePublished"], self.documents[index]["datePublished"]
+            response.json["data"]["documents"][index]["datePublished"], doc["datePublished"]
         )
         self.assertEqual(
-            response.json["data"]["documents"][index]["dateModified"], self.documents[index]["dateModified"]
+            response.json["data"]["documents"][index]["dateModified"], doc["dateModified"]
         )
 
     self.assertIn("Signature=", response.json["data"]["documents"][-1]["url"])
@@ -1285,3 +1268,41 @@ def contract_wo_items_status_change(self):
         "/contracts/{}?acc_token={}".format(self.contract["id"], token), {"data": {"status": "active"}}, status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
+
+
+def contract_token_invalid(self):
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract_id, "fake token"), {"data": {}}, status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"], [{u"description": u"Forbidden", u"location": u"url", u"name": u"permission"}]
+    )
+
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract_id, "трансфер з кирилицею"), {"data": {}}, status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"], [{u"description": u"Forbidden", u"location": u"url", u"name": u"permission"}]
+    )
+
+
+def generate_credentials_invalid(self):
+    response = self.app.patch_json(
+        "/contracts/{0}/credentials?acc_token={1}".format(self.contract_id, "fake token"), {"data": ""}, status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"], [{u"description": u"Forbidden", u"location": u"url", u"name": u"permission"}]
+    )
+
+    response = self.app.patch_json(
+        "/contracts/{0}/credentials?acc_token={1}".format(self.contract_id, "трансфер з кирилицею"),
+        {"data": ""},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"], [{u"description": u"Forbidden", u"location": u"url", u"name": u"permission"}]
+    )
