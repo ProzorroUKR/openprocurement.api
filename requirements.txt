@@ -68,6 +68,8 @@ isodate==0.6.0
 python-json-logger==0.1.10
 jmespath==0.9.3
 execnet==1.1
+configparser==4.0.2
+
 
 git+git://github.com/ProzorroUKR/request_id_middleware.git@0.1.2
 git+git://github.com/ProzorroUKR/openprocurement.subscribers.serverid.git@1.0

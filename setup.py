@@ -28,6 +28,7 @@ requires = [
     'zope.component',
     'zope.configuration',
     'esculator',
+    'configparser',
 ]
 test_requires = requires + [
     'webtest',
