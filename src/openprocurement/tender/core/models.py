@@ -54,6 +54,7 @@ from openprocurement.tender.core.validation import (
     validate_bid_value,
     validate_relatedlot,
 )
+from openprocurement.planning.api.models import PlanOrganization
 
 
 view_bid_role = blacklist("owner_token", "owner", "transfer_token") + schematics_default_role
@@ -920,6 +921,7 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
             "awardCriteriaDetails_en",
             "description",
             "milestones",
+            "buyers",
             "procurementMethodRationale_ru",
             "description_en",
             "mainProcurementCategory",
@@ -1023,6 +1025,7 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
     )
     mainProcurementCategory = StringType(choices=["goods", "services", "works"])
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
+    buyers = ListType(ModelType(PlanOrganization, required=True), default=list())
     plans = ListType(ModelType(PlanRelation, required=True), default=list())
 
     def link_plan(self, plan_id):
@@ -1033,11 +1036,6 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
             raise ValidationError("The list should not contain duplicates")
         if len(value) > 1 and data.get("procuringEntity", {}).get("kind", "") != "central":
             raise ValidationError("Linking more than one plan is allowed only if procuringEntity.kind is 'central'")
-
-    def validate_mainProcurementCategory(self, data, value):
-        validation_date = get_first_revision_date(data, default=get_now())
-        if validation_date >= MPC_REQUIRED_FROM and value is None:
-            raise ValidationError(BaseType.MESSAGES["required"])
 
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
     revisions = ListType(ModelType(Revision, required=True), default=list())
@@ -1084,6 +1082,10 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
         required = get_first_revision_date(data, default=get_now()) > MILESTONES_VALIDATION_FROM
         if required and (value is None or len(value) < 1):
             raise ValidationError("Tender should contain at least one milestone")
+
+    def validate_buyers(self, data, value):
+        if data.get("procuringEntity", {}).get("kind", "") == "central" and not value:
+            raise ValidationError(BaseType.MESSAGES["required"])
 
 
 class Tender(BaseTender):
