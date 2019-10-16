@@ -2,14 +2,14 @@
 from copy import deepcopy
 from uuid import uuid4
 
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.base import BaseCoreWebTest
 from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
 
-now = datetime.now()
+now = get_now()
 test_organization = {
     "name": u"Державне управління справами",
     "identifier": {"scheme": u"UA-EDR", "id": u"00037256", "uri": u"http://www.dus.gov.ua/"},

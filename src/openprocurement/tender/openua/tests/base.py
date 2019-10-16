@@ -5,15 +5,14 @@ from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_data as test_tender_data_api,
-    now,
     test_features_tender_data,
     BaseTenderWebTest,
     test_bids as base_test_bids,
 )
 
+now = get_now()
 test_tender_data = test_tender_ua_data = test_tender_data_api.copy()
 test_tender_data["procurementMethodType"] = "aboveThresholdUA"
-# test_tender_data["enquiryPeriod"] = {}
 del test_tender_data["enquiryPeriod"]
 test_tender_data["tenderPeriod"] = {"endDate": (now + timedelta(days=16)).isoformat()}
 test_tender_data["items"] = [
@@ -46,17 +45,12 @@ test_bids = deepcopy(base_test_bids)
 for i in test_bids:
     i.update({"selfEligible": True, "selfQualified": True})
 
-
-# test_tender_data["tenderPeriod"] = test_tender_data["enquiryPeriod"].copy()
-
 test_features_tender_ua_data = test_features_tender_data.copy()
 test_features_tender_ua_data["procurementMethodType"] = "aboveThresholdUA"
-# test_features_tender_ua_data["enquiryPeriod"] = {}
 del test_features_tender_ua_data["enquiryPeriod"]
 test_features_tender_ua_data["tenderPeriod"] = {"endDate": (now + timedelta(days=16)).isoformat()}
 test_features_tender_ua_data["items"][0]["deliveryDate"] = test_tender_data["items"][0]["deliveryDate"]
 test_features_tender_ua_data["items"][0]["deliveryAddress"] = test_tender_data["items"][0]["deliveryAddress"]
-# test_features_tender_ua_data["tenderPeriod"] = test_features_tender_ua_data["enquiryPeriod"].copy()
 
 
 class BaseTenderUAWebTest(BaseTenderWebTest):

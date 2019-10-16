@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
+from iso8601 import parse_date
+
 from openprocurement.api.models import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
 
@@ -385,12 +387,18 @@ def next_check_value_with_unanswered_question(self):
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertIn("next_check", response.json["data"])
-    self.assertEqual(response.json["data"]["next_check"], response.json["data"]["tenderPeriod"]["endDate"])
+    self.assertEqual(
+        parse_date(response.json["data"]["next_check"]),
+        parse_date(response.json["data"]["tenderPeriod"]["endDate"])
+    )
 
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], self.question_claim_block_status)
     self.assertIn("next_check", response.json["data"])
-    self.assertGreater(response.json["data"]["next_check"], response.json["data"]["tenderPeriod"]["endDate"])
+    self.assertGreater(
+        parse_date(response.json["data"]["next_check"]),
+        parse_date(response.json["data"]["tenderPeriod"]["endDate"])
+    )
 
 
 def next_check_value_with_unanswered_claim(self):
@@ -431,11 +439,17 @@ def next_check_value_with_unanswered_claim(self):
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertIn("next_check", response.json["data"])
-    self.assertEqual(response.json["data"]["next_check"], response.json["data"]["tenderPeriod"]["endDate"])
+    self.assertEqual(
+        parse_date(response.json["data"]["next_check"]),
+        parse_date(response.json["data"]["tenderPeriod"]["endDate"])
+    )
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], self.question_claim_block_status)
     self.assertIn("next_check", response.json["data"])
-    self.assertGreater(response.json["data"]["next_check"], response.json["data"]["tenderPeriod"]["endDate"])
+    self.assertGreater(
+        parse_date(response.json["data"]["next_check"]),
+        parse_date(response.json["data"]["tenderPeriod"]["endDate"])
+    )
 
 
 # TenderLotBidderResourceTest
