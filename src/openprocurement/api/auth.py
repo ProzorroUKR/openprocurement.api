@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import binascii
-import codecs
 from hashlib import sha512
 from pyramid.authentication import BasicAuthAuthenticationPolicy, b64decode
 from configparser import ConfigParser
@@ -182,7 +181,7 @@ def extract_access_token(request):
 
 def read_auth_users(auth_file, encoding="utf8", default_level=""):
     config = ConfigParser()
-    config.read_file(codecs.open(auth_file, mode="r", encoding=encoding))
+    config.read(auth_file, encoding=encoding)
     users = {}
     for i in config.sections():
         for j, k in config.items(i):
