@@ -24,6 +24,7 @@ from openprocurement.planning.api.tests.plan_blanks import (
     patch_plan,
     patch_plan_with_token,
     patch_plan_item_quantity,
+    plan_token_invalid,
     plan_not_found,
     esco_plan,
     cfaua_plan,
@@ -53,20 +54,24 @@ test_data_with_year["budget"]["year"] = 2018
 del test_data_with_year["budget"]["period"]
 
 
-class PlanTest(BaseWebTest):
+class BasePlanWebTest(BaseWebTest):
+    initial_auth = ("Basic", ("broker", ""))
+
+
+class PlanTest(BasePlanWebTest):
     initial_data = test_plan_data
 
     test_simple_add_plan = snitch(simple_add_plan)
 
 
-class AccreditationPlanTest(BaseWebTest):
+class AccreditationPlanTest(BasePlanWebTest):
     initial_data = test_plan_data
     initial_data_mode_test = test_plan_data_mode_test
 
     test_create_plan_accrediatation = snitch(create_plan_accreditation)
 
 
-class PlanResourceTest(BaseWebTest):
+class PlanResourceTest(BasePlanWebTest):
     initial_data = test_plan_data
     initial_data_with_year = test_data_with_year
 
@@ -80,12 +85,13 @@ class PlanResourceTest(BaseWebTest):
     test_patch_plan = snitch(patch_plan)
     test_patch_plan_with_token = snitch(patch_plan_with_token)
     test_patch_plan_item_quantity = snitch(patch_plan_item_quantity)
+    test_plan_token_invalid = snitch(plan_token_invalid)
     test_plan_not_found = snitch(plan_not_found)
     test_esco_plan = snitch(esco_plan)
     test_cfaua_plan = snitch(cfaua_plan)
 
 
-class PlanBudgetBreakdownTest(BaseWebTest):
+class PlanBudgetBreakdownTest(BasePlanWebTest):
     initial_data = test_plan_data
 
     test_create_plan_with_breakdown = snitch(create_plan_with_breakdown)
@@ -98,7 +104,7 @@ class PlanBudgetBreakdownTest(BaseWebTest):
 
 
 @mock.patch("openprocurement.planning.api.models.BUDGET_PERIOD_FROM", get_now() + timedelta(days=1))
-class PlanBudgetYearTest(BaseWebTest):
+class PlanBudgetYearTest(BasePlanWebTest):
     initial_data = test_plan_data
     initial_data_with_year = test_data_with_year
 
@@ -107,7 +113,7 @@ class PlanBudgetYearTest(BaseWebTest):
 
 
 @mock.patch("openprocurement.planning.api.models.PLAN_BUYERS_REQUIRED_FROM", get_now() + timedelta(days=1))
-class PlanBuyersTestCase(BaseWebTest):
+class PlanBuyersTestCase(BasePlanWebTest):
     initial_data = test_plan_data
 
     test_create_plan_without_buyers = snitch(create_plan_without_buyers)

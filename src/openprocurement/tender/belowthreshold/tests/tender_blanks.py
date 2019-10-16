@@ -2357,3 +2357,25 @@ def patch_tender_lots_none(self):
             ],
         },
     )
+
+
+def tender_token_invalid(self):
+    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    self.assertEqual(response.status, "201 Created")
+    self.tender_id = response.json["data"]["id"]
+
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, "fake token"), {"data": {}}, status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"], [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}]
+    )
+
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, "токен з кирилицею"), {"data": {}}, status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"], [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}]
+    )

@@ -13,7 +13,7 @@ from openprocurement.contracting.api.migration import (
     set_db_schema_version,
     SCHEMA_VERSION,
 )
-from openprocurement.contracting.api.tests.base import test_contract_data
+from openprocurement.contracting.api.tests.data import test_contract_data
 from openprocurement.tender.core.tests.base import BaseWebTest
 
 

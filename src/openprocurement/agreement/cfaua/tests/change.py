@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-import os
 import unittest
 
-from openprocurement.agreement.cfaua.tests.base import test_agreement_data, BaseAgreementContentWebTest
+from openprocurement.agreement.cfaua.tests.data import test_agreement_data
+from openprocurement.agreement.cfaua.tests.base import BaseWebTest, BaseAgreementContentWebTest
 
 from openprocurement.agreement.cfaua.tests.change_blanks import (
     no_items_agreement_change,
@@ -21,18 +21,13 @@ from openprocurement.agreement.cfaua.tests.change_blanks import (
 )
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.core.tests.base import BaseWebTest
-
 
 class AgreementNoItemsChangeTest(BaseWebTest):
-    relative_to = os.path.dirname(__file__)
     initial_data = test_agreement_data
     test_no_items_agreement_change = snitch(no_items_agreement_change)
 
 
-class ContractChangesResourceTest(BaseAgreementContentWebTest):
-    initial_auth = ("Basic", ("broker", ""))
-
+class AgreementChangesResourceTest(BaseAgreementContentWebTest):
     test_not_found = snitch(not_found)
     test_get_change = snitch(get_change)
     test_create_change_invalid = snitch(create_change_invalid)
@@ -54,7 +49,7 @@ class ContractChangesResourceTest(BaseAgreementContentWebTest):
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(AgreementNoItemsChangeTest))
-    suite.addTest(unittest.makeSuite(ContractChangesResourceTest))
+    suite.addTest(unittest.makeSuite(AgreementChangesResourceTest))
     return suite
 
 

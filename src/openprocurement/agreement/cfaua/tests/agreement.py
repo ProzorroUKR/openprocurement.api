@@ -3,16 +3,13 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.agreement.cfaua.tests.agreement_blanks import (
-    # TestTenderAgreement
     create_agreement,
     create_agreement_with_documents,
     create_agreement_with_features,
     patch_agreement_features_invalid,
-    # AgreementResources
     get_agreements_by_id,
-    extract_credentials,
+    generate_credentials,
     agreement_patch_invalid,
-    # AgreementListingTests
     empty_listing,
     listing,
     agreement_preview,
@@ -23,24 +20,37 @@ from openprocurement.agreement.cfaua.tests.agreement_blanks import (
     agreement_change_third_party_preview,
     agreement_changes_patch_from_agreements,
     create_agreement_with_two_active_contracts,
-)
+    agreement_token_invalid, generate_credentials_invalid)
 from openprocurement.api.tests.base import snitch
-import os
 from openprocurement.agreement.cfaua.tests.base import TEST_AGREEMENT, TEST_FEATURES, TEST_CHANGE
-from openprocurement.agreement.core.tests.base import BaseAgreementWebTest, BaseAgreementTest
+from openprocurement.agreement.cfaua.tests.base import BaseAgreementTest, BaseAgreementContentWebTest
 
 
-class AgreementResources(BaseAgreementWebTest):
-    relative_to = os.path.dirname(__file__)
+class AgreementListingTests(BaseAgreementTest):
     initial_data = TEST_AGREEMENT
+
+    test_empty_listing = snitch(empty_listing)
+    test_listing = snitch(listing)
+
+
+class AgreementResourceTest(BaseAgreementTest):
+    features = TEST_FEATURES
+    initial_data = deepcopy(TEST_AGREEMENT)
+
+    test_create_agreement = snitch(create_agreement)
+    test_create_agreement_with_documents = snitch(create_agreement_with_documents)
+    test_create_agreement_with_features = snitch(create_agreement_with_features)
+    test_patch_agreement_features_invalid = snitch(patch_agreement_features_invalid)
+    test_create_agreement_with_two_active_contracts = snitch(create_agreement_with_two_active_contracts)
+
+
+class AgreementResourceTest4BrokerTest(BaseAgreementContentWebTest):
     initial_change = TEST_CHANGE
-    initial_auth = ("Basic", ("broker", ""))
 
-    def setUp(self):
-        super(AgreementResources, self).setUp()
-
+    test_agreement_token_invalid = snitch(agreement_token_invalid)
     test_agreement_patch_invalid = snitch(agreement_patch_invalid)
-    test_extract_credentials = snitch(extract_credentials)
+    test_generate_credentials = snitch(generate_credentials)
+    test_generate_credentials_invalid = snitch(generate_credentials_invalid)
     test_get_agreements_by_id = snitch(get_agreements_by_id)
     test_agreement_preview = snitch(agreement_preview)
     test_agreement_change_item_price_variation_preview = snitch(agreement_change_item_price_variation_preview)
@@ -53,34 +63,10 @@ class AgreementResources(BaseAgreementWebTest):
     test_agreement_changes_patch_from_agreements = snitch(agreement_changes_patch_from_agreements)
 
 
-class TestTenderAgreement(BaseAgreementTest):
-    features = TEST_FEATURES
-    initial_auth = ("Basic", ("agreements", ""))
-    initial_data = deepcopy(TEST_AGREEMENT)
-    relative_to = os.path.dirname(__file__)
-
-    test_create_agreement = snitch(create_agreement)
-    test_create_agreement_with_documents = snitch(create_agreement_with_documents)
-    test_create_agreement_with_features = snitch(create_agreement_with_features)
-    test_patch_agreement_features_invalid = snitch(patch_agreement_features_invalid)
-    test_create_agreement_with_two_active_contracts = snitch(create_agreement_with_two_active_contracts)
-
-
-class AgreementListingTests(BaseAgreementTest):
-    relative_to = os.path.dirname(__file__)
-
-    def setUp(self):
-        super(AgreementListingTests, self).setUp()
-        self.initial_data = TEST_AGREEMENT
-
-    test_empty_listing = snitch(empty_listing)
-    test_listing = snitch(listing)
-
-
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(AgreementResources))
-    suite.addTest(unittest.makeSuite(TestTenderAgreement))
+    suite.addTest(unittest.makeSuite(AgreementResourceTest))
+    suite.addTest(unittest.makeSuite(AgreementResourceTest4BrokerTest))
     suite.addTest(unittest.makeSuite(AgreementListingTests))
     return suite
 

@@ -3,10 +3,8 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.tender.core.tests.base import change_auth
-from openprocurement.contracting.api.tests.base import (
-    test_contract_data,
-    test_tender_token as test_contract_tender_token,
-)
+from openprocurement.contracting.api.tests.data import test_tender_token as test_contract_tender_token, \
+    test_contract_data
 
 
 class BaseContractOwnershipChangeTest(BaseWebTest):
@@ -148,6 +146,16 @@ class ContractOwnershipChangeTest(BaseContractOwnershipChangeTest):
         response = self.app.post_json(
             "/contracts/{}/ownership".format(self.contract_id),
             {"data": {"id": "fake id", "transfer": "fake transfer"}},
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(
+            response.json["errors"], [{u"description": u"Invalid transfer", u"location": u"body", u"name": u"transfer"}]
+        )
+
+        response = self.app.post_json(
+            "/contracts/{}/ownership".format(self.contract_id),
+            {"data": {"id": "fake id", "transfer": "трансфер з кирилицею"}},
             status=403,
         )
         self.assertEqual(response.status, "403 Forbidden")

@@ -4,6 +4,17 @@ import unittest
 from openprocurement.api.tests.base import BaseWebTest, snitch
 from openprocurement.tender.belowthreshold.tests.base import BaseTenderWebTest, test_tender_data, test_lots
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
+    # TenderProcessTest
+    one_valid_bid_tender,
+    one_invalid_bid_tender,
+    first_bid_tender,
+    create_tender,
+    invalid_tender_conditions,
+    lost_contract_for_active_award,
+    # TestCoordinatesRegExp
+    coordinates_reg_exp,
+    # TenderTest
+    simple_add_tender,
     # TenderResourceTest
     listing,
     get_tender,
@@ -27,23 +38,11 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_funders,
     tender_with_main_procurement_category,
     tender_finance_milestones,
-    create_tender_with_inn,
-    create_tender_with_inn_before,
     patch_tender_lots_none,
-    # TenderProcessTest
-    one_valid_bid_tender,
-    one_invalid_bid_tender,
-    first_bid_tender,
-    create_tender,
-    invalid_tender_conditions,
-    lost_contract_for_active_award,
-    # TestCoordinatesRegExp
-    coordinates_reg_exp,
-    # TenderTest
-    simple_add_tender,
     create_tender_with_inn,
     create_tender_with_inn_before,
     tender_milestones_required,
+    tender_token_invalid,
 )
 
 
@@ -63,6 +62,7 @@ class TenderResourceTestMixin(object):
     test_tender_funders = snitch(tender_funders)
     test_tender_with_main_procurement_category = snitch(tender_with_main_procurement_category)
     test_tender_finance_milestones = snitch(tender_finance_milestones)
+    test_tender_token_invalid = snitch(tender_token_invalid)
 
 
 class TenderTest(BaseWebTest):
