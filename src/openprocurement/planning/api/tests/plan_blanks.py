@@ -1421,7 +1421,7 @@ def plan_token_invalid(self):
     )
 
     response = self.app.patch_json(
-        "/plans/{}?acc_token={}".format(self.plan_id, "трансфер з кирилицею"), {"data": {}}, status=403
+        "/plans/{}?acc_token={}".format(self.plan_id, "токен з кирилицею"), {"data": {}}, status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(

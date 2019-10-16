@@ -152,6 +152,15 @@ class AgreementOwnershipChangeTest(BaseAgreementOwnershipChangeTest):
         self.assertEqual(
             response.json["errors"], [{u"description": u"Invalid transfer", u"location": u"body", u"name": u"transfer"}]
         )
+        response = self.app.post_json(
+            "/agreements/{}/ownership".format(self.agreement_id),
+            {"data": {"id": "fake id", "transfer": "трансфер з кирилицею"}},
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(
+            response.json["errors"], [{u"description": u"Invalid transfer", u"location": u"body", u"name": u"transfer"}]
+        )
 
     def test_accreditation_level(self):
         # try to use transfer by broker without appropriate accreditation level

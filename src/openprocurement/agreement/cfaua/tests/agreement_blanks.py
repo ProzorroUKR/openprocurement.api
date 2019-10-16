@@ -797,7 +797,7 @@ def agreement_token_invalid(self):
     )
 
     response = self.app.patch_json(
-        "/agreements/{}?acc_token={}".format(self.agreement_id, "трансфер з кирилицею"), {"data": {}}, status=403
+        "/agreements/{}?acc_token={}".format(self.agreement_id, "токен з кирилицею"), {"data": {}}, status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
@@ -815,7 +815,7 @@ def generate_credentials_invalid(self):
     )
 
     response = self.app.patch_json(
-        "/agreements/{0}/credentials?acc_token={1}".format(self.agreement_id, "трансфер з кирилицею"),
+        "/agreements/{0}/credentials?acc_token={1}".format(self.agreement_id, "токен з кирилицею"),
         {"data": ""},
         status=403,
     )

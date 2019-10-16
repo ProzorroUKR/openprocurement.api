@@ -1280,7 +1280,7 @@ def contract_token_invalid(self):
     )
 
     response = self.app.patch_json(
-        "/contracts/{}?acc_token={}".format(self.contract_id, "трансфер з кирилицею"), {"data": {}}, status=403
+        "/contracts/{}?acc_token={}".format(self.contract_id, "токен з кирилицею"), {"data": {}}, status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
@@ -1298,7 +1298,7 @@ def generate_credentials_invalid(self):
     )
 
     response = self.app.patch_json(
-        "/contracts/{0}/credentials?acc_token={1}".format(self.contract_id, "трансфер з кирилицею"),
+        "/contracts/{0}/credentials?acc_token={1}".format(self.contract_id, "токен з кирилицею"),
         {"data": ""},
         status=403,
     )
