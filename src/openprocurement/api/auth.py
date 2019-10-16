@@ -48,8 +48,6 @@ class AuthenticationPolicy(BasicAuthAuthenticationPolicy):
     """
     def __init__(self, auth_file, realm="OpenProcurement", debug=False):
         super(AuthenticationPolicy, self).__init__(None, realm=realm, debug=debug)
-        self.realm = realm
-        self.debug = debug
         self.users = read_auth_users(auth_file, encoding="utf8", default_level="1234")
 
     def unauthenticated_userid(self, request):
