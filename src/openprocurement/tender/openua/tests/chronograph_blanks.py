@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from iso8601 import parse_date
+
 from openprocurement.tender.core.tests.base import change_auth
 
 # TenderSwitch0BidResourceTest
@@ -98,7 +100,10 @@ def set_auction_period(self):
     self.assertIn("auctionPeriod", item)
     self.assertIn("shouldStartAfter", item["auctionPeriod"])
     self.assertGreaterEqual(item["auctionPeriod"]["shouldStartAfter"], response.json["data"]["tenderPeriod"]["endDate"])
-    self.assertEqual(response.json["data"]["next_check"], response.json["data"]["tenderPeriod"]["endDate"])
+    self.assertEqual(
+        parse_date(response.json["data"]["next_check"]),
+        parse_date(response.json["data"]["tenderPeriod"]["endDate"])
+    )
 
     start_date = "9999-01-01T00:00:00+00:00"
     response = self.check_chronograph({"data": {"auctionPeriod": {"startDate": start_date}}})
@@ -193,7 +198,10 @@ def set_auction_period_lot(self):
     self.assertIn("auctionPeriod", item)
     self.assertIn("shouldStartAfter", item["auctionPeriod"])
     self.assertGreaterEqual(item["auctionPeriod"]["shouldStartAfter"], response.json["data"]["tenderPeriod"]["endDate"])
-    self.assertEqual(response.json["data"]["next_check"], response.json["data"]["tenderPeriod"]["endDate"])
+    self.assertEqual(
+        parse_date(response.json["data"]["next_check"]),
+        parse_date(response.json["data"]["tenderPeriod"]["endDate"])
+    )
 
     start_date = "9999-01-01T00:00:00+00:00"
     data = {"data": {"lots": [{"auctionPeriod": {"startDate": start_date}} for i in self.initial_lots]}}

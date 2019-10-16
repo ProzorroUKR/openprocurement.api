@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
+from iso8601 import parse_date
+
 from openprocurement.api.utils import get_now
 
 
@@ -134,7 +136,10 @@ def next_check_value_with_unanswered_question(self):
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertIn("next_check", response.json["data"])
-    self.assertEqual(response.json["data"]["next_check"], response.json["data"]["tenderPeriod"]["endDate"])
+    self.assertEqual(
+        parse_date(response.json["data"]["next_check"]),
+        parse_date(response.json["data"]["tenderPeriod"]["endDate"])
+    )
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], self.question_claim_block_status)
 
@@ -178,7 +183,10 @@ def next_check_value_with_unanswered_claim(self):
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertIn("next_check", response.json["data"])
-    self.assertEqual(response.json["data"]["next_check"], response.json["data"]["tenderPeriod"]["endDate"])
+    self.assertEqual(
+        parse_date(response.json["data"]["next_check"]),
+        parse_date(response.json["data"]["tenderPeriod"]["endDate"])
+    )
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], self.question_claim_block_status)
 

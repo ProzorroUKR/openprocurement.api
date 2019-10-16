@@ -142,7 +142,8 @@ def reset_auction_period(self):
     self.assertIn("shouldStartAfter", item["auctionPeriod"])
     self.assertGreaterEqual(item["auctionPeriod"]["shouldStartAfter"], response.json["data"]["tenderPeriod"]["endDate"])
     self.assertEqual(
-        parse_date(response.json["data"]["next_check"]), parse_date(response.json["data"]["tenderPeriod"]["endDate"])
+        parse_date(response.json["data"]["next_check"]),
+        parse_date(response.json["data"]["tenderPeriod"]["endDate"])
     )
 
     if self.initial_lots:
@@ -185,7 +186,10 @@ def reset_auction_period(self):
     self.assertEqual(response.json["data"]["status"], "active.auction")
     item = response.json["data"]["lots"][0] if self.initial_lots else response.json["data"]
     self.assertGreaterEqual(item["auctionPeriod"]["shouldStartAfter"], response.json["data"]["tenderPeriod"]["endDate"])
-    self.assertGreater(response.json["data"]["next_check"], item["auctionPeriod"]["startDate"])
+    self.assertGreater(
+        parse_date(response.json["data"]["next_check"]),
+        parse_date(item["auctionPeriod"]["startDate"])
+    )
     self.assertEqual(response.json["data"]["next_check"], self.db.get(self.tender_id)["next_check"])
 
     if self.initial_lots:
@@ -202,7 +206,10 @@ def reset_auction_period(self):
     self.assertEqual(response.json["data"]["status"], "active.auction")
     self.assertGreaterEqual(item["auctionPeriod"]["shouldStartAfter"], response.json["data"]["tenderPeriod"]["endDate"])
     self.assertNotIn("9999-01-01T00:00:00", item["auctionPeriod"]["startDate"])
-    self.assertGreater(response.json["data"]["next_check"], response.json["data"]["tenderPeriod"]["endDate"])
+    self.assertGreater(
+        parse_date(response.json["data"]["next_check"]),
+        parse_date(response.json["data"]["tenderPeriod"]["endDate"])
+    )
 
     tender = self.db.get(self.tender_id)
     self.assertGreater(tender["next_check"], response.json["data"]["tenderPeriod"]["endDate"])
