@@ -1,15 +1,12 @@
 # -*- coding: utf-8 -*-
-import os
 import json
 import decimal
 from decimal import Decimal
 
-import simplejson
 import couchdb.json
-import six
 from couchdb import util
 from logging import getLogger
-from datetime import datetime, timedelta
+from datetime import datetime
 from base64 import b64encode, b64decode
 from cornice.resource import resource, view
 from email.header import decode_header
