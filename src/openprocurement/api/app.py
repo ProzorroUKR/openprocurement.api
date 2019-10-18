@@ -17,13 +17,15 @@ from libnacl.public import SecretKey, PublicKey
 from logging import getLogger
 from openprocurement.api.auth import AuthenticationPolicy, authenticated_role, check_accreditations
 from openprocurement.api.database import set_api_security
-from openprocurement.api.utils import forbidden, request_params, couchdb_json_decode
+from openprocurement.api.utils import forbidden, request_params, couchdb_json_decode, precondition
 from openprocurement.api.constants import ROUTE_PREFIX
 from pkg_resources import iter_entry_points
 from pyramid.authorization import ACLAuthorizationPolicy as AuthorizationPolicy
 from pyramid.config import Configurator
 from pyramid.renderers import JSON, JSONP
 from pyramid.settings import asbool
+from pyramid.httpexceptions import HTTPPreconditionFailed
+
 
 LOGGER = getLogger("{}.init".format(__name__))
 
@@ -39,6 +41,7 @@ def main(global_config, **settings):
     config.include("pyramid_exclog")
     config.include("cornice")
     config.add_forbidden_view(forbidden)
+    config.add_view(precondition, context=HTTPPreconditionFailed)
     config.add_request_method(request_params, "params", reify=True)
     config.add_request_method(authenticated_role, reify=True)
     config.add_request_method(check_accreditations)
