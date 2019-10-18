@@ -571,8 +571,7 @@ def forbidden(request):
 def precondition(request):
     request.errors.add("url", "precondition", "Precondition Failed")
     request.errors.status = 412
-    response = json_error(request.errors)
-    return response
+    return error_handler(request.errors)
 
 def update_logging_context(request, params):
     if not request.__dict__.get("logging_context"):
