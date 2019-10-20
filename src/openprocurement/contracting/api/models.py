@@ -319,11 +319,12 @@ class Contract(SchematicsDocument, BaseContract):
     @serializable(serialized_name="amountPaid", serialize_when_none=False, type=ModelType(Value))
     def contract_amountPaid(self):
         if self.amountPaid:
+            value = self.value or self.amountPaid
             return ContractValue(
                 dict(
                     amount=self.amountPaid.amount,
                     amountNet=self.amountPaid.amountNet,
-                    currency=self.value.currency,
-                    valueAddedTaxIncluded=self.value.valueAddedTaxIncluded,
+                    currency=value.currency,
+                    valueAddedTaxIncluded=value.valueAddedTaxIncluded,
                 )
             )

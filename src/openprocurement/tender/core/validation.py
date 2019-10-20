@@ -35,7 +35,7 @@ from openprocurement.api.utils import (
     get_first_revision_date,
 )
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF, FIRST_STAGE_PROCUREMENT_TYPES
-from openprocurement.tender.core.utils import calculate_tender_business_date, has_requested_fields_changes
+from openprocurement.tender.core.utils import calculate_tender_business_date, requested_fields_changes
 from openprocurement.planning.api.utils import extract_plan_adapter
 from schematics.exceptions import ValidationError
 
@@ -749,7 +749,7 @@ def validate_update_contract_value(request, name="value", attrs=("currency",)):
 def validate_update_contract_value_net_required(request, name="value"):
     data = request.validated["data"]
     value = data.get(name)
-    if value is not None and has_requested_fields_changes(request, (name, "status")):
+    if value is not None and requested_fields_changes(request, (name, "status")):
         contract_amount_net = value.get("amountNet")
         if contract_amount_net is None:
             raise_operation_error(request, dict(amountNet=BaseType.MESSAGES["required"]), status=422, name=name)
@@ -758,7 +758,7 @@ def validate_update_contract_value_net_required(request, name="value"):
 def validate_update_contract_value_with_award(request):
     data = request.validated["data"]
     value = data.get("value")
-    if value and has_requested_fields_changes(request, ("value", "status")):
+    if value and requested_fields_changes(request, ("value", "status")):
         award = [award for award in request.validated["tender"].awards if award.id == request.context.awardID][0]
         amount = value.get("amount")
         amount_net = value.get("amountNet")
@@ -779,7 +779,7 @@ def validate_update_contract_value_with_award(request):
 def validate_update_contract_value_amount(request, name="value", allow_equal=False):
     data = request.validated["data"]
     value = data.get(name)
-    if value and has_requested_fields_changes(request, (name, "status")):
+    if value and requested_fields_changes(request, (name, "status")):
         amount = to_decimal(value.get("amount"))
         amount_net = to_decimal(value.get("amountNet"))
         tax_included = data.get("value").get("valueAddedTaxIncluded")
