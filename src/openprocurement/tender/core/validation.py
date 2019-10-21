@@ -778,11 +778,12 @@ def validate_update_contract_value_with_award(request):
 
 def validate_update_contract_value_amount(request, name="value", allow_equal=False):
     data = request.validated["data"]
-    value = data.get(name)
-    if value and requested_fields_changes(request, (name, "status")):
-        amount = to_decimal(value.get("amount"))
-        amount_net = to_decimal(value.get("amountNet"))
-        tax_included = data.get("value").get("valueAddedTaxIncluded")
+    contract_value = data.get(name)
+    value = data.get("value") or data.get(name)
+    if contract_value and requested_fields_changes(request, (name, "status")):
+        amount = to_decimal(contract_value.get("amount"))
+        amount_net = to_decimal(contract_value.get("amountNet"))
+        tax_included = value.get("valueAddedTaxIncluded")
 
         if not (amount == 0 and amount_net == 0):
             if tax_included:

@@ -874,6 +874,22 @@ def patch_tender_contract_identical(self):
     )
     self.assertEqual(response.status, "200 OK")
 
+def patch_tender_without_value(self):
+    tender_token = self.initial_data["tender_token"]
+    credentials_url = "/contracts/{}/credentials?acc_token={}".format(self.contract["id"], tender_token)
+    response = self.app.patch_json(credentials_url, {"data": ""})
+    self.assertEqual(response.status, "200 OK")
+    token = response.json["access"]["token"]
+
+    contract_doc = self.db.get(self.contract["id"])
+    del contract_doc['value']
+    self.db.save(contract_doc)
+
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract["id"], token),
+        {"data": {"amountPaid": {"amount": 100, "amountNet": 100, "valueAddedTaxIncluded": False}}},
+    )
+
 
 @mock.patch("openprocurement.contracting.api.validation.VAT_FROM", get_now() - timedelta(days=1))
 def patch_tender_contract_amount(self):

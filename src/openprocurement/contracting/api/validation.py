@@ -130,13 +130,14 @@ def validate_update_contracting_paid_amount(request):
     paid = data.get("amountPaid")
     if paid:
         validate_update_contracting_value_amount(request, name="amountPaid")
-        for attr in ("amount", "amountNet"):
-            paid_amount = paid.get(attr)
-            value_amount = value.get(attr)
-            if value_amount and paid_amount > value_amount:
-                raise_operation_error(
-                    request, "AmountPaid {} can`t be greater than value {}".format(attr, attr), name="amountPaid"
-                )
+        if value:
+            for attr in ("amount", "amountNet"):
+                paid_amount = paid.get(attr)
+                value_amount = value.get(attr)
+                if value_amount and paid_amount > value_amount:
+                    raise_operation_error(
+                        request, "AmountPaid {} can`t be greater than value {}".format(attr, attr), name="amountPaid"
+                    )
 
 
 def validate_update_contracting_value_readonly(request):
@@ -151,12 +152,12 @@ def validate_update_contracting_value_identical(request):
         value = request.validated["data"].get("value")
         paid_data = request.validated["json_data"].get("amountPaid")
         for attr in ("valueAddedTaxIncluded", "currency"):
-            if paid_data and paid_data.get(attr) is not None:
+            if value and paid_data and paid_data.get(attr) is not None:
                 paid = ContractValue(paid_data)
                 if value.get(attr) != paid.get(attr):
                     raise_operation_error(
                         request,
-                        "{} of {} should be identical to {} of value " "of contract".format(attr, "amountPaid", attr),
+                        "{} of {} should be identical to {} of value of contract".format(attr, "amountPaid", attr),
                         name="amountPaid",
                     )
 
