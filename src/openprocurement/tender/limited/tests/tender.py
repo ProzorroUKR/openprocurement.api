@@ -4,7 +4,6 @@ import unittest
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
-    # TenderResourceTest
     listing_draft,
     create_tender_draft,
     get_tender,
@@ -26,20 +25,15 @@ from openprocurement.tender.limited.tests.base import (
     test_tender_negotiation_quick_data,
 )
 from openprocurement.tender.limited.tests.tender_blanks import (
-    # TenderNegotiationQuickProcessTest
     tender_cause_quick,
-    # TenderNegotiationProcessTest
     tender_cause,
-    # TenderProcessTest
     tender_status_change,
     single_award_tender,
     multiple_awards_tender,
     tender_cancellation,
-    # TenderNegotiationResourceTest
     field_relatedLot_negotiation,
     changing_tender_after_award,
     initial_lot_date,
-    # TenderResourceTest
     listing,
     tender_award_create,
     listing_changes,
@@ -50,18 +44,15 @@ from openprocurement.tender.limited.tests.tender_blanks import (
     patch_tender,
     tender_Administrator_change,
     tender_with_main_procurement_category,
-    # TenderNegotiationQuickTest
     simple_add_tender_negotiation_quick,
-    # TenderNegotiationTest
     simple_add_tender_negotiation,
-    # TenderTest
     simple_add_tender,
-    # AccreditationTenderTest
     create_tender_accreditation,
+    tender_cause_desc,
+    tender_cause_choices
 )
 
 from openprocurement.tender.openua.tests.tender_blanks import (
-    # TenderResourceTest
     empty_listing,
     tender_finance_milestones,
 )
@@ -143,6 +134,8 @@ class TenderNegotiationProcessTest(TenderProcessTest):
     initial_data = test_tender_negotiation_data
 
     test_tender_cause = snitch(tender_cause)
+    test_tender_cause_choices = snitch(tender_cause_choices)
+    test_tender_cause_desc = snitch(tender_cause_desc)
     test_tender_milestones_required = snitch(tender_milestones_required)
 
 
@@ -150,6 +143,8 @@ class TenderNegotiationQuickProcessTest(TenderNegotiationProcessTest):
     initial_data = test_tender_negotiation_quick_data
 
     test_tender_cause = snitch(tender_cause_quick)
+    test_tender_cause_choices = snitch(tender_cause_choices)
+    test_tender_cause_desc = snitch(tender_cause_desc)
     test_tender_milestones_required = snitch(tender_milestones_required)
 
 

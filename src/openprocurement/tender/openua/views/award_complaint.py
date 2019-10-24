@@ -135,8 +135,7 @@ class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
             and data.get("status", self.context.status) == self.context.status
         ):
             apply_patch(self.request, save=False, src=self.context.serialize())
-        elif (
-            self.request.authenticated_role == "complaint_owner"
+        elif (self.request.authenticated_role == "complaint_owner"
             and is_complaintPeriod
             and self.context.status == "draft"
             and data.get("status", self.context.status) == "claim"

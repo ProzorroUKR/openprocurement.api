@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
+
+import mock
+from datetime import timedelta
+
 from uuid import uuid4
 
 from openprocurement.api.utils import get_now
@@ -12,8 +16,6 @@ from openprocurement.tender.belowthreshold.tests.base import test_organization
 
 
 from openprocurement.tender.limited.models import NegotiationTender, NegotiationQuickTender, ReportingTender
-
-# AccreditationTenderTest
 
 
 def create_tender_accreditation(self):
@@ -41,9 +43,6 @@ def create_tender_accreditation(self):
     )
 
 
-# TenderTest
-
-
 def simple_add_tender(self):
     u = ReportingTender(self.initial_data)
     u.tenderID = "UA-X"
@@ -64,9 +63,6 @@ def simple_add_tender(self):
     assert u.procurementMethodType == fromdb["procurementMethodType"]
 
     u.delete_instance(self.db)
-
-
-# TenderNegotiationTest
 
 
 def simple_add_tender_negotiation(self):
@@ -91,9 +87,6 @@ def simple_add_tender_negotiation(self):
     u.delete_instance(self.db)
 
 
-# TenderNegotiationQuickTest
-
-
 def simple_add_tender_negotiation_quick(self):
     u = NegotiationQuickTender(self.initial_data)
     u.tenderID = "UA-X"
@@ -114,9 +107,6 @@ def simple_add_tender_negotiation_quick(self):
     assert u.procurementMethodType == fromdb["procurementMethodType"]
 
     u.delete_instance(self.db)
-
-
-# TenderResourceTest
 
 
 def listing(self):
@@ -605,6 +595,8 @@ def create_tender_generated(self):
         fields.append(u"procurementMethodDetails")
     if "negotiation" == self.initial_data["procurementMethodType"]:
         fields.append(u"cause")
+    if "negotiation.quick" == self.initial_data["procurementMethodType"]:
+        fields.append(u"cause")
     if "negotiation" in self.initial_data["procurementMethodType"]:
         fields.append(u"causeDescription")
     self.assertEqual(set(tender), set(fields))
@@ -911,9 +903,6 @@ def tender_Administrator_change(self):
     self.assertEqual(response.json["data"]["mode"], u"test")
 
 
-# TenderNegotiationResourceTest
-
-
 def field_relatedLot_negotiation(self):
     request_path = "/tenders"
     data = deepcopy(self.initial_data)
@@ -1008,9 +997,6 @@ def initial_lot_date(self):
     self.assertIn("date", lots[0])
     self.assertIn("date", lots[1])
     self.assertIn("date", lots[2])
-
-
-# TenderProcessTest
 
 
 def tender_status_change(self):
@@ -1385,11 +1371,9 @@ def tender_cancellation(self):
     self.assertEqual(tender["status"], "complete")
 
 
-# TenderNegotiationProcessTest
-
-
 def tender_cause(self):
     data = deepcopy(self.initial_data)
+
     del data["cause"]
     response = self.app.post_json("/tenders", {"data": data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1400,49 +1384,10 @@ def tender_cause(self):
         [{u"description": [u"This field is required."], u"location": u"body", u"name": u"cause"}],
     )
 
-    data["cause"] = "unexisting value"
-    response = self.app.post_json("/tenders", {"data": data}, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                u"description": [
-                    u"Value must be one of ['artContestIP', 'noCompetition', 'twiceUnsuccessful', 'additionalPurchase', 'additionalConstruction', 'stateLegalServices']."
-                ],
-                u"location": u"body",
-                u"name": u"cause",
-            }
-        ],
-    )
-
     data["cause"] = "noCompetition"
-    del data["causeDescription"]
-    response = self.app.post_json("/tenders", {"data": data}, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{u"description": [u"This field is required."], u"location": u"body", u"name": u"causeDescription"}],
-    )
-
-    data["causeDescription"] = ""
-    response = self.app.post_json("/tenders", {"data": data}, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{u"description": [u"String value is too short."], u"location": u"body", u"name": u"causeDescription"}],
-    )
-
-    data["causeDescription"] = "blue pine"
     response = self.app.post_json("/tenders", {"data": data})
     self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.json["data"]["causeDescription"], "blue pine")
+
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
 
@@ -1453,34 +1398,70 @@ def tender_cause(self):
     self.assertEqual(response.json["data"]["cause"], "artContestIP")
 
 
-# TenderNegotiationQuickProcessTest
-
-
 def tender_cause_quick(self):
     data = deepcopy(self.initial_data)
-    self.assertNotIn("cause", data)
-    response = self.app.post_json("/tenders", {"data": data})
+    del data["cause"]
+
+    constant_target = "openprocurement.tender.limited.models.QUICK_CAUSE_REQUIRED_FROM"
+
+    with mock.patch(constant_target, get_now() + timedelta(days=1)):
+        response = self.app.post_json("/tenders", {"data": data})
+
     self.assertEqual(response.status, "201 Created")
+
+    with mock.patch(constant_target, get_now() - timedelta(days=1)):
+        response = self.app.post_json("/tenders", {"data": data}, status=422)
+
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{u"description": [u"This field is required."], u"location": u"body", u"name": u"cause"}],
+    )
+
+    data["cause"] = "quick"
+
+    with mock.patch(constant_target, get_now() - timedelta(days=1)):
+        response = self.app.post_json("/tenders", {"data": data})
+
+    self.assertEqual(response.status, "201 Created")
+
+
+def tender_cause_choices(self):
+    data = deepcopy(self.initial_data)
 
     data["cause"] = "unexisting value"
     response = self.app.post_json("/tenders", {"data": data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
+
+    cause_choices = [
+        "artContestIP",
+        "noCompetition",
+        "twiceUnsuccessful",
+        "additionalPurchase",
+        "additionalConstruction",
+        "stateLegalServices",
+    ]
+    if "negotiation.quick" == data["procurementMethodType"]:
+        cause_choices = ['quick'] + cause_choices
+
     self.assertEqual(
         response.json["errors"],
         [
             {
-                u"description": [
-                    u"Value must be one of ['quick', 'artContestIP', 'noCompetition', 'twiceUnsuccessful', 'additionalPurchase', 'additionalConstruction', 'stateLegalServices']."
-                ],
+                u"description": [u"Value must be one of ['{}'].".format("', '".join(cause_choices))],
                 u"location": u"body",
                 u"name": u"cause",
             }
         ],
     )
 
-    data["cause"] = "quick"
+
+def tender_cause_desc(self):
+    data = deepcopy(self.initial_data)
     del data["causeDescription"]
     response = self.app.post_json("/tenders", {"data": data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
