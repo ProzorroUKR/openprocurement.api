@@ -1,10 +1,9 @@
-from schematics.transforms import export_loop
+from schematics.transforms import export_loop, whitelist
 from schematics.types import BooleanType, StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from openprocurement.api.models import ListType
 from openprocurement.api.utils import get_now, get_first_revision_date
-from openprocurement.api.roles import RolesFromCsv
 from openprocurement.tender.core.models import Bid as BaseBid, validate_parameters_uniq, bids_validation_wrapper
 from openprocurement.tender.cfaua.constants import BID_UNSUCCESSFUL_FROM
 from openprocurement.tender.cfaua.models.submodels.documents import BidderEUDocument
@@ -42,7 +41,38 @@ class BidModelType(ModelType):
 
 class Bid(BaseBid):
     class Options:
-        roles = RolesFromCsv("Bid.csv", relative_to=__file__)
+        _all_documents = whitelist("documents", "eligibilityDocuments", "financialDocuments", "qualificationDocuments")
+        _edit = whitelist("value", "lotValues", "parameters", "subcontractingDetails", "tenderers", "status")
+        _create = _all_documents + _edit + {"selfEligible", "selfQualified"}
+        _open_view = _create + whitelist("id", "date", "participationUrl")
+        _qualification_view = whitelist("id", "status", "tenderers", "documents", "eligibilityDocuments")
+        roles = {
+            "create": _create,
+            "edit": _edit,
+            "active.tendering": whitelist(),
+            "active.enquiries": whitelist(),
+            "invalid.pre-qualification": _qualification_view,
+            "active.pre-qualification": _qualification_view,
+            "active.pre-qualification.stand-still": _qualification_view,
+            "active.auction": _qualification_view,
+            "bid.unsuccessful": _qualification_view + whitelist(
+                "selfEligible", "selfQualified", "parameters", "subcontractingDetails"
+            ),
+            "active.qualification": _open_view,
+            "active.awarded": _open_view,
+            "unsuccessful": _open_view,
+            "complete": _open_view,
+            "cancelled": _open_view,
+            "view": _open_view,
+            "embedded": _open_view,
+            "default": _open_view + whitelist("owner_token", "owner", "serialize_status"),
+            "invalid": whitelist("id", "status"),
+            "deleted": whitelist("id", "status"),
+            "auction_post": whitelist("id", "lotValues", "value", "date"),
+            "auction_view": whitelist("id", "lotValues", "value", "date", "parameters", "participationUrl", "status"),
+            "auction_patch": whitelist("id", "lotValues", "participationUrl"),
+            "Administrator": whitelist("tenderers"),
+        }
 
     documents = ListType(ModelType(BidderEUDocument, required=True), default=list())
     financialDocuments = ListType(ModelType(BidderEUDocument, required=True), default=list())
