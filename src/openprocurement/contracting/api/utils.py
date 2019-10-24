@@ -73,8 +73,8 @@ def save_contract(request):
         try:
             contract.store(request.registry.db)
         except ModelValidationError as e:  # pragma: no cover
-            for i in e.message:
-                request.errors.add("body", i, e.message[i])
+            for i in e.messages:
+                request.errors.add("body", i, e.messages[i])
             request.errors.status = 422
         except Exception as e:  # pragma: no cover
             request.errors.add("body", "data", str(e))

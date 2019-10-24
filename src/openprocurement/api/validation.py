@@ -18,7 +18,7 @@ def validate_json_data(request):
     try:
         json = request.json_body
     except ValueError as e:
-        request.errors.add("body", "data", e.message)
+        request.errors.add("body", "data", str(e))
         request.errors.status = 422
         raise error_handler(request.errors)
     if not isinstance(json, dict) or "data" not in json or not isinstance(json.get("data"), dict):
@@ -51,11 +51,11 @@ def validate_data(request, model, partial=False, data=None):
             role = "create"
     except (ModelValidationError, ModelConversionError) as e:
         for i in e.message:
-            request.errors.add("body", i, e.message[i])
+            request.errors.add("body", i, e.messages[i])
         request.errors.status = 422
         raise error_handler(request.errors)
     except ValueError as e:
-        request.errors.add("body", "data", e.message)
+        request.errors.add("body", "data", e.messages)
         request.errors.status = 422
         raise error_handler(request.errors)
     else:

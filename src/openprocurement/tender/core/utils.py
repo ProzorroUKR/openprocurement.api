@@ -105,8 +105,8 @@ def save_tender(request):
         try:
             tender.store(request.registry.db)
         except ModelValidationError as e:
-            for i in e.message:
-                request.errors.add("body", i, e.message[i])
+            for i in e.messages:
+                request.errors.add("body", i, e.messages[i])
             request.errors.status = 422
         except ResourceConflict as e:  # pragma: no cover
             request.errors.add("body", "data", str(e))

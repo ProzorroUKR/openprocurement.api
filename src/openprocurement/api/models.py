@@ -286,7 +286,7 @@ class Model(SchematicsModel):
         try:
             return getattr(self, name)
         except AttributeError as e:
-            raise KeyError(e.message)
+            raise KeyError(e)
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):
