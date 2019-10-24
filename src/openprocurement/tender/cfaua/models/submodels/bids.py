@@ -59,6 +59,7 @@ class Bid(BaseBid):
                 "selfEligible", "selfQualified", "parameters", "subcontractingDetails"
             ),
             "active.qualification": _open_view,
+            "active.qualification.stand-still": _open_view,
             "active.awarded": _open_view,
             "unsuccessful": _open_view,
             "complete": _open_view,
