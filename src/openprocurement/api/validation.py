@@ -50,12 +50,12 @@ def validate_data(request, model, partial=False, data=None):
             method = m.serialize
             role = "create"
     except (ModelValidationError, ModelConversionError) as e:
-        for i in e.message:
+        for i in e.messages:
             request.errors.add("body", i, e.messages[i])
         request.errors.status = 422
         raise error_handler(request.errors)
     except ValueError as e:
-        request.errors.add("body", "data", e.messages)
+        request.errors.add("body", "data", str(e))
         request.errors.status = 422
         raise error_handler(request.errors)
     else:
