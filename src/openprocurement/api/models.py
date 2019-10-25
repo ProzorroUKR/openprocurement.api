@@ -154,7 +154,7 @@ class IsoDateTimeType(BaseType):
         except ParseError:
             raise ConversionError(self.messages["parse"].format(value))
         except OverflowError as e:
-            raise ConversionError(e)
+            raise ConversionError(str(e))
 
     def to_primitive(self, value, context=None):
         return value.isoformat()
@@ -184,7 +184,7 @@ class IsoDurationType(BaseType):
         except TypeError:
             raise ConversionError(self.messages["parse"].format(value))
         except ISO8601Error as e:
-            raise ConversionError(e)
+            raise ConversionError(str(e))
 
     def to_primitive(self, value, context=None):
         return duration_isoformat(value)
