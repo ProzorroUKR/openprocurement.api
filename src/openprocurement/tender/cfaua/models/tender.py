@@ -1,7 +1,7 @@
 from iso8601 import parse_date
 from pyramid.security import Allow
-from schematics.transforms import blacklist, whitelist
-from schematics.types import IntType, URLType, BooleanType, BaseType
+from schematics.transforms import whitelist
+from schematics.types import IntType, URLType, BooleanType
 from schematics.types import StringType
 from schematics.types.compound import ModelType
 from zope.interface import implementer, provider
