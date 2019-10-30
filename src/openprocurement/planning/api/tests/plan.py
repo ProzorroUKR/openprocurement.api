@@ -44,6 +44,8 @@ from openprocurement.planning.api.tests.plan_blanks import (
     fail_create_plan_without_buyers,
     create_plan_with_buyers,
     create_plan_with_two_buyers,
+    create_plan_with_breakdown_required,
+    create_plan_with_breakdown_not_required
 )
 
 test_plan_data_mode_test = test_plan_data.copy()
@@ -95,6 +97,8 @@ class PlanBudgetBreakdownTest(BasePlanWebTest):
     initial_data = test_plan_data
 
     test_create_plan_with_breakdown = snitch(create_plan_with_breakdown)
+    test_create_plan_with_breakdown_required = snitch(create_plan_with_breakdown_required)
+    test_create_plan_with_breakdown_not_required = snitch(create_plan_with_breakdown_not_required)
     test_patch_plan_with_breakdown = snitch(patch_plan_with_breakdown)
     test_fail_create_plan_with_breakdown_invalid_title = snitch(fail_create_plan_with_breakdown_invalid_title)
     test_create_plan_with_breakdown_other_title = snitch(create_plan_with_breakdown_other_title)

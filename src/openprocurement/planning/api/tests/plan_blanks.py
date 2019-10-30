@@ -1251,6 +1251,33 @@ def create_plan_with_breakdown(self):
     self.assertEqual(response.json["data"]["budget"]["breakdown"][0], breakdown_item)
 
 
+def create_plan_with_breakdown_required(self):
+    data = deepcopy(self.initial_data)
+    data["tender"]["procurementMethodType"] = "aboveThresholdUA"
+    del data["budget"]["breakdown"]
+
+    response = self.app.post_json("/plans", {"data": data}, status=422)
+
+    self.assertEqual(
+        response.json["errors"],
+        [{u"description": {u"breakdown": [u"This field is required."]}, u"location": u"body", u"name": u"budget"}],
+    )
+
+
+@mock.patch("openprocurement.planning.api.models.BUDGET_BREAKDOWN_REQUIRED_FROM", get_now() + timedelta(days=1))
+def create_plan_with_breakdown_not_required(self):
+    data = deepcopy(self.initial_data)
+    data["tender"]["procurementMethodType"] = "aboveThresholdUA"
+    del data["budget"]["breakdown"]
+
+    response = self.app.post_json("/plans", {"data": data})
+
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    plan = response.json["data"]
+    self.assertNotIn("breakdown", plan["budget"])
+
+
 def patch_plan_with_breakdown(self):
     data = deepcopy(self.initial_data)
     response = self.app.post_json("/plans", {"data": data})
