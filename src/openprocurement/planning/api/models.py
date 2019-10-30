@@ -16,6 +16,7 @@ from openprocurement.api.constants import (
     NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
     PLAN_BUYERS_REQUIRED_FROM,
     BUDGET_PERIOD_FROM,
+    BUDGET_BREAKDOWN_REQUIRED_FROM
 )
 from openprocurement.planning.api.constants import (
     PROCEDURES,
@@ -106,13 +107,19 @@ class Budget(Model):
             raise ValidationError(u"Can't use year field, use period field instead")
 
     def validate_breakdown(self, data, values):
-        if values:
+        plan = data["__parent__"]
+        if not values:
+            validation_date = get_first_revision_date(data, default=get_now())
+            if validation_date >= BUDGET_BREAKDOWN_REQUIRED_FROM:
+                method = plan.tender.procurementMethodType
+                if method not in ("belowThreshold", "reporting", "esco", ""):
+                    raise ValidationError(BaseType.MESSAGES["required"])
+        else:
             currencies = [i.value.currency for i in values]
             if "currency" in data:
                 currencies.append(data["currency"])
             if len(set(currencies)) > 1:
                 raise ValidationError(u"Currency should be identical for all budget breakdown values and budget")
-            plan = data["__parent__"]
             if isinstance(plan, Model) and plan.tender.procurementMethodType != "esco":
                 amounts = [to_decimal(i.value.amount) for i in values]
                 if sum(amounts) > to_decimal(data["amount"]):
