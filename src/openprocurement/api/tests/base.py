@@ -18,9 +18,11 @@ wsgiapp = None
 
 
 def loadwsgiapp(uri, **kwargs):
-    global wsgiapp
-    wsgiapp = wsgiapp or loadapp(uri, **kwargs)
-    return wsgiapp
+    if os.environ.get("SINGLE_APP", False):
+        global wsgiapp
+        wsgiapp = wsgiapp or loadapp(uri, **kwargs)
+        return wsgiapp
+    return loadapp(uri, **kwargs)
 
 
 def snitch(func):
