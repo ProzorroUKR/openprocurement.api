@@ -3,67 +3,102 @@ stages:
   - deploy
   - robot_tests
   - test
+  - cleanup
 
 variables:
   COUCHDB_USER: op
   COUCHDB_PASSWORD: op
   GIT_STRATEGY: none
 
-Build:
+.build:
   stage: build
-  script:
+  before_script:
     - type multiwerf && source <(multiwerf use 1.0 beta)
     - type werf && source <(werf ci-env gitlab --tagging-strategy tag-or-branch --verbose)
-    - unset WERF_TAG_GIT_BRANCH
-    - werf build-and-publish --stages-storage :local --tag-custom ci-$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA `if [ $CI_COMMIT_REF_SLUG == 'master' ]; then echo "--tag-custom master"; fi`
-  only:
-    - branches
-  tags:
-    - shell
+  script:
+    - werf build-and-publish
   except:
     - schedules
+  tags:
+    - shell
   variables:
     GIT_STRATEGY: fetch
+    WERF_STAGES_STORAGE: ":local"
 
+build:
+  extends: .build
+  only:
+    - branches
+  variables:
+    WERF_TAG_GIT_COMMIT: ci-$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA
+
+build_master:
+  extends: .build
+  only:
+    - master
+  variables:
+    WERF_TAG_GIT_BRANCH: $CI_COMMIT_REF_SLUG
+
+build_tag:
+  extends: .build
+  only:
+    - tags
+  variables:
+    WERF_TAG_GIT_TAG: $CI_COMMIT_TAG
+
+cleanup:
+  stage: cleanup
+  before_script:
+    - type multiwerf && source <(multiwerf use 1.0 beta)
+    - type werf && source <(werf ci-env gitlab --tagging-strategy tag-or-branch --verbose)
+    - docker login -u $WERF_IMAGES_CLEANUP_USERNAME -p $WERF_IMAGES_CLEANUP_PASSWORD $WERF_IMAGES_REPO
+  script:
+    - werf cleanup --stages-storage :local
+  only:
+    - schedules
+  tags:
+    - shell
 
 .base_deploy: &base_deploy
   stage: deploy
   script:
     - helm repo add prozorro $REPO_URL
     - helm repo update
-    - helm upgrade $CI_COMMIT_REF_SLUG --install prozorro/$HELM_CHART --namespace $HELM_NAMESPACE --set $HELM_TAG_PARAMETER=ci-$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA --wait
+    - helm upgrade $CI_COMMIT_REF_SLUG --install prozorro/$HELM_CHART --namespace $HELM_NAMESPACE --set $HELM_TAG_PARAMETER=$TAG --wait
   dependencies:
-    - Build
+    - build
   tags:
     - shell
+  variables:
+    TAG: ci-$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA
 
-Review:
+review:
   <<: *base_deploy
   environment:
     name: review/${CI_COMMIT_REF_SLUG}
     url: http://api.${CI_COMMIT_REF_SLUG}.${K8S_DOMAIN}/api/2.5/tenders
-    on_stop: Stop review
+    on_stop: stop_review
   dependencies:
-    - Build
+    - build
   only:
     - branches
   except:
     - master
     - schedules
 
-Deploy master:
+deploy_master:
   <<: *base_deploy
   environment:
     name: review/${CI_COMMIT_REF_SLUG}
     url: http://api.${CI_COMMIT_REF_SLUG}.${K8S_DOMAIN}/api/2.5/tenders
   dependencies:
-    - Build
+    - build
   only:
     - master
   except:
     - schedules
 
-Run robot tests:
+robot_tests:
   stage: robot_tests
   script:
     - curl "$JENKINS_URL/buildWithParameters?token=$JENKINS_TOKEN&cause=$CI_COMMIT_REF_SLUG&RELEASE_NAME=$CI_COMMIT_REF_SLUG&API_VERSION=2.5"
@@ -73,12 +108,12 @@ Run robot tests:
   only:
     - branches
   dependencies:
-    - Review
+    - review
   except:
     - schedules
   when: manual
 
-Stop review:
+stop_review:
   stage: deploy
   script:
     - helm delete $CI_COMMIT_REF_SLUG --purge
@@ -104,7 +139,7 @@ Stop review:
   only:
     - branches
   dependencies:
-    - Build
+    - build
   script:
     - echo '127.0.0.1  couchdb' >> /etc/hosts
     - cd /app
