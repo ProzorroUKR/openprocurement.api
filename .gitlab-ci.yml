@@ -138,6 +138,8 @@ stop_review:
     - kube
   only:
     - branches
+  except:
+    - schedules
   dependencies:
     - build
   script:
