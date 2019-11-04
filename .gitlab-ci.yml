@@ -10,11 +10,15 @@ variables:
   COUCHDB_PASSWORD: op
   GIT_STRATEGY: none
 
-.build:
-  stage: build
+.werf:
   before_script:
     - type multiwerf && source <(multiwerf use 1.0 beta)
     - type werf && source <(werf ci-env gitlab --tagging-strategy tag-or-branch --verbose)
+
+
+.build:
+  extends: .werf
+  stage: build
   script:
     - werf build-and-publish
   except:
@@ -47,17 +51,17 @@ build_tag:
     WERF_TAG_GIT_TAG: $CI_COMMIT_TAG
 
 cleanup:
+  extends: .werf
   stage: cleanup
-  before_script:
-    - type multiwerf && source <(multiwerf use 1.0 beta)
-    - type werf && source <(werf ci-env gitlab --tagging-strategy tag-or-branch --verbose)
-    - docker login -u $WERF_IMAGES_CLEANUP_USERNAME -p $WERF_IMAGES_CLEANUP_PASSWORD $WERF_IMAGES_REPO
   script:
-    - werf cleanup --stages-storage :local
+    - docker login -u $WERF_IMAGES_CLEANUP_USERNAME -p $WERF_IMAGES_CLEANUP_PASSWORD $WERF_IMAGES_REPO
+    - werf cleanup
   only:
     - schedules
   tags:
     - shell
+  variables:
+    WERF_STAGES_STORAGE: ":local"
 
 .base_deploy: &base_deploy
   stage: deploy
