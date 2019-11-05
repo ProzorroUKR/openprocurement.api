@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.models import ListType
-from openprocurement.api.roles import RolesFromCsv
 from openprocurement.tender.cfaua.models.submodels.documents import EUDocument
 from openprocurement.tender.core.models import (
     ComplaintModelType as BaseComplaintModelType,
@@ -10,6 +9,7 @@ from openprocurement.tender.core.models import (
 from schematics.types.compound import ModelType
 from schematics.types import StringType, BooleanType
 from schematics.exceptions import ValidationError
+from schematics.transforms import whitelist
 from openprocurement.api.models import IsoDateTimeType
 from pyramid.security import Allow
 
@@ -23,10 +23,45 @@ class ComplaintModelType(BaseComplaintModelType):
     ]
 
 
-# openprocurement.tender.openua.models.Complaint + openprocurement.tender.openeu.models.Complaint
 class Complaint(BaseComplaint):
     class Options:
-        roles = RolesFromCsv("Complaint.csv", relative_to=__file__)
+        _view_claim = whitelist(
+            'acceptance', 'bid_id', 'cancellationReason', 'complaintID', 'date', 'dateAccepted',
+            'dateAnswered', 'dateCanceled', 'dateDecision', 'dateEscalated', 'dateSubmitted', 'decision',
+            'description', 'documents', 'id', 'rejectReason', 'rejectReasonDescription', 'relatedLot', 'resolution',
+            'resolutionType', 'reviewDate', 'reviewPlace', 'satisfied', 'status', 'tendererAction',
+            'tendererActionDate', 'title', 'type',
+        )
+        _open_view = _view_claim + whitelist('author')
+        _embedded = _open_view - whitelist('bid_id')  # "-bid_id" looks like a typo in the original csv
+        roles = {
+            "view_claim": _view_claim,
+            "active.enquiries": _open_view,
+            "active.tendering": _open_view,
+            "active.pre-qualification": _open_view,
+            "active.pre-qualification.stand-still": _open_view,
+            "active.auction": _open_view,
+            "active.qualification": _open_view,
+            "active.qualification.stand-still": _open_view,
+            "active.awarded": _open_view,
+            "complete": _open_view,
+            "unsuccessful": _open_view,
+            "cancelled": _open_view,
+            "embedded": _embedded,
+            "view": _embedded,
+            "default": _open_view + whitelist('owner', 'owner_token'),
+
+            "create": whitelist('author', 'description', 'status', 'title', 'relatedLot'),
+            "draft": whitelist('author', 'description', 'status', 'title'),
+            "review": whitelist('decision', 'reviewDate', 'reviewPlace', 'status'),
+            "answer": whitelist('resolution', 'resolutionType', 'status', 'tendererAction'),
+            "pending": whitelist('decision', 'rejectReason', 'rejectReasonDescription', 'status'),
+            "satisfy": whitelist('satisfied', 'status'),
+            "escalate": whitelist('status'),
+            "resolve": whitelist('status', 'tendererAction'),
+            "action": whitelist('tendererAction'),
+            "cancellation": whitelist('cancellationReason', 'status'),
+        }
 
     documents = ListType(ModelType(EUDocument, required=True), default=list())
     status = StringType(

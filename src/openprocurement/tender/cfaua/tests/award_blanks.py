@@ -1571,6 +1571,11 @@ def create_tender_award_complaint(self):
     self.assertIn("id", complaint)
     self.assertIn(complaint["id"], response.headers["Location"])
 
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    complaint_details = response.json["data"]["awards"][0]["complaints"][0]
+    self.assertNotIn("owner", complaint_details)
+    self.assertNotIn("owner_token", complaint_details)  # CS-5342
+
     self.set_status("active.awarded")
 
     response = self.app.get("/tenders/{}".format(self.tender_id))

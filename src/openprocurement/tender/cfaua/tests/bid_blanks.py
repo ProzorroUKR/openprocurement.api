@@ -3937,6 +3937,19 @@ def change_bid_document_in_qualification_st_st(self):
         )
 
 
+def view_bid_in_qualification_st_st(self):   # CS-5342
+    self.set_status("active.qualification.stand-still", "end")
+
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    self.assertEqual(response.json["data"]["status"], "active.qualification.stand-still")
+    bids = response.json["data"]["bids"]
+    expected_keys = {"id", "status", "selfEligible", "selfQualified", "lotValues", "tenderers", "date"}
+    self.assertEqual(set(bids[0].keys()), expected_keys)
+
+    response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bids[0]["id"]))
+    self.assertEqual(set(response.json["data"].keys()), expected_keys)
+
+
 def post_winningBid_document_in_awarded(self):
     self.set_status("active.awarded")
     response = self.app.post_json(
