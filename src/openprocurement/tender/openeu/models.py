@@ -607,7 +607,7 @@ class Tender(BaseTender):
         _parent_roles = BaseTender.Options.roles
 
         _edit_role = _parent_roles["edit"] - whitelist("enquiryPeriod")
-        _read_fields = whitelist("qualifications", "qualificationPeriod", "complaintPeriod")
+        _read_fields = whitelist("qualifications", "qualificationPeriod")
         _tendering_role = _parent_roles["active.tendering"] + _read_fields + whitelist("tender_enquiryPeriod")
         _view_role = _parent_roles["view"] + _read_fields
         _pre_qualifications_role = _view_role
