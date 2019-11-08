@@ -358,8 +358,9 @@ class Tender(BaseTender):
         _parent_roles = BaseTender.Options.roles
 
         _edit_role = _parent_roles["edit"]
-        _tendering_role = _parent_roles["active.tendering"] + whitelist("complaintPeriod")
-        _view_role = _parent_roles["view"]
+        _above_fields = whitelist("complaintPeriod")
+        _tendering_role = _parent_roles["active.tendering"] + _above_fields
+        _view_role = _parent_roles["view"] + _above_fields
         _all_forbidden = whitelist()
         roles = {
             "create": _parent_roles["create"],

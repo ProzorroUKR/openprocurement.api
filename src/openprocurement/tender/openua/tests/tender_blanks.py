@@ -554,35 +554,58 @@ def create_tender_generated(self):
 
 
 def tender_fields(self):
-
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
+    self.tender_id = tender["id"]
     tender_set = set(tender)
     if "procurementMethodDetails" in tender_set:
         tender_set.remove("procurementMethodDetails")
     self.assertEqual(
         tender_set - set(self.initial_data),
-        set(
-            [
-                u"id",
-                u"dateModified",
-                u"enquiryPeriod",
-                u"auctionPeriod",
-                u"complaintPeriod",
-                u"tenderID",
-                u"status",
-                u"procurementMethod",
-                u"awardCriteria",
-                u"submissionMethod",
-                u"next_check",
-                u"owner",
-                u"date",
-            ]
-        ),
+        {
+            u"id",
+            u"dateModified",
+            u"enquiryPeriod",
+            u"auctionPeriod",
+            u"complaintPeriod",
+            u"tenderID",
+            u"status",
+            u"procurementMethod",
+            u"awardCriteria",
+            u"submissionMethod",
+            u"next_check",
+            u"owner",
+            u"date",
+        },
     )
     self.assertIn(tender["id"], response.headers["Location"])
+
+    self.set_status("complete")
+
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    tender = response.json["data"]
+    self.assertEqual(tender["status"], "complete")
+    expected_keys = {
+        "id",
+        "dateModified",
+        "enquiryPeriod",
+        "auctionPeriod",
+        "complaintPeriod",
+        "tenderID",
+        "status",
+        "procurementMethod",
+        "awardCriteria",
+        "submissionMethod",
+        "owner",
+        "date",
+        "numberOfBids",
+        "awardPeriod",
+    }
+    self.assertEqual(set(tender.keys()) - set(self.initial_data.keys()), expected_keys)
 
 
 def patch_draft_invalid_json(self):
