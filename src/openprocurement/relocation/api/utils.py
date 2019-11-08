@@ -60,7 +60,7 @@ def save_transfer(request):
 
 def set_ownership(item, request, access_token=None, transfer_token=None):
     item.owner = request.authenticated_userid
-    item.access_token = sha512(access_token).hexdigest()
+    item.access_token = access_token
     item.transfer_token = sha512(transfer_token).hexdigest()
 
 
