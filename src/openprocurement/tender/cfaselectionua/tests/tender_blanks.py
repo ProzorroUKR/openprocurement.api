@@ -1152,19 +1152,17 @@ def tender_fields(self):
     tender = response.json["data"]
     self.assertEqual(
         set(tender) - set(self.initial_data),
-        set(
-            [
-                u"id",
-                u"dateModified",
-                u"tenderID",
-                u"date",
-                u"status",
-                u"procurementMethod",
-                u"awardCriteria",
-                u"submissionMethod",
-                u"owner",
-            ]
-        ),
+        {
+            u"id",
+            u"dateModified",
+            u"tenderID",
+            u"date",
+            u"status",
+            u"procurementMethod",
+            u"awardCriteria",
+            u"submissionMethod",
+            u"owner",
+        },
     )
     self.assertIn(tender["id"], response.headers["Location"])
 

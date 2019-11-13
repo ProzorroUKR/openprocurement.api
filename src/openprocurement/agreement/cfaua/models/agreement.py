@@ -4,19 +4,19 @@ from openprocurement.agreement.cfaua.models.change import (
     ChangeThirdParty,
     ChangePartyWithdrawal,
 )
-from openprocurement.api.roles import RolesFromCsv
 from zope.interface import implementer, provider
 from schematics.types import StringType
 from schematics.types.compound import ModelType, PolyModelType
+from schematics.transforms import whitelist
 from pyramid.security import Allow
 from openprocurement.api.models import Period, IsoDateTimeType, ListType
+from openprocurement.planning.api.models import PlanOrganization
 from openprocurement.agreement.core.models.agreement import Agreement as BaseAgreement
 from openprocurement.agreement.cfaua.models.document import Document
 from openprocurement.agreement.cfaua.models.feature import Feature
 from openprocurement.agreement.cfaua.models.contract import Contract
 from openprocurement.agreement.cfaua.models.item import Item
 from openprocurement.agreement.cfaua.models.procuringentity import ProcuringEntity
-
 from openprocurement.agreement.cfaua.interfaces import IClosedFrameworkAgreementUA
 from openprocurement.agreement.cfaua.validation import validate_features_uniq
 from openprocurement.agreement.cfaua.utils import get_change_class
@@ -26,7 +26,27 @@ from openprocurement.agreement.cfaua.utils import get_change_class
 @provider(IClosedFrameworkAgreementUA)
 class Agreement(BaseAgreement):
     class Options:
-        roles = RolesFromCsv("Agreement.csv", relative_to=__file__)
+        _data_fields = whitelist(
+            "agreementID", "agreementNumber", "changes", "contracts", "dateSigned", "description",
+            "description_en", "description_ru", "documents", "features", "id", "items", "mode",
+            "numberOfContracts", "owner", "period", "procuringEntity", "status", "tender_id",
+            "terminationDetails", "title", "title_en", "title_ru"
+        )
+        _create = _data_fields + whitelist("tender_token")
+        _embedded = _create + whitelist(
+            "dateModified", "agreementType", "revisions",
+            "owner_token", "date", "transfer_token", "doc_id",
+        )
+        roles = {
+            "view": _data_fields + whitelist("dateModified"),
+            "create": _create,
+            "edit_terminated": whitelist(),
+            "edit_active": whitelist("documents", "status", "terminationDetails"),
+            "Administrator": whitelist("documents", "mode", "procuringEntity", "status", "terminationDetails"),
+            "embedded": _embedded,
+            "default": _embedded - whitelist("doc_id") + whitelist("_id", "_rev", "doc_type"),
+            "plain": _embedded - whitelist("revisions", "dateModified"),
+        }
 
     agreementNumber = StringType()
     agreementType = StringType(default="cfaua")
