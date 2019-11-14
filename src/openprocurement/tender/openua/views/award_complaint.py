@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.belowthreshold.views.award_complaint import TenderAwardComplaintResource
-
 from openprocurement.api.utils import get_now, context_unpack, json_view, set_ownership, raise_operation_error
 from openprocurement.tender.core.validation import (
     validate_complaint_data,
@@ -11,9 +10,7 @@ from openprocurement.tender.core.validation import (
     validate_award_complaint_operation_not_in_allowed_status,
     validate_update_complaint_not_in_allowed_complaint_status,
 )
-
 from openprocurement.tender.belowthreshold.utils import check_tender_status
-
 from openprocurement.tender.core.utils import save_tender, apply_patch, optendersresource
 
 
@@ -27,21 +24,6 @@ def get_bid_id(request):
         return bids[common.pop()]
 
 
-class AwardComplaintMixin:
-    def validate_there_is_active_award(self):
-        tender = self.request.validated["tender"]
-        if not any(
-            [i.status == "active" for i in tender.awards if i.lotID == self.request.validated["award"].lotID]
-        ):
-            raise_operation_error(self.request, "Complaint submission is allowed only after award activation.")
-
-    def validate_claim_on_unsuccessful_award(self):
-        complaint = self.request.validated["complaint"]
-        award = self.request.validated["award"]
-        if award.status == "unsuccessful" and award.bid_id != complaint.bid_id:
-            raise_operation_error(self.request, "Can add claim only on unsuccessful award of your bid")
-
-
 @optendersresource(
     name="aboveThresholdUA:Tender Award Complaints",
     collection_path="/tenders/{tender_id}/awards/{award_id}/complaints",
@@ -49,7 +31,28 @@ class AwardComplaintMixin:
     procurementMethodType="aboveThresholdUA",
     description="Tender award complaints",
 )
-class TenderUaAwardComplaintResource(AwardComplaintMixin, TenderAwardComplaintResource):
+class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
+    patch_check_tender_excluded_statuses = (
+        "draft", "claim", "answered", "pending", "accepted", "satisfied", "stopping",
+    )
+
+    def validate_posting_complaint(self):
+        tender = self.request.validated["tender"]
+        context_award = self.request.validated["award"]
+        if not any(
+            award.status == "active"
+            for award in tender.awards
+            if award.lotID == context_award.lotID
+        ):
+            raise_operation_error(self.request, "Complaint submission is allowed only after award activation.")
+
+    def validate_posting_claim(self):
+        complaint = self.request.validated["complaint"]
+        award = self.request.validated["award"]
+        if award.status == "unsuccessful" and award.bid_id != complaint.bid_id:
+            raise_operation_error(self.request, "Can add claim only on unsuccessful award of your bid")
+        if award.status == "pending":
+            raise_operation_error(self.request, "Claim submission is not allowed on pending award")
 
     @staticmethod
     def complaints_len(tender):
@@ -75,13 +78,13 @@ class TenderUaAwardComplaintResource(AwardComplaintMixin, TenderAwardComplaintRe
         complaint.bid_id = get_bid_id(self.request)
 
         if complaint.status == "claim":   # claim
-            self.validate_claim_on_unsuccessful_award()
+            self.validate_posting_claim()
             complaint.dateSubmitted = get_now()
         elif complaint.status == "pending":  # complaint
-            self.validate_there_is_active_award()
+            self.validate_posting_complaint()
             complaint.type = "complaint"
             complaint.dateSubmitted = get_now()
-        else:  # draft is neither claim nor complaint
+        else:  # draft is neither claim nor complaint yet
             complaint.status = "draft"
 
         complaint.complaintID = "{}.{}{}".format(tender.tenderID, self.server_id, self.complaints_len(tender) + 1)
@@ -114,7 +117,6 @@ class TenderUaAwardComplaintResource(AwardComplaintMixin, TenderAwardComplaintRe
         ),
     )
     def patch(self):
-        tender = self.request.validated["tender"]
         role_method_name = "patch_as_{role}".format(role=self.request.authenticated_role.lower())
         try:
             role_method = getattr(self, role_method_name)
@@ -125,15 +127,11 @@ class TenderUaAwardComplaintResource(AwardComplaintMixin, TenderAwardComplaintRe
 
         if self.context.tendererAction and not self.context.tendererActionDate:
             self.context.tendererActionDate = get_now()
-        if self.context.status not in [
-            "draft",
-            "claim",
-            "answered",
-            "pending",
-            "accepted",
-            "satisfied",
-            "stopping",
-        ] and tender.status in ["active.qualification", "active.awarded"]:
+
+        if (
+            self.context.status not in self.patch_check_tender_excluded_statuses
+            and self.request.validated["tender"].status in ("active.qualification", "active.awarded")
+        ):
             check_tender_status(self.request)
 
         if save_tender(self.request):
@@ -146,13 +144,13 @@ class TenderUaAwardComplaintResource(AwardComplaintMixin, TenderAwardComplaintRe
     def patch_as_complaint_owner(self, data):
         status = self.context.status
         new_status = data.get("status", status)
+        if (
+            status in ["draft", "claim", "answered"] and new_status == "cancelled"
+            or status in ["pending", "accepted"] and new_status == "stopping"
+        ):
+            apply_patch(self.request, save=False, src=self.context.serialize())
+            self.context.dateCanceled = get_now()
 
-        if status in ["draft", "claim", "answered"] and new_status == "cancelled":
-            apply_patch(self.request, save=False, src=self.context.serialize())
-            self.context.dateCanceled = get_now()
-        elif status in ["pending", "accepted"] and new_status == "stopping":
-            apply_patch(self.request, save=False, src=self.context.serialize())
-            self.context.dateCanceled = get_now()
         elif status == "draft":
             self.patch_draft_as_complaint_owner(data)
 
@@ -180,12 +178,12 @@ class TenderUaAwardComplaintResource(AwardComplaintMixin, TenderAwardComplaintRe
             apply_patch(self.request, save=False, src=self.context.serialize())
 
         elif new_status == "claim":
-            self.validate_claim_on_unsuccessful_award()
+            self.validate_posting_claim()
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateSubmitted = get_now()
 
         elif new_status == "pending":
-            self.validate_there_is_active_award()
+            self.validate_posting_complaint()
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.type = "complaint"
             self.context.dateSubmitted = get_now()
@@ -214,7 +212,6 @@ class TenderUaAwardComplaintResource(AwardComplaintMixin, TenderAwardComplaintRe
                 raise_operation_error(self.request, "Can't update complaint: tendererAction required")
 
             apply_patch(self.request, save=False, src=context.serialize())
-
         else:
             raise_operation_error(self.request,
                                   "Can't update complaint from {} to {} status".format(status, new_status))
@@ -240,6 +237,8 @@ class TenderUaAwardComplaintResource(AwardComplaintMixin, TenderAwardComplaintRe
         elif status in ["accepted", "stopping"] and new_status in ["declined", "satisfied"]:
             apply_patch(self.request, save=False, src=context.serialize())
             context.dateDecision = get_now()
+            if new_status == "satisfied":
+                self.on_satisfy_complaint_by_reviewer()
 
         elif status in ["pending", "accepted", "stopping"] and new_status == "stopped":
             apply_patch(self.request, save=False, src=context.serialize())
@@ -248,3 +247,6 @@ class TenderUaAwardComplaintResource(AwardComplaintMixin, TenderAwardComplaintRe
         else:
             raise_operation_error(self.request,
                                   "Can't update complaint from {} to {} status".format(status, new_status))
+
+    def on_satisfy_complaint_by_reviewer(self):
+        pass

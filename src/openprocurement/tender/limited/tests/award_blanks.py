@@ -1867,7 +1867,7 @@ def patch_tender_award_complaint(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't update complaint")
+    self.assertEqual(response.json["errors"][0]["description"], "Can't update complaint from stopping to cancelled")
 
     response = self.app.patch_json(
         "/tenders/{}/awards/some_id/complaints/some_id".format(self.tender_id),

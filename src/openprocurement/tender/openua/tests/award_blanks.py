@@ -939,9 +939,37 @@ def create_tender_award_claim(self):
 
     response = self.app.get("/tenders/{}/awards".format(self.tender_id))
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][-1]
+    bid_token = self.initial_bids_tokens[self.initial_bids[1]["id"]]
+    self.app.authorization = auth
+
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, award_id, bid_token),
+        {
+            "data": {
+                "title": "complaint title",
+                "description": "complaint description",
+                "author": test_author,
+                "status": "claim",
+            }
+        },
+        status=403,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u"description": u"Claim submission is not allowed on pending award",
+                u"location": u"body",
+                u"name": u"data",
+            }
+        ],
+    )
+
+    auth = self.app.authorization
+    self.app.authorization = ("Basic", ("token", ""))
+
     self.app.patch_json("/tenders/{}/awards/{}".format(self.tender_id, award_id), {"data": {"status": "unsuccessful"}})
     self.app.authorization = auth
-    bid_token = self.initial_bids_tokens[self.initial_bids[1]["id"]]
 
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, award_id, bid_token),
