@@ -190,6 +190,9 @@ class TestTender(Tender):
     def validate_milestones(self, *_):
         pass
 
+    def validate_buyers(self, *_):
+        pass
+
 
 @pytest.mark.parametrize(
     "test_data",
