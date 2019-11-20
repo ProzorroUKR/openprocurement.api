@@ -11,6 +11,7 @@ from openprocurement.relocation.api.validation import (
     validate_ownership_data,
     validate_plan_accreditation_level,
     validate_plan_owner_accreditation_level,
+    validate_plan,
     validate_plan_transfer_token,
 )
 
@@ -23,6 +24,7 @@ class TenderResource(APIResource):
             validate_plan_accreditation_level,
             validate_plan_owner_accreditation_level,
             validate_ownership_data,
+            validate_plan,
             validate_plan_transfer_token,
         ),
     )

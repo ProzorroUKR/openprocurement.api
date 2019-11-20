@@ -6,6 +6,7 @@ from openprocurement.planning.api.tests.base import test_plan_data
 from openprocurement.tender.core.tests.base import change_auth
 
 
+
 class BasePlanOwnershipChangeTest(BaseWebTest):
     initial_data = test_plan_data
     first_owner = "brokerx"
@@ -19,6 +20,7 @@ class BasePlanOwnershipChangeTest(BaseWebTest):
         data = deepcopy(self.initial_data)
         response = self.app.post_json("/plans", {"data": data})
         self.plan = response.json["data"]
+        self.plan_token = response.json["access"]["token"]
         self.plan_transfer = response.json["access"]["transfer"]
         self.plan_id = self.plan["id"]
 
@@ -228,6 +230,30 @@ class PlanOwnershipChangeTest(BasePlanOwnershipChangeTest):
                     u"description": u"Broker Accreditation level does not permit ownership change",
                     u"location": u"ownership",
                     u"name": u"accreditation",
+                }
+            ],
+        )
+
+    def test_validate_status(self):
+        self.app.patch_json(
+            "/plans/{}?acc_token={}".format(self.plan_id, self.plan_token),
+            {"data": {"status": "complete"}}
+        )
+
+        response = self.app.post_json(
+            "/plans/{}/ownership".format(self.plan_id),
+            {"data": {"id": "test_id", "transfer": "test_transfer"}},
+            status=403
+        )
+
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    u"description": u"Can't update credentials in current (complete) plan status",
+                    u"location": u"body",
+                    u"name": u"data",
                 }
             ],
         )
