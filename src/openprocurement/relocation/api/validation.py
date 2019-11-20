@@ -138,7 +138,18 @@ def validate_contract(request):
     contract = request.validated["contract"]
     if contract.status != "active":
         request.errors.add(
-            "body", "data", "Can't update credentials in current ({}) " "contract status".format(contract.status)
+            "body", "data", "Can't update credentials in current ({}) contract status".format(contract.status)
+        )
+        request.errors.status = 403
+
+
+def validate_plan(request):
+    if request.errors:
+        return
+    plan = request.validated["plan"]
+    if plan.status != "scheduled":
+        request.errors.add(
+            "body", "data", "Can't update credentials in current ({}) plan status".format(plan.status)
         )
         request.errors.status = 403
 
@@ -149,6 +160,6 @@ def validate_agreement(request):
     agreement = request.validated["agreement"]
     if agreement.status != "active":
         request.errors.add(
-            "body", "data", "Can't update credentials in current ({}) " "agreement status".format(agreement.status)
+            "body", "data", "Can't update credentials in current ({}) agreement status".format(agreement.status)
         )
         request.errors.status = 403
