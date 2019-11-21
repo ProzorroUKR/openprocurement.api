@@ -908,6 +908,13 @@ class Milestone(Model):
 class PlanRelation(Model):
     id = MD5Type(required=True)
 
+    class Options:
+        roles = {
+            "create": whitelist("id"),
+            "embedded": schematics_embedded_role,
+            "view": schematics_default_role,
+        }
+
 
 @implementer(ITender)
 class BaseTender(OpenprocurementSchematicsDocument, Model):

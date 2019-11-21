@@ -4,7 +4,7 @@ from decimal import Decimal, ROUND_UP
 
 from schematics.types import BaseType
 
-from openprocurement.api.validation import validate_data, validate_json_data, OPERATIONS
+from openprocurement.api.validation import validate_data, validate_json_data, OPERATIONS, handle_data_exceptions
 from openprocurement.api.constants import (
     SANDBOX_MODE,
     UA_ROAD_SCHEME,
@@ -23,6 +23,8 @@ from openprocurement.api.utils import (
 )  # XXX tender context
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF, FIRST_STAGE_PROCUREMENT_TYPES
 from openprocurement.tender.core.utils import calculate_business_date, has_requested_fields_changes
+from openprocurement.planning.api.utils import extract_plan_adapter
+from openprocurement.planning.api.models import Plan
 from schematics.exceptions import ValidationError
 
 
@@ -822,15 +824,6 @@ def validate_tender_matches_plan(request):
             ),
         )
 
-    if plan.tender.procurementMethodType not in (tender.procurementMethodType, "centralizedProcurement"):
-        request.errors.add(
-            "data",
-            "procurementMethodType",
-            u"procurementMethodType doesn't match: {} != {}".format(
-                plan.tender.procurementMethodType, tender.procurementMethodType
-            ),
-        )
-
     pattern = plan.classification.id[:3] if plan.classification.id.startswith("336") else plan.classification.id[:4]
     for i, item in enumerate(tender.items):
         if item.classification.id[: len(pattern)] != pattern:
@@ -847,6 +840,22 @@ def validate_tender_matches_plan(request):
         raise error_handler(request.errors)
 
 
+def validate_tender_plan_procurement_method_type(request):
+    plan = request.validated["plan"]
+    tender = request.validated["tender"]
+
+    if plan.tender.procurementMethodType not in (tender.procurementMethodType, "centralizedProcurement"):
+        request.errors.add(
+            "data",
+            "procurementMethodType",
+            u"procurementMethodType doesn't match: {} != {}".format(
+                plan.tender.procurementMethodType, tender.procurementMethodType
+            ),
+        )
+        request.errors.status = 422
+        raise error_handler(request.errors)
+
+
 def validate_plan_budget_breakdown(request):
     plan = request.validated["plan"]
 
@@ -854,3 +863,26 @@ def validate_plan_budget_breakdown(request):
         request.errors.add("data", "budget.breakdown", u"Plan should contain budget breakdown")
         request.errors.status = 422
         raise error_handler(request.errors)
+
+
+def validate_tender_in_draft(request):
+    if request.validated["tender"].status != "draft":
+        raise raise_operation_error(request, u"Only allowed in draft tender status")
+
+
+def validate_procurement_kind_is_central(request):
+    kind = "central"
+    if request.validated["tender"].procuringEntity.kind != kind:
+        raise raise_operation_error(request, u"Only allowed for procurementEntity.kind = '{}'".format(kind))
+
+
+def validate_tender_plan_data(request):
+    data = validate_data(request, type(request.tender).plans.model_class)
+    plan_id = data["id"]
+    update_logging_context(request, {"plan_id": plan_id})
+
+    plan = extract_plan_adapter(request, plan_id)
+    with handle_data_exceptions(request):
+        plan.validate()
+    request.validated["plan"] = plan
+    request.validated["plan_src"] = plan.serialize("plain")

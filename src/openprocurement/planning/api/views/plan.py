@@ -31,6 +31,7 @@ from openprocurement.tender.core.validation import (
     validate_tender_data,
     validate_procurement_type_of_first_stage,
     validate_tender_matches_plan,
+    validate_tender_plan_procurement_method_type,
     validate_plan_budget_breakdown,
 )
 from openprocurement.tender.core.views.tender import TendersResource
@@ -391,6 +392,7 @@ class PlanTendersResource(TendersResource):
             validate_plan_has_not_tender,  # we need this because of the plans created before the statuses release
             validate_tender_data,
             validate_procurement_type_of_first_stage,
+            validate_tender_plan_procurement_method_type,
             validate_tender_matches_plan,
             validate_plan_budget_breakdown,
         ),

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from schematics.exceptions import ModelValidationError, ModelConversionError, ValidationError
-
+from contextlib import contextmanager
 from openprocurement.api.constants import INN_SCHEME, CPV_PHARM_PRODUCTS, CPV_336_INN_FROM
 from openprocurement.api.utils import (
     apply_data_patch,
@@ -29,10 +29,26 @@ def validate_json_data(request):
     return json["data"]
 
 
+@contextmanager
+def handle_data_exceptions(request):
+    try:
+        yield
+    except (ModelValidationError, ModelConversionError) as e:
+        for i in e.messages:
+            request.errors.add("body", i, e.messages[i])
+        request.errors.status = 422
+        raise error_handler(request.errors)
+    except ValueError as e:
+        request.errors.add("body", "data", str(e))
+        request.errors.status = 422
+        raise error_handler(request.errors)
+
+
 def validate_data(request, model, partial=False, data=None):
     if data is None:
         data = validate_json_data(request)
-    try:
+
+    with handle_data_exceptions(request):
         if partial and isinstance(request.context, model):
             initial_data = request.context.serialize()
             m = model(initial_data)
@@ -49,30 +65,21 @@ def validate_data(request, model, partial=False, data=None):
             m.validate()
             method = m.serialize
             role = "create"
-    except (ModelValidationError, ModelConversionError) as e:
-        for i in e.messages:
-            request.errors.add("body", i, e.messages[i])
-        request.errors.status = 422
-        raise error_handler(request.errors)
-    except ValueError as e:
-        request.errors.add("body", "data", str(e))
-        request.errors.status = 422
+
+    if hasattr(type(m), "_options") and role not in type(m)._options.roles:
+        request.errors.add("url", "role", "Forbidden")
+        request.errors.status = 403
         raise error_handler(request.errors)
     else:
-        if hasattr(type(m), "_options") and role not in type(m)._options.roles:
-            request.errors.add("url", "role", "Forbidden")
-            request.errors.status = 403
-            raise error_handler(request.errors)
-        else:
-            data = method(role)
-            request.validated["data"] = data
-            if not partial:
-                m = model(data)
-                m.__parent__ = request.context
-                if model._options.namespace:
-                    request.validated[model._options.namespace.lower()] = m
-                else:
-                    request.validated[model.__name__.lower()] = m
+        data = method(role)
+        request.validated["data"] = data
+        if not partial:
+            m = model(data)
+            m.__parent__ = request.context
+            if model._options.namespace:
+                request.validated[model._options.namespace.lower()] = m
+            else:
+                request.validated[model.__name__.lower()] = m
     return data
 
 

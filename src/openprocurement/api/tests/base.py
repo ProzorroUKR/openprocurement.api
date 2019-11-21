@@ -1,19 +1,15 @@
 # -*- coding: utf-8 -*-
-import os
-
 from paste.deploy.loadwsgi import loadapp
-
-import webtest
-import unittest
-
 from types import FunctionType
-
 from openprocurement.api.constants import VERSION
 from openprocurement.api.design import sync_design
+import webtest
+import unittest
+import pytest
+import os
+
 
 COUCHBD_NAME_SETTING = "couchdb.db_name"
-
-
 wsgiapp = None
 
 
@@ -96,3 +92,18 @@ class BaseWebTest(unittest.TestCase):
 
     def tearDown(self):
         self.app.drop_db()
+
+
+@pytest.fixture(scope="session")
+def singleton_app():
+    app = BaseTestApp(loadwsgiapp("config:tests.ini", relative_to=os.path.dirname(__file__)))
+    app.app.registry.docservice_url = "http://localhost"
+    return app
+
+
+@pytest.fixture(scope="function")
+def app(singleton_app):
+    singleton_app.authorization = None
+    singleton_app.recreate_db()
+    yield singleton_app
+    singleton_app.drop_db()
