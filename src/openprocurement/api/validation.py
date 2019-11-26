@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from schematics.exceptions import ModelValidationError, ModelConversionError, ValidationError
 from contextlib import contextmanager
+from openprocurement.api.auth import check_user_accreditations
 from openprocurement.api.constants import INN_SCHEME, CPV_PHARM_PRODUCTS, CPV_336_INN_FROM
 from openprocurement.api.utils import (
     apply_data_patch,
@@ -141,3 +142,30 @@ def validate_classification_id(items, *args):
                     u"objects have to contain no more than one additionalClassifications "
                     u"with scheme={}".format(CPV_PHARM_PRODUCTS[:3], INN_SCHEME)
                 )
+
+
+def validate_accreditation_level(request, levels, location, name, action):
+    if not request.check_accreditations(levels):
+        request.errors.add(
+            location, "accreditation", "Broker Accreditation level does not permit {} {}".format(name, action)
+        )
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+
+def validate_accreditation_level_mode(request, mode, location, name, action):
+    if mode is None and request.check_accreditations(("t",)):
+        request.errors.add(
+            location, "mode", "Broker Accreditation level does not permit {} {}".format(name, action)
+        )
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+
+def validate_accreditation_level_owner(request, owner, location, name, action):
+    if not check_user_accreditations(request, owner, ("x",), default=True):
+        request.errors.add(
+            location, "accreditation", "Owner Accreditation level does not permit {} {}".format(name, action)
+        )
+        request.errors.status = 403
+        raise error_handler(request.errors)

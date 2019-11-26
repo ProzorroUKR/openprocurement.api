@@ -16,7 +16,6 @@ from openprocurement.tender.core.utils import save_tender, tender_serialize, opt
 
 from openprocurement.tender.core.validation import validate_tender_data
 
-
 VIEW_MAP = {
     u"": tenders_real_by_dateModified_view,
     u"test": tenders_test_by_dateModified_view,
@@ -47,7 +46,13 @@ class TendersResource(APIResourceListing):
         self.object_name_for_listing = "Tenders"
         self.log_message_id = "tender_list_custom"
 
-    @json_view(content_type="application/json", permission="create_tender", validators=(validate_tender_data,))
+    @json_view(
+        content_type="application/json",
+        permission="create_tender",
+        validators=(
+            validate_tender_data,
+        )
+    )
     def post(self):
         """This API request is targeted to creating new Tenders by procuring organizations.
 
