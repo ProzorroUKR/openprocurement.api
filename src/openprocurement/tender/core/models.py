@@ -37,6 +37,7 @@ from openprocurement.api.constants import (
     MPC_REQUIRED_FROM,
     MILESTONES_VALIDATION_FROM,
 )
+from openprocurement.api.auth import ACCR_1, ACCR_2
 
 from openprocurement.tender.core.constants import (
     CANT_DELETE_PERIOD_START_DATE_FROM,
@@ -1131,8 +1132,8 @@ class Tender(BaseTender):
         default="active.enquiries",
     )
 
-    create_accreditations = (1,)
-    edit_accreditations = (2,)
+    create_accreditations = (ACCR_1,)
+    edit_accreditations = (ACCR_2,)
 
     __name__ = ""
 

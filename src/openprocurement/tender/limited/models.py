@@ -7,6 +7,7 @@ from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from schematics.exceptions import ValidationError
 from openprocurement.api.constants import MILESTONES_VALIDATION_FROM, QUICK_CAUSE_REQUIRED_FROM
+from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_3, ACCR_4
 from openprocurement.api.utils import get_now, get_first_revision_date
 from openprocurement.api.models import schematics_default_role, schematics_embedded_role
 from openprocurement.api.models import ListType, Period, Model
@@ -271,8 +272,8 @@ class ReportingTender(BaseTender):
     mode = StringType(choices=["test"])
     cancellations = ListType(ModelType(Cancellation, required=True), default=list())
 
-    create_accreditations = (1, 3)
-    edit_accreditations = (2,)
+    create_accreditations = (ACCR_1, ACCR_3)
+    edit_accreditations = (ACCR_2,)
 
     procuring_entity_kinds = ["general", "special", "defense", "central", "other"]
 
@@ -406,8 +407,8 @@ class NegotiationTender(ReportingTender):
     causeDescription_ru = StringType(min_length=1)
     procurementMethodType = StringType(default="negotiation")
 
-    create_accreditations = (3,)
-    edit_accreditations = (4,)
+    create_accreditations = (ACCR_3,)
+    edit_accreditations = (ACCR_4,)
 
     procuring_entity_kinds = ["general", "special", "defense", "central"]
 
@@ -442,8 +443,8 @@ class NegotiationQuickTender(NegotiationTender):
     )
     procurementMethodType = StringType(default="negotiation.quick")
 
-    create_accreditations = (3,)
-    edit_accreditations = (4,)
+    create_accreditations = (ACCR_3,)
+    edit_accreditations = (ACCR_4,)
 
     procuring_entity_kinds = ["general", "special", "defense", "central"]
 

@@ -13,6 +13,7 @@ from barbecue import vnmax
 from esculator import npv, escp
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import TZ
+from openprocurement.api.auth import ACCR_3, ACCR_4
 from openprocurement.api.validation import validate_cpv_group, validate_items_uniq
 from openprocurement.api.models import (
     Value,
@@ -602,8 +603,8 @@ class Tender(BaseTender):
     )
     noticePublicationDate = IsoDateTimeType()
 
-    create_accreditations = (3,)
-    edit_accreditations = (4,)
+    create_accreditations = (ACCR_3,)
+    edit_accreditations = (ACCR_4,)
 
     special_fields = ["fundingKind", "yearlyPaymentsPercentageRange"]
     procuring_entity_kinds = ["general", "special", "defense", "central"]

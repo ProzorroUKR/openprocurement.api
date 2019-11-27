@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from schematics.exceptions import ModelValidationError, ModelConversionError, ValidationError
 from contextlib import contextmanager
-from openprocurement.api.auth import check_user_accreditations
+from openprocurement.api.auth import check_user_accreditations, ACCR_TEST, ACCR_EXIT
 from openprocurement.api.constants import INN_SCHEME, CPV_PHARM_PRODUCTS, CPV_336_INN_FROM
 from openprocurement.api.utils import (
     apply_data_patch,
@@ -154,7 +154,7 @@ def validate_accreditation_level(request, levels, location, name, action):
 
 
 def validate_accreditation_level_mode(request, mode, location, name, action):
-    if mode is None and request.check_accreditations(("t",)):
+    if mode is None and request.check_accreditations((ACCR_TEST,)):
         request.errors.add(
             location, "mode", "Broker Accreditation level does not permit {} {}".format(name, action)
         )
@@ -163,7 +163,7 @@ def validate_accreditation_level_mode(request, mode, location, name, action):
 
 
 def validate_accreditation_level_owner(request, owner, location, name, action):
-    if not check_user_accreditations(request, owner, ("x",), default=True):
+    if not check_user_accreditations(request, owner, (ACCR_EXIT,), default=True):
         request.errors.add(
             location, "accreditation", "Owner Accreditation level does not permit {} {}".format(name, action)
         )

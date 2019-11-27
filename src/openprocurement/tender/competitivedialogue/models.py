@@ -5,6 +5,8 @@ from schematics.transforms import whitelist, blacklist
 from zope.interface import implementer
 from pyramid.security import Allow
 from schematics.types.compound import ModelType
+
+from openprocurement.api.auth import ACCR_3, ACCR_COMPETITIVE
 from openprocurement.api.models import (
     Model,
     Identifier,
@@ -522,8 +524,8 @@ class TenderStage2EU(BaseTenderEU):
     contracts = ListType(ModelType(Contract, required=True), default=list())
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
 
-    create_accreditations = ("c",)
-    transfer_accreditations = (3,)
+    create_accreditations = (ACCR_COMPETITIVE,)
+    transfer_accreditations = (ACCR_3,)
 
     class Options:
         namespace = "Tender"
@@ -642,8 +644,8 @@ class TenderStage2UA(BaseTenderUA):
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     procurementMethod = StringType(choices=["open", "selective", "limited"], default="selective")
 
-    create_accreditations = ("c",)
-    transfer_accreditations = (3,)
+    create_accreditations = (ACCR_COMPETITIVE,)
+    transfer_accreditations = (ACCR_3,)
 
     class Options(TenderStage2EU.Options):
         pass
