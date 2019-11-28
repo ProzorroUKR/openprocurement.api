@@ -11,10 +11,6 @@ class Root(object):
         # (Allow, Everyone, ALL_PERMISSIONS),
         (Allow, Everyone, "view_listing"),
         (Allow, Everyone, "view_tender"),
-        (Deny, "broker05", "create_bid"),
-        (Deny, "broker05", "create_complaint"),
-        (Deny, "broker05", "create_question"),
-        (Deny, "broker05", "create_tender"),
         (Allow, "g:brokers", "create_bid"),
         (Allow, "g:brokers", "create_complaint"),
         (Allow, "g:brokers", "create_question"),
@@ -36,7 +32,7 @@ class Root(object):
         self.db = request.registry.db
 
 
-def factory(request):
+def handle_root(request):
     request.validated["tender_src"] = {}
     root = Root(request)
     if not request.matchdict or not request.matchdict.get("tender_id"):
@@ -48,8 +44,15 @@ def factory(request):
     request.validated["tender_status"] = tender.status
     if request.method != "GET":
         request.validated["tender_src"] = tender.serialize("plain")
-        if tender._initial.get("next_check"):
-            request.validated["tender_src"]["next_check"] = tender._initial.get("next_check")
+
+
+def factory(request):
+    response = handle_root(request)
+    if response:
+        return response
+    tender = request.validated["tender"]
+    if request.method != "GET" and tender._initial.get("next_check"):
+        request.validated["tender_src"]["next_check"] = tender._initial.get("next_check")
     if request.matchdict.get("award_id"):
         award = get_item(tender, "award", request)
         if request.matchdict.get("complaint_id"):

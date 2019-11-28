@@ -1,19 +1,12 @@
 # -*- coding: utf-8 -*-
-from openprocurement.tender.core.traversal import Root, get_item
+from openprocurement.tender.core.traversal import Root, get_item, handle_root
 
 
 def qualifications_factory(request):
-    request.validated["tender_src"] = {}
-    root = Root(request)
-    if not request.matchdict or not request.matchdict.get("tender_id"):
-        return root
-    request.validated["tender_id"] = request.matchdict["tender_id"]
-    tender = request.tender
-    tender.__parent__ = root
-    request.validated["tender"] = request.validated["db_doc"] = tender
-    request.validated["tender_status"] = tender.status
-    if request.method != "GET":
-        request.validated["tender_src"] = tender.serialize("plain")
+    response = handle_root(request)
+    if response:
+        return response
+    tender = request.validated["tender"]
     if request.matchdict.get("qualification_id"):
         qualification = get_item(tender, "qualification", request)
         if request.matchdict.get("complaint_id"):
@@ -31,17 +24,10 @@ def qualifications_factory(request):
 
 
 def agreement_factory(request):
-    request.validated["tender_src"] = {}
-    root = Root(request)
-    if not request.matchdict or not request.matchdict.get("tender_id"):
-        return root
-    request.validated["tender_id"] = request.matchdict["tender_id"]
-    tender = request.tender
-    tender.__parent__ = root
-    request.validated["tender"] = request.validated["db_doc"] = tender
-    request.validated["tender_status"] = tender.status
-    if request.method != "GET":
-        request.validated["tender_src"] = tender.serialize("plain")
+    response = handle_root(request)
+    if response:
+        return response
+    tender = request.validated["tender"]
     if request.matchdict.get("agreement_id"):
         agreement = get_item(tender, "agreement", request)
         if request.matchdict.get("change_id"):
@@ -78,20 +64,6 @@ def get_document(parent, key, request):
         request.validated["id"] = request.matchdict["document_id"]
         item.__parent__ = parent
         return item
-
-
-def handle_root(request):
-    request.validated["tender_src"] = {}
-    root = Root(request)
-    if not request.matchdict or not request.matchdict.get("tender_id"):
-        return root
-    request.validated["tender_id"] = request.matchdict["tender_id"]
-    tender = request.tender
-    tender.__parent__ = root
-    request.validated["tender"] = request.validated["db_doc"] = tender
-    request.validated["tender_status"] = tender.status
-    if request.method != "GET":
-        request.validated["tender_src"] = tender.serialize("plain")
 
 
 def bid_financial_documents_factory(request):
