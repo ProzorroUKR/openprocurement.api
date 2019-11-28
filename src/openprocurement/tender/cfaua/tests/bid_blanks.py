@@ -436,7 +436,7 @@ def get_tender_bidder_document(self):
 
     def document_is_unaccessible_for_others(resource):
         orig_auth = self.app.authorization
-        self.app.authorization = ("Basic", ("broker05", ""))
+        self.app.authorization = ("Basic", ("broker4", ""))
         response = self.app.get("/tenders/{}/bids/{}/{}".format(self.tender_id, self.bid_id, resource), status=403)
         self.assertEqual(response.status, "403 Forbidden")
         doc_id = doc_id_by_type[resource]["id"]
@@ -530,7 +530,7 @@ def get_tender_bidder_document(self):
 
     def public_documents_are_accessible_for_others(resource):
         orig_auth = self.app.authorization
-        self.app.authorization = ("Basic", ("broker05", ""))
+        self.app.authorization = ("Basic", ("broker4", ""))
 
         response = self.app.get("/tenders/{}/bids/{}/{}".format(self.tender_id, self.bid_id, resource))
         self.assertEqual(response.status, "200 OK")
@@ -3040,11 +3040,9 @@ def create_tender_bid_with_document_invalid(self):
 def get_tender_bidder_document_ds(self):
     doc_id_by_type = {}
 
-    # self.app.authorization = ('Basic', ('anon', ''))
-
     def document_is_unaccessible_for_others(resource):
         orig_auth = self.app.authorization
-        self.app.authorization = ("Basic", ("broker05", ""))
+        self.app.authorization = ("Basic", ("broker4", ""))
         response = self.app.get("/tenders/{}/bids/{}/{}".format(self.tender_id, self.bid_id, resource), status=403)
         self.assertEqual(response.status, "403 Forbidden")
         doc_id = doc_id_by_type[resource]["id"]
@@ -3138,7 +3136,7 @@ def get_tender_bidder_document_ds(self):
 
     def public_documents_are_accessible_for_others(resource):
         orig_auth = self.app.authorization
-        self.app.authorization = ("Basic", ("broker05", ""))
+        self.app.authorization = ("Basic", ("broker4", ""))
 
         response = self.app.get("/tenders/{}/bids/{}/{}".format(self.tender_id, self.bid_id, resource))
         self.assertEqual(response.status, "200 OK")
