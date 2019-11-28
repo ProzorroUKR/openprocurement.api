@@ -28,7 +28,7 @@ from openprocurement.tender.cfaua.models.submodels.value import Value
 from openprocurement.tender.core.models import EnquiryPeriod, PeriodStartEndRequired, validate_lots_uniq
 from openprocurement.tender.core.models import validate_features_uniq, Question, Tender
 from openprocurement.tender.core.utils import (
-    calculate_business_date,
+    calculate_tender_business_date,
     calc_auction_end_time,
     has_unanswered_questions,
     has_unanswered_complaints,
@@ -229,7 +229,9 @@ class CloseFrameworkAgreementUA(Tender):
             and self.auctionPeriod.startDate
             and self.auctionPeriod.shouldStartAfter
             and self.auctionPeriod.startDate
-            > calculate_business_date(parse_date(self.auctionPeriod.shouldStartAfter), AUCTION_PERIOD_TIME, self, True)
+            > calculate_tender_business_date(
+                parse_date(self.auctionPeriod.shouldStartAfter), AUCTION_PERIOD_TIME, self, True
+            )
         ):
             self.auctionPeriod.startDate = None
         for lot in self.lots:
@@ -238,7 +240,7 @@ class CloseFrameworkAgreementUA(Tender):
                 and lot.auctionPeriod.startDate
                 and lot.auctionPeriod.shouldStartAfter
                 and lot.auctionPeriod.startDate
-                > calculate_business_date(
+                > calculate_tender_business_date(
                     parse_date(lot.auctionPeriod.shouldStartAfter), AUCTION_PERIOD_TIME, self, True
                 )
             ):

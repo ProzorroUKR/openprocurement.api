@@ -7,7 +7,12 @@ from openprocurement.tender.core.validation import (
     validate_tender_period_extension,
     validate_lot_operation_not_in_allowed_status,
 )
-from openprocurement.tender.core.utils import save_tender, apply_patch, optendersresource, calculate_business_date
+from openprocurement.tender.core.utils import (
+    save_tender,
+    apply_patch,
+    optendersresource,
+    calculate_tender_business_date,
+)
 from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD
 
 

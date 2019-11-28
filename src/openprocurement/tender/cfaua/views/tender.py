@@ -3,14 +3,18 @@ from zope.component import getAdapter
 
 from openprocurement.api.interfaces import IContentConfigurator
 from openprocurement.api.utils import json_view, context_unpack, get_now, raise_operation_error
-from openprocurement.tender.core.utils import optendersresource, apply_patch, save_tender, calculate_business_date
+from openprocurement.tender.core.utils import (
+    optendersresource,
+    apply_patch,
+    save_tender,
+    calculate_complaint_business_date,
+)
 from openprocurement.tender.core.validation import (
     validate_tender_period_extension,
     validate_tender_status_update_in_terminated_status,
 )
 from openprocurement.tender.belowthreshold.views.tender import TenderResource
 from openprocurement.tender.cfaua.utils import check_status, all_bids_are_reviewed, all_awards_are_reviewed
-from openprocurement.tender.openua.utils import calculate_normalized_date
 from openprocurement.tender.openua.validation import validate_patch_tender_ua_data
 from openprocurement.tender.core.events import TenderInitializeEvent
 from openprocurement.tender.cfaua.validation import validate_tender_status_update
@@ -122,9 +126,8 @@ class TenderEUResource(TenderResource):
                     self.request, "Can't switch to 'active.pre-qualification.stand-still' before resolve all complaints"
                 )
             if all_bids_are_reviewed(self.request):
-                normalized_date = calculate_normalized_date(now, tender, True)
-                tender.qualificationPeriod.endDate = calculate_business_date(
-                    normalized_date, config.prequalification_complaint_stand_still, self.request.validated["tender"]
+                tender.qualificationPeriod.endDate = calculate_complaint_business_date(
+                    now, config.prequalification_complaint_stand_still, self.request.validated["tender"]
                 )
                 tender.check_auction_time()
             else:
@@ -150,9 +153,8 @@ class TenderEUResource(TenderResource):
                     self.request, "Can't switch to 'active.qualification.stand-still' before resolve all complaints"
                 )
             if all_awards_are_reviewed(self.request):
-                normalized_date = calculate_normalized_date(now, tender, True)
-                tender.awardPeriod.endDate = calculate_business_date(
-                    normalized_date, config.qualification_complaint_stand_still, self.request.validated["tender"]
+                tender.awardPeriod.endDate = calculate_complaint_business_date(
+                    now, config.qualification_complaint_stand_still, self.request.validated["tender"]
                 )
                 for award in [a for a in tender.awards if a.status != "cancelled"]:
                     award["complaintPeriod"] = {

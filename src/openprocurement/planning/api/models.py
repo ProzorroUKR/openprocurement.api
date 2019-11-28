@@ -53,8 +53,10 @@ class BudgetPeriod(Period):
 
     def validate_endDate(self, data, value):
         plan = data["__parent__"]["__parent__"]
-        start_date = data.get("startDate")
+        if not (isinstance(plan, Model) and plan.tender):
+            return
         method_type = plan.tender.procurementMethodType
+        start_date = data.get("startDate")
         if method_type not in MULTI_YEAR_BUDGET_PROCEDURES and value.year != start_date.year:
             raise ValidationError(u"Period startDate and endDate must be within one year for {}.".format(method_type))
         if method_type in MULTI_YEAR_BUDGET_PROCEDURES and value.year - start_date.year > MULTI_YEAR_BUDGET_MAX_YEARS:

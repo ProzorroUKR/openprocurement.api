@@ -46,13 +46,14 @@ from openprocurement.tender.core.models import (
 )
 from openprocurement.tender.core.utils import (
     calc_auction_end_time,
-    calculate_business_date,
+    calculate_tender_business_date,
     has_unanswered_questions,
     has_unanswered_complaints,
+    calculate_complaint_business_date,
+    calculate_clarifications_business_date,
 )
 from openprocurement.tender.core.constants import CPV_ITEMS_CLASS_FROM
 from openprocurement.tender.openua.models import Tender as OpenUATender
-from openprocurement.tender.openua.utils import calculate_normalized_date
 from openprocurement.tender.openua.constants import COMPLAINT_SUBMIT_TIME, ENQUIRY_STAND_STILL_TIME, AUCTION_PERIOD_TIME
 from openprocurement.tender.openeu.models import (
     IAboveThresholdEUTender,
@@ -659,25 +660,21 @@ class Tender(BaseTender):
 
     @serializable(serialized_name="enquiryPeriod", type=ModelType(EnquiryPeriod))
     def tender_enquiryPeriod(self):
-        endDate = calculate_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL, self)
+        endDate = calculate_tender_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL, self)
+        clarificationsUntil = calculate_clarifications_business_date(endDate, ENQUIRY_STAND_STILL_TIME, self, True)
         return EnquiryPeriod(
             dict(
                 startDate=self.tenderPeriod.startDate,
                 endDate=endDate,
                 invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
-                clarificationsUntil=calculate_business_date(endDate, ENQUIRY_STAND_STILL_TIME, self, True),
+                clarificationsUntil=clarificationsUntil,
             )
         )
 
     @serializable(type=ModelType(Period))
     def complaintPeriod(self):
-        normalized_end = calculate_normalized_date(self.tenderPeriod.endDate, self)
-        return Period(
-            dict(
-                startDate=self.tenderPeriod.startDate,
-                endDate=calculate_business_date(normalized_end, -COMPLAINT_SUBMIT_TIME, self),
-            )
-        )
+        endDate = calculate_complaint_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME, self)
+        return Period(dict(startDate=self.tenderPeriod.startDate, endDate=endDate))
 
     @serializable(serialize_when_none=False)
     def next_check(self):
@@ -880,9 +877,9 @@ class Tender(BaseTender):
 
     def validate_tenderPeriod(self, data, period):
         # if data['_rev'] is None when tender was created just now
-        if not data["_rev"] and calculate_business_date(get_now(), -timedelta(minutes=10)) >= period.startDate:
+        if not data["_rev"] and calculate_tender_business_date(get_now(), -timedelta(minutes=10)) >= period.startDate:
             raise ValidationError(u"tenderPeriod.startDate should be in greater than current date")
-        if period and calculate_business_date(period.startDate, TENDERING_DURATION, data) > period.endDate:
+        if period and calculate_tender_business_date(period.startDate, TENDERING_DURATION, data) > period.endDate:
             raise ValidationError(u"tenderPeriod should be greater than {} days".format(TENDERING_DAYS))
 
     def validate_awardPeriod(self, data, period):
@@ -923,7 +920,9 @@ class Tender(BaseTender):
             and self.auctionPeriod.startDate
             and self.auctionPeriod.shouldStartAfter
             and self.auctionPeriod.startDate
-            > calculate_business_date(parse_date(self.auctionPeriod.shouldStartAfter), AUCTION_PERIOD_TIME, self, True)
+            > calculate_tender_business_date(
+                parse_date(self.auctionPeriod.shouldStartAfter), AUCTION_PERIOD_TIME, self, True
+            )
         ):
             self.auctionPeriod.startDate = None
         for lot in self.lots:
@@ -932,7 +931,7 @@ class Tender(BaseTender):
                 and lot.auctionPeriod.startDate
                 and lot.auctionPeriod.shouldStartAfter
                 and lot.auctionPeriod.startDate
-                > calculate_business_date(
+                > calculate_tender_business_date(
                     parse_date(lot.auctionPeriod.shouldStartAfter), AUCTION_PERIOD_TIME, self, True
                 )
             ):

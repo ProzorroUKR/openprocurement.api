@@ -10,11 +10,14 @@ from openprocurement.api.utils import (
 )
 from openprocurement.tender.belowthreshold.utils import add_contract
 
-from openprocurement.tender.core.utils import apply_patch, save_tender, optendersresource, calculate_business_date
+from openprocurement.tender.core.utils import (
+    apply_patch,
+    save_tender,
+    optendersresource,
+    calculate_complaint_business_date,
+)
 
 from openprocurement.tender.core.validation import validate_patch_award_data, validate_award_data
-
-from openprocurement.tender.openua.utils import calculate_normalized_date
 
 from openprocurement.tender.limited.validation import (
     validate_create_new_award,
@@ -527,8 +530,7 @@ class TenderNegotiationAwardResource(TenderAwardResource):
             raise error_handler(self.request.errors)
         if award_status == "pending" and award.status == "active":
             now = get_now()
-            normalized_end = calculate_normalized_date(now, tender, True)
-            award.complaintPeriod.endDate = calculate_business_date(normalized_end, self.stand_still_delta, tender)
+            award.complaintPeriod.endDate = calculate_complaint_business_date(now, self.stand_still_delta, tender)
             add_contract(self.request, award, now)
             # add_next_award(self.request)
         elif (

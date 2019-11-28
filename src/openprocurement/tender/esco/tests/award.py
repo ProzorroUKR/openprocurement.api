@@ -22,7 +22,7 @@ from openprocurement.tender.belowthreshold.tests.award import (
     Tender2LotAwardDocumentResourceTestMixin,
 )
 
-from openprocurement.tender.openua.tests.award import TenderUaAwardComplaintResourceTestMixin
+from openprocurement.tender.openua.tests.award import TenderUAAwardComplaintResourceTestMixin
 
 from openprocurement.tender.openeu.tests.award import (
     TenderAwardResourceTestMixin,
@@ -97,7 +97,7 @@ class TenderAwardResourceTest(BaseESCOContentWebTest, TenderAwardResourceTestMix
     test_patch_tender_award = snitch(patch_tender_award)
 
 
-class TenderAwardResourceNoScaleTest(BaseESCOContentWebTest):
+class TenderAwardResourceScaleTest(BaseESCOContentWebTest):
     initial_status = "active.qualification"
 
     def setUp(self):
@@ -107,7 +107,7 @@ class TenderAwardResourceNoScaleTest(BaseESCOContentWebTest):
         test_bid = deepcopy(test_bids[0])
         test_bid["tenderers"][0].pop("scale")
         self.initial_bids = [test_bid]
-        super(TenderAwardResourceNoScaleTest, self).setUp()
+        super(TenderAwardResourceScaleTest, self).setUp()
         self.app.authorization = ("Basic", ("token", ""))
 
     test_create_tender_award_with_scale_not_required = snitch(create_tender_award_with_scale_not_required)
@@ -185,7 +185,7 @@ class Tender2LotAwardResourceTest(BaseESCOContentWebTest, Tender2LotAwardResourc
 
 
 class TenderAwardComplaintResourceTest(
-    BaseESCOContentWebTest, TenderAwardComplaintResourceTestMixin, TenderUaAwardComplaintResourceTestMixin
+    BaseESCOContentWebTest, TenderAwardComplaintResourceTestMixin, TenderUAAwardComplaintResourceTestMixin
 ):
     # initial_data = tender_data
     initial_status = "active.tendering"

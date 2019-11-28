@@ -19,7 +19,7 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
 )
 
 from openprocurement.tender.openua.tests.award import (
-    TenderUaAwardComplaintResourceTestMixin,
+    TenderUAAwardComplaintResourceTestMixin,
     TenderAwardResourceTestMixin,
 )
 
@@ -256,7 +256,7 @@ class TenderStage2EU2LotAwardResourceTest(
 class TenderStage2EUAwardComplaintResourceTest(
     BaseCompetitiveDialogEUStage2ContentWebTest,
     TenderAwardComplaintResourceTestMixin,
-    TenderUaAwardComplaintResourceTestMixin,
+    TenderUAAwardComplaintResourceTestMixin,
 ):
     initial_status = "active.tendering"
     initial_bids = test_tender_bids
@@ -566,7 +566,7 @@ class TenderStage2UA2LotAwardResourceTest(BaseCompetitiveDialogUAStage2ContentWe
 class TenderStage2UAAwardComplaintResourceTest(
     BaseCompetitiveDialogUAStage2ContentWebTest,
     TenderAwardComplaintResourceTestMixin,
-    TenderUaAwardComplaintResourceTestMixin,
+    TenderUAAwardComplaintResourceTestMixin,
 ):
     initial_status = "active.qualification"
     initial_bids = test_tender_bids

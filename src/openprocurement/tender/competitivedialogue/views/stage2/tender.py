@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import json_view, context_unpack, get_now, raise_operation_error
-from openprocurement.tender.core.utils import optendersresource, save_tender, apply_patch, calculate_business_date
+from openprocurement.tender.core.utils import (
+    optendersresource,
+    save_tender,
+    apply_patch,
+    calculate_tender_business_date,
+)
 from openprocurement.tender.core.validation import (
     validate_tender_period_extension,
     validate_tender_status_update_in_terminated_status,
@@ -197,7 +202,7 @@ class TenderStage2UEResource(TenderEUResource):
             and tender.status == "active.pre-qualification.stand-still"
         ):
             if all_bids_are_reviewed(self.request):
-                tender.qualificationPeriod.endDate = calculate_business_date(
+                tender.qualificationPeriod.endDate = calculate_tender_business_date(
                     get_now(), COMPLAINT_STAND_STILL, self.request.validated["tender"]
                 )
                 tender.check_auction_time()

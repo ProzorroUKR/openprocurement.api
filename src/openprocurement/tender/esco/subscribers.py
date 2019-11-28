@@ -1,6 +1,10 @@
 from pyramid.events import subscriber
 from openprocurement.tender.core.events import TenderInitializeEvent
-from openprocurement.tender.core.utils import get_now, calculate_business_date
+from openprocurement.tender.core.utils import (
+    get_now,
+    calculate_tender_business_date,
+    calculate_clarifications_business_date,
+)
 from openprocurement.tender.core.models import EnquiryPeriod
 from openprocurement.tender.openua.constants import ENQUIRY_STAND_STILL_TIME
 from openprocurement.tender.openeu.constants import QUESTIONS_STAND_STILL
@@ -10,13 +14,14 @@ from openprocurement.tender.openeu.constants import QUESTIONS_STAND_STILL
 def tender_init_handler(event):
     """ initialization handler for esco tenders """
     tender = event.tender
-    endDate = calculate_business_date(tender.tenderPeriod.endDate, -QUESTIONS_STAND_STILL, tender)
+    endDate = calculate_tender_business_date(tender.tenderPeriod.endDate, -QUESTIONS_STAND_STILL, tender)
+    clarificationsUntil = calculate_clarifications_business_date(endDate, ENQUIRY_STAND_STILL_TIME, tender, True)
     tender.enquiryPeriod = EnquiryPeriod(
         dict(
             startDate=tender.tenderPeriod.startDate,
             endDate=endDate,
             invalidationDate=tender.enquiryPeriod and tender.enquiryPeriod.invalidationDate,
-            clarificationsUntil=calculate_business_date(endDate, ENQUIRY_STAND_STILL_TIME, tender, True),
+            clarificationsUntil=clarificationsUntil,
         )
     )
     now = get_now()

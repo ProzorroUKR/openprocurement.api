@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import get_now, raise_operation_error
-from openprocurement.tender.core.utils import optendersresource, calculate_business_date
+from openprocurement.tender.core.utils import optendersresource, calculate_tender_business_date
 from openprocurement.tender.openua.views.tender_document import TenderUaDocumentResource as TenderDocumentResource
 from openprocurement.tender.openuadefense.constants import TENDERING_EXTRA_PERIOD
 
@@ -20,7 +20,9 @@ class TenderUaDocumentResource(TenderDocumentResource):
         """
         if (
             self.request.validated["tender_status"] == "active.tendering"
-            and calculate_business_date(get_now(), TENDERING_EXTRA_PERIOD, self.request.validated["tender"], True)
+            and calculate_tender_business_date(
+                get_now(), TENDERING_EXTRA_PERIOD, self.request.validated["tender"], True
+            )
             > self.request.validated["tender"].tenderPeriod.endDate
         ):
             raise_operation_error(

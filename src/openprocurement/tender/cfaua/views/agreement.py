@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.interfaces import IContentConfigurator
 from openprocurement.api.utils import context_unpack, json_view, get_now, raise_operation_error
-from openprocurement.tender.core.utils import apply_patch, calculate_business_date, save_tender
+from openprocurement.tender.core.utils import apply_patch, save_tender
 from openprocurement.tender.openua.views.contract import TenderUaAwardContractResource as BaseResource
 
 from openprocurement.tender.cfaua.validation import (

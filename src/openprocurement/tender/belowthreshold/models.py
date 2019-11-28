@@ -263,11 +263,13 @@ class Tender(BaseTender):
                 ):
                     checks.append(max(standStillEnds))
         if self.status.startswith("active"):
-            from openprocurement.tender.core.utils import calculate_business_date
+            from openprocurement.tender.core.utils import calculate_tender_business_date
 
             for complaint in self.complaints:
                 if complaint.status == "answered" and complaint.dateAnswered:
-                    checks.append(calculate_business_date(complaint.dateAnswered, COMPLAINT_STAND_STILL_TIME, self))
+                    checks.append(
+                        calculate_tender_business_date(complaint.dateAnswered, COMPLAINT_STAND_STILL_TIME, self)
+                    )
                 elif complaint.status == "pending":
                     checks.append(self.dateModified)
             for award in self.awards:
@@ -275,7 +277,9 @@ class Tender(BaseTender):
                     checks.append(award.date)
                 for complaint in award.complaints:
                     if complaint.status == "answered" and complaint.dateAnswered:
-                        checks.append(calculate_business_date(complaint.dateAnswered, COMPLAINT_STAND_STILL_TIME, self))
+                        checks.append(
+                            calculate_tender_business_date(complaint.dateAnswered, COMPLAINT_STAND_STILL_TIME, self)
+                        )
                     elif complaint.status == "pending":
                         checks.append(self.dateModified)
         return min(checks).isoformat() if checks else None

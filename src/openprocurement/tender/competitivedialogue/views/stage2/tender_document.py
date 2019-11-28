@@ -2,7 +2,7 @@
 from openprocurement.api.utils import get_now, raise_operation_error
 from openprocurement.api.validation import OPERATIONS
 from openprocurement.tender.core.validation import validate_tender_document_update_not_by_author_or_tender_owner
-from openprocurement.tender.core.utils import optendersresource, calculate_business_date
+from openprocurement.tender.core.utils import optendersresource, calculate_tender_business_date
 from openprocurement.tender.openeu.views.tender_document import TenderEUDocumentResource
 from openprocurement.tender.openua.views.tender_document import TenderUaDocumentResource
 from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD
@@ -36,7 +36,7 @@ class CompetitiveDialogueStage2EUDocumentResource(TenderEUDocumentResource):
             )
         if (
             self.request.validated["tender_status"] == "active.tendering"
-            and calculate_business_date(get_now(), TENDERING_EXTRA_PERIOD, self.request.validated["tender"])
+            and calculate_tender_business_date(get_now(), TENDERING_EXTRA_PERIOD, self.request.validated["tender"])
             > self.request.validated["tender"].tenderPeriod.endDate
         ):
             raise_operation_error(

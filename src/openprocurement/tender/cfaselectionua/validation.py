@@ -5,7 +5,7 @@ from openprocurement.api.utils import error_handler, raise_operation_error, get_
 from openprocurement.api.validation import OPERATIONS, validate_data, validate_json_data
 
 from openprocurement.tender.cfaselectionua.constants import TENDER_PERIOD_MINIMAL_DURATION
-from openprocurement.tender.core.utils import calculate_business_date
+from openprocurement.tender.core.utils import calculate_tender_business_date
 
 
 def validate_patch_tender_data(request):
@@ -210,12 +210,8 @@ def validate_patch_tender_bot_only_in_draft_pending(request):
 
 def validate_tender_status_update_in_terminated_status(request):
     tender = request.context
-    if request.authenticated_role != "Administrator" and tender.status in (
-        "complete",
-        "unsuccessful",
-        "cancelled",
-        "draft.unsuccessful",
-    ):
+    statuses = ("complete", "unsuccessful", "cancelled", "draft.unsuccessful")
+    if request.authenticated_role != "Administrator" and tender.status in statuses:
         raise_operation_error(request, "Can't update tender in current ({}) status".format(tender.status))
 
 
@@ -241,7 +237,6 @@ def validate_patch_tender_tenderPeriod(request):
     startDate = tender["tenderPeriod"].get("startDate")
     endDate = source["tenderPeriod"].get("endDate")
 
-    if (startDate and endDate) and calculate_business_date(
-        parse_date(startDate), request.content_configurator.tender_period, tender
-    ) > parse_date(endDate):
+    date = calculate_tender_business_date(parse_date(startDate), request.content_configurator.tender_period, tender)
+    if (startDate and endDate) and date > parse_date(endDate):
         raise_operation_error(request, "tenderPeriod should last at least 3 days")
