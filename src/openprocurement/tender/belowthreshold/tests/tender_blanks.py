@@ -23,6 +23,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 )
 
 # TenderTest
+from openprocurement.tender.core.tests.base import change_auth
 
 
 def simple_add_tender(self):
@@ -921,6 +922,38 @@ def create_tender_draft(self):
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
     self.assertEqual(tender["status"], self.primary_tender_status)
+
+
+def create_tender_central(self):
+    data = deepcopy(self.initial_data)
+
+    data["procuringEntity"]["kind"] = "central"
+    data["buyers"] = [{"name": test_organization["name"], "identifier": test_organization["identifier"]}]
+
+    response = self.app.post_json("/tenders", {"data": data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+
+
+def create_tender_central_invalid(self):
+    data = deepcopy(self.initial_data)
+
+    with change_auth(self.app, ("Basic", ("broker13", ""))):
+        response = self.app.post_json("/tenders", {"data": data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+
+    data["procuringEntity"]["kind"] = "central"
+    data["buyers"] = [{"name": test_organization["name"], "identifier": test_organization["identifier"]}]
+
+    with change_auth(self.app, ("Basic", ("broker13", ""))):
+        response = self.app.post_json("/tenders", {"data": data}, status=403)
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Broker Accreditation level does not permit tender creation"
+    )
 
 
 def create_tender(self):

@@ -6,6 +6,9 @@ from openprocurement.api.constants import SANDBOX_MODE, CPV_ITEMS_CLASS_FROM, RO
 from openprocurement.api.utils import get_now
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.tender_blanks import (
+    create_tender_central as create_tender_central_base,
+)
 
 from openprocurement.tender.competitivedialogue.constants import (
     STAGE_2_UA_TYPE,
@@ -18,6 +21,9 @@ from openprocurement.tender.competitivedialogue.models import TenderStage2EU, Te
 
 
 # CompetitiveDialogStage2Test
+from openprocurement.tender.core.tests.base import change_auth
+
+
 def simple_add_cd_tender_eu(self):
     u = TenderStage2EU(self.test_tender_data_eu)
     u.tenderID = "EU-X"
@@ -2093,3 +2099,9 @@ def tender_milestones_not_required(self):
     data["milestones"] = []
 
     self.app.post_json("/tenders", {"data": data}, status=201)
+
+
+
+def create_tender_central(self):
+    with change_auth(self.app, ("Basic", ("competitive_dialogue", ""))):
+        create_tender_central_base(self)

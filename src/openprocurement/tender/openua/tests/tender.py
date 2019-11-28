@@ -17,6 +17,8 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_with_inn,
     create_tender_with_inn_before,
     tender_milestones_required,
+    create_tender_central,
+    create_tender_central_invalid,
 )
 
 from openprocurement.tender.openua.tests.base import test_tender_data, BaseTenderUAWebTest, test_bids
@@ -67,6 +69,8 @@ class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin, TenderU
     test_lots_data = test_lots
 
     test_create_tender_invalid = snitch(create_tender_invalid)
+    test_create_tender_central = snitch(create_tender_central)
+    test_create_tender_central_invalid = snitch(create_tender_central_invalid)
     test_create_tender_generated = snitch(create_tender_generated)
     test_patch_draft_invalid_json = snitch(patch_draft_invalid_json)
     test_patch_tender = snitch(patch_tender)

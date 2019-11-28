@@ -9,11 +9,12 @@ ACCR_1 = '1'
 ACCR_2 = '2'
 ACCR_3 = '3'
 ACCR_4 = '4'
+ACCR_5 = '5'
 ACCR_COMPETITIVE = 'c'
 ACCR_EXIT = 'x'
 ACCR_TEST = 't'
 
-DEFAULT_ACCRS = ''.join([ACCR_1, ACCR_2, ACCR_3, ACCR_4])
+DEFAULT_ACCRS = ''.join([ACCR_1, ACCR_2, ACCR_3, ACCR_4, ACCR_5])
 
 
 class AuthenticationPolicy(BasicAuthAuthenticationPolicy):

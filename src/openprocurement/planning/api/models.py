@@ -18,7 +18,7 @@ from openprocurement.api.constants import (
     BUDGET_PERIOD_FROM,
     BUDGET_BREAKDOWN_REQUIRED_FROM,
 )
-from openprocurement.api.auth import ACCR_1, ACCR_3
+from openprocurement.api.auth import ACCR_1, ACCR_3, ACCR_5
 from openprocurement.planning.api.constants import (
     PROCEDURES,
     MULTI_YEAR_BUDGET_PROCEDURES,
@@ -356,7 +356,7 @@ class Plan(SchematicsDocument, Model):
     procurementMethodType = StringType()
     revisions = ListType(ModelType(Revision, required=True), default=list())
 
-    create_accreditations = (ACCR_1, ACCR_3)
+    create_accreditations = (ACCR_1, ACCR_3, ACCR_5)
 
     __name__ = ""
 

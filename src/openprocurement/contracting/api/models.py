@@ -11,7 +11,7 @@ from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist, blacklist
 
 from openprocurement.api.constants import SCALE_CODES
-from openprocurement.api.auth import ACCR_3
+from openprocurement.api.auth import ACCR_3, ACCR_5
 from openprocurement.api.utils import get_now
 from openprocurement.api.models import Contract as BaseContract
 from openprocurement.api.models import OpenprocurementSchematicsDocument as SchematicsDocument
@@ -255,7 +255,7 @@ class Contract(SchematicsDocument, BaseContract):
     value = ModelType(ContractValue)
     terminationDetails = StringType()
 
-    create_accreditations = (ACCR_3,)  # TODO
+    create_accreditations = (ACCR_3, ACCR_5)  # TODO
 
     class Options:
         roles = {

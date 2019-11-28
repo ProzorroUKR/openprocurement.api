@@ -18,6 +18,8 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     guarantee,
     tender_milestones_not_required,
     patch_tender_lots_none,
+    create_tender_central,
+    create_tender_central_invalid,
 )
 
 from openprocurement.tender.openua.tests.tender import TenderUAResourceTestMixin
@@ -91,6 +93,8 @@ class TestTenderEU(BaseESCOContentWebTest, TenderResourceTestMixin, TenderUAReso
     test_tender_fields = snitch(tender_fields)
     test_tender_with_nbu_discount_rate = snitch(tender_with_nbu_discount_rate)
     test_create_tender_invalid = snitch(create_tender_invalid)
+    test_create_tender_central = snitch(create_tender_central)
+    test_create_tender_central_invalid = snitch(create_tender_central_invalid)
     test_create_tender_generated = snitch(create_tender_generated)
     test_patch_tender = snitch(patch_tender)
     test_guarantee = snitch(guarantee)

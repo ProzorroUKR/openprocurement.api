@@ -8,6 +8,7 @@ from openprocurement.api.validation import (
     validate_accreditation_level,
     validate_accreditation_level_mode,
     validate_accreditation_level_owner,
+    validate_accreditation_level_kind,
 )
 from openprocurement.relocation.api.models import Transfer
 
@@ -42,6 +43,9 @@ def validate_tender_accreditation_level(request):
     tender = request.validated["tender"]
     model_attr = "transfer_accreditations" if hasattr(tender, "transfer_accreditations") else "create_accreditations"
     validate_transfer_accreditation_level(request, tender, model_attr)
+    kind = tender.get("procuringEntity", {}).get("kind", "")
+    levels = tender.central_accreditations
+    validate_accreditation_level_kind(request, levels, kind, "ownership", "ownership", "change")
 
 
 def validate_contract_accreditation_level(request):

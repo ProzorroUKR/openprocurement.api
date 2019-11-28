@@ -6,7 +6,7 @@ from schematics.types import StringType
 from schematics.types.compound import ModelType
 from zope.interface import implementer, provider
 
-from openprocurement.api.auth import ACCR_3, ACCR_4
+from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.models import Period, ListType, SifterListType, plain_role, IsoDurationType
 from openprocurement.api.utils import get_now
 from openprocurement.api.validation import validate_cpv_group, validate_items_uniq, validate_classification_id
@@ -128,7 +128,8 @@ class CloseFrameworkAgreementUA(Tender):
             "default": _core_roles["default"],
         }
 
-    create_accreditations = (ACCR_3,)
+    create_accreditations = (ACCR_3, ACCR_5)
+    central_accreditations = (ACCR_5,)
     edit_accreditations = (ACCR_4,)
 
     procuring_entity_kinds = ["general", "special", "defense", "central"]

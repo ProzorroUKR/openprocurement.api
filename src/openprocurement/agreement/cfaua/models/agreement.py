@@ -10,7 +10,7 @@ from schematics.types.compound import ModelType, PolyModelType
 from schematics.transforms import whitelist
 from pyramid.security import Allow
 
-from openprocurement.api.auth import ACCR_3
+from openprocurement.api.auth import ACCR_3, ACCR_5
 from openprocurement.api.models import Period, IsoDateTimeType, ListType
 from openprocurement.planning.api.models import PlanOrganization
 from openprocurement.agreement.core.models.agreement import Agreement as BaseAgreement
@@ -72,7 +72,7 @@ class Agreement(BaseAgreement):
     procuringEntity = ModelType(ProcuringEntity, required=True)
     terminationDetails = StringType()
 
-    create_accreditations = (ACCR_3,)  # TODO
+    create_accreditations = (ACCR_3, ACCR_5)  # TODO
 
     def __acl__(self):
         acl = super(Agreement, self).__acl__()

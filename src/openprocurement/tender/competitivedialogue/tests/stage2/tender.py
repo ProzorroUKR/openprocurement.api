@@ -40,6 +40,7 @@ from openprocurement.tender.competitivedialogue.tests.stage2.tender_blanks impor
     one_invalid_and_1draft_bids_tender,
     first_bid_tender,
     tender_milestones_not_required,
+    create_tender_central,
 )
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUStage2WebTest,
@@ -89,6 +90,7 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
     test_listing_draft = snitch(listing_draft)
     test_create_tender_invalid = snitch(create_tender_invalid_eu)
     test_create_tender = snitch(create_tender)
+    test_create_tender_central = snitch(create_tender_central)
     test_get_tender = snitch(get_tender)
     test_tender_features_invalid = snitch(tender_features_invalid)
     test_tender_features = snitch(tender_features)
@@ -133,6 +135,7 @@ class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
     test_listing_draft = snitch(listing_draft)
     test_create_tender_invalid = snitch(create_tender_invalid_ua)
     test_create_tender = snitch(create_tender)
+    test_create_tender_central = snitch(create_tender_central)
     test_get_tender = snitch(get_tender)
     test_tender_features_invalid = snitch(tender_features_invalid)
     test_tender_features = snitch(tender_features)

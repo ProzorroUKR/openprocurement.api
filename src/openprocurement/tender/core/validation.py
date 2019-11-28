@@ -11,6 +11,7 @@ from openprocurement.api.validation import (
     validate_accreditation_level_mode,
     handle_data_exceptions,
     OPERATIONS,
+    validate_accreditation_level_kind,
 )
 from openprocurement.api.constants import (
     SANDBOX_MODE,
@@ -43,6 +44,7 @@ def validate_tender_data(request):
     data = validate_json_data(request)
     model = request.tender_from_data(data, create=False)
     validate_tender_accreditation_level(request, model)
+    validate_tender_accreditation_level_central(request, model)
     data = validate_data(request, model, data=data)
     validate_tender_accreditation_level_mode(request)
     validate_tender_kind(request, model)
@@ -52,6 +54,13 @@ def validate_tender_data(request):
 def validate_tender_accreditation_level(request, model):
     levels = model.create_accreditations
     validate_accreditation_level(request, levels, "procurementMethodType", "tender", "creation")
+
+
+def validate_tender_accreditation_level_central(request, model):
+    data = request.validated["json_data"]
+    kind = data.get("procuringEntity", {}).get("kind", "")
+    levels = model.central_accreditations
+    validate_accreditation_level_kind(request, levels, kind, "procurementMethodType", "tender", "creation")
 
 
 def validate_tender_accreditation_level_mode(request):

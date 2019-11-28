@@ -169,3 +169,8 @@ def validate_accreditation_level_owner(request, owner, location, name, action):
         )
         request.errors.status = 403
         raise error_handler(request.errors)
+
+
+def validate_accreditation_level_kind(request, levels, kind, location, name, action):
+    if kind == "central":
+        validate_accreditation_level(request, levels, location, name, action)

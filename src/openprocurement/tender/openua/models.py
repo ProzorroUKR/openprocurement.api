@@ -21,7 +21,7 @@ from openprocurement.api.models import (
     Address,
 )
 from openprocurement.api.constants import TZ
-from openprocurement.api.auth import ACCR_3, ACCR_4
+from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.validation import validate_cpv_group, validate_items_uniq, validate_classification_id
 from openprocurement.tender.core.models import (
     view_bid_role,
@@ -424,7 +424,8 @@ class Tender(BaseTender):
     )  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     cancellations = ListType(ModelType(Cancellation, required=True), default=list())
 
-    create_accreditations = (ACCR_3,)
+    create_accreditations = (ACCR_3, ACCR_5)
+    central_accreditations = (ACCR_5,)
     edit_accreditations = (ACCR_4,)
 
     procuring_entity_kinds = ["general", "special", "defense", "central"]
