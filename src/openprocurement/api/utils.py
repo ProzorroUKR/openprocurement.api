@@ -652,7 +652,7 @@ def couchdb_json_decode():
 
 
 def get_first_revision_date(schematics_document, default=None):
-    revisions = schematics_document.get("revisions") if schematics_document else None
+    revisions = schematics_document.get('revisions') if schematics_document else None
     return revisions[0].date if revisions else default
 
 

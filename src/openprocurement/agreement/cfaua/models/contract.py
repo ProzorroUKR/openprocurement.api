@@ -1,8 +1,9 @@
 from schematics.types import MD5Type, StringType
 from schematics.types.compound import ModelType
 
+from openprocurement.agreement.core.models.organization import BusinessOrganization
 from openprocurement.api.roles import RolesFromCsv
-from openprocurement.api.models import ListType, Model, BusinessOrganization, IsoDateTimeType
+from openprocurement.api.models import ListType, Model, IsoDateTimeType
 from openprocurement.agreement.cfaua.models.unitprice import UnitPrice
 from openprocurement.agreement.cfaua.models.parameter import Parameter
 from openprocurement.agreement.cfaua.validation import validate_parameters_uniq
