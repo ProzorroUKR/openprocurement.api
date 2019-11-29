@@ -2,11 +2,11 @@
 from zope.interface import implementer
 from pyramid.security import Allow
 from schematics.transforms import whitelist, blacklist
-from schematics.types import StringType, MD5Type, BooleanType
+from schematics.types import StringType, MD5Type, BooleanType, BaseType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from schematics.exceptions import ValidationError
-from openprocurement.api.constants import MILESTONES_VALIDATION_FROM
+from openprocurement.api.constants import MILESTONES_VALIDATION_FROM, QUICK_CAUSE_REQUIRED_FROM
 from openprocurement.api.utils import get_now, get_first_revision_date
 from openprocurement.api.models import schematics_default_role, schematics_embedded_role
 from openprocurement.api.models import ListType, Period, Model
@@ -446,3 +446,8 @@ class NegotiationQuickTender(NegotiationTender):
     edit_accreditations = (4,)
 
     procuring_entity_kinds = ["general", "special", "defense", "central"]
+
+    def validate_cause(self, data, value):
+        required = get_first_revision_date(data, default=get_now()) >= QUICK_CAUSE_REQUIRED_FROM
+        if required and value is None:
+            raise ValidationError(BaseType.MESSAGES["required"])
