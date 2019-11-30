@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
 from logging import getLogger
 from cornice.util import json_error
-from openprocurement.api.utils import context_unpack, get_now, generate_id, json_view, set_ownership, APIResourceListing
+from openprocurement.api.utils import (
+    context_unpack, get_now, generate_id, json_view, set_ownership,
+    APIResourceListing, raise_operation_error,
+)
+from openprocurement.planning.api.constants import PROCURING_ENTITY_STANDSTILL
+from openprocurement.planning.api.models import Milestone
 from openprocurement.planning.api.design import (
     FIELDS,
     plans_by_dateModified_view,
@@ -26,6 +31,7 @@ from openprocurement.planning.api.validation import (
     validate_plan_with_tender,
     validate_plan_not_terminated,
     validate_plan_status_update,
+    validate_patch_milestone_data,
 )
 from openprocurement.tender.core.validation import (
     validate_tender_data,
@@ -35,6 +41,7 @@ from openprocurement.tender.core.validation import (
     validate_plan_budget_breakdown,
 )
 from openprocurement.tender.core.views.tender import TendersResource
+from dateorro import calc_working_datetime
 
 
 LOGGER = getLogger(__name__)
@@ -68,7 +75,13 @@ class PlansResource(APIResourceListing):
         self.object_name_for_listing = "Plans"
         self.log_message_id = "plan_list_custom"
 
-    @json_view(content_type="application/json", permission="create_plan", validators=(validate_plan_data,))
+    @json_view(
+        content_type="application/json",
+        permission="create_plan",
+        validators=(
+            validate_plan_data,
+        ),
+    )
     def post(self):
         """This API request is targeted to creating new Plan by procuring organizations.
 
@@ -372,9 +385,30 @@ class PlanResource(APIResource):
 
         """
         plan = self.request.validated["plan"]
-        apply_patch(self.request, src=self.request.validated["plan_src"])
-        LOGGER.info("Updated plan {}".format(plan.id), extra=context_unpack(self.request, {"MESSAGE_ID": "plan_patch"}))
+        src_data = plan.serialize("plain")
+        if apply_patch(self.request, src=self.request.validated["plan_src"], save=False):
+            self._check_field_change_events(src_data, plan)
+            save_plan(self.request)
+            LOGGER.info("Updated plan {}".format(plan.id),
+                        extra=context_unpack(self.request, {"MESSAGE_ID": "plan_patch"}))
         return {"data": plan.serialize("view")}
+
+    def _check_field_change_events(self, src_data, plan):
+        if src_data["procuringEntity"] != plan["procuringEntity"]:
+            if any(m["status"] in Milestone.ACTIVE_STATUSES for m in src_data.get("milestones", "")):
+                standstill_end = calc_working_datetime(get_now(), PROCURING_ENTITY_STANDSTILL)
+                if standstill_end > plan["tender"]["tenderPeriod"]["startDate"]:
+                    raise_operation_error(
+                        self.request,
+                        "Can't update procuringEntity later than {} "
+                        "business days before tenderPeriod.StartDate".format(
+                            PROCURING_ENTITY_STANDSTILL.days
+                        )
+                    )
+                # invalidate active milestones
+                for m in plan.milestones:
+                    if m.status in Milestone.ACTIVE_STATUSES:
+                        m.status = Milestone.STATUS_INVALID
 
 
 @opresource(name="Plan Tenders", path="/plans/{plan_id}/tenders", description="Tender creation based on a plan")

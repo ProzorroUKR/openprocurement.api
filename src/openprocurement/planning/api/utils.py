@@ -1,14 +1,8 @@
 # -*- coding: utf-8 -*-
 from functools import partial
-from json import dumps
 from logging import getLogger
 from time import sleep
-from urllib import quote
-from rfc6266 import build_header
-from urlparse import urlparse, parse_qs
-from base64 import b64encode
 from cornice.resource import resource
-from cornice.util import json_error
 from couchdb.http import ResourceConflict
 from openprocurement.api.models import Revision
 from openprocurement.api.utils import (
@@ -101,6 +95,8 @@ def apply_patch(request, data=None, save=True, src=None):
         request.context.import_data(patch)
         if save:
             return save_plan(request)
+        if get_revision_changes(request.validated["plan"].serialize("plain"), request.validated["plan_src"]):
+            return True  # should return True if there're any actual changes (either save = True or False
 
 
 opresource = partial(resource, error_handler=error_handler, factory=factory)

@@ -231,6 +231,34 @@ def test_create_cancelled(app, replaced_status):
     assert response.json["data"].get("status") == "cancelled"
 
 
+def test_cancel_compatibility_completed_plan(app):
+    """
+    well I don't know if it's an appropriate case. it's probably not
+    """
+    app.authorization = ("Basic", ("broker", "broker"))
+    test_data = deepcopy(test_plan_data)
+    response = app.post_json("/plans", {"data": test_data})
+    assert response.status == "201 Created"
+
+    plan = response.json["data"]
+    acc_token = response.json["access"]["token"]
+
+    obj = app.app.registry.db.get(plan["id"])
+    del obj["status"]
+    obj["tender_id"] = "a" * 32
+    app.app.registry.db.save(obj)
+
+    response = app.get("/plans/{}".format(plan["id"]))
+    assert response.json["data"]["status"] == "complete"  # complete !
+
+    response = app.patch_json(
+        "/plans/{}?acc_token={}".format(plan["id"], acc_token),
+        {"data": {"cancellation": {"reason": "Because it's possible", "status": "active"}}}
+    )
+    assert response.status == "200 OK"
+    assert response.json["data"]["status"] == "cancelled"  # cancelled !
+
+
 @pytest.mark.parametrize("status", ["cancelled", "complete"])
 def test_fail_update_complete_or_cancelled_plan(app, status):
     app.authorization = ("Basic", ("broker", "broker"))
