@@ -239,7 +239,7 @@ class Milestone(Model):
     ACTIVE_STATUSES = (STATUS_SCHEDULED, STATUS_MET)
 
     class Options:
-        _edit = whitelist("status", "switch_status", "title", "description", "dueDate")
+        _edit = whitelist("status", "title", "description", "dueDate")
         _create = _edit + whitelist("type", "author", "documents")
         _view = _create + whitelist("id", "owner", "dateModified")
         roles = {

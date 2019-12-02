@@ -19,7 +19,6 @@ class PlanMilestoneDocumentResource(PlansDocumentResource):
         validators=(validate_file_upload, validate_plan_not_terminated)
     )
     def collection_post(self):
-        self._skip_updating_plan_date_modified()
         return super(PlanMilestoneDocumentResource, self).collection_post()
 
     @json_view(
@@ -27,7 +26,6 @@ class PlanMilestoneDocumentResource(PlansDocumentResource):
         validators=(validate_file_update, validate_plan_not_terminated)
     )
     def put(self):
-        self._skip_updating_plan_date_modified()
         return super(PlanMilestoneDocumentResource, self).put()
 
     @json_view(
@@ -36,11 +34,7 @@ class PlanMilestoneDocumentResource(PlansDocumentResource):
         validators=(validate_patch_document_data, validate_plan_not_terminated),
     )
     def patch(self):
-        self._skip_updating_plan_date_modified()
         return super(PlanMilestoneDocumentResource, self).patch()
-
-    def _skip_updating_plan_date_modified(self):
-        self.request.validated["plan"].modified = False
 
     def _post_document_log(self, document):
         self.LOGGER.info(

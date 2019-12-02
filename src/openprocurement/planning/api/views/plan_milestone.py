@@ -42,7 +42,12 @@ class PlanMilestoneResource(APIResource):
 
     @json_view(
         content_type="application/json",
-        validators=(validate_milestone_data, validate_milestone_author, validate_milestone_status_scheduled),
+        validators=(
+            validate_plan_not_terminated,
+            validate_milestone_data,
+            validate_milestone_author,
+            validate_milestone_status_scheduled,
+        ),
         permission="post_plan_milestone",
     )
     def collection_post(self):
@@ -50,6 +55,7 @@ class PlanMilestoneResource(APIResource):
         milestone = self.request.validated["milestone"]
         access = set_ownership(milestone, self.request)
         plan.milestones.append(milestone)
+        plan.dateModified = milestone.dateModified
         plan.modified = False
         if save_plan(self.request):
             self.LOGGER.info(
@@ -67,7 +73,10 @@ class PlanMilestoneResource(APIResource):
 
     @json_view(
         content_type="application/json",
-        validators=(validate_patch_milestone_data, validate_plan_not_terminated),
+        validators=(
+            validate_plan_not_terminated,
+            validate_patch_milestone_data,
+        ),
         permission="update_milestone",
     )
     def patch(self):
@@ -76,7 +85,7 @@ class PlanMilestoneResource(APIResource):
         prev_status = milestone.status
 
         if apply_patch(self.request, src=self.request.context.serialize(), save=False):
-            milestone.dateModified = get_now()
+            plan.dateModified = milestone.dateModified = get_now()
             plan.modified = False
 
             if prev_status != milestone.status:

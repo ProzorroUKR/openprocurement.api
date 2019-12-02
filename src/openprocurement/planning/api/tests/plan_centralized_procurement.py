@@ -136,7 +136,7 @@ def test_post_milestone(app, centralized_plan):
     assert "token" in response.json["access"]
 
     response = app.get("/plans/{}".format(plan["id"]))
-    assert response.json["data"]["dateModified"] == plan["dateModified"]
+    assert response.json["data"]["dateModified"] == milestone["dateModified"]
 
 
 @pytest.fixture(scope="function")
@@ -281,7 +281,7 @@ def test_patch_milestone(app, centralized_milestone):
     assert result["author"] == milestone["author"]
     assert result["owner"] == milestone["owner"]
     assert result["owner_token"] == milestone_token
-    assert result_plan["dateModified"] == plan["dateModified"]
+    assert result_plan["dateModified"] == result["dateModified"]
 
     # changed
     assert result["description"] == request_data["description"]
@@ -309,7 +309,7 @@ def test_success_patch_milestone_status(app, centralized_milestone, test_status)
     result_plan = app.app.registry.db.get(plan["id"])
     result = result_plan.get("milestones")[0]
 
-    assert result_plan["dateModified"] == plan["dateModified"]
+    assert result_plan["dateModified"] == result["dateModified"]
     assert result["status"] == test_status
     assert result["dateModified"] > milestone["dateModified"]
     if test_status == Milestone.STATUS_MET:
@@ -405,7 +405,7 @@ def test_update_milestone_documents(app, centralized_milestone):
     assert new_doc["hash"] == request_data["hash"]
     assert new_doc["format"] == request_data["format"]
     assert new_doc["url"].split("Signature")[0] == request_data["url"].split("Signature")[0]
-    assert result_plan["dateModified"] == plan["dateModified"]
+    assert result_plan["dateModified"] > plan["dateModified"]
 
     # put
     request_data = {
@@ -431,7 +431,7 @@ def test_update_milestone_documents(app, centralized_milestone):
     assert new_doc["hash"] == request_data["hash"]
     assert new_doc["format"] == request_data["format"]
     assert new_doc["url"].split("Signature")[0] == request_data["url"].split("Signature")[0]
-    assert result_plan["dateModified"] == plan["dateModified"]
+    assert result_plan["dateModified"] > plan["dateModified"]
 
     # patch
     request_data = {
@@ -462,7 +462,7 @@ def test_update_milestone_documents(app, centralized_milestone):
     assert patched_doc["documentOf"] == request_data["documentOf"]
     assert patched_doc["documentType"] == request_data["documentType"]
     assert patched_doc["language"] == request_data["language"]
-    assert result_plan["dateModified"] == plan["dateModified"]
+    assert result_plan["dateModified"] > plan["dateModified"]
 
 
 @pytest.mark.parametrize("test_statuses", [
