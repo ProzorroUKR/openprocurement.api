@@ -83,6 +83,7 @@ class PlanMilestoneResource(APIResource):
         plan = self.request.validated['plan']
         milestone = self.request.context
         prev_status = milestone.status
+        prev_due_date = milestone.dueDate
 
         if apply_patch(self.request, src=self.request.context.serialize(), save=False):
             plan.dateModified = milestone.dateModified = get_now()
@@ -102,6 +103,12 @@ class PlanMilestoneResource(APIResource):
                         self.request,
                         "Can't update milestone status from '{}' to '{}'".format(prev_status, milestone.status)
                     )
+
+            if prev_due_date != milestone.dueDate and prev_status != Milestone.STATUS_SCHEDULED:
+                raise_operation_error(
+                    self.request,
+                    "Can't update dueDate at '{}' milestone status".format(milestone.status)
+                )
 
             save_plan(self.request)
             self.LOGGER.info('Updated plan milestone {}'.format(self.request.context.id),

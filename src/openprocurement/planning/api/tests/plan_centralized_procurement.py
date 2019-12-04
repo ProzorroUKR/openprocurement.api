@@ -232,6 +232,31 @@ def test_forbidden_patch_milestone(app, centralized_milestone):
         {"location": "url", "name": "permission", "description": "Forbidden"}]}
 
 
+def test_fail_patch_due_date(app, centralized_milestone):
+    """
+    milestone owner can patch some its fileds
+    """
+    milestone_data, plan_data = centralized_milestone["milestone"], centralized_milestone["plan"]
+    milestone, milestone_token = milestone_data["data"], milestone_data["token"]
+    plan, plan_token = plan_data["data"], plan_data["token"]
+    app.authorization = ("Basic", ("broker", "broker"))
+
+    response = app.patch_json(
+        "/plans/{}/milestones/{}?acc_token={}".format(plan["id"], milestone["id"], milestone_token),
+        {"data": {"status": Milestone.STATUS_MET}},
+    )
+    assert response.json["data"]["status"] == Milestone.STATUS_MET
+
+    response = app.patch_json(
+        "/plans/{}/milestones/{}?acc_token={}".format(plan["id"], milestone["id"], milestone_token),
+        {"data": {"dueDate": "2001-10-30T11:15:26.641038+03:00"}},
+        status=403
+    )
+    assert response.json == {"status": "error", "errors": [
+        {"location": "body", "name": "data",
+         "description": "Can't update dueDate at 'met' milestone status"}]}
+
+
 def test_patch_milestone(app, centralized_milestone):
     """
     milestone owner can patch some its fileds
@@ -277,6 +302,7 @@ def test_patch_milestone(app, centralized_milestone):
     result = result_plan.get("milestones")[0]
     # fields that haven"t been changed
     assert result["id"] == milestone["id"]
+    assert result["description"] == milestone["description"]
     assert result["documents"] == milestone["documents"]
     assert result["author"] == milestone["author"]
     assert result["owner"] == milestone["owner"]
@@ -284,7 +310,6 @@ def test_patch_milestone(app, centralized_milestone):
     assert result_plan["dateModified"] == result["dateModified"]
 
     # changed
-    assert result["description"] == request_data["description"]
     assert result["dueDate"] == request_data["dueDate"]
     assert result["status"] == request_data["status"]
     assert result["dateModified"] > milestone["dateModified"]
