@@ -30,12 +30,7 @@ class PlansDocumentResource(APIResource):
         document = upload_file(self.request)
         self.context.documents.append(document)
         if save_plan(self.request):
-            self.LOGGER.info(
-                "Created plan document {}".format(document.id),
-                extra=context_unpack(
-                    self.request, {"MESSAGE_ID": "plan_document_create"}, {"document_id": document.id}
-                ),
-            )
+            self._post_document_log(document)
             self.request.response.status = 201
             document_route = self.request.matched_route.name.replace("collection_", "")
             self.request.response.headers["Location"] = self.request.current_route_url(
@@ -59,12 +54,9 @@ class PlansDocumentResource(APIResource):
     def put(self):
         """Plan Document Update"""
         document = upload_file(self.request)
-        self.request.validated["plan"].documents.append(document)
+        self.request.context.__parent__.documents.append(document)
         if save_plan(self.request):
-            self.LOGGER.info(
-                "Updated plan document {}".format(self.request.context.id),
-                extra=context_unpack(self.request, {"MESSAGE_ID": "plan_document_put"}),
-            )
+            self._put_document_log()
             return {"data": document.serialize("view")}
 
     @json_view(
@@ -76,8 +68,25 @@ class PlansDocumentResource(APIResource):
         """Plan Document Update"""
         if apply_patch(self.request, src=self.request.context.serialize()):
             update_file_content_type(self.request)
-            self.LOGGER.info(
-                "Updated plan document {}".format(self.request.context.id),
-                extra=context_unpack(self.request, {"MESSAGE_ID": "plan_document_patch"}),
-            )
+            self._patch_document_log()
             return {"data": self.request.context.serialize("view")}
+
+    def _post_document_log(self, document):
+        self.LOGGER.info(
+            "Created plan document {}".format(document.id),
+            extra=context_unpack(
+                self.request, {"MESSAGE_ID": "plan_document_create"}, {"document_id": document.id}
+            ),
+        )
+
+    def _put_document_log(self):
+        self.LOGGER.info(
+            "Updated plan document {}".format(self.request.context.id),
+            extra=context_unpack(self.request, {"MESSAGE_ID": "plan_document_put"}),
+        )
+
+    def _patch_document_log(self):
+        self.LOGGER.info(
+            "Updated plan document {}".format(self.request.context.id),
+            extra=context_unpack(self.request, {"MESSAGE_ID": "plan_document_patch"}),
+        )

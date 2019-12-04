@@ -12,6 +12,7 @@ class Root(object):
         (Allow, Everyone, "view_plan"),
         (Allow, "g:brokers", "create_plan"),
         (Allow, "g:brokers", "create_tender_from_plan"),
+        (Allow, "g:brokers", "post_plan_milestone"),
         (Allow, "g:Administrator", "edit_plan"),
         (Allow, "g:Administrator", "revision_plan"),
         (Allow, "g:admins", ALL_PERMISSIONS),
@@ -33,7 +34,15 @@ def factory(request):
     request.validated["plan"] = request.validated["db_doc"] = plan
     if request.method != "GET":
         request.validated["plan_src"] = plan.serialize("plain")
-    if request.matchdict.get("document_id"):
+    if request.matchdict.get("milestone_id"):
+        milestone = get_item(plan, "milestone", request)
+        if request.method != "GET":
+            request.validated["milestone_src"] = milestone.serialize("plain")
+        if request.matchdict.get("document_id"):
+            return get_item(milestone, "document", request)
+        else:
+            return milestone
+    elif request.matchdict.get("document_id"):
         return get_item(plan, "document", request)
     request.validated["id"] = request.matchdict["plan_id"]
     return plan

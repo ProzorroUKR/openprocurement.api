@@ -24,6 +24,9 @@ from openprocurement.planning.api.constants import (
     MULTI_YEAR_BUDGET_MAX_YEARS,
     BREAKDOWN_OTHER,
     BREAKDOWN_TITLES,
+    CENTRAL_PROCUREMENT_APPROVE_TIME,
+    MILESTONE_APPROVAL_TITLE,
+    MILESTONE_APPROVAL_DESCRIPTION,
 )
 from pyramid.security import Allow
 from schematics.exceptions import ValidationError
@@ -227,45 +230,50 @@ class Cancellation(Model):
     status = StringType(choices=["pending", "active"], default="pending")
 
 
-# roles
-plain_role = blacklist("_attachments", "revisions", "dateModified") + schematics_embedded_role
-create_role = (
-    blacklist(
-        "owner_token",
-        "transfer_token",
-        "owner",
-        "_attachments",
-        "revisions",
-        "dateModified",
-        "datePublished",
-        "planID",
-        "doc_id",
-        "_attachments",
-        "tender_id",
+class Milestone(Model):
+    TYPE_APPROVAL = 'approval'
+    STATUS_SCHEDULED = 'scheduled'
+    STATUS_MET = 'met'
+    STATUS_NOT_MET = 'notMet'
+    STATUS_INVALID = 'invalid'
+    ACTIVE_STATUSES = (STATUS_SCHEDULED, STATUS_MET)
+
+    class Options:
+        _edit = whitelist("status", "dueDate")
+        _create = _edit + whitelist("title", "description", "type", "author", "documents")
+        _view = _create + whitelist("id", "owner", "dateModified")
+        roles = {
+            "create": _create,
+            "edit": _edit,
+            "embedded": _view,
+            "view": _view,
+            "plain": _view + whitelist("owner_token", "transfer_token"),
+        }
+
+    def __local_roles__(self):
+        return {"{}_{}".format(self.owner, self.owner_token): "milestone_owner"}
+
+    def __acl__(self):
+        acl = [
+            (Allow, "{}_{}".format(self.owner, self.owner_token), "update_milestone"),
+        ]
+        return acl
+
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    title = StringType(required=True, choices=[MILESTONE_APPROVAL_TITLE])
+    description = StringType(required=True, min_length=3, default=MILESTONE_APPROVAL_DESCRIPTION)
+    type = StringType(required=True, choices=[TYPE_APPROVAL])
+    dueDate = IsoDateTimeType(required=True)
+    status = StringType(required=True, choices=[STATUS_SCHEDULED, STATUS_MET, STATUS_NOT_MET, STATUS_INVALID],
+                        default=STATUS_SCHEDULED)
+    documents = ListType(
+        ModelType(Document, required=True), default=list()
     )
-    + schematics_embedded_role
-)
-edit_role = (
-    blacklist(
-        "owner_token",
-        "transfer_token",
-        "owner",
-        "_attachments",
-        "revisions",
-        "dateModified",
-        "datePublished",
-        "doc_id",
-        "planID",
-        "mode",
-        "_attachments",
-        "tender_id",
-    )
-    + schematics_embedded_role
-)
-view_role = blacklist("owner_token", "transfer_token", "_attachments", "revisions") + schematics_embedded_role
-listing_role = whitelist("dateModified", "doc_id")
-revision_role = whitelist("revisions")
-Administrator_role = whitelist("status", "mode", "procuringEntity")
+    author = ModelType(PlanOrganization, required=True)
+    dateModified = IsoDateTimeType(default=get_now)
+    dateMet = IsoDateTimeType()
+    owner = StringType()
+    owner_token = StringType()
 
 
 @implementer(IPlan)
@@ -273,14 +281,22 @@ class Plan(SchematicsDocument, Model):
     """Plan model"""
 
     class Options:
+        _edit_role = whitelist(
+            "procuringEntity", "tender", "budget", "classification", "additionalClassifications", "documents",
+            "items", "buyers", "status", "cancellation", "procurementMethodType",
+        )
+        _create_role = _edit_role + whitelist("mode")
+        _common_view = _create_role + whitelist(
+            "doc_id", "tender_id", "planID", "datePublished", "owner", "milestones", "switch_status",
+        )
         roles = {
-            "plain": plain_role,
-            "revision": revision_role,
-            "create": create_role,
-            "edit": edit_role,
-            "view": view_role,
-            "listing": listing_role,
-            "Administrator": Administrator_role,
+            "plain": _common_view + whitelist("owner_token", "transfer_token"),
+            "revision": whitelist("revisions"),
+            "create": _create_role,
+            "edit": _edit_role,
+            "view": _common_view + whitelist("dateModified"),
+            "listing": whitelist("dateModified", "doc_id"),
+            "Administrator": whitelist("status", "mode", "procuringEntity"),
             "default": schematics_default_role,
         }
 
@@ -328,6 +344,7 @@ class Plan(SchematicsDocument, Model):
     buyers = ListType(ModelType(PlanOrganization, required=True), min_size=1, max_size=1)
     status = StringType(choices=["draft", "scheduled", "cancelled", "complete"], default="scheduled")
     cancellation = ModelType(Cancellation)
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq], default=list())
 
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
     dateModified = IsoDateTimeType()
