@@ -5,6 +5,17 @@ from pyramid.authentication import BasicAuthAuthenticationPolicy, b64decode
 from configparser import ConfigParser
 from pyramid.interfaces import IAuthenticationPolicy
 
+ACCR_1 = '1'
+ACCR_2 = '2'
+ACCR_3 = '3'
+ACCR_4 = '4'
+ACCR_5 = '5'
+ACCR_COMPETITIVE = 'c'
+ACCR_EXIT = 'x'
+ACCR_TEST = 't'
+
+DEFAULT_ACCRS = ''.join([ACCR_1, ACCR_2, ACCR_3, ACCR_4, ACCR_5])
+
 
 class AuthenticationPolicy(BasicAuthAuthenticationPolicy):
     """
@@ -48,7 +59,7 @@ class AuthenticationPolicy(BasicAuthAuthenticationPolicy):
     """
     def __init__(self, auth_file, realm="OpenProcurement", debug=False):
         super(AuthenticationPolicy, self).__init__(None, realm=realm, debug=debug)
-        self.users = read_auth_users(auth_file, encoding="utf8", default_level="1234")
+        self.users = read_auth_users(auth_file, encoding="utf8", default_level=DEFAULT_ACCRS)
 
     def unauthenticated_userid(self, request):
         """

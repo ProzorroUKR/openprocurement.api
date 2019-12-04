@@ -9,6 +9,8 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     guarantee,
     tender_milestones_required,
     patch_tender_lots_none,
+    create_tender_central,
+    create_tender_central_invalid,
 )
 
 from openprocurement.tender.openua.tests.tender_blanks import (
@@ -72,6 +74,8 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest, TenderReso
     test_create_tender_generated = snitch(create_tender_generated_eu)
     test_path_complete_tender = snitch(path_complete_tender)
     test_tender_features_invalid = snitch(tender_features_invalid)
+    test_create_tender_central = snitch(create_tender_central)
+    test_create_tender_central_invalid = snitch(create_tender_central_invalid)
     test_patch_tender = snitch(patch_tender)
     test_patch_tender_eu = snitch(patch_tender_eu_ua)
     test_guarantee = snitch(guarantee)

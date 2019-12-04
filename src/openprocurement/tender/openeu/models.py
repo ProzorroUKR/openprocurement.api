@@ -12,6 +12,7 @@ from urlparse import urlparse, parse_qs
 from string import hexdigits
 from openprocurement.api.utils import get_now, get_first_revision_date
 from openprocurement.api.constants import TZ
+from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.models import (
     Address,
     Period,
@@ -695,8 +696,9 @@ class Tender(BaseTender):
         default="active.tendering",
     )
 
-    create_accreditations = (3,)
-    edit_accreditations = (4,)
+    create_accreditations = (ACCR_3, ACCR_5)
+    central_accreditations = (ACCR_5,)
+    edit_accreditations = (ACCR_4,)
 
     procuring_entity_kinds = ["general", "special", "defense", "central"]
 

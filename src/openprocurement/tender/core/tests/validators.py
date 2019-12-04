@@ -7,13 +7,134 @@ from decimal import Decimal
 from pyramid.httpexceptions import HTTPError
 from schematics.exceptions import ModelValidationError
 
+from openprocurement.api.auth import ACCR_TEST
 from openprocurement.tender.core.validation import (
     validate_update_contract_value_with_award,
     validate_update_contract_value,
     validate_update_contract_value_amount,
+    validate_tender_accreditation_level,
+    validate_tender_accreditation_level_central,
+    validate_tender_accreditation_level_mode
 )
 from openprocurement.tender.belowthreshold.models import Tender
 from openprocurement.tender.belowthreshold.tests.base import test_tender_data
+
+
+@mock.patch("openprocurement.api.validation.error_handler", lambda *_: HTTPError)
+class TestValidateAccreditationLevel(unittest.TestCase):
+    def test_check_accreditation_true(self):
+        request = mock.MagicMock()
+        request.check_accreditations.return_value = True
+        model = mock.MagicMock()
+
+        try:
+            validate_tender_accreditation_level(request, model)
+        except HTTPError:
+            self.fail("validate_tender_accreditation_level() raised HTTPError unexpectedly")
+
+        request.check_accreditations.assert_called_once_with(model.create_accreditations)
+
+    def test_check_accreditation_false(self):
+        request = mock.MagicMock()
+        request.check_accreditations.return_value = False
+        model = mock.MagicMock()
+
+        with self.assertRaises(HTTPError):
+            validate_tender_accreditation_level(request, model)
+
+        request.errors.add.assert_called_once_with(
+            "procurementMethodType", "accreditation",
+            "Broker Accreditation level does not permit tender creation"
+        )
+
+        request.check_accreditations.assert_called_once_with(model.create_accreditations)
+
+
+@mock.patch("openprocurement.api.validation.error_handler", lambda *_: HTTPError)
+class TestValidateAccreditationLevelCentral(unittest.TestCase):
+
+    def test_not_central_kind(self):
+        request = mock.MagicMock(validated={})
+        request.validated["json_data"] = {"procuringEntity": {"kind": "test"}}
+        model = mock.MagicMock()
+
+        try:
+            validate_tender_accreditation_level_central(request, model)
+        except HTTPError:
+            self.fail("validate_tender_accreditation_level() raised HTTPError unexpectedly")
+
+        self.assertFalse(request.check_accreditations.called)
+
+    def test_check_accreditation_true(self):
+        request = mock.MagicMock(validated={})
+        request.validated["json_data"] = {"procuringEntity": {"kind": "central"}}
+        request.check_accreditations.return_value = True
+        model = mock.MagicMock()
+
+        try:
+            validate_tender_accreditation_level_central(request, model)
+        except HTTPError:
+            self.fail("validate_tender_accreditation_level() raised HTTPError unexpectedly")
+
+        request.check_accreditations.assert_called_once_with(model.central_accreditations)
+
+    def test_check_accreditation_false(self):
+        request = mock.MagicMock(validated={})
+        request.validated["json_data"] = {"procuringEntity": {"kind": "central"}}
+        request.check_accreditations.return_value = False
+        model = mock.MagicMock()
+
+        with self.assertRaises(HTTPError):
+            validate_tender_accreditation_level_central(request, model)
+
+        request.errors.add.assert_called_once_with(
+            "procurementMethodType", "accreditation",
+            "Broker Accreditation level does not permit tender creation"
+        )
+
+        request.check_accreditations.assert_called_once_with(model.central_accreditations)
+
+
+@mock.patch("openprocurement.api.validation.error_handler", lambda *_: HTTPError)
+class TestValidateAccreditationLevelMode(unittest.TestCase):
+
+    def test_mode_test(self):
+        request = mock.MagicMock(validated={})
+        request.validated["data"] = {"mode": "test"}
+
+        try:
+            validate_tender_accreditation_level_mode(request)
+        except HTTPError:
+            self.fail("validate_tender_accreditation_level() raised HTTPError unexpectedly")
+
+        self.assertFalse(request.check_accreditations.called)
+
+    def test_check_accreditation_true(self):
+        request = mock.MagicMock(validated={})
+        request.validated["data"] = {}
+        request.check_accreditations.return_value = False
+
+        try:
+            validate_tender_accreditation_level_mode(request)
+        except HTTPError:
+            self.fail("validate_tender_accreditation_level() raised HTTPError unexpectedly")
+
+        request.check_accreditations.assert_called_once_with((ACCR_TEST,))
+
+    def test_check_accreditation_false(self):
+        request = mock.MagicMock(validated={})
+        request.validated["data"] = {}
+        request.check_accreditations.return_value = True
+
+        with self.assertRaises(HTTPError):
+            validate_tender_accreditation_level_mode(request)
+
+        request.errors.add.assert_called_once_with(
+            "procurementMethodType", "mode",
+            "Broker Accreditation level does not permit tender creation"
+        )
+
+        request.check_accreditations.assert_called_once_with((ACCR_TEST,))
 
 
 def generate_contract_value_patch_request_mock(contract_value, award_value=None):

@@ -8,6 +8,8 @@ from openprocurement.tender.belowthreshold.tests.base import set_tender_lots
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     patch_tender_lots_none,
     tender_milestones_not_required,
+    create_tender_central,
+    create_tender_central_invalid,
 )
 from openprocurement.tender.cfaselectionua.constants import BOT_NAME
 from openprocurement.tender.cfaselectionua.tests.base import (
@@ -94,6 +96,8 @@ class TenderResourceTestMixin(object):
     test_listing = snitch(listing)
     test_create_tender_draft = snitch(create_tender_draft)
     test_create_tender = snitch(create_tender)
+    test_create_tender_central = snitch(create_tender_central)
+    test_create_tender_central_invalid = snitch(create_tender_central_invalid)
     test_create_tender_from_terminated_agreement = snitch(create_tender_from_terminated_agreement)
     test_create_tender_from_agreement_with_changes = snitch(create_tender_from_agreement_with_changes)
     test_create_tender_from_agreement_with_features = snitch(create_tender_from_agreement_with_features)

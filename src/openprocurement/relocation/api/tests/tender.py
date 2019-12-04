@@ -44,6 +44,7 @@ class TenderOwnershipChangeTest(BaseTenderOwnershipChangeTest):
     second_owner = "broker1"
     test_owner = "broker1t"
     invalid_owner = "broker3"
+    central_owner = "broker5"
 
     def setUp(self):
         super(TenderOwnershipChangeTest, self).setUp()
@@ -260,6 +261,61 @@ class TenderOwnershipChangeTest(BaseTenderOwnershipChangeTest):
                 }
             ],
         )
+
+    def test_accreditation_level_central(self):
+        # test level permits to change ownership for 'central' kind tenders
+        # first try on non 5th level broker
+        tender = self.db.get(self.tender_id)
+        tender["procuringEntity"]["kind"] = "central"
+        tender["buyers"]= [{
+            "name": tender["procuringEntity"]["name"],
+            "identifier": tender["procuringEntity"]["identifier"]
+        }]
+        self.db.save(tender)
+
+        # create Transfer with second owner
+        with change_auth(self.app, ("Basic", (self.second_owner, ""))):
+            response = self.app.post_json("/transfers", {"data": {}})
+        self.assertEqual(response.status, "201 Created")
+        transfer = response.json["data"]
+        transfer_tokens = response.json["access"]
+
+        # try to change ownership
+        with change_auth(self.app, ("Basic", (self.second_owner, ""))):
+            response = self.app.post_json(
+                "/tenders/{}/ownership".format(self.tender_id),
+                {"data": {"id": transfer["id"], "transfer": self.tender_transfer}},
+                status=403,
+            )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    u"description": u"Broker Accreditation level does not permit ownership change",
+                    u"location": u"ownership",
+                    u"name": u"accreditation",
+                }
+            ],
+        )
+
+        # create Transfer with central owner
+        with change_auth(self.app, ("Basic", (self.central_owner, ""))):
+            response = self.app.post_json("/transfers", {"data": {}})
+        self.assertEqual(response.status, "201 Created")
+        transfer = response.json["data"]
+        transfer_tokens = response.json["access"]
+
+        # try to change ownership with 5th level
+        with change_auth(self.app, ("Basic", (self.central_owner, ""))):
+            response = self.app.post_json(
+                "/tenders/{}/ownership".format(self.tender_id),
+                {"data": {"id": transfer["id"], "transfer": self.tender_transfer}},
+            )
+        self.assertEqual(response.status, "200 OK")
+        self.assertIn("owner", response.json["data"])
+        self.assertEqual(response.json["data"]["owner"], self.central_owner)
+
 
     def test_validate_status(self):
         # terminated contract is also protected

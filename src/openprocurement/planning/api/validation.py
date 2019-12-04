@@ -1,26 +1,33 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import update_logging_context, error_handler, apply_data_patch, upload_objects_documents
-from openprocurement.api.validation import validate_json_data, validate_data
+from openprocurement.api.validation import (
+    validate_json_data,
+    validate_data,
+    validate_accreditation_level,
+    validate_accreditation_level_mode,
+)
+from openprocurement.api.utils import update_logging_context, error_handler, upload_objects_documents
 from openprocurement.planning.api.models import Plan, Milestone
-from copy import deepcopy
 
 
 def validate_plan_data(request):
     update_logging_context(request, {"plan_id": "__new__"})
     data = validate_json_data(request)
-    if data is None:
-        return
     model = request.plan_from_data(data, create=False)
-    if hasattr(request, "check_accreditations") and not request.check_accreditations(model.create_accreditations):
-        request.errors.add("plan", "accreditation", "Broker Accreditation level does not permit plan creation")
-        request.errors.status = 403
-        raise error_handler(request.errors)
+    validate_plan_accreditation_level(request, model)
     data = validate_data(request, model, data=data)
-    if data and data.get("mode", None) is None and request.check_accreditations(("t",)):
-        request.errors.add("plan", "mode", "Broker Accreditation level does not permit plan creation")
-        request.errors.status = 403
-        raise error_handler(request.errors)
+    validate_plan_accreditation_level_mode(request)
     return data
+
+
+def validate_plan_accreditation_level(request, model):
+    levels = model.create_accreditations
+    validate_accreditation_level(request, levels, "plan", "plan", "creation")
+
+
+def validate_plan_accreditation_level_mode(request):
+    data = request.validated["data"]
+    mode = data.get("mode", None)
+    validate_accreditation_level_mode(request, mode, "plan", "plan", "creation")
 
 
 def validate_patch_plan_data(request):

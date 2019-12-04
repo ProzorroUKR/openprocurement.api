@@ -16,6 +16,8 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_with_inn,
     create_tender_with_inn_before,
     patch_tender_lots_none,
+    create_tender_central,
+    create_tender_central_invalid,
 )
 from openprocurement.tender.openua.tests.tender_blanks import empty_listing, tender_finance_milestones
 from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER
@@ -86,6 +88,8 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_patch_tender_period = snitch(patch_tender_period)
     test_tender_contract_period = snitch(tender_contract_period)
     test_create_tender_invalid = snitch(create_tender_invalid)
+    test_create_tender_central = snitch(create_tender_central)
+    test_create_tender_central_invalid = snitch(create_tender_central_invalid)
     test_create_tender_generated = snitch(create_tender_generated)
     test_patch_tender = snitch(patch_tender)
     test_guarantee = snitch(guarantee)

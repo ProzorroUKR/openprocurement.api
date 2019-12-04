@@ -6,22 +6,14 @@ from openprocurement.api.utils import (
     get_now,
     raise_operation_error,
 )  # XXX tender context
+from openprocurement.tender.core.validation import (
+    validate_complaint_accreditation_level
+)
 
 
 def validate_complaint_data(request):
-    if not request.check_accreditations(request.tender.edit_accreditations):
-        request.errors.add(
-            "procurementMethodType", "accreditation", "Broker Accreditation level does not permit complaint creation"
-        )
-        request.errors.status = 403
-        raise error_handler(request.errors)
-    if request.tender.get("mode", None) is None and request.check_accreditations(("t",)):
-        request.errors.add(
-            "procurementMethodType", "mode", "Broker Accreditation level does not permit complaint creation"
-        )
-        request.errors.status = 403
-        raise error_handler(request.errors)
     update_logging_context(request, {"complaint_id": "__new__"})
+    validate_complaint_accreditation_level(request)
     model = type(request.context).complaints.model_class
     return validate_data(request, model)
 

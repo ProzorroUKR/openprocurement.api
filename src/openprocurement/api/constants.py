@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
 import re
-import sys
 from ConfigParser import ConfigParser, DEFAULTSECT
 
 from iso8601 import parse_date

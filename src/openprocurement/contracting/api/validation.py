@@ -2,13 +2,17 @@
 from openprocurement.api.constants import VAT_FROM
 from openprocurement.api.utils import (
     update_logging_context,
-    error_handler,
     raise_operation_error,
     get_first_revision_date,
     get_now,
     get_schematics_document,
 )
-from openprocurement.api.validation import validate_json_data, validate_data, OPERATIONS
+from openprocurement.api.validation import (
+    validate_json_data,
+    validate_data,
+    validate_accreditation_level,
+    OPERATIONS,
+)
 from openprocurement.contracting.api.models import Contract, Change
 from openprocurement.tender.core.models import ContractValue
 from openprocurement.tender.core.utils import has_requested_fields_changes
@@ -21,13 +25,15 @@ from openprocurement.tender.core.validation import (
 
 def validate_contract_data(request):
     update_logging_context(request, {"contract_id": "__new__"})
-    data = request.validated["json_data"] = validate_json_data(request)
+    data = validate_json_data(request)
     model = request.contract_from_data(data, create=False)
-    if hasattr(request, "check_accreditations") and not request.check_accreditations(model.create_accreditations):
-        request.errors.add("contract", "accreditation", "Broker Accreditation level does not permit contract creation")
-        request.errors.status = 403
-        raise error_handler(request.errors)
+    validate_contract_accreditation_level(request, model)
     return validate_data(request, model, data=data)
+
+
+def validate_contract_accreditation_level(request, model):
+    levels = model.create_accreditations
+    validate_accreditation_level(request, levels, "contract", "contract", "creation")
 
 
 def validate_patch_contract_data(request):
