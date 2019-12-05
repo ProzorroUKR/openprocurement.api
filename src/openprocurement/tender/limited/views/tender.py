@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.core.validation import (
     validate_patch_tender_data,
-    validate_tender_status_update_in_terminated_status,
+    validate_tender_not_in_terminated_status,
 )
 from openprocurement.api.utils import json_view, context_unpack
-
 from openprocurement.tender.core.utils import apply_patch, optendersresource
-
 from openprocurement.tender.belowthreshold.views.tender import TenderResource as BaseTenderResource
-
 from openprocurement.tender.limited.validation import validate_chronograph, validate_update_tender_with_awards
 
 
@@ -16,7 +13,8 @@ from openprocurement.tender.limited.validation import validate_chronograph, vali
     name="reporting:Tender",
     path="/tenders/{tender_id}",
     procurementMethodType="reporting",
-    description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info",
+    description="Open Contracting compatible data exchange format. See "
+                "http://ocds.open-contracting.org/standard/r/master/#tender for more info",
 )
 class TenderResource(BaseTenderResource):
     """ Resource handler for TenderLimited """
@@ -25,7 +23,7 @@ class TenderResource(BaseTenderResource):
         content_type="application/json",
         validators=(
             validate_patch_tender_data,
-            validate_tender_status_update_in_terminated_status,
+            validate_tender_not_in_terminated_status,
             validate_chronograph,
             validate_update_tender_with_awards,
         ),

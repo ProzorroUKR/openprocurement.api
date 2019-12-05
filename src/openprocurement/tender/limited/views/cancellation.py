@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import json_view, context_unpack, APIResource, get_now, raise_operation_error
-
 from openprocurement.tender.core.utils import apply_patch, save_tender, optendersresource
-
-from openprocurement.tender.core.validation import validate_cancellation_data, validate_patch_cancellation_data
-
+from openprocurement.tender.core.validation import (
+    validate_cancellation_data,
+    validate_patch_cancellation_data,
+    validate_tender_not_in_terminated_status,
+)
 from openprocurement.tender.belowthreshold.views.cancellation import TenderCancellationResource
-
-from openprocurement.tender.limited.validation import validate_cancellation_in_termainated_status
 
 
 @optendersresource(
@@ -20,7 +19,10 @@ from openprocurement.tender.limited.validation import validate_cancellation_in_t
 class TenderReportingCancellationResource(APIResource):
     @json_view(
         content_type="application/json",
-        validators=(validate_cancellation_data, validate_cancellation_in_termainated_status),
+        validators=(
+            validate_tender_not_in_terminated_status,
+            validate_cancellation_data,
+        ),
         permission="edit_tender",
     )
     def collection_post(self):
@@ -61,7 +63,10 @@ class TenderReportingCancellationResource(APIResource):
 
     @json_view(
         content_type="application/json",
-        validators=(validate_patch_cancellation_data, validate_cancellation_in_termainated_status),
+        validators=(
+            validate_tender_not_in_terminated_status,
+            validate_patch_cancellation_data
+        ),
         permission="edit_tender",
     )
     def patch(self):

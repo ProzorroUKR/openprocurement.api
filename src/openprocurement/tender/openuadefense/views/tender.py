@@ -6,7 +6,7 @@ from openprocurement.tender.core.utils import (
     optendersresource,
     calculate_tender_business_date,
 )
-from openprocurement.tender.core.validation import validate_tender_status_update_in_terminated_status
+from openprocurement.tender.core.validation import validate_tender_not_in_terminated_status
 from openprocurement.tender.belowthreshold.views.tender import TenderResource
 from openprocurement.tender.openua.validation import validate_patch_tender_ua_data
 from openprocurement.tender.openuadefense.utils import check_status
@@ -25,7 +25,10 @@ class TenderUAResource(TenderResource):
 
     @json_view(
         content_type="application/json",
-        validators=(validate_patch_tender_ua_data, validate_tender_status_update_in_terminated_status),
+        validators=(
+            validate_patch_tender_ua_data,
+            validate_tender_not_in_terminated_status,
+        ),
         permission="edit_tender",
     )
     def patch(self):

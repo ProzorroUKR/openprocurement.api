@@ -208,13 +208,6 @@ def validate_patch_tender_bot_only_in_draft_pending(request):
         )
 
 
-def validate_tender_status_update_in_terminated_status(request):
-    tender = request.context
-    statuses = ("complete", "unsuccessful", "cancelled", "draft.unsuccessful")
-    if request.authenticated_role != "Administrator" and tender.status in statuses:
-        raise_operation_error(request, "Can't update tender in current ({}) status".format(tender.status))
-
-
 def validate_json_data_in_active_enquiries(request):
     source = request.validated["data"]
     tender = request.validated["tender_src"]

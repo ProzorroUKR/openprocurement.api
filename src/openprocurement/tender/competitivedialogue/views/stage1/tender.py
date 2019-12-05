@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.core.utils import optendersresource, save_tender
-from openprocurement.tender.core.validation import validate_tender_status_update_in_terminated_status
+from openprocurement.tender.core.validation import validate_tender_not_in_terminated_status
 from openprocurement.api.utils import json_view, context_unpack, APIResource
 from openprocurement.tender.belowthreshold.views.tender import TenderResource
 from openprocurement.tender.openeu.views.tender import TenderEUResource
@@ -31,7 +31,7 @@ class CompetitiveDialogueEUResource(TenderEUResource):
         content_type="application/json",
         validators=(
             validate_patch_tender_ua_data,
-            validate_tender_status_update_in_terminated_status,
+            validate_tender_not_in_terminated_status,
             validate_tender_update,
         ),
         permission="edit_tender",
@@ -53,7 +53,7 @@ class CompetitiveDialogueUAResource(TenderResource):
         content_type="application/json",
         validators=(
             validate_patch_tender_ua_data,
-            validate_tender_status_update_in_terminated_status,
+            validate_tender_not_in_terminated_status,
             validate_tender_update,
         ),
         permission="edit_tender",

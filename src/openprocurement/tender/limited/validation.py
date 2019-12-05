@@ -206,13 +206,3 @@ def validate_contract_document_operation_not_in_allowed_contract_status(request)
         raise_operation_error(
             request, "Can't {} document in current contract status".format(OPERATIONS.get(request.method))
         )
-
-
-# cancellation
-def validate_cancellation_in_termainated_status(request):
-    tender = request.validated["tender"]
-    if tender.status in ["complete", "cancelled", "unsuccessful"]:
-        raise_operation_error(
-            request,
-            "Can't {} cancellation in current ({}) tender status".format(OPERATIONS.get(request.method), tender.status),
-        )

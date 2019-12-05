@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import json_view, context_unpack, APIResource, get_now, raise_operation_error
-
 from openprocurement.tender.core.utils import save_tender, optendersresource, apply_patch
-
+from openprocurement.tender.core.validation import validate_tender_not_in_terminated_status
 from openprocurement.tender.belowthreshold.utils import add_next_award
-
 from openprocurement.tender.core.validation import validate_cancellation_data, validate_patch_cancellation_data
 
 
@@ -49,17 +47,20 @@ class TenderCancellationResource(APIResource):
         For now, we have no way to use different validators on methods according to procedure type.
         """
         tender = self.request.validated["tender"]
-        if tender.status in ["complete", "cancelled", "unsuccessful"]:
-            raise_operation_error(
-                self.request, "Can't {} cancellation in current ({}) tender status".format(operation, tender.status)
-            )
         cancellation = self.request.validated["cancellation"]
         cancellation.date = get_now()
         if any([i.status != "active" for i in tender.lots if i.id == cancellation.relatedLot]):
             raise_operation_error(self.request, "Can {} cancellation only in active lot status".format(operation))
         return True
 
-    @json_view(content_type="application/json", validators=(validate_cancellation_data,), permission="edit_tender")
+    @json_view(
+        content_type="application/json",
+        validators=(
+            validate_tender_not_in_terminated_status,
+            validate_cancellation_data,
+        ),
+        permission="edit_tender"
+    )
     def collection_post(self):
         """Post a cancellation
         """
@@ -100,7 +101,12 @@ class TenderCancellationResource(APIResource):
         return {"data": self.request.validated["cancellation"].serialize("view")}
 
     @json_view(
-        content_type="application/json", validators=(validate_patch_cancellation_data,), permission="edit_tender"
+        content_type="application/json",
+        validators=(
+            validate_tender_not_in_terminated_status,
+            validate_patch_cancellation_data,
+        ),
+        permission="edit_tender"
     )
     def patch(self):
         """Post a cancellation resolution

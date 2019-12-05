@@ -35,7 +35,6 @@ from openprocurement.api.utils import (
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF, FIRST_STAGE_PROCUREMENT_TYPES
 from openprocurement.tender.core.utils import calculate_tender_business_date, has_requested_fields_changes
 from openprocurement.planning.api.utils import extract_plan_adapter
-from openprocurement.planning.api.models import Plan
 from schematics.exceptions import ValidationError
 
 
@@ -378,10 +377,12 @@ def validate_minimalstep(data, value):
 
 
 # tender
-def validate_tender_status_update_in_terminated_status(request):
-    tender = request.context
-    if request.authenticated_role != "Administrator" and tender.status in ["complete", "unsuccessful", "cancelled"]:
-        raise_operation_error(request, "Can't update tender in current ({}) status".format(tender.status))
+def validate_tender_not_in_terminated_status(request):
+    tender = request.validated["tender"]
+    tender_status = tender.status
+    term_statuses = ("complete", "unsuccessful", "cancelled", "draft.unsuccessful")
+    if request.authenticated_role != "Administrator" and tender_status in term_statuses:
+        raise_operation_error(request, "Can't update tender in current ({}) status".format(tender_status))
 
 
 def validate_tender_status_update_not_in_pre_qualificaton(request):

@@ -8,10 +8,10 @@ from openprocurement.tender.core.utils import (
     apply_patch,
     calculate_tender_business_date,
 )
+from openprocurement.tender.core.validation import validate_tender_not_in_terminated_status
 from openprocurement.tender.cfaselectionua.validation import (
     validate_patch_tender_in_draft_pending,
     validate_patch_tender_bot_only_in_draft_pending,
-    validate_tender_status_update_in_terminated_status,
 )
 from openprocurement.tender.cfaselectionua.utils import (
     check_status,
@@ -131,7 +131,7 @@ class TenderResource(APIResource):
         content_type="application/json",
         validators=(
             validate_patch_tender_data,
-            validate_tender_status_update_in_terminated_status,
+            validate_tender_not_in_terminated_status,
             validate_patch_tender_in_draft_pending,
             validate_patch_tender_bot_only_in_draft_pending,
         ),
