@@ -71,6 +71,7 @@ execnet==1.1
 configparser==3.5.0
 freezegun==0.3.12
 parameterized==0.7.0
+sentry-sdk==0.10.2
 
 
 git+git://github.com/ProzorroUKR/request_id_middleware.git@0.1.2

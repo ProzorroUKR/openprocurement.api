@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-
-
 def is_test():
     return any(["test" in __import__("sys").argv[0], "PYTEST_XDIST_WORKER" in __import__("os").environ])
 
@@ -12,6 +10,7 @@ if not is_test():
 
 import os
 import simplejson
+import sentry_sdk
 from libnacl.sign import Signer, Verifier
 from libnacl.public import SecretKey, PublicKey
 from logging import getLogger
@@ -25,12 +24,30 @@ from pyramid.config import Configurator
 from pyramid.renderers import JSON, JSONP
 from pyramid.settings import asbool
 from pyramid.httpexceptions import HTTPPreconditionFailed
+from sentry_sdk.integrations.logging import LoggingIntegration
+from sentry_sdk.integrations.pyramid import PyramidIntegration
 
 
 LOGGER = getLogger("{}.init".format(__name__))
 
 
 def main(global_config, **settings):
+    def strip_sensitive_data(event, hint):
+        return event
+
+    if settings.has_key("sentry.dsn"):
+        dsn = settings.get("sentry.dsn")
+        LOGGER.info("Init sentry sdk for {}".format(dsn))
+        sentry_sdk.init(
+            dsn=dsn,
+            integrations=[
+                LoggingIntegration(level=None, event_level=None),
+                PyramidIntegration()],
+            send_default_pii=True,
+            request_bodies="always",
+            environment=settings.get("sentry.environment", None),
+        )
+
     config = Configurator(
         autocommit=True,
         settings=settings,
