@@ -82,15 +82,22 @@ def validate_tender_kind(request, model):
         request.errors.status = 403
 
 
-def validate_patch_tender_data(request):
-    data = validate_json_data(request)
-    if request.context.status != "draft":
-        return validate_data(request, type(request.tender), True, data)
+def validate_patch_tender_data_draft(request):
+    data = request.validated["json_data"]
     default_status = type(request.tender).fields["status"].default
-    if data.get("status") != default_status:
+    if data and data.get("status") != default_status:
         raise_operation_error(request, "Can't update tender in current (draft) status")
     request.validated["data"] = {"status": default_status}
     request.context.status = default_status
+
+
+
+def validate_patch_tender_data(request):
+    data = validate_json_data(request)
+    if request.context.status == "draft":
+        validate_patch_tender_data_draft(request)
+        return
+    return validate_data(request, type(request.tender), True, data)
 
 
 def validate_tender_auction_data(request):
@@ -532,7 +539,7 @@ def validate_complaint_operation_not_in_active_tendering(request):
 
 def validate_submit_complaint_time(request):
     complaint_submit_time = request.content_configurator.tender_complaint_submit_time
-    tender = request.context
+    tender = request.validated["tender"]
     if get_now() > tender.complaintPeriod.endDate:
         raise_operation_error(
             request,

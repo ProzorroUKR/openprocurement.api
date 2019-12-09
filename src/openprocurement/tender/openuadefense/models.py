@@ -17,8 +17,6 @@ from openprocurement.tender.core.models import (
 from openprocurement.tender.openua.models import Tender as BaseTender, IAboveThresholdUATender
 from openprocurement.tender.core.utils import (
     calc_auction_end_time,
-    calculate_complaint_business_date,
-    calculate_clarifications_business_date,
 )
 from openprocurement.tender.openuadefense.constants import (
     TENDER_PERIOD,
@@ -28,7 +26,11 @@ from openprocurement.tender.openuadefense.constants import (
     COMPLAINT_OLD_SUBMIT_TIME,
     COMPLAINT_OLD_SUBMIT_TIME_BEFORE,
 )
-from openprocurement.tender.openuadefense.utils import calculate_tender_business_date
+from openprocurement.tender.openuadefense.utils import (
+    calculate_tender_business_date,
+    calculate_clarifications_business_date,
+    calculate_complaint_business_date,
+)
 
 
 class IAboveThresholdUADefTender(IAboveThresholdUATender):

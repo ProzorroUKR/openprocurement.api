@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import get_now, raise_operation_error
-from openprocurement.tender.core.utils import optendersresource, calculate_tender_business_date
+from openprocurement.api.utils import json_view
+from openprocurement.api.validation import validate_file_upload, validate_file_update, validate_patch_document_data
+from openprocurement.tender.core.utils import optendersresource
+from openprocurement.tender.core.validation import (
+    validate_document_operation_in_not_allowed_period,
+    validate_tender_document_update_not_by_author_or_tender_owner,
+)
 from openprocurement.tender.openua.views.tender_document import TenderUaDocumentResource as TenderDocumentResource
-from openprocurement.tender.openuadefense.constants import TENDERING_EXTRA_PERIOD
+from openprocurement.tender.openuadefense.validation import validate_update_tender
 
 
 @optendersresource(
@@ -13,19 +18,38 @@ from openprocurement.tender.openuadefense.constants import TENDERING_EXTRA_PERIO
     description="Tender UA.defense related binary files (PDFs, etc.)",
 )
 class TenderUaDocumentResource(TenderDocumentResource):
-    def validate_update_tender(self):
-        """ TODO move validators
-        This class is inherited from openua package, but validate_update_tender function has different validators (check using working days).
-        For now, we have no way to use different validators on methods according to procedure type.
-        """
-        if (
-            self.request.validated["tender_status"] == "active.tendering"
-            and calculate_tender_business_date(
-                get_now(), TENDERING_EXTRA_PERIOD, self.request.validated["tender"], True
-            )
-            > self.request.validated["tender"].tenderPeriod.endDate
-        ):
-            raise_operation_error(
-                self.request, "tenderPeriod should be extended by {0.days} working days".format(TENDERING_EXTRA_PERIOD)
-            )
-        return True
+    @json_view(
+        permission="upload_tender_documents",
+        validators=(
+            validate_file_upload,
+            validate_document_operation_in_not_allowed_period,
+            validate_update_tender,
+        ),
+    )
+    def collection_post(self):
+        return super(TenderUaDocumentResource, self).collection_post()
+
+    @json_view(
+        permission="upload_tender_documents",
+        validators=(
+            validate_file_update,
+            validate_document_operation_in_not_allowed_period,
+            validate_tender_document_update_not_by_author_or_tender_owner,
+            validate_update_tender,
+        ),
+    )
+    def put(self):
+        return super(TenderUaDocumentResource, self).put()
+
+    @json_view(
+        content_type="application/json",
+        permission="upload_tender_documents",
+        validators=(
+            validate_patch_document_data,
+            validate_document_operation_in_not_allowed_period,
+            validate_tender_document_update_not_by_author_or_tender_owner,
+            validate_update_tender,
+        ),
+    )
+    def patch(self):
+        return super(TenderUaDocumentResource, self).patch()

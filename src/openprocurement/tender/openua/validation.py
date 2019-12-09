@@ -1,17 +1,13 @@
 from openprocurement.api.validation import validate_data, validate_json_data, OPERATIONS
 from openprocurement.api.utils import apply_data_patch, error_handler, get_now, raise_operation_error
 from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.core.validation import validate_tender_period_extension, validate_patch_tender_data_draft
 
 
 def validate_patch_tender_ua_data(request):
     data = validate_json_data(request)
-    # TODO try to use original code openprocurement.tender.core.validation.validate_patch_tender_data
     if request.context.status == "draft":
-        default_status = type(request.tender).fields["status"].default
-        if data and data.get("status") != default_status:
-            raise_operation_error(request, "Can't update tender in current (draft) status")
-        request.validated["data"] = {"status": default_status}
-        request.context.status = default_status
+        validate_patch_tender_data_draft(request)
         return
     if data:
         if "items" in data:
@@ -33,6 +29,12 @@ def validate_patch_tender_ua_data(request):
     return validate_data(request, type(request.tender), True, data)
 
 
+def validate_update_tender_document(request):
+    status = request.validated["tender_status"]
+    if status == "active.tendering":
+        validate_tender_period_extension(request)
+
+
 # bids
 def validate_update_bid_to_draft(request):
     bid_status_to = request.validated["data"].get("status", request.context.status)
@@ -52,12 +54,17 @@ def validate_update_bid_to_active_status(request):
 
 # complaint
 def validate_submit_claim_time(request):
-    tender = request.context
+    tender = request.validated["tender"]
     claim_submit_time = request.content_configurator.tender_claim_submit_time
     if get_now() > calculate_tender_business_date(tender.tenderPeriod.endDate, -claim_submit_time, tender):
         raise_operation_error(
             request, "Can submit claim not later than {0.days} days before tenderPeriod end".format(claim_submit_time)
         )
+
+def validate_update_claim_time(request):
+    tender = request.validated["tender"]
+    if get_now() > tender.enquiryPeriod.clarificationsUntil:
+        raise_operation_error(request, "Can update claim only before enquiryPeriod.clarificationsUntil")
 
 
 # complaint documents

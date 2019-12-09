@@ -11,10 +11,9 @@ from openprocurement.tender.core.utils import (
     save_tender,
     apply_patch,
     optendersresource,
-    calculate_tender_business_date,
 )
 from openprocurement.tender.belowthreshold.utils import check_tender_status
-from openprocurement.tender.openuadefense.constants import CLAIM_SUBMIT_TIME, COMPLAINT_SUBMIT_TIME
+from openprocurement.tender.openua.validation import validate_update_claim_time
 from openprocurement.tender.openua.views.complaint import TenderUaComplaintResource as TenderComplaintResource
 from openprocurement.tender.openuadefense.validation import validate_submit_claim_time
 
@@ -105,13 +104,7 @@ class TenderUaComplaintResource(TenderComplaintResource):
             and self.context.status == "draft"
             and data.get("status", self.context.status) == "claim"
         ):
-            if get_now() > calculate_tender_business_date(
-                tender.tenderPeriod.endDate, -CLAIM_SUBMIT_TIME, tender, True
-            ):
-                raise_operation_error(
-                    self.request,
-                    "Can submit claim not later than {0.days} days before tenderPeriod end".format(CLAIM_SUBMIT_TIME),
-                )
+            validate_submit_claim_time(self.request)
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateSubmitted = get_now()
         elif (
@@ -120,13 +113,7 @@ class TenderUaComplaintResource(TenderComplaintResource):
             and self.context.status in ["draft", "claim"]
             and data.get("status", self.context.status) == "pending"
         ):
-            if get_now() > tender.complaintPeriod.endDate:
-                raise_operation_error(
-                    self.request,
-                    "Can submit complaint not later than {0.days} days before tenderPeriod end".format(
-                        COMPLAINT_SUBMIT_TIME
-                    ),
-                )
+            validate_submit_complaint_time(self.request)
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.type = "complaint"
             self.context.dateSubmitted = get_now()
@@ -149,13 +136,7 @@ class TenderUaComplaintResource(TenderComplaintResource):
             and data.get("satisfied", self.context.satisfied) is False
             and data.get("status", self.context.status) == "pending"
         ):
-            if get_now() > tender.complaintPeriod.endDate:
-                raise_operation_error(
-                    self.request,
-                    "Can submit complaint not later than {0.days} days before tenderPeriod end".format(
-                        COMPLAINT_SUBMIT_TIME
-                    ),
-                )
+            validate_submit_complaint_time(self.request)
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.type = "complaint"
             self.context.dateEscalated = get_now()
@@ -165,9 +146,7 @@ class TenderUaComplaintResource(TenderComplaintResource):
             and self.context.status == "claim"
             and data.get("status", self.context.status) == self.context.status
         ):
-            now = get_now()
-            if now > tender.enquiryPeriod.clarificationsUntil:
-                raise_operation_error(self.request, "Can update claim only before enquiryPeriod.clarificationsUntil")
+            validate_update_claim_time(self.request)
             apply_patch(self.request, save=False, src=self.context.serialize())
         elif (
             self.request.authenticated_role == "tender_owner"
@@ -182,9 +161,7 @@ class TenderUaComplaintResource(TenderComplaintResource):
             and data.get("resolutionType", self.context.resolutionType)
             and data.get("status", self.context.status) == "answered"
         ):
-            now = get_now()
-            if now > tender.enquiryPeriod.clarificationsUntil:
-                raise_operation_error(self.request, "Can update claim only before enquiryPeriod.clarificationsUntil")
+            validate_update_claim_time(self.request)
             if len(data.get("resolution", self.context.resolution)) < 20:
                 raise_operation_error(self.request, "Can't update complaint: resolution too short")
             apply_patch(self.request, save=False, src=self.context.serialize())

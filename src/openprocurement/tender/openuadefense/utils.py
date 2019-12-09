@@ -1,7 +1,6 @@
 from logging import getLogger
 
 from openprocurement.api.constants import TZ
-from openprocurement.api.utils import get_first_revision_date
 from openprocurement.tender.core.utils import (
     context_unpack,
     get_now,
@@ -10,8 +9,11 @@ from openprocurement.tender.core.utils import (
 )
 from openprocurement.tender.openua.utils import check_complaint_status, add_next_award
 from openprocurement.tender.belowthreshold.utils import check_tender_status, add_contract
-from openprocurement.tender.core.utils import calculate_tender_business_date as calculate_tender_business_date_base
-from openprocurement.tender.openuadefense.constants import CALCULATE_BUSINESS_DATE_FROM
+from openprocurement.tender.core.utils import (
+    calculate_tender_business_date as calculate_tender_business_date_base,
+    calculate_clarifications_business_date as calculate_clarifications_business_date_base,
+    calculate_complaint_business_date as calculate_complaint_business_date_base
+)
 
 LOGGER = getLogger("openprocurement.tender.openuadefense")
 
@@ -27,14 +29,21 @@ def read_json(name):
     return loads(data)
 
 
-WORKING_DAYS = read_json("working_days.json")
+WORKING_DAYS = read_json("data/working_days.json")
 
 
 def calculate_tender_business_date(date_obj, timedelta_obj, tender=None, working_days=False):
-    tender_date = get_first_revision_date(tender, default=get_now())
-    if tender_date < CALCULATE_BUSINESS_DATE_FROM:
-        return calculate_tender_business_date_base(date_obj, timedelta_obj, tender=tender, working_days=working_days)
     return calculate_tender_business_date_base(
+        date_obj, timedelta_obj, tender=tender, working_days=working_days, calendar=WORKING_DAYS
+    )
+
+def calculate_complaint_business_date(date_obj, timedelta_obj, tender=None, working_days=False):
+    return calculate_complaint_business_date_base(
+        date_obj, timedelta_obj, tender=tender, working_days=working_days, calendar=WORKING_DAYS
+    )
+
+def calculate_clarifications_business_date(date_obj, timedelta_obj, tender=None, working_days=False):
+    return calculate_clarifications_business_date_base(
         date_obj, timedelta_obj, tender=tender, working_days=working_days, calendar=WORKING_DAYS
     )
 
