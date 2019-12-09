@@ -241,7 +241,7 @@ class Milestone(Model):
     class Options:
         _edit = whitelist("status", "dueDate")
         _create = _edit + whitelist("title", "description", "type", "author", "documents")
-        _view = _create + whitelist("id", "owner", "dateModified")
+        _view = _create + whitelist("id", "owner", "dateModified", "dateMet")
         roles = {
             "create": _create,
             "edit": _edit,

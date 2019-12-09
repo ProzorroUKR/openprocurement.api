@@ -313,7 +313,7 @@ def test_patch_milestone(app, centralized_milestone):
     assert result["dueDate"] == request_data["dueDate"]
     assert result["status"] == request_data["status"]
     assert result["dateModified"] > milestone["dateModified"]
-    assert result["dateModified"] == result["dateMet"]
+    assert result["dateModified"] == result["dateMet"] == response.json["data"]["dateMet"]
 
 
 @pytest.mark.parametrize("test_status", [Milestone.STATUS_MET, Milestone.STATUS_NOT_MET])
