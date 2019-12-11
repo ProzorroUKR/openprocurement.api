@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.utils import optendersresource
-from openprocurement.tender.belowthreshold.views.cancellation import TenderCancellationResource as BaseResource
-from openprocurement.tender.openua.utils import add_next_award
+from openprocurement.tender.openua.views.cancellation import TenderUaCancellationResource
 
 
 @optendersresource(
@@ -12,114 +10,78 @@ from openprocurement.tender.openua.utils import add_next_award
     procurementMethodType="aboveThresholdEU",
     description="Tender cancellations",
 )
-class TenderCancellationResource(BaseResource):
-    """ TenderEU Cancellations """
+class TenderCancellationResource(TenderUaCancellationResource):
 
     def cancel_tender(self):
         tender = self.request.validated["tender"]
-        if tender.status in ["active.tendering"]:
+        if tender.status == "active.tendering":
             tender.bids = []
-        if tender.status in ["active.pre-qualification", "active.pre-qualification.stand-still", "active.auction"]:
-            [
-                setattr(i, "status", "invalid.pre-qualification")
-                for i in tender.bids
-                if i.status in ["pending", "active"]
-            ]
+
+        elif tender.status in ("active.pre-qualification", "active.pre-qualification.stand-still", "active.auction"):
+            for bid in tender.bids:
+                if bid.status in ("pending", "active"):
+                    bid.status = "invalid.pre-qualification"
+
         tender.status = "cancelled"
 
-    def cancel_lot(self, cancellation=None):
-        if not cancellation:
-            cancellation = self.context
+    def cancel_lot(self, cancellation):
         tender = self.request.validated["tender"]
-        [setattr(i, "status", "cancelled") for i in tender.lots if i.id == cancellation.relatedLot]
-        cancelled_lots = [i.id for i in tender.lots if i.status == "cancelled"]
-        cancelled_items = [i.id for i in tender.items if i.relatedLot in cancelled_lots]
-        cancelled_features = [
+        self._cancel_lots(tender, cancellation)
+        cancelled_lots, cancelled_items, cancelled_features = self._get_cancelled_lot_objects(tender)
+
+        self._invalidate_lot_bids(tender, cancelled_lots=cancelled_lots, cancelled_features=cancelled_features)
+        self._cancel_lot_qualifications(tender, cancelled_lots=cancelled_lots)
+        self._lot_update_check_tender_status(tender)
+        self._lot_update_check_next_award(tender)
+
+    @staticmethod
+    def _get_cancelled_lot_objects(tender):
+        cancelled_lots = {i.id for i in tender.lots if i.status == "cancelled"}
+        cancelled_items = {i.id for i in tender.items if i.relatedLot in cancelled_lots}
+        cancelled_features = {
             i.code
             for i in (tender.features or [])
-            if i.featureOf == "lot"
-            and i.relatedItem in cancelled_lots
-            or i.featureOf == "item"
-            and i.relatedItem in cancelled_items
-        ]
-        if tender.status in [
+            if i.featureOf == "lot" and i.relatedItem in cancelled_lots
+            or i.featureOf == "item" and i.relatedItem in cancelled_items
+        }
+        return cancelled_lots, cancelled_items, cancelled_features
+
+    def _lot_update_check_next_award(self, tender):
+        if tender.status == "active.auction" and all(
+            i.auctionPeriod and i.auctionPeriod.endDate
+            for i in self.request.validated["tender"].lots
+            if i.status == "active"
+        ):
+            self.add_next_award_method(self.request)
+
+    @staticmethod
+    def _invalidate_lot_bids(tender, cancelled_lots, cancelled_features):
+        check_statuses = (
             "active.tendering",
             "active.pre-qualification",
             "active.pre-qualification.stand-still",
             "active.auction",
-        ]:
+        )
+        if tender.status in check_statuses:
+            def filter_docs(items):
+                result = [i for i in items
+                          if i.documentOf != "lot"
+                          or i.relatedItem not in cancelled_lots]
+                return result
+
             for bid in tender.bids:
                 if tender.status == "active.tendering":
-                    bid.documents = [
-                        i for i in bid.documents if i.documentOf != "lot" or i.relatedItem not in cancelled_lots
-                    ]
-                bid.financialDocuments = [
-                    i for i in bid.financialDocuments if i.documentOf != "lot" or i.relatedItem not in cancelled_lots
-                ]
-                bid.eligibilityDocuments = [
-                    i for i in bid.eligibilityDocuments if i.documentOf != "lot" or i.relatedItem not in cancelled_lots
-                ]
-                bid.qualificationDocuments = [
-                    i
-                    for i in bid.qualificationDocuments
-                    if i.documentOf != "lot" or i.relatedItem not in cancelled_lots
-                ]
+                    bid.documents = filter_docs(bid.documents)
+                bid.financialDocuments = filter_docs(bid.financialDocuments)
+                bid.eligibilityDocuments = filter_docs(bid.eligibilityDocuments)
+                bid.qualificationDocuments = filter_docs(bid.qualificationDocuments)
                 bid.parameters = [i for i in bid.parameters if i.code not in cancelled_features]
                 bid.lotValues = [i for i in bid.lotValues if i.relatedLot not in cancelled_lots]
                 if not bid.lotValues and bid.status in ["pending", "active"]:
                     bid.status = "invalid" if tender.status == "active.tendering" else "invalid.pre-qualification"
+
+    @staticmethod
+    def _cancel_lot_qualifications(tender, cancelled_lots):
         for qualification in tender.qualifications:
             if qualification.lotID in cancelled_lots:
                 qualification.status = "cancelled"
-        statuses = set([lot.status for lot in tender.lots])
-        if statuses == set(["cancelled"]):
-            self.cancel_tender()
-        elif not statuses.difference(set(["unsuccessful", "cancelled"])):
-            tender.status = "unsuccessful"
-        elif not statuses.difference(set(["complete", "unsuccessful", "cancelled"])):
-            tender.status = "complete"
-        if tender.status == "active.auction" and all(
-            [
-                i.auctionPeriod and i.auctionPeriod.endDate
-                for i in self.request.validated["tender"].lots
-                if i.status == "active"
-            ]
-        ):
-            configurator = self.request.content_configurator
-            add_next_award(
-                self.request,
-                reverse=configurator.reverse_awarding_criteria,
-                awarding_criteria_key=configurator.awarding_criteria_key,
-            )
-
-    def validate_cancellation(self, operation):
-        """ TODO move validators
-        This class is inherited in below package, but validate_cancellation function has different validators.
-        For now, we have no way to use different validators on methods according to procedure type.
-        """
-        if not super(TenderCancellationResource, self).validate_cancellation(operation):
-            return
-        tender = self.request.validated["tender"]
-        cancellation = self.request.validated["cancellation"]
-        if not cancellation.relatedLot and tender.lots:
-            active_lots = [i.id for i in tender.lots if i.status == "active"]
-            statuses = [
-                set([i.status for i in tender.awards or tender.qualifications if i.lotID == lot_id])
-                for lot_id in active_lots
-            ]
-            block_cancellation = any(
-                [not i.difference(set(["unsuccessful", "cancelled"])) if i else False for i in statuses]
-            )
-        elif cancellation.relatedLot and tender.lots or not cancellation.relatedLot and not tender.lots:
-            statuses = set(
-                [i.status for i in tender.awards or tender.qualifications if i.lotID == cancellation.relatedLot]
-            )
-            block_cancellation = not statuses.difference(set(["unsuccessful", "cancelled"])) if statuses else False
-        if block_cancellation:
-            raise_operation_error(
-                self.request,
-                "Can't {} cancellation if all {} is unsuccessful".format(
-                    operation, "awards" if tender.awards else "qualifications"
-                ),
-            )
-        return True

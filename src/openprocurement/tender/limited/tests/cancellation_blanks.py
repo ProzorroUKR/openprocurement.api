@@ -272,7 +272,7 @@ def create_tender_lots_cancellation(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can add cancellation only in active lot status")
+    self.assertEqual(response.json["errors"][0]["description"], "Can perform cancellation only in active lot status")
 
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
@@ -441,7 +441,7 @@ def create_cancellation_on_tender_with_one_complete_lot(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't add cancellation, if there is at least one complete lot"
+        response.json["errors"][0]["description"], "Can't perform cancellation, if there is at least one complete lot"
     )
 
 
@@ -482,4 +482,4 @@ def cancellation_on_not_active_lot(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can add cancellation only in active lot status")
+    self.assertEqual(response.json["errors"][0]["description"], "Can perform cancellation only in active lot status")

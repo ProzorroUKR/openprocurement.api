@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import json_view, context_unpack, APIResource, get_now, raise_operation_error
-from openprocurement.tender.core.utils import apply_patch, save_tender, optendersresource
+from openprocurement.api.utils import json_view
+from openprocurement.tender.core.utils import optendersresource
+from openprocurement.tender.belowthreshold.views.cancellation import TenderCancellationResource
 from openprocurement.tender.core.validation import (
+    validate_tender_not_in_terminated_status,
     validate_cancellation_data,
     validate_patch_cancellation_data,
-    validate_tender_not_in_terminated_status,
+    validate_cancellation_of_active_lot,
 )
-from openprocurement.tender.belowthreshold.views.cancellation import TenderCancellationResource
+from openprocurement.tender.limited.validation import validate_absence_complete_lots_on_tender_cancel
 
 
 @optendersresource(
@@ -16,72 +18,14 @@ from openprocurement.tender.belowthreshold.views.cancellation import TenderCance
     procurementMethodType="reporting",
     description="Tender cancellations",
 )
-class TenderReportingCancellationResource(APIResource):
-    @json_view(
-        content_type="application/json",
-        validators=(
-            validate_tender_not_in_terminated_status,
-            validate_cancellation_data,
-        ),
-        permission="edit_tender",
-    )
-    def collection_post(self):
-        """Post a cancellation
-        """
+class TenderReportingCancellationResource(TenderCancellationResource):
+
+    def cancel_tender(self):
         tender = self.request.validated["tender"]
-        cancellation = self.request.validated["cancellation"]
-        cancellation.date = get_now()
-        if cancellation.status == "active":
-            tender.status = "cancelled"
-        tender.cancellations.append(cancellation)
-        if save_tender(self.request):
-            self.LOGGER.info(
-                "Created tender cancellation {}".format(cancellation.id),
-                extra=context_unpack(
-                    self.request, {"MESSAGE_ID": "tender_cancellation_create"}, {"cancellation_id": cancellation.id}
-                ),
-            )
-            self.request.response.status = 201
-            self.request.response.headers["Location"] = self.request.route_url(
-                "{}:Tender Cancellations".format(tender.procurementMethodType),
-                tender_id=tender.id,
-                cancellation_id=cancellation.id,
-            )
-            return {"data": cancellation.serialize("view")}
+        tender.status = "cancelled"
 
-    @json_view(permission="view_tender")
-    def collection_get(self):
-        """List cancellations
-        """
-        return {"data": [i.serialize("view") for i in self.request.validated["tender"].cancellations]}
-
-    @json_view(permission="view_tender")
-    def get(self):
-        """Retrieving the cancellation
-        """
-        return {"data": self.request.validated["cancellation"].serialize("view")}
-
-    @json_view(
-        content_type="application/json",
-        validators=(
-            validate_tender_not_in_terminated_status,
-            validate_patch_cancellation_data
-        ),
-        permission="edit_tender",
-    )
-    def patch(self):
-        """Post a cancellation resolution
-        """
-        tender = self.request.validated["tender"]
-        apply_patch(self.request, save=False, src=self.request.context.serialize())
-        if self.request.context.status == "active":
-            tender.status = "cancelled"
-        if save_tender(self.request):
-            self.LOGGER.info(
-                "Updated tender cancellation {}".format(self.request.context.id),
-                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_cancellation_patch"}),
-            )
-            return {"data": self.request.context.serialize("view")}
+    def cancel_lot(self, cancellation=None):
+        raise NotImplementedError("N/A for this procedure")
 
 
 @optendersresource(
@@ -92,24 +36,33 @@ class TenderReportingCancellationResource(APIResource):
     description="Tender cancellations",
 )
 class TenderNegotiationCancellationResource(TenderCancellationResource):
-    """ Tender Negotiation Cancellation Resource """
+    @json_view(
+        content_type="application/json",
+        validators=(
+            validate_tender_not_in_terminated_status,
+            validate_cancellation_data,
+            validate_cancellation_of_active_lot,
+            # # # from core above ^
+            validate_absence_complete_lots_on_tender_cancel,
+        ),
+        permission="edit_tender"
+    )
+    def collection_post(self):
+        return super(TenderCancellationResource, self).collection_post()
 
-    def validate_cancellation(self, operation):
-        """ TODO move validators
-        This class is inherited from below package, but validate_cancellation function has different validators.
-        For now, we have no way to use different validators on methods according to procedure type.
-        """
-        if not super(TenderNegotiationCancellationResource, self).validate_cancellation(operation):
-            return
-        tender = self.request.validated["tender"]
-        cancellation = self.request.validated["cancellation"]
-        if tender.lots:
-            if not cancellation.relatedLot:
-                if [lot for lot in tender.lots if lot.status == "complete"]:
-                    raise_operation_error(
-                        self.request, "Can't {} cancellation, if there is at least one complete lot".format(operation)
-                    )
-        return True
+    @json_view(
+        content_type="application/json",
+        validators=(
+            validate_tender_not_in_terminated_status,
+            validate_patch_cancellation_data,
+            validate_cancellation_of_active_lot,
+            # # from core above ^
+            validate_absence_complete_lots_on_tender_cancel,
+        ),
+        permission="edit_tender"
+    )
+    def patch(self):
+        return super(TenderCancellationResource, self).patch()
 
 
 @optendersresource(

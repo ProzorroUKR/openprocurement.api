@@ -44,7 +44,6 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
     get_tender_lot_qualification_complaints,
     # TenderStage2EU2LotQualificationComplaintResourceTest
     create_tender_2lot_qualification_complaint,
-    patch_tender_2lot_qualification_complaint,
     # TenderStage2EUQualificationComplaintDocumentResourceTest
     complaint_not_found,
     create_tender_qualification_complaint_document,
@@ -53,7 +52,6 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
     # TenderStage2EU2LotQualificationComplaintDocumentResourceTest
     create_tender_2lot_qualification_complaint_document,
     put_tender_2lot_qualification_complaint_document,
-    patch_tender_2lot_qualification_complaint_document,
 )
 
 test_tender_bids = deepcopy(test_bids[:2])
@@ -196,7 +194,6 @@ class TenderStage2EU2LotQualificationComplaintResourceTest(TenderStage2EULotQual
     initial_lots = deepcopy(2 * test_lots)
     initial_auth = ("Basic", ("broker", ""))
     test_create_tender_qualification_complaint = snitch(create_tender_2lot_qualification_complaint)
-    test_patch_tender_qualification_complaint = snitch(patch_tender_2lot_qualification_complaint)
 
 
 class TenderStage2EUQualificationComplaintDocumentResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
@@ -260,7 +257,6 @@ class TenderStage2EU2LotQualificationComplaintDocumentResourceTest(
     initial_auth = ("Basic", ("broker", ""))
     test_create_tender_qualification_complaint_document = snitch(create_tender_2lot_qualification_complaint_document)
     test_put_tender_qualification_complaint_document = snitch(put_tender_2lot_qualification_complaint_document)
-    test_patch_tender_qualification_complaint_document = snitch(patch_tender_2lot_qualification_complaint_document)
 
 
 def suite():

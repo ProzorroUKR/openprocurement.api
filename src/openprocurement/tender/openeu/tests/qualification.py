@@ -9,7 +9,6 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
     # Tender2LotQualificationComplaintDocumentResourceTest
     create_tender_2lot_qualification_complaint_document,
     put_tender_2lot_qualification_complaint_document,
-    patch_tender_2lot_qualification_complaint_document,
     # TenderQualificationComplaintDocumentResourceTest
     complaint_not_found,
     create_tender_qualification_complaint_document,
@@ -19,8 +18,6 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
     create_tender_qualification_claim,
     # Tender2LotQualificationComplaintResourceTest
     create_tender_2lot_qualification_complaint,
-    patch_tender_2lot_qualification_complaint,
-    change_status_to_standstill_with_complaint_cancel_lot,
     # TenderLotQualificationComplaintResourceTest
     create_tender_lot_qualification_complaint,
     patch_tender_lot_qualification_complaint,
@@ -208,10 +205,6 @@ class Tender2LotQualificationComplaintResourceTest(TenderLotQualificationComplai
     after_qualification_switch_to = "active.auction"
 
     test_create_tender_qualification_complaint = snitch(create_tender_2lot_qualification_complaint)
-    test_patch_tender_qualification_complaint = snitch(patch_tender_2lot_qualification_complaint)
-    test_change_status_to_standstill_with_complaint_cancel_lot = snitch(
-        change_status_to_standstill_with_complaint_cancel_lot
-    )
 
 
 class Tender2LotQualificationClaimResourceTest(Tender2LotQualificationComplaintResourceTest):
@@ -329,7 +322,6 @@ class Tender2LotQualificationComplaintDocumentResourceTest(TenderQualificationCo
 
     test_create_tender_qualification_complaint_document = snitch(create_tender_2lot_qualification_complaint_document)
     test_put_tender_qualification_complaint_document = snitch(put_tender_2lot_qualification_complaint_document)
-    test_patch_tender_qualification_complaint_document = snitch(patch_tender_2lot_qualification_complaint_document)
 
 
 class TenderIssueCBD1713Test(Tender2LotQualificationResourceTest):
