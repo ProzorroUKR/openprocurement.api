@@ -30,6 +30,7 @@ requires = [
     'esculator',
     'dateorro',
     'configparser',
+    'sentry-sdk',
 ]
 test_requires = requires + [
     'webtest',
