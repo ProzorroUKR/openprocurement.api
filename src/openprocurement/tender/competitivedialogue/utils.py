@@ -321,7 +321,7 @@ def stage2_bid_post(self):
         return {"data": bid.serialize("view"), "access": access}
 
 
-def get_item_by_id(tender, id):
+def get_item_by_id(tender, item_id):
     for item in tender["items"]:
-        if item["id"] == id:
+        if item["id"] == item_id:
             return item
