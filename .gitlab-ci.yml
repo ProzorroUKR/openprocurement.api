@@ -68,7 +68,7 @@ cleanup:
   script:
     - helm repo add prozorro $REPO_URL
     - helm repo update
-    - helm upgrade $CI_COMMIT_REF_SLUG --install prozorro/$HELM_CHART --namespace $HELM_NAMESPACE --set $HELM_TAG_PARAMETER=$TAG --wait
+    - helm upgrade $CI_COMMIT_REF_SLUG --install prozorro/$HELM_CHART --namespace $HELM_NAMESPACE --set $HELM_TAG_PARAMETER=$TAG --wait --debug
   dependencies:
     - build
   tags:
