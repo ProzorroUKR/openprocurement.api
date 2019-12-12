@@ -12,6 +12,8 @@ from openprocurement.api.utils import (
     context_unpack,
     generate_id,
     error_handler,
+    handle_store_exceptions,
+    append_revision,
 )
 
 
@@ -83,25 +85,15 @@ def save_agreement(request):
 
     if agreement.mode == u"test":
         set_modetest_titles(agreement)
+
     patch = get_revision_changes(agreement.serialize("plain"), request.validated["agreement_src"])
     if patch:
-        agreement.revisions.append(
-            type(agreement).revisions.model_class(
-                {"author": request.authenticated_userid, "changes": patch, "rev": agreement.rev}
-            )
-        )
-
+        append_revision(request, agreement, patch)
         old_date_modified = agreement.dateModified
         agreement.dateModified = get_now()
-        try:
+
+        with handle_store_exceptions(request):
             agreement.store(request.registry.db)
-        except ModelValidationError as e:  # pragma: no cover
-            for i in e.messages:
-                request.errors.add("body", i, e.messages[i])
-            request.errors.status = 422
-        except Exception as e:  # pragma: no cover
-            request.errors.add("body", "data", str(e))
-        else:
             LOGGER.info(
                 "Saved agreement {}: dateModified {} -> {}".format(
                     agreement.id,

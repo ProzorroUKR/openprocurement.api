@@ -4,7 +4,6 @@ from logging import getLogger
 from time import sleep
 from cornice.resource import resource
 from couchdb.http import ResourceConflict
-from openprocurement.api.models import Revision
 from openprocurement.api.utils import (
     update_logging_context,
     context_unpack,
@@ -12,10 +11,11 @@ from openprocurement.api.utils import (
     get_now,
     apply_data_patch,
     error_handler,
+    handle_store_exceptions,
+    append_revision,
 )
 from openprocurement.planning.api.models import Plan
 from openprocurement.planning.api.traversal import factory
-from schematics.exceptions import ModelValidationError
 
 LOGGER = getLogger("openprocurement.planning.api")
 
@@ -61,27 +61,25 @@ def save_plan(request):
     :return: True if Ok
     """
     plan = request.validated["plan"]
+
     patch = get_revision_changes(plan.serialize("plain"), request.validated["plan_src"])
     if patch:
-        plan.revisions.append(Revision({"author": request.authenticated_userid, "changes": patch, "rev": plan.rev}))
+        append_revision(request, plan, patch)
         old_date_modified = plan.dateModified
+
         if getattr(plan, "modified", True):
             now = get_now()
             plan.dateModified = now
             if any(c for c in patch if c["path"].startswith("/cancellation/")):
                 plan.cancellation.date = now
-        try:
+
+        with handle_store_exceptions(request):
             plan.store(request.registry.db)
-        except ModelValidationError as e:  # pragma: no cover
-            for i in e.messages:
-                request.errors.add("body", i, e.messages[i])
-            request.errors.status = 422
-        except Exception as e:  # pragma: no cover
-            request.errors.add("body", "data", str(e))
-        else:
             LOGGER.info(
                 "Saved plan {}: dateModified {} -> {}".format(
-                    plan.id, old_date_modified and old_date_modified.isoformat(), plan.dateModified.isoformat()
+                    plan.id,
+                    old_date_modified and old_date_modified.isoformat(),
+                    plan.dateModified.isoformat()
                 ),
                 extra=context_unpack(request, {"MESSAGE_ID": "save_plan"}, {"PLAN_REV": plan.rev}),
             )

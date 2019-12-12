@@ -7,7 +7,6 @@ from jsonpointer import resolve_pointer
 from functools import partial
 from datetime import datetime, time, timedelta
 from logging import getLogger
-from schematics.exceptions import ModelValidationError
 from time import sleep
 from pyramid.exceptions import URLDecodeError
 from pyramid.compat import decode_path_info
@@ -20,7 +19,7 @@ from openprocurement.api.constants import (
     WORKING_DATE_ALLOW_MIDNIGHT_FROM,
     NORMALIZED_CLARIFICATIONS_PERIOD_FROM,
 )
-from openprocurement.api.utils import error_handler, get_first_revision_date
+from openprocurement.api.utils import error_handler, get_first_revision_date, handle_store_exceptions, append_revision
 from openprocurement.api.utils import (
     get_now,
     context_unpack,
@@ -89,52 +88,48 @@ def tender_serialize(request, tender_data, fields):
 
 def save_tender(request):
     tender = request.validated["tender"]
+
     if tender.mode == u"test":
         set_modetest_titles(tender)
+
     patch = get_revision_changes(tender.serialize("plain"), request.validated["tender_src"])
     if patch:
         now = get_now()
-        status_changes = [
-            p
-            for p in patch
-            if not p["path"].startswith("/bids/") and p["path"].endswith("/status") and p["op"] == "replace"
-        ]
-        for change in status_changes:
-            obj = resolve_pointer(tender, change["path"].replace("/status", ""))
-            if obj and hasattr(obj, "date"):
-                date_path = change["path"].replace("/status", "/date")
-                if obj.date and not any([p for p in patch if date_path == p["path"]]):
-                    patch.append({"op": "replace", "path": date_path, "value": obj.date.isoformat()})
-                elif not obj.date:
-                    patch.append({"op": "remove", "path": date_path})
-                obj.date = now
-        tender.revisions.append(
-            type(tender).revisions.model_class(
-                {"author": request.authenticated_userid, "changes": patch, "rev": tender.rev}
-            )
-        )
-        old_dateModified = tender.dateModified
+        append_tender_revision(request, tender, patch, now)
+
+        old_date_modified = tender.dateModified
         if getattr(tender, "modified", True):
             tender.dateModified = now
-        try:
+
+        with handle_store_exceptions(request):
             tender.store(request.registry.db)
-        except ModelValidationError as e:
-            for i in e.messages:
-                request.errors.add("body", i, e.messages[i])
-            request.errors.status = 422
-        except ResourceConflict as e:  # pragma: no cover
-            request.errors.add("body", "data", str(e))
-            request.errors.status = 409
-        except Exception as e:  # pragma: no cover
-            request.errors.add("body", "data", str(e))
-        else:
             LOGGER.info(
                 "Saved tender {}: dateModified {} -> {}".format(
-                    tender.id, old_dateModified and old_dateModified.isoformat(), tender.dateModified.isoformat()
+                    tender.id,
+                    old_date_modified and old_date_modified.isoformat(),
+                    tender.dateModified.isoformat()
                 ),
                 extra=context_unpack(request, {"MESSAGE_ID": "save_tender"}, {"RESULT": tender.rev}),
             )
             return True
+
+
+def append_tender_revision(request, tender, patch, date):
+    status_changes = [p for p in patch if all([
+        not p["path"].startswith("/bids/"),
+        p["path"].endswith("/status"),
+        p["op"] == "replace"
+    ])]
+    for change in status_changes:
+        obj = resolve_pointer(tender, change["path"].replace("/status", ""))
+        if obj and hasattr(obj, "date"):
+            date_path = change["path"].replace("/status", "/date")
+            if obj.date and not any([p for p in patch if date_path == p["path"]]):
+                patch.append({"op": "replace", "path": date_path, "value": obj.date.isoformat()})
+            elif not obj.date:
+                patch.append({"op": "remove", "path": date_path})
+            obj.date = date
+    return append_revision(request, tender, patch)
 
 
 def apply_patch(request, data=None, save=True, src=None):

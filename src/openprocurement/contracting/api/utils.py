@@ -3,7 +3,6 @@ from functools import partial
 from logging import getLogger
 from hashlib import sha512
 from cornice.resource import resource
-from schematics.exceptions import ModelValidationError
 from schematics.types import StringType
 
 from openprocurement.api.utils import (
@@ -14,8 +13,9 @@ from openprocurement.api.utils import (
     generate_id,
     set_modetest_titles,
     get_now,
+    handle_store_exceptions,
+    append_revision,
 )
-from openprocurement.api.models import Revision
 
 from openprocurement.contracting.api.traversal import factory
 from openprocurement.contracting.api.models import Contract
@@ -63,25 +63,21 @@ def save_contract(request):
 
     if contract.mode == u"test":
         set_modetest_titles(contract)
+
     patch = get_revision_changes(contract.serialize("plain"), request.validated["contract_src"])
     if patch:
-        contract.revisions.append(
-            Revision({"author": request.authenticated_userid, "changes": patch, "rev": contract.rev})
-        )
+        append_revision(request, contract, patch)
+
         old_date_modified = contract.dateModified
         contract.dateModified = get_now()
-        try:
+
+        with handle_store_exceptions(request):
             contract.store(request.registry.db)
-        except ModelValidationError as e:  # pragma: no cover
-            for i in e.messages:
-                request.errors.add("body", i, e.messages[i])
-            request.errors.status = 422
-        except Exception as e:  # pragma: no cover
-            request.errors.add("body", "data", str(e))
-        else:
             LOGGER.info(
                 "Saved contract {}: dateModified {} -> {}".format(
-                    contract.id, old_date_modified and old_date_modified.isoformat(), contract.dateModified.isoformat()
+                    contract.id,
+                    old_date_modified and old_date_modified.isoformat(),
+                    contract.dateModified.isoformat()
                 ),
                 extra=context_unpack(request, {"MESSAGE_ID": "save_contract"}, {"CONTRACT_REV": contract.rev}),
             )

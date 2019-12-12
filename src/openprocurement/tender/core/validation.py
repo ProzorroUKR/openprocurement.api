@@ -9,7 +9,6 @@ from openprocurement.api.validation import (
     validate_json_data,
     validate_accreditation_level,
     validate_accreditation_level_mode,
-    handle_data_exceptions,
     OPERATIONS,
     validate_accreditation_level_kind,
 )
@@ -31,6 +30,7 @@ from openprocurement.api.utils import (
     error_handler,
     raise_operation_error,
     check_document_batch,
+    handle_data_exceptions,
 )
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF, FIRST_STAGE_PROCUREMENT_TYPES
 from openprocurement.tender.core.utils import calculate_tender_business_date, has_requested_fields_changes
