@@ -80,6 +80,7 @@ review:
   <<: *base_deploy
   environment:
     name: review/${CI_COMMIT_REF_SLUG}
+    action: start
     url: http://api.${CI_COMMIT_REF_SLUG}.${K8S_DOMAIN}/api/2.5/tenders
     on_stop: stop_review
   dependencies:
@@ -89,6 +90,7 @@ review:
   except:
     - master
     - schedules
+  when: manual
 
 deploy_master:
   <<: *base_deploy
