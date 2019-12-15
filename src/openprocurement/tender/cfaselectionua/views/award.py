@@ -6,7 +6,6 @@ from openprocurement.tender.core.utils import (
     save_tender,
     optendersresource,
     apply_patch,
-    calculate_tender_business_date,
 )
 
 from openprocurement.tender.core.validation import (
@@ -15,8 +14,6 @@ from openprocurement.tender.core.validation import (
     validate_update_award_only_for_active_lots,
     validate_update_award_in_not_allowed_status,
 )
-
-from openprocurement.tender.cfaselectionua.constants import STAND_STILL_TIME
 
 from openprocurement.tender.cfaselectionua.utils import add_next_award
 

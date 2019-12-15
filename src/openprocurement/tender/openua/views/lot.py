@@ -11,9 +11,7 @@ from openprocurement.tender.core.utils import (
     save_tender,
     apply_patch,
     optendersresource,
-    calculate_tender_business_date,
 )
-from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD
 
 
 @optendersresource(
