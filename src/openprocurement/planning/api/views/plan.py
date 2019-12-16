@@ -394,7 +394,9 @@ class PlanResource(APIResource):
         return {"data": plan.serialize("view")}
 
     def _check_field_change_events(self, src_data, plan):
-        if src_data["procuringEntity"] != plan["procuringEntity"]:
+        src_identifier = src_data["procuringEntity"]["identifier"]
+        identifier = plan["procuringEntity"]["identifier"]
+        if src_identifier["scheme"] != identifier["scheme"] or src_identifier["id"] != identifier["id"]:
             if any(m["status"] in Milestone.ACTIVE_STATUSES for m in src_data.get("milestones", "")):
                 standstill_end = calc_working_datetime(get_now(), PROCURING_ENTITY_STANDSTILL)
                 if standstill_end > plan["tender"]["tenderPeriod"]["startDate"]:
