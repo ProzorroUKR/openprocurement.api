@@ -319,3 +319,9 @@ def stage2_bid_post(self):
             "{}:Tender Bids".format(tender.procurementMethodType), tender_id=tender.id, bid_id=bid["id"]
         )
         return {"data": bid.serialize("view"), "access": access}
+
+
+def get_item_by_id(tender, item_id):
+    for item in tender["items"]:
+        if item["id"] == item_id:
+            return item

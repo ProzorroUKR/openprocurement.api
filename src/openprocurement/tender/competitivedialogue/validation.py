@@ -1,14 +1,21 @@
-from openprocurement.api.validation import validate_data, validate_json_data
-from openprocurement.api.utils import apply_data_patch, update_logging_context, error_handler, raise_operation_error
+from openprocurement.api.validation import validate_data, validate_json_data, OPERATIONS
+from openprocurement.api.utils import (
+    apply_data_patch, update_logging_context, error_handler, raise_operation_error,
+)
 from openprocurement.tender.competitivedialogue.models import STAGE2_STATUS
 from openprocurement.tender.competitivedialogue.utils import (
     prepare_shortlistedFirms,
     prepare_author,
     prepare_bid_identifier,
+    get_item_by_id,
 )
 from openprocurement.tender.core.validation import (
     validate_complaint_accreditation_level,
     validate_question_accreditation_level,
+    validate_tender_document_update_not_by_author_or_tender_owner,
+)
+from openprocurement.tender.openua.validation import (
+    validate_update_tender_document as validate_update_tender_document_base
 )
 
 
@@ -48,10 +55,18 @@ def validate_patch_tender_stage2_data(request):
     return data
 
 
-def get_item_by_id(tender, id):
-    for item in tender["items"]:
-        if item["id"] == id:
-            return item
+def validate_update_tender_document(request):
+    status = request.validated["tender_status"]
+    role = request.authenticated_role
+    statuses = ["active.tendering", STAGE2_STATUS]
+    auction_statuses = ["active.auction", "active.qualification"]
+    if role != "auction" and status not in statuses or role == "auction" and status not in auction_statuses:
+        raise_operation_error(
+            request, "Can't {} document in current ({}) tender status".format(OPERATIONS.get(request.method), status)
+        )
+        validate_update_tender_document_base(request)
+    if request.method in ["PUT", "PATCH"]:
+        validate_tender_document_update_not_by_author_or_tender_owner(request)
 
 
 def validate_author(request, shortlistedFirms, obj):

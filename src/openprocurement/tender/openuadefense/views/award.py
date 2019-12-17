@@ -6,7 +6,6 @@ from openprocurement.tender.core.utils import (
     apply_patch,
     optendersresource,
     save_tender,
-    calculate_complaint_business_date,
 )
 
 from openprocurement.tender.core.validation import (
@@ -19,6 +18,7 @@ from openprocurement.tender.belowthreshold.views.award import TenderAwardResourc
 from openprocurement.api.utils import json_view, context_unpack
 from openprocurement.tender.openuadefense.constants import STAND_STILL_TIME
 from openprocurement.tender.openua.utils import add_next_award
+from openprocurement.tender.openuadefense.utils import calculate_complaint_business_date
 
 
 @optendersresource(

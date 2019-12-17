@@ -1,6 +1,6 @@
 from pyramid.events import subscriber
 from openprocurement.tender.core.events import TenderInitializeEvent
-from openprocurement.tender.core.utils import get_now, calculate_tender_business_date
+from openprocurement.tender.core.utils import get_now
 
 
 def tender_init_handler_base(event):
