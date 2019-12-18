@@ -16,10 +16,8 @@ from openprocurement.api.models import (
     schematics_embedded_role,
 )
 from openprocurement.api.utils import get_now
-from openprocurement.tender.core.models import Feature, validate_features_uniq
-
+from openprocurement.tender.core.models import Feature, validate_features_uniq, Document
 from openprocurement.tender.cfaua.models.submodels.contract import Contract
-from openprocurement.tender.cfaua.models.submodels.documents import Document
 from openprocurement.tender.cfaua.models.submodels.item import Item
 
 

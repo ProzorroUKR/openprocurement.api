@@ -12,6 +12,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
 
 from openprocurement.tender.openua.tests.bid import (
     TenderBidDocumentResourceTestMixin as TenderUABidDocumentResourceTestMixin,
+    TenderBidDocumentWithDSResourceTestMixin as TenderUABidDocumentWithDSResourceTestMixin,
 )
 from openprocurement.tender.openua.tests.bid_blanks import (
     # TenderStage2UABidResourceTest
@@ -184,14 +185,12 @@ class TenderStage2UABidFeaturesResourceTest(BaseCompetitiveDialogUAStage2Content
     test_features_bidder_invalid_ua = snitch(features_bidder_invalid)
 
 
-class TenderStage2UABidDocumentResourceTest(
-    BaseCompetitiveDialogUAStage2ContentWebTest, TenderUABidDocumentResourceTestMixin
-):
+class BaseCDUAStage2BidContentWebTest(BaseCompetitiveDialogUAStage2ContentWebTest):
     initial_status = "active.tendering"
     test_bids_data = test_bids_stage2
 
     def setUp(self):
-        super(TenderStage2UABidDocumentResourceTest, self).setUp()
+        super(BaseCDUAStage2BidContentWebTest, self).setUp()
         # Create bid
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
@@ -208,8 +207,16 @@ class TenderStage2UABidDocumentResourceTest(
         self.bid_id = bid["id"]
         self.bid_token = response.json["access"]["token"]
 
+
+class TenderStage2UABidDocumentResourceTest(BaseCDUAStage2BidContentWebTest, TenderUABidDocumentResourceTestMixin):
     test_not_found = snitch(not_found_ua)
     test_put_tender_bidder_document = snitch(put_tender_bidder_document_ua)
+
+
+class TenderStage2UABidDocumentWithDSResourceTest(
+    TenderUABidDocumentWithDSResourceTestMixin, BaseCDUAStage2BidContentWebTest,
+):
+    pass
 
 
 def suite():

@@ -17,7 +17,6 @@ from openprocurement.tender.cfaua.models.submodels.award import Award
 from openprocurement.tender.cfaua.models.submodels.bids import BidModelType, Bid
 from openprocurement.tender.cfaua.models.submodels.cancellation import Cancellation
 from openprocurement.tender.cfaua.models.submodels.complaint import ComplaintModelType, Complaint
-from openprocurement.tender.cfaua.models.submodels.documents import EUDocument
 from openprocurement.tender.cfaua.models.submodels.item import Item
 from openprocurement.tender.cfaua.models.submodels.guarantee import Guarantee
 from openprocurement.tender.cfaua.models.submodels.feature import Feature
@@ -26,9 +25,10 @@ from openprocurement.tender.cfaua.models.submodels.organization import Procuring
 from openprocurement.tender.cfaua.models.submodels.periods import TenderAuctionPeriod, ContractPeriod
 from openprocurement.tender.cfaua.models.submodels.qualification import Qualification
 from openprocurement.tender.cfaua.models.submodels.value import Value
-
-from openprocurement.tender.core.models import EnquiryPeriod, PeriodStartEndRequired, validate_lots_uniq
-from openprocurement.tender.core.models import validate_features_uniq, Question, Tender
+from openprocurement.tender.core.models import (
+    EnquiryPeriod, PeriodStartEndRequired, validate_lots_uniq,
+    validate_features_uniq, Question, Tender, EUDocument,
+)
 from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
     calc_auction_end_time,

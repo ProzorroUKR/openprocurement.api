@@ -31,6 +31,7 @@ from openprocurement.tender.core.models import (
     PeriodStartEndRequired,
     validate_lots_uniq,
     Lot as BaseLotUA,
+    EUConfidentialDocument,
 )
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.openua.models import Item as BaseUAItem, Tender as BaseTenderUA
@@ -38,7 +39,6 @@ from openprocurement.tender.openua.constants import TENDER_PERIOD as TENDERING_D
 from openprocurement.tender.openeu.models import (
     Administrator_bid_role,
     view_bid_role,
-    ConfidentialDocument,
     embedded_lot_role,
     default_lot_role,
     Lot as BaseLotEU,
@@ -75,18 +75,7 @@ class ICDUAStage2Tender(ITender):
     """ Marker interface for Competitive Dialogue UA Stage 2 tenders """
 
 
-class Document(ConfidentialDocument):
-    """ Document model with new feature as Description of the decision to purchase """
-
-    class Options:
-        roles = {
-            "edit": blacklist("id", "url", "datePublished", "dateModified", ""),
-            "embedded": schematics_embedded_role,
-            "view": (blacklist("revisions") + schematics_default_role),
-            "restricted_view": (blacklist("revisions", "url") + schematics_default_role),
-            "revisions": whitelist("url", "dateModified"),
-        }
-
+class Document(EUConfidentialDocument):
     isDescriptionDecision = BooleanType(default=False)
 
     def validate_confidentialityRationale(self, data, val):

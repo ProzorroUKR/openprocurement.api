@@ -52,6 +52,39 @@ def validate_update_bid_to_active_status(request):
         raise error_handler(request.errors)
 
 
+# bid documents
+def validate_download_bid_document(request):
+    if request.params.get("download"):
+        document = request.validated["document"]
+        authenticated_role = request.authenticated_role
+        if document.confidentiality == "buyerOnly" and authenticated_role not in ("bid_owner", "tender_owner"):
+            raise_operation_error(request, "Document download forbidden.")
+
+
+def validate_bid_document_operation_in_award_status(request):
+    if request.validated["tender_status"] in ("active.qualification", "active.awarded") and not any(
+        award.status in ("pending", "active")
+        for award in request.validated["tender"].awards
+        if award.bid_id == request.validated["bid_id"]
+    ):
+        raise_operation_error(
+            request,
+            "Can't {} document because award of bid is not in pending or active state".format(
+                OPERATIONS.get(request.method)
+            ),
+        )
+
+
+def validate_update_bid_document_confidentiality(request):
+    tender_status = request.validated["tender_status"]
+    if tender_status != "active.tendering" and "confidentiality" in request.validated.get("data", {}):
+        if request.context.confidentiality != request.validated["data"]["confidentiality"]:
+            raise_operation_error(
+                request,
+                "Can't update document confidentiality in current ({}) tender status".format(tender_status),
+            )
+
+
 # complaint
 def validate_submit_claim_time(request):
     tender = request.validated["tender"]
@@ -60,6 +93,7 @@ def validate_submit_claim_time(request):
         raise_operation_error(
             request, "Can submit claim not later than {0.days} days before tenderPeriod end".format(claim_submit_time)
         )
+
 
 def validate_update_claim_time(request):
     tender = request.validated["tender"]

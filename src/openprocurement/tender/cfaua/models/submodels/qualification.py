@@ -1,9 +1,8 @@
 from uuid import uuid4
-
 from openprocurement.api.models import Model, IsoDateTimeType, ListType
 from openprocurement.api.roles import RolesFromCsv
 from openprocurement.tender.cfaua.models.submodels.complaint import Complaint
-from openprocurement.tender.cfaua.models.submodels.documents import EUDocument
+from openprocurement.tender.core.models import EUDocument
 from schematics.exceptions import ValidationError
 from schematics.types import StringType, MD5Type, BooleanType
 from schematics.types.compound import ModelType

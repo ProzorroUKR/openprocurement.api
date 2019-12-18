@@ -1,13 +1,18 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import upload_file, update_file_content_type, json_view, context_unpack, get_now
+from openprocurement.api.utils import json_view
 from openprocurement.api.validation import validate_file_update, validate_file_upload, validate_patch_document_data
 from openprocurement.tender.core.validation import (
+    validate_view_bid_document,
     validate_bid_document_operation_period,
-    validate_bid_document_operation_with_award,
     validate_bid_document_operation_in_not_allowed_status,
 )
-from openprocurement.tender.belowthreshold.views.bid_document import TenderBidDocumentResource
-from openprocurement.tender.core.utils import save_tender, apply_patch, optendersresource
+from openprocurement.tender.core.views.bid_document import TenderBidDocumentResource
+from openprocurement.tender.openua.validation import (
+    validate_download_bid_document,
+    validate_bid_document_operation_in_award_status,
+    validate_update_bid_document_confidentiality,
+)
+from openprocurement.tender.core.utils import optendersresource
 
 
 @optendersresource(
@@ -18,57 +23,47 @@ from openprocurement.tender.core.utils import save_tender, apply_patch, optender
     description="Tender UA bidder documents",
 )
 class TenderUaBidDocumentResource(TenderBidDocumentResource):
+
+    def _get_doc_view_role(self, doc):
+        authenticated_role = self.request.authenticated_role
+        if doc.confidentiality == "buyerOnly" and authenticated_role not in ("bid_owner", "tender_owner"):
+            return "restricted_view"
+        return "view"
+
+    @json_view(
+        validators=(
+            validate_view_bid_document,
+            validate_download_bid_document,
+        ),
+        permission="view_tender",
+    )
+    def get(self):
+        return super(TenderUaBidDocumentResource, self).get()
+
     @json_view(
         validators=(
             validate_file_upload,
             validate_bid_document_operation_in_not_allowed_status,
             validate_bid_document_operation_period,
-            validate_bid_document_operation_with_award,
+            validate_bid_document_operation_in_award_status,
         ),
         permission="edit_bid",
     )
     def collection_post(self):
-        """Tender Bid Document Upload
-        """
-        document = upload_file(self.request)
-        self.context.documents.append(document)
-        if self.request.validated["tender_status"] == "active.tendering":
-            self.request.validated["tender"].modified = False
-        if save_tender(self.request):
-            self.LOGGER.info(
-                "Created tender bid document {}".format(document.id),
-                extra=context_unpack(
-                    self.request, {"MESSAGE_ID": "tender_bid_document_create"}, {"document_id": document.id}
-                ),
-            )
-            self.request.response.status = 201
-            document_route = self.request.matched_route.name.replace("collection_", "")
-            self.request.response.headers["Location"] = self.request.current_route_url(
-                _route_name=document_route, document_id=document.id, _query={}
-            )
-            return {"data": document.serialize("view")}
+        return super(TenderUaBidDocumentResource, self).collection_post()
 
     @json_view(
         validators=(
             validate_file_update,
             validate_bid_document_operation_in_not_allowed_status,
             validate_bid_document_operation_period,
-            validate_bid_document_operation_with_award,
+            validate_bid_document_operation_in_award_status,
+            validate_update_bid_document_confidentiality,
         ),
         permission="edit_bid",
     )
     def put(self):
-        """Tender Bid Document Update"""
-        document = upload_file(self.request)
-        self.request.validated["bid"].documents.append(document)
-        if self.request.validated["tender_status"] == "active.tendering":
-            self.request.validated["tender"].modified = False
-        if save_tender(self.request):
-            self.LOGGER.info(
-                "Updated tender bid document {}".format(self.request.context.id),
-                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_bid_document_put"}),
-            )
-            return {"data": document.serialize("view")}
+        return super(TenderUaBidDocumentResource, self).put()
 
     @json_view(
         content_type="application/json",
@@ -76,18 +71,10 @@ class TenderUaBidDocumentResource(TenderBidDocumentResource):
             validate_patch_document_data,
             validate_bid_document_operation_in_not_allowed_status,
             validate_bid_document_operation_period,
-            validate_bid_document_operation_with_award,
+            validate_bid_document_operation_in_award_status,
+            validate_update_bid_document_confidentiality,
         ),
         permission="edit_bid",
     )
     def patch(self):
-        """Tender Bid Document Update"""
-        if self.request.validated["tender_status"] == "active.tendering":
-            self.request.validated["tender"].modified = False
-        if apply_patch(self.request, src=self.request.context.serialize()):
-            update_file_content_type(self.request)
-            self.LOGGER.info(
-                "Updated tender bid document {}".format(self.request.context.id),
-                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_bid_document_patch"}),
-            )
-            return {"data": self.request.context.serialize("view")}
+        return super(TenderUaBidDocumentResource, self).patch()

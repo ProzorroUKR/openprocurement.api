@@ -4,9 +4,13 @@ from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from openprocurement.api.models import ListType
 from openprocurement.api.utils import get_now, get_first_revision_date
-from openprocurement.tender.core.models import Bid as BaseBid, validate_parameters_uniq, bids_validation_wrapper
+from openprocurement.tender.core.models import (
+    Bid as BaseBid,
+    validate_parameters_uniq,
+    bids_validation_wrapper,
+    EUConfidentialDocument,
+)
 from openprocurement.tender.cfaua.constants import BID_UNSUCCESSFUL_FROM
-from openprocurement.tender.cfaua.models.submodels.documents import BidderEUDocument
 from openprocurement.tender.cfaua.models.submodels.lotvalue import LotValue
 from openprocurement.tender.cfaua.models.submodels.parameters import BidParameter
 from openprocurement.tender.cfaua.models.submodels.value import Value
@@ -75,10 +79,10 @@ class Bid(BaseBid):
             "Administrator": whitelist("tenderers"),
         }
 
-    documents = ListType(ModelType(BidderEUDocument, required=True), default=list())
-    financialDocuments = ListType(ModelType(BidderEUDocument, required=True), default=list())
-    eligibilityDocuments = ListType(ModelType(BidderEUDocument, required=True), default=list())
-    qualificationDocuments = ListType(ModelType(BidderEUDocument, required=True), default=list())
+    documents = ListType(ModelType(EUConfidentialDocument, required=True), default=list())
+    financialDocuments = ListType(ModelType(EUConfidentialDocument, required=True), default=list())
+    eligibilityDocuments = ListType(ModelType(EUConfidentialDocument, required=True), default=list())
+    qualificationDocuments = ListType(ModelType(EUConfidentialDocument, required=True), default=list())
     lotValues = ListType(ModelType(LotValue, required=True), default=list())
     selfQualified = BooleanType(required=True, choices=[True])
     selfEligible = BooleanType(required=True, choices=[True])

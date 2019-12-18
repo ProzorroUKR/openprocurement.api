@@ -8,8 +8,6 @@ from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from schematics.transforms import blacklist, whitelist, export_loop
 from schematics.exceptions import ValidationError
-from urlparse import urlparse, parse_qs
-from string import hexdigits
 from openprocurement.api.utils import get_now, get_first_revision_date
 from openprocurement.api.constants import TZ
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
@@ -30,7 +28,8 @@ from openprocurement.tender.core.models import (
     Contract as BaseContract,
     Cancellation as BaseCancellation,
     Lot as BaseLot,
-    Document as BaseDocument,
+    EUConfidentialDocument,
+    EUDocument,
     LotValue as BaseLotValue,
     ComplaintModelType as BaseComplaintModelType,
     EnquiryPeriod,
@@ -161,16 +160,8 @@ class ProcuringEntity(Organization):
     kind = StringType(choices=PROCURING_ENTITY_KINDS)
 
 
-class Document(BaseDocument):
-
-    language = StringType(required=True, choices=["uk", "en", "ru"], default="uk")
-
-
-OpenEUDocument = Document
-
-
 class Contract(BaseContract):
-    documents = ListType(ModelType(Document, required=True), default=list())
+    documents = ListType(ModelType(EUDocument, required=True), default=list())
     items = ListType(ModelType(Item, required=True))
 
 
@@ -178,7 +169,7 @@ class Complaint(BaseComplaint):
     class Options:
         roles = {"active.pre-qualification": view_bid_role, "active.pre-qualification.stand-still": view_bid_role}
 
-    documents = ListType(ModelType(Document, required=True), default=list())
+    documents = ListType(ModelType(EUDocument, required=True), default=list())
 
     def serialize(self, role=None, context=None):
         if (
@@ -205,7 +196,7 @@ class Cancellation(BaseCancellation):
             "view": schematics_default_role,
         }
 
-    documents = ListType(ModelType(Document, required=True), default=list())
+    documents = ListType(ModelType(EUDocument, required=True), default=list())
     reasonType = StringType(choices=["cancelled", "unsuccessful"], default="cancelled")
 
 
@@ -350,66 +341,6 @@ class LotValue(BaseLotValue):
             validate_relatedlot(get_tender(parent), relatedLot)
 
 
-class Document(Document):
-    """ Confidential Document """
-
-    class Options:
-        roles = {
-            "edit": blacklist("id", "url", "datePublished", "dateModified", "author", "md5", "download_url"),
-            "embedded": schematics_embedded_role,
-            "view": (blacklist("revisions") + schematics_default_role),
-            "restricted_view": (blacklist("revisions", "url", "download_url") + schematics_default_role),
-            "revisions": whitelist("url", "dateModified"),
-        }
-
-    confidentiality = StringType(choices=["public", "buyerOnly"], default="public")
-    confidentialityRationale = StringType()
-
-    def validate_confidentialityRationale(self, data, val):
-        if data["confidentiality"] != "public":
-            if not val:
-                raise ValidationError(u"confidentialityRationale is required")
-            elif len(val) < 30:
-                raise ValidationError(u"confidentialityRationale should contain at least 30 characters")
-
-    @serializable(serialized_name="url")
-    def download_url(self):
-        url = self.url
-        if self.confidentiality == "buyerOnly":
-            return self.url
-        if not url or "?download=" not in url:
-            return url
-        doc_id = parse_qs(urlparse(url).query)["download"][-1]
-        root = self.__parent__
-        parents = []
-        while root.__parent__ is not None:
-            parents[0:0] = [root]
-            root = root.__parent__
-        request = root.request
-        if not request.registry.docservice_url:
-            return url
-        if "status" in parents[0] and parents[0].status in type(parents[0])._options.roles:
-            role = parents[0].status
-            for index, obj in enumerate(parents):
-                if obj.id != url.split("/")[(index - len(parents)) * 2 - 1]:
-                    break
-                field = url.split("/")[(index - len(parents)) * 2]
-                if "_" in field:
-                    field = field[0] + field.title().replace("_", "")[1:]
-                roles = type(obj)._options.roles
-                if roles[role if role in roles else "default"](field, []):
-                    return url
-        from openprocurement.api.utils import generate_docservice_url
-
-        if not self.hash:
-            path = [i for i in urlparse(url).path.split("/") if len(i) == 32 and not set(i).difference(hexdigits)]
-            return generate_docservice_url(request, doc_id, False, "{}/{}".format(path[0], path[-1]))
-        return generate_docservice_url(request, doc_id, False)
-
-
-ConfidentialDocument = Document
-
-
 class Bid(BaseBid):
     class Options:
         roles = {
@@ -462,10 +393,10 @@ class Bid(BaseBid):
             "deleted": whitelist("id", "status"),
         }
 
-    documents = ListType(ModelType(Document, required=True), default=list())
-    financialDocuments = ListType(ModelType(Document, required=True), default=list())
-    eligibilityDocuments = ListType(ModelType(Document, required=True), default=list())
-    qualificationDocuments = ListType(ModelType(Document, required=True), default=list())
+    documents = ListType(ModelType(EUConfidentialDocument, required=True), default=list())
+    financialDocuments = ListType(ModelType(EUConfidentialDocument, required=True), default=list())
+    eligibilityDocuments = ListType(ModelType(EUConfidentialDocument, required=True), default=list())
+    qualificationDocuments = ListType(ModelType(EUConfidentialDocument, required=True), default=list())
     lotValues = ListType(ModelType(LotValue, required=True), default=list())
     selfQualified = BooleanType(required=True, choices=[True])
     selfEligible = BooleanType(required=True, choices=[True])
@@ -522,9 +453,6 @@ class Bid(BaseBid):
         BaseBid._validator_functions["parameters"](self, data, parameters)
 
 
-Document = OpenEUDocument
-
-
 class Award(BaseAward):
     """ An award for the given procurement. There may be more than one award
         per contracting process e.g. because the contract is split amongst
@@ -533,7 +461,7 @@ class Award(BaseAward):
 
     complaints = ListType(ModelType(Complaint, required=True), default=list())
     items = ListType(ModelType(Item, required=True))
-    documents = ListType(ModelType(Document, required=True), default=list())
+    documents = ListType(ModelType(EUDocument, required=True), default=list())
     qualified = BooleanType()
     eligible = BooleanType()
 
@@ -576,7 +504,7 @@ class Qualification(Model):
     lotID = MD5Type()
     status = StringType(choices=["pending", "active", "unsuccessful", "cancelled"], default="pending")
     date = IsoDateTimeType()
-    documents = ListType(ModelType(Document, required=True), default=list())
+    documents = ListType(ModelType(EUDocument, required=True), default=list())
     complaints = ListType(ModelType(Complaint, required=True), default=list())
     qualified = BooleanType(default=False)
     eligible = BooleanType(default=False)
@@ -656,7 +584,7 @@ class Tender(BaseTender):
     tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
     auctionPeriod = ModelType(TenderAuctionPeriod, default={})
     documents = ListType(
-        ModelType(Document, required=True), default=list()
+        ModelType(EUDocument, required=True), default=list()
     )  # All documents and attachments related to the tender.
     items = ListType(
         ModelType(Item, required=True),

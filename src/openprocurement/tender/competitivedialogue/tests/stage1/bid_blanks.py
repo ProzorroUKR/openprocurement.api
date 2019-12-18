@@ -742,7 +742,7 @@ def bids_invalidation_on_tender_change(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't add document to 'invalid' bid")
+    self.assertEqual(response.json["errors"][0]["description"], "Can't add document at 'invalid' bid status")
 
     # we don't support another type of documents
     for doc_resource in ["qualification_documents", "eligibility_documents", "financial_documents"]:
@@ -1247,7 +1247,7 @@ def create_tender_bidder_document(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't view bid document in current (active.tendering) tender status"
+        response.json["errors"][0]["description"], "Can't view bid documents in current (active.tendering) tender status"
     )
 
     response = self.app.get(
@@ -1266,7 +1266,7 @@ def create_tender_bidder_document(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't view bid document in current (active.tendering) tender status"
+        response.json["errors"][0]["description"], "Can't view bid documents in current (active.tendering) tender status"
     )
 
     response = self.app.get(
@@ -1738,7 +1738,7 @@ def patch_and_put_document_into_invalid_bid(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't update document data for 'invalid' bid")
+    self.assertEqual(response.json["errors"][0]["description"], "Can't update document at 'invalid' bid status")
     response = self.app.put(
         "/tenders/{}/bids/{}/{}/{}?acc_token={}".format(
             self.tender_id, self.bid_id, doc_resource, doc_id, self.bid_token
@@ -1748,7 +1748,7 @@ def patch_and_put_document_into_invalid_bid(self):
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't update document in 'invalid' bid")
+    self.assertEqual(response.json["errors"][0]["description"], "Can't update document at 'invalid' bid status")
 
 
 def download_tender_bidder_document(self):
@@ -1833,7 +1833,7 @@ def download_tender_bidder_document(self):
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(
             response.json["errors"][0]["description"],
-            "Can't view bid document in current (active.tendering) tender status",
+            "Can't view bid documents in current (active.tendering) tender status",
         )
 
         # Try get bid document by user when tender status is active.tendering
@@ -1846,7 +1846,7 @@ def download_tender_bidder_document(self):
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(
             response.json["errors"][0]["description"],
-            "Can't view bid document in current (active.tendering) tender status",
+            "Can't view bid documents in current (active.tendering) tender status",
         )
 
     self.time_shift("active.pre-qualification")
@@ -2033,7 +2033,7 @@ def create_tender_bidder_document_description(self):
             self.assertEqual(response.status, "403 Forbidden")
             self.assertEqual(
                 response.json["errors"][0]["description"],
-                "Can't view bid document in current (active.tendering) tender status",
+                "Can't view bid documents in current (active.tendering) tender status",
             )
 
             # Try get bid document by user when tender status is active.tendering
@@ -2050,7 +2050,7 @@ def create_tender_bidder_document_description(self):
             self.assertEqual(response.status, "403 Forbidden")
             self.assertEqual(
                 response.json["errors"][0]["description"],
-                "Can't view bid document in current (active.tendering) tender status",
+                "Can't view bid documents in current (active.tendering) tender status",
             )
 
 
@@ -2134,7 +2134,7 @@ def create_tender_bidder_invalid_document_description(self):
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(
             response.json["errors"][0]["description"],
-            "Can't view bid document in current (active.tendering) tender status",
+            "Can't view bid documents in current (active.tendering) tender status",
         )
 
         # Try get bid document by user when tender status is active.tendering
@@ -2147,7 +2147,7 @@ def create_tender_bidder_invalid_document_description(self):
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(
             response.json["errors"][0]["description"],
-            "Can't view bid document in current (active.tendering) tender status",
+            "Can't view bid documents in current (active.tendering) tender status",
         )
 
 

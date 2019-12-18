@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.models import ListType
-from openprocurement.tender.cfaua.models.submodels.documents import EUDocument
 from openprocurement.tender.core.models import (
     ComplaintModelType as BaseComplaintModelType,
     get_tender,
     Complaint as BaseComplaint,
+    EUDocument,
 )
 from schematics.types.compound import ModelType
 from schematics.types import StringType, BooleanType
