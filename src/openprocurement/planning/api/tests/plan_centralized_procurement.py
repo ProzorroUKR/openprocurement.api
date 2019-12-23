@@ -531,6 +531,31 @@ def test_success_patch_plan_procuring_entity_in_time(app, centralized_milestone,
     assert response.json["data"]["milestones"][0]["status"] == expected_status
 
 
+def test_success_patch_plan_without_invalidating_milestone(app, centralized_milestone):
+    """
+    As plan owner I can change the plan,
+    and milestone should remain "scheduled"
+    """
+    milestone_data, plan_data = centralized_milestone["milestone"], centralized_milestone["plan"]
+    plan, plan_token = plan_data["data"], plan_data["token"]
+    app.authorization = ("Basic", ("broker", "broker"))
+    assert milestone_data["data"]["status"] == "scheduled"
+
+    response = app.patch_json(
+        "/plans/{}?acc_token={}".format(plan["id"], plan_token),
+        {"data": {
+            "items": [
+                {
+                    "description": "smt"
+                }
+            ]
+        }}
+    )
+    assert response.status_code == 200
+    assert response.json["data"]["items"][0]["description"] == "smt"
+    assert response.json["data"]["milestones"][0]["status"] == "scheduled"
+
+
 def test_fail_patch_plan_procuring_entity_not_in_time(app, centralized_milestone):
     """
     As plan owner I can't change procuringEntity later that 2 working days before plan.tender.tenderPeriod.startDate
