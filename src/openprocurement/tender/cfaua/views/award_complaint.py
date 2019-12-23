@@ -50,19 +50,16 @@ class TenderEUAwardComplaintResource(TenderUaAwardComplaintResource):
         complaint.date = get_now()
         complaint.relatedLot = self.context.lotID
         complaint.bid_id = get_bid_id(self.request)
+
         if complaint.status == "claim":
+            self.validate_posting_claim()
             complaint.dateSubmitted = get_now()
         elif complaint.status == "pending":
             complaint.type = "complaint"
             complaint.dateSubmitted = get_now()
         else:
             complaint.status = "draft"
-        if (
-            self.context.status == "unsuccessful"
-            and complaint.status == "claim"
-            and self.context.bid_id != complaint.bid_id
-        ):
-            raise_operation_error(self.request, "Can add claim only on unsuccessful award of your bid")
+
         complaint.complaintID = "{}.{}{}".format(tender.tenderID, self.server_id, self.complaints_len(tender) + 1)
         access = set_ownership(complaint, self.request)
         self.context.complaints.append(complaint)
@@ -95,153 +92,39 @@ class TenderEUAwardComplaintResource(TenderUaAwardComplaintResource):
     def patch(self):
         """Patch a complaint for award
         """
-        tender = self.request.validated["tender"]
-        data = self.request.validated["data"]
-        complaintPeriod = self.request.validated["award"].complaintPeriod
-        is_complaintPeriod = (
-            complaintPeriod.startDate < get_now() and complaintPeriod.endDate > get_now()
-            if complaintPeriod.endDate
-            else complaintPeriod.startDate < get_now()
-        )
-        # complaint_owner
-        if (
-            self.request.authenticated_role == "complaint_owner"
-            and self.context.status in ["draft", "claim", "answered"]
-            and data.get("status", self.context.status) == "cancelled"
-        ):
-            apply_patch(self.request, save=False, src=self.context.serialize())
-            self.context.dateCanceled = get_now()
-        elif (
-            self.request.authenticated_role == "complaint_owner"
-            and self.context.status in ["pending", "accepted"]
-            and data.get("status", self.context.status) == "stopping"
-        ):
-            apply_patch(self.request, save=False, src=self.context.serialize())
-            self.context.dateCanceled = get_now()
-        elif (
-            self.request.authenticated_role == "complaint_owner"
-            and is_complaintPeriod
-            and self.context.status == "draft"
-            and data.get("status", self.context.status) == self.context.status
-        ):
-            apply_patch(self.request, save=False, src=self.context.serialize())
-        elif (
-            self.request.authenticated_role == "complaint_owner"
-            and is_complaintPeriod
-            and self.context.status == "draft"
-            and data.get("status", self.context.status) == "claim"
-        ):
-            if (
-                self.request.validated["award"].status == "unsuccessful"
-                and self.request.validated["award"].bid_id != self.context.bid_id
-            ):
-                raise_operation_error(self.request, "Can add claim only on unsuccessful award of your bid")
-            apply_patch(self.request, save=False, src=self.context.serialize())
-            self.context.dateSubmitted = get_now()
-        elif (
-            self.request.authenticated_role == "complaint_owner"
-            and is_complaintPeriod
-            and self.context.status == "draft"
-            and data.get("status", self.context.status) == "pending"
-        ):
-            if not any(
-                [i.status == "active" for i in tender.awards if i.lotID == self.request.validated["award"].lotID]
-            ):
-                raise_operation_error(self.request, "Complaint submission is allowed only after award activation.")
-            apply_patch(self.request, save=False, src=self.context.serialize())
-            self.context.type = "complaint"
-            self.context.dateSubmitted = get_now()
-        elif (
-            self.request.authenticated_role == "complaint_owner"
-            and self.context.status == "answered"
-            and data.get("status", self.context.status) == self.context.status
-        ):
-            apply_patch(self.request, save=False, src=self.context.serialize())
-        # tender_owner
-        elif self.request.authenticated_role == "tender_owner" and self.context.status in ["pending", "accepted"]:
-            apply_patch(self.request, save=False, src=self.context.serialize())
-        elif (
-            self.request.authenticated_role == "tender_owner"
-            and self.context.status in ["claim", "satisfied"]
-            and data.get("status", self.context.status) == self.context.status
-        ):
-            apply_patch(self.request, save=False, src=self.context.serialize())
-        elif (
-            self.request.authenticated_role == "tender_owner"
-            and self.context.status == "claim"
-            and data.get("resolution", self.context.resolution)
-            and data.get("resolutionType", self.context.resolutionType)
-            and data.get("status", self.context.status) == "answered"
-        ):
-            if len(data.get("resolution", self.context.resolution)) < 20:
-                raise_operation_error(self.request, "Can't update complaint: resolution too short")
-            apply_patch(self.request, save=False, src=self.context.serialize())
-            self.context.dateAnswered = get_now()
-        elif (
-            self.request.authenticated_role == "tender_owner"
-            and self.context.status == "satisfied"
-            and data.get("tendererAction", self.context.tendererAction)
-            and data.get("status", self.context.status) == "resolved"
-        ):
-            apply_patch(self.request, save=False, src=self.context.serialize())
-        # aboveThresholdReviewers
-        elif (
-            self.request.authenticated_role == "aboveThresholdReviewers"
-            and self.context.status in ["pending", "accepted", "stopping"]
-            and data.get("status", self.context.status) == self.context.status
-        ):
-            apply_patch(self.request, save=False, src=self.context.serialize())
-        elif (
-            self.request.authenticated_role == "aboveThresholdReviewers"
-            and self.context.status in ["pending", "stopping"]
-            and data.get("status", self.context.status) in ["invalid", "mistaken"]
-        ):
-            apply_patch(self.request, save=False, src=self.context.serialize())
-            self.context.dateDecision = get_now()
-            self.context.acceptance = False
-        elif (
-            self.request.authenticated_role == "aboveThresholdReviewers"
-            and self.context.status == "pending"
-            and data.get("status", self.context.status) == "accepted"
-        ):
-            apply_patch(self.request, save=False, src=self.context.serialize())
-            self.context.dateAccepted = get_now()
-            self.context.acceptance = True
-        elif (
-            self.request.authenticated_role == "aboveThresholdReviewers"
-            and self.context.status in ["accepted", "stopping"]
-            and data.get("status", self.context.status) == "declined"
-        ):
-            apply_patch(self.request, save=False, src=self.context.serialize())
-            self.context.dateDecision = get_now()
-        elif (
-            self.request.authenticated_role == "aboveThresholdReviewers"
-            and self.context.status in ["accepted", "stopping"]
-            and data.get("status", self.context.status) == "satisfied"
-        ):
-            apply_patch(self.request, save=False, src=self.context.serialize())
-            self.context.dateDecision = get_now()
-            tender.status = "active.qualification"
-            if tender.awardPeriod.endDate:
-                tender.awardPeriod.endDate = None
-        elif (
-            self.request.authenticated_role == "aboveThresholdReviewers"
-            and self.context.status in ["pending", "accepted", "stopping"]
-            and data.get("status", self.context.status) == "stopped"
-        ):
-            apply_patch(self.request, save=False, src=self.context.serialize())
-            self.context.dateDecision = get_now()
-            self.context.dateCanceled = self.context.dateCanceled or get_now()
+        role_method_name = "patch_as_{role}".format(role=self.request.authenticated_role.lower())
+        try:
+            role_method = getattr(self, role_method_name)
+        except AttributeError:
+            raise_operation_error(self.request, "Can't update complaint as {}".format(self.request.authenticated_role))
         else:
-            raise_operation_error(self.request, "Can't update complaint")
+            role_method(self.request.validated["data"])
+
         if self.context.tendererAction and not self.context.tendererActionDate:
             self.context.tendererActionDate = get_now()
-        excluded_statuses = tuple(["draft", "claim", "answered", "pending", "accepted", "satisfied", "stopping"])
-        if self.context.status not in excluded_statuses and tender.status in ["active.qualification.stand-still"]:
+
+        if (
+            self.context.status not in self.patch_check_tender_excluded_statuses
+            and self.request.validated["tender"].status == "active.qualification.stand-still"
+        ):
             check_tender_status_on_active_qualification_stand_still(self.request)
+
         if save_tender(self.request):
             self.LOGGER.info(
                 "Updated tender award complaint {}".format(self.context.id),
                 extra=context_unpack(self.request, {"MESSAGE_ID": "tender_award_complaint_patch"}),
             )
             return {"data": self.context.serialize("view")}
+
+    def validate_posting_complaint(self):
+        """
+        we overwrite checking an active award
+        as long as we have "validate_add_complaint_not_in_qualification_stand_still"
+        in qualification.stand-still we always have an active award
+        """
+
+    def on_satisfy_complaint_by_reviewer(self):
+        tender = self.request.validated["tender"]
+        tender.status = "active.qualification"
+        if tender.awardPeriod.endDate:
+            tender.awardPeriod.endDate = None

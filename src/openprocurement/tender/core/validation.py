@@ -610,11 +610,10 @@ def validate_award_complaint_update_only_for_active_lots(request):
 
 
 def validate_add_complaint_not_in_complaint_period(request):
-    if request.context.complaintPeriod and (
-        request.context.complaintPeriod.startDate
-        and request.context.complaintPeriod.startDate > get_now()
-        or request.context.complaintPeriod.endDate
-        and request.context.complaintPeriod.endDate < get_now()
+    period = request.context.complaintPeriod
+    if period and (
+        period.startDate and period.startDate > get_now()
+        or period.endDate and period.endDate < get_now()
     ):
         raise_operation_error(request, "Can add complaint only in complaintPeriod")
 
