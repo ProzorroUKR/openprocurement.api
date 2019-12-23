@@ -3,10 +3,9 @@ from functools import partial
 from hashlib import sha512
 from logging import getLogger
 from cornice.resource import resource
-from schematics.exceptions import ModelValidationError
 
 from openprocurement.api.constants import ROUTE_PREFIX
-from openprocurement.api.utils import error_handler, context_unpack
+from openprocurement.api.utils import error_handler, context_unpack, handle_store_exceptions
 from openprocurement.api.models import get_now
 
 from openprocurement.relocation.api.traversal import factory
@@ -42,15 +41,9 @@ def save_transfer(request):
     """
     transfer = request.validated["transfer"]
     transfer.date = get_now()
-    try:
+
+    with handle_store_exceptions(request):
         transfer.store(request.registry.db)
-    except ModelValidationError as e:  # pragma: no cover
-        for i in e.messages:
-            request.errors.add("body", i, e.messages[i])
-        request.errors.status = 422
-    except Exception as e:  # pragma: no cover
-        request.errors.add("body", "data", str(e))
-    else:
         LOGGER.info(
             "Saved transfer {}: at {}".format(transfer.id, get_now().isoformat()),
             extra=context_unpack(request, {"MESSAGE_ID": "save_transfer"}),

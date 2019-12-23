@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-from schematics.exceptions import ModelValidationError, ModelConversionError, ValidationError
-from contextlib import contextmanager
+from schematics.exceptions import ValidationError
 from openprocurement.api.auth import check_user_accreditations, ACCR_TEST, ACCR_EXIT
 from openprocurement.api.constants import INN_SCHEME, CPV_PHARM_PRODUCTS, CPV_336_INN_FROM
 from openprocurement.api.utils import (
@@ -10,6 +9,7 @@ from openprocurement.api.utils import (
     get_now,
     get_first_revision_date,
     get_root,
+    handle_data_exceptions,
 )
 
 OPERATIONS = {"POST": "add", "PATCH": "update", "PUT": "update", "DELETE": "delete"}
@@ -28,21 +28,6 @@ def validate_json_data(request):
         raise error_handler(request.errors)
     request.validated["json_data"] = json["data"]
     return json["data"]
-
-
-@contextmanager
-def handle_data_exceptions(request):
-    try:
-        yield
-    except (ModelValidationError, ModelConversionError) as e:
-        for i in e.messages:
-            request.errors.add("body", i, e.messages[i])
-        request.errors.status = 422
-        raise error_handler(request.errors)
-    except ValueError as e:
-        request.errors.add("body", "data", str(e))
-        request.errors.status = 422
-        raise error_handler(request.errors)
 
 
 def validate_data(request, model, partial=False, data=None):

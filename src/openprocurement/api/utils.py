@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import json
 import decimal
+from contextlib import contextmanager
 from decimal import Decimal
 
 import couchdb.json
-from couchdb import util
+from couchdb import util, ResourceConflict
 from logging import getLogger
 from datetime import datetime
 from base64 import b64encode, b64decode
@@ -27,7 +28,7 @@ from Crypto.Cipher import AES
 from cornice.util import json_error
 from json import dumps
 
-from schematics.exceptions import ValidationError
+from schematics.exceptions import ValidationError, ModelValidationError, ModelConversionError
 from couchdb_schematics.document import SchematicsDocument
 from openprocurement.api.events import ErrorDesctiptorEvent
 from openprocurement.api.constants import LOGGER, JOURNAL_PREFIX
@@ -683,3 +684,44 @@ def to_decimal(value):
         return Decimal(repr(value))
 
     raise TypeError("Unable to convert %s to Decimal" % value)
+
+
+def append_revision(request, obj, patch):
+    revision_model_class = type(obj).revisions.model_class
+    revision_data = {
+        "author": request.authenticated_userid,
+        "changes": patch,
+        "rev": obj.rev
+    }
+    obj.revisions.append(revision_model_class(revision_data))
+    return obj.revisions
+
+
+@contextmanager
+def handle_data_exceptions(request):
+    try:
+        yield
+    except (ModelValidationError, ModelConversionError) as e:
+        for i in e.messages:
+            request.errors.add("body", i, e.messages[i])
+        request.errors.status = 422
+        raise error_handler(request.errors)
+    except ValueError as e:
+        request.errors.add("body", "data", str(e))
+        request.errors.status = 422
+        raise error_handler(request.errors)
+
+
+@contextmanager
+def handle_store_exceptions(request):
+    try:
+        yield
+    except ModelValidationError as e:
+        for i in e.messages:
+            request.errors.add("body", i, e.messages[i])
+        request.errors.status = 422
+    except ResourceConflict as e:  # pragma: no cover
+        request.errors.add("body", "data", str(e))
+        request.errors.status = 409
+    except Exception as e:  # pragma: no cover
+        request.errors.add("body", "data", str(e))
