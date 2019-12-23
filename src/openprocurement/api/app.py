@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 def is_test():
-    return any(["test" in __import__("sys").argv[0], "PYTEST_XDIST_WORKER" in __import__("os").environ])
-
+    return any([
+        "test" in __import__("sys").argv[0],
+        "setup.py" in __import__("sys").argv[0],
+        "PYTEST_XDIST_WORKER" in __import__("os").environ,
+    ])
 
 if not is_test():
     import gevent.monkey
-
     gevent.monkey.patch_all()
 
 import os
