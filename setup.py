@@ -44,13 +44,6 @@ tests_requires = requires + [
     "parameterized",
 ]
 
-dependency_links = [
-    "https://github.com/ProzorroUKR/esculator/tarball/0.0.2#egg=esculator-0.0.2",
-    "https://github.com/ProzorroUKR/barbecue/tarball/0.2#egg=barbecue-0.2",
-    "https://github.com/ProzorroUKR/dateorro/tarball/0.0.1#egg=dateorro-0.0.1",
-    "https://github.com/ProzorroUKR/cornice/tarball/1.2.0.dev0#egg=cornice-1.2.0.dev0",
-]
-
 entry_points = {
     "paste.app_factory": [
         "main = openprocurement.api.app:main"
@@ -118,6 +111,5 @@ setup(
     setup_requires=["pytest-runner"],
     tests_require=tests_requires,
     extras_require={"test": tests_requires},
-    dependency_links=dependency_links,
     entry_points=entry_points,
 )
