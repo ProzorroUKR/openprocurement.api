@@ -95,7 +95,7 @@ def test_fail_post_milestone_author(app, centralized_plan):
         {u"description": u"Should match plan.procuringEntity", u"location": u"data", u"name": u"author"}]}
 
 
-def test_post_milestone_author_validate_(app, centralized_plan):
+def test_post_milestone_author_validate_identifier(app, centralized_plan):
     """
     milestone can only be posted if author equals plan.procuringEntity
     """
@@ -103,21 +103,13 @@ def test_post_milestone_author_validate_(app, centralized_plan):
 
     app.authorization = ("Basic", ("broker", "broker"))
     data = test_milestone_data(app)
-    data["author"] = {
-        "identifier": {
-            "scheme": "UA-EDR",
-            "id": "222222",
-            "legalName": "ЦЗО 2"
-        },
-        "name": "ЦЗО 2"
-    }
-    response = app.post_json(
+    data["author"]["name"] = "ЦЗО 2"
+    app.post_json(
         "/plans/{}/milestones".format(plan["id"]),
         {"data": data},
-        status=422
+        status=201
     )
-    assert response.json == {u"status": u"error", u"errors": [
-        {u"description": u"Should match plan.procuringEntity", u"location": u"data", u"name": u"author"}]}
+
 
 @pytest.mark.parametrize("test_status", [Milestone.STATUS_MET, Milestone.STATUS_NOT_MET, Milestone.STATUS_INVALID])
 def test_fail_post_milestone_status(app, centralized_plan, test_status):
