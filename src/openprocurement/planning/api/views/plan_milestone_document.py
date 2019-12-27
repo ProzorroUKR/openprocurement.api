@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from openprocurement.planning.api.utils import save_plan, opresource, apply_patch, APIResource
-from openprocurement.api.utils import get_file, update_file_content_type, upload_file, context_unpack, json_view
+from openprocurement.planning.api.utils import opresource
+from openprocurement.api.utils import get_now, context_unpack, json_view
 from openprocurement.planning.api.validation import validate_plan_not_terminated
 from openprocurement.api.validation import validate_file_update, validate_file_upload, validate_patch_document_data
 from openprocurement.planning.api.views.plan_document import PlansDocumentResource
@@ -14,11 +14,18 @@ from openprocurement.planning.api.views.plan_document import PlansDocumentResour
 )
 class PlanMilestoneDocumentResource(PlansDocumentResource):
 
+    def update_modified_dates(self):
+        plan = self.request.validated["plan"]
+        milestone = self.request.validated["milestone"]
+        plan.dateModified = milestone.dateModified = get_now()
+        plan.modified = False
+
     @json_view(
         permission="update_milestone",
         validators=(validate_file_upload, validate_plan_not_terminated)
     )
     def collection_post(self):
+        self.update_modified_dates()
         return super(PlanMilestoneDocumentResource, self).collection_post()
 
     @json_view(
@@ -26,6 +33,7 @@ class PlanMilestoneDocumentResource(PlansDocumentResource):
         validators=(validate_file_update, validate_plan_not_terminated)
     )
     def put(self):
+        self.update_modified_dates()
         return super(PlanMilestoneDocumentResource, self).put()
 
     @json_view(
@@ -34,6 +42,7 @@ class PlanMilestoneDocumentResource(PlansDocumentResource):
         validators=(validate_patch_document_data, validate_plan_not_terminated),
     )
     def patch(self):
+        self.update_modified_dates()
         return super(PlanMilestoneDocumentResource, self).patch()
 
     def _post_document_log(self, document):
