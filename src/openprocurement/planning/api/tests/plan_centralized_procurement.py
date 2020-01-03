@@ -95,6 +95,22 @@ def test_fail_post_milestone_author(app, centralized_plan):
         {u"description": u"Should match plan.procuringEntity", u"location": u"data", u"name": u"author"}]}
 
 
+def test_post_milestone_author_validate_identifier(app, centralized_plan):
+    """
+    milestone can only be posted if author equals plan.procuringEntity
+    """
+    plan, access_token = centralized_plan
+
+    app.authorization = ("Basic", ("broker", "broker"))
+    data = test_milestone_data(app)
+    data["author"]["name"] = "ЦЗО 2"
+    app.post_json(
+        "/plans/{}/milestones".format(plan["id"]),
+        {"data": data},
+        status=201
+    )
+
+
 @pytest.mark.parametrize("test_status", [Milestone.STATUS_MET, Milestone.STATUS_NOT_MET, Milestone.STATUS_INVALID])
 def test_fail_post_milestone_status(app, centralized_plan, test_status):
     """
@@ -409,6 +425,8 @@ def test_update_milestone_documents(app, centralized_milestone):
     milestone, milestone_token = milestone_data["data"], milestone_data["token"]
     plan, plan_token = plan_data["data"], plan_data["token"]
     app.authorization = ("Basic", ("broker", "broker"))
+    plan_date_modified = plan["dateModified"]
+    milestone_date_modified = milestone["dateModified"]
 
     request_data = {
         "title": "sign.p7s",
@@ -430,7 +448,10 @@ def test_update_milestone_documents(app, centralized_milestone):
     assert new_doc["hash"] == request_data["hash"]
     assert new_doc["format"] == request_data["format"]
     assert new_doc["url"].split("Signature")[0] == request_data["url"].split("Signature")[0]
-    assert result_plan["dateModified"] > plan["dateModified"]
+    assert result_plan["dateModified"] > plan_date_modified
+    plan_date_modified = result_plan["dateModified"]
+    assert result_plan["milestones"][0]["dateModified"] > milestone_date_modified
+    milestone_date_modified = result_plan["milestones"][0]["dateModified"]
 
     # put
     request_data = {
@@ -456,7 +477,10 @@ def test_update_milestone_documents(app, centralized_milestone):
     assert new_doc["hash"] == request_data["hash"]
     assert new_doc["format"] == request_data["format"]
     assert new_doc["url"].split("Signature")[0] == request_data["url"].split("Signature")[0]
-    assert result_plan["dateModified"] > plan["dateModified"]
+    assert result_plan["dateModified"] > plan_date_modified
+    plan_date_modified = result_plan["dateModified"]
+    assert result_plan["milestones"][0]["dateModified"] > milestone_date_modified
+    milestone_date_modified = result_plan["milestones"][0]["dateModified"]
 
     # patch
     request_data = {
@@ -487,7 +511,8 @@ def test_update_milestone_documents(app, centralized_milestone):
     assert patched_doc["documentOf"] == request_data["documentOf"]
     assert patched_doc["documentType"] == request_data["documentType"]
     assert patched_doc["language"] == request_data["language"]
-    assert result_plan["dateModified"] > plan["dateModified"]
+    assert result_plan["dateModified"] > plan_date_modified
+    assert result_plan["milestones"][0]["dateModified"] > milestone_date_modified
 
 
 @pytest.mark.parametrize("test_statuses", [

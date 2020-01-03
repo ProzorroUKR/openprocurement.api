@@ -91,7 +91,10 @@ def validate_milestone_author(request):
     milestone = request.validated["milestone"]
     plan = request.validated["plan"]
     author = milestone.author
-    if plan.procuringEntity != author:
+
+    plan_identifier = plan.procuringEntity.identifier
+    milestone_identifier = author.identifier
+    if (plan_identifier.scheme, plan_identifier.id) != (milestone_identifier.scheme, milestone_identifier.id):
         request.errors.add(
             "data",
             "author",
@@ -100,7 +103,11 @@ def validate_milestone_author(request):
         request.errors.status = 422
         raise error_handler(request.errors)
 
-    if any(m.author == author for m in plan.milestones if m.status in Milestone.ACTIVE_STATUSES):
+    if any(
+        (m.author.identifier.scheme, m.author.identifier.id) == (author.identifier.scheme, author.identifier.id)
+        for m in plan.milestones
+        if m.status in Milestone.ACTIVE_STATUSES
+    ):
         request.errors.add(
             "data",
             "author",
