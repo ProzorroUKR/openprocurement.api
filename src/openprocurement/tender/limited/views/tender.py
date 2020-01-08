@@ -2,11 +2,17 @@
 from openprocurement.tender.core.validation import (
     validate_patch_tender_data,
     validate_tender_not_in_terminated_status,
+    validate_tender_change_status_permission,
 )
 from openprocurement.api.utils import json_view, context_unpack
-from openprocurement.tender.core.utils import apply_patch, optendersresource
+from openprocurement.tender.core.utils import apply_patch, optendersresource, save_tender
 from openprocurement.tender.belowthreshold.views.tender import TenderResource as BaseTenderResource
-from openprocurement.tender.limited.validation import validate_chronograph, validate_update_tender_with_awards
+from openprocurement.tender.limited.validation import (
+    validate_chronograph,
+    validate_chronograph_before_2020_04_19,
+    validate_update_tender_with_awards,
+)
+from openprocurement.tender.limited.utils import check_status
 
 
 @optendersresource(
@@ -26,6 +32,7 @@ class TenderResource(BaseTenderResource):
             validate_tender_not_in_terminated_status,
             validate_chronograph,
             validate_update_tender_with_awards,
+            validate_tender_change_status_permission,
         ),
         permission="edit_tender",
     )
@@ -94,6 +101,31 @@ class TenderResource(BaseTenderResource):
 )
 class TenderNegotioationResource(TenderResource):
     """ Resource handler for Negotiation Tender """
+
+    @json_view(
+        content_type="application/json",
+        validators=(
+                validate_patch_tender_data,
+                validate_chronograph_before_2020_04_19,
+                validate_tender_not_in_terminated_status,
+                validate_update_tender_with_awards,
+                validate_tender_change_status_permission,
+        ),
+        permission="edit_tender",
+    )
+    def patch(self):
+
+        tender = self.context
+        if self.request.authenticated_role == "chronograph":
+            apply_patch(self.request, save=False, src=self.request.validated["tender_src"])
+            check_status(self.request)
+            save_tender(self.request)
+        else:
+            apply_patch(self.request, src=self.request.validated["tender_src"])
+        self.LOGGER.info(
+            "Updated tender {}".format(tender.id), extra=context_unpack(self.request, {"MESSAGE_ID": "tender_patch"})
+        )
+        return {"data": tender.serialize(tender.status)}
 
 
 @optendersresource(

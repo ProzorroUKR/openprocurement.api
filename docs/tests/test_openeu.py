@@ -602,6 +602,14 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         #### Activating the request and cancelling tender
+        with open(TARGET_DIR + 'pending-cancellation.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/cancellations/{}?acc_token={}'.format(
+                    self.tender_id, cancellation_id, owner_token),
+                {'data': {"status": "pending"}})
+            self.assertEqual(response.status, '200 OK')
+
+        self.tick(delta=timedelta(days=11))
 
         with open(TARGET_DIR + 'active-cancellation.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
@@ -1536,6 +1544,241 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     "cancellationReason": "Умови виправлено",
                     "status": "cancelled"
                 }})
+            self.assertEqual(response.status, '200 OK')
+
+    def test_cancellation_complaints(self):
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        response = self.app.post_json(
+            '/tenders?opt_pretty=1',
+            {'data': test_tender_data})
+        self.assertEqual(response.status, '201 Created')
+
+        tender = response.json['data']
+        owner_token = response.json['access']['token']
+        self.tender_id = tender['id']
+
+        # Cancellation turn to complaint_period
+        response = self.app.post_json(
+            '/tenders/{}/cancellations?acc_token={}'.format(
+                self.tender_id, owner_token),
+            {'data': {'reason': 'cancellation reason', 'reasonType': 'noDemand'}})
+        cancellation_id = response.json['data']['id']
+        self.assertEqual(response.status, '201 Created')
+
+        response = self.app.post(
+            '/tenders/{}/cancellations/{}/documents?acc_token={}'.format(
+                self.tender_id, cancellation_id, owner_token),
+            upload_files=[('file', u'Notice.pdf', 'content')])
+        self.assertEqual(response.status, '201 Created')
+
+        response = self.app.patch_json(
+            '/tenders/{}/cancellations/{}?acc_token={}'.format(
+                self.tender_id, cancellation_id, owner_token),
+            {'data': {"status": "pending"}})
+        self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'cancellation-complaint-submission.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/cancellations/{}/complaints'.format(
+                    self.tender_id, cancellation_id),
+                {'data': complaint})
+            self.assertEqual(response.status, '201 Created')
+
+        complaint1_token = response.json['access']['token']
+        complaint1_id = response.json['data']['id']
+
+        with open(TARGET_DIR + 'cancellation-complaint-submission-upload.http', 'w') as self.app.file_obj:
+            response = self.app.post(
+                '/tenders/{}/cancellations/{}/complaints/{}/documents?acc_token={}'.format(
+                    self.tender_id, cancellation_id, complaint1_id, complaint1_token),
+                upload_files=[('file', u'Complaint_Attachement.pdf', 'content')])
+            self.assertEqual(response.status, '201 Created')
+
+        complaint_data = {'data': complaint.copy()}
+        complaint_data['data']['status'] = 'pending'
+        with open(TARGET_DIR + 'cancellation-complaint-submission-complaint.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/cancellations/{}/complaints'.format(
+                    self.tender_id, cancellation_id), complaint_data)
+            self.assertEqual(response.status, '201 Created')
+
+        complaint3_id = response.json['data']['id']
+
+        response = self.app.post_json(
+            '/tenders/{}/cancellations/{}/complaints'.format(
+                self.tender_id, cancellation_id), complaint_data)
+        self.assertEqual(response.status, '201 Created')
+
+        complaint4_id = response.json['data']['id']
+        complaint4_token = response.json['access']['token']
+
+        with open(TARGET_DIR + 'cancellation-complaint-complaint.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/cancellations/{}/complaints/{}?acc_token={}'.format(
+                    self.tender_id, cancellation_id, complaint1_id, complaint1_token),
+                {"data": {"status": "pending"}})
+            self.assertEqual(response.status, '200 OK')
+
+
+        response = self.app.post_json(
+            '/tenders/{}/cancellations/{}/complaints'.format(
+                self.tender_id, cancellation_id), complaint_data)
+        self.assertEqual(response.status, '201 Created')
+        complaint5_id = response.json['data']['id']
+
+        response = self.app.post_json(
+            '/tenders/{}/cancellations/{}/complaints'.format(
+                self.tender_id, cancellation_id), complaint_data)
+        self.assertEqual(response.status, '201 Created')
+        complaint6_id = response.json['data']['id']
+        complaint6_token = response.json['access']['token']
+
+        self.app.authorization = ('Basic', ('reviewer', ''))
+        with open(TARGET_DIR + 'cancellation-complaint-reject.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/cancellations/{}/complaints/{}'.format(
+                    self.tender_id, cancellation_id, complaint4_id),
+                {'data': {
+                    "status": "invalid"
+                }})
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'cancellation-complaint-accept.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/cancellations/{}/complaints/{}'.format(
+                    self.tender_id, cancellation_id, complaint1_id),
+                {'data': {
+                    "status": "accepted"
+                }})
+            self.assertEqual(response.status, '200 OK')
+
+        response = self.app.patch_json(
+            '/tenders/{}/cancellations/{}/complaints/{}'.format(
+                self.tender_id, cancellation_id, complaint3_id),
+            {'data': {
+                "status": "accepted"
+            }})
+        self.assertEqual(response.status, '200 OK')
+
+        response = self.app.patch_json(
+            '/tenders/{}/cancellations/{}/complaints/{}'.format(
+                self.tender_id, cancellation_id, complaint5_id),
+            {'data': {
+                "status": "accepted"
+            }})
+        self.assertEqual(response.status, '200 OK')
+
+        response = self.app.patch_json(
+            '/tenders/{}/cancellations/{}/complaints/{}'.format(
+                self.tender_id, cancellation_id, complaint6_id),
+            {'data': {
+                "status": "accepted"
+            }})
+        self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'cancellation-complaint-resolution-upload.http', 'w') as self.app.file_obj:
+            response = self.app.post(
+                '/tenders/{}/cancellations/{}/complaints/{}/documents'.format
+                (self.tender_id, cancellation_id, complaint1_id),
+                upload_files=[('file', u'ComplaintResolution.pdf', 'content')])
+            self.assertEqual(response.status, '201 Created')
+
+        with open(TARGET_DIR + 'cancellation-complaint-resolve.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/cancellations/{}/complaints/{}'.format(
+                    self.tender_id, cancellation_id, complaint1_id),
+                {'data': {
+                    "status": "satisfied"
+                }})
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'cancellation-complaint-decline.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/cancellations/{}/complaints/{}'.format(
+                    self.tender_id, cancellation_id, complaint3_id),
+                {'data': {
+                    "status": "declined"
+                }})
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'cancellation-complaint-accepted-stopped.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/cancellations/{}/complaints/{}'.format(
+                    self.tender_id, cancellation_id, complaint5_id),
+                {'data': {
+                    "decision": "Тендер скасовується замовником",
+                    "status": "stopped"
+                }})
+            self.assertEqual(response.status, '200 OK')
+
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        response = self.app.patch_json(
+            '/tenders/{}/cancellations/{}?acc_token={}'.format(
+                self.tender_id, cancellation_id, owner_token),
+            {'data': {'status': 'unsuccessful'}}
+        )
+        self.assertEqual(response.status_code, 200)
+
+        with open(TARGET_DIR + 'cancellation-complaint-resolved.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/cancellations/{}/complaints/{}?acc_token={}'.format(
+                    self.tender_id, cancellation_id, complaint1_id, owner_token),
+                {'data': {
+                    "tendererAction": "Умови виправлено",
+                    "status": "resolved"
+                }})
+            self.assertEqual(response.status, '200 OK')
+
+        self.app.authorization = ('Basic', ('reviewer', ''))
+        with open(TARGET_DIR + 'cancellation-complaint-accepted-stopped.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/cancellations/{}/complaints/{}'.format(
+                    self.tender_id, cancellation_id, complaint6_id),
+                {'data': {
+                    "decision": "Тендер скасовується замовником",
+                    "status": "stopped"
+                }})
+            self.assertEqual(response.status, '200 OK')
+
+        self.app.authorization = ('Basic', ('broker', ''))
+        # Create new cancellations
+        response = self.app.post_json(
+            '/tenders/{}/cancellations?acc_token={}'.format(
+                self.tender_id, owner_token),
+            {'data': {'reason': 'cancellation reason', 'reasonType': 'unFixable'}})
+        cancellation2_id = response.json['data']['id']
+        self.assertEqual(response.status, '201 Created')
+
+        response = self.app.post(
+            '/tenders/{}/cancellations/{}/documents?acc_token={}'.format(
+                self.tender_id, cancellation2_id, owner_token),
+            upload_files=[('file', u'Notice.pdf', 'content')])
+        self.assertEqual(response.status, '201 Created')
+
+        response = self.app.patch_json(
+            '/tenders/{}/cancellations/{}?acc_token={}'.format(
+                self.tender_id, cancellation2_id, owner_token),
+            {'data': {"status": "pending"}})
+        self.assertEqual(response.status, '200 OK')
+
+
+        response = self.app.post_json(
+            '/tenders/{}/cancellations/{}/complaints'.format(self.tender_id, cancellation2_id),
+            {'data': complaint})
+        self.assertEqual(response.status, '201 Created')
+
+        with open(TARGET_DIR + 'cancellation-complaints-list.http', 'w') as self.app.file_obj:
+            self.app.authorization = None
+            response = self.app.get('/tenders/{}/cancellations/{}/complaints'.format(
+                self.tender_id, cancellation_id))
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'cancellation-complaint.http', 'w') as self.app.file_obj:
+            self.app.authorization = None
+            response = self.app.get('/tenders/{}/cancellations/{}/complaints/{}'.format(
+                self.tender_id, cancellation_id, complaint1_id))
             self.assertEqual(response.status, '200 OK')
 
     def test_multiple_lots(self):

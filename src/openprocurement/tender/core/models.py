@@ -679,12 +679,8 @@ class Complaint(Model):
             role = "draft"
         elif request.authenticated_role == "tender_owner" and self.status == "claim":
             role = "answer"
-        # elif request.authenticated_role == 'tender_owner' and self.status == 'pending':
-        #     role = 'action'
         elif request.authenticated_role == "complaint_owner" and self.status == "answered":
             role = "satisfy"
-        # elif request.authenticated_role == 'reviewers' and self.status == 'pending':
-        #     role = 'review'
         else:
             role = "invalid"
         return role
@@ -713,7 +709,75 @@ class Complaint(Model):
             validate_relatedlot(get_tender(parent), relatedLot)
 
 
-class Cancellation(Model):
+class CancellationComplaint(Complaint):
+    class Options:
+        roles = {
+            "create": whitelist("author", "title", "description", "status", "relatedLot"),
+            "draft": whitelist("author", "title", "description", "status"),
+            "cancellation": whitelist("cancellationReason", "status"),
+            "satisfy": whitelist("satisfied", "status"),
+            "resolve": whitelist("status", "tendererAction"),
+            "action": whitelist("tendererAction"),
+            "pending": whitelist("decision", "status", "rejectReason", "rejectReasonDescription"),
+            "review": whitelist("decision", "status", "reviewDate", "reviewPlace"),
+            "embedded": (blacklist("owner_token", "owner", "transfer_token", "bid_id") + schematics_embedded_role),
+            "view": (blacklist("owner_token", "owner", "transfer_token", "bid_id") + schematics_default_role),
+        }
+
+    def get_role(self):
+        root = self.get_root()
+        request = root.request
+        data = request.json_body["data"]
+
+        if request.authenticated_role == "complaint_owner" and data.get("status", self.status) == "cancelled":
+            role = "cancellation"
+        elif (
+                request.authenticated_role == "complaint_owner"
+                and self.status in ["pending", "accepted"]
+                and data.get("status", self.status) == "stopping"
+        ):
+            role = "cancellation"
+        elif request.authenticated_role == "complaint_owner" and self.status == "draft":
+            role = "draft"
+        elif request.authenticated_role == "tender_owner" and self.status == "pending":
+            role = "action"
+        elif request.authenticated_role == "tender_owner" and self.status == "satisfied":
+            role = "resolve"
+        elif request.authenticated_role == "aboveThresholdReviewers" and self.status == "pending":
+            role = "pending"
+        elif request.authenticated_role == "aboveThresholdReviewers" and self.status in ["accepted", "stopping"]:
+            role = "review"
+        else:
+            role = "invalid"
+        return role
+
+    def __acl__(self):
+        return [
+            (Allow, "g:aboveThresholdReviewers", "edit_complaint"),
+            (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_complaint"),
+            (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_complaint_documents"),
+        ]
+
+    status = StringType(
+        choices=[
+            "draft",
+            "pending",
+            "accepted",
+            "invalid",
+            "resolved",
+            "declined",
+            "satisfied",
+            "stopped",
+            "mistaken",
+        ],
+        default="draft",
+    )
+    type = StringType(
+        choices=["claim", "complaint"], default="complaint",
+    )
+
+
+class BaseCancellation(Model):
     class Options:
         roles = {
             "create": whitelist("reason", "status", "reasonType", "cancellationOf", "relatedLot"),
@@ -722,12 +786,21 @@ class Cancellation(Model):
             "view": schematics_default_role,
         }
 
+    @serializable(serialized_name="status")
+    def default_status(self):
+        if not self.status:
+            if get_first_revision_date(self.__parent__, default=get_now()) > RELEASE_2020_04_19 \
+                    and self.cancellationOf == "tender":
+                return "draft"
+            return "pending"
+        return self.status
+
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     reason = StringType(required=True)
     reason_en = StringType()
     reason_ru = StringType()
     date = IsoDateTimeType(default=get_now)
-    status = StringType(choices=["pending", "active"], default="pending")
+    status = StringType()
     documents = ListType(ModelType(Document, required=True), default=list())
     cancellationOf = StringType(required=True, choices=["tender", "lot"], default="tender")
     relatedLot = MD5Type()
@@ -737,12 +810,28 @@ class Cancellation(Model):
     _before_release_reasonType_choices = ["cancelled", "unsuccessful"]
     _after_release_reasonType_choices = ["noDemand", "unFixable", "forceMajeure", "expensesCut"]
 
+    _before_release_status_choices = ["pending", "active"]
+    _after_release_status_choices = ["draft", "pending", "unsuccessful", "active"]
+
     def validate_relatedLot(self, data, relatedLot):
         if not relatedLot and data.get("cancellationOf") == "lot":
             raise ValidationError(u"This field is required.")
         parent = data["__parent__"]
         if relatedLot and isinstance(parent, Model) and relatedLot not in [i.id for i in parent.lots if i]:
             raise ValidationError(u"relatedLot should be one of lots")
+
+    def validate_status(self, data, value):
+        tender = get_root(data["__parent__"])
+        cancellation_of = data.get('cancellationOf')
+
+        choices = self._after_release_status_choices \
+            if (
+                get_first_revision_date(tender, default=get_now()) > RELEASE_2020_04_19
+                and cancellation_of == "tender"
+            ) else self._before_release_status_choices
+
+        if value and value not in choices:
+            raise ValidationError("Value must be one of %s" % choices)
 
     def validate_reasonType(self, data, value):
         tender = get_root(data["__parent__"])
@@ -764,6 +853,11 @@ class Cancellation(Model):
 
         if value not in choices:
             raise ValidationError("Value must be one of %s" % choices)
+
+
+class Cancellation(BaseCancellation):
+    complaintPeriod = ModelType(Period)
+    complaints = ListType(ModelType(CancellationComplaint), default=list())
 
 
 class BaseAward(Model):
@@ -1185,6 +1279,47 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
         if data.get("procuringEntity", {}).get("kind", "") == "central" and not value:
             raise ValidationError(BaseType.MESSAGES["required"])
 
+    def _acl_cancellation(self, acl):
+        acl.extend(
+            [(Allow, "{}_{}".format(self.owner, self.owner_token), "edit_cancellation")]
+        )
+
+        old_rules = get_first_revision_date(self, default=get_now()) < RELEASE_2020_04_19
+
+        accept_tender = all([
+            any([j.status == "resolved" for j in i.complaints])
+            for i in self.cancellations
+            if i.status == "unsuccessful" and getattr(i, "complaints", None)
+        ])
+
+        if (
+            old_rules
+            or (not any([i.status == "pending" and i.cancellationOf == "tender" for i in self.cancellations])
+                and accept_tender)
+        ):
+            acl.extend(
+                [
+                    (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_tender"),
+                    (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_tender_documents"),
+                ]
+            )
+
+    def _acl_cancellation_complaint(self, acl):
+
+        self._acl_cancellation(acl)
+
+        if self.status == "active.tendering":
+            acl_cancellation_complaints = [
+                (Allow, "g:brokers", "create_cancellation_complaint"),
+            ]
+        else:
+            acl_cancellation_complaints = [
+                (Allow, "{}_{}".format(i.owner, i.owner_token), "create_cancellation_complaint")
+                for i in self.bids
+            ]
+
+        acl.extend(acl_cancellation_complaints)
+
 
 class Tender(BaseTender):
     """Data regarding tender process - publicly inviting prospective contractors to submit bids for evaluation and selecting a winner or winners."""
@@ -1247,9 +1382,8 @@ class Tender(BaseTender):
         acl = [(Allow, "{}_{}".format(i.owner, i.owner_token), "create_award_complaint") for i in self.bids]
         acl.extend(
             [
-                (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_tender"),
-                (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_tender_documents"),
                 (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_complaint"),
             ]
         )
+        self._acl_cancellation_complaint(acl)
         return acl

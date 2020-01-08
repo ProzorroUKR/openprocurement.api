@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/a41032bbcdec47df9273af568f595c1d/complaints/547f931fa9f249d69ca28b3884a7399b HTTP/1.0
+PATCH /api/2.5/tenders/a41032bbcdec47df9273af568f595c1d/complaints/2112fc33f9f94750bbe0a8e010a2a115 HTTP/1.0
 Authorization: Bearer reviewer
 Content-Length: 217
 Content-Type: application/json
@@ -44,10 +44,10 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "dateSubmitted": "2020-05-01T01:00:00+03:00", 
-    "complaintID": "UA-2020-05-01-000001.5", 
+    "complaintID": "UA-2020-05-01-000001.6", 
     "date": "2020-05-01T01:00:00+03:00", 
     "type": "complaint", 
-    "id": "547f931fa9f249d69ca28b3884a7399b"
+    "id": "2112fc33f9f94750bbe0a8e010a2a115"
   }
 }
 

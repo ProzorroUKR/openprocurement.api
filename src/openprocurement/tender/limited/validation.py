@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.validation import validate_data, OPERATIONS
+from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import (
     update_logging_context,
     error_handler,
     get_now,
     raise_operation_error,
+    get_revision_changes,
+    get_first_revision_date,
 )  # XXX tender context
+from openprocurement.tender.core.utils import apply_patch
 from openprocurement.tender.core.validation import (
     validate_complaint_accreditation_level
 )
@@ -29,9 +33,16 @@ def validate_chronograph(request):
         raise_operation_error(request, "Chronograph has no power over me!")
 
 
+def validate_chronograph_before_2020_04_19(request):
+    tender = request.validated["tender"]
+    if get_first_revision_date(tender, default=get_now()) < RELEASE_2020_04_19:
+        validate_chronograph(request)
+
+
 def validate_update_tender_with_awards(request):
     tender = request.validated["tender"]
-    if tender.awards:
+
+    if tender.awards and request.authenticated_role != "chronograph":
         raise_operation_error(request, "Can't update tender when there is at least one award.")
 
 

@@ -15,6 +15,8 @@ from openprocurement.api.constants import (
     NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
 )
 from openprocurement.tender.belowthreshold.tests.base import test_author, test_cancellation
+from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.tender.core.tests.cancellation import activate_cancellation_without_complaints_after_2020_04_19
 from openprocurement.tender.cfaselectionua.constants import (
     BOT_NAME,
     ENQUIRY_PERIOD,
@@ -2169,10 +2171,18 @@ def invalid_tender_conditions(self):
         "reason": "invalid conditions",
         "status": "active"
     })
-    self.app.post_json(
+    response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender_id, owner_token),
         {"data": cancellation},
     )
+    cancellation_id = response.json["data"]["id"]
+    if get_now() > RELEASE_2020_04_19:
+        activate_cancellation_without_complaints_after_2020_04_19(
+            self,
+            cancellation_id,
+            tender_id,
+            owner_token
+        )
     # check status
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "cancelled")

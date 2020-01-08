@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-05-10 13:47+0300\n"
+"POT-Creation-Date: 2020-03-05 17:18+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -12,152 +12,117 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
-#: ../../source/cfaua/complaints.rst:13
 msgid "Complaint Workflow"
 msgstr "Схема роботи оскаржень"
 
-#: ../../source/cfaua/complaints.rst:15
-msgid ""
-"For more detailed information read `Complaints "
-"<http://openprocurement.org/en/complaints.html>`_."
-msgstr ""
-"Більш детальну інформацію шукайте на сторінці `Оскарження "
-"<http://openprocurement.org/ua/complaints.html>`_."
+msgid "For more detailed information read `Complaints <http://openprocurement.org/en/complaints.html>`_."
+msgstr "Більш детальну інформацію шукайте на сторінці `Оскарження <http://openprocurement.org/ua/complaints.html>`_."
 
-#: ../../source/cfaua/complaints.rst:18
 msgid "Tender Conditions Claims/Complaints"
 msgstr "Вимоги/Скарги на умови закупівлі"
 
-#: ../../source/cfaua/complaints.rst:57
 msgid "Tender Qualification Claims/Complaints"
 msgstr "Вимоги/Скарги на кваліфікацію"
 
-#: ../../source/cfaua/complaints.rst:91
 msgid "Tender Award Claims/Complaints"
 msgstr "Звернення/Скарги на визначення переможця"
 
-#: ../../source/cfaua/complaints.rst:125
+msgid "Tender Cancellation Complaints"
+msgstr "Скарги на відміну закупівлі"
+
 msgid "Roles"
 msgstr "Ролі"
 
-#: ../../source/cfaua/complaints.rst:0
-msgid "Complainant"
+msgid "Complaint owner"
 msgstr ""
 
-#: ../../source/cfaua/complaints.rst:128
 msgid "dashed"
 msgstr "пунктирна лінія"
 
-#: ../../source/cfaua/complaints.rst:0
-msgid "Procuring entity"
+msgid "Tender owner"
 msgstr ""
 
-#: ../../source/cfaua/complaints.rst:131
 msgid "plain"
 msgstr "звичайна лінія"
 
-#: ../../source/cfaua/complaints.rst:0
-msgid "Reviewer"
+msgid "AboveThresholdReviewer"
 msgstr ""
 
-#: ../../source/cfaua/complaints.rst:134
 msgid "bold"
 msgstr "жирна лінія"
 
-#: ../../source/cfaua/complaints.rst:0
 msgid "Chronograph"
 msgstr ""
 
-#: ../../source/cfaua/complaints.rst:137
 msgid "dotted"
 msgstr "пунктирна лінія з крапками"
 
-#: ../../source/cfaua/complaints.rst:140
 msgid "Statuses"
 msgstr "Статуси"
 
-#: ../../source/cfaua/complaints.rst:0
 msgid "draft"
 msgstr ""
 
-#: ../../source/cfaua/complaints.rst:143
 msgid "Initial status"
 msgstr "Початковий статус"
 
-#: ../../source/cfaua/complaints.rst:145
-msgid ""
-"Complainant can submit claim, upload documents, cancel claim, and re-"
-"submit it."
-msgstr ""
-"На цьому етапі скаржник може подати вимогу, завантажити документи, "
-"відкликати вимогу та подати її знову."
+msgid "Complainant can submit claim, upload documents, cancel claim, and re-submit it."
+msgstr "На цьому етапі скаржник може подати вимогу, завантажити документи, відкликати вимогу та подати її знову."
 
-#: ../../source/cfaua/complaints.rst:0
 msgid "claim"
 msgstr ""
 
-#: ../../source/cfaua/complaints.rst:148
 msgid "Procuring entity can upload documents and answer to claim."
 msgstr "Замовник може завантажити документи та відповісти на вимогу."
 
-#: ../../source/cfaua/complaints.rst:150 ../../source/cfaua/complaints.rst:158
 msgid "Complainant can cancel claim."
 msgstr "Скаржник може відкликати вимогу."
 
-#: ../../source/cfaua/complaints.rst:0
 msgid "answered"
 msgstr ""
 
-#: ../../source/cfaua/complaints.rst:153
-msgid ""
-"Complainant can cancel claim, upload documents, accept solution or "
-"escalate claim to complaint."
-msgstr ""
-"Скаржник може відкликати вимогу, завантажити документи, погодитись з "
-"вирішенням або перетворити вимогу на скаргу."
+msgid "Complainant can cancel claim, upload documents, accept solution or escalate claim to complaint."
+msgstr "Скаржник може відкликати вимогу, завантажити документи, погодитись з вирішенням або перетворити вимогу на скаргу."
 
-#: ../../source/cfaua/complaints.rst:0
 msgid "pending"
 msgstr ""
 
-#: ../../source/cfaua/complaints.rst:156
 msgid "Reviewer can upload documents and review complaint."
 msgstr "Орган оскарження може завантажувати документи та розглядати скарги."
 
-#: ../../source/cfaua/complaints.rst:0
 msgid "invalid"
 msgstr ""
 
-#: ../../source/cfaua/complaints.rst:161 ../../source/cfaua/complaints.rst:166
-#: ../../source/cfaua/complaints.rst:171 ../../source/cfaua/complaints.rst:176
 msgid "Terminal status"
 msgstr "Кінцевий статус"
 
-#: ../../source/cfaua/complaints.rst:163
 msgid "Complaint recognized as invalid."
 msgstr "Скаргу визнано недійсною."
 
-#: ../../source/cfaua/complaints.rst:0
 msgid "declined"
 msgstr ""
 
-#: ../../source/cfaua/complaints.rst:168
 msgid "Complaint recognized as declined."
 msgstr "Скаргу визнано відхиленою."
 
-#: ../../source/cfaua/complaints.rst:0
 msgid "resolved"
 msgstr ""
 
-#: ../../source/cfaua/complaints.rst:173
 msgid "Complaint recognized as resolved."
 msgstr "Скаргу визнано вирішеною."
 
-#: ../../source/cfaua/complaints.rst:0
 msgid "cancelled"
 msgstr ""
 
-#: ../../source/cfaua/complaints.rst:178
 msgid "Complaint cancelled by complainant."
 msgstr "Скаргу відкликано скаржником."
+
+#~ msgid "Complainant"
+#~ msgstr ""
+
+#~ msgid "Procuring entity"
+#~ msgstr ""
+
+#~ msgid "Reviewer"
+#~ msgstr ""
 

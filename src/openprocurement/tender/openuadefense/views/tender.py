@@ -5,7 +5,10 @@ from openprocurement.tender.core.utils import (
     apply_patch,
     optendersresource,
 )
-from openprocurement.tender.core.validation import validate_tender_not_in_terminated_status
+from openprocurement.tender.core.validation import (
+    validate_tender_not_in_terminated_status,
+    validate_tender_change_status_permission,
+)
 from openprocurement.tender.belowthreshold.views.tender import TenderResource
 from openprocurement.tender.openua.validation import validate_patch_tender_ua_data
 from openprocurement.tender.openuadefense.utils import check_status
@@ -27,6 +30,7 @@ class TenderUAResource(TenderResource):
         validators=(
             validate_patch_tender_ua_data,
             validate_tender_not_in_terminated_status,
+            validate_tender_change_status_permission,
         ),
         permission="edit_tender",
     )

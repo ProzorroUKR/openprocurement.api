@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import (
+    get_now,
     get_file,
     upload_file,
     update_file_content_type,
@@ -9,7 +10,11 @@ from openprocurement.api.utils import (
 )
 from openprocurement.api.validation import validate_file_update, validate_file_upload, validate_patch_document_data
 
-from openprocurement.tender.core.utils import save_tender, optendersresource, apply_patch
+from openprocurement.tender.core.utils import (
+    save_tender,
+    optendersresource,
+    apply_patch,
+)
 
 from openprocurement.tender.belowthreshold.validation import (
     validate_cancellation_document_operation_not_in_allowed_status,
@@ -45,6 +50,7 @@ class TenderCancellationDocumentResource(APIResource):
         """
         document = upload_file(self.request)
         self.context.documents.append(document)
+
         if save_tender(self.request):
             self.LOGGER.info(
                 "Created tender cancellation document {}".format(document.id),

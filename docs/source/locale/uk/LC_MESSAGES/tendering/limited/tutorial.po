@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-17 11:45+0200\n"
+"POT-Creation-Date: 2020-03-05 17:18+0200\n"
 "PO-Revision-Date: 2016-03-31 10:57+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
@@ -210,8 +210,11 @@ msgstr "Угода про закупівлю для **переговорної �
 msgid "Cancelling tender"
 msgstr "Скасування закупівлі"
 
-msgid "Procuring entity can cancel tender anytime. The following steps should be applied:"
-msgstr "Замовник може скасувати закупівлю у будь-який момент. Для цього потрібно виконати наступні кроки:"
+msgid "Tender creator can cancel tender anytime (except when tender in status `active.auction` or in terminal status e.g. `unsuccessful`, `canceled`, `complete`)."
+msgstr "Замовник може скасувати закупівлю у будь-який момент (крім закупівель у статусі `active.auction` чи у кінцевому стані, наприклад, `usuccesfull`, `canceled`, `complete`)."
+
+msgid "The following steps should be applied:"
+msgstr "Для цього потрібно виконати наступні кроки:"
 
 msgid "Prepare cancellation request"
 msgstr "Приготуйте запит на скасування"
@@ -219,11 +222,18 @@ msgstr "Приготуйте запит на скасування"
 msgid "Fill it with the protocol describing the cancellation reasons"
 msgstr "Заповніть його протоколом про причини скасування"
 
+msgid "Passing complaint period(10 days),only for `negotiation` and `negotiation.quick`"
+msgstr "Проходження періоду оскарження(триває 10 днів), тільки для `negotiation` та `negotiation.quick`"
+
 msgid "Cancel the tender with the reasons prepared."
 msgstr "Скасуйте закупівлю через подані причини"
 
-msgid "Only the request that has been activated (3rd step above) has power to cancel tender. I.e. you have to not only prepare cancellation request but to activate it as well."
-msgstr "Запит на скасування, який не пройшов активації (третій крок), не матиме сили, тобто, для скасування закупівлі є обов’язковим не тільки створити запит, але і активувати його."
+#, fuzzy
+msgid "Only the request that has been activated (4th step above) has power to cancel tender. I.e. you have to not only prepare cancellation request but to activate it as well."
+msgstr "Запит на скасування, який не пройшов активації (4-й крок), не матиме сили, тобто, для скасування закупівлі буде обов’язковим не тільки створити заявку, але і активувати її."
+
+msgid "For cancelled cancellation you need to update cancellation status to `unsuccessful` from `draft` or `pending`."
+msgstr "Для відміни скасування закупівлі, вам потрібно оновоить статус скасування до `unsuccessful` з `draft` чи `pending`"
 
 msgid "See :ref:`cancellation` data structure for details."
 msgstr "Див. структуру запиту :ref:`cancellation` для більш детальної інформації."
@@ -231,8 +241,8 @@ msgstr "Див. структуру запиту :ref:`cancellation` для бі�
 msgid "Preparing the cancellation request for :ref:`reporting` procedure"
 msgstr "Формування запиту на скасування для :ref:`reporting` процедури"
 
-msgid "You should pass `reason` and `reasonType`, `status` defaults to `pending`."
-msgstr "Потрібно передати змінні `reason` та `reasonType`, `status` у стані `pending`."
+msgid "You should pass `reason` and `reasonType`, `status` defaults to `draft`."
+msgstr "Ви повинні передати змінні `reason` та `reasonType`, `status` у стані `draft`."
 
 msgid "There are four possible types of cancellation reason - tender was `noDemand`, `unFixable`, `forceMajeure` and `expensesCut`."
 msgstr "При скасуванні, замовник має визначити один з чотирьох типів reasonType: `noDemand`, `unFixable`, `forceMajeure` aбо `expensesCut`."
@@ -252,6 +262,9 @@ msgstr "При скасуванні, замовник має визначити 
 msgid "Filling cancellation with protocol and supplementary documentation"
 msgstr "Наповнення протоколом та іншою супровідною документацією"
 
+msgid "This step is required. Without documents you can't update tender status."
+msgstr "Цей крок обов'язковий. Без документів ви не можете оновити статус скарги."
+
 msgid "Upload the file contents"
 msgstr "Завантажте зміст файлу"
 
@@ -261,12 +274,18 @@ msgstr "Якщо потрібно, змініть опис документа т
 msgid "Upload new version of the document"
 msgstr "Завантажте нову версію документа"
 
+msgid "Passing Complaint Period(only for `negotiation` and `negotiation.quick`)"
+msgstr "Проходження періоду оскарження(тільки для `negotiation` та `negotiation.quick`)"
+
+msgid "For activate complaint period, you need to update cancellation from `draft` to `pending`."
+msgstr "Для того щоб перейти до періоду оскарження потрібно змінити стаутс скасування з `draft` на `pending`."
+
+msgid "When cancellation in `pending` status the tender owner is prohibited from all actions on the tender."
+msgstr "Коли скасування закупівлі в статусі `pending` замовнику зобороняються всі дії по закупівлі."
+
 msgid "Activating the request and cancelling tender"
 msgstr "Активація запиту та скасування закупівлі"
 
-#~ msgid "Preparing the cancellation request"
-#~ msgstr "Формування запиту на скасування"
-
-#~ msgid "There are two possible types of cancellation reason - tender was `cancelled` or `unsuccessful`. By default ``reasonType`` value is `cancelled`."
-#~ msgstr "При скасуванні, замовник має визначити один з двох типів ``reasonType``: торги відмінені - `cancelled`, або торги не відбулися - `unsuccessful`. За замовчуванням, значення ``reasonType`` рівне `cancelled`."
+msgid "if the complaint period(duration 10 days) is over and there were no complaints or all complaints are canceled, then cancellation will automatically update status to `active`."
+msgstr "Якщо період оскарження(триває 10 днів) скінчився та не було ніяких скарг на скасування закупівлі або скарги були скасовані, то скасування автоматично зміює статус на `active`."
 

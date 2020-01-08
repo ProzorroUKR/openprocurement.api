@@ -20,7 +20,7 @@ from openprocurement.api.constants import (
     ATC_SCHEME,
     INN_SCHEME,
     GMDN_CPV_PREFIXES,
-    RELEASE_2020_04_19,
+    RELEASE_2020_04_19
 )
 from openprocurement.api.utils import (
     get_now,
@@ -90,7 +90,6 @@ def validate_patch_tender_data_draft(request):
         raise_operation_error(request, "Can't update tender in current (draft) status")
     request.validated["data"] = {"status": default_status}
     request.context.status = default_status
-
 
 
 def validate_patch_tender_data(request):
@@ -285,7 +284,10 @@ def validate_patch_question_data(request):
 def validate_complaint_data(request):
     update_logging_context(request, {"complaint_id": "__new__"})
     validate_complaint_accreditation_level(request)
-    model = type(request.tender).complaints.model_class
+    if "cancellation" in request.validated:
+        model = type(request.validated["cancellation"]).complaints.model_class
+    else:
+        model = type(request.tender).complaints.model_class
     return validate_data(request, model)
 
 
@@ -298,7 +300,10 @@ def validate_complaint_accreditation_level(request):
 
 
 def validate_patch_complaint_data(request):
-    model = type(request.tender).complaints.model_class
+    if "cancellation" in request.validated:
+        model = type(request.validated["cancellation"]).complaints.model_class
+    else:
+        model = type(request.tender).complaints.model_class
     return validate_data(request, model, True)
 
 
@@ -311,6 +316,169 @@ def validate_cancellation_data(request):
 def validate_patch_cancellation_data(request):
     model = type(request.tender).cancellations.model_class
     return validate_data(request, model, True)
+
+# Cancellation
+
+
+def validate_edit_permission(request):
+    cancellation = request.context
+
+    if get_first_revision_date(request.tender, default=get_now()) < RELEASE_2020_04_19 \
+            or cancellation.cancellationOf != "tender":
+        return
+    tender = request.validated["tender"]
+
+    if cancellation.status != "pending" and any([i.status == "pending" for i in tender.cancellations]):
+        raise_operation_error(request, "Forbidden")
+
+
+def validate_cancellation_statuses(request):
+    cancellation = request.context
+
+    if get_first_revision_date(request.tender, default=get_now()) < RELEASE_2020_04_19 \
+            or cancellation.cancellationOf != "tender":
+        return
+
+    data = request.validated["data"]
+    error_msg = u"Cancellation can't be updated from %s to %s status"
+
+    if cancellation.status == "draft":
+        if data["status"] not in ["pending", "unsuccessful", "draft"]:
+            raise_operation_error(
+                request,
+                error_msg % (cancellation.status, data["status"]),
+                status=422)
+
+        if data["status"] == "pending" and \
+                (not cancellation.reason or not cancellation.cancellationOf or not cancellation.documents):
+            raise_operation_error(
+                request,
+                u"Fields reason, cancellationOf and documents must be filled for switch cancellation to pending status",
+                status=422)
+
+    if (cancellation.status == "active" and data["status"] != "active") \
+            or (cancellation.status == "unsuccessful" and data["status"] != "unsuccessful"):
+        raise_operation_error(
+            request,
+            error_msg % (cancellation.status, data["status"]),
+            status=422,
+        )
+
+    if cancellation.status == "pending":
+        if get_now() < cancellation.complaintPeriod.endDate \
+                and data["status"] not in ["pending", "unsuccessful"]:
+            raise_operation_error(
+                request,
+                error_msg % (cancellation.status, data["status"]),
+                status=422,
+            )
+
+        if data["status"] not in ["pending", "active", "unsuccessful"]:
+            raise_operation_error(
+                request,
+                error_msg % (cancellation.status, data["status"]),
+                status=422,
+            )
+
+        if data["status"] == "unsuccessful" and \
+                not any([i.status == "satisfied" for i in cancellation.complaints]):
+            raise_operation_error(
+                request,
+                error_msg % (cancellation.status, data["status"]),
+                status=422,
+            )
+
+        deactive_statuses = ["invalid", "declined", "cancelled"]
+
+        if data["status"] == "active" and \
+                any(i.status not in deactive_statuses for i in cancellation.complaints):
+
+            raise_operation_error(
+                request,
+                "Can't set status active when cancellation have active complaint")
+
+
+def validate_cancellation_statuses_without_complaints(request):
+    cancellation = request.context
+
+    if get_first_revision_date(request.tender, default=get_now()) < RELEASE_2020_04_19 or \
+            cancellation.cancellationOf != "tender":
+        return
+
+    data = request.validated["data"]
+
+    error_msg = u"Cancellation can't be updated from %s to %s status"
+
+    if data["status"] == "active" and \
+            (not cancellation.reason or not cancellation.cancellationOf or not cancellation.documents):
+        raise_operation_error(
+            request,
+            u"Fields reason, cancellationOf and documents must be filled for switch cancellation to active status",
+            status=422)
+
+    if (cancellation.status == "active" and data["status"] != "active") \
+            or (cancellation.status == "unsuccessful" and data["status"] != "unsuccessful"):
+        raise_operation_error(
+            request,
+            error_msg % (cancellation.status, data["status"]),
+            status=422,
+        )
+
+
+# Cancellation complaint
+def validate_cancellation_complaint(request):
+    old_rules = get_first_revision_date(request.tender, default=get_now()) < RELEASE_2020_04_19
+    tender = request.validated["tender"]
+    without_complaints = ["belowThreshold", "reporting", "closeFrameworkAgreementSelectionUA"]
+    if old_rules or tender.procurementMethodType in without_complaints:
+        raise_operation_error(request, "Not Found", status=404)
+
+
+def validate_cancellation_complaint_add_only_in_pending(request):
+
+    cancellation = request.validated["cancellation"]
+    complaint_period = cancellation.complaintPeriod
+    if cancellation.status != "pending":
+        raise_operation_error(
+            request,
+            u"Complaint can be add only in pending status of cancellation",
+            status=422,
+        )
+
+    is_complaint_period = (
+        complaint_period.startDate <= get_now() <= complaint_period.endDate
+        if complaint_period
+        else False
+    )
+    if cancellation.status == "pending" and not is_complaint_period:
+        raise_operation_error(
+            request,
+            u"Complaint can't be add after finish of complaint period",
+            status=422,
+        )
+
+
+def validate_cancellation_complaint_only_one(request):
+    cancellation = request.validated["cancellation"]
+    complaints = cancellation.complaints
+    if complaints \
+            and complaints[-1].status not in ["invalid", "declined",  "cancelled", "pending"]:
+        raise_operation_error(
+            request,
+            u"Cancellation can have only one active complaint",
+            status=422,
+        )
+
+
+def validate_cancellation_complaint_resolved(request):
+    cancellation = request.validated["cancellation"]
+    complaint = request.validated["data"]
+    if complaint.get("tendererAction") and cancellation.status != "unsuccessful":
+        raise_operation_error(
+            request,
+            u"Complaint can't have tendererAction only if cancellation not in unsuccessful status",
+            status=422,
+        )
 
 
 def validate_contract_data(request):
@@ -395,6 +563,15 @@ def validate_cancellation_of_active_lot(request):
         raise_operation_error(request, "Can perform cancellation only in active lot status")
 
 
+def validate_create_cancellation_in_active_auction(request):
+    tender = request.validated["tender"]
+    tender_created = get_first_revision_date(tender, default=get_now())
+    relatedLot = request.validated["cancellation"].relatedLot
+    if tender_created > RELEASE_2020_04_19 and not relatedLot and tender.status in ["active.auction"]:
+        raise_operation_error(
+            request, "Can't create cancellation in current ({}) tender status". format(tender.status))
+
+
 # tender
 def validate_tender_not_in_terminated_status(request):
     tender = request.validated["tender"]
@@ -402,6 +579,18 @@ def validate_tender_not_in_terminated_status(request):
     term_statuses = ("complete", "unsuccessful", "cancelled", "draft.unsuccessful")
     if request.authenticated_role != "Administrator" and tender_status in term_statuses:
         raise_operation_error(request, "Can't update tender in current ({}) status".format(tender_status))
+
+
+def validate_tender_change_status_permission(request):
+    tender = request.validated["tender"]
+    tender_created = get_first_revision_date(tender, default=get_now())
+
+    if (
+            tender_created > RELEASE_2020_04_19
+            and [i for i in tender.cancellations if i.status in ["pending", "draft"] and i.cancellationOf == "tender"]
+            and request.validated["data"].get("status", tender.status) != tender.status
+    ):
+        raise_operation_error(request, "Can't update tender status when tender have active cancellation")
 
 
 def validate_absence_of_pending_accepted_satisfied_complaints(request):
@@ -642,6 +831,17 @@ def validate_update_award_in_not_allowed_status(request):
     if tender.status not in ["active.qualification", "active.awarded"]:
         raise_operation_error(request, "Can't update award in current ({}) tender status".format(tender.status))
 
+    tender_created = get_first_revision_date(tender, default=get_now())
+    prev_status = request.context.status
+    new_status = request.validated["data"].get("status", prev_status)
+    if (
+            tender_created > RELEASE_2020_04_19
+            and tender.status == "active.qualification"
+            and [i for i in tender.cancellations if i.status != "unsuccessful" and i.cancellationOf == "tender"]
+            and new_status != prev_status
+    ):
+        raise_operation_error(request, "Can't update award status when tender have active cancellation")
+
 
 def validate_update_award_only_for_active_lots(request):
     tender = request.validated["tender"]
@@ -655,7 +855,6 @@ def validate_update_award_with_accepted_complaint(request):
     award = request.context
     if any([any([c.status == "accepted" for c in i.complaints]) for i in tender.awards if i.lotID == award.lotID]):
         raise_operation_error(request, "Can't update award with accepted complaint")
-
 
 # award complaint
 def validate_award_complaint_operation_not_in_allowed_status(request):
@@ -686,6 +885,11 @@ def validate_add_complaint_not_in_complaint_period(request):
         or period.endDate and period.endDate < get_now()
     ):
         raise_operation_error(request, "Can add complaint only in complaintPeriod")
+
+
+def validate_update_cancellation_complaint_not_in_allowed_complaint_status(request):
+    if request.context.status not in ["draft", "pending", "accepted", "satisfied", "stopping"]:
+        raise_operation_error(request, "Can't update complaint in current ({}) status".format(request.context.status))
 
 
 def validate_update_complaint_not_in_allowed_complaint_status(request):
@@ -722,6 +926,18 @@ def validate_contract_operation_not_in_allowed_status(request):
                 OPERATIONS.get(request.method), request.validated["tender_status"]
             ),
         )
+
+    tender = request.validated["tender"]
+    tender_created = get_first_revision_date(tender, default=get_now())
+    prev_status = request.context.status
+    new_status = request.validated["data"].get("status", prev_status)
+    if (
+            tender_created > RELEASE_2020_04_19
+            and tender.status == "active.awarded"
+            and [i for i in tender.cancellations if i.status == "pending" and i.cancellationOf == "tender"]
+            and new_status != prev_status
+    ):
+        raise_operation_error(request, "Can't update contract to active status when tender have active cancellation")
 
 
 def validate_update_contract_only_for_active_lots(request):

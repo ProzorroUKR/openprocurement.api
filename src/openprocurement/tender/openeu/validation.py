@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import get_now, raise_operation_error
+from openprocurement.api.utils import get_now, raise_operation_error, get_first_revision_date
 from openprocurement.api.validation import validate_data, OPERATIONS
+from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.openeu.models import Qualification
 
 
@@ -99,6 +100,17 @@ def validate_qualification_update_not_in_pre_qualification(request):
     tender = request.validated["tender"]
     if tender.status not in ["active.pre-qualification"]:
         raise_operation_error(request, "Can't update qualification in current ({}) tender status".format(tender.status))
+
+    tender_created = get_first_revision_date(tender, default=get_now())
+
+    prev_status = request.context.status
+    new_status = request.validated["data"].get("status", prev_status)
+    if (
+            tender_created > RELEASE_2020_04_19
+            and [i for i in tender.cancellations if i.status == "pending" and i.cancellationOf == "tender"]
+            and new_status != prev_status
+    ):
+        raise_operation_error(request, "Can't update qualification status when tender have active cancellation")
 
 
 def validate_cancelled_qualification_update(request):

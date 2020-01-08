@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.openua.views.cancellation import TenderUaCancellationResource
+from openprocurement.tender.openeu.utils import cancel_tender
 
 
 @optendersresource(
@@ -12,17 +13,9 @@ from openprocurement.tender.openua.views.cancellation import TenderUaCancellatio
 )
 class TenderCancellationResource(TenderUaCancellationResource):
 
-    def cancel_tender(self):
-        tender = self.request.validated["tender"]
-        if tender.status == "active.tendering":
-            tender.bids = []
-
-        elif tender.status in ("active.pre-qualification", "active.pre-qualification.stand-still", "active.auction"):
-            for bid in tender.bids:
-                if bid.status in ("pending", "active"):
-                    bid.status = "invalid.pre-qualification"
-
-        tender.status = "cancelled"
+    @staticmethod
+    def cancel_tender_method(request):
+        return cancel_tender(request)
 
     def cancel_lot(self, cancellation):
         tender = self.request.validated["tender"]

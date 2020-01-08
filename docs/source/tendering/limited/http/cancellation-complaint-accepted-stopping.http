@@ -1,0 +1,13 @@
+PATCH /api/2.5/tenders/a543ba8d819945409b40b8161d8d268b/cancellations/329a98430446490990edd80d907d451c/complaints/0c141f0d47594c6dae0ba025584072bd?acc_token=30658a1b8239462fbce31285ffb34c5a HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 228
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "status": "stopping", 
+    "cancellationReason": "Тендер скасовується замовником"
+  }
+}
+

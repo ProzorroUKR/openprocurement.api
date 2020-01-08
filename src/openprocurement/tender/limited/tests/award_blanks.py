@@ -1566,7 +1566,6 @@ def patch_award_on_cancel_lot(self):
     # Create cancellation on lot
     cancellation = dict(**test_cancellation)
     cancellation.update({
-        "reason": "cancellation reason",
         "cancellationOf": "lot",
         "relatedLot": lot["id"]
     })

@@ -192,7 +192,6 @@ Content-Type: application/json; charset=UTF-8
       "title": "Недостатньо інформації", 
       "decision": "Тендер скасовується замовником", 
       "acceptance": true, 
-      "cancellationReason": "Тендер скасовується замовником", 
       "dateCanceled": "2020-05-01T01:00:00+03:00", 
       "dateAccepted": "2020-05-01T01:00:00+03:00", 
       "author": {

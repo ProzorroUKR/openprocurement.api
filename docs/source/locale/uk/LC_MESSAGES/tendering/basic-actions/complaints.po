@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-10 13:47+0300\n"
+"POT-Creation-Date: 2020-03-05 17:18+0200\n"
 "PO-Revision-Date: 2016-01-13 13:57+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
@@ -12,147 +12,109 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
-#: ../../source/basic-actions/complaints.rst:11
 msgid "Complaint Workflow"
 msgstr "Схема роботи оскаржень"
 
-#: ../../source/basic-actions/complaints.rst:15
 msgid "Tender Conditions Claims/Complaints"
 msgstr "Вимоги/Скарги на умови закупівлі"
 
-#: ../../source/basic-actions/complaints.rst:23
 msgid "Tender Award Claims/Complaints"
 msgstr "Вимоги/Скарги на визначення переможця"
 
-#: ../../source/basic-actions/complaints.rst:32
 msgid "Workflow"
 msgstr "Схема роботи"
 
-#: ../../source/basic-actions/complaints.rst:53
 msgid "Roles"
 msgstr "Ролі"
 
-#: ../../source/basic-actions/complaints.rst:0
-msgid "Complainant"
-msgstr ""
+#, fuzzy
+msgid "Complaint owner"
+msgstr "Схема роботи оскаржень"
 
-#: ../../source/basic-actions/complaints.rst:56
 msgid "dashed"
 msgstr "пунктирна лінія"
 
-#: ../../source/basic-actions/complaints.rst:0
-msgid "Procuring entity"
-msgstr "."
+msgid "Tender owner"
+msgstr ""
 
-#: ../../source/basic-actions/complaints.rst:59
 msgid "plain"
 msgstr "звичайна лінія"
 
-#: ../../source/basic-actions/complaints.rst:0
 msgid "Chronograph"
 msgstr ""
 
-#: ../../source/basic-actions/complaints.rst:62
 msgid "dotted"
 msgstr "лінія з крапками"
 
-#: ../../source/basic-actions/complaints.rst:65
 msgid "Statuses"
 msgstr "Статуси"
 
-#: ../../source/basic-actions/complaints.rst:0
 msgid "draft"
 msgstr ""
 
-#: ../../source/basic-actions/complaints.rst:68
 msgid "Initial status"
 msgstr "Початковий статус"
 
-#: ../../source/basic-actions/complaints.rst:70
-msgid ""
-"Complainant can submit claim, upload documents, cancel claim, and re-"
-"submit it."
-msgstr ""
-"На цьому етапі скаржник може подати вимогу, завантажити документи, "
-"відкликати вимогу та подати її знову."
+msgid "Complainant can submit claim, upload documents, cancel claim, and re-submit it."
+msgstr "На цьому етапі скаржник може подати вимогу, завантажити документи, відкликати вимогу та подати її знову."
 
-#: ../../source/basic-actions/complaints.rst:0
 msgid "claim"
 msgstr ""
 
-#: ../../source/basic-actions/complaints.rst:73
 msgid "Procuring entity can upload documents and answer to claim."
 msgstr "Замовник може завантажити документи та відповісти на вимогу."
 
-#: ../../source/basic-actions/complaints.rst:75
-#: ../../source/basic-actions/complaints.rst:83
 msgid "Complainant can cancel claim."
 msgstr "Скаржник може відкликати вимогу."
 
-#: ../../source/basic-actions/complaints.rst:0
 msgid "answered"
 msgstr ""
 
-#: ../../source/basic-actions/complaints.rst:78
-msgid ""
-"Complainant can cancel claim, upload documents, agree or disagree with "
-"decision."
-msgstr ""
-"Скаржник може відкликати вимогу, завантажити документи, згодитись або не "
-"згодитись з вирішенням."
+msgid "Complainant can cancel claim, upload documents, agree or disagree with decision."
+msgstr "Скаржник може відкликати вимогу, завантажити документи, згодитись або не згодитись з вирішенням."
 
-#: ../../source/basic-actions/complaints.rst:0
 msgid "pending"
 msgstr ""
 
-#: ../../source/basic-actions/complaints.rst:81
 msgid "Reviewer can upload documents and review complaint."
 msgstr "Орган оскарження може завантажувати документи та розглядати скарги."
 
-#: ../../source/basic-actions/complaints.rst:0
 msgid "invalid"
 msgstr ""
 
-#: ../../source/basic-actions/complaints.rst:86
-#: ../../source/basic-actions/complaints.rst:91
-#: ../../source/basic-actions/complaints.rst:96
-#: ../../source/basic-actions/complaints.rst:101
-#: ../../source/basic-actions/complaints.rst:106
 msgid "Terminal status"
 msgstr "Кінцевий статус"
 
-#: ../../source/basic-actions/complaints.rst:88
 msgid "Claim recognized as invalid."
 msgstr "Вимогу визнано недійсною."
 
-#: ../../source/basic-actions/complaints.rst:0
 msgid "declined"
 msgstr ""
 
-#: ../../source/basic-actions/complaints.rst:93
 msgid "Claim recognized as declined."
 msgstr "Вимогу визнано відхиленою."
 
-#: ../../source/basic-actions/complaints.rst:0
 msgid "resolved"
 msgstr ""
 
-#: ../../source/basic-actions/complaints.rst:98
 msgid "Claim recognized as resolved."
 msgstr "Вимогу визнано вирішеною."
 
-#: ../../source/basic-actions/complaints.rst:0
 msgid "cancelled"
 msgstr ""
 
-#: ../../source/basic-actions/complaints.rst:103
 msgid "Claim cancelled by complainant."
 msgstr "Вимогу відкликано скаржником."
 
-#: ../../source/basic-actions/complaints.rst:0
 msgid "ignored"
 msgstr ""
 
-#: ../../source/basic-actions/complaints.rst:108
 msgid "Claim ignored by procuring entity."
 msgstr "Замовник залишив вимогу без відповіді."
+
+#~ msgid "Complainant"
+#~ msgstr ""
+
+#~ msgid "Procuring entity"
+#~ msgstr "."
+

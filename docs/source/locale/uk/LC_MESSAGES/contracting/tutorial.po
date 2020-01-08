@@ -65,7 +65,7 @@ msgstr "Договір в системі закупівель"
 #: ../../source/contracting/tutorial.rst:36
 msgid "*Contract id is the same in both tender and contract system.*"
 msgstr ""
-"*Ідентифікатор `id` договору однаковий в системах закіпівель та "
+"*Ідентифікатор `id` договору однаковий в системах закупівель та "
 "договорів.*"
 
 #: ../../source/contracting/tutorial.rst:38

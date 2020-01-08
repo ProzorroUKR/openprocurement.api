@@ -7,7 +7,7 @@ from openprocurement.tender.core.utils import (
     has_unanswered_questions,
     has_unanswered_complaints,
 )
-from openprocurement.tender.openua.utils import check_complaint_status, add_next_award
+from openprocurement.tender.openua.utils import check_complaint_status, add_next_award, check_cancellation_status
 from openprocurement.tender.belowthreshold.utils import check_tender_status, add_contract
 from openprocurement.tender.core.utils import (
     calculate_tender_business_date as calculate_tender_business_date_base,
@@ -50,6 +50,8 @@ def calculate_clarifications_business_date(date_obj, timedelta_obj, tender=None,
 
 def check_bids(request):
     tender = request.validated["tender"]
+    if any([i.status not in ["active", "unsuccessful"] for i in tender.cancellations]):
+        return
     if tender.lots:
         [
             setattr(i.auctionPeriod, "startDate", None)
@@ -74,6 +76,9 @@ def check_bids(request):
 def check_status(request):
     tender = request.validated["tender"]
     now = get_now()
+
+    check_cancellation_status(request)
+
     for award in tender.awards:
         if award.status == "active" and not any([i.awardID == award.id for i in tender.contracts]):
             add_contract(request, award, now)
