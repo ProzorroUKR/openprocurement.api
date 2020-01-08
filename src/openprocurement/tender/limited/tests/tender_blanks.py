@@ -11,8 +11,10 @@ from openprocurement.api.constants import (
     ROUTE_PREFIX,
     CPV_ITEMS_CLASS_FROM,
     NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
+    RELEASE_2020_04_19,
 )
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_cancellation
+from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
 
 from openprocurement.tender.limited.models import NegotiationTender, NegotiationQuickTender, ReportingTender
 
@@ -1027,6 +1029,30 @@ def tender_status_change(self):
     self.assertEqual(response.json["data"]["status"], "active")
 
 
+def tender_negotiation_status_change(self):
+    # empty tenders listing
+    response = self.app.get("/tenders")
+    self.assertEqual(response.json["data"], [])
+    # create tender
+    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    tender_id = self.tender_id = response.json["data"]["id"]
+    owner_token = response.json["access"]["token"]
+
+    self.app.authorization = ("Basic", ("broker", ""))
+    response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"status": "complete"}}, status=403)
+    self.assertEqual(response.status, "403 Forbidden")
+    # check status
+    response = self.app.get("/tenders/{}".format(tender_id))
+    self.assertEqual(response.json["data"]["status"], "active")
+
+    # try to mark tender complete
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"status": "complete"}}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "active")
+
+
 def single_award_tender(self):
     # empty tenders listing
     response = self.app.get("/tenders")
@@ -1238,7 +1264,7 @@ def tender_cancellation(self):
     # create tender
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     tender_id = self.tender_id = response.json["data"]["id"]
-    owner_token = response.json["access"]["token"]
+    owner_token = self.tender_token =  response.json["access"]["token"]
 
     # create cancellation
     cancellation = dict(**test_cancellation)
@@ -1251,6 +1277,10 @@ def tender_cancellation(self):
         {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
+    cacnellation_id = response.json["data"]["id"]
+    if get_now() > RELEASE_2020_04_19:
+        activate_cancellation_after_2020_04_19(self, cacnellation_id, tender_id, owner_token)
+
     response = self.app.get("/tenders/{}".format(tender_id))
     self.assertEqual(response.status, "200 OK")
     tender = response.json["data"]
@@ -1279,6 +1309,14 @@ def tender_cancellation(self):
         {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
+    cancellation_id = response.json["data"]["id"]
+    if get_now() > RELEASE_2020_04_19:
+        activate_cancellation_after_2020_04_19(
+            self,
+            cancellation_id,
+            tender_id,
+            owner_token
+        )
     response = self.app.get("/tenders/{}".format(tender_id))
     self.assertEqual(response.status, "200 OK")
     tender = response.json["data"]
@@ -1322,6 +1360,15 @@ def tender_cancellation(self):
         {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
+    cancellation_id = response.json["data"]["id"]
+    if get_now() > RELEASE_2020_04_19:
+        activate_cancellation_after_2020_04_19(
+            self,
+            cancellation_id,
+            tender_id,
+            owner_token
+        )
+
     response = self.app.get("/tenders/{}".format(tender_id))
     self.assertEqual(response.status, "200 OK")
     tender = response.json["data"]

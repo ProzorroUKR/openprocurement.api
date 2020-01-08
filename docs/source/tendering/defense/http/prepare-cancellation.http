@@ -16,7 +16,7 @@ Content-Type: application/json; charset=UTF-8
 Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/127bd59fdd464def8d1189b954eefcbb/cancellations/08bc3af3063c4663afce27bd29226488
 {
   "data": {
-    "status": "pending", 
+    "status": "draft", 
     "reason": "cancellation reason", 
     "reasonType": "noDemand", 
     "date": "2020-05-01T01:00:03+03:00", 

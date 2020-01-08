@@ -30,6 +30,7 @@ from openprocurement.tender.limited.tests.tender_blanks import (
     tender_cause_quick,
     tender_cause,
     tender_status_change,
+    tender_negotiation_status_change,
     single_award_tender,
     multiple_awards_tender,
     tender_cancellation,
@@ -137,6 +138,7 @@ class TenderProcessTest(BaseTenderWebTest):
 class TenderNegotiationProcessTest(TenderProcessTest):
     initial_data = test_tender_negotiation_data
 
+    test_tender_status_change = snitch(tender_negotiation_status_change)
     test_tender_cause = snitch(tender_cause)
     test_tender_cause_choices = snitch(tender_cause_choices)
     test_tender_cause_desc = snitch(tender_cause_desc)

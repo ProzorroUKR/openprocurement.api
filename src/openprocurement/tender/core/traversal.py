@@ -79,6 +79,17 @@ def factory(request):
             return get_item(bid, "document", request)
         else:
             return bid
+    elif request.matchdict.get("cancellation_id"):
+        cancellation = get_item(tender, "cancellation", request)
+        if request.matchdict.get("complaint_id"):
+            complaint = get_item(cancellation, "complaint", request)
+            if request.matchdict.get("document_id"):
+                return get_item(complaint, "document", request)
+            return complaint
+        elif request.matchdict.get("document_id"):
+            return get_item(cancellation, "document", request)
+        else:
+            return cancellation
     elif request.matchdict.get("complaint_id"):
         complaint = get_item(tender, "complaint", request)
         if request.matchdict.get("post_id"):
@@ -87,12 +98,6 @@ def factory(request):
             return get_item(complaint, "document", request)
         else:
             return complaint
-    elif request.matchdict.get("cancellation_id"):
-        cancellation = get_item(tender, "cancellation", request)
-        if request.matchdict.get("document_id"):
-            return get_item(cancellation, "document", request)
-        else:
-            return cancellation
     elif request.matchdict.get("document_id"):
         return get_item(tender, "document", request)
     elif request.matchdict.get("question_id"):

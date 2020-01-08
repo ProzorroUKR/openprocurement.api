@@ -376,7 +376,7 @@ To see more information about contract look at the `Contracting API interface to
 Cancelling tender
 -----------------
 
-Tender creator can cancel tender anytime (except when tender has terminal status e.g. `usuccesfull`, `canceled`, `complete`).
+Tender creator can cancel tender anytime (except when tender in status `active.auction` or in terminal status e.g. `unsuccessful`, `canceled`, `complete`).
 
 The following steps should be applied:
 
@@ -393,7 +393,7 @@ See :ref:`cancellation` data structure for details.
 Preparing the cancellation request
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You should pass `reason` and `reasonType`, `status` defaults to `pending`.
+You should pass `reason` and `reasonType`, `status` defaults to `draft`.
 
 There are four possible types of cancellation reason - tender was `noDemand`, `unFixable`, `forceMajeure` and `expensesCut`.
 
@@ -405,6 +405,8 @@ There are four possible types of cancellation reason - tender was `noDemand`, `u
 
 Filling cancellation with protocol and supplementary documentation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This step is required. Without documents you can't update tender status.
 
 Upload the file contents
 

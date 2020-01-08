@@ -18,10 +18,12 @@ from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
     has_unanswered_questions,
     has_unanswered_complaints,
+    block_tender,
 )
 from openprocurement.tender.core.validation import validate_tender_period_extension
 from openprocurement.tender.openua.utils import check_complaint_status
-from openprocurement.tender.openeu.utils import all_bids_are_reviewed, prepare_qualifications
+from openprocurement.tender.core.utils import check_cancellation_status
+from openprocurement.tender.openeu.utils import all_bids_are_reviewed, prepare_qualifications, cancel_tender
 from openprocurement.tender.openeu.constants import PREQUALIFICATION_COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL
 from openprocurement.tender.competitivedialogue.constants import MINIMAL_NUMBER_OF_BIDS
 from openprocurement.tender.core.events import TenderInitializeEvent
@@ -132,6 +134,7 @@ def validate_unique_bids(bids):
 
 def check_initial_bids_count(request):
     tender = request.validated["tender"]
+
     if tender.lots:
         [
             setattr(i.auctionPeriod, "startDate", None)
@@ -205,6 +208,10 @@ def validate_features_custom_weight(self, data, features, max_sum):
 def check_status(request):
     tender = request.validated["tender"]
     now = get_now()
+    check_cancellation_status(request, cancel_tender)
+
+    if block_tender(request):
+        return
 
     if (
         tender.status == "active.tendering"
@@ -222,7 +229,6 @@ def check_status(request):
         tender.qualificationPeriod = type(tender).qualificationPeriod({"startDate": now})
         check_initial_bids_count(request)
         prepare_qualifications(request)
-        return
 
     elif (
         tender.status == "active.pre-qualification.stand-still"
@@ -236,7 +242,6 @@ def check_status(request):
         )
         tender.status = "active.stage2.pending"
         check_initial_bids_count(request)
-        return
 
 
 def set_ownership(item):

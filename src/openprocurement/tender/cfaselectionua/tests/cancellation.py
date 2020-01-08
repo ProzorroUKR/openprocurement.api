@@ -1,12 +1,8 @@
 # -*- coding: utf-8 -*-
 import unittest
-import mock
-from datetime import timedelta
 
-from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import test_cancellation
-from openprocurement.tender.belowthreshold.tests.cancellation_blanks import create_tender_cancellation_before_19_04_2020
 
 from openprocurement.tender.cfaselectionua.tests.base import TenderContentWebTest, test_lots, test_bids
 from openprocurement.tender.cfaselectionua.tests.cancellation_blanks import (
@@ -16,9 +12,6 @@ from openprocurement.tender.cfaselectionua.tests.cancellation_blanks import (
     patch_tender_cancellation,
     get_tender_cancellation,
     get_tender_cancellations,
-    # TenderLotCancellationResourceTest
-    create_tender_lot_cancellation,
-    patch_tender_lot_cancellation,
     # TenderLotsCancellationResourceTest
     create_tender_lots_cancellation,
     patch_tender_lots_cancellation,
@@ -71,6 +64,7 @@ class TenderCancellationDocumentResourceTest(TenderContentWebTest, TenderCancell
 
     def setUp(self):
         super(TenderCancellationDocumentResourceTest, self).setUp()
+
         # Create cancellation
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),

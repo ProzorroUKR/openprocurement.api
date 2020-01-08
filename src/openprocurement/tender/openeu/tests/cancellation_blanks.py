@@ -4,6 +4,8 @@ from datetime import timedelta
 import mock
 
 from openprocurement.api.utils import get_now
+from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.tender.core.tests.cancellation import activate_cancellation_with_complaints_after_2020_04_19
 
 # TenderCancellationBidsAvailabilityTest
 from openprocurement.tender.belowthreshold.tests.base import test_cancellation
@@ -24,7 +26,12 @@ def bids_on_tender_cancellation_in_tendering(self):
     )
     self.assertEqual(response.status, "201 Created")
     cancellation = response.json["data"]
-    self.assertEqual(cancellation["status"], "active")
+    cancellation_id = cancellation["id"]
+    if get_now() < RELEASE_2020_04_19:
+        self.assertEqual(cancellation["status"], "active")
+    else:
+        self.assertEqual(cancellation["status"], "draft")
+        activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id)
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
     tender = response.json["data"]
@@ -119,18 +126,19 @@ def bids_on_tender_cancellation_in_auction(self):
     response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
     self.assertEqual(response.json["data"]["status"], "active.auction")
 
-    tender = self._cancel_tender()
+    if get_now() < RELEASE_2020_04_19:
+        tender = self._cancel_tender()
 
-    self.app.authorization = ("Basic", ("broker", ""))
-    for bid in tender["bids"]:
-        if bid["id"] in self.valid_bids:
-            self.assertEqual(bid["status"], "invalid.pre-qualification")
-            self.assertEqual(set(bid.keys()), set(self.bid_visible_fields))
-        else:
-            self.assertEqual(bid["status"], "deleted")
-            self.assertEqual(set(bid.keys()), set(["id", "status"]))
-            self._all_documents_are_not_accessible(bid["id"])
-    self._check_visible_fields_for_invalidated_bids()
+        self.app.authorization = ("Basic", ("broker", ""))
+        for bid in tender["bids"]:
+            if bid["id"] in self.valid_bids:
+                self.assertEqual(bid["status"], "invalid.pre-qualification")
+                self.assertEqual(set(bid.keys()), set(self.bid_visible_fields))
+            else:
+                self.assertEqual(bid["status"], "deleted")
+                self.assertEqual(set(bid.keys()), set(["id", "status"]))
+                self._all_documents_are_not_accessible(bid["id"])
+        self._check_visible_fields_for_invalidated_bids()
 
 
 def bids_on_tender_cancellation_in_qualification(self):
@@ -451,10 +459,15 @@ def cancellation_active_qualification(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     cancellation = response.json["data"]
+    cancellation_id = cancellation["id"]
     self.assertEqual(cancellation["reason"], "cancellation reason")
-    self.assertEqual(cancellation["status"], "active")
-    self.assertIn("id", cancellation)
-    self.assertIn(cancellation["id"], response.headers["Location"])
+    if get_now() < RELEASE_2020_04_19:
+        self.assertEqual(cancellation["status"], "active")
+        self.assertIn("id", cancellation)
+        self.assertIn(cancellation["id"], response.headers["Location"])
+    else:
+        self.assertEqual(cancellation["status"], "draft")
+        activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id)
 
 
 def cancellation_unsuccessful_qualification(self):
@@ -605,10 +618,15 @@ def cancellation_active_award(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     cancellation = response.json["data"]
+    cancellation_id = cancellation["id"]
     self.assertEqual(cancellation["reason"], "cancellation reason")
-    self.assertEqual(cancellation["status"], "active")
-    self.assertIn("id", cancellation)
-    self.assertIn(cancellation["id"], response.headers["Location"])
+    if get_now() < RELEASE_2020_04_19:
+        self.assertEqual(cancellation["status"], "active")
+        self.assertIn("id", cancellation)
+        self.assertIn(cancellation["id"], response.headers["Location"])
+    else:
+        self.assertEqual(cancellation["status"], "draft")
+        activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id)
 
 
 def cancellation_unsuccessful_award(self):

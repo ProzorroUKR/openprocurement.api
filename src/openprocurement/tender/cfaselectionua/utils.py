@@ -7,6 +7,7 @@ from openprocurement.api.constants import TZ
 from openprocurement.api.models import Value
 from openprocurement.tender.belowthreshold.utils import add_contract
 from openprocurement.tender.cfaselectionua.interfaces import ICFASelectionUAChange
+from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.cfaselectionua.constants import (
     AGREEMENT_STATUS,
     AGREEMENT_ITEMS,
@@ -21,6 +22,7 @@ from openprocurement.tender.core.utils import (
     cleanup_bids_for_cancelled_lots,
     remove_draft_bids,
     calculate_tender_business_date,
+    get_first_revision_date,
 )
 from functools import partial
 from cornice.resource import resource
@@ -37,6 +39,8 @@ def get_change_class(instance, data):
 
 def check_bids(request):
     tender = request.validated["tender"]
+    new_rules = get_first_revision_date(tender, default=get_now()) > RELEASE_2020_04_19
+
     if tender.lots:
         [
             setattr(i.auctionPeriod, "startDate", None)
@@ -50,6 +54,8 @@ def check_bids(request):
         elif max([i.numberOfBids for i in tender.lots if i.status == "active"]) < 2:
             add_next_award(request)
     else:
+        if new_rules and any([i.status not in ["active", "unsuccessful"] for i in tender.cancellations]):
+            return
         if tender.numberOfBids < 2 and tender.auctionPeriod and tender.auctionPeriod.startDate:
             tender.auctionPeriod.startDate = None
         if tender.numberOfBids == 0:

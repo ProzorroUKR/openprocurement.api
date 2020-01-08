@@ -22,10 +22,14 @@ Schema
     string
 
     Possible values are:
+     :`draft`:
+       Default. Cancellation in a state of formation.
      :`pending`:
-       Default. The request is being prepared.
+       The request is being prepared.
      :`active`:
        Cancellation activated.
+     :`unsuccessful`:
+       Cancellation was unsuccessful.
 
 :documents:
     List of :ref:`Document` objects
@@ -54,15 +58,12 @@ Schema
 
     Id of related :ref:`lot`.
 
-
-Additionally in :ref:`openeu`, :ref:`openua` and :ref:`esco`:
-
 :reasonType:
     string
 
-    There are two possible types of cancellation reason set by procuring entity:
-
-     There are four possible types of cancellation reason for common types of procedures set by procuring entity:
+    There are four possible types for `reporting`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`,
+    `competitiveDialogueEU`, `competitiveDialogueUA`, `competitiveDialogueEU.stage2`, `competitiveDialogueUA.stage2`,
+    `closeFrameworkAgreementUA`, `closeFrameworkAgreementSelectionUA` procedures set by procuring entity:
 
      :`noDemand`:
        No need in procurement of goods, works and services.
@@ -104,15 +105,27 @@ Additionally in :ref:`openeu`, :ref:`openua` and :ref:`esco`:
      :`expensesCut`:
        Cut down the expenses of procurement of goods, works and services.
 
+:complaintPeriod:
+    :ref:`period`
+
+    The timeframe when complaints can be submitted.
+
+:complaints:
+    List of :ref:`complaint` objects
+
+
 Cancellation workflow in :ref:`limited` and :ref:`openeu`
 ---------------------------------------------------------
 
 .. graphviz::
 
     digraph G {
-        A [ label="pending*" ]
-        B [ label="active"]
-         A -> B;
+        A [ label="draft*" ]
+        B [ label="pending" ]
+        C [ label="active"]
+        D [ label="unsuccessful" ]
+        A -> {B,D};
+        B -> {C,D};
     }
 
 \* marks initial state

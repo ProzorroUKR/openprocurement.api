@@ -1,0 +1,53 @@
+PATCH /api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/cancellations/c7fb36d745c44f4ca4779bd0fee9fe03?acc_token=62607c36ce4a4d64961ecc0d0a21540e HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 31
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "status": "pending"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "pending", 
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "description": "Changed description", 
+        "title": "Notice.pdf", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2e3ce0ad16934372beca9ade6b745cbe?KeyID=a8968c46&Signature=fT1wzEKos%2Fkh9%2FnKZ3ZK9OFGe29g1WlvGfD%252BhQCphK71OV%2FwTYZ8UZMW5bEbiaK4oMhN1tx%2FdIzLfbdIeq4WAw%253D%253D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2020-05-01T01:00:01+03:00", 
+        "id": "2feef28b6ec545889fa03c078fe66c16", 
+        "dateModified": "2020-05-01T01:00:01+03:00"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "description": "Changed description", 
+        "title": "Notice-2.pdf", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/471b8bd548264f75b627d3234ba1b379?KeyID=a8968c46&Signature=drx19S4KzlVXSpihOP30VcIMk3%2FDXuzvcLf7asTyatKOG8aNqUaZtHsTrbFMrzt%252Bg16%252BbJskLh3McEqras3bDQ%253D%253D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2020-05-01T01:00:01+03:00", 
+        "id": "2feef28b6ec545889fa03c078fe66c16", 
+        "dateModified": "2020-05-01T01:00:01+03:00"
+      }
+    ], 
+    "complaintPeriod": {
+      "startDate": "2020-05-01T01:00:01+03:00", 
+      "endDate": "2020-05-12T00:00:00+03:00"
+    }, 
+    "reason": "cancellation reason", 
+    "reasonType": "forceMajeure", 
+    "date": "2020-05-01T01:00:01+03:00", 
+    "cancellationOf": "tender", 
+    "id": "c7fb36d745c44f4ca4779bd0fee9fe03"
+  }
+}
+

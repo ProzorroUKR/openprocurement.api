@@ -37,16 +37,42 @@ Tender Award Complaints
 
     complaints-award
 
+Tender Cancellation Complaints (only for negotiation and negotiation.quick)
+---------------------------------------------------------------------------
+
+.. graphviz::
+
+    digraph G {
+        rankdir=LR;
+        {rank=same; mistaken; invalid; resolved; declined; stopped;}
+        subgraph cluster_complaint {
+            label = "complaint";
+            pending; satisfied; accepted;
+        }
+        satisfied -> resolved;
+        edge[style=dashed];
+        draft -> pending;
+        edge[style=bold];
+        accepted -> {declined,satisfied,stopped};
+        pending -> {accepted,invalid,stopped};
+        {pending} -> mistaken;
+    }
+
+.. toctree::
+    :maxdepth: 1
+
+    complaints-cancellation
+
 Roles
 -----
 
-:Complainant:
+:Complaint owner:
     dashed
 
-:Procuring entity:
+:Tender owner:
     plain
 
-:Reviewer:
+:AboveThresholdReviewer:
     bold
 
 :Chronograph:

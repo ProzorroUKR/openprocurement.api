@@ -7,6 +7,7 @@ from openprocurement.api.utils import error_handler, context_unpack
 from openprocurement.tender.core.utils import remove_draft_bids, has_unanswered_questions, has_unanswered_complaints
 from openprocurement.tender.belowthreshold.utils import check_tender_status, add_contract
 from openprocurement.tender.openua.utils import add_next_award, check_complaint_status
+from openprocurement.tender.core.utils import check_cancellation_status, block_tender
 from openprocurement.tender.openeu.models import Qualification
 from openprocurement.tender.openeu.traversal import (
     qualifications_factory,
@@ -29,8 +30,22 @@ bid_qualification_documents_resource = partial(
 )
 
 
+def cancel_tender(request):
+    tender = request.validated["tender"]
+    if tender.status == "active.tendering":
+        tender.bids = []
+
+    elif tender.status in ("active.pre-qualification", "active.pre-qualification.stand-still", "active.auction"):
+        for bid in tender.bids:
+            if bid.status in ("pending", "active"):
+                bid.status = "invalid.pre-qualification"
+
+    tender.status = "cancelled"
+
+
 def check_initial_bids_count(request):
     tender = request.validated["tender"]
+
     if tender.lots:
         [
             setattr(i.auctionPeriod, "startDate", None)
@@ -123,6 +138,9 @@ def check_status(request):
     now = get_now()
     active_lots = [lot.id for lot in tender.lots if lot.status == "active"] if tender.lots else [None]
     configurator = request.content_configurator
+
+    check_cancellation_status(request, cancel_tender)
+
     for award in tender.awards:
         if award.status == "active" and not any([i.awardID == award.id for i in tender.contracts]):
             add_contract(request, award, now)
@@ -131,6 +149,9 @@ def check_status(request):
                 reverse=configurator.reverse_awarding_criteria,
                 awarding_criteria_key=configurator.awarding_criteria_key,
             )
+
+    if block_tender(request):
+        return
 
     if (
         tender.status == "active.tendering"
@@ -149,7 +170,6 @@ def check_status(request):
         remove_draft_bids(request)
         check_initial_bids_count(request)
         prepare_qualifications(request)
-        return
 
     elif (
         tender.status == "active.pre-qualification.stand-still"
@@ -170,18 +190,14 @@ def check_status(request):
         )
         tender.status = "active.auction"
         check_initial_bids_count(request)
-        return
 
     elif not tender.lots and tender.status == "active.awarded":
         standStillEnds = [a.complaintPeriod.endDate.astimezone(TZ) for a in tender.awards if a.complaintPeriod.endDate]
-        if not standStillEnds:
-            return
-        standStillEnd = max(standStillEnds)
-        if standStillEnd <= now:
-            check_tender_status(request)
+        if standStillEnds:
+            standStillEnd = max(standStillEnds)
+            if standStillEnd <= now:
+                check_tender_status(request)
     elif tender.lots and tender.status in ["active.qualification", "active.awarded"]:
-        if any([i["status"] in tender.block_complaint_status and i.relatedLot is None for i in tender.complaints]):
-            return
         for lot in tender.lots:
             if lot["status"] != "active":
                 continue
@@ -192,4 +208,4 @@ def check_status(request):
             standStillEnd = max(standStillEnds)
             if standStillEnd <= now:
                 check_tender_status(request)
-                return
+                break

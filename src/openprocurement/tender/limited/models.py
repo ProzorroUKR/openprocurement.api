@@ -9,7 +9,7 @@ from schematics.exceptions import ValidationError
 from openprocurement.api.constants import (
     MILESTONES_VALIDATION_FROM,
     QUICK_CAUSE_REQUIRED_FROM,
-    RELEASE_2020_04_19,
+    TZ,
 )
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.utils import get_now, get_root, get_first_revision_date
@@ -194,6 +194,14 @@ class Cancellation(BaseCancellation):
             )
 
 
+class ReportingCancellation(Cancellation):
+    class Options:
+        namespace = "Cancellation"
+        roles = Cancellation.Options.roles
+
+    _after_release_status_choices = ["draft", "unsuccessful", "active"]
+
+
 class NegotiationCancellation(Cancellation):
     class Options:
         namespace = "Cancellation"
@@ -280,7 +288,7 @@ class ReportingTender(BaseTender):
     contracts = ListType(ModelType(Contract, required=True), default=list())
     status = StringType(choices=["draft", "active", "complete", "cancelled", "unsuccessful"], default="active")
     mode = StringType(choices=["test"])
-    cancellations = ListType(ModelType(Cancellation, required=True), default=list())
+    cancellations = ListType(ModelType(ReportingCancellation, required=True), default=list())
 
     create_accreditations = (ACCR_1, ACCR_3, ACCR_5)
     central_accreditations = (ACCR_5,)
@@ -306,12 +314,15 @@ class ReportingTender(BaseTender):
         return role
 
     def __acl__(self):
-        return [
+        acl = [
             (Allow, "g:brokers", "create_award_complaint"),
+            (Allow, "g:brokers", "create_cancellation_complaint"),
             (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_tender"),
             (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_tender_documents"),
             (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_complaint"),
+            (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_cancellation"),
         ]
+        return acl
 
     # Not required milestones
     def validate_milestones(self, data, value):
@@ -433,6 +444,29 @@ class NegotiationTender(ReportingTender):
         required = get_first_revision_date(data, default=get_now()) > MILESTONES_VALIDATION_FROM
         if required and (value is None or len(value) < 1):
             raise ValidationError("Tender should contain at least one milestone")
+
+    def __acl__(self):
+        acl = [
+            (Allow, "g:brokers", "create_award_complaint"),
+            (Allow, "g:brokers", "create_cancellation_complaint"),
+            (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_complaint"),
+            (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_cancellation"),
+        ]
+
+        self._acl_cancellation(acl)
+        return acl
+
+    @serializable(serialize_when_none=False)
+    def next_check(self):
+        checks = []
+        if (
+                self.cancellations
+                and self.cancellations[-1].status == "pending"
+                and self.cancellations[-1].complaintPeriod
+        ):
+            cancellation = self.cancellations[-1]
+            checks.append(cancellation.complaintPeriod.endDate.astimezone(TZ))
+        return min(checks).isoformat() if checks else None
 
 
 @implementer(INegotiationQuickTender)

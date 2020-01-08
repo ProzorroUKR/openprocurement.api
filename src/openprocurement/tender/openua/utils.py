@@ -2,7 +2,13 @@
 from logging import getLogger
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import TZ
-from openprocurement.tender.core.utils import has_unanswered_questions, has_unanswered_complaints, remove_draft_bids
+from openprocurement.tender.core.utils import (
+    has_unanswered_questions,
+    has_unanswered_complaints,
+    remove_draft_bids,
+    check_cancellation_status,
+    block_tender,
+)
 from openprocurement.tender.belowthreshold.utils import check_tender_status, context_unpack, add_contract
 from barbecue import chef
 
@@ -11,6 +17,7 @@ LOGGER = getLogger("openprocurement.tender.openua")
 
 def check_bids(request):
     tender = request.validated["tender"]
+
     if tender.lots:
         [
             setattr(i.auctionPeriod, "startDate", None)
@@ -20,11 +27,10 @@ def check_bids(request):
         [setattr(i, "status", "unsuccessful") for i in tender.lots if i.numberOfBids < 2 and i.status == "active"]
         if not set([i.status for i in tender.lots]).difference(set(["unsuccessful", "cancelled"])):
             tender.status = "unsuccessful"
-    else:
-        if tender.numberOfBids < 2:
-            if tender.auctionPeriod and tender.auctionPeriod.startDate:
-                tender.auctionPeriod.startDate = None
-            tender.status = "unsuccessful"
+    elif tender.numberOfBids <2:
+        if tender.auctionPeriod and tender.auctionPeriod.startDate:
+            tender.auctionPeriod.startDate = None
+        tender.status = "unsuccessful"
 
 
 def check_complaint_status(request, complaint):
@@ -34,8 +40,12 @@ def check_complaint_status(request, complaint):
 
 def check_status(request):
     tender = request.validated["tender"]
+
     now = get_now()
     configurator = request.content_configurator
+
+    check_cancellation_status(request)
+
     for award in tender.awards:
         if award.status == "active" and not any([i.awardID == award.id for i in tender.contracts]):
             add_contract(request, award, now)
@@ -44,6 +54,10 @@ def check_status(request):
                 reverse=configurator.reverse_awarding_criteria,
                 awarding_criteria_key=configurator.awarding_criteria_key,
             )
+
+    if block_tender(request):
+        return
+
     if (
         not tender.lots
         and tender.status == "active.tendering"
@@ -62,7 +76,6 @@ def check_status(request):
         check_bids(request)
         if tender.numberOfBids < 2 and tender.auctionPeriod:
             tender.auctionPeriod.startDate = None
-        return
     elif (
         tender.lots
         and tender.status == "active.tendering"
@@ -80,17 +93,14 @@ def check_status(request):
         remove_draft_bids(request)
         check_bids(request)
         [setattr(i.auctionPeriod, "startDate", None) for i in tender.lots if i.numberOfBids < 2 and i.auctionPeriod]
-        return
+
     elif not tender.lots and tender.status == "active.awarded":
         standStillEnds = [a.complaintPeriod.endDate.astimezone(TZ) for a in tender.awards if a.complaintPeriod.endDate]
-        if not standStillEnds:
-            return
-        standStillEnd = max(standStillEnds)
-        if standStillEnd <= now:
-            check_tender_status(request)
+        if standStillEnds:
+            standStillEnd = max(standStillEnds)
+            if standStillEnd <= now:
+                check_tender_status(request)
     elif tender.lots and tender.status in ["active.qualification", "active.awarded"]:
-        if any([i["status"] in tender.block_complaint_status and i.relatedLot is None for i in tender.complaints]):
-            return
         for lot in tender.lots:
             if lot["status"] != "active":
                 continue
@@ -101,7 +111,7 @@ def check_status(request):
             standStillEnd = max(standStillEnds)
             if standStillEnd <= now:
                 check_tender_status(request)
-                return
+                break
 
 
 def add_next_award(request, reverse=False, awarding_criteria_key="amount"):

@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 
 # TenderCancellationResourceTest
+from openprocurement.api.utils import get_now
+from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.belowthreshold.tests.base import test_cancellation
+from openprocurement.tender.core.tests.cancellation import activate_cancellation_without_complaints_after_2020_04_19
 
 
 def create_tender_cancellation_invalid(self):
@@ -109,6 +112,22 @@ def create_tender_cancellation_invalid(self):
         [{u"description": [u"relatedLot should be one of lots"], u"location": u"body", u"name": u"relatedLot"}],
     )
 
+    if get_now() < RELEASE_2020_04_19:
+        cancellation_data = dict(**test_cancellation)
+        cancellation_data["reasonType"] = "cancelled"
+        response = self.app.post_json(
+            request_path,
+            {"data": cancellation_data},
+            status=422,
+        )
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [{u"description": [u"Rogue field"], u"location": u"body", u"name": u"reasonType"}],
+        )
+
 
 def create_tender_cancellation(self):
     request_path = "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token)
@@ -138,9 +157,12 @@ def create_tender_cancellation(self):
     self.assertEqual(response.content_type, "application/json")
     cancellation = response.json["data"]
     self.assertEqual(cancellation["reason"], "cancellation reason")
-    self.assertEqual(cancellation["status"], "active")
-    self.assertIn("id", cancellation)
-    self.assertIn(cancellation["id"], response.headers["Location"])
+    if get_now() < RELEASE_2020_04_19:
+        self.assertEqual(cancellation["status"], "active")
+        self.assertIn("id", cancellation)
+        self.assertIn(cancellation["id"], response.headers["Location"])
+    else:
+        activate_cancellation_without_complaints_after_2020_04_19(self, cancellation["id"])
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
@@ -169,13 +191,16 @@ def patch_tender_cancellation(self):
     self.assertEqual(response.content_type, "application/json")
     cancellation = response.json["data"]
 
-    response = self.app.patch_json(
-        "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation["id"], self.tender_token),
-        {"data": {"status": "active"}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["status"], "active")
+    if get_now() < RELEASE_2020_04_19:
+        response = self.app.patch_json(
+            "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation["id"], self.tender_token),
+            {"data": {"status": "active"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["data"]["status"], "active")
+    else:
+        activate_cancellation_without_complaints_after_2020_04_19(self, cancellation["id"])
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")

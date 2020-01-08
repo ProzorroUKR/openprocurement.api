@@ -18,6 +18,7 @@ from openprocurement.api.constants import (
     TZ,
     WORKING_DATE_ALLOW_MIDNIGHT_FROM,
     NORMALIZED_CLARIFICATIONS_PERIOD_FROM,
+    RELEASE_2020_04_19,
 )
 from openprocurement.api.utils import error_handler, get_first_revision_date, handle_store_exceptions, append_revision
 from openprocurement.api.utils import (
@@ -367,3 +368,61 @@ def restrict_value_to_bounds(value, min_value, max_value):
 
 def round_up_to_ten(value):
     return int(math.ceil(value / 10.) * 10)
+
+
+def calculate_total_complaints(tender):
+    total_complaints = sum([len(i.complaints) for i in tender.cancellations])
+
+    if hasattr(tender, "awards"):
+        total_complaints += sum([len(i.complaints) for i in tender.awards])
+    if hasattr(tender, "complaints"):
+        total_complaints += len(tender.complaints)
+
+    if hasattr(tender, "qualifications"):
+        total_complaints = sum(
+            [len(i.complaints) for i in tender.qualifications],
+            total_complaints
+        )
+
+    return total_complaints
+
+
+def cancel_tender(request):
+    tender = request.validated["tender"]
+    if tender.status in ["active.tendering", "active.auction"]:
+        tender.bids = []
+    tender.status = "cancelled"
+
+
+def check_cancellation_status(request, cancel_tender_method=cancel_tender):
+    tender = request.validated["tender"]
+    cancellations = tender.cancellations
+    complaint_statuses = ["invalid", "declined", "stopped", "mistaken"]
+
+    for cancellation in cancellations:
+        if (
+            cancellation.status == "pending"
+            and cancellation.complaintPeriod
+            and cancellation.complaintPeriod.endDate <= get_now()
+            and all([i.status in complaint_statuses for i in cancellation.complaints])
+        ):
+            cancellation.status = "active"
+            if cancellation.cancellationOf == "tender":
+                cancel_tender_method(request)
+
+
+def block_tender(request):
+    tender = request.validated["tender"]
+    new_rules = get_first_revision_date(tender, default=get_now()) > RELEASE_2020_04_19
+
+    accept_tender = all([
+        any([j.status == "resolved" for j in i.complaints])
+        for i in tender.cancellations
+        if i.status == "unsuccessful" and getattr(i, "complaints", None) and not i.relatedLot
+    ])
+
+    return (
+        new_rules
+        and (any([i.status not in ["active", "unsuccessful"] for i in tender.cancellations if not i.relatedLot])
+             or not accept_tender)
+    )

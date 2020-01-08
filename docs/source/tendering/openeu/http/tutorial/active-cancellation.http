@@ -41,9 +41,13 @@ Content-Type: application/json; charset=UTF-8
         "dateModified": "2020-05-01T01:00:01+03:00"
       }
     ], 
+    "complaintPeriod": {
+      "startDate": "2020-05-01T01:00:01+03:00", 
+      "endDate": "2020-05-12T00:00:00+03:00"
+    }, 
     "reason": "cancellation reason", 
     "reasonType": "unFixable", 
-    "date": "2020-05-01T01:00:01+03:00", 
+    "date": "2020-05-12T01:00:02+03:00", 
     "cancellationOf": "tender", 
     "id": "97b552ab570842e5953352f7a3673061"
   }
