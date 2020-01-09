@@ -407,11 +407,14 @@ class PlanResource(APIResource):
                             PROCURING_ENTITY_STANDSTILL.days
                         )
                     )
-                # invalidate active milestones
+                # invalidate active milestones and update milestone.dateModified
+                plan.dateModified = get_now()
+                plan.modified = False
                 for m in plan.milestones:
                     if m.status in Milestone.ACTIVE_STATUSES:
                         m.status = Milestone.STATUS_INVALID
-
+                        m.dateModified = plan.dateModified
+                        
 
 @opresource(name="Plan Tenders", path="/plans/{plan_id}/tenders", description="Tender creation based on a plan")
 class PlanTendersResource(TendersResource):
