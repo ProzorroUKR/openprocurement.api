@@ -554,6 +554,9 @@ def test_success_patch_plan_procuring_entity_in_time(app, centralized_milestone,
     assert response.status_code == 200
     assert response.json["data"]["procuringEntity"] == new_procuring_entity
     assert response.json["data"]["milestones"][0]["status"] == expected_status
+    assert response.json["data"]["dateModified"] > plan["dateModified"]
+    if expected_status == Milestone.STATUS_INVALID and test_status != Milestone.STATUS_INVALID:
+        assert response.json["data"]["milestones"][0]["dateModified"] == response.json["data"]["dateModified"]
 
 
 def test_success_patch_plan_without_invalidating_milestone(app, centralized_milestone):
