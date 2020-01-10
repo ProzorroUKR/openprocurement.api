@@ -9,6 +9,7 @@ from openprocurement.api.models import Unit, CPVClassification, Classification, 
 from openprocurement.api.models import schematics_embedded_role, schematics_default_role, IsoDateTimeType, ListType
 from openprocurement.api.utils import get_now, get_first_revision_date, to_decimal
 from openprocurement.api.validation import validate_cpv_group, validate_items_uniq
+from openprocurement.api.interfaces import IOPContent
 from openprocurement.api.constants import (
     CPV_ITEMS_CLASS_FROM,
     ADDITIONAL_CLASSIFICATIONS_SCHEMES,
@@ -35,10 +36,10 @@ from schematics.transforms import whitelist, blacklist
 from schematics.types import StringType, IntType, FloatType, BaseType, MD5Type
 from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
-from zope.interface import implementer, Interface
+from zope.interface import implementer
 
 
-class IPlan(Interface):
+class IPlan(IOPContent):
     """ Base plan marker interface """
 
 

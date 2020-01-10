@@ -233,7 +233,6 @@ def test_plans_and_kind_validation(test_data):
     else:
         assert result is True, "ModelValidationError was expected"
 
-
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestPeriodEndRequired))

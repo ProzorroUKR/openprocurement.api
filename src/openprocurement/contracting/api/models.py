@@ -24,6 +24,7 @@ from openprocurement.api.models import AdditionalClassification as BaseAdditiona
 from openprocurement.api.models import Model, ListType, Revision, Value, IsoDateTimeType
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.api.models import plain_role, schematics_default_role, schematics_embedded_role
+from openprocurement.api.interfaces import IOPContent
 from openprocurement.tender.core.models import Tender, ContractValue, PROCURING_ENTITY_KINDS
 
 contract_create_role = whitelist(
@@ -110,7 +111,7 @@ item_edit_role = whitelist(
 )
 
 
-class IContract(Interface):
+class IContract(IOPContent):
     """ Contract marker interface """
 
 

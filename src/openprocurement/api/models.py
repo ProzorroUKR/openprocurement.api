@@ -25,7 +25,7 @@ from schematics.types import (
 from schematics.types.compound import ModelType, DictType, ListType as BaseListType
 from schematics.types.serializable import serializable
 from openprocurement.api.interfaces import ISerializable, IValidator
-from openprocurement.api.utils import get_now, set_parent, get_schematics_document, get_first_revision_date
+from openprocurement.api.utils import get_now, set_parent, get_schematics_document, get_first_revision_date, get_root
 from openprocurement.api.constants import (
     CPV_CODES,
     ORA_CODES,
@@ -38,6 +38,9 @@ from openprocurement.api.constants import (
     UA_ROAD,
     GMDN_SCHEME,
     GMDN,
+    COUNTRIES,
+    UA_REGIONS,
+    VALIDATE_ADDRESS_FROM
 )
 
 schematics_default_role = SchematicsDocument.Options.roles["default"] + blacklist("__parent__")
@@ -403,7 +406,6 @@ class Unit(Model):
 
 
 class Address(Model):
-
     streetAddress = StringType()
     locality = StringType()
     region = StringType()
@@ -411,6 +413,30 @@ class Address(Model):
     countryName = StringType(required=True)
     countryName_en = StringType()
     countryName_ru = StringType()
+
+    def validate_countryName(self, data, value):
+        root = get_root(data['__parent__'])
+        validation_date = get_first_revision_date(root, default=get_now())
+        if self.validation_allowed(root) and validation_date >= VALIDATE_ADDRESS_FROM:
+            if value not in COUNTRIES:
+                raise ValidationError(u"field address:countryName not exist in countries catalog")
+
+    def validate_region(self, data, value):
+        root = get_root(data['__parent__'])
+        validation_date = get_first_revision_date(root, default=get_now())
+        if self.validation_allowed(root) and validation_date >= VALIDATE_ADDRESS_FROM:
+            if data["countryName"] == u"Україна":
+                if value and value not in UA_REGIONS:
+                    raise ValidationError(u"field address:region not exist in ua_regions catalog")
+
+    @staticmethod
+    def validation_allowed(root):
+        if hasattr(root, 'procurementMethodType') and \
+                root.procurementMethodType in ['competitiveDialogueUA.stage2',
+                                               'competitiveDialogueEU.stage2',
+                                               'closeFrameworkAgreementSelectionUA']:
+            return False
+        return True
 
 
 class Location(Model):
