@@ -310,6 +310,7 @@ def add_next_award(request):
                         "complaintPeriod": {"startDate": now.isoformat()},
                     }
                 )
+                award.__parent__ = tender
                 tender.awards.append(award)
                 request.response.headers["Location"] = request.route_url(
                     "{}:Tender Awards".format(tender.procurementMethodType), tender_id=tender.id, award_id=award["id"]
@@ -339,6 +340,7 @@ def add_next_award(request):
                         "complaintPeriod": {"startDate": get_now().isoformat()},
                     }
                 )
+                award.__parent__ = tender
                 tender.awards.append(award)
                 request.response.headers["Location"] = request.route_url(
                     "{}:Tender Awards".format(tender.procurementMethodType), tender_id=tender.id, award_id=award["id"]

@@ -60,7 +60,7 @@ test_contract_data = {
                 u"postalCode": u"79013",
                 u"countryName": u"Україна",
                 u"streetAddress": u"вул. Островського, 34",
-                u"region": u"м. Львів",
+                u"region": u"Львівська область",
                 u"locality": u"м. Львів",
             },
         }

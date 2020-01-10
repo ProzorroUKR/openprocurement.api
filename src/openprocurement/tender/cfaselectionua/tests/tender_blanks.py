@@ -2586,65 +2586,69 @@ def edit_tender_in_active_enquiries(self):
     )
 
     data = {
-        "title": "Tender title active.enquiries.",
-        "status": "active.auction",
-        "guarantee": {"amount": 100500, "currency": "BTC"},
-        "lots": [
+        u"title": u"Tender title active.enquiries.",
+        u"status": u"active.auction",
+        u"guarantee": {u"amount": 100500, u"currency": u"BTC"},
+        u"lots": [
             {
-                "title": "Lot title active.enquiries.",
-                "description": "Lot description active.enquiries.",
-                "status": "unsuccessful",
+                u"title": u"Lot title active.enquiries.",
+                u"description": u"Lot description active.enquiries.",
+                u"status": u"unsuccessful",
             }
         ],
-        "items": [
+        u"items": [
             {
-                "description": "Item description active.enquiries.",
-                "quantity": 123,
-                "classification": {
-                    "scheme": "ДК021",
-                    "id": "45112000-5",
-                    "description": "Active.Enquiries CPV Description.",
-                    "description_en": "EN active.enquiries CPV description.",
+                u"description": u"Item description active.enquiries.",
+                u"quantity": 123,
+                u"classification": {
+                    u"scheme": u"ДК021",
+                    u"id": u"45112000-5",
+                    u"description": u"Active.Enquiries CPV Description.",
+                    u"description_en": u"EN active.enquiries CPV description.",
                 },
-                "additionalClassifications": [
+                u"additionalClassifications": [
                     {
-                        "scheme": "ДК021",
-                        "id": "4409000-9",
-                        "description": "Active.Enquiries additioanlClassfications description.",
+                        u"scheme": u"ДК021",
+                        u"id": u"4409000-9",
+                        u"description": u"Active.Enquiries additioanlClassfications description.",
                     }
                 ],
-                "deliveryAddress": {
-                    "countryName": "Ukraine",
-                    "postalCode": "46010",
-                    "region": "Ternopil",
-                    "streetAddress": "Textilna St. 14",
-                    "locality": "Ternopil",
+
+                u"deliveryAddress": {
+                    u"countryName": u"Україна",
+                    u"postalCode": u"46010",
+                    u"region": u"Тернопільська область",
+                    u"streetAddress": u"Текстильная вул. 14",
+                    u"locality": u"м. Тернопіль",
                 },
-                "deliveryDate": {
-                    "startDate": get_now().isoformat(),
-                    "endDate": (get_now() + timedelta(days=92)).isoformat(),
+
+                u"deliveryDate": {
+                    u"startDate": get_now().isoformat(),
+                    u"endDate": (get_now() + timedelta(days=92)).isoformat(),
                 },
-                "unit": {"code": "LTM", "name": "Sheet"},
+                u"unit": {u"code": u"LTM", u"name": u"Sheet"},
             }
         ],
-        "procuringEntity": {
-            "name": "Державне управління справами1",
-            "kind": "other",
-            "identifier": {"scheme": "UA-EDR", "id": "0000000", "uri": "http://www.dus1.gov.ua/"},
-            "address": {
-                "countryName": "Україна 1",
-                "postalCode": "01220 1",
-                "region": "м. Київ 1",
-                "locality": "м. Київ 1",
-                "streetAddress": "вул. Банкова, 11, корпус 11",
+
+        u"procuringEntity": {
+            u"name": u"Державне управління справами1",
+            u"kind": u"other",
+            u"identifier": {u"scheme": u"UA-EDR", u"id": u"0000000", u"uri": u"http://www.dus1.gov.ua/"},
+            u"address": {
+                u"countryName": u"Україна",
+                u"postalCode": u"01220",
+                u"region": u"м. Київ",
+                u"locality": u"м. Київ",
+                u"streetAddress": u"вул. Банкова, 11, корпус 11",
+
             },
-            "contactPoint": {
-                "name": "Державне управління справами 1",
-                "telephone": "0440000001",
-                "availableLanguage": "uk",
+            u"contactPoint": {
+                u"name": u"Державне управління справами 1",
+                u"telephone": u"0440000001",
+                u"availableLanguage": u"uk",
             },
             "additionalContactPoints": [
-                {"name": "Державне управління справами 2", "telephone": "044000001", "availableLanguage": "en"}
+                {"name": "Державне управління справами 2", "telephone": u"044000001", "availableLanguage": "en"}
             ],
         },
         "tenderPeriod": {

@@ -1663,11 +1663,11 @@ def patch_tender_1(self):
                         "quantity": 3,
                         "deliveryDate": {"startDate": deliveryDateStart, "endDate": deliveryDateEnd},
                         "deliveryAddress": {
-                            "countryName": u"УКРАЇНА",
+                            "countryName": "Україна",
                             "postalCode": "49000",
-                            "region": u"м. Дніпро",
-                            "locality": u"м. Дніпро",
-                            "streetAddress": u"вул. Нютона 4",
+                            "region": "Дніпропетровська область",
+                            "locality": "м. Дніпро",
+                            "streetAddress": "вул. Нютона 4",
                         },
                     }
                 ]
@@ -1681,7 +1681,7 @@ def patch_tender_1(self):
     self.assertEqual(response.json["data"]["items"][0]["deliveryDate"]["endDate"], deliveryDateEnd)
     self.assertNotEqual(response.json["data"]["items"][0]["deliveryAddress"]["countryName"], u"УКРАЇНА")
     self.assertNotEqual(response.json["data"]["items"][0]["deliveryAddress"]["postalCode"], u"49000")
-    self.assertNotEqual(response.json["data"]["items"][0]["deliveryAddress"]["region"], u"м. Дніпро")
+    self.assertNotEqual(response.json["data"]["items"][0]["deliveryAddress"]["region"], u"Дніпропетровська область")
     self.assertNotEqual(response.json["data"]["items"][0]["deliveryAddress"]["locality"], u"м. Дніпро")
     self.assertNotEqual(response.json["data"]["items"][0]["deliveryAddress"]["streetAddress"], u"вул. Нютона 4")
 

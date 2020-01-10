@@ -137,7 +137,7 @@ def agreement_patch_invalid(self):
                         "postalCode": "11223",
                         "countryName": u"Україна",
                         "streetAddress": u"ываыпып",
-                        "region": u"Київська обл.",
+                        "region": u"Київська область",
                         "locality": u"м. Київ",
                     },
                     "deliveryDate": {"startDate": "2016-05-16T00:00:00+03:00", "endDate": "2016-06-29T00:00:00+03:00"},
