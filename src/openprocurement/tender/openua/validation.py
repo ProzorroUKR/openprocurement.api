@@ -101,3 +101,35 @@ def validate_accepted_complaints(request):
     ):
         operation = OPERATIONS.get(request.method)
         raise_operation_error(request, "Can't {} document with accepted complaint".format(operation))
+
+
+# cancellation
+def validate_not_only_unsuccessful_awards_or_qualifications(request):
+    unsuccessful_statuses = {"unsuccessful", "cancelled"}
+    tender = request.validated["tender"]
+    cancellation = request.validated["cancellation"]
+    # we use below getattr, so we can use validator bot for openua and openeu procedures
+    items = tender.awards if tender.awards else getattr(tender, "qualifications", "")
+
+    def raise_error():
+        raise_operation_error(
+            request,
+            "Can't perform cancellation if all {} are unsuccessful".format(
+                "awards" if tender.awards else "qualifications"
+            ),
+        )
+
+    if not cancellation.relatedLot and tender.lots:
+        # cancelling tender with lots
+        # can't cancel tender if there is a lot, where
+        active_lots = (i.id for i in tender.lots if i.status == "active")
+        for lot_id in active_lots:
+            item_statuses = {i.status for i in items if i.lotID == lot_id}
+            if item_statuses and not item_statuses.difference(unsuccessful_statuses):
+                raise_error()
+
+    elif cancellation.relatedLot and tender.lots or not cancellation.relatedLot and not tender.lots:
+        # cancelling lot or tender without lots
+        statuses = {i.status for i in items if i.lotID == cancellation.relatedLot}
+        if statuses and not statuses.difference(unsuccessful_statuses):
+            raise_error()

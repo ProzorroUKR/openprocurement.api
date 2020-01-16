@@ -126,31 +126,13 @@ def cancellation_tender_active_pre_qualification_stand_still(self):
     self.assertEqual(response.status, "200 OK")
     self.check_chronograph()
     self.set_status("active.pre-qualification.stand-still")
-    response = self.get_tender(role="broker")
-    qualification_id = response.json["data"]["qualifications"][0]["id"]
-    owner_token = self.initial_bids_tokens[response.json["data"]["bids"][0]["id"]]
-    self.app.authorization = ("Basic", ("broker", ""))
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification.stand-still")
 
-    response = self.app.post_json(
-        "/tenders/{0}/qualifications/{1}/complaints?acc_token={2}".format(
-            self.tender_id, qualification_id, owner_token
-        ),
-        {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": self.test_author,
-                "status": "pending",
-            }
-        },
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.json["data"]["status"], "pending")
+    self.app.authorization = ("Basic", ("broker", ""))
     self.cancel_tender()
     assert_statuses(
         self,
@@ -168,35 +150,10 @@ def cancellation_tender_active_pre_qualification_stand_still(self):
             "data.complaints[*].status": ["invalid"],
         },
     )
-    response = self.get_tender(role="broker")
-    for qualification in response.json["data"]["qualifications"]:
-        if qualification["id"] == qualification_id:
-            self.assertEqual(qualification["complaints"][0]["status"], "pending")
 
 
 def cancellation_tender_active_auction(self):
     add_tender_complaints(self, ["invalid", "stopped", "mistaken"])
-    self.set_status("active.pre-qualification.stand-still")
-    response = self.get_tender(role="broker")
-    qualification_id = response.json["data"]["qualifications"][0]["id"]
-    owner_token = self.initial_bids_tokens[response.json["data"]["bids"][0]["id"]]
-
-    response = self.app.post_json(
-        "/tenders/{0}/qualifications/{1}/complaints?acc_token={2}".format(
-            self.tender_id, qualification_id, owner_token
-        ),
-        {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": self.test_author,
-                "status": "pending",
-            }
-        },
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.json["data"]["status"], "pending")
-
     self.set_status("active.auction")
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
@@ -219,10 +176,6 @@ def cancellation_tender_active_auction(self):
             "data.complaints[*].status": ["invalid", "stopped", "mistaken"],
         },
     )
-    response = self.get_tender(role="broker")
-    for qualification in response.json["data"]["qualifications"]:
-        if qualification["id"] == qualification_id:
-            self.assertEqual(qualification["complaints"][0]["status"], "pending")
 
 
 def cancellation_tender_active_qualification(self):
@@ -264,6 +217,18 @@ def cancellation_tender_active_qualification_stand_still(self):
         },
     )
     self.assertEqual(response.status, "201 Created")
+    # set complaint status stopping to be able to cancel the lot
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
+            self.tender_id, award_id, response.json["data"]["id"], response.json["access"]["token"]
+        ),
+        {"data": {
+            "status": "stopping",
+            "cancellationReason": "want this test to pass",
+        }},
+    )
+    assert response.status_code == 200
+
     self.set_status("active.qualification.stand-still", "end")
     self.check_chronograph()
     response = self.get_tender(role="broker")
@@ -281,10 +246,6 @@ def cancellation_tender_active_qualification_stand_still(self):
             "data.complaints[*].status": ["invalid", "stopped", "mistaken"],
         },
     )
-    response = self.get_tender(role="broker")
-    for award in response.json["data"]["awards"]:
-        if award["id"] == award_id:
-            self.assertEqual(award["complaints"][0]["status"], "pending")
 
 
 def cancellation_tender_active_awarded(self):

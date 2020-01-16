@@ -1575,6 +1575,18 @@ def create_tender_lots_award_complaint(self):
     self.assertIn("id", complaint)
     self.assertIn(complaint["id"], response.headers["Location"])
 
+    # set complaint status to stopping to be able to cancel the lot
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
+            self.tender_id, self.award_id, complaint["id"], response.json["access"]["token"]
+        ),
+        {"data": {
+            "status": "stopping",
+            "cancellationReason": "want this test to pass",
+        }},
+    )
+    assert response.status_code == 200
+
     self.set_status("active.awarded")
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
@@ -1625,6 +1637,17 @@ def patch_tender_lots_award_complaint(self):
         ),
         {"data": {"status": "pending"}},
     )
+    # set complaint status to stopping to be able to cancel the lot
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
+            self.tender_id, self.award_id, complaint["id"], owner_token
+        ),
+        {"data": {
+            "status": "stopping",
+            "cancellationReason": "want this test to pass",
+        }},
+    )
+    assert response.status_code == 200
 
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(
@@ -1853,6 +1876,18 @@ def put_tender_lots_award_complaint_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
+    # set complaint status stopping to be able to cancel the lot
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
+            self.tender_id, self.award_id, self.complaint_id, self.complaint_owner_token
+        ),
+        {"data": {
+            "status": "stopping",
+            "cancellationReason": "want this test to pass",
+        }},
+    )
+    assert response.status_code == 200
+
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
         {
@@ -1939,6 +1974,18 @@ def patch_tender_lots_award_complaint_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["description"], "document description2")
+
+    # set complaint status stopping to be able to cancel the lot
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
+            self.tender_id, self.award_id, self.complaint_id, self.complaint_owner_token
+        ),
+        {"data": {
+            "status": "stopping",
+            "cancellationReason": "want this test to pass",
+        }},
+    )
+    assert response.status_code == 200
 
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),

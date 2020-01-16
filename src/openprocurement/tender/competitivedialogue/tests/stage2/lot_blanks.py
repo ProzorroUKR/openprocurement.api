@@ -1913,7 +1913,7 @@ def two_lot_1can(self):
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.json["errors"][0]["description"], "Can update cancellation only in active lot status")
+    self.assertEqual(response.json["errors"][0]["description"], "Can perform cancellation only in active lot status")
 
     # try to restore lot back by new pending cancellation
     response = self.app.post_json(
@@ -1929,7 +1929,7 @@ def two_lot_1can(self):
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.json["errors"][0]["description"], "Can add cancellation only in active lot status")
+    self.assertEqual(response.json["errors"][0]["description"], "Can perform cancellation only in active lot status")
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertFalse(all([i["status"] == "cancelled" for i in response.json["data"]["lots"]]))
     self.assertTrue(any([i["status"] == "cancelled" for i in response.json["data"]["lots"]]))

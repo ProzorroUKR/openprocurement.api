@@ -35,7 +35,6 @@ from openprocurement.api.utils import (
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF, FIRST_STAGE_PROCUREMENT_TYPES
 from openprocurement.tender.core.utils import calculate_tender_business_date, has_requested_fields_changes
 from openprocurement.planning.api.utils import extract_plan_adapter
-from openprocurement.planning.api.models import Plan
 from schematics.exceptions import ValidationError
 
 
@@ -384,11 +383,59 @@ def validate_minimalstep(data, value):
             )
 
 
+# cancellation
+def validate_cancellation_of_active_lot(request):
+    tender = request.validated["tender"]
+    cancellation = request.validated["cancellation"]
+    if any(lot.status != "active"
+           for lot in getattr(tender, "lots", "")
+           if lot.id == cancellation.relatedLot):
+        raise_operation_error(request, "Can perform cancellation only in active lot status")
+
+
 # tender
-def validate_tender_status_update_in_terminated_status(request):
-    tender = request.context
-    if request.authenticated_role != "Administrator" and tender.status in ["complete", "unsuccessful", "cancelled"]:
-        raise_operation_error(request, "Can't update tender in current ({}) status".format(tender.status))
+def validate_tender_not_in_terminated_status(request):
+    tender = request.validated["tender"]
+    tender_status = tender.status
+    term_statuses = ("complete", "unsuccessful", "cancelled", "draft.unsuccessful")
+    if request.authenticated_role != "Administrator" and tender_status in term_statuses:
+        raise_operation_error(request, "Can't update tender in current ({}) status".format(tender_status))
+
+
+def validate_absence_of_pending_accepted_satisfied_complaints(request):
+    """
+    Disallow cancellation of tenders and lots that have any complaints in affected statuses
+    """
+    tender = request.validated["tender"]
+    cancellation_lot = request.validated["cancellation"].get("relatedLot")
+
+    def validate_complaint(complaint, complaint_lot, item_name):
+        """
+        raise error if it's:
+         - canceling tender that has a complaint (not cancellation_lot)
+         - canceling tender that has a lot complaint (not cancellation_lot)
+         - canceling lot that has a lot complaint (cancellation_lot == complaint_lot)
+         - canceling lot if there is a non-lot complaint (not complaint_lot)
+        AND complaint.status is in ("pending", "accepted", "satisfied")
+        """
+        if not cancellation_lot or not complaint_lot or cancellation_lot == complaint_lot:
+            if complaint.get("status") in ("pending", "accepted", "satisfied"):
+                raise_operation_error(
+                    request,
+                    "Can't perform operation for there is {} complaint in {} status".format(
+                        item_name, complaint.get("status"))
+                )
+
+    for c in tender.get("complaints", ""):
+        validate_complaint(c, c.get("relatedLot"), "a tender")
+
+    for qualification in tender.get("qualifications", ""):
+        for c in qualification.get("complaints", ""):
+            validate_complaint(c, qualification.get("lotID"), "a qualification")
+
+    for award in tender.get("awards", ""):
+        for c in award.get("complaints", ""):
+            validate_complaint(c, award.get("lotID"), "an award")
 
 
 def validate_tender_status_update_not_in_pre_qualificaton(request):

@@ -682,7 +682,7 @@ def cancel_lot_after_sing_contract(self):
             {
                 u"location": u"body",
                 u"name": u"data",
-                u"description": u"Can't add cancellation in current (complete) tender status",
+                u"description": u"Can't update tender in current (complete) status",
             }
         ],
     )
@@ -736,6 +736,18 @@ def cancel_lot_with_complaint(self):
         },
     )
     self.assertEqual(response.status, "201 Created")
+
+    # set complaint status stopping to be able to cancel the lot
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
+            self.tender_id, award["id"], response.json["data"]["id"], response.json["access"]["token"]
+        ),
+        {"data": {
+            "status": "stopping",
+            "cancellationReason": "want this test to pass",
+        }},
+    )
+    assert response.status_code == 200
 
     # Try to cancel lot
     response = self.app.post_json(

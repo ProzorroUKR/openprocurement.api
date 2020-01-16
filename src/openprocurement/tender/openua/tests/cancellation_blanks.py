@@ -48,7 +48,7 @@ def create_tender_cancellation(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't add cancellation in current (cancelled) tender status"
+        response.json["errors"][0]["description"], "Can't update tender in current (cancelled) status"
     )
 
 
@@ -91,7 +91,7 @@ def patch_tender_cancellation(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update cancellation in current (cancelled) tender status"
+        response.json["errors"][0]["description"], "Can't update tender in current (cancelled) status"
     )
 
     response = self.app.patch_json(
@@ -217,7 +217,8 @@ def cancellation_unsuccessful_award(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't add cancellation if all awards is unsuccessful")
+    self.assertEqual(response.json["errors"][0]["description"],
+                     "Can't perform cancellation if all awards are unsuccessful")
 
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
@@ -226,7 +227,8 @@ def cancellation_unsuccessful_award(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't add cancellation if all awards is unsuccessful")
+    self.assertEqual(response.json["errors"][0]["description"],
+                     "Can't perform cancellation if all awards are unsuccessful")
 
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),

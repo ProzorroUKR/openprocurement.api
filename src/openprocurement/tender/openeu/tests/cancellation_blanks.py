@@ -481,7 +481,7 @@ def cancellation_unsuccessful_qualification(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't add cancellation if all qualifications is unsuccessful"
+        response.json["errors"][0]["description"], "Can't perform cancellation if all qualifications are unsuccessful"
     )
 
     response = self.app.post_json(
@@ -492,7 +492,7 @@ def cancellation_unsuccessful_qualification(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't add cancellation if all qualifications is unsuccessful"
+        response.json["errors"][0]["description"], "Can't perform cancellation if all qualifications are unsuccessful"
     )
 
     response = self.app.post_json(
@@ -667,7 +667,8 @@ def cancellation_unsuccessful_award(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't add cancellation if all awards is unsuccessful")
+    self.assertEqual(response.json["errors"][0]["description"],
+                     "Can't perform cancellation if all awards are unsuccessful")
 
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
@@ -676,7 +677,8 @@ def cancellation_unsuccessful_award(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't add cancellation if all awards is unsuccessful")
+    self.assertEqual(response.json["errors"][0]["description"],
+                     "Can't perform cancellation if all awards are unsuccessful")
 
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),

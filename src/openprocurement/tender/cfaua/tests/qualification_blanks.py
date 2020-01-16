@@ -24,6 +24,18 @@ def create_tender_lot_qualification_complaint(self):
     self.assertIn("id", complaint)
     self.assertIn(complaint["id"], response.headers["Location"])
 
+    # set complaint status stopping to be able to cancel the lot
+    response = self.app.patch_json(
+        "/tenders/{}/qualifications/{}/complaints/{}?acc_token={}".format(
+            self.tender_id, self.qualification_id, complaint["id"], response.json["access"]["token"]
+        ),
+        {"data": {
+            "status": "stopping",
+            "cancellationReason": "want this test to pass",
+        }},
+    )
+    assert response.status_code == 200
+
     self.cancel_tender()
 
     response = self.app.post_json(
@@ -60,6 +72,18 @@ def create_tender_qualification_complaint(self):
     self.assertEqual(complaint["author"]["name"], self.author_data["name"])
     self.assertIn("id", complaint)
     self.assertIn(complaint["id"], response.headers["Location"])
+
+    # set complaint status stopping to be able to cancel the lot
+    response = self.app.patch_json(
+        "/tenders/{}/qualifications/{}/complaints/{}?acc_token={}".format(
+            self.tender_id, self.qualification_id, complaint["id"], response.json["access"]["token"]
+        ),
+        {"data": {
+            "status": "stopping",
+            "cancellationReason": "want this test to pass",
+        }},
+    )
+    assert response.status_code == 200
 
     self.cancel_tender()
 

@@ -1568,6 +1568,7 @@ def create_tender_award_complaint(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     complaint = response.json["data"]
+    complaint_token = response.json["access"]["token"]
     self.assertEqual(complaint["author"]["name"], test_organization["name"])
     self.assertIn("id", complaint)
     self.assertIn(complaint["id"], response.headers["Location"])
@@ -1576,6 +1577,18 @@ def create_tender_award_complaint(self):
     complaint_details = response.json["data"]["awards"][0]["complaints"][0]
     self.assertNotIn("owner", complaint_details)
     self.assertNotIn("owner_token", complaint_details)  # CS-5342
+
+    # set complaint status to stopping to be able to cancel the tender
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
+            self.tender_id, self.award_id, complaint["id"], complaint_token
+        ),
+        {"data": {
+            "status": "stopping",
+            "cancellationReason": "want this test to pass",
+        }},
+    )
+    assert response.status_code == 200
 
     self.set_status("active.awarded")
 
@@ -1731,6 +1744,18 @@ def create_tender_lot_award_complaint(self):
     self.assertEqual(complaint["author"]["name"], test_organization["name"])
     self.assertIn("id", complaint)
     self.assertIn(complaint["id"], response.headers["Location"])
+
+    # set complaint status to stopping to be able to cancel the tender
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
+            self.tender_id, self.award_id, complaint["id"], response.json["access"]["token"]
+        ),
+        {"data": {
+            "status": "stopping",
+            "cancellationReason": "want this test to pass",
+        }},
+    )
+    assert response.status_code == 200
 
     self.set_status("active.awarded")
 

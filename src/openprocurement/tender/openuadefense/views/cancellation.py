@@ -11,4 +11,4 @@ from openprocurement.tender.openua.views.cancellation import TenderUaCancellatio
     description="Tender cancellations",
 )
 class TenderUaCancellationResource(TenderCancellationResource):
-    """ """
+    pass

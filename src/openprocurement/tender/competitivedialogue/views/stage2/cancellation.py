@@ -15,8 +15,6 @@ from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE
 class CompetitiveDialogueEUCancellationResource(TenderCancellationEUResource):
     """ TenderEU Cancellations """
 
-    pass
-
 
 @optendersresource(
     name="{}:Tender Cancellations".format(STAGE_2_UA_TYPE),
@@ -27,5 +25,3 @@ class CompetitiveDialogueEUCancellationResource(TenderCancellationEUResource):
 )
 class CompetitiveDialogueUACancellationResource(TenderUaCancellationResource):
     """ TenderUA Cancellations """
-
-    pass

@@ -11,7 +11,7 @@ from openprocurement.tender.core.utils import (
 )
 from openprocurement.tender.core.validation import (
     validate_tender_period_extension,
-    validate_tender_status_update_in_terminated_status,
+    validate_tender_not_in_terminated_status,
 )
 from openprocurement.tender.belowthreshold.views.tender import TenderResource
 from openprocurement.tender.cfaua.utils import check_status, all_bids_are_reviewed, all_awards_are_reviewed
@@ -34,7 +34,7 @@ class TenderEUResource(TenderResource):
         content_type="application/json",
         validators=(
             validate_patch_tender_ua_data,
-            validate_tender_status_update_in_terminated_status,
+            validate_tender_not_in_terminated_status,
             validate_tender_status_update,
         ),
         permission="edit_tender",

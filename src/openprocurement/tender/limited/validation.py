@@ -143,6 +143,19 @@ def validate_award_complaint_operation_not_in_active(request):
         )
 
 
+# cancellation
+def validate_absence_complete_lots_on_tender_cancel(request):
+    tender = request.validated["tender"]
+    cancellation = request.validated["cancellation"]
+    if tender.lots and not cancellation.relatedLot:
+        for lot in tender.lots:
+            if lot.status == "complete":
+                raise_operation_error(
+                    request,
+                    "Can't perform cancellation, if there is at least one complete lot"
+                )
+
+
 # contract
 def validate_contract_operation_not_in_active(request):
     if request.validated["tender_status"] not in ["active"]:
@@ -205,14 +218,4 @@ def validate_contract_document_operation_not_in_allowed_contract_status(request)
     if contract.status not in ["pending", "active"]:
         raise_operation_error(
             request, "Can't {} document in current contract status".format(OPERATIONS.get(request.method))
-        )
-
-
-# cancellation
-def validate_cancellation_in_termainated_status(request):
-    tender = request.validated["tender"]
-    if tender.status in ["complete", "cancelled", "unsuccessful"]:
-        raise_operation_error(
-            request,
-            "Can't {} cancellation in current ({}) tender status".format(OPERATIONS.get(request.method), tender.status),
         )

@@ -8,7 +8,7 @@ from openprocurement.tender.core.utils import (
 )
 from openprocurement.tender.core.validation import (
     validate_tender_period_extension,
-    validate_tender_status_update_in_terminated_status,
+    validate_tender_not_in_terminated_status,
     validate_tender_status_update_not_in_pre_qualificaton,
 )
 from openprocurement.tender.openua.views.tender import TenderUAResource
@@ -32,7 +32,10 @@ class TenderStage2UAResource(TenderUAResource):
 
     @json_view(
         content_type="application/json",
-        validators=(validate_patch_tender_stage2_data, validate_tender_status_update_in_terminated_status),
+        validators=(
+            validate_patch_tender_stage2_data,
+            validate_tender_not_in_terminated_status,
+        ),
         permission="edit_tender",
     )
     def patch(self):
@@ -124,7 +127,7 @@ class TenderStage2UEResource(TenderEUResource):
         content_type="application/json",
         validators=(
             validate_patch_tender_stage2_data,
-            validate_tender_status_update_in_terminated_status,
+            validate_tender_not_in_terminated_status,
             validate_tender_status_update_not_in_pre_qualificaton,
         ),
         permission="edit_tender",
