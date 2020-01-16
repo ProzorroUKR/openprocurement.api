@@ -5,7 +5,6 @@ from openprocurement.api.utils import (
     json_view,
     set_ownership,
     APIResource,
-    raise_operation_error,
 )
 
 from openprocurement.tender.core.utils import save_tender, optendersresource, apply_patch
