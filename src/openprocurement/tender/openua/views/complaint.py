@@ -1,6 +1,15 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.belowthreshold.views.complaint import TenderComplaintResource
-from openprocurement.api.utils import context_unpack, json_view, set_ownership, get_now, raise_operation_error
+from openprocurement.api.utils import (
+    context_unpack, 
+    json_view, 
+    set_ownership, 
+    get_now, 
+    raise_operation_error,
+    get_first_revision_date,
+    get_now,
+)
+from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.openua.utils import check_tender_status
 from openprocurement.tender.core.validation import (
     validate_complaint_data,
@@ -80,6 +89,8 @@ class TenderUaComplaintResource(TenderComplaintResource):
         """
         tender = self.request.validated["tender"]
         data = self.request.validated["data"]
+
+        new_rules = get_first_revision_date(tender) > RELEASE_2020_04_19
         # complaint_owner
         if (
             self.request.authenticated_role == "complaint_owner"
@@ -88,6 +99,13 @@ class TenderUaComplaintResource(TenderComplaintResource):
         ):
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateCanceled = get_now()
+        elif (
+            self.request.authenticated_role == "complaint_owner"
+            and new_rules
+            and self.context.status == "draft"
+            and data.get("status", self.context.status) == "mistaken"
+        ):
+            apply_patch(self.request, save=False, src=self.context.serialize())
         elif (
             self.request.authenticated_role == "complaint_owner"
             and self.context.status in ["pending", "accepted"]
@@ -189,7 +207,19 @@ class TenderUaComplaintResource(TenderComplaintResource):
         elif (
             self.request.authenticated_role == "aboveThresholdReviewers"
             and self.context.status in ["pending", "stopping"]
-            and data.get("status", self.context.status) in ["invalid", "mistaken"]
+            and (
+                (not new_rules and data.get("status", self.context.status) in ["invalid", "mistaken"]) 
+                or (data.get("status", self.context.status) == "invalid")
+            )
+        ):
+            apply_patch(self.request, save=False, src=self.context.serialize())
+            self.context.dateDecision = get_now()
+            self.context.acceptance = False
+        elif (
+            self.request.authenticated_role == "aboveThresholdReviewers"
+            and self.context.status in ["pending", "stopping"]
+            and new_rules
+            and data.get("status", self.context.status) == "invalid"
         ):
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()

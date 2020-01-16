@@ -1,5 +1,14 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import get_now, context_unpack, json_view, set_ownership, raise_operation_error
+from openprocurement.api.utils import (
+    get_now, 
+    context_unpack, 
+    json_view, 
+    set_ownership, 
+    raise_operation_error,
+    get_first_revision_date,
+    get_now,
+)
+from openprocurement.api.constants import RELEASE_2020_04_19
 
 from openprocurement.tender.core.utils import apply_patch, save_tender, optendersresource
 
@@ -103,6 +112,8 @@ class TenderNegotiationAwardComplaintResource(TenderAwardComplaintResource):
         status = self.context.status
         new_status = data.get("status", status)
 
+        tender = self.request.validated["tender"]
+
         if status in ["draft", "claim", "answered"] and new_status == "cancelled":
             # claim ? There is no way to post claim, so this must be a backward-compatibility option
             apply_patch(self.request, save=False, src=self.context.serialize())
@@ -114,6 +125,11 @@ class TenderNegotiationAwardComplaintResource(TenderAwardComplaintResource):
             if not is_complaint_period:
                 raise_operation_error(self.request, "Can't update draft complaint not in complaintPeriod")
             if new_status == status:
+                apply_patch(self.request, save=False, src=self.context.serialize())
+            elif (
+                get_first_revision_date(tender) > RELEASE_2020_04_19 
+                and new_status == "mistaken"
+            ):
                 apply_patch(self.request, save=False, src=self.context.serialize())
             elif new_status == "pending":
                 apply_patch(self.request, save=False, src=self.context.serialize())
@@ -141,11 +157,19 @@ class TenderNegotiationAwardComplaintResource(TenderAwardComplaintResource):
     def patch_as_abovethresholdreviewers(self, data):
         status = self.context.status
         new_status = data.get("status", status)
+
+        tender = self.request.validated["tender"]
         
         if status in ["pending", "accepted", "stopping"] and new_status == status:
             apply_patch(self.request, save=False, src=self.context.serialize())
 
-        elif status in ["pending", "stopping"] and new_status in ["invalid", "mistaken"]:
+        elif (
+            status in ["pending", "stopping"] 
+            and (
+                (not get_first_revision_date(tender) > RELEASE_2020_04_19 and new_status in ["invalid", "mistaken"]) 
+                or (new_status == "invalid")
+            )
+        ):
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
             self.context.acceptance = False

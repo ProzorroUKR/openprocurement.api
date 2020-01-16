@@ -270,7 +270,7 @@ class Complaint(BaseComplaint):
         root = self.get_root()
         request = root.request
         data = request.json_body["data"]
-        if request.authenticated_role == "complaint_owner" and data.get("status", self.status) == "cancelled":
+        if request.authenticated_role == "complaint_owner" and self.status != "mistaken" and data.get("status", self.status) == "cancelled":
             role = "cancellation"
         elif (
             request.authenticated_role == "complaint_owner"
