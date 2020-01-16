@@ -1,6 +1,15 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.belowthreshold.views.award_complaint import TenderAwardComplaintResource
-from openprocurement.api.utils import get_now, context_unpack, json_view, set_ownership, raise_operation_error
+from openprocurement.api.utils import (
+    get_now, 
+    context_unpack, 
+    json_view, 
+    set_ownership, 
+    raise_operation_error,
+    get_first_revision_date,
+    get_now,
+)
+from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.core.validation import (
     validate_complaint_data,
     validate_patch_complaint_data,
@@ -150,7 +159,6 @@ class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
         ):
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateCanceled = get_now()
-
         elif status == "draft":
             self.patch_draft_as_complaint_owner(data)
 
@@ -164,6 +172,8 @@ class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
             )
 
     def patch_draft_as_complaint_owner(self, data):
+        tender = self.request.validated["tender"]
+        
         complaint_period = self.request.validated["award"].complaintPeriod
         is_complaint_period = (
             complaint_period.startDate < get_now() < complaint_period.endDate
@@ -176,7 +186,11 @@ class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
         new_status = data.get("status", self.context.status)
         if new_status == self.context.status:
             apply_patch(self.request, save=False, src=self.context.serialize())
-
+        elif (
+            get_first_revision_date(tender, get_now()) > RELEASE_2020_04_19
+            and new_status == "mistaken"
+        ):
+            apply_patch(self.request, save=False, src=self.context.serialize())
         elif new_status == "claim":
             self.validate_posting_claim()
             apply_patch(self.request, save=False, src=self.context.serialize())
@@ -221,13 +235,26 @@ class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
         status = context.status
         new_status = data.get("status", status)
 
+        tender = self.request.validated["tender"]
+
         if new_status == status and status in ["pending", "accepted", "stopping"]:
             apply_patch(self.request, save=False, src=context.serialize())
 
-        elif status in ["pending", "stopping"] and new_status in ["invalid", "mistaken"]:
+        elif (
+            status in ["pending", "stopping"] 
+            and ((get_first_revision_date(tender, get_now()) < RELEASE_2020_04_19 
+            and new_status in ["invalid", "mistaken"]) or (new_status == "invalid"))
+        ):
             apply_patch(self.request, save=False, src=context.serialize())
             context.dateDecision = get_now()
             context.acceptance = False
+        elif (
+            status in ["pending", "stopping"]
+            and data.get("status", self.context.status) == "invalid"
+        ):
+            apply_patch(self.request, save=False, src=self.context.serialize())
+            self.context.dateDecision = get_now()
+            self.context.acceptance = False
 
         elif status == "pending" and new_status == "accepted":
             apply_patch(self.request, save=False, src=context.serialize())
