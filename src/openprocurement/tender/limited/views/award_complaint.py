@@ -45,7 +45,7 @@ class TenderNegotiationAwardComplaintResource(BaseTenderAwardComplaintResource):
             complaint.dateSubmitted = get_now()
         else:
             complaint.status = "draft"
-        
+
         return complaint
 
     @json_view(
@@ -99,7 +99,7 @@ class TenderNegotiationAwardComplaintResource(BaseTenderAwardComplaintResource):
             if new_status == status:
                 apply_patch(self.request, save=False, src=self.context.serialize())
             elif (
-                get_first_revision_date(tender) > RELEASE_2020_04_19 
+                get_first_revision_date(tender) > RELEASE_2020_04_19
                 and new_status == "mistaken"
             ):
                 apply_patch(self.request, save=False, src=self.context.serialize())
@@ -131,14 +131,14 @@ class TenderNegotiationAwardComplaintResource(BaseTenderAwardComplaintResource):
         new_status = data.get("status", status)
 
         tender = self.request.validated["tender"]
-        
+
         if status in ["pending", "accepted", "stopping"] and new_status == status:
             apply_patch(self.request, save=False, src=self.context.serialize())
 
         elif (
-            status in ["pending", "stopping"] 
+            status in ["pending", "stopping"]
             and (
-                (not get_first_revision_date(tender) > RELEASE_2020_04_19 and new_status in ["invalid", "mistaken"]) 
+                (not get_first_revision_date(tender) > RELEASE_2020_04_19 and new_status in ["invalid", "mistaken"])
                 or (new_status == "invalid")
             )
         ):
