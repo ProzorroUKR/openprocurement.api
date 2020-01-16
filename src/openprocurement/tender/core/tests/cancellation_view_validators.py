@@ -27,7 +27,8 @@ from openprocurement.tender.limited.tests.base import (
     test_tender_negotiation_data,
     test_tender_negotiation_quick_data,
 )
-from openprocurement.api.utils import raise_operation_error
+from datetime import timedelta
+from openprocurement.api.utils import raise_operation_error, get_now
 from copy import deepcopy
 import mock
 import pytest
@@ -164,14 +165,16 @@ def test_post_cancellation_openeu(app):
         }
     ]
     app.app.registry.db.save(tender_data)
-    response = app.post_json(
-        "/tenders/{}/cancellations?acc_token={}".format(tender["id"], tender_token),
-        {"data": {
-            "reason": "cancellation reason",
-            "status": "active",
-        }},
-        status=403
-    )
+
+    with mock.patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(1)):
+        response = app.post_json(
+            "/tenders/{}/cancellations?acc_token={}".format(tender["id"], tender_token),
+            {"data": {
+                "reason": "cancellation reason",
+                "status": "active",
+            }},
+            status=403
+        )
     assert response.json == {u'status': u'error', u'errors': [
         {u'description': u"Can't perform operation for there is an award complaint in pending status",
          u'location': u'body', u'name': u'data'}]}
@@ -194,14 +197,15 @@ def test_post_cancellation_openeu(app):
     ]
     app.app.registry.db.save(tender_data)
 
-    response = app.post_json(
-        "/tenders/{}/cancellations?acc_token={}".format(tender["id"], tender_token),
-        {"data": {
-            "reason": "cancellation reason",
-            "status": "active",
-        }},
-        status=403
-    )
+    with mock.patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(1)):
+        response = app.post_json(
+            "/tenders/{}/cancellations?acc_token={}".format(tender["id"], tender_token),
+            {"data": {
+                "reason": "cancellation reason",
+                "status": "active",
+            }},
+            status=403
+        )
     assert response.json == {u'status': u'error', u'errors': [
         {u'description': u"Can't perform operation for there is a qualification complaint in accepted status",
          u'location': u'body', u'name': u'data'}]}
@@ -219,14 +223,15 @@ def test_post_cancellation_openeu(app):
     ]
     app.app.registry.db.save(tender_data)
 
-    response = app.post_json(
-        "/tenders/{}/cancellations?acc_token={}".format(tender["id"], tender_token),
-        {"data": {
-            "reason": "cancellation reason",
-            "status": "active",
-        }},
-        status=403
-    )
+    with mock.patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(1)):
+        response = app.post_json(
+            "/tenders/{}/cancellations?acc_token={}".format(tender["id"], tender_token),
+            {"data": {
+                "reason": "cancellation reason",
+                "status": "active",
+            }},
+            status=403
+        )
     assert response.json == {u'status': u'error', u'errors': [
         {u'description': u"Can't perform operation for there is a tender complaint in satisfied status",
          u'location': u'body', u'name': u'data'}]}
