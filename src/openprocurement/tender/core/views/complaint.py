@@ -26,6 +26,8 @@ class BaseTenderComplaintResource(APIResource):
         "pending", "accepted", "satisfied", "stopping",
     )
 
+    patch_check_tender_statuses = ("active.qualification", "active.awarded")
+
     @staticmethod
     def complaints_len(tender):
         return sum([len(i.complaints) for i in tender.awards], len(tender.complaints))
@@ -117,7 +119,7 @@ class BaseTenderComplaintResource(APIResource):
         if (
             self.patch_check_tender_excluded_statuses != "__all__"
             and self.context.status not in self.patch_check_tender_excluded_statuses
-            and self.request.validated["tender"].status in ("active.qualification", "active.awarded")
+            and self.request.validated["tender"].status in self.patch_check_tender_statuses
         ):
             check_tender_status(self.request)
 
