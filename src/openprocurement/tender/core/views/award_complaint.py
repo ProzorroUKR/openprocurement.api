@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from openprocurement.tender.core.views.complaint import BaseTenderComplaintResource
 from openprocurement.api.utils import (
     get_now, 
     context_unpack, 
@@ -6,7 +7,6 @@ from openprocurement.api.utils import (
     set_ownership, 
     raise_operation_error,
     get_first_revision_date,
-    APIResource,
 )
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.core.validation import (
@@ -32,7 +32,7 @@ def get_bid_id(request):
         return bids[common.pop()]
 
 
-class BaseTenderAwardComplaintResource(APIResource):
+class BaseTenderAwardComplaintResource(BaseTenderComplaintResource):
     patch_check_tender_excluded_statuses = (
         "draft", "claim", "answered", "pending", "accepted", "satisfied", "stopping",
     )
@@ -59,7 +59,6 @@ class BaseTenderAwardComplaintResource(APIResource):
         if award.status == "pending":
             raise_operation_error(self.request, "Claim submission is not allowed on pending award")
 
-    
     def pre_create(self):
         complaint = self.request.validated["complaint"]
         complaint.date = get_now()

@@ -1,16 +1,13 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import (
-    get_now, 
-    context_unpack, 
-    json_view, 
-    set_ownership, 
+    json_view,
     raise_operation_error,
     get_first_revision_date,
     get_now,
 )
 from openprocurement.api.constants import RELEASE_2020_04_19
 
-from openprocurement.tender.core.utils import apply_patch, save_tender, optendersresource
+from openprocurement.tender.core.utils import apply_patch, optendersresource
 
 from openprocurement.tender.core.validation import (
     validate_add_complaint_not_in_complaint_period,

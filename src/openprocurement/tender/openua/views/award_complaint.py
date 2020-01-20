@@ -11,4 +11,4 @@ from openprocurement.tender.core.utils import optendersresource
     description="Tender award complaints",
 )
 class TenderUaAwardComplaintResource(BaseTenderAwardComplaintResource):
-    pass
+    """ """
