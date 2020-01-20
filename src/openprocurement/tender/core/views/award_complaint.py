@@ -21,7 +21,7 @@ from openprocurement.tender.core.validation import (
     validate_update_complaint_not_in_allowed_complaint_status,
 )
 from openprocurement.tender.belowthreshold.utils import check_tender_status
-from openprocurement.tender.core.utils import save_tender, apply_patch, optendersresource
+from openprocurement.tender.core.utils import save_tender, apply_patch
 
 
 def get_bid_id(request):
@@ -34,13 +34,6 @@ def get_bid_id(request):
         return bids[common.pop()]
 
 
-@optendersresource(
-    name="aboveThresholdUA:Tender Award Complaints",
-    collection_path="/tenders/{tender_id}/awards/{award_id}/complaints",
-    path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}",
-    procurementMethodType="aboveThresholdUA",
-    description="Tender award complaints",
-)
 class BaseTenderAwardComplaintResource(BaseTenderComplaintResource):
     patch_check_tender_excluded_statuses = (
         "draft", "claim", "answered", "pending", "accepted", "satisfied", "stopping",
