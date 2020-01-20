@@ -236,14 +236,15 @@ class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
         new_status = data.get("status", status)
 
         tender = self.request.validated["tender"]
+        new_rules = get_first_revision_date(tender, get_now()) < RELEASE_2020_04_19
 
         if new_status == status and status in ["pending", "accepted", "stopping"]:
             apply_patch(self.request, save=False, src=context.serialize())
 
         elif (
             status in ["pending", "stopping"] 
-            and ((get_first_revision_date(tender, get_now()) < RELEASE_2020_04_19 
-            and new_status in ["invalid", "mistaken"]) or (new_status == "invalid"))
+            and (( new_rules and new_status in ["invalid", "mistaken"]) 
+            or (new_status == "invalid"))
         ):
             apply_patch(self.request, save=False, src=context.serialize())
             context.dateDecision = get_now()

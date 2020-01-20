@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 import unittest
-import mock
-from datetime import timedelta
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_lots, test_organization, test_author
+from openprocurement.tender.belowthreshold.tests.base import test_lots, test_author
 from openprocurement.tender.belowthreshold.tests.complaint import TenderComplaintResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
     # TenderComplaintDocumentResourceTest
@@ -31,11 +28,7 @@ class TenderComplaintResourceTest(
     BaseTenderUAContentWebTest, TenderComplaintResourceTestMixin, TenderUAComplaintResourceTestMixin
 ):
     test_author = test_author
-
-    test_mistaken_status_tender_complaint = snitch(
-        mock.patch(
-            "openprocurement.tender.openuadefense.views.complaint.RELEASE_2020_04_19", 
-            get_now() - timedelta(days=1))(mistaken_status_tender_complaint))
+    test_mistaken_status_tender_complaint = snitch(mistaken_status_tender_complaint)
 
 
 
