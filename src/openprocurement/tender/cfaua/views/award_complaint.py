@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import get_now, context_unpack, json_view, raise_operation_error, set_ownership
+from openprocurement.api.utils import get_now, json_view
 from openprocurement.tender.core.validation import (
     validate_complaint_data,
     validate_patch_complaint_data,
@@ -7,7 +7,7 @@ from openprocurement.tender.core.validation import (
     validate_award_complaint_update_only_for_active_lots,
     validate_update_complaint_not_in_allowed_complaint_status,
 )
-from openprocurement.tender.core.utils import apply_patch, optendersresource, save_tender
+from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.core.views.award_complaint import BaseTenderAwardComplaintResource, get_bid_id
 
 from openprocurement.tender.cfaua.utils import check_tender_status_on_active_qualification_stand_still
@@ -78,7 +78,6 @@ class TenderEUAwardComplaintResource(BaseTenderAwardComplaintResource):
     )
     def patch(self):
         return super(TenderEUAwardComplaintResource, self).patch()
-        
 
     def validate_posting_complaint(self):
         """
