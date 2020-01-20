@@ -33,6 +33,10 @@ from openprocurement.tender.core.views.award_complaint import BaseTenderAwardCom
 class TenderNegotiationAwardComplaintResource(BaseTenderAwardComplaintResource):
 
     patch_check_tender_excluded_statuses = "__all__"
+    patch_check_tender_statuses = ("active.qualification.stand-still", )
+
+    def complaints_len(tender):
+        return sum([len(i.complaints) for i in tender.awards])
 
     def complaints_len(self, tender):
         return sum([len(i.complaints) for i in tender.awards])
