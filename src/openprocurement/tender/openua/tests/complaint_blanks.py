@@ -146,7 +146,7 @@ def patch_tender_complaint(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't update complaint")
+    self.assertEqual(response.json["errors"][0]["description"], "Can't update complaint from answered to resolved status")
 
     response = self.app.patch_json(
         "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], owner_token),
@@ -285,7 +285,7 @@ def review_tender_complaint(self):
 
 
 @mock.patch(
-    "openprocurement.tender.openua.views.complaint.RELEASE_2020_04_19", 
+    "openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", 
     get_now() - timedelta(days=1))
 def mistaken_status_tender_complaint(self):
     response = self.app.post_json(
@@ -347,7 +347,7 @@ def mistaken_status_tender_complaint(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't update complaint")
+    self.assertEqual(response.json["errors"][0]["description"], "Can't update complaint from claim to mistaken status")
 
     response = self.app.patch_json(
         "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint_id, owner_token),
@@ -415,7 +415,7 @@ def mistaken_status_tender_complaint(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't update complaint")
+    self.assertEqual(response.json["errors"][0]["description"], "Can't update complaint from answered to mistaken status")
 
     response = self.app.patch_json(
         "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint_id, owner_token),
