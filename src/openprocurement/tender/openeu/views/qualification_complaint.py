@@ -14,7 +14,7 @@ from openprocurement.tender.core.utils import (
     get_now
 )
 from openprocurement.tender.openeu.views.award_complaint import TenderEUAwardComplaintResource
-from openprocurement.tender.openua.views.award_complaint import get_bid_id
+from openprocurement.tender.core.views.award_complaint import get_bid_id
 from openprocurement.tender.openeu.utils import qualifications_resource
 from openprocurement.tender.openeu.validation import (
     validate_add_complaint_not_in_pre_qualification,
