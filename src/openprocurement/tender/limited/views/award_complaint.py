@@ -60,7 +60,7 @@ class TenderNegotiationAwardComplaintResource(BaseTenderAwardComplaintResource):
     def collection_post(self):
         """Post a complaint for award
         """
-        super(TenderNegotiationAwardComplaintResource, self).collection_post()
+        return super(TenderNegotiationAwardComplaintResource, self).collection_post()
 
     @json_view(
         content_type="application/json",
@@ -72,7 +72,7 @@ class TenderNegotiationAwardComplaintResource(BaseTenderAwardComplaintResource):
         ),
     )
     def patch(self):
-        super(TenderNegotiationAwardComplaintResource, self).patch()
+        return super(TenderNegotiationAwardComplaintResource, self).patch()
 
     def patch_as_complaint_owner(self, data):
         complaint_period = self.request.validated["award"].complaintPeriod
