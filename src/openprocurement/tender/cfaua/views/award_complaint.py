@@ -26,6 +26,8 @@ from openprocurement.tender.cfaua.validation import (
     description="Tender EU award complaints",
 )
 class TenderEUAwardComplaintResource(BaseTenderAwardComplaintResource):
+    patch_check_tender_statuses = ("active.qualification.stand-still",)
+
     def complaints_len(self, tender):
         return sum(
             [len(i.complaints) for i in tender.awards],
@@ -34,7 +36,6 @@ class TenderEUAwardComplaintResource(BaseTenderAwardComplaintResource):
 
     def check_tender_status_method(self, request):
         return check_tender_status_on_active_qualification_stand_still(request)
-
     
     def pre_create(self):
         complaint = self.request.validated["complaint"]
