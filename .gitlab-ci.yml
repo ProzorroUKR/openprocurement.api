@@ -3,6 +3,7 @@ stages:
   - deploy
   - robot_tests
   - test
+  - repos
   - cleanup
 
 variables:
@@ -49,6 +50,19 @@ build_tag:
     - tags
   variables:
     WERF_TAG_GIT_TAG: $CI_COMMIT_TAG
+
+add to repo:
+  stage: repos
+  tags:
+    - repo-staging
+  script:
+    - echo "Who run user = ${GITLAB_USER_NAME} ; email = ${GITLAB_USER_EMAIL} ; login =  ${GITLAB_USER_LOGIN} ;"
+    - 'curl --header "PRIVATE-TOKEN: $API_TOKEN_REPO_STAGING" https://git.prozorro.gov.ua/api/v4/projects/$CI_PROJECT_ID/repository/archive?sha=$CI_COMMIT_SHORT_SHA -o ~/pkg/$CI_PROJECT_NAME-$CI_COMMIT_TAG.tar.gz'
+    - 'curl --header "PRIVATE-TOKEN: $API_TOKEN_REPO_STAGING" https://git.prozorro.gov.ua/api/v4/projects/$CI_PROJECT_ID/repository/archive.zip?sha=$CI_COMMIT_SHORT_SHA -o ~/pkg/$CI_PROJECT_NAME-$CI_COMMIT_TAG.zip'
+  only:
+    - /^v?([0-9]{1}).([0-9]{1})/
+  variables:
+    GIT_STRATEGY: none
 
 cleanup:
   extends: .werf
