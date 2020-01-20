@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from openprocurement.tender.core.views.complaint import BaseTenderComplaintResource
-from openprocurement.tender.belowthreshold.views.award_complaint import TenderAwardComplaintResource
 from openprocurement.api.utils import (
     get_now, 
     context_unpack, 
@@ -8,7 +6,7 @@ from openprocurement.api.utils import (
     set_ownership, 
     raise_operation_error,
     get_first_revision_date,
-    get_now,
+    APIResource,
 )
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.core.validation import (
@@ -34,7 +32,7 @@ def get_bid_id(request):
         return bids[common.pop()]
 
 
-class BaseTenderAwardComplaintResource(BaseTenderComplaintResource):
+class BaseTenderAwardComplaintResource(APIResource):
     patch_check_tender_excluded_statuses = (
         "draft", "claim", "answered", "pending", "accepted", "satisfied", "stopping",
     )
