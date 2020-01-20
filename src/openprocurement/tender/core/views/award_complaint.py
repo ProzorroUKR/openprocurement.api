@@ -137,7 +137,7 @@ class BaseTenderAwardComplaintResource(BaseTenderComplaintResource):
 
         if (
             self.context.status not in self.patch_check_tender_excluded_statuses
-            and self.request.validated["tender"].status in ("active.qualification", "active.awarded")
+            and self.request.validated["tender"].status in self.patch_check_tender_statuses
         ):
             self.check_tender_status_method(self.request)
 
