@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.core.utils import optendersresource
-from openprocurement.tender.openua.views.award_complaint import (
-    TenderUaAwardComplaintResource as TenderAwardComplaintResource,
-)
-
+from openprocurement.tender.core.views.award_complaint import BaseTenderAwardComplaintResource
 
 @optendersresource(
     name="aboveThresholdUA.defense:Tender Award Complaints",
@@ -12,5 +9,5 @@ from openprocurement.tender.openua.views.award_complaint import (
     procurementMethodType="aboveThresholdUA.defense",
     description="Tender award complaints",
 )
-class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
+class TenderUaAwardComplaintResource(BaseTenderAwardComplaintResource):
     """ """

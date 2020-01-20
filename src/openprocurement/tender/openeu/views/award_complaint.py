@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.core.utils import optendersresource
-from openprocurement.tender.openua.views.award_complaint import TenderUaAwardComplaintResource
+from openprocurement.tender.core.views.award_complaint import BaseTenderAwardComplaintResource
 
 
 @optendersresource(
@@ -10,7 +10,7 @@ from openprocurement.tender.openua.views.award_complaint import TenderUaAwardCom
     procurementMethodType="aboveThresholdEU",
     description="Tender EU award complaints",
 )
-class TenderEUAwardComplaintResource(TenderUaAwardComplaintResource):
+class TenderEUAwardComplaintResource(BaseTenderAwardComplaintResource):
     def complaints_len(self, tender):
         return sum(
             [len(i.complaints) for i in tender.awards],

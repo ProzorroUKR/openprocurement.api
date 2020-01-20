@@ -115,7 +115,8 @@ class BaseTenderComplaintResource(APIResource):
         if self.context.tendererAction and not self.context.tendererActionDate:
             self.context.tendererActionDate = get_now()
         if (
-            self.context.status not in self.patch_check_tender_excluded_statuses
+            self.patch_check_tender_excluded_statuses != "__all__"
+            and self.context.status not in self.patch_check_tender_excluded_statuses
             and self.request.validated["tender"].status in ("active.qualification", "active.awarded")
         ):
             check_tender_status(self.request)
@@ -138,12 +139,11 @@ class BaseTenderComplaintResource(APIResource):
         if status in ["draft", "claim", "answered"] and new_status == "cancelled":
             apply_patch(self.request, save=False, src=context.serialize())
             context.dateCanceled = get_now()
+        
         elif new_rules and status == "draft" and new_status == "mistaken":
             apply_patch(self.request, save=False, src=context.serialize())
-        elif (
-            status in ["pending", "accepted"]
-            and new_status == "stopping"
-        ):
+        
+        elif status in ["pending", "accepted"] and new_status == "stopping":
             apply_patch(self.request, save=False, src=context.serialize())
             context.dateCanceled = get_now()
         elif (
@@ -169,10 +169,8 @@ class BaseTenderComplaintResource(APIResource):
             apply_patch(self.request, save=False, src=context.serialize())
             context.type = "complaint"
             context.dateSubmitted = get_now()
-        elif (
-            status == "answered"
-            and new_status == status
-        ):
+        
+        elif status == "answered" and new_status == status:
             apply_patch(self.request, save=False, src=context.serialize())
         elif (
             status == "answered"
@@ -200,17 +198,13 @@ class BaseTenderComplaintResource(APIResource):
         status = context.status
         new_status = data.get("status", status)
 
-        if (
-            status == "claim"
-            and new_status == status
-        ):
+        if status == "claim" and new_status == status:
             self.validate_update_claim_time_method(self.request)
             apply_patch(self.request, save=False, src=context.serialize())
-        elif (
-            status == "satisfied"
-            and new_status == status
-        ):
+        
+        elif status == "satisfied" and new_status == status:
             apply_patch(self.request, save=False, src=context.serialize())
+        
         elif (
             status == "claim"
             and data.get("resolution", context.resolution)

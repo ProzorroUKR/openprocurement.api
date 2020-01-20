@@ -23,7 +23,7 @@ from openprocurement.tender.limited.validation import (
     validate_award_complaint_operation_not_in_active,
 )
 
-from openprocurement.tender.belowthreshold.views.award_complaint import TenderAwardComplaintResource
+from openprocurement.tender.core.views.award_complaint import BaseTenderAwardComplaintResource
 
 
 @optendersresource(
@@ -33,7 +33,21 @@ from openprocurement.tender.belowthreshold.views.award_complaint import TenderAw
     procurementMethodType="negotiation",
     description="Tender negotiation award complaints",
 )
-class TenderNegotiationAwardComplaintResource(TenderAwardComplaintResource):
+class TenderNegotiationAwardComplaintResource(BaseTenderAwardComplaintResource):
+
+    patch_check_tender_excluded_statuses = "__all__"
+
+    def pre_create(self):
+        complaint = self.request.validated["complaint"]
+        complaint.date = get_now()
+        complaint.type = "complaint"
+        if complaint.status == "pending":
+            complaint.dateSubmitted = get_now()
+        else:
+            complaint.status = "draft"
+        
+        return complaint
+
     @json_view(
         content_type="application/json",
         permission="create_award_complaint",
@@ -46,34 +60,7 @@ class TenderNegotiationAwardComplaintResource(TenderAwardComplaintResource):
     def collection_post(self):
         """Post a complaint for award
         """
-        tender = self.request.validated["tender"]
-        complaint = self.request.validated["complaint"]
-        complaint.date = get_now()
-        complaint.type = "complaint"
-        if complaint.status == "pending":
-            complaint.dateSubmitted = get_now()
-        else:
-            complaint.status = "draft"
-        complaint.complaintID = "{}.{}{}".format(
-            tender.tenderID, self.server_id, sum([len(i.complaints) for i in tender.awards], 1)
-        )
-        access = set_ownership(complaint, self.request)
-        self.context.complaints.append(complaint)
-        if save_tender(self.request):
-            self.LOGGER.info(
-                "Created tender award complaint {}".format(complaint.id),
-                extra=context_unpack(
-                    self.request, {"MESSAGE_ID": "tender_award_complaint_create"}, {"complaint_id": complaint.id}
-                ),
-            )
-            self.request.response.status = 201
-            self.request.response.headers["Location"] = self.request.route_url(
-                "{}:Tender Award Complaints".format(tender.procurementMethodType),
-                tender_id=tender.id,
-                award_id=self.request.validated["award_id"],
-                complaint_id=complaint["id"],
-            )
-            return {"data": complaint.serialize("view"), "access": access}
+        super(TenderNegotiationAwardComplaintResource, self).collection_post()
 
     @json_view(
         content_type="application/json",
@@ -85,22 +72,7 @@ class TenderNegotiationAwardComplaintResource(TenderAwardComplaintResource):
         ),
     )
     def patch(self):
-        role_method_name = "patch_as_{role}".format(role=self.request.authenticated_role.lower())
-        try:
-            role_method = getattr(self, role_method_name)
-        except AttributeError:
-            raise_operation_error(self.request, "Can't update complaint as {}".format(self.request.authenticated_role))
-        else:
-            role_method(self.request.validated["data"])
-
-        if self.context.tendererAction and not self.context.tendererActionDate:
-            self.context.tendererActionDate = get_now()
-        if save_tender(self.request):
-            self.LOGGER.info(
-                "Updated tender award complaint {}".format(self.context.id),
-                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_award_complaint_patch"}),
-            )
-            return {"data": self.context.serialize("view")}
+        super(TenderNegotiationAwardComplaintResource, self).patch()
 
     def patch_as_complaint_owner(self, data):
         complaint_period = self.request.validated["award"].complaintPeriod
