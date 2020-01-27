@@ -100,7 +100,7 @@ class TenderUaAwardResource(TenderAwardResource):
         configurator = self.request.content_configurator
         if award_status == "pending" and award.status == "active":
             now = get_now()
-            award.complaintPeriod.endDate = calculate_complaint_business_date(now, STAND_STILL_TIME, tender, True)
+            award.complaintPeriod.endDate = calculate_complaint_business_date(now, STAND_STILL_TIME, tender)
             add_contract(self.request, award, now)
             add_next_award(
                 self.request,
@@ -142,7 +142,7 @@ class TenderUaAwardResource(TenderAwardResource):
                 awarding_criteria_key=configurator.awarding_criteria_key,
             )
         elif award_status == "pending" and award.status == "unsuccessful":
-            award.complaintPeriod.endDate = calculate_complaint_business_date(get_now(), STAND_STILL_TIME, tender, True)
+            award.complaintPeriod.endDate = calculate_complaint_business_date(get_now(), STAND_STILL_TIME, tender)
             add_next_award(
                 self.request,
                 reverse=configurator.reverse_awarding_criteria,
