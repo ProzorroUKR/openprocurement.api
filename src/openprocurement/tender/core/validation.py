@@ -20,6 +20,7 @@ from openprocurement.api.constants import (
     ATC_SCHEME,
     INN_SCHEME,
     GMDN_CPV_PREFIXES,
+    RELEASE_2020_04_19,
 )
 from openprocurement.api.utils import (
     get_now,
@@ -31,6 +32,7 @@ from openprocurement.api.utils import (
     raise_operation_error,
     check_document_batch,
     handle_data_exceptions,
+    get_first_revision_date,
 )
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF, FIRST_STAGE_PROCUREMENT_TYPES
 from openprocurement.tender.core.utils import calculate_tender_business_date, has_requested_fields_changes
@@ -407,6 +409,10 @@ def validate_absence_of_pending_accepted_satisfied_complaints(request):
     Disallow cancellation of tenders and lots that have any complaints in affected statuses
     """
     tender = request.validated["tender"]
+    tender_creation_date = get_first_revision_date(tender, default=get_now())
+    if tender_creation_date < RELEASE_2020_04_19:
+        return
+
     cancellation_lot = request.validated["cancellation"].get("relatedLot")
 
     def validate_complaint(complaint, complaint_lot, item_name):
