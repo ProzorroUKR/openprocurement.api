@@ -307,6 +307,15 @@ class TenderAwardResource(APIResource):
         award = self.request.context
         award_status = award.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
+
+        now = get_now()
+
+        if award_status != award.status and award.status in ["active", "unsuccessful"]:
+            if award.complaintPeriod:
+                award.complaintPeriod.startDate = now
+            else:
+                award.complaintPeriod = {"startDate": now.isoformat()}
+
         if award_status == "pending" and award.status == "active":
             add_contract(self.request, award)
             # add_next_award(self.request)
@@ -518,6 +527,15 @@ class TenderNegotiationAwardResource(TenderAwardResource):
         award = self.request.context
         award_status = award.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
+
+        now = get_now()
+
+        if award_status != award.status and award.status in ["active", "unsuccessful"]:
+            if award.complaintPeriod:
+                award.complaintPeriod.startDate = now
+            else:
+                award.complaintPeriod = {"startDate": now.isoformat()}
+
         if award.status == "active" and not award.qualified:
             raise_operation_error(self.request, "Can't update award to active status with not qualified")
 
@@ -529,7 +547,6 @@ class TenderNegotiationAwardResource(TenderAwardResource):
             self.request.errors.status = 403
             raise error_handler(self.request.errors)
         if award_status == "pending" and award.status == "active":
-            now = get_now()
             award.complaintPeriod.endDate = calculate_complaint_business_date(now, self.stand_still_delta, tender)
             add_contract(self.request, award, now)
             # add_next_award(self.request)
@@ -538,7 +555,6 @@ class TenderNegotiationAwardResource(TenderAwardResource):
             and award.status == "cancelled"
             and any([i.status == "satisfied" for i in award.complaints])
         ):
-            now = get_now()
             cancelled_awards = []
             for i in tender.awards:
                 if i.lotID != award.lotID:
@@ -551,7 +567,6 @@ class TenderNegotiationAwardResource(TenderAwardResource):
                 if i.awardID in cancelled_awards:
                     i.status = "cancelled"
         elif award_status == "active" and award.status == "cancelled":
-            now = get_now()
             if award.complaintPeriod.endDate > now:
                 award.complaintPeriod.endDate = now
             for i in tender.contracts:
@@ -559,14 +574,13 @@ class TenderNegotiationAwardResource(TenderAwardResource):
                     i.status = "cancelled"
             # add_next_award(self.request)
         elif award_status == "pending" and award.status == "unsuccessful":
-            award.complaintPeriod.endDate = get_now()
+            award.complaintPeriod.endDate = now
             # add_next_award(self.request)
         elif (
             award_status == "unsuccessful"
             and award.status == "cancelled"
             and any([i.status == "satisfied" for i in award.complaints])
         ):
-            now = get_now()
             cancelled_awards = []
             for i in tender.awards:
                 if i.lotID != award.lotID:

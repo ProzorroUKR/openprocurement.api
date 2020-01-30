@@ -18,6 +18,7 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     create_tender_award_invalid,
     get_tender_award,
     patch_tender_award_Administrator_change,
+    check_tender_award_complaint_period_dates,
     # TenderAwardComplaintResourceTest
     create_tender_award_complaint_invalid,
     get_tender_award_complaint,
@@ -88,6 +89,7 @@ class TenderAwardResourceTest(BaseTenderUAContentWebTest):
     test_create_tender_award_invalid = snitch(create_tender_award_invalid)
     test_create_tender_award = snitch(create_tender_award)
     test_patch_tender_award = snitch(patch_tender_award)
+    test_check_tender_award_complaint_period_dates = snitch(check_tender_award_complaint_period_dates)
     test_patch_tender_award_active = snitch(patch_tender_award_active)
     test_patch_tender_award_unsuccessful = snitch(patch_tender_award_unsuccessful)
     test_get_tender_award = snitch(get_tender_award)
@@ -106,6 +108,7 @@ class TenderAwardResourceScaleTest(BaseTenderUAContentWebTest):
         test_bid["tenderers"][0].pop("scale")
         self.initial_bids = [test_bid]
         super(TenderAwardResourceScaleTest, self).setUp()
+
         self.app.authorization = ("Basic", ("token", ""))
 
     test_create_tender_award_with_scale_not_required = snitch(create_tender_award_with_scale_not_required)

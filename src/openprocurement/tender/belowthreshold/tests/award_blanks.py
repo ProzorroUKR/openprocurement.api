@@ -2,6 +2,7 @@
 from datetime import timedelta
 from webtest import AppError
 import mock
+import dateutil.parser
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
@@ -238,7 +239,6 @@ def patch_tender_award(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     award = response.json["data"]
-
     self.app.authorization = auth
     response = self.app.patch_json(
         "/tenders/{}/awards/some_id?acc_token={}".format(self.tender_id, self.tender_token),
@@ -351,6 +351,45 @@ def patch_tender_award(self):
     self.assertEqual(
         response.json["errors"][0]["description"], "Can't update award in current (complete) tender status"
     )
+
+
+def check_tender_award_complaint_period_dates(self):
+    auth = self.app.authorization
+    self.app.authorization = ("Basic", ("token", ""))
+    request_path = "/tenders/{}/awards".format(self.tender_id)
+    response = self.app.post_json(
+        request_path,
+        {
+            "data": {
+                "suppliers": [test_organization],
+                "status": u"pending",
+                "bid_id": self.initial_bids[0]["id"],
+                "value": {"amount": 500},
+            }
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    award = response.json["data"]
+    self.assertIn("complaintPeriod", award)
+    self.assertIn("startDate", award["complaintPeriod"])
+    old_complaint_period_start_date = dateutil.parser.parse(response.json["data"]["complaintPeriod"]["startDate"])
+
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
+        {"data": {"status": "unsuccessful"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("Location", response.headers)
+
+    updated_award = response.json["data"]
+    self.assertIn("endDate", updated_award["complaintPeriod"])
+    new_complaint_period_start_date = dateutil.parser.parse(updated_award["complaintPeriod"]["startDate"])
+    new_complaint_period_end_date = dateutil.parser.parse(updated_award["complaintPeriod"]["endDate"])
+
+    self.assertGreater(new_complaint_period_start_date, old_complaint_period_start_date)
+    self.assertGreater(new_complaint_period_end_date, new_complaint_period_start_date)
 
 
 def patch_tender_award_unsuccessful(self):

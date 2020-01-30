@@ -73,6 +73,7 @@ from openprocurement.tender.limited.tests.award_blanks import (
     patch_tender_award_unsuccessful,
     get_tender_award,
     activate_contract_with_cancelled_award,
+    check_tender_award_complaint_period_dates,
 )
 
 
@@ -86,6 +87,7 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
     test_create_tender_award = snitch(create_tender_award)
     test_canceling_created_award_and_create_new_one = snitch(canceling_created_award_and_create_new_one)
     test_patch_tender_award = snitch(patch_tender_award)
+    test_check_tender_award_complaint_period_dates = snitch(check_tender_award_complaint_period_dates)
     test_patch_tender_award_unsuccessful = snitch(patch_tender_award_unsuccessful)
     test_get_tender_award = snitch(get_tender_award)
     test_activate_contract_with_cancelled_award = snitch(activate_contract_with_cancelled_award)

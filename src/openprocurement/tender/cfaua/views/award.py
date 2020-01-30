@@ -92,6 +92,13 @@ class TenderAwardResource(BaseResource):
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         configurator = self.request.content_configurator
 
+        now = get_now()
+
+        if award_status != award.status and award.status == "unsuccessful":
+            if award.complaintPeriod:
+                award.complaintPeriod.startDate = now
+            else:
+                award.complaintPeriod = {"startDate": now.isoformat()}
         if (
             tender.status == "active.qualification.stand-still"
             and award_status == "active"
@@ -107,7 +114,7 @@ class TenderAwardResource(BaseResource):
                 regenerate_all_awards=True,
                 lot_id=award.lotID,
             )
-            self.context.dateDecision = get_now()
+            self.context.dateDecision = now
             tender.status = "active.qualification"
             if tender.awardPeriod.endDate:
                 tender.awardPeriod.endDate = None
