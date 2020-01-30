@@ -43,6 +43,7 @@ from openprocurement.tender.core.models import (
     ITender,
     PeriodStartEndRequired,
     EnquiryPeriod,
+    ConfidentialDocument,
 )
 from openprocurement.tender.core.utils import (
     rounding_shouldStartAfter,
@@ -193,6 +194,7 @@ class Bid(BaseBid):
     selfQualified = BooleanType(required=True, choices=[True])
     selfEligible = BooleanType(required=True, choices=[True])
     parameters = ListType(ModelType(Parameter, required=True), default=list(), validators=[validate_parameters_uniq])
+    documents = ListType(ModelType(ConfidentialDocument, required=True), default=list())
 
     def serialize(self, role=None):
         if role and self.status in ["invalid", "deleted"]:

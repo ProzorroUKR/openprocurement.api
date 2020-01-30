@@ -1087,7 +1087,7 @@ def create_tender_bidder_document(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't view bid document in current (active.tendering) tender status"
+        response.json["errors"][0]["description"], "Can't view bid documents in current (active.tendering) tender status"
     )
 
     if self.docservice:
@@ -1116,7 +1116,7 @@ def create_tender_bidder_document(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't view bid document in current (active.tendering) tender status"
+        response.json["errors"][0]["description"], "Can't view bid documents in current (active.tendering) tender status"
     )
 
     response = self.app.get(
@@ -1445,7 +1445,8 @@ def create_tender_bidder_document_json(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't view bid document in current (active.tendering) tender status"
+        response.json["errors"][0]["description"],
+        "Can't view bid documents in current (active.tendering) tender status"
     )
 
     response = self.app.get(
@@ -1463,7 +1464,8 @@ def create_tender_bidder_document_json(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't view bid document in current (active.tendering) tender status"
+        response.json["errors"][0]["description"],
+        "Can't view bid documents in current (active.tendering) tender status"
     )
 
     response = self.app.get(
@@ -1628,3 +1630,146 @@ def put_tender_bidder_document_json(self):
         response.json["errors"][0]["description"],
         "Can't update document because award of bid is not in pending or active state",
     )
+
+
+def tender_bidder_confidential_document(self):
+    request_data = {
+        "title": "name.doc",
+        "url": self.generate_docservice_url(),
+        "hash": "md5:" + "0" * 32,
+        "format": "application/msword",
+        "confidentiality": "true",
+    }
+
+    # wrong value
+    response = self.app.post_json(
+        "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+        {"data": request_data},
+        status=422
+    )
+    self.assertEqual(
+        response.json,
+        {"status": "error", "errors": [{"location": "body", "name": "confidentiality",
+                                        "description": ["Value must be one of ['public', 'buyerOnly']."]}]})
+
+    # empty confidentialityRationale
+    request_data["confidentiality"] = "buyerOnly"
+    response = self.app.post_json(
+        "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+        {"data": request_data},
+        status=422
+    )
+    self.assertEqual(
+        response.json,
+        {u'status': u'error', u'errors': [
+            {u'description': [u'confidentialityRationale is required'],
+             u'location': u'body', u'name': u'confidentialityRationale'}]}
+    )
+
+    # too short confidentialityRationale
+    request_data["confidentialityRationale"] = "cuz"
+    response = self.app.post_json(
+        "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+        {"data": request_data},
+        status=422
+    )
+    self.assertEqual(
+        response.json,
+        {u'status': u'error', u'errors': [
+            {u'description': [u'confidentialityRationale should contain at least 30 characters'],
+             u'location': u'body', u'name': u'confidentialityRationale'}]})
+
+    # success
+    request_data["confidentialityRationale"] = "cuz" * 10
+    response = self.app.post_json(
+        "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+        {"data": request_data},
+        status=201
+    )
+    doc_data = response.json["data"]
+    self.assertEqual(doc_data["confidentiality"], request_data["confidentiality"])
+    self.assertEqual(doc_data["confidentialityRationale"], request_data["confidentialityRationale"])
+
+    # switch to active.qualification
+    tender = self.db.get(self.tender_id)
+    tender["status"] = "active.qualification"
+    tender["awards"] = [
+        {
+            "id": "0" * 32,
+            "bid_id": self.bid_id,
+            "status": "pending",
+        }
+    ]
+    self.db.save(tender)
+
+    # get list as tender owner
+    response = self.app.get(
+        "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.tender_token)
+    )
+    self.assertEqual(len(response.json["data"]), 1)
+    self.assertEqual(response.json["data"][0], doc_data)
+
+    # get list as public
+    response = self.app.get(
+        "/tenders/{}/bids/{}/documents".format(self.tender_id, self.bid_id)
+    )
+    self.assertEqual(len(response.json["data"]), 1)
+    self.assertEqual(response.json["data"][0], {k: v for k, v in doc_data.items() if k != "url"})
+
+    # get directly as tender owner
+    response = self.app.get(
+        "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(
+            self.tender_id, self.bid_id, doc_data["id"], self.tender_token)
+    )
+    expected = dict(**doc_data)
+    expected["previousVersions"] = []
+    self.assertEqual(response.json["data"], expected)
+
+    # get directly as public
+    response = self.app.get("/tenders/{}/bids/{}/documents/{}".format(self.tender_id, self.bid_id, doc_data["id"]))
+    self.assertEqual(response.json["data"], {k: v for k, v in expected.items() if k != "url"})
+
+    # download as tender owner
+    response = self.app.get(
+        "/tenders/{}/bids/{}/documents/{}?acc_token={}&download=1".format(
+            self.tender_id, self.bid_id, doc_data["id"], self.tender_token)
+    )
+    self.assertEqual(response.status_code, 302)
+    self.assertIn("http://localhost/get/", response.location)
+    self.assertIn("Signature=", response.location)
+    self.assertIn("KeyID=", response.location)
+    self.assertIn("Expires=", response.location)
+
+    # download as tender public
+    response = self.app.get(
+        "/tenders/{}/bids/{}/documents/{}?download=1".format(self.tender_id, self.bid_id, doc_data["id"]),
+        status=403
+    )
+    self.assertEqual(
+        response.json,
+        {"status": "error",
+         "errors": [{"location": "body", "name": "data", "description": "Document download forbidden."}]}
+    )
+
+    # trying to update confidentiality
+    request_data["confidentiality"] = "public"
+    expected_error = {u'status': u'error', u'errors': [
+        {u'description': u"Can't update document confidentiality in current (active.qualification) tender status",
+         u'location': u'body', u'name': u'data'}]}
+    response = self.app.put_json(
+        "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(
+            self.tender_id, self.bid_id, doc_data["id"], self.bid_token
+        ),
+        {"data": request_data},
+        status=403
+    )
+    self.assertEqual(response.json, expected_error)
+
+    response = self.app.patch_json(
+        "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(
+            self.tender_id, self.bid_id, doc_data["id"], self.bid_token
+        ),
+        {"data": {"confidentiality": "public"}},
+        status=403
+    )
+    self.assertEqual(response.json, expected_error)

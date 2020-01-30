@@ -475,12 +475,13 @@ class HashType(StringType):
 
 class Document(Model):
     class Options:
+        namespace = "Document"
         roles = {
             "create": blacklist("id", "datePublished", "dateModified", "author", "download_url"),
             "edit": blacklist("id", "url", "datePublished", "dateModified", "author", "hash", "download_url"),
             "embedded": (blacklist("url", "download_url") + schematics_embedded_role),
             "default": blacklist("__parent__"),
-            "view": (blacklist("revisions") + schematics_default_role),
+            "view": schematics_default_role,
             "revisions": whitelist("url", "dateModified"),
         }
 
@@ -518,6 +519,7 @@ class Document(Model):
             "eligibilityDocuments",
             "registerExtract",
             "registerFiscal",
+            "winningBid",
         ]
     )
     title = StringType(required=True)  # A title of the document.

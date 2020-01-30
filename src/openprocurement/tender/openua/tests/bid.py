@@ -50,6 +50,7 @@ from openprocurement.tender.openua.tests.bid_blanks import (
     # TenderBidDocumentWithDSResourceTest
     create_tender_bidder_document_json,
     put_tender_bidder_document_json,
+    tender_bidder_confidential_document,
 )
 
 
@@ -130,11 +131,15 @@ class TenderBidDocumentResourceTest(BaseTenderUAContentWebTest, TenderBidDocumen
     test_not_found = snitch(not_found)
 
 
-class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
+class TenderBidDocumentWithDSResourceTestMixin:
     docservice = True
-
     test_create_tender_bidder_document_json = snitch(create_tender_bidder_document_json)
     test_put_tender_bidder_document_json = snitch(put_tender_bidder_document_json)
+    test_tender_bidder_confidential_document = snitch(tender_bidder_confidential_document)
+
+
+class TenderBidDocumentWithDSResourceTest(TenderBidDocumentWithDSResourceTestMixin, TenderBidDocumentResourceTest):
+    pass
 
 
 class TenderBidderBatchDocumentWithDSResourceTest(BaseTenderUAContentWebTest):

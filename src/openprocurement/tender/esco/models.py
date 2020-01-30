@@ -44,6 +44,7 @@ from openprocurement.tender.core.models import (
     validate_lots_uniq,
     bids_validation_wrapper,
     validate_values_uniq,
+    EUDocument as Document,
 )
 from openprocurement.tender.core.utils import (
     calc_auction_end_time,
@@ -67,7 +68,6 @@ from openprocurement.tender.openeu.models import (
     Award as BaseEUAward,
     Complaint,
     Cancellation,
-    OpenEUDocument as Document,
     Qualification,
     LotAuctionPeriod,
     Contract as BaseEUContract,

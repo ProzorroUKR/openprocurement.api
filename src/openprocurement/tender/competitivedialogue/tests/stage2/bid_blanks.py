@@ -65,7 +65,7 @@ def delete_tender_bidder_eu(self):
         )
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["errors"][0]["description"], "Can't add document to 'deleted' bid")
+        self.assertEqual(response.json["errors"][0]["description"], "Can't add document at 'deleted' bid status")
 
     revisions = self.db.get(self.tender_id).get("revisions")
     self.assertTrue(any([i for i in revisions[-2][u"changes"] if i["op"] == u"remove" and i["path"] == u"/bids"]))
@@ -252,7 +252,7 @@ def bids_invalidation_on_tender_change_eu(self):
         )
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["errors"][0]["description"], "Can't add document to 'invalid' bid")
+        self.assertEqual(response.json["errors"][0]["description"], "Can't add document at 'invalid' bid status")
 
     # check that tender status change does not invalidate bids
     # submit one more bid. check for invalid value first

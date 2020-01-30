@@ -50,19 +50,6 @@ def validate_update_bid_status(request):
 
 
 # bid documents
-def validate_view_bid_document(request):
-    if (
-        request.validated["tender_status"] in ["active.tendering", "active.auction"]
-        and request.authenticated_role != "bid_owner"
-    ):
-        raise_operation_error(
-            request,
-            "Can't view bid {} in current ({}) tender status".format(
-                "document" if request.matchdict.get("document_id") else "documents", request.validated["tender_status"]
-            ),
-        )
-
-
 def get_supplier_contract(contracts, tenderers):
     for contract in contracts:
         if contract.status != "active":
@@ -93,28 +80,6 @@ def validate_bid(request):
     bid_parameters = {(p.code, p.value) for p in bid.parameters}
     if not bid_parameters.issubset(contract_parameters):
         raise_operation_error(request, "Can't post inconsistent bid")
-
-
-def validate_bid_document_operation_in_not_allowed_tender_status(request):
-    if request.validated["tender_status"] not in ["active.tendering", "active.qualification"]:
-        raise_operation_error(
-            request,
-            "Can't {} document in current ({}) tender status".format(
-                OPERATIONS.get(request.method), request.validated["tender_status"]
-            ),
-        )
-
-
-def validate_bid_document_operation_with_not_pending_award(request):
-    if request.validated["tender_status"] == "active.qualification" and not [
-        i
-        for i in request.validated["tender"].awards
-        if i.status == "pending" and i.bid_id == request.validated["bid_id"]
-    ]:
-        raise_operation_error(
-            request,
-            "Can't {} document because award of bid is not in pending state".format(OPERATIONS.get(request.method)),
-        )
 
 
 # lot

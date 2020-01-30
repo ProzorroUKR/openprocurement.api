@@ -791,7 +791,7 @@ def create_tender_bid_document(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't view bid document in current (active.tendering) tender status"
+        response.json["errors"][0]["description"], "Can't view bid documents in current (active.tendering) tender status"
     )
 
     if self.docservice:
@@ -820,7 +820,7 @@ def create_tender_bid_document(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't view bid document in current (active.tendering) tender status"
+        response.json["errors"][0]["description"], "Can't view bid documents in current (active.tendering) tender status"
     )
 
     response = self.app.get(
@@ -1152,7 +1152,8 @@ def create_tender_bid_document_json(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't view bid document in current (active.tendering) tender status"
+        response.json["errors"][0]["description"],
+        "Can't view bid documents in current (active.tendering) tender status"
     )
 
     response = self.app.get(
@@ -1170,7 +1171,8 @@ def create_tender_bid_document_json(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't view bid document in current (active.tendering) tender status"
+        response.json["errors"][0]["description"],
+        "Can't view bid documents in current (active.tendering) tender status"
     )
 
     response = self.app.get(
@@ -1516,7 +1518,7 @@ def create_tender_bid_with_document(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't view bid document in current (active.tendering) tender status"
+        response.json["errors"][0]["description"], "Can't view bid documents in current (active.tendering) tender status"
     )
 
     response = self.app.get(
@@ -1536,7 +1538,7 @@ def create_tender_bid_with_document(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't view bid document in current (active.tendering) tender status"
+        response.json["errors"][0]["description"], "Can't view bid documents in current (active.tendering) tender status"
     )
 
     response = self.app.get(
@@ -1643,7 +1645,7 @@ def create_tender_bid_with_documents(self):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
             response.json["errors"][0]["description"],
-            "Can't view bid document in current (active.tendering) tender status",
+            "Can't view bid documents in current (active.tendering) tender status",
         )
 
         response = self.app.get(
@@ -1665,7 +1667,7 @@ def create_tender_bid_with_documents(self):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
             response.json["errors"][0]["description"],
-            "Can't view bid document in current (active.tendering) tender status",
+            "Can't view bid documents in current (active.tendering) tender status",
         )
 
         response = self.app.get(

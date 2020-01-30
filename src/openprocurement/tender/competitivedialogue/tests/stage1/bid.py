@@ -9,10 +9,12 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
 )
 
 from openprocurement.tender.openeu.tests.bid import TenderBidResourceTestMixin
-
+from openprocurement.tender.openua.tests.bid import TenderBidDocumentWithDSResourceTestMixin
 from openprocurement.tender.competitivedialogue.tests.base import (
+    BaseCompetitiveDialogUAContentWebTest,
     BaseCompetitiveDialogEUContentWebTest,
     test_bids,
+    test_tenderer,
     test_features_tender_eu_data,
     test_lots,
 )
@@ -119,6 +121,29 @@ class CompetitiveDialogEUBidDocumentResourceTest(BaseCompetitiveDialogEUContentW
     test_create_tender_bidder_invalid_document_description = snitch(create_tender_bidder_invalid_document_description)
     test_create_tender_bidder_invalid_confidential_document = snitch(create_tender_bidder_invalid_confidential_document)
     test_bids_view_j1446 = snitch(bids_view_j1446)
+
+
+class TenderUABidDocumentWithDSWebTest(TenderBidDocumentWithDSResourceTestMixin, BaseCompetitiveDialogUAContentWebTest):
+    initial_status = "active.tendering"
+    test_bids_data = test_bids
+
+    def setUp(self):
+        super(TenderUABidDocumentWithDSWebTest, self).setUp()
+        # Create bid
+        response = self.app.post_json(
+            "/tenders/{}/bids".format(self.tender_id),
+            {
+                "data": {
+                    "selfEligible": True,
+                    "selfQualified": True,
+                    "tenderers": [test_tenderer],
+                    "value": {"amount": 500},
+                }
+            },
+        )
+        bid = response.json["data"]
+        self.bid_id = bid["id"]
+        self.bid_token = response.json["access"]["token"]
 
 
 def suite():

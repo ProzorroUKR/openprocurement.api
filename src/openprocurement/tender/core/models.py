@@ -9,6 +9,8 @@ from schematics.exceptions import ValidationError
 from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
 from schematics.types import StringType, FloatType, URLType, BooleanType, BaseType, MD5Type, IntType
+from urlparse import urlparse, parse_qs
+from string import hexdigits
 from openprocurement.api.interfaces import IOPContent
 from openprocurement.api.models import (
     Revision,
@@ -27,7 +29,7 @@ from openprocurement.api.models import (
 from openprocurement.api.models import Item as BaseItem
 from openprocurement.api.models import schematics_default_role, schematics_embedded_role
 from openprocurement.api.validation import validate_items_uniq
-from openprocurement.api.utils import get_now, get_first_revision_date, get_root
+from openprocurement.api.utils import get_now, get_first_revision_date, get_root, generate_docservice_url
 from openprocurement.api.constants import (
     SANDBOX_MODE,
     ADDITIONAL_CLASSIFICATIONS_SCHEMES,
@@ -150,6 +152,67 @@ class Document(BaseDocument):
                 raise ValidationError(u"relatedItem should be one of lots")
             if data.get("documentOf") == "item" and relatedItem not in [i.id for i in tender.items if i]:
                 raise ValidationError(u"relatedItem should be one of items")
+
+
+class ConfidentialDocument(Document):
+
+    class Options:
+        namespace = "Document"
+        roles = Document.Options.roles
+        roles["restricted_view"] = blacklist("url", "download_url") + schematics_default_role
+
+    confidentiality = StringType(choices=["public", "buyerOnly"])
+    confidentialityRationale = StringType()
+
+    def validate_confidentialityRationale(self, data, val):
+        confidentiality = data.get("confidentiality")
+        if confidentiality == "buyerOnly":
+            if not val:
+                raise ValidationError(u"confidentialityRationale is required")
+            elif len(val) < 30:
+                raise ValidationError(u"confidentialityRationale should contain at least 30 characters")
+
+    @serializable(serialized_name="url")
+    def download_url(self):
+        url = self.url
+        if self.confidentiality == "buyerOnly":
+            return self.url
+        if not url or "?download=" not in url:
+            return url
+        doc_id = parse_qs(urlparse(url).query)["download"][-1]
+        root = self.__parent__
+        parents = []
+        while root.__parent__ is not None:
+            parents[0:0] = [root]
+            root = root.__parent__
+        request = root.request
+        if not request.registry.docservice_url:
+            return url
+        if "status" in parents[0] and parents[0].status in type(parents[0])._options.roles:
+            role = parents[0].status
+            for index, obj in enumerate(parents):
+                if obj.id != url.split("/")[(index - len(parents)) * 2 - 1]:
+                    break
+                field = url.split("/")[(index - len(parents)) * 2]
+                if "_" in field:
+                    field = field[0] + field.title().replace("_", "")[1:]
+                roles = type(obj)._options.roles
+                if roles[role if role in roles else "default"](field, []):
+                    return url
+
+        if not self.hash:
+            path = [i for i in urlparse(url).path.split("/") if len(i) == 32 and not set(i).difference(hexdigits)]
+            return generate_docservice_url(request, doc_id, False, "{}/{}".format(path[0], path[-1]))
+        return generate_docservice_url(request, doc_id, False)
+
+
+class EUConfidentialDocument(ConfidentialDocument):
+    confidentiality = StringType(choices=["public", "buyerOnly"], default="public")
+    language = StringType(required=True, choices=["uk", "en", "ru"], default="uk")
+
+
+class EUDocument(Document):
+    language = StringType(required=True, choices=["uk", "en", "ru"], default="uk")
 
 
 def bids_validation_wrapper(validation_func):

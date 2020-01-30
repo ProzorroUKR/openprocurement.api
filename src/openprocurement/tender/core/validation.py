@@ -546,9 +546,17 @@ def validate_bid_document_operation_period(request):
         )
 
 
-# for openua, openeu
-def validate_bid_document_operation_in_not_allowed_status(request):
-    if request.validated["tender_status"] not in ["active.tendering", "active.qualification", "active.awarded"]:
+def validate_view_bid_document(request):
+    tender_status = request.validated["tender_status"]
+    if tender_status in ("active.tendering", "active.auction") and request.authenticated_role != "bid_owner":
+        raise_operation_error(
+            request,
+            "Can't view bid documents in current ({}) tender status".format(tender_status),
+        )
+
+
+def validate_bid_document_operation_in_not_allowed_tender_status(request):
+    if request.validated["tender_status"] not in ["active.tendering", "active.qualification"]:
         raise_operation_error(
             request,
             "Can't {} document in current ({}) tender status".format(
@@ -557,16 +565,25 @@ def validate_bid_document_operation_in_not_allowed_status(request):
         )
 
 
-def validate_bid_document_operation_with_award(request):
-    if request.validated["tender_status"] in ["active.qualification", "active.awarded"] and not [
-        i
-        for i in request.validated["tender"].awards
-        if i.status in ["pending", "active"] and i.bid_id == request.validated["bid_id"]
-    ]:
+def validate_bid_document_operation_with_not_pending_award(request):
+    if request.validated["tender_status"] == "active.qualification" and not any(
+        award.status == "pending"
+        for award in request.validated["tender"].awards
+        if award.bid_id == request.validated["bid_id"]
+    ):
         raise_operation_error(
             request,
-            "Can't {} document because award of bid is not in pending or active state".format(
-                OPERATIONS.get(request.method)
+            "Can't {} document because award of bid is not in pending state".format(OPERATIONS.get(request.method)),
+        )
+
+
+# for openua, openeu
+def validate_bid_document_operation_in_not_allowed_status(request):
+    if request.validated["tender_status"] not in ["active.tendering", "active.qualification", "active.awarded"]:
+        raise_operation_error(
+            request,
+            "Can't {} document in current ({}) tender status".format(
+                OPERATIONS.get(request.method), request.validated["tender_status"]
             ),
         )
 

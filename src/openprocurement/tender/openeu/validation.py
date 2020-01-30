@@ -19,33 +19,59 @@ def validate_view_bids_in_active_tendering(request):
         )
 
 
-# bid document
-def validate_add_bid_document_not_in_allowed_status(request):
-    if request.context.status in ["invalid", "unsuccessful", "deleted"]:
-        raise_operation_error(request, "Can't add document to '{}' bid".format(request.context.status))
-
-
-def validate_update_bid_document_confidentiality(request):
-    if request.validated["tender_status"] != "active.tendering" and "confidentiality" in request.validated.get(
-        "data", {}
-    ):
-        if request.context.confidentiality != request.validated["data"]["confidentiality"]:
-            raise_operation_error(
-                request,
-                "Can't update document confidentiality in current ({}) tender status".format(
-                    request.validated["tender_status"]
-                ),
-            )
-
-
-def validate_update_bid_document_not_in_allowed_status(request):
-    bid = getattr(request.context, "__parent__")
-    if bid and bid.status in ["invalid", "unsuccessful", "deleted"]:
+# bid documents
+def validate_bid_document_operation_in_bid_status(request):
+    bid = request.validated["bid"]
+    if bid.status in ("invalid", "unsuccessful", "deleted"):
         raise_operation_error(
             request,
-            "Can't update {} '{}' bid".format(
-                "document in" if request.method == "PUT" else "document data for", bid.status
-            ),
+            "Can't {} document at '{}' bid status".format(
+                OPERATIONS.get(request.method),
+                bid.status
+            )
+        )
+
+
+def validate_view_bid_documents_allowed_in_tender_status(request):
+    tender_status = request.validated["tender_status"]
+    if tender_status == "active.tendering" and request.authenticated_role != "bid_owner":
+        raise_operation_error(
+            request,
+            "Can't view bid documents in current ({}) tender status".format(tender_status),
+        )
+
+
+def validate_view_financial_bid_documents_allowed_in_tender_status(request):
+    tender_status = request.validated["tender_status"]
+    view_forbidden_states = (
+        "active.tendering",
+        "active.pre-qualification",
+        "active.pre-qualification.stand-still",
+        "active.auction",
+    )
+    if tender_status in view_forbidden_states and request.authenticated_role != "bid_owner":
+        raise_operation_error(
+            request,
+            "Can't view bid documents in current ({}) tender status".format(tender_status),
+        )
+
+
+def validate_view_bid_documents_allowed_in_bid_status(request):
+    bid_status = request.validated["bid"].status
+    if bid_status in ("invalid", "deleted") and request.authenticated_role != "bid_owner":
+        raise_operation_error(
+            request,
+            "Can't view bid documents in current ({}) bid status".format(bid_status)
+        )
+
+
+def validate_view_financial_bid_documents_allowed_in_bid_status(request):
+    bid_status = request.validated["bid"].status
+    if bid_status in ("invalid", "deleted", "invalid.pre-qualification", "unsuccessful") \
+       and request.authenticated_role != "bid_owner":
+        raise_operation_error(
+            request,
+            "Can't view bid documents in current ({}) bid status".format(bid_status)
         )
 
 

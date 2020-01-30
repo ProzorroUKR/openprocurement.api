@@ -810,7 +810,7 @@ def delete_tender_bidder(self):
         )
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["errors"][0]["description"], "Can't add document to 'deleted' bid")
+        self.assertEqual(response.json["errors"][0]["description"], "Can't add document at 'deleted' bid status")
 
     revisions = self.db.get(self.tender_id).get("revisions")
     self.assertTrue(any([i for i in revisions[-2][u"changes"] if i["op"] == u"remove" and i["path"] == u"/bids"]))
@@ -1120,7 +1120,7 @@ def bids_invalidation_on_tender_change(self):
         )
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["errors"][0]["description"], "Can't add document to 'invalid' bid")
+        self.assertEqual(response.json["errors"][0]["description"], "Can't add document at 'invalid' bid status")
 
     # check that tender status change does not invalidate bids
     # submit one more bid. check for invalid value first
@@ -1513,7 +1513,7 @@ def patch_and_put_document_into_invalid_bid(self):
         )
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["errors"][0]["description"], "Can't update document data for 'invalid' bid")
+        self.assertEqual(response.json["errors"][0]["description"], "Can't update document at 'invalid' bid status")
         response = self.app.put(
             "/tenders/{}/bids/{}/{}/{}?acc_token={}".format(
                 self.tender_id, self.bid_id, doc_resource, doc_id, self.bid_token
@@ -1523,4 +1523,4 @@ def patch_and_put_document_into_invalid_bid(self):
             status=403,
         )
         self.assertEqual(response.status, "403 Forbidden")
-        self.assertEqual(response.json["errors"][0]["description"], "Can't update document in 'invalid' bid")
+        self.assertEqual(response.json["errors"][0]["description"], "Can't update document at 'invalid' bid status")

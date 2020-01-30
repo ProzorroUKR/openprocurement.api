@@ -30,33 +30,17 @@ def validate_view_bids_in_active_tendering(request):
 
 
 # bid document
-def validate_add_bid_document_not_in_allowed_status(request):
-    if request.context.status in ["invalid", "unsuccessful", "deleted"]:
-        raise_operation_error(request, "Can't add document to '{}' bid".format(request.context.status))
+def validate_add_bid_document_not_in_allowed_tender_status(request):
+    tender_status = request.validated["tender_status"]
+    if tender_status not in ("active.tendering", "active.qualification", "active.qualification.stand-still"):
+        raise_operation_error(request, "Can't upload document in current ({}) tender status".format(tender_status))
 
 
-def validate_update_bid_document_confidentiality(request):
-    if request.validated["tender_status"] != "active.tendering" and "confidentiality" in request.validated.get(
-        "data", {}
-    ):
-        if request.context.confidentiality != request.validated["data"]["confidentiality"]:
-            raise_operation_error(
-                request,
-                "Can't update document confidentiality in current ({}) tender status".format(
-                    request.validated["tender_status"]
-                ),
-            )
-
-
-def validate_update_bid_document_not_in_allowed_status(request):
-    bid = getattr(request.context, "__parent__")
-    if bid and bid.status in ["invalid", "unsuccessful", "deleted"]:
-        raise_operation_error(
-            request,
-            "Can't update {} '{}' bid".format(
-                "document in" if request.method == "PUT" else "document data for", bid.status
-            ),
-        )
+def validate_add_bid_financial_document_not_in_allowed_tender_status(request):
+    tender_status = request.validated["tender_status"]
+    if tender_status not in ("active.tendering", "active.qualification",
+                             "active.awarded", "active.qualification.stand-still"):
+        raise_operation_error(request, "Can't upload document in current ({}) tender status".format(tender_status))
 
 
 # qualification
