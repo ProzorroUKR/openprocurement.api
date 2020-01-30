@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import dateutil
+
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
 
 
@@ -451,6 +453,28 @@ def patch_tender_award(self):
     )
 
 
+def check_tender_award_complaint_period_dates(self):
+    # self.app.authorization = ("Basic", ("token", ""))
+    request_path = "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token)
+    response = self.app.post_json(
+        request_path,
+        {"data": {"suppliers": [test_organization], "qualified": True, "status": u"pending", "value": {"amount": 500}}},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    award = response.json["data"]
+
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
+        {"data": {"status": "unsuccessful"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    updated_award = response.json["data"]
+    self.assertIn("startDate", updated_award["complaintPeriod"])
+
+
 def patch_tender_award_unsuccessful(self):
     request_path = "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token)
     response = self.app.post_json(
@@ -633,6 +657,8 @@ def patch_tender_award_Administrator_change(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
+    award = response.json["data"]
+    complaintPeriod = award["complaintPeriod"][u"startDate"]
 
     self.app.authorization = ("Basic", ("administrator", ""))
     response = self.app.patch_json(

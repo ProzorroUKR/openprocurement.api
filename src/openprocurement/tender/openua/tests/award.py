@@ -3,6 +3,7 @@ import unittest
 from copy import deepcopy
 
 from datetime import timedelta
+import dateutil
 
 import mock
 
@@ -33,6 +34,7 @@ from openprocurement.tender.openua.tests.award_blanks import (
     # TenderAwardResourceTest
     create_tender_award,
     patch_tender_award,
+    check_tender_award_complaint_period_dates,
     patch_tender_award_active,
     patch_tender_award_unsuccessful,
     create_tender_award_no_scale_invalid,

@@ -98,8 +98,16 @@ class TenderUaAwardResource(TenderAwardResource):
         award_status = award.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         configurator = self.request.content_configurator
+
+        now = get_now()
+
+        if award_status != award.status and award.status in ["active", "unsuccessful"]:
+            if award.complaintPeriod:
+                award.complaintPeriod.startDate = now
+            else:
+                award.complaintPeriod = {"startDate": now.isoformat()}
+
         if award_status == "pending" and award.status == "active":
-            now = get_now()
             award.complaintPeriod.endDate = calculate_complaint_business_date(now, STAND_STILL_TIME, tender)
             add_contract(self.request, award, now)
             add_next_award(
@@ -112,7 +120,6 @@ class TenderUaAwardResource(TenderAwardResource):
             and award.status == "cancelled"
             and any([i.status == "satisfied" for i in award.complaints])
         ):
-            now = get_now()
             cancelled_awards = []
             for i in tender.awards:
                 if i.lotID != award.lotID:
@@ -130,7 +137,6 @@ class TenderUaAwardResource(TenderAwardResource):
                 awarding_criteria_key=configurator.awarding_criteria_key,
             )
         elif award_status == "active" and award.status == "cancelled":
-            now = get_now()
             if award.complaintPeriod.endDate > now:
                 award.complaintPeriod.endDate = now
             for i in tender.contracts:
@@ -156,7 +162,6 @@ class TenderUaAwardResource(TenderAwardResource):
             if tender.status == "active.awarded":
                 tender.status = "active.qualification"
                 tender.awardPeriod.endDate = None
-            now = get_now()
             if award.complaintPeriod.endDate > now:
                 award.complaintPeriod.endDate = now
             cancelled_awards = []
