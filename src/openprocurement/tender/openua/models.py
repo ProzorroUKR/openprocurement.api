@@ -38,7 +38,7 @@ from openprocurement.tender.core.models import (
     LotValue as BaseLotValue,
     Item as BaseItem,
     Contract as BaseContract,
-    Cancellation as BaseCancellation,
+    Cancellation,
     validate_parameters_uniq,
     ITender,
     PeriodStartEndRequired,
@@ -335,16 +335,6 @@ class Award(BaseAward):
             raise ValidationError(u"This field is required.")
 
 
-class Cancellation(BaseCancellation):
-    class Options:
-        roles = {
-            "create": whitelist("reason", "status", "reasonType", "cancellationOf", "relatedLot"),
-            "edit": whitelist("status", "reasonType"),
-            "embedded": schematics_embedded_role,
-            "view": schematics_default_role,
-        }
-
-    reasonType = StringType(choices=["cancelled", "unsuccessful"], default="cancelled")
 
 
 @implementer(IAboveThresholdUATender)

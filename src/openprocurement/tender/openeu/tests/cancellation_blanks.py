@@ -1,9 +1,17 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
+from datetime import timedelta
+import mock
+
+from openprocurement.api.utils import get_now
 
 # TenderCancellationBidsAvailabilityTest
 
 
+@mock.patch(
+    "openprocurement.tender.core.models.RELEASE_2020_04_19",
+    get_now() + timedelta(days=1)
+)
 def bids_on_tender_cancellation_in_tendering(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     tender = response.json["data"]
@@ -339,6 +347,7 @@ def cancellation_active_tendering_j708(self):
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
 
+
 def cancellation_active_qualification_j1427(self):
     bid = deepcopy(self.initial_bids[0])
     bid["lotValues"] = bid["lotValues"][:1]
@@ -398,6 +407,10 @@ def cancellation_active_qualification_j1427(self):
     self.assertEqual(response.json["data"]["status"], "invalid.pre-qualification")
 
 
+@mock.patch(
+    "openprocurement.tender.core.models.RELEASE_2020_04_19",
+    get_now() + timedelta(days=1)
+)
 def cancellation_active_qualification(self):
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
     self.app.authorization = ("Basic", ("chronograph", ""))
@@ -446,6 +459,10 @@ def cancellation_active_qualification(self):
     self.assertIn(cancellation["id"], response.headers["Location"])
 
 
+@mock.patch(
+    "openprocurement.tender.core.models.RELEASE_2020_04_19",
+    get_now() + timedelta(days=1)
+)
 def cancellation_unsuccessful_qualification(self):
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
     self.app.authorization = ("Basic", ("chronograph", ""))
@@ -515,6 +532,10 @@ def cancellation_unsuccessful_qualification(self):
     self.assertIn(cancellation["id"], response.headers["Location"])
 
 
+@mock.patch(
+    "openprocurement.tender.core.models.RELEASE_2020_04_19",
+    get_now() + timedelta(days=1)
+)
 def cancellation_active_award(self):
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
     self.app.authorization = ("Basic", ("chronograph", ""))
@@ -595,6 +616,10 @@ def cancellation_active_award(self):
     self.assertIn(cancellation["id"], response.headers["Location"])
 
 
+@mock.patch(
+    "openprocurement.tender.core.models.RELEASE_2020_04_19",
+    get_now() + timedelta(days=1)
+)
 def cancellation_unsuccessful_award(self):
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
     self.app.authorization = ("Basic", ("chronograph", ""))

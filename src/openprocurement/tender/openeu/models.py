@@ -197,7 +197,6 @@ class Cancellation(BaseCancellation):
         }
 
     documents = ListType(ModelType(EUDocument, required=True), default=list())
-    reasonType = StringType(choices=["cancelled", "unsuccessful"], default="cancelled")
 
 
 class TenderAuctionPeriod(Period):

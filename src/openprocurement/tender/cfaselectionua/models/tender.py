@@ -20,9 +20,13 @@ from openprocurement.tender.core.models import (
     TenderAuctionPeriod,
     PeriodEndRequired,
     Tender as BaseTender,
-    Cancellation,
+    Cancellation as BaseCancellation,
     validate_features_uniq,
 )
+
+
+class Cancellation(BaseCancellation):
+    _before_release_reasonType_choices = []
 
 
 @implementer(ICFASelectionUATender)

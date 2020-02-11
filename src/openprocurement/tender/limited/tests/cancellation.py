@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
 import unittest
+import mock
+from datetime import timedelta
 
+from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.cancellation import TenderCancellationDocumentResourceTestMixin
+from openprocurement.tender.belowthreshold.tests.cancellation import (
+    TenderCancellationDocumentResourceTestMixin,
+    TenderCancellationResourceNewReleaseTestMixin,
+)
 from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     # TenderNegotiationLotsCancellationResourceTest
     patch_tender_lots_cancellation,
@@ -42,6 +48,12 @@ from openprocurement.tender.limited.tests.cancellation_blanks import (
 )
 
 
+MOCKED_RELEASE_DATE = "openprocurement.tender.core.models.RELEASE_2020_04_19"
+date_after_release = get_now() - timedelta(days=1)
+date_before_release = get_now() + timedelta(days=1)
+
+
+@mock.patch(MOCKED_RELEASE_DATE, date_before_release)
 class TenderCancellationResourceTest(BaseTenderContentWebTest):
     initial_data = test_tender_data
 
@@ -54,14 +66,36 @@ class TenderCancellationResourceTest(BaseTenderContentWebTest):
     test_create_cancellation_on_lot = snitch(create_cancellation_on_lot)
 
 
+@mock.patch(MOCKED_RELEASE_DATE, date_before_release)
 class TenderNegotiationCancellationResourceTest(TenderCancellationResourceTest):
     initial_data = test_tender_negotiation_data
 
     test_create_cancellation_on_lot = snitch(negotiation_create_cancellation_on_lot)
 
 
+@mock.patch(MOCKED_RELEASE_DATE, date_before_release)
 class TenderNegotiationQuickCancellationResourceTest(TenderNegotiationCancellationResourceTest):
     initial_data = test_tender_negotiation_quick_data
+
+
+@mock.patch(MOCKED_RELEASE_DATE, date_after_release)
+class TenderCancellationResourceNewReleaseTest(
+        BaseTenderContentWebTest, TenderCancellationResourceNewReleaseTestMixin):
+    initial_data = test_tender_data
+
+
+@mock.patch(MOCKED_RELEASE_DATE, date_after_release)
+class TenderNegotiationCancellationResourceNewReleaseTest(
+        BaseTenderContentWebTest, TenderCancellationResourceNewReleaseTestMixin):
+    initial_data = test_tender_negotiation_data
+    valid_reasonType_choices = ["noObjectiveness", "unFixable", "noDemand", "expensesCut", "dateViolation"]
+
+
+@mock.patch(MOCKED_RELEASE_DATE, date_after_release)
+class TenderNegotiationQuickCancellationResourceNewReleaseTest(
+        BaseTenderContentWebTest, TenderCancellationResourceNewReleaseTestMixin):
+    initial_data = test_tender_negotiation_quick_data
+    valid_reasonType_choices = ["noObjectiveness", "unFixable", "noDemand", "expensesCut", "dateViolation"]
 
 
 class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest, TenderCancellationDocumentResourceTestMixin):

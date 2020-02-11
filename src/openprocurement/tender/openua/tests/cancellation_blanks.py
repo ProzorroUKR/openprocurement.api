@@ -2,7 +2,16 @@
 
 # TenderCancellationResourceTest
 
+import mock
+from datetime import timedelta
 
+from openprocurement.api.utils import get_now
+
+
+@mock.patch(
+    "openprocurement.tender.core.models.RELEASE_2020_04_19",
+    get_now() + timedelta(days=1)
+)
 def create_tender_cancellation(self):
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
@@ -21,6 +30,24 @@ def create_tender_cancellation(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "active.tendering")
+
+    response = self.app.post_json(
+        "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"reason": "cancellation reason", "reasonType": "unFixable"}},
+        status=422
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u"description": [u"Value must be one of %s" % ["cancelled", "unsuccessful"]],
+                u"location": u"body",
+                u"name": u"reasonType",
+            }
+        ],
+    )
 
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
@@ -52,6 +79,10 @@ def create_tender_cancellation(self):
     )
 
 
+@mock.patch(
+    "openprocurement.tender.core.models.RELEASE_2020_04_19",
+    get_now() + timedelta(days=1)
+)
 def patch_tender_cancellation(self):
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
@@ -124,6 +155,10 @@ def patch_tender_cancellation(self):
 # TenderAwardsCancellationResourceTest
 
 
+@mock.patch(
+    "openprocurement.tender.core.models.RELEASE_2020_04_19",
+    get_now() + timedelta(days=1)
+)
 def cancellation_active_award(self):
     self.app.authorization = ("Basic", ("auction", ""))
     response = self.app.get("/tenders/{}/auction".format(self.tender_id))
@@ -175,6 +210,10 @@ def cancellation_active_award(self):
     self.assertIn(cancellation["id"], response.headers["Location"])
 
 
+@mock.patch(
+    "openprocurement.tender.core.models.RELEASE_2020_04_19",
+    get_now() + timedelta(days=1)
+)
 def cancellation_unsuccessful_award(self):
     self.app.authorization = ("Basic", ("auction", ""))
     response = self.app.get("/tenders/{}/auction".format(self.tender_id))
