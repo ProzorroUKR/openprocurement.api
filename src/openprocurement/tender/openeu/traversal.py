@@ -11,7 +11,9 @@ def qualifications_factory(request):
         qualification = get_item(tender, "qualification", request)
         if request.matchdict.get("complaint_id"):
             complaint = get_item(qualification, "complaint", request)
-            if request.matchdict.get("document_id"):
+            if request.matchdict.get("post_id"):
+                return get_item(complaint, "post", request)
+            elif request.matchdict.get("document_id"):
                 return get_item(complaint, "document", request)
             else:
                 return complaint

@@ -13,6 +13,8 @@ from schematics.transforms import whitelist
 from openprocurement.api.models import IsoDateTimeType
 from pyramid.security import Allow
 
+from openprocurement.tender.openua.models import ComplaintPost
+
 
 class ComplaintModelType(BaseComplaintModelType):
     view_claim_statuses = [
@@ -32,7 +34,7 @@ class Complaint(BaseComplaint):
             'resolutionType', 'reviewDate', 'reviewPlace', 'satisfied', 'status', 'tendererAction',
             'tendererActionDate', 'title', 'type',
         )
-        _open_view = _view_claim + whitelist('author')
+        _open_view = _view_claim + whitelist('author', 'posts')
         _embedded = _open_view - whitelist('bid_id')  # "-bid_id" looks like a typo in the original csv
         roles = {
             "view_claim": _view_claim,
@@ -89,6 +91,7 @@ class Complaint(BaseComplaint):
     reviewDate = IsoDateTimeType()
     reviewPlace = StringType()
     bid_id = StringType()
+    posts = ListType(ModelType(ComplaintPost), default=list())
 
     def __acl__(self):
         return [
@@ -101,29 +104,27 @@ class Complaint(BaseComplaint):
         root = self.get_root()
         request = root.request
         data = request.json_body["data"]
-        if request.authenticated_role == "complaint_owner" and data.get("status", self.status) == "cancelled":
+        auth_role = request.authenticated_role
+        status = data.get("status", self.status)
+        if auth_role == "complaint_owner" and status == "cancelled":
             role = "cancellation"
-        elif (
-            request.authenticated_role == "complaint_owner"
-            and self.status in ["pending", "accepted"]
-            and data.get("status", self.status) == "stopping"
-        ):
+        elif auth_role == "complaint_owner" and self.status in ["pending", "accepted"] and status == "stopping":
             role = "cancellation"
-        elif request.authenticated_role == "complaint_owner" and self.status == "draft":
+        elif auth_role == "complaint_owner" and self.status == "draft":
             role = "draft"
-        elif request.authenticated_role == "complaint_owner" and self.status == "claim":
+        elif auth_role == "complaint_owner" and self.status == "claim":
             role = "escalate"
-        elif request.authenticated_role == "tender_owner" and self.status == "claim":
+        elif auth_role == "tender_owner" and self.status == "claim":
             role = "answer"
-        elif request.authenticated_role == "tender_owner" and self.status in ["pending", "accepted"]:
+        elif auth_role == "tender_owner" and self.status in ["pending", "accepted"]:
             role = "action"
-        elif request.authenticated_role == "tender_owner" and self.status == "satisfied":
+        elif auth_role == "tender_owner" and self.status == "satisfied":
             role = "resolve"
-        elif request.authenticated_role == "complaint_owner" and self.status == "answered":
+        elif auth_role == "complaint_owner" and self.status == "answered":
             role = "satisfy"
-        elif request.authenticated_role == "aboveThresholdReviewers" and self.status == "pending":
+        elif auth_role == "aboveThresholdReviewers" and self.status == "pending":
             role = "pending"
-        elif request.authenticated_role == "aboveThresholdReviewers" and self.status in ["accepted", "stopping"]:
+        elif auth_role == "aboveThresholdReviewers" and self.status in ["accepted", "stopping"]:
             role = "review"
         else:
             role = "invalid"
