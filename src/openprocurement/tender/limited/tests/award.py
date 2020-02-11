@@ -87,7 +87,6 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
     test_create_tender_award = snitch(create_tender_award)
     test_canceling_created_award_and_create_new_one = snitch(canceling_created_award_and_create_new_one)
     test_patch_tender_award = snitch(patch_tender_award)
-    test_check_tender_award_complaint_period_dates = snitch(check_tender_award_complaint_period_dates)
     test_patch_tender_award_unsuccessful = snitch(patch_tender_award_unsuccessful)
     test_get_tender_award = snitch(get_tender_award)
     test_activate_contract_with_cancelled_award = snitch(activate_contract_with_cancelled_award)
@@ -109,6 +108,7 @@ class TenderNegotiationAwardResourceTest(TenderAwardResourceTest):
 
     test_lots_data = test_lots  # TODO: change attribute identifier
 
+    test_check_tender_award_complaint_period_dates = snitch(check_tender_award_complaint_period_dates)
     test_patch_tender_award_Administrator_change = snitch(patch_tender_award_Administrator_change)
     test_patch_active_not_qualified = snitch(patch_active_not_qualified)
     test_create_two_awards_on_one_lot = snitch(create_two_awards_on_one_lot)
