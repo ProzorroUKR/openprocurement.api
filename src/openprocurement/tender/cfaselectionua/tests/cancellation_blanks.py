@@ -99,6 +99,19 @@ def create_tender_cancellation_invalid(self):
         [{u"description": [u"relatedLot should be one of lots"], u"location": u"body", u"name": u"relatedLot"}],
     )
 
+    response = self.app.post_json(
+        request_path,
+        {"data": {"reason": "cancellation reason", "reasonType": "noDemand"}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{u"description": [u"Rogue field"], u"location": u"body", u"name": u"reasonType"}],
+    )
+
 
 def create_tender_cancellation(self):
     request_path = "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token)

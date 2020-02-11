@@ -14,6 +14,7 @@ from openprocurement.tender.core.models import (
     validate_lots_uniq,
     get_tender,
 )
+from openprocurement.tender.core.models import Cancellation as BaseCancellation
 from openprocurement.tender.openua.models import Tender as BaseTender, IAboveThresholdUATender
 from openprocurement.tender.core.utils import (
     calc_auction_end_time,
@@ -80,6 +81,13 @@ class ProcuringEntity(BaseProcuringEntity):
     additionalContactPoints = ListType(ModelType(ContactPoint, required=True), required=False)
 
 
+class Cancellation(BaseCancellation):
+    class Options:
+        roles = BaseCancellation._options.roles
+
+    _after_release_reasonType_choices = ["noDemand", "unFixable", "expensesCut"]
+
+
 @implementer(IAboveThresholdUADefTender)
 class Tender(BaseTender):
     """Data regarding tender process - publicly inviting prospective contractors to submit bids for evaluation and selecting a winner or winners."""
@@ -90,6 +98,8 @@ class Tender(BaseTender):
     lots = ListType(ModelType(Lot, required=True), default=list(), validators=[validate_lots_uniq])
     procurementMethodType = StringType(default="aboveThresholdUA.defense")
     procuring_entity_kinds = ["defense"]
+
+    cancellations = ListType(ModelType(Cancellation, required=True), default=list())
 
     @serializable(serialized_name="enquiryPeriod", type=ModelType(EnquiryPeriod))
     def tender_enquiryPeriod(self):

@@ -9,9 +9,9 @@ from zope.interface import implementer
 
 from openprocurement.api.models import ListType, Period, Value, Guarantee
 
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import get_now, get_root, get_first_revision_date
 
-from openprocurement.api.constants import TZ
+from openprocurement.api.constants import TZ, RELEASE_2020_04_19
 from openprocurement.api.validation import validate_items_uniq, validate_cpv_group, validate_classification_id
 
 from openprocurement.tender.core.models import ITender
@@ -29,7 +29,7 @@ from openprocurement.tender.core.models import (
     Award,
     Contract,
     Question,
-    Cancellation,
+    Cancellation as BaseCancellation,
     Feature,
     Lot as BaseLot,
     Complaint,
@@ -67,6 +67,11 @@ class Lot(BaseLot):
 
 class IBelowThresholdTender(ITender):
     """ Marker interface for belowThreshold tenders """
+
+
+class Cancellation(BaseCancellation):
+    _before_release_reasonType_choices = []
+    _after_release_reasonType_choices = ["noDemand", "unFixable", "expensesCut"]
 
 
 @implementer(IBelowThresholdTender)

@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 import unittest
+import mock
+from datetime import timedelta
 
+from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import test_lots
+from openprocurement.tender.belowthreshold.tests.cancellation import TenderCancellationResourceNewReleaseTestMixin
 
 from openprocurement.tender.competitivedialogue.tests.base import (
     test_bids,
@@ -28,13 +32,26 @@ from openprocurement.tender.competitivedialogue.tests.stage2.cancellation_blanks
 )
 
 
+MOCKED_RELEASE_DATE = "openprocurement.tender.core.models.RELEASE_2020_04_19"
+date_after_release = get_now() - timedelta(days=1)
+date_before_release = get_now() + timedelta(days=1)
+
+
 for bid in test_bids:
     bid["tenderers"][0]["identifier"]["id"] = test_shortlistedFirms[0]["identifier"]["id"]
     bid["tenderers"][0]["identifier"]["scheme"] = test_shortlistedFirms[0]["identifier"]["scheme"]
 
 
+@mock.patch(MOCKED_RELEASE_DATE, date_before_release)
 class TenderStage2EUCancellationResourceTest(
     BaseCompetitiveDialogEUStage2ContentWebTest, TenderCancellationResourceTestMixin
+):
+    pass
+
+
+@mock.patch(MOCKED_RELEASE_DATE, date_after_release)
+class TenderStage2EUCancellationResourceNewReleaseTest(
+    BaseCompetitiveDialogEUStage2ContentWebTest, TenderCancellationResourceNewReleaseTestMixin
 ):
     pass
 
@@ -71,11 +88,20 @@ class TenderStage2EUCancellationDocumentResourceTest(
         self.cancellation_id = cancellation["id"]
 
 
+@mock.patch(MOCKED_RELEASE_DATE, date_before_release)
 class TenderStage2UACancellationResourceTest(
     BaseCompetitiveDialogUAStage2ContentWebTest, TenderCancellationResourceTestMixin
 ):
 
     initial_auth = ("Basic", ("broker", ""))
+
+
+@mock.patch(MOCKED_RELEASE_DATE, date_after_release)
+class TenderStage2UaCancellationResourceNewReleaseTest(
+    BaseCompetitiveDialogUAStage2ContentWebTest, TenderCancellationResourceNewReleaseTestMixin
+):
+    initial_auth = ("Basic", ("broker", ""))
+
 
 
 class TenderStage2UALotCancellationResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):

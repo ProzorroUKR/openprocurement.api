@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
 import unittest
+import mock
+from datetime import timedelta
+
+from openprocurement.api.utils import get_now
 
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.cancellation import (
     TenderCancellationResourceTestMixin,
     TenderCancellationDocumentResourceTestMixin,
+    TenderCancellationResourceNewReleaseTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     # TenderLotsCancellationResourceTest
@@ -39,6 +44,11 @@ from openprocurement.tender.openeu.tests.cancellation_blanks import (
     bids_on_tender_cancellation_in_qualification,
     bids_on_tender_cancellation_in_awarded,
 )
+
+
+MOCKED_RELEASE_DATE = "openprocurement.tender.core.models.RELEASE_2020_04_19"
+date_after_release = get_now() - timedelta(days=1)
+date_before_release = get_now() + timedelta(days=1)
 
 
 class TenderCancellationBidsAvailabilityUtils(object):
@@ -222,12 +232,18 @@ class TenderCancellationBidsAvailabilityUtils(object):
         self.assertEqual(doc["title"], "name_{}.doc".format(doc_resource[:-1]))
 
 
+@mock.patch(MOCKED_RELEASE_DATE, date_before_release)
 class TenderCancellationResourceTest(BaseTenderContentWebTest, TenderCancellationResourceTestMixin):
 
     initial_auth = ("Basic", ("broker", ""))
 
     test_create_tender_cancellation = snitch(create_tender_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_cancellation)
+
+
+@mock.patch(MOCKED_RELEASE_DATE, date_after_release)
+class TenderCancellationResourceNewReleaseTest(BaseTenderContentWebTest, TenderCancellationResourceNewReleaseTestMixin):
+    initial_auth = ("Basic", ("broker", ""))
 
 
 class TenderCancellationBidsAvailabilityTest(BaseTenderContentWebTest, TenderCancellationBidsAvailabilityUtils):

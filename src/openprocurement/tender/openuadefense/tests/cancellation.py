@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
 import unittest
+import mock
+from datetime import timedelta
 
+from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import test_lots
 from openprocurement.tender.belowthreshold.tests.cancellation import (
     TenderCancellationResourceTestMixin,
     TenderCancellationDocumentResourceTestMixin,
+    TenderCancellationResourceNewReleaseTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     # TenderCancellationResourceTest
@@ -23,10 +27,22 @@ from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
 from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest
 
 
+MOCKED_RELEASE_DATE = "openprocurement.tender.core.models.RELEASE_2020_04_19"
+date_after_release = get_now() - timedelta(days=1)
+date_before_release = get_now() + timedelta(days=1)
+
+
+@mock.patch(MOCKED_RELEASE_DATE, date_before_release)
 class TenderCancellationResourceTest(BaseTenderUAContentWebTest, TenderCancellationResourceTestMixin):
 
     test_create_tender_cancellation = snitch(create_tender_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_cancellation)
+
+
+@mock.patch(MOCKED_RELEASE_DATE, date_after_release)
+class TenderCancellationResourceTest(
+        BaseTenderUAContentWebTest, TenderCancellationResourceNewReleaseTestMixin):
+    valid_reasonType_choices = ["noDemand", "unFixable", "expensesCut"]
 
 
 class TenderLotCancellationResourceTest(BaseTenderUAContentWebTest):

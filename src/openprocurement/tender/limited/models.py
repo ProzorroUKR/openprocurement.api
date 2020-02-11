@@ -6,9 +6,13 @@ from schematics.types import StringType, MD5Type, BooleanType, BaseType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from schematics.exceptions import ValidationError
-from openprocurement.api.constants import MILESTONES_VALIDATION_FROM, QUICK_CAUSE_REQUIRED_FROM
+from openprocurement.api.constants import (
+    MILESTONES_VALIDATION_FROM,
+    QUICK_CAUSE_REQUIRED_FROM,
+    RELEASE_2020_04_19,
+)
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_3, ACCR_4, ACCR_5
-from openprocurement.api.utils import get_now, get_first_revision_date
+from openprocurement.api.utils import get_now, get_root, get_first_revision_date
 from openprocurement.api.models import schematics_default_role, schematics_embedded_role
 from openprocurement.api.models import ListType, Period, Model
 from openprocurement.api.models import Value as BaseValue
@@ -169,8 +173,6 @@ class Cancellation(BaseCancellation):
             "view": schematics_default_role,
         }
 
-    reasonType = StringType(choices=["cancelled", "unsuccessful"], default="cancelled")
-
     def validate_relatedLot(self, data, relatedLot):
         if not relatedLot and data.get("cancellationOf") == "lot":
             raise ValidationError(u"This field is required.")
@@ -190,6 +192,14 @@ class Cancellation(BaseCancellation):
             raise ValidationError(
                 u'Lot cancellation can not be submitted, since "multiple lots" option is not available for this type of tender.'
             )
+
+
+class NegotiationCancellation(Cancellation):
+    class Options:
+        namespace = "Cancellation"
+        roles = Cancellation.Options.roles
+
+    _after_release_reasonType_choices = ["noObjectiveness", "unFixable", "noDemand", "expensesCut", "dateViolation"]
 
 
 class ProcuringEntity(BaseProcuringEntity):
@@ -415,6 +425,8 @@ class NegotiationTender(ReportingTender):
     procuring_entity_kinds = ["general", "special", "defense", "central"]
 
     lots = ListType(ModelType(Lot, required=True), default=list(), validators=[validate_lots_uniq])
+
+    cancellations = ListType(ModelType(NegotiationCancellation, required=True), default=list())
 
     # Required milestones
     def validate_milestones(self, data, value):

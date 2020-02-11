@@ -99,6 +99,15 @@ def create_tender_cancellation_invalid(self):
         [{u"description": [u"relatedLot should be one of lots"], u"location": u"body", u"name": u"relatedLot"}],
     )
 
+    response = self.app.post_json(
+        request_path,
+        {"data": {"reason": "cancellation reason", "reasonType": "noDemand"}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+
 
 def create_tender_cancellation(self):
     request_path = "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token)
@@ -146,6 +155,154 @@ def create_tender_cancellation(self):
     )
 
 
+def create_tender_cancellation_after_19_04_2020(self):
+
+    response = self.app.post_json(
+        "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"reason": "cancellation reason"}},
+        status=422
+    )
+
+    choices = self.valid_reasonType_choices
+
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u"description": [u"This field is required"],
+                u"location": u"body",
+                u"name": u"reasonType",
+            }
+        ],
+    )
+
+    response = self.app.post_json(
+        "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"reason": "cancellation reason", "reasonType": "cancelled"}},
+        status=422
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u"description": [u"Value must be one of %s" % choices],
+                u"location": u"body",
+                u"name": u"reasonType",
+            }
+        ],
+    )
+
+    response = self.app.post_json(
+        "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"reason": "cancellation reason", "reasonType": choices[0]}},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+
+    cancellation = response.json["data"]
+    self.assertIn("date", cancellation)
+    self.assertEqual(cancellation["reasonType"], choices[0])
+    self.assertEqual(cancellation["reason"], "cancellation reason")
+    self.assertIn("id", cancellation)
+    self.assertIn(cancellation["id"], response.headers["Location"])
+
+    response = self.app.post_json(
+        "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"reason": "cancellation reason", "status": "active", "reasonType": choices[1]}},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    cancellation = response.json["data"]
+    self.assertEqual(cancellation["reasonType"], choices[1])
+    self.assertEqual(cancellation["reason"], "cancellation reason")
+    self.assertEqual(cancellation["status"], "active")
+    self.assertIn("id", cancellation)
+    self.assertIn(cancellation["id"], response.headers["Location"])
+
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "cancelled")
+
+
+def create_tender_cancellation_after_19_04_2020(self):
+
+    response = self.app.post_json(
+        "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"reason": "cancellation reason"}},
+        status=422
+    )
+
+    choices = self.valid_reasonType_choices
+
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u"description": [u"This field is required"],
+                u"location": u"body",
+                u"name": u"reasonType",
+            }
+        ],
+    )
+
+    response = self.app.post_json(
+        "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"reason": "cancellation reason", "reasonType": "cancelled"}},
+        status=422
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u"description": [u"Value must be one of %s" % choices],
+                u"location": u"body",
+                u"name": u"reasonType",
+            }
+        ],
+    )
+
+    response = self.app.post_json(
+        "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"reason": "cancellation reason", "reasonType": choices[0]}},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+
+    cancellation = response.json["data"]
+    self.assertIn("date", cancellation)
+    self.assertEqual(cancellation["reasonType"], choices[0])
+    self.assertEqual(cancellation["reason"], "cancellation reason")
+    self.assertIn("id", cancellation)
+    self.assertIn(cancellation["id"], response.headers["Location"])
+
+    response = self.app.post_json(
+        "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"reason": "cancellation reason", "status": "active", "reasonType": choices[1]}},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    cancellation = response.json["data"]
+    self.assertEqual(cancellation["reasonType"], choices[1])
+    self.assertEqual(cancellation["reason"], "cancellation reason")
+    self.assertEqual(cancellation["status"], "active")
+    self.assertIn("id", cancellation)
+    self.assertIn(cancellation["id"], response.headers["Location"])
+
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "cancelled")
+
+
 def patch_tender_cancellation(self):
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
@@ -182,6 +339,96 @@ def patch_tender_cancellation(self):
 
     response = self.app.patch_json(
         "/tenders/{}/cancellations/some_id".format(self.tender_id), {"data": {"status": "active"}}, status=404
+    )
+    self.assertEqual(response.status, "404 Not Found")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"cancellation_id"}]
+    )
+
+    response = self.app.patch_json("/tenders/some_id/cancellations/some_id", {"data": {"status": "active"}}, status=404)
+    self.assertEqual(response.status, "404 Not Found")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+    )
+
+    response = self.app.get("/tenders/{}/cancellations/{}".format(self.tender_id, cancellation["id"]))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "active")
+    self.assertEqual(response.json["data"]["reason"], "cancellation reason")
+
+
+def patch_tender_cancellation_after_19_04_2020(self):
+    choices = self.valid_reasonType_choices
+
+    response = self.app.post_json(
+        "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"reason": "cancellation reason", "reasonType": choices[1]}},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    cancellation = response.json["data"]
+    old_date_status = response.json["data"]["date"]
+
+    response = self.app.patch_json(
+        "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation["id"], self.tender_token),
+        {"data": {"reasonType": choices[0]}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["reasonType"], choices[0])
+
+    response = self.app.patch_json(
+        "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation["id"], self.tender_token),
+        {"data": {"reasonType": "cancelled"}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u"description": [u"Value must be one of %s" % choices],
+                u"location": u"body",
+                u"name": u"reasonType",
+            }
+        ],
+    )
+
+    response = self.app.patch_json(
+        "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation["id"], self.tender_token),
+        {"data": {"status": "active"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "active")
+    self.assertNotEqual(old_date_status, response.json["data"]["date"])
+
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "cancelled")
+
+    response = self.app.patch_json(
+        "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation["id"], self.tender_token),
+        {"data": {"status": "pending"}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"][0]["description"], "Can't update tender in current (cancelled) status"
+    )
+
+    response = self.app.patch_json(
+        "/tenders/{}/cancellations/some_id?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"status": "active"}},
+        status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")

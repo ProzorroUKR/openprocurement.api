@@ -38,6 +38,7 @@ from openprocurement.api.constants import (
     NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
     MPC_REQUIRED_FROM,
     MILESTONES_VALIDATION_FROM,
+    RELEASE_2020_04_19,
 )
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
 
@@ -715,8 +716,8 @@ class Complaint(Model):
 class Cancellation(Model):
     class Options:
         roles = {
-            "create": whitelist("reason", "status", "cancellationOf", "relatedLot"),
-            "edit": whitelist("status"),
+            "create": whitelist("reason", "status", "reasonType", "cancellationOf", "relatedLot"),
+            "edit": whitelist("status", "reasonType"),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
         }
@@ -731,12 +732,38 @@ class Cancellation(Model):
     cancellationOf = StringType(required=True, choices=["tender", "lot"], default="tender")
     relatedLot = MD5Type()
 
+    reasonType = StringType()
+
+    _before_release_reasonType_choices = ["cancelled", "unsuccessful"]
+    _after_release_reasonType_choices = ["noDemand", "unFixable", "forceMajeure", "expensesCut"]
+
     def validate_relatedLot(self, data, relatedLot):
         if not relatedLot and data.get("cancellationOf") == "lot":
             raise ValidationError(u"This field is required.")
         parent = data["__parent__"]
         if relatedLot and isinstance(parent, Model) and relatedLot not in [i.id for i in parent.lots if i]:
             raise ValidationError(u"relatedLot should be one of lots")
+
+    def validate_reasonType(self, data, value):
+        tender = get_root(data["__parent__"])
+        if get_first_revision_date(tender, default=get_now()) > RELEASE_2020_04_19:
+            choices = self._after_release_reasonType_choices
+            if not value:
+                raise ValidationError("This field is required")
+        else:
+            choices = self._before_release_reasonType_choices
+            if not choices and value:
+                raise ValidationError("Rogue field")
+
+            elif not choices and not value:
+                return
+
+            elif not value and choices:
+                data["reasonType"] = choices[0]
+                return
+
+        if value not in choices:
+            raise ValidationError("Value must be one of %s" % choices)
 
 
 class BaseAward(Model):

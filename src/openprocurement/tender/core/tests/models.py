@@ -5,7 +5,6 @@ from mock import patch, MagicMock
 from datetime import datetime, timedelta, time
 from schematics.exceptions import ModelValidationError
 from schematics.types.compound import ModelType
-from schematics.types import StringType
 from openprocurement.tender.core.models import (
     PeriodEndRequired,
     get_tender,
