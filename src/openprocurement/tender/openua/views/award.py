@@ -26,6 +26,20 @@ from openprocurement.tender.openua.utils import add_next_award
     procurementMethodType="aboveThresholdUA",
 )
 class TenderUaAwardResource(TenderAwardResource):
+
+    def pre_save(self):
+        now = get_now()
+
+        award = self.request.context
+        if "status" in self.request.validated["data"]:
+            new_status= self.request.validated["data"]["status"]
+
+            if award.status != new_status and new_status in ["active", "unsuccessful"]:
+                if award.complaintPeriod:
+                    award.complaintPeriod.startDate = now
+                else:
+                    award.complaintPeriod = {"startDate": now.isoformat()}
+
     @json_view(
         content_type="application/json",
         permission="edit_tender",
@@ -96,16 +110,11 @@ class TenderUaAwardResource(TenderAwardResource):
         tender = self.request.validated["tender"]
         award = self.request.context
         award_status = award.status
+        self.pre_save()
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         configurator = self.request.content_configurator
 
         now = get_now()
-
-        if award_status != award.status and award.status in ["active", "unsuccessful"]:
-            if award.complaintPeriod:
-                award.complaintPeriod.startDate = now
-            else:
-                award.complaintPeriod = {"startDate": now.isoformat()}
 
         if award_status == "pending" and award.status == "active":
             award.complaintPeriod.endDate = calculate_complaint_business_date(now, STAND_STILL_TIME, tender)

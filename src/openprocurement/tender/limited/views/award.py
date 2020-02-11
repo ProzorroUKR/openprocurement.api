@@ -308,14 +308,6 @@ class TenderAwardResource(APIResource):
         award_status = award.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
 
-        now = get_now()
-
-        if award_status != award.status and award.status in ["active", "unsuccessful"]:
-            if award.complaintPeriod:
-                award.complaintPeriod.startDate = now
-            else:
-                award.complaintPeriod = {"startDate": now.isoformat()}
-
         if award_status == "pending" and award.status == "active":
             add_contract(self.request, award)
             # add_next_award(self.request)
