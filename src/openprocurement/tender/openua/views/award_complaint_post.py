@@ -4,6 +4,7 @@ from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.openua.validation import (
     validate_award_complaint_post_data,
     validate_complaint_post_add_not_in_allowed_complaint_status,
+    validate_complaint_post,
 )
 from openprocurement.tender.openua.views.complaint_post import TenderComplaintPostResource
 
@@ -29,6 +30,7 @@ class TenderAwardComplaintPostResource(TenderComplaintPostResource):
         content_type="application/json",
         validators=(
             validate_award_complaint_post_data,
+            validate_complaint_post,
             validate_complaint_post_add_not_in_allowed_complaint_status,
         ),
         permission="edit_complaint",
