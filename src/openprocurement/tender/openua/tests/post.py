@@ -12,6 +12,7 @@ from openprocurement.tender.openua.tests.post_blanks import (
     patch_complaint_post,
     get_complaint_post,
     get_complaint_posts,
+    create_complaint_post_release_forbidden,
 )
 
 
@@ -126,6 +127,7 @@ class TenderAwardComplaintPostResourceMixin(object):
 
 
 class ComplaintPostResourceMixin(object):
+    test_create_complaint_post_release_forbidden = snitch(create_complaint_post_release_forbidden)
     test_create_complaint_post_status_forbidden = snitch(create_complaint_post_status_forbidden)
     test_create_complaint_post_claim_forbidden = snitch(create_complaint_post_claim_forbidden)
     test_create_complaint_post_complaint_owner = snitch(create_complaint_post_complaint_owner)

@@ -1,6 +1,32 @@
+from datetime import timedelta
+
+import mock
+
+from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.base import change_auth
 
+RELEASE_2020_04_19_TEST_ENABLED = get_now() - timedelta(days=1)
+RELEASE_2020_04_19_TEST_DISABLED = get_now() + timedelta(days=1)
 
+
+@mock.patch("openprocurement.tender.openua.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_DISABLED)
+def create_complaint_post_release_forbidden(self):
+    # try in draft
+    with change_auth(self.app, ("Basic", ("reviewer", ""))):
+        response = self.post_post({
+            "title": "Lorem ipsum",
+            "description": "Lorem ipsum dolor sit amet",
+            "recipient": "complaint_owner",
+        }, status=403)
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Forbidden"
+    )
+
+
+@mock.patch("openprocurement.tender.openua.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def create_complaint_post_status_forbidden(self):
     # try in draft
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
@@ -16,6 +42,8 @@ def create_complaint_post_status_forbidden(self):
         "Can't add post in current (draft) complaint status"
     )
 
+
+@mock.patch("openprocurement.tender.openua.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def create_complaint_post_claim_forbidden(self):
     # make complaint type claim
     response = self.patch_complaint({"type": "claim", "status": "claim"}, self.complaint_owner_token)
@@ -36,6 +64,8 @@ def create_complaint_post_claim_forbidden(self):
         "Can't add post in current (claim) complaint status"
     )
 
+
+@mock.patch("openprocurement.tender.openua.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def create_complaint_post_complaint_owner(self):
     # make complaint type complaint
     response = self.patch_complaint({"type": "complaint", "status": "pending"}, self.complaint_owner_token)
@@ -72,6 +102,8 @@ def create_complaint_post_complaint_owner(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["author"], "complaint_owner")
 
+
+@mock.patch("openprocurement.tender.openua.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def create_complaint_post_tender_owner(self):
     # make complaint type complaint
     response = self.patch_complaint({"type": "complaint", "status": "pending"}, self.complaint_owner_token)
@@ -108,6 +140,8 @@ def create_complaint_post_tender_owner(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["author"], "tender_owner")
 
+
+@mock.patch("openprocurement.tender.openua.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def create_complaint_post_validate_recipient(self):
     # make complaint type complaint
     response = self.patch_complaint({"type": "complaint", "status": "pending"}, self.complaint_owner_token)
@@ -151,6 +185,8 @@ def create_complaint_post_validate_recipient(self):
     self.assertEqual(response.json["status"], "error")
     self.assertIn("Value must be one of ['aboveThresholdReviewers'].", str(response.json["errors"]))
 
+
+@mock.patch("openprocurement.tender.openua.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def create_complaint_post_validate_related_post(self):
     # make complaint type complaint
     response = self.patch_complaint({"type": "complaint", "status": "pending"}, self.complaint_owner_token)
@@ -242,6 +278,7 @@ def create_complaint_post_validate_related_post(self):
     self.assertIn("relatedPost must be unique.", str(response.json["errors"]))
 
 
+@mock.patch("openprocurement.tender.openua.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def patch_complaint_post(self):
     # make complaint type complaint
     response = self.patch_complaint({"type": "complaint", "status": "pending"}, self.complaint_owner_token)
@@ -270,6 +307,7 @@ def patch_complaint_post(self):
     self.assertEqual(response.content_type, "text/plain")
 
 
+@mock.patch("openprocurement.tender.openua.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def get_complaint_post(self):
     # make complaint type complaint
     response = self.patch_complaint({"type": "complaint", "status": "pending"}, self.complaint_owner_token)
@@ -320,6 +358,7 @@ def get_complaint_post(self):
     )
 
 
+@mock.patch("openprocurement.tender.openua.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def get_complaint_posts(self):
     # make complaint type complaint
     response = self.patch_complaint({"type": "complaint", "status": "pending"}, self.complaint_owner_token)

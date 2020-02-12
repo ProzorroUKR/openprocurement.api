@@ -10,6 +10,7 @@ from openprocurement.api.utils import (
     get_first_revision_date,
     get_root,
     handle_data_exceptions,
+    raise_operation_error,
 )
 
 OPERATIONS = {"POST": "add", "PATCH": "update", "PUT": "update", "DELETE": "delete"}
@@ -159,3 +160,10 @@ def validate_accreditation_level_owner(request, owner, location, name, action):
 def validate_accreditation_level_kind(request, levels, kind, location, name, action):
     if kind == "central":
         validate_accreditation_level(request, levels, location, name, action)
+
+
+def validate_tender_first_revision_date(request, validation_date, message="Forbidden"):
+    tender = request.validated["tender"]
+    tender_creation_date = get_first_revision_date(tender, default=get_now())
+    if tender_creation_date < validation_date:
+        raise_operation_error(request, message)

@@ -1,6 +1,8 @@
+from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.validation import (
     validate_data, validate_json_data, OPERATIONS, validate_accreditation_level,
     validate_accreditation_level_mode,
+    validate_tender_first_revision_date,
 )
 from openprocurement.api.utils import (
     apply_data_patch, error_handler, get_now, raise_operation_error,
@@ -209,3 +211,7 @@ def validate_complaint_post_add_not_in_allowed_complaint_status(request):
     complaint = request.context
     if complaint.status not in ["pending", "accepted"]:
         raise_operation_error(request, "Can't add post in current ({}) complaint status".format(complaint.status))
+
+
+def validate_complaint_post(request):
+    validate_tender_first_revision_date(request, validation_date=RELEASE_2020_04_19)
