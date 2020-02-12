@@ -82,18 +82,16 @@ class PlanMilestoneResource(APIResource):
     def patch(self):
         plan = self.request.validated['plan']
         milestone = self.request.context
-        prev_status = milestone.status
+        status = milestone.status
         prev_due_date = milestone.dueDate
+        description = milestone.description
 
         if apply_patch(self.request, src=self.request.context.serialize(), save=False):
             plan.dateModified = milestone.dateModified = get_now()
             plan.modified = False
-
-            if prev_status != milestone.status:
-                #  Allowed status changes:
-                #  scheduled -> met
+            if status != milestone.status:  # Allowed status changes: scheduled -> met/notMet
                 if (
-                        prev_status == Milestone.STATUS_SCHEDULED
+                        status == Milestone.STATUS_SCHEDULED
                         and milestone.status in (Milestone.STATUS_MET, Milestone.STATUS_NOT_MET)
                 ):
                     if milestone.status == Milestone.STATUS_MET:
@@ -101,13 +99,22 @@ class PlanMilestoneResource(APIResource):
                 else:
                     raise_operation_error(
                         self.request,
-                        "Can't update milestone status from '{}' to '{}'".format(prev_status, milestone.status)
+                        "Can't update milestone status from '{}' to '{}'".format(status, milestone.status)
                     )
 
-            if prev_due_date != milestone.dueDate and prev_status != Milestone.STATUS_SCHEDULED:
+            if prev_due_date != milestone.dueDate and status != Milestone.STATUS_SCHEDULED:
                 raise_operation_error(
                     self.request,
-                    "Can't update dueDate at '{}' milestone status".format(milestone.status)
+                    "Can't update dueDate at '{}' milestone status".format(status)
+                )
+
+            if (
+                description != milestone.description and
+                status not in (Milestone.STATUS_SCHEDULED, Milestone.STATUS_MET)
+            ):
+                raise_operation_error(
+                    self.request,
+                    "Can't update description at '{}' milestone status".format(status)
                 )
 
             save_plan(self.request)
