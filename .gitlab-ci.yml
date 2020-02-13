@@ -1,7 +1,7 @@
 stages:
   - build
   - deploy
-  - robot_tests
+  - robot
   - test
   - repos
   - cleanup
@@ -119,7 +119,7 @@ deploy_master:
     - schedules
 
 robot_tests:
-  stage: robot_tests
+  stage: robot
   script:
     - curl "$JENKINS_URL/buildWithParameters?token=$JENKINS_TOKEN&cause=$CI_COMMIT_REF_SLUG&RELEASE_NAME=$CI_COMMIT_REF_SLUG&API_VERSION=2.5"
     - echo $JENKINS_URL
@@ -149,6 +149,35 @@ stop_review:
     - schedules
   when: manual
 
+.setuptools:
+  image: python:2.7
+  stage: test
+  services:
+    - couchdb:1.6
+  tags:
+    - kube
+  variables:
+    GIT_STRATEGY: clone
+  only:
+    - branches
+  before_script:
+    - apt-get update
+    - apt-get install -y libsodium-dev
+    - pip install --upgrade pip setuptools
+    - echo '127.0.0.1  couchdb' >> /etc/hosts
+
+test:
+  extends: .setuptools
+  script:
+    - python setup.py test
+  when: manual
+
+docs:
+  extends: .setuptools
+  script:
+    - python setup.py test --addopts="docs/tests --color=yes"
+    - (set -e; [[ $(git diff) ]] && { git diff; exit 1; } || exit 0)
+
 .test:
   image: $CI_REGISTRY_IMAGE:ci-$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA
   stage: test
@@ -162,8 +191,9 @@ stop_review:
     - schedules
   dependencies:
     - build
-  script:
+  before_script:
     - echo '127.0.0.1  couchdb' >> /etc/hosts
+  script:
     - cd /app
     - py.test $TESTS_PATH --cov=$COV_PATH --cov-config=$COV_FILE -v --maxfail=1 --color=yes --dist=each
       --tx=popen//id=sand//env:DB_NAME=test_sandbox//env:SANDBOX_MODE=1//env:SINGLE_APP=1
@@ -302,32 +332,3 @@ test_tender_cfaselectionua:
     TESTS_PATH: src/openprocurement/tender/cfaselectionua/tests
     COV_PATH: src/openprocurement/tender/cfaselectionua
     COV_FILE: .coveragerc
-
-test_docs:
-  extends: .test
-  script:
-    - echo '127.0.0.1  couchdb' >> /etc/hosts
-    - cd /app
-    - py.test docs/tests
-    - (set -e; [[ $(git diff) ]] && { git diff; exit 1; } || exit 0)
-
-test_setup_py:
-  image: python:2.7
-  stage: test
-  tags:
-    - kube
-  variables:
-    GIT_STRATEGY: clone
-  only:
-    - branches
-  dependencies:
-    - build
-  before_script:
-    - apt-get update
-    - apt-get install -y libsodium-dev
-    - pip install --upgrade pip setuptools
-    - echo '127.0.0.1  couchdb' >> /etc/hosts
-  script:
-    - python setup.py test
-  coverage: '/TOTAL\s+\d+\s+\d+\s+(\d+%)/'
-  when: manual

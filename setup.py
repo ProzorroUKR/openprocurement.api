@@ -9,8 +9,9 @@ with open(os.path.join(here, "README.md")) as f:
     README = f.read()
 
 requires = [
-    "pyramid<1.10.0",
+    "pyramid<1.8.0",
     "schematics<2.0.0",
+    "WebOb<=1.6.9",
     "cornice==1.2.0.dev0",
     "couchdb-schematics",
     "barbecue",
