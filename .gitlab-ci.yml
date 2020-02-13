@@ -303,6 +303,14 @@ test_tender_cfaselectionua:
     COV_PATH: src/openprocurement/tender/cfaselectionua
     COV_FILE: .coveragerc
 
+test_docs:
+  extends: .test
+  script:
+    - echo '127.0.0.1  couchdb' >> /etc/hosts
+    - cd /app
+    - py.test docs/tests
+    - (set -e; [[ $(git diff) ]] && { git diff; exit 1; } || exit 0)
+
 test_setup_py:
   image: python:2.7
   stage: test
