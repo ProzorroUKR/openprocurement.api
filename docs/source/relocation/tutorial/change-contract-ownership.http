@@ -1,0 +1,114 @@
+POST /api/2.5/contracts/223251091c99415eb820553413b6aa9e/ownership HTTP/1.0
+Authorization: Bearer broker3
+Content-Length: 100
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "transfer": "a74f356d32d14bc3b67a9f57f220200a", 
+    "id": "5ef74c1aed79496cbfebb12f86bcae11"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "active", 
+    "items": [
+      {
+        "description": "футляри до державних нагород", 
+        "classification": {
+          "scheme": "CPV", 
+          "description": "Cartons", 
+          "id": "44617100-9"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2016-03-20T18:47:47.136678+02:00", 
+          "endDate": "2016-03-23T18:47:47.136678+02:00"
+        }, 
+        "id": "c6c6e8ed4b1542e4bf13d3f98ec5ab59", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 5.0
+      }
+    ], 
+    "suppliers": [
+      {
+        "contactPoint": {
+          "email": "aagt@gmail.com", 
+          "telephone": "+380 (322) 91-69-30", 
+          "name": "Андрій Олексюк"
+        }, 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137226", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "name": "ДКП «Книга»", 
+        "address": {
+          "postalCode": "79013", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 34", 
+          "region": "Львівська область", 
+          "locality": "м. Львів"
+        }
+      }
+    ], 
+    "contractNumber": "contract #13111", 
+    "period": {
+      "startDate": "2016-03-18T18:47:47.155143+02:00", 
+      "endDate": "2017-03-18T18:47:47.155143+02:00"
+    }, 
+    "value": {
+      "currency": "UAH", 
+      "amount": 238.0, 
+      "amountNet": 237.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "id": "223251091c99415eb820553413b6aa9e", 
+    "procuringEntity": {
+      "contactPoint": {
+        "name": "Державне управління справами", 
+        "telephone": "0440000000"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "00037256", 
+        "uri": "http://www.dus.gov.ua/"
+      }, 
+      "name": "Державне управління справами", 
+      "address": {
+        "postalCode": "01220", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Банкова, 11, корпус 1", 
+        "region": "м. Київ", 
+        "locality": "м. Київ"
+      }
+    }, 
+    "dateSigned": "2019-10-25T01:00:00+03:00", 
+    "contractID": "UA-2016-03-18-000001-1", 
+    "owner": "broker3", 
+    "awardID": "8481d7eb01694c25b18658036c236c5d", 
+    "dateModified": "2019-10-25T01:00:00+03:00", 
+    "tender_id": "6c7e283dac7e457f9046067792657bd8"
+  }
+}
+

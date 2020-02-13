@@ -1,0 +1,58 @@
+GET /api/2.5/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d/bids/4e7e80c7beff4410a7871440df169e6d?acc_token=1796bfdc0c804563a47cc56d748e68bb HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "active", 
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "title": "Proposal.pdf", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d/bids/4e7e80c7beff4410a7871440df169e6d/documents/1fa410ce0ac3417692601818c8bcb33f?download=fdb6c36e36e64099a4f22f00826a6df8", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "id": "1fa410ce0ac3417692601818c8bcb33f", 
+        "dateModified": "2019-10-25T01:00:00+03:00"
+      }
+    ], 
+    "selfEligible": true, 
+    "id": "4e7e80c7beff4410a7871440df169e6d", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "subcontractingDetails": "ДКП «Орфей», Україна", 
+    "tenderers": [
+      {
+        "contactPoint": {
+          "email": "soleksuk@gmail.com", 
+          "telephone": "+380 (432) 21-69-30", 
+          "name": "Сергій Олексюк"
+        }, 
+        "scale": "micro", 
+        "name": "ДКП «Школяр»", 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137256", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "address": {
+          "postalCode": "21100", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 33", 
+          "region": "м. Вінниця", 
+          "locality": "м. Вінниця"
+        }
+      }
+    ], 
+    "date": "2019-10-25T01:00:00+03:00", 
+    "selfQualified": true, 
+    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d?key_for_bid=4e7e80c7beff4410a7871440df169e6d"
+  }
+}
+

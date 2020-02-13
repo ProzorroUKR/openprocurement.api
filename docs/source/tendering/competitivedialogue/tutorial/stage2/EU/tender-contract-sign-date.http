@@ -1,0 +1,90 @@
+PATCH /api/2.5/tenders/50c82523038349969f53f3e238932c46/contracts/b6a7995d82d24e2493ce3d45eeaaa00e?acc_token=90e5c1d7c0414b99a392234aee8cd1dc HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 53
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "dateSigned": "2019-10-25T01:00:01+03:00"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "pending", 
+    "items": [
+      {
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "Test", 
+          "id": "37810000-9"
+        }, 
+        "description_en": "Services in school canteens", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2019-11-14T01:00:00+03:00", 
+          "endDate": "2019-11-24T01:00:10+03:00"
+        }, 
+        "id": "52ba02bed7a347fa9f8119661caf0ed2", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 1.0
+      }
+    ], 
+    "suppliers": [
+      {
+        "contactPoint": {
+          "email": "aagt@gmail.com", 
+          "telephone": "+380 (322) 91-69-30", 
+          "name": "Андрій Олексюк"
+        }, 
+        "scale": "sme", 
+        "name": "ДКП «Книга»", 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137226", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "address": {
+          "postalCode": "79013", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 34", 
+          "region": "м. Львів", 
+          "locality": "м. Львів"
+        }
+      }
+    ], 
+    "contractNumber": "contract#1", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 238.0, 
+      "amountNet": 230.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "dateSigned": "2019-10-25T01:00:01+03:00", 
+    "date": "2019-10-25T01:00:00+03:00", 
+    "awardID": "dcce360f724a4fb3a1fe22e38f3d17a7", 
+    "id": "b6a7995d82d24e2493ce3d45eeaaa00e", 
+    "contractID": "UA-2019-10-25-000001-1"
+  }
+}
+

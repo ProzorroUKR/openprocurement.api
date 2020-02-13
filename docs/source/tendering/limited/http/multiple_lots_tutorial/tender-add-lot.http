@@ -1,0 +1,36 @@
+POST /api/2.5/tenders/0cd37a4798fe40d1b45324a394f61c9f/lots?acc_token=f78d07413fdf4cf196d0d1b94d560a4f HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 199
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "description": "Опис Лот №1", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500000, 
+      "valueAddedTaxIncluded": false
+    }, 
+    "title": "Лот №1"
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0cd37a4798fe40d1b45324a394f61c9f/lots/28f98cde22964c8ea8bbc1fda693580e
+{
+  "data": {
+    "status": "active", 
+    "description": "Опис Лот №1", 
+    "title": "Лот №1", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500000.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "date": "2019-10-25T01:00:00+03:00", 
+    "id": "28f98cde22964c8ea8bbc1fda693580e"
+  }
+}
+

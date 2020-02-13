@@ -1,0 +1,160 @@
+PATCH /api/2.5/plans/4689139ff34a42b09939fc6e030ecdcc?acc_token=3ba3dae0ce4444538dd8784e3ecce947 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 48
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "cancellation": {
+      "status": "active"
+    }
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "cancelled", 
+    "cancellation": {
+      "date": "2019-10-25T01:00:00+03:00", 
+      "status": "active", 
+      "reason": "Підстава для скасування", 
+      "reason_en": "Reason of the cancellation", 
+      "id": "2b2e6ce04a064c9eb5f7e02fd90a82a1"
+    }, 
+    "buyers": [
+      {
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "111983", 
+          "legalName": "ДП Державне Управління Справами"
+        }, 
+        "name": "ДУС"
+      }
+    ], 
+    "classification": {
+      "scheme": "ДК021", 
+      "description": "Seeds", 
+      "id": "03111000-2"
+    }, 
+    "items": [
+      {
+        "description": "Насіння гірчиці", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "Mustard seeds", 
+          "id": "03111600-8"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "01.11.92", 
+            "description": "Насіння гірчиці"
+          }
+        ], 
+        "deliveryDate": {
+          "endDate": "2019-11-09T01:00:00+03:00"
+        }, 
+        "id": "412564af110644e3949048b2056dcc18", 
+        "unit": {
+          "code": "KGM", 
+          "name": "кг"
+        }, 
+        "quantity": 1000.0
+      }, 
+      {
+        "description": "Насіння соняшнику", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "Sunflower seeds", 
+          "id": "03111300-5"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "01.11.95", 
+            "description": "Насіння соняшнику"
+          }
+        ], 
+        "deliveryDate": {
+          "endDate": "2019-11-10T01:00:00+03:00"
+        }, 
+        "id": "c81232e1b2444c14b9f8020014952cc9", 
+        "unit": {
+          "code": "KGM", 
+          "name": "кг"
+        }, 
+        "quantity": 2000.0
+      }, 
+      {
+        "description": "Насіння бавовнику", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "Cotton seeds", 
+          "id": "03111400-6"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "01.11.84", 
+            "description": "Насіння бавовнику"
+          }
+        ], 
+        "deliveryDate": {
+          "endDate": "2019-11-11T01:00:00+03:00"
+        }, 
+        "id": "58d7324d089a457f8549f41ac09596c3", 
+        "unit": {
+          "code": "KGM", 
+          "name": "кг"
+        }, 
+        "quantity": 3000.0
+      }
+    ], 
+    "planID": "UA-P-2019-10-25-000003", 
+    "budget": {
+      "amountNet": 12222.0, 
+      "description": "budget_description", 
+      "period": {
+        "startDate": "2020-01-01T00:00:00+02:00", 
+        "endDate": "2020-12-31T00:00:00+02:00"
+      }, 
+      "project": {
+        "id": "123", 
+        "name": "proj_name"
+      }, 
+      "currency": "UAH", 
+      "amount": 10000.0, 
+      "id": "12303111000-2"
+    }, 
+    "dateModified": "2019-10-25T01:00:00+03:00", 
+    "tender": {
+      "procurementMethod": "open", 
+      "procurementMethodType": "belowThreshold", 
+      "tenderPeriod": {
+        "startDate": "2019-11-01T01:00:00+03:00"
+      }
+    }, 
+    "additionalClassifications": [
+      {
+        "scheme": "КЕКВ", 
+        "id": "1", 
+        "description": "-"
+      }
+    ], 
+    "procuringEntity": {
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "111983", 
+        "legalName": "ДП Державне Управління Справами"
+      }, 
+      "name": "ДУС"
+    }, 
+    "owner": "broker", 
+    "datePublished": "2019-10-25T01:00:00+03:00", 
+    "id": "4689139ff34a42b09939fc6e030ecdcc"
+  }
+}
+

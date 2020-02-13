@@ -1,0 +1,27 @@
+PATCH /api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660?acc_token=62607c36ce4a4d64961ecc0d0a21540e HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 38
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "value": {
+      "amount": 501.0
+    }
+  }
+}
+
+Response: 403 Forbidden
+Content-Type: application/json; charset=UTF-8
+{
+  "status": "error", 
+  "errors": [
+    {
+      "description": "tenderPeriod should be extended by 7 days", 
+      "location": "body", 
+      "name": "data"
+    }
+  ]
+}
+

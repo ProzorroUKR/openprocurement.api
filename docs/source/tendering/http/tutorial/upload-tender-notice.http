@@ -1,0 +1,32 @@
+POST /api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/documents?acc_token=e6bb69a4c5474e4987130585951b6f3e HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 326
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4d52879c11df4aa7ae80d3b6c4a274ce?KeyID=a8968c46&Signature=7a%2BQeAFuPxM%2BlBzTbtjmyV6b7yao2q9L6FPe2GinRg2MZjCXq%2FgudCuxpGsndtgnWoZS16e8z%2BtIfvjZTN2FDQ%3D%3D", 
+    "title": "Notice.pdf", 
+    "hash": "md5:00000000000000000000000000000000", 
+    "format": "application/pdf"
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/documents/8a3d30101dc94ca58f768bec6a1f45dd
+{
+  "data": {
+    "hash": "md5:00000000000000000000000000000000", 
+    "author": "tender_owner", 
+    "title": "Notice.pdf", 
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4d52879c11df4aa7ae80d3b6c4a274ce?KeyID=a8968c46&Signature=BiR23Y26fUFdAaBBqxSqN2Lv29UkW8VjpoZA0NLoVj2cgKeSq3J%2FiuGzva%252Bl0R6wpgLbA2zfat9mNkErf3HjAg%253D%253D", 
+    "format": "application/pdf", 
+    "documentOf": "tender", 
+    "datePublished": "2019-10-25T01:00:01+03:00", 
+    "id": "8a3d30101dc94ca58f768bec6a1f45dd", 
+    "dateModified": "2019-10-25T01:00:01+03:00"
+  }
+}
+

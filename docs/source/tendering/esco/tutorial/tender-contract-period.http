@@ -1,0 +1,149 @@
+PATCH /api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/contracts/b24337545a6c4c25843d326ae2a60645?acc_token=82d005b2183e43fe8edbb00cc6eb36c1 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 104
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "period": {
+      "startDate": "2019-10-25T01:00:01+03:00", 
+      "endDate": "2020-10-24T01:00:01+03:00"
+    }
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "pending", 
+    "items": [
+      {
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "Test", 
+          "id": "37810000-9"
+        }, 
+        "description_en": "Services in school canteens", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "id": "366a042aa96a4acdbe63112500608db1", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }
+      }, 
+      {
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "Test", 
+          "id": "37810000-9"
+        }, 
+        "description_en": "Services in school canteens", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "id": "9a24ed7daf1948b2923da55b02b720ed", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }
+      }
+    ], 
+    "suppliers": [
+      {
+        "contactPoint": {
+          "email": "soleksuk@gmail.com", 
+          "telephone": "+380 (432) 21-69-30", 
+          "name": "Сергій Олексюк"
+        }, 
+        "scale": "micro", 
+        "name": "ДКП «Школяр»", 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137256", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "address": {
+          "postalCode": "21100", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 33", 
+          "region": "м. Вінниця", 
+          "locality": "м. Вінниця"
+        }
+      }
+    ], 
+    "contractNumber": "contract#1", 
+    "period": {
+      "startDate": "2019-10-25T01:00:01+03:00", 
+      "endDate": "2020-10-24T01:00:01+03:00"
+    }, 
+    "dateSigned": "2019-10-25T01:00:01+03:00", 
+    "value": {
+      "yearlyPaymentsPercentage": 0.9, 
+      "amountNet": 9466.26, 
+      "amountPerformance": 869.28, 
+      "currency": "UAH", 
+      "amount": 9467.26, 
+      "contractDuration": {
+        "days": 74, 
+        "years": 10
+      }, 
+      "valueAddedTaxIncluded": true, 
+      "annualCostsReduction": [
+        500.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0, 
+        1000.0
+      ]
+    }, 
+    "date": "2019-10-25T01:00:00+03:00", 
+    "awardID": "cc09c32b70944953bb082bdf4cf13c48", 
+    "id": "b24337545a6c4c25843d326ae2a60645", 
+    "contractID": "UA-2019-10-25-000001-1"
+  }
+}
+

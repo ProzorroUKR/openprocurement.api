@@ -1,0 +1,32 @@
+GET /api/1.0/registry/atc.json HTTP/1.0
+Authorization: Basic YnJva2VybmFtZTpicm9rZXJuYW1l
+Host: medicines-registry-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json
+{
+  "data": {
+    "N07BB04": "N07BB04", 
+    "L01BC08": "L01BC08", 
+    "N07BB01": "N07BB01", 
+    "R03BB06": "R03BB06", 
+    "R03BB07": "R03BB07", 
+    "R03BB04": "R03BB04", 
+    "R03BB05": "R03BB05", 
+    "L01BC07": "L01BC07", 
+    "L01BC06": "L01BC06", 
+    "C03AA03": "C03AA03", 
+    "R03BB01": "R03BB01", 
+    "L01BC03": "L01BC03", 
+    "A11CC05": "A11CC05", 
+    "A11CC03": "A11CC03", 
+    "L01BC05": "L01BC05", 
+    "L01BC02": "L01BC02", 
+    "J05AF30": "J05AF30", 
+    "A11CC01": "A11CC01", 
+    "L01BC01": "L01BC01", 
+    "D08AJ57": "D08AJ57"
+  }, 
+  "dateModified": "2018-08-16 14:21:47+03:00"
+}
+

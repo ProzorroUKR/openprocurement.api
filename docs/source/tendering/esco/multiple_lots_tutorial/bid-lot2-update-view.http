@@ -1,0 +1,96 @@
+PATCH /api/2.5/tenders/db8f78603c144a8aac15730f9c763584/bids/e330641f19174449b434b4988cccf0c6?acc_token=1eefabf7d7e741df9f88509718bac900 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 124
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "status": "pending", 
+    "lotValues": [
+      {
+        "relatedLot": "3c84167877eb48d693c12efd2c6cb01e", 
+        "value": {
+          "amount": 500
+        }
+      }
+    ]
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "pending", 
+    "selfEligible": true, 
+    "lotValues": [
+      {
+        "relatedLot": "3c84167877eb48d693c12efd2c6cb01e", 
+        "date": "2019-10-25T01:00:00+03:00", 
+        "status": "pending", 
+        "value": {
+          "yearlyPaymentsPercentage": 0.9, 
+          "valueAddedTaxIncluded": true, 
+          "currency": "UAH", 
+          "amount": 10445.67, 
+          "contractDuration": {
+            "days": 0, 
+            "years": 7
+          }, 
+          "amountPerformance": 2096.72, 
+          "annualCostsReduction": [
+            700.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0, 
+            1600.0
+          ]
+        }
+      }
+    ], 
+    "selfQualified": true, 
+    "tenderers": [
+      {
+        "contactPoint": {
+          "email": "aagt@gmail.com", 
+          "telephone": "+380 (322) 91-69-30", 
+          "name": "Андрій Олексюк"
+        }, 
+        "scale": "sme", 
+        "name": "ДКП «Книга»", 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137226", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "address": {
+          "postalCode": "79013", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 34", 
+          "region": "м. Львів", 
+          "locality": "м. Львів"
+        }
+      }
+    ], 
+    "date": "2019-10-25T01:00:00+03:00", 
+    "id": "e330641f19174449b434b4988cccf0c6"
+  }
+}
+

@@ -1,0 +1,33 @@
+#
+# Copyright (C) 2014-2015, Quintagroup, Ltd
+# This file is distributed under the same license as the openprocurement.api
+# package.
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.4\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-09-21 09:57+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+#: ../../source/medicines-registry/tutorial/authorization.rst:2
+msgid "Authorization"
+msgstr "Авторизація"
+
+#: ../../source/medicines-registry/tutorial/authorization.rst:4
+msgid "**Basic authorization:** username, password"
+msgstr ""
+
+#: ../../source/medicines-registry/tutorial/authorization.rst:6
+msgid "**Example:** Basic YnJva2VybmFtZTpicm9rZXJuYW1l"
+msgstr "**Приклад:** Basic YnJva2VybmFtZTpicm9rZXJuYW1l"
+
+#: ../../source/medicines-registry/tutorial/authorization.rst:8
+msgid "Response to an unauthorized user:"
+msgstr "Відповідь неавторизованому користувачеві"
+

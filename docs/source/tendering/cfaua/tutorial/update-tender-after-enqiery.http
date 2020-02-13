@@ -1,0 +1,265 @@
+GET /api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8?acc_token=1e40f3cf3fd64b8ebca3076b70a86e71 HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "procurementMethod": "open", 
+    "mainProcurementCategory": "goods", 
+    "complaintPeriod": {
+      "startDate": "2019-09-27T01:00:00+03:00", 
+      "endDate": "2019-10-23T00:00:00+03:00"
+    }, 
+    "enquiryPeriod": {
+      "startDate": "2019-09-27T01:00:00+03:00", 
+      "clarificationsUntil": "2019-10-23T00:00:00+03:00", 
+      "endDate": "2019-10-17T01:00:00+03:00", 
+      "invalidationDate": "2019-10-25T01:00:00+03:00"
+    }, 
+    "submissionMethod": "electronicAuction", 
+    "next_check": "2019-10-27T01:00:00+03:00", 
+    "procuringEntity": {
+      "kind": "general", 
+      "name": "Державне управління справами", 
+      "address": {
+        "postalCode": "01220", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Банкова, 11, корпус 1", 
+        "region": "м. Київ", 
+        "locality": "м. Київ"
+      }, 
+      "contactPoint": {
+        "name_en": "State administration", 
+        "name": "Державне управління справами", 
+        "availableLanguage": "uk", 
+        "telephone": "0440000000"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "legalName_en": "dus.gov.ua", 
+        "id": "00037256", 
+        "uri": "http://www.dus.gov.ua/"
+      }, 
+      "name_en": "State administration"
+    }, 
+    "questions": [
+      {
+        "description": "Просимо додати таблицю потрібної калорійності харчування", 
+        "dateAnswered": "2019-10-25T01:00:00+03:00", 
+        "title": "Калорійність", 
+        "date": "2019-10-25T01:00:00+03:00", 
+        "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
+        "id": "efba5567d08848afae0ebb78272aed79", 
+        "questionOf": "tender"
+      }
+    ], 
+    "owner": "broker", 
+    "id": "e5172ebc4c4c411f84f376ce6ede43b8", 
+    "guarantee": {
+      "currency": "USD", 
+      "amount": 8
+    }, 
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "author": "tender_owner", 
+        "language": "uk", 
+        "title": "Notice.pdf", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/737e92977b1348bf9bbb0f9d96a353fb?KeyID=a8968c46&Signature=%252B3heKDaHcguEs74c9qKkJ34abfbTXtk9Iomqulz%2FIrIIf%2FDJQm7KyxTNmaYHMUs3v4P%2F1T98S4LdFjlEKlM1Dw%253D%253D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "id": "946a5bea2c884fd187f834566ce4f391", 
+        "dateModified": "2019-10-25T01:00:00+03:00"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "author": "tender_owner", 
+        "language": "uk", 
+        "title": "AwardCriteria.pdf", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c846d08e3153421cb0c3eb734bd70eeb?KeyID=a8968c46&Signature=kfSb3gPHdvhu9SaVPESjB7zG8jXZuy8cIurf8Cqh2N%2F112wxi5ETRP3vSBo6g%2FqJk%252B2kNEVIUqwmoGU98jAWBQ%253D%253D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "id": "103903f8e0ae424ca30a8fb377c1f5ad", 
+        "dateModified": "2019-10-25T01:00:00+03:00"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "author": "tender_owner", 
+        "language": "uk", 
+        "title": "AwardCriteria-2.pdf", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3fc9f137b61b46e181ea404c940f5e28?KeyID=a8968c46&Signature=yAMp0ABkvZaJ72OCL0Gj0hb%2Fvh9Oa%2FGsQI%2F3h7ZQ%252BN5ZERiCoUtwIxLi0QF1W379foh%2F4WRKz3CDliPbBaZtCQ%253D%253D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "id": "103903f8e0ae424ca30a8fb377c1f5ad", 
+        "dateModified": "2019-10-25T01:00:00+03:00"
+      }
+    ], 
+    "title": "футляри до державних нагород", 
+    "lots": [
+      {
+        "status": "active", 
+        "description": "Опис Лот №1", 
+        "title": "Лот №1", 
+        "minimalStep": {
+          "currency": "UAH", 
+          "amount": 35.0, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "auctionPeriod": {
+          "shouldStartAfter": "2019-12-02T00:00:00+03:00"
+        }, 
+        "value": {
+          "currency": "UAH", 
+          "amount": 500.0, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "date": "2019-10-25T01:00:00+03:00", 
+        "id": "c7555f1bb878434d8815dea318304673", 
+        "guarantee": {
+          "currency": "USD", 
+          "amount": 8.0
+        }
+      }
+    ], 
+    "maxAwardsCount": 4, 
+    "tenderID": "UA-2019-10-25-000001", 
+    "dateModified": "2019-10-25T01:00:00+03:00", 
+    "status": "active.tendering", 
+    "tenderPeriod": {
+      "startDate": "2019-09-27T01:00:00+03:00", 
+      "endDate": "2019-10-27T01:00:00+03:00"
+    }, 
+    "title_en": "Cases for state awards", 
+    "procurementMethodType": "closeFrameworkAgreementUA", 
+    "agreementDuration": "P3Y3M3D", 
+    "date": "2019-10-25T01:00:00+03:00", 
+    "milestones": [
+      {
+        "code": "prepayment", 
+        "sequenceNumber": 0, 
+        "title": "signingTheContract", 
+        "duration": {
+          "type": "banking", 
+          "days": 2
+        }, 
+        "percentage": 100.0, 
+        "type": "financing", 
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    ], 
+    "minimalStep": {
+      "currency": "UAH", 
+      "amount": 35, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "items": [
+      {
+        "relatedLot": "c7555f1bb878434d8815dea318304673", 
+        "description": "футляри до державних нагород", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "Cartons", 
+          "id": "44617100-9"
+        }, 
+        "description_en": "Cases for state awards", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2018-06-27T13:39:09.362837+03:00", 
+          "endDate": "2018-06-30T13:39:09.362837+03:00"
+        }, 
+        "id": "c9f1001e9cf04ec9b6dba5517f0be455", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 5.0
+      }, 
+      {
+        "relatedLot": "c7555f1bb878434d8815dea318304673", 
+        "description": "футляри до державних нагород", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "Cartons", 
+          "id": "44617100-9"
+        }, 
+        "description_en": "Cases for state awards", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2018-06-27T13:39:09.362837+03:00", 
+          "endDate": "2018-06-30T13:39:09.362837+03:00"
+        }, 
+        "id": "d2921287716245e095f67d91b9ceafa6", 
+        "unit": {
+          "code": "44617100-8", 
+          "name": "item"
+        }, 
+        "quantity": 5.0
+      }
+    ], 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "awardCriteria": "lowestCost"
+  }
+}
+
+PATCH /api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8?acc_token=1e40f3cf3fd64b8ebca3076b70a86e71 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 38
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "value": {
+      "amount": 501.0
+    }
+  }
+}
+
+Response: 403 Forbidden
+Content-Type: application/json; charset=UTF-8
+{
+  "status": "error", 
+  "errors": [
+    {
+      "description": "tenderPeriod should be extended by 7 days", 
+      "location": "body", 
+      "name": "data"
+    }
+  ]
+}
+

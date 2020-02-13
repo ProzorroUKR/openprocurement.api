@@ -1,0 +1,138 @@
+PATCH /api/2.5/tenders/0cd37a4798fe40d1b45324a394f61c9f?acc_token=f78d07413fdf4cf196d0d1b94d560a4f HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 73
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "items": [
+      {
+        "relatedLot": "28f98cde22964c8ea8bbc1fda693580e"
+      }
+    ]
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "procurementMethod": "limited", 
+    "mainProcurementCategory": "services", 
+    "causeDescription": "оригінальний тендер не вдався двічі", 
+    "procuringEntity": {
+      "contactPoint": {
+        "url": "http://sch10.edu.vn.ua/", 
+        "name": "Куца Світлана Валентинівна", 
+        "telephone": "+380 (432) 46-53-02"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "21725150", 
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+      }, 
+      "name": "ЗОСШ #10 м.Вінниці", 
+      "kind": "special", 
+      "address": {
+        "postalCode": "21027", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Стахурського. 22", 
+        "region": "м. Вінниця", 
+        "locality": "м. Вінниця"
+      }
+    }, 
+    "owner": "broker", 
+    "id": "0cd37a4798fe40d1b45324a394f61c9f", 
+    "title": "Послуги шкільних їдалень", 
+    "lots": [
+      {
+        "status": "active", 
+        "description": "Опис Лот №1", 
+        "title": "Лот №1", 
+        "value": {
+          "currency": "UAH", 
+          "amount": 500000.0, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "date": "2019-10-25T01:00:00+03:00", 
+        "id": "28f98cde22964c8ea8bbc1fda693580e"
+      }
+    ], 
+    "causeDescription_en": "original tender has failed twice", 
+    "tenderID": "UA-2019-10-25-000001", 
+    "description_ru": "Услуги школьных столовых", 
+    "dateModified": "2019-10-25T01:00:00+03:00", 
+    "status": "active", 
+    "title_en": "Services in school canteens", 
+    "procurementMethodType": "negotiation.quick", 
+    "description_en": "Services in school canteens", 
+    "causeDescription_ru": "оригинальный тендер не получился дважды", 
+    "date": "2019-10-25T01:00:00+03:00", 
+    "milestones": [
+      {
+        "code": "prepayment", 
+        "sequenceNumber": 0, 
+        "title": "signingTheContract", 
+        "duration": {
+          "type": "banking", 
+          "days": 2
+        }, 
+        "percentage": 45.55, 
+        "type": "financing", 
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }, 
+      {
+        "code": "postpayment", 
+        "sequenceNumber": 0, 
+        "title": "deliveryOfGoods", 
+        "duration": {
+          "type": "calendar", 
+          "days": 900
+        }, 
+        "percentage": 54.45, 
+        "type": "financing", 
+        "id": "155aad4a9e494a2fae96a8770c3fe7d7"
+      }
+    ], 
+    "items": [
+      {
+        "relatedLot": "28f98cde22964c8ea8bbc1fda693580e", 
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "Послуги з харчування у школах", 
+          "id": "55523100-3"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2019-11-14T00:00:00+02:00", 
+          "endDate": "2019-12-14T00:00:00+02:00"
+        }, 
+        "id": "b96fb1f581bc4abab5ac8486238ea5f0", 
+        "quantity": 1.0
+      }
+    ], 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500000.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "title_ru": "Услуги школьных столовых", 
+    "cause": "twiceUnsuccessful"
+  }
+}
+

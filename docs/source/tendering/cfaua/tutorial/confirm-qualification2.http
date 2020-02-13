@@ -1,0 +1,56 @@
+PATCH /api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/awards/f0a4ebb65d774adc88df5718449f7d75?acc_token=1e40f3cf3fd64b8ebca3076b70a86e71 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 67
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "status": "active", 
+    "qualified": true, 
+    "eligible": true
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "active", 
+    "lotID": "c7555f1bb878434d8815dea318304673", 
+    "eligible": true, 
+    "suppliers": [
+      {
+        "contactPoint": {
+          "email": "fake@mail.com", 
+          "telephone": "+380 (322) 12-34-56", 
+          "name": "Іван Іваненко"
+        }, 
+        "scale": "mid", 
+        "name": "«Снігур»", 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137227", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "address": {
+          "postalCode": "79013", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 35", 
+          "region": "м. Львів", 
+          "locality": "м. Львів"
+        }
+      }
+    ], 
+    "bid_id": "5a84740ed0bd4aa3830adfb56c49ed62", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 5, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "qualified": true, 
+    "date": "2019-10-25T01:00:00+03:00", 
+    "id": "f0a4ebb65d774adc88df5718449f7d75"
+  }
+}
+

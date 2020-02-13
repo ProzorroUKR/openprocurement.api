@@ -1,0 +1,98 @@
+PATCH /api/2.5/tenders/db8f78603c144a8aac15730f9c763584/bids/b797c74bba014457870ceda8104f0444?acc_token=0949a68ffd9a4f4cbb1747d304615609 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 214
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "status": "pending", 
+    "lotValues": [
+      {
+        "relatedLot": "3c84167877eb48d693c12efd2c6cb01e", 
+        "value": {
+          "amount": 500
+        }, 
+        "subcontractingDetails": "ДКП «Орфей»"
+      }
+    ]
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "pending", 
+    "selfEligible": true, 
+    "lotValues": [
+      {
+        "relatedLot": "3c84167877eb48d693c12efd2c6cb01e", 
+        "date": "2019-10-25T01:00:00+03:00", 
+        "status": "pending", 
+        "value": {
+          "yearlyPaymentsPercentage": 0.87, 
+          "valueAddedTaxIncluded": true, 
+          "currency": "UAH", 
+          "amount": 6104.3, 
+          "contractDuration": {
+            "days": 0, 
+            "years": 7
+          }, 
+          "amountPerformance": 1387.98, 
+          "annualCostsReduction": [
+            200.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0, 
+            1000.0
+          ]
+        }, 
+        "subcontractingDetails": "ДКП «Орфей»"
+      }
+    ], 
+    "selfQualified": true, 
+    "tenderers": [
+      {
+        "contactPoint": {
+          "email": "soleksuk@gmail.com", 
+          "telephone": "+380 (432) 21-69-30", 
+          "name": "Сергій Олексюк"
+        }, 
+        "scale": "micro", 
+        "name": "ДКП «Школяр»", 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137256", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "address": {
+          "postalCode": "21100", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 33", 
+          "region": "м. Вінниця", 
+          "locality": "м. Вінниця"
+        }
+      }
+    ], 
+    "date": "2019-10-25T01:00:00+03:00", 
+    "id": "b797c74bba014457870ceda8104f0444"
+  }
+}
+

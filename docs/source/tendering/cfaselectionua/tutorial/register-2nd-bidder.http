@@ -1,0 +1,145 @@
+POST /api/2.5/tenders/6ccc95c340c94e32bcf0b8c2183e62f7/bids HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 1702
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "documents": [
+      {
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f4853348bbbc4a6faa08d0e2891ea2e8?KeyID=a8968c46&Signature=7oKZXvaJ1DSjHrye7Vper58fwy6SgxlPENkC8Dp%2BE%2FOdlns3tx9gSDonjNtipPzuXjfjbMkQzsQ1pK%2FkJp%2FgCg%3D%3D", 
+        "format": "application/pdf", 
+        "hash": "md5:00000000000000000000000000000000", 
+        "title": "Proposal_part1.pdf"
+      }, 
+      {
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e8f2a6a130ba44bb8e93f4056a8dbab7?KeyID=a8968c46&Signature=vDgXtbdz7NMXj2A8EujrSzjYTDZsd3d9TbAgAkG66CBgJJAuJ3z9jwF6R3M2tFHG7Evit2visH%2FEzt%2FDqmmABw%3D%3D", 
+        "format": "application/pdf", 
+        "hash": "md5:00000000000000000000000000000000", 
+        "title": "Proposal_part2.pdf"
+      }
+    ], 
+    "lotValues": [
+      {
+        "relatedLot": "1b75c06ee58f4909a4201255b4ba5831", 
+        "value": {
+          "amount": 499
+        }
+      }
+    ], 
+    "parameters": [
+      {
+        "code": "OCDS-123454-AIR-INTAKE", 
+        "value": 0.1
+      }, 
+      {
+        "code": "OCDS-123454-YEARS", 
+        "value": 0.1
+      }
+    ], 
+    "tenderers": [
+      {
+        "contactPoint": {
+          "name": "Державне управління справами", 
+          "telephone": "0440000000"
+        }, 
+        "scale": "micro", 
+        "name": "Державне управління справами", 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00037257", 
+          "uri": "http://www.dus.gov.ua/"
+        }, 
+        "address": {
+          "postalCode": "01220", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова, 11, корпус 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }
+      }
+    ]
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6ccc95c340c94e32bcf0b8c2183e62f7/bids/d3401f691dc94a84ba7daa8eb8e0c4f0
+{
+  "access": {
+    "transfer": "9ae4e56edcfb4eb69c010689a3f89041", 
+    "token": "8c1be9249ea8445480b4c4e3ec6ee974"
+  }, 
+  "data": {
+    "status": "active", 
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "title": "Proposal_part1.pdf", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6ccc95c340c94e32bcf0b8c2183e62f7/bids/d3401f691dc94a84ba7daa8eb8e0c4f0/documents/c5f17f5d6bd94560afb4e4276f410310?download=f4853348bbbc4a6faa08d0e2891ea2e8", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "id": "c5f17f5d6bd94560afb4e4276f410310", 
+        "dateModified": "2019-10-25T01:00:00+03:00"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "title": "Proposal_part2.pdf", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6ccc95c340c94e32bcf0b8c2183e62f7/bids/d3401f691dc94a84ba7daa8eb8e0c4f0/documents/39a5a8f376d04e31b0dff87300913f99?download=e8f2a6a130ba44bb8e93f4056a8dbab7", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "id": "39a5a8f376d04e31b0dff87300913f99", 
+        "dateModified": "2019-10-25T01:00:00+03:00"
+      }
+    ], 
+    "parameters": [
+      {
+        "code": "OCDS-123454-AIR-INTAKE", 
+        "value": 0.1
+      }, 
+      {
+        "code": "OCDS-123454-YEARS", 
+        "value": 0.1
+      }
+    ], 
+    "lotValues": [
+      {
+        "relatedLot": "1b75c06ee58f4909a4201255b4ba5831", 
+        "date": "2019-10-25T01:00:00+03:00", 
+        "value": {
+          "currency": "UAH", 
+          "amount": 499.0, 
+          "valueAddedTaxIncluded": true
+        }
+      }
+    ], 
+    "tenderers": [
+      {
+        "contactPoint": {
+          "name": "Державне управління справами", 
+          "telephone": "0440000000"
+        }, 
+        "scale": "micro", 
+        "name": "Державне управління справами", 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00037257", 
+          "uri": "http://www.dus.gov.ua/"
+        }, 
+        "address": {
+          "postalCode": "01220", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова, 11, корпус 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }
+      }
+    ], 
+    "date": "2019-10-25T01:00:00+03:00", 
+    "id": "d3401f691dc94a84ba7daa8eb8e0c4f0"
+  }
+}
+

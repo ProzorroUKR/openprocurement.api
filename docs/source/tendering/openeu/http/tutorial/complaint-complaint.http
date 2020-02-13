@@ -1,0 +1,61 @@
+PATCH /api/2.5/tenders/71c0e0ebf297470aa18a89c42f80fb55/complaints/06ef5a30aba04b5db7c0b44f95a3e046?acc_token=c521d6f5f2194886a97f9d0b708c73ca HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 31
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "status": "pending"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "pending", 
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "author": "complaint_owner", 
+        "language": "uk", 
+        "title": "Complaint_Attachement.pdf", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b8f3a5909d7a4800a88f064e6f32a5c5?KeyID=a8968c46&Signature=fvkB13u5SRQ1gD660sDpvIvj%2F4tXMY6yTvAxkFosDMsJXn7PH4TdTI62UNhbtsB7ipzbhyiloZRUQ3Lx9yccDg%253D%253D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "id": "461ff49bef37491794d62d57cc74ae53", 
+        "dateModified": "2019-10-25T01:00:00+03:00"
+      }
+    ], 
+    "description": "Просимо додати таблицю потрібної калорійності харчування", 
+    "author": {
+      "contactPoint": {
+        "email": "aagt@gmail.com", 
+        "telephone": "+380 (322) 91-69-30", 
+        "name": "Андрій Олексюк"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "00137226", 
+        "uri": "http://www.sc.gov.ua/"
+      }, 
+      "name": "ДКП «Книга»", 
+      "address": {
+        "postalCode": "79013", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Островського, 34", 
+        "region": "м. Львів", 
+        "locality": "м. Львів"
+      }
+    }, 
+    "title": "Калорійність", 
+    "dateSubmitted": "2019-10-25T01:00:00+03:00", 
+    "complaintID": "UA-2019-10-25-000001.1", 
+    "date": "2019-10-25T01:00:00+03:00", 
+    "type": "complaint", 
+    "id": "06ef5a30aba04b5db7c0b44f95a3e046"
+  }
+}
+

@@ -1,0 +1,227 @@
+GET /api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/agreements HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": [
+    {
+      "agreementID": "UA-2019-10-25-000001-9f98cc211b664fa997a83e3375b3464e1", 
+      "status": "pending", 
+      "contracts": [
+        {
+          "status": "active", 
+          "unitPrices": [
+            {
+              "value": {
+                "currency": "UAH", 
+                "valueAddedTaxIncluded": true
+              }, 
+              "relatedItem": "c9f1001e9cf04ec9b6dba5517f0be455"
+            }, 
+            {
+              "value": {
+                "currency": "UAH", 
+                "valueAddedTaxIncluded": true
+              }, 
+              "relatedItem": "d2921287716245e095f67d91b9ceafa6"
+            }
+          ], 
+          "suppliers": [
+            {
+              "contactPoint": {
+                "email": "fake@mail.com", 
+                "telephone": "+380 (322) 12-34-56", 
+                "name": "Іван Іваненко"
+              }, 
+              "scale": "mid", 
+              "name": "«Снігур»", 
+              "identifier": {
+                "scheme": "UA-EDR", 
+                "id": "00137227", 
+                "uri": "http://www.sc.gov.ua/"
+              }, 
+              "address": {
+                "postalCode": "79013", 
+                "countryName": "Україна", 
+                "streetAddress": "вул. Островського, 35", 
+                "region": "м. Львів", 
+                "locality": "м. Львів"
+              }
+            }
+          ], 
+          "bidID": "5a84740ed0bd4aa3830adfb56c49ed62", 
+          "date": "2019-10-25T01:00:00+03:00", 
+          "awardID": "f0a4ebb65d774adc88df5718449f7d75", 
+          "id": "2221451d71af4bfa803fd5b9382103ed"
+        }, 
+        {
+          "status": "active", 
+          "unitPrices": [
+            {
+              "value": {
+                "currency": "UAH", 
+                "valueAddedTaxIncluded": true
+              }, 
+              "relatedItem": "c9f1001e9cf04ec9b6dba5517f0be455"
+            }, 
+            {
+              "value": {
+                "currency": "UAH", 
+                "valueAddedTaxIncluded": true
+              }, 
+              "relatedItem": "d2921287716245e095f67d91b9ceafa6"
+            }
+          ], 
+          "suppliers": [
+            {
+              "contactPoint": {
+                "email": "aagt@gmail.com", 
+                "telephone": "+380 (322) 91-69-30", 
+                "name": "Андрій Олексюк"
+              }, 
+              "scale": "sme", 
+              "name": "ДКП «Книга»", 
+              "identifier": {
+                "scheme": "UA-EDR", 
+                "id": "00137226", 
+                "uri": "http://www.sc.gov.ua/"
+              }, 
+              "address": {
+                "postalCode": "79013", 
+                "countryName": "Україна", 
+                "streetAddress": "вул. Островського, 34", 
+                "region": "м. Львів", 
+                "locality": "м. Львів"
+              }
+            }
+          ], 
+          "bidID": "e88e8fc3020640178a79c6e66d3dfd5f", 
+          "date": "2019-10-25T01:00:00+03:00", 
+          "awardID": "331d2ebbb3b94173b610e325e2423686", 
+          "id": "d5c9e2e28ee74a67a078c87bf9967a53"
+        }, 
+        {
+          "status": "active", 
+          "unitPrices": [
+            {
+              "value": {
+                "currency": "UAH", 
+                "valueAddedTaxIncluded": true
+              }, 
+              "relatedItem": "c9f1001e9cf04ec9b6dba5517f0be455"
+            }, 
+            {
+              "value": {
+                "currency": "UAH", 
+                "valueAddedTaxIncluded": true
+              }, 
+              "relatedItem": "d2921287716245e095f67d91b9ceafa6"
+            }
+          ], 
+          "suppliers": [
+            {
+              "contactPoint": {
+                "email": "soleksuk@gmail.com", 
+                "telephone": "+380 (432) 21-69-30", 
+                "name": "Сергій Олексюк"
+              }, 
+              "scale": "micro", 
+              "name": "ДКП «Школяр»", 
+              "identifier": {
+                "scheme": "UA-EDR", 
+                "id": "00137256", 
+                "uri": "http://www.sc.gov.ua/"
+              }, 
+              "address": {
+                "postalCode": "21100", 
+                "countryName": "Україна", 
+                "streetAddress": "вул. Островського, 33", 
+                "region": "м. Вінниця", 
+                "locality": "м. Вінниця"
+              }
+            }
+          ], 
+          "bidID": "410cb59a0945497eb61cc4461f661569", 
+          "date": "2019-10-25T01:00:00+03:00", 
+          "awardID": "57a34dbba3aa422eb0fdaaa1ef9014f3", 
+          "id": "713faef521cf4366b30696f427b2f171"
+        }
+      ], 
+      "items": [
+        {
+          "relatedLot": "c7555f1bb878434d8815dea318304673", 
+          "description": "футляри до державних нагород", 
+          "classification": {
+            "scheme": "ДК021", 
+            "description": "Cartons", 
+            "id": "44617100-9"
+          }, 
+          "description_en": "Cases for state awards", 
+          "additionalClassifications": [
+            {
+              "scheme": "ДКПП", 
+              "id": "17.21.1", 
+              "description": "папір і картон гофровані, паперова й картонна тара"
+            }
+          ], 
+          "deliveryAddress": {
+            "postalCode": "79000", 
+            "countryName": "Україна", 
+            "streetAddress": "вул. Банкова 1", 
+            "region": "м. Київ", 
+            "locality": "м. Київ"
+          }, 
+          "deliveryDate": {
+            "startDate": "2018-06-27T13:39:09.362837+03:00", 
+            "endDate": "2018-06-30T13:39:09.362837+03:00"
+          }, 
+          "id": "c9f1001e9cf04ec9b6dba5517f0be455", 
+          "unit": {
+            "code": "44617100-9", 
+            "name": "item"
+          }, 
+          "quantity": 5.0
+        }, 
+        {
+          "relatedLot": "c7555f1bb878434d8815dea318304673", 
+          "description": "футляри до державних нагород", 
+          "classification": {
+            "scheme": "ДК021", 
+            "description": "Cartons", 
+            "id": "44617100-9"
+          }, 
+          "description_en": "Cases for state awards", 
+          "additionalClassifications": [
+            {
+              "scheme": "ДКПП", 
+              "id": "17.21.1", 
+              "description": "папір і картон гофровані, паперова й картонна тара"
+            }
+          ], 
+          "deliveryAddress": {
+            "postalCode": "79000", 
+            "countryName": "Україна", 
+            "streetAddress": "вул. Банкова 1", 
+            "region": "м. Київ", 
+            "locality": "м. Київ"
+          }, 
+          "deliveryDate": {
+            "startDate": "2018-06-27T13:39:09.362837+03:00", 
+            "endDate": "2018-06-30T13:39:09.362837+03:00"
+          }, 
+          "id": "d2921287716245e095f67d91b9ceafa6", 
+          "unit": {
+            "code": "44617100-8", 
+            "name": "item"
+          }, 
+          "quantity": 5.0
+        }
+      ], 
+      "date": "2019-10-25T01:00:00+03:00", 
+      "id": "85b5a0dd7da441c08eb664e2412cc5d5"
+    }
+  ]
+}
+

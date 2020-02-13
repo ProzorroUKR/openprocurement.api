@@ -1,0 +1,20 @@
+GET /api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/questions HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": [
+    {
+      "description": "Просимо додати таблицю потрібної калорійності харчування", 
+      "dateAnswered": "2019-10-25T01:00:00+03:00", 
+      "title": "Калорійність", 
+      "date": "2019-10-25T01:00:00+03:00", 
+      "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
+      "id": "65f9591952ca461c89bdf888ef0d7f44", 
+      "questionOf": "tender"
+    }
+  ]
+}
+

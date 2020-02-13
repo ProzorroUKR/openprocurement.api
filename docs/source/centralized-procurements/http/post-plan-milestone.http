@@ -1,0 +1,50 @@
+POST /api/2.5/plans/77cf582ab7284fb1a0e748ea7fe9033f/milestones HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 1334
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "description": "Узагальнення та аналіз отриманної інформації щодо проведення закупівель товарів, послуг (крім поточного ремонту) в інтересах замовників", 
+    "title": "Підготовка до проведення процедури", 
+    "type": "approval", 
+    "dueDate": "2019-05-15T13:00:00.000000+02:00", 
+    "author": {
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "111111", 
+        "legalName": "ДП Центральний закупівельний орган №1"
+      }, 
+      "name": "ЦЗО №1"
+    }
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/77cf582ab7284fb1a0e748ea7fe9033f/milestones/e00a9a2282f647598f1688ad83fd9070
+{
+  "access": {
+    "token": "6e455ae5f2a8451b9732a2e3c32260c3"
+  }, 
+  "data": {
+    "status": "scheduled", 
+    "description": "Узагальнення та аналіз отриманної інформації щодо проведення закупівель товарів, послуг (крім поточного ремонту) в інтересах замовників", 
+    "author": {
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "111111", 
+        "legalName": "ДП Центральний закупівельний орган №1"
+      }, 
+      "name": "ЦЗО №1"
+    }, 
+    "dueDate": "2019-05-15T13:00:00+02:00", 
+    "title": "Підготовка до проведення процедури", 
+    "dateModified": "2019-05-02T05:00:00+03:00", 
+    "owner": "broker", 
+    "type": "approval", 
+    "id": "e00a9a2282f647598f1688ad83fd9070"
+  }
+}
+

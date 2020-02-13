@@ -1,0 +1,27 @@
+POST /api/2.5/agreements/eb35d61e7cde4a008003f5cd17ddb0c7/changes?acc_token=76b0c07026994e7089d5f9716acfc3e7 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 244
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "rationaleType": "taxRate", 
+    "rationale_en": "Agreement change cause", 
+    "rationale": "Опис причини змін егріменту"
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "pending", 
+    "rationaleType": "taxRate", 
+    "rationale_en": "Agreement change cause", 
+    "rationale": "Опис причини змін егріменту", 
+    "date": "2019-10-25T01:00:00+03:00", 
+    "id": "563cc544379744ed9b023a88ff6e415b"
+  }
+}
+

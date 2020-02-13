@@ -1,0 +1,43 @@
+GET /api/2.5/tenders/94170d1f620a487e8f4ffcc37ee8f2df/complaints HTTP/1.0
+Host: lb-api-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": [
+    {
+      "status": "claim", 
+      "documents": [
+        {
+          "hash": "md5:00000000000000000000000000000000", 
+          "author": "complaint_owner", 
+          "title": "Complaint_Attachement.pdf", 
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cecdf017998b487185202483e91af515?KeyID=a8968c46&Signature=gzRXfaCNlnxePAH7P9FQ96TMcIss23ts1b01R496qyHe6WnAuBDViJ52c4QKKrpjcP2bF9oEURrPAt5xpCG%2FAQ%253D%253D", 
+          "format": "application/pdf", 
+          "documentOf": "tender", 
+          "datePublished": "2019-10-25T01:00:00+03:00", 
+          "id": "c9de53a29d1a499aadcd7b081c60c306", 
+          "dateModified": "2019-10-25T01:00:00+03:00"
+        }
+      ], 
+      "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+      "title": "Недостатньо інформації", 
+      "dateSubmitted": "2019-10-25T01:00:00+03:00", 
+      "complaintID": "UA-2019-10-25-000001.1", 
+      "date": "2019-10-25T01:00:00+03:00", 
+      "type": "claim", 
+      "id": "a21a451c5f69404cb553e809e4cd9de8"
+    }, 
+    {
+      "status": "claim", 
+      "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+      "title": "Недостатньо інформації", 
+      "dateSubmitted": "2019-10-25T01:00:00+03:00", 
+      "complaintID": "UA-2019-10-25-000001.2", 
+      "date": "2019-10-25T01:00:00+03:00", 
+      "type": "claim", 
+      "id": "86c7fa50a8d34e5eb908b94fc5db419c"
+    }
+  ]
+}
+

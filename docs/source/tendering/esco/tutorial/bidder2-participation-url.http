@@ -1,0 +1,74 @@
+GET /api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/b649b9b2575142159fd240c728c87298?acc_token=a3322ea4c3e5495ebd9a1d928ea546d7 HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "active", 
+    "selfEligible": true, 
+    "value": {
+      "yearlyPaymentsPercentage": 0.85, 
+      "valueAddedTaxIncluded": true, 
+      "currency": "UAH", 
+      "amount": 9798.75, 
+      "contractDuration": {
+        "days": 200, 
+        "years": 12
+      }, 
+      "amountPerformance": 807.55, 
+      "annualCostsReduction": [
+        400.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0, 
+        900.0
+      ]
+    }, 
+    "id": "b649b9b2575142159fd240c728c87298", 
+    "tenderers": [
+      {
+        "contactPoint": {
+          "email": "aagt@gmail.com", 
+          "telephone": "+380 (322) 91-69-30", 
+          "name": "Андрій Олексюк"
+        }, 
+        "scale": "sme", 
+        "name": "ДКП «Книга»", 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137226", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "address": {
+          "postalCode": "79013", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 34", 
+          "region": "м. Львів", 
+          "locality": "м. Львів"
+        }
+      }
+    ], 
+    "date": "2019-10-25T01:00:00+03:00", 
+    "selfQualified": true, 
+    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/0aac695e27804293a2854dff7bed4be8?key_for_bid=b649b9b2575142159fd240c728c87298"
+  }
+}
+

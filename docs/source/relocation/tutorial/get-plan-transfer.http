@@ -1,0 +1,13 @@
+GET /api/2.5/transfers/cfd9e57ce9704ad2a954a79cbfe78d21 HTTP/1.0
+Authorization: Bearer broker1
+Host: lb-api-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "date": "2019-10-25T01:00:00+03:00", 
+    "id": "cfd9e57ce9704ad2a954a79cbfe78d21"
+  }
+}
+

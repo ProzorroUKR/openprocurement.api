@@ -1,0 +1,32 @@
+GET /api/1.0/registry/inn.json HTTP/1.0
+Authorization: Basic YnJva2VybmFtZTpicm9rZXJuYW1l
+Host: medicines-registry-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json
+{
+  "data": {
+    "allergen extracts": "Allergen extracts", 
+    "betaxolol": "Betaxolol", 
+    "procainamide": "Procainamide", 
+    "citalopram": "Citalopram", 
+    "telmisartan": "Telmisartan", 
+    "strontium ranelate": "Strontium ranelate", 
+    "vincamine": "Vincamine", 
+    "glimepiride": "Glimepiride", 
+    "coriandrum sativum": "Coriandrum sativum", 
+    "ivabradine": "Ivabradine", 
+    "bibrocathol": "Bibrocathol", 
+    "pantoprazole": "Pantoprazole", 
+    "immunoglobulins, normal human, for extravascular adm.": "Immunoglobulins, normal human, for extravascular adm.", 
+    "trastuzumab": "Trastuzumab", 
+    "omoconazole": "Omoconazole", 
+    "cloperastine": "Cloperastine", 
+    "lincomycin": "Lincomycin", 
+    "troxerutin, combinations": "Troxerutin, combinations", 
+    "zidovudine and lamivudine": "Zidovudine and lamivudine", 
+    "zuclopenthixol": "Zuclopenthixol"
+  }, 
+  "dateModified": "2018-08-16 14:21:47+03:00"
+}
+

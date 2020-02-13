@@ -1,0 +1,40 @@
+#
+# Copyright (C) 2014-2015, Quintagroup, Ltd
+# This file is distributed under the same license as the openprocurement.api
+# package.
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.4\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-08-14 13:08+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+#: ../../source/limited/acceleration.rst:4
+msgid "Acceleration mode for sandbox"
+msgstr ""
+
+#: ../../source/limited/acceleration.rst:6
+msgid ""
+"Acceleration mode was developed to enable Negotiation and "
+"Negotiation.quick procedures testing in the sandbox and to reduce time "
+"frames of these procedures."
+msgstr ""
+
+#: ../../source/limited/acceleration.rst:8
+msgid ""
+"In order to use acceleration mode you should set `quick, "
+"accelerator=1440` as text value for `procurementMethodDetails` during "
+"tender creation. The number 1440 shows that restrictions and time frames "
+"will be reduced in 1440 times. For example, `complaintPeriod` for the "
+"Negotiation procedure should be at least 10 days. When using the "
+"acceleration mode with `1440` value, tenderingPeriod can be as short as "
+"10 minutes (10 days = 14400 min; 14400/1440 = 10 min). This mode will "
+"work only in the **sandbox**."
+msgstr ""
+

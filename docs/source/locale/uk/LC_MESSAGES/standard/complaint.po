@@ -1,0 +1,362 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 0.3\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-05-10 13:47+0300\n"
+"PO-Revision-Date: 2018-08-17 14:48+0300\n"
+"Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
+"Language-Team: Ukrainian <info@quintagroup.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
+
+#: ../../source/standard/complaint.rst:9
+msgid "Complaint"
+msgstr "Complaint"
+
+#: ../../source/standard/complaint.rst:12
+msgid "Schema"
+msgstr "Схема"
+
+#: ../../source/standard/complaint.rst:0
+msgid "id"
+msgstr ""
+
+#: ../../source/standard/complaint.rst:15
+msgid "uid, auto-generated"
+msgstr "uid, генерується автоматично"
+
+#: ../../source/standard/complaint.rst:0
+msgid "author"
+msgstr ""
+
+#: ../../source/standard/complaint.rst:18
+msgid ":ref:`Organization`, required"
+msgstr ":ref:`Organization`, обов’язково"
+
+#: ../../source/standard/complaint.rst:20
+msgid ""
+"Organization filing a complaint (contactPoint - person, identification - "
+"organization that person represents)."
+msgstr ""
+"Організація, яка подає скаргу (contactPoint - людина, identification - "
+"організація, яку ця людина представляє)."
+
+#: ../../source/standard/complaint.rst:0
+msgid "title"
+msgstr ""
+
+#: ../../source/standard/complaint.rst:23
+msgid "string, required"
+msgstr "рядок, обов’язковий"
+
+#: ../../source/standard/complaint.rst:25
+msgid "Title of the complaint."
+msgstr "Заголовок скарги."
+
+#: ../../source/standard/complaint.rst:0
+msgid "description"
+msgstr ""
+
+#: ../../source/standard/complaint.rst:28
+msgid "Description of the issue."
+msgstr "Опис запитання."
+
+#: ../../source/standard/complaint.rst:0
+msgid "date"
+msgstr ""
+
+#: ../../source/standard/complaint.rst:31
+#: ../../source/standard/complaint.rst:36
+#: ../../source/standard/complaint.rst:41
+#: ../../source/standard/complaint.rst:46
+#: ../../source/standard/complaint.rst:51
+#: ../../source/standard/complaint.rst:56
+#: ../../source/standard/complaint.rst:137
+#: ../../source/standard/complaint.rst:169
+msgid "string, :ref:`date`, auto-generated"
+msgstr "рядок, :ref:`date`, генерується автоматично"
+
+#: ../../source/standard/complaint.rst:33
+msgid "Date of posting."
+msgstr "Дата подання."
+
+#: ../../source/standard/complaint.rst:0
+msgid "dateSubmitted"
+msgstr ""
+
+#: ../../source/standard/complaint.rst:38
+msgid "Date when claim was submitted."
+msgstr "Дата, коли вимога була подана."
+
+#: ../../source/standard/complaint.rst:0
+msgid "dateAnswered"
+msgstr ""
+
+#: ../../source/standard/complaint.rst:43
+msgid "Date when Procuring entity answered the claim."
+msgstr "Дата, коли замовник відповів на вимогу."
+
+#: ../../source/standard/complaint.rst:0
+msgid "dateEscalated"
+msgstr ""
+
+#: ../../source/standard/complaint.rst:48
+msgid "Date of claim to complaint escalation."
+msgstr "Дата ескалації (перетворення вимоги на скаргу)."
+
+#: ../../source/standard/complaint.rst:0
+msgid "dateDecision"
+msgstr ""
+
+#: ../../source/standard/complaint.rst:53
+msgid "Date of complaint decision."
+msgstr "День прийняття рішення по вимозі."
+
+#: ../../source/standard/complaint.rst:0
+msgid "dateCanceled"
+msgstr ""
+
+#: ../../source/standard/complaint.rst:58
+msgid "Date of cancelling."
+msgstr "Дата відхилення."
+
+#: ../../source/standard/complaint.rst:0
+msgid "status"
+msgstr ""
+
+#: ../../source/standard/complaint.rst:61
+#: ../../source/standard/complaint.rst:87
+#: ../../source/standard/complaint.rst:95
+#: ../../source/standard/complaint.rst:100
+#: ../../source/standard/complaint.rst:114
+#: ../../source/standard/complaint.rst:119
+#: ../../source/standard/complaint.rst:127
+#: ../../source/standard/complaint.rst:132
+#: ../../source/standard/complaint.rst:149
+#: ../../source/standard/complaint.rst:164
+#: ../../source/standard/complaint.rst:174
+msgid "string"
+msgstr "рядок"
+
+#: ../../source/standard/complaint.rst:63
+msgid "Possible values are:"
+msgstr "Можливі значення:"
+
+#: ../../source/standard/complaint.rst:65
+#: ../../source/standard/complaint.rst:76
+msgid "`draft`"
+msgstr "`draft` - чорновик, початковий етап"
+
+#: ../../source/standard/complaint.rst:66
+#: ../../source/standard/complaint.rst:77
+#: ../../source/standard/complaint.rst:91
+msgid "`claim`"
+msgstr "`claim` - вимога"
+
+#: ../../source/standard/complaint.rst:67
+#: ../../source/standard/complaint.rst:78
+msgid "`answered`"
+msgstr "`answered` - дано відповідь"
+
+#: ../../source/standard/complaint.rst:68
+#: ../../source/standard/complaint.rst:79
+msgid "`pending`"
+msgstr "`pending` - не вирішено, ще обробляється"
+
+#: ../../source/standard/complaint.rst:69
+#: ../../source/standard/complaint.rst:80
+#: ../../source/standard/complaint.rst:104
+msgid "`invalid`"
+msgstr "`invalid` - недійсно"
+
+#: ../../source/standard/complaint.rst:70
+#: ../../source/standard/complaint.rst:81
+#: ../../source/standard/complaint.rst:105
+msgid "`declined`"
+msgstr "`declined` - відхилено"
+
+#: ../../source/standard/complaint.rst:71
+#: ../../source/standard/complaint.rst:82
+#: ../../source/standard/complaint.rst:106
+msgid "`resolved`"
+msgstr "`resolved` - вирішено"
+
+#: ../../source/standard/complaint.rst:72
+#: ../../source/standard/complaint.rst:83
+msgid "`cancelled`"
+msgstr "`cancelled` - відхилено"
+
+#: ../../source/standard/complaint.rst:74
+msgid ""
+"Possible values in :ref:`defense`, :ref:`esco`, :ref:`openua` and "
+":ref:`openeu` are:"
+msgstr "Можливі значення у :ref:`defense`, :ref:`esco`, :ref:`openua` та "
+":ref:`openeu`:"
+
+#: ../../source/standard/complaint.rst:84
+msgid "`accepted`"
+msgstr ""
+
+#: ../../source/standard/complaint.rst:0
+msgid "type"
+msgstr ""
+
+#: ../../source/standard/complaint.rst:89
+msgid "Possible values of type are:"
+msgstr "Можливі значення типу:"
+
+#: ../../source/standard/complaint.rst:92
+msgid "`complaint`"
+msgstr "`complaint` - скарга"
+
+#: ../../source/standard/complaint.rst:0
+msgid "resolution"
+msgstr ""
+
+#: ../../source/standard/complaint.rst:97
+msgid "Resolution of Procuring entity."
+msgstr "Рішення замовника."
+
+#: ../../source/standard/complaint.rst:0
+msgid "resolutionType"
+msgstr ""
+
+#: ../../source/standard/complaint.rst:102
+msgid "Possible values of resolution type are:"
+msgstr "Можливі значення типу вирішення:"
+
+#: ../../source/standard/complaint.rst:0
+msgid "satisfied"
+msgstr ""
+
+#: ../../source/standard/complaint.rst:109
+#: ../../source/standard/complaint.rst:144
+msgid "bool"
+msgstr "булеве значення"
+
+#: ../../source/standard/complaint.rst:111
+#: ../../source/standard/complaint.rst:146
+msgid "Claim is satisfied?"
+msgstr "Вимога задовільнена?"
+
+#: ../../source/standard/complaint.rst:0
+msgid "decision"
+msgstr ""
+
+#: ../../source/standard/complaint.rst:116
+msgid "Reviewer decision."
+msgstr "Рішення органу оскарження."
+
+#: ../../source/standard/complaint.rst:0
+msgid "cancellationReason"
+msgstr ""
+
+#: ../../source/standard/complaint.rst:121
+msgid "Cancellation reason."
+msgstr "Причини відхилення."
+
+#: ../../source/standard/complaint.rst:0
+msgid "documents"
+msgstr ""
+
+#: ../../source/standard/complaint.rst:124
+msgid "List of :ref:`Document` objects"
+msgstr "Список об’єктів :ref:`Document`"
+
+#: ../../source/standard/complaint.rst:0
+msgid "relatedLot"
+msgstr ""
+
+#: ../../source/standard/complaint.rst:129
+msgid "Id of related :ref:`lot`."
+msgstr "Ідентифікатор пов’язаного :ref:`lot`-а."
+
+#: ../../source/standard/complaint.rst:0
+msgid "tendererAction"
+msgstr ""
+
+#: ../../source/standard/complaint.rst:134
+msgid "Tenderer action."
+msgstr "Дія учасника."
+
+#: ../../source/standard/complaint.rst:0
+msgid "tendererActionDate"
+msgstr ""
+
+#: ../../source/standard/complaint.rst:139
+msgid "Date of tenderer action."
+msgstr "Дата дії учасника."
+
+#: ../../source/standard/complaint.rst:141
+msgid ""
+"Additionally in :ref:`defense`, :ref:`esco`, :ref:`openua` and "
+":ref:`openeu`:"
+msgstr "Можливі значення у :ref:`defense`, :ref:`esco`, :ref:`openua` та "
+":ref:`openeu`:"
+
+#: ../../source/standard/complaint.rst:0
+msgid "acceptance"
+msgstr ""
+
+#: ../../source/standard/complaint.rst:0
+msgid "rejectReason"
+msgstr ""
+
+#: ../../source/standard/complaint.rst:151
+msgid "Possible values of reject reason in :ref:`defense` are:"
+msgstr "Можливі значення типу вирішення у :ref:`defense`:"
+
+#: ../../source/standard/complaint.rst:153
+msgid "`lawNonСompliance` - law non compliance"
+msgstr "`lawNonСompliance` - невідповідність закону"
+
+#: ../../source/standard/complaint.rst:154
+msgid "`noPaymentReceived` - no payment received"
+msgstr "`noPaymentReceived` - оплата не отримана"
+
+#: ../../source/standard/complaint.rst:155
+msgid "`buyerViolationsСorrected` - violations were corrected by Procuring entity"
+msgstr "`buyerViolationsСorrected` - замовник виправив порушення"
+
+#: ../../source/standard/complaint.rst:157
+msgid "Possible values of reject reason in :ref:`openeu` are:"
+msgstr "Можливі значення типу вирішення у :ref:`openeu`:"
+
+#: ../../source/standard/complaint.rst:159
+msgid "`law`"
+msgstr ""
+
+#: ../../source/standard/complaint.rst:160
+msgid "`payment`"
+msgstr ""
+
+#: ../../source/standard/complaint.rst:161
+msgid "`fixed`"
+msgstr ""
+
+#: ../../source/standard/complaint.rst:0
+msgid "rejectReasonDescription"
+msgstr ""
+
+#: ../../source/standard/complaint.rst:166
+msgid "Reject reason description."
+msgstr "Опис причин відхилення."
+
+#: ../../source/standard/complaint.rst:0
+msgid "reviewDate"
+msgstr ""
+
+#: ../../source/standard/complaint.rst:171
+msgid "Date of review."
+msgstr "Дата розгляду."
+
+#: ../../source/standard/complaint.rst:0
+msgid "reviewPlace"
+msgstr ""
+
+#: ../../source/standard/complaint.rst:176
+msgid "Place of review."
+msgstr "Місце розгляду."

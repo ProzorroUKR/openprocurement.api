@@ -1,0 +1,79 @@
+GET /api/2.5/tenders/50c82523038349969f53f3e238932c46/bids/0ee0193aeac246e791c6601952452387?acc_token=90e5c1d7c0414b99a392234aee8cd1dc HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "unsuccessful", 
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "public", 
+        "language": "uk", 
+        "title": "Proposal_part1.pdf", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f9c5aeb5ae15458ea9076b15b028e187?KeyID=a8968c46&Signature=qLkEhQFmPnZKdXjc5pzk%2FpxA6dtRkIWBc8XRQvQI9vMiUBrJ2pkWSMdrMRDJ9zKNI%2FdHbZ3jC95PDseyuXe%2FAw%253D%253D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "id": "a38bd81182d84d43bef52d2698f89d98", 
+        "dateModified": "2019-10-25T01:00:00+03:00"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "buyerOnly", 
+        "language": "uk", 
+        "format": "application/pdf", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/50c82523038349969f53f3e238932c46/bids/0ee0193aeac246e791c6601952452387/documents/f896df38ec1e41cc89e6e463e54e81e8?download=924d1313531d40a6b8e6b83f0ec24b05", 
+        "confidentialityRationale": "Only our company sells badgers with pink hair.", 
+        "title": "Proposal_part2.pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "id": "f896df38ec1e41cc89e6e463e54e81e8", 
+        "dateModified": "2019-10-25T01:00:00+03:00"
+      }
+    ], 
+    "eligibilityDocuments": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "public", 
+        "language": "uk", 
+        "title": "eligibility_doc.pdf", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5721f90fa3184d109b317342fc4daac2?KeyID=a8968c46&Signature=ym4dikjM0rMjEh7GdJ64OoqXXuPHxCws5spb0gxaU0pzBIekv4cA3S%252Bkif1wLE64gske7IE21puoLgdEyVKPDA%253D%253D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "id": "5a466b5c43144a0e80632960a297cd18", 
+        "dateModified": "2019-10-25T01:00:00+03:00"
+      }
+    ], 
+    "selfEligible": true, 
+    "selfQualified": true, 
+    "tenderers": [
+      {
+        "contactPoint": {
+          "email": "fake@mail.com", 
+          "telephone": "+380 (322) 12-34-56", 
+          "name": "Іван Карпенко"
+        }, 
+        "scale": "large", 
+        "name": "«Кенгуру»", 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137228", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "address": {
+          "postalCode": "79013", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Коцюбинського, 15", 
+          "region": "м. Запоріжжя", 
+          "locality": "м. Запоріжя"
+        }
+      }
+    ], 
+    "id": "0ee0193aeac246e791c6601952452387"
+  }
+}
+

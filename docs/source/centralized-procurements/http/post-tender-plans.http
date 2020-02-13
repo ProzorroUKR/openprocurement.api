@@ -1,0 +1,22 @@
+POST /api/2.5/tenders/a40454d58b7b4e1eb327f6aef0d0d21d/plans?acc_token=531de969d26b43a1bd2c28eca05d63be HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 52
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "id": "77cf582ab7284fb1a0e748ea7fe9033f"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": [
+    {
+      "id": "77cf582ab7284fb1a0e748ea7fe9033f"
+    }
+  ]
+}
+

@@ -1,0 +1,84 @@
+PATCH /api/2.5/tenders/26b780552e084bbcb2b53c5383a6e976/contracts/961703907d164d1185e860612c0a8fc8?acc_token=df3d7d3c62c74918a4905630dbce126b HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 30
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "status": "active"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "active", 
+    "items": [
+      {
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "Послуги з харчування у школах", 
+          "id": "55523100-3"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2019-11-14T00:00:00+02:00", 
+          "endDate": "2019-12-14T00:00:00+02:00"
+        }, 
+        "id": "35207e5ce4404a63a76870f2067cd4f4", 
+        "quantity": 1.0
+      }
+    ], 
+    "suppliers": [
+      {
+        "contactPoint": {
+          "email": "soleksuk@gmail.com", 
+          "telephone": "+380 (432) 21-69-30", 
+          "name": "Сергій Олексюк"
+        }, 
+        "scale": "micro", 
+        "name": "ДКП «Школяр»", 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137256", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "address": {
+          "postalCode": "21100", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 33", 
+          "region": "м. Вінниця", 
+          "locality": "м. Вінниця"
+        }
+      }
+    ], 
+    "value": {
+      "currency": "UAH", 
+      "amount": 475000.0, 
+      "amountNet": 475000.0, 
+      "valueAddedTaxIncluded": false
+    }, 
+    "dateSigned": "2019-10-25T01:00:01+03:00", 
+    "date": "2019-10-25T01:00:01+03:00", 
+    "awardID": "3d3e484cb2eb4d3386377ed2c400d926", 
+    "id": "961703907d164d1185e860612c0a8fc8", 
+    "contractID": "UA-2019-10-25-000001-1"
+  }
+}
+

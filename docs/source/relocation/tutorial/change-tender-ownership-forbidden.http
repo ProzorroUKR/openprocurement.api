@@ -1,0 +1,26 @@
+POST /api/2.5/tenders/dd4f0a6132c645c69b311877d0646847/ownership HTTP/1.0
+Authorization: Bearer broker2
+Content-Length: 100
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "transfer": "e1d86a01927343519c8ab379be1a8a41", 
+    "id": "dfdf21298b174f468aaa029308799b66"
+  }
+}
+
+Response: 403 Forbidden
+Content-Type: application/json; charset=UTF-8
+{
+  "status": "error", 
+  "errors": [
+    {
+      "description": "Broker Accreditation level does not permit ownership change", 
+      "location": "ownership", 
+      "name": "accreditation"
+    }
+  ]
+}
+

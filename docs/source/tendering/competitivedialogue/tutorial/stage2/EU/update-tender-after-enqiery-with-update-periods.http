@@ -1,0 +1,203 @@
+PATCH /api/2.5/tenders/50c82523038349969f53f3e238932c46?acc_token=90e5c1d7c0414b99a392234aee8cd1dc HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 139
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "items": [
+      {
+        "deliveryDate": {
+          "endDate": "2019-11-24T01:00:10+03:00"
+        }
+      }
+    ], 
+    "tenderPeriod": {
+      "endDate": "2019-11-02T01:00:00+03:00"
+    }
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "procurementMethod": "selective", 
+    "complaintPeriod": {
+      "startDate": "2019-09-27T01:00:00+03:00", 
+      "endDate": "2019-10-29T00:00:00+03:00"
+    }, 
+    "enquiryPeriod": {
+      "startDate": "2019-09-27T01:00:00+03:00", 
+      "clarificationsUntil": "2019-10-29T00:00:00+03:00", 
+      "endDate": "2019-10-23T01:00:00+03:00", 
+      "invalidationDate": "2019-10-25T01:00:00+03:00"
+    }, 
+    "submissionMethod": "electronicAuction", 
+    "next_check": "2019-11-02T00:00:00+02:00", 
+    "procuringEntity": {
+      "kind": "general", 
+      "name": "ЗОСШ #10 м.Вінниці", 
+      "address": {
+        "postalCode": "21027", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Стахурського. 22", 
+        "region": "м. Вінниця", 
+        "locality": "м. Вінниця"
+      }, 
+      "contactPoint": {
+        "url": "http://sch10.edu.vn.ua/", 
+        "name_en": "Kutsa Svitlana V.", 
+        "name": "Куца Світлана Валентинівна", 
+        "availableLanguage": "uk", 
+        "telephone": "+380 (432) 46-53-02"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\"", 
+        "id": "21725150", 
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+      }, 
+      "name_en": "School #10 of Vinnytsia"
+    }, 
+    "questions": [
+      {
+        "description": "Просимо додати таблицю потрібної калорійності харчування", 
+        "dateAnswered": "2019-10-25T01:00:00+03:00", 
+        "title": "Калорійність", 
+        "date": "2019-10-25T01:00:00+03:00", 
+        "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
+        "id": "d307480a47364bc5850a03e4643ca2fd", 
+        "questionOf": "tender"
+      }
+    ], 
+    "owner": "broker", 
+    "title_en": "Services in school canteens", 
+    "id": "50c82523038349969f53f3e238932c46", 
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "author": "tender_owner", 
+        "language": "uk", 
+        "title": "Notice.pdf", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5654282bbd124ce6a901bcdae188c5e9?KeyID=a8968c46&Signature=Pzv6RYzLvWzqjyE%2F2Cz09Zd6TtSRQfTc9m5XLNO%252Byo2uQ%252BmRy8dayIqB0VNKfI39JbnufBYWhy2dv8IL2pSYDA%253D%253D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "id": "2cec5d7e89ce4978a73a984939d174df", 
+        "dateModified": "2019-10-25T01:00:00+03:00"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "author": "tender_owner", 
+        "language": "uk", 
+        "title": "AwardCriteria.pdf", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/37c11ecbee67498b82709578c3a58e0f?KeyID=a8968c46&Signature=WvS7h8ZTf3fqtactP79YZmPyWZ70qIZhlyAxU5%2Fp0S6n4yBJ63K%2FUK6pb%2F1gGIwtRBqOchHnkqU1A6wwCVIGAg%253D%253D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "id": "54ad62a2c2fc444692dcf2f55189136c", 
+        "dateModified": "2019-10-25T01:00:00+03:00"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "author": "tender_owner", 
+        "language": "uk", 
+        "title": "AwardCriteria-2.pdf", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a6e532bc798e444eae13cc312326b993?KeyID=a8968c46&Signature=aRW%2F9b58zM7%2FsuN7TzmcbQDgD3Y60oJ91CKDENehIavP8adOT9HP6PO7MsdNP%2FBAw%2Fmha1u8doN1c%2F3gzlkJBA%253D%253D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "id": "54ad62a2c2fc444692dcf2f55189136c", 
+        "dateModified": "2019-10-25T01:00:00+03:00"
+      }
+    ], 
+    "title": "Послуги шкільних їдалень", 
+    "shortlistedFirms": [
+      {
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137256", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "name": "ДКП «Школяр»"
+      }, 
+      {
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137226", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "name": "ДКП «Книга»"
+      }, 
+      {
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137228", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "name": "«Кенгуру»"
+      }
+    ], 
+    "tenderID": "UA-2019-10-25-000001", 
+    "dateModified": "2019-10-25T01:00:00+03:00", 
+    "status": "active.tendering", 
+    "tenderPeriod": {
+      "startDate": "2019-09-27T01:00:00+03:00", 
+      "endDate": "2019-11-02T01:00:00+03:00"
+    }, 
+    "auctionPeriod": {
+      "shouldStartAfter": "2019-12-08T00:00:00+03:00"
+    }, 
+    "procurementMethodType": "competitiveDialogueEU.stage2", 
+    "date": "2019-10-25T01:00:00+03:00", 
+    "minimalStep": {
+      "currency": "UAH", 
+      "amount": 35.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "items": [
+      {
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "Test", 
+          "id": "37810000-9"
+        }, 
+        "description_en": "Services in school canteens", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2019-11-14T01:00:00+03:00", 
+          "endDate": "2019-11-24T01:00:10+03:00"
+        }, 
+        "id": "52ba02bed7a347fa9f8119661caf0ed2", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 1.0
+      }
+    ], 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "awardCriteria": "lowestCost"
+  }
+}
+

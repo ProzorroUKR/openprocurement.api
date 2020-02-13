@@ -1,0 +1,65 @@
+PATCH /api/2.5/tenders/6ccc95c340c94e32bcf0b8c2183e62f7/bids/cc8919c6d27b47e89829b7c64b3a7878?acc_token=ebff7d432d3d4d0a8756f67f9bb07ef5 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 30
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "status": "active"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "active", 
+    "parameters": [
+      {
+        "code": "OCDS-123454-AIR-INTAKE", 
+        "value": 0.1
+      }, 
+      {
+        "code": "OCDS-123454-YEARS", 
+        "value": 0.1
+      }
+    ], 
+    "lotValues": [
+      {
+        "relatedLot": "1b75c06ee58f4909a4201255b4ba5831", 
+        "date": "2019-10-25T01:00:00+03:00", 
+        "value": {
+          "currency": "UAH", 
+          "amount": 500.0, 
+          "valueAddedTaxIncluded": true
+        }
+      }
+    ], 
+    "tenderers": [
+      {
+        "contactPoint": {
+          "name": "Державне управління справами", 
+          "telephone": "0440000000"
+        }, 
+        "scale": "large", 
+        "name": "Державне управління справами", 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00037256", 
+          "uri": "http://www.dus.gov.ua/"
+        }, 
+        "address": {
+          "postalCode": "01220", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова, 11, корпус 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }
+      }
+    ], 
+    "date": "2019-10-25T01:00:00+03:00", 
+    "id": "cc8919c6d27b47e89829b7c64b3a7878"
+  }
+}
+

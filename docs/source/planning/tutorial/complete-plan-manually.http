@@ -1,0 +1,151 @@
+PATCH /api/2.5/plans/c6255f3084f0409cb80fe4220c16c2ae?acc_token=19733fa509ed45a28b78466169f978c6 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 32
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "status": "complete"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "complete", 
+    "buyers": [
+      {
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "111983", 
+          "legalName": "ДП Державне Управління Справами"
+        }, 
+        "name": "ДУС"
+      }
+    ], 
+    "classification": {
+      "scheme": "ДК021", 
+      "description": "Seeds", 
+      "id": "03111000-2"
+    }, 
+    "items": [
+      {
+        "description": "Насіння гірчиці", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "Mustard seeds", 
+          "id": "03111600-8"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "01.11.92", 
+            "description": "Насіння гірчиці"
+          }
+        ], 
+        "deliveryDate": {
+          "endDate": "2019-11-09T01:00:00+03:00"
+        }, 
+        "id": "1dfca65a899940a9ac0c5b36088653f6", 
+        "unit": {
+          "code": "KGM", 
+          "name": "кг"
+        }, 
+        "quantity": 1000.0
+      }, 
+      {
+        "description": "Насіння соняшнику", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "Sunflower seeds", 
+          "id": "03111300-5"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "01.11.95", 
+            "description": "Насіння соняшнику"
+          }
+        ], 
+        "deliveryDate": {
+          "endDate": "2019-11-10T01:00:00+03:00"
+        }, 
+        "id": "fe700fceb62b4e16a9bd88b82cb2ad1a", 
+        "unit": {
+          "code": "KGM", 
+          "name": "кг"
+        }, 
+        "quantity": 2000.0
+      }, 
+      {
+        "description": "Насіння бавовнику", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "Cotton seeds", 
+          "id": "03111400-6"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "01.11.84", 
+            "description": "Насіння бавовнику"
+          }
+        ], 
+        "deliveryDate": {
+          "endDate": "2019-11-11T01:00:00+03:00"
+        }, 
+        "id": "9adb3975435743598621b1e8d3c6ceb6", 
+        "unit": {
+          "code": "KGM", 
+          "name": "кг"
+        }, 
+        "quantity": 3000.0
+      }
+    ], 
+    "planID": "UA-P-2019-10-25-000002", 
+    "budget": {
+      "amountNet": 12222.0, 
+      "description": "budget_description", 
+      "period": {
+        "startDate": "2020-01-01T00:00:00+02:00", 
+        "endDate": "2020-12-31T00:00:00+02:00"
+      }, 
+      "project": {
+        "id": "123", 
+        "name": "proj_name"
+      }, 
+      "currency": "UAH", 
+      "amount": 10000.0, 
+      "id": "12303111000-2"
+    }, 
+    "datePublished": "2019-10-25T01:00:00+03:00", 
+    "tender": {
+      "procurementMethod": "open", 
+      "procurementMethodType": "belowThreshold", 
+      "tenderPeriod": {
+        "startDate": "2019-11-01T01:00:00+03:00"
+      }
+    }, 
+    "additionalClassifications": [
+      {
+        "scheme": "КЕКВ", 
+        "id": "1", 
+        "description": "-"
+      }
+    ], 
+    "procuringEntity": {
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "111983", 
+        "legalName": "ДП Державне Управління Справами"
+      }, 
+      "name": "ДУС"
+    }, 
+    "owner": "broker", 
+    "dateModified": "2019-10-25T01:00:00+03:00", 
+    "id": "c6255f3084f0409cb80fe4220c16c2ae"
+  }
+}
+

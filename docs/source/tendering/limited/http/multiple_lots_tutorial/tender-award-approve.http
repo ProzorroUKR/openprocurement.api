@@ -1,0 +1,57 @@
+PATCH /api/2.5/tenders/0cd37a4798fe40d1b45324a394f61c9f/awards/f5d5d3d41f2f415ab04f3fa3e768e09d?acc_token=f78d07413fdf4cf196d0d1b94d560a4f HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 49
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "status": "active", 
+    "qualified": true
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "active", 
+    "lotID": "28f98cde22964c8ea8bbc1fda693580e", 
+    "complaintPeriod": {
+      "startDate": "2019-10-25T01:00:00+03:00", 
+      "endDate": "2019-10-31T00:00:00+03:00"
+    }, 
+    "suppliers": [
+      {
+        "contactPoint": {
+          "email": "soleksuk@gmail.com", 
+          "telephone": "+380 (432) 21-69-30", 
+          "name": "Сергій Олексюк"
+        }, 
+        "scale": "micro", 
+        "name": "ДКП «Школяр»", 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137256", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "address": {
+          "postalCode": "21100", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 33", 
+          "region": "м. Вінниця", 
+          "locality": "м. Вінниця"
+        }
+      }
+    ], 
+    "value": {
+      "currency": "UAH", 
+      "amount": 475000.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "qualified": true, 
+    "date": "2019-10-25T01:00:00+03:00", 
+    "id": "f5d5d3d41f2f415ab04f3fa3e768e09d"
+  }
+}
+

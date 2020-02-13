@@ -1,0 +1,30 @@
+PUT /api/2.5/tenders/5fb29c8fb65c4a12b69dd3531cfe7bce/cancellations/c2fe88ca199049f3a53d3837f721bd1b/documents/7ce706c799a7481990ed0e68090d431d?acc_token=bc6711b5ba434b92bbba26699dca3104 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 145
+Content-Type: multipart/form-data; boundary=---BOUNDARY
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+-----BOUNDARY
+Content-Disposition: form-data; name="file"; filename="Notice-2.pdf"
+Content-Type: application/pdf
+
+content2
+-----BOUNDARY--
+
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "hash": "md5:00000000000000000000000000000000", 
+    "description": "Changed description", 
+    "title": "Notice-2.pdf", 
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1d6a86e5eaf9475f82f9ba263f30390c?KeyID=a8968c46&Signature=8JoY534LWjk682eHLVzgIw9QaTN3HvvLEvxU8ui52Uv%252Bg7IKxfGaneHWv%252Bkm9Xvg6j7Yjwv5%2FTej2bF7d6%252BQBA%253D%253D", 
+    "format": "application/pdf", 
+    "documentOf": "tender", 
+    "datePublished": "2019-10-25T01:00:01+03:00", 
+    "id": "7ce706c799a7481990ed0e68090d431d", 
+    "dateModified": "2019-10-25T01:00:01+03:00"
+  }
+}
+

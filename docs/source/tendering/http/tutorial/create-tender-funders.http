@@ -1,0 +1,278 @@
+POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 3672
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "funders": [
+      {
+        "additionalIdentifiers": [], 
+        "contactPoint": {
+          "url": "https://www.theglobalfund.org/en/", 
+          "faxNumber": "+41 44 580 6820", 
+          "telephone": "+41 58 791 1700", 
+          "name": "", 
+          "email": "ccm@theglobalfund.org"
+        }, 
+        "identifier": {
+          "scheme": "XM-DAC", 
+          "id": "47045", 
+          "legalName": "Глобальний Фонд для боротьби зі СНІДом, туберкульозом і малярією"
+        }, 
+        "name": "Глобальний фонд", 
+        "address": {
+          "countryName": "Switzerland", 
+          "postalCode": "1218", 
+          "region": "Grand-Saconnex", 
+          "streetAddress": "Global Health Campus, Chemin du Pommier 40", 
+          "locality": "Geneva"
+        }
+      }
+    ], 
+    "milestones": [
+      {
+        "code": "prepayment", 
+        "sequenceNumber": 0, 
+        "title": "signingTheContract", 
+        "duration": {
+          "type": "banking", 
+          "days": 2
+        }, 
+        "percentage": 45.55, 
+        "type": "financing", 
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }, 
+      {
+        "code": "postpayment", 
+        "sequenceNumber": 0, 
+        "title": "deliveryOfGoods", 
+        "duration": {
+          "type": "calendar", 
+          "days": 900
+        }, 
+        "percentage": 54.45, 
+        "type": "financing"
+      }
+    ], 
+    "mainProcurementCategory": "goods", 
+    "tenderPeriod": {
+      "endDate": "2019-11-08T01:00:00+03:00"
+    }, 
+    "title": "футляри до державних нагород", 
+    "minimalStep": {
+      "currency": "UAH", 
+      "amount": 35
+    }, 
+    "enquiryPeriod": {
+      "endDate": "2019-11-01T01:00:00+03:00"
+    }, 
+    "procurementMethodType": "belowThreshold", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500
+    }, 
+    "procuringEntity": {
+      "contactPoint": {
+        "name": "Державне управління справами", 
+        "telephone": "0440000000"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "00037256", 
+        "uri": "http://www.dus.gov.ua/"
+      }, 
+      "name": "Державне управління справами", 
+      "kind": "general", 
+      "address": {
+        "countryName": "Україна", 
+        "postalCode": "01220", 
+        "region": "м. Київ", 
+        "streetAddress": "вул. Банкова, 11, корпус 1", 
+        "locality": "м. Київ"
+      }
+    }, 
+    "items": [
+      {
+        "description": "футляри до державних нагород", 
+        "classification": {
+          "scheme": "ДК021", 
+          "id": "44617100-9", 
+          "description": "Cartons"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ], 
+        "deliveryAddress": {
+          "countryName": "Україна", 
+          "postalCode": "79000", 
+          "region": "м. Київ", 
+          "streetAddress": "вул. Банкова 1", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2019-10-27T01:00:00+03:00", 
+          "endDate": "2019-10-30T01:00:00+03:00"
+        }, 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 5
+      }
+    ]
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/360cfcaeb0ec43948ba2c03584e41ea0
+{
+  "access": {
+    "transfer": "0842188b93a94bfda035c3fb6c97c59a", 
+    "token": "b04f8dbb303a4d1a9f6eaca0b322a8b8"
+  }, 
+  "data": {
+    "funders": [
+      {
+        "contactPoint": {
+          "url": "https://www.theglobalfund.org/en/", 
+          "email": "ccm@theglobalfund.org", 
+          "telephone": "+41 58 791 1700", 
+          "name": "", 
+          "faxNumber": "+41 44 580 6820"
+        }, 
+        "identifier": {
+          "scheme": "XM-DAC", 
+          "id": "47045", 
+          "legalName": "Глобальний Фонд для боротьби зі СНІДом, туберкульозом і малярією"
+        }, 
+        "name": "Глобальний фонд", 
+        "address": {
+          "postalCode": "1218", 
+          "countryName": "Switzerland", 
+          "streetAddress": "Global Health Campus, Chemin du Pommier 40", 
+          "region": "Grand-Saconnex", 
+          "locality": "Geneva"
+        }
+      }
+    ], 
+    "procurementMethod": "open", 
+    "milestones": [
+      {
+        "code": "prepayment", 
+        "sequenceNumber": 0, 
+        "title": "signingTheContract", 
+        "duration": {
+          "type": "banking", 
+          "days": 2
+        }, 
+        "percentage": 45.55, 
+        "type": "financing", 
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }, 
+      {
+        "code": "postpayment", 
+        "sequenceNumber": 0, 
+        "title": "deliveryOfGoods", 
+        "duration": {
+          "type": "calendar", 
+          "days": 900
+        }, 
+        "percentage": 54.45, 
+        "type": "financing", 
+        "id": "36d7453f44f946aaa956606dc3a7ce93"
+      }
+    ], 
+    "mainProcurementCategory": "goods", 
+    "tenderPeriod": {
+      "startDate": "2019-11-01T01:00:00+03:00", 
+      "endDate": "2019-11-08T01:00:00+03:00"
+    }, 
+    "title": "футляри до державних нагород", 
+    "minimalStep": {
+      "currency": "UAH", 
+      "amount": 35.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "items": [
+      {
+        "description": "футляри до державних нагород", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "Cartons", 
+          "id": "44617100-9"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2019-10-27T01:00:00+03:00", 
+          "endDate": "2019-10-30T01:00:00+03:00"
+        }, 
+        "id": "f29295604e5b42178da6d508e78e5cb0", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 5.0
+      }
+    ], 
+    "procurementMethodType": "belowThreshold", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "submissionMethod": "electronicAuction", 
+    "date": "2019-10-25T01:00:00+03:00", 
+    "dateModified": "2019-10-25T01:00:00+03:00", 
+    "status": "active.enquiries", 
+    "procuringEntity": {
+      "contactPoint": {
+        "name": "Державне управління справами", 
+        "telephone": "0440000000"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "00037256", 
+        "uri": "http://www.dus.gov.ua/"
+      }, 
+      "name": "Державне управління справами", 
+      "kind": "general", 
+      "address": {
+        "postalCode": "01220", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Банкова, 11, корпус 1", 
+        "region": "м. Київ", 
+        "locality": "м. Київ"
+      }
+    }, 
+    "awardCriteria": "lowestCost", 
+    "enquiryPeriod": {
+      "startDate": "2019-10-25T01:00:00+03:00", 
+      "endDate": "2019-11-01T01:00:00+03:00"
+    }, 
+    "owner": "broker", 
+    "next_check": "2019-11-01T00:00:00+02:00", 
+    "id": "360cfcaeb0ec43948ba2c03584e41ea0", 
+    "tenderID": "UA-2019-10-25-000003"
+  }
+}
+

@@ -1,0 +1,63 @@
+PATCH /api/2.5/tenders/96c58765139d4dfb9ff274018c231eb8/qualifications/cf7bbdde988d4552abc9d7e4ad268ff0/complaints/91b4ff9fd2ea4cf0a3f514415544d394 HTTP/1.0
+Authorization: Bearer reviewer
+Content-Length: 32
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "status": "accepted"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "accepted", 
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "author": "complaint_owner", 
+        "language": "uk", 
+        "title": "Complaint_Attachement.pdf", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bffa507f7c044711bf9a31459edda120?KeyID=a8968c46&Signature=RShGcMIQ6ITb2wkxjeyGXG5T5XoNakCQNJ18bk%252BAFnwTo0UBge7kyeuzOuOzCqZMPD7AvKT6RFtW%252B3HR73D%252BCg%253D%253D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2019-10-25T01:00:01+03:00", 
+        "id": "a14dd9b18da84311b9f74ee531d31b0d", 
+        "dateModified": "2019-10-25T01:00:01+03:00"
+      }
+    ], 
+    "description": "Просимо додати таблицю потрібної калорійності харчування", 
+    "author": {
+      "contactPoint": {
+        "email": "aagt@gmail.com", 
+        "telephone": "+380 (322) 91-69-30", 
+        "name": "Андрій Олексюк"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "00137226", 
+        "uri": "http://www.sc.gov.ua/"
+      }, 
+      "name": "ДКП «Книга»", 
+      "address": {
+        "postalCode": "79013", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Островського, 34", 
+        "region": "м. Львів", 
+        "locality": "м. Львів"
+      }
+    }, 
+    "acceptance": true, 
+    "dateAccepted": "2019-10-25T01:00:01+03:00", 
+    "dateSubmitted": "2019-10-25T01:00:01+03:00", 
+    "complaintID": "UA-2019-10-25-000001.1", 
+    "date": "2019-10-25T01:00:01+03:00", 
+    "title": "Калорійність", 
+    "type": "complaint", 
+    "id": "91b4ff9fd2ea4cf0a3f514415544d394"
+  }
+}
+

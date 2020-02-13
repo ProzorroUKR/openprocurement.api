@@ -1,0 +1,205 @@
+POST /api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 2637
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "documents": [
+      {
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/521c95e91644431cbbc1e5fcf8326faf?KeyID=a8968c46&Signature=%2Foj6A6O85gNDmLJKBp39BoiFhSdikNLB%2F4LsVRS48wnEM4YpUW%2FXqxW69dP4Edb21UzhsMsrw%2BNkEip5O%2BX5CA%3D%3D", 
+        "format": "application/pdf", 
+        "hash": "md5:00000000000000000000000000000000", 
+        "title": "Proposal_part1.pdf"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "buyerOnly", 
+        "format": "application/pdf", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0de2a1c410ec4aa9a9b84705967be608?KeyID=a8968c46&Signature=GglsaNIY0IYpBY8eeZstWFRf5EL1FlAMWbTFqeDiYM0rP5SCHALfCP6cCdlYA4Xj5LLBoZnftMmeZfVtsC1XCg%3D%3D", 
+        "confidentialityRationale": "Only our company sells badgers with pink hair.", 
+        "title": "Proposal_part2.pdf"
+      }
+    ], 
+    "eligibilityDocuments": [
+      {
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bdb8f478361c43a0ac9a66feb62f281a?KeyID=a8968c46&Signature=K1Tg1GIY3twdkYPkMYEb3iddpYZ9MxqDRAGVC1icF1Y1P%2FHXF%2BgCse9GFvz9jaAnLVdss%2B0mlJWpragQIRGACg%3D%3D", 
+        "format": "application/pdf", 
+        "hash": "md5:00000000000000000000000000000000", 
+        "title": "eligibility_doc.pdf"
+      }
+    ], 
+    "selfEligible": true, 
+    "lotValues": [
+      {
+        "relatedLot": "c7555f1bb878434d8815dea318304673", 
+        "value": {
+          "amount": 5
+        }
+      }
+    ], 
+    "qualificationDocuments": [
+      {
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/141bde5b81904999acc2752de07b93cb?KeyID=a8968c46&Signature=l2PW1BhdmiuiouK18z5uHOPezEPEexwxlcpD%2FOKX1VRzE7q%2Bobm4eYqDQrW%2B2GNW8VOQKGG6li8cB0DwQIUlCg%3D%3D", 
+        "format": "application/pdf", 
+        "hash": "md5:00000000000000000000000000000000", 
+        "title": "qualification_document.pdf"
+      }
+    ], 
+    "financialDocuments": [
+      {
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b4ed150c66e44f4bb8b86bb5285479f7?KeyID=a8968c46&Signature=4WrEUxjSfHHYqndLlZlblA6wFJQ2LPA3wlS1KqxybZocGLeX4lncdgFuBwoeYrqO%2F0Be%2FqsF1uWi26XtFSsFBQ%3D%3D", 
+        "format": "application/pdf", 
+        "hash": "md5:00000000000000000000000000000000", 
+        "title": "financial_doc.pdf"
+      }
+    ], 
+    "tenderers": [
+      {
+        "contactPoint": {
+          "email": "fake@mail.com", 
+          "name": "Іван Іваненко", 
+          "telephone": "+380 (322) 12-34-56"
+        }, 
+        "scale": "mid", 
+        "name": "«Снігур»", 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137227", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "address": {
+          "countryName": "Україна", 
+          "postalCode": "79013", 
+          "region": "м. Львів", 
+          "streetAddress": "вул. Островського, 35", 
+          "locality": "м. Львів"
+        }
+      }
+    ], 
+    "selfQualified": true
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/88c9f41eac914e1cb72d9a43fc03d702
+{
+  "access": {
+    "transfer": "6cde841ee2954195921f072347856fc6", 
+    "token": "41ecab6d020047c8b903aaba017cb25c"
+  }, 
+  "data": {
+    "status": "pending", 
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "public", 
+        "language": "uk", 
+        "title": "Proposal_part1.pdf", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/88c9f41eac914e1cb72d9a43fc03d702/documents/5d9147ed06d348d69adf62875b7bd89b?download=521c95e91644431cbbc1e5fcf8326faf", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "id": "5d9147ed06d348d69adf62875b7bd89b", 
+        "dateModified": "2019-10-25T01:00:00+03:00"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "buyerOnly", 
+        "language": "uk", 
+        "format": "application/pdf", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/88c9f41eac914e1cb72d9a43fc03d702/documents/3f355e7a0b8646389ad0af8eef0e241b?download=0de2a1c410ec4aa9a9b84705967be608", 
+        "confidentialityRationale": "Only our company sells badgers with pink hair.", 
+        "title": "Proposal_part2.pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "id": "3f355e7a0b8646389ad0af8eef0e241b", 
+        "dateModified": "2019-10-25T01:00:00+03:00"
+      }
+    ], 
+    "eligibilityDocuments": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "public", 
+        "language": "uk", 
+        "title": "eligibility_doc.pdf", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/88c9f41eac914e1cb72d9a43fc03d702/eligibility_documents/474da502332f48a0a117f28b44e21dde?download=bdb8f478361c43a0ac9a66feb62f281a", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "id": "474da502332f48a0a117f28b44e21dde", 
+        "dateModified": "2019-10-25T01:00:00+03:00"
+      }
+    ], 
+    "selfEligible": true, 
+    "id": "88c9f41eac914e1cb72d9a43fc03d702", 
+    "lotValues": [
+      {
+        "relatedLot": "c7555f1bb878434d8815dea318304673", 
+        "date": "2019-10-25T01:00:00+03:00", 
+        "status": "pending", 
+        "value": {
+          "currency": "UAH", 
+          "amount": 5, 
+          "valueAddedTaxIncluded": true
+        }
+      }
+    ], 
+    "selfQualified": true, 
+    "financialDocuments": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "public", 
+        "language": "uk", 
+        "title": "financial_doc.pdf", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/88c9f41eac914e1cb72d9a43fc03d702/financial_documents/e659e8802f38444a9f6f130ed5b39370?download=b4ed150c66e44f4bb8b86bb5285479f7", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "id": "e659e8802f38444a9f6f130ed5b39370", 
+        "dateModified": "2019-10-25T01:00:00+03:00"
+      }
+    ], 
+    "tenderers": [
+      {
+        "contactPoint": {
+          "email": "fake@mail.com", 
+          "telephone": "+380 (322) 12-34-56", 
+          "name": "Іван Іваненко"
+        }, 
+        "scale": "mid", 
+        "name": "«Снігур»", 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137227", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "address": {
+          "postalCode": "79013", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 35", 
+          "region": "м. Львів", 
+          "locality": "м. Львів"
+        }
+      }
+    ], 
+    "date": "2019-10-25T01:00:00+03:00", 
+    "qualificationDocuments": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "public", 
+        "language": "uk", 
+        "title": "qualification_document.pdf", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/88c9f41eac914e1cb72d9a43fc03d702/qualification_documents/7fe9f418924a4f158c03e64046ec1c36?download=141bde5b81904999acc2752de07b93cb", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "id": "7fe9f418924a4f158c03e64046ec1c36", 
+        "dateModified": "2019-10-25T01:00:00+03:00"
+      }
+    ]
+  }
+}
+

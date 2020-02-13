@@ -1,0 +1,39 @@
+PATCH /api/2.5/tenders/52f1b75138ab4b2c87feff205f2a06f4/lots/885ae10af23944619f6730aa24a94d92?acc_token=20ea9bdc44d84eec82cf2059f999ad42 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 36
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "value": {
+      "amount": 400
+    }
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "active", 
+    "description": "Опис Лот №2", 
+    "title": "Лот №2", 
+    "minimalStep": {
+      "currency": "UAH", 
+      "amount": 35.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "auctionPeriod": {
+      "shouldStartAfter": "2019-12-30T00:00:00+02:00"
+    }, 
+    "value": {
+      "currency": "UAH", 
+      "amount": 400.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "date": "2019-10-25T01:00:00+03:00", 
+    "id": "885ae10af23944619f6730aa24a94d92"
+  }
+}
+

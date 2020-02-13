@@ -1,0 +1,506 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.tender.limited 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-08-14 13:08+0300\n"
+"PO-Revision-Date: 2016-03-31 10:57+0300\n"
+"Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
+"Language: uk\n"
+"Language-Team: Ukrainian <info@quintagroup.com>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+#: ../../source/limited/tutorial.rst:4
+msgid "Tutorial"
+msgstr "Туторіал"
+
+#: ../../source/limited/tutorial.rst:7
+msgid "Tender creation"
+msgstr "Створення закупівлі"
+
+#: ../../source/limited/tutorial.rst:13
+msgid "You can create three procedures:"
+msgstr "Можна створити три процедури:"
+
+#: ../../source/limited/tutorial.rst:10
+msgid "``reporting`` - reporting with no stand-still period"
+msgstr ""
+"``reporting`` - процедура звітування про укладений договір (без періоду "
+"очікування скарг)"
+
+#: ../../source/limited/tutorial.rst:11
+msgid ""
+"``negotiation`` - negotiation procedure with 10 day stand-still before "
+"contract registration"
+msgstr ""
+"``negotiation`` - переговорна процедура з десятиденним періодом "
+"очікування скарг перед реєстрацією угоди"
+
+#: ../../source/limited/tutorial.rst:12
+msgid ""
+"``negotiation.quick`` - quick negotiation procedure with 5 day stand-"
+"still before contract registration"
+msgstr ""
+"``negotiation.quick`` - переговорна процедура за нагальною потребою з "
+"п’ятиденним періодом очікування скарг перед реєстрацією угоди"
+
+#: ../../source/limited/tutorial.rst:16
+msgid "Creating tender for reporting procedure"
+msgstr "Створення закупівлі для процедури звітування про укладений договір"
+
+#: ../../source/limited/tutorial.rst:18
+msgid ""
+"To create tender for **reporting** procedure you should set ``reporting``"
+" value for ``procurementMethodType``."
+msgstr ""
+"Щоб створити закупівлю за процедурою **звітування про укладений "
+"договір**, потрібно встановити значення ``reporting`` для "
+"``procurementMethodType``."
+
+#: ../../source/limited/tutorial.rst:20
+msgid "Let’s create a tender:"
+msgstr "Створимо закупівлю:"
+
+#: ../../source/limited/tutorial.rst:25
+msgid ""
+"We have `201 Created` response code, `Location` header and body with "
+"extra `id`, `tenderID`, and `dateModified` properties."
+msgstr ""
+"Ми отримали код відповіді `201 Created`, заголовок `Location` і тіло з "
+"додатковим ідентифікатором `id`, `tenderID` та властивість `dateModified`"
+" - дату, що показує час, коли закупівля востаннє модифікувалась."
+
+#: ../../source/limited/tutorial.rst:27
+msgid "Let's check what tender registry contains:"
+msgstr "Перевіримо, що містить реєстр закупівель:"
+
+#: ../../source/limited/tutorial.rst:32
+msgid ""
+"We do see the internal `id` of a tender (that can be used to construct "
+"full URL by prepending `http://api-"
+"sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` "
+"datestamp."
+msgstr ""
+"Відображається  `id` - внутрішній ідентифікатор (який можна "
+"використовувати, щоб побудувати повну URL-адресу, додаючи `http://api-"
+"sandbox.openprocurement.org/api/0/tenders/` на початку) та мітка часу "
+"`dateModified`."
+
+#: ../../source/limited/tutorial.rst:36
+msgid "Creating tender for negotiation procedure"
+msgstr "Створення закупівлі для переговорної процедури"
+
+#: ../../source/limited/tutorial.rst:38
+msgid ""
+"To create tender for **negotiation** procedure you should set "
+"``negotiation`` value for ``procurementMethodType``."
+msgstr ""
+"Щоб створити закупівлю за **переговорною** процедурою, потрібно "
+"встановити значення ``negotiation`` для ``procurementMethodType``."
+
+#: ../../source/limited/tutorial.rst:45
+msgid "Creating tender for negotiation.quick procedure"
+msgstr "Створення закупівлі для переговорної процедури за нагальною потребою"
+
+#: ../../source/limited/tutorial.rst:47
+msgid ""
+"To create tender for **negotiation.quick** procedure you should set "
+"``negotiation.quick`` value for ``procurementMethodType``."
+msgstr ""
+"Щоб створити закупівлю для **переговорної процедури за нагальною "
+"потребою**, потрібно встановити значення ``negotiation.quick`` для "
+"``procurementMethodType``."
+
+#: ../../source/limited/tutorial.rst:54
+msgid "Modifying tender"
+msgstr "Модифікація закупівлі"
+
+#: ../../source/limited/tutorial.rst:56
+msgid ""
+"Let's update tender by supplementing it with all other essential "
+"properties:"
+msgstr "Оновимо закупівлю шляхом надання їй усіх інших важливих властивостей:"
+
+#: ../../source/limited/tutorial.rst:63
+msgid ""
+"We see the added properies have merged with existing tender data. "
+"Additionally, the `dateModified` property was updated to reflect the last"
+" modification datestamp."
+msgstr ""
+"Ми бачимо, що додаткові властивості об’єднані з існуючими даними "
+"закупівлі. Додатково оновлена властивість dateModified, щоб відображати "
+"останню дату модифікації."
+
+#: ../../source/limited/tutorial.rst:65
+msgid "Checking the listing again reflects the new modification date:"
+msgstr "Ще одна перевірка списку відображає нову дату модифікації:"
+
+#: ../../source/limited/tutorial.rst:74
+msgid "Uploading documentation"
+msgstr "Завантаження документації"
+
+#: ../../source/limited/tutorial.rst:76
+msgid ""
+"Procuring entity can upload documents and files into the created tender. "
+"Uploading should follow the :ref:`upload` rules."
+msgstr ""
+"Замовник може завантажити документи у створену закупівлю. Завантаження "
+"повинно відбуватись згідно правил :ref:`upload`."
+
+#: ../../source/limited/tutorial.rst:82
+msgid ""
+"`201 Created` response code and `Location` header confirm document "
+"creation."
+msgstr ""
+"Код відповіді `201 Created` та заголовок `Location` підтверджують, що "
+"документ було створено."
+
+#: ../../source/limited/tutorial.rst:84
+msgid ""
+"In case we made an error, we can reupload the document over the older "
+"version:"
+msgstr ""
+"Якщо сталась помилка, ми можемо ще раз завантажити документ поверх старої"
+" версії:"
+
+#: ../../source/limited/tutorial.rst:90
+msgid "Awarding"
+msgstr "Визначення переможця"
+
+#: ../../source/limited/tutorial.rst:93
+msgid "Adding supplier information"
+msgstr "Додаємо інформацію про постачальника"
+
+#: ../../source/limited/tutorial.rst:95
+msgid "Addition of supplier information is the same for all procedures."
+msgstr "Спосіб додавання інформації про постачальника однаковий для всіх процедур."
+
+#: ../../source/limited/tutorial.rst:97
+msgid ""
+"Procuring entity registers supplier information for **reporting** "
+"procedure:"
+msgstr ""
+"Замовник реєструє інформацію про постачальника для процедури **звітування"
+" про укладений договір**:"
+
+#: ../../source/limited/tutorial.rst:102
+msgid ""
+"Procuring entity registers supplier information for **negotiation** "
+"procedure:"
+msgstr ""
+"Замовник реєструє інформацію про постачальника для **переговорної** "
+"процедури:"
+
+#: ../../source/limited/tutorial.rst:107
+msgid ""
+"You can notice that there is ``complaintPeriod`` record with "
+"``startDate`` value generated."
+msgstr ""
+"Ви можете побачити, що згенеровано запис ``complaintPeriod`` із полем "
+"``startDate``."
+
+#: ../../source/limited/tutorial.rst:109
+msgid ""
+"Procuring entity registers supplier information for **negotiation.quick**"
+" procedure:"
+msgstr ""
+"Замовник реєструє інформацію про постачальника для переговорної процедури"
+" за нагальною потребою:"
+
+#: ../../source/limited/tutorial.rst:114
+msgid ""
+"Award for **negotiation.quick** procedure also has ``complaintPeriod`` "
+"record with ``startDate`` value."
+msgstr ""
+"Визначення переможця для **переговорної процедури за нагальною потребою**"
+" також має запис ``complaintPeriod`` із полем ``startDate``."
+
+#: ../../source/limited/tutorial.rst:118
+msgid "Uploading award documentation"
+msgstr "Завантаження документів щодо визначення переможця"
+
+#: ../../source/limited/tutorial.rst:120
+msgid ""
+"You can upload award documents only before awarding decision is "
+"confirmed. Let's add award document:"
+msgstr ""
+"Завантажувати документи щодо визначення переможця можна лише до того, як "
+"рішення про визначення переможця буде підтверджено. Спробуємо додати "
+"такий документ:"
+
+#: ../../source/limited/tutorial.rst:125 ../../source/limited/tutorial.rst:214
+msgid ""
+"`201 Created` response code and `Location` header confirm that document "
+"has been added."
+msgstr ""
+"Код відповіді `201 Created` та заголовок `Location` підтверджують, що "
+"документ додано."
+
+#: ../../source/limited/tutorial.rst:127
+msgid "Let's see the list of award documents:"
+msgstr "Переглянемо документи пов’язані із визначенням переможця:"
+
+#: ../../source/limited/tutorial.rst:132
+msgid "We can add another award document:"
+msgstr "Тепер спробуємо додати ще один документ щодо визначення переможця:"
+
+#: ../../source/limited/tutorial.rst:137 ../../source/limited/tutorial.rst:226
+msgid ""
+"`201 Created` response code and `Location` header confirm second document"
+" has been added."
+msgstr ""
+"Код відповіді `201 Created` та заголовок `Location` підтверджують, що ще "
+"один документ було додано."
+
+#: ../../source/limited/tutorial.rst:139
+msgid "Let's see the list of all uploaded award documents:"
+msgstr "Тепер переглянемо знову усі документи пов’язані із визначенням переможця:"
+
+#: ../../source/limited/tutorial.rst:146
+msgid "Award confirmation"
+msgstr "Підтвердження переможця процедури"
+
+#: ../../source/limited/tutorial.rst:148
+msgid "Procuring entity can confirm awarding decision:"
+msgstr "Замовник повинен підтвердити своє рішення про визначення переможця:"
+
+#: ../../source/limited/tutorial.rst:153
+msgid "Award confirmation for **negotiation** procedure:"
+msgstr "Підтвердження визначення переможця для **переговорної** процедури:"
+
+#: ../../source/limited/tutorial.rst:158
+msgid ""
+"The difference between ``startDate`` and ``endDate`` in "
+"``complaintPeriod`` record for **negotiation** is 10 days."
+msgstr ""
+"Різниця між початковою (``startDate``) та кінцевою (``endDate``) датою "
+"запису ``complaintPeriod`` для **переговорної** процедури становить 10 "
+"днів."
+
+#: ../../source/limited/tutorial.rst:160
+msgid "Award confirmation for **negotiation.quick** procedure:"
+msgstr ""
+"Підтвердження визначення переможця для **переговорної процедури за "
+"нагальною потребою** процедури:"
+
+#: ../../source/limited/tutorial.rst:165
+msgid ""
+"The difference between ``startDate`` and ``endDate`` in "
+"``complaintPeriod`` record for **negotiation.quick** is 5 days."
+msgstr ""
+"Різниця між початковою ( ``startDate``) та кінцевою (``endDate``) датою "
+"запису ``complaintPeriod`` для **переговорної процедури за нагальною "
+"потребою** становить 5 днів."
+
+#: ../../source/limited/tutorial.rst:168
+msgid "Setting  contract value"
+msgstr "Встановлення вартості угоди"
+
+#: ../../source/limited/tutorial.rst:170
+msgid ""
+"By default contract value is set based on the award, but there is a "
+"possibility to set custom contract value."
+msgstr ""
+"За замовчуванням вартість угоди встановлюється на основі рішення про "
+"визначення переможця, але є можливість змінити це значення."
+
+#: ../../source/limited/tutorial.rst:172
+msgid ""
+"If you want to **lower contract value**, you can insert new one into the "
+"`amount` field."
+msgstr ""
+"Якщо ви хочете **знизити вартість угоди**, ви можете встановити нове "
+"значення для поля `amount`."
+
+#: ../../source/limited/tutorial.rst:177
+msgid "`200 OK` response was returned. The value was modified successfully."
+msgstr "Було повернуто код відповіді `200 OK`. Значення змінено успішно."
+
+#: ../../source/limited/tutorial.rst:180
+msgid "Setting value per item's unit"
+msgstr ""
+
+#: ../../source/limited/tutorial.rst:185
+msgid ""
+"`200 OK` response was returned with successfully set item.unit.value "
+"structure."
+msgstr ""
+
+#: ../../source/limited/tutorial.rst:189
+msgid "Setting contract signature date"
+msgstr "Встановлення дати підписання угоди"
+
+#: ../../source/limited/tutorial.rst:191
+msgid ""
+"There is a possibility to set custom contract signature date. You can "
+"insert appropriate date into the `dateSigned` field."
+msgstr ""
+"Є можливість встановити дату підписання угоди. Для цього вставте "
+"відповідну дату в поле `dateSigned`."
+
+#: ../../source/limited/tutorial.rst:193
+msgid ""
+"If this date is not set, it will be auto-generated on the date of "
+"contract registration."
+msgstr ""
+"Якщо ви не встановите дату підписання, то вона буде згенерована "
+"автоматично під час реєстрації угоди."
+
+#: ../../source/limited/tutorial.rst:199
+msgid "Setting contract validity period"
+msgstr "Встановлення терміну дії угоди"
+
+#: ../../source/limited/tutorial.rst:201
+msgid ""
+"Setting contract validity period is optional, but if it is needed, you "
+"can set appropriate `startDate` and `endDate`."
+msgstr ""
+"Встановлення терміну дії угоди необов’язкове, але, якщо є необхідність, "
+"ви можете встановити відповідну дату початку `startDate` та кінця "
+"`endDate` терміну дії."
+
+#: ../../source/limited/tutorial.rst:207
+msgid "Uploading contract documentation"
+msgstr "Завантаження документів щодо укладання угоди"
+
+#: ../../source/limited/tutorial.rst:209
+msgid ""
+"Contract documents can be uploaded only up until conclusion of the "
+"agreement. Let's add contract document:"
+msgstr ""
+"Документи пов’язані з угодою можна завантажувати лише до укладання угоди."
+" Спробуємо додати такий документ:"
+
+#: ../../source/limited/tutorial.rst:216
+msgid "Let's see the list of contract documents:"
+msgstr "Переглянемо список завантажених документів:"
+
+#: ../../source/limited/tutorial.rst:221
+msgid "We can add another contract document:"
+msgstr "Тепер спробуємо додати ще один документ щодо укладанням угоди:"
+
+#: ../../source/limited/tutorial.rst:228
+msgid "Let's see the list of all uploaded contract documents:"
+msgstr "Тепер переглянемо знову усі документи пов’язані із укладанням угоди:"
+
+#: ../../source/limited/tutorial.rst:234
+msgid "Contract registration"
+msgstr "Реєстрація угоди"
+
+#: ../../source/limited/tutorial.rst:236
+msgid ""
+"**Reporting** tender contract can be registered immediately after award "
+"confirmation:"
+msgstr ""
+"Угода про закупівлю за процедурою **звітування про укладений договір** "
+"може бути зареєстрована одразу після підтвердження визначення переможця:"
+
+#: ../../source/limited/tutorial.rst:241
+msgid ""
+"**Negotiation** tender contract can be registered only after the stand-"
+"still (10 day period after the award confirmation):"
+msgstr ""
+"Угода про закупівлю за **переговорною** процедурою може бути "
+"зареєстрована одразу після `періоду очікування скарг` (десятиденний "
+"період після підтвердження визначення переможця):"
+
+#: ../../source/limited/tutorial.rst:246
+msgid ""
+"**Negotiation.quick** tender contract can be registered after the stand-"
+"still (5 day period after the award confirmation):"
+msgstr ""
+"Угода про закупівлю для **переговорної процедури за нагальною потребою** "
+"може бути зареєстрована одразу після `періоду очікування скарг` "
+"(п’ятиденний період після підтвердження визначення переможця):"
+
+#: ../../source/limited/tutorial.rst:252
+msgid "Cancelling tender"
+msgstr "Скасування закупівлі"
+
+#: ../../source/limited/tutorial.rst:254
+msgid ""
+"Procuring entity can cancel tender anytime. The following steps should be"
+" applied:"
+msgstr ""
+"Замовник може скасувати закупівлю у будь-який момент. Для цього потрібно "
+"виконати наступні кроки:"
+
+#: ../../source/limited/tutorial.rst:256
+msgid "Prepare cancellation request"
+msgstr "Приготуйте запит на скасування"
+
+#: ../../source/limited/tutorial.rst:257
+msgid "Fill it with the protocol describing the cancellation reasons"
+msgstr "Заповніть його протоколом про причини скасування"
+
+#: ../../source/limited/tutorial.rst:258
+msgid "Cancel the tender with the reasons prepared."
+msgstr "Скасуйте закупівлю через подані причини"
+
+#: ../../source/limited/tutorial.rst:260
+msgid ""
+"Only the request that has been activated (3rd step above) has power to "
+"cancel tender. I.e. you have to not only prepare cancellation request but"
+" to activate it as well."
+msgstr ""
+"Запит на скасування, який не пройшов активації (третій крок), не матиме "
+"сили, тобто, для скасування закупівлі є обов’язковим не тільки створити "
+"запит, але і активувати його."
+
+#: ../../source/limited/tutorial.rst:264
+msgid "See :ref:`cancellation` data structure for details."
+msgstr "Див. структуру запиту :ref:`cancellation` для більш детальної інформації."
+
+#: ../../source/limited/tutorial.rst:267
+msgid "Preparing the cancellation request"
+msgstr "Формування запиту на скасування"
+
+#: ../../source/limited/tutorial.rst:269
+msgid "You should pass `reason`, `status` defaults to `pending`."
+msgstr "Потрібно передати змінні `reason`, `status` у стані `pending`."
+
+#: ../../source/limited/tutorial.rst:271
+msgid "`id` is autogenerated and passed in the `Location` header of response."
+msgstr ""
+"`id` генерується автоматично і повертається у додатковому заголовку "
+"відповіді `Location`:"
+
+#: ../../source/limited/tutorial.rst:276
+msgid ""
+"There are two possible types of cancellation reason - tender was "
+"`cancelled` or `unsuccessful`. By default ``reasonType`` value is "
+"`cancelled`."
+msgstr ""
+"При скасуванні, замовник має визначити один з двох типів ``reasonType``: "
+"торги відмінені - `cancelled`, або торги не відбулися - `unsuccessful`. "
+"За замовчуванням, значення ``reasonType`` рівне `cancelled`."
+
+#: ../../source/limited/tutorial.rst:279
+msgid "You can change ``reasonType`` value to `unsuccessful`."
+msgstr "Ви можете виправити тип на `unsuccessful` (торги не відбулися)."
+
+#: ../../source/limited/tutorial.rst:286
+msgid "Filling cancellation with protocol and supplementary documentation"
+msgstr "Наповнення протоколом та іншою супровідною документацією"
+
+#: ../../source/limited/tutorial.rst:288
+msgid "Upload the file contents"
+msgstr "Завантажте зміст файлу"
+
+#: ../../source/limited/tutorial.rst:293
+msgid "Change the document description and other properties"
+msgstr "Якщо потрібно, змініть опис документа та інші властивості"
+
+#: ../../source/limited/tutorial.rst:299
+msgid "Upload new version of the document"
+msgstr "Завантажте нову версію документа"
+
+#: ../../source/limited/tutorial.rst:306
+msgid "Activating the request and cancelling tender"
+msgstr "Активація запиту та скасування закупівлі"
+

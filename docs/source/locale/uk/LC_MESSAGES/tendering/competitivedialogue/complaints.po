@@ -1,0 +1,163 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.tender.competitvedialogue 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-05-10 13:47+0300\n"
+"PO-Revision-Date: 2018-09-12 11:46+0300\n"
+"Last-Translator: Oleg Serbokryl <oleh.serbokryl@unity-bars.com>\n"
+"Language-Team: Ukrainian <info@quintagroup.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
+
+#: ../../source/competitivedialogue/complaints.rst:11
+msgid "Complaint Workflow"
+msgstr "Схема роботи оскаржень"
+
+#: ../../source/competitivedialogue/complaints.rst:13
+msgid ""
+"For more detailed information read `Complaints "
+"<http://openprocurement.org/en/complaints.html>`_."
+msgstr ""
+
+#: ../../source/competitivedialogue/complaints.rst:16
+msgid "Tender Conditions Claims/Complaints"
+msgstr "Вимоги/Скарги на умови закупівлі"
+
+#: ../../source/competitivedialogue/complaints.rst:52
+msgid "Tender Qualification Complaints"
+msgstr "Скарги на кваліфікацію"
+
+#: ../../source/competitivedialogue/complaints.rst:77
+msgid "Tender Award Complaints"
+msgstr "Скарги на визначення переможця"
+
+#: ../../source/competitivedialogue/complaints.rst:102
+msgid "Roles"
+msgstr "Ролі"
+
+#: ../../source/competitivedialogue/complaints.rst:0
+msgid "Complainant"
+msgstr ""
+
+#: ../../source/competitivedialogue/complaints.rst:105
+msgid "dashed"
+msgstr "пунктирна лінія"
+
+#: ../../source/competitivedialogue/complaints.rst:0
+msgid "Procuring entity"
+msgstr ""
+
+#: ../../source/competitivedialogue/complaints.rst:108
+msgid "plain"
+msgstr "звичайна лінія"
+
+#: ../../source/competitivedialogue/complaints.rst:0
+msgid "Reviewer"
+msgstr ""
+
+#: ../../source/competitivedialogue/complaints.rst:111
+msgid "bold"
+msgstr "жирна лінія"
+
+#: ../../source/competitivedialogue/complaints.rst:0
+msgid "Chronograph"
+msgstr ""
+
+#: ../../source/competitivedialogue/complaints.rst:114
+msgid "dotted"
+msgstr "пунктирна лінія з крапками"
+
+#: ../../source/competitivedialogue/complaints.rst:117
+msgid "Statuses"
+msgstr "Статуси"
+
+#: ../../source/competitivedialogue/complaints.rst:0
+msgid "draft"
+msgstr ""
+
+#: ../../source/competitivedialogue/complaints.rst:120
+msgid "Initial status"
+msgstr "Початковий статус"
+
+#: ../../source/competitivedialogue/complaints.rst:122
+msgid ""
+"Complainant can submit claim, upload documents, cancel claim, and re-"
+"submit it."
+msgstr ""
+"На цьому етапі скаржник може подати вимогу, завантажити документи, "
+"відкликати вимогу та подати її знову."
+
+#: ../../source/competitivedialogue/complaints.rst:0
+msgid "claim"
+msgstr ""
+
+#: ../../source/competitivedialogue/complaints.rst:125
+msgid "Procuring entity can upload documents and answer to claim."
+msgstr "Замовник може завантажити документи та відповісти на вимогу."
+
+#: ../../source/competitivedialogue/complaints.rst:127
+#: ../../source/competitivedialogue/complaints.rst:135
+msgid "Complainant can cancel claim."
+msgstr "Скаржник може відкликати вимогу."
+
+#: ../../source/competitivedialogue/complaints.rst:0
+msgid "answered"
+msgstr ""
+
+#: ../../source/competitivedialogue/complaints.rst:130
+msgid ""
+"Complainant can cancel claim, upload documents, accept solution or "
+"escalate claim to complaint."
+msgstr ""
+"Скаржник може відкликати вимогу, завантажити документи, погодитись з "
+"вирішенням або перетворити вимогу на скаргу."
+
+#: ../../source/competitivedialogue/complaints.rst:0
+msgid "pending"
+msgstr ""
+
+#: ../../source/competitivedialogue/complaints.rst:133
+msgid "Reviewer can upload documents and review complaint."
+msgstr "Орган оскарження може завантажувати документи та розглядати скарги."
+
+#: ../../source/competitivedialogue/complaints.rst:0
+msgid "invalid"
+msgstr ""
+
+#: ../../source/competitivedialogue/complaints.rst:138
+#: ../../source/competitivedialogue/complaints.rst:143
+#: ../../source/competitivedialogue/complaints.rst:148
+#: ../../source/competitivedialogue/complaints.rst:153
+msgid "Terminal status"
+msgstr "Кінцевий статус"
+
+#: ../../source/competitivedialogue/complaints.rst:140
+msgid "Complaint recognized as invalid."
+msgstr "Скаргу визнано недійсною."
+
+#: ../../source/competitivedialogue/complaints.rst:0
+msgid "declined"
+msgstr ""
+
+#: ../../source/competitivedialogue/complaints.rst:145
+msgid "Complaint recognized as declined."
+msgstr "Скаргу визнано відхиленою."
+
+#: ../../source/competitivedialogue/complaints.rst:0
+msgid "resolved"
+msgstr ""
+
+#: ../../source/competitivedialogue/complaints.rst:150
+msgid "Complaint recognized as resolved."
+msgstr "Скаргу визнано вирішеною."
+
+#: ../../source/competitivedialogue/complaints.rst:0
+msgid "cancelled"
+msgstr ""
+
+#: ../../source/competitivedialogue/complaints.rst:155
+msgid "Complaint cancelled by complainant."
+msgstr "Скаргу відкликано скаржником."

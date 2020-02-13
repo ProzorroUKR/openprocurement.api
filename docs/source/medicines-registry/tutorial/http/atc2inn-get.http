@@ -1,0 +1,72 @@
+GET /api/1.0/registry/atc2inn.json HTTP/1.0
+Authorization: Basic YnJva2VybmFtZTpicm9rZXJuYW1l
+Host: medicines-registry-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json
+{
+  "data": {
+    "N07BB04": [
+      "naltrexon"
+    ], 
+    "L01BC08": [
+      "decitabine"
+    ], 
+    "N07BB01": [
+      "disulfiram"
+    ], 
+    "R03BB06": [
+      "glycopyrronium bromide"
+    ], 
+    "R03BB07": [
+      "umeclidinium bromide"
+    ], 
+    "R03BB04": [
+      "tiotropium bromide"
+    ], 
+    "R03BB05": [
+      "aclidinium bromide"
+    ], 
+    "L01BC07": [
+      "azacitidine"
+    ], 
+    "L01BC06": [
+      "capecitabine"
+    ], 
+    "C03AA03": [
+      "hydrochlorothiazide"
+    ], 
+    "R03BB01": [
+      "ipratropium bromide"
+    ], 
+    "L01BC03": [
+      "tegafur"
+    ], 
+    "A11CC05": [
+      "colecalciferol"
+    ], 
+    "A11CC03": [
+      "alfacalcidol"
+    ], 
+    "L01BC05": [
+      "gemcitabine"
+    ], 
+    "L01BC02": [
+      "fluorouracil"
+    ], 
+    "J05AF30": [
+      "zidovudine and lamivudine"
+    ], 
+    "A11CC01": [
+      "ergocalciferol"
+    ], 
+    "L01BC01": [
+      "cytarabine"
+    ], 
+    "D08AJ57": [
+      "octenidine, combinations"
+    ]
+  }, 
+  "dateModified": "2018-08-16 14:21:47+03:00"
+}
+

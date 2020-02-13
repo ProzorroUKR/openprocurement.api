@@ -1,0 +1,28 @@
+PUT /api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/884f1aed57d741a7a8011e28edc20860?acc_token=9e4e9f4da0514309b6c79bbafb5b59c3 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 180
+Content-Type: multipart/form-data; boundary=---BOUNDARY
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+-----BOUNDARY
+Content-Disposition: form-data; name="file"; filename="contract_additional_docs.doc"
+Content-Type: application/msword
+
+extended additional info
+-----BOUNDARY--
+
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "title": "contract_additional_docs.doc", 
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/884f1aed57d741a7a8011e28edc20860?download=2562188623c64e25967736fbcc3a38d2", 
+    "format": "application/msword", 
+    "documentOf": "contract", 
+    "datePublished": "2019-10-25T01:00:01+03:00", 
+    "id": "884f1aed57d741a7a8011e28edc20860", 
+    "dateModified": "2019-10-25T01:00:01+03:00"
+  }
+}
+

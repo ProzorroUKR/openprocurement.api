@@ -1,0 +1,273 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 0.8.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-05-10 13:47+0300\n"
+"PO-Revision-Date: 2018-08-17 15:28+0300\n"
+"Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
+"Language-Team: Ukrainian <info@quintagroup.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
+
+#: ../../source/standard/lot.rst:8
+msgid "Lot"
+msgstr "Lot"
+
+#: ../../source/standard/lot.rst:11
+msgid "Schema"
+msgstr "Схема"
+
+#: ../../source/standard/lot.rst:0
+msgid "id"
+msgstr ""
+
+#: ../../source/standard/lot.rst:14
+msgid "string, auto-generated"
+msgstr "рядок, генерується автоматично"
+
+#: ../../source/standard/lot.rst:0
+msgid "title"
+msgstr ""
+
+#: ../../source/standard/lot.rst:17 ../../source/standard/lot.rst:22
+msgid "string, multilingual"
+msgstr "рядок, багатомовний"
+
+#: ../../source/standard/lot.rst:19
+msgid "The name of the tender lot."
+msgstr "Назва лота закупівлі."
+
+#: ../../source/standard/lot.rst:0
+msgid "description"
+msgstr ""
+
+#: ../../source/standard/lot.rst:24
+msgid "Detailed description of tender lot."
+msgstr "Детальний опис лота закупівлі."
+
+#: ../../source/standard/lot.rst:0
+msgid "value"
+msgstr ""
+
+#: ../../source/standard/lot.rst:27 ../../source/standard/lot.rst:44
+msgid ":ref:`value`, required"
+msgstr ":ref:`value`, обов’язково"
+
+#: ../../source/standard/lot.rst:29
+msgid ""
+"Total available tender lot budget. Bids greater then ``value`` will be "
+"rejected."
+msgstr ""
+"Повний доступний бюджет лота закупівлі. Цінові пропозиції, більші ніж "
+"``value``, будуть відхилені."
+
+#: ../../source/standard/lot.rst:31
+msgid "Absent in :ref:`esco`"
+msgstr "Відсутнє в :ref:`esco`"
+
+#: ../../source/standard/lot.rst:0
+msgid "guarantee"
+msgstr ""
+
+#: ../../source/standard/lot.rst:34
+msgid ":ref:`Guarantee`"
+msgstr ":ref:`Guarantee`"
+
+#: ../../source/standard/lot.rst:36
+msgid "Bid guarantee"
+msgstr "Забезпечення тендерної пропозиції"
+
+#: ../../source/standard/lot.rst:38 ../../source/standard/lot.rst:59
+#: ../../source/standard/lot.rst:66
+msgid "Absent in :ref:`limited`"
+msgstr "Відсутнє в :ref:`limited`"
+
+#: ../../source/standard/lot.rst:0
+msgid "date"
+msgstr ""
+
+#: ../../source/standard/lot.rst:41
+msgid "string, :ref:`date`, auto-generated"
+msgstr "рядок, :ref:`date`, генерується автоматично"
+
+#: ../../source/standard/lot.rst:0
+msgid "minimalStep"
+msgstr ""
+
+#: ../../source/standard/lot.rst:46
+msgid "The minimal step of auction (reduction). Validation rules:"
+msgstr "Мінімальний крок аукціону (редукціону). Правила валідації:"
+
+#: ../../source/standard/lot.rst:48
+msgid "`amount` should be less then `Lot.value.amount`"
+msgstr "`amount` повинно бути меншим, ніж `Lot.value.amount`"
+
+#: ../../source/standard/lot.rst:49
+msgid "`currency` should either be absent or match `Lot.value.currency`"
+msgstr ""
+"`currency` повинно або бути відсутнім, або відповідати "
+"`Lot.value.currency`"
+
+#: ../../source/standard/lot.rst:50
+msgid ""
+"`valueAddedTaxIncluded` should either be absent or match "
+"`Lot.value.valueAddedTaxIncluded`"
+msgstr ""
+"`valueAddedTaxIncluded` повинно або бути відсутнім, або відповідати "
+"`Lot.value.valueAddedTaxIncluded`"
+
+#: ../../source/standard/lot.rst:52
+msgid "Absent in :ref:`limited` and :ref:`esco`"
+msgstr "Робочий процес у :ref:`limited` and :ref:`esco`"
+
+#: ../../source/standard/lot.rst:0
+msgid "auctionPeriod"
+msgstr ""
+
+#: ../../source/standard/lot.rst:55
+msgid ":ref:`period`, read-only"
+msgstr ":ref:`period`, доступно лише для читання"
+
+#: ../../source/standard/lot.rst:57
+msgid "Period when Auction is conducted."
+msgstr "Період проведення аукціону."
+
+#: ../../source/standard/lot.rst:0
+msgid "auctionUrl"
+msgstr ""
+
+#: ../../source/standard/lot.rst:62
+msgid "url"
+msgstr "URL-адреса"
+
+#: ../../source/standard/lot.rst:64
+msgid "A web address for view auction."
+msgstr "Веб-адреса для перегляду аукціону."
+
+#: ../../source/standard/lot.rst:0
+msgid "status"
+msgstr ""
+
+#: ../../source/standard/lot.rst:69
+msgid "string"
+msgstr "рядок"
+
+#: ../../source/standard/lot.rst:0
+msgid "`active`"
+msgstr ""
+
+#: ../../source/standard/lot.rst:72
+msgid "Active tender lot (active)"
+msgstr "Активний лот закупівлі (активний)"
+
+#: ../../source/standard/lot.rst:0
+msgid "`unsuccessful`"
+msgstr ""
+
+#: ../../source/standard/lot.rst:74
+msgid "Unsuccessful tender lot (unsuccessful)"
+msgstr "Неуспішний лот закупівлі (не відбувся)"
+
+#: ../../source/standard/lot.rst:0
+msgid "`complete`"
+msgstr ""
+
+#: ../../source/standard/lot.rst:76
+msgid "Complete tender lot (complete)"
+msgstr "Завершено лот закупівлі (завершено)"
+
+#: ../../source/standard/lot.rst:0
+msgid "`cancelled`"
+msgstr ""
+
+#: ../../source/standard/lot.rst:78
+msgid "Cancelled tender lot (cancelled)"
+msgstr "Скасовано лот закупівлі (скасовано)"
+
+#: ../../source/standard/lot.rst:80
+msgid "Status of the Lot."
+msgstr "Статус лота."
+
+#: ../../source/standard/lot.rst:82
+msgid "Additionally in :ref:`esco`:"
+msgstr ""
+
+#: ../../source/standard/lot.rst:0
+msgid "minimalStepPercentage"
+msgstr ""
+
+#: ../../source/standard/lot.rst:85 ../../source/standard/lot.rst:102
+msgid "float, required"
+msgstr ""
+
+#: ../../source/standard/lot.rst:87
+#, python-format
+msgid ""
+"Minimum step increment of the energy service contract performance "
+"indicator during auction that is calculated on participant’s bid. "
+"Possible values: from 0.005 to 0.03 (from 0.5% to 3% respectively) with "
+"3-digit precision after comma."
+msgstr ""
+
+#: ../../source/standard/lot.rst:0
+msgid "fundingKind"
+msgstr ""
+
+#: ../../source/standard/lot.rst:90
+msgid "string, required"
+msgstr ""
+
+#: ../../source/standard/lot.rst:0
+msgid "Lot funding source"
+msgstr ""
+
+#: ../../source/standard/lot.rst:94 ../../source/standard/lot.rst:106
+msgid "Possible values:"
+msgstr ""
+
+#: ../../source/standard/lot.rst:96
+msgid "budget -  Budget funding."
+msgstr ""
+
+#: ../../source/standard/lot.rst:97
+msgid "other - Supplier funding."
+msgstr ""
+
+#: ../../source/standard/lot.rst:99
+msgid "Default value: other"
+msgstr ""
+
+#: ../../source/standard/lot.rst:0
+msgid "yearlyPaymentsPercentageRange"
+msgstr ""
+
+#: ../../source/standard/lot.rst:104
+msgid ""
+"Fixed percentage of participant's cost reduction sum, with 3-digit "
+"precision after comma."
+msgstr ""
+
+#: ../../source/standard/lot.rst:108
+#, python-format
+msgid "from 0.8 to 1 (from 80% to 100% respectively) if lot:fundingKind:other."
+msgstr ""
+
+#: ../../source/standard/lot.rst:109
+#, python-format
+msgid "from 0 to 0.8 (from 0% to 80% respectively) if lot:fundingKind:budget."
+msgstr ""
+
+#: ../../source/standard/lot.rst:111
+msgid "Input precision - 3 digits after comma."
+msgstr ""
+
+#: ../../source/standard/lot.rst:115
+msgid "Workflow in :ref:`limited`, :ref:`esco` and :ref:`openeu`"
+msgstr "Робочий процес у :ref:`limited`, :ref:`esco` та :ref:`openeu`"
+
+#: ../../source/standard/lot.rst:129
+msgid "\\* marks initial state"
+msgstr "\\* позначає початковий стан"

@@ -1,0 +1,186 @@
+POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 3032
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "milestones": [
+      {
+        "code": "prepayment", 
+        "sequenceNumber": 0, 
+        "title": "signingTheContract", 
+        "duration": {
+          "type": "banking", 
+          "days": 2
+        }, 
+        "percentage": 45.55, 
+        "type": "financing", 
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }, 
+      {
+        "code": "postpayment", 
+        "sequenceNumber": 0, 
+        "title": "deliveryOfGoods", 
+        "duration": {
+          "type": "calendar", 
+          "days": 900
+        }, 
+        "percentage": 54.45, 
+        "type": "financing"
+      }
+    ], 
+    "mainProcurementCategory": "services", 
+    "title": "футляри до державних нагород", 
+    "lots": [
+      {
+        "title": "Лот №1", 
+        "id": "1b75c06ee58f4909a4201255b4ba5831", 
+        "description": "Опис Лот №1"
+      }
+    ], 
+    "items": [
+      {
+        "relatedLot": "1b75c06ee58f4909a4201255b4ba5831", 
+        "description": "футляри до державних нагород", 
+        "classification": {
+          "scheme": "ДК021", 
+          "id": "44617100-9", 
+          "description": "Cartons"
+        }, 
+        "description_en": "Cases with state awards", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ], 
+        "description_ru": "футляры к государственным наградам", 
+        "id": "21931e47b924425cba629f01ff15f044", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 5
+      }
+    ], 
+    "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
+    "mode": "test", 
+    "agreements": [
+      {
+        "id": "106468013e6f47398b6f2f4da3bdeba6"
+      }
+    ], 
+    "title_ru": "футляры к государственным наградам", 
+    "title_en": "Cases with state awards", 
+    "procuringEntity": {
+      "contactPoint": {
+        "name": "Державне управління справами", 
+        "telephone": "0440000000"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "00037256", 
+        "uri": "http://www.dus.gov.ua/"
+      }, 
+      "name": "Державне управління справами", 
+      "kind": "general", 
+      "address": {
+        "countryName": "Україна", 
+        "postalCode": "01220", 
+        "region": "м. Київ", 
+        "streetAddress": "вул. Банкова, 11, корпус 1", 
+        "locality": "м. Київ"
+      }
+    }
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bb5d83ccdd124232987d417d1966bbff
+{
+  "access": {
+    "transfer": "b96177a00aeb4fb0827989272da143fe", 
+    "token": "f93cb6502e344f4cbb7e7389870287af"
+  }, 
+  "data": {
+    "status": "draft", 
+    "procurementMethod": "selective", 
+    "tenderID": "UA-2019-10-25-000002", 
+    "title": "[ТЕСТУВАННЯ] футляри до державних нагород", 
+    "lots": [
+      {
+        "date": "2019-10-25T01:00:00+03:00", 
+        "status": "active", 
+        "title": "Лот №1", 
+        "description": "Опис Лот №1", 
+        "id": "1b75c06ee58f4909a4201255b4ba5831"
+      }
+    ], 
+    "items": [
+      {
+        "relatedLot": "1b75c06ee58f4909a4201255b4ba5831", 
+        "description": "футляри до державних нагород", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "Cartons", 
+          "id": "44617100-9"
+        }, 
+        "description_en": "Cases with state awards", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ], 
+        "description_ru": "футляры к государственным наградам", 
+        "id": "21931e47b924425cba629f01ff15f044", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 5.0
+      }
+    ], 
+    "title_en": "[TESTING] Cases with state awards", 
+    "submissionMethod": "electronicAuction", 
+    "procuringEntity": {
+      "contactPoint": {
+        "name": "Державне управління справами", 
+        "telephone": "0440000000"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "00037256", 
+        "uri": "http://www.dus.gov.ua/"
+      }, 
+      "name": "Державне управління справами", 
+      "kind": "general", 
+      "address": {
+        "postalCode": "01220", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Банкова, 11, корпус 1", 
+        "region": "м. Київ", 
+        "locality": "м. Київ"
+      }
+    }, 
+    "date": "2019-10-25T01:00:00+03:00", 
+    "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
+    "awardCriteria": "lowestCost", 
+    "title_ru": "[ТЕСТИРОВАНИЕ] футляры к государственным наградам", 
+    "owner": "broker", 
+    "dateModified": "2019-10-25T01:00:00+03:00", 
+    "mode": "test", 
+    "id": "bb5d83ccdd124232987d417d1966bbff", 
+    "agreements": [
+      {
+        "id": "106468013e6f47398b6f2f4da3bdeba6"
+      }
+    ]
+  }
+}
+

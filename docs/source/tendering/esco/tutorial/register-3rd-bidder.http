@@ -1,0 +1,249 @@
+POST /api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 2785
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "documents": [
+      {
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/21ef16b5420c40b48a8d16d91f49eeb4?KeyID=a8968c46&Signature=maRGVvyqdDWuY7adTnrCnfW7132cVM3x2ulhW7lgAOoppCuNsUkCxHujWaaFfgp8vL01ZkFt%2F5WZjPju8jmwCQ%3D%3D", 
+        "title": "Proposal_part1.pdf", 
+        "hash": "md5:00000000000000000000000000000000", 
+        "format": "application/pdf"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "buyerOnly", 
+        "format": "application/pdf", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/368ab90ae6a748e6be48d5d2151aee66?KeyID=a8968c46&Signature=33nJ45rSwz7k2o1BavFF6Kj2rx%2FTGIP4wb%2BG8JVutfw62lJyGrvnmF9XK9onJzbgcbEUntMcJ4TT%2FSAp0g5FDA%3D%3D", 
+        "confidentialityRationale": "Only our company sells badgers with pink hair.", 
+        "title": "Proposal_part2.pdf"
+      }
+    ], 
+    "eligibilityDocuments": [
+      {
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2ee8fe8abbb94b7ebefa67990b15a743?KeyID=a8968c46&Signature=gupBv%2F4HBDQSw5xj0MkY3xT%2FY2wXsQVGi6xS8ZbOwt6awMBQDjb7J6kKmtr8bHuJyH4m%2BcPqNbXlI9WwLvWUBg%3D%3D", 
+        "format": "application/pdf", 
+        "hash": "md5:00000000000000000000000000000000", 
+        "title": "eligibility_doc.pdf"
+      }
+    ], 
+    "selfEligible": true, 
+    "value": {
+      "contractDuration": {
+        "days": 40, 
+        "years": 13
+      }, 
+      "yearlyPaymentsPercentage": 0.86, 
+      "annualCostsReduction": [
+        200, 
+        800, 
+        800, 
+        800, 
+        800, 
+        800, 
+        800, 
+        800, 
+        800, 
+        800, 
+        800, 
+        800, 
+        800, 
+        800, 
+        800, 
+        800, 
+        800, 
+        800, 
+        800, 
+        800, 
+        800
+      ]
+    }, 
+    "qualificationDocuments": [
+      {
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5adb6bac38c9431284763180f68198be?KeyID=a8968c46&Signature=xoYQNox2vVFxwv%2FP%2FbNg0rpkD9fJddBDKu5SHS3T3vr6pI7k3PIUUgbkROq1skNhmaSf0hzFiiUgm19UNpjmBg%3D%3D", 
+        "format": "application/pdf", 
+        "hash": "md5:00000000000000000000000000000000", 
+        "title": "qualification_document.pdf"
+      }
+    ], 
+    "financialDocuments": [
+      {
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/643769d36825492a97eb6ceebb19eb1f?KeyID=a8968c46&Signature=6tFmihh2fHg%2BIg86Lu2x1XxfFE0tD5BLDYw%2BAC7uicFh1PVKYOcdpQGQZiZ5MWUHLxZ9NA4iAWD50vjxPtXRDg%3D%3D", 
+        "format": "application/pdf", 
+        "hash": "md5:00000000000000000000000000000000", 
+        "title": "financial_doc.pdf"
+      }
+    ], 
+    "tenderers": [
+      {
+        "contactPoint": {
+          "email": "aagt@gmail.com", 
+          "name": "Андрій Олексюк", 
+          "telephone": "+380 (322) 91-69-30"
+        }, 
+        "scale": "sme", 
+        "name": "ДКП «Книга»", 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137226", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "address": {
+          "countryName": "Україна", 
+          "postalCode": "79013", 
+          "region": "м. Львів", 
+          "streetAddress": "вул. Островського, 34", 
+          "locality": "м. Львів"
+        }
+      }
+    ], 
+    "selfQualified": true
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/5e79c825b4c54c36a179b22db2dae23b
+{
+  "access": {
+    "transfer": "c7378ba1bdda4a818b444f6a2697c3d9", 
+    "token": "8bdbb55e6b3c4c26a40d2ad78b190b55"
+  }, 
+  "data": {
+    "status": "pending", 
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "public", 
+        "language": "uk", 
+        "title": "Proposal_part1.pdf", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/5e79c825b4c54c36a179b22db2dae23b/documents/824f270cc0b749bd989983329634a5de?download=21ef16b5420c40b48a8d16d91f49eeb4", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "id": "824f270cc0b749bd989983329634a5de", 
+        "dateModified": "2019-10-25T01:00:00+03:00"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "buyerOnly", 
+        "language": "uk", 
+        "format": "application/pdf", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/5e79c825b4c54c36a179b22db2dae23b/documents/fc90022e9584421e90d0438c8b331cc8?download=368ab90ae6a748e6be48d5d2151aee66", 
+        "confidentialityRationale": "Only our company sells badgers with pink hair.", 
+        "title": "Proposal_part2.pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "id": "fc90022e9584421e90d0438c8b331cc8", 
+        "dateModified": "2019-10-25T01:00:00+03:00"
+      }
+    ], 
+    "eligibilityDocuments": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "public", 
+        "language": "uk", 
+        "title": "eligibility_doc.pdf", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/5e79c825b4c54c36a179b22db2dae23b/eligibility_documents/7adad4419c2f4b30b066e8e584a62f25?download=2ee8fe8abbb94b7ebefa67990b15a743", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "id": "7adad4419c2f4b30b066e8e584a62f25", 
+        "dateModified": "2019-10-25T01:00:00+03:00"
+      }
+    ], 
+    "selfEligible": true, 
+    "id": "5e79c825b4c54c36a179b22db2dae23b", 
+    "value": {
+      "yearlyPaymentsPercentage": 0.86, 
+      "valueAddedTaxIncluded": true, 
+      "currency": "UAH", 
+      "amount": 9065.11, 
+      "contractDuration": {
+        "days": 40, 
+        "years": 13
+      }, 
+      "amountPerformance": 637.54, 
+      "annualCostsReduction": [
+        200.0, 
+        800.0, 
+        800.0, 
+        800.0, 
+        800.0, 
+        800.0, 
+        800.0, 
+        800.0, 
+        800.0, 
+        800.0, 
+        800.0, 
+        800.0, 
+        800.0, 
+        800.0, 
+        800.0, 
+        800.0, 
+        800.0, 
+        800.0, 
+        800.0, 
+        800.0, 
+        800.0
+      ]
+    }, 
+    "selfQualified": true, 
+    "financialDocuments": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "public", 
+        "language": "uk", 
+        "title": "financial_doc.pdf", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/5e79c825b4c54c36a179b22db2dae23b/financial_documents/1c73e057a06b4ae5a71824069263ed43?download=643769d36825492a97eb6ceebb19eb1f", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "id": "1c73e057a06b4ae5a71824069263ed43", 
+        "dateModified": "2019-10-25T01:00:00+03:00"
+      }
+    ], 
+    "tenderers": [
+      {
+        "contactPoint": {
+          "email": "aagt@gmail.com", 
+          "telephone": "+380 (322) 91-69-30", 
+          "name": "Андрій Олексюк"
+        }, 
+        "scale": "sme", 
+        "name": "ДКП «Книга»", 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137226", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "address": {
+          "postalCode": "79013", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 34", 
+          "region": "м. Львів", 
+          "locality": "м. Львів"
+        }
+      }
+    ], 
+    "date": "2019-10-25T01:00:00+03:00", 
+    "qualificationDocuments": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "public", 
+        "language": "uk", 
+        "title": "qualification_document.pdf", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/5e79c825b4c54c36a179b22db2dae23b/qualification_documents/fe588ea0e24f4fd2b0ea10370536c95e?download=5adb6bac38c9431284763180f68198be", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "id": "fe588ea0e24f4fd2b0ea10370536c95e", 
+        "dateModified": "2019-10-25T01:00:00+03:00"
+      }
+    ]
+  }
+}
+

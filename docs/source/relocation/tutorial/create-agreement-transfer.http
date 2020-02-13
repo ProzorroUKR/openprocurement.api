@@ -1,0 +1,23 @@
+POST /api/2.5/transfers HTTP/1.0
+Authorization: Bearer broker3
+Content-Length: 12
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {}
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+{
+  "access": {
+    "transfer": "0ec61677f28746f0af757f537f541b4a", 
+    "token": "575f3322f20549bcba96cb63f59a96c3"
+  }, 
+  "data": {
+    "date": "2019-10-25T01:00:00+03:00", 
+    "id": "e12304edbbb945618010929a159d473b"
+  }
+}
+

@@ -1,0 +1,98 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.tender.competitivedialogue 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-09-12 11:30+0300\n"
+"PO-Revision-Date: 2018-09-12 11:41+0300\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: uk\n"
+"X-Generator: Poedit 2.1.1\n"
+
+#: ../../source/competitivedialogue/overview.rst:2
+msgid "Overview"
+msgstr "Огляд"
+
+#: ../../source/competitivedialogue/overview.rst:4
+msgid ""
+"The Competitive Dialogue procedure is plugin to `Open Procurement API` software."
+msgstr "Конкурентний діалог це плагін до `Open Procurement API`."
+
+#: ../../source/competitivedialogue/overview.rst:6
+msgid ""
+"REST-ful interface to plugin is in line with core software design principles."
+msgstr ""
+"REST-ful інтерфейс для плагіна відповідає основним принципам дизайну "
+"програмного забезпечення."
+
+#: ../../source/competitivedialogue/overview.rst:10
+msgid "Conventions"
+msgstr "Домовленості"
+
+#: ../../source/competitivedialogue/overview.rst:12
+msgid ""
+"This plugin conventions follow the `Open Procurement API conventions <http://"
+"api-docs.openprocurement.org/en/latest/overview.html#conventions>`_."
+msgstr ""
+"Цей плагін підтримує `домовленості Open Procurement API <http://api-docs."
+"openprocurement.org/en/latest/overview.html#conventions>`_."
+
+#: ../../source/competitivedialogue/overview.rst:16
+msgid "Main responsibilities"
+msgstr "Основні задачі"
+
+#: ../../source/competitivedialogue/overview.rst:18
+msgid ""
+"CompetitiveDialogue procedure which split on 2 stages, first it's where broker "
+"specify requirements, and second where he create tender with requirements from "
+"first stage. Second stage by procedure similar to Open EU, and Open UA."
+msgstr ""
+"Процедура Конкурентный диалог поділяється на 2 етапа, перший - закупщик уточнює "
+"вимоги, і другий він створює тендер з умовами, які були оговорені не першому "
+"етапі. Другий етап схожий з Open EU та Open UA."
+
+#: ../../source/competitivedialogue/overview.rst:21
+msgid "Project status"
+msgstr "Стан проекту"
+
+#: ../../source/competitivedialogue/overview.rst:23
+msgid "The project is in active development and has pilot installations."
+msgstr "Цей проект активно розробляється і має пілотні встановлення."
+
+#: ../../source/competitivedialogue/overview.rst:25
+msgid ""
+"The source repository for this project is on GitHub: https://github.com/"
+"openprocurement/openprocurement.tender.competitivedialogue"
+msgstr ""
+"Репозиторій цього проекту є на GitHub: https://github.com/openprocurement/"
+"openprocurement.tender.competitivedialogue"
+
+#: ../../source/competitivedialogue/overview.rst:27
+msgid ""
+"You can leave feedback by raising a new issue on the `issue tracker <https://"
+"github.com/openprocurement/openprocurement.tender.competitivedialogue/issues>`_ "
+"(GitHub registration necessary).  For general discussion use `Open Procurement "
+"General <https://groups.google.com/group/open-procurement-general>`_ maillist."
+msgstr ""
+"Повідомляйте про всі проблеми та поради через `issue tracker <https://github."
+"com/openprocurement/openprocurement.tender.openeu/issues>`_ (реєстрація на "
+"GitHub обов’язкова). Загальне обговорення відбувається через розсилку `Open "
+"Procurement General <https://groups.google.com/group/open-procurement-"
+"general>`_."
+
+#: ../../source/competitivedialogue/overview.rst:34
+msgid "Next steps"
+msgstr "Наступні кроки"
+
+#: ../../source/competitivedialogue/overview.rst:35
+msgid ""
+"You might find it helpful to look at the :ref:`competitivedialogue_tutorial` "
+"or :ref:`competitivedialogue_mulitlot_tutorial`."
+msgstr ""
+"Далі читайте :ref:`competitivedialogue_tutorial` або :ref:"
+"`competitivedialogue_mulitlot_tutorial`."

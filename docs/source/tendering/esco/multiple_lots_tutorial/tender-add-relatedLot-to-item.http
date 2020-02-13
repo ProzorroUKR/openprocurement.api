@@ -1,0 +1,213 @@
+PATCH /api/2.5/tenders/db8f78603c144a8aac15730f9c763584?acc_token=cf69efce7aca41c2b952f04d86d7fb90 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 125
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "items": [
+      {
+        "relatedLot": "3c84167877eb48d693c12efd2c6cb01e"
+      }, 
+      {
+        "relatedLot": "92e4a20a9d7f4dada89d434409f951d8"
+      }
+    ]
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "procurementMethod": "open", 
+    "mainProcurementCategory": "services", 
+    "complaintPeriod": {
+      "startDate": "2019-10-25T01:00:00+03:00", 
+      "endDate": "2019-11-21T00:00:00+02:00"
+    }, 
+    "enquiryPeriod": {
+      "startDate": "2019-10-25T01:00:00+03:00", 
+      "clarificationsUntil": "2019-11-20T00:00:00+02:00", 
+      "endDate": "2019-11-15T00:00:00+02:00", 
+      "invalidationDate": "2019-10-25T01:00:00+03:00"
+    }, 
+    "submissionMethod": "electronicAuction", 
+    "next_check": "2019-11-25T00:00:00+02:00", 
+    "procuringEntity": {
+      "kind": "general", 
+      "name": "ЗОСШ #10 м.Вінниці", 
+      "address": {
+        "postalCode": "21027", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Стахурського. 22", 
+        "region": "м. Вінниця", 
+        "locality": "м. Вінниця"
+      }, 
+      "contactPoint": {
+        "url": "http://sch10.edu.vn.ua/", 
+        "name_en": "Kutsa Svitlana V.", 
+        "name": "Куца Світлана Валентинівна", 
+        "availableLanguage": "uk", 
+        "telephone": "+380 (432) 46-53-02"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\"", 
+        "id": "21725150", 
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+      }, 
+      "name_en": "School #10 of Vinnytsia"
+    }, 
+    "owner": "broker", 
+    "title_en": "Services in school canteens", 
+    "id": "db8f78603c144a8aac15730f9c763584", 
+    "title": "Послуги шкільних їдалень", 
+    "lots": [
+      {
+        "status": "active", 
+        "description": "Опис Лот №1", 
+        "fundingKind": "other", 
+        "title": "Лот №1", 
+        "auctionPeriod": {
+          "shouldStartAfter": "2019-12-30T00:00:00+02:00"
+        }, 
+        "minValue": {
+          "currency": "UAH", 
+          "amount": 0.0, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "minimalStepPercentage": 0.006, 
+        "yearlyPaymentsPercentageRange": 0.8, 
+        "date": "2019-10-25T01:00:00+03:00", 
+        "id": "3c84167877eb48d693c12efd2c6cb01e"
+      }, 
+      {
+        "status": "active", 
+        "description": "Опис Лот №2", 
+        "fundingKind": "other", 
+        "title": "Лот №2", 
+        "auctionPeriod": {
+          "shouldStartAfter": "2019-12-30T00:00:00+02:00"
+        }, 
+        "minValue": {
+          "currency": "UAH", 
+          "amount": 0.0, 
+          "valueAddedTaxIncluded": true
+        }, 
+        "minimalStepPercentage": 0.006, 
+        "yearlyPaymentsPercentageRange": 0.8, 
+        "date": "2019-10-25T01:00:00+03:00", 
+        "id": "92e4a20a9d7f4dada89d434409f951d8"
+      }
+    ], 
+    "tenderID": "UA-2019-10-25-000001", 
+    "minimalStepPercentage": 0.006, 
+    "yearlyPaymentsPercentageRange": 0.8, 
+    "dateModified": "2019-10-25T01:00:00+03:00", 
+    "status": "active.tendering", 
+    "tenderPeriod": {
+      "startDate": "2019-10-25T01:00:00+03:00", 
+      "endDate": "2019-11-25T00:00:00+02:00"
+    }, 
+    "NBUdiscountRate": 0.22986, 
+    "procurementMethodType": "esco", 
+    "date": "2019-10-25T01:00:00+03:00", 
+    "minValue": {
+      "currency": "UAH", 
+      "amount": 0.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "milestones": [
+      {
+        "code": "prepayment", 
+        "sequenceNumber": 0, 
+        "title": "signingTheContract", 
+        "duration": {
+          "type": "banking", 
+          "days": 2
+        }, 
+        "percentage": 45.55, 
+        "type": "financing", 
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }, 
+      {
+        "code": "postpayment", 
+        "sequenceNumber": 0, 
+        "title": "deliveryOfGoods", 
+        "duration": {
+          "type": "calendar", 
+          "days": 900
+        }, 
+        "percentage": 54.45, 
+        "type": "financing", 
+        "id": "d1202ca204144cbe9dc33b3be3890c2f"
+      }
+    ], 
+    "fundingKind": "other", 
+    "items": [
+      {
+        "relatedLot": "3c84167877eb48d693c12efd2c6cb01e", 
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "Test", 
+          "id": "37810000-9"
+        }, 
+        "description_en": "Services in school canteens", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "id": "690fde3cdacc4efc8e343748e53b099a", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }
+      }, 
+      {
+        "relatedLot": "92e4a20a9d7f4dada89d434409f951d8", 
+        "description": "Послуги шкільних їдалень", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "Test", 
+          "id": "37810000-9"
+        }, 
+        "description_en": "Services in school canteens", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "Послуги шкільних їдалень"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "id": "c9050d5dbc614321aba56eb555dc7ded", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }
+      }
+    ], 
+    "noticePublicationDate": "2019-10-25T01:00:00+03:00", 
+    "awardCriteria": "ratedCriteria"
+  }
+}
+

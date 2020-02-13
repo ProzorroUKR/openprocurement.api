@@ -1,0 +1,30 @@
+POST /api/2.5/agreements/eb35d61e7cde4a008003f5cd17ddb0c7/documents?acc_token=76b0c07026994e7089d5f9716acfc3e7 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 156
+Content-Type: multipart/form-data; boundary=---BOUNDARY
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+-----BOUNDARY
+Content-Disposition: form-data; name="file"; filename="agreement_changes.doc"
+Content-Type: application/msword
+
+content
+-----BOUNDARY--
+
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/agreements/eb35d61e7cde4a008003f5cd17ddb0c7/documents/b8f02cdfc2cc43c2a6a5f014d524afc6
+{
+  "data": {
+    "hash": "md5:00000000000000000000000000000000", 
+    "title": "agreement_changes.doc", 
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a51bbc22366e41c6b012eeb99b212994?KeyID=a8968c46&Signature=6dYoov%252BfN7fg0%252BkmGHAQPvWlPvpf%2Fj1WIfx5e1YWZhoA7APSP60DFNJ5upL34Ckd3f9JCbUJrK2aR00ums%252BPAA%253D%253D", 
+    "format": "application/msword", 
+    "documentOf": "agreement", 
+    "datePublished": "2019-10-25T01:00:00+03:00", 
+    "id": "b8f02cdfc2cc43c2a6a5f014d524afc6", 
+    "dateModified": "2019-10-25T01:00:00+03:00"
+  }
+}
+

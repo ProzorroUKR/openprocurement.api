@@ -1,0 +1,65 @@
+GET /api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/bids/694f980947ff4d0b870d9a18384f23fe?acc_token=cfa7d625bdd049c79e3dfa84d8835a53 HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "active", 
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "title": "Proposal_part1.pdf", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/bids/694f980947ff4d0b870d9a18384f23fe/documents/ce114f673cf14b039c1ee9705b07c00b?download=9152e77768004ab1ba6b843902ac3f12", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2019-10-25T01:00:01+03:00", 
+        "id": "ce114f673cf14b039c1ee9705b07c00b", 
+        "dateModified": "2019-10-25T01:00:01+03:00"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "title": "Proposal_part2.pdf", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/bids/694f980947ff4d0b870d9a18384f23fe/documents/8baccb56ed4a44a18ef4c13ef8a4094b?download=99993315a2cd472f9387941fe22ee6d5", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2019-10-25T01:00:01+03:00", 
+        "id": "8baccb56ed4a44a18ef4c13ef8a4094b", 
+        "dateModified": "2019-10-25T01:00:01+03:00"
+      }
+    ], 
+    "value": {
+      "currency": "UAH", 
+      "amount": 499.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "tenderers": [
+      {
+        "contactPoint": {
+          "email": "aagt@gmail.com", 
+          "telephone": "+380 (322) 91-69-30", 
+          "name": "Андрій Олексюк"
+        }, 
+        "scale": "sme", 
+        "name": "ДКП «Книга»", 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137226", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "address": {
+          "postalCode": "79013", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 34", 
+          "region": "м. Львів", 
+          "locality": "м. Львів"
+        }
+      }
+    ], 
+    "date": "2019-10-25T01:00:01+03:00", 
+    "id": "694f980947ff4d0b870d9a18384f23fe", 
+    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/bc3a9016b29d4fed894cc62d3ff59680?key_for_bid=694f980947ff4d0b870d9a18384f23fe"
+  }
+}
+

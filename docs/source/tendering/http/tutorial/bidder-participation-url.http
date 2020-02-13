@@ -1,0 +1,55 @@
+GET /api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/bids/b31ec66637a141c7bb03446a0f22f5dc?acc_token=7a7e299c46ba4430a2a63af9bf91af30 HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "active", 
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "title": "Proposal.pdf", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/bids/b31ec66637a141c7bb03446a0f22f5dc/documents/86cd9a1b304d4530852984610d67c933?download=748412273ae54b27a3606febdfe1bc93", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2019-10-25T01:00:01+03:00", 
+        "id": "86cd9a1b304d4530852984610d67c933", 
+        "dateModified": "2019-10-25T01:00:01+03:00"
+      }
+    ], 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "tenderers": [
+      {
+        "contactPoint": {
+          "email": "soleksuk@gmail.com", 
+          "telephone": "+380 (432) 21-69-30", 
+          "name": "Сергій Олексюк"
+        }, 
+        "scale": "micro", 
+        "name": "ДКП «Школяр»", 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137256", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "address": {
+          "postalCode": "21100", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 33", 
+          "region": "м. Вінниця", 
+          "locality": "м. Вінниця"
+        }
+      }
+    ], 
+    "date": "2019-10-25T01:00:01+03:00", 
+    "id": "b31ec66637a141c7bb03446a0f22f5dc", 
+    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/bc3a9016b29d4fed894cc62d3ff59680?key_for_bid=b31ec66637a141c7bb03446a0f22f5dc"
+  }
+}
+

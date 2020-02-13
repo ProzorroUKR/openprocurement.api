@@ -1,0 +1,75 @@
+GET /api/1.0/registry/inn2atc.json HTTP/1.0
+Authorization: Basic YnJva2VybmFtZTpicm9rZXJuYW1l
+Host: medicines-registry-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json
+{
+  "data": {
+    "allergen extracts": [
+      "V01AA"
+    ], 
+    "betaxolol": [
+      "S01ED02", 
+      "C07AB05"
+    ], 
+    "procainamide": [
+      "C01BA02"
+    ], 
+    "citalopram": [
+      "N06AB04"
+    ], 
+    "telmisartan": [
+      "C09CA07"
+    ], 
+    "strontium ranelate": [
+      "M05BX03"
+    ], 
+    "vincamine": [
+      "C04AX07"
+    ], 
+    "glimepiride": [
+      "A10BB12"
+    ], 
+    "coriandrum sativum": [
+      "A05AX"
+    ], 
+    "ivabradine": [
+      "C01EB17"
+    ], 
+    "bibrocathol": [
+      "S01AX05"
+    ], 
+    "pantoprazole": [
+      "A02BC02"
+    ], 
+    "immunoglobulins, normal human, for extravascular adm.": [
+      "J06BA01", 
+      "J06BB30"
+    ], 
+    "trastuzumab": [
+      "L01XC03"
+    ], 
+    "omoconazole": [
+      "G01AF16"
+    ], 
+    "cloperastine": [
+      "R05DB"
+    ], 
+    "lincomycin": [
+      "J01FF02"
+    ], 
+    "troxerutin, combinations": [
+      "C05CA54"
+    ], 
+    "zidovudine and lamivudine": [
+      "J05AR01", 
+      "J05AF30"
+    ], 
+    "zuclopenthixol": [
+      "N05AF05"
+    ]
+  }, 
+  "dateModified": "2018-08-16 14:21:47+03:00"
+}
+

@@ -1,0 +1,34 @@
+PATCH /api/2.5/tenders/e889c67520844dce92f7def2b156c21e/qualifications/a63e400392b0462d8ad4bdb2128fb131/complaints/83331aa0eefb4c7a9c8c77ffa78543aa?acc_token=39e3fe3b63f94b22be2f460a82eef71d HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 387
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "status": "answered", 
+    "resolutionType": "resolved", 
+    "resolution": "Умови виправлено, вибір переможня буде розгянуто повторно"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "relatedLot": "7a576fa3183c402c9ff83b060cbf83e1", 
+    "status": "answered", 
+    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+    "title": "Недостатньо інформації", 
+    "resolutionType": "resolved", 
+    "type": "claim", 
+    "bid_id": "923dbf550ec84f78a1d4ecfb09d6bb48", 
+    "dateAnswered": "2019-10-25T01:00:01+03:00", 
+    "dateSubmitted": "2019-10-25T01:00:01+03:00", 
+    "complaintID": "UA-2019-10-25-000001.6", 
+    "date": "2019-10-25T01:00:01+03:00", 
+    "resolution": "Умови виправлено, вибір переможня буде розгянуто повторно", 
+    "id": "83331aa0eefb4c7a9c8c77ffa78543aa"
+  }
+}
+

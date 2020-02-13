@@ -1,0 +1,30 @@
+PATCH /api/2.5/tenders/96c58765139d4dfb9ff274018c231eb8/qualifications/cf7bbdde988d4552abc9d7e4ad268ff0/complaints/747f82f1f5e64bc4a791b5dce0feb508?acc_token=380cf4205d20498d9b245d48daa12aa3 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 150
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "status": "cancelled", 
+    "cancellationReason": "Умови виправлено"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "cancelled", 
+    "description": "Просимо додати таблицю потрібної калорійності харчування", 
+    "title": "Калорійність", 
+    "bid_id": "c1eb30e6f1dd4063b94519c80ff7c1e8", 
+    "cancellationReason": "Умови виправлено", 
+    "dateCanceled": "2019-10-25T01:00:01+03:00", 
+    "complaintID": "UA-2019-10-25-000001.9", 
+    "date": "2019-10-25T01:00:01+03:00", 
+    "type": "claim", 
+    "id": "747f82f1f5e64bc4a791b5dce0feb508"
+  }
+}
+

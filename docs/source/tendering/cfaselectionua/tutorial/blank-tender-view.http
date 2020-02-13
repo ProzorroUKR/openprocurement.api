@@ -1,0 +1,100 @@
+GET /api/2.5/tenders/c4b851839b51462fbf72e030424fca88 HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "draft", 
+    "procurementMethod": "selective", 
+    "tenderID": "UA-2019-10-25-000001", 
+    "title": "футляри до державних нагород", 
+    "lots": [
+      {
+        "date": "2019-10-25T01:00:00+03:00", 
+        "status": "active", 
+        "title": "Лот №1", 
+        "description": "Опис Лот №1", 
+        "id": "1b75c06ee58f4909a4201255b4ba5831"
+      }
+    ], 
+    "items": [
+      {
+        "relatedLot": "1b75c06ee58f4909a4201255b4ba5831", 
+        "description": "футляри до державних нагород", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "New Cartons", 
+          "id": "44617100-9"
+        }, 
+        "description_en": "futliary do derzhavnyh nagorod", 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2019-10-27T01:00:00+03:00", 
+          "endDate": "2019-10-30T01:00:00+03:00"
+        }, 
+        "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 5.0
+      }
+    ], 
+    "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
+    "submissionMethod": "electronicAuction", 
+    "date": "2019-10-25T01:00:00+03:00", 
+    "agreements": [
+      {
+        "id": "106468013e6f47398b6f2f4da3bdeba6"
+      }
+    ], 
+    "awardCriteria": "lowestCost", 
+    "owner": "broker", 
+    "dateModified": "2019-10-25T01:00:00+03:00", 
+    "id": "c4b851839b51462fbf72e030424fca88", 
+    "procuringEntity": {
+      "kind": "general", 
+      "name": "Державне управління справами", 
+      "address": {
+        "postalCode": "01220", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Банкова, 11, корпус 1", 
+        "region": "м. Київ", 
+        "locality": "м. Київ"
+      }, 
+      "additionalContactPoints": [
+        {
+          "name": "Державне управління справами 1", 
+          "availableLanguage": "uk", 
+          "telephone": "0440000000"
+        }
+      ], 
+      "contactPoint": {
+        "name": "Державне управління справами", 
+        "availableLanguage": "en", 
+        "telephone": "0440000000"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "00037256", 
+        "uri": "http://www.dus.gov.ua/"
+      }
+    }
+  }
+}
+

@@ -1,0 +1,116 @@
+POST /api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/bids HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 1379
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "documents": [
+      {
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9152e77768004ab1ba6b843902ac3f12?KeyID=a8968c46&Signature=3H0tSgzex8XiKB4e4Nh9ZHKW%2F9u4%2F6Cd2UVGNv1u4QxLxVTRzIYWJU7zUv5IpvsR5YDPEpPrjchy6WOtvXYHBQ%3D%3D", 
+        "title": "Proposal_part1.pdf", 
+        "hash": "md5:00000000000000000000000000000000", 
+        "format": "application/pdf"
+      }, 
+      {
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/99993315a2cd472f9387941fe22ee6d5?KeyID=a8968c46&Signature=JC61gfgroCheOPgh8ZAwt9xaK3RFgepC%2FJZoBm5B85D4LmmF8%2FPEzhDSakryyJnhFVnlSvMo4f3PwswdPyCgBA%3D%3D", 
+        "title": "Proposal_part2.pdf", 
+        "hash": "md5:00000000000000000000000000000000", 
+        "format": "application/pdf"
+      }
+    ], 
+    "value": {
+      "amount": 499
+    }, 
+    "tenderers": [
+      {
+        "contactPoint": {
+          "email": "aagt@gmail.com", 
+          "telephone": "+380 (322) 91-69-30", 
+          "name": "Андрій Олексюк"
+        }, 
+        "scale": "sme", 
+        "name": "ДКП «Книга»", 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137226", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "address": {
+          "countryName": "Україна", 
+          "postalCode": "79013", 
+          "region": "м. Львів", 
+          "streetAddress": "вул. Островського, 34", 
+          "locality": "м. Львів"
+        }
+      }
+    ]
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/bids/694f980947ff4d0b870d9a18384f23fe
+{
+  "access": {
+    "transfer": "8992310021484143abd2c8a8f5e7a13a", 
+    "token": "cfa7d625bdd049c79e3dfa84d8835a53"
+  }, 
+  "data": {
+    "status": "active", 
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "title": "Proposal_part1.pdf", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/bids/694f980947ff4d0b870d9a18384f23fe/documents/ce114f673cf14b039c1ee9705b07c00b?download=9152e77768004ab1ba6b843902ac3f12", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2019-10-25T01:00:01+03:00", 
+        "id": "ce114f673cf14b039c1ee9705b07c00b", 
+        "dateModified": "2019-10-25T01:00:01+03:00"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "title": "Proposal_part2.pdf", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/bids/694f980947ff4d0b870d9a18384f23fe/documents/8baccb56ed4a44a18ef4c13ef8a4094b?download=99993315a2cd472f9387941fe22ee6d5", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2019-10-25T01:00:01+03:00", 
+        "id": "8baccb56ed4a44a18ef4c13ef8a4094b", 
+        "dateModified": "2019-10-25T01:00:01+03:00"
+      }
+    ], 
+    "value": {
+      "currency": "UAH", 
+      "amount": 499.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "tenderers": [
+      {
+        "contactPoint": {
+          "email": "aagt@gmail.com", 
+          "telephone": "+380 (322) 91-69-30", 
+          "name": "Андрій Олексюк"
+        }, 
+        "scale": "sme", 
+        "name": "ДКП «Книга»", 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137226", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "address": {
+          "postalCode": "79013", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 34", 
+          "region": "м. Львів", 
+          "locality": "м. Львів"
+        }
+      }
+    ], 
+    "date": "2019-10-25T01:00:01+03:00", 
+    "id": "694f980947ff4d0b870d9a18384f23fe"
+  }
+}
+

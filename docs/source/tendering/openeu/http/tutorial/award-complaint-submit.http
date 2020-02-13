@@ -1,0 +1,72 @@
+POST /api/2.5/tenders/3380abd6dac247a394ea054cfe23249b/awards/d91841cfd26a44dfad659a878e3df219/complaints?acc_token=38b39069108e4b50bd8eafbe6941704d HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 1088
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "author": {
+      "contactPoint": {
+        "email": "aagt@gmail.com", 
+        "telephone": "+380 (322) 91-69-30", 
+        "name": "Андрій Олексюк"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "00137226", 
+        "uri": "http://www.sc.gov.ua/"
+      }, 
+      "name": "ДКП «Книга»", 
+      "address": {
+        "countryName": "Україна", 
+        "postalCode": "79013", 
+        "region": "м. Львів", 
+        "streetAddress": "вул. Островського, 34", 
+        "locality": "м. Львів"
+      }
+    }, 
+    "description": "Просимо додати таблицю потрібної калорійності харчування", 
+    "title": "Калорійність"
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3380abd6dac247a394ea054cfe23249b/awards/d91841cfd26a44dfad659a878e3df219/complaints/5733cb37cfe7450382b32cc6567a2958
+{
+  "access": {
+    "transfer": "fffbb5e78bed41ffbbec4da6e916b335", 
+    "token": "7ef9f848f8824131a07fbf9309e82bfc"
+  }, 
+  "data": {
+    "status": "draft", 
+    "description": "Просимо додати таблицю потрібної калорійності харчування", 
+    "author": {
+      "contactPoint": {
+        "email": "aagt@gmail.com", 
+        "telephone": "+380 (322) 91-69-30", 
+        "name": "Андрій Олексюк"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "00137226", 
+        "uri": "http://www.sc.gov.ua/"
+      }, 
+      "name": "ДКП «Книга»", 
+      "address": {
+        "postalCode": "79013", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Островського, 34", 
+        "region": "м. Львів", 
+        "locality": "м. Львів"
+      }
+    }, 
+    "title": "Калорійність", 
+    "complaintID": "UA-2019-10-25-000001.9", 
+    "date": "2019-10-25T01:00:01+03:00", 
+    "type": "claim", 
+    "id": "5733cb37cfe7450382b32cc6567a2958"
+  }
+}
+

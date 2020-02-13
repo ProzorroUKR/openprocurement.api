@@ -1,0 +1,43 @@
+GET /api/2.5/tenders/35f93e8dd5484abb8b90687952c82010/qualifications HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": [
+    {
+      "status": "pending", 
+      "eligible": false, 
+      "qualified": false, 
+      "bidID": "9161500fb17744ce90346052ddf8479c", 
+      "date": "2019-10-25T01:00:00+03:00", 
+      "id": "688adb9bb70e4d4fbcaf4ba1025e7e1a"
+    }, 
+    {
+      "status": "pending", 
+      "eligible": false, 
+      "qualified": false, 
+      "bidID": "253a8b6e43504db9a3d4ec839dc7e5ce", 
+      "date": "2019-10-25T01:00:00+03:00", 
+      "id": "be53976fae27403594b3de9b7bdfba6a"
+    }, 
+    {
+      "status": "pending", 
+      "eligible": false, 
+      "qualified": false, 
+      "bidID": "d2423013b43642f98ce4b78bc3c99d66", 
+      "date": "2019-10-25T01:00:00+03:00", 
+      "id": "5ffc4b1c851848199fd66861aa118688"
+    }, 
+    {
+      "status": "pending", 
+      "eligible": false, 
+      "qualified": false, 
+      "bidID": "8fe55741897d438581a0af90c21cc42d", 
+      "date": "2019-10-25T01:00:00+03:00", 
+      "id": "21a68f5b2e664a23827a19a669007d33"
+    }
+  ]
+}
+
