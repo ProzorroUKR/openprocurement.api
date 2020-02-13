@@ -14,12 +14,11 @@ from openprocurement.api.constants import (
 )
 from openprocurement.tender.core.constants import CPV_ITEMS_CLASS_FROM
 from openprocurement.tender.belowthreshold.models import Tender
+from openprocurement.tender.belowthreshold.utils import calculate_tender_business_date
 from openprocurement.tender.belowthreshold.tests.base import (
     test_organization,
     test_author,
-    test_lots,
     set_tender_lots,
-    set_bid_lotvalues,
 )
 
 # TenderTest
@@ -315,6 +314,10 @@ def listing_draft(self):
     self.assertEqual([i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in tenders]))
 
 
+@mock.patch(
+    "openprocurement.tender.belowthreshold.models.RELEASE_2020_04_19",
+    get_now() + timedelta(days=1)
+)
 def create_tender_invalid(self):
     request_path = "/tenders"
     response = self.app.post(request_path, "data", status=415)
@@ -749,6 +752,184 @@ def create_tender_invalid(self):
             }
         ],
     )
+
+
+@mock.patch(
+    "openprocurement.tender.belowthreshold.models.RELEASE_2020_04_19",
+    get_now() - timedelta(days=1)
+)
+def validate_enquiryTender(self):
+    self.initial_data.pop("procurementMethodDetails", None)
+
+    request_path = "/tenders"
+    data = self.initial_data["enquiryPeriod"]
+    now = get_now()
+
+    valid_start_date = now + timedelta(days=7)
+    valid_end_date = calculate_tender_business_date(
+        valid_start_date, timedelta(days=3), self.initial_data, True).isoformat()
+    invalid_end_date = calculate_tender_business_date(
+        valid_start_date, timedelta(days=2), self.initial_data, True).isoformat()
+    tender_valid_end_date = calculate_tender_business_date(
+        valid_start_date, timedelta(days=8), self.initial_data, True).isoformat()
+
+    valid_start_date = valid_start_date.isoformat()
+
+    self.initial_data["enquiryPeriod"] = {
+        "startDate": valid_start_date,
+        "endDate": invalid_end_date,
+    }
+
+    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
+    self.initial_data["enquiryPeriod"] = data
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u"description": [u"the enquiryPeriod cannot end earlier than 3 business days after the start"],
+                u"location": u"body",
+                u"name": u"enquiryPeriod",
+            }
+        ],
+    )
+
+    self.initial_data["enquiryPeriod"] = {
+        "startDate": valid_start_date,
+        "endDate": valid_end_date,
+    }
+    print(self.initial_data["enquiryPeriod"])
+    self.initial_data["tenderPeriod"] = {
+        "endDate": tender_valid_end_date,
+    }
+
+    response = self.app.post_json(request_path, {"data": self.initial_data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    tender = response.json["data"]
+    token = response.json["access"]["token"]
+
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], token),
+        {"data": {"enquiryPeriod": {"endDate": invalid_end_date}}},
+        status=422
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u"description": [u"the enquiryPeriod cannot end earlier than 3 business days after the start"],
+                u"location": u"body",
+                u"name": u"enquiryPeriod",
+            }
+        ],
+    )
+
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], token),
+        {"data": {"enquiryPeriod": {"endDate": valid_end_date}}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(tender["enquiryPeriod"]["endDate"], valid_end_date)
+
+
+@mock.patch(
+    "openprocurement.tender.belowthreshold.models.RELEASE_2020_04_19",
+    get_now() - timedelta(days=1)
+)
+def validate_tenderPeriod(self):
+    now = get_now()
+
+    enquiry_start_date = now + timedelta(days=7)
+    enquiry_end_date = calculate_tender_business_date(
+       enquiry_start_date, timedelta(days=3), self.initial_data, True)
+
+    valid_start_date = enquiry_end_date
+    valid_end_date = calculate_tender_business_date(
+        valid_start_date, timedelta(days=2), self.initial_data, True).isoformat()
+    invalid_end_date = calculate_tender_business_date(
+        valid_start_date, timedelta(days=1), self.initial_data, True).isoformat()
+
+    enquiry_start_date = enquiry_start_date.isoformat()
+    enquiry_end_date = enquiry_end_date.isoformat()
+    valid_start_date = valid_start_date.isoformat()
+
+    request_path = "/tenders"
+    data = self.initial_data["tenderPeriod"]
+    self.initial_data["tenderPeriod"] = {
+        "startDate": valid_start_date,
+        "endDate": invalid_end_date,
+    }
+    self.initial_data["enquiryPeriod"] = {
+        "startDate": enquiry_start_date,
+        "endDate": enquiry_end_date,
+    }
+    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
+    self.initial_data["tenderPeriod"] = data
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u"description": [u"the tenderPeriod cannot end earlier than 2 business days after the start"],
+                u"location": u"body",
+                u"name": u"tenderPeriod",
+            }
+        ],
+    )
+
+    self.initial_data["tenderPeriod"] = {
+        "startDate": valid_start_date,
+        "endDate": valid_end_date
+    }
+    self.initial_data["enquiryPeriod"] = {
+        "startDate": enquiry_start_date,
+        "endDate": enquiry_end_date,
+    }
+    response = self.app.post_json(request_path, {"data": self.initial_data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    tender = response.json["data"]
+    token = response.json["access"]["token"]
+
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], token),
+        {"data": {"tenderPeriod": {"endDate": invalid_end_date}}},
+        status=422
+    )
+
+    self.initial_data["tenderPeriod"] = data
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u"description": [u"the tenderPeriod cannot end earlier than 2 business days after the start"],
+                u"location": u"body",
+                u"name": u"tenderPeriod",
+            }
+        ],
+    )
+
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], token),
+        {"data": {"tenderPeriod": {"endDate": valid_end_date}}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    tender = response.json["data"]
+    self.assertEqual(tender["tenderPeriod"]["endDate"], valid_end_date)
 
 
 def create_tender_with_inn(self):

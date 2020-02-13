@@ -439,6 +439,10 @@ class Tender(BaseTender):
         )
         return acl
 
+    def validate_enquiryPeriod(self, data, period):
+        # for deactivate validation to enquiryPeriod from parent tender
+        return
+
     def validate_tenderPeriod(self, data, period):
         # data['_rev'] is None when tender was created just now
         if not data["_rev"] and calculate_tender_business_date(get_now(), -timedelta(minutes=10)) >= period.startDate:
