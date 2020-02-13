@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from datetime import timedelta
+
 from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist
 from schematics.types import StringType, IntType, URLType, BooleanType
@@ -9,7 +11,7 @@ from zope.interface import implementer
 
 from openprocurement.api.models import ListType, Period, Value, Guarantee
 
-from openprocurement.api.utils import get_now, get_root, get_first_revision_date
+from openprocurement.api.utils import get_now, get_first_revision_date
 
 from openprocurement.api.constants import TZ, RELEASE_2020_04_19
 from openprocurement.api.validation import validate_items_uniq, validate_cpv_group, validate_classification_id
@@ -35,7 +37,11 @@ from openprocurement.tender.core.models import (
     Complaint,
 )
 
-from openprocurement.tender.core.utils import calc_auction_end_time, rounding_shouldStartAfter
+from openprocurement.tender.core.utils import (
+    calc_auction_end_time,
+    rounding_shouldStartAfter,
+    calculate_tender_business_date,
+)
 
 from openprocurement.tender.core.constants import CPV_ITEMS_CLASS_FROM, COMPLAINT_STAND_STILL_TIME
 from openprocurement.tender.core.validation import validate_minimalstep
@@ -385,6 +391,18 @@ class Tender(BaseTender):
     def validate_minimalStep(self, data, value):
         validate_minimalstep(data, value)
 
+    def validate_enquiryPeriod(self, data, period):
+        active_validation = get_first_revision_date(data, default=get_now()) > RELEASE_2020_04_19
+
+        if (
+            active_validation
+            and period
+            and period.startDate
+            and period.endDate
+            and period.endDate < calculate_tender_business_date(period.startDate, timedelta(days=3), data, True)
+        ):
+            raise ValidationError(u"the enquiryPeriod cannot end earlier than 3 business days after the start")
+
     def validate_tenderPeriod(self, data, period):
         if (
             period
@@ -394,6 +412,16 @@ class Tender(BaseTender):
             and period.startDate < data.get("enquiryPeriod").endDate
         ):
             raise ValidationError(u"period should begin after enquiryPeriod")
+
+        active_validation = get_first_revision_date(data, default=get_now()) > RELEASE_2020_04_19
+        if (
+            active_validation
+            and period
+            and period.startDate
+            and period.endDate
+            and period.endDate < calculate_tender_business_date(period.startDate, timedelta(days=2), data, True)
+        ):
+            raise ValidationError(u"the tenderPeriod cannot end earlier than 2 business days after the start")
 
     def validate_awardPeriod(self, data, period):
         if (
