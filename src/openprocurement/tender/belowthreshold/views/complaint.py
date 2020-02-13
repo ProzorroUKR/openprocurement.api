@@ -4,10 +4,10 @@ from openprocurement.api.utils import (
     json_view,
     raise_operation_error
 )
+from openprocurement.api.constants import RELEASE_2020_04_19
 
 from openprocurement.tender.core.views.complaint import BaseTenderComplaintResource
-from openprocurement.tender.core.utils import optendersresource, apply_patch
-
+from openprocurement.tender.core.utils import optendersresource, apply_patch, get_first_revision_date
 from openprocurement.tender.core.validation import validate_complaint_data, validate_patch_complaint_data
 
 from openprocurement.tender.belowthreshold.validation import (
@@ -71,6 +71,11 @@ class TenderComplaintResource(BaseTenderComplaintResource):
             apply_patch(self.request, save=False, src=context.serialize())
             context.dateCanceled = get_now()
         elif (
+            get_first_revision_date(tender, get_now()) > RELEASE_2020_04_19
+            and new_status == "mistaken"
+        ):
+            apply_patch(self.request, save=False, src=context.serialize())
+        elif (
             tender.status in ["active.enquiries", "active.tendering"]
             and status == "draft"
             and new_status == status
@@ -91,7 +96,6 @@ class TenderComplaintResource(BaseTenderComplaintResource):
             and new_status == "resolved"
         ):
             apply_patch(self.request, save=False, src=context.serialize())
-
 
     def patch_as_tender_owner(self, data):
         context = self.context

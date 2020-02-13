@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import (
     get_now,
-    context_unpack,
     json_view,
-    set_ownership,
-    APIResource,
     raise_operation_error,
+    get_first_revision_date,
 )
 from openprocurement.tender.core.validation import (
     validate_complaint_data,
@@ -15,9 +13,9 @@ from openprocurement.tender.core.validation import (
     validate_award_complaint_update_only_for_active_lots,
     validate_award_complaint_operation_not_in_allowed_status,
 )
+from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.core.views.award_complaint import BaseTenderAwardComplaintResource
-from openprocurement.tender.belowthreshold.utils import check_tender_status
-from openprocurement.tender.core.utils import save_tender, optendersresource, apply_patch
+from openprocurement.tender.core.utils import optendersresource, apply_patch
 from openprocurement.tender.belowthreshold.validation import validate_award_complaint_update_not_in_allowed_status
 
 
@@ -69,6 +67,14 @@ class TenderAwardComplaintResource(BaseTenderAwardComplaintResource):
         return super(TenderAwardComplaintResource, self).patch()
 
     def patch_as_complaint_owner(self, data):
+        complaint_period = self.request.validated["award"].complaintPeriod
+        is_complaint_period = (
+            complaint_period.startDate < get_now() < complaint_period.endDate
+            if complaint_period.endDate
+            else complaint_period.startDate < get_now()
+        )
+
+        tender = self.request.validated["tender"]
         context = self.context
         status = context.status
         new_status = data.get("status", status)
@@ -77,16 +83,16 @@ class TenderAwardComplaintResource(BaseTenderAwardComplaintResource):
             apply_patch(self.request, save=False, src=context.serialize())
             context.dateCanceled = get_now()
         elif status == "draft":
-            complaint_period = self.request.validated["award"].complaintPeriod
-            is_complaint_period = (
-                complaint_period.startDate < get_now() < complaint_period.endDate
-                if complaint_period.endDate
-                else complaint_period.startDate < get_now()
-            )
+
             if not is_complaint_period:
                 raise_operation_error(self.request, "Can't update draft complaint not in complaintPeriod")
 
             if new_status == status:
+                apply_patch(self.request, save=False, src=context.serialize())
+            elif (
+                get_first_revision_date(tender, get_now()) > RELEASE_2020_04_19
+                and new_status == "mistaken"
+            ):
                 apply_patch(self.request, save=False, src=context.serialize())
             elif new_status == "claim":
                 apply_patch(self.request, save=False, src=context.serialize())
