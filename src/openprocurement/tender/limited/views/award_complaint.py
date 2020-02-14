@@ -37,9 +37,6 @@ class TenderNegotiationAwardComplaintResource(BaseTenderAwardComplaintResource):
     def complaints_len(self, tender):
         return sum([len(i.complaints) for i in tender.awards])
 
-    def complaints_len(self, tender):
-        return sum([len(i.complaints) for i in tender.awards])
-
     def pre_create(self):
         complaint = self.request.validated["complaint"]
         complaint.date = get_now()
@@ -102,7 +99,7 @@ class TenderNegotiationAwardComplaintResource(BaseTenderAwardComplaintResource):
             if new_status == status:
                 apply_patch(self.request, save=False, src=self.context.serialize())
             elif (
-                get_first_revision_date(tender) > RELEASE_2020_04_19
+                get_first_revision_date(tender) > RELEASE_2020_04_19 
                 and new_status == "mistaken"
             ):
                 apply_patch(self.request, save=False, src=self.context.serialize())
@@ -139,7 +136,7 @@ class TenderNegotiationAwardComplaintResource(BaseTenderAwardComplaintResource):
             apply_patch(self.request, save=False, src=self.context.serialize())
 
         elif (
-            status in ["pending", "stopping"]
+            status in ["pending", "stopping"] 
             and (
                 (not get_first_revision_date(tender) > RELEASE_2020_04_19 and new_status in ["invalid", "mistaken"])
                 or (new_status == "invalid")
