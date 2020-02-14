@@ -240,8 +240,8 @@ class BaseTenderAwardComplaintResource(BaseTenderComplaintResource):
             apply_patch(self.request, save=False, src=context.serialize())
 
         elif (
-            status in ["pending", "stopping"] 
-            and (( old_rules and new_status in ["invalid", "mistaken"]) 
+            status in ["pending", "stopping"]
+            and ((old_rules and new_status in ["invalid", "mistaken"])
             or (new_status == "invalid"))
         ):
             apply_patch(self.request, save=False, src=context.serialize())

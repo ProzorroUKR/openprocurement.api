@@ -1,6 +1,6 @@
 POST /api/2.5/plans/f580aa1bdcf84194995a102bc3a96d2d/tenders HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 3376
+Content-Length: 3431
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -69,6 +69,7 @@ DATA:
         "locality": "м. Київ"
       }
     }, 
+    "procurementMethodDetails": "quick, accelerator=1440", 
     "items": [
       {
         "description": "Насіння гірчиці", 

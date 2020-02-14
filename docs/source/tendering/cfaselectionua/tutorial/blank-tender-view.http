@@ -19,6 +19,16 @@ Content-Type: application/json; charset=UTF-8
         "id": "1b75c06ee58f4909a4201255b4ba5831"
       }
     ], 
+    "procurementMethodDetails": "quick, accelerator=1440", 
+    "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
+    "submissionMethod": "electronicAuction", 
+    "date": "2019-10-25T01:00:00+03:00", 
+    "agreements": [
+      {
+        "id": "106468013e6f47398b6f2f4da3bdeba6"
+      }
+    ], 
+    "awardCriteria": "lowestCost", 
     "items": [
       {
         "relatedLot": "1b75c06ee58f4909a4201255b4ba5831", 
@@ -55,15 +65,6 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 5.0
       }
     ], 
-    "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
-    "submissionMethod": "electronicAuction", 
-    "date": "2019-10-25T01:00:00+03:00", 
-    "agreements": [
-      {
-        "id": "106468013e6f47398b6f2f4da3bdeba6"
-      }
-    ], 
-    "awardCriteria": "lowestCost", 
     "owner": "broker", 
     "dateModified": "2019-10-25T01:00:00+03:00", 
     "id": "c4b851839b51462fbf72e030424fca88", 

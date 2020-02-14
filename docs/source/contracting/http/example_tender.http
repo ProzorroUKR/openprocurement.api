@@ -42,6 +42,7 @@ Content-Type: application/json; charset=UTF-8
     "id": "ffa3d33ea0004692a4a30af55a8f6a5b", 
     "title": "футляри до державних нагород", 
     "tenderID": "UA-2019-10-25-000001", 
+    "procurementMethodDetails": "quick, accelerator=1440", 
     "dateModified": "2019-10-25T01:00:01+03:00", 
     "numberOfBids": 1, 
     "tenderPeriod": {

@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 2818
+Content-Length: 2873
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -79,6 +79,7 @@ DATA:
         "uri": "http://www.dus.gov.ua/"
       }
     }, 
+    "procurementMethodDetails": "quick, accelerator=1440", 
     "agreements": [
       {
         "id": "106468013e6f47398b6f2f4da3bdeba6"
@@ -109,6 +110,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c4b851839b51462f
         "id": "1b75c06ee58f4909a4201255b4ba5831"
       }
     ], 
+    "procurementMethodDetails": "quick, accelerator=1440", 
+    "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
+    "submissionMethod": "electronicAuction", 
+    "date": "2019-10-25T01:00:00+03:00", 
+    "agreements": [
+      {
+        "id": "106468013e6f47398b6f2f4da3bdeba6"
+      }
+    ], 
+    "awardCriteria": "lowestCost", 
     "items": [
       {
         "relatedLot": "1b75c06ee58f4909a4201255b4ba5831", 
@@ -145,15 +156,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c4b851839b51462f
         "quantity": 5.0
       }
     ], 
-    "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
-    "submissionMethod": "electronicAuction", 
-    "date": "2019-10-25T01:00:00+03:00", 
-    "agreements": [
-      {
-        "id": "106468013e6f47398b6f2f4da3bdeba6"
-      }
-    ], 
-    "awardCriteria": "lowestCost", 
     "owner": "broker", 
     "dateModified": "2019-10-25T01:00:00+03:00", 
     "id": "c4b851839b51462fbf72e030424fca88", 

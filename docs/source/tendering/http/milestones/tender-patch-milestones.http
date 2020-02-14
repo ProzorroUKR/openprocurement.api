@@ -60,6 +60,24 @@ Content-Type: application/json; charset=UTF-8
       "amount": 35.0, 
       "valueAddedTaxIncluded": true
     }, 
+    "procurementMethodDetails": "quick, accelerator=1440", 
+    "procurementMethodType": "belowThreshold", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "submissionMethod": "electronicAuction", 
+    "date": "2019-10-25T01:00:00+03:00", 
+    "next_check": "2019-11-01T00:00:00+02:00", 
+    "tenderID": "UA-2019-10-25-000001", 
+    "awardCriteria": "lowestCost", 
+    "enquiryPeriod": {
+      "startDate": "2019-10-25T01:00:00+03:00", 
+      "endDate": "2019-11-01T01:00:00+03:00"
+    }, 
+    "owner": "broker", 
+    "dateModified": "2019-10-25T01:00:00+03:00", 
     "items": [
       {
         "description": "футляри до державних нагород", 
@@ -94,15 +112,7 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 5.0
       }
     ], 
-    "procurementMethodType": "belowThreshold", 
-    "value": {
-      "currency": "UAH", 
-      "amount": 500.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "submissionMethod": "electronicAuction", 
-    "date": "2019-10-25T01:00:00+03:00", 
-    "next_check": "2019-11-01T00:00:00+02:00", 
+    "id": "7e23f3f26faf4146af5f668247cf04f4", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 
@@ -122,16 +132,7 @@ Content-Type: application/json; charset=UTF-8
         "region": "м. Київ", 
         "locality": "м. Київ"
       }
-    }, 
-    "awardCriteria": "lowestCost", 
-    "enquiryPeriod": {
-      "startDate": "2019-10-25T01:00:00+03:00", 
-      "endDate": "2019-11-01T01:00:00+03:00"
-    }, 
-    "owner": "broker", 
-    "dateModified": "2019-10-25T01:00:00+03:00", 
-    "id": "7e23f3f26faf4146af5f668247cf04f4", 
-    "tenderID": "UA-2019-10-25-000001"
+    }
   }
 }
 

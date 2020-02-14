@@ -37,8 +37,8 @@ Content-Type: application/json; charset=UTF-8
 Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/94170d1f620a487e8f4ffcc37ee8f2df/awards/364af56690df4704aa730f1266eca60e/complaints/7bb4b99511cb40e8bb0ac2c4731a1733
 {
   "access": {
-    "transfer": "c6944a3eeced4c88be053ead1d96bdab", 
-    "token": "5d6c9ab1c5c24d0d8c0ea153a2e0c881"
+    "transfer": "356cb5c2653d46d49752bb7d0af5d54b", 
+    "token": "65032620d34f4bb2979e76ab1d208d5e"
   }, 
   "data": {
     "status": "claim", 

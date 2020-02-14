@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 2774
+Content-Length: 2829
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -68,6 +68,7 @@ DATA:
         "locality": "м. Київ"
       }
     }, 
+    "procurementMethodDetails": "quick, accelerator=1440", 
     "items": [
       {
         "description": "футляри до державних нагород", 
@@ -152,6 +153,24 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bc3a9016b29d4fed
       "amount": 35.0, 
       "valueAddedTaxIncluded": true
     }, 
+    "procurementMethodDetails": "quick, accelerator=1440", 
+    "procurementMethodType": "belowThreshold", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "submissionMethod": "electronicAuction", 
+    "date": "2019-10-25T01:00:00+03:00", 
+    "next_check": "2019-11-01T00:00:00+02:00", 
+    "tenderID": "UA-2019-10-25-000001", 
+    "awardCriteria": "lowestCost", 
+    "enquiryPeriod": {
+      "startDate": "2019-10-25T01:00:00+03:00", 
+      "endDate": "2019-11-01T01:00:00+03:00"
+    }, 
+    "owner": "broker", 
+    "dateModified": "2019-10-25T01:00:00+03:00", 
     "items": [
       {
         "description": "футляри до державних нагород", 
@@ -186,15 +205,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bc3a9016b29d4fed
         "quantity": 5.0
       }
     ], 
-    "procurementMethodType": "belowThreshold", 
-    "value": {
-      "currency": "UAH", 
-      "amount": 500.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "submissionMethod": "electronicAuction", 
-    "date": "2019-10-25T01:00:00+03:00", 
-    "next_check": "2019-11-01T00:00:00+02:00", 
+    "id": "bc3a9016b29d4fed894cc62d3ff59680", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 
@@ -214,16 +225,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bc3a9016b29d4fed
         "region": "м. Київ", 
         "locality": "м. Київ"
       }
-    }, 
-    "awardCriteria": "lowestCost", 
-    "enquiryPeriod": {
-      "startDate": "2019-10-25T01:00:00+03:00", 
-      "endDate": "2019-11-01T01:00:00+03:00"
-    }, 
-    "owner": "broker", 
-    "dateModified": "2019-10-25T01:00:00+03:00", 
-    "id": "bc3a9016b29d4fed894cc62d3ff59680", 
-    "tenderID": "UA-2019-10-25-000001"
+    }
   }
 }
 

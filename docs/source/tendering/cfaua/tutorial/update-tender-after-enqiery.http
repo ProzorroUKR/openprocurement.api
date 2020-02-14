@@ -10,12 +10,12 @@ Content-Type: application/json; charset=UTF-8
     "mainProcurementCategory": "goods", 
     "complaintPeriod": {
       "startDate": "2019-09-27T01:00:00+03:00", 
-      "endDate": "2019-10-23T00:00:00+03:00"
+      "endDate": "2019-10-27T00:56:00+03:00"
     }, 
     "enquiryPeriod": {
       "startDate": "2019-09-27T01:00:00+03:00", 
-      "clarificationsUntil": "2019-10-23T00:00:00+03:00", 
-      "endDate": "2019-10-17T01:00:00+03:00", 
+      "clarificationsUntil": "2019-10-27T00:53:00+03:00", 
+      "endDate": "2019-10-27T00:50:00+03:00", 
       "invalidationDate": "2019-10-25T01:00:00+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
@@ -111,7 +111,7 @@ Content-Type: application/json; charset=UTF-8
           "valueAddedTaxIncluded": true
         }, 
         "auctionPeriod": {
-          "shouldStartAfter": "2019-12-02T00:00:00+03:00"
+          "shouldStartAfter": "2019-10-28T00:00:00+03:00"
         }, 
         "value": {
           "currency": "UAH", 
@@ -128,6 +128,7 @@ Content-Type: application/json; charset=UTF-8
     ], 
     "maxAwardsCount": 4, 
     "tenderID": "UA-2019-10-25-000001", 
+    "procurementMethodDetails": "quick, accelerator=1440", 
     "dateModified": "2019-10-25T01:00:00+03:00", 
     "status": "active.tendering", 
     "tenderPeriod": {
@@ -248,18 +249,5 @@ DATA:
       "amount": 501.0
     }
   }
-}
-
-Response: 403 Forbidden
-Content-Type: application/json; charset=UTF-8
-{
-  "status": "error", 
-  "errors": [
-    {
-      "description": "tenderPeriod should be extended by 7 days", 
-      "location": "body", 
-      "name": "data"
-    }
-  ]
 }
 

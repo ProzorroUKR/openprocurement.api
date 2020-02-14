@@ -100,21 +100,21 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/437cd309c59b42df958631eac101ab7d
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660
 {
   "access": {
-    "transfer": "f39c1f0ce0d84b6e981f5dd9dc590773", 
-    "token": "5f1045de21fe42839e29344c5d1a1e9a"
+    "transfer": "7e5de74f3152439998d60d34cb6d3b2d", 
+    "token": "62607c36ce4a4d64961ecc0d0a21540e"
   }, 
   "data": {
     "procurementMethod": "open", 
     "mainProcurementCategory": "services", 
     "complaintPeriod": {
-      "startDate": "2019-10-25T01:00:01+03:00", 
+      "startDate": "2019-10-25T01:00:00+03:00", 
       "endDate": "2019-11-06T00:00:00+02:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2019-10-25T01:00:01+03:00", 
+      "startDate": "2019-10-25T01:00:00+03:00", 
       "clarificationsUntil": "2019-11-05T00:00:00+02:00", 
       "endDate": "2019-10-31T00:00:00+02:00"
     }, 
@@ -142,20 +142,20 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/437cd309c59b42df
       }
     }, 
     "owner": "broker", 
-    "id": "437cd309c59b42df958631eac101ab7d", 
+    "id": "7898ec9992af47ccbc9b8bf1b8539660", 
     "title": "футляри до державних нагород", 
-    "tenderID": "UA-2019-10-25-000002", 
-    "dateModified": "2019-10-25T01:00:01+03:00", 
+    "tenderID": "UA-2019-10-25-000001", 
+    "dateModified": "2019-10-25T01:00:00+03:00", 
     "status": "active.tendering", 
     "tenderPeriod": {
-      "startDate": "2019-10-25T01:00:01+03:00", 
+      "startDate": "2019-10-25T01:00:00+03:00", 
       "endDate": "2019-11-10T00:00:00+02:00"
     }, 
     "auctionPeriod": {
       "shouldStartAfter": "2019-11-10T00:00:00+02:00"
     }, 
     "procurementMethodType": "aboveThresholdUA", 
-    "date": "2019-10-25T01:00:01+03:00", 
+    "date": "2019-10-25T01:00:00+03:00", 
     "milestones": [
       {
         "code": "prepayment", 
@@ -179,7 +179,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/437cd309c59b42df
         }, 
         "percentage": 54.45, 
         "type": "financing", 
-        "id": "822886ff12054577aea1e29a70697f95"
+        "id": "4c193c7458cf4a5482c231727d0a8227"
       }
     ], 
     "minimalStep": {
@@ -213,7 +213,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/437cd309c59b42df
           "startDate": "2019-11-14T00:00:00+02:00", 
           "endDate": "2019-12-14T00:00:00+02:00"
         }, 
-        "id": "3d69b844d45c4c54bb368305b995d57d", 
+        "id": "f3ba6b452c3b4fd19de53486e6486c87", 
         "quantity": 1.0
       }
     ], 

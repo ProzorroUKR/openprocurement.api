@@ -17,7 +17,7 @@ Content-Type: application/json; charset=UTF-8
     "status": "active", 
     "complaintPeriod": {
       "startDate": "2019-10-25T01:00:01+03:00", 
-      "endDate": "2019-10-29T01:00:01+03:00"
+      "endDate": "2019-10-25T01:02:01+03:00"
     }, 
     "suppliers": [
       {

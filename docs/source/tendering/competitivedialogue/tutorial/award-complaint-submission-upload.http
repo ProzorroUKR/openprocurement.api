@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/4c996fcd2b9f4dc1ae2ec62e1a2e2bbb/awards/eab411b1117845218d53b47240e9ca17/complaints/993a80287c884264a12bb4d89c1cea84/documents?acc_token=3907b53fc9314ae288bd30d41ef670c6 HTTP/1.0
+POST /api/2.5/tenders/4c996fcd2b9f4dc1ae2ec62e1a2e2bbb/awards/eab411b1117845218d53b47240e9ca17/complaints/993a80287c884264a12bb4d89c1cea84/documents?acc_token=55923e8c7de149d19fc2d70f93bc2ec3 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 157
 Content-Type: multipart/form-data; boundary=---BOUNDARY
