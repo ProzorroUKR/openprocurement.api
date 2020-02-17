@@ -31,7 +31,7 @@ Content-Type: application/json; charset=UTF-8
             "dateModified": "2019-05-02T06:00:00+03:00"
           }
         ], 
-        "description": "Узагальнення та аналіз отриманної інформації щодо проведення закупівель товарів, послуг (крім поточного ремонту) в інтересах замовників", 
+        "description": "Доповнений опис відповіді", 
         "author": {
           "identifier": {
             "scheme": "UA-EDR", 

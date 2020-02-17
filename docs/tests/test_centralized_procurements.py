@@ -104,6 +104,7 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
                     ),
                     {'data': {
                         "status": "met",
+                        "description": u"Доповнений опис відповіді",
                         "dueDate": "2019-05-30T18:00:00.000000+02:00",
                     }}
                 )

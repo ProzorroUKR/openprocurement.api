@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-02 11:41+0200\n"
-"PO-Revision-Date: 2019-12-02 11:55+0200\n"
+"POT-Creation-Date: 2020-02-12 14:25+0200\n"
+"PO-Revision-Date: 2020-02-12 14:32+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -35,6 +35,15 @@ msgstr "Коли центральна організація є `procuringEntity
 
 msgid "Only if the access token from the response is provided, the milestone can be changed later:"
 msgstr "Тільки якщо надається токен доступу, відповідь можна змінити:"
+
+msgid "The fields you can update depend on current milestone status:"
+msgstr "Поля, які можна оновити, залежать від поточного статусу об’єкту:"
+
+msgid "`dueDate` can only be updated at `scheduled` milestone status"
+msgstr "`dueDate` можна оновити лише у статусі `scheduled`"
+
+msgid "`description` - either at `scheduled` or `met`"
+msgstr "`description` - у `scheduled` та `met`"
 
 msgid "Posting documents is also require the milestone access token (as well as changing documents using PATCH/PUT methods):"
 msgstr "Публікація документів також вимагає токен доступу (як і зміна документів за допомогою методів PATCH / PUT):"

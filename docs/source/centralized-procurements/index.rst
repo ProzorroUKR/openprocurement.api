@@ -28,6 +28,11 @@ Only if the access token from the response is provided, the milestone can be cha
     .. include:: http/patch-plan-milestone.http
        :code:
 
+.. note::
+    The fields you can update depend on current milestone status:
+       - `dueDate` can only be updated at `scheduled` milestone status
+       - `description` - either at `scheduled` or `met`
+
 Posting documents is also require the milestone access token (as well as changing documents using PATCH/PUT methods):
 
     .. include:: http/post-plan-milestone-document.http
