@@ -567,7 +567,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.post_json(
                 '/tenders/{}/cancellations?acc_token={}'.format(
                     self.tender_id, owner_token),
-                {'data': {'reason': 'cancellation reason'}})
+                {'data': {'reason': 'cancellation reason', 'reasonType': 'noDemand'}})
             self.assertEqual(response.status, '201 Created')
 
         cancellation_id = response.json['data']['id']
@@ -576,7 +576,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.patch_json(
                 '/tenders/{}/cancellations/{}?acc_token={}'.format(
                     self.tender_id, cancellation_id, owner_token),
-                {'data': {'reasonType': 'unsuccessful'}})
+                {'data': {'reasonType': 'unFixable'}})
             self.assertEqual(response.status, '200 OK')
 
         #### Filling cancellation with protocol and supplementary documentation

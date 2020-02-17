@@ -1,12 +1,12 @@
-PATCH /api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/cancellations/340d917daa2d41599bb71c6f330fdd43?acc_token=82d005b2183e43fe8edbb00cc6eb36c1 HTTP/1.0
+PATCH /api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/cancellations/3efefdab89324f4aa00ff1853d92d0ab?acc_token=82d005b2183e43fe8edbb00cc6eb36c1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 40
+Content-Length: 39
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "reasonType": "unsuccessful"
+    "reasonType": "expensesCut"
   }
 }
 
@@ -16,10 +16,10 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "status": "pending", 
     "reason": "cancellation reason", 
-    "reasonType": "unsuccessful", 
-    "date": "2019-10-25T01:00:01+03:00", 
+    "reasonType": "expensesCut", 
+    "date": "2020-05-01T01:00:01+03:00", 
     "cancellationOf": "tender", 
-    "id": "340d917daa2d41599bb71c6f330fdd43"
+    "id": "3efefdab89324f4aa00ff1853d92d0ab"
   }
 }
 

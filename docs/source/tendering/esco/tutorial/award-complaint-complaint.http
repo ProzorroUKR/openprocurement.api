@@ -24,9 +24,9 @@ Content-Type: application/json; charset=UTF-8
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5a4e36d5afce4fda93a1ba405913fbbf?KeyID=a8968c46&Signature=sQjVS%252BrfePEs%252B3bIUN8nsRiC6ucDj6wdtCtmoHFhhcZeG9BZsEOW3%2FzyEVz11Rhvix%2Fq11s8B2rUdgWexzK%252BBQ%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2019-10-25T01:00:03+03:00", 
+        "datePublished": "2020-05-01T01:00:03+03:00", 
         "id": "36b84556f0054d7587bdb6850b79625b", 
-        "dateModified": "2019-10-25T01:00:03+03:00"
+        "dateModified": "2020-05-01T01:00:03+03:00"
       }
     ], 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
@@ -46,14 +46,14 @@ Content-Type: application/json; charset=UTF-8
         "postalCode": "21100", 
         "countryName": "Україна", 
         "streetAddress": "вул. Островського, 33", 
-        "region": "м. Вінниця", 
+        "region": "Вінницька область", 
         "locality": "м. Вінниця"
       }
     }, 
     "title": "Недостатньо інформації", 
-    "dateSubmitted": "2019-10-25T01:00:03+03:00", 
-    "complaintID": "UA-2019-10-25-000001.1", 
-    "date": "2019-10-25T01:00:03+03:00", 
+    "dateSubmitted": "2020-05-01T01:00:03+03:00", 
+    "complaintID": "UA-2020-05-01-000001.1", 
+    "date": "2020-05-01T01:00:03+03:00", 
     "type": "complaint", 
     "id": "b7e603d352b84065ac337d4ed5348b8e"
   }

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
+from datetime import timedelta
 from uuid import uuid4
 
 from openprocurement.api.utils import get_now
@@ -43,6 +44,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         lot['id'] = uuid4().hex
         test_tender_data['lots'] = [lot]
         test_tender_data['items'][0]['relatedLot'] = lot['id']
+        test_tender_data["tenderPeriod"]["endDate"] = (get_now() + timedelta(days=31)).isoformat()
 
         response = self.app.post_json('/tenders', {'data': test_tender_data})
         tender_id = self.tender_id = response.json['data']['id']

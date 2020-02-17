@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 3011
+Content-Length: 3058
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -33,7 +33,7 @@ DATA:
     ], 
     "mainProcurementCategory": "services", 
     "tenderPeriod": {
-      "endDate": "2019-11-10T00:00:00+02:00"
+      "endDate": "2020-05-17T00:00:00+02:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -63,8 +63,8 @@ DATA:
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2019-11-14T00:00:00+02:00", 
-          "endDate": "2019-12-14T00:00:00+02:00"
+          "startDate": "2020-05-21T00:00:00+02:00", 
+          "endDate": "2020-06-20T00:00:00+02:00"
         }, 
         "quantity": 1
       }
@@ -90,7 +90,7 @@ DATA:
       "address": {
         "countryName": "Україна", 
         "postalCode": "21027", 
-        "region": "м. Вінниця", 
+        "region": "Вінницька область", 
         "streetAddress": "вул. Стахурського. 22", 
         "locality": "м. Вінниця"
       }
@@ -110,16 +110,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/437cd309c59b42df
     "procurementMethod": "open", 
     "mainProcurementCategory": "services", 
     "complaintPeriod": {
-      "startDate": "2019-10-25T01:00:01+03:00", 
-      "endDate": "2019-11-06T00:00:00+02:00"
+      "startDate": "2020-05-01T01:00:01+03:00", 
+      "endDate": "2020-05-13T00:00:00+02:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2019-10-25T01:00:01+03:00", 
-      "clarificationsUntil": "2019-11-05T00:00:00+02:00", 
-      "endDate": "2019-10-31T00:00:00+02:00"
+      "startDate": "2020-05-01T01:00:01+03:00", 
+      "clarificationsUntil": "2020-05-13T00:00:00+02:00", 
+      "endDate": "2020-05-07T00:00:00+02:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2019-11-10T00:00:00+02:00", 
+    "next_check": "2020-05-17T01:00:00+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -137,25 +137,25 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/437cd309c59b42df
         "postalCode": "21027", 
         "countryName": "Україна", 
         "streetAddress": "вул. Стахурського. 22", 
-        "region": "м. Вінниця", 
+        "region": "Вінницька область", 
         "locality": "м. Вінниця"
       }
     }, 
     "owner": "broker", 
     "id": "437cd309c59b42df958631eac101ab7d", 
     "title": "футляри до державних нагород", 
-    "tenderID": "UA-2019-10-25-000002", 
-    "dateModified": "2019-10-25T01:00:01+03:00", 
+    "tenderID": "UA-2020-05-01-000002", 
+    "dateModified": "2020-05-01T01:00:01+03:00", 
     "status": "active.tendering", 
     "tenderPeriod": {
-      "startDate": "2019-10-25T01:00:01+03:00", 
-      "endDate": "2019-11-10T00:00:00+02:00"
+      "startDate": "2020-05-01T01:00:01+03:00", 
+      "endDate": "2020-05-17T00:00:00+02:00"
     }, 
     "auctionPeriod": {
-      "shouldStartAfter": "2019-11-10T00:00:00+02:00"
+      "shouldStartAfter": "2020-05-17T00:00:00+02:00"
     }, 
     "procurementMethodType": "aboveThresholdUA", 
-    "date": "2019-10-25T01:00:01+03:00", 
+    "date": "2020-05-01T01:00:01+03:00", 
     "milestones": [
       {
         "code": "prepayment", 
@@ -210,8 +210,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/437cd309c59b42df
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2019-11-14T00:00:00+02:00", 
-          "endDate": "2019-12-14T00:00:00+02:00"
+          "startDate": "2020-05-21T00:00:00+02:00", 
+          "endDate": "2020-06-20T00:00:00+02:00"
         }, 
         "id": "3d69b844d45c4c54bb368305b995d57d", 
         "quantity": 1.0

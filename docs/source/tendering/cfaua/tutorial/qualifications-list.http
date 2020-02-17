@@ -27,7 +27,7 @@ Content-Type: application/json; charset=UTF-8
             "postalCode": "79013", 
             "countryName": "Україна", 
             "streetAddress": "вул. Островського, 35", 
-            "region": "м. Львів", 
+            "region": "Львівська область", 
             "locality": "м. Львів"
           }
         }
@@ -38,7 +38,7 @@ Content-Type: application/json; charset=UTF-8
         "amount": 5, 
         "valueAddedTaxIncluded": true
       }, 
-      "date": "2019-10-25T01:00:00+03:00", 
+      "date": "2020-05-01T01:00:00+03:00", 
       "id": "556cf3c88b3c46e392f0dfcb53512f30"
     }, 
     {
@@ -62,7 +62,7 @@ Content-Type: application/json; charset=UTF-8
             "postalCode": "79013", 
             "countryName": "Україна", 
             "streetAddress": "вул. Островського, 34", 
-            "region": "м. Львів", 
+            "region": "Львівська область", 
             "locality": "м. Львів"
           }
         }
@@ -73,7 +73,7 @@ Content-Type: application/json; charset=UTF-8
         "amount": 499, 
         "valueAddedTaxIncluded": true
       }, 
-      "date": "2019-10-25T01:00:00+03:00", 
+      "date": "2020-05-01T01:00:00+03:00", 
       "id": "d17ce96fc87f42eb90b4caaf14027817"
     }, 
     {
@@ -97,7 +97,7 @@ Content-Type: application/json; charset=UTF-8
             "postalCode": "21100", 
             "countryName": "Україна", 
             "streetAddress": "вул. Островського, 33", 
-            "region": "м. Вінниця", 
+            "region": "Вінницька область", 
             "locality": "м. Вінниця"
           }
         }
@@ -108,7 +108,7 @@ Content-Type: application/json; charset=UTF-8
         "amount": 500.0, 
         "valueAddedTaxIncluded": true
       }, 
-      "date": "2019-10-25T01:00:00+03:00", 
+      "date": "2020-05-01T01:00:00+03:00", 
       "id": "941ba34485a04e43b0c8481c3ad6150b"
     }
   ]

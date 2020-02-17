@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 4179
+Content-Length: 4226
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -33,7 +33,7 @@ DATA:
     ], 
     "mainProcurementCategory": "services", 
     "tenderPeriod": {
-      "endDate": "2019-11-25T00:00:00+02:00"
+      "endDate": "2020-06-01T00:00:00+02:00"
     }, 
     "fundingKind": "other", 
     "title": "Послуги шкільних їдалень", 
@@ -45,7 +45,7 @@ DATA:
       "address": {
         "countryName": "Україна", 
         "postalCode": "21027", 
-        "region": "м. Вінниця", 
+        "region": "Вінницька область", 
         "streetAddress": "вул. Стахурського. 22", 
         "locality": "м. Вінниця"
       }, 
@@ -90,8 +90,8 @@ DATA:
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2019-11-14T00:00:00+02:00", 
-          "endDate": "2019-12-14T00:00:00+02:00"
+          "startDate": "2020-05-21T00:00:00+02:00", 
+          "endDate": "2020-06-20T00:00:00+02:00"
         }, 
         "unit": {
           "code": "44617100-9", 
@@ -122,8 +122,8 @@ DATA:
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2019-11-14T00:00:00+02:00", 
-          "endDate": "2019-12-14T00:00:00+02:00"
+          "startDate": "2020-05-21T00:00:00+02:00", 
+          "endDate": "2020-06-20T00:00:00+02:00"
         }, 
         "unit": {
           "code": "44617100-9", 
@@ -148,16 +148,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db8f78603c144a8a
     "procurementMethod": "open", 
     "mainProcurementCategory": "services", 
     "complaintPeriod": {
-      "startDate": "2019-10-25T01:00:00+03:00", 
-      "endDate": "2019-11-21T00:00:00+02:00"
+      "startDate": "2020-05-01T01:00:00+03:00", 
+      "endDate": "2020-05-28T00:00:00+02:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2019-10-25T01:00:00+03:00", 
-      "clarificationsUntil": "2019-11-20T00:00:00+02:00", 
-      "endDate": "2019-11-15T00:00:00+02:00"
+      "startDate": "2020-05-01T01:00:00+03:00", 
+      "clarificationsUntil": "2020-05-27T00:00:00+02:00", 
+      "endDate": "2020-05-22T00:00:00+02:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2019-11-25T00:00:00+02:00", 
+    "next_check": "2020-06-01T01:00:00+03:00", 
     "procuringEntity": {
       "kind": "general", 
       "name": "ЗОСШ #10 м.Вінниці", 
@@ -165,7 +165,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db8f78603c144a8a
         "postalCode": "21027", 
         "countryName": "Україна", 
         "streetAddress": "вул. Стахурського. 22", 
-        "region": "м. Вінниця", 
+        "region": "Вінницька область", 
         "locality": "м. Вінниця"
       }, 
       "contactPoint": {
@@ -187,20 +187,20 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db8f78603c144a8a
     "title_en": "Services in school canteens", 
     "id": "db8f78603c144a8aac15730f9c763584", 
     "title": "Послуги шкільних їдалень", 
-    "tenderID": "UA-2019-10-25-000001", 
+    "tenderID": "UA-2020-05-01-000001", 
     "minimalStepPercentage": 0.006, 
     "yearlyPaymentsPercentageRange": 0.8, 
-    "dateModified": "2019-10-25T01:00:00+03:00", 
+    "dateModified": "2020-05-01T01:00:00+03:00", 
     "status": "active.tendering", 
     "tenderPeriod": {
-      "startDate": "2019-10-25T01:00:00+03:00", 
-      "endDate": "2019-11-25T00:00:00+02:00"
+      "startDate": "2020-05-01T01:00:00+03:00", 
+      "endDate": "2020-06-01T00:00:00+02:00"
     }, 
     "auctionPeriod": {
-      "shouldStartAfter": "2019-12-30T00:00:00+02:00"
+      "shouldStartAfter": "2020-07-06T00:00:00+02:00"
     }, 
     "procurementMethodType": "esco", 
-    "date": "2019-10-25T01:00:00+03:00", 
+    "date": "2020-05-01T01:00:00+03:00", 
     "NBUdiscountRate": 0.22986, 
     "minValue": {
       "currency": "UAH", 
@@ -292,7 +292,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db8f78603c144a8a
         }
       }
     ], 
-    "noticePublicationDate": "2019-10-25T01:00:00+03:00", 
+    "noticePublicationDate": "2020-05-01T01:00:00+03:00", 
     "awardCriteria": "ratedCriteria"
   }
 }

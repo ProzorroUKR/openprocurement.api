@@ -578,7 +578,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 '/tenders/{}/cancellations?acc_token={}'.format(
                     self.tender_id, owner_token),
                 {'data': {
-                    'reason': 'cancellation reason'
+                    'reason': 'cancellation reason',
+                    'reasonType': 'noDemand',
                 }})
             self.assertEqual(response.status, '201 Created')
 

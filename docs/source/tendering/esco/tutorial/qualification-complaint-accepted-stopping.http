@@ -33,17 +33,17 @@ Content-Type: application/json; charset=UTF-8
         "postalCode": "21100", 
         "countryName": "Україна", 
         "streetAddress": "вул. Островського, 33", 
-        "region": "м. Вінниця", 
+        "region": "Вінницька область", 
         "locality": "м. Вінниця"
       }
     }, 
     "acceptance": true, 
     "cancellationReason": "Тендер скасовується замовником", 
-    "dateCanceled": "2019-10-25T01:00:01+03:00", 
-    "dateAccepted": "2019-10-25T01:00:01+03:00", 
-    "dateSubmitted": "2019-10-25T01:00:01+03:00", 
-    "complaintID": "UA-2019-10-25-000001.4", 
-    "date": "2019-10-25T01:00:01+03:00", 
+    "dateCanceled": "2020-05-01T01:00:01+03:00", 
+    "dateAccepted": "2020-05-01T01:00:01+03:00", 
+    "dateSubmitted": "2020-05-01T01:00:01+03:00", 
+    "complaintID": "UA-2020-05-01-000001.4", 
+    "date": "2020-05-01T01:00:01+03:00", 
     "title": "Недостатньо інформації", 
     "type": "complaint", 
     "id": "8b96f15f452a4cd09d42fd384ada86bb"

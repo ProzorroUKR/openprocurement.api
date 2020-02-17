@@ -1,0 +1,28 @@
+POST /api/2.5/tenders/7ca938a74b3b44a7979818052b0a8788/complaints/75e5f3b060864195b0fc4aa3d972ef45/posts HTTP/1.0
+Authorization: Bearer reviewer
+Content-Length: 281
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "recipient": "complaint_owner", 
+    "description": "Відсутній документ", 
+    "title": "Уточнення по вимозі"
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7ca938a74b3b44a7979818052b0a8788/complaints/75e5f3b060864195b0fc4aa3d972ef45/posts/5f0fc2043b48431da3853c5c1a619309
+{
+  "data": {
+    "description": "Відсутній документ", 
+    "title": "Уточнення по вимозі", 
+    "author": "aboveThresholdReviewers", 
+    "datePublished": "2019-10-25T01:00:00+03:00", 
+    "recipient": "complaint_owner", 
+    "id": "5f0fc2043b48431da3853c5c1a619309"
+  }
+}
+

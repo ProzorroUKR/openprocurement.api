@@ -21,10 +21,10 @@ Content-Type: application/json; charset=UTF-8
     "type": "claim", 
     "satisfied": false, 
     "bid_id": "07ef7940cbfc44f084f456feb07ee37b", 
-    "dateAnswered": "2019-10-25T01:00:01+03:00", 
-    "dateSubmitted": "2019-10-25T01:00:01+03:00", 
-    "complaintID": "UA-2019-10-25-000001.7", 
-    "date": "2019-10-25T01:00:01+03:00", 
+    "dateAnswered": "2020-05-01T01:00:01+03:00", 
+    "dateSubmitted": "2020-05-01T01:00:01+03:00", 
+    "complaintID": "UA-2020-05-01-000001.7", 
+    "date": "2020-05-01T01:00:01+03:00", 
     "resolution": "Вимога не відповідає предмету закупівлі", 
     "id": "2c8daaa22b9e4fc89c0500c66f0b5b82"
   }

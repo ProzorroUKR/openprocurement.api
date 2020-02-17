@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/35f93e8dd5484abb8b90687952c82010/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 743
+Content-Length: 802
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -28,7 +28,7 @@ DATA:
         "address": {
           "countryName": "Україна", 
           "postalCode": "79013", 
-          "region": "м. Львів", 
+          "region": "Львівська область", 
           "streetAddress": "вул. Островського, 35", 
           "locality": "м. Львів"
         }
@@ -67,12 +67,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/35f93e8dd5484abb
           "postalCode": "79013", 
           "countryName": "Україна", 
           "streetAddress": "вул. Островського, 35", 
-          "region": "м. Львів", 
+          "region": "Львівська область", 
           "locality": "м. Львів"
         }
       }
     ], 
-    "date": "2019-10-25T01:00:00+03:00", 
+    "date": "2020-05-01T01:00:00+03:00", 
     "id": "d2423013b43642f98ce4b78bc3c99d66"
   }
 }

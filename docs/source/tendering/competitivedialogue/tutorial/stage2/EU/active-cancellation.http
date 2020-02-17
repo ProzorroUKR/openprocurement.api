@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/50c82523038349969f53f3e238932c46/cancellations/b5435d5c17704b6190519ff8979c2a89?acc_token=90e5c1d7c0414b99a392234aee8cd1dc HTTP/1.0
+PATCH /api/2.5/tenders/50c82523038349969f53f3e238932c46/cancellations/3751f4fe25534d0e88b2f836338e014c?acc_token=90e5c1d7c0414b99a392234aee8cd1dc HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -24,9 +24,9 @@ Content-Type: application/json; charset=UTF-8
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2e402b829a40438dabd38a8d3b12d5c0?KeyID=a8968c46&Signature=alQP3NHC7TRLWKnArGD9rT45sr%252BlK4Rmseyo%2FFMuZrqT8XAMqsf6y0KBftg3AhzyejUmKANo%252BvnJcS3DKy%252BxCA%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2019-10-25T01:00:01+03:00", 
+        "datePublished": "2020-05-01T01:00:01+03:00", 
         "id": "4da4669b202e4d2a99386ef3218c9586", 
-        "dateModified": "2019-10-25T01:00:01+03:00"
+        "dateModified": "2020-05-01T01:00:01+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
@@ -36,16 +36,16 @@ Content-Type: application/json; charset=UTF-8
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ff5be45236be4fcdb76dcfff9176d56e?KeyID=a8968c46&Signature=2raOfvNondSoAfRhWvtO8%2FcNotOz1xWlgXgxwHzOzgbmAmGeOF6mbKpeM8RkgD3W1t0NFTc9aSy6Q%252BkVD5xPDA%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2019-10-25T01:00:01+03:00", 
+        "datePublished": "2020-05-01T01:00:01+03:00", 
         "id": "4da4669b202e4d2a99386ef3218c9586", 
-        "dateModified": "2019-10-25T01:00:01+03:00"
+        "dateModified": "2020-05-01T01:00:01+03:00"
       }
     ], 
     "reason": "cancellation reason", 
-    "reasonType": "unsuccessful", 
-    "date": "2019-10-25T01:00:01+03:00", 
+    "reasonType": "unFixable", 
+    "date": "2020-05-01T01:00:01+03:00", 
     "cancellationOf": "tender", 
-    "id": "b5435d5c17704b6190519ff8979c2a89"
+    "id": "3751f4fe25534d0e88b2f836338e014c"
   }
 }
 

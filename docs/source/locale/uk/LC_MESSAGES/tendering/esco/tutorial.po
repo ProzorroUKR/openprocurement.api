@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.esco 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-28 07:54+0200\n"
+"POT-Creation-Date: 2020-02-17 11:45+0200\n"
 "PO-Revision-Date: 2018-09-12 11:57+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -12,737 +12,388 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
-#: ../../source/esco/tutorial.rst:4
 msgid "Tutorial"
 msgstr "Туторіал"
 
-#: ../../source/esco/tutorial.rst:7
 msgid "Exploring basic rules"
 msgstr "Базові правила"
 
-#: ../../source/esco/tutorial.rst:9
 msgid "Let's try exploring the `/tenders` endpoint:"
 msgstr "Подивимось як працює точка входу `/tenders`:"
 
-#: ../../source/esco/tutorial.rst:14
 msgid "Just invoking it reveals empty set."
 msgstr "При виклику видає пустий набір."
 
-#: ../../source/esco/tutorial.rst:16
 msgid "Now let's attempt creating some tender:"
 msgstr "Спробуймо створити нову закупівлю:"
 
-#: ../../source/esco/tutorial.rst:21
 msgid "Error states that the only accepted Content-Type is `application/json`."
 msgstr "Помилка вказує, що єдиний прийнятний тип вмісту це `application/json`."
 
-#: ../../source/esco/tutorial.rst:23
 msgid "Let's satisfy the Content-type requirement:"
 msgstr "Задовільнимо вимогу типу вмісту:"
 
-#: ../../source/esco/tutorial.rst:28
 msgid "Error states that no `data` has been found in JSON body."
 msgstr "Помилка вказує, що `data` не знайдено у тілі JSON."
 
-#: ../../source/esco/tutorial.rst:34
 msgid "Creating tender"
 msgstr "Створення закупівлі"
 
-#: ../../source/esco/tutorial.rst:36
 msgid "Let's provide the data attribute in the submitted body :"
 msgstr "Введемо data атрибут у поданому тілі:"
 
-#: ../../source/esco/tutorial.rst:41
-msgid ""
-"Success! Now we can see that new object was created. Response code is "
-"`201` and `Location` response header reports the location of the created "
-"object.  The body of response reveals the information about the created "
-"tender: its internal `id` (that matches the `Location` segment), its "
-"official `tenderID` and `dateModified` datestamp stating the moment in "
-"time when tender was last modified.  Note that tender is created with "
-"`active.tendering` status."
-msgstr ""
-"Успіх! Тепер ми бачимо, що новий об’єкт було створено. Код відповіді "
-"`201` та заголовок відповіді `Location` вказує місцерозташування "
-"створеного об’єкта. Тіло відповіді показує інформацію про створену "
-"закупівлю, її внутрішнє `id` (яке співпадає з сегментом `Location`), її "
-"офіційне `tenderID` та `dateModified` дату, що показує час, коли "
-"закупівля востаннє модифікувалась. Зверніть увагу, що закупівля "
-"створюється зі статусом `active.tendering`."
+msgid "Success! Now we can see that new object was created. Response code is `201` and `Location` response header reports the location of the created object.  The body of response reveals the information about the created tender: its internal `id` (that matches the `Location` segment), its official `tenderID` and `dateModified` datestamp stating the moment in time when tender was last modified.  Note that tender is created with `active.tendering` status."
+msgstr "Успіх! Тепер ми бачимо, що новий об’єкт було створено. Код відповіді `201` та заголовок відповіді `Location` вказує місцерозташування створеного об’єкта. Тіло відповіді показує інформацію про створену закупівлю, її внутрішнє `id` (яке співпадає з сегментом `Location`), її офіційне `tenderID` та `dateModified` дату, що показує час, коли закупівля востаннє модифікувалась. Зверніть увагу, що закупівля створюється зі статусом `active.tendering`."
 
-#: ../../source/esco/tutorial.rst:48
-msgid ""
-"The peculiarity of the ESCO procedure is that ``procurementMethodType`` "
-"is ``esco``. Also,  new fields ``NBUdiscountRate``, "
-"``minimalStepPercentage``, ``fundingKind``, "
-"``yearlyPaymentsPercentageRange``  were added to tender object."
-msgstr ""
-"Особливість відкритих торгів з публікацією англ. мовою в тому, що "
-"``procurementMethodType`` було змінено з ``belowThreshold`` на "
-"``aboveThresholdEU``.  Також тут неможливо встановити ``enquiryPeriod``, "
-"бо він буде призначений автоматично."
+msgid "The peculiarity of the ESCO procedure is that ``procurementMethodType`` is ``esco``. Also,  new fields ``NBUdiscountRate``, ``minimalStepPercentage``, ``fundingKind``, ``yearlyPaymentsPercentageRange``  were added to tender object."
+msgstr "Особливість відкритих торгів з публікацією англ. мовою в тому, що ``procurementMethodType`` було змінено з ``belowThreshold`` на ``aboveThresholdEU``.  Також тут неможливо встановити ``enquiryPeriod``, бо він буде призначений автоматично."
 
-#: ../../source/esco/tutorial.rst:51
-msgid ""
-"There is also no opportunity to set up ``enquiryPeriod``, it will be "
-"assigned automatically."
-msgstr "Також немає можливості встановити ``enquiryPeriod``, значення "
-"буде встановлене автоматично."
+msgid "There is also no opportunity to set up ``enquiryPeriod``, it will be assigned automatically."
+msgstr "Також немає можливості встановити ``enquiryPeriod``, значення буде встановлене автоматично."
 
-#: ../../source/esco/tutorial.rst:54
-msgid ""
-"Let's access the URL of the created object (the `Location` header of the "
-"response):"
+msgid "Let's access the URL of the created object (the `Location` header of the response):"
 msgstr "Використаємо URL створеного об’єкта (заголовок відповіді `Location`):"
 
-#: ../../source/esco/tutorial.rst:61
 msgid "We can see the same response we got after creating tender."
 msgstr "Ми бачимо ту ж відповідь, що і після створення закупівлі."
 
-#: ../../source/esco/tutorial.rst:63
 msgid "Let's see what listing of tenders reveals us:"
 msgstr "Подивимось, що показує список закупівель:"
 
-#: ../../source/esco/tutorial.rst:68
-msgid ""
-"We do see the internal `id` of a tender (that can be used to construct "
-"full URL by prepending `http://api-"
-"sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` "
-"datestamp."
-msgstr ""
-"Ми бачимо внутрішнє `id` закупівлі (що може бути використано для побудови"
-" повної URL-адреси, якщо додати `http://api-"
-"sandbox.openprocurement.org/api/0/tenders/`) та її `dateModified` дату."
+msgid "We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp."
+msgstr "Ми бачимо внутрішнє `id` закупівлі (що може бути використано для побудови повної URL-адреси, якщо додати `http://api-sandbox.openprocurement.org/api/0/tenders/`) та її `dateModified` дату."
 
-#: ../../source/esco/tutorial.rst:71
 msgid "Modifying tender"
 msgstr "Редагування закупівлі"
 
-#: ../../source/esco/tutorial.rst:73
-msgid ""
-"Let's update tender by supplementing it with all other essential "
-"properties:"
+msgid "Let's update tender by supplementing it with all other essential properties:"
 msgstr "Оновимо закупівлю шляхом надання їй усіх інших важливих властивостей:"
 
-#: ../../source/esco/tutorial.rst:80
-msgid ""
-"We see the added properies have merged with existing tender data. "
-"Additionally, the `dateModified` property was updated to reflect the last"
-" modification datestamp."
-msgstr ""
-"Ми бачимо, що додаткові властивості об’єднані з існуючими даними "
-"закупівлі. Додатково оновлена властивість `dateModified`, щоб відображати"
-" останню дату модифікації."
+msgid "We see the added properies have merged with existing tender data. Additionally, the `dateModified` property was updated to reflect the last modification datestamp."
+msgstr "Ми бачимо, що додаткові властивості об’єднані з існуючими даними закупівлі. Додатково оновлена властивість `dateModified`, щоб відображати останню дату модифікації."
 
-#: ../../source/esco/tutorial.rst:82
 msgid "Checking the listing again reflects the new modification date:"
 msgstr "Ще одна перевірка списку відображає нову дату модифікації:"
 
-#: ../../source/esco/tutorial.rst:87
-msgid ""
-"Procuring entity can not change tender if there are less than 7 days "
-"before tenderPeriod ends. Changes will not be accepted by API."
-msgstr ""
-"Замовник не може редагувати закупівлю, якщо залишилось менше 7 днів до "
-"завершення періоду подання пропозицій. API таких змін не прийме."
+msgid "Procuring entity can not change tender if there are less than 7 days before tenderPeriod ends. Changes will not be accepted by API."
+msgstr "Замовник не може редагувати закупівлю, якщо залишилось менше 7 днів до завершення періоду подання пропозицій. API таких змін не прийме."
 
-#: ../../source/esco/tutorial.rst:92
 msgid "That is why tenderPeriod has to be extended by 7 days."
-msgstr ""
-"Ось чому потрібно продовжити період подання пропозицій (`tenderPeriod`) "
-"на 7 днів."
+msgstr "Ось чому потрібно продовжити період подання пропозицій (`tenderPeriod`) на 7 днів."
 
-#: ../../source/esco/tutorial.rst:97
 msgid "Procuring entity can set bid guarantee:"
 msgstr "Замовник може встановити забезпечення тендерної пропозиції"
 
-#: ../../source/esco/tutorial.rst:106
 msgid "Uploading documentation"
 msgstr "Завантаження документів"
 
-#: ../../source/esco/tutorial.rst:108
-msgid ""
-"Procuring entity can upload PDF files into the created tender. Uploading "
-"should follow the :ref:`upload` rules."
-msgstr ""
-"Замовник може завантажити PDF файл у створену закупівлю. Завантаження "
-"повинно відбуватись згідно правил :ref:`upload`."
+msgid "Procuring entity can upload PDF files into the created tender. Uploading should follow the :ref:`upload` rules."
+msgstr "Замовник може завантажити PDF файл у створену закупівлю. Завантаження повинно відбуватись згідно правил :ref:`upload`."
 
-#: ../../source/esco/tutorial.rst:114
-msgid ""
-"`201 Created` response code and `Location` header confirm document "
-"creation. We can additionally query the `documents` collection API "
-"endpoint to confirm the action:"
-msgstr ""
-"Код відповіді `201 Created` та заголовок `Location` підтверджують, що "
-"документ було створено. Додатково можна зробити запит точки входу API "
-"колекції документів (`documents`), щоб підтвердити дію:"
+msgid "`201 Created` response code and `Location` header confirm document creation. We can additionally query the `documents` collection API endpoint to confirm the action:"
+msgstr "Код відповіді `201 Created` та заголовок `Location` підтверджують, що документ було створено. Додатково можна зробити запит точки входу API колекції документів (`documents`), щоб підтвердити дію:"
 
-#: ../../source/esco/tutorial.rst:121
-msgid ""
-"The single array element describes the uploaded document. We can upload "
-"more documents:"
-msgstr ""
-"Один елемент масиву описує завантажений документ. Ми можемо завантажити "
-"більше документів:"
+msgid "The single array element describes the uploaded document. We can upload more documents:"
+msgstr "Один елемент масиву описує завантажений документ. Ми можемо завантажити більше документів:"
 
-#: ../../source/esco/tutorial.rst:126
 msgid "And again we can confirm that there are two documents uploaded."
 msgstr "І знову можна перевірити, що є два завантажених документа."
 
-#: ../../source/esco/tutorial.rst:131
-msgid ""
-"In case we made an error, we can reupload the document over the older "
-"version:"
-msgstr ""
-"Якщо сталась помилка, ми можемо ще раз завантажити документ поверх старої"
-" версії:"
+msgid "In case we made an error, we can reupload the document over the older version:"
+msgstr "Якщо сталась помилка, ми можемо ще раз завантажити документ поверх старої версії:"
 
-#: ../../source/esco/tutorial.rst:136
 msgid "And we can see that it is overriding the original version:"
 msgstr "І ми бачимо, що вона перекриває оригінальну версію:"
 
-#: ../../source/esco/tutorial.rst:145
 msgid "Enquiries"
 msgstr "Уточнення і запитання"
 
-#: ../../source/esco/tutorial.rst:147
-msgid ""
-"When tender has ``active.tendering`` status and "
-"``Tender.enquiryPeriod.endDate``  hasn't come yet, interested parties can"
-" ask questions:"
-msgstr ""
-"Якщо закупівля має статус ``active.tendering`` та дата завершення періоду"
-" подання пропозицій ``Tender.enqueryPeriod.endDate`` ще не прийшла , то "
-"зацікавлені учасники можуть задавати питання чи просити уточнень умов "
-"закупівлі:"
+msgid "When tender has ``active.tendering`` status and ``Tender.enquiryPeriod.endDate``  hasn't come yet, interested parties can ask questions:"
+msgstr "Якщо закупівля має статус ``active.tendering`` та дата завершення періоду подання пропозицій ``Tender.enqueryPeriod.endDate`` ще не прийшла , то зацікавлені учасники можуть задавати питання чи просити уточнень умов закупівлі:"
 
-#: ../../source/esco/tutorial.rst:152
 msgid "Procuring entity can answer them:"
 msgstr "Замовник може відповісти на них:"
 
-#: ../../source/esco/tutorial.rst:157
 msgid "One can retrieve either questions list:"
 msgstr "Можна отримати список запитань:"
 
-#: ../../source/esco/tutorial.rst:162
 msgid "or individual answer:"
 msgstr "або окрему відповідь:"
 
-#: ../../source/esco/tutorial.rst:168
 msgid "Enquiries can be made only during ``Tender.enquiryPeriod``"
-msgstr ""
-"Запитання можна задавати лише протягом періоду уточнень "
-"``Tender.enqueryPeriod``."
+msgstr "Запитання можна задавати лише протягом періоду уточнень ``Tender.enqueryPeriod``."
 
-#: ../../source/esco/tutorial.rst:177
 msgid "Registering bid"
 msgstr "Реєстрація пропозиції"
 
-#: ../../source/esco/tutorial.rst:180
 msgid "Bid registration"
 msgstr "Реєстрація пропозиції"
 
-#: ../../source/esco/tutorial.rst:182
 msgid "Tender status ``active.tendering`` allows registration of bids."
 msgstr "Статус закупівлі ``active.tendering`` дозволяє реєстрацію пропозицій."
 
-#: ../../source/esco/tutorial.rst:184
 msgid "Bidder can register a bid with `draft` status:"
 msgstr "Учасник може зареєструвати ставку із статусом ``draft`` (чернетка):"
 
-#: ../../source/esco/tutorial.rst:189
 msgid "and approve to pending status:"
 msgstr "і підтвердити її, перевівши у ``pending`` статус:"
 
-#: ../../source/esco/tutorial.rst:195
 msgid "Proposal Uploading"
 msgstr "Завантаження пропозиції"
 
-#: ../../source/esco/tutorial.rst:197
 msgid "Then bidder should upload proposal technical document(s):"
 msgstr "Потім учасник повинен завантажити документ(и) пропозиції:"
 
-#: ../../source/esco/tutorial.rst:203
 msgid "Confidentiality"
 msgstr "Конфіденційність"
 
-#: ../../source/esco/tutorial.rst:205
 msgid "Documents can be either public or private:"
 msgstr "Документи можуть бути або публічними, або приватними:"
 
-#: ../../source/esco/tutorial.rst:207
-msgid ""
-"Privacy settings can be changed only for the latest version of the "
-"document."
+msgid "Privacy settings can be changed only for the latest version of the document."
 msgstr "Приватність документа можна змінити тільки для останньої версії."
 
-#: ../../source/esco/tutorial.rst:208
-msgid ""
-"When you upload new version of the document, privacy settings are copied "
-"from the previous version."
-msgstr ""
-"При завантаженні нової версії, налаштування приватності копіюються з "
-"попередньої версії документа."
+msgid "When you upload new version of the document, privacy settings are copied from the previous version."
+msgstr "При завантаженні нової версії, налаштування приватності копіюються з попередньої версії документа."
 
-#: ../../source/esco/tutorial.rst:209
-msgid ""
-"Privacy settings can be changed only during `tenderPeriod` (with "
-"`active.tendering` status)."
-msgstr ""
-"Налаштування приватності можна міняти тільки під час періоду подання "
-"пропозицій (зі статусом `active.tendering`)."
+msgid "Privacy settings can be changed only during `tenderPeriod` (with `active.tendering` status)."
+msgstr "Налаштування приватності можна міняти тільки під час періоду подання пропозицій (зі статусом `active.tendering`)."
 
-#: ../../source/esco/tutorial.rst:210
-msgid ""
-"If tender has status `active.qualification` winner can upload only public"
-" documents."
-msgstr ""
-"Якщо закупівля має статус `active.qualification`, переможець може "
-"завантажувати тільки публічні документи."
+msgid "If tender has status `active.qualification` winner can upload only public documents."
+msgstr "Якщо закупівля має статус `active.qualification`, переможець може завантажувати тільки публічні документи."
 
-#: ../../source/esco/tutorial.rst:212
 msgid "Let's upload private document:"
 msgstr "Завантажимо приватний документ:"
 
-#: ../../source/esco/tutorial.rst:217
-msgid ""
-"To define the document as \"private\" - `confidentiality` and "
-"`confidentialityRationale` fields should be set."
-msgstr ""
-"Щоб зробити документ \"приватним\", потрібно встановити поля "
-"`confidentiality` та `confidentialityRationale`."
+msgid "To define the document as \"private\" - `confidentiality` and `confidentialityRationale` fields should be set."
+msgstr "Щоб зробити документ \"приватним\", потрібно встановити поля `confidentiality` та `confidentialityRationale`."
 
-#: ../../source/esco/tutorial.rst:219
-msgid ""
-"`confidentiality` field value can be either `buyerOnly` (document is "
-"private) or `public` (document is publicly accessible)."
-msgstr ""
-"Значенням поля `confidentiality` може бути або `buyerOnly` - документ "
-"приватний, або `public` - документ публічно доступний."
+msgid "`confidentiality` field value can be either `buyerOnly` (document is private) or `public` (document is publicly accessible)."
+msgstr "Значенням поля `confidentiality` може бути або `buyerOnly` - документ приватний, або `public` - документ публічно доступний."
 
-#: ../../source/esco/tutorial.rst:221
-msgid ""
-"Content of private documents (`buyerOnly`) can be accessed only by "
-"procuring entity or by participant who uploaded them."
-msgstr ""
-"Вміст приватних документів (`buyerOnly`) закритий для всіх крім замовника"
-" і учасника, який подав ці документи."
+msgid "Content of private documents (`buyerOnly`) can be accessed only by procuring entity or by participant who uploaded them."
+msgstr "Вміст приватних документів (`buyerOnly`) закритий для всіх крім замовника і учасника, який подав ці документи."
 
-#: ../../source/esco/tutorial.rst:223
-msgid ""
-"`confidentialityRationale` field is required only for private documents "
-"and should contain at least 30 characters."
-msgstr ""
-"Поле `confidentialityRationale` необхідне лише для приватних документів. "
-"Його значенням має бути пояснення причини конфіденційності документа (не "
-"менше ніж 30 символів)."
+msgid "`confidentialityRationale` field is required only for private documents and should contain at least 30 characters."
+msgstr "Поле `confidentialityRationale` необхідне лише для приватних документів. Його значенням має бути пояснення причини конфіденційності документа (не менше ніж 30 символів)."
 
-#: ../../source/esco/tutorial.rst:225
 msgid "Let's mark the document as \"private\":"
 msgstr "Позначимо документ як \"приватний\":"
 
-#: ../../source/esco/tutorial.rst:230
 msgid "It is possible to check the uploaded documents:"
 msgstr "Можна перевірити завантажені документи:"
 
-#: ../../source/esco/tutorial.rst:238
 msgid "Financial, eligibility and qualification documents uploading"
-msgstr ""
-"Завантаження документів, що підтверджують відповідність, фінансових та "
-"кваліфікаційних документів."
+msgstr "Завантаження документів, що підтверджують відповідність, фінансових та кваліфікаційних документів."
 
-#: ../../source/esco/tutorial.rst:240
-msgid ""
-"Financial, eligibility and qualification documents are also a part of Bid"
-" but are located in different end-points."
-msgstr ""
-"Документи, що підтверджують відповідність, фінансові та кваліфікаційні "
-"документи також є частиною пропозиції, але зберігаються в різних точках "
-"входу."
+msgid "Financial, eligibility and qualification documents are also a part of Bid but are located in different end-points."
+msgstr "Документи, що підтверджують відповідність, фінансові та кваліфікаційні документи також є частиною пропозиції, але зберігаються в різних точках входу."
 
-#: ../../source/esco/tutorial.rst:242
-msgid ""
-"In order to create and/or get financial document ``financial_documents`` "
-"end-point should be used:"
-msgstr ""
-"Для того, щоб створити і/або отримати фінансові документи потрібно "
-"використати точку входу ``financial_documents``:"
+msgid "In order to create and/or get financial document ``financial_documents`` end-point should be used:"
+msgstr "Для того, щоб створити і/або отримати фінансові документи потрібно використати точку входу ``financial_documents``:"
 
-#: ../../source/esco/tutorial.rst:247
 msgid "Get financial documents:"
 msgstr "Отримати фінансові документи:"
 
-#: ../../source/esco/tutorial.rst:252
-msgid ""
-"In order to create and/or get eligibility document "
-"``eligibility_documents`` end-point should be used:"
-msgstr ""
-"Для того, щоб створити і/або отримати документи, що підтверджують "
-"відповідність потрібно використати точку входу ``eligibility_documents``:"
+msgid "In order to create and/or get eligibility document ``eligibility_documents`` end-point should be used:"
+msgstr "Для того, щоб створити і/або отримати документи, що підтверджують відповідність потрібно використати точку входу ``eligibility_documents``:"
 
-#: ../../source/esco/tutorial.rst:257
-msgid ""
-"In order to create and/or get qualification document "
-"``qualification_documents`` end-point should be used:"
-msgstr ""
-"Для того, щоб створити і/або отримати документи, що підтверджують "
-"кваліфікацію, потрібно використати точку входу "
-"``qualification_documents``:"
+msgid "In order to create and/or get qualification document ``qualification_documents`` end-point should be used:"
+msgstr "Для того, щоб створити і/або отримати документи, що підтверджують кваліфікацію, потрібно використати точку входу ``qualification_documents``:"
 
-#: ../../source/esco/tutorial.rst:263
-msgid ""
-"`Financial` and `qualification` documents will be publicly accessible "
-"after the auction. `Eligibility` documents will become publicly "
-"accessible starting from tender pre-qualification period."
-msgstr ""
-"`Фінансові` та `кваліфікаційні` документи будуть публічно доступні після "
-"аукціону. Документи, `що підтверджують відповідність`, будуть публічно "
-"доступні на етапі прекваліфікації."
+msgid "`Financial` and `qualification` documents will be publicly accessible after the auction. `Eligibility` documents will become publicly accessible starting from tender pre-qualification period."
+msgstr "`Фінансові` та `кваліфікаційні` документи будуть публічно доступні після аукціону. Документи, `що підтверджують відповідність`, будуть публічно доступні на етапі прекваліфікації."
 
-#: ../../source/esco/tutorial.rst:266
 msgid "Here is bidder proposal with all documents."
 msgstr "Пропозиція учасника зі всіма документами:"
 
-#: ../../source/esco/tutorial.rst:271
-msgid ""
-"Note that financial, eligibility, and qualification documents are stored "
-"in `financialDocuments`, `eligibilityDocuments`, and "
-"`qualificationDocuments` attributes of :ref:`Bid`."
-msgstr ""
-"Зверніть увагу, що документи, що підтверджують відповідність, фінансові "
-"та кваліфікаційні документи зберігаються у `eligibilityDocuments`, "
-"`financialDocuments` та  `qualificationDocuments` атрибутах :ref:`Bid` "
-"відповідно."
+msgid "Note that financial, eligibility, and qualification documents are stored in `financialDocuments`, `eligibilityDocuments`, and `qualificationDocuments` attributes of :ref:`Bid`."
+msgstr "Зверніть увагу, що документи, що підтверджують відповідність, фінансові та кваліфікаційні документи зберігаються у `eligibilityDocuments`, `financialDocuments` та  `qualificationDocuments` атрибутах :ref:`Bid` відповідно."
 
-#: ../../source/esco/tutorial.rst:275
 msgid "Bid invalidation"
 msgstr "Пропозиція стає недійсною"
 
-#: ../../source/esco/tutorial.rst:277
-msgid ""
-"If tender is modified, status of all bid proposals will be changed to "
-"``invalid``. Bid proposal will look the following way after tender has "
-"been modified:"
-msgstr ""
-"Якщо закупівля була модифікована, статус всіх пропозицій змінюється на "
-"``invalid`` (недійсний). Ось так пропозиція буде виглядати після "
-"редагування закупівлі:"
+msgid "If tender is modified, status of all bid proposals will be changed to ``invalid``. Bid proposal will look the following way after tender has been modified:"
+msgstr "Якщо закупівля була модифікована, статус всіх пропозицій змінюється на ``invalid`` (недійсний). Ось так пропозиція буде виглядати після редагування закупівлі:"
 
-#: ../../source/esco/tutorial.rst:283
 msgid "Bid confirmation"
 msgstr "Підтвердження пропозиції"
 
-#: ../../source/esco/tutorial.rst:285
 msgid "Bidder should confirm bid proposal:"
 msgstr "Учасник повинен підтвердити свою пропозицію:"
 
-#: ../../source/esco/tutorial.rst:290
-msgid ""
-"ESCO procedure demands at least two bidders, so there should be at least "
-"two bid proposals registered to move to auction stage. So let's create "
-"second bid:"
-msgstr ""
-"Для того, щоб ESCO процедура "
-"відбулась, необхідно хоча б два учасника, тобто хоча б дві пропозиції "
-"повинні бути зареєстровані до початку аукціону:"
+msgid "ESCO procedure demands at least two bidders, so there should be at least two bid proposals registered to move to auction stage. So let's create second bid:"
+msgstr "Для того, щоб ESCO процедура відбулась, необхідно хоча б два учасника, тобто хоча б дві пропозиції повинні бути зареєстровані до початку аукціону:"
 
-#: ../../source/esco/tutorial.rst:296
 msgid "Batch-mode bid registration"
 msgstr "Пакетний режим реєстрації"
 
-#: ../../source/esco/tutorial.rst:298
 msgid "Register one more bid with documents using single request (batch-mode):"
-msgstr ""
-"У пакетному режимі (batch-mode) є можливість зареєструвати пропозицію "
-"одним запитом. Зареєструйте ще одну пропозицію:"
+msgstr "У пакетному режимі (batch-mode) є можливість зареєструвати пропозицію одним запитом. Зареєструйте ще одну пропозицію:"
 
-#: ../../source/esco/tutorial.rst:307
 msgid "Bid Qualification"
 msgstr "Кваліфікація пропозицій"
 
-#: ../../source/esco/tutorial.rst:309
 msgid "ESCO procedure requires bid qualification."
-msgstr ""
-"Для ESCO процедури необхідна кваліфікація значень "
-"пропозицій."
+msgstr "Для ESCO процедури необхідна кваліфікація значень пропозицій."
 
-#: ../../source/esco/tutorial.rst:311
 msgid "Let's list qualifications:"
 msgstr "Переглянемо список кваліфікацій:"
 
-#: ../../source/esco/tutorial.rst:317
 msgid "Approve first two bids through qualification objects:"
 msgstr "Підтвердіть перші дві пропозиції через кваліфікаційні об’єкти:"
 
-#: ../../source/esco/tutorial.rst:325
 msgid "We can also reject bid:"
 msgstr "Можна відхилити пропозицію:"
 
-#: ../../source/esco/tutorial.rst:330
 msgid "And check that qualified bids are switched to `active`:"
-msgstr ""
-"Та перевірити, що вже кваліфіковані пропозиції переключені в стан "
-"`active`:"
+msgstr "Та перевірити, що вже кваліфіковані пропозиції переключені в стан `active`:"
 
-#: ../../source/esco/tutorial.rst:335
 msgid "Rejected bid is not shown in `bids/` listing."
 msgstr "Відхилена пропозиція не присутня в списку `bids/`."
 
-#: ../../source/esco/tutorial.rst:337
 msgid "We can access rejected bid by id:"
 msgstr "Можна отримати доступ до відхиленої пропозиції за її ідентифікатором `id`:"
 
-#: ../../source/esco/tutorial.rst:342
 msgid "Procuring entity approves qualifications by switching to next status:"
 msgstr "Замовник підтверджує кваліфікацію переходом до наступного статусу:"
 
-#: ../../source/esco/tutorial.rst:347
 msgid "You may notice 10 day stand-still time set in `qualificationPeriod`."
-msgstr ""
-"Зверніть увагу на період блокування в 10 днів під час "
-"`qualificationPeriod`."
+msgstr "Зверніть увагу на період блокування в 10 днів під час `qualificationPeriod`."
 
-#: ../../source/esco/tutorial.rst:350
 msgid "Auction"
 msgstr "Аукціон"
 
-#: ../../source/esco/tutorial.rst:352
-msgid ""
-"After auction is scheduled anybody can visit it to watch. The auction can"
-" be reached at `Tender.auctionUrl`:"
-msgstr ""
-"Після того, як аукціон заплановано, будь-хто може його відвідати для "
-"перегляду. Аукціон можна подивитись за допомогою `Tender.auctionUrl`:"
+msgid "After auction is scheduled anybody can visit it to watch. The auction can be reached at `Tender.auctionUrl`:"
+msgstr "Після того, як аукціон заплановано, будь-хто може його відвідати для перегляду. Аукціон можна подивитись за допомогою `Tender.auctionUrl`:"
 
-#: ../../source/esco/tutorial.rst:357
 msgid "Bidders can find out their participation URLs via their bids:"
-msgstr ""
-"Учасники можуть дізнатись свої URL-адреси для участі через свої "
-"пропозиції:"
+msgstr "Учасники можуть дізнатись свої URL-адреси для участі через свої пропозиції:"
 
-#: ../../source/esco/tutorial.rst:362
-msgid ""
-"See the `Bid.participationUrl` in the response. Similar, but different, "
-"URL can be retrieved for other participants:"
-msgstr ""
-"Дивіться на `Bid.participationUrl` у відповіді. Схожу, але іншу, "
-"URL-адресу можна отримати для інших учасників."
+msgid "See the `Bid.participationUrl` in the response. Similar, but different, URL can be retrieved for other participants:"
+msgstr "Дивіться на `Bid.participationUrl` у відповіді. Схожу, але іншу, URL-адресу можна отримати для інших учасників."
 
-#: ../../source/esco/tutorial.rst:368
 msgid "Confirming qualification"
 msgstr "Кваліфікація пропозицій"
 
-#: ../../source/esco/tutorial.rst:370
 msgid "Qualification commission registers its decision via the following call:"
 msgstr "Кваліфікаційна комісія реєструє своє рішення:"
 
-#: ../../source/esco/tutorial.rst:376
 msgid "Setting contract value"
 msgstr "Встановлення вартості угоди"
 
-#: ../../source/esco/tutorial.rst:378
-msgid ""
-"By default contract value `amountNet` is set based on the award value "
-"`amount`, but there is a possibility to set custom contract value."
-msgstr ""
-"За замовчуванням вартість угоди без урахування ПДВ встановлюється на "
-"основі рішення про визначення переможця, але є можливість змінити це "
-"значення."
+msgid "By default contract value `amountNet` is set based on the award value `amount`, but there is a possibility to set custom contract value."
+msgstr "За замовчуванням вартість угоди без урахування ПДВ встановлюється на основі рішення про визначення переможця, але є можливість змінити це значення."
 
-#: ../../source/esco/tutorial.rst:380
 msgid "Let's set contract contract value with next request:"
 msgstr "Встановимо нові значення для поля `value` використовуючи наступний запит:"
 
-#: ../../source/esco/tutorial.rst:385
 msgid "`200 OK` response was returned. The value was modified successfully."
 msgstr "Було повернуто код відповіді `200 OK`. Значення змінено успішно."
 
-#: ../../source/esco/tutorial.rst:388
 msgid "Setting contract signature date"
 msgstr "Встановлення дати підписання угоди"
 
-#: ../../source/esco/tutorial.rst:390
-msgid ""
-"There is a possibility to set custom contract signature date. You can "
-"insert appropriate date into the `dateSigned` field."
-msgstr ""
-"Є можливість встановити дату підписання угоди. Для цього вставте "
-"відповідну дату в поле `dateSigned`."
+msgid "There is a possibility to set custom contract signature date. You can insert appropriate date into the `dateSigned` field."
+msgstr "Є можливість встановити дату підписання угоди. Для цього вставте відповідну дату в поле `dateSigned`."
 
-#: ../../source/esco/tutorial.rst:392
-msgid ""
-"If this date is not set, it will be auto-generated on the date of "
-"contract registration."
-msgstr ""
-"Якщо ви не встановите дату підписання, то вона буде згенерована "
-"автоматично під час реєстрації угоди."
+msgid "If this date is not set, it will be auto-generated on the date of contract registration."
+msgstr "Якщо ви не встановите дату підписання, то вона буде згенерована автоматично під час реєстрації угоди."
 
-#: ../../source/esco/tutorial.rst:398
 msgid "Setting contract validity period"
 msgstr "Встановлення терміну дії угоди"
 
-#: ../../source/esco/tutorial.rst:400
-msgid ""
-"Setting contract validity period is optional, but if it is needed, you "
-"can set appropriate `startDate` and `endDate`."
-msgstr ""
-"Встановлення терміну дії угоди необов’язкове, але, якщо є необхідність, "
-"ви можете встановити відповідну дату початку `startDate` та кінця "
-"`endDate` терміну дії."
+msgid "Setting contract validity period is optional, but if it is needed, you can set appropriate `startDate` and `endDate`."
+msgstr "Встановлення терміну дії угоди необов’язкове, але, якщо є необхідність, ви можете встановити відповідну дату початку `startDate` та кінця `endDate` терміну дії."
 
-#: ../../source/esco/tutorial.rst:406
 msgid "Uploading contract documentation"
 msgstr "Завантаження документації по угоді"
 
-#: ../../source/esco/tutorial.rst:408
 msgid "You can upload contract documents for the ESCO procedure."
-msgstr ""
-"Ви можете завантажити документи угоди для ESCO торгів"
+msgstr "Ви можете завантажити документи угоди для ESCO торгів"
 
-#: ../../source/esco/tutorial.rst:410
 msgid "Let's upload contract document:"
 msgstr "Завантажимо документ угоди:"
 
-#: ../../source/esco/tutorial.rst:415
-msgid ""
-"`201 Created` response code and `Location` header confirm that this "
-"document was added."
-msgstr ""
-"Код відповіді `201 Created` та заголовок `Location` підтверджують, що "
-"документ було додано."
+msgid "`201 Created` response code and `Location` header confirm that this document was added."
+msgstr "Код відповіді `201 Created` та заголовок `Location` підтверджують, що документ було додано."
 
-#: ../../source/esco/tutorial.rst:417
 msgid "Let's see the list of contract documents:"
 msgstr "Подивимось на список документів пов’язаних з угодою:"
 
-#: ../../source/esco/tutorial.rst:422
 msgid "We can upload another contract document:"
 msgstr "Можна завантажити ще один документ угоди:"
 
-#: ../../source/esco/tutorial.rst:427
-msgid ""
-"`201 Created` response code and `Location` header confirm that the second"
-" document was uploaded."
-msgstr ""
-"Код відповіді `201 Created` та заголовок `Location` підтверджують, що ще "
-"один документ було додано."
+msgid "`201 Created` response code and `Location` header confirm that the second document was uploaded."
+msgstr "Код відповіді `201 Created` та заголовок `Location` підтверджують, що ще один документ було додано."
 
-#: ../../source/esco/tutorial.rst:429
-msgid ""
-"By default, document language is Ukrainian. You can can change it and set"
-" another language for the document by assigning appropriate language code"
-" to the `language` field (available options: ``uk``, ``en``, ``ru``). You"
-" can also set document's title (e.g. `title_en`) and description (e.g. "
-"`description_en`) fields. See :ref:`Document` data structure for details."
-msgstr ""
-"За замовчуванням мовою документа є українська. Ви можете змінити це і "
-"встановити іншу мову для документа, призначивши відповідний код мови полю"
-" `language` (можливі варіанти: ``uk``, ``en``, ``ru``). Ви можете також "
-"додати поля назви (наприклад, `title_en`) та опису (наприклад, "
-"`description_en`). Див. структуру даних :ref:`Document` для більш "
-"детальної інформації."
+msgid "By default, document language is Ukrainian. You can can change it and set another language for the document by assigning appropriate language code to the `language` field (available options: ``uk``, ``en``, ``ru``). You can also set document's title (e.g. `title_en`) and description (e.g. `description_en`) fields. See :ref:`Document` data structure for details."
+msgstr "За замовчуванням мовою документа є українська. Ви можете змінити це і встановити іншу мову для документа, призначивши відповідний код мови полю `language` (можливі варіанти: ``uk``, ``en``, ``ru``). Ви можете також додати поля назви (наприклад, `title_en`) та опису (наприклад, `description_en`). Див. структуру даних :ref:`Document` для більш детальної інформації."
 
-#: ../../source/esco/tutorial.rst:434
 msgid "Let's see the list of all added contract documents:"
 msgstr "Подивимось список усіх доданих документів угоди:"
 
-#: ../../source/esco/tutorial.rst:439
 msgid "Let's view separate contract document:"
 msgstr "Переглянемо окремий документ угоди:"
 
-#: ../../source/esco/tutorial.rst:445
 msgid "Cancelling tender"
 msgstr "Скасування закупівлі"
 
-#: ../../source/esco/tutorial.rst:447
-msgid ""
-"Tender creator can cancel tender anytime. The following steps should be "
-"applied:"
-msgstr ""
-"Замовник може скасувати закупівлю у будь-який момент. Для цього виконайте"
-" наступні кроки:"
+msgid "Tender creator can cancel tender anytime. The following steps should be applied:"
+msgstr "Замовник може скасувати закупівлю у будь-який момент. Для цього виконайте наступні кроки:"
 
-#: ../../source/esco/tutorial.rst:449
 msgid "Prepare cancellation request."
 msgstr "Приготуйте запит на скасування."
 
-#: ../../source/esco/tutorial.rst:450
 msgid "Fill it with the protocol describing the cancellation reasons."
 msgstr "Наповніть його протоколом про причини скасування."
 
-#: ../../source/esco/tutorial.rst:451
 msgid "Cancel the tender with the prepared reasons."
 msgstr "Скасуйте закупівлю через подані причини."
 
-#: ../../source/esco/tutorial.rst:453
-msgid ""
-"Only the request that has been activated (3rd step above) has power to "
-"cancel tender.  I.e.  you have to not only prepare cancellation request "
-"but to activate it as well."
-msgstr ""
-"Запит на скасування, який не пройшов активації (3-й крок), не матиме "
-"сили, тобто, для скасування закупівлі буде обов’язковим не тільки "
-"створити заявку, але і активувати її."
+msgid "Only the request that has been activated (3rd step above) has power to cancel tender.  I.e.  you have to not only prepare cancellation request but to activate it as well."
+msgstr "Запит на скасування, який не пройшов активації (3-й крок), не матиме сили, тобто, для скасування закупівлі буде обов’язковим не тільки створити заявку, але і активувати її."
 
-#: ../../source/esco/tutorial.rst:457
 msgid "See :ref:`cancellation` data structure for details."
-msgstr ""
-"Дивіться структуру запиту :ref:`cancellation` для більш детальної "
-"інформації."
+msgstr "Дивіться структуру запиту :ref:`cancellation` для більш детальної інформації."
 
-#: ../../source/esco/tutorial.rst:460
 msgid "Preparing the cancellation request"
 msgstr "Формування запиту на скасування"
 
-#: ../../source/esco/tutorial.rst:462
-msgid "You should pass `reason`, `status` defaults to `pending`."
-msgstr "Ви повинні передати змінні `reason`, `status` у стані `pending`."
+#, fuzzy
+msgid "You should pass `reason` and `reasonType`, `status` defaults to `pending`."
+msgstr "Ви повинні передати змінні `reason` та `reasonType`, `status` у стані `pending`."
 
-#: ../../source/esco/tutorial.rst:464
+msgid "There are four possible types of cancellation reason - tender was `noDemand`, `unFixable`, `forceMajeure` and `expensesCut`."
+msgstr "При скасуванні, замовник має визначити один з чотирьох типів reasonType: `noDemand`, `unFixable`, `forceMajeure` aбо `expensesCut`."
+
 msgid "`id` is autogenerated and passed in the `Location` header of response."
-msgstr ""
-"`id` генерується автоматично і повертається у додатковому заголовку "
-"відповіді `Location`:"
+msgstr "`id` генерується автоматично і повертається у додатковому заголовку відповіді `Location`:"
 
-#: ../../source/esco/tutorial.rst:469
-msgid ""
-"There are two possible types of cancellation reason: tender was "
-"`cancelled` or `unsuccessful`. By default ``reasonType`` value is "
-"`cancelled`."
-msgstr ""
-"При скасуванні, замовник має визначити один з двох типів ``reasonType``: "
-"торги відмінені - `cancelled`, або торги не відбулися - `unsuccessful`. "
-"За замовчуванням, значення ``reasonType`` рівне `cancelled`."
+msgid "You can change ``reasonType`` value to any of the above."
+msgstr "Ви можете виправити тип на будь-який що вказаний вище."
 
-#: ../../source/esco/tutorial.rst:471
-msgid "You can change ``reasonType`` value to `unsuccessful`."
-msgstr "Ви можете виправити тип на `unsuccessful` (торги не відбулися)."
-
-#: ../../source/esco/tutorial.rst:477
 msgid "Filling cancellation with protocol and supplementary documentation"
 msgstr "Наповнення протоколом та іншою супровідною документацією"
 
-#: ../../source/esco/tutorial.rst:479
 msgid "Upload the file contents"
 msgstr "Завантажте вміст файлу"
 
-#: ../../source/esco/tutorial.rst:484
 msgid "Change the document description and other properties"
 msgstr "Змініть опис документа та інші властивості"
 
-#: ../../source/esco/tutorial.rst:490
 msgid "Upload new version of the document"
 msgstr "Завантажте нову версію документа"
 
-#: ../../source/esco/tutorial.rst:497
 msgid "Activating the request and cancelling tender"
 msgstr "Активація запиту та скасування закупівлі"
 
-#: ../../source/esco/tutorial.rst:502
 msgid "We can check if tender was actually cancelled."
 msgstr "Перевіримо чі дійсно тендер було скасовано"
 
-#: ../../source/esco/tutorial.rst:507
 msgid "Now  ``status`` value is `cancelled`."
 msgstr "Тепер ``status`` має значення `cancelled`."
+
+#~ msgid "There are two possible types of cancellation reason: tender was `cancelled` or `unsuccessful`. By default ``reasonType`` value is `cancelled`."
+#~ msgstr "При скасуванні, замовник має визначити один з двох типів ``reasonType``: торги відмінені - `cancelled`, або торги не відбулися - `unsuccessful`. За замовчуванням, значення ``reasonType`` рівне `cancelled`."
+

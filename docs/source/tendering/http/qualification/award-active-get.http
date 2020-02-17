@@ -8,8 +8,8 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "status": "active", 
     "complaintPeriod": {
-      "startDate": "2019-10-25T01:00:00+03:00", 
-      "endDate": "2019-10-29T01:00:00+03:00"
+      "startDate": "2020-05-01T01:00:00+03:00", 
+      "endDate": "2020-05-06T00:00:00+03:00"
     }, 
     "suppliers": [
       {
@@ -39,7 +39,7 @@ Content-Type: application/json; charset=UTF-8
       "amount": 469.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2019-10-25T01:00:00+03:00", 
+    "date": "2020-05-01T01:00:00+03:00", 
     "id": "d4bb74fe816c4fcdaeebdb1c1f1f1c1c"
   }
 }

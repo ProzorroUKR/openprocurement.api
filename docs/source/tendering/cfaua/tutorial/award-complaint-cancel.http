@@ -35,14 +35,14 @@ Content-Type: application/json; charset=UTF-8
         "postalCode": "21100", 
         "countryName": "Україна", 
         "streetAddress": "вул. Островського, 33", 
-        "region": "м. Вінниця", 
+        "region": "Вінницька область", 
         "locality": "м. Вінниця"
       }
     }, 
     "cancellationReason": "Умови виправлено", 
-    "dateCanceled": "2019-10-25T01:00:01+03:00", 
-    "complaintID": "UA-2019-10-25-000001.9", 
-    "date": "2019-10-25T01:00:01+03:00", 
+    "dateCanceled": "2020-05-01T01:00:01+03:00", 
+    "complaintID": "UA-2020-05-01-000001.9", 
+    "date": "2020-05-01T01:00:01+03:00", 
     "type": "claim", 
     "id": "b0a9f524658f4609973c9d842dcb252b"
   }

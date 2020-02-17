@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-10 13:47+0300\n"
+"POT-Creation-Date: 2020-02-17 11:45+0200\n"
 "PO-Revision-Date: 2018-08-17 15:05+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
@@ -12,155 +12,150 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
-#: ../../source/standard/cancellation.rst:8
 msgid "Cancellation"
 msgstr "Cancellation"
 
-#: ../../source/standard/cancellation.rst:11
 msgid "Schema"
 msgstr "Схема"
 
-#: ../../source/standard/cancellation.rst:0
 msgid "id"
 msgstr ""
 
-#: ../../source/standard/cancellation.rst:14
 msgid "uid, auto-generated"
 msgstr "uid, генерується автоматично"
 
-#: ../../source/standard/cancellation.rst:0
 msgid "reason"
 msgstr ""
 
-#: ../../source/standard/cancellation.rst:17
 msgid "string, multilingual, required"
 msgstr "рядок, багатомовний, обов’язковий"
 
-#: ../../source/standard/cancellation.rst:19
 msgid "The reason, why Tender is being cancelled."
 msgstr "Причина, з якої скасовується закупівля."
 
-#: ../../source/standard/cancellation.rst:0
 msgid "status"
 msgstr ""
 
-#: ../../source/standard/cancellation.rst:22
-#: ../../source/standard/cancellation.rst:53
-#: ../../source/standard/cancellation.rst:61
 msgid "string"
 msgstr "рядок"
 
-#: ../../source/standard/cancellation.rst:28
-#: ../../source/standard/cancellation.rst:44
 msgid "Possible values are:"
 msgstr "Можливі значення:"
 
-#: ../../source/standard/cancellation.rst:0
 msgid "`pending`"
 msgstr ""
 
-#: ../../source/standard/cancellation.rst:26
 msgid "Default. The request is being prepared."
 msgstr "За замовчуванням. Запит оформляється."
 
-#: ../../source/standard/cancellation.rst:0
 msgid "`active`"
 msgstr ""
 
-#: ../../source/standard/cancellation.rst:28
 msgid "Cancellation activated."
 msgstr "Скасування активоване."
 
-#: ../../source/standard/cancellation.rst:0
 msgid "documents"
 msgstr ""
 
-#: ../../source/standard/cancellation.rst:31
 msgid "List of :ref:`Document` objects"
 msgstr "Список об’єктів :ref:`Document`"
 
-#: ../../source/standard/cancellation.rst:33
-msgid ""
-"Documents accompanying the Cancellation: Protocol of Tender Committee "
-"with decision to cancel the Tender."
-msgstr ""
-"Супровідна документація скасування: Протокол рішення Тендерного комітету "
-"Замовника про скасування закупівлі."
+msgid "Documents accompanying the Cancellation: Protocol of Tender Committee with decision to cancel the Tender."
+msgstr "Супровідна документація скасування: Протокол рішення Тендерного комітету Замовника про скасування закупівлі."
 
-#: ../../source/standard/cancellation.rst:0
 msgid "date"
 msgstr ""
 
-#: ../../source/standard/cancellation.rst:37
 msgid "string, :ref:`date`"
 msgstr "рядок, :ref:`date`"
 
-#: ../../source/standard/cancellation.rst:39
 msgid "Cancellation date."
 msgstr "Дата скасування"
 
-#: ../../source/standard/cancellation.rst:0
 msgid "cancellationOf"
 msgstr ""
 
-#: ../../source/standard/cancellation.rst:42
 msgid "string, required, default `tender`"
 msgstr "string, обов’язковий, за замовчуванням `tender`"
 
-#: ../../source/standard/cancellation.rst:46
 msgid "`tender`"
 msgstr "`tender` - закупівля"
 
-#: ../../source/standard/cancellation.rst:47
 msgid "`lot`"
 msgstr "`lot` - лот"
 
-#: ../../source/standard/cancellation.rst:49
 msgid "Possible values in :ref:`limited`: * `tender`"
 msgstr "Можливі значення у :ref:`limited`: * `tender`"
 
-#: ../../source/standard/cancellation.rst:0
 msgid "relatedLot"
 msgstr ""
 
-#: ../../source/standard/cancellation.rst:55
 msgid "Id of related :ref:`lot`."
 msgstr "ID пов’язаного :ref:`lot`."
 
-#: ../../source/standard/cancellation.rst:58
 msgid "Additionally in :ref:`openeu`, :ref:`openua` and :ref:`esco`:"
 msgstr "Додатково у :ref:`openeu`, :ref:`openua` та :ref:`esco`:"
 
-#: ../../source/standard/cancellation.rst:0
 msgid "reasonType"
 msgstr ""
 
-#: ../../source/standard/cancellation.rst:63
-msgid ""
-"There are two possible types of cancellation reason set by procuring "
-"entity:"
+msgid "There are two possible types of cancellation reason set by procuring entity:"
 msgstr "Існує двi можливi причини скасування:"
 
-#: ../../source/standard/cancellation.rst:0
-msgid "`cancelled`"
+msgid "There are four possible types of cancellation reason for common types of procedures set by procuring entity:"
+msgstr "Існує чотири можливi причини скасування для більшості процедур:"
+
+msgid "`noDemand`"
 msgstr ""
 
-#: ../../source/standard/cancellation.rst:66
-msgid "Default. Tender was cancelled."
-msgstr "За замовчуванням. Тендер було скасовано."
+msgid "No need in procurement of goods, works and services."
+msgstr "Відсутність подальшої потреби в закупівлі товарів, робіт і послуг."
 
-#: ../../source/standard/cancellation.rst:0
-msgid "`unsuccessful`"
+msgid "`unFixable`"
 msgstr ""
 
-#: ../../source/standard/cancellation.rst:69
-msgid "Tender was unsuccessful."
-msgstr "Тендер був невдалим."
+msgid "Can not fix revealed violations of the law in the scope of public procurement."
+msgstr "Неможливість усунення виявлених порушень законодавства у сфері публічних закупівель."
 
-#: ../../source/standard/cancellation.rst:72
+msgid "`forceMajeure`"
+msgstr ""
+
+msgid "Can not do a procurement due to force majeure conditions."
+msgstr "Неможливість здійснення закупівлі унаслідок непереборної сили."
+
+msgid "`expensesCut`"
+msgstr ""
+
+msgid "Cut down the expenses of procurement of goods, works and services."
+msgstr "Скорочення видатків на здійснення закупівлі товарів, робіт і послуг."
+
+msgid "Possible types for `negotiation` and `negotiation.quick`:"
+msgstr "Можливі причини скасування для `negotiation` та `negotiation.quick`:"
+
+msgid "`noObjectiveness`"
+msgstr ""
+
+msgid "`dateViolation`"
+msgstr ""
+
+msgid "Possible types for `belowThreshold` and `aboveThresholdUA.defense`:"
+msgstr "Моживі причини скасування для `aboveThresholdUA.defense` та `aboveThresholdUA.defense`:"
+
 msgid "Cancellation workflow in :ref:`limited` and :ref:`openeu`"
 msgstr "Робочий процес у :ref:`limited` and :ref:`openeu`"
 
-#: ../../source/standard/cancellation.rst:82
 msgid "\\* marks initial state"
 msgstr "\\* позначає початковий стан"
+
+#~ msgid "`cancelled`"
+#~ msgstr ""
+
+#~ msgid "Default. Tender was cancelled."
+#~ msgstr "За замовчуванням. Тендер було скасовано."
+
+#~ msgid "`unsuccessful`"
+#~ msgstr ""
+
+#~ msgid "Tender was unsuccessful."
+#~ msgstr "Тендер був невдалим."
+

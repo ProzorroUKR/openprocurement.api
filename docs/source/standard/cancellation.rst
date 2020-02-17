@@ -62,11 +62,47 @@ Additionally in :ref:`openeu`, :ref:`openua` and :ref:`esco`:
 
     There are two possible types of cancellation reason set by procuring entity:
 
-     :`cancelled`:
-       Default. Tender was cancelled.
+     There are four possible types of cancellation reason for common types of procedures set by procuring entity:
 
-     :`unsuccessful`:
-       Tender was unsuccessful.
+     :`noDemand`:
+       No need in procurement of goods, works and services.
+
+     :`unFixable`:
+       Can not fix revealed violations of the law in the scope of public procurement.
+
+     :`forceMajeure`:
+       Can not do a procurement due to force majeure conditions.
+
+     :`expensesCut`:
+       Cut down the expenses of procurement of goods, works and services.
+
+    Possible types for `negotiation` and `negotiation.quick`:
+
+     :`noDemand`:
+       No need in procurement of goods, works and services.
+
+     :`unFixable`:
+       Can not fix revealed violations of the law in the scope of public procurement.
+
+     :`noObjectiveness`:
+       Can not do a procurement due to force majeure conditions.
+
+     :`expensesCut`:
+       Cut down the expenses of procurement of goods, works and services.
+
+     :`dateViolation`:
+       Cut down the expenses of procurement of goods, works and services.
+
+    Possible types for `belowThreshold` and `aboveThresholdUA.defense`:
+
+     :`noDemand`:
+       No need in procurement of goods, works and services.
+
+     :`unFixable`:
+       Can not fix revealed violations of the law in the scope of public procurement.
+
+     :`expensesCut`:
+       Cut down the expenses of procurement of goods, works and services.
 
 Cancellation workflow in :ref:`limited` and :ref:`openeu`
 ---------------------------------------------------------

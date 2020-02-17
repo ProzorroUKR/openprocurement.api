@@ -21,8 +21,8 @@ Content-Type: application/json; charset=UTF-8
     "title": "Недостатньо інформації", 
     "acceptance": true, 
     "cancellationReason": "Тендер скасовується замовником", 
-    "dateCanceled": "2019-10-25T01:00:01+03:00", 
-    "dateAccepted": "2019-10-25T01:00:01+03:00", 
+    "dateCanceled": "2020-05-01T01:00:01+03:00", 
+    "dateAccepted": "2020-05-01T01:00:01+03:00", 
     "author": {
       "contactPoint": {
         "email": "soleksuk@gmail.com", 
@@ -39,13 +39,13 @@ Content-Type: application/json; charset=UTF-8
         "postalCode": "21100", 
         "countryName": "Україна", 
         "streetAddress": "вул. Островського, 33", 
-        "region": "м. Вінниця", 
+        "region": "Вінницька область", 
         "locality": "м. Вінниця"
       }
     }, 
-    "dateSubmitted": "2019-10-25T01:00:01+03:00", 
-    "complaintID": "UA-2019-10-25-000001.4", 
-    "date": "2019-10-25T01:00:01+03:00", 
+    "dateSubmitted": "2020-05-01T01:00:01+03:00", 
+    "complaintID": "UA-2020-05-01-000001.4", 
+    "date": "2020-05-01T01:00:01+03:00", 
     "type": "complaint", 
     "id": "506428f86e674b2e9b78f91444543f3e"
   }

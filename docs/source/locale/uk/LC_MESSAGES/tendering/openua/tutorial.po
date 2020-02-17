@@ -3,491 +3,270 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openua 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-14 13:08+0300\n"
+"POT-Creation-Date: 2020-02-17 11:45+0200\n"
 "PO-Revision-Date: 2016-10-05 10:57+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
-"Language: uk\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.6.0\n"
+"Generated-By: Babel 1.3\n"
 
-#: ../../source/openua/tutorial.rst:4
 msgid "Tutorial"
 msgstr "Туторіал"
 
-#: ../../source/openua/tutorial.rst:7
 msgid "Exploring basic rules"
 msgstr "Базові правила"
 
-#: ../../source/openua/tutorial.rst:9
 msgid "Let's try exploring the `/tenders` endpoint:"
 msgstr "Подивимось як працює точка входу `/tenders`:"
 
-#: ../../source/openua/tutorial.rst:14
 msgid "Just invoking it reveals empty set."
 msgstr "При виклику видає пустий набір."
 
-#: ../../source/openua/tutorial.rst:16
 msgid "Now let's attempt creating some tender:"
 msgstr "Спробуймо створити нову закупівлю:"
 
-#: ../../source/openua/tutorial.rst:21
 msgid "Error states that the only accepted Content-Type is `application/json`."
 msgstr "Помилка вказує, що єдиний прийнятний тип вмісту це `application/json`."
 
-#: ../../source/openua/tutorial.rst:23
 msgid "Let's satisfy the Content-type requirement:"
 msgstr "Задовільнимо вимогу типу вмісту:"
 
-#: ../../source/openua/tutorial.rst:28
 msgid "Error states that no `data` has been found in JSON body."
 msgstr "Помилка вказує, що `data` не знайдено у тілі JSON."
 
-#: ../../source/openua/tutorial.rst:34
 msgid "Creating tender"
 msgstr "Створення закупівлі"
 
-#: ../../source/openua/tutorial.rst:36
 msgid "Let's provide the data attribute in the submitted body :"
 msgstr "Введемо data атрибут у поданому тілі:"
 
-#: ../../source/openua/tutorial.rst:41
-msgid ""
-"Success! Now we can see that new object was created. Response code is "
-"`201` and `Location` response header reports the location of the created "
-"object.  The body of response reveals the information about the created "
-"tender: its internal `id` (that matches the `Location` segment), its "
-"official `tenderID` and `dateModified` datestamp stating the moment in "
-"time when tender was last modified.  Note that tender is created with "
-"`active.tendering` status."
-msgstr ""
-"Успіх! Тепер ми бачимо, що новий об’єкт було створено. Код відповіді "
-"`201` та заголовок відповіді `Location` вказує місцерозташування "
-"створеного об’єкта. Тіло відповіді показує інформацію про створену "
-"закупівлю, її внутрішнє `id` (яке співпадає з сегментом `Location`), її "
-"офіційне `tenderID` та `dateModified` дату, що показує час, коли "
-"закупівля востаннє модифікувалась. Зверніть увагу, що закупівля "
-"створюється зі статусом `active.enquiries`."
+msgid "Success! Now we can see that new object was created. Response code is `201` and `Location` response header reports the location of the created object.  The body of response reveals the information about the created tender: its internal `id` (that matches the `Location` segment), its official `tenderID` and `dateModified` datestamp stating the moment in time when tender was last modified.  Note that tender is created with `active.tendering` status."
+msgstr "Успіх! Тепер ми бачимо, що новий об’єкт було створено. Код відповіді `201` та заголовок відповіді `Location` вказує місцерозташування створеного об’єкта. Тіло відповіді показує інформацію про створену закупівлю, її внутрішнє `id` (яке співпадає з сегментом `Location`), її офіційне `tenderID` та `dateModified` дату, що показує час, коли закупівля востаннє модифікувалась. Зверніть увагу, що закупівля створюється зі статусом `active.enquiries`."
 
-#: ../../source/openua/tutorial.rst:48
-msgid ""
-"The peculiarity of the Open UA procedure is that "
-"``procurementMethodType`` was changed from ``belowThreshold`` to "
-"``aboveThresholdUA``. Also there is no opportunity to set up "
-"``enquiryPeriod``, it will be assigned automatically."
-msgstr ""
-"Особливість відкритих торгів в тому, що ``procurementMethodType`` було "
-"змінено з ``belowThreshold`` на ``aboveThresholdUA``.  Також тут "
-"неможливо встановити ``enquiryPeriod``, бо він буде призначений "
-"автоматично."
+msgid "The peculiarity of the Open UA procedure is that ``procurementMethodType`` was changed from ``belowThreshold`` to ``aboveThresholdUA``. Also there is no opportunity to set up ``enquiryPeriod``, it will be assigned automatically."
+msgstr "Особливість відкритих торгів в тому, що ``procurementMethodType`` було змінено з ``belowThreshold`` на ``aboveThresholdUA``.  Також тут неможливо встановити ``enquiryPeriod``, бо він буде призначений автоматично."
 
-#: ../../source/openua/tutorial.rst:51
-msgid ""
-"Let's access the URL of the created object (the `Location` header of the "
-"response):"
+msgid "Let's access the URL of the created object (the `Location` header of the response):"
 msgstr "Використаємо URL створеного об’єкта (заголовок відповіді `Location`):"
 
-#: ../../source/openua/tutorial.rst:58
 msgid "We can see the same response we got after creating tender."
 msgstr "Ми бачимо ту ж відповідь, що і після створення закупівлі."
 
-#: ../../source/openua/tutorial.rst:60
 msgid "Let's see what listing of tenders reveals us:"
 msgstr "Подивимось, що показує список закупівель:"
 
-#: ../../source/openua/tutorial.rst:65
-msgid ""
-"We do see the internal `id` of a tender (that can be used to construct "
-"full URL by prepending `http://api-"
-"sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` "
-"datestamp."
-msgstr ""
-"Ми бачимо внутрішнє `id` закупівлі (що може бути використано для побудови"
-" повної URL-адреси, якщо додати `http://api-"
-"sandbox.openprocurement.org/api/0/tenders/`) та її `dateModified` дату."
+msgid "We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp."
+msgstr "Ми бачимо внутрішнє `id` закупівлі (що може бути використано для побудови повної URL-адреси, якщо додати `http://api-sandbox.openprocurement.org/api/0/tenders/`) та її `dateModified` дату."
 
-#: ../../source/openua/tutorial.rst:68
 msgid "Modifying tender"
 msgstr "Редагування закупівлі"
 
-#: ../../source/openua/tutorial.rst:70
-msgid ""
-"Let's update tender by supplementing it with all other essential "
-"properties:"
+msgid "Let's update tender by supplementing it with all other essential properties:"
 msgstr "Оновимо закупівлю шляхом надання їй усіх інших важливих властивостей:"
 
-#: ../../source/openua/tutorial.rst:77
-msgid ""
-"We see the added properies have merged with existing tender data. "
-"Additionally, the `dateModified` property was updated to reflect the last"
-" modification datestamp."
-msgstr ""
-"Ми бачимо, що додаткові властивості об’єднані з існуючими даними "
-"закупівлі. Додатково оновлена властивість `dateModified`, щоб відображати"
-" останню дату модифікації."
+msgid "We see the added properies have merged with existing tender data. Additionally, the `dateModified` property was updated to reflect the last modification datestamp."
+msgstr "Ми бачимо, що додаткові властивості об’єднані з існуючими даними закупівлі. Додатково оновлена властивість `dateModified`, щоб відображати останню дату модифікації."
 
-#: ../../source/openua/tutorial.rst:79
 msgid "Checking the listing again reflects the new modification date:"
 msgstr "Ще одна перевірка списку відображає нову дату модифікації:"
 
-#: ../../source/openua/tutorial.rst:85
-msgid ""
-"Procuring entity can not change tender if there are less than 7 days "
-"before tenderPeriod ends. Changes will not be accepted by API."
-msgstr ""
-"Замовник не може редагувати закупівлю, якщо залишилось менше 7 днів до "
-"завершення періоду подання пропозицій. API таких змін не прийме."
+msgid "Procuring entity can not change tender if there are less than 7 days before tenderPeriod ends. Changes will not be accepted by API."
+msgstr "Замовник не може редагувати закупівлю, якщо залишилось менше 7 днів до завершення періоду подання пропозицій. API таких змін не прийме."
 
-#: ../../source/openua/tutorial.rst:90
 msgid "That is why tenderPeriod has to be extended by 7 days."
 msgstr "Ось чому потрібно продовжити період подання пропозицій на 7 днів."
 
-#: ../../source/openua/tutorial.rst:95
 msgid "Procuring entity can set bid guarantee:"
 msgstr "Замовник може встановити забезпечення тендерної пропозиції:"
 
-#: ../../source/openua/tutorial.rst:104
 msgid "Uploading documentation"
 msgstr "Завантаження документів"
 
-#: ../../source/openua/tutorial.rst:106
-msgid ""
-"Procuring entity can upload PDF files into the created tender. Uploading "
-"should follow the :ref:`upload` rules."
-msgstr ""
-"Замовник може завантажити PDF файл у створену закупівлю. Завантаження "
-"повинно відбуватись згідно правил :ref:`upload`."
+msgid "Procuring entity can upload PDF files into the created tender. Uploading should follow the :ref:`upload` rules."
+msgstr "Замовник може завантажити PDF файл у створену закупівлю. Завантаження повинно відбуватись згідно правил :ref:`upload`."
 
-#: ../../source/openua/tutorial.rst:112
-msgid ""
-"`201 Created` response code and `Location` header confirm document "
-"creation. We can additionally query the `documents` collection API "
-"endpoint to confirm the action:"
-msgstr ""
-"Код відповіді `201 Created` та заголовок `Location` підтверджують, що "
-"документ було створено. Додатково можна зробити запит точки входу API "
-"колекції `документів`, щоб підтвердити дію:"
+msgid "`201 Created` response code and `Location` header confirm document creation. We can additionally query the `documents` collection API endpoint to confirm the action:"
+msgstr "Код відповіді `201 Created` та заголовок `Location` підтверджують, що документ було створено. Додатково можна зробити запит точки входу API колекції `документів`, щоб підтвердити дію:"
 
-#: ../../source/openua/tutorial.rst:119
-msgid ""
-"The single array element describes the uploaded document. We can upload "
-"more documents:"
-msgstr ""
-"Один елемент масиву описує завантажений документ. Ми можемо завантажити "
-"більше документів:"
+msgid "The single array element describes the uploaded document. We can upload more documents:"
+msgstr "Один елемент масиву описує завантажений документ. Ми можемо завантажити більше документів:"
 
-#: ../../source/openua/tutorial.rst:124
 msgid "And again we can confirm that there are two documents uploaded."
 msgstr "І знову можна перевірити, що є два завантажених документа."
 
-#: ../../source/openua/tutorial.rst:129
-msgid ""
-"In case we made an error, we can reupload the document over the older "
-"version:"
-msgstr ""
-"Якщо сталась помилка, ми можемо ще раз завантажити документ поверх старої"
-" версії:"
+msgid "In case we made an error, we can reupload the document over the older version:"
+msgstr "Якщо сталась помилка, ми можемо ще раз завантажити документ поверх старої версії:"
 
-#: ../../source/openua/tutorial.rst:134
 msgid "And we can see that it is overriding the original version:"
 msgstr "І ми бачимо, що вона перекриває оригінальну версію:"
 
-#: ../../source/openua/tutorial.rst:143
 msgid "Enquiries"
 msgstr "Уточнення і запитання"
 
-#: ../../source/openua/tutorial.rst:145
-msgid ""
-"When tender has ``active.tendering`` status and "
-"``Tender.enqueryPeriod.endDate``  hasn't come yet, interested parties can"
-" ask questions:"
-msgstr ""
-"Якщо закупівля має статус ``active.tendering`` та дата завершення періоду"
-" подання пропозицій ``Tender.enqueryPeriod.endDate`` ще не прийшла , то "
-"зацікавлені учасники можуть задавати питання чи просити уточнень умов "
-"закупівлі:"
+msgid "When tender has ``active.tendering`` status and ``Tender.enqueryPeriod.endDate``  hasn't come yet, interested parties can ask questions:"
+msgstr "Якщо закупівля має статус ``active.tendering`` та дата завершення періоду подання пропозицій ``Tender.enqueryPeriod.endDate`` ще не прийшла , то зацікавлені учасники можуть задавати питання чи просити уточнень умов закупівлі:"
 
-#: ../../source/openua/tutorial.rst:150
 msgid "Procuring entity can answer them:"
 msgstr "Замовник може відповісти на них:"
 
-#: ../../source/openua/tutorial.rst:155
 msgid "One can retrieve either questions list:"
 msgstr "Можна отримати список запитань:"
 
-#: ../../source/openua/tutorial.rst:160
 msgid "or individual answer:"
 msgstr "або окрему відповідь:"
 
-#: ../../source/openua/tutorial.rst:166
 msgid "Enquiries can be made only during ``Tender.enqueryPeriod``"
-msgstr ""
-"Запитання можна задавати лише протягом періоду уточнень "
-"``Tender.enqueryPeriod``."
+msgstr "Запитання можна задавати лише протягом періоду уточнень ``Tender.enqueryPeriod``."
 
-#: ../../source/openua/tutorial.rst:175
 msgid "Registering bid"
 msgstr "Реєстрація пропозиції"
 
-#: ../../source/openua/tutorial.rst:177
 msgid "Tender status ``active.tendering`` allows registration of bids."
 msgstr "Статус закупівлі ``active.tendering`` дозволяє подання пропозицій."
 
-#: ../../source/openua/tutorial.rst:179
 msgid "Bidder can register a bid with ``draft`` status:"
 msgstr "Учасник може зареєструвати пропозицію зі статусом ``draft`` (чернетка):"
 
-#: ../../source/openua/tutorial.rst:184
 msgid "And activate a bid:"
 msgstr "Та активувати пропозицію:"
 
-#: ../../source/openua/tutorial.rst:190
 msgid "Proposal Uploading"
 msgstr "Завантаження пропозиції"
 
-#: ../../source/openua/tutorial.rst:192
 msgid "Then bidder should upload proposal document(s):"
 msgstr "Потім учасник повинен завантажити документ(и) пропозиції:"
 
-#: ../../source/openua/tutorial.rst:197
 msgid "It is possible to check the uploaded documents:"
 msgstr "Можна перевірити завантажені документи:"
 
-#: ../../source/openua/tutorial.rst:203
 msgid "Bid invalidation"
 msgstr "Пропозиція стає недійсною"
 
-#: ../../source/openua/tutorial.rst:205
-msgid ""
-"If tender is modified, status of all bid proposals will be changed to "
-"``invalid``. Bid proposal will look the following way after tender has "
-"been modified:"
-msgstr ""
-"Якщо закупівля була модифікована, статус всіх пропозицій змінюється на "
-"``invalid`` (недійсний). Ось так пропозиція буде виглядати після "
-"редагування закупівлі:"
+msgid "If tender is modified, status of all bid proposals will be changed to ``invalid``. Bid proposal will look the following way after tender has been modified:"
+msgstr "Якщо закупівля була модифікована, статус всіх пропозицій змінюється на ``invalid`` (недійсний). Ось так пропозиція буде виглядати після редагування закупівлі:"
 
-#: ../../source/openua/tutorial.rst:211
 msgid "Bid confirmation"
 msgstr "Підтвердження пропозиції"
 
-#: ../../source/openua/tutorial.rst:213
 msgid "Bidder should confirm bid proposal:"
 msgstr "Учасник повинен підтвердити свою пропозицію:"
 
-#: ../../source/openua/tutorial.rst:218
-msgid ""
-"Open UA procedure demands at least two bidders, so there should be at "
-"least two bid proposals registered to move to auction stage:"
-msgstr ""
-"Для того, щоб процедура відкритих торгів відбулась, необхідно хоча б два "
-"учасника, тобто хоча б дві пропозиції повинні бути зареєстровані до "
-"початку аукціону:"
+msgid "Open UA procedure demands at least two bidders, so there should be at least two bid proposals registered to move to auction stage:"
+msgstr "Для того, щоб процедура відкритих торгів відбулась, необхідно хоча б два учасника, тобто хоча б дві пропозиції повинні бути зареєстровані до початку аукціону:"
 
-#: ../../source/openua/tutorial.rst:227
 msgid "Auction"
 msgstr "Аукціон"
 
-#: ../../source/openua/tutorial.rst:229
-msgid ""
-"After auction is scheduled anybody can visit it to watch. The auction can"
-" be reached at `Tender.auctionUrl`:"
-msgstr ""
-"Після того, як аукціон заплановано, будь-хто може його відвідати для "
-"перегляду. Аукціон можна подивитись за допомогою `Tender.auctionUrl`:"
+msgid "After auction is scheduled anybody can visit it to watch. The auction can be reached at `Tender.auctionUrl`:"
+msgstr "Після того, як аукціон заплановано, будь-хто може його відвідати для перегляду. Аукціон можна подивитись за допомогою `Tender.auctionUrl`:"
 
-#: ../../source/openua/tutorial.rst:234
 msgid "Bidders can find out their participation URLs via their bids:"
-msgstr ""
-"Учасники можуть дізнатись свої URL-адреси для участі через свої "
-"пропозиції:"
+msgstr "Учасники можуть дізнатись свої URL-адреси для участі через свої пропозиції:"
 
-#: ../../source/openua/tutorial.rst:239
-msgid ""
-"See the `Bid.participationUrl` in the response. Similar, but different, "
-"URL can be retrieved for other participants:"
-msgstr ""
-"Дивіться на `Bid.participationUrl` у відповіді. Схожу, але іншу, "
-"URL-адресу можна отримати для інших учасників."
+msgid "See the `Bid.participationUrl` in the response. Similar, but different, URL can be retrieved for other participants:"
+msgstr "Дивіться на `Bid.participationUrl` у відповіді. Схожу, але іншу, URL-адресу можна отримати для інших учасників."
 
-#: ../../source/openua/tutorial.rst:245
 msgid "Confirming qualification"
 msgstr "Підтвердження кваліфікації"
 
-#: ../../source/openua/tutorial.rst:247
 msgid "Qualification commission registers its decision via the following call:"
 msgstr "Кваліфікаційна комісія реєструє своє рішення:"
 
-#: ../../source/openua/tutorial.rst:253
 msgid "Setting contract value"
 msgstr "Встановлення вартості угоди"
 
-#: ../../source/openua/tutorial.rst:255
-msgid ""
-"By default contract value is set based on the award, but there is a "
-"possibility to set custom contract value."
-msgstr ""
-"За замовчуванням вартість угоди встановлюється на основі рішення про "
-"визначення переможця, але є можливість змінити це значення. "
+msgid "By default contract value is set based on the award, but there is a possibility to set custom contract value."
+msgstr "За замовчуванням вартість угоди встановлюється на основі рішення про визначення переможця, але є можливість змінити це значення. "
 
-#: ../../source/openua/tutorial.rst:257
-msgid ""
-"If you want to **lower contract value**, you can insert new one into the "
-"`amount` field."
-msgstr ""
-"Якщо ви хочете **знизити вартість угоди**, ви можете встановити нове "
-"значення для поля `amount`."
+msgid "If you want to **lower contract value**, you can insert new one into the `amount` field."
+msgstr "Якщо ви хочете **знизити вартість угоди**, ви можете встановити нове значення для поля `amount`."
 
-#: ../../source/openua/tutorial.rst:262
 msgid "`200 OK` response was returned. The value was modified successfully."
 msgstr "Було повернуто код відповіді `200 OK`. Значення змінено успішно."
 
-#: ../../source/openua/tutorial.rst:265
 msgid "Setting contract signature date"
 msgstr "Встановлення дати підписання угоди"
 
-#: ../../source/openua/tutorial.rst:267
-msgid ""
-"There is a possibility to set custom contract signature date. You can "
-"insert appropriate date into the `dateSigned` field."
-msgstr ""
-"Є можливість встановити дату підписання угоди. Для цього вставте "
-"відповідну дату в поле `dateSigned`."
+msgid "There is a possibility to set custom contract signature date. You can insert appropriate date into the `dateSigned` field."
+msgstr "Є можливість встановити дату підписання угоди. Для цього вставте відповідну дату в поле `dateSigned`."
 
-#: ../../source/openua/tutorial.rst:269
-msgid ""
-"If this date is not set, it will be auto-generated on the date of "
-"contract registration."
-msgstr ""
-"Якщо ви не встановите дату підписання, то вона буде згенерована "
-"автоматично під час реєстрації угоди."
+msgid "If this date is not set, it will be auto-generated on the date of contract registration."
+msgstr "Якщо ви не встановите дату підписання, то вона буде згенерована автоматично під час реєстрації угоди."
 
-#: ../../source/openua/tutorial.rst:275
 msgid "Setting contract validity period"
 msgstr "Встановлення терміну дії угоди"
 
-#: ../../source/openua/tutorial.rst:277
-msgid ""
-"Setting contract validity period is optional, but if it is needed, you "
-"can set appropriate `startDate` and `endDate`."
-msgstr ""
-"Встановлення терміну дії угоди необов’язкове, але, якщо є необхідність, "
-"ви можете встановити відповідну дату початку `startDate` та кінця "
-"`endDate` терміну дії."
+msgid "Setting contract validity period is optional, but if it is needed, you can set appropriate `startDate` and `endDate`."
+msgstr "Встановлення терміну дії угоди необов’язкове, але, якщо є необхідність, ви можете встановити відповідну дату початку `startDate` та кінця `endDate` терміну дії."
 
-#: ../../source/openua/tutorial.rst:283
 msgid "Uploading contract documentation"
 msgstr "Завантаження документації по угоді"
 
-#: ../../source/openua/tutorial.rst:285
 msgid "You can upload contract documents for the OpenUA procedure."
 msgstr "Ви можете завантажити документи угоди для процедури відкритих торгів."
 
-#: ../../source/openua/tutorial.rst:287
 msgid "Let's upload contract document:"
 msgstr "Завантажимо документ угоди:"
 
-#: ../../source/openua/tutorial.rst:292
-msgid ""
-"`201 Created` response code and `Location` header confirm that this "
-"document was added."
-msgstr ""
-"Код відповіді `201 Created` та заголовок `Location` підтверджують, що "
-"документ було додано."
+msgid "`201 Created` response code and `Location` header confirm that this document was added."
+msgstr "Код відповіді `201 Created` та заголовок `Location` підтверджують, що документ було додано."
 
-#: ../../source/openua/tutorial.rst:294
 msgid "Let's view the uploaded contract document:"
 msgstr "Подивимось на список документів пов’язаних з угодою:"
 
-#: ../../source/openua/tutorial.rst:300
 msgid "Cancelling tender"
 msgstr "Скасування закупівлі"
 
-#: ../../source/openua/tutorial.rst:302
-msgid ""
-"Tender creator can cancel tender anytime. The following steps should be "
-"applied:"
-msgstr ""
-"Той, хто створив закупівлю, може скасувати її у будь-який момент. Для "
-"цього виконайте наступні кроки:"
+msgid "Tender creator can cancel tender anytime. The following steps should be applied:"
+msgstr "Той, хто створив закупівлю, може скасувати її у будь-який момент. Для цього виконайте наступні кроки:"
 
-#: ../../source/openua/tutorial.rst:304
 msgid "Prepare cancellation request."
 msgstr "Приготуйте запит на скасування."
 
-#: ../../source/openua/tutorial.rst:305
 msgid "Fill it with the protocol describing the cancellation reasons."
 msgstr "Наповніть його протоколом про причини скасування."
 
-#: ../../source/openua/tutorial.rst:306
 msgid "Cancel the tender with the prepared reasons."
 msgstr "Скасуйте закупівлю через подані причини."
 
-#: ../../source/openua/tutorial.rst:308
-msgid ""
-"Only the request that has been activated (3rd step above) has power to "
-"cancel tender.  I.e.  you have to not only prepare cancellation request "
-"but to activate it as well."
-msgstr ""
-"Запит на скасування, який не пройшов активації (3-й крок), не матиме "
-"сили, тобто, для скасування закупівлі буде обов’язковим не тільки "
-"створити заявку, але і активувати її."
+msgid "Only the request that has been activated (3rd step above) has power to cancel tender.  I.e.  you have to not only prepare cancellation request but to activate it as well."
+msgstr "Запит на скасування, який не пройшов активації (3-й крок), не матиме сили, тобто, для скасування закупівлі буде обов’язковим не тільки створити заявку, але і активувати її."
 
-#: ../../source/openua/tutorial.rst:312
 msgid "See :ref:`cancellation` data structure for details."
-msgstr ""
-"Дивіться структуру запиту :ref:`cancellation` для більш детальної "
-"інформації."
+msgstr "Дивіться структуру запиту :ref:`cancellation` для більш детальної інформації."
 
-#: ../../source/openua/tutorial.rst:315
 msgid "Preparing the cancellation request"
 msgstr "Формування запиту на скасування"
 
-#: ../../source/openua/tutorial.rst:317
-msgid "You should pass `reason`, `status` defaults to `pending`."
-msgstr "Ви повинні передати змінні `reason`, `status` у стані `pending`."
+msgid "You should pass `reason` and `reasonType`, `status` defaults to `pending`."
+msgstr "Ви повинні передати змінні `reason` та `reasonType`, `status` у стані `pending`."
 
-#: ../../source/openua/tutorial.rst:319
+msgid "There are four possible types of cancellation reason - tender was `noDemand`, `unFixable`, `forceMajeure` and `expensesCut`."
+msgstr "При скасуванні, замовник має визначити один з чотирьох типів reasonType: `noDemand`, `unFixable`, `forceMajeure` aбо `expensesCut`."
+
 msgid "`id` is autogenerated and passed in the `Location` header of response."
-msgstr ""
-"`id` генерується автоматично і повертається у додатковому заголовку "
-"відповіді `Location`:"
+msgstr "`id` генерується автоматично і повертається у додатковому заголовку відповіді `Location`:"
 
-#: ../../source/openua/tutorial.rst:324
-msgid ""
-"There are two possible types of cancellation reason - tender was "
-"`cancelled` or `unsuccessful`. By default ``reasonType`` value is "
-"`cancelled`."
-msgstr ""
-"При скасуванні, замовник має визначити один з двох типів ``reasonType``: "
-"торги відмінені - `cancelled`, або торги не відбулися - `unsuccessful`. "
-"За замовчуванням, значення ``reasonType`` рівне `cancelled`."
+msgid "You can change ``reasonType`` value to any of the above."
+msgstr "Ви можете виправити тип на будь-який що вказаний вище."
 
-#: ../../source/openua/tutorial.rst:326
-msgid "You can change ``reasonType`` value to `unsuccessful`."
-msgstr "Ви можете виправити тип на `unsuccessful` (торги не відбулися)."
-
-#: ../../source/openua/tutorial.rst:332
 msgid "Filling cancellation with protocol and supplementary documentation"
 msgstr "Наповнення протоколом та іншою супровідною документацією"
 
-#: ../../source/openua/tutorial.rst:334
 msgid "Upload the file contents"
 msgstr "Завантажити вміст файлу"
 
-#: ../../source/openua/tutorial.rst:339
 msgid "Change the document description and other properties"
 msgstr "Зміна опису документа та інших властивостей"
 
-#: ../../source/openua/tutorial.rst:345
 msgid "Upload new version of the document"
 msgstr "Завантажити нову версію документа"
 
-#: ../../source/openua/tutorial.rst:352
 msgid "Activating the request and cancelling tender"
 msgstr "Активація запиту та скасування закупівлі"
+
+#~ msgid "There are two possible types of cancellation reason - tender was `cancelled` or `unsuccessful`. By default ``reasonType`` value is `cancelled`."
+#~ msgstr "При скасуванні, замовник має визначити один з двох типів ``reasonType``: торги відмінені - `cancelled`, або торги не відбулися - `unsuccessful`. За замовчуванням, значення ``reasonType`` рівне `cancelled`."
 

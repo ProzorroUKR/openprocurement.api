@@ -243,7 +243,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.post_json(
                 '/tenders/{}/cancellations?acc_token={}'.format(
                     self.tender_id, owner_token),
-                {'data': {'reason': 'cancellation reason'}})
+                {'data': {'reason': 'cancellation reason', 'reasonType': 'noDemand'}})
             self.assertEqual(response.status, '201 Created')
 
         cancellation_id = response.json['data']['id']
@@ -252,7 +252,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.patch_json(
                 '/tenders/{}/cancellations/{}?acc_token={}'.format(
                     self.tender_id, cancellation_id, owner_token),
-                {'data': {'reasonType': 'unsuccessful'}})
+                {'data': {'reasonType': 'unFixable'}})
             self.assertEqual(response.status, '200 OK')
 
         #### Filling cancellation with protocol and supplementary documentation
@@ -330,6 +330,22 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
         response = self.app.get('/tenders/{}/contracts?acc_token={}'.format(
             self.tender_id, owner_token))
         self.contract_id = response.json['data'][0]['id']
+
+        with open(TARGET_DIR + 'tutorial/negotiation-prepare-cancellation.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/cancellations?acc_token={}'.format(
+                    self.tender_id, owner_token),
+                {'data': {'reason': 'cancellation reason', 'reasonType': 'noDemand'}})
+            self.assertEqual(response.status, '201 Created')
+
+        cancellation_id = response.json['data']['id']
+
+        with open(TARGET_DIR + 'tutorial/negotiation-update-cancellation-reasonType.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/cancellations/{}?acc_token={}'.format(
+                    self.tender_id, cancellation_id, owner_token),
+                {'data': {'reasonType': 'dateViolation'}})
+            self.assertEqual(response.status, '200 OK')
 
         #### Contract signing
 

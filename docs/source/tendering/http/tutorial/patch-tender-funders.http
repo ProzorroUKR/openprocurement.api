@@ -1,6 +1,6 @@
 PATCH /api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680?acc_token=e6bb69a4c5474e4987130585951b6f3e HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 908
+Content-Length: 1036
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -23,7 +23,7 @@ DATA:
         }, 
         "name": "Глобальний фонд", 
         "address": {
-          "countryName": "Switzerland", 
+          "countryName": "Швейцарська Конфедерація", 
           "postalCode": "1218", 
           "region": "Grand-Saconnex", 
           "streetAddress": "Global Health Campus, Chemin du Pommier 40", 
@@ -55,7 +55,7 @@ Content-Type: application/json; charset=UTF-8
         "name": "Глобальний фонд", 
         "address": {
           "postalCode": "1218", 
-          "countryName": "Switzerland", 
+          "countryName": "Швейцарська Конфедерація", 
           "streetAddress": "Global Health Campus, Chemin du Pommier 40", 
           "region": "Grand-Saconnex", 
           "locality": "Geneva"
@@ -91,8 +91,8 @@ Content-Type: application/json; charset=UTF-8
     ], 
     "mainProcurementCategory": "goods", 
     "tenderPeriod": {
-      "startDate": "2019-11-01T01:00:00+03:00", 
-      "endDate": "2019-11-09T01:00:11+03:00"
+      "startDate": "2020-05-08T01:00:00+03:00", 
+      "endDate": "2020-05-16T01:00:11+03:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -123,8 +123,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2019-10-27T01:00:00+03:00", 
-          "endDate": "2019-10-30T01:00:00+03:00"
+          "startDate": "2020-05-03T01:00:00+03:00", 
+          "endDate": "2020-05-06T01:00:00+03:00"
         }, 
         "id": "22efe85457d041aab3bc5a64aae6be0f", 
         "unit": {
@@ -141,8 +141,8 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "date": "2019-10-25T01:00:00+03:00", 
-    "dateModified": "2019-10-25T01:00:01+03:00", 
+    "date": "2020-05-01T01:00:00+03:00", 
+    "dateModified": "2020-05-01T01:00:01+03:00", 
     "status": "active.enquiries", 
     "procuringEntity": {
       "contactPoint": {
@@ -166,13 +166,13 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "awardCriteria": "lowestCost", 
     "enquiryPeriod": {
-      "startDate": "2019-10-25T01:00:00+03:00", 
-      "endDate": "2019-11-01T01:00:00+03:00"
+      "startDate": "2020-05-01T01:00:00+03:00", 
+      "endDate": "2020-05-08T01:00:00+03:00"
     }, 
     "owner": "broker", 
-    "next_check": "2019-11-01T00:00:00+02:00", 
+    "next_check": "2020-05-08T01:00:00+03:00", 
     "id": "bc3a9016b29d4fed894cc62d3ff59680", 
-    "tenderID": "UA-2019-10-25-000001"
+    "tenderID": "UA-2020-05-01-000001"
   }
 }
 

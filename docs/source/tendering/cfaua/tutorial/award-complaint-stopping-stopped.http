@@ -17,7 +17,7 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "relatedLot": "0da753f5904c4a159f596f5f86fd0fb7", 
     "status": "stopped", 
-    "dateDecision": "2019-10-25T01:00:01+03:00", 
+    "dateDecision": "2020-05-01T01:00:01+03:00", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "author": {
       "contactPoint": {
@@ -35,18 +35,18 @@ Content-Type: application/json; charset=UTF-8
         "postalCode": "21100", 
         "countryName": "Україна", 
         "streetAddress": "вул. Островського, 33", 
-        "region": "м. Вінниця", 
+        "region": "Вінницька область", 
         "locality": "м. Вінниця"
       }
     }, 
     "decision": "Тендер скасовується замовником", 
     "acceptance": true, 
     "cancellationReason": "Тендер скасовується замовником", 
-    "dateCanceled": "2019-10-25T01:00:01+03:00", 
-    "dateAccepted": "2019-10-25T01:00:01+03:00", 
-    "dateSubmitted": "2019-10-25T01:00:01+03:00", 
-    "complaintID": "UA-2019-10-25-000001.4", 
-    "date": "2019-10-25T01:00:01+03:00", 
+    "dateCanceled": "2020-05-01T01:00:01+03:00", 
+    "dateAccepted": "2020-05-01T01:00:01+03:00", 
+    "dateSubmitted": "2020-05-01T01:00:01+03:00", 
+    "complaintID": "UA-2020-05-01-000001.4", 
+    "date": "2020-05-01T01:00:01+03:00", 
     "title": "Недостатньо інформації", 
     "type": "complaint", 
     "id": "058198e63c36477496374b440d7789f7"

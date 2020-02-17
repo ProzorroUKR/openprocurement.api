@@ -17,8 +17,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/94170d1f620a487e
   "data": {
     "status": "cancelled", 
     "complaintPeriod": {
-      "startDate": "2019-10-25T01:00:00+03:00", 
-      "endDate": "2019-10-25T01:00:00+03:00"
+      "startDate": "2020-05-01T01:00:00+03:00", 
+      "endDate": "2020-05-01T01:00:00+03:00"
     }, 
     "suppliers": [
       {
@@ -48,7 +48,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/94170d1f620a487e
       "amount": 469.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2019-10-25T01:00:00+03:00", 
+    "date": "2020-05-01T01:00:00+03:00", 
     "id": "d4bb74fe816c4fcdaeebdb1c1f1f1c1c"
   }
 }

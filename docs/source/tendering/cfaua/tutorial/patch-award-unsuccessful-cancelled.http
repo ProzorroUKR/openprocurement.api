@@ -17,7 +17,7 @@ Content-Type: application/json; charset=UTF-8
     "status": "cancelled", 
     "lotID": "c7555f1bb878434d8815dea318304673", 
     "complaintPeriod": {
-      "startDate": "2019-10-25T01:00:00+03:00"
+      "startDate": "2020-05-01T01:00:00+03:00"
     }, 
     "suppliers": [
       {
@@ -37,7 +37,7 @@ Content-Type: application/json; charset=UTF-8
           "postalCode": "79013", 
           "countryName": "Україна", 
           "streetAddress": "вул. Островського, 35", 
-          "region": "м. Львів", 
+          "region": "Львівська область", 
           "locality": "м. Львів"
         }
       }
@@ -48,7 +48,7 @@ Content-Type: application/json; charset=UTF-8
       "amount": 5, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2019-10-25T01:00:00+03:00", 
+    "date": "2020-05-01T01:00:00+03:00", 
     "id": "14c062694ea24c04adc72122494bbf9d"
   }
 }

@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/3dc3a680d9564656a49e22ae78aef1e9/qualifications/bf17b04f7def40c9bc888a0ed6a6920a/complaints?acc_token=931fc1aa262543ccb6c83a5a4044aaa5 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1298
+Content-Length: 1345
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -23,7 +23,7 @@ DATA:
       "address": {
         "countryName": "Україна", 
         "postalCode": "21100", 
-        "region": "м. Вінниця", 
+        "region": "Вінницька область", 
         "streetAddress": "вул. Островського, 33", 
         "locality": "м. Вінниця"
       }
@@ -44,8 +44,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3dc3a680d9564656
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "title": "Недостатньо інформації", 
     "bid_id": "07ef7940cbfc44f084f456feb07ee37b", 
-    "complaintID": "UA-2019-10-25-000001.1", 
-    "date": "2019-10-25T01:00:01+03:00", 
+    "complaintID": "UA-2020-05-01-000001.1", 
+    "date": "2020-05-01T01:00:01+03:00", 
     "type": "claim", 
     "id": "529f778689d34c97a404c229ce734912"
   }

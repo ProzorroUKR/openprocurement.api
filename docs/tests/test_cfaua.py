@@ -722,7 +722,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'prepare-cancellation.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, owner_token),
-                {'data': {'reason': 'cancellation reason'}})
+                {'data': {'reason': 'cancellation reason', 'reasonType': 'noDemand'}})
             self.assertEqual(response.status, '201 Created')
 
         cancellation_id = response.json['data']['id']
@@ -731,7 +731,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.patch_json(
                 '/tenders/{}/cancellations/{}?acc_token={}'.format(
                     self.tender_id, cancellation_id, owner_token),
-                {"data": {'reasonType': 'unsuccessful'}})
+                {"data": {'reasonType': 'unFixable'}})
             self.assertEqual(response.status, '200 OK')
 
         # Filling cancellation with protocol and supplementary documentation
@@ -797,6 +797,10 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         test_tender_data['lots'] = [lot]
         for item in test_tender_data['items']:
             item['relatedLot'] = lot['id']
+
+        test_tender_data.update({
+            "tenderPeriod": {"endDate": (get_now() + timedelta(days=31)).isoformat()}
+        })
 
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
@@ -1049,6 +1053,9 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         for item in test_tender_data['items']:
             item['relatedLot'] = lot['id']
 
+        test_tender_data.update({
+            "tenderPeriod": {"endDate": (get_now() + timedelta(days=31)).isoformat()}
+        })
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
             {'data': test_tender_data})
@@ -1397,6 +1404,9 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         for item in test_tender_data['items']:
             item['relatedLot'] = lot['id']
 
+        test_tender_data.update({
+            "tenderPeriod": {"endDate": (get_now() + timedelta(days=31)).isoformat()}
+        })
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
             {'data': test_tender_data})

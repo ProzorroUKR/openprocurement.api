@@ -22,9 +22,9 @@ Content-Type: application/json; charset=UTF-8
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/127bd59fdd464def8d1189b954eefcbb/bids/0fa7c814dd0e42e3b1f8b4f2623ab07d/documents/5ef15c2a462344429ef05b5446d7e47d?download=43422c87d39d4f4495d7b41f9e56155a", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2019-10-25T01:00:01+03:00", 
+        "datePublished": "2020-05-01T01:00:01+03:00", 
         "id": "5ef15c2a462344429ef05b5446d7e47d", 
-        "dateModified": "2019-10-25T01:00:01+03:00"
+        "dateModified": "2020-05-01T01:00:01+03:00"
       }
     ], 
     "selfEligible": true, 
@@ -53,12 +53,12 @@ Content-Type: application/json; charset=UTF-8
           "postalCode": "21100", 
           "countryName": "Україна", 
           "streetAddress": "вул. Островського, 33", 
-          "region": "м. Вінниця", 
+          "region": "Вінницька область", 
           "locality": "м. Вінниця"
         }
       }
     ], 
-    "date": "2019-10-25T01:00:01+03:00", 
+    "date": "2020-05-01T01:00:01+03:00", 
     "selfQualified": true
   }
 }

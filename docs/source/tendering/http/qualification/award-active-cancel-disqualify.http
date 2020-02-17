@@ -24,14 +24,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/94170d1f620a487e
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/202da44fbd4a476ab11b90bd9ced7836?KeyID=a8968c46&Signature=rehA9N6KolRKnxG5ygjtgzct88rEE5YUxJJ7HaBbKiGVgFdmfyPPUMqb%2Fi43kxXqgQYOtAsGveBR1aBura4kBw%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "datePublished": "2020-05-01T01:00:00+03:00", 
         "id": "4344cd13743b4c93bf4c5750a99b40e2", 
-        "dateModified": "2019-10-25T01:00:00+03:00"
+        "dateModified": "2020-05-01T01:00:00+03:00"
       }
     ], 
     "complaintPeriod": {
-      "startDate": "2019-10-25T01:00:00+03:00", 
-      "endDate": "2019-10-29T01:00:00+03:00"
+      "startDate": "2020-05-01T01:00:00+03:00", 
+      "endDate": "2020-05-06T00:00:00+03:00"
     }, 
     "suppliers": [
       {
@@ -61,7 +61,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/94170d1f620a487e
       "amount": 469.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2019-10-25T01:00:00+03:00", 
+    "date": "2020-05-01T01:00:00+03:00", 
     "id": "c155ff07d1a54734b7e9c5d63567f47b"
   }
 }

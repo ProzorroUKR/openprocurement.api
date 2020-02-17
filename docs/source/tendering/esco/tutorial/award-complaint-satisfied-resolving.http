@@ -35,26 +35,26 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e234fb168a9a4eae
           "postalCode": "21100", 
           "countryName": "Україна", 
           "streetAddress": "вул. Островського, 33", 
-          "region": "м. Вінниця", 
+          "region": "Вінницька область", 
           "locality": "м. Вінниця"
         }
       }
     ], 
     "complaintPeriod": {
-      "startDate": "2019-10-25T01:00:01+03:00", 
-      "endDate": "2019-10-25T01:00:03+03:00"
+      "startDate": "2020-05-01T01:00:01+03:00", 
+      "endDate": "2020-05-01T01:00:03+03:00"
     }, 
     "bid_id": "ca7a2285113446d3b0ecd538de6da016", 
     "value": {
       "yearlyPaymentsPercentage": 0.9, 
       "valueAddedTaxIncluded": true, 
       "currency": "UAH", 
-      "amount": 9467.26, 
+      "amount": 9030.82, 
       "contractDuration": {
         "days": 74, 
         "years": 10
       }, 
-      "amountPerformance": 869.28, 
+      "amountPerformance": 826.27, 
       "annualCostsReduction": [
         500.0, 
         1000.0, 
@@ -79,13 +79,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e234fb168a9a4eae
         1000.0
       ]
     }, 
-    "date": "2019-10-25T01:00:03+03:00", 
+    "date": "2020-05-01T01:00:03+03:00", 
     "qualified": true, 
     "complaints": [
       {
         "status": "resolved", 
-        "dateDecision": "2019-10-25T01:00:03+03:00", 
-        "tendererActionDate": "2019-10-25T01:00:03+03:00", 
+        "dateDecision": "2020-05-01T01:00:03+03:00", 
+        "tendererActionDate": "2020-05-01T01:00:03+03:00", 
         "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
         "author": {
           "contactPoint": {
@@ -103,16 +103,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e234fb168a9a4eae
             "postalCode": "21100", 
             "countryName": "Україна", 
             "streetAddress": "вул. Островського, 33", 
-            "region": "м. Вінниця", 
+            "region": "Вінницька область", 
             "locality": "м. Вінниця"
           }
         }, 
         "title": "Недостатньо інформації", 
         "id": "b7e603d352b84065ac337d4ed5348b8e", 
         "tendererAction": "Умови виправлено, вибір переможня буде розгянуто повторно", 
-        "dateSubmitted": "2019-10-25T01:00:03+03:00", 
-        "complaintID": "UA-2019-10-25-000001.1", 
-        "date": "2019-10-25T01:00:03+03:00", 
+        "dateSubmitted": "2020-05-01T01:00:03+03:00", 
+        "complaintID": "UA-2020-05-01-000001.1", 
+        "date": "2020-05-01T01:00:03+03:00", 
         "acceptance": true, 
         "type": "complaint", 
         "documents": [
@@ -124,9 +124,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e234fb168a9a4eae
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5a4e36d5afce4fda93a1ba405913fbbf?KeyID=a8968c46&Signature=sQjVS%252BrfePEs%252B3bIUN8nsRiC6ucDj6wdtCtmoHFhhcZeG9BZsEOW3%2FzyEVz11Rhvix%2Fq11s8B2rUdgWexzK%252BBQ%253D%253D", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2019-10-25T01:00:03+03:00", 
+            "datePublished": "2020-05-01T01:00:03+03:00", 
             "id": "36b84556f0054d7587bdb6850b79625b", 
-            "dateModified": "2019-10-25T01:00:03+03:00"
+            "dateModified": "2020-05-01T01:00:03+03:00"
           }, 
           {
             "hash": "md5:00000000000000000000000000000000", 
@@ -136,16 +136,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e234fb168a9a4eae
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d4d45444492d4976872e3c2400e495a4?KeyID=a8968c46&Signature=HkJk3PsVBN0jSCpuH2%252B6v7A3GleIqlv%2FsqGzWaQZDKg3lPDJk9N%252BBw5D6YtQe3ISsTS97gfqTv1hwMgUdNVDDg%253D%253D", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2019-10-25T01:00:03+03:00", 
+            "datePublished": "2020-05-01T01:00:03+03:00", 
             "id": "3f0ba7f91ce44fc8b3877743199c769c", 
-            "dateModified": "2019-10-25T01:00:03+03:00"
+            "dateModified": "2020-05-01T01:00:03+03:00"
           }
         ], 
-        "dateAccepted": "2019-10-25T01:00:03+03:00"
+        "dateAccepted": "2020-05-01T01:00:03+03:00"
       }, 
       {
         "status": "invalid", 
-        "dateDecision": "2019-10-25T01:00:03+03:00", 
+        "dateDecision": "2020-05-01T01:00:03+03:00", 
         "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
         "author": {
           "contactPoint": {
@@ -163,21 +163,21 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e234fb168a9a4eae
             "postalCode": "21100", 
             "countryName": "Україна", 
             "streetAddress": "вул. Островського, 33", 
-            "region": "м. Вінниця", 
+            "region": "Вінницька область", 
             "locality": "м. Вінниця"
           }
         }, 
         "acceptance": false, 
-        "dateSubmitted": "2019-10-25T01:00:03+03:00", 
-        "complaintID": "UA-2019-10-25-000001.2", 
-        "date": "2019-10-25T01:00:03+03:00", 
+        "dateSubmitted": "2020-05-01T01:00:03+03:00", 
+        "complaintID": "UA-2020-05-01-000001.2", 
+        "date": "2020-05-01T01:00:03+03:00", 
         "title": "Недостатньо інформації", 
         "type": "complaint", 
         "id": "5adaa5b896494b82b07cecc2feb9c5ad"
       }, 
       {
         "status": "declined", 
-        "dateDecision": "2019-10-25T01:00:03+03:00", 
+        "dateDecision": "2020-05-01T01:00:03+03:00", 
         "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
         "author": {
           "contactPoint": {
@@ -195,29 +195,29 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e234fb168a9a4eae
             "postalCode": "21100", 
             "countryName": "Україна", 
             "streetAddress": "вул. Островського, 33", 
-            "region": "м. Вінниця", 
+            "region": "Вінницька область", 
             "locality": "м. Вінниця"
           }
         }, 
         "acceptance": true, 
-        "dateAccepted": "2019-10-25T01:00:03+03:00", 
-        "dateSubmitted": "2019-10-25T01:00:03+03:00", 
-        "complaintID": "UA-2019-10-25-000001.3", 
-        "date": "2019-10-25T01:00:03+03:00", 
+        "dateAccepted": "2020-05-01T01:00:03+03:00", 
+        "dateSubmitted": "2020-05-01T01:00:03+03:00", 
+        "complaintID": "UA-2020-05-01-000001.3", 
+        "date": "2020-05-01T01:00:03+03:00", 
         "title": "Недостатньо інформації", 
         "type": "complaint", 
         "id": "b0efab0741b54576b657882884ce7b77"
       }, 
       {
         "status": "stopped", 
-        "dateDecision": "2019-10-25T01:00:03+03:00", 
+        "dateDecision": "2020-05-01T01:00:03+03:00", 
         "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
         "title": "Недостатньо інформації", 
         "decision": "Тендер скасовується замовником", 
         "acceptance": true, 
         "cancellationReason": "Тендер скасовується замовником", 
-        "dateCanceled": "2019-10-25T01:00:03+03:00", 
-        "dateAccepted": "2019-10-25T01:00:03+03:00", 
+        "dateCanceled": "2020-05-01T01:00:03+03:00", 
+        "dateAccepted": "2020-05-01T01:00:03+03:00", 
         "author": {
           "contactPoint": {
             "email": "soleksuk@gmail.com", 
@@ -234,25 +234,25 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e234fb168a9a4eae
             "postalCode": "21100", 
             "countryName": "Україна", 
             "streetAddress": "вул. Островського, 33", 
-            "region": "м. Вінниця", 
+            "region": "Вінницька область", 
             "locality": "м. Вінниця"
           }
         }, 
-        "dateSubmitted": "2019-10-25T01:00:03+03:00", 
-        "complaintID": "UA-2019-10-25-000001.4", 
-        "date": "2019-10-25T01:00:03+03:00", 
+        "dateSubmitted": "2020-05-01T01:00:03+03:00", 
+        "complaintID": "UA-2020-05-01-000001.4", 
+        "date": "2020-05-01T01:00:03+03:00", 
         "type": "complaint", 
         "id": "d5075664651240c195bb5509cf82e8ee"
       }, 
       {
         "status": "stopped", 
-        "dateDecision": "2019-10-25T01:00:03+03:00", 
+        "dateDecision": "2020-05-01T01:00:03+03:00", 
         "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
         "title": "Недостатньо інформації", 
         "decision": "Тендер скасовується замовником", 
         "acceptance": true, 
-        "dateCanceled": "2019-10-25T01:00:03+03:00", 
-        "dateAccepted": "2019-10-25T01:00:03+03:00", 
+        "dateCanceled": "2020-05-01T01:00:03+03:00", 
+        "dateAccepted": "2020-05-01T01:00:03+03:00", 
         "author": {
           "contactPoint": {
             "email": "soleksuk@gmail.com", 
@@ -269,13 +269,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e234fb168a9a4eae
             "postalCode": "21100", 
             "countryName": "Україна", 
             "streetAddress": "вул. Островського, 33", 
-            "region": "м. Вінниця", 
+            "region": "Вінницька область", 
             "locality": "м. Вінниця"
           }
         }, 
-        "dateSubmitted": "2019-10-25T01:00:03+03:00", 
-        "complaintID": "UA-2019-10-25-000001.5", 
-        "date": "2019-10-25T01:00:03+03:00", 
+        "dateSubmitted": "2020-05-01T01:00:03+03:00", 
+        "complaintID": "UA-2020-05-01-000001.5", 
+        "date": "2020-05-01T01:00:03+03:00", 
         "type": "complaint", 
         "id": "2e193cff67c84441b16eb8de44d0362b"
       }, 
@@ -298,7 +298,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e234fb168a9a4eae
             "postalCode": "21100", 
             "countryName": "Україна", 
             "streetAddress": "вул. Островського, 33", 
-            "region": "м. Вінниця", 
+            "region": "Вінницька область", 
             "locality": "м. Вінниця"
           }
         }, 
@@ -306,10 +306,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e234fb168a9a4eae
         "type": "claim", 
         "title": "Недостатньо інформації", 
         "satisfied": true, 
-        "dateAnswered": "2019-10-25T01:00:03+03:00", 
-        "dateSubmitted": "2019-10-25T01:00:03+03:00", 
-        "complaintID": "UA-2019-10-25-000001.6", 
-        "date": "2019-10-25T01:00:03+03:00", 
+        "dateAnswered": "2020-05-01T01:00:03+03:00", 
+        "dateSubmitted": "2020-05-01T01:00:03+03:00", 
+        "complaintID": "UA-2020-05-01-000001.6", 
+        "date": "2020-05-01T01:00:03+03:00", 
         "resolution": "Умови виправлено, вибір переможня буде розгянуто повторно", 
         "id": "bcea3ffc19114180bb3608ecdb7c335f"
       }, 
@@ -332,7 +332,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e234fb168a9a4eae
             "postalCode": "21100", 
             "countryName": "Україна", 
             "streetAddress": "вул. Островського, 33", 
-            "region": "м. Вінниця", 
+            "region": "Вінницька область", 
             "locality": "м. Вінниця"
           }
         }, 
@@ -340,10 +340,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e234fb168a9a4eae
         "type": "claim", 
         "title": "Недостатньо інформації", 
         "satisfied": false, 
-        "dateAnswered": "2019-10-25T01:00:03+03:00", 
-        "dateSubmitted": "2019-10-25T01:00:03+03:00", 
-        "complaintID": "UA-2019-10-25-000001.7", 
-        "date": "2019-10-25T01:00:03+03:00", 
+        "dateAnswered": "2020-05-01T01:00:03+03:00", 
+        "dateSubmitted": "2020-05-01T01:00:03+03:00", 
+        "complaintID": "UA-2020-05-01-000001.7", 
+        "date": "2020-05-01T01:00:03+03:00", 
         "resolution": "Вимога не відповідає предмету закупівлі", 
         "id": "ac3b7d9fc05d47b5ba26354efe171012"
       }, 
@@ -366,14 +366,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e234fb168a9a4eae
             "postalCode": "21100", 
             "countryName": "Україна", 
             "streetAddress": "вул. Островського, 33", 
-            "region": "м. Вінниця", 
+            "region": "Вінницька область", 
             "locality": "м. Вінниця"
           }
         }, 
         "title": "Недостатньо інформації", 
-        "dateSubmitted": "2019-10-25T01:00:03+03:00", 
-        "complaintID": "UA-2019-10-25-000001.8", 
-        "date": "2019-10-25T01:00:03+03:00", 
+        "dateSubmitted": "2020-05-01T01:00:03+03:00", 
+        "complaintID": "UA-2020-05-01-000001.8", 
+        "date": "2020-05-01T01:00:03+03:00", 
         "type": "claim", 
         "id": "8f66ae28332f46b1be606cadd389c48e"
       }

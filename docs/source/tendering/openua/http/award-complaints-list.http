@@ -7,7 +7,7 @@ Content-Type: application/json; charset=UTF-8
   "data": [
     {
       "status": "satisfied", 
-      "dateDecision": "2019-10-25T01:00:01+03:00", 
+      "dateDecision": "2020-05-01T01:00:01+03:00", 
       "documents": [
         {
           "hash": "md5:00000000000000000000000000000000", 
@@ -16,9 +16,9 @@ Content-Type: application/json; charset=UTF-8
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/caa374e3c11f45889f80841a95e4750a?KeyID=a8968c46&Signature=X%2FXsiNYO%2FXCGkuhz2coXHl5WjjAc2XMKHV9Pdy8sjDxJUUkAwaF9L1yrRoEi9TRPJVC84Jl3En%2F%252BxnQVau32DQ%253D%253D", 
           "format": "application/pdf", 
           "documentOf": "tender", 
-          "datePublished": "2019-10-25T01:00:01+03:00", 
+          "datePublished": "2020-05-01T01:00:01+03:00", 
           "id": "24c6751cfb6b47dfad5764f733acc957", 
-          "dateModified": "2019-10-25T01:00:01+03:00"
+          "dateModified": "2020-05-01T01:00:01+03:00"
         }, 
         {
           "hash": "md5:00000000000000000000000000000000", 
@@ -27,9 +27,9 @@ Content-Type: application/json; charset=UTF-8
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/416ef6b75dd2474c96f8ed78ce0ff207?KeyID=a8968c46&Signature=nTKK6rey2FHAJUQDEFZPOz9hZgp1YIlPVDBdz1bfKXk%252Bz29ecFMTfeztGKy%2FHFiWPbDNQNNDnTmtGHYDjlTmBg%253D%253D", 
           "format": "application/pdf", 
           "documentOf": "tender", 
-          "datePublished": "2019-10-25T01:00:01+03:00", 
+          "datePublished": "2020-05-01T01:00:01+03:00", 
           "id": "2cb65ac6751b46bdb7df51abc80b41a6", 
-          "dateModified": "2019-10-25T01:00:01+03:00"
+          "dateModified": "2020-05-01T01:00:01+03:00"
         }
       ], 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
@@ -50,21 +50,21 @@ Content-Type: application/json; charset=UTF-8
           "postalCode": "21100", 
           "countryName": "Україна", 
           "streetAddress": "вул. Островського, 33", 
-          "region": "м. Вінниця", 
+          "region": "Вінницька область", 
           "locality": "м. Вінниця"
         }
       }, 
-      "dateAccepted": "2019-10-25T01:00:01+03:00", 
-      "dateSubmitted": "2019-10-25T01:00:01+03:00", 
-      "complaintID": "UA-2019-10-25-000001.1", 
-      "date": "2019-10-25T01:00:01+03:00", 
+      "dateAccepted": "2020-05-01T01:00:01+03:00", 
+      "dateSubmitted": "2020-05-01T01:00:01+03:00", 
+      "complaintID": "UA-2020-05-01-000001.1", 
+      "date": "2020-05-01T01:00:01+03:00", 
       "acceptance": true, 
       "type": "complaint", 
       "id": "332321ea73ed4e0092cb91e8d218cd17"
     }, 
     {
       "status": "invalid", 
-      "dateDecision": "2019-10-25T01:00:01+03:00", 
+      "dateDecision": "2020-05-01T01:00:01+03:00", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
       "author": {
         "contactPoint": {
@@ -82,21 +82,21 @@ Content-Type: application/json; charset=UTF-8
           "postalCode": "21100", 
           "countryName": "Україна", 
           "streetAddress": "вул. Островського, 33", 
-          "region": "м. Вінниця", 
+          "region": "Вінницька область", 
           "locality": "м. Вінниця"
         }
       }, 
       "acceptance": false, 
-      "dateSubmitted": "2019-10-25T01:00:01+03:00", 
-      "complaintID": "UA-2019-10-25-000001.2", 
-      "date": "2019-10-25T01:00:01+03:00", 
+      "dateSubmitted": "2020-05-01T01:00:01+03:00", 
+      "complaintID": "UA-2020-05-01-000001.2", 
+      "date": "2020-05-01T01:00:01+03:00", 
       "title": "Недостатньо інформації", 
       "type": "complaint", 
       "id": "c384db7997bb477999506ea7ef13cdde"
     }, 
     {
       "status": "declined", 
-      "dateDecision": "2019-10-25T01:00:01+03:00", 
+      "dateDecision": "2020-05-01T01:00:01+03:00", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
       "author": {
         "contactPoint": {
@@ -114,15 +114,15 @@ Content-Type: application/json; charset=UTF-8
           "postalCode": "21100", 
           "countryName": "Україна", 
           "streetAddress": "вул. Островського, 33", 
-          "region": "м. Вінниця", 
+          "region": "Вінницька область", 
           "locality": "м. Вінниця"
         }
       }, 
       "acceptance": true, 
-      "dateAccepted": "2019-10-25T01:00:01+03:00", 
-      "dateSubmitted": "2019-10-25T01:00:01+03:00", 
-      "complaintID": "UA-2019-10-25-000001.3", 
-      "date": "2019-10-25T01:00:01+03:00", 
+      "dateAccepted": "2020-05-01T01:00:01+03:00", 
+      "dateSubmitted": "2020-05-01T01:00:01+03:00", 
+      "complaintID": "UA-2020-05-01-000001.3", 
+      "date": "2020-05-01T01:00:01+03:00", 
       "title": "Недостатньо інформації", 
       "type": "complaint", 
       "id": "80289a59c2864a8b8cb12c29a5124951"
@@ -146,28 +146,28 @@ Content-Type: application/json; charset=UTF-8
           "postalCode": "21100", 
           "countryName": "Україна", 
           "streetAddress": "вул. Островського, 33", 
-          "region": "м. Вінниця", 
+          "region": "Вінницька область", 
           "locality": "м. Вінниця"
         }
       }, 
       "acceptance": true, 
-      "dateAccepted": "2019-10-25T01:00:01+03:00", 
-      "dateSubmitted": "2019-10-25T01:00:01+03:00", 
-      "complaintID": "UA-2019-10-25-000001.4", 
-      "date": "2019-10-25T01:00:01+03:00", 
+      "dateAccepted": "2020-05-01T01:00:01+03:00", 
+      "dateSubmitted": "2020-05-01T01:00:01+03:00", 
+      "complaintID": "UA-2020-05-01-000001.4", 
+      "date": "2020-05-01T01:00:01+03:00", 
       "title": "Недостатньо інформації", 
       "type": "complaint", 
       "id": "3dada28e79a34fffaa7f795108511b9b"
     }, 
     {
       "status": "stopped", 
-      "dateDecision": "2019-10-25T01:00:01+03:00", 
+      "dateDecision": "2020-05-01T01:00:01+03:00", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
       "title": "Недостатньо інформації", 
       "decision": "Тендер скасовується замовником", 
       "acceptance": true, 
-      "dateCanceled": "2019-10-25T01:00:01+03:00", 
-      "dateAccepted": "2019-10-25T01:00:01+03:00", 
+      "dateCanceled": "2020-05-01T01:00:01+03:00", 
+      "dateAccepted": "2020-05-01T01:00:01+03:00", 
       "author": {
         "contactPoint": {
           "email": "soleksuk@gmail.com", 
@@ -184,13 +184,13 @@ Content-Type: application/json; charset=UTF-8
           "postalCode": "21100", 
           "countryName": "Україна", 
           "streetAddress": "вул. Островського, 33", 
-          "region": "м. Вінниця", 
+          "region": "Вінницька область", 
           "locality": "м. Вінниця"
         }
       }, 
-      "dateSubmitted": "2019-10-25T01:00:01+03:00", 
-      "complaintID": "UA-2019-10-25-000001.5", 
-      "date": "2019-10-25T01:00:01+03:00", 
+      "dateSubmitted": "2020-05-01T01:00:01+03:00", 
+      "complaintID": "UA-2020-05-01-000001.5", 
+      "date": "2020-05-01T01:00:01+03:00", 
       "type": "complaint", 
       "id": "d89cf1dedbe0420595d525130004fb01"
     }, 
@@ -213,7 +213,7 @@ Content-Type: application/json; charset=UTF-8
           "postalCode": "21100", 
           "countryName": "Україна", 
           "streetAddress": "вул. Островського, 33", 
-          "region": "м. Вінниця", 
+          "region": "Вінницька область", 
           "locality": "м. Вінниця"
         }
       }, 
@@ -221,10 +221,10 @@ Content-Type: application/json; charset=UTF-8
       "type": "claim", 
       "title": "Недостатньо інформації", 
       "satisfied": true, 
-      "dateAnswered": "2019-10-25T01:00:01+03:00", 
-      "dateSubmitted": "2019-10-25T01:00:01+03:00", 
-      "complaintID": "UA-2019-10-25-000001.6", 
-      "date": "2019-10-25T01:00:01+03:00", 
+      "dateAnswered": "2020-05-01T01:00:01+03:00", 
+      "dateSubmitted": "2020-05-01T01:00:01+03:00", 
+      "complaintID": "UA-2020-05-01-000001.6", 
+      "date": "2020-05-01T01:00:01+03:00", 
       "resolution": "Умови виправлено, вибір переможня буде розгянуто повторно", 
       "id": "4e750546e651458faa34230f0709f0f0"
     }, 
@@ -247,7 +247,7 @@ Content-Type: application/json; charset=UTF-8
           "postalCode": "21100", 
           "countryName": "Україна", 
           "streetAddress": "вул. Островського, 33", 
-          "region": "м. Вінниця", 
+          "region": "Вінницька область", 
           "locality": "м. Вінниця"
         }
       }, 
@@ -255,10 +255,10 @@ Content-Type: application/json; charset=UTF-8
       "type": "claim", 
       "title": "Недостатньо інформації", 
       "satisfied": false, 
-      "dateAnswered": "2019-10-25T01:00:01+03:00", 
-      "dateSubmitted": "2019-10-25T01:00:01+03:00", 
-      "complaintID": "UA-2019-10-25-000001.7", 
-      "date": "2019-10-25T01:00:01+03:00", 
+      "dateAnswered": "2020-05-01T01:00:01+03:00", 
+      "dateSubmitted": "2020-05-01T01:00:01+03:00", 
+      "complaintID": "UA-2020-05-01-000001.7", 
+      "date": "2020-05-01T01:00:01+03:00", 
       "resolution": "Вимога не відповідає предмету закупівлі", 
       "id": "8e453c6500e6477ebd7b3f379c8dbc9b"
     }, 
@@ -281,14 +281,14 @@ Content-Type: application/json; charset=UTF-8
           "postalCode": "21100", 
           "countryName": "Україна", 
           "streetAddress": "вул. Островського, 33", 
-          "region": "м. Вінниця", 
+          "region": "Вінницька область", 
           "locality": "м. Вінниця"
         }
       }, 
       "title": "Недостатньо інформації", 
-      "dateSubmitted": "2019-10-25T01:00:01+03:00", 
-      "complaintID": "UA-2019-10-25-000001.8", 
-      "date": "2019-10-25T01:00:01+03:00", 
+      "dateSubmitted": "2020-05-01T01:00:01+03:00", 
+      "complaintID": "UA-2020-05-01-000001.8", 
+      "date": "2020-05-01T01:00:01+03:00", 
       "type": "claim", 
       "id": "c308edcad5a64d2bb0602a7439e4bbb2"
     }

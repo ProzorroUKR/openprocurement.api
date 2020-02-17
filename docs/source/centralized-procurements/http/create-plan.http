@@ -61,8 +61,8 @@ DATA:
       "amountNet": 12222, 
       "description": "budget_description", 
       "period": {
-        "startDate": "2019-01-01T00:00:00", 
-        "endDate": "2019-12-31T00:00:00"
+        "startDate": "2020-01-01T00:00:00", 
+        "endDate": "2020-12-31T00:00:00"
       }, 
       "project": {
         "name": "proj_name", 
@@ -164,8 +164,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/77cf582ab7284fb1a0
       "amountNet": 12222.0, 
       "description": "budget_description", 
       "period": {
-        "startDate": "2019-01-01T00:00:00+02:00", 
-        "endDate": "2019-12-31T00:00:00+02:00"
+        "startDate": "2020-01-01T00:00:00+02:00", 
+        "endDate": "2020-12-31T00:00:00+02:00"
       }, 
       "project": {
         "id": "123", 

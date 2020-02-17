@@ -27,18 +27,18 @@ Content-Type: application/json; charset=UTF-8
     "lotValues": [
       {
         "relatedLot": "3c84167877eb48d693c12efd2c6cb01e", 
-        "date": "2019-10-25T01:00:00+03:00", 
+        "date": "2020-05-01T01:00:00+03:00", 
         "status": "pending", 
         "value": {
           "yearlyPaymentsPercentage": 0.9, 
           "valueAddedTaxIncluded": true, 
           "currency": "UAH", 
-          "amount": 10445.67, 
+          "amount": 9747.37, 
           "contractDuration": {
             "days": 0, 
             "years": 7
           }, 
-          "amountPerformance": 2096.72, 
+          "amountPerformance": 2026.04, 
           "annualCostsReduction": [
             700.0, 
             1600.0, 
@@ -84,12 +84,12 @@ Content-Type: application/json; charset=UTF-8
           "postalCode": "79013", 
           "countryName": "Україна", 
           "streetAddress": "вул. Островського, 34", 
-          "region": "м. Львів", 
+          "region": "Львівська область", 
           "locality": "м. Львів"
         }
       }
     ], 
-    "date": "2019-10-25T01:00:00+03:00", 
+    "date": "2020-05-01T01:00:00+03:00", 
     "id": "e330641f19174449b434b4988cccf0c6"
   }
 }

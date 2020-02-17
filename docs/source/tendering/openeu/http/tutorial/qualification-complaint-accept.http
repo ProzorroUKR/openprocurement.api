@@ -24,9 +24,9 @@ Content-Type: application/json; charset=UTF-8
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bffa507f7c044711bf9a31459edda120?KeyID=a8968c46&Signature=RShGcMIQ6ITb2wkxjeyGXG5T5XoNakCQNJ18bk%252BAFnwTo0UBge7kyeuzOuOzCqZMPD7AvKT6RFtW%252B3HR73D%252BCg%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2019-10-25T01:00:01+03:00", 
+        "datePublished": "2020-05-01T01:00:01+03:00", 
         "id": "a14dd9b18da84311b9f74ee531d31b0d", 
-        "dateModified": "2019-10-25T01:00:01+03:00"
+        "dateModified": "2020-05-01T01:00:01+03:00"
       }
     ], 
     "description": "Просимо додати таблицю потрібної калорійності харчування", 
@@ -46,15 +46,15 @@ Content-Type: application/json; charset=UTF-8
         "postalCode": "79013", 
         "countryName": "Україна", 
         "streetAddress": "вул. Островського, 34", 
-        "region": "м. Львів", 
+        "region": "Львівська область", 
         "locality": "м. Львів"
       }
     }, 
     "acceptance": true, 
-    "dateAccepted": "2019-10-25T01:00:01+03:00", 
-    "dateSubmitted": "2019-10-25T01:00:01+03:00", 
-    "complaintID": "UA-2019-10-25-000001.1", 
-    "date": "2019-10-25T01:00:01+03:00", 
+    "dateAccepted": "2020-05-01T01:00:01+03:00", 
+    "dateSubmitted": "2020-05-01T01:00:01+03:00", 
+    "complaintID": "UA-2020-05-01-000001.1", 
+    "date": "2020-05-01T01:00:01+03:00", 
     "title": "Калорійність", 
     "type": "complaint", 
     "id": "91b4ff9fd2ea4cf0a3f514415544d394"
