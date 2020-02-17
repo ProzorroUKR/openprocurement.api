@@ -138,6 +138,9 @@ Schema
 
     Date of tenderer action.
 
+:posts:
+    List of :ref:`ComplaintPost` objects
+
 Additionally in :ref:`defense`, :ref:`esco`, :ref:`openua` and :ref:`openeu`:
 
     :acceptance:

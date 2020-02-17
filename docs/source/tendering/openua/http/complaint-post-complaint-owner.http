@@ -1,0 +1,50 @@
+POST /api/2.5/tenders/7ca938a74b3b44a7979818052b0a8788/complaints/1908c62d7a7e47fb8294a2d70b46b27c/posts?acc_token=319bfcaf29be4aaf9a86fbe105dc2044 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 670
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "recipient": "aboveThresholdReviewers", 
+    "documents": [
+      {
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fddf5c3ebbe848f998092dd30a1d3f09?KeyID=a8968c46&Signature=VWkM%2FiB9HlXDB339n5YR0Tq4gqRHRblPWutJXQOe1c922p7YuK1NEsjsga%2B45mpGLnAal14U%2BDhsPG1hihpwCA%3D%3D", 
+        "title": "post_document_complaint.pdf", 
+        "hash": "md5:00000000000000000000000000000000", 
+        "format": "application/pdf"
+      }
+    ], 
+    "relatedPost": "5f0fc2043b48431da3853c5c1a619309", 
+    "description": "Додано документ", 
+    "title": "Уточнення по вимозі"
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7ca938a74b3b44a7979818052b0a8788/complaints/1908c62d7a7e47fb8294a2d70b46b27c/posts/a2448fd91ae8402285b3965098a2d1d0
+{
+  "data": {
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "title": "post_document_complaint.pdf", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fddf5c3ebbe848f998092dd30a1d3f09?KeyID=a8968c46&Signature=VWkM%2FiB9HlXDB339n5YR0Tq4gqRHRblPWutJXQOe1c922p7YuK1NEsjsga%2B45mpGLnAal14U%2BDhsPG1hihpwCA%3D%3D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2020-05-01T01:00:00+03:00", 
+        "id": "cb1853397dc043c1969df15324eb2b85", 
+        "dateModified": "2020-05-01T01:00:00+03:00"
+      }
+    ], 
+    "description": "Додано документ", 
+    "title": "Уточнення по вимозі", 
+    "author": "complaint_owner", 
+    "datePublished": "2020-05-01T01:00:00+03:00", 
+    "relatedPost": "5f0fc2043b48431da3853c5c1a619309", 
+    "recipient": "aboveThresholdReviewers", 
+    "id": "a2448fd91ae8402285b3965098a2d1d0"
+  }
+}
+
