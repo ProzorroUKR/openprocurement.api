@@ -25,7 +25,7 @@ https://prozorro-api-docs.readthedocs.io/en/latest/
 ```
 virtualenv -p python2.7 venv
 source venv/bin/activate
-pip install -r requirements.txt
+pip install -r docs/source/requirements.txt
 ```
 
 2. Add "couchdb" to be resolved to localhost in /etc/hosts
