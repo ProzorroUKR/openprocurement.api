@@ -7,8 +7,8 @@ DATA:
 {
   "data": {
     "period": {
-      "startDate": "2019-10-25T01:00:01+03:00", 
-      "endDate": "2020-10-24T01:00:01+03:00"
+      "startDate": "2020-05-01T01:00:01+03:00", 
+      "endDate": "2021-05-01T01:00:01+03:00"
     }
   }
 }
@@ -42,8 +42,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2019-11-14T00:00:00+02:00", 
-          "endDate": "2019-12-14T00:00:00+02:00"
+          "startDate": "2020-05-21T00:00:00+02:00", 
+          "endDate": "2020-06-20T00:00:00+02:00"
         }, 
         "id": "6ebdaf1cb586410f8c8c843a108b155f", 
         "quantity": 1.0
@@ -71,8 +71,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2019-11-14T00:00:00+02:00", 
-          "endDate": "2019-12-14T00:00:00+02:00"
+          "startDate": "2020-05-21T00:00:00+02:00", 
+          "endDate": "2020-06-20T00:00:00+02:00"
         }, 
         "id": "2362877518ef44d783c05ed80edafa78", 
         "quantity": 1.0
@@ -96,27 +96,27 @@ Content-Type: application/json; charset=UTF-8
           "postalCode": "79013", 
           "countryName": "Україна", 
           "streetAddress": "вул. Островського, 34", 
-          "region": "м. Львів", 
+          "region": "Львівська область", 
           "locality": "м. Львів"
         }
       }
     ], 
     "contractNumber": "contract#1", 
     "period": {
-      "startDate": "2019-10-25T01:00:01+03:00", 
-      "endDate": "2020-10-24T01:00:01+03:00"
+      "startDate": "2020-05-01T01:00:01+03:00", 
+      "endDate": "2021-05-01T01:00:01+03:00"
     }, 
-    "dateSigned": "2019-10-25T01:00:01+03:00", 
+    "dateSigned": "2020-05-01T01:00:01+03:00", 
     "value": {
       "currency": "UAH", 
       "amount": 238.0, 
       "amountNet": 230.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2019-10-25T01:00:00+03:00", 
+    "date": "2020-05-01T01:00:00+03:00", 
     "awardID": "24495a1cd5604ae3b8862141a3c5cebd", 
     "id": "9f6f0333b6bb47c0962d17b48be30ac3", 
-    "contractID": "UA-2019-10-25-000001-1"
+    "contractID": "UA-2020-05-01-000001-1"
   }
 }
 

@@ -36,8 +36,8 @@ Content-Type: application/json; charset=UTF-8
     ], 
     "mainProcurementCategory": "goods", 
     "tenderPeriod": {
-      "startDate": "2019-11-01T01:00:00+03:00", 
-      "endDate": "2019-11-08T01:00:00+03:00"
+      "startDate": "2020-05-08T01:00:00+03:00", 
+      "endDate": "2020-05-15T01:00:00+03:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -68,8 +68,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2019-10-27T01:00:00+03:00", 
-          "endDate": "2019-10-30T01:00:00+03:00"
+          "startDate": "2020-05-03T01:00:00+03:00", 
+          "endDate": "2020-05-06T01:00:00+03:00"
         }, 
         "id": "22efe85457d041aab3bc5a64aae6be0f", 
         "unit": {
@@ -86,8 +86,8 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "date": "2019-10-25T01:00:00+03:00", 
-    "next_check": "2019-11-01T00:00:00+02:00", 
+    "date": "2020-05-01T01:00:00+03:00", 
+    "next_check": "2020-05-08T01:00:00+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 
@@ -110,13 +110,13 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "awardCriteria": "lowestCost", 
     "enquiryPeriod": {
-      "startDate": "2019-10-25T01:00:00+03:00", 
-      "endDate": "2019-11-01T01:00:00+03:00"
+      "startDate": "2020-05-01T01:00:00+03:00", 
+      "endDate": "2020-05-08T01:00:00+03:00"
     }, 
     "owner": "broker", 
-    "dateModified": "2019-10-25T01:00:00+03:00", 
+    "dateModified": "2020-05-01T01:00:00+03:00", 
     "id": "bc3a9016b29d4fed894cc62d3ff59680", 
-    "tenderID": "UA-2019-10-25-000001"
+    "tenderID": "UA-2020-05-01-000001"
   }
 }
 

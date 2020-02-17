@@ -3,7 +3,6 @@ from copy import deepcopy
 from datetime import timedelta, datetime
 from dateutil.parser import parse
 from hashlib import sha512
-from uuid import uuid4
 
 from openprocurement.tender.belowthreshold.tests.base import test_milestones
 from tests.base.constants import MOCK_DATETIME
@@ -18,7 +17,7 @@ tenderer = {
         "countryName": "Україна",
         "locality": "м. Вінниця",
         "postalCode": "21100",
-        "region": "м. Вінниця",
+        "region": "Вінницька область",
         "streetAddress": "вул. Островського, 33"
     },
     "contactPoint": {
@@ -43,7 +42,7 @@ tenderer2 = {
         "countryName": "Україна",
         "locality": "м. Львів",
         "postalCode": "79013",
-        "region": "м. Львів",
+        "region": "Львівська область",
         "streetAddress": "вул. Островського, 34"
     },
     "contactPoint": {
@@ -68,7 +67,7 @@ tenderer3 = {
         "countryName": "Україна",
         "locality": "м. Львів",
         "postalCode": "79013",
-        "region": "м. Львів",
+        "region": "Львівська область",
         "streetAddress": "вул. Островського, 35"
     },
     "contactPoint": {
@@ -90,7 +89,7 @@ tenderer4 = {
         "countryName": "Україна",
         "locality": "м. Запоріжя",
         "postalCode": "79013",
-        "region": "м. Запоріжжя",
+        "region": "Запорізька область",
         "streetAddress": "вул. Коцюбинського, 15"
     },
     "contactPoint": {
@@ -112,7 +111,7 @@ bad_participant = {
         "countryName": "Україна",
         "locality": "м. Львів",
         "postalCode": "21100",
-        "region": "м. Львів",
+        "region": "Львівська область",
         "streetAddress": "вул. Поле, 33"
     },
     "contactPoint": {
@@ -300,7 +299,7 @@ features = [
 funder = {
     "additionalIdentifiers": [],
     "address": {
-        "countryName": "Switzerland",
+        "countryName": "Швейцарська Конфедерація",
         "locality": "Geneva",
         "postalCode": "1218",
         "region": "Grand-Saconnex",
@@ -510,7 +509,7 @@ procuring_entity_en = {
         "countryName": "Україна",
         "locality": "м. Вінниця",
         "postalCode": "21027",
-        "region": "м. Вінниця",
+        "region": "Вінницька область",
         "streetAddress": "вул. Стахурського. 22"
     },
     "contactPoint": {
@@ -536,7 +535,7 @@ procuring_entity_ua = {
         "countryName": "Україна",
         "locality": "м. Вінниця",
         "postalCode": "21027",
-        "region": "м. Вінниця",
+        "region": "Вінницька область",
         "streetAddress": "вул. Стахурського. 22"
     },
     "contactPoint": {

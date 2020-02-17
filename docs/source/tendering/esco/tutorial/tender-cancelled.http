@@ -9,20 +9,20 @@ Content-Type: application/json; charset=UTF-8
     "procurementMethod": "open", 
     "status": "cancelled", 
     "awardPeriod": {
-      "startDate": "2019-10-25T01:00:00+03:00", 
-      "endDate": "2019-10-25T01:00:00+03:00"
+      "startDate": "2020-05-01T01:00:00+03:00", 
+      "endDate": "2020-05-01T01:00:00+03:00"
     }, 
     "mainProcurementCategory": "services", 
     "complaintPeriod": {
-      "startDate": "2019-09-14T01:00:00+03:00", 
-      "endDate": "2019-10-11T00:00:00+03:00"
+      "startDate": "2020-03-21T01:00:00+03:00", 
+      "endDate": "2020-04-17T00:00:00+03:00"
     }, 
     "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/0aac695e27804293a2854dff7bed4be8", 
     "enquiryPeriod": {
-      "startDate": "2019-09-14T01:00:00+03:00", 
-      "clarificationsUntil": "2019-10-10T00:00:00+03:00", 
-      "endDate": "2019-10-05T01:00:00+03:00", 
-      "invalidationDate": "2019-10-25T01:00:00+03:00"
+      "startDate": "2020-03-21T01:00:00+03:00", 
+      "clarificationsUntil": "2020-04-16T00:00:00+03:00", 
+      "endDate": "2020-04-11T01:00:00+03:00", 
+      "invalidationDate": "2020-05-01T01:00:00+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
     "title_en": "Services in school canteens", 
@@ -33,7 +33,7 @@ Content-Type: application/json; charset=UTF-8
         "postalCode": "21027", 
         "countryName": "Україна", 
         "streetAddress": "вул. Стахурського. 22", 
-        "region": "м. Вінниця", 
+        "region": "Вінницька область", 
         "locality": "м. Вінниця"
       }, 
       "contactPoint": {
@@ -70,14 +70,14 @@ Content-Type: application/json; charset=UTF-8
             "postalCode": "79013", 
             "countryName": "Україна", 
             "streetAddress": "вул. Островського, 34", 
-            "region": "м. Львів", 
+            "region": "Львівська область", 
             "locality": "м. Львів"
           }
         }, 
         "title": "Калорійність", 
-        "date": "2019-10-25T01:00:00+03:00", 
+        "date": "2020-05-01T01:00:00+03:00", 
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
-        "dateAnswered": "2019-10-25T01:00:00+03:00", 
+        "dateAnswered": "2020-05-01T01:00:00+03:00", 
         "id": "c0ace3dda24e4cfab1c52c61462ceae8", 
         "questionOf": "tender"
       }
@@ -89,7 +89,7 @@ Content-Type: application/json; charset=UTF-8
         "eligible": true, 
         "qualified": true, 
         "bidID": "e4528bc92c0f463ca1f661381961e106", 
-        "date": "2019-10-25T01:00:00+03:00", 
+        "date": "2020-05-01T01:00:00+03:00", 
         "id": "de8bbc96c24f498488bf279a41416c9f"
       }, 
       {
@@ -97,7 +97,7 @@ Content-Type: application/json; charset=UTF-8
         "eligible": true, 
         "qualified": true, 
         "bidID": "b649b9b2575142159fd240c728c87298", 
-        "date": "2019-10-25T01:00:00+03:00", 
+        "date": "2020-05-01T01:00:00+03:00", 
         "id": "81988da3ce1f4cfdba7afe53020a62e6"
       }, 
       {
@@ -105,7 +105,7 @@ Content-Type: application/json; charset=UTF-8
         "eligible": false, 
         "qualified": false, 
         "bidID": "5e79c825b4c54c36a179b22db2dae23b", 
-        "date": "2019-10-25T01:00:00+03:00", 
+        "date": "2020-05-01T01:00:00+03:00", 
         "id": "0da9ff005c5b4951af49ef8d1863ce0b"
       }
     ], 
@@ -123,9 +123,9 @@ Content-Type: application/json; charset=UTF-8
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3d7d9e97935341b9bc5b4f2036e26085?KeyID=a8968c46&Signature=tiZzVxnfzTKWG2NhBERPiqcXKx1s0pp%252BxtB%252BaoiP1IswpVDL3qhcS1iBpKzWW9PzP6DaOY8zrk1HmCbhZHouBA%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "datePublished": "2020-05-01T01:00:00+03:00", 
         "id": "733a74df43104429b0019d3517b3e0ac", 
-        "dateModified": "2019-10-25T01:00:00+03:00"
+        "dateModified": "2020-05-01T01:00:00+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
@@ -135,9 +135,9 @@ Content-Type: application/json; charset=UTF-8
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c76c574bb5714522bffb70d839504850?KeyID=a8968c46&Signature=AMdpQ7ERktWktCPB8e4ctgAtcLoCENKDto3a7mGxQQ18%2FcWscdHFllSTlpgvH8V8%2Fn7k75oj1GyBQI7bZQ5lBA%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "datePublished": "2020-05-01T01:00:00+03:00", 
         "id": "a1ca03160bf74c3db9bc30fb1dd7c3d6", 
-        "dateModified": "2019-10-25T01:00:00+03:00"
+        "dateModified": "2020-05-01T01:00:00+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
@@ -147,27 +147,27 @@ Content-Type: application/json; charset=UTF-8
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/662d95f21d484fa9bd7ab10efb0c8be2?KeyID=a8968c46&Signature=QwCUYJCeKUWkcwUMpgTnBud0fiTh7Jw2dhvBt6hUtMxaoaWGZkbzq5HWLL5INOOcAAZwny0Z2JgGBtrFB9tnBw%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "datePublished": "2020-05-01T01:00:00+03:00", 
         "id": "a1ca03160bf74c3db9bc30fb1dd7c3d6", 
-        "dateModified": "2019-10-25T01:00:00+03:00"
+        "dateModified": "2020-05-01T01:00:00+03:00"
       }
     ], 
     "title": "Послуги шкільних їдалень", 
     "qualificationPeriod": {
-      "startDate": "2019-10-15T01:00:00+03:00", 
-      "endDate": "2019-10-25T01:00:00+03:00"
+      "startDate": "2020-04-21T01:00:00+03:00", 
+      "endDate": "2020-05-01T01:00:00+03:00"
     }, 
-    "tenderID": "UA-2019-10-25-000001", 
+    "tenderID": "UA-2020-05-01-000001", 
     "minimalStepPercentage": 0.006, 
     "auctionPeriod": {
-      "startDate": "2019-10-25T01:00:00+03:00", 
-      "endDate": "2019-10-25T01:00:00+03:00"
+      "startDate": "2020-05-01T01:00:00+03:00", 
+      "endDate": "2020-05-01T01:00:00+03:00"
     }, 
-    "dateModified": "2019-10-25T01:00:01+03:00", 
+    "dateModified": "2020-05-01T01:00:01+03:00", 
     "numberOfBids": 2, 
     "tenderPeriod": {
-      "startDate": "2019-09-14T01:00:00+03:00", 
-      "endDate": "2019-10-15T01:00:00+03:00"
+      "startDate": "2020-03-21T01:00:00+03:00", 
+      "endDate": "2020-04-21T01:00:00+03:00"
     }, 
     "contracts": [
       {
@@ -180,9 +180,9 @@ Content-Type: application/json; charset=UTF-8
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8714a55a49be4c4995b01f5e7c54362b?KeyID=a8968c46&Signature=VfDR2KJFx7eqWoNsAWN866UyIQ3JvO6yAQzfmQT6ZL6VIsQscGvwcNZfuWaLArowGp9QZG96WhClsY%252BFrlJICw%253D%253D", 
             "format": "application/msword", 
             "documentOf": "tender", 
-            "datePublished": "2019-10-25T01:00:01+03:00", 
+            "datePublished": "2020-05-01T01:00:01+03:00", 
             "id": "aa321196fac34140a9720947d789c916", 
-            "dateModified": "2019-10-25T01:00:01+03:00"
+            "dateModified": "2020-05-01T01:00:01+03:00"
           }, 
           {
             "hash": "md5:00000000000000000000000000000000", 
@@ -192,10 +192,10 @@ Content-Type: application/json; charset=UTF-8
             "format": "application/msword", 
             "title_en": "Title of Document", 
             "description_en": "Description of Document", 
-            "datePublished": "2019-10-25T01:00:01+03:00", 
+            "datePublished": "2020-05-01T01:00:01+03:00", 
             "documentOf": "tender", 
             "id": "39f78f40d5ba4ddb8555a28af0d52dc8", 
-            "dateModified": "2019-10-25T01:00:01+03:00"
+            "dateModified": "2020-05-01T01:00:01+03:00"
           }
         ], 
         "items": [
@@ -274,23 +274,23 @@ Content-Type: application/json; charset=UTF-8
               "postalCode": "21100", 
               "countryName": "Україна", 
               "streetAddress": "вул. Островського, 33", 
-              "region": "м. Вінниця", 
+              "region": "Вінницька область", 
               "locality": "м. Вінниця"
             }
           }
         ], 
         "contractNumber": "contract#1", 
         "period": {
-          "startDate": "2019-10-25T01:00:01+03:00", 
-          "endDate": "2020-10-24T01:00:01+03:00"
+          "startDate": "2020-05-01T01:00:01+03:00", 
+          "endDate": "2021-05-01T01:00:01+03:00"
         }, 
-        "dateSigned": "2019-10-25T01:00:01+03:00", 
+        "dateSigned": "2020-05-01T01:00:01+03:00", 
         "value": {
           "yearlyPaymentsPercentage": 0.9, 
-          "amountNet": 9466.26, 
-          "amountPerformance": 869.28, 
+          "amountNet": 9029.82, 
+          "amountPerformance": 826.27, 
           "currency": "UAH", 
-          "amount": 9467.26, 
+          "amount": 9030.82, 
           "contractDuration": {
             "days": 74, 
             "years": 10
@@ -320,10 +320,10 @@ Content-Type: application/json; charset=UTF-8
             1000.0
           ]
         }, 
-        "date": "2019-10-25T01:00:00+03:00", 
+        "date": "2020-05-01T01:00:00+03:00", 
         "awardID": "cc09c32b70944953bb082bdf4cf13c48", 
         "id": "b24337545a6c4c25843d326ae2a60645", 
-        "contractID": "UA-2019-10-25-000001-1"
+        "contractID": "UA-2020-05-01-000001-1"
       }
     ], 
     "NBUdiscountRate": 0.22986, 
@@ -351,26 +351,26 @@ Content-Type: application/json; charset=UTF-8
               "postalCode": "21100", 
               "countryName": "Україна", 
               "streetAddress": "вул. Островського, 33", 
-              "region": "м. Вінниця", 
+              "region": "Вінницька область", 
               "locality": "м. Вінниця"
             }
           }
         ], 
         "complaintPeriod": {
-          "startDate": "2019-10-25T01:00:00+03:00", 
-          "endDate": "2019-10-25T01:00:00+03:00"
+          "startDate": "2020-05-01T01:00:00+03:00", 
+          "endDate": "2020-05-01T01:00:00+03:00"
         }, 
         "bid_id": "e4528bc92c0f463ca1f661381961e106", 
         "value": {
           "yearlyPaymentsPercentage": 0.9, 
           "valueAddedTaxIncluded": true, 
           "currency": "UAH", 
-          "amount": 9467.26, 
+          "amount": 9030.82, 
           "contractDuration": {
             "days": 74, 
             "years": 10
           }, 
-          "amountPerformance": 869.28, 
+          "amountPerformance": 826.27, 
           "annualCostsReduction": [
             500.0, 
             1000.0, 
@@ -396,11 +396,11 @@ Content-Type: application/json; charset=UTF-8
           ]
         }, 
         "qualified": true, 
-        "date": "2019-10-25T01:00:00+03:00", 
+        "date": "2020-05-01T01:00:00+03:00", 
         "id": "cc09c32b70944953bb082bdf4cf13c48"
       }
     ], 
-    "date": "2019-10-25T01:00:01+03:00", 
+    "date": "2020-05-01T01:00:01+03:00", 
     "minValue": {
       "currency": "UAH", 
       "amount": 0.0, 
@@ -503,9 +503,9 @@ Content-Type: application/json; charset=UTF-8
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3c66e547d52349d3ae64416f15e9c35a?KeyID=a8968c46&Signature=YEnRLG%252B0IBnGJh1%2FEXonkQ3lEa6OeFJ6bja8UcTg0JHqoy6x%252BYkpvm3buQ%2FR1IMBaAkxz8EBfQUTb1WVvmYbCg%253D%253D", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2019-10-25T01:00:00+03:00", 
+            "datePublished": "2020-05-01T01:00:00+03:00", 
             "id": "f6d40d29d5ef4d1f85af6033339b5f47", 
-            "dateModified": "2019-10-25T01:00:00+03:00"
+            "dateModified": "2020-05-01T01:00:00+03:00"
           }, 
           {
             "hash": "md5:00000000000000000000000000000000", 
@@ -516,9 +516,9 @@ Content-Type: application/json; charset=UTF-8
             "confidentialityRationale": "Only our company sells badgers with pink hair.", 
             "title": "Proposal_top_secrets.pdf", 
             "documentOf": "tender", 
-            "datePublished": "2019-10-25T01:00:00+03:00", 
+            "datePublished": "2020-05-01T01:00:00+03:00", 
             "id": "12d76b67e831404c8628f7612d0944b1", 
-            "dateModified": "2019-10-25T01:00:00+03:00"
+            "dateModified": "2020-05-01T01:00:00+03:00"
           }
         ], 
         "eligibilityDocuments": [
@@ -530,9 +530,9 @@ Content-Type: application/json; charset=UTF-8
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/eb89b6fb96bb463c8f422013d61506a0?KeyID=a8968c46&Signature=bvPqtUvHr%252BBupaKAYbWu68gNk0zcx3u09N10bg2z1vVuM%252Bf8Wt7JmGgyboVdSMqZn9DOK6ooLdeEy5Io6E0qBQ%253D%253D", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2019-10-25T01:00:00+03:00", 
+            "datePublished": "2020-05-01T01:00:00+03:00", 
             "id": "66f8e57da25649be9795cc6d9189c4ff", 
-            "dateModified": "2019-10-25T01:00:00+03:00"
+            "dateModified": "2020-05-01T01:00:00+03:00"
           }
         ], 
         "selfEligible": true, 
@@ -541,12 +541,12 @@ Content-Type: application/json; charset=UTF-8
           "yearlyPaymentsPercentage": 0.9, 
           "valueAddedTaxIncluded": true, 
           "currency": "UAH", 
-          "amount": 9467.26, 
+          "amount": 9030.82, 
           "contractDuration": {
             "days": 74, 
             "years": 10
           }, 
-          "amountPerformance": 869.28, 
+          "amountPerformance": 826.27, 
           "annualCostsReduction": [
             500.0, 
             1000.0, 
@@ -581,9 +581,9 @@ Content-Type: application/json; charset=UTF-8
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b5c94c3907c04f15b1eb4bcf56cf73e5?KeyID=a8968c46&Signature=LonZ4c%252BT2lGU%2Fr8Tjua9yqEv5sDgbvvRz1fWvEiBadwZbNCV4zs18gfXVYTo9Bdkw3jXlZsgLIJFxvqndaLwCg%253D%253D", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2019-10-25T01:00:00+03:00", 
+            "datePublished": "2020-05-01T01:00:00+03:00", 
             "id": "c91b2d4d356b4f6c94cf255126fe233c", 
-            "dateModified": "2019-10-25T01:00:00+03:00"
+            "dateModified": "2020-05-01T01:00:00+03:00"
           }, 
           {
             "hash": "md5:00000000000000000000000000000000", 
@@ -593,9 +593,9 @@ Content-Type: application/json; charset=UTF-8
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/90f3ed7fe83245ceb8b2f7ff6624822b?KeyID=a8968c46&Signature=lGLR%2FC8EE%252BdwuVuEWAt62kv0khh6KcfLH5CM31RTpy8WJaas6aKJmN%2FV3XNTFoa9swgD%252B1cHHh6JNtTAX1qmBw%253D%253D", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2019-10-25T01:00:00+03:00", 
+            "datePublished": "2020-05-01T01:00:00+03:00", 
             "id": "d2179f9d17144ae59107edad44558986", 
-            "dateModified": "2019-10-25T01:00:00+03:00"
+            "dateModified": "2020-05-01T01:00:00+03:00"
           }
         ], 
         "tenderers": [
@@ -616,12 +616,12 @@ Content-Type: application/json; charset=UTF-8
               "postalCode": "21100", 
               "countryName": "Україна", 
               "streetAddress": "вул. Островського, 33", 
-              "region": "м. Вінниця", 
+              "region": "Вінницька область", 
               "locality": "м. Вінниця"
             }
           }
         ], 
-        "date": "2019-10-25T01:00:00+03:00", 
+        "date": "2020-05-01T01:00:00+03:00", 
         "subcontractingDetails": "ДКП «Орфей», Україна", 
         "qualificationDocuments": [
           {
@@ -632,9 +632,9 @@ Content-Type: application/json; charset=UTF-8
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/469f20975c9b4087a0b601f5d48d3df4?KeyID=a8968c46&Signature=CA7MDtn0JeS8sRu5oCGOwi%2FgH4e7AppdoIvs1zxHQP59X3p72UiaPa1IUbBZqMYMls9uTtxxCiNFQvsB8RbtCg%253D%253D", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2019-10-25T01:00:00+03:00", 
+            "datePublished": "2020-05-01T01:00:00+03:00", 
             "id": "5ba700bd5a65489fbd8821531adc4434", 
-            "dateModified": "2019-10-25T01:00:00+03:00"
+            "dateModified": "2020-05-01T01:00:00+03:00"
           }
         ], 
         "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/0aac695e27804293a2854dff7bed4be8?key_for_bid=e4528bc92c0f463ca1f661381961e106"
@@ -646,12 +646,12 @@ Content-Type: application/json; charset=UTF-8
           "yearlyPaymentsPercentage": 0.85, 
           "valueAddedTaxIncluded": true, 
           "currency": "UAH", 
-          "amount": 9798.75, 
+          "amount": 9427.78, 
           "contractDuration": {
             "days": 200, 
             "years": 12
           }, 
-          "amountPerformance": 807.55, 
+          "amountPerformance": 746.8, 
           "annualCostsReduction": [
             400.0, 
             900.0, 
@@ -695,12 +695,12 @@ Content-Type: application/json; charset=UTF-8
               "postalCode": "79013", 
               "countryName": "Україна", 
               "streetAddress": "вул. Островського, 34", 
-              "region": "м. Львів", 
+              "region": "Львівська область", 
               "locality": "м. Львів"
             }
           }
         ], 
-        "date": "2019-10-25T01:00:00+03:00", 
+        "date": "2020-05-01T01:00:00+03:00", 
         "selfQualified": true, 
         "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/0aac695e27804293a2854dff7bed4be8?key_for_bid=b649b9b2575142159fd240c728c87298"
       }, 
@@ -715,9 +715,9 @@ Content-Type: application/json; charset=UTF-8
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/21ef16b5420c40b48a8d16d91f49eeb4?KeyID=a8968c46&Signature=J%252Bkr%2F2u2h8MUKvkpSzmXoA1nT4SG9QOg4ijLwpZ9V93dmDn%252BIa9%252BD%2FNLZ3A9ciZp2R8tISmjpTHIzMCH6j%2FTAg%253D%253D", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2019-10-25T01:00:00+03:00", 
+            "datePublished": "2020-05-01T01:00:00+03:00", 
             "id": "824f270cc0b749bd989983329634a5de", 
-            "dateModified": "2019-10-25T01:00:00+03:00"
+            "dateModified": "2020-05-01T01:00:00+03:00"
           }, 
           {
             "hash": "md5:00000000000000000000000000000000", 
@@ -728,9 +728,9 @@ Content-Type: application/json; charset=UTF-8
             "confidentialityRationale": "Only our company sells badgers with pink hair.", 
             "title": "Proposal_part2.pdf", 
             "documentOf": "tender", 
-            "datePublished": "2019-10-25T01:00:00+03:00", 
+            "datePublished": "2020-05-01T01:00:00+03:00", 
             "id": "fc90022e9584421e90d0438c8b331cc8", 
-            "dateModified": "2019-10-25T01:00:00+03:00"
+            "dateModified": "2020-05-01T01:00:00+03:00"
           }
         ], 
         "eligibilityDocuments": [
@@ -742,9 +742,9 @@ Content-Type: application/json; charset=UTF-8
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2ee8fe8abbb94b7ebefa67990b15a743?KeyID=a8968c46&Signature=ryUc0j3Pmy63gc3K%252BVAlJ9qnmc6VvYjUU4Xnon3q5Dppv8O4HJ4rgMkyp%252BM42OsOTo9pHn9bSxPzdLzP8Xk9DA%253D%253D", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2019-10-25T01:00:00+03:00", 
+            "datePublished": "2020-05-01T01:00:00+03:00", 
             "id": "7adad4419c2f4b30b066e8e584a62f25", 
-            "dateModified": "2019-10-25T01:00:00+03:00"
+            "dateModified": "2020-05-01T01:00:00+03:00"
           }
         ], 
         "selfEligible": true, 
@@ -767,7 +767,7 @@ Content-Type: application/json; charset=UTF-8
               "postalCode": "79013", 
               "countryName": "Україна", 
               "streetAddress": "вул. Островського, 34", 
-              "region": "м. Львів", 
+              "region": "Львівська область", 
               "locality": "м. Львів"
             }
           }
@@ -787,9 +787,9 @@ Content-Type: application/json; charset=UTF-8
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/715d0ce84c85474bab0a4197b3c88d9e?KeyID=a8968c46&Signature=CSNVdM%252BFPIs0UMKu7Df6KFHn%2F4edJ6KebOqIfiLW3CC%252BNPfErfM5SD%2FiGZx%252BUNhtJ5JAwAXslhEcj9bn37MyDQ%253D%253D", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2019-10-25T01:00:01+03:00", 
+            "datePublished": "2020-05-01T01:00:01+03:00", 
             "id": "8930b31794ed4c728351984eb91111ef", 
-            "dateModified": "2019-10-25T01:00:01+03:00"
+            "dateModified": "2020-05-01T01:00:01+03:00"
           }, 
           {
             "hash": "md5:00000000000000000000000000000000", 
@@ -799,19 +799,19 @@ Content-Type: application/json; charset=UTF-8
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0aea3b3689ec4ba59ee885b091b463ad?KeyID=a8968c46&Signature=N05UpfTIQDBDl3EMedcSkOh3%2F5qLThkhsI5FlkMngNRZVGuW1lJGOnS%2FEAUJlsykqrgyGW%252BQMz7VB6TcQ8HpAA%253D%253D", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2019-10-25T01:00:01+03:00", 
+            "datePublished": "2020-05-01T01:00:01+03:00", 
             "id": "8930b31794ed4c728351984eb91111ef", 
-            "dateModified": "2019-10-25T01:00:01+03:00"
+            "dateModified": "2020-05-01T01:00:01+03:00"
           }
         ], 
         "reason": "cancellation reason", 
-        "reasonType": "unsuccessful", 
-        "date": "2019-10-25T01:00:01+03:00", 
+        "reasonType": "expensesCut", 
+        "date": "2020-05-01T01:00:01+03:00", 
         "cancellationOf": "tender", 
-        "id": "340d917daa2d41599bb71c6f330fdd43"
+        "id": "3efefdab89324f4aa00ff1853d92d0ab"
       }
     ], 
-    "noticePublicationDate": "2019-10-25T01:00:00+03:00", 
+    "noticePublicationDate": "2020-05-01T01:00:00+03:00", 
     "awardCriteria": "ratedCriteria"
   }
 }

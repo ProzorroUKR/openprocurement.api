@@ -43,8 +43,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2019-11-14T01:00:00+03:00", 
-          "endDate": "2019-11-24T01:00:10+03:00"
+          "startDate": "2020-05-21T01:00:00+03:00", 
+          "endDate": "2020-05-31T01:00:10+03:00"
         }, 
         "id": "52ba02bed7a347fa9f8119661caf0ed2", 
         "unit": {
@@ -72,7 +72,7 @@ Content-Type: application/json; charset=UTF-8
           "postalCode": "79013", 
           "countryName": "Україна", 
           "streetAddress": "вул. Островського, 34", 
-          "region": "м. Львів", 
+          "region": "Львівська область", 
           "locality": "м. Львів"
         }
       }
@@ -84,10 +84,10 @@ Content-Type: application/json; charset=UTF-8
       "amountNet": 230.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2019-10-25T01:00:00+03:00", 
+    "date": "2020-05-01T01:00:00+03:00", 
     "awardID": "dcce360f724a4fb3a1fe22e38f3d17a7", 
     "id": "b6a7995d82d24e2493ce3d45eeaaa00e", 
-    "contractID": "UA-2019-10-25-000001-1"
+    "contractID": "UA-2020-05-01-000001-1"
   }
 }
 

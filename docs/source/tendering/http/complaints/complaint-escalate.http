@@ -21,10 +21,10 @@ Content-Type: application/json; charset=UTF-8
     "resolutionType": "resolved", 
     "type": "claim", 
     "satisfied": false, 
-    "dateAnswered": "2019-10-25T01:00:00+03:00", 
-    "dateSubmitted": "2019-10-25T01:00:00+03:00", 
-    "complaintID": "UA-2019-10-25-000001.2", 
-    "date": "2019-10-25T01:00:00+03:00", 
+    "dateAnswered": "2020-05-01T01:00:00+03:00", 
+    "dateSubmitted": "2020-05-01T01:00:00+03:00", 
+    "complaintID": "UA-2020-05-01-000001.2", 
+    "date": "2020-05-01T01:00:00+03:00", 
     "resolution": "Виправлено неконкурентні умови", 
     "id": "86c7fa50a8d34e5eb908b94fc5db419c"
   }

@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/52f1b75138ab4b2c87feff205f2a06f4/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1063
+Content-Length: 1122
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -40,7 +40,7 @@ DATA:
         "address": {
           "countryName": "Україна", 
           "postalCode": "79013", 
-          "region": "м. Львів", 
+          "region": "Львівська область", 
           "streetAddress": "вул. Островського, 34", 
           "locality": "м. Львів"
         }
@@ -63,7 +63,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/52f1b75138ab4b2c
     "lotValues": [
       {
         "relatedLot": "a678eaf5090d45db8077d4ecd36154e0", 
-        "date": "2019-10-25T01:00:00+03:00", 
+        "date": "2020-05-01T01:00:00+03:00", 
         "status": "pending", 
         "value": {
           "currency": "UAH", 
@@ -73,7 +73,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/52f1b75138ab4b2c
       }, 
       {
         "relatedLot": "885ae10af23944619f6730aa24a94d92", 
-        "date": "2019-10-25T01:00:00+03:00", 
+        "date": "2020-05-01T01:00:00+03:00", 
         "status": "pending", 
         "value": {
           "currency": "UAH", 
@@ -102,12 +102,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/52f1b75138ab4b2c
           "postalCode": "79013", 
           "countryName": "Україна", 
           "streetAddress": "вул. Островського, 34", 
-          "region": "м. Львів", 
+          "region": "Львівська область", 
           "locality": "м. Львів"
         }
       }
     ], 
-    "date": "2019-10-25T01:00:00+03:00", 
+    "date": "2020-05-01T01:00:00+03:00", 
     "id": "f4c99b9e469349e296d81e700168a070"
   }
 }

@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d/questions HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1057
+Content-Length: 1116
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -22,7 +22,7 @@ DATA:
       "address": {
         "countryName": "Україна", 
         "postalCode": "21100", 
-        "region": "м. Львів", 
+        "region": "Львівська область", 
         "streetAddress": "вул. Поле, 33", 
         "locality": "м. Львів"
       }

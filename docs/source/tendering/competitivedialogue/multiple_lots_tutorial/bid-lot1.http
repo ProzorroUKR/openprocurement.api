@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/086edc68f12d4a248ded4f9cea52e69c/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 976
+Content-Length: 1023
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -31,7 +31,7 @@ DATA:
         "address": {
           "countryName": "Україна", 
           "postalCode": "21100", 
-          "region": "м. Вінниця", 
+          "region": "Вінницька область", 
           "streetAddress": "вул. Островського, 33", 
           "locality": "м. Вінниця"
         }
@@ -54,7 +54,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/086edc68f12d4a24
     "lotValues": [
       {
         "relatedLot": "e928726a47b7461a9d8a00258123cf3d", 
-        "date": "2019-10-25T01:00:00+03:00", 
+        "date": "2020-05-01T01:00:00+03:00", 
         "status": "pending", 
         "subcontractingDetails": "ДКП «Орфей», Україна"
       }
@@ -78,12 +78,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/086edc68f12d4a24
           "postalCode": "21100", 
           "countryName": "Україна", 
           "streetAddress": "вул. Островського, 33", 
-          "region": "м. Вінниця", 
+          "region": "Вінницька область", 
           "locality": "м. Вінниця"
         }
       }
     ], 
-    "date": "2019-10-25T01:00:00+03:00", 
+    "date": "2020-05-01T01:00:00+03:00", 
     "id": "5c57011a1a184851aa1a971e0f443b6c"
   }
 }

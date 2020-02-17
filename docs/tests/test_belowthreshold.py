@@ -522,7 +522,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.post_json(
                 '/tenders/{}/cancellations?acc_token={}'.format(
                     self.tender_id, owner_token),
-                {'data': {'reason': 'cancellation reason'}})
+                {'data': {'reason': 'cancellation reason', 'reasonType': 'noDemand'}})
             self.assertEqual(response.status, '201 Created')
 
         cancellation_id = response.json['data']['id']
@@ -580,6 +580,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 "startDate": (get_now() + timedelta(days=2)).isoformat(),
                 "endDate": (get_now() + timedelta(days=5)).isoformat()
             }
+
+        test_tender_data.update({
+            "enquiryPeriod": {"endDate": (get_now() + timedelta(days=7)).isoformat()},
+            "tenderPeriod": {"endDate": (get_now() + timedelta(days=14)).isoformat()}
+        })
 
         self.create_tender()
 

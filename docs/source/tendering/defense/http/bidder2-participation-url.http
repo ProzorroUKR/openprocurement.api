@@ -32,12 +32,12 @@ Content-Type: application/json; charset=UTF-8
           "postalCode": "79013", 
           "countryName": "Україна", 
           "streetAddress": "вул. Островського, 34", 
-          "region": "м. Львів", 
+          "region": "Львівська область", 
           "locality": "м. Львів"
         }
       }
     ], 
-    "date": "2019-10-25T01:00:01+03:00", 
+    "date": "2020-05-01T01:00:01+03:00", 
     "selfQualified": true, 
     "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/127bd59fdd464def8d1189b954eefcbb?key_for_bid=7e335c57715e407da04305d26eb0bb90"
   }

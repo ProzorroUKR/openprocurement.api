@@ -20,17 +20,17 @@ Content-Type: application/json; charset=UTF-8
     "procurementMethod": "open", 
     "mainProcurementCategory": "services", 
     "complaintPeriod": {
-      "startDate": "2019-10-25T01:00:00+03:00", 
-      "endDate": "2019-11-20T00:00:00+03:00"
+      "startDate": "2020-05-01T01:00:00+03:00", 
+      "endDate": "2020-05-27T00:00:00+03:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2019-10-25T01:00:00+03:00", 
-      "clarificationsUntil": "2019-11-20T00:00:00+03:00", 
-      "endDate": "2019-11-14T01:00:10+03:00", 
-      "invalidationDate": "2019-10-25T01:00:00+03:00"
+      "startDate": "2020-05-01T01:00:00+03:00", 
+      "clarificationsUntil": "2020-05-27T00:00:00+03:00", 
+      "endDate": "2020-05-21T01:00:10+03:00", 
+      "invalidationDate": "2020-05-01T01:00:00+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2019-11-24T00:00:10+02:00", 
+    "next_check": "2020-05-31T01:00:10+03:00", 
     "procuringEntity": {
       "kind": "general", 
       "name": "ЗОСШ #10 м.Вінниці", 
@@ -38,7 +38,7 @@ Content-Type: application/json; charset=UTF-8
         "postalCode": "21027", 
         "countryName": "Україна", 
         "streetAddress": "вул. Стахурського. 22", 
-        "region": "м. Вінниця", 
+        "region": "Вінницька область", 
         "locality": "м. Вінниця"
       }, 
       "contactPoint": {
@@ -64,18 +64,18 @@ Content-Type: application/json; charset=UTF-8
       "amount": 8.0
     }, 
     "title": "Послуги шкільних їдалень", 
-    "tenderID": "UA-2019-10-25-000001", 
-    "dateModified": "2019-10-25T01:00:00+03:00", 
+    "tenderID": "UA-2020-05-01-000001", 
+    "dateModified": "2020-05-01T01:00:00+03:00", 
     "status": "active.tendering", 
     "tenderPeriod": {
-      "startDate": "2019-10-25T01:00:00+03:00", 
-      "endDate": "2019-11-24T01:00:10+03:00"
+      "startDate": "2020-05-01T01:00:00+03:00", 
+      "endDate": "2020-05-31T01:00:10+03:00"
     }, 
     "auctionPeriod": {
-      "shouldStartAfter": "2019-12-30T00:00:00+03:00"
+      "shouldStartAfter": "2020-07-06T00:00:00+03:00"
     }, 
     "procurementMethodType": "aboveThresholdEU", 
-    "date": "2019-10-25T01:00:00+03:00", 
+    "date": "2020-05-01T01:00:00+03:00", 
     "milestones": [
       {
         "code": "prepayment", 
@@ -131,8 +131,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2019-11-14T00:00:00+02:00", 
-          "endDate": "2019-12-14T00:00:00+02:00"
+          "startDate": "2020-05-21T00:00:00+02:00", 
+          "endDate": "2020-06-20T00:00:00+02:00"
         }, 
         "id": "6ebdaf1cb586410f8c8c843a108b155f", 
         "quantity": 1.0
@@ -160,8 +160,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2019-11-14T00:00:00+02:00", 
-          "endDate": "2019-12-14T00:00:00+02:00"
+          "startDate": "2020-05-21T00:00:00+02:00", 
+          "endDate": "2020-06-20T00:00:00+02:00"
         }, 
         "id": "2362877518ef44d783c05ed80edafa78", 
         "quantity": 1.0

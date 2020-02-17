@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/50c82523038349969f53f3e238932c46/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 2632
+Content-Length: 2673
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -60,7 +60,7 @@ DATA:
         "address": {
           "countryName": "Україна", 
           "postalCode": "79013", 
-          "region": "м. Запоріжжя", 
+          "region": "Запорізька область", 
           "streetAddress": "вул. Коцюбинського, 15", 
           "locality": "м. Запоріжя"
         }
@@ -96,9 +96,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/50c8252303834996
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/50c82523038349969f53f3e238932c46/bids/0ee0193aeac246e791c6601952452387/documents/a38bd81182d84d43bef52d2698f89d98?download=f9c5aeb5ae15458ea9076b15b028e187", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "datePublished": "2020-05-01T01:00:00+03:00", 
         "id": "a38bd81182d84d43bef52d2698f89d98", 
-        "dateModified": "2019-10-25T01:00:00+03:00"
+        "dateModified": "2020-05-01T01:00:00+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
@@ -109,9 +109,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/50c8252303834996
         "confidentialityRationale": "Only our company sells badgers with pink hair.", 
         "title": "Proposal_part2.pdf", 
         "documentOf": "tender", 
-        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "datePublished": "2020-05-01T01:00:00+03:00", 
         "id": "f896df38ec1e41cc89e6e463e54e81e8", 
-        "dateModified": "2019-10-25T01:00:00+03:00"
+        "dateModified": "2020-05-01T01:00:00+03:00"
       }
     ], 
     "eligibilityDocuments": [
@@ -123,9 +123,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/50c8252303834996
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/50c82523038349969f53f3e238932c46/bids/0ee0193aeac246e791c6601952452387/eligibility_documents/5a466b5c43144a0e80632960a297cd18?download=5721f90fa3184d109b317342fc4daac2", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "datePublished": "2020-05-01T01:00:00+03:00", 
         "id": "5a466b5c43144a0e80632960a297cd18", 
-        "dateModified": "2019-10-25T01:00:00+03:00"
+        "dateModified": "2020-05-01T01:00:00+03:00"
       }
     ], 
     "selfEligible": true, 
@@ -145,9 +145,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/50c8252303834996
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/50c82523038349969f53f3e238932c46/bids/0ee0193aeac246e791c6601952452387/financial_documents/def75f418a554f5c973caf58aba7a8ce?download=508df1e3e9fa44d59bfab6ef28cc2b14", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "datePublished": "2020-05-01T01:00:00+03:00", 
         "id": "def75f418a554f5c973caf58aba7a8ce", 
-        "dateModified": "2019-10-25T01:00:00+03:00"
+        "dateModified": "2020-05-01T01:00:00+03:00"
       }
     ], 
     "tenderers": [
@@ -168,12 +168,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/50c8252303834996
           "postalCode": "79013", 
           "countryName": "Україна", 
           "streetAddress": "вул. Коцюбинського, 15", 
-          "region": "м. Запоріжжя", 
+          "region": "Запорізька область", 
           "locality": "м. Запоріжя"
         }
       }
     ], 
-    "date": "2019-10-25T01:00:00+03:00", 
+    "date": "2020-05-01T01:00:00+03:00", 
     "qualificationDocuments": [
       {
         "hash": "md5:00000000000000000000000000000000", 
@@ -183,9 +183,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/50c8252303834996
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/50c82523038349969f53f3e238932c46/bids/0ee0193aeac246e791c6601952452387/qualification_documents/328a71c371a54914898f0935a61c5c9d?download=cde0cdb5e4fc4ce6a944169797c08132", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "datePublished": "2020-05-01T01:00:00+03:00", 
         "id": "328a71c371a54914898f0935a61c5c9d", 
-        "dateModified": "2019-10-25T01:00:00+03:00"
+        "dateModified": "2020-05-01T01:00:00+03:00"
       }
     ]
   }

@@ -27,9 +27,9 @@ Content-Type: application/json; charset=UTF-8
           "priceReduction"
         ], 
         "rationale_en": "Contract change cause", 
-        "dateSigned": "2019-10-25T01:00:01+03:00", 
+        "dateSigned": "2020-05-01T01:00:01+03:00", 
         "rationale": "Друга і третя поставка має бути розфасована", 
-        "date": "2019-10-25T01:00:01+03:00", 
+        "date": "2020-05-01T01:00:01+03:00", 
         "id": "f3fe39d5213d4a029212ff4f1151cf40"
       }
     ], 
@@ -39,37 +39,37 @@ Content-Type: application/json; charset=UTF-8
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/de3004e5b9844707bb35405277043c7c?download=c264f9ae7a754b25badeff4e01b1cb43", 
         "format": "application/msword", 
         "documentOf": "change", 
-        "datePublished": "2019-10-25T01:00:01+03:00", 
+        "datePublished": "2020-05-01T01:00:01+03:00", 
         "id": "de3004e5b9844707bb35405277043c7c", 
         "relatedItem": "f3fe39d5213d4a029212ff4f1151cf40", 
-        "dateModified": "2019-10-25T01:00:01+03:00"
+        "dateModified": "2020-05-01T01:00:01+03:00"
       }, 
       {
         "title": "contract.doc", 
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/e280bc973d5b4ce284dd152f15ae24f4?download=5311a5f7a2dc43d68092e08adad8737b", 
         "format": "application/msword", 
         "documentOf": "contract", 
-        "datePublished": "2019-10-25T01:00:01+03:00", 
+        "datePublished": "2020-05-01T01:00:01+03:00", 
         "id": "e280bc973d5b4ce284dd152f15ae24f4", 
-        "dateModified": "2019-10-25T01:00:01+03:00"
+        "dateModified": "2020-05-01T01:00:01+03:00"
       }, 
       {
         "title": "contract_additional_docs.doc", 
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/884f1aed57d741a7a8011e28edc20860?download=54f475dac20b45d0aefff43fc60f1822", 
         "format": "application/msword", 
         "documentOf": "contract", 
-        "datePublished": "2019-10-25T01:00:01+03:00", 
+        "datePublished": "2020-05-01T01:00:01+03:00", 
         "id": "884f1aed57d741a7a8011e28edc20860", 
-        "dateModified": "2019-10-25T01:00:01+03:00"
+        "dateModified": "2020-05-01T01:00:01+03:00"
       }, 
       {
         "title": "contract_additional_docs.doc", 
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/884f1aed57d741a7a8011e28edc20860?download=2562188623c64e25967736fbcc3a38d2", 
         "format": "application/msword", 
         "documentOf": "contract", 
-        "datePublished": "2019-10-25T01:00:01+03:00", 
+        "datePublished": "2020-05-01T01:00:01+03:00", 
         "id": "884f1aed57d741a7a8011e28edc20860", 
-        "dateModified": "2019-10-25T01:00:01+03:00"
+        "dateModified": "2020-05-01T01:00:01+03:00"
       }
     ], 
     "items": [
@@ -95,8 +95,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2019-10-27T01:00:00+03:00", 
-          "endDate": "2019-10-30T01:00:00+03:00"
+          "startDate": "2020-05-03T01:00:00+03:00", 
+          "endDate": "2020-05-06T01:00:00+03:00"
         }, 
         "id": "f9297f1a5b7148afa736fdb77d9a7d98", 
         "unit": {
@@ -129,8 +129,8 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "period": {
-      "startDate": "2019-10-25T01:00:01+03:00", 
-      "endDate": "2019-11-24T01:00:01+03:00"
+      "startDate": "2020-05-01T01:00:01+03:00", 
+      "endDate": "2020-05-31T01:00:01+03:00"
     }, 
     "value": {
       "currency": "UAH", 
@@ -138,7 +138,7 @@ Content-Type: application/json; charset=UTF-8
       "amountNet": 430.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "dateModified": "2019-10-25T01:00:01+03:00", 
+    "dateModified": "2020-05-01T01:00:01+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 
@@ -159,8 +159,8 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Київ"
       }
     }, 
-    "dateSigned": "2019-10-25T01:00:01+03:00", 
-    "contractID": "UA-2019-10-25-000001-1", 
+    "dateSigned": "2020-05-01T01:00:01+03:00", 
+    "contractID": "UA-2020-05-01-000001-1", 
     "owner": "broker", 
     "awardID": "e7fc32a4b2cd473793ff3b53b98c60ae", 
     "amountPaid": {

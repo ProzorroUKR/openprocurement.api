@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 775
+Content-Length: 822
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -27,7 +27,7 @@ DATA:
         "address": {
           "countryName": "Україна", 
           "postalCode": "21100", 
-          "region": "м. Вінниця", 
+          "region": "Вінницька область", 
           "streetAddress": "вул. Островського, 33", 
           "locality": "м. Вінниця"
         }
@@ -45,7 +45,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bc3a9016b29d4fed
     "token": "7a7e299c46ba4430a2a63af9bf91af30"
   }, 
   "data": {
-    "date": "2019-10-25T01:00:01+03:00", 
+    "date": "2020-05-01T01:00:01+03:00", 
     "status": "draft", 
     "id": "b31ec66637a141c7bb03446a0f22f5dc", 
     "value": {
@@ -71,7 +71,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bc3a9016b29d4fed
           "postalCode": "21100", 
           "countryName": "Україна", 
           "streetAddress": "вул. Островського, 33", 
-          "region": "м. Вінниця", 
+          "region": "Вінницька область", 
           "locality": "м. Вінниця"
         }
       }

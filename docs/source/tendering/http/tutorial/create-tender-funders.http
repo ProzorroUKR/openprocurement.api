@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 3672
+Content-Length: 3800
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -23,7 +23,7 @@ DATA:
         }, 
         "name": "Глобальний фонд", 
         "address": {
-          "countryName": "Switzerland", 
+          "countryName": "Швейцарська Конфедерація", 
           "postalCode": "1218", 
           "region": "Grand-Saconnex", 
           "streetAddress": "Global Health Campus, Chemin du Pommier 40", 
@@ -58,7 +58,7 @@ DATA:
     ], 
     "mainProcurementCategory": "goods", 
     "tenderPeriod": {
-      "endDate": "2019-11-08T01:00:00+03:00"
+      "endDate": "2020-05-15T01:00:00+03:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -66,7 +66,7 @@ DATA:
       "amount": 35
     }, 
     "enquiryPeriod": {
-      "endDate": "2019-11-01T01:00:00+03:00"
+      "endDate": "2020-05-08T01:00:00+03:00"
     }, 
     "procurementMethodType": "belowThreshold", 
     "value": {
@@ -116,8 +116,8 @@ DATA:
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2019-10-27T01:00:00+03:00", 
-          "endDate": "2019-10-30T01:00:00+03:00"
+          "startDate": "2020-05-03T01:00:00+03:00", 
+          "endDate": "2020-05-06T01:00:00+03:00"
         }, 
         "unit": {
           "code": "44617100-9", 
@@ -155,7 +155,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/360cfcaeb0ec4394
         "name": "Глобальний фонд", 
         "address": {
           "postalCode": "1218", 
-          "countryName": "Switzerland", 
+          "countryName": "Швейцарська Конфедерація", 
           "streetAddress": "Global Health Campus, Chemin du Pommier 40", 
           "region": "Grand-Saconnex", 
           "locality": "Geneva"
@@ -191,8 +191,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/360cfcaeb0ec4394
     ], 
     "mainProcurementCategory": "goods", 
     "tenderPeriod": {
-      "startDate": "2019-11-01T01:00:00+03:00", 
-      "endDate": "2019-11-08T01:00:00+03:00"
+      "startDate": "2020-05-08T01:00:00+03:00", 
+      "endDate": "2020-05-15T01:00:00+03:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -223,8 +223,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/360cfcaeb0ec4394
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2019-10-27T01:00:00+03:00", 
-          "endDate": "2019-10-30T01:00:00+03:00"
+          "startDate": "2020-05-03T01:00:00+03:00", 
+          "endDate": "2020-05-06T01:00:00+03:00"
         }, 
         "id": "f29295604e5b42178da6d508e78e5cb0", 
         "unit": {
@@ -241,8 +241,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/360cfcaeb0ec4394
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "date": "2019-10-25T01:00:00+03:00", 
-    "dateModified": "2019-10-25T01:00:00+03:00", 
+    "date": "2020-05-01T01:00:00+03:00", 
+    "dateModified": "2020-05-01T01:00:00+03:00", 
     "status": "active.enquiries", 
     "procuringEntity": {
       "contactPoint": {
@@ -266,13 +266,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/360cfcaeb0ec4394
     }, 
     "awardCriteria": "lowestCost", 
     "enquiryPeriod": {
-      "startDate": "2019-10-25T01:00:00+03:00", 
-      "endDate": "2019-11-01T01:00:00+03:00"
+      "startDate": "2020-05-01T01:00:00+03:00", 
+      "endDate": "2020-05-08T01:00:00+03:00"
     }, 
     "owner": "broker", 
-    "next_check": "2019-11-01T00:00:00+02:00", 
+    "next_check": "2020-05-08T01:00:00+03:00", 
     "id": "360cfcaeb0ec43948ba2c03584e41ea0", 
-    "tenderID": "UA-2019-10-25-000003"
+    "tenderID": "UA-2020-05-01-000003"
   }
 }
 

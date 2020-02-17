@@ -24,9 +24,9 @@ Content-Type: application/json; charset=UTF-8
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cecdf017998b487185202483e91af515?KeyID=a8968c46&Signature=gzRXfaCNlnxePAH7P9FQ96TMcIss23ts1b01R496qyHe6WnAuBDViJ52c4QKKrpjcP2bF9oEURrPAt5xpCG%2FAQ%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "datePublished": "2020-05-01T01:00:00+03:00", 
         "id": "c9de53a29d1a499aadcd7b081c60c306", 
-        "dateModified": "2019-10-25T01:00:00+03:00"
+        "dateModified": "2020-05-01T01:00:00+03:00"
       }
     ], 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
@@ -35,11 +35,11 @@ Content-Type: application/json; charset=UTF-8
     "type": "claim", 
     "satisfied": true, 
     "tendererAction": "Виправлено неконкурентні умови", 
-    "dateAnswered": "2019-10-25T01:00:00+03:00", 
-    "tendererActionDate": "2019-10-25T01:00:00+03:00", 
-    "dateSubmitted": "2019-10-25T01:00:00+03:00", 
-    "complaintID": "UA-2019-10-25-000001.1", 
-    "date": "2019-10-25T01:00:00+03:00", 
+    "dateAnswered": "2020-05-01T01:00:00+03:00", 
+    "tendererActionDate": "2020-05-01T01:00:00+03:00", 
+    "dateSubmitted": "2020-05-01T01:00:00+03:00", 
+    "complaintID": "UA-2020-05-01-000001.1", 
+    "date": "2020-05-01T01:00:00+03:00", 
     "resolution": "Виправлено неконкурентні умови", 
     "id": "a21a451c5f69404cb553e809e4cd9de8"
   }

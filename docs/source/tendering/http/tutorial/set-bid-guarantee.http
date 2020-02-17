@@ -34,7 +34,7 @@ Content-Type: application/json; charset=UTF-8
         "name": "Глобальний фонд", 
         "address": {
           "postalCode": "1218", 
-          "countryName": "Switzerland", 
+          "countryName": "Швейцарська Конфедерація", 
           "streetAddress": "Global Health Campus, Chemin du Pommier 40", 
           "region": "Grand-Saconnex", 
           "locality": "Geneva"
@@ -44,11 +44,11 @@ Content-Type: application/json; charset=UTF-8
     "procurementMethod": "open", 
     "mainProcurementCategory": "goods", 
     "enquiryPeriod": {
-      "startDate": "2019-10-25T01:00:00+03:00", 
-      "endDate": "2019-11-01T01:00:00+03:00"
+      "startDate": "2020-05-01T01:00:00+03:00", 
+      "endDate": "2020-05-08T01:00:00+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2019-11-01T00:00:00+02:00", 
+    "next_check": "2020-05-08T01:00:00+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 
@@ -76,15 +76,15 @@ Content-Type: application/json; charset=UTF-8
       "amount": 8.0
     }, 
     "title": "футляри до державних нагород", 
-    "tenderID": "UA-2019-10-25-000001", 
-    "dateModified": "2019-10-25T01:00:01+03:00", 
+    "tenderID": "UA-2020-05-01-000001", 
+    "dateModified": "2020-05-01T01:00:01+03:00", 
     "status": "active.enquiries", 
     "tenderPeriod": {
-      "startDate": "2019-11-01T01:00:00+03:00", 
-      "endDate": "2019-11-09T01:00:11+03:00"
+      "startDate": "2020-05-08T01:00:00+03:00", 
+      "endDate": "2020-05-16T01:00:11+03:00"
     }, 
     "procurementMethodType": "belowThreshold", 
-    "date": "2019-10-25T01:00:00+03:00", 
+    "date": "2020-05-01T01:00:00+03:00", 
     "milestones": [
       {
         "code": "prepayment", 
@@ -139,8 +139,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2019-10-27T01:00:00+03:00", 
-          "endDate": "2019-10-30T01:00:00+03:00"
+          "startDate": "2020-05-03T01:00:00+03:00", 
+          "endDate": "2020-05-06T01:00:00+03:00"
         }, 
         "id": "22efe85457d041aab3bc5a64aae6be0f", 
         "unit": {

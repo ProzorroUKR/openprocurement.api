@@ -37,7 +37,7 @@ Content-Type: application/json; charset=UTF-8
           "postalCode": "79013", 
           "countryName": "Україна", 
           "streetAddress": "вул. Островського, 35", 
-          "region": "м. Львів", 
+          "region": "Львівська область", 
           "locality": "м. Львів"
         }
       }
@@ -49,7 +49,7 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "qualified": true, 
-    "date": "2019-10-25T01:00:00+03:00", 
+    "date": "2020-05-01T01:00:00+03:00", 
     "id": "f0a4ebb65d774adc88df5718449f7d75"
   }
 }

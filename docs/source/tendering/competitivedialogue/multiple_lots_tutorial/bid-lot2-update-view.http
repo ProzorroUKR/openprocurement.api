@@ -24,7 +24,7 @@ Content-Type: application/json; charset=UTF-8
     "lotValues": [
       {
         "relatedLot": "e928726a47b7461a9d8a00258123cf3d", 
-        "date": "2019-10-25T01:00:00+03:00", 
+        "date": "2020-05-01T01:00:00+03:00", 
         "status": "pending"
       }
     ], 
@@ -47,12 +47,12 @@ Content-Type: application/json; charset=UTF-8
           "postalCode": "79013", 
           "countryName": "Україна", 
           "streetAddress": "вул. Островського, 34", 
-          "region": "м. Львів", 
+          "region": "Львівська область", 
           "locality": "м. Львів"
         }
       }
     ], 
-    "date": "2019-10-25T01:00:00+03:00", 
+    "date": "2020-05-01T01:00:00+03:00", 
     "id": "44e377d158fa42f3b8d4437c84bdda52"
   }
 }

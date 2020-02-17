@@ -19,9 +19,9 @@ Content-Type: application/json; charset=UTF-8
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "title": "Недостатньо інформації", 
     "bid_id": "923dbf550ec84f78a1d4ecfb09d6bb48", 
-    "dateSubmitted": "2019-10-25T01:00:01+03:00", 
-    "complaintID": "UA-2019-10-25-000001.8", 
-    "date": "2019-10-25T01:00:01+03:00", 
+    "dateSubmitted": "2020-05-01T01:00:01+03:00", 
+    "complaintID": "UA-2020-05-01-000001.8", 
+    "date": "2020-05-01T01:00:01+03:00", 
     "type": "claim", 
     "id": "6b3b79be5ffa4805b409c036acdea19f"
   }

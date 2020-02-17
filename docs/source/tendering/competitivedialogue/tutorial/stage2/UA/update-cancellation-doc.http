@@ -1,4 +1,4 @@
-PUT /api/2.5/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d/cancellations/2a66556a408c4a17a62940b1ad3c728e/documents/b660c69f66784b979da3b1cf1fff9e76?acc_token=ce9ee5fc97484fc3b51e3f4dcea722d4 HTTP/1.0
+PUT /api/2.5/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d/cancellations/d42fd4b9cc384f5280a5b4edcf883629/documents/b660c69f66784b979da3b1cf1fff9e76?acc_token=ce9ee5fc97484fc3b51e3f4dcea722d4 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 145
 Content-Type: multipart/form-data; boundary=---BOUNDARY
@@ -22,9 +22,9 @@ Content-Type: application/json; charset=UTF-8
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3ac9a4ce62c4476ba9625858f2afdd7b?KeyID=a8968c46&Signature=OlH1qH0aTmkEShCvVI3QImyM%2FWwbqgj9cnxOLXbOi%2FjuueUHgxpygOt%252BK4lyRoTt4fyTIgSgQrek%2FrMpp%252BUVBg%253D%253D", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2019-10-25T01:00:03+03:00", 
+    "datePublished": "2020-05-01T01:00:03+03:00", 
     "id": "b660c69f66784b979da3b1cf1fff9e76", 
-    "dateModified": "2019-10-25T01:00:03+03:00"
+    "dateModified": "2020-05-01T01:00:03+03:00"
   }
 }
 

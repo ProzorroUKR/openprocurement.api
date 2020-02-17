@@ -7,8 +7,8 @@ DATA:
 {
   "data": {
     "period": {
-      "startDate": "2019-10-25T01:00:01+03:00", 
-      "endDate": "2020-10-24T01:00:01+03:00"
+      "startDate": "2020-05-01T01:00:01+03:00", 
+      "endDate": "2021-05-01T01:00:01+03:00"
     }
   }
 }
@@ -94,23 +94,23 @@ Content-Type: application/json; charset=UTF-8
           "postalCode": "21100", 
           "countryName": "Україна", 
           "streetAddress": "вул. Островського, 33", 
-          "region": "м. Вінниця", 
+          "region": "Вінницька область", 
           "locality": "м. Вінниця"
         }
       }
     ], 
     "contractNumber": "contract#1", 
     "period": {
-      "startDate": "2019-10-25T01:00:01+03:00", 
-      "endDate": "2020-10-24T01:00:01+03:00"
+      "startDate": "2020-05-01T01:00:01+03:00", 
+      "endDate": "2021-05-01T01:00:01+03:00"
     }, 
-    "dateSigned": "2019-10-25T01:00:01+03:00", 
+    "dateSigned": "2020-05-01T01:00:01+03:00", 
     "value": {
       "yearlyPaymentsPercentage": 0.9, 
-      "amountNet": 9466.26, 
-      "amountPerformance": 869.28, 
+      "amountNet": 9029.82, 
+      "amountPerformance": 826.27, 
       "currency": "UAH", 
-      "amount": 9467.26, 
+      "amount": 9030.82, 
       "contractDuration": {
         "days": 74, 
         "years": 10
@@ -140,10 +140,10 @@ Content-Type: application/json; charset=UTF-8
         1000.0
       ]
     }, 
-    "date": "2019-10-25T01:00:00+03:00", 
+    "date": "2020-05-01T01:00:00+03:00", 
     "awardID": "cc09c32b70944953bb082bdf4cf13c48", 
     "id": "b24337545a6c4c25843d326ae2a60645", 
-    "contractID": "UA-2019-10-25-000001-1"
+    "contractID": "UA-2020-05-01-000001-1"
   }
 }
 

@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/35f93e8dd5484abb8b90687952c82010/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1572
+Content-Length: 1613
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -44,7 +44,7 @@ DATA:
         "address": {
           "countryName": "Україна", 
           "postalCode": "79013", 
-          "region": "м. Запоріжжя", 
+          "region": "Запорізька область", 
           "streetAddress": "вул. Коцюбинського, 15", 
           "locality": "м. Запоріжя"
         }
@@ -73,9 +73,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/35f93e8dd5484abb
         "format": "application/pdf", 
         "isDescriptionDecision": false, 
         "documentOf": "tender", 
-        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "datePublished": "2020-05-01T01:00:00+03:00", 
         "id": "e92a237d2cc241d1ae1047f4599874c7", 
-        "dateModified": "2019-10-25T01:00:00+03:00"
+        "dateModified": "2020-05-01T01:00:00+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
@@ -87,9 +87,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/35f93e8dd5484abb
         "title": "Proposal_part2.pdf", 
         "isDescriptionDecision": false, 
         "documentOf": "tender", 
-        "datePublished": "2019-10-25T01:00:00+03:00", 
+        "datePublished": "2020-05-01T01:00:00+03:00", 
         "id": "3ee0045cc6314ac78ba7a67aa8c90a52", 
-        "dateModified": "2019-10-25T01:00:00+03:00"
+        "dateModified": "2020-05-01T01:00:00+03:00"
       }
     ], 
     "selfEligible": true, 
@@ -112,12 +112,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/35f93e8dd5484abb
           "postalCode": "79013", 
           "countryName": "Україна", 
           "streetAddress": "вул. Коцюбинського, 15", 
-          "region": "м. Запоріжжя", 
+          "region": "Запорізька область", 
           "locality": "м. Запоріжя"
         }
       }
     ], 
-    "date": "2019-10-25T01:00:00+03:00", 
+    "date": "2020-05-01T01:00:00+03:00", 
     "id": "8fe55741897d438581a0af90c21cc42d"
   }
 }

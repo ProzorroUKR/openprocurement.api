@@ -7,8 +7,8 @@ Content-Type: application/json; charset=UTF-8
   "data": [
     {
       "status": "resolved", 
-      "dateDecision": "2019-10-25T01:00:01+03:00", 
-      "tendererActionDate": "2019-10-25T01:00:01+03:00", 
+      "dateDecision": "2020-05-01T01:00:01+03:00", 
+      "tendererActionDate": "2020-05-01T01:00:01+03:00", 
       "description": "Просимо додати таблицю потрібної калорійності харчування", 
       "author": {
         "contactPoint": {
@@ -26,16 +26,16 @@ Content-Type: application/json; charset=UTF-8
           "postalCode": "79013", 
           "countryName": "Україна", 
           "streetAddress": "вул. Островського, 34", 
-          "region": "м. Львів", 
+          "region": "Львівська область", 
           "locality": "м. Львів"
         }
       }, 
       "title": "Калорійність", 
       "id": "91b4ff9fd2ea4cf0a3f514415544d394", 
       "tendererAction": "Умови виправлено", 
-      "dateSubmitted": "2019-10-25T01:00:01+03:00", 
-      "complaintID": "UA-2019-10-25-000001.1", 
-      "date": "2019-10-25T01:00:01+03:00", 
+      "dateSubmitted": "2020-05-01T01:00:01+03:00", 
+      "complaintID": "UA-2020-05-01-000001.1", 
+      "date": "2020-05-01T01:00:01+03:00", 
       "acceptance": true, 
       "type": "complaint", 
       "documents": [
@@ -47,9 +47,9 @@ Content-Type: application/json; charset=UTF-8
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bffa507f7c044711bf9a31459edda120?KeyID=a8968c46&Signature=RShGcMIQ6ITb2wkxjeyGXG5T5XoNakCQNJ18bk%252BAFnwTo0UBge7kyeuzOuOzCqZMPD7AvKT6RFtW%252B3HR73D%252BCg%253D%253D", 
           "format": "application/pdf", 
           "documentOf": "tender", 
-          "datePublished": "2019-10-25T01:00:01+03:00", 
+          "datePublished": "2020-05-01T01:00:01+03:00", 
           "id": "a14dd9b18da84311b9f74ee531d31b0d", 
-          "dateModified": "2019-10-25T01:00:01+03:00"
+          "dateModified": "2020-05-01T01:00:01+03:00"
         }, 
         {
           "hash": "md5:00000000000000000000000000000000", 
@@ -59,16 +59,16 @@ Content-Type: application/json; charset=UTF-8
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/328f8e40704e4396822248e1733f7f27?KeyID=a8968c46&Signature=eONIvohqvXXagYDJ8xBMTRGDicsP2xa6gE6r61WuNvoUfR13sSEwDKpZmBlmCfiLohnfwLA4ikYgairN%2FfR7CA%253D%253D", 
           "format": "application/pdf", 
           "documentOf": "tender", 
-          "datePublished": "2019-10-25T01:00:01+03:00", 
+          "datePublished": "2020-05-01T01:00:01+03:00", 
           "id": "ea86e72b0895435f80047c04272b2719", 
-          "dateModified": "2019-10-25T01:00:01+03:00"
+          "dateModified": "2020-05-01T01:00:01+03:00"
         }
       ], 
-      "dateAccepted": "2019-10-25T01:00:01+03:00"
+      "dateAccepted": "2020-05-01T01:00:01+03:00"
     }, 
     {
       "status": "invalid", 
-      "dateDecision": "2019-10-25T01:00:01+03:00", 
+      "dateDecision": "2020-05-01T01:00:01+03:00", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
       "author": {
         "contactPoint": {
@@ -86,21 +86,21 @@ Content-Type: application/json; charset=UTF-8
           "postalCode": "21100", 
           "countryName": "Україна", 
           "streetAddress": "вул. Островського, 33", 
-          "region": "м. Вінниця", 
+          "region": "Вінницька область", 
           "locality": "м. Вінниця"
         }
       }, 
       "acceptance": false, 
-      "dateSubmitted": "2019-10-25T01:00:01+03:00", 
-      "complaintID": "UA-2019-10-25-000001.2", 
-      "date": "2019-10-25T01:00:01+03:00", 
+      "dateSubmitted": "2020-05-01T01:00:01+03:00", 
+      "complaintID": "UA-2020-05-01-000001.2", 
+      "date": "2020-05-01T01:00:01+03:00", 
       "title": "Недостатньо інформації", 
       "type": "complaint", 
       "id": "369efe809d7342e6ac52d7b63caec9dc"
     }, 
     {
       "status": "declined", 
-      "dateDecision": "2019-10-25T01:00:01+03:00", 
+      "dateDecision": "2020-05-01T01:00:01+03:00", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
       "author": {
         "contactPoint": {
@@ -118,29 +118,29 @@ Content-Type: application/json; charset=UTF-8
           "postalCode": "21100", 
           "countryName": "Україна", 
           "streetAddress": "вул. Островського, 33", 
-          "region": "м. Вінниця", 
+          "region": "Вінницька область", 
           "locality": "м. Вінниця"
         }
       }, 
       "acceptance": true, 
-      "dateAccepted": "2019-10-25T01:00:01+03:00", 
-      "dateSubmitted": "2019-10-25T01:00:01+03:00", 
-      "complaintID": "UA-2019-10-25-000001.3", 
-      "date": "2019-10-25T01:00:01+03:00", 
+      "dateAccepted": "2020-05-01T01:00:01+03:00", 
+      "dateSubmitted": "2020-05-01T01:00:01+03:00", 
+      "complaintID": "UA-2020-05-01-000001.3", 
+      "date": "2020-05-01T01:00:01+03:00", 
       "title": "Недостатньо інформації", 
       "type": "complaint", 
       "id": "25c98965719a4534aa16a2e710c36ace"
     }, 
     {
       "status": "stopped", 
-      "dateDecision": "2019-10-25T01:00:01+03:00", 
+      "dateDecision": "2020-05-01T01:00:01+03:00", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
       "title": "Недостатньо інформації", 
       "decision": "Тендер скасовується замовником", 
       "acceptance": true, 
       "cancellationReason": "Тендер скасовується замовником", 
-      "dateCanceled": "2019-10-25T01:00:01+03:00", 
-      "dateAccepted": "2019-10-25T01:00:01+03:00", 
+      "dateCanceled": "2020-05-01T01:00:01+03:00", 
+      "dateAccepted": "2020-05-01T01:00:01+03:00", 
       "author": {
         "contactPoint": {
           "email": "soleksuk@gmail.com", 
@@ -157,25 +157,25 @@ Content-Type: application/json; charset=UTF-8
           "postalCode": "21100", 
           "countryName": "Україна", 
           "streetAddress": "вул. Островського, 33", 
-          "region": "м. Вінниця", 
+          "region": "Вінницька область", 
           "locality": "м. Вінниця"
         }
       }, 
-      "dateSubmitted": "2019-10-25T01:00:01+03:00", 
-      "complaintID": "UA-2019-10-25-000001.4", 
-      "date": "2019-10-25T01:00:01+03:00", 
+      "dateSubmitted": "2020-05-01T01:00:01+03:00", 
+      "complaintID": "UA-2020-05-01-000001.4", 
+      "date": "2020-05-01T01:00:01+03:00", 
       "type": "complaint", 
       "id": "34b78915dd754db7a215360fa11eeb0a"
     }, 
     {
       "status": "stopped", 
-      "dateDecision": "2019-10-25T01:00:01+03:00", 
+      "dateDecision": "2020-05-01T01:00:01+03:00", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
       "title": "Недостатньо інформації", 
       "decision": "Тендер скасовується замовником", 
       "acceptance": true, 
-      "dateCanceled": "2019-10-25T01:00:01+03:00", 
-      "dateAccepted": "2019-10-25T01:00:01+03:00", 
+      "dateCanceled": "2020-05-01T01:00:01+03:00", 
+      "dateAccepted": "2020-05-01T01:00:01+03:00", 
       "author": {
         "contactPoint": {
           "email": "soleksuk@gmail.com", 
@@ -192,13 +192,13 @@ Content-Type: application/json; charset=UTF-8
           "postalCode": "21100", 
           "countryName": "Україна", 
           "streetAddress": "вул. Островського, 33", 
-          "region": "м. Вінниця", 
+          "region": "Вінницька область", 
           "locality": "м. Вінниця"
         }
       }, 
-      "dateSubmitted": "2019-10-25T01:00:01+03:00", 
-      "complaintID": "UA-2019-10-25-000001.5", 
-      "date": "2019-10-25T01:00:01+03:00", 
+      "dateSubmitted": "2020-05-01T01:00:01+03:00", 
+      "complaintID": "UA-2020-05-01-000001.5", 
+      "date": "2020-05-01T01:00:01+03:00", 
       "type": "complaint", 
       "id": "17e772d985614e05bc1af9006a57c17d"
     }, 
@@ -210,10 +210,10 @@ Content-Type: application/json; charset=UTF-8
       "type": "claim", 
       "satisfied": true, 
       "bid_id": "c1eb30e6f1dd4063b94519c80ff7c1e8", 
-      "dateAnswered": "2019-10-25T01:00:01+03:00", 
-      "dateSubmitted": "2019-10-25T01:00:01+03:00", 
-      "complaintID": "UA-2019-10-25-000001.6", 
-      "date": "2019-10-25T01:00:01+03:00", 
+      "dateAnswered": "2020-05-01T01:00:01+03:00", 
+      "dateSubmitted": "2020-05-01T01:00:01+03:00", 
+      "complaintID": "UA-2020-05-01-000001.6", 
+      "date": "2020-05-01T01:00:01+03:00", 
       "resolution": "Умови виправлено, вибір переможня буде розгянуто повторно", 
       "id": "445641d405ae47a5968776b9e848fc2e"
     }, 
@@ -225,10 +225,10 @@ Content-Type: application/json; charset=UTF-8
       "type": "claim", 
       "satisfied": false, 
       "bid_id": "c1eb30e6f1dd4063b94519c80ff7c1e8", 
-      "dateAnswered": "2019-10-25T01:00:01+03:00", 
-      "dateSubmitted": "2019-10-25T01:00:01+03:00", 
-      "complaintID": "UA-2019-10-25-000001.7", 
-      "date": "2019-10-25T01:00:01+03:00", 
+      "dateAnswered": "2020-05-01T01:00:01+03:00", 
+      "dateSubmitted": "2020-05-01T01:00:01+03:00", 
+      "complaintID": "UA-2020-05-01-000001.7", 
+      "date": "2020-05-01T01:00:01+03:00", 
       "resolution": "Вимога не відповідає предмету закупівлі", 
       "id": "260e7b8c78dc4a419eadbe913fd64567"
     }, 
@@ -237,9 +237,9 @@ Content-Type: application/json; charset=UTF-8
       "description": "Просимо додати таблицю потрібної калорійності харчування", 
       "title": "Калорійність", 
       "bid_id": "c1eb30e6f1dd4063b94519c80ff7c1e8", 
-      "dateSubmitted": "2019-10-25T01:00:01+03:00", 
-      "complaintID": "UA-2019-10-25-000001.8", 
-      "date": "2019-10-25T01:00:01+03:00", 
+      "dateSubmitted": "2020-05-01T01:00:01+03:00", 
+      "complaintID": "UA-2020-05-01-000001.8", 
+      "date": "2020-05-01T01:00:01+03:00", 
       "type": "claim", 
       "id": "ae2f38235cfe4bd19664f7fcc385abc1"
     }, 
@@ -249,9 +249,9 @@ Content-Type: application/json; charset=UTF-8
       "title": "Калорійність", 
       "bid_id": "c1eb30e6f1dd4063b94519c80ff7c1e8", 
       "cancellationReason": "Умови виправлено", 
-      "dateCanceled": "2019-10-25T01:00:01+03:00", 
-      "complaintID": "UA-2019-10-25-000001.9", 
-      "date": "2019-10-25T01:00:01+03:00", 
+      "dateCanceled": "2020-05-01T01:00:01+03:00", 
+      "complaintID": "UA-2020-05-01-000001.9", 
+      "date": "2020-05-01T01:00:01+03:00", 
       "type": "claim", 
       "id": "747f82f1f5e64bc4a791b5dce0feb508"
     }
