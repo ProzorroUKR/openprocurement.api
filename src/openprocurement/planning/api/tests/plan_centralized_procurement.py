@@ -248,20 +248,20 @@ def test_forbidden_patch_milestone(app, centralized_milestone):
         {"location": "url", "name": "permission", "description": "Forbidden"}]}
 
 
-def test_fail_patch_due_date(app, centralized_milestone):
+@pytest.mark.parametrize("test_status", [Milestone.STATUS_NOT_MET, Milestone.STATUS_INVALID])
+def test_fail_patch_due_date(app, centralized_milestone, test_status):
     """
-    milestone owner can patch some its fileds
+    milestone owner can't patch dueDate if status != scheduled
     """
     milestone_data, plan_data = centralized_milestone["milestone"], centralized_milestone["plan"]
     milestone, milestone_token = milestone_data["data"], milestone_data["token"]
     plan, plan_token = plan_data["data"], plan_data["token"]
     app.authorization = ("Basic", ("broker", "broker"))
 
-    response = app.patch_json(
-        "/plans/{}/milestones/{}?acc_token={}".format(plan["id"], milestone["id"], milestone_token),
-        {"data": {"status": Milestone.STATUS_MET}},
-    )
-    assert response.json["data"]["status"] == Milestone.STATUS_MET
+    # set milestone status
+    plan_source = app.app.registry.db.get(plan["id"])
+    plan_source["milestones"][0]["status"] = test_status
+    app.app.registry.db.save(plan_source)
 
     response = app.patch_json(
         "/plans/{}/milestones/{}?acc_token={}".format(plan["id"], milestone["id"], milestone_token),
@@ -270,12 +270,12 @@ def test_fail_patch_due_date(app, centralized_milestone):
     )
     assert response.json == {"status": "error", "errors": [
         {"location": "body", "name": "data",
-         "description": "Can't update dueDate at 'met' milestone status"}]}
+         "description": "Can't update dueDate at '{}' milestone status".format(test_status)}]}
 
 
 def test_patch_milestone(app, centralized_milestone):
     """
-    milestone owner can patch some its fileds
+    milestone owner can patch it
     """
     milestone_data, plan_data = centralized_milestone["milestone"], centralized_milestone["plan"]
     milestone, milestone_token = milestone_data["data"], milestone_data["token"]
@@ -318,7 +318,6 @@ def test_patch_milestone(app, centralized_milestone):
     result = result_plan.get("milestones")[0]
     # fields that haven"t been changed
     assert result["id"] == milestone["id"]
-    assert result["description"] == milestone["description"]
     assert result["documents"] == milestone["documents"]
     assert result["author"] == milestone["author"]
     assert result["owner"] == milestone["owner"]
@@ -328,8 +327,58 @@ def test_patch_milestone(app, centralized_milestone):
     # changed
     assert result["dueDate"] == request_data["dueDate"]
     assert result["status"] == request_data["status"]
+    assert result["description"] == request_data["description"]
     assert result["dateModified"] > milestone["dateModified"]
     assert result["dateModified"] == result["dateMet"] == response.json["data"]["dateMet"]
+
+
+@pytest.mark.parametrize("test_status", [Milestone.STATUS_NOT_MET, Milestone.STATUS_INVALID])
+def test_fail_patch_description(app, centralized_milestone, test_status):
+    """
+    milestone owner can't patch description if status not in (scheduled, met)
+    """
+    milestone_data, plan_data = centralized_milestone["milestone"], centralized_milestone["plan"]
+    milestone, milestone_token = milestone_data["data"], milestone_data["token"]
+    plan, plan_token = plan_data["data"], plan_data["token"]
+    app.authorization = ("Basic", ("broker", "broker"))
+
+    # set milestone status
+    plan_source = app.app.registry.db.get(plan["id"])
+    plan_source["milestones"][0]["status"] = test_status
+    app.app.registry.db.save(plan_source)
+
+    response = app.patch_json(
+        "/plans/{}/milestones/{}?acc_token={}".format(plan["id"], milestone["id"], milestone_token),
+        {"data": {"description": "Hello"}},
+        status=403
+    )
+    assert response.json == {"status": "error", "errors": [
+        {"location": "body", "name": "data",
+         "description": "Can't update description at '{}' milestone status".format(test_status)}]}
+
+
+@pytest.mark.parametrize("test_status", [Milestone.STATUS_MET, Milestone.STATUS_SCHEDULED])
+def test_success_patch_description(app, centralized_milestone, test_status):
+    """
+    milestone owner can patch description if status in (scheduled, met)
+    """
+    milestone_data, plan_data = centralized_milestone["milestone"], centralized_milestone["plan"]
+    milestone, milestone_token = milestone_data["data"], milestone_data["token"]
+    plan, plan_token = plan_data["data"], plan_data["token"]
+    app.authorization = ("Basic", ("broker", "broker"))
+
+    # set milestone status
+    plan_source = app.app.registry.db.get(plan["id"])
+    plan_source["milestones"][0]["status"] = test_status
+    app.app.registry.db.save(plan_source)
+
+    new_description = "Changes are coming"
+    response = app.patch_json(
+        "/plans/{}/milestones/{}?acc_token={}".format(plan["id"], milestone["id"], milestone_token),
+        {"data": {"description": new_description}},
+        status=200
+    )
+    assert response.json["data"]["description"] == new_description
 
 
 @pytest.mark.parametrize("test_status", [Milestone.STATUS_MET, Milestone.STATUS_NOT_MET])

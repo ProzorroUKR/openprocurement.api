@@ -1,12 +1,13 @@
 PATCH /api/2.5/plans/77cf582ab7284fb1a0e748ea7fe9033f/milestones/e00a9a2282f647598f1688ad83fd9070?acc_token=6e455ae5f2a8451b9732a2e3c32260c3 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 74
+Content-Length: 233
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
     "status": "met", 
+    "description": "Доповнений опис відповіді", 
     "dueDate": "2019-05-30T18:00:00.000000+02:00"
   }
 }
@@ -16,7 +17,7 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "met", 
-    "description": "Узагальнення та аналіз отриманної інформації щодо проведення закупівель товарів, послуг (крім поточного ремонту) в інтересах замовників", 
+    "description": "Доповнений опис відповіді", 
     "author": {
       "identifier": {
         "scheme": "UA-EDR", 
