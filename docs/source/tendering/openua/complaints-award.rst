@@ -79,6 +79,35 @@ You can submit complaint that does not need additional documents:
 .. include:: http/award-complaint-submission-complaint.http
    :code:
 
+Complaint Posts
+===============
+
+Tender Conditions Complaint Posts (with complaint owner)
+--------------------------------------------------------
+
+Reviewer can submit post to complaint owner:
+
+.. include:: http/award-complaint-post-reviewer-complaint-owner.http
+   :code:
+
+Complaint owner can submit a reply post to reviewer by setting reviewer's post `id` as `relatedPost`:
+
+.. include:: http/award-complaint-post-complaint-owner.http
+   :code:
+
+Tender Conditions Complaint Posts (with tender owner)
+--------------------------------------------------------
+
+Reviewer can submit post to tender owner:
+
+.. include:: http/award-complaint-post-reviewer-tender-owner.http
+   :code:
+
+Tender owner can submit a reply post to reviewer by setting reviewer's post `id` as `relatedPost`:
+
+.. include:: http/award-complaint-post-tender-owner.http
+   :code:
+
 Claim's Answer
 ==============
 
