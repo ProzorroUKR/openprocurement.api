@@ -1,0 +1,4 @@
+cornice==1.0.0
+sphinxcontrib-httpdomain==1.7.0
+sphinx-intl==1.0.0
+sphinx_rtd_theme
