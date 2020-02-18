@@ -23,7 +23,7 @@ Schema
 :relatedPost:
     string
 
-    Id of related :ref:`post`.
+    Id of related :ref:`complaintpost`.
 
 :recipient:
     string, required
