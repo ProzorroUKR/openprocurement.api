@@ -61,6 +61,7 @@ test_features_tender_ua_data["items"][0]["deliveryAddress"] = test_tender_data["
 
 
 class BaseTenderUAWebTest(BaseTenderWebTest):
+    relative_to = os.path.dirname(__file__)
     initial_data = test_tender_data
     initial_status = None
     initial_bids = None

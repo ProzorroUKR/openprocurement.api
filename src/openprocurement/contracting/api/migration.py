@@ -21,8 +21,10 @@ def set_db_schema_version(db, version):
 
 
 def migrate_data(registry, destination=None):
-    if registry.settings.get("plugins") and "contracting" not in registry.settings["plugins"].split(","):
-        return
+    if registry.settings.get("plugins"):
+        plugins = [plugin.strip() for plugin in registry.settings["plugins"].split(",")]
+        if "contracting.api" not in plugins:
+            return
     cur_version = get_db_schema_version(registry.db)
     if cur_version == SCHEMA_VERSION:
         return cur_version

@@ -68,7 +68,7 @@ def main(global_config, **settings):
     config.add_renderer("prettyjsonp", JSONP(indent=4, param_name="opt_jsonp", serializer=simplejson.dumps))
 
     # search for plugins
-    plugins = settings.get("plugins") and settings["plugins"].split(",")
+    plugins = settings.get("plugins") and [plugin.strip() for plugin in settings["plugins"].split(",")]
     for entry_point in iter_entry_points("openprocurement.api.plugins"):
         if not plugins or entry_point.name in plugins:
             plugin = entry_point.load()

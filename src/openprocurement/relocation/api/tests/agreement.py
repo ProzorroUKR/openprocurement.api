@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 from copy import deepcopy
 
 from openprocurement.api.tests.base import BaseWebTest
@@ -8,6 +9,7 @@ from openprocurement.agreement.cfaua.tests.data import test_tender_token as test
 
 
 class BaseAgreementOwnershipChangeTest(BaseWebTest):
+    relative_to = os.path.dirname(__file__)
     initial_data = test_agreement_data
     tender_token = test_agreement_tender_token
     first_owner = "brokerx"

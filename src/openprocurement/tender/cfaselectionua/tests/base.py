@@ -65,6 +65,7 @@ test_agreement_features["features"] = test_features
 
 
 class BaseTenderWebTest(BaseCoreWebTest):
+    relative_to = os.path.dirname(__file__)
     initial_data = test_tender_data
     initial_agreement = deepcopy(test_agreement)
     initial_status = None

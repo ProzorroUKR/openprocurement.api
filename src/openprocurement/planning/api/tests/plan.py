@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 import unittest
 import mock
 from datetime import timedelta
@@ -57,6 +58,8 @@ del test_data_with_year["budget"]["period"]
 
 
 class BasePlanWebTest(BaseWebTest):
+    relative_to = os.path.dirname(__file__)
+
     initial_auth = ("Basic", ("broker", ""))
 
 

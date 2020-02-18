@@ -432,6 +432,7 @@ if SANDBOX_MODE:
 
 
 class BaseTenderWebTest(BaseBaseTenderWebTest):
+    relative_to = os.path.dirname(__file__)
     backup_attr_keys = [
         "initial_data",
         "initial_status",

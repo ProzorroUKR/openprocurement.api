@@ -35,7 +35,7 @@ def includeme(config):
 
     # search for plugins
     settings = config.get_settings()
-    plugins = settings.get("plugins") and settings["plugins"].split(",")
+    plugins = settings.get("plugins") and [plugin.strip() for plugin in settings["plugins"].split(",")]
     for entry_point in iter_entry_points("openprocurement.tender.core.plugins"):
         if not plugins or entry_point.name in plugins:
             plugin = entry_point.load()

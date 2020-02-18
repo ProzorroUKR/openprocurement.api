@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 import unittest
 
 from copy import deepcopy
@@ -116,6 +117,8 @@ class TenderResourceTestMixin(object):
 
 
 class TenderTest(BaseWebTest):
+    relative_to = os.path.dirname(__file__)
+
     initial_data = tender_data
 
     test_simple_add_tender = snitch(simple_add_tender)

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 from hashlib import sha512
 from datetime import datetime, timedelta
 from uuid import uuid4
@@ -108,6 +109,7 @@ if SANDBOX_MODE:
 
 
 class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
+    relative_to = os.path.dirname(__file__)
     initial_data = None
     initial_status = None
     initial_bids = None

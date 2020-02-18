@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 from uuid import uuid4
 
 from openprocurement.relocation.api.models import Transfer
@@ -7,6 +8,8 @@ from openprocurement.tender.belowthreshold.tests.base import test_tender_data
 
 
 class TransferTest(BaseWebTest):
+    relative_to = os.path.dirname(__file__)
+
     def test_simple_add_transfer(self):
         data = {"access_token": "1234", "transfer_token": "5678", "owner": "Chuck Norris"}
 
@@ -29,7 +32,7 @@ class TransferTest(BaseWebTest):
 
 
 class TransferResourceTest(BaseWebTest):
-    """ /transfers resource test """
+    relative_to = os.path.dirname(__file__)
 
     initial_auth = ("Basic", ("broker", ""))
 

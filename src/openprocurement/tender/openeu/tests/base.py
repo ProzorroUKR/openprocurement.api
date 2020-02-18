@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import copy
+import os
+
 from datetime import datetime, timedelta
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.tender.belowthreshold.tests.base import test_milestones as base_test_milestones
@@ -179,6 +181,7 @@ test_lots = [
 
 
 class BaseTenderWebTest(BaseTenderUAWebTest):
+    relative_to = os.path.dirname(__file__)
     initial_data = test_tender_data
     initial_status = None
     initial_bids = None

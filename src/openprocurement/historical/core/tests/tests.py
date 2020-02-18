@@ -13,6 +13,7 @@ from webtest import TestApp
 from openprocurement.historical.core.constants import VERSION, HASH, PREVIOUS_HASH
 from openprocurement.historical.core.utils import Root, add_responce_headers, parse_hash, extract_doc, HasRequestMethod
 
+import openprocurement.api.tests
 from openprocurement.api.subscribers import add_logging_context, set_logging_context
 from openprocurement.historical.core.tests.utils import mock_doc, Db
 
@@ -115,7 +116,7 @@ class HistoricalResourceTestCase(unittest.TestCase):
         self.config.registry.db = db
 
         self.authn_policy = AuthenticationPolicy(
-            "{}/auth.ini".format(os.path.dirname(os.path.abspath(__file__))), __name__
+            "{}/auth.ini".format(os.path.dirname(os.path.abspath(openprocurement.api.tests.__file__))), __name__
         )
         self.config.set_authentication_policy(self.authn_policy)
         self.config.scan("openprocurement.historical.core.tests.utils")
