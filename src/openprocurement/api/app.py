@@ -34,11 +34,8 @@ LOGGER = getLogger("{}.init".format(__name__))
 
 
 def main(global_config, **settings):
-    def strip_sensitive_data(event, hint):
-        return event
-
-    if settings.has_key("sentry.dsn"):
-        dsn = settings.get("sentry.dsn")
+    dsn = settings.get("sentry.dsn", None)
+    if dsn:
         LOGGER.info("Init sentry sdk for {}".format(dsn))
         sentry_sdk.init(
             dsn=dsn,
@@ -48,6 +45,7 @@ def main(global_config, **settings):
             send_default_pii=True,
             request_bodies="always",
             environment=settings.get("sentry.environment", None),
+            debug=settings.get("sentry.debug", False),
         )
 
     config = Configurator(
