@@ -7,7 +7,7 @@ LOGGER = getLogger("openprocurement.planning.api")
 
 
 def includeme(config):
-    LOGGER.info("init planning.api plugin")
+    LOGGER.info("Init planning.api plugin")
 
     add_design()
     config.add_subscriber(set_logging_context, ContextFound)
