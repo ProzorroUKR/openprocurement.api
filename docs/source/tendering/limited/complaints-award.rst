@@ -57,12 +57,12 @@ Tender Conditions Complaint Posts (with complaint owner)
 
 Reviewer can submit a post to complaint owner:
 
-.. include:: http/award-complaint-post-reviewer-complaint-owner.http
+.. include:: http/tutorial/award-complaint-post-reviewer-complaint-owner.http
    :code:
 
 Complaint owner can submit a reply post to reviewer by setting reviewer's post `id` as `relatedPost`:
 
-.. include:: http/award-complaint-post-complaint-owner.http
+.. include:: http/tutorial/award-complaint-post-complaint-owner.http
    :code:
 
 Tender Conditions Complaint Posts (with tender owner)
@@ -70,12 +70,12 @@ Tender Conditions Complaint Posts (with tender owner)
 
 Reviewer can submit post to tender owner:
 
-.. include:: http/award-complaint-post-reviewer-tender-owner.http
+.. include:: http/tutorial/award-complaint-post-reviewer-tender-owner.http
    :code:
 
 Tender owner can submit a reply post to reviewer by setting reviewer's post `id` as `relatedPost`:
 
-.. include:: http/award-complaint-post-tender-owner.http
+.. include:: http/tutorial/award-complaint-post-tender-owner.http
    :code:
 
 Complaint Resolution

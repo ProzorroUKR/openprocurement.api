@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/59d0b67423864278a983b4169d541645/awards/edb54fc7f3c841ce8353f13333adedba/complaints/834c578c2791403c8fd60b9fd419d0ad/posts HTTP/1.0
+POST /api/2.5/tenders/23d35a5c2e6844dc9fc7578261093930/awards/7f867c4c05e440c2abb81a36afa81a66/complaints/731a1e6c91924aebbce71405e53d9d56/posts HTTP/1.0
 Authorization: Bearer reviewer
 Content-Length: 278
 Content-Type: application/json
@@ -14,7 +14,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/59d0b67423864278a983b4169d541645/awards/edb54fc7f3c841ce8353f13333adedba/complaints/834c578c2791403c8fd60b9fd419d0ad/posts/d3f0341d45744e2f927bc5ab527fa0f0
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/23d35a5c2e6844dc9fc7578261093930/awards/7f867c4c05e440c2abb81a36afa81a66/complaints/731a1e6c91924aebbce71405e53d9d56/posts/1d1cfb42fd31483e9cfbc23eb1a76c6e
 {
   "data": {
     "description": "Відсутній документ", 
@@ -22,7 +22,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/59d0b67423864278
     "author": "aboveThresholdReviewers", 
     "datePublished": "2020-05-01T01:00:01+03:00", 
     "recipient": "tender_owner", 
-    "id": "d3f0341d45744e2f927bc5ab527fa0f0"
+    "id": "1d1cfb42fd31483e9cfbc23eb1a76c6e"
   }
 }
 
