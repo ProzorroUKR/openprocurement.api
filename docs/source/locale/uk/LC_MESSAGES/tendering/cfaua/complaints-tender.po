@@ -52,25 +52,25 @@ msgid "Complaint Posts"
 msgstr "Запит до скарги"
 
 msgid "Once complaint is in `pending` or `accepted` status reviewer can submit a post to complaint."
-msgstr ""
+msgstr "Для скарги у статусах 'pending' та 'accepted' орган оскарження має можливість додати запит на уточнення до скарги."
 
 msgid "Tender Conditions Complaint Posts (with complaint owner)"
-msgstr ""
+msgstr "Запит до скарги на умови закупівлі (до скаржника)"
 
 msgid "Reviewer can submit a post to complaint owner:"
-msgstr ""
+msgstr "Орган оскарження може надати запит до скаржника:"
 
 msgid "Complaint owner can submit a reply post to reviewer by setting reviewer's post `id` as `relatedPost`:"
-msgstr ""
+msgstr "Скаржник має можливість надати відповідь на запит органу оскарження передавши поле `id` запиту у полі `relatedPost`: "
 
 msgid "Tender Conditions Complaint Posts (with tender owner)"
-msgstr ""
+msgstr "Запит до скарги на умови закупівлі (до замовника)"
 
 msgid "Reviewer can submit post to tender owner:"
-msgstr ""
+msgstr "Орган оскарження може надати запит до замовника:"
 
 msgid "Tender owner can submit a reply post to reviewer by setting reviewer's post `id` as `relatedPost`:"
-msgstr ""
+msgstr "Замовник має можливість надати відповідь на запит органу оскарження передавши поле `id` запиту у полі `relatedPost`: "
 
 msgid "Claim's Answer"
 msgstr "Відповідь на вимогу"
