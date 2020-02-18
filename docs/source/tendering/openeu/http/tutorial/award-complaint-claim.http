@@ -38,7 +38,7 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "title": "Калорійність", 
     "dateSubmitted": "2020-05-01T01:00:01+03:00", 
-    "complaintID": "UA-2020-05-01-000001.8", 
+    "complaintID": "UA-2020-05-01-000001.9", 
     "date": "2020-05-01T01:00:01+03:00", 
     "type": "claim", 
     "id": "976e6b644c684ffc804f608d33621da3"

@@ -317,6 +317,96 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/59d0b67423864278
         "id": "8e453c6500e6477ebd7b3f379c8dbc9b"
       }, 
       {
+        "status": "pending", 
+        "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+        "author": {
+          "contactPoint": {
+            "email": "soleksuk@gmail.com", 
+            "telephone": "+380 (432) 21-69-30", 
+            "name": "Сергій Олексюк"
+          }, 
+          "identifier": {
+            "scheme": "UA-EDR", 
+            "id": "00137256", 
+            "uri": "http://www.sc.gov.ua/"
+          }, 
+          "name": "ДКП «Школяр»", 
+          "address": {
+            "postalCode": "21100", 
+            "countryName": "Україна", 
+            "streetAddress": "вул. Островського, 33", 
+            "region": "Вінницька область", 
+            "locality": "м. Вінниця"
+          }
+        }, 
+        "title": "Недостатньо інформації", 
+        "posts": [
+          {
+            "description": "Відсутній документ", 
+            "title": "Уточнення по вимозі", 
+            "author": "aboveThresholdReviewers", 
+            "datePublished": "2020-05-01T01:00:01+03:00", 
+            "recipient": "complaint_owner", 
+            "id": "6514df68a7f640f2a62dd9eb92d38eff"
+          }, 
+          {
+            "documents": [
+              {
+                "hash": "md5:00000000000000000000000000000000", 
+                "title": "post_document_complaint.pdf", 
+                "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8771e5c874a0420b9c032181ab786a88?KeyID=a8968c46&Signature=Pg9OGhGmBbk%2FQpynZ46VHap95xFoGxqV7cBwECsvSKGBWIn8TL4rRXAwX0TBOyoUuQ6jZdQmH0IR4IbsS6QqDg%3D%3D", 
+                "format": "application/pdf", 
+                "documentOf": "tender", 
+                "datePublished": "2020-05-01T01:00:01+03:00", 
+                "id": "f8ae5f09434a448c90269880988d1df2", 
+                "dateModified": "2020-05-01T01:00:01+03:00"
+              }
+            ], 
+            "description": "Додано документ", 
+            "title": "Уточнення по вимозі", 
+            "author": "complaint_owner", 
+            "datePublished": "2020-05-01T01:00:01+03:00", 
+            "relatedPost": "6514df68a7f640f2a62dd9eb92d38eff", 
+            "recipient": "aboveThresholdReviewers", 
+            "id": "0d0fe8cb038d4cc68c3b346adc7a5445"
+          }, 
+          {
+            "description": "Відсутній документ", 
+            "title": "Уточнення по вимозі", 
+            "author": "aboveThresholdReviewers", 
+            "datePublished": "2020-05-01T01:00:01+03:00", 
+            "recipient": "tender_owner", 
+            "id": "d3f0341d45744e2f927bc5ab527fa0f0"
+          }, 
+          {
+            "documents": [
+              {
+                "hash": "md5:00000000000000000000000000000000", 
+                "title": "post_document_tender.pdf", 
+                "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a114bb8f350746c7afc0f51b2cea5646?KeyID=a8968c46&Signature=6o89wleerK7%2B4xLk2T71%2BkI8rcv2DMtsvVpGLXvEdcs6G9qS5WESF2x1kLPXYie5c0vFOmZGX6az5%2FqNH0%2FlAw%3D%3D", 
+                "format": "application/pdf", 
+                "documentOf": "tender", 
+                "datePublished": "2020-05-01T01:00:01+03:00", 
+                "id": "8af42c7009f24c1298647c66ed679733", 
+                "dateModified": "2020-05-01T01:00:01+03:00"
+              }
+            ], 
+            "description": "Додано документ", 
+            "title": "Уточнення по вимозі", 
+            "author": "tender_owner", 
+            "datePublished": "2020-05-01T01:00:01+03:00", 
+            "relatedPost": "d3f0341d45744e2f927bc5ab527fa0f0", 
+            "recipient": "aboveThresholdReviewers", 
+            "id": "7473b7d7dc3d4e988763f1242104b62c"
+          }
+        ], 
+        "dateSubmitted": "2020-05-01T01:00:01+03:00", 
+        "complaintID": "UA-2020-05-01-000001.8", 
+        "date": "2020-05-01T01:00:01+03:00", 
+        "type": "complaint", 
+        "id": "834c578c2791403c8fd60b9fd419d0ad"
+      }, 
+      {
         "status": "claim", 
         "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
         "author": {
@@ -341,7 +431,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/59d0b67423864278
         }, 
         "title": "Недостатньо інформації", 
         "dateSubmitted": "2020-05-01T01:00:01+03:00", 
-        "complaintID": "UA-2020-05-01-000001.8", 
+        "complaintID": "UA-2020-05-01-000001.9", 
         "date": "2020-05-01T01:00:01+03:00", 
         "type": "claim", 
         "id": "c308edcad5a64d2bb0602a7439e4bbb2"
