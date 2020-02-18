@@ -759,3 +759,80 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
                     "status": "cancelled"
                 }})
             self.assertEqual(response.status, '200 OK')
+
+        response = self.app.post_json(
+            '/tenders/{}/awards/{}/complaints'.format(self.tender_id, award_id), complaint_data)
+        self.assertEqual(response.status, '201 Created')
+
+        complaint8_id = response.json['data']['id']
+        complaint8_token = response.json['access']['token']
+
+        self.app.authorization = ('Basic', ('reviewer', ''))
+
+        with open(TARGET_DIR + 'tutorial/award-complaint-post-reviewer-complaint-owner.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/awards/{}/complaints/{}/posts'.format(
+                    self.tender_id, award_id, complaint8_id),
+                {"data": {
+                    "title": "Уточнення по вимозі",
+                    "description": "Відсутній документ",
+                    "recipient": "complaint_owner",
+                }})
+            self.assertEqual(response.status, '201 Created')
+
+        post1_id = response.json['data']['id']
+
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        with open(TARGET_DIR + 'tutorial/award-complaint-post-complaint-owner.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/awards/{}/complaints/{}/posts?acc_token={}'.format(
+                    self.tender_id, award_id, complaint8_id, complaint8_token),
+                {"data": {
+                    "title": "Уточнення по вимозі",
+                    "description": "Додано документ",
+                    "recipient": "aboveThresholdReviewers",
+                    "relatedPost": post1_id,
+                    "documents": [{
+                        'title': u'post_document_complaint.pdf',
+                        'url': self.generate_docservice_url(),
+                        'hash': 'md5:' + '0' * 32,
+                        'format': 'application/pdf'
+                    }]
+                }})
+            self.assertEqual(response.status, '201 Created')
+
+        self.app.authorization = ('Basic', ('reviewer', ''))
+
+        with open(TARGET_DIR + 'tutorial/award-complaint-post-reviewer-tender-owner.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/awards/{}/complaints/{}/posts'.format(
+                    self.tender_id, award_id, complaint8_id),
+                {"data": {
+                    "title": "Уточнення по вимозі",
+                    "description": "Відсутній документ",
+                    "recipient": "tender_owner",
+                }})
+            self.assertEqual(response.status, '201 Created')
+
+        post2_id = response.json['data']['id']
+
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        with open(TARGET_DIR + 'tutorial/award-complaint-post-tender-owner.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/awards/{}/complaints/{}/posts?acc_token={}'.format(
+                    self.tender_id, award_id, complaint8_id, owner_token),
+                {"data": {
+                    "title": "Уточнення по вимозі",
+                    "description": "Додано документ",
+                    "recipient": "aboveThresholdReviewers",
+                    "relatedPost": post2_id,
+                    "documents": [{
+                        'title': u'post_document_tender.pdf',
+                        'url': self.generate_docservice_url(),
+                        'hash': 'md5:' + '0' * 32,
+                        'format': 'application/pdf'
+                    }]
+                }})
+            self.assertEqual(response.status, '201 Created')
