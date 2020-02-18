@@ -81,10 +81,12 @@ You can submit complaint that does not need additional documents:
 Complaint Posts
 ===============
 
+Once complaint is in `pending` or `accepted` status reviewer can submit a post to complaint.
+
 Tender Conditions Complaint Posts (with complaint owner)
 --------------------------------------------------------
 
-Reviewer can submit post to complaint owner:
+Reviewer can submit a post to complaint owner:
 
 .. include:: http/complaint-post-reviewer-complaint-owner.http
    :code:

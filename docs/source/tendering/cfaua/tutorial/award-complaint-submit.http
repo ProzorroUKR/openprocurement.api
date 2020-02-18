@@ -64,7 +64,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6427779ef1904a85
         "locality": "м. Вінниця"
       }
     }, 
-    "complaintID": "UA-2020-05-01-000001.9", 
+    "complaintID": "UA-2020-05-01-000001.10", 
     "date": "2020-05-01T01:00:01+03:00", 
     "type": "claim", 
     "id": "b0a9f524658f4609973c9d842dcb252b"
