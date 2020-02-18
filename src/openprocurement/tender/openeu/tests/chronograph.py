@@ -4,10 +4,7 @@ import unittest
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
-from openprocurement.tender.belowthreshold.tests.chronograph import (
-    TenderAwardComplaintSwitchResourceTest,
-    TenderLotSwitchQualificationResourceTest,
-)
+
 from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
     # TenderSwitchUnsuccessfulResourceTest
     switch_to_unsuccessful,
@@ -94,36 +91,11 @@ class TenderLotComplaintSwitchResourceTest(TenderComplaintSwitchResourceTest):
     initial_lots = test_lots
 
 
-class TenderLotAwardComplaintSwitchResourceTest(TenderAwardComplaintSwitchResourceTest):
-    initial_lots = test_lots
-
-    def setUp(self):
-        super(TenderAwardComplaintSwitchResourceTest, self).setUp()
-        # Create award
-        self.app.authorization = ("Basic", ("token", ""))
-        response = self.app.post_json(
-            "/tenders/{}/awards".format(self.tender_id),
-            {
-                "data": {
-                    "suppliers": [test_organization],
-                    "status": "pending",
-                    "bid_id": self.initial_bids[0]["id"],
-                    "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"],
-                }
-            },
-        )
-        award = response.json["data"]
-        self.award_id = award["id"]
-
-
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderAwardComplaintSwitchResourceTest))
     suite.addTest(unittest.makeSuite(TenderComplaintSwitchResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotAwardComplaintSwitchResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotComplaintSwitchResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotSwitchAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotSwitchQualificationResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotSwitchUnsuccessfulResourceTest))
     suite.addTest(unittest.makeSuite(TenderSwitchAuctionResourceTest))
     suite.addTest(unittest.makeSuite(TenderSwitchUnsuccessfulResourceTest))
