@@ -18,7 +18,8 @@ LOGGER = getLogger("openprocurement.agreement.core")
 
 
 def includeme(config):  # pragma: no cover
-    LOGGER.info("Load agreementCore plugin")
+    LOGGER.info("Init agreement.core plugin.")
+
     add_design()
     config.registry.agreements_types = {}
     config.add_route_predicate("agreementType", IsAgreement)

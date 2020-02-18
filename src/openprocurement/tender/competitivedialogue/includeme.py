@@ -31,7 +31,8 @@ def includeme(config):
         TenderStage2UA,
     )
 
-    LOGGER.info("init competitivedialogue plugin")
+    LOGGER.info("Init tender.competitivedialogue plugin.")
+
     # add two types of Competitive Dialogue
     config.add_tender_procurementMethodType(CompetitiveDialogUA)
     config.add_tender_procurementMethodType(CompetitiveDialogEU)
