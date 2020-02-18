@@ -1,0 +1,50 @@
+POST /api/2.5/tenders/a41032bbcdec47df9273af568f595c1d/complaints/d7e9194310a64d54be5f13de85e97fa4/posts?acc_token=c3726c82babb4f26ae7bac4f6b44ba86 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 669
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "recipient": "aboveThresholdReviewers", 
+    "documents": [
+      {
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f7f2b92669db4ad2933466feb3672257?KeyID=a8968c46&Signature=Q4pqD6W%2BL5ZPrpBxwSTotCvNlOB4X%2BDYP39DQI2qjd%2BkMi%2Fn5XT5kj4J7itlaPJqIz8qUeSn0pbtmQYaA7PACw%3D%3D", 
+        "title": "post_document_tender.pdf", 
+        "hash": "md5:00000000000000000000000000000000", 
+        "format": "application/pdf"
+      }
+    ], 
+    "relatedPost": "620211f1c34a4593a2bd6b2ecf882327", 
+    "description": "Додано документ", 
+    "title": "Уточнення по вимозі"
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a41032bbcdec47df9273af568f595c1d/complaints/d7e9194310a64d54be5f13de85e97fa4/posts/9903bf637fda46beb86a6bbd24b3f498
+{
+  "data": {
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "title": "post_document_tender.pdf", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f7f2b92669db4ad2933466feb3672257?KeyID=a8968c46&Signature=Q4pqD6W%2BL5ZPrpBxwSTotCvNlOB4X%2BDYP39DQI2qjd%2BkMi%2Fn5XT5kj4J7itlaPJqIz8qUeSn0pbtmQYaA7PACw%3D%3D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2020-05-01T01:00:00+03:00", 
+        "id": "f9f6a60ec25c47f4b9f4d36015f0adc2", 
+        "dateModified": "2020-05-01T01:00:00+03:00"
+      }
+    ], 
+    "description": "Додано документ", 
+    "title": "Уточнення по вимозі", 
+    "author": "tender_owner", 
+    "datePublished": "2020-05-01T01:00:00+03:00", 
+    "relatedPost": "620211f1c34a4593a2bd6b2ecf882327", 
+    "recipient": "aboveThresholdReviewers", 
+    "id": "9903bf637fda46beb86a6bbd24b3f498"
+  }
+}
+

@@ -1,0 +1,50 @@
+POST /api/2.5/tenders/a41032bbcdec47df9273af568f595c1d/complaints/d7e9194310a64d54be5f13de85e97fa4/posts?acc_token=a38fa9ebb7a949298e6129a82712380b HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 668
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "recipient": "aboveThresholdReviewers", 
+    "documents": [
+      {
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1f5aa56db4314a6c9c5aa56d3155b388?KeyID=a8968c46&Signature=xQnLXQLwMjknEkcX4bkmqRyWKUOO7GIp1gh4dBMPpP1KzUkw%2F0mDQulHQoz%2FaCQ1EDmYOa1CYT76bXR9v2iIAQ%3D%3D", 
+        "title": "post_document_complaint.pdf", 
+        "hash": "md5:00000000000000000000000000000000", 
+        "format": "application/pdf"
+      }
+    ], 
+    "relatedPost": "1c50aba694a54bde8b5260a48dced1af", 
+    "description": "Додано документ", 
+    "title": "Уточнення по вимозі"
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a41032bbcdec47df9273af568f595c1d/complaints/d7e9194310a64d54be5f13de85e97fa4/posts/d26cb56ec2eb43588a9a61cb85d3bfc6
+{
+  "data": {
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "title": "post_document_complaint.pdf", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1f5aa56db4314a6c9c5aa56d3155b388?KeyID=a8968c46&Signature=xQnLXQLwMjknEkcX4bkmqRyWKUOO7GIp1gh4dBMPpP1KzUkw%2F0mDQulHQoz%2FaCQ1EDmYOa1CYT76bXR9v2iIAQ%3D%3D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2020-05-01T01:00:00+03:00", 
+        "id": "a1321c0e130a4e23a1f9ccb1abc30bbd", 
+        "dateModified": "2020-05-01T01:00:00+03:00"
+      }
+    ], 
+    "description": "Додано документ", 
+    "title": "Уточнення по вимозі", 
+    "author": "complaint_owner", 
+    "datePublished": "2020-05-01T01:00:00+03:00", 
+    "relatedPost": "1c50aba694a54bde8b5260a48dced1af", 
+    "recipient": "aboveThresholdReviewers", 
+    "id": "d26cb56ec2eb43588a9a61cb85d3bfc6"
+  }
+}
+
