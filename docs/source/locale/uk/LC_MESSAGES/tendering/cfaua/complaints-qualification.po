@@ -87,7 +87,7 @@ msgstr "Скаржник має можливість надати відпові
 msgid "Tender Conditions Complaint Posts (with tender owner)"
 msgstr "Запит до скарги на умови закупівлі (до замовника)"
 
-msgid "Reviewer can submit post to tender owner:"
+msgid "Reviewer can submit a post to tender owner:"
 msgstr "Орган оскарження може надати запит до замовника:"
 
 msgid "Tender owner can submit a reply post to reviewer by setting reviewer's post `id` as `relatedPost`:"
