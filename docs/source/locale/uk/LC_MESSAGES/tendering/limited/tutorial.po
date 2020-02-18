@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-17 11:45+0200\n"
+"POT-Creation-Date: 2020-02-18 04:14+0200\n"
 "PO-Revision-Date: 2016-03-31 10:57+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
@@ -228,8 +228,8 @@ msgstr "Запит на скасування, який не пройшов ак�
 msgid "See :ref:`cancellation` data structure for details."
 msgstr "Див. структуру запиту :ref:`cancellation` для більш детальної інформації."
 
-msgid "Preparing the cancellation request for :ref:`reporting` procedure"
-msgstr "Формування запиту на скасування для :ref:`reporting` процедури"
+msgid "Preparing the cancellation request for `reporting` procedure"
+msgstr "Формування запиту на скасування для `reporting` процедури"
 
 msgid "You should pass `reason` and `reasonType`, `status` defaults to `pending`."
 msgstr "Потрібно передати змінні `reason` та `reasonType`, `status` у стані `pending`."
@@ -263,10 +263,3 @@ msgstr "Завантажте нову версію документа"
 
 msgid "Activating the request and cancelling tender"
 msgstr "Активація запиту та скасування закупівлі"
-
-#~ msgid "Preparing the cancellation request"
-#~ msgstr "Формування запиту на скасування"
-
-#~ msgid "There are two possible types of cancellation reason - tender was `cancelled` or `unsuccessful`. By default ``reasonType`` value is `cancelled`."
-#~ msgstr "При скасуванні, замовник має визначити один з двох типів ``reasonType``: торги відмінені - `cancelled`, або торги не відбулися - `unsuccessful`. За замовчуванням, значення ``reasonType`` рівне `cancelled`."
-
