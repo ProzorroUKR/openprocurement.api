@@ -66,7 +66,7 @@ Complaint owner can submit a reply post to reviewer by setting reviewer's post `
 Tender Conditions Complaint Posts (with tender owner)
 --------------------------------------------------------
 
-Reviewer can submit post to tender owner:
+Reviewer can submit a post to tender owner:
 
 .. include:: tutorial/qualification-complaint-post-reviewer-tender-owner.http
    :code:
