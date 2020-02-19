@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 import unittest
 
 from openprocurement.api.tests.base import snitch
@@ -22,6 +23,8 @@ from openprocurement.tender.core.tests.base import BaseWebTest
 
 
 class ContractNoItemsChangeTest(BaseWebTest):
+    relative_to = os.path.dirname(__file__)
+
     initial_data = test_contract_data
     test_no_items_contract_change = snitch(no_items_contract_change)
 

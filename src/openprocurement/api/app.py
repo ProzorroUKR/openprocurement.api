@@ -34,11 +34,8 @@ LOGGER = getLogger("{}.init".format(__name__))
 
 
 def main(global_config, **settings):
-    def strip_sensitive_data(event, hint):
-        return event
-
-    if settings.has_key("sentry.dsn"):
-        dsn = settings.get("sentry.dsn")
+    dsn = settings.get("sentry.dsn", None)
+    if dsn:
         LOGGER.info("Init sentry sdk for {}".format(dsn))
         sentry_sdk.init(
             dsn=dsn,
@@ -48,6 +45,7 @@ def main(global_config, **settings):
             send_default_pii=True,
             request_bodies="always",
             environment=settings.get("sentry.environment", None),
+            debug=settings.get("sentry.debug", False),
         )
 
     config = Configurator(
@@ -70,7 +68,7 @@ def main(global_config, **settings):
     config.add_renderer("prettyjsonp", JSONP(indent=4, param_name="opt_jsonp", serializer=simplejson.dumps))
 
     # search for plugins
-    plugins = settings.get("plugins") and settings["plugins"].split(",")
+    plugins = settings.get("plugins") and [plugin.strip() for plugin in settings["plugins"].split(",")]
     for entry_point in iter_entry_points("openprocurement.api.plugins"):
         if not plugins or entry_point.name in plugins:
             plugin = entry_point.load()

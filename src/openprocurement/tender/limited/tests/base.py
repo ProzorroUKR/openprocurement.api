@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 from copy import deepcopy
 from datetime import datetime
 from openprocurement.api.constants import SANDBOX_MODE
@@ -49,6 +50,7 @@ test_lots = [
 
 
 class BaseTenderWebTest(BaseBaseTenderWebTest):
+    relative_to = os.path.dirname(__file__)
     initial_data = test_tender_data
     initial_status = None
     initial_bids = None

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 import unittest
 
 import mock
@@ -47,6 +48,7 @@ from openprocurement.tender.openuadefense.tests.tender_blanks import (
 
 
 class TenderUATest(BaseWebTest):
+    relative_to = os.path.dirname(__file__)
 
     initial_data = test_tender_data
 

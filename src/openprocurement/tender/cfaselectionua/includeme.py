@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+from logging import getLogger
 import openprocurement.tender.cfaselectionua
 from zope.configuration.xmlconfig import file as ZcmlFile
 from openprocurement.tender.cfaselectionua.interfaces import ICFASelectionUATender
@@ -8,8 +9,12 @@ from pyramid.interfaces import IRequest
 from openprocurement.api.interfaces import IContentConfigurator
 from openprocurement.tender.cfaselectionua.adapters.configurator import TenderCfaSelectionUAConfigurator
 
+LOGGER = getLogger("openprocurement.tender.cfaselectionua")
+
 
 def includeme(config):
+    LOGGER.info("Init tender.cfaselectionua plugin.")
+
     config.add_tender_procurementMethodType(CFASelectionUATender)
     config.scan("openprocurement.tender.cfaselectionua.views")
     config.scan("openprocurement.tender.cfaselectionua.subscribers")

@@ -51,29 +51,31 @@ entry_points = {
     ],
     "openprocurement.api.plugins": [
         "api = openprocurement.api.includeme:includeme",
-        "tender_core = openprocurement.tender.core.includeme:includeme",
-        "planning = openprocurement.planning.api:includeme",
-        "contracting = openprocurement.contracting.api:includeme",
-        "agreementCore = openprocurement.agreement.core.includeme:includeme",
+        "tender.core = openprocurement.tender.core.includeme:includeme",
+        "planning.api = openprocurement.planning.api.includeme:includeme",
+        "contracting.api = openprocurement.contracting.api.includeme:includeme",
+        "agreement.core = openprocurement.agreement.core.includeme:includeme",
         "historical.core = openprocurement.historical.core.includeme:includeme",
-        "historical.tender = openprocurement.historical.tender:includeme",
-        "relocation = openprocurement.relocation.api:includeme"
+        "relocation.api = openprocurement.relocation.api.includeme:includeme"
     ],
     "openprocurement.tender.core.plugins": [
-        "belowThreshold = openprocurement.tender.belowthreshold.includeme:includeme",
-        "aboveThresholdUA = openprocurement.tender.openua.includeme:includeme",
-        "aboveThresholdEU = openprocurement.tender.openeu.includeme:includeme",
-        "aboveThresholdUA.defense = openprocurement.tender.openuadefense.includeme:includeme",
-        "reporting = openprocurement.tender.limited.includeme:includeme",
-        "negotiation = openprocurement.tender.limited.includeme:includeme_negotiation",
-        "negotiation.quick = openprocurement.tender.limited.includeme:includeme_negotiation_quick",
-        "competitivedialogue = openprocurement.tender.competitivedialogue.includeme:includeme",
-        "esco = openprocurement.tender.esco.includeme:includeme",
-        "closeFrameworkAgreementUA = openprocurement.tender.cfaua.includeme:includeme",
-        "closeFrameworkAgreementSelectionUA = openprocurement.tender.cfaselectionua.includeme:includeme",
+        "tender.belowthreshold = openprocurement.tender.belowthreshold.includeme:includeme",
+        "tender.openua = openprocurement.tender.openua.includeme:includeme",
+        "tender.openeu = openprocurement.tender.openeu.includeme:includeme",
+        "tender.openuadefense = openprocurement.tender.openuadefense.includeme:includeme",
+        "tender.limited.reporting = openprocurement.tender.limited.includeme:includeme",
+        "tender.limited.negotiation = openprocurement.tender.limited.includeme:includeme_negotiation",
+        "tender.limited.negotiation.quick = openprocurement.tender.limited.includeme:includeme_negotiation_quick",
+        "tender.competitivedialogue = openprocurement.tender.competitivedialogue.includeme:includeme",
+        "tender.esco = openprocurement.tender.esco.includeme:includeme",
+        "tender.cfaua = openprocurement.tender.cfaua.includeme:includeme",
+        "tender.cfaselectionua = openprocurement.tender.cfaselectionua.includeme:includeme",
     ],
     "openprocurement.agreements.core.plugins": [
-        "cfAgreementUA = openprocurement.agreement.cfaua.includeme:includeme"
+        "agreement.cfaua = openprocurement.agreement.cfaua.includeme:includeme"
+    ],
+    "openprocurement.historical.core.plugins": [
+        "historical.tender = openprocurement.historical.tender.includeme:includeme",
     ],
     "openprocurement.api.migrations": [
         "tenders = openprocurement.api.migration:migrate_data",

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 from contextlib import contextmanager
 
 from uuid import uuid4
@@ -29,6 +30,7 @@ class BaseWebTest(BaseApiWebTest):
     initial_auth = ("Basic", ("token", ""))
     docservice = False
     docservice_url = "http://localhost"
+    relative_to = os.path.dirname(__file__)
 
     def setUp(self):
         super(BaseWebTest, self).setUp()

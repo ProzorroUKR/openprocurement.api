@@ -16,7 +16,8 @@ LOGGER = getLogger("openprocurement.agreement.cfaua")
 
 
 def includeme(config):
-    LOGGER.info("Loading cfAgreementUA plugin")
+    LOGGER.info("Init agreement.cfaua plugin.")
+
     config.add_agreement_type(Agreement)
     config.registry.registerAdapter(
         CFAgreementUAConfigurator, (IClosedFrameworkAgreementUA, IRequest), IContentConfigurator

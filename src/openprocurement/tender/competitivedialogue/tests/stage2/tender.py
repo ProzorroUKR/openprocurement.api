@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 import unittest
 
 from openprocurement.api.tests.base import BaseWebTest, snitch
@@ -53,6 +54,8 @@ from openprocurement.tender.competitivedialogue.tests.base import (
 
 
 class CompetitiveDialogStage2Test(BaseWebTest):
+    relative_to = os.path.dirname(__file__)
+
     test_tender_data_eu = test_tender_stage2_data_eu  # TODO: change attribute identifier
     test_tender_data_ua = test_tender_stage2_data_ua  # TODO: change attribute identifier
 

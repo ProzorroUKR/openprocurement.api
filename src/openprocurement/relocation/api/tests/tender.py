@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 from copy import deepcopy
 
 from openprocurement.tender.core.tests.base import change_auth
@@ -23,6 +24,7 @@ from openprocurement.tender.limited.tests.base import (
 
 
 class BaseTenderOwnershipChangeTest(BaseTenderWebTest):
+    relative_to = os.path.dirname(__file__)
     initial_data = test_tender_data
     first_owner = "brokerx"
     initial_auth = ("Basic", (first_owner, ""))

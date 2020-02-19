@@ -1,11 +1,17 @@
 # -*- coding: utf-8 -*-
+from logging import getLogger
 from pyramid.interfaces import IRequest
 from openprocurement.api.interfaces import IContentConfigurator, IOPContent
 from openprocurement.api.adapters import ContentConfigurator
 from openprocurement.api.utils import get_content_configurator, request_get_now
 
 
+LOGGER = getLogger("openprocurement.api")
+
+
 def includeme(config):
+    LOGGER.info("Init api plugin.")
+
     config.scan("openprocurement.api.views")
     config.scan("openprocurement.api.subscribers")
     config.registry.registerAdapter(ContentConfigurator, (IOPContent, IRequest), IContentConfigurator)

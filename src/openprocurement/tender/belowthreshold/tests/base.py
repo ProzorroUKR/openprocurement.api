@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 from copy import deepcopy
 from uuid import uuid4
 
@@ -158,6 +159,7 @@ def set_bid_lotvalues(bid, lots):
 
 
 class BaseTenderWebTest(BaseCoreWebTest):
+    relative_to = os.path.dirname(__file__)
     initial_data = test_tender_data
     initial_status = None
     initial_bids = None

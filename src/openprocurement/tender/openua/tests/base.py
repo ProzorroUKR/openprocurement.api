@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import os
+
 from datetime import timedelta
 from copy import deepcopy
 from openprocurement.api.constants import SANDBOX_MODE
@@ -54,6 +56,7 @@ test_features_tender_ua_data["items"][0]["deliveryAddress"] = test_tender_data["
 
 
 class BaseTenderUAWebTest(BaseTenderWebTest):
+    relative_to = os.path.dirname(__file__)
     initial_data = test_tender_data
     initial_status = None
     initial_bids = None
