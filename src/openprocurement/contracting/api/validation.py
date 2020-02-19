@@ -15,7 +15,7 @@ from openprocurement.api.validation import (
 )
 from openprocurement.contracting.api.models import Contract, Change
 from openprocurement.tender.core.models import ContractValue
-from openprocurement.tender.core.utils import has_requested_fields_changes
+from openprocurement.tender.core.utils import requested_fields_changes
 from openprocurement.tender.core.validation import (
     validate_update_contract_value,
     validate_update_contract_value_amount,
@@ -112,9 +112,8 @@ def validate_contract_document_operation_not_in_allowed_contract_status(request)
 def validate_add_document_to_active_change(request):
     data = request.validated["data"]
     if "relatedItem" in data and data.get("documentOf") == "change":
-        if not [
-            1 for c in request.validated["contract"].changes if c.id == data["relatedItem"] and c.status == "pending"
-        ]:
+        changes = request.validated["contract"].changes
+        if not any(c.id == data["relatedItem"] and c.status == "pending" for c in changes):
             raise_operation_error(request, "Can't add document to 'active' change")
 
 
@@ -131,13 +130,14 @@ def validate_update_contracting_paid_amount(request):
     paid = data.get("amountPaid")
     if paid:
         validate_update_contracting_value_amount(request, name="amountPaid")
-        for attr in ("amount", "amountNet"):
-            paid_amount = paid.get(attr)
-            value_amount = value.get(attr)
-            if value_amount and paid_amount > value_amount:
-                raise_operation_error(
-                    request, "AmountPaid {} can`t be greater than value {}".format(attr, attr), name="amountPaid"
-                )
+        if value:
+            for attr in ("amount", "amountNet"):
+                paid_amount = paid.get(attr)
+                value_amount = value.get(attr)
+                if value_amount and paid_amount > value_amount:
+                    raise_operation_error(
+                        request, "AmountPaid {} can`t be greater than value {}".format(attr, attr), name="amountPaid"
+                    )
 
 
 def validate_update_contracting_value_readonly(request):
@@ -148,16 +148,18 @@ def validate_update_contracting_value_readonly(request):
 
 
 def validate_update_contracting_value_identical(request):
-    value = request.validated["data"].get("value")
-    paid = request.validated["json_data"].get("amountPaid")
-    if has_requested_fields_changes(request, ("amountPaid",)):
+    if requested_fields_changes(request, ("amountPaid",)):
+        value = request.validated["data"].get("value")
+        paid_data = request.validated["json_data"].get("amountPaid")
         for attr in ("valueAddedTaxIncluded", "currency"):
-            if paid.get(attr) is not None and value.get(attr) != ContractValue().convert(paid).get(attr):
-                raise_operation_error(
-                    request,
-                    "{} of {} should be identical to {} of value of contract".format(attr, "amountPaid", attr),
-                    name="amountPaid",
-                )
+            if value and paid_data and paid_data.get(attr) is not None:
+                paid = ContractValue(paid_data)
+                if value.get(attr) != paid.get(attr):
+                    raise_operation_error(
+                        request,
+                        "{} of {} should be identical to {} of value of contract".format(attr, "amountPaid", attr),
+                        name="amountPaid",
+                    )
 
 
 def validate_update_contract_paid_net_required(request):

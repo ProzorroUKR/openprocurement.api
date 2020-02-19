@@ -38,6 +38,7 @@ from openprocurement.contracting.api.tests.contract_blanks import (
     generate_credentials_invalid,
     contract_wo_items_status_change,
     patch_tender_contract_wo_amount_net,
+    patch_tender_without_value
 )
 
 
@@ -68,6 +69,7 @@ class ContractResource4BrokersTest(BaseContractWebTest):
     test_patch_tender_contract_identical = snitch(patch_tender_contract_identical)
     test_patch_tender_contract_readonly = snitch(patch_tender_contract_readonly)
     test_patch_tender_contract_readonly_before_vat = snitch(patch_tender_contract_readonly_before_vat)
+    test_patch_tender_without_value = snitch(patch_tender_without_value)
     test_patch_tender_contract_amount = snitch(patch_tender_contract_amount)
     test_patch_tender_contract_amount_paid_zero = snitch(patch_tender_contract_amount_paid_zero)
     test_patch_tender_contract_before_vat = snitch(patch_tender_contract_before_vat)

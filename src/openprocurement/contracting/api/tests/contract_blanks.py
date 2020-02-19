@@ -862,6 +862,34 @@ def patch_tender_contract_identical(self):
         "currency of amountPaid should be identical to currency of value of contract",
     )
 
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract["id"], token),
+        {"data": {"amountPaid": {"amount": 100, "amountNet": 90}}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertIn("amountPaid", response.json["data"])
+
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract["id"], token), {"data": {"amountPaid": None}}
+    )
+    self.assertEqual(response.status, "200 OK")
+
+def patch_tender_without_value(self):
+    tender_token = self.initial_data["tender_token"]
+    credentials_url = "/contracts/{}/credentials?acc_token={}".format(self.contract["id"], tender_token)
+    response = self.app.patch_json(credentials_url, {"data": ""})
+    self.assertEqual(response.status, "200 OK")
+    token = response.json["access"]["token"]
+
+    contract_doc = self.db.get(self.contract["id"])
+    del contract_doc['value']
+    self.db.save(contract_doc)
+
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract["id"], token),
+        {"data": {"amountPaid": {"amount": 100, "amountNet": 100, "valueAddedTaxIncluded": False}}},
+    )
+
 
 @mock.patch("openprocurement.contracting.api.validation.VAT_FROM", get_now() - timedelta(days=1))
 def patch_tender_contract_amount(self):
@@ -1179,7 +1207,7 @@ def generate_credentials(self):
 
 def create_contract_w_documents(self):
     data = deepcopy(self.initial_data)
-    data['documents'] = documents
+    data["documents"] = documents
     response = self.app.post_json("/contracts", {"data": data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1187,12 +1215,8 @@ def create_contract_w_documents(self):
     self.assertEqual(contract["status"], "active")
     for index, doc in enumerate(documents):
         self.assertEqual(response.json["data"]["documents"][index]["id"], doc["id"])
-        self.assertEqual(
-            response.json["data"]["documents"][index]["datePublished"], doc["datePublished"]
-        )
-        self.assertEqual(
-            response.json["data"]["documents"][index]["dateModified"], doc["dateModified"]
-        )
+        self.assertEqual(response.json["data"]["documents"][index]["datePublished"], doc["datePublished"])
+        self.assertEqual(response.json["data"]["documents"][index]["dateModified"], doc["dateModified"])
 
     self.assertIn("Signature=", response.json["data"]["documents"][-1]["url"])
     self.assertIn("KeyID=", response.json["data"]["documents"][-1]["url"])

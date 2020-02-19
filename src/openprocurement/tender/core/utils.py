@@ -337,7 +337,7 @@ def calculate_clarifications_business_date(date_obj, timedelta_obj, tender=None,
     return calculate_tender_date(source_date_obj, timedelta_obj, tender, working_days, calendar)
 
 
-def has_requested_fields_changes(request, fieldnames):
+def requested_fields_changes(request, fieldnames):
     changed_fields = request.validated["json_data"].keys()
     return set(fieldnames) & set(changed_fields)
 
