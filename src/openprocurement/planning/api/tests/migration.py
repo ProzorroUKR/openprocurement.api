@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
-import os
 import unittest
 
-from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.planning.api.models import Plan
 from openprocurement.planning.api.migration import (
     migrate_data,
@@ -10,11 +8,10 @@ from openprocurement.planning.api.migration import (
     set_db_schema_version,
     SCHEMA_VERSION,
 )
-from openprocurement.planning.api.tests.base import test_plan_data
+from openprocurement.planning.api.tests.base import test_plan_data, BaseApiWebTest
 
 
-class MigrateTest(BaseWebTest):
-    relative_to = os.path.dirname(__file__)
+class MigrateTest(BaseApiWebTest):
     initial_auth = ("Basic", ("token", ""))
 
     def setUp(self):

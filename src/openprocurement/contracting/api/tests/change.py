@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
-import os
 import unittest
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.contracting.api.tests.base import BaseContractContentWebTest
+from openprocurement.contracting.api.tests.base import BaseContractContentWebTest, BaseContractTest
 from openprocurement.contracting.api.tests.data import test_contract_data
 from openprocurement.contracting.api.tests.change_blanks import (
     no_items_contract_change,
@@ -19,12 +18,8 @@ from openprocurement.contracting.api.tests.change_blanks import (
     date_signed_on_change_creation_for_very_old_contracts_data,
 )
 
-from openprocurement.tender.core.tests.base import BaseWebTest
 
-
-class ContractNoItemsChangeTest(BaseWebTest):
-    relative_to = os.path.dirname(__file__)
-
+class ContractNoItemsChangeTest(BaseContractTest):
     initial_data = test_contract_data
     test_no_items_contract_change = snitch(no_items_contract_change)
 

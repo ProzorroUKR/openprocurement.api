@@ -4,6 +4,8 @@ import json
 import unittest
 
 from copy import deepcopy
+
+from openprocurement.contracting.api.tests.base import BaseApiWebTest
 from openprocurement.tender.belowthreshold.models import Tender
 from openprocurement.api.utils import get_now
 from openprocurement.contracting.api.models import Contract
@@ -14,10 +16,9 @@ from openprocurement.contracting.api.migration import (
     SCHEMA_VERSION,
 )
 from openprocurement.contracting.api.tests.data import test_contract_data
-from openprocurement.tender.core.tests.base import BaseWebTest
 
 
-class MigrateTest(BaseWebTest):
+class MigrateTest(BaseApiWebTest):
     def setUp(self):
         super(MigrateTest, self).setUp()
         migrate_data(self.app.app.registry)

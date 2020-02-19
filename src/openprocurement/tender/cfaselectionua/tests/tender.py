@@ -3,7 +3,7 @@ import os
 import unittest
 
 from copy import deepcopy
-from openprocurement.api.tests.base import BaseWebTest, snitch
+from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import set_tender_lots
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
@@ -12,13 +12,13 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_central,
     create_tender_central_invalid,
 )
-from openprocurement.tender.cfaselectionua.constants import BOT_NAME
 from openprocurement.tender.cfaselectionua.tests.base import (
     test_lots,
     test_tender_data,
     test_agreement,
     test_agreement_features,
-    BaseTenderWebTest as BaseBaseTenderWebTest,
+    BaseTenderWebTest,
+    BaseApiWebTest,
 )
 from openprocurement.tender.cfaselectionua.tests.tender_blanks import (
     # TenderResourceTest
@@ -69,28 +69,6 @@ set_tender_lots(tender_data, test_lots)
 test_lots = deepcopy(tender_data["lots"])
 
 
-class BaseTenderWebTest(BaseBaseTenderWebTest):
-    def create_tender_and_prepare_for_bot_patch(self):
-        self.app.authorization = ("Basic", ("broker", ""))
-        data = deepcopy(self.initial_data)
-        data["status"] = "draft"
-        data["agreements"] = [{"id": self.agreement_id}]
-
-        response = self.app.post_json("/tenders", {"data": data})
-        self.assertEqual((response.status, response.content_type), ("201 Created", "application/json"))
-        tender = response.json["data"]
-        self.tender_id = tender["id"]
-        owner_token = response.json["access"]["token"]
-        response = self.app.patch_json(
-            "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"status": "draft.pending"}}
-        )
-        self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
-        self.assertEqual(response.json["data"]["status"], "draft.pending")
-
-        self.app.authorization = ("Basic", (BOT_NAME, ""))
-        return tender, owner_token
-
-
 class TenderResourceTestMixin(object):
     test_listing_changes = snitch(listing_changes)
     test_listing_draft = snitch(listing_draft)
@@ -116,9 +94,7 @@ class TenderResourceTestMixin(object):
     test_create_tender_with_available_language = snitch(create_tender_with_available_language)
 
 
-class TenderTest(BaseWebTest):
-    relative_to = os.path.dirname(__file__)
-
+class TenderTest(BaseApiWebTest):
     initial_data = tender_data
 
     test_simple_add_tender = snitch(simple_add_tender)

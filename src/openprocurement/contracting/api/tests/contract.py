@@ -43,12 +43,18 @@ from openprocurement.contracting.api.tests.contract_blanks import (
 
 
 class ContractListingTests(BaseContractTest):
+    initial_auth = ("Basic", ("broker", ""))
+    initial_data = test_contract_data
+    docservice = True
+
     test_empty_listing = snitch(empty_listing)
     test_listing = snitch(listing)
     test_listing_changes = snitch(listing_changes)
 
 
 class ContractResourceTest(BaseContractTest):
+    initial_data = test_contract_data
+    docservice = True
     initial_auth = ("Basic", ("contracting", ""))
 
     test_simple_add_contract = snitch(simple_add_contract)

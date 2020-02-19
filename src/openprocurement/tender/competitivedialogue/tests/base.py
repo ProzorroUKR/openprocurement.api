@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 from uuid import uuid4
 from copy import deepcopy
 from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
 from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest as BaseTenderWebTest
 from openprocurement.tender.belowthreshold.tests.base import test_organization
@@ -106,6 +107,10 @@ del test_author["scale"]
 if SANDBOX_MODE:
     test_tender_data_eu["procurementMethodDetails"] = "quick, accelerator=1440"
     test_tender_data_ua["procurementMethodDetails"] = "quick, accelerator=1440"
+
+
+class BaseCompetitiveDialogApiWebTest(BaseWebTest):
+    relative_to = os.path.dirname(__file__)
 
 
 class BaseCompetitiveDialogWebTest(BaseTenderWebTest):

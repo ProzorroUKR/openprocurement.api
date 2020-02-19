@@ -1,15 +1,7 @@
 # -*- coding: utf-8 -*-
-import os
 import unittest
 
-import mock
-from datetime import datetime, timedelta
-from freezegun import freeze_time
-from iso8601 import parse_date
-
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_lots
 
 from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
@@ -30,10 +22,8 @@ from openprocurement.tender.openua.tests.tender_blanks import (
     tender_with_main_procurement_category,
     tender_finance_milestones,
 )
-from openprocurement.tender.openuadefense.adapters import TenderAboveThresholdUADefConfigurator
-from openprocurement.tender.openuadefense.constants import STAND_STILL_TIME
 
-from openprocurement.tender.openuadefense.tests.base import BaseTenderUAWebTest, test_tender_data
+from openprocurement.tender.openuadefense.tests.base import BaseTenderUAWebTest, test_tender_data, BaseApiWebTest
 from openprocurement.tender.openuadefense.tests.tender_blanks import (
     # TenderUATest
     simple_add_tender,
@@ -47,9 +37,7 @@ from openprocurement.tender.openuadefense.tests.tender_blanks import (
 )
 
 
-class TenderUATest(BaseWebTest):
-    relative_to = os.path.dirname(__file__)
-
+class TenderUATest(BaseApiWebTest):
     initial_data = test_tender_data
 
     test_simple_add_tender = snitch(simple_add_tender)

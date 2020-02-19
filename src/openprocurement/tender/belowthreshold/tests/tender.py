@@ -2,8 +2,11 @@
 import os
 import unittest
 
-from openprocurement.api.tests.base import BaseWebTest, snitch
-from openprocurement.tender.belowthreshold.tests.base import BaseTenderWebTest, test_tender_data, test_lots
+from openprocurement.api.tests.base import snitch
+from openprocurement.tender.belowthreshold.tests.base import (
+    BaseTenderWebTest, test_tender_data, test_lots,
+    BaseApiWebTest,
+)
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     # TenderProcessTest
     one_valid_bid_tender,
@@ -71,8 +74,7 @@ class TenderResourceTestMixin(object):
     test_tender_token_invalid = snitch(tender_token_invalid)
 
 
-class TenderTest(BaseWebTest):
-    relative_to = os.path.dirname(__file__)
+class TenderTest(BaseApiWebTest):
     initial_data = test_tender_data
 
     test_simple_add_tender = snitch(simple_add_tender)

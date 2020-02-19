@@ -6,7 +6,9 @@ from datetime import datetime, timedelta
 from uuid import uuid4
 
 from openprocurement.api.constants import SANDBOX_MODE, TZ
+from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
+from openprocurement.tender.cfaselectionua.constants import BOT_NAME
 from openprocurement.tender.core.tests.base import BaseCoreWebTest
 from openprocurement.tender.cfaselectionua.adapters.configurator import TenderCfaSelectionUAConfigurator
 from openprocurement.tender.cfaselectionua.tests.periods import periods
@@ -62,6 +64,10 @@ with open(os.path.join(here, "data/lots.json")) as _in:
 
 test_agreement_features = deepcopy(test_agreement)
 test_agreement_features["features"] = test_features
+
+
+class BaseApiWebTest(BaseWebTest):
+    relative_to = os.path.dirname(__file__)
 
 
 class BaseTenderWebTest(BaseCoreWebTest):
@@ -319,6 +325,26 @@ class BaseTenderWebTest(BaseCoreWebTest):
 
         self.save_changes()
         return self.get_tender("chronograph")
+
+    def create_tender_and_prepare_for_bot_patch(self):
+        self.app.authorization = ("Basic", ("broker", ""))
+        data = deepcopy(self.initial_data)
+        data["status"] = "draft"
+        data["agreements"] = [{"id": self.agreement_id}]
+
+        response = self.app.post_json("/tenders", {"data": data})
+        self.assertEqual((response.status, response.content_type), ("201 Created", "application/json"))
+        tender = response.json["data"]
+        self.tender_id = tender["id"]
+        owner_token = response.json["access"]["token"]
+        response = self.app.patch_json(
+            "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"status": "draft.pending"}}
+        )
+        self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
+        self.assertEqual(response.json["data"]["status"], "draft.pending")
+
+        self.app.authorization = ("Basic", (BOT_NAME, ""))
+        return tender, owner_token
 
 
 class TenderContentWebTest(BaseTenderWebTest):

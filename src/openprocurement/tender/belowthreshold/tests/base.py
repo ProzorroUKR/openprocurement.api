@@ -6,6 +6,7 @@ from uuid import uuid4
 from datetime import timedelta
 
 from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.base import BaseCoreWebTest
 from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
@@ -156,6 +157,10 @@ def set_bid_lotvalues(bid, lots):
     value = bid.pop("value", None) or bid["lotValues"][0]["value"]
     bid["lotValues"] = [{"value": value, "relatedLot": lot["id"]} for lot in lots]
     return bid
+
+
+class BaseApiWebTest(BaseWebTest):
+    relative_to = os.path.dirname(__file__)
 
 
 class BaseTenderWebTest(BaseCoreWebTest):
