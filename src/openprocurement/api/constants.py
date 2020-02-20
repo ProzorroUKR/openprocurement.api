@@ -88,7 +88,7 @@ def parse_date_tz(datestring):
 
 
 def get_constant(config, constant, section=DEFAULTSECT, parse_func=parse_date_tz):
-    return parse_func(config.get(section, constant))
+    return parse_func(os.environ.get("{}_{}".format(section, constant)) or config.get(section, constant))
 
 
 CONSTANTS_FILE_PATH = os.environ.get("CONSTANTS_FILE_PATH", get_default_constants_file_path())
