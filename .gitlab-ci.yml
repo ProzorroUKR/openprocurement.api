@@ -160,6 +160,8 @@ stop_review:
     GIT_STRATEGY: clone
   only:
     - branches
+  except:
+    - schedules
   before_script:
     - apt-get update
     - apt-get install -y libsodium-dev
