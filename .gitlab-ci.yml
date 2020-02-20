@@ -197,7 +197,7 @@ docs:
     - echo '127.0.0.1  couchdb' >> /etc/hosts
   script:
     - cd /app
-    - py.test $TESTS_PATH --cov=$COV_PATH --cov-config=$COV_FILE -v --maxfail=1 --color=yes --dist=each
+    - py.test $TESTS_PATH --cov=$COV_PATH --cov-config=$COV_FILE -v --color=yes --dist=each
       --tx=popen//id=sand//env:DB_NAME=test_sandbox//env:SANDBOX_MODE=1//env:SINGLE_APP=1
       --tx=popen//id=prod//env:DB_NAME=test_prod//env:SANDBOX_MODE=//env:SINGLE_APP=1
   coverage: '/TOTAL\s+\d+\s+\d+\s+(\d+%)/'
