@@ -12,8 +12,7 @@ from openprocurement.api.constants import (
     CPV_ITEMS_CLASS_FROM,
     NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
 )
-from openprocurement.tender.belowthreshold.tests.base import test_organization
-
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_cancellation
 
 from openprocurement.tender.limited.models import NegotiationTender, NegotiationQuickTender, ReportingTender
 
@@ -1242,9 +1241,14 @@ def tender_cancellation(self):
     owner_token = response.json["access"]["token"]
 
     # create cancellation
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "reason": "invalid conditions",
+        "status": "active"
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender_id, owner_token),
-        {"data": {"reason": "invalid conditions", "status": "active"}},
+        {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
     response = self.app.get("/tenders/{}".format(tender_id))
@@ -1265,9 +1269,14 @@ def tender_cancellation(self):
     self.assertEqual(response.status, "201 Created")
 
     # create cancellation
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "reason": "invalid conditions",
+        "status": "active"
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender_id, owner_token),
-        {"data": {"reason": "invalid conditions", "status": "active"}},
+        {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
     response = self.app.get("/tenders/{}".format(tender_id))
@@ -1303,9 +1312,14 @@ def tender_cancellation(self):
     contract_id = response.json["data"]["contracts"][-1]["id"]
 
     # create cancellation in stand still
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "reason": "invalid conditions",
+        "status": "active"
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender_id, owner_token),
-        {"data": {"reason": "invalid conditions", "status": "active"}},
+        {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
     response = self.app.get("/tenders/{}".format(tender_id))
@@ -1358,9 +1372,14 @@ def tender_cancellation(self):
     self.assertEqual(tender["status"], "complete")
 
     # create cancellation
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "reason": "invalid conditions",
+        "status": "active"
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender_id, owner_token),
-        {"data": {"reason": "invalid conditions", "status": "active"}},
+        {"data": cancellation},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author, test_cancellation
 
 
 # TenderLotNegotiationResourceTest
@@ -670,9 +670,15 @@ def cancel_lot_after_sing_contract(self):
     self.assertEqual(response.json["data"]["status"], "active")
 
     # try to cancel lot
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+        "cancellationOf": "lot",
+        "relatedLot": lot["id"],
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"reason": "cancellation reason", "cancellationOf": "lot", "relatedLot": lot["id"]}},
+        {"data": cancellation},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -750,9 +756,14 @@ def cancel_lot_with_complaint(self):
     assert response.status_code == 200
 
     # Try to cancel lot
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "cancellationOf": "lot",
+        "relatedLot": lot["id"],
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"reason": "cancellation reason", "cancellationOf": "lot", "relatedLot": lot["id"]}},
+        {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.json["data"]["status"], "pending")
@@ -800,9 +811,14 @@ def last_lot_complete(self):
     )
 
     # Cancel 1 lot
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "cancellationOf": "lot",
+        "relatedLot": first_lot["id"],
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"reason": "cancellation reason", "cancellationOf": "lot", "relatedLot": first_lot["id"]}},
+        {"data": cancellation},
     )
     self.app.patch_json(
         "/tenders/{}/cancellations/{}?acc_token={}".format(
@@ -903,9 +919,14 @@ def all_cancelled_lots(self):
     )
 
     # Cancel lots
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "cancellationOf": "lot",
+        "relatedLot": first_lot["id"],
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"reason": "cancellation reason", "cancellationOf": "lot", "relatedLot": first_lot["id"]}},
+        {"data": cancellation},
     )
     self.app.patch_json(
         "/tenders/{}/cancellations/{}?acc_token={}".format(
@@ -915,9 +936,14 @@ def all_cancelled_lots(self):
     )
     response = self.app.get("/tenders/{}/lots/{}".format(self.tender_id, first_lot["id"]))
     self.assertEqual(response.json["data"]["status"], "cancelled")
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "cancellationOf": "lot",
+        "relatedLot": second_lot["id"],
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"reason": "cancellation reason", "cancellationOf": "lot", "relatedLot": second_lot["id"]}},
+        {"data": cancellation},
     )
     self.app.patch_json(
         "/tenders/{}/cancellations/{}?acc_token={}".format(
@@ -969,9 +995,14 @@ def cancel_lots_check_awards(self):
     second_award = response.json["data"]
 
     # cancellation for first lot
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "cancellationOf": "lot",
+        "relatedLot": first_lot["id"],
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"reason": "cancellation reason", "cancellationOf": "lot", "relatedLot": first_lot["id"]}},
+        {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.json["data"]["status"], "pending")
@@ -1035,9 +1066,14 @@ def patch_lot_with_cancellation(self):
     lot = response.json["data"]
 
     # Create cancellation on lot
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "cancellationOf": "lot",
+        "relatedLot": lot["id"],
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"reason": "cancellation reason", "cancellationOf": "lot", "relatedLot": lot["id"]}},
+        {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.json["data"]["status"], "pending")

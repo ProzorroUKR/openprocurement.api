@@ -5,7 +5,7 @@ from copy import deepcopy
 from datetime import datetime, timedelta
 from uuid import uuid4
 from openprocurement.api.constants import SANDBOX_MODE
-from openprocurement.tender.belowthreshold.tests.base import set_tender_lots, set_bid_lotvalues
+from openprocurement.tender.belowthreshold.tests.base import set_tender_lots, set_bid_lotvalues, test_cancellation
 from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest as BaseBaseTenderWebTest
 from openprocurement.api.utils import apply_data_patch, get_now
 from openprocurement.tender.cfaua.constants import (
@@ -1026,11 +1026,15 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         :param lot_id: id of lot for cancellation
         :return: None
         """
-        data = {"reason": "cancellation reason", "status": "active"}
+        cancellation = dict(**test_cancellation)
+        cancellation.update({
+            "status": "active",
+        })
         if lot_id:
-            data.update({"cancellationOf": "lot", "relatedLot": lot_id})
+            cancellation.update({"cancellationOf": "lot", "relatedLot": lot_id})
         response = self.app.post_json(
-            "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token), {"data": data}
+            "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": cancellation},
         )
         self.assertEqual(response.status, "201 Created")
         cancellation = response.json["data"]

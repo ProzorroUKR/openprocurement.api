@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_cancellation
 
 from openprocurement.tender.competitivedialogue.tests.base import test_tenderer
 
@@ -83,16 +83,15 @@ def create_tender_award_complaint_document(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("name.doc", response.json["data"]["title"])
 
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+        "cancellationOf": "lot",
+        "relatedLot": self.lots[0]["id"],
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations".format(self.tender_id),
-        {
-            "data": {
-                "reason": "cancellation reason",
-                "status": "active",
-                "cancellationOf": "lot",
-                "relatedLot": self.lots[0]["id"],
-            }
-        },
+        {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -215,16 +214,15 @@ def put_tender_award_complaint_document(self):
     self.assertEqual(response.content_length, 8)
     self.assertEqual(response.body, "content4")
 
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+        "cancellationOf": "lot",
+        "relatedLot": self.lots[0]["id"],
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations".format(self.tender_id),
-        {
-            "data": {
-                "reason": "cancellation reason",
-                "status": "active",
-                "cancellationOf": "lot",
-                "relatedLot": self.lots[0]["id"],
-            }
-        },
+        {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -302,16 +300,15 @@ def patch_tender_award_complaint_document(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["description"], "document description2")
 
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+        "cancellationOf": "lot",
+        "relatedLot": self.lots[0]["id"],
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations".format(self.tender_id),
-        {
-            "data": {
-                "reason": "cancellation reason",
-                "status": "active",
-                "cancellationOf": "lot",
-                "relatedLot": self.lots[0]["id"],
-            }
-        },
+        {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
 

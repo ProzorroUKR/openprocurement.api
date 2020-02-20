@@ -2,6 +2,8 @@
 from datetime import timedelta
 from copy import deepcopy
 
+from iso8601 import parse_date
+
 from openprocurement.api.models import get_now
 from openprocurement.api.constants import (
     SANDBOX_MODE,
@@ -10,6 +12,7 @@ from openprocurement.api.constants import (
 )
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_lots
+from openprocurement.tender.core.utils import calculate_tender_business_date
 
 from openprocurement.tender.openua.models import Tender
 
@@ -796,7 +799,12 @@ def patch_tender(self):
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"enquiryPeriod": {"endDate": new_dateModified2}}},
+        {"data": {"enquiryPeriod": {
+            "startDate": calculate_tender_business_date(
+                parse_date(new_dateModified2), -timedelta(3), None, True
+            ).isoformat(),
+            "endDate": new_dateModified2
+        }}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")

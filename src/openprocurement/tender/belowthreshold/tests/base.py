@@ -5,7 +5,7 @@ from uuid import uuid4
 
 from datetime import timedelta
 
-from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.api.constants import SANDBOX_MODE, RELEASE_2020_04_19
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.base import BaseCoreWebTest
@@ -140,6 +140,13 @@ test_features = [
         "enum": [{"value": 0.01, "title": u"good"}, {"value": 0.02, "title": u"best"}],
     },
 ]
+test_cancellation = {
+    "reason": "cancellation reason",
+}
+if RELEASE_2020_04_19 < get_now():
+    test_cancellation.update({
+        "reasonType": "noDemand"
+    })
 
 
 def set_tender_lots(tender, lots):

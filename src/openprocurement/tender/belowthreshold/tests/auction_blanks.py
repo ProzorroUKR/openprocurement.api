@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
 from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import test_cancellation
 
 
 def update_patch_data(self, patch_data, key=None, start=0, interval=None):
@@ -1010,17 +1011,13 @@ def patch_tender_lots_auction(self):
     self.assertEqual(tender["lots"][0]["auctionUrl"], patch_data["lots"][0]["auctionUrl"])
 
     self.app.authorization = ("Basic", ("token", ""))
-    response = self.app.post_json(
-        "/tenders/{}/cancellations".format(self.tender_id),
-        {
-            "data": {
-                "reason": "cancellation reason",
-                "status": "active",
-                "cancellationOf": "lot",
-                "relatedLot": self.initial_lots[0]["id"],
-            }
-        },
-    )
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+        "cancellationOf": "lot",
+        "relatedLot": self.initial_lots[0]["id"],
+    })
+    response = self.app.post_json("/tenders/{}/cancellations".format(self.tender_id), {"data": cancellation})
     self.assertEqual(response.status, "201 Created")
 
     self.app.authorization = ("Basic", ("auction", ""))

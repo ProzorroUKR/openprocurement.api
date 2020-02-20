@@ -1,7 +1,8 @@
 from openprocurement.api.tests.base import singleton_app, app
 from openprocurement.tender.belowthreshold.tests.base import (
     test_author, test_organization,
-    test_tender_data as belowthreshold_tender_data
+    test_tender_data as belowthreshold_tender_data,
+    test_cancellation,
 )
 from openprocurement.tender.openua.tests.base import test_tender_data as ua_tender_data
 from openprocurement.tender.cfaselectionua.tests.base import (
@@ -84,12 +85,11 @@ def test_post_cancellation(app, tender_data):
         "openprocurement.tender.core.views.cancellation.validate_absence_of_pending_accepted_satisfied_complaints",
         mock_validate
     ):
+        cancellation = dict(**test_cancellation)
+        cancellation.update({"status": "active"})
         response = app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(tender["id"], tender_token),
-            {"data": {
-                "reason": "cancellation reason",
-                "status": "active",
-            }},
+            {"data": cancellation},
             status=403
         )
         assert response.json == {u'status': u'error', u'errors': [
@@ -112,10 +112,7 @@ def test_patch_cancellation(app, tender_data):
     ):
         response = app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(tender["id"], tender_token),
-            {"data": {
-                "reason": "cancellation reason",
-                "status": "pending",
-            }},
+            {"data": test_cancellation},
         )
         assert response.status_code == 201
         cancellation = response.json["data"]
@@ -166,13 +163,12 @@ def test_post_cancellation_openeu(app):
     ]
     app.app.registry.db.save(tender_data)
 
+    cancellation = dict(**test_cancellation)
+    cancellation.update({"status": "active"})
     with mock.patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(1)):
         response = app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(tender["id"], tender_token),
-            {"data": {
-                "reason": "cancellation reason",
-                "status": "active",
-            }},
+            {"data": cancellation},
             status=403
         )
     assert response.json == {u'status': u'error', u'errors': [
@@ -197,13 +193,12 @@ def test_post_cancellation_openeu(app):
     ]
     app.app.registry.db.save(tender_data)
 
+    cancellation = dict(**test_cancellation)
+    cancellation.update({"status": "active"})
     with mock.patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(1)):
         response = app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(tender["id"], tender_token),
-            {"data": {
-                "reason": "cancellation reason",
-                "status": "active",
-            }},
+            {"data": cancellation},
             status=403
         )
     assert response.json == {u'status': u'error', u'errors': [
@@ -223,13 +218,12 @@ def test_post_cancellation_openeu(app):
     ]
     app.app.registry.db.save(tender_data)
 
+    cancellation = dict(**test_cancellation)
+    cancellation.update({"status": "active"})
     with mock.patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(1)):
         response = app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(tender["id"], tender_token),
-            {"data": {
-                "reason": "cancellation reason",
-                "status": "active",
-            }},
+            {"data": cancellation},
             status=403
         )
     assert response.json == {u'status': u'error', u'errors': [

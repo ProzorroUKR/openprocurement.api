@@ -7,7 +7,7 @@ from datetime import timedelta
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import SANDBOX_MODE
 
-from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_cancellation
 
 
 # TenderContractResourceTest
@@ -63,9 +63,13 @@ def create_tender_contract(self):
     tender_id = response.json["data"]["id"]
     tender_token = response.json["access"]["token"]
 
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender_id, tender_token),
-        {"data": {"reason": "cancellation reason", "status": "active"}},
+        {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -169,9 +173,13 @@ def patch_tender_contract(self):
     response = self.app.get("/tenders/{}/contracts".format(tender_id))
     contract_id = response.json["data"][0]["id"]
 
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender_id, tender_token),
-        {"data": {"reason": "cancellation reason", "status": "active"}},
+        {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -447,9 +455,13 @@ def patch_tender_negotiation_contract(self):
     response = self.app.get("/tenders/{}/contracts".format(tender_id))
     contract_id = response.json["data"][0]["id"]
 
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender_id, tender_token),
-        {"data": {"reason": "cancellation reason", "status": "active"}},
+        {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -641,9 +653,14 @@ def activate_contract_cancelled_lot(self):
     lot = response.json["data"][0]
 
     # Create cancellation on lot
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "cancellationOf": "lot",
+        "relatedLot": lot["id"],
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"reason": "cancellation reason", "cancellationOf": "lot", "relatedLot": lot["id"]}},
+        {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.json["data"]["status"], "pending")
@@ -801,9 +818,13 @@ def create_two_contract(self):
     tender_id = response.json["data"]["id"]
     tender_token = response.json["access"]["token"]
 
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender_id, tender_token),
-        {"data": {"reason": "cancellation reason", "status": "active"}},
+        {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
 

@@ -19,6 +19,7 @@ from openprocurement.tender.cfaua.models.tender import CloseFrameworkAgreementUA
 from openprocurement.tender.cfaua.utils import add_next_awards
 
 # TenderTest
+from openprocurement.tender.core.utils import calculate_tender_business_date
 
 
 def simple_add_tender(self):
@@ -680,7 +681,12 @@ def patch_tender(self):
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"enquiryPeriod": {"endDate": new_dateModified2}}},
+        {"data": {"enquiryPeriod": {
+            "startDate": calculate_tender_business_date(
+                parse_date(new_dateModified2), -timedelta(3), None, True
+            ).isoformat(),
+            "endDate": new_dateModified2
+        }}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")

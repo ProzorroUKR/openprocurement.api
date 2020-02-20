@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
 
+from openprocurement.tender.belowthreshold.tests.base import test_cancellation
+
 
 def cancellation_active_qualification_j1427(self):
     bid = deepcopy(self.initial_bids[0])
@@ -47,16 +49,15 @@ def cancellation_active_qualification_j1427(self):
         {"data": {"status": "active", "qualified": True, "eligible": True}},
     )
 
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+        "cancellationOf": "lot",
+        "relatedLot": self.initial_lots[0]["id"],
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-        {
-            "data": {
-                "reason": "cancellation reason",
-                "status": "active",
-                "cancellationOf": "lot",
-                "relatedLot": self.initial_lots[0]["id"],
-            }
-        },
+        {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")

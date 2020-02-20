@@ -2,6 +2,8 @@
 from copy import deepcopy
 from email.header import Header
 
+from openprocurement.tender.belowthreshold.tests.base import test_cancellation
+
 
 def get_tender_lot(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
@@ -1124,9 +1126,15 @@ def proc_1lot_1can(self):
     # ]})
     # self.assertTrue(all(["auctionPeriod" in i for i in response.json['data']['lots']]))
     # cancel lot
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+        "cancellationOf": "lot",
+        "relatedLot": lot_id,
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"reason": "cancellation reason", "status": "active", "cancellationOf": "lot", "relatedLot": lot_id}},
+        {"data": cancellation},
     )
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertTrue(all([i["status"] == "cancelled" for i in response.json["data"]["lots"]]))
@@ -1333,16 +1341,15 @@ def question_blocking(self):
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
     # cancel lot
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+        "cancellationOf": "lot",
+        "relatedLot": self.initial_lots[0]["id"],
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-        {
-            "data": {
-                "reason": "cancellation reason",
-                "status": "active",
-                "cancellationOf": "lot",
-                "relatedLot": self.initial_lots[0]["id"],
-            }
-        },
+        {"data": cancellation},
     )
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
@@ -1374,16 +1381,15 @@ def claim_blocking(self):
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
     # cancel lot
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+        "cancellationOf": "lot",
+        "relatedLot": self.initial_lots[0]["id"],
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-        {
-            "data": {
-                "reason": "cancellation reason",
-                "status": "active",
-                "cancellationOf": "lot",
-                "relatedLot": self.initial_lots[0]["id"],
-            }
-        },
+        {"data": cancellation},
     )
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
