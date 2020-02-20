@@ -44,6 +44,7 @@ from openprocurement.tender.competitivedialogue.tests.stage2.tender_blanks impor
     create_tender_central,
 )
 from openprocurement.tender.competitivedialogue.tests.base import (
+    BaseCompetitiveDialogApiWebTest,
     BaseCompetitiveDialogEUStage2WebTest,
     BaseCompetitiveDialogUAStage2WebTest,
     test_tender_stage2_data_ua,
@@ -53,9 +54,7 @@ from openprocurement.tender.competitivedialogue.tests.base import (
 )
 
 
-class CompetitiveDialogStage2Test(BaseWebTest):
-    relative_to = os.path.dirname(__file__)
-
+class CompetitiveDialogStage2Test(BaseCompetitiveDialogApiWebTest):
     test_tender_data_eu = test_tender_stage2_data_eu  # TODO: change attribute identifier
     test_tender_data_ua = test_tender_stage2_data_ua  # TODO: change attribute identifier
 

@@ -1,22 +1,27 @@
 # -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
+
+from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.contracting.api.tests.data import (
     test_contract_data,
-    test_contract_data_wo_items,
-    test_contract_data_wo_value_amount_net,
 )
-from openprocurement.tender.core.tests.base import BaseWebTest
+from openprocurement.tender.core.tests.base import BaseWebTest as BaseCoreWebTest
 
 
-class BaseContractTest(BaseWebTest):
+class BaseApiWebTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)
-    initial_auth = ("Basic", ("broker", ""))
+
+
+class BaseContractTest(BaseCoreWebTest):
+    relative_to = os.path.dirname(__file__)
+
+
+class BaseContractWebTest(BaseCoreWebTest):
+    relative_to = os.path.dirname(__file__)
     initial_data = test_contract_data
+    initial_auth = ("Basic", ("broker", ""))
     docservice = True
-
-
-class BaseContractWebTest(BaseContractTest):
 
     def setUp(self):
         super(BaseContractWebTest, self).setUp()

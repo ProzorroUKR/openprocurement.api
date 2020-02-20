@@ -3,8 +3,8 @@ import os
 import pytest
 from copy import deepcopy
 from datetime import datetime, timedelta
-from openprocurement.tender.core.tests.base import BaseWebTest
-from openprocurement.api.tests.base import BaseTestApp, loadwsgiapp
+from openprocurement.tender.core.tests.base import BaseWebTest as BaseCoreWebTest
+from openprocurement.api.tests.base import BaseTestApp, loadwsgiapp, BaseWebTest
 from uuid import uuid4
 from base64 import b64encode
 from six.moves.urllib_parse import urlencode
@@ -77,7 +77,16 @@ test_plan_data = {
 }
 
 
-class BasePlanWebTest(BaseWebTest):
+class BaseApiWebTest(BaseWebTest):
+    relative_to = os.path.dirname(__file__)
+
+
+class BasePlanTest(BaseCoreWebTest):
+    relative_to = os.path.dirname(__file__)
+    initial_auth = ("Basic", ("broker", ""))
+
+
+class BasePlanWebTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = test_plan_data
     docservice = False

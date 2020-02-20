@@ -4,13 +4,10 @@ import unittest
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import test_lots
 
-from openprocurement.tender.core.tests.base import BaseWebTest
 from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     # TenderUAResourceTest
     guarantee,
-    create_tender_with_inn,
-    create_tender_with_inn_before,
     patch_tender_lots_none,
     # TenderUAProcessTest
     invalid_tender_conditions,
@@ -21,7 +18,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_central_invalid,
 )
 
-from openprocurement.tender.openua.tests.base import test_tender_data, BaseTenderUAWebTest, test_bids
+from openprocurement.tender.openua.tests.base import test_tender_data, BaseTenderUAWebTest, BaseApiWebTest
 from openprocurement.tender.openua.tests.tender_blanks import (
     # Tender UA Test
     simple_add_tender,
@@ -59,7 +56,7 @@ class TenderUaProcessTestMixin(object):
     test_lost_contract_for_active_award = snitch(lost_contract_for_active_award)
 
 
-class TenderUATest(BaseWebTest):
+class TenderUATest(BaseApiWebTest):
     initial_data = test_tender_data
     test_simple_add_tender = snitch(simple_add_tender)
 
