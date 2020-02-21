@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
+from uuid import uuid4
+
 from datetime import time, timedelta, datetime
 from iso8601 import parse_date
 from zope.interface import implementer
 from pyramid.security import Allow
 from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist, blacklist
-from schematics.types import StringType, BooleanType
+from schematics.types import StringType, BooleanType, MD5Type, BaseType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from openprocurement.api.utils import get_now, get_first_revision_date
@@ -44,6 +46,7 @@ from openprocurement.tender.core.models import (
     PeriodStartEndRequired,
     EnquiryPeriod,
     ConfidentialDocument,
+    Document,
 )
 from openprocurement.tender.core.utils import (
     rounding_shouldStartAfter,
@@ -218,6 +221,76 @@ class Bid(BaseBid):
         BaseBid._validator_functions["parameters"](self, data, parameters)
 
 
+class ComplaintPost(Model):
+    class Options:
+        namespace = "post"
+        roles = {
+            "create": whitelist("title", "description", "documents", "relatedParty", "relatedPost", "recipient"),
+            "edit": whitelist(),
+            "view": schematics_default_role,
+            "default": schematics_default_role,
+            "embedded": schematics_embedded_role,
+        }
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
+
+    title = StringType(required=True)
+    description = StringType(required=True)
+    documents = ListType(ModelType(Document), default=list())
+    author = StringType(choices=["complaint_owner", "tender_owner", "aboveThresholdReviewers"])
+    recipient = StringType(required=True, choices=["complaint_owner", "tender_owner", "aboveThresholdReviewers"])
+    datePublished = IsoDateTimeType(default=get_now)
+    relatedPost = StringType()
+
+    reviewer_roles = ["aboveThresholdReviewers"]
+    recipient_roles = ["complaint_owner", "tender_owner"]
+
+    def validate_relatedPost(self, data, value):
+        parent = data["__parent__"]
+
+        if data["author"] in self.recipient_roles and not value:
+            raise ValidationError(BaseType.MESSAGES["required"])
+
+        if value and isinstance(parent, Model):
+
+            # check that another post with "id"
+            # that equals "relatedPost" of current post exists
+            if value not in [i.id for i in parent.posts]:
+                raise ValidationError("relatedPost should be one of posts.")
+
+            # check that another posts with `relatedPost`
+            # that equals `relatedPost` of current post does not exist
+            if len([i for i in parent.posts if i.relatedPost == value]) > 1:
+                raise ValidationError("relatedPost must be unique.")
+
+            related_posts = [i for i in parent.posts if i.id == value]
+
+            # check that there are no multiple related posts,
+            # that should never happen coz `id` is unique
+            if len(related_posts) > 1:
+                raise ValidationError("relatedPost can't be a link to more than one post.")
+
+            # check that related post have another author
+            if len(related_posts) == 1 and data["author"] == related_posts[0]["author"]:
+                raise ValidationError("relatedPost can't have the same author.")
+
+            # check that related post is not an answer to another post
+            if len(related_posts) == 1 and related_posts[0]["relatedPost"]:
+                raise ValidationError("relatedPost can't have relatedPost defined.")
+
+            # check that answer author matches related post recipient
+            if data["author"] and data["author"] != related_posts[0]["recipient"]:
+                raise ValidationError("relatedPost invalid recipient.")
+
+    def validate_recipient(self, data, value):
+        # validate for aboveThresholdReviewers role
+        if data["author"] in self.reviewer_roles and value not in self.recipient_roles:
+            raise ValidationError("Value must be one of {}.".format(self.recipient_roles))
+
+        # validate for complaint_owner and tender_owner roles
+        elif data["author"] in self.recipient_roles and value not in self.reviewer_roles:
+            raise ValidationError("Value must be one of {}.".format(self.reviewer_roles))
+
+
 class Complaint(BaseComplaint):
     class Options:
         roles = {
@@ -260,6 +333,7 @@ class Complaint(BaseComplaint):
     reviewDate = IsoDateTimeType()
     reviewPlace = StringType()
     bid_id = StringType()
+    posts = ListType(ModelType(ComplaintPost), default=list())
 
     def __acl__(self):
         return [
@@ -272,29 +346,27 @@ class Complaint(BaseComplaint):
         root = self.get_root()
         request = root.request
         data = request.json_body["data"]
-        if request.authenticated_role == "complaint_owner" and data.get("status", self.status) == "cancelled":
+        auth_role = request.authenticated_role
+        status = data.get("status", self.status)
+        if auth_role == "complaint_owner" and status == "cancelled":
             role = "cancellation"
-        elif (
-            request.authenticated_role == "complaint_owner"
-            and self.status in ["pending", "accepted"]
-            and data.get("status", self.status) == "stopping"
-        ):
+        elif auth_role == "complaint_owner" and self.status in ["pending", "accepted"] and status == "stopping":
             role = "cancellation"
-        elif request.authenticated_role == "complaint_owner" and self.status == "draft":
+        elif auth_role == "complaint_owner" and self.status == "draft":
             role = "draft"
-        elif request.authenticated_role == "complaint_owner" and self.status == "claim":
+        elif auth_role == "complaint_owner" and self.status == "claim":
             role = "escalate"
-        elif request.authenticated_role == "tender_owner" and self.status == "claim":
+        elif auth_role == "tender_owner" and self.status == "claim":
             role = "answer"
-        elif request.authenticated_role == "tender_owner" and self.status in ["pending", "accepted"]:
+        elif auth_role == "tender_owner" and self.status in ["pending", "accepted"]:
             role = "action"
-        elif request.authenticated_role == "tender_owner" and self.status == "satisfied":
+        elif auth_role == "tender_owner" and self.status == "satisfied":
             role = "resolve"
-        elif request.authenticated_role == "complaint_owner" and self.status == "answered":
+        elif auth_role == "complaint_owner" and self.status == "answered":
             role = "satisfy"
-        elif request.authenticated_role == "aboveThresholdReviewers" and self.status == "pending":
+        elif auth_role == "aboveThresholdReviewers" and self.status == "pending":
             role = "pending"
-        elif request.authenticated_role == "aboveThresholdReviewers" and self.status in ["accepted", "stopping"]:
+        elif auth_role == "aboveThresholdReviewers" and self.status in ["accepted", "stopping"]:
             role = "review"
         else:
             role = "invalid"

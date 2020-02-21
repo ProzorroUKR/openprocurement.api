@@ -263,7 +263,7 @@ to activate it as well.
 
 See :ref:`cancellation` data structure for details.
 
-Preparing the cancellation request for :ref:`reporting` procedure
+Preparing the cancellation request for `reporting` procedure
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You should pass `reason` and `reasonType`, `status` defaults to `pending`.

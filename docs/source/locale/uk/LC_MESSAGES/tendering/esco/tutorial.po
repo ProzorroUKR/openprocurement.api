@@ -360,7 +360,6 @@ msgstr "Дивіться структуру запиту :ref:`cancellation` д�
 msgid "Preparing the cancellation request"
 msgstr "Формування запиту на скасування"
 
-#, fuzzy
 msgid "You should pass `reason` and `reasonType`, `status` defaults to `pending`."
 msgstr "Ви повинні передати змінні `reason` та `reasonType`, `status` у стані `pending`."
 
@@ -393,7 +392,4 @@ msgstr "Перевіримо чі дійсно тендер було скасо�
 
 msgid "Now  ``status`` value is `cancelled`."
 msgstr "Тепер ``status`` має значення `cancelled`."
-
-#~ msgid "There are two possible types of cancellation reason: tender was `cancelled` or `unsuccessful`. By default ``reasonType`` value is `cancelled`."
-#~ msgstr "При скасуванні, замовник має визначити один з двох типів ``reasonType``: торги відмінені - `cancelled`, або торги не відбулися - `unsuccessful`. За замовчуванням, значення ``reasonType`` рівне `cancelled`."
 

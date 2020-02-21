@@ -16,6 +16,7 @@ areas that were not covered by it.
    cancellation
    change
    complaint
+   complaintpost
    confidentialdocument
    contract
    document

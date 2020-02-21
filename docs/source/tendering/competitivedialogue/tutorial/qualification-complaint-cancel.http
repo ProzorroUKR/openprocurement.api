@@ -21,7 +21,7 @@ Content-Type: application/json; charset=UTF-8
     "bid_id": "b537ad4e27a949fdaa50235bd7a26ac6", 
     "cancellationReason": "Умови виправлено", 
     "dateCanceled": "2020-05-01T01:00:03+03:00", 
-    "complaintID": "UA-2020-05-01-000001.6", 
+    "complaintID": "UA-2020-05-01-000001.7", 
     "date": "2020-05-01T01:00:03+03:00", 
     "type": "claim", 
     "id": "5373a5a981b446e1a48268232777f97b"

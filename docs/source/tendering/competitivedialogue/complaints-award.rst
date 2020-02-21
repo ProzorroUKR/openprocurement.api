@@ -45,6 +45,37 @@ You can submit complaint that does not need additional documents:
 .. include:: tutorial/award-complaint-submission-complaint.http
    :code:
 
+Complaint Posts
+===============
+
+Once complaint is in `pending` or `accepted` status reviewer can submit a post to complaint.
+
+Tender Conditions Complaint Posts (with complaint owner)
+--------------------------------------------------------
+
+Reviewer can submit a post to complaint owner:
+
+.. include:: tutorial/award-complaint-post-reviewer-complaint-owner.http
+   :code:
+
+Complaint owner can submit a reply post to reviewer by setting reviewer's post `id` as `relatedPost`:
+
+.. include:: tutorial/award-complaint-post-complaint-owner.http
+   :code:
+
+Tender Conditions Complaint Posts (with tender owner)
+--------------------------------------------------------
+
+Reviewer can submit a post to tender owner:
+
+.. include:: tutorial/award-complaint-post-reviewer-tender-owner.http
+   :code:
+
+Tender owner can submit a reply post to reviewer by setting reviewer's post `id` as `relatedPost`:
+
+.. include:: tutorial/award-complaint-post-tender-owner.http
+   :code:
+
 Complaint Resolution
 ====================
 

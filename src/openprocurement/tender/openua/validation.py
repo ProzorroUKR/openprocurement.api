@@ -1,5 +1,13 @@
-from openprocurement.api.validation import validate_data, validate_json_data, OPERATIONS
-from openprocurement.api.utils import apply_data_patch, error_handler, get_now, raise_operation_error
+from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.validation import (
+    validate_data, validate_json_data, OPERATIONS, validate_accreditation_level,
+    validate_accreditation_level_mode,
+    validate_tender_first_revision_date,
+)
+from openprocurement.api.utils import (
+    apply_data_patch, error_handler, get_now, raise_operation_error,
+    update_logging_context,
+)
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.core.validation import validate_tender_period_extension, validate_patch_tender_data_draft
 
@@ -167,3 +175,43 @@ def validate_not_only_unsuccessful_awards_or_qualifications(request):
         statuses = {i.status for i in items if i.lotID == cancellation.relatedLot}
         if statuses and not statuses.difference(unsuccessful_statuses):
             raise_error()
+
+
+# post
+def validate_post_accreditation_level(request):
+    tender = request.validated["tender"]
+    levels = tender.edit_accreditations
+    validate_accreditation_level(request, levels, "procurementMethodType", "post", "creation")
+    mode = tender.get("mode", None)
+    validate_accreditation_level_mode(request, mode, "procurementMethodType", "post", "creation")
+
+
+def validate_complaint_post_data(request):
+    update_logging_context(request, {"post_id": "__new__"})
+    validate_post_accreditation_level(request)
+    model = type(request.tender).complaints.model_class.posts.model_class
+    return validate_data(request, model)
+
+
+def validate_award_complaint_post_data(request):
+    update_logging_context(request, {"post_id": "__new__"})
+    validate_post_accreditation_level(request)
+    model = type(request.tender).awards.model_class.complaints.model_class.posts.model_class
+    return validate_data(request, model)
+
+
+def validate_qualification_complaint_post_data(request):
+    update_logging_context(request, {"post_id": "__new__"})
+    validate_post_accreditation_level(request)
+    model = type(request.tender).qualifications.model_class.complaints.model_class.posts.model_class
+    return validate_data(request, model)
+
+
+def validate_complaint_post_add_not_in_allowed_complaint_status(request):
+    complaint = request.context
+    if complaint.status not in ["pending", "accepted"]:
+        raise_operation_error(request, "Can't add post in current ({}) complaint status".format(complaint.status))
+
+
+def validate_complaint_post(request):
+    validate_tender_first_revision_date(request, validation_date=RELEASE_2020_04_19)

@@ -1,0 +1,50 @@
+POST /api/2.5/tenders/23fc3b938f5d4c309f682dabc068667a/complaints/62751a10761f4d39bb9ebe5b47360b8f/posts?acc_token=4308dd153c98457fbb096cf35159f78d HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 663
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "recipient": "aboveThresholdReviewers", 
+    "documents": [
+      {
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0604bfa96a57427fb81801b95f33a9e3?KeyID=a8968c46&Signature=laLXDQa0xTJgu20wamHdHFQcms4lFY0FPvk2rWk7kxdecS1BzG4AuKuBNjMW9boghSFQCDk59MeXIEP1mA%2F8Bg%3D%3D", 
+        "title": "post_document_tender.pdf", 
+        "hash": "md5:00000000000000000000000000000000", 
+        "format": "application/pdf"
+      }
+    ], 
+    "relatedPost": "712d670d0bcd44c6ab7db483c92fa74b", 
+    "description": "Додано документ", 
+    "title": "Уточнення по вимозі"
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/23fc3b938f5d4c309f682dabc068667a/complaints/62751a10761f4d39bb9ebe5b47360b8f/posts/d7cf1e02fece48fabdc250463ab35888
+{
+  "data": {
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "title": "post_document_tender.pdf", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0604bfa96a57427fb81801b95f33a9e3?KeyID=a8968c46&Signature=laLXDQa0xTJgu20wamHdHFQcms4lFY0FPvk2rWk7kxdecS1BzG4AuKuBNjMW9boghSFQCDk59MeXIEP1mA%2F8Bg%3D%3D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2020-05-01T01:00:01+03:00", 
+        "id": "667deeecedfe49a8b2e4f41192b62a14", 
+        "dateModified": "2020-05-01T01:00:01+03:00"
+      }
+    ], 
+    "description": "Додано документ", 
+    "title": "Уточнення по вимозі", 
+    "author": "tender_owner", 
+    "datePublished": "2020-05-01T01:00:01+03:00", 
+    "relatedPost": "712d670d0bcd44c6ab7db483c92fa74b", 
+    "recipient": "aboveThresholdReviewers", 
+    "id": "d7cf1e02fece48fabdc250463ab35888"
+  }
+}
+
