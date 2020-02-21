@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
 from datetime import timedelta
+from iso8601 import parse_date
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization
 from openprocurement.api.constants import NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM
@@ -10,6 +11,9 @@ from openprocurement.tender.openuadefense.models import Tender
 
 
 # TenderUATest
+from openprocurement.tender.openuadefense.utils import calculate_tender_business_date
+
+
 def simple_add_tender(self):
     u = Tender(self.initial_data)
     u.tenderID = "UA-X"
@@ -588,7 +592,12 @@ def patch_tender(self):
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"enquiryPeriod": {"endDate": new_dateModified2}}},
+        {"data": {"enquiryPeriod": {
+            "startDate": calculate_tender_business_date(
+                parse_date(new_dateModified2), -timedelta(3), None, True
+            ).isoformat(),
+            "endDate": new_dateModified2
+        }}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")

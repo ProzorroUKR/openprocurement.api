@@ -3,6 +3,9 @@ from copy import deepcopy
 
 
 # CompetitiveDialogueEU(UA)LotBidderResourceTest
+from openprocurement.tender.belowthreshold.tests.base import test_cancellation
+
+
 def create_tender_bidder_invalid(self):
     request_path = "/tenders/{}/bids".format(self.tender_id)
     response = self.app.post_json(
@@ -780,16 +783,15 @@ def two_lot_2can(self):
     self.assertEqual(response.status, "200 OK")
     # cancel every lot
     for lot_id in lots:
+        cancellation = dict(**test_cancellation)
+        cancellation.update({
+            "status": "active",
+            "cancellationOf": "lot",
+            "relatedLot": lot_id,
+        })
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(tender_id, owner_token),
-            {
-                "data": {
-                    "reason": "cancellation reason",
-                    "status": "active",
-                    "cancellationOf": "lot",
-                    "relatedLot": lot_id,
-                }
-            },
+            {"data": cancellation},
         )
     response = self.app.get("/tenders/{}".format(tender_id))
     self.assertTrue(all([i["status"] == "cancelled" for i in response.json["data"]["lots"]]))
@@ -864,9 +866,15 @@ def two_lot_2bid_0com_1can(self):
     )
 
     self.app.authorization = ("Basic", ("broker", ""))
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+        "cancellationOf": "lot",
+        "relatedLot": lots[0],
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender_id, owner_token),
-        {"data": {"reason": "cancellation reason", "status": "active", "cancellationOf": "lot", "relatedLot": lots[0]}},
+        {"data": cancellation},
     )
     response = self.app.get("/tenders/{}?acc_token={}".format(tender_id, owner_token))
     self.assertEqual(response.status, "200 OK")

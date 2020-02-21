@@ -5,6 +5,8 @@ from datetime import timedelta
 
 from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
+from openprocurement.tender.belowthreshold.tests.base import test_cancellation
+from openprocurement.tender.belowthreshold.tests.cancellation_blanks import create_tender_cancellation_before_19_04_2020
 
 from openprocurement.tender.cfaselectionua.tests.base import TenderContentWebTest, test_lots, test_bids
 from openprocurement.tender.cfaselectionua.tests.cancellation_blanks import (
@@ -29,11 +31,6 @@ from openprocurement.tender.cfaselectionua.tests.cancellation_blanks import (
 from openprocurement.tender.belowthreshold.tests.cancellation import TenderCancellationResourceNewReleaseTestMixin
 
 
-MOCKED_RELEASE_DATE = "openprocurement.tender.core.models.RELEASE_2020_04_19"
-date_after_release = get_now() - timedelta(days=1)
-date_before_release = get_now() + timedelta(days=1)
-
-
 class TenderCancellationResourceTestMixin(object):
     test_create_tender_cancellation_invalid = snitch(create_tender_cancellation_invalid)
     test_create_tender_cancellation = snitch(create_tender_cancellation)
@@ -49,21 +46,14 @@ class TenderCancellationDocumentResourceTestMixin(object):
     test_patch_tender_cancellation_document = snitch(patch_tender_cancellation_document)
 
 
-@mock.patch(MOCKED_RELEASE_DATE, date_after_release)
-class TenderCancellationResourceNewReleaseTest(TenderContentWebTest, TenderCancellationResourceNewReleaseTestMixin):
+class TenderLotCancellationResourceTest(
+    TenderContentWebTest,
+    TenderCancellationResourceTestMixin,
+    TenderCancellationResourceNewReleaseTestMixin
+):
     initial_status = "active.tendering"
     initial_lots = test_lots
     initial_bids = test_bids
-
-
-@mock.patch(MOCKED_RELEASE_DATE, date_before_release)
-class TenderLotCancellationResourceTest(TenderContentWebTest, TenderCancellationResourceTestMixin):
-    initial_status = "active.tendering"
-    initial_lots = test_lots
-    initial_bids = test_bids
-
-    test_create_tender_lot_cancellation = snitch(create_tender_lot_cancellation)
-    test_patch_tender_lot_cancellation = snitch(patch_tender_lot_cancellation)
 
 
 @unittest.skip("Skip multi-lots tests")
@@ -84,7 +74,7 @@ class TenderCancellationDocumentResourceTest(TenderContentWebTest, TenderCancell
         # Create cancellation
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"reason": "cancellation reason"}},
+            {"data": test_cancellation},
         )
         cancellation = response.json["data"]
         self.cancellation_id = cancellation["id"]

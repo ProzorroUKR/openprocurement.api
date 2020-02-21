@@ -3,7 +3,8 @@ from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_cancellation
+
 
 # TenderStage2EU(UA)LotResourceTest
 
@@ -1864,16 +1865,15 @@ def two_lot_2can(self):
     self.create_tender(self.test_lots_data * 2)
     # cancel every lot
     for lot in self.initial_lots:
+        cancellation = dict(**test_cancellation)
+        cancellation.update({
+            "status": "active",
+            "cancellationOf": "lot",
+            "relatedLot": lot["id"],
+        })
         self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-            {
-                "data": {
-                    "reason": "cancellation reason",
-                    "status": "active",
-                    "cancellationOf": "lot",
-                    "relatedLot": lot["id"],
-                }
-            },
+        {"data": cancellation},
         )
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertTrue(all([i["status"] == "cancelled" for i in response.json["data"]["lots"]]))
@@ -1884,16 +1884,15 @@ def two_lot_1can(self):
     """ Create tender with 2 lots, later 1 cancel """
     self.create_tender(initial_lots=self.test_lots_data * 2)
     # cancel first lot
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+        "cancellationOf": "lot",
+        "relatedLot": self.initial_lots[0]["id"],
+    })
     self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-        {
-            "data": {
-                "reason": "cancellation reason",
-                "status": "active",
-                "cancellationOf": "lot",
-                "relatedLot": self.initial_lots[0]["id"],
-            }
-        },
+        {"data": cancellation},
     )
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
@@ -1916,16 +1915,15 @@ def two_lot_1can(self):
     self.assertEqual(response.json["errors"][0]["description"], "Can perform cancellation only in active lot status")
 
     # try to restore lot back by new pending cancellation
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+        "cancellationOf": "lot",
+        "relatedLot": self.initial_lots[0]["id"],
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-        {
-            "data": {
-                "reason": "cancellation reason",
-                "status": "pending",
-                "cancellationOf": "lot",
-                "relatedLot": self.initial_lots[0]["id"],
-            }
-        },
+        {"data": cancellation},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1967,16 +1965,15 @@ def two_lot_2bid_0com_1can(self):
     )
 
     self.app.authorization = ("Basic", ("broker", ""))
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+        "cancellationOf": "lot",
+        "relatedLot": self.initial_lots[0]["id"],
+    })
     self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-        {
-            "data": {
-                "reason": "cancellation reason",
-                "status": "active",
-                "cancellationOf": "lot",
-                "relatedLot": self.initial_lots[0]["id"],
-            }
-        },
+        {"data": cancellation},
     )
     response = self.app.get("/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token))
     self.assertEqual(response.status, "200 OK")

@@ -5,7 +5,7 @@ from datetime import timedelta
 from openprocurement.api.constants import SANDBOX_MODE, CPV_ITEMS_CLASS_FROM, ROUTE_PREFIX
 from openprocurement.api.utils import get_now
 
-from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_cancellation
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_central as create_tender_central_base,
 )
@@ -1806,9 +1806,13 @@ def tender_Administrator_change(self):
     tender = response.json["data"]
     owner_token = response.json["access"]["token"]
 
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"reason": "cancellation reason", "status": "active"}},
+        {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1868,9 +1872,14 @@ def invalid_tender_conditions(self):
     # switch to active.tendering
     self.set_status("active.tendering")
     # cancellation
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "reason": "invalid conditions",
+        "status": "active"
+    })
     self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender_id, owner_token),
-        {"data": {"reason": "invalid conditions", "status": "active"}},
+        {"data": cancellation},
     )
     # check status
     response = self.app.get("/tenders/{}".format(tender_id))

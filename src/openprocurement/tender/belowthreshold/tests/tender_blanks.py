@@ -3,6 +3,7 @@ import mock
 from uuid import uuid4
 from copy import deepcopy
 from datetime import timedelta
+from iso8601 import parse_date
 
 from openprocurement.api.utils import get_now
 from openprocurement.api import validation
@@ -19,6 +20,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_organization,
     test_author,
     set_tender_lots,
+    test_cancellation,
 )
 
 # TenderTest
@@ -1735,7 +1737,12 @@ def patch_tender(self):
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"enquiryPeriod": {"endDate": new_dateModified2}}},
+        {"data": {"enquiryPeriod": {
+            "startDate": calculate_tender_business_date(
+                parse_date(new_dateModified2), -timedelta(3), None, True
+            ).isoformat(),
+            "endDate": new_dateModified2
+        }}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -1988,9 +1995,13 @@ def tender_Administrator_change(self):
     tender = response.json["data"]
     token = response.json["access"]["token"]
 
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender["id"], token),
-        {"data": {"reason": "cancellation reason", "status": "active"}},
+        {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -2069,9 +2080,14 @@ def invalid_tender_conditions(self):
         {"data": {"satisfied": True, "status": "resolved"}},
     )
     # cancellation
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "reason": "invalid conditions",
+        "status": "active"
+    })
     self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender_id, owner_token),
-        {"data": {"reason": "invalid conditions", "status": "active"}},
+        {"data": cancellation},
     )
     # check status
     response = self.app.get("/tenders/{}".format(self.tender_id))

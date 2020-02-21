@@ -3,7 +3,7 @@ from datetime import timedelta
 from iso8601 import parse_date
 
 from openprocurement.api.models import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author, test_cancellation
 
 
 # TenderLotResourceTest
@@ -283,16 +283,15 @@ def question_blocking(self):
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
     # cancel lot
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+        "cancellationOf": "lot",
+        "relatedLot": self.initial_lots[0]["id"],
+    })
     self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-        {
-            "data": {
-                "reason": "cancellation reason",
-                "status": "active",
-                "cancellationOf": "lot",
-                "relatedLot": self.initial_lots[0]["id"],
-            }
-        },
+        {"data": cancellation},
     )
 
     self.app.authorization = ("Basic", ("chronograph", ""))
@@ -329,16 +328,15 @@ def claim_blocking(self):
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
     # cancel lot
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+        "cancellationOf": "lot",
+        "relatedLot": self.initial_lots[0]["id"],
+    })
     self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-        {
-            "data": {
-                "reason": "cancellation reason",
-                "status": "active",
-                "cancellationOf": "lot",
-                "relatedLot": self.initial_lots[0]["id"],
-            }
-        },
+        {"data": cancellation},
     )
 
     self.app.authorization = ("Basic", ("chronograph", ""))
@@ -373,16 +371,15 @@ def next_check_value_with_unanswered_question(self):
     self.assertNotIn("next_check", response.json["data"])
 
     self.app.authorization = ("Basic", ("broker", ""))
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+        "cancellationOf": "lot",
+        "relatedLot": self.initial_lots[0]["id"],
+    })
     self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-        {
-            "data": {
-                "reason": "cancellation reason",
-                "status": "active",
-                "cancellationOf": "lot",
-                "relatedLot": self.initial_lots[0]["id"],
-            }
-        },
+        {"data": cancellation},
     )
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
@@ -425,16 +422,15 @@ def next_check_value_with_unanswered_claim(self):
     self.assertNotIn("next_check", response.json["data"])
 
     self.app.authorization = ("Basic", ("broker", ""))
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+        "cancellationOf": "lot",
+        "relatedLot": self.initial_lots[0]["id"],
+    })
     self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-        {
-            "data": {
-                "reason": "cancellation reason",
-                "status": "active",
-                "cancellationOf": "lot",
-                "relatedLot": self.initial_lots[0]["id"],
-            }
-        },
+        {"data": cancellation},
     )
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
@@ -2046,9 +2042,15 @@ def proc_2lot_2bid_1claim_1com_1win(self):
     )
     self.assertEqual(response.status, "201 Created")
     # cancel lot
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+        "cancellationOf": "lot",
+        "relatedLot": lot_id,
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender_id, owner_token),
-        {"data": {"reason": "cancellation reason", "status": "active", "cancellationOf": "lot", "relatedLot": lot_id}},
+        {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
     # for second lot

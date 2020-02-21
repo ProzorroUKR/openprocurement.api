@@ -4,7 +4,8 @@ from datetime import timedelta
 from email.header import Header
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_cancellation
+
 
 # Tender Lot Resouce Test
 
@@ -1734,16 +1735,15 @@ def proc_2lot_2can(self):
     self.assertTrue(all(["auctionPeriod" in i for i in response.json["data"]["lots"]]))
     # cancel every lot
     for lot_id in lots:
+        cancellation = dict(**test_cancellation)
+        cancellation.update({
+            "status": "active",
+            "cancellationOf": "lot",
+            "relatedLot": lot_id,
+        })
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(tender_id, owner_token),
-            {
-                "data": {
-                    "reason": "cancellation reason",
-                    "status": "active",
-                    "cancellationOf": "lot",
-                    "relatedLot": lot_id,
-                }
-            },
+            {"data": cancellation},
         )
     response = self.app.get("/tenders/{}".format(tender_id))
     self.assertTrue(all([i["status"] == "cancelled" for i in response.json["data"]["lots"]]))
@@ -1810,9 +1810,15 @@ def proc_2lot_2bid_0com_1can_before_auction(self):
     )
     # cancel lot
     self.app.authorization = ("Basic", ("broker", ""))
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+        "cancellationOf": "lot",
+        "relatedLot": lot_id,
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender_id, owner_token),
-        {"data": {"reason": "cancellation reason", "status": "active", "cancellationOf": "lot", "relatedLot": lot_id}},
+        {"data": cancellation},
     )
     # switch to active.qualification
     response = self.set_status("active.auction", {"status": "active.tendering"})
@@ -1908,9 +1914,15 @@ def proc_2lot_1bid_0com_1can(self):
     lot_id = lots[0]
     # cancel lot
     self.app.authorization = ("Basic", ("broker", ""))
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+        "cancellationOf": "lot",
+        "relatedLot": lot_id,
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender_id, owner_token),
-        {"data": {"reason": "cancellation reason", "status": "active", "cancellationOf": "lot", "relatedLot": lot_id}},
+        {"data": cancellation},
     )
     # for second lot
     lot_id = lots[1]

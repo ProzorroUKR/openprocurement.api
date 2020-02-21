@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author, test_cancellation
 
 
 # TenderAwardResourceTest
@@ -503,16 +503,15 @@ def create_tender_lot_award(self):
 
 def create_tender_2lot_award(self):
     request_path = "/tenders/{}/awards".format(self.tender_id)
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+        "cancellationOf": "lot",
+        "relatedLot": self.initial_lots[0]["id"],
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-        {
-            "data": {
-                "reason": "cancellation reason",
-                "status": "active",
-                "cancellationOf": "lot",
-                "relatedLot": self.initial_lots[0]["id"],
-            }
-        },
+        {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -594,16 +593,15 @@ def patch_tender_2lot_award(self):
     self.assertEqual(len(response.json["data"]), 2)
     new_award = response.json["data"][-1]
 
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+        "cancellationOf": "lot",
+        "relatedLot": self.initial_lots[1]["id"],
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-        {
-            "data": {
-                "reason": "cancellation reason",
-                "status": "active",
-                "cancellationOf": "lot",
-                "relatedLot": self.initial_lots[1]["id"],
-            }
-        },
+        {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -790,16 +788,15 @@ def create_tender_2lot_award_complaint_document(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("name.doc", response.json["data"]["title"])
 
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+        "cancellationOf": "lot",
+        "relatedLot": self.initial_lots[0]["id"],
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations".format(self.tender_id),
-        {
-            "data": {
-                "reason": "cancellation reason",
-                "status": "active",
-                "cancellationOf": "lot",
-                "relatedLot": self.initial_lots[0]["id"],
-            }
-        },
+        {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -933,16 +930,15 @@ def put_tender_2lot_award_complaint_document(self):
     self.assertEqual(response.content_length, 8)
     self.assertEqual(response.body, "content4")
 
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+        "cancellationOf": "lot",
+        "relatedLot": self.initial_lots[0]["id"],
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations".format(self.tender_id),
-        {
-            "data": {
-                "reason": "cancellation reason",
-                "status": "active",
-                "cancellationOf": "lot",
-                "relatedLot": self.initial_lots[0]["id"],
-            }
-        },
+        {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -1022,16 +1018,15 @@ def patch_tender_2lot_award_complaint_document(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["description"], "document description2")
 
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+        "cancellationOf": "lot",
+        "relatedLot": self.initial_lots[0]["id"],
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations".format(self.tender_id),
-        {
-            "data": {
-                "reason": "cancellation reason",
-                "status": "active",
-                "cancellationOf": "lot",
-                "relatedLot": self.initial_lots[0]["id"],
-            }
-        },
+        {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
 

@@ -7,6 +7,7 @@ from openprocurement.tender.belowthreshold.tests.base import test_organization, 
 
 
 # TenderSwitchTenderingResourceTest
+from openprocurement.tender.core.utils import calculate_tender_business_date
 
 
 def switch_to_tendering_by_tenderPeriod_startDate(self):
@@ -172,10 +173,17 @@ def reset_auction_period(self):
     tender = self.db.get(self.tender_id)
     self.assertGreater(tender["next_check"], response.json["data"]["tenderPeriod"]["endDate"])
     tender["tenderPeriod"]["endDate"] = tender["tenderPeriod"]["startDate"]
+    tender["tenderPeriod"]["startDate"] = calculate_tender_business_date(
+        parse_date(tender["tenderPeriod"]["endDate"]), -timedelta(2), None, True
+    ).isoformat()
+    tender["enquiryPeriod"]["endDate"] = tender["tenderPeriod"]["startDate"]
+    tender["enquiryPeriod"]["startDate"] = calculate_tender_business_date(
+        parse_date(tender["enquiryPeriod"]["endDate"]), -timedelta(3), None, True
+    ).isoformat()
     if self.initial_lots:
-        tender["lots"][0]["auctionPeriod"]["startDate"] = tender["tenderPeriod"]["startDate"]
+        tender["lots"][0]["auctionPeriod"]["startDate"] = tender["tenderPeriod"]["endDate"]
     else:
-        tender["auctionPeriod"]["startDate"] = tender["tenderPeriod"]["startDate"]
+        tender["auctionPeriod"]["startDate"] = tender["tenderPeriod"]["endDate"]
     self.db.save(tender)
 
     response = self.check_chronograph()

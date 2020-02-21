@@ -6,8 +6,7 @@ from datetime import timedelta
 from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.base import test_lots
-from openprocurement.tender.belowthreshold.tests.cancellation import TenderCancellationResourceNewReleaseTestMixin
+from openprocurement.tender.belowthreshold.tests.base import test_lots, test_cancellation
 
 from openprocurement.tender.competitivedialogue.tests.base import (
     test_bids,
@@ -30,28 +29,17 @@ from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
 from openprocurement.tender.competitivedialogue.tests.stage2.cancellation_blanks import (
     cancellation_active_qualification_j1427,
 )
-
-
-MOCKED_RELEASE_DATE = "openprocurement.tender.core.models.RELEASE_2020_04_19"
-date_after_release = get_now() - timedelta(days=1)
-date_before_release = get_now() + timedelta(days=1)
-
+from openprocurement.tender.openua.tests.cancellation import TenderCancellationResourceNewReleaseTestMixin
 
 for bid in test_bids:
     bid["tenderers"][0]["identifier"]["id"] = test_shortlistedFirms[0]["identifier"]["id"]
     bid["tenderers"][0]["identifier"]["scheme"] = test_shortlistedFirms[0]["identifier"]["scheme"]
 
 
-@mock.patch(MOCKED_RELEASE_DATE, date_before_release)
 class TenderStage2EUCancellationResourceTest(
-    BaseCompetitiveDialogEUStage2ContentWebTest, TenderCancellationResourceTestMixin
-):
-    pass
-
-
-@mock.patch(MOCKED_RELEASE_DATE, date_after_release)
-class TenderStage2EUCancellationResourceNewReleaseTest(
-    BaseCompetitiveDialogEUStage2ContentWebTest, TenderCancellationResourceNewReleaseTestMixin
+    BaseCompetitiveDialogEUStage2ContentWebTest,
+    TenderCancellationResourceTestMixin,
+    TenderCancellationResourceNewReleaseTestMixin,
 ):
     pass
 
@@ -82,26 +70,18 @@ class TenderStage2EUCancellationDocumentResourceTest(
         # Create cancellation
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"reason": "cancellation reason"}},
+            {"data": test_cancellation},
         )
         cancellation = response.json["data"]
         self.cancellation_id = cancellation["id"]
 
 
-@mock.patch(MOCKED_RELEASE_DATE, date_before_release)
 class TenderStage2UACancellationResourceTest(
-    BaseCompetitiveDialogUAStage2ContentWebTest, TenderCancellationResourceTestMixin
-):
-
-    initial_auth = ("Basic", ("broker", ""))
-
-
-@mock.patch(MOCKED_RELEASE_DATE, date_after_release)
-class TenderStage2UaCancellationResourceNewReleaseTest(
-    BaseCompetitiveDialogUAStage2ContentWebTest, TenderCancellationResourceNewReleaseTestMixin
+    BaseCompetitiveDialogUAStage2ContentWebTest,
+    TenderCancellationResourceTestMixin,
+    TenderCancellationResourceNewReleaseTestMixin
 ):
     initial_auth = ("Basic", ("broker", ""))
-
 
 
 class TenderStage2UALotCancellationResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
@@ -131,7 +111,7 @@ class TenderStage2UACancellationDocumentResourceTest(
         # Create cancellation
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"reason": "cancellation reason"}},
+            {"data": test_cancellation},
         )
         cancellation = response.json["data"]
         self.cancellation_id = cancellation["id"]

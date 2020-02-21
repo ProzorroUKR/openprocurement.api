@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import dateutil
 
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author, test_cancellation
 
 
 # TenderAwardResourceTest
@@ -1504,9 +1504,14 @@ def create_award_on_cancel_lot(self):
     self.assertEqual(response.status, "200 OK")
 
     # Create cancellation on lot
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "cancellationOf": "lot",
+        "relatedLot": lot["id"],
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"reason": "cancellation reason", "cancellationOf": "lot", "relatedLot": lot["id"]}},
+        {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.json["data"]["status"], "pending")
@@ -1559,9 +1564,15 @@ def patch_award_on_cancel_lot(self):
     award = response.json["data"]
 
     # Create cancellation on lot
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "reason": "cancellation reason",
+        "cancellationOf": "lot",
+        "relatedLot": lot["id"]
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"reason": "cancellation reason", "cancellationOf": "lot", "relatedLot": lot["id"]}},
+        {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.json["data"]["status"], "pending")

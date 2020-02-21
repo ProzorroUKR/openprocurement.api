@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from openprocurement.tender.belowthreshold.tests.base import test_cancellation
 
 
 def lot_create_tender_question(self):
@@ -23,16 +24,15 @@ def lot_create_tender_question(self):
 
 
 def lot_create_tender_cancellations_and_questions(self):
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+        "cancellationOf": "lot",
+        "relatedLot": self.initial_lots[0]["id"],
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-        {
-            "data": {
-                "reason": "cancellation reason",
-                "status": "active",
-                "cancellationOf": "lot",
-                "relatedLot": self.initial_lots[0]["id"],
-            }
-        },
+        {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -88,16 +88,15 @@ def lot_patch_tender_question(self):
     self.assertEqual(response.json["data"]["answer"], "answer")
     self.assertIn("dateAnswered", response.json["data"])
 
+    cancellation = dict(**test_cancellation)
+    cancellation.update({
+        "status": "active",
+        "cancellationOf": "lot",
+        "relatedLot": self.initial_lots[0]["id"],
+    })
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-        {
-            "data": {
-                "reason": "cancellation reason",
-                "status": "active",
-                "cancellationOf": "lot",
-                "relatedLot": self.initial_lots[0]["id"],
-            }
-        },
+        {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
 
