@@ -31,6 +31,7 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Вінниця"
         }
       }, 
+      "reviewDate": "2020-05-01T01:00:01+03:00", 
       "title": "Недостатньо інформації", 
       "id": "90df8eece7e3421bab98a9a31f0a1512", 
       "tendererAction": "Умови виправлено", 
@@ -65,6 +66,7 @@ Content-Type: application/json; charset=UTF-8
           "dateModified": "2020-05-01T01:00:01+03:00"
         }
       ], 
+      "reviewPlace": "Place of review", 
       "dateAccepted": "2020-05-01T01:00:01+03:00"
     }, 
     {
@@ -125,6 +127,7 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Вінниця"
         }
       }, 
+      "reviewDate": "2020-05-01T01:00:01+03:00", 
       "acceptance": true, 
       "dateAccepted": "2020-05-01T01:00:01+03:00", 
       "dateSubmitted": "2020-05-01T01:00:01+03:00", 
@@ -132,7 +135,8 @@ Content-Type: application/json; charset=UTF-8
       "date": "2020-05-01T01:00:01+03:00", 
       "title": "Недостатньо інформації", 
       "type": "complaint", 
-      "id": "b9c2b7814a2f4bec96ee883f622dd37c"
+      "id": "b9c2b7814a2f4bec96ee883f622dd37c", 
+      "reviewPlace": "Place of review"
     }, 
     {
       "relatedLot": "7a576fa3183c402c9ff83b060cbf83e1", 
@@ -164,12 +168,14 @@ Content-Type: application/json; charset=UTF-8
       "cancellationReason": "Тендер скасовується замовником", 
       "dateCanceled": "2020-05-01T01:00:01+03:00", 
       "dateAccepted": "2020-05-01T01:00:01+03:00", 
+      "id": "506428f86e674b2e9b78f91444543f3e", 
       "dateSubmitted": "2020-05-01T01:00:01+03:00", 
       "complaintID": "UA-2020-05-01-000001.4", 
       "date": "2020-05-01T01:00:01+03:00", 
       "title": "Недостатньо інформації", 
       "type": "complaint", 
-      "id": "506428f86e674b2e9b78f91444543f3e"
+      "reviewDate": "2020-05-01T01:00:01+03:00", 
+      "reviewPlace": "Place of review"
     }, 
     {
       "relatedLot": "7a576fa3183c402c9ff83b060cbf83e1", 
@@ -198,6 +204,7 @@ Content-Type: application/json; charset=UTF-8
       }, 
       "decision": "Тендер скасовується замовником", 
       "acceptance": true, 
+      "id": "7685e90090624883936ecb270631092c", 
       "dateCanceled": "2020-05-01T01:00:01+03:00", 
       "dateAccepted": "2020-05-01T01:00:01+03:00", 
       "dateSubmitted": "2020-05-01T01:00:01+03:00", 
@@ -205,7 +212,8 @@ Content-Type: application/json; charset=UTF-8
       "date": "2020-05-01T01:00:01+03:00", 
       "title": "Недостатньо інформації", 
       "type": "complaint", 
-      "id": "7685e90090624883936ecb270631092c"
+      "reviewDate": "2020-05-01T01:00:01+03:00", 
+      "reviewPlace": "Place of review"
     }, 
     {
       "relatedLot": "7a576fa3183c402c9ff83b060cbf83e1", 

@@ -87,6 +87,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e234fb168a9a4eae
         "dateDecision": "2020-05-01T01:00:03+03:00", 
         "tendererActionDate": "2020-05-01T01:00:03+03:00", 
         "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+        "title": "Недостатньо інформації", 
+        "reviewDate": "2020-05-01T01:00:03+03:00", 
         "author": {
           "contactPoint": {
             "email": "soleksuk@gmail.com", 
@@ -107,7 +109,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e234fb168a9a4eae
             "locality": "м. Вінниця"
           }
         }, 
-        "title": "Недостатньо інформації", 
         "id": "b7e603d352b84065ac337d4ed5348b8e", 
         "tendererAction": "Умови виправлено, вибір переможня буде розгянуто повторно", 
         "dateSubmitted": "2020-05-01T01:00:03+03:00", 
@@ -141,6 +142,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e234fb168a9a4eae
             "dateModified": "2020-05-01T01:00:03+03:00"
           }
         ], 
+        "reviewPlace": "Place of review", 
         "dateAccepted": "2020-05-01T01:00:03+03:00"
       }, 
       {
@@ -179,6 +181,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e234fb168a9a4eae
         "status": "declined", 
         "dateDecision": "2020-05-01T01:00:03+03:00", 
         "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+        "title": "Недостатньо інформації", 
+        "reviewDate": "2020-05-01T01:00:03+03:00", 
+        "acceptance": true, 
+        "dateAccepted": "2020-05-01T01:00:03+03:00", 
         "author": {
           "contactPoint": {
             "email": "soleksuk@gmail.com", 
@@ -199,14 +205,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e234fb168a9a4eae
             "locality": "м. Вінниця"
           }
         }, 
-        "acceptance": true, 
-        "dateAccepted": "2020-05-01T01:00:03+03:00", 
         "dateSubmitted": "2020-05-01T01:00:03+03:00", 
         "complaintID": "UA-2020-05-01-000001.3", 
         "date": "2020-05-01T01:00:03+03:00", 
-        "title": "Недостатньо інформації", 
         "type": "complaint", 
-        "id": "b0efab0741b54576b657882884ce7b77"
+        "id": "b0efab0741b54576b657882884ce7b77", 
+        "reviewPlace": "Place of review"
       }, 
       {
         "status": "stopped", 
@@ -218,6 +222,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e234fb168a9a4eae
         "cancellationReason": "Тендер скасовується замовником", 
         "dateCanceled": "2020-05-01T01:00:03+03:00", 
         "dateAccepted": "2020-05-01T01:00:03+03:00", 
+        "id": "d5075664651240c195bb5509cf82e8ee", 
         "author": {
           "contactPoint": {
             "email": "soleksuk@gmail.com", 
@@ -242,7 +247,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e234fb168a9a4eae
         "complaintID": "UA-2020-05-01-000001.4", 
         "date": "2020-05-01T01:00:03+03:00", 
         "type": "complaint", 
-        "id": "d5075664651240c195bb5509cf82e8ee"
+        "reviewDate": "2020-05-01T01:00:03+03:00", 
+        "reviewPlace": "Place of review"
       }, 
       {
         "status": "stopped", 
@@ -251,6 +257,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e234fb168a9a4eae
         "title": "Недостатньо інформації", 
         "decision": "Тендер скасовується замовником", 
         "acceptance": true, 
+        "id": "2e193cff67c84441b16eb8de44d0362b", 
         "dateCanceled": "2020-05-01T01:00:03+03:00", 
         "dateAccepted": "2020-05-01T01:00:03+03:00", 
         "author": {
@@ -277,7 +284,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e234fb168a9a4eae
         "complaintID": "UA-2020-05-01-000001.5", 
         "date": "2020-05-01T01:00:03+03:00", 
         "type": "complaint", 
-        "id": "2e193cff67c84441b16eb8de44d0362b"
+        "reviewDate": "2020-05-01T01:00:03+03:00", 
+        "reviewPlace": "Place of review"
       }, 
       {
         "status": "answered", 

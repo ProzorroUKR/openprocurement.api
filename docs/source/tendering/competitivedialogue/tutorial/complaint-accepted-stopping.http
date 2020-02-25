@@ -37,6 +37,7 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Вінниця"
       }
     }, 
+    "reviewDate": "2020-05-01T01:00:01+03:00", 
     "acceptance": true, 
     "cancellationReason": "Тендер скасовується замовником", 
     "dateCanceled": "2020-05-01T01:00:01+03:00", 
@@ -46,7 +47,8 @@ Content-Type: application/json; charset=UTF-8
     "date": "2020-05-01T01:00:01+03:00", 
     "title": "Недостатньо інформації", 
     "type": "complaint", 
-    "id": "7dfbcf5c7d7e45bab929bab9b37b8723"
+    "id": "7dfbcf5c7d7e45bab929bab9b37b8723", 
+    "reviewPlace": "Place of review"
   }
 }
 

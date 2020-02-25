@@ -24,6 +24,7 @@ Content-Type: application/json; charset=UTF-8
     "cancellationReason": "Тендер скасовується замовником", 
     "dateCanceled": "2020-05-01T01:00:01+03:00", 
     "dateAccepted": "2020-05-01T01:00:01+03:00", 
+    "id": "7d5077092eed4938936955958adc366c", 
     "author": {
       "contactPoint": {
         "email": "soleksuk@gmail.com", 
@@ -48,7 +49,8 @@ Content-Type: application/json; charset=UTF-8
     "complaintID": "UA-2020-05-01-000001.4", 
     "date": "2020-05-01T01:00:01+03:00", 
     "type": "complaint", 
-    "id": "7d5077092eed4938936955958adc366c"
+    "reviewDate": "2020-05-01T01:00:01+03:00", 
+    "reviewPlace": "Place of review"
   }
 }
 

@@ -21,6 +21,7 @@ Content-Type: application/json; charset=UTF-8
     "title": "Недостатньо інформації", 
     "decision": "Тендер скасовується замовником", 
     "acceptance": true, 
+    "id": "17e772d985614e05bc1af9006a57c17d", 
     "dateCanceled": "2020-05-01T01:00:01+03:00", 
     "dateAccepted": "2020-05-01T01:00:01+03:00", 
     "author": {
@@ -47,7 +48,8 @@ Content-Type: application/json; charset=UTF-8
     "complaintID": "UA-2020-05-01-000001.5", 
     "date": "2020-05-01T01:00:01+03:00", 
     "type": "complaint", 
-    "id": "17e772d985614e05bc1af9006a57c17d"
+    "reviewDate": "2020-05-01T01:00:01+03:00", 
+    "reviewPlace": "Place of review"
   }
 }
 

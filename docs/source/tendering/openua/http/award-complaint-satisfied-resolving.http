@@ -101,6 +101,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/59d0b67423864278
             "locality": "м. Вінниця"
           }
         }, 
+        "reviewDate": "2020-05-01T01:00:01+03:00", 
         "title": "Недостатньо інформації", 
         "tendererAction": "Умови виправлено, вибір переможня буде розгянуто повторно", 
         "tendererActionDate": "2020-05-01T01:00:01+03:00", 
@@ -110,6 +111,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/59d0b67423864278
         "acceptance": true, 
         "type": "complaint", 
         "id": "332321ea73ed4e0092cb91e8d218cd17", 
+        "reviewPlace": "Place of review", 
         "dateAccepted": "2020-05-01T01:00:01+03:00"
       }, 
       {
@@ -148,6 +150,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/59d0b67423864278
         "status": "declined", 
         "dateDecision": "2020-05-01T01:00:01+03:00", 
         "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+        "title": "Недостатньо інформації", 
+        "reviewDate": "2020-05-01T01:00:01+03:00", 
+        "acceptance": true, 
+        "dateAccepted": "2020-05-01T01:00:01+03:00", 
         "author": {
           "contactPoint": {
             "email": "soleksuk@gmail.com", 
@@ -168,14 +174,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/59d0b67423864278
             "locality": "м. Вінниця"
           }
         }, 
-        "acceptance": true, 
-        "dateAccepted": "2020-05-01T01:00:01+03:00", 
         "dateSubmitted": "2020-05-01T01:00:01+03:00", 
         "complaintID": "UA-2020-05-01-000001.3", 
         "date": "2020-05-01T01:00:01+03:00", 
-        "title": "Недостатньо інформації", 
         "type": "complaint", 
-        "id": "80289a59c2864a8b8cb12c29a5124951"
+        "id": "80289a59c2864a8b8cb12c29a5124951", 
+        "reviewPlace": "Place of review"
       }, 
       {
         "status": "stopped", 
@@ -187,6 +191,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/59d0b67423864278
         "cancellationReason": "Тендер скасовується замовником", 
         "dateCanceled": "2020-05-01T01:00:01+03:00", 
         "dateAccepted": "2020-05-01T01:00:01+03:00", 
+        "id": "3dada28e79a34fffaa7f795108511b9b", 
         "author": {
           "contactPoint": {
             "email": "soleksuk@gmail.com", 
@@ -211,7 +216,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/59d0b67423864278
         "complaintID": "UA-2020-05-01-000001.4", 
         "date": "2020-05-01T01:00:01+03:00", 
         "type": "complaint", 
-        "id": "3dada28e79a34fffaa7f795108511b9b"
+        "reviewDate": "2020-05-01T01:00:01+03:00", 
+        "reviewPlace": "Place of review"
       }, 
       {
         "status": "stopped", 
@@ -220,6 +226,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/59d0b67423864278
         "title": "Недостатньо інформації", 
         "decision": "Тендер скасовується замовником", 
         "acceptance": true, 
+        "id": "d89cf1dedbe0420595d525130004fb01", 
         "dateCanceled": "2020-05-01T01:00:01+03:00", 
         "dateAccepted": "2020-05-01T01:00:01+03:00", 
         "author": {
@@ -246,7 +253,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/59d0b67423864278
         "complaintID": "UA-2020-05-01-000001.5", 
         "date": "2020-05-01T01:00:01+03:00", 
         "type": "complaint", 
-        "id": "d89cf1dedbe0420595d525130004fb01"
+        "reviewDate": "2020-05-01T01:00:01+03:00", 
+        "reviewPlace": "Place of review"
       }, 
       {
         "status": "answered", 

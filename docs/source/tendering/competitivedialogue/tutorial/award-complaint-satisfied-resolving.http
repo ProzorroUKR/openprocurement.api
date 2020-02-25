@@ -83,6 +83,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4c996fcd2b9f4dc1
           }
         ], 
         "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+        "title": "Недостатньо інформації", 
+        "reviewDate": "2020-05-01T01:00:06+03:00", 
+        "acceptance": true, 
+        "dateAccepted": "2020-05-01T01:00:06+03:00", 
         "author": {
           "contactPoint": {
             "email": "soleksuk@gmail.com", 
@@ -103,14 +107,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4c996fcd2b9f4dc1
             "locality": "м. Вінниця"
           }
         }, 
-        "acceptance": true, 
-        "dateAccepted": "2020-05-01T01:00:06+03:00", 
         "dateSubmitted": "2020-05-01T01:00:06+03:00", 
         "complaintID": "UA-2020-05-01-000001.1", 
         "date": "2020-05-01T01:00:06+03:00", 
-        "title": "Недостатньо інформації", 
         "type": "complaint", 
-        "id": "993a80287c884264a12bb4d89c1cea84"
+        "id": "993a80287c884264a12bb4d89c1cea84", 
+        "reviewPlace": "Place of review"
       }, 
       {
         "status": "invalid", 
@@ -148,6 +150,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4c996fcd2b9f4dc1
         "status": "declined", 
         "dateDecision": "2020-05-01T01:00:06+03:00", 
         "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+        "title": "Недостатньо інформації", 
+        "reviewDate": "2020-05-01T01:00:06+03:00", 
+        "acceptance": true, 
+        "dateAccepted": "2020-05-01T01:00:06+03:00", 
         "author": {
           "contactPoint": {
             "email": "soleksuk@gmail.com", 
@@ -168,14 +174,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4c996fcd2b9f4dc1
             "locality": "м. Вінниця"
           }
         }, 
-        "acceptance": true, 
-        "dateAccepted": "2020-05-01T01:00:06+03:00", 
         "dateSubmitted": "2020-05-01T01:00:06+03:00", 
         "complaintID": "UA-2020-05-01-000001.3", 
         "date": "2020-05-01T01:00:06+03:00", 
-        "title": "Недостатньо інформації", 
         "type": "complaint", 
-        "id": "8acffcdf915a436889e576c0f10acbf4"
+        "id": "8acffcdf915a436889e576c0f10acbf4", 
+        "reviewPlace": "Place of review"
       }, 
       {
         "status": "stopped", 
@@ -187,6 +191,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4c996fcd2b9f4dc1
         "cancellationReason": "Тендер скасовується замовником", 
         "dateCanceled": "2020-05-01T01:00:06+03:00", 
         "dateAccepted": "2020-05-01T01:00:06+03:00", 
+        "id": "3ecf776302ba436aa487665f7c88380a", 
         "author": {
           "contactPoint": {
             "email": "soleksuk@gmail.com", 
@@ -211,7 +216,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4c996fcd2b9f4dc1
         "complaintID": "UA-2020-05-01-000001.4", 
         "date": "2020-05-01T01:00:06+03:00", 
         "type": "complaint", 
-        "id": "3ecf776302ba436aa487665f7c88380a"
+        "reviewDate": "2020-05-01T01:00:06+03:00", 
+        "reviewPlace": "Place of review"
       }, 
       {
         "status": "stopped", 
@@ -220,6 +226,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4c996fcd2b9f4dc1
         "title": "Недостатньо інформації", 
         "decision": "Тендер скасовується замовником", 
         "acceptance": true, 
+        "id": "cdb0ecc871ae423dad3ac6a37d6de408", 
         "dateCanceled": "2020-05-01T01:00:06+03:00", 
         "dateAccepted": "2020-05-01T01:00:06+03:00", 
         "author": {
@@ -246,7 +253,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4c996fcd2b9f4dc1
         "complaintID": "UA-2020-05-01-000001.5", 
         "date": "2020-05-01T01:00:06+03:00", 
         "type": "complaint", 
-        "id": "cdb0ecc871ae423dad3ac6a37d6de408"
+        "reviewDate": "2020-05-01T01:00:06+03:00", 
+        "reviewPlace": "Place of review"
       }
     ], 
     "id": "eab411b1117845218d53b47240e9ca17"

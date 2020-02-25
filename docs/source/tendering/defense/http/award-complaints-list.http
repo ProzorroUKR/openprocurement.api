@@ -33,7 +33,6 @@ Content-Type: application/json; charset=UTF-8
         }
       ], 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
-      "title": "Недостатньо інформації", 
       "author": {
         "contactPoint": {
           "email": "soleksuk@gmail.com", 
@@ -54,13 +53,16 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Вінниця"
         }
       }, 
+      "reviewDate": "2020-05-01T01:00:03+03:00", 
+      "title": "Недостатньо інформації", 
       "dateAccepted": "2020-05-01T01:00:03+03:00", 
       "dateSubmitted": "2020-05-01T01:00:03+03:00", 
       "complaintID": "UA-2020-05-01-000001.1", 
       "date": "2020-05-01T01:00:03+03:00", 
       "acceptance": true, 
       "type": "complaint", 
-      "id": "00163df9223e41069e6bd0ac5d3d647f"
+      "id": "00163df9223e41069e6bd0ac5d3d647f", 
+      "reviewPlace": "Place of review"
     }, 
     {
       "status": "invalid", 
@@ -98,6 +100,10 @@ Content-Type: application/json; charset=UTF-8
       "status": "declined", 
       "dateDecision": "2020-05-01T01:00:03+03:00", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+      "title": "Недостатньо інформації", 
+      "reviewDate": "2020-05-01T01:00:03+03:00", 
+      "acceptance": true, 
+      "dateAccepted": "2020-05-01T01:00:03+03:00", 
       "author": {
         "contactPoint": {
           "email": "soleksuk@gmail.com", 
@@ -118,14 +124,12 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Вінниця"
         }
       }, 
-      "acceptance": true, 
-      "dateAccepted": "2020-05-01T01:00:03+03:00", 
       "dateSubmitted": "2020-05-01T01:00:03+03:00", 
       "complaintID": "UA-2020-05-01-000001.3", 
       "date": "2020-05-01T01:00:03+03:00", 
-      "title": "Недостатньо інформації", 
       "type": "complaint", 
-      "id": "c9bcea34c1e9473dbf564c51e75efa48"
+      "id": "c9bcea34c1e9473dbf564c51e75efa48", 
+      "reviewPlace": "Place of review"
     }, 
     {
       "status": "accepted", 
@@ -150,6 +154,7 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Вінниця"
         }
       }, 
+      "reviewDate": "2020-05-01T01:00:03+03:00", 
       "acceptance": true, 
       "dateAccepted": "2020-05-01T01:00:03+03:00", 
       "dateSubmitted": "2020-05-01T01:00:03+03:00", 
@@ -157,7 +162,8 @@ Content-Type: application/json; charset=UTF-8
       "date": "2020-05-01T01:00:03+03:00", 
       "title": "Недостатньо інформації", 
       "type": "complaint", 
-      "id": "8f5266f4951e4b9eb93e619cdbf035b7"
+      "id": "8f5266f4951e4b9eb93e619cdbf035b7", 
+      "reviewPlace": "Place of review"
     }, 
     {
       "status": "stopped", 
@@ -166,6 +172,7 @@ Content-Type: application/json; charset=UTF-8
       "title": "Недостатньо інформації", 
       "decision": "Тендер скасовується замовником", 
       "acceptance": true, 
+      "id": "ecddd5d3b3204f8d9c05056f9a59995a", 
       "dateCanceled": "2020-05-01T01:00:03+03:00", 
       "dateAccepted": "2020-05-01T01:00:03+03:00", 
       "author": {
@@ -192,7 +199,8 @@ Content-Type: application/json; charset=UTF-8
       "complaintID": "UA-2020-05-01-000001.5", 
       "date": "2020-05-01T01:00:03+03:00", 
       "type": "complaint", 
-      "id": "ecddd5d3b3204f8d9c05056f9a59995a"
+      "reviewDate": "2020-05-01T01:00:03+03:00", 
+      "reviewPlace": "Place of review"
     }, 
     {
       "status": "answered", 

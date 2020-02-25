@@ -1,12 +1,14 @@
 PATCH /api/2.5/tenders/71c0e0ebf297470aa18a89c42f80fb55/complaints/06ef5a30aba04b5db7c0b44f95a3e046 HTTP/1.0
 Authorization: Bearer reviewer
-Content-Length: 32
+Content-Length: 109
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "status": "accepted"
+    "status": "accepted", 
+    "reviewDate": "2020-05-01T01:00:00+03:00", 
+    "reviewPlace": "Place of review"
   }
 }
 
@@ -50,6 +52,7 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Львів"
       }
     }, 
+    "reviewDate": "2020-05-01T01:00:00+03:00", 
     "acceptance": true, 
     "dateAccepted": "2020-05-01T01:00:00+03:00", 
     "dateSubmitted": "2020-05-01T01:00:00+03:00", 
@@ -57,7 +60,8 @@ Content-Type: application/json; charset=UTF-8
     "date": "2020-05-01T01:00:00+03:00", 
     "title": "Калорійність", 
     "type": "complaint", 
-    "id": "06ef5a30aba04b5db7c0b44f95a3e046"
+    "id": "06ef5a30aba04b5db7c0b44f95a3e046", 
+    "reviewPlace": "Place of review"
   }
 }
 
