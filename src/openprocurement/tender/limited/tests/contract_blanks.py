@@ -851,7 +851,7 @@ def create_tender_contract_negotiation_quick(self):
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
-        {"data": {"status": "active"}},
+        {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
