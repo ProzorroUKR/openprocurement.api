@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_cancellation
 from openprocurement.tender.core.tests.base import change_auth
 
@@ -1261,25 +1263,45 @@ def review_tender_qualification_complaint(self):
         self.assertEqual(response.json["data"]["rejectReasonDescription"], "reject reason")
 
         if status in ["declined", "satisfied"]:
+            now = get_now()
+            data = {"status": "accepted"}
+            if RELEASE_2020_04_19 < now:
+                data.update({
+                    "reviewDate": now.isoformat(),
+                    "reviewPlace": "some",
+                })
             response = self.app.patch_json(
                 "/tenders/{}/qualifications/{}/complaints/{}".format(
                     self.tender_id, self.qualification_id, complaint["id"]
                 ),
-                {"data": {"status": "accepted"}},
+                {"data": data},
             )
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.content_type, "application/json")
             self.assertEqual(response.json["data"]["status"], "accepted")
+            if RELEASE_2020_04_19 < now:
+                self.assertEqual(response.json["data"]["reviewPlace"], "some")
+                self.assertEqual(response.json["data"]["reviewDate"], now.isoformat())
 
+            now = get_now()
+            data = {"decision": "accepted:{} complaint".format(status)}
+            if RELEASE_2020_04_19 > now:
+                data.update({
+                    "reviewDate": now.isoformat(),
+                    "reviewPlace": "some",
+                })
             response = self.app.patch_json(
                 "/tenders/{}/qualifications/{}/complaints/{}".format(
                     self.tender_id, self.qualification_id, complaint["id"]
                 ),
-                {"data": {"decision": "accepted:{} complaint".format(status)}},
+                {"data": data},
             )
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.content_type, "application/json")
             self.assertEqual(response.json["data"]["decision"], "accepted:{} complaint".format(status))
+            if RELEASE_2020_04_19 > now:
+                self.assertEqual(response.json["data"]["reviewPlace"], "some")
+                self.assertEqual(response.json["data"]["reviewDate"], now.isoformat())
 
         response = self.app.patch_json(
             "/tenders/{}/qualifications/{}/complaints/{}".format(
@@ -1490,21 +1512,41 @@ def change_status_to_standstill_with_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["decision"], "{} complaint".format("accepted"))
 
+    now = get_now()
+    data = {"status": "accepted"}
+    if RELEASE_2020_04_19 < now:
+        data.update({
+            "reviewDate": now.isoformat(),
+            "reviewPlace": "some",
+        })
     response = self.app.patch_json(
         "/tenders/{}/qualifications/{}/complaints/{}".format(self.tender_id, self.qualification_id, complaint["id"]),
-        {"data": {"status": "accepted"}},
+        {"data": data},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "accepted")
+    if RELEASE_2020_04_19 < now:
+        self.assertEqual(response.json["data"]["reviewPlace"], "some")
+        self.assertEqual(response.json["data"]["reviewDate"], now.isoformat())
 
+    now = get_now()
+    data = {"decision": "accepted:{} complaint".format("accepted")}
+    if RELEASE_2020_04_19 > now:
+        data.update({
+            "reviewDate": now.isoformat(),
+            "reviewPlace": "some",
+        })
     response = self.app.patch_json(
         "/tenders/{}/qualifications/{}/complaints/{}".format(self.tender_id, self.qualification_id, complaint["id"]),
-        {"data": {"decision": "accepted:{} complaint".format("accepted")}},
+        {"data": data},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["decision"], "accepted:{} complaint".format("accepted"))
+    if RELEASE_2020_04_19 > now:
+        self.assertEqual(response.json["data"]["reviewPlace"], "some")
+        self.assertEqual(response.json["data"]["reviewDate"], now.isoformat())
 
     response = self.app.patch_json(
         "/tenders/{}/qualifications/{}/complaints/{}".format(self.tender_id, self.qualification_id, complaint["id"]),
@@ -2694,13 +2736,23 @@ def switch_bid_status_unsuccessul_to_active(self):
     complaint = response.json["data"]
 
     self.app.authorization = ("Basic", ("reviewer", ""))
+    now = get_now()
+    data = {"status": "accepted"}
+    if RELEASE_2020_04_19 < now:
+        data.update({
+            "reviewDate": now.isoformat(),
+            "reviewPlace": "some",
+        })
     response = self.app.patch_json(
         "/tenders/{}/qualifications/{}/complaints/{}".format(self.tender_id, qualification_id, complaint["id"]),
-        {"data": {"status": "accepted"}},
+        {"data": data},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "accepted")
+    if RELEASE_2020_04_19 < now:
+        self.assertEqual(response.json["data"]["reviewPlace"], "some")
+        self.assertEqual(response.json["data"]["reviewDate"], now.isoformat())
 
     response = self.app.patch_json(
         "/tenders/{}/qualifications/{}/complaints/{}".format(self.tender_id, qualification_id, complaint["id"]),

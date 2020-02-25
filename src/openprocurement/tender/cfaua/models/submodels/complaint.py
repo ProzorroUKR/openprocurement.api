@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.models import ListType
+from openprocurement.api.utils import get_first_revision_date, get_now
 from openprocurement.tender.core.models import (
     ComplaintModelType as BaseComplaintModelType,
     get_tender,
@@ -57,7 +59,11 @@ class Complaint(BaseComplaint):
             "draft": whitelist('author', 'description', 'status', 'title'),
             "review": whitelist('decision', 'reviewDate', 'reviewPlace', 'status'),
             "answer": whitelist('resolution', 'resolutionType', 'status', 'tendererAction'),
-            "pending": whitelist('decision', 'rejectReason', 'rejectReasonDescription', 'status'),
+            "pending": whitelist(
+                "decision", "status",
+                "rejectReason", "rejectReasonDescription",
+                "reviewDate", "reviewPlace"
+            ),
             "satisfy": whitelist('satisfied', 'status'),
             "escalate": whitelist('status'),
             "resolve": whitelist('status', 'tendererAction'),
@@ -132,6 +138,16 @@ class Complaint(BaseComplaint):
 
     def validate_cancellationReason(self, data, cancellationReason):
         if not cancellationReason and data.get("status") in ["cancelled", "stopping"]:
+            raise ValidationError(u"This field is required.")
+
+    def validate_reviewDate(self, data, reviewDate):
+        tender_date = get_first_revision_date(get_tender(data["__parent__"]), default=get_now())
+        if tender_date > RELEASE_2020_04_19 and not reviewDate and data.get("status") == "accepted":
+            raise ValidationError(u"This field is required.")
+
+    def validate_reviewPlace(self, data, reviewPlace):
+        tender_date = get_first_revision_date(get_tender(data["__parent__"]), default=get_now())
+        if tender_date > RELEASE_2020_04_19 and not reviewPlace and data.get("status") == "accepted":
             raise ValidationError(u"This field is required.")
 
     def serialize(self, role=None, context=None):

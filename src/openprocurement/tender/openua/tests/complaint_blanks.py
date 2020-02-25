@@ -2,6 +2,8 @@
 
 
 # TenderComplaintResourceTest
+from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.utils import get_now
 
 
 def create_tender_complaint(self):
@@ -258,20 +260,40 @@ def review_tender_complaint(self):
         self.assertEqual(response.json["data"]["rejectReasonDescription"], "reject reason")
 
         if status in ["satisfied", "declined"]:
+            now = get_now()
+            data = {"status": "accepted"}
+            if RELEASE_2020_04_19 < now:
+                data.update({
+                    "reviewDate": now.isoformat(),
+                    "reviewPlace": "some",
+                })
             response = self.app.patch_json(
-                "/tenders/{}/complaints/{}".format(self.tender_id, complaint["id"]), {"data": {"status": "accepted"}}
+                "/tenders/{}/complaints/{}".format(self.tender_id, complaint["id"]), {"data": data}
             )
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.content_type, "application/json")
             self.assertEqual(response.json["data"]["status"], "accepted")
+            if RELEASE_2020_04_19 < now:
+                self.assertEqual(response.json["data"]["reviewPlace"], "some")
+                self.assertEqual(response.json["data"]["reviewDate"], now.isoformat())
 
+            now = get_now()
+            data = {"decision": "accepted:{} complaint".format(status)}
+            if RELEASE_2020_04_19 > now:
+                data.update({
+                    "reviewDate": now.isoformat(),
+                    "reviewPlace": "some",
+                })
             response = self.app.patch_json(
                 "/tenders/{}/complaints/{}".format(self.tender_id, complaint["id"]),
-                {"data": {"decision": "accepted:{} complaint".format(status)}},
+                {"data": data},
             )
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.content_type, "application/json")
             self.assertEqual(response.json["data"]["decision"], "accepted:{} complaint".format(status))
+            if RELEASE_2020_04_19 > now:
+                self.assertEqual(response.json["data"]["reviewPlace"], "some")
+                self.assertEqual(response.json["data"]["reviewDate"], now.isoformat())
 
         response = self.app.patch_json(
             "/tenders/{}/complaints/{}".format(self.tender_id, complaint["id"]), {"data": {"status": status}}

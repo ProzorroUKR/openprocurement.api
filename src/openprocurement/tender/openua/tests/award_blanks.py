@@ -5,7 +5,7 @@ import dateutil
 import mock
 from iso8601 import parse_date
 
-from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.api.constants import SANDBOX_MODE, RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author, test_cancellation
 from openprocurement.tender.openua.constants import STAND_STILL_TIME
@@ -253,11 +253,22 @@ def patch_tender_award_active(self):
     self.assertEqual(response.status, "201 Created")
 
     self.app.authorization = ("Basic", ("reviewer", ""))
+    now = get_now()
+    data = {"status": "accepted"}
+    if RELEASE_2020_04_19 < now:
+        data.update({
+            "reviewDate": now.isoformat(),
+            "reviewPlace": "some",
+        })
     response = self.app.patch_json(
         new_award_location[-81:] + "/complaints/{}".format(response.json["data"]["id"]),
-        {"data": {"status": "accepted"}},
+        {"data": data},
     )
     self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "accepted")
+    if RELEASE_2020_04_19 < now:
+        self.assertEqual(response.json["data"]["reviewPlace"], "some")
+        self.assertEqual(response.json["data"]["reviewDate"], now.isoformat())
 
     response = self.app.patch_json(
         new_award_location[-81:] + "/complaints/{}".format(response.json["data"]["id"]),
@@ -345,11 +356,21 @@ def patch_tender_award_unsuccessful(self):
     self.assertEqual(response.status, "201 Created")
 
     self.app.authorization = ("Basic", ("reviewer", ""))
+    now = get_now()
+    data = {"status": "accepted"}
+    if RELEASE_2020_04_19 < now:
+        data.update({
+            "reviewDate": now.isoformat(),
+            "reviewPlace": "some",
+        })
     response = self.app.patch_json(
         "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, award["id"], response.json["data"]["id"]),
-        {"data": {"status": "accepted"}},
+        {"data": data},
     )
     self.assertEqual(response.status, "200 OK")
+    if RELEASE_2020_04_19 < now:
+        self.assertEqual(response.json["data"]["reviewPlace"], "some")
+        self.assertEqual(response.json["data"]["reviewDate"], now.isoformat())
 
     response = self.app.patch_json(
         "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, award["id"], response.json["data"]["id"]),
@@ -701,11 +722,22 @@ def patch_tender_lot_award_unsuccessful(self):
     self.assertEqual(response.status, "201 Created")
 
     self.app.authorization = ("Basic", ("reviewer", ""))
+    now = get_now()
+    data = {"status": "accepted"}
+    if RELEASE_2020_04_19 < now:
+        data.update({
+            "reviewDate": now.isoformat(),
+            "reviewPlace": "some",
+        })
     response = self.app.patch_json(
         "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, award["id"], response.json["data"]["id"]),
-        {"data": {"status": "accepted"}},
+        {"data": data},
     )
     self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "accepted")
+    if RELEASE_2020_04_19 < now:
+        self.assertEqual(response.json["data"]["reviewPlace"], "some")
+        self.assertEqual(response.json["data"]["reviewDate"], now.isoformat())
 
     response = self.app.patch_json(
         "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, award["id"], response.json["data"]["id"]),
@@ -1230,21 +1262,41 @@ def review_tender_award_complaint(self):
         self.assertEqual(response.json["data"]["rejectReasonDescription"], "reject reason")
 
         if status in ["declined", "satisfied"]:
+            now = get_now()
+            data = {"status": "accepted"}
+            if RELEASE_2020_04_19 < now:
+                data.update({
+                    "reviewDate": now.isoformat(),
+                    "reviewPlace": "some",
+                })
             response = self.app.patch_json(
                 "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, self.award_id, complaint["id"]),
-                {"data": {"status": "accepted"}},
+                {"data": data},
             )
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.content_type, "application/json")
             self.assertEqual(response.json["data"]["status"], "accepted")
+            if RELEASE_2020_04_19 < now:
+                self.assertEqual(response.json["data"]["reviewPlace"], "some")
+                self.assertEqual(response.json["data"]["reviewDate"], now.isoformat())
 
+            now = get_now()
+            data = {"decision": "accepted:{} complaint".format(status)}
+            if RELEASE_2020_04_19 > now:
+                data.update({
+                    "reviewDate": now.isoformat(),
+                    "reviewPlace": "some",
+                })
             response = self.app.patch_json(
                 "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, self.award_id, complaint["id"]),
-                {"data": {"decision": "accepted:{} complaint".format(status)}},
+                {"data": data},
             )
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.content_type, "application/json")
             self.assertEqual(response.json["data"]["decision"], "accepted:{} complaint".format(status))
+            if RELEASE_2020_04_19 > now:
+                self.assertEqual(response.json["data"]["reviewPlace"], "some")
+                self.assertEqual(response.json["data"]["reviewDate"], now.isoformat())
 
             self.app.authorization = ("Basic", ("token", ""))
             response = self.app.patch_json(

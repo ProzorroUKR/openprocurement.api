@@ -1,6 +1,8 @@
 from iso8601 import parse_date
-from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.api.constants import SANDBOX_MODE, RELEASE_2020_04_19
 from math import ceil
+
+from openprocurement.api.utils import get_now
 
 
 def create_tender_lot_qualification_complaint(self):
@@ -150,13 +152,23 @@ def switch_bid_status_unsuccessul_to_active(self):
     complaint = response.json["data"]
 
     self.app.authorization = ("Basic", ("reviewer", ""))
+    now = get_now()
+    data = {"status": "accepted"}
+    if RELEASE_2020_04_19 < now:
+        data.update({
+            "reviewDate": now.isoformat(),
+            "reviewPlace": "some",
+        })
     response = self.app.patch_json(
         "/tenders/{}/qualifications/{}/complaints/{}".format(self.tender_id, qualification_id, complaint["id"]),
-        {"data": {"status": "accepted"}},
+        {"data": data},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "accepted")
+    if RELEASE_2020_04_19 < now:
+        self.assertEqual(response.json["data"]["reviewPlace"], "some")
+        self.assertEqual(response.json["data"]["reviewDate"], now.isoformat())
 
     response = self.app.patch_json(
         "/tenders/{}/qualifications/{}/complaints/{}".format(self.tender_id, qualification_id, complaint["id"]),

@@ -22,7 +22,7 @@ from openprocurement.api.models import (
     IsoDateTimeType,
     Address,
 )
-from openprocurement.api.constants import TZ
+from openprocurement.api.constants import TZ, RELEASE_2020_04_19
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.validation import validate_cpv_group, validate_items_uniq, validate_classification_id
 from openprocurement.tender.core.models import (
@@ -302,7 +302,11 @@ class Complaint(BaseComplaint):
             "resolve": whitelist("status", "tendererAction"),
             "answer": whitelist("resolution", "resolutionType", "status", "tendererAction"),
             "action": whitelist("tendererAction"),
-            "pending": whitelist("decision", "status", "rejectReason", "rejectReasonDescription"),
+            "pending": whitelist(
+                "decision", "status",
+                "rejectReason", "rejectReasonDescription",
+                "reviewDate", "reviewPlace"
+            ),
             "review": whitelist("decision", "status", "reviewDate", "reviewPlace"),
             "embedded": (blacklist("owner_token", "owner", "transfer_token", "bid_id") + schematics_embedded_role),
             "view": (blacklist("owner_token", "owner", "transfer_token", "bid_id") + schematics_default_role),
@@ -374,6 +378,16 @@ class Complaint(BaseComplaint):
 
     def validate_cancellationReason(self, data, cancellationReason):
         if not cancellationReason and data.get("status") in ["cancelled", "stopping"]:
+            raise ValidationError(u"This field is required.")
+
+    def validate_reviewDate(self, data, reviewDate):
+        tender_date = get_first_revision_date(get_tender(data["__parent__"]), default=get_now())
+        if tender_date > RELEASE_2020_04_19 and not reviewDate and data.get("status") == "accepted":
+            raise ValidationError(u"This field is required.")
+
+    def validate_reviewPlace(self, data, reviewPlace):
+        tender_date = get_first_revision_date(get_tender(data["__parent__"]), default=get_now())
+        if tender_date > RELEASE_2020_04_19 and not reviewPlace and data.get("status") == "accepted":
             raise ValidationError(u"This field is required.")
 
 
