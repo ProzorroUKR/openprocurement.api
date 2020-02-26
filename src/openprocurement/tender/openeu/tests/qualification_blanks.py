@@ -1303,11 +1303,19 @@ def review_tender_qualification_complaint(self):
                 self.assertEqual(response.json["data"]["reviewPlace"], "some")
                 self.assertEqual(response.json["data"]["reviewDate"], now.isoformat())
 
+        now = get_now()
+        data = {"status": status}
+        if RELEASE_2020_04_19 < now:
+            if status in ["invalid", "stopped"]:
+                data.update({
+                    "rejectReason": "tenderCancelled",
+                    "rejectReasonDescription": "reject reason description"
+                })
         response = self.app.patch_json(
             "/tenders/{}/qualifications/{}/complaints/{}".format(
                 self.tender_id, self.qualification_id, complaint["id"]
             ),
-            {"data": {"status": status}},
+            {"data": data},
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
@@ -1348,7 +1356,15 @@ def review_tender_qualification_stopping_complaint(self):
         self.assertEqual(response.json["data"]["cancellationReason"], "reason")
 
         self.app.authorization = ("Basic", ("reviewer", ""))
-        response = self.app.patch_json(url_patch_complaint, {"data": {"decision": "decision", "status": status}})
+        now = get_now()
+        data = {"decision": "decision", "status": status}
+        if RELEASE_2020_04_19 < now:
+            if status in ["invalid", "stopped"]:
+                data.update({
+                    "rejectReason": "tenderCancelled",
+                    "rejectReasonDescription": "reject reason description"
+                })
+        response = self.app.patch_json(url_patch_complaint, {"data": data})
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["data"]["status"], status)

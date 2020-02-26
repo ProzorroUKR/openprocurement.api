@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 import jmespath
 
+from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.utils import get_now
+
 
 def assert_statuses(self, rules={}):
     data = self.get_tender(role="broker").json
@@ -39,7 +42,15 @@ def add_tender_complaints(self, statuses):
         self.assertEqual(response.json["data"]["cancellationReason"], "reason")
 
         self.app.authorization = ("Basic", ("reviewer", ""))
-        response = self.app.patch_json(url_patch_complaint, {"data": {"decision": "decision", "status": status}})
+        now = get_now()
+        data = {"decision": "decision", "status": status}
+        if RELEASE_2020_04_19 < now:
+            if status in ["invalid", "stopped"]:
+                data.update({
+                    "rejectReason": "tenderCancelled",
+                    "rejectReasonDescription": "reject reason description"
+                })
+        response = self.app.patch_json(url_patch_complaint, {"data": data})
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["data"]["status"], status)
@@ -120,8 +131,15 @@ def cancellation_tender_active_pre_qualification_stand_still(self):
     complaint_id = response.json["data"]["id"]
     self.set_status("active.tendering", "end")
     self.app.authorization = ("Basic", ("reviewer", ""))
+    now = get_now()
+    data = {"status": "invalid"}
+    if RELEASE_2020_04_19 < now:
+        data.update({
+            "rejectReason": "tenderCancelled",
+            "rejectReasonDescription": "reject reason description"
+        })
     response = self.app.patch_json(
-        "/tenders/{}/complaints/{}".format(self.tender_id, complaint_id), {"data": {"status": "invalid"}}
+        "/tenders/{}/complaints/{}".format(self.tender_id, complaint_id), {"data": data}
     )
     self.assertEqual(response.status, "200 OK")
     self.check_chronograph()
