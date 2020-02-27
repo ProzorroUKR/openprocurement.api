@@ -9,6 +9,7 @@ from openprocurement.tender.core.validation import (
     validate_award_complaint_update_only_for_active_lots,
     validate_award_complaint_operation_not_in_allowed_status,
     validate_update_complaint_not_in_allowed_complaint_status,
+    validate_complaint_type_change,
 )
 from openprocurement.tender.belowthreshold.utils import check_tender_status
 from openprocurement.tender.core.utils import save_tender, apply_patch, optendersresource
@@ -184,6 +185,7 @@ class TenderUaAwardComplaintResource(TenderAwardComplaintResource):
 
         elif new_status == "pending":
             self.validate_posting_complaint()
+            validate_complaint_type_change(self.request)
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.type = "complaint"
             self.context.dateSubmitted = get_now()

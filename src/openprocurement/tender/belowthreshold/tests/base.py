@@ -148,6 +148,36 @@ if RELEASE_2020_04_19 < get_now():
         "reasonType": "noDemand"
     })
 
+test_draft_claim = {
+    "title": "complaint title",
+    "status": "draft",
+    "type": "claim",
+    "description": "complaint description",
+    "author": test_author
+}
+
+test_claim = {
+    "title": "complaint title",
+    "status": "claim",
+    "type": "claim",
+    "description": "complaint description",
+    "author": test_author
+}
+
+test_complaint = {
+    "title": "complaint title",
+    "status": "pending",
+    "type": "complaint",
+    "description": "complaint description",
+    "author": test_author
+}
+test_draft_complaint = {
+    "title": "complaint title",
+    "type": "complaint",
+    "description": "complaint description",
+    "author": test_author
+}
+
 
 def set_tender_lots(tender, lots):
     tender["lots"] = []

@@ -141,6 +141,11 @@ Schema
 :posts:
     List of :ref:`ComplaintPost` objects
 
+:value:
+    :ref:`Guarantee`, auto-generated
+
+    Amount to be paid to activate this complaint. See :ref:`complaint-payments`
+
 Additionally in :ref:`defense`, :ref:`esco`, :ref:`openua` and :ref:`openeu`:
 
     :acceptance:
@@ -177,3 +182,4 @@ Additionally in :ref:`defense`, :ref:`esco`, :ref:`openua` and :ref:`openeu`:
         string
 
         Place of review.
+

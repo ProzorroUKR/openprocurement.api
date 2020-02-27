@@ -45,7 +45,7 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "dateSubmitted": "2020-05-01T01:00:00+03:00", 
-    "complaintID": "UA-2020-05-01-000001.6", 
+    "complaintID": "UA-2020-05-01-000001.7", 
     "date": "2020-05-01T01:00:00+03:00", 
     "type": "complaint", 
     "id": "eaa4fb36c6e945a7958d1567b7a73420"

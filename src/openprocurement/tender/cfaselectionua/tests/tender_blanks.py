@@ -14,7 +14,7 @@ from openprocurement.api.constants import (
     SANDBOX_MODE,
     NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
 )
-from openprocurement.tender.belowthreshold.tests.base import test_author, test_cancellation
+from openprocurement.tender.belowthreshold.tests.base import test_claim, test_cancellation
 from openprocurement.tender.cfaselectionua.constants import (
     BOT_NAME,
     ENQUIRY_PERIOD,
@@ -2151,12 +2151,7 @@ def invalid_tender_conditions(self):
     response = self.app.post_json(
         "/tenders/{}/complaints".format(tender_id),
         {
-            "data": {
-                "title": "invalid conditions",
-                "description": "description",
-                "author": test_author,
-                "status": "claim",
-            }
+            "data": test_claim
         },
         status=404,
     )

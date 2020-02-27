@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/71c0e0ebf297470aa18a89c42f80fb55/complaints/06ef5a30aba04b5db7c0b44f95a3e046 HTTP/1.0
+PATCH /api/2.5/tenders/71c0e0ebf297470aa18a89c42f80fb55/complaints/f9b88de0e4e241ebb023bcb73a14ce27 HTTP/1.0
 Authorization: Bearer reviewer
 Content-Length: 33
 Content-Type: application/json
@@ -19,18 +19,6 @@ Content-Type: application/json; charset=UTF-8
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000", 
-        "author": "complaint_owner", 
-        "language": "uk", 
-        "title": "Complaint_Attachement.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b8f3a5909d7a4800a88f064e6f32a5c5?KeyID=a8968c46&Signature=fvkB13u5SRQ1gD660sDpvIvj%2F4tXMY6yTvAxkFosDMsJXn7PH4TdTI62UNhbtsB7ipzbhyiloZRUQ3Lx9yccDg%253D%253D", 
-        "format": "application/pdf", 
-        "documentOf": "tender", 
-        "datePublished": "2020-05-01T01:00:00+03:00", 
-        "id": "461ff49bef37491794d62d57cc74ae53", 
-        "dateModified": "2020-05-01T01:00:00+03:00"
-      }, 
-      {
-        "hash": "md5:00000000000000000000000000000000", 
         "author": "aboveThresholdReviewers", 
         "language": "uk", 
         "title": "ComplaintResolution.pdf", 
@@ -42,35 +30,39 @@ Content-Type: application/json; charset=UTF-8
         "dateModified": "2020-05-01T01:00:00+03:00"
       }
     ], 
-    "description": "Просимо додати таблицю потрібної калорійності харчування", 
+    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "author": {
       "contactPoint": {
-        "email": "aagt@gmail.com", 
-        "telephone": "+380 (322) 91-69-30", 
-        "name": "Андрій Олексюк"
+        "email": "soleksuk@gmail.com", 
+        "telephone": "+380 (432) 21-69-30", 
+        "name": "Сергій Олексюк"
       }, 
       "identifier": {
         "scheme": "UA-EDR", 
-        "id": "00137226", 
+        "id": "00137256", 
         "uri": "http://www.sc.gov.ua/"
       }, 
-      "name": "ДКП «Книга»", 
+      "name": "ДКП «Школяр»", 
       "address": {
-        "postalCode": "79013", 
+        "postalCode": "21100", 
         "countryName": "Україна", 
-        "streetAddress": "вул. Островського, 34", 
-        "region": "Львівська область", 
-        "locality": "м. Львів"
+        "streetAddress": "вул. Островського, 33", 
+        "region": "Вінницька область", 
+        "locality": "м. Вінниця"
       }
     }, 
     "acceptance": true, 
+    "value": {
+      "currency": "UAH", 
+      "amount": 2000.0
+    }, 
     "dateAccepted": "2020-05-01T01:00:00+03:00", 
     "dateSubmitted": "2020-05-01T01:00:00+03:00", 
-    "complaintID": "UA-2020-05-01-000001.1", 
+    "complaintID": "UA-2020-05-01-000001.5", 
     "date": "2020-05-01T01:00:00+03:00", 
-    "title": "Калорійність", 
+    "title": "Недостатньо інформації", 
     "type": "complaint", 
-    "id": "06ef5a30aba04b5db7c0b44f95a3e046"
+    "id": "f9b88de0e4e241ebb023bcb73a14ce27"
   }
 }
 

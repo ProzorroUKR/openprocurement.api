@@ -14,7 +14,7 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     patch_tender_lot_award_lots_none,
 )
 from openprocurement.tender.esco.adapters import TenderESCOConfigurator
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_draft_complaint
 from openprocurement.tender.belowthreshold.tests.award import (
     TenderLotAwardCheckResourceTestMixin,
     TenderAwardComplaintResourceTestMixin,
@@ -282,7 +282,7 @@ class TenderAwardComplaintDocumentResourceTest(BaseESCOContentWebTest, TenderAwa
         # Create complaint for award
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints".format(self.tender_id, self.award_id),
-            {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+            {"data": test_draft_complaint},
         )
         complaint = response.json["data"]
         self.complaint_id = complaint["id"]
@@ -321,7 +321,7 @@ class Tender2LotAwardComplaintDocumentResourceTest(BaseESCOContentWebTest):
         # Create complaint for award
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints".format(self.tender_id, self.award_id),
-            {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+            {"data": test_draft_complaint},
         )
         complaint = response.json["data"]
         self.complaint_id = complaint["id"]

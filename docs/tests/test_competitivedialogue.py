@@ -2671,8 +2671,6 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAStage2WebTest, MockWebTe
             self.assertEqual(response.status, '200 OK')
 
         response = self.app.get('/tenders/{}'.format(self.tender_id))
-        from pprint import pprint
-        pprint(response.json)
 
         #### Confirming qualification
         self.app.authorization = ('Basic', ('auction', ''))

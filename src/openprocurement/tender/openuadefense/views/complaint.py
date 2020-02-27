@@ -6,6 +6,7 @@ from openprocurement.tender.core.validation import (
     validate_patch_complaint_data,
     validate_complaint_operation_not_in_active_tendering,
     validate_update_complaint_not_in_allowed_complaint_status,
+    validate_complaint_type_change,
 )
 from openprocurement.tender.core.utils import (
     save_tender,
@@ -114,6 +115,7 @@ class TenderUaComplaintResource(TenderComplaintResource):
             and data.get("status", self.context.status) == "pending"
         ):
             validate_submit_complaint_time(self.request)
+            validate_complaint_type_change(self.request)
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.type = "complaint"
             self.context.dateSubmitted = get_now()
@@ -137,6 +139,7 @@ class TenderUaComplaintResource(TenderComplaintResource):
             and data.get("status", self.context.status) == "pending"
         ):
             validate_submit_complaint_time(self.request)
+            validate_complaint_type_change(self.request)
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.type = "complaint"
             self.context.dateEscalated = get_now()

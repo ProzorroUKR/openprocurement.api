@@ -108,6 +108,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e234fb168a9a4eae
           }
         }, 
         "title": "Недостатньо інформації", 
+        "value": {
+          "currency": "UAH", 
+          "amount": 3000.0
+        }, 
         "id": "b7e603d352b84065ac337d4ed5348b8e", 
         "tendererAction": "Умови виправлено, вибір переможня буде розгянуто повторно", 
         "dateSubmitted": "2020-05-01T01:00:03+03:00", 
@@ -303,7 +307,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e234fb168a9a4eae
           }
         }, 
         "resolutionType": "resolved", 
-        "type": "claim", 
+        "type": "complaint", 
         "title": "Недостатньо інформації", 
         "satisfied": true, 
         "dateAnswered": "2020-05-01T01:00:03+03:00", 
@@ -337,7 +341,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e234fb168a9a4eae
           }
         }, 
         "resolutionType": "invalid", 
-        "type": "claim", 
+        "type": "complaint", 
         "title": "Недостатньо інформації", 
         "satisfied": false, 
         "dateAnswered": "2020-05-01T01:00:03+03:00", 
@@ -461,10 +465,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e234fb168a9a4eae
           }
         }, 
         "title": "Недостатньо інформації", 
+        "value": {
+          "currency": "UAH", 
+          "amount": 3000.0
+        }, 
         "dateSubmitted": "2020-05-01T01:00:03+03:00", 
         "complaintID": "UA-2020-05-01-000001.9", 
         "date": "2020-05-01T01:00:03+03:00", 
-        "type": "claim", 
+        "type": "complaint", 
         "id": "8f66ae28332f46b1be606cadd389c48e"
       }
     ], 

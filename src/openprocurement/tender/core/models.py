@@ -29,7 +29,10 @@ from openprocurement.api.models import (
 from openprocurement.api.models import Item as BaseItem
 from openprocurement.api.models import schematics_default_role, schematics_embedded_role
 from openprocurement.api.validation import validate_items_uniq
-from openprocurement.api.utils import get_now, get_first_revision_date, get_root, generate_docservice_url
+from openprocurement.api.utils import (
+    get_now, get_first_revision_date, get_root, generate_docservice_url,
+    get_uah_amount_from_value
+)
 from openprocurement.api.constants import (
     SANDBOX_MODE,
     ADDITIONAL_CLASSIFICATIONS_SCHEMES,
@@ -46,9 +49,13 @@ from openprocurement.tender.core.constants import (
     CANT_DELETE_PERIOD_START_DATE_FROM,
     BID_LOTVALUES_VALIDATION_FROM,
     CPV_ITEMS_CLASS_FROM,
+    COMPLAINT_AMOUNT_RATE, COMPLAINT_MIN_AMOUNT, COMPLAINT_MAX_AMOUNT,
+    COMPLAINT_ENHANCED_AMOUNT_RATE, COMPLAINT_ENHANCED_MIN_AMOUNT, COMPLAINT_ENHANCED_MAX_AMOUNT,
 )
-
-from openprocurement.tender.core.utils import calc_auction_end_time, rounding_shouldStartAfter
+from openprocurement.tender.core.utils import (
+    calc_auction_end_time, rounding_shouldStartAfter,
+    restrict_value_to_bounds, round_up_to_ten
+)
 from openprocurement.tender.core.validation import (
     validate_lotvalue_value,
     is_positive_float,
@@ -604,7 +611,7 @@ class Question(Model):
 class Complaint(Model):
     class Options:
         roles = {
-            "create": whitelist("author", "title", "description", "status", "relatedLot"),
+            "create": whitelist("author", "title", "description", "status", "type", "relatedLot"),
             "draft": whitelist("author", "title", "description", "status"),
             "cancellation": whitelist("cancellationReason", "status"),
             "satisfy": whitelist("satisfied", "status"),
@@ -633,7 +640,7 @@ class Complaint(Model):
     )
     documents = ListType(ModelType(Document, required=True), default=list())
     type = StringType(
-        choices=["claim", "complaint"], default="claim"
+        choices=["claim", "complaint"],
     )  # 'complaint' if status in ['pending'] or 'claim' if status in ['draft', 'claim', 'answered']
     owner_token = StringType()
     transfer_token = StringType()
@@ -659,6 +666,46 @@ class Complaint(Model):
     # complainant
     cancellationReason = StringType()
     dateCanceled = IsoDateTimeType()
+
+    value = ModelType(Guarantee)
+
+    @serializable(serialized_name="value", serialize_when_none=False)
+    def calculate_value(self):
+        # should be calculated only once for draft complaints
+        if not self.value and self.status == "draft" and self.type == "complaint":
+            request = self.get_root().request
+            tender = request.validated["tender"]
+            if tender["procurementMethodType"] == "esco":
+                if tender["status"] in ("active.tendering", "active.pre-qualification.stand-still"):
+                    amount = COMPLAINT_MIN_AMOUNT
+                else:
+                    if "award" not in request.validated or request.validated["award"]["value"] is None:
+                        return  # value can be empty None ?
+                    base_amount = get_uah_amount_from_value(
+                        request, request.validated["award"]["value"], {"complaint_id": self.id}
+                    )
+                    amount = restrict_value_to_bounds(
+                        base_amount * COMPLAINT_ENHANCED_AMOUNT_RATE,
+                        COMPLAINT_ENHANCED_MIN_AMOUNT,
+                        COMPLAINT_ENHANCED_MAX_AMOUNT
+                    )
+            else:
+                base_amount = get_uah_amount_from_value(
+                    request, tender["value"], {"complaint_id": self.id}
+                )
+                if tender["status"] == "active.tendering":
+                    amount = restrict_value_to_bounds(
+                        base_amount * COMPLAINT_AMOUNT_RATE,
+                        COMPLAINT_MIN_AMOUNT,
+                        COMPLAINT_MAX_AMOUNT
+                    )
+                else:
+                    amount = restrict_value_to_bounds(
+                        base_amount * COMPLAINT_ENHANCED_AMOUNT_RATE,
+                        COMPLAINT_ENHANCED_MIN_AMOUNT,
+                        COMPLAINT_ENHANCED_MAX_AMOUNT
+                    )
+            return dict(amount=round_up_to_ten(amount), currency="UAH")
 
     def serialize(self, role=None, context=None):
         if (
@@ -698,6 +745,14 @@ class Complaint(Model):
             (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_complaint"),
             (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_complaint_documents"),
         ]
+
+    def validate_type(self, data, value):
+        if not value:
+            tender = get_root(data["__parent__"])
+            if get_first_revision_date(tender, default=get_now()) > RELEASE_2020_04_19:
+                raise ValidationError("This field is required")
+            else:
+                data["type"] = "claim"
 
     def validate_resolutionType(self, data, resolutionType):
         if not resolutionType and data.get("status") == "answered":

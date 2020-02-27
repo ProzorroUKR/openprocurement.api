@@ -1,4 +1,5 @@
 from iso8601 import parse_date
+from openprocurement.tender.belowthreshold.tests.base import test_complaint, test_draft_claim
 from openprocurement.api.constants import SANDBOX_MODE
 from math import ceil
 
@@ -9,12 +10,7 @@ def create_tender_lot_qualification_complaint(self):
             self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
         ),
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": self.author_data,
-                "status": "pending",
-            }
+            "data": test_complaint
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -42,7 +38,7 @@ def create_tender_lot_qualification_complaint(self):
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
         ),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": self.author_data}},
+        {"data": test_draft_claim},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -58,12 +54,7 @@ def create_tender_qualification_complaint(self):
             self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
         ),
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": self.author_data,
-                "status": "pending",
-            }
+            "data": test_complaint
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -91,7 +82,7 @@ def create_tender_qualification_complaint(self):
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
         ),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": self.author_data}},
+        {"data": test_draft_claim},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -137,12 +128,7 @@ def switch_bid_status_unsuccessul_to_active(self):
     response = self.app.post_json(
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(self.tender_id, qualification_id, bid_token),
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": self.author_data,
-                "status": "pending",
-            }
+            "data": test_complaint
         },
     )
     self.assertEqual(response.status, "201 Created")

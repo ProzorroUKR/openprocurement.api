@@ -1,4 +1,4 @@
-from openprocurement.tender.belowthreshold.tests.base import test_author, test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_author, test_organization, test_draft_complaint
 from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.openua.tests.base import test_bids
 from openprocurement.tender.openua.tests.post import (
@@ -20,11 +20,7 @@ class TenderComplaintPostResourceTest(
             "/tenders/{}/complaints".format(
                 self.tender_id
             ),
-            {"data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": test_author
-            }},
+            {"data": test_draft_complaint},
         )
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]
@@ -73,11 +69,7 @@ class TenderAwardComplaintPostResourceTest(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(
                 self.tender_id, self.award_id, self.initial_bids_tokens[self.initial_bids[0]["id"]]
             ),
-            {"data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": test_author
-            }},
+            {"data": test_draft_complaint},
         )
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]

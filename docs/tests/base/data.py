@@ -320,11 +320,21 @@ funder = {
     "name": "Глобальний фонд"
 }
 
+claim = {
+    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
+    "title": "Недостатньо інформації",
+    "type": "claim",
+    'author': author
+}
+
 complaint = {
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
     "title": "Недостатньо інформації",
+    "status": "draft",
+    "type": "complaint",
     'author': author
 }
+
 
 qualified = {
     'selfEligible': True,

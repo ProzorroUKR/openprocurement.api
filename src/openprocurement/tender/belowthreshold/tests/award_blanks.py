@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
+from copy import deepcopy
 from webtest import AppError
 import mock
 import dateutil.parser
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author, test_cancellation
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_organization, test_draft_claim, test_claim, test_cancellation
+)
 
 
 # TenderAwardResourceTest
@@ -437,19 +440,14 @@ def patch_tender_award_unsuccessful(self):
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, award["id"], bid_token),
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": test_author,
-                "status": "claim",
-            }
+            "data": test_claim
         },
     )
     self.assertEqual(response.status, "201 Created")
 
     response = self.app.post_json(
         "{}/complaints?acc_token={}".format(new_award_location[-81:], bid_token),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+        {"data": test_draft_claim},
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -832,19 +830,14 @@ def patch_tender_lot_award_unsuccessful(self):
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, award["id"], token),
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": test_author,
-                "status": "claim",
-            }
+            "data": test_claim
         },
     )
     self.assertEqual(response.status, "201 Created")
 
     response = self.app.post_json(
         "{}/complaints?acc_token={}".format(new_award_location[-81:], token),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+        {"data": test_draft_claim},
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -1047,7 +1040,7 @@ def create_tender_award_complaint_invalid(self):
     token = self.initial_bids_tokens.values()[0]
     response = self.app.post_json(
         "/tenders/some_id/awards/some_id/complaints?acc_token={}".format(token),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+        {"data": test_draft_claim},
         status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
@@ -1136,14 +1129,12 @@ def create_tender_award_complaint_invalid(self):
         ],
     )
 
+    claim_data = deepcopy(test_draft_claim)
+    claim_data["author"] = {"identifier": {"id": 0}}
     response = self.app.post_json(
         request_path,
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": {"identifier": {"id": 0}},
-            }
+            "data": claim_data
         },
         status=422,
     )
@@ -1166,14 +1157,11 @@ def create_tender_award_complaint_invalid(self):
         ],
     )
 
+    claim_data["author"] = {"name": "name", "identifier": {"uri": "invalid_value"}}
     response = self.app.post_json(
         request_path,
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": {"name": "name", "identifier": {"uri": "invalid_value"}},
-            }
+            "data": claim_data
         },
         status=422,
     )
@@ -1205,12 +1193,7 @@ def create_tender_award_complaint(self):
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, token),
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": test_author,
-                "status": "claim",
-            }
+            "data": test_claim
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -1243,7 +1226,7 @@ def create_tender_award_complaint(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, token),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+        {"data": test_draft_claim},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1257,7 +1240,7 @@ def patch_tender_award_complaint(self):
     token = self.initial_bids_tokens.values()[0]
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, token),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+        {"data": test_draft_claim},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1403,7 +1386,7 @@ def patch_tender_award_complaint(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, token),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+        {"data": test_draft_claim},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1433,12 +1416,7 @@ def review_tender_award_complaint(self):
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
             {
-                "data": {
-                    "title": "complaint title",
-                    "description": "complaint description",
-                    "author": test_author,
-                    "status": "claim",
-                }
+                "data": test_claim
             },
         )
         self.assertEqual(response.status, "201 Created")
@@ -1474,7 +1452,7 @@ def get_tender_award_complaint(self):
     bid_token = self.initial_bids_tokens.values()[0]
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+        {"data": test_draft_claim},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1510,7 +1488,7 @@ def get_tender_award_complaints(self):
     bid_token = self.initial_bids_tokens.values()[0]
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+        {"data": test_draft_claim},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1536,7 +1514,7 @@ def get_tender_award_complaints(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+        {"data": test_draft_claim},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1552,12 +1530,7 @@ def create_tender_lot_award_complaint(self):
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": test_author,
-                "status": "claim",
-            }
+            "data": test_claim
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -1590,7 +1563,7 @@ def create_tender_lot_award_complaint(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+        {"data": test_draft_claim},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1604,7 +1577,7 @@ def patch_tender_lot_award_complaint(self):
     bid_token = self.initial_bids_tokens.values()[0]
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+        {"data": test_draft_claim},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1708,7 +1681,7 @@ def patch_tender_lot_award_complaint(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+        {"data": test_draft_claim},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1735,7 +1708,7 @@ def get_tender_lot_award_complaint(self):
     bid_token = self.initial_bids_tokens.values()[0]
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+        {"data": test_draft_claim},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1771,7 +1744,7 @@ def get_tender_lot_award_complaints(self):
     bid_token = self.initial_bids_tokens.values()[0]
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+        {"data": test_draft_claim},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1797,7 +1770,7 @@ def get_tender_lot_award_complaints(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+        {"data": test_draft_claim},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1813,12 +1786,7 @@ def create_tender_lots_award_complaint(self):
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": test_author,
-                "status": "claim",
-            }
+            "data": test_claim
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -1861,7 +1829,7 @@ def create_tender_lots_award_complaint(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+        {"data": test_draft_claim},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1881,7 +1849,7 @@ def patch_tender_lots_award_complaint(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+        {"data": test_draft_claim},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1910,12 +1878,7 @@ def patch_tender_lots_award_complaint(self):
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": test_author,
-                "status": "claim",
-            }
+            "data": test_claim
         },
     )
     self.assertEqual(response.status, "201 Created")

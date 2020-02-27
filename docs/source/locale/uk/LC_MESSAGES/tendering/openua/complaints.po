@@ -3,159 +3,115 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openua 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-10 13:47+0300\n"
-"PO-Revision-Date: 2016-07-25 11:56+0200\n"
+"POT-Creation-Date: 2020-02-25 15:48+0200\n"
+"PO-Revision-Date: 2020-02-25 15:50+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 1.3\n"
+"Generated-By: Babel 2.8.0\n"
+"Language: uk\n"
+"X-Generator: Poedit 2.2.3\n"
 
-#: ../../source/openua/complaints.rst:9
 msgid "Complaint Workflow"
 msgstr "Схема роботи оскаржень"
 
-#: ../../source/openua/complaints.rst:11
-msgid ""
-"For more detailed information read `Complaints "
-"<http://openprocurement.org/en/complaints.html>`_."
-msgstr ""
-"Більш детальну інформацію шукайте на сторінці `Оскарження "
-"<http://openprocurement.org/ua/complaints.html>`_."
+msgid "For more detailed information read `Complaints <http://openprocurement.org/en/complaints.html>`_."
+msgstr "Більш детальну інформацію шукайте на сторінці `Оскарження <http://openprocurement.org/ua/complaints.html>`_."
 
-#: ../../source/openua/complaints.rst:14
 msgid "Tender Conditions Claims/Complaints"
 msgstr "Вимоги/Скарги на умови закупівлі"
 
-#: ../../source/openua/complaints.rst:53
+msgid "Tender Conditions Claims/Complaints (After Release 2020-04-19)"
+msgstr "Вимоги/Скарги на умови закупівлі (Після Release 2020-04-19)"
+
 msgid "Tender Award Claims/Complaints"
 msgstr "Звернення/Скарги на визначення переможця"
 
-#: ../../source/openua/complaints.rst:88
 msgid "Roles"
 msgstr "Ролі"
 
-#: ../../source/openua/complaints.rst:0
 msgid "Complainant"
 msgstr ""
 
-#: ../../source/openua/complaints.rst:91
 msgid "dashed"
 msgstr "пунктирна лінія"
 
-#: ../../source/openua/complaints.rst:0
 msgid "Procuring entity"
 msgstr ""
 
-#: ../../source/openua/complaints.rst:94
 msgid "plain"
 msgstr "звичайна лінія"
 
-#: ../../source/openua/complaints.rst:0
 msgid "Reviewer"
 msgstr ""
 
-#: ../../source/openua/complaints.rst:97
 msgid "bold"
 msgstr "жирна лінія"
 
-#: ../../source/openua/complaints.rst:0
 msgid "Chronograph"
 msgstr ""
 
-#: ../../source/openua/complaints.rst:100
 msgid "dotted"
 msgstr "пунктирна лінія з крапками"
 
-#: ../../source/openua/complaints.rst:103
 msgid "Statuses"
 msgstr "Статуси"
 
-#: ../../source/openua/complaints.rst:0
 msgid "draft"
 msgstr ""
 
-#: ../../source/openua/complaints.rst:106
 msgid "Initial status"
 msgstr "Початковий статус"
 
-#: ../../source/openua/complaints.rst:108
-msgid ""
-"Complainant can submit claim, upload documents, cancel claim, and re-"
-"submit it."
-msgstr ""
-"На цьому етапі скаржник може подати вимогу, завантажити документи, "
-"відкликати вимогу та подати її знову."
+msgid "Complainant can submit claim, upload documents, cancel claim, and re-submit it."
+msgstr "На цьому етапі скаржник може подати вимогу, завантажити документи, відкликати вимогу та подати її знову."
 
-#: ../../source/openua/complaints.rst:0
 msgid "claim"
 msgstr ""
 
-#: ../../source/openua/complaints.rst:111
 msgid "Procuring entity can upload documents and answer to claim."
 msgstr "Замовник може завантажити документи та відповісти на вимогу."
 
-#: ../../source/openua/complaints.rst:113
-#: ../../source/openua/complaints.rst:121
 msgid "Complainant can cancel claim."
 msgstr "Скаржник може відкликати вимогу."
 
-#: ../../source/openua/complaints.rst:0
 msgid "answered"
 msgstr ""
 
-#: ../../source/openua/complaints.rst:116
-msgid ""
-"Complainant can cancel claim, upload documents, accept solution or "
-"escalate claim to complaint."
-msgstr ""
-"Скаржник може відкликати вимогу, завантажити документи, погодитись з "
-"вирішенням або перетворити вимогу на скаргу."
+msgid "Complainant can cancel claim, upload documents or accept solution."
+msgstr "Скаржник може відкликати вимогу, завантажити документи або погодитись з вирішенням."
 
-#: ../../source/openua/complaints.rst:0
 msgid "pending"
 msgstr ""
 
-#: ../../source/openua/complaints.rst:119
 msgid "Reviewer can upload documents and review complaint."
 msgstr "Орган оскарження може завантажувати документи та розглядати скарги."
 
-#: ../../source/openua/complaints.rst:0
 msgid "invalid"
 msgstr ""
 
-#: ../../source/openua/complaints.rst:124
-#: ../../source/openua/complaints.rst:129
-#: ../../source/openua/complaints.rst:134
-#: ../../source/openua/complaints.rst:139
 msgid "Terminal status"
 msgstr "Кінцевий статус"
 
-#: ../../source/openua/complaints.rst:126
 msgid "Complaint recognized as invalid."
 msgstr "Скаргу визнано недійсною."
 
-#: ../../source/openua/complaints.rst:0
 msgid "declined"
 msgstr ""
 
-#: ../../source/openua/complaints.rst:131
 msgid "Complaint recognized as declined."
 msgstr "Скаргу визнано відхиленою."
 
-#: ../../source/openua/complaints.rst:0
 msgid "resolved"
 msgstr ""
 
-#: ../../source/openua/complaints.rst:136
 msgid "Complaint recognized as resolved."
 msgstr "Скаргу визнано вирішеною."
 
-#: ../../source/openua/complaints.rst:0
 msgid "cancelled"
 msgstr ""
 
-#: ../../source/openua/complaints.rst:141
 msgid "Complaint cancelled by complainant."
 msgstr "Скаргу відкликано скаржником."

@@ -27,6 +27,7 @@ class ComplaintModelType(BaseComplaintModelType):
 
 class Complaint(BaseComplaint):
     class Options:
+        _base_roles = BaseComplaint.Options.roles
         _view_claim = whitelist(
             'acceptance', 'bid_id', 'cancellationReason', 'complaintID', 'date', 'dateAccepted',
             'dateAnswered', 'dateCanceled', 'dateDecision', 'dateEscalated', 'dateSubmitted', 'decision',
@@ -53,7 +54,7 @@ class Complaint(BaseComplaint):
             "view": _embedded,
             "default": _open_view + whitelist('owner', 'owner_token'),
 
-            "create": whitelist('author', 'description', 'status', 'title', 'relatedLot'),
+            "create": _base_roles["create"],
             "draft": whitelist('author', 'description', 'status', 'title'),
             "review": whitelist('decision', 'reviewDate', 'reviewPlace', 'status'),
             "answer": whitelist('resolution', 'resolutionType', 'status', 'tendererAction'),

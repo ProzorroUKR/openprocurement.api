@@ -1,5 +1,5 @@
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_author, test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_claim, test_organization, test_draft_complaint
 from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.openua.tests.base import BaseTenderUAContentWebTest, test_bids
 from openprocurement.tender.openua.tests.post_blanks import (
@@ -14,6 +14,7 @@ from openprocurement.tender.openua.tests.post_blanks import (
     get_complaint_posts,
     create_complaint_post_release_forbidden,
 )
+from copy import deepcopy
 
 
 class TenderComplaintPostResourceMixin(object):
@@ -21,6 +22,13 @@ class TenderComplaintPostResourceMixin(object):
     tender_id = None
     complaint_id = None
     post_id = None
+    claim_data = deepcopy(test_claim)
+
+    def post_claim(self, status=201):
+        url = "/tenders/{}/complaints".format(self.tender_id)
+        result = self.app.post_json(url, {"data": self.claim_data}, status=status)
+        self.complaint_id = result.json["data"]["id"]
+        return result
 
     def patch_complaint(self, data, acc_token=None, status=200):
         url = "/tenders/{}/complaints/{}".format(
@@ -58,6 +66,15 @@ class TenderQualificationComplaintPostResourceMixin(object):
     qualification_id = None
     complaint_id = None
     post_id = None
+    claim_data = deepcopy(test_claim)
+
+    def post_claim(self, status=201):
+        url = "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
+            self.tender_id, self.qualification_id,  self.initial_bids_tokens.values()[0]
+        )
+        result = self.app.post_json(url, {"data": self.claim_data}, status=status)
+        self.complaint_id = result.json["data"]["id"]
+        return result
 
     def patch_complaint(self, data, acc_token=None, status=200):
         url = "/tenders/{}/qualifications/{}/complaints/{}".format(
@@ -95,6 +112,15 @@ class TenderAwardComplaintPostResourceMixin(object):
     award_id = None
     complaint_id = None
     post_id = None
+    claim_data = deepcopy(test_claim)
+
+    def post_claim(self, status=201):
+        url = "/tenders/{}/awards/{}/complaints?acc_token={}".format(
+            self.tender_id, self.award_id, self.initial_bids_tokens.values()[0]
+        )
+        result = self.app.post_json(url, {"data": self.claim_data}, status=status)
+        self.complaint_id = result.json["data"]["id"]
+        return result
 
     def patch_complaint(self, data, acc_token=None, status=200):
         url = "/tenders/{}/awards/{}/complaints/{}".format(
@@ -150,11 +176,7 @@ class TenderComplaintPostResourceTest(
             "/tenders/{}/complaints".format(
                 self.tender_id
             ),
-            {"data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": test_author
-            }},
+            {"data": test_draft_complaint},
         )
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]
@@ -203,11 +225,7 @@ class TenderAwardComplaintPostResourceTest(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(
                 self.tender_id, self.award_id, self.initial_bids_tokens[self.initial_bids[0]["id"]]
             ),
-            {"data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": test_author
-            }},
+            {"data": test_draft_complaint},
         )
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]

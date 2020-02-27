@@ -93,9 +93,13 @@ Content-Type: application/json; charset=UTF-8
             }
           }, 
           "resolutionType": "resolved", 
-          "type": "claim", 
+          "type": "complaint", 
           "title": "Недостатньо інформації", 
           "satisfied": true, 
+          "value": {
+            "currency": "UAH", 
+            "amount": 3000.0
+          }, 
           "tendererAction": "Виправлено неконкурентні умови", 
           "dateAnswered": "2020-05-01T01:00:01+03:00", 
           "tendererActionDate": "2020-05-01T01:00:01+03:00", 
@@ -110,7 +114,7 @@ Content-Type: application/json; charset=UTF-8
           "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
           "title": "Недостатньо інформації", 
           "resolutionType": "resolved", 
-          "type": "claim", 
+          "type": "complaint", 
           "author": {
             "contactPoint": {
               "email": "soleksuk@gmail.com", 
@@ -144,7 +148,7 @@ Content-Type: application/json; charset=UTF-8
           "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
           "title": "Недостатньо інформації", 
           "resolutionType": "resolved", 
-          "type": "claim", 
+          "type": "complaint", 
           "author": {
             "contactPoint": {
               "email": "soleksuk@gmail.com", 
@@ -178,7 +182,7 @@ Content-Type: application/json; charset=UTF-8
           "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
           "title": "Недостатньо інформації", 
           "resolutionType": "resolved", 
-          "type": "claim", 
+          "type": "complaint", 
           "author": {
             "contactPoint": {
               "email": "soleksuk@gmail.com", 

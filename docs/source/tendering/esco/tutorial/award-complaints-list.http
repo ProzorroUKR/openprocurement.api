@@ -56,6 +56,10 @@ Content-Type: application/json; charset=UTF-8
         }
       }, 
       "acceptance": true, 
+      "value": {
+        "currency": "UAH", 
+        "amount": 3000.0
+      }, 
       "dateAccepted": "2020-05-01T01:00:03+03:00", 
       "dateSubmitted": "2020-05-01T01:00:03+03:00", 
       "complaintID": "UA-2020-05-01-000001.1", 
@@ -220,7 +224,7 @@ Content-Type: application/json; charset=UTF-8
         }
       }, 
       "resolutionType": "resolved", 
-      "type": "claim", 
+      "type": "complaint", 
       "title": "Недостатньо інформації", 
       "satisfied": true, 
       "dateAnswered": "2020-05-01T01:00:03+03:00", 
@@ -254,7 +258,7 @@ Content-Type: application/json; charset=UTF-8
         }
       }, 
       "resolutionType": "invalid", 
-      "type": "claim", 
+      "type": "complaint", 
       "title": "Недостатньо інформації", 
       "satisfied": false, 
       "dateAnswered": "2020-05-01T01:00:03+03:00", 
@@ -378,10 +382,14 @@ Content-Type: application/json; charset=UTF-8
         }
       }, 
       "title": "Недостатньо інформації", 
+      "value": {
+        "currency": "UAH", 
+        "amount": 3000.0
+      }, 
       "dateSubmitted": "2020-05-01T01:00:03+03:00", 
       "complaintID": "UA-2020-05-01-000001.9", 
       "date": "2020-05-01T01:00:03+03:00", 
-      "type": "claim", 
+      "type": "complaint", 
       "id": "8f66ae28332f46b1be606cadd389c48e"
     }
   ]

@@ -14,6 +14,8 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_lots,
     test_organization,
     test_author,
+    test_draft_claim,
+    test_claim,
 )
 from openprocurement.tender.belowthreshold.tests.award_blanks import (
     # TenderAwardResourceTest
@@ -270,7 +272,7 @@ class TenderAwardComplaintDocumentResourceTest(TenderContentWebTest, TenderAward
         self.bid_token = self.initial_bids_tokens.values()[0]
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, self.bid_token),
-            {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+            {"data": test_draft_claim},
         )
         complaint = response.json["data"]
         self.complaint_id = complaint["id"]
@@ -308,7 +310,7 @@ class Tender2LotAwardComplaintDocumentResourceTest(TenderContentWebTest):
         bid_token = self.initial_bids_tokens.values()[0]
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
-            {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+            {"data": test_draft_claim},
         )
         complaint = response.json["data"]
         self.complaint_id = complaint["id"]

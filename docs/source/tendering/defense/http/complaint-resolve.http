@@ -62,6 +62,10 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Вінниця"
       }
     }, 
+    "value": {
+      "currency": "UAH", 
+      "amount": 2000.0
+    }, 
     "dateAccepted": "2020-05-01T01:00:00+03:00", 
     "dateSubmitted": "2020-05-01T01:00:00+03:00", 
     "complaintID": "UA-2020-05-01-000001.1", 

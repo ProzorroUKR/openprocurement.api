@@ -44,6 +44,39 @@ Tender Conditions Claims/Complaints
         answered -> {invalid,declined,resolved};
     }
 
+
+Tender Conditions Claims/Complaints (After Release 2020-04-19)
+--------------------------------------------------------------
+
+.. graphviz::
+
+    digraph G {
+        rankdir=LR;
+        {rank=same; mistaken; invalid; resolved; declined; stopped; cancelled;}
+        subgraph cluster_claim {
+            label = "claim";
+            claim; answered;
+        }
+        subgraph cluster_complaint {
+            label = "complaint";
+            pending; satisfied; accepted; stopping;
+        }
+        claim -> answered;
+        satisfied -> resolved;
+        edge[style=dashed];
+        draft -> {claim,pending};
+        {draft,claim,answered} -> cancelled;
+        pending -> stopping;
+        accepted -> stopping;
+        edge[style=bold];
+        accepted -> {declined,satisfied,stopped};
+        pending -> {accepted,invalid,stopped};
+        stopping -> {stopped,invalid,declined,satisfied};
+        {pending;stopping} -> mistaken;
+        edge[label="auction" style=dotted];
+        answered -> {invalid,declined,resolved};
+    }
+
 .. toctree::
     :maxdepth: 1
 
@@ -113,7 +146,7 @@ Statuses
     Complainant can cancel claim.
 
 :answered:
-    Complainant can cancel claim, upload documents, accept solution or escalate claim to complaint.
+    Complainant can cancel claim, upload documents or accept solution.
 
 :pending:
     Reviewer can upload documents and review complaint.

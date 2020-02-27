@@ -37,10 +37,14 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "title": "Недостатньо інформації", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 3000.0
+    }, 
     "dateSubmitted": "2020-05-01T01:00:03+03:00", 
     "complaintID": "UA-2020-05-01-000001.8", 
     "date": "2020-05-01T01:00:03+03:00", 
-    "type": "claim", 
+    "type": "complaint", 
     "id": "42d1b211ca9249b7ad6a38fc07ad10e0"
   }
 }

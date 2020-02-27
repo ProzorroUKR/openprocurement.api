@@ -104,6 +104,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4c996fcd2b9f4dc1
           }
         }, 
         "acceptance": true, 
+        "value": {
+          "currency": "UAH", 
+          "amount": 3000.0
+        }, 
         "dateAccepted": "2020-05-01T01:00:06+03:00", 
         "dateSubmitted": "2020-05-01T01:00:06+03:00", 
         "complaintID": "UA-2020-05-01-000001.1", 

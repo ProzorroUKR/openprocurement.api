@@ -14,6 +14,7 @@ Contents:
    tenders
    qualifications
    complaints
+   complaint-payments
    procuring
    lots
    bidding

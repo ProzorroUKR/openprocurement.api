@@ -95,11 +95,11 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
             "active.tendering",
             {
                 "enquiryPeriod": {
-                    "startDate": (now - timedelta(days=13)).isoformat(),
+                    "startDate": (now - timedelta(days=15)).isoformat(),
                     "endDate": (now - (timedelta(minutes=1) if SANDBOX_MODE else timedelta(days=1))).isoformat(),
                 },
                 "tenderPeriod": {
-                    "startDate": (now - timedelta(days=13)).isoformat(),
+                    "startDate": (now - timedelta(days=15)).isoformat(),
                     "endDate": (now + (timedelta(minutes=2) if SANDBOX_MODE else timedelta(days=2))).isoformat(),
                 },
                 "auctionPeriod": {"startDate": (now + timedelta(days=2)).isoformat()},

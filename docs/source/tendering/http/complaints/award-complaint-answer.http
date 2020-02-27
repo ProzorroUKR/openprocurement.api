@@ -53,8 +53,12 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "resolutionType": "resolved", 
-    "type": "claim", 
+    "type": "complaint", 
     "title": "Недостатньо інформації", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 3000.0
+    }, 
     "tendererAction": "Виправлено неконкурентні умови", 
     "dateAnswered": "2020-05-01T01:00:01+03:00", 
     "tendererActionDate": "2020-05-01T01:00:01+03:00", 

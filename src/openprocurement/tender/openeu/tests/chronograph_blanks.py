@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from openprocurement.tender.belowthreshold.tests.base import test_claim, test_author
 from copy import deepcopy
 
 # TenderSwitchPreQualificationResourceTest
@@ -51,17 +52,13 @@ def switch_to_auction(self):
 
 
 def switch_to_complaint(self):
-    user_data = deepcopy(self.author_data)
+    claim_data = deepcopy(test_claim)
+    claim_data["author"] = getattr(self, "author_data", test_author)
     for status in ["invalid", "resolved", "declined"]:
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
             {
-                "data": {
-                    "title": "complaint title",
-                    "description": "complaint description",
-                    "author": user_data,
-                    "status": "claim",
-                }
+                "data": claim_data
             },
         )
         self.assertEqual(response.status, "201 Created")

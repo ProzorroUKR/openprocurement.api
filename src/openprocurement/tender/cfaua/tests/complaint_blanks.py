@@ -1,13 +1,11 @@
+from openprocurement.tender.belowthreshold.tests.base import test_claim, test_draft_claim
+
+
 def create_tender_complaint(self):
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": self.test_author,
-                "status": "claim",
-            }
+            "data": test_claim
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -61,7 +59,7 @@ def create_tender_complaint(self):
 
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": self.test_author}},
+        {"data": test_draft_claim},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -75,13 +73,7 @@ def create_tender_lot_complaint(self):
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": self.test_author,
-                "relatedLot": self.initial_lots[0]["id"],
-                "status": "claim",
-            }
+            "data": test_claim
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -135,7 +127,7 @@ def create_tender_lot_complaint(self):
 
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": self.test_author}},
+        {"data": test_draft_claim},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")

@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/71c0e0ebf297470aa18a89c42f80fb55/complaints/06ef5a30aba04b5db7c0b44f95a3e046/documents?acc_token=c521d6f5f2194886a97f9d0b708c73ca HTTP/1.0
+POST /api/2.5/tenders/71c0e0ebf297470aa18a89c42f80fb55/complaints/4d4e316bb39f4c248fe9fa325a1fb56c/documents?acc_token=3238eefd2dde4a25aad4f36c9c8f4968 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 157
 Content-Type: multipart/form-data; boundary=---BOUNDARY
@@ -14,7 +14,7 @@ content
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/71c0e0ebf297470aa18a89c42f80fb55/complaints/06ef5a30aba04b5db7c0b44f95a3e046/documents/461ff49bef37491794d62d57cc74ae53
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/71c0e0ebf297470aa18a89c42f80fb55/complaints/4d4e316bb39f4c248fe9fa325a1fb56c/documents/461ff49bef37491794d62d57cc74ae53
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000", 

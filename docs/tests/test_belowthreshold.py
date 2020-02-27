@@ -2,10 +2,11 @@
 import os
 from copy import deepcopy
 from uuid import uuid4
-
+from mock import patch
 from datetime import timedelta
 
 from openprocurement.api.models import get_now
+from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.belowthreshold.tests.base import (
     BaseTenderWebTest, test_tender_data, test_bids, test_lots
 )
@@ -1132,3 +1133,83 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             },
             response.json['errors']
         )
+
+
+TARGET_VALUE_DIR = 'docs/source/tendering/basic-actions/http/complaints-value/'
+
+
+class ComplaintsValueResourceTest(BaseTenderWebTest, MockWebTestMixin):
+    AppClass = DumpsWebTestApp
+    relative_to = os.path.dirname(__file__)
+    initial_data = deepcopy(test_tender_data)
+
+    def setUp(self):
+        super(ComplaintsValueResourceTest, self).setUp()
+        self.setUpMock()
+
+    def tearDown(self):
+        self.tearDownMock()
+        super(ComplaintsValueResourceTest, self).tearDown()
+
+    def test_complaint_value(self):
+        for item in self.initial_data['items']:
+            item['deliveryDate'] = {
+                "startDate": (get_now() + timedelta(days=2)).isoformat(),
+                "endDate": (get_now() + timedelta(days=5)).isoformat()
+            }
+
+        self.initial_data.update({
+            "enquiryPeriod": {"endDate": (get_now() + timedelta(days=7)).isoformat()},
+            "tenderPeriod": {"endDate": (get_now() + timedelta(days=14)).isoformat()}
+        })
+
+        response = self.app.post_json("/tenders", {"data": self.initial_data})
+
+        with open(TARGET_VALUE_DIR + 'complaint-creation.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/complaints'.format(response.json["data"]["id"]),
+                {'data': complaint})
+            self.assertEqual(response.status, '201 Created')
+
+        self.initial_data["value"]["currency"] = self.initial_data["minimalStep"]["currency"] = "USD"
+
+        response = self.app.post_json("/tenders", {"data": self.initial_data})
+
+        with open(TARGET_VALUE_DIR + 'complaint-creation-decoding.http', 'w') as self.app.file_obj:
+
+            def mock_get_uah_amount_from_value(r, *_):
+                raise raise_operation_error(r, "Failure of decoding data from bank.gov.ua", status=409)
+
+            with patch("openprocurement.tender.core.models.get_uah_amount_from_value", mock_get_uah_amount_from_value):
+
+                self.app.post_json(
+                    '/tenders/{}/complaints'.format(response.json["data"]["id"]),
+                    {'data': complaint},
+                    status=409
+                )
+
+        with open(TARGET_VALUE_DIR + 'complaint-creation-connection.http', 'w') as self.app.file_obj:
+
+            def mock_get_uah_amount_from_value(r, *_):
+                raise raise_operation_error(r, "Error while getting data from bank.gov.ua: Connection closed",
+                                            status=409)
+            with patch("openprocurement.tender.core.models.get_uah_amount_from_value", mock_get_uah_amount_from_value):
+
+                self.app.post_json(
+                    '/tenders/{}/complaints'.format(response.json["data"]["id"]),
+                    {'data': complaint},
+                    status=409
+                )
+
+        with open(TARGET_VALUE_DIR + 'complaint-creation-rur.http', 'w') as self.app.file_obj:
+
+            def mock_get_uah_amount_from_value(r, *_):
+                raise raise_operation_error(r, "Couldn't find currency RUR on bank.gov.ua", status=422)
+
+            with patch("openprocurement.tender.core.models.get_uah_amount_from_value", mock_get_uah_amount_from_value):
+
+                self.app.post_json(
+                    '/tenders/{}/complaints'.format(response.json["data"]["id"]),
+                    {'data': complaint},
+                    status=422
+                )

@@ -55,6 +55,10 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "acceptance": true, 
+    "value": {
+      "currency": "UAH", 
+      "amount": 3000.0
+    }, 
     "dateAccepted": "2020-05-01T01:00:03+03:00", 
     "dateSubmitted": "2020-05-01T01:00:03+03:00", 
     "complaintID": "UA-2020-05-01-000001.1", 

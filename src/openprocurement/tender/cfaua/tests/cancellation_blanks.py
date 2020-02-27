@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from openprocurement.tender.belowthreshold.tests.base import test_complaint, test_claim
 import jmespath
 
 
@@ -16,12 +17,7 @@ def add_tender_complaints(self, statuses):
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
             {
-                "data": {
-                    "title": "complaint title",
-                    "description": "complaint description",
-                    "author": self.test_author,
-                    "status": "pending",
-                }
+                "data": test_complaint
             },
         )
         self.assertEqual(response.status, "201 Created")
@@ -53,12 +49,7 @@ def cancellation_tender_active_tendering(self):
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": self.test_author,
-                "status": "claim",
-            }
+            "data": test_claim
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -108,12 +99,7 @@ def cancellation_tender_active_pre_qualification_stand_still(self):
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": self.test_author,
-                "status": "pending",
-            }
+            "data": test_complaint
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -208,12 +194,7 @@ def cancellation_tender_active_qualification_stand_still(self):
     response = self.app.post_json(
         "/tenders/{0}/awards/{1}/complaints?acc_token={2}".format(self.tender_id, award_id, owner_token),
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": self.test_author,
-                "status": "pending",
-            }
+            "data": test_complaint
         },
     )
     self.assertEqual(response.status, "201 Created")

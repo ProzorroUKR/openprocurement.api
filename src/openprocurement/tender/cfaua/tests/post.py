@@ -1,4 +1,4 @@
-from openprocurement.tender.belowthreshold.tests.base import test_author
+from openprocurement.tender.belowthreshold.tests.base import test_author, test_draft_complaint
 from openprocurement.tender.cfaua.tests.base import BaseTenderContentWebTest, test_bids, test_lots
 from openprocurement.tender.openua.tests.post import (
     ComplaintPostResourceMixin,
@@ -19,11 +19,7 @@ class TenderComplaintPostResourceTest(
             "/tenders/{}/complaints".format(
                 self.tender_id
             ),
-            {"data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": test_author
-            }},
+            {"data": test_draft_complaint},
         )
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]
@@ -86,11 +82,7 @@ class TenderQualificationComplaintPostResourceTest(
             "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
                 self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
             ),
-            {"data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": self.author_data
-            }},
+            {"data": test_draft_complaint},
         )
         complaint = response.json["data"]
 
@@ -118,16 +110,11 @@ class TenderAwardComplaintResourceTest(
         self.awards_ids = [award["id"] for award in response.json["data"]]
         self.award_id = self.awards_ids[0]
 
-
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(
                 self.tender_id, self.award_id, self.initial_bids_tokens[self.initial_bids[0]["id"]]
             ),
-            {"data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": test_author
-            }},
+            {"data": test_draft_complaint},
         )
 
         self.complaint_id = response.json["data"]["id"]

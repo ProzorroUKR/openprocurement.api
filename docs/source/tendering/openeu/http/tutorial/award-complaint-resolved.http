@@ -40,6 +40,10 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "title": "Недостатньо інформації", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 3000.0
+    }, 
     "id": "61ccc02d23a1432480391158988f2ff1", 
     "tendererAction": "Умови виправлено, вибір переможня буде розгянуто повторно", 
     "dateSubmitted": "2020-05-01T01:00:01+03:00", 
