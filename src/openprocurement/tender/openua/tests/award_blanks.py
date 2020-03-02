@@ -1327,7 +1327,12 @@ def review_tender_award_complaint(self):
 
 
 def review_tender_award_stopping_complaint(self):
-    for status in ["satisfied", "stopped", "declined", "mistaken", "invalid"]:
+    now = get_now()
+    if RELEASE_2020_04_19 > now:
+        statuses = ["satisfied", "stopped", "declined", "mistaken", "invalid"]
+    else:
+        statuses = ["satisfied", "stopped", "declined", "invalid"]
+    for status in statuses:
         self.app.authorization = ("Basic", ("broker", ""))
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, self.bid_token),

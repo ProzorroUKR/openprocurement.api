@@ -36,7 +36,7 @@ Workflow
     digraph G {
         claim -> answered;
         edge[style=dashed];
-        draft -> claim; 
+        draft -> {claim,mistaken};
         answered -> resolved;
         {draft,claim,answered} -> cancelled; 
         edge[label="3d" style=dotted];

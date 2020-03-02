@@ -32,7 +32,7 @@ Tender Conditions Claims/Complaints
         satisfied -> resolved;
         edge[style=dashed];
         answered -> {pending,resolved};
-        draft -> {claim,pending};
+        draft -> {claim,pending,mistaken};
         claim -> pending;
         {draft,claim,answered} -> cancelled;
         pending -> stopping;
@@ -41,7 +41,6 @@ Tender Conditions Claims/Complaints
         accepted -> {declined,satisfied,stopped};
         pending -> {accepted,invalid,stopped};
         stopping -> {stopped,invalid,declined,satisfied};
-        {pending;stopping} -> mistaken;
         edge[label="auction" style=dotted];
         answered -> {declined,resolved,invalid};
     }
@@ -70,14 +69,13 @@ Tender Qualification Claims/Complaints
         claim -> answered;
         satisfied -> resolved;
         edge[style=dashed];
-        draft -> {claim,pending};
+        draft -> {claim,pending,mistaken};
         {draft,claim,answered} -> cancelled;
         {pending,accepted} -> stopping;
         edge[style=bold];
         pending -> {accepted,invalid,stopped};
         stopping -> {stopped,invalid,declined,satisfied};
         accepted -> {declined,satisfied,stopped};
-        {pending;stopping} -> mistaken;
     }
 
 .. toctree::
@@ -104,14 +102,13 @@ Tender Award Claims/Complaints
         claim -> answered;
         satisfied -> resolved;
         edge[style=dashed];
-        draft -> {claim,pending};
+        draft -> {claim,pending,mistaken};
         {draft,claim,answered} -> cancelled;
         {pending,accepted} -> stopping;
         edge[style=bold];
         pending -> {accepted,invalid,stopped};
         stopping -> {stopped,invalid,declined,satisfied};
         accepted -> {declined,satisfied,stopped};
-        {pending;stopping} -> mistaken;
     }
 
 .. toctree::

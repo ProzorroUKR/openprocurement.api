@@ -28,7 +28,7 @@ Tender Conditions Claims/Complaints
         satisfied -> resolved;
         edge[style=dashed];
         answered -> {pending,resolved};
-        draft -> {claim,pending};
+        draft -> {claim,pending,mistaken};
         claim -> pending;
         {draft,claim,answered} -> cancelled;
         pending -> stopping;
@@ -58,7 +58,7 @@ Tender Qualification Complaints
         }
         satisfied -> resolved;
         edge[style=dashed];
-        draft -> {pending,cancelled}; 
+        draft -> {pending,cancelled,mistaken};
         {pending,accepted} -> stopping;
         edge[style=bold];
         pending -> {accepted,invalid,stopped};
@@ -83,7 +83,7 @@ Tender Award Complaints
         }
         satisfied -> resolved;
         edge[style=dashed];
-        draft -> {pending,cancelled}; 
+        draft -> {pending,cancelled,mistaken};
         {pending,accepted} -> stopping;
         edge[style=bold];
         pending -> {accepted,invalid,stopped};
