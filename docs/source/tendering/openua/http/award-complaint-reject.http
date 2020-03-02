@@ -1,12 +1,13 @@
 PATCH /api/2.5/tenders/59d0b67423864278a983b4169d541645/awards/edb54fc7f3c841ce8353f13333adedba/complaints/c384db7997bb477999506ea7ef13cdde HTTP/1.0
 Authorization: Bearer reviewer
-Content-Length: 31
+Content-Length: 64
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "status": "invalid"
+    "status": "invalid", 
+    "rejectReason": "alreadyExists"
   }
 }
 
@@ -38,6 +39,7 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "acceptance": false, 
+    "rejectReason": "alreadyExists", 
     "dateSubmitted": "2020-05-01T01:00:01+03:00", 
     "complaintID": "UA-2020-05-01-000001.2", 
     "date": "2020-05-01T01:00:01+03:00", 

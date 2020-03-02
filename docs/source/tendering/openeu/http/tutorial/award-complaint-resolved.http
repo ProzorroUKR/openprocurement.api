@@ -19,6 +19,8 @@ Content-Type: application/json; charset=UTF-8
     "dateDecision": "2020-05-01T01:00:01+03:00", 
     "tendererActionDate": "2020-05-01T01:00:01+03:00", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+    "title": "Недостатньо інформації", 
+    "reviewDate": "2020-05-01T01:00:01+03:00", 
     "author": {
       "contactPoint": {
         "email": "soleksuk@gmail.com", 
@@ -39,7 +41,6 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Вінниця"
       }
     }, 
-    "title": "Недостатньо інформації", 
     "id": "61ccc02d23a1432480391158988f2ff1", 
     "tendererAction": "Умови виправлено, вибір переможня буде розгянуто повторно", 
     "dateSubmitted": "2020-05-01T01:00:01+03:00", 
@@ -73,6 +74,7 @@ Content-Type: application/json; charset=UTF-8
         "dateModified": "2020-05-01T01:00:01+03:00"
       }
     ], 
+    "reviewPlace": "Place of review", 
     "dateAccepted": "2020-05-01T01:00:01+03:00"
   }
 }

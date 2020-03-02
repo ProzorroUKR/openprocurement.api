@@ -1,12 +1,14 @@
 PATCH /api/2.5/tenders/a41032bbcdec47df9273af568f595c1d/complaints/8db347bde49040188e3ed9a12bc4ac0a HTTP/1.0
 Authorization: Bearer reviewer
-Content-Length: 32
+Content-Length: 109
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "status": "accepted"
+    "status": "accepted", 
+    "reviewDate": "2020-05-01T01:00:00+03:00", 
+    "reviewPlace": "Place of review"
   }
 }
 
@@ -50,6 +52,7 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Вінниця"
       }
     }, 
+    "reviewDate": "2020-05-01T01:00:00+03:00", 
     "acceptance": true, 
     "dateAccepted": "2020-05-01T01:00:00+03:00", 
     "dateSubmitted": "2020-05-01T01:00:00+03:00", 
@@ -57,7 +60,8 @@ Content-Type: application/json; charset=UTF-8
     "date": "2020-05-01T01:00:00+03:00", 
     "title": "Недостатньо інформації", 
     "type": "complaint", 
-    "id": "8db347bde49040188e3ed9a12bc4ac0a"
+    "id": "8db347bde49040188e3ed9a12bc4ac0a", 
+    "reviewPlace": "Place of review"
   }
 }
 

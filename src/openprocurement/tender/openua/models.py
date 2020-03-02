@@ -22,7 +22,7 @@ from openprocurement.api.models import (
     IsoDateTimeType,
     Address,
 )
-from openprocurement.api.constants import TZ
+from openprocurement.api.constants import TZ, RELEASE_2020_04_19
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.validation import validate_cpv_group, validate_items_uniq, validate_classification_id
 from openprocurement.tender.core.models import (
@@ -302,8 +302,11 @@ class Complaint(BaseComplaint):
             "resolve": whitelist("status", "tendererAction"),
             "answer": whitelist("resolution", "resolutionType", "status", "tendererAction"),
             "action": whitelist("tendererAction"),
-            "pending": whitelist("decision", "status", "rejectReason", "rejectReasonDescription"),
-            "review": whitelist("decision", "status", "reviewDate", "reviewPlace"),
+            "review": whitelist(
+                "decision", "status",
+                "rejectReason", "rejectReasonDescription",
+                "reviewDate", "reviewPlace"
+            ),
             "embedded": (blacklist("owner_token", "owner", "transfer_token", "bid_id") + schematics_embedded_role),
             "view": (blacklist("owner_token", "owner", "transfer_token", "bid_id") + schematics_default_role),
         }
@@ -328,7 +331,12 @@ class Complaint(BaseComplaint):
     )
     acceptance = BooleanType()
     dateAccepted = IsoDateTimeType()
-    rejectReason = StringType(choices=["lawNonСompliance", "noPaymentReceived", "buyerViolationsСorrected"])
+    rejectReason = StringType(choices=[
+        "buyerViolationsCorrected",
+        "lawNonCompliance",
+        "alreadyExists",
+        "tenderCancelled"
+    ])
     rejectReasonDescription = StringType()
     reviewDate = IsoDateTimeType()
     reviewPlace = StringType()
@@ -364,9 +372,7 @@ class Complaint(BaseComplaint):
             role = "resolve"
         elif auth_role == "complaint_owner" and self.status == "answered":
             role = "satisfy"
-        elif auth_role == "aboveThresholdReviewers" and self.status == "pending":
-            role = "pending"
-        elif auth_role == "aboveThresholdReviewers" and self.status in ["accepted", "stopping"]:
+        elif auth_role == "aboveThresholdReviewers" and self.status in ["pending", "accepted", "stopping"]:
             role = "review"
         else:
             role = "invalid"
@@ -374,6 +380,27 @@ class Complaint(BaseComplaint):
 
     def validate_cancellationReason(self, data, cancellationReason):
         if not cancellationReason and data.get("status") in ["cancelled", "stopping"]:
+            raise ValidationError(u"This field is required.")
+
+    def validate_rejectReason(self, data, rejectReason):
+        tender_date = get_first_revision_date(get_tender(data["__parent__"]), default=get_now())
+        if tender_date < RELEASE_2020_04_19:
+            return
+        if not rejectReason and data.get("status") in ["invalid", "stopped"] and data.get("type") == "complaint":
+            raise ValidationError(u"This field is required.")
+
+    def validate_reviewDate(self, data, reviewDate):
+        tender_date = get_first_revision_date(get_tender(data["__parent__"]), default=get_now())
+        if tender_date < RELEASE_2020_04_19:
+            return
+        if not reviewDate and data.get("status") == "accepted":
+            raise ValidationError(u"This field is required.")
+
+    def validate_reviewPlace(self, data, reviewPlace):
+        tender_date = get_first_revision_date(get_tender(data["__parent__"]), default=get_now())
+        if tender_date < RELEASE_2020_04_19:
+            return
+        if not reviewPlace and data.get("status") == "accepted":
             raise ValidationError(u"This field is required.")
 
 

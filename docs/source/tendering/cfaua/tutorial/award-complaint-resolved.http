@@ -40,6 +40,7 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Вінниця"
       }
     }, 
+    "reviewDate": "2020-05-01T01:00:01+03:00", 
     "title": "Недостатньо інформації", 
     "id": "f04e480d25a64953a951c4dce690202c", 
     "tendererAction": "Умови виправлено, вибір переможня буде розгянуто повторно", 
@@ -74,6 +75,7 @@ Content-Type: application/json; charset=UTF-8
         "dateModified": "2020-05-01T01:00:01+03:00"
       }
     ], 
+    "reviewPlace": "Place of review", 
     "dateAccepted": "2020-05-01T01:00:01+03:00"
   }
 }

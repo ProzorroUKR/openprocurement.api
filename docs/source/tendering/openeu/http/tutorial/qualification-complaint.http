@@ -9,6 +9,8 @@ Content-Type: application/json; charset=UTF-8
     "dateDecision": "2020-05-01T01:00:01+03:00", 
     "tendererActionDate": "2020-05-01T01:00:01+03:00", 
     "description": "Просимо додати таблицю потрібної калорійності харчування", 
+    "title": "Калорійність", 
+    "reviewDate": "2020-05-01T01:00:01+03:00", 
     "author": {
       "contactPoint": {
         "email": "aagt@gmail.com", 
@@ -29,7 +31,6 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Львів"
       }
     }, 
-    "title": "Калорійність", 
     "id": "91b4ff9fd2ea4cf0a3f514415544d394", 
     "tendererAction": "Умови виправлено", 
     "dateSubmitted": "2020-05-01T01:00:01+03:00", 
@@ -63,6 +64,7 @@ Content-Type: application/json; charset=UTF-8
         "dateModified": "2020-05-01T01:00:01+03:00"
       }
     ], 
+    "reviewPlace": "Place of review", 
     "dateAccepted": "2020-05-01T01:00:01+03:00"
   }
 }

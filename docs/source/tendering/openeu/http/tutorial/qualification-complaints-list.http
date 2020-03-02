@@ -10,6 +10,8 @@ Content-Type: application/json; charset=UTF-8
       "dateDecision": "2020-05-01T01:00:01+03:00", 
       "tendererActionDate": "2020-05-01T01:00:01+03:00", 
       "description": "Просимо додати таблицю потрібної калорійності харчування", 
+      "title": "Калорійність", 
+      "reviewDate": "2020-05-01T01:00:01+03:00", 
       "author": {
         "contactPoint": {
           "email": "aagt@gmail.com", 
@@ -30,7 +32,6 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Львів"
         }
       }, 
-      "title": "Калорійність", 
       "id": "91b4ff9fd2ea4cf0a3f514415544d394", 
       "tendererAction": "Умови виправлено", 
       "dateSubmitted": "2020-05-01T01:00:01+03:00", 
@@ -64,6 +65,7 @@ Content-Type: application/json; charset=UTF-8
           "dateModified": "2020-05-01T01:00:01+03:00"
         }
       ], 
+      "reviewPlace": "Place of review", 
       "dateAccepted": "2020-05-01T01:00:01+03:00"
     }, 
     {
@@ -91,6 +93,7 @@ Content-Type: application/json; charset=UTF-8
         }
       }, 
       "acceptance": false, 
+      "rejectReason": "alreadyExists", 
       "dateSubmitted": "2020-05-01T01:00:01+03:00", 
       "complaintID": "UA-2020-05-01-000001.2", 
       "date": "2020-05-01T01:00:01+03:00", 
@@ -102,6 +105,10 @@ Content-Type: application/json; charset=UTF-8
       "status": "declined", 
       "dateDecision": "2020-05-01T01:00:01+03:00", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+      "title": "Недостатньо інформації", 
+      "reviewDate": "2020-05-01T01:00:01+03:00", 
+      "acceptance": true, 
+      "dateAccepted": "2020-05-01T01:00:01+03:00", 
       "author": {
         "contactPoint": {
           "email": "soleksuk@gmail.com", 
@@ -122,14 +129,12 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Вінниця"
         }
       }, 
-      "acceptance": true, 
-      "dateAccepted": "2020-05-01T01:00:01+03:00", 
       "dateSubmitted": "2020-05-01T01:00:01+03:00", 
       "complaintID": "UA-2020-05-01-000001.3", 
       "date": "2020-05-01T01:00:01+03:00", 
-      "title": "Недостатньо інформації", 
       "type": "complaint", 
-      "id": "25c98965719a4534aa16a2e710c36ace"
+      "id": "25c98965719a4534aa16a2e710c36ace", 
+      "reviewPlace": "Place of review"
     }, 
     {
       "status": "stopped", 
@@ -138,9 +143,11 @@ Content-Type: application/json; charset=UTF-8
       "title": "Недостатньо інформації", 
       "decision": "Тендер скасовується замовником", 
       "acceptance": true, 
+      "id": "34b78915dd754db7a215360fa11eeb0a", 
       "cancellationReason": "Тендер скасовується замовником", 
       "dateCanceled": "2020-05-01T01:00:01+03:00", 
       "dateAccepted": "2020-05-01T01:00:01+03:00", 
+      "rejectReason": "tenderCancelled", 
       "author": {
         "contactPoint": {
           "email": "soleksuk@gmail.com", 
@@ -165,16 +172,19 @@ Content-Type: application/json; charset=UTF-8
       "complaintID": "UA-2020-05-01-000001.4", 
       "date": "2020-05-01T01:00:01+03:00", 
       "type": "complaint", 
-      "id": "34b78915dd754db7a215360fa11eeb0a"
+      "reviewDate": "2020-05-01T01:00:01+03:00", 
+      "reviewPlace": "Place of review"
     }, 
     {
       "status": "stopped", 
+      "dateCanceled": "2020-05-01T01:00:01+03:00", 
       "dateDecision": "2020-05-01T01:00:01+03:00", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
       "title": "Недостатньо інформації", 
       "decision": "Тендер скасовується замовником", 
       "acceptance": true, 
-      "dateCanceled": "2020-05-01T01:00:01+03:00", 
+      "id": "17e772d985614e05bc1af9006a57c17d", 
+      "rejectReason": "tenderCancelled", 
       "dateAccepted": "2020-05-01T01:00:01+03:00", 
       "author": {
         "contactPoint": {
@@ -200,7 +210,8 @@ Content-Type: application/json; charset=UTF-8
       "complaintID": "UA-2020-05-01-000001.5", 
       "date": "2020-05-01T01:00:01+03:00", 
       "type": "complaint", 
-      "id": "17e772d985614e05bc1af9006a57c17d"
+      "reviewDate": "2020-05-01T01:00:01+03:00", 
+      "reviewPlace": "Place of review"
     }, 
     {
       "status": "answered", 

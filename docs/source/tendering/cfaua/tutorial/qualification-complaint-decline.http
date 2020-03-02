@@ -38,6 +38,7 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Вінниця"
       }
     }, 
+    "reviewDate": "2020-05-01T01:00:01+03:00", 
     "acceptance": true, 
     "dateAccepted": "2020-05-01T01:00:01+03:00", 
     "dateSubmitted": "2020-05-01T01:00:01+03:00", 
@@ -45,7 +46,8 @@ Content-Type: application/json; charset=UTF-8
     "date": "2020-05-01T01:00:01+03:00", 
     "title": "Недостатньо інформації", 
     "type": "complaint", 
-    "id": "b9c2b7814a2f4bec96ee883f622dd37c"
+    "id": "b9c2b7814a2f4bec96ee883f622dd37c", 
+    "reviewPlace": "Place of review"
   }
 }
 

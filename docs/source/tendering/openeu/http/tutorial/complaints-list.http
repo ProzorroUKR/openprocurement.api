@@ -10,6 +10,8 @@ Content-Type: application/json; charset=UTF-8
       "dateDecision": "2020-05-01T01:00:00+03:00", 
       "tendererActionDate": "2020-05-01T01:00:00+03:00", 
       "description": "Просимо додати таблицю потрібної калорійності харчування", 
+      "title": "Калорійність", 
+      "reviewDate": "2020-05-01T01:00:00+03:00", 
       "author": {
         "contactPoint": {
           "email": "aagt@gmail.com", 
@@ -30,7 +32,6 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Львів"
         }
       }, 
-      "title": "Калорійність", 
       "id": "06ef5a30aba04b5db7c0b44f95a3e046", 
       "tendererAction": "Умови виправлено", 
       "dateSubmitted": "2020-05-01T01:00:00+03:00", 
@@ -64,6 +65,7 @@ Content-Type: application/json; charset=UTF-8
           "dateModified": "2020-05-01T01:00:00+03:00"
         }
       ], 
+      "reviewPlace": "Place of review", 
       "dateAccepted": "2020-05-01T01:00:00+03:00"
     }, 
     {
@@ -84,6 +86,10 @@ Content-Type: application/json; charset=UTF-8
       "status": "declined", 
       "dateDecision": "2020-05-01T01:00:00+03:00", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+      "title": "Недостатньо інформації", 
+      "reviewDate": "2020-05-01T01:00:00+03:00", 
+      "acceptance": true, 
+      "dateAccepted": "2020-05-01T01:00:00+03:00", 
       "author": {
         "contactPoint": {
           "email": "soleksuk@gmail.com", 
@@ -104,14 +110,12 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Вінниця"
         }
       }, 
-      "acceptance": true, 
-      "dateAccepted": "2020-05-01T01:00:00+03:00", 
       "dateSubmitted": "2020-05-01T01:00:00+03:00", 
       "complaintID": "UA-2020-05-01-000001.3", 
       "date": "2020-05-01T01:00:00+03:00", 
-      "title": "Недостатньо інформації", 
       "type": "complaint", 
-      "id": "98d226412590436d8c8aabd680d7470f"
+      "id": "98d226412590436d8c8aabd680d7470f", 
+      "reviewPlace": "Place of review"
     }, 
     {
       "status": "invalid", 
@@ -124,6 +128,7 @@ Content-Type: application/json; charset=UTF-8
       "satisfied": false, 
       "dateEscalated": "2020-05-01T01:00:00+03:00", 
       "dateAnswered": "2020-05-01T01:00:00+03:00", 
+      "rejectReason": "alreadyExists", 
       "author": {
         "contactPoint": {
           "email": "soleksuk@gmail.com", 
@@ -152,12 +157,14 @@ Content-Type: application/json; charset=UTF-8
     }, 
     {
       "status": "stopped", 
+      "dateCanceled": "2020-05-01T01:00:00+03:00", 
       "dateDecision": "2020-05-01T01:00:00+03:00", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
       "title": "Недостатньо інформації", 
       "decision": "Тендер скасовується замовником", 
       "acceptance": true, 
-      "dateCanceled": "2020-05-01T01:00:00+03:00", 
+      "id": "05e13d3c7271455c9c74e42c24221447", 
+      "rejectReason": "tenderCancelled", 
       "dateAccepted": "2020-05-01T01:00:00+03:00", 
       "author": {
         "contactPoint": {
@@ -183,7 +190,8 @@ Content-Type: application/json; charset=UTF-8
       "complaintID": "UA-2020-05-01-000001.5", 
       "date": "2020-05-01T01:00:00+03:00", 
       "type": "complaint", 
-      "id": "05e13d3c7271455c9c74e42c24221447"
+      "reviewDate": "2020-05-01T01:00:00+03:00", 
+      "reviewPlace": "Place of review"
     }, 
     {
       "status": "stopped", 
@@ -192,9 +200,11 @@ Content-Type: application/json; charset=UTF-8
       "title": "Недостатньо інформації", 
       "decision": "Тендер скасовується замовником", 
       "acceptance": true, 
+      "id": "eaa4fb36c6e945a7958d1567b7a73420", 
       "cancellationReason": "Тендер скасовується замовником", 
       "dateCanceled": "2020-05-01T01:00:00+03:00", 
       "dateAccepted": "2020-05-01T01:00:00+03:00", 
+      "rejectReason": "tenderCancelled", 
       "author": {
         "contactPoint": {
           "email": "soleksuk@gmail.com", 
@@ -219,7 +229,8 @@ Content-Type: application/json; charset=UTF-8
       "complaintID": "UA-2020-05-01-000001.6", 
       "date": "2020-05-01T01:00:00+03:00", 
       "type": "complaint", 
-      "id": "eaa4fb36c6e945a7958d1567b7a73420"
+      "reviewDate": "2020-05-01T01:00:00+03:00", 
+      "reviewPlace": "Place of review"
     }, 
     {
       "status": "cancelled", 

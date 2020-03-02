@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
 
+from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
 
 # TenderContractResourceTest
@@ -155,9 +156,16 @@ def patch_tender_contract(self):
 
     authorization = self.app.authorization
     self.app.authorization = ("Basic", ("reviewer", ""))
+    now = get_now()
+    data = {"status": "stopped"}
+    if RELEASE_2020_04_19 < now:
+        data.update({
+            "rejectReason": "tenderCancelled",
+            "rejectReasonDescription": "reject reason description"
+        })
     response = self.app.patch_json(
         "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, self.award_id, complaint["id"]),
-        {"data": {"status": "stopped"}},
+        {"data": data},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "stopped")
