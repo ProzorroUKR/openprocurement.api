@@ -93,6 +93,7 @@ Content-Type: application/json; charset=UTF-8
         }
       }, 
       "acceptance": false, 
+      "rejectReason": "alreadyExists", 
       "dateSubmitted": "2020-05-01T01:00:01+03:00", 
       "complaintID": "UA-2020-05-01-000001.2", 
       "date": "2020-05-01T01:00:01+03:00", 
@@ -142,10 +143,11 @@ Content-Type: application/json; charset=UTF-8
       "title": "Недостатньо інформації", 
       "decision": "Тендер скасовується замовником", 
       "acceptance": true, 
+      "id": "8b96f15f452a4cd09d42fd384ada86bb", 
       "cancellationReason": "Тендер скасовується замовником", 
       "dateCanceled": "2020-05-01T01:00:01+03:00", 
       "dateAccepted": "2020-05-01T01:00:01+03:00", 
-      "id": "8b96f15f452a4cd09d42fd384ada86bb", 
+      "rejectReason": "tenderCancelled", 
       "author": {
         "contactPoint": {
           "email": "soleksuk@gmail.com", 
@@ -175,13 +177,14 @@ Content-Type: application/json; charset=UTF-8
     }, 
     {
       "status": "stopped", 
+      "dateCanceled": "2020-05-01T01:00:01+03:00", 
       "dateDecision": "2020-05-01T01:00:01+03:00", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
       "title": "Недостатньо інформації", 
       "decision": "Тендер скасовується замовником", 
       "acceptance": true, 
       "id": "b0cf1d7220324ffd829daf924a058a75", 
-      "dateCanceled": "2020-05-01T01:00:01+03:00", 
+      "rejectReason": "tenderCancelled", 
       "dateAccepted": "2020-05-01T01:00:01+03:00", 
       "author": {
         "contactPoint": {

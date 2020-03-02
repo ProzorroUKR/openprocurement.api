@@ -170,6 +170,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e234fb168a9a4eae
           }
         }, 
         "acceptance": false, 
+        "rejectReason": "alreadyExists", 
         "dateSubmitted": "2020-05-01T01:00:03+03:00", 
         "complaintID": "UA-2020-05-01-000001.2", 
         "date": "2020-05-01T01:00:03+03:00", 
@@ -219,10 +220,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e234fb168a9a4eae
         "title": "Недостатньо інформації", 
         "decision": "Тендер скасовується замовником", 
         "acceptance": true, 
+        "id": "d5075664651240c195bb5509cf82e8ee", 
         "cancellationReason": "Тендер скасовується замовником", 
         "dateCanceled": "2020-05-01T01:00:03+03:00", 
         "dateAccepted": "2020-05-01T01:00:03+03:00", 
-        "id": "d5075664651240c195bb5509cf82e8ee", 
+        "rejectReason": "tenderCancelled", 
         "author": {
           "contactPoint": {
             "email": "soleksuk@gmail.com", 
@@ -252,13 +254,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e234fb168a9a4eae
       }, 
       {
         "status": "stopped", 
+        "dateCanceled": "2020-05-01T01:00:03+03:00", 
         "dateDecision": "2020-05-01T01:00:03+03:00", 
         "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
         "title": "Недостатньо інформації", 
         "decision": "Тендер скасовується замовником", 
         "acceptance": true, 
         "id": "2e193cff67c84441b16eb8de44d0362b", 
-        "dateCanceled": "2020-05-01T01:00:03+03:00", 
+        "rejectReason": "tenderCancelled", 
         "dateAccepted": "2020-05-01T01:00:03+03:00", 
         "author": {
           "contactPoint": {

@@ -143,6 +143,7 @@ Content-Type: application/json; charset=UTF-8
           }
         }, 
         "acceptance": false, 
+        "rejectReason": "alreadyExists", 
         "dateSubmitted": "2020-05-01T01:00:01+03:00", 
         "complaintID": "UA-2020-05-01-000001.2", 
         "date": "2020-05-01T01:00:01+03:00", 
@@ -213,10 +214,11 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "decision": "Тендер скасовується замовником", 
         "acceptance": true, 
+        "id": "058198e63c36477496374b440d7789f7", 
         "cancellationReason": "Тендер скасовується замовником", 
         "dateCanceled": "2020-05-01T01:00:01+03:00", 
         "dateAccepted": "2020-05-01T01:00:01+03:00", 
-        "id": "058198e63c36477496374b440d7789f7", 
+        "rejectReason": "tenderCancelled", 
         "dateSubmitted": "2020-05-01T01:00:01+03:00", 
         "complaintID": "UA-2020-05-01-000001.4", 
         "date": "2020-05-01T01:00:01+03:00", 
@@ -229,6 +231,7 @@ Content-Type: application/json; charset=UTF-8
         "relatedLot": "0da753f5904c4a159f596f5f86fd0fb7", 
         "status": "stopped", 
         "dateDecision": "2020-05-01T01:00:01+03:00", 
+        "dateCanceled": "2020-05-01T01:00:01+03:00", 
         "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
         "author": {
           "contactPoint": {
@@ -253,7 +256,7 @@ Content-Type: application/json; charset=UTF-8
         "decision": "Тендер скасовується замовником", 
         "acceptance": true, 
         "id": "0187db37dd7a47b18fc378ad98680c94", 
-        "dateCanceled": "2020-05-01T01:00:01+03:00", 
+        "rejectReason": "tenderCancelled", 
         "dateAccepted": "2020-05-01T01:00:01+03:00", 
         "dateSubmitted": "2020-05-01T01:00:01+03:00", 
         "complaintID": "UA-2020-05-01-000001.5", 

@@ -1,12 +1,13 @@
 PATCH /api/2.5/tenders/a41032bbcdec47df9273af568f595c1d/complaints/0c3feef82f4f4fc7a589ea814262e9be HTTP/1.0
 Authorization: Bearer reviewer
-Content-Length: 31
+Content-Length: 64
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "status": "invalid"
+    "status": "invalid", 
+    "rejectReason": "alreadyExists"
   }
 }
 
@@ -24,6 +25,7 @@ Content-Type: application/json; charset=UTF-8
     "satisfied": false, 
     "dateEscalated": "2020-05-01T01:00:00+03:00", 
     "dateAnswered": "2020-05-01T01:00:00+03:00", 
+    "rejectReason": "alreadyExists", 
     "author": {
       "contactPoint": {
         "email": "soleksuk@gmail.com", 

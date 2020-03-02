@@ -1,12 +1,13 @@
 PATCH /api/2.5/tenders/4c996fcd2b9f4dc1ae2ec62e1a2e2bbb/awards/eab411b1117845218d53b47240e9ca17/complaints/3ecf776302ba436aa487665f7c88380a HTTP/1.0
 Authorization: Bearer reviewer
-Content-Length: 217
+Content-Length: 252
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
     "status": "stopped", 
+    "rejectReason": "tenderCancelled", 
     "decision": "Тендер скасовується замовником"
   }
 }
@@ -21,10 +22,11 @@ Content-Type: application/json; charset=UTF-8
     "title": "Недостатньо інформації", 
     "decision": "Тендер скасовується замовником", 
     "acceptance": true, 
+    "id": "3ecf776302ba436aa487665f7c88380a", 
     "cancellationReason": "Тендер скасовується замовником", 
     "dateCanceled": "2020-05-01T01:00:06+03:00", 
     "dateAccepted": "2020-05-01T01:00:06+03:00", 
-    "id": "3ecf776302ba436aa487665f7c88380a", 
+    "rejectReason": "tenderCancelled", 
     "author": {
       "contactPoint": {
         "email": "soleksuk@gmail.com", 

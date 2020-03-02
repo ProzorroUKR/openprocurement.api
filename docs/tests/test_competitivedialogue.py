@@ -1243,7 +1243,10 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'complaint-reject.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/complaints/{}'.format(self.tender_id, complaint4_id),
-                {'data': {'status': 'invalid'}})
+                {'data': {
+                    'status': 'invalid',
+                    'rejectReason': 'alreadyExists'
+                }})
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'complaint-accept.http', 'w') as self.app.file_obj:
@@ -1304,8 +1307,11 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'complaint-accepted-stopped.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/complaints/{}'.format(self.tender_id, complaint5_id),
-                {'data': {'decision': 'Тендер скасовується замовником',
-                          'status': 'stopped'}})
+                {'data': {
+                    'decision': 'Тендер скасовується замовником', 
+                    'status': 'stopped',
+                    "rejectReason": "tenderCancelled"
+                }})
             self.assertEqual(response.status, '200 OK')
 
         self.app.authorization = ('Basic', ('broker', ''))
@@ -1329,8 +1335,9 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
             response = self.app.patch_json(
                 '/tenders/{}/complaints/{}'.format(self.tender_id, complaint6_id),
                 {'data': {
-                    'decision': 'Тендер скасовується замовником',
-                    'status': 'stopped'
+                    'decision': 'Тендер скасовується замовником', 
+                    'status': 'stopped',
+                    'rejectReason': 'tenderCancelled'
                 }})
             self.assertEqual(response.status, '200 OK')
 
@@ -1659,7 +1666,10 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
             response = self.app.patch_json(
                 '/tenders/{}/qualifications/{}/complaints/{}'.format(
                     self.tender_id, qualification_id, complaint2_id),
-                {'data': {'status': 'invalid'}})
+                {'data': {
+                    'status': 'invalid',
+                    'rejectReason': 'alreadyExists'
+                }})
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'qualification-complaint-accept.http', 'w') as self.app.file_obj:
@@ -1727,7 +1737,11 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
             response = self.app.patch_json(
                 '/tenders/{}/qualifications/{}/complaints/{}'.format(
                     self.tender_id, qualification_id, complaint5_id),
-                {'data': {'decision': 'Тендер скасовується замовником', 'status': 'stopped'}})
+                {'data': {
+                    'decision': 'Тендер скасовується замовником', 
+                    'status': 'stopped',
+                    "rejectReason": "tenderCancelled"
+                }})
             self.assertEqual(response.status, '200 OK')
 
         self.app.authorization = ('Basic', ('broker', ''))
@@ -1750,7 +1764,11 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
             response = self.app.patch_json(
                 '/tenders/{}/qualifications/{}/complaints/{}'.format(
                     self.tender_id, qualification_id, complaint4_id),
-                {'data': {'decision': 'Тендер скасовується замовником', 'status': 'stopped'}})
+                {'data': {
+                    'decision': 'Тендер скасовується замовником', 
+                    'status': 'stopped',
+                    "rejectReason": "tenderCancelled"
+                }})
             self.assertEqual(response.status, '200 OK')
 
         self.app.authorization = None
@@ -2233,7 +2251,10 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
             response = self.app.patch_json(
                 '/tenders/{}/awards/{}/complaints/{}'.format(
                     self.tender_id, award_id, complaint2_id),
-                {'data': {'status': 'invalid'}})
+                {'data': {
+                    'status': 'invalid',
+                    'rejectReason': 'alreadyExists'
+                }})
         self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'award-complaint-accept.http', 'w') as self.app.file_obj:
@@ -2302,8 +2323,10 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
                 '/tenders/{}/awards/{}/complaints/{}'.format(
                     self.tender_id, award_id, complaint5_id),
                 {'data': {
-                    'decision': 'Тендер скасовується замовником',
-                    'status': 'stopped'
+                    'decision': 'Тендер скасовується замовником', 
+                    'status': 'stopped',
+                    "rejectReason": "tenderCancelled"
+                
                 }})
         self.assertEqual(response.status, '200 OK')
 
@@ -2332,7 +2355,11 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
             response = self.app.patch_json(
                 '/tenders/{}/awards/{}/complaints/{}'.format(
                     self.tender_id, award_id, complaint4_id),
-                {'data': {'decision': 'Тендер скасовується замовником', 'status': 'stopped'}})
+                {'data': {
+                    'decision': 'Тендер скасовується замовником', 
+                    'status': 'stopped',
+                    "rejectReason": "tenderCancelled"
+                }})
         self.assertEqual(response.status, '200 OK')
 
         self.app.authorization = ('Basic', ('broker', ''))
