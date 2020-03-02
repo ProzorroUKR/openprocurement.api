@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.core.utils import optendersresource
-from openprocurement.tender.openua.views.complaint import TenderUaComplaintResource
+from openprocurement.tender.core.views.complaint import BaseTenderComplaintResource
+from openprocurement.tender.openua.validation import validate_submit_claim_time, validate_update_claim_time
 
 
 @optendersresource(
@@ -10,7 +11,13 @@ from openprocurement.tender.openua.views.complaint import TenderUaComplaintResou
     procurementMethodType="aboveThresholdEU",
     description="Tender EU complaints",
 )
-class TenderEUComplaintResource(TenderUaComplaintResource):
+class TenderEUComplaintResource(BaseTenderComplaintResource):
+    def validate_submit_claim_time_method(self, request):
+        return validate_submit_claim_time(request)
+    
+    def validate_update_claim_time_method(self, request):
+        return validate_update_claim_time(request)
+
     def complaints_len(self, tender):
         return sum(
             [len(i.complaints) for i in tender.awards],

@@ -70,6 +70,7 @@ Schema
     * `declined`
     * `resolved`
     * `cancelled`
+    * `mistaken`
 
     Possible values in :ref:`defense`, :ref:`esco`, :ref:`openua` and :ref:`openeu` are:
 
@@ -82,6 +83,7 @@ Schema
     * `resolved`
     * `cancelled`
     * `accepted`
+    * `mistaken`
 
 :type:
     string
