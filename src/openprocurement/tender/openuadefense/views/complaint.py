@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.core.views.complaint import BaseTenderComplaintResource
 
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import get_now, get_first_revision_date
+from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.openua.validation import validate_update_claim_time
 from openprocurement.tender.openuadefense.validation import validate_submit_claim_time
@@ -30,10 +31,13 @@ class TenderUaComplaintResource(BaseTenderComplaintResource):
         return validate_update_claim_time(request)
 
     def pre_create(self):
+        tender = self.request.validated["tender"]
+        old_rules = get_first_revision_date(tender) < RELEASE_2020_04_19
+
         complaint = self.request.validated["complaint"]
         if complaint.status == "claim":
             self.validate_submit_claim_time_method(self.request)
-        elif complaint.status == "pending":
+        elif old_rules and complaint.status == "pending":
             self.validate_submit_claim_time_method(self.request)
             complaint.dateSubmitted = get_now()
             complaint.type = "complaint"

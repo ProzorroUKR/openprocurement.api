@@ -18,14 +18,29 @@ def create_tender_lot_qualification_complaint(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     complaint = response.json["data"]
-    self.assertEqual(complaint["author"]["name"], self.author_data["name"])
+    complaint_token = response.json["access"]["token"]
     self.assertIn("id", complaint)
     self.assertIn(complaint["id"], response.headers["Location"])
+
+    if RELEASE_2020_04_19 > get_now():
+        self.assertEqual(complaint["author"]["name"], self.author_data["name"])
+
+    if RELEASE_2020_04_19 < get_now():
+        self.assertEqual(response.json["data"]["status"], "draft")
+
+        response = self.app.patch_json(
+             "/tenders/{}/qualifications/{}/complaints/{}?acc_token={}".format(
+                 self.tender_id, self.qualification_id, complaint["id"], complaint_token),
+            {"data": {"status": "pending"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["data"]["status"], "pending")
 
     # set complaint status stopping to be able to cancel the lot
     response = self.app.patch_json(
         "/tenders/{}/qualifications/{}/complaints/{}?acc_token={}".format(
-            self.tender_id, self.qualification_id, complaint["id"], response.json["access"]["token"]
+            self.tender_id, self.qualification_id, complaint["id"], complaint_token
         ),
         {"data": {
             "status": "stopping",
@@ -62,14 +77,28 @@ def create_tender_qualification_complaint(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     complaint = response.json["data"]
-    self.assertEqual(complaint["author"]["name"], self.author_data["name"])
+    complaint_token = response.json["access"]["token"]
     self.assertIn("id", complaint)
     self.assertIn(complaint["id"], response.headers["Location"])
+    if RELEASE_2020_04_19 > get_now():
+        self.assertEqual(complaint["author"]["name"], self.author_data["name"])
+
+    if RELEASE_2020_04_19 < get_now():
+        self.assertEqual(response.json["data"]["status"], "draft")
+
+        response = self.app.patch_json(
+             "/tenders/{}/qualifications/{}/complaints/{}?acc_token={}".format(
+                 self.tender_id, self.qualification_id, complaint["id"], complaint_token),
+            {"data": {"status": "pending"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["data"]["status"], "pending")
 
     # set complaint status stopping to be able to cancel the lot
     response = self.app.patch_json(
         "/tenders/{}/qualifications/{}/complaints/{}?acc_token={}".format(
-            self.tender_id, self.qualification_id, complaint["id"], response.json["access"]["token"]
+            self.tender_id, self.qualification_id, complaint["id"], complaint_token
         ),
         {"data": {
             "status": "stopping",
@@ -136,6 +165,19 @@ def switch_bid_status_unsuccessul_to_active(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     complaint = response.json["data"]
+    complaint_token = response.json["access"]["token"]
+
+    if RELEASE_2020_04_19 < get_now():
+        self.assertEqual(response.json["data"]["status"], "draft")
+
+        response = self.app.patch_json(
+             "/tenders/{}/qualifications/{}/complaints/{}?acc_token={}".format(
+                 self.tender_id, qualification_id, complaint["id"], complaint_token),
+            {"data": {"status": "pending"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["data"]["status"], "pending")
 
     self.app.authorization = ("Basic", ("reviewer", ""))
     now = get_now()

@@ -42,12 +42,15 @@ class BaseTenderComplaintResource(APIResource):
         raise NotImplementedError
     
     def pre_create(self):
+        tender = self.request.validated["tender"]
+        old_rules = get_first_revision_date(tender) < RELEASE_2020_04_19
+
         complaint = self.request.validated["complaint"]
         complaint.date = get_now()
         if complaint.status == "claim":
             self.validate_submit_claim_time_method(self.request)
             complaint.dateSubmitted = get_now()
-        elif complaint.status == "pending":
+        elif old_rules and complaint.status == "pending":
             validate_submit_complaint_time(self.request)
             complaint.dateSubmitted = get_now()
             complaint.type = "complaint"
@@ -274,7 +277,8 @@ class BaseTenderComplaintResource(APIResource):
             apply_patch(self.request, save=False, src=context.serialize())
             context.dateDecision = get_now()
         elif (
-            status in ["pending", "accepted", "stopping"]
+            (old_rules and status in ["pending", "accepted", "stopping"])
+            or (not old_rules and status in ["accepted", "stopping"])
             and new_status == "stopped"
         ):
             apply_patch(self.request, save=False, src=context.serialize())
