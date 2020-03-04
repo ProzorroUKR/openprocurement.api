@@ -38,7 +38,7 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "title": "Недостатньо інформації", 
     "dateSubmitted": "2020-05-01T01:00:01+03:00", 
-    "complaintID": "UA-2020-05-01-000001.9", 
+    "complaintID": "UA-2020-05-01-000001.10", 
     "date": "2020-05-01T01:00:01+03:00", 
     "type": "claim", 
     "id": "a01979c79a024470bbf203c6cc3c09cd"

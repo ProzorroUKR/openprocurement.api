@@ -56,9 +56,12 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
         complaint.relatedLot = self.context.lotID
         complaint.date = get_now()
         complaint.bid_id = get_bid_id(self.request)
+
+        old_rules = get_first_revision_date(tender) < RELEASE_2020_04_19
+
         if complaint.status == "claim":
             complaint.dateSubmitted = get_now()
-        elif complaint.status == "pending":
+        elif old_rules and complaint.status == "pending":
             complaint.type = "complaint"
             complaint.dateSubmitted = get_now()
         else:
@@ -125,14 +128,12 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
         status = self.context.status
         new_status = data.get("status", status)
 
-        tender = self.request.validated["tender"]
-        
         is_qualificationPeriod = tender.qualificationPeriod.startDate < get_now() and (
             not tender.qualificationPeriod.endDate or tender.qualificationPeriod.endDate > get_now()
         )
 
         new_rules = get_first_revision_date(tender) > RELEASE_2020_04_19
-        
+
         if (
             status in ["draft", "claim", "answered"]
             and new_status == "cancelled"
@@ -197,7 +198,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
         tender = self.request.validated["tender"]
 
         new_rules = get_first_revision_date(tender) > RELEASE_2020_04_19
-        
+
         if self.request.authenticated_role == "tender_owner" and status in ["pending", "accepted"]:
             apply_patch(self.request, save=False, src=self.context.serialize())
         elif (
@@ -226,7 +227,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
                 self.request,
                 "Can't update complaint from {} to {} status".format(status, new_status)
             )
-            
+
     def patch_as_abovethresholdreviewers(self, data):
         context = self.context
         status = context.status
@@ -234,7 +235,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
 
         tender = self.request.validated["tender"]
         new_rules = get_first_revision_date(tender) > RELEASE_2020_04_19
-        
+
         if (
             status in ["pending", "accepted", "stopping"]
             and new_status == status
@@ -273,7 +274,8 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
             if tender.qualificationPeriod.endDate:
                 tender.qualificationPeriod.endDate = None
         elif (
-            status in ["pending", "accepted", "stopping"]
+            ((not new_rules and status in ["pending", "accepted", "stopping"])
+             or (new_rules and status in ["accepted", "stopping"]))
             and new_status == "stopped"
         ):
             apply_patch(self.request, save=False, src=self.context.serialize())

@@ -634,6 +634,15 @@ def patch_tender_cancellation_2020_04_19(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     complaint_id = response.json["data"]["id"]
+    complaint_token = response.json["access"]["token"]
+
+    response = self.app.patch_json(
+        "/tenders/{}/cancellations/{}/complaints/{}?acc_token={}".format(
+            self.tender_id, cancellation_id, complaint_id, complaint_token),
+        {"data": {"status": "pending"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
 
     auth = self.app.authorization
     self.app.authorization = ("Basic", ("reviewer", ""))
@@ -803,6 +812,15 @@ def access_create_tender_cancellation_complaint(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     complaint_id = response.json["data"]["id"]
+    complaint_token = response.json["access"]["token"]
+
+    response = self.app.patch_json(
+        "/tenders/{}/cancellations/{}/complaints/{}?acc_token={}".format(
+            self.tender_id, self.cancellation_id, complaint_id, complaint_token),
+        {"data": {"status": "pending"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
 
     auth = self.app.authorization
     self.app.authorization = ("Basic", ("reviewer", ""))
@@ -1062,15 +1080,6 @@ def activate_cancellation(self):
     self.assertIn("startDate", response.json["data"]["complaintPeriod"])
     self.assertIn("endDate", response.json["data"]["complaintPeriod"])
 
-    response = self.app.post_json(
-        "/tenders/{}/cancellations/{}/complaints".format(
-            self.tender_id, cancellation_id),
-        {"data": complaint_data},
-    )
-
-    self.assertEqual(response.status, "201 Created")
-    complaint_1_id = response.json["data"]["id"]
-
     complaint_draft_data = deepcopy(complaint_data)
     complaint_draft_data["status"] = "draft"
 
@@ -1082,9 +1091,31 @@ def activate_cancellation(self):
 
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.json["data"]["status"], "draft")
+    complaint_1_id = response.json["data"]["id"]
+    complaint_1_token = response.json["access"]["token"]
+
+    # Complaint 2
+    response = self.app.post_json(
+        "/tenders/{}/cancellations/{}/complaints".format(
+            self.tender_id, cancellation_id),
+        {"data": complaint_data},
+    )
+
+    self.assertEqual(response.status, "201 Created")
     complaint_2_id = response.json["data"]["id"]
     complaint_2_token = response.json["access"]["token"]
 
+    response = self.app.patch_json(
+        "/tenders/{}/cancellations/{}/complaints/{}?acc_token={}".format(
+            self.tender_id, cancellation_id, complaint_2_id, complaint_2_token),
+        {"data": {"status": "pending"}},
+    )
+    complaint = response.json["data"]
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(complaint["status"], "pending")
+
+    # Complain 3
     response = self.app.post_json(
         "/tenders/{}/cancellations/{}/complaints".format(
             self.tender_id, cancellation_id),
@@ -1093,28 +1124,28 @@ def activate_cancellation(self):
 
     self.assertEqual(response.status, "201 Created")
     complaint_3_id = response.json["data"]["id"]
-
-    response = self.app.post_json(
-        "/tenders/{}/cancellations/{}/complaints".format(
-            self.tender_id, cancellation_id),
-        {"data": complaint_data},
-    )
-
-    self.assertEqual(response.status, "201 Created")
-    complaint_4_id = response.json["data"]["id"]
-
-    auth = self.app.authorization
-    self.app.authorization = ("Basic", ("reviewer", ""))
+    complaint_3_token = response.json["access"]["token"]
 
     response = self.app.patch_json(
         "/tenders/{}/cancellations/{}/complaints/{}?acc_token={}".format(
-            self.tender_id, cancellation_id, complaint_1_id, self.tender_token),
-        {"data": {"status": "stopped"}},
+            self.tender_id, cancellation_id, complaint_3_id, complaint_3_token),
+        {"data": {"status": "pending"}},
     )
     complaint = response.json["data"]
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(complaint["status"], "stopped")
+    self.assertEqual(complaint["status"], "pending")
+
+
+    response = self.app.patch_json(
+        "/tenders/{}/cancellations/{}/complaints/{}?acc_token={}".format(
+            self.tender_id, cancellation_id, complaint_1_id, complaint_1_token),
+        {"data": {"status": "mistaken"}},
+    )
+    complaint = response.json["data"]
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(complaint["status"], "mistaken")
 
     with mock.patch(
             "openprocurement.tender.core.utils.get_now",
@@ -1126,24 +1157,12 @@ def activate_cancellation(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "pending")
 
-    self.app.authorization = auth
-
-    response = self.app.patch_json(
-        "/tenders/{}/cancellations/{}/complaints/{}?acc_token={}".format(
-            self.tender_id, cancellation_id, complaint_2_id, complaint_2_token),
-        {"data": {"status": "mistaken"}},
-    )
-    complaint = response.json["data"]
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(complaint["status"], "mistaken")
-
     auth = self.app.authorization
     self.app.authorization = ("Basic", ("reviewer", ""))
 
     response = self.app.patch_json(
         "/tenders/{}/cancellations/{}/complaints/{}?acc_token={}".format(
-            self.tender_id, cancellation_id, complaint_3_id, self.tender_token),
+            self.tender_id, cancellation_id, complaint_2_id, self.tender_token),
         {"data": {"status": "accepted"}},
     )
     complaint = response.json["data"]
@@ -1153,7 +1172,7 @@ def activate_cancellation(self):
 
     response = self.app.patch_json(
         "/tenders/{}/cancellations/{}/complaints/{}?acc_token={}".format(
-            self.tender_id, cancellation_id, complaint_3_id, self.tender_token),
+            self.tender_id, cancellation_id, complaint_2_id, self.tender_token),
         {"data": {"status": "declined"}},
     )
     complaint = response.json["data"]
@@ -1163,7 +1182,7 @@ def activate_cancellation(self):
 
     response = self.app.patch_json(
         "/tenders/{}/cancellations/{}/complaints/{}?acc_token={}".format(
-            self.tender_id, cancellation_id, complaint_4_id, self.tender_token),
+            self.tender_id, cancellation_id, complaint_3_id, self.tender_token),
         {"data": {"status": "invalid"}},
     )
     complaint = response.json["data"]
@@ -1245,10 +1264,18 @@ def create_tender_cancellation_complaint(self):
     complaint = response.json["data"]
     owner_token = response.json["access"]["token"]
     self.assertIn("id", complaint)
-    self.assertEqual(complaint["status"], "pending")
+    self.assertEqual(complaint["status"], "draft")
     self.assertEqual(complaint["description"], complaint_data["description"])
     self.assertIn(complaint["id"], response.headers["Location"])
     complaint_id = complaint["id"]
+
+    response = self.app.patch_json(
+        "/tenders/{}/cancellations/{}/complaints/{}?acc_token={}".format(
+            self.tender_id, self.cancellation_id, complaint_id, owner_token),
+        {"data": {"status": "pending"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
 
     auth = self.app.authorization
     self.app.authorization = ("Basic", ("reviewer", ""))
@@ -1292,7 +1319,7 @@ def create_tender_cancellation_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     complaint = response.json["data"]
     self.assertIn("id", complaint)
-    self.assertEqual(complaint["status"], "pending")
+    self.assertEqual(complaint["status"], "draft")
     self.assertEqual(complaint["description"], complaint_data["description"])
     self.assertIn(complaint["id"], response.headers["Location"])
 
@@ -1345,10 +1372,18 @@ def patch_tender_cancellation_complaint(self):
     complaint = response.json["data"]
     owner_token = response.json["access"]["token"]
     self.assertIn("id", complaint)
-    self.assertEqual(complaint["status"], "pending")
+    self.assertEqual(complaint["status"], "draft")
     self.assertEqual(complaint["description"], complaint_data["description"])
     self.assertIn(complaint["id"], response.headers["Location"])
     complaint_id = complaint["id"]
+
+    response = self.app.patch_json(
+        "/tenders/{}/cancellations/{}/complaints/{}?acc_token={}".format(
+            self.tender_id, self.cancellation_id, complaint_id, owner_token),
+        {"data": {"status": "pending"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
 
     auth = self.app.authorization
     self.app.authorization = ("Basic", ("reviewer", ""))
