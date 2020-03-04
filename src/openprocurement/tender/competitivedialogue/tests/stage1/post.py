@@ -1,5 +1,6 @@
 from copy import deepcopy
 
+from openprocurement.tender.belowthreshold.tests.base import test_draft_complaint
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogUAContentWebTest,
     BaseCompetitiveDialogEUContentWebTest,
@@ -24,11 +25,7 @@ class TenderCompetitiveDialogUAComplaintPostResourceTest(
             "/tenders/{}/complaints".format(
                 self.tender_id
             ),
-            {"data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": test_author
-            }},
+            {"data": test_draft_complaint},
         )
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]
@@ -48,11 +45,7 @@ class TenderCompetitiveDialogEUComplaintPostResourceTest(
             "/tenders/{}/complaints".format(
                 self.tender_id
             ),
-            {"data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": test_author
-            }},
+            {"data": test_draft_complaint},
         )
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]
@@ -149,11 +142,7 @@ class TenderCompetitiveDialogUAQualificationComplaintPostResourceTest(
             "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
                 self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
             ),
-            {"data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": self.author_data
-            }},
+            {"data": test_draft_complaint},
         )
         complaint = response.json["data"]
 
@@ -254,11 +243,7 @@ class TenderCompetitiveDialogEUQualificationComplaintPostResourceTest(
             "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
                 self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
             ),
-            {"data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": self.author_data
-            }},
+            {"data": test_draft_complaint},
         )
         complaint = response.json["data"]
 

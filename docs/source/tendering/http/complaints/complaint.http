@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/94170d1f620a487e8f4ffcc37ee8f2df/complaints/a21a451c5f69404cb553e809e4cd9de8 HTTP/1.0
+GET /api/2.5/tenders/94170d1f620a487e8f4ffcc37ee8f2df/complaints/1185767bf76c45e19ad9176c343cab6c HTTP/1.0
 Host: lb-api-sandbox.prozorro.gov.ua
 
 Response: 200 OK
@@ -25,7 +25,7 @@ Content-Type: application/json; charset=UTF-8
     "complaintID": "UA-2020-05-01-000001.1", 
     "date": "2020-05-01T01:00:00+03:00", 
     "type": "claim", 
-    "id": "a21a451c5f69404cb553e809e4cd9de8"
+    "id": "1185767bf76c45e19ad9176c343cab6c"
   }
 }
 

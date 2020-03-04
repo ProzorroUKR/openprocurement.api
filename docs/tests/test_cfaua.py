@@ -201,12 +201,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.time_shift('enquiryPeriod_ends')
 
         self.app.authorization = ('Basic', ('broker', ''))
-        with open(TARGET_DIR + 'update-tender-after-enqiery.http', 'w') as self.app.file_obj:
-            response = self.app.get('/tenders/{}?acc_token={}'.format(tender['id'], owner_token))
-            response = self.app.patch_json(
-                '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
-                {'data': {"value": {'amount': 501.0}}}, status=403)
-            self.assertEqual(response.status, '403 Forbidden')
 
         with open(TARGET_DIR + 'ask-question-after-enquiry-period.http', 'w') as self.app.file_obj:
             response = self.app.post_json(

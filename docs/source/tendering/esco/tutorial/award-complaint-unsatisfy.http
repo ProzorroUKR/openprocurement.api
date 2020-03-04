@@ -37,7 +37,7 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "resolutionType": "invalid", 
-    "type": "claim", 
+    "type": "complaint", 
     "title": "Недостатньо інформації", 
     "satisfied": false, 
     "dateAnswered": "2020-05-01T01:00:03+03:00", 

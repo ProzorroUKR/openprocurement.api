@@ -21,6 +21,8 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_author,
     set_tender_lots,
     test_cancellation,
+    test_claim,
+    test_draft_claim,
 )
 
 # TenderTest
@@ -802,7 +804,6 @@ def validate_enquiryTender(self):
         "startDate": valid_start_date,
         "endDate": valid_end_date,
     }
-    print(self.initial_data["enquiryPeriod"])
     self.initial_data["tenderPeriod"] = {
         "endDate": tender_valid_end_date,
     }
@@ -2059,12 +2060,7 @@ def invalid_tender_conditions(self):
     response = self.app.post_json(
         "/tenders/{}/complaints".format(tender_id),
         {
-            "data": {
-                "title": "invalid conditions",
-                "description": "description",
-                "author": test_author,
-                "status": "claim",
-            }
+            "data": test_claim
         },
     )
     complaint_id = response.json["data"]["id"]
@@ -2269,12 +2265,7 @@ def first_bid_tender(self):
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(tender_id, award_id, bid_token),
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": test_author,
-                "status": "claim",
-            }
+            "data": test_claim
         },
     )
     complaint_id = response.json["data"]["id"]
@@ -2282,7 +2273,7 @@ def first_bid_tender(self):
     # create first award complaint #2
     self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(tender_id, award_id, bid_token),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+        {"data": test_draft_claim},
     )
     # answering claim
     self.app.patch_json(

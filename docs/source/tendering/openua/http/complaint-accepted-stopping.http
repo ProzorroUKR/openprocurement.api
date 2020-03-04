@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/7ca938a74b3b44a7979818052b0a8788/complaints/ba58d1198cab4e72b488b1cc686bcb14?acc_token=5ed0a9838b6b4920bd6120ecd5247067 HTTP/1.0
+PATCH /api/2.5/tenders/7ca938a74b3b44a7979818052b0a8788/complaints/1908c62d7a7e47fb8294a2d70b46b27c?acc_token=4b96ee1ed8b843e98cb6a63591def8ab HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 228
 Content-Type: application/json
@@ -43,11 +43,11 @@ Content-Type: application/json; charset=UTF-8
     "dateCanceled": "2020-05-01T01:00:00+03:00", 
     "dateAccepted": "2020-05-01T01:00:00+03:00", 
     "dateSubmitted": "2020-05-01T01:00:00+03:00", 
-    "complaintID": "UA-2020-05-01-000001.6", 
+    "complaintID": "UA-2020-05-01-000001.5", 
     "date": "2020-05-01T01:00:00+03:00", 
     "title": "Недостатньо інформації", 
     "type": "complaint", 
-    "id": "ba58d1198cab4e72b488b1cc686bcb14", 
+    "id": "1908c62d7a7e47fb8294a2d70b46b27c", 
     "reviewPlace": "Place of review"
   }
 }

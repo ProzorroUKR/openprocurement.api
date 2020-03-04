@@ -14,6 +14,7 @@ from openprocurement.tender.belowthreshold.validation import (
     validate_update_complaint_not_in_allowed_status,
     validate_add_complaint_not_in_allowed_tender_status,
     validate_update_complaint_not_in_allowed_tender_status,
+    validate_only_claim_allowed,
 )
 
 
@@ -35,12 +36,16 @@ class TenderComplaintResource(BaseTenderComplaintResource):
             complaint.dateSubmitted = get_now()
         else:
             complaint.status = "draft"
-        
+
         return complaint
 
     @json_view(
         content_type="application/json",
-        validators=(validate_complaint_data, validate_add_complaint_not_in_allowed_tender_status),
+        validators=(
+            validate_complaint_data,
+            validate_only_claim_allowed,
+            validate_add_complaint_not_in_allowed_tender_status
+        ),
         permission="create_complaint",
     )
     def collection_post(self):
@@ -59,7 +64,7 @@ class TenderComplaintResource(BaseTenderComplaintResource):
     )
     def patch(self):
         return super(TenderComplaintResource, self).patch()
-    
+
     def patch_as_complaint_owner(self, data):
         context = self.context
         status = self.context.status
@@ -114,6 +119,6 @@ class TenderComplaintResource(BaseTenderComplaintResource):
                 raise_operation_error(self.request, "Can't update complaint: resolution too short")
             apply_patch(self.request, save=False, src=context.serialize())
             context.dateAnswered = get_now()
-    
+
     def patch_as_abovethresholdreviewers(self, data):
         raise_operation_error(self.request, "Forbidden")

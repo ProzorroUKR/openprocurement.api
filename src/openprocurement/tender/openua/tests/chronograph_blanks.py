@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from iso8601 import parse_date
-
+from copy import deepcopy
+from openprocurement.tender.belowthreshold.tests.base import test_claim, test_author
 from openprocurement.tender.core.tests.base import change_auth
 
 # TenderSwitch0BidResourceTest
@@ -29,16 +30,13 @@ def switch_to_unsuccessful_1bid(self):
 
 
 def switch_to_complaint(self):
+    claim_data = deepcopy(test_claim)
+    claim_data["author"] = getattr(self, "author_data", test_author)
     for status in ["invalid", "resolved", "declined"]:
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
             {
-                "data": {
-                    "title": "complaint title",
-                    "description": "complaint description",
-                    "author": self.author_data,
-                    "status": "claim",
-                }
+                "data": claim_data
             },
         )
         self.assertEqual(response.status, "201 Created")

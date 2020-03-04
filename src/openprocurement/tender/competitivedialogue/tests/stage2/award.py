@@ -4,6 +4,7 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 
+from openprocurement.tender.belowthreshold.tests.base import test_draft_complaint
 from openprocurement.tender.belowthreshold.tests.award import (
     TenderAwardComplaintResourceTestMixin,
     TenderAwardComplaintDocumentResourceTestMixin,
@@ -422,7 +423,7 @@ class TenderStage2EUAwardComplaintDocumentResourceTest(
         # Create complaint for award
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints".format(self.tender_id, self.award_id),
-            {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+            {"data": test_draft_complaint},
         )
         complaint = response.json["data"]
         self.complaint_id = complaint["id"]
@@ -470,9 +471,11 @@ class TenderStage2EU2LotAwardComplaintDocumentResourceTest(BaseCompetitiveDialog
             {"data": {"status": "active", "qualified": True, "eligible": True}},
         )
         # Create complaint for award
+        claim_data = deepcopy(test_draft_complaint)
+        claim_data["author"] = test_author
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints".format(self.tender_id, self.award_id),
-            {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+            {"data": claim_data},
         )
         complaint = response.json["data"]
         self.complaint_id = complaint["id"]
@@ -659,9 +662,11 @@ class TenderStage2UAAwardComplaintDocumentResourceTest(
 
         # Create complaint for award
         bid_token = self.initial_bids_tokens[self.bids[0]["id"]]
+        claim_data = deepcopy(test_draft_complaint)
+        claim_data["author"] = test_author
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
-            {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+            {"data": claim_data},
         )
         complaint = response.json["data"]
         self.complaint_id = complaint["id"]
@@ -701,9 +706,11 @@ class TenderStage2UA2LotAwardComplaintDocumentResourceTest(BaseCompetitiveDialog
         )
         self.app.authorization = auth
         # Create complaint for award
+        claim_data = deepcopy(test_draft_complaint)
+        claim_data["author"] = test_author
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
-            {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+            {"data": claim_data},
         )
         complaint = response.json["data"]
         self.complaint_id = complaint["id"]

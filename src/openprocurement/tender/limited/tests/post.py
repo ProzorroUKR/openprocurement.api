@@ -1,5 +1,5 @@
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_draft_claim
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest,
     test_tender_negotiation_data,
@@ -58,11 +58,7 @@ class TenderNegotiationAwardComplaintPostResourceTest(
             "/tenders/{}/awards/{}/complaints".format(
                 self.tender_id, self.award_id
             ),
-            {"data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": test_author
-            }},
+            {"data": test_draft_claim},
         )
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]

@@ -46,7 +46,7 @@ Content-Type: application/json; charset=UTF-8
       "complaintID": "UA-2020-05-01-000001.5", 
       "date": "2020-05-01T01:00:01+03:00", 
       "type": "claim", 
-      "id": "81b1c6e4fb1e416d9ed8c9aca0ab08b5"
+      "id": "2e220acdf2d742849bb2cbb99924160e"
     }, 
     {
       "status": "claim", 
@@ -76,7 +76,7 @@ Content-Type: application/json; charset=UTF-8
       "complaintID": "UA-2020-05-01-000001.6", 
       "date": "2020-05-01T01:00:01+03:00", 
       "type": "claim", 
-      "id": "7bb4b99511cb40e8bb0ac2c4731a1733"
+      "id": "82b2ebea96f94c9586548ad718a7e8b4"
     }
   ]
 }

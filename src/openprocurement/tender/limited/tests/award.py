@@ -8,7 +8,7 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     create_tender_award_no_scale,
     patch_tender_lot_award_lots_none,
 )
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author, test_draft_claim
 from openprocurement.tender.belowthreshold.tests.award import (
     TenderAwardDocumentResourceTestMixin,
     TenderAwardComplaintDocumentResourceTestMixin,
@@ -397,7 +397,7 @@ class TenderNegotiationAwardComplaintDocumentResourceTest(
         # Create complaint for award
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints".format(self.tender_id, self.award_id),
-            {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+            {"data": test_draft_claim},
         )
         complaint = response.json["data"]
         self.complaint_id = complaint["id"]

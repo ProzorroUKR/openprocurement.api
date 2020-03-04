@@ -3,7 +3,10 @@ import dateutil
 
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author, test_cancellation
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_organization, test_author, test_cancellation,
+    test_complaint, test_draft_claim
+)
 
 
 def finalize_unsuccessful_award(self, new_award_location, request_path):
@@ -371,12 +374,7 @@ def patch_tender_award_active(self):
     response = self.app.post_json(
         new_award_location[-81:] + "/complaints?acc_token={}".format(self.bid_token),
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": test_author,
-                "status": "pending",
-            }
+            "data": test_complaint
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -408,7 +406,7 @@ def patch_tender_award_active(self):
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.post_json(
         "{}/complaints?acc_token={}".format(new_award_location[-81:], self.bid_token),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+        {"data": test_draft_claim},
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -450,12 +448,7 @@ def patch_tender_award_unsuccessful(self):
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, self.bid_token),
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": test_author,
-                "status": "pending",
-            }
+            "data": test_complaint
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -487,7 +480,7 @@ def patch_tender_award_unsuccessful(self):
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.post_json(
         "{}/complaints?acc_token={}".format(new_award_location[-81:], self.bid_token),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+        {"data": test_draft_claim},
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -739,12 +732,7 @@ def patch_tender_lot_award_unsuccessful(self):
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, self.bid_token),
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": test_author,
-                "status": "pending",
-            }
+            "data": test_complaint
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -780,7 +768,7 @@ def patch_tender_lot_award_unsuccessful(self):
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.post_json(
         "{}/complaints?acc_token={}".format(new_award_location[-81:], self.bid_token),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+        {"data": test_draft_claim},
     )
     self.assertEqual(response.status, "201 Created")
 

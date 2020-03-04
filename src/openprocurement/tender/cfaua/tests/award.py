@@ -3,7 +3,7 @@ import unittest
 
 from copy import deepcopy
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_author
+from openprocurement.tender.belowthreshold.tests.base import test_draft_complaint
 from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER
 
 from openprocurement.tender.belowthreshold.tests.award_blanks import (
@@ -182,7 +182,7 @@ class TenderAwardComplaintDocumentResourceTest(BaseTenderContentWebTest):
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(
                 self.tender_id, self.award_id, self.initial_bids_tokens[self.award_bid_id]
             ),
-            {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+            {"data": test_draft_complaint},
         )
         complaint = response.json["data"]
         self.complaint_id = complaint["id"]

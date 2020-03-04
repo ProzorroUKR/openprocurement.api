@@ -3,6 +3,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_author, test_organization,
     test_tender_data as belowthreshold_tender_data,
     test_cancellation,
+    test_complaint,
 )
 from openprocurement.tender.openua.tests.base import test_tender_data as ua_tender_data
 from openprocurement.tender.cfaselectionua.tests.base import (
@@ -144,21 +145,17 @@ def test_post_cancellation_openeu(app):
     tender_data = app.app.registry.db.get(tender["id"])
 
     # award complaint
+    complaint = deepcopy(test_complaint)
+    complaint.update(
+        resolutionType="resolved",
+        cancellationReason="whatever",
+    )
     tender_data["awards"] = [
         {
             "id": "0" * 32,
             "bid_id": "0" * 32,
             "suppliers": [test_organization],
-            "complaints": [
-                {
-                    "status": "pending",
-                    "title": "complaint title",
-                    "description": "complaint description",
-                    "author": test_author,
-                    "resolutionType": "resolved",
-                    "cancellationReason": "whatever",
-                }
-            ]
+            "complaints": [complaint]
         }
     ]
     app.app.registry.db.save(tender_data)
@@ -176,19 +173,16 @@ def test_post_cancellation_openeu(app):
          u'location': u'body', u'name': u'data'}]}
 
     # qualification complaints
+    complaint = deepcopy(test_complaint)
+    complaint.update(
+        status="accepted",
+        resolutionType="resolved",
+        cancellationReason="whatever",
+    )
     tender_data["qualifications"] = [
         {
             "id": "0" * 32,
-            "complaints": [
-                {
-                    "status": "accepted",
-                    "title": "complaint title",
-                    "description": "complaint description",
-                    "author": test_author,
-                    "resolutionType": "resolved",
-                    "cancellationReason": "whatever",
-                }
-            ]
+            "complaints": [complaint]
         }
     ]
     app.app.registry.db.save(tender_data)
@@ -206,16 +200,13 @@ def test_post_cancellation_openeu(app):
          u'location': u'body', u'name': u'data'}]}
 
     # tender complaint
-    tender_data["complaints"] = [
-        {
-            "status": "satisfied",
-            "title": "complaint title",
-            "description": "complaint description",
-            "author": test_author,
-            "resolutionType": "resolved",
-            "cancellationReason": "whatever",
-        }
-    ]
+    complaint = deepcopy(test_complaint)
+    complaint.update(
+        status="satisfied",
+        resolutionType="resolved",
+        cancellationReason="whatever",
+    )
+    tender_data["complaints"] = [complaint]
     app.app.registry.db.save(tender_data)
 
     cancellation = dict(**test_cancellation)

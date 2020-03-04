@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
 from iso8601 import parse_date
-
+from copy import deepcopy
 from openprocurement.api.utils import get_now
 
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author, test_cancellation
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_organization, test_author, test_cancellation, test_claim
+)
 
 
 # TenderLotEdgeCasesTest
@@ -53,16 +55,12 @@ def question_blocking(self):
 
 
 def claim_blocking(self):
+    claim = deepcopy(test_claim)
+    claim["relatedLot"] = self.initial_lots[0]["id"]
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": test_author,
-                "relatedLot": self.initial_lots[0]["id"],
-                "status": "claim",
-            }
+            "data": claim
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -145,16 +143,12 @@ def next_check_value_with_unanswered_question(self):
 
 
 def next_check_value_with_unanswered_claim(self):
+    claim = deepcopy(test_claim)
+    claim["relatedLot"] = self.initial_lots[0]["id"]
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": test_author,
-                "relatedLot": self.initial_lots[0]["id"],
-                "status": "claim",
-            }
+            "data": claim
         },
     )
     self.assertEqual(response.status, "201 Created")

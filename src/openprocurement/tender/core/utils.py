@@ -35,6 +35,7 @@ from openprocurement.tender.core.constants import (
     NORMALIZED_COMPLAINT_PERIOD_FROM,
 )
 from openprocurement.tender.core.traversal import factory
+import math
 
 LOGGER = getLogger("openprocurement.tender.core")
 
@@ -354,3 +355,15 @@ def convert_to_decimal(value):
         return Decimal(repr(value))
 
     raise TypeError("Unable to convert %s to Decimal" % value)
+
+
+def restrict_value_to_bounds(value, min_value, max_value):
+    if value < min_value:
+        return min_value
+    if value > max_value:
+        return max_value
+    return value
+
+
+def round_up_to_ten(value):
+    return int(math.ceil(value / 10.) * 10)

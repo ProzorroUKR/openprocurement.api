@@ -29,12 +29,13 @@ class ComplaintModelType(BaseComplaintModelType):
 
 class Complaint(BaseComplaint):
     class Options:
+        _base_roles = BaseComplaint.Options.roles
         _view_claim = whitelist(
             'acceptance', 'bid_id', 'cancellationReason', 'complaintID', 'date', 'dateAccepted',
             'dateAnswered', 'dateCanceled', 'dateDecision', 'dateEscalated', 'dateSubmitted', 'decision',
             'description', 'documents', 'id', 'rejectReason', 'rejectReasonDescription', 'relatedLot', 'resolution',
             'resolutionType', 'reviewDate', 'reviewPlace', 'satisfied', 'status', 'tendererAction',
-            'tendererActionDate', 'title', 'type',
+            'tendererActionDate', 'title', 'type', 'value', 'calculate_value',
         )
         _open_view = _view_claim + whitelist('author', 'posts')
         _embedded = _open_view - whitelist('bid_id')  # "-bid_id" looks like a typo in the original csv
@@ -55,7 +56,7 @@ class Complaint(BaseComplaint):
             "view": _embedded,
             "default": _open_view + whitelist('owner', 'owner_token'),
 
-            "create": whitelist('author', 'description', 'status', 'title', 'relatedLot'),
+            "create": _base_roles["create"],
             "draft": whitelist('author', 'description', 'status', 'title'),
             "answer": whitelist('resolution', 'resolutionType', 'status', 'tendererAction'),
             "review": whitelist(

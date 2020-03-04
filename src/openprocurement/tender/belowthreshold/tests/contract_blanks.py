@@ -3,7 +3,7 @@ from datetime import timedelta
 from copy import deepcopy
 from openprocurement.api.utils import get_now
 
-from openprocurement.tender.belowthreshold.tests.base import test_author, test_cancellation
+from openprocurement.tender.belowthreshold.tests.base import test_claim, test_cancellation
 
 
 # TenderContractResourceTest
@@ -211,12 +211,7 @@ def patch_tender_contract(self):
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, token),
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": test_author,
-                "status": "claim",
-            }
+            "data": test_claim
         },
     )
     self.assertEqual(response.status, "201 Created")

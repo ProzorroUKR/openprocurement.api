@@ -293,8 +293,9 @@ class ComplaintPost(Model):
 
 class Complaint(BaseComplaint):
     class Options:
+        _base_roles = BaseComplaint.Options.roles
         roles = {
-            "create": whitelist("author", "title", "description", "status", "relatedLot"),
+            "create": _base_roles["create"],  # TODO inherit the rest of the roles
             "draft": whitelist("author", "title", "description", "status"),
             "cancellation": whitelist("cancellationReason", "status"),
             "satisfy": whitelist("satisfied", "status"),

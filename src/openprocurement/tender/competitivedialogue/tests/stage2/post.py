@@ -4,6 +4,7 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_author,
     test_tenderer,
 )
+from openprocurement.tender.belowthreshold.tests.base import test_draft_complaint, test_claim
 from openprocurement.tender.competitivedialogue.tests.stage2.award import test_tender_bids
 from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.openua.tests.post import (
@@ -12,6 +13,7 @@ from openprocurement.tender.openua.tests.post import (
     TenderQualificationComplaintPostResourceMixin,
     TenderComplaintPostResourceMixin,
 )
+from copy import deepcopy
 
 
 class TenderCompetitiveDialogUAComplaintPostResourceTest(
@@ -19,17 +21,18 @@ class TenderCompetitiveDialogUAComplaintPostResourceTest(
     ComplaintPostResourceMixin,
     TenderComplaintPostResourceMixin
 ):
+    claim_data = deepcopy(test_claim)
+    claim_data["author"] = test_author
+
     def setUp(self):
         super(TenderCompetitiveDialogUAComplaintPostResourceTest, self).setUp()
+        complaint_data = deepcopy(test_draft_complaint)
+        complaint_data["author"] = test_author
         response = self.app.post_json(
             "/tenders/{}/complaints".format(
                 self.tender_id
             ),
-            {"data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": test_author
-            }},
+            {"data": complaint_data},
         )
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]
@@ -37,23 +40,23 @@ class TenderCompetitiveDialogUAComplaintPostResourceTest(
         self.assertEqual(response.content_type, "application/json")
 
 
-
 class TenderCompetitiveDialogEUComplaintPostResourceTest(
     BaseCompetitiveDialogEUStage2ContentWebTest,
     ComplaintPostResourceMixin,
     TenderComplaintPostResourceMixin
 ):
+    claim_data = deepcopy(test_claim)
+    claim_data["author"] = test_author
+
     def setUp(self):
         super(TenderCompetitiveDialogEUComplaintPostResourceTest, self).setUp()
+        complaint_data = deepcopy(test_draft_complaint)
+        complaint_data["author"] = test_author
         response = self.app.post_json(
             "/tenders/{}/complaints".format(
                 self.tender_id
             ),
-            {"data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": test_author
-            }},
+            {"data": complaint_data},
         )
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]
@@ -123,15 +126,13 @@ class TenderCompetitiveDialogEUStage2AwardComplaintPostResourceTest(
             )
 
         # Create complaint for award
+        complaint_data = deepcopy(test_draft_complaint)
+        complaint_data["author"] = test_author
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(
                 self.tender_id, self.award_id, self.initial_bids_tokens[self.initial_bids[0]["id"]]
             ),
-            {"data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": test_author
-            }},
+            {"data": complaint_data},
         )
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]
@@ -176,21 +177,18 @@ class TenderCompetitiveDialogUAStage2AwardComplaintPostResourceTest(
             )
 
         # Create complaint for award
+        complaint_data = deepcopy(test_draft_complaint)
+        complaint_data["author"] = test_author
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(
                 self.tender_id, self.award_id, self.initial_bids_tokens[self.initial_bids[0]["id"]]
             ),
-            {"data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": test_author
-            }},
+            {"data": complaint_data},
         )
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
-
 
 
 class TenderCompetitiveDialogEUQualificationComplaintPostResourceTest(
@@ -244,15 +242,13 @@ class TenderCompetitiveDialogEUQualificationComplaintPostResourceTest(
         self.assertEqual(response.status, "200 OK")
 
         # Create complaint for qualification
+        complaint_data = deepcopy(test_draft_complaint)
+        complaint_data["author"] = self.author_data
         response = self.app.post_json(
             "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
                 self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
             ),
-            {"data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": self.author_data
-            }},
+            {"data": complaint_data},
         )
         complaint = response.json["data"]
 
