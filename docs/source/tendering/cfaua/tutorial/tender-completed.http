@@ -15,12 +15,12 @@ Content-Type: application/json; charset=UTF-8
     "mainProcurementCategory": "goods", 
     "complaintPeriod": {
       "startDate": "2020-03-10T01:00:00+03:00", 
-      "endDate": "2020-04-06T00:00:00+03:00"
+      "endDate": "2020-04-10T00:56:00+03:00"
     }, 
     "enquiryPeriod": {
       "startDate": "2020-03-10T01:00:00+03:00", 
-      "clarificationsUntil": "2020-04-04T00:00:00+03:00", 
-      "endDate": "2020-03-31T01:00:00+03:00", 
+      "clarificationsUntil": "2020-04-10T00:53:00+03:00", 
+      "endDate": "2020-04-10T00:50:00+03:00", 
       "invalidationDate": "2020-05-01T01:00:00+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
@@ -58,6 +58,44 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "owner": "broker", 
+    "qualifications": [
+      {
+        "status": "active", 
+        "lotID": "c7555f1bb878434d8815dea318304673", 
+        "eligible": true, 
+        "qualified": true, 
+        "bidID": "410cb59a0945497eb61cc4461f661569", 
+        "date": "2020-05-01T01:00:00+03:00", 
+        "id": "9eafb5e0a5ac4268a1f0821a11dae69d"
+      }, 
+      {
+        "status": "active", 
+        "lotID": "c7555f1bb878434d8815dea318304673", 
+        "eligible": true, 
+        "qualified": true, 
+        "bidID": "e88e8fc3020640178a79c6e66d3dfd5f", 
+        "date": "2020-05-01T01:00:00+03:00", 
+        "id": "86fd0e3cd41f48eab89c5ac406b8334d"
+      }, 
+      {
+        "status": "unsuccessful", 
+        "lotID": "c7555f1bb878434d8815dea318304673", 
+        "eligible": false, 
+        "qualified": false, 
+        "bidID": "88c9f41eac914e1cb72d9a43fc03d702", 
+        "date": "2020-05-01T01:00:00+03:00", 
+        "id": "cb68d0f3a8c4468d9b7c5595eb8f9001"
+      }, 
+      {
+        "status": "active", 
+        "lotID": "c7555f1bb878434d8815dea318304673", 
+        "eligible": true, 
+        "qualified": true, 
+        "bidID": "5a84740ed0bd4aa3830adfb56c49ed62", 
+        "date": "2020-05-01T01:00:00+03:00", 
+        "id": "cdc3670ed483448a8cd1ed6d1146da99"
+      }
+    ], 
     "id": "e5172ebc4c4c411f84f376ce6ede43b8", 
     "contractPeriod": {
       "startDate": "2020-04-25T01:00:00+03:00", 
@@ -390,10 +428,7 @@ Content-Type: application/json; charset=UTF-8
         "id": "85b5a0dd7da441c08eb664e2412cc5d5"
       }
     ], 
-    "auctionPeriod": {
-      "startDate": "2020-04-20T01:00:00+03:00", 
-      "endDate": "2020-04-21T01:00:00+03:00"
-    }, 
+    "procurementMethodDetails": "quick, accelerator=1440", 
     "guarantee": {
       "currency": "USD", 
       "amount": 8
@@ -405,44 +440,10 @@ Content-Type: application/json; charset=UTF-8
       "startDate": "2020-03-10T01:00:00+03:00", 
       "endDate": "2020-04-10T01:00:00+03:00"
     }, 
-    "qualifications": [
-      {
-        "status": "active", 
-        "lotID": "c7555f1bb878434d8815dea318304673", 
-        "eligible": true, 
-        "qualified": true, 
-        "bidID": "410cb59a0945497eb61cc4461f661569", 
-        "date": "2020-05-01T01:00:00+03:00", 
-        "id": "9eafb5e0a5ac4268a1f0821a11dae69d"
-      }, 
-      {
-        "status": "active", 
-        "lotID": "c7555f1bb878434d8815dea318304673", 
-        "eligible": true, 
-        "qualified": true, 
-        "bidID": "e88e8fc3020640178a79c6e66d3dfd5f", 
-        "date": "2020-05-01T01:00:00+03:00", 
-        "id": "86fd0e3cd41f48eab89c5ac406b8334d"
-      }, 
-      {
-        "status": "unsuccessful", 
-        "lotID": "c7555f1bb878434d8815dea318304673", 
-        "eligible": false, 
-        "qualified": false, 
-        "bidID": "88c9f41eac914e1cb72d9a43fc03d702", 
-        "date": "2020-05-01T01:00:00+03:00", 
-        "id": "cb68d0f3a8c4468d9b7c5595eb8f9001"
-      }, 
-      {
-        "status": "active", 
-        "lotID": "c7555f1bb878434d8815dea318304673", 
-        "eligible": true, 
-        "qualified": true, 
-        "bidID": "5a84740ed0bd4aa3830adfb56c49ed62", 
-        "date": "2020-05-01T01:00:00+03:00", 
-        "id": "cdc3670ed483448a8cd1ed6d1146da99"
-      }
-    ], 
+    "auctionPeriod": {
+      "startDate": "2020-04-20T01:00:00+03:00", 
+      "endDate": "2020-04-21T01:00:00+03:00"
+    }, 
     "title_en": "Cases for state awards", 
     "agreementDuration": "P3Y3M3D", 
     "awards": [

@@ -63,7 +63,7 @@ Tender Conditions Claims/Complaints (After Release 2020-04-19)
         claim -> answered;
         satisfied -> resolved;
         edge[style=dashed];
-        draft -> {claim,pending};
+        draft -> {claim,pending, mistaken};
         {draft,claim,answered} -> cancelled;
         pending -> stopping;
         accepted -> stopping;
@@ -71,7 +71,6 @@ Tender Conditions Claims/Complaints (After Release 2020-04-19)
         accepted -> {declined,satisfied,stopped};
         pending -> {accepted,invalid,stopped};
         stopping -> {stopped,invalid,declined,satisfied};
-        {pending;stopping} -> mistaken;
         edge[label="auction" style=dotted];
         answered -> {invalid,declined,resolved};
     }
@@ -129,11 +128,10 @@ Tender Cancellation Complaints
         }
         satisfied -> resolved;
         edge[style=dashed];
-        draft -> pending;
+        draft -> {pending, mistaken};
         edge[style=bold];
         accepted -> {declined,satisfied,stopped};
         pending -> {accepted,invalid,stopped};
-        {pending} -> mistaken;
     }
 
 .. toctree::

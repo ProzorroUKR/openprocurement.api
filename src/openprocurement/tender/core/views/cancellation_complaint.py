@@ -150,14 +150,17 @@ class TenderCancellationComplaintResource(APIResource):
             )
 
     def patch_draft_as_complaint_owner(self, data):
-
+        context = self.context
+        status = context.status
         new_status = data.get("status", self.context.status)
-        if new_status == self.context.status:
-            apply_patch(self.request, save=False, src=self.context.serialize())
 
+        if new_status == self.context.status:
+            apply_patch(self.request, save=False, src=context.serialize())
+        elif status == "draft" and new_status == "mistaken":
+            apply_patch(self.request, save=False, src=context.serialize())
         elif new_status == "pending":
-            apply_patch(self.request, save=False, src=self.context.serialize())
-            self.context.dateSubmitted = get_now()
+            apply_patch(self.request, save=False, src=context.serialize())
+            context.dateSubmitted = get_now()
         else:
             raise_operation_error(self.request, "Can't update draft complaint into {} status".format(new_status))
 
@@ -168,10 +171,11 @@ class TenderCancellationComplaintResource(APIResource):
 
         if status in ["pending", "accepted"] or new_status == status and status in ["satisfied"]:
             apply_patch(self.request, save=False, src=context.serialize())
-        elif status == "satisfied" and new_status == "resolved":
-            if not data.get("tendererAction", context.tendererAction):
-                raise_operation_error(self.request, "Can't update complaint: tendererAction required")
-
+        elif (
+            status == "satisfied"
+            and data.get("tendererAction", context.tendererAction)
+            and new_status == "resolved"
+        ):
             apply_patch(self.request, save=False, src=context.serialize())
         else:
             raise_operation_error(self.request,
@@ -185,7 +189,7 @@ class TenderCancellationComplaintResource(APIResource):
         if new_status == status and status in ["pending", "accepted", "stopping"]:
             apply_patch(self.request, save=False, src=context.serialize())
 
-        elif status in ["pending", "stopping"] and new_status in ["invalid", "mistaken"]:
+        elif status in ["pending", "stopping"] and new_status == "invalid":
             apply_patch(self.request, save=False, src=context.serialize())
             context.dateDecision = get_now()
             context.acceptance = False

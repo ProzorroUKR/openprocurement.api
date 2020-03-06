@@ -83,6 +83,7 @@ Content-Type: application/json; charset=UTF-8
       "startDate": "2020-05-08T01:00:00+03:00", 
       "endDate": "2020-05-16T01:00:11+03:00"
     }, 
+    "procurementMethodDetails": "quick, accelerator=1440", 
     "procurementMethodType": "belowThreshold", 
     "date": "2020-05-01T01:00:00+03:00", 
     "milestones": [

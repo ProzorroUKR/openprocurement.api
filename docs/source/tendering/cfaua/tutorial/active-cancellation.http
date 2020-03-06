@@ -35,7 +35,7 @@ Content-Type: application/json; charset=UTF-8
     ], 
     "complaintPeriod": {
       "startDate": "2020-05-01T01:00:01+03:00", 
-      "endDate": "2020-05-12T00:00:00+03:00"
+      "endDate": "2020-05-01T01:10:01+03:00"
     }, 
     "reason": "cancellation reason", 
     "reasonType": "unFixable", 

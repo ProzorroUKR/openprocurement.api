@@ -7,7 +7,39 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "procurementMethod": "open", 
-    "status": "draft", 
+    "mainProcurementCategory": "goods", 
+    "enquiryPeriod": {
+      "startDate": "2019-10-01T01:00:00+03:00", 
+      "endDate": "2019-10-30T01:00:00+03:00"
+    }, 
+    "submissionMethod": "electronicAuction", 
+    "procuringEntity": {
+      "contactPoint": {
+        "name": "Довідкова", 
+        "telephone": "0440000000"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "111111", 
+        "legalName": "ДП Центральний закупівельний орган №1"
+      }, 
+      "name": "ЦЗО №1", 
+      "kind": "central", 
+      "address": {
+        "postalCode": "01220", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Банкова, 11, корпус 1", 
+        "region": "м. Київ", 
+        "locality": "м. Київ"
+      }
+    }, 
+    "owner": "broker", 
+    "id": "a40454d58b7b4e1eb327f6aef0d0d21d", 
+    "plans": [
+      {
+        "id": "77cf582ab7284fb1a0e748ea7fe9033f"
+      }
+    ], 
     "buyers": [
       {
         "identifier": {
@@ -18,6 +50,17 @@ Content-Type: application/json; charset=UTF-8
         "name": "ДУС"
       }
     ], 
+    "title": "футляри до державних нагород", 
+    "tenderID": "UA-2019-05-12-000001", 
+    "dateModified": "2019-05-12T12:01:00+03:00", 
+    "status": "draft", 
+    "tenderPeriod": {
+      "startDate": "2019-11-01T01:00:00+03:00", 
+      "endDate": "2019-11-11T01:00:00+03:00"
+    }, 
+    "procurementMethodDetails": "quick, accelerator=1440", 
+    "procurementMethodType": "belowThreshold", 
+    "date": "2019-05-12T12:00:00+03:00", 
     "milestones": [
       {
         "code": "prepayment", 
@@ -44,13 +87,6 @@ Content-Type: application/json; charset=UTF-8
         "id": "b2587d4a2cd547b5af3468d740da3131"
       }
     ], 
-    "mainProcurementCategory": "goods", 
-    "plans": [
-      {
-        "id": "77cf582ab7284fb1a0e748ea7fe9033f"
-      }
-    ], 
-    "title": "футляри до державних нагород", 
     "minimalStep": {
       "currency": "UAH", 
       "amount": 35.0, 
@@ -82,47 +118,12 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 1000.0
       }
     ], 
-    "procurementMethodType": "belowThreshold", 
     "value": {
       "currency": "UAH", 
       "amount": 500.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "submissionMethod": "electronicAuction", 
-    "procuringEntity": {
-      "contactPoint": {
-        "name": "Довідкова", 
-        "telephone": "0440000000"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "id": "111111", 
-        "legalName": "ДП Центральний закупівельний орган №1"
-      }, 
-      "name": "ЦЗО №1", 
-      "kind": "central", 
-      "address": {
-        "postalCode": "01220", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Банкова, 11, корпус 1", 
-        "region": "м. Київ", 
-        "locality": "м. Київ"
-      }
-    }, 
-    "date": "2019-05-12T12:00:00+03:00", 
-    "tenderID": "UA-2019-05-12-000001", 
-    "awardCriteria": "lowestCost", 
-    "enquiryPeriod": {
-      "startDate": "2019-10-01T01:00:00+03:00", 
-      "endDate": "2019-10-30T01:00:00+03:00"
-    }, 
-    "owner": "broker", 
-    "dateModified": "2019-05-12T12:01:00+03:00", 
-    "id": "a40454d58b7b4e1eb327f6aef0d0d21d", 
-    "tenderPeriod": {
-      "startDate": "2019-11-01T01:00:00+03:00", 
-      "endDate": "2019-11-11T01:00:00+03:00"
-    }
+    "awardCriteria": "lowestCost"
   }
 }
 

@@ -502,6 +502,7 @@ Content-Type: application/json; charset=UTF-8
       "startDate": "2020-04-28T01:00:00+03:00", 
       "endDate": "2020-05-01T01:00:00+03:00"
     }, 
+    "procurementMethodDetails": "quick, accelerator=1440", 
     "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
     "date": "2020-05-01T01:00:00+03:00", 
     "minimalStep": {

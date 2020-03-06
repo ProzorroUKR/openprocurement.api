@@ -1,6 +1,5 @@
-from openprocurement.api.tests.base import singleton_app, app
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_author, test_organization,
+    test_organization,
     test_tender_data as belowthreshold_tender_data,
     test_cancellation,
     test_complaint,
@@ -182,15 +181,15 @@ def test_post_cancellation_openeu(app):
 
         # qualification complaints
         complaint = deepcopy(test_complaint)
-                        complaint.update(
-                        status="accepted",
-                        resolutionType= "resolved",
-                        cancellationReason= "whatever",
-                    )
-                tender_data["qualifications"] = [
-        {
-            "id": "0" * 32,
-            "complaints": [complaint]
+        complaint.update(
+            status="accepted",
+            resolutionType= "resolved",
+            cancellationReason= "whatever",
+        )
+        tender_data["qualifications"] = [
+            {
+                "id": "0" * 32,
+                "complaints": [complaint]
             }
         ]
         app.app.registry.db.save(tender_data)
@@ -228,4 +227,3 @@ def test_post_cancellation_openeu(app):
         assert response.json == {u'status': u'error', u'errors': [
             {u'description': u"Can't perform operation for there is a tender complaint in satisfied status",
              u'location': u'body', u'name': u'data'}]}
-

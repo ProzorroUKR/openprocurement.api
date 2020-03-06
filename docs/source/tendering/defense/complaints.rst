@@ -97,11 +97,10 @@ Tender Cancellation Complaints
         }
         satisfied -> resolved;
         edge[style=dashed];
-        draft -> pending;
+        draft -> {pending,mistaken};
         edge[style=bold];
         accepted -> {declined,satisfied,stopped};
         pending -> {accepted,invalid,stopped};
-        {pending} -> mistaken;
     }
 
 .. toctree::
