@@ -317,13 +317,14 @@ class CompetitiveDialogEU(BaseTenderEU):
         )
         acl.extend(
             [
-                (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_tender"),
-                (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_tender_documents"),
                 (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_complaint"),
                 (Allow, "g:competitive_dialogue", "extract_credentials"),
                 (Allow, "g:competitive_dialogue", "edit_tender"),
+                (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_cancellation"),
             ]
         )
+
+        self._acl_cancellation_complaint(acl)
         return acl
 
     def validate_features(self, data, features):
@@ -373,7 +374,12 @@ def init_PeriodStartEndRequired(tendering_duration):
 
 
 def stage2__acl__(obj):
-    acl = [(Allow, "{}_{}".format(obj.owner, obj.dialogue_token), "generate_credentials")]
+    acl = [
+        (Allow, "{}_{}".format(obj.owner, obj.dialogue_token), "generate_credentials"),
+        (Allow, "{}_{}".format(obj.owner, obj.owner_token), "edit_complaint"),
+        (Allow, "g:competitive_dialogue", "edit_tender"),
+        (Allow, "g:competitive_dialogue", "edit_cancellation")
+    ]
     acl.extend(
         [
             (Allow, "{}_{}".format(i.owner, i.owner_token), "create_qualification_complaint")
@@ -386,14 +392,6 @@ def stage2__acl__(obj):
             (Allow, "{}_{}".format(i.owner, i.owner_token), "create_award_complaint")
             for i in obj.bids
             if i.status == "active"
-        ]
-    )
-    acl.extend(
-        [
-            (Allow, "{}_{}".format(obj.owner, obj.owner_token), "edit_tender"),
-            (Allow, "{}_{}".format(obj.owner, obj.owner_token), "upload_tender_documents"),
-            (Allow, "{}_{}".format(obj.owner, obj.owner_token), "edit_complaint"),
-            (Allow, "g:competitive_dialogue", "edit_tender"),
         ]
     )
     return acl
@@ -573,7 +571,9 @@ class TenderStage2EU(BaseTenderEU):
         }
 
     def __acl__(self):
-        return stage2__acl__(self)
+        acl = stage2__acl__(self)
+        self._acl_cancellation_complaint(acl)
+        return acl
 
     def validate_features(self, data, features):
         validate_features_custom_weight(self, data, features, FEATURES_MAX_SUM)
@@ -642,7 +642,9 @@ class TenderStage2UA(BaseTenderUA):
         pass
 
     def __acl__(self):
-        return stage2__acl__(self)
+        acl = stage2__acl__(self)
+        self._acl_cancellation_complaint(acl)
+        return acl
 
     def validate_features(self, data, features):
         validate_features_custom_weight(self, data, features, FEATURES_MAX_SUM)

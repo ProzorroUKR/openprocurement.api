@@ -8,6 +8,9 @@ from openprocurement.tender.core.validation import (
     validate_cancellation_data,
     validate_patch_cancellation_data,
     validate_cancellation_of_active_lot,
+    validate_cancellation_statuses,
+    validate_create_cancellation_in_active_auction,
+    validate_edit_permission,
 )
 from openprocurement.tender.openua.utils import add_next_award
 
@@ -35,6 +38,7 @@ class TenderUaCancellationResource(BaseTenderCancellationResource):
         validators=(
             validate_tender_not_in_terminated_status,
             validate_cancellation_data,
+            validate_create_cancellation_in_active_auction,
             validate_cancellation_of_active_lot,
             # from core above ^
             validate_not_only_unsuccessful_awards_or_qualifications,
@@ -47,13 +51,15 @@ class TenderUaCancellationResource(BaseTenderCancellationResource):
     @json_view(
         content_type="application/json",
         validators=(
+            validate_edit_permission,
             validate_tender_not_in_terminated_status,
             validate_patch_cancellation_data,
+            validate_cancellation_statuses,
             validate_cancellation_of_active_lot,
             # from core above ^,
             validate_not_only_unsuccessful_awards_or_qualifications
         ),
-        permission="edit_tender"
+        permission="edit_cancellation"
     )
     def patch(self):
         return super(TenderUaCancellationResource, self).patch()

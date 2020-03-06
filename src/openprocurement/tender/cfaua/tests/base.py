@@ -7,7 +7,9 @@ from uuid import uuid4
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.tender.belowthreshold.tests.base import set_tender_lots, set_bid_lotvalues, test_cancellation
 from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest as BaseBaseTenderWebTest
+from openprocurement.tender.core.tests.cancellation import activate_cancellation_with_complaints_after_2020_04_19
 from openprocurement.api.utils import apply_data_patch, get_now
+from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.cfaua.constants import (
     TENDERING_DAYS,
     TENDERING_DURATION,
@@ -1038,7 +1040,12 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         )
         self.assertEqual(response.status, "201 Created")
         cancellation = response.json["data"]
-        self.assertEqual(cancellation["status"], "active")
+
+        if get_now() < RELEASE_2020_04_19 or cancellation["cancellationOf"] == "lot":
+            self.assertEqual(cancellation["status"], "active")
+        else:
+            self.assertEqual(cancellation["status"], "draft")
+            activate_cancellation_with_complaints_after_2020_04_19(self, cancellation["id"])
 
         response = self.app.get("/tenders/{}".format(self.tender_id))
         tender = response.json["data"]

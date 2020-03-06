@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-10 13:47+0300\n"
+"POT-Creation-Date: 2020-03-05 17:18+0200\n"
 "PO-Revision-Date: 2016-03-03 17:47+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
@@ -12,146 +12,111 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
-#: ../../source/limited/complaints.rst:9
 msgid "Complaint Workflow"
 msgstr "Схема роботи оскаржень"
 
-#: ../../source/limited/complaints.rst:11
-msgid ""
-"For more detailed information read `Complaints "
-"<http://openprocurement.org/en/complaints.html>`_."
-msgstr ""
-"Більш детальну інформацію шукайте на сторінці `Оскарження "
-"<http://openprocurement.org/ua/complaints.html>`_."
+msgid "For more detailed information read `Complaints <http://openprocurement.org/en/complaints.html>`_."
+msgstr "Більш детальну інформацію шукайте на сторінці `Оскарження <http://openprocurement.org/ua/complaints.html>`_."
 
-#: ../../source/limited/complaints.rst:14
 msgid "Tender Award Complaints"
 msgstr "Скарги на визначення переможця"
 
-#: ../../source/limited/complaints.rst:42
+msgid "Tender Cancellation Complaints (only for negotiation and negotiation.quick)"
+msgstr "Скарги на відміну закупівлі (тідьки для `negotiation` та `negotiation.quick`)"
+
 msgid "Roles"
 msgstr "Ролі"
 
-#: ../../source/limited/complaints.rst:0
-msgid "Complainant"
+msgid "Complaint owner"
 msgstr ""
 
-#: ../../source/limited/complaints.rst:45
 msgid "dashed"
 msgstr "пунктирна лінія"
 
-#: ../../source/limited/complaints.rst:0
-msgid "Procuring entity"
+msgid "Tender owner"
 msgstr ""
 
-#: ../../source/limited/complaints.rst:48
 msgid "plain"
 msgstr "звичайна лінія"
 
-#: ../../source/limited/complaints.rst:0
-msgid "Reviewer"
+msgid "AboveThresholdReviewer"
 msgstr ""
 
-#: ../../source/limited/complaints.rst:51
 msgid "bold"
 msgstr "жирна лінія"
 
-#: ../../source/limited/complaints.rst:0
 msgid "Chronograph"
 msgstr ""
 
-#: ../../source/limited/complaints.rst:54
 msgid "dotted"
 msgstr "пунктирна лінія з крапками"
 
-#: ../../source/limited/complaints.rst:57
 msgid "Statuses"
 msgstr "Статуси"
 
-#: ../../source/limited/complaints.rst:0
 msgid "draft"
 msgstr ""
 
-#: ../../source/limited/complaints.rst:60
 msgid "Initial status"
 msgstr "Початковий статус"
 
-#: ../../source/limited/complaints.rst:62
-msgid ""
-"Complainant can submit claim, upload documents, cancel claim, and re-"
-"submit it."
-msgstr ""
-"Cкаржник може подати вимогу, завантажити документи, відкликати вимогу та "
-"подати її знову."
+msgid "Complainant can submit claim, upload documents, cancel claim, and re-submit it."
+msgstr "Cкаржник може подати вимогу, завантажити документи, відкликати вимогу та подати її знову."
 
-#: ../../source/limited/complaints.rst:0
 msgid "claim"
 msgstr ""
 
-#: ../../source/limited/complaints.rst:65
 msgid "Procuring entity can upload documents and answer to claim."
 msgstr "Замовник може завантажити документи та відповісти на вимогу."
 
-#: ../../source/limited/complaints.rst:67
-#: ../../source/limited/complaints.rst:75
 msgid "Complainant can cancel claim."
 msgstr "Скаржник може відкликати вимогу."
 
-#: ../../source/limited/complaints.rst:0
 msgid "answered"
 msgstr ""
 
-#: ../../source/limited/complaints.rst:70
-msgid ""
-"Complainant can cancel claim, upload documents, accept solution or "
-"escalate claim to complaint."
-msgstr ""
-"Скаржник може відкликати вимогу, завантажити документи, погодитись з "
-"вирішенням або перетворити вимогу на скаргу."
+msgid "Complainant can cancel claim, upload documents, accept solution or escalate claim to complaint."
+msgstr "Скаржник може відкликати вимогу, завантажити документи, погодитись з вирішенням або перетворити вимогу на скаргу."
 
-#: ../../source/limited/complaints.rst:0
 msgid "pending"
 msgstr ""
 
-#: ../../source/limited/complaints.rst:73
 msgid "Reviewer can upload documents and review complaint."
 msgstr "Орган оскарження може завантажувати документи та розглядати скарги."
 
-#: ../../source/limited/complaints.rst:0
 msgid "invalid"
 msgstr ""
 
-#: ../../source/limited/complaints.rst:78
-#: ../../source/limited/complaints.rst:83
-#: ../../source/limited/complaints.rst:88
-#: ../../source/limited/complaints.rst:93
 msgid "Terminal status"
 msgstr "Кінцевий статус"
 
-#: ../../source/limited/complaints.rst:80
 msgid "Complaint recognized as invalid."
 msgstr "Скаргу визнано недійсною."
 
-#: ../../source/limited/complaints.rst:0
 msgid "declined"
 msgstr ""
 
-#: ../../source/limited/complaints.rst:85
 msgid "Complaint recognized as declined."
 msgstr "Скаргу визнано відхиленою."
 
-#: ../../source/limited/complaints.rst:0
 msgid "resolved"
 msgstr ""
 
-#: ../../source/limited/complaints.rst:90
 msgid "Complaint recognized as resolved."
 msgstr "Скаргу визнано вирішеною."
 
-#: ../../source/limited/complaints.rst:0
 msgid "cancelled"
 msgstr ""
 
-#: ../../source/limited/complaints.rst:95
 msgid "Complaint cancelled by complainant."
 msgstr "Скаргу відкликано скаржником."
+
+#~ msgid "Complainant"
+#~ msgstr ""
+
+#~ msgid "Procuring entity"
+#~ msgstr ""
+
+#~ msgid "Reviewer"
+#~ msgstr ""
+

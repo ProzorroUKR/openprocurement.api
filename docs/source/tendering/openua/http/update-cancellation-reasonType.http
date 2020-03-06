@@ -14,7 +14,7 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "status": "pending", 
+    "status": "draft", 
     "reason": "cancellation reason", 
     "reasonType": "forceMajeure", 
     "date": "2020-05-01T01:00:01+03:00", 

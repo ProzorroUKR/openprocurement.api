@@ -20,13 +20,15 @@ from openprocurement.tender.core.models import (
     TenderAuctionPeriod,
     PeriodEndRequired,
     Tender as BaseTender,
-    Cancellation as BaseCancellation,
+    BaseCancellation,
     validate_features_uniq,
 )
 
 
 class Cancellation(BaseCancellation):
     _before_release_reasonType_choices = []
+
+    _after_release_status_choices = ["draft", "unsuccessful", "active"]
 
 
 @implementer(ICFASelectionUATender)
@@ -222,13 +224,13 @@ class CFASelectionUATender(BaseTender):
         acl = [(Allow, "{}_{}".format(i.owner, i.owner_token), "create_award_complaint") for i in self.bids]
         acl.extend(
             [
-                (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_tender"),
-                (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_tender_documents"),
                 (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_complaint"),
                 (Allow, "g:agreement_selection", "edit_agreement_selection"),
                 (Allow, "g:agreement_selection", "edit_tender"),
+                (Allow, "g:brokers", "create_cancellation_complaint")
             ]
         )
+        self._acl_cancellation(acl)
         return acl
 
     def __local_roles__(self):

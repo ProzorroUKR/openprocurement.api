@@ -44,7 +44,7 @@ Tender Conditions Claim Submission (without documents)
 
 You can submit claim that does not need additional documents:
 
-.. include:: http/claim-submission-status-claim.http.http
+.. include:: http/claim-submission-status-claim.http
    :code:
 
 Complaint Submission

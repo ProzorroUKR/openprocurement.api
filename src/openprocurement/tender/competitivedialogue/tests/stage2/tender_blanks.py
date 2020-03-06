@@ -2,9 +2,15 @@
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.constants import SANDBOX_MODE, CPV_ITEMS_CLASS_FROM, ROUTE_PREFIX
+from openprocurement.api.constants import (
+    SANDBOX_MODE,
+    CPV_ITEMS_CLASS_FROM,
+    ROUTE_PREFIX,
+    RELEASE_2020_04_19,
+)
 from openprocurement.api.utils import get_now
 
+from openprocurement.tender.core.tests.cancellation import activate_cancellation_with_complaints_after_2020_04_19
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_cancellation
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_central as create_tender_central_base,
@@ -1804,7 +1810,8 @@ def tender_Administrator_change(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     self.assertEqual(response.status, "201 Created")
     tender = response.json["data"]
-    owner_token = response.json["access"]["token"]
+    self.tender_id = tender["id"]
+    owner_token = self.tender_token = response.json["access"]["token"]
 
     cancellation = dict(**test_cancellation)
     cancellation.update({
@@ -1816,6 +1823,9 @@ def tender_Administrator_change(self):
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
+    cancellation_id = response.json["data"]["id"]
+    if get_now() > RELEASE_2020_04_19:
+        activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id)
 
     self.app.authorization = ("Basic", ("administrator", ""))
     response = self.app.patch_json("/tenders/{}".format(tender["id"]), {"data": {"mode": u"test"}})
@@ -1868,7 +1878,7 @@ def invalid_tender_conditions(self):
     self.app.authorization = ("Basic", ("competitive_dialogue", ""))
     response = self.app.post_json("/tenders", {"data": self.test_tender_data_ua})
     tender_id = self.tender_id = response.json["data"]["id"]
-    owner_token = response.json["access"]["token"]
+    owner_token = self.tender_token = response.json["access"]["token"]
     # switch to active.tendering
     self.set_status("active.tendering")
     # cancellation
@@ -1877,10 +1887,14 @@ def invalid_tender_conditions(self):
         "reason": "invalid conditions",
         "status": "active"
     })
-    self.app.post_json(
+    response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender_id, owner_token),
         {"data": cancellation},
     )
+    cancellation_id = response.json["data"]["id"]
+    if get_now() > RELEASE_2020_04_19:
+        activate_cancellation_with_complaints_after_2020_04_19(
+            self, cancellation_id, tender_id, owner_token)
     # check status
     response = self.app.get("/tenders/{}".format(tender_id))
     self.assertEqual(response.json["data"]["status"], "cancelled")

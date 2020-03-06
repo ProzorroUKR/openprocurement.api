@@ -1,26 +1,23 @@
 # -*- coding: utf-8 -*-
 from barbecue import chef
-from base64 import b64decode
-from datetime import datetime, time, timedelta
 from logging import getLogger
-from openprocurement.api.constants import TZ, WORKING_DAYS
-from urllib import unquote
-from urlparse import urlparse, parse_qsl
+from openprocurement.api.constants import TZ, RELEASE_2020_04_19
 from openprocurement.api.utils import get_now, context_unpack
 from openprocurement.tender.core.utils import (
-    ACCELERATOR_RE,
-    error_handler,
     calculate_tender_business_date,
     cleanup_bids_for_cancelled_lots,
     remove_draft_bids,
 )
 from openprocurement.tender.core.constants import COMPLAINT_STAND_STILL_TIME
+from openprocurement.tender.core.utils import check_cancellation_status, get_first_revision_date
 
 LOGGER = getLogger("openprocurement.tender.belowthreshold")
 
 
 def check_bids(request):
     tender = request.validated["tender"]
+    new_rules = get_first_revision_date(tender, default=get_now()) > RELEASE_2020_04_19
+
     if tender.lots:
         [
             setattr(i.auctionPeriod, "startDate", None)
@@ -34,6 +31,8 @@ def check_bids(request):
         elif max([i.numberOfBids for i in tender.lots if i.status == "active"]) < 2:
             add_next_award(request)
     else:
+        if new_rules and any([i.status not in ["active", "unsuccessful"] for i in tender.cancellations]):
+            return
         if tender.numberOfBids < 2 and tender.auctionPeriod and tender.auctionPeriod.startDate:
             tender.auctionPeriod.startDate = None
         if tender.numberOfBids == 0:
@@ -97,6 +96,12 @@ def generate_contract_value(tender, award):
 def check_status(request):
     tender = request.validated["tender"]
     now = get_now()
+
+    excluded_procedures = ["belowThreshold", "closeFrameworkAgreementSelectionUA"]
+
+    if tender.procurementMethodType not in excluded_procedures:
+        check_cancellation_status(request)
+
     for complaint in tender.complaints:
         check_complaint_status(request, complaint, now)
     for award in tender.awards:

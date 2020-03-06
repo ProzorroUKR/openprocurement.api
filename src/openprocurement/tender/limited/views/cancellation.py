@@ -1,12 +1,17 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.utils import optendersresource
-from openprocurement.tender.belowthreshold.views.cancellation import TenderCancellationResource
+from openprocurement.tender.core.views.cancellation import BaseTenderCancellationResource
+from openprocurement.tender.belowthreshold.views.cancellation import \
+    TenderCancellationResource as BaseTenderReportingCancellationResource
 from openprocurement.tender.core.validation import (
     validate_tender_not_in_terminated_status,
     validate_cancellation_data,
     validate_patch_cancellation_data,
     validate_cancellation_of_active_lot,
+    validate_cancellation_statuses,
+    validate_create_cancellation_in_active_auction,
+    validate_edit_permission,
 )
 from openprocurement.tender.limited.validation import validate_absence_complete_lots_on_tender_cancel
 
@@ -18,10 +23,11 @@ from openprocurement.tender.limited.validation import validate_absence_complete_
     procurementMethodType="reporting",
     description="Tender cancellations",
 )
-class TenderReportingCancellationResource(TenderCancellationResource):
+class TenderReportingCancellationResource(BaseTenderReportingCancellationResource):
 
-    def cancel_tender(self):
-        tender = self.request.validated["tender"]
+    @staticmethod
+    def cancel_tender_method(request):
+        tender = request.validated["tender"]
         tender.status = "cancelled"
 
     def cancel_lot(self, cancellation=None):
@@ -35,12 +41,13 @@ class TenderReportingCancellationResource(TenderCancellationResource):
     procurementMethodType="negotiation",
     description="Tender cancellations",
 )
-class TenderNegotiationCancellationResource(TenderCancellationResource):
+class TenderNegotiationCancellationResource(BaseTenderCancellationResource):
     @json_view(
         content_type="application/json",
         validators=(
             validate_tender_not_in_terminated_status,
             validate_cancellation_data,
+            validate_create_cancellation_in_active_auction,
             validate_cancellation_of_active_lot,
             # # # from core above ^
             validate_absence_complete_lots_on_tender_cancel,
@@ -48,21 +55,23 @@ class TenderNegotiationCancellationResource(TenderCancellationResource):
         permission="edit_tender"
     )
     def collection_post(self):
-        return super(TenderCancellationResource, self).collection_post()
+        return super(TenderNegotiationCancellationResource, self).collection_post()
 
     @json_view(
         content_type="application/json",
         validators=(
+            validate_edit_permission,
             validate_tender_not_in_terminated_status,
             validate_patch_cancellation_data,
+            validate_cancellation_statuses,
             validate_cancellation_of_active_lot,
             # # from core above ^
             validate_absence_complete_lots_on_tender_cancel,
         ),
-        permission="edit_tender"
+        permission="edit_cancellation"
     )
     def patch(self):
-        return super(TenderCancellationResource, self).patch()
+        return super(TenderNegotiationCancellationResource, self).patch()
 
 
 @optendersresource(

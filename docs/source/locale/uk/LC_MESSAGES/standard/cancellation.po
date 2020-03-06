@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-17 11:45+0200\n"
+"POT-Creation-Date: 2020-03-05 17:18+0200\n"
 "PO-Revision-Date: 2018-08-17 15:05+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
@@ -42,17 +42,29 @@ msgstr "рядок"
 msgid "Possible values are:"
 msgstr "Можливі значення:"
 
+msgid "`draft`"
+msgstr ""
+
+msgid "Default. Cancellation in a state of formation."
+msgstr "За замовчуванням. Скасування у стані формування."
+
 msgid "`pending`"
 msgstr ""
 
-msgid "Default. The request is being prepared."
-msgstr "За замовчуванням. Запит оформляється."
+msgid "The request is being prepared."
+msgstr "Запит оформлюється."
 
 msgid "`active`"
 msgstr ""
 
 msgid "Cancellation activated."
 msgstr "Скасування активоване."
+
+msgid "`unsuccessful`"
+msgstr ""
+
+msgid "Cancellation was unsuccessful."
+msgstr "Невдале скасування"
 
 msgid "documents"
 msgstr ""
@@ -93,17 +105,11 @@ msgstr ""
 msgid "Id of related :ref:`lot`."
 msgstr "ID пов’язаного :ref:`lot`."
 
-msgid "Additionally in :ref:`openeu`, :ref:`openua` and :ref:`esco`:"
-msgstr "Додатково у :ref:`openeu`, :ref:`openua` та :ref:`esco`:"
-
 msgid "reasonType"
 msgstr ""
 
-msgid "There are two possible types of cancellation reason set by procuring entity:"
-msgstr "Існує двi можливi причини скасування:"
-
-msgid "There are four possible types of cancellation reason for common types of procedures set by procuring entity:"
-msgstr "Існує чотири можливi причини скасування для більшості процедур:"
+msgid "There are four possible types for `reporting`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`, `competitiveDialogueEU`, `competitiveDialogueUA`, `competitiveDialogueEU.stage2`, `competitiveDialogueUA.stage2`, `closeFrameworkAgreementUA`, `closeFrameworkAgreementSelectionUA` procedures set by procuring entity:"
+msgstr "Існує чотири можливi причини скасування для процедур `reporting`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`, `competitiveDialogueEU`, `competitiveDialogueUA`, `competitiveDialogueEU.stage2`, `competitiveDialogueUA.stage2`, `closeFrameworkAgreementUA`, `closeFrameworkAgreementSelectionUA`:"
 
 msgid "`noDemand`"
 msgstr ""
@@ -141,21 +147,24 @@ msgstr ""
 msgid "Possible types for `belowThreshold` and `aboveThresholdUA.defense`:"
 msgstr "Моживі причини скасування для `aboveThresholdUA.defense` та `aboveThresholdUA.defense`:"
 
+msgid "complaintPeriod"
+msgstr ""
+
+msgid ":ref:`period`"
+msgstr ""
+
+msgid "The timeframe when complaints can be submitted."
+msgstr "Період, під час якого можна подавати скарги."
+
+msgid "complaints"
+msgstr ""
+
+msgid "List of :ref:`complaint` objects"
+msgstr "Список об’єктів :ref:`complaint`"
+
 msgid "Cancellation workflow in :ref:`limited` and :ref:`openeu`"
 msgstr "Робочий процес у :ref:`limited` and :ref:`openeu`"
 
 msgid "\\* marks initial state"
 msgstr "\\* позначає початковий стан"
-
-#~ msgid "`cancelled`"
-#~ msgstr ""
-
-#~ msgid "Default. Tender was cancelled."
-#~ msgstr "За замовчуванням. Тендер було скасовано."
-
-#~ msgid "`unsuccessful`"
-#~ msgstr ""
-
-#~ msgid "Tender was unsuccessful."
-#~ msgstr "Тендер був невдалим."
 

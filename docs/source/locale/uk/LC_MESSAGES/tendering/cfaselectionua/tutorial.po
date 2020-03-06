@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.cfaselectionua 2.4.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-17 11:45+0200\n"
+"POT-Creation-Date: 2020-03-05 17:18+0200\n"
 "PO-Revision-Date: 2019-03-25 11:49+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -300,8 +300,8 @@ msgstr "Більше інформації про поведінку контра
 msgid "Cancelling tender"
 msgstr "Скасування закупівлі"
 
-msgid "Tender creator can cancel tender anytime (except when tender has terminal status e.g. `usuccesfull`, `canceled`, `complete`)."
-msgstr "Замовник може скасувати закупівлю у будь-який момент (крім закупівель у кінцевому стані, наприклад, `usuccesfull`, `canceled`, `complete`)."
+msgid "Tender creator can cancel tender anytime (except when tender in status `active.auction` or in terminal status e.g. `unsuccessful`, `canceled`, `complete`)."
+msgstr "Замовник може скасувати закупівлю у будь-який момент (крім закупівель у статусі `active.auction` чи у кінцевому стані, наприклад, `usuccesfull`, `canceled`, `complete`)."
 
 msgid "The following steps should be applied:"
 msgstr "Для цього потрібно виконати наступні кроки:"
@@ -324,8 +324,8 @@ msgstr "Див. структуру запиту :ref:`cancellation` для бі�
 msgid "Preparing the cancellation request"
 msgstr "Формування запиту на скасування"
 
-msgid "You should pass `reason` and `reasonType`, `status` defaults to `pending`."
-msgstr "Ви повинні передати змінні `reason` та `reasonType`, `status` у стані `pending`."
+msgid "You should pass `reason` and `reasonType`, `status` defaults to `draft`."
+msgstr "Ви повинні передати змінні `reason` та `reasonType`, `status` у стані `draft`."
 
 msgid "There are four possible types of cancellation reason - tender was `noDemand`, `unFixable`, `forceMajeure` and `expensesCut`."
 msgstr "При скасуванні, замовник має визначити один з чотирьох типів reasonType: `noDemand`, `unFixable`, `forceMajeure` aбо `expensesCut`."
@@ -335,6 +335,9 @@ msgstr "`id` генерується автоматично і повертаєт
 
 msgid "Filling cancellation with protocol and supplementary documentation"
 msgstr "Наповнення протоколом та іншою супровідною документацією"
+
+msgid "This step is required. Without documents you can't update tender status."
+msgstr "Цей крок обов'язковий. Без документів ви не можете оновити статус скарги."
 
 msgid "Upload the file contents"
 msgstr "Завантаження вмісту файлу"

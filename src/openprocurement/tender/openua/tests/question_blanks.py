@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from openprocurement.api.utils import get_now
+from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.tender.core.tests.cancellation import activate_cancellation_with_complaints_after_2020_04_19
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author, test_cancellation
 
 
@@ -58,7 +61,11 @@ def tender_has_unanswered_questions(self):
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": cancellation},
     )
+    cancellation_id = response.json["data"]["id"]
     self.assertEqual(response.status, "201 Created")
+
+    if get_now() > RELEASE_2020_04_19:
+        activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id)
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "cancelled")

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
 
+from pyramid.security import Allow
+
 from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist
 from schematics.types import StringType, IntType, URLType, BooleanType
@@ -31,7 +33,7 @@ from openprocurement.tender.core.models import (
     Award,
     Contract,
     Question,
-    Cancellation as BaseCancellation,
+    BaseCancellation,
     Feature,
     Lot as BaseLot,
     Complaint,
@@ -78,6 +80,8 @@ class IBelowThresholdTender(ITender):
 class Cancellation(BaseCancellation):
     _before_release_reasonType_choices = []
     _after_release_reasonType_choices = ["noDemand", "unFixable", "expensesCut"]
+
+    _after_release_status_choices = ["draft", "unsuccessful", "active"]
 
 
 @implementer(IBelowThresholdTender)
@@ -200,6 +204,11 @@ class Tender(BaseTender):
         for i in self.bids:
             roles["{}_{}".format(i.owner, i.owner_token)] = "bid_owner"
         return roles
+
+    def __acl__(self):
+        acl = super(Tender, self).__acl__()
+        acl.extend([(Allow, "g:brokers", "create_cancellation_complaint")])
+        return acl
 
     @serializable(serialize_when_none=False)
     def next_check(self):

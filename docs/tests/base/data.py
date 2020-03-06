@@ -781,7 +781,7 @@ tender_openeu = {
 
 tender_openua = {
     "tenderPeriod": {
-        "endDate": (parse(MOCK_DATETIME) + timedelta(days=16)).isoformat()
+        "endDate": (parse(MOCK_DATETIME) + timedelta(days=31)).isoformat()
     },
     "title": "футляри до державних нагород",
     "minimalStep": {
@@ -818,7 +818,7 @@ tender_esco = {
 
 tender_defense = {
     "tenderPeriod": {
-        "endDate": (parse(MOCK_DATETIME) + timedelta(days=16)).isoformat()
+        "endDate": (parse(MOCK_DATETIME) + timedelta(days=26)).isoformat()
     },
     "title": "футляри до державних нагород",
     "minimalStep": {

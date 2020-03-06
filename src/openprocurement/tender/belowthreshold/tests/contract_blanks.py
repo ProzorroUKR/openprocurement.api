@@ -5,9 +5,8 @@ from openprocurement.api.utils import get_now
 
 from openprocurement.tender.belowthreshold.tests.base import test_claim, test_cancellation
 
-
 # TenderContractResourceTest
-
+from openprocurement.api.constants import RELEASE_2020_04_19
 
 def create_tender_contract_invalid(self):
     self.app.authorization = ("Basic", ("token", ""))

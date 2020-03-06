@@ -52,10 +52,10 @@ Workflow
 Roles
 -----
 
-:Complainant:
+:Complaint owner:
     dashed
 
-:Procuring entity:
+:Tender owner:
     plain
 
 :Chronograph:

@@ -68,7 +68,6 @@ from openprocurement.tender.openua.constants import (
     PERIOD_END_REQUIRED_FROM,
 )
 
-
 class IAboveThresholdUATender(ITender):
     """ Marker interface for aboveThresholdUA tenders """
 
@@ -435,8 +434,6 @@ class Award(BaseAward):
             raise ValidationError(u"This field is required.")
 
 
-
-
 @implementer(IAboveThresholdUATender)
 class Tender(BaseTender):
     """Data regarding tender process - publicly inviting prospective contractors to submit bids for evaluation and selecting a winner or winners."""
@@ -532,11 +529,11 @@ class Tender(BaseTender):
         ]
         acl.extend(
             [
-                (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_tender"),
-                (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_tender_documents"),
                 (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_complaint"),
             ]
         )
+
+        self._acl_cancellation_complaint(acl)
         return acl
 
     def validate_enquiryPeriod(self, data, period):
@@ -650,6 +647,13 @@ class Tender(BaseTender):
             for award in self.awards:
                 if award.status == "active" and not any([i.awardID == award.id for i in self.contracts]):
                     checks.append(award.date)
+        if (
+            self.cancellations
+            and self.cancellations[-1].status == "pending"
+            and self.cancellations[-1].complaintPeriod
+        ):
+            cancellation = self.cancellations[-1]
+            checks.append(cancellation.complaintPeriod.endDate.astimezone(TZ))
         return min(checks).isoformat() if checks else None
 
     def invalidate_bids_data(self):
