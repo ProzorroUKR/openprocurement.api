@@ -7,7 +7,6 @@ from datetime import timedelta
 from openprocurement.api.utils import get_now, parse_date
 from openprocurement.api import validation
 from openprocurement.api.constants import (
-    COORDINATES_REG_EXP,
     ROUTE_PREFIX,
     CPV_BLOCK_FROM,
     NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
@@ -36,8 +35,9 @@ from openprocurement.tender.core.tests.criteria_utils import add_criteria
 
 def simple_add_tender(self):
 
-    u = Tender(self.initial_data)
+    u = self.tender_model(self.initial_data)
     u.tenderID = "UA-X"
+    u.noticePublicationDate = get_now().isoformat()  # esco
 
     assert u.id is None
     assert u.rev is None
@@ -47,40 +47,14 @@ def simple_add_tender(self):
     assert u.id is not None
     assert u.rev is not None
 
-    fromdb = self.db.get(u.id)
+    from_db = self.db.get(u.id)
 
-    assert u.tenderID == fromdb["tenderID"]
+    assert u.tenderID == from_db["tenderID"]
     assert u.doc_type == "Tender"
+    assert u.procurementMethodType == from_db["procurementMethodType"]
+    assert from_db["procurementMethodType"] == self.tender_model.procurementMethodType.default
 
     u.delete_instance(self.db)
-
-
-# TestCoordinatesRegExp
-
-
-def coordinates_reg_exp(self):
-    self.assertEqual("1", COORDINATES_REG_EXP.match("1").group())
-    self.assertEqual("1.1234567890", COORDINATES_REG_EXP.match("1.1234567890").group())
-    self.assertEqual("12", COORDINATES_REG_EXP.match("12").group())
-    self.assertEqual("12.1234567890", COORDINATES_REG_EXP.match("12.1234567890").group())
-    self.assertEqual("123", COORDINATES_REG_EXP.match("123").group())
-    self.assertEqual("123.1234567890", COORDINATES_REG_EXP.match("123.1234567890").group())
-    self.assertEqual("0", COORDINATES_REG_EXP.match("0").group())
-    self.assertEqual("0.1234567890", COORDINATES_REG_EXP.match("0.1234567890").group())
-    self.assertEqual("-0.1234567890", COORDINATES_REG_EXP.match("-0.1234567890").group())
-    self.assertEqual("-1", COORDINATES_REG_EXP.match("-1").group())
-    self.assertEqual("-1.1234567890", COORDINATES_REG_EXP.match("-1.1234567890").group())
-    self.assertEqual("-12", COORDINATES_REG_EXP.match("-12").group())
-    self.assertEqual("-12.1234567890", COORDINATES_REG_EXP.match("-12.1234567890").group())
-    self.assertEqual("-123", COORDINATES_REG_EXP.match("-123").group())
-    self.assertEqual("-123.1234567890", COORDINATES_REG_EXP.match("-123.1234567890").group())
-    self.assertNotEqual("1.", COORDINATES_REG_EXP.match("1.").group())
-    self.assertEqual(None, COORDINATES_REG_EXP.match(".1"))
-    self.assertNotEqual("1.1.", COORDINATES_REG_EXP.match("1.1.").group())
-    self.assertNotEqual("1..1", COORDINATES_REG_EXP.match("1..1").group())
-    self.assertNotEqual("1.1.1", COORDINATES_REG_EXP.match("1.1.1").group())
-    self.assertEqual(None, COORDINATES_REG_EXP.match("$tr!ng"))
-    self.assertEqual(None, COORDINATES_REG_EXP.match(""))
 
 
 # TenderResourceTest

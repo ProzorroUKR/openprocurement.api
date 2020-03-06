@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import os
 import unittest
 
 from openprocurement.api.tests.base import snitch
@@ -7,6 +6,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     BaseTenderWebTest, test_tender_data, test_lots,
     BaseApiWebTest,
 )
+from openprocurement.tender.belowthreshold.models import Tender
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     # TenderProcessTest
     one_valid_bid_tender,
@@ -15,8 +15,6 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender,
     invalid_tender_conditions,
     lost_contract_for_active_award,
-    # TestCoordinatesRegExp
-    coordinates_reg_exp,
     # TenderTest
     simple_add_tender,
     # TenderResourceTest
@@ -80,15 +78,13 @@ class TenderResourceTestMixin(object):
     test_patch_item_with_zero_quantity = snitch(patch_item_with_zero_quantity)
 
 
-class TenderTest(BaseApiWebTest):
-    initial_data = test_tender_data
-
+class TenderTestMixin:
     test_simple_add_tender = snitch(simple_add_tender)
 
 
-class TestCoordinatesRegExp(unittest.TestCase):
-
-    test_coordinates_reg_exp = snitch(coordinates_reg_exp)
+class TenderTest(TenderTestMixin, BaseApiWebTest):
+    tender_model = Tender
+    initial_data = test_tender_data
 
 
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):

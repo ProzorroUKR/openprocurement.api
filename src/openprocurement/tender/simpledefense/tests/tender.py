@@ -4,7 +4,7 @@ import unittest
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import test_lots
 
-from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
+from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin, TenderTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     # TenderUAProcessTest
     invalid_tender_conditions,
@@ -24,6 +24,7 @@ from openprocurement.tender.openua.tests.tender_blanks import (
     tender_with_main_procurement_category,
     tender_finance_milestones,
 )
+from openprocurement.tender.simpledefense.models import Tender
 
 from openprocurement.tender.simpledefense.tests.base import (
     BaseSimpleDefWebTest,
@@ -31,7 +32,7 @@ from openprocurement.tender.simpledefense.tests.base import (
     test_bids,
     BaseApiWebTest,
 )
-from openprocurement.tender.simpledefense.tests.tender_blanks import simple_add_tender, create_tender_invalid
+from openprocurement.tender.simpledefense.tests.tender_blanks import create_tender_invalid
 from openprocurement.tender.openuadefense.tests.tender_blanks import (
     # TenderUAResourceTest
     patch_tender,
@@ -45,10 +46,9 @@ from openprocurement.tender.openuadefense.tests.tender_blanks import (
 )
 
 
-class TenderUATest(BaseApiWebTest):
+class TenderUATest(TenderTestMixin, BaseApiWebTest):
+    tender_model = Tender
     initial_data = test_tender_data
-
-    test_simple_add_tender = snitch(simple_add_tender)
 
 
 class TenderUAResourceTest(BaseSimpleDefWebTest, TenderResourceTestMixin):

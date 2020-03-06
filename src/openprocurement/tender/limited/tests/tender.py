@@ -2,7 +2,7 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-
+from openprocurement.tender.belowthreshold.tests.tender import TenderTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     listing_draft,
     create_tender_draft,
@@ -19,7 +19,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_central_invalid,
     patch_tender_draft,
 )
-
+from openprocurement.tender.limited.models import NegotiationTender, NegotiationQuickTender, ReportingTender
 from openprocurement.tender.limited.tests.base import (
     BaseTenderWebTest,
     test_lots,
@@ -48,9 +48,6 @@ from openprocurement.tender.limited.tests.tender_blanks import (
     patch_tender,
     tender_Administrator_change,
     tender_with_main_procurement_category,
-    simple_add_tender_negotiation_quick,
-    simple_add_tender_negotiation,
-    simple_add_tender,
     create_tender_accreditation,
     tender_cause_desc,
     tender_cause_choices
@@ -68,23 +65,20 @@ class AccreditationTenderTest(BaseTenderWebTest):
     test_create_tender_accreditation = snitch(create_tender_accreditation)
 
 
-class TenderTest(BaseTenderWebTest):
+class TenderTest(TenderTestMixin, BaseTenderWebTest):
+    tender_model = ReportingTender
     initial_data = test_tender_data
-
-    test_simple_add_tender = snitch(simple_add_tender)
     test_tender_milestones_not_required = snitch(tender_milestones_not_required)
 
 
-class TenderNegotiationTest(BaseTenderWebTest):
+class TenderNegotiationTest(TenderTestMixin, BaseTenderWebTest):
+    tender_model = NegotiationTender
     initial_data = test_tender_negotiation_data
 
-    test_simple_add_tender = snitch(simple_add_tender_negotiation)
 
-
-class TenderNegotiationQuickTest(TenderNegotiationTest):
+class TenderNegotiationQuickTest(TenderTestMixin, BaseTenderWebTest):
+    tender_model = NegotiationQuickTender
     initial_data = test_tender_negotiation_quick_data
-
-    test_simple_add_tender = snitch(simple_add_tender_negotiation_quick)
 
 
 class TenderResourceTest(BaseTenderWebTest):

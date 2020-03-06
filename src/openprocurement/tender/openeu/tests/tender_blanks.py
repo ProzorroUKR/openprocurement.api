@@ -2,37 +2,15 @@
 from datetime import timedelta
 from copy import deepcopy
 
-from openprocurement.api.constants import CPV_ITEMS_CLASS_FROM, NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM
+from openprocurement.api.constants import (
+    CPV_ITEMS_CLASS_FROM,
+    NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
+    RELEASE_ECRITERIA_ARTICLE_17,
+)
 from openprocurement.api.utils import get_now, parse_date
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization
 from openprocurement.tender.core.utils import calculate_tender_business_date
-from openprocurement.tender.openeu.models import Tender
-from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
-
-# TenderTest
-
-
-def simple_add_tender(self):
-    u = Tender(self.initial_data)
-    u.tenderID = "UA-X"
-
-    assert u.id is None
-    assert u.rev is None
-
-    u.store(self.db)
-
-    assert u.id is not None
-    assert u.rev is not None
-
-    fromdb = self.db.get(u.id)
-
-    assert u.tenderID == fromdb["tenderID"]
-    assert u.doc_type == "Tender"
-    assert u.procurementMethodType == "aboveThresholdEU"
-    assert fromdb["procurementMethodType"] == "aboveThresholdEU"
-
-    u.delete_instance(self.db)
 
 
 # TenderResourceTest

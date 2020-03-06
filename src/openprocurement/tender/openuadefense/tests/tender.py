@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
-
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import test_lots
-
 from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     # TenderUAProcessTest
@@ -16,7 +14,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     patch_tender_minimalstep_validation,
 )
 
-from openprocurement.tender.openua.tests.tender import TenderUaProcessTestMixin
+from openprocurement.tender.openua.tests.tender import TenderUaProcessTestMixin, TenderTestMixin
 from openprocurement.tender.openua.tests.tender_blanks import (
     # TenderUAResourceTest
     empty_listing,
@@ -31,9 +29,8 @@ from openprocurement.tender.openuadefense.tests.base import (
     test_bids,
     BaseApiWebTest,
 )
+from openprocurement.tender.openuadefense.models import Tender
 from openprocurement.tender.openuadefense.tests.tender_blanks import (
-    # TenderUATest
-    simple_add_tender,
     # TenderUAResourceTest
     create_tender_invalid,
     patch_tender,
@@ -47,10 +44,9 @@ from openprocurement.tender.openuadefense.tests.tender_blanks import (
 )
 
 
-class TenderUATest(BaseApiWebTest):
+class TenderUATest(TenderTestMixin, BaseApiWebTest):
+    tender_model = Tender
     initial_data = test_tender_data
-
-    test_simple_add_tender = snitch(simple_add_tender)
 
 
 class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin):
