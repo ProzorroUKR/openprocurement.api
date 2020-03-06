@@ -1081,7 +1081,9 @@ def activate_cancellation(self):
     )
 
     self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.json["data"]["status"], "draft")
     complaint_2_id = response.json["data"]["id"]
+    complaint_2_token = response.json["access"]["token"]
 
     response = self.app.post_json(
         "/tenders/{}/cancellations/{}/complaints".format(
@@ -1124,15 +1126,20 @@ def activate_cancellation(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "pending")
 
+    self.app.authorization = auth
+
     response = self.app.patch_json(
         "/tenders/{}/cancellations/{}/complaints/{}?acc_token={}".format(
-            self.tender_id, cancellation_id, complaint_2_id, self.tender_token),
+            self.tender_id, cancellation_id, complaint_2_id, complaint_2_token),
         {"data": {"status": "mistaken"}},
     )
     complaint = response.json["data"]
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(complaint["status"], "mistaken")
+
+    auth = self.app.authorization
+    self.app.authorization = ("Basic", ("reviewer", ""))
 
     response = self.app.patch_json(
         "/tenders/{}/cancellations/{}/complaints/{}?acc_token={}".format(
