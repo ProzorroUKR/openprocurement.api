@@ -1,6 +1,6 @@
 POST /api/2.5/plans/f580aa1bdcf84194995a102bc3a96d2d/tenders HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 3431
+Content-Length: 3376
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -69,7 +69,6 @@ DATA:
         "locality": "м. Київ"
       }
     }, 
-    "procurementMethodDetails": "quick, accelerator=1440", 
     "items": [
       {
         "description": "Насіння гірчиці", 
@@ -192,43 +191,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/821592d97e83442c
       "amount": 35.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "procurementMethodDetails": "quick, accelerator=1440", 
-    "procurementMethodType": "belowThreshold", 
-    "value": {
-      "currency": "UAH", 
-      "amount": 500.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "submissionMethod": "electronicAuction", 
-    "procuringEntity": {
-      "contactPoint": {
-        "name": "Державне управління справами", 
-        "telephone": "0440000000"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "id": "111983", 
-        "legalName": "ДП Державне Управління Справами"
-      }, 
-      "name": "Державне управління справами", 
-      "kind": "general", 
-      "address": {
-        "postalCode": "01220", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Банкова, 11, корпус 1", 
-        "region": "м. Київ", 
-        "locality": "м. Київ"
-      }
-    }, 
-    "date": "2020-05-01T01:00:00+03:00", 
-    "tenderID": "UA-2020-05-01-000001", 
-    "awardCriteria": "lowestCost", 
-    "enquiryPeriod": {
-      "startDate": "2020-05-01T01:00:00+03:00", 
-      "endDate": "2020-05-15T01:00:00+03:00"
-    }, 
-    "owner": "broker", 
-    "dateModified": "2020-05-01T01:00:00+03:00", 
     "items": [
       {
         "description": "Насіння гірчиці", 
@@ -303,6 +265,42 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/821592d97e83442c
         "quantity": 3000.0
       }
     ], 
+    "procurementMethodType": "belowThreshold", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "submissionMethod": "electronicAuction", 
+    "date": "2020-05-01T01:00:00+03:00", 
+    "tenderID": "UA-2020-05-01-000001", 
+    "procuringEntity": {
+      "contactPoint": {
+        "name": "Державне управління справами", 
+        "telephone": "0440000000"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "111983", 
+        "legalName": "ДП Державне Управління Справами"
+      }, 
+      "name": "Державне управління справами", 
+      "kind": "general", 
+      "address": {
+        "postalCode": "01220", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Банкова, 11, корпус 1", 
+        "region": "м. Київ", 
+        "locality": "м. Київ"
+      }
+    }, 
+    "awardCriteria": "lowestCost", 
+    "enquiryPeriod": {
+      "startDate": "2020-05-01T01:00:00+03:00", 
+      "endDate": "2020-05-15T01:00:00+03:00"
+    }, 
+    "owner": "broker", 
+    "dateModified": "2020-05-01T01:00:00+03:00", 
     "id": "821592d97e83442cbb6f2aee3a5367b1", 
     "plans": [
       {

@@ -15,46 +15,40 @@ Content-Type: application/json; charset=UTF-8
     "mainProcurementCategory": "goods", 
     "complaintPeriod": {
       "startDate": "2020-03-04T01:00:00+03:00", 
-      "endDate": "2020-04-04T00:56:00+03:00"
+      "endDate": "2020-03-31T00:00:00+03:00"
     }, 
     "enquiryPeriod": {
       "startDate": "2020-03-04T01:00:00+03:00", 
-      "clarificationsUntil": "2020-04-04T00:53:00+03:00", 
-      "endDate": "2020-04-04T00:50:00+03:00"
+      "clarificationsUntil": "2020-03-31T00:00:00+03:00", 
+      "endDate": "2020-03-25T01:00:00+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
     "procurementMethodType": "closeFrameworkAgreementUA", 
-    "awardCriteria": "lowestCost", 
+    "procuringEntity": {
+      "kind": "general", 
+      "name": "Державне управління справами", 
+      "address": {
+        "postalCode": "01220", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Банкова, 11, корпус 1", 
+        "region": "м. Київ", 
+        "locality": "м. Київ"
+      }, 
+      "contactPoint": {
+        "name_en": "State administration", 
+        "name": "Державне управління справами", 
+        "availableLanguage": "uk", 
+        "telephone": "0440000000"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "legalName_en": "dus.gov.ua", 
+        "id": "00037256", 
+        "uri": "http://www.dus.gov.ua/"
+      }, 
+      "name_en": "State administration"
+    }, 
     "owner": "broker", 
-    "qualifications": [
-      {
-        "status": "active", 
-        "lotID": "2b33a80c73cb4c39957170a963adfe52", 
-        "eligible": true, 
-        "qualified": true, 
-        "bidID": "f875346eda7843a3b3b9fefc28f5662c", 
-        "date": "2020-04-04T01:00:00+03:00", 
-        "id": "150ec43aaf5748dbb9b78e60023cd8a7"
-      }, 
-      {
-        "status": "active", 
-        "lotID": "2b33a80c73cb4c39957170a963adfe52", 
-        "eligible": true, 
-        "qualified": true, 
-        "bidID": "f552af0c653d4d6a9ece8b678225ca20", 
-        "date": "2020-04-04T01:00:00+03:00", 
-        "id": "3f519d79b2e74b62a0d599bdc4142e79"
-      }, 
-      {
-        "status": "active", 
-        "lotID": "2b33a80c73cb4c39957170a963adfe52", 
-        "eligible": true, 
-        "qualified": true, 
-        "bidID": "8f15d54cd54a4ea2a61c9d56f0c444da", 
-        "date": "2020-04-04T01:00:00+03:00", 
-        "id": "f0a168c1e7064265882efaf32f59d088"
-      }
-    ], 
     "id": "3b7af763f1e2441080bbb1c6bdb75005", 
     "contractPeriod": {
       "startDate": "2020-04-25T01:00:00+03:00", 
@@ -262,7 +256,10 @@ Content-Type: application/json; charset=UTF-8
         "id": "eb35d61e7cde4a008003f5cd17ddb0c7"
       }
     ], 
-    "procurementMethodDetails": "quick, accelerator=1440", 
+    "auctionPeriod": {
+      "startDate": "2020-04-14T01:00:00+03:00", 
+      "endDate": "2020-04-15T01:00:00+03:00"
+    }, 
     "dateModified": "2020-05-01T01:00:00+03:00", 
     "tenderID": "UA-2020-05-01-000001", 
     "numberOfBids": 3, 
@@ -270,10 +267,35 @@ Content-Type: application/json; charset=UTF-8
       "startDate": "2020-03-04T01:00:00+03:00", 
       "endDate": "2020-04-04T01:00:00+03:00"
     }, 
-    "auctionPeriod": {
-      "startDate": "2020-04-14T01:00:00+03:00", 
-      "endDate": "2020-04-15T01:00:00+03:00"
-    }, 
+    "qualifications": [
+      {
+        "status": "active", 
+        "lotID": "2b33a80c73cb4c39957170a963adfe52", 
+        "eligible": true, 
+        "qualified": true, 
+        "bidID": "f875346eda7843a3b3b9fefc28f5662c", 
+        "date": "2020-04-04T01:00:00+03:00", 
+        "id": "150ec43aaf5748dbb9b78e60023cd8a7"
+      }, 
+      {
+        "status": "active", 
+        "lotID": "2b33a80c73cb4c39957170a963adfe52", 
+        "eligible": true, 
+        "qualified": true, 
+        "bidID": "f552af0c653d4d6a9ece8b678225ca20", 
+        "date": "2020-04-04T01:00:00+03:00", 
+        "id": "3f519d79b2e74b62a0d599bdc4142e79"
+      }, 
+      {
+        "status": "active", 
+        "lotID": "2b33a80c73cb4c39957170a963adfe52", 
+        "eligible": true, 
+        "qualified": true, 
+        "bidID": "8f15d54cd54a4ea2a61c9d56f0c444da", 
+        "date": "2020-04-04T01:00:00+03:00", 
+        "id": "f0a168c1e7064265882efaf32f59d088"
+      }
+    ], 
     "title_en": "Cases for state awards", 
     "agreementDuration": "P3Y3M3D", 
     "awards": [
@@ -596,30 +618,7 @@ Content-Type: application/json; charset=UTF-8
       "amount": 500.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "procuringEntity": {
-      "kind": "general", 
-      "name": "Державне управління справами", 
-      "address": {
-        "postalCode": "01220", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Банкова, 11, корпус 1", 
-        "region": "м. Київ", 
-        "locality": "м. Київ"
-      }, 
-      "contactPoint": {
-        "name_en": "State administration", 
-        "name": "Державне управління справами", 
-        "availableLanguage": "uk", 
-        "telephone": "0440000000"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "legalName_en": "dus.gov.ua", 
-        "id": "00037256", 
-        "uri": "http://www.dus.gov.ua/"
-      }, 
-      "name_en": "State administration"
-    }
+    "awardCriteria": "lowestCost"
   }
 }
 

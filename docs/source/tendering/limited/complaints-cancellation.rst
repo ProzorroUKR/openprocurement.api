@@ -109,8 +109,8 @@ Cancelling not accepted complaint
 .. include:: http/tutorial/cancellation-complaint-reject.http
    :code:
 
-Cancelling accepted complaint by Reviewer
------------------------------------------
+Cancelling accepted complaint
+-----------------------------
 
 .. include:: http/tutorial/cancellation-complaint-accepted-stopped.http
    :code:

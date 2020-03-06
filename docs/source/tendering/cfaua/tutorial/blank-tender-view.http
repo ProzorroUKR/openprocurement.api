@@ -10,12 +10,12 @@ Content-Type: application/json; charset=UTF-8
     "mainProcurementCategory": "goods", 
     "complaintPeriod": {
       "startDate": "2020-05-01T01:00:00+03:00", 
-      "endDate": "2020-06-01T00:56:00+03:00"
+      "endDate": "2020-05-28T00:00:00+03:00"
     }, 
     "enquiryPeriod": {
       "startDate": "2020-05-01T01:00:00+03:00", 
-      "clarificationsUntil": "2020-06-01T00:53:00+03:00", 
-      "endDate": "2020-06-01T00:50:00+03:00"
+      "clarificationsUntil": "2020-05-28T00:00:00+03:00", 
+      "endDate": "2020-05-22T01:00:00+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
     "next_check": "2020-06-01T01:00:00+03:00", 
@@ -57,7 +57,7 @@ Content-Type: application/json; charset=UTF-8
           "valueAddedTaxIncluded": true
         }, 
         "auctionPeriod": {
-          "shouldStartAfter": "2020-06-02T00:00:00+03:00"
+          "shouldStartAfter": "2020-07-07T00:00:00+03:00"
         }, 
         "value": {
           "currency": "UAH", 
@@ -70,7 +70,6 @@ Content-Type: application/json; charset=UTF-8
     ], 
     "maxAwardsCount": 4, 
     "tenderID": "UA-2020-05-01-000001", 
-    "procurementMethodDetails": "quick, accelerator=1440", 
     "dateModified": "2020-05-01T01:00:00+03:00", 
     "status": "active.tendering", 
     "tenderPeriod": {

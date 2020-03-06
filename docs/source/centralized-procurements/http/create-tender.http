@@ -1,6 +1,6 @@
 POST /api/2.5/tenders HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 2601
+Content-Length: 2546
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -81,7 +81,6 @@ DATA:
       }, 
       "name": "ЦЗО №1"
     }, 
-    "procurementMethodDetails": "quick, accelerator=1440", 
     "items": [
       {
         "description": "Насіння гірчиці", 
@@ -168,23 +167,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a40454d58b7b4e1e
       "amount": 35.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "procurementMethodDetails": "quick, accelerator=1440", 
-    "procurementMethodType": "belowThreshold", 
-    "value": {
-      "currency": "UAH", 
-      "amount": 500.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "submissionMethod": "electronicAuction", 
-    "date": "2019-05-12T12:00:00+03:00", 
-    "tenderID": "UA-2019-05-12-000001", 
-    "awardCriteria": "lowestCost", 
-    "enquiryPeriod": {
-      "startDate": "2019-10-01T01:00:00+03:00", 
-      "endDate": "2019-10-30T01:00:00+03:00"
-    }, 
-    "owner": "broker", 
-    "dateModified": "2019-05-12T12:00:00+03:00", 
     "items": [
       {
         "description": "Насіння гірчиці", 
@@ -211,7 +193,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a40454d58b7b4e1e
         "quantity": 1000.0
       }
     ], 
-    "id": "a40454d58b7b4e1eb327f6aef0d0d21d", 
+    "procurementMethodType": "belowThreshold", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "submissionMethod": "electronicAuction", 
+    "date": "2019-05-12T12:00:00+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Довідкова", 
@@ -231,7 +220,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a40454d58b7b4e1e
         "region": "м. Київ", 
         "locality": "м. Київ"
       }
-    }
+    }, 
+    "awardCriteria": "lowestCost", 
+    "enquiryPeriod": {
+      "startDate": "2019-10-01T01:00:00+03:00", 
+      "endDate": "2019-10-30T01:00:00+03:00"
+    }, 
+    "owner": "broker", 
+    "dateModified": "2019-05-12T12:00:00+03:00", 
+    "id": "a40454d58b7b4e1eb327f6aef0d0d21d", 
+    "tenderID": "UA-2019-05-12-000001"
   }
 }
 

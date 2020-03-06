@@ -615,7 +615,7 @@ Passing Complaint Period
 
 For activate complaint period, you need to update cancellation from `draft` to `pending`.
 
-.. include::  http/pending-cancellation.http
+.. include::  tutorial/pending-cancellation.http
    :code:
 
 When cancellation in `pending` status the tender owner is prohibited from all actions on the tender.

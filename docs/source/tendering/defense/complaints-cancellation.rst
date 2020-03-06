@@ -55,14 +55,14 @@ Complaint Resolution
 ====================
 
 Rejecting Tender Cancellation Complaint
---------------------------------------------------
+---------------------------------------
 
 .. include:: http/cancellation-complaint-reject.http
    :code:
 
 
 Accepting Tender Cancellation Complaint
---------------------------------------------------
+---------------------------------------
 
 .. include:: http/cancellation-complaint-accept.http
    :code:
@@ -109,8 +109,8 @@ Cancelling not accepted complaint
 .. include:: http/cancellation-complaint-reject.http
    :code:
 
-Cancelling accepted complaint by Reviewer
------------------------------------------
+Cancelling accepted complaint
+-----------------------------
 
 .. include:: http/cancellation-complaint-accepted-stopped.http
    :code:

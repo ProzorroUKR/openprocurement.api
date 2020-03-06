@@ -116,8 +116,8 @@ Tender Award Claims/Complaints
 
     complaints-award
 
-Tender Cancellation Complaints (only for negotiation and negotiation.quick)
----------------------------------------------------------------------------
+Tender Cancellation Complaints
+------------------------------
 
 .. graphviz::
 

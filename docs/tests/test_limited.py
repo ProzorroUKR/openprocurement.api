@@ -887,7 +887,7 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
             {'data': {"status": "pending"}})
         self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'cancellation-complaint-submission.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/cancellation-complaint-submission.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/cancellations/{}/complaints'.format(
                     self.tender_id, cancellation_id),
@@ -897,7 +897,7 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
         complaint1_token = response.json['access']['token']
         complaint1_id = response.json['data']['id']
 
-        with open(TARGET_DIR + 'cancellation-complaint-submission-upload.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/cancellation-complaint-submission-upload.http', 'w') as self.app.file_obj:
             response = self.app.post(
                 '/tenders/{}/cancellations/{}/complaints/{}/documents?acc_token={}'.format(
                     self.tender_id, cancellation_id, complaint1_id, complaint1_token),
@@ -906,7 +906,7 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
 
         complaint_data = {'data': complaint.copy()}
         complaint_data['data']['status'] = 'pending'
-        with open(TARGET_DIR + 'cancellation-complaint-submission-complaint.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/cancellation-complaint-submission-complaint.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/cancellations/{}/complaints'.format(
                     self.tender_id, cancellation_id), complaint_data)
@@ -922,7 +922,7 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
         complaint4_id = response.json['data']['id']
         complaint4_token = response.json['access']['token']
 
-        with open(TARGET_DIR + 'cancellation-complaint-complaint.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/cancellation-complaint-complaint.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/cancellations/{}/complaints/{}?acc_token={}'.format(
                     self.tender_id, cancellation_id, complaint1_id, complaint1_token),
@@ -944,7 +944,7 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
         complaint6_token = response.json['access']['token']
 
         self.app.authorization = ('Basic', ('reviewer', ''))
-        with open(TARGET_DIR + 'cancellation-complaint-reject.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/cancellation-complaint-reject.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/cancellations/{}/complaints/{}'.format(
                     self.tender_id, cancellation_id, complaint4_id),
@@ -953,7 +953,7 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
                 }})
             self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'cancellation-complaint-accept.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/cancellation-complaint-accept.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/cancellations/{}/complaints/{}'.format(
                     self.tender_id, cancellation_id, complaint1_id),
@@ -986,14 +986,14 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
             }})
         self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'cancellation-complaint-resolution-upload.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/cancellation-complaint-resolution-upload.http', 'w') as self.app.file_obj:
             response = self.app.post(
                 '/tenders/{}/cancellations/{}/complaints/{}/documents'.format
                 (self.tender_id, cancellation_id, complaint1_id),
                 upload_files=[('file', u'ComplaintResolution.pdf', 'content')])
             self.assertEqual(response.status, '201 Created')
 
-        with open(TARGET_DIR + 'cancellation-complaint-resolve.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/cancellation-complaint-resolve.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/cancellations/{}/complaints/{}'.format(
                     self.tender_id, cancellation_id, complaint1_id),
@@ -1002,7 +1002,7 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
                 }})
             self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'cancellation-complaint-decline.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/cancellation-complaint-decline.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/cancellations/{}/complaints/{}'.format(
                     self.tender_id, cancellation_id, complaint3_id),
@@ -1011,7 +1011,7 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
                 }})
             self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'cancellation-complaint-accepted-stopped.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/cancellation-complaint-accepted-stopped.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/cancellations/{}/complaints/{}'.format(
                     self.tender_id, cancellation_id, complaint5_id),
@@ -1030,7 +1030,7 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
         )
         self.assertEqual(response.status_code, 200)
 
-        with open(TARGET_DIR + 'cancellation-complaint-resolved.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/cancellation-complaint-resolved.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/cancellations/{}/complaints/{}?acc_token={}'.format(
                     self.tender_id, cancellation_id, complaint1_id, owner_token),
@@ -1041,7 +1041,7 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
             self.assertEqual(response.status, '200 OK')
 
         self.app.authorization = ('Basic', ('reviewer', ''))
-        with open(TARGET_DIR + 'cancellation-complaint-accepted-stopped.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/cancellation-complaint-accepted-stopped.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/cancellations/{}/complaints/{}'.format(
                     self.tender_id, cancellation_id, complaint6_id),
@@ -1077,13 +1077,13 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
             {'data': complaint})
         self.assertEqual(response.status, '201 Created')
 
-        with open(TARGET_DIR + 'cancellation-complaints-list.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/cancellation-complaints-list.http', 'w') as self.app.file_obj:
             self.app.authorization = None
             response = self.app.get('/tenders/{}/cancellations/{}/complaints'.format(
                 self.tender_id, cancellation_id))
             self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'cancellation-complaint.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/cancellation-complaint.http', 'w') as self.app.file_obj:
             self.app.authorization = None
             response = self.app.get('/tenders/{}/cancellations/{}/complaints/{}'.format(
                 self.tender_id, cancellation_id, complaint1_id))
