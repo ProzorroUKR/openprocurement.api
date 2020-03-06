@@ -72,6 +72,14 @@ def validate_update_complaint_not_in_allowed_status(request):
         raise_operation_error(request, "Can't update complaint in current ({}) status".format(request.context.status))
 
 
+def validate_only_claim_allowed(request):
+    if request.validated["complaint"]["type"] != "claim":
+        raise_operation_error(
+            request,
+            "Can't add complaint of '{}' type".format(request.validated["complaint"]["type"])
+        )
+
+
 # complaint document
 def validate_complaint_document_operation_not_in_allowed_status(request):
     if request.validated["tender_status"] not in [

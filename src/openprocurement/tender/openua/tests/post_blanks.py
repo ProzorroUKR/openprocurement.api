@@ -46,8 +46,8 @@ def create_complaint_post_status_forbidden(self):
 @mock.patch("openprocurement.tender.openua.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def create_complaint_post_claim_forbidden(self):
     # make complaint type claim
-    response = self.patch_complaint({"type": "claim", "status": "claim"}, self.complaint_owner_token)
-    self.assertEqual(response.status, "200 OK")
+    response = self.post_claim()
+    self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.json["data"]["status"], "claim")
 
     # try in claim

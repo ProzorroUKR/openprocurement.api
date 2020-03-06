@@ -38,11 +38,15 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "title": "Недостатньо інформації", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 3000.0
+    }, 
     "cancellationReason": "Умови виправлено", 
     "dateCanceled": "2020-05-01T01:00:03+03:00", 
     "complaintID": "UA-2020-05-01-000001.9", 
     "date": "2020-05-01T01:00:03+03:00", 
-    "type": "claim", 
+    "type": "complaint", 
     "id": "04f6b05d37e54820b04afc6449cbb1c4"
   }
 }

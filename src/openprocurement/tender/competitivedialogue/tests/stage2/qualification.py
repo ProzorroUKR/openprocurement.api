@@ -2,6 +2,7 @@
 import unittest
 from copy import deepcopy
 from openprocurement.api.tests.base import snitch
+from openprocurement.tender.belowthreshold.tests.base import test_draft_claim
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUStage2ContentWebTest,
     test_bids,
@@ -238,7 +239,7 @@ class TenderStage2EUQualificationComplaintDocumentResourceTest(BaseCompetitiveDi
             "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
                 self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
             ),
-            {"data": {"title": "complaint title", "description": "complaint description", "author": self.author_data}},
+            {"data": test_draft_claim},
         )
         complaint = response.json["data"]
         self.complaint_id = complaint["id"]

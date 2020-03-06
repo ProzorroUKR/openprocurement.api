@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-import json
-import decimal
 from contextlib import contextmanager
 from decimal import Decimal
 
@@ -44,6 +42,10 @@ from openprocurement.api.constants import (
 )
 from openprocurement.api.interfaces import IOPContent
 from openprocurement.api.interfaces import IContentConfigurator
+import requests
+import decimal
+import json
+import sys
 
 json_view = partial(view, renderer="simplejson")
 
@@ -725,3 +727,61 @@ def handle_store_exceptions(request):
         request.errors.status = 409
     except Exception as e:  # pragma: no cover
         request.errors.add("body", "data", str(e))
+
+
+def get_currency_rates(request):
+    kwargs = {}
+    scheme = "https"
+    proxy_address = request.registry.settings.get("proxy_address")
+    if proxy_address:
+        if "http" in proxy_address and not proxy_address.startswith('https'):
+            scheme = "http"
+        kwargs.update(proxies={scheme: proxy_address})
+    base_url = "{}://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date={}&json".format(
+        scheme,
+        get_now().strftime('%Y%m%d')
+    )
+    try:
+        resp = requests.get(base_url, **kwargs)
+    except requests.exceptions.RequestException as e:
+        raise raise_operation_error(
+            request,
+            "Error while getting data from bank.gov.ua: {}".format(e),
+            status=409
+        )
+    try:
+        return resp.json()
+    except ValueError:
+        raise raise_operation_error(
+            request,
+            "Failure of decoding data from bank.gov.ua",
+            status=409
+        )
+
+
+def get_uah_amount_from_value(request, value, logging_params):
+    amount = float(value["amount"])
+    currency = value["currency"]
+    if currency != "UAH":
+        for row in request.currency_rates:
+            if row["cc"] == currency:
+                currency_rate = row["rate"]
+                break
+        else:
+            raise raise_operation_error(
+                request,
+                "Couldn't find currency {} on bank.gov.ua".format(currency),
+                status=422
+            )
+
+        amount *= currency_rate
+        LOGGER.info(
+            "Converting {} {} into {} UAH using rate {}".format(
+                value["amount"], value["currency"],
+                amount, currency_rate
+            ),
+            extra=context_unpack(
+                request, {"MESSAGE_ID": "complaint_exchange_rate"}, logging_params
+            ),
+        )
+    return amount

@@ -26,17 +26,17 @@ Tender Conditions Claim Submission (with documents)
 
 At first create a claim:
 
-.. include:: http/complaint-submission.http
+.. include:: http/claim-submission.http
    :code:
 
 Then upload necessary documents:
    
-.. include:: http/complaint-submission-upload.http
+.. include:: http/claim-submission-upload.http
    :code:
 
 Submit tender conditions claim:
    
-.. include:: http/complaint-claim.http
+.. include:: http/claim-patch-status.http
    :code:
 
 Tender Conditions Claim Submission (without documents)
@@ -44,7 +44,7 @@ Tender Conditions Claim Submission (without documents)
 
 You can submit claim that does not need additional documents:
 
-.. include:: http/complaint-submission-claim.http
+.. include:: http/claim-submission-status-claim.http.http
    :code:
 
 Complaint Submission
@@ -116,7 +116,7 @@ Claim's Answer
 Answer to resolved claim
 ------------------------
 
-.. include:: http/complaint-answer.http
+.. include:: http/claim-answer.http
    :code:
 
 
@@ -126,12 +126,14 @@ Satisfied Claim
 Satisfying resolution
 ---------------------
 
-.. include:: http/complaint-satisfy.http
+.. include:: http/claim-satisfy.http
    :code:
 
 
 Escalate claim to complaint
 ---------------------------
+
+Escalating doesn't work since Release 2020-04-19. Any try of changing claims to complaints will fail:
 
 .. include:: http/complaint-escalate.http
    :code:
@@ -191,9 +193,6 @@ Cancelling accepted complaint by Complainant
 --------------------------------------------
 
 .. include:: http/complaint-accepted-stopping.http
-   :code:
-
-.. include:: http/complaint-stopping-stopped.http
    :code:
 
 Cancelling accepted complaint by Reviewer

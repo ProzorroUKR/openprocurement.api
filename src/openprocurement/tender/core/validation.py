@@ -979,3 +979,11 @@ def validate_tender_plan_data(request):
         plan.validate()
     request.validated["plan"] = plan
     request.validated["plan_src"] = plan.serialize("plain")
+
+
+def validate_complaint_type_change(request):
+    tender = request.validated["tender"]
+    if get_first_revision_date(tender, default=get_now()) > RELEASE_2020_04_19:
+        complaint = request.validated["complaint"]
+        if complaint.type == "claim":
+            raise_operation_error(request, "Can't update claim to complaint")

@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
 from iso8601 import parse_date
-
+from copy import deepcopy
 from openprocurement.api.models import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author, test_cancellation
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_organization, test_author, test_cancellation, test_claim
+)
 
 
 # TenderLotResourceTest
@@ -304,16 +306,12 @@ def question_blocking(self):
 
 def claim_blocking(self):
     self.app.authorization = ("Basic", ("broker", ""))
+    claim_data = deepcopy(test_claim)
+    claim_data["relatedLot"] = self.initial_lots[0]["id"]
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": test_author,
-                "relatedLot": self.initial_lots[0]["id"],
-                "status": "claim",
-            }
+            "data": claim_data
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -400,16 +398,12 @@ def next_check_value_with_unanswered_question(self):
 
 def next_check_value_with_unanswered_claim(self):
     self.app.authorization = ("Basic", ("broker", ""))
+    claim = deepcopy(test_claim)
+    claim["relatedLot"] = self.initial_lots[0]["id"]
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": test_author,
-                "relatedLot": self.initial_lots[0]["id"],
-                "status": "claim",
-            }
+            "data": claim
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -2028,16 +2022,12 @@ def proc_2lot_2bid_1claim_1com_1win(self):
         {"data": {"status": "active", "qualified": True, "eligible": True}},
     )
     # add complaint
+    claim = deepcopy(test_claim)
+    claim["relatedLot"] = lot_id
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(tender_id, award_id, bid_token),
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": test_author,
-                "relatedLot": lot_id,
-                "status": "claim",
-            }
+            "data": claim
         },
     )
     self.assertEqual(response.status, "201 Created")

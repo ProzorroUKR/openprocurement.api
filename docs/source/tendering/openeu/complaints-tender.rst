@@ -26,7 +26,7 @@ Tender Conditions Claim Submission (with documents)
 
 At first create a claim:
 
-.. include:: http/tutorial/complaint-submission.http
+.. include:: http/tutorial/claim-submission.http
    :code:
 
 Then upload necessary documents:

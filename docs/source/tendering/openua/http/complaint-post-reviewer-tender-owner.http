@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/7ca938a74b3b44a7979818052b0a8788/complaints/1908c62d7a7e47fb8294a2d70b46b27c/posts HTTP/1.0
+POST /api/2.5/tenders/7ca938a74b3b44a7979818052b0a8788/complaints/a9ec53adb2a84e70bd9e27f983435e3e/posts HTTP/1.0
 Authorization: Bearer reviewer
 Content-Length: 278
 Content-Type: application/json
@@ -14,7 +14,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7ca938a74b3b44a7979818052b0a8788/complaints/1908c62d7a7e47fb8294a2d70b46b27c/posts/0e73baed25a944c4a24cad551a8185a3
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7ca938a74b3b44a7979818052b0a8788/complaints/a9ec53adb2a84e70bd9e27f983435e3e/posts/0e73baed25a944c4a24cad551a8185a3
 {
   "data": {
     "description": "Відсутній документ", 

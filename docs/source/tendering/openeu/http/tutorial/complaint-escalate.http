@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/71c0e0ebf297470aa18a89c42f80fb55/complaints/d30ff8805b04436ea662fd10fd62ea54?acc_token=02abfd9361cd4a878d6872210a9933f1 HTTP/1.0
+PATCH /api/2.5/tenders/71c0e0ebf297470aa18a89c42f80fb55/complaints/6c4b6a3021c1460c86c034388867b3a4?acc_token=a0f15dd7702742f590025ca6607aa9d4 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 51
 Content-Type: application/json
@@ -47,7 +47,7 @@ Content-Type: application/json; charset=UTF-8
     "complaintID": "UA-2020-05-01-000001.4", 
     "date": "2020-05-01T01:00:00+03:00", 
     "resolution": "Вимога не відповідає предмету закупівлі", 
-    "id": "d30ff8805b04436ea662fd10fd62ea54"
+    "id": "6c4b6a3021c1460c86c034388867b3a4"
   }
 }
 

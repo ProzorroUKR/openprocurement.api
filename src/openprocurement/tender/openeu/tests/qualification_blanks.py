@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_cancellation
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_cancellation, test_draft_claim, test_complaint, test_claim
+)
 from openprocurement.tender.core.tests.base import change_auth
 
 # TenderQualificationResourceTest
@@ -903,7 +905,7 @@ def put_qualification_document_after_status_change(self):
 def create_tender_qualification_complaint_invalid(self):
     response = self.app.post_json(
         "/tenders/some_id/qualifications/some_id/complaints",
-        {"data": {"title": "complaint title", "description": "complaint description", "author": self.author_data}},
+        {"data": test_draft_claim},
         status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
@@ -994,69 +996,6 @@ def create_tender_qualification_complaint_invalid(self):
         ],
     )
 
-    response = self.app.post_json(
-        request_path,
-        {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": {"identifier": {"id": 0}},
-            }
-        },
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                u"description": {
-                    u"contactPoint": [u"This field is required."],
-                    u"identifier": {u"scheme": [u"This field is required."]},
-                    u"name": [u"This field is required."],
-                    u"address": [u"This field is required."],
-                },
-                u"location": u"body",
-                u"name": u"author",
-            }
-        ],
-    )
-
-    response = self.app.post_json(
-        request_path,
-        {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": {"name": "name", "identifier": {"uri": "invalid_value"}},
-            }
-        },
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                u"description": {
-                    u"contactPoint": [u"This field is required."],
-                    u"identifier": {
-                        u"scheme": [u"This field is required."],
-                        u"id": [u"This field is required."],
-                        u"uri": [u"Not a well formed URL."],
-                    },
-                    u"address": [u"This field is required."],
-                },
-                u"location": u"body",
-                u"name": u"author",
-            }
-        ],
-    )
-
 
 def create_tender_qualification_complaint(self):
     response = self.app.post_json(
@@ -1064,12 +1003,7 @@ def create_tender_qualification_complaint(self):
             self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
         ),
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": self.author_data,
-                "status": "pending",
-            }
+            "data": test_complaint
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -1085,7 +1019,7 @@ def create_tender_qualification_complaint(self):
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
         ),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": self.author_data}},
+        {"data": test_draft_claim},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1100,7 +1034,7 @@ def patch_tender_qualification_complaint(self):
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
         ),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": self.author_data}},
+        {"data": test_draft_claim},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1207,7 +1141,7 @@ def patch_tender_qualification_complaint(self):
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
         ),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": self.author_data}},
+        {"data": test_draft_claim},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1238,12 +1172,7 @@ def review_tender_qualification_complaint(self):
                 self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
             ),
             {
-                "data": {
-                    "title": "complaint title",
-                    "description": "complaint description",
-                    "author": self.author_data,
-                    "status": "pending",
-                }
+                "data": test_complaint
             },
         )
         self.assertEqual(response.status, "201 Created")
@@ -1335,12 +1264,7 @@ def review_tender_qualification_stopping_complaint(self):
                 self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
             ),
             {
-                "data": {
-                    "title": "complaint title",
-                    "description": "complaint description",
-                    "author": self.author_data,
-                    "status": "pending",
-                }
+                "data": test_complaint
             },
         )
         self.assertEqual(response.status, "201 Created")
@@ -1384,12 +1308,7 @@ def review_tender_award_claim(self):
                 self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
             ),
             {
-                "data": {
-                    "title": "complaint title",
-                    "description": "complaint description",
-                    "author": self.author_data,
-                    "status": "claim",
-                }
+                "data": test_claim
             },
         )
         self.assertEqual(response.status, "201 Created")
@@ -1431,7 +1350,7 @@ def get_tender_qualification_complaint(self):
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
         ),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": self.author_data}},
+        {"data": test_draft_claim},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1468,7 +1387,7 @@ def get_tender_qualification_complaints(self):
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
         ),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": self.author_data}},
+        {"data": test_draft_claim},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1495,7 +1414,7 @@ def get_tender_qualification_complaints(self):
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
         ),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": self.author_data}},
+        {"data": test_draft_claim},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1512,12 +1431,7 @@ def change_status_to_standstill_with_complaint(self):
             self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
         ),
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": self.author_data,
-                "status": "pending",
-            }
+            "data": test_complaint
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -1624,12 +1538,7 @@ def create_tender_lot_qualification_complaint(self):
             self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
         ),
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": self.author_data,
-                "status": "pending",
-            }
+            "data": test_complaint
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -1645,7 +1554,7 @@ def create_tender_lot_qualification_complaint(self):
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
         ),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": self.author_data}},
+        {"data": test_draft_claim},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1660,7 +1569,7 @@ def patch_tender_lot_qualification_complaint(self):
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
         ),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": self.author_data}},
+        {"data": test_draft_claim},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1747,7 +1656,7 @@ def patch_tender_lot_qualification_complaint(self):
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
         ),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": self.author_data}},
+        {"data": test_draft_claim},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1775,7 +1684,7 @@ def get_tender_lot_qualification_complaint(self):
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
         ),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": self.author_data}},
+        {"data": test_draft_claim},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1812,7 +1721,7 @@ def get_tender_lot_qualification_complaints(self):
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
         ),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": self.author_data}},
+        {"data": test_draft_claim},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1839,7 +1748,7 @@ def get_tender_lot_qualification_complaints(self):
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
         ),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": self.author_data}},
+        {"data": test_draft_claim},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1856,12 +1765,7 @@ def create_tender_2lot_qualification_complaint(self):
             self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
         ),
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": self.author_data,
-                "status": "pending",
-            }
+            "data": test_complaint
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -1898,7 +1802,7 @@ def create_tender_2lot_qualification_complaint(self):
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
         ),
-        {"data": {"title": "complaint title", "description": "complaint description", "author": self.author_data}},
+        {"data": test_draft_claim},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1914,12 +1818,7 @@ def create_tender_qualification_claim(self):
             self.tender_id, self.unsuccessful_qualification_id, self.initial_bids_tokens[self.initial_bids[0]["id"]]
         ),
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": self.author_data,
-                "status": "claim",
-            }
+            "data": test_claim
         },
         status=403,
     )
@@ -1942,12 +1841,7 @@ def create_tender_qualification_claim(self):
             self.tender_id, self.unsuccessful_qualification_id, self.initial_bids_tokens[self.initial_bids[0]["id"]]
         ),
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": self.author_data,
-                "status": "draft",
-            }
+            "data": test_draft_claim
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -2744,12 +2638,7 @@ def switch_bid_status_unsuccessul_to_active(self):
     response = self.app.post_json(
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(self.tender_id, qualification_id, bid_token),
         {
-            "data": {
-                "title": "complaint title",
-                "description": "complaint description",
-                "author": self.author_data,
-                "status": "pending",
-            }
+            "data": test_complaint
         },
     )
     self.assertEqual(response.status, "201 Created")

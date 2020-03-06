@@ -3,14 +3,13 @@ import unittest
 from copy import deepcopy
 
 from datetime import timedelta
-import dateutil
 
 import mock
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
 
-from openprocurement.tender.belowthreshold.tests.base import test_lots, test_organization, test_author
+from openprocurement.tender.belowthreshold.tests.base import test_lots, test_organization, test_draft_complaint
 
 from openprocurement.tender.belowthreshold.tests.award import (
     TenderAwardResourceTestMixin,
@@ -226,7 +225,7 @@ class TenderAwardComplaintDocumentResourceTest(
         bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
-            {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+            {"data": test_draft_complaint},
         )
         complaint = response.json["data"]
         self.complaint_id = complaint["id"]
@@ -268,7 +267,7 @@ class Tender2LotAwardComplaintDocumentResourceTest(BaseTenderUAContentWebTest):
         # Create complaint for award
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
-            {"data": {"title": "complaint title", "description": "complaint description", "author": test_author}},
+            {"data": test_draft_complaint},
         )
         complaint = response.json["data"]
         self.complaint_id = complaint["id"]

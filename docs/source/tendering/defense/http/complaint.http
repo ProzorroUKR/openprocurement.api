@@ -54,6 +54,10 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "reviewDate": "2020-05-01T01:00:00+03:00", 
     "title": "Недостатньо інформації", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 2000.0
+    }, 
     "tendererAction": "Умови виправлено", 
     "tendererActionDate": "2020-05-01T01:00:00+03:00", 
     "dateSubmitted": "2020-05-01T01:00:00+03:00", 

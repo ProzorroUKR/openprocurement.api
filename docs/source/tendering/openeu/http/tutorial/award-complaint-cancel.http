@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/3380abd6dac247a394ea054cfe23249b/awards/d91841cfd26a44dfad659a878e3df219/complaints/5733cb37cfe7450382b32cc6567a2958?acc_token=3d34ca74d22a4eb889a53f1d01a986e5 HTTP/1.0
+PATCH /api/2.5/tenders/3380abd6dac247a394ea054cfe23249b/awards/d91841cfd26a44dfad659a878e3df219/complaints/f19559e9e59945b496ca2af130529afa?acc_token=f18550de5a4b423e896367384bc7522c HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 150
 Content-Type: application/json
@@ -16,34 +16,38 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "cancelled", 
-    "description": "Просимо додати таблицю потрібної калорійності харчування", 
+    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "author": {
       "contactPoint": {
-        "email": "aagt@gmail.com", 
-        "telephone": "+380 (322) 91-69-30", 
-        "name": "Андрій Олексюк"
+        "email": "soleksuk@gmail.com", 
+        "telephone": "+380 (432) 21-69-30", 
+        "name": "Сергій Олексюк"
       }, 
       "identifier": {
         "scheme": "UA-EDR", 
-        "id": "00137226", 
+        "id": "00137256", 
         "uri": "http://www.sc.gov.ua/"
       }, 
-      "name": "ДКП «Книга»", 
+      "name": "ДКП «Школяр»", 
       "address": {
-        "postalCode": "79013", 
+        "postalCode": "21100", 
         "countryName": "Україна", 
-        "streetAddress": "вул. Островського, 34", 
-        "region": "Львівська область", 
-        "locality": "м. Львів"
+        "streetAddress": "вул. Островського, 33", 
+        "region": "Вінницька область", 
+        "locality": "м. Вінниця"
       }
     }, 
-    "title": "Калорійність", 
+    "title": "Недостатньо інформації", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 3000.0
+    }, 
     "cancellationReason": "Умови виправлено", 
     "dateCanceled": "2020-05-01T01:00:01+03:00", 
     "complaintID": "UA-2020-05-01-000001.10", 
     "date": "2020-05-01T01:00:01+03:00", 
-    "type": "claim", 
-    "id": "5733cb37cfe7450382b32cc6567a2958"
+    "type": "complaint", 
+    "id": "f19559e9e59945b496ca2af130529afa"
   }
 }
 

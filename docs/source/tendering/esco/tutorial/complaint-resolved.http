@@ -41,6 +41,10 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Вінниця"
       }
     }, 
+    "value": {
+      "currency": "UAH", 
+      "amount": 2000.0
+    }, 
     "id": "8db347bde49040188e3ed9a12bc4ac0a", 
     "tendererAction": "Умови виправлено", 
     "dateSubmitted": "2020-05-01T01:00:00+03:00", 

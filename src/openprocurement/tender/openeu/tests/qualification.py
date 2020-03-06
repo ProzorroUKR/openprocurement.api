@@ -2,7 +2,7 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_author
+from openprocurement.tender.belowthreshold.tests.base import test_author, test_draft_claim
 
 from openprocurement.tender.openeu.tests.base import BaseTenderContentWebTest, test_bids, test_lots
 from openprocurement.tender.openeu.tests.qualification_blanks import (
@@ -303,7 +303,7 @@ class TenderQualificationComplaintDocumentResourceTest(BaseTenderContentWebTest)
             "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
                 self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
             ),
-            {"data": {"title": "complaint title", "description": "complaint description", "author": self.author_data}},
+            {"data": test_draft_claim},
         )
         complaint = response.json["data"]
         self.complaint_id = complaint["id"]

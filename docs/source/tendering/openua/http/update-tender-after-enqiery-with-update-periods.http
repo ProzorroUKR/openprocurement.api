@@ -23,11 +23,11 @@ Content-Type: application/json; charset=UTF-8
     "procurementMethod": "open", 
     "mainProcurementCategory": "services", 
     "complaintPeriod": {
-      "startDate": "2020-04-18T01:00:00+03:00", 
+      "startDate": "2020-04-16T01:00:00+03:00", 
       "endDate": "2020-05-05T00:00:00+03:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2020-04-18T01:00:00+03:00", 
+      "startDate": "2020-04-16T01:00:00+03:00", 
       "clarificationsUntil": "2020-05-06T00:00:00+03:00", 
       "endDate": "2020-04-29T01:00:00+03:00", 
       "invalidationDate": "2020-05-01T01:00:00+03:00"
@@ -112,7 +112,7 @@ Content-Type: application/json; charset=UTF-8
     "dateModified": "2020-05-01T01:00:00+03:00", 
     "status": "active.tendering", 
     "tenderPeriod": {
-      "startDate": "2020-04-18T01:00:00+03:00", 
+      "startDate": "2020-04-16T01:00:00+03:00", 
       "endDate": "2020-05-09T01:00:00+03:00"
     }, 
     "auctionPeriod": {

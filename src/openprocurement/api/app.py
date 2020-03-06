@@ -18,7 +18,7 @@ from libnacl.public import SecretKey, PublicKey
 from logging import getLogger
 from openprocurement.api.auth import AuthenticationPolicy, authenticated_role, check_accreditations
 from openprocurement.api.database import set_api_security
-from openprocurement.api.utils import forbidden, request_params, couchdb_json_decode, precondition
+from openprocurement.api.utils import forbidden, request_params, couchdb_json_decode, precondition, get_currency_rates
 from openprocurement.api.constants import ROUTE_PREFIX
 from pkg_resources import iter_entry_points
 from pyramid.authorization import ACLAuthorizationPolicy as AuthorizationPolicy
@@ -62,6 +62,7 @@ def main(global_config, **settings):
     config.add_request_method(request_params, "params", reify=True)
     config.add_request_method(authenticated_role, reify=True)
     config.add_request_method(check_accreditations)
+    config.add_request_method(get_currency_rates, name="currency_rates", reify=True)
     config.add_renderer("json", JSON(serializer=simplejson.dumps))
     config.add_renderer("prettyjson", JSON(indent=4, serializer=simplejson.dumps))
     config.add_renderer("jsonp", JSONP(param_name="opt_jsonp", serializer=simplejson.dumps))
