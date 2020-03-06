@@ -1,3 +1,4 @@
+from openprocurement.api.tests.base import singleton_app, app
 from openprocurement.tender.belowthreshold.tests.base import (
     test_organization,
     test_tender_data as belowthreshold_tender_data,

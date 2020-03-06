@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import mock
 from datetime import timedelta
+from copy import deepcopy
 from iso8601 import parse_date
 
 from openprocurement.api.constants import RELEASE_2020_04_19
@@ -1072,10 +1073,11 @@ def activate_cancellation(self):
     self.assertEqual(response.status, "201 Created")
     complaint_1_id = response.json["data"]["id"]
 
+    complaint_draft_data = deepcopy(complaint_data)
     response = self.app.post_json(
         "/tenders/{}/cancellations/{}/complaints".format(
             self.tender_id, cancellation_id),
-        {"data": complaint_data},
+        {"data": complaint_draft_data},
     )
 
     self.assertEqual(response.status, "201 Created")
