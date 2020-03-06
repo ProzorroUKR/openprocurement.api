@@ -251,22 +251,28 @@ Contract registration
 Cancelling tender
 -----------------
 
-Procuring entity can cancel tender anytime. The following steps should be applied:
+Tender creator can cancel tender anytime (except when tender in status `active.auction` or in terminal status e.g. `unsuccessful`, `canceled`, `complete`).
+
+The following steps should be applied:
 
 1. Prepare cancellation request
-2. Fill it with the protocol describing the cancellation reasons 
-3. Cancel the tender with the reasons prepared.
+2. Fill it with the protocol describing the cancellation reasons
+3. 3. Passing complaint period(10 days),only for `negotiation` and `negotiation.quick`
+4. Cancel the tender with the reasons prepared.
 
-Only the request that has been activated (3rd step above) has power to
+Only the request that has been activated (4th step above) has power to
 cancel tender. I.e. you have to not only prepare cancellation request but
 to activate it as well.
+
+For cancelled cancellation you need to update cancellation status to `unsuccessful`
+from `draft` or `pending`.
 
 See :ref:`cancellation` data structure for details.
 
 Preparing the cancellation request for `reporting` procedure
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You should pass `reason` and `reasonType`, `status` defaults to `pending`.
+You should pass `reason` and `reasonType`, `status` defaults to `draft`.
 
 There are four possible types of cancellation reason - tender was `noDemand`, `unFixable`, `forceMajeure` and `expensesCut`.
 
@@ -297,6 +303,8 @@ You can change ``reasonType`` value to any of the above.
 Filling cancellation with protocol and supplementary documentation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+This step is required. Without documents you can't update tender status.
+
 Upload the file contents
 
 .. include::  http/tutorial/upload-cancellation-doc.http
@@ -314,8 +322,18 @@ Upload new version of the document
 .. include::  http/tutorial/update-cancellation-doc.http
    :code:
 
+Passing Complaint Period(only for `negotiation` and `negotiation.quick`)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For activate complaint period, you need to update cancellation from `draft` to `pending`.
+
+.. include::  http/tutorial/pending-cancellation.http
+   :code:
+
+When cancellation in `pending` status the tender owner is prohibited from all actions on the tender.
+
 Activating the request and cancelling tender
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. include::  http/tutorial/active-cancellation.http
-   :code:
+if the complaint period(duration 10 days) is over and there were no complaints or
+all complaints are canceled, then cancellation will automatically update status to `active`.

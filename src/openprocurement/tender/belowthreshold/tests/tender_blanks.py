@@ -12,8 +12,10 @@ from openprocurement.api.constants import (
     ROUTE_PREFIX,
     CPV_BLOCK_FROM,
     NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
+    RELEASE_2020_04_19,
 )
 from openprocurement.tender.core.constants import CPV_ITEMS_CLASS_FROM
+from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
 from openprocurement.tender.belowthreshold.models import Tender
 from openprocurement.tender.belowthreshold.utils import calculate_tender_business_date
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -2053,7 +2055,7 @@ def invalid_tender_conditions(self):
     # create tender
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     tender_id = self.tender_id = response.json["data"]["id"]
-    owner_token = response.json["access"]["token"]
+    owner_token = self.tender_token = response.json["access"]["token"]
     # switch to active.tendering
     self.set_status("active.tendering")
     # create compaint
@@ -2081,10 +2083,15 @@ def invalid_tender_conditions(self):
         "reason": "invalid conditions",
         "status": "active"
     })
-    self.app.post_json(
+    response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender_id, owner_token),
         {"data": cancellation},
     )
+    cancellation_id = response.json["data"]["id"]
+
+    if get_now() > RELEASE_2020_04_19:
+        activate_cancellation_after_2020_04_19(self, cancellation_id)
+
     # check status
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "cancelled")

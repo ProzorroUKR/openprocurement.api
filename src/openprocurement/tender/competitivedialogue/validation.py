@@ -23,7 +23,7 @@ def validate_patch_tender_stage2_data(request):
     data = validate_json_data(request)
     if request.context.status == "draft":
         default_statuses = ["active.tendering", STAGE2_STATUS]
-        if data.get("status") not in default_statuses:
+        if "status" in data and data.get("status") not in default_statuses:
             raise_operation_error(request, "Can't update tender in current ({0}) status".format(data["status"]))
         request.validated["data"] = {"status": data.get("status")}
         request.context.status = data.get("status")

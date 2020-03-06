@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.openeu.views.cancellation import TenderCancellationResource as BaseCancellationResource
+from openprocurement.tender.cfaua.utils import cancel_tender
 
 
 @optendersresource(
@@ -12,14 +13,9 @@ from openprocurement.tender.openeu.views.cancellation import TenderCancellationR
 )
 class TenderCancellationResource(BaseCancellationResource):
 
-    def cancel_tender(self):
-        super(TenderCancellationResource, self).cancel_tender()
-
-        # cancel agreements
-        tender = self.request.validated["tender"]
-        for agreement in tender.agreements:
-            if agreement.status in ("pending", "active"):
-                agreement.status = "cancelled"
+    @staticmethod
+    def cancel_tender_method(request):
+        return cancel_tender(request)
 
     def cancel_lot(self, cancellation):
         super(TenderCancellationResource, self).cancel_lot(cancellation)

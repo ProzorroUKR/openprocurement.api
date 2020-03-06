@@ -4,16 +4,17 @@ from functools import partial
 
 from cornice.resource import resource
 from openprocurement.api.interfaces import IContentConfigurator
-from openprocurement.api.models import get_now
-from openprocurement.api.utils import error_handler, context_unpack
+from openprocurement.api.utils import error_handler, context_unpack, get_now
 from barbecue import chef
 from openprocurement.tender.core.utils import (
     remove_draft_bids,
     has_unanswered_questions,
     has_unanswered_complaints,
     calculate_tender_business_date,
+    block_tender,
 )
 from openprocurement.tender.openua.utils import check_complaint_status
+from openprocurement.tender.core.utils import check_cancellation_status
 
 from openprocurement.tender.cfaua.models.submodels.qualification import Qualification
 from openprocurement.tender.cfaua.traversal import (
@@ -42,8 +43,27 @@ bid_qualification_documents_resource = partial(
 )
 
 
+def cancel_tender(request):
+
+    tender = request.validated["tender"]
+    if tender.status == "active.tendering":
+        tender.bids = []
+
+    elif tender.status in ("active.pre-qualification", "active.pre-qualification.stand-still", "active.auction"):
+        for bid in tender.bids:
+            if bid.status in ("pending", "active"):
+                bid.status = "invalid.pre-qualification"
+
+    tender.status = "cancelled"
+
+    for agreement in tender.agreements:
+        if agreement.status in ("pending", "active"):
+            agreement.status = "cancelled"
+
+
 def check_initial_bids_count(request):
     tender = request.validated["tender"]
+
     if tender.lots:
         [
             setattr(i.auctionPeriod, "startDate", None)
@@ -241,7 +261,14 @@ def check_tender_status_on_active_awarded(request):
 def check_status(request):
     tender = request.validated["tender"]
     now = get_now()
+
+    check_cancellation_status(request, cancel_tender)
+
     active_lots = [lot.id for lot in tender.lots if lot.status == "active"] if tender.lots else [None]
+
+    if block_tender(request):
+        return
+
     if (
         tender.status == "active.tendering"
         and tender.tenderPeriod.endDate <= now

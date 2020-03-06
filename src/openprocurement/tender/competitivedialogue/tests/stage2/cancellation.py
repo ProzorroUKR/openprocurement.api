@@ -29,7 +29,13 @@ from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
 from openprocurement.tender.competitivedialogue.tests.stage2.cancellation_blanks import (
     cancellation_active_qualification_j1427,
 )
-from openprocurement.tender.openua.tests.cancellation import TenderCancellationResourceNewReleaseTestMixin
+from openprocurement.tender.openua.tests.cancellation import (
+    TenderCancellationResourceNewReleaseTestMixin,
+    TenderCancellationComplaintResourceTestMixin,
+
+)
+from openprocurement.tender.openua.tests.cancellation_blanks import activate_cancellation
+
 
 for bid in test_bids:
     bid["tenderers"][0]["identifier"]["id"] = test_shortlistedFirms[0]["identifier"]["id"]
@@ -41,7 +47,7 @@ class TenderStage2EUCancellationResourceTest(
     TenderCancellationResourceTestMixin,
     TenderCancellationResourceNewReleaseTestMixin,
 ):
-    pass
+    test_activate_cancellation = snitch(activate_cancellation)
 
 
 class TenderStage2EULotCancellationResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
@@ -76,12 +82,42 @@ class TenderStage2EUCancellationDocumentResourceTest(
         self.cancellation_id = cancellation["id"]
 
 
+class TenderStage2EUCancellationComplaintResourceTest(
+    BaseCompetitiveDialogEUStage2ContentWebTest, TenderCancellationComplaintResourceTestMixin
+):
+
+    initial_bids = test_bids
+
+    @mock.patch("openprocurement.tender.core.models.RELEASE_2020_04_19",
+                get_now() - timedelta(days=1))
+    @mock.patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19",
+                get_now() - timedelta(days=1))
+    @mock.patch("openprocurement.tender.core.validation.RELEASE_2020_04_19",
+                get_now() - timedelta(days=1))
+    def setUp(self):
+        super(TenderStage2EUCancellationComplaintResourceTest, self).setUp()
+
+        # Create cancellation
+        cancellation = dict(**test_cancellation)
+        cancellation.update({
+            "reasonType": "noDemand"
+        })
+        response = self.app.post_json(
+            "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": cancellation},
+        )
+        cancellation = response.json["data"]
+        self.cancellation_id = cancellation["id"]
+
+
 class TenderStage2UACancellationResourceTest(
     BaseCompetitiveDialogUAStage2ContentWebTest,
     TenderCancellationResourceTestMixin,
     TenderCancellationResourceNewReleaseTestMixin
 ):
     initial_auth = ("Basic", ("broker", ""))
+
+    test_activate_cancellation = snitch(activate_cancellation)
 
 
 class TenderStage2UALotCancellationResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):

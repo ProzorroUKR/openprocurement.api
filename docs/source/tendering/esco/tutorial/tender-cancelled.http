@@ -163,7 +163,7 @@ Content-Type: application/json; charset=UTF-8
       "startDate": "2020-05-01T01:00:00+03:00", 
       "endDate": "2020-05-01T01:00:00+03:00"
     }, 
-    "dateModified": "2020-05-01T01:00:01+03:00", 
+    "dateModified": "2020-05-12T01:00:02+03:00", 
     "numberOfBids": 2, 
     "tenderPeriod": {
       "startDate": "2020-03-21T01:00:00+03:00", 
@@ -400,7 +400,7 @@ Content-Type: application/json; charset=UTF-8
         "id": "cc09c32b70944953bb082bdf4cf13c48"
       }
     ], 
-    "date": "2020-05-01T01:00:01+03:00", 
+    "date": "2020-05-12T01:00:02+03:00", 
     "minValue": {
       "currency": "UAH", 
       "amount": 0.0, 
@@ -804,9 +804,13 @@ Content-Type: application/json; charset=UTF-8
             "dateModified": "2020-05-01T01:00:01+03:00"
           }
         ], 
+        "complaintPeriod": {
+          "startDate": "2020-05-01T01:00:01+03:00", 
+          "endDate": "2020-05-12T00:00:00+03:00"
+        }, 
         "reason": "cancellation reason", 
         "reasonType": "expensesCut", 
-        "date": "2020-05-01T01:00:01+03:00", 
+        "date": "2020-05-12T01:00:02+03:00", 
         "cancellationOf": "tender", 
         "id": "3efefdab89324f4aa00ff1853d92d0ab"
       }

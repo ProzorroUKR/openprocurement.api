@@ -1,0 +1,55 @@
+PATCH /api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/cancellations/8d867a37ec004bee9d571231d313987b?acc_token=1e40f3cf3fd64b8ebca3076b70a86e71 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 31
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "status": "pending"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "pending", 
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "description": "Changed description", 
+        "language": "uk", 
+        "title": "Notice.pdf", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/42966c9ed4bf41e29e79e88238661d7e?KeyID=a8968c46&Signature=4SN%252B%2F%2FGuneBentek1A2hF8Wo4Lmn19B%252BVrmZZkMNf3XXG3ohrxrS0jIYx4xbOx%2FT6aFhFSQrMMDZY%252Br%2F94oGDw%253D%253D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2020-05-01T01:00:01+03:00", 
+        "id": "4a6e26bf559346d0b4ca0298bf8a61d0", 
+        "dateModified": "2020-05-01T01:00:01+03:00"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "description": "Changed description", 
+        "language": "uk", 
+        "title": "Notice-2.pdf", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c351e44dc80d4650885527b2adf2efdd?KeyID=a8968c46&Signature=4wlVi%252ByUuQDOsRRJlg5om3ktR89N8lsIl%252BzAt4g9pqxd%2FRYLpjD9OEHjkFUO4MV9%2FQroTcKXJbmZkm2Sp5WtBg%253D%253D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2020-05-01T01:00:01+03:00", 
+        "id": "4a6e26bf559346d0b4ca0298bf8a61d0", 
+        "dateModified": "2020-05-01T01:00:01+03:00"
+      }
+    ], 
+    "complaintPeriod": {
+      "startDate": "2020-05-01T01:00:01+03:00", 
+      "endDate": "2020-05-12T00:00:00+03:00"
+    }, 
+    "reason": "cancellation reason", 
+    "reasonType": "unFixable", 
+    "date": "2020-05-01T01:00:01+03:00", 
+    "cancellationOf": "tender", 
+    "id": "8d867a37ec004bee9d571231d313987b"
+  }
+}
+

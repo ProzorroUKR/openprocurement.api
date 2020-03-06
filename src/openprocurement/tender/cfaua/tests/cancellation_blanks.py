@@ -167,23 +167,24 @@ def cancellation_tender_active_auction(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "active.auction")
-    self.cancel_tender()
-    assert_statuses(
-        self,
-        rules={
-            "data.status": "cancelled",
-            "data.lots[*].status": ["active"],
-            "data.bids[*].status": [
-                "invalid.pre-qualification",
-                "invalid.pre-qualification",
-                "invalid.pre-qualification",
-            ],
-            "data.qualifications[*].status": ["active", "active", "active"],
-            "data.awards[*].status": None,
-            "data.agreements[*].status": None,
-            "data.complaints[*].status": statuses,
-        },
-    )
+    if get_now() < RELEASE_2020_04_19:
+        self.cancel_tender()
+        assert_statuses(
+            self,
+            rules={
+                "data.status": "cancelled",
+                "data.lots[*].status": ["active"],
+                "data.bids[*].status": [
+                    "invalid.pre-qualification",
+                    "invalid.pre-qualification",
+                    "invalid.pre-qualification",
+                ],
+                "data.qualifications[*].status": ["active", "active", "active"],
+                "data.awards[*].status": None,
+                "data.agreements[*].status": None,
+                "data.complaints[*].status": statuses,
+            },
+        )
 
 
 def cancellation_tender_active_qualification(self):

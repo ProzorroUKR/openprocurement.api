@@ -33,7 +33,7 @@ DATA:
     ], 
     "mainProcurementCategory": "services", 
     "tenderPeriod": {
-      "endDate": "2020-05-17T00:00:00+02:00"
+      "endDate": "2020-05-27T00:00:00+02:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -110,16 +110,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ef1a1deea644023
     "procurementMethod": "open", 
     "mainProcurementCategory": "services", 
     "complaintPeriod": {
-      "startDate": "2020-05-01T01:00:03+03:00", 
-      "endDate": "2020-05-15T00:00:00+02:00"
+      "startDate": "2020-05-12T01:00:05+03:00", 
+      "endDate": "2020-05-25T00:00:00+02:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2020-05-01T01:00:03+03:00", 
-      "clarificationsUntil": "2020-05-15T00:00:00+02:00", 
-      "endDate": "2020-05-13T00:00:00+02:00"
+      "startDate": "2020-05-12T01:00:05+03:00", 
+      "clarificationsUntil": "2020-05-27T00:00:00+02:00", 
+      "endDate": "2020-05-24T00:00:00+02:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2020-05-17T01:00:00+03:00", 
+    "next_check": "2020-05-27T01:00:00+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -144,18 +144,18 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ef1a1deea644023
     "owner": "broker", 
     "id": "0ef1a1deea644023b37adc3b1d8b274a", 
     "title": "футляри до державних нагород", 
-    "tenderID": "UA-2020-05-01-000002", 
-    "dateModified": "2020-05-01T01:00:03+03:00", 
+    "tenderID": "UA-2020-05-12-000001", 
+    "dateModified": "2020-05-12T01:00:05+03:00", 
     "status": "active.tendering", 
     "tenderPeriod": {
-      "startDate": "2020-05-01T01:00:03+03:00", 
-      "endDate": "2020-05-17T00:00:00+02:00"
+      "startDate": "2020-05-12T01:00:05+03:00", 
+      "endDate": "2020-05-27T00:00:00+02:00"
     }, 
     "auctionPeriod": {
-      "shouldStartAfter": "2020-05-17T00:00:00+02:00"
+      "shouldStartAfter": "2020-05-27T00:00:00+02:00"
     }, 
     "procurementMethodType": "aboveThresholdUA.defense", 
-    "date": "2020-05-01T01:00:03+03:00", 
+    "date": "2020-05-12T01:00:05+03:00", 
     "milestones": [
       {
         "code": "prepayment", 

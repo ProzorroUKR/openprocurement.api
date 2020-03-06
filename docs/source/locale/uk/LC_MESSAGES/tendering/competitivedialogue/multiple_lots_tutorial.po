@@ -56,7 +56,7 @@ msgid ""
 "Tender can contain several different lots. We can add lot using the "
 "following way:"
 msgstr ""
-"Закіпівля може складатись із декількох лотів. Можна створити лот таким "
+"Закупівля може складатись із декількох лотів. Можна створити лот таким "
 "чином:"
 
 #: ../../source/multiple_lots_tutorial.rst:30
