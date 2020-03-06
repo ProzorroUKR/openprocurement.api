@@ -2,14 +2,12 @@
 import mock
 from datetime import timedelta
 from copy import deepcopy
-from iso8601 import parse_date
 
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_author, test_organization, test_cancellation
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
-    activate_cancellation_with_complaints_after_2020_04_19,
 )
 
 
@@ -1074,6 +1072,8 @@ def activate_cancellation(self):
     complaint_1_id = response.json["data"]["id"]
 
     complaint_draft_data = deepcopy(complaint_data)
+    complaint_draft_data["status"] = "draft"
+
     response = self.app.post_json(
         "/tenders/{}/cancellations/{}/complaints".format(
             self.tender_id, cancellation_id),
