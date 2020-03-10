@@ -18,22 +18,34 @@ class Root(object):
 
 
 def get_item(parent, key, request):
-    request.validated["{}_id".format(key)] = request.matchdict["{}_id".format(key)]
-    items = [i for i in getattr(parent, "{}s".format(key), []) if i.id == request.matchdict["{}_id".format(key)]]
+    if "document" in key and key != "document":
+        item_type = "document"
+        item_field = key.split("_")
+        item_field = item_field[0] + item_field[1].capitalize() + "s"
+    else:
+        item_type = key
+        item_field = "{}s".format(item_type)
+
+    item_id_key = "{}_id".format(item_type)
+    item_id = request.matchdict[item_id_key]
+
+    request.validated[item_id_key] = item_id
+    items = [i for i in getattr(parent, item_field, []) if i.id == item_id]
+
     if not items:
         from openprocurement.api.utils import error_handler
-
-        request.errors.add("url", "{}_id".format(key), "Not Found")
+        request.errors.add("url", item_id_key, "Not Found")
         request.errors.status = 404
         raise error_handler(request.errors)
-    else:
-        if key == "document":
-            request.validated["{}s".format(key)] = items
-        item = items[-1]
-        request.validated[key] = item
-        request.validated["id"] = request.matchdict["{}_id".format(key)]
-        item.__parent__ = parent
-        return item
+
+    if item_type == "document":
+        request.validated["{}s".format(item_type)] = items
+
+    item = items[-1]
+    request.validated[item_type] = item
+    request.validated["id"] = item_id
+    item.__parent__ = parent
+    return item
 
 
 def factory(request):

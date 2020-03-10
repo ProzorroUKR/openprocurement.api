@@ -48,61 +48,97 @@ def handle_root(request):
 
 def factory(request):
     response = handle_root(request)
+
     if response:
         return response
+
     tender = request.validated["tender"]
+
     if request.method != "GET" and tender._initial.get("next_check"):
         request.validated["tender_src"]["next_check"] = tender._initial.get("next_check")
+
     if request.matchdict.get("award_id"):
-        award = get_item(tender, "award", request)
-        if request.matchdict.get("complaint_id"):
-            complaint = get_item(award, "complaint", request)
-            if request.matchdict.get("post_id"):
-                return get_item(complaint, "post", request)
-            elif request.matchdict.get("document_id"):
-                return get_item(complaint, "document", request)
-            else:
-                return complaint
-        elif request.matchdict.get("document_id"):
-            return get_item(award, "document", request)
-        else:
-            return award
+        return resolve_award(request, tender)
     elif request.matchdict.get("contract_id"):
-        contract = get_item(tender, "contract", request)
-        if request.matchdict.get("document_id"):
-            return get_item(contract, "document", request)
-        else:
-            return contract
+        return resolve_contract(request, tender)
     elif request.matchdict.get("bid_id"):
-        bid = get_item(tender, "bid", request)
-        if request.matchdict.get("document_id"):
-            return get_item(bid, "document", request)
-        else:
-            return bid
+        return resolve_bid(request, tender)
     elif request.matchdict.get("cancellation_id"):
-        cancellation = get_item(tender, "cancellation", request)
-        if request.matchdict.get("complaint_id"):
-            complaint = get_item(cancellation, "complaint", request)
-            if request.matchdict.get("document_id"):
-                return get_item(complaint, "document", request)
-            return complaint
-        elif request.matchdict.get("document_id"):
-            return get_item(cancellation, "document", request)
-        else:
-            return cancellation
+        return resolve_cancellation(request, tender)
     elif request.matchdict.get("complaint_id"):
-        complaint = get_item(tender, "complaint", request)
-        if request.matchdict.get("post_id"):
-            return get_item(complaint, "post", request)
-        elif request.matchdict.get("document_id"):
-            return get_item(complaint, "document", request)
-        else:
-            return complaint
+        return resolve_complaint(request, tender)
     elif request.matchdict.get("document_id"):
-        return get_item(tender, "document", request)
+        return resolve_document(request, tender)
     elif request.matchdict.get("question_id"):
-        return get_item(tender, "question", request)
+        return resolve_question(request, tender)
     elif request.matchdict.get("lot_id"):
-        return get_item(tender, "lot", request)
+        return resolve_lot(request, tender)
+
     request.validated["id"] = request.matchdict["tender_id"]
+
     return tender
+
+
+def resolve_complaint(request, obj):
+    complaint = get_item(obj, "complaint", request)
+    if request.matchdict.get("post_id"):
+        return resolve_post(request, complaint)
+    elif request.matchdict.get("document_id"):
+        return resolve_document(request, complaint)
+    else:
+        return complaint
+
+
+def resolve_post(request, obj):
+    post = get_item(obj, "post", request)
+    if request.matchdict.get("document_id"):
+        return resolve_document(request, post)
+    else:
+        return post
+
+
+def resolve_cancellation(request, obj):
+    cancellation = get_item(obj, "cancellation", request)
+    if request.matchdict.get("complaint_id"):
+        return resolve_complaint(request, cancellation)
+    elif request.matchdict.get("document_id"):
+        return resolve_document(request, cancellation)
+    else:
+        return cancellation
+
+
+def resolve_bid(request, obj, document_type=None):
+    bid = get_item(obj, "bid", request)
+    if request.matchdict.get("document_id"):
+        return resolve_document(request, bid, document_type=document_type)
+    else:
+        return bid
+
+
+def resolve_contract(request, obj):
+    contract = get_item(obj, "contract", request)
+    if request.matchdict.get("document_id"):
+        return resolve_document(request, contract)
+    else:
+        return contract
+
+
+def resolve_award(request, obj):
+    award = get_item(obj, "award", request)
+    if request.matchdict.get("complaint_id"):
+        return resolve_complaint(request, award)
+    elif request.matchdict.get("document_id"):
+        return resolve_document(request, award)
+    else:
+        return award
+
+def resolve_lot(request, obj):
+    return get_item(obj, "lot", request)
+
+
+def resolve_question(request, obj):
+    return get_item(obj, "question", request)
+
+
+def resolve_document(request, obj, document_type=None):
+    return get_item(obj, "{}_document".format(document_type) if document_type else "document", request)

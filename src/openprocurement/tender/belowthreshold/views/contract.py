@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import get_now, opresource, json_view, context_unpack, APIResource, raise_operation_error
+from openprocurement.api.utils import get_now, json_view, context_unpack, APIResource, raise_operation_error
 from openprocurement.tender.core.utils import save_tender, optendersresource, apply_patch
 from openprocurement.tender.core.validation import (
     validate_contract_data,
