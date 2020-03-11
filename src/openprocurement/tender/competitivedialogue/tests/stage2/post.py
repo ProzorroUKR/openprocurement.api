@@ -21,6 +21,7 @@ class TenderCompetitiveDialogUAComplaintPostResourceTest(
     ComplaintPostResourceMixin,
     TenderComplaintPostResourceMixin
 ):
+    docservice = True
     claim_data = deepcopy(test_claim)
     claim_data["author"] = test_author
 
@@ -45,6 +46,7 @@ class TenderCompetitiveDialogEUComplaintPostResourceTest(
     ComplaintPostResourceMixin,
     TenderComplaintPostResourceMixin
 ):
+    docservice = True
     claim_data = deepcopy(test_claim)
     claim_data["author"] = test_author
 
@@ -69,6 +71,7 @@ class TenderCompetitiveDialogEUStage2AwardComplaintPostResourceTest(
     ComplaintPostResourceMixin,
     TenderAwardComplaintPostResourceMixin
 ):
+    docservice = True
     initial_status = "active.tendering"  # 'active.qualification' status sets in setUp
     initial_bids = test_tender_bids
 
@@ -145,6 +148,7 @@ class TenderCompetitiveDialogUAStage2AwardComplaintPostResourceTest(
     ComplaintPostResourceMixin,
     TenderAwardComplaintPostResourceMixin
 ):
+    docservice = True
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
 
@@ -196,6 +200,7 @@ class TenderCompetitiveDialogEUQualificationComplaintPostResourceTest(
     ComplaintPostResourceMixin,
     TenderQualificationComplaintPostResourceMixin
 ):
+    docservice = True
     initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_tender_bids
     initial_auth = ("Basic", ("broker", ""))

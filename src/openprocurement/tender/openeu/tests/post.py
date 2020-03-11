@@ -14,6 +14,8 @@ class TenderComplaintPostResourceTest(
     ComplaintPostResourceMixin,
     TenderComplaintPostResourceMixin
 ):
+    docservice = True
+
     def setUp(self):
         super(TenderComplaintPostResourceTest, self).setUp()
         response = self.app.post_json(
@@ -33,6 +35,7 @@ class TenderQualificationComplaintPostResourceTest(
     ComplaintPostResourceMixin,
     TenderQualificationComplaintPostResourceMixin
 ):
+    docservice = True
     initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_bids
     initial_auth = ("Basic", ("broker", ""))
@@ -100,6 +103,7 @@ class TenderAwardComplaintPostResourceTest(
     ComplaintPostResourceMixin,
     TenderAwardComplaintPostResourceMixin
 ):
+    docservice = True
     initial_status = "active.qualification"
     initial_bids = test_bids
 
