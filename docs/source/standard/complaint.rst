@@ -158,17 +158,11 @@ Additionally in :ref:`defense`, :ref:`esco`, :ref:`openua` and :ref:`openeu`:
     :rejectReason:
         string
 
-        Possible values of reject reason in :ref:`defense` are:
+        * `lawNonCompliance` - complaint does not meet the law requirements in article 18 paragraphs 2-5 and 9
+        * `alreadyExists` - bidder complains about violation that has been already reviewed by the Complaints Committee
+        * `buyerViolationsCorrected` - buyer has corrected the violations that was described in complaint
+        * `tenderCancelled` - tender has been cancelled before the complaint submitted date by the buyer besides complaining about tender cancellation
 
-        * `lawNonСompliance` - law non compliance
-        * `noPaymentReceived` - no payment received
-        * `buyerViolationsСorrected` - violations were corrected by Procuring entity
-
-        Possible values of reject reason in :ref:`openeu` are:
-
-        * `law`
-        * `payment`
-        * `fixed`
 
     :rejectReasonDescription:
         string
@@ -176,7 +170,7 @@ Additionally in :ref:`defense`, :ref:`esco`, :ref:`openua` and :ref:`openeu`:
         Reject reason description.
 
     :reviewDate:
-        string, :ref:`date`, auto-generated
+        string, :ref:`date`
 
         Date of review.
 
