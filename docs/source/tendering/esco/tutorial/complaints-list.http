@@ -321,18 +321,19 @@ Content-Type: application/json; charset=UTF-8
           "author": "aboveThresholdReviewers", 
           "datePublished": "2020-05-01T01:00:00+03:00", 
           "recipient": "complaint_owner", 
-          "id": "1c50aba694a54bde8b5260a48dced1af"
+          "id": "741bf55784184f21a14b2ed3e24fa753"
         }, 
         {
           "documents": [
             {
               "hash": "md5:00000000000000000000000000000000", 
+              "author": "complaint_owner", 
               "title": "post_document_complaint.pdf", 
               "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1f5aa56db4314a6c9c5aa56d3155b388?KeyID=a8968c46&Signature=xQnLXQLwMjknEkcX4bkmqRyWKUOO7GIp1gh4dBMPpP1KzUkw%2F0mDQulHQoz%2FaCQ1EDmYOa1CYT76bXR9v2iIAQ%3D%3D", 
               "format": "application/pdf", 
               "documentOf": "tender", 
               "datePublished": "2020-05-01T01:00:00+03:00", 
-              "id": "a1321c0e130a4e23a1f9ccb1abc30bbd", 
+              "id": "1c15351d94de4c90bcfec485faa06650", 
               "dateModified": "2020-05-01T01:00:00+03:00"
             }
           ], 
@@ -340,9 +341,9 @@ Content-Type: application/json; charset=UTF-8
           "title": "Уточнення по вимозі", 
           "author": "complaint_owner", 
           "datePublished": "2020-05-01T01:00:00+03:00", 
-          "relatedPost": "1c50aba694a54bde8b5260a48dced1af", 
+          "relatedPost": "741bf55784184f21a14b2ed3e24fa753", 
           "recipient": "aboveThresholdReviewers", 
-          "id": "d26cb56ec2eb43588a9a61cb85d3bfc6"
+          "id": "12c406364a6b49828dca966acde39968"
         }, 
         {
           "description": "Відсутній документ", 
@@ -350,18 +351,19 @@ Content-Type: application/json; charset=UTF-8
           "author": "aboveThresholdReviewers", 
           "datePublished": "2020-05-01T01:00:00+03:00", 
           "recipient": "tender_owner", 
-          "id": "620211f1c34a4593a2bd6b2ecf882327"
+          "id": "3120dc303e9440debfb361faded3ec23"
         }, 
         {
           "documents": [
             {
               "hash": "md5:00000000000000000000000000000000", 
+              "author": "tender_owner", 
               "title": "post_document_tender.pdf", 
               "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f7f2b92669db4ad2933466feb3672257?KeyID=a8968c46&Signature=Q4pqD6W%2BL5ZPrpBxwSTotCvNlOB4X%2BDYP39DQI2qjd%2BkMi%2Fn5XT5kj4J7itlaPJqIz8qUeSn0pbtmQYaA7PACw%3D%3D", 
               "format": "application/pdf", 
               "documentOf": "tender", 
               "datePublished": "2020-05-01T01:00:00+03:00", 
-              "id": "f9f6a60ec25c47f4b9f4d36015f0adc2", 
+              "id": "deca8d2433dd4f0aac956fe40f3234ec", 
               "dateModified": "2020-05-01T01:00:00+03:00"
             }
           ], 
@@ -369,9 +371,9 @@ Content-Type: application/json; charset=UTF-8
           "title": "Уточнення по вимозі", 
           "author": "tender_owner", 
           "datePublished": "2020-05-01T01:00:00+03:00", 
-          "relatedPost": "620211f1c34a4593a2bd6b2ecf882327", 
+          "relatedPost": "3120dc303e9440debfb361faded3ec23", 
           "recipient": "aboveThresholdReviewers", 
-          "id": "9903bf637fda46beb86a6bbd24b3f498"
+          "id": "1ba2160030274aefb9c4d40e6948500c"
         }
       ], 
       "dateSubmitted": "2020-05-01T01:00:00+03:00", 

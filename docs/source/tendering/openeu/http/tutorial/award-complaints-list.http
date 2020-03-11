@@ -315,6 +315,7 @@ Content-Type: application/json; charset=UTF-8
           "documents": [
             {
               "hash": "md5:00000000000000000000000000000000", 
+              "author": "complaint_owner", 
               "title": "post_document_complaint.pdf", 
               "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ae162bbbae31456dbdee61913d853c24?KeyID=a8968c46&Signature=SucN%2FAeTzILA%2FvO6VEqFjFM%2BDOGLdvWfAoYlSe96tlat9Kq1ljoEIBSM6GfHLJHexiPd4QCl3%2FwyaNZO1pUfDA%3D%3D", 
               "format": "application/pdf", 
@@ -344,6 +345,7 @@ Content-Type: application/json; charset=UTF-8
           "documents": [
             {
               "hash": "md5:00000000000000000000000000000000", 
+              "author": "tender_owner", 
               "title": "post_document_tender.pdf", 
               "url": "http://public-docs-sandbox.prozorro.gov.ua/get/beb3c2bf78d64a5d916bc056fa8b64a5?KeyID=a8968c46&Signature=BkAC9DBofiOUr4chkDl4QKFjBxXL%2FlE6Bcvw4%2FXFu0lUpQJIamPzEHiCy%2Fj3m2HvDNr03Mz%2FrNu8P4a2XZUsBg%3D%3D", 
               "format": "application/pdf", 

@@ -1,0 +1,31 @@
+POST /api/2.5/tenders/7ca938a74b3b44a7979818052b0a8788/complaints/a9ec53adb2a84e70bd9e27f983435e3e/posts/a2448fd91ae8402285b3965098a2d1d0/documents?acc_token=40866d412c0349f19ef3c2e21f2dde86 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 162
+Content-Type: multipart/form-data; boundary=---BOUNDARY
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+-----BOUNDARY
+Content-Disposition: form-data; name="file"; filename="Complaint_Post_Attachement.pdf"
+Content-Type: application/pdf
+
+content
+-----BOUNDARY--
+
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7ca938a74b3b44a7979818052b0a8788/complaints/a9ec53adb2a84e70bd9e27f983435e3e/posts/a2448fd91ae8402285b3965098a2d1d0/documents/d2f520b472744cea8ec2bb8dbe7a299d
+{
+  "data": {
+    "hash": "md5:00000000000000000000000000000000", 
+    "author": "complaint_owner", 
+    "title": "Complaint_Post_Attachement.pdf", 
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f9b316dd68b04de3992e48425944bdce?KeyID=a8968c46&Signature=%252BkQXb4qR9qPYqaBn8blv%2F7XSNCDFgUNkQUHR5OJ8NKsCvW2OT%252B2Sh%2FNxuwjsP8soF%252BT8u3oXDXJ0i3tA54n7CQ%253D%253D", 
+    "format": "application/pdf", 
+    "documentOf": "tender", 
+    "datePublished": "2020-05-01T01:00:00+03:00", 
+    "id": "d2f520b472744cea8ec2bb8dbe7a299d", 
+    "dateModified": "2020-05-01T01:00:00+03:00"
+  }
+}
+
