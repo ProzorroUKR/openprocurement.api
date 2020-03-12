@@ -143,7 +143,12 @@ class BaseTenderComplaintResource(APIResource):
             apply_patch(self.request, save=False, src=context.serialize())
             context.dateCanceled = get_now()
         
-        elif new_rules and status == "draft" and new_status == "mistaken":
+        elif (
+            new_rules
+            and status == "draft"
+            and context.type == "complaint"
+            and new_status == "mistaken"
+        ):
             apply_patch(self.request, save=False, src=context.serialize())
         
         elif status in ["pending", "accepted"] and new_status == "stopping":

@@ -99,7 +99,8 @@ class TenderNegotiationAwardComplaintResource(BaseTenderAwardComplaintResource):
             if new_status == status:
                 apply_patch(self.request, save=False, src=self.context.serialize())
             elif (
-                get_first_revision_date(tender) > RELEASE_2020_04_19 
+                get_first_revision_date(tender) > RELEASE_2020_04_19
+                and self.context.type == "complaint"
                 and new_status == "mistaken"
             ):
                 apply_patch(self.request, save=False, src=self.context.serialize())
