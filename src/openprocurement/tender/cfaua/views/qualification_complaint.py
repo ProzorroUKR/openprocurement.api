@@ -128,6 +128,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
             self.request.authenticated_role == "complaint_owner"
             and new_rules
             and status == "draft"
+            and self.context.type == "complaint"
             and new_status == "mistaken"
         ):
             apply_patch(self.request, save=False, src=self.context.serialize())
