@@ -9,8 +9,9 @@ from openprocurement.tender.core.utils import save_tender, optendersresource
 
 from openprocurement.tender.openua.validation import (
     validate_complaint_post_data,
-    validate_complaint_post_add_not_in_allowed_complaint_status,
+    validate_complaint_post_complaint_status,
     validate_complaint_post,
+    validate_complaint_post_review_date,
 )
 
 
@@ -25,9 +26,10 @@ class TenderComplaintPostResource(APIResource):
     @json_view(
         content_type="application/json",
         validators=(
-            validate_complaint_post_data,
-            validate_complaint_post,
-            validate_complaint_post_add_not_in_allowed_complaint_status,
+                validate_complaint_post_data,
+                validate_complaint_post,
+                validate_complaint_post_complaint_status,
+                validate_complaint_post_review_date,
         ),
         permission="edit_complaint",
     )
@@ -39,6 +41,8 @@ class TenderComplaintPostResource(APIResource):
         tender = self.request.validated["tender"]
         post = self.request.validated["post"]
         post.author = self.request.authenticated_role
+        for document in post.documents or []:
+            document.author = self.request.authenticated_role
         complaint.posts.append(post)
         if save_tender(self.request):
             self.LOGGER.info(

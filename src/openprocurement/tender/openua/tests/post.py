@@ -13,6 +13,12 @@ from openprocurement.tender.openua.tests.post_blanks import (
     get_complaint_post,
     get_complaint_posts,
     create_complaint_post_release_forbidden,
+    create_tender_complaint_post_document_json,
+    put_tender_complaint_document_json,
+    get_tender_complaint_post_document_json,
+    create_tender_complaint_post_by_complaint_owner_document_json,
+    create_tender_complaint_post_by_tender_owner_document_json,
+    create_complaint_post_review_date_forbidden,
 )
 from copy import deepcopy
 
@@ -22,6 +28,7 @@ class TenderComplaintPostResourceMixin(object):
     tender_id = None
     complaint_id = None
     post_id = None
+    document_id = None
     claim_data = deepcopy(test_claim)
 
     def post_claim(self, status=201):
@@ -59,6 +66,32 @@ class TenderComplaintPostResourceMixin(object):
             self.tender_id, self.complaint_id, self.post_id)
         return self.app.get(url, status=status)
 
+    def post_post_document(self, data, acc_token=None, status=201):
+        url = "/tenders/{}/complaints/{}/posts/{}/documents".format(
+            self.tender_id, self.complaint_id, self.post_id)
+        if acc_token:
+            url = "{}?acc_token={}".format(url, acc_token)
+        return self.app.post_json(url, {"data": data}, status=status)
+
+    def put_post_document(self, data, acc_token=None, status=200):
+        url = "/tenders/{}/complaints/{}/posts/{}/documents/{}".format(
+            self.tender_id, self.complaint_id, self.post_id, self.document_id)
+        if acc_token:
+            url = "{}?acc_token={}".format(url, acc_token)
+        return self.app.put_json(url, {"data": data}, status=status)
+
+    def get_post_documents(self, status=200, params=None):
+        url = "/tenders/{}/complaints/{}/posts/{}/documents".format(
+            self.tender_id, self.complaint_id, self.post_id)
+        if params:
+            url = "{}?{}".format(url, "&".join(["{}={}".format(k, v) for k, v in params.iteritems()]))
+        return self.app.get(url, status=status)
+
+    def get_post_document(self, status=200):
+        url = "/tenders/{}/complaints/{}/posts/{}/documents/{}".format(
+            self.tender_id, self.complaint_id, self.post_id, self.document_id)
+        return self.app.get(url, status=status)
+
 
 class TenderQualificationComplaintPostResourceMixin(object):
     app = None
@@ -66,6 +99,7 @@ class TenderQualificationComplaintPostResourceMixin(object):
     qualification_id = None
     complaint_id = None
     post_id = None
+    document_id = None
     claim_data = deepcopy(test_claim)
 
     def post_claim(self, status=201):
@@ -105,6 +139,32 @@ class TenderQualificationComplaintPostResourceMixin(object):
             self.tender_id, self.qualification_id, self.complaint_id, self.post_id)
         return self.app.get(url, status=status)
 
+    def post_post_document(self, data, acc_token=None, status=201):
+        url = "/tenders/{}/qualifications/{}/complaints/{}/posts/{}/documents".format(
+            self.tender_id, self.qualification_id, self.complaint_id, self.post_id)
+        if acc_token:
+            url = "{}?acc_token={}".format(url, acc_token)
+        return self.app.post_json(url, {"data": data}, status=status)
+
+    def put_post_document(self, data, acc_token=None, status=200):
+        url = "/tenders/{}/qualifications/{}/complaints/{}/posts/{}/documents/{}".format(
+            self.tender_id, self.qualification_id, self.complaint_id, self.post_id, self.document_id)
+        if acc_token:
+            url = "{}?acc_token={}".format(url, acc_token)
+        return self.app.put_json(url, {"data": data}, status=status)
+
+    def get_post_documents(self, status=200, params=None):
+        url = "/tenders/{}/qualifications/{}/complaints/{}/posts/{}/documents".format(
+            self.tender_id, self.qualification_id, self.complaint_id, self.post_id)
+        if params:
+            url = "{}?{}".format(url, "&".join(["{}={}".format(k, v) for k, v in params.iteritems()]))
+        return self.app.get(url, status=status)
+
+    def get_post_document(self, status=200):
+        url = "/tenders/{}/qualifications/{}/complaints/{}/posts/{}/documents/{}".format(
+            self.tender_id, self.qualification_id, self.complaint_id, self.post_id, self.document_id)
+        return self.app.get(url, status=status)
+
 
 class TenderAwardComplaintPostResourceMixin(object):
     app = None
@@ -112,6 +172,7 @@ class TenderAwardComplaintPostResourceMixin(object):
     award_id = None
     complaint_id = None
     post_id = None
+    document_id = None
     claim_data = deepcopy(test_claim)
 
     def post_claim(self, status=201):
@@ -151,10 +212,37 @@ class TenderAwardComplaintPostResourceMixin(object):
             self.tender_id, self.award_id, self.complaint_id, self.post_id)
         return self.app.get(url, status=status)
 
+    def post_post_document(self, data, acc_token=None, status=201):
+        url = "/tenders/{}/awards/{}/complaints/{}/posts/{}/documents".format(
+            self.tender_id, self.award_id, self.complaint_id, self.post_id)
+        if acc_token:
+            url = "{}?acc_token={}".format(url, acc_token)
+        return self.app.post_json(url, {"data": data}, status=status)
+
+    def put_post_document(self, data, acc_token=None, status=200):
+        url = "/tenders/{}/awards/{}/complaints/{}/posts/{}/documents/{}".format(
+            self.tender_id, self.award_id, self.complaint_id, self.post_id, self.document_id)
+        if acc_token:
+            url = "{}?acc_token={}".format(url, acc_token)
+        return self.app.put_json(url, {"data": data}, status=status)
+
+    def get_post_documents(self, status=200, params=None):
+        url = "/tenders/{}/awards/{}/complaints/{}/posts/{}/documents".format(
+            self.tender_id, self.award_id, self.complaint_id, self.post_id)
+        if params:
+            url = "{}?{}".format(url, "&".join(["{}={}".format(k, v) for k, v in params.iteritems()]))
+        return self.app.get(url, status=status)
+
+    def get_post_document(self, status=200):
+        url = "/tenders/{}/awards/{}/complaints/{}/posts/{}/documents/{}".format(
+            self.tender_id, self.award_id, self.complaint_id, self.post_id, self.document_id)
+        return self.app.get(url, status=status)
+
 
 class ComplaintPostResourceMixin(object):
     test_create_complaint_post_release_forbidden = snitch(create_complaint_post_release_forbidden)
     test_create_complaint_post_status_forbidden = snitch(create_complaint_post_status_forbidden)
+    test_create_complaint_post_review_date_forbidden = snitch(create_complaint_post_review_date_forbidden)
     test_create_complaint_post_claim_forbidden = snitch(create_complaint_post_claim_forbidden)
     test_create_complaint_post_complaint_owner = snitch(create_complaint_post_complaint_owner)
     test_create_complaint_post_tender_owner = snitch(create_complaint_post_tender_owner)
@@ -163,6 +251,15 @@ class ComplaintPostResourceMixin(object):
     test_patch_complaint_post = snitch(patch_complaint_post)
     test_get_complaint_post = snitch(get_complaint_post)
     test_get_complaint_posts = snitch(get_complaint_posts)
+    test_get_tender_complaint_post_document_json = snitch(get_tender_complaint_post_document_json)
+    test_create_tender_complaint_post_document_json = snitch(create_tender_complaint_post_document_json)
+    test_create_tender_complaint_post_by_complaint_owner_document_json = snitch(
+        create_tender_complaint_post_by_complaint_owner_document_json
+    )
+    test_create_tender_complaint_post_by_tender_owner_document_json = snitch(
+        create_tender_complaint_post_by_tender_owner_document_json
+    )
+    test_put_tender_complaint_document_json = snitch(put_tender_complaint_document_json)
 
 
 class TenderComplaintPostResourceTest(
@@ -170,6 +267,8 @@ class TenderComplaintPostResourceTest(
     ComplaintPostResourceMixin,
     TenderComplaintPostResourceMixin
 ):
+    docservice = True
+
     def setUp(self):
         super(TenderComplaintPostResourceTest, self).setUp()
         response = self.app.post_json(
@@ -189,6 +288,7 @@ class TenderAwardComplaintPostResourceTest(
     ComplaintPostResourceMixin,
     TenderAwardComplaintPostResourceMixin
 ):
+    docservice = True
     initial_status = "active.qualification"
     initial_bids = test_bids
 

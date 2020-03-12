@@ -417,8 +417,6 @@ def check_document_batch(request, document, document_container, route_kwargs):
 def upload_objects_documents(request, obj, key='body'):
     for document in getattr(obj, 'documents', []):
         check_document(request, document, key)
-        document_route = request.matched_route.name
-        update_document_url(request, document, document_route, {})
 
 
 def request_params(request):

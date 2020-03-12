@@ -15,7 +15,7 @@ DATA:
         "format": "application/pdf"
       }
     ], 
-    "relatedPost": "2a6bc3df7700440d910361ca0a9a0c70", 
+    "relatedPost": "3112c836d13d47249d133f49e042162d", 
     "description": "Додано документ", 
     "title": "Уточнення по вимозі"
   }
@@ -23,18 +23,19 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/71c0e0ebf297470aa18a89c42f80fb55/complaints/d1de2e819f884f1cb7800375f508011e/posts/708e781da97047ceb15f442b80e4ac95
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/71c0e0ebf297470aa18a89c42f80fb55/complaints/d1de2e819f884f1cb7800375f508011e/posts/efcfc8a46edc44afa5aa222ab24388fb
 {
   "data": {
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000", 
+        "author": "complaint_owner", 
         "title": "post_document_complaint.pdf", 
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2db7ab77d8e34bd0b5a563dd73cda3d8?KeyID=a8968c46&Signature=HCeIo2q%2FmA8HAwxZl9s3r479EzE3UHwTiVRP7F1SgAXQXSvSKMXnq648kOF22%2BrmtuLfvSct3PgnNthhRzPdBw%3D%3D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-05-01T01:00:00+03:00", 
-        "id": "338a9b17223d4de68a14e3a3b38344c4", 
+        "id": "e8afdb5f9f26425295b3eff8a7a289f6", 
         "dateModified": "2020-05-01T01:00:00+03:00"
       }
     ], 
@@ -42,9 +43,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/71c0e0ebf297470a
     "title": "Уточнення по вимозі", 
     "author": "complaint_owner", 
     "datePublished": "2020-05-01T01:00:00+03:00", 
-    "relatedPost": "2a6bc3df7700440d910361ca0a9a0c70", 
+    "relatedPost": "3112c836d13d47249d133f49e042162d", 
     "recipient": "aboveThresholdReviewers", 
-    "id": "708e781da97047ceb15f442b80e4ac95"
+    "id": "efcfc8a46edc44afa5aa222ab24388fb"
   }
 }
 

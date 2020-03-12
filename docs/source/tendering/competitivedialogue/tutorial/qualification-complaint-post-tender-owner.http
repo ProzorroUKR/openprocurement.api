@@ -29,6 +29,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5133e89c95af4bea
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000", 
+        "author": "tender_owner", 
         "title": "post_document_tender.pdf", 
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ba5ce79fcdf14d82af0a53f61c6d99a9?KeyID=a8968c46&Signature=AsltzoW6sFxoeiJjBCiNZ%2B%2BY%2Bkl5ozV4lwxqka0WSU5ncp7EgaG3km4gd%2F%2Fzl4gqg5ihhF9PdjudV4dXVTseBA%3D%3D", 
         "format": "application/pdf", 

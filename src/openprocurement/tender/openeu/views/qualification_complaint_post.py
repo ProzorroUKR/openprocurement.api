@@ -2,9 +2,10 @@
 from openprocurement.api.utils import json_view
 from openprocurement.tender.openeu.utils import qualifications_resource
 from openprocurement.tender.openua.validation import (
-    validate_complaint_post_add_not_in_allowed_complaint_status,
+    validate_complaint_post_complaint_status,
     validate_qualification_complaint_post_data,
     validate_complaint_post,
+    validate_complaint_post_review_date,
 )
 from openprocurement.tender.openua.views.complaint_post import TenderComplaintPostResource
 
@@ -29,9 +30,10 @@ class TenderQualificationComplaintPostResource(TenderComplaintPostResource):
     @json_view(
         content_type="application/json",
         validators=(
-            validate_qualification_complaint_post_data,
-            validate_complaint_post,
-            validate_complaint_post_add_not_in_allowed_complaint_status,
+                validate_qualification_complaint_post_data,
+                validate_complaint_post,
+                validate_complaint_post_complaint_status,
+                validate_complaint_post_review_date,
         ),
         permission="edit_complaint",
     )

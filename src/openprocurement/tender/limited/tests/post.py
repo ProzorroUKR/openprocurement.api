@@ -17,6 +17,8 @@ from openprocurement.tender.openua.tests.post_blanks import (
     patch_complaint_post,
     get_complaint_post,
     get_complaint_posts,
+    create_tender_complaint_post_document_json,
+    put_tender_complaint_document_json,
 )
 
 
@@ -29,6 +31,8 @@ class ComplaintPostResourceMixin(object):
     test_patch_complaint_post = snitch(patch_complaint_post)
     test_get_complaint_post = snitch(get_complaint_post)
     test_get_complaint_posts = snitch(get_complaint_posts)
+    test_create_tender_complaint_post_document_json = snitch(create_tender_complaint_post_document_json)
+    test_put_tender_complaint_document_json = snitch(put_tender_complaint_document_json)
 
 
 class TenderNegotiationAwardComplaintPostResourceTest(
@@ -36,6 +40,7 @@ class TenderNegotiationAwardComplaintPostResourceTest(
     ComplaintPostResourceMixin,
     TenderAwardComplaintPostResourceMixin
 ):
+    docservice = True
     initial_data = test_tender_negotiation_data
 
     def setUp(self):
@@ -67,4 +72,5 @@ class TenderNegotiationAwardComplaintPostResourceTest(
 
 
 class TenderNegotiationQuickAwardComplaintPostResourceTest(TenderNegotiationAwardComplaintPostResourceTest):
+    docservice = True
     initial_data = test_tender_negotiation_quick_data

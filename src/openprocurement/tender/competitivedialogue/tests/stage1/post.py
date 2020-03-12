@@ -19,6 +19,8 @@ class TenderCompetitiveDialogUAComplaintPostResourceTest(
     ComplaintPostResourceMixin,
     TenderComplaintPostResourceMixin
 ):
+    docservice = True
+
     def setUp(self):
         super(TenderCompetitiveDialogUAComplaintPostResourceTest, self).setUp()
         response = self.app.post_json(
@@ -39,6 +41,8 @@ class TenderCompetitiveDialogEUComplaintPostResourceTest(
     ComplaintPostResourceMixin,
     TenderComplaintPostResourceMixin
 ):
+    docservice = True
+
     def setUp(self):
         super(TenderCompetitiveDialogEUComplaintPostResourceTest, self).setUp()
         response = self.app.post_json(
@@ -58,6 +62,7 @@ class TenderCompetitiveDialogUAQualificationComplaintPostResourceTest(
     ComplaintPostResourceMixin,
     TenderQualificationComplaintPostResourceMixin
 ):
+    docservice = True
     initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_bids
     initial_auth = ("Basic", ("broker", ""))
@@ -159,6 +164,7 @@ class TenderCompetitiveDialogEUQualificationComplaintPostResourceTest(
     ComplaintPostResourceMixin,
     TenderQualificationComplaintPostResourceMixin
 ):
+    docservice = True
     initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_bids
     initial_auth = ("Basic", ("broker", ""))
