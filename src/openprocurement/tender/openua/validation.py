@@ -230,7 +230,7 @@ def validate_complaint_post_review_date(request):
         post_end_date = calculate_tender_business_date(complaint.reviewDate, -POST_SUBMIT_TIME, tender, True)
         if get_now() > post_end_date:
             raise_operation_error(
-                request, "Can submit or edit post not later than {0.days} days before reviewDate".format(
+                request, "Can submit or edit post not later than {0.days} working days before reviewDate".format(
                     POST_SUBMIT_TIME
                 )
             )

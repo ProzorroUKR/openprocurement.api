@@ -75,7 +75,7 @@ def create_complaint_post_review_date_forbidden(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can submit or edit post not later than 3 days before reviewDate"
+        "Can submit or edit post not later than 3 working days before reviewDate"
     )
 
 
@@ -623,7 +623,7 @@ def create_tender_complaint_post_document_json(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can submit or edit post not later than 3 days before reviewDate"
+        "Can submit or edit post not later than 3 working days before reviewDate"
     )
 
     # change complaint reviewDate
@@ -832,7 +832,7 @@ def put_tender_complaint_document_json(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can submit or edit post not later than 3 days before reviewDate"
+        "Can submit or edit post not later than 3 working days before reviewDate"
     )
 
     # change complaint reviewDate
