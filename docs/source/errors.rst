@@ -108,7 +108,7 @@ Here is a response that describes tender
           "tenderID": "UA-2014-DUS-156",
           "dateModified": "2014-10-27T08:06:58.158Z",
           "procuringEntity": {
-              "name": "ДУС"б
+              "name": "ДУС",
               "identifier": {
                   "name": "Державне управління справами",
                   "scheme": "UA-EDR",
