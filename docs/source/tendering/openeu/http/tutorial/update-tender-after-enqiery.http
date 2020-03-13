@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d?acc_token=5af527ef599c4cb0a283a7ba4c445288 HTTP/1.0
+GET /api/2.5/tenders/8ec937684cc1428ebb753f5aaf7485fd?acc_token=f9bc18b159e04780b8d9655605688317 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -52,13 +52,13 @@ Content-Type: application/json; charset=UTF-8
         "title": "Калорійність", 
         "date": "2020-05-01T01:00:00+03:00", 
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
-        "id": "690479c37d9e47f3bff5ef4a7f4c9e23", 
+        "id": "49b92c7234b942f08136d6a6843e8b81", 
         "questionOf": "tender"
       }
     ], 
     "owner": "broker", 
     "title_en": "Services in school canteens", 
-    "id": "ef61695c05174b37b2bb6a8da114cc9d", 
+    "id": "8ec937684cc1428ebb753f5aaf7485fd", 
     "guarantee": {
       "currency": "USD", 
       "amount": 8.0
@@ -69,11 +69,11 @@ Content-Type: application/json; charset=UTF-8
         "author": "tender_owner", 
         "language": "uk", 
         "title": "Notice.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f62e8df69f674d7aa848bb812ca3902c?KeyID=a8968c46&Signature=7ks0HWvwrsaWriT%252BVdH2HZRLC7HtUbn1I1lgMHJ6eBVtazIzgFJEXYo23CYGiJjZxfSkyiYFVEOCYK1Ph9whAg%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2f9573f6d7b44abdb025a06127ce0c67?KeyID=a8968c46&Signature=6umNW45u%252BpE6xWwDDRodnbj14rnUJ6qkYndXdakl2wfAt%252BkekY2gVgdkv2DAxWrD9xOrgwwmZBQ6QRedAoQRDg%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-05-01T01:00:00+03:00", 
-        "id": "6200205ac897456aa64195e5b732888f", 
+        "id": "c2a53851f59a4831aef4f856283ada02", 
         "dateModified": "2020-05-01T01:00:00+03:00"
       }, 
       {
@@ -81,11 +81,11 @@ Content-Type: application/json; charset=UTF-8
         "author": "tender_owner", 
         "language": "uk", 
         "title": "AwardCriteria.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f0953630644445eda6bc1b1378af00db?KeyID=a8968c46&Signature=ePPzK3LLv0KJ9DjBF4SNB%2FC%2Fv1owiq0pQQUxjCaJEaW6ix2l0ozEorBYpwAxkuaINLc8wHej%252BcIIQnIaKbodCA%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/74db8aa27a8c4260ae5fc6903f3c615a?KeyID=a8968c46&Signature=WZ61hCj3AoE7c1hk3LakiMb%2FepFETNkwIAVs1lme2Q3azUr71ybLxyB9HsRy%2FmwXxnG6fwsd3EF7O9iyEqdzDA%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-05-01T01:00:00+03:00", 
-        "id": "a52f0718257848fdb7a92fc75fc1a1a4", 
+        "id": "33589782b828437fb6b61db1970c904c", 
         "dateModified": "2020-05-01T01:00:00+03:00"
       }, 
       {
@@ -93,11 +93,11 @@ Content-Type: application/json; charset=UTF-8
         "author": "tender_owner", 
         "language": "uk", 
         "title": "AwardCriteria-2.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6ec27c9b0014427180bc24ad2ac11ae8?KeyID=a8968c46&Signature=M%2F48IaykKqsWQq%252BbrsD6uIVDAC2fyvUxCLPBMJmIAqL6e8hjF8HgkfWr3XXiF91Yzxk7SWk%252BZyGfxVj0D8%252BoCQ%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e37d74e4381a44fe9cbb2f317eb2c533?KeyID=a8968c46&Signature=Ruy035q4%2FC09t%2FCeQ6YgBkFsKDzvY3L%252BOx9YFKcUQ%2FQgI1TY%252BkBKP%2FbYySLR8%2FJHbRXsfQw0CViTvHHJvtT1Aw%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-05-01T01:00:00+03:00", 
-        "id": "a52f0718257848fdb7a92fc75fc1a1a4", 
+        "id": "33589782b828437fb6b61db1970c904c", 
         "dateModified": "2020-05-01T01:00:00+03:00"
       }
     ], 
@@ -137,7 +137,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "percentage": 54.45, 
         "type": "financing", 
-        "id": "93ea80580cc948249bac1c77f04afe98"
+        "id": "cfb2f34cb69f42f9b01b140b83785206"
       }
     ], 
     "minimalStep": {
@@ -172,7 +172,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-05-21T00:00:00+02:00", 
           "endDate": "2020-06-20T00:00:00+02:00"
         }, 
-        "id": "6ebdaf1cb586410f8c8c843a108b155f", 
+        "id": "51b2a32922e64b22885d3d0900d7ae59", 
         "quantity": 1.0
       }, 
       {
@@ -201,7 +201,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-05-21T00:00:00+02:00", 
           "endDate": "2020-06-20T00:00:00+02:00"
         }, 
-        "id": "2362877518ef44d783c05ed80edafa78", 
+        "id": "8e064ec29576422386ce9c1d1451d8dc", 
         "quantity": 1.0
       }
     ], 
@@ -214,7 +214,7 @@ Content-Type: application/json; charset=UTF-8
   }
 }
 
-PATCH /api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d?acc_token=5af527ef599c4cb0a283a7ba4c445288 HTTP/1.0
+PATCH /api/2.5/tenders/8ec937684cc1428ebb753f5aaf7485fd?acc_token=f9bc18b159e04780b8d9655605688317 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 38
 Content-Type: application/json

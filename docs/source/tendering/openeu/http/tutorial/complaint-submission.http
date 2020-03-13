@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/71c0e0ebf297470aa18a89c42f80fb55/complaints HTTP/1.0
+POST /api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1385
 Content-Type: application/json
@@ -35,11 +35,11 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/71c0e0ebf297470aa18a89c42f80fb55/complaints/f9b88de0e4e241ebb023bcb73a14ce27
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/9698c2aae121470eb87342fb51872653
 {
   "access": {
-    "transfer": "95bd8fa07e6448cc8b0af5f84beec9d6", 
-    "token": "e82c9119b3fe47f7a1d7ddb18f7bfc5e"
+    "transfer": "3969a00a20be4556a0e70816fee190ae", 
+    "token": "98b645cb4c6c4777a67f75ca798c4039"
   }, 
   "data": {
     "status": "draft", 
@@ -72,7 +72,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/71c0e0ebf297470a
     "complaintID": "UA-2020-05-01-000001.5", 
     "date": "2020-05-01T01:00:00+03:00", 
     "type": "complaint", 
-    "id": "f9b88de0e4e241ebb023bcb73a14ce27"
+    "id": "9698c2aae121470eb87342fb51872653"
   }
 }
 

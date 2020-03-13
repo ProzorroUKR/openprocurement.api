@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d?acc_token=5af527ef599c4cb0a283a7ba4c445288 HTTP/1.0
+PATCH /api/2.5/tenders/8ec937684cc1428ebb753f5aaf7485fd?acc_token=f9bc18b159e04780b8d9655605688317 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 57
 Content-Type: application/json
@@ -58,7 +58,7 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "owner": "broker", 
     "title_en": "Services in school canteens", 
-    "id": "ef61695c05174b37b2bb6a8da114cc9d", 
+    "id": "8ec937684cc1428ebb753f5aaf7485fd", 
     "guarantee": {
       "currency": "USD", 
       "amount": 8.0
@@ -99,7 +99,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "percentage": 54.45, 
         "type": "financing", 
-        "id": "93ea80580cc948249bac1c77f04afe98"
+        "id": "cfb2f34cb69f42f9b01b140b83785206"
       }
     ], 
     "minimalStep": {
@@ -134,7 +134,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-05-21T00:00:00+02:00", 
           "endDate": "2020-06-20T00:00:00+02:00"
         }, 
-        "id": "6ebdaf1cb586410f8c8c843a108b155f", 
+        "id": "51b2a32922e64b22885d3d0900d7ae59", 
         "quantity": 1.0
       }, 
       {
@@ -163,7 +163,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-05-21T00:00:00+02:00", 
           "endDate": "2020-06-20T00:00:00+02:00"
         }, 
-        "id": "2362877518ef44d783c05ed80edafa78", 
+        "id": "8e064ec29576422386ce9c1d1451d8dc", 
         "quantity": 1.0
       }
     ], 

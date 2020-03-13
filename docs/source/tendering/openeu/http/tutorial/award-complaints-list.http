@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/3380abd6dac247a394ea054cfe23249b/awards/02e73dd649794aeaa7214ad1005d1272/complaints HTTP/1.0
+GET /api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/78a7d327a60b4e19af202ce60948edc5/complaints HTTP/1.0
 Host: lb-api-sandbox.prozorro.gov.ua
 
 Response: 200 OK
@@ -14,11 +14,11 @@ Content-Type: application/json; charset=UTF-8
           "author": "complaint_owner", 
           "language": "uk", 
           "title": "Complaint_Attachement.pdf", 
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cfa34bda2130420394da534b242aab71?KeyID=a8968c46&Signature=7s4wcBNYPgpb1KxyeDk9Sqmtp0WolIy8%252BAgVIzlpH5m%2FxAlngvaaf3VZx67MuL%2FYZJlrVrPxCyGvJwz8rVhLCA%253D%253D", 
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9a24f3dfc4504656912ea717a5e519b3?KeyID=a8968c46&Signature=OShMqNbhsVlInoN98pFyTWZRnMv3p6Rvnldg4zfCTDyyRnpPpOXpBUNsQQQC%252BZYp5K6g5gdkOjuen8bsXofwCw%253D%253D", 
           "format": "application/pdf", 
           "documentOf": "tender", 
           "datePublished": "2020-05-01T01:00:01+03:00", 
-          "id": "dd97bff9bdef4f09a850c9d7da30f6ba", 
+          "id": "5cc45e4074cf4629ad7ee151662909f5", 
           "dateModified": "2020-05-01T01:00:01+03:00"
         }, 
         {
@@ -26,11 +26,11 @@ Content-Type: application/json; charset=UTF-8
           "author": "aboveThresholdReviewers", 
           "language": "uk", 
           "title": "ComplaintResolution.pdf", 
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d29d86c379664460b8c149f5cea76036?KeyID=a8968c46&Signature=%252BJ%2FEupUOF%252Bp3e0Nm5u9SwoRaldz%2FooH5yQigJnYjDRnB8j2gCzoeWFfyS%2FTiGCcRmFbHn5h41VRKQxU2hSA7BA%253D%253D", 
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/402ab7ec9b9d43628ba621fc2efed595?KeyID=a8968c46&Signature=m%2FpPoKYOULyjq%2FiCI2lyIxpU2kWojgUVytLt%252B9qKOdjwAvCnQM1p%252BAMgO5XJ5pNQAV7NK4DcNHEyjTovcHOJBw%253D%253D", 
           "format": "application/pdf", 
           "documentOf": "tender", 
           "datePublished": "2020-05-01T01:00:01+03:00", 
-          "id": "a178fd7fad7c4e778095452650499b4e", 
+          "id": "50010030ed9647afa89d33c126c2e307", 
           "dateModified": "2020-05-01T01:00:01+03:00"
         }
       ], 
@@ -67,7 +67,7 @@ Content-Type: application/json; charset=UTF-8
       "complaintID": "UA-2020-05-01-000001.1", 
       "date": "2020-05-01T01:00:01+03:00", 
       "type": "complaint", 
-      "id": "61ccc02d23a1432480391158988f2ff1", 
+      "id": "eea6ee3d38cc4aefb76da96645d4a3c5", 
       "reviewPlace": "Place of review"
     }, 
     {
@@ -101,7 +101,7 @@ Content-Type: application/json; charset=UTF-8
       "date": "2020-05-01T01:00:01+03:00", 
       "title": "Недостатньо інформації", 
       "type": "complaint", 
-      "id": "9bbba3b10b73436f86c179f790a913da"
+      "id": "c2605c1f13684bb49275a4c9555f57f5"
     }, 
     {
       "status": "declined", 
@@ -135,7 +135,7 @@ Content-Type: application/json; charset=UTF-8
       "complaintID": "UA-2020-05-01-000001.3", 
       "date": "2020-05-01T01:00:01+03:00", 
       "type": "complaint", 
-      "id": "3036d53b8cb84388ab5963f8236f8e96", 
+      "id": "7afa1382d3b84a7580f1117afb5e641a", 
       "reviewPlace": "Place of review"
     }, 
     {
@@ -169,7 +169,7 @@ Content-Type: application/json; charset=UTF-8
       "date": "2020-05-01T01:00:01+03:00", 
       "title": "Недостатньо інформації", 
       "type": "complaint", 
-      "id": "7d5077092eed4938936955958adc366c", 
+      "id": "83a5ea50f9c644fe8fab90d091300202", 
       "reviewPlace": "Place of review"
     }, 
     {
@@ -180,7 +180,7 @@ Content-Type: application/json; charset=UTF-8
       "title": "Недостатньо інформації", 
       "decision": "Тендер скасовується замовником", 
       "acceptance": true, 
-      "id": "9c712ccca08b4bc5a3a3da2693d0329e", 
+      "id": "0c85b13da37a4988bd826f68a66d29e9", 
       "rejectReason": "tenderCancelled", 
       "dateAccepted": "2020-05-01T01:00:01+03:00", 
       "author": {
@@ -242,7 +242,7 @@ Content-Type: application/json; charset=UTF-8
       "complaintID": "UA-2020-05-01-000001.6", 
       "date": "2020-05-01T01:00:01+03:00", 
       "resolution": "Умови виправлено, вибір переможня буде розгянуто повторно", 
-      "id": "7a690b0c05d74a1cb75095f97c944b88"
+      "id": "c9e6b01cbe524a1cb3ffe8f053e7e9d9"
     }, 
     {
       "status": "answered", 
@@ -276,7 +276,7 @@ Content-Type: application/json; charset=UTF-8
       "complaintID": "UA-2020-05-01-000001.7", 
       "date": "2020-05-01T01:00:01+03:00", 
       "resolution": "Вимога не відповідає предмету закупівлі", 
-      "id": "76d455634403422cbb1c900b7c9e16ec"
+      "id": "b9d791e890424c06b02c308aa516a710"
     }, 
     {
       "status": "pending", 
@@ -309,18 +309,18 @@ Content-Type: application/json; charset=UTF-8
           "author": "aboveThresholdReviewers", 
           "datePublished": "2020-05-01T01:00:01+03:00", 
           "recipient": "complaint_owner", 
-          "id": "fa82f901aaa94c63b031b23555844f4e"
+          "id": "6825f42df07a48c983a3efd88a34d8ef"
         }, 
         {
           "documents": [
             {
               "hash": "md5:00000000000000000000000000000000", 
               "title": "post_document_complaint.pdf", 
-              "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ae162bbbae31456dbdee61913d853c24?KeyID=a8968c46&Signature=SucN%2FAeTzILA%2FvO6VEqFjFM%2BDOGLdvWfAoYlSe96tlat9Kq1ljoEIBSM6GfHLJHexiPd4QCl3%2FwyaNZO1pUfDA%3D%3D", 
+              "url": "http://public-docs-sandbox.prozorro.gov.ua/get/43d2c2ffaea9467d9aa18231344b833c?KeyID=a8968c46&Signature=%2BCDe%2FTUfu1urTmo%2FPTT8kJzO50yavT%2Fyy%2BG6OpuJGhbPa3jw%2Bm8mP9u%2BsCcgkLCXHmLpQZXdaVHuLOODWmITCQ%3D%3D", 
               "format": "application/pdf", 
               "documentOf": "tender", 
               "datePublished": "2020-05-01T01:00:01+03:00", 
-              "id": "d727d5e2b77542bdb4a69ef7be9c3c5c", 
+              "id": "71dfde4f472e4404b20e540ba7710db7", 
               "dateModified": "2020-05-01T01:00:01+03:00"
             }
           ], 
@@ -328,9 +328,9 @@ Content-Type: application/json; charset=UTF-8
           "title": "Уточнення по вимозі", 
           "author": "complaint_owner", 
           "datePublished": "2020-05-01T01:00:01+03:00", 
-          "relatedPost": "fa82f901aaa94c63b031b23555844f4e", 
+          "relatedPost": "6825f42df07a48c983a3efd88a34d8ef", 
           "recipient": "aboveThresholdReviewers", 
-          "id": "496118a621b14940ad0b75ee34880c33"
+          "id": "052bcb6afafa4914a64fe1468d784c29"
         }, 
         {
           "description": "Відсутній документ", 
@@ -338,18 +338,18 @@ Content-Type: application/json; charset=UTF-8
           "author": "aboveThresholdReviewers", 
           "datePublished": "2020-05-01T01:00:01+03:00", 
           "recipient": "tender_owner", 
-          "id": "767c5096b9dc4cb08319bbbb8947d3ce"
+          "id": "c0e6b3e197144cfb9ea01c383bb6a8d7"
         }, 
         {
           "documents": [
             {
               "hash": "md5:00000000000000000000000000000000", 
               "title": "post_document_tender.pdf", 
-              "url": "http://public-docs-sandbox.prozorro.gov.ua/get/beb3c2bf78d64a5d916bc056fa8b64a5?KeyID=a8968c46&Signature=BkAC9DBofiOUr4chkDl4QKFjBxXL%2FlE6Bcvw4%2FXFu0lUpQJIamPzEHiCy%2Fj3m2HvDNr03Mz%2FrNu8P4a2XZUsBg%3D%3D", 
+              "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b59866c8f74b410bbd50ee702c242595?KeyID=a8968c46&Signature=E%2FIEtZ6%2Fzh6X9i%2FOn1PmY7kcuKUszK2i0LCYbCEIh8YDpBemoEkdhL02xeeSJKZFblanX5a72OHcb%2BaiTPQYBQ%3D%3D", 
               "format": "application/pdf", 
               "documentOf": "tender", 
               "datePublished": "2020-05-01T01:00:01+03:00", 
-              "id": "5cf822cc96604c688be675096a943be6", 
+              "id": "9d1a689bc24440f79a6a3cd8687106ff", 
               "dateModified": "2020-05-01T01:00:01+03:00"
             }
           ], 
@@ -357,16 +357,16 @@ Content-Type: application/json; charset=UTF-8
           "title": "Уточнення по вимозі", 
           "author": "tender_owner", 
           "datePublished": "2020-05-01T01:00:01+03:00", 
-          "relatedPost": "767c5096b9dc4cb08319bbbb8947d3ce", 
+          "relatedPost": "c0e6b3e197144cfb9ea01c383bb6a8d7", 
           "recipient": "aboveThresholdReviewers", 
-          "id": "99b58510348b4227b0939b9e7c2a871c"
+          "id": "bd2d5e2972694cd0ae096d95be597ab5"
         }
       ], 
       "dateSubmitted": "2020-05-01T01:00:01+03:00", 
       "complaintID": "UA-2020-05-01-000001.8", 
       "date": "2020-05-01T01:00:01+03:00", 
       "type": "complaint", 
-      "id": "67b03226839f4fa9817557eb4595c4d1"
+      "id": "321991f8e0ba4ba8af3e00f939b00654"
     }, 
     {
       "status": "claim", 
@@ -396,7 +396,7 @@ Content-Type: application/json; charset=UTF-8
       "complaintID": "UA-2020-05-01-000001.9", 
       "date": "2020-05-01T01:00:01+03:00", 
       "type": "claim", 
-      "id": "cbfe9d2731414254a5085da22bf2affd"
+      "id": "a01979c79a024470bbf203c6cc3c09cd"
     }
   ]
 }

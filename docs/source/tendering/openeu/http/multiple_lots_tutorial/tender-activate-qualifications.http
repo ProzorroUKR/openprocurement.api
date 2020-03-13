@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/52f1b75138ab4b2c87feff205f2a06f4/qualifications/69e23d94b0ec4a4cbf777d2557fe598a?acc_token=20ea9bdc44d84eec82cf2059f999ad42 HTTP/1.0
+PATCH /api/2.5/tenders/359aa11daf2d4485a0b9e064f5185361/qualifications/219e5b86cc6841baae7a537b66285d0c?acc_token=29862753282b488987eeebd2fa608565 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 67
 Content-Type: application/json
@@ -17,12 +17,12 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "active", 
-    "lotID": "a678eaf5090d45db8077d4ecd36154e0", 
+    "lotID": "ca773275108d4c31946814c4b573fdaf", 
     "eligible": true, 
     "qualified": true, 
-    "bidID": "1db2a89bad604311b7166807eb63d4e3", 
+    "bidID": "6590bc73c5e44f2fb2cb4fae5c6ed147", 
     "date": "2020-05-01T01:00:00+03:00", 
-    "id": "69e23d94b0ec4a4cbf777d2557fe598a"
+    "id": "219e5b86cc6841baae7a537b66285d0c"
   }
 }
 

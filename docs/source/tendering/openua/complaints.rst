@@ -30,14 +30,14 @@ Tender Conditions Claims/Complaints
         satisfied -> resolved;
         edge[style=dashed];
         answered -> {pending,resolved};
-        draft -> {claim,pending,mistaken};
+        draft -> {claim,pending};
         claim -> pending;
         {draft,claim,answered} -> cancelled;
         pending -> stopping;
         accepted -> stopping;
         edge[style=bold];
         accepted -> {declined,satisfied,stopped};
-        pending -> {accepted,invalid,stopped};
+        pending -> {accepted,invalid,stopped,mistaken};
         stopping -> {stopped,invalid,declined,satisfied};
         edge[label="auction" style=dotted];
         answered -> {invalid,declined,resolved};
@@ -63,7 +63,7 @@ Tender Conditions Claims/Complaints (After Release 2020-04-19)
         claim -> answered;
         satisfied -> resolved;
         edge[style=dashed];
-        draft -> {claim,pending, mistaken};
+        draft -> {claim,pending,mistaken};
         {draft,claim,answered} -> cancelled;
         pending -> stopping;
         accepted -> stopping;

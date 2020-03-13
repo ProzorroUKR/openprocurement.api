@@ -1,26 +1,47 @@
-GET /api/2.5/tenders/94170d1f620a487e8f4ffcc37ee8f2df/awards/364af56690df4704aa730f1266eca60e/complaints/2e220acdf2d742849bb2cbb99924160e HTTP/1.0
+GET /api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/78a7d327a60b4e19af202ce60948edc5/complaints/eea6ee3d38cc4aefb76da96645d4a3c5 HTTP/1.0
 Host: lb-api-sandbox.prozorro.gov.ua
 
 Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "status": "claim", 
+    "status": "satisfied", 
+    "dateDecision": "2020-05-01T01:00:01+03:00", 
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000", 
         "author": "complaint_owner", 
+        "language": "uk", 
         "title": "Complaint_Attachement.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e55bd0cbdb214899a3bc41c036451dc6?KeyID=a8968c46&Signature=sKar7aqK3NIsXwWy8a4Wgfd2rgrqXOPf7EZolZwKlkRrUuvGM0xBj52UJe0B1mf5kYV%252BFVNg7qU8SkODumFUCA%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9a24f3dfc4504656912ea717a5e519b3?KeyID=a8968c46&Signature=OShMqNbhsVlInoN98pFyTWZRnMv3p6Rvnldg4zfCTDyyRnpPpOXpBUNsQQQC%252BZYp5K6g5gdkOjuen8bsXofwCw%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-05-01T01:00:01+03:00", 
-        "id": "ccf172362f3e4e69853506fcf14d0cb7", 
+        "id": "5cc45e4074cf4629ad7ee151662909f5", 
+        "dateModified": "2020-05-01T01:00:01+03:00"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "author": "aboveThresholdReviewers", 
+        "language": "uk", 
+        "title": "ComplaintResolution.pdf", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/402ab7ec9b9d43628ba621fc2efed595?KeyID=a8968c46&Signature=m%2FpPoKYOULyjq%2FiCI2lyIxpU2kWojgUVytLt%252B9qKOdjwAvCnQM1p%252BAMgO5XJ5pNQAV7NK4DcNHEyjTovcHOJBw%253D%253D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2020-05-01T01:00:01+03:00", 
+        "id": "50010030ed9647afa89d33c126c2e307", 
         "dateModified": "2020-05-01T01:00:01+03:00"
       }
     ], 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "title": "Недостатньо інформації", 
+    "reviewDate": "2020-05-01T01:00:01+03:00", 
+    "acceptance": true, 
+    "value": {
+      "currency": "UAH", 
+      "amount": 3000.0
+    }, 
+    "dateAccepted": "2020-05-01T01:00:01+03:00", 
     "author": {
       "contactPoint": {
         "email": "soleksuk@gmail.com", 
@@ -42,10 +63,11 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "dateSubmitted": "2020-05-01T01:00:01+03:00", 
-    "complaintID": "UA-2020-05-01-000001.5", 
+    "complaintID": "UA-2020-05-01-000001.1", 
     "date": "2020-05-01T01:00:01+03:00", 
-    "type": "claim", 
-    "id": "2e220acdf2d742849bb2cbb99924160e"
+    "type": "complaint", 
+    "id": "eea6ee3d38cc4aefb76da96645d4a3c5", 
+    "reviewPlace": "Place of review"
   }
 }
 

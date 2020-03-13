@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/ce6fe53ed8074a8993c306b027fa9a53?acc_token=d2a2184be75540dc9943d755fd56b1e0 HTTP/1.0
+GET /api/2.5/tenders/8ec937684cc1428ebb753f5aaf7485fd/bids/88ee5225f65a46a0b25694d4d385af83?acc_token=34a724f57d88422280f745b430c2e4ee HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -13,11 +13,11 @@ Content-Type: application/json; charset=UTF-8
         "confidentiality": "public", 
         "language": "uk", 
         "title": "Proposal.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/ce6fe53ed8074a8993c306b027fa9a53/documents/ffb8f68e7a9442ca8c7c909ce9475091?download=b1254823518c427e84bddac2609d49cb", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8ec937684cc1428ebb753f5aaf7485fd/bids/88ee5225f65a46a0b25694d4d385af83/documents/0250e7953a324122a07ed38bed891150?download=794e54a09d7f49889749803fda81046f", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-05-01T01:00:00+03:00", 
-        "id": "ffb8f68e7a9442ca8c7c909ce9475091", 
+        "id": "0250e7953a324122a07ed38bed891150", 
         "dateModified": "2020-05-01T01:00:00+03:00"
       }, 
       {
@@ -25,12 +25,12 @@ Content-Type: application/json; charset=UTF-8
         "confidentiality": "buyerOnly", 
         "language": "uk", 
         "format": "application/pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/ce6fe53ed8074a8993c306b027fa9a53/documents/ca89fb4746d64cfd87f857401fe85d90?download=46eae2bb26bb459e80168cde78780897", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8ec937684cc1428ebb753f5aaf7485fd/bids/88ee5225f65a46a0b25694d4d385af83/documents/3ee6e0c8efb24c1d96fe4bfb5ae824b7?download=08dfc08fdc3142069e9100621eaaea4c", 
         "confidentialityRationale": "Only our company sells badgers with pink hair.", 
         "title": "Proposal_top_secrets.pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-05-01T01:00:00+03:00", 
-        "id": "ca89fb4746d64cfd87f857401fe85d90", 
+        "id": "3ee6e0c8efb24c1d96fe4bfb5ae824b7", 
         "dateModified": "2020-05-01T01:00:00+03:00"
       }
     ], 
@@ -40,16 +40,16 @@ Content-Type: application/json; charset=UTF-8
         "confidentiality": "public", 
         "language": "uk", 
         "title": "eligibility_doc.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/ce6fe53ed8074a8993c306b027fa9a53/eligibility_documents/84e8cce5126f4088a9d49b2d8a61147c?download=f5bd5faca0ed402f9f631588655730d2", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8ec937684cc1428ebb753f5aaf7485fd/bids/88ee5225f65a46a0b25694d4d385af83/eligibility_documents/653fd181faab4a7883c46d81b4e70cee?download=19be8632657b44a4a3cf5241f6ce312b", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-05-01T01:00:00+03:00", 
-        "id": "84e8cce5126f4088a9d49b2d8a61147c", 
+        "id": "653fd181faab4a7883c46d81b4e70cee", 
         "dateModified": "2020-05-01T01:00:00+03:00"
       }
     ], 
     "selfEligible": true, 
-    "id": "ce6fe53ed8074a8993c306b027fa9a53", 
+    "id": "88ee5225f65a46a0b25694d4d385af83", 
     "value": {
       "currency": "UAH", 
       "amount": 500.0, 
@@ -62,11 +62,11 @@ Content-Type: application/json; charset=UTF-8
         "confidentiality": "public", 
         "language": "uk", 
         "title": "financial_doc.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/ce6fe53ed8074a8993c306b027fa9a53/financial_documents/4d63bcaab539462fbc4dad2cd151cd99?download=14fd1c06e9f640f7b8891f22f2a645d6", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8ec937684cc1428ebb753f5aaf7485fd/bids/88ee5225f65a46a0b25694d4d385af83/financial_documents/d9e240a2263f4813871df037700d4a44?download=fdfa9f9a1cce4f428dd8519882c820e7", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-05-01T01:00:00+03:00", 
-        "id": "4d63bcaab539462fbc4dad2cd151cd99", 
+        "id": "d9e240a2263f4813871df037700d4a44", 
         "dateModified": "2020-05-01T01:00:00+03:00"
       }, 
       {
@@ -74,11 +74,11 @@ Content-Type: application/json; charset=UTF-8
         "confidentiality": "public", 
         "language": "uk", 
         "title": "financial_doc2.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/ce6fe53ed8074a8993c306b027fa9a53/financial_documents/d8273962ff464b59accf03c3dcac9460?download=4727233454434ece80cdf932dbc3ade9", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8ec937684cc1428ebb753f5aaf7485fd/bids/88ee5225f65a46a0b25694d4d385af83/financial_documents/237af50674de494ebaefa31153d624b4?download=ecef07817fee469da42487069c8d706b", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-05-01T01:00:00+03:00", 
-        "id": "d8273962ff464b59accf03c3dcac9460", 
+        "id": "237af50674de494ebaefa31153d624b4", 
         "dateModified": "2020-05-01T01:00:00+03:00"
       }
     ], 
@@ -113,11 +113,11 @@ Content-Type: application/json; charset=UTF-8
         "confidentiality": "public", 
         "language": "uk", 
         "title": "qualification_document.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/ce6fe53ed8074a8993c306b027fa9a53/qualification_documents/967be1d89cf846feae631c84ec4d0834?download=72b7b1d29c754e0eb64489482ad92680", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8ec937684cc1428ebb753f5aaf7485fd/bids/88ee5225f65a46a0b25694d4d385af83/qualification_documents/5f63b5b2a04e439ead0460631cdf05b4?download=39bda5682d50433291dc26374c0e24fc", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-05-01T01:00:00+03:00", 
-        "id": "967be1d89cf846feae631c84ec4d0834", 
+        "id": "5f63b5b2a04e439ead0460631cdf05b4", 
         "dateModified": "2020-05-01T01:00:00+03:00"
       }
     ]

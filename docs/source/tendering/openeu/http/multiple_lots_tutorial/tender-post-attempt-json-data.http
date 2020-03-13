@@ -134,11 +134,11 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/52f1b75138ab4b2c87feff205f2a06f4
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/359aa11daf2d4485a0b9e064f5185361
 {
   "access": {
-    "transfer": "828460db3c3a4e338b32cc30963c7732", 
-    "token": "20ea9bdc44d84eec82cf2059f999ad42"
+    "transfer": "214281dd7199411c8e93e735d97bb53a", 
+    "token": "29862753282b488987eeebd2fa608565"
   }, 
   "data": {
     "procurementMethod": "open", 
@@ -181,7 +181,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/52f1b75138ab4b2c
     }, 
     "owner": "broker", 
     "title_en": "Services in school canteens", 
-    "id": "52f1b75138ab4b2c87feff205f2a06f4", 
+    "id": "359aa11daf2d4485a0b9e064f5185361", 
     "title": "Послуги шкільних їдалень", 
     "tenderID": "UA-2020-05-01-000001", 
     "dateModified": "2020-05-01T01:00:00+03:00", 
@@ -218,7 +218,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/52f1b75138ab4b2c
         }, 
         "percentage": 54.45, 
         "type": "financing", 
-        "id": "fb9912a628e547ec86fd4052b35fd066"
+        "id": "009bf760dbf743d8b4f71c120e78821b"
       }
     ], 
     "minimalStep": {
@@ -253,7 +253,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/52f1b75138ab4b2c
           "startDate": "2020-05-21T00:00:00+02:00", 
           "endDate": "2020-06-20T00:00:00+02:00"
         }, 
-        "id": "79cd11ac44934e09a6ccc517d3810dd4", 
+        "id": "154f77e2db2a427e8bc00d3db157c91c", 
         "quantity": 1.0
       }, 
       {
@@ -282,7 +282,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/52f1b75138ab4b2c
           "startDate": "2020-05-21T00:00:00+02:00", 
           "endDate": "2020-06-20T00:00:00+02:00"
         }, 
-        "id": "faa12ba0bce042bfa5ad1bc8c827f6e9", 
+        "id": "4a51503dbbd846ee9595984979485841", 
         "quantity": 1.0
       }
     ], 

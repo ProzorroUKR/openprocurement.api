@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/52f1b75138ab4b2c87feff205f2a06f4/bids HTTP/1.0
+POST /api/2.5/tenders/359aa11daf2d4485a0b9e064f5185361/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1122
 Content-Type: application/json
@@ -10,13 +10,13 @@ DATA:
     "selfQualified": true, 
     "lotValues": [
       {
-        "relatedLot": "a678eaf5090d45db8077d4ecd36154e0", 
+        "relatedLot": "ca773275108d4c31946814c4b573fdaf", 
         "value": {
           "amount": 500
         }
       }, 
       {
-        "relatedLot": "885ae10af23944619f6730aa24a94d92", 
+        "relatedLot": "12d6d1e15bd1423a86f5b72a3e0ac1e2", 
         "value": {
           "amount": 500
         }, 
@@ -51,18 +51,18 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/52f1b75138ab4b2c87feff205f2a06f4/bids/f4c99b9e469349e296d81e700168a070
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/359aa11daf2d4485a0b9e064f5185361/bids/2fb8893eae8944afa9fe5e886c024ab8
 {
   "access": {
-    "transfer": "ec271c4d08e64d4fbf2162cc3399ba08", 
-    "token": "765f074dacb14d31b625118945f17413"
+    "transfer": "1ca1ce410bf845198987e870f4ee9ae4", 
+    "token": "7c64d49eeab04b8988af0a1c74df126f"
   }, 
   "data": {
     "status": "pending", 
     "selfEligible": true, 
     "lotValues": [
       {
-        "relatedLot": "a678eaf5090d45db8077d4ecd36154e0", 
+        "relatedLot": "ca773275108d4c31946814c4b573fdaf", 
         "date": "2020-05-01T01:00:00+03:00", 
         "status": "pending", 
         "value": {
@@ -72,7 +72,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/52f1b75138ab4b2c
         }
       }, 
       {
-        "relatedLot": "885ae10af23944619f6730aa24a94d92", 
+        "relatedLot": "12d6d1e15bd1423a86f5b72a3e0ac1e2", 
         "date": "2020-05-01T01:00:00+03:00", 
         "status": "pending", 
         "value": {
@@ -108,7 +108,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/52f1b75138ab4b2c
       }
     ], 
     "date": "2020-05-01T01:00:00+03:00", 
-    "id": "f4c99b9e469349e296d81e700168a070"
+    "id": "2fb8893eae8944afa9fe5e886c024ab8"
   }
 }
 

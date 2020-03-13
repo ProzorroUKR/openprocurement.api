@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/52f1b75138ab4b2c87feff205f2a06f4 HTTP/1.0
+GET /api/2.5/tenders/359aa11daf2d4485a0b9e064f5185361 HTTP/1.0
 Host: lb-api-sandbox.prozorro.gov.ua
 
 Response: 200 OK
@@ -45,7 +45,7 @@ Content-Type: application/json; charset=UTF-8
       "name_en": "School #10 of Vinnytsia"
     }, 
     "owner": "broker", 
-    "id": "52f1b75138ab4b2c87feff205f2a06f4", 
+    "id": "359aa11daf2d4485a0b9e064f5185361", 
     "title": "Послуги шкільних їдалень", 
     "lots": [
       {
@@ -66,7 +66,7 @@ Content-Type: application/json; charset=UTF-8
           "valueAddedTaxIncluded": true
         }, 
         "date": "2020-05-01T01:00:00+03:00", 
-        "id": "a678eaf5090d45db8077d4ecd36154e0"
+        "id": "ca773275108d4c31946814c4b573fdaf"
       }, 
       {
         "status": "active", 
@@ -86,7 +86,7 @@ Content-Type: application/json; charset=UTF-8
           "valueAddedTaxIncluded": true
         }, 
         "date": "2020-05-01T01:00:00+03:00", 
-        "id": "885ae10af23944619f6730aa24a94d92"
+        "id": "12d6d1e15bd1423a86f5b72a3e0ac1e2"
       }
     ], 
     "tenderID": "UA-2020-05-01-000001", 
@@ -122,7 +122,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "percentage": 54.45, 
         "type": "financing", 
-        "id": "fb9912a628e547ec86fd4052b35fd066"
+        "id": "009bf760dbf743d8b4f71c120e78821b"
       }
     ], 
     "minimalStep": {
@@ -132,7 +132,7 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "items": [
       {
-        "relatedLot": "a678eaf5090d45db8077d4ecd36154e0", 
+        "relatedLot": "ca773275108d4c31946814c4b573fdaf", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "ДК021", 
@@ -158,11 +158,11 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-05-21T00:00:00+02:00", 
           "endDate": "2020-06-20T00:00:00+02:00"
         }, 
-        "id": "79cd11ac44934e09a6ccc517d3810dd4", 
+        "id": "154f77e2db2a427e8bc00d3db157c91c", 
         "quantity": 1.0
       }, 
       {
-        "relatedLot": "885ae10af23944619f6730aa24a94d92", 
+        "relatedLot": "12d6d1e15bd1423a86f5b72a3e0ac1e2", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "ДК021", 
@@ -188,7 +188,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-05-21T00:00:00+02:00", 
           "endDate": "2020-06-20T00:00:00+02:00"
         }, 
-        "id": "faa12ba0bce042bfa5ad1bc8c827f6e9", 
+        "id": "4a51503dbbd846ee9595984979485841", 
         "quantity": 1.0
       }
     ], 

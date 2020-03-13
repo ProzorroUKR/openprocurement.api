@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/52f1b75138ab4b2c87feff205f2a06f4?acc_token=20ea9bdc44d84eec82cf2059f999ad42 HTTP/1.0
+PATCH /api/2.5/tenders/359aa11daf2d4485a0b9e064f5185361?acc_token=29862753282b488987eeebd2fa608565 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 60
 Content-Type: application/json
@@ -56,7 +56,7 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "owner": "broker", 
     "title_en": "Services in school canteens", 
-    "id": "52f1b75138ab4b2c87feff205f2a06f4", 
+    "id": "359aa11daf2d4485a0b9e064f5185361", 
     "title": "Послуги шкільних їдалень", 
     "lots": [
       {
@@ -77,7 +77,7 @@ Content-Type: application/json; charset=UTF-8
           "valueAddedTaxIncluded": true
         }, 
         "date": "2020-05-01T01:00:00+03:00", 
-        "id": "a678eaf5090d45db8077d4ecd36154e0"
+        "id": "ca773275108d4c31946814c4b573fdaf"
       }, 
       {
         "status": "unsuccessful", 
@@ -94,7 +94,7 @@ Content-Type: application/json; charset=UTF-8
           "valueAddedTaxIncluded": true
         }, 
         "date": "2020-05-01T01:00:00+03:00", 
-        "id": "885ae10af23944619f6730aa24a94d92"
+        "id": "12d6d1e15bd1423a86f5b72a3e0ac1e2"
       }
     ], 
     "qualificationPeriod": {
@@ -111,21 +111,21 @@ Content-Type: application/json; charset=UTF-8
     "qualifications": [
       {
         "status": "active", 
-        "lotID": "a678eaf5090d45db8077d4ecd36154e0", 
+        "lotID": "ca773275108d4c31946814c4b573fdaf", 
         "eligible": true, 
         "qualified": true, 
-        "bidID": "1db2a89bad604311b7166807eb63d4e3", 
+        "bidID": "6590bc73c5e44f2fb2cb4fae5c6ed147", 
         "date": "2020-05-01T01:00:00+03:00", 
-        "id": "69e23d94b0ec4a4cbf777d2557fe598a"
+        "id": "219e5b86cc6841baae7a537b66285d0c"
       }, 
       {
         "status": "active", 
-        "lotID": "a678eaf5090d45db8077d4ecd36154e0", 
+        "lotID": "ca773275108d4c31946814c4b573fdaf", 
         "eligible": true, 
         "qualified": true, 
-        "bidID": "f4c99b9e469349e296d81e700168a070", 
+        "bidID": "2fb8893eae8944afa9fe5e886c024ab8", 
         "date": "2020-05-01T01:00:00+03:00", 
-        "id": "73fa90c6e4a746cb859d4058ad16e5bf"
+        "id": "bd1de2876e5d42a2be9c8b6da388aabe"
       }
     ], 
     "procurementMethodType": "aboveThresholdEU", 
@@ -153,7 +153,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "percentage": 54.45, 
         "type": "financing", 
-        "id": "fb9912a628e547ec86fd4052b35fd066"
+        "id": "009bf760dbf743d8b4f71c120e78821b"
       }
     ], 
     "minimalStep": {
@@ -163,7 +163,7 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "items": [
       {
-        "relatedLot": "a678eaf5090d45db8077d4ecd36154e0", 
+        "relatedLot": "ca773275108d4c31946814c4b573fdaf", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "ДК021", 
@@ -189,11 +189,11 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-05-21T00:00:00+02:00", 
           "endDate": "2020-06-20T00:00:00+02:00"
         }, 
-        "id": "79cd11ac44934e09a6ccc517d3810dd4", 
+        "id": "154f77e2db2a427e8bc00d3db157c91c", 
         "quantity": 1.0
       }, 
       {
-        "relatedLot": "885ae10af23944619f6730aa24a94d92", 
+        "relatedLot": "12d6d1e15bd1423a86f5b72a3e0ac1e2", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "ДК021", 
@@ -219,14 +219,14 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-05-21T00:00:00+02:00", 
           "endDate": "2020-06-20T00:00:00+02:00"
         }, 
-        "id": "faa12ba0bce042bfa5ad1bc8c827f6e9", 
+        "id": "4a51503dbbd846ee9595984979485841", 
         "quantity": 1.0
       }
     ], 
     "bids": [
       {
         "status": "active", 
-        "id": "1db2a89bad604311b7166807eb63d4e3", 
+        "id": "6590bc73c5e44f2fb2cb4fae5c6ed147", 
         "tenderers": [
           {
             "contactPoint": {
@@ -253,7 +253,7 @@ Content-Type: application/json; charset=UTF-8
       }, 
       {
         "status": "active", 
-        "id": "f4c99b9e469349e296d81e700168a070", 
+        "id": "2fb8893eae8944afa9fe5e886c024ab8", 
         "tenderers": [
           {
             "contactPoint": {

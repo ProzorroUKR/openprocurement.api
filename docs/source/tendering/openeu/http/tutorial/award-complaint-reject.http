@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/3380abd6dac247a394ea054cfe23249b/awards/02e73dd649794aeaa7214ad1005d1272/complaints/9bbba3b10b73436f86c179f790a913da HTTP/1.0
+PATCH /api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/78a7d327a60b4e19af202ce60948edc5/complaints/c2605c1f13684bb49275a4c9555f57f5 HTTP/1.0
 Authorization: Bearer reviewer
 Content-Length: 64
 Content-Type: application/json
@@ -45,7 +45,7 @@ Content-Type: application/json; charset=UTF-8
     "date": "2020-05-01T01:00:01+03:00", 
     "title": "Недостатньо інформації", 
     "type": "complaint", 
-    "id": "9bbba3b10b73436f86c179f790a913da"
+    "id": "c2605c1f13684bb49275a4c9555f57f5"
   }
 }
 

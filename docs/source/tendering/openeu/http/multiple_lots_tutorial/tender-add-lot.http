@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/52f1b75138ab4b2c87feff205f2a06f4/lots?acc_token=20ea9bdc44d84eec82cf2059f999ad42 HTTP/1.0
+POST /api/2.5/tenders/359aa11daf2d4485a0b9e064f5185361/lots?acc_token=29862753282b488987eeebd2fa608565 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 214
 Content-Type: application/json
@@ -21,7 +21,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/52f1b75138ab4b2c87feff205f2a06f4/lots/a678eaf5090d45db8077d4ecd36154e0
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/359aa11daf2d4485a0b9e064f5185361/lots/ca773275108d4c31946814c4b573fdaf
 {
   "data": {
     "status": "active", 
@@ -41,7 +41,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/52f1b75138ab4b2c
       "valueAddedTaxIncluded": true
     }, 
     "date": "2020-05-01T01:00:00+03:00", 
-    "id": "a678eaf5090d45db8077d4ecd36154e0"
+    "id": "ca773275108d4c31946814c4b573fdaf"
   }
 }
 

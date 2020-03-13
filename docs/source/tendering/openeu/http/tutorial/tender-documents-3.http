@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/documents HTTP/1.0
+GET /api/2.5/tenders/8ec937684cc1428ebb753f5aaf7485fd/documents HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -11,11 +11,11 @@ Content-Type: application/json; charset=UTF-8
       "author": "tender_owner", 
       "language": "uk", 
       "title": "Notice.pdf", 
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f62e8df69f674d7aa848bb812ca3902c?KeyID=a8968c46&Signature=7ks0HWvwrsaWriT%252BVdH2HZRLC7HtUbn1I1lgMHJ6eBVtazIzgFJEXYo23CYGiJjZxfSkyiYFVEOCYK1Ph9whAg%253D%253D", 
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2f9573f6d7b44abdb025a06127ce0c67?KeyID=a8968c46&Signature=6umNW45u%252BpE6xWwDDRodnbj14rnUJ6qkYndXdakl2wfAt%252BkekY2gVgdkv2DAxWrD9xOrgwwmZBQ6QRedAoQRDg%253D%253D", 
       "format": "application/pdf", 
       "documentOf": "tender", 
       "datePublished": "2020-05-01T01:00:00+03:00", 
-      "id": "6200205ac897456aa64195e5b732888f", 
+      "id": "c2a53851f59a4831aef4f856283ada02", 
       "dateModified": "2020-05-01T01:00:00+03:00"
     }, 
     {
@@ -23,11 +23,11 @@ Content-Type: application/json; charset=UTF-8
       "author": "tender_owner", 
       "language": "uk", 
       "title": "AwardCriteria-2.pdf", 
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6ec27c9b0014427180bc24ad2ac11ae8?KeyID=a8968c46&Signature=M%2F48IaykKqsWQq%252BbrsD6uIVDAC2fyvUxCLPBMJmIAqL6e8hjF8HgkfWr3XXiF91Yzxk7SWk%252BZyGfxVj0D8%252BoCQ%253D%253D", 
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e37d74e4381a44fe9cbb2f317eb2c533?KeyID=a8968c46&Signature=Ruy035q4%2FC09t%2FCeQ6YgBkFsKDzvY3L%252BOx9YFKcUQ%2FQgI1TY%252BkBKP%2FbYySLR8%2FJHbRXsfQw0CViTvHHJvtT1Aw%253D%253D", 
       "format": "application/pdf", 
       "documentOf": "tender", 
       "datePublished": "2020-05-01T01:00:00+03:00", 
-      "id": "a52f0718257848fdb7a92fc75fc1a1a4", 
+      "id": "33589782b828437fb6b61db1970c904c", 
       "dateModified": "2020-05-01T01:00:00+03:00"
     }
   ]
