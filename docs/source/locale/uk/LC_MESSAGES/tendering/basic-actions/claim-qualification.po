@@ -1,0 +1,69 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-03-13 13:30+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
+
+msgid "Claim/Complaint Retrieval"
+msgstr "Отримання інформації по вимогах/скаргах"
+
+msgid "Tender Qualification Claim/Complaint Retrieval"
+msgstr "Отримання інформації по вимогах/скаргах на кваліфікацію"
+
+msgid "You can list all Tender Qualification Claims/Complaints:"
+msgstr "Ви можете отримати список всіх вимог/скарг на кваліфікацію:"
+
+msgid "And check individual complaint:"
+msgstr "І перевірити окрему скаргу:"
+
+msgid "Claim Submission"
+msgstr "Подання вимоги"
+
+msgid "If tender qualification is favoriting certain supplier, or in any other viable case, participants can submit Tender Qualification Claim."
+msgstr "Якщо під час етапу кваліфікації відбулось порушення чи була допущена помилка, то учасник закупівлі може подати вимогу про виправлення кваліфікації."
+
+msgid "Tender Qualification Claim Submission (with documents)"
+msgstr "Подання вимоги про виправлення кваліфікації (з документами)"
+
+msgid "At first create a claim. Send POST request with bidder's access token."
+msgstr "Спочатку створіть вимогу. В POST запиті потрібно передати токен доступу одного з учасників."
+
+msgid "Then upload necessary documents:"
+msgstr "Потім завантажте необхідні документи:"
+
+msgid "Submit tender qualification claim:"
+msgstr "Подайте вимогу про виправлення кваліфікації:"
+
+msgid "Tender Qualification Claim Submission (without documents)"
+msgstr "Подання вимоги про виправлення кваліфікації (без документів)"
+
+msgid "You can submit claim that does not need additional documents:"
+msgstr "Ви можете подати вимогу, що не потребує додаткових документів:"
+
+msgid "Claim's Answer"
+msgstr "Відповідь на вимогу"
+
+msgid "Answer to resolved claim"
+msgstr "Відповідь на вирішену вимогу"
+
+msgid "Satisfied Claim"
+msgstr "Задовільнена вимога"
+
+msgid "Satisfying resolution"
+msgstr "Рішення про задовільнення вимоги"
+
+msgid "Unsatisfying resolution"
+msgstr "Рішення про відхилення вимоги"

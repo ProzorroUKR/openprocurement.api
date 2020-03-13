@@ -1,37 +1,44 @@
-PATCH /api/2.3/tenders/3348c29949f84857a9a51573a0ff47c7/complaints/7e29a56cebf3434cadaf3667c6eb101d HTTP/1.0
-Authorization: Basic cmV2aWV3ZXI6
-Content-Length: 32
+PATCH /api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/9698c2aae121470eb87342fb51872653 HTTP/1.0
+Authorization: Bearer reviewer
+Content-Length: 33
 Content-Type: application/json
-Host: api-sandbox.openprocurement.org
-
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
 {
   "data": {
-    "status": "resolved"
+    "status": "satisfied"
   }
 }
 
-
-200 OK
+Response: 200 OK
 Content-Type: application/json; charset=UTF-8
-
 {
   "data": {
-    "status": "resolved", 
-    "dateDecision": "2017-06-19T18:27:44.880003+03:00", 
+    "status": "satisfied", 
+    "dateDecision": "2020-05-01T01:00:00+03:00", 
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000", 
-        "author": "reviewers", 
+        "author": "aboveThresholdReviewers", 
+        "language": "uk", 
         "title": "ComplaintResolution.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/d9cda2834977461898b25fcc401bbfc4?KeyID=9e5fca15&Signature=Zfqv81v9HNLpwihUj98LTiUbQpgE4bt%2FdEMfvuKGIm65iwvw1EdWcNnWlo2BskLTfl6G5eQ%2FyE5%2FJHxZCCBpCQ%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a759d056bbd44bf78310d118bba3bbac?KeyID=a8968c46&Signature=ZxRv8tJTqiDY7s8rJ6D3IJgYyFCa8rkKpPPR1Up2JlLbpVbUFLr%252BoKpqqLEZ%2F5SD%252BJT2OmRzVzrDlDyPTKvwCQ%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2017-06-19T18:27:44.743329+03:00", 
-        "id": "064d9505b40049468ed760685cfab281", 
-        "dateModified": "2017-06-19T18:27:44.743361+03:00"
+        "datePublished": "2020-05-01T01:00:00+03:00", 
+        "id": "b9923ce980e745aaa07acc494d311c00", 
+        "dateModified": "2020-05-01T01:00:00+03:00"
       }
     ], 
-    "description": "complaint description", 
+    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+    "title": "Недостатньо інформації", 
+    "reviewDate": "2020-05-01T01:00:00+03:00", 
+    "acceptance": true, 
+    "value": {
+      "currency": "UAH", 
+      "amount": 2000.0
+    }, 
+    "dateAccepted": "2020-05-01T01:00:00+03:00", 
     "author": {
       "contactPoint": {
         "email": "soleksuk@gmail.com", 
@@ -48,21 +55,16 @@ Content-Type: application/json; charset=UTF-8
         "postalCode": "21100", 
         "countryName": "Україна", 
         "streetAddress": "вул. Островського, 33", 
-        "region": "м. Вінниця", 
+        "region": "Вінницька область", 
         "locality": "м. Вінниця"
       }
     }, 
-    "resolutionType": "resolved", 
+    "dateSubmitted": "2020-05-01T01:00:00+03:00", 
+    "complaintID": "UA-2020-05-01-000001.5", 
+    "date": "2020-05-01T01:00:00+03:00", 
     "type": "complaint", 
-    "title": "complaint title", 
-    "satisfied": false, 
-    "dateEscalated": "2017-06-19T18:27:44.261247+03:00", 
-    "dateAnswered": "2017-06-19T18:27:44.147730+03:00", 
-    "dateSubmitted": "2017-06-19T18:27:44.033791+03:00", 
-    "complaintID": "UA-2017-06-19-000001.3", 
-    "date": "2017-06-19T18:27:44.886335+03:00", 
-    "resolution": "Виправлено неконкурентні умови", 
-    "id": "7e29a56cebf3434cadaf3667c6eb101d"
+    "id": "9698c2aae121470eb87342fb51872653", 
+    "reviewPlace": "Place of review"
   }
 }
 

@@ -1,6 +1,6 @@
-POST /api/2.5/tenders/94170d1f620a487e8f4ffcc37ee8f2df/awards/364af56690df4704aa730f1266eca60e/complaints?acc_token=45ab0f508b2b457dab67d69b7ff0b078 HTTP/1.0
+POST /api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/78a7d327a60b4e19af202ce60948edc5/complaints?acc_token=8a83b61ae12e4be0b56c859c878a57b4 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1381
+Content-Length: 1385
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -27,7 +27,7 @@ DATA:
         "locality": "м. Вінниця"
       }
     }, 
-    "type": "claim", 
+    "type": "complaint", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "title": "Недостатньо інформації"
   }
@@ -35,16 +35,15 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/94170d1f620a487e8f4ffcc37ee8f2df/awards/364af56690df4704aa730f1266eca60e/complaints/82b2ebea96f94c9586548ad718a7e8b4
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/78a7d327a60b4e19af202ce60948edc5/complaints/c9e6b01cbe524a1cb3ffe8f053e7e9d9
 {
   "access": {
-    "transfer": "cb7e6e349b96409790b8b7981eed0ced", 
-    "token": "c17ba2f2ea884445a77df10aaf7c7c4b"
+    "transfer": "c59ba92fbf3a4a0cafd9e166d211c1e5", 
+    "token": "de764a8373ba4ba08ac3499b5604188a"
   }, 
   "data": {
     "status": "claim", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
-    "title": "Недостатньо інформації", 
     "author": {
       "contactPoint": {
         "email": "soleksuk@gmail.com", 
@@ -65,11 +64,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/94170d1f620a487e
         "locality": "м. Вінниця"
       }
     }, 
+    "title": "Недостатньо інформації", 
     "dateSubmitted": "2020-05-01T01:00:01+03:00", 
     "complaintID": "UA-2020-05-01-000001.6", 
     "date": "2020-05-01T01:00:01+03:00", 
-    "type": "claim", 
-    "id": "82b2ebea96f94c9586548ad718a7e8b4"
+    "type": "complaint", 
+    "id": "c9e6b01cbe524a1cb3ffe8f053e7e9d9"
   }
 }
 

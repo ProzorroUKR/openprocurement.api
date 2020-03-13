@@ -1,34 +1,32 @@
-POST /api/2.3/tenders/3348c29949f84857a9a51573a0ff47c7/awards/c37edfe039294951b6eb3813b6d64ce2/complaints/e6f9e32cafca46e89a70bae2744eddd0/documents HTTP/1.0
-Authorization: Basic cmV2aWV3ZXI6
-Content-Length: 335
-Content-Type: application/json
-Host: api-sandbox.openprocurement.org
+POST /api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/78a7d327a60b4e19af202ce60948edc5/complaints/eea6ee3d38cc4aefb76da96645d4a3c5/documents HTTP/1.0
+Authorization: Bearer reviewer
+Content-Length: 155
+Content-Type: multipart/form-data; boundary=---BOUNDARY
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+-----BOUNDARY
+Content-Disposition: form-data; name="file"; filename="ComplaintResolution.pdf"
+Content-Type: application/pdf
 
-{
-  "data": {
-    "url": "http://public.docs-sandbox.openprocurement.org/get/199b73e08ed3436a9c4acc8365e8c739?KeyID=9e5fca15&Signature=qbqb12QugiPGrHgf9InrkWJSqJo46bu16sexIbBprvDdhVji7rAM8AFRLlYOSjOhnj6HAzCv0dP5qN2EaIb8DA%3D%3D", 
-    "title": "ComplaintResolution.pdf", 
-    "hash": "md5:00000000000000000000000000000000", 
-    "format": "application/pdf"
-  }
-}
+content
+-----BOUNDARY--
 
 
-201 Created
+Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/3348c29949f84857a9a51573a0ff47c7/awards/c37edfe039294951b6eb3813b6d64ce2/complaints/e6f9e32cafca46e89a70bae2744eddd0/documents/899f00d964784e55b3e440bd49369089
-
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/78a7d327a60b4e19af202ce60948edc5/complaints/eea6ee3d38cc4aefb76da96645d4a3c5/documents/50010030ed9647afa89d33c126c2e307
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000", 
-    "author": "reviewers", 
+    "author": "aboveThresholdReviewers", 
+    "language": "uk", 
     "title": "ComplaintResolution.pdf", 
-    "url": "http://public.docs-sandbox.openprocurement.org/get/199b73e08ed3436a9c4acc8365e8c739?KeyID=9e5fca15&Signature=RTi5nld4qIXGkb1y8DgrPHtaiopyJT44mEqEpkFbF1YcoqdZVNKktaSAT%252BkkRKFRJYu7WoKclj7EOE6KveKxAQ%253D%253D", 
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/402ab7ec9b9d43628ba621fc2efed595?KeyID=a8968c46&Signature=m%2FpPoKYOULyjq%2FiCI2lyIxpU2kWojgUVytLt%252B9qKOdjwAvCnQM1p%252BAMgO5XJ5pNQAV7NK4DcNHEyjTovcHOJBw%253D%253D", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2017-06-19T18:27:52.192526+03:00", 
-    "id": "899f00d964784e55b3e440bd49369089", 
-    "dateModified": "2017-06-19T18:27:52.192559+03:00"
+    "datePublished": "2020-05-01T01:00:01+03:00", 
+    "id": "50010030ed9647afa89d33c126c2e307", 
+    "dateModified": "2020-05-01T01:00:01+03:00"
   }
 }
 

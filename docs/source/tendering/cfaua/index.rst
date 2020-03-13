@@ -16,5 +16,4 @@ Contents:
    overview
    tutorial
    questions
-   complaints
    requests

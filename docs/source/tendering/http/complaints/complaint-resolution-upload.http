@@ -1,34 +1,32 @@
-POST /api/2.3/tenders/3348c29949f84857a9a51573a0ff47c7/complaints/7e29a56cebf3434cadaf3667c6eb101d/documents HTTP/1.0
-Authorization: Basic cmV2aWV3ZXI6
-Content-Length: 339
-Content-Type: application/json
-Host: api-sandbox.openprocurement.org
+POST /api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/9698c2aae121470eb87342fb51872653/documents HTTP/1.0
+Authorization: Bearer reviewer
+Content-Length: 155
+Content-Type: multipart/form-data; boundary=---BOUNDARY
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+-----BOUNDARY
+Content-Disposition: form-data; name="file"; filename="ComplaintResolution.pdf"
+Content-Type: application/pdf
 
-{
-  "data": {
-    "url": "http://public.docs-sandbox.openprocurement.org/get/d9cda2834977461898b25fcc401bbfc4?KeyID=9e5fca15&Signature=rJJdkDdYzYngA%2BF0M22lb7tiWTlnpy%2B2Idrmt1Gu2oLiJcTrg1FNWcsWXD4xkTie6T8S9jCxxZhYZDvSp6o3DA%3D%3D", 
-    "title": "ComplaintResolution.pdf", 
-    "hash": "md5:00000000000000000000000000000000", 
-    "format": "application/pdf"
-  }
-}
+content
+-----BOUNDARY--
 
 
-201 Created
+Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://api-sandbox.openprocurement.org/api/2.3/tenders/3348c29949f84857a9a51573a0ff47c7/complaints/7e29a56cebf3434cadaf3667c6eb101d/documents/064d9505b40049468ed760685cfab281
-
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/9698c2aae121470eb87342fb51872653/documents/b9923ce980e745aaa07acc494d311c00
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000", 
-    "author": "reviewers", 
+    "author": "aboveThresholdReviewers", 
+    "language": "uk", 
     "title": "ComplaintResolution.pdf", 
-    "url": "http://public.docs-sandbox.openprocurement.org/get/d9cda2834977461898b25fcc401bbfc4?KeyID=9e5fca15&Signature=Zfqv81v9HNLpwihUj98LTiUbQpgE4bt%2FdEMfvuKGIm65iwvw1EdWcNnWlo2BskLTfl6G5eQ%2FyE5%2FJHxZCCBpCQ%253D%253D", 
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a759d056bbd44bf78310d118bba3bbac?KeyID=a8968c46&Signature=ZxRv8tJTqiDY7s8rJ6D3IJgYyFCa8rkKpPPR1Up2JlLbpVbUFLr%252BoKpqqLEZ%2F5SD%252BJT2OmRzVzrDlDyPTKvwCQ%253D%253D", 
     "format": "application/pdf", 
     "documentOf": "tender", 
-    "datePublished": "2017-06-19T18:27:44.743329+03:00", 
-    "id": "064d9505b40049468ed760685cfab281", 
-    "dateModified": "2017-06-19T18:27:44.743361+03:00"
+    "datePublished": "2020-05-01T01:00:00+03:00", 
+    "id": "b9923ce980e745aaa07acc494d311c00", 
+    "dateModified": "2020-05-01T01:00:00+03:00"
   }
 }
 

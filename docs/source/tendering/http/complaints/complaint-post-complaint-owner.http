@@ -1,0 +1,51 @@
+POST /api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/69d4449485bd41e18707f4e8a22a475a/posts?acc_token=5509783c22f74037b91d28b570a4f69e HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 670
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "recipient": "aboveThresholdReviewers", 
+    "documents": [
+      {
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/648aef3e96d847e7b2cbff7850df6769?KeyID=a8968c46&Signature=50Fo%2Bo2IL6vXnV746ivKClK8MUpYbAc5dUmf%2BFv62EjVob9JKdKqjZY83SDLDSwwOQCP0EgsbOWXXyt2FAq%2BDg%3D%3D", 
+        "title": "post_document_complaint.pdf", 
+        "hash": "md5:00000000000000000000000000000000", 
+        "format": "application/pdf"
+      }
+    ], 
+    "relatedPost": "49152b64d32449558213fe0e413d8476", 
+    "description": "Додано документ", 
+    "title": "Уточнення по вимозі"
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/69d4449485bd41e18707f4e8a22a475a/posts/2fce10c54207405fac5bdfda41aa37f9
+{
+  "data": {
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "author": "complaint_owner", 
+        "title": "post_document_complaint.pdf", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/648aef3e96d847e7b2cbff7850df6769?KeyID=a8968c46&Signature=50Fo%2Bo2IL6vXnV746ivKClK8MUpYbAc5dUmf%2BFv62EjVob9JKdKqjZY83SDLDSwwOQCP0EgsbOWXXyt2FAq%2BDg%3D%3D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2020-05-01T01:00:00+03:00", 
+        "id": "8be84c5e6df142b1bebc4dc846295cbf", 
+        "dateModified": "2020-05-01T01:00:00+03:00"
+      }
+    ], 
+    "description": "Додано документ", 
+    "title": "Уточнення по вимозі", 
+    "author": "complaint_owner", 
+    "datePublished": "2020-05-01T01:00:00+03:00", 
+    "relatedPost": "49152b64d32449558213fe0e413d8476", 
+    "recipient": "aboveThresholdReviewers", 
+    "id": "2fce10c54207405fac5bdfda41aa37f9"
+  }
+}
+

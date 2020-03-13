@@ -11,5 +11,4 @@ Contents:
    overview
    tutorial
    multiple_lots_tutorial
-   complaints
 

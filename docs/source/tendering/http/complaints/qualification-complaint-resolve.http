@@ -1,0 +1,82 @@
+PATCH /api/2.5/tenders/0ba5045de21b4930a220df9887be28ec/qualifications/de1fdfe83be64f45a3aa274d8f98a1e9/complaints/82367eb51f0e4686a9f9aa7745b42041 HTTP/1.0
+Authorization: Bearer reviewer
+Content-Length: 33
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "status": "satisfied"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "satisfied", 
+    "dateDecision": "2020-05-01T01:00:01+03:00", 
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "author": "complaint_owner", 
+        "language": "uk", 
+        "title": "Complaint_Attachement.pdf", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/af71b3247e1b491992bb3f3ffc01c434?KeyID=a8968c46&Signature=LWZ4wLodcxvKgyyrku7ZrSBOlwrVE682R2CNjxS7vj3iJ2u5AZZnf2KbSBX9sSlB44CPTmHk4yYTwzpg5HJODw%253D%253D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2020-05-01T01:00:01+03:00", 
+        "id": "e8e2d6e26d1246f89dfb4769a9ff3b1b", 
+        "dateModified": "2020-05-01T01:00:01+03:00"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "author": "aboveThresholdReviewers", 
+        "language": "uk", 
+        "title": "ComplaintResolution.pdf", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/09dd1b6456ba44e490cadef1350e50f1?KeyID=a8968c46&Signature=Zoit1DpmM5%2F1qI6ngLb2hVW3um2i9XsehfEgJTIe158OzK8IuJJ9ieFy3xnKumY%252B7CXgYu0i7o1x7owDjezEDA%253D%253D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2020-05-01T01:00:01+03:00", 
+        "id": "ee89a6151f1749b5b56da91a2c0976a5", 
+        "dateModified": "2020-05-01T01:00:01+03:00"
+      }
+    ], 
+    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+    "title": "Недостатньо інформації", 
+    "reviewDate": "2020-05-01T01:00:01+03:00", 
+    "acceptance": true, 
+    "value": {
+      "currency": "UAH", 
+      "amount": 3000.0
+    }, 
+    "dateAccepted": "2020-05-01T01:00:01+03:00", 
+    "author": {
+      "contactPoint": {
+        "email": "soleksuk@gmail.com", 
+        "telephone": "+380 (432) 21-69-30", 
+        "name": "Сергій Олексюк"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "00137256", 
+        "uri": "http://www.sc.gov.ua/"
+      }, 
+      "name": "ДКП «Школяр»", 
+      "address": {
+        "postalCode": "21100", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Островського, 33", 
+        "region": "Вінницька область", 
+        "locality": "м. Вінниця"
+      }
+    }, 
+    "dateSubmitted": "2020-05-01T01:00:01+03:00", 
+    "complaintID": "UA-2020-05-01-000001.1", 
+    "date": "2020-05-01T01:00:01+03:00", 
+    "type": "complaint", 
+    "id": "82367eb51f0e4686a9f9aa7745b42041", 
+    "reviewPlace": "Place of review"
+  }
+}
+

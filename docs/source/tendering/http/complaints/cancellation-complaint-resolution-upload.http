@@ -1,0 +1,31 @@
+POST /api/2.5/tenders/9de80116006a4e58b18ac56dda573693/cancellations/28437ff38b254dfdacc863e870354d20/complaints/57299cc6dd6a4e86b1bc8b2c406bf397/documents HTTP/1.0
+Authorization: Bearer reviewer
+Content-Length: 155
+Content-Type: multipart/form-data; boundary=---BOUNDARY
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+-----BOUNDARY
+Content-Disposition: form-data; name="file"; filename="ComplaintResolution.pdf"
+Content-Type: application/pdf
+
+content
+-----BOUNDARY--
+
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9de80116006a4e58b18ac56dda573693/cancellations/28437ff38b254dfdacc863e870354d20/complaints/57299cc6dd6a4e86b1bc8b2c406bf397/documents/c91a3b839a7f4bae91fd90c00e56f407
+{
+  "data": {
+    "hash": "md5:00000000000000000000000000000000", 
+    "author": "aboveThresholdReviewers", 
+    "title": "ComplaintResolution.pdf", 
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0e12ad4e0a744ff7bcedf16b387c9824?KeyID=a8968c46&Signature=Yl%252B7YxFTtJcyNDrXFC7ACM1kNZvB8PehiI0lqzpdbLuwz3%252Br2eslLDs7S9HKMYej%2FRaghdWk1sgYulXL%252B69iDw%253D%253D", 
+    "format": "application/pdf", 
+    "documentOf": "tender", 
+    "datePublished": "2020-05-01T01:00:00+03:00", 
+    "id": "c91a3b839a7f4bae91fd90c00e56f407", 
+    "dateModified": "2020-05-01T01:00:00+03:00"
+  }
+}
+

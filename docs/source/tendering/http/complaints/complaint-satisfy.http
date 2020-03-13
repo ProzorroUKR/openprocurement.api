@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/94170d1f620a487e8f4ffcc37ee8f2df/complaints/1185767bf76c45e19ad9176c343cab6c?acc_token=01710c80c9af4212a626da537fe63e40 HTTP/1.0
+PATCH /api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/f69c1412dc8b4f318d464ff518799e37?acc_token=4c65710b45dc4f67af804bfc7ac805ff HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 51
 Content-Type: application/json
@@ -16,32 +16,37 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "resolved", 
-    "documents": [
-      {
-        "hash": "md5:00000000000000000000000000000000", 
-        "author": "complaint_owner", 
-        "title": "Complaint_Attachement.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cecdf017998b487185202483e91af515?KeyID=a8968c46&Signature=gzRXfaCNlnxePAH7P9FQ96TMcIss23ts1b01R496qyHe6WnAuBDViJ52c4QKKrpjcP2bF9oEURrPAt5xpCG%2FAQ%253D%253D", 
-        "format": "application/pdf", 
-        "documentOf": "tender", 
-        "datePublished": "2020-05-01T01:00:00+03:00", 
-        "id": "c9de53a29d1a499aadcd7b081c60c306", 
-        "dateModified": "2020-05-01T01:00:00+03:00"
-      }
-    ], 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
-    "title": "Недостатньо інформації", 
+    "author": {
+      "contactPoint": {
+        "email": "soleksuk@gmail.com", 
+        "telephone": "+380 (432) 21-69-30", 
+        "name": "Сергій Олексюк"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "00137256", 
+        "uri": "http://www.sc.gov.ua/"
+      }, 
+      "name": "ДКП «Школяр»", 
+      "address": {
+        "postalCode": "21100", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Островського, 33", 
+        "region": "Вінницька область", 
+        "locality": "м. Вінниця"
+      }
+    }, 
     "resolutionType": "resolved", 
-    "type": "claim", 
+    "type": "complaint", 
+    "title": "Недостатньо інформації", 
     "satisfied": true, 
-    "tendererAction": "Виправлено неконкурентні умови", 
     "dateAnswered": "2020-05-01T01:00:00+03:00", 
-    "tendererActionDate": "2020-05-01T01:00:00+03:00", 
     "dateSubmitted": "2020-05-01T01:00:00+03:00", 
-    "complaintID": "UA-2020-05-01-000001.1", 
+    "complaintID": "UA-2020-05-01-000001.2", 
     "date": "2020-05-01T01:00:00+03:00", 
     "resolution": "Виправлено неконкурентні умови", 
-    "id": "1185767bf76c45e19ad9176c343cab6c"
+    "id": "f69c1412dc8b4f318d464ff518799e37"
   }
 }
 

@@ -12,5 +12,42 @@ DATA:
 
 Response: 200 OK
 Content-Type: application/json; charset=UTF-8
-null
+{
+  "data": {
+    "status": "active", 
+    "selfEligible": true, 
+    "id": "9d3968fda7eb41c0a97e5273a1d682ab", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "subcontractingDetails": "ДКП «Орфей», Україна", 
+    "tenderers": [
+      {
+        "contactPoint": {
+          "email": "soleksuk@gmail.com", 
+          "telephone": "+380 (432) 21-69-30", 
+          "name": "Сергій Олексюк"
+        }, 
+        "scale": "micro", 
+        "name": "ДКП «Школяр»", 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137256", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "address": {
+          "postalCode": "21100", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 33", 
+          "region": "Вінницька область", 
+          "locality": "м. Вінниця"
+        }
+      }
+    ], 
+    "date": "2020-05-01T01:00:00+03:00", 
+    "selfQualified": true
+  }
+}
 

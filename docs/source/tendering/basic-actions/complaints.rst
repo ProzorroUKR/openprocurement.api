@@ -7,62 +7,59 @@
    :depth: 2
    :local:
 
-Complaint Workflow
-==================
+Claims/Complaints Workflow
+==========================
 
 
-Tender Conditions Claims/Complaints
------------------------------------
-
-.. toctree::
-    :maxdepth: 1
-
-    complaints-tender
-
-Tender Award Claims/Complaints
-------------------------------
-
-.. toctree::
-    :maxdepth: 1
-
-    complaints-award
-
-
-Workflow
---------
+Claims
+------
 
 .. graphviz::
 
     digraph G {
+        rankdir=LR;
+        {rank=same;resolved; cancelled}
+        subgraph cluster_claim {
+            claim; answered;
+        }
         claim -> answered;
         edge[style=dashed];
-        draft -> {claim,mistaken};
+        draft -> claim;
         answered -> resolved;
-        {draft,claim,answered} -> cancelled; 
-        edge[label="3d" style=dotted];
-        answered -> {resolved, invalid, declined};
-        edge[label="complete" style=dotted];
-        claim -> ignored;
-        edge[label="auto" style=dotted];
-        pending -> ignored;
-        pending -> {resolved, invalid, declined};
+        {draft,claim,answered} -> cancelled;
     }
 
 
-Roles
------
+Tutorials
+~~~~~~~~~
 
-:Complaint owner:
-    dashed
+Tender Conditions Claims
+""""""""""""""""""""""""
 
-:Tender owner:
-    plain
+.. toctree::
+    :maxdepth: 1
 
-:Chronograph:
-    dotted
+    claims-tender
+
+Tender Qualification Claims
+"""""""""""""""""""""""""""
+
+.. toctree::
+    :maxdepth: 1
+
+    claims-award
+
+Tender Pre-qualification Claims
+"""""""""""""""""""""""""""""""
+
+.. toctree::
+    :maxdepth: 1
+
+    claim-qualification
+
 
 Statuses
---------
+~~~~~~~~
 
 :draft:
     Initial status
@@ -77,10 +74,71 @@ Statuses
 :answered:
     Complainant can cancel claim, upload documents, agree or disagree with decision.
 
+:resolved:
+    Terminal status
+
+    Claim recognized as resolved.
+
+:cancelled:
+    Terminal status
+
+    Claim cancelled by complainant.
+
+
+Complaints
+----------
+
+Before Release 2020-04-19
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. graphviz::
+
+    digraph G {
+        rankdir=LR;
+        {rank=same; invalid; resolved; declined; stopped; mistaken;}
+        subgraph cluster_complaint {
+            pending; satisfied; accepted;
+        }
+        satisfied -> resolved;
+        edge[style=dashed];
+        draft -> pending;
+        pending -> stopping;
+        accepted -> stopping;
+        edge[style=bold];
+        accepted -> {declined,satisfied,stopped};
+        pending -> {accepted,invalid,stopped,mistaken};
+        stopping -> {stopped,invalid,declined,satisfied,mistaken};
+    }
+
+Statuses
+~~~~~~~~
+
+:draft:
+    Initial status
+
+    Complainant can upload documents and submit complaint.
+
 :pending:
     Reviewer can upload documents and review complaint.
 
-    Complainant can cancel claim.
+:accepted:
+    Complaint accepted
+
+:satisfied:
+    Complaint is the satisfied by reviewer
+
+:stopping:
+    Complaint recalled by participant
+
+:stopped:
+    Terminal status
+
+    Сomplaint has been discontinued
+
+:mistaken:
+    Terminal status
+
+    Complaint was in error
 
 :invalid:
     Terminal status
@@ -95,14 +153,123 @@ Statuses
 :resolved:
     Terminal status
 
-    Claim recognized as resolved.
+    Complaint recognized as resolved.
 
-:cancelled:
+
+After Release 2020-04-19
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. graphviz::
+
+    digraph G {
+        rankdir=LR;
+        {rank=same; mistaken; invalid; resolved; declined; stopped;}
+        subgraph cluster_complaint {
+            pending; satisfied; accepted;
+        }
+        satisfied -> resolved;
+        edge[style=dashed];
+        draft -> {pending,mistaken};
+        pending -> stopping;
+        accepted -> stopping;
+        edge[style=bold];
+        accepted -> {declined,satisfied,stopped};
+        pending -> {accepted,invalid,stopped};
+        stopping -> {stopped,invalid,declined,satisfied};
+    }
+
+Statuses
+~~~~~~~~
+
+:draft:
+    Initial status
+
+    Complainant can upload documents, cancel complaint and submit complaint.
+
+:pending:
+    Reviewer can upload documents and review complaint.
+
+:accepted:
+    Complaint accepted
+
+:satisfied:
+    Complaint is the satisfied by reviewer
+
+:stopping:
+    Complaint recalled by participant
+
+:stopped:
     Terminal status
 
-    Claim cancelled by complainant.
+    Сomplaint has been discontinued
 
-:ignored:
+:mistaken:
     Terminal status
 
-    Claim ignored by procuring entity.
+    Complaint dismissed
+
+:invalid:
+    Terminal status
+
+    Claim recognized as invalid.
+
+:declined:
+    Terminal status
+
+    Claim recognized as declined.
+
+:resolved:
+    Terminal status
+
+    Complaint recognized as resolved.
+
+Tutorials
+~~~~~~~~~
+
+Tender Conditions Complaints
+""""""""""""""""""""""""""""
+
+.. toctree::
+    :maxdepth: 1
+
+    complaints-tender
+
+Tender Qualification Complaints
+"""""""""""""""""""""""""""""""
+
+.. toctree::
+    :maxdepth: 1
+
+    complaints-award
+
+Tender Pre-qualification Complaints
+"""""""""""""""""""""""""""""""""""
+
+.. toctree::
+    :maxdepth: 1
+
+    complaints-qualification
+
+Tender Cancellation Complaints
+""""""""""""""""""""""""""""""
+
+.. toctree::
+    :maxdepth: 1
+
+    complaints-cancellation
+
+
+Roles
+-----
+
+:Complaint owner:
+    dashed
+
+:Tender owner:
+    plain
+
+:AboveThresholdReviewer:
+    bold
+
+:Chronograph:
+    dotted

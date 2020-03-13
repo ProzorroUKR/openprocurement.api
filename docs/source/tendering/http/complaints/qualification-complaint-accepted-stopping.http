@@ -1,0 +1,54 @@
+PATCH /api/2.5/tenders/0ba5045de21b4930a220df9887be28ec/qualifications/de1fdfe83be64f45a3aa274d8f98a1e9/complaints/7a4c8680446e4b589ff89ecaf75835a0?acc_token=a1e22843d3b8440dbdafb9451947ddd5 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 228
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "status": "stopping", 
+    "cancellationReason": "Тендер скасовується замовником"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "stopping", 
+    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+    "author": {
+      "contactPoint": {
+        "email": "soleksuk@gmail.com", 
+        "telephone": "+380 (432) 21-69-30", 
+        "name": "Сергій Олексюк"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "00137256", 
+        "uri": "http://www.sc.gov.ua/"
+      }, 
+      "name": "ДКП «Школяр»", 
+      "address": {
+        "postalCode": "21100", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Островського, 33", 
+        "region": "Вінницька область", 
+        "locality": "м. Вінниця"
+      }
+    }, 
+    "reviewDate": "2020-05-01T01:00:01+03:00", 
+    "acceptance": true, 
+    "cancellationReason": "Тендер скасовується замовником", 
+    "dateCanceled": "2020-05-01T01:00:01+03:00", 
+    "dateAccepted": "2020-05-01T01:00:01+03:00", 
+    "dateSubmitted": "2020-05-01T01:00:01+03:00", 
+    "complaintID": "UA-2020-05-01-000001.4", 
+    "date": "2020-05-01T01:00:01+03:00", 
+    "title": "Недостатньо інформації", 
+    "type": "complaint", 
+    "id": "7a4c8680446e4b589ff89ecaf75835a0", 
+    "reviewPlace": "Place of review"
+  }
+}
+
