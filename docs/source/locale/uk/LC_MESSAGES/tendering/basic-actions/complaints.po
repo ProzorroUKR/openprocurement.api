@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-13 16:18+0200\n"
+"POT-Creation-Date: 2020-03-13 17:04+0200\n"
 "PO-Revision-Date: 2016-01-13 13:57+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
@@ -24,11 +24,11 @@ msgstr "Туторіали"
 msgid "Tender Conditions Claims"
 msgstr "Вимоги на умови закупівлі"
 
-msgid "Tender Award Claims"
-msgstr "Вимоги на визначення переможця"
-
 msgid "Tender Qualification Claims"
 msgstr "Вимоги на кваліфікацію"
+
+msgid "Tender Pre-qualification Claims"
+msgstr "Вимоги на пре-кваліфікацію"
 
 msgid "Statuses"
 msgstr "Статуси"
@@ -144,14 +144,14 @@ msgstr "Скарга скасована"
 msgid "Tender Conditions Complaints"
 msgstr "Скарги на умови закупівлі"
 
-msgid "Tender Award Complaints"
-msgstr "Скарги на визначення переможця"
-
 msgid "Tender Qualification Complaints"
 msgstr "Скарги на кваліфікацію"
 
+msgid "Tender Pre-qualification Complaints"
+msgstr "Скарги на пре-кваліфікацію"
+
 msgid "Tender Cancellation Complaints"
-msgstr "Скарги на умови закупівлі"
+msgstr "Скарги на скасування закупівлі"
 
 msgid "Roles"
 msgstr "Ролі"
@@ -179,4 +179,3 @@ msgstr ""
 
 msgid "dotted"
 msgstr "лінія з крапками"
-

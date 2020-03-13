@@ -41,16 +41,16 @@ Tender Conditions Claims
 
     claims-tender
 
-Tender Award Claims
-"""""""""""""""""""
+Tender Qualification Claims
+"""""""""""""""""""""""""""
 
 .. toctree::
     :maxdepth: 1
 
     claims-award
 
-Tender Qualification Claims
-"""""""""""""""""""""""""""
+Tender Pre-qualification Claims
+"""""""""""""""""""""""""""""""
 
 .. toctree::
     :maxdepth: 1
@@ -234,16 +234,16 @@ Tender Conditions Complaints
 
     complaints-tender
 
-Tender Award Complaints
-"""""""""""""""""""""""
+Tender Qualification Complaints
+"""""""""""""""""""""""""""""""
 
 .. toctree::
     :maxdepth: 1
 
     complaints-award
 
-Tender Qualification Complaints
-"""""""""""""""""""""""""""""""
+Tender Pre-qualification Complaints
+"""""""""""""""""""""""""""""""""""
 
 .. toctree::
     :maxdepth: 1
