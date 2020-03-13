@@ -59,7 +59,7 @@ Released: unreleased
 
  New features:
 
- - Above Threshold :ref:`Complaint workflow <complaint_workflow>`
+ - Above Threshold `Complaint workflow`
 
  Modifications:
 

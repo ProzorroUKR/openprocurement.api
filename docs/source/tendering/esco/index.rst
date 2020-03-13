@@ -15,4 +15,3 @@ Contents:
 
    overview
    tutorial
-   complaints

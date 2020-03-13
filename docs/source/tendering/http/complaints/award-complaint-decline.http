@@ -1,24 +1,26 @@
-PATCH /api/2.3/tenders/3348c29949f84857a9a51573a0ff47c7/awards/c37edfe039294951b6eb3813b6d64ce2/complaints/1f527a19fd5d491e8af2b279a2d52665 HTTP/1.0
-Authorization: Basic cmV2aWV3ZXI6
+PATCH /api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/78a7d327a60b4e19af202ce60948edc5/complaints/7afa1382d3b84a7580f1117afb5e641a HTTP/1.0
+Authorization: Bearer reviewer
 Content-Length: 32
 Content-Type: application/json
-Host: api-sandbox.openprocurement.org
-
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
 {
   "data": {
     "status": "declined"
   }
 }
 
-
-200 OK
+Response: 200 OK
 Content-Type: application/json; charset=UTF-8
-
 {
   "data": {
     "status": "declined", 
-    "dateDecision": "2017-06-19T18:27:52.819144+03:00", 
-    "description": "complaint description", 
+    "dateDecision": "2020-05-01T01:00:01+03:00", 
+    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+    "title": "Недостатньо інформації", 
+    "reviewDate": "2020-05-01T01:00:01+03:00", 
+    "acceptance": true, 
+    "dateAccepted": "2020-05-01T01:00:01+03:00", 
     "author": {
       "contactPoint": {
         "email": "soleksuk@gmail.com", 
@@ -35,21 +37,16 @@ Content-Type: application/json; charset=UTF-8
         "postalCode": "21100", 
         "countryName": "Україна", 
         "streetAddress": "вул. Островського, 33", 
-        "region": "м. Вінниця", 
+        "region": "Вінницька область", 
         "locality": "м. Вінниця"
       }
     }, 
-    "resolutionType": "resolved", 
+    "dateSubmitted": "2020-05-01T01:00:01+03:00", 
+    "complaintID": "UA-2020-05-01-000001.3", 
+    "date": "2020-05-01T01:00:01+03:00", 
     "type": "complaint", 
-    "title": "complaint title", 
-    "satisfied": false, 
-    "dateEscalated": "2017-06-19T18:27:51.898303+03:00", 
-    "dateAnswered": "2017-06-19T18:27:51.578282+03:00", 
-    "dateSubmitted": "2017-06-19T18:27:51.277486+03:00", 
-    "complaintID": "UA-2017-06-19-000001.8", 
-    "date": "2017-06-19T18:27:52.833877+03:00", 
-    "resolution": "Виправлено неконкурентні умови", 
-    "id": "1f527a19fd5d491e8af2b279a2d52665"
+    "id": "7afa1382d3b84a7580f1117afb5e641a", 
+    "reviewPlace": "Place of review"
   }
 }
 

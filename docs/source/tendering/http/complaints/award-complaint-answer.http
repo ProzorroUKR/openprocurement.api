@@ -1,6 +1,6 @@
-PATCH /api/2.5/tenders/94170d1f620a487e8f4ffcc37ee8f2df/awards/364af56690df4704aa730f1266eca60e/complaints/2e220acdf2d742849bb2cbb99924160e?acc_token=1926133ae9cd4a0aaa1f5197bcfdd5ee HTTP/1.0
+PATCH /api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/78a7d327a60b4e19af202ce60948edc5/complaints/c9e6b01cbe524a1cb3ffe8f053e7e9d9?acc_token=281333ecb22746549b78852a755d15da HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 442
+Content-Length: 387
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -8,8 +8,7 @@ DATA:
   "data": {
     "status": "answered", 
     "resolutionType": "resolved", 
-    "tendererAction": "Виправлено неконкурентні умови", 
-    "resolution": "Виправлено неконкурентні умови"
+    "resolution": "Умови виправлено, вибір переможня буде розгянуто повторно"
   }
 }
 
@@ -18,19 +17,6 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "answered", 
-    "documents": [
-      {
-        "hash": "md5:00000000000000000000000000000000", 
-        "author": "complaint_owner", 
-        "title": "Complaint_Attachement.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e55bd0cbdb214899a3bc41c036451dc6?KeyID=a8968c46&Signature=sKar7aqK3NIsXwWy8a4Wgfd2rgrqXOPf7EZolZwKlkRrUuvGM0xBj52UJe0B1mf5kYV%252BFVNg7qU8SkODumFUCA%253D%253D", 
-        "format": "application/pdf", 
-        "documentOf": "tender", 
-        "datePublished": "2020-05-01T01:00:01+03:00", 
-        "id": "ccf172362f3e4e69853506fcf14d0cb7", 
-        "dateModified": "2020-05-01T01:00:01+03:00"
-      }
-    ], 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "author": {
       "contactPoint": {
@@ -53,16 +39,14 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "resolutionType": "resolved", 
-    "type": "claim", 
+    "type": "complaint", 
     "title": "Недостатньо інформації", 
-    "tendererAction": "Виправлено неконкурентні умови", 
     "dateAnswered": "2020-05-01T01:00:01+03:00", 
-    "tendererActionDate": "2020-05-01T01:00:01+03:00", 
     "dateSubmitted": "2020-05-01T01:00:01+03:00", 
-    "complaintID": "UA-2020-05-01-000001.5", 
+    "complaintID": "UA-2020-05-01-000001.6", 
     "date": "2020-05-01T01:00:01+03:00", 
-    "resolution": "Виправлено неконкурентні умови", 
-    "id": "2e220acdf2d742849bb2cbb99924160e"
+    "resolution": "Умови виправлено, вибір переможня буде розгянуто повторно", 
+    "id": "c9e6b01cbe524a1cb3ffe8f053e7e9d9"
   }
 }
 

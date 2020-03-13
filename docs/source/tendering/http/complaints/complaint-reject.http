@@ -1,24 +1,31 @@
-PATCH /api/2.3/tenders/3348c29949f84857a9a51573a0ff47c7/complaints/fc512994410443f796a561fa66491c5e HTTP/1.0
-Authorization: Basic cmV2aWV3ZXI6
-Content-Length: 31
+PATCH /api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/b002454f45a448c19e5d2640996f289a HTTP/1.0
+Authorization: Bearer reviewer
+Content-Length: 64
 Content-Type: application/json
-Host: api-sandbox.openprocurement.org
-
-{
-  "data": {
-    "status": "invalid"
-  }
-}
-
-
-200 OK
-Content-Type: application/json; charset=UTF-8
-
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
 {
   "data": {
     "status": "invalid", 
-    "dateDecision": "2017-06-19T18:27:43.933543+03:00", 
-    "description": "complaint description", 
+    "rejectReason": "alreadyExists"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "invalid", 
+    "dateDecision": "2020-05-01T01:00:00+03:00", 
+    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+    "title": "Недостатньо інформації", 
+    "resolutionType": "invalid", 
+    "type": "complaint", 
+    "acceptance": false, 
+    "satisfied": false, 
+    "dateEscalated": "2020-05-01T01:00:00+03:00", 
+    "dateAnswered": "2020-05-01T01:00:00+03:00", 
+    "rejectReason": "alreadyExists", 
     "author": {
       "contactPoint": {
         "email": "soleksuk@gmail.com", 
@@ -35,21 +42,15 @@ Content-Type: application/json; charset=UTF-8
         "postalCode": "21100", 
         "countryName": "Україна", 
         "streetAddress": "вул. Островського, 33", 
-        "region": "м. Вінниця", 
+        "region": "Вінницька область", 
         "locality": "м. Вінниця"
       }
     }, 
-    "resolutionType": "resolved", 
-    "type": "complaint", 
-    "title": "complaint title", 
-    "satisfied": false, 
-    "dateEscalated": "2017-06-19T18:27:43.829282+03:00", 
-    "dateAnswered": "2017-06-19T18:27:43.722442+03:00", 
-    "dateSubmitted": "2017-06-19T18:27:43.361938+03:00", 
-    "complaintID": "UA-2017-06-19-000001.2", 
-    "date": "2017-06-19T18:27:43.938320+03:00", 
-    "resolution": "Виправлено неконкурентні умови", 
-    "id": "fc512994410443f796a561fa66491c5e"
+    "dateSubmitted": "2020-05-01T01:00:00+03:00", 
+    "complaintID": "UA-2020-05-01-000001.4", 
+    "date": "2020-05-01T01:00:00+03:00", 
+    "resolution": "Вимога не відповідає предмету закупівлі", 
+    "id": "b002454f45a448c19e5d2640996f289a"
   }
 }
 

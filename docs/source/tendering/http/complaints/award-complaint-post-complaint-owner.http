@@ -1,0 +1,51 @@
+POST /api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/78a7d327a60b4e19af202ce60948edc5/complaints/321991f8e0ba4ba8af3e00f939b00654/posts?acc_token=ec7e02a4c5eb4d02a1223ba1b3876616 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 678
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "recipient": "aboveThresholdReviewers", 
+    "documents": [
+      {
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/43d2c2ffaea9467d9aa18231344b833c?KeyID=a8968c46&Signature=%2BCDe%2FTUfu1urTmo%2FPTT8kJzO50yavT%2Fyy%2BG6OpuJGhbPa3jw%2Bm8mP9u%2BsCcgkLCXHmLpQZXdaVHuLOODWmITCQ%3D%3D", 
+        "title": "post_document_complaint.pdf", 
+        "hash": "md5:00000000000000000000000000000000", 
+        "format": "application/pdf"
+      }
+    ], 
+    "relatedPost": "6825f42df07a48c983a3efd88a34d8ef", 
+    "description": "Додано документ", 
+    "title": "Уточнення по вимозі"
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/78a7d327a60b4e19af202ce60948edc5/complaints/321991f8e0ba4ba8af3e00f939b00654/posts/052bcb6afafa4914a64fe1468d784c29
+{
+  "data": {
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "author": "complaint_owner", 
+        "title": "post_document_complaint.pdf", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/43d2c2ffaea9467d9aa18231344b833c?KeyID=a8968c46&Signature=%2BCDe%2FTUfu1urTmo%2FPTT8kJzO50yavT%2Fyy%2BG6OpuJGhbPa3jw%2Bm8mP9u%2BsCcgkLCXHmLpQZXdaVHuLOODWmITCQ%3D%3D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2020-05-01T01:00:01+03:00", 
+        "id": "71dfde4f472e4404b20e540ba7710db7", 
+        "dateModified": "2020-05-01T01:00:01+03:00"
+      }
+    ], 
+    "description": "Додано документ", 
+    "title": "Уточнення по вимозі", 
+    "author": "complaint_owner", 
+    "datePublished": "2020-05-01T01:00:01+03:00", 
+    "relatedPost": "6825f42df07a48c983a3efd88a34d8ef", 
+    "recipient": "aboveThresholdReviewers", 
+    "id": "052bcb6afafa4914a64fe1468d784c29"
+  }
+}
+

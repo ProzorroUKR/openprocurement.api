@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-05 17:18+0200\n"
+"POT-Creation-Date: 2020-03-13 17:04+0200\n"
 "PO-Revision-Date: 2016-01-13 13:57+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
@@ -12,39 +12,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
-msgid "Complaint Workflow"
-msgstr "Схема роботи оскаржень"
+msgid "Claims/Complaints Workflow"
+msgstr "Схема роботи скарг/вимог"
 
-msgid "Tender Conditions Claims/Complaints"
-msgstr "Вимоги/Скарги на умови закупівлі"
+msgid "Claims"
+msgstr "Вимоги"
 
-msgid "Tender Award Claims/Complaints"
-msgstr "Вимоги/Скарги на визначення переможця"
+msgid "Tutorials"
+msgstr "Туторіали"
 
-msgid "Workflow"
-msgstr "Схема роботи"
+msgid "Tender Conditions Claims"
+msgstr "Вимоги на умови закупівлі"
 
-msgid "Roles"
-msgstr "Ролі"
+msgid "Tender Qualification Claims"
+msgstr "Вимоги на кваліфікацію"
 
-#, fuzzy
-msgid "Complaint owner"
-msgstr "Схема роботи оскаржень"
-
-msgid "dashed"
-msgstr "пунктирна лінія"
-
-msgid "Tender owner"
-msgstr ""
-
-msgid "plain"
-msgstr "звичайна лінія"
-
-msgid "Chronograph"
-msgstr ""
-
-msgid "dotted"
-msgstr "лінія з крапками"
+msgid "Tender Pre-qualification Claims"
+msgstr "Вимоги на пре-кваліфікацію"
 
 msgid "Statuses"
 msgstr "Статуси"
@@ -73,29 +57,11 @@ msgstr ""
 msgid "Complainant can cancel claim, upload documents, agree or disagree with decision."
 msgstr "Скаржник може відкликати вимогу, завантажити документи, згодитись або не згодитись з вирішенням."
 
-msgid "pending"
-msgstr ""
-
-msgid "Reviewer can upload documents and review complaint."
-msgstr "Орган оскарження може завантажувати документи та розглядати скарги."
-
-msgid "invalid"
+msgid "resolved"
 msgstr ""
 
 msgid "Terminal status"
 msgstr "Кінцевий статус"
-
-msgid "Claim recognized as invalid."
-msgstr "Вимогу визнано недійсною."
-
-msgid "declined"
-msgstr ""
-
-msgid "Claim recognized as declined."
-msgstr "Вимогу визнано відхиленою."
-
-msgid "resolved"
-msgstr ""
 
 msgid "Claim recognized as resolved."
 msgstr "Вимогу визнано вирішеною."
@@ -106,15 +72,110 @@ msgstr ""
 msgid "Claim cancelled by complainant."
 msgstr "Вимогу відкликано скаржником."
 
-msgid "ignored"
+msgid "Complaints"
+msgstr "Скарги"
+
+msgid "Before Release 2020-04-19"
+msgstr "До релізу 2020-04-19"
+
+msgid "Complainant can upload documents and submit complaint."
+msgstr "Скаржник може завантажити документи та подати скаргу."
+
+msgid "pending"
 msgstr ""
 
-msgid "Claim ignored by procuring entity."
-msgstr "Замовник залишив вимогу без відповіді."
+msgid "Reviewer can upload documents and review complaint."
+msgstr "Орган оскарження може завантажувати документи та розглядати скарги."
 
-#~ msgid "Complainant"
-#~ msgstr ""
+msgid "accepted"
+msgstr ""
 
-#~ msgid "Procuring entity"
-#~ msgstr "."
+msgid "Complaint accepted"
+msgstr "Скарга прийнята до розгляду"
 
+msgid "satisfied"
+msgstr ""
+
+msgid "Complaint is the satisfied by reviewer"
+msgstr "Скарга задоволена АМКУ"
+
+msgid "stopping"
+msgstr ""
+
+msgid "Complaint recalled by participant"
+msgstr "Скарга відкликана участником"
+
+msgid "stopped"
+msgstr ""
+
+msgid "Сomplaint has been discontinued"
+msgstr "Розгляд по скарзі припинено"
+
+msgid "mistaken"
+msgstr ""
+
+msgid "Complaint was in error"
+msgstr "Скарга була помилково направлена("
+
+msgid "invalid"
+msgstr ""
+
+msgid "Claim recognized as invalid."
+msgstr "Вимогу визнано недійсною."
+
+msgid "declined"
+msgstr ""
+
+msgid "Claim recognized as declined."
+msgstr "Вимогу визнано відхиленою."
+
+msgid "Complaint recognized as resolved."
+msgstr "Скаргу визнано вирішеною."
+
+msgid "After Release 2020-04-19"
+msgstr "Після релізу 2020-04-19"
+
+msgid "Complainant can upload documents, cancel complaint and submit complaint."
+msgstr "Скаржник може завантажити документи, відхилити або подати скаргу."
+
+msgid "Complaint dismissed"
+msgstr "Скарга скасована"
+
+msgid "Tender Conditions Complaints"
+msgstr "Скарги на умови закупівлі"
+
+msgid "Tender Qualification Complaints"
+msgstr "Скарги на кваліфікацію"
+
+msgid "Tender Pre-qualification Complaints"
+msgstr "Скарги на пре-кваліфікацію"
+
+msgid "Tender Cancellation Complaints"
+msgstr "Скарги на скасування закупівлі"
+
+msgid "Roles"
+msgstr "Ролі"
+
+msgid "Complaint owner"
+msgstr ""
+
+msgid "dashed"
+msgstr "пунктирна лінія"
+
+msgid "Tender owner"
+msgstr ""
+
+msgid "plain"
+msgstr "звичайна лінія"
+
+msgid "AboveThresholdReviewer"
+msgstr ""
+
+msgid "bold"
+msgstr "жирна лінія"
+
+msgid "Chronograph"
+msgstr ""
+
+msgid "dotted"
+msgstr "лінія з крапками"

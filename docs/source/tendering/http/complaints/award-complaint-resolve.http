@@ -1,37 +1,56 @@
-PATCH /api/2.3/tenders/3348c29949f84857a9a51573a0ff47c7/awards/c37edfe039294951b6eb3813b6d64ce2/complaints/e6f9e32cafca46e89a70bae2744eddd0 HTTP/1.0
-Authorization: Basic cmV2aWV3ZXI6
-Content-Length: 32
+PATCH /api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/78a7d327a60b4e19af202ce60948edc5/complaints/eea6ee3d38cc4aefb76da96645d4a3c5 HTTP/1.0
+Authorization: Bearer reviewer
+Content-Length: 33
 Content-Type: application/json
-Host: api-sandbox.openprocurement.org
-
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
 {
   "data": {
-    "status": "resolved"
+    "status": "satisfied"
   }
 }
 
-
-200 OK
+Response: 200 OK
 Content-Type: application/json; charset=UTF-8
-
 {
   "data": {
-    "status": "resolved", 
-    "dateDecision": "2017-06-19T18:27:52.506239+03:00", 
+    "status": "satisfied", 
+    "dateDecision": "2020-05-01T01:00:01+03:00", 
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000", 
-        "author": "reviewers", 
-        "title": "ComplaintResolution.pdf", 
-        "url": "http://public.docs-sandbox.openprocurement.org/get/199b73e08ed3436a9c4acc8365e8c739?KeyID=9e5fca15&Signature=RTi5nld4qIXGkb1y8DgrPHtaiopyJT44mEqEpkFbF1YcoqdZVNKktaSAT%252BkkRKFRJYu7WoKclj7EOE6KveKxAQ%253D%253D", 
+        "author": "complaint_owner", 
+        "language": "uk", 
+        "title": "Complaint_Attachement.pdf", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9a24f3dfc4504656912ea717a5e519b3?KeyID=a8968c46&Signature=OShMqNbhsVlInoN98pFyTWZRnMv3p6Rvnldg4zfCTDyyRnpPpOXpBUNsQQQC%252BZYp5K6g5gdkOjuen8bsXofwCw%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2017-06-19T18:27:52.192526+03:00", 
-        "id": "899f00d964784e55b3e440bd49369089", 
-        "dateModified": "2017-06-19T18:27:52.192559+03:00"
+        "datePublished": "2020-05-01T01:00:01+03:00", 
+        "id": "5cc45e4074cf4629ad7ee151662909f5", 
+        "dateModified": "2020-05-01T01:00:01+03:00"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "author": "aboveThresholdReviewers", 
+        "language": "uk", 
+        "title": "ComplaintResolution.pdf", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/402ab7ec9b9d43628ba621fc2efed595?KeyID=a8968c46&Signature=m%2FpPoKYOULyjq%2FiCI2lyIxpU2kWojgUVytLt%252B9qKOdjwAvCnQM1p%252BAMgO5XJ5pNQAV7NK4DcNHEyjTovcHOJBw%253D%253D", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2020-05-01T01:00:01+03:00", 
+        "id": "50010030ed9647afa89d33c126c2e307", 
+        "dateModified": "2020-05-01T01:00:01+03:00"
       }
     ], 
-    "description": "complaint description", 
+    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+    "title": "Недостатньо інформації", 
+    "reviewDate": "2020-05-01T01:00:01+03:00", 
+    "acceptance": true, 
+    "value": {
+      "currency": "UAH", 
+      "amount": 3000.0
+    }, 
+    "dateAccepted": "2020-05-01T01:00:01+03:00", 
     "author": {
       "contactPoint": {
         "email": "soleksuk@gmail.com", 
@@ -48,21 +67,16 @@ Content-Type: application/json; charset=UTF-8
         "postalCode": "21100", 
         "countryName": "Україна", 
         "streetAddress": "вул. Островського, 33", 
-        "region": "м. Вінниця", 
+        "region": "Вінницька область", 
         "locality": "м. Вінниця"
       }
     }, 
-    "resolutionType": "resolved", 
+    "dateSubmitted": "2020-05-01T01:00:01+03:00", 
+    "complaintID": "UA-2020-05-01-000001.1", 
+    "date": "2020-05-01T01:00:01+03:00", 
     "type": "complaint", 
-    "title": "complaint title", 
-    "satisfied": false, 
-    "dateEscalated": "2017-06-19T18:27:50.991601+03:00", 
-    "dateAnswered": "2017-06-19T18:27:50.708113+03:00", 
-    "dateSubmitted": "2017-06-19T18:27:50.420378+03:00", 
-    "complaintID": "UA-2017-06-19-000001.7", 
-    "date": "2017-06-19T18:27:52.520854+03:00", 
-    "resolution": "Виправлено неконкурентні умови", 
-    "id": "e6f9e32cafca46e89a70bae2744eddd0"
+    "id": "eea6ee3d38cc4aefb76da96645d4a3c5", 
+    "reviewPlace": "Place of review"
   }
 }
 
