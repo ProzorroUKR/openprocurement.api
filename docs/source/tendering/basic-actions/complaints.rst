@@ -58,6 +58,33 @@ Tender Qualification Claims
     claim-qualification
 
 
+Statuses
+~~~~~~~~
+
+:draft:
+    Initial status
+
+    Complainant can submit claim, upload documents, cancel claim, and re-submit it.
+
+:claim:
+    Procuring entity can upload documents and answer to claim.
+
+    Complainant can cancel claim.
+
+:answered:
+    Complainant can cancel claim, upload documents, agree or disagree with decision.
+
+:resolved:
+    Terminal status
+
+    Claim recognized as resolved.
+
+:cancelled:
+    Terminal status
+
+    Claim cancelled by complainant.
+
+
 Complaints
 ----------
 
@@ -83,6 +110,51 @@ Before Release 2020-04-19
         stopping -> {stopped,invalid,declined,satisfied,mistaken};
     }
 
+Statuses
+~~~~~~~~
+
+:draft:
+    Initial status
+
+    Complainant can upload documents and submit complaint.
+
+:pending:
+    Reviewer can upload documents and review complaint.
+
+:accepted:
+    Complaint accepted
+
+:satisfied:
+    Complaint is the satisfied by reviewer
+
+:stopping:
+    Complaint recalled by participant
+
+:stopped:
+    Terminal status
+
+    Сomplaint has been discontinued
+
+:mistaken:
+    Terminal status
+
+    Complaint was in error
+
+:invalid:
+    Terminal status
+
+    Claim recognized as invalid.
+
+:declined:
+    Terminal status
+
+    Claim recognized as declined.
+
+:resolved:
+    Terminal status
+
+    Complaint recognized as resolved.
+
 
 After Release 2020-04-19
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -105,6 +177,51 @@ After Release 2020-04-19
         pending -> {accepted,invalid,stopped};
         stopping -> {stopped,invalid,declined,satisfied};
     }
+
+Statuses
+~~~~~~~~
+
+:draft:
+    Initial status
+
+    Complainant can upload documents, cancel complaint and submit complaint.
+
+:pending:
+    Reviewer can upload documents and review complaint.
+
+:accepted:
+    Complaint accepted
+
+:satisfied:
+    Complaint is the satisfied by reviewer
+
+:stopping:
+    Complaint recalled by participant
+
+:stopped:
+    Terminal status
+
+    Сomplaint has been discontinued
+
+:mistaken:
+    Terminal status
+
+    Complaint dismissed
+
+:invalid:
+    Terminal status
+
+    Claim recognized as invalid.
+
+:declined:
+    Terminal status
+
+    Claim recognized as declined.
+
+:resolved:
+    Terminal status
+
+    Complaint recognized as resolved.
 
 Tutorials
 ~~~~~~~~~
@@ -156,49 +273,3 @@ Roles
 
 :Chronograph:
     dotted
-
-Statuses
---------
-
-:draft:
-    Initial status
-
-    Complainant can submit claim, upload documents, cancel claim, and re-submit it.
-
-:claim:
-    Procuring entity can upload documents and answer to claim.
-
-    Complainant can cancel claim.
-
-:answered:
-    Complainant can cancel claim, upload documents, agree or disagree with decision.
-
-:pending:
-    Reviewer can upload documents and review complaint.
-
-    Complainant can cancel claim.
-
-:invalid:
-    Terminal status
-
-    Claim recognized as invalid.
-
-:declined:
-    Terminal status
-
-    Claim recognized as declined.
-
-:resolved:
-    Terminal status
-
-    Claim recognized as resolved.
-
-:cancelled:
-    Terminal status
-
-    Claim cancelled by complainant.
-
-:ignored:
-    Terminal status
-
-    Claim ignored by procuring entity.
