@@ -68,10 +68,9 @@ Before Release 2020-04-19
 
     digraph G {
         rankdir=LR;
-        {rank=same; mistaken; invalid; resolved; declined; stopped}
+        {rank=same; invalid; resolved; declined; stopped; mistaken;}
         subgraph cluster_complaint {
-            label = "complaint";
-            pending; satisfied; accepted; stopping;
+            pending; satisfied; accepted;
         }
         satisfied -> resolved;
         edge[style=dashed];
