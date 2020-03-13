@@ -178,6 +178,41 @@ After Release 2020-04-19
         stopping -> {stopped,invalid,declined,satisfied};
     }
 
+Tutorials
+~~~~~~~~~
+
+Tender Conditions Complaints
+""""""""""""""""""""""""""""
+
+.. toctree::
+    :maxdepth: 1
+
+    complaints-tender
+
+Tender Award Complaints
+"""""""""""""""""""""""
+
+.. toctree::
+    :maxdepth: 1
+
+    complaints-award
+
+Tender Qualification Complaints
+"""""""""""""""""""""""""""""""
+
+.. toctree::
+    :maxdepth: 1
+
+    complaints-qualification
+
+Tender Cancellation Complaints
+""""""""""""""""""""""""""""""
+
+.. toctree::
+    :maxdepth: 1
+
+    complaints-cancellation
+
 Statuses
 ~~~~~~~~
 
@@ -222,41 +257,6 @@ Statuses
     Terminal status
 
     Complaint recognized as resolved.
-
-Tutorials
-~~~~~~~~~
-
-Tender Conditions Complaints
-""""""""""""""""""""""""""""
-
-.. toctree::
-    :maxdepth: 1
-
-    complaints-tender
-
-Tender Award Complaints
-"""""""""""""""""""""""
-
-.. toctree::
-    :maxdepth: 1
-
-    complaints-award
-
-Tender Qualification Complaints
-"""""""""""""""""""""""""""""""
-
-.. toctree::
-    :maxdepth: 1
-
-    complaints-qualification
-
-Tender Cancellation Complaints
-""""""""""""""""""""""""""""""
-
-.. toctree::
-    :maxdepth: 1
-
-    complaints-cancellation
 
 
 Roles
