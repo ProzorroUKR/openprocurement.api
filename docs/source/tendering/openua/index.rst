@@ -11,4 +11,3 @@ Contents:
    overview
    tendering
    tutorial
-   complaints

@@ -1,0 +1,69 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-03-13 13:30+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
+
+msgid "Claim/Complaint Retrieval"
+msgstr "Отримання інформації про звернення/скарги"
+
+msgid "Tender Award Claim/Complaint Retrieval"
+msgstr "Отримання інформації про звернення/скарги на визначення переможця"
+
+msgid "You can list all Tender Award Claims/Complaints:"
+msgstr "Ви можете отримати список всіх звернень/скарг на визначення переможця:"
+
+msgid "And check individual complaint:"
+msgstr "І перевірити окрему скаргу:"
+
+msgid "Claim Submission"
+msgstr "Подання звернення"
+
+msgid "If tender award is favoriting certain supplier, or in any other viable case, participants can submit Tender Award Claim."
+msgstr "Якщо при визначенні переможця відбулось порушення чи була допущена помилка, то учасник закупівлі може подати звернення щодо результатів визначення переможця."
+
+msgid "Tender Award Claim Submission (with documents)"
+msgstr "Подання звернення (з документами)"
+
+msgid "At first create a claim. Send POST request with bidder's access token."
+msgstr "Створіть звернення. В POST запиті потрібно передати токен доступу одного з учасників."
+
+msgid "Then upload necessary documents:"
+msgstr "Потім завантажте документи:"
+
+msgid "Submit tender award claim:"
+msgstr "Подайте звернення:"
+
+msgid "Tender Award Claim Submission (without documents)"
+msgstr "Подання звернення (без документів)"
+
+msgid "You can submit claim that does not need additional documents:"
+msgstr "Ви можете подати звернення, що не потребує додаткових документів:"
+
+msgid "Claim's Answer"
+msgstr "Відповідь на звернення"
+
+msgid "Answer to resolved claim"
+msgstr "Відповідь на вирішене звернення"
+
+msgid "Satisfied Claim"
+msgstr "Задовільнене звернення"
+
+msgid "Satisfying resolution"
+msgstr "Рішення про задовільнення звернення"
+
+msgid "Unsatisfying resolution"
+msgstr "Рішення про відхилення звернення"

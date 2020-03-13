@@ -151,6 +151,9 @@ Roles
 :Tender owner:
     plain
 
+:AboveThresholdReviewer:
+    bold
+
 :Chronograph:
     dotted
 

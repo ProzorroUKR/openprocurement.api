@@ -20,7 +20,7 @@ And check individual complaint or claim:
 Complaint Submission
 ====================
 
-Any registered user can submit Tender Conditions Complaint.
+If tender conditions are favoriting particular supplier, or in any other viable case, any registered user can submit Tender Conditions Complaint.
 
 
 Tender Conditions Complaint Submission (with documents)
