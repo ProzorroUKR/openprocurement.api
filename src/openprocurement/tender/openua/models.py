@@ -296,6 +296,7 @@ class Complaint(BaseComplaint):
         roles = {
             "create": _base_roles["create"],  # TODO inherit the rest of the roles
             "draft": whitelist("author", "title", "description", "status"),
+            "bot": whitelist("rejectReason", "status"),
             "cancellation": whitelist("cancellationReason", "status"),
             "satisfy": whitelist("satisfied", "status"),
             "escalate": whitelist("status"),
@@ -345,6 +346,7 @@ class Complaint(BaseComplaint):
 
     def __acl__(self):
         return [
+            (Allow, "g:bots", "edit_complaint"),
             (Allow, "g:aboveThresholdReviewers", "edit_complaint"),
             (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_complaint"),
             (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_complaint_documents"),
@@ -364,6 +366,8 @@ class Complaint(BaseComplaint):
             role = "draft"
         elif auth_role == "complaint_owner" and self.status == "claim":
             role = "escalate"
+        elif auth_role == "bots" and self.status == "draft":
+            role = "bot"
         elif auth_role == "tender_owner" and self.status == "claim":
             role = "answer"
         elif auth_role == "tender_owner" and self.status in ["pending", "accepted"]:

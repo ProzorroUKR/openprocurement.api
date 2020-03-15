@@ -57,7 +57,8 @@ class Complaint(BaseComplaint):
             "default": _open_view + whitelist('owner', 'owner_token'),
 
             "create": _base_roles["create"],
-            "draft": whitelist('author', 'description', 'status', 'title'),
+            "draft": whitelist('author', 'description', 'title', 'status'),
+            "bot": whitelist("rejectReason", "status"),
             "answer": whitelist('resolution', 'resolutionType', 'status', 'tendererAction'),
             "review": whitelist(
                 "decision", "status",
@@ -106,6 +107,7 @@ class Complaint(BaseComplaint):
 
     def __acl__(self):
         return [
+            (Allow, "g:bots", "edit_complaint"),
             (Allow, "g:aboveThresholdReviewers", "edit_complaint"),
             (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_complaint"),
             (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_complaint_documents"),
@@ -125,6 +127,8 @@ class Complaint(BaseComplaint):
             role = "draft"
         elif auth_role == "complaint_owner" and self.status == "claim":
             role = "escalate"
+        elif auth_role == "bots" and self.status == "draft":
+            role = "bot"
         elif auth_role == "tender_owner" and self.status == "claim":
             role = "answer"
         elif auth_role == "tender_owner" and self.status in ["pending", "accepted"]:

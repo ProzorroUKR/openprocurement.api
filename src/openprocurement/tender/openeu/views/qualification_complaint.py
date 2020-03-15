@@ -113,8 +113,13 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
         )
 
         new_rules = get_first_revision_date(tender) > RELEASE_2020_04_19
+        # bots
+        if self.request.authenticated_role == "bots" and status in ["draft"] and new_status == "pending":
+            apply_patch(self.request, save=False, src=self.context.serialize())
+        elif self.request.authenticated_role == "bots" and status in ["draft"] and new_status == "mistaken":
+            apply_patch(self.request, save=False, src=self.context.serialize())
         # complaint_owner
-        if (
+        elif (
             self.request.authenticated_role == "complaint_owner"
             and status in ["draft", "claim", "answered"]
             and new_status == "cancelled"

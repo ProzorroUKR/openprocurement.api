@@ -131,6 +131,21 @@ class BaseTenderComplaintResource(APIResource):
             )
             return {"data": self.context.serialize("view")}
 
+    def patch_as_bots(self, data):
+        context = self.context
+        status = self.context.status
+        new_status = data.get("status", status)
+
+        if status in ["draft"] and new_status == "pending":
+            apply_patch(self.request, save=False, src=context.serialize())
+        elif status in ["draft"] and new_status == "mistaken":
+            apply_patch(self.request, save=False, src=context.serialize())
+        else:
+            raise_operation_error(
+                self.request,
+                "Can't update complaint from {} to {} status".format(status, new_status)
+            )
+
     def patch_as_complaint_owner(self, data):
         context = self.context
         status = self.context.status
