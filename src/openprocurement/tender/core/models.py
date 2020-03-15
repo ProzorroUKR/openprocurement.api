@@ -734,13 +734,15 @@ class Complaint(Model):
         root = self.get_root()
         request = root.request
         data = request.json_body["data"]
-        if request.authenticated_role == "complaint_owner" and data.get("status", self.status) == "cancelled":
+        auth_role = request.authenticated_role
+        status = data.get("status", self.status)
+        if auth_role == "complaint_owner" and status == "cancelled":
             role = "cancellation"
-        elif request.authenticated_role == "complaint_owner" and self.status == "draft":
+        elif auth_role == "complaint_owner" and self.status == "draft":
             role = "draft"
-        elif request.authenticated_role == "tender_owner" and self.status == "claim":
+        elif auth_role == "tender_owner" and self.status == "claim":
             role = "answer"
-        elif request.authenticated_role == "complaint_owner" and self.status == "answered":
+        elif auth_role== "complaint_owner" and self.status == "answered":
             role = "satisfy"
         else:
             role = "invalid"
@@ -804,24 +806,24 @@ class CancellationComplaint(Complaint):
         root = self.get_root()
         request = root.request
         data = request.json_body["data"]
+        auth_role = request.authenticated_role
+        status = data.get("status", self.status)
 
-        if request.authenticated_role == "complaint_owner" and data.get("status", self.status) == "cancelled":
+        if auth_role == "complaint_owner" and status == "cancelled":
             role = "cancellation"
-        elif (
-                request.authenticated_role == "complaint_owner"
-                and self.status in ["pending", "accepted"]
-                and data.get("status", self.status) == "stopping"
-        ):
+        elif auth_role == "complaint_owner" and self.status in ["pending", "accepted"] and status == "stopping":
             role = "cancellation"
-        elif request.authenticated_role == "complaint_owner" and self.status == "draft":
+        elif auth_role == "complaint_owner" and self.status == "draft":
             role = "draft"
-        elif request.authenticated_role == "tender_owner" and self.status == "pending":
+        elif auth_role == "complaint_owner" and self.status == "draft":
+            role = "draft"
+        elif auth_role == "tender_owner" and self.status == "pending":
             role = "action"
-        elif request.authenticated_role == "tender_owner" and self.status == "satisfied":
+        elif auth_role == "tender_owner" and self.status == "satisfied":
             role = "resolve"
-        elif request.authenticated_role == "aboveThresholdReviewers" and self.status == "pending":
+        elif auth_role == "aboveThresholdReviewers" and self.status == "pending":
             role = "pending"
-        elif request.authenticated_role == "aboveThresholdReviewers" and self.status in ["accepted", "stopping"]:
+        elif auth_role == "aboveThresholdReviewers" and self.status in ["accepted", "stopping"]:
             role = "review"
         else:
             role = "invalid"
