@@ -202,7 +202,7 @@ After Release 2020-04-19
         accepted -> stopping;
         edge[style=bold];
         accepted -> {declined,satisfied,stopped};
-        pending -> {accepted,invalid,stopped};
+        pending -> {accepted,invalid};
         stopping -> {stopped,invalid,declined,satisfied};
     }
 
