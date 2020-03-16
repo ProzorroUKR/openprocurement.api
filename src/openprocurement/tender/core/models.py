@@ -792,6 +792,7 @@ class CancellationComplaint(Complaint):
         roles = {
             "create": whitelist("author", "title", "description", "status", "relatedLot"),
             "draft": whitelist("author", "title", "description", "status"),
+            "bot": whitelist("rejectReason", "status"),
             "cancellation": whitelist("cancellationReason", "status"),
             "satisfy": whitelist("satisfied", "status"),
             "resolve": whitelist("status", "tendererAction"),
@@ -815,8 +816,8 @@ class CancellationComplaint(Complaint):
             role = "cancellation"
         elif auth_role == "complaint_owner" and self.status == "draft":
             role = "draft"
-        elif auth_role == "complaint_owner" and self.status == "draft":
-            role = "draft"
+        elif auth_role == "bots" and self.status == "draft":
+            role = "bot"
         elif auth_role == "tender_owner" and self.status == "pending":
             role = "action"
         elif auth_role == "tender_owner" and self.status == "satisfied":
@@ -831,6 +832,7 @@ class CancellationComplaint(Complaint):
 
     def __acl__(self):
         return [
+            (Allow, "g:bots", "edit_complaint"),
             (Allow, "g:aboveThresholdReviewers", "edit_complaint"),
             (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_complaint"),
             (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_complaint_documents"),
