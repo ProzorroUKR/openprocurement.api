@@ -136,9 +136,12 @@ class BaseTenderComplaintResource(APIResource):
         status = self.context.status
         new_status = data.get("status", status)
 
-        if status in ["draft"] and new_status == "pending":
+        tender = self.request.validated["tender"]
+        new_rules = get_first_revision_date(tender, default=get_now()) > RELEASE_2020_04_19
+
+        if new_rules and status in ["draft"] and new_status == "pending":
             apply_patch(self.request, save=False, src=context.serialize())
-        elif status in ["draft"] and new_status == "mistaken":
+        elif new_rules and status in ["draft"] and new_status == "mistaken":
             apply_patch(self.request, save=False, src=context.serialize())
         else:
             raise_operation_error(
