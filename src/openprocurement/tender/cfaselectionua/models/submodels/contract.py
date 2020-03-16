@@ -4,6 +4,7 @@ from schematics.exceptions import ValidationError
 from schematics.types.compound import ModelType
 from schematics.types import StringType
 from openprocurement.tender.core.models import ContractValue
+from openprocurement.tender.core.utils import get_contract_supplier_roles
 from openprocurement.api.utils import get_now
 from openprocurement.api.models import Model, ListType, Contract as BaseContract, Document
 
@@ -15,6 +16,11 @@ class Contract(BaseContract):
     value = ModelType(ContractValue)
     awardID = StringType(required=True)
     documents = ListType(ModelType(Document, required=True), default=list())
+
+    def __local_roles__(self):
+        roles = {}
+        roles.update(get_contract_supplier_roles(self))
+        return roles
 
     def validate_awardID(self, data, awardID):
         parent = data["__parent__"]

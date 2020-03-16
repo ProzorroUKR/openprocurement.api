@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import jmespath
 from decimal import Decimal
 from re import compile
 
@@ -573,3 +574,15 @@ def check_complaint_statuses_at_complaint_period_end(tender, now):
         complaint_period = getattr(award, "complaintPeriod", None)
         if complaint_period and complaint_period.endDate and complaint_period.endDate < now:
             check_complaints(award.complaints)
+
+
+def get_contract_supplier_roles(contract):
+    roles = {}
+    if 'bids' not in contract.__parent__:
+        return roles
+    bid_id = jmespath.search("awards[?id=='{}'].bid_id".format(contract.awardID), contract.__parent__)[0]
+    tokens = jmespath.search("bids[?id=='{}'].[owner,owner_token]".format(bid_id), contract.__parent__)
+    if tokens:
+        for item in tokens:
+            roles['_'.join(item)] = 'contract_supplier'
+    return roles

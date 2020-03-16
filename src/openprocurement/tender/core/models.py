@@ -54,7 +54,7 @@ from openprocurement.tender.core.constants import (
 )
 from openprocurement.tender.core.utils import (
     calc_auction_end_time, rounding_shouldStartAfter,
-    restrict_value_to_bounds, round_up_to_ten,
+    restrict_value_to_bounds, round_up_to_ten, get_contract_supplier_roles,
 )
 from openprocurement.tender.core.validation import (
     validate_lotvalue_value,
@@ -382,6 +382,11 @@ class Contract(BaseContract):
     value = ModelType(ContractValue)
     awardID = StringType(required=True)
     documents = ListType(ModelType(Document, required=True), default=list())
+
+    def __local_roles__(self):
+        roles = {}
+        roles.update(get_contract_supplier_roles(self))
+        return roles
 
     def validate_awardID(self, data, awardID):
         parent = data["__parent__"]
@@ -793,7 +798,7 @@ class Complaint(Model):
         parent = data["__parent__"]
         if relatedLot and isinstance(parent, Model):
             validate_relatedlot(get_tender(parent), relatedLot)
-            
+
     def get_related_lot_obj(self, tender):
         lot_id = (
             self.get("relatedLot")  # tender lot
