@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/9de80116006a4e58b18ac56dda573693/cancellations/28437ff38b254dfdacc863e870354d20/complaints/0fdd661eb9b148efbcdc78cc316d9e3a HTTP/1.0
+PATCH /api/2.5/tenders/9de80116006a4e58b18ac56dda573693/cancellations/28437ff38b254dfdacc863e870354d20/complaints/f87398f50f0f43ce8637ea8bdb532eaf HTTP/1.0
 Authorization: Bearer reviewer
 Content-Length: 31
 Content-Type: application/json
@@ -38,11 +38,15 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "title": "Недостатньо інформації", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 2000.0
+    }, 
     "dateSubmitted": "2020-05-01T01:00:00+03:00", 
     "complaintID": "UA-2020-05-01-000001.3", 
     "date": "2020-05-01T01:00:00+03:00", 
     "type": "complaint", 
-    "id": "0fdd661eb9b148efbcdc78cc316d9e3a"
+    "id": "f87398f50f0f43ce8637ea8bdb532eaf"
   }
 }
 

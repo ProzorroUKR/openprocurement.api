@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/0ba5045de21b4930a220df9887be28ec/qualifications/de1fdfe83be64f45a3aa274d8f98a1e9/complaints/8788d4ac21154c8a981b3ae975a265e9 HTTP/1.0
+PATCH /api/2.5/tenders/0ba5045de21b4930a220df9887be28ec/qualifications/de1fdfe83be64f45a3aa274d8f98a1e9/complaints/b5287ae709e243eeabc145b946fab991 HTTP/1.0
 Authorization: Bearer reviewer
 Content-Length: 64
 Content-Type: application/json
@@ -39,13 +39,17 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "acceptance": false, 
+    "value": {
+      "currency": "UAH", 
+      "amount": 3000.0
+    }, 
     "rejectReason": "alreadyExists", 
     "dateSubmitted": "2020-05-01T01:00:01+03:00", 
     "complaintID": "UA-2020-05-01-000001.2", 
     "date": "2020-05-01T01:00:01+03:00", 
     "title": "Недостатньо інформації", 
     "type": "complaint", 
-    "id": "8788d4ac21154c8a981b3ae975a265e9"
+    "id": "b5287ae709e243eeabc145b946fab991"
   }
 }
 

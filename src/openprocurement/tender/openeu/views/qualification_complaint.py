@@ -122,11 +122,12 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
             )
             return {"data": self.context.serialize("view")}
 
-
     def patch_as_complaint_owner(self, data):
         data = self.request.validated["data"]
         status = self.context.status
         new_status = data.get("status", status)
+
+        tender = self.request.validated["tender"]
 
         is_qualificationPeriod = tender.qualificationPeriod.startDate < get_now() and (
             not tender.qualificationPeriod.endDate or tender.qualificationPeriod.endDate > get_now()

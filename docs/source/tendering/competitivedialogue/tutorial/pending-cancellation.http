@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/6012d8a8840848c5ae64c001fd7d7d0f/cancellations/fd61a05a6c9e4edbb7fb548998e96b9c?acc_token=7c331da730084988a45b600fe21381eb HTTP/1.0
+PATCH /api/2.5/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d/cancellations/d42fd4b9cc384f5280a5b4edcf883629?acc_token=ce9ee5fc97484fc3b51e3f4dcea722d4 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 31
 Content-Type: application/json
@@ -19,37 +19,35 @@ Content-Type: application/json; charset=UTF-8
       {
         "hash": "md5:00000000000000000000000000000000", 
         "description": "Changed description", 
-        "language": "uk", 
         "title": "Notice.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/affb25f3b1214cb1b0a919c8973f995a?KeyID=a8968c46&Signature=eraNSZxlmiu31LNrE34dyrYsytEk7%2FTJy35uS178iDQUeUiAl%252B6pZHgqUHRD9AfUVXpV%252B1ESIgN7KnOKK9QwAw%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e85ae2a32fb548f29d2b321f6661db4b?KeyID=a8968c46&Signature=QwOcKTHTR%252BiaW3nV5Jb0Xs806tn%2FkWhE2eXgcAX5PtcIsLV8ZL%2FsWldHGOrPXQn1Ochj2eBquhQEr6XAOZTbBQ%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-01T01:00:00+03:00", 
-        "id": "524d0415c1b74971bb53c28c5e4221cc", 
-        "dateModified": "2020-05-01T01:00:00+03:00"
+        "datePublished": "2020-05-01T01:00:03+03:00", 
+        "id": "b660c69f66784b979da3b1cf1fff9e76", 
+        "dateModified": "2020-05-01T01:00:03+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
         "description": "Changed description", 
-        "language": "uk", 
         "title": "Notice-2.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e896f644c70e4be69dce1e5906500a92?KeyID=a8968c46&Signature=FTlANFA3LZjnSAQcf7S6SL85fpY19L0114N%2FWvIPayVNtzTJ4%252BKX3HDH6WUZrP7CqIMHcC10DLoyG7DeIQ5OCA%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3ac9a4ce62c4476ba9625858f2afdd7b?KeyID=a8968c46&Signature=OlH1qH0aTmkEShCvVI3QImyM%2FWwbqgj9cnxOLXbOi%2FjuueUHgxpygOt%252BK4lyRoTt4fyTIgSgQrek%2FrMpp%252BUVBg%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-01T01:00:00+03:00", 
-        "id": "524d0415c1b74971bb53c28c5e4221cc", 
-        "dateModified": "2020-05-01T01:00:00+03:00"
+        "datePublished": "2020-05-01T01:00:03+03:00", 
+        "id": "b660c69f66784b979da3b1cf1fff9e76", 
+        "dateModified": "2020-05-01T01:00:03+03:00"
       }
     ], 
     "complaintPeriod": {
-      "startDate": "2020-05-01T01:00:00+03:00", 
+      "startDate": "2020-05-01T01:00:03+03:00", 
       "endDate": "2020-05-12T00:00:00+03:00"
     }, 
     "reason": "cancellation reason", 
     "reasonType": "unFixable", 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "date": "2020-05-01T01:00:03+03:00", 
     "cancellationOf": "tender", 
-    "id": "fd61a05a6c9e4edbb7fb548998e96b9c"
+    "id": "d42fd4b9cc384f5280a5b4edcf883629"
   }
 }
 

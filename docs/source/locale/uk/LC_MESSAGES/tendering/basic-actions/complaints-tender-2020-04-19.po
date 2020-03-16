@@ -1,0 +1,103 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 0.4\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-03-16 15:09+0200\n"
+"PO-Revision-Date: 2016-03-23 15:32+0200\n"
+"Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
+"Language-Team: Ukrainian <info@quintagroup.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
+
+msgid "Claim/Complaint Retrieval"
+msgstr "Отримання інформації про вимоги/скарги"
+
+msgid "Tender Conditions Claim/Complaint Retrieval"
+msgstr "Отримання інформації про вимоги/скарги на умови закупівлі"
+
+msgid "You can list all Tender Conditions Claims/Complaints:"
+msgstr "Ви можете отримати список всіх вимог/скарг на умови закупівлі:"
+
+msgid "And check individual complaint or claim:"
+msgstr "Або перевірити окрему скаргу чи вимогу:"
+
+msgid "Complaint Submission"
+msgstr "Подання скарги"
+
+msgid "If tender conditions are favoriting particular supplier, or in any other viable case, any registered user can submit Tender Conditions Complaint."
+msgstr "Якщо умови закупівлі сприятливі лише для одного постачальника або при будь-якому іншому серйозному порушенні, будь-який зареєстрований користувач може подати скаргу на умови закупівлі."
+
+msgid "Tender Conditions Complaint Submission"
+msgstr "Подання скарги на умови закупівлі"
+
+msgid "At first create a draft:"
+msgstr "Створіть чернетку скарги ``draft``:"
+
+msgid "This step is optional. Upload documents:"
+msgstr "Цей крок не обов'язковий.Завантажте документи:"
+
+msgid "Submit tender conditions complaint:"
+msgstr "Подайте скаргу на умови закупівлі:"
+
+msgid "Complaint Posts"
+msgstr "Запит до скарги"
+
+msgid "Once complaint is in `pending` or `accepted` status reviewer can submit a post to complaint."
+msgstr "Для скарги у статусах 'pending' та 'accepted' орган оскарження має можливість додати запит на уточнення до скарги."
+
+msgid "Tender Conditions Complaint Posts (with complaint owner)"
+msgstr "Запит до скарги на умови закупівлі (до скаржника)"
+
+msgid "Reviewer can submit a post to complaint owner:"
+msgstr "Орган оскарження може надати запит до скаржника:"
+
+msgid "Complaint owner can submit a reply post to reviewer by setting reviewer's post `id` as `relatedPost`:"
+msgstr "Скаржник має можливість надати відповідь на запит органу оскарження передавши поле `id` запиту у полі `relatedPost`: "
+
+msgid "Tender Conditions Complaint Posts (with tender owner)"
+msgstr "Запит до скарги на умови закупівлі (до замовника)"
+
+msgid "Reviewer can submit a post to tender owner:"
+msgstr "Орган оскарження може надати запит до замовника:"
+
+msgid "Tender owner can submit a reply post to reviewer by setting reviewer's post `id` as `relatedPost`:"
+msgstr "Замовник має можливість надати відповідь на запит органу оскарження передавши поле `id` запиту у полі `relatedPost`: "
+
+msgid "Complaint Resolution"
+msgstr "Вирішення скарги"
+
+msgid "Rejecting Tender Conditions Complaint"
+msgstr "Відхилення скарги на умови закупівлі"
+
+msgid "Accepting Tender Conditions Complaint"
+msgstr "Прийняття скарги на умови закупівлі"
+
+msgid "Submitting Tender Conditions Complaint Resolution"
+msgstr "Подання рішення по скарзі на умови закупівлі"
+
+msgid "The Complaint Review Body uploads the resolution document:"
+msgstr "Орган, що розглядає скарги, завантажує документ з рішенням:"
+
+msgid "And either resolves complaint:"
+msgstr "Який або вирішує скаргу:"
+
+msgid "Or declines it:"
+msgstr "Або відхиляє:"
+
+msgid "Submitting Resolution Confirmation"
+msgstr "Подання підтведження вирішення скарги"
+
+msgid "Cancelling Tender Conditions Complaint"
+msgstr "Відміна скарги на умови закупівлі"
+
+msgid "Cancelling not accepted complaint"
+msgstr "Відміна не прийнятої скарги"
+
+msgid "Cancelling accepted complaint by Complainant"
+msgstr "Відміна прийнятої скарги скаржником"
+
+msgid "Cancelling accepted complaint by Reviewer"
+msgstr "Відміна прийнятої скарги рецензентом"

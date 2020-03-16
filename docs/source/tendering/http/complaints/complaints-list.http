@@ -70,6 +70,10 @@ Content-Type: application/json; charset=UTF-8
       "title": "Недостатньо інформації", 
       "reviewDate": "2020-05-01T01:00:00+03:00", 
       "acceptance": true, 
+      "value": {
+        "currency": "UAH", 
+        "amount": 2000.0
+      }, 
       "dateAccepted": "2020-05-01T01:00:00+03:00", 
       "author": {
         "contactPoint": {
@@ -95,7 +99,7 @@ Content-Type: application/json; charset=UTF-8
       "complaintID": "UA-2020-05-01-000001.3", 
       "date": "2020-05-01T01:00:00+03:00", 
       "type": "complaint", 
-      "id": "b64bf0e16a1c41d1b1e05e43155397c1", 
+      "id": "4bfb8ef256dd4c198abaccf0e9db7d58", 
       "reviewPlace": "Place of review"
     }, 
     {
@@ -199,7 +203,11 @@ Content-Type: application/json; charset=UTF-8
       "title": "Недостатньо інформації", 
       "decision": "Тендер скасовується замовником", 
       "acceptance": true, 
-      "id": "5006e9e7c1ad4702a3c945d4e9944ee5", 
+      "value": {
+        "currency": "UAH", 
+        "amount": 2000.0
+      }, 
+      "id": "b51604ff3434469a98320c9b034b4c0a", 
       "rejectReason": "tenderCancelled", 
       "dateAccepted": "2020-05-01T01:00:00+03:00", 
       "author": {
@@ -236,7 +244,10 @@ Content-Type: application/json; charset=UTF-8
       "title": "Недостатньо інформації", 
       "decision": "Тендер скасовується замовником", 
       "acceptance": true, 
-      "id": "ddd4f7706597476cbcd0a406d8e8fd0b", 
+      "value": {
+        "currency": "UAH", 
+        "amount": 2000.0
+      }, 
       "cancellationReason": "Тендер скасовується замовником", 
       "dateCanceled": "2020-05-01T01:00:00+03:00", 
       "dateAccepted": "2020-05-01T01:00:00+03:00", 
@@ -264,6 +275,7 @@ Content-Type: application/json; charset=UTF-8
       "dateSubmitted": "2020-05-01T01:00:00+03:00", 
       "complaintID": "UA-2020-05-01-000001.7", 
       "date": "2020-05-01T01:00:00+03:00", 
+      "id": "bb9432ace0c047c6b4c925ec4ace0099", 
       "type": "complaint", 
       "reviewDate": "2020-05-01T01:00:00+03:00", 
       "reviewPlace": "Place of review"
@@ -389,11 +401,15 @@ Content-Type: application/json; charset=UTF-8
           "id": "c1c86e299d6a40baa9c0b37f09157800"
         }
       ], 
+      "value": {
+        "currency": "UAH", 
+        "amount": 2000.0
+      }, 
       "dateSubmitted": "2020-05-01T01:00:00+03:00", 
       "complaintID": "UA-2020-05-01-000001.9", 
       "date": "2020-05-01T01:00:00+03:00", 
       "type": "complaint", 
-      "id": "69d4449485bd41e18707f4e8a22a475a"
+      "id": "9f3a6c7d446b4503872063f6021b89f2"
     }
   ]
 }
