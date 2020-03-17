@@ -21,6 +21,9 @@ from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentW
 from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     patch_tender_contract_value_vat_not_included,
     patch_tender_contract_value,
+    patch_tender_contract_status_by_owner,
+    patch_tender_contract_status_by_others,
+    patch_tender_contract_status_by_supplier,
 )
 
 
@@ -56,6 +59,9 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest, TenderContractResou
     test_create_tender_contract = snitch(create_tender_contract)
     test_patch_tender_contract = snitch(patch_tender_contract)
     test_patch_tender_contract_value = snitch(patch_tender_contract_value)
+    test_patch_tender_contract_status_by_owner = snitch(patch_tender_contract_status_by_owner)
+    test_patch_tender_contract_status_by_others = snitch(patch_tender_contract_status_by_others)
+    test_patch_tender_contract_status_by_supplier = snitch(patch_tender_contract_status_by_supplier)
 
 
 class TenderContractVATNotIncludedResourceTest(BaseTenderUAContentWebTest, TenderContractResourceTestMixin):
@@ -94,6 +100,9 @@ class TenderContractVATNotIncludedResourceTest(BaseTenderUAContentWebTest, Tende
         self.create_award()
 
     test_patch_tender_contract_value_vat_not_included = snitch(patch_tender_contract_value_vat_not_included)
+    test_patch_tender_contract_status_by_owner = snitch(patch_tender_contract_status_by_owner)
+    test_patch_tender_contract_status_by_others = snitch(patch_tender_contract_status_by_others)
+    test_patch_tender_contract_status_by_supplier = snitch(patch_tender_contract_status_by_supplier)
 
 
 class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest, TenderContractDocumentResourceTestMixin):

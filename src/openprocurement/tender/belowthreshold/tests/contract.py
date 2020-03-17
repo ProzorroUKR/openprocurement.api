@@ -30,6 +30,9 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     lot2_patch_tender_contract_document,
     patch_tender_contract_value_vat_not_included,
     patch_tender_contract_value,
+    patch_tender_contract_status_by_owner,
+    patch_tender_contract_status_by_supplier,
+    patch_tender_contract_status_by_others,
 )
 
 
@@ -82,6 +85,9 @@ class TenderContractResourceTest(TenderContentWebTest, TenderContractResourceTes
     test_create_tender_contract_in_complete_status = snitch(create_tender_contract_in_complete_status)
     test_patch_tender_contract = snitch(patch_tender_contract)
     test_patch_tender_contract_value = snitch(patch_tender_contract_value)
+    test_patch_tender_contract_status_by_owner = snitch(patch_tender_contract_status_by_owner)
+    test_patch_tender_contract_status_by_supplier = snitch(patch_tender_contract_status_by_supplier)
+    test_patch_tender_contract_status_by_others = snitch(patch_tender_contract_status_by_others)
 
 
 class TenderContractVATNotIncludedResourceTest(TenderContentWebTest, TenderContractResourceTestMixin):
@@ -119,6 +125,9 @@ class TenderContractVATNotIncludedResourceTest(TenderContentWebTest, TenderContr
         self.create_award()
 
     test_patch_tender_contract_value_vat_not_included = snitch(patch_tender_contract_value_vat_not_included)
+    test_patch_tender_contract_status_by_owner = snitch(patch_tender_contract_status_by_owner)
+    test_patch_tender_contract_status_by_supplier = snitch(patch_tender_contract_status_by_supplier)
+    test_patch_tender_contract_status_by_others = snitch(patch_tender_contract_status_by_others)
 
 
 class Tender2LotContractResourceTest(TenderContentWebTest):

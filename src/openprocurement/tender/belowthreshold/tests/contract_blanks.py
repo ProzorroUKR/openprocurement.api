@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import jmespath
 from datetime import timedelta
 from copy import deepcopy
 from openprocurement.api.utils import get_now
@@ -539,6 +540,173 @@ def patch_tender_contract_value_vat_not_included(self):
         response.json["errors"][0]["description"],
         "Amount should be greater than amountNet and differ by no more than 20.0%",
     )
+
+
+def patch_tender_contract_status_by_owner(self):
+    response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
+    contract = response.json["data"][0]
+    contract_id = contract["id"]
+    self.set_status("complete", {"status": "active.awarded"})
+
+    # prepare contract
+    doc = self.db.get(self.tender_id)
+    for i in doc.get("awards", []):
+        if 'complaintPeriod' in i:
+            i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+    if doc['contracts'][0]['value']['valueAddedTaxIncluded']:
+        doc['contracts'][0]['value']['amountNet'] = str(float(doc['contracts'][0]['value']['amount']) - 1)
+    self.db.save(doc)
+
+    # Tender onwer
+    self.app.authorization = ("Basic", ("broker", ""))
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
+        {"data": {"status": "pending.winnerSigning"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "pending.winnerSigning")
+
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
+        {"data": {"status": "pending"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "pending")
+
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
+        {"data": {"status": "active"}}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], u"active")
+
+
+def patch_tender_contract_status_by_supplier(self):
+    response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
+    contract = response.json["data"][0]
+    contract_id = contract["id"]
+    self.set_status("complete", {"status": "active.awarded"})
+
+    doc = self.db.get(self.tender_id)
+    bid_id = jmespath.search("awards[?id=='{}'].bid_id".format(contract["awardID"]), doc)[0]
+    bid_token = jmespath.search("bids[?id=='{}'].owner_token".format(bid_id), doc)[0]
+
+    for bid in doc.get("bids", []):
+        if bid["id"] == bid_id and bid["status"] == "pending":
+            bid["status"] = "active"
+    for i in doc.get("awards", []):
+        if "complaintPeriod" in i:
+            i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+    if doc["contracts"][0]["value"]["valueAddedTaxIncluded"]:
+        doc["contracts"][0]["value"]["amountNet"] = str(float(doc["contracts"][0]["value"]["amount"]) - 1)
+    self.db.save(doc)
+
+    # Supplier
+    self.app.authorization = ("Basic", ("broker", ""))
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, bid_token),
+        {"data": {"status": "pending.winnerSigning"}},
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [{u'description': u'Supplier can change status to `pending`', u'location': u'body', u'name': u'data'}]
+    )
+
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, bid_token),
+        {"data": {"value": {"amount": 10000}}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [{u'description': u'Supplier can change status to `pending`', u'location': u'body', u'name': u'data'}]
+    )
+
+    # Tender onwer
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
+        {"data": {"status": "pending.winnerSigning"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "pending.winnerSigning")
+
+
+    # Supplier
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, bid_token),
+        {"data": {"status": "active"}},
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [{u'description': u'Supplier can change status to `pending`', u'location': u'body', u'name': u'data'}]
+    )
+
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, bid_token),
+        {"data": {"value": {"amount": 10000}, "status": "pending"}}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertNotEqual(response.json["data"]["value"]["amount"], u"10000")
+    self.assertEqual(response.json["data"]["status"], u"pending")
+
+    response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, contract_id))
+    self.assertNotEqual(response.json["data"]["value"]["amount"], u"10000")
+
+    # Tender owner
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
+        {"data": {"status": "active"}}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], u"active")
+
+
+def patch_tender_contract_status_by_others(self):
+    response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
+    contract = response.json["data"][0]
+    contract_id = contract["id"]
+    self.set_status("complete", {"status": "active.awarded"})
+
+    doc = self.db.get(self.tender_id)
+    for i in doc.get("awards", []):
+        if 'complaintPeriod' in i:
+            i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+    if 'value' in doc['contracts'][0] and doc['contracts'][0]['value']['valueAddedTaxIncluded']:
+        doc['contracts'][0]['value']['amountNet'] = str(float(doc['contracts'][0]['value']['amount']) - 1)
+    self.db.save(doc)
+    bid_id = jmespath.search("awards[?id=='{}'].bid_id".format(contract["awardID"]), doc)[0]
+    bid_token = jmespath.search("bids[?id!='{}'].owner_token".format(bid_id), doc)[0]
+
+    self.app.authorization = ("Basic", ("broker", ""))
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, bid_token),
+        {"data": {"status": "pending.winnerSigning"}},
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json["errors"],
+                     [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}])
+
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
+        {"data": {"status": "pending.winnerSigning"}}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "pending.winnerSigning")
+
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, bid_token),
+        {"data": {"status": "pending"}},
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json["errors"],
+                     [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}])
 
 
 def get_tender_contract(self):
