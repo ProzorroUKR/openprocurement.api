@@ -17,6 +17,15 @@ class Contract(BaseContract):
     awardID = StringType(required=True)
     documents = ListType(ModelType(Document, required=True), default=list())
 
+    def get_role(self):
+        root = self.get_root()
+        request = root.request
+        if request.authenticated_role in ("tender_owner", "contract_supplier"):
+            role = "edit_{}".format(request.authenticated_role)
+        else:
+            role = request.authenticated_role
+        return role
+
     def __local_roles__(self):
         roles = {}
         roles.update(get_contract_supplier_roles(self))

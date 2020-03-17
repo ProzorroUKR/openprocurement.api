@@ -375,7 +375,9 @@ class Contract(BaseContract):
     class Options:
         roles = {
             "create": blacklist("id", "status", "date", "documents", "dateSigned"),
-            "edit": blacklist("id", "documents", "date", "awardID", "suppliers", "items", "contractID"),
+            "admins": blacklist("id", "documents", "date", "awardID", "suppliers", "items", "contractID"),
+            "edit_tender_owner": blacklist("id", "documents", "date", "awardID", "suppliers", "items", "contractID"),
+            "edit_contract_supplier": whitelist("status"),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
         }
@@ -383,6 +385,15 @@ class Contract(BaseContract):
     value = ModelType(ContractValue)
     awardID = StringType(required=True)
     documents = ListType(ModelType(Document, required=True), default=list())
+
+    def get_role(self):
+        root = self.get_root()
+        request = root.request
+        if request.authenticated_role in ("tender_owner", "contract_supplier"):
+            role = "edit_{}".format(request.authenticated_role)
+        else:
+            role = request.authenticated_role
+        return role
 
     def __local_roles__(self):
         roles = {}
