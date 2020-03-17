@@ -54,7 +54,8 @@ from openprocurement.tender.core.constants import (
 )
 from openprocurement.tender.core.utils import (
     calc_auction_end_time, rounding_shouldStartAfter,
-    restrict_value_to_bounds, round_up_to_ten, get_contract_supplier_roles,
+    restrict_value_to_bounds, round_up_to_ten,
+    get_contract_supplier_roles, get_contract_supplier_permissions,
 )
 from openprocurement.tender.core.validation import (
     validate_lotvalue_value,
@@ -1408,9 +1409,14 @@ class Tender(BaseTender):
 
     def __acl__(self):
         acl = [(Allow, "{}_{}".format(i.owner, i.owner_token), "create_award_complaint") for i in self.bids]
+        suppliers_permissions = get_contract_supplier_permissions(self)
+        if suppliers_permissions:
+            acl.extend(suppliers_permissions)
         acl.extend(
             [
                 (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_complaint"),
+                (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_contract"),
+                (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_contract_documents"),
             ]
         )
         self._acl_cancellation_complaint(acl)

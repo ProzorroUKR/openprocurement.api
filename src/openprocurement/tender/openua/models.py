@@ -57,6 +57,7 @@ from openprocurement.tender.core.utils import (
     calculate_complaint_business_date,
     calculate_clarifications_business_date,
     extend_next_check_by_complaint_period_ends,
+    get_contract_supplier_permissions,
 )
 from openprocurement.tender.core.validation import validate_lotvalue_value, validate_relatedlot
 from openprocurement.tender.belowthreshold.models import Tender as BaseTender
@@ -611,9 +612,13 @@ class Tender(BaseTender):
         acl.extend(
             [
                 (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_complaint"),
+                (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_contract"),
+                (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_contract_documents"),
             ]
         )
-
+        suppliers_permissions = get_contract_supplier_permissions(self)
+        if suppliers_permissions:
+            acl.extend(suppliers_permissions)
         self._acl_cancellation_complaint(acl)
         return acl
 

@@ -33,7 +33,7 @@ from openprocurement.tender.core.models import (
     Lot as BaseLotUA,
     EUConfidentialDocument,
 )
-from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.core.utils import calculate_tender_business_date, get_contract_supplier_permissions
 from openprocurement.tender.openua.models import Item as BaseUAItem, Tender as BaseTenderUA
 from openprocurement.tender.openua.constants import TENDER_PERIOD as TENDERING_DURATION_UA
 from openprocurement.tender.openeu.models import (
@@ -377,6 +377,8 @@ def stage2__acl__(obj):
     acl = [
         (Allow, "{}_{}".format(obj.owner, obj.dialogue_token), "generate_credentials"),
         (Allow, "{}_{}".format(obj.owner, obj.owner_token), "edit_complaint"),
+        (Allow, "{}_{}".format(obj.owner, obj.owner_token), "edit_contract"),
+        (Allow, "{}_{}".format(obj.owner, obj.owner_token), "upload_contract_documents"),
         (Allow, "g:competitive_dialogue", "edit_tender"),
         (Allow, "g:competitive_dialogue", "edit_cancellation")
     ]
@@ -394,6 +396,10 @@ def stage2__acl__(obj):
             if i.status == "active"
         ]
     )
+
+    suppliers_permissions = get_contract_supplier_permissions(obj)
+    if suppliers_permissions:
+        acl.extend(suppliers_permissions)
     return acl
 
 
