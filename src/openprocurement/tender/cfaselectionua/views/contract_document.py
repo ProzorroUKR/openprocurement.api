@@ -62,7 +62,7 @@ class TenderAwardContractDocumentResource(APIResource):
             )
         return {"data": collection_data}
 
-    @json_view(permission="edit_tender", validators=(validate_file_upload,))
+    @json_view(permission="upload_contract_documents", validators=(validate_file_upload,))
     def collection_post(self):
         """Tender Contract Document Upload
         """
@@ -96,7 +96,7 @@ class TenderAwardContractDocumentResource(APIResource):
         ]
         return {"data": document_data}
 
-    @json_view(validators=(validate_file_update,), permission="edit_tender")
+    @json_view(validators=(validate_file_update,), permission="upload_contract_documents")
     def put(self):
         """Tender Contract Document Update"""
         if not self.validate_contract_document("update"):
@@ -110,7 +110,9 @@ class TenderAwardContractDocumentResource(APIResource):
             )
             return {"data": document.serialize("view")}
 
-    @json_view(content_type="application/json", validators=(validate_patch_document_data,), permission="edit_tender")
+    @json_view(content_type="application/json",
+               validators=(validate_patch_document_data,),
+               permission="upload_contract_documents")
     def patch(self):
         """Tender Contract Document Update"""
         if not self.validate_contract_document("update"):
