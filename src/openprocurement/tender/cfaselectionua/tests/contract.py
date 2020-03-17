@@ -36,6 +36,15 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     patch_tender_contract_status_by_owner,
     patch_tender_contract_status_by_others,
     patch_tender_contract_status_by_supplier,
+    create_tender_contract_document_by_supplier,
+    create_tender_contract_document_by_others,
+    put_tender_contract_document_by_supplier,
+    put_tender_contract_document_by_others,
+    patch_tender_contract_document_by_supplier,
+    lot2_create_tender_contract_document_by_supplier,
+    lot2_create_tender_contract_document_by_others,
+    lot2_put_tender_contract_document_by_supplier,
+    lot2_patch_tender_contract_document_by_supplier,
 )
 
 
@@ -135,6 +144,11 @@ class TenderContractDocumentResourceTest(TenderContentWebTest, TenderContractDoc
     initial_bids = test_bids
     initial_lots = test_lots
 
+    test_create_tender_contract_document_by_supplier = snitch(create_tender_contract_document_by_supplier)
+    test_create_tender_contract_document_by_others = snitch(create_tender_contract_document_by_others)
+    test_put_tender_contract_document_by_supplier = snitch(put_tender_contract_document_by_supplier)
+    test_put_tender_contract_document_by_others = snitch(put_tender_contract_document_by_others)
+    test_patch_tender_contract_document_by_supplier = snitch(patch_tender_contract_document_by_supplier)
 
 @unittest.skip("Skip multi-lots tests")
 class Tender2LotContractDocumentResourceTest(TenderContentWebTest):
@@ -181,6 +195,10 @@ class Tender2LotContractDocumentResourceTest(TenderContentWebTest):
     lot2_create_tender_contract_document = snitch(lot2_create_tender_contract_document)
     lot2_put_tender_contract_document = snitch(lot2_put_tender_contract_document)
     lot2_patch_tender_contract_document = snitch(lot2_patch_tender_contract_document)
+    test_lot2_create_tender_contract_document_by_supplier = snitch(lot2_create_tender_contract_document_by_supplier)
+    test_lot2_create_tender_contract_document_by_others = snitch(lot2_create_tender_contract_document_by_others)
+    test_lot2_put_tender_contract_document_by_supplier = snitch(lot2_put_tender_contract_document_by_supplier)
+    test_lot2_patch_tender_contract_document_by_supplier = snitch(lot2_patch_tender_contract_document_by_supplier)
 
 
 def suite():

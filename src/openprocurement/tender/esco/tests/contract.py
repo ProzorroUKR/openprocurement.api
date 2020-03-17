@@ -15,6 +15,11 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     patch_tender_contract_status_by_owner,
     patch_tender_contract_status_by_others,
     patch_tender_contract_status_by_supplier,
+    create_tender_contract_document_by_supplier,
+    create_tender_contract_document_by_others,
+    put_tender_contract_document_by_supplier,
+    put_tender_contract_document_by_others,
+    patch_tender_contract_document_by_supplier,
 )
 
 from openprocurement.tender.openua.tests.contract_blanks import (
@@ -140,6 +145,12 @@ class TenderContractDocumentResourceTest(BaseESCOContentWebTest, TenderContractD
         contract = response.json["data"]
         self.contract_id = contract["id"]
         self.app.authorization = ("Basic", ("broker", ""))
+
+    test_create_tender_contract_document_by_supplier = snitch(create_tender_contract_document_by_supplier)
+    test_create_tender_contract_document_by_others = snitch(create_tender_contract_document_by_others)
+    test_put_tender_contract_document_by_supplier = snitch(put_tender_contract_document_by_supplier)
+    test_put_tender_contract_document_by_others = snitch(put_tender_contract_document_by_others)
+    test_patch_tender_contract_document_by_supplier = snitch(patch_tender_contract_document_by_supplier)
 
 
 def suite():
