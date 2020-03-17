@@ -1460,3 +1460,10 @@ def validate_complaint_type_change(request):
         complaint = request.validated["complaint"]
         if complaint.type == "claim":
             raise_operation_error(request, "Can't update claim to complaint")
+
+
+def validate_update_contract_status_by_supplier(request):
+    if request.authenticated_role == "contract_supplier":
+        data = request.validated["data"]
+        if "status" in data and data["status"] != "pending" or request.context.status != "pending.winnerSigning":
+            raise_operation_error(request, "Supplier can change status to `pending`")
