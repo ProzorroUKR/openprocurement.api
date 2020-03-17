@@ -63,7 +63,7 @@ class TenderAwardContractResource(APIResource):
 
     @json_view(
         content_type="application/json",
-        permission="edit_tender",
+        permission="edit_contract",
         validators=(
             validate_patch_contract_data,
             validate_contract_operation_not_in_allowed_status,
