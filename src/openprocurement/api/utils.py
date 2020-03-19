@@ -768,7 +768,7 @@ def get_uah_amount_from_value(request, value, logging_params):
         else:
             raise raise_operation_error(
                 request,
-                "Couldn't find currency {} on bank.gov.ua".format(currency),
+                u"Couldn't find currency {} on bank.gov.ua".format(currency),
                 status=422
             )
 
