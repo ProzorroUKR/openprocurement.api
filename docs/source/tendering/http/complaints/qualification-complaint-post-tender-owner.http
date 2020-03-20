@@ -15,7 +15,7 @@ DATA:
         "format": "application/pdf"
       }
     ], 
-    "relatedPost": "8e3f5905f309453493ce229dc45b073b", 
+    "relatedPost": "a3b0139ca88a4ee5b896f564e4c37e9a", 
     "description": "Додано документ", 
     "title": "Уточнення по вимозі"
   }
@@ -23,7 +23,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ba5045de21b4930a220df9887be28ec/qualifications/de1fdfe83be64f45a3aa274d8f98a1e9/complaints/b5aab92abccc4797b1c4b69a56eb1e02/posts/d7d315561afd48ccb44763379a827029
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ba5045de21b4930a220df9887be28ec/qualifications/de1fdfe83be64f45a3aa274d8f98a1e9/complaints/b5aab92abccc4797b1c4b69a56eb1e02/posts/29a12be25ae341e097ba0d865a87566a
 {
   "data": {
     "documents": [
@@ -31,11 +31,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ba5045de21b4930
         "hash": "md5:00000000000000000000000000000000", 
         "author": "tender_owner", 
         "title": "post_document_tender.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f16adef82e394e11bfe77253fe507373?KeyID=a8968c46&Signature=6KFOQLXW1lTpLR9vDAnZTrN2JeNSBWgpcB56yx%2FV%2Bz%2FhKSF0UamIiFGPwBlmY8qnxt033xy%2Ft2euLnn2VfpsBQ%3D%3D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f16adef82e394e11bfe77253fe507373?KeyID=a8968c46&Signature=96jJ0V6MuEArI4vobu1mIz%2FursxHP6%2FC9XgK8GHUA6gK4r%2FBAK5WUyqlVm2Rr%252B7Di%252BFeTxMg86%252BxZI90n3PeDg%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-05-01T01:00:01+03:00", 
-        "id": "a9d3bf1a02d4425ab554326c76324759", 
+        "id": "a87923eb0155455d9fd22d1e3d7691e6", 
         "dateModified": "2020-05-01T01:00:01+03:00"
       }
     ], 
@@ -43,9 +43,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ba5045de21b4930
     "title": "Уточнення по вимозі", 
     "author": "tender_owner", 
     "datePublished": "2020-05-01T01:00:01+03:00", 
-    "relatedPost": "8e3f5905f309453493ce229dc45b073b", 
+    "relatedPost": "a3b0139ca88a4ee5b896f564e4c37e9a", 
     "recipient": "aboveThresholdReviewers", 
-    "id": "d7d315561afd48ccb44763379a827029"
+    "id": "29a12be25ae341e097ba0d865a87566a"
   }
 }
 

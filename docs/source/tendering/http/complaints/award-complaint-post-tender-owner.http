@@ -15,7 +15,7 @@ DATA:
         "format": "application/pdf"
       }
     ], 
-    "relatedPost": "c0e6b3e197144cfb9ea01c383bb6a8d7", 
+    "relatedPost": "bb86fc2c70504c49919353932f924bab", 
     "description": "Додано документ", 
     "title": "Уточнення по вимозі"
   }
@@ -23,7 +23,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/78a7d327a60b4e19af202ce60948edc5/complaints/321991f8e0ba4ba8af3e00f939b00654/posts/bd2d5e2972694cd0ae096d95be597ab5
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/78a7d327a60b4e19af202ce60948edc5/complaints/321991f8e0ba4ba8af3e00f939b00654/posts/9f8fa840973b491ba9203f8a314b320e
 {
   "data": {
     "documents": [
@@ -31,11 +31,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/56aa844d9b3a43e4
         "hash": "md5:00000000000000000000000000000000", 
         "author": "tender_owner", 
         "title": "post_document_tender.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b59866c8f74b410bbd50ee702c242595?KeyID=a8968c46&Signature=E%2FIEtZ6%2Fzh6X9i%2FOn1PmY7kcuKUszK2i0LCYbCEIh8YDpBemoEkdhL02xeeSJKZFblanX5a72OHcb%2BaiTPQYBQ%3D%3D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b59866c8f74b410bbd50ee702c242595?KeyID=a8968c46&Signature=ITVSoBFGl6SvJMYdPraaSotLwP776kJomRsCfwuWzrvPgyISR1x9jT1%252BmzqyLmk91wmGRjt0Hac4exwzj5MYBg%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-05-01T01:00:01+03:00", 
-        "id": "9d1a689bc24440f79a6a3cd8687106ff", 
+        "id": "eab0f30e991e4587ad185c37024d6b79", 
         "dateModified": "2020-05-01T01:00:01+03:00"
       }
     ], 
@@ -43,9 +43,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/56aa844d9b3a43e4
     "title": "Уточнення по вимозі", 
     "author": "tender_owner", 
     "datePublished": "2020-05-01T01:00:01+03:00", 
-    "relatedPost": "c0e6b3e197144cfb9ea01c383bb6a8d7", 
+    "relatedPost": "bb86fc2c70504c49919353932f924bab", 
     "recipient": "aboveThresholdReviewers", 
-    "id": "bd2d5e2972694cd0ae096d95be597ab5"
+    "id": "9f8fa840973b491ba9203f8a314b320e"
   }
 }
 

@@ -14,7 +14,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ba5045de21b4930a220df9887be28ec/qualifications/de1fdfe83be64f45a3aa274d8f98a1e9/complaints/b5aab92abccc4797b1c4b69a56eb1e02/posts/f33bafe162dd46a4ba4be1938076dde1
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ba5045de21b4930a220df9887be28ec/qualifications/de1fdfe83be64f45a3aa274d8f98a1e9/complaints/b5aab92abccc4797b1c4b69a56eb1e02/posts/a37083f068904776a929f51608bb9fa4
 {
   "data": {
     "description": "Відсутній документ", 
@@ -22,7 +22,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ba5045de21b4930
     "author": "aboveThresholdReviewers", 
     "datePublished": "2020-05-01T01:00:01+03:00", 
     "recipient": "complaint_owner", 
-    "id": "f33bafe162dd46a4ba4be1938076dde1"
+    "id": "a37083f068904776a929f51608bb9fa4"
   }
 }
 
