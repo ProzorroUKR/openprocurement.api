@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from couchdb.design import ViewDefinition
 from openprocurement.api import design
-
+from openprocurement.api.constants import RELEASE_2020_04_19
 
 FIELDS = [
     "auctionPeriod",
@@ -146,4 +146,47 @@ tenders_test_by_local_seq_view = ViewDefinition(
     }
 }"""
     % CHANGES_FIELDS,
+)
+
+
+complaints_by_complaint_id_view = ViewDefinition(
+    "complaints",
+    "by_complaint_id",
+    """function (doc) {
+    if (doc.doc_type == 'Tender' & doc.revisions[0].date > '%s') {
+        function emit_complaints(item, tender_id, item_type, item_id) {
+            var complaints = item.complaints;
+            if (complaints) {
+                for (var complaint_index in complaints) {
+                    var complaint = complaints[complaint_index];
+                    if (complaint.type == 'complaint') {
+                        var data = {params: {}, access: {}};
+                        data.params.tender_id = tender_id;
+                        data.params.item_type = item_type;
+                        data.params.item_id = item_id;
+                        data.params.complaint_id = complaint.id;
+                        data.access.token = complaint.owner_token;
+                        emit(complaint.complaintID.toLowerCase(), data);
+                    }
+                }
+            }
+        }
+        
+        emit_complaints(doc, doc._id, null, null)
+        
+        var types = ['qualifications', 'awards', 'cancellations'];
+
+        for (var type_index in types) {
+            var type = types[type_index];
+            if (doc[type]) {
+                var items = doc[type]
+                for (var item_index in items) {
+                    var item = items[item_index];
+                    emit_complaints(item, doc._id, type, item.id);
+                }
+            }
+        }
+    }
+}
+""" % RELEASE_2020_04_19.isoformat()
 )

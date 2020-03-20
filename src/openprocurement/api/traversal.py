@@ -10,6 +10,7 @@ class Root(object):
         # (Allow, Everyone, ALL_PERMISSIONS),
         (Allow, "g:admins", ALL_PERMISSIONS),
         (Allow, "g:bots", "upload_tender_documents"),
+        (Allow, "g:bots", "search_complaints"),
     ]
 
     def __init__(self, request):

@@ -78,7 +78,10 @@ def validate_milestone_data(request):
     update_logging_context(request, {"milestone_id": "__new__"})
     model = type(request.plan).milestones.model_class
     milestone = validate_data(request, model)
-    upload_objects_documents(request, request.validated["milestone"])
+    upload_objects_documents(
+        request, request.validated["milestone"],
+        route_kwargs = {"milestone_id": request.validated["milestone"].id}
+    )
     return milestone
 
 

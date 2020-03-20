@@ -406,17 +406,22 @@ def check_document_batch(request, document, document_container, route_kwargs):
     # To redefine document_route to get appropriate real document route when bid
     # is created with documents? I hope so :)
     if "Documents" not in document_route:
-        specified_document_route_end = (
-            (document_container.lower().rsplit("documents")[0] + " documents").lstrip().title()
-        )
+        if document_container != "body":
+            specified_document_route_end = (
+                (document_container.lower().rsplit("documents")[0] + " documents").lstrip().title()
+            )
+        else:
+            specified_document_route_end = "documents".lstrip().title()
         document_route = " ".join([document_route[:-1], specified_document_route_end])
 
     return update_document_url(request, document, document_route, route_kwargs)
 
 
-def upload_objects_documents(request, obj, key='body'):
+def upload_objects_documents(request, obj, document_container='body', route_kwargs=None):
+    if not route_kwargs:
+        route_kwargs = {}
     for document in getattr(obj, 'documents', []):
-        check_document(request, document, key)
+        check_document_batch(request, document, document_container, route_kwargs)
 
 
 def request_params(request):
