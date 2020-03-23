@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.belowthreshold.tests.base import (
     test_claim, test_draft_claim, test_complaint, test_author
 )
@@ -189,6 +190,30 @@ def patch_tender_complaint(self):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["data"]["status"], "pending")
+
+        with change_auth(self.app, ("Basic", ("administrator", ""))):  # test value update
+            request_data = {
+                "status": "draft",
+                "value": {
+                    "amount": 103,
+                    "currency": "USD",
+                }
+            }
+            response = self.app.patch_json(
+                "/tenders/{}/complaints/{}".format(self.tender_id, complaint["id"]),
+                {"data": request_data},
+            )
+            data = response.json["data"]
+            self.assertEqual(data["value"], request_data["value"])
+            self.assertNotEqual(data["status"], request_data["status"])
+            self.assertEqual(data["status"], complaint["status"])
+
+            tender = self.db.get(self.tender_id)
+            for c in tender["complaints"]:
+                if c["id"] == complaint["id"]:
+                    self.assertEqual(c["value"], request_data["value"])
+                    self.assertNotEqual(c["status"], request_data["status"])
+                    self.assertEqual(c["status"], complaint["status"])
 
     response = self.app.patch_json(
         "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], owner_token),

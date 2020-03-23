@@ -22,6 +22,7 @@ class Root(object):
         (Allow, "g:chronograph", "edit_tender"),
         (Allow, "g:Administrator", "edit_tender"),
         (Allow, "g:Administrator", "edit_bid"),
+        (Allow, "g:Administrator", "edit_complaint"),
         (Allow, "g:admins", ALL_PERMISSIONS),
         (Allow, "g:bots", "upload_tender_documents"),
         (Allow, "g:bots", "upload_qualification_documents"),

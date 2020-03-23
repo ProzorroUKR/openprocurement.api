@@ -119,7 +119,9 @@ class Complaint(BaseComplaint):
         data = request.json_body["data"]
         auth_role = request.authenticated_role
         status = data.get("status", self.status)
-        if auth_role == "complaint_owner" and self.status != "mistaken" and status == "cancelled":
+        if auth_role == "Administrator":
+            role = auth_role
+        elif auth_role == "complaint_owner" and self.status != "mistaken" and status == "cancelled":
             role = "cancellation"
         elif auth_role == "complaint_owner" and self.status in ["pending", "accepted"] and status == "stopping":
             role = "cancellation"
