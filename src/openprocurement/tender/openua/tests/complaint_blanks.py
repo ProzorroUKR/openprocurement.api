@@ -205,15 +205,13 @@ def patch_tender_complaint(self):
             )
             data = response.json["data"]
             self.assertEqual(data["value"], request_data["value"])
-            self.assertNotEqual(data["status"], request_data["status"])
-            self.assertEqual(data["status"], complaint["status"])
+            self.assertEqual(data["status"], "pending")
 
             tender = self.db.get(self.tender_id)
             for c in tender["complaints"]:
                 if c["id"] == complaint["id"]:
                     self.assertEqual(c["value"], request_data["value"])
-                    self.assertNotEqual(c["status"], request_data["status"])
-                    self.assertEqual(c["status"], complaint["status"])
+                    self.assertEqual(c["status"], "pending")
 
     response = self.app.patch_json(
         "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], owner_token),
