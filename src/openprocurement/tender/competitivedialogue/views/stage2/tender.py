@@ -10,7 +10,6 @@ from openprocurement.tender.core.validation import (
     validate_tender_period_extension,
     validate_tender_not_in_terminated_status,
     validate_tender_status_update_not_in_pre_qualificaton,
-    validate_tender_change_status_permission,
 )
 from openprocurement.tender.openua.views.tender import TenderUAResource
 from openprocurement.tender.openeu.views.tender import TenderEUResource
@@ -36,7 +35,6 @@ class TenderStage2UAResource(TenderUAResource):
         validators=(
             validate_patch_tender_stage2_data,
             validate_tender_not_in_terminated_status,
-            validate_tender_change_status_permission,
         ),
         permission="edit_tender",
     )
@@ -131,7 +129,6 @@ class TenderStage2UEResource(TenderEUResource):
             validate_patch_tender_stage2_data,
             validate_tender_not_in_terminated_status,
             validate_tender_status_update_not_in_pre_qualificaton,
-            validate_tender_change_status_permission,
         ),
         permission="edit_tender",
     )

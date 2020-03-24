@@ -91,11 +91,15 @@ Content-Type: application/json; charset=UTF-8
         }
       }, 
       "title": "Недостатньо інформації", 
+      "value": {
+        "currency": "UAH", 
+        "amount": 2000.0
+      }, 
       "dateSubmitted": "2020-05-01T01:00:00+03:00", 
       "complaintID": "UA-2020-05-01-000001.2", 
       "date": "2020-05-01T01:00:00+03:00", 
       "type": "complaint", 
-      "id": "6f764cf83f354710aafe5c688a7d5620"
+      "id": "97865ab92faa492cb811582710d889df"
     }, 
     {
       "status": "invalid", 
@@ -122,11 +126,15 @@ Content-Type: application/json; charset=UTF-8
         }
       }, 
       "title": "Недостатньо інформації", 
+      "value": {
+        "currency": "UAH", 
+        "amount": 2000.0
+      }, 
       "dateSubmitted": "2020-05-01T01:00:00+03:00", 
       "complaintID": "UA-2020-05-01-000001.3", 
       "date": "2020-05-01T01:00:00+03:00", 
       "type": "complaint", 
-      "id": "0fdd661eb9b148efbcdc78cc316d9e3a"
+      "id": "f87398f50f0f43ce8637ea8bdb532eaf"
     }, 
     {
       "status": "stopped", 
@@ -154,12 +162,16 @@ Content-Type: application/json; charset=UTF-8
       }, 
       "decision": "Тендер скасовується замовником", 
       "title": "Недостатньо інформації", 
+      "value": {
+        "currency": "UAH", 
+        "amount": 2000.0
+      }, 
       "dateCanceled": "2020-05-01T01:00:00+03:00", 
       "dateSubmitted": "2020-05-01T01:00:00+03:00", 
       "complaintID": "UA-2020-05-01-000001.4", 
       "date": "2020-05-01T01:00:00+03:00", 
       "type": "complaint", 
-      "id": "425e67e03d3b4e588e3c7b88ac2db169"
+      "id": "c449ec9e93c749889ee412a864f8bd4f"
     }, 
     {
       "status": "stopped", 
@@ -187,12 +199,16 @@ Content-Type: application/json; charset=UTF-8
       }, 
       "decision": "Тендер скасовується замовником", 
       "title": "Недостатньо інформації", 
+      "value": {
+        "currency": "UAH", 
+        "amount": 2000.0
+      }, 
       "dateCanceled": "2020-05-01T01:00:00+03:00", 
       "dateSubmitted": "2020-05-01T01:00:00+03:00", 
       "complaintID": "UA-2020-05-01-000001.5", 
       "date": "2020-05-01T01:00:00+03:00", 
       "type": "complaint", 
-      "id": "eadce6b655494b6b9a3292fe5fb2a225"
+      "id": "3bc7bafd9a5e4494ab22e3b770a85200"
     }
   ]
 }

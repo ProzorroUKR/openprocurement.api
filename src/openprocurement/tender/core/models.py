@@ -790,7 +790,7 @@ class Complaint(Model):
 class CancellationComplaint(Complaint):
     class Options:
         roles = {
-            "create": whitelist("author", "title", "description", "status", "relatedLot"),
+            "create": whitelist("author", "title", "description", "relatedLot"),
             "draft": whitelist("author", "title", "description", "status"),
             "bot": whitelist("rejectReason", "status"),
             "cancellation": whitelist("cancellationReason", "status"),

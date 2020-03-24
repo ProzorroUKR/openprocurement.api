@@ -38,10 +38,13 @@ class TenderNegotiationAwardComplaintResource(BaseTenderAwardComplaintResource):
         return sum([len(i.complaints) for i in tender.awards])
 
     def pre_create(self):
+        tender = self.request.validated["tender"]
+        old_rules = get_first_revision_date(tender) < RELEASE_2020_04_19
+
         complaint = self.request.validated["complaint"]
         complaint.date = get_now()
         complaint.type = "complaint"
-        if complaint.status == "pending":
+        if old_rules and complaint.status == "pending":
             complaint.dateSubmitted = get_now()
         else:
             complaint.status = "draft"
@@ -77,9 +80,9 @@ class TenderNegotiationAwardComplaintResource(BaseTenderAwardComplaintResource):
     def patch_as_complaint_owner(self, data):
         complaint_period = self.request.validated["award"].complaintPeriod
         is_complaint_period = (
-            complaint_period.startDate < get_now() < complaint_period.endDate
+            complaint_period.startDate <= get_now() <= complaint_period.endDate
             if complaint_period.endDate
-            else complaint_period.startDate < get_now()
+            else complaint_period.startDate <= get_now()
         )
         status = self.context.status
         new_status = data.get("status", status)
@@ -132,6 +135,7 @@ class TenderNegotiationAwardComplaintResource(BaseTenderAwardComplaintResource):
         new_status = data.get("status", status)
 
         tender = self.request.validated["tender"]
+        old_rules = get_first_revision_date(tender) < RELEASE_2020_04_19
 
         if status in ["pending", "accepted", "stopping"] and new_status == status:
             apply_patch(self.request, save=False, src=self.context.serialize())
@@ -139,7 +143,7 @@ class TenderNegotiationAwardComplaintResource(BaseTenderAwardComplaintResource):
         elif (
             status in ["pending", "stopping"] 
             and (
-                (not get_first_revision_date(tender) > RELEASE_2020_04_19 and new_status in ["invalid", "mistaken"])
+                (old_rules and new_status in ["invalid", "mistaken"])
                 or (new_status == "invalid")
             )
         ):
@@ -156,7 +160,11 @@ class TenderNegotiationAwardComplaintResource(BaseTenderAwardComplaintResource):
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
 
-        elif status in ["pending", "accepted", "stopping"] and new_status == "stopped":
+        elif (
+            (old_rules and status in ["pending", "accepted", "stopping"])
+            or (not old_rules and status in ["accepted", "stopping"])
+            and new_status == "stopped"
+        ):
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateDecision = get_now()
             self.context.dateCanceled = self.context.dateCanceled or get_now()

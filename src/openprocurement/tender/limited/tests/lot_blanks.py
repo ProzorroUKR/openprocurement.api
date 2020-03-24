@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_complaint, test_cancellation
 
 
@@ -737,11 +739,25 @@ def cancel_lot_with_complaint(self):
         },
     )
     self.assertEqual(response.status, "201 Created")
+    complaint = response.json["data"]
+    owner_token = response.json["access"]["token"]
+
+    if RELEASE_2020_04_19 < get_now():
+        self.assertEqual(response.json["data"]["status"], "draft")
+
+        response = self.app.patch_json(
+            "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
+                self.tender_id, award["id"], complaint["id"], owner_token),
+            {"data": {"status": "pending"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["data"]["status"], "pending")
 
     # set complaint status stopping to be able to cancel the lot
     response = self.app.patch_json(
         "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
-            self.tender_id, award["id"], response.json["data"]["id"], response.json["access"]["token"]
+            self.tender_id, award["id"], response.json["data"]["id"], owner_token
         ),
         {"data": {
             "status": "stopping",

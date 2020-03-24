@@ -110,6 +110,34 @@ Before Release 2020-04-19
         stopping -> {stopped,invalid,declined,satisfied,mistaken};
     }
 
+
+Tutorials
+~~~~~~~~~
+
+Tender Conditions Complaints
+""""""""""""""""""""""""""""
+
+.. toctree::
+    :maxdepth: 1
+
+    complaints-tender
+
+Tender Qualification Complaints
+"""""""""""""""""""""""""""""""
+
+.. toctree::
+    :maxdepth: 1
+
+    complaints-award
+
+Tender Pre-qualification Complaints
+"""""""""""""""""""""""""""""""""""
+
+.. toctree::
+    :maxdepth: 1
+
+    complaints-qualification
+
 Statuses
 ~~~~~~~~
 
@@ -174,9 +202,44 @@ After Release 2020-04-19
         accepted -> stopping;
         edge[style=bold];
         accepted -> {declined,satisfied,stopped};
-        pending -> {accepted,invalid,stopped};
+        pending -> {accepted,invalid};
         stopping -> {stopped,invalid,declined,satisfied};
     }
+
+Tutorials
+~~~~~~~~~
+
+Tender Conditions Complaints
+""""""""""""""""""""""""""""
+
+.. toctree::
+    :maxdepth: 1
+
+    complaints-tender-2020-04-19
+
+Tender Qualification Complaints
+"""""""""""""""""""""""""""""""
+
+.. toctree::
+    :maxdepth: 1
+
+    complaints-award-2020-04-19
+
+Tender Pre-qualification Complaints
+"""""""""""""""""""""""""""""""""""
+
+.. toctree::
+    :maxdepth: 1
+
+    complaints-qualification-2020-04-19
+
+Tender Cancellation Complaints
+""""""""""""""""""""""""""""""
+
+.. toctree::
+    :maxdepth: 1
+
+    complaints-cancellation
 
 Statuses
 ~~~~~~~~
@@ -223,40 +286,6 @@ Statuses
 
     Complaint recognized as resolved.
 
-Tutorials
-~~~~~~~~~
-
-Tender Conditions Complaints
-""""""""""""""""""""""""""""
-
-.. toctree::
-    :maxdepth: 1
-
-    complaints-tender
-
-Tender Qualification Complaints
-"""""""""""""""""""""""""""""""
-
-.. toctree::
-    :maxdepth: 1
-
-    complaints-award
-
-Tender Pre-qualification Complaints
-"""""""""""""""""""""""""""""""""""
-
-.. toctree::
-    :maxdepth: 1
-
-    complaints-qualification
-
-Tender Cancellation Complaints
-""""""""""""""""""""""""""""""
-
-.. toctree::
-    :maxdepth: 1
-
-    complaints-cancellation
 
 
 Roles

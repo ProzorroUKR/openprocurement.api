@@ -54,11 +54,6 @@ class TenderCancellationComplaintResource(APIResource):
 
         complaint.date = get_now()
 
-        if complaint.status == "pending":
-            complaint.dateSubmitted = get_now()
-        else:
-            complaint.status = "draft"
-
         complaint.complaintID = "{}.{}{}".format(
             tender.tenderID,
             self.server_id,
@@ -204,8 +199,7 @@ class TenderCancellationComplaintResource(APIResource):
             context.dateDecision = get_now()
             if new_status == "satisfied":
                 self.on_satisfy_complaint_by_reviewer()
-
-        elif status in ["pending", "accepted", "stopping"] and new_status == "stopped":
+        elif status == "accepted" and new_status == "stopped":
             apply_patch(self.request, save=False, src=context.serialize())
             context.dateDecision = get_now()
             context.dateCanceled = context.dateCanceled or get_now()

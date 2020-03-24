@@ -97,13 +97,17 @@ Content-Type: application/json; charset=UTF-8
         }
       }, 
       "acceptance": false, 
+      "value": {
+        "currency": "UAH", 
+        "amount": 3000.0
+      }, 
       "rejectReason": "alreadyExists", 
       "dateSubmitted": "2020-05-01T01:00:01+03:00", 
       "complaintID": "UA-2020-05-01-000001.2", 
       "date": "2020-05-01T01:00:01+03:00", 
       "title": "Недостатньо інформації", 
       "type": "complaint", 
-      "id": "8788d4ac21154c8a981b3ae975a265e9"
+      "id": "b5287ae709e243eeabc145b946fab991"
     }, 
     {
       "status": "declined", 
@@ -112,6 +116,10 @@ Content-Type: application/json; charset=UTF-8
       "title": "Недостатньо інформації", 
       "reviewDate": "2020-05-01T01:00:01+03:00", 
       "acceptance": true, 
+      "value": {
+        "currency": "UAH", 
+        "amount": 3000.0
+      }, 
       "dateAccepted": "2020-05-01T01:00:01+03:00", 
       "author": {
         "contactPoint": {
@@ -137,7 +145,7 @@ Content-Type: application/json; charset=UTF-8
       "complaintID": "UA-2020-05-01-000001.3", 
       "date": "2020-05-01T01:00:01+03:00", 
       "type": "complaint", 
-      "id": "4c7a4fd7375a46ff98290952a0d09b9f", 
+      "id": "13fd8219089d4f38ad99ab8c6a9e5fa4", 
       "reviewPlace": "Place of review"
     }, 
     {
@@ -147,7 +155,10 @@ Content-Type: application/json; charset=UTF-8
       "title": "Недостатньо інформації", 
       "decision": "Тендер скасовується замовником", 
       "acceptance": true, 
-      "id": "7a4c8680446e4b589ff89ecaf75835a0", 
+      "value": {
+        "currency": "UAH", 
+        "amount": 3000.0
+      }, 
       "cancellationReason": "Тендер скасовується замовником", 
       "dateCanceled": "2020-05-01T01:00:01+03:00", 
       "dateAccepted": "2020-05-01T01:00:01+03:00", 
@@ -175,6 +186,7 @@ Content-Type: application/json; charset=UTF-8
       "dateSubmitted": "2020-05-01T01:00:01+03:00", 
       "complaintID": "UA-2020-05-01-000001.4", 
       "date": "2020-05-01T01:00:01+03:00", 
+      "id": "761c2b6925284c17b43a1513c92ab39a", 
       "type": "complaint", 
       "reviewDate": "2020-05-01T01:00:01+03:00", 
       "reviewPlace": "Place of review"
@@ -187,7 +199,11 @@ Content-Type: application/json; charset=UTF-8
       "title": "Недостатньо інформації", 
       "decision": "Тендер скасовується замовником", 
       "acceptance": true, 
-      "id": "1552a74f257e4ebda584ee471dc3aa84", 
+      "value": {
+        "currency": "UAH", 
+        "amount": 3000.0
+      }, 
+      "id": "9ccb55897689468f978601fe46f2749e", 
       "rejectReason": "tenderCancelled", 
       "dateAccepted": "2020-05-01T01:00:01+03:00", 
       "author": {
@@ -371,11 +387,15 @@ Content-Type: application/json; charset=UTF-8
           "id": "29a12be25ae341e097ba0d865a87566a"
         }
       ], 
+      "value": {
+        "currency": "UAH", 
+        "amount": 3000.0
+      }, 
       "dateSubmitted": "2020-05-01T01:00:01+03:00", 
       "complaintID": "UA-2020-05-01-000001.8", 
       "date": "2020-05-01T01:00:01+03:00", 
       "type": "complaint", 
-      "id": "b5aab92abccc4797b1c4b69a56eb1e02"
+      "id": "db37925f5b4a4cb5b092f72f3045c53b"
     }, 
     {
       "status": "claim", 
