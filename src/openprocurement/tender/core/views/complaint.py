@@ -21,7 +21,12 @@ from openprocurement.tender.belowthreshold.utils import check_tender_status
 from openprocurement.tender.core.utils import save_tender, apply_patch
 
 
-class BaseTenderComplaintResource(APIResource):
+class ComplaintAdminPatchMixin:
+    def patch_as_administrator(self, *_):
+        apply_patch(self.request, save=False, src=self.context.serialize())
+
+
+class BaseTenderComplaintResource(ComplaintAdminPatchMixin, APIResource):
     patch_check_tender_excluded_statuses = (
         "draft", "claim", "answered", 
         "pending", "accepted", "satisfied", "stopping",

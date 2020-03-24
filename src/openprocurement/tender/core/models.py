@@ -628,6 +628,7 @@ class Complaint(Model):
             "complete": view_bid_role,
             "unsuccessful": view_bid_role,
             "cancelled": view_bid_role,
+            "Administrator": whitelist("value"),
         }
 
     # system
@@ -736,7 +737,9 @@ class Complaint(Model):
         data = request.json_body["data"]
         auth_role = request.authenticated_role
         status = data.get("status", self.status)
-        if auth_role == "complaint_owner" and status == "cancelled":
+        if auth_role == "Administrator":
+            role = auth_role
+        elif auth_role == "complaint_owner" and status == "cancelled":
             role = "cancellation"
         elif auth_role == "complaint_owner" and self.status == "draft":
             role = "draft"

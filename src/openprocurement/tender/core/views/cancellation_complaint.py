@@ -10,7 +10,6 @@ from openprocurement.api.utils import (
     APIResource,
     raise_operation_error,
 )
-from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.core.validation import (
     validate_complaint_data,
     validate_patch_complaint_data,
@@ -19,9 +18,11 @@ from openprocurement.tender.core.validation import (
     validate_cancellation_complaint_resolved,
     validate_update_cancellation_complaint_not_in_allowed_complaint_status,
 )
-from openprocurement.tender.core.utils import calculate_total_complaints
 from openprocurement.tender.belowthreshold.utils import check_tender_status
-from openprocurement.tender.core.utils import save_tender, optendersresource, apply_patch
+from openprocurement.tender.core.views.complaint import ComplaintAdminPatchMixin
+from openprocurement.tender.core.utils import (
+    save_tender, optendersresource, apply_patch, calculate_total_complaints, calculate_tender_business_date
+)
 
 
 @optendersresource(
@@ -31,7 +32,7 @@ from openprocurement.tender.core.utils import save_tender, optendersresource, ap
     procurementMethodType="belowThreshold",
     description="Tender cancellation complaints",
 )
-class TenderCancellationComplaintResource(APIResource):
+class TenderCancellationComplaintResource(ComplaintAdminPatchMixin, APIResource):
     patch_check_tender_excluded_statuses = (
         "draft", "pending", "accepted", "satisfied", "stopping",
     )
