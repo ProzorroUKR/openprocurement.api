@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/78a7d327a60b4e19af202ce60948edc5/complaints/83a5ea50f9c644fe8fab90d091300202 HTTP/1.0
+PATCH /api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/78a7d327a60b4e19af202ce60948edc5/complaints/d6be5dac0e684783846bcdf71ad12359 HTTP/1.0
 Authorization: Bearer reviewer
 Content-Length: 252
 Content-Type: application/json
@@ -22,7 +22,10 @@ Content-Type: application/json; charset=UTF-8
     "title": "Недостатньо інформації", 
     "decision": "Тендер скасовується замовником", 
     "acceptance": true, 
-    "id": "83a5ea50f9c644fe8fab90d091300202", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 3000.0
+    }, 
     "cancellationReason": "Тендер скасовується замовником", 
     "dateCanceled": "2020-05-01T01:00:01+03:00", 
     "dateAccepted": "2020-05-01T01:00:01+03:00", 
@@ -50,6 +53,7 @@ Content-Type: application/json; charset=UTF-8
     "dateSubmitted": "2020-05-01T01:00:01+03:00", 
     "complaintID": "UA-2020-05-01-000001.4", 
     "date": "2020-05-01T01:00:01+03:00", 
+    "id": "d6be5dac0e684783846bcdf71ad12359", 
     "type": "complaint", 
     "reviewDate": "2020-05-01T01:00:01+03:00", 
     "reviewPlace": "Place of review"

@@ -10,7 +10,6 @@ from openprocurement.tender.core.utils import (
 )
 from openprocurement.tender.core.validation import (
     validate_tender_not_in_terminated_status,
-    validate_tender_change_status_permission,
 )
 from openprocurement.tender.cfaselectionua.validation import (
     validate_patch_tender_in_draft_pending,
@@ -137,7 +136,6 @@ class TenderResource(APIResource):
             validate_tender_not_in_terminated_status,
             validate_patch_tender_in_draft_pending,
             validate_patch_tender_bot_only_in_draft_pending,
-            validate_tender_change_status_permission,
         ),
         permission="edit_tender",
     )

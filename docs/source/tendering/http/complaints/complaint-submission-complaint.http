@@ -42,7 +42,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1a7dc160a6954967
     "token": "08e3697dc2f24b65aaf9dcf2e0874c2d"
   }, 
   "data": {
-    "status": "pending", 
+    "status": "draft", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "author": {
       "contactPoint": {
@@ -65,7 +65,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1a7dc160a6954967
       }
     }, 
     "title": "Недостатньо інформації", 
-    "dateSubmitted": "2020-05-01T01:00:00+03:00", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 2000
+    }, 
     "complaintID": "UA-2020-05-01-000001.3", 
     "date": "2020-05-01T01:00:00+03:00", 
     "type": "complaint", 
