@@ -234,13 +234,13 @@ class GetUAHAmountFromValueTestCase(unittest.TestCase):
             ],
             logging_context={}
         )
-        value = {"amount": 300, "currency": "RUB"}
+        value = {"amount": 300, "currency": u"рупии"}
 
         with self.assertRaises(MyExc):
             get_uah_amount_from_value(request, value, {})
 
         raise_operation_error_mock.assert_called_once_with(
             request,
-            "Couldn't find currency RUB on bank.gov.ua",
+            u"Couldn't find currency {} on bank.gov.ua".format(value["currency"]),
             status=422
         )
