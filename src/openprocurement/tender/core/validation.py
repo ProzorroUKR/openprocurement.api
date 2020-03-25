@@ -581,18 +581,6 @@ def validate_tender_not_in_terminated_status(request):
         raise_operation_error(request, "Can't update tender in current ({}) status".format(tender_status))
 
 
-def validate_tender_change_status_permission(request):
-    tender = request.validated["tender"]
-    tender_created = get_first_revision_date(tender, default=get_now())
-
-    if (
-            tender_created > RELEASE_2020_04_19
-            and [i for i in tender.cancellations if i.status in ["pending", "draft"] and i.cancellationOf == "tender"]
-            and request.validated["data"].get("status", tender.status) != tender.status
-    ):
-        raise_operation_error(request, "Can't update tender status when tender have active cancellation")
-
-
 def validate_absence_of_pending_accepted_satisfied_complaints(request):
     """
     Disallow cancellation of tenders and lots that have any complaints in affected statuses

@@ -459,13 +459,11 @@ class NegotiationTender(ReportingTender):
     @serializable(serialize_when_none=False)
     def next_check(self):
         checks = []
-        if (
-                self.cancellations
-                and self.cancellations[-1].status == "pending"
-                and self.cancellations[-1].complaintPeriod
-        ):
-            cancellation = self.cancellations[-1]
+        pending_cancellations = [i for i in self.cancellations if i.status == "pending" and i.complaintPeriod]
+
+        for cancellation in pending_cancellations:
             checks.append(cancellation.complaintPeriod.endDate.astimezone(TZ))
+
         return min(checks).isoformat() if checks else None
 
 

@@ -18,6 +18,7 @@ from openprocurement.tender.core.utils import (
     has_unanswered_complaints,
     has_unanswered_questions,
     calculate_tender_business_date,
+    calculate_date_diff,
 )
 from openprocurement.api.constants import TZ
 from openprocurement.tender.core.models import Tender as BaseTender, Lot, Complaint, Item, Question
@@ -100,7 +101,6 @@ class TestUtils(unittest.TestCase):
         bellow_threshold = config.registry.tender_procurementMethodTypes.get("bellowThreshold")
         self.assertEqual(bellow_threshold, Tender)
 
-
     def test_calculate_tender_business_date(self):
         date_obj = datetime(2017, 10, 7)
         delta_obj = timedelta(days=7)
@@ -109,6 +109,18 @@ class TestUtils(unittest.TestCase):
         context = {"procurementMethodDetails": "quick, accelerator=1440", "procurementMethodType": "negotiation"}
         business_date = calculate_tender_business_date(date_obj, delta_obj, tender=context, working_days=True)
         self.assertEqual(business_date, datetime(2017, 10, 7, 0, 7))
+
+    def test_calculate_date_diff(self):
+        dt1 = datetime(2020, 03, 17, 13)
+        dt2 = dt1
+        dt3 = datetime(2020, 03, 20)
+        dt4 = datetime(2020, 03, 22)
+        dt5 = datetime(2020, 03, 23, 15)
+
+        self.assertEqual(calculate_date_diff(dt2, dt1), timedelta(days=0))
+        self.assertEqual(calculate_date_diff(dt3, dt1), timedelta(days=2, hours=11))
+        self.assertEqual(calculate_date_diff(dt4, dt1), timedelta(days=2, hours=11))
+        self.assertEqual(calculate_date_diff(dt5, dt1), timedelta(days=4, hours=2))
 
     @patch("openprocurement.tender.core.utils.error_handler")
     def test_tender_from_data(self, mocked_handler):
