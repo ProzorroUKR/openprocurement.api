@@ -222,7 +222,13 @@ class TenderCancellationComplaintResource(ComplaintAdminPatchMixin, APIResource)
         auction_period = tender.auctionPeriod
 
         date = cancellation.complaintPeriod.startDate
-        delta = timedelta(days=1 if not (tenderer_action_date - date).days else (tenderer_action_date - date).days)
+
+        delta = (tenderer_action_date - date).days
+        delta_plus = 1 if (tenderer_action_date - date).seconds > 3599 else 0
+
+        delta += delta_plus
+
+        delta = timedelta(days=1 if not delta else delta)
 
         if tender.status == "active.tendering" and tender.enquiryPeriod:
 

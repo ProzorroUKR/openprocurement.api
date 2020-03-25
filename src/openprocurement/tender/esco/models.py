@@ -770,6 +770,11 @@ class Tender(BaseTender):
             for award in self.awards:
                 if award.status == "active" and not any([i.awardID == award.id for i in self.contracts]):
                     checks.append(award.date)
+
+        pending_cancellations = [i for i in self.cancellations if i.status == "pending" and i.complaintPeriod]
+        for cancellation in pending_cancellations:
+            checks.append(cancellation.complaintPeriod.endDate.astimezone(TZ))
+
         return min(checks).isoformat() if checks else None
 
     @serializable

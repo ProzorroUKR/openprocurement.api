@@ -3,7 +3,7 @@ from iso8601 import parse_date
 from datetime import timedelta
 
 from openprocurement.tender.core.views.cancellation_complaint import TenderCancellationComplaintResource
-from openprocurement.tender.core.utils import optendersresource, calculate_tender_business_date
+from openprocurement.tender.core.utils import optendersresource, calculate_tender_business_date, calculate_date_diff
 
 
 @optendersresource(
@@ -27,7 +27,13 @@ class TenderAboveThresholdUADefenseCancellationComplaintResource(TenderCancellat
         auction_period = tender.auctionPeriod
 
         date = cancellation.complaintPeriod.startDate
-        delta = timedelta(days=1 if not (tenderer_action_date - date).days else (tenderer_action_date - date).days)
+        diff = calculate_date_diff(tenderer_action_date, date)
+        delta = diff.days
+        delta_plus = 1 if diff.seconds > 3599 else 0
+
+        delta += delta_plus
+
+        delta = timedelta(days=1 if not delta else delta)
 
         if tender.status == "active.tendering" and tender.enquiryPeriod:
 

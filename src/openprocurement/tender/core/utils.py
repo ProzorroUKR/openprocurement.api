@@ -2,7 +2,12 @@
 from decimal import Decimal
 from re import compile
 
-from dateorro import calc_datetime, calc_working_datetime, calc_normalized_datetime
+from dateorro import (
+    calc_datetime,
+    calc_working_datetime,
+    calc_normalized_datetime,
+)
+from dateorro.calculations import check_working_datetime
 from jsonpointer import resolve_pointer
 from functools import partial
 from datetime import datetime, time, timedelta
@@ -339,6 +344,23 @@ def calculate_clarifications_business_date(date_obj, timedelta_obj, tender=None,
     return calculate_tender_date(source_date_obj, timedelta_obj, tender, working_days, calendar)
 
 
+def calculate_date_diff(dt1, dt2, working_days=True, calendar=WORKING_DAYS):
+    if not working_days:
+        return dt1 - dt2
+
+    date2 = dt2
+
+    days = 0
+    while dt1 > date2:
+        date2 += timedelta(days=1)
+        if check_working_datetime(date2, calendar=calendar):
+            days += 1
+
+    diff = dt1 - date2
+
+    return timedelta(days) + diff
+
+
 def requested_fields_changes(request, fieldnames):
     changed_fields = request.validated["json_data"].keys()
     return set(fieldnames) & set(changed_fields)
@@ -400,10 +422,11 @@ def check_cancellation_status(request, cancel_tender_method=cancel_tender):
     complaint_statuses = ["invalid", "declined", "stopped", "mistaken"]
 
     for cancellation in cancellations:
+        complaint_period = cancellation.complaintPeriod
         if (
             cancellation.status == "pending"
-            and cancellation.complaintPeriod
-            and cancellation.complaintPeriod.endDate <= get_now()
+            and complaint_period
+            and complaint_period.endDate.astimezone(TZ) <= get_now()
             and all([i.status in complaint_statuses for i in cancellation.complaints])
         ):
             cancellation.status = "active"
