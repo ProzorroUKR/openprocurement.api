@@ -81,8 +81,8 @@ class TenderAwardContractResource(APIResource):
         contract_status = self.request.context.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if contract_status != self.request.context.status and \
-                (contract_status not in ("pending", "pending.winnerSigning",) or \
-                self.request.context.status not in ("active", "pending", "pending.winnerSigning",)):
+                (contract_status not in ("pending", "pending.winner-signing",) or \
+                self.request.context.status not in ("active", "pending", "pending.winner-signing",)):
             raise_operation_error(self.request, "Can't update contract status")
         if self.request.context.status == "active" and not self.request.context.dateSigned:
             self.request.context.dateSigned = get_now()

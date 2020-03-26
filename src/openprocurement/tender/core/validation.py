@@ -1465,7 +1465,7 @@ def validate_complaint_type_change(request):
 def validate_update_contract_status_by_supplier(request):
     if request.authenticated_role == "contract_supplier":
         data = request.validated["data"]
-        if "status" in data and data["status"] != "pending" or request.context.status != "pending.winnerSigning":
+        if "status" in data and data["status"] != "pending" or request.context.status != "pending.winner-signing":
             raise_operation_error(request, "Supplier can change status to `pending`")
 
 
@@ -1473,12 +1473,12 @@ def validate_role_for_contract_document_operation(request):
     if request.authenticated_role not in ("tender_owner", "contract_supplier",):
         raise_operation_error(request, "Can {} document only buyer or supplier".format(OPERATIONS.get(request.method)))
     if request.authenticated_role == "contract_supplier" and \
-            request.validated["contract"].status != "pending.winnerSigning":
+            request.validated["contract"].status != "pending.winner-signing":
         raise_operation_error(
             request, "Supplier can't {} document in current contract status".format(OPERATIONS.get(request.method))
         )
     if request.authenticated_role == "tender_owner" and \
-            request.validated["contract"].status == "pending.winnerSigning":
+            request.validated["contract"].status == "pending.winner-signing":
         raise_operation_error(
             request, "Tender onwer can't {} document in current contract status".format(OPERATIONS.get(request.method))
         )

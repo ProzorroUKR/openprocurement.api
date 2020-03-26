@@ -587,10 +587,10 @@ def create_tender_contract_document(self):
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
-        {"data": {"status": "pending.winnerSigning"}}
+        {"data": {"status": "pending.winner-signing"}}
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "pending.winnerSigning")
+    self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
 
     response = self.app.post(
         "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
@@ -718,10 +718,10 @@ def put_tender_contract_document(self):
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
-        {"data": {"status": "pending.winnerSigning"}}
+        {"data": {"status": "pending.winner-signing"}}
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "pending.winnerSigning")
+    self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
 
     response = self.app.put(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
@@ -840,10 +840,10 @@ def patch_tender_contract_document(self):
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
-        {"data": {"status": "pending.winnerSigning"}}
+        {"data": {"status": "pending.winner-signing"}}
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "pending.winnerSigning")
+    self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
@@ -919,10 +919,10 @@ def patch_tender_contract_document(self):
 def lot2_create_tender_contract_document(self):
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
-        {"data": {"status": "pending.winnerSigning"}}
+        {"data": {"status": "pending.winner-signing"}}
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "pending.winnerSigning")
+    self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
 
     response = self.app.post(
         "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
@@ -995,10 +995,10 @@ def lot2_put_tender_contract_document(self):
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
-        {"data": {"status": "pending.winnerSigning"}}
+        {"data": {"status": "pending.winner-signing"}}
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "pending.winnerSigning")
+    self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
 
     response = self.app.put(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
@@ -1063,10 +1063,10 @@ def lot2_patch_tender_contract_document(self):
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
-        {"data": {"status": "pending.winnerSigning"}}
+        {"data": {"status": "pending.winner-signing"}}
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "pending.winnerSigning")
+    self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(

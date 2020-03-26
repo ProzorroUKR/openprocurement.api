@@ -561,10 +561,10 @@ def patch_tender_contract_status_by_owner(self):
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
-        {"data": {"status": "pending.winnerSigning"}},
+        {"data": {"status": "pending.winner-signing"}},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "pending.winnerSigning")
+    self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
@@ -605,7 +605,7 @@ def patch_tender_contract_status_by_supplier(self):
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, bid_token),
-        {"data": {"status": "pending.winnerSigning"}},
+        {"data": {"status": "pending.winner-signing"}},
         status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -628,10 +628,10 @@ def patch_tender_contract_status_by_supplier(self):
     # Tender onwer
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
-        {"data": {"status": "pending.winnerSigning"}},
+        {"data": {"status": "pending.winner-signing"}},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "pending.winnerSigning")
+    self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
 
 
     # Supplier
@@ -685,7 +685,7 @@ def patch_tender_contract_status_by_others(self):
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, bid_token),
-        {"data": {"status": "pending.winnerSigning"}},
+        {"data": {"status": "pending.winner-signing"}},
         status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -694,10 +694,10 @@ def patch_tender_contract_status_by_others(self):
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
-        {"data": {"status": "pending.winnerSigning"}}
+        {"data": {"status": "pending.winner-signing"}}
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "pending.winnerSigning")
+    self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, bid_token),
@@ -975,10 +975,10 @@ def create_tender_contract_document(self):
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
-        {"data": {"status": "pending.winnerSigning"}}
+        {"data": {"status": "pending.winner-signing"}}
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "pending.winnerSigning")
+    self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
 
     response = self.app.post(
         "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
@@ -1087,10 +1087,10 @@ def create_tender_contract_document_by_supplier(self):
     # Tender owner
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
-        {"data": {"status": "pending.winnerSigning"}}
+        {"data": {"status": "pending.winner-signing"}}
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "pending.winnerSigning")
+    self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
 
     # Supplier
     response = self.app.post(
@@ -1196,10 +1196,10 @@ def create_tender_contract_document_by_others(self):
     # Tender owner
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
-        {"data": {"status": "pending.winnerSigning"}}
+        {"data": {"status": "pending.winner-signing"}}
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "pending.winnerSigning")
+    self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
 
     # Bid onwer
     response = self.app.post(
@@ -1259,10 +1259,10 @@ def put_tender_contract_document(self):
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
-        {"data": {"status": "pending.winnerSigning"}}
+        {"data": {"status": "pending.winner-signing"}}
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "pending.winnerSigning")
+    self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
 
     response = self.app.put(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
@@ -1392,10 +1392,10 @@ def put_tender_contract_document_by_supplier(self):
     # Tender owner
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
-        {"data": {"status": "pending.winnerSigning"}}
+        {"data": {"status": "pending.winner-signing"}}
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "pending.winnerSigning")
+    self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
 
     # Supplier
     response = self.app.post(
@@ -1522,10 +1522,10 @@ def put_tender_contract_document_by_others(self):
     # Tender owner
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
-        {"data": {"status": "pending.winnerSigning"}}
+        {"data": {"status": "pending.winner-signing"}}
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "pending.winnerSigning")
+    self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
 
     # Bid owner
     response = self.app.post(
@@ -1550,10 +1550,10 @@ def patch_tender_contract_document(self):
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
-        {"data": {"status": "pending.winnerSigning"}}
+        {"data": {"status": "pending.winner-signing"}}
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "pending.winnerSigning")
+    self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
@@ -1652,10 +1652,10 @@ def patch_tender_contract_document_by_supplier(self):
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
-        {"data": {"status": "pending.winnerSigning"}}
+        {"data": {"status": "pending.winner-signing"}}
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "pending.winnerSigning")
+    self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
 
     response = self.app.post(
         "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
@@ -1722,10 +1722,10 @@ def patch_tender_contract_document_by_supplier(self):
 def lot2_create_tender_contract_document(self):
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
-        {"data": {"status": "pending.winnerSigning"}}
+        {"data": {"status": "pending.winner-signing"}}
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "pending.winnerSigning")
+    self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
 
     response = self.app.post(
         "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
@@ -1796,10 +1796,10 @@ def lot2_create_tender_contract_document_by_supplier(self):
     # Tender owner
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
-        {"data": {"status": "pending.winnerSigning"}}
+        {"data": {"status": "pending.winner-signing"}}
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "pending.winnerSigning")
+    self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
 
     # Supplier
     response = self.app.post(
@@ -1856,10 +1856,10 @@ def lot2_create_tender_contract_document_by_others(self):
     # Tender owner
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
-        {"data": {"status": "pending.winnerSigning"}}
+        {"data": {"status": "pending.winner-signing"}}
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "pending.winnerSigning")
+    self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
 
     # Bid owner
     response = self.app.post(
@@ -1896,10 +1896,10 @@ def lot2_put_tender_contract_document(self):
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
-        {"data": {"status": "pending.winnerSigning"}}
+        {"data": {"status": "pending.winner-signing"}}
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "pending.winnerSigning")
+    self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
 
     response = self.app.put(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
@@ -1974,10 +1974,10 @@ def lot2_put_tender_contract_document_by_supplier(self):
     # Tender owner
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
-        {"data": {"status": "pending.winnerSigning"}}
+        {"data": {"status": "pending.winner-signing"}}
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "pending.winnerSigning")
+    self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
 
     # Supplier
     response = self.app.post(
@@ -2049,10 +2049,10 @@ def lot2_patch_tender_contract_document(self):
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
-        {"data": {"status": "pending.winnerSigning"}}
+        {"data": {"status": "pending.winner-signing"}}
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "pending.winnerSigning")
+    self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
@@ -2117,10 +2117,10 @@ def lot2_patch_tender_contract_document_by_supplier(self):
     # Tender owner
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
-        {"data": {"status": "pending.winnerSigning"}}
+        {"data": {"status": "pending.winner-signing"}}
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "pending.winnerSigning")
+    self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
 
     # Supplier
     response = self.app.post(

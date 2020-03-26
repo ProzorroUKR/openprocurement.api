@@ -47,7 +47,7 @@ class TenderAwardContractDocumentResource(APIResource):
             ]
         ):
             raise_operation_error(self.request, "Can {} document only in active lot status".format(operation))
-        if self.request.validated["contract"].status not in ["pending", "pending.winnerSigning", "active"]:
+        if self.request.validated["contract"].status not in ["pending", "pending.winner-signing", "active"]:
             raise_operation_error(self.request, "Can't {} document in current contract status".format(operation))
         return True
 
