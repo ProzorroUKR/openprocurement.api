@@ -8,8 +8,16 @@ services:
       SANDBOX_MODE: 'True'
     depends_on:
       - couchdb
+    volumes:
+      - "./src:/app/src:delegated"
+      - "./docs:/app/docs:delegated"
+    ports:
+      - "8000:80"
+    command: sleep infinity
   couchdb:
     image: "couchdb:1.6"
     environment:
       COUCHDB_USER: op
       COUCHDB_PASSWORD: op
+    ports:
+      - "5984:5984"

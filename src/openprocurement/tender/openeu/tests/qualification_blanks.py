@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
+from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
 from openprocurement.tender.belowthreshold.tests.base import (
     test_cancellation, test_draft_claim, test_complaint, test_claim
 )
@@ -1884,6 +1885,10 @@ def create_tender_2lot_qualification_complaint(self):
         {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
+    cancellation_id = response.json["data"]["id"]
+
+    if RELEASE_2020_04_19 < get_now():
+        activate_cancellation_after_2020_04_19(self, cancellation_id)
 
     response = self.app.post_json(
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
@@ -2518,6 +2523,10 @@ def create_tender_2lot_qualification_complaint_document(self):
         {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
+    cancellation_id = response.json["data"]["id"]
+
+    if RELEASE_2020_04_19 < get_now():
+        activate_cancellation_after_2020_04_19(self, cancellation_id)
 
     response = self.app.post(
         "/tenders/{}/qualifications/{}/complaints/{}/documents?acc_token={}".format(
@@ -2672,6 +2681,10 @@ def put_tender_2lot_qualification_complaint_document(self):
         {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
+    cancellation_id = response.json["data"]["id"]
+
+    if RELEASE_2020_04_19 < get_now():
+        activate_cancellation_after_2020_04_19(self, cancellation_id)
 
     response = self.app.put(
         "/tenders/{}/qualifications/{}/complaints/{}/documents/{}?acc_token={}".format(

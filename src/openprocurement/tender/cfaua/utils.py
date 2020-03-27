@@ -13,6 +13,7 @@ from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
     block_tender,
 )
+from openprocurement.tender.openeu.utils import CancelTenderLot as BaseCancelTenderLot
 from openprocurement.tender.openua.utils import check_complaint_status
 from openprocurement.tender.core.utils import check_cancellation_status
 
@@ -43,22 +44,34 @@ bid_qualification_documents_resource = partial(
 )
 
 
-def cancel_tender(request):
+class CancelTenderLot(BaseCancelTenderLot):
+    def cancel_lot(self, request, cancellation):
+        super(CancelTenderLot, self).cancel_lot(request, cancellation)
 
-    tender = request.validated["tender"]
-    if tender.status == "active.tendering":
-        tender.bids = []
+        # cancel agreements
+        tender = request.validated["tender"]
+        if tender.status == "active.awarded" and tender.agreements:
+            cancelled_lots = {i.id for i in tender.lots if i.status == "cancelled"}
+            for agreement in tender.agreements:
+                if agreement.get_lot_id() in cancelled_lots:
+                    agreement.status = "cancelled"
 
-    elif tender.status in ("active.pre-qualification", "active.pre-qualification.stand-still", "active.auction"):
-        for bid in tender.bids:
-            if bid.status in ("pending", "active"):
-                bid.status = "invalid.pre-qualification"
+    def cancel_tender(self, request):
 
-    tender.status = "cancelled"
+        tender = request.validated["tender"]
+        if tender.status == "active.tendering":
+            tender.bids = []
 
-    for agreement in tender.agreements:
-        if agreement.status in ("pending", "active"):
-            agreement.status = "cancelled"
+        elif tender.status in ("active.pre-qualification", "active.pre-qualification.stand-still", "active.auction"):
+            for bid in tender.bids:
+                if bid.status in ("pending", "active"):
+                    bid.status = "invalid.pre-qualification"
+
+        tender.status = "cancelled"
+
+        for agreement in tender.agreements:
+            if agreement.status in ("pending", "active"):
+                agreement.status = "cancelled"
 
 
 def check_initial_bids_count(request):
@@ -74,7 +87,10 @@ def check_initial_bids_count(request):
         ]
 
         for i in tender.lots:
-            if i.numberOfBids < getAdapter(tender, IContentConfigurator).min_bids_number and i.status == "active":
+            if (
+                i.numberOfBids < getAdapter(tender, IContentConfigurator).min_bids_number
+                and i.status == "active"
+            ):
                 setattr(i, "status", "unsuccessful")
                 for bid_index, bid in enumerate(tender.bids):
                     for lot_index, lot_value in enumerate(bid.lotValues):
@@ -158,7 +174,11 @@ def check_tender_status_on_active_qualification_stand_still(request):
     tender = request.validated["tender"]
     config = getAdapter(tender, IContentConfigurator)
     now = get_now()
-    active_lots = [lot.id for lot in tender.lots if lot.status == "active"] if tender.lots else [None]
+    active_lots = [
+        lot.id for lot in tender.lots
+        if lot.status == "active"
+    ] if tender.lots else [None]
+
     if not (
         tender.awardPeriod
         and tender.awardPeriod.endDate <= now
@@ -262,9 +282,12 @@ def check_status(request):
     tender = request.validated["tender"]
     now = get_now()
 
-    check_cancellation_status(request, cancel_tender)
+    check_cancellation_status(request, CancelTenderLot)
 
-    active_lots = [lot.id for lot in tender.lots if lot.status == "active"] if tender.lots else [None]
+    active_lots = [
+        lot.id
+        for lot in tender.lots if lot.status == "active"
+    ] if tender.lots else [None]
 
     if block_tender(request):
         return
@@ -399,7 +422,11 @@ def add_next_awards(request, reverse=False, awarding_criteria_key="amount", rege
                 statuses.add("pending")
             else:
                 statuses.add("unsuccessful")
-        if statuses.difference(set(["unsuccessful", "active"])):  # logic for auction to switch status
+        if (
+            statuses.difference(set(["unsuccessful", "active"]))
+            and any([i for i in tender.lots])
+        ):
+            # logic for auction to switch status
             tender.awardPeriod.endDate = None
             tender.status = "active.qualification"
     else:  # pragma: no cover

@@ -285,9 +285,13 @@ def create_tender_lots_cancellation(self):
     self.assertEqual(response.content_type, "application/json")
     cancellation = response.json["data"]
     self.assertEqual(cancellation["reason"], "cancellation reason")
-    self.assertEqual(cancellation["status"], "active")
     self.assertIn("id", cancellation)
     self.assertIn(cancellation["id"], response.headers["Location"])
+
+    if RELEASE_2020_04_19 > get_now():
+        self.assertEqual(cancellation["status"], "active")
+    else:
+        activate_cancellation_with_complaints_after_2020_04_19(self, cancellation["id"])
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
@@ -324,9 +328,14 @@ def create_tender_lots_cancellation(self):
     self.assertEqual(response.content_type, "application/json")
     cancellation = response.json["data"]
     self.assertEqual(cancellation["reason"], "cancellation reason")
-    self.assertEqual(cancellation["status"], "active")
     self.assertIn("id", cancellation)
     self.assertIn(cancellation["id"], response.headers["Location"])
+
+    if RELEASE_2020_04_19 > get_now():
+        self.assertEqual(cancellation["status"], "active")
+    else:
+        activate_cancellation_with_complaints_after_2020_04_19(self, cancellation["id"])
+
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
@@ -386,9 +395,14 @@ def delete_first_lot_second_cancel(self):
     self.assertEqual(response.content_type, "application/json")
     cancellation = response.json["data"]
     self.assertEqual(cancellation["reason"], "cancellation reason")
-    self.assertEqual(cancellation["status"], "active")
     self.assertIn("id", cancellation)
     self.assertIn(cancellation["id"], response.headers["Location"])
+
+    if RELEASE_2020_04_19 > get_now():
+        self.assertEqual(cancellation["status"], "active")
+    else:
+        activate_cancellation_with_complaints_after_2020_04_19(self, cancellation["id"])
+
 
     response = self.app.get("/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token))
     self.assertEqual(response.status, "200 OK")
@@ -512,6 +526,11 @@ def cancellation_on_not_active_lot(self):
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
+    cancellation_id = response.json["data"]["id"]
+
+    if RELEASE_2020_04_19 < get_now():
+        activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id)
+
 
     # check lot status
     response = self.app.get("/tenders/{}/lots/{}".format(self.tender_id, lot["id"]))

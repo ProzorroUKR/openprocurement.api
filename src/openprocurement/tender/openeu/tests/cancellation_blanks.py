@@ -334,15 +334,19 @@ def cancellation_active_tendering_j708(self):
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
+    cancellation_id = response.json["data"]["id"]
 
-    response = self.app.patch_json(
-        "/tenders/{}/cancellations/{}?acc_token={}".format(
-            self.tender_id, response.json["data"]["id"], self.tender_token
-        ),
-        {"data": {"status": "active"}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
+    if RELEASE_2020_04_19 > get_now():
+        response = self.app.patch_json(
+            "/tenders/{}/cancellations/{}?acc_token={}".format(
+                self.tender_id, response.json["data"]["id"], self.tender_token
+            ),
+            {"data": {"status": "active"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+    else:
+        activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id)
 
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid})
     self.assertEqual(response.status, "201 Created")
@@ -353,7 +357,6 @@ def cancellation_active_tendering_j708(self):
     self.app.authorization = ("Basic", ("chronograph", ""))
     response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
-
 
 
 def cancellation_active_qualification_j1427(self):
@@ -400,6 +403,10 @@ def cancellation_active_qualification_j1427(self):
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
+    cancellation_id = response.json["data"]["id"]
+
+    if RELEASE_2020_04_19 < get_now():
+        activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id)
 
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bid_ids[0]))
     self.assertEqual(response.status, "200 OK")
@@ -444,9 +451,13 @@ def cancellation_active_qualification(self):
     self.assertEqual(response.content_type, "application/json")
     cancellation = response.json["data"]
     self.assertEqual(cancellation["reason"], "cancellation reason")
-    self.assertEqual(cancellation["status"], "active")
     self.assertIn("id", cancellation)
     self.assertIn(cancellation["id"], response.headers["Location"])
+
+    if RELEASE_2020_04_19 > get_now():
+        self.assertEqual(cancellation["status"], "active")
+    else:
+        activate_cancellation_with_complaints_after_2020_04_19(self, cancellation["id"])
 
     cancellation = dict(**test_cancellation)
     cancellation.update({
@@ -528,6 +539,7 @@ def cancellation_unsuccessful_qualification(self):
         "cancellationOf": "lot",
         "relatedLot": self.initial_lots[1]["id"],
     })
+
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": cancellation},
@@ -536,9 +548,12 @@ def cancellation_unsuccessful_qualification(self):
     self.assertEqual(response.content_type, "application/json")
     cancellation = response.json["data"]
     self.assertEqual(cancellation["reason"], "cancellation reason")
-    self.assertEqual(cancellation["status"], "active")
     self.assertIn("id", cancellation)
     self.assertIn(cancellation["id"], response.headers["Location"])
+    if RELEASE_2020_04_19 > get_now():
+        self.assertEqual(cancellation["status"], "active")
+    else:
+        activate_cancellation_with_complaints_after_2020_04_19(self, cancellation["id"])
 
 
 def cancellation_active_award(self):
@@ -603,9 +618,13 @@ def cancellation_active_award(self):
     self.assertEqual(response.content_type, "application/json")
     cancellation = response.json["data"]
     self.assertEqual(cancellation["reason"], "cancellation reason")
-    self.assertEqual(cancellation["status"], "active")
     self.assertIn("id", cancellation)
     self.assertIn(cancellation["id"], response.headers["Location"])
+
+    if RELEASE_2020_04_19 > get_now():
+        self.assertEqual(cancellation["status"], "active")
+    else:
+        activate_cancellation_with_complaints_after_2020_04_19(self, cancellation["id"])
 
     cancellation = dict(**test_cancellation)
     cancellation.update({
@@ -731,6 +750,10 @@ def cancellation_unsuccessful_award(self):
     self.assertEqual(response.content_type, "application/json")
     cancellation = response.json["data"]
     self.assertEqual(cancellation["reason"], "cancellation reason")
-    self.assertEqual(cancellation["status"], "active")
     self.assertIn("id", cancellation)
     self.assertIn(cancellation["id"], response.headers["Location"])
+
+    if RELEASE_2020_04_19 > get_now():
+        self.assertEqual(cancellation["status"], "active")
+    else:
+        activate_cancellation_with_complaints_after_2020_04_19(self, cancellation["id"])

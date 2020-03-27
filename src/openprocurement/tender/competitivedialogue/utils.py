@@ -23,7 +23,7 @@ from openprocurement.tender.core.utils import (
 from openprocurement.tender.core.validation import validate_tender_period_extension
 from openprocurement.tender.openua.utils import check_complaint_status
 from openprocurement.tender.core.utils import check_cancellation_status
-from openprocurement.tender.openeu.utils import all_bids_are_reviewed, prepare_qualifications, cancel_tender
+from openprocurement.tender.openeu.utils import all_bids_are_reviewed, prepare_qualifications, CancelTenderLot
 from openprocurement.tender.openeu.constants import PREQUALIFICATION_COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL
 from openprocurement.tender.competitivedialogue.constants import MINIMAL_NUMBER_OF_BIDS
 from openprocurement.tender.core.events import TenderInitializeEvent
@@ -139,7 +139,11 @@ def check_initial_bids_count(request):
         [
             setattr(i.auctionPeriod, "startDate", None)
             for i in tender.lots
-            if i.numberOfBids < MINIMAL_NUMBER_OF_BIDS and i.auctionPeriod and i.auctionPeriod.startDate
+            if (
+                i.numberOfBids < MINIMAL_NUMBER_OF_BIDS
+                and i.auctionPeriod
+                and i.auctionPeriod.startDate
+            )
         ]
         for i in tender.lots:
             # gather all bids by lot id
@@ -150,7 +154,11 @@ def check_initial_bids_count(request):
                 and bid.status in ["active", "pending"]
             ]
 
-            if i.numberOfBids < MINIMAL_NUMBER_OF_BIDS or not validate_unique_bids(bids) and i.status == "active":
+            if (
+                i.numberOfBids < MINIMAL_NUMBER_OF_BIDS
+                or not validate_unique_bids(bids)
+                and i.status == "active"
+            ):
                 setattr(i, "status", "unsuccessful")
                 for bid_index, bid in enumerate(tender.bids):
                     for lot_index, lot_value in enumerate(bid.lotValues):
@@ -208,7 +216,7 @@ def validate_features_custom_weight(self, data, features, max_sum):
 def check_status(request):
     tender = request.validated["tender"]
     now = get_now()
-    check_cancellation_status(request, cancel_tender)
+    check_cancellation_status(request, CancelTenderLot)
 
     if block_tender(request):
         return

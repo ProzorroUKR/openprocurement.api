@@ -3,6 +3,8 @@
 
 # TenderStage2EU(UA)MultipleLotAuctionResourceTest
 from openprocurement.tender.belowthreshold.tests.base import test_cancellation
+from openprocurement.api.utils import get_now
+from openprocurement.api.constants import RELEASE_2020_04_19
 
 
 def patch_tender_with_lots_auction(self):
@@ -183,21 +185,25 @@ def patch_tender_with_lots_auction(self):
         "cancellationOf": "lot",
         "relatedLot": self.lots[0]["id"],
     })
-    response = self.app.post_json(
-        "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": cancellation},
-    )
-    self.assertEqual(response.status, "201 Created")
-    cancelled_lot_id = self.lots[0]["id"]
 
-    for bid in patch_data["bids"]:
-        ## delete lotValues for cancelled lot in patch data
-        bid["lotValues"] = [bid["lotValues"][1]]
+    if RELEASE_2020_04_19 > get_now():
 
-    self.app.authorization = ("Basic", ("auction", ""))
-    response = self.app.patch_json(
-        "/tenders/{}/auction/{}".format(self.tender_id, self.lots[0]["id"]), {"data": patch_data}, status=403
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can update auction urls only in active lot status")
+        response = self.app.post_json(
+            "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": cancellation},
+        )
+        self.assertEqual(response.status, "201 Created")
+
+        cancelled_lot_id = self.lots[0]["id"]
+
+        for bid in patch_data["bids"]:
+            ## delete lotValues for cancelled lot in patch data
+            bid["lotValues"] = [bid["lotValues"][1]]
+
+        self.app.authorization = ("Basic", ("auction", ""))
+        response = self.app.patch_json(
+            "/tenders/{}/auction/{}".format(self.tender_id, self.lots[0]["id"]), {"data": patch_data}, status=403
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["errors"][0]["description"], "Can update auction urls only in active lot status")

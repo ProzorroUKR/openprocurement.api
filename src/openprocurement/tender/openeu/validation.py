@@ -5,6 +5,36 @@ from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.openeu.models import Qualification
 
 
+def validate_qualification_update_with_cancellation_lot_pending(request):
+    tender = request.validated["tender"]
+    tender_created = get_first_revision_date(tender, default=get_now())
+    qualification = request.validated["qualification"]
+    lot_id = qualification.lotID
+
+    if tender_created < RELEASE_2020_04_19 or not lot_id:
+        return
+
+    accept_lot = all([
+        any([j.status == "resolved" for j in i.complaints])
+        for i in tender.cancellations
+        if i.status == "unsuccessful" and getattr(i, "complaints", None) and i.relatedLot == lot_id
+    ])
+
+    if (
+        request.authenticated_role == "tender_owner"
+        and (
+            any([
+                i for i in tender.cancellations
+                if i.relatedLot and i.status == "pending" and i.relatedLot == lot_id])
+            or not accept_lot
+        )
+    ):
+        raise_operation_error(
+            request,
+            "Can't update qualification with pending cancellation lot",
+        )
+
+
 def validate_patch_qualification_data(request):
     return validate_data(request, Qualification, True)
 

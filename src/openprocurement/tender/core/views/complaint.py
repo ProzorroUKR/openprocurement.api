@@ -16,6 +16,10 @@ from openprocurement.tender.core.validation import (
     validate_complaint_operation_not_in_active_tendering,
     validate_submit_complaint_time,
     validate_complaint_type_change,
+    validate_complaint_update_with_cancellation_lot_pending,
+    validate_add_complaint_with_tender_cancellation_in_pending,
+    validate_add_complaint_with_lot_cancellation_in_pending,
+    validate_operation_with_lot_cancellation_in_pending,
 )
 from openprocurement.tender.belowthreshold.utils import check_tender_status
 from openprocurement.tender.core.utils import save_tender, apply_patch
@@ -77,7 +81,12 @@ class BaseTenderComplaintResource(ComplaintAdminPatchMixin, APIResource):
 
     @json_view(
         content_type="application/json",
-        validators=(validate_complaint_data, validate_complaint_operation_not_in_active_tendering),
+        validators=(
+            validate_complaint_data,
+            validate_complaint_operation_not_in_active_tendering,
+            validate_add_complaint_with_tender_cancellation_in_pending,
+            validate_add_complaint_with_lot_cancellation_in_pending("complaint"),
+        ),
         permission="create_complaint",
     )
     def collection_post(self):
@@ -110,8 +119,10 @@ class BaseTenderComplaintResource(ComplaintAdminPatchMixin, APIResource):
         permission="edit_complaint",
         validators=(
             validate_patch_complaint_data,
+            validate_complaint_update_with_cancellation_lot_pending,
             validate_complaint_operation_not_in_active_tendering,
             validate_update_complaint_not_in_allowed_complaint_status,
+            validate_operation_with_lot_cancellation_in_pending("complaint"),
         ),
     )
     def patch(self):

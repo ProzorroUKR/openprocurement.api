@@ -12,6 +12,8 @@ from openprocurement.tender.core.utils import apply_patch, optendersresource
 from openprocurement.tender.core.validation import (
     validate_add_complaint_not_in_complaint_period,
     validate_update_complaint_not_in_allowed_complaint_status,
+    validate_add_complaint_with_tender_cancellation_in_pending,
+    validate_add_complaint_with_lot_cancellation_in_pending,
 )
 
 from openprocurement.tender.limited.validation import (
@@ -58,6 +60,8 @@ class TenderNegotiationAwardComplaintResource(BaseTenderAwardComplaintResource):
             validate_complaint_data,
             validate_award_complaint_operation_not_in_active,
             validate_add_complaint_not_in_complaint_period,
+            validate_add_complaint_with_tender_cancellation_in_pending,
+            validate_add_complaint_with_lot_cancellation_in_pending("award"),
         ),
     )
     def collection_post(self):

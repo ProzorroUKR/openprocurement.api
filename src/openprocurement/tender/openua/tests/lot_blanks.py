@@ -3,6 +3,8 @@ from datetime import timedelta
 from iso8601 import parse_date
 from copy import deepcopy
 from openprocurement.api.models import get_now
+from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
 from openprocurement.tender.belowthreshold.tests.base import (
     test_organization, test_author, test_cancellation, test_claim
 )
@@ -291,10 +293,14 @@ def question_blocking(self):
         "cancellationOf": "lot",
         "relatedLot": self.initial_lots[0]["id"],
     })
-    self.app.post_json(
+    response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": cancellation},
     )
+    cancellation_id = response.json["data"]["id"]
+
+    if get_now() > RELEASE_2020_04_19:
+        activate_cancellation_after_2020_04_19(self, cancellation_id)
 
     self.app.authorization = ("Basic", ("chronograph", ""))
     self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
@@ -332,10 +338,14 @@ def claim_blocking(self):
         "cancellationOf": "lot",
         "relatedLot": self.initial_lots[0]["id"],
     })
-    self.app.post_json(
+
+    response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": cancellation},
     )
+    cancellation_id = response.json["data"]["id"]
+    if get_now() > RELEASE_2020_04_19:
+        activate_cancellation_after_2020_04_19(self, cancellation_id)
 
     self.app.authorization = ("Basic", ("chronograph", ""))
     self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
@@ -375,17 +385,21 @@ def next_check_value_with_unanswered_question(self):
         "cancellationOf": "lot",
         "relatedLot": self.initial_lots[0]["id"],
     })
-    self.app.post_json(
+    response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": cancellation},
     )
 
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertIn("next_check", response.json["data"])
-    self.assertEqual(
-        parse_date(response.json["data"]["next_check"]),
-        parse_date(response.json["data"]["tenderPeriod"]["endDate"])
-    )
+    cancellation_id = response.json["data"]["id"]
+    if RELEASE_2020_04_19 < get_now():
+        activate_cancellation_after_2020_04_19(self, cancellation_id)
+    else:
+        response = self.app.get("/tenders/{}".format(self.tender_id))
+        self.assertIn("next_check", response.json["data"])
+        self.assertEqual(
+            parse_date(response.json["data"]["next_check"]),
+            parse_date(response.json["data"]["tenderPeriod"]["endDate"])
+        )
 
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], self.question_claim_block_status)
@@ -422,17 +436,20 @@ def next_check_value_with_unanswered_claim(self):
         "cancellationOf": "lot",
         "relatedLot": self.initial_lots[0]["id"],
     })
-    self.app.post_json(
+    response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": cancellation},
     )
-
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertIn("next_check", response.json["data"])
-    self.assertEqual(
-        parse_date(response.json["data"]["next_check"]),
-        parse_date(response.json["data"]["tenderPeriod"]["endDate"])
-    )
+    cancellation_id = response.json["data"]["id"]
+    if RELEASE_2020_04_19 < get_now():
+        activate_cancellation_after_2020_04_19(self, cancellation_id)
+    else:
+        response = self.app.get("/tenders/{}".format(self.tender_id))
+        self.assertIn("next_check", response.json["data"])
+        self.assertEqual(
+            parse_date(response.json["data"]["next_check"]),
+            parse_date(response.json["data"]["tenderPeriod"]["endDate"])
+        )
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], self.question_claim_block_status)
     self.assertIn("next_check", response.json["data"])
@@ -2043,6 +2060,11 @@ def proc_2lot_2bid_1claim_1com_1win(self):
         {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
+    cancellation_id = response.json["data"]["id"]
+
+    if get_now() > RELEASE_2020_04_19:
+        activate_cancellation_after_2020_04_19(self, cancellation_id, tender_id, owner_token)
+
     # for second lot
     lot_id = lots[1]
     # get awards

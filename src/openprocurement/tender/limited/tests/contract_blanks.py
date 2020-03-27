@@ -680,7 +680,27 @@ def activate_contract_cancelled_lot(self):
         {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.json["data"]["status"], "pending")
+    cancellation_id = response.json["data"]["id"]
+
+    if RELEASE_2020_04_19 > get_now():
+        self.assertEqual(response.json["data"]["status"], "pending")
+    else:
+        response = self.app.post(
+            "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
+                self.tender_id, cancellation_id, self.tender_token
+            ),
+            upload_files=[("file", "name.doc", "content")],
+        )
+        self.assertEqual(response.status, "201 Created")
+
+        response = self.app.patch_json(
+            "/tenders/{}/cancellations/{}?acc_token={}".format(
+                self.tender_id, cancellation_id, self.tender_token
+            ),
+            {"data": {"status": "pending"}}
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json["data"]["status"], "pending")
 
     response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
     contract = response.json["data"][0]

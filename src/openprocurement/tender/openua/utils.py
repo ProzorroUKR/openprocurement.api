@@ -8,11 +8,24 @@ from openprocurement.tender.core.utils import (
     remove_draft_bids,
     check_cancellation_status,
     block_tender,
+    CancelTenderLot as BaseCancelTenderLot
 )
 from openprocurement.tender.belowthreshold.utils import check_tender_status, context_unpack, add_contract
 from barbecue import chef
 
 LOGGER = getLogger("openprocurement.tender.openua")
+
+
+class CancelTenderLot(BaseCancelTenderLot):
+
+    @staticmethod
+    def add_next_award_method(request):
+        configurator = request.content_configurator
+        add_next_award(
+            request,
+            reverse=configurator.reverse_awarding_criteria,
+            awarding_criteria_key=configurator.awarding_criteria_key,
+        )
 
 
 def check_bids(request):
@@ -24,7 +37,12 @@ def check_bids(request):
             for i in tender.lots
             if i.numberOfBids < 2 and i.auctionPeriod and i.auctionPeriod.startDate
         ]
-        [setattr(i, "status", "unsuccessful") for i in tender.lots if i.numberOfBids < 2 and i.status == "active"]
+        [
+            setattr(i, "status", "unsuccessful")
+            for i in tender.lots
+            if i.numberOfBids < 2 and i.status == "active"
+        ]
+
         if not set([i.status for i in tender.lots]).difference(set(["unsuccessful", "cancelled"])):
             tender.status = "unsuccessful"
     elif tender.numberOfBids <2:
@@ -44,7 +62,7 @@ def check_status(request):
     now = get_now()
     configurator = request.content_configurator
 
-    check_cancellation_status(request)
+    check_cancellation_status(request, cancel_class=CancelTenderLot)
 
     for award in tender.awards:
         if award.status == "active" and not any([i.awardID == award.id for i in tender.contracts]):

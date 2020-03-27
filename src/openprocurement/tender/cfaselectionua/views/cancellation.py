@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.core.utils import optendersresource
-from openprocurement.tender.cfaselectionua.utils import add_next_award
+from openprocurement.tender.cfaselectionua.utils import CancelTenderLot
 from openprocurement.tender.belowthreshold.views.cancellation import \
     TenderCancellationResource as BaseTenderCancellationResource
 
@@ -13,4 +13,7 @@ from openprocurement.tender.belowthreshold.views.cancellation import \
     description="Tender cancellations",
 )
 class TenderCancellationResource(BaseTenderCancellationResource):
-    add_next_award_method = add_next_award
+
+    @staticmethod
+    def cancel_tender_lot_method(request, cancellation):
+        return CancelTenderLot()(request, cancellation)

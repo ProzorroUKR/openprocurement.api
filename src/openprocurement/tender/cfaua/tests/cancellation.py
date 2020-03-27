@@ -126,6 +126,7 @@ class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest):
 
 class CancellationTenderAndLotOnAllStage(BaseTenderContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
+    initial_status = "active.tendering"
     initial_bids = test_bids
     test_author = test_author
     # Cancellation tender

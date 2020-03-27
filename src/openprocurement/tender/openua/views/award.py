@@ -5,6 +5,7 @@ from openprocurement.tender.core.validation import (
     validate_update_award_only_for_active_lots,
     validate_update_award_in_not_allowed_status,
     validate_update_award_with_accepted_complaint,
+    validate_operation_with_lot_cancellation_in_pending
 )
 from openprocurement.tender.belowthreshold.views.award import TenderAwardResource
 from openprocurement.api.utils import json_view, context_unpack, get_now, raise_operation_error
@@ -45,6 +46,7 @@ class TenderUaAwardResource(TenderAwardResource):
         permission="edit_tender",
         validators=(
             validate_patch_award_data,
+            validate_operation_with_lot_cancellation_in_pending("award"),
             validate_update_award_in_not_allowed_status,
             validate_update_award_only_for_active_lots,
             validate_update_award_with_accepted_complaint,

@@ -7,6 +7,8 @@ from openprocurement.tender.core.validation import (
     validate_award_complaint_add_only_for_active_lots,
     validate_award_complaint_update_only_for_active_lots,
     validate_update_complaint_not_in_allowed_complaint_status,
+    validate_add_complaint_with_tender_cancellation_in_pending,
+    validate_add_complaint_with_lot_cancellation_in_pending,
 )
 from openprocurement.tender.core.utils import optendersresource, get_first_revision_date
 from openprocurement.tender.core.views.award_complaint import BaseTenderAwardComplaintResource, get_bid_id
@@ -66,6 +68,8 @@ class TenderEUAwardComplaintResource(BaseTenderAwardComplaintResource):
             validate_add_complaint_not_in_qualification_stand_still,
             validate_award_complaint_add_only_for_active_lots,
             validate_add_complaint_not_in_complaint_period,
+            validate_add_complaint_with_tender_cancellation_in_pending,
+            validate_add_complaint_with_lot_cancellation_in_pending("award"),
         ),
     )
     def collection_post(self):

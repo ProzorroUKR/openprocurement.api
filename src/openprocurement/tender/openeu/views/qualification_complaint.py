@@ -6,6 +6,8 @@ from openprocurement.tender.core.validation import (
     validate_patch_complaint_data,
     validate_award_complaint_add_only_for_active_lots,
     validate_update_complaint_not_in_allowed_complaint_status,
+    validate_add_complaint_with_tender_cancellation_in_pending,
+    validate_add_complaint_with_lot_cancellation_in_pending,
 )
 from openprocurement.tender.core.utils import (
     apply_patch, 
@@ -21,6 +23,7 @@ from openprocurement.tender.openeu.validation import (
     validate_update_complaint_not_in_pre_qualification,
     validate_add_complaint_not_in_qualification_period,
     validate_update_qualification_complaint_only_for_active_lots,
+    validate_qualification_update_with_cancellation_lot_pending,
 )
 
 
@@ -46,6 +49,8 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
             validate_add_complaint_not_in_pre_qualification,
             validate_award_complaint_add_only_for_active_lots,
             validate_add_complaint_not_in_qualification_period,
+            validate_add_complaint_with_tender_cancellation_in_pending,
+            validate_add_complaint_with_lot_cancellation_in_pending("qualification"),
         ),
     )
     def collection_post(self):
@@ -98,6 +103,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
         permission="edit_complaint",
         validators=(
             validate_patch_complaint_data,
+            validate_qualification_update_with_cancellation_lot_pending,
             validate_update_complaint_not_in_pre_qualification,
             validate_update_qualification_complaint_only_for_active_lots,
             validate_update_complaint_not_in_allowed_complaint_status,

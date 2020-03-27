@@ -17,7 +17,11 @@ from openprocurement.tender.core.utils import (
     calculate_complaint_business_date,
 )
 
-from openprocurement.tender.core.validation import validate_patch_award_data, validate_award_data
+from openprocurement.tender.core.validation import (
+    validate_patch_award_data,
+    validate_award_data,
+    validate_operation_with_lot_cancellation_in_pending,
+)
 
 from openprocurement.tender.limited.validation import (
     validate_create_new_award,
@@ -454,6 +458,7 @@ class TenderNegotiationAwardResource(TenderAwardResource):
         permission="edit_tender",
         validators=(
             validate_patch_award_data,
+            validate_operation_with_lot_cancellation_in_pending("award"),
             validate_award_operation_not_in_active_status,
             validate_lot_cancellation,
         ),

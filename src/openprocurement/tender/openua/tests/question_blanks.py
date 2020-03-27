@@ -86,15 +86,22 @@ def lot_has_unanswered_questions(self):
         "cancellationOf": "lot",
         "relatedLot": self.initial_lots[0]["id"],
     })
+
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
+    cancellation_id = response.json["data"]["id"]
 
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
-    self.assertEqual(response.json["data"]["status"], "unsuccessful")
+    if get_now() > RELEASE_2020_04_19:
+        activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id)
+        response = self.app.get("/tenders/{}".format(self.tender_id))
+        self.assertEqual(response.json["data"]["status"], "unsuccessful")
+    else:
+        self.app.authorization = ("Basic", ("chronograph", ""))
+        response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+        self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
 
 def item_has_unanswered_questions(self):
@@ -118,7 +125,13 @@ def item_has_unanswered_questions(self):
         {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
+    cancellation_id = response.json["data"]["id"]
 
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
-    self.assertEqual(response.json["data"]["status"], "unsuccessful")
+    if get_now() > RELEASE_2020_04_19:
+        activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id)
+        response = self.app.get("/tenders/{}".format(self.tender_id))
+        self.assertEqual(response.json["data"]["status"], "unsuccessful")
+    else:
+        self.app.authorization = ("Basic", ("chronograph", ""))
+        response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+        self.assertEqual(response.json["data"]["status"], "unsuccessful")

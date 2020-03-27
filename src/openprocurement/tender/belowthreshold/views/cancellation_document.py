@@ -16,6 +16,7 @@ from openprocurement.tender.core.utils import (
     apply_patch,
 )
 
+from openprocurement.tender.core.validation import validate_cancellation_operation_document
 from openprocurement.tender.belowthreshold.validation import (
     validate_cancellation_document_operation_not_in_allowed_status,
 )
@@ -42,8 +43,12 @@ class TenderCancellationDocumentResource(APIResource):
         return {"data": collection_data}
 
     @json_view(
-        validators=(validate_file_upload, validate_cancellation_document_operation_not_in_allowed_status),
-        permission="edit_tender",
+        validators=(
+            validate_file_upload,
+            validate_cancellation_document_operation_not_in_allowed_status,
+            validate_cancellation_operation_document,
+        ),
+        permission="edit_cancellation",
     )
     def collection_post(self):
         """Tender Cancellation Document Upload
@@ -78,8 +83,12 @@ class TenderCancellationDocumentResource(APIResource):
         return {"data": document_data}
 
     @json_view(
-        validators=(validate_file_update, validate_cancellation_document_operation_not_in_allowed_status),
-        permission="edit_tender",
+        validators=(
+            validate_file_update,
+            validate_cancellation_document_operation_not_in_allowed_status,
+            validate_cancellation_operation_document,
+        ),
+        permission="edit_cancellation",
     )
     def put(self):
         """Tender Cancellation Document Update"""
@@ -94,8 +103,12 @@ class TenderCancellationDocumentResource(APIResource):
 
     @json_view(
         content_type="application/json",
-        validators=(validate_patch_document_data, validate_cancellation_document_operation_not_in_allowed_status),
-        permission="edit_tender",
+        validators=(
+            validate_patch_document_data,
+            validate_cancellation_document_operation_not_in_allowed_status,
+            validate_cancellation_operation_document,
+        ),
+        permission="edit_cancellation",
     )
     def patch(self):
         """Tender Cancellation Document Update"""

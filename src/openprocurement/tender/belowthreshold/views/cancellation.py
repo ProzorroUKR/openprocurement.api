@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.core.utils import optendersresource
-from openprocurement.tender.belowthreshold.utils import add_next_award
+from openprocurement.tender.belowthreshold.utils import CancelTenderLot
 from openprocurement.tender.core.views.cancellation import BaseTenderCancellationResource
 
 from openprocurement.api.utils import (
@@ -27,7 +27,10 @@ from openprocurement.tender.core.validation import (
     description="Tender cancellations",
 )
 class TenderCancellationResource(BaseTenderCancellationResource):
-    add_next_award_method = add_next_award
+
+    @staticmethod
+    def cancel_tender_lot_method(request, cancellation):
+        return CancelTenderLot()(request, cancellation)
 
     @json_view(
         content_type="application/json",
@@ -45,13 +48,8 @@ class TenderCancellationResource(BaseTenderCancellationResource):
         prev_status = cancellation.status
         apply_patch(self.request, save=False, src=cancellation.serialize())
 
-        if cancellation.status == "active":
-            if prev_status != "active":
-                validate_absence_of_pending_accepted_satisfied_complaints(self.request)
-            if cancellation.relatedLot:
-                self.cancel_lot(cancellation)
-            else:
-                self.cancel_tender_method(self.request)
+        if cancellation.status == "active" and prev_status != "active":
+            self.cancel_tender_lot_method(self.request, cancellation)
 
         if save_tender(self.request):
             self.LOGGER.info(

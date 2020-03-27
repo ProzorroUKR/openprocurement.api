@@ -7,7 +7,11 @@ from openprocurement.api.utils import error_handler, context_unpack
 from openprocurement.tender.core.utils import remove_draft_bids, has_unanswered_questions, has_unanswered_complaints
 from openprocurement.tender.belowthreshold.utils import check_tender_status, add_contract
 from openprocurement.tender.openua.utils import add_next_award, check_complaint_status
-from openprocurement.tender.core.utils import check_cancellation_status, block_tender
+from openprocurement.tender.core.utils import (
+    check_cancellation_status,
+    block_tender,
+    CancelTenderLot as BaseTenderLot
+)
 from openprocurement.tender.openeu.models import Qualification
 from openprocurement.tender.openeu.traversal import (
     qualifications_factory,
@@ -30,17 +34,80 @@ bid_qualification_documents_resource = partial(
 )
 
 
-def cancel_tender(request):
-    tender = request.validated["tender"]
-    if tender.status == "active.tendering":
-        tender.bids = []
+class CancelTenderLot(BaseTenderLot):
+    def cancel_tender(self, request):
+        tender = request.validated["tender"]
+        if tender.status == "active.tendering":
+            tender.bids = []
 
-    elif tender.status in ("active.pre-qualification", "active.pre-qualification.stand-still", "active.auction"):
-        for bid in tender.bids:
-            if bid.status in ("pending", "active"):
-                bid.status = "invalid.pre-qualification"
+        elif tender.status in ("active.pre-qualification", "active.pre-qualification.stand-still", "active.auction"):
+            for bid in tender.bids:
+                if bid.status in ("pending", "active"):
+                    bid.status = "invalid.pre-qualification"
 
-    tender.status = "cancelled"
+        tender.status = "cancelled"
+
+    def cancel_lot(self, request, cancellation):
+        tender = request.validated["tender"]
+        self._cancel_lots(tender, cancellation)
+        cancelled_lots, cancelled_items, cancelled_features = self._get_cancelled_lot_objects(tender)
+
+        self._invalidate_lot_bids(tender, cancelled_lots=cancelled_lots, cancelled_features=cancelled_features)
+        self._cancel_lot_qualifications(tender, cancelled_lots=cancelled_lots)
+        self._lot_update_check_tender_status(request, tender)
+        self._lot_update_check_next_award(request, tender)
+
+    @staticmethod
+    def _get_cancelled_lot_objects(tender):
+        cancelled_lots = {i.id for i in tender.lots if i.status == "cancelled"}
+        cancelled_items = {i.id for i in tender.items if i.relatedLot in cancelled_lots}
+        cancelled_features = {
+            i.code
+            for i in (tender.features or [])
+            if i.featureOf == "lot" and i.relatedItem in cancelled_lots
+            or i.featureOf == "item" and i.relatedItem in cancelled_items
+        }
+        return cancelled_lots, cancelled_items, cancelled_features
+
+    def _lot_update_check_next_award(self, request, tender):
+        if tender.status == "active.auction" and all(
+            i.auctionPeriod and i.auctionPeriod.endDate
+            for i in tender.lots
+            if i.status == "active"
+        ):
+            self.add_next_award_method(request)
+
+    @staticmethod
+    def _invalidate_lot_bids(tender, cancelled_lots, cancelled_features):
+        check_statuses = (
+            "active.tendering",
+            "active.pre-qualification",
+            "active.pre-qualification.stand-still",
+            "active.auction",
+        )
+        if tender.status in check_statuses:
+            def filter_docs(items):
+                result = [i for i in items
+                          if i.documentOf != "lot"
+                          or i.relatedItem not in cancelled_lots]
+                return result
+
+            for bid in tender.bids:
+                if tender.status == "active.tendering":
+                    bid.documents = filter_docs(bid.documents)
+                bid.financialDocuments = filter_docs(bid.financialDocuments)
+                bid.eligibilityDocuments = filter_docs(bid.eligibilityDocuments)
+                bid.qualificationDocuments = filter_docs(bid.qualificationDocuments)
+                bid.parameters = [i for i in bid.parameters if i.code not in cancelled_features]
+                bid.lotValues = [i for i in bid.lotValues if i.relatedLot not in cancelled_lots]
+                if not bid.lotValues and bid.status in ["pending", "active"]:
+                    bid.status = "invalid" if tender.status == "active.tendering" else "invalid.pre-qualification"
+
+    @staticmethod
+    def _cancel_lot_qualifications(tender, cancelled_lots):
+        for qualification in tender.qualifications:
+            if qualification.lotID in cancelled_lots:
+                qualification.status = "cancelled"
 
 
 def check_initial_bids_count(request):
@@ -136,10 +203,13 @@ def all_bids_are_reviewed(request):
 def check_status(request):
     tender = request.validated["tender"]
     now = get_now()
-    active_lots = [lot.id for lot in tender.lots if lot.status == "active"] if tender.lots else [None]
+    active_lots = [
+        lot.id for lot in tender.lots
+        if lot.status == "active"
+    ] if tender.lots else [None]
     configurator = request.content_configurator
 
-    check_cancellation_status(request, cancel_tender)
+    check_cancellation_status(request, CancelTenderLot)
 
     for award in tender.awards:
         if award.status == "active" and not any([i.awardID == award.id for i in tender.contracts]):
@@ -158,6 +228,7 @@ def check_status(request):
         and tender.tenderPeriod.endDate <= now
         and not has_unanswered_complaints(tender)
         and not has_unanswered_questions(tender)
+
     ):
         for complaint in tender.complaints:
             check_complaint_status(request, complaint)

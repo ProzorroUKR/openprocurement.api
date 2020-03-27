@@ -6,6 +6,7 @@ from openprocurement.tender.core.validation import (
     validate_patch_lot_data,
     validate_tender_period_extension,
     validate_lot_operation_not_in_allowed_status,
+    validate_operation_with_lot_cancellation_in_pending,
 )
 from openprocurement.tender.core.utils import (
     save_tender,
@@ -24,7 +25,11 @@ from openprocurement.tender.core.utils import (
 class TenderUaLotResource(TenderLotResource):
     @json_view(
         content_type="application/json",
-        validators=(validate_lot_data, validate_lot_operation_not_in_allowed_status, validate_tender_period_extension),
+        validators=(
+            validate_lot_data,
+            validate_lot_operation_not_in_allowed_status,
+            validate_tender_period_extension,
+        ),
         permission="edit_tender",
     )
     def collection_post(self):
@@ -52,6 +57,7 @@ class TenderUaLotResource(TenderLotResource):
         validators=(
             validate_patch_lot_data,
             validate_lot_operation_not_in_allowed_status,
+            validate_operation_with_lot_cancellation_in_pending("lot"),
             validate_tender_period_extension,
         ),
         permission="edit_tender",
@@ -70,7 +76,11 @@ class TenderUaLotResource(TenderLotResource):
 
     @json_view(
         permission="edit_tender",
-        validators=(validate_lot_operation_not_in_allowed_status, validate_tender_period_extension),
+        validators=(
+            validate_lot_operation_not_in_allowed_status,
+            validate_operation_with_lot_cancellation_in_pending("lot"),
+            validate_tender_period_extension,
+        ),
     )
     def delete(self):
         """Lot deleting

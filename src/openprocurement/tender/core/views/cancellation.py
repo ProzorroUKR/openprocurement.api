@@ -10,16 +10,16 @@ from openprocurement.api.utils import (
 )
 from openprocurement.tender.core.utils import calculate_complaint_business_date
 from openprocurement.api.constants import RELEASE_2020_04_19
-from openprocurement.tender.core.utils import save_tender, apply_patch, cancel_tender
+from openprocurement.tender.core.utils import save_tender, apply_patch, CancelTenderLot
 from openprocurement.tender.core.validation import (
     validate_tender_not_in_terminated_status,
-    validate_absence_of_pending_accepted_satisfied_complaints,
     validate_cancellation_data,
     validate_patch_cancellation_data,
     validate_cancellation_of_active_lot,
     validate_cancellation_statuses,
     validate_edit_permission,
     validate_create_cancellation_in_active_auction,
+    validate_absence_of_pending_accepted_satisfied_complaints,
 )
 
 
@@ -39,16 +39,11 @@ class BaseTenderCancellationResource(APIResource):
         cancellation = self.request.validated["cancellation"]
         cancellation.date = get_now()
 
-        if get_first_revision_date(self.request.tender, default=get_now()) > RELEASE_2020_04_19 \
-                and cancellation.cancellationOf == "tender":
+        if get_first_revision_date(self.request.tender, default=get_now()) > RELEASE_2020_04_19:
             cancellation.status = None
 
         if cancellation.status == "active":
-            validate_absence_of_pending_accepted_satisfied_complaints(self.request)
-            if cancellation.relatedLot:
-                self.cancel_lot(cancellation)
-            else:
-                self.cancel_tender_method(self.request)
+            self.cancel_tender_lot_method(self.request, cancellation)
 
         self.request.context.cancellations.append(cancellation)
         if save_tender(self.request):
@@ -79,9 +74,9 @@ class BaseTenderCancellationResource(APIResource):
         validators=(
             validate_edit_permission,
             validate_tender_not_in_terminated_status,
+            validate_cancellation_of_active_lot,
             validate_patch_cancellation_data,
             validate_cancellation_statuses,
-            validate_cancellation_of_active_lot,
         ),
         permission="edit_cancellation"
     )
@@ -89,11 +84,11 @@ class BaseTenderCancellationResource(APIResource):
         cancellation = self.request.context
         prev_status = cancellation.status
         apply_patch(self.request, save=False, src=cancellation.serialize())
+        new_rules = get_first_revision_date(self.request.tender, default=get_now()) > RELEASE_2020_04_19
 
-        if get_first_revision_date(self.request.tender, default=get_now()) > RELEASE_2020_04_19 \
-                and cancellation.cancellationOf == "tender":
-
+        if new_rules:
             if prev_status == "draft" and cancellation.status == "pending":
+                validate_absence_of_pending_accepted_satisfied_complaints(self.request)
                 tender = self.request.validated["tender"]
                 now = get_now()
                 cancellation.complaintPeriod = {
@@ -101,14 +96,8 @@ class BaseTenderCancellationResource(APIResource):
                     "endDate": calculate_complaint_business_date(
                         now, timedelta(days=10), tender).isoformat()
                 }
-
-        if cancellation.status == "active":
-            if prev_status != "active":
-                validate_absence_of_pending_accepted_satisfied_complaints(self.request)
-            if cancellation.relatedLot:
-                self.cancel_lot(cancellation)
-            else:
-                self.cancel_tender_method(self.request)
+        if cancellation.status == "active" and prev_status != "active":
+            self.cancel_tender_lot_method(self.request, cancellation)
 
         if save_tender(self.request):
             self.LOGGER.info(
@@ -119,37 +108,5 @@ class BaseTenderCancellationResource(APIResource):
 
     # methods below are used by views and can be redefined at child models
     @staticmethod
-    def add_next_award_method(request):
-        raise NotImplementedError
-
-    @staticmethod
-    def cancel_tender_method(request):
-        return cancel_tender(request)
-
-    def cancel_lot(self, cancellation):
-        tender = self.request.validated["tender"]
-        self._cancel_lots(tender, cancellation)
-        self._lot_update_check_tender_status(tender)
-
-        if tender.status == "active.auction" and all(
-            i.auctionPeriod and i.auctionPeriod.endDate
-            for i in self.request.validated["tender"].lots
-            if i.numberOfBids > 1 and i.status == "active"
-        ):
-            self.add_next_award_method(self.request)
-
-    # methods below are used by methods above
-    def _lot_update_check_tender_status(self, tender):
-        lot_statuses = {lot.status for lot in tender.lots}
-        if lot_statuses == {"cancelled"}:
-            self.cancel_tender_method(self.request)
-        elif not lot_statuses.difference({"unsuccessful", "cancelled"}):
-            tender.status = "unsuccessful"
-        elif not lot_statuses.difference({"complete", "unsuccessful", "cancelled"}):
-            tender.status = "complete"
-
-    @staticmethod
-    def _cancel_lots(tender, cancellation):
-        for lot in tender.lots:
-            if lot.id == cancellation.relatedLot:
-                lot.status = "cancelled"
+    def cancel_tender_lot_method(request, cancellation):
+        return CancelTenderLot()(request, cancellation)

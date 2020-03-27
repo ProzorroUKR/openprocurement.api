@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author, test_cancellation
-
+from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
+from openprocurement.tender.core.utils import get_now
 
 # TenderQuestionResourceTest
 
@@ -384,6 +386,10 @@ def lot_create_tender_question(self):
     )
     self.assertEqual(response.status, "201 Created")
 
+    cancellation_id = response.json["data"]["id"]
+    if RELEASE_2020_04_19 < get_now():
+        activate_cancellation_after_2020_04_19(self, cancellation_id)
+
     response = self.app.post_json(
         "/tenders/{}/questions".format(self.tender_id, self.tender_token),
         {
@@ -449,6 +455,10 @@ def lot_patch_tender_question(self):
         {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
+    cancellation_id = response.json["data"]["id"]
+
+    if RELEASE_2020_04_19 < get_now():
+        activate_cancellation_after_2020_04_19(self, cancellation_id)
 
     response = self.app.patch_json(
         "/tenders/{}/questions/{}?acc_token={}".format(self.tender_id, question["id"], self.tender_token),

@@ -11,8 +11,9 @@ from openprocurement.tender.core.validation import (
     validate_cancellation_statuses,
     validate_create_cancellation_in_active_auction,
     validate_edit_permission,
+    validate_create_cancellation_with_lot_cancellation_in_pending,
 )
-from openprocurement.tender.openua.utils import add_next_award
+from openprocurement.tender.openua.utils import CancelTenderLot
 
 
 @optendersresource(
@@ -25,13 +26,8 @@ from openprocurement.tender.openua.utils import add_next_award
 class TenderUaCancellationResource(BaseTenderCancellationResource):
 
     @staticmethod
-    def add_next_award_method(request):
-        configurator = request.content_configurator
-        add_next_award(
-            request,
-            reverse=configurator.reverse_awarding_criteria,
-            awarding_criteria_key=configurator.awarding_criteria_key,
-        )
+    def cancel_tender_lot_method(request, cancellation):
+        return CancelTenderLot()(request, cancellation)
 
     @json_view(
         content_type="application/json",
@@ -42,6 +38,7 @@ class TenderUaCancellationResource(BaseTenderCancellationResource):
             validate_cancellation_of_active_lot,
             # from core above ^
             validate_not_only_unsuccessful_awards_or_qualifications,
+            validate_create_cancellation_with_lot_cancellation_in_pending
         ),
         permission="edit_tender"
     )
@@ -53,9 +50,9 @@ class TenderUaCancellationResource(BaseTenderCancellationResource):
         validators=(
             validate_edit_permission,
             validate_tender_not_in_terminated_status,
+            validate_cancellation_of_active_lot,
             validate_patch_cancellation_data,
             validate_cancellation_statuses,
-            validate_cancellation_of_active_lot,
             # from core above ^,
             validate_not_only_unsuccessful_awards_or_qualifications
         ),
