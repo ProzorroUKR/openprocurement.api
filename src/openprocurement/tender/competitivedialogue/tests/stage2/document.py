@@ -12,6 +12,7 @@ from openprocurement.tender.competitivedialogue.tests.base import (
 from openprocurement.tender.competitivedialogue.tests.stage1.document_blanks import (
     put_tender_document,
     patch_tender_document,
+    create_document_with_the_invalid_document_type,
 )
 
 #  _____________________________________________________________________
@@ -48,7 +49,7 @@ class TenderStage2EUDocumentResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
 
     test_put_tender_document = snitch(put_tender_document)
     test_patch_tender_document = snitch(patch_tender_document)
-
+    test_create_document_with_the_invalid_document_type = snitch(create_document_with_the_invalid_document_type)
 
 class TenderStage2DocumentWithDSResourceTest(TenderStage2EUDocumentResourceTest, TenderDocumentResourceTestMixin):
     docservice = True
@@ -65,7 +66,6 @@ class TenderStage2UADocumentResourceTest(BaseCompetitiveDialogUAStage2ContentWeb
 
     test_put_tender_document = snitch(put_tender_document)
     test_patch_tender_document = snitch(patch_tender_document)
-
 
 class TenderStage2UADocumentWithDSResourceTest(TenderStage2UADocumentResourceTest, TenderDocumentResourceTestMixin):
     docservice = True

@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 from email.header import Header
+import re
+import ast
+from openprocurement.tender.belowthreshold.tests.base import test_tender_document_data
+from openprocurement.api.models import Document as BaseDocument
 
 
 # DialogEUDocumentResourceTest
@@ -244,3 +248,30 @@ def patch_tender_document(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("document description", response.json["data"]["description"])
+
+
+def create_document_with_the_invalid_document_type(self):
+    """
+    A test checks if errors raise in case of processing document with the invalid document type (documentType field).
+    """
+    response = self.app.post(
+        "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
+        upload_files=[("file", str(Header(u"укр.doc", "utf-8")), "content")],
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    doc_id = response.json["data"]["id"]
+    self.assertIn(doc_id, response.headers["Location"])
+    self.assertEqual(u"укр.doc", response.json["data"]["title"])
+
+    # Try connect document with lot, without description in params
+    response = self.app.patch_json(
+        "/tenders/{}/documents/{}?acc_token={}".format(self.tender_id, doc_id, self.tender_token),
+        {"data": {"documentType": "smth"}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    response_doctype_dict = re.findall(r"\[.*\]",response.json["errors"][0]["description"][0])[0]
+    response_doctype_dict = ast.literal_eval(response_doctype_dict)
+    response_doctype_dict = [n.strip() for n in response_doctype_dict]

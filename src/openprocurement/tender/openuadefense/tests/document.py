@@ -13,6 +13,7 @@ from openprocurement.tender.belowthreshold.tests.document_blanks import (
     create_tender_document_json_invalid,
     create_tender_document_json,
     put_tender_document_json,
+    create_document_with_the_invalid_document_type,
 )
 
 from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest
@@ -33,6 +34,7 @@ class TenderDocumentWithDSResourceTest(TenderDocumentResourceTest):
     test_create_tender_document_json_invalid = snitch(create_tender_document_json_invalid)
     test_create_tender_document_json = snitch(create_tender_document_json)
     test_put_tender_document_json = snitch(put_tender_document_json)
+    test_create_document_with_the_invalid_document_type = snitch(create_document_with_the_invalid_document_type)
 
 
 def suite():

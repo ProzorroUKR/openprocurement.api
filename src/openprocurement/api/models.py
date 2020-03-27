@@ -527,6 +527,11 @@ class Document(Model):
             "registerFiscal",
             "winningBid",
             "evidence",
+            "contractTemplate",
+            "contractSchema",
+            "contractForm",
+            "contractData",
+            "contractProforma",
         ]
     )
     title = StringType(required=True)  # A title of the document.

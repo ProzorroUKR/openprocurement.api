@@ -4,12 +4,14 @@ from copy import deepcopy
 from webtest import AppError
 import mock
 import dateutil.parser
-
+import re
+import ast
+from copy import deepcopy
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_organization, test_draft_claim, test_claim, test_cancellation, test_complaint
+    test_organization, test_draft_claim, test_claim, test_cancellation, test_complaint, test_tender_document_data
 )
 
 
@@ -586,6 +588,41 @@ def create_tender_award_no_scale(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertNotIn("scale", response.json["data"]["suppliers"][0])
 
+def create_tender_award_with_the_invalid_document_type(self):
+    document_data = deepcopy(test_tender_document_data)
+    document_data["url"] = self.generate_docservice_url()
+    document_data["hash"] = "md5:" + "0" * 32
+    document_data["documentType"] = "smth"
+
+    response = self.app.post(
+        "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+        upload_files=[("file", "name.doc", "content")],
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+   
+    doc_id = response.json["data"]["id"]
+    self.assertIn(doc_id, response.headers["Location"])
+    self.assertEqual(u"name.doc", response.json["data"]["title"])
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}/documents/{}?acc_token={}".format(self.tender_id, self.award_id,doc_id, self.tender_token),
+        {"data": {"documentType": "smth"}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    response_doctype_dict = re.findall(r"\[.*\]",response.json["errors"][0]["description"][0])[0]
+    response_doctype_dict = ast.literal_eval(response_doctype_dict)
+    response_doctype_dict = [n.strip() for n in response_doctype_dict]
+    self.assertListEqual(
+        response_doctype_dict, 
+        ["tenderNotice","awardNotice","contractNotice","notice","biddingDocuments","technicalSpecifications",
+        "evaluationCriteria","clarifications","shortlistedFirms","riskProvisions","billOfQuantity","bidders",
+        "conflictOfInterest","debarments","evaluationReports","winningBid","complaints","contractSigned",
+        "contractArrangements","contractSchedule","contractAnnexe","contractGuarantees","subContract",
+        "eligibilityCriteria","contractProforma","commercialProposal","qualificationDocuments",
+        "eligibilityDocuments","registerExtract","registerFiscal","winningBid","contractTemplate",
+        "contractSchema","contractForm","contractData","contractProforma"])
 
 # TenderLotAwardResourceTest
 

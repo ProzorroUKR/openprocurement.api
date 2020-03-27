@@ -2,8 +2,13 @@
 from email.header import Header
 
 # TenderDocumentResourceTest
+import re
+import ast
 from mock import patch
+from copy import deepcopy
 from openprocurement.tender.core.tests.base import bad_rs_request, srequest
+from openprocurement.tender.belowthreshold.tests.base import test_tender_document_data
+from openprocurement.api.models import Document as BaseDocument
 
 
 def not_found(self):
@@ -888,3 +893,21 @@ def lot_patch_tender_document_json_items_none(self):
 
     errors = {error["name"]: error["description"] for error in response.json["errors"]}
     self.assertEqual(errors["documents"][0], {"relatedItem": ["relatedItem should be one of items"]})
+
+
+def create_document_with_the_invalid_document_type(self):
+    """
+    A test checks if errors raise in case of processing document with the invalid document type (documentType field).
+    """
+    document_data = deepcopy(test_tender_document_data)
+    document_data["url"] = self.generate_docservice_url()
+    document_data["hash"] = "md5:" + "0" * 32
+    document_data["documentType"] = "smth"
+
+    response = self.app.post_json("/tenders/{}/documents?acc_token={}".format(
+            self.tender_id, self.tender_token),{"data":document_data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    response_doctype_dict = re.findall(r"\[.*\]",response.json["errors"][0]["description"][0])[0]
+    response_doctype_dict = ast.literal_eval(response_doctype_dict)
+    response_doctype_dict = [n.strip() for n in response_doctype_dict]
