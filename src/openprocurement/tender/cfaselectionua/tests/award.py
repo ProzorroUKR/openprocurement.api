@@ -6,6 +6,7 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.award_blanks import (
     patch_tender_lot_award_lots_none,
     create_tender_award_with_the_invalid_document_type,
+    put_tender_json_award_document_of_document,
 )
 from openprocurement.tender.cfaselectionua.adapters.configurator import TenderCfaSelectionUAConfigurator
 from openprocurement.tender.cfaselectionua.tests.base import (
@@ -57,6 +58,7 @@ class TenderAwardDocumentResourceTestMixin(object):
     test_not_found_award_document = snitch(not_found_award_document)
     test_create_tender_award_document = snitch(create_tender_award_document)
     test_create_tender_award_with_the_invalid_document_type = snitch(create_tender_award_with_the_invalid_document_type)
+    test_put_tender_json_award_document_of_document = snitch(put_tender_json_award_document_of_document)
     test_put_tender_award_document = snitch(put_tender_award_document)
     test_patch_tender_award_document = snitch(patch_tender_award_document)
     test_create_award_document_bot = snitch(create_award_document_bot)

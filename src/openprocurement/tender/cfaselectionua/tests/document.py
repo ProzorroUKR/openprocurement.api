@@ -11,6 +11,7 @@ from openprocurement.tender.belowthreshold.tests.document_blanks import (
     create_tender_document_json,
     put_tender_document_json,
     create_document_with_the_invalid_document_type,
+    put_tender_json_document_of_document,
 )
 
 from openprocurement.tender.cfaselectionua.tests.document_blanks import (
@@ -36,6 +37,7 @@ class TenderDocumentWithDSResourceTestMixin(object):
     test_create_tender_document_json = snitch(create_tender_document_json)
     test_put_tender_document_json = snitch(put_tender_document_json)
     test_create_document_with_the_invalid_document_type = snitch(create_document_with_the_invalid_document_type)
+    test_put_tender_json_document_of_document = snitch(put_tender_json_document_of_document)
 
 
 class TenderDocumentResourceTest(TenderContentWebTest, TenderDocumentResourceTestMixin):

@@ -176,7 +176,9 @@ class ComplaintModelType(ModelType):
 
 
 class Document(BaseDocument):
-    documentOf = StringType(required=True, choices=["tender", "item", "lot"], default="tender")
+    documentOf = StringType(required=True, choices=[
+                            "tender", "item", "lot",  "document"], default="tender")
+
 
     def validate_relatedItem(self, data, relatedItem):
         if not relatedItem and data.get("documentOf") in ["item", "lot"]:
@@ -188,6 +190,8 @@ class Document(BaseDocument):
                 raise ValidationError(u"relatedItem should be one of lots")
             if data.get("documentOf") == "item" and relatedItem not in [i.id for i in tender.items if i]:
                 raise ValidationError(u"relatedItem should be one of items")
+            if data.get("documentOf") == "document" and relatedItem not in [i.id for i in tender.documents]:
+                raise ValidationError(u"relatedItem should be one of documents")
 
 
 class ConfidentialDocumentModelType(ModelType):

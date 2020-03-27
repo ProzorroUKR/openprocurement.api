@@ -624,6 +624,41 @@ def create_tender_award_with_the_invalid_document_type(self):
         "eligibilityDocuments","registerExtract","registerFiscal","winningBid","contractTemplate",
         "contractSchema","contractForm","contractData","contractProforma"])
 
+def put_tender_json_award_document_of_document(self):
+    response = self.app.post(
+        "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+        upload_files=[("file", "name.doc", "content")],
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    document_id = response.json["data"]["id"]
+    response = self.app.patch_json(
+         "/tenders/{}/awards/{}/documents/{}?acc_token={}".format(self.tender_id, self.award_id,document_id, self.tender_token),
+        {"data": {
+                "title": u"укр.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+                "documentOf": "document",
+                "relatedItem": "0"*32,
+            }}, status=422
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u"location": u"body",
+                u"name": u"relatedItem",
+                u"description": [
+                    u'relatedItem should be one of documents'
+                ]
+            }
+        ]
+    )
+
+
 # TenderLotAwardResourceTest
 
 
