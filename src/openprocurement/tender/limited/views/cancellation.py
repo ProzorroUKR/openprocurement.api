@@ -14,6 +14,7 @@ from openprocurement.tender.core.validation import (
     validate_edit_permission,
 )
 from openprocurement.tender.limited.validation import validate_absence_complete_lots_on_tender_cancel
+from openprocurement.tender.limited.utils import ReportingCancelTenderLot
 
 
 @optendersresource(
@@ -26,12 +27,9 @@ from openprocurement.tender.limited.validation import validate_absence_complete_
 class TenderReportingCancellationResource(BaseTenderReportingCancellationResource):
 
     @staticmethod
-    def cancel_tender_method(request):
-        tender = request.validated["tender"]
-        tender.status = "cancelled"
+    def cancel_tender_lot_method(request, cancellation):
+        return ReportingCancelTenderLot()(request, cancellation)
 
-    def cancel_lot(self, cancellation=None):
-        raise NotImplementedError("N/A for this procedure")
 
 
 @optendersresource(

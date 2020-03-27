@@ -6,6 +6,7 @@ from openprocurement.tender.core.utils import (
     get_now,
     has_unanswered_questions,
     has_unanswered_complaints,
+    block_tender,
 )
 from openprocurement.tender.openua.utils import check_complaint_status, add_next_award, check_cancellation_status
 from openprocurement.tender.belowthreshold.utils import check_tender_status, add_contract
@@ -58,7 +59,11 @@ def check_bids(request):
             for i in tender.lots
             if i.numberOfBids < 2 and i.auctionPeriod and i.auctionPeriod.startDate
         ]
-        [setattr(i, "status", "unsuccessful") for i in tender.lots if i.numberOfBids == 0 and i.status == "active"]
+        [
+            setattr(i, "status", "unsuccessful")
+            for i in tender.lots
+            if i.numberOfBids == 0 and i.status == "active"
+        ]
         numberOfBids_in_active_lots = [i.numberOfBids for i in tender.lots if i.status == "active"]
         if numberOfBids_in_active_lots and max(numberOfBids_in_active_lots) < 2:
             add_next_award(request)
@@ -78,6 +83,9 @@ def check_status(request):
     now = get_now()
 
     check_cancellation_status(request)
+
+    if block_tender(request):
+        return
 
     for award in tender.awards:
         if award.status == "active" and not any([i.awardID == award.id for i in tender.contracts]):

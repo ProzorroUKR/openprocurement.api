@@ -1041,7 +1041,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         self.assertEqual(response.status, "201 Created")
         cancellation = response.json["data"]
 
-        if get_now() < RELEASE_2020_04_19 or cancellation["cancellationOf"] == "lot":
+        if get_now() < RELEASE_2020_04_19:
             self.assertEqual(cancellation["status"], "active")
         else:
             self.assertEqual(cancellation["status"], "draft")

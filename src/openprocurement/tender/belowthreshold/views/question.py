@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import get_now, json_view, context_unpack, APIResource, raise_operation_error
-from openprocurement.tender.core.validation import validate_question_data, validate_patch_question_data
+from openprocurement.tender.core.validation import (
+    validate_question_data,
+    validate_patch_question_data,
+    validate_operation_with_lot_cancellation_in_pending,
+)
 
 from openprocurement.tender.core.utils import save_tender, optendersresource, apply_patch
 
@@ -84,7 +88,14 @@ class TenderQuestionResource(APIResource):
         """
         return {"data": self.request.validated["question"].serialize(self.request.validated["tender"].status)}
 
-    @json_view(content_type="application/json", permission="edit_tender", validators=(validate_patch_question_data,))
+    @json_view(
+        content_type="application/json",
+        permission="edit_tender",
+        validators=(
+            validate_patch_question_data,
+            validate_operation_with_lot_cancellation_in_pending("question"),
+        )
+    )
     def patch(self):
         """Post an Answer
         """

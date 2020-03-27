@@ -409,17 +409,64 @@ def calculate_total_complaints(tender):
     return total_complaints
 
 
-def cancel_tender(request):
-    tender = request.validated["tender"]
-    if tender.status in ["active.tendering", "active.auction"]:
-        tender.bids = []
-    tender.status = "cancelled"
+from openprocurement.tender.core.validation import validate_absence_of_pending_accepted_satisfied_complaints
 
 
-def check_cancellation_status(request, cancel_tender_method=cancel_tender):
+class CancelTenderLot(object):
+
+    def __call__(self, request, cancellation):
+        if cancellation.status == "active":
+            validate_absence_of_pending_accepted_satisfied_complaints(request, cancellation)
+            if cancellation.relatedLot:
+                self.cancel_lot(request, cancellation)
+            else:
+                self.cancel_tender(request)
+
+    @staticmethod
+    def add_next_award_method(request):
+        raise NotImplementedError
+
+    def cancel_tender(self, request):
+        tender = request.validated["tender"]
+        if tender.status in ["active.tendering", "active.auction"]:
+            tender.bids = []
+        tender.status = "cancelled"
+
+    def cancel_lot(self, request, cancellation):
+        tender = request.validated["tender"]
+        self._cancel_lots(tender, cancellation)
+        self._lot_update_check_tender_status(request, tender)
+
+        if tender.status == "active.auction" and all(
+                i.auctionPeriod and i.auctionPeriod.endDate
+                for i in tender.lots
+                if i.numberOfBids > 1 and i.status == "active"
+        ):
+            self.add_next_award_method(request)
+
+    def _lot_update_check_tender_status(self, request, tender):
+        lot_statuses = {lot.status for lot in tender.lots}
+        if lot_statuses == {"cancelled"}:
+            self.cancel_tender(request)
+        elif not lot_statuses.difference({"unsuccessful", "cancelled"}):
+            tender.status = "unsuccessful"
+        elif not lot_statuses.difference({"complete", "unsuccessful", "cancelled"}):
+            tender.status = "complete"
+
+    @staticmethod
+    def _cancel_lots(tender, cancellation):
+        for lot in tender.lots:
+            if lot.id == cancellation.relatedLot:
+                lot.status = "cancelled"
+
+
+def check_cancellation_status(request, cancel_class=CancelTenderLot):
+
     tender = request.validated["tender"]
     cancellations = tender.cancellations
-    complaint_statuses = ["invalid", "declined", "stopped", "mistaken"]
+    complaint_statuses = ["invalid", "declined", "stopped", "mistaken", "draft"]
+
+    cancel_tender_lot = cancel_class()
 
     for cancellation in cancellations:
         complaint_period = cancellation.complaintPeriod
@@ -430,8 +477,7 @@ def check_cancellation_status(request, cancel_tender_method=cancel_tender):
             and all([i.status in complaint_statuses for i in cancellation.complaints])
         ):
             cancellation.status = "active"
-            if cancellation.cancellationOf == "tender":
-                cancel_tender_method(request)
+            cancel_tender_lot(request, cancellation)
 
 
 def block_tender(request):
@@ -441,11 +487,11 @@ def block_tender(request):
     accept_tender = all([
         any([j.status == "resolved" for j in i.complaints])
         for i in tender.cancellations
-        if i.status == "unsuccessful" and getattr(i, "complaints", None) and not i.relatedLot
+        if i.status == "unsuccessful" and getattr(i, "complaints", None)
     ])
 
     return (
         new_rules
-        and (any([i.status not in ["active", "unsuccessful"] for i in tender.cancellations if not i.relatedLot])
+        and (any([i.status not in ["active", "unsuccessful"] for i in tender.cancellations])
              or not accept_tender)
     )

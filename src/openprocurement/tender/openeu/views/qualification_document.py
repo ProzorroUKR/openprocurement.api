@@ -13,6 +13,7 @@ from openprocurement.tender.openeu.utils import qualifications_resource
 from openprocurement.tender.openeu.validation import (
     validate_qualification_document_operation_not_in_pending,
     validate_qualification_document_operation_not_in_allowed_status,
+    validate_qualification_update_with_cancellation_lot_pending,
 )
 
 
@@ -40,6 +41,7 @@ class TenderQualificationDocumentResource(APIResource):
         permission="upload_qualification_documents",
         validators=(
             validate_file_upload,
+            validate_qualification_update_with_cancellation_lot_pending,
             validate_qualification_document_operation_not_in_allowed_status,
             validate_qualification_document_operation_not_in_pending,
         ),
@@ -79,6 +81,7 @@ class TenderQualificationDocumentResource(APIResource):
     @json_view(
         validators=(
             validate_file_update,
+            validate_qualification_update_with_cancellation_lot_pending,
             validate_qualification_document_operation_not_in_allowed_status,
             validate_qualification_document_operation_not_in_pending,
         ),
@@ -99,6 +102,7 @@ class TenderQualificationDocumentResource(APIResource):
         content_type="application/json",
         validators=(
             validate_patch_document_data,
+            validate_qualification_update_with_cancellation_lot_pending,
             validate_qualification_document_operation_not_in_allowed_status,
             validate_qualification_document_operation_not_in_pending,
         ),

@@ -400,23 +400,35 @@ def cancel_lot_active_auction(self):
     response = self.get_tender(role="broker")
     self.assertEqual(response.json["data"]["status"], "active.auction")
     lot_id = response.json["data"]["lots"][0]["id"]
-    self.cancel_tender(lot_id=lot_id)
-    assert_statuses(
-        self,
-        rules={
-            "data.status": "cancelled",
-            "data.lots[*].status": ["cancelled"],
-            "data.bids[*].status": [
-                "invalid.pre-qualification",
-                "invalid.pre-qualification",
-                "invalid.pre-qualification",
-            ],
-            "data.qualifications[*].status": ["cancelled", "cancelled", "cancelled"],
-            "data.awards[*].status": None,
-            "data.agreements[*].status": None,
-            "data.complaints[*].status": statuses,
-        },
-    )
+    if RELEASE_2020_04_19 > get_now():
+        self.cancel_tender(lot_id=lot_id)
+        assert_statuses(
+            self,
+            rules={
+                "data.status": "cancelled",
+                "data.lots[*].status": ["cancelled"],
+                "data.bids[*].status": [
+                    "invalid.pre-qualification",
+                    "invalid.pre-qualification",
+                    "invalid.pre-qualification",
+                ],
+                "data.qualifications[*].status": ["cancelled", "cancelled", "cancelled"],
+                "data.awards[*].status": None,
+                "data.agreements[*].status": None,
+                "data.complaints[*].status": statuses,
+            },
+        )
+    else:
+        response = self.app.post_json(
+            "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": {"reasonType": "noDemand", "reason": "cancellation reason"}},
+            status=403
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(
+            response.json["errors"][0]["description"],
+            "Can't create cancellation in current (active.auction) tender status",
+        )
 
 
 def cancel_lot_active_qualification(self):

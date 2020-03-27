@@ -2,6 +2,9 @@
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_complaint, test_cancellation
+from openprocurement.api.models import get_now
+from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
 
 
 # TenderLotNegotiationResourceTest
@@ -777,14 +780,19 @@ def cancel_lot_with_complaint(self):
         {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.json["data"]["status"], "pending")
     cancellation = response.json["data"]
-    response = self.app.patch_json(
-        "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation["id"], self.tender_token),
-        {"data": {"status": "active"}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "active")
+    cancellation_id = cancellation["id"]
+
+    if RELEASE_2020_04_19 > get_now():
+        self.app.patch_json(
+            "/tenders/{}/cancellations/{}?acc_token={}".format(
+                self.tender_id, cancellation_id, self.tender_token
+            ),
+            {"data": {"status": "active"}},
+        )
+
+    else:
+        activate_cancellation_after_2020_04_19(self, cancellation_id)
 
     # Check lot status
     response = self.app.get("/tenders/{}/lots".format(self.tender_id))
@@ -831,12 +839,19 @@ def last_lot_complete(self):
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": cancellation},
     )
-    self.app.patch_json(
-        "/tenders/{}/cancellations/{}?acc_token={}".format(
-            self.tender_id, response.json["data"]["id"], self.tender_token
-        ),
-        {"data": {"status": "active"}},
-    )
+    cancellation_id = response.json["data"]["id"]
+
+    if RELEASE_2020_04_19 > get_now():
+        self.app.patch_json(
+            "/tenders/{}/cancellations/{}?acc_token={}".format(
+                self.tender_id, cancellation_id, self.tender_token
+            ),
+            {"data": {"status": "active"}},
+        )
+
+    else:
+        activate_cancellation_after_2020_04_19(self, cancellation_id)
+
     response = self.app.get("/tenders/{}/lots/{}".format(self.tender_id, first_lot["id"]))
     self.assertEqual(response.json["data"]["status"], "cancelled")
 
@@ -939,12 +954,18 @@ def all_cancelled_lots(self):
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": cancellation},
     )
-    self.app.patch_json(
-        "/tenders/{}/cancellations/{}?acc_token={}".format(
-            self.tender_id, response.json["data"]["id"], self.tender_token
-        ),
-        {"data": {"status": "active"}},
-    )
+    cancellation_id = response.json["data"]["id"]
+
+    if RELEASE_2020_04_19 > get_now():
+        self.app.patch_json(
+            "/tenders/{}/cancellations/{}?acc_token={}".format(
+                self.tender_id, cancellation_id, self.tender_token
+            ),
+            {"data": {"status": "active"}},
+        )
+    else:
+        activate_cancellation_after_2020_04_19(self, cancellation_id)
+
     response = self.app.get("/tenders/{}/lots/{}".format(self.tender_id, first_lot["id"]))
     self.assertEqual(response.json["data"]["status"], "cancelled")
     cancellation = dict(**test_cancellation)
@@ -956,12 +977,19 @@ def all_cancelled_lots(self):
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": cancellation},
     )
-    self.app.patch_json(
-        "/tenders/{}/cancellations/{}?acc_token={}".format(
-            self.tender_id, response.json["data"]["id"], self.tender_token
-        ),
-        {"data": {"status": "active"}},
-    )
+    cancellation_id = response.json["data"]["id"]
+
+    if RELEASE_2020_04_19 > get_now():
+        self.app.patch_json(
+            "/tenders/{}/cancellations/{}?acc_token={}".format(
+                self.tender_id, cancellation_id, self.tender_token
+            ),
+            {"data": {"status": "active"}},
+        )
+
+    else:
+        activate_cancellation_after_2020_04_19(self, cancellation_id)
+
     response = self.app.get("/tenders/{}/lots/{}".format(self.tender_id, second_lot["id"]))
     self.assertEqual(response.json["data"]["status"], "cancelled")
 
@@ -1016,14 +1044,19 @@ def cancel_lots_check_awards(self):
         {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.json["data"]["status"], "pending")
     cancellation = response.json["data"]
-    response = self.app.patch_json(
-        "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation["id"], self.tender_token),
-        {"data": {"status": "active"}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "active")
+    cancellation_id = cancellation["id"]
+
+    if RELEASE_2020_04_19 > get_now():
+        self.app.patch_json(
+            "/tenders/{}/cancellations/{}?acc_token={}".format(
+                self.tender_id, cancellation_id, self.tender_token
+            ),
+            {"data": {"status": "active"}},
+        )
+
+    else:
+        activate_cancellation_after_2020_04_19(self, cancellation_id)
 
     # check corresponding lot
     response = self.app.get("/tenders/{}/lots/{}".format(self.tender_id, first_lot["id"]))
@@ -1087,7 +1120,30 @@ def patch_lot_with_cancellation(self):
         {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.json["data"]["status"], "pending")
+    cancellation_id = response.json["data"]["id"]
+
+    if RELEASE_2020_04_19 < get_now():
+        auth = self.app.authorization
+        self.app.authorization = ("Basic", ("broker", ""))
+
+        response = self.app.post(
+            "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
+                self.tender_id, cancellation_id, self.tender_token
+            ),
+            upload_files=[("file", "name.doc", "content")],
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+
+        response = self.app.patch_json(
+            "/tenders/{}/cancellations/{}?acc_token={}".format(
+                self.tender_id, cancellation_id, self.tender_token
+            ),
+            {"data": {"status": "pending"}},
+        )
+        cancellation = response.json["data"]
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(cancellation["status"], "pending")
 
     # Try to patch lot with cancellation on it
     response = self.app.patch_json(
@@ -1096,4 +1152,4 @@ def patch_lot_with_cancellation(self):
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't update lot when it has 'pending' cancellation.")
+    self.assertEqual(response.json["errors"][0]["description"], "Can't update lot that have active cancellation")

@@ -872,8 +872,7 @@ class BaseCancellation(Model):
     @serializable(serialized_name="status")
     def default_status(self):
         if not self.status:
-            if get_first_revision_date(self.__parent__, default=get_now()) > RELEASE_2020_04_19 \
-                    and self.cancellationOf == "tender":
+            if get_first_revision_date(self.__parent__, default=get_now()) > RELEASE_2020_04_19:
                 return "draft"
             return "pending"
         return self.status
@@ -907,11 +906,11 @@ class BaseCancellation(Model):
         tender = get_root(data["__parent__"])
         cancellation_of = data.get('cancellationOf')
 
-        choices = self._after_release_status_choices \
-            if (
-                get_first_revision_date(tender, default=get_now()) > RELEASE_2020_04_19
-                and cancellation_of == "tender"
-            ) else self._before_release_status_choices
+        choices = (
+            self._after_release_status_choices
+            if get_first_revision_date(tender, default=get_now()) > RELEASE_2020_04_19
+            else self._before_release_status_choices
+        )
 
         if value and value not in choices:
             raise ValidationError("Value must be one of %s" % choices)
@@ -1372,12 +1371,12 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
         accept_tender = all([
             any([j.status == "resolved" for j in i.complaints])
             for i in self.cancellations
-            if i.status == "unsuccessful" and getattr(i, "complaints", None)
+            if i.status == "unsuccessful" and getattr(i, "complaints", None) and not i.relatedLot
         ])
 
         if (
             old_rules
-            or (not any([i.status == "pending" and i.cancellationOf == "tender" for i in self.cancellations])
+            or (not any([i.status == "pending" and not i.relatedLot for i in self.cancellations])
                 and accept_tender)
         ):
             acl.extend(

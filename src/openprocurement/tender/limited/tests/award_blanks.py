@@ -3,6 +3,7 @@ import dateutil
 
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
+from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
 from openprocurement.tender.belowthreshold.tests.base import (
     test_organization,
     test_author,
@@ -1517,7 +1518,23 @@ def create_award_on_cancel_lot(self):
         {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.json["data"]["status"], "pending")
+    cancellation_id = response.json["data"]["id"]
+
+    if RELEASE_2020_04_19 < get_now():
+        response = self.app.post(
+            "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
+                self.tender_id, cancellation_id, self.tender_token
+            ),
+            upload_files=[("file", "name.doc", "content")],
+        )
+        self.assertEqual(response.status, "201 Created")
+
+        response = self.app.patch_json(
+            "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation_id, self.tender_token),
+            {"data": {"status": "pending"}},
+        )
+    else:
+        self.assertEqual(response.json["data"]["status"], "pending")
 
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
@@ -1572,12 +1589,28 @@ def patch_award_on_cancel_lot(self):
         "cancellationOf": "lot",
         "relatedLot": lot["id"]
     })
+
+
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.json["data"]["status"], "pending")
+    cancellation_id = response.json["data"]["id"]
+
+    if RELEASE_2020_04_19 < get_now():
+        response = self.app.post(
+            "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
+                self.tender_id, cancellation_id, self.tender_token
+            ),
+            upload_files=[("file", "name.doc", "content")],
+        )
+        self.assertEqual(response.status, "201 Created")
+
+        response = self.app.patch_json(
+            "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation_id, self.tender_token),
+            {"data": {"status": "pending"}},
+        )
 
     self.app.get("/tenders/{}/cancellations".format(self.tender_id))
 
@@ -1588,9 +1621,15 @@ def patch_award_on_cancel_lot(self):
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update award while cancellation for corresponding lot exists"
-    )
+    if RELEASE_2020_04_19 < get_now():
+        self.assertEqual(
+            response.json["errors"][0]["description"],
+            "Can't update award with lot that have active cancellation"
+        )
+    else:
+        self.assertEqual(
+            response.json["errors"][0]["description"], "Can't update award while cancellation for corresponding lot exists"
+        )
 
 
 # TenderNegotiationAwardComplaintResourceTest

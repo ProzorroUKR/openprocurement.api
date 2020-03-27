@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
+from datetime import timedelta
 
 from openprocurement.tender.core.views.cancellation_complaint import TenderCancellationComplaintResource
-from openprocurement.tender.core.utils import optendersresource
+from openprocurement.tender.core.utils import optendersresource, calculate_tender_business_date
 
 
 @optendersresource(
@@ -15,7 +16,30 @@ class TenderNegotiationCancellationComplaintResource(TenderCancellationComplaint
     """Tender Negotiation Cancellation Complaints """
 
     def recalculate_tender_periods(self):
-        pass
+        tender = self.request.validated["tender"]
+        cancellation = self.request.validated["cancellation"]
+        tenderer_action_date = self.context.tendererActionDate
+
+        date = cancellation.complaintPeriod.startDate
+
+        delta = (tenderer_action_date - date).days
+        delta_plus = 1 if (tenderer_action_date - date).seconds > 3599 else 0
+
+        delta += delta_plus
+
+        delta = timedelta(days=1 if not delta else delta)
+
+        if tender.status in ["active"]:
+            for award in tender.awards:
+                complaint_period = award.complaintPeriod
+                if (
+                    complaint_period
+                    and complaint_period.startDate
+                    and complaint_period.endDate
+                    and award.complaintPeriod.startDate < date < award.complaintPeriod.endDate
+                ):
+                    award.complaintPeriod.endDate = calculate_tender_business_date(
+                        award.complaintPeriod.endDate, delta, tender)
 
 
 @optendersresource(
@@ -25,8 +49,5 @@ class TenderNegotiationCancellationComplaintResource(TenderCancellationComplaint
     procurementMethodType="negotiation.quick",
     description="Tender cancellation complaints",
 )
-class TenderNegotiationQuickCancellationComplaintResource(TenderCancellationComplaintResource):
+class TenderNegotiationQuickCancellationComplaintResource(TenderNegotiationCancellationComplaintResource):
     """Tender Negotiation Quick Cancellation Complaints """
-
-    def recalculate_tender_periods(self):
-        pass

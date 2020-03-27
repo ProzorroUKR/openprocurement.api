@@ -2,6 +2,9 @@
 from copy import deepcopy
 from email.header import Header
 
+from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_cancellation, test_claim
 
 
@@ -1136,6 +1139,11 @@ def proc_1lot_1can(self):
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": cancellation},
     )
+    cancellation_id = response.json["data"]["id"]
+
+    if RELEASE_2020_04_19 < get_now():
+        activate_cancellation_after_2020_04_19(self, cancellation_id)
+
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertTrue(all([i["status"] == "cancelled" for i in response.json["data"]["lots"]]))
     self.assertEqual(response.json["data"]["status"], "cancelled")
@@ -1351,6 +1359,10 @@ def question_blocking(self):
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": cancellation},
     )
+    cancellation_id = response.json["data"]["id"]
+
+    if RELEASE_2020_04_19 < get_now():
+        activate_cancellation_after_2020_04_19(self, cancellation_id)
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "cancelled")
@@ -1387,6 +1399,11 @@ def claim_blocking(self):
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": cancellation},
     )
+
+    cancellation_id = response.json["data"]["id"]
+
+    if RELEASE_2020_04_19 < get_now():
+        activate_cancellation_after_2020_04_19(self, cancellation_id)
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "cancelled")

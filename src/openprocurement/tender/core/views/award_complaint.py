@@ -18,6 +18,9 @@ from openprocurement.tender.core.validation import (
     validate_award_complaint_operation_not_in_allowed_status,
     validate_update_complaint_not_in_allowed_complaint_status,
     validate_complaint_type_change,
+    validate_update_award_with_cancellation_lot_pending,
+    validate_add_complaint_with_tender_cancellation_in_pending,
+    validate_add_complaint_with_lot_cancellation_in_pending
 )
 from openprocurement.tender.belowthreshold.utils import check_tender_status
 from openprocurement.tender.core.utils import save_tender, apply_patch
@@ -89,6 +92,8 @@ class BaseTenderAwardComplaintResource(BaseTenderComplaintResource):
             validate_award_complaint_operation_not_in_allowed_status,
             validate_award_complaint_add_only_for_active_lots,
             validate_add_complaint_not_in_complaint_period,
+            validate_add_complaint_with_tender_cancellation_in_pending,
+            validate_add_complaint_with_lot_cancellation_in_pending("award"),
         ),
     )
     def collection_post(self):
@@ -122,6 +127,7 @@ class BaseTenderAwardComplaintResource(BaseTenderComplaintResource):
         permission="edit_complaint",
         validators=(
             validate_patch_complaint_data,
+            validate_update_award_with_cancellation_lot_pending,
             validate_award_complaint_operation_not_in_allowed_status,
             validate_award_complaint_update_only_for_active_lots,
             validate_update_complaint_not_in_allowed_complaint_status,

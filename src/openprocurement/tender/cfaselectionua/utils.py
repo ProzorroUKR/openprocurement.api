@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from barbecue import chef
-from copy import deepcopy
 from logging import getLogger
 from zope.component import queryUtility
 from openprocurement.api.constants import TZ
@@ -23,6 +22,7 @@ from openprocurement.tender.core.utils import (
     remove_draft_bids,
     calculate_tender_business_date,
     get_first_revision_date,
+    CancelTenderLot as BaseCancelTenderLot,
 )
 from functools import partial
 from cornice.resource import resource
@@ -31,6 +31,11 @@ from openprocurement.api.utils import error_handler, context_unpack, get_now
 LOGGER = getLogger("openprocurement.tender.cfaselectionua")
 
 agreement_resource = partial(resource, error_handler=error_handler, factory=agreement_factory)
+
+
+class CancelTenderLot(BaseCancelTenderLot):
+    def add_next_award_method(request):
+        return add_next_award(request)
 
 
 def get_change_class(instance, data):
