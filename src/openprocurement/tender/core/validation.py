@@ -1066,6 +1066,7 @@ def validate_update_award_with_accepted_complaint(request):
     if any([any([c.status == "accepted" for c in i.complaints]) for i in tender.awards if i.lotID == award.lotID]):
         raise_operation_error(request, "Can't update award with accepted complaint")
 
+
 # award complaint
 def validate_award_complaint_operation_not_in_allowed_status(request):
     tender = request.validated["tender"]

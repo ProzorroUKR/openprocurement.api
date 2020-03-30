@@ -50,6 +50,7 @@ from openprocurement.tender.openua.tests.award_blanks import (
     # TenderAwardComplaintResourceTest
     create_tender_award_claim,
     create_tender_award_complaint_not_active,
+    create_tender_award_complaint_after_2020_04_19,
     create_tender_award_complaint,
     patch_tender_award_complaint,
     review_tender_award_complaint,
@@ -73,6 +74,7 @@ from openprocurement.tender.openua.tests.award_blanks import (
 class TenderUAAwardComplaintResourceTestMixin(object):
     test_create_tender_award_claim = snitch(create_tender_award_claim)
     test_create_tender_award_complaint_not_active = snitch(create_tender_award_complaint_not_active)
+    test_create_tender_award_complaint_after_2020_04_19 = snitch(create_tender_award_complaint_after_2020_04_19)
     test_create_tender_award_complaint = snitch(create_tender_award_complaint)
     test_patch_tender_award_complaint = snitch(patch_tender_award_complaint)
     test_review_tender_award_complaint = snitch(review_tender_award_complaint)
