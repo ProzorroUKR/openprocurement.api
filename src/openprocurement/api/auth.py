@@ -95,7 +95,7 @@ def get_local_roles(context):
     from pyramid.location import lineage
 
     roles = {}
-    for location in lineage(context):
+    for location in reversed(list(lineage(context))):
         try:
             local_roles = location.__local_roles__
         except AttributeError:
