@@ -47,13 +47,26 @@ class BaseTenderAwardComplaintResource(BaseTenderComplaintResource):
 
     def validate_posting_complaint(self):
         tender = self.request.validated["tender"]
+
+        apply_rules_2020_04_19 = get_first_revision_date(tender, get_now()) > RELEASE_2020_04_19
+
         context_award = self.request.validated["award"]
-        if not any(
-            award.status == "active"
-            for award in tender.awards
-            if award.lotID == context_award.lotID
-        ):
-            raise_operation_error(self.request, "Complaint submission is allowed only after award activation.")
+
+        if not apply_rules_2020_04_19:
+
+            if not any(
+                award.status == "active"
+                for award in tender.awards
+                if award.lotID == context_award.lotID
+            ):
+                raise_operation_error(self.request, "Complaint submission is allowed only after award activation.")
+        else:
+
+            if context_award.status not in ("active", "unsuccessful"):
+                raise_operation_error(
+                    self.request,
+                    "Complaint submission is allowed only after award activation or unsuccessful award.",
+                )
 
     def validate_posting_claim(self):
         complaint = self.request.validated["complaint"]
@@ -246,14 +259,15 @@ class BaseTenderAwardComplaintResource(BaseTenderComplaintResource):
         new_status = data.get("status", status)
 
         tender = self.request.validated["tender"]
-        old_rules = get_first_revision_date(tender, get_now()) < RELEASE_2020_04_19
+
+        not_apply_rules_2020_04_19 = get_first_revision_date(tender, get_now()) < RELEASE_2020_04_19
 
         if new_status == status and status in ["pending", "accepted", "stopping"]:
             apply_patch(self.request, save=False, src=context.serialize())
 
         elif (
             status in ["pending", "stopping"]
-            and ((old_rules and new_status in ["invalid", "mistaken"])
+            and ((not_apply_rules_2020_04_19 and new_status in ["invalid", "mistaken"])
             or (new_status == "invalid"))
         ):
             apply_patch(self.request, save=False, src=context.serialize())
