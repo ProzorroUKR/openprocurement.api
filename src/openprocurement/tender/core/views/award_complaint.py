@@ -78,7 +78,7 @@ class BaseTenderAwardComplaintResource(BaseTenderComplaintResource):
 
     def pre_create(self):
         tender = self.request.validated["tender"]
-        old_rules = get_first_revision_date(tender) < RELEASE_2020_04_19
+        not_apply_rules_2020_04_19 = get_first_revision_date(tender) < RELEASE_2020_04_19
 
         complaint = self.request.validated["complaint"]
         complaint.date = get_now()
@@ -88,7 +88,7 @@ class BaseTenderAwardComplaintResource(BaseTenderComplaintResource):
         if complaint.status == "claim":   # claim
             self.validate_posting_claim()
             complaint.dateSubmitted = get_now()
-        elif old_rules and complaint.status == "pending":  # complaint
+        elif not_apply_rules_2020_04_19 and complaint.status == "pending":  # complaint
             self.validate_posting_complaint()
             complaint.type = "complaint"
             complaint.dateSubmitted = get_now()
@@ -260,14 +260,14 @@ class BaseTenderAwardComplaintResource(BaseTenderComplaintResource):
 
         tender = self.request.validated["tender"]
 
-        not_apply_rules_2020_04_19 = get_first_revision_date(tender, get_now()) < RELEASE_2020_04_19
+        apply_rules_2020_04_19 = get_first_revision_date(tender, get_now()) > RELEASE_2020_04_19
 
         if new_status == status and status in ["pending", "accepted", "stopping"]:
             apply_patch(self.request, save=False, src=context.serialize())
 
         elif (
             status in ["pending", "stopping"]
-            and ((not_apply_rules_2020_04_19 and new_status in ["invalid", "mistaken"])
+            and ((not apply_rules_2020_04_19 and new_status in ["invalid", "mistaken"])
             or (new_status == "invalid"))
         ):
             apply_patch(self.request, save=False, src=context.serialize())
@@ -286,8 +286,8 @@ class BaseTenderAwardComplaintResource(BaseTenderComplaintResource):
                 self.on_satisfy_complaint_by_reviewer()
 
         elif (
-            (old_rules and status in ["pending", "accepted", "stopping"])
-            or (not old_rules and status in ["accepted", "stopping"])
+            (not apply_rules_2020_04_19 and status in ["pending", "accepted", "stopping"])
+            or (apply_rules_2020_04_19 and status in ["accepted", "stopping"])
             and new_status == "stopped"
         ):
             apply_patch(self.request, save=False, src=context.serialize())
