@@ -1132,6 +1132,14 @@ def create_tender_award_complaint_after_2020_04_19(self):
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, award_id, self.bid_token),
         {"data": test_complaint},
+    )
+    self.assertEqual(response.status, "201 Created")
+    complaint_id = response.json["data"]["id"]
+    owner_token = response.json["access"]["token"]
+
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(self.tender_id, award_id, complaint_id, owner_token),
+        {"data": {"status": "pending"}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1171,11 +1179,16 @@ def create_tender_award_complaint_after_2020_04_19(self):
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, award_2_id, bid_2_token),
         {"data": test_complaint},
+    )
+    self.assertEqual(response.status, "201 Created")
+    complaint_id = response.json["data"]["id"]
+    owner_token = response.json["access"]["token"]
+
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(self.tender_id, award_2_id, complaint_id, owner_token),
+        {"data": {"status": "pending"}},
         status=403,
     )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
 
     self.assertEqual(
         response.json["errors"],
@@ -1202,6 +1215,14 @@ def create_tender_award_complaint_after_2020_04_19(self):
         {"data": test_complaint},
     )
     self.assertEqual(response.status, "201 Created")
+    complaint_id = response.json["data"]["id"]
+    owner_token = response.json["access"]["token"]
+
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(self.tender_id, award_2_id, complaint_id, owner_token),
+        {"data": {"status": "pending"}},
+    )
+    self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "pending")
 
