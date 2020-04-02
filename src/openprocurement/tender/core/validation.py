@@ -391,16 +391,6 @@ def validate_cancellation_operation_document(request):
                 "cancellation with pending status".format(OPERATIONS.get(request.method))
             )
 
-        if not (
-            cancellation.status == "draft"
-            or (cancellation.status == "pending"
-                and any([i for i in cancellation.complaints if i.status == "satisfied"]))
-        ):
-            raise_operation_error(
-                request,
-                "Document can't be {} in current({}) cancellation status".format(
-                    OPERATIONS.get(request.method), cancellation.status)
-            )
     else:
         relatedLot = cancellation.relatedLot
 
@@ -414,16 +404,16 @@ def validate_cancellation_operation_document(request):
                 "cancellation in 'pending' status".format(OPERATIONS.get(request.method))
             )
 
-        if not (
-            cancellation.status == "draft"
-            or (cancellation.status == "pending"
-                and any([i for i in cancellation.complaints if i.status == "satisfied" and i.relatedLot == relatedLot]))
-        ):
-            raise_operation_error(
-                request,
-                "Document can't be {} in current({}) cancellation lot status".format(
-                    OPERATIONS.get(request.method), cancellation.status)
-            )
+    if not (
+        cancellation.status == "draft"
+        or (cancellation.status == "pending"
+            and any([i for i in cancellation.complaints if i.status == "satisfied"]))
+    ):
+        raise_operation_error(
+            request,
+            "Document can't be {} in current({}) cancellation status".format(
+                OPERATIONS.get(request.method), cancellation.status)
+        )
 
 
 def validate_cancellation_statuses(request):
@@ -1041,17 +1031,6 @@ def validate_update_award_in_not_allowed_status(request):
     if tender.status not in ["active.qualification", "active.awarded"]:
         raise_operation_error(request, "Can't update award in current ({}) tender status".format(tender.status))
 
-    tender_created = get_first_revision_date(tender, default=get_now())
-    prev_status = request.context.status
-    new_status = request.validated["data"].get("status", prev_status)
-    if (
-            tender_created > RELEASE_2020_04_19
-            and tender.status == "active.qualification"
-            and [i for i in tender.cancellations if i.status != "unsuccessful" and i.cancellationOf == "tender"]
-            and new_status != prev_status
-    ):
-        raise_operation_error(request, "Can't update award status when tender have active cancellation")
-
 
 def validate_update_award_only_for_active_lots(request):
     tender = request.validated["tender"]
@@ -1228,18 +1207,6 @@ def validate_contract_operation_not_in_allowed_status(request):
                 OPERATIONS.get(request.method), request.validated["tender_status"]
             ),
         )
-
-    tender = request.validated["tender"]
-    tender_created = get_first_revision_date(tender, default=get_now())
-    prev_status = request.context.status
-    new_status = request.validated["data"].get("status", prev_status)
-    if (
-            tender_created > RELEASE_2020_04_19
-            and tender.status == "active.awarded"
-            and [i for i in tender.cancellations if i.status == "pending" and i.cancellationOf == "tender"]
-            and new_status != prev_status
-    ):
-        raise_operation_error(request, "Can't update contract to active status when tender have active cancellation")
 
 
 def validate_update_contract_only_for_active_lots(request):

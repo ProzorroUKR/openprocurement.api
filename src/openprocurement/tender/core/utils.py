@@ -484,14 +484,16 @@ def block_tender(request):
     tender = request.validated["tender"]
     new_rules = get_first_revision_date(tender, default=get_now()) > RELEASE_2020_04_19
 
-    accept_tender = all([
-        any([j.status == "resolved" for j in i.complaints])
+    if not new_rules:
+        return False
+
+    if any(i.status == "pending" for i in tender.cancellations):
+        return True
+
+    accept_tender = all(
+        any(j.status == "resolved" for j in i.complaints)
         for i in tender.cancellations
         if i.status == "unsuccessful" and getattr(i, "complaints", None)
-    ])
-
-    return (
-        new_rules
-        and (any([i.status not in ["active", "unsuccessful"] for i in tender.cancellations])
-             or not accept_tender)
     )
+
+    return not accept_tender

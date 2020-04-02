@@ -25,7 +25,6 @@ class CancelTenderLot(BaseCancelTenderLot):
 
 def check_bids(request):
     tender = request.validated["tender"]
-    new_rules = get_first_revision_date(tender, default=get_now()) > RELEASE_2020_04_19
 
     if tender.lots:
         [
@@ -44,8 +43,6 @@ def check_bids(request):
         elif max([i.numberOfBids for i in tender.lots if i.status == "active"]) < 2:
             add_next_award(request)
     else:
-        if new_rules and any([i.status not in ["active", "unsuccessful"] for i in tender.cancellations]):
-            return
         if tender.numberOfBids < 2 and tender.auctionPeriod and tender.auctionPeriod.startDate:
             tender.auctionPeriod.startDate = None
         if tender.numberOfBids == 0:
