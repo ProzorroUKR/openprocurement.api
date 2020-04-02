@@ -318,11 +318,11 @@ def listing_draft(self):
             self.assertEqual(resp.content_type, "application/json")
             self.assertEqual(resp.json['data']['status'], 'active.tendering')
             tenders.append(resp.json["data"])
-        
+
         response = self.app.post_json("/tenders", {"data": data})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
-    
+
     ids = ",".join([i["id"] for i in tenders])
 
     while True:
@@ -874,6 +874,115 @@ def create_tender_draft(self):
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
     self.assertEqual(tender["status"], self.primary_tender_status)
+
+
+def tender_owner_can_change_in_draft(self):
+    data = self.initial_data.copy()
+    data.update({"status": "draft"})
+    response = self.app.post_json("/tenders", {"data": data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    tender = response.json["data"]
+    token = response.json["access"]["token"]
+    self.assertEqual(tender["status"], "draft")
+
+    changeable_data = {
+        "awardCriteriaDetails_ru": u"Some text 1",
+        "procurementMethodRationale_en": u"Some text 2",
+        "eligibilityCriteria": u"Some text 3",
+        "eligibilityCriteria_ru": u"Some text 4",
+        "awardCriteriaDetails_en": u"Some text 5",
+        "description": u"Some text 6",
+        "milestones": deepcopy(data["milestones"]),
+        "buyers": [
+            {
+                "name": u"John Doe",
+                "identifier": {
+                    "scheme": u"AE-DCCI",
+                    "id": u"AE1"
+                }
+            }
+        ],
+        "procurementMethodRationale_ru": u"Some text 7",
+        "description_en": u"Some text 8",
+        "mainProcurementCategory": u"services",
+        "title": u"Some text 10",
+        "awardCriteriaDetails": u"Some text 11",
+        "submissionMethodDetails_en": u"Some text 12",
+        "title_ru": u"Some text 13",
+        "procurementMethodRationale": u"Some text 14",
+        "eligibilityCriteria_en": u"Some text 15",
+        "description_ru": u"Some text 16",
+        "funders": [
+            {
+                "name": u"First funder",
+                "identifier": {
+                    "scheme": u"XM-DAC",
+                    "id": u"44000"
+                },
+                "address": {
+                    "countryName": u"Японія"
+                },
+                "contactPoint": {
+                    "name": u"Some text 9",
+                    "email": u"fake_japan_email@gmail.net"
+                }
+            }
+        ],
+        "submissionMethodDetails_ru": u"Some text 17",
+        "title_en": u"Some text 18",
+        "submissionMethodDetails": u"Some text 19",
+
+        "numberOfBidders": 1,
+        "features": [
+            {
+                "title": u"Feature title",
+                "enum": [
+                    {
+                        "title": "Feature value title",
+                        "value": 0.2
+                    }
+                ],
+                "code": uuid4().hex,
+                "featureOf": u"tenderer"
+            }
+        ],
+        "items": [
+            {
+                "description": u"New description"
+            }
+        ],
+        "tenderPeriod": {"endDate": (get_now() + timedelta(days=14)).isoformat()},
+        "procuringEntity": {"name": u"Національне управління справами"},
+        "guarantee": {"amount": 50},
+        "value": {"amount": 110},
+        "minimalStep": {"amount": 40}
+    }
+    changeable_data["milestones"][1]["title"] = "submittingServices"
+
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": changeable_data}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    tender = response.json["data"]
+    for key, value in changeable_data.items():
+        if isinstance(value, dict):
+            for item in value:
+                self.assertEqual(tender[key][item], changeable_data[key][item])
+                self.assertNotEqual(tender[key][item], data.get(key, {}).get(item))
+        elif not isinstance(value, list):
+            self.assertEqual(tender[key], changeable_data[key])
+            self.assertNotEqual(tender[key], data.get(key))
+
+    self.assertEqual(tender["milestones"][0]["title"], data["milestones"][0]["title"])
+    self.assertNotEqual(tender["milestones"][1]["title"], data["milestones"][1]["title"])
+    self.assertEqual(tender["milestones"][1]["title"], changeable_data["milestones"][1]["title"])
+
+    self.assertEqual(tender["funders"], changeable_data["funders"])
+    self.assertEqual(tender["features"], changeable_data["features"])
+
+    self.assertEqual(tender["items"][0]["description"], changeable_data["items"][0]["description"])
 
 
 def create_tender_central(self):
