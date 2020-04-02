@@ -150,7 +150,8 @@ class PriceQuotationTender(Tender):
             "minimalStep",
         )
         _edit_role = _core_roles["edit"] \
-            + _edit_fields + whitelist("contracts", "numberOfBids", 'status')
+            + _edit_fields + whitelist("contracts", "numberOfBids", "status", "profile")
+        _edit_pq_bot_role = whitelist("items", "shortlistedFirms", "status")
         _view_tendering_role = (
             _core_roles["view"]
             + _edit_fields
@@ -162,6 +163,8 @@ class PriceQuotationTender(Tender):
                 "cancellations",
                 "complaints",
                 "contracts",
+                "profile",
+                "shortlistedFirms"
             )
         )
         _view_role = _view_tendering_role + whitelist("bids", "numberOfBids")
@@ -170,6 +173,7 @@ class PriceQuotationTender(Tender):
             "create": _core_roles["create"] + _edit_role + whitelist("lots"),
             "edit": _edit_role,
             "edit_draft": _edit_role,
+            "edit_draft.invalid": _edit_role,
             "edit_draft.publishing": _all_forbidden,
             "edit_active.tendering": _all_forbidden,
             "edit_active.qualification": _all_forbidden,
@@ -178,6 +182,7 @@ class PriceQuotationTender(Tender):
             "edit_unsuccessful": _all_forbidden,
             "edit_cancelled": _all_forbidden,
             "draft": _view_tendering_role,
+            "draft.invalid": _view_tendering_role,
             "draft.publishing": _view_tendering_role,
             "active.tendering": _view_tendering_role,
             "view": _view_role,
@@ -193,10 +198,12 @@ class PriceQuotationTender(Tender):
             "listing": _core_roles["listing"],
             "contracting": _core_roles["contracting"],
             "default": _core_roles["default"],
+            "bots": _edit_pq_bot_role,
         }
 
     status = StringType(choices=["draft",
                                  "draft.publishing",
+                                 "draft.invalid",
                                  "active.tendering",
                                  "active.qualification",
                                  "active.awarded",
@@ -258,18 +265,23 @@ class PriceQuotationTender(Tender):
     )
     guarantee = ModelType(Guarantee)
     procurementMethodType = StringType(default=PMT)
+    profile = StringType()
+    shortlistedFirms = ListType(ModelType(ShortlistedFirm), default=list())
 
     procuring_entity_kinds = ["general", "special",
                               "defense", "central", "other"]
     block_complaint_status = ["answered", "pending"]
 
-    def __local_roles__(self):
-        roles = {
-            "{}_{}".format(self.owner, self.owner_token): "tender_owner"
-        }
-        for i in self.bids:
-            roles["{}_{}".format(i.owner, i.owner_token)] = "bid_owner"
-        return roles
+    def get_role(self):
+        root = self.__parent__
+        request = root.request
+        if request.authenticated_role in ("Administrator", "chronograph", "contracting", "bots"):
+            role = request.authenticated_role
+        elif request.authenticated_role == "auction":
+            role = "auction_{}".format(request.method.lower())
+        else:
+            role = "edit_{}".format(request.context.status)
+        return role
 
     @serializable(serialize_when_none=False)
     def next_check(self):
