@@ -2,47 +2,28 @@
 from datetime import timedelta
 
 from barbecue import vnmax
-from openprocurement.tender.pricequotation.interfaces import \
-    IPriceQuotationTender
+from openprocurement.api.constants import TZ
+from openprocurement.api.models import BusinessOrganization, CPVClassification, Guarantee
+from openprocurement.api.models import Item as BaseItem
+from openprocurement.api.models import ListType, Period, Value
+from openprocurement.api.utils import get_now
+from openprocurement.api.validation import validate_classification_id, validate_cpv_group, validate_items_uniq
+from openprocurement.tender.core.constants import COMPLAINT_STAND_STILL_TIME, CPV_ITEMS_CLASS_FROM
+from openprocurement.tender.core.models import (Award, BaseLot, Bid, Cancellation, Complaint, ComplaintModelType,
+                                                Contract, Feature, Item, PeriodEndRequired, ProcuringEntity, Question,
+                                                Tender, default_lot_role, embedded_lot_role, validate_features_uniq,
+                                                validate_lots_uniq)
+from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.core.validation import validate_minimalstep
+from openprocurement.tender.pricequotation.constants import PMT
+from openprocurement.tender.pricequotation.interfaces import IPriceQuotationTender
 from pyramid.security import Allow
 from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist
-from schematics.types import StringType, IntType
+from schematics.types import IntType, StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from zope.interface import implementer
-
-from openprocurement.api.constants import TZ
-from openprocurement.api.models import ListType, Period, Value, Guarantee
-from openprocurement.api.utils import get_now
-from openprocurement.api.validation import validate_items_uniq, \
-    validate_cpv_group, validate_classification_id
-from openprocurement.tender.core.constants import CPV_ITEMS_CLASS_FROM, \
-    COMPLAINT_STAND_STILL_TIME
-from openprocurement.tender.core.models import (
-    ComplaintModelType,
-    PeriodEndRequired,
-    Bid,
-    ProcuringEntity,
-    Item,
-    Award,
-    Contract,
-    Question,
-    Cancellation,
-    Feature,
-    BaseLot,
-    Complaint,
-    Tender,
-    embedded_lot_role,
-    default_lot_role
-)
-from openprocurement.tender.core.models import validate_features_uniq, \
-    validate_lots_uniq
-from openprocurement.tender.core.utils import (
-    calculate_tender_business_date,
-)
-from openprocurement.tender.core.validation import validate_minimalstep
-from openprocurement.tender.pricequotation.constants import PMT
 
 
 class Lot(BaseLot):
@@ -125,6 +106,18 @@ class Lot(BaseLot):
         if value and value.amount and data.get("value"):
             if data.get("value").amount < value.amount:
                 raise ValidationError(u"value should be less than value of lot")
+
+
+class ShortlistedFirm(BusinessOrganization):
+    id = StringType()
+    status = StringType()
+
+
+class Item(BaseItem):
+    """A good, service, or work to be contracted."""
+
+    classification = ModelType(CPVClassification)
+
 
 
 @implementer(IPriceQuotationTender)
@@ -219,7 +212,7 @@ class PriceQuotationTender(Tender):
         ModelType(Item, required=True),
         required=True,
         min_size=1,
-        validators=[validate_items_uniq, validate_classification_id],
+        validators=[validate_items_uniq,],
     )
     # The total estimated value of the procurement.
     value = ModelType(Value, required=True)
@@ -425,6 +418,8 @@ class PriceQuotationTender(Tender):
         )
 
     def validate_items(self, data, items):
+        if data["status"] in ("draft", "draft.publishing", "draft.invalid"):
+            return
         cpv_336_group = items[0].classification.id[:3] == "336"\
             if items else False
         if (
@@ -436,6 +431,7 @@ class PriceQuotationTender(Tender):
             raise ValidationError(u"CPV class of items should be identical")
         else:
             validate_cpv_group(items)
+        validate_classification_id(items)
 
     def validate_features(self, data, features):
         if (
