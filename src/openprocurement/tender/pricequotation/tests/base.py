@@ -54,12 +54,7 @@ test_milestones = [
 ]
 
 test_item = {
-    "description": u"футляри до державних нагород",
-    "classification": {"scheme": u"ДК021", "id": u"44617100-9", "description": u"Cartons"},
-    "additionalClassifications": [
-        {"scheme": u"ДКПП", "id": u"17.21.1", "description": u"папір і картон гофровані, паперова й картонна тара"}
-    ],
-    "unit": {"name": u"item", "code": u"44617100-9"},
+    "description": u"Комп’ютерне обладнання",
     "quantity": 5,
     "deliveryDate": {
         "startDate": (now + timedelta(days=2)).isoformat(),
@@ -75,7 +70,7 @@ test_item = {
 }
 
 test_tender_data = {
-    "title": u"футляри до державних нагород",
+    "title": u"Комп’ютерне обладнання",
     "mainProcurementCategory": "goods",
     "procuringEntity": test_procuringEntity,
     "value": {"amount": 500, "currency": u"UAH"},
@@ -179,6 +174,68 @@ test_draft_complaint = {
     "author": test_author
 }
 
+test_shortlisted_firms = [
+    {
+        "address": {
+            "countryName": "Україна",
+            "locality": "м.Київ",
+            "postalCode": "01100",
+            "region": "Київська область",
+            "streetAddress": "бул.Дружби Народів, 8"
+        },
+        "contactPoint": {
+            "email": "contact@pixel.pix",
+            "name": "Оксана Піксель",
+            "telephone": "(067) 123-45-67"
+        },
+        "id": "UA-EDR-12345678",
+        "identifier": {
+            "id": "12345678",
+            "legalName": "Товариство з обмеженою відповідальністю «Пікселі»",
+            "scheme": "UA-EDR"
+        },
+        "name": "Товариство з обмеженою відповідальністю «Пікселі»",
+        "scale": "large",
+        "status": "active"
+    },
+    {
+        "address": {
+            "countryName": "Україна",
+            "locality": "м.Тернопіль",
+            "postalCode": "46000",
+            "region": "Тернопільська область",
+            "streetAddress": "вул. Кластерна, 777-К"
+        },
+        "contactPoint": {
+            "email": "info@shteker.pek",
+            "name": "Олег Штекер",
+            "telephone": "(095) 123-45-67"
+        },
+        "id": "UA-EDR-87654321",
+        "identifier": {
+            "id": "87654321",
+            "legalName": "Товариство з обмеженою відповідальністю «Штекер-Пекер»",
+            "scheme": "UA-EDR"
+        },
+        "name": "Товариство з обмеженою відповідальністю «Штекер-Пекер»",
+        "scale": "large",
+        "status": "active"
+    }
+]
+
+test_short_profile = {
+    "classification": {
+        "description": "Комп’ютерне обладнанн",
+        "id": "30230000-0",
+        "scheme": "ДК021"
+    },
+    "id": "655360-30230000-889652-40000777",
+    "unit": {
+        "code": "H87",
+        "name": "штук"
+    }
+}
+
 
 def set_tender_lots(tender, lots):
     tender["lots"] = []
@@ -236,9 +293,15 @@ class BaseTenderWebTest(BaseCoreWebTest):
         now = get_now()
         data = {"status": status}
         if status == "active.tendering":
+            items = deepcopy(self.initial_data["items"])
+            for item in items:
+                item.update({"classification": test_short_profile["classification"],
+                             "unit": test_short_profile["unit"]})
             data.update(
                 {
                     "tenderPeriod": {"startDate": (now).isoformat(), "endDate": (now + timedelta(days=1)).isoformat()},
+                    "shortlistedFirms": test_shortlisted_firms,
+                    "items": items
                 }
             )
         elif status == "active.qualification":
@@ -254,7 +317,6 @@ class BaseTenderWebTest(BaseCoreWebTest):
         elif status == "active.awarded":
             data.update(
                 {
-                    
                     "tenderPeriod": {
                         "startDate": (now - timedelta(days=8)).isoformat(),
                         "endDate": (now - timedelta(days=1)).isoformat(),
@@ -265,7 +327,6 @@ class BaseTenderWebTest(BaseCoreWebTest):
         elif status == "complete":
             data.update(
                 {
-                    
                     "tenderPeriod": {
                         "startDate": (now - timedelta(days=18)).isoformat(),
                         "endDate": (now - timedelta(days=11)).isoformat(),
@@ -276,7 +337,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
                     },
                 }
             )
-            
+
         self.tender_document_patch = data
         if extra:
             self.tender_document_patch.update(extra)

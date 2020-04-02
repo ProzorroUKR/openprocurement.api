@@ -25,6 +25,8 @@ from openprocurement.tender.pricequotation.tests.base import (
     test_cancellation,
     test_claim,
     test_draft_claim,
+    test_shortlisted_firms,
+    test_short_profile,
 )
 
 # TenderTest
@@ -102,7 +104,6 @@ def listing(self):
             self.assertEqual(resp.content_type, "application/json")
             self.assertEqual(resp.json['data']['status'], 'active.tendering')
             tenders.append(resp.json["data"])
-        
 
     ids = ",".join([i["id"] for i in tenders])
 
@@ -1762,6 +1763,80 @@ def patch_not_author(self):
     # self.assertEqual(response.content_type, "application/json")
     # self.assertEqual(response.json["errors"][0]["description"], "Can update document only author")
 
+
+def patch_tender_by_pq_bot(self):
+    response = self.app.post_json("/tenders", {"data": deepcopy(self.initial_data)})
+    self.assertEqual(response.status, "201 Created")
+    tender_id = response.json["data"]["id"]
+    owner_token = response.json["access"]["token"]
+    tender = response.json["data"]
+
+    self.assertEqual(tender["status"], "draft")
+    self.assertEqual(len(tender["items"]), 1)
+    self.assertNotIn("shortlistedFirms", tender)
+    self.assertNotIn("profile", tender)
+    self.assertNotIn("classification", tender["items"][0])
+    self.assertNotIn("unit", tender["items"][0])
+
+    data = {"data": {"status": "draft.publishing", "profile": test_short_profile["id"]}}
+    response = self.app.patch_json("/tenders/{}?acc_token={}".format(tender_id, owner_token), data)
+    self.assertEqual(response.status, "200 OK")
+    tender = response.json["data"]
+    self.assertEqual(tender["status"], "draft.publishing")
+    self.assertEqual(tender["profile"], test_short_profile["id"])
+
+    items = deepcopy(tender["items"])
+    items[0]["classification"] = test_short_profile["classification"]
+    items[0]["unit"] = test_short_profile["unit"]
+    data = {
+        "data": {
+            "status": "active.tendering",
+            "items": items,
+            "shortlistedFirms": test_shortlisted_firms
+        }
+    }
+    with change_auth(self.app, ("Basic", ("pricequotation", ""))) as app:
+        self.app.patch_json("/tenders/{}".format(tender_id), data)
+
+    response = self.app.get("/tenders/{}".format(tender_id))
+    self.assertEqual(response.status, "200 OK")
+    tender = response.json["data"]
+    self.assertEqual(tender["status"], data["data"]["status"])
+    self.assertIn("classification", tender["items"][0])
+    self.assertIn("unit", tender["items"][0])
+    self.assertEqual(len(tender["shortlistedFirms"]), len(test_shortlisted_firms))
+
+    # switch tender to `draft.invalid`
+    response = self.app.post_json("/tenders", {"data": deepcopy(self.initial_data)})
+    self.assertEqual(response.status, "201 Created")
+    tender_id = response.json["data"]["id"]
+    owner_token = response.json["access"]["token"]
+    tender = response.json["data"]
+
+    self.assertEqual(tender["status"], "draft")
+    self.assertEqual(len(tender["items"]), 1)
+    self.assertNotIn("shortlistedFirms", tender)
+    self.assertNotIn("profile", tender)
+    self.assertNotIn("classification", tender["items"][0])
+    self.assertNotIn("unit", tender["items"][0])
+
+    data = {"data": {"status": "draft.publishing", "profile": "some-invalid-id"}}
+    response = self.app.patch_json("/tenders/{}?acc_token={}".format(tender_id, owner_token), data)
+    self.assertEqual(response.status, "200 OK")
+    tender = response.json["data"]
+    self.assertEqual(tender["status"], "draft.publishing")
+    self.assertEqual(tender["profile"], "some-invalid-id")
+
+    with change_auth(self.app, ("Basic", ("pricequotation", ""))) as app:
+        self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"status": "draft.invalid"}})
+
+    response = self.app.get("/tenders/{}".format(tender_id))
+    self.assertEqual(response.status, "200 OK")
+    tender = response.json["data"]
+    self.assertEqual(tender["status"], "draft.invalid")
+    self.assertNotIn("classification", tender["items"][0])
+    self.assertNotIn("unit", tender["items"][0])
+    self.assertNotIn("shortlistedFirms", tender)
 
 # TenderProcessTest
 

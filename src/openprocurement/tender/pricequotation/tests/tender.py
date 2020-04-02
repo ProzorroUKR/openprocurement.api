@@ -49,6 +49,7 @@ from openprocurement.tender.pricequotation.tests.tender_blanks import (
     tender_token_invalid,
     create_tender_central,
     create_tender_central_invalid,
+    patch_tender_by_pq_bot
 )
 
 
@@ -102,6 +103,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_create_tender_with_inn_before = snitch(create_tender_with_inn_before)
     test_tender_milestones_required = snitch(tender_milestones_required)
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
+    test_patch_tender_by_pq_bot = snitch(patch_tender_by_pq_bot)
 
 
 class TenderProcessTest(BaseTenderWebTest):
