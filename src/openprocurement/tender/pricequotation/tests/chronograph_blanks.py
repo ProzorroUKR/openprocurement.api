@@ -47,8 +47,7 @@ def switch_to_ignored_on_complete(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.json["data"]["status"], "claim")
 
-    self.set_status("active.tendering", {"status": self.initial_status})
-    self.check_chronograph()
+    self.set_status("active.qualification", {"status": self.initial_status})
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
     self.assertEqual(response.json["data"]["complaints"][0]["status"], "ignored")

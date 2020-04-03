@@ -71,6 +71,7 @@ test_item = {
 
 test_tender_data = {
     "title": u"Комп’ютерне обладнання",
+    "profile": "655360-30230000-889652-40000777",
     "mainProcurementCategory": "goods",
     "procuringEntity": test_procuringEntity,
     "value": {"amount": 500, "currency": u"UAH"},
