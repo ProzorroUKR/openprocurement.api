@@ -55,7 +55,7 @@ class TenderCancellationDocumentResourceTestMixin(object):
     test_patch_tender_cancellation_document = snitch(patch_tender_cancellation_document)
 
 
-class TenderCancellationResourceTest(
+class TenderCancellationActiveTenderingResourceTest(
     TenderContentWebTest,
     TenderCancellationResourceTestMixin,
     # TenderCancellationResourceNewReleaseTestMixin
@@ -63,6 +63,26 @@ class TenderCancellationResourceTest(
     initial_status = "active.tendering"
     initial_bids = test_bids
     valid_reasonType_choices = ["noDemand", "unFixable", "expensesCut"]
+
+
+class TenderCancellationActiveQualificationResourceTest(TenderCancellationActiveTenderingResourceTest):
+    initial_status = "active.qualification"
+    initial_bids = test_bids
+    valid_reasonType_choices = ["noDemand", "unFixable", "expensesCut"]
+
+
+class TenderCancellationActiveAwardedResourceTest(TenderCancellationActiveTenderingResourceTest):
+    initial_status = "active.awarded"
+    initial_bids = test_bids
+    valid_reasonType_choices = ["noDemand", "unFixable", "expensesCut"]
+
+# class TenderCancellationActiveQualificationResourceTest(
+#     TenderContentWebTest,
+#     TenderCancellationResourceTestMixin,
+# ):
+#     initial_status = "active.qualification"
+#     initial_bids = test_bids
+#     valid_reasonType_choices = ["noDemand", "unFixable", "expensesCut"]
 
 
 class TenderLotCancellationResourceTest(TenderContentWebTest):
@@ -98,7 +118,7 @@ class TenderCancellationDocumentResourceTest(TenderContentWebTest, TenderCancell
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderCancellationDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderCancellationResourceTest))
+    suite.addTest(unittest.makeSuite(TenderCancellationActiveTenderingResourceTest))
     return suite
 
 
