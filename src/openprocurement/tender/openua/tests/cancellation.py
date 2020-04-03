@@ -38,6 +38,7 @@ from openprocurement.tender.openua.tests.cancellation_blanks import (
     patch_tender_cancellation_complaint,
     get_tender_cancellation_complaints,
     access_create_tender_cancellation_complaint,
+    create_tender_cancellation_with_cancellation_lots,
 )
 
 
@@ -78,6 +79,7 @@ class TenderLotsCancellationResourceTest(BaseTenderUAContentWebTest):
     initial_lots = 2 * test_lots
 
     test_create_tender_lots_cancellation = snitch(create_tender_lots_cancellation)
+    test_create_tender_cancellation_with_cancellation_lots = snitch(create_tender_cancellation_with_cancellation_lots)
     # test_patch_tender_lots_cancellation = snitch(patch_tender_lots_cancellation)
 
 

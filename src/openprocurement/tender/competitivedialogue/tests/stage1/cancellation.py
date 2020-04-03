@@ -33,7 +33,10 @@ from openprocurement.tender.openua.tests.cancellation import (
     TenderCancellationResourceNewReleaseTestMixin,
     TenderCancellationComplaintResourceTestMixin,
 )
-from openprocurement.tender.openua.tests.cancellation_blanks import activate_cancellation
+from openprocurement.tender.openua.tests.cancellation_blanks import (
+    activate_cancellation,
+    create_tender_cancellation_with_cancellation_lots,
+)
 
 
 class CompetitiveDialogUACancellationResourceTest(
@@ -60,6 +63,7 @@ class CompetitiveDialogUALotsCancellationResourceTest(BaseCompetitiveDialogUACon
     test_create_tender_cancellation = snitch(create_tender_lots_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_lots_cancellation)
     test_cancellation_active_qualification_j1427 = snitch(cancellation_active_qualification_j1427)
+    test_create_tender_cancellation_with_cancellation_lots = snitch(create_tender_cancellation_with_cancellation_lots)
 
 
 class CompetitiveDialogUACancellationComplaintResourceTest(

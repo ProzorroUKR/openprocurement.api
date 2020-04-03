@@ -658,33 +658,26 @@ def validate_cancellation_of_active_lot(request):
         raise_operation_error(request, "Can perform cancellation only in active lot status")
 
 
-def validate_create_cancellation_with_lot_cancellation_in_pending(request):
+def validate_operation_cancellation_when_exists_cancellation_lot(request):
     tender = request.validated["tender"]
     tender_created = get_first_revision_date(tender, default=get_now())
-    data = request.validated["data"]
-    lot_id = data.get("relatedLot", None)
 
-    if tender_created < RELEASE_2020_04_19 or not lot_id:
+    if "data" in request.validated:
+        cancellation = request.validated["data"]
+    else:
+        cancellation = request.validated["cancellation"]
+
+    if tender_created < RELEASE_2020_04_19 or cancellation.get("relatedLot"):
         return
 
-    accept_lot = all([
-        any([j.status == "resolved" for j in i.complaints])
-        for i in tender.cancellations
-        if i.status == "unsuccessful" and getattr(i, "complaints", None) and i.relatedLot == lot_id
-    ])
-
     if (
-        request.authenticated_role == "tender_owner"
-        and (
-            any([
-                i for i in tender.cancellations
-                if i.relatedLot and i.status == "pending" and i.relatedLot == lot_id])
-            or not accept_lot
-        )
+        cancellation.get("status") != "pending"
+        and any(i for i in tender.cancellations if i.status == "pending")
     ):
         raise_operation_error(
             request,
-            "Can't add cancellation with lot that have active cancellation"
+            "Can't {} cancellation for tender when exists active lot cancellation".format(
+                OPERATIONS.get(request.method))
         )
 
 
