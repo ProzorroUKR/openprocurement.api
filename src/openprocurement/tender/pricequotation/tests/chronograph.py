@@ -11,11 +11,8 @@ from openprocurement.tender.pricequotation.tests.base import (
 )
 from openprocurement.tender.pricequotation.tests.chronograph_blanks import (
     # TenderSwitchTenderingResourceTest
-    switch_to_tendering_by_tenderPeriod_startDate,
     # TenderSwitchQualificationResourceTest
     switch_to_qualification,
-    # TenderSwitchAuctionResourceTest
-    switch_to_auction,
     # TenderSwitchUnsuccessfulResourceTest
     switch_to_unsuccessful,
     # TenderAuctionPeriodResourceTest
@@ -33,23 +30,11 @@ from openprocurement.tender.pricequotation.tests.chronograph_blanks import (
 from openprocurement.tender.core.tests.base import change_auth
 
 
-class TenderSwitchTenderingResourceTest(TenderContentWebTest):
-
-    test_switch_to_tendering_by_tenderPeriod_startDate = snitch(switch_to_tendering_by_tenderPeriod_startDate)
-
-
 class TenderSwitchQualificationResourceTest(TenderContentWebTest):
     initial_status = "active.tendering"
     initial_bids = test_bids[:1]
 
     test_switch_to_qualification = snitch(switch_to_qualification)
-
-
-class TenderSwitchAuctionResourceTest(TenderContentWebTest):
-    initial_status = "active.tendering"
-    initial_bids = test_bids
-
-    test_switch_to_auction = snitch(switch_to_auction)
 
 
 class TenderSwitchUnsuccessfulResourceTest(TenderContentWebTest):
@@ -59,10 +44,6 @@ class TenderSwitchUnsuccessfulResourceTest(TenderContentWebTest):
 
 
 class TenderLotSwitchQualificationResourceTest(TenderSwitchQualificationResourceTest):
-    initial_lots = test_lots
-
-
-class TenderLotSwitchAuctionResourceTest(TenderSwitchAuctionResourceTest):
     initial_lots = test_lots
 
 

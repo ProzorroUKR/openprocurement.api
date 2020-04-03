@@ -10,36 +10,20 @@ from openprocurement.tender.pricequotation.tests.base import test_claim, test_au
 from openprocurement.tender.core.utils import calculate_tender_business_date
 
 
-def switch_to_tendering_by_tenderPeriod_startDate(self):
-    self.set_status("active.tendering",)
-    response = self.check_chronograph()
-    self.assertEqual(response.json["data"]["status"], "active.tendering")
-
-
 # TenderSwitchQualificationResourceTest
 
 
 def switch_to_qualification(self):
-    self.set_status("active.tendering", {"status": self.initial_status})
+    self.set_status("active.qualification", {"status": self.initial_status})
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.qualification")
     self.assertEqual(len(response.json["data"]["awards"]), 1)
 
 
-# TenderSwitchAuctionResourceTest
-
-
-def switch_to_auction(self):
-    self.set_status("active.tenering", {"status": self.initial_status})
-    response = self.check_chronograph()
-    self.assertEqual(response.json["data"]["status"], "active.tendering")
-
-
 # TenderSwitchUnsuccessfulResourceTest
 
-
 def switch_to_unsuccessful(self):
-    self.set_status("active.tendering", {"status": self.initial_status})
+    self.set_status("active.qualification", {"status": self.initial_status})
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
     if self.initial_lots:
