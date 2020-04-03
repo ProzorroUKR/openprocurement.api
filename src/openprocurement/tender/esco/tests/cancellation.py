@@ -30,6 +30,7 @@ from openprocurement.tender.openua.tests.cancellation_blanks import (
     patch_tender_cancellation,
     access_create_tender_cancellation_complaint,
     activate_cancellation,
+    create_tender_cancellation_with_cancellation_lots
 )
 
 from openprocurement.tender.openeu.tests.cancellation import TenderCancellationBidsAvailabilityUtils
@@ -102,6 +103,7 @@ class TenderLotsCancellationResourceTest(BaseESCOContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
     test_create_tender_cancellation = snitch(create_tender_lots_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_lots_cancellation)
+    test_create_tender_cancellation_with_cancellation_lots = snitch(create_tender_cancellation_with_cancellation_lots)
 
 
 class TenderAwardsCancellationResourceTest(BaseESCOContentWebTest):
