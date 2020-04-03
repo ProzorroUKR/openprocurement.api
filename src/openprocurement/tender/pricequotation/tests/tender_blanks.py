@@ -956,7 +956,8 @@ def tender_owner_can_change_in_draft(self):
         "procuringEntity": {"name": u"Національне управління справами"},
         "guarantee": {"amount": 50},
         "value": {"amount": 110},
-        "minimalStep": {"amount": 40}
+        "minimalStep": {"amount": 40},
+        "status": "draft.publishing"
     }
     changeable_data["milestones"][1]["title"] = "submittingServices"
 
@@ -983,6 +984,75 @@ def tender_owner_can_change_in_draft(self):
     self.assertEqual(tender["features"], changeable_data["features"])
 
     self.assertEqual(tender["items"][0]["description"], changeable_data["items"][0]["description"])
+
+
+def tender_owner_cannot_change_in_draft(self):
+    data = self.initial_data.copy()
+    data.update({"status": "draft"})
+    response = self.app.post_json("/tenders", {"data": data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    tender = response.json["data"]
+    token = response.json["access"]["token"]
+    self.assertEqual(tender["status"], "draft")
+
+    immutable_data = {
+        "procurementMethod": u"selective",
+        "awardPeriod": {
+            "endDate": (get_now() + timedelta(days=14)).isoformat()
+        },
+        "submissionMethod": u"written",
+        "date": (get_now() + timedelta(days=1)).isoformat(),
+        "awardCriteria": u"bestProposal",
+        "owner": u"Test owner",
+        "revisions": [
+            {
+                "author": "Some author"
+            }
+        ],
+        "transfer_token": u"some token",
+        "lots": [
+            {
+                "title": u"lot title",
+                "value": {
+                    "amount": 100
+                },
+                "minimalStep": {
+                    "amount": 35
+                }
+            }
+        ],
+        "owner_token": u"17bc682ec79245bca7d9cdbabbfce8f7",
+        "tenderID": u"Some id",
+        "dateModified": (get_now() + timedelta(days=1)).isoformat(),
+        "plans": [
+            {
+                "id": uuid4().hex
+            }
+        ],
+        "procurementMethodType": u"belowThreshold",
+        "cancellations": [
+            {
+                "reason": u"Some reason"
+            }
+        ],
+        "mode": u"test"
+    }
+
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": immutable_data}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    tender = response.json["data"]
+    for key, value in immutable_data.items():
+        if isinstance(value, dict):
+            for item in value:
+                self.assertNotEqual(tender.get(key, {}).get(item), immutable_data[key][item])
+        elif isinstance(value, list):
+            self.assertEqual(tender.get(key, []), [])  # Updated list is still empty
+        else:
+            self.assertNotEqual(tender.get(key), immutable_data[key])
 
 
 def create_tender_central(self):

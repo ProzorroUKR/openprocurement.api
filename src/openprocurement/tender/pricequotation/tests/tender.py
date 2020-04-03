@@ -50,7 +50,8 @@ from openprocurement.tender.pricequotation.tests.tender_blanks import (
     create_tender_central,
     create_tender_central_invalid,
     patch_tender_by_pq_bot,
-    tender_owner_can_change_in_draft)
+    tender_owner_can_change_in_draft,
+    tender_owner_cannot_change_in_draft)
 
 
 class TenderResourceTestMixin(object):
@@ -59,6 +60,7 @@ class TenderResourceTestMixin(object):
     test_listing = snitch(listing)
     test_create_tender_draft = snitch(create_tender_draft)
     test_tender_owner_can_change_in_draft = snitch(tender_owner_can_change_in_draft)
+    test_tender_owner_cannot_change_in_draft = snitch(tender_owner_cannot_change_in_draft)
     test_create_tender = snitch(create_tender)
     test_tender_features = snitch(tender_features)
     test_get_tender = snitch(get_tender)
