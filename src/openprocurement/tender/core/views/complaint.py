@@ -25,12 +25,32 @@ from openprocurement.tender.belowthreshold.utils import check_tender_status
 from openprocurement.tender.core.utils import save_tender, apply_patch
 
 
-class ComplaintAdminPatchMixin:
+class ComplaintAdminPatchMixin(object):
     def patch_as_administrator(self, *_):
         apply_patch(self.request, save=False, src=self.context.serialize())
 
 
-class BaseTenderComplaintResource(ComplaintAdminPatchMixin, APIResource):
+class ComplaintBotPatchMixin(object):
+    def patch_as_bots(self, data):
+        request = self.request
+        context = self.context
+
+        status = context.status
+        new_status = data.get("status", status)
+
+        tender = request.validated["tender"]
+        new_rules = get_first_revision_date(tender, default=get_now()) > RELEASE_2020_04_19
+
+        if new_rules and status == "draft" and new_status in ["pending", "mistaken"]:
+            apply_patch(request, save=False, src=context.serialize())
+        else:
+            raise_operation_error(
+                request,
+                "Can't update complaint from {} to {} status".format(status, new_status)
+            )
+
+
+class BaseTenderComplaintResource(ComplaintBotPatchMixin, ComplaintAdminPatchMixin, APIResource):
     patch_check_tender_excluded_statuses = (
         "draft", "claim", "answered", 
         "pending", "accepted", "satisfied", "stopping",
@@ -149,24 +169,6 @@ class BaseTenderComplaintResource(ComplaintAdminPatchMixin, APIResource):
                 extra=context_unpack(self.request, {"MESSAGE_ID": "tender_award_complaint_patch"}),
             )
             return {"data": self.context.serialize("view")}
-
-    def patch_as_bots(self, data):
-        context = self.context
-        status = self.context.status
-        new_status = data.get("status", status)
-
-        tender = self.request.validated["tender"]
-        new_rules = get_first_revision_date(tender, default=get_now()) > RELEASE_2020_04_19
-
-        if new_rules and status in ["draft"] and new_status == "pending":
-            apply_patch(self.request, save=False, src=context.serialize())
-        elif new_rules and status in ["draft"] and new_status == "mistaken":
-            apply_patch(self.request, save=False, src=context.serialize())
-        else:
-            raise_operation_error(
-                self.request,
-                "Can't update complaint from {} to {} status".format(status, new_status)
-            )
 
     def patch_as_complaint_owner(self, data):
         context = self.context
