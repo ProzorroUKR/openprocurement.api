@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
-import mock
+from mock import patch
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now
@@ -76,8 +76,7 @@ class TenderCancellationResourceTest(
     test_permission_cancellation_pending = snitch(permission_cancellation_pending)
 
 
-@mock.patch("openprocurement.tender.limited.validation.RELEASE_2020_04_19",
-            get_now() - timedelta(days=1))
+@patch("openprocurement.tender.limited.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 class TenderNegotiationCancellationResourceTest(
     TenderCancellationResourceTestMixin,
     TenderCancellationResourceNewReleaseTestMixin,
@@ -121,12 +120,9 @@ class TenderNegotiationQuickCancellationComplaintResourceTest(
 ):
     initial_data = test_tender_negotiation_quick_data
 
-    @mock.patch("openprocurement.tender.core.models.RELEASE_2020_04_19",
-                get_now() - timedelta(days=1))
-    @mock.patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19",
-                get_now() - timedelta(days=1))
-    @mock.patch("openprocurement.tender.core.validation.RELEASE_2020_04_19",
-                get_now() - timedelta(days=1))
+    @patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+    @patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+    @patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
     def setUp(self):
         super(TenderNegotiationQuickCancellationComplaintResourceTest, self).setUp()
 
@@ -148,12 +144,9 @@ class TenderNegotiationCancellationComplaintResourceTest(
 ):
     initial_data = test_tender_negotiation_data
 
-    @mock.patch("openprocurement.tender.core.models.RELEASE_2020_04_19",
-                get_now() - timedelta(days=1))
-    @mock.patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19",
-                get_now() - timedelta(days=1))
-    @mock.patch("openprocurement.tender.core.validation.RELEASE_2020_04_19",
-                get_now() - timedelta(days=1))
+    @patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+    @patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+    @patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
     def setUp(self):
         super(TenderNegotiationCancellationComplaintResourceTest, self).setUp()
 

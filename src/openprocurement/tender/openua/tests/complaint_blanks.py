@@ -3,7 +3,8 @@ from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_claim, test_draft_claim, test_complaint, test_author
+    test_claim, test_draft_claim, test_complaint, test_author,
+    test_draft_complaint,
 )
 from mock import patch
 from copy import deepcopy
@@ -281,6 +282,55 @@ def patch_tender_complaint(self):
     self.assertEqual(
         response.json["errors"][0]["description"], "Can't update complaint in current (complete) tender status"
     )
+
+
+@patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+def bot_patch_tender_complaint(self):
+    complaint_data = deepcopy(test_draft_complaint)
+    complaint_data["author"] = getattr(self, "test_author", test_author)
+    response = self.app.post_json(
+        "/tenders/{}/complaints".format(self.tender_id),
+        {"data": complaint_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    complaint = response.json["data"]
+    owner_token = response.json["access"]["token"]
+
+    with change_auth(self.app, ("Basic", ("bot", ""))):
+        response = self.app.patch_json(
+            "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], owner_token),
+            {"data": {"status": "pending"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["data"]["status"], "pending")
+
+
+@patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", get_now() + timedelta(days=1))
+def bot_patch_tender_complaint_forbidden(self):
+    complaint_data = deepcopy(test_draft_complaint)
+    complaint_data["author"] = getattr(self, "test_author", test_author)
+    response = self.app.post_json(
+        "/tenders/{}/complaints".format(self.tender_id),
+        {"data": complaint_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    complaint = response.json["data"]
+    owner_token = response.json["access"]["token"]
+
+    with change_auth(self.app, ("Basic", ("bot", ""))):
+        response = self.app.patch_json(
+            "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], owner_token),
+            {"data": {"status": "pending"}},
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"][0]["description"], "Can't update complaint from draft to pending status"
+        )
 
 
 def review_tender_complaint(self):

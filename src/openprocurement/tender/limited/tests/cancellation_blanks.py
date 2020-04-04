@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import mock
+from mock import patch
 from datetime import timedelta
 
 from openprocurement.tender.core.utils import get_now
@@ -553,10 +553,8 @@ def cancellation_on_not_active_lot(self):
     self.assertEqual(response.json["errors"][0]["description"], "Can perform cancellation only in active lot status")
 
 
-@mock.patch("openprocurement.tender.core.models.RELEASE_2020_04_19",
-            get_now() - timedelta(days=1))
-@mock.patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19",
-            get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def create_tender_cancellation_2020_04_19(self):
     reasonType_choices = self.valid_reasonType_choices
     request_path = "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token)
@@ -617,12 +615,9 @@ def create_tender_cancellation_2020_04_19(self):
     self.assertEqual(cancellation["status"], "pending")
 
 
-@mock.patch("openprocurement.tender.core.models.RELEASE_2020_04_19",
-            get_now() - timedelta(days=1))
-@mock.patch("openprocurement.tender.core.validation.RELEASE_2020_04_19",
-            get_now() - timedelta(days=1))
-@mock.patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19",
-            get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def patch_tender_cancellation_2020_04_19(self):
     reasonType_choices = self.valid_reasonType_choices
 
@@ -791,7 +786,7 @@ def patch_tender_cancellation_2020_04_19(self):
     cancellation = response.json["data"]
     self.assertEqual(cancellation["status"], "pending")
 
-    with mock.patch(
+    with patch(
             "openprocurement.tender.core.validation.get_now",
             return_value=get_now() + timedelta(days=20)) as mock_date:
         response = self.app.patch_json(

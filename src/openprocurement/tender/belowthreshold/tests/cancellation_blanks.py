@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # TenderCancellationResourceTest
-import mock
+from mock import patch
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now
@@ -116,9 +116,9 @@ def create_tender_cancellation_invalid(self):
     )
 
 
-@mock.patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() + timedelta(days=1))
-@mock.patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() + timedelta(days=1))
-@mock.patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() + timedelta(days=1))
 def create_tender_cancellation(self):
     cancellation = dict(**test_cancellation)
     cancellation.pop("reasonType", None)
@@ -171,9 +171,9 @@ def create_tender_cancellation(self):
     )
 
 
-@mock.patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() + timedelta(days=1))
-@mock.patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() + timedelta(days=1))
-@mock.patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() + timedelta(days=1))
 def create_tender_cancellation_before_19_04_2020(self):
     request_path = "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token)
     cancellation = dict(**test_cancellation)
@@ -198,9 +198,9 @@ def create_tender_cancellation_before_19_04_2020(self):
     )
 
 
-@mock.patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() + timedelta(days=1))
-@mock.patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() + timedelta(days=1))
-@mock.patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() + timedelta(days=1))
 def patch_tender_cancellation(self):
 
     cancellation = dict(**test_cancellation)
@@ -918,12 +918,9 @@ def patch_tender_cancellation_document(self):
     )
 
 
-@mock.patch("openprocurement.tender.core.models.RELEASE_2020_04_19",
-            get_now() - timedelta(days=1))
-@mock.patch("openprocurement.tender.core.validation.RELEASE_2020_04_19",
-            get_now() - timedelta(days=1))
-@mock.patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19",
-            get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def patch_tender_cancellation_2020_04_19(self):
     reasonType_choices = self.valid_reasonType_choices
 
@@ -1066,12 +1063,9 @@ def patch_tender_cancellation_2020_04_19(self):
     )
 
 
-@mock.patch("openprocurement.tender.core.models.RELEASE_2020_04_19",
-            get_now() - timedelta(days=1))
-@mock.patch("openprocurement.tender.core.validation.RELEASE_2020_04_19",
-            get_now() - timedelta(days=1))
-@mock.patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19",
-            get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def permission_cancellation_pending(self):
     reasonType_choices = self.valid_reasonType_choices
 

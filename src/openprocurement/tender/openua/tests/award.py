@@ -68,6 +68,8 @@ from openprocurement.tender.openua.tests.award_blanks import (
     put_tender_lots_award_complaint_document,
     patch_tender_lots_award_complaint_document,
     tender_award_complaint_period,
+    bot_patch_tender_award_complaint,
+    bot_patch_tender_award_complaint_forbidden,
 )
 
 
@@ -81,6 +83,8 @@ class TenderUAAwardComplaintResourceTestMixin(object):
     test_review_tender_award_claim = snitch(review_tender_award_claim)
     test_review_tender_award_stopping_complaint = snitch(review_tender_award_stopping_complaint)
     test_create_tender_award_no_scale_invalid = snitch(create_tender_award_no_scale_invalid)
+    test_bot_patch_tender_award_complaint = snitch(bot_patch_tender_award_complaint)
+    test_bot_patch_tender_award_complaint_forbidden = snitch(bot_patch_tender_award_complaint_forbidden)
 
 
 class TenderAwardResourceTest(BaseTenderUAContentWebTest, TenderAwardResourceTestMixin):

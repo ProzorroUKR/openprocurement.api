@@ -8,6 +8,10 @@ from openprocurement.tender.belowthreshold.tests.base import (
 
 
 # TenderAwardResourceTest
+from openprocurement.tender.openua.tests.award_blanks import (
+    bot_patch_tender_award_complaint as bot_patch_tender_award_complaint_base,
+    bot_patch_tender_award_complaint_forbidden as bot_patch_tender_award_complaint_forbidden_base,
+)
 
 
 def create_tender_award_invalid(self):
@@ -1751,6 +1755,16 @@ def get_tender_award_complaint(self):
     self.assertEqual(
         response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
     )
+
+
+def bot_patch_tender_award_complaint(self):
+    self.set_status("active.qualification.stand-still")
+    bot_patch_tender_award_complaint_base(self)
+
+
+def bot_patch_tender_award_complaint_forbidden(self):
+    self.set_status("active.qualification.stand-still")
+    bot_patch_tender_award_complaint_forbidden_base(self)
 
 
 # TenderLotAwardComplaintResourceTest

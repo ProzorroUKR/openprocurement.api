@@ -53,6 +53,8 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
     # TenderStage2EU2LotQualificationComplaintDocumentResourceTest
     create_tender_2lot_qualification_complaint_document,
     put_tender_2lot_qualification_complaint_document,
+    bot_patch_tender_qualification_complaint,
+    bot_patch_tender_qualification_complaint_forbidden,
 )
 
 test_tender_bids = deepcopy(test_bids[:2])
@@ -178,6 +180,8 @@ class TenderStage2EUQualificationComplaintResourceTest(BaseCompetitiveDialogEUSt
     test_review_tender_qualification_stopping_complaint = snitch(review_tender_qualification_stopping_complaint)
     test_get_tender_qualification_complaint = snitch(get_tender_qualification_complaint)
     test_get_tender_qualification_complaints = snitch(get_tender_qualification_complaints)
+    test_bot_patch_tender_qualification_complaint = snitch(bot_patch_tender_qualification_complaint)
+    test_bot_patch_tender_qualification_complaint_forbidden = snitch(bot_patch_tender_qualification_complaint_forbidden)
 
 
 class TenderStage2EULotQualificationComplaintResourceTest(TenderStage2EUQualificationComplaintResourceTest):
