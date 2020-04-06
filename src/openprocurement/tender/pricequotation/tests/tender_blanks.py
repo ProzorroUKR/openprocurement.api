@@ -886,13 +886,40 @@ def tender_owner_can_change_in_draft(self):
     token = response.json["access"]["token"]
     self.assertEqual(tender["status"], "draft")
 
-    changeable_data = {
-        "awardCriteriaDetails_ru": u"Some text 1",
-        "procurementMethodRationale_en": u"Some text 2",
-        "eligibilityCriteria": u"Some text 3",
-        "eligibilityCriteria_ru": u"Some text 4",
-        "awardCriteriaDetails_en": u"Some text 5",
-        "description": u"Some text 6",
+    general = {
+        "numberOfBidders": 1,
+        "tenderPeriod": {"endDate": (get_now() + timedelta(days=14)).isoformat()},
+        "procuringEntity": {"name": u"Національне управління справами"},
+        "mainProcurementCategory": u"services",
+        "guarantee": {"amount": 50},
+        "value": {"amount": 110},
+        "minimalStep": {"amount": 40}
+    }
+    descriptions = {
+        "description": u"Some text 1",
+        "description_en": u"Some text 2",
+        "description_ru": u"Some text 3",
+        "procurementMethodRationale": u"Some text 4",
+        "procurementMethodRationale_en": u"Some text 5",
+        "procurementMethodRationale_ru": u"Some text 6",
+        "submissionMethodDetails": u"Some text 7",
+        "submissionMethodDetails_en": u"Some text 8",
+        "submissionMethodDetails_ru": u"Some text 9"
+    }
+    titles = {
+        "title": u"Test title 1",
+        "title_en": u"Test title 2",
+        "title_ru": u"Test title 3"
+    }
+    criterias = {
+        "eligibilityCriteria": u"Test criteria 1",
+        "eligibilityCriteria_en": u"Test criteria 2",
+        "eligibilityCriteria_ru": u"Test criteria 3",
+        "awardCriteriaDetails": u"Test criteria 4",
+        "awardCriteriaDetails_en": u"Test criteria 5",
+        "awardCriteriaDetails_ru": u"Test criteria 6"
+    }
+    lists = {
         "milestones": deepcopy(data["milestones"]),
         "buyers": [
             {
@@ -903,16 +930,6 @@ def tender_owner_can_change_in_draft(self):
                 }
             }
         ],
-        "procurementMethodRationale_ru": u"Some text 7",
-        "description_en": u"Some text 8",
-        "mainProcurementCategory": u"services",
-        "title": u"Some text 10",
-        "awardCriteriaDetails": u"Some text 11",
-        "submissionMethodDetails_en": u"Some text 12",
-        "title_ru": u"Some text 13",
-        "procurementMethodRationale": u"Some text 14",
-        "eligibilityCriteria_en": u"Some text 15",
-        "description_ru": u"Some text 16",
         "funders": [
             {
                 "name": u"First funder",
@@ -924,16 +941,11 @@ def tender_owner_can_change_in_draft(self):
                     "countryName": u"Японія"
                 },
                 "contactPoint": {
-                    "name": u"Some text 9",
+                    "name": u"Funder name",
                     "email": u"fake_japan_email@gmail.net"
                 }
             }
         ],
-        "submissionMethodDetails_ru": u"Some text 17",
-        "title_en": u"Some text 18",
-        "submissionMethodDetails": u"Some text 19",
-
-        "numberOfBidders": 1,
         "features": [
             {
                 "title": u"Feature title",
@@ -951,39 +963,127 @@ def tender_owner_can_change_in_draft(self):
             {
                 "description": u"New description"
             }
-        ],
-        "tenderPeriod": {"endDate": (get_now() + timedelta(days=14)).isoformat()},
-        "procuringEntity": {"name": u"Національне управління справами"},
-        "guarantee": {"amount": 50},
-        "value": {"amount": 110},
-        "minimalStep": {"amount": 40},
+        ]
+    }
+    lists["milestones"][1]["title"] = "submittingServices"
+    status = {
         "status": "draft.publishing"
     }
-    changeable_data["milestones"][1]["title"] = "submittingServices"
 
+    # general
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": changeable_data}
+        "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": general}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
-    for key, value in changeable_data.items():
-        if isinstance(value, dict):
-            for item in value:
-                self.assertEqual(tender[key][item], changeable_data[key][item])
-                self.assertNotEqual(tender[key][item], data.get(key, {}).get(item))
-        elif not isinstance(value, list):
-            self.assertEqual(tender[key], changeable_data[key])
-            self.assertNotEqual(tender[key], data.get(key))
+
+    self.assertEqual(tender["numberOfBidders"], general["numberOfBidders"])
+    self.assertNotEqual(tender["numberOfBidders"], data.get("numberOfBidders", {}))
+    self.assertEqual(tender["mainProcurementCategory"], general["mainProcurementCategory"])
+    self.assertNotEqual(tender["mainProcurementCategory"], data.get("mainProcurementCategory", {}))
+    self.assertEqual(tender["tenderPeriod"]["endDate"], general["tenderPeriod"]["endDate"])
+    self.assertNotEqual(tender["tenderPeriod"]["endDate"], data.get("tenderPeriod", {}).get("endDate"))
+    self.assertEqual(tender["procuringEntity"]["name"], general["procuringEntity"]["name"])
+    self.assertNotEqual(tender["procuringEntity"]["name"], data.get("procuringEntity", {}).get("name"))
+    self.assertEqual(tender["guarantee"]["amount"], general["guarantee"]["amount"])
+    self.assertNotEqual(tender["guarantee"]["amount"], data.get("guarantee", {}).get("amount"))
+    self.assertEqual(tender["value"]["amount"], general["value"]["amount"])
+    self.assertNotEqual(tender["value"]["amount"], data.get("value", {}).get("amount"))
+    self.assertEqual(tender["minimalStep"]["amount"], general["minimalStep"]["amount"])
+    self.assertNotEqual(tender["minimalStep"]["amount"], data.get("minimalStep", {}).get("amount"))
+
+    # descriptions
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": descriptions}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    tender = response.json["data"]
+
+    self.assertEqual(tender["description"], descriptions["description"])
+    self.assertNotEqual(tender["description"], data.get("description", {}))
+    self.assertEqual(tender["description_en"], descriptions["description_en"])
+    self.assertNotEqual(tender["description_en"], data.get("description_en", {}))
+    self.assertEqual(tender["description_ru"], descriptions["description_ru"])
+    self.assertNotEqual(tender["description_ru"], data.get("description_ru", {}))
+    self.assertEqual(tender["procurementMethodRationale"], descriptions["procurementMethodRationale"])
+    self.assertNotEqual(tender["procurementMethodRationale"], data.get("procurementMethodRationale", {}))
+    self.assertEqual(tender["procurementMethodRationale_en"], descriptions["procurementMethodRationale_en"])
+    self.assertNotEqual(tender["procurementMethodRationale_en"], data.get("procurementMethodRationale_en", {}))
+    self.assertEqual(tender["procurementMethodRationale_ru"], descriptions["procurementMethodRationale_ru"])
+    self.assertNotEqual(tender["procurementMethodRationale_ru"], data.get("procurementMethodRationale_ru", {}))
+    self.assertEqual(tender["submissionMethodDetails"], descriptions["submissionMethodDetails"])
+    self.assertNotEqual(tender["submissionMethodDetails"], data.get("submissionMethodDetails", {}))
+    self.assertEqual(tender["submissionMethodDetails_en"], descriptions["submissionMethodDetails_en"])
+    self.assertNotEqual(tender["submissionMethodDetails_en"], data.get("submissionMethodDetails_en", {}))
+    self.assertEqual(tender["submissionMethodDetails_ru"], descriptions["submissionMethodDetails_ru"])
+    self.assertNotEqual(tender["submissionMethodDetails_ru"], data.get("submissionMethodDetails_ru", {}))
+
+    # titles
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": titles}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    tender = response.json["data"]
+
+    self.assertEqual(tender["title"], titles["title"])
+    self.assertNotEqual(tender["title"], data.get("title", {}))
+    self.assertEqual(tender["title_en"], titles["title_en"])
+    self.assertNotEqual(tender["title_en"], data.get("title_en", {}))
+    self.assertEqual(tender["title_ru"], titles["title_ru"])
+    self.assertNotEqual(tender["title_ru"], data.get("title_ru", {}))
+
+    # criterias
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": criterias}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    tender = response.json["data"]
+
+    self.assertEqual(tender["eligibilityCriteria"], criterias["eligibilityCriteria"])
+    self.assertNotEqual(tender["eligibilityCriteria"], data.get("eligibilityCriteria", {}))
+    self.assertEqual(tender["eligibilityCriteria_en"], criterias["eligibilityCriteria_en"])
+    self.assertNotEqual(tender["eligibilityCriteria_en"], data.get("eligibilityCriteria_en", {}))
+    self.assertEqual(tender["eligibilityCriteria_ru"], criterias["eligibilityCriteria_ru"])
+    self.assertNotEqual(tender["eligibilityCriteria_ru"], data.get("eligibilityCriteria_ru", {}))
+    self.assertEqual(tender["awardCriteriaDetails"], criterias["awardCriteriaDetails"])
+    self.assertNotEqual(tender["awardCriteriaDetails"], data.get("awardCriteriaDetails", {}))
+    self.assertEqual(tender["awardCriteriaDetails_en"], criterias["awardCriteriaDetails_en"])
+    self.assertNotEqual(tender["awardCriteriaDetails_en"], data.get("awardCriteriaDetails_en", {}))
+    self.assertEqual(tender["awardCriteriaDetails_ru"], criterias["awardCriteriaDetails_ru"])
+    self.assertNotEqual(tender["awardCriteriaDetails_ru"], data.get("awardCriteriaDetails_ru", {}))
+
+    # lists
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": lists}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    tender = response.json["data"]
 
     self.assertEqual(tender["milestones"][0]["title"], data["milestones"][0]["title"])
     self.assertNotEqual(tender["milestones"][1]["title"], data["milestones"][1]["title"])
-    self.assertEqual(tender["milestones"][1]["title"], changeable_data["milestones"][1]["title"])
+    self.assertEqual(tender["milestones"][1]["title"], lists["milestones"][1]["title"])
 
-    self.assertEqual(tender["funders"], changeable_data["funders"])
-    self.assertEqual(tender["features"], changeable_data["features"])
+    self.assertEqual(tender["funders"], lists["funders"])
+    self.assertEqual(tender["features"], lists["features"])
+    self.assertEqual(tender["buyers"], lists["buyers"])
 
-    self.assertEqual(tender["items"][0]["description"], changeable_data["items"][0]["description"])
+    self.assertEqual(tender["items"][0]["description"], lists["items"][0]["description"])
+
+    # status
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": status}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    tender = response.json["data"]
+
+    self.assertEqual(tender["status"], status["status"])
+    self.assertNotEqual(tender["status"], data["status"])
 
 
 def tender_owner_cannot_change_in_draft(self):
