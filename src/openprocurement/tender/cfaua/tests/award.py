@@ -33,7 +33,7 @@ from openprocurement.tender.openeu.tests.award_blanks import (
 )
 from openprocurement.tender.cfaua.tests.base import BaseTenderContentWebTest, test_bids, test_lots
 from openprocurement.tender.cfaua.tests.award_blanks import (
-    # TenderAwardResourceTestMixin
+    # TenderAwardComplaintResourceTest
     create_tender_award_claim,
     create_tender_award_complaint,
     create_tender_award_complaint_not_active,
@@ -46,9 +46,12 @@ from openprocurement.tender.cfaua.tests.award_blanks import (
     review_tender_award_claim,
     review_tender_award_stopping_complaint,
     patch_tender_award_unsuccessful,
+    bot_patch_tender_award_complaint,
+    bot_patch_tender_award_complaint_forbidden,
     # TenderLotAwardComplaintResourceTest
     create_tender_lot_award_complaint,
     patch_tender_lot_award_complaint,
+    # TenderAwardComplaintDocumentResourceTest
     patch_tender_award_complaint_document,
     patch_tender_award_in_qualification_st_st,
     award_complaint_document_in_active_qualification,
@@ -139,6 +142,8 @@ class TenderAwardComplaintResourceTest(BaseTenderContentWebTest):
     test_create_tender_award_complaint = snitch(create_tender_award_complaint)
     test_create_tender_award_complaint_not_active = snitch(create_tender_award_complaint_not_active)
     test_get_tender_award_complaint = snitch(get_tender_award_complaint)
+    test_bot_patch_tender_award_complaint = snitch(bot_patch_tender_award_complaint)
+    test_bot_patch_tender_award_complaint_forbidden = snitch(bot_patch_tender_award_complaint_forbidden)
 
     # TenderAwardComplaintResourceTestMixin
     test_create_tender_award_complaint_invalid = snitch(create_tender_award_complaint_invalid)

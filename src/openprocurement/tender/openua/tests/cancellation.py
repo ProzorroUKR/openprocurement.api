@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
-import mock
+from mock import patch
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now
@@ -39,6 +39,7 @@ from openprocurement.tender.openua.tests.cancellation_blanks import (
     get_tender_cancellation_complaints,
     access_create_tender_cancellation_complaint,
     create_tender_cancellation_with_cancellation_lots,
+    bot_patch_tender_cancellation_complaint,
 )
 
 
@@ -46,6 +47,7 @@ class TenderCancellationComplaintResourceTestMixin(object):
     test_create_tender_cancellation_complaint = snitch(create_tender_cancellation_complaint)
     test_patch_tender_cancellation_complaint = snitch(patch_tender_cancellation_complaint)
     test_get_tender_cancellation_complaints = snitch(get_tender_cancellation_complaints)
+    test_bot_patch_tender_cancellation_complaint = snitch(bot_patch_tender_cancellation_complaint)
 
 
 class TenderCancellationResourceNewReleaseTestMixin(object):
@@ -97,12 +99,9 @@ class TenderCancellationComplaintResourceTest(
 ):
     initial_bids = test_bids
 
-    @mock.patch("openprocurement.tender.core.models.RELEASE_2020_04_19",
-                get_now() - timedelta(days=1))
-    @mock.patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19",
-                get_now() - timedelta(days=1))
-    @mock.patch("openprocurement.tender.core.validation.RELEASE_2020_04_19",
-                get_now() - timedelta(days=1))
+    @patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+    @patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+    @patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
     def setUp(self):
         super(TenderCancellationComplaintResourceTest, self).setUp()
 

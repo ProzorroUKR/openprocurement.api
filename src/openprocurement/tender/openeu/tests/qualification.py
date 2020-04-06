@@ -53,6 +53,8 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
     patch_tender_qualifications_after_status_change,
     switch_bid_status_unsuccessul_to_active,
     lot_patch_tender_qualifications_lots_none,
+    bot_patch_tender_qualification_complaint,
+    bot_patch_tender_qualification_complaint_forbidden,
 )
 
 
@@ -185,6 +187,8 @@ class TenderQualificationComplaintResourceTest(BaseTenderContentWebTest):
     test_get_tender_qualification_complaint = snitch(get_tender_qualification_complaint)
     test_get_tender_qualification_complaints = snitch(get_tender_qualification_complaints)
     test_change_status_to_standstill_with_complaint = snitch(change_status_to_standstill_with_complaint)
+    test_bot_patch_tender_qualification_complaint = snitch(bot_patch_tender_qualification_complaint)
+    test_bot_patch_tender_qualification_complaint_forbidden = snitch(bot_patch_tender_qualification_complaint_forbidden)
 
 
 class TenderLotQualificationComplaintResourceTest(TenderQualificationComplaintResourceTest):

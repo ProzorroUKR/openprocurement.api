@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
+from copy import deepcopy
+
+from datetime import timedelta
+
+from mock import patch
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_cancellation, test_draft_claim, test_complaint, test_claim
+    test_cancellation, test_draft_claim, test_complaint, test_claim,
+    test_draft_complaint,
 )
 from openprocurement.tender.core.tests.base import change_auth
 
@@ -1180,6 +1186,61 @@ def patch_tender_qualification_complaint(self):
     self.assertEqual(
         response.json["errors"][0]["description"], "Can't update complaint in current (complete) tender status"
     )
+
+
+@patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+def bot_patch_tender_qualification_complaint(self):
+    complaint_data = deepcopy(test_draft_complaint)
+    response = self.app.post_json(
+        "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
+            self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
+        ),
+        {"data": complaint_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    complaint = response.json["data"]
+    owner_token = response.json["access"]["token"]
+
+    with change_auth(self.app, ("Basic", ("bot", ""))):
+        response = self.app.patch_json(
+            "/tenders/{}/qualifications/{}/complaints/{}?acc_token={}".format(
+                self.tender_id, self.qualification_id, complaint["id"], owner_token
+            ),
+            {"data": {"status": "pending"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["data"]["status"], "pending")
+
+
+@patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", get_now() + timedelta(days=1))
+def bot_patch_tender_qualification_complaint_forbidden(self):
+    complaint_data = deepcopy(test_draft_complaint)
+    response = self.app.post_json(
+        "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
+            self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
+        ),
+        {"data": complaint_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    complaint = response.json["data"]
+    owner_token = response.json["access"]["token"]
+
+    with change_auth(self.app, ("Basic", ("bot", ""))):
+        response = self.app.patch_json(
+            "/tenders/{}/qualifications/{}/complaints/{}?acc_token={}".format(
+                self.tender_id, self.qualification_id, complaint["id"], owner_token
+            ),
+            {"data": {"status": "pending"}},
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"][0]["description"], "Can't update complaint from draft to pending status"
+        )
 
 
 def review_tender_qualification_complaint(self):

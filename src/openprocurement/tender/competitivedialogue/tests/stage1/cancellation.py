@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
-import mock
+from mock import patch
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now
@@ -72,12 +72,9 @@ class CompetitiveDialogUACancellationComplaintResourceTest(
 
     initial_bids = test_bids
 
-    @mock.patch("openprocurement.tender.core.models.RELEASE_2020_04_19",
-                get_now() - timedelta(days=1))
-    @mock.patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19",
-                get_now() - timedelta(days=1))
-    @mock.patch("openprocurement.tender.core.validation.RELEASE_2020_04_19",
-                get_now() - timedelta(days=1))
+    @patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+    @patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+    @patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
     def setUp(self):
         super(CompetitiveDialogUACancellationComplaintResourceTest, self).setUp()
 

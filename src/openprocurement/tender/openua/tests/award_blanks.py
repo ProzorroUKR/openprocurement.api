@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
+from copy import deepcopy
+
 from datetime import timedelta
 import dateutil
 
-import mock
+from mock import patch
 from iso8601 import parse_date
 
 from openprocurement.api.constants import SANDBOX_MODE, RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
+from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
 from openprocurement.tender.belowthreshold.tests.base import (
     test_organization, test_author,
@@ -453,7 +456,7 @@ def create_tender_award_no_scale_invalid(self):
 # TenderAwardResourceScaleTest
 
 
-@mock.patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
 def create_tender_award_with_scale_not_required(self):
     self.app.authorization = ("Basic", ("token", ""))
     response = self.app.post_json(
@@ -465,7 +468,7 @@ def create_tender_award_with_scale_not_required(self):
     self.assertNotIn("scale", response.json["data"])
 
 
-@mock.patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
 def create_tender_award_no_scale(self):
     self.app.authorization = ("Basic", ("token", ""))
     suppliers = [{key: value for key, value in test_organization.iteritems() if key != "scale"}]
@@ -1117,7 +1120,7 @@ def create_tender_award_complaint_not_active(self):
         )
 
 
-@mock.patch("openprocurement.tender.core.views.award_complaint.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.views.award_complaint.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def create_tender_award_complaint_after_2020_04_19(self):
     auth = self.app.authorization
     self.app.authorization = ("Basic", ("token", ""))
@@ -1392,6 +1395,61 @@ def patch_tender_award_complaint(self):
     self.assertEqual(
         response.json["errors"][0]["description"], "Can't update complaint in current (complete) tender status"
     )
+
+
+@patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+def bot_patch_tender_award_complaint(self):
+    complaint_data = deepcopy(test_draft_complaint)
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/complaints?acc_token={}".format(
+            self.tender_id, self.award_id, self.initial_bids_tokens.values()[0]
+        ),
+        {"data": complaint_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    complaint = response.json["data"]
+    owner_token = response.json["access"]["token"]
+
+    with change_auth(self.app, ("Basic", ("bot", ""))):
+        response = self.app.patch_json(
+            "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
+                self.tender_id, self.award_id, complaint["id"], owner_token
+            ),
+            {"data": {"status": "pending"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["data"]["status"], "pending")
+
+
+@patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", get_now() + timedelta(days=1))
+def bot_patch_tender_award_complaint_forbidden(self):
+    complaint_data = deepcopy(test_draft_complaint)
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/complaints?acc_token={}".format(
+            self.tender_id, self.award_id, self.initial_bids_tokens.values()[0]
+        ),
+        {"data": complaint_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    complaint = response.json["data"]
+    owner_token = response.json["access"]["token"]
+
+    with change_auth(self.app, ("Basic", ("bot", ""))):
+        response = self.app.patch_json(
+            "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
+                self.tender_id, self.award_id, complaint["id"], owner_token
+            ),
+            {"data": {"status": "pending"}},
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"][0]["description"], "Can't update complaint from draft to pending status"
+        )
 
 
 def review_tender_award_complaint(self):
@@ -1839,7 +1897,7 @@ def patch_tender_lots_award_complaint(self):
     complaint = response.json["data"]
     owner_token = response.json["access"]["token"]
 
-    with mock.patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1)):
+    with patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1)):
         response = self.app.patch_json(
             "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
                 self.tender_id, self.award_id, complaint["id"], owner_token
@@ -1853,7 +1911,7 @@ def patch_tender_lots_award_complaint(self):
                 {"location": "body", "name": "data", "description": "Can't update claim to complaint"}]}
         )
 
-    with mock.patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() + timedelta(days=1)):
+    with patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() + timedelta(days=1)):
         self.app.patch_json(
             "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
                 self.tender_id, self.award_id, complaint["id"], owner_token
