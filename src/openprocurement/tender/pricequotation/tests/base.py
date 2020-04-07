@@ -75,7 +75,6 @@ test_tender_data = {
     "mainProcurementCategory": "goods",
     "procuringEntity": test_procuringEntity,
     "value": {"amount": 500, "currency": u"UAH"},
-    "minimalStep": {"amount": 35, "currency": u"UAH"},
     "items": [deepcopy(test_item)],
     "tenderPeriod": {"endDate": (now + timedelta(days=14)).isoformat()},
     "procurementMethodType": PMT,
@@ -114,14 +113,7 @@ test_bids = [
     {"tenderers": [test_organization], "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True}},
     {"tenderers": [test_organization], "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True}},
 ]
-test_lots = [
-    {
-        "title": "lot title",
-        "description": "lot description",
-        "value": test_tender_data["value"],
-        "minimalStep": test_tender_data["minimalStep"],
-    }
-]
+
 test_features = [
     {
         "code": "code_item",
@@ -238,23 +230,6 @@ test_short_profile = {
 }
 
 
-def set_tender_lots(tender, lots):
-    tender["lots"] = []
-    for lot in lots:
-        lot = deepcopy(lot)
-        lot["id"] = uuid4().hex
-        tender["lots"].append(lot)
-    for i, item in enumerate(tender["items"]):
-        item["relatedLot"] = tender["lots"][i % len(tender["lots"])]["id"]
-    return tender
-
-
-def set_bid_lotvalues(bid, lots):
-    value = bid.pop("value", None) or bid["lotValues"][0]["value"]
-    bid["lotValues"] = [{"value": value, "relatedLot": lot["id"]} for lot in lots]
-    return bid
-
-
 class BaseApiWebTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)
 
@@ -264,21 +239,17 @@ class BaseTenderWebTest(BaseCoreWebTest):
     initial_data = test_tender_data
     initial_status = None
     initial_bids = None
-    initial_lots = None
     initial_auth = ("Basic", ("broker", ""))
     docservice = False
     min_bids_number = MIN_BIDS_NUMBER
     # Statuses for test, that will be imported from others procedures
     primary_tender_status = "draft.publishing"  # status, to which tender should be switched from 'draft'
     forbidden_document_modification_actions_status = (
-        "active.tendering"
+        "active.qualification"
     )  # status, in which operations with tender documents (adding, updating) are forbidden
     forbidden_question_modification_actions_status = (
         "active.tendering"
     )  # status, in which adding/updating tender questions is forbidden
-    forbidden_lot_actions_status = (
-        "active.tendering"
-    )  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
     forbidden_contract_document_modification_actions_status = (
         "unsuccessful"
     )  # status, in which operations with tender's contract documents (adding, updating) are forbidden
@@ -346,9 +317,6 @@ class BaseTenderWebTest(BaseCoreWebTest):
 
     def create_tender(self):
         data = deepcopy(self.initial_data)
-        if self.initial_lots:
-            set_tender_lots(data, self.initial_lots)
-            self.initial_lots = data["lots"]
         response = self.app.post_json("/tenders", {"data": data})
         tender = response.json["data"]
         self.tender_token = response.json["access"]["token"]
@@ -360,9 +328,6 @@ class BaseTenderWebTest(BaseCoreWebTest):
             status = response.json["data"]["status"]
             bids = []
             for bid in self.initial_bids:
-                if self.initial_lots:
-                    bid = bid.copy()
-                    set_bid_lotvalues(bid, self.initial_lots)
                 response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid})
                 self.assertEqual(response.status, "201 Created")
                 bids.append(response.json["data"])
@@ -376,7 +341,6 @@ class TenderContentWebTest(BaseTenderWebTest):
     initial_data = test_tender_data
     initial_status = None
     initial_bids = None
-    initial_lots = None
 
     def setUp(self):
         super(TenderContentWebTest, self).setUp()

@@ -4,7 +4,7 @@ import unittest
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.pricequotation.tests.base import (
-    TenderContentWebTest, test_lots, test_bids,
+    TenderContentWebTest, test_bids,
     test_cancellation,
 )
 from openprocurement.tender.pricequotation.tests.cancellation_blanks import (
@@ -14,12 +14,6 @@ from openprocurement.tender.pricequotation.tests.cancellation_blanks import (
     patch_tender_cancellation,
     get_tender_cancellation,
     get_tender_cancellations,
-    # TenderLotCancellationResourceTest
-    create_tender_lot_cancellation,
-    patch_tender_lot_cancellation,
-    # TenderLotsCancellationResourceTest
-    create_tender_lots_cancellation,
-    patch_tender_lots_cancellation,
     # TenderCancellationDocumentResourceTest
     not_found,
     create_tender_cancellation_document,
@@ -83,24 +77,6 @@ class TenderCancellationActiveAwardedResourceTest(TenderCancellationActiveTender
 #     initial_status = "active.qualification"
 #     initial_bids = test_bids
 #     valid_reasonType_choices = ["noDemand", "unFixable", "expensesCut"]
-
-
-class TenderLotCancellationResourceTest(TenderContentWebTest):
-    initial_status = "active.tendering"
-    initial_lots = test_lots
-    initial_bids = test_bids
-
-    test_create_tender_lot_cancellation = snitch(create_tender_lot_cancellation)
-    test_patch_tender_lot_cancellation = snitch(patch_tender_lot_cancellation)
-
-
-class TenderLotsCancellationResourceTest(TenderContentWebTest):
-    initial_status = "active.tendering"
-    initial_lots = 2 * test_lots
-    initial_bids = test_bids
-
-    test_create_tender_lots_cancellation = snitch(create_tender_lots_cancellation)
-    test_patch_tender_lots_cancellation = snitch(patch_tender_lots_cancellation)
 
 
 class TenderCancellationDocumentResourceTest(TenderContentWebTest, TenderCancellationDocumentResourceTestMixin):

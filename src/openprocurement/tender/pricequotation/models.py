@@ -1,111 +1,192 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta
-
-from barbecue import vnmax
-from openprocurement.api.constants import TZ
-from openprocurement.api.models import BusinessOrganization, CPVClassification, Guarantee
+from uuid import uuid4
+# from datetime import timedelta
+# from barbecue import vnmax
+from openprocurement.api.constants import TZ, CPV_ITEMS_CLASS_FROM
+from openprocurement.api.models import\
+    BusinessOrganization, CPVClassification, Guarantee
 from openprocurement.api.models import Item as BaseItem
-from openprocurement.api.models import ListType, Period, Value
+from openprocurement.api.models import\
+    ListType, Period, Value, IsoDateTimeType
+from openprocurement.api.models import\
+    schematics_default_role, schematics_embedded_role
 from openprocurement.api.utils import get_now
-from openprocurement.api.validation import validate_classification_id, validate_cpv_group, validate_items_uniq
-from openprocurement.tender.core.constants import COMPLAINT_STAND_STILL_TIME, CPV_ITEMS_CLASS_FROM
-from openprocurement.tender.core.models import (Award, BaseLot, Bid, Cancellation, Complaint, ComplaintModelType,
-                                                Contract, Feature, Item, PeriodEndRequired, ProcuringEntity, Question,
-                                                Tender, default_lot_role, embedded_lot_role, validate_features_uniq,
-                                                validate_lots_uniq)
-from openprocurement.tender.core.utils import calculate_tender_business_date
-from openprocurement.tender.core.validation import validate_minimalstep
+from openprocurement.api.validation import\
+    validate_classification_id, validate_cpv_group, validate_items_uniq
+from openprocurement.tender.core.models import (
+    BaseAward,
+    BaseCancellation,
+    Model,
+    Contract,
+    Feature,
+    PeriodEndRequired,
+    ProcuringEntity,
+    Parameter,
+    Tender,
+    BaseDocument
+    )
+from openprocurement.tender.core.models import (
+    validate_features_uniq,
+    Administrator_bid_role,
+    view_bid_role,
+    validate_parameters_uniq,
+    get_tender
+)
+from openprocurement.tender.pricequotation.validation import\
+    validate_bid_value
 from openprocurement.tender.pricequotation.constants import PMT
-from openprocurement.tender.pricequotation.interfaces import IPriceQuotationTender
+from openprocurement.tender.pricequotation.interfaces\
+    import IPriceQuotationTender
 from pyramid.security import Allow
 from schematics.exceptions import ValidationError
-from schematics.transforms import whitelist
+from schematics.transforms import whitelist, blacklist
 from schematics.types import IntType, StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
+from schematics.types import MD5Type
 from zope.interface import implementer
 
 
-class Lot(BaseLot):
+class Document(BaseDocument):
+    documentOf = StringType(
+        required=True,
+        choices=["tender", "item"],
+        default="tender"
+    )
+
+    def validate_relatedItem(self, data, relatedItem):
+        if not relatedItem and data.get("documentOf") in ["item"]:
+            raise ValidationError(u"This field is required.")
+        parent = data["__parent__"]
+        if relatedItem and isinstance(parent, Model):
+            tender = get_tender(parent)
+            if data.get("documentOf") == "item" and relatedItem not in [i.id for i in tender.items if i]:
+                raise ValidationError(u"relatedItem should be one of items")
+
+
+
+class Award(BaseAward):
+    """ An award for the given procurement. There may be more than one award
+        per contracting process e.g. because the contract is split amongst
+        different providers, or because it is a standing offer.
+    """
+
     class Options:
         roles = {
-            "create": whitelist(
-                "id",
-                "title",
-                "title_en",
-                "title_ru",
-                "description",
-                "description_en",
-                "description_ru",
-                "value",
-                "guarantee",
-                "minimalStep",
-            ),
+            "create": blacklist("id", "status", "date", "documents"),
             "edit": whitelist(
-                "title",
-                "title_en",
-                "title_ru",
-                "description",
-                "description_en",
-                "description_ru",
-                "value",
-                "guarantee",
-                "minimalStep",
+                "status", "title", "title_en", "title_ru", "description", "description_en", "description_ru"
             ),
-            "embedded": embedded_lot_role,
-            "view": default_lot_role,
-            "default": default_lot_role,
-            "auction_view": default_lot_role,
-            "auction_patch": whitelist("id", "auctionUrl"),
-            "chronograph": whitelist("id", "auctionPeriod"),
-            "chronograph_view": whitelist("id", "auctionPeriod", "numberOfBids", "status"),
-            "Administrator": whitelist("auctionPeriod"),
+            "embedded": schematics_embedded_role,
+            "view": schematics_default_role,
+            "Administrator": whitelist("complaintPeriod"),
         }
 
-    value = ModelType(Value, required=True)
-    minimalStep = ModelType(Value, required=True)
-    guarantee = ModelType(Guarantee)
+    bid_id = MD5Type(required=True)
 
-    @serializable
-    def numberOfBids(self):
-        """A property that is serialized by schematics exports."""
-        bids = [
-            bid
-            for bid in self.__parent__.bids
-            if self.id in [i.relatedLot for i in bid.lotValues] and getattr(bid, "status", "active") == "active"
+
+class BidOffer(Model):
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    relatedItem = MD5Type(required=True)
+    requirementsResponse = StringType(required=True)
+
+
+class Bid(Model):
+    class Options:
+        roles = {
+            "Administrator": Administrator_bid_role,
+            "embedded": view_bid_role,
+            "view": view_bid_role,
+            "create": whitelist(
+                "value",
+                "status",
+                "tenderers",
+                "parameters",
+                "documents"
+            ),
+            "edit": whitelist("value", "status", "tenderers", "parameters"),
+            "active.tendering": whitelist(),
+            "active.qualification": view_bid_role,
+            "active.awarded": view_bid_role,
+            "complete": view_bid_role,
+            "unsuccessful": view_bid_role,
+            "cancelled": view_bid_role,
+        }
+
+    def __local_roles__(self):
+        return dict([("{}_{}".format(self.owner, self.owner_token),
+                      "bid_owner")])
+
+    tenderers = ListType(
+        ModelType(BusinessOrganization, required=True),
+        required=True,
+        min_size=1,
+        max_size=1
+    )
+    parameters = ListType(
+        ModelType(Parameter, required=True),
+        default=list(),
+        validators=[validate_parameters_uniq]
+    )
+    date = IsoDateTimeType(default=get_now)
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    status = StringType(choices=["active", "draft"], default="active")
+    value = ModelType(Value)
+    documents = ListType(ModelType(Document, required=True), default=list())
+    owner_token = StringType()
+    transfer_token = StringType()
+    owner = StringType()
+    # TODO: 
+    # offers = ListType(
+    #     ModelType(BidOffer, required=True),
+    #     required=True,
+    #     min_size=1,
+    #     validators=[validate_items_uniq],
+    # )
+
+    __name__ = ""
+
+    def import_data(self, raw_data, **kw):
+        """
+        Converts and imports the raw data into the instance of the model
+        according to the fields in the model.
+
+        :param raw_data:
+            The data to be imported.
+        """
+        data = self.convert(raw_data, **kw)
+        del_keys = [k for k in data.keys() if k != "value" and data[k] is None]
+        for k in del_keys:
+            del data[k]
+
+        self._data.update(data)
+        return self
+
+    def __acl__(self):
+        return [
+            (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_bid")
         ]
-        return len(bids)
 
-    @serializable(serialized_name="guarantee", serialize_when_none=False, type=ModelType(Guarantee))
-    def lot_guarantee(self):
-        if self.guarantee:
-            currency = self.__parent__.guarantee.currency if self.__parent__.guarantee else self.guarantee.currency
-            return Guarantee(dict(amount=self.guarantee.amount, currency=currency))
+    def validate_value(self, data, value):
+        parent = data["__parent__"]
+        if isinstance(parent, Model):
+            validate_bid_value(parent, value)
 
-    @serializable(serialized_name="minimalStep", type=ModelType(Value))
-    def lot_minimalStep(self):
-        return Value(
-            dict(
-                amount=self.minimalStep.amount,
-                currency=self.__parent__.minimalStep.currency,
-                valueAddedTaxIncluded=self.__parent__.minimalStep.valueAddedTaxIncluded,
-            )
-        )
+    def validate_parameters(self, data, parameters):
+        parent = data["__parent__"]
+        if isinstance(parent, Model):
+            tender = parent
+            if not parameters and tender.features:
+                raise ValidationError(u"This field is required.")
+            elif set([i["code"] for i in parameters]) != set([
+                    i.code for i in (tender.features or [])
+            ]):
+                raise ValidationError(u"All features parameters is required.")
 
-    @serializable(serialized_name="value", type=ModelType(Value))
-    def lot_value(self):
-        return Value(
-            dict(
-                amount=self.value.amount,
-                currency=self.__parent__.value.currency,
-                valueAddedTaxIncluded=self.__parent__.value.valueAddedTaxIncluded,
-            )
-        )
-
-    def validate_minimalStep(self, data, value):
-        if value and value.amount and data.get("value"):
-            if data.get("value").amount < value.amount:
-                raise ValidationError(u"value should be less than value of lot")
+# TODO: relatedLot
+class Cancellation(BaseCancellation):
+    def validate_relatedLot(self, data, relatedLot):
+        pass
 
 
 class ShortlistedFirm(BusinessOrganization):
@@ -115,14 +196,11 @@ class ShortlistedFirm(BusinessOrganization):
 
 class Item(BaseItem):
     """A good, service, or work to be contracted."""
-
     classification = ModelType(CPVClassification)
-
 
 
 @implementer(IPriceQuotationTender)
 class PriceQuotationTender(Tender):
-    # TODO: submissionMethod
     """
     Data regarding tender process - publicly inviting prospective contractors
     to submit bids for evaluation and selecting a winner or winners.
@@ -150,7 +228,12 @@ class PriceQuotationTender(Tender):
             "minimalStep",
         )
         _edit_role = _core_roles["edit"] \
-            + _edit_fields + whitelist("contracts", "numberOfBids", "status", "profile")
+            + _edit_fields + whitelist(
+                "contracts",
+                "numberOfBids",
+                "status",
+                "profile"
+            )
         _edit_pq_bot_role = whitelist("items", "shortlistedFirms", "status")
         _view_tendering_role = (
             _core_roles["view"]
@@ -158,10 +241,7 @@ class PriceQuotationTender(Tender):
             + whitelist(
                 "awards",
                 "awardPeriod",
-                "questions",
-                "lots",
                 "cancellations",
-                "complaints",
                 "contracts",
                 "profile",
                 "shortlistedFirms"
@@ -219,7 +299,7 @@ class PriceQuotationTender(Tender):
         ModelType(Item, required=True),
         required=True,
         min_size=1,
-        validators=[validate_items_uniq,],
+        validators=[validate_items_uniq],
     )
     # The total estimated value of the procurement.
     value = ModelType(Value, required=True)
@@ -239,17 +319,9 @@ class PriceQuotationTender(Tender):
     # The entity managing the procurement,
     # which may be different from the buyer
     # who is paying / using the items being procured.
-    procuringEntity = ModelType(
-        ProcuringEntity, required=True
-    )
+    procuringEntity = ModelType(ProcuringEntity, required=True)
     awards = ListType(ModelType(Award, required=True), default=list())
     contracts = ListType(ModelType(Contract, required=True), default=list())
-    minimalStep = ModelType(Value, required=True)
-    questions = ListType(ModelType(Question, required=True), default=list())
-    complaints = ListType(
-        ComplaintModelType(Complaint, required=True),
-        default=list()
-    )
     cancellations = ListType(
         ModelType(Cancellation, required=True),
         default=list()
@@ -257,11 +329,6 @@ class PriceQuotationTender(Tender):
     features = ListType(
         ModelType(Feature, required=True),
         validators=[validate_features_uniq]
-    )
-    lots = ListType(
-        ModelType(Lot, required=True),
-        default=list(),
-        validators=[validate_lots_uniq]
     )
     guarantee = ModelType(Guarantee)
     procurementMethodType = StringType(default=PMT)
@@ -275,7 +342,8 @@ class PriceQuotationTender(Tender):
     def get_role(self):
         root = self.__parent__
         request = root.request
-        if request.authenticated_role in ("Administrator", "chronograph", "contracting", "bots"):
+        if request.authenticated_role in\
+           ("Administrator", "chronograph", "contracting", "bots"):
             role = request.authenticated_role
         elif request.authenticated_role == "auction":
             role = "auction_{}".format(request.method.lower())
@@ -285,92 +353,15 @@ class PriceQuotationTender(Tender):
 
     @serializable(serialize_when_none=False)
     def next_check(self):
-        now = get_now()
         checks = []
         if self.status == "active.tendering" and self.tenderPeriod.endDate:
             checks.append(self.tenderPeriod.endDate.astimezone(TZ))
-        elif (
-            not self.lots
-            and self.status == "active.awarded"
-            and not any([
-                i.status in self.block_complaint_status
-                for i in self.complaints
-            ])
-            and not any([
-                i.status in self.block_complaint_status
-                for a in self.awards for i in a.complaints
-            ])
-        ):
-            standStillEnds = [
-                a.complaintPeriod.endDate.astimezone(TZ)
-                for a in self.awards if a.complaintPeriod.endDate
-            ]
-            last_award_status = self.awards[-1].status if self.awards else ""
-            if standStillEnds and last_award_status == "unsuccessful":
-                checks.append(max(standStillEnds))
-        elif (
-            self.lots
-            and self.status in ["active.qualification", "active.awarded"]
-            and not any([
-                i.status in self.block_complaint_status
-                and i.relatedLot is None
-                for i in self.complaints
-            ])
-        ):
-            for lot in self.lots:
-                if lot["status"] != "active":
-                    continue
-                lot_awards = [i for i in self.awards if i.lotID == lot.id]
-                pending_complaints = any(
-                    [
-                        i["status"] in self.block_complaint_status
-                        and i.relatedLot == lot.id for i in self.complaints
-                    ]
-                )
-                pending_awards_complaints = any(
-                    [
-                        i.status in self.block_complaint_status
-                        for a in lot_awards for i in a.complaints
-                    ]
-                )
-                standStillEnds = [
-                    a.complaintPeriod.endDate.astimezone(TZ)
-                    for a in lot_awards if a.complaintPeriod.endDate
-                ]
-                last_award_status = lot_awards[-1].status if lot_awards else ""
-                if (
-                    not pending_complaints
-                    and not pending_awards_complaints
-                    and standStillEnds
-                    and last_award_status == "unsuccessful"
-                ):
-                    checks.append(max(standStillEnds))
-        if self.status.startswith("active"):
 
-            for complaint in self.complaints:
-                if complaint.status == "answered" and complaint.dateAnswered:
-                    checks.append(
-                        calculate_tender_business_date(
-                            complaint.dateAnswered,
-                            COMPLAINT_STAND_STILL_TIME,
-                            self
-                        )
-                    )
-                elif complaint.status == "pending":
-                    checks.append(self.dateModified)
+        if self.status.startswith("active"):
             for award in self.awards:
-                if award.status == "active" and not any([i.awardID == award.id for i in self.contracts]):
+                if award.status == "active" and not\
+                   any([i.awardID == award.id for i in self.contracts]):
                     checks.append(award.date)
-                for complaint in award.complaints:
-                    if complaint.status == "answered" and complaint.dateAnswered:
-                        checks.append(
-                            calculate_tender_business_date(
-                                complaint.dateAnswered,
-                                COMPLAINT_STAND_STILL_TIME,
-                                self)
-                        )
-                    elif complaint.status == "pending":
-                        checks.append(self.dateModified)
         return min(checks).isoformat() if checks else None
 
     @serializable
@@ -378,65 +369,16 @@ class PriceQuotationTender(Tender):
         """A property that is serialized by schematics exports."""
         return len(self.bids)
 
-    @serializable(serialized_name="value", type=ModelType(Value))
-    def tender_value(self):
-        return (
-            Value(
-                dict(
-                    amount=sum([i.value.amount for i in self.lots]),
-                    currency=self.value.currency,
-                    valueAddedTaxIncluded=self.value.valueAddedTaxIncluded,
-                )
-            )
-            if self.lots
-            else self.value
-        )
-
-    @serializable(serialized_name="guarantee",
-                  serialize_when_none=False,
-                  type=ModelType(Guarantee))
-    def tender_guarantee(self):
-        if self.lots:
-            lots_amount = [
-                i.guarantee.amount for i in self.lots
-                if i.guarantee
-            ]
-            if not lots_amount:
-                return self.guarantee
-            guarantee = {"amount": sum(lots_amount)}
-            lots_currency = [
-                i.guarantee.currency for i in self.lots
-                if i.guarantee
-            ]
-            guarantee["currency"] = lots_currency[0] if lots_currency else None
-            if self.guarantee:
-                guarantee["currency"] = self.guarantee.currency
-            return Guarantee(guarantee)
-        else:
-            return self.guarantee
-
-    @serializable(serialized_name="minimalStep", type=ModelType(Value))
-    def tender_minimalStep(self):
-        return (
-            Value(
-                dict(
-                    amount=min([i.minimalStep.amount for i in self.lots]),
-                    currency=self.minimalStep.currency,
-                    valueAddedTaxIncluded=self.minimalStep.valueAddedTaxIncluded,
-                )
-            )
-            if self.lots
-            else self.minimalStep
-        )
-
     def validate_items(self, data, items):
         if data["status"] in ("draft", "draft.publishing", "draft.unsuccessful"):
             return
         cpv_336_group = items[0].classification.id[:3] == "336"\
             if items else False
+        cpv_validate_from = data.get("revisions")[0].date\
+            if data.get("revisions") else get_now()
         if (
             not cpv_336_group
-            and (data.get("revisions")[0].date if data.get("revisions") else get_now()) > CPV_ITEMS_CLASS_FROM
+            and cpv_validate_from > CPV_ITEMS_CLASS_FROM
             and items
             and len(set([i.classification.id[:4] for i in items])) != 1
         ):
@@ -444,38 +386,6 @@ class PriceQuotationTender(Tender):
         else:
             validate_cpv_group(items)
         validate_classification_id(items)
-
-    def validate_features(self, data, features):
-        if (
-            features
-            and data["lots"]
-            and any(
-                [
-                    round(
-                        vnmax(
-                            [
-                                i
-                                for i in features
-                                if i.featureOf == "tenderer"
-                                or i.featureOf == "lot"
-                                and i.relatedItem == lot["id"]
-                                or i.featureOf == "item"
-                                and i.relatedItem in [j.id for j in data["items"] if j.relatedLot == lot["id"]]
-                            ]
-                        ),
-                        15,
-                    )
-                    > 0.3
-                    for lot in data["lots"]
-                ]
-            )
-        ):
-            raise ValidationError(u"Sum of max value of all features for lot should be less then or equal to 30%")
-        elif features and not data["lots"] and round(vnmax(features), 15) > 0.3:
-            raise ValidationError(u"Sum of max value of all features should be less then or equal to 30%")
-
-    def validate_minimalStep(self, data, value):
-        validate_minimalstep(data, value)
 
     def validate_awardPeriod(self, data, period):
         if (
@@ -486,7 +396,3 @@ class PriceQuotationTender(Tender):
             and period.startDate < data.get("tenderPeriod").endDate
         ):
             raise ValidationError(u"period should begin after tenderPeriod")
-
-    def validate_lots(self, data, value):
-        if len(set([lot.guarantee.currency for lot in value if lot.guarantee])) > 1:
-            raise ValidationError(u"lot guarantee currency should be identical to tender guarantee currency")

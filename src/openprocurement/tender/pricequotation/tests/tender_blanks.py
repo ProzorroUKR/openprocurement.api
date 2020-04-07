@@ -21,7 +21,6 @@ from openprocurement.tender.belowthreshold.utils import calculate_tender_busines
 from openprocurement.tender.pricequotation.tests.base import (
     test_organization,
     test_author,
-    set_tender_lots,
     test_cancellation,
     test_claim,
     test_draft_claim,
@@ -2627,37 +2626,6 @@ def tender_milestones_not_required(self):
     data["milestones"] = []
 
     self.app.post_json("/tenders", {"data": data}, status=201)
-
-
-def patch_tender_lots_none(self):
-    data = deepcopy(self.initial_data)
-
-    set_tender_lots(data, self.test_lots_data)
-
-    response = self.app.post_json("/tenders", {"data": data})
-    self.assertEqual(response.status, "201 Created")
-    self.tender_id = response.json["data"]["id"]
-    self.token_token = response.json["access"]["token"]
-
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.token_token), {"data": {"lots": [None]}}, status=422
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json,
-        {
-            "status": "error",
-            "errors": [
-                {"location": "body", "name": "lots", "description": [["This field is required."]]},
-                {
-                    "location": "body",
-                    "name": "items",
-                    "description": [{"relatedLot": ["relatedLot should be one of lots"]}],
-                },
-            ],
-        },
-    )
 
 
 def tender_token_invalid(self):

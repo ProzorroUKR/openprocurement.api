@@ -2,7 +2,8 @@
 
 import unittest
 
-from openprocurement.tender.pricequotation.tests import award, bid, document, tender, question, complaint
+from openprocurement.tender.pricequotation.tests import\
+    award, bid, document, tender
 
 
 def suite():

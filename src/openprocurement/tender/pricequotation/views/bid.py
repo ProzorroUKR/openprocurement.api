@@ -1,8 +1,17 @@
 # -*- coding: utf-8 -*-
+from openprocurement.api.utils import\
+    get_now, json_view, context_unpack
+from openprocurement.tender.core.utils import optendersresource, apply_patch
+from openprocurement.tender.core.validation import (
+    validate_patch_bid_data,
+    validate_bid_operation_period,
+    validate_bid_operation_not_in_tendering,
+)
 
-from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.belowthreshold.views.bid import\
     TenderBidResource as BaseTenderBidResource
+from openprocurement.tender.belowthreshold.validation import\
+    validate_update_bid_status
 from openprocurement.tender.pricequotation.constants import PMT
 
 
@@ -15,3 +24,24 @@ from openprocurement.tender.pricequotation.constants import PMT
 )
 class TenderBidResource(BaseTenderBidResource):
     """ PriceQuotation tender bid resource """
+    @json_view(
+        content_type="application/json",
+        permission="edit_bid",
+        validators=(
+            validate_patch_bid_data,
+            validate_bid_operation_not_in_tendering,
+            validate_bid_operation_period,
+            validate_update_bid_status,
+        ),
+    )
+    def patch(self):
+        value = self.request.validated["data"].get("value") and self.request.validated["data"]["value"].get("amount")
+        if value and value != self.request.context.get("value", {}).get("amount"):
+            self.request.validated["data"]["date"] = get_now().isoformat()
+        self.request.validated["tender"].modified = False
+        if apply_patch(self.request, src=self.request.context.serialize()):
+            self.LOGGER.info(
+                "Updated tender bid {}".format(self.request.context.id),
+                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_bid_patch"}),
+            )
+            return {"data": self.request.context.serialize("view")}

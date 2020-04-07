@@ -6,7 +6,6 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.pricequotation.tests.base import (
     TenderContentWebTest,
     test_bids,
-    test_lots,
     test_organization,
 )
 from openprocurement.tender.pricequotation.tests.contract_blanks import (
@@ -17,17 +16,11 @@ from openprocurement.tender.pricequotation.tests.contract_blanks import (
     patch_tender_contract,
     get_tender_contract,
     get_tender_contracts,
-    # Tender2LotContractResourceTest
-    lot2_patch_tender_contract,
     # TenderContractDocumentResourceTest
     not_found,
     create_tender_contract_document,
     put_tender_contract_document,
     patch_tender_contract_document,
-    # Tender2LotContractDocumentResourceTest
-    lot2_create_tender_contract_document,
-    lot2_put_tender_contract_document,
-    lot2_patch_tender_contract_document,
     patch_tender_contract_value_vat_not_included,
     patch_tender_contract_value,
 )
@@ -121,39 +114,6 @@ class TenderContractVATNotIncludedResourceTest(TenderContentWebTest, TenderContr
     test_patch_tender_contract_value_vat_not_included = snitch(patch_tender_contract_value_vat_not_included)
 
 
-class Tender2LotContractResourceTest(TenderContentWebTest):
-    initial_status = "active.qualification"
-    initial_bids = test_bids
-    initial_lots = 2 * test_lots
-
-    def setUp(self):
-        super(Tender2LotContractResourceTest, self).setUp()
-        # Create award
-
-        auth = self.app.authorization
-        self.app.authorization = ("Basic", ("token", ""))
-        response = self.app.post_json(
-            "/tenders/{}/awards".format(self.tender_id),
-            {
-                "data": {
-                    "suppliers": [test_organization],
-                    "status": "pending",
-                    "bid_id": self.initial_bids[0]["id"],
-                    "lotID": self.initial_lots[0]["id"],
-                }
-            },
-        )
-        award = response.json["data"]
-        self.award_id = award["id"]
-        self.app.authorization = auth
-        self.app.patch_json(
-            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
-            {"data": {"status": "active"}},
-        )
-
-    test_lot2_patch_tender_contract = snitch(lot2_patch_tender_contract)
-
-
 class TenderContractDocumentResourceTest(TenderContentWebTest, TenderContractDocumentResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_bids
@@ -188,52 +148,6 @@ class TenderContractDocumentResourceTest(TenderContentWebTest, TenderContractDoc
         contract = response.json["data"]
         self.contract_id = contract["id"]
         self.app.authorization = auth
-
-
-class Tender2LotContractDocumentResourceTest(TenderContentWebTest):
-    initial_status = "active.qualification"
-    initial_bids = test_bids
-    initial_lots = 2 * test_lots
-
-    def setUp(self):
-        super(Tender2LotContractDocumentResourceTest, self).setUp()
-        # Create award
-        auth = self.app.authorization
-        self.app.authorization = ("Basic", ("token", ""))
-
-        response = self.app.post_json(
-            "/tenders/{}/awards".format(self.tender_id),
-            {
-                "data": {
-                    "suppliers": [test_organization],
-                    "status": "pending",
-                    "bid_id": self.initial_bids[0]["id"],
-                    "lotID": self.initial_lots[0]["id"],
-                }
-            },
-        )
-        award = response.json["data"]
-        self.award_id = award["id"]
-
-        self.app.authorization = auth
-        self.app.patch_json(
-            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
-            {"data": {"status": "active"}},
-        )
-        # Create contract for award
-
-        self.app.authorization = ("Basic", ("token", ""))
-        response = self.app.post_json(
-            "/tenders/{}/contracts".format(self.tender_id),
-            {"data": {"title": "contract title", "description": "contract description", "awardID": self.award_id}},
-        )
-        contract = response.json["data"]
-        self.contract_id = contract["id"]
-        self.app.authorization = auth
-
-    lot2_create_tender_contract_document = snitch(lot2_create_tender_contract_document)
-    lot2_put_tender_contract_document = snitch(lot2_put_tender_contract_document)
-    lot2_patch_tender_contract_document = snitch(lot2_patch_tender_contract_document)
 
 
 def suite():

@@ -15,6 +15,3 @@ def tender_init_handler(event):
     if not tender.tenderPeriod.startDate:
         tender.tenderPeriod.startDate = now
     tender.date = now
-    if tender.lots:
-        for lot in tender.lots:
-            lot.date = now

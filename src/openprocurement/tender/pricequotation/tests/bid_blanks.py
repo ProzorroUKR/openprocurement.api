@@ -5,7 +5,8 @@ import mock
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.pricequotation.tests.base import test_organization, set_bid_lotvalues
+from openprocurement.tender.pricequotation.tests.base import\
+    test_organization
 
 
 # TenderBidResourceTest
@@ -514,29 +515,6 @@ def create_tender_bid_no_scale(self):
     self.assertNotIn("scale", response.json["data"]["tenderers"][0])
 
 
-# Tender2LotBidResourceTest
-
-
-def patch_tender_with_bids_lots_none(self):
-    bid = self.test_bids_data[0].copy()
-    lots = self.db.get(self.tender_id).get("lots")
-
-    set_bid_lotvalues(bid, lots)
-
-    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid})
-    self.assertEqual(response.status, "201 Created")
-
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"lots": [None]}}, status=422
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-
-    errors = {error["name"]: error["description"] for error in response.json["errors"]}
-    self.assertEqual(errors["lots"][0], ["This field is required."])
-    self.assertEqual(errors["bids"][0]["lotValues"][0], {"relatedLot": ["relatedLot should be one of lots"]})
-
-
 # TenderBidFeaturesResourceTest
 
 
@@ -976,32 +954,7 @@ def patch_tender_bid_document(self):
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
 
-    response = self.app.patch_json(
-        "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_id, self.bid_token),
-        {"data": {"documentOf": "lot"}},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{u"description": [u"This field is required."], u"location": u"body", u"name": u"relatedItem"}],
-    )
-
-    response = self.app.patch_json(
-        "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_id, self.bid_token),
-        {"data": {"documentOf": "lot", "relatedItem": "0" * 32}},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{u"description": [u"relatedItem should be one of lots"], u"location": u"body", u"name": u"relatedItem"}],
-    )
-
+    
     response = self.app.patch_json(
         "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_id, self.bid_token),
         {"data": {"description": "document description"}},
