@@ -497,3 +497,79 @@ def block_tender(request):
     )
 
     return not accept_tender
+
+
+def extend_next_check_by_complaint_period_ends(tender, checks):
+    """
+    should be added to next_check tender methods
+    to schedule switching complaints draft-mistaken and others
+    """
+    # no need to check procedures that don't have cancellation complaints
+    excluded = ("belowThreshold", "closeFrameworkAgreementSelectionUA")
+    for cancellation in tender.cancellations:
+        if cancellation.status == "pending":
+            # adding check
+            complaint_period = getattr(cancellation, "complaintPeriod", None)
+            if complaint_period and complaint_period.endDate and tender.procurementMethodType not in excluded:
+                # this check can switch complaint statuses to mistaken + switch cancellation to active
+                checks.append(cancellation.complaintPeriod.endDate.astimezone(TZ))
+
+    # all the checks below only supposed to trigger complaint draft->mistaken switches
+    # if any object contains a draft complaint, it's complaint end period is added to the checks
+    # periods can be in the past, then the check expected to run once and immediately fix the complaint
+    def has_draft_complaints(item):
+        return any(c.status == "draft" and c.type == "complaint" for c in item.complaints)
+
+    complaint_period = getattr(tender, "complaintPeriod", None)
+    if complaint_period and complaint_period.endDate and has_draft_complaints(tender):
+        checks.append(complaint_period.endDate.astimezone(TZ))
+
+    qualification_period = getattr(tender, "qualificationPeriod", None)
+    if qualification_period and qualification_period.endDate \
+       and any(has_draft_complaints(q) for q in tender.qualifications):
+        checks.append(tender.qualificationPeriod.endDate.astimezone(TZ))
+
+    for award in tender.awards:
+        complaint_period = getattr(award, "complaintPeriod", None)
+        if complaint_period and complaint_period.endDate and has_draft_complaints(award):
+            checks.append(award.complaintPeriod.endDate.astimezone(TZ))
+
+
+def check_complaint_statuses_at_complaint_period_end(tender, now):
+    """
+    this one probably should run before "check_cancellation_status" (that switch pending cancellation to active)
+    so that draft complaints will remain the status
+    also cancellation complaint changes will be able to affect statuses of cancellations
+    """
+    if get_first_revision_date(tender, default=now) < RELEASE_2020_04_19:
+        return
+    # only for tenders from RELEASE_2020_04_19
+
+    def check_complaints(complaints):
+        for complaint in complaints:
+            if complaint.status == "draft" and complaint.type == "complaint":
+                complaint.status = "mistaken"
+                complaint.rejectReason = "complaintPeriodEnded"
+
+    # cancellation complaints
+    for cancellation in tender.cancellations:
+        complaint_period = getattr(cancellation, "complaintPeriod", None)
+        if complaint_period and complaint_period.endDate and cancellation.complaintPeriod.endDate < now:
+            check_complaints(cancellation.complaints)
+
+    # tender complaints
+    complaint_period = getattr(tender, "complaintPeriod", None)
+    if complaint_period and complaint_period.endDate and complaint_period.endDate < now:
+        check_complaints(tender.complaints)
+
+    # tender qualification complaints
+    qualification_period = getattr(tender, "qualificationPeriod", None)
+    if qualification_period and qualification_period.endDate and qualification_period.endDate < now:
+        for qualification in tender.qualifications:
+            check_complaints(qualification.complaints)
+
+    # tender award complaints
+    for award in tender.awards:
+        complaint_period = getattr(award, "complaintPeriod", None)
+        if complaint_period and complaint_period.endDate and complaint_period.endDate < now:
+            check_complaints(award.complaints)

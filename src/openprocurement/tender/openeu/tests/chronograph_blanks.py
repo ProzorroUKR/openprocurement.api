@@ -32,7 +32,7 @@ def pre_qual_switch_to_stand_still(self):
 def switch_to_auction(self):
     response = self.app.get("/tenders/{}/qualifications?acc_token={}".format(self.tender_id, self.tender_token))
     self.assertEqual(response.content_type, "application/json")
-    qualifications = response.json["data"]
+    qualifications = response.json["data"]  # it's empty
     for qualification in qualifications:
         response = self.app.patch_json(
             "/tenders/{}/qualifications/{}?acc_token={}".format(self.tender_id, qualification["id"], self.tender_token),

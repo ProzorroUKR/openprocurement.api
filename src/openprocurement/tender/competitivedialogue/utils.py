@@ -19,6 +19,7 @@ from openprocurement.tender.core.utils import (
     has_unanswered_questions,
     has_unanswered_complaints,
     block_tender,
+    check_complaint_statuses_at_complaint_period_end,
 )
 from openprocurement.tender.core.validation import validate_tender_period_extension
 from openprocurement.tender.openua.utils import check_complaint_status
@@ -216,6 +217,8 @@ def validate_features_custom_weight(self, data, features, max_sum):
 def check_status(request):
     tender = request.validated["tender"]
     now = get_now()
+
+    check_complaint_statuses_at_complaint_period_end(tender, now)
     check_cancellation_status(request, CancelTenderLot)
 
     if block_tender(request):

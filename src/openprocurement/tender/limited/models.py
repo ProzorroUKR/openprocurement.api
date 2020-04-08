@@ -25,9 +25,6 @@ from openprocurement.tender.core.models import (
     validate_lots_uniq,
     BaseLot,
     BaseAward,
-)
-
-from openprocurement.tender.core.models import (
     Document,
     BaseTender,
     ITender,
@@ -35,6 +32,8 @@ from openprocurement.tender.core.models import (
     Contract as BaseContract,
     ProcuringEntity as BaseProcuringEntity,
 )
+
+from openprocurement.tender.core.utils import extend_next_check_by_complaint_period_ends
 from openprocurement.tender.openua.models import Complaint as BaseComplaint
 from openprocurement.tender.openua.models import Item
 from openprocurement.tender.openua.models import Tender as OpenUATender
@@ -459,11 +458,7 @@ class NegotiationTender(ReportingTender):
     @serializable(serialize_when_none=False)
     def next_check(self):
         checks = []
-        pending_cancellations = [i for i in self.cancellations if i.status == "pending" and i.complaintPeriod]
-
-        for cancellation in pending_cancellations:
-            checks.append(cancellation.complaintPeriod.endDate.astimezone(TZ))
-
+        extend_next_check_by_complaint_period_ends(self, checks)
         return min(checks).isoformat() if checks else None
 
 

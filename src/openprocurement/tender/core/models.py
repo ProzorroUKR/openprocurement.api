@@ -680,6 +680,15 @@ class Complaint(Model):
     dateCanceled = IsoDateTimeType()
 
     value = ModelType(Guarantee)
+    rejectReason = StringType(choices=[
+        "buyerViolationsCorrected",
+        "lawNonCompliance",
+        "alreadyExists",
+        "tenderCancelled",
+        "cancelledByComplainant",
+        "complaintPeriodEnded",
+        "incorrectPayment"
+    ])
 
     @serializable(serialized_name="value", serialize_when_none=False)
     def calculate_value(self):

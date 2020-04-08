@@ -1,0 +1,71 @@
+@startuml
+
+title belowThreshold check_status
+
+loop for complaint in complaints
+    group check_complaint_status
+        alt complaint.status == answered and complaint.dateAnswered + STAND_STILL < now
+            Tender <- Chronograph: complaint.status = c.resolutionType
+        else complaint.status == pending and complaint.resolutionType and complaint.dateEscalated
+            Tender <- Chronograph: complaint.status = complaint.resolutionType
+        else c.status == pending
+            Tender <- Chronograph:c. status = ignored
+        end
+    end
+end
+
+loop for award in awards
+    alt award.status == active and not contract
+        Tender <- Chronograph:add contract
+        Tender <- Chronograph:add next award \n doesn't add an award in this case\n can switch tender status active.qualification/active.awarded(wtf?)
+    end
+
+    loop for complaint in award.complaints
+        group check_complaint_status
+            Tender <- Chronograph:see the definition above
+        end
+    end
+end
+
+
+group Tender
+    alt active.enquires
+        alt not tenderPeriod.startDate and enquiryPeriod.endDate <= now
+            Tender <- Chronograph:tender.status = "active.tendering"
+        else tenderPeriod.startDate and tenderPeriod.startDate <= now
+            Tender <- Chronograph:tender.status = "active.tendering"
+        end
+    else active.tendering and tenderPeriod.endDate <= now
+        alt lots
+            Tender <- Chronograph:tender.status = "active.auction"
+            Tender <- Chronograph:remove_draft_bids
+            Tender <- Chronograph:check_bids
+            loop lot in lots
+                alt lot.numberOfBids < 2 and auctionPeriod:
+                    Tender <- Chronograph:lot.auctionPeriod.startDate = None
+                end
+            end
+        else not lots
+            Tender <- Chronograph:tender.status = "active.auction"
+            Tender <- Chronograph:remove_draft_bids
+            Tender <- Chronograph:check_bids\n (the check below + change of tender status + add_next_award if numberOfBids == 1 + check_ignored_claim)
+            alt numberOfBids < 2 and auctionPeriod:
+                Tender <- Chronograph:auctionPeriod.startDate = None
+            end
+        end
+    else active.awarded and not lots
+        alt max(award.complaintPeriod for award in awards) < now
+            Tender <- Chronograph:check_tender_status \n complete/unsuccessful + check_ignored_claim
+        end
+    else active.qualification or active.awarded and lots
+        alt not complaints in block_statuses
+            loop lot in active_lots
+                alt max(award.complaintPeriod for award in lot.awards) < now
+                    Tender <- Chronograph:check_tender_status
+                end
+            end
+        end
+    end
+end
+
+@enduml
