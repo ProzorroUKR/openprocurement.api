@@ -1139,6 +1139,7 @@ def activate_cancellation(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(complaint["status"], "mistaken")
+    self.assertEqual(complaint["rejectReason"], "cancelledByComplainant")
 
     with patch(
             "openprocurement.tender.core.utils.get_now",

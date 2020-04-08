@@ -110,6 +110,7 @@ class TenderNegotiationAwardComplaintResource(BaseTenderAwardComplaintResource):
                 and self.context.type == "complaint"
                 and new_status == "mistaken"
             ):
+                self.context.rejectReason = "cancelledByComplainant"
                 apply_patch(self.request, save=False, src=self.context.serialize())
             elif new_status == "pending":
                 apply_patch(self.request, save=False, src=self.context.serialize())
