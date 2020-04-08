@@ -105,4 +105,3 @@ def validate_bid_value(tender, value):
         raise ValidationError(
             u"valueAddedTaxIncluded of bid should be identical " u"to valueAddedTaxIncluded of value of tender"
         )
-     

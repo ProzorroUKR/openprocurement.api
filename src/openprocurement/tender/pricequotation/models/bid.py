@@ -121,4 +121,3 @@ class Bid(Model):
                     i.code for i in (tender.features or [])
             ]):
                 raise ValidationError(u"All features parameters is required.")
-

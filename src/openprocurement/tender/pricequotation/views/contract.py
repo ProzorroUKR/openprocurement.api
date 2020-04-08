@@ -33,9 +33,7 @@ class PQTenderAwardContractResource(TenderAwardContractResource):
         validators=(
             validate_patch_contract_data,
             validate_contract_operation_not_in_allowed_status,
-            validate_update_contract_only_for_active_lots,
             validate_update_contract_value,
-            validate_contract_signing,
             validate_update_contract_value_net_required,
             validate_update_contract_value_with_award,
             validate_update_contract_value_amount,
