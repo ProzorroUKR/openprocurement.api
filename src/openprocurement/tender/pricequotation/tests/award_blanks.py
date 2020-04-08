@@ -377,21 +377,6 @@ def patch_tender_award_unsuccessful(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 2)
 
-    bid_token = self.initial_bids_tokens.values()[0]
-    response = self.app.post_json(
-        "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, award["id"], bid_token),
-        {
-            "data": test_claim
-        },
-    )
-    self.assertEqual(response.status, "201 Created")
-
-    response = self.app.post_json(
-        "{}/complaints?acc_token={}".format(new_award_location[-81:], bid_token),
-        {"data": test_draft_claim},
-    )
-    self.assertEqual(response.status, "201 Created")
-
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
         {"data": {"status": "cancelled"}},
@@ -456,28 +441,6 @@ def get_tender_award(self):
     self.assertEqual(
         response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
     )
-
-
-def patch_tender_award_Administrator_change(self):
-    self.app.authorization = ("Basic", ("token", ""))
-    response = self.app.post_json(
-        "/tenders/{}/awards".format(self.tender_id),
-        {"data": {"suppliers": [test_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    award = response.json["data"]
-    complaintPeriod = award["complaintPeriod"][u"startDate"]
-
-    self.app.authorization = ("Basic", ("administrator", ""))
-    response = self.app.patch_json(
-        "/tenders/{}/awards/{}".format(self.tender_id, award["id"]),
-        {"data": {"complaintPeriod": {"endDate": award["complaintPeriod"][u"startDate"]}}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertIn("endDate", response.json["data"]["complaintPeriod"])
-    self.assertEqual(response.json["data"]["complaintPeriod"]["endDate"], complaintPeriod)
 
 
 def create_tender_award_no_scale_invalid(self):
