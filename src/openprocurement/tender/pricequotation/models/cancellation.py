@@ -16,8 +16,10 @@ class Cancellation(Model):
     class Options:
         roles = {
             "create": whitelist(
-                "reason", "status", "reasonType",
-                "cancellationOf", "relatedLot"
+                "reason",
+                "status",
+                "reasonType",
+                "cancellationOf",
             ),
             "edit": whitelist("status", "reasonType"),
             "embedded": schematics_embedded_role,
