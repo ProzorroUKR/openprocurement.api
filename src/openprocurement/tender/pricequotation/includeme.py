@@ -4,7 +4,7 @@ from pyramid.interfaces import IRequest
 from openprocurement.api.interfaces import IContentConfigurator
 from openprocurement.tender.pricequotation.interfaces import\
     IPriceQuotationTender
-from openprocurement.tender.pricequotation.models import\
+from openprocurement.tender.pricequotation.models.tender import\
     PriceQuotationTender
 from openprocurement.tender.pricequotation.adapters import\
     PQTenderConfigurator

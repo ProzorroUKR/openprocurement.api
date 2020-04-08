@@ -54,12 +54,6 @@ class TenderBidResourceTest(TenderContentWebTest):
     test_create_tender_bid_no_scale = snitch(create_tender_bid_no_scale)
 
 
-class Tender2LotBidResourceTest(TenderContentWebTest):
-    test_bids_data = test_bids
-    initial_status = "active.tendering"
-
-
-
 class TenderBidFeaturesResourceTest(TenderContentWebTest):
     initial_data = test_features_tender_data
     initial_status = "active.tendering"

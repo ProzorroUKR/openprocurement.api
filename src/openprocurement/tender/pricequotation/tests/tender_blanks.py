@@ -1115,17 +1115,6 @@ def tender_owner_cannot_change_in_draft(self):
     }
     lists = {
         "revisions": [{"author": "Some author"}],
-        "lots": [
-            {
-                "title": u"lot title",
-                "value": {
-                    "amount": 100
-                },
-                "minimalStep": {
-                    "amount": 35
-                }
-            }
-        ],
         "plans": [{"id": uuid4().hex}],
         "cancellations": [{"reason": u"Some reason"}],
     }
@@ -1178,7 +1167,6 @@ def tender_owner_cannot_change_in_draft(self):
     tender = response.json["data"]
 
     self.assertEqual(tender.get("revisions", []), [])
-    self.assertEqual(tender.get("lots", []), [])
     self.assertEqual(tender.get("plans", []), [])
     self.assertEqual(tender.get("cancellations", []), [])
 
@@ -1466,7 +1454,7 @@ def tender_features_invalid(self):
     data["features"] = [
         {
             "code": "OCDS-123454-AIR-INTAKE",
-            "featureOf": "lot",
+            "featureOf": "tender",
             "title": u"Потужність всмоктування",
             "enum": [{"value": 0.1, "title": u"До 1000 Вт"}, {"value": 0.15, "title": u"Більше 1000 Вт"}],
         }
@@ -2157,25 +2145,6 @@ def invalid_tender_conditions(self):
     owner_token = self.tender_token = response.json["access"]["token"]
     # switch to active.tendering
     self.set_status("active.tendering")
-    # create compaint
-    response = self.app.post_json(
-        "/tenders/{}/complaints".format(tender_id),
-        {
-            "data": test_claim
-        },
-    )
-    complaint_id = response.json["data"]["id"]
-    complaint_owner_token = response.json["access"]["token"]
-    # answering claim
-    self.app.patch_json(
-        "/tenders/{}/complaints/{}?acc_token={}".format(tender_id, complaint_id, owner_token),
-        {"data": {"status": "answered", "resolutionType": "resolved", "resolution": "I will cancel the tender"}},
-    )
-    # satisfying resolution
-    self.app.patch_json(
-        "/tenders/{}/complaints/{}?acc_token={}".format(tender_id, complaint_id, complaint_owner_token),
-        {"data": {"satisfied": True, "status": "resolved"}},
-    )
     # cancellation
     cancellation = dict(**test_cancellation)
     cancellation.update({
@@ -2236,11 +2205,6 @@ def one_valid_bid_tender(self):
     # after stand slill period
     self.app.authorization = ("Basic", ("chronograph", ""))
     self.set_status("complete", {"status": "active.awarded"})
-    # time travel
-    tender = self.db.get(tender_id)
-    for i in tender.get("awards", []):
-        i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
     self.app.patch_json(
@@ -2283,11 +2247,6 @@ def one_invalid_bid_tender(self):
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
         {"data": {"status": "unsuccessful"}},
     )
-    # time travel
-    tender = self.db.get(tender_id)
-    for i in tender.get("awards", []):
-        i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
     # set tender status after stand slill period
     self.app.authorization = ("Basic", ("chronograph", ""))
     self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
@@ -2341,33 +2300,7 @@ def first_bid_tender(self):
     # get pending award
     award2_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     self.assertNotEqual(award_id, award2_id)
-    # create first award complaint
-    self.app.authorization = ("Basic", ("broker", ""))
-    response = self.app.post_json(
-        "/tenders/{}/awards/{}/complaints?acc_token={}".format(tender_id, award_id, bid_token),
-        {
-            "data": test_claim
-        },
-    )
-    complaint_id = response.json["data"]["id"]
-    complaint_owner_token = response.json["access"]["token"]
-    # create first award complaint #2
-    self.app.post_json(
-        "/tenders/{}/awards/{}/complaints?acc_token={}".format(tender_id, award_id, bid_token),
-        {"data": test_draft_claim},
-    )
-    # answering claim
-    self.app.patch_json(
-        "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(tender_id, award_id, complaint_id, owner_token),
-        {"data": {"status": "answered", "resolutionType": "resolved", "resolution": "resolution text " * 2}},
-    )
-    # satisfying resolution
-    self.app.patch_json(
-        "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
-            tender_id, award_id, complaint_id, complaint_owner_token
-        ),
-        {"data": {"satisfied": True, "status": "resolved"}},
-    )
+    
     # get awards
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}/awards?acc_token={}".format(tender_id, owner_token))
@@ -2393,11 +2326,7 @@ def first_bid_tender(self):
     # after stand slill period
     self.app.authorization = ("Basic", ("chronograph", ""))
     self.set_status("complete", {"status": "active.awarded"})
-    # time travel
-    tender = self.db.get(tender_id)
-    for i in tender.get("awards", []):
-        i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
+    
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
     self.app.patch_json(

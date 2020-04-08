@@ -22,7 +22,6 @@ from openprocurement.tender.pricequotation.tests.cancellation_blanks import (
     patch_tender_cancellation_2020_04_19,
     permission_cancellation_pending,
 )
-# from openprocurement.tender.openua.tests.cancellation_blanks import create_tender_cancellation_2020_04_19
 
 
 class TenderCancellationResourceTestMixin(object):
@@ -31,15 +30,6 @@ class TenderCancellationResourceTestMixin(object):
     test_patch_tender_cancellation = snitch(patch_tender_cancellation)
     test_get_tender_cancellation = snitch(get_tender_cancellation)
     test_get_tender_cancellations = snitch(get_tender_cancellations)
-
-
-# class TenderCancellationResourceNewReleaseTestMixin(object):
-#     valid_reasonType_choices = ["noDemand", "unFixable", "forceMajeure", "expensesCut"]
-
-#     # test_create_tender_cancellation_19_04_2020 = snitch(create_tender_cancellation_2020_04_19)
-#     test_patch_tender_cancellation_19_04_2020 = snitch(patch_tender_cancellation_2020_04_19)
-#     test_create_tender_cancellation_before_19_04_2020 = snitch(create_tender_cancellation_before_19_04_2020)
-#     test_permission_cancellation_pending = snitch(permission_cancellation_pending)
 
 
 class TenderCancellationDocumentResourceTestMixin(object):

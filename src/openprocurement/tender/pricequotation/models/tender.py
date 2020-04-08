@@ -1,192 +1,40 @@
 # -*- coding: utf-8 -*-
-from uuid import uuid4
-# from datetime import timedelta
-# from barbecue import vnmax
+from schematics.exceptions import ValidationError
+from schematics.transforms import whitelist
+from schematics.types import IntType, StringType
+from schematics.types.compound import ModelType
+from schematics.types.serializable import serializable
+from zope.interface import implementer
 from openprocurement.api.constants import TZ, CPV_ITEMS_CLASS_FROM
 from openprocurement.api.models import\
     BusinessOrganization, CPVClassification, Guarantee
 from openprocurement.api.models import Item as BaseItem
 from openprocurement.api.models import\
-    ListType, Period, Value, IsoDateTimeType
-from openprocurement.api.models import\
-    schematics_default_role, schematics_embedded_role
+    ListType, Period, Value
 from openprocurement.api.utils import get_now
 from openprocurement.api.validation import\
     validate_classification_id, validate_cpv_group, validate_items_uniq
 from openprocurement.tender.core.models import (
-    BaseAward,
-    BaseCancellation,
-    Model,
     Contract,
     Feature,
     PeriodEndRequired,
     ProcuringEntity,
-    Parameter,
     Tender,
-    BaseDocument
     )
 from openprocurement.tender.core.models import (
     validate_features_uniq,
-    Administrator_bid_role,
-    view_bid_role,
-    validate_parameters_uniq,
-    get_tender
 )
-from openprocurement.tender.pricequotation.validation import\
-    validate_bid_value
+
 from openprocurement.tender.pricequotation.constants import PMT
 from openprocurement.tender.pricequotation.interfaces\
     import IPriceQuotationTender
-from pyramid.security import Allow
-from schematics.exceptions import ValidationError
-from schematics.transforms import whitelist, blacklist
-from schematics.types import IntType, StringType
-from schematics.types.compound import ModelType
-from schematics.types.serializable import serializable
-from schematics.types import MD5Type
-from zope.interface import implementer
 
-
-class Document(BaseDocument):
-    documentOf = StringType(
-        required=True,
-        choices=["tender", "item"],
-        default="tender"
+from openprocurement.tender.pricequotation.models import (
+    Cancellation,
+    Bid,
+    Document,
+    Award
     )
-
-    def validate_relatedItem(self, data, relatedItem):
-        if not relatedItem and data.get("documentOf") in ["item"]:
-            raise ValidationError(u"This field is required.")
-        parent = data["__parent__"]
-        if relatedItem and isinstance(parent, Model):
-            tender = get_tender(parent)
-            if data.get("documentOf") == "item" and relatedItem not in [i.id for i in tender.items if i]:
-                raise ValidationError(u"relatedItem should be one of items")
-
-
-
-class Award(BaseAward):
-    """ An award for the given procurement. There may be more than one award
-        per contracting process e.g. because the contract is split amongst
-        different providers, or because it is a standing offer.
-    """
-
-    class Options:
-        roles = {
-            "create": blacklist("id", "status", "date", "documents"),
-            "edit": whitelist(
-                "status", "title", "title_en", "title_ru", "description", "description_en", "description_ru"
-            ),
-            "embedded": schematics_embedded_role,
-            "view": schematics_default_role,
-            "Administrator": whitelist("complaintPeriod"),
-        }
-
-    bid_id = MD5Type(required=True)
-
-
-class BidOffer(Model):
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
-    relatedItem = MD5Type(required=True)
-    requirementsResponse = StringType(required=True)
-
-
-class Bid(Model):
-    class Options:
-        roles = {
-            "Administrator": Administrator_bid_role,
-            "embedded": view_bid_role,
-            "view": view_bid_role,
-            "create": whitelist(
-                "value",
-                "status",
-                "tenderers",
-                "parameters",
-                "documents"
-            ),
-            "edit": whitelist("value", "status", "tenderers", "parameters"),
-            "active.tendering": whitelist(),
-            "active.qualification": view_bid_role,
-            "active.awarded": view_bid_role,
-            "complete": view_bid_role,
-            "unsuccessful": view_bid_role,
-            "cancelled": view_bid_role,
-        }
-
-    def __local_roles__(self):
-        return dict([("{}_{}".format(self.owner, self.owner_token),
-                      "bid_owner")])
-
-    tenderers = ListType(
-        ModelType(BusinessOrganization, required=True),
-        required=True,
-        min_size=1,
-        max_size=1
-    )
-    parameters = ListType(
-        ModelType(Parameter, required=True),
-        default=list(),
-        validators=[validate_parameters_uniq]
-    )
-    date = IsoDateTimeType(default=get_now)
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
-    status = StringType(choices=["active", "draft"], default="active")
-    value = ModelType(Value)
-    documents = ListType(ModelType(Document, required=True), default=list())
-    owner_token = StringType()
-    transfer_token = StringType()
-    owner = StringType()
-    # TODO: 
-    # offers = ListType(
-    #     ModelType(BidOffer, required=True),
-    #     required=True,
-    #     min_size=1,
-    #     validators=[validate_items_uniq],
-    # )
-
-    __name__ = ""
-
-    def import_data(self, raw_data, **kw):
-        """
-        Converts and imports the raw data into the instance of the model
-        according to the fields in the model.
-
-        :param raw_data:
-            The data to be imported.
-        """
-        data = self.convert(raw_data, **kw)
-        del_keys = [k for k in data.keys() if k != "value" and data[k] is None]
-        for k in del_keys:
-            del data[k]
-
-        self._data.update(data)
-        return self
-
-    def __acl__(self):
-        return [
-            (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_bid")
-        ]
-
-    def validate_value(self, data, value):
-        parent = data["__parent__"]
-        if isinstance(parent, Model):
-            validate_bid_value(parent, value)
-
-    def validate_parameters(self, data, parameters):
-        parent = data["__parent__"]
-        if isinstance(parent, Model):
-            tender = parent
-            if not parameters and tender.features:
-                raise ValidationError(u"This field is required.")
-            elif set([i["code"] for i in parameters]) != set([
-                    i.code for i in (tender.features or [])
-            ]):
-                raise ValidationError(u"All features parameters is required.")
-
-# TODO: relatedLot
-class Cancellation(BaseCancellation):
-    def validate_relatedLot(self, data, relatedLot):
-        pass
 
 
 class ShortlistedFirm(BusinessOrganization):
@@ -326,6 +174,9 @@ class PriceQuotationTender(Tender):
         ModelType(Cancellation, required=True),
         default=list()
     )
+    documents = ListType(
+        ModelType(Document, required=True), default=list()
+    )  # All documents and attachments related to the tender.
     features = ListType(
         ModelType(Feature, required=True),
         validators=[validate_features_uniq]
