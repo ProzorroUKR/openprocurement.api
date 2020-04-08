@@ -3,10 +3,6 @@ from datetime import timedelta
 from copy import deepcopy
 from openprocurement.api.utils import get_now
 
-from openprocurement.tender.pricequotation.tests.base import test_claim, test_cancellation
-
-# TenderContractResourceTest
-from openprocurement.api.constants import RELEASE_2020_04_19
 
 def create_tender_contract_invalid(self):
     self.app.authorization = ("Basic", ("token", ""))
@@ -206,22 +202,6 @@ def patch_tender_contract(self):
 
     self.set_status("complete", {"status": "active.awarded"})
 
-    token = self.initial_bids_tokens.values()[0]
-    response = self.app.post_json(
-        "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, token),
-        {
-            "data": test_claim
-        },
-    )
-    self.assertEqual(response.status, "201 Created")
-    complaint = response.json["data"]
-    owner_token = response.json["access"]["token"]
-
-    tender = self.db.get(self.tender_id)
-    for i in tender.get("awards", []):
-        i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
-
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
         {"data": {"value": {"amountNet": contract["value"]["amount"] - 1}}},
@@ -252,27 +232,6 @@ def patch_tender_contract(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.json["errors"][0]["description"], "Can't update currency for contract value")
 
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"dateSigned": i["complaintPeriod"]["endDate"]}},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                u"description": [
-                    u"Contract signature date should be after award complaint period end date ({})".format(
-                        i["complaintPeriod"]["endDate"]
-                    )
-                ],
-                u"location": u"body",
-                u"name": u"dateSigned",
-            }
-        ],
-    )
-
     one_hour_in_furure = (get_now() + timedelta(hours=1)).isoformat()
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
@@ -297,37 +256,6 @@ def patch_tender_contract(self):
         {"data": {"dateSigned": custom_signature_date}},
     )
     self.assertEqual(response.status, "200 OK")
-
-    response = self.app.patch_json(
-        "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
-            self.tender_id, self.award_id, complaint["id"], self.tender_token
-        ),
-        {"data": {"status": "answered", "resolutionType": "resolved", "resolution": "resolution text " * 2}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["status"], "answered")
-    self.assertEqual(response.json["data"]["resolutionType"], "resolved")
-    self.assertEqual(response.json["data"]["resolution"], "resolution text " * 2)
-
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"status": "active"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't sign contract before reviewing all complaints")
-
-    response = self.app.patch_json(
-        "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
-            self.tender_id, self.award_id, complaint["id"], owner_token
-        ),
-        {"data": {"satisfied": True, "status": "resolved"}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["status"], "resolved")
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),

@@ -9,6 +9,3 @@ class PQTenderConfigurator(TenderConfigurator):
 
     name = "Reporting Tender configurator"
     model = PriceQuotationTender
-
-    # Dictionary with allowed complaint statuses for operations for each role
-    allowed_statuses_for_complaint_operations_for_roles = STATUS4ROLE

@@ -1,18 +1,6 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta
-from iso8601 import parse_date
-
-from openprocurement.api.utils import get_now
-from openprocurement.tender.pricequotation.tests.base import test_claim, test_author
-
-
-# TenderSwitchTenderingResourceTest
-from openprocurement.tender.core.utils import calculate_tender_business_date
-
 
 # TenderSwitchQualificationResourceTest
-
-
 def switch_to_qualification(self):
     self.set_status("active.qualification", {"status": self.initial_status})
     response = self.check_chronograph()

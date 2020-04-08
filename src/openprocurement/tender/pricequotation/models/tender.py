@@ -15,16 +15,12 @@ from openprocurement.api.utils import get_now
 from openprocurement.api.validation import\
     validate_classification_id, validate_cpv_group, validate_items_uniq
 from openprocurement.tender.core.models import (
-    Contract,
-    Feature,
+    Contract as BaseContract,
     PeriodEndRequired,
     ProcuringEntity,
     Tender,
+    Model
     )
-from openprocurement.tender.core.models import (
-    validate_features_uniq,
-)
-
 from openprocurement.tender.pricequotation.constants import PMT
 from openprocurement.tender.pricequotation.interfaces\
     import IPriceQuotationTender
@@ -45,6 +41,17 @@ class ShortlistedFirm(BusinessOrganization):
 class Item(BaseItem):
     """A good, service, or work to be contracted."""
     classification = ModelType(CPVClassification)
+
+
+class Contract(BaseContract):
+    documents = ListType(ModelType(Document, required=True), default=list())
+
+    def validate_dateSigned(self, data, value):
+        parent = data["__parent__"]
+        if value and isinstance(parent, Model):
+            if value > get_now():
+                raise ValidationError(u"Contract signature date can't be in the future")
+
 
 
 @implementer(IPriceQuotationTender)
@@ -177,10 +184,6 @@ class PriceQuotationTender(Tender):
     documents = ListType(
         ModelType(Document, required=True), default=list()
     )  # All documents and attachments related to the tender.
-    features = ListType(
-        ModelType(Feature, required=True),
-        validators=[validate_features_uniq]
-    )
     guarantee = ModelType(Guarantee)
     procurementMethodType = StringType(default=PMT)
     profile = StringType()
@@ -188,7 +191,6 @@ class PriceQuotationTender(Tender):
 
     procuring_entity_kinds = ["general", "special",
                               "defense", "central", "other"]
-    block_complaint_status = ["answered", "pending"]
 
     def get_role(self):
         root = self.__parent__

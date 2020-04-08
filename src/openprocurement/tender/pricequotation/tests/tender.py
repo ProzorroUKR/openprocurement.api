@@ -22,7 +22,6 @@ from openprocurement.tender.pricequotation.tests.tender_blanks import (
     # TenderResourceTest
     listing,
     get_tender,
-    tender_features_invalid,
     tender_not_found,
     dateModified_tender,
     guarantee,
@@ -35,7 +34,6 @@ from openprocurement.tender.pricequotation.tests.tender_blanks import (
     create_tender_invalid,
     create_tender_generated,
     create_tender_draft,
-    tender_features,
     patch_tender_jsonpatch,
     patch_tender,
     required_field_deletion,
@@ -61,9 +59,7 @@ class TenderResourceTestMixin(object):
     test_tender_owner_can_change_in_draft = snitch(tender_owner_can_change_in_draft)
     test_tender_owner_cannot_change_in_draft = snitch(tender_owner_cannot_change_in_draft)
     test_create_tender = snitch(create_tender)
-    test_tender_features = snitch(tender_features)
     test_get_tender = snitch(get_tender)
-    test_tender_features_invalid = snitch(tender_features_invalid)
     test_create_tender_central_invalid = snitch(create_tender_central_invalid)
     test_dateModified_tender = snitch(dateModified_tender)
     test_tender_not_found = snitch(tender_not_found)

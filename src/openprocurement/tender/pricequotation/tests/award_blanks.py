@@ -1,19 +1,13 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
-from copy import deepcopy
 from webtest import AppError
 import mock
-import dateutil.parser
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.pricequotation.tests.base import (
-    test_organization, test_draft_claim, test_claim, test_cancellation
-)
+from openprocurement.tender.pricequotation.tests.base import test_organization
 
 
 # TenderAwardResourceTest
-
-
 def create_tender_award_invalid(self):
     self.app.authorization = ("Basic", ("token", ""))
     request_path = "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token)

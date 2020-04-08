@@ -4,7 +4,6 @@ import unittest
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.pricequotation.tests.base import (
     TenderContentWebTest,
-    test_features_tender_data,
     test_organization,
     test_bids,
 )
@@ -20,9 +19,6 @@ from openprocurement.tender.pricequotation.tests.bid_blanks import (
     create_tender_bid_no_scale_invalid,
     create_tender_bid_with_scale_not_required,
     create_tender_bid_no_scale,
-    # TenderBidFeaturesResourceTest
-    features_bid,
-    features_bid_invalid,
     # TenderBidDocumentResourceTest
     not_found,
     create_tender_bid_document,
@@ -52,14 +48,6 @@ class TenderBidResourceTest(TenderContentWebTest):
     test_create_tender_bid_no_scale_invalid = snitch(create_tender_bid_no_scale_invalid)
     test_create_tender_bid_with_scale_not_required = snitch(create_tender_bid_with_scale_not_required)
     test_create_tender_bid_no_scale = snitch(create_tender_bid_no_scale)
-
-
-class TenderBidFeaturesResourceTest(TenderContentWebTest):
-    initial_data = test_features_tender_data
-    initial_status = "active.tendering"
-
-    test_features_bid = snitch(features_bid)
-    test_features_bid_invalid = snitch(features_bid_invalid)
 
 
 class TenderBidDocumentResourceTest(TenderContentWebTest):

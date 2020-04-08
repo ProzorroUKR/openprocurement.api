@@ -82,53 +82,11 @@ test_tender_data = {
 }
 if SANDBOX_MODE:
     test_tender_data["procurementMethodDetails"] = "quick, accelerator=1440"
-test_features_tender_data = test_tender_data.copy()
-test_features_item = test_features_tender_data["items"][0].copy()
-test_features_item["id"] = "1"
-test_features_tender_data["items"] = [test_features_item]
-test_features_tender_data["features"] = [
-    {
-        "code": "OCDS-123454-AIR-INTAKE",
-        "featureOf": "item",
-        "relatedItem": "1",
-        "title": u"Потужність всмоктування",
-        "title_en": "Air Intake",
-        "description": u"Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
-        "enum": [{"value": 0.1, "title": u"До 1000 Вт"}, {"value": 0.15, "title": u"Більше 1000 Вт"}],
-    },
-    {
-        "code": "OCDS-123454-YEARS",
-        "featureOf": "tenderer",
-        "title": u"Років на ринку",
-        "title_en": "Years trading",
-        "description": u"Кількість років, які організація учасник працює на ринку",
-        "enum": [
-            {"value": 0.05, "title": u"До 3 років"},
-            {"value": 0.1, "title": u"Більше 3 років, менше 5 років"},
-            {"value": 0.15, "title": u"Більше 5 років"},
-        ],
-    },
-]
 test_bids = [
     {"tenderers": [test_organization], "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True}},
     {"tenderers": [test_organization], "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True}},
 ]
 
-test_features = [
-    {
-        "code": "code_item",
-        "featureOf": "item",
-        "relatedItem": "1",
-        "title": u"item feature",
-        "enum": [{"value": 0.01, "title": u"good"}, {"value": 0.02, "title": u"best"}],
-    },
-    {
-        "code": "code_tenderer",
-        "featureOf": "tenderer",
-        "title": u"tenderer feature",
-        "enum": [{"value": 0.01, "title": u"good"}, {"value": 0.02, "title": u"best"}],
-    },
-]
 test_cancellation = {
     "reason": "cancellation reason",
 }
@@ -136,36 +94,6 @@ if RELEASE_2020_04_19 < get_now():
     test_cancellation.update({
         "reasonType": "noDemand"
     })
-
-test_draft_claim = {
-    "title": "complaint title",
-    "status": "draft",
-    "type": "claim",
-    "description": "complaint description",
-    "author": test_author
-}
-
-test_claim = {
-    "title": "complaint title",
-    "status": "claim",
-    "type": "claim",
-    "description": "complaint description",
-    "author": test_author
-}
-
-test_complaint = {
-    "title": "complaint title",
-    "status": "pending",
-    "type": "complaint",
-    "description": "complaint description",
-    "author": test_author
-}
-test_draft_complaint = {
-    "title": "complaint title",
-    "type": "complaint",
-    "description": "complaint description",
-    "author": test_author
-}
 
 test_shortlisted_firms = [
     {

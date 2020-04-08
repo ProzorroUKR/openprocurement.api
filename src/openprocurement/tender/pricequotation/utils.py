@@ -102,7 +102,7 @@ def add_next_award(request):
             a.bid_id for a in tender.awards
             if a.status == "unsuccessful"
         ]
-        bids = chef(tender.bids, tender.features or [], unsuccessful_awards)
+        bids = tender.bids
         if bids:
             bid = bids[0].serialize()
             award = type(tender).awards.model_class(
