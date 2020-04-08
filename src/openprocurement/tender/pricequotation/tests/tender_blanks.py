@@ -2082,7 +2082,6 @@ def patch_tender_by_pq_bot(self):
     self.assertEqual(tender["status"], "draft")
     self.assertEqual(len(tender["items"]), 1)
     self.assertNotIn("shortlistedFirms", tender)
-    self.assertNotIn("profile", tender)
     self.assertNotIn("classification", tender["items"][0])
     self.assertNotIn("unit", tender["items"][0])
 
@@ -2114,7 +2113,7 @@ def patch_tender_by_pq_bot(self):
     self.assertIn("unit", tender["items"][0])
     self.assertEqual(len(tender["shortlistedFirms"]), len(test_shortlisted_firms))
 
-    # switch tender to `draft.invalid`
+    # switch tender to `draft.unsuccessful`
     response = self.app.post_json("/tenders", {"data": deepcopy(self.initial_data)})
     self.assertEqual(response.status, "201 Created")
     tender_id = response.json["data"]["id"]
@@ -2124,7 +2123,6 @@ def patch_tender_by_pq_bot(self):
     self.assertEqual(tender["status"], "draft")
     self.assertEqual(len(tender["items"]), 1)
     self.assertNotIn("shortlistedFirms", tender)
-    self.assertNotIn("profile", tender)
     self.assertNotIn("classification", tender["items"][0])
     self.assertNotIn("unit", tender["items"][0])
 
@@ -2136,12 +2134,12 @@ def patch_tender_by_pq_bot(self):
     self.assertEqual(tender["profile"], "some-invalid-id")
 
     with change_auth(self.app, ("Basic", ("pricequotation", ""))) as app:
-        self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"status": "draft.invalid"}})
+        self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"status": "draft.unsuccessful"}})
 
     response = self.app.get("/tenders/{}".format(tender_id))
     self.assertEqual(response.status, "200 OK")
     tender = response.json["data"]
-    self.assertEqual(tender["status"], "draft.invalid")
+    self.assertEqual(tender["status"], "draft.unsuccessful")
     self.assertNotIn("classification", tender["items"][0])
     self.assertNotIn("unit", tender["items"][0])
     self.assertNotIn("shortlistedFirms", tender)

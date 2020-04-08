@@ -173,7 +173,7 @@ class PriceQuotationTender(Tender):
             "create": _core_roles["create"] + _edit_role + whitelist("lots"),
             "edit": _edit_role,
             "edit_draft": _edit_role,
-            "edit_draft.invalid": _edit_role,
+            "edit_draft.unsuccessful": _edit_role,
             "edit_draft.publishing": _all_forbidden,
             "edit_active.tendering": _all_forbidden,
             "edit_active.qualification": _all_forbidden,
@@ -182,7 +182,7 @@ class PriceQuotationTender(Tender):
             "edit_unsuccessful": _all_forbidden,
             "edit_cancelled": _all_forbidden,
             "draft": _view_tendering_role,
-            "draft.invalid": _view_tendering_role,
+            "draft.unsuccessful": _view_tendering_role,
             "draft.publishing": _view_tendering_role,
             "active.tendering": _view_tendering_role,
             "view": _view_role,
@@ -203,7 +203,7 @@ class PriceQuotationTender(Tender):
 
     status = StringType(choices=["draft",
                                  "draft.publishing",
-                                 "draft.invalid",
+                                 "draft.unsuccessful",
                                  "active.tendering",
                                  "active.qualification",
                                  "active.awarded",
@@ -430,7 +430,7 @@ class PriceQuotationTender(Tender):
         )
 
     def validate_items(self, data, items):
-        if data["status"] in ("draft", "draft.publishing", "draft.invalid"):
+        if data["status"] in ("draft", "draft.publishing", "draft.unsuccessful"):
             return
         cpv_336_group = items[0].classification.id[:3] == "336"\
             if items else False
