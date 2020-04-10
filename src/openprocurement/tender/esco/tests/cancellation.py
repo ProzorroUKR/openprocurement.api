@@ -30,6 +30,8 @@ from openprocurement.tender.openua.tests.cancellation_blanks import (
     patch_tender_cancellation,
     access_create_tender_cancellation_complaint,
     activate_cancellation,
+    create_cancellation_in_tender_complaint_period,
+    create_cancellation_in_award_complaint_period,
     create_tender_cancellation_with_cancellation_lots
 )
 
@@ -49,9 +51,11 @@ from openprocurement.tender.openeu.tests.cancellation_blanks import (
     bids_on_tender_cancellation_in_auction,
     bids_on_tender_cancellation_in_qualification,
     bids_on_tender_cancellation_in_awarded,
+    create_cancellation_in_qualification_complaint_period,
 )
 
 from openprocurement.tender.esco.tests.base import BaseESCOContentWebTest, test_bids, test_lots
+from openprocurement.api.constants import RELEASE_2020_04_19
 
 
 class TenderCancellationResourceTest(
@@ -64,6 +68,7 @@ class TenderCancellationResourceTest(
     test_create_tender_cancellation = snitch(create_tender_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_cancellation)
     test_activate_cancellation = snitch(activate_cancellation)
+    test_create_cancellation_in_tender_complaint_period = snitch(create_cancellation_in_tender_complaint_period)
 
 
 class TenderCancellationBidsAvailabilityTest(BaseESCOContentWebTest, TenderCancellationBidsAvailabilityUtils):
@@ -86,6 +91,8 @@ class TenderCancellationBidsAvailabilityTest(BaseESCOContentWebTest, TenderCance
     test_bids_on_tender_cancellation_in_auction = snitch(bids_on_tender_cancellation_in_auction)
     test_bids_on_tender_cancellation_in_qualification = snitch(bids_on_tender_cancellation_in_qualification)
     test_bids_on_tender_cancellation_in_awarded = snitch(bids_on_tender_cancellation_in_awarded)
+    create_cancellation_in_qualification_complaint_period = snitch(
+        create_cancellation_in_qualification_complaint_period)
 
 
 class TenderLotCancellationResourceTest(BaseESCOContentWebTest):
@@ -117,6 +124,7 @@ class TenderAwardsCancellationResourceTest(BaseESCOContentWebTest):
     test_cancellation_unsuccessful_qualification = snitch(cancellation_unsuccessful_qualification)
     test_cancellation_active_award = snitch(cancellation_active_award)
     test_cancellation_unsuccessful_award = snitch(cancellation_unsuccessful_award)
+    test_create_cancellation_in_award_complaint_period = snitch(create_cancellation_in_award_complaint_period)
 
 
 class TenderCancellationComplaintResourceTest(BaseESCOContentWebTest, TenderCancellationComplaintResourceTestMixin):
@@ -128,6 +136,8 @@ class TenderCancellationComplaintResourceTest(BaseESCOContentWebTest, TenderCanc
     @mock.patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
     def setUp(self):
         super(TenderCancellationComplaintResourceTest, self).setUp()
+
+        self.set_complaint_period_end()
 
         # Create cancellation
         cancellation = dict(**test_cancellation)
@@ -149,6 +159,10 @@ class TenderCancellationDocumentResourceTest(BaseESCOContentWebTest, TenderCance
 
     def setUp(self):
         super(TenderCancellationDocumentResourceTest, self).setUp()
+
+        if RELEASE_2020_04_19 < get_now():
+            self.set_complaint_period_end()
+
         # Create cancellation
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),

@@ -102,6 +102,7 @@ class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest, TenderCan
 
     def setUp(self):
         super(TenderCancellationDocumentResourceTest, self).setUp()
+
         # Create cancellation
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
@@ -125,6 +126,7 @@ class TenderNegotiationQuickCancellationComplaintResourceTest(
     @patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
     def setUp(self):
         super(TenderNegotiationQuickCancellationComplaintResourceTest, self).setUp()
+        # self.set_complaint_period_end()
 
         # Create cancellation
         cancellation = dict(**test_cancellation)
@@ -150,7 +152,6 @@ class TenderNegotiationCancellationComplaintResourceTest(
     def setUp(self):
         super(TenderNegotiationCancellationComplaintResourceTest, self).setUp()
 
-        # Create cancellation
         cancellation = dict(**test_cancellation)
         cancellation.update({
             "reasonType": "noDemand"

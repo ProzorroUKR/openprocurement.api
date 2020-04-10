@@ -33,6 +33,8 @@ from openprocurement.tender.openua.tests.cancellation_blanks import (
     patch_tender_cancellation,
     access_create_tender_cancellation_complaint,
     activate_cancellation,
+    create_cancellation_in_tender_complaint_period,
+    create_cancellation_in_award_complaint_period,
     create_tender_cancellation_with_cancellation_lots,
 )
 
@@ -52,6 +54,7 @@ from openprocurement.tender.openeu.tests.cancellation_blanks import (
     bids_on_tender_cancellation_in_auction,
     bids_on_tender_cancellation_in_qualification,
     bids_on_tender_cancellation_in_awarded,
+    create_cancellation_in_qualification_complaint_period,
 )
 
 
@@ -255,9 +258,13 @@ class TenderCancellationResourceTest(
     test_create_tender_cancellation = snitch(create_tender_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_cancellation)
     test_activate_cancellation = snitch(activate_cancellation)
+    test_create_cancellation_in_tender_complaint_period = snitch(create_cancellation_in_tender_complaint_period)
 
 
-class TenderCancellationBidsAvailabilityTest(BaseTenderContentWebTest, TenderCancellationBidsAvailabilityUtils):
+class TenderCancellationBidsAvailabilityTest(
+    BaseTenderContentWebTest,
+    TenderCancellationBidsAvailabilityUtils
+):
     initial_auth = ("Basic", ("broker", ""))
     initial_bids = test_bids * 2
     bid_visible_fields = [u"status", u"documents", u"tenderers", u"id", u"eligibilityDocuments"]
@@ -277,6 +284,7 @@ class TenderCancellationBidsAvailabilityTest(BaseTenderContentWebTest, TenderCan
     test_bids_on_tender_cancellation_in_auction = snitch(bids_on_tender_cancellation_in_auction)
     test_bids_on_tender_cancellation_in_qualification = snitch(bids_on_tender_cancellation_in_qualification)
     test_bids_on_tender_cancellation_in_awarded = snitch(bids_on_tender_cancellation_in_awarded)
+    test_create_cancellation_in_qualification_complaint_period = snitch(create_cancellation_in_qualification_complaint_period)
 
 
 class TenderLotCancellationResourceTest(BaseTenderContentWebTest):
@@ -308,9 +316,13 @@ class TenderAwardsCancellationResourceTest(BaseTenderContentWebTest):
     test_cancellation_unsuccessful_qualification = snitch(cancellation_unsuccessful_qualification)
     test_cancellation_active_award = snitch(cancellation_active_award)
     test_cancellation_unsuccessful_award = snitch(cancellation_unsuccessful_award)
+    test_create_cancellation_in_award_complaint_period = snitch(create_cancellation_in_award_complaint_period)
 
 
-class TenderCancellationComplaintResourceTest(BaseTenderContentWebTest, TenderCancellationComplaintResourceTestMixin):
+class TenderCancellationComplaintResourceTest(
+    BaseTenderContentWebTest,
+    TenderCancellationComplaintResourceTestMixin
+):
     initial_bids = test_bids
 
     @patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1))
@@ -318,6 +330,7 @@ class TenderCancellationComplaintResourceTest(BaseTenderContentWebTest, TenderCa
     @patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
     def setUp(self):
         super(TenderCancellationComplaintResourceTest, self).setUp()
+        self.set_complaint_period_end()
 
         # Create cancellation
         cancellation = dict(**test_cancellation)
@@ -334,11 +347,18 @@ class TenderCancellationComplaintResourceTest(BaseTenderContentWebTest, TenderCa
     test_access_create_tender_cancellation_complaint = snitch(access_create_tender_cancellation_complaint)
 
 
-class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest, TenderCancellationDocumentResourceTestMixin):
+class TenderCancellationDocumentResourceTest(
+    BaseTenderContentWebTest,
+    TenderCancellationDocumentResourceTestMixin
+):
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
         super(TenderCancellationDocumentResourceTest, self).setUp()
+
+        if RELEASE_2020_04_19 < get_now():
+            self.set_complaint_period_end()
+
         # Create cancellation
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),

@@ -923,6 +923,9 @@ def patch_tender_2lot_award(self):
     self.assertEqual(len(response.json["data"]), 2)
     new_award = response.json["data"][-1]
 
+    if RELEASE_2020_04_19 < get_now():
+        self.set_all_awards_complaint_period_end()
+
     cancellation = dict(**test_cancellation)
     cancellation.update({
         "status": "active",
@@ -1120,6 +1123,9 @@ def create_tender_2lot_award_complaint_document(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("name.doc", response.json["data"]["title"])
 
+    if RELEASE_2020_04_19 < get_now():
+        self.set_all_awards_complaint_period_end()
+
     cancellation = dict(**test_cancellation)
     cancellation.update({
         "status": "active",
@@ -1278,6 +1284,9 @@ def put_tender_2lot_award_complaint_document(self):
     )
     assert response.status_code == 200
 
+    if RELEASE_2020_04_19 < get_now():
+        self.set_all_awards_complaint_period_end()
+
     cancellation = dict(**test_cancellation)
     cancellation.update({
         "status": "active",
@@ -1381,6 +1390,9 @@ def patch_tender_2lot_award_complaint_document(self):
         }},
     )
     assert response.status_code == 200
+
+    if RELEASE_2020_04_19 < get_now():
+        self.set_all_awards_complaint_period_end()
 
     cancellation = dict(**test_cancellation)
     cancellation.update({

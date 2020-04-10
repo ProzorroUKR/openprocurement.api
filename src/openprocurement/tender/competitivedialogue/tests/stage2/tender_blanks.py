@@ -1813,6 +1813,10 @@ def tender_Administrator_change(self):
     self.tender_id = tender["id"]
     owner_token = self.tender_token = response.json["access"]["token"]
 
+    set_complaint_period_end = getattr(self, "set_complaint_period_end", None)
+    if RELEASE_2020_04_19 < get_now() and set_complaint_period_end:
+        set_complaint_period_end()
+
     cancellation = dict(**test_cancellation)
     cancellation.update({
         "status": "active",
@@ -1882,6 +1886,10 @@ def invalid_tender_conditions(self):
     # switch to active.tendering
     self.set_status("active.tendering")
     # cancellation
+    set_complaint_period_end = getattr(self, "set_complaint_period_end", None)
+    if RELEASE_2020_04_19 < get_now() and set_complaint_period_end:
+        set_complaint_period_end()
+
     cancellation = dict(**test_cancellation)
     cancellation.update({
         "reason": "invalid conditions",

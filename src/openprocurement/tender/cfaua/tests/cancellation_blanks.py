@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
+from datetime import timedelta
+from mock import patch
+
 from openprocurement.tender.belowthreshold.tests.base import test_complaint, test_claim
 import jmespath
 
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
+from openprocurement.tender.cfaua.tests.base import test_cancellation
 
 
 def assert_statuses(self, rules={}):
@@ -74,6 +78,10 @@ def cancellation_tender_active_tendering(self):
         },
     )
     self.assertEqual(response.status, "201 Created")
+
+    if RELEASE_2020_04_19 < get_now():
+        self.set_complaint_period_end()
+
     self.cancel_tender()
     assert_statuses(
         self,
@@ -162,23 +170,27 @@ def cancellation_tender_active_pre_qualification_stand_still(self):
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification.stand-still")
 
     self.app.authorization = ("Basic", ("broker", ""))
-    self.cancel_tender()
-    assert_statuses(
-        self,
-        rules={
-            "data.status": "cancelled",
-            "data.lots[*].status": ["active"],
-            "data.bids[*].status": [
-                "invalid.pre-qualification",
-                "invalid.pre-qualification",
-                "invalid.pre-qualification",
-            ],
-            "data.qualifications[*].status": ["active", "active", "active"],
-            "data.awards[*].status": None,
-            "data.agreements[*].status": None,
-            "data.complaints[*].status": ["invalid"],
-        },
-    )
+
+    if RELEASE_2020_04_19 > get_now():
+        # Test for old rules
+        # In new rules there will be 403 error
+        self.cancel_tender()
+        assert_statuses(
+            self,
+            rules={
+                "data.status": "cancelled",
+                "data.lots[*].status": ["active"],
+                "data.bids[*].status": [
+                    "invalid.pre-qualification",
+                    "invalid.pre-qualification",
+                    "invalid.pre-qualification",
+                ],
+                "data.qualifications[*].status": ["active", "active", "active"],
+                "data.awards[*].status": None,
+                "data.agreements[*].status": None,
+                "data.complaints[*].status": ["invalid"],
+            },
+        )
 
 
 def cancellation_tender_active_auction(self):
@@ -323,19 +335,22 @@ def cancel_lot_active_tendering(self):
     response = self.get_tender(role="broker")
     self.assertEqual(response.json["data"]["status"], "active.tendering")
     lot_id = response.json["data"]["lots"][0]["id"]
-    self.cancel_tender(lot_id=lot_id)
-    assert_statuses(
-        self,
-        rules={
-            "data.status": "cancelled",
-            "data.lots[*].status": ["cancelled"],
-            "data.bids[*].status": None,
-            "data.qualifications[*].status": None,
-            "data.awards[*].status": None,
-            "data.agreements[*].status": None,
-            "data.complaints[*].status": statuses,
-        },
-    )
+    if RELEASE_2020_04_19 > get_now():
+        # Test for old rules
+        # In new rules there will be 403 error
+        self.cancel_tender(lot_id=lot_id)
+        assert_statuses(
+            self,
+            rules={
+                "data.status": "cancelled",
+                "data.lots[*].status": ["cancelled"],
+                "data.bids[*].status": None,
+                "data.qualifications[*].status": None,
+                "data.awards[*].status": None,
+                "data.agreements[*].status": None,
+                "data.complaints[*].status": statuses,
+            },
+        )
 
 
 def cancel_lot_active_pre_qualification(self):
@@ -373,23 +388,26 @@ def cancel_lot_active_pre_qualification_stand_still(self):
     response = self.get_tender(role="broker")
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification.stand-still")
     lot_id = response.json["data"]["lots"][0]["id"]
-    self.cancel_tender(lot_id=lot_id)
-    assert_statuses(
-        self,
-        rules={
-            "data.status": "cancelled",
-            "data.lots[*].status": ["cancelled"],
-            "data.bids[*].status": [
-                "invalid.pre-qualification",
-                "invalid.pre-qualification",
-                "invalid.pre-qualification",
-            ],
-            "data.qualifications[*].status": ["cancelled", "cancelled", "cancelled"],
-            "data.awards[*].status": None,
-            "data.agreements[*].status": None,
-            "data.complaints[*].status": statuses,
-        },
-    )
+    if RELEASE_2020_04_19 > get_now():
+        # Test for old rules
+        # In new rules there will be 403 error
+        self.cancel_tender(lot_id=lot_id)
+        assert_statuses(
+            self,
+            rules={
+                "data.status": "cancelled",
+                "data.lots[*].status": ["cancelled"],
+                "data.bids[*].status": [
+                    "invalid.pre-qualification",
+                    "invalid.pre-qualification",
+                    "invalid.pre-qualification",
+                ],
+                "data.qualifications[*].status": ["cancelled", "cancelled", "cancelled"],
+                "data.awards[*].status": None,
+                "data.agreements[*].status": None,
+                "data.complaints[*].status": statuses,
+            },
+        )
 
 
 def cancel_lot_active_auction(self):
@@ -456,19 +474,22 @@ def cancel_lot_active_qualification_stand_still(self):
     response = self.get_tender(role="broker")
     self.assertEqual(response.json["data"]["status"], "active.qualification.stand-still")
     lot_id = response.json["data"]["lots"][0]["id"]
-    self.cancel_tender(lot_id=lot_id)
-    assert_statuses(
-        self,
-        rules={
-            "data.status": "cancelled",
-            "data.lots[*].status": ["cancelled"],
-            "data.bids[*].status": ["active", "active", "active"],
-            "data.qualifications[*].status": ["cancelled", "cancelled", "cancelled"],
-            "data.awards[*].status": ["active", "active", "active"],
-            "data.agreements[*].status": None,
-            "data.complaints[*].status": None,
-        },
-    )
+    if RELEASE_2020_04_19 > get_now():
+        # Test for old rules
+        # In new rules there will be 403 error
+        self.cancel_tender(lot_id=lot_id)
+        assert_statuses(
+            self,
+            rules={
+                "data.status": "cancelled",
+                "data.lots[*].status": ["cancelled"],
+                "data.bids[*].status": ["active", "active", "active"],
+                "data.qualifications[*].status": ["cancelled", "cancelled", "cancelled"],
+                "data.awards[*].status": ["active", "active", "active"],
+                "data.agreements[*].status": None,
+                "data.complaints[*].status": None,
+            },
+        )
 
 
 def cancel_lot_active_awarded(self):

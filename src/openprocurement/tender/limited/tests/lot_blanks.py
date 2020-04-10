@@ -769,6 +769,7 @@ def cancel_lot_with_complaint(self):
     )
     assert response.status_code == 200
 
+    self.set_all_awards_complaint_period_end()
     # Try to cancel lot
     cancellation = dict(**test_cancellation)
     cancellation.update({

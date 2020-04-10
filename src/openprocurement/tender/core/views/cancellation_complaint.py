@@ -217,7 +217,6 @@ class TenderCancellationComplaintResource(ComplaintBotPatchMixin, ComplaintAdmin
         tenderer_action_date = self.context.tendererActionDate
 
         enquiry_period = tender.enquiryPeriod
-        complaint_period = tender.complaintPeriod
         tender_period = tender.tenderPeriod
         auction_period = tender.auctionPeriod
 
@@ -240,9 +239,6 @@ class TenderCancellationComplaintResource(ComplaintBotPatchMixin, ComplaintAdmin
                 if enquiry_period.clarificationsUntil:
                     enquiry_period.clarificationsUntil = calculate_tender_business_date(
                         enquiry_period.clarificationsUntil, delta, tender)
-                if complaint_period.endDate:
-                    complaint_period.endDate = calculate_tender_business_date(
-                        complaint_period.endDate, delta, tender)
 
                 if tender_period.endDate:
                     tender_period.endDate = calculate_tender_business_date(
@@ -263,23 +259,3 @@ class TenderCancellationComplaintResource(ComplaintBotPatchMixin, ComplaintAdmin
                     auction_period.shouldStartAfter, delta, tender)
                 auction_period.startDate = calculate_tender_business_date(
                     auction_period.startDate, delta, tender)
-
-        elif tender.status.startswith("active.pre-qualification"):
-            qualify_period = tender.qualificationPeriod
-            if qualify_period and qualify_period.startDate and qualify_period.endDate \
-                    and qualify_period.startDate < date <= qualify_period.endDate:
-
-                tender.qualificationPeriod.endDate = calculate_tender_business_date(
-                    tender.qualificationPeriod.endDate, delta, tender)
-
-                if auction_period.startDate:
-                    auction_period.startDate = calculate_tender_business_date(
-                        auction_period.startDate, delta, tender)
-
-        elif tender.status in ["active.qualification", "active.awarded"]:
-            for award in tender.awards:
-                complaint_period = award.complaintPeriod
-                if complaint_period and complaint_period.startDate and complaint_period.endDate \
-                        and award.complaintPeriod.startDate < date < award.complaintPeriod.endDate:
-                    award.complaintPeriod.endDate = calculate_tender_business_date(
-                        award.complaintPeriod.endDate, delta, tender)

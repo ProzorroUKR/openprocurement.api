@@ -5,6 +5,7 @@ from datetime import timedelta
 
 from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.constants import RELEASE_2020_04_19
 
 from openprocurement.tender.belowthreshold.tests.base import test_lots, test_cancellation
 from openprocurement.tender.belowthreshold.tests.cancellation import (
@@ -76,6 +77,8 @@ class TenderCancellationComplaintResourceTest(
         super(TenderCancellationComplaintResourceTest, self).setUp()
         # Create cancellation
 
+        self.set_complaint_period_end()
+
         cancellation = dict(**test_cancellation)
         cancellation.update({
             "reasonType": "noDemand"
@@ -93,6 +96,10 @@ class TenderCancellationComplaintResourceTest(
 class TenderCancellationDocumentResourceTest(BaseTenderUAContentWebTest, TenderCancellationDocumentResourceTestMixin):
     def setUp(self):
         super(TenderCancellationDocumentResourceTest, self).setUp()
+
+        if RELEASE_2020_04_19 < get_now():
+            self.set_complaint_period_end()
+
         # Create cancellation
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),

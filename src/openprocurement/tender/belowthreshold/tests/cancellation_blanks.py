@@ -7,9 +7,13 @@ from datetime import timedelta
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.belowthreshold.tests.base import test_cancellation
-from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
+from openprocurement.tender.core.tests.cancellation import (
+    skip_complaint_period_2020_04_19,
+    activate_cancellation_after_2020_04_19,
+)
 
 
+@skip_complaint_period_2020_04_19
 def create_tender_cancellation_invalid(self):
     response = self.app.post_json(
         "/tenders/some_id/cancellations", {"data": test_cancellation}, status=404
@@ -264,6 +268,7 @@ def patch_tender_cancellation(self):
     self.assertEqual(response.json["data"]["reason"], "cancellation reason")
 
 
+@skip_complaint_period_2020_04_19
 def get_tender_cancellation(self):
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
@@ -295,6 +300,7 @@ def get_tender_cancellation(self):
     )
 
 
+@skip_complaint_period_2020_04_19
 def get_tender_cancellations(self):
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
@@ -320,7 +326,7 @@ def get_tender_cancellations(self):
 
 # TenderLotCancellationResourceTest
 
-
+@skip_complaint_period_2020_04_19
 def create_tender_lot_cancellation(self):
     lot_id = self.initial_lots[0]["id"]
     cancellation = dict(**test_cancellation)
@@ -390,6 +396,7 @@ def create_tender_lot_cancellation(self):
     )
 
 
+@skip_complaint_period_2020_04_19
 def patch_tender_lot_cancellation(self):
     lot_id = self.initial_lots[0]["id"]
     cancellation = dict(**test_cancellation)
@@ -442,7 +449,7 @@ def patch_tender_lot_cancellation(self):
 
 # TenderLotsCancellationResourceTest
 
-
+@skip_complaint_period_2020_04_19
 def create_tender_lots_cancellation(self):
     lot_id = self.initial_lots[0]["id"]
     cancellation = dict(**test_cancellation)
@@ -540,6 +547,7 @@ def create_tender_lots_cancellation(self):
     self.assertEqual(response.json["data"]["status"], "cancelled")
 
 
+@skip_complaint_period_2020_04_19
 def patch_tender_lots_cancellation(self):
     lot_id = self.initial_lots[0]["id"]
     cancellation = dict(**test_cancellation)

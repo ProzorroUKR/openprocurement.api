@@ -65,11 +65,3 @@ class TenderAboveThresholdUADefenseCancellationComplaintResource(TenderCancellat
                     auction_period.shouldStartAfter, delta, tender, True)
                 auction_period.startDate = calculate_tender_business_date(
                     auction_period.startDate, delta, tender, True)
-        elif tender.status in ["active.qualification", "active.awarded"]:
-            for award in tender.awards:
-                complaint_period = award.complaintPeriod
-                if complaint_period and complaint_period.startDate and complaint_period.endDate \
-                        and award.complaintPeriod.startDate < date < award.complaintPeriod.endDate:
-                    award.complaintPeriod.endDate = calculate_tender_business_date(
-                        award.complaintPeriod.endDate, delta, tender, True)
-

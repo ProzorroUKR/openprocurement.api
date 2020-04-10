@@ -34,7 +34,11 @@ from openprocurement.tender.openua.tests.cancellation import (
     TenderCancellationComplaintResourceTestMixin,
 
 )
-from openprocurement.tender.openua.tests.cancellation_blanks import activate_cancellation
+from openprocurement.tender.openua.tests.cancellation_blanks import (
+    activate_cancellation,
+    create_cancellation_in_tender_complaint_period,
+)
+from openprocurement.api.constants import RELEASE_2020_04_19
 
 
 for bid in test_bids:
@@ -48,6 +52,7 @@ class TenderStage2EUCancellationResourceTest(
     TenderCancellationResourceNewReleaseTestMixin,
 ):
     test_activate_cancellation = snitch(activate_cancellation)
+    test_create_cancellation_in_tender_complaint_period = snitch(create_cancellation_in_tender_complaint_period)
 
 
 class TenderStage2EULotCancellationResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
@@ -74,6 +79,10 @@ class TenderStage2EUCancellationDocumentResourceTest(
     def setUp(self):
         super(TenderStage2EUCancellationDocumentResourceTest, self).setUp()
         # Create cancellation
+        set_complaint_period_end = getattr(self, "set_complaint_period_end", None)
+        if RELEASE_2020_04_19 < get_now() and set_complaint_period_end:
+            set_complaint_period_end()
+
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": test_cancellation},
@@ -93,6 +102,9 @@ class TenderStage2EUCancellationComplaintResourceTest(
     @patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
     def setUp(self):
         super(TenderStage2EUCancellationComplaintResourceTest, self).setUp()
+        set_complaint_period_end = getattr(self, "set_complaint_period_end", None)
+        if set_complaint_period_end:
+            set_complaint_period_end()
 
         # Create cancellation
         cancellation = dict(**test_cancellation)
@@ -115,6 +127,7 @@ class TenderStage2UACancellationResourceTest(
     initial_auth = ("Basic", ("broker", ""))
 
     test_activate_cancellation = snitch(activate_cancellation)
+    test_create_cancellation_in_tender_complaint_period = snitch(create_cancellation_in_tender_complaint_period)
 
 
 class TenderStage2UALotCancellationResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
@@ -141,6 +154,10 @@ class TenderStage2UACancellationDocumentResourceTest(
 
     def setUp(self):
         super(TenderStage2UACancellationDocumentResourceTest, self).setUp()
+        set_complaint_period_end = getattr(self, "set_complaint_period_end", None)
+        if RELEASE_2020_04_19 < get_now() and set_complaint_period_end:
+            set_complaint_period_end()
+
         # Create cancellation
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),

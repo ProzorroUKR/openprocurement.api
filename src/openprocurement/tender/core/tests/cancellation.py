@@ -2,6 +2,18 @@ import mock
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now
+from openprocurement.api.constants import RELEASE_2020_04_19
+
+
+def skip_complaint_period_2020_04_19(func):
+    def wrapper(self):
+
+        set_complaint_period_end = getattr(self, "set_complaint_period_end", None)
+
+        if RELEASE_2020_04_19 < get_now() and set_complaint_period_end:
+            set_complaint_period_end()
+        return func(self)
+    return wrapper
 
 
 def activate_cancellation_after_2020_04_19(self, cancellation_id, tender_id=None, tender_token=None):

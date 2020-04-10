@@ -106,6 +106,32 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
             },
         )
 
+    def set_complaint_period_end(self):
+        now = get_now()
+        self.set_status(
+            "active.tendering",
+            {
+                "enquiryPeriod": {
+                    "startDate": (now - timedelta(days=14)).isoformat(),
+                    "endDate": (now + (timedelta(minutes=1) if SANDBOX_MODE else timedelta(days=1))).isoformat(),
+                },
+                "tenderPeriod": {
+                    "startDate": (now - timedelta(days=14)).isoformat(),
+                    "endDate": (now + (timedelta(minutes=3) if SANDBOX_MODE else timedelta(days=3))).isoformat(),
+                },
+                "auctionPeriod": {"startDate": (now + timedelta(days=2)).isoformat()},
+            },
+        )
+
+    def set_all_awards_complaint_period_end(self):
+        now = get_now()
+        startDate = (now - timedelta(days=2)).isoformat()
+        endDate = (now - timedelta(days=1)).isoformat()
+        tender_document = self.db.get(self.tender_id)
+        for award in tender_document["awards"]:
+            award.update({"complaintPeriod": {"startDate": startDate, "endDate": endDate}})
+        self.db.save(tender_document)
+
     def update_status(self, status, extra=None):
         now = get_now()
         data = {"status": status}

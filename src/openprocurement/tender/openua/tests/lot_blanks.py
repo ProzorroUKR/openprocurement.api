@@ -4,7 +4,10 @@ from iso8601 import parse_date
 from copy import deepcopy
 from openprocurement.api.models import get_now
 from openprocurement.api.constants import RELEASE_2020_04_19
-from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
+from openprocurement.tender.core.tests.cancellation import (
+    activate_cancellation_after_2020_04_19,
+    skip_complaint_period_2020_04_19,
+)
 from openprocurement.tender.belowthreshold.tests.base import (
     test_organization, test_author, test_cancellation, test_claim
 )
@@ -1995,6 +1998,7 @@ def proc_2lot_2bid_1claim_1com_1win(self):
     self.app.authorization = ("Basic", ("auction", ""))
     response = self.app.get("/tenders/{}/auction".format(tender_id))
     auction_bids_data = response.json["data"]["bids"]
+
     for lot_id in lots:
         # posting auction urls
         self.app.patch_json(
@@ -2049,6 +2053,10 @@ def proc_2lot_2bid_1claim_1com_1win(self):
     )
     self.assertEqual(response.status, "201 Created")
     # cancel lot
+
+    if RELEASE_2020_04_19 < get_now():
+        self.set_all_awards_complaint_period_end()
+
     cancellation = dict(**test_cancellation)
     cancellation.update({
         "status": "active",

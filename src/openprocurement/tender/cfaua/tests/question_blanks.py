@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_2020_04_19
-from openprocurement.tender.core.tests.cancellation import activate_cancellation_with_complaints_after_2020_04_19
+from openprocurement.tender.core.tests.cancellation import (
+    activate_cancellation_with_complaints_after_2020_04_19,
+    skip_complaint_period_2020_04_19,
+)
 from openprocurement.tender.belowthreshold.tests.base import test_cancellation
 
 
@@ -33,32 +36,44 @@ def lot_create_tender_cancellations_and_questions(self):
         "cancellationOf": "lot",
         "relatedLot": self.initial_lots[0]["id"],
     })
-    response = self.app.post_json(
-        "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": cancellation},
-    )
-    self.assertEqual(response.status, "201 Created")
-    cancellation_id = response.json["data"]["id"]
+    if RELEASE_2020_04_19 < get_now():
+        response = self.app.post_json(
+            "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": cancellation},
+            status=403
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(
+            response.json["errors"][0]["description"],
+            u"Cancellation can't be add when exists active complaint period"
+        )
+    else:
+        response = self.app.post_json(
+            "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": cancellation},
+        )
+        self.assertEqual(response.status, "201 Created")
+        cancellation_id = response.json["data"]["id"]
 
-    if get_now() > RELEASE_2020_04_19:
-        activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id)
+        if get_now() > RELEASE_2020_04_19:
+            activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id)
 
-    response = self.app.post_json(
-        "/tenders/{}/questions".format(self.tender_id, self.tender_token),
-        {
-            "data": {
-                "title": "question title",
-                "description": "question description",
-                "questionOf": "lot",
-                "relatedItem": self.initial_lots[0]["id"],
-                "author": self.author_data,
-            }
-        },
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can add question only in active lot status")
+        response = self.app.post_json(
+            "/tenders/{}/questions".format(self.tender_id, self.tender_token),
+            {
+                "data": {
+                    "title": "question title",
+                    "description": "question description",
+                    "questionOf": "lot",
+                    "relatedItem": self.initial_lots[0]["id"],
+                    "author": self.author_data,
+                }
+            },
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["errors"][0]["description"], "Can add question only in active lot status")
 
 
 def lot_patch_tender_question(self):
@@ -101,40 +116,48 @@ def lot_patch_tender_question(self):
         "cancellationOf": "lot",
         "relatedLot": self.initial_lots[0]["id"],
     })
-    response = self.app.post_json(
-        "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": cancellation},
-    )
-    self.assertEqual(response.status, "201 Created")
-    cancellation_id = response.json["data"]["id"]
+    if RELEASE_2020_04_19 < get_now():
+        response = self.app.post_json(
+            "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": cancellation},
+            status=403
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(
+            response.json["errors"][0]["description"],
+            u"Cancellation can't be add when exists active complaint period"
+        )
+    else:
+        response = self.app.post_json(
+            "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": cancellation},
+        )
+        self.assertEqual(response.status, "201 Created")
 
-    if get_now() > RELEASE_2020_04_19:
-        activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id)
+        response = self.app.patch_json(
+            "/tenders/{}/questions/{}?acc_token={}".format(self.tender_id, question["id"], self.tender_token),
+            {"data": {"answer": "answer"}},
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"][0]["description"], "Can't update question in current (cancelled) tender status"
+        )
 
-    response = self.app.patch_json(
-        "/tenders/{}/questions/{}?acc_token={}".format(self.tender_id, question["id"], self.tender_token),
-        {"data": {"answer": "answer"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update question in current (cancelled) tender status"
-    )
-
-    response = self.app.post_json(
-        "/tenders/{}/questions".format(self.tender_id, self.tender_token),
-        {
-            "data": {
-                "title": "question title",
-                "description": "question description",
-                "questionOf": "lot",
-                "relatedItem": self.initial_lots[0]["id"],
-                "author": self.author_data,
-            }
-        },
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can add question only in active lot status")
+        response = self.app.post_json(
+            "/tenders/{}/questions".format(self.tender_id, self.tender_token),
+            {
+                "data": {
+                    "title": "question title",
+                    "description": "question description",
+                    "questionOf": "lot",
+                    "relatedItem": self.initial_lots[0]["id"],
+                    "author": self.author_data,
+                }
+            },
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["errors"][0]["description"], "Can add question only in active lot status")

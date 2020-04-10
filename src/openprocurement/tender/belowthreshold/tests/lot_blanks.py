@@ -4,7 +4,9 @@ from datetime import timedelta
 from email.header import Header
 
 from openprocurement.api.constants import RELEASE_2020_04_19
-from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
+from openprocurement.tender.core.tests.cancellation import (
+    activate_cancellation_after_2020_04_19,
+)
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_cancellation
 
@@ -1698,8 +1700,10 @@ def proc_2lot_0bid(self):
 def proc_2lot_2can(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
+
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     tender_id = self.tender_id = response.json["data"]["id"]
+
     owner_token = response.json["access"]["token"]
     lots = []
     for lot in 2 * self.test_lots_data:
@@ -1735,6 +1739,12 @@ def proc_2lot_2can(self):
         },
     )
     self.assertTrue(all(["auctionPeriod" in i for i in response.json["data"]["lots"]]))
+
+    set_complaint_period_end = getattr(self, "set_complaint_period_end", None)
+
+    if RELEASE_2020_04_19 < get_now() and set_complaint_period_end:
+        set_complaint_period_end()
+
     # cancel every lot
     for lot_id in lots:
         cancellation = dict(**test_cancellation)
