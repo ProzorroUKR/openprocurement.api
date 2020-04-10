@@ -73,9 +73,14 @@ class TenderCancellationDocumentResourceTest(TenderContentWebTest, TenderCancell
     def setUp(self):
         super(TenderCancellationDocumentResourceTest, self).setUp()
         # Create cancellation
+        cancellation = dict(**test_cancellation)
+        cancellation.update({
+            "reasonType": "noDemand"
+        })
+
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": test_cancellation},
+            {"data": cancellation},
         )
         cancellation = response.json["data"]
         self.cancellation_id = cancellation["id"]

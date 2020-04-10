@@ -55,6 +55,10 @@ test_milestones = [
 
 test_item = {
     "description": u"Комп’ютерне обладнання",
+    "classification": {"scheme": u"ДК021", "id": u"44617100-9", "description": u"Cartons"},
+    "additionalClassifications": [
+        {"scheme": u"INN", "id": u"17.21.1", "description": u"папір і картон гофровані, паперова й картонна тара"}
+    ],
     "quantity": 5,
     "deliveryDate": {
         "startDate": (now + timedelta(days=2)).isoformat(),

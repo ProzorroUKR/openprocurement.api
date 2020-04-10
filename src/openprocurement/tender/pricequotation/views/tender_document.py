@@ -48,4 +48,4 @@ class PQTenderDocumentResource(TenderDocumentResource):
     )
     def patch(self):
         """Tender Document Update"""
-        return super(PQTenderDocumentResource, self).put()
+        return super(PQTenderDocumentResource, self).patch()
