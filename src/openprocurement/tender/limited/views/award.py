@@ -25,9 +25,9 @@ from openprocurement.tender.core.validation import (
 
 from openprocurement.tender.limited.validation import (
     validate_create_new_award,
-    validate_lot_cancellation,
     validate_create_new_award_with_lots,
     validate_award_operation_not_in_active_status,
+    validate_lot_cancellation,
 )
 
 
@@ -354,6 +354,7 @@ class TenderNegotiationAwardResource(TenderAwardResource):
         validators=(
             validate_award_data,
             validate_award_operation_not_in_active_status,
+            validate_operation_with_lot_cancellation_in_pending("award"),
             validate_lot_cancellation,
             validate_create_new_award_with_lots,
         ),

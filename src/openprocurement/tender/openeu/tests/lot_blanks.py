@@ -4,7 +4,10 @@ from copy import deepcopy
 from iso8601 import parse_date
 from openprocurement.tender.belowthreshold.tests.base import test_claim, test_author
 from openprocurement.api.constants import RELEASE_2020_04_19
-from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
+from openprocurement.tender.core.tests.cancellation import (
+    activate_cancellation_after_2020_04_19,
+    skip_complaint_period_2020_04_19,
+)
 from openprocurement.api.utils import get_now
 
 
@@ -1416,6 +1419,7 @@ def two_lot_1can(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
+
     lots = []
     for lot in 2 * self.test_lots_data:
         # add lot
@@ -1436,6 +1440,12 @@ def two_lot_1can(self):
     )
     self.assertEqual(response.status, "200 OK")
     # cancel first lot
+
+    set_complaint_period_end = getattr(self, "set_complaint_period_end", None)
+
+    if RELEASE_2020_04_19 < get_now() and set_complaint_period_end:
+        set_complaint_period_end()
+
     cancellation = dict(**test_cancellation)
     cancellation.update({
         "status": "active",
@@ -1496,6 +1506,7 @@ def two_lot_2bid_0com_1can(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
+
     lots = []
     for lot in 2 * self.test_lots_data:
         # add lot
@@ -1530,6 +1541,10 @@ def two_lot_2bid_0com_1can(self):
                 }
             },
         )
+
+    set_complaint_period_end = getattr(self, "set_complaint_period_end", None)
+    if RELEASE_2020_04_19 < get_now() and set_complaint_period_end:
+        set_complaint_period_end()
 
     self.app.authorization = ("Basic", ("broker", ""))
     cancellation = dict(**test_cancellation)

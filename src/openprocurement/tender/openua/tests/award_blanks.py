@@ -934,6 +934,9 @@ def patch_tender_lots_award(self):
     self.assertEqual(len(response.json["data"]), 2)
     new_award = response.json["data"][-1]
 
+    if RELEASE_2020_04_19:
+        self.set_all_awards_complaint_period_end()
+
     cancellation = dict(**test_cancellation)
     cancellation.update({
         "status": "active",
@@ -1857,6 +1860,9 @@ def create_tender_lots_award_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "active.awarded")
 
+    if RELEASE_2020_04_19:
+        self.set_all_awards_complaint_period_end()
+
     cancellation = dict(**test_cancellation)
     cancellation.update({
         "status": "active",
@@ -1940,6 +1946,9 @@ def patch_tender_lots_award_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     complaint = response.json["data"]
     owner_token = response.json["access"]["token"]
+
+    if RELEASE_2020_04_19:
+        self.set_all_awards_complaint_period_end()
 
     cancellation = dict(**test_cancellation)
     cancellation.update({
@@ -2172,6 +2181,9 @@ def put_tender_lots_award_complaint_document(self):
     )
     assert response.status_code == 200
 
+    if RELEASE_2020_04_19:
+        self.set_all_awards_complaint_period_end()
+
     cancellation = dict(**test_cancellation)
     cancellation.update({
         "status": "active",
@@ -2273,6 +2285,9 @@ def patch_tender_lots_award_complaint_document(self):
         }},
     )
     assert response.status_code == 200
+
+    if RELEASE_2020_04_19:
+        self.set_all_awards_complaint_period_end()
 
     cancellation = dict(**test_cancellation)
     cancellation.update({

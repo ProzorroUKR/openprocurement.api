@@ -97,12 +97,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         complaint_data = {'data': complaint.copy()}
         complaint_data['data']['status'] = 'pending'
-        # with open(TARGET_DIR + 'complaints/complaint-submission-complaint.http', 'w') as self.app.file_obj:
-        #     response = self.app.post_json(
-        #         '/tenders/{}/complaints'.format(self.tender_id), complaint_data)
-        #     self.assertEqual(response.status, '201 Created')
-        #
-        # complaint3_id = response.json['data']['id']
 
         complaint_url = "/tenders/{}/complaints".format(self.tender_id)
         complaint3_id, complaint3_token = complaint_create_pending(self, complaint_url, complaint_data)
@@ -466,13 +460,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         complaint_data = {'data': complaint.copy()}
         complaint_data['data']['status'] = 'pending'
-        # with open(TARGET_DIR + 'complaints/qualification-complaint-submission-complaint.http', 'w') as self.app.file_obj:
-        #     response = self.app.post_json(
-        #         '/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(
-        #             self.tender_id, qualification_id, bid_token), complaint_data)
-        #     self.assertEqual(response.status, '201 Created')
-        #
-        # complaint2_id = response.json['data']['id']
 
         complaint_url = "/tenders/{}/qualifications/{}/complaints".format(self.tender_id, qualification_id)
         complaint2_id, complaint2_token = complaint_create_pending(self, complaint_url, complaint_data, bid_token)
@@ -1263,13 +1250,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         complaint_data = {'data': complaint.copy()}
         complaint_data['data']['status'] = 'pending'
-        # with open(TARGET_DIR + 'complaints/cancellation-complaint-submission-complaint.http', 'w') as self.app.file_obj:
-        #     response = self.app.post_json(
-        #         '/tenders/{}/cancellations/{}/complaints'.format(
-        #             self.tender_id, cancellation_id), complaint_data)
-        #     self.assertEqual(response.status, '201 Created')
-        #
-        # complaint3_id = response.json['data']['id']
 
         complaint_url = "/tenders/{}/cancellations/{}/complaints".format(self.tender_id, cancellation_id)
         complaint3_id, complaint3_token = complaint_create_pending(self, complaint_url, complaint_data)

@@ -1324,8 +1324,8 @@ def tender_cancellation(self):
 
     # create tender
     response = self.app.post_json("/tenders", {"data": self.initial_data})
-    tender_id = self.tender_id = response.json["data"]["id"]
-    owner_token = response.json["access"]["token"]
+    tender_id = self.tender_id = self.tender_id = response.json["data"]["id"]
+    owner_token = self.tender_token = response.json["access"]["token"]
 
     # create award
     response = self.app.post_json(
@@ -1348,6 +1348,8 @@ def tender_cancellation(self):
     # get contract id
     response = self.app.get("/tenders/{}".format(tender_id))
     contract_id = response.json["data"]["contracts"][-1]["id"]
+
+    self.set_all_awards_complaint_period_end()
 
     # create cancellation in stand still
     cancellation = dict(**test_cancellation)
@@ -1376,8 +1378,8 @@ def tender_cancellation(self):
 
     # create tender
     response = self.app.post_json("/tenders", {"data": self.initial_data})
-    tender_id = self.tender_id = response.json["data"]["id"]
-    owner_token = response.json["access"]["token"]
+    tender_id = self.tender_id = self.tender_id = response.json["data"]["id"]
+    owner_token = self.tender_token = response.json["access"]["token"]
 
     # create award
     response = self.app.post_json(
@@ -1417,6 +1419,8 @@ def tender_cancellation(self):
     self.assertEqual(response.status, "200 OK")
     tender = response.json["data"]
     self.assertEqual(tender["status"], "complete")
+
+    self.set_all_awards_complaint_period_end()
 
     # create cancellation
     cancellation = dict(**test_cancellation)

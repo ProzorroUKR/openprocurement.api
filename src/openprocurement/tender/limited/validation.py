@@ -95,7 +95,14 @@ def validate_create_new_award(request):
 
 
 def validate_lot_cancellation(request):
+
     tender = request.validated["tender"]
+
+    new_rules = get_first_revision_date(tender, default=get_now()) > RELEASE_2020_04_19
+
+    if new_rules:
+        return
+
     award = request.validated["award"]
     if (
         tender.get("lots")

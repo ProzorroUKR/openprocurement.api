@@ -7,6 +7,7 @@ from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import test_lots, test_cancellation
+from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.belowthreshold.tests.cancellation import (
     TenderCancellationResourceTestMixin,
     TenderCancellationDocumentResourceTestMixin,
@@ -38,12 +39,15 @@ from openprocurement.tender.openua.tests.cancellation_blanks import (
     patch_tender_cancellation_complaint,
     get_tender_cancellation_complaints,
     access_create_tender_cancellation_complaint,
+    create_cancellation_in_tender_complaint_period,
+    create_cancellation_in_award_complaint_period,
     create_tender_cancellation_with_cancellation_lots,
     bot_patch_tender_cancellation_complaint,
 )
 
 
 class TenderCancellationComplaintResourceTestMixin(object):
+
     test_create_tender_cancellation_complaint = snitch(create_tender_cancellation_complaint)
     test_patch_tender_cancellation_complaint = snitch(patch_tender_cancellation_complaint)
     test_get_tender_cancellation_complaints = snitch(get_tender_cancellation_complaints)
@@ -68,6 +72,7 @@ class TenderCancellationResourceTest(
     test_create_tender_cancellation = snitch(create_tender_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_cancellation)
     test_activate_cancellation = snitch(activate_cancellation)
+    test_create_cancellation_in_tender_complaint_period = snitch(create_cancellation_in_tender_complaint_period)
 
 
 class TenderLotCancellationResourceTest(BaseTenderUAContentWebTest):
@@ -92,6 +97,7 @@ class TenderAwardsCancellationResourceTest(BaseTenderUAContentWebTest):
 
     test_cancellation_active_award = snitch(cancellation_active_award)
     test_cancellation_unsuccessful_award = snitch(cancellation_unsuccessful_award)
+    test_create_cancellation_in_award_complaint_period = snitch(create_cancellation_in_award_complaint_period)
 
 
 class TenderCancellationComplaintResourceTest(
@@ -104,6 +110,7 @@ class TenderCancellationComplaintResourceTest(
     @patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
     def setUp(self):
         super(TenderCancellationComplaintResourceTest, self).setUp()
+        self.set_complaint_period_end()
 
         # Create cancellation
         cancellation = dict(**test_cancellation)
@@ -125,6 +132,10 @@ class TenderCancellationDocumentResourceTest(
 ):
     def setUp(self):
         super(TenderCancellationDocumentResourceTest, self).setUp()
+
+        if RELEASE_2020_04_19 < get_now():
+            self.set_complaint_period_end()
+
         # Create cancellation
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),

@@ -2469,6 +2469,11 @@ def create_tender_lots_award_complaint_document(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("name.doc", response.json["data"]["title"])
 
+    set_all_awards_complaint_period_end = getattr(self, "set_all_awards_complaint_period_end", None)
+
+    if RELEASE_2020_04_19 and set_all_awards_complaint_period_end:
+        set_all_awards_complaint_period_end()
+
     cancellation = dict(**test_cancellation)
     cancellation.update({
         "status": "active",

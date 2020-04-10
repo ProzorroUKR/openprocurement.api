@@ -140,6 +140,24 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
             },
         )
 
+    def set_complaint_period_end(self):
+        now = get_now()
+        self.set_status(
+            "active.tendering",
+            {
+                "enquiryPeriod": {
+                    "startDate": (now - timedelta(days=27)).isoformat(),
+                    "endDate": (now - (timedelta(minutes=2) if SANDBOX_MODE else timedelta(days=2))).isoformat(),
+                },
+                "tenderPeriod": {
+                    "startDate": (now - timedelta(days=27)).isoformat(),
+                    "endDate": (now + (timedelta(minutes=3) if SANDBOX_MODE else timedelta(days=3))).isoformat(),
+                },
+            },
+        )
+
+
+
     def setUp(self):
         super(BaseCompetitiveDialogWebTest, self).setUp()
         self.app.authorization = self.initial_auth or ("Basic", ("broker", ""))

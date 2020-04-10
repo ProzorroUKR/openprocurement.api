@@ -93,6 +93,23 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
             },
         )
 
+    def set_complaint_period_end(self):
+        now = get_now()
+        self.set_status(
+            "active.tendering",
+            {
+                "enquiryPeriod": {
+                    "startDate": (now - timedelta(days=12)).isoformat(),
+                    "endDate": now.isoformat(),
+                },
+                "tenderPeriod": {
+                    "startDate": (now - timedelta(days=12)).isoformat(),
+                    "endDate": (now + (timedelta(minutes=1) if SANDBOX_MODE else timedelta(days=1))).isoformat(),
+                },
+                "auctionPeriod": {"startDate": (now + timedelta(days=2)).isoformat()},
+            },
+        )
+
     def update_status(self, status, extra=None):
         now = get_now()
         data = {"status": status}

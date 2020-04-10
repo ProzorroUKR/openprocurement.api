@@ -86,6 +86,9 @@ def create_tender_award_complaint_document(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("name.doc", response.json["data"]["title"])
 
+    if RELEASE_2020_04_19 < get_now():
+        self.set_all_awards_complaint_period_end()
+
     cancellation = dict(**test_cancellation)
     cancellation.update({
         "status": "active",
@@ -219,6 +222,9 @@ def put_tender_award_complaint_document(self):
     self.assertEqual(response.content_type, "application/msword")
     self.assertEqual(response.content_length, 8)
     self.assertEqual(response.body, "content4")
+
+    if RELEASE_2020_04_19 < get_now():
+        self.set_all_awards_complaint_period_end()
 
     cancellation = dict(**test_cancellation)
     cancellation.update({

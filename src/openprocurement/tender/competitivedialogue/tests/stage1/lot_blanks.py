@@ -784,6 +784,10 @@ def two_lot_2can(self):
         {"data": {"items": [{"relatedLot": i} for i in lots]}},
     )
     self.assertEqual(response.status, "200 OK")
+
+    set_complaint_period_end = getattr(self, "set_complaint_period_end", None)
+    if RELEASE_2020_04_19 < get_now() and set_complaint_period_end:
+        set_complaint_period_end()
     # cancel every lot
     for lot_id in lots:
         cancellation = dict(**test_cancellation)
@@ -872,6 +876,10 @@ def two_lot_2bid_0com_1can(self):
             }
         },
     )
+
+    set_complaint_period_end = getattr(self, "set_complaint_period_end", None)
+    if RELEASE_2020_04_19 < get_now() and set_complaint_period_end:
+        set_complaint_period_end()
 
     self.app.authorization = ("Basic", ("broker", ""))
     cancellation = dict(**test_cancellation)

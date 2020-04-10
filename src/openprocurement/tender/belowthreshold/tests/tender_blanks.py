@@ -15,7 +15,9 @@ from openprocurement.api.constants import (
     RELEASE_2020_04_19,
 )
 from openprocurement.tender.core.constants import CPV_ITEMS_CLASS_FROM
-from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
+from openprocurement.tender.core.tests.cancellation import (
+    activate_cancellation_after_2020_04_19,
+)
 from openprocurement.tender.belowthreshold.models import Tender
 from openprocurement.tender.belowthreshold.utils import calculate_tender_business_date
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -1998,6 +2000,12 @@ def tender_Administrator_change(self):
     tender = response.json["data"]
     token = response.json["access"]["token"]
 
+    self.tender_id = tender["id"]
+
+    set_complaint_period_end = getattr(self, "set_complaint_period_end", None)
+    if get_now() > RELEASE_2020_04_19 and set_complaint_period_end:
+        set_complaint_period_end()
+
     cancellation = dict(**test_cancellation)
     cancellation.update({
         "status": "active",
@@ -2077,6 +2085,11 @@ def invalid_tender_conditions(self):
         "/tenders/{}/complaints/{}?acc_token={}".format(tender_id, complaint_id, complaint_owner_token),
         {"data": {"satisfied": True, "status": "resolved"}},
     )
+
+    set_complaint_period_end = getattr(self, "set_complaint_period_end", None)
+    if get_now() > RELEASE_2020_04_19 and set_complaint_period_end:
+        set_complaint_period_end()
+
     # cancellation
     cancellation = dict(**test_cancellation)
     cancellation.update({

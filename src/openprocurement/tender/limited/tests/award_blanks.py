@@ -1555,10 +1555,16 @@ def create_award_on_cancel_lot(self):
         },
         status=403,
     )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't add award while cancellation for corresponding lot exists"
-    )
+    if RELEASE_2020_04_19 < get_now():
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(
+            response.json["errors"][0]["description"], "Can't add award with lot that have active cancellation"
+        )
+    else:
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(
+            response.json["errors"][0]["description"], "Can't add award while cancellation for corresponding lot exists"
+        )
 
 
 def patch_award_on_cancel_lot(self):

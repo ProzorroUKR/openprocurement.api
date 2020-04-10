@@ -468,6 +468,7 @@ def patch_tender_negotiation_contract(self):
 
     response = self.app.get("/tenders/{}/contracts".format(tender_id))
     contract_id = response.json["data"][0]["id"]
+    self.set_all_awards_complaint_period_end()
 
     cancellation = dict(**test_cancellation)
     cancellation.update({
@@ -670,6 +671,7 @@ def activate_contract_cancelled_lot(self):
     lot = response.json["data"][0]
 
     # Create cancellation on lot
+    self.set_all_awards_complaint_period_end()
     cancellation = dict(**test_cancellation)
     cancellation.update({
         "cancellationOf": "lot",

@@ -496,6 +496,12 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         self.tender_document_patch = {}
         self.update_periods("active.enquiries", "end")
 
+    def set_complaint_period_end(self):
+        self.now = get_now()
+        self.tender_document = self.db.get(self.tender_id)
+        self.tender_document_patch = {}
+        self.update_periods("active.tendering", "end")
+
     def setUp(self):
         super(BaseBaseTenderWebTest, self).setUp()
         self.app.authorization = self.initial_auth or ("Basic", ("broker", ""))

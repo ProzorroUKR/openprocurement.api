@@ -496,6 +496,51 @@ def validate_cancellation_statuses(request):
             )
 
 
+def validate_operation_cancellation_in_complaint_period(request):
+    tender = request.validated["tender"]
+    now = get_now()
+    tender_created = get_first_revision_date(tender, default=now)
+
+    if tender_created < RELEASE_2020_04_19:
+        return
+    msg = "Cancellation can't be {} when exists active complaint period".format(OPERATIONS.get(request.method))
+
+    if (
+        tender.get("complaintPeriod")
+        and tender.complaintPeriod.endDate
+        and tender.complaintPeriod.startDate < get_now() < tender.complaintPeriod.endDate
+    ):
+        raise_operation_error(request, msg)
+
+    if tender.status in ["active.pre-qualification.stand-still"]:
+        raise_operation_error(request, msg)
+
+    cancellation = (
+        request.validated["cancellation"]
+        if "cancellation" in request.validated
+        else request.validated["data"]
+    )
+    relatedLot = cancellation.get("relatedLot")
+
+    if not relatedLot:
+        if any(
+            i for i in tender.awards
+            if i.get("complaintPeriod")
+                and i.complaintPeriod.endDate
+                and i.complaintPeriod.startDate < get_now() < i.complaintPeriod.endDate
+        ):
+            raise_operation_error(request, msg)
+    else:
+        if any(
+            i for i in tender.awards
+            if relatedLot == i.get("lotID")
+                and i.get("complaintPeriod")
+                and i.complaintPeriod.endDate
+                and i.complaintPeriod.startDate < get_now() < i.complaintPeriod.endDate
+        ):
+            raise_operation_error(request, msg)
+
+
 def validate_cancellation_statuses_without_complaints(request):
     cancellation = request.context
 
@@ -1107,7 +1152,6 @@ def validate_add_complaint_with_lot_cancellation_in_pending(type_name):
 
 def validate_operation_with_lot_cancellation_in_pending(type_name):
     def validation(request):
-
         fields_names = {
             "lot": "id",
             "award": "lotID",

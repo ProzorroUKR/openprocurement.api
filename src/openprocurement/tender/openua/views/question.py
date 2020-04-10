@@ -19,6 +19,7 @@ class TenderUaQuestionResource(TenderQuestionResource):
         """
         tender = self.request.validated["tender"]
         now = get_now()
+
         if operation == "add" and (now < tender.enquiryPeriod.startDate or now > tender.enquiryPeriod.endDate):
             raise_operation_error(self.request, "Can add question only in enquiryPeriod")
         if operation == "update" and tender.status != "active.tendering":

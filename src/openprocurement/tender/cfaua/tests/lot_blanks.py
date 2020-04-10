@@ -3,7 +3,9 @@ from copy import deepcopy
 from email.header import Header
 
 from openprocurement.api.constants import RELEASE_2020_04_19
-from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
+from openprocurement.tender.core.tests.cancellation import (
+    activate_cancellation_after_2020_04_19,
+)
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_cancellation, test_claim
 
@@ -1129,6 +1131,11 @@ def proc_1lot_1can(self):
     # ]})
     # self.assertTrue(all(["auctionPeriod" in i for i in response.json['data']['lots']]))
     # cancel lot
+
+    set_complaint_period_end = getattr(self, "set_complaint_period_end", None)
+    if RELEASE_2020_04_19 < get_now() and set_complaint_period_end:
+        set_complaint_period_end()
+
     cancellation = dict(**test_cancellation)
     cancellation.update({
         "status": "active",
