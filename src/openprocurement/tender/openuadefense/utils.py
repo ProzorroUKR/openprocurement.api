@@ -1,19 +1,17 @@
 from logging import getLogger
-
 from openprocurement.api.constants import TZ
-from openprocurement.tender.core.utils import (
-    context_unpack,
-    get_now,
-    has_unanswered_questions,
-    has_unanswered_complaints,
-    block_tender,
-)
 from openprocurement.tender.openua.utils import check_complaint_status, add_next_award, check_cancellation_status
 from openprocurement.tender.belowthreshold.utils import check_tender_status, add_contract
 from openprocurement.tender.core.utils import (
     calculate_tender_business_date as calculate_tender_business_date_base,
     calculate_clarifications_business_date as calculate_clarifications_business_date_base,
-    calculate_complaint_business_date as calculate_complaint_business_date_base
+    calculate_complaint_business_date as calculate_complaint_business_date_base,
+    check_complaint_statuses_at_complaint_period_end,
+    context_unpack,
+    get_now,
+    has_unanswered_questions,
+    has_unanswered_complaints,
+    block_tender,
 )
 
 LOGGER = getLogger("openprocurement.tender.openuadefense")
@@ -82,6 +80,7 @@ def check_status(request):
     tender = request.validated["tender"]
     now = get_now()
 
+    check_complaint_statuses_at_complaint_period_end(tender, now)
     check_cancellation_status(request)
 
     if block_tender(request):

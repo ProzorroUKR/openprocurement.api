@@ -12,6 +12,7 @@ from openprocurement.tender.core.utils import (
     has_unanswered_complaints,
     calculate_tender_business_date,
     block_tender,
+    check_complaint_statuses_at_complaint_period_end,
 )
 from openprocurement.tender.openeu.utils import CancelTenderLot as BaseCancelTenderLot
 from openprocurement.tender.openua.utils import check_complaint_status
@@ -282,6 +283,7 @@ def check_status(request):
     tender = request.validated["tender"]
     now = get_now()
 
+    check_complaint_statuses_at_complaint_period_end(tender, now)
     check_cancellation_status(request, CancelTenderLot)
 
     active_lots = [

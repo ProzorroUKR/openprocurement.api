@@ -93,6 +93,7 @@ class TenderAwardComplaintResource(BaseTenderAwardComplaintResource):
                 get_first_revision_date(tender, get_now()) > RELEASE_2020_04_19
                 and new_status == "mistaken"
             ):
+                context.rejectReason = "cancelledByComplainant"
                 apply_patch(self.request, save=False, src=context.serialize())
             elif new_status == "claim":
                 apply_patch(self.request, save=False, src=context.serialize())

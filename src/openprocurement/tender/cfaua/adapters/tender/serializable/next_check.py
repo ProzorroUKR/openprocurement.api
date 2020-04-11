@@ -1,7 +1,11 @@
 from zope.component import getAdapter
 from openprocurement.api.interfaces import IContentConfigurator
 from openprocurement.api.adapters import Serializable
-from openprocurement.tender.core.utils import calc_auction_end_time, has_unanswered_questions, has_unanswered_complaints
+from openprocurement.tender.core.utils import (
+    calc_auction_end_time,
+    has_unanswered_questions, has_unanswered_complaints,
+    extend_next_check_by_complaint_period_ends,
+)
 
 from openprocurement.api.utils import get_now
 
@@ -77,5 +81,7 @@ class SerializableTenderNextCheck(Serializable):
                 ]
             ):
                 checks.append(obj.awardPeriod.endDate.astimezone(configurator.tz))
+
+        extend_next_check_by_complaint_period_ends(obj, checks)
 
         return min(checks).isoformat() if checks else None

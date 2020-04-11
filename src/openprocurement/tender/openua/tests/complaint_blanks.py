@@ -307,6 +307,30 @@ def bot_patch_tender_complaint(self):
         self.assertEqual(response.json["data"]["status"], "pending")
 
 
+@patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+def bot_patch_tender_complaint_mistaken(self):
+    complaint_data = deepcopy(test_draft_complaint)
+    complaint_data["author"] = getattr(self, "test_author", test_author)
+    response = self.app.post_json(
+        "/tenders/{}/complaints".format(self.tender_id),
+        {"data": complaint_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    complaint = response.json["data"]
+    owner_token = response.json["access"]["token"]
+
+    with change_auth(self.app, ("Basic", ("bot", ""))):
+        response = self.app.patch_json(
+            "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], owner_token),
+            {"data": {"status": "mistaken"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["data"]["status"], "mistaken")
+        self.assertEqual(response.json["data"]["rejectReason"], "incorrectPayment")
+
+
 @patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", get_now() + timedelta(days=1))
 def bot_patch_tender_complaint_forbidden(self):
     complaint_data = deepcopy(test_draft_complaint)
@@ -447,6 +471,7 @@ def mistaken_status_tender_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     complaint = response.json["data"]
     self.assertEqual(complaint["status"], "mistaken")
+    self.assertEqual(complaint["rejectReason"], "cancelledByComplainant")
 
     statuses = [
         {"status":"draft"},

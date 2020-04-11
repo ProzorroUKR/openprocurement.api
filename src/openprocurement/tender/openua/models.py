@@ -56,6 +56,7 @@ from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
     calculate_complaint_business_date,
     calculate_clarifications_business_date,
+    extend_next_check_by_complaint_period_ends,
 )
 from openprocurement.tender.core.validation import validate_lotvalue_value, validate_relatedlot
 from openprocurement.tender.belowthreshold.models import Tender as BaseTender
@@ -332,12 +333,6 @@ class Complaint(BaseComplaint):
     )
     acceptance = BooleanType()
     dateAccepted = IsoDateTimeType()
-    rejectReason = StringType(choices=[
-        "buyerViolationsCorrected",
-        "lawNonCompliance",
-        "alreadyExists",
-        "tenderCancelled"
-    ])
     rejectReasonDescription = StringType()
     reviewDate = IsoDateTimeType()
     reviewPlace = StringType()
@@ -654,9 +649,8 @@ class Tender(BaseTender):
                 if award.status == "active" and not any([i.awardID == award.id for i in self.contracts]):
                     checks.append(award.date)
 
-        pending_cancellations = [i for i in self.cancellations if i.status == "pending" and i.complaintPeriod]
-        for cancellation in pending_cancellations:
-            checks.append(cancellation.complaintPeriod.endDate.astimezone(TZ))
+        extend_next_check_by_complaint_period_ends(self, checks)
+
         return min(checks).isoformat() if checks else None
 
     def invalidate_bids_data(self):

@@ -153,6 +153,7 @@ class TenderCancellationComplaintResource(ComplaintBotPatchMixin, ComplaintAdmin
         if new_status == self.context.status:
             apply_patch(self.request, save=False, src=context.serialize())
         elif status == "draft" and new_status == "mistaken":
+            context.rejectReason = "cancelledByComplainant"
             apply_patch(self.request, save=False, src=context.serialize())
         elif new_status == "pending":
             apply_patch(self.request, save=False, src=context.serialize())

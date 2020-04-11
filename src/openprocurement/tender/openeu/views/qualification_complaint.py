@@ -153,6 +153,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
             and self.context.type == "complaint"
             and new_status == "mistaken"
         ):
+            self.context.rejectReason = "cancelledByComplainant"
             apply_patch(self.request, save=False, src=self.context.serialize())
         elif (
             status in ["pending", "accepted"]

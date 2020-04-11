@@ -4,13 +4,16 @@ from functools import partial
 from cornice.resource import resource
 from openprocurement.api.models import get_now, TZ
 from openprocurement.api.utils import error_handler, context_unpack
-from openprocurement.tender.core.utils import remove_draft_bids, has_unanswered_questions, has_unanswered_complaints
 from openprocurement.tender.belowthreshold.utils import check_tender_status, add_contract
 from openprocurement.tender.openua.utils import add_next_award, check_complaint_status
 from openprocurement.tender.core.utils import (
+    remove_draft_bids,
+    has_unanswered_questions,
+    has_unanswered_complaints,
     check_cancellation_status,
     block_tender,
-    CancelTenderLot as BaseTenderLot
+    CancelTenderLot as BaseTenderLot,
+    check_complaint_statuses_at_complaint_period_end,
 )
 from openprocurement.tender.openeu.models import Qualification
 from openprocurement.tender.openeu.traversal import (
@@ -203,14 +206,15 @@ def all_bids_are_reviewed(request):
 def check_status(request):
     tender = request.validated["tender"]
     now = get_now()
+    configurator = request.content_configurator
+
+    check_complaint_statuses_at_complaint_period_end(tender, now)
+    check_cancellation_status(request, CancelTenderLot)
+
     active_lots = [
         lot.id for lot in tender.lots
         if lot.status == "active"
     ] if tender.lots else [None]
-    configurator = request.content_configurator
-
-    check_cancellation_status(request, CancelTenderLot)
-
     for award in tender.awards:
         if award.status == "active" and not any([i.awardID == award.id for i in tender.contracts]):
             add_contract(request, award, now)

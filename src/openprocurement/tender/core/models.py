@@ -680,6 +680,15 @@ class Complaint(Model):
     dateCanceled = IsoDateTimeType()
 
     value = ModelType(Guarantee)
+    rejectReason = StringType(choices=[
+        "buyerViolationsCorrected",
+        "lawNonCompliance",
+        "alreadyExists",
+        "tenderCancelled",
+        "cancelledByComplainant",
+        "complaintPeriodEnded",
+        "incorrectPayment"
+    ])
 
     @serializable(serialized_name="value", serialize_when_none=False)
     def calculate_value(self):
@@ -745,7 +754,7 @@ class Complaint(Model):
             role = "draft"
         elif auth_role == "tender_owner" and self.status == "claim":
             role = "answer"
-        elif auth_role== "complaint_owner" and self.status == "answered":
+        elif auth_role == "complaint_owner" and self.status == "answered":
             role = "satisfy"
         else:
             role = "invalid"

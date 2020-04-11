@@ -148,20 +148,24 @@ Schema
 
     Amount to be paid to activate this complaint. See :ref:`complaint-payments`
 
+:rejectReason:
+    string
+
+    * `lawNonCompliance` - complaint does not meet the law requirements in article 18 paragraphs 2-5 and 9
+    * `alreadyExists` - bidder complains about violation that has been already reviewed by the Complaints Committee
+    * `buyerViolationsCorrected` - buyer has corrected the violations that was described in complaint
+    * `tenderCancelled` - tender has been cancelled before the complaint submitted date by the buyer besides complaining about tender cancellation
+    * `cancelledByComplainant` - The complaint was cancelled by the complainant
+    * `complaintPeriodEnded` - The complaint period has ended
+    * `incorrectPayment` - The payment received does not match the estimated amount for the complaint
+
+
 Additionally in :ref:`defense`, :ref:`esco`, :ref:`openua` and :ref:`openeu`:
 
     :acceptance:
         bool
 
         Claim is satisfied?
-
-    :rejectReason:
-        string
-
-        * `lawNonCompliance` - complaint does not meet the law requirements in article 18 paragraphs 2-5 and 9
-        * `alreadyExists` - bidder complains about violation that has been already reviewed by the Complaints Committee
-        * `buyerViolationsCorrected` - buyer has corrected the violations that was described in complaint
-        * `tenderCancelled` - tender has been cancelled before the complaint submitted date by the buyer besides complaining about tender cancellation
 
 
     :rejectReasonDescription:

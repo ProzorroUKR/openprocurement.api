@@ -212,6 +212,7 @@ class BaseTenderAwardComplaintResource(BaseTenderComplaintResource):
             and self.context.type == "complaint"
             and new_status == "mistaken"
         ):
+            self.context.rejectReason = "cancelledByComplainant"
             apply_patch(self.request, save=False, src=self.context.serialize())
         elif new_status == "claim":
             self.validate_posting_claim()

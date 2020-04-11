@@ -42,6 +42,8 @@ class ComplaintBotPatchMixin(object):
         new_rules = get_first_revision_date(tender, default=get_now()) > RELEASE_2020_04_19
 
         if new_rules and status == "draft" and new_status in ["pending", "mistaken"]:
+            if new_status == "mistaken":
+                context.rejectReason = "incorrectPayment"
             apply_patch(request, save=False, src=context.serialize())
         else:
             raise_operation_error(
@@ -188,6 +190,7 @@ class BaseTenderComplaintResource(ComplaintBotPatchMixin, ComplaintAdminPatchMix
             and context.type == "complaint"
             and new_status == "mistaken"
         ):
+            context.rejectReason = "cancelledByComplainant"
             apply_patch(self.request, save=False, src=context.serialize())
         
         elif status in ["pending", "accepted"] and new_status == "stopping":

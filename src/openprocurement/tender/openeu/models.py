@@ -54,6 +54,7 @@ from openprocurement.tender.core.utils import (
     has_unanswered_complaints,
     calculate_complaint_business_date,
     calculate_clarifications_business_date,
+    extend_next_check_by_complaint_period_ends,
 )
 from openprocurement.tender.belowthreshold.models import Tender as BaseTender
 from openprocurement.tender.core.validation import validate_lotvalue_value, validate_relatedlot
@@ -764,9 +765,7 @@ class Tender(BaseTender):
                 if award.status == "active" and not any([i.awardID == award.id for i in self.contracts]):
                     checks.append(award.date)
 
-        pending_cancellations = [i for i in self.cancellations if i.status == "pending" and i.complaintPeriod]
-        for cancellation in pending_cancellations:
-            checks.append(cancellation.complaintPeriod.endDate.astimezone(TZ))
+        extend_next_check_by_complaint_period_ends(self, checks)
 
         return min(checks).isoformat() if checks else None
 

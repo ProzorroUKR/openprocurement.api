@@ -5,6 +5,13 @@ from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
 
+from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.core.tests.chronograph import (
+    switch_award_complaints_draft,
+    switch_tender_complaints_draft,
+    switch_tender_cancellation_complaints_draft,
+    switch_qualification_complaints_draft,
+)
 from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
     # TenderSwitchUnsuccessfulResourceTest
     switch_to_unsuccessful,
@@ -70,6 +77,8 @@ class TenderAuctionPeriodResourceTest(BaseTenderContentWebTest):
     initial_status = "active.tendering"
 
     test_set_auction_period = snitch(set_auction_period)
+    test_switch_tender_complaints_draft = snitch(switch_tender_complaints_draft)
+    test_switch_tender_cancellation_complaints_draft = snitch(switch_tender_cancellation_complaints_draft)
 
 
 class TenderLotAuctionPeriodResourceTest(BaseTenderContentWebTest):
@@ -85,10 +94,29 @@ class TenderComplaintSwitchResourceTest(BaseTenderContentWebTest):
     author_data = test_author
 
     test_switch_to_complaint = snitch(switch_to_complaint)
+    test_switch_qualification_complaints_draft = snitch(switch_qualification_complaints_draft)
 
 
 class TenderLotComplaintSwitchResourceTest(TenderComplaintSwitchResourceTest):
     initial_lots = test_lots
+
+
+class TenderAwardComplaintSwitchResourceTest(BaseTenderContentWebTest):
+    initial_status = "active.qualification"
+    initial_bids = test_bids
+
+    def setUp(self):
+        super(TenderAwardComplaintSwitchResourceTest, self).setUp()
+        # Create award
+        with change_auth(self.app, ("Basic", ("token", ""))):
+            response = self.app.post_json(
+                "/tenders/{}/awards".format(self.tender_id),
+                {"data": {"suppliers": [test_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+            )
+            award = response.json["data"]
+            self.award_id = award["id"]
+
+    test_switch_award_complaints_draft = snitch(switch_award_complaints_draft)
 
 
 def suite():

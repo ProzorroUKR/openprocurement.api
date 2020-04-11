@@ -1,0 +1,83 @@
+@startuml
+
+title belowThreshold
+
+alt tender.status.startswith("active.")
+    loop for complaint in complaints
+        alt complaint.status == answered
+            Tender -> Chronograph: next(dateAnswered + STAND_STILL)
+        else complaint.status == pending
+            Tender -> Chronograph: next(tender.dateModified)
+        end
+    end
+
+    loop for award in awards
+
+        alt award.status == active and not contract
+            Tender -> Chronograph: next(award.date)
+        end
+
+
+        loop for complaint in award.complaints
+            alt complaint.status == answered
+                Tender -> Chronograph: next(dateAnswered + STAND_STILL)
+            else complaint.status == pending
+                Tender -> Chronograph: next(tender.dateModified)
+            end
+        end
+    end
+end
+
+group Tender
+    group active.enquires
+        alt tenderPeriod.startDate
+            Tender -> Chronograph: next(tenderPeriod.startDate)
+        else enquiryPeriod.endDate
+            Tender -> Chronograph: next(enquiryPeriod.endDate)
+        end
+    end
+    group active.tendering
+        alt tenderPeriod.endDate
+            Tender -> Chronograph: next(tenderPeriod.endDate)
+        end
+    end
+    group active.auction
+        alt not lots and auctionPeriod.startDate and not auctionPeriod.endDate
+            alt now < auctionPeriod.startDate
+                Tender -> Chronograph: next(auctionPeriod.startDate)
+            else now < calc_auction_end_time
+                Tender -> Chronograph: next(calc_auction_end_time)
+            end
+        else lots
+            loop for lot in lots if lot.status == active
+                alt now < auctionPeriod.startDate
+                    Tender -> Chronograph: next(auctionPeriod.startDate)
+                else now < calc_auction_end_time
+                    Tender -> Chronograph: next(calc_auction_end_time)
+                end
+                note left: same as for non lot above
+            end
+        end
+    end
+    group not lots and active.awarded
+        alt not ((complaints.statuses || awards.complaints.statuses) && tender.block_complaint_status)
+            alt last_award.status == unsuccessful
+                Tender -> Chronograph: next(max(award.complaintPeriod.endDate)
+            end
+        end
+    end
+    group lots and status in (active.qualification active.awarded)
+        alt not blocking_tender_complaints
+            loop for lot in lots if lot.status == active
+                alt not blocking_lot_complaints and not blocking_award_complaints
+                    alt last_award_status == unsuccessful
+                        Tender -> Chronograph: next(max(award.complaintPeriod.endDate)
+                    end
+                    note left: same as for non lot above
+                end
+            end
+        end
+    end
+end
+
+@enduml

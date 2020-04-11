@@ -8,7 +8,8 @@ from openprocurement.tender.core.utils import (
     remove_draft_bids,
     check_cancellation_status,
     block_tender,
-    CancelTenderLot as BaseCancelTenderLot
+    CancelTenderLot as BaseCancelTenderLot,
+    check_complaint_statuses_at_complaint_period_end,
 )
 from openprocurement.tender.belowthreshold.utils import check_tender_status, context_unpack, add_contract
 from barbecue import chef
@@ -62,6 +63,7 @@ def check_status(request):
     now = get_now()
     configurator = request.content_configurator
 
+    check_complaint_statuses_at_complaint_period_end(tender, now)
     check_cancellation_status(request, cancel_class=CancelTenderLot)
 
     for award in tender.awards:

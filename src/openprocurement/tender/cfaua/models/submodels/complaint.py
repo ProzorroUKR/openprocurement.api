@@ -93,12 +93,6 @@ class Complaint(BaseComplaint):
     )
     acceptance = BooleanType()
     dateAccepted = IsoDateTimeType()
-    rejectReason = StringType(choices=[
-        "buyerViolationsCorrected",
-        "lawNonCompliance",
-        "alreadyExists",
-        "tenderCancelled"
-    ])
     rejectReasonDescription = StringType()
     reviewDate = IsoDateTimeType()
     reviewPlace = StringType()
