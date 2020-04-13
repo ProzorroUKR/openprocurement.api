@@ -40,6 +40,7 @@ class TenderUAComplaintResourceTestMixin(object):
     test_bot_patch_tender_complaint_mistaken = snitch(bot_patch_tender_complaint_mistaken)
     test_bot_patch_tender_complaint_forbidden = snitch(bot_patch_tender_complaint_forbidden)
 
+
 class TenderComplaintResourceTest(
     BaseTenderUAContentWebTest, TenderComplaintResourceTestMixin, TenderUAComplaintResourceTestMixin
 ):

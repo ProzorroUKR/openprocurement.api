@@ -26,7 +26,6 @@ from openprocurement.tender.core.models import (
     ITender,
     Bid as BaseBid,
     Contract as BaseContract,
-    Cancellation as BaseCancellation,
     Lot as BaseLot,
     EUConfidentialDocument,
     EUDocument,
@@ -63,6 +62,7 @@ from openprocurement.tender.openua.models import (
     Award as BaseAward,
     Item as BaseItem,
     Tender as OpenUATender,
+    Cancellation as BaseCancellation,
     Parameter,
 )
 from openprocurement.tender.openua.constants import COMPLAINT_SUBMIT_TIME, ENQUIRY_STAND_STILL_TIME, AUCTION_PERIOD_TIME

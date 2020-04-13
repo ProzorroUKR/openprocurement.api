@@ -1272,7 +1272,9 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 '/tenders/{}/cancellations/{}/complaints/{}'.format(
                     self.tender_id, cancellation_id, complaint4_id),
                 {'data': {
-                    "status": "invalid"
+                    "status": "invalid",
+                    "rejectReason": "tenderCancelled",
+                    "rejectReasonDescription": "reject reason description",
                 }})
             self.assertEqual(response.status, '200 OK')
 
@@ -1281,7 +1283,9 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 '/tenders/{}/cancellations/{}/complaints/{}'.format(
                     self.tender_id, cancellation_id, complaint1_id),
                 {'data': {
-                    "status": "accepted"
+                    "status": "accepted",
+                    "reviewDate": get_now().isoformat(),
+                    "reviewPlace": "some",
                 }})
             self.assertEqual(response.status, '200 OK')
 
@@ -1289,7 +1293,9 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             '/tenders/{}/cancellations/{}/complaints/{}'.format(
                 self.tender_id, cancellation_id, complaint3_id),
             {'data': {
-                "status": "accepted"
+                "status": "accepted",
+                "reviewDate": get_now().isoformat(),
+                "reviewPlace": "some",
             }})
         self.assertEqual(response.status, '200 OK')
 
@@ -1297,7 +1303,9 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             '/tenders/{}/cancellations/{}/complaints/{}'.format(
                 self.tender_id, cancellation_id, complaint5_id),
             {'data': {
-                "status": "accepted"
+                "status": "accepted",
+                "reviewDate": get_now().isoformat(),
+                "reviewPlace": "some",
             }})
         self.assertEqual(response.status, '200 OK')
 
@@ -1305,7 +1313,9 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             '/tenders/{}/cancellations/{}/complaints/{}'.format(
                 self.tender_id, cancellation_id, complaint6_id),
             {'data': {
-                "status": "accepted"
+                "status": "accepted",
+                "reviewDate": get_now().isoformat(),
+                "reviewPlace": "some",
             }})
         self.assertEqual(response.status, '200 OK')
 
@@ -1340,7 +1350,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     self.tender_id, cancellation_id, complaint5_id),
                 {'data': {
                     "decision": "Тендер скасовується замовником",
-                    "status": "stopped"
+                    "status": "stopped",
+                    "rejectReason": "tenderCancelled",
                 }})
             self.assertEqual(response.status, '200 OK')
 
@@ -1359,7 +1370,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     self.tender_id, cancellation_id, complaint1_id, owner_token),
                 {'data': {
                     "tendererAction": "Умови виправлено",
-                    "status": "resolved"
+                    "status": "resolved",
                 }})
             self.assertEqual(response.status, '200 OK')
 
@@ -1370,7 +1381,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     self.tender_id, cancellation_id, complaint6_id),
                 {'data': {
                     "decision": "Тендер скасовується замовником",
-                    "status": "stopped"
+                    "status": "stopped",
+                    "rejectReason": "tenderCancelled",
                 }})
             self.assertEqual(response.status, '200 OK')
 

@@ -34,6 +34,7 @@ Content-Type: application/json; charset=UTF-8
       ], 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
       "title": "Недостатньо інформації", 
+      "reviewDate": "2020-05-01T01:00:00+03:00", 
       "author": {
         "contactPoint": {
           "email": "soleksuk@gmail.com", 
@@ -63,13 +64,24 @@ Content-Type: application/json; charset=UTF-8
       "dateSubmitted": "2020-05-01T01:00:00+03:00", 
       "complaintID": "UA-2020-05-01-000001.1", 
       "date": "2020-05-01T01:00:00+03:00", 
+      "acceptance": true, 
       "type": "complaint", 
-      "id": "57299cc6dd6a4e86b1bc8b2c406bf397"
+      "id": "57299cc6dd6a4e86b1bc8b2c406bf397", 
+      "reviewPlace": "some", 
+      "dateAccepted": "2020-05-01T01:00:00+03:00"
     }, 
     {
       "status": "declined", 
       "dateDecision": "2020-05-01T01:00:00+03:00", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+      "title": "Недостатньо інформації", 
+      "reviewDate": "2020-05-01T01:00:00+03:00", 
+      "acceptance": true, 
+      "value": {
+        "currency": "UAH", 
+        "amount": 2000.0
+      }, 
+      "dateAccepted": "2020-05-01T01:00:00+03:00", 
       "author": {
         "contactPoint": {
           "email": "soleksuk@gmail.com", 
@@ -90,16 +102,12 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Вінниця"
         }
       }, 
-      "title": "Недостатньо інформації", 
-      "value": {
-        "currency": "UAH", 
-        "amount": 2000.0
-      }, 
       "dateSubmitted": "2020-05-01T01:00:00+03:00", 
       "complaintID": "UA-2020-05-01-000001.2", 
       "date": "2020-05-01T01:00:00+03:00", 
       "type": "complaint", 
-      "id": "97865ab92faa492cb811582710d889df"
+      "id": "97865ab92faa492cb811582710d889df", 
+      "reviewPlace": "some"
     }, 
     {
       "status": "invalid", 
@@ -125,21 +133,35 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Вінниця"
         }
       }, 
-      "title": "Недостатньо інформації", 
+      "acceptance": false, 
       "value": {
         "currency": "UAH", 
         "amount": 2000.0
       }, 
+      "rejectReason": "tenderCancelled", 
+      "rejectReasonDescription": "reject reason description", 
       "dateSubmitted": "2020-05-01T01:00:00+03:00", 
       "complaintID": "UA-2020-05-01-000001.3", 
       "date": "2020-05-01T01:00:00+03:00", 
+      "title": "Недостатньо інформації", 
       "type": "complaint", 
       "id": "f87398f50f0f43ce8637ea8bdb532eaf"
     }, 
     {
       "status": "stopped", 
+      "dateCanceled": "2020-05-01T01:00:00+03:00", 
       "dateDecision": "2020-05-01T01:00:00+03:00", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+      "title": "Недостатньо інформації", 
+      "decision": "Тендер скасовується замовником", 
+      "acceptance": true, 
+      "value": {
+        "currency": "UAH", 
+        "amount": 2000.0
+      }, 
+      "id": "c449ec9e93c749889ee412a864f8bd4f", 
+      "rejectReason": "tenderCancelled", 
+      "dateAccepted": "2020-05-01T01:00:00+03:00", 
       "author": {
         "contactPoint": {
           "email": "soleksuk@gmail.com", 
@@ -160,23 +182,28 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Вінниця"
         }
       }, 
-      "decision": "Тендер скасовується замовником", 
-      "title": "Недостатньо інформації", 
-      "value": {
-        "currency": "UAH", 
-        "amount": 2000.0
-      }, 
-      "dateCanceled": "2020-05-01T01:00:00+03:00", 
       "dateSubmitted": "2020-05-01T01:00:00+03:00", 
       "complaintID": "UA-2020-05-01-000001.4", 
       "date": "2020-05-01T01:00:00+03:00", 
       "type": "complaint", 
-      "id": "c449ec9e93c749889ee412a864f8bd4f"
+      "reviewDate": "2020-05-01T01:00:00+03:00", 
+      "reviewPlace": "some"
     }, 
     {
       "status": "stopped", 
+      "dateCanceled": "2020-05-01T01:00:00+03:00", 
       "dateDecision": "2020-05-01T01:00:00+03:00", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+      "title": "Недостатньо інформації", 
+      "decision": "Тендер скасовується замовником", 
+      "acceptance": true, 
+      "value": {
+        "currency": "UAH", 
+        "amount": 2000.0
+      }, 
+      "id": "3bc7bafd9a5e4494ab22e3b770a85200", 
+      "rejectReason": "tenderCancelled", 
+      "dateAccepted": "2020-05-01T01:00:00+03:00", 
       "author": {
         "contactPoint": {
           "email": "soleksuk@gmail.com", 
@@ -197,18 +224,12 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Вінниця"
         }
       }, 
-      "decision": "Тендер скасовується замовником", 
-      "title": "Недостатньо інформації", 
-      "value": {
-        "currency": "UAH", 
-        "amount": 2000.0
-      }, 
-      "dateCanceled": "2020-05-01T01:00:00+03:00", 
       "dateSubmitted": "2020-05-01T01:00:00+03:00", 
       "complaintID": "UA-2020-05-01-000001.5", 
       "date": "2020-05-01T01:00:00+03:00", 
       "type": "complaint", 
-      "id": "3bc7bafd9a5e4494ab22e3b770a85200"
+      "reviewDate": "2020-05-01T01:00:00+03:00", 
+      "reviewPlace": "some"
     }
   ]
 }

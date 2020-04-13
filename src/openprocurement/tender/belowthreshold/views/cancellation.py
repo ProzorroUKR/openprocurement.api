@@ -18,7 +18,6 @@ from openprocurement.tender.core.validation import (
 )
 
 
-
 @optendersresource(
     name="belowThreshold:Tender Cancellations",
     collection_path="/tenders/{tender_id}/cancellations",

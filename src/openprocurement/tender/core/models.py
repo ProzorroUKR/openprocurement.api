@@ -799,77 +799,7 @@ class Complaint(Model):
                     return lot
 
 
-class CancellationComplaint(Complaint):
-    class Options:
-        roles = {
-            "create": whitelist("author", "title", "description", "relatedLot"),
-            "draft": whitelist("author", "title", "description", "status"),
-            "bot": whitelist("rejectReason", "status"),
-            "cancellation": whitelist("cancellationReason", "status"),
-            "satisfy": whitelist("satisfied", "status"),
-            "resolve": whitelist("status", "tendererAction"),
-            "action": whitelist("tendererAction"),
-            "pending": whitelist("decision", "status", "rejectReason", "rejectReasonDescription"),
-            "review": whitelist("decision", "status", "reviewDate", "reviewPlace"),
-            "embedded": (blacklist("owner_token", "owner", "transfer_token", "bid_id") + schematics_embedded_role),
-            "view": (blacklist("owner_token", "owner", "transfer_token", "bid_id") + schematics_default_role),
-        }
-
-    def get_role(self):
-        root = self.get_root()
-        request = root.request
-        data = request.json_body["data"]
-        auth_role = request.authenticated_role
-        status = data.get("status", self.status)
-
-        if auth_role == "complaint_owner" and status == "cancelled":
-            role = "cancellation"
-        elif auth_role == "complaint_owner" and self.status in ["pending", "accepted"] and status == "stopping":
-            role = "cancellation"
-        elif auth_role == "complaint_owner" and self.status == "draft":
-            role = "draft"
-        elif auth_role == "bots" and self.status == "draft":
-            role = "bot"
-        elif auth_role == "tender_owner" and self.status == "pending":
-            role = "action"
-        elif auth_role == "tender_owner" and self.status == "satisfied":
-            role = "resolve"
-        elif auth_role == "aboveThresholdReviewers" and self.status == "pending":
-            role = "pending"
-        elif auth_role == "aboveThresholdReviewers" and self.status in ["accepted", "stopping"]:
-            role = "review"
-        else:
-            role = "invalid"
-        return role
-
-    def __acl__(self):
-        return [
-            (Allow, "g:bots", "edit_complaint"),
-            (Allow, "g:aboveThresholdReviewers", "edit_complaint"),
-            (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_complaint"),
-            (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_complaint_documents"),
-        ]
-
-    status = StringType(
-        choices=[
-            "draft",
-            "pending",
-            "accepted",
-            "invalid",
-            "resolved",
-            "declined",
-            "satisfied",
-            "stopped",
-            "mistaken",
-        ],
-        default="draft",
-    )
-    type = StringType(
-        choices=["claim", "complaint"], default="complaint",
-    )
-
-
-class BaseCancellation(Model):
+class Cancellation(Model):
     class Options:
         roles = {
             "create": whitelist("reason", "status", "reasonType", "cancellationOf", "relatedLot"),
@@ -944,11 +874,6 @@ class BaseCancellation(Model):
 
         if value not in choices:
             raise ValidationError("Value must be one of %s" % choices)
-
-
-class Cancellation(BaseCancellation):
-    complaintPeriod = ModelType(Period)
-    complaints = ListType(ModelType(CancellationComplaint), default=list())
 
 
 class BaseAward(Model):

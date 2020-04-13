@@ -93,7 +93,10 @@ class TenderCancellationComplaintResourceTest(
     test_access_create_tender_cancellation_complaint = snitch(access_create_tender_cancellation_complaint)
 
 
-class TenderCancellationDocumentResourceTest(BaseTenderUAContentWebTest, TenderCancellationDocumentResourceTestMixin):
+class TenderCancellationDocumentResourceTest(
+    BaseTenderUAContentWebTest,
+    TenderCancellationDocumentResourceTestMixin
+):
     def setUp(self):
         super(TenderCancellationDocumentResourceTest, self).setUp()
 
