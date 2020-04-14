@@ -938,6 +938,7 @@ def access_create_tender_cancellation_complaint(self):
 
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
+    self.assertIn("value", response.json["data"])
 
 
 @patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1))

@@ -972,8 +972,6 @@ def patch_tender_award_complaint_document(self):
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can update document only author")
 
     response = self.app.patch_json(
         "/tenders/{}/awards/{}/complaints/{}/documents/{}?acc_token={}".format(
