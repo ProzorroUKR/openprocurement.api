@@ -23,7 +23,6 @@ from openprocurement.tender.core.models import (
     Cancellation as BaseCancellation,
     validate_features_uniq,
 )
-from openprocurement.tender.core.utils import get_contract_supplier_permissions
 
 
 class Cancellation(BaseCancellation):
@@ -233,9 +232,6 @@ class CFASelectionUATender(BaseTender):
                 (Allow, "g:brokers", "create_cancellation_complaint")
             ]
         )
-        suppliers_permissions = get_contract_supplier_permissions(self)
-        if suppliers_permissions:
-            acl.extend(suppliers_permissions)
         self._acl_cancellation(acl)
         return acl
 

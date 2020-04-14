@@ -4,7 +4,7 @@ from schematics.exceptions import ValidationError
 from schematics.types.compound import ModelType
 from schematics.types import StringType
 from openprocurement.tender.core.models import ContractValue
-from openprocurement.tender.core.utils import get_contract_supplier_roles
+from openprocurement.tender.core.utils import get_contract_supplier_roles, get_contract_supplier_permissions
 from openprocurement.api.utils import get_now
 from openprocurement.api.models import Model, ListType, Contract as BaseContract, Document
 
@@ -16,6 +16,9 @@ class Contract(BaseContract):
     value = ModelType(ContractValue)
     awardID = StringType(required=True)
     documents = ListType(ModelType(Document, required=True), default=list())
+
+    def __acl__(self):
+        return get_contract_supplier_permissions(self)
 
     def get_role(self):
         root = self.get_root()

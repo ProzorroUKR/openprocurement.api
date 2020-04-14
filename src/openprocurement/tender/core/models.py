@@ -386,6 +386,9 @@ class Contract(BaseContract):
     awardID = StringType(required=True)
     documents = ListType(ModelType(Document, required=True), default=list())
 
+    def __acl__(self):
+        return get_contract_supplier_permissions(self)
+
     def get_role(self):
         root = self.get_root()
         request = root.request
@@ -1420,9 +1423,6 @@ class Tender(BaseTender):
 
     def __acl__(self):
         acl = [(Allow, "{}_{}".format(i.owner, i.owner_token), "create_award_complaint") for i in self.bids]
-        suppliers_permissions = get_contract_supplier_permissions(self)
-        if suppliers_permissions:
-            acl.extend(suppliers_permissions)
         acl.extend(
             [
                 (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_complaint"),
