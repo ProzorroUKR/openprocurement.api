@@ -1765,6 +1765,9 @@ def lot2_create_tender_contract_document(self):
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token), {"data": cancellation},
     )
 
+    if RELEASE_2020_04_19 < get_now():
+        activate_cancellation_after_2020_04_19(self, response.json['data']['id'])
+
     response = self.app.post(
         "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
         upload_files=[("file", "name.doc", "content")],
@@ -1823,6 +1826,9 @@ def lot2_create_tender_contract_document_by_supplier(self):
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": cancellation},
     )
+
+    if RELEASE_2020_04_19 < get_now():
+        activate_cancellation_after_2020_04_19(self, response.json['data']['id'])
 
     # Supplier
     response = self.app.post(
@@ -1941,6 +1947,9 @@ def lot2_put_tender_contract_document(self):
         {"data": cancellation},
     )
 
+    if RELEASE_2020_04_19 < get_now():
+        activate_cancellation_after_2020_04_19(self, response.json['data']['id'])
+
     response = self.app.put(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
             self.tender_id, self.contract_id, doc_id, self.tender_token
@@ -2024,6 +2033,9 @@ def lot2_put_tender_contract_document_by_supplier(self):
         {"data": cancellation},
     )
 
+    if RELEASE_2020_04_19 < get_now():
+        activate_cancellation_after_2020_04_19(self, response.json['data']['id'])
+
     # Supplier
     response = self.app.put(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
@@ -2093,6 +2105,9 @@ def lot2_patch_tender_contract_document(self):
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": cancellation},
     )
+
+    if RELEASE_2020_04_19 < get_now():
+        activate_cancellation_after_2020_04_19(self, response.json['data']['id'])
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
