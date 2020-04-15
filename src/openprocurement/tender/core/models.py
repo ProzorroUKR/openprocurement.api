@@ -31,7 +31,7 @@ from openprocurement.api.models import schematics_default_role, schematics_embed
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.api.utils import (
     get_now, get_first_revision_date, get_root, generate_docservice_url,
-    get_uah_amount_from_value
+    get_uah_amount_from_value,
 )
 from openprocurement.api.constants import (
     SANDBOX_MODE,
@@ -54,7 +54,7 @@ from openprocurement.tender.core.constants import (
 )
 from openprocurement.tender.core.utils import (
     calc_auction_end_time, rounding_shouldStartAfter,
-    restrict_value_to_bounds, round_up_to_ten
+    restrict_value_to_bounds, round_up_to_ten,
 )
 from openprocurement.tender.core.validation import (
     validate_lotvalue_value,
@@ -65,7 +65,12 @@ from openprocurement.tender.core.validation import (
     validate_bid_value,
     validate_relatedlot,
 )
+from openprocurement.tender.esco.utils import get_complaint_amount as get_esco_complaint_amount
 from openprocurement.planning.api.models import PlanOrganization
+from logging import getLogger
+
+
+LOGGER = getLogger(__name__)
 
 
 view_bid_role = blacklist("owner_token", "owner", "transfer_token") + schematics_default_role
@@ -698,19 +703,7 @@ class Complaint(Model):
             tender = request.validated["tender"]
             if get_first_revision_date(tender, default=get_now()) > RELEASE_2020_04_19:
                 if tender["procurementMethodType"] == "esco":
-                    if tender["status"] in ("active.tendering", "active.pre-qualification.stand-still"):
-                        amount = COMPLAINT_MIN_AMOUNT
-                    else:
-                        if "award" not in request.validated or request.validated["award"]["value"] is None:
-                            return  # value can be empty None ?
-                        base_amount = get_uah_amount_from_value(
-                            request, request.validated["award"]["value"], {"complaint_id": self.id}
-                        )
-                        amount = restrict_value_to_bounds(
-                            base_amount * COMPLAINT_ENHANCED_AMOUNT_RATE,
-                            COMPLAINT_ENHANCED_MIN_AMOUNT,
-                            COMPLAINT_ENHANCED_MAX_AMOUNT
-                        )
+                    amount = get_esco_complaint_amount(request, tender, self)
                 else:
                     related_lot = self.get_related_lot_obj(tender)
                     value = related_lot["value"] if related_lot else tender["value"]
@@ -792,7 +785,11 @@ class Complaint(Model):
             validate_relatedlot(get_tender(parent), relatedLot)
             
     def get_related_lot_obj(self, tender):
-        lot_id = self.get("relatedLot") or self.get("__parent__").get("lotID")
+        lot_id = (
+            self.get("relatedLot")  # tender lot
+            or self.get("__parent__").get("lotID")  # award or qualification
+            or self.get("__parent__").get("relatedLot")  # cancellation
+        )
         if lot_id:
             for lot in tender.get("lots", ""):
                 if lot["id"] == lot_id:

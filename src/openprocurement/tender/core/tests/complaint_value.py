@@ -2,9 +2,10 @@
 from openprocurement.api.tests.base import singleton_app, app
 from openprocurement.tender.belowthreshold.tests.base import test_author, test_draft_complaint, test_lots
 from openprocurement.tender.openua.tests.base import test_tender_data
+from openprocurement.tender.core.utils import round_up_to_ten
 from openprocurement.tender.core.models import Complaint, Award
 from openprocurement.tender.core.constants import (
-    COMPLAINT_MIN_AMOUNT, COMPLAINT_MAX_AMOUNT,
+    COMPLAINT_MIN_AMOUNT, COMPLAINT_MAX_AMOUNT, COMPLAINT_ENHANCED_AMOUNT_RATE,
     COMPLAINT_ENHANCED_MIN_AMOUNT, COMPLAINT_ENHANCED_MAX_AMOUNT
 )
 from openprocurement.api.utils import get_now
@@ -221,11 +222,19 @@ def test_post_not_uah_complaint_esco():
             "revisions": [Mock(date=RELEASE_2020_04_19 + timedelta(days=1))],
             "status": "awarding",
             "procurementMethodType": "esco",
+            "bids": [
+                {
+                    "owner_token": "122344",
+                    "value": {"amount": -1, "currency": "UAH"}
+                },
+                {
+                    "owner_token": "secret_stuff",
+                    "value": {"amount": 70002, "currency": "USD"},
+                }
+            ]
         },
-        "award": {
-            "value": {"amount": 70002, "currency": "USD"}
-        }
     }
+    root.request.params = {"acc_token": "secret_stuff"}
     root.request.currency_rates = [
         {
             "cc": "USD",
@@ -295,7 +304,8 @@ def test_non_esco_enhanced_rates(test_data):
     assert result["value"] == {"currency": "UAH", "amount": expected_complaint_amount}
 
 
-@pytest.mark.parametrize("status", ["active.tendering", "active.pre-qualification.stand-still"])
+@pytest.mark.parametrize("status", ["active.tendering", "active.pre-qualification",
+                                    "active.pre-qualification.stand-still"])
 def test_esco_tendering(status):
     complaint = Complaint(complaint_data)
     root = Mock(__parent__=None)
@@ -317,23 +327,333 @@ def test_esco_tendering(status):
     (901000, 5410),  # 901000 * 0.6 / 100 = 5406.0 => 5410
 ])
 def test_esco_not_tendering_rates(test_data):
-    award_amount, expected_complaint_amount = test_data
+    base_amount, expected_complaint_amount = test_data
     complaint = Complaint(complaint_data)
     root = Mock(__parent__=None)
     root.request.validated = {
         "tender": {
             "revisions": [Mock(date=RELEASE_2020_04_19 + timedelta(days=1))],
-            "status": "any but tendering and pre-qualification.stand-still",
-            "procurementMethodType": "esco"
-        },
-        "award": {
-            "value": {
-                "amount": award_amount,
-                "currency": "UAH"
-            }
+            "status": "any but tendering and pre-qualification statuses",
+            "procurementMethodType": "esco",
+            "bids": [
+                {
+                    "owner_token": "122344",
+                    "value": {
+                        "amount": -1,
+                        "currency": "UAH"
+                    }
+                },
+                {
+                    "owner_token": "secret_stuff",
+                    "value": {
+                        "amount": base_amount,
+                        "currency": "UAH"
+                    }
+                }
+            ]
         },
     }
+    root.request.params = {"acc_token": "secret_stuff"}
     complaint["__parent__"] = root
     result = complaint.serialize()
     assert "value" in result
     assert result["value"] == {"currency": "UAH", "amount": expected_complaint_amount}
+
+
+def test_esco_not_tendering_with_lot():
+    amount, expected_amount = 901000, 5410
+    complaint = Complaint(complaint_data)
+
+    class MyMock(Mock):
+        def get(self, key):
+            return getattr(self, key)
+    root = Mock(__parent__=None)
+    cancellation = MyMock(__parent__=root, relatedLot="lot1", lotID=None)
+    root.request.params = {"acc_token": "secret_stuff"}
+    root.request.logging_context.items.return_value = ""
+    root.request.validated = {"tender": {
+        "revisions": [Mock(date=RELEASE_2020_04_19 + timedelta(days=1))],
+        "status": "active.qualification",
+        "procurementMethodType": "esco",
+        "bids": [
+            {
+                "owner_token": "secret_stuff",
+                "lotValues": [
+                    {
+                        "relatedLot": "lot1",
+                        "value": {
+                            "amount": amount,
+                            "currency": "UAH"
+                        }
+                    }
+                ],
+                "tenderers": [{
+                    "identifier": {
+                        "scheme": "spam",
+                        "id": "ham",
+                    }
+                }]
+            },
+        ],
+        "lots": [
+            {"id": "lot1"}
+        ]
+    }}
+    complaint["__parent__"] = cancellation
+
+    result = complaint.serialize()
+    assert "value" in result
+    assert result["value"] == {"currency": "UAH", "amount": expected_amount}
+
+
+def test_lot_esco_non_lot_complaint():
+    amount = 901000
+    expected_amount = round_up_to_ten(amount * 3 * COMPLAINT_ENHANCED_AMOUNT_RATE)
+    complaint = Complaint(complaint_data)
+
+    class MyMock(Mock):
+        def get(self, key):
+            return getattr(self, key)
+    root = Mock(__parent__=None)
+    cancellation = MyMock(__parent__=root, relatedLot=None, lotID=None)  # tender cancellation
+    root.request.params = {"acc_token": "secret_stuff"}
+    root.request.logging_context.items.return_value = ""
+    root.request.validated = {"tender": {
+        "revisions": [Mock(date=RELEASE_2020_04_19 + timedelta(days=1))],
+        "status": "active.qualification",
+        "procurementMethodType": "esco",
+        "bids": [
+            {
+                "owner_token": "secret_stuff",
+                "lotValues": [
+                    {
+                        "relatedLot": "lot1",
+                        "value": {
+                            "amount": amount,  # will be included
+                            "currency": "UAH"
+                        }
+                    },
+                    {
+                        "relatedLot": "lot2",
+                        "value": {
+                            "amount": amount,  # will be included
+                            "currency": "UAH"
+                        }
+                    }
+                ],
+                "tenderers": [{
+                    "identifier": {
+                        "scheme": "spam",
+                        "id": "ham",
+                    }
+                }]
+            },
+            {
+                "owner_token": "another_secret_stuff",
+                "lotValues": [
+                    {
+                        "relatedLot": "lot1",
+                        "value": {
+                            "amount": amount,
+                            "currency": "UAH"
+                        }
+                    },
+                ],
+                "tenderers": [{
+                    "identifier": {
+                        "scheme": "spam",
+                        "id": "pork",
+                    }
+                }]
+            },
+            {
+                "owner_token": "1232",
+                "lotValues": [
+                    {
+                        "relatedLot": "lot4",
+                        "value": {
+                            "amount": amount,  # will be included
+                            "currency": "UAH"
+                        }
+                    },
+                ],
+                "tenderers": [{
+                    "identifier": {
+                        "scheme": "spam",
+                        "id": "ham",
+                    }
+                }]
+            }
+        ],
+        "lots": [
+            {"id": "lot1"}
+        ]
+    }}
+    complaint["__parent__"] = cancellation
+
+    result = complaint.serialize()
+    assert "value" in result
+    assert result["value"] == {"currency": "UAH", "amount": expected_amount}
+
+
+def test_esco_lot_not_related_bidder():
+    amount = 901000
+    complaint = Complaint(complaint_data)
+
+    class MyMock(Mock):
+        def get(self, key):
+            return getattr(self, key)
+    root = Mock(__parent__=None)
+    cancellation = MyMock(__parent__=root, relatedLot="lot999", lotID=None)
+    root.request.params = {"acc_token": "secret_stuff"}
+    root.request.logging_context.items.return_value = ""
+    root.request.validated = {"tender": {
+        "revisions": [Mock(date=RELEASE_2020_04_19 + timedelta(days=1))],
+        "status": "active.qualification",
+        "procurementMethodType": "esco",
+        "bids": [
+            {
+                "owner_token": "secret_stuff",
+                "lotValues": [
+                    {
+                        "relatedLot": "lot1",
+                        "value": {
+                            "amount": amount,  # included
+                            "currency": "UAH"
+                        }
+                    }
+                ],
+                "tenderers": [{
+                    "identifier": {
+                        "scheme": "spam",
+                        "id": "ham",
+                    }
+                }]
+            },
+            {
+                "owner_token": "secret_stuff",
+                "lotValues": [
+                    {
+                        "relatedLot": "lot1",
+                        "value": {
+                            "amount": amount,
+                            "currency": "UAH"
+                        }
+                    }
+                ],
+                "tenderers": [{
+                    "identifier": {
+                        "scheme": "spam",
+                        "id": "pork",
+                    }
+                }]
+            },
+            {
+                "owner_token": "secret_stuff_2",
+                "lotValues": [
+                    {
+                        "relatedLot": "lot2",
+                        "value": {
+                            "amount": amount,  # included
+                            "currency": "UAH"
+                        }
+                    },
+                    {
+                        "relatedLot": "lot3",
+                        "value": {
+                            "amount": amount,  # included
+                            "currency": "UAH"
+                        }
+                    }
+                ],
+                "tenderers": [{
+                    "identifier": {
+                        "scheme": "spam",
+                        "id": "ham",
+                    }
+                }]
+            }
+        ],
+        "lots": [
+            {"id": "lot1"},
+            {"id": "lot2"},
+            {"id": "lot3"},
+            {"id": "lot999"},
+        ]
+    }}
+    complaint["__parent__"] = cancellation
+
+    result = complaint.serialize()
+    assert "value" in result
+    assert result["value"] == {"currency": "UAH",
+                               "amount": round_up_to_ten(3 * amount * COMPLAINT_ENHANCED_AMOUNT_RATE)}
+
+
+def test_esco_lot_related_but_passed_acc_token_from_different_bid():
+    """
+    Tenderer provides his token from a bid with low amount to confuse the system
+    we should find his another bid and related lotValue anyway
+    :return:
+    """
+    complaint = Complaint(complaint_data)
+    amount = 901000
+
+    class MyMock(Mock):
+        def get(self, key):
+            return getattr(self, key)
+    root = Mock(__parent__=None)
+    cancellation = MyMock(__parent__=root, relatedLot="lot999", lotID=None)
+    root.request.params = {"acc_token": "secret_stuff"}
+    root.request.logging_context.items.return_value = ""
+    root.request.validated = {"tender": {
+        "revisions": [Mock(date=RELEASE_2020_04_19 + timedelta(days=1))],
+        "status": "active.qualification",
+        "procurementMethodType": "esco",
+        "bids": [
+            {
+                "owner_token": "secret_stuff",
+                "lotValues": [
+                    {
+                        "relatedLot": "lot1",
+                        "value": {
+                            "amount": 100,
+                            "currency": "UAH"
+                        }
+                    }
+                ],
+                "tenderers": [{
+                    "identifier": {
+                        "scheme": "spam",
+                        "id": "ham",
+                    }
+                }]
+            },
+            {
+                "owner_token": "another_secret_stuff",
+                "lotValues": [
+                    {
+                        "relatedLot": "lot999",
+                        "value": {
+                            "amount": amount,
+                            "currency": "UAH"
+                        }
+                    }
+                ],
+                "tenderers": [{
+                    "identifier": {
+                        "scheme": "spam",
+                        "id": "ham",
+                    }
+                }]
+            },
+        ],
+        "lots": [
+            {"id": "lot1"},
+            {"id": "lot999"},
+        ]
+    }}
+    complaint["__parent__"] = cancellation
+
+    result = complaint.serialize()
+    assert "value" in result
+    assert result["value"] == {"currency": "UAH", "amount": round_up_to_ten(amount * COMPLAINT_ENHANCED_AMOUNT_RATE)}
