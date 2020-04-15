@@ -7,9 +7,10 @@ from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
     cleanup_bids_for_cancelled_lots,
     remove_draft_bids,
+    cancel_tender
 )
 from openprocurement.tender.core.constants import COMPLAINT_STAND_STILL_TIME
-from openprocurement.tender.core.utils import check_cancellation_status, get_first_revision_date
+from openprocurement.tender.core.utils import get_first_revision_date
 
 
 LOGGER = getLogger("openprocurement.tender.pricequotation")
@@ -52,9 +53,21 @@ def generate_contract_value(tender, award):
     return None
 
 
+def check_cancellation_status(request, cancel_tender_method=cancel_tender):
+    tender = request.validated["tender"]
+    cancellations = tender.cancellations
+
+    for cancellation in cancellations:
+        if cancellation.status == "pending":
+            cancellation.status = "active"
+            if cancellation.cancellationOf == "tender":
+                cancel_tender_method(request)
+
+
 def check_status(request):
     tender = request.validated["tender"]
     now = get_now()
+    check_cancellation_status(request)
 
     for award in tender.awards:
         if award.status == "active" and not any([i.awardID == award.id for i in tender.contracts]):
