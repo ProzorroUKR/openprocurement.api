@@ -1,6 +1,6 @@
 from uuid import uuid4
 from pyramid.security import Allow
-from schematics.types import MD5Type, StringType
+from schematics.types import MD5Type, StringType, BaseType, ValidationError
 from schematics.types.compound import ModelType
 from schematics.transforms import whitelist
 
@@ -24,6 +24,21 @@ class BidOffer(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     relatedItem = MD5Type(required=True)
     requirementsResponse = StringType(required=True)
+
+
+class RequirementReference(Model):
+    id = StringType(required=True)
+    title = StringType()
+
+
+class RequirementResponse(Model):
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    value = BaseType()
+    requirement = ModelType(RequirementReference, required=True)
+
+    def validate_value(self, data, value):
+        if not type(value) in (str, unicode, int, float, bool, type(None)):
+            raise ValidationError(u"Value type should be one of [string, integer, number, boolean, null].")
 
 
 class Bid(Model):
@@ -66,6 +81,7 @@ class Bid(Model):
     owner_token = StringType()
     transfer_token = StringType()
     owner = StringType()
+    requirementResponses = ListType(ModelType(RequirementResponse), default=list())
     # TODO: 
     # offers = ListType(
     #     ModelType(BidOffer, required=True),
