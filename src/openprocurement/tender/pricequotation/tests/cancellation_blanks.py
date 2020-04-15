@@ -88,6 +88,7 @@ def create_tender_cancellation_invalid(self):
 @mock.patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() + timedelta(days=1))
 @mock.patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() + timedelta(days=1))
 @mock.patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() + timedelta(days=1))
+@mock.patch("openprocurement.tender.pricequotation.views.cancellation.RELEASE_2020_04_19", get_now() + timedelta(days=1))
 def create_tender_cancellation(self):
     cancellation = dict(**test_cancellation)
     cancellation.update({
@@ -146,6 +147,7 @@ def create_tender_cancellation(self):
 @mock.patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() + timedelta(days=1))
 @mock.patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() + timedelta(days=1))
 @mock.patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() + timedelta(days=1))
+@mock.patch("openprocurement.tender.pricequotation.views.cancellation.RELEASE_2020_04_19", get_now() + timedelta(days=1))
 def patch_tender_cancellation(self):
     cancellation = dict(**test_cancellation)
     cancellation.update({
@@ -610,6 +612,7 @@ def patch_tender_cancellation_document(self):
             get_now() - timedelta(days=1))
 @mock.patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19",
             get_now() - timedelta(days=1))
+@mock.patch("openprocurement.tender.pricequotation.views.cancellation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def patch_tender_cancellation_2020_04_19(self):
     reasonType_choices = self.valid_reasonType_choices
 
@@ -753,6 +756,7 @@ def patch_tender_cancellation_2020_04_19(self):
             get_now() - timedelta(days=1))
 @mock.patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19",
             get_now() - timedelta(days=1))
+@mock.patch("openprocurement.tender.pricequotation.views.cancellation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def permission_cancellation_pending(self):
     reasonType_choices = self.valid_reasonType_choices
 
