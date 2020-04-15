@@ -214,6 +214,18 @@ def validate_award_complaint_post_data(request):
     return post
 
 
+def validate_cancellation_complaint_post_data(request):
+    update_logging_context(request, {"post_id": "__new__"})
+    validate_post_accreditation_level(request)
+    model = type(request.tender).cancellations.model_class.complaints.model_class.posts.model_class
+    post = validate_data(request, model)
+    upload_objects_documents(
+        request, request.validated["post"],
+        route_kwargs={"post_id": request.validated["post"].id}
+    )
+    return post
+
+
 def validate_qualification_complaint_post_data(request):
     update_logging_context(request, {"post_id": "__new__"})
     validate_post_accreditation_level(request)

@@ -33,7 +33,7 @@ from openprocurement.tender.core.models import (
     Award,
     Contract,
     Question,
-    BaseCancellation,
+    Cancellation as BaseCancellation,
     Feature,
     Lot as BaseLot,
     Complaint,

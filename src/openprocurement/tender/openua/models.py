@@ -40,7 +40,7 @@ from openprocurement.tender.core.models import (
     LotValue as BaseLotValue,
     Item as BaseItem,
     Contract as BaseContract,
-    Cancellation,
+    Cancellation as BaseCancellation,
     validate_parameters_uniq,
     ITender,
     PeriodStartEndRequired,
@@ -405,6 +405,83 @@ class Complaint(BaseComplaint):
             raise ValidationError(u"This field is required.")
 
 
+class CancellationComplaint(Complaint):
+    class Options:
+        _base_roles = Complaint.Options.roles
+        namespace = "Complaint"
+        roles = {
+            "create": whitelist("author", "title", "description", "relatedLot"),
+            "draft": _base_roles["draft"],
+            "bot": _base_roles["bot"],
+            "cancellation": _base_roles["cancellation"],
+            "satisfy": _base_roles["satisfy"],
+            "resolve": _base_roles["resolve"],
+            "action": _base_roles["action"],
+            # "pending": whitelist("decision", "status", "rejectReason", "rejectReasonDescription"),
+            "review": _base_roles["review"],
+            "embedded": _base_roles["embedded"],
+            "view": _base_roles["view"],
+        }
+
+    def get_role(self):
+        root = self.get_root()
+        request = root.request
+        data = request.json_body["data"]
+        auth_role = request.authenticated_role
+        status = data.get("status", self.status)
+
+        if auth_role == "Administrator":
+            role = auth_role
+        elif auth_role == "complaint_owner" and self.status != "mistaken" and status == "cancelled":
+            role = "cancellation"
+        elif auth_role == "complaint_owner" and self.status in ["pending", "accepted"] and status == "stopping":
+            role = "cancellation"
+        elif auth_role == "complaint_owner" and self.status == "draft":
+            role = "draft"
+        elif auth_role == "bots" and self.status == "draft":
+            role = "bot"
+        elif auth_role == "tender_owner" and self.status == "pending":
+            role = "action"
+        elif auth_role == "tender_owner" and self.status == "satisfied":
+            role = "resolve"
+        elif auth_role == "aboveThresholdReviewers" and self.status in ["pending", "accepted", "stopping"]:
+            role = "review"
+        else:
+            role = "invalid"
+        return role
+
+    def __acl__(self):
+        return [
+            (Allow, "g:bots", "edit_complaint"),
+            (Allow, "g:aboveThresholdReviewers", "edit_complaint"),
+            (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_complaint"),
+            (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_complaint_documents"),
+        ]
+
+    status = StringType(
+        choices=[
+            "draft",
+            "pending",
+            "accepted",
+            "invalid",
+            "resolved",
+            "declined",
+            "satisfied",
+            "stopped",
+            "mistaken",
+        ],
+        default="draft",
+    )
+    type = StringType(
+        choices=["claim", "complaint"], default="complaint",
+    )
+
+
+class Cancellation(BaseCancellation):
+    complaintPeriod = ModelType(Period)
+    complaints = ListType(ModelType(CancellationComplaint), default=list())
+
+
 class Award(BaseAward):
     class Options:
         roles = {
@@ -437,7 +514,10 @@ class Award(BaseAward):
 
 @implementer(IAboveThresholdUATender)
 class Tender(BaseTender):
-    """Data regarding tender process - publicly inviting prospective contractors to submit bids for evaluation and selecting a winner or winners."""
+    """
+    Data regarding tender process - publicly inviting
+    prospective contractors to submit bids for evaluation and selecting a winner or winners.
+    """
 
     class Options:
         namespace = "Tender"

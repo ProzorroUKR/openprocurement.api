@@ -28,15 +28,17 @@ from openprocurement.tender.core.models import (
     Document,
     BaseTender,
     ITender,
-    Cancellation as BaseCancellation,
     Contract as BaseContract,
     ProcuringEntity as BaseProcuringEntity,
 )
 
 from openprocurement.tender.core.utils import extend_next_check_by_complaint_period_ends
-from openprocurement.tender.openua.models import Complaint as BaseComplaint
-from openprocurement.tender.openua.models import Item
-from openprocurement.tender.openua.models import Tender as OpenUATender
+from openprocurement.tender.openua.models import (
+    Complaint as BaseComplaint,
+    Item,
+    Tender as OpenUATender,
+    Cancellation as BaseCancellation
+)
 
 
 class IReportingTender(ITender):

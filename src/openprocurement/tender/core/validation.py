@@ -707,23 +707,33 @@ def validate_operation_cancellation_when_exists_cancellation_lot(request):
     tender = request.validated["tender"]
     tender_created = get_first_revision_date(tender, default=get_now())
 
+    if tender_created < RELEASE_2020_04_19:
+        return
+
     if "data" in request.validated:
         cancellation = request.validated["data"]
     else:
         cancellation = request.validated["cancellation"]
 
-    if tender_created < RELEASE_2020_04_19 or cancellation.get("relatedLot"):
-        return
+    relatedLot = cancellation.get("relatedLot")
 
-    if (
-        cancellation.get("status") != "pending"
-        and any(i for i in tender.cancellations if i.status == "pending")
-    ):
-        raise_operation_error(
-            request,
-            "Can't {} cancellation for tender when exists active lot cancellation".format(
-                OPERATIONS.get(request.method))
-        )
+    error_msg = "Can't {} cancellation when exists active lot cancellation".format(
+        OPERATIONS.get(request.method))
+
+    if relatedLot:
+        if (
+            cancellation.get("status") != "pending"
+            and any(
+                i for i in tender.cancellations
+                if i.status == "pending" and i.get("relatedLot") == relatedLot)
+        ):
+            raise_operation_error(request, error_msg)
+    else:
+        if (
+            cancellation.get("status") != "pending"
+            and any(i for i in tender.cancellations if i.status == "pending")
+        ):
+            raise_operation_error(request, error_msg)
 
 
 def validate_create_cancellation_in_active_auction(request):

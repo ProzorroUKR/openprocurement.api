@@ -20,7 +20,7 @@ from openprocurement.tender.core.models import (
     TenderAuctionPeriod,
     PeriodEndRequired,
     Tender as BaseTender,
-    BaseCancellation,
+    Cancellation as BaseCancellation,
     validate_features_uniq,
 )
 

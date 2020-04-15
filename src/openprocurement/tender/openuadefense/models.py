@@ -14,8 +14,11 @@ from openprocurement.tender.core.models import (
     validate_lots_uniq,
     get_tender,
 )
-from openprocurement.tender.core.models import Cancellation as BaseCancellation
-from openprocurement.tender.openua.models import Tender as BaseTender, IAboveThresholdUATender
+from openprocurement.tender.openua.models import (
+    Tender as BaseTender,
+    Cancellation as BaseCancellation,
+    IAboveThresholdUATender
+)
 from openprocurement.tender.core.utils import (
     calc_auction_end_time,
 )

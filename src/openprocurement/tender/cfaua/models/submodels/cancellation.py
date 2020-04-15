@@ -1,9 +1,7 @@
 from openprocurement.api.models import ListType
 from openprocurement.api.roles import RolesFromCsv
-from openprocurement.tender.core.models import (
-    Cancellation as BaseCancellation,
-    EUDocument,
-)
+from openprocurement.tender.core.models import EUDocument
+from openprocurement.tender.openua.models import Cancellation as BaseCancellation
 
 from schematics.types.compound import ModelType
 
