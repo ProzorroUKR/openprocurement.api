@@ -19,7 +19,6 @@ from openprocurement.api.models import Value as BaseValue
 from openprocurement.api.models import Unit as BaseUnit
 from openprocurement.api.validation import validate_cpv_group, validate_items_uniq, validate_classification_id
 from openprocurement.tender.core.models import (
-    view_bid_role,
     embedded_lot_role,
     default_lot_role,
     validate_lots_uniq,
@@ -104,8 +103,7 @@ class Item(BaseItem):
 
 
 class Complaint(BaseComplaint):
-    class Options:
-        roles = {"active": view_bid_role}
+    pass
 
 
 class Contract(BaseContract):

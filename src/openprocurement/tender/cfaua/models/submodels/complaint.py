@@ -41,17 +41,6 @@ class Complaint(BaseComplaint):
         _embedded = _open_view - whitelist('bid_id')  # "-bid_id" looks like a typo in the original csv
         roles = {
             "view_claim": _view_claim,
-            "active.enquiries": _open_view,
-            "active.tendering": _open_view,
-            "active.pre-qualification": _open_view,
-            "active.pre-qualification.stand-still": _open_view,
-            "active.auction": _open_view,
-            "active.qualification": _open_view,
-            "active.qualification.stand-still": _open_view,
-            "active.awarded": _open_view,
-            "complete": _open_view,
-            "unsuccessful": _open_view,
-            "cancelled": _open_view,
             "embedded": _embedded,
             "view": _embedded,
             "default": _open_view + whitelist('owner', 'owner_token'),

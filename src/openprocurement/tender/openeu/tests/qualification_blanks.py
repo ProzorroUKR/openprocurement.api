@@ -1223,6 +1223,9 @@ def bot_patch_tender_qualification_complaint(self):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["data"]["status"], "pending")
 
+    response = self.app.get("/tenders/{}".format(self.tender_id, self.tender_token))
+    self.assertNotIn("owner_token", response.json["data"]["qualifications"][0]["complaints"][0])
+
 
 @patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", get_now() + timedelta(days=1))
 def bot_patch_tender_qualification_complaint_forbidden(self):

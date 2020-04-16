@@ -625,16 +625,26 @@ class Complaint(Model):
             "review": whitelist("decision", "status"),
             "view": view_bid_role,
             "view_claim": (blacklist("author") + view_bid_role),
-            "active.enquiries": view_bid_role,
-            "active.tendering": view_bid_role,
-            "active.auction": view_bid_role,
-            "active.qualification": view_bid_role,
-            "active.awarded": view_bid_role,
-            "complete": view_bid_role,
-            "unsuccessful": view_bid_role,
-            "cancelled": view_bid_role,
             "Administrator": whitelist("value"),
         }
+        for _tender_status in (
+            "active.enquiries",
+            "active.tendering",
+            "active.auction",
+            "active.qualification",
+            "active.awarded",
+            "complete",
+            "unsuccessful",
+            "cancelled",
+            "active.pre-qualification",  # openeu
+            "active.pre-qualification.stand-still",
+            "active.qualification.stand-still",  # cfaua
+            "active.stage2.pending",  # competitive dialogue
+            "active.stage2.waiting",
+            "draft.stage2",
+            "active",  # limited
+        ):  # if there is no role, all the fields including(tokens) will be shown if context is the tender
+            roles[_tender_status] = view_bid_role
 
     # system
     id = MD5Type(required=True, default=lambda: uuid4().hex)
