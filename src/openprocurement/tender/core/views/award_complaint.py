@@ -204,11 +204,12 @@ class BaseTenderAwardComplaintResource(BaseTenderComplaintResource):
         if not is_complaint_period:
             raise_operation_error(self.request, "Can't update draft complaint not in complaintPeriod")
 
+        new_rules = get_first_revision_date(tender, get_now()) > RELEASE_2020_04_19
         new_status = data.get("status", self.context.status)
         if new_status == self.context.status:
             apply_patch(self.request, save=False, src=self.context.serialize())
         elif (
-            get_first_revision_date(tender, get_now()) > RELEASE_2020_04_19
+            new_rules
             and self.context.type == "complaint"
             and new_status == "mistaken"
         ):
@@ -219,7 +220,7 @@ class BaseTenderAwardComplaintResource(BaseTenderComplaintResource):
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateSubmitted = get_now()
 
-        elif new_status == "pending":
+        elif new_status == "pending" and not new_rules:
             self.validate_posting_complaint()
             validate_complaint_type_change(self.request)
             apply_patch(self.request, save=False, src=self.context.serialize())

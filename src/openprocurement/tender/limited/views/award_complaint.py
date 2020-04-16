@@ -92,6 +92,7 @@ class TenderNegotiationAwardComplaintResource(BaseTenderAwardComplaintResource):
         new_status = data.get("status", status)
 
         tender = self.request.validated["tender"]
+        new_rules = get_first_revision_date(tender) > RELEASE_2020_04_19
 
         if status in ["draft", "claim", "answered"] and new_status == "cancelled":
             # claim ? There is no way to post claim, so this must be a backward-compatibility option
@@ -106,13 +107,13 @@ class TenderNegotiationAwardComplaintResource(BaseTenderAwardComplaintResource):
             if new_status == status:
                 apply_patch(self.request, save=False, src=self.context.serialize())
             elif (
-                get_first_revision_date(tender) > RELEASE_2020_04_19
+                new_rules
                 and self.context.type == "complaint"
                 and new_status == "mistaken"
             ):
                 self.context.rejectReason = "cancelledByComplainant"
                 apply_patch(self.request, save=False, src=self.context.serialize())
-            elif new_status == "pending":
+            elif new_status == "pending" and not new_rules:
                 apply_patch(self.request, save=False, src=self.context.serialize())
                 self.context.type = "complaint"
                 self.context.dateSubmitted = get_now()

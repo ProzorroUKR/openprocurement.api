@@ -46,10 +46,12 @@ def create_complaint_post_status_forbidden(self):
     )
 
 
+@mock.patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 @mock.patch("openprocurement.tender.openua.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def create_complaint_post_review_date_forbidden(self):
     # make complaint status pending
-    response = self.patch_complaint({"status": "pending"}, self.complaint_owner_token)
+    with change_auth(self.app, ("Basic", ("bot", ""))):
+        response = self.patch_complaint({"status": "pending"}, self.complaint_owner_token)
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending")
 
@@ -101,10 +103,12 @@ def create_complaint_post_claim_forbidden(self):
     )
 
 
+@mock.patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 @mock.patch("openprocurement.tender.openua.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def create_complaint_post_complaint_owner(self):
     # make complaint status pending
-    response = self.patch_complaint({"status": "pending"}, self.complaint_owner_token)
+    with change_auth(self.app, ("Basic", ("bot", ""))):
+        response = self.patch_complaint({"status": "pending"}, self.complaint_owner_token)
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending")
 
@@ -133,10 +137,12 @@ def create_complaint_post_complaint_owner(self):
     self.assertEqual(response.json["data"]["author"], "complaint_owner")
 
 
+@mock.patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 @mock.patch("openprocurement.tender.openua.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def create_complaint_post_tender_owner(self):
     # make complaint status pending
-    response = self.patch_complaint({"status": "pending"}, self.complaint_owner_token)
+    with change_auth(self.app, ("Basic", ("bot", ""))):
+        response = self.patch_complaint({"status": "pending"}, self.complaint_owner_token)
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending")
 
@@ -165,10 +171,12 @@ def create_complaint_post_tender_owner(self):
     self.assertEqual(response.json["data"]["author"], "tender_owner")
 
 
+@mock.patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 @mock.patch("openprocurement.tender.openua.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def create_complaint_post_validate_recipient(self):
     # make complaint status pending
-    response = self.patch_complaint({"status": "pending"}, self.complaint_owner_token)
+    with change_auth(self.app, ("Basic", ("bot", ""))):
+        response = self.patch_complaint({"status": "pending"}, self.complaint_owner_token)
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending")
 
@@ -210,10 +218,12 @@ def create_complaint_post_validate_recipient(self):
     self.assertIn("Value must be one of ['aboveThresholdReviewers'].", str(response.json["errors"]))
 
 
+@mock.patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 @mock.patch("openprocurement.tender.openua.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def create_complaint_post_validate_related_post(self):
     # make complaint status pending
-    response = self.patch_complaint({"status": "pending"}, self.complaint_owner_token)
+    with change_auth(self.app, ("Basic", ("bot", ""))):
+        response = self.patch_complaint({"status": "pending"}, self.complaint_owner_token)
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending")
 
@@ -302,10 +312,12 @@ def create_complaint_post_validate_related_post(self):
     self.assertIn("relatedPost must be unique.", str(response.json["errors"]))
 
 
+@mock.patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 @mock.patch("openprocurement.tender.openua.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def patch_complaint_post(self):
     # make complaint status pending
-    response = self.patch_complaint({"status": "pending"}, self.complaint_owner_token)
+    with change_auth(self.app, ("Basic", ("bot", ""))):
+        response = self.patch_complaint({"status": "pending"}, self.complaint_owner_token)
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending")
 
@@ -331,10 +343,12 @@ def patch_complaint_post(self):
     self.assertEqual(response.content_type, "text/plain")
 
 
+@mock.patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 @mock.patch("openprocurement.tender.openua.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def get_complaint_post(self):
     # make complaint status pending
-    response = self.patch_complaint({"status": "pending"}, self.complaint_owner_token)
+    with change_auth(self.app, ("Basic", ("bot", ""))):
+        response = self.patch_complaint({"status": "pending"}, self.complaint_owner_token)
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending")
 
@@ -376,10 +390,12 @@ def get_complaint_post(self):
     )
 
 
+@mock.patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 @mock.patch("openprocurement.tender.openua.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def get_complaint_posts(self):
     # make complaint status pending
-    response = self.patch_complaint({"status": "pending"}, self.complaint_owner_token)
+    with change_auth(self.app, ("Basic", ("bot", ""))):
+        response = self.patch_complaint({"status": "pending"}, self.complaint_owner_token)
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending")
 
@@ -404,10 +420,12 @@ def get_complaint_posts(self):
     )
 
 
+@mock.patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 @mock.patch("openprocurement.tender.openua.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def get_tender_complaint_post_document_json(self):
     # make complaint status pending
-    response = self.patch_complaint({"status": "pending"}, self.complaint_owner_token)
+    with change_auth(self.app, ("Basic", ("bot", ""))):
+        response = self.patch_complaint({"status": "pending"}, self.complaint_owner_token)
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending")
 
@@ -536,10 +554,12 @@ def get_tender_complaint_post_document_json(self):
     self.assertEqual(dateModified2, documents[-1]["dateModified"])
 
 
+@mock.patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 @mock.patch("openprocurement.tender.openua.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def create_tender_complaint_post_document_json(self):
     # make complaint status pending
-    response = self.patch_complaint({"status": "pending"}, self.complaint_owner_token)
+    with change_auth(self.app, ("Basic", ("bot", ""))):
+        response = self.patch_complaint({"status": "pending"}, self.complaint_owner_token)
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending")
 
@@ -648,10 +668,12 @@ def create_tender_complaint_post_document_json(self):
     self.assertEqual(response.content_type, "application/json")
 
 
+@mock.patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 @mock.patch("openprocurement.tender.openua.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def create_tender_complaint_post_by_complaint_owner_document_json(self):
     # make complaint status pending
-    response = self.patch_complaint({"status": "pending"}, self.complaint_owner_token)
+    with change_auth(self.app, ("Basic", ("bot", ""))):
+        response = self.patch_complaint({"status": "pending"}, self.complaint_owner_token)
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending")
 
@@ -695,10 +717,12 @@ def create_tender_complaint_post_by_complaint_owner_document_json(self):
     self.assertEqual(response.content_type, "application/json")
 
 
+@mock.patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 @mock.patch("openprocurement.tender.openua.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def create_tender_complaint_post_by_tender_owner_document_json(self):
     # make complaint status pending
-    response = self.patch_complaint({"status": "pending"}, self.complaint_owner_token)
+    with change_auth(self.app, ("Basic", ("bot", ""))):
+        response = self.patch_complaint({"status": "pending"}, self.complaint_owner_token)
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending")
 
@@ -742,10 +766,12 @@ def create_tender_complaint_post_by_tender_owner_document_json(self):
     self.assertEqual(response.content_type, "application/json")
 
 
+@mock.patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 @mock.patch("openprocurement.tender.openua.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def put_tender_complaint_document_json(self):
     # make complaint status pending
-    response = self.patch_complaint({"status": "pending"}, self.complaint_owner_token)
+    with change_auth(self.app, ("Basic", ("bot", ""))):
+        response = self.patch_complaint({"status": "pending"}, self.complaint_owner_token)
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending")
 

@@ -2,6 +2,7 @@
 from iso8601 import parse_date
 from datetime import timedelta
 
+from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import (
     get_now,
     context_unpack,
@@ -9,6 +10,7 @@ from openprocurement.api.utils import (
     set_ownership,
     APIResource,
     raise_operation_error,
+    get_first_revision_date,
 )
 from openprocurement.tender.core.validation import (
     validate_complaint_data,
@@ -139,6 +141,7 @@ class TenderCancellationComplaintResource(ComplaintBotPatchMixin, ComplaintAdmin
             )
 
     def patch_draft_as_complaint_owner(self, data):
+        tender = self.request.validated["tender"]
         context = self.context
         status = context.status
         new_status = data.get("status", self.context.status)
@@ -147,7 +150,7 @@ class TenderCancellationComplaintResource(ComplaintBotPatchMixin, ComplaintAdmin
         elif status == "draft" and new_status == "mistaken":
             context.rejectReason = "cancelledByComplainant"
             apply_patch(self.request, save=False, src=context.serialize())
-        elif new_status == "pending":
+        elif new_status == "pending" and get_first_revision_date(tender, get_now()) < RELEASE_2020_04_19:
             apply_patch(self.request, save=False, src=context.serialize())
             context.dateSubmitted = get_now()
         else:
