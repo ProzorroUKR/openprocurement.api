@@ -1,15 +1,21 @@
 # -*- coding: utf-8 -*-
-from logging import getLogger
+from types import NoneType
 
 from barbecue import chef
-from openprocurement.api.constants import RELEASE_2020_04_19, TZ
-from openprocurement.api.utils import context_unpack, get_now
+from logging import getLogger
+from openprocurement.api.constants import TZ, RELEASE_2020_04_19
+from openprocurement.api.utils import get_now, context_unpack
+from openprocurement.tender.core.utils import (
+    calculate_tender_business_date,
+    cleanup_bids_for_cancelled_lots,
+    remove_draft_bids,
+    cancel_tender
+)
 from openprocurement.tender.core.constants import COMPLAINT_STAND_STILL_TIME
-from openprocurement.tender.core.utils import (calculate_tender_business_date, cancel_tender, check_cancellation_status,
-                                               cleanup_bids_for_cancelled_lots, get_first_revision_date,
-                                               remove_draft_bids)
-from openprocurement.tender.pricequotation.interfaces import IRequirement
+from openprocurement.tender.core.utils import get_first_revision_date
+from openprocurement.tender.pricequotation.interfaces import IRequirementResponse
 from zope.component import queryUtility
+
 
 LOGGER = getLogger("openprocurement.tender.pricequotation")
 
@@ -142,3 +148,17 @@ def add_next_award(request):
 
 def get_requirement_class(instance, data):
     return queryUtility(IRequirement, data['dataType'])
+
+
+def get_requirement_response_class(instance, data):
+    data_types = {
+        bool: "boolean",
+        float: "number",
+        int: "integer",
+        str: "string",
+        unicode: "string",
+        NoneType: "none"
+    }
+
+    value_type = type(data.get("value"))
+    return queryUtility(IRequirementResponse, data_types.get(value_type, "none"))

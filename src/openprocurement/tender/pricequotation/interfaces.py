@@ -8,3 +8,7 @@ class IPriceQuotationTender(ITender):
 
 class IRequirement(Interface):
     """ Marker for Requirement"""
+
+
+class IRequirementResponse(Interface):
+    """ Marker for RequirementResponse"""

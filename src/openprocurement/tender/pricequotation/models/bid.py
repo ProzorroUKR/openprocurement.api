@@ -1,7 +1,9 @@
 from uuid import uuid4
+
+from openprocurement.tender.pricequotation.utils import get_requirement_response_class
 from pyramid.security import Allow
-from schematics.types import MD5Type, StringType, BaseType, ValidationError
-from schematics.types.compound import ModelType
+from schematics.types import MD5Type, StringType, BooleanType, IntType, DecimalType
+from schematics.types.compound import ModelType, PolyModelType
 from schematics.transforms import whitelist
 
 from openprocurement.api.utils import get_now
@@ -31,14 +33,25 @@ class RequirementReference(Model):
     title = StringType()
 
 
-class RequirementResponse(Model):
+class BaseRequirementResponse(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
-    value = BaseType()
     requirement = ModelType(RequirementReference, required=True)
 
-    def validate_value(self, data, value):
-        if not type(value) in (str, unicode, int, float, bool, type(None)):
-            raise ValidationError(u"Value type should be one of [string, integer, number, boolean, null].")
+
+class RequirementResponseString(BaseRequirementResponse):
+    value = StringType()
+
+
+class RequirementResponseInt(BaseRequirementResponse):
+    value = IntType()
+
+
+class RequirementResponseNumber(BaseRequirementResponse):
+    value = DecimalType()
+
+
+class RequirementResponseBoolean(BaseRequirementResponse):
+    value = BooleanType()
 
 
 class Bid(Model):
@@ -81,7 +94,18 @@ class Bid(Model):
     owner_token = StringType()
     transfer_token = StringType()
     owner = StringType()
-    requirementResponses = ListType(ModelType(RequirementResponse), default=list())
+    requirementResponses = ListType(
+        PolyModelType(
+            (
+                BaseRequirementResponse,
+                RequirementResponseInt,
+                RequirementResponseNumber,
+                RequirementResponseString,
+                RequirementResponseBoolean,
+            ),
+            claim_function=get_requirement_response_class),
+        default=list()
+    )
     # TODO: 
     # offers = ListType(
     #     ModelType(BidOffer, required=True),

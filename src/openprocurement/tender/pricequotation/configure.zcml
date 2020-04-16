@@ -26,6 +26,31 @@
         name="boolean"
         component =".models.requirement.RequirementBoolean"
         provides=".interfaces.IRequirement"
+	/>
+    <utility
+        name="string"
+        component=".models.bid.RequirementResponseString"
+        provides=".interfaces.IRequirementResponse"
+        />
+    <utility
+        name="number"
+        component=".models.bid.RequirementResponseNumber"
+        provides=".interfaces.IRequirementResponse"
+        />
+    <utility
+        name="integer"
+        component =".models.bid.RequirementResponseInt"
+        provides=".interfaces.IRequirementResponse"
+        />
+    <utility
+        name="boolean"
+        component =".models.bid.RequirementResponseBoolean"
+        provides=".interfaces.IRequirementResponse"
+        />
+    <utility
+        name="none"
+        component =".models.bid.BaseRequirementResponse"
+        provides=".interfaces.IRequirementResponse"
         />
 
 </configure>
