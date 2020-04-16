@@ -107,11 +107,6 @@ def check_status(request):
     tender = request.validated["tender"]
     now = get_now()
 
-    excluded_procedures = ["belowThreshold", "closeFrameworkAgreementSelectionUA"]
-
-    if tender.procurementMethodType not in excluded_procedures:
-        check_cancellation_status(request)
-
     for complaint in tender.complaints:
         check_complaint_status(request, complaint, now)
     for award in tender.awards:

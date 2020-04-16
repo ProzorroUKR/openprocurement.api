@@ -5,7 +5,10 @@ from datetime import timedelta
 
 from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_cancellation
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_cancellation,
+    test_organization,
+)
 
 from openprocurement.tender.belowthreshold.tests.cancellation import (
     TenderCancellationDocumentResourceTestMixin,
@@ -82,6 +85,23 @@ class TenderNegotiationCancellationResourceTest(
     TenderCancellationResourceNewReleaseTestMixin,
     BaseTenderContentWebTest,
 ):
+    def setUp(self):
+        super(TenderNegotiationCancellationResourceTest, self).setUp()
+        response = self.app.post_json(
+            "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": {"suppliers": [test_organization], "qualified": True, "status": "active"}}
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        award = response.json["data"]
+        self.award_id = award["id"]
+
+        self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+            {"data": {"status": "active"}}
+        )
+        self.set_all_awards_complaint_period_end()
+
     initial_data = test_tender_negotiation_data
     valid_reasonType_choices = ["noObjectiveness", "unFixable", "noDemand", "expensesCut", "dateViolation"]
 
@@ -93,11 +113,31 @@ class TenderNegotiationQuickCancellationResourceTest(
     TenderNegotiationCancellationResourceTest,
     TenderCancellationResourceNewReleaseTestMixin
 ):
+    def setUp(self):
+        super(TenderNegotiationCancellationResourceTest, self).setUp()
+        response = self.app.post_json(
+            "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": {"suppliers": [test_organization], "qualified": True, "status": "active"}}
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        award = response.json["data"]
+        self.award_id = award["id"]
+
+        self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+            {"data": {"status": "active"}}
+        )
+        self.set_all_awards_complaint_period_end()
+
     initial_data = test_tender_negotiation_quick_data
     valid_reasonType_choices = ["noObjectiveness", "unFixable", "noDemand", "expensesCut", "dateViolation"]
 
 
-class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest, TenderCancellationDocumentResourceTestMixin):
+class TenderCancellationDocumentResourceTest(
+    BaseTenderContentWebTest,
+    TenderCancellationDocumentResourceTestMixin
+):
     initial_data = test_tender_data
 
     def setUp(self):
@@ -126,7 +166,20 @@ class TenderNegotiationQuickCancellationComplaintResourceTest(
     @patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
     def setUp(self):
         super(TenderNegotiationQuickCancellationComplaintResourceTest, self).setUp()
-        # self.set_complaint_period_end()
+        response = self.app.post_json(
+            "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": {"suppliers": [test_organization], "qualified": True, "status": "active"}}
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        award = response.json["data"]
+        self.award_id = award["id"]
+
+        self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+            {"data": {"status": "active"}}
+        )
+        self.set_all_awards_complaint_period_end()
 
         # Create cancellation
         cancellation = dict(**test_cancellation)
@@ -151,7 +204,22 @@ class TenderNegotiationCancellationComplaintResourceTest(
     @patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
     def setUp(self):
         super(TenderNegotiationCancellationComplaintResourceTest, self).setUp()
+        response = self.app.post_json(
+            "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": {"suppliers": [test_organization], "qualified": True, "status": "active"}}
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        award = response.json["data"]
+        self.award_id = award["id"]
 
+        self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+            {"data": {"status": "active"}}
+        )
+        self.set_all_awards_complaint_period_end()
+
+        # create cancellation
         cancellation = dict(**test_cancellation)
         cancellation.update({
             "reasonType": "noDemand"

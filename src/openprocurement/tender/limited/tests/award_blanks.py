@@ -1538,7 +1538,7 @@ def create_award_on_cancel_lot(self):
 
         response = self.app.patch_json(
             "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation_id, self.tender_token),
-            {"data": {"status": "pending"}},
+            {"data": {"status": "active"}},
         )
     else:
         self.assertEqual(response.json["data"]["status"], "pending")
@@ -1558,12 +1558,14 @@ def create_award_on_cancel_lot(self):
     if RELEASE_2020_04_19 < get_now():
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(
-            response.json["errors"][0]["description"], "Can't add award with lot that have active cancellation"
+            response.json["errors"][0]["description"],
+            "Can't create award in current (cancelled) tender status",
         )
     else:
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(
-            response.json["errors"][0]["description"], "Can't add award while cancellation for corresponding lot exists"
+            response.json["errors"][0]["description"],
+            "Can't add award while cancellation for corresponding lot exists",
         )
 
 
@@ -1612,6 +1614,7 @@ def patch_award_on_cancel_lot(self):
     cancellation_id = response.json["data"]["id"]
 
     if RELEASE_2020_04_19 < get_now():
+
         response = self.app.post(
             "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
                 self.tender_id, cancellation_id, self.tender_token
@@ -1622,7 +1625,7 @@ def patch_award_on_cancel_lot(self):
 
         response = self.app.patch_json(
             "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation_id, self.tender_token),
-            {"data": {"status": "pending"}},
+            {"data": {"status": "active"}},
         )
 
     self.app.get("/tenders/{}/cancellations".format(self.tender_id))
@@ -1637,11 +1640,12 @@ def patch_award_on_cancel_lot(self):
     if RELEASE_2020_04_19 < get_now():
         self.assertEqual(
             response.json["errors"][0]["description"],
-            "Can't update award with lot that have active cancellation"
+            "Can't update award in current (cancelled) tender status",
         )
     else:
         self.assertEqual(
-            response.json["errors"][0]["description"], "Can't update award while cancellation for corresponding lot exists"
+            response.json["errors"][0]["description"],
+            "Can't update award while cancellation for corresponding lot exists",
         )
 
 

@@ -101,6 +101,22 @@ class TenderNegotiationCancellationComplaintPostResourceTest(
     @patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", date_after_2020_04_19)
     def setUp(self):
         super(TenderNegotiationCancellationComplaintPostResourceTest, self).setUp()
+        # Create award
+
+        response = self.app.post_json(
+            "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": {"suppliers": [test_organization], "qualified": True, "status": "active"}}
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        award = response.json["data"]
+        self.award_id = award["id"]
+
+        self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+            {"data": {"status": "active"}}
+        )
+        self.set_all_awards_complaint_period_end()
 
         # Create cancellation
         cancellation = dict(**test_cancellation)

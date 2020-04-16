@@ -1001,7 +1001,7 @@ def patch_tender_cancellation_2020_04_19(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Cancellation can't be updated in current(unsuccessful) status"
+        u"Can't update cancellation in current (unsuccessful) status"
     )
 
     response = self.app.patch_json(
@@ -1013,7 +1013,7 @@ def patch_tender_cancellation_2020_04_19(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"], [{
-            u"description": u"Cancellation can't be updated in current(unsuccessful) status",
+            u"description": u"Can't update cancellation in current (unsuccessful) status",
             u"location": u"body",
             u"name": u"data",
         }]

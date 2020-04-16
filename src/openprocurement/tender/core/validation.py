@@ -348,30 +348,6 @@ def validate_patch_cancellation_data(request):
 
 # Cancellation
 
-
-def validate_edit_permission(request):
-    tender = request.validated["tender"]
-    cancellation = request.context
-
-    if get_first_revision_date(tender, default=get_now()) < RELEASE_2020_04_19:
-        return
-
-    if (
-        cancellation.status != "pending"
-        and any([i.status == "pending" and not i.relatedLot for i in tender.cancellations])
-    ):
-        raise_operation_error(request, "Forbidden")
-
-    related_lot = cancellation.relatedLot
-
-    if (
-        related_lot
-        and cancellation.status != "pending"
-        and any([i.status == "pending" for i in tender.cancellations if i.relatedLot and i.relatedLot == related_lot])
-    ):
-        raise_operation_error(request, "Forbidden")
-
-
 def validate_cancellation_operation_document(request):
     tender = request.validated["tender"]
 
@@ -379,30 +355,6 @@ def validate_cancellation_operation_document(request):
         return
 
     cancellation = request.validated["cancellation"]
-    if not cancellation.relatedLot:
-
-        if (
-            cancellation.status != "pending"
-            and [i for i in tender.cancellations if i.status == "pending"]
-        ):
-            raise_operation_error(
-                request,
-                "Document can't be {} until exists "
-                "cancellation with pending status".format(OPERATIONS.get(request.method))
-            )
-
-    else:
-        relatedLot = cancellation.relatedLot
-
-        if (
-            cancellation.status != "pending"
-            and [i for i in tender.cancellations if i.status == "pending" and i.relatedLot == relatedLot]
-        ):
-            raise_operation_error(
-                request,
-                "Document can't be {} until in lot exists "
-                "cancellation in 'pending' status".format(OPERATIONS.get(request.method))
-            )
 
     if not (
         cancellation.status == "draft"
@@ -416,84 +368,99 @@ def validate_cancellation_operation_document(request):
         )
 
 
-def validate_cancellation_statuses(request):
+def validate_cancellation_status_with_complaints(request):
     cancellation = request.context
 
     if get_first_revision_date(request.tender, default=get_now()) < RELEASE_2020_04_19:
         return
 
-    status = cancellation.status
+    curr_status = cancellation.status
     data = request.validated["data"]
-    new_status = data["status"]
-    error_msg = u"Cancellation can't be updated from %s to %s status"
+    new_status = data.get("status")
 
-    if status == "active" or status == "unsuccessful":
+    status_map = {
+        "draft": ("pending", "unsuccessful", "draft"),
+        "pending": ("unsuccessful", "pending"),
+    }
+
+    available_statuses = status_map.get(curr_status)
+    error_msg = u"Cancellation can't be updated from {} to {} status"
+
+    if not available_statuses:
         raise_operation_error(
             request,
-            "Can't update cancellation in current ({}) status".format(status))
+            u"Can't update cancellation in current ({}) status".format(curr_status)
+        )
 
-    elif status == "draft":
-        if new_status not in ["pending", "unsuccessful", "draft"]:
-            raise_operation_error(
-                request,
-                error_msg % (cancellation.status, data["status"]),
-                status=422,
-            )
+    if new_status not in available_statuses:
+        raise_operation_error(
+            request,
+            error_msg.format(curr_status, new_status),
+            status=422
+        )
 
-        if (
-            new_status == "pending"
-            and (
-                not cancellation.reason
-                or not cancellation.cancellationOf
-                or not cancellation.documents
-            )
-        ):
-            raise_operation_error(
-                request,
-                u"Fields reason, cancellationOf and documents must be filled for switch cancellation to pending status",
-                status=422,
-            )
+    if (
+        new_status == "pending"
+        and (
+            not cancellation.reason
+            or not cancellation.cancellationOf
+            or not cancellation.documents
+        )
+    ):
+        raise_operation_error(
+            request,
+            u"Fields reason, cancellationOf and documents must be filled for switch cancellation to pending status",
+            status=422,
+        )
 
-    elif status == "pending":
-        end_date = cancellation.complaintPeriod.endDate
-        if (
-            get_now() < end_date
-            and new_status not in ["pending", "unsuccessful"]
-        ):
-            raise_operation_error(
-                request,
-                error_msg % (cancellation.status, data["status"]),
-                status=422,
-            )
+    if (
+        new_status == "unsuccessful"
+        and not any([i.status == "satisfied" for i in cancellation.complaints])
+    ):
+        raise_operation_error(
+            request,
+            error_msg.format(curr_status, new_status),
+            status=422
+        )
 
-        if new_status not in ["pending", "active", "unsuccessful"]:
-            raise_operation_error(
-                request,
-                error_msg % (cancellation.status, data["status"]),
-                status=422,
-            )
 
-        if (
-            new_status == "unsuccessful"
-            and not any([i.status == "satisfied" for i in cancellation.complaints])
-        ):
-            raise_operation_error(
-                request,
-                error_msg % (cancellation.status, data["status"]),
-                status=422,
-            )
+def validate_cancellation_status_without_complaints(request):
+    cancellation = request.context
 
-        deactive_statuses = ["invalid", "declined", "cancelled"]
+    if get_first_revision_date(request.tender, default=get_now()) < RELEASE_2020_04_19:
+        return
+    curr_status = cancellation.status
+    new_status = request.validated["data"].get("status")
 
-        if (
-            new_status == "active"
-            and any(i.status not in deactive_statuses for i in cancellation.complaints)
-        ):
+    status_map = {"draft": ("active", "unsuccessful", "draft")}
+    available_statuses = status_map.get(curr_status)
 
-            raise_operation_error(
-                request,
-                "Can't set status active when cancellation have active complaint"
-            )
+    if not available_statuses:
+        raise_operation_error(
+            request,
+            u"Can't update cancellation in current ({}) status".format(curr_status)
+        )
+
+    if new_status not in available_statuses:
+        raise_operation_error(
+            request,
+            u"Cancellation can't be updated from %s to %s status" % (curr_status, new_status),
+            status=422,
+        )
+
+    if (
+        new_status == "active"
+        and (
+            not cancellation.reason
+            or not cancellation.cancellationOf
+            or not cancellation.documents
+        )
+    ):
+        raise_operation_error(
+            request,
+            u"Fields reason, cancellationOf and documents must be filled for switch cancellation to active status",
+            status=422,
+        )
 
 
 def validate_operation_cancellation_in_complaint_period(request):
@@ -539,28 +506,6 @@ def validate_operation_cancellation_in_complaint_period(request):
                 and i.complaintPeriod.startDate < get_now() < i.complaintPeriod.endDate
         ):
             raise_operation_error(request, msg)
-
-
-def validate_cancellation_statuses_without_complaints(request):
-    cancellation = request.context
-
-    if get_first_revision_date(request.tender, default=get_now()) < RELEASE_2020_04_19:
-        return
-
-    data = request.validated["data"]
-
-    if data["status"] == "active" and \
-            (not cancellation.reason or not cancellation.cancellationOf or not cancellation.documents):
-        raise_operation_error(
-            request,
-            u"Fields reason, cancellationOf and documents must be filled for switch cancellation to active status",
-            status=422)
-
-    if cancellation.status in ["active", "unsuccessful"]:
-        raise_operation_error(
-            request,
-            u"Cancellation can't be updated in current({}) status".format(cancellation.status),
-        )
 
 
 # Cancellation complaint
@@ -703,37 +648,33 @@ def validate_cancellation_of_active_lot(request):
         raise_operation_error(request, "Can perform cancellation only in active lot status")
 
 
-def validate_operation_cancellation_when_exists_cancellation_lot(request):
+def validate_operation_cancellation_permission(request):
+
     tender = request.validated["tender"]
     tender_created = get_first_revision_date(tender, default=get_now())
 
     if tender_created < RELEASE_2020_04_19:
         return
 
-    if "data" in request.validated:
-        cancellation = request.validated["data"]
-    else:
+    if "cancellation" in request.validated:
         cancellation = request.validated["cancellation"]
+    else:
+        cancellation = request.validated["data"]
 
-    relatedLot = cancellation.get("relatedLot")
-
-    error_msg = "Can't {} cancellation when exists active lot cancellation".format(
-        OPERATIONS.get(request.method))
-
-    if relatedLot:
+    if cancellation.get("relatedLot"):
+        relatedLot = cancellation.get("relatedLot")
         if (
             cancellation.get("status") != "pending"
-            and any(
-                i for i in tender.cancellations
-                if i.status == "pending" and i.get("relatedLot") == relatedLot)
+            and any(i for i in tender.cancellations if i.status == "pending" and i.get("relatedLot") == relatedLot)
         ):
-            raise_operation_error(request, error_msg)
+            raise_operation_error(request, "Forbidden")
     else:
+
         if (
             cancellation.get("status") != "pending"
             and any(i for i in tender.cancellations if i.status == "pending")
         ):
-            raise_operation_error(request, error_msg)
+            raise_operation_error(request, "Forbidden")
 
 
 def validate_create_cancellation_in_active_auction(request):
