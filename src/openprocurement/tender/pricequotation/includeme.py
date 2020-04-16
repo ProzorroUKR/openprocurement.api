@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+import os
+import openprocurement.tender.pricequotation
+
 from logging import getLogger
 from pyramid.interfaces import IRequest
 from openprocurement.api.interfaces import IContentConfigurator
@@ -8,6 +11,7 @@ from openprocurement.tender.pricequotation.models.tender import\
     PriceQuotationTender
 from openprocurement.tender.pricequotation.adapters import\
     PQTenderConfigurator
+from zope.configuration.xmlconfig import file as ZcmlFile
 
 LOGGER = getLogger("openprocurement.tender.pricequotation")
 
@@ -21,4 +25,9 @@ def includeme(config):
         PQTenderConfigurator,
         (IPriceQuotationTender, IRequest),
         IContentConfigurator
+    )
+
+    ZcmlFile(
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), 'configure.zcml'),
+        package=openprocurement.tender.pricequotation
     )

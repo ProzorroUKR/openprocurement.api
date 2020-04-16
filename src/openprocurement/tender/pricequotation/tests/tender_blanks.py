@@ -1653,11 +1653,13 @@ def patch_tender_by_pq_bot(self):
     items = deepcopy(tender["items"])
     items[0]["classification"] = test_short_profile["classification"]
     items[0]["unit"] = test_short_profile["unit"]
+    items[0]["value"] = test_short_profile["value"]
     data = {
         "data": {
             "status": "active.tendering",
             "items": items,
-            "shortlistedFirms": test_shortlisted_firms
+            "shortlistedFirms": test_shortlisted_firms,
+            "criteria": test_short_profile["criteria"]
         }
     }
     with change_auth(self.app, ("Basic", ("pricequotation", ""))) as app:
@@ -1669,7 +1671,9 @@ def patch_tender_by_pq_bot(self):
     self.assertEqual(tender["status"], data["data"]["status"])
     self.assertIn("classification", tender["items"][0])
     self.assertIn("unit", tender["items"][0])
+    self.assertIn("value", tender["items"][0])
     self.assertEqual(len(tender["shortlistedFirms"]), len(test_shortlisted_firms))
+    self.assertEqual(len(tender["criteria"]), len(test_short_profile["criteria"]))
 
     # switch tender to `draft.unsuccessful`
     response = self.app.post_json("/tenders", {"data": deepcopy(self.initial_data)})
@@ -1853,7 +1857,7 @@ def first_bid_tender(self):
     self.app.post_json(
         "/tenders/{}/bids".format(tender_id), {"data": {"tenderers": [test_organization], "value": {"amount": 475}}}
     )
-    
+
     # get awards
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}/awards?acc_token={}".format(tender_id, owner_token))
@@ -1872,7 +1876,7 @@ def first_bid_tender(self):
     # get pending award
     award2_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     self.assertNotEqual(award_id, award2_id)
-    
+
     # get awards
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}/awards?acc_token={}".format(tender_id, owner_token))
@@ -1898,7 +1902,7 @@ def first_bid_tender(self):
     # after stand slill period
     self.app.authorization = ("Basic", ("chronograph", ""))
     self.set_status("complete", {"status": "active.awarded"})
-    
+
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
     self.app.patch_json(

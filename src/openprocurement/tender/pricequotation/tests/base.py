@@ -158,6 +158,225 @@ test_short_profile = {
     "unit": {
         "code": "H87",
         "name": "штук"
+    },
+    "criteria": [
+        {
+            "code": "OCDS-MONITOR-DIAGONAL",
+            "description": "Діагональ екрану",
+            "id": "655360-0001",
+            "requirementGroups": [
+                {
+                    "description": "Діагональ екрану, не менше 23.8 дюймів",
+                    "id": "655360-0001-001",
+                    "requirements": [
+                        {
+                            "dataType": "number",
+                            "id": "655360-0001-001-01",
+                            "minValue": 23.8,
+                            "title": "Діагональ екрану",
+                            "unit": {
+                                "code": "INH",
+                                "name": "дюйм"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "title": "Діагональ екрану"
+        },
+        {
+            "code": "OCDS-MONITOR-RESOLUTION",
+            "description": "Роздільна здатність",
+            "id": "655360-0002",
+            "requirementGroups": [
+                {
+                    "description": "Роздільна здатність - 1920x1080",
+                    "id": "655360-0002-001",
+                    "requirements": [
+                        {
+                            "dataType": "string",
+                            "expectedValue": "1920x1080",
+                            "id": "655360-0002-001-01",
+                            "title": "Роздільна здатність"
+                        }
+                    ]
+                }
+            ],
+            "title": "Роздільна здатність"
+        },
+        {
+            "code": "OCDS-MONITOR-CORRELATION",
+            "description": "Співвідношення сторін",
+            "id": "655360-0003",
+            "requirementGroups": [
+                {
+                    "description": "Співвідношення сторін",
+                    "id": "655360-0003-001",
+                    "requirements": [
+                        {
+                            "dataType": "string",
+                            "expectedValue": "16:9",
+                            "id": "655360-0003-001-01",
+                            "title": "Співвідношення сторін"
+                        }
+                    ]
+                }
+            ],
+            "title": "Співвідношення сторін"
+        },
+        {
+            "code": "OCDS-MONITOR-BRIGHTNESS",
+            "description": "Яскравість дисплея",
+            "id": "655360-0004",
+            "requirementGroups": [
+                {
+                    "description": "Яскравість дисплея, не менше 250 кд/м²",
+                    "id": "655360-0004-001",
+                    "requirements": [
+                        {
+                            "dataType": "integer",
+                            "id": "655360-0004-001-01",
+                            "minValue": 250,
+                            "title": "Яскравість дисплея",
+                            "unit": {
+                                "code": "A24",
+                                "name": "кд/м²"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "title": "Яскравість дисплея"
+        },
+        {
+            "code": "OCDS-MONITOR-CONTRAST",
+            "description": "Контрастність (статична)",
+            "id": "655360-0005",
+            "requirementGroups": [
+                {
+                    "description": "Контрастність (статична) - 1000:1",
+                    "id": "655360-0005-001",
+                    "requirements": [
+                        {
+                            "dataType": "string",
+                            "expectedValue": "1000:1",
+                            "id": "655360-0005-001-01",
+                            "title": "Контрастність (статична)"
+                        }
+                    ]
+                },
+                {
+                    "description": "Контрастність (статична) - 3000:1",
+                    "id": "655360-0005-002",
+                    "requirements": [
+                        {
+                            "dataType": "string",
+                            "expectedValue": "3000:1",
+                            "id": "655360-0005-002-01",
+                            "title": "Контрастність (статична)"
+                        }
+                    ]
+                }
+            ],
+            "title": "Контрастність (статична)"
+        },
+        {
+            "code": "OCDS-MONITOR-HDMI",
+            "description": "Кількість портів HDMI",
+            "id": "655360-0006",
+            "requirementGroups": [
+                {
+                    "description": "Кількість портів HDMI, не менше 1 шт.",
+                    "id": "655360-0006-001",
+                    "requirements": [
+                        {
+                            "dataType": "integer",
+                            "id": "655360-0006-001-01",
+                            "minValue": 1,
+                            "title": "Кількість портів HDMI",
+                            "unit": {
+                                "code": "H87",
+                                "name": "штук"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "title": "Кількість портів HDMI"
+        },
+        {
+            "code": "OCDS-MONITOR-D-SUB",
+            "description": "Кількість портів D-sub",
+            "id": "655360-0007",
+            "requirementGroups": [
+                {
+                    "description": "Кількість портів D-sub, не менше 1 шт.",
+                    "id": "655360-0007-001",
+                    "requirements": [
+                        {
+                            "dataType": "integer",
+                            "id": "655360-0007-001-01",
+                            "minValue": 1,
+                            "title": "Кількість портів D-sub",
+                            "unit": {
+                                "code": "H87",
+                                "name": "штук"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "title": "Кількість портів D-sub"
+        },
+        {
+            "code": "OCDS-MONITOR-HDMIPORT",
+            "description": "Кабель для під’єднання",
+            "id": "655360-0008",
+            "requirementGroups": [
+                {
+                    "description": "Кабель для під’єднання",
+                    "id": "655360-0008-001",
+                    "requirements": [
+                        {
+                            "dataType": "string",
+                            "expectedValue": "HDMI",
+                            "id": "655360-0008-001-01",
+                            "title": "Кабель для під’єднання"
+                        }
+                    ]
+                }
+            ],
+            "title": "Кабель для під’єднання"
+        },
+        {
+            "code": "OCDS-MONITOR-GUARANTEE",
+            "description": "Строк дії гарантії",
+            "id": "655360-0009",
+            "requirementGroups": [
+                {
+                    "description": "Гарантія, не менше 36 місяців",
+                    "id": "655360-0009-001",
+                    "requirements": [
+                        {
+                            "dataType": "integer",
+                            "id": "655360-0009-001-01",
+                            "minValue": 36,
+                            "title": "Гарантія",
+                            "unit": {
+                                "code": "MON",
+                                "name": "місяців"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "title": "Гарантія"
+        }
+    ],
+    "value": {
+        "amount": 4500,
+        "currency": "UAH",
+        "valueAddedTaxIncluded": True
     }
 }
 

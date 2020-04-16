@@ -31,6 +31,7 @@ from openprocurement.tender.pricequotation.models import (
     Document,
     Award
     )
+from openprocurement.tender.pricequotation.models.criterion import Criterion
 
 
 class ShortlistedFirm(BusinessOrganization):
@@ -41,6 +42,7 @@ class ShortlistedFirm(BusinessOrganization):
 class Item(BaseItem):
     """A good, service, or work to be contracted."""
     classification = ModelType(CPVClassification)
+    value = ModelType(Value)
 
 
 class Contract(BaseContract):
@@ -89,7 +91,7 @@ class PriceQuotationTender(Tender):
                 "status",
                 "profile"
             )
-        _edit_pq_bot_role = whitelist("items", "shortlistedFirms", "status")
+        _edit_pq_bot_role = whitelist("items", "shortlistedFirms", "status", "criteria")
         _view_tendering_role = (
             _core_roles["view"]
             + _edit_fields
@@ -99,7 +101,8 @@ class PriceQuotationTender(Tender):
                 "cancellations",
                 "contracts",
                 "profile",
-                "shortlistedFirms"
+                "shortlistedFirms",
+                "criteria"
             )
         )
         _view_role = _view_tendering_role + whitelist("bids", "numberOfBids")
@@ -188,6 +191,7 @@ class PriceQuotationTender(Tender):
     procurementMethodType = StringType(default=PMT)
     profile = StringType()
     shortlistedFirms = ListType(ModelType(ShortlistedFirm), default=list())
+    criteria = ListType(ModelType(Criterion), default=list())
 
     procuring_entity_kinds = ["general", "special",
                               "defense", "central", "other"]
