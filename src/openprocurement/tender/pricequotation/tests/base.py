@@ -93,8 +93,8 @@ test_tender_data = {
 if SANDBOX_MODE:
     test_tender_data["procurementMethodDetails"] = "quick, accelerator=1440"
 test_bids = [
-    {"tenderers": [test_organization], "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True}},
-    {"tenderers": [test_organization], "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True}},
+    {"tenderers": [test_organization], "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True}, "requirementResponses": [test_requirement_response]},
+    {"tenderers": [test_organization], "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True}, "requirementResponses": [test_requirement_response]},
 ]
 
 test_cancellation = {
