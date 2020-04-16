@@ -23,16 +23,24 @@ def activate_cancellation_after_2020_04_19(self, cancellation_id, tender_id=None
     if not tender_token:
         tender_token = self.tender_token
 
-    response = self.app.get("/tenders/{}".format(tender_id))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    tender = response.json["data"]
+    tender = self.db.get(self.tender_id)
 
-    without_complaints = ["reporting", "belowThreshold", "closeFrameworkAgreementSelectionUA"]
-    if tender["procurementMethodType"] in without_complaints:
-        activate_cancellation_without_complaints_after_2020_04_19(self, cancellation_id, tender_id, tender_token)
-    else:
+    without_complaints = [
+        "reporting",
+        "belowThreshold",
+        "closeFrameworkAgreementSelectionUA",
+        "negotiation",
+        "negotiation.quick",
+    ]
+    tender_type = tender["procurementMethodType"]
+
+    active_award = any(i for i in tender.get("awards", []) if i.get("status") == "active")
+    negotiation_with_active_award = tender_type.startswith("negotiation") and active_award
+
+    if (tender_type not in without_complaints) or negotiation_with_active_award:
         activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id, tender_id, tender_token)
+    else:
+        activate_cancellation_without_complaints_after_2020_04_19(self, cancellation_id, tender_id, tender_token)
 
 
 def activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id, tender_id=None, tender_token=None):

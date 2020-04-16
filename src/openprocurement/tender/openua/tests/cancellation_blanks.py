@@ -1063,10 +1063,7 @@ def permission_cancellation_pending(self):
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Document can't be add until exists cancellation with pending status"
-    )
+    self.assertEqual(response.json["errors"][0]["description"], "Forbidden")
 
     response = self.app.patch_json(
         "/tenders/{}/cancellations/{}?acc_token={}".format(
@@ -1658,7 +1655,7 @@ def create_tender_cancellation_with_cancellation_lots(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can't add cancellation when exists active lot cancellation",
+        "Forbidden",
     )
 
     response = self.app.post_json(
@@ -1670,7 +1667,7 @@ def create_tender_cancellation_with_cancellation_lots(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can't add cancellation when exists active lot cancellation",
+        "Forbidden",
     )
 
 

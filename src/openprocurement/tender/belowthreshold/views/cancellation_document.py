@@ -16,7 +16,10 @@ from openprocurement.tender.core.utils import (
     apply_patch,
 )
 
-from openprocurement.tender.core.validation import validate_cancellation_operation_document
+from openprocurement.tender.core.validation import (
+    validate_cancellation_operation_document,
+    validate_operation_cancellation_permission,
+)
 from openprocurement.tender.belowthreshold.validation import (
     validate_cancellation_document_operation_not_in_allowed_status,
 )
@@ -46,6 +49,7 @@ class TenderCancellationDocumentResource(APIResource):
         validators=(
             validate_file_upload,
             validate_cancellation_document_operation_not_in_allowed_status,
+            validate_operation_cancellation_permission,
             validate_cancellation_operation_document,
         ),
         permission="edit_cancellation",
@@ -86,6 +90,7 @@ class TenderCancellationDocumentResource(APIResource):
         validators=(
             validate_file_update,
             validate_cancellation_document_operation_not_in_allowed_status,
+            validate_operation_cancellation_permission,
             validate_cancellation_operation_document,
         ),
         permission="edit_cancellation",
@@ -106,6 +111,7 @@ class TenderCancellationDocumentResource(APIResource):
         validators=(
             validate_patch_document_data,
             validate_cancellation_document_operation_not_in_allowed_status,
+            validate_operation_cancellation_permission,
             validate_cancellation_operation_document,
         ),
         permission="edit_cancellation",

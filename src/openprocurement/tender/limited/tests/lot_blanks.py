@@ -1126,6 +1126,23 @@ def patch_lot_with_cancellation(self):
     cancellation_id = response.json["data"]["id"]
 
     if RELEASE_2020_04_19 < get_now():
+        # Create award
+        response = self.app.post_json(
+            "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": {"suppliers": [test_organization], "qualified": True, "status": "active", "lotID": lot["id"]}}
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        award = response.json["data"]
+        self.award_id = award["id"]
+
+        self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+            {"data": {"status": "active"}}
+        )
+        self.set_all_awards_complaint_period_end()
+
+        # Create cancellation
         auth = self.app.authorization
         self.app.authorization = ("Basic", ("broker", ""))
 

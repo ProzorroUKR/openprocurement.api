@@ -610,12 +610,12 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         self.tick(delta=timedelta(days=11))
+        self.check_chronograph()
 
         with open(TARGET_DIR + 'active-cancellation.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
+            response = self.app.get(
                 '/tenders/{}/cancellations/{}?acc_token={}'.format(
-                    self.tender_id, cancellation_id, owner_token),
-                {'data': {"status": "active"}})
+                    self.tender_id, cancellation_id, owner_token))
             self.assertEqual(response.status, '200 OK')
 
     def test_multiple_lots(self):

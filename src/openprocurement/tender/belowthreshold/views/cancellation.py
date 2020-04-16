@@ -14,7 +14,7 @@ from openprocurement.tender.core.validation import (
     validate_patch_cancellation_data,
     validate_cancellation_of_active_lot,
     validate_create_cancellation_in_active_auction,
-    validate_cancellation_statuses_without_complaints,
+    validate_cancellation_status_without_complaints,
 )
 
 
@@ -51,7 +51,7 @@ class TenderCancellationResource(BaseTenderCancellationResource):
             validate_create_cancellation_in_active_auction,
             validate_patch_cancellation_data,
             validate_cancellation_of_active_lot,
-            validate_cancellation_statuses_without_complaints,
+            validate_cancellation_status_without_complaints,
         ),
         permission="edit_cancellation"
     )

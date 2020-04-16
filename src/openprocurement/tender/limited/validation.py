@@ -11,7 +11,9 @@ from openprocurement.api.utils import (
 )  # XXX tender context
 from openprocurement.tender.core.utils import apply_patch
 from openprocurement.tender.core.validation import (
-    validate_complaint_accreditation_level
+    validate_complaint_accreditation_level,
+    validate_cancellation_status_with_complaints,
+    validate_cancellation_status_without_complaints,
 )
 
 
@@ -172,6 +174,21 @@ def validate_absence_complete_lots_on_tender_cancel(request):
                     request,
                     "Can't perform cancellation, if there is at least one complete lot"
                 )
+
+
+def validate_cancellation_status(request):
+    tender = request.validated["tender"]
+    cancellation = request.validated["cancellation"]
+
+    lotID = cancellation.get("relatedLot")
+
+    if (
+        (not lotID and any(i for i in tender.awards if i.status == "active"))
+        or (lotID and any(i for i in tender.awards if i.status == "active" and i.get("lotID") == lotID))
+    ):
+        validate_cancellation_status_with_complaints(request)
+    else:
+        validate_cancellation_status_without_complaints(request)
 
 
 # contract

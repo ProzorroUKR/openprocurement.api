@@ -6,7 +6,6 @@ from openprocurement.tender.core.utils import get_now
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
-    activate_cancellation_with_complaints_after_2020_04_19,
 )
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_cancellation
 
@@ -291,7 +290,7 @@ def create_tender_lots_cancellation(self):
     if RELEASE_2020_04_19 > get_now():
         self.assertEqual(cancellation["status"], "active")
     else:
-        activate_cancellation_with_complaints_after_2020_04_19(self, cancellation["id"])
+        activate_cancellation_after_2020_04_19(self, cancellation["id"])
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
@@ -334,7 +333,7 @@ def create_tender_lots_cancellation(self):
     if RELEASE_2020_04_19 > get_now():
         self.assertEqual(cancellation["status"], "active")
     else:
-        activate_cancellation_with_complaints_after_2020_04_19(self, cancellation["id"])
+        activate_cancellation_after_2020_04_19(self, cancellation["id"])
 
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
@@ -401,7 +400,7 @@ def delete_first_lot_second_cancel(self):
     if RELEASE_2020_04_19 > get_now():
         self.assertEqual(cancellation["status"], "active")
     else:
-        activate_cancellation_with_complaints_after_2020_04_19(self, cancellation["id"])
+        activate_cancellation_after_2020_04_19(self, cancellation["id"])
 
 
     response = self.app.get("/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token))
@@ -429,7 +428,7 @@ def cancel_tender(self):
         self.assertIn("id", cancellation)
         self.assertIn(cancellation["id"], response.headers["Location"])
     else:
-        activate_cancellation_with_complaints_after_2020_04_19(self, cancellation["id"])
+        activate_cancellation_after_2020_04_19(self, cancellation["id"])
 
     # Check tender
     response = self.app.get("/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token))
@@ -529,8 +528,7 @@ def cancellation_on_not_active_lot(self):
     cancellation_id = response.json["data"]["id"]
 
     if RELEASE_2020_04_19 < get_now():
-        activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id)
-
+        activate_cancellation_after_2020_04_19(self, cancellation_id)
 
     # check lot status
     response = self.app.get("/tenders/{}/lots/{}".format(self.tender_id, lot["id"]))
