@@ -166,12 +166,6 @@ def patch_tender_complaint(self):
             {"data": {"status": "pending"}},
             status=403
         )
-        self.assertEqual(
-            response.json,
-            {"status": "error",
-             "errors": [{"location": "body", "name": "data",
-                         "description": "Can't update claim to complaint"}]}
-        )
 
         complaint_data = deepcopy(test_complaint)
         complaint_data["author"] = getattr(self, "test_author", test_author)
@@ -184,10 +178,18 @@ def patch_tender_complaint(self):
         complaint = response.json["data"]
         owner_token = response.json["access"]["token"]
 
-        response = self.app.patch_json(
-            "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], owner_token),
-            {"data": complaint_data},
-        )
+        if get_now() < RELEASE_2020_04_19:
+            response = self.app.patch_json(
+                "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], owner_token),
+                {"data": complaint_data},
+            )
+        else:
+            with change_auth(self.app, ("Basic", ("bot", ""))):
+                response = self.app.patch_json(
+                    "/tenders/{}/complaints/{}".format(self.tender_id, complaint["id"]),
+                    {"data": complaint_data},
+                )
+
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["data"]["status"], "pending")
@@ -302,9 +304,9 @@ def bot_patch_tender_complaint(self):
             "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], owner_token),
             {"data": {"status": "pending"}},
         )
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["data"]["status"], "pending")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "pending")
 
 
 @patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", get_now() - timedelta(days=1))
@@ -373,15 +375,15 @@ def review_tender_complaint(self):
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
         complaint = response.json["data"]
-        owner_token = response.json["access"]["token"]
 
         if RELEASE_2020_04_19 < now:
             self.assertEqual(response.json["data"]["status"], "draft")
 
-            response = self.app.patch_json(
-                "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], owner_token),
-                {"data": {"status": "pending"}},
-            )
+            with change_auth(self.app, ("Basic", ("bot", ""))):
+                response = self.app.patch_json(
+                    "/tenders/{}/complaints/{}".format(self.tender_id, complaint["id"]),
+                    {"data": {"status": "pending"}},
+                )
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.content_type, "application/json")
             self.assertEqual(response.json["data"]["status"], "pending")
@@ -503,10 +505,11 @@ def mistaken_status_tender_complaint(self):
     self.assertEqual(complaint["status"], "draft")
     owner_token = response.json["access"]["token"]
 
-    response = self.app.patch_json(
-        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint_id, owner_token),
-        {"data": {"status": "pending"}},
-    )
+    with change_auth(self.app, ("Basic", ("bot", ""))):
+        response = self.app.patch_json(
+            "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint_id, owner_token),
+            {"data": {"status": "pending"}},
+        )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
@@ -637,10 +640,11 @@ def review_tender_stopping_complaint(self):
         url_patch_complaint = "/tenders/{}/complaints/{}".format(self.tender_id, complaint["id"])
 
         if RELEASE_2020_04_19 < now:
-            response = self.app.patch_json(
-                "{}?acc_token={}".format(url_patch_complaint, owner_token),
-                {"data": {"status": "pending"}},
-            )
+            with change_auth(self.app, ("Basic", ("bot", ""))):
+                response = self.app.patch_json(
+                    url_patch_complaint,
+                    {"data": {"status": "pending"}},
+                )
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.content_type, "application/json")
             self.assertEqual(response.json["data"]["status"], "pending")
@@ -827,27 +831,30 @@ def put_tender_complaint_document(self):
     self.assertEqual(response.content_length, 8)
     self.assertEqual(response.body, "content3")
 
-    with patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1)):
-        response = self.app.patch_json(
-            "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, self.complaint_id,
-                                                            self.complaint_owner_token),
-            {"data": {"status": "pending"}},
-            status=403
-        )
-        self.assertEqual(
-            response.json,
-            {"status": "error", "errors": [
-                {"location": "body", "name": "data", "description": "Can't update claim to complaint"}]}
-        )
+    with patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", get_now() - timedelta(days=1)):
+        with patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1)):
+            response = self.app.patch_json(
+                "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, self.complaint_id,
+                                                                self.complaint_owner_token),
+                {"data": {"status": "pending"}},
+                status=403
+            )
+            self.assertEqual(
+                response.json,
+                {"status": "error", "errors": [
+                    {"location": "body", "name": "data",
+                     "description": "Can't update complaint from draft to pending status"}]}
+            )
 
-    with patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() + timedelta(days=1)):
-        response = self.app.patch_json(
-            "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, self.complaint_id,
-                                                            self.complaint_owner_token),
-            {"data": {"status": "pending"}},
-        )
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.json["data"]["status"], "pending")
+    with patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", get_now() + timedelta(days=1)):
+        with patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() + timedelta(days=1)):
+            response = self.app.patch_json(
+                "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, self.complaint_id,
+                                                                self.complaint_owner_token),
+                {"data": {"status": "pending"}},
+            )
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.json["data"]["status"], "pending")
 
     response = self.app.put(
         "/tenders/{}/complaints/{}/documents/{}?acc_token={}".format(
@@ -914,14 +921,15 @@ def patch_tender_complaint_document(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("document description", response.json["data"]["description"])
 
-    with patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() + timedelta(days=1)):
-        response = self.app.patch_json(
-            "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, self.complaint_id,
-                                                            self.complaint_owner_token),
-            {"data": {"status": "pending"}},
-        )
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.json["data"]["status"], "pending")
+    with patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", get_now() + timedelta(days=1)):
+        with patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() + timedelta(days=1)):
+            response = self.app.patch_json(
+                "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, self.complaint_id,
+                                                                self.complaint_owner_token),
+                {"data": {"status": "pending"}},
+            )
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.json["data"]["status"], "pending")
 
     response = self.app.patch_json(
         "/tenders/{}/complaints/{}/documents/{}?acc_token={}".format(

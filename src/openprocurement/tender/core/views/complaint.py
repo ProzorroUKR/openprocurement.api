@@ -44,6 +44,8 @@ class ComplaintBotPatchMixin(object):
         if new_rules and status == "draft" and new_status in ["pending", "mistaken"]:
             if new_status == "mistaken":
                 context.rejectReason = "incorrectPayment"
+            elif new_status == "pending":
+                context.dateSubmitted = get_now()
             apply_patch(request, save=False, src=context.serialize())
         else:
             raise_operation_error(
@@ -214,6 +216,7 @@ class BaseTenderComplaintResource(ComplaintBotPatchMixin, ComplaintAdminPatchMix
             tender.status == "active.tendering"
             and status in ["draft", "claim"]
             and new_status == "pending"
+            and not new_rules
         ):
             validate_submit_complaint_time(self.request)
             validate_complaint_type_change(self.request)

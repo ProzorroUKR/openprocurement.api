@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from openprocurement.api.utils import get_now
+from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.tender.core.tests.base import change_auth
 
 # TenderComplaintDocumentResourceTest
 
@@ -83,10 +86,18 @@ def put_tender_complaint_document(self):
     self.assertEqual(response.content_length, 8)
     self.assertEqual(response.body, "content3")
 
-    response = self.app.patch_json(
-        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, self.complaint_id, self.complaint_owner_token),
-        {"data": {"status": "pending"}},
-    )
+    if get_now() < RELEASE_2020_04_19:
+        response = self.app.patch_json(
+            "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, self.complaint_id, self.complaint_owner_token),
+            {"data": {"status": "pending"}},
+        )
+    else:
+        with change_auth(self.app, ("Basic", ("bot", ""))):
+            response = self.app.patch_json(
+                "/tenders/{}/complaints/{}".format(self.tender_id, self.complaint_id),
+                {"data": {"status": "pending"}},
+            )
+
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending")
 

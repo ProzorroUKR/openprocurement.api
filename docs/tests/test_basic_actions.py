@@ -2,7 +2,9 @@
 import os
 from copy import deepcopy
 from datetime import timedelta
-
+from mock import patch
+from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.models import get_now
 from openprocurement.tender.openeu.tests.tender import BaseTenderWebTest
 
@@ -117,9 +119,15 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         complaint1_id = response.json['data']['id']
 
         with open(TARGET_DIR + 'complaints/complaint-complaint.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint1_id, complaint1_token),
-                {"data": {"status": "pending"}})
+            if get_now() < RELEASE_2020_04_19:
+                response = self.app.patch_json(
+                    '/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint1_id, complaint1_token),
+                    {"data": {"status": "pending"}})
+            else:
+                with change_auth(self.app, ("Basic", ("bot", ""))):
+                    response = self.app.patch_json(
+                        '/tenders/{}/complaints/{}'.format(self.tender_id, complaint1_id),
+                        {"data": {"status": "pending"}})
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'complaints/complaint-answer.http', 'w') as self.app.file_obj:
@@ -452,11 +460,18 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '201 Created')
 
         with open(TARGET_DIR + 'complaints/qualification-complaint-complaint.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/qualifications/{}/complaints/{}?acc_token={}'.format(
-                    self.tender_id, qualification_id, complaint1_id, complaint1_token),
-                {"data": {"status": "pending"}})
-            self.assertEqual(response.status, '200 OK')
+            if get_now() < RELEASE_2020_04_19:
+                response = self.app.patch_json(
+                    '/tenders/{}/qualifications/{}/complaints/{}?acc_token={}'.format(
+                        self.tender_id, qualification_id, complaint1_id, complaint1_token),
+                    {"data": {"status": "pending"}})
+            else:
+                with change_auth(self.app, ("Basic", ("bot", ""))):
+                    response = self.app.patch_json(
+                        '/tenders/{}/qualifications/{}/complaints/{}'.format(
+                            self.tender_id, qualification_id, complaint1_id),
+                        {"data": {"status": "pending"}})
+        self.assertEqual(response.status, '200 OK')
 
         complaint_data = {'data': complaint.copy()}
         complaint_data['data']['status'] = 'pending'
@@ -870,10 +885,18 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '201 Created')
 
         with open(TARGET_DIR + 'complaints/award-complaint-complaint.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(
-                    self.tender_id, award_id, complaint1_id, complaint1_token),
-                {"data": {"status": "pending"}})
+            if get_now() < RELEASE_2020_04_19:
+                response = self.app.patch_json(
+                    '/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(
+                        self.tender_id, award_id, complaint1_id, complaint1_token),
+                    {"data": {"status": "pending"}})
+            else:
+                with change_auth(self.app, ("Basic", ("bot", ""))):
+                    response = self.app.patch_json(
+                        '/tenders/{}/awards/{}/complaints/{}'.format(
+                            self.tender_id, award_id, complaint1_id),
+                        {"data": {"status": "pending"}})
+
             self.assertEqual(response.status, '200 OK')
 
         complaint_data = {'data': complaint.copy()}
@@ -1257,10 +1280,18 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         complaint4_id, complaint4_token = complaint_create_pending(self, complaint_url, complaint_data)
 
         with open(TARGET_DIR + 'complaints/cancellation-complaint-complaint.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/cancellations/{}/complaints/{}?acc_token={}'.format(
-                    self.tender_id, cancellation_id, complaint1_id, complaint1_token),
-                {"data": {"status": "pending"}})
+            if get_now() < RELEASE_2020_04_19:
+                response = self.app.patch_json(
+                    '/tenders/{}/cancellations/{}/complaints/{}?acc_token={}'.format(
+                        self.tender_id, cancellation_id, complaint1_id, complaint1_token),
+                    {"data": {"status": "pending"}})
+            else:
+                with change_auth(self.app, ("Basic", ("bot", ""))):
+                    response = self.app.patch_json(
+                        '/tenders/{}/cancellations/{}/complaints/{}'.format(
+                            self.tender_id, cancellation_id, complaint1_id),
+                        {"data": {"status": "pending"}})
+
             self.assertEqual(response.status, '200 OK')
 
         complaint5_id, complaint5_token = complaint_create_pending(self, complaint_url, complaint_data)

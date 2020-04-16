@@ -1,5 +1,5 @@
-PATCH /api/2.5/tenders/0ba5045de21b4930a220df9887be28ec/qualifications/de1fdfe83be64f45a3aa274d8f98a1e9/complaints/82367eb51f0e4686a9f9aa7745b42041?acc_token=f417333f3a02407188551658e8d9dfc6 HTTP/1.0
-Authorization: Bearer broker
+PATCH /api/2.5/tenders/0ba5045de21b4930a220df9887be28ec/qualifications/de1fdfe83be64f45a3aa274d8f98a1e9/complaints/82367eb51f0e4686a9f9aa7745b42041 HTTP/1.0
+Authorization: Bearer bot
 Content-Length: 31
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua

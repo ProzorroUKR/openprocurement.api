@@ -5,6 +5,7 @@ from openprocurement.tender.belowthreshold.tests.base import test_organization, 
 from openprocurement.api.models import get_now
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
+from openprocurement.tender.core.tests.base import change_auth
 
 
 # TenderLotNegotiationResourceTest
@@ -748,11 +749,12 @@ def cancel_lot_with_complaint(self):
     if RELEASE_2020_04_19 < get_now():
         self.assertEqual(response.json["data"]["status"], "draft")
 
-        response = self.app.patch_json(
-            "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
-                self.tender_id, award["id"], complaint["id"], owner_token),
-            {"data": {"status": "pending"}},
-        )
+        with change_auth(self.app, ("Basic", ("bot", ""))):
+            response = self.app.patch_json(
+                "/tenders/{}/awards/{}/complaints/{}".format(
+                    self.tender_id, award["id"], complaint["id"]),
+                {"data": {"status": "pending"}},
+            )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["data"]["status"], "pending")

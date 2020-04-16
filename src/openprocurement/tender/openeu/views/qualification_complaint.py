@@ -183,6 +183,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
             is_qualificationPeriod
             and status == "draft"
             and new_status == "pending"
+            and not new_rules
         ):
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.type = "complaint"

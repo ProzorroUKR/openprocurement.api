@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
+from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.belowthreshold.tests.base import test_draft_claim, test_draft_complaint
 
 from openprocurement.api.constants import RELEASE_2020_04_19
@@ -77,12 +78,22 @@ def patch_tender_contract(self):
     complaint = response.json["data"]
     owner_token = response.json["access"]["token"]
 
-    response = self.app.patch_json(
-        "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
-            self.tender_id, self.award_id, complaint["id"], owner_token
-        ),
-        {"data": {"status": "pending"}},
-    )
+    if get_now() < RELEASE_2020_04_19:
+        response = self.app.patch_json(
+            "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
+                self.tender_id, self.award_id, complaint["id"], owner_token
+            ),
+            {"data": {"status": "pending"}},
+        )
+    else:
+        with change_auth(self.app, ("Basic", ("bot", ""))):
+            response = self.app.patch_json(
+                "/tenders/{}/awards/{}/complaints/{}".format(
+                    self.tender_id, self.award_id, complaint["id"]
+                ),
+                {"data": {"status": "pending"}},
+            )
+
     self.assertEqual(response.status, "200 OK")
 
     tender = self.db.get(self.tender_id)
