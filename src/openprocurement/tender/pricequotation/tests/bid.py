@@ -6,6 +6,7 @@ from openprocurement.tender.pricequotation.tests.base import (
     TenderContentWebTest,
     test_organization,
     test_bids,
+    test_requirement_response,
 )
 from openprocurement.tender.pricequotation.tests.bid_blanks import (
     # TenderBidResourceTest
@@ -58,7 +59,7 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
         # Create bid
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
-            {"data": {"tenderers": [test_organization], "value": {"amount": 500}}},
+            {"data": {"tenderers": [test_organization], "value": {"amount": 500}, "requirementResponses": [test_requirement_response]}},
         )
         bid = response.json["data"]
         self.bid_id = bid["id"]
@@ -81,7 +82,7 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
 class TenderBidBatchDocumentWithDSResourceTest(TenderContentWebTest):
     docservice = True
     initial_status = "active.tendering"
-    bid_data_wo_docs = {"tenderers": [test_organization], "value": {"amount": 500}, "documents": []}
+    bid_data_wo_docs = {"tenderers": [test_organization], "value": {"amount": 500}, "documents": [], "requirementResponses": [test_requirement_response]}
 
     test_create_tender_bid_with_document_invalid = snitch(create_tender_bid_with_document_invalid)
     test_create_tender_bid_with_document = snitch(create_tender_bid_with_document)

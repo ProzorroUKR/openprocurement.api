@@ -14,6 +14,12 @@ from openprocurement.tender.pricequotation.constants import PMT
 
 
 now = get_now()
+test_requirement_response = {
+    "requirement": {
+        "id": "101-202"
+    }
+}
+
 test_organization = {
     "name": u"Державне управління справами",
     "identifier": {"scheme": u"UA-EDR", "id": u"00037256", "uri": u"http://www.dus.gov.ua/"},

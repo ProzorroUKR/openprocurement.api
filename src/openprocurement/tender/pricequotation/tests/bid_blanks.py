@@ -5,8 +5,8 @@ import mock
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.pricequotation.tests.base import\
-    test_organization
+from openprocurement.tender.pricequotation.tests.base import \
+    test_organization, test_requirement_response
 
 
 # TenderBidResourceTest
@@ -89,7 +89,7 @@ def create_tender_bid_invalid(self):
         ],
     )
 
-    response = self.app.post_json(request_path, {"data": {"tenderers": [{"identifier": {}}]}}, status=422)
+    response = self.app.post_json(request_path, {"data": {"tenderers": [{"identifier": {}}], "requirementResponses": [test_requirement_response]}}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -112,7 +112,7 @@ def create_tender_bid_invalid(self):
     )
 
     response = self.app.post_json(
-        request_path, {"data": {"tenderers": [{"name": "name", "identifier": {"uri": "invalid_value"}}]}}, status=422
+        request_path, {"data": {"tenderers": [{"name": "name", "identifier": {"uri": "invalid_value"}}], "requirementResponses": [test_requirement_response]}}, status=422
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -138,7 +138,7 @@ def create_tender_bid_invalid(self):
         ],
     )
 
-    response = self.app.post_json(request_path, {"data": {"tenderers": [test_organization]}}, status=422)
+    response = self.app.post_json(request_path, {"data": {"tenderers": [test_organization], "requirementResponses": [test_requirement_response]}}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -149,7 +149,7 @@ def create_tender_bid_invalid(self):
 
     response = self.app.post_json(
         request_path,
-        {"data": {"tenderers": [test_organization], "value": {"amount": 500, "valueAddedTaxIncluded": False}}},
+        {"data": {"tenderers": [test_organization], "value": {"amount": 500, "valueAddedTaxIncluded": False}, "requirementResponses": [test_requirement_response]}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -170,7 +170,7 @@ def create_tender_bid_invalid(self):
 
     response = self.app.post_json(
         request_path,
-        {"data": {"tenderers": [test_organization], "value": {"amount": 500, "currency": "USD"}}},
+        {"data": {"tenderers": [test_organization], "value": {"amount": 500, "currency": "USD"}, "requirementResponses": [test_requirement_response]}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -195,13 +195,24 @@ def create_tender_bid_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertIn(u"invalid literal for int() with base 10", response.json["errors"][0]["description"])
 
+    response = self.app.post_json(
+        request_path, {"data": {"tenderers": [test_organization], "value": {"amount": 500}}}, status=422
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{u"description": [u"This field is required."], u"location": u"body", u"name": u"requirementResponses"}],
+    )
+
 
 def create_tender_bid(self):
     dateModified = self.db.get(self.tender_id).get("dateModified")
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_organization], "value": {"amount": 500}}},
+        {"data": {"tenderers": [test_organization], "value": {"amount": 500}, "requirementResponses": [test_requirement_response]}},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -216,7 +227,7 @@ def create_tender_bid(self):
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_organization], "value": {"amount": 500}}},
+        {"data": {"tenderers": [test_organization], "value": {"amount": 500}, "requirementResponses": [test_requirement_response]}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -227,7 +238,7 @@ def create_tender_bid(self):
 def patch_tender_bid(self):
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_organization], "status": "draft", "value": {"amount": 500}}},
+        {"data": {"tenderers": [test_organization], "status": "draft", "value": {"amount": 500}, "requirementResponses": [test_requirement_response]}},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -333,7 +344,7 @@ def patch_tender_bid(self):
 def get_tender_bid(self):
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_organization], "value": {"amount": 500}}},
+        {"data": {"tenderers": [test_organization], "value": {"amount": 500}, "requirementResponses": [test_requirement_response]}},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -389,7 +400,7 @@ def get_tender_bid(self):
 def delete_tender_bid(self):
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_organization], "value": {"amount": 500}}},
+        {"data": {"tenderers": [test_organization], "value": {"amount": 500}, "requirementResponses": [test_requirement_response]}},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -423,7 +434,7 @@ def delete_tender_bid(self):
 def get_tender_tenderers(self):
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_organization], "value": {"amount": 500}}},
+        {"data": {"tenderers": [test_organization], "value": {"amount": 500}, "requirementResponses": [test_requirement_response]}},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -455,7 +466,7 @@ def get_tender_tenderers(self):
 def bid_Administrator_change(self):
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_organization], "value": {"amount": 500}}},
+        {"data": {"tenderers": [test_organization], "value": {"amount": 500}, "requirementResponses": [test_requirement_response]}},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -478,6 +489,7 @@ def create_tender_bid_no_scale_invalid(self):
         "data": {
             "value": {"amount": 500},
             "tenderers": [{key: value for key, value in test_organization.iteritems() if key != "scale"}],
+            "requirementResponses": [test_requirement_response]
         }
     }
     response = self.app.post_json(request_path, bid_data, status=422)
@@ -493,7 +505,7 @@ def create_tender_bid_no_scale_invalid(self):
 @mock.patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
 def create_tender_bid_with_scale_not_required(self):
     request_path = "/tenders/{}/bids".format(self.tender_id)
-    bid_data = {"data": {"value": {"amount": 500}, "tenderers": [test_organization]}}
+    bid_data = {"data": {"value": {"amount": 500}, "tenderers": [test_organization], "requirementResponses": [test_requirement_response]}}
     response = self.app.post_json(request_path, bid_data)
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -507,6 +519,7 @@ def create_tender_bid_no_scale(self):
         "data": {
             "value": {"amount": 500},
             "tenderers": [{key: value for key, value in test_organization.iteritems() if key != "scale"}],
+            "requirementResponses": [test_requirement_response]
         }
     }
     response = self.app.post_json(request_path, bid_data)
@@ -905,7 +918,7 @@ def patch_tender_bid_document(self):
 def create_tender_bid_document_nopending(self):
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_organization], "value": {"amount": 500}}},
+        {"data": {"tenderers": [test_organization], "value": {"amount": 500}, "requirementResponses": [test_requirement_response]}},
     )
     bid = response.json["data"]
     token = response.json["access"]["token"]

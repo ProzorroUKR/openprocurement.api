@@ -65,7 +65,8 @@ class Bid(Model):
                 "status",
                 "tenderers",
                 "parameters",
-                "documents"
+                "documents",
+                "requirementResponses"
             ),
             "edit": whitelist("value", "status", "tenderers", "parameters"),
             "active.tendering": whitelist(),
@@ -103,8 +104,11 @@ class Bid(Model):
                 RequirementResponseString,
                 RequirementResponseBoolean,
             ),
-            claim_function=get_requirement_response_class),
-        default=list()
+            claim_function=get_requirement_response_class,
+            required=True
+        ),
+        required=True,
+        min_size=1
     )
     # TODO: 
     # offers = ListType(
