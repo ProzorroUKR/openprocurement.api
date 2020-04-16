@@ -167,9 +167,6 @@ class Contract(BaseContract):
 
 
 class Complaint(BaseComplaint):
-    class Options:
-        roles = {"active.pre-qualification": view_bid_role, "active.pre-qualification.stand-still": view_bid_role}
-
     documents = ListType(ModelType(EUDocument, required=True), default=list())
 
     def serialize(self, role=None, context=None):
