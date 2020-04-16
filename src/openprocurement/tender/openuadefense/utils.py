@@ -49,8 +49,7 @@ def calculate_clarifications_business_date(date_obj, timedelta_obj, tender=None,
 
 def check_bids(request):
     tender = request.validated["tender"]
-    if any([i.status not in ["active", "unsuccessful"] for i in tender.cancellations]):
-        return
+
     if tender.lots:
         [
             setattr(i.auctionPeriod, "startDate", None)
