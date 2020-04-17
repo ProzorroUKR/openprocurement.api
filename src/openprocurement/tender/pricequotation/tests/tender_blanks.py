@@ -24,7 +24,7 @@ from openprocurement.tender.pricequotation.tests.base import (
     test_cancellation,
     test_shortlisted_firms,
     test_short_profile,
-    test_requirement_response,
+    test_requirement_response_valid,
 )
 
 # TenderTest
@@ -1758,7 +1758,7 @@ def one_valid_bid_tender(self):
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
     self.app.post_json(
-        "/tenders/{}/bids".format(tender_id), {"data": {"tenderers": [test_organization], "value": {"amount": 500}, "requirementResponses": [test_requirement_response]}}
+        "/tenders/{}/bids".format(tender_id), {"data": {"tenderers": [test_organization], "value": {"amount": 500}, "requirementResponses": test_requirement_response_valid}}
     )
     # switch to active.qualification
     self.set_status("active.qualification", {"status": "active.tendering"})
@@ -1808,7 +1808,7 @@ def one_invalid_bid_tender(self):
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
     self.app.post_json(
-        "/tenders/{}/bids".format(tender_id), {"data": {"tenderers": [test_organization], "value": {"amount": 500}, "requirementResponses": [test_requirement_response]}}
+        "/tenders/{}/bids".format(tender_id), {"data": {"tenderers": [test_organization], "value": {"amount": 500}, "requirementResponses": test_requirement_response_valid}}
     )
     # switch to active.qualification
     # self.set_status("active.qualification")
@@ -1849,14 +1849,14 @@ def first_bid_tender(self):
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id), {"data": {"tenderers": [test_organization], "value": {"amount": 450}, "requirementResponses": [test_requirement_response]}}
+        "/tenders/{}/bids".format(tender_id), {"data": {"tenderers": [test_organization], "value": {"amount": 450}, "requirementResponses": test_requirement_response_valid}}
     )
     bid_id = response.json["data"]["id"]
     bid_token = response.json["access"]["token"]
     # create second bid
     self.app.authorization = ("Basic", ("broker", ""))
     self.app.post_json(
-        "/tenders/{}/bids".format(tender_id), {"data": {"tenderers": [test_organization], "value": {"amount": 475}, "requirementResponses": [test_requirement_response]}}
+        "/tenders/{}/bids".format(tender_id), {"data": {"tenderers": [test_organization], "value": {"amount": 475}, "requirementResponses": test_requirement_response_valid}}
     )
 
     # get awards
@@ -1960,7 +1960,7 @@ def lost_contract_for_active_award(self):
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
     self.app.post_json(
-        "/tenders/{}/bids".format(tender_id), {"data": {"tenderers": [test_organization], "value": {"amount": 500}, "requirementResponses": [test_requirement_response]}}
+        "/tenders/{}/bids".format(tender_id), {"data": {"tenderers": [test_organization], "value": {"amount": 500}, "requirementResponses": test_requirement_response_valid}}
     )
     # switch to active.qualification
     self.app.authorization = ("Basic", ("chronograph", ""))

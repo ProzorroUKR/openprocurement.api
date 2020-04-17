@@ -1,52 +1,32 @@
+from schematics.types import BaseType, BooleanType, FloatType, IntType, StringType, BaseType
+from schematics.types.compound import ModelType
+from schematics.exceptions import ValidationError
+
 from openprocurement.api.models import DecimalType, IsoDateTimeType, ListType, Model
 from openprocurement.api.models import Unit as BaseUnit
-from schematics.types import BaseType, BooleanType, FloatType, IntType, StringType
-from schematics.types.compound import ModelType
-
-
-class Period(Model):
-    startDate = IsoDateTimeType()
-    endDate = IsoDateTimeType()
-    durationInDays = IntType()
+from openprocurement.tender.pricequotation.validation import validate_value_type
 
 
 class Unit(BaseUnit):
     name = StringType(required=True)
 
 
-class BaseRequirement(Model):
+class Requirement(Model):
     id = StringType(required=True)
     title = StringType(required=True)
     description = StringType()
-    dataType = StringType(required=True, choices=["string", "date-time", "number", "integer", "boolean"])
-    pattern = StringType()
-    period = ModelType(Period)
+    dataType = StringType(required=True,
+                          choices=["string", "number", "integer", "boolean"])
     unit = ModelType(Unit)
-
-
-class RequirementString(BaseRequirement):
-    minValue = StringType()
-    maxValue = StringType()
+    minValue = BaseType()
+    maxValue = BaseType()
     expectedValue = StringType()
 
+    def validate_minValue(self, data, value):
+        validate_value_type(value, data['dataType'])
 
-class RequirementDateTime(BaseRequirement):
-    minValue = IsoDateTimeType()
-    maxValue = IsoDateTimeType()
-    expectedValue = IsoDateTimeType()
+    def validate_maxValue(self, data, value):
+        validate_value_type(value, data['dataType'])
 
-
-class RequirementNumber(BaseRequirement):
-    minValue = DecimalType()
-    maxValue = DecimalType()
-    expectedValue = DecimalType()
-
-
-class RequirementInteger(BaseRequirement):
-    minValue = IntType()
-    maxValue = IntType()
-    expectedValue = IntType()
-
-
-class RequirementBoolean(BaseRequirement):
-    expectedValue = BooleanType()
+    def validate_expectedValue(self, data, value):
+        validate_value_type(value, data['dataType'])

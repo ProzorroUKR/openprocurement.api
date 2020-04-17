@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from types import NoneType
+from operator import itemgetter
 
 from barbecue import chef
 from logging import getLogger
@@ -11,6 +12,7 @@ from openprocurement.tender.core.utils import (
     remove_draft_bids,
     cancel_tender
 )
+
 from openprocurement.tender.core.constants import COMPLAINT_STAND_STILL_TIME
 from openprocurement.tender.core.utils import get_first_revision_date
 from openprocurement.tender.pricequotation.interfaces import IRequirementResponse
@@ -146,19 +148,31 @@ def add_next_award(request):
         tender.status = "active.awarded"
 
 
-def get_requirement_class(instance, data):
-    return queryUtility(IRequirement, data['dataType'])
+def reformat_response(resp):
+    return [
+        {
+            'id': r['requirement']['id'],
+            'response': r['id'],
+            'value': r['value']
+        }
+        for r in resp
+    ]
 
 
-def get_requirement_response_class(instance, data):
-    data_types = {
-        bool: "boolean",
-        float: "number",
-        int: "integer",
-        str: "string",
-        unicode: "string",
-        NoneType: "none"
-    }
+def reformat_criteria(criterias):
+    return [
+        {
+            'id': req['id'],
+            'dataType': req['dataType'],
+            'maxValue': req.get("maxValue"),
+            'minValue': req.get("minValue"),
+            'expectedValue': req.get("expectedValue"),
+        }
+        for criteria in criterias
+        for req_group in criteria['requirementGroups']
+        for req in req_group['requirements']
+    ]
 
-    value_type = type(data.get("value"))
-    return queryUtility(IRequirementResponse, data_types.get(value_type, "none"))
+
+def sort_by_id(group):
+    return sorted(group, key=itemgetter('id'))

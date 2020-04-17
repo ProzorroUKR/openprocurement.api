@@ -14,11 +14,68 @@ from openprocurement.tender.pricequotation.constants import PMT
 
 
 now = get_now()
-test_requirement_response = {
-    "requirement": {
-        "id": "101-202"
+test_requirement_response_valid = [
+    {
+        "value": 23.8,
+        'requirement': {
+            'id': "655360-0001-001-01"
+        }
+    },
+    {
+        "value": "1920x1080",
+        'requirement': {
+            'id': "655360-0002-001-01"
+        }
+    },
+    {
+        "value": "16:9",
+        'requirement': {
+            'id': "655360-0003-001-01"
+        }
+    },
+    {
+        "value": 250,
+        'requirement': {
+            'id': "655360-0004-001-01"
+        }
+    },
+    {
+        "value": "1000:1",
+        'requirement': {
+            'id': "655360-0005-001-01"
+        }
+    },
+    {
+        "value": 1,
+        'requirement': {
+            'id': "655360-0006-001-01"
+        }
+    },
+    {
+        "value": 1,
+        'requirement': {
+            'id': "655360-0007-001-01"
+        }
+    },
+    {
+        "value": "HDMI",
+        'requirement': {
+            'id': "655360-0008-001-01"
+        }
+    },
+    {
+        "value": 36,
+        'requirement': {
+            'id': "655360-0009-001-01"
+        }
+    },
+    {
+        "value": "3000:1",
+        'requirement': {
+            "id": "655360-0005-002-01",
+        }
     }
-}
+]
 
 test_organization = {
     "name": u"Державне управління справами",
@@ -93,8 +150,8 @@ test_tender_data = {
 if SANDBOX_MODE:
     test_tender_data["procurementMethodDetails"] = "quick, accelerator=1440"
 test_bids = [
-    {"tenderers": [test_organization], "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True}, "requirementResponses": [test_requirement_response]},
-    {"tenderers": [test_organization], "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True}, "requirementResponses": [test_requirement_response]},
+    {"tenderers": [test_organization], "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True}, "requirementResponses": test_requirement_response_valid},
+    {"tenderers": [test_organization], "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True}, "requirementResponses": test_requirement_response_valid},
 ]
 
 test_cancellation = {
@@ -430,10 +487,12 @@ class BaseTenderWebTest(BaseCoreWebTest):
                 {
                     "tenderPeriod": {"startDate": (now).isoformat(), "endDate": (now + timedelta(days=1)).isoformat()},
                     "shortlistedFirms": test_shortlisted_firms,
+                    'criteria': test_short_profile['criteria'],
                     "items": items
                 }
             )
         elif status == "active.qualification":
+            self.set_status("active.tendering")
             data.update(
                 {
                     "tenderPeriod": {
@@ -444,6 +503,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
                 }
             )
         elif status == "active.awarded":
+            self.set_status("active.qualification")
             data.update(
                 {
                     "tenderPeriod": {
@@ -454,6 +514,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
                 }
             )
         elif status == "complete":
+            self.set_status("active.awarded")
             data.update(
                 {
                     "tenderPeriod": {
@@ -479,6 +540,9 @@ class BaseTenderWebTest(BaseCoreWebTest):
         self.tender_token = response.json["access"]["token"]
         self.tender_id = tender["id"]
         status = tender["status"]
+        if self.initial_status and self.initial_status != status:
+            self.set_status(self.initial_status)
+
         if self.initial_bids:
             self.initial_bids_tokens = {}
             response = self.set_status("active.tendering")
@@ -490,8 +554,6 @@ class BaseTenderWebTest(BaseCoreWebTest):
                 bids.append(response.json["data"])
                 self.initial_bids_tokens[response.json["data"]["id"]] = response.json["access"]["token"]
             self.initial_bids = bids
-        if self.initial_status and self.initial_status != status:
-            self.set_status(self.initial_status)
 
 
 class TenderContentWebTest(BaseTenderWebTest):

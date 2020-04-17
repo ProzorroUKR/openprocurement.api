@@ -1,9 +1,8 @@
 from uuid import uuid4
 
-from openprocurement.tender.pricequotation.utils import get_requirement_response_class
 from pyramid.security import Allow
-from schematics.types import MD5Type, StringType, BooleanType, IntType, DecimalType
-from schematics.types.compound import ModelType, PolyModelType
+from schematics.types import MD5Type, StringType, BooleanType, IntType, DecimalType, BaseType
+from schematics.types.compound import ModelType
 from schematics.transforms import whitelist
 
 from openprocurement.api.utils import get_now
@@ -19,13 +18,7 @@ from openprocurement.tender.core.models import (
 from openprocurement.tender.pricequotation.models.document import\
     Document
 from openprocurement.tender.pricequotation.validation import\
-    validate_bid_value
-
-
-class BidOffer(Model):
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
-    relatedItem = MD5Type(required=True)
-    requirementsResponse = StringType(required=True)
+    validate_bid_value, validate_requirement_responses
 
 
 class RequirementReference(Model):
@@ -33,25 +26,10 @@ class RequirementReference(Model):
     title = StringType()
 
 
-class BaseRequirementResponse(Model):
+class RequirementResponse(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     requirement = ModelType(RequirementReference, required=True)
-
-
-class RequirementResponseString(BaseRequirementResponse):
-    value = StringType()
-
-
-class RequirementResponseInt(BaseRequirementResponse):
-    value = IntType()
-
-
-class RequirementResponseNumber(BaseRequirementResponse):
-    value = DecimalType()
-
-
-class RequirementResponseBoolean(BaseRequirementResponse):
-    value = BooleanType()
+    value = BaseType(required=True)
 
 
 class Bid(Model):
@@ -96,27 +74,10 @@ class Bid(Model):
     transfer_token = StringType()
     owner = StringType()
     requirementResponses = ListType(
-        PolyModelType(
-            (
-                BaseRequirementResponse,
-                RequirementResponseInt,
-                RequirementResponseNumber,
-                RequirementResponseString,
-                RequirementResponseBoolean,
-            ),
-            claim_function=get_requirement_response_class,
-            required=True
-        ),
+        ModelType(RequirementResponse),
         required=True,
         min_size=1
     )
-    # TODO: 
-    # offers = ListType(
-    #     ModelType(BidOffer, required=True),
-    #     required=True,
-    #     min_size=1,
-    #     validators=[validate_items_uniq],
-    # )
 
     __name__ = ""
 
@@ -145,3 +106,7 @@ class Bid(Model):
         parent = data["__parent__"]
         if isinstance(parent, Model):
             validate_bid_value(parent, value)
+
+    def validate_requirementResponses(self, data, value):
+        criterion = data["__parent__"]['criteria']
+        validate_requirement_responses(criterion, value)
