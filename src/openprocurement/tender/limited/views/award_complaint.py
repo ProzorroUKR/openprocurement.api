@@ -45,7 +45,6 @@ class TenderNegotiationAwardComplaintResource(BaseTenderAwardComplaintResource):
 
         complaint = self.request.validated["complaint"]
         complaint.date = get_now()
-        complaint.type = "complaint"
         if old_rules and complaint.status == "pending":
             complaint.dateSubmitted = get_now()
         else:
