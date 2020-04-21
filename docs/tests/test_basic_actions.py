@@ -8,6 +8,7 @@ from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.models import get_now
 from openprocurement.tender.openeu.tests.tender import BaseTenderWebTest
 
+from openprocurement.api.constants import RELEASE_2020_04_19
 from tests.base.constants import DOCS_URL, AUCTIONS_URL
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.base.data import (
@@ -78,7 +79,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.post(
                 '/tenders/{}/complaints/{}/documents?acc_token={}'.format(self.tender_id, complaint_id,
                                                                           complaint_token),
-                upload_files=[('file', u'Complaint_Attachement.pdf', 'content')])
+                upload_files=[('file', u'Complaint_Attachment.pdf', 'content')])
             self.assertEqual(response.status, '201 Created')
 
         with open(TARGET_DIR + 'complaints/complaint-claim.http', 'w') as self.app.file_obj:
@@ -259,25 +260,39 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 }})
             self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'complaints/complaint-accepted-stopping.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint6_id, complaint6_token),
-                {"data": {
-                    "cancellationReason": "Тендер скасовується замовником",
-                    "status": "stopping"
-                }})
+        if RELEASE_2020_04_19 > get_now():
+            with open(TARGET_DIR + 'complaints/complaint-accepted-stopping.http', 'w') as self.app.file_obj:
+                response = self.app.patch_json(
+                    '/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint6_id, complaint6_token),
+                    {"data": {
+                        "cancellationReason": "Тендер скасовується замовником",
+                        "status": "stopping"
+                    }},
+                    status=200,
+                )
             self.assertEqual(response.status, '200 OK')
 
-        self.app.authorization = ('Basic', ('reviewer', ''))
-        with open(TARGET_DIR + 'complaints/complaint-stopping-stopped.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/complaints/{}'.format(self.tender_id, complaint6_id),
-                {'data': {
-                    "decision": "Тендер скасовується замовником",
-                    "status": "stopped",
-                    "rejectReason": "tenderCancelled"
-                }})
-            self.assertEqual(response.status, '200 OK')
+            self.app.authorization = ('Basic', ('reviewer', ''))
+            with open(TARGET_DIR + 'complaints/complaint-stopping-stopped.http', 'w') as self.app.file_obj:
+                response = self.app.patch_json(
+                    '/tenders/{}/complaints/{}'.format(self.tender_id, complaint6_id),
+                    {'data': {
+                        "decision": "Тендер скасовується замовником",
+                        "status": "stopped",
+                        "rejectReason": "tenderCancelled"
+                    }})
+                self.assertEqual(response.status, '200 OK')
+        else:
+            with open(TARGET_DIR + 'complaints/complaint-accepted-stopping-2020-04-19.http', 'w') as self.app.file_obj:
+                response = self.app.patch_json(
+                    '/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint6_id, complaint6_token),
+                    {"data": {
+                        "cancellationReason": "Тендер скасовується замовником",
+                        "status": "stopping"
+                    }},
+                    status=403,
+                )
+            self.assertEqual(response.status, '403 Forbidden')
 
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json(
@@ -456,7 +471,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.post(
                 '/tenders/{}/qualifications/{}/complaints/{}/documents?acc_token={}'.format(
                     self.tender_id, qualification_id, complaint1_id, complaint1_token),
-                upload_files=[('file', u'Complaint_Attachement.pdf', 'content')])
+                upload_files=[('file', u'Complaint_Attachment.pdf', 'content')])
             self.assertEqual(response.status, '201 Created')
 
         with open(TARGET_DIR + 'complaints/qualification-complaint-complaint.http', 'w') as self.app.file_obj:
@@ -746,27 +761,42 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 }})
             self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'complaints/qualification-complaint-accepted-stopping.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/qualifications/{}/complaints/{}?acc_token={}'.format(
-                    self.tender_id, qualification_id, complaint4_id, complaint4_token),
-                {"data": {
-                    "cancellationReason": "Тендер скасовується замовником",
-                    "status": "stopping"
-                }})
-            self.assertEqual(response.status, '200 OK')
+        if RELEASE_2020_04_19 > get_now():
+            with open(TARGET_DIR + 'complaints/qualification-complaint-accepted-stopping.http', 'w') as self.app.file_obj:
+                response = self.app.patch_json(
+                    '/tenders/{}/qualifications/{}/complaints/{}?acc_token={}'.format(
+                        self.tender_id, qualification_id, complaint4_id, complaint4_token),
+                    {"data": {
+                        "cancellationReason": "Тендер скасовується замовником",
+                        "status": "stopping"
+                    }},
+                    status=200,
+                )
+                self.assertEqual(response.status, '200 OK')
 
-        self.app.authorization = ('Basic', ('reviewer', ''))
-        with open(TARGET_DIR + 'complaints/qualification-complaint-stopping-stopped.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/qualifications/{}/complaints/{}'.format(
-                    self.tender_id, qualification_id, complaint4_id),
-                {"data": {
-                    "decision": "Тендер скасовується замовником",
-                    "status": "stopped",
-                    "rejectReason": "tenderCancelled"
-                }})
-            self.assertEqual(response.status, '200 OK')
+                self.app.authorization = ('Basic', ('reviewer', ''))
+                with open(TARGET_DIR + 'complaints/qualification-complaint-stopping-stopped.http', 'w') as self.app.file_obj:
+                    response = self.app.patch_json(
+                        '/tenders/{}/qualifications/{}/complaints/{}'.format(
+                            self.tender_id, qualification_id, complaint4_id),
+                        {"data": {
+                            "decision": "Тендер скасовується замовником",
+                            "status": "stopped",
+                            "rejectReason": "tenderCancelled"
+                        }})
+                    self.assertEqual(response.status, '200 OK')
+        else:
+            with open(TARGET_DIR + 'complaints/qualification-complaint-accepted-stopping-2020-04-19.http', 'w') as self.app.file_obj:
+                response = self.app.patch_json(
+                    '/tenders/{}/qualifications/{}/complaints/{}?acc_token={}'.format(
+                        self.tender_id, qualification_id, complaint4_id, complaint4_token),
+                    {"data": {
+                        "cancellationReason": "Тендер скасовується замовником",
+                        "status": "stopping"
+                    }},
+                    status=403,
+                )
+                self.assertEqual(response.status, '403 Forbidden')
 
         self.app.authorization = None
         with open(TARGET_DIR + 'complaints/qualification-complaints-list.http', 'w') as self.app.file_obj:
@@ -881,7 +911,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.post(
                 '/tenders/{}/awards/{}/complaints/{}/documents?acc_token={}'.format(
                     self.tender_id, award_id, complaint1_id, complaint1_token),
-                upload_files=[('file', u'Complaint_Attachement.pdf', 'content')])
+                upload_files=[('file', u'Complaint_Attachment.pdf', 'content')])
             self.assertEqual(response.status, '201 Created')
 
         with open(TARGET_DIR + 'complaints/award-complaint-complaint.http', 'w') as self.app.file_obj:
@@ -911,6 +941,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         # complaint2_id = response.json['data']['id']
 
         complaint_url = "/tenders/{}/awards/{}/complaints".format(self.tender_id, award_id)
+
         complaint2_id, complaint2_token = complaint_create_pending(self, complaint_url, complaint_data, bid_token)
 
         complaint3_id, complaint3_token = complaint_create_pending(self, complaint_url, complaint_data, bid_token)
@@ -1167,24 +1198,49 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 }})
             self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'complaints/award-complaint-accepted-stopping.http', 'w') as self.app.file_obj:
+        if RELEASE_2020_04_19 > get_now():
+            with open(TARGET_DIR + 'complaints/award-complaint-accepted-stopping.http', 'w') as self.app.file_obj:
+                response = self.app.patch_json(
+                    '/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(
+                        self.tender_id, award_id, complaint4_id, complaint4_token),
+                    {'data': {
+                        "cancellationReason": "Тендер скасовується замовником",
+                        "status": "stopping",
+                    }},
+                    status=200,
+                )
+                self.assertEqual(response.status, '200 OK')
+
+                self.app.authorization = ('Basic', ('reviewer', ''))
+                with open(TARGET_DIR + 'complaints/award-complaint-stopping-stopped.http', 'w') as self.app.file_obj:
+                    response = self.app.patch_json(
+                        '/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award_id, complaint4_id),
+                        {'data': {
+                            "decision": "Тендер скасовується замовником",
+                            "status": "stopped",
+                            "rejectReason": "tenderCancelled"
+                        }})
+                    self.assertEqual(response.status, '200 OK')
+        else:
+            with open(TARGET_DIR + 'complaints/award-complaint-accepted-stopping-2020-04-19.http', 'w') as self.app.file_obj:
+                response = self.app.patch_json(
+                    '/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(
+                        self.tender_id, award_id, complaint4_id, complaint4_token),
+                    {'data': {
+                        "cancellationReason": "Тендер скасовується замовником",
+                        "status": "stopping",
+                    }},
+                    status=403,
+                )
+                self.assertEqual(response.status, '403 Forbidden')
+
+            self.app.authorization = ('Basic', ('reviewer', ''))
             response = self.app.patch_json(
                 '/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(
                     self.tender_id, award_id, complaint4_id, complaint4_token),
                 {'data': {
-                    "cancellationReason": "Тендер скасовується замовником",
-                    "status": "stopping"
-                }})
-            self.assertEqual(response.status, '200 OK')
-
-        self.app.authorization = ('Basic', ('reviewer', ''))
-        with open(TARGET_DIR + 'complaints/award-complaint-stopping-stopped.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award_id, complaint4_id),
-                {'data': {
-                    "decision": "Тендер скасовується замовником",
-                    "status": "stopped",
-                    "rejectReason": "tenderCancelled"
+                    "status": "declined",
+                    "rejectReason": "tenderCancelled",
                 }})
             self.assertEqual(response.status, '200 OK')
 
@@ -1268,7 +1324,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.post(
                 '/tenders/{}/cancellations/{}/complaints/{}/documents?acc_token={}'.format(
                     self.tender_id, cancellation_id, complaint1_id, complaint1_token),
-                upload_files=[('file', u'Complaint_Attachement.pdf', 'content')])
+                upload_files=[('file', u'Complaint_Attachment.pdf', 'content')])
             self.assertEqual(response.status, '201 Created')
 
         complaint_data = {'data': complaint.copy()}

@@ -1,4 +1,5 @@
 from iso8601 import parse_date
+from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.belowthreshold.tests.base import test_complaint, test_draft_claim
 from openprocurement.api.constants import SANDBOX_MODE, RELEASE_2020_04_19
 from openprocurement.tender.core.tests.cancellation import skip_complaint_period_2020_04_19
@@ -39,17 +40,18 @@ def create_tender_lot_qualification_complaint(self):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["data"]["status"], "pending")
 
-    # set complaint status stopping to be able to cancel the lot
-    response = self.app.patch_json(
-        "/tenders/{}/qualifications/{}/complaints/{}?acc_token={}".format(
-            self.tender_id, self.qualification_id, complaint["id"], complaint_token
-        ),
-        {"data": {
-            "status": "stopping",
-            "cancellationReason": "want this test to pass",
-        }},
-    )
-    assert response.status_code == 200
+    # set complaint status to invalid to be able to cancel the tender
+    with change_auth(self.app, ("Basic", ("reviewer", ""))):
+        response = self.app.patch_json(
+            "/tenders/{}/qualifications/{}/complaints/{}?acc_token={}".format(
+                self.tender_id, self.qualification_id, complaint["id"], complaint_token
+            ),
+            {"data": {
+                "status": "invalid",
+                "rejectReason": "buyerViolationsCorrected"
+            }},
+        )
+        self.assertEqual(response.status, "200 OK")
 
     if RELEASE_2020_04_19 > get_now():
         # Test for old rules
@@ -101,17 +103,18 @@ def create_tender_qualification_complaint(self):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["data"]["status"], "pending")
 
-    # set complaint status stopping to be able to cancel the lot
-    response = self.app.patch_json(
-        "/tenders/{}/qualifications/{}/complaints/{}?acc_token={}".format(
-            self.tender_id, self.qualification_id, complaint["id"], complaint_token
-        ),
-        {"data": {
-            "status": "stopping",
-            "cancellationReason": "want this test to pass",
-        }},
-    )
-    assert response.status_code == 200
+    # set complaint status to invalid to be able to cancel the tender
+    with change_auth(self.app, ("Basic", ("reviewer", ""))):
+        response = self.app.patch_json(
+            "/tenders/{}/qualifications/{}/complaints/{}?acc_token={}".format(
+                self.tender_id, self.qualification_id, complaint["id"], complaint_token
+            ),
+            {"data": {
+                "status": "invalid",
+                "rejectReason": "buyerViolationsCorrected"
+            }},
+        )
+        self.assertEqual(response.status, "200 OK")
 
     if RELEASE_2020_04_19 > get_now():
         # Test for old rules

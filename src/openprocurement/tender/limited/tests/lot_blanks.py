@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.constants import RELEASE_2020_04_19
-from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_complaint, test_cancellation
 from openprocurement.api.models import get_now
-from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
 from openprocurement.tender.core.tests.base import change_auth
-
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_complaint, test_cancellation
 
 # TenderLotNegotiationResourceTest
 
@@ -759,17 +756,18 @@ def cancel_lot_with_complaint(self):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["data"]["status"], "pending")
 
-    # set complaint status stopping to be able to cancel the lot
-    response = self.app.patch_json(
-        "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
-            self.tender_id, award["id"], response.json["data"]["id"], owner_token
-        ),
-        {"data": {
-            "status": "stopping",
-            "cancellationReason": "want this test to pass",
-        }},
-    )
-    assert response.status_code == 200
+    # set complaint status invalid to be able to cancel the lot
+    with change_auth(self.app, ("Basic", ("reviewer", ""))):
+        response = self.app.patch_json(
+            "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
+                self.tender_id, award["id"], response.json["data"]["id"], owner_token
+            ),
+            {"data": {
+                "status": "invalid",
+                "rejectReason": "buyerViolationsCorrected"
+            }},
+        )
+        self.assertEqual(response.status, "200 OK")
 
     self.set_all_awards_complaint_period_end()
     # Try to cancel lot

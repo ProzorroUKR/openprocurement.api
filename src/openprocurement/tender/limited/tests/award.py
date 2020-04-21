@@ -78,7 +78,6 @@ from openprocurement.tender.limited.tests.award_blanks import (
     check_tender_award_complaint_period_dates,
 )
 
-
 class TenderAwardResourceTest(BaseTenderContentWebTest):
     initial_status = "active"
     initial_data = test_tender_data

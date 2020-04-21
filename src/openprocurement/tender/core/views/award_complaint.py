@@ -174,9 +174,13 @@ class BaseTenderAwardComplaintResource(BaseTenderComplaintResource):
     def patch_as_complaint_owner(self, data):
         status = self.context.status
         new_status = data.get("status", status)
+        tender = self.request.validated["tender"]
+        apply_rules_2020_04_19 = get_first_revision_date(tender, get_now()) > RELEASE_2020_04_19
         if (
             status in ["draft", "claim", "answered"] and new_status == "cancelled"
-            or status in ["pending", "accepted"] and new_status == "stopping"
+            or (status in ["pending", "accepted"]
+                and new_status == "stopping"
+                and not apply_rules_2020_04_19)
         ):
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateCanceled = get_now()
@@ -194,7 +198,8 @@ class BaseTenderAwardComplaintResource(BaseTenderComplaintResource):
 
     def patch_draft_as_complaint_owner(self, data):
         tender = self.request.validated["tender"]
-        
+        apply_rules_2020_04_19 = get_first_revision_date(tender) > RELEASE_2020_04_19
+
         complaint_period = self.request.validated["award"].complaintPeriod
         is_complaint_period = (
             complaint_period.startDate <= get_now() <= complaint_period.endDate
@@ -289,7 +294,7 @@ class BaseTenderAwardComplaintResource(BaseTenderComplaintResource):
 
         elif (
             (not apply_rules_2020_04_19 and status in ["pending", "accepted", "stopping"])
-            or (apply_rules_2020_04_19 and status in ["accepted", "stopping"])
+            or (apply_rules_2020_04_19 and status == "accepted")
             and new_status == "stopped"
         ):
             apply_patch(self.request, save=False, src=context.serialize())
