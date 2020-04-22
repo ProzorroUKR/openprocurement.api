@@ -15,6 +15,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_author,
     test_cancellation,
     test_complaint,
+    test_claim,
     test_draft_claim,
     test_draft_complaint,
 )
@@ -1777,6 +1778,21 @@ def create_tender_negotiation_award_complaints(self):
     self.assertEqual(complaint["author"]["name"], test_organization["name"])
     self.assertIn("id", complaint)
     self.assertIn(complaint["id"], response.headers["Location"])
+    self.assertEqual(complaint["type"], "complaint")
+
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/complaints".format(self.tender_id, self.award_id),
+        {
+            "data": test_claim
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    complaint = response.json["data"]
+    self.assertEqual(complaint["author"]["name"], test_organization["name"])
+    self.assertIn("id", complaint)
+    self.assertIn(complaint["id"], response.headers["Location"])
+    self.assertEqual(complaint["type"], "claim")
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
