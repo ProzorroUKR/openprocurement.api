@@ -38,7 +38,8 @@ from openprocurement.contracting.api.tests.contract_blanks import (
     generate_credentials_invalid,
     contract_wo_items_status_change,
     patch_tender_contract_wo_amount_net,
-    patch_tender_without_value
+    patch_tender_without_value,
+    skip_address_validation
 )
 
 
@@ -65,6 +66,7 @@ class ContractResourceTest(BaseContractTest):
     test_create_contract = snitch(create_contract)
     test_create_contract_transfer_token = snitch(create_contract_transfer_token)
     test_create_contract_w_documents = snitch(create_contract_w_documents)
+    test_skip_address_validation = snitch(skip_address_validation)
 
 
 class ContractResource4BrokersTest(BaseContractWebTest):

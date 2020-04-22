@@ -20,7 +20,10 @@ from openprocurement.agreement.cfaua.tests.agreement_blanks import (
     agreement_change_third_party_preview,
     agreement_changes_patch_from_agreements,
     create_agreement_with_two_active_contracts,
-    agreement_token_invalid, generate_credentials_invalid)
+    agreement_token_invalid, generate_credentials_invalid,
+    skip_address_validation
+)
+
 from openprocurement.api.tests.base import snitch
 from openprocurement.agreement.cfaua.tests.base import TEST_AGREEMENT, TEST_FEATURES, TEST_CHANGE
 from openprocurement.agreement.cfaua.tests.base import BaseAgreementTest, BaseAgreementContentWebTest
@@ -42,6 +45,7 @@ class AgreementResourceTest(BaseAgreementTest):
     test_create_agreement_with_features = snitch(create_agreement_with_features)
     test_patch_agreement_features_invalid = snitch(patch_agreement_features_invalid)
     test_create_agreement_with_two_active_contracts = snitch(create_agreement_with_two_active_contracts)
+    test_skip_address_validation = snitch(skip_address_validation)
 
 
 class AgreementResourceTest4BrokerTest(BaseAgreementContentWebTest):
