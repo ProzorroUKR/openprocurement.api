@@ -30,7 +30,7 @@ def check_bids(request):
         return
     if tender.numberOfBids == 0:
         tender.status = "unsuccessful"
-    if tender.numberOfBids == 1:
+    else:
         # tender.status = 'active.qualification'
         add_next_award(request)
 
