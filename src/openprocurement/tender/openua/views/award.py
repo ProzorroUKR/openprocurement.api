@@ -33,7 +33,7 @@ class TenderUaAwardResource(TenderAwardResource):
 
         award = self.request.context
         if "status" in self.request.validated["data"]:
-            new_status= self.request.validated["data"]["status"]
+            new_status = self.request.validated["data"]["status"]
 
             if award.status != new_status and new_status in ["active", "unsuccessful"]:
                 if award.complaintPeriod:

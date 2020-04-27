@@ -12,12 +12,12 @@ Content-Type: application/json; charset=UTF-8
           "hash": "md5:00000000000000000000000000000000", 
           "author": "complaint_owner", 
           "language": "uk", 
-          "title": "Complaint_Attachement.pdf", 
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/044e3664d4424f7992ecf1be1a6eb4e5?KeyID=a8968c46&Signature=e9U6CRkBVZ6rkNH3EDMhjmV6sKMqEw8VUySAoFa%252BqT10xwjvlVlNrl%252B448kzI9ZTL7NnewOtV9YNZ1bn%252BYKNDQ%253D%253D", 
+          "title": "Complaint_Attachment.pdf", 
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a7d45e084eae4b62b0221b177f07e175?KeyID=a8968c46&Signature=zO0ofKMjXZXMhgBRf2cpOpKeJ9O%2F61G8Cr%2Fs6SwNmJPtnG50Rgq58PM5edDFskUuM7qt%2FHC7VqECFwKnQlinBQ%253D%253D", 
           "format": "application/pdf", 
           "documentOf": "tender", 
           "datePublished": "2020-05-01T01:00:00+03:00", 
-          "id": "ef0ffd42b2784566a2c56964a03761da", 
+          "id": "25b08fd7f5ca41a3a74812a5019d993e", 
           "dateModified": "2020-05-01T01:00:00+03:00"
         }
       ], 
@@ -238,20 +238,8 @@ Content-Type: application/json; charset=UTF-8
       "reviewPlace": "Place of review"
     }, 
     {
-      "status": "stopped", 
-      "dateDecision": "2020-05-01T01:00:00+03:00", 
+      "status": "accepted", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
-      "title": "Недостатньо інформації", 
-      "decision": "Тендер скасовується замовником", 
-      "acceptance": true, 
-      "value": {
-        "currency": "UAH", 
-        "amount": 2000.0
-      }, 
-      "cancellationReason": "Тендер скасовується замовником", 
-      "dateCanceled": "2020-05-01T01:00:00+03:00", 
-      "dateAccepted": "2020-05-01T01:00:00+03:00", 
-      "rejectReason": "tenderCancelled", 
       "author": {
         "contactPoint": {
           "email": "soleksuk@gmail.com", 
@@ -272,12 +260,19 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Вінниця"
         }
       }, 
+      "reviewDate": "2020-05-01T01:00:00+03:00", 
+      "acceptance": true, 
+      "value": {
+        "currency": "UAH", 
+        "amount": 2000.0
+      }, 
+      "dateAccepted": "2020-05-01T01:00:00+03:00", 
       "dateSubmitted": "2020-05-01T01:00:00+03:00", 
       "complaintID": "UA-2020-05-01-000001.7", 
       "date": "2020-05-01T01:00:00+03:00", 
-      "id": "bb9432ace0c047c6b4c925ec4ace0099", 
+      "title": "Недостатньо інформації", 
       "type": "complaint", 
-      "reviewDate": "2020-05-01T01:00:00+03:00", 
+      "id": "bb9432ace0c047c6b4c925ec4ace0099", 
       "reviewPlace": "Place of review"
     }, 
     {

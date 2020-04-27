@@ -1,0 +1,26 @@
+PATCH /api/2.5/tenders/0ba5045de21b4930a220df9887be28ec/qualifications/de1fdfe83be64f45a3aa274d8f98a1e9/complaints/761c2b6925284c17b43a1513c92ab39a?acc_token=c4e7ed69b4954e888a15683ee5d78db6 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 228
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "status": "stopping", 
+    "cancellationReason": "Тендер скасовується замовником"
+  }
+}
+
+Response: 403 Forbidden
+Content-Type: application/json; charset=UTF-8
+{
+  "status": "error", 
+  "errors": [
+    {
+      "description": "Can't update complaint from accepted to stopping status", 
+      "location": "body", 
+      "name": "data"
+    }
+  ]
+}
+

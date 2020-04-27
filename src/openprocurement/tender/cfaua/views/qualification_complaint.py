@@ -3,7 +3,6 @@ from openprocurement.api.utils import (
     context_unpack, 
     json_view, 
     set_ownership, 
-    get_now, 
     raise_operation_error,
     get_first_revision_date,
     get_now
@@ -134,7 +133,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
             not tender.qualificationPeriod.endDate or tender.qualificationPeriod.endDate > get_now()
         )
 
-        new_rules = get_first_revision_date(tender, get_now()) > RELEASE_2020_04_19
+        apply_rules_2020_04_19 = get_first_revision_date(tender, get_now()) > RELEASE_2020_04_19
 
         if (
             status in ["draft", "claim", "answered"]
@@ -143,7 +142,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateCanceled = get_now()
         elif (
-            new_rules
+            apply_rules_2020_04_19
             and status == "draft"
             and self.context.type == "complaint"
             and new_status == "mistaken"
@@ -153,6 +152,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
         elif (
             status in ["pending", "accepted"]
             and new_status == "stopping"
+            and not apply_rules_2020_04_19
         ):
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateCanceled = get_now()
@@ -178,7 +178,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
             is_qualificationPeriod
             and status == "draft"
             and new_status == "pending"
-            and not new_rules
+            and not apply_rules_2020_04_19
         ):
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.type = "complaint"
@@ -234,7 +234,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
         status = self.context.status
         new_status = data.get("status", status)
 
-        new_rules = get_first_revision_date(tender, get_now()) > RELEASE_2020_04_19
+        apply_rules_2020_04_19 = get_first_revision_date(tender, get_now()) > RELEASE_2020_04_19
 
         if (
             self.request.authenticated_role == "aboveThresholdReviewers"
@@ -246,7 +246,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
             self.request.authenticated_role == "aboveThresholdReviewers"
             and status in ["pending", "stopping"]
             and (
-                (not new_rules and new_status in ["invalid", "mistaken"]) 
+                (not apply_rules_2020_04_19 and new_status in ["invalid", "mistaken"])
                 or (new_status == "invalid")
             )
         ):
@@ -280,8 +280,8 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
                 tender.qualificationPeriod.endDate = None
         elif (
             self.request.authenticated_role == "aboveThresholdReviewers"
-            and ((not new_rules and status in ["pending", "accepted", "stopping"])
-                 or (new_rules and status in ["accepted", "stopping"]))
+            and ((not apply_rules_2020_04_19 and status in ["pending", "accepted", "stopping"])
+                 or (apply_rules_2020_04_19 and status == "accepted"))
             and new_status == "stopped"
         ):
             apply_patch(self.request, save=False, src=self.context.serialize())

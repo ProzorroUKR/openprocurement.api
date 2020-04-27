@@ -1288,17 +1288,18 @@ def put_tender_2lot_award_complaint_document(self):
     self.assertEqual(response.content_length, 8)
     self.assertEqual(response.body, "content4")
 
-    # set complaint status stopping to be able to cancel the lot
-    response = self.app.patch_json(
-        "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
-            self.tender_id, self.award_id, self.complaint_id, self.complaint_owner_token
-        ),
-        {"data": {
-            "status": "stopping",
-            "cancellationReason": "want this test to pass",
-        }},
-    )
-    assert response.status_code == 200
+    # set complaint status invalid to be able to cancel the lot
+    with change_auth(self.app, ("Basic", ("reviewer", ""))):
+        response = self.app.patch_json(
+            "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
+                self.tender_id, self.award_id, self.complaint_id, self.complaint_owner_token
+            ),
+            {"data": {
+                "status": "invalid",
+                "rejectReason": "buyerViolationsCorrected"
+            }},
+        )
+        self.assertEqual(response.status, "200 OK")
 
     if RELEASE_2020_04_19 < get_now():
         self.set_all_awards_complaint_period_end()
@@ -1405,17 +1406,18 @@ def patch_tender_2lot_award_complaint_document(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["description"], "document description2")
 
-    # set complaint status stopping to be able to cancel the lot
-    response = self.app.patch_json(
-        "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
-            self.tender_id, self.award_id, self.complaint_id, self.complaint_owner_token
-        ),
-        {"data": {
-            "status": "stopping",
-            "cancellationReason": "want this test to pass",
-        }},
-    )
-    assert response.status_code == 200
+    # set complaint status invalid to be able to cancel the lot
+    with change_auth(self.app, ("Basic", ("reviewer", ""))):
+        response = self.app.patch_json(
+            "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
+                self.tender_id, self.award_id, self.complaint_id, self.complaint_owner_token
+            ),
+            {"data": {
+                "status": "invalid",
+                "rejectReason": "buyerViolationsCorrected"
+            }},
+        )
+        self.assertEqual(response.status, "200 OK")
 
     if RELEASE_2020_04_19 < get_now():
         self.set_all_awards_complaint_period_end()

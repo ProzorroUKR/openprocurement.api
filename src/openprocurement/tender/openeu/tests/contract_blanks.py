@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
-from openprocurement.tender.core.tests.base import change_auth
-from openprocurement.tender.belowthreshold.tests.base import test_draft_claim, test_draft_complaint
-
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
+from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.belowthreshold.tests.base import test_draft_complaint
+
 
 # TenderContractResourceTest
 
@@ -156,35 +156,18 @@ def patch_tender_contract(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["errors"][0]["description"], "Can't sign contract before reviewing all complaints")
 
-    response = self.app.patch_json(
-        "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
-            self.tender_id, self.award_id, complaint["id"], owner_token
-        ),
-        {"data": {"status": "stopping", "cancellationReason": "reason"}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["status"], "stopping")
+    with change_auth(self.app, ("Basic", ("reviewer", ""))):
+        response = self.app.patch_json(
+            "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
+                self.tender_id, self.award_id, complaint["id"], owner_token
+            ),
+            {"data": {
+                "status": "invalid",
+                "rejectReason": "buyerViolationsCorrected"
+            }},
+        )
+        self.assertEqual(response.status, "200 OK")
 
-    authorization = self.app.authorization
-    self.app.authorization = ("Basic", ("reviewer", ""))
-    now = get_now()
-    data = {"status": "stopped"}
-    if RELEASE_2020_04_19 < now:
-        data.update({
-            "status": "declined",
-            "rejectReason": "tenderCancelled",
-            "rejectReasonDescription": "reject reason description"
-        })
-
-    response = self.app.patch_json(
-        "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, self.award_id, complaint["id"]),
-        {"data": data},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], data["status"])
-
-    self.app.authorization = authorization
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
         {"data": {"status": "active"}},

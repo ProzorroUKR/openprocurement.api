@@ -91,13 +91,13 @@ class TenderNegotiationAwardComplaintResource(BaseTenderAwardComplaintResource):
         new_status = data.get("status", status)
 
         tender = self.request.validated["tender"]
-        new_rules = get_first_revision_date(tender) > RELEASE_2020_04_19
+        apply_rules_2020_04_19 = get_first_revision_date(tender, get_now()) > RELEASE_2020_04_19
 
         if status in ["draft", "claim", "answered"] and new_status == "cancelled":
             # claim ? There is no way to post claim, so this must be a backward-compatibility option
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateCanceled = get_now()
-        elif status in ["pending", "accepted"] and new_status == "stopping":
+        elif status in ["pending", "accepted"] and new_status == "stopping" and not apply_rules_2020_04_19:
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateCanceled = get_now()
         elif status == "draft":
@@ -106,20 +106,20 @@ class TenderNegotiationAwardComplaintResource(BaseTenderAwardComplaintResource):
             if new_status == status:
                 apply_patch(self.request, save=False, src=self.context.serialize())
             elif (
-                new_rules
+                apply_rules_2020_04_19
                 and self.context.type == "complaint"
                 and new_status == "mistaken"
             ):
                 self.context.rejectReason = "cancelledByComplainant"
                 apply_patch(self.request, save=False, src=self.context.serialize())
-            elif new_status == "pending" and not new_rules:
+            elif new_status == "pending" and not apply_rules_2020_04_19:
                 apply_patch(self.request, save=False, src=self.context.serialize())
                 self.context.type = "complaint"
                 self.context.dateSubmitted = get_now()
             else:
                 raise_operation_error(self.request, "Can't update draft complaint to {} status".format(new_status))
         else:
-            raise_operation_error(self.request, "Can't update complaint from {} to {}".format(status, new_status))
+            raise_operation_error(self.request, "Can't update complaint from {} to {} status".format(status, new_status))
 
     def patch_as_tender_owner(self, data):
         status = self.context.status
@@ -167,7 +167,7 @@ class TenderNegotiationAwardComplaintResource(BaseTenderAwardComplaintResource):
 
         elif (
             (old_rules and status in ["pending", "accepted", "stopping"])
-            or (not old_rules and status in ["accepted", "stopping"])
+            or (not old_rules and status == "accepted")
             and new_status == "stopped"
         ):
             apply_patch(self.request, save=False, src=self.context.serialize())

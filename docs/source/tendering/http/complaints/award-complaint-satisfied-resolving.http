@@ -96,12 +96,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/56aa844d9b3a43e4
             "hash": "md5:00000000000000000000000000000000", 
             "author": "complaint_owner", 
             "language": "uk", 
-            "title": "Complaint_Attachement.pdf", 
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9a24f3dfc4504656912ea717a5e519b3?KeyID=a8968c46&Signature=OShMqNbhsVlInoN98pFyTWZRnMv3p6Rvnldg4zfCTDyyRnpPpOXpBUNsQQQC%252BZYp5K6g5gdkOjuen8bsXofwCw%253D%253D", 
+            "title": "Complaint_Attachment.pdf", 
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2dbe6f1054394a44ba2e056738860386?KeyID=a8968c46&Signature=rHnLLl804eIOgBlPmgEQaTmsfZ%252BXPdYzA%2F8kEo%2FDs6ZgH2gFnU3bsHXNezEeUtJuB6ktAonk%2FuNTwOY%252B0NzBCw%253D%253D", 
             "format": "application/pdf", 
             "documentOf": "tender", 
             "datePublished": "2020-05-01T01:00:01+03:00", 
-            "id": "5cc45e4074cf4629ad7ee151662909f5", 
+            "id": "d8a38dd58c724648ad4f17195a207166", 
             "dateModified": "2020-05-01T01:00:01+03:00"
           }, 
           {
@@ -197,20 +197,18 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/56aa844d9b3a43e4
         "reviewPlace": "Place of review"
       }, 
       {
-        "status": "stopped", 
+        "status": "declined", 
         "dateDecision": "2020-05-01T01:00:01+03:00", 
         "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
         "title": "Недостатньо інформації", 
-        "decision": "Тендер скасовується замовником", 
+        "reviewDate": "2020-05-01T01:00:01+03:00", 
         "acceptance": true, 
         "value": {
           "currency": "UAH", 
           "amount": 3000.0
         }, 
-        "cancellationReason": "Тендер скасовується замовником", 
-        "dateCanceled": "2020-05-01T01:00:01+03:00", 
-        "dateAccepted": "2020-05-01T01:00:01+03:00", 
         "rejectReason": "tenderCancelled", 
+        "dateAccepted": "2020-05-01T01:00:01+03:00", 
         "author": {
           "contactPoint": {
             "email": "soleksuk@gmail.com", 
@@ -234,9 +232,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/56aa844d9b3a43e4
         "dateSubmitted": "2020-05-01T01:00:01+03:00", 
         "complaintID": "UA-2020-05-01-000001.4", 
         "date": "2020-05-01T01:00:01+03:00", 
-        "id": "d6be5dac0e684783846bcdf71ad12359", 
         "type": "complaint", 
-        "reviewDate": "2020-05-01T01:00:01+03:00", 
+        "id": "d6be5dac0e684783846bcdf71ad12359", 
         "reviewPlace": "Place of review"
       }, 
       {
