@@ -293,7 +293,7 @@ class ReportingTender(BaseTender):
     central_accreditations = (ACCR_5,)
     edit_accreditations = (ACCR_2,)
 
-    procuring_entity_kinds = ["general", "special", "defense", "central", "other"]
+    procuring_entity_kinds = ["authority", "central", "defense", "general", "other", "social", "special"]
 
     block_complaint_status = OpenUATender.block_complaint_status
 
@@ -432,7 +432,7 @@ class NegotiationTender(ReportingTender):
     central_accreditations = (ACCR_5,)
     edit_accreditations = (ACCR_4,)
 
-    procuring_entity_kinds = ["general", "special", "defense", "central"]
+    procuring_entity_kinds = ["authority", "central", "defense", "general", "social", "special"]
 
     lots = ListType(ModelType(Lot, required=True), default=list(), validators=[validate_lots_uniq])
 
@@ -488,7 +488,7 @@ class NegotiationQuickTender(NegotiationTender):
     central_accreditations = (ACCR_5,)
     edit_accreditations = (ACCR_4,)
 
-    procuring_entity_kinds = ["general", "special", "defense", "central"]
+    procuring_entity_kinds = ["authority", "central", "defense", "general", "social", "special"]
 
     def validate_cause(self, data, value):
         required = get_first_revision_date(data, default=get_now()) >= QUICK_CAUSE_REQUIRED_FROM

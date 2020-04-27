@@ -201,7 +201,7 @@ class CFASelectionUATender(BaseTender):
     procurementMethod = StringType(choices=["open", "selective", "limited"], default="selective")
     procurementMethodType = StringType(default="closeFrameworkAgreementSelectionUA")
     unsuccessfulReason = ListType(StringType, serialize_when_none=False)
-    procuring_entity_kinds = ["general", "special", "defense", "central", "other"]
+    procuring_entity_kinds = ["authority", "central", "defense", "general", "other", "social", "special"]
 
     def get_role(self):
         root = self.__parent__

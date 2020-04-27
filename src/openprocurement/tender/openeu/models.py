@@ -625,7 +625,7 @@ class Tender(BaseTender):
     central_accreditations = (ACCR_5,)
     edit_accreditations = (ACCR_4,)
 
-    procuring_entity_kinds = ["general", "special", "defense", "central"]
+    procuring_entity_kinds = ["authority", "central", "defense", "general", "social", "special"]
 
     block_tender_complaint_status = OpenUATender.block_tender_complaint_status
     block_complaint_status = OpenUATender.block_complaint_status
