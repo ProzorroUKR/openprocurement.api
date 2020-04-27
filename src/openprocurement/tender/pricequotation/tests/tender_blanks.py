@@ -1654,13 +1654,19 @@ def patch_tender_by_pq_bot(self):
     items = deepcopy(tender["items"])
     items[0]["classification"] = test_short_profile["classification"]
     items[0]["unit"] = test_short_profile["unit"]
-    items[0]["value"] = test_short_profile["value"]
+    amount = sum([item["quantity"] for item in items]) * test_short_profile["value"]["amount"]
+    value = deepcopy(test_short_profile["value"])
+    value["amount"] = amount
+    criteria = deepcopy(test_short_profile["criteria"])
+    for criterion in criteria:
+        criterion.pop("code")
     data = {
         "data": {
             "status": "active.tendering",
             "items": items,
             "shortlistedFirms": test_shortlisted_firms,
-            "criteria": test_short_profile["criteria"]
+            "criteria": criteria,
+            "value": value
         }
     }
     with change_auth(self.app, ("Basic", ("pricequotation", ""))) as app:
@@ -1672,9 +1678,9 @@ def patch_tender_by_pq_bot(self):
     self.assertEqual(tender["status"], data["data"]["status"])
     self.assertIn("classification", tender["items"][0])
     self.assertIn("unit", tender["items"][0])
-    self.assertIn("value", tender["items"][0])
     self.assertEqual(len(tender["shortlistedFirms"]), len(test_shortlisted_firms))
     self.assertEqual(len(tender["criteria"]), len(test_short_profile["criteria"]))
+    self.assertEqual(tender["value"], value)
 
     # switch tender to `draft.unsuccessful`
     response = self.app.post_json("/tenders", {"data": deepcopy(self.initial_data)})

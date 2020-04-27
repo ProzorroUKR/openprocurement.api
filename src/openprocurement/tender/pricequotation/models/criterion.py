@@ -14,7 +14,6 @@ class RequirementGroup(Model):
 
 class Criterion(Model):
     id = StringType(required=True)
-    code = StringType(required=True)
     title = StringType(required=True)
     description = StringType(required=True)
     requirementGroups = ListType(ModelType(RequirementGroup),

@@ -42,7 +42,6 @@ class ShortlistedFirm(BusinessOrganization):
 class Item(BaseItem):
     """A good, service, or work to be contracted."""
     classification = ModelType(CPVClassification)
-    value = ModelType(Value)
 
 
 class Contract(BaseContract):
@@ -91,7 +90,7 @@ class PriceQuotationTender(Tender):
                 "status",
                 "profile"
             )
-        _edit_pq_bot_role = whitelist("items", "shortlistedFirms", "status", "criteria")
+        _edit_pq_bot_role = whitelist("items", "shortlistedFirms", "status", "criteria", "value")
         _view_tendering_role = (
             _core_roles["view"]
             + _edit_fields
