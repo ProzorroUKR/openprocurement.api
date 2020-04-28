@@ -33,6 +33,18 @@ from openprocurement.tender.cfaselectionua.tests.contract_blanks import (
 from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     patch_tender_contract_value_vat_not_included,
     patch_tender_contract_value,
+    patch_tender_contract_status_by_owner,
+    patch_tender_contract_status_by_others,
+    patch_tender_contract_status_by_supplier,
+    create_tender_contract_document_by_supplier,
+    create_tender_contract_document_by_others,
+    put_tender_contract_document_by_supplier,
+    put_tender_contract_document_by_others,
+    patch_tender_contract_document_by_supplier,
+    lot2_create_tender_contract_document_by_supplier,
+    lot2_create_tender_contract_document_by_others,
+    lot2_put_tender_contract_document_by_supplier,
+    lot2_patch_tender_contract_document_by_supplier,
 )
 
 
@@ -58,6 +70,9 @@ class TenderContractResourceTest(TenderContentWebTest, TenderContractResourceTes
     test_create_tender_contract_in_complete_status = snitch(create_tender_contract_in_complete_status)
     test_patch_tender_contract = snitch(patch_tender_contract)
     test_patch_tender_contract_value = snitch(patch_tender_contract_value)
+    test_patch_tender_contract_status_by_owner = snitch(patch_tender_contract_status_by_owner)
+    test_patch_tender_contract_status_by_others = snitch(patch_tender_contract_status_by_others)
+    test_patch_tender_contract_status_by_supplier = snitch(patch_tender_contract_status_by_supplier)
 
 
 class TenderContractVATNotIncludedResourceTest(TenderContentWebTest, TenderContractResourceTestMixin):
@@ -67,7 +82,11 @@ class TenderContractVATNotIncludedResourceTest(TenderContentWebTest, TenderContr
 
     def update_vat_fields(self, items):
         for item in items:
-            item["value"]["valueAddedTaxIncluded"] = False
+            if "lotValues" in item:
+                for lot_value in item["lotValues"]:
+                    lot_value["value"]["valueAddedTaxIncluded"] = False
+            else:
+                item["value"]["valueAddedTaxIncluded"] = False
 
     def generate_bids(self, status, start_end="start"):
         self.initial_bids = deepcopy(self.initial_bids)
@@ -81,6 +100,9 @@ class TenderContractVATNotIncludedResourceTest(TenderContentWebTest, TenderContr
         self.update_vat_fields(agreement["contracts"])
 
     test_patch_tender_contract_value_vat_not_included = snitch(patch_tender_contract_value_vat_not_included)
+    test_patch_tender_contract_status_by_owner = snitch(patch_tender_contract_status_by_owner)
+    test_patch_tender_contract_status_by_others = snitch(patch_tender_contract_status_by_others)
+    test_patch_tender_contract_status_by_supplier = snitch(patch_tender_contract_status_by_supplier)
 
 
 @unittest.skip("Skip multi-lots tests")
@@ -122,6 +144,11 @@ class TenderContractDocumentResourceTest(TenderContentWebTest, TenderContractDoc
     initial_bids = test_bids
     initial_lots = test_lots
 
+    test_create_tender_contract_document_by_supplier = snitch(create_tender_contract_document_by_supplier)
+    test_create_tender_contract_document_by_others = snitch(create_tender_contract_document_by_others)
+    test_put_tender_contract_document_by_supplier = snitch(put_tender_contract_document_by_supplier)
+    test_put_tender_contract_document_by_others = snitch(put_tender_contract_document_by_others)
+    test_patch_tender_contract_document_by_supplier = snitch(patch_tender_contract_document_by_supplier)
 
 @unittest.skip("Skip multi-lots tests")
 class Tender2LotContractDocumentResourceTest(TenderContentWebTest):
@@ -168,6 +195,10 @@ class Tender2LotContractDocumentResourceTest(TenderContentWebTest):
     lot2_create_tender_contract_document = snitch(lot2_create_tender_contract_document)
     lot2_put_tender_contract_document = snitch(lot2_put_tender_contract_document)
     lot2_patch_tender_contract_document = snitch(lot2_patch_tender_contract_document)
+    test_lot2_create_tender_contract_document_by_supplier = snitch(lot2_create_tender_contract_document_by_supplier)
+    test_lot2_create_tender_contract_document_by_others = snitch(lot2_create_tender_contract_document_by_others)
+    test_lot2_put_tender_contract_document_by_supplier = snitch(lot2_put_tender_contract_document_by_supplier)
+    test_lot2_patch_tender_contract_document_by_supplier = snitch(lot2_patch_tender_contract_document_by_supplier)
 
 
 def suite():

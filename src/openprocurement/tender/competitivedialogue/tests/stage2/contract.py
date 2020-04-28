@@ -21,6 +21,14 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     create_tender_contract,
     patch_tender_contract_value_vat_not_included,
     patch_tender_contract_value,
+    patch_tender_contract_status_by_owner,
+    patch_tender_contract_status_by_others,
+    patch_tender_contract_status_by_supplier,
+    create_tender_contract_document_by_supplier,
+    create_tender_contract_document_by_others,
+    put_tender_contract_document_by_supplier,
+    put_tender_contract_document_by_others,
+    patch_tender_contract_document_by_supplier,
 )
 from openprocurement.tender.openua.tests.contract_blanks import (
     # TenderStage2EU(UA)ContractResourceTest
@@ -78,6 +86,9 @@ class TenderStage2EUContractResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
     test_create_tender_contract = snitch(create_tender_contract)
     test_patch_tender_contract_datesigned = snitch(patch_tender_contract_datesigned)
     test_patch_tender_contract = snitch(patch_tender_contract_eu)
+    test_patch_tender_contract_status_by_owner = snitch(patch_tender_contract_status_by_owner)
+    test_patch_tender_contract_status_by_others = snitch(patch_tender_contract_status_by_others)
+    test_patch_tender_contract_status_by_supplier = snitch(patch_tender_contract_status_by_supplier)
 
 
 class TenderStage2EUContractDocumentResourceTest(
@@ -110,6 +121,12 @@ class TenderStage2EUContractDocumentResourceTest(
         contract = response.json["data"]
         self.contract_id = contract["id"]
         self.app.authorization = ("Basic", ("broker", ""))
+
+    test_create_tender_contract_document_by_supplier = snitch(create_tender_contract_document_by_supplier)
+    test_create_tender_contract_document_by_others = snitch(create_tender_contract_document_by_others)
+    test_put_tender_contract_document_by_supplier = snitch(put_tender_contract_document_by_supplier)
+    test_put_tender_contract_document_by_others = snitch(put_tender_contract_document_by_others)
+    test_patch_tender_contract_document_by_supplier = snitch(patch_tender_contract_document_by_supplier)
 
 
 class TenderStage2UAContractResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
@@ -147,6 +164,9 @@ class TenderStage2UAContractResourceTest(BaseCompetitiveDialogUAStage2ContentWeb
     test_patch_tender_contract_datesigned = snitch(patch_tender_contract_datesigned)
     test_patch_tender_contract = snitch(patch_tender_contract)
     test_patch_tender_contract_value = snitch(patch_tender_contract_value)
+    test_patch_tender_contract_status_by_owner = snitch(patch_tender_contract_status_by_owner)
+    test_patch_tender_contract_status_by_others = snitch(patch_tender_contract_status_by_others)
+    test_patch_tender_contract_status_by_supplier = snitch(patch_tender_contract_status_by_supplier)
 
 
 class TenderContractVATNotIncludedResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
@@ -183,6 +203,9 @@ class TenderContractVATNotIncludedResourceTest(BaseCompetitiveDialogUAStage2Cont
         self.create_award()
 
     test_patch_tender_contract_value_vat_not_included = snitch(patch_tender_contract_value_vat_not_included)
+    test_patch_tender_contract_status_by_owner = snitch(patch_tender_contract_status_by_owner)
+    test_patch_tender_contract_status_by_others = snitch(patch_tender_contract_status_by_others)
+    test_patch_tender_contract_status_by_supplier = snitch(patch_tender_contract_status_by_supplier)
 
 
 class TenderStage2UAContractDocumentResourceTest(
@@ -214,6 +237,12 @@ class TenderStage2UAContractDocumentResourceTest(
         contract = response.json["data"]
         self.contract_id = contract["id"]
         self.app.authorization = auth
+
+    test_create_tender_contract_document_by_supplier = snitch(create_tender_contract_document_by_supplier)
+    test_create_tender_contract_document_by_others = snitch(create_tender_contract_document_by_others)
+    test_put_tender_contract_document_by_supplier = snitch(put_tender_contract_document_by_supplier)
+    test_put_tender_contract_document_by_others = snitch(put_tender_contract_document_by_others)
+    test_patch_tender_contract_document_by_supplier = snitch(patch_tender_contract_document_by_supplier)
 
 
 def suite():

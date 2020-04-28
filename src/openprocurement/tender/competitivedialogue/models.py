@@ -377,6 +377,8 @@ def stage2__acl__(obj):
     acl = [
         (Allow, "{}_{}".format(obj.owner, obj.dialogue_token), "generate_credentials"),
         (Allow, "{}_{}".format(obj.owner, obj.owner_token), "edit_complaint"),
+        (Allow, "{}_{}".format(obj.owner, obj.owner_token), "edit_contract"),
+        (Allow, "{}_{}".format(obj.owner, obj.owner_token), "upload_contract_documents"),
         (Allow, "g:competitive_dialogue", "edit_tender"),
         (Allow, "g:competitive_dialogue", "edit_cancellation")
     ]
@@ -394,6 +396,7 @@ def stage2__acl__(obj):
             if i.status == "active"
         ]
     )
+
     return acl
 
 

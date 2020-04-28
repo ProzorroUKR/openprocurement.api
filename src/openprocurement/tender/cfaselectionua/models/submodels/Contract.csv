@@ -1,5 +1,7 @@
 rolename,status,value,documents,description,title,items,suppliers,contractNumber,title_en,period,description_en,dateSigned,title_ru,date,awardID,description_ru,id,__parent__,contractID
-edit,1,1,,1,1,,,1,1,1,1,1,1,,,1,,1,
+admins,1,1,,1,1,,,1,1,1,1,1,1,,,1,,1,
+edit_tender_owner,1,1,,1,1,,,1,1,1,1,1,1,,,1,,1,
+edit_contract_supplier,1,,,,,,,,,,,,,,,,,,
 default,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,,1
 create,,1,,1,1,1,1,1,1,1,1,,1,,1,1,,1,1
 embedded,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,,1
