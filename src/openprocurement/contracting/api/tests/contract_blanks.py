@@ -1330,3 +1330,13 @@ def generate_credentials_invalid(self):
     self.assertEqual(
         response.json["errors"], [{u"description": u"Forbidden", u"location": u"url", u"name": u"permission"}]
     )
+
+
+def skip_address_validation(self):
+    initial_data = deepcopy(self.initial_data)
+    initial_data["items"][0]["deliveryAddress"]["countryName"] = "any country"
+    initial_data["items"][0]["deliveryAddress"]["region"] = "any region"
+    u = Contract(self.initial_data)
+    u.contractID = "UA-C"
+    u.store(self.db)
+    assert u.rev is not None

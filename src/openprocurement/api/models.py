@@ -416,18 +416,24 @@ class Address(Model):
 
     def validate_countryName(self, data, value):
         root = get_root(data['__parent__'])
-        validation_date = get_first_revision_date(root, default=get_now())
-        if self.validation_allowed(root) and validation_date >= VALIDATE_ADDRESS_FROM:
+        apply_validation = get_first_revision_date(root, default=get_now()) >= VALIDATE_ADDRESS_FROM
+        if self.doc_type_allowed(root) and self.validation_allowed(root) and apply_validation:
             if value not in COUNTRIES:
                 raise ValidationError(u"field address:countryName not exist in countries catalog")
 
     def validate_region(self, data, value):
         root = get_root(data['__parent__'])
-        validation_date = get_first_revision_date(root, default=get_now())
-        if self.validation_allowed(root) and validation_date >= VALIDATE_ADDRESS_FROM:
+        apply_validation = get_first_revision_date(root, default=get_now()) >= VALIDATE_ADDRESS_FROM
+        if self.doc_type_allowed(root) and self.validation_allowed(root) and apply_validation:
             if data["countryName"] == u"Україна":
                 if value and value not in UA_REGIONS:
                     raise ValidationError(u"field address:region not exist in ua_regions catalog")
+
+    @staticmethod
+    def doc_type_allowed(root):
+        if root and root.get("doc_type") in ["Contract", "Agreement"]:
+            return False
+        return True
 
     @staticmethod
     def validation_allowed(root):
