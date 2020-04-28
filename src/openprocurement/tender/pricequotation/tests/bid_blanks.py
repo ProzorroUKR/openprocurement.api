@@ -11,7 +11,6 @@ from openprocurement.tender.pricequotation.tests.base import \
 
 # TenderBidResourceTest
 
-
 def create_tender_bid_invalid(self):
     response = self.app.post_json(
         "/tenders/some_id/bids", {"data": {"tenderers": [test_organization], "value": {"amount": 500}}}, status=404
@@ -917,12 +916,13 @@ def patch_tender_bid_document(self):
 
 def create_tender_bid_document_nopending(self):
     response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_organization], "value": {"amount": 500}, "requirementResponses": test_requirement_response_valid}},
-    )
-    bid = response.json["data"]
-    token = response.json["access"]["token"]
-    bid_id = bid["id"]
+            "/tenders/{}/bids".format(self.tender_id),
+            {"data": {"tenderers": [test_organization], "value": {"amount": 500},
+                      "requirementResponses": test_requirement_response_valid}},
+        )
+    bid = response.json['data']
+    token = response.json['access']['token']
+    bid_id = bid['id']
 
     response = self.app.post(
         "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, token),
@@ -933,8 +933,9 @@ def create_tender_bid_document_nopending(self):
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
 
-    self.set_status("active.qualification")
-
+    self.set_status("active.tendering", 'end')
+    response = self.check_chronograph()
+    self.assertEqual(response.json["data"]["status"], "active.qualification")
     response = self.app.patch_json(
         "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, bid_id, doc_id, token),
         {"data": {"description": "document description"}},

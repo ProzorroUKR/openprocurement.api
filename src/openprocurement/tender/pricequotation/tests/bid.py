@@ -52,6 +52,7 @@ class TenderBidResourceTest(TenderContentWebTest):
 
 
 class TenderBidDocumentResourceTest(TenderContentWebTest):
+
     initial_status = "active.tendering"
 
     def setUp(self):
@@ -59,9 +60,11 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
         # Create bid
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
-            {"data": {"tenderers": [test_organization], "value": {"amount": 500}, "requirementResponses": test_requirement_response_valid}},
+            {"data": {"tenderers": [test_organization], "value": {"amount": 500},
+                      "requirementResponses": test_requirement_response_valid}},
         )
         bid = response.json["data"]
+        self.bid = bid
         self.bid_id = bid["id"]
         self.bid_token = response.json["access"]["token"]
 

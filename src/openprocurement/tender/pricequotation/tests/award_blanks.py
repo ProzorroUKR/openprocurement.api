@@ -199,24 +199,7 @@ def create_tender_award(self):
 
 
 def patch_tender_award(self):
-    auth = self.app.authorization
-    self.app.authorization = ("Basic", ("token", ""))
     request_path = "/tenders/{}/awards".format(self.tender_id)
-    response = self.app.post_json(
-        request_path,
-        {
-            "data": {
-                "suppliers": [test_organization],
-                "status": u"pending",
-                "bid_id": self.initial_bids[0]["id"],
-                "value": {"amount": 500},
-            }
-        },
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    award = response.json["data"]
-    self.app.authorization = auth
     response = self.app.patch_json(
         "/tenders/{}/awards/some_id?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "unsuccessful"}},
@@ -240,9 +223,9 @@ def patch_tender_award(self):
     self.assertEqual(
         response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
     )
-
+    award_id = self.award_ids[0]
     response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"awardStatus": "unsuccessful"}},
         status=422,
     )
@@ -253,16 +236,14 @@ def patch_tender_award(self):
     )
 
     response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"status": "unsuccessful"}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertIn("Location", response.headers)
-    new_award_location = response.headers["Location"]
 
     response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"status": "pending"}},
         status=403,
     )
@@ -274,7 +255,6 @@ def patch_tender_award(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 2)
-    self.assertIn(response.json["data"][1]["id"], new_award_location)
     new_award = response.json["data"][-1]
 
     response = self.app.patch_json(
@@ -313,13 +293,13 @@ def patch_tender_award(self):
 
     self.set_status("complete")
 
-    response = self.app.get("/tenders/{}/awards/{}".format(self.tender_id, award["id"]))
+    response = self.app.get("/tenders/{}/awards/{}".format(self.tender_id, award_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["value"]["amount"], 500)
+    self.assertEqual(response.json["data"]["value"]["amount"], 469.0)
 
     response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"status": "unsuccessful"}},
         status=403,
     )
@@ -619,11 +599,16 @@ def create_tender_award_document(self):
         self.assertIn("KeyID=", response.json["data"]["url"])
         self.assertNotIn("Expires=", response.json["data"]["url"])
         key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        tender = self.db.get(self.tender_id)
-        self.assertIn(key, tender["awards"][-1]["documents"][-1]["url"])
-        self.assertIn("Signature=", tender["awards"][-1]["documents"][-1]["url"])
-        self.assertIn("KeyID=", tender["awards"][-1]["documents"][-1]["url"])
-        self.assertNotIn("Expires=", tender["awards"][-1]["documents"][-1]["url"])
+        response = self.app.get(
+            "/tenders/{}/awards/{}?acc_token={}".format(
+                self.tender_id, self.award_id, self.tender_token
+            ),
+        )
+        award = response.json['data']
+        self.assertIn(key, award["documents"][-1]["url"])
+        self.assertIn("Signature=", award["documents"][-1]["url"])
+        self.assertIn("KeyID=", award["documents"][-1]["url"])
+        self.assertNotIn("Expires=", award["documents"][-1]["url"])
     else:
         key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
 
@@ -723,11 +708,16 @@ def put_tender_award_document(self):
         self.assertIn("KeyID=", response.json["data"]["url"])
         self.assertNotIn("Expires=", response.json["data"]["url"])
         key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        tender = self.db.get(self.tender_id)
-        self.assertIn(key, tender["awards"][-1]["documents"][-1]["url"])
-        self.assertIn("Signature=", tender["awards"][-1]["documents"][-1]["url"])
-        self.assertIn("KeyID=", tender["awards"][-1]["documents"][-1]["url"])
-        self.assertNotIn("Expires=", tender["awards"][-1]["documents"][-1]["url"])
+        response = self.app.get(
+            "/tenders/{}/awards/{}?acc_token={}".format(
+                self.tender_id, self.award_id, self.tender_token
+            ),
+        )
+        award = response.json['data']
+        self.assertIn(key, award["documents"][-1]["url"])
+        self.assertIn("Signature=", award["documents"][-1]["url"])
+        self.assertIn("KeyID=", award["documents"][-1]["url"])
+        self.assertNotIn("Expires=", award["documents"][-1]["url"])
     else:
         key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
 
@@ -767,11 +757,16 @@ def put_tender_award_document(self):
         self.assertIn("KeyID=", response.json["data"]["url"])
         self.assertNotIn("Expires=", response.json["data"]["url"])
         key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        tender = self.db.get(self.tender_id)
-        self.assertIn(key, tender["awards"][-1]["documents"][-1]["url"])
-        self.assertIn("Signature=", tender["awards"][-1]["documents"][-1]["url"])
-        self.assertIn("KeyID=", tender["awards"][-1]["documents"][-1]["url"])
-        self.assertNotIn("Expires=", tender["awards"][-1]["documents"][-1]["url"])
+        response = self.app.get(
+            "/tenders/{}/awards/{}?acc_token={}".format(
+                self.tender_id, self.award_id, self.tender_token
+            ),
+        )
+        award = response.json['data']
+        self.assertIn(key, award["documents"][-1]["url"])
+        self.assertIn("Signature=", award["documents"][-1]["url"])
+        self.assertIn("KeyID=", award["documents"][-1]["url"])
+        self.assertNotIn("Expires=", award["documents"][-1]["url"])
     else:
         key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
 
@@ -867,11 +862,17 @@ def create_award_document_bot(self):
         self.assertIn("KeyID=", response.json["data"]["url"])
         self.assertNotIn("Expires=", response.json["data"]["url"])
         key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        tender = self.db.get(self.tender_id)
-        self.assertIn(key, tender["awards"][-1]["documents"][-1]["url"])
-        self.assertIn("Signature=", tender["awards"][-1]["documents"][-1]["url"])
-        self.assertIn("KeyID=", tender["awards"][-1]["documents"][-1]["url"])
-        self.assertNotIn("Expires=", tender["awards"][-1]["documents"][-1]["url"])
+
+        response = self.app.get(
+            "/tenders/{}/awards/{}?acc_token={}".format(
+                self.tender_id, self.award_id, self.tender_token
+            ),
+        )
+        award = response.json['data']
+        self.assertIn(key, award["documents"][-1]["url"])
+        self.assertIn("Signature=", award["documents"][-1]["url"])
+        self.assertIn("KeyID=", award["documents"][-1]["url"])
+        self.assertNotIn("Expires=", award["documents"][-1]["url"])
 
     # set tender to active.awarded status
     self.app.authorization = broker_authorization

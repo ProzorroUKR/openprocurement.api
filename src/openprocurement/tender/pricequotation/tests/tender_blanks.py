@@ -1767,7 +1767,7 @@ def one_valid_bid_tender(self):
         "/tenders/{}/bids".format(tender_id), {"data": {"tenderers": [test_organization], "value": {"amount": 500}, "requirementResponses": test_requirement_response_valid}}
     )
     # switch to active.qualification
-    self.set_status("active.qualification", {"status": "active.tendering"})
+    self.set_status("active.qualification")
     self.app.authorization = ("Basic", ("chronograph", ""))
     response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
     # get awards
@@ -1787,7 +1787,7 @@ def one_valid_bid_tender(self):
     contract_id = response.json["data"]["contracts"][-1]["id"]
     # after stand slill period
     self.app.authorization = ("Basic", ("chronograph", ""))
-    self.set_status("complete", {"status": "active.awarded"})
+    self.set_status("active.awarded", 'end')
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
     self.app.patch_json(
@@ -1908,7 +1908,7 @@ def first_bid_tender(self):
     self.assertIn(doc_id, response.headers["Location"])
     # after stand slill period
     self.app.authorization = ("Basic", ("chronograph", ""))
-    self.set_status("complete", {"status": "active.awarded"})
+    self.set_status("complete")
 
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))

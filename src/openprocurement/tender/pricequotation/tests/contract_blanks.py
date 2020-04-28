@@ -199,7 +199,7 @@ def patch_tender_contract(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
 
-    self.set_status("complete", {"status": "active.awarded"})
+    self.set_status("active.awarded", 'end')
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
