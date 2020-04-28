@@ -122,6 +122,10 @@ class TestUtils(unittest.TestCase):
         self.assertEqual(calculate_date_diff(dt4, dt1), timedelta(days=2, hours=11))
         self.assertEqual(calculate_date_diff(dt5, dt1), timedelta(days=4, hours=2))
 
+        dt6 = datetime(2020, 04, 17, 17, 37)
+        dt7 = datetime(2020, 04, 17, 17, 30)
+        self.assertEqual(calculate_date_diff(dt6, dt7), timedelta(minutes=7))
+
     @patch("openprocurement.tender.core.utils.error_handler")
     def test_tender_from_data(self, mocked_handler):
         mocked_handler.return_value = Exception("Mocked!")

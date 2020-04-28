@@ -353,7 +353,7 @@ def calculate_date_diff(dt1, dt2, working_days=True, calendar=WORKING_DAYS):
     date2 = dt2
 
     days = 0
-    while dt1 > date2:
+    while dt1.date() > date2.date():
         date2 += timedelta(days=1)
         if check_working_datetime(date2, calendar=calendar):
             days += 1
