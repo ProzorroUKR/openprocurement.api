@@ -55,6 +55,7 @@ from openprocurement.tender.core.constants import (
 from openprocurement.tender.core.utils import (
     calc_auction_end_time, rounding_shouldStartAfter,
     restrict_value_to_bounds, round_up_to_ten,
+    get_contract_supplier_roles, get_contract_supplier_permissions,
 )
 from openprocurement.tender.core.validation import (
     validate_lotvalue_value,
@@ -374,7 +375,9 @@ class Contract(BaseContract):
     class Options:
         roles = {
             "create": blacklist("id", "status", "date", "documents", "dateSigned"),
-            "edit": blacklist("id", "documents", "date", "awardID", "suppliers", "items", "contractID"),
+            "admins": blacklist("id", "documents", "date", "awardID", "suppliers", "items", "contractID"),
+            "edit_tender_owner": blacklist("id", "documents", "date", "awardID", "suppliers", "items", "contractID"),
+            "edit_contract_supplier": whitelist("status"),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
         }
@@ -382,6 +385,23 @@ class Contract(BaseContract):
     value = ModelType(ContractValue)
     awardID = StringType(required=True)
     documents = ListType(ModelType(Document, required=True), default=list())
+
+    def __acl__(self):
+        return get_contract_supplier_permissions(self)
+
+    def get_role(self):
+        root = self.get_root()
+        request = root.request
+        if request.authenticated_role in ("tender_owner", "contract_supplier"):
+            role = "edit_{}".format(request.authenticated_role)
+        else:
+            role = request.authenticated_role
+        return role
+
+    def __local_roles__(self):
+        roles = {}
+        roles.update(get_contract_supplier_roles(self))
+        return roles
 
     def validate_awardID(self, data, awardID):
         parent = data["__parent__"]
@@ -793,7 +813,7 @@ class Complaint(Model):
         parent = data["__parent__"]
         if relatedLot and isinstance(parent, Model):
             validate_relatedlot(get_tender(parent), relatedLot)
-            
+
     def get_related_lot_obj(self, tender):
         lot_id = (
             self.get("relatedLot")  # tender lot
@@ -1406,6 +1426,8 @@ class Tender(BaseTender):
         acl.extend(
             [
                 (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_complaint"),
+                (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_contract"),
+                (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_contract_documents"),
             ]
         )
         self._acl_cancellation_complaint(acl)

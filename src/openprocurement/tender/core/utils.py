@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import jmespath
 from decimal import Decimal
 from re import compile
 
@@ -15,6 +16,7 @@ from logging import getLogger
 from time import sleep
 from pyramid.exceptions import URLDecodeError
 from pyramid.compat import decode_path_info
+from pyramid.security import Allow
 from cornice.resource import resource
 from couchdb.http import ResourceConflict
 from openprocurement.api.constants import (
@@ -573,3 +575,27 @@ def check_complaint_statuses_at_complaint_period_end(tender, now):
         complaint_period = getattr(award, "complaintPeriod", None)
         if complaint_period and complaint_period.endDate and complaint_period.endDate < now:
             check_complaints(award.complaints)
+
+
+def get_contract_supplier_permissions(contract):
+    """
+    Set `upload_contract_document` permissions for award in `active` status owners
+    """
+    suppliers_permissions = []
+    if not hasattr(contract, "__parent__") or 'bids' not in contract.__parent__:
+        return suppliers_permissions
+    win_bid_id = jmespath.search("awards[?id=='{}'].bid_id".format(contract.awardID), contract.__parent__._data)[0]
+    win_bid = jmespath.search("bids[?id=='{}'].[owner,owner_token]".format(win_bid_id), contract.__parent__._data)[0]
+    bid_acl = "_".join(win_bid)
+    suppliers_permissions.extend([(Allow, bid_acl, "upload_contract_documents"), (Allow, bid_acl, "edit_contract")])
+    return suppliers_permissions
+
+
+def get_contract_supplier_roles(contract):
+    roles = {}
+    if 'bids' not in contract.__parent__:
+        return roles
+    bid_id = jmespath.search("awards[?id=='{}'].bid_id".format(contract.awardID), contract.__parent__)[0]
+    bid_data = jmespath.search("bids[?id=='{}'].[owner,owner_token]".format(bid_id), contract.__parent__)[0]
+    roles['_'.join(bid_data)] = 'contract_supplier'
+    return roles

@@ -11,6 +11,7 @@ from openprocurement.tender.core.validation import (
     validate_update_contract_value_with_award,
     validate_update_contract_value_amount,
     validate_update_contract_value_net_required,
+    validate_update_contract_status_by_supplier,
 )
 from openprocurement.tender.belowthreshold.utils import check_tender_status
 
@@ -63,11 +64,12 @@ class TenderAwardContractResource(APIResource):
 
     @json_view(
         content_type="application/json",
-        permission="edit_tender",
+        permission="edit_contract",
         validators=(
             validate_patch_contract_data,
             validate_contract_operation_not_in_allowed_status,
             validate_update_contract_only_for_active_lots,
+            validate_update_contract_status_by_supplier,
             validate_update_contract_value,
             validate_contract_signing,
             validate_update_contract_value_net_required,
@@ -80,9 +82,9 @@ class TenderAwardContractResource(APIResource):
         """
         contract_status = self.request.context.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
-        if contract_status != self.request.context.status and (
-            contract_status != "pending" or self.request.context.status != "active"
-        ):
+        if contract_status != self.request.context.status and \
+                (contract_status not in ("pending", "pending.winner-signing",) or \
+                self.request.context.status not in ("active", "pending", "pending.winner-signing",)):
             raise_operation_error(self.request, "Can't update contract status")
         if self.request.context.status == "active" and not self.request.context.dateSigned:
             self.request.context.dateSigned = get_now()

@@ -655,10 +655,13 @@ class Tender(BaseTender):
         acl.extend(
             [
                 (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_complaint"),
+                (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_contract"),
+                (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_contract_documents"),
             ]
         )
 
         self._acl_cancellation_complaint(acl)
+
         return acl
 
     @serializable(serialized_name="enquiryPeriod", type=ModelType(EnquiryPeriod))

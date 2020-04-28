@@ -225,6 +225,8 @@ class CFASelectionUATender(BaseTender):
         acl.extend(
             [
                 (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_complaint"),
+                (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_contract"),
+                (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_contract_documents"),
                 (Allow, "g:agreement_selection", "edit_agreement_selection"),
                 (Allow, "g:agreement_selection", "edit_tender"),
                 (Allow, "g:brokers", "create_cancellation_complaint")

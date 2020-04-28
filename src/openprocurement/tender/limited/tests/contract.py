@@ -36,6 +36,9 @@ from openprocurement.tender.limited.tests.contract_blanks import (
     patch_tender_contract,
     tender_contract_signature_date,
     award_id_change_is_not_allowed,
+    create_tender_contract_document,
+    patch_tender_contract_document,
+    put_tender_contract_document,
 )
 from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     patch_tender_contract_value_vat_not_included,
@@ -386,6 +389,10 @@ class TenderContractDocumentResourceTest(BaseTenderContentWebTest, TenderContrac
         self.create_award()
         response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
         self.contract_id = response.json["data"][0]["id"]
+
+    test_create_tender_contract_document = snitch(create_tender_contract_document)
+    test_patch_tender_contract_document = snitch(patch_tender_contract_document)
+    test_put_tender_contract_document = snitch(put_tender_contract_document)
 
 
 class TenderContractNegotiationDocumentResourceTest(TenderContractDocumentResourceTest):
