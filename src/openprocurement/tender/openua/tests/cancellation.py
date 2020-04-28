@@ -110,7 +110,6 @@ class TenderCancellationComplaintResourceTest(
     @patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
     def setUp(self):
         super(TenderCancellationComplaintResourceTest, self).setUp()
-        self.set_complaint_period_end()
 
         # Create cancellation
         cancellation = dict(**test_cancellation)
@@ -132,9 +131,6 @@ class TenderCancellationDocumentResourceTest(
 ):
     def setUp(self):
         super(TenderCancellationDocumentResourceTest, self).setUp()
-
-        if RELEASE_2020_04_19 < get_now():
-            self.set_complaint_period_end()
 
         # Create cancellation
         response = self.app.post_json(

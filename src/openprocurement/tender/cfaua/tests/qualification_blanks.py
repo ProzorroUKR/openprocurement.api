@@ -1,7 +1,6 @@
 from iso8601 import parse_date
 from openprocurement.tender.belowthreshold.tests.base import test_complaint, test_draft_claim
 from openprocurement.api.constants import SANDBOX_MODE, RELEASE_2020_04_19
-from openprocurement.tender.core.tests.cancellation import skip_complaint_period_2020_04_19
 from openprocurement.tender.core.tests.base import change_auth
 from math import ceil
 
@@ -70,7 +69,6 @@ def create_tender_lot_qualification_complaint(self):
         )
 
 
-@skip_complaint_period_2020_04_19
 def create_tender_qualification_complaint(self):
     response = self.app.post_json(
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(

@@ -80,9 +80,6 @@ class CompetitiveDialogUACancellationComplaintResourceTest(
     def setUp(self):
         super(CompetitiveDialogUACancellationComplaintResourceTest, self).setUp()
 
-        set_complaint_period_end = getattr(self, "set_complaint_period_end", None)
-        set_complaint_period_end()
-
         # Create cancellation
         cancellation = dict(**test_cancellation)
         cancellation.update({
@@ -102,10 +99,6 @@ class CompetitiveDialogUACancellationDocumentResourceTest(
     def setUp(self):
         super(CompetitiveDialogUACancellationDocumentResourceTest, self).setUp()
         # Create cancellation
-        set_complaint_period_end = getattr(self, "set_complaint_period_end", None)
-        if RELEASE_2020_04_19 < get_now() and set_complaint_period_end:
-            set_complaint_period_end()
-
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": test_cancellation},
@@ -153,9 +146,6 @@ class CompetitiveDialogEUCancellationDocumentResourceTest(
 
     def setUp(self):
         super(CompetitiveDialogEUCancellationDocumentResourceTest, self).setUp()
-        set_complaint_period_end = getattr(self, "set_complaint_period_end", None)
-        if RELEASE_2020_04_19 < get_now() and set_complaint_period_end:
-            set_complaint_period_end()
 
         # Create cancellation
         response = self.app.post_json(

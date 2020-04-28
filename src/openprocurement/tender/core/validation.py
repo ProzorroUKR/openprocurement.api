@@ -472,13 +472,6 @@ def validate_operation_cancellation_in_complaint_period(request):
         return
     msg = "Cancellation can't be {} when exists active complaint period".format(OPERATIONS.get(request.method))
 
-    if (
-        tender.get("complaintPeriod")
-        and tender.complaintPeriod.endDate
-        and tender.complaintPeriod.startDate < get_now() < tender.complaintPeriod.endDate
-    ):
-        raise_operation_error(request, msg)
-
     if tender.status in ["active.pre-qualification.stand-still"]:
         raise_operation_error(request, msg)
 
@@ -487,9 +480,14 @@ def validate_operation_cancellation_in_complaint_period(request):
         if "cancellation" in request.validated
         else request.validated["data"]
     )
+
     relatedLot = cancellation.get("relatedLot")
+    complaint_statuses = ["pending", "accepted", "satisfied"]
 
     if not relatedLot:
+        if any(i.status in complaint_statuses for i in tender.get("complaints", [])):
+            raise_operation_error(request, msg)
+
         if any(
             i for i in tender.awards
             if i.get("complaintPeriod")
@@ -498,6 +496,13 @@ def validate_operation_cancellation_in_complaint_period(request):
         ):
             raise_operation_error(request, msg)
     else:
+        if any(
+                i.status in complaint_statuses
+                for i in tender.get("complaints", [])
+                if relatedLot == i.get("relatedLot")
+        ):
+            raise_operation_error(request, msg)
+
         if any(
             i for i in tender.awards
             if relatedLot == i.get("lotID")
