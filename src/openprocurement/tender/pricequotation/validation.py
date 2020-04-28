@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
+from operator import itemgetter
 from schematics.types import DecimalType, StringType, IntType, BooleanType
 from schematics.exceptions import ValidationError
 
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import error_handler, raise_operation_error, get_now, get_first_revision_date
 from openprocurement.api.validation import validate_data, OPERATIONS, validate_json_data
-from openprocurement.tender.pricequotation.utils import sort_by_id, reformat_criteria, reformat_response
+from openprocurement.tender.core.models import get_tender
+from openprocurement.tender.pricequotation.utils import reformat_criteria
 
 
 TYPEMAP = {
@@ -127,18 +129,19 @@ def validate_create_cancellation_in_active_auction(request):
 
 # tender.criterion.requirementGrpoups
 def validate_requirement_groups(value):
-    for requirement in value:
-        expected = requirement.get('expectedValue')
-        min_value = requirement.get('minValue')
-        max_value = requirement.get('maxValue')
-        if not any((expected, min_value, max_value)):
-            raise ValidationError(
-                u'Value required for at least one field ["expectedValue", "minValue", "maxValue"]'
-            )
-        if any((expected and min_value, expected and max_value)):
-            raise ValidationError(
-                u'expectedValue conflicts with ["minValue", "maxValue"]'
-            )
+    for requirements in value:
+        for requirement in requirements.requirements:
+            expected = requirement.get('expectedValue')
+            min_value = requirement.get('minValue')
+            max_value = requirement.get('maxValue')
+            if not any((expected, min_value, max_value)):
+                raise ValidationError(
+                    u'Value required for at least one field ["expectedValue", "minValue", "maxValue"]'
+                )
+            if any((expected and min_value, expected and max_value)):
+                raise ValidationError(
+                    u'expectedValue conflicts with ["minValue", "maxValue"]'
+                )
 
 
 def validate_value_type(value, datatype):
@@ -198,20 +201,22 @@ def matches(criteria, response):
                     str(value), str(max_value), criteria['id']
                 )
             )
+    return response
 
 
 def validate_requirement_responses(criterias, req_responses):
-    criterias = sort_by_id(reformat_criteria(criterias))
-    req_responses = sort_by_id(reformat_response(req_responses))
+    criterias = sorted(reformat_criteria(criterias), key=itemgetter('id'))
+    req_responses = sorted(req_responses, key=lambda i: i['requirement']['id'])
     if len(criterias) != len(req_responses):
         raise ValidationError(u'Number of requitementResponeses ({}) does not match total number of reqirements ({})'.format(
             len(req_responses), len(criterias))
         )
-    diff = set((c['id'] for c in criterias)).difference((r['id'] for r in req_responses))
+    diff = set((c['id'] for c in criterias)).difference((r['requirement']['id'] for r in req_responses))
     if diff:
         raise ValidationError(u'Mismatch keys in requirement_responses. Missing references: {}'.format(
             list(diff)
         ))
-
-    for criteria, response in zip(criterias, req_responses):
+    return [
         matches(criteria, response)
+        for criteria, response in zip(criterias, req_responses)
+    ]

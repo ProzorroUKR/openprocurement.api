@@ -1,7 +1,7 @@
 from uuid import uuid4
 
 from pyramid.security import Allow
-from schematics.types import MD5Type, StringType, BooleanType, IntType, DecimalType, BaseType
+from schematics.types import MD5Type, StringType
 from schematics.types.compound import ModelType
 from schematics.transforms import whitelist
 
@@ -29,7 +29,7 @@ class RequirementReference(Model):
 class RequirementResponse(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     requirement = ModelType(RequirementReference, required=True)
-    value = BaseType(required=True)
+    value = StringType(required=True)
 
 
 class Bid(Model):
@@ -76,10 +76,8 @@ class Bid(Model):
     requirementResponses = ListType(
         ModelType(RequirementResponse),
         required=True,
-        min_size=1
+        min_size=1,
     )
-
-    __name__ = ""
 
     def import_data(self, raw_data, **kw):
         """
@@ -109,4 +107,6 @@ class Bid(Model):
 
     def validate_requirementResponses(self, data, value):
         criterion = data["__parent__"]['criteria']
-        validate_requirement_responses(criterion, value)
+        validate_requirement_responses(
+            criterion, value
+        )

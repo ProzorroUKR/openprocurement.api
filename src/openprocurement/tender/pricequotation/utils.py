@@ -148,17 +148,6 @@ def add_next_award(request):
         tender.status = "active.awarded"
 
 
-def reformat_response(resp):
-    return [
-        {
-            'id': r['requirement']['id'],
-            'response': r['id'],
-            'value': r['value']
-        }
-        for r in resp
-    ]
-
-
 def reformat_criteria(criterias):
     return [
         {
@@ -172,7 +161,3 @@ def reformat_criteria(criterias):
         for req_group in criteria['requirementGroups']
         for req in req_group['requirements']
     ]
-
-
-def sort_by_id(group):
-    return sorted(group, key=itemgetter('id'))

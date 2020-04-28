@@ -18,8 +18,8 @@ class Requirement(Model):
     dataType = StringType(required=True,
                           choices=["string", "number", "integer", "boolean"])
     unit = ModelType(Unit)
-    minValue = BaseType()
-    maxValue = BaseType()
+    minValue = StringType()
+    maxValue = StringType()
     expectedValue = StringType()
 
     def validate_minValue(self, data, value):
