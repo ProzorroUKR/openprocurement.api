@@ -1132,10 +1132,6 @@ def proc_1lot_1can(self):
     # self.assertTrue(all(["auctionPeriod" in i for i in response.json['data']['lots']]))
     # cancel lot
 
-    set_complaint_period_end = getattr(self, "set_complaint_period_end", None)
-    if RELEASE_2020_04_19 < get_now() and set_complaint_period_end:
-        set_complaint_period_end()
-
     cancellation = dict(**test_cancellation)
     cancellation.update({
         "status": "active",

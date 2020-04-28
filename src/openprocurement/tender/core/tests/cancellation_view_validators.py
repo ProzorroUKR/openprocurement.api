@@ -148,10 +148,6 @@ def test_post_cancellation_openeu(app):
     tender_data = app.app.registry.db.get(tender["id"])
     app.tender_id = tender["id"]
 
-    set_complaint_period_end = getattr(app, "set_complaint_period_end", None)
-    if RELEASE_2020_04_19 < get_now() and set_complaint_period_end:
-        set_complaint_period_end()
-
     # award complaint
     complaint = deepcopy(test_complaint)
     complaint.update(

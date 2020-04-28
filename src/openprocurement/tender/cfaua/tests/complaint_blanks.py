@@ -72,9 +72,6 @@ def create_tender_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["errors"][0]["description"], "Can't update complaint in current (resolved) status")
 
-    set_complaint_period_end = getattr(self, "set_complaint_period_end", None)
-    if RELEASE_2020_04_19 < get_now() and set_complaint_period_end:
-        set_complaint_period_end()
     self.cancel_tender()
 
     response = self.app.post_json(

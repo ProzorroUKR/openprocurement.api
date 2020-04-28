@@ -137,8 +137,6 @@ class TenderCancellationComplaintResourceTest(BaseESCOContentWebTest, TenderCanc
     def setUp(self):
         super(TenderCancellationComplaintResourceTest, self).setUp()
 
-        self.set_complaint_period_end()
-
         # Create cancellation
         cancellation = dict(**test_cancellation)
         cancellation.update({
@@ -159,9 +157,6 @@ class TenderCancellationDocumentResourceTest(BaseESCOContentWebTest, TenderCance
 
     def setUp(self):
         super(TenderCancellationDocumentResourceTest, self).setUp()
-
-        if RELEASE_2020_04_19 < get_now():
-            self.set_complaint_period_end()
 
         # Create cancellation
         response = self.app.post_json(

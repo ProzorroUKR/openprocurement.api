@@ -1868,10 +1868,6 @@ def two_lot_2can(self):
     """ Create tender with 2 lots, later cancel both """
     self.create_tender(self.test_lots_data * 2)
 
-    set_complaint_period_end = getattr(self, "set_complaint_period_end", None)
-    if RELEASE_2020_04_19 < get_now() and set_complaint_period_end:
-        set_complaint_period_end()
-
     # cancel every lot
     for lot in self.initial_lots:
         cancellation = dict(**test_cancellation)
@@ -1896,10 +1892,6 @@ def two_lot_2can(self):
 def two_lot_1can(self):
     """ Create tender with 2 lots, later 1 cancel """
     self.create_tender(initial_lots=self.test_lots_data * 2)
-
-    set_complaint_period_end = getattr(self, "set_complaint_period_end", None)
-    if RELEASE_2020_04_19 < get_now() and set_complaint_period_end:
-        set_complaint_period_end()
 
     # cancel first lot
     cancellation = dict(**test_cancellation)
@@ -1959,11 +1951,6 @@ def two_lot_1can(self):
 def two_lot_2bid_0com_1can(self):
     """ Create tender with 2 lots and 2 bids """
     self.create_tender(self.test_lots_data * 2)
-
-    set_complaint_period_end = getattr(self, "set_complaint_period_end", None)
-
-    if RELEASE_2020_04_19 < get_now() and set_complaint_period_end:
-        set_complaint_period_end()
 
     tenderers = self.create_tenderers(2)
     # create bid

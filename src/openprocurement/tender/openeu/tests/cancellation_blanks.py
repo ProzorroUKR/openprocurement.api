@@ -7,14 +7,12 @@ from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_with_complaints_after_2020_04_19,
-    skip_complaint_period_2020_04_19,
 )
 
 # TenderCancellationBidsAvailabilityTest
 from openprocurement.tender.belowthreshold.tests.base import test_cancellation
 
 
-@skip_complaint_period_2020_04_19
 def bids_on_tender_cancellation_in_tendering(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     tender = response.json["data"]
@@ -90,7 +88,6 @@ def bids_on_tender_cancellation_in_pre_qualification(self):
     self._check_visible_fields_for_invalidated_bids()
 
 
-@skip_complaint_period_2020_04_19
 def bids_on_tender_cancellation_in_pre_qualification_stand_still(self):
     self._mark_one_bid_deleted()
 
@@ -242,7 +239,6 @@ def bids_on_tender_cancellation_in_qualification(self):
                 self._bid_document_is_accessible(bid_id, doc_resource)
 
 
-@skip_complaint_period_2020_04_19
 def bids_on_tender_cancellation_in_awarded(self):
     self.bid_visible_fields = [
         u"status",
@@ -319,7 +315,6 @@ def bids_on_tender_cancellation_in_awarded(self):
 # TenderAwardsCancellationResourceTest
 
 
-@skip_complaint_period_2020_04_19
 def cancellation_active_tendering_j708(self):
     bid = deepcopy(self.initial_bids[0])
     bid["lotValues"] = bid["lotValues"][:1]
@@ -569,7 +564,6 @@ def cancellation_unsuccessful_qualification(self):
         activate_cancellation_with_complaints_after_2020_04_19(self, cancellation["id"])
 
 
-@skip_complaint_period_2020_04_19
 def cancellation_active_award(self):
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
     self.app.authorization = ("Basic", ("chronograph", ""))
@@ -664,7 +658,6 @@ def cancellation_active_award(self):
         activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id)
 
 
-@skip_complaint_period_2020_04_19
 def cancellation_unsuccessful_award(self):
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
     self.app.authorization = ("Basic", ("chronograph", ""))
@@ -786,7 +779,7 @@ def cancellation_unsuccessful_award(self):
 @patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19",
             get_now() - timedelta(days=1))
 def create_cancellation_in_qualification_complaint_period(self):
-    self.set_status("active.qualification.stand-still")
+    self.set_status("active.pre-qualification.stand-still")
 
     cancellation = dict(**test_cancellation)
     cancellation.update({"reasonType": "noDemand"})
