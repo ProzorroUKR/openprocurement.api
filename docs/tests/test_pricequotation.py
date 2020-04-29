@@ -21,8 +21,10 @@ bid_draft = deepcopy(bid_draft)
 bid_draft['requirementResponses'] = [test_requirement_response]
 bid2_with_docs = deepcopy(bid2_with_docs)
 bid2_with_docs['requirementResponses'] = [test_requirement_response]
+tender_below_maximum = deepcopy(tender_below_maximum)
+del tender_below_maximum["features"]
 
-TARGET_DIR = 'docs/source/tendering/http/'
+TARGET_DIR = 'docs/source/tendering/pricequotation/http/'
 
 
 class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
@@ -134,9 +136,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         tender_below_maximum['items'][0]['id'] = uuid4().hex
-        for feature in tender_below_maximum['features']:
-            if feature['featureOf'] == 'item':
-                feature['relatedItem'] = tender_below_maximum['items'][0]['id']
 
         with open(TARGET_DIR + 'tutorial/create-tender-procuringEntity.http', 'w') as self.app.file_obj:
             response = self.app.post_json(

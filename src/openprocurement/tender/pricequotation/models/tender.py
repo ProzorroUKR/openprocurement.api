@@ -75,7 +75,6 @@ class PriceQuotationTender(Tender):
         _edit_fields = _serializable_fields + whitelist(
             "next_check",
             "numberOfBidders",
-            "features",
             "items",
             "tenderPeriod",
             "procuringEntity",

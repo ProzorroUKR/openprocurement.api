@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 4584
+Content-Length: 2951
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -49,26 +49,6 @@ DATA:
       "amount": 500
     }, 
     "mode": "test", 
-    "procuringEntity": {
-      "contactPoint": {
-        "name": "Державне управління справами", 
-        "telephone": "0440000000"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "id": "00037256", 
-        "uri": "http://www.dus.gov.ua/"
-      }, 
-      "name": "Державне управління справами", 
-      "kind": "general", 
-      "address": {
-        "countryName": "Україна", 
-        "postalCode": "01220", 
-        "region": "м. Київ", 
-        "streetAddress": "вул. Банкова, 11, корпус 1", 
-        "locality": "м. Київ"
-      }
-    }, 
     "title_ru": "футляры к государственным наградам", 
     "items": [
       {
@@ -96,47 +76,26 @@ DATA:
       }
     ], 
     "title_en": "Cases with state awards", 
-    "features": [
-      {
-        "code": "OCDS-123454-AIR-INTAKE", 
-        "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)", 
-        "title": "Потужність всмоктування", 
-        "enum": [
-          {
-            "value": 0.1, 
-            "title": "До 1000 Вт"
-          }, 
-          {
-            "value": 0.15, 
-            "title": "Більше 1000 Вт"
-          }
-        ], 
-        "title_en": "Air Intake", 
-        "relatedItem": "eb61f7d097e04f50b4ef0d8da196b7e1", 
-        "featureOf": "item"
+    "procuringEntity": {
+      "contactPoint": {
+        "name": "Державне управління справами", 
+        "telephone": "0440000000"
       }, 
-      {
-        "code": "OCDS-123454-YEARS", 
-        "description": "Кількість років, які організація учасник працює на ринку", 
-        "title": "Років на ринку", 
-        "enum": [
-          {
-            "value": 0.05, 
-            "title": "До 3 років"
-          }, 
-          {
-            "value": 0.1, 
-            "title": "Більше 3 років, менше 5 років"
-          }, 
-          {
-            "value": 0.15, 
-            "title": "Більше 5 років"
-          }
-        ], 
-        "title_en": "Years trading", 
-        "featureOf": "tenderer"
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "00037256", 
+        "uri": "http://www.dus.gov.ua/"
+      }, 
+      "name": "Державне управління справами", 
+      "kind": "general", 
+      "address": {
+        "countryName": "Україна", 
+        "postalCode": "01220", 
+        "region": "м. Київ", 
+        "streetAddress": "вул. Банкова, 11, корпус 1", 
+        "locality": "м. Київ"
       }
-    ]
+    }
   }
 }
 
@@ -151,47 +110,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8fc983bae7614ce3
   "data": {
     "procurementMethod": "open", 
     "mainProcurementCategory": "services", 
-    "features": [
-      {
-        "code": "OCDS-123454-AIR-INTAKE", 
-        "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)", 
-        "title": "Потужність всмоктування", 
-        "enum": [
-          {
-            "value": 0.1, 
-            "title": "До 1000 Вт"
-          }, 
-          {
-            "value": 0.15, 
-            "title": "Більше 1000 Вт"
-          }
-        ], 
-        "title_en": "Air Intake", 
-        "relatedItem": "eb61f7d097e04f50b4ef0d8da196b7e1", 
-        "featureOf": "item"
-      }, 
-      {
-        "code": "OCDS-123454-YEARS", 
-        "description": "Кількість років, які організація учасник працює на ринку", 
-        "title": "Років на ринку", 
-        "enum": [
-          {
-            "value": 0.05, 
-            "title": "До 3 років"
-          }, 
-          {
-            "value": 0.1, 
-            "title": "Більше 3 років, менше 5 років"
-          }, 
-          {
-            "value": 0.15, 
-            "title": "Більше 5 років"
-          }
-        ], 
-        "title_en": "Years trading", 
-        "featureOf": "tenderer"
-      }
-    ], 
     "enquiryPeriod": {
       "startDate": "2020-05-01T01:00:00+03:00", 
       "endDate": "2020-05-08T00:00:00+02:00"
@@ -228,8 +146,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8fc983bae7614ce3
       "startDate": "2020-05-08T00:00:00+02:00", 
       "endDate": "2020-05-15T00:00:00+02:00"
     }, 
-    "procurementMethodType": "belowThreshold", 
     "title_en": "[TESTING] Cases with state awards", 
+    "procurementMethodType": "belowThreshold", 
     "date": "2020-05-01T01:00:00+03:00", 
     "milestones": [
       {
