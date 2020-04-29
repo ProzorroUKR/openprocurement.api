@@ -1,0 +1,165 @@
+PATCH /api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e?acc_token=151a30932ee245e989771be867bc8235 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 1036
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "funders": [
+      {
+        "additionalIdentifiers": [], 
+        "contactPoint": {
+          "url": "https://www.theglobalfund.org/en/", 
+          "faxNumber": "+41 44 580 6820", 
+          "telephone": "+41 58 791 1700", 
+          "name": "", 
+          "email": "ccm@theglobalfund.org"
+        }, 
+        "identifier": {
+          "scheme": "XM-DAC", 
+          "id": "47045", 
+          "legalName": "Глобальний Фонд для боротьби зі СНІДом, туберкульозом і малярією"
+        }, 
+        "name": "Глобальний фонд", 
+        "address": {
+          "countryName": "Швейцарська Конфедерація", 
+          "postalCode": "1218", 
+          "region": "Grand-Saconnex", 
+          "streetAddress": "Global Health Campus, Chemin du Pommier 40", 
+          "locality": "Geneva"
+        }
+      }
+    ]
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "funders": [
+      {
+        "contactPoint": {
+          "url": "https://www.theglobalfund.org/en/", 
+          "email": "ccm@theglobalfund.org", 
+          "telephone": "+41 58 791 1700", 
+          "name": "", 
+          "faxNumber": "+41 44 580 6820"
+        }, 
+        "identifier": {
+          "scheme": "XM-DAC", 
+          "id": "47045", 
+          "legalName": "Глобальний Фонд для боротьби зі СНІДом, туберкульозом і малярією"
+        }, 
+        "name": "Глобальний фонд", 
+        "address": {
+          "postalCode": "1218", 
+          "countryName": "Швейцарська Конфедерація", 
+          "streetAddress": "Global Health Campus, Chemin du Pommier 40", 
+          "region": "Grand-Saconnex", 
+          "locality": "Geneva"
+        }
+      }
+    ], 
+    "procurementMethod": "open", 
+    "milestones": [
+      {
+        "code": "prepayment", 
+        "sequenceNumber": 0, 
+        "title": "signingTheContract", 
+        "duration": {
+          "type": "banking", 
+          "days": 2
+        }, 
+        "percentage": 45.55, 
+        "type": "financing", 
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }, 
+      {
+        "code": "postpayment", 
+        "sequenceNumber": 0, 
+        "title": "deliveryOfGoods", 
+        "duration": {
+          "type": "calendar", 
+          "days": 900
+        }, 
+        "percentage": 54.45, 
+        "type": "financing", 
+        "id": "758236ac1a9844ddb55d91de89534e23"
+      }
+    ], 
+    "mainProcurementCategory": "goods", 
+    "tenderPeriod": {
+      "startDate": "2020-05-01T01:00:00+03:00", 
+      "endDate": "2020-05-16T01:00:11+03:00"
+    }, 
+    "title": "Комп’ютерне обладнання", 
+    "items": [
+      {
+        "description": "Комп’ютерне обладнання", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "Cartons", 
+          "id": "44617100-9"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "INN", 
+            "id": "17.21.1", 
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2020-05-03T01:00:00+03:00", 
+          "endDate": "2020-05-06T01:00:00+03:00"
+        }, 
+        "id": "0d99ccf1875e4ab8bb13f46a98631885", 
+        "quantity": 5.0
+      }
+    ], 
+    "procurementMethodType": "priceQuotation", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "submissionMethod": "electronicAuction", 
+    "date": "2020-05-01T01:00:00+03:00", 
+    "status": "draft", 
+    "procuringEntity": {
+      "contactPoint": {
+        "name": "Державне управління справами", 
+        "telephone": "0440000000"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "00037256", 
+        "uri": "http://www.dus.gov.ua/"
+      }, 
+      "name": "Державне управління справами", 
+      "kind": "general", 
+      "address": {
+        "postalCode": "01220", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Банкова, 11, корпус 1", 
+        "region": "м. Київ", 
+        "locality": "м. Київ"
+      }
+    }, 
+    "awardCriteria": "lowestCost", 
+    "owner": "broker", 
+    "dateModified": "2020-05-01T01:00:01+03:00", 
+    "profile": "655360-30230000-889652-40000777", 
+    "id": "db4fb6143a5f45b6953e8f010ed8064e", 
+    "tenderID": "UA-2020-05-01-000001"
+  }
+}
+

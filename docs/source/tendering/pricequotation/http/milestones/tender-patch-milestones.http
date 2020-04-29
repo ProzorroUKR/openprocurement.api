@@ -1,0 +1,124 @@
+PATCH /api/2.5/tenders/7b3b4a9fbcde4d7d9e551385448b53a8?acc_token=3f90e22edebd43faa3f39740320e00e5 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 161
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "milestones": [
+      {}, 
+      {
+        "description": "Підозрілий опис", 
+        "title": "anotherEvent"
+      }
+    ]
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "procurementMethod": "open", 
+    "status": "draft", 
+    "milestones": [
+      {
+        "code": "prepayment", 
+        "sequenceNumber": 0, 
+        "title": "signingTheContract", 
+        "duration": {
+          "type": "banking", 
+          "days": 5
+        }, 
+        "percentage": 45.55, 
+        "type": "financing", 
+        "id": "a5df5a391df6470cb88daf82a6c10162"
+      }, 
+      {
+        "code": "postpayment", 
+        "description": "Підозрілий опис", 
+        "sequenceNumber": 1, 
+        "title": "anotherEvent", 
+        "duration": {
+          "type": "calendar", 
+          "days": 7
+        }, 
+        "percentage": 54.45, 
+        "type": "financing", 
+        "id": "0e95f3b0e9a44b5c91d4d4947a3e5a7b"
+      }
+    ], 
+    "mainProcurementCategory": "goods", 
+    "tenderPeriod": {
+      "startDate": "2020-05-01T01:00:00+03:00", 
+      "endDate": "2020-05-15T01:00:00+03:00"
+    }, 
+    "title": "Комп’ютерне обладнання", 
+    "items": [
+      {
+        "description": "Комп’ютерне обладнання", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "Cartons", 
+          "id": "44617100-9"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "INN", 
+            "id": "17.21.1", 
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2020-05-03T01:00:00+03:00", 
+          "endDate": "2020-05-06T01:00:00+03:00"
+        }, 
+        "id": "ca062eaf9ece425dbeb4460135f9b063", 
+        "quantity": 5.0
+      }
+    ], 
+    "procurementMethodType": "priceQuotation", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "submissionMethod": "electronicAuction", 
+    "date": "2020-05-01T01:00:00+03:00", 
+    "profile": "655360-30230000-889652-40000777", 
+    "procuringEntity": {
+      "contactPoint": {
+        "name": "Державне управління справами", 
+        "telephone": "0440000000"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "00037256", 
+        "uri": "http://www.dus.gov.ua/"
+      }, 
+      "name": "Державне управління справами", 
+      "kind": "general", 
+      "address": {
+        "postalCode": "01220", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Банкова, 11, корпус 1", 
+        "region": "м. Київ", 
+        "locality": "м. Київ"
+      }
+    }, 
+    "awardCriteria": "lowestCost", 
+    "owner": "broker", 
+    "dateModified": "2020-05-01T01:00:00+03:00", 
+    "id": "7b3b4a9fbcde4d7d9e551385448b53a8", 
+    "tenderID": "UA-2020-05-01-000001"
+  }
+}
+
