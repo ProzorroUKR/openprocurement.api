@@ -1,7 +1,7 @@
 import os
 from setuptools import setup, find_packages
 
-version = "2.5.66"
+version = "2.5.66.1"
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -20,6 +20,7 @@ requires = [
     "iso8601",
     "isodate",
     "jsonpatch",
+    "jmespath",
     "libnacl",
     "pbkdf2",
     "pycrypto",
@@ -40,7 +41,6 @@ tests_requires = requires + [
     "webtest",
     "python-coveralls",
     "mock",
-    "jmespath",
     "freezegun",
     "parameterized",
 ]
