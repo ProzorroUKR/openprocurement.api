@@ -89,6 +89,7 @@ class PriceQuotationTender(Tender):
                 "status",
                 "profile"
             )
+        _create_role = _core_roles["create"] + _edit_role
         _edit_pq_bot_role = whitelist("items", "shortlistedFirms", "status", "criteria", "value")
         _view_tendering_role = (
             _core_roles["view"]
@@ -106,7 +107,7 @@ class PriceQuotationTender(Tender):
         _view_role = _view_tendering_role + whitelist("bids", "numberOfBids")
         _all_forbidden = whitelist()
         roles = {
-            "create": _core_roles["create"] + _edit_role + whitelist("lots"),
+            "create": _create_role,
             "edit": _edit_role,
             "edit_draft": _edit_role,
             "edit_draft.unsuccessful": _edit_role,
@@ -187,7 +188,7 @@ class PriceQuotationTender(Tender):
     )  # All documents and attachments related to the tender.
     guarantee = ModelType(Guarantee)
     procurementMethodType = StringType(default=PMT)
-    profile = StringType()
+    profile = StringType(required=True)
     shortlistedFirms = ListType(ModelType(ShortlistedFirm), default=list())
     criteria = ListType(ModelType(Criterion), default=list())
 
