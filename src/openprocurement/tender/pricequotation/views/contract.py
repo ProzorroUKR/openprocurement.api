@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import\
     json_view, raise_operation_error, context_unpack, get_now
-from openprocurement.tender.core.utils import optendersresource, apply_patch, save_tender
+from openprocurement.tender.core.utils import optendersresource,\
+    apply_patch, save_tender
 from openprocurement.tender.core.validation import (
-    validate_contract_signing,
     validate_patch_contract_data,
     validate_update_contract_value,
-    validate_update_contract_only_for_active_lots,
     validate_contract_operation_not_in_allowed_status,
     validate_update_contract_value_with_award,
     validate_update_contract_value_amount,
