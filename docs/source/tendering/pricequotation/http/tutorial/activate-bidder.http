@@ -23,9 +23,73 @@ Content-Type: application/json; charset=UTF-8
     "requirementResponses": [
       {
         "requirement": {
-          "id": "101-202"
+          "id": "655360-0001-001-01"
         }, 
-        "id": "f603058e6c4c42b2a3778d76c2836ece"
+        "id": "f603058e6c4c42b2a3778d76c2836ece", 
+        "value": "23.8"
+      }, 
+      {
+        "requirement": {
+          "id": "655360-0002-001-01"
+        }, 
+        "id": "b7ddf84cf267494eb3d97d22f3857efa", 
+        "value": "1920x1080"
+      }, 
+      {
+        "requirement": {
+          "id": "655360-0003-001-01"
+        }, 
+        "id": "b603a33928f5408a93d1bb5aa8d4d3f3", 
+        "value": "16:9"
+      }, 
+      {
+        "requirement": {
+          "id": "655360-0004-001-01"
+        }, 
+        "id": "d6ac685ceebc470fafdf153624b70d77", 
+        "value": "250"
+      }, 
+      {
+        "requirement": {
+          "id": "655360-0005-001-01"
+        }, 
+        "id": "04bd3e2b441643caa3370503b32348a9", 
+        "value": "1000:1"
+      }, 
+      {
+        "requirement": {
+          "id": "655360-0006-001-01"
+        }, 
+        "id": "d7289021f0384f288589e4d666f8ef96", 
+        "value": "1"
+      }, 
+      {
+        "requirement": {
+          "id": "655360-0007-001-01"
+        }, 
+        "id": "557164c265cb49559db3e6d17d0f939e", 
+        "value": "1"
+      }, 
+      {
+        "requirement": {
+          "id": "655360-0008-001-01"
+        }, 
+        "id": "a9157241355c404c930a262d85f7f209", 
+        "value": "HDMI"
+      }, 
+      {
+        "requirement": {
+          "id": "655360-0009-001-01"
+        }, 
+        "id": "6ea4118b04164415b95901eb65e867d0", 
+        "value": "36"
+      }, 
+      {
+        "requirement": {
+          "id": "655360-0005-002-01"
+        }, 
+        "id": "62620723b1494c8e863fc7447b46dac5", 
+        "value": "3000:1"
       }
     ], 
     "tenderers": [

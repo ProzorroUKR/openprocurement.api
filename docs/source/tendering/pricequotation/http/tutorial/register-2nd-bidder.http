@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1634
+Content-Length: 2230
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -9,8 +9,63 @@ DATA:
     "requirementResponses": [
       {
         "requirement": {
-          "id": "101-202"
-        }
+          "id": "655360-0001-001-01"
+        }, 
+        "value": "23.8"
+      }, 
+      {
+        "requirement": {
+          "id": "655360-0002-001-01"
+        }, 
+        "value": "1920x1080"
+      }, 
+      {
+        "requirement": {
+          "id": "655360-0003-001-01"
+        }, 
+        "value": "16:9"
+      }, 
+      {
+        "requirement": {
+          "id": "655360-0004-001-01"
+        }, 
+        "value": 250
+      }, 
+      {
+        "requirement": {
+          "id": "655360-0005-001-01"
+        }, 
+        "value": "1000:1"
+      }, 
+      {
+        "requirement": {
+          "id": "655360-0006-001-01"
+        }, 
+        "value": 1
+      }, 
+      {
+        "requirement": {
+          "id": "655360-0007-001-01"
+        }, 
+        "value": 1
+      }, 
+      {
+        "requirement": {
+          "id": "655360-0008-001-01"
+        }, 
+        "value": "HDMI"
+      }, 
+      {
+        "requirement": {
+          "id": "655360-0009-001-01"
+        }, 
+        "value": 36
+      }, 
+      {
+        "requirement": {
+          "id": "655360-0005-002-01"
+        }, 
+        "value": "3000:1"
       }
     ], 
     "documents": [
@@ -97,9 +152,73 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db4fb6143a5f45b6
     "requirementResponses": [
       {
         "requirement": {
-          "id": "101-202"
+          "id": "655360-0001-001-01"
         }, 
-        "id": "247e4e8e78c64d869d85959c5b1398d9"
+        "id": "247e4e8e78c64d869d85959c5b1398d9", 
+        "value": "23.8"
+      }, 
+      {
+        "requirement": {
+          "id": "655360-0002-001-01"
+        }, 
+        "id": "3e0b2e007032475cab7b58896ceb92eb", 
+        "value": "1920x1080"
+      }, 
+      {
+        "requirement": {
+          "id": "655360-0003-001-01"
+        }, 
+        "id": "ae4173df39f044fca3be0a720bb6130d", 
+        "value": "16:9"
+      }, 
+      {
+        "requirement": {
+          "id": "655360-0004-001-01"
+        }, 
+        "id": "8e5b8e0aeaed47788d1d2a4822809c64", 
+        "value": "250"
+      }, 
+      {
+        "requirement": {
+          "id": "655360-0005-001-01"
+        }, 
+        "id": "efda7852af3c48ce9a52db9072f91752", 
+        "value": "1000:1"
+      }, 
+      {
+        "requirement": {
+          "id": "655360-0006-001-01"
+        }, 
+        "id": "770b9dcaea7043ce9d8865ed31af75ff", 
+        "value": "1"
+      }, 
+      {
+        "requirement": {
+          "id": "655360-0007-001-01"
+        }, 
+        "id": "76a50f0c73c34f19b60286aa71f86d02", 
+        "value": "1"
+      }, 
+      {
+        "requirement": {
+          "id": "655360-0008-001-01"
+        }, 
+        "id": "e1bd89d2e79944cf9cc2e6f390b572ac", 
+        "value": "HDMI"
+      }, 
+      {
+        "requirement": {
+          "id": "655360-0009-001-01"
+        }, 
+        "id": "b7ee75f2f921405b9365be83d12166f0", 
+        "value": "36"
+      }, 
+      {
+        "requirement": {
+          "id": "655360-0005-002-01"
+        }, 
+        "id": "cf0fddca5f55483d9756ee7fed2d31f5", 
+        "value": "3000:1"
       }
     ], 
     "tenderers": [

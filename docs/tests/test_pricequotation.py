@@ -6,8 +6,7 @@ from datetime import timedelta
 
 from openprocurement.api.models import get_now
 from openprocurement.tender.pricequotation.tests.base import (
-    BaseTenderWebTest, test_tender_data, test_bids, test_requirement_response,
-    bid_with_docs
+    BaseTenderWebTest, test_tender_data, test_bids, bid_with_docs
 )
 
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin

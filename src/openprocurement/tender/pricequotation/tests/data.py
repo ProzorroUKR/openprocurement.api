@@ -216,6 +216,21 @@ test_bids = [
     {"tenderers": [test_organization], "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True}, "requirementResponses": test_requirement_response_valid},
     {"tenderers": [test_organization], "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True}, "requirementResponses": test_requirement_response_valid},
 ]
+bid_with_docs = deepcopy(test_bids[1])
+bid_with_docs["documents"] = [
+    {
+        'title': u'Proposal_part1.pdf',
+        'url': u"http://broken1.ds",
+        'hash': 'md5:' + '0' * 32,
+        'format': 'application/pdf',
+    },
+    {
+        'title': u'Proposal_part2.pdf',
+        'url': u"http://broken2.ds",
+        'hash': 'md5:' + '0' * 32,
+        'format': 'application/pdf',
+    }
+]
 
 test_cancellation = {
     "reason": "cancellation reason",
