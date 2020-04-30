@@ -196,7 +196,7 @@ class Tender(BaseTender):
 
     procurementMethodType = StringType(default="belowThreshold")
 
-    procuring_entity_kinds = ["general", "special", "defense", "central", "other"]
+    procuring_entity_kinds = ["authority", "central", "defense", "general", "other", "social", "special"]
     block_complaint_status = ["answered", "pending"]
 
     def __local_roles__(self):

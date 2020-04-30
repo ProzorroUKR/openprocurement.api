@@ -684,7 +684,7 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": u"'' procuringEntity cannot publish this type of procedure. Only general, special, defense, central, other are allowed.",
+                u"description": u"'' procuringEntity cannot publish this type of procedure. Only authority, central, defense, general, other, social, special are allowed.",
                 u"location": u"procuringEntity",
                 u"name": u"kind",
             }

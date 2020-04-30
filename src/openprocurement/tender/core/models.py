@@ -611,7 +611,7 @@ class Bid(Model):
                 raise ValidationError(u"All features parameters is required.")
 
 
-PROCURING_ENTITY_KINDS = ("general", "special", "defense", "central", "other")
+PROCURING_ENTITY_KINDS = ("authority", "central", "defense", "general", "other", "social", "special")
 
 
 class ProcuringEntity(Organization):
