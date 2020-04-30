@@ -1,6 +1,7 @@
 from datetime import timedelta
 
 from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.auth import extract_access_token
 from openprocurement.api.validation import (
     validate_data, validate_json_data, OPERATIONS, validate_accreditation_level,
     validate_accreditation_level_mode,
@@ -66,10 +67,17 @@ def validate_update_bid_to_active_status(request):
 
 # bid documents
 def validate_download_bid_document(request):
+    tender = request.validated["tender"]
+    bid = request.validated["bid"]
+
+    acc_token = extract_access_token(request)
+    auth_user_id = request.authenticated_userid
+
     if request.params.get("download"):
         document = request.validated["document"]
-        authenticated_role = request.authenticated_role
-        if document.confidentiality == "buyerOnly" and authenticated_role not in ("bid_owner", "tender_owner"):
+        is_owner = (auth_user_id == bid.owner and acc_token == bid.owner_token)
+        is_tender_owner = (auth_user_id == tender.owner and acc_token == tender.owner_token)
+        if document.confidentiality == "buyerOnly" and not is_owner and not is_tender_owner:
             raise_operation_error(request, "Document download forbidden.")
 
 

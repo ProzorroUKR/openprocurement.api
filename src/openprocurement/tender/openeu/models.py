@@ -27,6 +27,7 @@ from openprocurement.tender.core.models import (
     Bid as BaseBid,
     Contract as BaseContract,
     Lot as BaseLot,
+    ConfidentialDocumentModelType,
     EUConfidentialDocument,
     EUDocument,
     LotValue as BaseLotValue,
@@ -390,10 +391,10 @@ class Bid(BaseBid):
             "deleted": whitelist("id", "status"),
         }
 
-    documents = ListType(ModelType(EUConfidentialDocument, required=True), default=list())
-    financialDocuments = ListType(ModelType(EUConfidentialDocument, required=True), default=list())
-    eligibilityDocuments = ListType(ModelType(EUConfidentialDocument, required=True), default=list())
-    qualificationDocuments = ListType(ModelType(EUConfidentialDocument, required=True), default=list())
+    documents = ListType(ConfidentialDocumentModelType(EUConfidentialDocument, required=True), default=list())
+    financialDocuments = ListType(ConfidentialDocumentModelType(EUConfidentialDocument, required=True), default=list())
+    eligibilityDocuments = ListType(ConfidentialDocumentModelType(EUConfidentialDocument, required=True), default=list())
+    qualificationDocuments = ListType(ConfidentialDocumentModelType(EUConfidentialDocument, required=True), default=list())
     lotValues = ListType(ModelType(LotValue, required=True), default=list())
     selfQualified = BooleanType(required=True, choices=[True])
     selfEligible = BooleanType(required=True, choices=[True])

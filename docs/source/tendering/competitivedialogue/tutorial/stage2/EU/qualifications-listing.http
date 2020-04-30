@@ -221,14 +221,13 @@ Content-Type: application/json; charset=UTF-8
             "hash": "md5:00000000000000000000000000000000", 
             "confidentiality": "buyerOnly", 
             "language": "uk", 
-            "format": "application/pdf", 
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/50c82523038349969f53f3e238932c46/bids/dc595a39267248abbf3e85d759d6c1ab/documents/ee89213792d8452b93c9ad66e68f8af9?download=b23e32bbc16940349bc7370b7cdb1c1a", 
-            "confidentialityRationale": "Only our company sells badgers with pink hair.", 
             "title": "Proposal_top_secrets.pdf", 
+            "confidentialityRationale": "Only our company sells badgers with pink hair.", 
+            "format": "application/pdf", 
             "documentOf": "tender", 
             "datePublished": "2020-05-01T01:00:00+03:00", 
-            "id": "ee89213792d8452b93c9ad66e68f8af9", 
-            "dateModified": "2020-05-01T01:00:00+03:00"
+            "dateModified": "2020-05-01T01:00:00+03:00", 
+            "id": "ee89213792d8452b93c9ad66e68f8af9"
           }
         ], 
         "id": "dc595a39267248abbf3e85d759d6c1ab", 
@@ -302,14 +301,13 @@ Content-Type: application/json; charset=UTF-8
             "hash": "md5:00000000000000000000000000000000", 
             "confidentiality": "buyerOnly", 
             "language": "uk", 
-            "format": "application/pdf", 
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/50c82523038349969f53f3e238932c46/bids/0ee0193aeac246e791c6601952452387/documents/f896df38ec1e41cc89e6e463e54e81e8?download=924d1313531d40a6b8e6b83f0ec24b05", 
-            "confidentialityRationale": "Only our company sells badgers with pink hair.", 
             "title": "Proposal_part2.pdf", 
+            "confidentialityRationale": "Only our company sells badgers with pink hair.", 
+            "format": "application/pdf", 
             "documentOf": "tender", 
             "datePublished": "2020-05-01T01:00:00+03:00", 
-            "id": "f896df38ec1e41cc89e6e463e54e81e8", 
-            "dateModified": "2020-05-01T01:00:00+03:00"
+            "dateModified": "2020-05-01T01:00:00+03:00", 
+            "id": "f896df38ec1e41cc89e6e463e54e81e8"
           }
         ], 
         "tenderers": [
