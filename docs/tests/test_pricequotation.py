@@ -6,23 +6,17 @@ from datetime import timedelta
 
 from openprocurement.api.models import get_now
 from openprocurement.tender.pricequotation.tests.base import (
-    BaseTenderWebTest, test_tender_data, test_bids, test_requirement_response
+    BaseTenderWebTest, test_tender_data, test_bids, test_requirement_response,
+    bid_with_docs
 )
 
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.base.constants import DOCS_URL, AUCTIONS_URL
-from tests.base.data import (
-    bid_draft, bid2_with_docs, question,
-    tender_below_maximum, funder, complaint, claim,
-)
+
 
 test_tender_data = deepcopy(test_tender_data)
-bid_draft = deepcopy(bid_draft)
-bid_draft['requirementResponses'] = [test_requirement_response]
-bid2_with_docs = deepcopy(bid2_with_docs)
-bid2_with_docs['requirementResponses'] = [test_requirement_response]
-tender_below_maximum = deepcopy(tender_below_maximum)
-del tender_below_maximum["features"]
+bid_draft = deepcopy(test_bids[0])
+bid_draft["status"] = "draft"
 
 TARGET_DIR = 'docs/source/tendering/pricequotation/http/'
 
@@ -44,42 +38,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
     def tearDown(self):
         self.tearDownMock()
         super(TenderResourceTest, self).tearDown()
-
-    def test_docs_2pc(self):
-        self.app.authorization = ('Basic', ('broker', ''))
-
-        # Creating tender in draft status
-
-        for item in test_tender_data['items']:
-            item['deliveryDate'] = {
-                "startDate": (get_now() + timedelta(days=2)).isoformat(),
-                "endDate": (get_now() + timedelta(days=5)).isoformat()
-            }
-
-        test_tender_data.update({
-            "tenderPeriod": {"endDate": (get_now() + timedelta(days=14)).isoformat()}
-        })
-
-        data = test_tender_data.copy()
-        data['status'] = 'draft'
-
-        with open(TARGET_DIR + 'tutorial/tender-post-2pc.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(
-                '/tenders?opt_pretty=1',
-                {'data': data})
-            self.assertEqual(response.status, '201 Created')
-
-        tender = response.json['data']
-        self.tender_id = tender['id']
-        owner_token = response.json['access']['token']
-
-        # switch to 'active.tendering'
-
-        with open(TARGET_DIR + 'tutorial/tender-patch-2pc.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
-                {'data': {"status": 'active.tendering'}})
-            self.assertEqual(response.status, '200 OK')
 
     def test_docs_tutorial(self):
 
@@ -135,28 +93,12 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.get('/tenders')
             self.assertEqual(response.status, '200 OK')
 
-        tender_below_maximum['items'][0]['id'] = uuid4().hex
-
-        with open(TARGET_DIR + 'tutorial/create-tender-procuringEntity.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(
-                '/tenders?opt_pretty=1',
-                {'data': tender_below_maximum})
-            self.assertEqual(response.status, '201 Created')
-
-        test_tender_funders_data = deepcopy(test_tender_data)
-        test_tender_funders_data['funders'] = [funder]
-        with open(TARGET_DIR + 'tutorial/create-tender-funders.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(
-                '/tenders?opt_pretty=1',
-                {'data': test_tender_funders_data})
-            self.assertEqual(response.status, '201 Created')
-
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
             {'data': test_tender_data})
         self.assertEqual(response.status, '201 Created')
 
-        with open(TARGET_DIR + 'tutorial/tender-listing-after-procuringEntity.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/tender-listing-after-creation.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders')
             self.assertEqual(response.status, '200 OK')
 
@@ -172,21 +114,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
                 {'data': {"tenderPeriod": {"endDate": tenderPeriod_endDate.isoformat()}}})
 
-        with open(TARGET_DIR + 'tutorial/tender-listing-after-patch.http', 'w') as self.app.file_obj:
-            self.app.authorization = None
-            response = self.app.get(request_path)
-            self.assertEqual(response.status, '200 OK')
-
         self.app.authorization = ('Basic', ('broker', ''))
-
-        # Setting funders
-
-        with open(TARGET_DIR + 'tutorial/patch-tender-funders.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
-                {'data': {"funders": [funder]}})
-            self.assertIn('funders', response.json['data'])
-            self.assertEqual(response.status, '200 OK')
 
         # Setting Bid guarantee
 
@@ -263,10 +191,15 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.get('/tenders/{}/documents'.format(
                 self.tender_id))
             self.assertEqual(response.status, '200 OK')
+        
+        self.set_status('active.tendering')
+
+        with open(TARGET_DIR + 'tutorial/tender-listing-after-patch.http', 'w') as self.app.file_obj:
+            self.app.authorization = None
+            response = self.app.get(request_path)
+            self.assertEqual(response.status, '200 OK')
 
         # Registering bid
-
-        self.set_status('active.tendering')
 
         self.app.authorization = ('Basic', ('broker', ''))
         bids_access = {}
@@ -307,11 +240,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         # Second bid registration with documents
 
         with open(TARGET_DIR + 'tutorial/register-2nd-bidder.http', 'w') as self.app.file_obj:
-            for document in bid2_with_docs['documents']:
+            for document in bid_with_docs['documents']:
                 document['url'] = self.generate_docservice_url()
             response = self.app.post_json(
                 '/tenders/{}/bids'.format(self.tender_id),
-                {'data': bid2_with_docs})
+                {'data': bid_with_docs})
             bid2_id = response.json['data']['id']
             bids_access[bid2_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')

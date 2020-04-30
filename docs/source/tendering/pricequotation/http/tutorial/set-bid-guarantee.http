@@ -17,31 +17,8 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "funders": [
-      {
-        "contactPoint": {
-          "url": "https://www.theglobalfund.org/en/", 
-          "email": "ccm@theglobalfund.org", 
-          "telephone": "+41 58 791 1700", 
-          "name": "", 
-          "faxNumber": "+41 44 580 6820"
-        }, 
-        "identifier": {
-          "scheme": "XM-DAC", 
-          "id": "47045", 
-          "legalName": "Глобальний Фонд для боротьби зі СНІДом, туберкульозом і малярією"
-        }, 
-        "name": "Глобальний фонд", 
-        "address": {
-          "postalCode": "1218", 
-          "countryName": "Швейцарська Конфедерація", 
-          "streetAddress": "Global Health Campus, Chemin du Pommier 40", 
-          "region": "Grand-Saconnex", 
-          "locality": "Geneva"
-        }
-      }
-    ], 
     "procurementMethod": "open", 
+    "status": "draft", 
     "milestones": [
       {
         "code": "prepayment", 
@@ -74,10 +51,6 @@ Content-Type: application/json; charset=UTF-8
       "endDate": "2020-05-16T01:00:11+03:00"
     }, 
     "title": "Комп’ютерне обладнання", 
-    "guarantee": {
-      "currency": "USD", 
-      "amount": 8.0
-    }, 
     "items": [
       {
         "description": "Комп’ютерне обладнання", 
@@ -116,7 +89,7 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "submissionMethod": "electronicAuction", 
     "date": "2020-05-01T01:00:00+03:00", 
-    "status": "draft", 
+    "profile": "655360-30230000-889652-40000777", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 
@@ -140,7 +113,10 @@ Content-Type: application/json; charset=UTF-8
     "awardCriteria": "lowestCost", 
     "owner": "broker", 
     "dateModified": "2020-05-01T01:00:01+03:00", 
-    "profile": "655360-30230000-889652-40000777", 
+    "guarantee": {
+      "currency": "USD", 
+      "amount": 8.0
+    }, 
     "id": "db4fb6143a5f45b6953e8f010ed8064e", 
     "tenderID": "UA-2020-05-01-000001"
   }

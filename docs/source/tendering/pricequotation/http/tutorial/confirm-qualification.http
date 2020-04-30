@@ -18,30 +18,29 @@ Content-Type: application/json; charset=UTF-8
     "suppliers": [
       {
         "contactPoint": {
-          "email": "soleksuk@gmail.com", 
-          "telephone": "+380 (432) 21-69-30", 
-          "name": "Сергій Олексюк"
+          "name": "Державне управління справами", 
+          "telephone": "0440000000"
         }, 
         "scale": "micro", 
-        "name": "ДКП «Школяр»", 
+        "name": "Державне управління справами", 
         "identifier": {
           "scheme": "UA-EDR", 
-          "id": "00137256", 
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00037256", 
+          "uri": "http://www.dus.gov.ua/"
         }, 
         "address": {
-          "postalCode": "21100", 
+          "postalCode": "01220", 
           "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 33", 
-          "region": "Вінницька область", 
-          "locality": "м. Вінниця"
+          "streetAddress": "вул. Банкова, 11, корпус 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
         }
       }
     ], 
     "bid_id": "d8ffcf489b094edabfedd635dc87819e", 
     "value": {
       "currency": "UAH", 
-      "amount": 500.0, 
+      "amount": 469.0, 
       "valueAddedTaxIncluded": true
     }, 
     "date": "2020-05-01T01:00:01+03:00", 
