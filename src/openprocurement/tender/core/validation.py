@@ -414,7 +414,8 @@ def validate_cancellation_status_with_complaints(request):
         )
 
     if (
-        new_status == "unsuccessful"
+        curr_status == "pending"
+        and new_status == "unsuccessful"
         and not any([i.status == "satisfied" for i in cancellation.complaints])
     ):
         raise_operation_error(

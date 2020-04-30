@@ -43,6 +43,11 @@ class BaseTenderCancellationResource(APIResource):
         cancellation = self.request.validated["cancellation"]
         cancellation.date = get_now()
 
+        if cancellation.relatedLot:
+            cancellation.cancellationOf = "lot"
+        else:
+            cancellation.cancellationOf = "tender"
+
         if get_first_revision_date(self.request.tender, default=get_now()) > RELEASE_2020_04_19:
             cancellation.status = None
 
