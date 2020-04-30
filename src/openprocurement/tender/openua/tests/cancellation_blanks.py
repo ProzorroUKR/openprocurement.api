@@ -491,12 +491,33 @@ def create_tender_cancellation_2020_04_19(self):
 @patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.core.utils.RELEASE_2020_04_19",
-            get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def patch_tender_cancellation_2020_04_19(self):
-
     reasonType_choices = self.valid_reasonType_choices
+
+    cancellation = dict(**test_cancellation)
+    cancellation.update({"reasonType": reasonType_choices[0]})
+    response = self.app.post_json(
+        "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": cancellation}
+    )
+
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    cancellation_id = response.json["data"]["id"]
+    self.assertEqual(response.json["data"]["reason"], "cancellation reason")
+    self.assertEqual(response.json["data"]["status"], "draft")
+    self.assertEqual(response.json["data"]["reasonType"], reasonType_choices[0])
+    self.assertIn(cancellation_id, response.headers["Location"])
+
+    response = self.app.patch_json(
+        "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation_id, self.tender_token),
+        {"data": {"status": "unsuccessful"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
     cancellation = dict(**test_cancellation)
     cancellation.update({"reasonType": reasonType_choices[0]})
