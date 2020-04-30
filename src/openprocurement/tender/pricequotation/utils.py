@@ -1,22 +1,13 @@
 # -*- coding: utf-8 -*-
-from types import NoneType
-from operator import itemgetter
-
-from barbecue import chef
 from logging import getLogger
-from openprocurement.api.constants import TZ, RELEASE_2020_04_19
+from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now, context_unpack
 from openprocurement.tender.core.utils import (
-    calculate_tender_business_date,
-    cleanup_bids_for_cancelled_lots,
     remove_draft_bids,
     cancel_tender
 )
 
-from openprocurement.tender.core.constants import COMPLAINT_STAND_STILL_TIME
 from openprocurement.tender.core.utils import get_first_revision_date
-from openprocurement.tender.pricequotation.interfaces import IRequirementResponse
-from zope.component import queryUtility
 
 
 LOGGER = getLogger("openprocurement.tender.pricequotation")
@@ -31,7 +22,6 @@ def check_bids(request):
     if tender.numberOfBids == 0:
         tender.status = "unsuccessful"
     else:
-        # tender.status = 'active.qualification'
         add_next_award(request)
 
 
@@ -121,7 +111,10 @@ def add_next_award(request):
             a.bid_id for a in tender.awards
             if a.status == "unsuccessful"
         ]
-        bids = tender.bids
+        bids = [
+            bid for bid in tender.bids
+            if bid.id not in unsuccessful_awards
+        ]
         if bids:
             bid = bids[0].serialize()
             award = type(tender).awards.model_class(
@@ -140,6 +133,9 @@ def add_next_award(request):
                 tender_id=tender.id,
                 award_id=award["id"]
             )
+        else:
+            tender.status = 'unsuccessful'
+            return
     if tender.awards[-1].status == "pending":
         tender.awardPeriod.endDate = None
         tender.status = "active.qualification"
