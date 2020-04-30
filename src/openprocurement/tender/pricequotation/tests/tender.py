@@ -4,7 +4,9 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.pricequotation.tests.base import (
-    BaseTenderWebTest, test_tender_data,
+    BaseTenderWebTest,
+    TenderContentWebTest,
+    test_tender_data,
     BaseApiWebTest,
 )
 from openprocurement.tender.pricequotation.tests.tender_blanks import (
@@ -86,7 +88,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     initial_data = test_tender_data
     initial_auth = ("Basic", ("broker", ""))
 
-    test_guarantee = snitch(guarantee)
+    Test_guarantee = snitch(guarantee)
     test_create_tender_invalid = snitch(create_tender_invalid)
     test_create_tender_generated = snitch(create_tender_generated)
     test_create_tender_central = snitch(create_tender_central)
@@ -102,8 +104,10 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_patch_tender_by_pq_bot = snitch(patch_tender_by_pq_bot)
 
 
-class TenderProcessTest(BaseTenderWebTest):
+class TenderProcessTest(TenderContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
+    initial_data = test_tender_data
+    initial_status = 'active.tendering'
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
     test_one_valid_bid_tender = snitch(one_valid_bid_tender)

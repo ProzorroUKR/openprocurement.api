@@ -926,46 +926,42 @@ def patch_not_author(self):
 
 
 def check_tender_award(self):
-    # TODO: 
     # get bids
-    self.assertTrue(1)
-    # response = self.app.get("/tenders/{}/bids".format(self.tender_id))
-    # self.assertEqual(response.status, "200 OK")
-    # bids = response.json["data"]
-    # # sort bids by value amount, from lower to higher if reverse is False (all tenders, except esco)
-    # # or from higher to lower if reverse is True (esco tenders)
-    # sorted_bids = sorted(bids, key=lambda bid: bid["lotValues"][0]["value"][self.awarding_key], reverse=self.reverse)
+    response = self.app.get("/tenders/{}/bids".format(self.tender_id))
+    self.assertEqual(response.status, "200 OK")
+    bids = response.json["data"]
+    sorted_bids = sorted(bids, key=lambda bid: bid["value"]['amount'])
 
-    # # get awards
-    # response = self.app.get("/tenders/{}/awards".format(self.tender_id))
-    # # get pending award
-    # award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
-    # # check award
-    # response = self.app.get("/tenders/{}/awards/{}".format(self.tender_id, award_id))
-    # self.assertEqual(response.status, "200 OK")
-    # self.assertEqual(response.json["data"]["suppliers"][0]["name"], sorted_bids[0]["tenderers"][0]["name"])
-    # self.assertEqual(
-    #     response.json["data"]["suppliers"][0]["identifier"]["id"], sorted_bids[0]["tenderers"][0]["identifier"]["id"]
-    # )
-    # self.assertEqual(response.json["data"]["bid_id"], sorted_bids[0]["id"])
+    # get awards
+    response = self.app.get("/tenders/{}/awards".format(self.tender_id))
+    # get pending award
+    award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
+    # check award
+    response = self.app.get("/tenders/{}/awards/{}".format(self.tender_id, award_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["suppliers"][0]["name"], sorted_bids[0]["tenderers"][0]["name"])
+    self.assertEqual(
+        response.json["data"]["suppliers"][0]["identifier"]["id"], sorted_bids[0]["tenderers"][0]["identifier"]["id"]
+    )
+    self.assertEqual(response.json["data"]["bid_id"], sorted_bids[0]["id"])
 
-    # # cancel award
-    # self.app.authorization = ("Basic", ("broker", ""))
-    # response = self.app.patch_json(
-    #     "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
-    #     {"data": {"status": "unsuccessful"}},
-    # )
-    # self.assertEqual(response.status, "200 OK")
+    # cancel award
+    self.app.authorization = ("Basic", ("broker", ""))
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
+        {"data": {"status": "unsuccessful"}},
+    )
+    self.assertEqual(response.status, "200 OK")
 
-    # # get awards
-    # response = self.app.get("/tenders/{}/awards".format(self.tender_id))
-    # # get pending award
-    # award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
-    # # check new award
-    # response = self.app.get("/tenders/{}/awards/{}".format(self.tender_id, award_id))
-    # self.assertEqual(response.status, "200 OK")
-    # self.assertEqual(response.json["data"]["suppliers"][0]["name"], sorted_bids[1]["tenderers"][0]["name"])
-    # self.assertEqual(
-    #     response.json["data"]["suppliers"][0]["identifier"]["id"], sorted_bids[1]["tenderers"][0]["identifier"]["id"]
-    # )
-    # self.assertEqual(response.json["data"]["bid_id"], sorted_bids[1]["id"])
+    # get awards
+    response = self.app.get("/tenders/{}/awards".format(self.tender_id))
+    # get pending award
+    award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
+    # check new award
+    response = self.app.get("/tenders/{}/awards/{}".format(self.tender_id, award_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["suppliers"][0]["name"], sorted_bids[1]["tenderers"][0]["name"])
+    self.assertEqual(
+        response.json["data"]["suppliers"][0]["identifier"]["id"], sorted_bids[1]["tenderers"][0]["identifier"]["id"]
+    )
+    self.assertEqual(response.json["data"]["bid_id"], sorted_bids[1]["id"])

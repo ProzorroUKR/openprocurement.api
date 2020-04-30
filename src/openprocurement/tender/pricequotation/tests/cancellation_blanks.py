@@ -88,7 +88,6 @@ def create_tender_cancellation_invalid(self):
 @mock.patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() + timedelta(days=1))
 @mock.patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() + timedelta(days=1))
 @mock.patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() + timedelta(days=1))
-@mock.patch("openprocurement.tender.pricequotation.views.cancellation.RELEASE_2020_04_19", get_now() + timedelta(days=1))
 def create_tender_cancellation(self):
     cancellation = dict(**test_cancellation)
     cancellation.update({
@@ -147,8 +146,9 @@ def create_tender_cancellation(self):
 @mock.patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() + timedelta(days=1))
 @mock.patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() + timedelta(days=1))
 @mock.patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() + timedelta(days=1))
-@mock.patch("openprocurement.tender.pricequotation.views.cancellation.RELEASE_2020_04_19", get_now() + timedelta(days=1))
 def patch_tender_cancellation(self):
+    tender = self.app.get('/tenders/{}'.format(self.tender_id)).json['data']
+    status = tender['status']
     cancellation = dict(**test_cancellation)
     cancellation.update({
         "reasonType": "noDemand"
@@ -174,8 +174,8 @@ def patch_tender_cancellation(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "cancelled")
-    # TODO: fix behaviour for active.qualification and active.awarded
-    # self.assertNotIn("bids", response.json["data"])
+    if status == 'active.tendering':
+        self.assertNotIn("bids", response.json["data"])
 
     response = self.app.patch_json(
         "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation["id"], self.tender_token),
@@ -278,8 +278,6 @@ def get_tender_cancellations(self):
 
 
 # TenderCancellationDocumentResourceTest
-
-
 def not_found(self):
     response = self.app.post(
         "/tenders/some_id/cancellations/some_id/documents", status=404, upload_files=[("file", "name.doc", "content")]
@@ -612,7 +610,6 @@ def patch_tender_cancellation_document(self):
             get_now() - timedelta(days=1))
 @mock.patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19",
             get_now() - timedelta(days=1))
-@mock.patch("openprocurement.tender.pricequotation.views.cancellation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def patch_tender_cancellation_2020_04_19(self):
     reasonType_choices = self.valid_reasonType_choices
 
@@ -756,7 +753,6 @@ def patch_tender_cancellation_2020_04_19(self):
             get_now() - timedelta(days=1))
 @mock.patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19",
             get_now() - timedelta(days=1))
-@mock.patch("openprocurement.tender.pricequotation.views.cancellation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def permission_cancellation_pending(self):
     reasonType_choices = self.valid_reasonType_choices
 

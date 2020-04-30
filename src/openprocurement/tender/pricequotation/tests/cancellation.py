@@ -25,6 +25,8 @@ from openprocurement.tender.pricequotation.tests.cancellation_blanks import (
 
 
 class TenderCancellationResourceTestMixin(object):
+    initial_status = 'active.tendering'
+
     test_create_tender_cancellation_invalid = snitch(create_tender_cancellation_invalid)
     test_create_tender_cancellation = snitch(create_tender_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_cancellation)

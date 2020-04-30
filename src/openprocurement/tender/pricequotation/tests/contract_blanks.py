@@ -527,8 +527,6 @@ def get_tender_contracts(self):
 
 
 # TenderContractDocumentResourceTest
-
-
 def not_found(self):
     response = self.app.post(
         "/tenders/some_id/contracts/some_id/documents?acc_token={}".format(self.tender_token),
