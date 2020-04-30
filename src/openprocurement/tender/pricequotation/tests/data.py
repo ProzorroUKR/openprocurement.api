@@ -287,7 +287,6 @@ test_short_profile = {
     },
     "criteria": [
         {
-            "code": "OCDS-MONITOR-DIAGONAL",
             "description": "Діагональ екрану",
             "id": "655360-0001",
             "requirementGroups": [
@@ -311,7 +310,6 @@ test_short_profile = {
             "title": "Діагональ екрану"
         },
         {
-            "code": "OCDS-MONITOR-RESOLUTION",
             "description": "Роздільна здатність",
             "id": "655360-0002",
             "requirementGroups": [
@@ -331,7 +329,6 @@ test_short_profile = {
             "title": "Роздільна здатність"
         },
         {
-            "code": "OCDS-MONITOR-CORRELATION",
             "description": "Співвідношення сторін",
             "id": "655360-0003",
             "requirementGroups": [
@@ -351,7 +348,6 @@ test_short_profile = {
             "title": "Співвідношення сторін"
         },
         {
-            "code": "OCDS-MONITOR-BRIGHTNESS",
             "description": "Яскравість дисплея",
             "id": "655360-0004",
             "requirementGroups": [
@@ -375,7 +371,6 @@ test_short_profile = {
             "title": "Яскравість дисплея"
         },
         {
-            "code": "OCDS-MONITOR-CONTRAST",
             "description": "Контрастність (статична)",
             "id": "655360-0005",
             "requirementGroups": [
@@ -407,7 +402,6 @@ test_short_profile = {
             "title": "Контрастність (статична)"
         },
         {
-            "code": "OCDS-MONITOR-HDMI",
             "description": "Кількість портів HDMI",
             "id": "655360-0006",
             "requirementGroups": [
@@ -431,7 +425,6 @@ test_short_profile = {
             "title": "Кількість портів HDMI"
         },
         {
-            "code": "OCDS-MONITOR-D-SUB",
             "description": "Кількість портів D-sub",
             "id": "655360-0007",
             "requirementGroups": [
@@ -455,7 +448,6 @@ test_short_profile = {
             "title": "Кількість портів D-sub"
         },
         {
-            "code": "OCDS-MONITOR-HDMIPORT",
             "description": "Кабель для під’єднання",
             "id": "655360-0008",
             "requirementGroups": [
@@ -475,7 +467,6 @@ test_short_profile = {
             "title": "Кабель для під’єднання"
         },
         {
-            "code": "OCDS-MONITOR-GUARANTEE",
             "description": "Строк дії гарантії",
             "id": "655360-0009",
             "requirementGroups": [

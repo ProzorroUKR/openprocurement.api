@@ -1658,8 +1658,6 @@ def patch_tender_by_pq_bot(self):
     value = deepcopy(test_short_profile["value"])
     value["amount"] = amount
     criteria = deepcopy(test_short_profile["criteria"])
-    for criterion in criteria:
-        criterion.pop("code")
     data = {
         "data": {
             "status": "active.tendering",
