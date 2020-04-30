@@ -12,6 +12,7 @@ from schematics.types import StringType, FloatType, URLType, BooleanType, BaseTy
 from urlparse import urlparse, parse_qs
 from string import hexdigits
 from openprocurement.api.interfaces import IOPContent
+from openprocurement.api.auth import extract_access_token
 from openprocurement.api.models import (
     Revision,
     Organization,
@@ -166,6 +167,43 @@ class Document(BaseDocument):
                 raise ValidationError(u"relatedItem should be one of lots")
             if data.get("documentOf") == "item" and relatedItem not in [i.id for i in tender.items if i]:
                 raise ValidationError(u"relatedItem should be one of items")
+
+
+class ConfidentialDocumentModelType(ModelType):
+    def export_loop(self, model_instance, field_converter, role=None, print_none=False):
+        if isinstance(model_instance, self.model_class):
+            model_class = model_instance.__class__
+        else:
+            model_class = self.model_class
+
+        root = model_instance.get_root()
+        request = root.request
+
+        parent = model_instance.__parent__
+        tender = parent.__parent__
+
+        acc_token = extract_access_token(request)
+        auth_user_id = request.authenticated_userid
+
+        is_owner = (auth_user_id == parent.owner and acc_token == parent.owner_token)
+        is_tender_owner = (auth_user_id == tender.owner and acc_token == tender.owner_token)
+
+        if (
+            role not in ["create", "edit", "plain", None]
+            and not is_owner
+            and not is_tender_owner
+            and model_instance.confidentiality == "buyerOnly"
+        ):
+            role = "restricted_view"
+
+        shaped = export_loop(model_class, model_instance, field_converter, role=role, print_none=print_none)
+
+        if shaped and len(shaped) == 0 and self.allow_none():
+            return shaped
+        elif shaped:
+            return shaped
+        elif print_none:
+            return shaped
 
 
 class ConfidentialDocument(Document):

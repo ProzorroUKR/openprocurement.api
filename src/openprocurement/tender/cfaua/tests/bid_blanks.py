@@ -526,11 +526,10 @@ def get_tender_bidder_document(self):
         )
         self.assertEqual(response.status, "200 OK")
         self.assertIn("url", response.json["data"])
-        self.app.authorization = orig_auth
 
     def public_documents_are_accessible_for_others(resource):
         orig_auth = self.app.authorization
-        self.app.authorization = ("Basic", ("broker4", ""))
+        self.app.authorization = ("Basic", ("broker", ""))
 
         response = self.app.get("/tenders/{}/bids/{}/{}".format(self.tender_id, self.bid_id, resource))
         self.assertEqual(response.status, "200 OK")
@@ -561,6 +560,47 @@ def get_tender_bidder_document(self):
     def all_public_documents_are_accessible_for_others():
         for doc_resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:
             public_documents_are_accessible_for_others(doc_resource)
+
+    def documents_accessible_from_tender_view():
+        orig_auth = self.app.authorization
+        self.app.authorization = ("Basic", ("broker", ""))
+
+        for doc_resource in ["documents", "financialDocuments", "eligibilityDocuments", "qualificationDocuments"]:
+            response = self.app.get("/tenders/{}".format(self.tender_id))
+
+            data = response.json["data"]
+            bid_documents = data["bids"][0][doc_resource]
+            self.assertIn("url", bid_documents[0])
+            self.assertNotIn("url", bid_documents[1])
+
+            response = self.app.get(
+                "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token)
+            )
+
+            data = response.json["data"]
+            bid_documents = data["bids"][0][doc_resource]
+            self.assertIn("url", bid_documents[0])
+            self.assertIn("url", bid_documents[1])
+
+            response = self.app.get(
+                "/tenders/{}?acc_token={}".format(self.tender_id, self.bid_token)
+            )
+
+            data = response.json["data"]
+            bid_documents = data["bids"][0][doc_resource]
+            self.assertIn("url", bid_documents[0])
+            self.assertIn("url", bid_documents[1])
+
+            response = self.app.get(
+                "/tenders/{}?acc_token={}".format(self.tender_id, self.bid2_token)
+            )
+
+            data = response.json["data"]
+            bid_documents = data["bids"][0][doc_resource]
+            self.assertIn("url", bid_documents[0])
+            self.assertNotIn("url", bid_documents[1])
+
+            self.app.authorization = orig_auth
 
     # active.tendering
     for doc_resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:
@@ -887,6 +927,7 @@ def get_tender_bidder_document(self):
     for doc_resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:
         documents_are_accessible_for_tender_owner(doc_resource)
     all_public_documents_are_accessible_for_others()
+    documents_accessible_from_tender_view()
 
 
 def create_tender_bidder_document(self):

@@ -260,14 +260,13 @@ Content-Type: application/json; charset=UTF-8
             "hash": "md5:00000000000000000000000000000000", 
             "confidentiality": "buyerOnly", 
             "language": "uk", 
-            "format": "application/pdf", 
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/e4528bc92c0f463ca1f661381961e106/documents/12d76b67e831404c8628f7612d0944b1?download=92e2b793a7d34373986f3c5619906253", 
-            "confidentialityRationale": "Only our company sells badgers with pink hair.", 
             "title": "Proposal_top_secrets.pdf", 
+            "confidentialityRationale": "Only our company sells badgers with pink hair.", 
+            "format": "application/pdf", 
             "documentOf": "tender", 
             "datePublished": "2020-05-01T01:00:00+03:00", 
-            "id": "12d76b67e831404c8628f7612d0944b1", 
-            "dateModified": "2020-05-01T01:00:00+03:00"
+            "dateModified": "2020-05-01T01:00:00+03:00", 
+            "id": "12d76b67e831404c8628f7612d0944b1"
           }
         ], 
         "tenderers": [
@@ -355,14 +354,13 @@ Content-Type: application/json; charset=UTF-8
             "hash": "md5:00000000000000000000000000000000", 
             "confidentiality": "buyerOnly", 
             "language": "uk", 
-            "format": "application/pdf", 
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/5e79c825b4c54c36a179b22db2dae23b/documents/fc90022e9584421e90d0438c8b331cc8?download=368ab90ae6a748e6be48d5d2151aee66", 
-            "confidentialityRationale": "Only our company sells badgers with pink hair.", 
             "title": "Proposal_part2.pdf", 
+            "confidentialityRationale": "Only our company sells badgers with pink hair.", 
+            "format": "application/pdf", 
             "documentOf": "tender", 
             "datePublished": "2020-05-01T01:00:00+03:00", 
-            "id": "fc90022e9584421e90d0438c8b331cc8", 
-            "dateModified": "2020-05-01T01:00:00+03:00"
+            "dateModified": "2020-05-01T01:00:00+03:00", 
+            "id": "fc90022e9584421e90d0438c8b331cc8"
           }
         ], 
         "eligibilityDocuments": [

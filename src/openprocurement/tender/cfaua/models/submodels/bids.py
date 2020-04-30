@@ -9,6 +9,7 @@ from openprocurement.tender.core.models import (
     validate_parameters_uniq,
     bids_validation_wrapper,
     EUConfidentialDocument,
+    ConfidentialDocumentModelType,
 )
 from openprocurement.tender.cfaua.constants import BID_UNSUCCESSFUL_FROM
 from openprocurement.tender.cfaua.models.submodels.lotvalue import LotValue
@@ -79,10 +80,10 @@ class Bid(BaseBid):
             "Administrator": whitelist("tenderers"),
         }
 
-    documents = ListType(ModelType(EUConfidentialDocument, required=True), default=list())
-    financialDocuments = ListType(ModelType(EUConfidentialDocument, required=True), default=list())
-    eligibilityDocuments = ListType(ModelType(EUConfidentialDocument, required=True), default=list())
-    qualificationDocuments = ListType(ModelType(EUConfidentialDocument, required=True), default=list())
+    documents = ListType(ConfidentialDocumentModelType(EUConfidentialDocument, required=True), default=list())
+    financialDocuments = ListType(ConfidentialDocumentModelType(EUConfidentialDocument, required=True), default=list())
+    eligibilityDocuments = ListType(ConfidentialDocumentModelType(EUConfidentialDocument, required=True), default=list())
+    qualificationDocuments = ListType(ConfidentialDocumentModelType(EUConfidentialDocument, required=True), default=list())
     lotValues = ListType(ModelType(LotValue, required=True), default=list())
     selfQualified = BooleanType(required=True, choices=[True])
     selfEligible = BooleanType(required=True, choices=[True])
