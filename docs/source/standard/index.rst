@@ -22,6 +22,7 @@ areas that were not covered by it.
    document
    feature
    firm
+   qualificationmilestone
    item
    lot
    milestone

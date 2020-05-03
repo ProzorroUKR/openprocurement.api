@@ -3,6 +3,7 @@ from openprocurement.api.utils import json_view
 from openprocurement.api.validation import validate_file_update, validate_file_upload, validate_patch_document_data
 from openprocurement.tender.core.validation import (
     validate_bid_document_operation_period,
+    unless_allowed_by_qualification_milestone,
 )
 from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.cfaua.utils import (
@@ -55,7 +56,9 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
             validate_bid_document_operation_period,
             validate_bid_document_operation_in_award_status,
             validate_bid_document_operation_in_bid_status,
-            validate_add_bid_document_not_in_allowed_tender_status,
+            unless_allowed_by_qualification_milestone(
+                validate_add_bid_document_not_in_allowed_tender_status
+            ),
         ),
         permission="edit_bid",
     )
@@ -81,7 +84,9 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
             validate_bid_document_operation_in_award_status,
             validate_update_bid_document_confidentiality,
             validate_bid_document_operation_in_bid_status,
-            validate_add_bid_document_not_in_allowed_tender_status,
+            unless_allowed_by_qualification_milestone(
+                validate_add_bid_document_not_in_allowed_tender_status
+            ),
         ),
         permission="edit_bid",
     )
@@ -95,7 +100,9 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
             validate_bid_document_operation_in_award_status,
             validate_update_bid_document_confidentiality,
             validate_bid_document_operation_in_bid_status,
-            validate_add_bid_document_not_in_allowed_tender_status,
+            unless_allowed_by_qualification_milestone(
+                validate_add_bid_document_not_in_allowed_tender_status
+            ),
         ),
         permission="edit_bid",
     )
@@ -151,7 +158,9 @@ class TenderEUBidFinancialDocumentResource(TenderEUBidDocumentResource):
                 validate_bid_document_operation_period,
                 validate_bid_document_operation_in_award_status,
                 validate_bid_document_operation_in_bid_status,
-                validate_add_bid_financial_document_not_in_allowed_tender_status,
+                unless_allowed_by_qualification_milestone(
+                    validate_add_bid_financial_document_not_in_allowed_tender_status
+                ),
         ),
         permission="edit_bid",
     )
@@ -166,7 +175,9 @@ class TenderEUBidFinancialDocumentResource(TenderEUBidDocumentResource):
                 validate_bid_document_operation_in_award_status,
                 validate_update_bid_document_confidentiality,
                 validate_bid_document_operation_in_bid_status,
-                validate_add_bid_financial_document_not_in_allowed_tender_status,
+                unless_allowed_by_qualification_milestone(
+                    validate_add_bid_financial_document_not_in_allowed_tender_status
+                ),
         ),
         permission="edit_bid",
     )
@@ -180,7 +191,9 @@ class TenderEUBidFinancialDocumentResource(TenderEUBidDocumentResource):
                 validate_bid_document_operation_in_award_status,
                 validate_update_bid_document_confidentiality,
                 validate_bid_document_operation_in_bid_status,
-                validate_add_bid_financial_document_not_in_allowed_tender_status,
+                unless_allowed_by_qualification_milestone(
+                    validate_add_bid_financial_document_not_in_allowed_tender_status
+                ),
         ),
         permission="edit_bid",
     )
@@ -204,7 +217,9 @@ class TenderEUBidQualificationDocumentResource(TenderEUBidFinancialDocumentResou
                 validate_bid_document_operation_period,
                 validate_bid_document_operation_in_award_status,
                 validate_bid_document_operation_in_bid_status,
-                validate_add_bid_document_not_in_allowed_tender_status,
+                unless_allowed_by_qualification_milestone(
+                    validate_add_bid_document_not_in_allowed_tender_status
+                ),
         ),
         permission="edit_bid",
     )
@@ -219,7 +234,9 @@ class TenderEUBidQualificationDocumentResource(TenderEUBidFinancialDocumentResou
                 validate_bid_document_operation_in_award_status,
                 validate_update_bid_document_confidentiality,
                 validate_bid_document_operation_in_bid_status,
-                validate_add_bid_document_not_in_allowed_tender_status,
+                unless_allowed_by_qualification_milestone(
+                    validate_add_bid_document_not_in_allowed_tender_status
+                ),
         ),
         permission="edit_bid",
     )
@@ -233,7 +250,9 @@ class TenderEUBidQualificationDocumentResource(TenderEUBidFinancialDocumentResou
                 validate_bid_document_operation_in_award_status,
                 validate_update_bid_document_confidentiality,
                 validate_bid_document_operation_in_bid_status,
-                validate_add_bid_document_not_in_allowed_tender_status,
+                unless_allowed_by_qualification_milestone(
+                    validate_add_bid_document_not_in_allowed_tender_status
+                ),
         ),
         permission="edit_bid",
     )

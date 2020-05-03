@@ -57,23 +57,27 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
 )
 
 
-class TenderQualificationResourceTest(BaseESCOContentWebTest):
+class TenderQualificationBaseTestCase(BaseESCOContentWebTest):
+    initial_status = "active.tendering"  # 'active.pre-qualification' status sets in setUp
+    initial_bids = test_bids
+    initial_auth = ("Basic", ("broker", ""))
+    author_data = test_author
+
+    def setUp(self):
+        super(TenderQualificationBaseTestCase, self).setUp()
+        # update periods to have possibility to change tender status by chronograph
+        self.set_status("active.pre-qualification", extra={"status": "active.tendering"})
+        response = self.check_chronograph()
+        self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
+
+
+class TenderQualificationResourceTest(TenderQualificationBaseTestCase):
     initial_status = "active.tendering"  # 'active.pre-qualification' status sets in setUp
     initial_bids = test_bids
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
         super(TenderQualificationResourceTest, self).setUp()
-
-        # update periods to have possibility to change tender status by chronograph
-        self.set_status("active.pre-qualification", extra={"status": "active.tendering"})
-
-        # simulate chronograph tick
-        auth = self.app.authorization
-        self.app.authorization = ("Basic", ("chronograph", ""))
-        response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
-        self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
-        self.app.authorization = auth
 
     test_post_tender_qualifications = snitch(post_tender_qualifications)
     test_get_tender_qualifications_collection = snitch(get_tender_qualifications_collection)
@@ -82,27 +86,8 @@ class TenderQualificationResourceTest(BaseESCOContentWebTest):
     test_patch_tender_qualifications_after_status_change = snitch(patch_tender_qualifications_after_status_change)
 
 
-class Tender2LotQualificationResourceTest(TenderQualificationResourceTest):
-    initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
+class Tender2LotQualificationResourceTest(TenderQualificationBaseTestCase):
     initial_lots = 2 * test_lots
-    initial_bids = test_bids
-    initial_auth = ("Basic", ("broker", ""))
-
-    def setUp(self):
-        super(TenderQualificationResourceTest, self).setUp()
-
-        # update periods to have possibility to change tender status by chronograph
-        self.set_status("active.pre-qualification", extra={"status": "active.tendering"})
-
-        # simulate chronograph tick
-        auth = self.app.authorization
-        self.app.authorization = ("Basic", ("chronograph", ""))
-        response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
-        self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
-        self.app.authorization = auth
-
-        response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
-        self.assertEqual(response.content_type, "application/json")
 
     test_patch_tender_qualifications = snitch(lot_patch_tender_qualifications)
     test_get_tender_qualifications_collection = snitch(lot_get_tender_qualifications_collection)
@@ -110,17 +95,10 @@ class Tender2LotQualificationResourceTest(TenderQualificationResourceTest):
     test_lot_patch_tender_qualifications_lots_none = snitch(lot_patch_tender_qualifications_lots_none)
 
 
-class TenderQualificationDocumentResourceTest(BaseESCOContentWebTest):
-    initial_status = "active.tendering"
-    initial_bids = test_bids
-    initial_auth = ("Basic", ("broker", ""))
+class TenderQualificationDocumentResourceTest(TenderQualificationBaseTestCase):
 
     def setUp(self):
         super(TenderQualificationDocumentResourceTest, self).setUp()
-
-        # update periods to have possibility to change tender status by chronograph
-        self.time_shift("active.pre-qualification")
-        self.check_chronograph()
         # list qualifications
         response = self.app.get("/tenders/{}/qualifications?acc_token={}".format(self.tender_id, self.tender_token))
         self.assertEqual(response.status, "200 OK")
@@ -136,24 +114,10 @@ class TenderQualificationDocumentResourceTest(BaseESCOContentWebTest):
     test_tender_owner_create_qualification_document = snitch(tender_owner_create_qualification_document)
 
 
-class TenderQualificationComplaintResourceTest(BaseESCOContentWebTest):
-    initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
-    initial_bids = test_bids
-    initial_auth = ("Basic", ("broker", ""))
-    author_data = test_author
+class TenderQualificationComplaintResourceTest(TenderQualificationBaseTestCase):
 
     def setUp(self):
         super(TenderQualificationComplaintResourceTest, self).setUp()
-
-        # update periods to have possibility to change tender status by chronograph
-        self.set_status("active.pre-qualification", extra={"status": "active.tendering"})
-
-        # simulate chronograph tick
-        auth = self.app.authorization
-        self.app.authorization = ("Basic", ("chronograph", ""))
-        response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
-        self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
-        self.app.authorization = auth
 
         response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
         self.assertEqual(response.content_type, "application/json")
@@ -216,16 +180,6 @@ class Tender2LotQualificationClaimResourceTest(Tender2LotQualificationComplaintR
     def setUp(self):
         super(TenderQualificationComplaintResourceTest, self).setUp()
 
-        # update periods to have possibility to change tender status by chronograph
-        self.set_status("active.pre-qualification", extra={"status": "active.tendering"})
-
-        # simulate chronograph tick
-        auth = self.app.authorization
-        self.app.authorization = ("Basic", ("chronograph", ""))
-        response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
-        self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
-        self.app.authorization = auth
-
         response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
         self.assertEqual(response.content_type, "application/json")
         qualifications = response.json["data"]
@@ -261,24 +215,10 @@ class Tender2LotQualificationClaimResourceTest(Tender2LotQualificationComplaintR
     test_create_tender_qualification_claim = snitch(create_tender_qualification_claim)
 
 
-class TenderQualificationComplaintDocumentResourceTest(BaseESCOContentWebTest):
-    initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
-    initial_bids = test_bids
-    initial_auth = ("Basic", ("broker", ""))
-    author_data = test_author
+class TenderQualificationComplaintDocumentResourceTest(TenderQualificationBaseTestCase):
 
     def setUp(self):
         super(TenderQualificationComplaintDocumentResourceTest, self).setUp()
-
-        # update periods to have possibility to change tender status by chronograph
-        self.set_status("active.pre-qualification", extra={"status": "active.tendering"})
-
-        # simulate chronograph tick
-        auth = self.app.authorization
-        self.app.authorization = ("Basic", ("chronograph", ""))
-        response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
-        self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
-        self.app.authorization = auth
 
         response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
         self.assertEqual(response.content_type, "application/json")

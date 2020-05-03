@@ -46,6 +46,7 @@ from openprocurement.tender.core.models import (
     validate_parameters_uniq,
     bids_validation_wrapper,
     PROCURING_ENTITY_KINDS,
+    QualificationMilestoneListMixin,
 )
 from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
@@ -470,7 +471,7 @@ class Award(BaseAward):
         pass
 
 
-class Qualification(Model):
+class Qualification(QualificationMilestoneListMixin):
     """ Pre-Qualification """
 
     class Options:

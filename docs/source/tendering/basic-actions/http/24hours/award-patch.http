@@ -1,0 +1,27 @@
+PATCH /api/2.5/tenders/bc435b85fb744d329cfdd3b86d573131/awards/ae38060983a24368ac2883d7c9684e5d?acc_token=2ef43c78334c4586934850e63d295aea HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 67
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "status": "active", 
+    "qualified": true, 
+    "eligible": true
+  }
+}
+
+Response: 403 Forbidden
+Content-Type: application/json; charset=UTF-8
+{
+  "status": "error", 
+  "errors": [
+    {
+      "description": "Can't change status to 'active' until milestone.dueDate: 2020-05-03T05:00:00+03:00", 
+      "location": "body", 
+      "name": "data"
+    }
+  ]
+}
+

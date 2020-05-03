@@ -5,11 +5,12 @@ from contextlib import contextmanager
 from uuid import uuid4
 from urllib import urlencode
 from base64 import b64encode
-from datetime import datetime
+from datetime import datetime, timedelta
 from requests.models import Response
 
+from openprocurement.tender.core.models import QualificationMilestone
 from openprocurement.api.tests.base import BaseWebTest as BaseApiWebTest
-from openprocurement.api.utils import SESSION, apply_data_patch
+from openprocurement.api.utils import SESSION, apply_data_patch, get_now
 
 now = datetime.now()
 
@@ -126,6 +127,31 @@ class BaseCoreWebTest(BaseWebTest):
     def delete_tender(self):
         if self.tender_id:
             self.db.delete(self.db[self.tender_id])
+
+    def append_24hours_milestone(self, bid_id):
+        tender = self.db.get(self.tender_id)
+        now = get_now()
+        qualification = {
+            "id": "0" * 32,
+            "bidID": bid_id,
+            "status": "pending",
+            "milestones": [
+                {
+                    "id": "0" * 32,
+                    "code": QualificationMilestone.CODE_24_HOURS,
+                    "date": now.isoformat(),
+                    "dueDate": (now + timedelta(hours=24)).isoformat(),
+                }
+            ]
+        }
+        if tender["procurementMethodType"] in ("aboveThresholdUA", "aboveThresholdUA.defense",
+                                               "competitiveDialogueUA.stage2"):
+            qualification["bid_id"] = bid_id
+            del qualification["bidID"]
+            tender["awards"] = [qualification]
+        else:
+            tender["qualifications"] = [qualification]
+        self.db.save(tender)
 
 
 @contextmanager
