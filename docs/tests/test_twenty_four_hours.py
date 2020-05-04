@@ -1,32 +1,51 @@
 # -*- coding: utf-8 -*-
 import os
 from freezegun import freeze_time
+from datetime import timedelta
 from tests.base.constants import DOCS_URL, AUCTIONS_URL
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
-from openprocurement.tender.openua.tests.award import TenderAwardPendingResourceTestCase
-from openprocurement.tender.openeu.tests.qualification import TenderQualificationBaseTestCase
+from openprocurement.api.utils import get_now
+from openprocurement.tender.openua.tests.tender import BaseTenderUAWebTest
+from openprocurement.tender.openua.tests.base import test_bids
+from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.belowthreshold.tests.base import test_organization
 
 
 TARGET_DIR = 'docs/source/tendering/basic-actions/http/'
 
 
-class TenderAwardMilestoneResourceTest(TenderAwardPendingResourceTestCase, MockWebTestMixin):
+class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
     AppClass = DumpsWebTestApp
     relative_to = os.path.dirname(__file__)
     docservice = True
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL
 
+    initial_status = "active.qualification"
+    initial_bids = test_bids
+
     def setUp(self):
         super(TenderAwardMilestoneResourceTest, self).setUp()
         self.setUpMock()
-        self.context_id = self.award_id
+        self.create_tender()
+        with change_auth(self.app, ("Basic", ("token", ""))):
+            response = self.app.post_json(
+                "/tenders/{}/awards".format(self.tender_id),
+                {"data": {
+                    "suppliers": [test_organization],
+                    "status": "pending",
+                    "bid_id": self.initial_bids[0]["id"],
+                    "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"] if self.initial_lots else None,
+                }},
+            )
+        award = response.json["data"]
+        self.award_id = award["id"]
 
     def tearDown(self):
         self.tearDownMock()
         super(TenderAwardMilestoneResourceTest, self).tearDown()
 
-    def test_qualification_milestone(self):
+    def test_milestone(self):
         self.app.authorization = ('Basic', ('broker', ''))
 
         # valid creation
@@ -95,35 +114,32 @@ class TenderAwardMilestoneResourceTest(TenderAwardPendingResourceTestCase, MockW
                     status=200
                 )
 
+        # qualification milestone creation
+        tender = self.db.get(self.tender_id)
+        tender["procurementMethodType"] = "aboveThresholdEU"
+        tender["title_en"] = " "
+        tender["procuringEntity"]["name_en"] = " "
+        tender["procuringEntity"]["identifier"]["legalName_en"] = " "
+        tender["procuringEntity"]["contactPoint"]["name_en"] = " "
+        tender["status"] = "active.pre-qualification"
+        tender_end = get_now() + timedelta(days=30, seconds=10)
+        tender["tenderPeriod"]["endDate"] = tender_end.isoformat()
+        tender["awardPeriod"]["startDate"] = tender_end.isoformat()
+        qualification_id = "1234" * 8
+        tender["qualifications"] = [
+            {
+                "id": qualification_id,
+                "bidID": bid_id,
+            }
+        ]
+        del tender["awards"]
+        self.db.save(tender)
 
-class TenderQualificationMilestoneResourceTest(TenderQualificationBaseTestCase, MockWebTestMixin):
-
-    def setUp(self):
-        super(TenderQualificationMilestoneResourceTest, self).setUp()
-        self.setUpMock()
-
-        response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
-        self.assertEqual(response.content_type, "application/json")
-        qualifications = response.json["data"]
-        self.qualifications_id = qualifications[0]["id"]
-
-    def tearDown(self):
-        self.tearDownMock()
-        super(TenderQualificationMilestoneResourceTest, self).tearDown()
-
-    def test_qualification_milestone(self):
-        self.app.authorization = ('Basic', ('broker', ''))
-
-        # valid creation
-        request_data = {
-            "code": "24h",
-            "description": "One ring to bring them all and in the darkness bind them"
-        }
-        with open(TARGET_DIR + '24hours/qualification-milestone-post.http', 'w') as self.app.file_obj:
-            with freeze_time("2020-05-02 02:00:00"):
+        with freeze_time("2020-05-02 02:00:20"):
+            with open(TARGET_DIR + '24hours/qualification-milestone-post.http', 'w') as self.app.file_obj:
                 response = self.app.post_json(
                     "/tenders/{}/qualifications/{}/milestones?acc_token={}".format(
-                        self.tender_id, self.qualifications_id, self.tender_token
+                        self.tender_id, qualification_id, self.tender_token
                     ),
                     {"data": request_data},
                 )
