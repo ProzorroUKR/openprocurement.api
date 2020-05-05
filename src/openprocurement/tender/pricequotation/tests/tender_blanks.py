@@ -425,7 +425,7 @@ def create_tender_invalid(self):
 
     self.assertIn(
         {
-            u"description": [u"Value must be one of ['open', 'selective', 'limited']."],
+            u"description": [u"Value must be one of ['selective']."],
             u"location": u"body",
             u"name": u"procurementMethod",
         },
@@ -919,7 +919,7 @@ def tender_owner_cannot_change_in_draft(self):
 
     self.assertNotEqual(tender.get("tenderID"), general["tenderID"])
     self.assertNotEqual(tender.get("procurementMethodType"), general["procurementMethodType"])
-    self.assertNotEqual(tender.get("procurementMethod"), general["procurementMethod"])
+    self.assertEqual(tender.get("procurementMethod"), general["procurementMethod"])
     self.assertNotEqual(tender.get("submissionMethod"), general["submissionMethod"])
     self.assertNotEqual(tender.get("awardCriteria"), general["awardCriteria"])
     self.assertNotEqual(tender.get("mode"), general["mode"])
