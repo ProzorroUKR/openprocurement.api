@@ -187,6 +187,9 @@ class PriceQuotationTender(Tender):
         ModelType(Document, required=True), default=list()
     )  # All documents and attachments related to the tender.
     guarantee = ModelType(Guarantee)
+        procurementMethod = StringType(
+        choices=["open", "selective", "limited"], default="selective"
+    )
     procurementMethodType = StringType(default=PMT)
     profile = StringType(required=True)
     shortlistedFirms = ListType(ModelType(ShortlistedFirm), default=list())
