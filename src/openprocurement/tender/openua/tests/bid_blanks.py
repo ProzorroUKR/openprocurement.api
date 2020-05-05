@@ -1351,7 +1351,7 @@ def create_tender_bidder_document_nopending(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can't update document because award of bid is not in pending or active state",
+        "Can't update document in current (active.qualification) tender status",
     )
 
     response = self.app.put(
@@ -1364,7 +1364,7 @@ def create_tender_bidder_document_nopending(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can't update document because award of bid is not in pending or active state",
+        "Can't update document in current (active.qualification) tender status",
     )
 
     response = self.app.post(
@@ -1376,7 +1376,7 @@ def create_tender_bidder_document_nopending(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can't add document because award of bid is not in pending or active state",
+        "Can't add document in current (active.qualification) tender status",
     )
 
 
@@ -1692,12 +1692,16 @@ def tender_bidder_confidential_document(self):
 
     # switch to active.qualification
     tender = self.db.get(self.tender_id)
-    tender["status"] = "active.qualification"
+    tender["status"] = "active.awarded"
+    bid = [b for b in tender["bids"] if b["id"] == self.bid_id][0]
     tender["awards"] = [
         {
             "id": "0" * 32,
-            "bid_id": self.bid_id,
             "status": "pending",
+            "bid_id": self.bid_id,
+            "date": get_now().isoformat(),
+            "suppliers": bid["tenderers"],
+            "complaintPeriod": {"startDate": get_now().isoformat()},
         }
     ]
     self.db.save(tender)
@@ -1754,7 +1758,7 @@ def tender_bidder_confidential_document(self):
     # trying to update confidentiality
     request_data["confidentiality"] = "public"
     expected_error = {u'status': u'error', u'errors': [
-        {u'description': u"Can't update document confidentiality in current (active.qualification) tender status",
+        {u'description': u"Can't update document confidentiality in current (active.awarded) tender status",
          u'location': u'body', u'name': u'data'}]}
     response = self.app.put_json(
         "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(

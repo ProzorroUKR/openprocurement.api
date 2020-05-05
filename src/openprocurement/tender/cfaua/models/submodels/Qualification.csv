@@ -1,6 +1,0 @@
-rolename,status,lotID,description,title_en,description_en,date,qualified,complaints,id,__parent__,documents,title,eligible,title_ru,bidID,description_ru
-edit,1,,1,1,1,,1,,,,,1,1,1,,1
-default,1,1,1,1,1,1,1,1,1,,1,1,1,1,1,1
-create,,1,1,1,1,,1,1,,1,,1,1,1,1,1
-embedded,1,1,1,1,1,1,1,1,1,,1,1,1,1,1,1
-view,1,1,1,1,1,1,1,1,1,,1,1,1,1,1,1

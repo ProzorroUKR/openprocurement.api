@@ -1,0 +1,44 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-23 11:13+0300\n"
+"PO-Revision-Date: 2020-04-23 11:14+0300\n"
+"Last-Translator: \n"
+"Language: uk_UA\n"
+"Language-Team: \n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.8.0\n"
+"X-Generator: Poedit 2.2.3\n"
+
+msgid "\"24 hours\""
+msgstr "\"24 години\""
+
+msgid "During the qualification process (or pre-qualification if the procedure has one) procuring entity can decide to allow a bidder to upload more documents to their bid"
+msgstr "Під час кваліфікаційного процесу (або попередньої кваліфікації, якщо процедура має таку), замовник може прийняти рішення дозволити учаснику торгів дозавантажувати документи до своєї заявки"
+
+msgid "Example of posting :ref:`qualificationmilestone` for qualification"
+msgstr "Приклад розміщення :ref:`qualificationmilestone` для кваліфікації"
+
+msgid "Example of pre-qualification"
+msgstr "Приклад попередньої кваліфікації"
+
+msgid "The \"dueDate\" field in the response indicates the end of the period when procuring entity is unable to make a decision on the qualification object"
+msgstr "Поле “dueDate” у відповіді вказує на кінець періоду, під час якого замовник не може прийняти рішення щодо об’єкта кваліфікації"
+
+msgid "The bidder can post new documents to their bid"
+msgstr "Учасник торгів може розмістити нові документи на свою заявку"
+
+msgid "The bidder can update their documents"
+msgstr "Учасник торгів може оновити свої документи"
+
+#~ msgid "Example of qualification"
+#~ msgstr "Приклад кваліфікації"

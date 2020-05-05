@@ -11,6 +11,7 @@ from openprocurement.tender.belowthreshold.tests.award import (
     TenderAwardDocumentResourceTestMixin,
     Tender2LotAwardDocumentResourceTestMixin,
 )
+from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.belowthreshold.tests.award_blanks import (
     # TenderLotAwardComplaintResourceTest
     get_tender_lot_award_complaint,
@@ -566,63 +567,49 @@ class TenderStage2UA2LotAwardResourceTest(BaseCompetitiveDialogUAStage2ContentWe
     test_patch_tender_lots_award = snitch(patch_tender_lots_award)
 
 
+class BaseTenderUAAwardPendingTest(BaseCompetitiveDialogUAStage2ContentWebTest):
+    initial_status = "active.qualification"
+    initial_bids = test_tender_bids
+
+    def setUp(self):
+        super(BaseTenderUAAwardPendingTest, self).setUp()
+        # Create award
+        with change_auth(self.app, ("Basic", ("token", ""))):
+            response = self.app.post_json(
+                "/tenders/{}/awards".format(self.tender_id),
+                {"data": {
+                    "suppliers": [test_tenderer],
+                    "status": "pending",
+                    "bid_id": self.bids[0]["id"],
+                    "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"] if self.initial_lots else None,
+                }},
+            )
+        award = response.json["data"]
+        self.award_id = award["id"]
+
+
+class BaseTenderUAAwardActiveTest(BaseTenderUAAwardPendingTest):
+
+    def setUp(self):
+        super(BaseTenderUAAwardActiveTest, self).setUp()
+        with change_auth(self.app, ("Basic", ("token", ""))):
+            self.app.patch_json(
+                "/tenders/{}/awards/{}".format(self.tender_id, self.award_id),
+                {"data": {"status": "active", "qualified": True, "eligible": True}},
+            )
+        self.bid_token = self.initial_bids_tokens[self.bids[0]["id"]]
+
+
 class TenderStage2UAAwardComplaintResourceTest(
-    BaseCompetitiveDialogUAStage2ContentWebTest,
+    BaseTenderUAAwardActiveTest,
     TenderAwardComplaintResourceTestMixin,
     TenderUAAwardComplaintResourceTestMixin,
 ):
-    initial_status = "active.qualification"
-    initial_bids = test_tender_bids
-
-    def setUp(self):
-        super(TenderStage2UAAwardComplaintResourceTest, self).setUp()
-        # Create award
-        auth = self.app.authorization
-        self.app.authorization = ("Basic", ("token", ""))
-        response = self.app.post_json(
-            "/tenders/{}/awards".format(self.tender_id),
-            {"data": {"suppliers": [test_tenderer], "status": "pending", "bid_id": self.bids[0]["id"]}},
-        )
-        award = response.json["data"]
-        self.award_id = award["id"]
-        self.app.patch_json(
-            "/tenders/{}/awards/{}".format(self.tender_id, self.award_id),
-            {"data": {"status": "active", "qualified": True, "eligible": True}},
-        )
-        self.app.authorization = auth
-        self.bid_token = self.initial_bids_tokens[self.bids[0]["id"]]
+    pass
 
 
-class TenderStage2UALotAwardComplaintResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
-    initial_status = "active.qualification"
+class TenderStage2UALotAwardComplaintResourceTest(BaseTenderUAAwardActiveTest):
     initial_lots = deepcopy(test_lots)
-    initial_bids = test_tender_bids
-
-    def setUp(self):
-        super(TenderStage2UALotAwardComplaintResourceTest, self).setUp()
-        # Create award
-        bid = self.bids[0]
-        auth = self.app.authorization
-        self.app.authorization = ("Basic", ("token", ""))
-        response = self.app.post_json(
-            "/tenders/{}/awards".format(self.tender_id),
-            {
-                "data": {
-                    "suppliers": [test_tenderer],
-                    "status": "pending",
-                    "bid_id": bid["id"],
-                    "lotID": bid["lotValues"][0]["relatedLot"],
-                }
-            },
-        )
-        award = response.json["data"]
-        self.award_id = award["id"]
-        self.app.patch_json(
-            "/tenders/{}/awards/{}".format(self.tender_id, self.award_id),
-            {"data": {"status": "active", "qualified": True, "eligible": True}},
-        )
-        self.bid_token = self.initial_bids_tokens[self.bids[0]["id"]]
-        self.app.authorization = auth
 
     test_create_tender_lot_award_complaint = snitch(create_tender_lot_award_complaint)
     test_patch_tender_lot_award_complaint = snitch(patch_tender_lot_award_complaint)
@@ -638,27 +625,11 @@ class Tender2LotAwardComplaintResourceTest(TenderStage2UALotAwardComplaintResour
 
 
 class TenderStage2UAAwardComplaintDocumentResourceTest(
-    BaseCompetitiveDialogUAStage2ContentWebTest, TenderAwardComplaintDocumentResourceTestMixin
+    BaseTenderUAAwardActiveTest, TenderAwardComplaintDocumentResourceTestMixin
 ):
-    initial_status = "active.qualification"
-    initial_bids = test_tender_bids
 
     def setUp(self):
         super(TenderStage2UAAwardComplaintDocumentResourceTest, self).setUp()
-        # Create award
-        auth = self.app.authorization
-        self.app.authorization = ("Basic", ("token", ""))
-        response = self.app.post_json(
-            "/tenders/{}/awards".format(self.tender_id),
-            {"data": {"suppliers": [test_tenderer], "status": "pending", "bid_id": self.bids[0]["id"]}},
-        )
-        award = response.json["data"]
-        self.award_id = award["id"]
-        self.app.patch_json(
-            "/tenders/{}/awards/{}".format(self.tender_id, self.award_id),
-            {"data": {"status": "active", "qualified": True, "eligible": True}},
-        )
-        self.app.authorization = auth
 
         # Create complaint for award
         bid_token = self.initial_bids_tokens[self.bids[0]["id"]]
@@ -675,41 +646,17 @@ class TenderStage2UAAwardComplaintDocumentResourceTest(
     test_patch_tender_award_complaint_document = snitch(patch_tender_award_complaint_document)
 
 
-class TenderStage2UA2LotAwardComplaintDocumentResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
-    initial_status = "active.qualification"
-    initial_bids = test_tender_bids
+class TenderStage2UA2LotAwardComplaintDocumentResourceTest(BaseTenderUAAwardActiveTest):
     initial_lots = deepcopy(2 * test_lots)
 
     def setUp(self):
         super(TenderStage2UA2LotAwardComplaintDocumentResourceTest, self).setUp()
-        # Create award
-        bid = self.bids[0]
-        bid_token = self.initial_bids_tokens[self.bids[0]["id"]]
-        auth = self.app.authorization
-        self.app.authorization = ("Basic", ("token", ""))
-        response = self.app.post_json(
-            "/tenders/{}/awards".format(self.tender_id),
-            {
-                "data": {
-                    "suppliers": [test_tenderer],
-                    "status": "pending",
-                    "bid_id": bid["id"],
-                    "lotID": bid["lotValues"][0]["relatedLot"],
-                }
-            },
-        )
-        award = response.json["data"]
-        self.award_id = award["id"]
-        self.app.patch_json(
-            "/tenders/{}/awards/{}".format(self.tender_id, self.award_id),
-            {"data": {"status": "active", "qualified": True, "eligible": True}},
-        )
-        self.app.authorization = auth
+
         # Create complaint for award
         claim_data = deepcopy(test_draft_complaint)
         claim_data["author"] = test_author
         response = self.app.post_json(
-            "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
+            "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, self.bid_token),
             {"data": claim_data},
         )
         complaint = response.json["data"]
@@ -722,52 +669,16 @@ class TenderStage2UA2LotAwardComplaintDocumentResourceTest(BaseCompetitiveDialog
 
 
 class TenderStage2UAAwardDocumentResourceTest(
-    BaseCompetitiveDialogUAStage2ContentWebTest, TenderAwardDocumentResourceTestMixin
+    BaseTenderUAAwardPendingTest, TenderAwardDocumentResourceTestMixin
 ):
-    initial_status = "active.qualification"
-    initial_bids = test_tender_bids
-
-    def setUp(self):
-        super(TenderStage2UAAwardDocumentResourceTest, self).setUp()
-        # Create award
-        auth = self.app.authorization
-        self.app.authorization = ("Basic", ("token", ""))
-        response = self.app.post_json(
-            "/tenders/{}/awards".format(self.tender_id),
-            {"data": {"suppliers": [test_tenderer], "status": "pending", "bid_id": self.bids[0]["id"]}},
-        )
-        award = response.json["data"]
-        self.award_id = award["id"]
-        self.app.authorization = auth
+    pass
 
 
 class TenderStage2UA2LotAwardDocumentResourceTest(
-    BaseCompetitiveDialogUAStage2ContentWebTest, Tender2LotAwardDocumentResourceTestMixin
+    BaseTenderUAAwardPendingTest, Tender2LotAwardDocumentResourceTestMixin
 ):
-    initial_status = "active.qualification"
-    initial_bids = test_tender_bids
     initial_lots = deepcopy(2 * test_lots)
-
-    def setUp(self):
-        super(TenderStage2UA2LotAwardDocumentResourceTest, self).setUp()
-        # Create award
-        bid = self.bids[0]
-        auth = self.app.authorization
-        self.app.authorization = ("Basic", ("token", ""))
-        response = self.app.post_json(
-            "/tenders/{}/awards".format(self.tender_id),
-            {
-                "data": {
-                    "suppliers": [test_tenderer],
-                    "status": "pending",
-                    "bid_id": bid["id"],
-                    "lotID": bid["lotValues"][0]["relatedLot"],
-                }
-            },
-        )
-        award = response.json["data"]
-        self.award_id = award["id"]
-        self.app.authorization = auth
+    pass
 
 
 def suite():

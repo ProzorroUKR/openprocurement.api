@@ -62,20 +62,21 @@ for test_bid in test_tender_bids:
     test_bid["tenderers"] = [test_tenderer]
 
 
-class TenderStage2EUQualificationResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
+class TenderQualificationBaseTestCase(BaseCompetitiveDialogEUStage2ContentWebTest):
     initial_status = "active.tendering"  # 'active.pre-qualification' status sets in setUp
     initial_bids = test_tender_bids
     initial_auth = ("Basic", ("broker", ""))
+    author_data = test_author
 
     def setUp(self):
-        super(TenderStage2EUQualificationResourceTest, self).setUp()
-
+        super(TenderQualificationBaseTestCase, self).setUp()
         # update periods to have possibility to change tender status by chronograph
         self.set_status("active.pre-qualification", extra={"status": "active.tendering"})
-
-        # simulate chronograph tick
         response = self.check_chronograph()
         self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
+
+
+class TenderStage2EUQualificationResourceTest(TenderQualificationBaseTestCase):
 
     test_post_tender_qualifications = snitch(post_tender_qualifications)
     test_get_tender_qualifications_collection = snitch(get_tender_qualifications_collection)
@@ -84,25 +85,8 @@ class TenderStage2EUQualificationResourceTest(BaseCompetitiveDialogEUStage2Conte
     test_patch_tender_qualifications_after_status_change = snitch(patch_tender_qualifications_after_status_change)
 
 
-class TenderStage2EU2LotQualificationResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
-    initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
+class TenderStage2EU2LotQualificationResourceTest(TenderQualificationBaseTestCase):
     initial_lots = deepcopy(2 * test_lots)
-    initial_bids = test_tender_bids
-    initial_auth = ("Basic", ("broker", ""))
-
-    def setUp(self):
-        super(TenderStage2EU2LotQualificationResourceTest, self).setUp()
-
-        # update periods to have possibility to change tender status by chronograph
-        self.set_status("active.pre-qualification", extra={"status": "active.tendering"})
-
-        # simulate chronograph tick
-        response = self.check_chronograph()
-        self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
-
-        response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
-        self.assertEqual(response.content_type, "application/json")
-        qualifications = response.json["data"]
 
     test_patch_tender_qualifications = snitch(lot_patch_tender_qualifications)
     test_get_tender_qualifications_collection = snitch(lot_get_tender_qualifications_collection)
@@ -110,17 +94,10 @@ class TenderStage2EU2LotQualificationResourceTest(BaseCompetitiveDialogEUStage2C
     test_lot_patch_tender_qualifications_lots_none = snitch(lot_patch_tender_qualifications_lots_none)
 
 
-class TenderStage2EUQualificationDocumentResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
-    initial_status = "active.tendering"
-    initial_bids = test_tender_bids
-    initial_auth = ("Basic", ("broker", ""))
+class TenderStage2EUQualificationDocumentResourceTest(TenderQualificationBaseTestCase):
 
     def setUp(self):
         super(TenderStage2EUQualificationDocumentResourceTest, self).setUp()
-
-        # update periods to have possibility to change tender status by chronograph
-        self.time_shift("active.pre-qualification")
-        self.check_chronograph()
         # list qualifications
         response = self.app.get("/tenders/{}/qualifications?acc_token={}".format(self.tender_id, self.tender_token))
         self.assertEqual(response.status, "200 OK")
@@ -136,21 +113,10 @@ class TenderStage2EUQualificationDocumentResourceTest(BaseCompetitiveDialogEUSta
     test_tender_owner_create_qualification_document = snitch(tender_owner_create_qualification_document)
 
 
-class TenderStage2EUQualificationComplaintResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
-    initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
-    initial_bids = test_tender_bids
-    initial_auth = ("Basic", ("broker", ""))
-    author_data = test_author
+class TenderStage2EUQualificationComplaintResourceTest(TenderQualificationBaseTestCase):
 
     def setUp(self):
         super(TenderStage2EUQualificationComplaintResourceTest, self).setUp()
-
-        # update periods to have possibility to change tender status by chronograph
-        self.set_status("active.pre-qualification", extra={"status": "active.tendering"})
-
-        # simulate chronograph tick
-        response = self.check_chronograph()
-        self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
         response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
         self.assertEqual(response.content_type, "application/json")
@@ -201,21 +167,10 @@ class TenderStage2EU2LotQualificationComplaintResourceTest(TenderStage2EULotQual
     test_create_tender_qualification_complaint = snitch(create_tender_2lot_qualification_complaint)
 
 
-class TenderStage2EUQualificationComplaintDocumentResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
-    initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
-    initial_bids = test_tender_bids
-    author_data = test_author
-    initial_auth = ("Basic", ("broker", ""))
+class TenderStage2EUQualificationComplaintDocumentResourceTest(TenderQualificationBaseTestCase):
 
     def setUp(self):
         super(TenderStage2EUQualificationComplaintDocumentResourceTest, self).setUp()
-
-        # update periods to have possibility to change tender status by chronograph
-        self.set_status("active.pre-qualification", extra={"status": "active.tendering"})
-
-        # simulate chronograph tick
-        response = self.check_chronograph()
-        self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
         response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
         self.assertEqual(response.content_type, "application/json")

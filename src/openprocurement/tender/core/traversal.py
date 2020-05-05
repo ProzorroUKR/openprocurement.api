@@ -130,8 +130,11 @@ def resolve_award(request, obj):
         return resolve_complaint(request, award)
     elif request.matchdict.get("document_id"):
         return resolve_document(request, award)
+    elif request.matchdict.get("milestone_id"):
+        return resolve_milestone(request, award)
     else:
         return award
+
 
 def resolve_lot(request, obj):
     return get_item(obj, "lot", request)
@@ -143,3 +146,7 @@ def resolve_question(request, obj):
 
 def resolve_document(request, obj, document_type=None):
     return get_item(obj, "{}_document".format(document_type) if document_type else "document", request)
+
+
+def resolve_milestone(request, obj):
+    return get_item(obj, "milestone", request)

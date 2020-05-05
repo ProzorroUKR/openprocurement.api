@@ -57,6 +57,7 @@ from openprocurement.tender.core.utils import (
     calc_auction_end_time, rounding_shouldStartAfter,
     restrict_value_to_bounds, round_up_to_ten,
     get_contract_supplier_roles, get_contract_supplier_permissions,
+    calculate_tender_business_date,
 )
 from openprocurement.tender.core.validation import (
     validate_lotvalue_value,
@@ -959,6 +960,43 @@ class BaseAward(Model):
     suppliers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1, max_size=1)
     documents = ListType(ModelType(Document, required=True), default=list())
     items = ListType(ModelType(Item, required=True))
+
+
+class QualificationMilestone(Model):
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    CODE_24_HOURS = "24h"
+    CODE_LOW_PRICE = "alp"
+    code = StringType(required=True, choices=[CODE_24_HOURS, CODE_LOW_PRICE])
+    dueDate = IsoDateTimeType()
+    description = StringType()
+    date = IsoDateTimeType(default=get_now)
+
+    class Options:
+        namespace = "Milestone"
+        roles = {
+            "create": whitelist("code", "description"),
+            "Administrator": whitelist("dueDate"),
+            "view": schematics_default_role,
+        }
+
+    @serializable(serialized_name="dueDate")
+    def set_24h_due_date(self):
+        if self.code == self.CODE_24_HOURS and not self.dueDate:
+            self.dueDate = calculate_tender_business_date(self.date, timedelta(hours=24), get_tender(self))
+        return self.dueDate and self.dueDate.isoformat()
+
+
+class QualificationMilestoneListMixin(Model):
+    milestones = ListType(ModelType(QualificationMilestone, required=True), default=list())
+
+    def validate_milestones(self, data, milestones):
+        """
+        This validation on the model, not on the view
+        because there is a way to post milestone to different zones (couchdb masters)
+        and concord will merge them, that shouldn't be the case
+        """
+        if len(filter(lambda m: m.code == QualificationMilestone.CODE_24_HOURS, milestones)) > 1:
+            raise ValidationError(u"There can be only one '24h' milestone")
 
 
 class Award(BaseAward):

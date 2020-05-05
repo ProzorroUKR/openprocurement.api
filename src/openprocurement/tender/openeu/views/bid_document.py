@@ -3,7 +3,8 @@ from openprocurement.api.utils import json_view
 from openprocurement.api.validation import validate_file_update, validate_file_upload, validate_patch_document_data
 from openprocurement.tender.core.validation import (
     validate_bid_document_operation_period,
-    validate_bid_document_operation_in_not_allowed_status,
+    validate_bid_document_in_tender_status,
+    unless_allowed_by_qualification_milestone,
 )
 from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.openeu.utils import (
@@ -59,7 +60,9 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
     @json_view(
         validators=(
             validate_file_upload,
-            validate_bid_document_operation_in_not_allowed_status,
+            unless_allowed_by_qualification_milestone(
+                validate_bid_document_in_tender_status
+            ),
             validate_bid_document_operation_period,
             validate_bid_document_operation_in_award_status,
             validate_bid_document_operation_in_bid_status,
@@ -73,7 +76,9 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
         content_type="application/json",
         validators=(
             validate_patch_document_data,
-            validate_bid_document_operation_in_not_allowed_status,
+            unless_allowed_by_qualification_milestone(
+                validate_bid_document_in_tender_status
+            ),
             validate_bid_document_operation_period,
             validate_bid_document_operation_in_award_status,
             validate_update_bid_document_confidentiality,
@@ -87,7 +92,9 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
     @json_view(
         validators=(
             validate_file_update,
-            validate_bid_document_operation_in_not_allowed_status,
+            unless_allowed_by_qualification_milestone(
+                validate_bid_document_in_tender_status
+            ),
             validate_bid_document_operation_period,
             validate_bid_document_operation_in_award_status,
             validate_update_bid_document_confidentiality,

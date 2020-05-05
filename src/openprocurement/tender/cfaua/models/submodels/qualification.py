@@ -1,18 +1,28 @@
 from uuid import uuid4
 from openprocurement.api.models import Model, IsoDateTimeType, ListType
-from openprocurement.api.roles import RolesFromCsv
 from openprocurement.tender.cfaua.models.submodels.complaint import Complaint
-from openprocurement.tender.core.models import EUDocument
+from openprocurement.tender.core.models import EUDocument, QualificationMilestoneListMixin
 from schematics.exceptions import ValidationError
 from schematics.types import StringType, MD5Type, BooleanType
 from schematics.types.compound import ModelType
+from schematics.transforms import whitelist
 
 
-class Qualification(Model):
+class Qualification(QualificationMilestoneListMixin):
     """ Pre-Qualification """
 
     class Options:
-        roles = RolesFromCsv("Qualification.csv", relative_to=__file__)
+        _common = whitelist('eligible', 'qualified', 'title', 'title_en', 'title_ru',
+                            'description', 'description_en', 'description_ru')
+        _all = _common + whitelist('status', 'lotID', 'id', 'date', 'bidID', 'complaints', 'documents', 'milestones')
+        roles = {
+            "edit": _common + whitelist('status',),
+            "default": _all,
+            "create": _common + whitelist('lotID', 'bidID'),  # csv also had: 'complaints', '__parent__'
+            "embedded": _all,
+            "view": _all
+
+        }
 
     title = StringType()
     title_en = StringType()

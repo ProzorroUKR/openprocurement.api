@@ -2144,13 +2144,6 @@ def create_tender_bidder_document(self):
     self.assertEqual(response.json["data"]["status"], "active.qualification")
 
     self.app.authorization = ("Basic", ("token", ""))
-    for doc_resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:
-        response = self.app.post(
-            "/tenders/{}/bids/{}/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_resource, self.bid_token),
-            upload_files=[("file", "name2_{}.doc".format(doc_resource[:-1]), "content")],
-        )
-        self.assertEqual(response.status, "201 Created")
-
     # get awards
     response = self.app.get("/tenders/{}/awards".format(self.tender_id))
     # get pending award
@@ -2400,15 +2393,6 @@ def put_tender_bidder_document(self):
     self.assertEqual(response.json["data"]["status"], "active.qualification")
 
     self.app.authorization = ("Basic", ("token", ""))
-    for doc_resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:
-        response = self.app.put(
-            "/tenders/{}/bids/{}/{}/{}".format(
-                self.tender_id, self.bid_id, doc_resource, doc_id_by_type[doc_resource]["id"]
-            ),
-            upload_files=[("file", "name.doc", "content4")],
-        )
-        self.assertEqual(response.status, "200 OK")
-
     # get awards
     response = self.app.get("/tenders/{}/awards".format(self.tender_id))
     # get pending award
@@ -2744,55 +2728,12 @@ def patch_tender_bidder_document(self):
                 self.tender_id, self.bid_id, doc_resource, doc_id_by_type[doc_resource]["id"], self.bid_token
             ),
             {"data": {"description": "document description2"}},
+            status=403
         )
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.json["data"]["description"], "document description2")
-
-        # test confidentiality change
-        response = self.app.patch_json(
-            "/tenders/{}/bids/{}/{}/{}?acc_token={}".format(
-                self.tender_id, self.bid_id, doc_resource, doc_id_by_type[doc_resource]["id"], self.bid_token
-            ),
-            {
-                "data": {
-                    "confidentiality": "buyerOnly",
-                    "confidentialityRationale": "Only our company sells badgers with pink hair.",
-                }
-            },
-            status=403,
-        )
-        self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(
             response.json["errors"][0]["description"],
-            "Can't update document confidentiality in current (active.qualification) tender status",
+            "Can't update document in current (active.qualification) tender status",
         )
-
-        doc_id = doc_id_by_type[doc_resource + "private"]["id"]
-        response = self.app.patch_json(
-            "/tenders/{}/bids/{}/{}/{}?acc_token={}".format(
-                self.tender_id, self.bid_id, doc_resource, doc_id, self.bid_token
-            ),
-            {"data": {"confidentiality": "public", "confidentialityRationale": ""}},
-            status=403,
-        )
-        self.assertEqual(response.status, "403 Forbidden")
-        self.assertEqual(
-            response.json["errors"][0]["description"],
-            "Can't update document confidentiality in current (active.qualification) tender status",
-        )
-        response = self.app.patch_json(
-            "/tenders/{}/bids/{}/{}/{}?acc_token={}".format(
-                self.tender_id, self.bid_id, doc_resource, doc_id, self.bid_token
-            ),
-            {
-                "data": {
-                    "confidentiality": "buyerOnly",
-                    "confidentialityRationale": "Only our company sells badgers with pink hair.",
-                }
-            },
-        )
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.body, "null")
 
     # get awards
     response = self.app.get("/tenders/{}/awards".format(self.tender_id))
@@ -3404,7 +3345,7 @@ def create_tender_bidder_document_nopending(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can't update document because award of bid is not in pending or active state",
+        "Can't update document in current (active.qualification) tender status",
     )
 
     response = self.app.put(
@@ -3417,7 +3358,7 @@ def create_tender_bidder_document_nopending(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can't update document because award of bid is not in pending or active state",
+        "Can't update document in current (active.qualification) tender status",
     )
 
     response = self.app.post(
@@ -3429,7 +3370,7 @@ def create_tender_bidder_document_nopending(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can't add document because award of bid is not in pending or active state",
+        "Can't add document in current (active.qualification) tender status",
     )
 
 
@@ -3564,6 +3505,8 @@ def put_tender_bidder_document_private_json(self):
     self.assertEqual(response.status, "200 OK")
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "active.qualification")
+    # allow document upload
+    self.append_24hours_milestone(self.bid_id)
 
     self.app.authorization = ("Basic", ("broker", ""))
     for doc_resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:

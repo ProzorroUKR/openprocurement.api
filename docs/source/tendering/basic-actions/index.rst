@@ -20,5 +20,6 @@ Contents:
    bidding
    meat
    milestones
+   24hours
    2pc
 
