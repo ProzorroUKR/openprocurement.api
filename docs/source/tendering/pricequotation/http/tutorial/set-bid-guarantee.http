@@ -17,8 +17,8 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "procurementMethod": "open", 
     "status": "draft", 
+    "procurementMethod": "selective", 
     "milestones": [
       {
         "code": "prepayment", 

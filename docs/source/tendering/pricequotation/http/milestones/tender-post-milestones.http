@@ -102,8 +102,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7b3b4a9fbcde4d7d
     "token": "3f90e22edebd43faa3f39740320e00e5"
   }, 
   "data": {
-    "procurementMethod": "open", 
     "status": "draft", 
+    "procurementMethod": "selective", 
     "milestones": [
       {
         "code": "prepayment", 
