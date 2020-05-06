@@ -21,6 +21,8 @@ class BaseTenderWebTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = test_tender_data
     initial_status = None
+    maxDiff = None
+
     initial_bids = None
     initial_auth = ("Basic", ("broker", ""))
     docservice = False
