@@ -288,7 +288,7 @@ def check_tender_status(request):
         )
         if contracts and contracts[-1].status == "active":
             tender.status = "complete"
-    if tender.procurementMethodType in ("belowThreshold", "priceQuotation"):
+    if tender.procurementMethodType == "belowThreshold":
         check_ignored_claim(tender)
 
 
