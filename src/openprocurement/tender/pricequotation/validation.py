@@ -165,15 +165,15 @@ def matches(criteria, response):
     value = datatype.to_native(response['value'])
 
     expected = criteria.get('expectedValue')
-    min_value = criteria.get('expectedValue')
-    max_value = criteria.get('expectedValue')
+    min_value = criteria.get('minValue')
+    max_value = criteria.get('maxValue')
 
     if expected:
         expected = datatype.to_native(expected)
         if datatype.to_native(expected) != value:
             raise ValidationError(
                 u'Value {} does not match expected value {} in reqirement {}'.format(
-                    str(value), str(expected), criteria['id']
+                    value.to_primitive(), expected.to_primitive(), criteria['id']
                 )
             )
     if min_value and max_value:
@@ -182,7 +182,10 @@ def matches(criteria, response):
         if value < min_value or value > max_value:
             raise ValidationError(
                 u'Value {} does not match range from {} to {} in reqirement {}'.format(
-                    str(value), str(min_value), str(max_value), criteria['id']
+                    value.to_primitive(),
+                    min_value.to_primitive(),
+                    max_value.to_primitive(),
+                    criteria['id']
                 )
             )
             
@@ -191,14 +194,18 @@ def matches(criteria, response):
         if value < min_value:
             raise ValidationError(
                 u'Value {} is lower then minimal required {} in reqirement {}'.format(
-                    str(value), str(min_value), criteria['id']
+                    value.to_primitive(),
+                    min_value.to_primitive(),
+                    criteria['id']
                 )
             )
     if not min_value and max_value:
         if value < min_value:
             raise ValidationError(
                 u'Value {} is higher then required {} in reqirement {}'.format(
-                    str(value), str(max_value), criteria['id']
+                    value.to_primitive(),
+                    max_value.to_primitive(),
+                    criteria['id']
                 )
             )
     return response
