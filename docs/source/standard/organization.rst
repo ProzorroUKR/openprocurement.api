@@ -105,7 +105,7 @@ Schema
 ------
 
 :scheme:
-   string
+   string, required
 
    |ocdsDescription|
    Organization identifiers be drawn from an existing identification scheme. 
@@ -127,6 +127,10 @@ Schema
 
 :legalName:
    string, multilingual
+
+   Additionally in :ref:`complaint` for `author` field:
+
+   uk (legalName) translation is required. en (legalName_en), ru (legalName_ru) translations are not required
 
    |ocdsDescription|
    The legally registered name of the organization.

@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/ccf02b83808e4d688d89119a7d5d2a76/complaints HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1385
+Content-Length: 1469
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -13,13 +13,14 @@ DATA:
     "author": {
       "contactPoint": {
         "email": "soleksuk@gmail.com", 
-        "telephone": "+380 (432) 21-69-30", 
-        "name": "Сергій Олексюк"
+        "name": "Сергій Олексюк", 
+        "telephone": "+380 (432) 21-69-30"
       }, 
       "identifier": {
         "scheme": "UA-EDR", 
         "id": "00137256", 
-        "uri": "http://www.sc.gov.ua/"
+        "uri": "http://www.sc.gov.ua/", 
+        "legalName": "ДКП «Школяр»"
       }, 
       "name": "ДКП «Школяр»", 
       "address": {

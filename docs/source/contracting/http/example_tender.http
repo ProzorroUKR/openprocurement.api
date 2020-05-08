@@ -25,6 +25,7 @@ Content-Type: application/json; charset=UTF-8
       }, 
       "identifier": {
         "scheme": "UA-EDR", 
+        "legalName": "Державне управління справами", 
         "id": "00037256", 
         "uri": "http://www.dus.gov.ua/"
       }, 
@@ -127,6 +128,7 @@ Content-Type: application/json; charset=UTF-8
             "name": "Державне управління справами", 
             "identifier": {
               "scheme": "UA-EDR", 
+              "legalName": "Державне управління справами", 
               "id": "00037256", 
               "uri": "http://www.dus.gov.ua/"
             }, 
@@ -174,6 +176,7 @@ Content-Type: application/json; charset=UTF-8
             "name": "Державне управління справами", 
             "identifier": {
               "scheme": "UA-EDR", 
+              "legalName": "Державне управління справами", 
               "id": "00037256", 
               "uri": "http://www.dus.gov.ua/"
             }, 
@@ -314,6 +317,7 @@ Content-Type: application/json; charset=UTF-8
             "name": "Державне управління справами", 
             "identifier": {
               "scheme": "UA-EDR", 
+              "legalName": "Державне управління справами", 
               "id": "00037256", 
               "uri": "http://www.dus.gov.ua/"
             }, 

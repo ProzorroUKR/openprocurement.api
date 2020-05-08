@@ -12,9 +12,16 @@ from openprocurement.tender.core.tests.base import BaseCoreWebTest
 from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
 
 now = get_now()
+test_identifier = {
+    "scheme": u"UA-EDR",
+    "id": u"00037256",
+    "uri": u"http://www.dus.gov.ua/",
+    "legalName": u"Державне управління справами",
+}
+
 test_organization = {
     "name": u"Державне управління справами",
-    "identifier": {"scheme": u"UA-EDR", "id": u"00037256", "uri": u"http://www.dus.gov.ua/"},
+    "identifier": test_identifier,
     "address": {
         "countryName": u"Україна",
         "postalCode": u"01220",

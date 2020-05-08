@@ -1737,7 +1737,7 @@ def create_tender_award_complaint_invalid(self):
         [
             {
                 u"description": {
-                    u"identifier": [u"Please use a mapping for this field or Identifier instance instead of unicode."]
+                    u"identifier": [u"Please use a mapping for this field or ComplaintIdentifier instance instead of unicode."]
                 },
                 u"location": u"body",
                 u"name": u"author",

@@ -7,7 +7,11 @@ import dateutil
 from mock import patch
 from iso8601 import parse_date
 
-from openprocurement.api.constants import SANDBOX_MODE, RELEASE_2020_04_19
+from openprocurement.api.constants import (
+    SANDBOX_MODE,
+    RELEASE_2020_04_19,
+    COMPLAINT_IDENTIFIER_REQUIRED_FROM,
+)
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
@@ -1184,6 +1188,34 @@ def create_tender_award_complaint(self):
     self.assertIn("id", complaint)
     self.assertIn(complaint["id"], response.headers["Location"])
 
+    if get_now() > COMPLAINT_IDENTIFIER_REQUIRED_FROM:
+        test_draft_complaint_invalid = deepcopy(test_draft_complaint)
+        test_draft_complaint_invalid["author"]["identifier"]["legalName"] = u""
+        test_draft_complaint_invalid["author"]["identifier"]["id"] = u""
+        response = self.app.post_json(
+            "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, self.bid_token),
+            {"data": test_draft_complaint_invalid},
+            status=422
+        )
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    u"description": {
+                        u"identifier": {
+                            u"id": [u"This field is required."],
+                            u"legalName": [u"This field is required."],
+                        },
+                    },
+                    u"location": u"body",
+                    u"name": u"author",
+                }
+            ],
+        )
+
     self.set_status("active.awarded")
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
@@ -1234,6 +1266,28 @@ def patch_tender_award_complaint(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["title"], "claim title")
+
+    if get_now() > COMPLAINT_IDENTIFIER_REQUIRED_FROM:
+        denied_patch_fields = {
+            "id": u"new_id",
+            "scheme": u"AE-ACCI",
+            "legalName": u"new_legal_name",
+        }
+        response = self.app.patch_json(
+            "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
+                self.tender_id, self.award_id, complaint["id"], owner_token
+            ),
+            {
+                "data": {
+                    "author": {"identifier": denied_patch_fields},
+                    "title": "new_title",
+                },
+            },
+        )
+        self.assertEqual(response.status, "200 OK")
+        for key, value in denied_patch_fields.items():
+            self.assertNotEqual(response.json["data"]["author"]["identifier"].get(key, ""), value)
+        self.assertEqual(response.json["data"]["title"], "new_title")
 
     if get_now() > RELEASE_2020_04_19:
         with change_auth(self.app, ("Basic", ("bot", ""))):
