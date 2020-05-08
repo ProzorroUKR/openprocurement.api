@@ -188,6 +188,7 @@ def check_status(request):
 def check_tender_status(request):
     tender = request.validated["tender"]
     now = get_now()
+
     if tender.lots:
         if any([i.status in tender.block_complaint_status and i.relatedLot is None for i in tender.complaints]):
             return
@@ -204,7 +205,7 @@ def check_tender_status(request):
             pending_awards_complaints = any(
                 [i.status in tender.block_complaint_status for a in lot_awards for i in a.complaints]
             )
-            stand_still_end = max([a.complaintPeriod.endDate or now for a in lot_awards])
+            stand_still_end = max([(a.complaintPeriod and a.complaintPeriod.endDate) or now for a in lot_awards])
             if pending_complaints or pending_awards_complaints or not stand_still_end <= now:
                 continue
             elif last_award.status == "unsuccessful":
@@ -214,14 +215,20 @@ def check_tender_status(request):
                 )
                 lot.status = "unsuccessful"
                 continue
-            elif last_award.status == "active" and any(
-                [i.status == "active" and i.awardID == last_award.id for i in tender.contracts]
-            ):
-                LOGGER.info(
-                    "Switched lot {} of tender {} to {}".format(lot.id, tender.id, "complete"),
-                    extra=context_unpack(request, {"MESSAGE_ID": "switched_lot_complete"}, {"LOT_ID": lot.id}),
+            elif last_award.status == "active":
+                active_contracts = (
+                    [a.status == "active" for a in tender.agreements]
+                    if "agreements" in tender
+                    else [i.status == "active" and i.awardID == last_award.id for i in tender.contracts]
                 )
-                lot.status = "complete"
+
+                if any(active_contracts):
+                    LOGGER.info(
+                        "Switched lot {} of tender {} to {}".format(lot.id, tender.id, "complete"),
+                        extra=context_unpack(request, {"MESSAGE_ID": "switched_lot_complete"}, {"LOT_ID": lot.id}),
+                    )
+                    lot.status = "complete"
+
         statuses = set([lot.status for lot in tender.lots])
         if statuses == set(["cancelled"]):
             LOGGER.info(
@@ -261,7 +268,13 @@ def check_tender_status(request):
                 extra=context_unpack(request, {"MESSAGE_ID": "switched_tender_unsuccessful"}),
             )
             tender.status = "unsuccessful"
-        if tender.contracts and tender.contracts[-1].status == "active":
+
+        contracts = (
+                tender.agreements[-1].get("contracts")
+                if tender.get("agreements")
+                else tender.get("contracts", [])
+        )
+        if contracts and contracts[-1].status == "active":
             tender.status = "complete"
     if tender.procurementMethodType == "belowThreshold":
         check_ignored_claim(tender)
