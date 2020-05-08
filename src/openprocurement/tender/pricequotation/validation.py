@@ -173,7 +173,7 @@ def matches(criteria, response):
         if datatype.to_native(expected) != value:
             raise ValidationError(
                 u'Value {} does not match expected value {} in reqirement {}'.format(
-                    value.to_primitive(), expected.to_primitive(), criteria['id']
+                    value, expected, criteria['id']
                 )
             )
     if min_value and max_value:
@@ -182,9 +182,9 @@ def matches(criteria, response):
         if value < min_value or value > max_value:
             raise ValidationError(
                 u'Value {} does not match range from {} to {} in reqirement {}'.format(
-                    value.to_primitive(),
-                    min_value.to_primitive(),
-                    max_value.to_primitive(),
+                    value,
+                    min_value,
+                    max_value,
                     criteria['id']
                 )
             )
@@ -194,8 +194,8 @@ def matches(criteria, response):
         if value < min_value:
             raise ValidationError(
                 u'Value {} is lower then minimal required {} in reqirement {}'.format(
-                    value.to_primitive(),
-                    min_value.to_primitive(),
+                    value,
+                    min_value,
                     criteria['id']
                 )
             )
@@ -203,8 +203,8 @@ def matches(criteria, response):
         if value < min_value:
             raise ValidationError(
                 u'Value {} is higher then required {} in reqirement {}'.format(
-                    value.to_primitive(),
-                    max_value.to_primitive(),
+                    value,
+                    max_value,
                     criteria['id']
                 )
             )
