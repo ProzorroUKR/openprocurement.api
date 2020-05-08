@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 3800
+Content-Length: 3975
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -81,7 +81,8 @@ DATA:
       "identifier": {
         "scheme": "UA-EDR", 
         "id": "00037256", 
-        "uri": "http://www.dus.gov.ua/"
+        "uri": "http://www.dus.gov.ua/", 
+        "legalName": "Державне управління справами"
       }, 
       "name": "Державне управління справами", 
       "kind": "general", 
@@ -251,6 +252,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/360cfcaeb0ec4394
       }, 
       "identifier": {
         "scheme": "UA-EDR", 
+        "legalName": "Державне управління справами", 
         "id": "00037256", 
         "uri": "http://www.dus.gov.ua/"
       }, 

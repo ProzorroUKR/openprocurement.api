@@ -16,6 +16,7 @@ from openprocurement.api.auth import extract_access_token
 from openprocurement.api.models import (
     Revision,
     Organization,
+    Identifier,
     Model,
     Period,
     IsoDateTimeType,
@@ -43,6 +44,7 @@ from openprocurement.api.constants import (
     MPC_REQUIRED_FROM,
     MILESTONES_VALIDATION_FROM,
     RELEASE_2020_04_19,
+    COMPLAINT_IDENTIFIER_REQUIRED_FROM,
 )
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
 
@@ -672,6 +674,44 @@ class Question(Model):
                 raise ValidationError(u"relatedItem should be one of items")
 
 
+class ComplaintIdentifier(Identifier):
+    class Options:
+        roles = {
+            "draft_complaint": whitelist("uri", "legalName_ru", "legalName_en"),
+        }
+
+    def validate_id(self, data, identifier_id):
+        if not identifier_id:
+            complaint = data["__parent__"]["__parent__"]
+            if complaint.type == "complaint":
+                tender = get_root(data["__parent__"])
+                if get_first_revision_date(tender, default=get_now()) > COMPLAINT_IDENTIFIER_REQUIRED_FROM:
+                    raise ValidationError(u"This field is required.")
+
+    def validate_legalName(self, data, legalName):
+        if not legalName:
+            complaint = data["__parent__"]["__parent__"]
+            if complaint.type == "complaint":
+                tender = get_root(data["__parent__"])
+                if get_first_revision_date(tender, default=get_now()) > COMPLAINT_IDENTIFIER_REQUIRED_FROM:
+                    raise ValidationError(u"This field is required.")
+
+
+class ComplaintOrganization(Organization):
+    identifier = ModelType(ComplaintIdentifier, required=True)
+
+
+class ComplaintAuthorModelType(ModelType):
+    def export_loop(self, model_instance, field_converter, role=None, print_none=False):
+        if role == "draft" and getattr(model_instance.__parent__, "type") == "complaint":
+            request = model_instance.get_root().request
+            tender = request.validated["tender"]
+            if get_first_revision_date(tender, default=get_now()) > COMPLAINT_IDENTIFIER_REQUIRED_FROM:
+                role = "draft_complaint"
+        return super(ComplaintAuthorModelType, self).export_loop(model_instance, field_converter,
+                                                                 role=role, print_none=print_none)
+
+
 class Complaint(Model):
     class Options:
         roles = {
@@ -733,7 +773,7 @@ class Complaint(Model):
     owner = StringType()
     relatedLot = MD5Type()
     # complainant
-    author = ModelType(Organization, required=True)  # author of claim
+    author = ComplaintAuthorModelType(ComplaintOrganization, required=True)  # author of claim
     title = StringType(required=True)  # title of the claim
     description = StringType()  # description of the claim
     dateSubmitted = IsoDateTimeType()

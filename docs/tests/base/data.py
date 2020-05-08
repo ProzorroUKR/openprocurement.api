@@ -37,6 +37,9 @@ tenderer = {
 author = deepcopy(tenderer)
 del author['scale']
 
+complaint_author = deepcopy(author)
+complaint_author["identifier"]["legalName"] = u"ДКП «Школяр»"
+
 tenderer2 = {
     "address": {
         "countryName": "Україна",
@@ -332,7 +335,7 @@ complaint = {
     "title": "Недостатньо інформації",
     "status": "draft",
     "type": "complaint",
-    'author': author
+    'author': complaint_author,
 }
 
 

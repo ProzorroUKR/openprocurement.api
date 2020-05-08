@@ -3,14 +3,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-12 10:35+0200\n"
+"POT-Creation-Date: 2020-04-29 17:22+0300\n"
 "PO-Revision-Date: 2019-10-02 21:20+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 1.3\n"
+"Generated-By: Babel 2.8.0\n"
 
 msgid "Organization"
 msgstr "Organization"
@@ -102,9 +102,6 @@ msgstr ""
 msgid "scheme"
 msgstr ""
 
-msgid "string"
-msgstr "рядок"
-
 msgid "|ocdsDescription| Organization identifiers be drawn from an existing identification scheme. This field is used to indicate the scheme or codelist in which the identifier will be found.  This value should be drawn from the Organization Identifier Scheme."
 msgstr "|ocdsDescription| Ідентифікатори організації беруться з існуючої схеми ідентифікації. Це поле вказує схему або список кодів, де можна знайти ідентифікатор організації. Це значення повинно братись зі Схеми Ідентифікації Організацій."
 
@@ -120,6 +117,12 @@ msgstr "Дозволеними є коди зі `спику кодів \"Organis
 msgid "legalName"
 msgstr ""
 
+msgid "Additionally in :ref:`complaint` for `author` field:"
+msgstr "Додатково у :ref:`complaint` для поля `author`:"
+
+msgid "uk (legalName) translation is required. en (legalName_en), ru (legalName_ru) translations are not required"
+msgstr "uk (legalName) переклад обов’язковий. en (legalName_en), ru (legalName_ru) переклади не обов’язкові"
+
 msgid "|ocdsDescription| The legally registered name of the organization."
 msgstr "|ocdsDescription| Легально зареєстрована назва організації."
 
@@ -134,6 +137,9 @@ msgstr ""
 
 msgid "streetAddress"
 msgstr ""
+
+msgid "string"
+msgstr "рядок"
 
 msgid "|ocdsDescription| The street address. For example, 1600 Amphitheatre Pkwy."
 msgstr "|ocdsDescription| Вулиця. Наприклад, вул.Хрещатик, 22."

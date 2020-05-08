@@ -24,6 +24,7 @@ test_bids = [
                 "name_en": u"State administration",
                 "identifier": {
                     "legalName_en": u"dus.gov.ua",
+                    "legalName": u"Державне управління справами",
                     "scheme": u"UA-EDR",
                     "id": u"00037256",
                     "uri": u"http://www.dus.gov.ua/",
@@ -54,6 +55,7 @@ test_bids = [
                 "name_en": u"State administration",
                 "identifier": {
                     "legalName_en": u"dus.gov.ua",
+                    "legalName": u"Державне управління справами",
                     "scheme": u"UA-EDR",
                     "id": u"00037256",
                     "uri": u"http://www.dus.gov.ua/",

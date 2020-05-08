@@ -20,6 +20,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "identifier": {
           "scheme": "UA-EDR", 
+          "legalName": "ДКП «Школяр»", 
           "id": "00137256", 
           "uri": "http://www.sc.gov.ua/"
         }, 
@@ -84,6 +85,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "identifier": {
           "scheme": "UA-EDR", 
+          "legalName": "ДКП «Школяр»", 
           "id": "00137256", 
           "uri": "http://www.sc.gov.ua/"
         }, 
@@ -129,6 +131,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "identifier": {
           "scheme": "UA-EDR", 
+          "legalName": "ДКП «Школяр»", 
           "id": "00137256", 
           "uri": "http://www.sc.gov.ua/"
         }, 
@@ -159,6 +162,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "identifier": {
           "scheme": "UA-EDR", 
+          "legalName": "ДКП «Школяр»", 
           "id": "00137256", 
           "uri": "http://www.sc.gov.ua/"
         }, 
@@ -209,6 +213,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "identifier": {
           "scheme": "UA-EDR", 
+          "legalName": "ДКП «Школяр»", 
           "id": "00137256", 
           "uri": "http://www.sc.gov.ua/"
         }, 
@@ -239,6 +244,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "identifier": {
           "scheme": "UA-EDR", 
+          "legalName": "ДКП «Школяр»", 
           "id": "00137256", 
           "uri": "http://www.sc.gov.ua/"
         }, 
@@ -273,6 +279,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "identifier": {
           "scheme": "UA-EDR", 
+          "legalName": "ДКП «Школяр»", 
           "id": "00137256", 
           "uri": "http://www.sc.gov.ua/"
         }, 
@@ -307,6 +314,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "identifier": {
           "scheme": "UA-EDR", 
+          "legalName": "ДКП «Школяр»", 
           "id": "00137256", 
           "uri": "http://www.sc.gov.ua/"
         }, 
@@ -414,6 +422,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "identifier": {
           "scheme": "UA-EDR", 
+          "legalName": "ДКП «Школяр»", 
           "id": "00137256", 
           "uri": "http://www.sc.gov.ua/"
         }, 
