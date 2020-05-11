@@ -71,7 +71,7 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest, TenderContractResou
 class TenderContractVATNotIncludedResourceTest(BaseTenderUAContentWebTest, TenderContractResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_bids
-
+    docservice = True
     def create_award(self):
         auth = self.app.authorization
         self.app.authorization = ("Basic", ("token", ""))
@@ -111,7 +111,8 @@ class TenderContractVATNotIncludedResourceTest(BaseTenderUAContentWebTest, Tende
 class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest, TenderContractDocumentResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_bids
-
+    docservice = True
+    
     def setUp(self):
         super(TenderContractDocumentResourceTest, self).setUp()
         # Create award
@@ -141,7 +142,6 @@ class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest, TenderContr
     test_put_tender_contract_document_by_supplier = snitch(put_tender_contract_document_by_supplier)
     test_put_tender_contract_document_by_others = snitch(put_tender_contract_document_by_others)
     test_patch_tender_contract_document_by_supplier = snitch(patch_tender_contract_document_by_supplier)
-
 
 def suite():
     suite = unittest.TestSuite()

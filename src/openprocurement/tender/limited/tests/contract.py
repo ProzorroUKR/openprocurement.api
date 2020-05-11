@@ -50,7 +50,8 @@ class TenderContractResourceTest(BaseTenderContentWebTest, TenderContractResourc
     initial_status = "active"
     initial_data = test_tender_data
     initial_bids = None  # test_bids
-
+    docservice = True
+    
     def create_award(self):
         # Create award
         response = self.app.post_json(
@@ -364,6 +365,7 @@ class TenderNegotiationAccelerationTest(TenderNegotiationQuickAccelerationTest):
 class TenderContractDocumentResourceTest(BaseTenderContentWebTest, TenderContractDocumentResourceTestMixin):
     initial_status = "active"
     initial_bids = None
+    docservice = True
 
     def create_award(self):
         # Create award

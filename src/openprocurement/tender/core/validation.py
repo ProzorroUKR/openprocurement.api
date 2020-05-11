@@ -1905,3 +1905,54 @@ def validate_evidence_data(request):
 def validate_patch_evidence_data(request):
     model = type(request.tender).bids.model_class.requirementResponses.model_class.evidences.model_class
     return validate_data(request, model, True)
+
+
+class ValidateSelfEligibleMixin(Model):
+    def validate_selfEligible(self, data, value):
+        tender = get_root(data["__parent__"])
+        if get_first_revision_date(tender, default=get_now()) > RELEASE_ECRITERIA_ARTICLE_17:
+            if value is not None:
+                raise ValidationError("Rogue field.")
+        elif value is None:
+            raise ValidationError("This field is required.")
+
+
+def validate_contract_supplier_role_for_contract_document_uploading(request):
+    if request.authenticated_role in ("contract_supplier"):
+        if 'file' in request.validated:
+            raise_operation_error(
+                request, "Supplier can't {} contract documents".format(
+                    OPERATIONS.get(request.method))
+            )
+        elif "data" in request.validated:
+            data = request.validated["data"]
+            if data["documentOf"] == "document":
+                if data["format"] != "application/pkcs7-signature":
+                    raise_operation_error(
+                        request, "Supplier can {} only 'application/pkcs7-signature' document format files".format(
+                            OPERATIONS.get(request.method))
+                    )
+            else:
+                raise_operation_error(
+                    request, "Supplier can't {} {} documents".format(
+                        OPERATIONS.get(request.method), data["documentOf"])
+                )
+        elif request.content_type != "application/pkcs7-signature":
+            raise_operation_error(
+                request, "Supplier can {} only 'application/pkcs7-signature' document format files".format(
+                    OPERATIONS.get(request.method))
+            )
+
+
+def validate_relatedItem_for_contract_document_uploading(request):
+    if "data" in request.validated:
+        data = request.validated["data"]
+        parent = data["__parent__"]
+        documents = []
+        if hasattr(parent, "documents"):
+            documents = parent.documents
+        elif hasattr(parent["__parent__"], "documents"):
+            documents = parent["__parent__"].documents
+        if data.get("documentOf") == "document" and data.get('relatedItem') not in [i.id for i in documents]:
+            raise_operation_error(
+                    request, "relatedItem should be one of contract documents")

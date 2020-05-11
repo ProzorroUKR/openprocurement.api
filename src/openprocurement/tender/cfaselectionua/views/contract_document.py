@@ -11,7 +11,11 @@ from openprocurement.api.utils import (
 from openprocurement.api.validation import validate_file_update, validate_file_upload, validate_patch_document_data
 
 from openprocurement.tender.core.utils import save_tender, optendersresource, apply_patch
-from openprocurement.tender.core.validation import validate_role_for_contract_document_operation
+from openprocurement.tender.core.validation import(
+    validate_role_for_contract_document_operation,
+    validate_relatedItem_for_contract_document_uploading,
+    validate_contract_supplier_role_for_contract_document_uploading,
+)
 
 
 @optendersresource(
@@ -64,7 +68,9 @@ class TenderAwardContractDocumentResource(APIResource):
         return {"data": collection_data}
 
     @json_view(permission="upload_contract_documents", validators=(validate_file_upload,
-                                                                   validate_role_for_contract_document_operation,))
+                                                                   validate_role_for_contract_document_operation,
+                                                                   validate_relatedItem_for_contract_document_uploading,
+                                                                   validate_contract_supplier_role_for_contract_document_uploading,))
     def collection_post(self):
         """Tender Contract Document Upload
         """
@@ -98,8 +104,11 @@ class TenderAwardContractDocumentResource(APIResource):
         ]
         return {"data": document_data}
 
-    @json_view(validators=(validate_file_update, validate_role_for_contract_document_operation,),
-               permission="upload_contract_documents")
+    @json_view(permission="upload_contract_documents", validators=(validate_file_update,
+                                                                   validate_role_for_contract_document_operation,
+                                                                   validate_relatedItem_for_contract_document_uploading,
+                                                                   validate_contract_supplier_role_for_contract_document_uploading,
+                                                                   ))
     def put(self):
         """Tender Contract Document Update"""
         if not self.validate_contract_document("update"):
@@ -114,8 +123,12 @@ class TenderAwardContractDocumentResource(APIResource):
             return {"data": document.serialize("view")}
 
     @json_view(content_type="application/json",
-               validators=(validate_patch_document_data, validate_role_for_contract_document_operation,),
-               permission="upload_contract_documents")
+               permission="upload_contract_documents",
+               validators=(validate_patch_document_data,
+                           validate_role_for_contract_document_operation,
+                           validate_relatedItem_for_contract_document_uploading,
+                           validate_contract_supplier_role_for_contract_document_uploading,
+                ))
     def patch(self):
         """Tender Contract Document Update"""
         if not self.validate_contract_document("update"):

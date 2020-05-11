@@ -955,13 +955,35 @@ def create_tender_contract_document(self):
         response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"download"}]
     )
 
-    response = self.app.get(
-        "/tenders/{}/contracts/{}/documents/{}?{}".format(self.tender_id, self.contract_id, doc_id, key)
-    )
+    if self.docservice:
+        response = self.app.get("/tenders/{}/contracts/{}/documents/{}?download={}".format(self.tender_id, self.contract_id, doc_id, key))
+        self.assertEqual(response.status, "302 Moved Temporarily")
+        self.assertIn("http://localhost/get/", response.location)
+        self.assertIn("Signature=", response.location)
+        self.assertIn("KeyID=", response.location)
+        self.assertNotIn("Expires=", response.location)
+    else:
+        response = self.app.get(
+            "/tenders/{}/contracts/{}/documents/{}?download=some_id".format(self.tender_id, self.contract_id, doc_id),
+            status=404,
+        )
+        self.assertEqual(response.status, "404 Not Found")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"download"}]
+        )
+        response = self.app.get("/tenders/{}/contracts/{}/documents/{}?{}".format(self.tender_id, self.contract_id, doc_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/msword")
+        self.assertEqual(response.content_length, 7)
+        self.assertEqual(response.body, "content")
+
+    response = self.app.get("/tenders/{}/contracts/{}/documents/{}".format(self.tender_id, self.contract_id, doc_id))
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/msword")
-    self.assertEqual(response.content_length, 7)
-    self.assertEqual(response.body, "content")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(doc_id, response.json["data"]["id"])
+    self.assertEqual("name.doc", response.json["data"]["title"])
 
     response = self.app.get("/tenders/{}/contracts/{}/documents/{}".format(self.tender_id, self.contract_id, doc_id))
     self.assertEqual(response.status, "200 OK")
@@ -1032,13 +1054,31 @@ def put_tender_contract_document(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     key = response.json["data"]["url"].split("?")[-1]
 
-    response = self.app.get(
-        "/tenders/{}/contracts/{}/documents/{}?{}".format(self.tender_id, self.contract_id, doc_id, key)
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/msword")
-    self.assertEqual(response.content_length, 8)
-    self.assertEqual(response.body, "content2")
+    if self.docservice:
+        response = self.app.get("/tenders/{}/contracts/{}/documents/{}?download={}".format(self.tender_id, self.contract_id, doc_id, key))
+        self.assertEqual(response.status, "302 Moved Temporarily")
+        self.assertIn("http://localhost/get/", response.location)
+        self.assertIn("Signature=", response.location)
+        self.assertIn("KeyID=", response.location)
+        self.assertNotIn("Expires=", response.location)
+    else:
+        response = self.app.get(
+            "/tenders/{}/contracts/{}/documents/{}?download=some_id".format(self.tender_id, self.contract_id, doc_id),
+            status=404,
+        )
+        self.assertEqual(response.status, "404 Not Found")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"download"}]
+        )
+        response = self.app.get(
+            "/tenders/{}/contracts/{}/documents/{}?{}".format(self.tender_id, self.contract_id, doc_id, key)
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/msword")
+        self.assertEqual(response.content_length, 8)
+        self.assertEqual(response.body, "content2")
 
     response = self.app.get("/tenders/{}/contracts/{}/documents/{}".format(self.tender_id, self.contract_id, doc_id))
     self.assertEqual(response.status, "200 OK")
@@ -1058,13 +1098,31 @@ def put_tender_contract_document(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     key = response.json["data"]["url"].split("?")[-1]
 
-    response = self.app.get(
-        "/tenders/{}/contracts/{}/documents/{}?{}".format(self.tender_id, self.contract_id, doc_id, key)
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/msword")
-    self.assertEqual(response.content_length, 8)
-    self.assertEqual(response.body, "content3")
+    if self.docservice:
+        response = self.app.get("/tenders/{}/contracts/{}/documents/{}?download={}".format(self.tender_id, self.contract_id, doc_id, key))
+        self.assertEqual(response.status, "302 Moved Temporarily")
+        self.assertIn("http://localhost/get/", response.location)
+        self.assertIn("Signature=", response.location)
+        self.assertIn("KeyID=", response.location)
+        self.assertNotIn("Expires=", response.location)
+    else:
+        response = self.app.get(
+            "/tenders/{}/contracts/{}/documents/{}?download=some_id".format(self.tender_id, self.contract_id, doc_id),
+            status=404,
+        )
+        self.assertEqual(response.status, "404 Not Found")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"download"}]
+        )
+        response = self.app.get(
+            "/tenders/{}/contracts/{}/documents/{}?{}".format(self.tender_id, self.contract_id, doc_id, key)
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/msword")
+        self.assertEqual(response.content_length, 8)
+        self.assertEqual(response.body, "content3")
 
     tender = self.db.get(self.tender_id)
     tender["contracts"][-1]["status"] = "cancelled"
@@ -1098,7 +1156,6 @@ def put_tender_contract_document(self):
             self.forbidden_contract_document_modification_actions_status
         ),
     )
-
 
 def patch_tender_contract_document(self):
     response = self.app.post(

@@ -179,7 +179,8 @@ class Tender2LotContractResourceTest(TenderContentWebTest):
 class TenderContractDocumentResourceTest(TenderContentWebTest, TenderContractDocumentResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_bids
-
+    docservice = True
+    
     def setUp(self):
         super(TenderContractDocumentResourceTest, self).setUp()
         # Create award
@@ -222,6 +223,7 @@ class Tender2LotContractDocumentResourceTest(TenderContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_bids
     initial_lots = 2 * test_lots
+    docservice = True
 
     def setUp(self):
         super(Tender2LotContractDocumentResourceTest, self).setUp()

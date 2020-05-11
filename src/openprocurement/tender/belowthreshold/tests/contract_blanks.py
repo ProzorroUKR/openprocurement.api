@@ -4,8 +4,9 @@ from datetime import timedelta
 from copy import deepcopy
 from openprocurement.api.utils import get_now
 
-from openprocurement.tender.belowthreshold.tests.base import test_claim, test_cancellation
+from openprocurement.tender.belowthreshold.tests.base import test_claim, test_cancellation, test_tender_data, test_organization, test_tender_full_document_data
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
+
 
 # TenderContractResourceTest
 from openprocurement.api.constants import RELEASE_2020_04_19
@@ -946,7 +947,6 @@ def not_found(self):
     self.assertEqual(
         response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
     )
-
     response = self.app.get("/tenders/{}/contracts/some_id/documents".format(self.tender_id), status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -1092,14 +1092,29 @@ def create_tender_contract_document(self):
         response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"download"}]
     )
 
-    response = self.app.get(
-        "/tenders/{}/contracts/{}/documents/{}?{}".format(self.tender_id, self.contract_id, doc_id, key)
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/msword")
-    self.assertEqual(response.content_length, 7)
-    self.assertEqual(response.body, "content")
-
+    if self.docservice:
+        response = self.app.get("/tenders/{}/contracts/{}/documents/{}?download={}".format(self.tender_id, self.contract_id, doc_id, key))
+        self.assertEqual(response.status, "302 Moved Temporarily")
+        self.assertIn("http://localhost/get/", response.location)
+        self.assertIn("Signature=", response.location)
+        self.assertIn("KeyID=", response.location)
+        self.assertNotIn("Expires=", response.location)
+    else:
+        response = self.app.get(
+            "/tenders/{}/contracts/{}/documents/{}?download=some_id".format(self.tender_id, self.contract_id, doc_id),
+            status=404,
+        )
+        self.assertEqual(response.status, "404 Not Found")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"download"}]
+        )
+        response = self.app.get("/tenders/{}/contracts/{}/documents/{}?{}".format(self.tender_id, self.contract_id, doc_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/pkcs7-signature")
+        self.assertEqual(response.content_length, 7)
+        self.assertEqual(response.body, "content")
     response = self.app.get("/tenders/{}/contracts/{}/documents/{}".format(self.tender_id, self.contract_id, doc_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -1140,10 +1155,10 @@ def create_tender_contract_document_by_supplier(self):
     response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, self.contract_id))
     contract = response.json["data"]
     self.assertEqual(response.json["data"]["status"], "pending")
+      
     doc = self.db.get(self.tender_id)
     bid_id = jmespath.search("awards[?id=='{}'].bid_id".format(contract["awardID"]), doc)[0]
     bid_token = jmespath.search("bids[?id=='{}'].owner_token".format(bid_id), doc)[0]
-
     for bid in doc.get("bids", []):
         if bid["id"] == bid_id and bid["status"] == "pending":
             bid["status"] = "active"
@@ -1152,20 +1167,44 @@ def create_tender_contract_document_by_supplier(self):
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     if 'value' in doc['contracts'][0] and doc['contracts'][0]['value']['valueAddedTaxIncluded']:
         doc['contracts'][0]['value']['amountNet'] = str(float(doc['contracts'][0]['value']['amount']) - 1)
+
+    tender_document = deepcopy(test_tender_full_document_data)
+    tender_document["url"] = self.generate_docservice_url()
+    doc["documents"] = [tender_document]
+    tender_document_id = doc["documents"][0]["id"]
     self.db.save(doc)
 
-    # Supplier
+    #Tender owner
     response = self.app.post(
-        "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
-        upload_files=[("file", "name.doc", "content")],
-        status=403,
+        "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
+        upload_files=[("file", "contract_first_document.doc", "content")],
+        status=201,
+    )
+    contract_doc_id = response.json["data"]["id"]
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    
+    # Supplier
+    response = self.app.post_json(
+    "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
+    {
+            "data": {
+                "title": u"supplier_first_document_sign.pkcs7",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentOf": "document",
+                "relatedItem": contract_doc_id,
+            }
+        },
+        status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.json["errors"],
                      [{u'description': u"Supplier can't add document in current contract status",
                        u'location': u'body',
                        u'name': u'data'}])
-
+                       
     # Tender owner
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
@@ -1173,55 +1212,172 @@ def create_tender_contract_document_by_supplier(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
+    
 
     # Supplier
     response = self.app.post(
         "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "contract_first_document.doc", "content")],
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json["errors"],
+                     [{u'description': u"Supplier can't add contract documents",
+                       u'location': u'body',
+                       u'name': u'data'}])
+    # Supplier
+    response = self.app.post_json(
+    "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
+    {
+            "data": {
+                "title": u"supplier_first_document_sign.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json["errors"],
+                     [{u'description': u"Supplier can't add tender documents",
+                       u'location': u'body',
+                       u'name': u'data'}])
+
+    
+    response = self.app.post_json(
+    "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
+    {
+            "data": {
+                "title": u"supplier_first_document_sign.pkcs7",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentOf": "document",
+                "relatedItem": tender_document_id,
+            }
+        },
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json["errors"],
+                     [{u'description': u"relatedItem should be one of contract documents",
+                       u'location': u'body',
+                       u'name': u'data'}])
+
+    # Supplier
+    response = self.app.post_json(
+    "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
+    {
+            "data": {
+                "title": u"supplier_first_document_sign.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+                "documentOf": "document",
+                "relatedItem": "0"*32,
+            }
+        },
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u"location": u"body",
+                u"name": u"relatedItem",
+                u"description": [
+
+                    u'relatedItem should be one of documents'
+                ]
+            }
+        ]
+    )
+
+    response = self.app.post_json(
+    "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
+    {
+            "data": {
+                "title": u"supplier_first_document_sign.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+                "documentOf": "document",
+                "relatedItem": contract_doc_id,
+            }
+        },
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json["errors"],
+                     [{u'description': u"Supplier can add only 'application/pkcs7-signature' document format files",
+                       u'location': u'body',
+                       u'name': u'data'}])
+    
+    response = self.app.post_json(
+    "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
+    {
+            "data": {
+                "title": u"supplier_first_document_sign.pkcs7",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentOf": "document",
+                "relatedItem": contract_doc_id,
+            }
+        },
+        status=201
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
-    self.assertEqual("name.doc", response.json["data"]["title"])
-    key = response.json["data"]["url"].split("?")[-1]
-
+    self.assertEqual("supplier_first_document_sign.pkcs7", response.json["data"]["title"])
+    key = response.json["data"]["url"].split("/")[-1].split("?")[0]
+    
     response = self.app.get("/tenders/{}/contracts/{}/documents".format(self.tender_id, self.contract_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(doc_id, response.json["data"][0]["id"])
-    self.assertEqual("name.doc", response.json["data"][0]["title"])
+    self.assertEqual(doc_id, response.json["data"][-1]["id"])
+    self.assertEqual("supplier_first_document_sign.pkcs7", response.json["data"][-1]["title"])
 
     response = self.app.get("/tenders/{}/contracts/{}/documents?all=true".format(self.tender_id, self.contract_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(doc_id, response.json["data"][0]["id"])
-    self.assertEqual("name.doc", response.json["data"][0]["title"])
-
-    response = self.app.get(
-        "/tenders/{}/contracts/{}/documents/{}?download=some_id".format(self.tender_id, self.contract_id, doc_id),
-        status=404,
-    )
-    self.assertEqual(response.status, "404 Not Found")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"download"}]
-    )
-
-    response = self.app.get(
-        "/tenders/{}/contracts/{}/documents/{}?{}".format(self.tender_id, self.contract_id, doc_id, key)
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/msword")
-    self.assertEqual(response.content_length, 7)
-    self.assertEqual(response.body, "content")
+    self.assertEqual(doc_id, response.json["data"][-1]["id"])
+    self.assertEqual("supplier_first_document_sign.pkcs7", response.json["data"][-1]["title"])
+    
+    if self.docservice:
+        response = self.app.get("/tenders/{}/contracts/{}/documents/{}?download={}".format(self.tender_id, self.contract_id, doc_id, key))
+        self.assertEqual(response.status, "302 Moved Temporarily")
+        self.assertIn("http://localhost/get/", response.location)
+        self.assertIn("Signature=", response.location)
+        self.assertIn("KeyID=", response.location)
+        self.assertNotIn("Expires=", response.location)
+    else:
+        response = self.app.get(
+            "/tenders/{}/contracts/{}/documents/{}?download=some_id".format(self.tender_id, self.contract_id, doc_id),
+            status=404,
+        )
+        self.assertEqual(response.status, "404 Not Found")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"download"}]
+        )
+        response = self.app.get("/tenders/{}/contracts/{}/documents/{}?{}".format(self.tender_id, self.contract_id, doc_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/pkcs7-signature")
+        self.assertEqual(response.content_length, 7)
+        self.assertEqual(response.body, "content")
 
     response = self.app.get("/tenders/{}/contracts/{}/documents/{}".format(self.tender_id, self.contract_id, doc_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    self.assertEqual("name.doc", response.json["data"]["title"])
+    self.assertEqual("supplier_first_document_sign.pkcs7", response.json["data"]["title"])
 
     tender = self.db.get(self.tender_id)
     tender["contracts"][-1]["status"] = "cancelled"
@@ -1374,14 +1530,30 @@ def put_tender_contract_document(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
     key = response.json["data"]["url"].split("?")[-1]
-
-    response = self.app.get(
-        "/tenders/{}/contracts/{}/documents/{}?{}".format(self.tender_id, self.contract_id, doc_id, key)
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/msword")
-    self.assertEqual(response.content_length, 8)
-    self.assertEqual(response.body, "content2")
+   
+    if self.docservice:
+        response = self.app.get("/tenders/{}/contracts/{}/documents/{}?download={}".format(self.tender_id, self.contract_id, doc_id, key))
+        self.assertEqual(response.status, "302 Moved Temporarily")
+        self.assertIn("http://localhost/get/", response.location)
+        self.assertIn("Signature=", response.location)
+        self.assertIn("KeyID=", response.location)
+        self.assertNotIn("Expires=", response.location)
+    else:
+        response = self.app.get(
+            "/tenders/{}/contracts/{}/documents/{}?download=some_id".format(self.tender_id, self.contract_id, doc_id),
+            status=404,
+        )
+        self.assertEqual(response.status, "404 Not Found")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"download"}]
+        )
+        response = self.app.get("/tenders/{}/contracts/{}/documents/{}?{}".format(self.tender_id, self.contract_id, doc_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/pkcs7-signature")
+        self.assertEqual(response.content_length, 8)
+        self.assertEqual(response.body, "content2")
 
     response = self.app.get("/tenders/{}/contracts/{}/documents/{}".format(self.tender_id, self.contract_id, doc_id))
     self.assertEqual(response.status, "200 OK")
@@ -1400,15 +1572,21 @@ def put_tender_contract_document(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
     key = response.json["data"]["url"].split("?")[-1]
-
-    response = self.app.get(
-        "/tenders/{}/contracts/{}/documents/{}?{}".format(self.tender_id, self.contract_id, doc_id, key)
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/msword")
-    self.assertEqual(response.content_length, 8)
-    self.assertEqual(response.body, "content3")
-
+   
+    if self.docservice:
+        response = self.app.get("/tenders/{}/contracts/{}/documents/{}?download={}".format(self.tender_id, self.contract_id, doc_id, key))
+        self.assertEqual(response.status, "302 Moved Temporarily")
+        self.assertIn("http://localhost/get/", response.location)
+        self.assertIn("Signature=", response.location)
+        self.assertIn("KeyID=", response.location)
+        self.assertNotIn("Expires=", response.location)
+    else:
+        response = self.app.get("/tenders/{}/contracts/{}/documents/{}?{}".format(self.tender_id, self.contract_id, doc_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/pkcs7-signature")
+        self.assertEqual(response.content_length, 8)
+        self.assertEqual(response.body, "content3")
+        
     tender = self.db.get(self.tender_id)
     tender["contracts"][-1]["status"] = "cancelled"
     self.db.save(tender)
@@ -1447,10 +1625,10 @@ def put_tender_contract_document_by_supplier(self):
     response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, self.contract_id))
     contract = response.json["data"]
     self.assertEqual(response.json["data"]["status"], "pending")
+  
     doc = self.db.get(self.tender_id)
     bid_id = jmespath.search("awards[?id=='{}'].bid_id".format(contract["awardID"]), doc)[0]
     bid_token = jmespath.search("bids[?id=='{}'].owner_token".format(bid_id), doc)[0]
-
     for bid in doc.get("bids", []):
         if bid["id"] == bid_id and bid["status"] == "pending":
             bid["status"] = "active"
@@ -1459,12 +1637,36 @@ def put_tender_contract_document_by_supplier(self):
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     if 'value' in doc['contracts'][0] and doc['contracts'][0]['value']['valueAddedTaxIncluded']:
         doc['contracts'][0]['value']['amountNet'] = str(float(doc['contracts'][0]['value']['amount']) - 1)
+    
+    tender_document = deepcopy(test_tender_full_document_data)
+    tender_document["url"] = self.generate_docservice_url()
+    doc["documents"] = [tender_document]
+    tender_document_id = doc["documents"][0]["id"]
     self.db.save(doc)
 
-    # Supplier
+    #Tender owner
     response = self.app.post(
-        "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
-        upload_files=[("file", "name.doc", "content")],
+        "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
+        upload_files=[("file", "contract_first_document.doc", "content")],
+        status=201,
+    )
+    contract_doc_id = response.json["data"]["id"]
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    
+    # Supplier
+    response = self.app.post_json(
+    "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
+    {
+            "data": {
+                "title": u"supplier_first_document_sign.pkcs7",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentOf": "document",
+                "relatedItem": contract_doc_id,
+            }
+        },
         status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1478,53 +1680,178 @@ def put_tender_contract_document_by_supplier(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
-
+       
     # Supplier
-    response = self.app.post(
-        "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
-        upload_files=[("file", "name.doc", "content")],
+    response = self.app.post_json(
+    "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
+    {
+            "data": {
+                "title": u"supplier_first_document_sign.pkcs7",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentOf": "document",
+                "relatedItem": contract_doc_id,
+            }
+        },
+        status=201
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
 
+    # Supplier
     response = self.app.put(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
-            self.tender_id, self.contract_id, doc_id, bid_token
-        ),
-        status=404,
-        upload_files=[("invalid_name", "name.doc", "content")],
+            self.tender_id, self.contract_id, doc_id, bid_token),
+        upload_files=[("file", "contract_first_document.doc", "content")],
+        status=403,
     )
-    self.assertEqual(response.status, "404 Not Found")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{u"description": u"Not Found", u"location": u"body", u"name": u"file"}])
-
-    response = self.app.put(
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json["errors"],
+                     [{u'description': u"Supplier can't update contract documents",
+                       u'location': u'body',
+                       u'name': u'data'}])
+    
+    response = self.app.put_json(
+    "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
+            self.tender_id, self.contract_id, doc_id, bid_token),
+    {
+            "data": {
+                "title": u"supplier_first_document_sign.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json["errors"],
+                     [{u'description': u"Supplier can't update tender documents",
+                       u'location': u'body',
+                       u'name': u'data'}])
+    
+    response = self.app.put_json(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
-            self.tender_id, self.contract_id, doc_id, bid_token
-        ),
-        upload_files=[("file", "name.doc", "content2")],
+            self.tender_id, self.contract_id, doc_id, bid_token),
+        {
+            "data": {
+                "title": u"supplier_first_document_sign_updated.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+                "documentOf": "document",
+                "relatedItem": contract_doc_id,
+            }
+        },
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json["errors"],
+                     [{u'description': u"Supplier can update only 'application/pkcs7-signature' document format files",
+                       u'location': u'body',
+                       u'name': u'data'}])
+    
+    response = self.app.put_json(
+        "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
+            self.tender_id, self.contract_id, doc_id, bid_token),
+            {
+            "data": {
+                "title": u"supplier_first_document_sign_updated.pkcs7",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentOf": "document",
+                "relatedItem": "0"*32,
+            }
+        },
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u"location": u"body",
+                u"name": u"relatedItem",
+                u'description': [u'relatedItem should be one of documents']
+            }
+        ]
+    )
+    # Supplier
+    response = self.app.put_json(
+     "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
+            self.tender_id, self.contract_id, doc_id, bid_token),
+    {
+            "data": {
+                "title": u"supplier_first_document_sign.pkcs7",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentOf": "document",
+                "relatedItem": tender_document_id,
+            }
+        },
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json["errors"],
+                     [{u'description': u"relatedItem should be one of contract documents",
+                       u'location': u'body',
+                       u'name': u'data'}])
+
+    response = self.app.put_json(
+        "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
+            self.tender_id, self.contract_id, doc_id, bid_token),
+        {
+            "data": {
+                "title": u"supplier_first_document_sign_updated.pkcs7",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentOf": "document",
+                "relatedItem": contract_doc_id,
+            }
+        },
+        status=200
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
     key = response.json["data"]["url"].split("?")[-1]
 
-    response = self.app.get(
-        "/tenders/{}/contracts/{}/documents/{}?{}".format(self.tender_id, self.contract_id, doc_id, key)
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/msword")
-    self.assertEqual(response.content_length, 8)
-    self.assertEqual(response.body, "content2")
+    if self.docservice:
+        response = self.app.get("/tenders/{}/contracts/{}/documents/{}?download={}".format(self.tender_id, self.contract_id, doc_id, key))
+        self.assertEqual(response.status, "302 Moved Temporarily")
+        self.assertIn("http://localhost/get/", response.location)
+        self.assertIn("Signature=", response.location)
+        self.assertIn("KeyID=", response.location)
+        self.assertNotIn("Expires=", response.location)
+    else:
+        response = self.app.get(
+            "/tenders/{}/contracts/{}/documents/{}?download=some_id".format(self.tender_id, self.contract_id, doc_id),
+            status=404,
+        )
+        self.assertEqual(response.status, "404 Not Found")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"download"}]
+        )
+        response = self.app.get("/tenders/{}/contracts/{}/documents/{}?{}".format(self.tender_id, self.contract_id, doc_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/pkcs7-signature")
+        self.assertEqual(response.content_length, 8)
+        self.assertEqual(response.body, "content2")
 
     response = self.app.get("/tenders/{}/contracts/{}/documents/{}".format(self.tender_id, self.contract_id, doc_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    self.assertEqual("name.doc", response.json["data"]["title"])
+    self.assertEqual("supplier_first_document_sign_updated.pkcs7", response.json["data"]["title"])
 
     response = self.app.put(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
@@ -1532,19 +1859,39 @@ def put_tender_contract_document_by_supplier(self):
         ),
         "content3",
         content_type="application/msword",
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json["errors"],
+                     [{u'description': u"Supplier can update only 'application/pkcs7-signature' document format files",
+                       u'location': u'body',
+                       u'name': u'data'}])
+    
+    response = self.app.put(
+        "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
+            self.tender_id, self.contract_id, doc_id, bid_token
+        ),
+        "content3",
+        content_type="application/pkcs7-signature",
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
     key = response.json["data"]["url"].split("?")[-1]
 
-    response = self.app.get(
-        "/tenders/{}/contracts/{}/documents/{}?{}".format(self.tender_id, self.contract_id, doc_id, key)
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/msword")
-    self.assertEqual(response.content_length, 8)
-    self.assertEqual(response.body, "content3")
+    if self.docservice:
+        response = self.app.get("/tenders/{}/contracts/{}/documents/{}?download={}".format(self.tender_id, self.contract_id, doc_id, key))
+        self.assertEqual(response.status, "302 Moved Temporarily")
+        self.assertIn("http://localhost/get/", response.location)
+        self.assertIn("Signature=", response.location)
+        self.assertIn("KeyID=", response.location)
+        self.assertNotIn("Expires=", response.location)
+    else:
+        response = self.app.get("/tenders/{}/contracts/{}/documents/{}?{}".format(self.tender_id, self.contract_id, doc_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/pkcs7-signature")
+        self.assertEqual(response.content_length, 8)
+        self.assertEqual(response.body, "content3")
 
     tender = self.db.get(self.tender_id)
     tender["contracts"][-1]["status"] = "cancelled"
@@ -1562,14 +1909,22 @@ def put_tender_contract_document_by_supplier(self):
     self.assertEqual(response.json["errors"][0]["description"],
                      "Supplier can't update document in current contract status")
 
-    self.set_status("{}".format(self.forbidden_contract_document_modification_actions_status))
-
-    response = self.app.put(
+    self.set_status(self.forbidden_document_modification_actions_status)
+    
+    response = self.app.put_json(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
-            self.tender_id, self.contract_id, doc_id, bid_token
-        ),
-        upload_files=[("file", "name.doc", "content3")],
-        status=403,
+            self.tender_id, self.contract_id, doc_id, bid_token),
+    {
+            "data": {
+                "title": u"supplier_first_document_sign_updated1.pkcs7",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentOf": "document",
+                "relatedItem": contract_doc_id,
+            }
+        },
+        status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
@@ -1709,10 +2064,10 @@ def patch_tender_contract_document_by_supplier(self):
     response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, self.contract_id))
     contract = response.json["data"]
     self.assertEqual(response.json["data"]["status"], "pending")
+    
     doc = self.db.get(self.tender_id)
     bid_id = jmespath.search("awards[?id=='{}'].bid_id".format(contract["awardID"]), doc)[0]
     bid_token = jmespath.search("bids[?id=='{}'].owner_token".format(bid_id), doc)[0]
-
     for bid in doc.get("bids", []):
         if bid["id"] == bid_id and bid["status"] == "pending":
             bid["status"] = "active"
@@ -1721,39 +2076,159 @@ def patch_tender_contract_document_by_supplier(self):
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     if 'value' in doc['contracts'][0] and doc['contracts'][0]['value']['valueAddedTaxIncluded']:
         doc['contracts'][0]['value']['amountNet'] = str(float(doc['contracts'][0]['value']['amount']) - 1)
+    
+    tender_document = deepcopy(test_tender_full_document_data)
+    tender_document["url"] = self.generate_docservice_url()
+    doc["documents"] = [tender_document]
+    tender_document_id = doc["documents"][0]["id"]
     self.db.save(doc)
-
+    
+    #Tender owner
     response = self.app.post(
-        "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
-        upload_files=[("file", "name.doc", "content")],
+        "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
+        upload_files=[("file", "contract_first_document.doc", "content")],
+        status=201,
+    )
+    contract_doc_id = response.json["data"]["id"]
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    
+    # Supplier
+    response = self.app.post_json(
+    "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
+    {
+            "data": {
+                "title": u"supplier_first_document_sign.pkcs7",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentOf": "document",
+                "relatedItem": contract_doc_id,
+            }
+        },
         status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.json["errors"][0]["description"],
-                     "Supplier can't add document in current contract status")
-
+    self.assertEqual(response.json["errors"],
+                     [{u'description': u"Supplier can't add document in current contract status",
+                       u'location': u'body',
+                       u'name': u'data'}])
+    
+    # Tender owner
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
         {"data": {"status": "pending.winner-signing"}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
-
-    response = self.app.post(
-        "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
-        upload_files=[("file", "name.doc", "content")],
+    
+    # Supplier    
+    response = self.app.post_json(
+    "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
+    {
+            "data": {
+                "title": u"supplier_first_document_sign.pkcs7",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentOf": "document",
+                "relatedItem": contract_doc_id,
+            }
+        },
+        status=201
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
+    self.assertEqual("supplier_first_document_sign.pkcs7", response.json["data"]["title"])
+    key = response.json["data"]["url"].split("/")[-1].split("?")[0]
 
+    # Supplier
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
             self.tender_id, self.contract_id, doc_id, bid_token
         ),
-        {"data": {"description": "document description"}},
+        {"data": {"format": "application/msword"}},
+        status=403
     )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json["errors"],
+                     [{u'description': u"Supplier can update only 'application/pkcs7-signature' document format files",
+                       u'location': u'body',
+                       u'name': u'data'}])
+    
+    # Supplier 
+    response = self.app.patch_json(
+    "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
+            self.tender_id, self.contract_id, doc_id, bid_token),
+    {
+            "data": {
+                "title": u"supplier_first_document_sign.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+                "documentOf": "tender",
+                "relatedItem": self.tender_id
+            }
+        },
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json["errors"],
+                     [{u'description': u"Supplier can't update tender documents",
+                       u'location': u'body',
+                       u'name': u'data'}])
+    
+    response = self.app.patch_json(
+     "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
+            self.tender_id, self.contract_id, doc_id, bid_token),
+    {
+            "data": {
+                "title": u"supplier_first_document_sign.pkcs7",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentOf": "document",
+                "relatedItem": tender_document_id,
+            }
+        },
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json["errors"],
+                     [{u'description': u"relatedItem should be one of contract documents",
+                       u'location': u'body',
+                       u'name': u'data'}])
+    # Supplier
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
+            self.tender_id, self.contract_id, doc_id, bid_token
+        ),
+        {"data": {"relatedItem": "0"*32}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u"location": u"body",
+                u"name": u"relatedItem",
+                u"description": [
+                            u'relatedItem should be one of documents'
+                        ]
+            }
+        ]
+    )
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
+            self.tender_id, self.contract_id, doc_id, bid_token
+        ),
+        {"data": {"description": "description"}},
+        status=200
+    )   
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
@@ -1762,7 +2237,7 @@ def patch_tender_contract_document_by_supplier(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    self.assertEqual("document description", response.json["data"]["description"])
+    self.assertEqual("description", response.json["data"]["description"])
 
     tender = self.db.get(self.tender_id)
     tender["contracts"][-1]["status"] = "cancelled"
@@ -1864,20 +2339,48 @@ def lot2_create_tender_contract_document_by_supplier(self):
     response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, self.contract_id))
     contract = response.json["data"]
     self.assertEqual(response.json["data"]["status"], "pending")
+
     doc = self.db.get(self.tender_id)
     bid_id = jmespath.search("awards[?id=='{}'].bid_id".format(contract["awardID"]), doc)[0]
     bid_token = jmespath.search("bids[?id=='{}'].owner_token".format(bid_id), doc)[0]
 
-    # Supplier
+    tender_document = deepcopy(test_tender_full_document_data)
+    tender_document["url"] = self.generate_docservice_url()
+    doc["documents"] = [tender_document]
+    tender_document_id = doc["documents"][0]["id"]
+    self.db.save(doc)
+
+    #Tender owner
     response = self.app.post(
-        "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
-        upload_files=[("file", "name.doc", "content")],
-        status=403
+        "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
+        upload_files=[("file", "contract_first_document.doc", "content")],
+        status=201,
+    )
+    contract_doc_id = response.json["data"]["id"]
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+   
+    # Supplier
+    response = self.app.post_json(
+    "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
+    {
+            "data": {
+                "title": u"supplier_first1.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+                "documentOf": "document",
+                "relatedItem": contract_doc_id,
+            }
+        },
+        status = 403
     )
     self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.json["errors"][0]["description"],
-                     "Supplier can't add document in current contract status")
-
+    self.assertEqual(response.json["errors"],
+                     [{u'description': u"Supplier can't add document in current contract status",
+                       u'location': u'body',
+                       u'name': u'data'}])
+    
     # Tender owner
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
@@ -1885,18 +2388,128 @@ def lot2_create_tender_contract_document_by_supplier(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
-
     # Supplier
     response = self.app.post(
         "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "contract_first_document.doc", "content")],
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json["errors"],
+                     [{u'description': u"Supplier can't add contract documents",
+                       u'location': u'body',
+                       u'name': u'data'}])
+    
+    # Supplier
+    response = self.app.post_json(
+    "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
+    {
+            "data": {
+                "title": u"supplier_first_document_sign.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json["errors"],
+                     [{u'description': u"Supplier can't add tender documents",
+                       u'location': u'body',
+                       u'name': u'data'}])
+    
+    response = self.app.post_json(
+    "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
+    {
+            "data": {
+                "title": u"supplier_first_document_sign.pkcs7",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentOf": "document",
+                "relatedItem": tender_document_id,
+            }
+        },
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json["errors"],
+                     [{u'description': u"relatedItem should be one of contract documents",
+                       u'location': u'body',
+                       u'name': u'data'}])
+
+    # Supplier
+    response = self.app.post_json(
+    "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
+    {
+            "data": {
+                "title": u"supplier_first_document_sign.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+                "documentOf": "document",
+                "relatedItem": "0"*32,
+            }
+        },
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u"location": u"body",
+                u"name": u"relatedItem",
+                u"description": [
+
+                    u'relatedItem should be one of documents'
+                ]
+            }
+        ]
+    )
+    
+    response = self.app.post_json(
+    "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
+    {
+            "data": {
+                "title": u"supplier_first_document_sign.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+                "documentOf": "document",
+                "relatedItem": contract_doc_id,
+            }
+        },
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json["errors"],
+                     [{u'description': u"Supplier can add only 'application/pkcs7-signature' document format files",
+                       u'location': u'body',
+                       u'name': u'data'}])
+    
+    response = self.app.post_json(
+    "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
+    {
+            "data": {
+                "title": u"supplier_first_document_sign.pkcs7",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentOf": "document",
+                "relatedItem": contract_doc_id,
+            }
+        },
+        status=201
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
-    self.assertEqual("name.doc", response.json["data"]["title"])
-    key = response.json["data"]["url"].split("?")[-1]
+    self.assertEqual("supplier_first_document_sign.pkcs7", response.json["data"]["title"])
+    key = response.json["data"]["url"].split("/")[-1].split("?")[0]
 
     cancellation = dict(**test_cancellation)
     cancellation.update({
@@ -1913,10 +2526,19 @@ def lot2_create_tender_contract_document_by_supplier(self):
         activate_cancellation_after_2020_04_19(self, response.json['data']['id'])
 
     # Supplier
-    response = self.app.post(
-        "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
-        upload_files=[("file", "name.doc", "content")],
-        status=403,
+    response = self.app.post_json(
+    "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
+    {
+            "data": {
+                "title": u"supplier_first_document_sign.pkcs7",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentOf": "document",
+                "relatedItem": contract_doc_id,
+            }
+        },
+        status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
@@ -2048,14 +2670,39 @@ def lot2_put_tender_contract_document_by_supplier(self):
     response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, self.contract_id))
     contract = response.json["data"]
     self.assertEqual(response.json["data"]["status"], "pending")
+
     doc = self.db.get(self.tender_id)
     bid_id = jmespath.search("awards[?id=='{}'].bid_id".format(contract["awardID"]), doc)[0]
     bid_token = jmespath.search("bids[?id=='{}'].owner_token".format(bid_id), doc)[0]
+    
+    tender_document = deepcopy(test_tender_full_document_data)
+    tender_document["url"] = self.generate_docservice_url()
+    doc["documents"] = [tender_document]
+    tender_document_id = doc["documents"][0]["id"]
+    self.db.save(doc)
 
-    # Supplier
+    #Tender owner
     response = self.app.post(
-        "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
-        upload_files=[("file", "name.doc", "content")],
+        "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
+        upload_files=[("file", "contract_first_document.doc", "content")],
+        status=201,
+    )
+    contract_doc_id = response.json["data"]["id"]
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    # Supplier
+    response = self.app.post_json(
+    "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
+    {
+            "data": {
+                "title": u"supplier_first_document_sign.pkcs7",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentOf": "document",
+                "relatedItem": contract_doc_id,
+            }
+        },
         status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -2069,34 +2716,149 @@ def lot2_put_tender_contract_document_by_supplier(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
-
+    
     # Supplier
-    response = self.app.post(
-        "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
-        upload_files=[("file", "name.doc", "content")],
+    response = self.app.post_json(
+    "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
+    {
+            "data": {
+                "title": u"supplier_first_document_sign.pkcs7",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentOf": "document",
+                "relatedItem": contract_doc_id,
+            }
+        },
+        status=201
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
 
+    # Supplier
     response = self.app.put(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
-            self.tender_id, self.contract_id, doc_id, bid_token
-        ),
-        status=404,
-        upload_files=[("invalid_name", "name.doc", "content")],
+            self.tender_id, self.contract_id, doc_id, bid_token),
+        upload_files=[("file", "contract_first_document.doc", "content")],
+        status=403,
     )
-    self.assertEqual(response.status, "404 Not Found")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{u"description": u"Not Found", u"location": u"body", u"name": u"file"}])
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json["errors"],
+                     [{u'description': u"Supplier can't update contract documents",
+                       u'location': u'body',
+                       u'name': u'data'}])
+    
+    
+    # Supplier
+    response = self.app.put_json(
+    "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
+            self.tender_id, self.contract_id, doc_id, bid_token),
+    {
+            "data": {
+                "title": u"supplier_first_document_sign.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json["errors"],
+                     [{u'description': u"Supplier can't update tender documents",
+                       u'location': u'body',
+                       u'name': u'data'}])
+    
+    # Supplier
+    response = self.app.put_json(
+     "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
+            self.tender_id, self.contract_id, doc_id, bid_token),
+    {
+            "data": {
+                "title": u"supplier_first_document_sign.pkcs7",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentOf": "document",
+                "relatedItem": tender_document_id,
+            }
+        },
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json["errors"],
+                     [{u'description': u"relatedItem should be one of contract documents",
+                       u'location': u'body',
+                       u'name': u'data'}])
 
-    response = self.app.put(
+    response = self.app.put_json(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
-            self.tender_id, self.contract_id, doc_id, bid_token
-        ),
-        upload_files=[("file", "name.doc", "content2")],
+            self.tender_id, self.contract_id, doc_id, bid_token),
+        {
+            "data": {
+                "title": u"supplier_first_document_sign_updated.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+                "documentOf": "document",
+                "relatedItem": contract_doc_id,
+            }
+        },
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json["errors"],
+                     [{u'description': u"Supplier can update only 'application/pkcs7-signature' document format files",
+                       u'location': u'body',
+                       u'name': u'data'}])
+    
+    response = self.app.put_json(
+        "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
+            self.tender_id, self.contract_id, doc_id, bid_token),
+            {
+            "data": {
+                "title": u"supplier_first_document_sign_updated.pkcs7",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentOf": "document",
+                "relatedItem": "0"*32,
+            }
+        },
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u"location": u"body",
+                u"name": u"relatedItem",
+                u"description": [
+                                    u'relatedItem should be one of documents'
+                                ]
+                    
+            }
+        ]
+    )
+    
+    response = self.app.put_json(
+        "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
+            self.tender_id, self.contract_id, doc_id, bid_token),
+        {
+            "data": {
+                "title": u"supplier_first_document_sign_updated.pkcs7",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentOf": "document",
+                "relatedItem": contract_doc_id,
+            }
+        },
+        status=200
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -2126,6 +2888,22 @@ def lot2_put_tender_contract_document_by_supplier(self):
         upload_files=[("file", "name.doc", "content3")],
         status=403,
     )
+    response = self.app.put_json(
+        "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
+            self.tender_id, self.contract_id, doc_id, bid_token),
+    {
+            "data": {
+                "title": u"supplier_first_document_sign_updated.pkcs7",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentOf": "document",
+                "relatedItem": contract_doc_id,
+            }
+        },
+        status=403
+    )
+   
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["errors"][0]["description"], "Can update document only in active lot status")
@@ -2207,10 +2985,56 @@ def lot2_patch_tender_contract_document_by_supplier(self):
     response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, self.contract_id))
     contract = response.json["data"]
     self.assertEqual(response.json["data"]["status"], "pending")
+
     doc = self.db.get(self.tender_id)
     bid_id = jmespath.search("awards[?id=='{}'].bid_id".format(contract["awardID"]), doc)[0]
     bid_token = jmespath.search("bids[?id=='{}'].owner_token".format(bid_id), doc)[0]
+    for bid in doc.get("bids", []):
+        if bid["id"] == bid_id and bid["status"] == "pending":
+            bid["status"] = "active"
+    for i in doc.get("awards", []):
+        if 'complaintPeriod' in i:
+            i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+    if 'value' in doc['contracts'][0] and doc['contracts'][0]['value']['valueAddedTaxIncluded']:
+        doc['contracts'][0]['value']['amountNet'] = str(float(doc['contracts'][0]['value']['amount']) - 1)
+    
+    tender_document = deepcopy(test_tender_full_document_data)
+    tender_document["url"] = self.generate_docservice_url()
+    doc["documents"] = [tender_document]
+    tender_document_id = doc["documents"][0]["id"]
+    self.db.save(doc)
 
+    #Tender owner
+    response = self.app.post(
+        "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
+        upload_files=[("file", "contract_first_document.doc", "content")],
+        status=201,
+    )
+    contract_doc_id = response.json["data"]["id"]
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    
+    # Supplier
+    response = self.app.post_json(
+    "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
+    {
+            "data": {
+                "title": u"supplier_first_document_sign.pkcs7",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentOf": "document",
+                "relatedItem": contract_doc_id,
+            }
+        },
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json["errors"],
+                     [{u'description': u"Supplier can't add document in current contract status",
+                       u'location': u'body',
+                       u'name': u'data'}])
+    
     # Tender owner
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
@@ -2218,23 +3042,135 @@ def lot2_patch_tender_contract_document_by_supplier(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
-
-    # Supplier
-    response = self.app.post(
-        "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
-        upload_files=[("file", "name.doc", "content")],
+ 
+    # Supplier    
+    response = self.app.post_json(
+    "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
+    {
+            "data": {
+                "title": u"supplier_first_document_sign.pkcs7",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentOf": "document",
+                "relatedItem": contract_doc_id,
+            }
+        },
+        status=201
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
-
+    
+    # Supplier 
+    response = self.app.patch_json(
+    "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
+            self.tender_id, self.contract_id, doc_id, bid_token),
+    {
+            "data": {
+                "title": u"supplier_first_document_sign.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+                "documentOf": "tender",
+                "relatedItem": self.tender_id
+            }
+        },
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json["errors"],
+                     [{u'description': u"Supplier can't update tender documents",
+                       u'location': u'body',
+                       u'name': u'data'}])
+    # Supplier
+    response = self.app.patch_json(
+     "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
+            self.tender_id, self.contract_id, doc_id, bid_token),
+    {
+            "data": {
+                "title": u"supplier_first_document_sign.pkcs7",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentOf": "document",
+                "relatedItem": tender_document_id,
+            }
+        },
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json["errors"],
+                     [{u'description': u"relatedItem should be one of contract documents",
+                       u'location': u'body',
+                       u'name': u'data'}])
+    # Supplier
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
+            self.tender_id, self.contract_id, doc_id, bid_token
+        ),
+        {"data": {"format": "application/msword"}},
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json["errors"],
+                     [{u'description': u"Supplier can update only 'application/pkcs7-signature' document format files",
+                       u'location': u'body',
+                       u'name': u'data'}])
+    
+    # Supplier
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
+            self.tender_id, self.contract_id, doc_id, bid_token
+        ),
+        {"data": {"relatedItem": "0"*32}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u"location": u"body",
+                u"name": u"relatedItem",
+                u"description": [
+                            u'relatedItem should be one of documents'
+                        ]
+            }
+        ]
+    )
+    
+    # Supplier 
+    response = self.app.patch_json(
+    "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
+            self.tender_id, self.contract_id, doc_id, bid_token),
+    {
+            "data": {
+                "title": u"supplier_first_document_sign.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+                "documentOf": "tender",
+                "relatedItem": self.tender_id
+            }
+        },
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json["errors"],
+                     [{u'description': u"Supplier can't update tender documents",
+                       u'location': u'body',
+                       u'name': u'data'}])
+    # Supplier
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
             self.tender_id, self.contract_id, doc_id, bid_token
         ),
         {"data": {"description": "document description"}},
-    )
+        status=200
+    )   
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])

@@ -34,6 +34,7 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
 class TenderContractResourceTest(BaseTenderUAContentWebTest, TenderContractResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_bids
+    docservice = True
 
     def setUp(self):
         super(TenderContractResourceTest, self).setUp()
@@ -71,6 +72,7 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest, TenderContractResou
 class TenderContractVATNotIncludedResourceTest(BaseTenderUAContentWebTest, TenderContractResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_bids
+    docservice = True
 
     def create_award(self):
         authorization = self.app.authorization
@@ -112,7 +114,8 @@ class TenderContractVATNotIncludedResourceTest(BaseTenderUAContentWebTest, Tende
 class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest, TenderContractDocumentResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_bids
-
+    docservice = True
+    
     def setUp(self):
         super(TenderContractDocumentResourceTest, self).setUp()
         # Create award

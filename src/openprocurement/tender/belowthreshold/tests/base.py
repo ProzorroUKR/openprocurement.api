@@ -103,6 +103,17 @@ test_tender_document_data = {
     "format": "application/pdf"
 }
 
+test_tender_full_document_data = {
+        "hash": "md5:00000000000000000000000000000000",
+        "author": "tender_owner",
+        "format": "application/msword",
+        "title": "tender_document.doc",
+        "documentOf": "tender",
+        "datePublished": "2020-04-23T14:31:34.217330+03:00",
+        "dateModified": "2020-04-23T14:31:34.217368+03:00",
+        "id": uuid4().hex
+}
+
 if SANDBOX_MODE:
     test_tender_data["procurementMethodDetails"] = "quick, accelerator=1440"
 test_features_tender_data = test_tender_data.copy()

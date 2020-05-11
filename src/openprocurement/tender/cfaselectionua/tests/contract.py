@@ -143,7 +143,8 @@ class TenderContractDocumentResourceTest(TenderContentWebTest, TenderContractDoc
     initial_status = "active.awarded"
     initial_bids = test_bids
     initial_lots = test_lots
-
+    docservice = True
+    
     test_create_tender_contract_document_by_supplier = snitch(create_tender_contract_document_by_supplier)
     test_create_tender_contract_document_by_others = snitch(create_tender_contract_document_by_others)
     test_put_tender_contract_document_by_supplier = snitch(put_tender_contract_document_by_supplier)
