@@ -198,6 +198,11 @@ class PriceQuotationTender(Tender):
     procuring_entity_kinds = ["general", "special",
                               "defense", "central", "other"]
 
+    def validate_milestones(self, data, value):
+        # a hack to avoid duplicating all bese model fields
+        if value:
+            raise ValidationError("Milestones are not applicable to pricequotation")
+
     def get_role(self):
         root = self.__parent__
         request = root.request

@@ -41,10 +41,8 @@ from openprocurement.tender.pricequotation.tests.tender_blanks import (
     required_field_deletion,
     tender_funders,
     tender_with_main_procurement_category,
-    tender_finance_milestones,
     create_tender_with_inn,
     create_tender_with_inn_before,
-    tender_milestones_required,
     tender_token_invalid,
     create_tender_central,
     create_tender_central_invalid,
@@ -69,7 +67,6 @@ class TenderResourceTestMixin(object):
     test_patch_not_author = snitch(patch_not_author)
     test_tender_funders = snitch(tender_funders)
     test_tender_with_main_procurement_category = snitch(tender_with_main_procurement_category)
-    test_tender_finance_milestones = snitch(tender_finance_milestones)
     test_tender_token_invalid = snitch(tender_token_invalid)
 
 
@@ -100,7 +97,6 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_required_field_deletion = snitch(required_field_deletion)
     test_create_tender_with_inn = snitch(create_tender_with_inn)
     test_create_tender_with_inn_before = snitch(create_tender_with_inn_before)
-    test_tender_milestones_required = snitch(tender_milestones_required)
     test_patch_tender_by_pq_bot = snitch(patch_tender_by_pq_bot)
 
 

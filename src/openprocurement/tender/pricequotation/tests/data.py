@@ -207,7 +207,6 @@ test_tender_data = {
     "items": [deepcopy(test_item)],
     "tenderPeriod": {"endDate": (now + timedelta(days=14)).isoformat()},
     "procurementMethodType": PMT,
-    "milestones": test_milestones,
 }
 if SANDBOX_MODE:
     test_tender_data["procurementMethodDetails"] = "quick, accelerator=1440"

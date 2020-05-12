@@ -26,10 +26,11 @@ from openprocurement.tender.pricequotation.tests.base import (
     test_short_profile,
     test_requirement_response_valid,
 )
-
+from openprocurement.tender.pricequotation.tests.data import test_milestones
 # TenderTest
 from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.pricequotation.constants import PMT
+
 
 def simple_add_tender(self):
 
@@ -568,7 +569,19 @@ def create_tender_invalid(self):
         ],
     )
 
-
+    data = deepcopy(self.initial_data)
+    data['milestones'] = test_milestones
+    response = self.app.post_json(request_path, {"data": data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"], [{
+            u"description": [u"Milestones are not applicable to pricequotation"],
+            u"location": u"body",
+            u"name": u"milestones"
+        }],
+    )
 
 
 def create_tender_with_inn(self):
@@ -635,7 +648,6 @@ def create_tender_generated(self):
                 u"title",
                 u"owner",
                 u"mainProcurementCategory",
-                u"milestones",
                 u"profile"
             ]
         ),
@@ -720,7 +732,6 @@ def tender_owner_can_change_in_draft(self):
         "awardCriteriaDetails_ru": u"Test criteria 6"
     }
     lists = {
-        "milestones": deepcopy(data["milestones"]),
         "buyers": [
             {
                 "name": u"John Doe",
@@ -752,7 +763,6 @@ def tender_owner_can_change_in_draft(self):
             }
         ]
     }
-    lists["milestones"][1]["title"] = "submittingServices"
     status = {
         "status": "draft.publishing"
     }
@@ -848,10 +858,6 @@ def tender_owner_can_change_in_draft(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
-
-    self.assertEqual(tender["milestones"][0]["title"], data["milestones"][0]["title"])
-    self.assertNotEqual(tender["milestones"][1]["title"], data["milestones"][1]["title"])
-    self.assertEqual(tender["milestones"][1]["title"], lists["milestones"][1]["title"])
 
     self.assertEqual(tender["funders"], lists["funders"])
     self.assertEqual(tender["buyers"], lists["buyers"])
@@ -1285,19 +1291,22 @@ def patch_tender(self):
     owner_token = response.json["access"]["token"]
     dateModified = tender.pop("dateModified")
 
-    # response = self.app.patch_json(
-    #     "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"status": "cancelled"}}
-    # )
-    # self.assertEqual(response.status, "200 OK")
-    # self.assertEqual(response.content_type, "application/json")
-    # self.assertNotEqual(response.json["data"]["status"], "cancelled")
-
-    # response = self.app.patch_json(
-    #     "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"status": "cancelled"}}
-    # )
-    # self.assertEqual(response.status, "200 OK")
-    # self.assertEqual(response.content_type, "application/json")
-    # self.assertNotEqual(response.json["data"]["status"], "cancelled")
+    
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
+        {"data": {"milestones": test_milestones}},
+        status=422
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"], [{
+            u"description": [u"Milestones are not applicable to pricequotation"],
+            u"location": u"body",
+            u"name": u"milestones"
+        }],
+    )
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"procuringEntity": {"kind": "defense"}}}
@@ -2018,88 +2027,6 @@ def tender_with_main_procurement_category(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertNotEqual(response.json["data"]["mainProcurementCategory"], "works")
-
-
-def tender_finance_milestones(self):
-    data = dict(**self.initial_data)
-
-    # test creation
-    data["milestones"] = [
-        {
-            "id": "a" * 32,
-            "title": "signingTheContract",
-            "code": "prepayment",
-            "type": "financing",
-            "duration": {"days": 2, "type": "banking"},
-            "sequenceNumber": 0,
-            "percentage": 45.55,
-        },
-        {
-            "title": "deliveryOfGoods",
-            "code": "postpayment",
-            "type": "financing",
-            "duration": {"days": 999, "type": "calendar"},
-            "sequenceNumber": 0,
-            "percentage": 54.45,
-        },
-    ]
-    response = self.app.post_json("/tenders", {"data": data})
-    self.assertEqual(response.status, "201 Created")
-    tender = response.json["data"]
-    self.assertIn("milestones", tender)
-    self.assertEqual(len(tender["milestones"]), 2)
-    for milestone in tender["milestones"]:
-        self.assertEqual(
-            set(milestone.keys()), {"id", "code", "duration", "percentage", "type", "sequenceNumber", "title"}
-        )
-    self.assertEqual(data["milestones"][0]["id"], tender["milestones"][0]["id"])
-    token = response.json["access"]["token"]
-    self.tender_id = tender["id"]
-
-    # test success update tender in active.enquiries status
-    new_title = "endDateOfTheReportingPeriod"
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": {"milestones": [{}, {"title": new_title}]}}
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertIn("milestones", response.json["data"])
-    milestones = response.json["data"]["milestones"]
-    self.assertEqual(len(milestones), 2)
-    self.assertEqual(milestones[0]["title"], tender["milestones"][0]["title"])
-    self.assertEqual(milestones[1]["title"], new_title)
-
-    # test fail update milestones in active.tendering status
-    self.set_status("active.tendering")
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": {"milestones": [{"title": new_title}, {}]}}
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertNotEqual(response.json["data"]["milestones"][0]["title"], new_title)
-    self.assertEqual(response.json["data"]["milestones"][0]["title"], tender["milestones"][0]["title"])
-
-
-def tender_milestones_required(self):
-    data = dict(**self.initial_data)
-    data["milestones"] = []
-
-    response = self.app.post_json("/tenders", {"data": data}, status=422)
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                u"location": u"body",
-                u"name": u"milestones",
-                u"description": [u"Tender should contain at least one milestone"],
-            }
-        ],
-    )
-
-
-def tender_milestones_not_required(self):
-    data = dict(**self.initial_data)
-    data["milestones"] = []
-
-    self.app.post_json("/tenders", {"data": data}, status=201)
 
 
 def tender_token_invalid(self):
