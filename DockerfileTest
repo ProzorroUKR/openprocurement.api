@@ -1,0 +1,12 @@
+# Dockerfile is not optimized, for optimized build use werf.yml
+FROM python:2.7
+
+RUN apt-get update && apt-get install -y libsodium-dev
+RUN pip install --upgrade pip setuptools
+
+WORKDIR /app
+COPY . /app
+
+RUN python setup.py install
+
+CMD ["sleep", "infinity"]

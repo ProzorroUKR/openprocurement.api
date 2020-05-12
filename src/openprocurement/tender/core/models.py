@@ -60,6 +60,7 @@ from openprocurement.tender.core.utils import (
     restrict_value_to_bounds, round_up_to_ten,
     get_contract_supplier_roles, get_contract_supplier_permissions,
     calculate_tender_business_date,
+    prepare_award_milestones,
 )
 from openprocurement.tender.core.validation import (
     validate_lotvalue_value,
@@ -1020,9 +1021,16 @@ class QualificationMilestone(Model):
         }
 
     @serializable(serialized_name="dueDate")
-    def set_24h_due_date(self):
-        if self.code == self.CODE_24_HOURS and not self.dueDate:
-            self.dueDate = calculate_tender_business_date(self.date, timedelta(hours=24), get_tender(self))
+    def set_due_date(self):
+        if not self.dueDate:
+            if self.code == self.CODE_24_HOURS:
+                self.dueDate = calculate_tender_business_date(
+                    self.date, timedelta(hours=24), get_tender(self)
+                )
+            elif self.code == self.CODE_LOW_PRICE:
+                self.dueDate = calculate_tender_business_date(
+                    self.date, timedelta(days=1), get_tender(self), working_days=True
+                )
         return self.dueDate and self.dueDate.isoformat()
 
 
@@ -1478,6 +1486,30 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
             ]
 
         acl.extend(acl_cancellation_complaints)
+
+    def append_award(self, bid,  all_bids, lot_id=None):
+        now = get_now()
+        award_data = {
+            "bid_id": bid["id"],
+            "lotID": lot_id,
+            "status": "pending",
+            "date": now,
+            "value": bid["value"],
+            "suppliers": bid["tenderers"],
+            "complaintPeriod": {"startDate": now},  # TODO: should I remove this for cfaua ?
+        }
+        # append an "alp" milestone if it's the case
+        award_class = self.__class__.awards.model_class
+        if (
+            hasattr(award_class, "milestones") 
+            and getattr(self, "procurementMethodType", "") != "esco"
+            and get_first_revision_date(self, default=get_now()) > RELEASE_2020_04_19
+        ):
+            award_data["milestones"] = prepare_award_milestones(self, bid, all_bids, lot_id)
+
+        award = award_class(award_data)
+        award.__parent__ = self
+        self.awards.append(award)
 
 
 class Tender(BaseTender):

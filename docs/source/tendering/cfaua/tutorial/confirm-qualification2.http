@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/awards/f0a4ebb65d774adc88df5718449f7d75?acc_token=1e40f3cf3fd64b8ebca3076b70a86e71 HTTP/1.0
+PATCH /api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/awards/58aa9c80eeb345e998dc764a75f940ee?acc_token=1e40f3cf3fd64b8ebca3076b70a86e71 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 67
 Content-Type: application/json
@@ -42,15 +42,18 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
+    "complaintPeriod": {
+      "startDate": "2020-05-01T01:00:00+03:00"
+    }, 
     "bid_id": "5a84740ed0bd4aa3830adfb56c49ed62", 
     "value": {
       "currency": "UAH", 
-      "amount": 5, 
+      "amount": 485, 
       "valueAddedTaxIncluded": true
     }, 
     "qualified": true, 
     "date": "2020-05-01T01:00:00+03:00", 
-    "id": "f0a4ebb65d774adc88df5718449f7d75"
+    "id": "58aa9c80eeb345e998dc764a75f940ee"
   }
 }
 

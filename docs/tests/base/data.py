@@ -239,7 +239,7 @@ lot_bid3 = {
     "tenderers": [tenderer3],
     "lotValues": [{
         "value": {
-            "amount": 5
+            "amount": 485
         },
         "relatedLot": "f" * 32
     }]

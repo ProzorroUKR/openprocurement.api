@@ -3,7 +3,6 @@ import os
 from copy import deepcopy
 from datetime import timedelta
 from openprocurement.api.utils import get_now
-from time import sleep
 from uuid import uuid4
 
 from openprocurement.tender.cfaua.tests.base import test_tender_data
@@ -104,10 +103,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'blank-tender-view.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}'.format(tender['id']))
             self.assertEqual(response.status, '200 OK')
-
-        # Let DB index new tender
-        self.app.get('/tenders')
-        sleep(2)
 
         with open(TARGET_DIR + 'initial-tender-listing.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders')

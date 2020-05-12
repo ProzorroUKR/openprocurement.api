@@ -241,6 +241,29 @@ See the `Bid.participationUrl` in the response. Similar, but different, URL can 
 .. include:: http/bidder2-participation-url.http
    :code:
 
+
+Abnormally low price
+--------------------
+
+An award can contain a milestone of type ``apl`` 
+
+.. include:: http/get-awards-list.http
+   :code:
+
+
+Procuring entity cannot change the status of the award before ``milestone.dueDate``
+
+.. include:: http/fail-disqualification.http
+   :code:
+
+
+During this time the bidder can upload ``evidence`` documents to his bid
+
+.. include:: http/post-evidence-document.http
+   :code:
+
+
+
 Confirming qualification
 ------------------------
 

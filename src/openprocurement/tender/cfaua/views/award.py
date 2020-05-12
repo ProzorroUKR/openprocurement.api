@@ -5,6 +5,7 @@ from openprocurement.tender.core.validation import (
     validate_update_award_only_for_active_lots,
     validate_update_award_with_accepted_complaint,
     validate_operation_with_lot_cancellation_in_pending,
+    validate_update_status_before_milestone_due_date,
 )
 from openprocurement.tender.core.utils import apply_patch, optendersresource, save_tender
 from openprocurement.tender.openua.views.award import TenderUaAwardResource as BaseResource
@@ -31,6 +32,7 @@ class TenderAwardResource(BaseResource):
             validate_update_award_in_not_allowed_status,
             validate_update_award_only_for_active_lots,
             validate_update_award_with_accepted_complaint,
+            validate_update_status_before_milestone_due_date,
         ),
     )
     def patch(self):

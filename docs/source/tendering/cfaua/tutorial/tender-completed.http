@@ -211,7 +211,7 @@ Content-Type: application/json; charset=UTF-8
             ], 
             "bidID": "5a84740ed0bd4aa3830adfb56c49ed62", 
             "date": "2020-05-01T01:00:00+03:00", 
-            "awardID": "f0a4ebb65d774adc88df5718449f7d75", 
+            "awardID": "58aa9c80eeb345e998dc764a75f940ee", 
             "id": "2221451d71af4bfa803fd5b9382103ed"
           }, 
           {
@@ -259,7 +259,7 @@ Content-Type: application/json; charset=UTF-8
             ], 
             "bidID": "e88e8fc3020640178a79c6e66d3dfd5f", 
             "date": "2020-05-01T01:00:00+03:00", 
-            "awardID": "331d2ebbb3b94173b610e325e2423686", 
+            "awardID": "e39130af90ba485cacb7cdc36cdfc089", 
             "id": "d5c9e2e28ee74a67a078c87bf9967a53"
           }, 
           {
@@ -307,7 +307,7 @@ Content-Type: application/json; charset=UTF-8
             ], 
             "bidID": "410cb59a0945497eb61cc4461f661569", 
             "date": "2020-05-01T01:00:00+03:00", 
-            "awardID": "57a34dbba3aa422eb0fdaaa1ef9014f3", 
+            "awardID": "fead43daad534c50b0dc2da8b64ccfbb", 
             "id": "713faef521cf4366b30696f427b2f171"
           }
         ], 
@@ -473,15 +473,18 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
+        "complaintPeriod": {
+          "startDate": "2020-05-01T01:00:00+03:00"
+        }, 
         "bid_id": "5a84740ed0bd4aa3830adfb56c49ed62", 
         "value": {
           "currency": "UAH", 
-          "amount": 5, 
+          "amount": 485, 
           "valueAddedTaxIncluded": true
         }, 
         "qualified": true, 
         "date": "2020-05-01T01:00:00+03:00", 
-        "id": "556cf3c88b3c46e392f0dfcb53512f30"
+        "id": "e0c3972875d54e50b19bf7ae10ee3c34"
       }, 
       {
         "status": "cancelled", 
@@ -510,6 +513,9 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
+        "complaintPeriod": {
+          "startDate": "2020-05-01T01:00:00+03:00"
+        }, 
         "bid_id": "e88e8fc3020640178a79c6e66d3dfd5f", 
         "value": {
           "currency": "UAH", 
@@ -518,7 +524,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "qualified": true, 
         "date": "2020-05-01T01:00:00+03:00", 
-        "id": "d17ce96fc87f42eb90b4caaf14027817"
+        "id": "e964909f2da348cd873e2ec8f82472fe"
       }, 
       {
         "status": "cancelled", 
@@ -547,6 +553,9 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
+        "complaintPeriod": {
+          "startDate": "2020-05-01T01:00:00+03:00"
+        }, 
         "bid_id": "410cb59a0945497eb61cc4461f661569", 
         "value": {
           "currency": "UAH", 
@@ -555,7 +564,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "qualified": true, 
         "date": "2020-05-01T01:00:00+03:00", 
-        "id": "941ba34485a04e43b0c8481c3ad6150b"
+        "id": "5c98ac22db804396afc15fcff04fbe74"
       }, 
       {
         "status": "cancelled", 
@@ -589,11 +598,11 @@ Content-Type: application/json; charset=UTF-8
         "bid_id": "5a84740ed0bd4aa3830adfb56c49ed62", 
         "value": {
           "currency": "UAH", 
-          "amount": 5, 
+          "amount": 485, 
           "valueAddedTaxIncluded": true
         }, 
         "date": "2020-05-01T01:00:00+03:00", 
-        "id": "14c062694ea24c04adc72122494bbf9d"
+        "id": "00fee4e7a05846f986b6caa3c9ec1d47"
       }, 
       {
         "status": "active", 
@@ -629,12 +638,12 @@ Content-Type: application/json; charset=UTF-8
         "bid_id": "5a84740ed0bd4aa3830adfb56c49ed62", 
         "value": {
           "currency": "UAH", 
-          "amount": 5, 
+          "amount": 485, 
           "valueAddedTaxIncluded": true
         }, 
         "qualified": true, 
         "date": "2020-05-01T01:00:00+03:00", 
-        "id": "f0a4ebb65d774adc88df5718449f7d75"
+        "id": "58aa9c80eeb345e998dc764a75f940ee"
       }, 
       {
         "status": "active", 
@@ -675,7 +684,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "qualified": true, 
         "date": "2020-05-01T01:00:00+03:00", 
-        "id": "331d2ebbb3b94173b610e325e2423686"
+        "id": "e39130af90ba485cacb7cdc36cdfc089"
       }, 
       {
         "status": "active", 
@@ -716,7 +725,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "qualified": true, 
         "date": "2020-05-01T01:00:00+03:00", 
-        "id": "57a34dbba3aa422eb0fdaaa1ef9014f3"
+        "id": "fead43daad534c50b0dc2da8b64ccfbb"
       }
     ], 
     "date": "2020-05-01T01:00:01+03:00", 
@@ -1122,7 +1131,7 @@ Content-Type: application/json; charset=UTF-8
             "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/e5172ebc4c4c411f84f376ce6ede43b8_c7555f1bb878434d8815dea318304673?key_for_bid=5a84740ed0bd4aa3830adfb56c49ed62", 
             "value": {
               "currency": "UAH", 
-              "amount": 5, 
+              "amount": 485, 
               "valueAddedTaxIncluded": true
             }
           }

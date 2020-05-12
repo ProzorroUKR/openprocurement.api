@@ -3,7 +3,7 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUContentWebTest,
     test_bids,
 )
-from openprocurement.tender.core.tests.qualification_milestone import TenderQualificationMilestoneMixin
+from openprocurement.tender.core.tests.qualification_milestone import TenderQualificationMilestone24HMixin
 from copy import deepcopy
 
 
@@ -29,11 +29,11 @@ class TenderPreQualificationMixin(object):
         self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
 
-class TenderUAQualificationMilestoneTestCase(TenderQualificationMilestoneMixin, TenderPreQualificationMixin,
+class TenderUAQualificationMilestoneTestCase(TenderQualificationMilestone24HMixin, TenderPreQualificationMixin,
                                              BaseCompetitiveDialogUAContentWebTest):
     pass
 
 
-class TenderEUQualificationMilestoneTestCase(TenderQualificationMilestoneMixin, TenderPreQualificationMixin,
+class TenderEUQualificationMilestoneTestCase(TenderQualificationMilestone24HMixin, TenderPreQualificationMixin,
                                              BaseCompetitiveDialogEUContentWebTest):
     pass

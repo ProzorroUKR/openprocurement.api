@@ -1067,7 +1067,7 @@ def bids_invalidation_on_tender_change(self):
         ],
     )
     # and submit valid bid
-    data = self.test_bids_data[0]
+    data = deepcopy(self.test_bids_data[0])
     data["value"]["amount"] = 299
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data})
     self.assertEqual(response.status, "201 Created")
