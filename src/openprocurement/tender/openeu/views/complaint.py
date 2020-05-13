@@ -17,9 +17,3 @@ class TenderEUComplaintResource(BaseTenderComplaintResource):
     
     def validate_update_claim_time_method(self, request):
         return validate_update_claim_time(request)
-
-    def complaints_len(self, tender):
-        return sum(
-            [len(i.complaints) for i in tender.awards],
-            sum([len(i.complaints) for i in tender.qualifications], len(tender.complaints)),
-        )

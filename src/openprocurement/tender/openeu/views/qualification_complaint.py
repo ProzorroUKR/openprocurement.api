@@ -13,7 +13,8 @@ from openprocurement.tender.core.utils import (
     apply_patch, 
     save_tender,
     get_first_revision_date,
-    get_now
+    get_now,
+    calculate_total_complaints,
 )
 from openprocurement.tender.openeu.views.award_complaint import TenderEUAwardComplaintResource
 from openprocurement.tender.core.views.award_complaint import get_bid_id
@@ -77,7 +78,11 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
             and self.context.bidID != complaint.bid_id
         ):
             raise_operation_error(self.request, "Can add claim only on unsuccessful qualification of your bid")
-        complaint.complaintID = "{}.{}{}".format(tender.tenderID, self.server_id, self.complaints_len(tender) + 1)
+        complaint.complaintID = "{}.{}{}".format(
+            tender.tenderID,
+            self.server_id,
+            calculate_total_complaints(tender) + 1,
+        )
         access = set_ownership(complaint, self.request)
         self.context.complaints.append(complaint)
         if save_tender(self.request):
