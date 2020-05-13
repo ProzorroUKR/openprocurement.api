@@ -12,8 +12,8 @@ PROCEDURES = {
         "competitiveDialogueEU",
         "esco",
         "closeFrameworkAgreementUA",
-        "priceQuotation",
     ),
+    "selective": ("priceQuotation",),
     "limited": ("reporting", "negotiation", "negotiation.quick"),
 }
 
