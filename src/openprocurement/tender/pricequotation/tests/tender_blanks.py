@@ -1187,7 +1187,6 @@ def tender_fields(self):
                 u"tenderID",
                 u"date",
                 u"status",
-                u"procurementMethod",
                 u"awardCriteria",
                 u"submissionMethod",
                 u"owner",
