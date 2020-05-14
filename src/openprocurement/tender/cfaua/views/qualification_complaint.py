@@ -14,7 +14,7 @@ from openprocurement.tender.core.validation import (
     validate_award_complaint_add_only_for_active_lots,
     validate_update_complaint_not_in_allowed_complaint_status,
 )
-from openprocurement.tender.core.utils import apply_patch, save_tender
+from openprocurement.tender.core.utils import apply_patch, save_tender, calculate_total_complaints
 from openprocurement.tender.cfaua.views.award_complaint import TenderEUAwardComplaintResource
 from openprocurement.tender.core.views.award_complaint import get_bid_id
 from openprocurement.tender.cfaua.utils import qualifications_resource
@@ -73,7 +73,11 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
             and self.context.bidID != complaint.bid_id
         ):
             raise_operation_error(self.request, "Can add claim only on unsuccessful qualification of your bid")
-        complaint.complaintID = "{}.{}{}".format(tender.tenderID, self.server_id, self.complaints_len(tender) + 1)
+        complaint.complaintID = "{}.{}{}".format(
+            tender.tenderID,
+            self.server_id,
+            calculate_total_complaints(tender) + 1,
+        )
         access = set_ownership(complaint, self.request)
         self.context.complaints.append(complaint)
         if save_tender(self.request):

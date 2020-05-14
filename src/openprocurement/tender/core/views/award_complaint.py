@@ -23,7 +23,7 @@ from openprocurement.tender.core.validation import (
     validate_add_complaint_with_lot_cancellation_in_pending
 )
 from openprocurement.tender.belowthreshold.utils import check_tender_status
-from openprocurement.tender.core.utils import save_tender, apply_patch
+from openprocurement.tender.core.utils import save_tender, apply_patch, calculate_total_complaints
 
 
 def get_bid_id(request):
@@ -116,7 +116,11 @@ class BaseTenderAwardComplaintResource(BaseTenderComplaintResource):
         
         complaint = self.pre_create()
         
-        complaint.complaintID = "{}.{}{}".format(tender.tenderID, self.server_id, self.complaints_len(tender) + 1)
+        complaint.complaintID = "{}.{}{}".format(
+            tender.tenderID,
+            self.server_id,
+            calculate_total_complaints(tender) + 1,
+        )
         access = set_ownership(complaint, self.request)
         self.context.complaints.append(complaint)
         if save_tender(self.request):

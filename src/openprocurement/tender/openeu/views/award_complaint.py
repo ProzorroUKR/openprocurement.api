@@ -11,8 +11,4 @@ from openprocurement.tender.core.views.award_complaint import BaseTenderAwardCom
     description="Tender EU award complaints",
 )
 class TenderEUAwardComplaintResource(BaseTenderAwardComplaintResource):
-    def complaints_len(self, tender):
-        return sum(
-            [len(i.complaints) for i in tender.awards],
-            sum([len(i.complaints) for i in tender.qualifications], len(tender.complaints)),
-        )
+    pass

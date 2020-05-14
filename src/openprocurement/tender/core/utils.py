@@ -395,18 +395,16 @@ def round_up_to_ten(value):
 
 
 def calculate_total_complaints(tender):
-    total_complaints = sum([len(i.complaints) for i in tender.cancellations])
+    total_complaints = sum([len(i.get("complaints", [])) for i in tender.cancellations])
 
     if hasattr(tender, "awards"):
         total_complaints += sum([len(i.complaints) for i in tender.awards])
+
     if hasattr(tender, "complaints"):
         total_complaints += len(tender.complaints)
 
     if hasattr(tender, "qualifications"):
-        total_complaints = sum(
-            [len(i.complaints) for i in tender.qualifications],
-            total_complaints
-        )
+        total_complaints += sum([len(i.complaints) for i in tender.qualifications])
 
     return total_complaints
 
