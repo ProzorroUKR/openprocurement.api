@@ -5,7 +5,7 @@ from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.document import (
     TenderDocumentResourceTestMixin,
-    create_tender_contract_proforma_document_json_wo_template_id,
+    create_tender_contract_proforma_document_json_invalid,
     create_tender_contract_proforma_document_json,
 )
 
@@ -59,8 +59,8 @@ class DialogEUDocumentResourceTest(BaseCompetitiveDialogEUContentWebTest, Tender
 class DialogEUDocumentWithDSResourceTest(DialogEUDocumentResourceTest):
     docservice = True
 
-    test_create_tender_contract_proforma_document_json_wo_template_id = \
-        snitch(create_tender_contract_proforma_document_json_wo_template_id)
+    test_create_tender_contract_proforma_document_json_invalid = \
+        snitch(create_tender_contract_proforma_document_json_invalid)
     test_create_tender_contract_proforma_document_json = snitch(create_tender_contract_proforma_document_json)
 
 
@@ -77,8 +77,8 @@ class DialogUADocumentResourceTest(BaseCompetitiveDialogUAContentWebTest, Tender
 class DialogUADocumentWithDSResourceTest(DialogUADocumentResourceTest):
     docservice = True
 
-    test_create_tender_contract_proforma_document_json_wo_template_id = \
-        snitch(create_tender_contract_proforma_document_json_wo_template_id)
+    test_create_tender_contract_proforma_document_json_invalid = \
+        snitch(create_tender_contract_proforma_document_json_invalid)
     test_create_tender_contract_proforma_document_json = snitch(create_tender_contract_proforma_document_json)
 
 

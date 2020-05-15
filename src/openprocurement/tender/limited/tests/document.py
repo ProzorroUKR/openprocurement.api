@@ -30,6 +30,8 @@ class TenderNegotiationQuickDocumentResourceTest(TenderNegotiationDocumentResour
 class TenderDocumentWithDSResourceTest(TenderDocumentResourceTest, TenderDocumentWithDSResourceTestMixin):
     docservice = True
 
+    test_create_tender_contract_proforma_document_json = None
+    test_create_tender_contract_proforma_document_json_invalid = None
 
 class TenderNegotiationDocumentWithDSResourceTest(TenderDocumentWithDSResourceTest):
     initial_data = test_tender_negotiation_data

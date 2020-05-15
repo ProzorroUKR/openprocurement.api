@@ -972,7 +972,7 @@ def put_tender_json_document_of_document(self):
 ########################################################
 # E-Contracting flow tests
 ########################################################
-def create_tender_contract_proforma_document_json_wo_template_id(self):
+def create_tender_contract_proforma_document_json_invalid(self):
     json_document_data = {
         "title": u"paper0000001.docx",
         "url": self.generate_docservice_url(),
@@ -992,6 +992,23 @@ def create_tender_contract_proforma_document_json_wo_template_id(self):
                        u'name': u'templateId'}]
     )
 
+    json_document_data["templateId"] = "paper00000001"
+    response = self.app.post_json("/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
+                                  {"data": json_document_data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+
+    json_document_data["templateId"] = "paper00000001"
+    response = self.app.post_json("/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
+                                  {"data": json_document_data},
+                                  status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["errors"],
+                     [{u'description': [u"Allow only one document with documentType 'contractProforma' per tender."],
+                       u'location': u'body',
+                       u'name': u'documents'}])
+
 
 def create_tender_contract_proforma_document_json(self):
     json_document_data = {
@@ -1010,7 +1027,66 @@ def create_tender_contract_proforma_document_json(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["documentType"], json_document_data["documentType"])
     self.assertEqual(response.json["data"]["templateId"], json_document_data["templateId"])
+    self.assertEqual(response.json["data"]["documentOf"], "tender")
 
     response = self.app.get("/tenders/{}/documents".format(self.tender_id))
     doc_ids = (doc['id'] for doc in response.json["data"])
     self.assertIn(document_id, doc_ids)
+
+
+def create_lot_contract_proforma_document_json(self):
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+
+    json_document_data = {
+        "title": u"paper0000001.docx",
+        "url": self.generate_docservice_url(),
+        "hash": "md5:" + "0" * 32,
+        "documentOf": "lot",
+        "format": "application/msword",
+        "templateId": "paper00000001",
+        "documentType": "contractProforma",
+        "relatedItem": response.json["data"]["lots"][0]["id"]
+    }
+
+    response = self.app.post_json("/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
+                                  {"data": json_document_data})
+    document_id = response.json["data"]["id"]
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["documentType"], json_document_data["documentType"])
+    self.assertEqual(response.json["data"]["templateId"], json_document_data["templateId"])
+    self.assertEqual(response.json["data"]["documentOf"], json_document_data["documentOf"])
+
+    response = self.app.get("/tenders/{}/documents".format(self.tender_id))
+    doc_ids = (doc['id'] for doc in response.json["data"])
+    self.assertIn(document_id, doc_ids)
+
+
+def create_lot_contract_proforma_document_json_invalid(self):
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+
+    json_document_data = {
+        "title": u"paper0000001.docx",
+        "url": self.generate_docservice_url(),
+        "hash": "md5:" + "0" * 32,
+        "documentOf": "lot",
+        "format": "application/msword",
+        "templateId": "paper00000001",
+        "documentType": "contractProforma",
+        "relatedItem": response.json["data"]["lots"][0]["id"]
+    }
+
+    response = self.app.post_json("/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
+                                  {"data": json_document_data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+
+    response = self.app.post_json("/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
+                                  {"data": json_document_data},
+                                  status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["errors"],
+                     [{u'description': [u"Allow only one document with documentType 'contractProforma' per lot."],
+                       u'location': u'body',
+                       u'name': u'documents'}])

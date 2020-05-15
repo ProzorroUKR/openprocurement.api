@@ -21,8 +21,10 @@ from openprocurement.tender.belowthreshold.tests.document_blanks import (
     # TenderLotDocumentWithDSResourceTest
     lot_patch_tender_document_json_lots_none,
     lot_patch_tender_document_json_items_none,
-    create_tender_contract_proforma_document_json_wo_template_id,
+    create_tender_contract_proforma_document_json_invalid,
     create_tender_contract_proforma_document_json,
+    create_lot_contract_proforma_document_json,
+    create_lot_contract_proforma_document_json_invalid,
 )
 
 
@@ -39,8 +41,8 @@ class TenderDocumentWithDSResourceTestMixin(object):
     test_put_tender_document_json = snitch(put_tender_document_json)
     test_create_document_with_the_invalid_document_type = snitch(create_document_with_the_invalid_document_type)
     test_put_tender_json_document_of_document = snitch(put_tender_json_document_of_document)
-    test_create_tender_contract_proforma_document_json_wo_template_id = \
-        snitch(create_tender_contract_proforma_document_json_wo_template_id)
+    test_create_tender_contract_proforma_document_json_invalid = \
+        snitch(create_tender_contract_proforma_document_json_invalid)
     test_create_tender_contract_proforma_document_json = snitch(create_tender_contract_proforma_document_json)
 
 
@@ -60,6 +62,8 @@ class TenderLotDocumentWithDSResourceTest(TenderContentWebTest):
 
     test_lot_patch_tender_document_json_lots_none = snitch(lot_patch_tender_document_json_lots_none)
     test_lot_patch_tender_document_json_items_none = snitch(lot_patch_tender_document_json_items_none)
+    test_create_lot_contract_proforma_document_json = snitch(create_lot_contract_proforma_document_json)
+    test_create_lot_contract_proforma_document_json_invalid = snitch(create_lot_contract_proforma_document_json_invalid)
 
 
 def suite():
