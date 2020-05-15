@@ -1,5 +1,3 @@
-from datetime import timedelta
-
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.auth import extract_access_token
 from openprocurement.api.validation import (
@@ -83,13 +81,13 @@ def validate_download_bid_document(request):
 
 def validate_bid_document_operation_in_award_status(request):
     if request.validated["tender_status"] in ("active.qualification", "active.awarded") and not any(
-        award.status in ("pending", "active")
+        award.status == "active"
         for award in request.validated["tender"].awards
         if award.bid_id == request.validated["bid_id"]
     ):
         raise_operation_error(
             request,
-            "Can't {} document because award of bid is not in pending or active state".format(
+            "Can't {} document because award of bid is not active".format(
                 OPERATIONS.get(request.method)
             ),
         )

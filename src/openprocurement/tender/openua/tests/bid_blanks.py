@@ -1136,9 +1136,12 @@ def create_tender_bidder_document(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
+    self.assertIn(
         response.json["errors"][0]["description"],
-        "Can't add document because award of bid is not in pending or active state",
+        (
+            "Can't add document because award of bid is not active",
+            "Can't add document because award of bid is not in pending or active state",
+        )
     )
 
 
@@ -1242,9 +1245,12 @@ def put_tender_bidder_document(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
+    self.assertIn(
         response.json["errors"][0]["description"],
-        "Can't update document because award of bid is not in pending or active state",
+        (
+            "Can't update document because award of bid is not active",
+            "Can't update document because award of bid is not in pending or active state",
+        )
     )
 
 
@@ -1309,9 +1315,12 @@ def patch_tender_bidder_document(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
+    self.assertIn(
         response.json["errors"][0]["description"],
-        "Can't update document because award of bid is not in pending or active state",
+        (
+            "Can't update document because award of bid is not active",
+            "Can't update document because award of bid is not in pending or active state",
+        )
     )
 
 
@@ -1349,9 +1358,12 @@ def create_tender_bidder_document_nopending(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
+    self.assertIn(
         response.json["errors"][0]["description"],
-        "Can't update document in current (active.qualification) tender status",
+        (
+            "Can't update document because award of bid is not active",
+            "Can't update document because award of bid is not in pending or active state",
+        )
     )
 
     response = self.app.put(
@@ -1364,7 +1376,7 @@ def create_tender_bidder_document_nopending(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can't update document in current (active.qualification) tender status",
+        "Can't update document because award of bid is not active",
     )
 
     response = self.app.post(
@@ -1374,9 +1386,12 @@ def create_tender_bidder_document_nopending(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
+    self.assertIn(
         response.json["errors"][0]["description"],
-        "Can't add document in current (active.qualification) tender status",
+        (
+            "Can't add document because award of bid is not active",
+            "Can't add document because award of bid is not in pending or active state",
+        )
     )
 
 
@@ -1508,9 +1523,12 @@ def create_tender_bidder_document_json(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
+    self.assertIn(
         response.json["errors"][0]["description"],
-        "Can't add document because award of bid is not in pending or active state",
+        (
+            "Can't add document because award of bid is not active",
+            "Can't add document because award of bid is not in pending or active state",
+        )
     )
 
     response = self.app.get("/tenders/{}/bids/{}/documents/{}".format(self.tender_id, self.bid_id, doc_id))
@@ -1610,7 +1628,7 @@ def put_tender_bidder_document_json(self):
     self.assertIn("KeyID=", response.location)
     self.assertIn("Expires=", response.location)
 
-    self.set_status("active.awarded")
+    self.set_status("active.qualification")
 
     response = self.app.put_json(
         "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_id, self.bid_token),
@@ -1624,11 +1642,12 @@ def put_tender_bidder_document_json(self):
         },
         status=403,
     )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
+    self.assertIn(
         response.json["errors"][0]["description"],
-        "Can't update document because award of bid is not in pending or active state",
+        (
+            "Can't update document because award of bid is not active",
+            "Can't update document because award of bid is not in pending or active state",
+        )
     )
 
 
@@ -1690,14 +1709,16 @@ def tender_bidder_confidential_document(self):
     self.assertEqual(doc_data["confidentiality"], request_data["confidentiality"])
     self.assertEqual(doc_data["confidentialityRationale"], request_data["confidentialityRationale"])
 
-    # switch to active.qualification
+    # switch to active.awarded
     tender = self.db.get(self.tender_id)
     tender["status"] = "active.awarded"
     bid = [b for b in tender["bids"] if b["id"] == self.bid_id][0]
     tender["awards"] = [
         {
             "id": "0" * 32,
-            "status": "pending",
+            "status": "active",
+            "qualified": True,
+            "eligible": True,
             "bid_id": self.bid_id,
             "date": get_now().isoformat(),
             "suppliers": bid["tenderers"],

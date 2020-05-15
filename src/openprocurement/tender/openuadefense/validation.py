@@ -20,6 +20,7 @@ def validate_submit_claim_time(request):
             request, "Can submit claim not later than {0.days} days before tenderPeriod end".format(claim_submit_time)
         )
 
+
 def validate_update_tender(request):
     status = request.validated["tender_status"]
     if status == "active.tendering":

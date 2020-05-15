@@ -2167,7 +2167,7 @@ def create_tender_bidder_document(self):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
             response.json["errors"][0]["description"],
-            "Can't add document because award of bid is not in pending or active state",
+            "Can't add document because award of bid is not active",
         )
 
     # time travel
@@ -2418,7 +2418,7 @@ def put_tender_bidder_document(self):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
             response.json["errors"][0]["description"],
-            "Can't update document because award of bid is not in pending or active state",
+            "Can't update document because award of bid is not active",
         )
 
     # time travel
@@ -2732,7 +2732,7 @@ def patch_tender_bidder_document(self):
         )
         self.assertEqual(
             response.json["errors"][0]["description"],
-            "Can't update document in current (active.qualification) tender status",
+            "Can't update document because award of bid is not active",
         )
 
     # get awards
@@ -2760,7 +2760,7 @@ def patch_tender_bidder_document(self):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
             response.json["errors"][0]["description"],
-            "Can't update document because award of bid is not in pending or active state",
+            "Can't update document because award of bid is not active",
         )
         response = self.app.patch_json(
             "/tenders/{}/bids/{}/{}/{}?acc_token={}".format(
@@ -2777,7 +2777,7 @@ def patch_tender_bidder_document(self):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
             response.json["errors"][0]["description"],
-            "Can't update document because award of bid is not in pending or active state",
+            "Can't update document because award of bid is not active",
         )
 
     # time travel
@@ -3345,7 +3345,7 @@ def create_tender_bidder_document_nopending(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can't update document in current (active.qualification) tender status",
+        "Can't update document because award of bid is not active",
     )
 
     response = self.app.put(
@@ -3358,7 +3358,7 @@ def create_tender_bidder_document_nopending(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can't update document in current (active.qualification) tender status",
+        "Can't update document because award of bid is not active",
     )
 
     response = self.app.post(
@@ -3370,7 +3370,7 @@ def create_tender_bidder_document_nopending(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can't add document in current (active.qualification) tender status",
+        "Can't add document because award of bid is not active",
     )
 
 

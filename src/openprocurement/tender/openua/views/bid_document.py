@@ -58,10 +58,10 @@ class TenderUaBidDocumentResource(TenderBidDocumentResource):
         validators=(
             validate_file_upload,
             unless_allowed_by_qualification_milestone(
-                validate_bid_document_in_tender_status
+                validate_bid_document_in_tender_status,
+                validate_bid_document_operation_in_award_status,
             ),
             validate_bid_document_operation_period,
-            validate_bid_document_operation_in_award_status,
         ),
         permission="edit_bid",
     )
@@ -72,10 +72,10 @@ class TenderUaBidDocumentResource(TenderBidDocumentResource):
         validators=(
             validate_file_update,
             unless_allowed_by_qualification_milestone(
-                validate_bid_document_in_tender_status
+                validate_bid_document_in_tender_status,
+                validate_bid_document_operation_in_award_status,
             ),
             validate_bid_document_operation_period,
-            validate_bid_document_operation_in_award_status,
             validate_update_bid_document_confidentiality,
         ),
         permission="edit_bid",
@@ -88,10 +88,10 @@ class TenderUaBidDocumentResource(TenderBidDocumentResource):
         validators=(
             validate_patch_document_data,
             unless_allowed_by_qualification_milestone(
-                validate_bid_document_in_tender_status
+                validate_bid_document_in_tender_status,
+                validate_bid_document_operation_in_award_status,
             ),
             validate_bid_document_operation_period,
-            validate_bid_document_operation_in_award_status,
             validate_update_bid_document_confidentiality,
         ),
         permission="edit_bid",

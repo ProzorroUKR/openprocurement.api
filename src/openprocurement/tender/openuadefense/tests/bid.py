@@ -77,6 +77,70 @@ class TenderBidDocumentResourceTest(BaseTenderUAContentWebTest, TenderBidDocumen
 
     test_not_found = snitch(not_found)
 
+    def test_create_tender_bidder_document_nopending(self):
+        response = self.app.post_json(
+            "/tenders/{}/bids".format(self.tender_id),
+            {
+                "data": {
+                    "selfEligible": True,
+                    "selfQualified": True,
+                    "tenderers": [self.test_bids_data[0]["tenderers"][0]],
+                    "value": {"amount": 500},
+                }
+            },
+        )
+        bid = response.json["data"]
+        bid_id = bid["id"]
+        bid_token = response.json["access"]["token"]
+
+        response = self.app.post(
+            "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, bid_token),
+            upload_files=[("file", "name.doc", "content")],
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        doc_id = response.json["data"]["id"]
+        self.assertIn(doc_id, response.headers["Location"])
+
+        self.set_status("active.qualification")
+
+        response = self.app.patch_json(
+            "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, bid_id, doc_id, bid_token),
+            {"data": {"description": "document description"}},
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"][0]["description"],
+            "Can't update document because award of bid is not in pending or active state",
+        )
+
+        response = self.app.put(
+            "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, bid_id, doc_id, bid_token),
+            "content3",
+            content_type="application/msword",
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"][0]["description"],
+            "Can't update document because award of bid is not in pending or active state",
+        )
+
+        response = self.app.post(
+            "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, bid_token),
+            upload_files=[("file", "name.doc", "content")],
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"][0]["description"],
+            "Can't add document because award of bid is not in pending or active state",
+        )
+
 
 class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
     docservice = True
