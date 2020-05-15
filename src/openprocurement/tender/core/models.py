@@ -1974,6 +1974,22 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
         if data.get("procuringEntity", {}).get("kind", "") == "central" and not value:
             raise ValidationError(BaseType.MESSAGES["required"])
 
+    def validate_documents(self, data, value):
+        if data.get('status', '') not in ('active.enquiries', 'active.tendering', 'active.awarded'):
+            return
+        docs = {
+            'contractProforma': [],
+            'contractTemplate': [],
+            'contractForm': []
+        }
+        resource = "lot" if data.get('lots', []) else "tender"
+        for doc in value:
+            if hasattr(doc, 'documentType') and doc.documentType in docs:
+                docs[doc.documentType].append(doc.relatedItem)
+        for key in docs:
+            if len(docs[key]) != len(set(docs[key])):
+                raise ValidationError("Allow only one document with documentType '{}' per {}.".format(key, resource))
+
     def _acl_cancellation(self, acl):
         acl.extend(
             [(Allow, "{}_{}".format(self.owner, self.owner_token), "edit_cancellation")]
