@@ -93,7 +93,16 @@ class TenderNegotiationAwardComplaintResource(BaseTenderAwardComplaintResource):
         tender = self.request.validated["tender"]
         apply_rules_2020_04_19 = get_first_revision_date(tender, get_now()) > RELEASE_2020_04_19
 
-        if status in ["draft", "claim", "answered"] and new_status == "cancelled":
+        if (
+            new_status == "cancelled"
+            and status in ["draft", "claim", "answered"]
+            and self.context.type == "claim"
+        ) or (
+            new_status == "cancelled"
+            and status == "draft"
+            and self.context.type == "complaint"
+            and not apply_rules_2020_04_19
+        ):
             # claim ? There is no way to post claim, so this must be a backward-compatibility option
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateCanceled = get_now()

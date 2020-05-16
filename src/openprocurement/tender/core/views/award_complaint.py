@@ -176,15 +176,25 @@ class BaseTenderAwardComplaintResource(BaseTenderComplaintResource):
             return {"data": self.context.serialize("view")}
 
     def patch_as_complaint_owner(self, data):
+        context = self.context
         status = self.context.status
         new_status = data.get("status", status)
         tender = self.request.validated["tender"]
         apply_rules_2020_04_19 = get_first_revision_date(tender, get_now()) > RELEASE_2020_04_19
+
         if (
-            status in ["draft", "claim", "answered"] and new_status == "cancelled"
-            or (status in ["pending", "accepted"]
-                and new_status == "stopping"
-                and not apply_rules_2020_04_19)
+            new_status == "cancelled"
+            and status in ["draft", "claim", "answered"]
+            and context.type == "claim"
+        ) or (
+            new_status == "cancelled"
+            and status == "draft"
+            and context.type == "complaint"
+            and not apply_rules_2020_04_19
+        ) or (
+            new_status == "stopping"
+            and status in ["pending", "accepted"]
+            and not apply_rules_2020_04_19
         ):
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateCanceled = get_now()

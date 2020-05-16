@@ -147,8 +147,14 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
         apply_rules_2020_04_19 = get_first_revision_date(tender) > RELEASE_2020_04_19
 
         if (
-            status in ["draft", "claim", "answered"]
-            and new_status == "cancelled"
+            new_status == "cancelled"
+            and status in ["draft", "claim", "answered"]
+            and self.context.type == "claim"
+        ) or (
+            new_status == "cancelled"
+            and status == "draft"
+            and self.context.type == "complaint"
+            and not apply_rules_2020_04_19
         ):
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateCanceled = get_now()
