@@ -5,6 +5,7 @@ from openprocurement.api.utils import (
     APIResource,
 )
 from openprocurement.tender.core.validation import (
+    validate_24h_milestone_released,
     validate_qualification_milestone_24hours,
     validate_qualification_milestone_data,
 )
@@ -27,6 +28,7 @@ class BaseQualificationMilestoneResource(APIResource):
         content_type="application/json",
         permission="edit_tender",
         validators=(
+            validate_24h_milestone_released,
             validate_qualification_milestone_data,
             validate_qualification_milestone_24hours,
         ),

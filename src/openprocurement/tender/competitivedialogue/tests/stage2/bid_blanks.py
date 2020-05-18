@@ -573,7 +573,7 @@ def create_tender_bidder_document_nopending_eu(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can't update document in current (active.qualification) tender status",
+        "Can't update document because award of bid is not active",
     )
 
     response = self.app.put(
@@ -586,7 +586,7 @@ def create_tender_bidder_document_nopending_eu(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can't update document in current (active.qualification) tender status",
+        "Can't update document because award of bid is not active",
     )
 
     response = self.app.post(
@@ -598,7 +598,7 @@ def create_tender_bidder_document_nopending_eu(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can't add document in current (active.qualification) tender status",
+        "Can't add document because award of bid is not active",
     )
 
 
@@ -1196,7 +1196,7 @@ def put_tender_bidder_document_ua(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can't update document because award of bid is not in pending or active state",
+        "Can't update document because award of bid is not active",
     )
 
 

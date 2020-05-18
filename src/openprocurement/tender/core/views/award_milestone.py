@@ -3,7 +3,7 @@ from openprocurement.api.utils import json_view
 from openprocurement.tender.core.validation import (
     validate_award_milestone_data,
     validate_award_milestone_24hours,
-    validate_award_milestone_released,
+    validate_24h_milestone_released,
 )
 from openprocurement.tender.core.views.qualification_milestone import BaseQualificationMilestoneResource
 
@@ -16,7 +16,7 @@ class BaseAwardMilestoneResource(BaseQualificationMilestoneResource):
         content_type="application/json",
         permission="edit_tender",
         validators=(
-            validate_award_milestone_released,
+            validate_24h_milestone_released,
             validate_award_milestone_data,
             validate_award_milestone_24hours,
         ),

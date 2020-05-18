@@ -297,7 +297,7 @@ def validate_qualification_milestone_24hours(request):
     return _validate_item_milestone_24hours(request, item_name="qualification")
 
 
-def validate_award_milestone_released(request):
+def validate_24h_milestone_released(request):
     validate_tender_first_revision_date(request, validation_date=RELEASE_2020_04_19)
 
 
@@ -881,6 +881,7 @@ def validate_bid_document_in_tender_status(request):
     """
     if request.validated["tender_status"] not in (
         "active.tendering",
+        "active.qualification",  # multi-lot procedure may be in this status despite of the active award
         "active.awarded",
     ):
         operation = OPERATIONS.get(request.method)
@@ -940,6 +941,20 @@ def validate_bid_document_operation_period(request):
         )
 
 
+def validate_bid_document_operation_in_award_status(request):
+    if request.validated["tender_status"] in ("active.qualification", "active.awarded") and not any(
+        award.status in ("pending", "active")
+        for award in request.validated["tender"].awards
+        if award.bid_id == request.validated["bid_id"]
+    ):
+        raise_operation_error(
+            request,
+            "Can't {} document because award of bid is not in pending or active state".format(
+                OPERATIONS.get(request.method)
+            ),
+        )
+
+
 def validate_view_bid_document(request):
     tender_status = request.validated["tender_status"]
     if tender_status in ("active.tendering", "active.auction") and request.authenticated_role != "bid_owner":
@@ -972,7 +987,7 @@ def validate_bid_document_operation_with_not_pending_award(request):
 
 
 # for openua, openeu
-def unless_allowed_by_qualification_milestone(validation):
+def unless_allowed_by_qualification_milestone(*validations):
     """
     decorator for 24hours and anomaly low price features to skip some view validator functions
     :param validation: a function runs unless it's disabled by an active qualification milestone
@@ -995,7 +1010,8 @@ def unless_allowed_by_qualification_milestone(validation):
         ):
             return  # skipping the validation
         # else
-        return validation(request)
+        for validation in validations:
+            validation(request)
 
     return decorated_validation
 

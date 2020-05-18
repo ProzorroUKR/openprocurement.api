@@ -4,6 +4,7 @@ from openprocurement.api.validation import validate_file_update, validate_file_u
 from openprocurement.tender.core.validation import (
     validate_bid_document_operation_period,
     unless_allowed_by_qualification_milestone,
+    validate_bid_document_operation_in_award_status,
 )
 from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.cfaua.utils import (
@@ -14,7 +15,6 @@ from openprocurement.tender.cfaua.utils import (
 from openprocurement.tender.openua.views.bid_document import TenderUaBidDocumentResource
 from openprocurement.tender.openua.validation import (
     validate_download_bid_document,
-    validate_bid_document_operation_in_award_status,
     validate_update_bid_document_confidentiality,
 )
 from openprocurement.tender.openeu.validation import (
@@ -154,13 +154,13 @@ class TenderEUBidFinancialDocumentResource(TenderEUBidDocumentResource):
 
     @json_view(
         validators=(
-                validate_file_upload,
-                validate_bid_document_operation_period,
-                validate_bid_document_operation_in_award_status,
-                validate_bid_document_operation_in_bid_status,
-                unless_allowed_by_qualification_milestone(
-                    validate_add_bid_financial_document_not_in_allowed_tender_status
-                ),
+            validate_file_upload,
+            validate_bid_document_operation_period,
+            validate_bid_document_operation_in_award_status,
+            validate_bid_document_operation_in_bid_status,
+            unless_allowed_by_qualification_milestone(
+                validate_add_bid_financial_document_not_in_allowed_tender_status
+            ),
         ),
         permission="edit_bid",
     )
@@ -170,14 +170,14 @@ class TenderEUBidFinancialDocumentResource(TenderEUBidDocumentResource):
     @json_view(
         content_type="application/json",
         validators=(
-                validate_patch_document_data,
-                validate_bid_document_operation_period,
-                validate_bid_document_operation_in_award_status,
-                validate_update_bid_document_confidentiality,
-                validate_bid_document_operation_in_bid_status,
-                unless_allowed_by_qualification_milestone(
-                    validate_add_bid_financial_document_not_in_allowed_tender_status
-                ),
+            validate_patch_document_data,
+            validate_bid_document_operation_period,
+            validate_bid_document_operation_in_award_status,
+            validate_update_bid_document_confidentiality,
+            validate_bid_document_operation_in_bid_status,
+            unless_allowed_by_qualification_milestone(
+                validate_add_bid_financial_document_not_in_allowed_tender_status
+            ),
         ),
         permission="edit_bid",
     )
@@ -186,14 +186,14 @@ class TenderEUBidFinancialDocumentResource(TenderEUBidDocumentResource):
 
     @json_view(
         validators=(
-                validate_file_update,
-                validate_bid_document_operation_period,
-                validate_bid_document_operation_in_award_status,
-                validate_update_bid_document_confidentiality,
-                validate_bid_document_operation_in_bid_status,
-                unless_allowed_by_qualification_milestone(
-                    validate_add_bid_financial_document_not_in_allowed_tender_status
-                ),
+            validate_file_update,
+            validate_bid_document_operation_period,
+            validate_bid_document_operation_in_award_status,
+            validate_update_bid_document_confidentiality,
+            validate_bid_document_operation_in_bid_status,
+            unless_allowed_by_qualification_milestone(
+                validate_add_bid_financial_document_not_in_allowed_tender_status
+            ),
         ),
         permission="edit_bid",
     )
@@ -213,13 +213,13 @@ class TenderEUBidQualificationDocumentResource(TenderEUBidFinancialDocumentResou
 
     @json_view(
         validators=(
-                validate_file_upload,
-                validate_bid_document_operation_period,
-                validate_bid_document_operation_in_award_status,
-                validate_bid_document_operation_in_bid_status,
-                unless_allowed_by_qualification_milestone(
-                    validate_add_bid_document_not_in_allowed_tender_status
-                ),
+            validate_file_upload,
+            validate_bid_document_operation_period,
+            validate_bid_document_operation_in_award_status,
+            validate_bid_document_operation_in_bid_status,
+            unless_allowed_by_qualification_milestone(
+                validate_add_bid_document_not_in_allowed_tender_status
+            ),
         ),
         permission="edit_bid",
     )
@@ -229,14 +229,14 @@ class TenderEUBidQualificationDocumentResource(TenderEUBidFinancialDocumentResou
     @json_view(
         content_type="application/json",
         validators=(
-                validate_patch_document_data,
-                validate_bid_document_operation_period,
-                validate_bid_document_operation_in_award_status,
-                validate_update_bid_document_confidentiality,
-                validate_bid_document_operation_in_bid_status,
-                unless_allowed_by_qualification_milestone(
-                    validate_add_bid_document_not_in_allowed_tender_status
-                ),
+            validate_patch_document_data,
+            validate_bid_document_operation_period,
+            validate_bid_document_operation_in_award_status,
+            validate_update_bid_document_confidentiality,
+            validate_bid_document_operation_in_bid_status,
+            unless_allowed_by_qualification_milestone(
+                validate_add_bid_document_not_in_allowed_tender_status
+            ),
         ),
         permission="edit_bid",
     )
@@ -245,14 +245,14 @@ class TenderEUBidQualificationDocumentResource(TenderEUBidFinancialDocumentResou
 
     @json_view(
         validators=(
-                validate_file_update,
-                validate_bid_document_operation_period,
-                validate_bid_document_operation_in_award_status,
-                validate_update_bid_document_confidentiality,
-                validate_bid_document_operation_in_bid_status,
-                unless_allowed_by_qualification_milestone(
-                    validate_add_bid_document_not_in_allowed_tender_status
-                ),
+            validate_file_update,
+            validate_bid_document_operation_period,
+            validate_bid_document_operation_in_award_status,
+            validate_update_bid_document_confidentiality,
+            validate_bid_document_operation_in_bid_status,
+            unless_allowed_by_qualification_milestone(
+                validate_add_bid_document_not_in_allowed_tender_status
+            ),
         ),
         permission="edit_bid",
     )
