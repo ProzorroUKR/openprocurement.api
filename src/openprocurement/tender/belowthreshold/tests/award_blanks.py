@@ -600,7 +600,7 @@ def create_tender_award_with_the_invalid_document_type(self):
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-   
+
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
     self.assertEqual(u"name.doc", response.json["data"]["title"])
@@ -613,16 +613,16 @@ def create_tender_award_with_the_invalid_document_type(self):
     self.assertEqual(response.content_type, "application/json")
     response_doctype_dict = re.findall(r"\[.*\]",response.json["errors"][0]["description"][0])[0]
     response_doctype_dict = ast.literal_eval(response_doctype_dict)
-    response_doctype_dict = [n.strip() for n in response_doctype_dict]
-    self.assertListEqual(
-        response_doctype_dict, 
-        ["tenderNotice","awardNotice","contractNotice","notice","biddingDocuments","technicalSpecifications",
-        "evaluationCriteria","clarifications","shortlistedFirms","riskProvisions","billOfQuantity","bidders",
-        "conflictOfInterest","debarments","evaluationReports","winningBid","complaints","contractSigned",
-        "contractArrangements","contractSchedule","contractAnnexe","contractGuarantees","subContract",
-        "eligibilityCriteria","contractProforma","commercialProposal","qualificationDocuments",
-        "eligibilityDocuments","registerExtract","registerFiscal","winningBid","contractTemplate",
-        "contractSchema","contractForm","contractData","contractProforma"])
+    response_doctype_dict = {n.strip() for n in response_doctype_dict}
+    self.assertEqual(
+        response_doctype_dict,
+        {"tenderNotice","awardNotice","contractNotice","notice","biddingDocuments","technicalSpecifications",
+         "evaluationCriteria","clarifications","shortlistedFirms","riskProvisions","billOfQuantity","bidders",
+         "conflictOfInterest","debarments","evaluationReports","winningBid","complaints","contractSigned",
+         "contractArrangements","contractSchedule","contractAnnexe","contractGuarantees","subContract",
+         "eligibilityCriteria","contractProforma","commercialProposal","qualificationDocuments",
+         "eligibilityDocuments","registerExtract","registerFiscal","winningBid","contractTemplate",
+         "contractSchema","contractForm","contractData","contractProforma","evidence"})
 
 def put_tender_json_award_document_of_document(self):
     response = self.app.post(

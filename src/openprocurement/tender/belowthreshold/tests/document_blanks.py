@@ -6,7 +6,7 @@ import re
 import ast
 from mock import patch
 from copy import deepcopy
-from openprocurement.tender.core.tests.base import bad_rs_request, srequest
+from openprocurement.tender.core.tests.base import bad_rs_request, srequest, change_auth
 from openprocurement.tender.belowthreshold.tests.base import test_tender_document_data
 from openprocurement.api.models import Document as BaseDocument
 
@@ -972,17 +972,63 @@ def put_tender_json_document_of_document(self):
 ########################################################
 # E-Contracting flow tests
 ########################################################
-def create_tender_contract_proforma_document_json_invalid(self):
-    json_document_data = {
+def _create_contract_proforma_document(self, lots=False):
+    """
+    Utility for create document with documentType contractProforma
+    """
+
+    data = {
+        "title": u"paper0000001.pdf",
+        "url": self.generate_docservice_url(),
+        "hash": "md5:" + "0" * 32,
+        "format": "application/pdf",
+        "templateId": "paper00000001",
+        "documentType": "contractProforma",
+    }
+    if lots:
+        response = self.app.get("/tenders/{}".format(self.tender_id))
+        data["relatedItem"] = response.json["data"]["lots"][0]["id"]
+        data["documentOf"] = "lot"
+
+    response = self.app.post_json("/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
+                                  {"data": data})
+    document_id = response.json["data"]["id"]
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["documentType"], data["documentType"])
+    self.assertEqual(response.json["data"]["templateId"], data["templateId"])
+    if not lots:
+        self.assertEqual(response.json["data"]["documentOf"], "tender")
+    else:
+        self.assertEqual(response.json["data"]["documentOf"], data["documentOf"])
+        self.assertEqual(response.json["data"]["relatedItem"], data["relatedItem"])
+
+    response = self.app.get("/tenders/{}/documents".format(self.tender_id))
+    doc_ids = (doc['id'] for doc in response.json["data"])
+    self.assertIn(document_id, doc_ids)
+    return document_id
+
+
+def _create_contract_proforma_document_invalid(self, lots=False):
+    """
+    Utility for unsuccessful create document with documentType contractProforma
+    """
+    data = {
         "title": u"paper0000001.docx",
         "url": self.generate_docservice_url(),
         "hash": "md5:" + "0" * 32,
         "format": "application/msword",
         "documentType": "contractProforma"
     }
+    resource = "tender"
+    if lots:
+        response = self.app.get("/tenders/{}".format(self.tender_id))
+        data["relatedItem"] = response.json["data"]["lots"][0]["id"]
+        data["documentOf"] = "lot"
+        resource = "lot"
 
     response = self.app.post_json("/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
-                                  {"data": json_document_data},
+                                  {"data": data},
                                   status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -992,101 +1038,230 @@ def create_tender_contract_proforma_document_json_invalid(self):
                        u'name': u'templateId'}]
     )
 
-    json_document_data["templateId"] = "paper00000001"
+    data["templateId"] = "paper00000001"
     response = self.app.post_json("/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
-                                  {"data": json_document_data})
+                                  {"data": data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
-    json_document_data["templateId"] = "paper00000001"
     response = self.app.post_json("/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
-                                  {"data": json_document_data},
+                                  {"data": data},
                                   status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"],
-                     [{u'description': [u"Allow only one document with documentType 'contractProforma' per tender."],
-                       u'location': u'body',
-                       u'name': u'documents'}])
+    self.assertEqual(
+        response.json["errors"],
+        [{u'description': [u"Allow only one document with documentType 'contractProforma' per {}.".format(resource)],
+          u'location': u'body',
+          u'name': u'documents'}])
+
+
+def _create_docs_by_registry_bot(self, document_id):
+    """
+    Utility allow create documents with documentTypes (contractTemplate, contractSchema, contractForm) also with
+    registryBot credentials.
+    """
+    with change_auth(self.app, ("Basic", ("trBot", ""))):
+        doc_types = {
+            "contractTemplate": {
+                "title": "paper0000001.docx",
+                "documentType": "contractTemplate",
+                "format": "application/msword"
+            },
+            "contractForm": {
+                "title": "paper0000001-form.json",
+                "documentType": "contractForm",
+                "format": "application/json"
+            },
+            "contractSchema": {
+                "title": "paper0000001-scheme.json",
+                "documentType": "contractSchema",
+                "format": "application/json"
+            }
+        }
+        for doc_type in doc_types:
+            doc_data = {
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "relatedItem": document_id,
+                "documentOf": "document"
+            }
+            doc_data.update(doc_types[doc_type])
+            response = self.app.post_json("/tenders/{}/documents".format(self.tender_id), {"data": doc_data})
+            self.assertEqual(response.status, "201 Created")
+            self.assertEqual(response.json["data"]["documentType"], doc_data["documentType"])
+            self.assertEqual(response.json["data"]["relatedItem"], document_id)
+            self.assertEqual(response.json["data"]["documentOf"], "document")
+
+    response = self.app.get("/tenders/{}/documents".format(self.tender_id))
+    docs = [doc for doc in response.json["data"] if doc.get("documentType", "") in doc_types]
+    self.assertEqual(len(docs), 3)
+
+
+def _create_docs_by_registry_bot_invalid(self, document_id, res="tender"):
+    """
+    Utility allow create documents with documentTypes (contractTemplate, contractSchema, contractForm) also with
+    registryBot credentials.
+    """
+    with change_auth(self.app, ("Basic", ("trBot", ""))):
+        doc_types = {
+            "contractTemplate": {
+                "title": "paper0000001.docx",
+                "documentType": "contractTemplate",
+                "format": "application/msword"
+            },
+            "contractForm": {
+                "title": "paper0000001-form.json",
+                "documentType": "contractForm",
+                "format": "application/json"
+            },
+            "contractSchema": {
+                "title": "paper0000001-scheme.json",
+                "documentType": "contractSchema",
+                "format": "application/json"
+            }
+        }
+        for doc_type in doc_types:
+            doc_data = {
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "relatedItem": document_id,
+                "documentOf": "document"
+            }
+            doc_data.update(doc_types[doc_type])
+            response = self.app.post_json("/tenders/{}/documents".format(self.tender_id),
+                                          {"data": doc_data},
+                                          status=422)
+            self.assertEqual(response.status, "422 Unprocessable Entity")
+            self.assertEqual(
+                response.json["errors"],
+                [{u'description': [u"Allow only one document with documentType '{}' per {}.".format(doc_type, res)],
+                  u'location': u'body',
+                  u'name': u'documents'}]
+            )
+
+
+def _create_contract_data_document(self, document_id):
+    """
+    Utility for create document with documentType contractData
+    """
+    data = {
+        "title": u"buyerContractData.json",
+        "url": self.generate_docservice_url(),
+        "hash": "md5:" + "0" * 32,
+        "format": "application/json",
+        "documentOf": "document",
+        "documentType": "contractData",
+        "relatedItem": document_id
+    }
+
+    response = self.app.post_json("/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
+                                  {"data": data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["documentType"], data["documentType"])
+    self.assertEqual(response.json["data"]["relatedItem"], data["relatedItem"])
+    self.assertEqual(response.json["data"]["documentOf"], "document")
+    return response.json["data"]["id"]
+
+
+def _upload_contract_proforma_by_renderer_bot(self, document_id):
+    """
+    Utility for upload contractProforma document by rendererBot
+    """
+    response = self.app.get("/tenders/{}/documents/{}".format(self.tender_id, document_id))
+    self.assertEqual(response.json["data"]["title"], "paper0000001.pdf")
+    self.assertEqual(response.json["data"]["author"], "tender_owner")
+
+    with change_auth(self.app, ("Basic", ("rBot", ""))):
+        response = self.app.put(
+            "/tenders/{}/documents/{}".format(self.tender_id, document_id),
+            upload_files=[("file", "contractProforma.pdf", "contentRenderedPDF")],
+        )
+        self.assertEqual(response.status, "200 OK")
+
+    response = self.app.get("/tenders/{}/documents/{}".format(self.tender_id, document_id))
+    self.assertEqual(response.json["data"]["title"], "contractProforma.pdf")
+    self.assertEqual(response.json["data"]["author"], "tender_owner")
+
+
+def create_tender_contract_proforma_document_json_invalid(self):
+    return _create_contract_proforma_document_invalid(self)
 
 
 def create_tender_contract_proforma_document_json(self):
-    json_document_data = {
-        "title": u"paper0000001.docx",
-        "url": self.generate_docservice_url(),
-        "hash": "md5:" + "0" * 32,
-        "format": "application/msword",
-        "templateId": "paper00000001",
-        "documentType": "contractProforma"
-    }
-
-    response = self.app.post_json("/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
-                                  {"data": json_document_data})
-    document_id = response.json["data"]["id"]
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["documentType"], json_document_data["documentType"])
-    self.assertEqual(response.json["data"]["templateId"], json_document_data["templateId"])
-    self.assertEqual(response.json["data"]["documentOf"], "tender")
-
-    response = self.app.get("/tenders/{}/documents".format(self.tender_id))
-    doc_ids = (doc['id'] for doc in response.json["data"])
-    self.assertIn(document_id, doc_ids)
+    return _create_contract_proforma_document(self)
 
 
 def create_lot_contract_proforma_document_json(self):
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-
-    json_document_data = {
-        "title": u"paper0000001.docx",
-        "url": self.generate_docservice_url(),
-        "hash": "md5:" + "0" * 32,
-        "documentOf": "lot",
-        "format": "application/msword",
-        "templateId": "paper00000001",
-        "documentType": "contractProforma",
-        "relatedItem": response.json["data"]["lots"][0]["id"]
-    }
-
-    response = self.app.post_json("/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
-                                  {"data": json_document_data})
-    document_id = response.json["data"]["id"]
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["documentType"], json_document_data["documentType"])
-    self.assertEqual(response.json["data"]["templateId"], json_document_data["templateId"])
-    self.assertEqual(response.json["data"]["documentOf"], json_document_data["documentOf"])
-
-    response = self.app.get("/tenders/{}/documents".format(self.tender_id))
-    doc_ids = (doc['id'] for doc in response.json["data"])
-    self.assertIn(document_id, doc_ids)
+    return _create_contract_proforma_document(self, lots=True)
 
 
 def create_lot_contract_proforma_document_json_invalid(self):
-    response = self.app.get("/tenders/{}".format(self.tender_id))
+    return _create_contract_proforma_document_invalid(self, lots=True)
 
-    json_document_data = {
-        "title": u"paper0000001.docx",
-        "url": self.generate_docservice_url(),
-        "hash": "md5:" + "0" * 32,
-        "documentOf": "lot",
-        "format": "application/msword",
-        "templateId": "paper00000001",
-        "documentType": "contractProforma",
-        "relatedItem": response.json["data"]["lots"][0]["id"]
-    }
 
-    response = self.app.post_json("/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
-                                  {"data": json_document_data})
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
+def create_tender_documents_by_registry_bot(self):
+    document_id = _create_contract_proforma_document(self)
+    _create_docs_by_registry_bot(self, document_id)
 
-    response = self.app.post_json("/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
-                                  {"data": json_document_data},
-                                  status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"],
-                     [{u'description': [u"Allow only one document with documentType 'contractProforma' per lot."],
-                       u'location': u'body',
-                       u'name': u'documents'}])
+
+def create_lot_documents_by_registry_bot(self):
+    document_id = _create_contract_proforma_document(self, lots=True)
+    _create_docs_by_registry_bot(self, document_id)
+
+
+def create_tender_documents_by_registry_bot_invalid(self):
+    document_id = _create_contract_proforma_document(self)
+
+    _create_docs_by_registry_bot(self, document_id)
+    _create_docs_by_registry_bot_invalid(self, document_id)
+
+
+def create_lot_documents_by_registry_bot_invalid(self):
+    document_id = _create_contract_proforma_document(self, lots=True)
+
+    _create_docs_by_registry_bot(self, document_id)
+    _create_docs_by_registry_bot_invalid(self, document_id, res="lot")
+
+
+def create_tender_contract_data_document_json(self):
+    document_id = _create_contract_proforma_document(self)
+
+    ids = set()
+    ids.add(document_id)
+
+    contract_data_id = _create_contract_data_document(self, document_id)
+    ids.add(contract_data_id)
+
+    response = self.app.get("/tenders/{}/documents".format(self.tender_id))
+    doc_ids = {doc['id'] for doc in response.json["data"]}
+    self.assertTrue(ids.issubset(doc_ids))
+
+
+def create_lot_contract_data_document_json(self):
+    document_id = _create_contract_proforma_document(self, lots=True)
+
+    ids = set()
+    ids.add(document_id)
+
+    contract_data_id = _create_contract_data_document(self, document_id)
+    ids.add(contract_data_id)
+
+    response = self.app.get("/tenders/{}/documents".format(self.tender_id))
+    doc_ids = {doc['id'] for doc in response.json["data"]}
+    self.assertTrue(ids.issubset(doc_ids))
+
+
+def upload_tender_document_by_renderer_bot(self):
+    document_id = _create_contract_proforma_document(self)
+    _create_docs_by_registry_bot(self, document_id)
+    _create_contract_data_document(self, document_id)
+    _upload_contract_proforma_by_renderer_bot(self, document_id)
+
+
+def upload_lot_document_by_renderer_bot(self):
+    document_id = _create_contract_proforma_document(self, lots=True)
+    _create_docs_by_registry_bot(self, document_id)
+    _create_contract_data_document(self, document_id)
+    _upload_contract_proforma_by_renderer_bot(self, document_id)

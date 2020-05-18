@@ -7,6 +7,10 @@ from openprocurement.tender.belowthreshold.tests.document import (
     TenderDocumentResourceTestMixin,
     create_tender_contract_proforma_document_json_invalid,
     create_tender_contract_proforma_document_json,
+    create_tender_documents_by_registry_bot,
+    create_tender_documents_by_registry_bot_invalid,
+    create_tender_contract_data_document_json,
+    upload_tender_document_by_renderer_bot,
 )
 
 from openprocurement.tender.competitivedialogue.tests.base import (
@@ -62,6 +66,10 @@ class DialogEUDocumentWithDSResourceTest(DialogEUDocumentResourceTest):
     test_create_tender_contract_proforma_document_json_invalid = \
         snitch(create_tender_contract_proforma_document_json_invalid)
     test_create_tender_contract_proforma_document_json = snitch(create_tender_contract_proforma_document_json)
+    test_create_tender_documents_by_registry_bot = snitch(create_tender_documents_by_registry_bot)
+    test_create_tender_documents_by_registry_bot_invalid = snitch(create_tender_documents_by_registry_bot_invalid)
+    test_create_tender_contract_data_document_json = snitch(create_tender_contract_data_document_json)
+    test_upload_tender_document_by_renderer_bot = snitch(upload_tender_document_by_renderer_bot)
 
 
 class DialogUADocumentResourceTest(BaseCompetitiveDialogUAContentWebTest, TenderDocumentResourceTestMixin):
@@ -80,6 +88,10 @@ class DialogUADocumentWithDSResourceTest(DialogUADocumentResourceTest):
     test_create_tender_contract_proforma_document_json_invalid = \
         snitch(create_tender_contract_proforma_document_json_invalid)
     test_create_tender_contract_proforma_document_json = snitch(create_tender_contract_proforma_document_json)
+    test_create_tender_documents_by_registry_bot = snitch(create_tender_documents_by_registry_bot)
+    test_create_tender_documents_by_registry_bot_invalid = snitch(create_tender_documents_by_registry_bot_invalid)
+    test_create_tender_contract_data_document_json = snitch(create_tender_contract_data_document_json)
+    test_upload_tender_document_by_renderer_bot = snitch(upload_tender_document_by_renderer_bot)
 
 
 def suite():

@@ -32,6 +32,10 @@ class TenderDocumentWithDSResourceTest(TenderDocumentResourceTest, TenderDocumen
 
     test_create_tender_contract_proforma_document_json = None
     test_create_tender_contract_proforma_document_json_invalid = None
+    test_create_tender_documents_by_registry_bot = None
+    test_create_tender_documents_by_registry_bot_invalid = None
+    test_create_tender_contract_data_document_json = None
+    test_upload_tender_document_by_renderer_bot = None
 
 class TenderNegotiationDocumentWithDSResourceTest(TenderDocumentWithDSResourceTest):
     initial_data = test_tender_negotiation_data
