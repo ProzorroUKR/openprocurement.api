@@ -88,6 +88,7 @@ from openprocurement.tender.core.validation import (
     validate_value_type,
     validate_requirement_values,
     validate_minimalstep_limits,
+    validate_econtract_documents,
 )
 from openprocurement.tender.esco.utils import get_complaint_amount as get_esco_complaint_amount
 from openprocurement.planning.api.models import BaseOrganization
@@ -1975,20 +1976,8 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
             raise ValidationError(BaseType.MESSAGES["required"])
 
     def validate_documents(self, data, value):
-        if data.get('status', '') not in ('active.enquiries', 'active.tendering', 'active.awarded'):
-            return
-        docs = {
-            'contractProforma': [],
-            'contractTemplate': [],
-            'contractForm': []
-        }
-        resource = "lot" if data.get('lots', []) else "tender"
-        for doc in value:
-            if hasattr(doc, 'documentType') and doc.documentType in docs:
-                docs[doc.documentType].append(doc.relatedItem)
-        for key in docs:
-            if len(docs[key]) != len(set(docs[key])):
-                raise ValidationError("Allow only one document with documentType '{}' per {}.".format(key, resource))
+        resource = "lot" if data.get("lots", []) else "tender"
+        return validate_econtract_documents(resource, data, value)
 
     def _acl_cancellation(self, acl):
         acl.extend(

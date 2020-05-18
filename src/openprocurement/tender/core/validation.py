@@ -1951,12 +1951,58 @@ def validate_contract_supplier_role_for_contract_document_uploading(request):
 def validate_relatedItem_for_contract_document_uploading(request):
     if "data" in request.validated:
         data = request.validated["data"]
-        parent = data["__parent__"]
+        contract = data["__parent__"] if request.method != "PUT" else data["__parent__"].__parent__
         documents = []
-        if hasattr(parent, "documents"):
-            documents = parent.documents
-        elif hasattr(parent["__parent__"], "documents"):
-            documents = parent["__parent__"].documents
-        if data.get("documentOf") == "document" and data.get('relatedItem') not in [i.id for i in documents]:
-            raise_operation_error(
-                    request, "relatedItem should be one of contract documents")
+        if hasattr(contract, "documents"):
+            documents = contract.documents
+        elif hasattr(contract["__parent__"], "documents"):
+            documents = contract["__parent__"].documents
+        if data.get("documentOf") == "document" and \
+                data.get("documentType") not in ("contract", "contractData") and \
+                data.get("relatedItem") not in [i.id for i in documents]:
+            raise_operation_error(request, "relatedItem should be one of contract documents")
+        if data.get("documentType") in ("contract", "contractData"):
+            doc_ids = [i.id
+                       for i in contract.__parent__.get("documents", [])
+                       if i.get("documentType") == "contractProforma"]
+            if data.get("relatedItem") not in doc_ids:
+                raise_operation_error(request, "relatedItem should be one of tender contractProforma documents")
+
+
+def validate_econtract_documents(resource, data, value):
+    if resource == "contract" and data.get("status", "") != "pending":
+        return
+    elif resource == "tender" and data.get("status", "") not in ("active.enquiries",
+                                                                 "active.tendering",
+                                                                 "active.awarded"):
+        return
+
+    docs = {
+        "contractProforma": {
+            "ids": set(),
+            "relatedItems": set()
+        },
+        "contractTemplate": {
+            "ids": set(),
+            "relatedItems": set()
+        },
+        "contractForm": {
+            "ids": set(),
+            "relatedItems": set()
+        },
+        "contractSchema": {
+            "ids": set(),
+            "relatedItems": set()
+        },
+        "contractData": {
+            "ids": set(),
+            "relatedItems": set()
+        }
+    }
+    for doc in value:
+        if hasattr(doc, "documentType") and doc.documentType in docs:
+            docs[doc.documentType]["relatedItems"].add(doc.relatedItem)
+            docs[doc.documentType]["ids"].add(doc.id)
+    for key in docs:
+        if len(docs[key]["ids"]) != len(docs[key]["relatedItems"]):
+            raise ValidationError("Allow only one document with documentType '{}' per {}.".format(key, resource))
