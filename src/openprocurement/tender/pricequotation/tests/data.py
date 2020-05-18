@@ -14,12 +14,12 @@ PERIODS = {
         "start": {
             "tenderPeriod": {
                 "startDate": -timedelta(),
-                "endDate": timedelta(days=1)
+                "endDate": timedelta(days=4)
             },
         },
         "end": {
             "tenderPeriod": {
-                "startDate": - timedelta(days=1),
+                "startDate": - timedelta(days=4),
                 "endDate": timedelta()
             },
         },
@@ -27,14 +27,14 @@ PERIODS = {
     "active.qualification": {
         "start": {
             "tenderPeriod": {
-                "startDate": - timedelta(days=2),
+                "startDate": - timedelta(days=5),
                 "endDate": - timedelta(days=1),
             },
             "awardPeriod": {"startDate": timedelta()},
         },
         "end": {
             "tenderPeriod": {
-                "startDate": - timedelta(days=2),
+                "startDate": - timedelta(days=10),
                 "endDate": - timedelta(days=1),
             },
             "awardPeriod": {"startDate": timedelta()},
@@ -43,14 +43,14 @@ PERIODS = {
     "active.awarded": {
         "start": {
             "tenderPeriod": {
-                "startDate": - timedelta(days=2),
+                "startDate": - timedelta(days=10),
                 "endDate": - timedelta(days=1),
             },
             "awardPeriod": {"startDate": timedelta(), "endDate": timedelta()},
         },
         "end": {
             "tenderPeriod": {
-                "startDate": - timedelta(days=3),
+                "startDate": - timedelta(days=10),
                 "endDate": - timedelta(days=2),
             },
             "awardPeriod": {
@@ -62,7 +62,7 @@ PERIODS = {
     "complete": {
         "start": {
             "tenderPeriod": {
-                "startDate": - timedelta(days=2),
+                "startDate": - timedelta(days=10),
                 "endDate": - timedelta(days=1)
             },
             "awardPeriod": {

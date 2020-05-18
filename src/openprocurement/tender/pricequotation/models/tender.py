@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from datetime import timedelta
 from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist
 from schematics.types import IntType, StringType
@@ -14,6 +15,7 @@ from openprocurement.api.models import\
 from openprocurement.api.utils import get_now
 from openprocurement.api.validation import\
     validate_classification_id, validate_cpv_group, validate_items_uniq
+from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.core.models import (
     Contract as BaseContract,
     PeriodEndRequired,
@@ -260,3 +262,12 @@ class PriceQuotationTender(Tender):
             and period.startDate < data.get("tenderPeriod").endDate
         ):
             raise ValidationError(u"period should begin after tenderPeriod")
+
+    def validate_tenderPeriod(self, data, period):
+        if (
+            period
+            and period.startDate
+            and period.endDate
+            and period.endDate < calculate_tender_business_date(period.startDate, timedelta(days=2), data, True)
+        ):
+            raise ValidationError(u"the tenderPeriod cannot end earlier than 2 business days after the start")
