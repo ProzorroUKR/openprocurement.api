@@ -916,6 +916,10 @@ def validate_document_operation_in_not_allowed_period(request):
 
 def validate_tender_document_update_not_by_author_or_tender_owner(request):
     if request.authenticated_role != (request.context.author or "tender_owner"):
+        if hasattr(request.context, "documentType") \
+                and request.context.documentType == "contractProforma" \
+                and request.authenticated_role == "renderer_bots":
+            return
         request.errors.add("url", "role", "Can update document only author")
         request.errors.status = 403
         raise error_handler(request.errors)
