@@ -17,12 +17,20 @@ Content-Type: application/json; charset=UTF-8
     "status": "scheduled", 
     "buyers": [
       {
+        "kind": "general", 
         "identifier": {
           "scheme": "UA-EDR", 
           "id": "111983", 
           "legalName": "ДП Державне Управління Справами"
         }, 
-        "name": "ДУС"
+        "name": "ДУС", 
+        "address": {
+          "postalCode": "01220", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова, 11, корпус 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }
       }
     ], 
     "classification": {
@@ -136,12 +144,20 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "procuringEntity": {
+      "kind": "general", 
       "identifier": {
         "scheme": "UA-EDR", 
         "id": "111983", 
         "legalName": "ДП Державне Управління Справами"
       }, 
-      "name": "ДУС"
+      "name": "ДУС", 
+      "address": {
+        "postalCode": "01220", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Банкова, 11, корпус 1", 
+        "region": "м. Київ", 
+        "locality": "м. Київ"
+      }
     }, 
     "owner": "broker", 
     "dateModified": "2020-05-01T01:00:00+03:00", 

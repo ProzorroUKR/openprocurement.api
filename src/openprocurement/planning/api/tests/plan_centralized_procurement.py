@@ -15,7 +15,7 @@ from copy import deepcopy
 import pytest
 
 
-central_procuring_entity = {
+milestone_author = {
     "identifier": {
         "scheme": "UA-EDR",
         "id": "11111",
@@ -24,12 +24,29 @@ central_procuring_entity = {
     "name": "ЦЗО 1"
 }
 
+central_procuring_entity = {
+    "identifier": {
+        "scheme": "UA-EDR",
+        "id": "11111",
+        "legalName": "ЦЗО 1"
+    },
+    "name": "ЦЗО 1",
+    "address": {
+        "countryName": "Україна",
+        "postalCode": "01220",
+        "region": "м. Київ",
+        "locality": "м. Київ",
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+    },
+    "kind": "general",
+}
+
 
 def test_milestone_data(app):
     test_milestone = {
         "title": MILESTONE_APPROVAL_TITLE,
         "type": Milestone.TYPE_APPROVAL,
-        "author": central_procuring_entity,
+        "author": milestone_author,
         "dueDate": datetime.now().isoformat(),
         "documents": [
             {
@@ -62,7 +79,7 @@ def test_fail_create_plan_with_milestone(app):
         {
             "title": MILESTONE_APPROVAL_TITLE,
             "type": Milestone.TYPE_APPROVAL,
-            "author": central_procuring_entity,
+            "author": milestone_author,
             "dueDate": "2001-10-30T11:15:26.641038+03:00"
         }
     ]
@@ -592,7 +609,15 @@ def test_success_patch_plan_procuring_entity_in_time(app, centralized_milestone,
             "id": u"222222",
             "legalName": u"ЦЗО 2"
         },
-        "name": u"ЦЗО 2"
+        "name": u"ЦЗО 2",
+        "address": {
+            "countryName": u"Україна",
+            "postalCode": u"01220",
+            "region": u"м. Київ",
+            "locality": u"м. Київ",
+            "streetAddress": u"вул. Банкова, 11, корпус 1",
+        },
+        "kind": u"general",
     }
     response = app.patch_json(
         "/plans/{}?acc_token={}".format(plan["id"], plan_token),
@@ -656,7 +681,15 @@ def test_fail_patch_plan_procuring_entity_not_in_time(app, centralized_milestone
                     "id": u"222222",
                     "legalName": u"ЦЗО 2"
                 },
-                "name": u"ЦЗО 2"
+                "name": u"ЦЗО 2",
+                "address": {
+                    "countryName": u"Україна",
+                    "postalCode": u"01220",
+                    "region": u"м. Київ",
+                    "locality": u"м. Київ",
+                    "streetAddress": u"вул. Банкова, 11, корпус 1",
+                },
+                "kind": u"general",
             }
         }},
         status=403
@@ -688,7 +721,15 @@ def test_success_patch_plan_procuring_entity_not_in_time(app, centralized_milest
             "id": u"222222",
             "legalName": u"ЦЗО 2"
         },
-        "name": u"ЦЗО 2"
+        "name": u"ЦЗО 2",
+        "address": {
+            "countryName": u"Україна",
+            "postalCode": u"01220",
+            "region": u"м. Київ",
+            "locality": u"м. Київ",
+            "streetAddress": u"вул. Банкова, 11, корпус 1",
+        },
+        "kind": u"general",
     }
     response = app.patch_json(
         "/plans/{}?acc_token={}".format(plan["id"], plan_token),

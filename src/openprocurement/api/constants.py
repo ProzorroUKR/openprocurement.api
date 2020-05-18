@@ -141,3 +141,6 @@ COUNTRIES = read_json("data/countries.json")
 UA_REGIONS = read_json("data/ua_regions.json")
 VALIDATE_ADDRESS_FROM = get_constant(CONSTANTS_CONFIG, "VALIDATE_ADDRESS_FROM")
 
+# address and kind fields required for procuringEntity and buyers objects in plan
+PLAN_ADDRESS_KIND_REQUIRED_FROM = get_constant(CONSTANTS_CONFIG, "PLAN_ADDRESS_KIND_REQUIRED_FROM")
+

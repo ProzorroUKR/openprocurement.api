@@ -692,6 +692,338 @@ def create_plan_invalid(self):
     self.assertEqual(response.status, "201 Created")
 
 
+def create_plan_invalid_procuring_entity(self):
+    request_path = "/plans"
+    initial_data = deepcopy(self.initial_data)
+
+    procuring_entity_address = initial_data["procuringEntity"].pop("address")
+    response = self.app.post_json(request_path, {"data": initial_data}, status=422)
+
+    initial_data["procuringEntity"]["address"] = procuring_entity_address
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u"description": {u'address': [u'This field is required.']},
+                u"location": u"body",
+                u"name": u"procuringEntity",
+            }
+        ],
+    )
+
+    country_name = initial_data["procuringEntity"]["address"].pop("countryName")
+    response = self.app.post_json(request_path, {"data": initial_data}, status=422)
+
+    initial_data["procuringEntity"]["address"]["countryName"] = country_name
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u"description": {u'address': {u'countryName': [u'This field is required.']}},
+                u"location": u"body",
+                u"name": u"procuringEntity",
+            }
+        ],
+    )
+
+    initial_data["procuringEntity"]["address"]["invalid_field"] = "invalid_field123"
+    response = self.app.post_json(request_path, {"data": initial_data}, status=422)
+    del initial_data["procuringEntity"]["address"]["invalid_field"]
+
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u"description": {u'address': {u'invalid_field': u'Rogue field'}},
+                u"location": u"body",
+                u"name": u"procuringEntity",
+            }
+        ],
+    )
+
+    _kind = initial_data["procuringEntity"].pop("kind")
+    response = self.app.post_json(request_path, {"data": initial_data}, status=422)
+
+    initial_data["procuringEntity"]["kind"] = _kind
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u'description': {u'kind': [u'This field is required.']},
+                u"location": u"body",
+                u"name": u"procuringEntity",
+            }
+        ],
+    )
+
+    _kind = initial_data["procuringEntity"].pop("kind")
+    initial_data["procuringEntity"]["kind"] = "invalid_kind_type123"
+    response = self.app.post_json(request_path, {"data": initial_data}, status=422)
+
+    initial_data["procuringEntity"]["kind"] = _kind
+
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u"description": {u'kind': [
+                    u"Value must be one of ('authority', 'central', 'defense', 'general', 'other', 'social', 'special')."
+                ]},
+                u"location": u"body",
+                u"name": u"procuringEntity",
+            }
+        ],
+    )
+
+    # ignore address, kind validation for old plans
+    with mock.patch('openprocurement.planning.api.models.PLAN_ADDRESS_KIND_REQUIRED_FROM', get_now() + timedelta(seconds=10)):
+        response = self.app.post_json('/plans', {"data": initial_data})
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.status, "201 Created")
+
+        address = initial_data["procuringEntity"].pop("address")
+        response = self.app.post_json('/plans', {"data": initial_data})
+        initial_data["procuringEntity"]["address"] = address
+
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.status, "201 Created")
+
+        kind = initial_data["procuringEntity"].pop("kind")
+        response = self.app.post_json('/plans', {"data": initial_data})
+        initial_data["procuringEntity"]["kind"] = kind
+
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.status, "201 Created")
+
+        address = initial_data["procuringEntity"].pop("address")
+        kind = initial_data["procuringEntity"].pop("kind")
+        response = self.app.post_json("/plans", {"data": initial_data})
+        initial_data["procuringEntity"]["address"] = address
+        initial_data["procuringEntity"]["kind"] = kind
+
+        self.assertEqual(response.status, "201 Created")
+        plan = response.json["data"]
+        acc_token = response.json["access"]["token"]
+
+        response = self.app.patch_json(
+            "/plans/{}?acc_token={}".format(plan["id"], acc_token),
+            {"data": {"procuringEntity": {"name": "new_name123"}}}
+        )
+
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json['data']['procuringEntity'],
+            {"identifier": {"scheme": u"UA-EDR", "id": u"111983", "legalName": u"ДП Державне Управління Справами"},
+             "name": u"new_name123"}
+        )
+
+        response = self.app.patch_json(
+            "/plans/{}?acc_token={}".format(plan["id"], acc_token),
+            {"data": {
+                "procuringEntity": {
+                    "address": {"countryName": "Ірландія"},
+                    "kind": "defense"
+                }
+            }}
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json['data']['procuringEntity'],
+            {"identifier": {"scheme": u"UA-EDR", "id": u"111983", "legalName": u"ДП Державне Управління Справами"},
+             "name": u"new_name123",
+             "address": {"countryName": u"Ірландія"},
+             "kind": u"defense"
+             }
+        )
+
+    response = self.app.post_json(request_path, {"data": initial_data})
+    self.assertEqual(response.status, "201 Created")
+
+
+def create_plan_invalid_buyers(self):
+    request_path = "/plans"
+    initial_data = deepcopy(self.initial_data)
+
+    buyers_address = initial_data["buyers"][0].pop("address")
+    response = self.app.post_json(request_path, {"data": initial_data}, status=422)
+
+    initial_data["buyers"][0]["address"] = buyers_address
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u"description": [{u'address': [u'This field is required.']}],
+                u"location": u"body",
+                u"name": u"buyers",
+            }
+        ],
+    )
+
+    country_name = initial_data["buyers"][0]["address"].pop("countryName")
+    response = self.app.post_json(request_path, {"data": initial_data}, status=422)
+
+    initial_data["buyers"][0]["address"]["countryName"] = country_name
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u"description": [{u'address': {u'countryName': [u'This field is required.']}}],
+                u"location": u"body",
+                u"name": u"buyers",
+            }
+        ],
+    )
+
+    initial_data["buyers"][0]["address"]["invalid_field"] = "invalid_field123"
+    response = self.app.post_json(request_path, {"data": initial_data}, status=422)
+    del initial_data["buyers"][0]["address"]["invalid_field"]
+
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u"description": {u'address': {u'invalid_field': u'Rogue field'}},
+                u"location": u"body",
+                u"name": u"buyers",
+            }
+        ],
+    )
+
+    _kind = initial_data["buyers"][0].pop("kind")
+    response = self.app.post_json(request_path, {"data": initial_data}, status=422)
+
+    initial_data["buyers"][0]["kind"] = _kind
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u'description': [{u'kind': [u'This field is required.']}],
+                u"location": u"body",
+                u"name": u"buyers",
+            }
+        ],
+    )
+
+    _kind = initial_data["buyers"][0].pop("kind")
+    initial_data["buyers"][0]["kind"] = "invalid_kind_type123"
+    response = self.app.post_json(request_path, {"data": initial_data}, status=422)
+
+    initial_data["buyers"][0]["kind"] = _kind
+
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u"description": [{u'kind': [
+                    u"Value must be one of ('authority', 'central', 'defense', 'general', 'other', 'social', 'special')."
+                ]}],
+                u"location": u"body",
+                u"name": u"buyers",
+            }
+        ],
+    )
+
+    with mock.patch('openprocurement.planning.api.models.PLAN_ADDRESS_KIND_REQUIRED_FROM', get_now() + timedelta(seconds=10)):
+        response = self.app.post_json('/plans', {"data": initial_data})
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.status, "201 Created")
+
+        address = initial_data["buyers"][0].pop("address")
+        response = self.app.post_json('/plans', {"data": initial_data})
+        initial_data["buyers"][0]["address"] = address
+
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.status, "201 Created")
+
+        kind = initial_data["buyers"][0].pop("kind")
+        response = self.app.post_json('/plans', {"data": initial_data})
+        initial_data["buyers"][0]["kind"] = kind
+
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.status, "201 Created")
+
+        address = initial_data["buyers"][0].pop("address")
+        kind = initial_data["buyers"][0].pop("kind")
+        response = self.app.post_json("/plans", {"data": initial_data})
+        initial_data["buyers"][0]["address"] = address
+        initial_data["buyers"][0]["kind"] = kind
+
+        self.assertEqual(response.status, "201 Created")
+        plan = response.json["data"]
+        acc_token = response.json["access"]["token"]
+
+        response = self.app.patch_json(
+            "/plans/{}?acc_token={}".format(plan["id"], acc_token),
+            {"data": {"buyers": [{"name": "new_name123"}]}}
+        )
+
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json['data']['buyers'][0],
+            {"identifier": {"scheme": u"UA-EDR", "id": u"111983", "legalName": u"ДП Державне Управління Справами"},
+             "name": u"new_name123"}
+        )
+
+        response = self.app.patch_json(
+            "/plans/{}?acc_token={}".format(plan["id"], acc_token),
+            {"data": {
+                "buyers": [{
+                    "address": {"countryName": "Ірландія"},
+                    "kind": "defense"
+                }]
+            }}
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json['data']['buyers'][0],
+            {"identifier": {"scheme": u"UA-EDR", "id": u"111983", "legalName": u"ДП Державне Управління Справами"},
+             "name": u"new_name123",
+             "address": {"countryName": u"Ірландія"},
+             "kind": u"defense"
+             }
+        )
+
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+
+    response = self.app.post_json(request_path, {"data": initial_data})
+    self.assertEqual(response.status, "201 Created")
+
+
 def create_plan_generated(self):
     data = self.initial_data.copy()
     data.update({"id": "hash", "doc_id": "hash2", "planID": "hash3"})
@@ -1188,6 +1520,8 @@ def create_plan_with_buyers(self):
             name="",
             name_en="",
             identifier=dict(scheme=u"UA-EDR", id=u"111983", legalName=u"ДП Державне Управління Справами"),
+            address=dict(countryName=u"Україна", postalCode=u"01220", locality= u"м. Київ"),
+            kind=u"general"
         )
     ]
     response = self.app.post_json("/plans", {"data": data})
@@ -1214,11 +1548,15 @@ def create_plan_with_two_buyers(self):
             name="1",
             name_en="1",
             identifier=dict(scheme=u"UA-EDR", id=u"111983", legalName=u"ДП Державне Управління Справами"),
+            address=dict(countryName=u"Україна", postalCode=u"01220", locality=u"м. Київ"),
+            kind=u"general"
         ),
         dict(
             name="2",
             name_en="2",
             identifier=dict(scheme=u"UA-EDR", id=u"111983", legalName=u"ДП Державне Управління Справами"),
+            address=dict(countryName=u"Україна", postalCode=u"01220", locality=u"м. Київ"),
+            kind=u"other"
         ),
     ]
     response = self.app.post_json("/plans", {"data": data}, status=422)
