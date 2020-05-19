@@ -5,6 +5,7 @@ from copy import deepcopy
 from openprocurement.api.utils import get_now
 
 from openprocurement.tender.belowthreshold.tests.base import test_claim, test_cancellation, test_tender_data, test_organization, test_tender_full_document_data
+from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
 
 
@@ -2269,6 +2270,127 @@ def patch_tender_contract_document_by_supplier(self):
             self.forbidden_contract_document_modification_actions_status
         ),
     )
+
+
+def create_contract_documents_by_render_bot(self):
+    self.add_contract_proforma_document()
+    with change_auth(self.app, ("Basic", ("rBot", ""))):
+        contract_data_json = {
+            "title": u"contractData.json",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/json",
+            "documentOf": "document",
+            "documentType": "contractData",
+            "relatedItem": self.proforma_doc_id
+        }
+
+        response = self.app.post_json("/tenders/{}/contracts/{}/documents".format(self.tender_id, self.contract_id),
+                                      {"data": contract_data_json})
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["data"]["documentType"], contract_data_json["documentType"])
+        self.assertEqual(response.json["data"]["relatedItem"], contract_data_json["relatedItem"])
+        self.assertEqual(response.json["data"]["documentOf"], "document")
+
+        contract_pdf_json = {
+            "title": u"contract.pdf",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/pdf",
+            "documentOf": "document",
+            "documentType": "contract",
+            "relatedItem": self.proforma_doc_id
+        }
+        response = self.app.post_json("/tenders/{}/contracts/{}/documents".format(self.tender_id, self.contract_id),
+                                      {"data": contract_pdf_json})
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["data"]["documentType"], contract_pdf_json["documentType"])
+        self.assertEqual(response.json["data"]["relatedItem"], contract_pdf_json["relatedItem"])
+        self.assertEqual(response.json["data"]["documentOf"], "document")
+
+
+def create_contract_documents_by_render_bot_invalid(self):
+    with change_auth(self.app, ("Basic", ("rBot", ""))):
+        contract_data_json = {
+            "title": u"contractData.json",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/json",
+            "documentType": "contractData",
+        }
+
+        response = self.app.post_json("/tenders/{}/contracts/{}/documents".format(self.tender_id, self.contract_id),
+                                      {"data": contract_data_json},
+                                      status=403)
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["errors"],
+                         [{u'description': u'relatedItem should be one of tender contractProforma documents',
+                           u'location': u'body',
+                           u'name': u'data'}])
+
+        contract_pdf_json = {
+            "title": u"contract.pdf",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/pdf",
+            "documentType": "contract",
+        }
+        response = self.app.post_json("/tenders/{}/contracts/{}/documents".format(self.tender_id, self.contract_id),
+                                      {"data": contract_pdf_json},
+                                      status=403)
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["errors"],
+                         [{u'description': u'relatedItem should be one of tender contractProforma documents',
+                           u'location': u'body',
+                           u'name': u'data'}])
+
+        tender = self.db.get(self.tender_id)
+        tender["contracts"][-1]["status"] = "cancelled"
+        self.db.save(tender)
+
+        self.add_contract_proforma_document()
+        contract_data_json = {
+            "title": u"contractData.json",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/json",
+            "documentType": "contractData",
+            "relatedItem": self.proforma_doc_id,
+            "documentOf": "document"
+        }
+
+        response = self.app.post_json("/tenders/{}/contracts/{}/documents".format(self.tender_id, self.contract_id),
+                                      {"data": contract_data_json},
+                                      status=403)
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["errors"],
+                         [{u'description': u"Can't add document in current contract status",
+                           u'location': u'body',
+                           u'name': u'data'}])
+
+        contract_pdf_json = {
+            "title": u"contract.pdf",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/pdf",
+            "documentType": "contract",
+            "relatedItem": self.proforma_doc_id,
+            "documentOf": "document"
+        }
+        response = self.app.post_json("/tenders/{}/contracts/{}/documents".format(self.tender_id, self.contract_id),
+                                      {"data": contract_pdf_json},
+                                      status=403)
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["errors"],
+                         [{u'description': u"Can't add document in current contract status",
+                           u'location': u'body',
+                           u'name': u'data'}])
 
 
 # Tender2LotContractDocumentResourceTest

@@ -395,6 +395,8 @@ class TenderContractDocumentResourceTest(BaseTenderContentWebTest, TenderContrac
     test_create_tender_contract_document = snitch(create_tender_contract_document)
     test_patch_tender_contract_document = snitch(patch_tender_contract_document)
     test_put_tender_contract_document = snitch(put_tender_contract_document)
+    test_create_contract_documents_by_render_bot = None
+    test_create_contract_documents_by_render_bot_invalid = None
 
 
 class TenderContractNegotiationDocumentResourceTest(TenderContractDocumentResourceTest):

@@ -199,7 +199,7 @@ class BaseCoreWebTest(BaseWebTest):
             tender["qualifications"] = [qualification]
         self.db.save(tender)
 
-    def add_contract_proforma_document(self, lots=False):
+    def add_contract_proforma_document(self):
         data = {
             "id": uuid4().hex,
             "author": "tender_owner",

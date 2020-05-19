@@ -44,6 +44,8 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     lot2_create_tender_contract_document_by_others,
     lot2_put_tender_contract_document_by_supplier,
     lot2_patch_tender_contract_document_by_supplier,
+    create_contract_documents_by_render_bot,
+    create_contract_documents_by_render_bot_invalid,
 )
 
 
@@ -58,6 +60,8 @@ class TenderContractDocumentResourceTestMixin(object):
     test_create_tender_contract_document = snitch(create_tender_contract_document)
     test_put_tender_contract_document = snitch(put_tender_contract_document)
     test_patch_tender_contract_document = snitch(patch_tender_contract_document)
+    test_create_contract_documents_by_render_bot = snitch(create_contract_documents_by_render_bot)
+    test_create_contract_documents_by_render_bot_invalid = snitch(create_contract_documents_by_render_bot_invalid)
 
 
 class TenderContractResourceTest(TenderContentWebTest, TenderContractResourceTestMixin):
@@ -268,6 +272,8 @@ class Tender2LotContractDocumentResourceTest(TenderContentWebTest):
     test_lot2_create_tender_contract_document_by_others = snitch(lot2_create_tender_contract_document_by_others)
     test_lot2_put_tender_contract_document_by_supplier = snitch(lot2_put_tender_contract_document_by_supplier)
     test_lot2_patch_tender_contract_document_by_supplier = snitch(lot2_patch_tender_contract_document_by_supplier)
+    test_lot2_create_contract_documents_by_render_bot = snitch(create_contract_documents_by_render_bot)
+    test_lot2_create_contract_documents_by_render_bot_invalid = snitch(create_contract_documents_by_render_bot_invalid)
 
 
 def suite():
