@@ -1683,6 +1683,10 @@ def validate_update_contract_status_by_supplier(request):
 
 
 def validate_role_for_contract_document_operation(request):
+    if request.authenticated_role == "renderer_bots" and \
+            hasattr(request.validated["document"], "documentType") and \
+            request.validated["document"].documentType in ("contractData", "contract"):
+        return
     if request.authenticated_role not in ("tender_owner", "contract_supplier",):
         raise_operation_error(request, "Can {} document only buyer or supplier".format(OPERATIONS.get(request.method)))
     if request.authenticated_role == "contract_supplier" and \
