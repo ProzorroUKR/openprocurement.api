@@ -1339,6 +1339,27 @@ def put_tender_bid_document_json(self):
         response.json["errors"][0]["description"], "Can't update document in current (active.awarded) tender status"
     )
 
+def create_tender_bid_contract_data_document_json(self):
+    self.add_contract_proforma_document()
+    data = {
+        "data": {
+            "title": "bidderContractData.json",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/json",
+            "documentOf": "document",
+            "documentType": "contractData",
+            "relatedItem": self.proforma_doc_id,
+        }
+    }
+    response = self.app.post_json(
+        "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token), data
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.json["data"]["documentOf"], data["data"]["documentOf"])
+    self.assertEqual(response.json["data"]["documentType"], data["data"]["documentType"])
+    self.assertEqual(response.json["data"]["relatedItem"], data["data"]["relatedItem"])
+
 
 # TenderBidBatchDocumentWithDSResourceTest
 

@@ -199,6 +199,34 @@ class BaseCoreWebTest(BaseWebTest):
             tender["qualifications"] = [qualification]
         self.db.save(tender)
 
+    def add_contract_proforma_document(self, lots=False):
+        data = {
+            "id": uuid4().hex,
+            "author": "tender_owner",
+            "title": u"paper0000001.pdf",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/pdf",
+            "templateId": "paper00000001",
+            "documentType": "contractProforma",
+            "documentOf": "tender",
+            "dateModified": now.isoformat(),
+            "datePublished": now.isoformat(),
+        }
+        if self.initial_lots:
+            data["relatedItem"] = self.initial_lots[0]["id"]
+            data["documentOf"] = "lot"
+        doc = self.db.get(self.tender_id)
+        proforma_docs = [d["id"] for d in doc.get("documents", []) if d.get("documentType", "") == "contractProforma"]
+        if len(proforma_docs) != 0:
+            self.proforma_doc_id = proforma_docs[-1]
+        else:
+            documents = doc.get("documents", [])
+            documents.append(data)
+            doc["documents"] = documents
+            self.db.save(doc)
+            self.proforma_doc_id = data["id"]
+
 
 @contextmanager
 def change_auth(app, auth):
