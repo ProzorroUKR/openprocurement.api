@@ -602,6 +602,45 @@ def get_tender_bidder_document(self):
 
             self.app.authorization = orig_auth
 
+    def all_documents_accessible_for_reviewer():
+        orig_auth = self.app.authorization
+        self.app.authorization = ('Basic', ('reviewer', ''))
+
+        for resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:
+            camel_resource = ''.join(word.title() for word in resource.split('_'))
+            camel_resource = camel_resource[:1].lower() + camel_resource[1:]
+            response = self.app.get(
+                "/tenders/{}".format(self.tender_id)
+            )
+
+            data = response.json["data"]
+            bid_documents = data["bids"][0][camel_resource]
+            self.assertIn("url", bid_documents[0])
+            self.assertIn("url", bid_documents[1])
+
+            response = self.app.get(
+                "/tenders/{}/bids/{}".format(self.tender_id, self.bid_id)
+            )
+            data = response.json["data"]
+            self.assertIn("url", data[camel_resource][0])
+            self.assertIn("url", data[camel_resource][1])
+
+            public_file_id = data[camel_resource][0]["id"]
+            confident_file_id = data[camel_resource][1]["id"]
+
+            response = self.app.get(
+                "/tenders/{}/bids/{}/{}/{}".format(self.tender_id, self.bid_id, resource, public_file_id)
+            )
+            self.assertIn("url", response.json["data"])
+
+            response = self.app.get(
+                "/tenders/{}/bids/{}/{}/{}".format(self.tender_id, self.bid_id, resource, confident_file_id)
+            )
+            self.assertIn("url", response.json["data"])
+
+        self.app.authorization = orig_auth
+
+
     # active.tendering
     for doc_resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:
         response = self.app.post(
@@ -928,6 +967,7 @@ def get_tender_bidder_document(self):
         documents_are_accessible_for_tender_owner(doc_resource)
     all_public_documents_are_accessible_for_others()
     documents_accessible_from_tender_view()
+    all_documents_accessible_for_reviewer()
 
 
 def create_tender_bidder_document(self):

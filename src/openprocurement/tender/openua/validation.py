@@ -65,17 +65,10 @@ def validate_update_bid_to_active_status(request):
 
 # bid documents
 def validate_download_bid_document(request):
-    tender = request.validated["tender"]
-    bid = request.validated["bid"]
-
-    acc_token = extract_access_token(request)
-    auth_user_id = request.authenticated_userid
 
     if request.params.get("download"):
         document = request.validated["document"]
-        is_owner = (auth_user_id == bid.owner and acc_token == bid.owner_token)
-        is_tender_owner = (auth_user_id == tender.owner and acc_token == tender.owner_token)
-        if document.confidentiality == "buyerOnly" and not is_owner and not is_tender_owner:
+        if document.view_role() != "view":
             raise_operation_error(request, "Document download forbidden.")
 
 
