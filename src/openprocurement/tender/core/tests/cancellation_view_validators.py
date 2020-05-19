@@ -174,7 +174,7 @@ def test_post_cancellation_openeu(app):
                 status=403
             )
         assert response.json == {u'status': u'error', u'errors': [
-            {u'description': u"Cancellation can't be add when exists active complaint period",
+            {u'description': u"Can't perform operation for there is an award complaint in pending status",
              u'location': u'body', u'name': u'data'}]}
 
         # qualification complaints
@@ -201,7 +201,7 @@ def test_post_cancellation_openeu(app):
                 status=403
             )
         assert response.json == {u'status': u'error', u'errors': [
-            {u'description': u"Cancellation can't be add when exists active complaint period",
+            {u'description': u"Can't perform operation for there is a qualification complaint in accepted status",
              u'location': u'body', u'name': u'data'}]}
 
         # tender complaint
