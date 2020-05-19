@@ -23,6 +23,7 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     patch_not_author,
     # TenderLotAwardResourceTest
     patch_tender_lot_award_lots_none,
+    create_tender_award_contract_data_document,
 )
 
 from openprocurement.tender.openua.tests.award_blanks import (
@@ -241,6 +242,7 @@ class TenderAwardDocumentResourceTest(BaseTenderContentWebTest):
     test_patch_tender_award_document = snitch(patch_tender_award_document)
     test_create_award_document_bot = snitch(create_award_document_bot)
     test_patch_not_author = snitch(patch_not_author)
+    test_create_tender_award_contract_data_document = snitch(create_tender_award_contract_data_document)
 
 
 def suite():

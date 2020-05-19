@@ -3241,6 +3241,54 @@ def patch_not_author(self):
     self.assertEqual(response.json["errors"][0]["description"], "Can update document only author")
 
 
+def create_tender_award_contract_data_document_json(self):
+    self.add_contract_proforma_document()
+    data = {
+        "data": {
+            "title": "bidderContractData.json",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/json",
+            "documentOf": "document",
+            "documentType": "contractData",
+            "relatedItem": self.proforma_doc_id,
+        }
+    }
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, self.award_id, self.tender_token), data
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.json["data"]["documentOf"], data["data"]["documentOf"])
+    self.assertEqual(response.json["data"]["documentType"], data["data"]["documentType"])
+    self.assertEqual(response.json["data"]["relatedItem"], data["data"]["relatedItem"])
+
+
+def create_tender_award_contract_data_document(self):
+    self.add_contract_proforma_document()
+    response = self.app.post(
+        "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+        upload_files=[("file", "contract_data.json", "content")],
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.json["data"]["title"], "contract_data.json")
+
+    document_id = response.json["data"]["id"]
+    data = {
+        "documentOf": "document",
+        "documentType": "contractData",
+        "relatedItem": self.proforma_doc_id,
+    }
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}/documents/{}?acc_token={}".format(
+            self.tender_id, self.award_id, document_id, self.tender_token
+        ),
+        {"data": data}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["documentOf"], data["documentOf"])
+    self.assertEqual(response.json["data"]["documentType"], data["documentType"])
+    self.assertEqual(response.json["data"]["relatedItem"], data["relatedItem"])
+
 # Tender2LotAwardDocumentResourceTest
 
 

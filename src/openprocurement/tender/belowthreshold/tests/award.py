@@ -77,6 +77,8 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     # TenderAwardResourceScaleTest
     create_tender_award_with_scale_not_required,
     create_tender_award_no_scale,
+    create_tender_award_contract_data_document,
+    create_tender_award_contract_data_document_json,
 )
 
 
@@ -103,6 +105,7 @@ class TenderAwardDocumentResourceTestMixin(object):
     test_patch_tender_award_document = snitch(patch_tender_award_document)
     test_create_award_document_bot = snitch(create_award_document_bot)
     test_patch_not_author = snitch(patch_not_author)
+    test_create_tender_award_contract_data_document = snitch(create_tender_award_contract_data_document)
 
 
 class TenderAwardComplaintDocumentResourceTestMixin(object):
@@ -119,7 +122,7 @@ class Tender2LotAwardDocumentResourceTestMixin(object):
     test_create_tender_lots_award_document = snitch(create_tender_lots_award_document)
     test_put_tender_lots_award_document = snitch(put_tender_lots_award_document)
     test_patch_tender_lots_award_document = snitch(patch_tender_lots_award_document)
-
+    test_create_tender_award_contract_data_document = snitch(create_tender_award_contract_data_document)
 
 class TenderAwardResourceTest(TenderContentWebTest, TenderAwardResourceTestMixin):
     initial_status = "active.qualification"
@@ -372,6 +375,8 @@ class TenderAwardDocumentResourceTest(TenderContentWebTest, TenderAwardDocumentR
 class TenderAwardDocumentWithDSResourceTest(TenderAwardDocumentResourceTest):
     docservice = True
 
+    test_create_tender_award_contract_data_document_json = snitch(create_tender_award_contract_data_document_json)
+
 
 class Tender2LotAwardDocumentResourceTest(TenderContentWebTest, Tender2LotAwardDocumentResourceTestMixin):
     initial_status = "active.qualification"
@@ -402,6 +407,8 @@ class Tender2LotAwardDocumentResourceTest(TenderContentWebTest, Tender2LotAwardD
 
 class Tender2LotAwardDocumentWithDSResourceTest(Tender2LotAwardDocumentResourceTest):
     docservice = True
+
+    test_create_lot_award_contract_data_document = snitch(create_tender_award_contract_data_document)
 
 
 def suite():
