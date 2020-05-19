@@ -532,6 +532,7 @@ class Document(Model):
             "contractForm",
             "contractData",
             "contractProforma",
+            "contract",
         ]
     )
     title = StringType(required=True)  # A title of the document.
