@@ -1155,7 +1155,7 @@ def create_tender_contract_document_by_supplier(self):
     response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, self.contract_id))
     contract = response.json["data"]
     self.assertEqual(response.json["data"]["status"], "pending")
-      
+
     doc = self.db.get(self.tender_id)
     bid_id = jmespath.search("awards[?id=='{}'].bid_id".format(contract["awardID"]), doc)[0]
     bid_token = jmespath.search("bids[?id=='{}'].owner_token".format(bid_id), doc)[0]
@@ -1183,7 +1183,7 @@ def create_tender_contract_document_by_supplier(self):
     contract_doc_id = response.json["data"]["id"]
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    
+
     # Supplier
     response = self.app.post_json(
     "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
@@ -1204,7 +1204,7 @@ def create_tender_contract_document_by_supplier(self):
                      [{u'description': u"Supplier can't add document in current contract status",
                        u'location': u'body',
                        u'name': u'data'}])
-                       
+
     # Tender owner
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
@@ -1212,7 +1212,6 @@ def create_tender_contract_document_by_supplier(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
-    
 
     # Supplier
     response = self.app.post(
@@ -1244,7 +1243,6 @@ def create_tender_contract_document_by_supplier(self):
                        u'location': u'body',
                        u'name': u'data'}])
 
-    
     response = self.app.post_json(
     "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
     {
@@ -1315,7 +1313,7 @@ def create_tender_contract_document_by_supplier(self):
                      [{u'description': u"Supplier can add only 'application/pkcs7-signature' document format files",
                        u'location': u'body',
                        u'name': u'data'}])
-    
+
     response = self.app.post_json(
     "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
     {
@@ -1336,7 +1334,7 @@ def create_tender_contract_document_by_supplier(self):
     self.assertIn(doc_id, response.headers["Location"])
     self.assertEqual("supplier_first_document_sign.pkcs7", response.json["data"]["title"])
     key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-    
+
     response = self.app.get("/tenders/{}/contracts/{}/documents".format(self.tender_id, self.contract_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -1348,7 +1346,7 @@ def create_tender_contract_document_by_supplier(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"][-1]["id"])
     self.assertEqual("supplier_first_document_sign.pkcs7", response.json["data"][-1]["title"])
-    
+
     if self.docservice:
         response = self.app.get("/tenders/{}/contracts/{}/documents/{}?download={}".format(self.tender_id, self.contract_id, doc_id, key))
         self.assertEqual(response.status, "302 Moved Temporarily")
@@ -1625,7 +1623,7 @@ def put_tender_contract_document_by_supplier(self):
     response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, self.contract_id))
     contract = response.json["data"]
     self.assertEqual(response.json["data"]["status"], "pending")
-  
+
     doc = self.db.get(self.tender_id)
     bid_id = jmespath.search("awards[?id=='{}'].bid_id".format(contract["awardID"]), doc)[0]
     bid_token = jmespath.search("bids[?id=='{}'].owner_token".format(bid_id), doc)[0]
@@ -1637,7 +1635,7 @@ def put_tender_contract_document_by_supplier(self):
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     if 'value' in doc['contracts'][0] and doc['contracts'][0]['value']['valueAddedTaxIncluded']:
         doc['contracts'][0]['value']['amountNet'] = str(float(doc['contracts'][0]['value']['amount']) - 1)
-    
+
     tender_document = deepcopy(test_tender_full_document_data)
     tender_document["url"] = self.generate_docservice_url()
     doc["documents"] = [tender_document]
@@ -1653,7 +1651,7 @@ def put_tender_contract_document_by_supplier(self):
     contract_doc_id = response.json["data"]["id"]
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    
+
     # Supplier
     response = self.app.post_json(
     "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
@@ -1680,7 +1678,7 @@ def put_tender_contract_document_by_supplier(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
-       
+
     # Supplier
     response = self.app.post_json(
     "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
@@ -1713,7 +1711,7 @@ def put_tender_contract_document_by_supplier(self):
                      [{u'description': u"Supplier can't update contract documents",
                        u'location': u'body',
                        u'name': u'data'}])
-    
+
     response = self.app.put_json(
     "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
             self.tender_id, self.contract_id, doc_id, bid_token),
@@ -1732,7 +1730,7 @@ def put_tender_contract_document_by_supplier(self):
                      [{u'description': u"Supplier can't update tender documents",
                        u'location': u'body',
                        u'name': u'data'}])
-    
+
     response = self.app.put_json(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
             self.tender_id, self.contract_id, doc_id, bid_token),
@@ -1753,7 +1751,7 @@ def put_tender_contract_document_by_supplier(self):
                      [{u'description': u"Supplier can update only 'application/pkcs7-signature' document format files",
                        u'location': u'body',
                        u'name': u'data'}])
-    
+
     response = self.app.put_json(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
             self.tender_id, self.contract_id, doc_id, bid_token),
@@ -1866,7 +1864,7 @@ def put_tender_contract_document_by_supplier(self):
                      [{u'description': u"Supplier can update only 'application/pkcs7-signature' document format files",
                        u'location': u'body',
                        u'name': u'data'}])
-    
+
     response = self.app.put(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
             self.tender_id, self.contract_id, doc_id, bid_token
@@ -1910,7 +1908,7 @@ def put_tender_contract_document_by_supplier(self):
                      "Supplier can't update document in current contract status")
 
     self.set_status(self.forbidden_document_modification_actions_status)
-    
+
     response = self.app.put_json(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
             self.tender_id, self.contract_id, doc_id, bid_token),
@@ -2064,7 +2062,7 @@ def patch_tender_contract_document_by_supplier(self):
     response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, self.contract_id))
     contract = response.json["data"]
     self.assertEqual(response.json["data"]["status"], "pending")
-    
+
     doc = self.db.get(self.tender_id)
     bid_id = jmespath.search("awards[?id=='{}'].bid_id".format(contract["awardID"]), doc)[0]
     bid_token = jmespath.search("bids[?id=='{}'].owner_token".format(bid_id), doc)[0]
@@ -2076,13 +2074,13 @@ def patch_tender_contract_document_by_supplier(self):
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     if 'value' in doc['contracts'][0] and doc['contracts'][0]['value']['valueAddedTaxIncluded']:
         doc['contracts'][0]['value']['amountNet'] = str(float(doc['contracts'][0]['value']['amount']) - 1)
-    
+
     tender_document = deepcopy(test_tender_full_document_data)
     tender_document["url"] = self.generate_docservice_url()
     doc["documents"] = [tender_document]
     tender_document_id = doc["documents"][0]["id"]
     self.db.save(doc)
-    
+
     #Tender owner
     response = self.app.post(
         "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
@@ -2092,7 +2090,7 @@ def patch_tender_contract_document_by_supplier(self):
     contract_doc_id = response.json["data"]["id"]
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    
+
     # Supplier
     response = self.app.post_json(
     "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
@@ -2113,7 +2111,7 @@ def patch_tender_contract_document_by_supplier(self):
                      [{u'description': u"Supplier can't add document in current contract status",
                        u'location': u'body',
                        u'name': u'data'}])
-    
+
     # Tender owner
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
@@ -2121,8 +2119,8 @@ def patch_tender_contract_document_by_supplier(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
-    
-    # Supplier    
+
+    # Supplier
     response = self.app.post_json(
     "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
     {
@@ -2157,8 +2155,8 @@ def patch_tender_contract_document_by_supplier(self):
                      [{u'description': u"Supplier can update only 'application/pkcs7-signature' document format files",
                        u'location': u'body',
                        u'name': u'data'}])
-    
-    # Supplier 
+
+    # Supplier
     response = self.app.patch_json(
     "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
             self.tender_id, self.contract_id, doc_id, bid_token),
@@ -2179,7 +2177,7 @@ def patch_tender_contract_document_by_supplier(self):
                      [{u'description': u"Supplier can't update tender documents",
                        u'location': u'body',
                        u'name': u'data'}])
-    
+
     response = self.app.patch_json(
      "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
             self.tender_id, self.contract_id, doc_id, bid_token),
@@ -2228,7 +2226,7 @@ def patch_tender_contract_document_by_supplier(self):
         ),
         {"data": {"description": "description"}},
         status=200
-    )   
+    )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
@@ -2359,7 +2357,7 @@ def lot2_create_tender_contract_document_by_supplier(self):
     contract_doc_id = response.json["data"]["id"]
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-   
+
     # Supplier
     response = self.app.post_json(
     "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
@@ -2380,7 +2378,7 @@ def lot2_create_tender_contract_document_by_supplier(self):
                      [{u'description': u"Supplier can't add document in current contract status",
                        u'location': u'body',
                        u'name': u'data'}])
-    
+
     # Tender owner
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
@@ -2399,7 +2397,7 @@ def lot2_create_tender_contract_document_by_supplier(self):
                      [{u'description': u"Supplier can't add contract documents",
                        u'location': u'body',
                        u'name': u'data'}])
-    
+
     # Supplier
     response = self.app.post_json(
     "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
@@ -2418,7 +2416,7 @@ def lot2_create_tender_contract_document_by_supplier(self):
                      [{u'description': u"Supplier can't add tender documents",
                        u'location': u'body',
                        u'name': u'data'}])
-    
+
     response = self.app.post_json(
     "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
     {
@@ -2469,7 +2467,7 @@ def lot2_create_tender_contract_document_by_supplier(self):
             }
         ]
     )
-    
+
     response = self.app.post_json(
     "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
     {
@@ -2489,7 +2487,7 @@ def lot2_create_tender_contract_document_by_supplier(self):
                      [{u'description': u"Supplier can add only 'application/pkcs7-signature' document format files",
                        u'location': u'body',
                        u'name': u'data'}])
-    
+
     response = self.app.post_json(
     "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
     {
@@ -2674,7 +2672,7 @@ def lot2_put_tender_contract_document_by_supplier(self):
     doc = self.db.get(self.tender_id)
     bid_id = jmespath.search("awards[?id=='{}'].bid_id".format(contract["awardID"]), doc)[0]
     bid_token = jmespath.search("bids[?id=='{}'].owner_token".format(bid_id), doc)[0]
-    
+
     tender_document = deepcopy(test_tender_full_document_data)
     tender_document["url"] = self.generate_docservice_url()
     doc["documents"] = [tender_document]
@@ -2716,7 +2714,7 @@ def lot2_put_tender_contract_document_by_supplier(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
-    
+
     # Supplier
     response = self.app.post_json(
     "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
@@ -2749,8 +2747,7 @@ def lot2_put_tender_contract_document_by_supplier(self):
                      [{u'description': u"Supplier can't update contract documents",
                        u'location': u'body',
                        u'name': u'data'}])
-    
-    
+
     # Supplier
     response = self.app.put_json(
     "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
@@ -2770,7 +2767,7 @@ def lot2_put_tender_contract_document_by_supplier(self):
                      [{u'description': u"Supplier can't update tender documents",
                        u'location': u'body',
                        u'name': u'data'}])
-    
+
     # Supplier
     response = self.app.put_json(
      "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
@@ -2813,7 +2810,7 @@ def lot2_put_tender_contract_document_by_supplier(self):
                      [{u'description': u"Supplier can update only 'application/pkcs7-signature' document format files",
                        u'location': u'body',
                        u'name': u'data'}])
-    
+
     response = self.app.put_json(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
             self.tender_id, self.contract_id, doc_id, bid_token),
@@ -2837,14 +2834,11 @@ def lot2_put_tender_contract_document_by_supplier(self):
             {
                 u"location": u"body",
                 u"name": u"relatedItem",
-                u"description": [
-                                    u'relatedItem should be one of documents'
-                                ]
-                    
+                u"description": [u'relatedItem should be one of documents']
             }
         ]
     )
-    
+
     response = self.app.put_json(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
             self.tender_id, self.contract_id, doc_id, bid_token),
@@ -2903,7 +2897,7 @@ def lot2_put_tender_contract_document_by_supplier(self):
         },
         status=403
     )
-   
+
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["errors"][0]["description"], "Can update document only in active lot status")
@@ -2997,7 +2991,7 @@ def lot2_patch_tender_contract_document_by_supplier(self):
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     if 'value' in doc['contracts'][0] and doc['contracts'][0]['value']['valueAddedTaxIncluded']:
         doc['contracts'][0]['value']['amountNet'] = str(float(doc['contracts'][0]['value']['amount']) - 1)
-    
+
     tender_document = deepcopy(test_tender_full_document_data)
     tender_document["url"] = self.generate_docservice_url()
     doc["documents"] = [tender_document]
@@ -3013,7 +3007,7 @@ def lot2_patch_tender_contract_document_by_supplier(self):
     contract_doc_id = response.json["data"]["id"]
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    
+
     # Supplier
     response = self.app.post_json(
     "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
@@ -3034,7 +3028,7 @@ def lot2_patch_tender_contract_document_by_supplier(self):
                      [{u'description': u"Supplier can't add document in current contract status",
                        u'location': u'body',
                        u'name': u'data'}])
-    
+
     # Tender owner
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
@@ -3042,8 +3036,8 @@ def lot2_patch_tender_contract_document_by_supplier(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending.winner-signing")
- 
-    # Supplier    
+
+    # Supplier
     response = self.app.post_json(
     "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
     {
@@ -3062,8 +3056,8 @@ def lot2_patch_tender_contract_document_by_supplier(self):
     self.assertEqual(response.content_type, "application/json")
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
-    
-    # Supplier 
+
+    # Supplier
     response = self.app.patch_json(
     "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
             self.tender_id, self.contract_id, doc_id, bid_token),
@@ -3118,7 +3112,7 @@ def lot2_patch_tender_contract_document_by_supplier(self):
                      [{u'description': u"Supplier can update only 'application/pkcs7-signature' document format files",
                        u'location': u'body',
                        u'name': u'data'}])
-    
+
     # Supplier
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
@@ -3141,8 +3135,8 @@ def lot2_patch_tender_contract_document_by_supplier(self):
             }
         ]
     )
-    
-    # Supplier 
+
+    # Supplier
     response = self.app.patch_json(
     "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
             self.tender_id, self.contract_id, doc_id, bid_token),
@@ -3170,7 +3164,7 @@ def lot2_patch_tender_contract_document_by_supplier(self):
         ),
         {"data": {"description": "document description"}},
         status=200
-    )   
+    )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])

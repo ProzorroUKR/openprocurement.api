@@ -180,7 +180,7 @@ class TenderContractDocumentResourceTest(TenderContentWebTest, TenderContractDoc
     initial_status = "active.qualification"
     initial_bids = test_bids
     docservice = True
-    
+
     def setUp(self):
         super(TenderContractDocumentResourceTest, self).setUp()
         # Create award
