@@ -99,7 +99,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         complaint2_id = response.json['data']['id']
 
         complaint_data = {'data': complaint.copy()}
-        # complaint_data['data']['status'] = 'pending'
 
         complaint_url = "/tenders/{}/complaints".format(self.tender_id)
         complaint3_id, complaint3_token = complaint_create_pending(self, complaint_url, complaint_data)

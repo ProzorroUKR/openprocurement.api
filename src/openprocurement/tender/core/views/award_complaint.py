@@ -176,7 +176,6 @@ class BaseTenderAwardComplaintResource(BaseTenderComplaintResource):
             return {"data": self.context.serialize("view")}
 
     def patch_as_complaint_owner(self, data):
-        context = self.context
         status = self.context.status
         new_status = data.get("status", status)
         tender = self.request.validated["tender"]
@@ -185,11 +184,11 @@ class BaseTenderAwardComplaintResource(BaseTenderComplaintResource):
         if (
             new_status == "cancelled"
             and status in ["draft", "claim", "answered"]
-            and context.type == "claim"
+            and self.context.type == "claim"
         ) or (
             new_status == "cancelled"
             and status == "draft"
-            and context.type == "complaint"
+            and self.context.type == "complaint"
             and not apply_rules_2020_04_19
         ) or (
             new_status == "stopping"
