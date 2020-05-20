@@ -4,6 +4,7 @@ from webtest import AppError
 import mock
 
 from openprocurement.api.utils import get_now
+from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.pricequotation.tests.base import test_organization
 
 
@@ -162,18 +163,18 @@ def create_tender_award_invalid(self):
 
 
 def create_tender_award(self):
-    self.app.authorization = ("Basic", ("token", ""))
-    request_path = "/tenders/{}/awards".format(self.tender_id)
-    response = self.app.post_json(
-        request_path,
-        {"data": {"suppliers": [test_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    award = response.json["data"]
-    self.assertEqual(award["suppliers"][0]["name"], test_organization["name"])
-    self.assertIn("id", award)
-    self.assertIn(award["id"], response.headers["Location"])
+    with change_auth(self.app, ("Basic", ("token", ""))):
+        request_path = "/tenders/{}/awards".format(self.tender_id)
+        response = self.app.post_json(
+            request_path,
+            {"data": {"suppliers": [test_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        award = response.json["data"]
+        self.assertEqual(award["suppliers"][0]["name"], test_organization["name"])
+        self.assertIn("id", award)
+        self.assertIn(award["id"], response.headers["Location"])
 
     response = self.app.get(request_path)
     self.assertEqual(response.status, "200 OK")
@@ -224,8 +225,9 @@ def patch_tender_award(self):
         response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
     )
     award_id = self.award_ids[0]
+    token = self.initial_bids_tokens[0]
     response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, token),
         {"data": {"awardStatus": "unsuccessful"}},
         status=422,
     )
@@ -235,15 +237,16 @@ def patch_tender_award(self):
         response.json["errors"], [{"location": "body", "name": "awardStatus", "description": "Rogue field"}]
     )
 
+    token = self.initial_bids_tokens[0]
     response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, token),
         {"data": {"status": "unsuccessful"}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
     response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, token),
         {"data": {"status": "pending"}},
         status=403,
     )
@@ -257,8 +260,9 @@ def patch_tender_award(self):
     self.assertEqual(len(response.json["data"]), 2)
     new_award = response.json["data"][-1]
 
+    token = self.initial_bids_tokens[1]
     response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award["id"], self.tender_token),
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award["id"], token),
         {"data": {"title": "title", "description": "description"}},
     )
     self.assertEqual(response.status, "200 OK")
@@ -267,7 +271,7 @@ def patch_tender_award(self):
     self.assertEqual(response.json["data"]["description"], "description")
 
     response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award["id"], self.tender_token),
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award["id"], token),
         {"data": {"status": "active"}},
     )
     self.assertEqual(response.status, "200 OK")
@@ -279,7 +283,7 @@ def patch_tender_award(self):
     self.assertEqual(len(response.json["data"]), 2)
 
     response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award["id"], self.tender_token),
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award["id"], token),
         {"data": {"status": "cancelled"}},
     )
     self.assertEqual(response.status, "200 OK")
@@ -299,7 +303,7 @@ def patch_tender_award(self):
     self.assertEqual(response.json["data"]["value"]["amount"], 469.0)
 
     response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.initial_bids_tokens[0]),
         {"data": {"status": "unsuccessful"}},
         status=403,
     )
@@ -496,9 +500,9 @@ def not_found_award_document(self):
     self.assertEqual(
         response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"award_id"}]
     )
-
+    token = self.initial_bids_tokens[0]
     response = self.app.post(
-        "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+        "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, self.award_id, token),
         status=404,
         upload_files=[("invalid_value", "name.doc", "content")],
     )
@@ -585,8 +589,9 @@ def not_found_award_document(self):
 
 
 def create_tender_award_document(self):
+    token = self.initial_bids_tokens[0]
     response = self.app.post(
-        "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+        "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, self.award_id, token),
         upload_files=[("file", "name.doc", "content")],
     )
     self.assertEqual(response.status, "201 Created")
@@ -660,8 +665,9 @@ def create_tender_award_document(self):
 
     self.set_status("complete")
 
+    token = self.initial_bids_tokens[0]
     response = self.app.post(
-        "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+        "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, self.award_id, token),
         upload_files=[("file", "name.doc", "content")],
         status=403,
     )
@@ -673,8 +679,9 @@ def create_tender_award_document(self):
 
 
 def put_tender_award_document(self):
+    token = self.initial_bids_tokens[0]
     response = self.app.post(
-        "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+        "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, self.award_id, token),
         upload_files=[("file", "name.doc", "content")],
     )
     self.assertEqual(response.status, "201 Created")
@@ -684,7 +691,7 @@ def put_tender_award_document(self):
 
     response = self.app.put(
         "/tenders/{}/awards/{}/documents/{}?acc_token={}".format(
-            self.tender_id, self.award_id, doc_id, self.tender_token
+            self.tender_id, self.award_id, doc_id, token
         ),
         status=404,
         upload_files=[("invalid_name", "name.doc", "content")],
@@ -696,7 +703,7 @@ def put_tender_award_document(self):
 
     response = self.app.put(
         "/tenders/{}/awards/{}/documents/{}?acc_token={}".format(
-            self.tender_id, self.award_id, doc_id, self.tender_token
+            self.tender_id, self.award_id, doc_id, token
         ),
         upload_files=[("file", "name.doc", "content2")],
     )
@@ -744,7 +751,7 @@ def put_tender_award_document(self):
 
     response = self.app.put(
         "/tenders/{}/awards/{}/documents/{}?acc_token={}".format(
-            self.tender_id, self.award_id, doc_id, self.tender_token
+            self.tender_id, self.award_id, doc_id, token
         ),
         "content3",
         content_type="application/msword",
@@ -789,7 +796,7 @@ def put_tender_award_document(self):
 
     response = self.app.put(
         "/tenders/{}/awards/{}/documents/{}?acc_token={}".format(
-            self.tender_id, self.award_id, doc_id, self.tender_token
+            self.tender_id, self.award_id, doc_id, token
         ),
         upload_files=[("file", "name.doc", "content3")],
         status=403,
@@ -802,8 +809,9 @@ def put_tender_award_document(self):
 
 
 def patch_tender_award_document(self):
+    token = self.initial_bids_tokens[0]
     response = self.app.post(
-        "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+        "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, self.award_id, token),
         upload_files=[("file", "name.doc", "content")],
     )
     self.assertEqual(response.status, "201 Created")
@@ -813,7 +821,7 @@ def patch_tender_award_document(self):
 
     response = self.app.patch_json(
         "/tenders/{}/awards/{}/documents/{}?acc_token={}".format(
-            self.tender_id, self.award_id, doc_id, self.tender_token
+            self.tender_id, self.award_id, doc_id, token
         ),
         {"data": {"description": "document description"}},
     )
@@ -831,7 +839,7 @@ def patch_tender_award_document(self):
 
     response = self.app.patch_json(
         "/tenders/{}/awards/{}/documents/{}?acc_token={}".format(
-            self.tender_id, self.award_id, doc_id, self.tender_token
+            self.tender_id, self.award_id, doc_id, token
         ),
         {"data": {"description": "document description"}},
         status=403,
@@ -883,8 +891,9 @@ def create_award_document_bot(self):
         )
     except AppError:
         pass
+    token = self.initial_bids_tokens[0]
     response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, token),
         {"data": {"qualified": True, "status": "active"}},
     )
     self.assertEqual(response.status, "200 OK")
@@ -914,7 +923,7 @@ def patch_not_author(self):
     self.app.authorization = authorization
     response = self.app.patch_json(
         "/tenders/{}/awards/{}/documents/{}?acc_token={}".format(
-            self.tender_id, self.award_id, doc_id, self.tender_token
+            self.tender_id, self.award_id, doc_id, self.initial_bids_tokens[0]
         ),
         {"data": {"description": "document description"}},
         status=403,
@@ -946,9 +955,10 @@ def check_tender_award(self):
     self.assertEqual(response.json["data"]["bid_id"], sorted_bids[0]["id"])
 
     # cancel award
+    token = self.initial_bids_tokens[0]
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, token),
         {"data": {"status": "unsuccessful"}},
     )
     self.assertEqual(response.status, "200 OK")
@@ -956,6 +966,51 @@ def check_tender_award(self):
     # get awards
     response = self.app.get("/tenders/{}/awards".format(self.tender_id))
     # get pending award
+    award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
+    # check new award
+    response = self.app.get("/tenders/{}/awards/{}".format(self.tender_id, award_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["suppliers"][0]["name"], sorted_bids[1]["tenderers"][0]["name"])
+    self.assertEqual(
+        response.json["data"]["suppliers"][0]["identifier"]["id"], sorted_bids[1]["tenderers"][0]["identifier"]["id"]
+    )
+    self.assertEqual(response.json["data"]["bid_id"], sorted_bids[1]["id"])
+
+
+def check_tender_award_disqualification(self):
+    # get bids
+    response = self.app.get("/tenders/{}/bids".format(self.tender_id))
+    self.assertEqual(response.status, "200 OK")
+    bids = response.json["data"]
+    sorted_bids = sorted(bids, key=lambda bid: bid["value"]['amount'])
+
+    # get awards
+    response = self.app.get("/tenders/{}/awards".format(self.tender_id))
+    # get pending award
+    award = [i for i in response.json["data"] if i["status"] == "pending"][0]
+    award_id = award['id']
+    # check award
+    response = self.app.get("/tenders/{}/awards/{}".format(self.tender_id, award_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["suppliers"][0]["name"], sorted_bids[0]["tenderers"][0]["name"])
+    self.assertEqual(
+        response.json["data"]["suppliers"][0]["identifier"]["id"], sorted_bids[0]["tenderers"][0]["identifier"]["id"]
+    )
+    self.assertEqual(response.json["data"]["bid_id"], sorted_bids[0]["id"])
+
+    # wait 2 days
+    date = (get_now() - timedelta(days=2)).isoformat()
+    self.tender_document_patch = self.db.get(self.tender_id)
+    self.tender_document_patch['awards'][0]['date'] = date
+    self.save_changes()
+    self.check_chronograph()
+
+    # get awards
+    response = self.app.get("/tenders/{}/awards".format(self.tender_id))
+    # # get pending award
+    awards = response.json['data']
+    self.assertEqual(len(awards), 2)
+    self.assertEqual(awards[0]['status'], "unsuccessful")
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     # check new award
     response = self.app.get("/tenders/{}/awards/{}".format(self.tender_id, award_id))

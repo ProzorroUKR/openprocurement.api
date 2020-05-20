@@ -47,11 +47,9 @@ def validate_create_award_not_in_allowed_period(request):
         raise_operation_error(request, "Can't create award in current ({}) tender status".format(tender.status))
 
 
-def validate_create_award_only_for_active_lot(request):
+def validate_update_award_role(request):
     tender = request.validated["tender"]
     award = request.validated["award"]
-    if any([i.status != "active" for i in tender.lots if i.id == award.lotID]):
-        raise_operation_error(request, "Can create award only in active lot status")
 
 
 # contract document

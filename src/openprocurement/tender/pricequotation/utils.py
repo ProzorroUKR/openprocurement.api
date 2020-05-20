@@ -1,8 +1,14 @@
 # -*- coding: utf-8 -*-
+from datetime import timedelta
 from logging import getLogger
+from pyramid.security import Allow
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now, context_unpack
-from openprocurement.tender.core.utils import remove_draft_bids
+from openprocurement.tender.core.utils import (
+    remove_draft_bids,
+    calculate_tender_business_date,
+)
+
 from openprocurement.tender.core.utils import get_first_revision_date
 
 
@@ -62,15 +68,27 @@ def check_cancellation_status(request):
             cancel_tender(request)
 
 
-def check_status(request):
+def check_award_status(request):
     tender = request.validated["tender"]
     now = get_now()
-    check_cancellation_status(request)
-
-    for award in tender.awards:
+    awards = tender.awards
+    for award in awards:
+        if award.status == 'pending' and calculate_tender_business_date(award.date, timedelta(days=2), tender) <= now:
+            award.status = 'unsuccessful'
+            add_next_award(request)
         if award.status == "active" and not any([i.awardID == award.id for i in tender.contracts]):
             add_contract(request, award, now)
             add_next_award(request)
+
+
+def check_status(request):
+
+    check_cancellation_status(request)
+    check_award_status(request)
+
+    tender = request.validated["tender"]
+    now = get_now()
+
     if tender.status == "active.tendering" and tender.tenderPeriod.endDate <= now:
         tender.status = "active.qualification"
         remove_draft_bids(request)
@@ -78,7 +96,8 @@ def check_status(request):
         status = tender.status
         LOGGER.info(
             "Switched tender {} to {}".format(tender["id"], status),
-            extra=context_unpack(request, {"MESSAGE_ID": "switched_tender_{}".format(status)}),
+            extra=context_unpack(request,
+                                 {"MESSAGE_ID": "switched_tender_{}".format(status)}),
         )
         return
     elif tender.status == "active.awarded":
@@ -159,3 +178,26 @@ def reformat_criteria(criterias):
         for req_group in criteria['requirementGroups']
         for req in req_group['requirements']
     ]
+
+
+def get_bid_owned_award_acl(award):
+    acl = []
+    if not hasattr(award, "__parent__") or 'bids' not in award.__parent__:
+        return acl
+    tender = award.__parent__
+    awarded_bid = [bid for bid in tender.bids if bid.id == award.bid_id][0]
+    prev_awards = [a for a in tender.awards
+                   if a.bid_id == awarded_bid.id and a.id != award.id]
+    bid_acl = "_".join((awarded_bid.owner, awarded_bid.owner_token))
+    owner_acl = "_".join((tender.owner, tender.owner_token))
+    if prev_awards:
+        acl.extend([
+            (Allow, owner_acl, "upload_award_documents"),
+            (Allow, owner_acl, "edit_award")
+        ])
+    else:
+        acl.extend([
+            (Allow, bid_acl, "upload_award_documents"),
+            (Allow, bid_acl, "edit_award")
+        ])
+    return acl

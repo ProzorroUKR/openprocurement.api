@@ -55,7 +55,7 @@ class TenderContractResourceTest(TenderContentWebTest, TenderContractResourceTes
                     "suppliers": [test_organization],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
-                    "value": self.initial_data["value"],
+                    "value": self.tender_document["value"],
                     "items": self.initial_data["items"],
                 }
             },
@@ -93,8 +93,8 @@ class TenderContractVATNotIncludedResourceTest(TenderContentWebTest, TenderContr
                     "bid_id": self.initial_bids[0]["id"],
                     "items": self.initial_data["items"],
                     "value": {
-                        "amount": self.initial_data["value"]["amount"],
-                        "currency": self.initial_data["value"]["currency"],
+                        "amount": self.tender_document["value"]["amount"],
+                        "currency": self.tender_document["value"]["currency"],
                         "valueAddedTaxIncluded": False,
                     },
                 }

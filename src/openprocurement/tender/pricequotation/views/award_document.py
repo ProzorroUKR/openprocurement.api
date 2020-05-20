@@ -22,14 +22,14 @@ class PQTenderAwardDocumentResource(TenderAwardDocumentResource):
     
     @json_view(
         validators=(validate_file_upload, validate_award_document),
-        permission="upload_tender_documents"
+        permission="upload_award_documents"
     )
     def collection_post(self):
         return super(TenderAwardDocumentResource, self).collection_post()
 
     @json_view(
         validators=(validate_file_update, validate_award_document),
-        permission="edit_tender"
+        permission="upload_award_documents"
     )
     def put(self):
         return super(TenderAwardDocumentResource, self).put()
@@ -37,7 +37,7 @@ class PQTenderAwardDocumentResource(TenderAwardDocumentResource):
     @json_view(
         content_type="application/json",
         validators=(validate_patch_document_data, validate_award_document),
-        permission="edit_tender",
+        permission="upload_award_documents",
     )
     def patch(self):
         return super(TenderAwardDocumentResource, self).patch()

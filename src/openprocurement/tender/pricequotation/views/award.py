@@ -13,8 +13,9 @@ from openprocurement.tender.core.validation import (
     validate_patch_award_data,
     validate_update_award_in_not_allowed_status,
 )
-from openprocurement.tender.belowthreshold.validation import (
+from openprocurement.tender.pricequotation.validation import (
     validate_create_award_not_in_allowed_period,
+    validate_update_award_role
 )
 
 
@@ -58,10 +59,11 @@ class PQTenderAwardResource(TenderAwardResource):
 
     @json_view(
         content_type="application/json",
-        permission="edit_tender",
+        permission="edit_award",
         validators=(
             validate_patch_award_data,
             validate_update_award_in_not_allowed_status,
+            validate_update_award_role,
         ),
     )
     def patch(self):

@@ -18,8 +18,8 @@ from openprocurement.tender.pricequotation.tests.award_blanks import (
     patch_tender_award,
     # patch_tender_award_unsuccessful,
     get_tender_award,
-    # TenderLotAwardCheckResourceTest
     check_tender_award,
+    check_tender_award_disqualification,
     # TenderAwardDocumentResourceTest
     not_found_award_document,
     create_tender_award_document,
@@ -51,10 +51,12 @@ class TenderAwardDocumentResourceTestMixin(object):
 class TenderAwardResourceTest(TenderContentWebTest, TenderAwardResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_bids
+    maxAwards = 1
 
     test_create_tender_award = snitch(create_tender_award)
     test_patch_tender_award = snitch(patch_tender_award)
     test_check_tender_award = snitch(check_tender_award)
+    test_check_tender_award_disqualification = snitch(check_tender_award_disqualification)
 
 
 class TenderAwardResourceScaleTest(TenderContentWebTest):

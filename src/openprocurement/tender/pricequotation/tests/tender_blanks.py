@@ -442,10 +442,6 @@ def create_tender_invalid(self):
         {u"description": [u"This field is required."], u"location": u"body", u"name": u"items"}, response.json["errors"]
     )
 
-    self.assertIn(
-        {u"description": [u"This field is required."], u"location": u"body", u"name": u"value"}, response.json["errors"]
-    )
-
     data = self.initial_data["tenderPeriod"]
     self.initial_data["tenderPeriod"] = {"startDate": "2014-10-31T00:00:00", "endDate": "2014-10-01T00:00:00"}
     response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
@@ -640,7 +636,6 @@ def create_tender_generated(self):
                 u"status",
                 u"tenderPeriod",
                 u"items",
-                u"value",
                 u"procuringEntity",
                 u"procurementMethod",
                 u"awardCriteria",
@@ -666,13 +661,6 @@ def create_tender_draft(self):
     tender = response.json["data"]
     token = response.json["access"]["token"]
     self.assertEqual(tender["status"], "draft")
-
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": {"value": {"amount": 100}}}
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json['data']['value']['amount'] , 100)
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": {"status": self.primary_tender_status}}
@@ -705,7 +693,6 @@ def tender_owner_can_change_in_draft(self):
         "procuringEntity": {"name": u"Національне управління справами"},
         "mainProcurementCategory": u"services",
         "guarantee": {"amount": 50},
-        "value": {"amount": 110},
     }
     descriptions = {
         "description": u"Some text 1",
@@ -785,8 +772,6 @@ def tender_owner_can_change_in_draft(self):
     self.assertNotEqual(tender["procuringEntity"]["name"], data.get("procuringEntity", {}).get("name"))
     self.assertEqual(tender["guarantee"]["amount"], general["guarantee"]["amount"])
     self.assertNotEqual(tender["guarantee"]["amount"], data.get("guarantee", {}).get("amount"))
-    self.assertEqual(tender["value"]["amount"], general["value"]["amount"])
-    self.assertNotEqual(tender["value"]["amount"], data.get("value", {}).get("amount"))
 
     # descriptions
     response = self.app.patch_json(
@@ -1652,7 +1637,10 @@ def patch_tender_by_pq_bot(self):
     self.assertIn("classification", tender["items"][0])
     self.assertNotIn("unit", tender["items"][0])
 
-    data = {"data": {"status": "draft.publishing", "profile": test_short_profile["id"]}}
+    data = {"data": {
+        "status": "draft.publishing",
+        "profile": test_short_profile["id"]}
+    }
     response = self.app.patch_json("/tenders/{}?acc_token={}".format(tender_id, owner_token), data)
     self.assertEqual(response.status, "200 OK")
     tender = response.json["data"]
@@ -1676,8 +1664,7 @@ def patch_tender_by_pq_bot(self):
         }
     }
     with change_auth(self.app, ("Basic", ("pricequotation", ""))) as app:
-        self.app.patch_json("/tenders/{}".format(tender_id), data)
-
+        resp = app.patch_json("/tenders/{}".format(tender_id), data)
     response = self.app.get("/tenders/{}".format(tender_id))
     self.assertEqual(response.status, "200 OK")
     tender = response.json["data"]
@@ -1752,10 +1739,14 @@ def one_valid_bid_tender(self):
     owner_token = self.tender_token
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": {"tenderers": [test_organization], "value": {"amount": 500}, "requirementResponses": test_requirement_response_valid}}
+    resp = self.app.post_json(
+        "/tenders/{}/bids".format(tender_id), {"data": {
+            "tenderers": [test_organization],
+            "value": {"amount": 500},
+            "requirementResponses": test_requirement_response_valid
+        }}
     )
+    token = resp.json['access']['token']
     # switch to active.qualification
     self.set_status("active.qualification")
     self.app.authorization = ("Basic", ("chronograph", ""))
@@ -1768,7 +1759,8 @@ def one_valid_bid_tender(self):
     award_date = [i["date"] for i in response.json["data"] if i["status"] == "pending"][0]
     # set award as active
     response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token), {"data": {"status": "active"}}
+        "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, token),
+        {"data": {"status": "active"}}
     )
     self.assertNotEqual(response.json["data"]["date"], award_date)
 
@@ -1794,9 +1786,10 @@ def one_invalid_bid_tender(self):
     owner_token = self.tender_token
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    self.app.post_json(
+    resp = self.app.post_json(
         "/tenders/{}/bids".format(tender_id), {"data": {"tenderers": [test_organization], "value": {"amount": 500}, "requirementResponses": test_requirement_response_valid}}
     )
+    token = resp.json['access']['token']
     # switch to active.qualification
     self.set_status('active.tendering', 'end')
     resp = self.check_chronograph()
@@ -1808,7 +1801,7 @@ def one_invalid_bid_tender(self):
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     # set award as unsuccessful
     self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
+        "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, token),
         {"data": {"status": "unsuccessful"}},
     )
     # check status
@@ -1830,11 +1823,11 @@ def first_bid_tender(self):
             "requirementResponses": test_requirement_response_valid
         }}
     )
-    # bid_id = response.json["data"]["id"]
-    # bid_token = response.json["access"]["token"]
+    bid_token1 = response.json["access"]["token"]
+
     # create second bid
     self.app.authorization = ("Basic", ("broker", ""))
-    self.app.post_json(
+    response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {"data": {
             "tenderers": [test_organization],
@@ -1842,6 +1835,7 @@ def first_bid_tender(self):
             "requirementResponses": test_requirement_response_valid
         }}
     )
+    bid_token2 = response.json["access"]["token"]
     self.set_status('active.tendering', 'end')
     resp = self.check_chronograph()
     self.assertEqual(resp.json['data']['status'], 'active.qualification')
@@ -1852,7 +1846,7 @@ def first_bid_tender(self):
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     # set award as unsuccessful
     self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
+        "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, bid_token1),
         {"data": {"status": "unsuccessful"}},
     )
     # get awards
@@ -1869,7 +1863,8 @@ def first_bid_tender(self):
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     # set award as active
     self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token), {"data": {"status": "active"}}
+        "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, bid_token2),
+        {"data": {"status": "active"}}
     )
     # get contract id
     response = self.app.get("/tenders/{}".format(tender_id))
@@ -1935,9 +1930,14 @@ def lost_contract_for_active_award(self):
     owner_token = self.tender_token
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    self.app.post_json(
-        "/tenders/{}/bids".format(tender_id), {"data": {"tenderers": [test_organization], "value": {"amount": 500}, "requirementResponses": test_requirement_response_valid}}
+    resp = self.app.post_json(
+        "/tenders/{}/bids".format(tender_id), {"data": {
+            "tenderers": [test_organization],
+            "value": {"amount": 500},
+            "requirementResponses": test_requirement_response_valid
+        }}
     )
+    token = resp.json['access']['token']
     # switch to active.qualification
     self.set_status("active.tendering", 'end')
     resp = self.check_chronograph().json
@@ -1950,7 +1950,7 @@ def lost_contract_for_active_award(self):
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     # set award as active
     self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token), {"data": {"status": "active"}}
+        "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, token), {"data": {"status": "active"}}
     )
     # lost contract
     tender = self.db.get(tender_id)

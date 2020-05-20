@@ -5,6 +5,7 @@ from schematics.transforms import whitelist
 from schematics.types import IntType, StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
+from pyramid.security import Allow
 from zope.interface import implementer
 from openprocurement.api.constants import TZ, CPV_ITEMS_CLASS_FROM
 from openprocurement.api.models import\
@@ -81,7 +82,6 @@ class PriceQuotationTender(Tender):
             "tenderPeriod",
             "procuringEntity",
             "guarantee",
-            "value",
             "minimalStep",
         )
         _edit_role = _core_roles["edit"] \
@@ -92,12 +92,16 @@ class PriceQuotationTender(Tender):
                 "profile"
             )
         _create_role = _core_roles["create"] + _edit_role
-        _edit_pq_bot_role = whitelist("items", "shortlistedFirms", "status", "criteria", "value")
+        _edit_pq_bot_role = whitelist(
+            "items", "shortlistedFirms",
+            "status", "criteria", "value",
+        )
         _view_tendering_role = (
             _core_roles["view"]
             + _edit_fields
             + whitelist(
                 "awards",
+                'value',
                 "awardPeriod",
                 "cancellations",
                 "contracts",
@@ -113,7 +117,7 @@ class PriceQuotationTender(Tender):
             "edit": _edit_role,
             "edit_draft": _edit_role,
             "edit_draft.unsuccessful": _edit_role,
-            "edit_draft.publishing": _all_forbidden,
+            "edit_draft.publishing": _edit_pq_bot_role,
             "edit_active.tendering": _all_forbidden,
             "edit_active.qualification": _all_forbidden,
             "edit_active.awarded": _all_forbidden,
@@ -161,7 +165,7 @@ class PriceQuotationTender(Tender):
         validators=[validate_items_uniq],
     )
     # The total estimated value of the procurement.
-    value = ModelType(Value, required=True)
+    value = ModelType(Value)
     # The period when the tender is open for submissions.
     # The end date is the closing date for tender submissions.
     tenderPeriod = ModelType(
@@ -211,8 +215,6 @@ class PriceQuotationTender(Tender):
         if request.authenticated_role in\
            ("Administrator", "chronograph", "contracting", "bots"):
             role = request.authenticated_role
-        elif request.authenticated_role == "auction":
-            role = "auction_{}".format(request.method.lower())
         else:
             role = "edit_{}".format(request.context.status)
         return role
@@ -225,6 +227,12 @@ class PriceQuotationTender(Tender):
 
         if self.status.startswith("active"):
             for award in self.awards:
+                if award.status == 'pending':
+                    checks.append(
+                        calculate_tender_business_date(award.date,
+                                                       timedelta(days=2),
+                                                       self)
+                    )
                 if award.status == "active" and not\
                    any([i.awardID == award.id for i in self.contracts]):
                     checks.append(award.date)
@@ -271,3 +279,16 @@ class PriceQuotationTender(Tender):
             and period.endDate < calculate_tender_business_date(period.startDate, timedelta(days=2), data, True)
         ):
             raise ValidationError(u"the tenderPeriod cannot end earlier than 2 business days after the start")
+
+    def __local_roles__(self):
+        roles = dict([("{}_{}".format(self.owner, self.owner_token), "tender_owner")])
+        for i in self.bids:
+            roles["{}_{}".format(i.owner, i.owner_token)] = "bid_owner"
+        return roles
+
+    def __acl__(self):
+        acl = [
+            (Allow, "g:bots", "upload_award_documents"),
+        ]
+        self._acl_cancellation(acl)
+        return acl

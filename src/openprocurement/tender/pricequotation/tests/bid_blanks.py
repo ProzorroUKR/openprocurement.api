@@ -246,7 +246,7 @@ def patch_tender_bid(self):
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
-        {"data": {"value": {"amount": 600}}},
+        {"data": {"value": {"amount": 60000}}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")

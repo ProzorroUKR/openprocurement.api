@@ -80,7 +80,6 @@ class BaseTenderWebTest(BaseCoreWebTest):
     def generate_bids(self, status, startend):
         tenderPeriod_startDate = self.now + self.periods[status][startend]["tenderPeriod"]["startDate"]
         bids = self.tender_document.get("bids", [])
-        # import pdb; pdb.set_trace()
         if self.initial_bids and not bids:
             self.tender_document_patch["bids"] = []
             self.initial_bids_tokens = []
@@ -150,10 +149,14 @@ class BaseTenderWebTest(BaseCoreWebTest):
                 "classification": test_short_profile["classification"],
                 "unit": test_short_profile["unit"]
             })
+        value = deepcopy(test_short_profile['value'])
+        amount = sum([item["quantity"] for item in items]) * test_short_profile['value']['amount']
+        value["amount"] = amount
         self.tender_document_patch.update({
             "shortlistedFirms": test_shortlisted_firms,
             'criteria': test_short_profile['criteria'],
-            "items": items
+            "items": items,
+            'value': value
         })
         self.save_changes()
 
