@@ -99,7 +99,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         complaint2_id = response.json['data']['id']
 
         complaint_data = {'data': complaint.copy()}
-        complaint_data['data']['status'] = 'pending'
+        # complaint_data['data']['status'] = 'pending'
 
         complaint_url = "/tenders/{}/complaints".format(self.tender_id)
         complaint3_id, complaint3_token = complaint_create_pending(self, complaint_url, complaint_data)
@@ -294,23 +294,36 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 )
             self.assertEqual(response.status, '403 Forbidden')
 
+        if get_now() < RELEASE_2020_04_19:
+            # before RELEASE_2020_04_19 from pending to mistaken transition was available by reviewer
+            self.app.authorization = ('Basic', ('broker', ''))
+            complaint7_id, complaint7_token = complaint_create_pending(self, complaint_url, complaint_data)
+
+            with open(TARGET_DIR + 'complaints/complaint-mistaken.http', 'w') as self.app.file_obj:
+                self.app.authorization = ('Basic', ('reviewer', ''))
+                response = self.app.patch_json(
+                    '/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint7_id, complaint7_token),
+                    {"data": {"status": "mistaken"}},
+                )
+                self.assertEqual(response.status, '200 OK')
+        else:
+            # since RELEASE_2020_04_19 from draft to mistaken transition was available by complainant
+            self.app.authorization = ('Basic', ('broker', ''))
+            response = self.app.post_json(
+                '/tenders/{}/complaints'.format(self.tender_id),
+                {'data': complaint})
+            self.assertEqual(response.status, '201 Created')
+            complaint7_id = response.json['data']['id']
+            complaint7_token = response.json['access']['token']
+
+            with open(TARGET_DIR + 'complaints/complaint-mistaken-2020-04-19.http', 'w') as self.app.file_obj:
+                response = self.app.patch_json(
+                    '/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint7_id, complaint7_token),
+                    {"data": {"status": "mistaken"}},
+                )
+                self.assertEqual(response.status, '200 OK')
+
         self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.post_json(
-            '/tenders/{}/complaints'.format(self.tender_id),
-            {'data': complaint})
-        self.assertEqual(response.status, '201 Created')
-        complaint7_id = response.json['data']['id']
-        complaint7_token = response.json['access']['token']
-
-        with open(TARGET_DIR + 'complaints/complaint-cancel.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint7_id, complaint7_token),
-                {"data": {
-                    "cancellationReason": "Умови виправлено",
-                    "status": "cancelled"
-                }})
-            self.assertEqual(response.status, '200 OK')
-
         complaint_url = "/tenders/{}/complaints".format(self.tender_id)
         complaint8_id, complaint8_token = complaint_create_pending(self, complaint_url, complaint_data)
 
@@ -489,7 +502,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.assertEqual(response.status, '200 OK')
 
         complaint_data = {'data': complaint.copy()}
-        complaint_data['data']['status'] = 'pending'
 
         complaint_url = "/tenders/{}/qualifications/{}/complaints".format(self.tender_id, qualification_id)
         complaint2_id, complaint2_token = complaint_create_pending(self, complaint_url, complaint_data, bid_token)
@@ -646,21 +658,49 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 }})
             self.assertEqual(response.status, '200 OK')
 
-        response = self.app.post_json(
-            '/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(self.tender_id, qualification_id, bid_token),
-            {'data': complaint})
-        self.assertEqual(response.status, '201 Created')
+        if get_now() < RELEASE_2020_04_19:
+            # before RELEASE_2020_04_19 from pending to mistaken transition was available by reviewer
+            self.app.authorization = ('Basic', ('broker', ''))
+            complaint9_id, complaint9_token = complaint_create_pending(self, complaint_url, complaint_data, bid_token)
 
-        with open(TARGET_DIR + 'complaints/qualification-complaint-cancel.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/qualifications/{}/complaints/{}?acc_token={}'.format(
-                    self.tender_id, qualification_id,
-                    response.json['data']['id'], response.json['access']['token']),
-                {"data": {
-                    "cancellationReason": "Умови виправлено",
-                    "status": "cancelled"
-                }})
-            self.assertEqual(response.status, '200 OK')
+            with open(TARGET_DIR + 'complaints/qualification-complaint-mistaken.http', 'w') as self.app.file_obj:
+                self.app.authorization = ('Basic', ('reviewer', ''))
+                response = self.app.patch_json(
+                    '/tenders/{}/qualifications/{}/complaints/{}?acc_token={}'.format(
+                        self.tender_id,
+                        qualification_id,
+                        complaint9_id,
+                        complaint9_token
+                    ),
+                    {"data": {"status": "mistaken"}},
+                )
+                self.assertEqual(response.status, '200 OK')
+        else:
+            # since RELEASE_2020_04_19 from draft to mistaken transition was available by complainant
+            self.app.authorization = ('Basic', ('broker', ''))
+            response = self.app.post_json(
+                '/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(
+                    self.tender_id,
+                    qualification_id,
+                    bid_token,
+                ),
+                {'data': complaint}
+            )
+            self.assertEqual(response.status, '201 Created')
+            complaint9_id = response.json['data']['id']
+            complaint9_token = response.json['access']['token']
+
+            with open(TARGET_DIR + 'complaints/qualification-complaint-mistaken-2020-04-19.http', 'w') as self.app.file_obj:
+                response = self.app.patch_json(
+                    '/tenders/{}/qualifications/{}/complaints/{}?acc_token={}'.format(
+                        self.tender_id,
+                        qualification_id,
+                        complaint9_id,
+                        complaint9_token
+                    ),
+                    {"data": {"status": "mistaken"}},
+                )
+                self.assertEqual(response.status, '200 OK')
 
         self.app.authorization = ('Basic', ('reviewer', ''))
         with open(TARGET_DIR + 'complaints/qualification-complaint-reject.http', 'w') as self.app.file_obj:
@@ -930,7 +970,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         complaint_data = {'data': complaint.copy()}
-        complaint_data['data']['status'] = 'pending'
         # with open(TARGET_DIR + 'complaints/award-complaint-submission-complaint.http', 'w') as self.app.file_obj:
         #     response = self.app.post_json(
         #         '/tenders/{}/awards/{}/complaints?acc_token={}'.format(
@@ -1255,6 +1294,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             new_award_id = response.headers['Location'][-32:]
 
         award_id = new_award_id
+        complaint_url = "/tenders/{}/awards/{}/complaints".format(self.tender_id, award_id)
         self.app.patch_json(
             '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
             {"data": {"status": "active"}})
@@ -1267,16 +1307,44 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 {'data': complaint})
             self.assertEqual(response.status, '201 Created')
 
-        with open(TARGET_DIR + 'complaints/award-complaint-cancel.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(
-                    self.tender_id, award_id,
-                    response.json['data']['id'], response.json['access']['token']),
-                {'data': {
-                    "cancellationReason": "Умови виправлено",
-                    "status": "cancelled"
-                }})
-            self.assertEqual(response.status, '200 OK')
+        if get_now() < RELEASE_2020_04_19:
+            # before RELEASE_2020_04_19 from pending to mistaken transition was available by reviewer
+            self.app.authorization = ('Basic', ('broker', ''))
+            complaint9_id, complaint9_token = complaint_create_pending(self, complaint_url, complaint_data, bid_token)
+
+            with open(TARGET_DIR + 'complaints/award-complaint-mistaken.http', 'w') as self.app.file_obj:
+                self.app.authorization = ('Basic', ('reviewer', ''))
+                response = self.app.patch_json(
+                    '/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(
+                        self.tender_id,
+                        award_id,
+                        complaint9_id,
+                        complaint9_token
+                    ),
+                    {'data': {"status": "mistaken"}},
+                )
+                self.assertEqual(response.status, '200 OK')
+        else:
+            # since RELEASE_2020_04_19 from draft to mistaken transition was available by complainant
+            self.app.authorization = ('Basic', ('broker', ''))
+            response = self.app.post_json(
+                '/tenders/{}/awards/{}/complaints?acc_token={}'.format(
+                    self.tender_id, award_id, bid_token),
+                {'data': complaint})
+            self.assertEqual(response.status, '201 Created')
+            complaint9_id = response.json['data']['id']
+            complaint9_token = response.json['access']['token']
+
+            with open(TARGET_DIR + 'complaints/award-complaint-mistaken-2020-04-19.http', 'w') as self.app.file_obj:
+                response = self.app.patch_json(
+                    '/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(
+                        self.tender_id,
+                        award_id,
+                        complaint9_id,
+                        complaint9_token),
+                    {'data': {"status": "mistaken"}},
+                )
+                self.assertEqual(response.status, '200 OK')
 
     def test_cancellation_complaints(self):
         self.app.authorization = ('Basic', ('broker', ''))
@@ -1328,7 +1396,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '201 Created')
 
         complaint_data = {'data': complaint.copy()}
-        complaint_data['data']['status'] = 'pending'
 
         complaint_url = "/tenders/{}/cancellations/{}/complaints".format(self.tender_id, cancellation_id)
         complaint3_id, complaint3_token = complaint_create_pending(self, complaint_url, complaint_data)
@@ -1493,7 +1560,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 self.tender_id, cancellation2_id, owner_token),
             {'data': {"status": "pending"}})
         self.assertEqual(response.status, '200 OK')
-
 
         response = self.app.post_json(
             '/tenders/{}/cancellations/{}/complaints'.format(self.tender_id, cancellation2_id),

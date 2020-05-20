@@ -1,0 +1,52 @@
+PATCH /api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/90c3c38fd53b45e9a009687defe621de/complaints/e15981bf83d54538a54f42ae219b8d0d?acc_token=2ae1e128ac964682900a6c92a9824c7f HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 32
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "status": "mistaken"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "mistaken", 
+    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+    "author": {
+      "contactPoint": {
+        "email": "soleksuk@gmail.com", 
+        "telephone": "+380 (432) 21-69-30", 
+        "name": "Сергій Олексюк"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "legalName": "ДКП «Школяр»", 
+        "id": "00137256", 
+        "uri": "http://www.sc.gov.ua/"
+      }, 
+      "name": "ДКП «Школяр»", 
+      "address": {
+        "postalCode": "21100", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Островського, 33", 
+        "region": "Вінницька область", 
+        "locality": "м. Вінниця"
+      }
+    }, 
+    "title": "Недостатньо інформації", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 3000.0
+    }, 
+    "rejectReason": "cancelledByComplainant", 
+    "complaintID": "UA-2020-05-01-000001.11", 
+    "date": "2020-05-01T01:00:01+03:00", 
+    "type": "complaint", 
+    "id": "e15981bf83d54538a54f42ae219b8d0d"
+  }
+}
+
