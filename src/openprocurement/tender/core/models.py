@@ -178,10 +178,11 @@ class ComplaintModelType(ModelType):
 
 
 class Document(BaseDocument):
+    format = StringType(regex="^[-\w]+/[-\.\w\+]+$")
+    url = StringType()
     documentOf = StringType(required=True, choices=[
                             "tender", "item", "lot",  "document"], default="tender")
     templateId = StringType()
-
 
     def validate_relatedItem(self, data, relatedItem):
         if not relatedItem and data.get("documentOf") in ["item", "lot", "document"]:
@@ -202,6 +203,16 @@ class Document(BaseDocument):
         document_type = data.get("documentType")
         if document_type and document_type == "contractProforma" and not templateId:
             raise ValidationError(u"templateId is required for documentType 'contractProforma'")
+        elif document_type and document_type != "contractProforma" and templateId:
+            raise ValidationError(u"Rogue field")
+
+    def validate_url(self, data, url):
+        if not url and data.get("documentType", "") != "contractProforma":
+            raise ValidationError(u"This field is required")
+
+    def validate_format(self, data, format):
+        if not format and data.get("documentType", "") != "contractProforma":
+            raise ValidationError(u"This field is required.")
 
 
 class ConfidentialDocumentModelType(ModelType):

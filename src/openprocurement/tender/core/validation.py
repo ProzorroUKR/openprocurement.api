@@ -925,6 +925,14 @@ def validate_tender_document_update_not_by_author_or_tender_owner(request):
         raise error_handler(request.errors)
 
 
+def validate_patch_document_contract_proforma(request):
+    if request.validated["document"].documentType == "contractProforma":
+        raise_operation_error(
+            request,
+            "Not allowed update document with documentType contractProforma, use append new version of this document"\
+            " instead")
+
+
 # bids
 def validate_bid_operation_not_in_tendering(request):
     if request.validated["tender_status"] != "active.tendering":
