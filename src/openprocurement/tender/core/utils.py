@@ -672,10 +672,16 @@ def prepare_award_milestones(tender, bid, all_bids, lot_id=None):
     :param lot_id:
     :return:
     """
+    milestones = []
+    if (
+        getattr(tender, "procurementMethodType", "") in ("esco", "aboveThresholdUA.defense")
+        or get_first_revision_date(tender, default=get_now()) < RELEASE_2020_04_19
+    ):
+        return milestones   # skipping
+
     def ratio_of_two_values(v1, v2):
         return 1 - Decimal(v1) / Decimal(v2)
 
-    milestones = []
     if len(all_bids) > 1:
         reasons = []
         amount = bid["value"]["amount"]

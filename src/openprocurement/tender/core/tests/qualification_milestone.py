@@ -64,8 +64,6 @@ class TenderQualificationMilestone24HMixin(object):
             },
             status=403
         )
-        print(get_now() > RELEASE_2020_04_19)
-        print(get_now() > RELEASE_2020_04_19)
         if get_now() > RELEASE_2020_04_19:
             self.assertEqual(
                 response.json,

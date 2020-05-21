@@ -1500,11 +1500,7 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
         }
         # append an "alp" milestone if it's the case
         award_class = self.__class__.awards.model_class
-        if (
-            hasattr(award_class, "milestones") 
-            and getattr(self, "procurementMethodType", "") != "esco"
-            and get_first_revision_date(self, default=get_now()) > RELEASE_2020_04_19
-        ):
+        if hasattr(award_class, "milestones"):
             award_data["milestones"] = prepare_award_milestones(self, bid, all_bids, lot_id)
 
         award = award_class(award_data)

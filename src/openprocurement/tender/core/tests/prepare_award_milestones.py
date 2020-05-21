@@ -2,8 +2,10 @@
 from openprocurement.tender.openua.models import Tender
 from openprocurement.tender.openua.tests.base import test_tender_data
 from openprocurement.tender.core.utils import prepare_award_milestones
+from openprocurement.api.utils import get_now
 from openprocurement.tender.core.constants import ALP_MILESTONE_REASONS
-from mock import Mock
+from mock import Mock, patch
+from datetime import timedelta
 from copy import deepcopy
 import pytest
 
@@ -66,7 +68,8 @@ def test_milestone_data_cases(test_data, tender_status):
     tender = Tender(test_tender_data)
     tender.__parent__ = root
 
-    milestones = prepare_award_milestones(tender, bids[0], bids)
+    with patch("openprocurement.tender.core.utils.RELEASE_2020_04_19", get_now() - timedelta(seconds=1)):
+        milestones = prepare_award_milestones(tender, bids[0], bids)
     if expected_reason_indexes:
         assert len(milestones) == 1
         assert milestones[0]["code"] == "alp"
