@@ -81,7 +81,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
         tenderPeriod_startDate = self.now + self.periods[status][startend]["tenderPeriod"]["startDate"]
         bids = self.tender_document.get("bids", [])
         # import pdb; pdb.set_trace()
-        if self.initial_bids or not bids:
+        if self.initial_bids and not bids:
             self.tender_document_patch["bids"] = []
             self.initial_bids_tokens = []
             for position, bid in enumerate(test_bids):

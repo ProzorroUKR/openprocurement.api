@@ -9,8 +9,8 @@ from openprocurement.tender.core.validation import (
     validate_tender_not_in_terminated_status,
     validate_cancellation_data,
     validate_patch_cancellation_data,
-    validate_cancellation_statuses_without_complaints
 )
+from openprocurement.tender.pricequotation.utils import cancel_tender
 from openprocurement.tender.pricequotation.constants import PMT
 
 
@@ -37,7 +37,7 @@ class PQTenderCancellationResource(TenderCancellationResource):
         cancellation.date = get_now()
 
         if cancellation.status == "active":
-            self.cancel_tender_method(self.request)
+            cancel_tender(self.request)
 
         self.request.context.cancellations.append(cancellation)
         if save_tender(self.request):
@@ -60,7 +60,6 @@ class PQTenderCancellationResource(TenderCancellationResource):
         validators=(
             validate_tender_not_in_terminated_status,
             validate_patch_cancellation_data,
-            validate_cancellation_statuses_without_complaints,
         ),
         permission="edit_cancellation"
     )
@@ -69,7 +68,7 @@ class PQTenderCancellationResource(TenderCancellationResource):
         apply_patch(self.request, save=False, src=cancellation.serialize())
 
         if cancellation.status == "active":
-            self.cancel_tender_method(self.request)
+            cancel_tender(self.request)
 
         if save_tender(self.request):
             self.LOGGER.info(

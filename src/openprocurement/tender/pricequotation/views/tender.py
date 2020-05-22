@@ -2,15 +2,14 @@
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.tender.core.utils import\
     save_tender, optendersresource, apply_patch
-from openprocurement.tender.core.validation import (
-    validate_tender_not_in_terminated_status,
-    validate_tender_change_status_permission,
-)
+from openprocurement.tender.core.validation import\
+    validate_tender_not_in_terminated_status
 
 from openprocurement.tender.belowthreshold.views.tender import TenderResource
 from openprocurement.tender.pricequotation.constants import PMT
 from openprocurement.tender.pricequotation.utils import check_status
-from openprocurement.tender.pricequotation.validation import validate_patch_tender_data
+from openprocurement.tender.pricequotation.validation import\
+    validate_patch_tender_data
 
 
 @optendersresource(
@@ -27,7 +26,6 @@ class PriceQuotationTenderResource(TenderResource):
         validators=(
             validate_patch_tender_data,
             validate_tender_not_in_terminated_status,
-            validate_tender_change_status_permission,
         ),
         permission="edit_tender",
     )

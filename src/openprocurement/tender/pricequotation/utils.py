@@ -2,11 +2,7 @@
 from logging import getLogger
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now, context_unpack
-from openprocurement.tender.core.utils import (
-    remove_draft_bids,
-    cancel_tender
-)
-
+from openprocurement.tender.core.utils import remove_draft_bids
 from openprocurement.tender.core.utils import get_first_revision_date
 
 
@@ -25,7 +21,7 @@ def check_bids(request):
         add_next_award(request)
 
 
-def add_contract(request, award, now=None):
+def add_contract(request, award, now=None): 
     tender = request.validated["tender"]
     tender.contracts.append(
         type(tender).contracts.model_class(
@@ -49,15 +45,21 @@ def generate_contract_value(tender, award):
     return None
 
 
-def check_cancellation_status(request, cancel_tender_method=cancel_tender):
+def cancel_tender(request):
+    tender = request.validated["tender"]
+    if tender.status in ["active.tendering"]:
+        tender.bids = []
+    tender.status = "cancelled"
+
+
+def check_cancellation_status(request):
     tender = request.validated["tender"]
     cancellations = tender.cancellations
 
     for cancellation in cancellations:
         if cancellation.status == "pending":
             cancellation.status = "active"
-            if cancellation.cancellationOf == "tender":
-                cancel_tender_method(request)
+            cancel_tender(request)
 
 
 def check_status(request):

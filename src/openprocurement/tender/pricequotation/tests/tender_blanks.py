@@ -1750,14 +1750,11 @@ def invalid_tender_conditions(self):
 def one_valid_bid_tender(self):
     tender_id = self.tender_id
     owner_token = self.tender_token
-    # switch to active.tendering
-    response = self.set_status(
-        "active.tendering"
-    )
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
     self.app.post_json(
-        "/tenders/{}/bids".format(tender_id), {"data": {"tenderers": [test_organization], "value": {"amount": 500}, "requirementResponses": test_requirement_response_valid}}
+        "/tenders/{}/bids".format(tender_id),
+        {"data": {"tenderers": [test_organization], "value": {"amount": 500}, "requirementResponses": test_requirement_response_valid}}
     )
     # switch to active.qualification
     self.set_status("active.qualification")
