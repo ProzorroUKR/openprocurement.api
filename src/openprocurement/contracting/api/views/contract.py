@@ -137,3 +137,52 @@ class ContractCredentialsResource(APIResource):
                 extra=context_unpack(self.request, {"MESSAGE_ID": "contract_patch"}),
             )
             return {"data": contract.serialize("view"), "access": access}
+
+
+@contractingresource(
+    name="Contract transaction", path="/contracts/{contract_id}/transactions/{transaction_id}"
+)
+class ContractTransactionResource(APIResource):
+    def __init__(self, request, context):
+        super(ContractTransactionResource, self).__init__(request, context)
+        self.server = request.registry.couchdb_server
+
+    @json_view(
+        content_type="application/json",
+        permission="edit_contract"
+    )
+    def put(self):
+
+        new_transaction = self.request.json["data"]
+        transaction_id = self.request.matchdict["transaction_id"]
+        new_transaction.update({"id": transaction_id})
+
+        contract = self.request.validated["contract"]
+        transactions = contract.implementation.transactions
+
+        existing_transaction = next((trans for trans in transactions if trans["id"] == transaction_id), None)
+        new_data_source = new_transaction['dataSource']
+
+        if existing_transaction:
+            existing_transaction["status"] = new_transaction["status"]
+
+            if new_data_source not in existing_transaction["dataSource"]:
+                existing_transaction["dataSource"].append(new_data_source)
+
+            if save_contract(self.request):
+                self.LOGGER.info(
+                    "Transaction {} for {} contract already exists, status updated".format(transaction_id, contract.id)
+                )
+        else:
+            new_transaction.update({"dataSource": [new_data_source]})
+
+            trans = type(contract.implementation).transactions.model_class(new_transaction)
+            trans.__parent__ = contract.implementation
+            transactions.append(trans)
+
+            if save_contract(self.request):
+                self.LOGGER.info(
+                    "New transaction {} for {} contract has been created".format(transaction_id, contract.id)
+                )
+
+        return {"data": contract.serialize("view")}
