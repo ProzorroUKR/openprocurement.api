@@ -1013,6 +1013,7 @@ def _create_contract_proforma_document_invalid(self, lots=False):
     """
     data = {
         "title": u"paper0000001.docx",
+        "format": "application/pkcs7-signature",
         "hash": "md5:" + "0" * 32,
         "documentType": "contractProforma"
     }

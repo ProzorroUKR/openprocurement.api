@@ -619,6 +619,8 @@ def fix_url(item, app_url):
     if isinstance(item, list):
         [fix_url(i, app_url) for i in item if isinstance(i, dict) or isinstance(i, list)]
     elif isinstance(item, dict):
+        if "documentType" in item and item["documentType"] == "contractProforma" and "url" not in "item":
+            return
         if "format" in item and "url" in item and "?download=" in item["url"]:
             path = item["url"] if item["url"].startswith("/") else "/" + "/".join(item["url"].split("/")[5:])
             item["url"] = app_url + ROUTE_PREFIX + path
