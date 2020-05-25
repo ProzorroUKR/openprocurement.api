@@ -218,7 +218,7 @@ def validate_requirement_responses(criterias, req_responses):
         )
     diff = set((c['id'] for c in criterias)).difference((r['requirement']['id'] for r in req_responses))
     if diff:
-        raise ValidationError(u'Mismatch keys in requirement_responses. Missing references: {}'.format(
+        raise ValidationError(u'Mismatch in requirement_responses keys. Missing references: {}'.format(
             list(diff)
         ))
     return [
