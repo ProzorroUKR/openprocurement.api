@@ -138,6 +138,9 @@ Additional fields for :ref:`contracting`:
 
     Amount of money actually paid.
 
+:implementation:
+    :ref:`Implementation`
+
 :terminationDetails:
     string, required for unsuccessful contract
 
