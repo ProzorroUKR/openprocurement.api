@@ -116,14 +116,6 @@ def validate_bid_value(tender, value):
             u"valueAddedTaxIncluded of bid should be identical " u"to valueAddedTaxIncluded of value of tender"
         )
 
-# cancellation
-def validate_create_cancellation_in_active_auction(request):
-    tender = request.validated["tender"]
-    tender_created = get_first_revision_date(tender, default=get_now())
-    if tender_created > RELEASE_2020_04_19 and tender.status in ["active.auction"]:
-        raise_operation_error(
-            request, "Can't create cancellation in current ({}) tender status".format(tender.status))
-
 
 # tender.criterion.requirementGrpoups
 def validate_requirement_groups(value):

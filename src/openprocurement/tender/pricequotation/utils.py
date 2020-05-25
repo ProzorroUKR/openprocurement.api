@@ -17,9 +17,11 @@ LOGGER = getLogger("openprocurement.tender.pricequotation")
 
 def check_bids(request):
     tender = request.validated["tender"]
-    new_rules = get_first_revision_date(tender, default=get_now()) > RELEASE_2020_04_19
-
-    if new_rules and any([i.status not in ["active", "unsuccessful"] for i in tender.cancellations]):
+    pending_cancellations = [
+        i.status not in ["active", "unsuccessful"]
+        for i in tender.cancellations
+    ]
+    if any(pending_cancellations):
         return
     if tender.numberOfBids == 0:
         tender.status = "unsuccessful"
@@ -27,7 +29,7 @@ def check_bids(request):
         add_next_award(request)
 
 
-def add_contract(request, award, now=None): 
+def add_contract(request, award, now=None):
     tender = request.validated["tender"]
     tender.contracts.append(
         type(tender).contracts.model_class(
