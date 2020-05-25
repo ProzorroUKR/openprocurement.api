@@ -643,7 +643,8 @@ def create_tender_generated(self):
                 u"title",
                 u"owner",
                 u"mainProcurementCategory",
-                u"profile"
+                u"profile",
+                u"value"
             ]
         ),
     )
@@ -663,7 +664,8 @@ def create_tender_draft(self):
     self.assertEqual(tender["status"], "draft")
 
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": {"status": self.primary_tender_status}}
+        "/tenders/{}?acc_token={}".format(tender["id"], token),
+        {"data": {"status": self.primary_tender_status}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")

@@ -89,6 +89,7 @@ class PriceQuotationTender(Tender):
                 "contracts",
                 "numberOfBids",
                 "status",
+                "value",
                 "profile"
             )
         _create_role = _core_roles["create"] + _edit_role
@@ -165,7 +166,7 @@ class PriceQuotationTender(Tender):
         validators=[validate_items_uniq],
     )
     # The total estimated value of the procurement.
-    value = ModelType(Value)
+    value = ModelType(Value, required=True)
     # The period when the tender is open for submissions.
     # The end date is the closing date for tender submissions.
     tenderPeriod = ModelType(

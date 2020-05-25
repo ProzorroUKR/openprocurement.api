@@ -204,6 +204,7 @@ test_tender_data = {
     "mainProcurementCategory": "goods",
     "procuringEntity": test_procuringEntity,
     "items": [deepcopy(test_item)],
+    "value": {"amount": 22000, "currency": "UAH"},
     "tenderPeriod": {"endDate": (now + timedelta(days=14)).isoformat()},
     "procurementMethodType": PMT,
     "procurementMethod": 'selective',
