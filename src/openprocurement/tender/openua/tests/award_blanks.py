@@ -1188,6 +1188,17 @@ def create_tender_award_complaint(self):
     self.assertIn("id", complaint)
     self.assertIn(complaint["id"], response.headers["Location"])
 
+    complaint_data = deepcopy(test_draft_complaint)
+    complaint_data["status"] = u"claim"
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, self.bid_token),
+        {"data": complaint_data},
+        status=201
+    )
+    self.assertEqual(response.status, "201 Created")
+    complaint = response.json["data"]
+    self.assertEqual(complaint["status"], u"draft")
+
     if get_now() > COMPLAINT_IDENTIFIER_REQUIRED_FROM:
         test_draft_complaint_invalid = deepcopy(test_draft_complaint)
         test_draft_complaint_invalid["author"]["identifier"]["legalName"] = u""

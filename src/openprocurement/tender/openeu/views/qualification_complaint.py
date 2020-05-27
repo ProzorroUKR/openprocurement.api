@@ -65,7 +65,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
 
         old_rules = get_first_revision_date(tender) < RELEASE_2020_04_19
 
-        if complaint.status == "claim":
+        if complaint.status == "claim" and complaint.type == "claim":
             complaint.dateSubmitted = get_now()
         elif old_rules and complaint.status == "pending":
             complaint.type = "complaint"
