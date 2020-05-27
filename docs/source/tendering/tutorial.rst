@@ -340,6 +340,38 @@ Let's see the list of all added contract documents:
 .. include:: http/tutorial/tender-contract-get-documents-again.http
    :code:
 
+Contract signing tutorial
+--------------------------------
+
+Checking if contract has the `pending` status:
+
+.. note::
+   To identify a winner supplier we need to find a bid which owner won an auction.
+   Bid and award should be in the status `active`. 
+
+.. include:: http/tutorial/get-tender-contracts.http
+   :code:
+
+Changing a contract status to `pending.winner-signing` by the tender owner:
+
+.. include:: http/tutorial/change-contract-status-to-pending-winner-signing-by-owner.http
+   :code:
+
+Uploading a sign document to the contract document by supplier:
+
+.. include:: http/tutorial/tender-contract-upload-sign-file-by-supplier.http
+   :code:
+
+Changing a contract status to `pending` by supplier:
+
+.. include:: http/tutorial/tutorial/change-contract-status-to-pending-by-supplier.http
+   :code:
+
+Uploading a sign document to the contract document by tender owner:
+
+.. include:: http/tutorial/tender-contract-upload-sign-file-by-owner.http
+   :code:
+
 Set contract signature date
 ---------------------------
 
