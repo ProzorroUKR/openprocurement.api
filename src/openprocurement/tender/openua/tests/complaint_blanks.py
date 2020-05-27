@@ -14,6 +14,7 @@ from datetime import timedelta
 
 def create_tender_complaint(self):
     complaint_data = deepcopy(test_draft_complaint)
+    complaint_data["author"] = getattr(self, "test_author", test_author)
     complaint_data["status"] = u"claim"
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
