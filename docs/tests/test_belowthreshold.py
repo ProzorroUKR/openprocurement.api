@@ -2,6 +2,8 @@
 import os
 from copy import deepcopy
 from uuid import uuid4
+
+import jmespath
 from datetime import timedelta
 
 from openprocurement.api.models import get_now
@@ -468,6 +470,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 }})
             self.assertEqual(response.status, '201 Created')
 
+            contract_first_document_id = response.json["data"]["id"]
+
         with open(TARGET_DIR + 'tutorial/tender-contract-get-documents.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}/contracts/{}/documents'.format(
                 self.tender_id, self.contract_id))
@@ -484,6 +488,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     'format': 'application/msword',
                 }})
             self.assertEqual(response.status, '201 Created')
+            contract_second_document_id = response.json["data"]["id"]
 
         with open(TARGET_DIR + 'tutorial/tender-contract-get-documents-again.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}/contracts/{}/documents'.format(
@@ -499,20 +504,93 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 {'data': {"dateSigned": get_now().isoformat()}})
             self.assertEqual(response.status, '200 OK')
 
-        #### Contract signing
+       #### Contract signing procedure
+        # Checking if contract has the `pending` status
+
+        with open(TARGET_DIR + 'tutorial/get-tender-contracts.http', 'w') as self.app.file_obj:
+            response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, self.contract_id))
+            self.assertEqual(response.json["data"]["status"], "pending")
+            contract = response.json["data"]
+            contract_id = contract["id"]
+        
+
+        # Contract preparation 
+
+        # To identify a winner supplier we need to find a bid which owner won an auction.
+        # Bid and award should be in the status `active`. 
 
         tender = self.db.get(self.tender_id)
-        for i in tender.get('awards', []):
-            i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
+        bid_id = jmespath.search("awards[?id=='{}'].bid_id".format(contract["awardID"]), tender)[0]
+        bid_token = jmespath.search("bids[?id=='{}'].owner_token".format(bid_id), tender)[0]
+
+        for bid in tender.get("bids", []):
+            if bid["id"] == bid_id and bid["status"] == "pending":
+                bid["status"] = "active"
+        for i in tender.get("awards", []):
+            if 'complaintPeriod' in i:
+                i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+        if 'value' in tender['contracts'][0] and tender['contracts'][0]['value']['valueAddedTaxIncluded']:
+            tender['contracts'][0]['value']['amountNet'] = str(float(tender['contracts'][0]['value']['amount']) - 1)
         self.db.save(tender)
 
-        with open(TARGET_DIR + 'tutorial/tender-contract-sign.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/contracts/{}?acc_token={}'.format(
-                    self.tender_id, self.contract_id, owner_token),
-                {'data': {'status': 'active'}})
-            self.assertEqual(response.status, '200 OK')
+        # Changing a contract status to `pending.winner-signing` by the tender owner
 
+        with open(TARGET_DIR + 'tutorial/change-contract-status-to-pending-winner-signing-by-owner.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, self.contract_id, owner_token),
+                {"data": {"status": "pending.winner-signing"}}
+            )
+            self.assertEqual(response.status, "200 OK")
+        
+        # Uploading a sign document to the contract document by supplier 
+
+        with open(TARGET_DIR + 'tutorial/tender-contract-upload-sign-file-by-supplier.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
+                {
+                        "data": {
+                            "title": u"supplier_first_document_sign.pkcs7",
+                            "url": self.generate_docservice_url(),
+                            "hash": "md5:" + "0" * 32,
+                            "format": "application/pkcs7-signature",
+                            "documentOf": "document",
+                            "relatedItem": contract_first_document_id,
+                        }
+                    },
+                    status=201
+                )
+            self.assertEqual(response.status, "201 Created")
+            doc_id = response.json["data"]["id"]
+
+        # Changing a contract status to `pending` by supplier
+
+        with open(TARGET_DIR + 'tutorial/change-contract-status-to-pending-by-supplier.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, bid_token),
+                {"data": {"status": "pending"}}
+            )
+        self.assertEqual(response.status, "200 OK")
+
+        # Uploading a sign document to the contract document by owner 
+
+        with open(TARGET_DIR + 'tutorial/tender-contract-upload-sign-file-by-owner.http', 'w') as self.app.file_obj:
+
+            response = self.app.post_json(
+                "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, owner_token),
+                {
+                        "data": {
+                            "title": u"owner_first_document_sign.pkcs7",
+                            "url": self.generate_docservice_url(),
+                            "hash": "md5:" + "0" * 32,
+                            "format": "application/pkcs7-signature",
+                            "documentOf": "document",
+                            "relatedItem": contract_first_document_id,
+                        }
+                    },
+                    status=201
+                )
+            self.assertEqual(response.status, "201 Created")
+            
         # Preparing the cancellation request
 
         self.set_status('active.awarded')
