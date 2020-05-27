@@ -19,32 +19,6 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "status": "draft", 
     "procurementMethod": "selective", 
-    "milestones": [
-      {
-        "code": "prepayment", 
-        "sequenceNumber": 0, 
-        "title": "signingTheContract", 
-        "duration": {
-          "type": "banking", 
-          "days": 2
-        }, 
-        "percentage": 45.55, 
-        "type": "financing", 
-        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      }, 
-      {
-        "code": "postpayment", 
-        "sequenceNumber": 0, 
-        "title": "deliveryOfGoods", 
-        "duration": {
-          "type": "calendar", 
-          "days": 900
-        }, 
-        "percentage": 54.45, 
-        "type": "financing", 
-        "id": "758236ac1a9844ddb55d91de89534e23"
-      }
-    ], 
     "mainProcurementCategory": "goods", 
     "tenderPeriod": {
       "startDate": "2020-05-01T01:00:00+03:00", 
@@ -84,7 +58,7 @@ Content-Type: application/json; charset=UTF-8
     "procurementMethodType": "priceQuotation", 
     "value": {
       "currency": "UAH", 
-      "amount": 500.0, 
+      "amount": 22000.0, 
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 

@@ -1,27 +1,17 @@
-PATCH /api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e?acc_token=151a30932ee245e989771be867bc8235 HTTP/1.0
+GET /api/2.5/tenders/53143d9ff59345a2a52873f192d9b29d HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 68
-Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
-DATA:
-{
-  "data": {
-    "tenderPeriod": {
-      "endDate": "2020-05-16T01:00:11+03:00"
-    }
-  }
-}
 
 Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "status": "draft", 
+    "status": "active.tendering", 
     "procurementMethod": "selective", 
     "mainProcurementCategory": "goods", 
     "tenderPeriod": {
       "startDate": "2020-05-01T01:00:00+03:00", 
-      "endDate": "2020-05-16T01:00:11+03:00"
+      "endDate": "2020-05-15T01:00:00+03:00"
     }, 
     "title": "Комп’ютерне обладнання", 
     "items": [
@@ -50,7 +40,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-05-03T01:00:00+03:00", 
           "endDate": "2020-05-06T01:00:00+03:00"
         }, 
-        "id": "0d99ccf1875e4ab8bb13f46a98631885", 
+        "id": "4ef6f13b130a443dac753a90979d9ebe", 
         "quantity": 5.0
       }
     ], 
@@ -62,6 +52,7 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "submissionMethod": "electronicAuction", 
     "date": "2020-05-01T01:00:00+03:00", 
+    "dateModified": "2020-05-01T01:00:00+03:00", 
     "profile": "655360-30230000-889652-40000777", 
     "procuringEntity": {
       "contactPoint": {
@@ -85,8 +76,8 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "awardCriteria": "lowestCost", 
     "owner": "broker", 
-    "dateModified": "2020-05-01T01:00:01+03:00", 
-    "id": "db4fb6143a5f45b6953e8f010ed8064e", 
+    "next_check": "2020-05-15T01:00:00+03:00", 
+    "id": "53143d9ff59345a2a52873f192d9b29d", 
     "tenderID": "UA-2020-05-01-000001"
   }
 }

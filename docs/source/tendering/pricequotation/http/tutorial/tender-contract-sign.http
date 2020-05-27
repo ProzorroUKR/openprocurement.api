@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/contracts/d3015492e15244438f4a01c4e4cb1ea2?acc_token=151a30932ee245e989771be867bc8235 HTTP/1.0
+PATCH /api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/contracts/f3236223b20c4e64b7bd7919bd0a8685?acc_token=151a30932ee245e989771be867bc8235 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -19,7 +19,7 @@ Content-Type: application/json; charset=UTF-8
       {
         "hash": "md5:00000000000000000000000000000000", 
         "title": "contract_first_document.doc", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/63db88a0b4614dae9f611d03620daf1e?KeyID=a8968c46&Signature=0qyfbRdug5WQ32d0Ov%2F1Nqz0INT0%252B8QcUTRhRPX9Z1P%2F0GAZBRLGalDi1oZhrDaBwfGuOEUDSH7njA5uPDVaBQ%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ae8aa265abc14f87ac488057a2223e5b?KeyID=a8968c46&Signature=LBhaXoX3LRxqDOt6Be3hhvgc62NkQiRA%252BM%252BhqEGj25CYSEWbHWJKeXv4KX8KZwMxBF1ntynCOnQ%2F%252BQ0XeeqTDA%253D%253D", 
         "format": "application/msword", 
         "documentOf": "tender", 
         "datePublished": "2020-05-01T01:00:03+03:00", 
@@ -29,7 +29,7 @@ Content-Type: application/json; charset=UTF-8
       {
         "hash": "md5:00000000000000000000000000000000", 
         "title": "contract_second_document.doc", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9c7675efde4344f38bf3619e0018a74e?KeyID=a8968c46&Signature=6SqbOlRG2bUyEgoYl%2F%252BgTgBly%2FQtkeUUxT2qfqd8SwujpDvjCgo142NHbWepddhlK6oWXkCK1w9ZGJxPMz00Cg%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0897ce4ba17b4ea2a43e11565ebc9bbe?KeyID=a8968c46&Signature=SWZWDphzyXVrcz%252Be%2FfXgHcekUsqHQvSQSWMu%252BmH0Lwznt8ENExLjHT8UNrijpUFjkjMnFXcOB9IBuQ4WOtoDBw%253D%253D", 
         "format": "application/msword", 
         "documentOf": "tender", 
         "datePublished": "2020-05-01T01:00:03+03:00", 
@@ -106,9 +106,9 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "date": "2020-05-01T01:00:03+03:00", 
-    "awardID": "89b23fa7255f401cba53bd75a400a3bf", 
-    "id": "d3015492e15244438f4a01c4e4cb1ea2", 
-    "contractID": "UA-2020-05-01-000001-1"
+    "awardID": "763e8aa953f246728f00ff21743bd1dd", 
+    "id": "f3236223b20c4e64b7bd7919bd0a8685", 
+    "contractID": "UA-2020-05-01-000001-2"
   }
 }
 

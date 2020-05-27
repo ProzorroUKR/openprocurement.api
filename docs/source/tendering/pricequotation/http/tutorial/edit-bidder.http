@@ -1,12 +1,14 @@
 PATCH /api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/bids/d8ffcf489b094edabfedd635dc87819e?acc_token=00e173e5f31f4decbb811cc01e10c1bf HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 30
+Content-Length: 36
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "status": "active"
+    "value": {
+      "amount": 459
+    }
   }
 }
 
@@ -14,7 +16,7 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "status": "active", 
+    "status": "draft", 
     "value": {
       "currency": "UAH", 
       "amount": 459.0, 

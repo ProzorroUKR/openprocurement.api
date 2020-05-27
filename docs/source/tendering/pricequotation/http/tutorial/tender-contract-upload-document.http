@@ -1,12 +1,12 @@
-POST /api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/contracts/d3015492e15244438f4a01c4e4cb1ea2/documents?acc_token=151a30932ee245e989771be867bc8235 HTTP/1.0
+POST /api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/contracts/f3236223b20c4e64b7bd7919bd0a8685/documents?acc_token=151a30932ee245e989771be867bc8235 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 344
+Content-Length: 342
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/63db88a0b4614dae9f611d03620daf1e?KeyID=a8968c46&Signature=tGgz0Qg6BDkREmuIiVDQqIVLTxfnWrTCnUi3YM6TZQmgEBNmNrvkvODKBfll8KotoI%2B5fMFizVH%2BO%2FSt9hmJBg%3D%3D", 
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ae8aa265abc14f87ac488057a2223e5b?KeyID=a8968c46&Signature=eFkiREyzyPgkHkp7Qff7tuXSMR8P1JOUNbcp9f03507801z5hCqTTSkGJMg2624n8deKlrf1J6PGS%2BpcV0%2FYAg%3D%3D", 
     "title": "contract_first_document.doc", 
     "hash": "md5:00000000000000000000000000000000", 
     "format": "application/msword"
@@ -15,12 +15,12 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/contracts/d3015492e15244438f4a01c4e4cb1ea2/documents/851b8175180f4883ba0651bd5f7bb830
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/contracts/f3236223b20c4e64b7bd7919bd0a8685/documents/851b8175180f4883ba0651bd5f7bb830
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000", 
     "title": "contract_first_document.doc", 
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/63db88a0b4614dae9f611d03620daf1e?KeyID=a8968c46&Signature=0qyfbRdug5WQ32d0Ov%2F1Nqz0INT0%252B8QcUTRhRPX9Z1P%2F0GAZBRLGalDi1oZhrDaBwfGuOEUDSH7njA5uPDVaBQ%253D%253D", 
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ae8aa265abc14f87ac488057a2223e5b?KeyID=a8968c46&Signature=LBhaXoX3LRxqDOt6Be3hhvgc62NkQiRA%252BM%252BhqEGj25CYSEWbHWJKeXv4KX8KZwMxBF1ntynCOnQ%2F%252BQ0XeeqTDA%253D%253D", 
     "format": "application/msword", 
     "documentOf": "tender", 
     "datePublished": "2020-05-01T01:00:03+03:00", 
