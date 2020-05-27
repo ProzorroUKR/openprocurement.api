@@ -18,30 +18,9 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "status": "answered", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
-    "author": {
-      "contactPoint": {
-        "email": "soleksuk@gmail.com", 
-        "telephone": "+380 (432) 21-69-30", 
-        "name": "Сергій Олексюк"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "legalName": "ДКП «Школяр»", 
-        "id": "00137256", 
-        "uri": "http://www.sc.gov.ua/"
-      }, 
-      "name": "ДКП «Школяр»", 
-      "address": {
-        "postalCode": "21100", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Островського, 33", 
-        "region": "Вінницька область", 
-        "locality": "м. Вінниця"
-      }
-    }, 
-    "resolutionType": "resolved", 
-    "type": "complaint", 
     "title": "Недостатньо інформації", 
+    "resolutionType": "resolved", 
+    "type": "claim", 
     "dateAnswered": "2020-05-01T01:00:00+03:00", 
     "dateSubmitted": "2020-05-01T01:00:00+03:00", 
     "complaintID": "UA-2020-05-01-000001.2", 

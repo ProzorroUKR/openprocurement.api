@@ -24,7 +24,6 @@ Content-Type: application/json; charset=UTF-8
       }, 
       "identifier": {
         "scheme": "UA-EDR", 
-        "legalName": "ДКП «Школяр»", 
         "id": "00137256", 
         "uri": "http://www.sc.gov.ua/"
       }, 
@@ -38,7 +37,7 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "resolutionType": "invalid", 
-    "type": "complaint", 
+    "type": "claim", 
     "title": "Недостатньо інформації", 
     "satisfied": false, 
     "dateAnswered": "2020-05-01T01:00:01+03:00", 

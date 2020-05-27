@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/b002454f45a448c19e5d2640996f289a HTTP/1.0
+PATCH /api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/ede6804b22c5468a9819c2e0f4496ded HTTP/1.0
 Authorization: Bearer reviewer
 Content-Length: 64
 Content-Type: application/json
@@ -18,14 +18,6 @@ Content-Type: application/json; charset=UTF-8
     "status": "invalid", 
     "dateDecision": "2020-05-01T01:00:00+03:00", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
-    "title": "Недостатньо інформації", 
-    "resolutionType": "invalid", 
-    "type": "complaint", 
-    "acceptance": false, 
-    "satisfied": false, 
-    "dateEscalated": "2020-05-01T01:00:00+03:00", 
-    "dateAnswered": "2020-05-01T01:00:00+03:00", 
-    "rejectReason": "alreadyExists", 
     "author": {
       "contactPoint": {
         "email": "soleksuk@gmail.com", 
@@ -47,11 +39,18 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Вінниця"
       }
     }, 
+    "acceptance": false, 
+    "value": {
+      "currency": "UAH", 
+      "amount": 2000.0
+    }, 
+    "rejectReason": "alreadyExists", 
     "dateSubmitted": "2020-05-01T01:00:00+03:00", 
-    "complaintID": "UA-2020-05-01-000001.4", 
+    "complaintID": "UA-2020-05-01-000001.8", 
     "date": "2020-05-01T01:00:00+03:00", 
-    "resolution": "Вимога не відповідає предмету закупівлі", 
-    "id": "b002454f45a448c19e5d2640996f289a"
+    "title": "Недостатньо інформації", 
+    "type": "complaint", 
+    "id": "ede6804b22c5468a9819c2e0f4496ded"
   }
 }
 

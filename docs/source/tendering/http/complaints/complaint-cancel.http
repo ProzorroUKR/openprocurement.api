@@ -45,7 +45,7 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "cancellationReason": "Умови виправлено", 
     "dateCanceled": "2020-05-01T01:00:00+03:00", 
-    "complaintID": "UA-2020-05-01-000001.8", 
+    "complaintID": "UA-2020-05-01-000001.9", 
     "date": "2020-05-01T01:00:00+03:00", 
     "type": "complaint", 
     "id": "38d6d6628b5347e5af7a12c4c93fe47c"

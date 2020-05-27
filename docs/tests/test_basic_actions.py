@@ -88,7 +88,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 {"data": {"status": "claim"}})
             self.assertEqual(response.status, '200 OK')
 
-        claim_data = {'data': complaint.copy()}
+        claim_data = {'data': claim.copy()}
         claim_data['data']['status'] = 'claim'
         with open(TARGET_DIR + 'complaints/complaint-submission-claim.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
@@ -99,7 +99,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         complaint2_id = response.json['data']['id']
 
         complaint_data = {'data': complaint.copy()}
-        complaint_data['data']['status'] = 'pending'
 
         complaint_url = "/tenders/{}/complaints".format(self.tender_id)
         complaint3_id, complaint3_token = complaint_create_pending(self, complaint_url, complaint_data)
@@ -159,23 +158,24 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 }})
             self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'complaints/complaint-escalate.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint4_id, complaint4_token),
-                {"data": {
-                    "satisfied": False,
-                    "status": "pending"
-                }})
-            self.assertEqual(response.status, '200 OK')
+        if get_now() < RELEASE_2020_04_19:
+            with open(TARGET_DIR + 'complaints/complaint-escalate.http', 'w') as self.app.file_obj:
+                response = self.app.patch_json(
+                    '/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint4_id, complaint4_token),
+                    {"data": {
+                        "satisfied": False,
+                        "status": "pending"
+                    }})
+                self.assertEqual(response.status, '200 OK')
 
         complaint5_id, complaint5_token = complaint_create_pending(self, complaint_url, complaint_data)
-
         complaint6_id, complaint6_token = complaint_create_pending(self, complaint_url, complaint_data)
+        complaint9_id, complaint9_token = complaint_create_pending(self, complaint_url, complaint_data)
 
         self.app.authorization = ('Basic', ('reviewer', ''))
         with open(TARGET_DIR + 'complaints/complaint-reject.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/complaints/{}'.format(self.tender_id, complaint4_id),
+                '/tenders/{}/complaints/{}'.format(self.tender_id, complaint9_id),
                 {'data': {
                     "status": "invalid",
                     "rejectReason": "alreadyExists"
@@ -489,7 +489,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.assertEqual(response.status, '200 OK')
 
         complaint_data = {'data': complaint.copy()}
-        complaint_data['data']['status'] = 'pending'
 
         complaint_url = "/tenders/{}/qualifications/{}/complaints".format(self.tender_id, qualification_id)
         complaint2_id, complaint2_token = complaint_create_pending(self, complaint_url, complaint_data, bid_token)
@@ -500,7 +499,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         complaint5_id, complaint5_token = complaint_create_pending(self, complaint_url, complaint_data, bid_token)
 
-        claim_data = {'data': complaint.copy()}
+        claim_data = {'data': claim.copy()}
         claim_data['data']['status'] = 'claim'
         with open(TARGET_DIR + 'complaints/qualification-complaint-submission-claim.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
@@ -930,7 +929,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         complaint_data = {'data': complaint.copy()}
-        complaint_data['data']['status'] = 'pending'
         # with open(TARGET_DIR + 'complaints/award-complaint-submission-complaint.http', 'w') as self.app.file_obj:
         #     response = self.app.post_json(
         #         '/tenders/{}/awards/{}/complaints?acc_token={}'.format(
@@ -950,7 +948,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         complaint5_id, complaint5_token = complaint_create_pending(self, complaint_url, complaint_data, bid_token)
 
-        claim_data = {'data': complaint.copy()}
+        claim_data = {'data': claim.copy()}
         claim_data['data']['status'] = 'claim'
         with open(TARGET_DIR + 'complaints/award-complaint-submission-claim.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
@@ -1328,7 +1326,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '201 Created')
 
         complaint_data = {'data': complaint.copy()}
-        complaint_data['data']['status'] = 'pending'
 
         complaint_url = "/tenders/{}/cancellations/{}/complaints".format(self.tender_id, cancellation_id)
         complaint3_id, complaint3_token = complaint_create_pending(self, complaint_url, complaint_data)
