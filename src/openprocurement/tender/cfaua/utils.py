@@ -16,7 +16,11 @@ from openprocurement.tender.core.utils import (
 )
 from openprocurement.tender.openeu.utils import CancelTenderLot as BaseCancelTenderLot
 from openprocurement.tender.openua.utils import check_complaint_status
-from openprocurement.tender.core.utils import check_cancellation_status
+from openprocurement.tender.core.utils import (
+    check_cancellation_status,
+    prepare_bids_for_awarding,
+    exclude_unsuccessful_awarded_bids,
+)
 
 from openprocurement.tender.cfaua.models.submodels.qualification import Qualification
 from openprocurement.tender.cfaua.traversal import (
@@ -360,72 +364,42 @@ def add_next_awards(request, reverse=False, awarding_criteria_key="amount", rege
             if lot.status != "active":
                 continue
             lot_awards = [award for award in tender.awards if award.lotID == lot.id]
-            lot_awards_statuses = [award["status"] for award in tender.awards if award.lotID == lot.id]
-            set_lot_awards_statuses = set(lot_awards_statuses)
-            if lot_awards_statuses and set_lot_awards_statuses.issubset({"pending", "active"}):
-                statuses.union(set_lot_awards_statuses)
+            lot_awards_statuses = {award["status"] for award in tender.awards if award.lotID == lot.id}
+            if lot_awards_statuses and lot_awards_statuses.issubset({"pending", "active"}):
+                statuses.union(lot_awards_statuses)
                 continue
-            lot_items = [i.id for i in tender.items if i.relatedLot == lot.id]
-            features = [
-                i
-                for i in (tender.features or [])
-                if i.featureOf == "tenderer"
-                or i.featureOf == "lot"
-                and i.relatedItem == lot.id
-                or i.featureOf == "item"
-                and i.relatedItem in lot_items
-            ]
-            codes = [i.code for i in features]
-            bids = [
-                {
-                    "id": bid.id,
-                    "value": [i for i in bid.lotValues if lot.id == i.relatedLot][0].value.serialize(),
-                    "tenderers": bid.tenderers,
-                    "parameters": [i for i in bid.parameters if i.code in codes],
-                    "date": [i for i in bid.lotValues if lot.id == i.relatedLot][0].date,
-                }
-                for bid in tender.bids
-                if bid.status == "active"
-                and lot.id in [i.relatedLot for i in bid.lotValues if getattr(i, "status", "active") == "active"]
-            ]
-            if not bids:
+
+            all_bids = prepare_bids_for_awarding(tender, tender.bids, lot_id=lot.id)
+            if not all_bids:
                 lot.status = "unsuccessful"
                 statuses.add("unsuccessful")
                 continue
-            cancelled_awards = None
+
+            selected_bids = exclude_unsuccessful_awarded_bids(tender, all_bids, lot_id=lot.id)
+
             if not regenerate_all_awards and lot.id == lot_id:
-                cancelled_awards = [
-                    award.bid_id
-                    for award in lot_awards
+                # this block seems is supposed to cause the function append only one award
+                # for a bid of the first (the only?) cancelled award
+                cancelled_award_bid_ids = [
+                    award.bid_id for award in lot_awards
                     if award.status == "cancelled" and request.context.id == award.id
                 ]
-            unsuccessful_awards = [i.bid_id for i in lot_awards if i.status == "unsuccessful"]
-            bids = [bid for bid in bids if bid["id"] == cancelled_awards[0]] if cancelled_awards else bids
-            bids = chef(bids, features, unsuccessful_awards, reverse, awarding_criteria_key)
+                if cancelled_award_bid_ids:
+                    selected_bids = [bid for bid in all_bids if bid["id"] == cancelled_award_bid_ids[0]]
 
-            bids = bids[:max_awards] if max_awards else bids
-            active_awards = [a.bid_id for a in tender.awards if a.status in ("active", "pending") and a.lotID == lot.id]
+            if max_awards:  # limit awards
+                selected_bids = selected_bids[:max_awards]
 
-            bids = [bid for bid in bids if bid["id"] not in active_awards]
-            if bids:
-                for bid in bids:
-                    award = tender.__class__.awards.model_class(
-                        {
-                            "bid_id": bid["id"],
-                            "lotID": lot.id,
-                            "status": "pending",
-                            "date": get_now(),
-                            "value": bid["value"],
-                            "suppliers": bid["tenderers"],
-                        }
-                    )
-                    award.__parent__ = tender
-                    tender.awards.append(award)
+            active_award_bid_ids = {a.bid_id for a in lot_awards if a.status in ("active", "pending")}
+            selected_bids = list(filter(lambda b: b["id"] not in active_award_bid_ids, selected_bids))
+            if selected_bids:
+                for bid in selected_bids:
+                    tender.append_award(bid, all_bids, lot_id=lot.id)
                 statuses.add("pending")
             else:
                 statuses.add("unsuccessful")
         if (
-            statuses.difference(set(["unsuccessful", "active"]))
+            statuses.difference({"unsuccessful", "active"})
             and any([i for i in tender.lots])
         ):
             # logic for auction to switch status

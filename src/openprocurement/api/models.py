@@ -526,6 +526,7 @@ class Document(Model):
             "registerExtract",
             "registerFiscal",
             "winningBid",
+            "evidence",
         ]
     )
     title = StringType(required=True)  # A title of the document.

@@ -178,7 +178,7 @@ def reset_auction_period(self):
     ).isoformat()
     tender["enquiryPeriod"]["endDate"] = tender["tenderPeriod"]["startDate"]
     tender["enquiryPeriod"]["startDate"] = calculate_tender_business_date(
-        parse_date(tender["enquiryPeriod"]["endDate"]), -timedelta(3), None, True
+        parse_date(tender["enquiryPeriod"]["endDate"]), -timedelta(4), None, True
     ).isoformat()
     if self.initial_lots:
         tender["lots"][0]["auctionPeriod"]["startDate"] = tender["tenderPeriod"]["endDate"]

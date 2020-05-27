@@ -3,14 +3,14 @@ import os
 from copy import deepcopy
 from mock import patch
 from datetime import timedelta
-from openprocurement.tender.core.tests.base import change_auth
+from freezegun import freeze_time
 from openprocurement.api.models import get_now
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.openua.tests.tender import BaseTenderUAWebTest
 from tests.base.constants import DOCS_URL, AUCTIONS_URL
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.base.data import (
-    question, complaint, claim as test_claim, tender_openua, bid_draft, bid2,
+    question, complaint, tender_openua, bid_draft, bid2,
     subcontracting, qualified,
 )
 
@@ -312,16 +312,48 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
         self.app.authorization = ('Basic', ('auction', ''))
         response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
         auction_bids_data = response.json['data']['bids']
+        auction_bids_data[0]["value"]["amount"] = 250  # too low price
         response = self.app.post_json(
             '/tenders/{}/auction'.format(self.tender_id),
             {'data': {'bids': auction_bids_data}})
 
         self.app.authorization = ('Basic', ('broker', ''))
 
-        response = self.app.get('/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token))
-
         # get pending award
-        award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
+        with open(TARGET_DIR + 'get-awards-list.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token))
+
+        award = response.json["data"][0]
+        award_id = award["id"]
+        award_bid_id = award["bid_id"]
+        self.assertEqual(len(award.get("milestones", "")), 1)
+
+        with open(TARGET_DIR + 'fail-disqualification.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                {"data": {
+                    "status": "unsuccessful",
+                }},
+                status=403
+            )
+
+        with open(TARGET_DIR + 'post-evidence-document.http', 'w') as self.app.file_obj:
+            self.app.post_json(
+                "/tenders/{}/bids/{}/documents?acc_token={}".format(
+                    self.tender_id, award_bid_id, bids_access[award_bid_id]),
+                {"data": {
+                    "title": "lorem.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                    "documentType": "evidence"
+                }},
+                status=201
+            )
+
+        tender = self.db.get(self.tender_id)
+        tender["awards"][0]["milestones"][0]["dueDate"] = (get_now() - timedelta(days=1)).isoformat()
+        self.db.save(tender)
 
         with open(TARGET_DIR + 'confirm-qualification.http', 'w') as self.app.file_obj:
             self.app.patch_json(
@@ -330,8 +362,9 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
                     "status": "active",
                     "qualified": True,
                     "eligible": True
-                }})
-            self.assertEqual(response.status, '200 OK')
+                }},
+                status=200
+            )
 
         response = self.app.get('/tenders/{}/contracts?acc_token={}'.format(
             self.tender_id, owner_token))

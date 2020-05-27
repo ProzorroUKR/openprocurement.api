@@ -1,6 +1,6 @@
 from openprocurement.tender.openeu.tests.qualification import TenderQualificationBaseTestCase
-from openprocurement.tender.core.tests.qualification_milestone import TenderQualificationMilestoneMixin
+from openprocurement.tender.core.tests.qualification_milestone import TenderQualificationMilestone24HMixin
 
 
-class TenderQualificationMilestoneTestCase(TenderQualificationMilestoneMixin, TenderQualificationBaseTestCase):
+class TenderQualificationMilestoneTestCase(TenderQualificationMilestone24HMixin, TenderQualificationBaseTestCase):
     pass

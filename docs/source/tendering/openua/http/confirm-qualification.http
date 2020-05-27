@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/awards/742c6507f29f4b5fa26b642d0f57f58c?acc_token=62607c36ce4a4d64961ecc0d0a21540e HTTP/1.0
+PATCH /api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/awards/b442ded674714917b554a367607c2b68?acc_token=62607c36ce4a4d64961ecc0d0a21540e HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 67
 Content-Type: application/json
@@ -17,27 +17,36 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "active", 
+    "milestones": [
+      {
+        "date": "2020-05-01T01:00:00+03:00", 
+        "dueDate": "2020-04-30T01:00:00+03:00", 
+        "code": "alp", 
+        "description": "найбільш економічно вигідна пропозиція є меншою на 40 або більше відсотків від середньоарифметичного значення ціни/приведеної ціни тендерних пропозицій інших учасників на початковому етапі аукціону / найбільш економічно вигідна пропозиція є меншою на 30 або більше відсотків від наступної ціни/приведеної ціни тендерної пропозиції за результатами проведеного електронного аукціону", 
+        "id": "4f425019873d483bac652e46a9e2a6b7"
+      }
+    ], 
     "eligible": true, 
     "suppliers": [
       {
         "contactPoint": {
-          "email": "aagt@gmail.com", 
-          "telephone": "+380 (322) 91-69-30", 
-          "name": "Андрій Олексюк"
+          "email": "soleksuk@gmail.com", 
+          "telephone": "+380 (432) 21-69-30", 
+          "name": "Сергій Олексюк"
         }, 
-        "scale": "sme", 
-        "name": "ДКП «Книга»", 
+        "scale": "micro", 
+        "name": "ДКП «Школяр»", 
         "identifier": {
           "scheme": "UA-EDR", 
-          "id": "00137226", 
+          "id": "00137256", 
           "uri": "http://www.sc.gov.ua/"
         }, 
         "address": {
-          "postalCode": "79013", 
+          "postalCode": "21100", 
           "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 34", 
-          "region": "Львівська область", 
-          "locality": "м. Львів"
+          "streetAddress": "вул. Островського, 33", 
+          "region": "Вінницька область", 
+          "locality": "м. Вінниця"
         }
       }
     ], 
@@ -45,15 +54,15 @@ Content-Type: application/json; charset=UTF-8
       "startDate": "2020-05-01T01:00:00+03:00", 
       "endDate": "2020-05-12T00:00:00+03:00"
     }, 
-    "bid_id": "74cd11740bab485cac5b0bb55ab266f6", 
+    "bid_id": "9d3968fda7eb41c0a97e5273a1d682ab", 
     "value": {
       "currency": "UAH", 
-      "amount": 499.0, 
+      "amount": 250.0, 
       "valueAddedTaxIncluded": true
     }, 
     "qualified": true, 
     "date": "2020-05-01T01:00:00+03:00", 
-    "id": "742c6507f29f4b5fa26b642d0f57f58c"
+    "id": "b442ded674714917b554a367607c2b68"
   }
 }
 

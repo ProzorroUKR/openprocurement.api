@@ -41,8 +41,12 @@ from openprocurement.tender.core.constants import (
     SERVICE_TIME,
     AUCTION_STAND_STILL_TIME,
     NORMALIZED_COMPLAINT_PERIOD_FROM,
+    ALP_MILESTONE_REASONS,
 )
 from openprocurement.tender.core.traversal import factory
+from jsonpointer import JsonPointerException
+from jsonpatch import JsonPatchException, apply_patch as apply_json_patch
+from barbecue import chef
 import math
 
 LOGGER = getLogger("openprocurement.tender.core")
@@ -597,3 +601,163 @@ def get_contract_supplier_roles(contract):
     bid_data = jmespath.search("bids[?id=='{}'].[owner,owner_token]".format(bid_id), contract.__parent__)[0]
     roles['_'.join(bid_data)] = 'contract_supplier'
     return roles
+
+
+def prepare_bids_for_awarding(tender, bids, lot_id=None):
+    """
+    Used by add_next_award method
+    :param tender:
+    :param bids
+    :param lot_id:
+    :return: list of bid dict objects sorted in a way they will be selected as winners
+    """
+    lot_items = [i.id for i in tender.items if i.relatedLot == lot_id]  # all items in case of non-lot tender
+    features = [
+         i for i in (tender.features or [])
+         if i.featureOf == "tenderer"
+         or i.featureOf == "lot" and i.relatedItem == lot_id
+         or i.featureOf == "item" and i.relatedItem in lot_items
+    ]  # all features in case of non-lot tender
+    codes = [i.code for i in features]
+    active_bids = []
+    for bid in bids:
+        if bid.status == "active":
+            bid_params = [i for i in bid.parameters if i.code in codes]
+            if lot_id:
+                for lot_value in bid.lotValues:
+                    if lot_value.relatedLot == lot_id and getattr(lot_value, "status", "active") == "active":
+                        active_bids.append(
+                            {
+                                "id": bid.id,
+                                "value": lot_value.value.serialize(),
+                                "tenderers": bid.tenderers,
+                                "parameters": bid_params,
+                                "date": lot_value.date,
+                            }
+                        )
+                        continue  # only one lotValue in a bid is expected
+            else:
+                active_bids.append(
+                    {
+                        "id": bid.id,
+                        "value": bid.value.serialize(),
+                        "tenderers": bid.tenderers,
+                        "parameters": bid_params,
+                        "date": bid.date,
+                    }
+                )
+    configurator = tender.__parent__.request.content_configurator
+    bids = chef(
+        active_bids, features,
+        ignore="",  # filters by id, shouldn't be a part of this lib
+        reverse=configurator.reverse_awarding_criteria,
+        awarding_criteria_key=configurator.awarding_criteria_key,
+    )
+    return bids
+
+
+def exclude_unsuccessful_awarded_bids(tender, bids, lot_id):
+    lot_awards = [i for i in tender.awards if i.lotID == lot_id]  # all awards in case of non-lot tender
+    ignore_bid_ids = [b.bid_id for b in lot_awards if b.status == "unsuccessful"]
+    bids = filter(lambda b: b["id"] not in ignore_bid_ids, bids)
+    return bids
+
+
+# low price milestones
+def prepare_award_milestones(tender, bid, all_bids, lot_id=None):
+    """
+    :param tender:
+    :param bid: a bid to check
+    :param all_bids: prepared the way that "value" key exists even for multi-lot
+    :param lot_id:
+    :return:
+    """
+    milestones = []
+    if (
+        getattr(tender, "procurementMethodType", "") in ("esco", "aboveThresholdUA.defense")
+        or get_first_revision_date(tender, default=get_now()) < RELEASE_2020_04_19
+    ):
+        return milestones   # skipping
+
+    def ratio_of_two_values(v1, v2):
+        return 1 - Decimal(v1) / Decimal(v2)
+
+    if len(all_bids) > 1:
+        reasons = []
+        amount = bid["value"]["amount"]
+        #  1st criteria
+        mean_value = get_mean_value_tendering_bids(
+            tender, all_bids, lot_id=lot_id, exclude_bid_id=bid["id"],
+        )
+        if ratio_of_two_values(amount, mean_value) >= Decimal("0.4"):
+            reasons.append(ALP_MILESTONE_REASONS[0])
+
+        # 2nd criteria
+        for n, b in enumerate(all_bids):
+            if b["id"] == bid["id"]:
+                index = n
+                break
+        else:
+            raise AssertionError("Selected bid not in the full list")  # should never happen
+        following_index = index + 1
+        if following_index < len(all_bids):  # selected bid has the following one
+            following_bid = all_bids[following_index]
+            following_amount = following_bid["value"]["amount"]
+            if ratio_of_two_values(amount, following_amount) >= Decimal("0.3"):
+                reasons.append(ALP_MILESTONE_REASONS[1])
+        if reasons:
+            milestones.append(
+                {
+                    "code": "alp",
+                    "description": u" / ".join(reasons)
+                }
+            )
+    return milestones
+
+
+def get_mean_value_tendering_bids(tender, bids, lot_id, exclude_bid_id):
+    before_auction_bids = get_bids_before_auction_results(tender)
+    before_auction_bids = prepare_bids_for_awarding(
+        tender, before_auction_bids, lot_id=lot_id,
+    )
+    initial_amounts = {
+        b["id"]: float(b["value"]["amount"])
+        for b in before_auction_bids
+    }
+    initial_values = [
+        initial_amounts[b["id"]]
+        for b in bids
+        if b["id"] != exclude_bid_id  # except the bid being checked
+    ]
+    mean_value = sum(initial_values) / float(len(initial_values))
+    return mean_value
+
+
+def get_bids_before_auction_results(tender):
+    request = tender.__parent__.request
+    if tender.status == "active.auction":  # this request is posting auction results
+        initial_doc = request.validated["tender_src"]
+    else:  # after auction results posted
+        initial_doc = tender.serialize()
+        auction_revisions = [revision for revision in reversed(list(tender.revisions))
+                             if revision["author"] == "auction"]
+        if not auction_revisions:
+            LOGGER.exception(
+                "Can't find auction revisions, tendering bid amounts will be taken as they are",
+                extra=context_unpack(request, {"MESSAGE_ID": "fail_get_auction_revisions"})
+            )
+        for revision in auction_revisions:
+            try:
+                initial_doc = apply_json_patch(initial_doc, revision["changes"])
+            except (JsonPointerException, JsonPatchException) as e:
+                LOGGER.exception(e, extra=context_unpack(request, {"MESSAGE_ID": "fail_get_tendering_bids"}))
+
+    bid_model = type(tender).bids.model_class
+
+    initial_bids_list = []
+    for b in initial_doc["bids"]:
+        m = bid_model(b)
+        m.__parent__ = tender
+        initial_bids_list.append(m)
+
+    return initial_bids_list

@@ -994,21 +994,42 @@ def unless_allowed_by_qualification_milestone(*validations):
     :return:
     """
     def decorated_validation(request):
+        now = get_now()
         tender = request.validated["tender"]
         bid_id = request.validated["bid"]["id"]
-        if "qualifications" in tender:
+        awards = [q for q in tender.get("awards", "")
+                  if q["status"] == "pending" and q["bid_id"] == bid_id]
+
+        # 24 hours
+        if "qualifications" in tender:   # for procedures with pre-qualification
             qualifications = [q for q in tender["qualifications"]
                               if q["status"] == "pending" and q["bidID"] == bid_id]
         else:
-            qualifications = [q for q in tender.get("awards", "")
-                              if q["status"] == "pending" and q["bid_id"] == bid_id]
-        now = get_now()
-        if qualifications and any(
-                milestone["code"] in ("24h",) and milestone["date"] < now < milestone["dueDate"]
+            qualifications = awards
+
+        if any(
+                milestone["code"] == "24h" and milestone["date"] <= now <= milestone["dueDate"]
                 for q in qualifications
                 for milestone in q.get("milestones", "")
         ):
-            return  # skipping the validation
+            return  # skipping the validation because of 24 hour milestone
+
+        # low price
+        for award in awards:
+            for milestone in award.get("milestones", ""):
+                if milestone["date"] <= now <= milestone["dueDate"]:
+                    if milestone["code"] == "alp":
+                        # only skip if request is posting a document of documentType:evidence
+                        allowed_type = "evidence"
+                        if request.method == "POST":
+                            if request.validated.get("data", {}).get("documentType") == allowed_type:
+                                return
+                        elif (  # it's update of a docType evidence doc and docType remains the same
+                            getattr(request.context, "documentType", "") == allowed_type
+                            and request.validated.get("data", {}).get("documentType") == allowed_type
+                        ):
+                            return
+
         # else
         for validation in validations:
             validation(request)
@@ -1024,8 +1045,8 @@ def validate_update_status_before_milestone_due_date(request):
         now = get_now()
         for milestone in context.milestones:
             if (
-                milestone.code == QualificationMilestone.CODE_24_HOURS
-                and milestone["date"] < now < milestone["dueDate"]
+                milestone.code in (QualificationMilestone.CODE_24_HOURS, QualificationMilestone.CODE_LOW_PRICE)
+                and milestone["date"] <= now <= milestone["dueDate"]
             ):
                 raise_operation_error(
                     request,

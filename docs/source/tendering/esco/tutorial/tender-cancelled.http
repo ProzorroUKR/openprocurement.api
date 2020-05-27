@@ -321,7 +321,7 @@ Content-Type: application/json; charset=UTF-8
           ]
         }, 
         "date": "2020-05-01T01:00:00+03:00", 
-        "awardID": "cc09c32b70944953bb082bdf4cf13c48", 
+        "awardID": "5ba90c5be49d4edfb4cf3f4a5c8afd29", 
         "id": "b24337545a6c4c25843d326ae2a60645", 
         "contractID": "UA-2020-05-01-000001-1"
       }
@@ -397,7 +397,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "qualified": true, 
         "date": "2020-05-01T01:00:00+03:00", 
-        "id": "cc09c32b70944953bb082bdf4cf13c48"
+        "id": "5ba90c5be49d4edfb4cf3f4a5c8afd29"
       }
     ], 
     "date": "2020-05-12T01:00:02+03:00", 

@@ -84,7 +84,7 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "date": "2020-05-01T01:00:01+03:00", 
-    "awardID": "b3a9546810624f718531b61aca1ac59b", 
+    "awardID": "f8843c8378b146bcaacdb21e9da0c3b8", 
     "id": "815bd06a9ab34af69743fc32a8451cc6", 
     "contractID": "UA-2020-05-01-000001-1"
   }
