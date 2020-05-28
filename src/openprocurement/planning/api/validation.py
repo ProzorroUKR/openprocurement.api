@@ -37,14 +37,16 @@ def validate_plan_accreditation_level_mode(request):
 
 def validate_tender_kind(request):
     procurement_method_types = list(chain(*PROCEDURES.values()))
-    procurement_method_types_without_negotiation = list(filter(lambda x: x != 'negotiation', procurement_method_types))
+    procurement_method_types_without_above_threshold_ua_defense = list(
+        filter(lambda x: x != 'aboveThresholdUA.defense', procurement_method_types)
+    )
     kind_allows_procurement_method_type_mapping = {
         "defense": procurement_method_types,
-        "general": procurement_method_types_without_negotiation,
-        "special": procurement_method_types_without_negotiation,
-        "central": procurement_method_types_without_negotiation,
-        "authority": procurement_method_types_without_negotiation,
-        "social": procurement_method_types_without_negotiation,
+        "general": procurement_method_types_without_above_threshold_ua_defense,
+        "special": procurement_method_types_without_above_threshold_ua_defense,
+        "central": procurement_method_types_without_above_threshold_ua_defense,
+        "authority": procurement_method_types_without_above_threshold_ua_defense,
+        "social": procurement_method_types_without_above_threshold_ua_defense,
         "other": ["belowThreshold", "reporting"],
     }
 

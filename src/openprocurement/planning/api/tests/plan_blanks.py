@@ -790,8 +790,8 @@ def create_plan_invalid_procuring_entity(self):
         ],
     )
     initial_data["procuringEntity"]["kind"] = u"general"
-    initial_data["tender"]["procurementMethod"] = u"limited"
-    initial_data["tender"]["procurementMethodType"] = u"negotiation"
+    initial_data["tender"]["procurementMethod"] = u"open"
+    initial_data["tender"]["procurementMethodType"] = u"aboveThresholdUA.defense"
 
     response = self.app.post_json(request_path, {"data": initial_data}, status=403)
     self.assertEqual(response.status, "403 Forbidden")
@@ -800,11 +800,12 @@ def create_plan_invalid_procuring_entity(self):
 
     self.assertEqual(
         response.json["errors"], [
-            {u'description': u'procuringEntity with general kind cannot publish this type of procedure. '
-                             u'Procurement method types allowed for this kind: , centralizedProcurement, '
-                             u'reporting, negotiation.quick, belowThreshold, aboveThresholdUA, aboveThresholdEU,'
-                             u' aboveThresholdUA.defense, competitiveDialogueUA, competitiveDialogueEU, esco,'
-                             u' closeFrameworkAgreementUA.', u'location': u'procuringEntity', u'name': u'kind'
+            {
+                u'description': u'procuringEntity with general kind cannot publish this type of procedure.'
+                                u' Procurement method types allowed for this kind: , centralizedProcurement,'
+                                u' reporting, negotiation, negotiation.quick, belowThreshold, aboveThresholdUA,'
+                                u' aboveThresholdEU, competitiveDialogueUA, competitiveDialogueEU, esco, '
+                                u'closeFrameworkAgreementUA.', u'location': u'procuringEntity', u'name': u'kind'
             }
         ]
     )
