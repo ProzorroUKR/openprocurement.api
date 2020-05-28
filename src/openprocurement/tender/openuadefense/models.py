@@ -126,5 +126,5 @@ class Tender(BaseTender):
         if self.tenderPeriod.startDate < COMPLAINT_OLD_SUBMIT_TIME_BEFORE:
             endDate = calculate_tender_business_date(self.tenderPeriod.endDate, -COMPLAINT_OLD_SUBMIT_TIME, self)
         else:
-            endDate = calculate_complaint_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME, self)
+            endDate = calculate_complaint_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME, self, True)
         return Period(dict(startDate=self.tenderPeriod.startDate, endDate=endDate))
