@@ -21,18 +21,18 @@ Content-Type: application/json; charset=UTF-8
         "title": "contract_first_document.doc", 
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0f746bb86abe44069b70422d6460b960?KeyID=a8968c46&Signature=pSYFHP3nW5EEk%2FIRb2QtEpFxYLsjj6qRelcysPR0of3o%2Fw7RiugEvP0mQ0%252BTwF%2FI9tUIUc6MDtRrLGReXyaRCw%253D%253D", 
         "format": "application/msword", 
-        "datePublished": "2020-05-01T01:00:00+03:00", 
+        "datePublished": "2020-05-15T01:00:00+03:00", 
         "id": "d06c0f6b9a9f4064bbd32fd6c64cf5da", 
-        "dateModified": "2020-05-01T01:00:00+03:00"
+        "dateModified": "2020-05-15T01:00:00+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
         "title": "contract_second_document.doc", 
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/99561094e8ff41baa176155995a9e23c?KeyID=a8968c46&Signature=ecUmeR1kbP138C3RdAt76nq%2FPC6qYvVU9Kei5DuhrS72l%252BFJQh4GqCxMJAslC1VhN391Az%2FifrpGFIfPIgJmAQ%253D%253D", 
         "format": "application/msword", 
-        "datePublished": "2020-05-01T01:00:00+03:00", 
+        "datePublished": "2020-05-15T01:00:00+03:00", 
         "id": "eb61c2895813420ea67c7baa86c980b9", 
-        "dateModified": "2020-05-01T01:00:00+03:00"
+        "dateModified": "2020-05-15T01:00:00+03:00"
       }
     ], 
     "items": [
@@ -60,8 +60,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-03T01:00:00+03:00", 
-          "endDate": "2020-05-06T01:00:00+03:00"
+          "startDate": "2020-05-17T01:00:00+03:00", 
+          "endDate": "2020-05-20T01:00:00+03:00"
         }, 
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
         "unit": {
@@ -95,20 +95,20 @@ Content-Type: application/json; charset=UTF-8
     ], 
     "contractNumber": "contract #13111", 
     "period": {
-      "startDate": "2020-05-01T01:00:00+03:00", 
-      "endDate": "2021-05-01T01:00:00+03:00"
+      "startDate": "2020-05-15T01:00:00+03:00", 
+      "endDate": "2021-05-15T01:00:00+03:00"
     }, 
-    "dateSigned": "2020-05-01T01:00:00+03:00", 
+    "dateSigned": "2020-05-15T01:00:00+03:00", 
     "value": {
       "currency": "UAH", 
       "amount": 238.0, 
       "amountNet": 230.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "awardID": "1c87ef6c69a34696b307f78e1d9839e7", 
     "id": "632f182366214a9aa18a7cbe72724559", 
-    "contractID": "UA-2020-05-01-000004-2"
+    "contractID": "UA-2020-05-15-000004-2"
   }
 }
 

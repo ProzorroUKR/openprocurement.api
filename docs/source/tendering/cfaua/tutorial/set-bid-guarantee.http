@@ -26,14 +26,14 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "auctionPeriod": {
-      "shouldStartAfter": "2020-07-06T00:00:00+03:00"
+      "shouldStartAfter": "2020-07-20T00:00:00+03:00"
     }, 
     "value": {
       "currency": "UAH", 
       "amount": 500.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "id": "c7555f1bb878434d8815dea318304673", 
     "guarantee": {
       "currency": "USD", 

@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2020-05-09T01:00:01+03:00"
+      "endDate": "2020-05-23T01:00:01+03:00"
     }, 
     "value": {
       "currency": "UAH", 
@@ -23,17 +23,17 @@ Content-Type: application/json; charset=UTF-8
     "procurementMethod": "open", 
     "mainProcurementCategory": "services", 
     "complaintPeriod": {
-      "startDate": "2020-04-18T01:00:00+03:00", 
-      "endDate": "2020-05-07T00:00:00+03:00"
+      "startDate": "2020-05-02T01:00:00+03:00", 
+      "endDate": "2020-05-21T00:00:00+03:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2020-04-18T01:00:00+03:00", 
-      "clarificationsUntil": "2020-05-08T00:00:00+03:00", 
-      "endDate": "2020-05-06T00:00:00+03:00", 
-      "invalidationDate": "2020-05-01T01:00:01+03:00"
+      "startDate": "2020-05-02T01:00:00+03:00", 
+      "clarificationsUntil": "2020-05-22T00:00:00+03:00", 
+      "endDate": "2020-05-20T00:00:00+03:00", 
+      "invalidationDate": "2020-05-15T01:00:01+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2020-05-09T01:00:01+03:00", 
+    "next_check": "2020-05-23T01:00:01+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -58,9 +58,9 @@ Content-Type: application/json; charset=UTF-8
     "questions": [
       {
         "description": "Просимо додати таблицю потрібної калорійності харчування", 
-        "dateAnswered": "2020-05-01T01:00:00+03:00", 
+        "dateAnswered": "2020-05-15T01:00:00+03:00", 
         "title": "Калорійність", 
-        "date": "2020-05-01T01:00:00+03:00", 
+        "date": "2020-05-15T01:00:00+03:00", 
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
         "id": "d3803d4479ee43cc9ed13e8d5f59d394", 
         "questionOf": "tender"
@@ -80,9 +80,9 @@ Content-Type: application/json; charset=UTF-8
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a9ab51e8a42a44b687a43b3a62414c36?KeyID=a8968c46&Signature=CG2s%2FcG7rQ%252B2B%2F3w%252Bb8QhV4MNX4V85fU5emXeDdqgwNZET10gAlb9WkWSqHinqQSJmJSOd%2FVJL%2FqbQhEuBXTAw%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-01T01:00:00+03:00", 
+        "datePublished": "2020-05-15T01:00:00+03:00", 
         "id": "05b87dabf12244cd94fe2f51636ad002", 
-        "dateModified": "2020-05-01T01:00:00+03:00"
+        "dateModified": "2020-05-15T01:00:00+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
@@ -91,9 +91,9 @@ Content-Type: application/json; charset=UTF-8
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6f212629e7e2470f9511a6ad67de57a0?KeyID=a8968c46&Signature=IV6gbyGAfhUQRz20VDT4AFzwKBxGpIra6PUrdwbeEhLU3YaEu0FdfsD%252Btjg06QtC3Mo68QYE2StBDLB0sqGQBQ%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-01T01:00:00+03:00", 
+        "datePublished": "2020-05-15T01:00:00+03:00", 
         "id": "af19de0bb1e149869a2fa37596133890", 
-        "dateModified": "2020-05-01T01:00:00+03:00"
+        "dateModified": "2020-05-15T01:00:00+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
@@ -102,25 +102,25 @@ Content-Type: application/json; charset=UTF-8
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9d677673b67647ef8daf56d585b9cb5c?KeyID=a8968c46&Signature=RUklL7sP%252ByI%2Fszpq1HkUN2MPgx%2FxRgra1dhJg6QZiQ5AqY7PUQ7Rpo1EeJMVLiANHdon3HmXll14JLSvmk4IBA%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-01T01:00:00+03:00", 
+        "datePublished": "2020-05-15T01:00:00+03:00", 
         "id": "af19de0bb1e149869a2fa37596133890", 
-        "dateModified": "2020-05-01T01:00:00+03:00"
+        "dateModified": "2020-05-15T01:00:00+03:00"
       }
     ], 
     "title": "футляри до державних нагород", 
-    "tenderID": "UA-2020-05-01-000001", 
-    "dateModified": "2020-05-01T01:00:01+03:00", 
+    "tenderID": "UA-2020-05-15-000001", 
+    "dateModified": "2020-05-15T01:00:01+03:00", 
     "status": "active.tendering", 
     "tenderPeriod": {
-      "startDate": "2020-04-18T01:00:00+03:00", 
-      "endDate": "2020-05-09T01:00:01+03:00"
+      "startDate": "2020-05-02T01:00:00+03:00", 
+      "endDate": "2020-05-23T01:00:01+03:00"
     }, 
     "auctionPeriod": {
-      "startDate": "2020-05-03T01:00:00+03:00", 
-      "shouldStartAfter": "2020-05-10T00:00:00+03:00"
+      "startDate": "2020-05-17T01:00:00+03:00", 
+      "shouldStartAfter": "2020-05-24T00:00:00+03:00"
     }, 
     "procurementMethodType": "aboveThresholdUA.defense", 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "milestones": [
       {
         "code": "prepayment", 
@@ -175,8 +175,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-21T00:00:00+02:00", 
-          "endDate": "2020-06-20T00:00:00+02:00"
+          "startDate": "2020-06-04T00:00:00+02:00", 
+          "endDate": "2020-07-04T00:00:00+02:00"
         }, 
         "id": "576b1d3783f148f9a65c2664ef759400", 
         "quantity": 1.0

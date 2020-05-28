@@ -7,8 +7,8 @@ DATA:
 {
   "data": {
     "period": {
-      "startDate": "2020-05-01T01:00:03+03:00", 
-      "endDate": "2021-05-01T01:00:03+03:00"
+      "startDate": "2020-05-15T01:00:03+03:00", 
+      "endDate": "2021-05-15T01:00:03+03:00"
     }
   }
 }
@@ -41,8 +41,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-21T00:00:00+02:00", 
-          "endDate": "2020-05-31T01:00:10+03:00"
+          "startDate": "2020-06-04T00:00:00+02:00", 
+          "endDate": "2020-06-14T01:00:10+03:00"
         }, 
         "id": "1aa0d7b2b84645d1977951fbdf466b16", 
         "unit": {
@@ -76,8 +76,8 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "period": {
-      "startDate": "2020-05-01T01:00:03+03:00", 
-      "endDate": "2021-05-01T01:00:03+03:00"
+      "startDate": "2020-05-15T01:00:03+03:00", 
+      "endDate": "2021-05-15T01:00:03+03:00"
     }, 
     "value": {
       "currency": "UAH", 
@@ -85,11 +85,11 @@ Content-Type: application/json; charset=UTF-8
       "amountNet": 230.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "dateSigned": "2020-05-01T01:00:03+03:00", 
-    "date": "2020-05-01T01:00:01+03:00", 
+    "dateSigned": "2020-05-15T01:00:03+03:00", 
+    "date": "2020-05-15T01:00:01+03:00", 
     "awardID": "6f72e762faba41e9bfb81406746b86b8", 
     "id": "997488578d8445398ed0cf4905d98e4f", 
-    "contractID": "UA-2020-05-01-000001-1"
+    "contractID": "UA-2020-05-15-000001-1"
   }
 }
 

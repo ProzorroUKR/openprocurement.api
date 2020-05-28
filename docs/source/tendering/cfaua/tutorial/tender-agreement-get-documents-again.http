@@ -14,10 +14,10 @@ Content-Type: application/json; charset=UTF-8
       "format": "application/msword", 
       "title_en": "Title of Document", 
       "description_en": "Description of Document", 
-      "datePublished": "2020-05-01T01:00:00+03:00", 
+      "datePublished": "2020-05-15T01:00:00+03:00", 
       "documentOf": "tender", 
       "id": "382c614554d2459d81f1672c8cf39db0", 
-      "dateModified": "2020-05-01T01:00:00+03:00"
+      "dateModified": "2020-05-15T01:00:00+03:00"
     }, 
     {
       "hash": "md5:00000000000000000000000000000000", 
@@ -25,9 +25,9 @@ Content-Type: application/json; charset=UTF-8
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9a798ae84f1245279847a0383649333a?KeyID=a8968c46&Signature=Oy4In%2FIXmvZq5pCOBlM%2Fiq91zMKTq%252B%2FyqlgZ5A3Sm7bEeu1n%2Fw6ASH9b8zyJt2Gi%252B484%2FPTOYpsRPBnV9RpfCA%253D%253D", 
       "format": "application/msword", 
       "documentOf": "tender", 
-      "datePublished": "2020-05-01T01:00:00+03:00", 
+      "datePublished": "2020-05-15T01:00:00+03:00", 
       "id": "e846fc10d0b24aa38e445012b9287be5", 
-      "dateModified": "2020-05-01T01:00:00+03:00"
+      "dateModified": "2020-05-15T01:00:00+03:00"
     }
   ]
 }

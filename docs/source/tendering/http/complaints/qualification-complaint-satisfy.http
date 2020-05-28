@@ -41,10 +41,10 @@ Content-Type: application/json; charset=UTF-8
     "type": "complaint", 
     "title": "Недостатньо інформації", 
     "satisfied": true, 
-    "dateAnswered": "2020-05-01T01:00:01+03:00", 
-    "dateSubmitted": "2020-05-01T01:00:01+03:00", 
-    "complaintID": "UA-2020-05-01-000001.6", 
-    "date": "2020-05-01T01:00:01+03:00", 
+    "dateAnswered": "2020-05-15T01:00:01+03:00", 
+    "dateSubmitted": "2020-05-15T01:00:01+03:00", 
+    "complaintID": "UA-2020-05-15-000001.6", 
+    "date": "2020-05-15T01:00:01+03:00", 
     "resolution": "Умови виправлено, вибір переможня буде розгянуто повторно", 
     "id": "e8010385c6704fe49613ae6cfd5f3bc3"
   }

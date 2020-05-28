@@ -10,14 +10,14 @@ Content-Type: application/json; charset=UTF-8
     "status": "active.pre-qualification", 
     "mainProcurementCategory": "services", 
     "complaintPeriod": {
-      "startDate": "2020-04-01T01:00:00+03:00", 
-      "endDate": "2020-04-27T00:00:00+03:00"
+      "startDate": "2020-04-15T01:00:00+03:00", 
+      "endDate": "2020-05-11T00:00:00+03:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2020-04-01T01:00:00+03:00", 
-      "clarificationsUntil": "2020-04-25T00:00:00+03:00", 
-      "endDate": "2020-04-21T01:00:00+03:00", 
-      "invalidationDate": "2020-05-01T01:00:00+03:00"
+      "startDate": "2020-04-15T01:00:00+03:00", 
+      "clarificationsUntil": "2020-05-09T00:00:00+03:00", 
+      "endDate": "2020-05-05T01:00:00+03:00", 
+      "invalidationDate": "2020-05-15T01:00:00+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
     "procuringEntity": {
@@ -64,7 +64,7 @@ Content-Type: application/json; charset=UTF-8
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "date": "2020-05-01T01:00:00+03:00", 
+        "date": "2020-05-15T01:00:00+03:00", 
         "id": "a678eaf5090d45db8077d4ecd36154e0"
       }, 
       {
@@ -81,19 +81,19 @@ Content-Type: application/json; charset=UTF-8
           "amount": 400.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "date": "2020-05-01T01:00:00+03:00", 
+        "date": "2020-05-15T01:00:00+03:00", 
         "id": "885ae10af23944619f6730aa24a94d92"
       }
     ], 
     "qualificationPeriod": {
-      "startDate": "2020-05-01T01:00:00+03:00"
+      "startDate": "2020-05-15T01:00:00+03:00"
     }, 
-    "tenderID": "UA-2020-05-01-000001", 
-    "dateModified": "2020-05-01T01:00:00+03:00", 
+    "tenderID": "UA-2020-05-15-000001", 
+    "dateModified": "2020-05-15T01:00:00+03:00", 
     "numberOfBids": 2, 
     "tenderPeriod": {
-      "startDate": "2020-04-01T01:00:00+03:00", 
-      "endDate": "2020-05-01T01:00:00+03:00"
+      "startDate": "2020-04-15T01:00:00+03:00", 
+      "endDate": "2020-05-15T01:00:00+03:00"
     }, 
     "qualifications": [
       {
@@ -102,7 +102,7 @@ Content-Type: application/json; charset=UTF-8
         "eligible": false, 
         "qualified": false, 
         "bidID": "1db2a89bad604311b7166807eb63d4e3", 
-        "date": "2020-05-01T01:00:00+03:00", 
+        "date": "2020-05-15T01:00:00+03:00", 
         "id": "69e23d94b0ec4a4cbf777d2557fe598a"
       }, 
       {
@@ -111,12 +111,12 @@ Content-Type: application/json; charset=UTF-8
         "eligible": false, 
         "qualified": false, 
         "bidID": "f4c99b9e469349e296d81e700168a070", 
-        "date": "2020-05-01T01:00:00+03:00", 
+        "date": "2020-05-15T01:00:00+03:00", 
         "id": "73fa90c6e4a746cb859d4058ad16e5bf"
       }
     ], 
     "procurementMethodType": "aboveThresholdEU", 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "milestones": [
       {
         "code": "prepayment", 
@@ -173,8 +173,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-21T00:00:00+02:00", 
-          "endDate": "2020-06-20T00:00:00+02:00"
+          "startDate": "2020-06-04T00:00:00+02:00", 
+          "endDate": "2020-07-04T00:00:00+02:00"
         }, 
         "id": "79cd11ac44934e09a6ccc517d3810dd4", 
         "quantity": 1.0
@@ -203,8 +203,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-21T00:00:00+02:00", 
-          "endDate": "2020-06-20T00:00:00+02:00"
+          "startDate": "2020-06-04T00:00:00+02:00", 
+          "endDate": "2020-07-04T00:00:00+02:00"
         }, 
         "id": "faa12ba0bce042bfa5ad1bc8c827f6e9", 
         "quantity": 1.0

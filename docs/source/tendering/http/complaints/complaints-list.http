@@ -16,16 +16,16 @@ Content-Type: application/json; charset=UTF-8
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a7d45e084eae4b62b0221b177f07e175?KeyID=a8968c46&Signature=zO0ofKMjXZXMhgBRf2cpOpKeJ9O%2F61G8Cr%2Fs6SwNmJPtnG50Rgq58PM5edDFskUuM7qt%2FHC7VqECFwKnQlinBQ%253D%253D", 
           "format": "application/pdf", 
           "documentOf": "tender", 
-          "datePublished": "2020-05-01T01:00:00+03:00", 
+          "datePublished": "2020-05-15T01:00:00+03:00", 
           "id": "25b08fd7f5ca41a3a74812a5019d993e", 
-          "dateModified": "2020-05-01T01:00:00+03:00"
+          "dateModified": "2020-05-15T01:00:00+03:00"
         }
       ], 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
       "title": "Недостатньо інформації", 
-      "dateSubmitted": "2020-05-01T01:00:00+03:00", 
-      "complaintID": "UA-2020-05-01-000001.1", 
-      "date": "2020-05-01T01:00:00+03:00", 
+      "dateSubmitted": "2020-05-15T01:00:00+03:00", 
+      "complaintID": "UA-2020-05-15-000001.1", 
+      "date": "2020-05-15T01:00:00+03:00", 
       "type": "claim", 
       "id": "2777125e15cc49f890ea89cd88dceffb"
     }, 
@@ -57,25 +57,25 @@ Content-Type: application/json; charset=UTF-8
       "type": "complaint", 
       "title": "Недостатньо інформації", 
       "satisfied": true, 
-      "dateAnswered": "2020-05-01T01:00:00+03:00", 
-      "dateSubmitted": "2020-05-01T01:00:00+03:00", 
-      "complaintID": "UA-2020-05-01-000001.2", 
-      "date": "2020-05-01T01:00:00+03:00", 
+      "dateAnswered": "2020-05-15T01:00:00+03:00", 
+      "dateSubmitted": "2020-05-15T01:00:00+03:00", 
+      "complaintID": "UA-2020-05-15-000001.2", 
+      "date": "2020-05-15T01:00:00+03:00", 
       "resolution": "Виправлено неконкурентні умови", 
       "id": "f69c1412dc8b4f318d464ff518799e37"
     }, 
     {
       "status": "declined", 
-      "dateDecision": "2020-05-01T01:00:00+03:00", 
+      "dateDecision": "2020-05-15T01:00:00+03:00", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
       "title": "Недостатньо інформації", 
-      "reviewDate": "2020-05-01T01:00:00+03:00", 
+      "reviewDate": "2020-05-15T01:00:00+03:00", 
       "acceptance": true, 
       "value": {
         "currency": "UAH", 
         "amount": 2000.0
       }, 
-      "dateAccepted": "2020-05-01T01:00:00+03:00", 
+      "dateAccepted": "2020-05-15T01:00:00+03:00", 
       "author": {
         "contactPoint": {
           "email": "soleksuk@gmail.com", 
@@ -97,24 +97,24 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Вінниця"
         }
       }, 
-      "dateSubmitted": "2020-05-01T01:00:00+03:00", 
-      "complaintID": "UA-2020-05-01-000001.3", 
-      "date": "2020-05-01T01:00:00+03:00", 
+      "dateSubmitted": "2020-05-15T01:00:00+03:00", 
+      "complaintID": "UA-2020-05-15-000001.3", 
+      "date": "2020-05-15T01:00:00+03:00", 
       "type": "complaint", 
       "id": "4bfb8ef256dd4c198abaccf0e9db7d58", 
       "reviewPlace": "Place of review"
     }, 
     {
       "status": "invalid", 
-      "dateDecision": "2020-05-01T01:00:00+03:00", 
+      "dateDecision": "2020-05-15T01:00:00+03:00", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
       "title": "Недостатньо інформації", 
       "resolutionType": "invalid", 
       "type": "complaint", 
       "acceptance": false, 
       "satisfied": false, 
-      "dateEscalated": "2020-05-01T01:00:00+03:00", 
-      "dateAnswered": "2020-05-01T01:00:00+03:00", 
+      "dateEscalated": "2020-05-15T01:00:00+03:00", 
+      "dateAnswered": "2020-05-15T01:00:00+03:00", 
       "rejectReason": "alreadyExists", 
       "author": {
         "contactPoint": {
@@ -137,19 +137,19 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Вінниця"
         }
       }, 
-      "dateSubmitted": "2020-05-01T01:00:00+03:00", 
-      "complaintID": "UA-2020-05-01-000001.4", 
-      "date": "2020-05-01T01:00:00+03:00", 
+      "dateSubmitted": "2020-05-15T01:00:00+03:00", 
+      "complaintID": "UA-2020-05-15-000001.4", 
+      "date": "2020-05-15T01:00:00+03:00", 
       "resolution": "Вимога не відповідає предмету закупівлі", 
       "id": "b002454f45a448c19e5d2640996f289a"
     }, 
     {
       "status": "resolved", 
-      "dateDecision": "2020-05-01T01:00:00+03:00", 
-      "tendererActionDate": "2020-05-01T01:00:00+03:00", 
+      "dateDecision": "2020-05-15T01:00:00+03:00", 
+      "tendererActionDate": "2020-05-15T01:00:00+03:00", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
       "title": "Недостатньо інформації", 
-      "reviewDate": "2020-05-01T01:00:00+03:00", 
+      "reviewDate": "2020-05-15T01:00:00+03:00", 
       "author": {
         "contactPoint": {
           "email": "soleksuk@gmail.com", 
@@ -177,9 +177,9 @@ Content-Type: application/json; charset=UTF-8
       }, 
       "id": "9698c2aae121470eb87342fb51872653", 
       "tendererAction": "Умови виправлено", 
-      "dateSubmitted": "2020-05-01T01:00:00+03:00", 
-      "complaintID": "UA-2020-05-01-000001.5", 
-      "date": "2020-05-01T01:00:00+03:00", 
+      "dateSubmitted": "2020-05-15T01:00:00+03:00", 
+      "complaintID": "UA-2020-05-15-000001.5", 
+      "date": "2020-05-15T01:00:00+03:00", 
       "acceptance": true, 
       "type": "complaint", 
       "documents": [
@@ -191,18 +191,18 @@ Content-Type: application/json; charset=UTF-8
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a759d056bbd44bf78310d118bba3bbac?KeyID=a8968c46&Signature=ZxRv8tJTqiDY7s8rJ6D3IJgYyFCa8rkKpPPR1Up2JlLbpVbUFLr%252BoKpqqLEZ%2F5SD%252BJT2OmRzVzrDlDyPTKvwCQ%253D%253D", 
           "format": "application/pdf", 
           "documentOf": "tender", 
-          "datePublished": "2020-05-01T01:00:00+03:00", 
+          "datePublished": "2020-05-15T01:00:00+03:00", 
           "id": "b9923ce980e745aaa07acc494d311c00", 
-          "dateModified": "2020-05-01T01:00:00+03:00"
+          "dateModified": "2020-05-15T01:00:00+03:00"
         }
       ], 
       "reviewPlace": "Place of review", 
-      "dateAccepted": "2020-05-01T01:00:00+03:00"
+      "dateAccepted": "2020-05-15T01:00:00+03:00"
     }, 
     {
       "status": "stopped", 
-      "dateCanceled": "2020-05-01T01:00:00+03:00", 
-      "dateDecision": "2020-05-01T01:00:00+03:00", 
+      "dateCanceled": "2020-05-15T01:00:00+03:00", 
+      "dateDecision": "2020-05-15T01:00:00+03:00", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
       "title": "Недостатньо інформації", 
       "decision": "Тендер скасовується замовником", 
@@ -213,7 +213,7 @@ Content-Type: application/json; charset=UTF-8
       }, 
       "id": "b51604ff3434469a98320c9b034b4c0a", 
       "rejectReason": "tenderCancelled", 
-      "dateAccepted": "2020-05-01T01:00:00+03:00", 
+      "dateAccepted": "2020-05-15T01:00:00+03:00", 
       "author": {
         "contactPoint": {
           "email": "soleksuk@gmail.com", 
@@ -235,11 +235,11 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Вінниця"
         }
       }, 
-      "dateSubmitted": "2020-05-01T01:00:00+03:00", 
-      "complaintID": "UA-2020-05-01-000001.6", 
-      "date": "2020-05-01T01:00:00+03:00", 
+      "dateSubmitted": "2020-05-15T01:00:00+03:00", 
+      "complaintID": "UA-2020-05-15-000001.6", 
+      "date": "2020-05-15T01:00:00+03:00", 
       "type": "complaint", 
-      "reviewDate": "2020-05-01T01:00:00+03:00", 
+      "reviewDate": "2020-05-15T01:00:00+03:00", 
       "reviewPlace": "Place of review"
     }, 
     {
@@ -266,16 +266,16 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Вінниця"
         }
       }, 
-      "reviewDate": "2020-05-01T01:00:00+03:00", 
+      "reviewDate": "2020-05-15T01:00:00+03:00", 
       "acceptance": true, 
       "value": {
         "currency": "UAH", 
         "amount": 2000.0
       }, 
-      "dateAccepted": "2020-05-01T01:00:00+03:00", 
-      "dateSubmitted": "2020-05-01T01:00:00+03:00", 
-      "complaintID": "UA-2020-05-01-000001.7", 
-      "date": "2020-05-01T01:00:00+03:00", 
+      "dateAccepted": "2020-05-15T01:00:00+03:00", 
+      "dateSubmitted": "2020-05-15T01:00:00+03:00", 
+      "complaintID": "UA-2020-05-15-000001.7", 
+      "date": "2020-05-15T01:00:00+03:00", 
       "title": "Недостатньо інформації", 
       "type": "complaint", 
       "id": "bb9432ace0c047c6b4c925ec4ace0099", 
@@ -311,9 +311,9 @@ Content-Type: application/json; charset=UTF-8
         "amount": 2000.0
       }, 
       "cancellationReason": "Умови виправлено", 
-      "dateCanceled": "2020-05-01T01:00:00+03:00", 
-      "complaintID": "UA-2020-05-01-000001.8", 
-      "date": "2020-05-01T01:00:00+03:00", 
+      "dateCanceled": "2020-05-15T01:00:00+03:00", 
+      "complaintID": "UA-2020-05-15-000001.8", 
+      "date": "2020-05-15T01:00:00+03:00", 
       "type": "complaint", 
       "id": "38d6d6628b5347e5af7a12c4c93fe47c"
     }, 
@@ -347,7 +347,7 @@ Content-Type: application/json; charset=UTF-8
           "description": "Відсутній документ", 
           "title": "Уточнення по вимозі", 
           "author": "aboveThresholdReviewers", 
-          "datePublished": "2020-05-01T01:00:00+03:00", 
+          "datePublished": "2020-05-15T01:00:00+03:00", 
           "recipient": "complaint_owner", 
           "id": "49152b64d32449558213fe0e413d8476"
         }, 
@@ -360,15 +360,15 @@ Content-Type: application/json; charset=UTF-8
               "url": "http://public-docs-sandbox.prozorro.gov.ua/get/648aef3e96d847e7b2cbff7850df6769?KeyID=a8968c46&Signature=MOSDGwDvPzV8o1U%252BbJfIvX26EYaEX908WNHi%2FsNCEaVnKpNkzvZOBdYAQOsi0WZMnFMyx2P3RUxx2wtWUmGZDA%253D%253D", 
               "format": "application/pdf", 
               "documentOf": "tender", 
-              "datePublished": "2020-05-01T01:00:00+03:00", 
+              "datePublished": "2020-05-15T01:00:00+03:00", 
               "id": "8be84c5e6df142b1bebc4dc846295cbf", 
-              "dateModified": "2020-05-01T01:00:00+03:00"
+              "dateModified": "2020-05-15T01:00:00+03:00"
             }
           ], 
           "description": "Додано документ", 
           "title": "Уточнення по вимозі", 
           "author": "complaint_owner", 
-          "datePublished": "2020-05-01T01:00:00+03:00", 
+          "datePublished": "2020-05-15T01:00:00+03:00", 
           "relatedPost": "49152b64d32449558213fe0e413d8476", 
           "recipient": "aboveThresholdReviewers", 
           "id": "2fce10c54207405fac5bdfda41aa37f9"
@@ -377,7 +377,7 @@ Content-Type: application/json; charset=UTF-8
           "description": "Відсутній документ", 
           "title": "Уточнення по вимозі", 
           "author": "aboveThresholdReviewers", 
-          "datePublished": "2020-05-01T01:00:00+03:00", 
+          "datePublished": "2020-05-15T01:00:00+03:00", 
           "recipient": "tender_owner", 
           "id": "6ef16edfcfb54e459ba37ceae65ddf58"
         }, 
@@ -390,15 +390,15 @@ Content-Type: application/json; charset=UTF-8
               "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f85b628a9f36450db4e750c3937500e1?KeyID=a8968c46&Signature=Xm%252BrqBE%2FScFDUcQBdaIKAoPHaWOw%2Fs%2Ft9NJNxyzufh2TeowWePRmJlDA8vXsGY1wF8hfLeUUgLxqGXS23z3CDg%253D%253D", 
               "format": "application/pdf", 
               "documentOf": "tender", 
-              "datePublished": "2020-05-01T01:00:00+03:00", 
+              "datePublished": "2020-05-15T01:00:00+03:00", 
               "id": "8797a89acda2403ba388caedc67686c3", 
-              "dateModified": "2020-05-01T01:00:00+03:00"
+              "dateModified": "2020-05-15T01:00:00+03:00"
             }
           ], 
           "description": "Додано документ", 
           "title": "Уточнення по вимозі", 
           "author": "tender_owner", 
-          "datePublished": "2020-05-01T01:00:00+03:00", 
+          "datePublished": "2020-05-15T01:00:00+03:00", 
           "relatedPost": "6ef16edfcfb54e459ba37ceae65ddf58", 
           "recipient": "aboveThresholdReviewers", 
           "id": "c1c86e299d6a40baa9c0b37f09157800"
@@ -408,9 +408,9 @@ Content-Type: application/json; charset=UTF-8
         "currency": "UAH", 
         "amount": 2000.0
       }, 
-      "dateSubmitted": "2020-05-01T01:00:00+03:00", 
-      "complaintID": "UA-2020-05-01-000001.9", 
-      "date": "2020-05-01T01:00:00+03:00", 
+      "dateSubmitted": "2020-05-15T01:00:00+03:00", 
+      "complaintID": "UA-2020-05-15-000001.9", 
+      "date": "2020-05-15T01:00:00+03:00", 
       "type": "complaint", 
       "id": "9f3a6c7d446b4503872063f6021b89f2"
     }

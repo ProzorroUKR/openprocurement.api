@@ -24,9 +24,9 @@ Content-Type: application/json; charset=UTF-8
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d0d69ca7cef24e9ca3ae1729a4dd5882?KeyID=a8968c46&Signature=SPm27vpvzWpGStF3Zjo3tXN8x6MZqD2uWTYB2fgrC0Wl1is2hEKoPDeM8pzfGZhf1FUMhCdB67AF7pbwUxESCA%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-01T01:00:01+03:00", 
+        "datePublished": "2020-05-15T01:00:01+03:00", 
         "id": "ac9e2b1c99c14e34bf70690cf7d83438", 
-        "dateModified": "2020-05-01T01:00:01+03:00"
+        "dateModified": "2020-05-15T01:00:01+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
@@ -36,18 +36,18 @@ Content-Type: application/json; charset=UTF-8
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/145c617d8b454acc98755c9b83ce5c97?KeyID=a8968c46&Signature=EkYml9tGDUzg81IdGMn378g9%2FBEtHS1%252BCh0IZa96o%2FTUy%252BBJ6CXVqOUgKe5MhaKvx%252BwAmkTgsmbPUoVMkFy0CA%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-01T01:00:01+03:00", 
+        "datePublished": "2020-05-15T01:00:01+03:00", 
         "id": "ac9e2b1c99c14e34bf70690cf7d83438", 
-        "dateModified": "2020-05-01T01:00:01+03:00"
+        "dateModified": "2020-05-15T01:00:01+03:00"
       }
     ], 
     "complaintPeriod": {
-      "startDate": "2020-05-01T01:00:01+03:00", 
-      "endDate": "2020-05-12T00:00:00+03:00"
+      "startDate": "2020-05-15T01:00:01+03:00", 
+      "endDate": "2020-05-26T00:00:00+03:00"
     }, 
     "reason": "cancellation reason", 
     "reasonType": "unFixable", 
-    "date": "2020-05-01T01:00:01+03:00", 
+    "date": "2020-05-15T01:00:01+03:00", 
     "cancellationOf": "tender", 
     "id": "97b552ab570842e5953352f7a3673061"
   }

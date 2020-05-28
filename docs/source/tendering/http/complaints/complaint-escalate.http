@@ -42,11 +42,11 @@ Content-Type: application/json; charset=UTF-8
     "type": "complaint", 
     "title": "Недостатньо інформації", 
     "satisfied": false, 
-    "dateEscalated": "2020-05-01T01:00:00+03:00", 
-    "dateAnswered": "2020-05-01T01:00:00+03:00", 
-    "dateSubmitted": "2020-05-01T01:00:00+03:00", 
-    "complaintID": "UA-2020-05-01-000001.4", 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "dateEscalated": "2020-05-15T01:00:00+03:00", 
+    "dateAnswered": "2020-05-15T01:00:00+03:00", 
+    "dateSubmitted": "2020-05-15T01:00:00+03:00", 
+    "complaintID": "UA-2020-05-15-000001.4", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "resolution": "Вимога не відповідає предмету закупівлі", 
     "id": "b002454f45a448c19e5d2640996f289a"
   }

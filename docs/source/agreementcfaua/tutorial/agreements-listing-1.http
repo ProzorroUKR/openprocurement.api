@@ -6,14 +6,14 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "next_page": {
-    "path": "/api/2.5/agreements?offset=2020-05-01T01%3A00%3A00%2B03%3A00", 
-    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/agreements?offset=2020-05-01T01%3A00%3A00%2B03%3A00", 
-    "offset": "2020-05-01T01:00:00+03:00"
+    "path": "/api/2.5/agreements?offset=2020-05-15T01%3A00%3A00%2B03%3A00", 
+    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/agreements?offset=2020-05-15T01%3A00%3A00%2B03%3A00", 
+    "offset": "2020-05-15T01:00:00+03:00"
   }, 
   "data": [
     {
       "id": "eb35d61e7cde4a008003f5cd17ddb0c7", 
-      "dateModified": "2020-05-01T01:00:00+03:00"
+      "dateModified": "2020-05-15T01:00:00+03:00"
     }
   ]
 }

@@ -33,7 +33,7 @@ DATA:
     ], 
     "mainProcurementCategory": "services", 
     "tenderPeriod": {
-      "endDate": "2020-06-01T00:00:00+02:00"
+      "endDate": "2020-06-15T00:00:00+02:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -63,8 +63,8 @@ DATA:
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-21T00:00:00+02:00", 
-          "endDate": "2020-06-20T00:00:00+02:00"
+          "startDate": "2020-06-04T00:00:00+02:00", 
+          "endDate": "2020-07-04T00:00:00+02:00"
         }, 
         "quantity": 1
       }
@@ -110,16 +110,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/437cd309c59b42df
     "procurementMethod": "open", 
     "mainProcurementCategory": "services", 
     "complaintPeriod": {
-      "startDate": "2020-05-12T01:00:02+03:00", 
-      "endDate": "2020-05-28T00:00:00+02:00"
+      "startDate": "2020-05-26T01:00:02+03:00", 
+      "endDate": "2020-06-11T00:00:00+02:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2020-05-12T01:00:02+03:00", 
-      "clarificationsUntil": "2020-05-27T00:00:00+02:00", 
-      "endDate": "2020-05-22T00:00:00+02:00"
+      "startDate": "2020-05-26T01:00:02+03:00", 
+      "clarificationsUntil": "2020-06-11T00:00:00+02:00", 
+      "endDate": "2020-06-05T00:00:00+02:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2020-06-01T01:00:00+03:00", 
+    "next_check": "2020-06-15T01:00:00+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -144,18 +144,18 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/437cd309c59b42df
     "owner": "broker", 
     "id": "437cd309c59b42df958631eac101ab7d", 
     "title": "футляри до державних нагород", 
-    "tenderID": "UA-2020-05-12-000001", 
-    "dateModified": "2020-05-12T01:00:02+03:00", 
+    "tenderID": "UA-2020-05-26-000001", 
+    "dateModified": "2020-05-26T01:00:02+03:00", 
     "status": "active.tendering", 
     "tenderPeriod": {
-      "startDate": "2020-05-12T01:00:02+03:00", 
-      "endDate": "2020-06-01T00:00:00+02:00"
+      "startDate": "2020-05-26T01:00:02+03:00", 
+      "endDate": "2020-06-15T00:00:00+02:00"
     }, 
     "auctionPeriod": {
-      "shouldStartAfter": "2020-06-01T00:00:00+02:00"
+      "shouldStartAfter": "2020-06-15T00:00:00+02:00"
     }, 
     "procurementMethodType": "aboveThresholdUA", 
-    "date": "2020-05-12T01:00:02+03:00", 
+    "date": "2020-05-26T01:00:02+03:00", 
     "milestones": [
       {
         "code": "prepayment", 
@@ -210,8 +210,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/437cd309c59b42df
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-21T00:00:00+02:00", 
-          "endDate": "2020-06-20T00:00:00+02:00"
+          "startDate": "2020-06-04T00:00:00+02:00", 
+          "endDate": "2020-07-04T00:00:00+02:00"
         }, 
         "id": "3d69b844d45c4c54bb368305b995d57d", 
         "quantity": 1.0

@@ -17,7 +17,7 @@ Content-Type: application/json; charset=UTF-8
     "status": "unsuccessful", 
     "lotID": "c7555f1bb878434d8815dea318304673", 
     "complaintPeriod": {
-      "startDate": "2020-05-01T01:00:00+03:00"
+      "startDate": "2020-05-15T01:00:00+03:00"
     }, 
     "suppliers": [
       {
@@ -48,7 +48,7 @@ Content-Type: application/json; charset=UTF-8
       "amount": 485, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "id": "00fee4e7a05846f986b6caa3c9ec1d47"
   }
 }

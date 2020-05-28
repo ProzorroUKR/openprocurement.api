@@ -168,7 +168,7 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 5.0
       }
     ], 
-    "dateSigned": "2020-05-01T01:00:00+03:00", 
+    "dateSigned": "2020-05-15T01:00:00+03:00", 
     "id": "35990a4bc5c748a68bd8970a17f938de", 
     "numberOfContracts": 3, 
     "procuringEntity": {
@@ -196,7 +196,7 @@ Content-Type: application/json; charset=UTF-8
       "name_en": "State administration"
     }, 
     "owner": "broker3", 
-    "dateModified": "2020-05-01T01:00:00+03:00", 
+    "dateModified": "2020-05-15T01:00:00+03:00", 
     "tender_id": "f0dce4b8a8954b28ba318663bb91b15b"
   }
 }

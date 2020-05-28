@@ -8,7 +8,7 @@ DATA:
   "data": {
     "contractNumber": "contract#1", 
     "value": {
-      "amountNet": 9029.82
+      "amountNet": 9064.34
     }
   }
 }
@@ -102,10 +102,10 @@ Content-Type: application/json; charset=UTF-8
     "contractNumber": "contract#1", 
     "value": {
       "yearlyPaymentsPercentage": 0.9, 
-      "amountNet": 9029.82, 
-      "amountPerformance": 826.27, 
+      "amountNet": 9064.34, 
+      "amountPerformance": 829.39, 
       "currency": "UAH", 
-      "amount": 9030.82, 
+      "amount": 9065.34, 
       "contractDuration": {
         "days": 74, 
         "years": 10
@@ -135,10 +135,10 @@ Content-Type: application/json; charset=UTF-8
         1000.0
       ]
     }, 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "awardID": "5ba90c5be49d4edfb4cf3f4a5c8afd29", 
     "id": "b24337545a6c4c25843d326ae2a60645", 
-    "contractID": "UA-2020-05-01-000001-1"
+    "contractID": "UA-2020-05-15-000001-1"
   }
 }
 

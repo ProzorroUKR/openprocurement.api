@@ -55,20 +55,20 @@ Content-Type: application/json; charset=UTF-8
           "amount": 500000.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "date": "2020-05-01T01:00:00+03:00", 
+        "date": "2020-05-15T01:00:00+03:00", 
         "id": "28f98cde22964c8ea8bbc1fda693580e"
       }
     ], 
     "causeDescription_en": "original tender has failed twice", 
-    "tenderID": "UA-2020-05-01-000001", 
+    "tenderID": "UA-2020-05-15-000001", 
     "description_ru": "Услуги школьных столовых", 
-    "dateModified": "2020-05-01T01:00:00+03:00", 
+    "dateModified": "2020-05-15T01:00:00+03:00", 
     "status": "active", 
     "title_en": "Services in school canteens", 
     "procurementMethodType": "negotiation.quick", 
     "description_en": "Services in school canteens", 
     "causeDescription_ru": "оригинальный тендер не получился дважды", 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "milestones": [
       {
         "code": "prepayment", 
@@ -119,8 +119,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-21T00:00:00+02:00", 
-          "endDate": "2020-06-20T00:00:00+02:00"
+          "startDate": "2020-06-04T00:00:00+02:00", 
+          "endDate": "2020-07-04T00:00:00+02:00"
         }, 
         "id": "b96fb1f581bc4abab5ac8486238ea5f0", 
         "quantity": 1.0

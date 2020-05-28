@@ -30,7 +30,7 @@ Content-Type: application/json; charset=UTF-8
       "amount": 600.67, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "id": "1b75c06ee58f4909a4201255b4ba5831", 
     "guarantee": {
       "currency": "USD", 

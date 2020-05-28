@@ -34,7 +34,7 @@ Content-Type: application/json; charset=UTF-8
         }
       ], 
       "complaintPeriod": {
-        "startDate": "2020-05-01T01:00:00+03:00"
+        "startDate": "2020-05-15T01:00:00+03:00"
       }, 
       "bid_id": "5a84740ed0bd4aa3830adfb56c49ed62", 
       "value": {
@@ -43,7 +43,7 @@ Content-Type: application/json; charset=UTF-8
         "valueAddedTaxIncluded": true
       }, 
       "qualified": true, 
-      "date": "2020-05-01T01:00:00+03:00", 
+      "date": "2020-05-15T01:00:00+03:00", 
       "id": "e0c3972875d54e50b19bf7ae10ee3c34"
     }, 
     {
@@ -74,7 +74,7 @@ Content-Type: application/json; charset=UTF-8
         }
       ], 
       "complaintPeriod": {
-        "startDate": "2020-05-01T01:00:00+03:00"
+        "startDate": "2020-05-15T01:00:00+03:00"
       }, 
       "bid_id": "e88e8fc3020640178a79c6e66d3dfd5f", 
       "value": {
@@ -83,7 +83,7 @@ Content-Type: application/json; charset=UTF-8
         "valueAddedTaxIncluded": true
       }, 
       "qualified": true, 
-      "date": "2020-05-01T01:00:00+03:00", 
+      "date": "2020-05-15T01:00:00+03:00", 
       "id": "e964909f2da348cd873e2ec8f82472fe"
     }, 
     {
@@ -114,7 +114,7 @@ Content-Type: application/json; charset=UTF-8
         }
       ], 
       "complaintPeriod": {
-        "startDate": "2020-05-01T01:00:00+03:00"
+        "startDate": "2020-05-15T01:00:00+03:00"
       }, 
       "bid_id": "410cb59a0945497eb61cc4461f661569", 
       "value": {
@@ -123,14 +123,14 @@ Content-Type: application/json; charset=UTF-8
         "valueAddedTaxIncluded": true
       }, 
       "qualified": true, 
-      "date": "2020-05-01T01:00:00+03:00", 
+      "date": "2020-05-15T01:00:00+03:00", 
       "id": "5c98ac22db804396afc15fcff04fbe74"
     }, 
     {
       "status": "cancelled", 
       "lotID": "c7555f1bb878434d8815dea318304673", 
       "complaintPeriod": {
-        "startDate": "2020-05-01T01:00:00+03:00"
+        "startDate": "2020-05-15T01:00:00+03:00"
       }, 
       "suppliers": [
         {
@@ -161,14 +161,14 @@ Content-Type: application/json; charset=UTF-8
         "amount": 485, 
         "valueAddedTaxIncluded": true
       }, 
-      "date": "2020-05-01T01:00:00+03:00", 
+      "date": "2020-05-15T01:00:00+03:00", 
       "id": "00fee4e7a05846f986b6caa3c9ec1d47"
     }, 
     {
       "status": "pending", 
       "lotID": "c7555f1bb878434d8815dea318304673", 
       "complaintPeriod": {
-        "startDate": "2020-05-01T01:00:00+03:00"
+        "startDate": "2020-05-15T01:00:00+03:00"
       }, 
       "suppliers": [
         {
@@ -199,14 +199,14 @@ Content-Type: application/json; charset=UTF-8
         "amount": 485, 
         "valueAddedTaxIncluded": true
       }, 
-      "date": "2020-05-01T01:00:00+03:00", 
+      "date": "2020-05-15T01:00:00+03:00", 
       "id": "58aa9c80eeb345e998dc764a75f940ee"
     }, 
     {
       "status": "pending", 
       "lotID": "c7555f1bb878434d8815dea318304673", 
       "complaintPeriod": {
-        "startDate": "2020-05-01T01:00:00+03:00"
+        "startDate": "2020-05-15T01:00:00+03:00"
       }, 
       "suppliers": [
         {
@@ -237,14 +237,14 @@ Content-Type: application/json; charset=UTF-8
         "amount": 499, 
         "valueAddedTaxIncluded": true
       }, 
-      "date": "2020-05-01T01:00:00+03:00", 
+      "date": "2020-05-15T01:00:00+03:00", 
       "id": "e39130af90ba485cacb7cdc36cdfc089"
     }, 
     {
       "status": "pending", 
       "lotID": "c7555f1bb878434d8815dea318304673", 
       "complaintPeriod": {
-        "startDate": "2020-05-01T01:00:00+03:00"
+        "startDate": "2020-05-15T01:00:00+03:00"
       }, 
       "suppliers": [
         {
@@ -275,7 +275,7 @@ Content-Type: application/json; charset=UTF-8
         "amount": 500.0, 
         "valueAddedTaxIncluded": true
       }, 
-      "date": "2020-05-01T01:00:00+03:00", 
+      "date": "2020-05-15T01:00:00+03:00", 
       "id": "fead43daad534c50b0dc2da8b64ccfbb"
     }
   ]

@@ -13,9 +13,9 @@ Content-Type: application/json; charset=UTF-8
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ee7d6ab6e49243068c20c8210746b120?KeyID=a8968c46&Signature=OqlFG2A3c4RPWXT5dUiYDjElpmVgKDa8SsytNLaF2y7nXkqKHEn0fH1pqrLu4EAk3I3hStsEXiSIFd1M0dqeCw%253D%253D", 
       "format": "application/pdf", 
       "documentOf": "tender", 
-      "datePublished": "2020-05-01T01:00:00+03:00", 
+      "datePublished": "2020-05-15T01:00:00+03:00", 
       "id": "5fa107724b1f45d9b583c717de893ccd", 
-      "dateModified": "2020-05-01T01:00:00+03:00"
+      "dateModified": "2020-05-15T01:00:00+03:00"
     }, 
     {
       "hash": "md5:00000000000000000000000000000000", 
@@ -24,9 +24,9 @@ Content-Type: application/json; charset=UTF-8
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ab08a3c749594f758e330361cefb6a39?KeyID=a8968c46&Signature=YdPfajxYVRqgn%2F%2Fal4Tnpb2TMxCbuR%2F0M%252B5oV7pBpCLLj8Z9sRXvFyhI0QvMejoaOsMo4s%2FNGnu1PtYvp9TzDg%253D%253D", 
       "format": "application/pdf", 
       "documentOf": "tender", 
-      "datePublished": "2020-05-01T01:00:00+03:00", 
+      "datePublished": "2020-05-15T01:00:00+03:00", 
       "id": "e65aa8fb56e2404fbe931617f5140ef0", 
-      "dateModified": "2020-05-01T01:00:00+03:00"
+      "dateModified": "2020-05-15T01:00:00+03:00"
     }
   ]
 }

@@ -64,8 +64,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1a7dc160a6954967
       }
     }, 
     "title": "Недостатньо інформації", 
-    "complaintID": "UA-2020-05-01-000001.1", 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "complaintID": "UA-2020-05-15-000001.1", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "type": "claim", 
     "id": "2777125e15cc49f890ea89cd88dceffb"
   }

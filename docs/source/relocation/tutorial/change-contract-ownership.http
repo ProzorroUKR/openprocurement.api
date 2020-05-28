@@ -103,11 +103,11 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Київ"
       }
     }, 
-    "dateSigned": "2020-05-01T01:00:00+03:00", 
+    "dateSigned": "2020-05-15T01:00:00+03:00", 
     "contractID": "UA-2016-03-18-000001-1", 
     "owner": "broker3", 
     "awardID": "8481d7eb01694c25b18658036c236c5d", 
-    "dateModified": "2020-05-01T01:00:00+03:00", 
+    "dateModified": "2020-05-15T01:00:00+03:00", 
     "tender_id": "6c7e283dac7e457f9046067792657bd8"
   }
 }

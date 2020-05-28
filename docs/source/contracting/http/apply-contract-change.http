@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "status": "active", 
-    "dateSigned": "2020-05-01T01:00:01+03:00"
+    "dateSigned": "2020-05-15T01:00:01+03:00"
   }
 }
 
@@ -21,9 +21,9 @@ Content-Type: application/json; charset=UTF-8
       "priceReduction"
     ], 
     "rationale_en": "Contract change cause", 
-    "dateSigned": "2020-05-01T01:00:01+03:00", 
+    "dateSigned": "2020-05-15T01:00:01+03:00", 
     "rationale": "Друга і третя поставка має бути розфасована", 
-    "date": "2020-05-01T01:00:01+03:00", 
+    "date": "2020-05-15T01:00:01+03:00", 
     "id": "f3fe39d5213d4a029212ff4f1151cf40"
   }
 }

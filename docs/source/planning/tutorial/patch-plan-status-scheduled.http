@@ -46,7 +46,7 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "deliveryDate": {
-          "endDate": "2020-05-16T01:00:00+03:00"
+          "endDate": "2020-05-30T01:00:00+03:00"
         }, 
         "id": "000422af516c49e8a1ed22db4aa37b90", 
         "unit": {
@@ -70,7 +70,7 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "deliveryDate": {
-          "endDate": "2020-05-17T01:00:00+03:00"
+          "endDate": "2020-05-31T01:00:00+03:00"
         }, 
         "id": "1226cf717eb84d9e8e5460ba47c31c03", 
         "unit": {
@@ -94,7 +94,7 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "deliveryDate": {
-          "endDate": "2020-05-18T01:00:00+03:00"
+          "endDate": "2020-06-01T01:00:00+03:00"
         }, 
         "id": "3e49b373a6984ec69010d1264c5c7aa8", 
         "unit": {
@@ -104,7 +104,7 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 3000.0
       }
     ], 
-    "planID": "UA-P-2020-05-01-000001", 
+    "planID": "UA-P-2020-05-15-000001", 
     "budget": {
       "amountNet": 12222.0, 
       "description": "budget_description", 
@@ -120,12 +120,12 @@ Content-Type: application/json; charset=UTF-8
       "amount": 10000.0, 
       "id": "12303111000-2"
     }, 
-    "datePublished": "2020-05-01T01:00:00+03:00", 
+    "datePublished": "2020-05-15T01:00:00+03:00", 
     "tender": {
       "procurementMethod": "open", 
       "procurementMethodType": "belowThreshold", 
       "tenderPeriod": {
-        "startDate": "2020-05-08T01:00:00+03:00"
+        "startDate": "2020-05-22T01:00:00+03:00"
       }
     }, 
     "additionalClassifications": [
@@ -144,7 +144,7 @@ Content-Type: application/json; charset=UTF-8
       "name": "ДУС"
     }, 
     "owner": "broker", 
-    "dateModified": "2020-05-01T01:00:00+03:00", 
+    "dateModified": "2020-05-15T01:00:00+03:00", 
     "id": "f580aa1bdcf84194995a102bc3a96d2d"
   }
 }

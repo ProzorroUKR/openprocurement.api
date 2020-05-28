@@ -34,7 +34,7 @@ DATA:
     ], 
     "mainProcurementCategory": "goods", 
     "tenderPeriod": {
-      "endDate": "2020-05-22T01:00:00+03:00"
+      "endDate": "2020-06-05T01:00:00+03:00"
     }, 
     "title": "Насіння", 
     "minimalStep": {
@@ -42,7 +42,7 @@ DATA:
       "amount": 35
     }, 
     "enquiryPeriod": {
-      "endDate": "2020-05-15T01:00:00+03:00"
+      "endDate": "2020-05-29T01:00:00+03:00"
     }, 
     "procurementMethodType": "belowThreshold", 
     "value": {
@@ -85,7 +85,7 @@ DATA:
           }
         ], 
         "deliveryDate": {
-          "endDate": "2020-05-16T01:00:00+03:00"
+          "endDate": "2020-05-30T01:00:00+03:00"
         }, 
         "unit": {
           "code": "KGM", 
@@ -108,7 +108,7 @@ DATA:
           }
         ], 
         "deliveryDate": {
-          "endDate": "2020-05-17T01:00:00+03:00"
+          "endDate": "2020-05-31T01:00:00+03:00"
         }, 
         "unit": {
           "code": "KGM", 
@@ -131,7 +131,7 @@ DATA:
           }
         ], 
         "deliveryDate": {
-          "endDate": "2020-05-18T01:00:00+03:00"
+          "endDate": "2020-06-01T01:00:00+03:00"
         }, 
         "unit": {
           "code": "KGM", 
@@ -182,8 +182,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/821592d97e83442c
     ], 
     "mainProcurementCategory": "goods", 
     "tenderPeriod": {
-      "startDate": "2020-05-15T01:00:00+03:00", 
-      "endDate": "2020-05-22T01:00:00+03:00"
+      "startDate": "2020-05-29T01:00:00+03:00", 
+      "endDate": "2020-06-05T01:00:00+03:00"
     }, 
     "title": "Насіння", 
     "minimalStep": {
@@ -207,7 +207,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/821592d97e83442c
           }
         ], 
         "deliveryDate": {
-          "endDate": "2020-05-16T01:00:00+03:00"
+          "endDate": "2020-05-30T01:00:00+03:00"
         }, 
         "id": "e6d836830ced4eca9bbaa3c3116cb408", 
         "unit": {
@@ -231,7 +231,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/821592d97e83442c
           }
         ], 
         "deliveryDate": {
-          "endDate": "2020-05-17T01:00:00+03:00"
+          "endDate": "2020-05-31T01:00:00+03:00"
         }, 
         "id": "ced73ebf85cc415cb0c130e539f0fe6d", 
         "unit": {
@@ -255,7 +255,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/821592d97e83442c
           }
         ], 
         "deliveryDate": {
-          "endDate": "2020-05-18T01:00:00+03:00"
+          "endDate": "2020-06-01T01:00:00+03:00"
         }, 
         "id": "2b33000b59b54af7aef0cf2f9c91481a", 
         "unit": {
@@ -272,8 +272,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/821592d97e83442c
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "date": "2020-05-01T01:00:00+03:00", 
-    "tenderID": "UA-2020-05-01-000001", 
+    "date": "2020-05-15T01:00:00+03:00", 
+    "tenderID": "UA-2020-05-15-000001", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 
@@ -296,11 +296,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/821592d97e83442c
     }, 
     "awardCriteria": "lowestCost", 
     "enquiryPeriod": {
-      "startDate": "2020-05-01T01:00:00+03:00", 
-      "endDate": "2020-05-15T01:00:00+03:00"
+      "startDate": "2020-05-15T01:00:00+03:00", 
+      "endDate": "2020-05-29T01:00:00+03:00"
     }, 
     "owner": "broker", 
-    "dateModified": "2020-05-01T01:00:00+03:00", 
+    "dateModified": "2020-05-15T01:00:00+03:00", 
     "id": "821592d97e83442cbb6f2aee3a5367b1", 
     "plans": [
       {

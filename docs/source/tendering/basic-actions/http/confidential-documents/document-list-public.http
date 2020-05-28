@@ -13,8 +13,8 @@ Content-Type: application/json; charset=UTF-8
       "confidentialityRationale": "This document contains some secret data that shouldn't be public", 
       "format": "application/msword", 
       "documentOf": "tender", 
-      "datePublished": "2020-05-01T01:00:00+03:00", 
-      "dateModified": "2020-05-01T01:00:00+03:00", 
+      "datePublished": "2020-05-15T01:00:00+03:00", 
+      "dateModified": "2020-05-15T01:00:00+03:00", 
       "id": "307e274695ab4ae787ae6125f08956dc"
     }, 
     {
@@ -24,8 +24,8 @@ Content-Type: application/json; charset=UTF-8
       "confidentialityRationale": "Lol, this document contains some secret data that shouldn't be public, I'm changing it's confidentiality", 
       "format": "application/msword", 
       "documentOf": "tender", 
-      "datePublished": "2020-05-01T01:00:00+03:00", 
-      "dateModified": "2020-05-01T01:00:00+03:00", 
+      "datePublished": "2020-05-15T01:00:00+03:00", 
+      "dateModified": "2020-05-15T01:00:00+03:00", 
       "id": "dbd45ebd0e9d4f6fa53efaff96a144c1"
     }, 
     {
@@ -34,9 +34,9 @@ Content-Type: application/json; charset=UTF-8
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/aef3d5621c2b4f80ba8bad34c4e234be?KeyID=a8968c46&Signature=ecMxMkHmJGMdBO%2FRF%2FheD0B4yPa%252B5rAxpglLW5ZBltgJNrGY%2F3Zko8oL117%252BQ95Eossv5LcWOR1mC%252BDBEcBQDg%253D%253D", 
       "format": "application/msword", 
       "documentOf": "tender", 
-      "datePublished": "2020-05-01T01:00:00+03:00", 
+      "datePublished": "2020-05-15T01:00:00+03:00", 
       "id": "abce1a8622a04fcb98e1483f9ab0b898", 
-      "dateModified": "2020-05-01T01:00:00+03:00"
+      "dateModified": "2020-05-15T01:00:00+03:00"
     }
   ]
 }

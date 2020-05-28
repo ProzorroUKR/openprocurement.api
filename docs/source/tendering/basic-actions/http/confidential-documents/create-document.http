@@ -27,9 +27,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7898ec9992af47cc
     "confidentialityRationale": "This document contains some secret data that shouldn't be public", 
     "format": "application/msword", 
     "documentOf": "tender", 
-    "datePublished": "2020-05-01T01:00:00+03:00", 
+    "datePublished": "2020-05-15T01:00:00+03:00", 
     "id": "307e274695ab4ae787ae6125f08956dc", 
-    "dateModified": "2020-05-01T01:00:00+03:00"
+    "dateModified": "2020-05-15T01:00:00+03:00"
   }
 }
 
