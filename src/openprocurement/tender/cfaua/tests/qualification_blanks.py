@@ -1,6 +1,7 @@
 from iso8601 import parse_date
+from copy import deepcopy
 from openprocurement.tender.core.tests.base import change_auth
-from openprocurement.tender.belowthreshold.tests.base import test_complaint, test_draft_claim
+from openprocurement.tender.belowthreshold.tests.base import test_complaint, test_draft_claim, test_draft_complaint
 from openprocurement.api.constants import SANDBOX_MODE, RELEASE_2020_04_19
 from openprocurement.tender.core.tests.base import change_auth
 from math import ceil
@@ -72,6 +73,19 @@ def create_tender_lot_qualification_complaint(self):
 
 
 def create_tender_qualification_complaint(self):
+    complaint_data = deepcopy(test_draft_complaint)
+    complaint_data['status'] = "claim"
+    response = self.app.post_json(
+        "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
+            self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
+        ),
+        {
+            "data": complaint_data
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.json["data"]["status"], "draft")
+
     response = self.app.post_json(
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
