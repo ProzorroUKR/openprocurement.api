@@ -7,6 +7,10 @@ from openprocurement.api.validation import (
 )
 from openprocurement.api.utils import update_logging_context, error_handler, upload_objects_documents
 from openprocurement.planning.api.models import Plan, Milestone
+from openprocurement.planning.api.constants import PROCEDURES
+from itertools import chain
+from openprocurement.api.utils import get_now
+from openprocurement.api.constants import PLAN_ADDRESS_KIND_REQUIRED_FROM
 
 
 def validate_plan_data(request):
@@ -16,6 +20,7 @@ def validate_plan_data(request):
     validate_plan_accreditation_level(request, model)
     data = validate_data(request, model, data=data)
     validate_plan_accreditation_level_mode(request)
+    validate_tender_kind(request)
     return data
 
 
@@ -28,6 +33,35 @@ def validate_plan_accreditation_level_mode(request):
     data = request.validated["data"]
     mode = data.get("mode", None)
     validate_accreditation_level_mode(request, mode, "plan", "plan", "creation")
+
+
+def validate_tender_kind(request):
+    procurement_method_types = list(chain(*PROCEDURES.values()))
+    procurement_method_types_without_negotiation = list(filter(lambda x: x != 'negotiation', procurement_method_types))
+    kind_allows_procurement_method_type_mapping = {
+        "defense": procurement_method_types,
+        "general": procurement_method_types_without_negotiation,
+        "special": procurement_method_types_without_negotiation,
+        "central": procurement_method_types_without_negotiation,
+        "authority": procurement_method_types_without_negotiation,
+        "social": procurement_method_types_without_negotiation,
+        "other": ["belowThreshold", "reporting"],
+    }
+
+    data = request.validated["data"]
+    kind = data.get("procuringEntity", {}).get("kind", "")
+    tender_procurement_method_type = data.get("tender", {}).get("procurementMethodType", "")
+    allowed_procurement_method_types = kind_allows_procurement_method_type_mapping.get(kind)
+    if allowed_procurement_method_types and get_now() >= PLAN_ADDRESS_KIND_REQUIRED_FROM:
+        if tender_procurement_method_type not in allowed_procurement_method_types:
+            request.errors.add(
+                "procuringEntity", "kind",
+                "procuringEntity with {kind} kind cannot publish this type of procedure. "
+                "Procurement method types allowed for this kind: {methods}.".format(
+                    kind=kind, methods=", ".join(allowed_procurement_method_types)
+                )
+            )
+            request.errors.status = 403
 
 
 def validate_patch_plan_data(request):

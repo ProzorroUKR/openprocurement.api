@@ -789,69 +789,132 @@ def create_plan_invalid_procuring_entity(self):
             }
         ],
     )
+    initial_data["procuringEntity"]["kind"] = u"general"
+    initial_data["tender"]["procurementMethod"] = u"limited"
+    initial_data["tender"]["procurementMethodType"] = u"negotiation"
+
+    response = self.app.post_json(request_path, {"data": initial_data}, status=403)
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+
+    self.assertEqual(
+        response.json["errors"], [
+            {u'description': u'procuringEntity with general kind cannot publish this type of procedure. '
+                             u'Procurement method types allowed for this kind: , centralizedProcurement, '
+                             u'reporting, negotiation.quick, belowThreshold, aboveThresholdUA, aboveThresholdEU,'
+                             u' aboveThresholdUA.defense, competitiveDialogueUA, competitiveDialogueEU, esco,'
+                             u' closeFrameworkAgreementUA.', u'location': u'procuringEntity', u'name': u'kind'
+            }
+        ]
+    )
+
+    initial_data["procuringEntity"]["kind"] = u"defense"
+
+    response = self.app.post_json(request_path, {"data": initial_data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+
+    initial_data["procuringEntity"]["kind"] = u"authority"
+    initial_data["tender"]["procurementMethod"] = u"open"
+    initial_data["tender"]["procurementMethodType"] = u"competitiveDialogueUA"
+
+    response = self.app.post_json(request_path, {"data": initial_data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+
+    initial_data["procuringEntity"]["kind"] = u"other"
+    initial_data["tender"]["procurementMethod"] = u""
+    initial_data["tender"]["procurementMethodType"] = u"centralizedProcurement"
+
+    response = self.app.post_json(request_path, {"data": initial_data}, status=403)
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+
+    self.assertEqual(
+        response.json["errors"], [
+            {
+                u'description': u'procuringEntity with other kind cannot publish this type of procedure. '
+                                u'Procurement method types allowed for this kind: belowThreshold, reporting.',
+                                u'location': u'procuringEntity', u'name': u'kind'
+            }
+        ]
+    )
 
     # ignore address, kind validation for old plans
-    with mock.patch('openprocurement.planning.api.models.PLAN_ADDRESS_KIND_REQUIRED_FROM', get_now() + timedelta(seconds=10)):
-        response = self.app.post_json('/plans', {"data": initial_data})
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.status, "201 Created")
+    with mock.patch('openprocurement.planning.api.models.PLAN_ADDRESS_KIND_REQUIRED_FROM',
+                    get_now() + timedelta(seconds=1000)):
+        with mock.patch('openprocurement.planning.api.validation.PLAN_ADDRESS_KIND_REQUIRED_FROM',
+                        get_now() + timedelta(seconds=1000)):
+            response = self.app.post_json('/plans', {"data": initial_data})
+            self.assertEqual(response.content_type, 'application/json')
+            self.assertEqual(response.status, "201 Created")
 
-        address = initial_data["procuringEntity"].pop("address")
-        response = self.app.post_json('/plans', {"data": initial_data})
-        initial_data["procuringEntity"]["address"] = address
+            address = initial_data["procuringEntity"].pop("address")
+            response = self.app.post_json('/plans', {"data": initial_data})
+            initial_data["procuringEntity"]["address"] = address
 
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.status, "201 Created")
+            self.assertEqual(response.content_type, 'application/json')
+            self.assertEqual(response.status, "201 Created")
 
-        kind = initial_data["procuringEntity"].pop("kind")
-        response = self.app.post_json('/plans', {"data": initial_data})
-        initial_data["procuringEntity"]["kind"] = kind
+            kind = initial_data["procuringEntity"].pop("kind")
+            response = self.app.post_json('/plans', {"data": initial_data})
+            initial_data["procuringEntity"]["kind"] = kind
 
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.status, "201 Created")
+            self.assertEqual(response.content_type, 'application/json')
+            self.assertEqual(response.status, "201 Created")
 
-        address = initial_data["procuringEntity"].pop("address")
-        kind = initial_data["procuringEntity"].pop("kind")
-        response = self.app.post_json("/plans", {"data": initial_data})
-        initial_data["procuringEntity"]["address"] = address
-        initial_data["procuringEntity"]["kind"] = kind
+            address = initial_data["procuringEntity"].pop("address")
+            kind = initial_data["procuringEntity"].pop("kind")
+            response = self.app.post_json("/plans", {"data": initial_data})
+            initial_data["procuringEntity"]["address"] = address
+            initial_data["procuringEntity"]["kind"] = kind
 
-        self.assertEqual(response.status, "201 Created")
-        plan = response.json["data"]
-        acc_token = response.json["access"]["token"]
+            self.assertEqual(response.status, "201 Created")
+            plan = response.json["data"]
+            acc_token = response.json["access"]["token"]
 
-        response = self.app.patch_json(
-            "/plans/{}?acc_token={}".format(plan["id"], acc_token),
-            {"data": {"procuringEntity": {"name": "new_name123"}}}
-        )
+            response = self.app.patch_json(
+                "/plans/{}?acc_token={}".format(plan["id"], acc_token),
+                {"data": {"procuringEntity": {"name": "new_name123"}}}
+            )
 
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(
-            response.json['data']['procuringEntity'],
-            {"identifier": {"scheme": u"UA-EDR", "id": u"111983", "legalName": u"ДП Державне Управління Справами"},
-             "name": u"new_name123"}
-        )
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.content_type, "application/json")
+            self.assertEqual(
+                response.json['data']['procuringEntity'],
+                {"identifier": {"scheme": u"UA-EDR", "id": u"111983", "legalName": u"ДП Державне Управління Справами"},
+                 "name": u"new_name123"}
+            )
 
-        response = self.app.patch_json(
-            "/plans/{}?acc_token={}".format(plan["id"], acc_token),
-            {"data": {
-                "procuringEntity": {
-                    "address": {"countryName": "Ірландія"},
-                    "kind": "defense"
-                }
-            }}
-        )
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(
-            response.json['data']['procuringEntity'],
-            {"identifier": {"scheme": u"UA-EDR", "id": u"111983", "legalName": u"ДП Державне Управління Справами"},
-             "name": u"new_name123",
-             "address": {"countryName": u"Ірландія"},
-             "kind": u"defense"
-             }
-        )
+            response = self.app.patch_json(
+                "/plans/{}?acc_token={}".format(plan["id"], acc_token),
+                {"data": {
+                    "procuringEntity": {
+                        "address": {"countryName": "Ірландія"},
+                        "kind": "defense"
+                    }
+                }}
+            )
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.content_type, "application/json")
+            self.assertEqual(
+                response.json['data']['procuringEntity'],
+                {"identifier": {"scheme": u"UA-EDR", "id": u"111983", "legalName": u"ДП Державне Управління Справами"},
+                 "name": u"new_name123",
+                 "address": {"countryName": u"Ірландія"},
+                 "kind": u"defense"
+                 }
+            )
+
+    initial_data["procuringEntity"]["kind"] = u"other"
+    initial_data["tender"]["procurementMethod"] = u"limited"
+    initial_data["tender"]["procurementMethodType"] = u"reporting"
+
+    response = self.app.post_json(request_path, {"data": initial_data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
 
     response = self.app.post_json(request_path, {"data": initial_data})
     self.assertEqual(response.status, "201 Created")
@@ -955,7 +1018,8 @@ def create_plan_invalid_buyers(self):
         ],
     )
 
-    with mock.patch('openprocurement.planning.api.models.PLAN_ADDRESS_KIND_REQUIRED_FROM', get_now() + timedelta(seconds=10)):
+    with mock.patch('openprocurement.planning.api.models.PLAN_ADDRESS_KIND_REQUIRED_FROM',
+                    get_now() + timedelta(seconds=1000)):
         response = self.app.post_json('/plans', {"data": initial_data})
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.status, "201 Created")
