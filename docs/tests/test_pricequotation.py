@@ -49,15 +49,23 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         })
         test_tender_data2 = deepcopy(test_tender_data)
         test_tender_data2["profile"] += "bad_profile"
+        test_tender_data2['status'] = 'draft.publishing'
 
-        # with open(TARGET_DIR + 'tutorial/tender-post-attempt-json-data.http', 'w') as self.app.file_obj:
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
             {'data': test_tender_data})
         self.assertEqual(response.status, '201 Created')
 
         tender_id_1 = response.json['data']['id']
-
+        owner_token = response.json['access']['token']
+        with open(TARGET_DIR + 'tutorial/publish-tender.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}?acc_token={}'.format(tender_id_1, owner_token),
+                {'data': {'status': 'draft.publishing'}}
+            )
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.json['data']['status'], 'draft.publishing')
+        
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
             {'data': test_tender_data2})
@@ -237,25 +245,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         award_id = award['id']
         award_token = bids_access[award['bid_id']]
 
-        # with open(TARGET_DIR + 'tutorial/confirm-qualification.http', 'w') as self.app.file_obj:
-        #     self.app.patch_json(
-        #         '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, award_token),
-        #         {"data": {"status": "active"}})
-        #     self.assertEqual(response.status, '200 OK')
-
-        # with open(TARGET_DIR + 'tutorial/contract-listing-single.http', 'w') as self.app.file_obj:
-        #     response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
-        #     self.assertEqual(response.status, '200 OK')
-
         with open(TARGET_DIR + 'tutorial/unsuccessful-qualification.http', 'w') as self.app.file_obj:
             self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, award_token),
                 {"data": {"status": "unsuccessful"}})
             self.assertEqual(response.status, '200 OK')
-        # 
-        # with open(TARGET_DIR + 'tutorial/contract-listing-single-cancelled.http', 'w') as self.app.file_obj:
-        #     response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
-        #     self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'tutorial/awards-listing-after-cancel.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}/awards'.format(self.tender_id))

@@ -1,0 +1,91 @@
+PATCH /api/2.5/tenders/53143d9ff59345a2a52873f192d9b29d?acc_token=c23a50b39055406089d0b0c0b8f0b20f HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 40
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "status": "draft.publishing"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "draft.publishing", 
+    "procurementMethod": "selective", 
+    "mainProcurementCategory": "goods", 
+    "tenderPeriod": {
+      "startDate": "2020-05-01T01:00:00+03:00", 
+      "endDate": "2020-05-15T01:00:00+03:00"
+    }, 
+    "title": "Комп’ютерне обладнання", 
+    "items": [
+      {
+        "description": "Комп’ютерне обладнання", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "Cartons", 
+          "id": "44617100-9"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "INN", 
+            "id": "17.21.1", 
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2020-05-03T01:00:00+03:00", 
+          "endDate": "2020-05-06T01:00:00+03:00"
+        }, 
+        "id": "4ef6f13b130a443dac753a90979d9ebe", 
+        "quantity": 5.0
+      }
+    ], 
+    "procurementMethodType": "priceQuotation", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 22000.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "submissionMethod": "electronicAuction", 
+    "date": "2020-05-01T01:00:00+03:00", 
+    "profile": "655360-30230000-889652-40000777", 
+    "procuringEntity": {
+      "contactPoint": {
+        "name": "Державне управління справами", 
+        "telephone": "0440000000"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "00037256", 
+        "uri": "http://www.dus.gov.ua/"
+      }, 
+      "name": "Державне управління справами", 
+      "kind": "general", 
+      "address": {
+        "postalCode": "01220", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Банкова, 11, корпус 1", 
+        "region": "м. Київ", 
+        "locality": "м. Київ"
+      }
+    }, 
+    "awardCriteria": "lowestCost", 
+    "owner": "broker", 
+    "dateModified": "2020-05-01T01:00:00+03:00", 
+    "id": "53143d9ff59345a2a52873f192d9b29d", 
+    "tenderID": "UA-2020-05-01-000001"
+  }
+}
+
