@@ -66,12 +66,12 @@ Content-Type: application/json; charset=UTF-8
       ], 
       "value": {
         "currency": "UAH", 
-        "amount": 459.0, 
-        "amountNet": 459.0, 
+        "amount": 479.0, 
+        "amountNet": 479.0, 
         "valueAddedTaxIncluded": true
       }, 
       "date": "2020-05-01T01:00:01+03:00", 
-      "awardID": "4d207b4aaff146cf968e815e29d06bd6", 
+      "awardID": "763e8aa953f246728f00ff21743bd1dd", 
       "id": "d3015492e15244438f4a01c4e4cb1ea2", 
       "contractID": "UA-2020-05-01-000001-1"
     }
