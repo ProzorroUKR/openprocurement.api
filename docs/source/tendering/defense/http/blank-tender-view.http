@@ -14,8 +14,8 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "enquiryPeriod": {
       "startDate": "2020-05-01T01:00:00+03:00", 
-      "clarificationsUntil": "2020-05-27T00:00:00+02:00", 
-      "endDate": "2020-05-24T00:00:00+02:00"
+      "clarificationsUntil": "2020-05-26T00:00:00+02:00", 
+      "endDate": "2020-05-22T00:00:00+02:00"
     }, 
     "submissionMethod": "electronicAuction", 
     "next_check": "2020-05-27T01:00:00+03:00", 
