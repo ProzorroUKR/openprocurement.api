@@ -441,7 +441,6 @@ class TenderNegotiationAwardResource(TenderAwardResource):
         """
         tender = self.request.validated["tender"]
         award = self.request.validated["award"]
-        award.complaintPeriod = {"startDate": get_now().isoformat()}
         tender.awards.append(award)
         if save_tender(self.request):
             self.LOGGER.info(
@@ -528,12 +527,6 @@ class TenderNegotiationAwardResource(TenderAwardResource):
 
         now = get_now()
 
-        if award_status != award.status and award.status in ["active", "unsuccessful"]:
-            if award.complaintPeriod:
-                award.complaintPeriod.startDate = now
-            else:
-                award.complaintPeriod = {"startDate": now.isoformat()}
-
         if award.status == "active" and not award.qualified:
             raise_operation_error(self.request, "Can't update award to active status with not qualified")
 
@@ -545,9 +538,10 @@ class TenderNegotiationAwardResource(TenderAwardResource):
             self.request.errors.status = 403
             raise error_handler(self.request.errors)
         if award_status == "pending" and award.status == "active":
-            award.complaintPeriod.endDate = calculate_complaint_business_date(now, self.stand_still_delta, tender)
+            award.complaintPeriod = {"startDate": now.isoformat(),
+                                     "endDate": calculate_complaint_business_date(now, self.stand_still_delta, tender)
+                                     }
             add_contract(self.request, award, now)
-            # add_next_award(self.request)
         elif (
             award_status == "active"
             and award.status == "cancelled"
@@ -570,10 +564,8 @@ class TenderNegotiationAwardResource(TenderAwardResource):
             for i in tender.contracts:
                 if i.awardID == award.id:
                     i.status = "cancelled"
-            # add_next_award(self.request)
         elif award_status == "pending" and award.status == "unsuccessful":
-            award.complaintPeriod.endDate = now
-            # add_next_award(self.request)
+            award.complaintPeriod = {"startDate": now.isoformat(), "endDate": now}
         elif (
             award_status == "unsuccessful"
             and award.status == "cancelled"

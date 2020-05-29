@@ -107,14 +107,10 @@ class TenderUaAwardResource(TenderAwardResource):
 
         now = get_now()
 
-        if award_status != award.status and award.status in ["active", "unsuccessful"]:
-            if award.complaintPeriod:
-                award.complaintPeriod.startDate = now
-            else:
-                award.complaintPeriod = {"startDate": now.isoformat()}
-
         if award_status == "pending" and award.status == "active":
-            award.complaintPeriod.endDate = calculate_complaint_business_date(now, STAND_STILL_TIME, tender, True)
+            award.complaintPeriod = {"startDate": now.isoformat(),
+                                     "endDate": calculate_complaint_business_date(now, STAND_STILL_TIME, tender, True)
+                                     }
             add_contract(self.request, award, now)
             add_next_award(self.request)
         elif (
@@ -142,7 +138,9 @@ class TenderUaAwardResource(TenderAwardResource):
                     i.status = "cancelled"
             add_next_award(self.request)
         elif award_status == "pending" and award.status == "unsuccessful":
-            award.complaintPeriod.endDate = calculate_complaint_business_date(now, STAND_STILL_TIME, tender, True)
+            award.complaintPeriod = {"startDate": now.isoformat(),
+                                     "endDate": calculate_complaint_business_date(now, STAND_STILL_TIME, tender, True)
+                                     }
             add_next_award(self.request)
         elif (
             award_status == "unsuccessful"

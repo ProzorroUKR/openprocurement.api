@@ -179,7 +179,6 @@ class TenderAwardResource(APIResource):
         """
         tender = self.request.validated["tender"]
         award = self.request.validated["award"]
-        award.complaintPeriod = {"startDate": get_now().isoformat()}
         tender.awards.append(award)
         if save_tender(self.request):
             self.LOGGER.info(

@@ -67,6 +67,11 @@ class TenderNegotiationAwardComplaintPostResourceTest(
         award = response.json["data"]
         self.award_id = award["id"]
 
+        self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+            {"data": {"status": "active"}}
+        )
+
         # Create complaint for award
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints".format(

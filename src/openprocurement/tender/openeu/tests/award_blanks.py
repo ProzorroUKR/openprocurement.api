@@ -554,17 +554,18 @@ def patch_tender_award_Administrator_change(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     award = response.json["data"]
-    complaintPeriod = award["complaintPeriod"][u"startDate"]
+    now = get_now().isoformat()
+    award["complaintPeriod"] = {"startDate": now, "endDate": now}
 
     self.app.authorization = ("Basic", ("administrator", ""))
     response = self.app.patch_json(
         "/tenders/{}/awards/{}".format(self.tender_id, award["id"]),
-        {"data": {"complaintPeriod": {"endDate": award["complaintPeriod"][u"startDate"]}}},
+        {"data": award},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("endDate", response.json["data"]["complaintPeriod"])
-    self.assertEqual(response.json["data"]["complaintPeriod"]["endDate"], complaintPeriod)
+    self.assertEqual(response.json["data"], award)
 
 
 # TenderLotAwardResourceTest

@@ -253,7 +253,11 @@ def check_tender_status(request):
         pending_awards_complaints = any(
             [i.status in tender.block_complaint_status for a in tender.awards for i in a.complaints]
         )
-        stand_still_ends = [a.complaintPeriod.endDate for a in tender.awards if a.complaintPeriod.endDate]
+        stand_still_ends = [
+            a.complaintPeriod.endDate
+            for a in tender.awards
+            if a.complaintPeriod and a.complaintPeriod.endDate
+        ]
         stand_still_end = max(stand_still_ends) if stand_still_ends else now
         stand_still_time_expired = stand_still_end < now
         last_award_status = tender.awards[-1].status if tender.awards else ""

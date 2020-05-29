@@ -175,7 +175,6 @@ class TenderNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
 
 
 class TenderLotNegotiationAwardComplaintResourceTest(TenderNegotiationAwardComplaintResourceTest):
-    test_create_tender_award_complaints = snitch(create_tender_lot_award_complaints)
 
     def create_award(self):
         # create lot
@@ -213,6 +212,7 @@ class TenderLotNegotiationAwardComplaintResourceTest(TenderNegotiationAwardCompl
         award = response.json["data"]
         self.award_id = award["id"]
 
+    test_create_tender_award_complaints = snitch(create_tender_lot_award_complaints)
     test_cancelled_award_with_complaint = snitch(cancelled_lot_award_with_complaint)
 
 
@@ -397,6 +397,14 @@ class TenderNegotiationAwardComplaintDocumentResourceTest(
         self.assertEqual(response.content_type, "application/json")
         award = response.json["data"]
         self.award_id = award["id"]
+
+        response = self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+            {"data": {"status": "active"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json["data"]["status"], "active")
+
         # Create complaint for award
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints".format(self.tender_id, self.award_id),

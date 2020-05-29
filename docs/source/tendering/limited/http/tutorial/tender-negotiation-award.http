@@ -44,9 +44,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26b780552e084bbc
 {
   "data": {
     "status": "pending", 
-    "complaintPeriod": {
-      "startDate": "2020-05-15T01:00:00+03:00"
-    }, 
+    "date": "2020-05-15T01:00:00+03:00", 
     "suppliers": [
       {
         "contactPoint": {
@@ -70,13 +68,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26b780552e084bbc
         }
       }
     ], 
+    "id": "3d3e484cb2eb4d3386377ed2c400d926", 
     "value": {
       "currency": "UAH", 
       "amount": 475000.0, 
       "valueAddedTaxIncluded": false
-    }, 
-    "date": "2020-05-15T01:00:00+03:00", 
-    "id": "3d3e484cb2eb4d3386377ed2c400d926"
+    }
   }
 }
 

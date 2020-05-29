@@ -886,7 +886,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         response = self.app.get('/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token))
         # get pending award
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
-        self.app.patch_json(
+        response = self.app.patch_json(
             '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
             {"data": {
                 "status": "active",
@@ -894,6 +894,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 "eligible": True
             }})
         self.assertEqual(response.status, '200 OK')
+
+        self.tick()
 
         with open(TARGET_DIR + 'complaints/award-complaint-submission.http', 'w') as self.app.file_obj:
             response = self.app.post_json(

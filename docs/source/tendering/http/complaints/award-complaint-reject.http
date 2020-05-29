@@ -16,7 +16,7 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "invalid", 
-    "dateDecision": "2020-05-15T01:00:01+03:00", 
+    "dateDecision": "2020-05-15T01:00:03+03:00", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "author": {
       "contactPoint": {
@@ -45,9 +45,9 @@ Content-Type: application/json; charset=UTF-8
       "amount": 3000.0
     }, 
     "rejectReason": "alreadyExists", 
-    "dateSubmitted": "2020-05-15T01:00:01+03:00", 
+    "dateSubmitted": "2020-05-15T01:00:03+03:00", 
     "complaintID": "UA-2020-05-15-000001.2", 
-    "date": "2020-05-15T01:00:01+03:00", 
+    "date": "2020-05-15T01:00:03+03:00", 
     "title": "Недостатньо інформації", 
     "type": "complaint", 
     "id": "98bdde54ef9f440f83b78dbacd9ab16e"
