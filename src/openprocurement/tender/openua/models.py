@@ -71,6 +71,7 @@ from openprocurement.tender.openua.constants import (
     PERIOD_END_REQUIRED_FROM,
 )
 
+
 class IAboveThresholdUATender(ITender):
     """ Marker interface for aboveThresholdUA tenders """
 
@@ -119,7 +120,6 @@ class Item(BaseItem):
 
 
 class Contract(BaseContract):
-
     items = ListType(ModelType(Item, required=True))
 
 
@@ -233,6 +233,7 @@ class ComplaintPost(Model):
             "default": schematics_default_role,
             "embedded": schematics_embedded_role,
         }
+
     id = MD5Type(required=True, default=lambda: uuid4().hex)
 
     title = StringType(required=True)
@@ -698,7 +699,9 @@ class Tender(BaseTender):
             and not any([i.status in self.block_complaint_status for a in self.awards for i in a.complaints])
         ):
             standStillEnds = [
-                a.complaintPeriod.endDate.astimezone(TZ) for a in self.awards if a.complaintPeriod.endDate
+                a.complaintPeriod.endDate.astimezone(TZ)
+                for a in self.awards
+                if a.complaintPeriod and a.complaintPeriod.endDate
             ]
             last_award_status = self.awards[-1].status if self.awards else ""
             if standStillEnds and last_award_status == "unsuccessful":
@@ -719,7 +722,9 @@ class Tender(BaseTender):
                     [i.status in self.block_complaint_status for a in lot_awards for i in a.complaints]
                 )
                 standStillEnds = [
-                    a.complaintPeriod.endDate.astimezone(TZ) for a in lot_awards if a.complaintPeriod.endDate
+                    a.complaintPeriod.endDate.astimezone(TZ)
+                    for a in lot_awards
+                    if a.complaintPeriod and a.complaintPeriod.endDate
                 ]
                 last_award_status = lot_awards[-1].status if lot_awards else ""
                 if (

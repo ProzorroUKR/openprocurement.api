@@ -99,10 +99,7 @@ class TenderAwardResource(BaseResource):
         now = get_now()
 
         if award_status != award.status and award.status == "unsuccessful":
-            if award.complaintPeriod:
-                award.complaintPeriod.startDate = now
-            else:
-                award.complaintPeriod = {"startDate": now.isoformat()}
+            award.complaintPeriod = {"startDate": now.isoformat()}
         if (
             tender.status == "active.qualification.stand-still"
             and award_status == "active"

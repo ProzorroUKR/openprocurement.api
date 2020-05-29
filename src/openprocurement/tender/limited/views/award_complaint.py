@@ -81,12 +81,17 @@ class TenderNegotiationAwardComplaintResource(BaseTenderAwardComplaintResource):
         return super(TenderNegotiationAwardComplaintResource, self).patch()
 
     def patch_as_complaint_owner(self, data):
+        award = self.request.validated["award"]
         complaint_period = self.request.validated["award"].complaintPeriod
-        is_complaint_period = (
-            complaint_period.startDate <= get_now() <= complaint_period.endDate
-            if complaint_period.endDate
-            else complaint_period.startDate <= get_now()
-        )
+        if award.status in ["active", "unsuccessful"]:
+            is_complaint_period = (
+                complaint_period.startDate <= get_now() <= complaint_period.endDate
+                if complaint_period.endDate
+                else complaint_period.startDate <= get_now()
+            )
+        else:
+            is_complaint_period = False
+
         status = self.context.status
         new_status = data.get("status", status)
 

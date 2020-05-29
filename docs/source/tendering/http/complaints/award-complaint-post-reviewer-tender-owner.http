@@ -20,7 +20,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/56aa844d9b3a43e4
     "description": "Відсутній документ", 
     "title": "Уточнення по вимозі", 
     "author": "aboveThresholdReviewers", 
-    "datePublished": "2020-05-15T01:00:01+03:00", 
+    "datePublished": "2020-05-15T01:00:03+03:00", 
     "recipient": "tender_owner", 
     "id": "bb86fc2c70504c49919353932f924bab"
   }

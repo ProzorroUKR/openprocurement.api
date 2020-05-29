@@ -202,7 +202,6 @@ class BaseTenderAwardComplaintResource(BaseTenderComplaintResource):
 
     def patch_draft_as_complaint_owner(self, data):
         tender = self.request.validated["tender"]
-        apply_rules_2020_04_19 = get_first_revision_date(tender) > RELEASE_2020_04_19
 
         complaint_period = self.request.validated["award"].complaintPeriod
         is_complaint_period = (

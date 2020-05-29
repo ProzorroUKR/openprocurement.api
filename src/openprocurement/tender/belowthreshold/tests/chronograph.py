@@ -110,6 +110,14 @@ class TenderAwardComplaintSwitchResourceTest(TenderContentWebTest):
             award = response.json["data"]
             self.award_id = award["id"]
 
+        response = self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+            {"data": {"status": "active"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["data"]["status"], "active")
+
     test_award_switch_to_ignored_on_complete = snitch(award_switch_to_ignored_on_complete)
     test_award_switch_from_pending_to_ignored = snitch(award_switch_from_pending_to_ignored)
     test_award_switch_from_pending = snitch(award_switch_from_pending)
@@ -136,6 +144,14 @@ class TenderLotAwardComplaintSwitchResourceTest(TenderAwardComplaintSwitchResour
             )
             award = response.json["data"]
             self.award_id = award["id"]
+
+        response = self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+            {"data": {"status": "active"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["data"]["status"], "active")
 
 
 def suite():

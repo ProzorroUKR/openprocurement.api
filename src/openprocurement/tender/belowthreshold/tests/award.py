@@ -207,6 +207,12 @@ class TenderAwardComplaintResourceTest(TenderContentWebTest, TenderAwardComplain
         self.award_id = award["id"]
         self.app.authorization = auth
 
+        response = self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+            {"data": {"status": "active"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+
     test_create_tender_award_complaint = snitch(create_tender_award_complaint)
     test_patch_tender_award_complaint = snitch(patch_tender_award_complaint)
     test_review_tender_award_complaint = snitch(review_tender_award_complaint)
@@ -238,6 +244,12 @@ class TenderLotAwardComplaintResourceTest(TenderContentWebTest):
         self.award_id = award["id"]
         self.app.authorization = auth
 
+        response = self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+            {"data": {"status": "active"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+
     test_create_tender_lot_award_complaint = snitch(create_tender_lot_award_complaint)
     test_patch_tender_lot_award_complaint = snitch(patch_tender_lot_award_complaint)
     test_get_tender_lot_award_complaint = snitch(get_tender_lot_award_complaint)
@@ -267,6 +279,12 @@ class TenderAwardComplaintDocumentResourceTest(TenderContentWebTest, TenderAward
         award = response.json["data"]
         self.award_id = award["id"]
         self.app.authorization = auth
+
+        response = self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+            {"data": {"status": "active"}},
+        )
+        self.assertEqual(response.status, "200 OK")
 
         # Create complaint for award
         self.bid_token = self.initial_bids_tokens.values()[0]
@@ -306,6 +324,14 @@ class Tender2LotAwardComplaintDocumentResourceTest(TenderContentWebTest):
         award = response.json["data"]
         self.award_id = award["id"]
         self.app.authorization = auth
+
+        response = self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+            {"data": {"status": "active"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+
+
         # Create complaint for award
         bid_token = self.initial_bids_tokens.values()[0]
         response = self.app.post_json(

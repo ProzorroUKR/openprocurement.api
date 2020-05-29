@@ -323,14 +323,6 @@ def award_switch_to_ignored_on_complete(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.json["data"]["status"], "claim")
 
-    response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
-        {"data": {"status": "active"}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["status"], "active")
-
     response = self.app.get("/tenders/{}".format(self.tender_id))
     contract_id = response.json["data"]["contracts"][-1]["id"]
 
@@ -397,14 +389,6 @@ def award_switch_from_pending(self):
 
 def award_switch_to_complaint(self):
     token = self.initial_bids_tokens.values()[0]
-    response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
-        {"data": {"status": "active"}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["status"], "active")
-
     for status in ["invalid", "resolved", "declined"]:
         self.app.authorization = ("Basic", ("broker", ""))
         response = self.app.post_json(

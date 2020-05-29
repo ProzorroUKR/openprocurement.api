@@ -1291,10 +1291,10 @@ def validate_operation_with_lot_cancellation_in_pending(type_name):
 
 def validate_add_complaint_not_in_complaint_period(request):
     period = request.context.complaintPeriod
-    if period and (
-        period.startDate and period.startDate > get_now()
-        or period.endDate and period.endDate < get_now()
-    ):
+    award = request.context
+    if not (award.status in ["active", "unsuccessful"]
+            and period
+            and period.startDate <= get_now() < period.endDate):
         raise_operation_error(request, "Can add complaint only in complaintPeriod")
 
 

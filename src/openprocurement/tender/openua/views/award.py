@@ -37,10 +37,7 @@ class TenderUaAwardResource(TenderAwardResource):
             new_status = self.request.validated["data"]["status"]
 
             if award.status != new_status and new_status in ["active", "unsuccessful"]:
-                if award.complaintPeriod:
-                    award.complaintPeriod.startDate = now
-                else:
-                    award.complaintPeriod = {"startDate": now.isoformat()}
+                award.complaintPeriod = {"startDate": now.isoformat()}
 
     @json_view(
         content_type="application/json",
@@ -161,7 +158,7 @@ class TenderUaAwardResource(TenderAwardResource):
                 awarding_criteria_key=configurator.awarding_criteria_key,
             )
         elif award_status == "pending" and award.status == "unsuccessful":
-            award.complaintPeriod.endDate = calculate_complaint_business_date(get_now(), STAND_STILL_TIME, tender)
+            award.complaintPeriod.endDate = calculate_complaint_business_date(now, STAND_STILL_TIME, tender)
             add_next_award(
                 self.request,
                 reverse=configurator.reverse_awarding_criteria,

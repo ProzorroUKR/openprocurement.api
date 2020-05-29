@@ -46,9 +46,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0cd37a4798fe40d1
   "data": {
     "status": "pending", 
     "lotID": "28f98cde22964c8ea8bbc1fda693580e", 
-    "complaintPeriod": {
-      "startDate": "2020-05-15T01:00:00+03:00"
-    }, 
     "suppliers": [
       {
         "contactPoint": {

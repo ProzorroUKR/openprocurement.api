@@ -41,10 +41,10 @@ Content-Type: application/json; charset=UTF-8
     "type": "complaint", 
     "title": "Недостатньо інформації", 
     "satisfied": false, 
-    "dateAnswered": "2020-05-15T01:00:01+03:00", 
-    "dateSubmitted": "2020-05-15T01:00:01+03:00", 
+    "dateAnswered": "2020-05-15T01:00:03+03:00", 
+    "dateSubmitted": "2020-05-15T01:00:03+03:00", 
     "complaintID": "UA-2020-05-15-000001.7", 
-    "date": "2020-05-15T01:00:01+03:00", 
+    "date": "2020-05-15T01:00:03+03:00", 
     "resolution": "Вимога не відповідає предмету закупівлі", 
     "id": "b9d791e890424c06b02c308aa516a710"
   }
