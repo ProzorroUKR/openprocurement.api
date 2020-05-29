@@ -16,9 +16,9 @@ Content-Type: application/json; charset=UTF-8
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a5827d34135f49799050b334263efc67?KeyID=a8968c46&Signature=%252BHbqno1CgxXbv45vzIoTVVEpsrm%2FeWinsdfK2FEKjgoRzPVXosy4ycQLlDakjEh6nrEOpdgE%252BT%252Ba5OkiH4tjCw%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-01T01:00:00+03:00", 
+        "datePublished": "2020-05-15T01:00:00+03:00", 
         "id": "fcbf9cf830724596a73d37bb33f23efc", 
-        "dateModified": "2020-05-01T01:00:00+03:00"
+        "dateModified": "2020-05-15T01:00:00+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
@@ -29,9 +29,9 @@ Content-Type: application/json; charset=UTF-8
         "confidentialityRationale": "Only our company sells badgers with pink hair.", 
         "title": "Proposal_top_secrets.pdf", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-01T01:00:00+03:00", 
+        "datePublished": "2020-05-15T01:00:00+03:00", 
         "id": "ee89213792d8452b93c9ad66e68f8af9", 
-        "dateModified": "2020-05-01T01:00:00+03:00"
+        "dateModified": "2020-05-15T01:00:00+03:00"
       }
     ], 
     "selfEligible": true, 
@@ -51,9 +51,9 @@ Content-Type: application/json; charset=UTF-8
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/50c82523038349969f53f3e238932c46/bids/dc595a39267248abbf3e85d759d6c1ab/financial_documents/7e9bdb022cf444ceaaea927f369b6d7a?download=ce50614ba5444be68502c4e715f58cb0", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-01T01:00:00+03:00", 
+        "datePublished": "2020-05-15T01:00:00+03:00", 
         "id": "7e9bdb022cf444ceaaea927f369b6d7a", 
-        "dateModified": "2020-05-01T01:00:00+03:00"
+        "dateModified": "2020-05-15T01:00:00+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
@@ -63,9 +63,9 @@ Content-Type: application/json; charset=UTF-8
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/50c82523038349969f53f3e238932c46/bids/dc595a39267248abbf3e85d759d6c1ab/financial_documents/fedb3ddbd14c4708a26c11916ee4c92b?download=924e16380a9c4504b9d553d2e19429cc", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-01T01:00:00+03:00", 
+        "datePublished": "2020-05-15T01:00:00+03:00", 
         "id": "fedb3ddbd14c4708a26c11916ee4c92b", 
-        "dateModified": "2020-05-01T01:00:00+03:00"
+        "dateModified": "2020-05-15T01:00:00+03:00"
       }
     ], 
     "tenderers": [
@@ -91,7 +91,7 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "subcontractingDetails": "ДКП «Орфей», Україна", 
     "qualificationDocuments": [
       {
@@ -102,9 +102,9 @@ Content-Type: application/json; charset=UTF-8
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/50c82523038349969f53f3e238932c46/bids/dc595a39267248abbf3e85d759d6c1ab/qualification_documents/5cb9689ea24e443c91962f32c5c14862?download=dbef167764e444479481858591e64dd8", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-01T01:00:00+03:00", 
+        "datePublished": "2020-05-15T01:00:00+03:00", 
         "id": "5cb9689ea24e443c91962f32c5c14862", 
-        "dateModified": "2020-05-01T01:00:00+03:00"
+        "dateModified": "2020-05-15T01:00:00+03:00"
       }
     ], 
     "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/50c82523038349969f53f3e238932c46?key_for_bid=dc595a39267248abbf3e85d759d6c1ab"

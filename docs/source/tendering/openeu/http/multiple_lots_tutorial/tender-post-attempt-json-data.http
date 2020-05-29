@@ -33,7 +33,7 @@ DATA:
     ], 
     "mainProcurementCategory": "services", 
     "tenderPeriod": {
-      "endDate": "2020-06-01T00:00:00+02:00"
+      "endDate": "2020-06-15T00:00:00+02:00"
     }, 
     "title": "Послуги шкільних їдалень", 
     "minimalStep": {
@@ -64,8 +64,8 @@ DATA:
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-21T00:00:00+02:00", 
-          "endDate": "2020-06-20T00:00:00+02:00"
+          "startDate": "2020-06-04T00:00:00+02:00", 
+          "endDate": "2020-07-04T00:00:00+02:00"
         }, 
         "quantity": 1
       }, 
@@ -92,8 +92,8 @@ DATA:
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-21T00:00:00+02:00", 
-          "endDate": "2020-06-20T00:00:00+02:00"
+          "startDate": "2020-06-04T00:00:00+02:00", 
+          "endDate": "2020-07-04T00:00:00+02:00"
         }, 
         "quantity": 1
       }
@@ -144,16 +144,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/52f1b75138ab4b2c
     "procurementMethod": "open", 
     "mainProcurementCategory": "services", 
     "complaintPeriod": {
-      "startDate": "2020-05-01T01:00:00+03:00", 
-      "endDate": "2020-05-28T00:00:00+02:00"
+      "startDate": "2020-05-15T01:00:00+03:00", 
+      "endDate": "2020-06-11T00:00:00+02:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2020-05-01T01:00:00+03:00", 
-      "clarificationsUntil": "2020-05-27T00:00:00+02:00", 
-      "endDate": "2020-05-22T00:00:00+02:00"
+      "startDate": "2020-05-15T01:00:00+03:00", 
+      "clarificationsUntil": "2020-06-11T00:00:00+02:00", 
+      "endDate": "2020-06-05T00:00:00+02:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2020-06-01T01:00:00+03:00", 
+    "next_check": "2020-06-15T01:00:00+03:00", 
     "procuringEntity": {
       "kind": "general", 
       "name": "ЗОСШ #10 м.Вінниці", 
@@ -183,18 +183,18 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/52f1b75138ab4b2c
     "title_en": "Services in school canteens", 
     "id": "52f1b75138ab4b2c87feff205f2a06f4", 
     "title": "Послуги шкільних їдалень", 
-    "tenderID": "UA-2020-05-01-000001", 
-    "dateModified": "2020-05-01T01:00:00+03:00", 
+    "tenderID": "UA-2020-05-15-000001", 
+    "dateModified": "2020-05-15T01:00:00+03:00", 
     "status": "active.tendering", 
     "tenderPeriod": {
-      "startDate": "2020-05-01T01:00:00+03:00", 
-      "endDate": "2020-06-01T00:00:00+02:00"
+      "startDate": "2020-05-15T01:00:00+03:00", 
+      "endDate": "2020-06-15T00:00:00+02:00"
     }, 
     "auctionPeriod": {
-      "shouldStartAfter": "2020-07-06T00:00:00+02:00"
+      "shouldStartAfter": "2020-07-20T00:00:00+02:00"
     }, 
     "procurementMethodType": "aboveThresholdEU", 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "milestones": [
       {
         "code": "prepayment", 
@@ -250,8 +250,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/52f1b75138ab4b2c
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-21T00:00:00+02:00", 
-          "endDate": "2020-06-20T00:00:00+02:00"
+          "startDate": "2020-06-04T00:00:00+02:00", 
+          "endDate": "2020-07-04T00:00:00+02:00"
         }, 
         "id": "79cd11ac44934e09a6ccc517d3810dd4", 
         "quantity": 1.0
@@ -279,8 +279,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/52f1b75138ab4b2c
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-21T00:00:00+02:00", 
-          "endDate": "2020-06-20T00:00:00+02:00"
+          "startDate": "2020-06-04T00:00:00+02:00", 
+          "endDate": "2020-07-04T00:00:00+02:00"
         }, 
         "id": "faa12ba0bce042bfa5ad1bc8c827f6e9", 
         "quantity": 1.0

@@ -14,7 +14,7 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "date": "2020-05-01T01:00:01+03:00", 
+    "date": "2020-05-15T01:00:01+03:00", 
     "status": "active", 
     "id": "b31ec66637a141c7bb03446a0f22f5dc", 
     "value": {

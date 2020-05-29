@@ -123,9 +123,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/5e79c825b4c54c36a179b22db2dae23b/documents/824f270cc0b749bd989983329634a5de?download=21ef16b5420c40b48a8d16d91f49eeb4", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-01T01:00:00+03:00", 
+        "datePublished": "2020-05-15T01:00:00+03:00", 
         "id": "824f270cc0b749bd989983329634a5de", 
-        "dateModified": "2020-05-01T01:00:00+03:00"
+        "dateModified": "2020-05-15T01:00:00+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
@@ -135,8 +135,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293
         "confidentialityRationale": "Only our company sells badgers with pink hair.", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-01T01:00:00+03:00", 
-        "dateModified": "2020-05-01T01:00:00+03:00", 
+        "datePublished": "2020-05-15T01:00:00+03:00", 
+        "dateModified": "2020-05-15T01:00:00+03:00", 
         "id": "fc90022e9584421e90d0438c8b331cc8"
       }
     ], 
@@ -149,9 +149,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/5e79c825b4c54c36a179b22db2dae23b/eligibility_documents/7adad4419c2f4b30b066e8e584a62f25?download=2ee8fe8abbb94b7ebefa67990b15a743", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-01T01:00:00+03:00", 
+        "datePublished": "2020-05-15T01:00:00+03:00", 
         "id": "7adad4419c2f4b30b066e8e584a62f25", 
-        "dateModified": "2020-05-01T01:00:00+03:00"
+        "dateModified": "2020-05-15T01:00:00+03:00"
       }
     ], 
     "selfEligible": true, 
@@ -160,12 +160,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293
       "yearlyPaymentsPercentage": 0.86, 
       "valueAddedTaxIncluded": true, 
       "currency": "UAH", 
-      "amount": 8731.47, 
+      "amount": 8757.86, 
       "contractDuration": {
         "days": 40, 
         "years": 13
       }, 
-      "amountPerformance": 590.42, 
+      "amountPerformance": 593.85, 
       "annualCostsReduction": [
         200.0, 
         800.0, 
@@ -200,9 +200,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/5e79c825b4c54c36a179b22db2dae23b/financial_documents/1c73e057a06b4ae5a71824069263ed43?download=643769d36825492a97eb6ceebb19eb1f", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-01T01:00:00+03:00", 
+        "datePublished": "2020-05-15T01:00:00+03:00", 
         "id": "1c73e057a06b4ae5a71824069263ed43", 
-        "dateModified": "2020-05-01T01:00:00+03:00"
+        "dateModified": "2020-05-15T01:00:00+03:00"
       }
     ], 
     "tenderers": [
@@ -228,7 +228,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293
         }
       }
     ], 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "qualificationDocuments": [
       {
         "hash": "md5:00000000000000000000000000000000", 
@@ -238,9 +238,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/5e79c825b4c54c36a179b22db2dae23b/qualification_documents/fe588ea0e24f4fd2b0ea10370536c95e?download=5adb6bac38c9431284763180f68198be", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-01T01:00:00+03:00", 
+        "datePublished": "2020-05-15T01:00:00+03:00", 
         "id": "fe588ea0e24f4fd2b0ea10370536c95e", 
-        "dateModified": "2020-05-01T01:00:00+03:00"
+        "dateModified": "2020-05-15T01:00:00+03:00"
       }
     ]
   }

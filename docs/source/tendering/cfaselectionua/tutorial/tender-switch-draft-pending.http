@@ -16,11 +16,11 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "status": "draft.pending", 
     "procurementMethod": "selective", 
-    "tenderID": "UA-2020-05-01-000001", 
+    "tenderID": "UA-2020-05-15-000001", 
     "title": "футляри до державних нагород", 
     "lots": [
       {
-        "date": "2020-05-01T01:00:00+03:00", 
+        "date": "2020-05-15T01:00:00+03:00", 
         "status": "active", 
         "title": "Лот №1", 
         "description": "Опис Лот №1", 
@@ -52,8 +52,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-03T01:00:00+03:00", 
-          "endDate": "2020-05-06T01:00:00+03:00"
+          "startDate": "2020-05-17T01:00:00+03:00", 
+          "endDate": "2020-05-20T01:00:00+03:00"
         }, 
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
         "unit": {
@@ -65,7 +65,7 @@ Content-Type: application/json; charset=UTF-8
     ], 
     "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
     "submissionMethod": "electronicAuction", 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "agreements": [
       {
         "id": "106468013e6f47398b6f2f4da3bdeba6"
@@ -73,7 +73,7 @@ Content-Type: application/json; charset=UTF-8
     ], 
     "awardCriteria": "lowestCost", 
     "owner": "broker", 
-    "dateModified": "2020-05-01T01:00:00+03:00", 
+    "dateModified": "2020-05-15T01:00:00+03:00", 
     "id": "c4b851839b51462fbf72e030424fca88", 
     "procuringEntity": {
       "kind": "general", 

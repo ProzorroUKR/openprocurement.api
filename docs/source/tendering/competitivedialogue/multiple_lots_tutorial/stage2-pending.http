@@ -10,14 +10,14 @@ Content-Type: application/json; charset=UTF-8
     "status": "active.stage2.pending", 
     "mainProcurementCategory": "services", 
     "complaintPeriod": {
-      "startDate": "2020-03-21T01:00:00+03:00", 
-      "endDate": "2020-04-17T00:00:00+03:00"
+      "startDate": "2020-04-04T01:00:00+03:00", 
+      "endDate": "2020-05-01T00:00:00+03:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2020-03-21T01:00:00+03:00", 
-      "clarificationsUntil": "2020-04-16T00:00:00+03:00", 
-      "endDate": "2020-04-11T01:00:00+03:00", 
-      "invalidationDate": "2020-05-01T01:00:00+03:00"
+      "startDate": "2020-04-04T01:00:00+03:00", 
+      "clarificationsUntil": "2020-04-30T00:00:00+03:00", 
+      "endDate": "2020-04-25T01:00:00+03:00", 
+      "invalidationDate": "2020-05-15T01:00:00+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
     "procuringEntity": {
@@ -64,7 +64,7 @@ Content-Type: application/json; charset=UTF-8
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "date": "2020-05-01T01:00:00+03:00", 
+        "date": "2020-05-15T01:00:00+03:00", 
         "id": "e928726a47b7461a9d8a00258123cf3d"
       }, 
       {
@@ -81,20 +81,20 @@ Content-Type: application/json; charset=UTF-8
           "amount": 400.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "date": "2020-05-01T01:00:00+03:00", 
+        "date": "2020-05-15T01:00:00+03:00", 
         "id": "8de1614007d74757970d83c1d60ebc76"
       }
     ], 
     "qualificationPeriod": {
-      "startDate": "2020-04-21T01:00:00+03:00", 
-      "endDate": "2020-05-01T01:00:00+03:00"
+      "startDate": "2020-05-05T01:00:00+03:00", 
+      "endDate": "2020-05-15T01:00:00+03:00"
     }, 
-    "tenderID": "UA-2020-05-01-000001", 
-    "dateModified": "2020-05-01T01:00:00+03:00", 
+    "tenderID": "UA-2020-05-15-000001", 
+    "dateModified": "2020-05-15T01:00:00+03:00", 
     "numberOfBids": 3, 
     "tenderPeriod": {
-      "startDate": "2020-03-21T01:00:00+03:00", 
-      "endDate": "2020-04-21T01:00:00+03:00"
+      "startDate": "2020-04-04T01:00:00+03:00", 
+      "endDate": "2020-05-05T01:00:00+03:00"
     }, 
     "qualifications": [
       {
@@ -103,7 +103,7 @@ Content-Type: application/json; charset=UTF-8
         "eligible": true, 
         "qualified": true, 
         "bidID": "5c57011a1a184851aa1a971e0f443b6c", 
-        "date": "2020-05-01T01:00:00+03:00", 
+        "date": "2020-05-15T01:00:00+03:00", 
         "id": "173c2b5bb93248a78c84a3827af6cbaa"
       }, 
       {
@@ -112,7 +112,7 @@ Content-Type: application/json; charset=UTF-8
         "eligible": true, 
         "qualified": true, 
         "bidID": "44e377d158fa42f3b8d4437c84bdda52", 
-        "date": "2020-05-01T01:00:00+03:00", 
+        "date": "2020-05-15T01:00:00+03:00", 
         "id": "9894e7b3dee74b7f978607f213fb8d37"
       }, 
       {
@@ -121,12 +121,12 @@ Content-Type: application/json; charset=UTF-8
         "eligible": true, 
         "qualified": true, 
         "bidID": "eb8b16e4d30d4a81b046cae41632ed2d", 
-        "date": "2020-05-01T01:00:00+03:00", 
+        "date": "2020-05-15T01:00:00+03:00", 
         "id": "ced896f884304acd86eae26ec8efe5c8"
       }
     ], 
     "procurementMethodType": "competitiveDialogueEU", 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "milestones": [
       {
         "code": "prepayment", 
@@ -183,8 +183,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-21T00:00:00+02:00", 
-          "endDate": "2020-06-20T00:00:00+02:00"
+          "startDate": "2020-06-04T00:00:00+02:00", 
+          "endDate": "2020-07-04T00:00:00+02:00"
         }, 
         "id": "1fdf54d459244216b4a62e51a06defa3", 
         "unit": {
@@ -217,8 +217,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-21T00:00:00+02:00", 
-          "endDate": "2020-06-20T00:00:00+02:00"
+          "startDate": "2020-06-04T00:00:00+02:00", 
+          "endDate": "2020-07-04T00:00:00+02:00"
         }, 
         "id": "0bea2a0b522b4cf6ac785fcf2aff1bed", 
         "unit": {

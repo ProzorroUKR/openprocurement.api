@@ -6,7 +6,7 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "date": "2020-05-01T01:00:00+03:00", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "id": "cfd9e57ce9704ad2a954a79cbfe78d21", 
     "usedFor": "/plans/f0b2403cba3040acaaf3d6d45dc953be"
   }

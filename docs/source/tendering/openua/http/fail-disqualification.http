@@ -16,7 +16,7 @@ Content-Type: application/json; charset=UTF-8
   "status": "error", 
   "errors": [
     {
-      "description": "Can't change status to 'unsuccessful' until milestone.dueDate: 2020-05-05T00:00:00+03:00", 
+      "description": "Can't change status to 'unsuccessful' until milestone.dueDate: 2020-05-18T01:00:00+03:00", 
       "location": "body", 
       "name": "data"
     }

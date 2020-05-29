@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "dateSigned": "2020-05-01T01:00:01+03:00"
+    "dateSigned": "2020-05-15T01:00:01+03:00"
   }
 }
 
@@ -39,8 +39,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-21T01:00:00+03:00", 
-          "endDate": "2020-05-31T01:00:10+03:00"
+          "startDate": "2020-06-04T01:00:00+03:00", 
+          "endDate": "2020-06-14T01:00:10+03:00"
         }, 
         "id": "52ba02bed7a347fa9f8119661caf0ed2", 
         "unit": {
@@ -80,11 +80,11 @@ Content-Type: application/json; charset=UTF-8
       "amountNet": 230.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "dateSigned": "2020-05-01T01:00:01+03:00", 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "dateSigned": "2020-05-15T01:00:01+03:00", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "awardID": "321497545e3f406b85f20fa2a7f33fc6", 
     "id": "b6a7995d82d24e2493ce3d45eeaaa00e", 
-    "contractID": "UA-2020-05-01-000001-1"
+    "contractID": "UA-2020-05-15-000001-1"
   }
 }
 

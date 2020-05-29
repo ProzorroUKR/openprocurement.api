@@ -39,8 +39,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-21T00:00:00+02:00", 
-          "endDate": "2020-06-20T00:00:00+02:00"
+          "startDate": "2020-06-04T00:00:00+02:00", 
+          "endDate": "2020-07-04T00:00:00+02:00"
         }, 
         "id": "b96fb1f581bc4abab5ac8486238ea5f0", 
         "quantity": 1.0
@@ -75,11 +75,11 @@ Content-Type: application/json; charset=UTF-8
       "amountNet": 230.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "dateSigned": "2020-05-01T01:00:01+03:00", 
-    "date": "2020-05-01T01:00:01+03:00", 
+    "dateSigned": "2020-05-15T01:00:01+03:00", 
+    "date": "2020-05-15T01:00:01+03:00", 
     "awardID": "f5d5d3d41f2f415ab04f3fa3e768e09d", 
     "id": "ffcf1156a46843bba9887c44b866cf0a", 
-    "contractID": "UA-2020-05-01-000001-1"
+    "contractID": "UA-2020-05-15-000001-1"
   }
 }
 

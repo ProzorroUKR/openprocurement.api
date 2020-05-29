@@ -24,7 +24,7 @@ Content-Type: application/json; charset=UTF-8
     "lotValues": [
       {
         "relatedLot": "e928726a47b7461a9d8a00258123cf3d", 
-        "date": "2020-05-01T01:00:00+03:00", 
+        "date": "2020-05-15T01:00:00+03:00", 
         "status": "pending"
       }
     ], 
@@ -52,7 +52,7 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "id": "eb8b16e4d30d4a81b046cae41632ed2d"
   }
 }

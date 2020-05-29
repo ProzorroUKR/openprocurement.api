@@ -57,7 +57,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d99c61237b194557
     "lotValues": [
       {
         "relatedLot": "e928726a47b7461a9d8a00258123cf3d", 
-        "date": "2020-05-01T01:00:00+03:00", 
+        "date": "2020-05-15T01:00:00+03:00", 
         "status": "pending", 
         "value": {
           "currency": "UAH", 
@@ -91,7 +91,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d99c61237b194557
         }
       }
     ], 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "id": "ff16b7ecf51d40c7b0b1809e53ea3278"
   }
 }

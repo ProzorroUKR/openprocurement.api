@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2020-05-09T01:00:00+03:00"
+      "endDate": "2020-05-23T01:00:00+03:00"
     }, 
     "value": {
       "currency": "UAH", 
@@ -23,17 +23,17 @@ Content-Type: application/json; charset=UTF-8
     "procurementMethod": "open", 
     "mainProcurementCategory": "services", 
     "complaintPeriod": {
-      "startDate": "2020-04-03T01:00:00+03:00", 
-      "endDate": "2020-05-05T00:00:00+03:00"
+      "startDate": "2020-04-17T01:00:00+03:00", 
+      "endDate": "2020-05-19T00:00:00+03:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2020-04-03T01:00:00+03:00", 
-      "clarificationsUntil": "2020-05-06T00:00:00+03:00", 
-      "endDate": "2020-04-29T01:00:00+03:00", 
-      "invalidationDate": "2020-05-01T01:00:00+03:00"
+      "startDate": "2020-04-17T01:00:00+03:00", 
+      "clarificationsUntil": "2020-05-19T00:00:00+03:00", 
+      "endDate": "2020-05-13T01:00:00+03:00", 
+      "invalidationDate": "2020-05-15T01:00:00+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2020-05-09T01:00:00+03:00", 
+    "next_check": "2020-05-23T01:00:00+03:00", 
     "procuringEntity": {
       "kind": "general", 
       "name": "ЗОСШ #10 м.Вінниці", 
@@ -62,9 +62,9 @@ Content-Type: application/json; charset=UTF-8
     "questions": [
       {
         "description": "Просимо додати таблицю потрібної калорійності харчування", 
-        "dateAnswered": "2020-05-01T01:00:00+03:00", 
+        "dateAnswered": "2020-05-15T01:00:00+03:00", 
         "title": "Калорійність", 
-        "date": "2020-05-01T01:00:00+03:00", 
+        "date": "2020-05-15T01:00:00+03:00", 
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
         "id": "f74db777262d460099620965f673a415", 
         "questionOf": "tender"
@@ -85,9 +85,9 @@ Content-Type: application/json; charset=UTF-8
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4595254e01ba4f178bc3f567f549c368?KeyID=a8968c46&Signature=vATRHadWn0nVBxb0CiMIpgP0xxQIku%252BdiyZ8ihkWO95OatUx1wZ4jP%2FgFmiPl39XpZ20nMbkVtTZ8dyP4BuRCw%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-01T01:00:00+03:00", 
+        "datePublished": "2020-05-15T01:00:00+03:00", 
         "id": "588c354ef78f4155a37d4c22dbec1a9d", 
-        "dateModified": "2020-05-01T01:00:00+03:00"
+        "dateModified": "2020-05-15T01:00:00+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
@@ -97,9 +97,9 @@ Content-Type: application/json; charset=UTF-8
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0d2761804fdb420aa12c0adad1c06c65?KeyID=a8968c46&Signature=sbObhmcEbppKi4eZAllrjNUbkOwWSsKRZU1RLSqTy3LqH9lGOKQ4Vp49qAbw2XU2egbmexaEAcruNXTzaqOiDQ%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-01T01:00:00+03:00", 
+        "datePublished": "2020-05-15T01:00:00+03:00", 
         "id": "de1a505be7ed4337b657a9a1332b38cb", 
-        "dateModified": "2020-05-01T01:00:00+03:00"
+        "dateModified": "2020-05-15T01:00:00+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
@@ -109,22 +109,22 @@ Content-Type: application/json; charset=UTF-8
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d3921bb3169f47d4aa0048f2094e1b1a?KeyID=a8968c46&Signature=XMvb4vRCXAclorqdyoEzjjfKzF5Wxu%2FQctqL67LHsm8M%252BpvhBr08ep33esbJbN7CQ%252BBuIaMLfrb9CWEyY0uWDw%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-01T01:00:00+03:00", 
+        "datePublished": "2020-05-15T01:00:00+03:00", 
         "id": "de1a505be7ed4337b657a9a1332b38cb", 
-        "dateModified": "2020-05-01T01:00:00+03:00"
+        "dateModified": "2020-05-15T01:00:00+03:00"
       }
     ], 
     "title": "Послуги шкільних їдалень", 
-    "tenderID": "UA-2020-05-01-000001", 
-    "dateModified": "2020-05-01T01:00:00+03:00", 
+    "tenderID": "UA-2020-05-15-000001", 
+    "dateModified": "2020-05-15T01:00:00+03:00", 
     "status": "active.tendering", 
     "tenderPeriod": {
-      "startDate": "2020-04-03T01:00:00+03:00", 
-      "endDate": "2020-05-09T01:00:00+03:00"
+      "startDate": "2020-04-17T01:00:00+03:00", 
+      "endDate": "2020-05-23T01:00:00+03:00"
     }, 
     "title_en": "Services in school canteens", 
     "procurementMethodType": "competitiveDialogueEU", 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "milestones": [
       {
         "code": "prepayment", 
@@ -180,8 +180,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-21T00:00:00+02:00", 
-          "endDate": "2020-06-20T00:00:00+02:00"
+          "startDate": "2020-06-04T00:00:00+02:00", 
+          "endDate": "2020-07-04T00:00:00+02:00"
         }, 
         "id": "95b041402a794b48aa9200874907a06a", 
         "unit": {
@@ -213,8 +213,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-21T00:00:00+02:00", 
-          "endDate": "2020-06-20T00:00:00+02:00"
+          "startDate": "2020-06-04T00:00:00+02:00", 
+          "endDate": "2020-07-04T00:00:00+02:00"
         }, 
         "id": "8673d15afe1147e3b19e6aa7ee6fe462", 
         "unit": {

@@ -9,16 +9,16 @@ Content-Type: application/json; charset=UTF-8
     "procurementMethod": "open", 
     "mainProcurementCategory": "services", 
     "complaintPeriod": {
-      "startDate": "2020-05-01T01:00:00+03:00", 
-      "endDate": "2020-05-28T00:00:00+03:00"
+      "startDate": "2020-05-15T01:00:00+03:00", 
+      "endDate": "2020-06-11T00:00:00+03:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2020-05-01T01:00:00+03:00", 
-      "clarificationsUntil": "2020-05-28T00:00:00+03:00", 
-      "endDate": "2020-05-22T01:00:00+03:00"
+      "startDate": "2020-05-15T01:00:00+03:00", 
+      "clarificationsUntil": "2020-06-12T00:00:00+03:00", 
+      "endDate": "2020-06-05T01:00:00+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2020-06-01T01:00:00+03:00", 
+    "next_check": "2020-06-15T01:00:00+03:00", 
     "procuringEntity": {
       "kind": "general", 
       "name": "ЗОСШ #10 м.Вінниці", 
@@ -47,16 +47,16 @@ Content-Type: application/json; charset=UTF-8
     "owner": "broker", 
     "id": "35f93e8dd5484abb8b90687952c82010", 
     "title": "Послуги шкільних їдалень", 
-    "tenderID": "UA-2020-05-01-000001", 
-    "dateModified": "2020-05-01T01:00:00+03:00", 
+    "tenderID": "UA-2020-05-15-000001", 
+    "dateModified": "2020-05-15T01:00:00+03:00", 
     "status": "active.tendering", 
     "tenderPeriod": {
-      "startDate": "2020-05-01T01:00:00+03:00", 
-      "endDate": "2020-06-01T01:00:00+03:00"
+      "startDate": "2020-05-15T01:00:00+03:00", 
+      "endDate": "2020-06-15T01:00:00+03:00"
     }, 
     "title_en": "Services in school canteens", 
     "procurementMethodType": "competitiveDialogueEU", 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "milestones": [
       {
         "code": "prepayment", 
@@ -112,8 +112,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-21T00:00:00+02:00", 
-          "endDate": "2020-06-20T00:00:00+02:00"
+          "startDate": "2020-06-04T00:00:00+02:00", 
+          "endDate": "2020-07-04T00:00:00+02:00"
         }, 
         "id": "95b041402a794b48aa9200874907a06a", 
         "unit": {
@@ -145,8 +145,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-21T00:00:00+02:00", 
-          "endDate": "2020-06-20T00:00:00+02:00"
+          "startDate": "2020-06-04T00:00:00+02:00", 
+          "endDate": "2020-07-04T00:00:00+02:00"
         }, 
         "id": "8673d15afe1147e3b19e6aa7ee6fe462", 
         "unit": {

@@ -23,9 +23,9 @@ Content-Type: application/json; charset=UTF-8
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e25f6aba89644561bae192add05b9fd9?KeyID=a8968c46&Signature=ZaY8t187j5xyaKqSZJiXzNjLfc9wYq7QVRnymLc8G6CNw7uPJUCHtDnMzfD3ayNLhZfXGcU%2F2YJQgqw9umX4AQ%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-01T01:00:00+03:00", 
+        "datePublished": "2020-05-15T01:00:00+03:00", 
         "id": "06517cdbfecf446b994bb0912e3d9b51", 
-        "dateModified": "2020-05-01T01:00:00+03:00"
+        "dateModified": "2020-05-15T01:00:00+03:00"
       }
     ], 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
@@ -55,9 +55,9 @@ Content-Type: application/json; charset=UTF-8
       "currency": "UAH", 
       "amount": 2000.0
     }, 
-    "dateSubmitted": "2020-05-01T01:00:00+03:00", 
-    "complaintID": "UA-2020-05-01-000001.1", 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "dateSubmitted": "2020-05-15T01:00:00+03:00", 
+    "complaintID": "UA-2020-05-15-000001.1", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "type": "complaint", 
     "id": "57299cc6dd6a4e86b1bc8b2c406bf397"
   }

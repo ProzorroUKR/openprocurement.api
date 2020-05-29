@@ -12,7 +12,7 @@ Content-Type: application/json; charset=UTF-8
       "eligible": false, 
       "qualified": false, 
       "bidID": "1db2a89bad604311b7166807eb63d4e3", 
-      "date": "2020-05-01T01:00:00+03:00", 
+      "date": "2020-05-15T01:00:00+03:00", 
       "id": "69e23d94b0ec4a4cbf777d2557fe598a"
     }, 
     {
@@ -21,7 +21,7 @@ Content-Type: application/json; charset=UTF-8
       "eligible": false, 
       "qualified": false, 
       "bidID": "f4c99b9e469349e296d81e700168a070", 
-      "date": "2020-05-01T01:00:00+03:00", 
+      "date": "2020-05-15T01:00:00+03:00", 
       "id": "73fa90c6e4a746cb859d4058ad16e5bf"
     }
   ]

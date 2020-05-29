@@ -18,9 +18,9 @@ Content-Type: application/json; charset=UTF-8
           "format": "application/pdf", 
           "isDescriptionDecision": false, 
           "documentOf": "tender", 
-          "datePublished": "2020-05-01T01:00:00+03:00", 
+          "datePublished": "2020-05-15T01:00:00+03:00", 
           "id": "bdf03760f26641e6b662ddd1eb2e1e1f", 
-          "dateModified": "2020-05-01T01:00:00+03:00"
+          "dateModified": "2020-05-15T01:00:00+03:00"
         }, 
         {
           "hash": "md5:00000000000000000000000000000000", 
@@ -31,9 +31,9 @@ Content-Type: application/json; charset=UTF-8
           "format": "application/pdf", 
           "isDescriptionDecision": true, 
           "documentOf": "tender", 
-          "datePublished": "2020-05-01T01:00:00+03:00", 
+          "datePublished": "2020-05-15T01:00:00+03:00", 
           "id": "b3ba98a293ec412b966a9cb2c035020a", 
-          "dateModified": "2020-05-01T01:00:00+03:00"
+          "dateModified": "2020-05-15T01:00:00+03:00"
         }, 
         {
           "hash": "md5:00000000000000000000000000000000", 
@@ -45,9 +45,9 @@ Content-Type: application/json; charset=UTF-8
           "title": "Proposal_top_secrets.pdf", 
           "isDescriptionDecision": false, 
           "documentOf": "tender", 
-          "datePublished": "2020-05-01T01:00:00+03:00", 
+          "datePublished": "2020-05-15T01:00:00+03:00", 
           "id": "c1b944c8854543e58b0d043843de553c", 
-          "dateModified": "2020-05-01T01:00:00+03:00"
+          "dateModified": "2020-05-15T01:00:00+03:00"
         }
       ], 
       "id": "9161500fb17744ce90346052ddf8479c", 
@@ -143,9 +143,9 @@ Content-Type: application/json; charset=UTF-8
           "format": "application/pdf", 
           "isDescriptionDecision": false, 
           "documentOf": "tender", 
-          "datePublished": "2020-05-01T01:00:00+03:00", 
+          "datePublished": "2020-05-15T01:00:00+03:00", 
           "id": "e92a237d2cc241d1ae1047f4599874c7", 
-          "dateModified": "2020-05-01T01:00:00+03:00"
+          "dateModified": "2020-05-15T01:00:00+03:00"
         }, 
         {
           "hash": "md5:00000000000000000000000000000000", 
@@ -157,9 +157,9 @@ Content-Type: application/json; charset=UTF-8
           "title": "Proposal_part2.pdf", 
           "isDescriptionDecision": false, 
           "documentOf": "tender", 
-          "datePublished": "2020-05-01T01:00:00+03:00", 
+          "datePublished": "2020-05-15T01:00:00+03:00", 
           "id": "3ee0045cc6314ac78ba7a67aa8c90a52", 
-          "dateModified": "2020-05-01T01:00:00+03:00"
+          "dateModified": "2020-05-15T01:00:00+03:00"
         }
       ], 
       "id": "8fe55741897d438581a0af90c21cc42d", 

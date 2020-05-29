@@ -18,17 +18,17 @@ Content-Type: application/json; charset=UTF-8
     "status": "active.pre-qualification.stand-still", 
     "mainProcurementCategory": "goods", 
     "complaintPeriod": {
-      "startDate": "2020-03-31T01:00:00+03:00", 
-      "endDate": "2020-04-27T00:00:00+03:00"
+      "startDate": "2020-04-14T01:00:00+03:00", 
+      "endDate": "2020-05-11T00:00:00+03:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2020-03-31T01:00:00+03:00", 
-      "clarificationsUntil": "2020-04-25T00:00:00+03:00", 
-      "endDate": "2020-04-21T01:00:00+03:00", 
-      "invalidationDate": "2020-05-01T01:00:00+03:00"
+      "startDate": "2020-04-14T01:00:00+03:00", 
+      "clarificationsUntil": "2020-05-09T00:00:00+03:00", 
+      "endDate": "2020-05-05T01:00:00+03:00", 
+      "invalidationDate": "2020-05-15T01:00:00+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2020-05-07T00:00:00+03:00", 
+    "next_check": "2020-05-21T00:00:00+03:00", 
     "procuringEntity": {
       "kind": "general", 
       "name": "Державне управління справами", 
@@ -56,9 +56,9 @@ Content-Type: application/json; charset=UTF-8
     "questions": [
       {
         "description": "Просимо додати таблицю потрібної калорійності харчування", 
-        "dateAnswered": "2020-05-01T01:00:00+03:00", 
+        "dateAnswered": "2020-05-15T01:00:00+03:00", 
         "title": "Калорійність", 
-        "date": "2020-05-01T01:00:00+03:00", 
+        "date": "2020-05-15T01:00:00+03:00", 
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
         "id": "efba5567d08848afae0ebb78272aed79", 
         "questionOf": "tender"
@@ -79,9 +79,9 @@ Content-Type: application/json; charset=UTF-8
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/737e92977b1348bf9bbb0f9d96a353fb?KeyID=a8968c46&Signature=%252B3heKDaHcguEs74c9qKkJ34abfbTXtk9Iomqulz%2FIrIIf%2FDJQm7KyxTNmaYHMUs3v4P%2F1T98S4LdFjlEKlM1Dw%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-01T01:00:00+03:00", 
+        "datePublished": "2020-05-15T01:00:00+03:00", 
         "id": "946a5bea2c884fd187f834566ce4f391", 
-        "dateModified": "2020-05-01T01:00:00+03:00"
+        "dateModified": "2020-05-15T01:00:00+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
@@ -91,9 +91,9 @@ Content-Type: application/json; charset=UTF-8
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c846d08e3153421cb0c3eb734bd70eeb?KeyID=a8968c46&Signature=kfSb3gPHdvhu9SaVPESjB7zG8jXZuy8cIurf8Cqh2N%2F112wxi5ETRP3vSBo6g%2FqJk%252B2kNEVIUqwmoGU98jAWBQ%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-01T01:00:00+03:00", 
+        "datePublished": "2020-05-15T01:00:00+03:00", 
         "id": "103903f8e0ae424ca30a8fb377c1f5ad", 
-        "dateModified": "2020-05-01T01:00:00+03:00"
+        "dateModified": "2020-05-15T01:00:00+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
@@ -103,9 +103,9 @@ Content-Type: application/json; charset=UTF-8
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3fc9f137b61b46e181ea404c940f5e28?KeyID=a8968c46&Signature=yAMp0ABkvZaJ72OCL0Gj0hb%2Fvh9Oa%2FGsQI%2F3h7ZQ%252BN5ZERiCoUtwIxLi0QF1W379foh%2F4WRKz3CDliPbBaZtCQ%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-01T01:00:00+03:00", 
+        "datePublished": "2020-05-15T01:00:00+03:00", 
         "id": "103903f8e0ae424ca30a8fb377c1f5ad", 
-        "dateModified": "2020-05-01T01:00:00+03:00"
+        "dateModified": "2020-05-15T01:00:00+03:00"
       }
     ], 
     "title": "футляри до державних нагород", 
@@ -120,14 +120,14 @@ Content-Type: application/json; charset=UTF-8
           "valueAddedTaxIncluded": true
         }, 
         "auctionPeriod": {
-          "shouldStartAfter": "2020-05-07T00:00:00+03:00"
+          "shouldStartAfter": "2020-05-21T00:00:00+03:00"
         }, 
         "value": {
           "currency": "UAH", 
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "date": "2020-05-01T01:00:00+03:00", 
+        "date": "2020-05-15T01:00:00+03:00", 
         "id": "c7555f1bb878434d8815dea318304673", 
         "guarantee": {
           "currency": "USD", 
@@ -136,16 +136,16 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "qualificationPeriod": {
-      "startDate": "2020-05-01T01:00:00+03:00", 
-      "endDate": "2020-05-07T00:00:00+03:00"
+      "startDate": "2020-05-15T01:00:00+03:00", 
+      "endDate": "2020-05-21T00:00:00+03:00"
     }, 
     "maxAwardsCount": 4, 
-    "tenderID": "UA-2020-05-01-000001", 
-    "dateModified": "2020-05-01T01:00:00+03:00", 
+    "tenderID": "UA-2020-05-15-000001", 
+    "dateModified": "2020-05-15T01:00:00+03:00", 
     "numberOfBids": 3, 
     "tenderPeriod": {
-      "startDate": "2020-03-31T01:00:00+03:00", 
-      "endDate": "2020-05-01T01:00:00+03:00"
+      "startDate": "2020-04-14T01:00:00+03:00", 
+      "endDate": "2020-05-15T01:00:00+03:00"
     }, 
     "qualifications": [
       {
@@ -154,7 +154,7 @@ Content-Type: application/json; charset=UTF-8
         "eligible": true, 
         "qualified": true, 
         "bidID": "410cb59a0945497eb61cc4461f661569", 
-        "date": "2020-05-01T01:00:00+03:00", 
+        "date": "2020-05-15T01:00:00+03:00", 
         "id": "9eafb5e0a5ac4268a1f0821a11dae69d"
       }, 
       {
@@ -163,7 +163,7 @@ Content-Type: application/json; charset=UTF-8
         "eligible": true, 
         "qualified": true, 
         "bidID": "e88e8fc3020640178a79c6e66d3dfd5f", 
-        "date": "2020-05-01T01:00:00+03:00", 
+        "date": "2020-05-15T01:00:00+03:00", 
         "id": "86fd0e3cd41f48eab89c5ac406b8334d"
       }, 
       {
@@ -172,7 +172,7 @@ Content-Type: application/json; charset=UTF-8
         "eligible": false, 
         "qualified": false, 
         "bidID": "88c9f41eac914e1cb72d9a43fc03d702", 
-        "date": "2020-05-01T01:00:00+03:00", 
+        "date": "2020-05-15T01:00:00+03:00", 
         "id": "cb68d0f3a8c4468d9b7c5595eb8f9001"
       }, 
       {
@@ -181,13 +181,13 @@ Content-Type: application/json; charset=UTF-8
         "eligible": true, 
         "qualified": true, 
         "bidID": "5a84740ed0bd4aa3830adfb56c49ed62", 
-        "date": "2020-05-01T01:00:00+03:00", 
+        "date": "2020-05-15T01:00:00+03:00", 
         "id": "cdc3670ed483448a8cd1ed6d1146da99"
       }
     ], 
     "title_en": "Cases for state awards", 
     "agreementDuration": "P3Y3M3D", 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "procurementMethodType": "closeFrameworkAgreementUA", 
     "milestones": [
       {
@@ -290,9 +290,9 @@ Content-Type: application/json; charset=UTF-8
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fe2f4bf832ea4f7fb2297473766f749b?KeyID=a8968c46&Signature=ZMCDe95Oot5cyO84UztaSQzyUPS0l5mtKaEBmqS0lqT9JeYNyikdd7JGsMmOk69NKwoAO9WvoRz9Bl9I%252BxjhCQ%253D%253D", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2020-05-01T01:00:00+03:00", 
+            "datePublished": "2020-05-15T01:00:00+03:00", 
             "id": "eb68a5d3295e47e2941c983ac17b2fb4", 
-            "dateModified": "2020-05-01T01:00:00+03:00"
+            "dateModified": "2020-05-15T01:00:00+03:00"
           }, 
           {
             "hash": "md5:00000000000000000000000000000000", 
@@ -303,9 +303,9 @@ Content-Type: application/json; charset=UTF-8
             "confidentialityRationale": "Only our company sells badgers with pink hair.", 
             "title": "Proposal_top_secrets.pdf", 
             "documentOf": "tender", 
-            "datePublished": "2020-05-01T01:00:00+03:00", 
+            "datePublished": "2020-05-15T01:00:00+03:00", 
             "id": "181271c244124b6ba014c2833d0a8c9e", 
-            "dateModified": "2020-05-01T01:00:00+03:00"
+            "dateModified": "2020-05-15T01:00:00+03:00"
           }
         ], 
         "tenderers": [
@@ -341,9 +341,9 @@ Content-Type: application/json; charset=UTF-8
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b4b5be95835a45cca55f81ad8479d8f5?KeyID=a8968c46&Signature=JUir94dEdepQhMjlBOvPbLIkE2zpq6UthkVdlWixnvbPXU6wJfV9s2Nd7zjRoncjKUighnaK0n1UM%252BCIQ0YtCw%253D%253D", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2020-05-01T01:00:00+03:00", 
+            "datePublished": "2020-05-15T01:00:00+03:00", 
             "id": "dd2433e3b6734869b0297de6ee3e2df8", 
-            "dateModified": "2020-05-01T01:00:00+03:00"
+            "dateModified": "2020-05-15T01:00:00+03:00"
           }
         ]
       }, 
@@ -385,9 +385,9 @@ Content-Type: application/json; charset=UTF-8
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/521c95e91644431cbbc1e5fcf8326faf?KeyID=a8968c46&Signature=DHqhZQqfkuq2g4KTK2Kk4BVsQ0nkkCqZhK%2FPYqpct42%2FtQ%2FuqgZrarDo%2FT5VKKLylRDslEbK5vR1thA4wWlzBQ%253D%253D", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2020-05-01T01:00:00+03:00", 
+            "datePublished": "2020-05-15T01:00:00+03:00", 
             "id": "5d9147ed06d348d69adf62875b7bd89b", 
-            "dateModified": "2020-05-01T01:00:00+03:00"
+            "dateModified": "2020-05-15T01:00:00+03:00"
           }, 
           {
             "hash": "md5:00000000000000000000000000000000", 
@@ -398,9 +398,9 @@ Content-Type: application/json; charset=UTF-8
             "confidentialityRationale": "Only our company sells badgers with pink hair.", 
             "title": "Proposal_part2.pdf", 
             "documentOf": "tender", 
-            "datePublished": "2020-05-01T01:00:00+03:00", 
+            "datePublished": "2020-05-15T01:00:00+03:00", 
             "id": "3f355e7a0b8646389ad0af8eef0e241b", 
-            "dateModified": "2020-05-01T01:00:00+03:00"
+            "dateModified": "2020-05-15T01:00:00+03:00"
           }
         ], 
         "eligibilityDocuments": [
@@ -412,9 +412,9 @@ Content-Type: application/json; charset=UTF-8
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bdb8f478361c43a0ac9a66feb62f281a?KeyID=a8968c46&Signature=yS0T2I%2FNDHflQQMOCtYNT%252BN9fSCCKBvEMj3Y%2Fdsf50kBiXPhcRRu%2FuKFg0yJ%2F%2FUtjP8a5C%2Fw3LA6LH4UVPSeBw%253D%253D", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2020-05-01T01:00:00+03:00", 
+            "datePublished": "2020-05-15T01:00:00+03:00", 
             "id": "474da502332f48a0a117f28b44e21dde", 
-            "dateModified": "2020-05-01T01:00:00+03:00"
+            "dateModified": "2020-05-15T01:00:00+03:00"
           }
         ], 
         "selfEligible": true, 
@@ -455,9 +455,9 @@ Content-Type: application/json; charset=UTF-8
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/521c95e91644431cbbc1e5fcf8326faf?KeyID=a8968c46&Signature=DHqhZQqfkuq2g4KTK2Kk4BVsQ0nkkCqZhK%2FPYqpct42%2FtQ%2FuqgZrarDo%2FT5VKKLylRDslEbK5vR1thA4wWlzBQ%253D%253D", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2020-05-01T01:00:00+03:00", 
+            "datePublished": "2020-05-15T01:00:00+03:00", 
             "id": "63630c59ee2e456bb92e2d0bd8c7a717", 
-            "dateModified": "2020-05-01T01:00:00+03:00"
+            "dateModified": "2020-05-15T01:00:00+03:00"
           }, 
           {
             "hash": "md5:00000000000000000000000000000000", 
@@ -468,9 +468,9 @@ Content-Type: application/json; charset=UTF-8
             "confidentialityRationale": "Only our company sells badgers with pink hair.", 
             "title": "Proposal_part2.pdf", 
             "documentOf": "tender", 
-            "datePublished": "2020-05-01T01:00:00+03:00", 
+            "datePublished": "2020-05-15T01:00:00+03:00", 
             "id": "44ff1578915a4ba48350bc0a1054b65c", 
-            "dateModified": "2020-05-01T01:00:00+03:00"
+            "dateModified": "2020-05-15T01:00:00+03:00"
           }
         ], 
         "tenderers": [
@@ -506,9 +506,9 @@ Content-Type: application/json; charset=UTF-8
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bdb8f478361c43a0ac9a66feb62f281a?KeyID=a8968c46&Signature=yS0T2I%2FNDHflQQMOCtYNT%252BN9fSCCKBvEMj3Y%2Fdsf50kBiXPhcRRu%2FuKFg0yJ%2F%2FUtjP8a5C%2Fw3LA6LH4UVPSeBw%253D%253D", 
             "format": "application/pdf", 
             "documentOf": "tender", 
-            "datePublished": "2020-05-01T01:00:00+03:00", 
+            "datePublished": "2020-05-15T01:00:00+03:00", 
             "id": "28e17374e98c4f408038fb6c06f3dcc6", 
-            "dateModified": "2020-05-01T01:00:00+03:00"
+            "dateModified": "2020-05-15T01:00:00+03:00"
           }
         ]
       }

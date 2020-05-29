@@ -20,17 +20,17 @@ Content-Type: application/json; charset=UTF-8
     "procurementMethod": "open", 
     "mainProcurementCategory": "services", 
     "complaintPeriod": {
-      "startDate": "2020-05-01T01:00:00+03:00", 
-      "endDate": "2020-05-14T00:00:00+03:00"
+      "startDate": "2020-05-15T01:00:00+03:00", 
+      "endDate": "2020-05-28T00:00:00+03:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2020-05-01T01:00:00+03:00", 
-      "clarificationsUntil": "2020-05-15T00:00:00+03:00", 
-      "endDate": "2020-05-13T00:00:00+03:00", 
-      "invalidationDate": "2020-05-01T01:00:00+03:00"
+      "startDate": "2020-05-15T01:00:00+03:00", 
+      "clarificationsUntil": "2020-05-29T00:00:00+03:00", 
+      "endDate": "2020-05-27T00:00:00+03:00", 
+      "invalidationDate": "2020-05-15T01:00:00+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2020-05-16T01:00:10+03:00", 
+    "next_check": "2020-05-30T01:00:10+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "url": "http://sch10.edu.vn.ua/", 
@@ -59,18 +59,18 @@ Content-Type: application/json; charset=UTF-8
       "amount": 8.0
     }, 
     "title": "футляри до державних нагород", 
-    "tenderID": "UA-2020-05-01-000001", 
-    "dateModified": "2020-05-01T01:00:00+03:00", 
+    "tenderID": "UA-2020-05-15-000001", 
+    "dateModified": "2020-05-15T01:00:00+03:00", 
     "status": "active.tendering", 
     "tenderPeriod": {
-      "startDate": "2020-05-01T01:00:00+03:00", 
-      "endDate": "2020-05-16T01:00:10+03:00"
+      "startDate": "2020-05-15T01:00:00+03:00", 
+      "endDate": "2020-05-30T01:00:10+03:00"
     }, 
     "auctionPeriod": {
-      "shouldStartAfter": "2020-05-17T00:00:00+03:00"
+      "shouldStartAfter": "2020-05-31T00:00:00+03:00"
     }, 
     "procurementMethodType": "aboveThresholdUA.defense", 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "milestones": [
       {
         "code": "prepayment", 
@@ -125,8 +125,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-21T00:00:00+02:00", 
-          "endDate": "2020-06-20T00:00:00+02:00"
+          "startDate": "2020-06-04T00:00:00+02:00", 
+          "endDate": "2020-07-04T00:00:00+02:00"
         }, 
         "id": "576b1d3783f148f9a65c2664ef759400", 
         "quantity": 1.0

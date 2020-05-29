@@ -9,16 +9,16 @@ Content-Type: application/json; charset=UTF-8
     "procurementMethod": "open", 
     "mainProcurementCategory": "services", 
     "complaintPeriod": {
-      "startDate": "2020-05-01T01:00:00+03:00", 
-      "endDate": "2020-05-28T00:00:00+02:00"
+      "startDate": "2020-05-15T01:00:00+03:00", 
+      "endDate": "2020-06-11T00:00:00+02:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2020-05-01T01:00:00+03:00", 
-      "clarificationsUntil": "2020-05-27T00:00:00+02:00", 
-      "endDate": "2020-05-22T00:00:00+02:00"
+      "startDate": "2020-05-15T01:00:00+03:00", 
+      "clarificationsUntil": "2020-06-11T00:00:00+02:00", 
+      "endDate": "2020-06-05T00:00:00+02:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2020-06-01T01:00:00+03:00", 
+    "next_check": "2020-06-15T01:00:00+03:00", 
     "procuringEntity": {
       "kind": "general", 
       "name": "ЗОСШ #10 м.Вінниці", 
@@ -48,20 +48,20 @@ Content-Type: application/json; charset=UTF-8
     "title_en": "Services in school canteens", 
     "id": "0aac695e27804293a2854dff7bed4be8", 
     "title": "Послуги шкільних їдалень", 
-    "tenderID": "UA-2020-05-01-000001", 
+    "tenderID": "UA-2020-05-15-000001", 
     "minimalStepPercentage": 0.006, 
     "yearlyPaymentsPercentageRange": 0.8, 
-    "dateModified": "2020-05-01T01:00:00+03:00", 
+    "dateModified": "2020-05-15T01:00:00+03:00", 
     "status": "active.tendering", 
     "tenderPeriod": {
-      "startDate": "2020-05-01T01:00:00+03:00", 
-      "endDate": "2020-06-01T00:00:00+02:00"
+      "startDate": "2020-05-15T01:00:00+03:00", 
+      "endDate": "2020-06-15T00:00:00+02:00"
     }, 
     "auctionPeriod": {
-      "shouldStartAfter": "2020-07-06T00:00:00+02:00"
+      "shouldStartAfter": "2020-07-20T00:00:00+02:00"
     }, 
     "procurementMethodType": "esco", 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "NBUdiscountRate": 0.22986, 
     "minValue": {
       "currency": "UAH", 
@@ -153,7 +153,7 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "noticePublicationDate": "2020-05-01T01:00:00+03:00", 
+    "noticePublicationDate": "2020-05-15T01:00:00+03:00", 
     "awardCriteria": "ratedCriteria"
   }
 }

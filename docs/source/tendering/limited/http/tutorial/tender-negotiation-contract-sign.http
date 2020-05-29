@@ -38,8 +38,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-21T00:00:00+02:00", 
-          "endDate": "2020-06-20T00:00:00+02:00"
+          "startDate": "2020-06-04T00:00:00+02:00", 
+          "endDate": "2020-07-04T00:00:00+02:00"
         }, 
         "id": "35207e5ce4404a63a76870f2067cd4f4", 
         "quantity": 1.0
@@ -74,11 +74,11 @@ Content-Type: application/json; charset=UTF-8
       "amountNet": 475000.0, 
       "valueAddedTaxIncluded": false
     }, 
-    "dateSigned": "2020-05-01T01:00:01+03:00", 
-    "date": "2020-05-01T01:00:01+03:00", 
+    "dateSigned": "2020-05-15T01:00:01+03:00", 
+    "date": "2020-05-15T01:00:01+03:00", 
     "awardID": "3d3e484cb2eb4d3386377ed2c400d926", 
     "id": "961703907d164d1185e860612c0a8fc8", 
-    "contractID": "UA-2020-05-01-000001-1"
+    "contractID": "UA-2020-05-15-000001-1"
   }
 }
 
@@ -95,8 +95,8 @@ Content-Type: application/json; charset=UTF-8
       {
         "status": "active", 
         "complaintPeriod": {
-          "startDate": "2020-05-01T01:00:00+03:00", 
-          "endDate": "2020-05-01T01:00:00+03:00"
+          "startDate": "2020-05-15T01:00:00+03:00", 
+          "endDate": "2020-05-15T01:00:00+03:00"
         }, 
         "suppliers": [
           {
@@ -127,7 +127,7 @@ Content-Type: application/json; charset=UTF-8
           "valueAddedTaxIncluded": false
         }, 
         "qualified": true, 
-        "date": "2020-05-01T01:00:00+03:00", 
+        "date": "2020-05-15T01:00:00+03:00", 
         "id": "3d3e484cb2eb4d3386377ed2c400d926"
       }
     ], 

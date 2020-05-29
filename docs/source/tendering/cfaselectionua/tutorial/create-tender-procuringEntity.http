@@ -109,11 +109,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bb5d83ccdd124232
   "data": {
     "status": "draft", 
     "procurementMethod": "selective", 
-    "tenderID": "UA-2020-05-01-000002", 
+    "tenderID": "UA-2020-05-15-000002", 
     "title": "[ТЕСТУВАННЯ] футляри до державних нагород", 
     "lots": [
       {
-        "date": "2020-05-01T01:00:00+03:00", 
+        "date": "2020-05-15T01:00:00+03:00", 
         "status": "active", 
         "title": "Лот №1", 
         "description": "Опис Лот №1", 
@@ -168,12 +168,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bb5d83ccdd124232
         "locality": "м. Київ"
       }
     }, 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
     "awardCriteria": "lowestCost", 
     "title_ru": "[ТЕСТИРОВАНИЕ] футляры к государственным наградам", 
     "owner": "broker", 
-    "dateModified": "2020-05-01T01:00:00+03:00", 
+    "dateModified": "2020-05-15T01:00:00+03:00", 
     "mode": "test", 
     "id": "bb5d83ccdd124232987d417d1966bbff", 
     "agreements": [

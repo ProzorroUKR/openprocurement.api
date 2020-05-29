@@ -23,7 +23,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db8f78603c144a8a
     "fundingKind": "other", 
     "title": "Лот №1", 
     "auctionPeriod": {
-      "shouldStartAfter": "2020-07-06T00:00:00+02:00"
+      "shouldStartAfter": "2020-07-20T00:00:00+02:00"
     }, 
     "minValue": {
       "currency": "UAH", 
@@ -32,7 +32,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db8f78603c144a8a
     }, 
     "minimalStepPercentage": 0.006, 
     "yearlyPaymentsPercentageRange": 0.8, 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "id": "3c84167877eb48d693c12efd2c6cb01e"
   }
 }

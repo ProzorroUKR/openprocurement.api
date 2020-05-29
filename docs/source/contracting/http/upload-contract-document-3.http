@@ -20,9 +20,9 @@ Content-Type: application/json; charset=UTF-8
     "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/884f1aed57d741a7a8011e28edc20860?download=2562188623c64e25967736fbcc3a38d2", 
     "format": "application/msword", 
     "documentOf": "contract", 
-    "datePublished": "2020-05-01T01:00:01+03:00", 
+    "datePublished": "2020-05-15T01:00:01+03:00", 
     "id": "884f1aed57d741a7a8011e28edc20860", 
-    "dateModified": "2020-05-01T01:00:01+03:00"
+    "dateModified": "2020-05-15T01:00:01+03:00"
   }
 }
 

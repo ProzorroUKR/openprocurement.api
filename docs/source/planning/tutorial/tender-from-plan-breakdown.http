@@ -34,7 +34,7 @@ DATA:
     ], 
     "mainProcurementCategory": "goods", 
     "tenderPeriod": {
-      "endDate": "2020-05-22T01:00:00+03:00"
+      "endDate": "2020-06-05T01:00:00+03:00"
     }, 
     "title": "Насіння", 
     "minimalStep": {
@@ -42,7 +42,7 @@ DATA:
       "amount": 35
     }, 
     "enquiryPeriod": {
-      "endDate": "2020-05-15T01:00:00+03:00"
+      "endDate": "2020-05-29T01:00:00+03:00"
     }, 
     "procurementMethodType": "belowThreshold", 
     "value": {
@@ -85,7 +85,7 @@ DATA:
           }
         ], 
         "deliveryDate": {
-          "endDate": "2020-05-16T01:00:00+03:00"
+          "endDate": "2020-05-30T01:00:00+03:00"
         }, 
         "unit": {
           "code": "KGM", 
@@ -108,7 +108,7 @@ DATA:
           }
         ], 
         "deliveryDate": {
-          "endDate": "2020-05-17T01:00:00+03:00"
+          "endDate": "2020-05-31T01:00:00+03:00"
         }, 
         "unit": {
           "code": "KGM", 
@@ -131,7 +131,7 @@ DATA:
           }
         ], 
         "deliveryDate": {
-          "endDate": "2020-05-18T01:00:00+03:00"
+          "endDate": "2020-06-01T01:00:00+03:00"
         }, 
         "unit": {
           "code": "KGM", 

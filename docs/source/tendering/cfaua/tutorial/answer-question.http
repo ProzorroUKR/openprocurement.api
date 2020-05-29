@@ -15,9 +15,9 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "description": "Просимо додати таблицю потрібної калорійності харчування", 
-    "dateAnswered": "2020-05-01T01:00:00+03:00", 
+    "dateAnswered": "2020-05-15T01:00:00+03:00", 
     "title": "Калорійність", 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
     "id": "efba5567d08848afae0ebb78272aed79", 
     "questionOf": "tender"

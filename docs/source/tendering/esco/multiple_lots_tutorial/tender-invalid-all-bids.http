@@ -21,7 +21,7 @@ Content-Type: application/json; charset=UTF-8
     "fundingKind": "other", 
     "title": "Лот №2", 
     "auctionPeriod": {
-      "shouldStartAfter": "2020-07-06T00:00:00+02:00"
+      "shouldStartAfter": "2020-07-20T00:00:00+02:00"
     }, 
     "minValue": {
       "currency": "UAH", 
@@ -30,7 +30,7 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "minimalStepPercentage": 0.006, 
     "yearlyPaymentsPercentageRange": 0.8, 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "id": "92e4a20a9d7f4dada89d434409f951d8"
   }
 }

@@ -11,19 +11,19 @@ Content-Type: application/json; charset=UTF-8
       "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/e280bc973d5b4ce284dd152f15ae24f4?download=5311a5f7a2dc43d68092e08adad8737b", 
       "format": "application/msword", 
       "documentOf": "contract", 
-      "datePublished": "2020-05-01T01:00:01+03:00", 
+      "datePublished": "2020-05-15T01:00:01+03:00", 
       "id": "e280bc973d5b4ce284dd152f15ae24f4", 
-      "dateModified": "2020-05-01T01:00:01+03:00"
+      "dateModified": "2020-05-15T01:00:01+03:00"
     }, 
     {
       "title": "contract_changes.doc", 
       "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/de3004e5b9844707bb35405277043c7c?download=c264f9ae7a754b25badeff4e01b1cb43", 
       "format": "application/msword", 
       "documentOf": "change", 
-      "datePublished": "2020-05-01T01:00:01+03:00", 
+      "datePublished": "2020-05-15T01:00:01+03:00", 
       "id": "de3004e5b9844707bb35405277043c7c", 
       "relatedItem": "f3fe39d5213d4a029212ff4f1151cf40", 
-      "dateModified": "2020-05-01T01:00:01+03:00"
+      "dateModified": "2020-05-15T01:00:01+03:00"
     }
   ]
 }

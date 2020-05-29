@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "status": "accepted", 
-    "reviewDate": "2020-05-01T01:00:00+03:00", 
+    "reviewDate": "2020-05-15T01:00:00+03:00", 
     "reviewPlace": "Place of review"
   }
 }
@@ -39,16 +39,16 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Вінниця"
       }
     }, 
-    "reviewDate": "2020-05-01T01:00:00+03:00", 
+    "reviewDate": "2020-05-15T01:00:00+03:00", 
     "acceptance": true, 
     "value": {
       "currency": "UAH", 
       "amount": 2000.0
     }, 
-    "dateAccepted": "2020-05-01T01:00:00+03:00", 
-    "dateSubmitted": "2020-05-01T01:00:00+03:00", 
-    "complaintID": "UA-2020-05-01-000001.5", 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "dateAccepted": "2020-05-15T01:00:00+03:00", 
+    "dateSubmitted": "2020-05-15T01:00:00+03:00", 
+    "complaintID": "UA-2020-05-15-000001.5", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "title": "Недостатньо інформації", 
     "type": "complaint", 
     "id": "9698c2aae121470eb87342fb51872653", 

@@ -18,8 +18,8 @@ Content-Type: application/json; charset=UTF-8
     "status": "active", 
     "lotID": "28f98cde22964c8ea8bbc1fda693580e", 
     "complaintPeriod": {
-      "startDate": "2020-05-01T01:00:00+03:00", 
-      "endDate": "2020-05-07T00:00:00+03:00"
+      "startDate": "2020-05-15T01:00:00+03:00", 
+      "endDate": "2020-05-21T00:00:00+03:00"
     }, 
     "suppliers": [
       {
@@ -50,7 +50,7 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "qualified": true, 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "id": "f5d5d3d41f2f415ab04f3fa3e768e09d"
   }
 }

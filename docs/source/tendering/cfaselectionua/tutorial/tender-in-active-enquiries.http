@@ -8,10 +8,10 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "status": "active.enquiries", 
     "procurementMethod": "selective", 
-    "tenderID": "UA-2020-05-01-000001", 
+    "tenderID": "UA-2020-05-15-000001", 
     "tenderPeriod": {
-      "startDate": "2020-05-02T01:00:00+03:00", 
-      "endDate": "2020-05-05T01:00:00+03:00"
+      "startDate": "2020-05-16T01:00:00+03:00", 
+      "endDate": "2020-05-19T01:00:00+03:00"
     }, 
     "title": "футляри до державних нагород", 
     "lots": [
@@ -29,7 +29,7 @@ Content-Type: application/json; charset=UTF-8
           "amount": 500.56, 
           "valueAddedTaxIncluded": true
         }, 
-        "date": "2020-05-01T01:00:00+03:00", 
+        "date": "2020-05-15T01:00:00+03:00", 
         "id": "1b75c06ee58f4909a4201255b4ba5831"
       }
     ], 
@@ -58,8 +58,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-03T01:00:00+03:00", 
-          "endDate": "2020-05-06T01:00:00+03:00"
+          "startDate": "2020-05-17T01:00:00+03:00", 
+          "endDate": "2020-05-20T01:00:00+03:00"
         }, 
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
         "unit": {
@@ -76,14 +76,14 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "minimalStep": {
       "currency": "UAH", 
       "amount": 2.5, 
       "valueAddedTaxIncluded": true
     }, 
-    "dateModified": "2020-05-01T01:00:00+03:00", 
-    "next_check": "2020-05-02T01:00:00+03:00", 
+    "dateModified": "2020-05-15T01:00:00+03:00", 
+    "next_check": "2020-05-16T01:00:00+03:00", 
     "procuringEntity": {
       "kind": "general", 
       "name": "Державне управління справами", 
@@ -114,8 +114,8 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "awardCriteria": "lowestCost", 
     "enquiryPeriod": {
-      "startDate": "2020-05-01T01:00:00+03:00", 
-      "endDate": "2020-05-02T01:00:00+03:00"
+      "startDate": "2020-05-15T01:00:00+03:00", 
+      "endDate": "2020-05-16T01:00:00+03:00"
     }, 
     "owner": "broker", 
     "agreements": [

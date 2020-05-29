@@ -18,17 +18,17 @@ Content-Type: application/json; charset=UTF-8
     "status": "active.pre-qualification.stand-still", 
     "mainProcurementCategory": "services", 
     "complaintPeriod": {
-      "startDate": "2020-04-01T01:00:00+03:00", 
-      "endDate": "2020-04-27T00:00:00+03:00"
+      "startDate": "2020-04-15T01:00:00+03:00", 
+      "endDate": "2020-05-11T00:00:00+03:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2020-04-01T01:00:00+03:00", 
-      "clarificationsUntil": "2020-04-25T00:00:00+03:00", 
-      "endDate": "2020-04-21T01:00:00+03:00", 
-      "invalidationDate": "2020-05-01T01:00:00+03:00"
+      "startDate": "2020-04-15T01:00:00+03:00", 
+      "clarificationsUntil": "2020-05-09T00:00:00+03:00", 
+      "endDate": "2020-05-05T01:00:00+03:00", 
+      "invalidationDate": "2020-05-15T01:00:00+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2020-05-07T00:00:00+03:00", 
+    "next_check": "2020-05-21T00:00:00+03:00", 
     "procuringEntity": {
       "kind": "general", 
       "name": "ЗОСШ #10 м.Вінниці", 
@@ -65,7 +65,7 @@ Content-Type: application/json; charset=UTF-8
         "fundingKind": "other", 
         "title": "Лот №1", 
         "auctionPeriod": {
-          "shouldStartAfter": "2020-05-07T00:00:00+03:00"
+          "shouldStartAfter": "2020-05-21T00:00:00+03:00"
         }, 
         "minValue": {
           "currency": "UAH", 
@@ -74,7 +74,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "minimalStepPercentage": 0.006, 
         "yearlyPaymentsPercentageRange": 0.8, 
-        "date": "2020-05-01T01:00:00+03:00", 
+        "date": "2020-05-15T01:00:00+03:00", 
         "id": "3c84167877eb48d693c12efd2c6cb01e"
       }, 
       {
@@ -89,22 +89,22 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "minimalStepPercentage": 0.006, 
         "yearlyPaymentsPercentageRange": 0.8, 
-        "date": "2020-05-01T01:00:00+03:00", 
+        "date": "2020-05-15T01:00:00+03:00", 
         "id": "92e4a20a9d7f4dada89d434409f951d8"
       }
     ], 
     "qualificationPeriod": {
-      "startDate": "2020-05-01T01:00:00+03:00", 
-      "endDate": "2020-05-07T00:00:00+03:00"
+      "startDate": "2020-05-15T01:00:00+03:00", 
+      "endDate": "2020-05-21T00:00:00+03:00"
     }, 
-    "tenderID": "UA-2020-05-01-000001", 
+    "tenderID": "UA-2020-05-15-000001", 
     "minimalStepPercentage": 0.006, 
     "yearlyPaymentsPercentageRange": 0.8, 
-    "dateModified": "2020-05-01T01:00:00+03:00", 
+    "dateModified": "2020-05-15T01:00:00+03:00", 
     "numberOfBids": 2, 
     "tenderPeriod": {
-      "startDate": "2020-04-01T01:00:00+03:00", 
-      "endDate": "2020-05-01T01:00:00+03:00"
+      "startDate": "2020-04-15T01:00:00+03:00", 
+      "endDate": "2020-05-15T01:00:00+03:00"
     }, 
     "qualifications": [
       {
@@ -113,7 +113,7 @@ Content-Type: application/json; charset=UTF-8
         "eligible": true, 
         "qualified": true, 
         "bidID": "b797c74bba014457870ceda8104f0444", 
-        "date": "2020-05-01T01:00:00+03:00", 
+        "date": "2020-05-15T01:00:00+03:00", 
         "id": "221135486f7b40cd9f4087f7c58e9059"
       }, 
       {
@@ -122,12 +122,12 @@ Content-Type: application/json; charset=UTF-8
         "eligible": true, 
         "qualified": true, 
         "bidID": "e330641f19174449b434b4988cccf0c6", 
-        "date": "2020-05-01T01:00:00+03:00", 
+        "date": "2020-05-15T01:00:00+03:00", 
         "id": "c7f191fb400948a28117bcb2f0bb23de"
       }
     ], 
     "procurementMethodType": "esco", 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "NBUdiscountRate": 0.22986, 
     "minValue": {
       "currency": "UAH", 
@@ -277,7 +277,7 @@ Content-Type: application/json; charset=UTF-8
         ]
       }
     ], 
-    "noticePublicationDate": "2020-05-01T01:00:00+03:00", 
+    "noticePublicationDate": "2020-05-15T01:00:00+03:00", 
     "awardCriteria": "ratedCriteria"
   }
 }

@@ -18,7 +18,7 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "status": "cancelled", 
     "cancellation": {
-      "date": "2020-05-01T01:00:00+03:00", 
+      "date": "2020-05-15T01:00:00+03:00", 
       "status": "active", 
       "reason": "Підстава для скасування", 
       "reason_en": "Reason of the cancellation", 
@@ -55,7 +55,7 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "deliveryDate": {
-          "endDate": "2020-05-16T01:00:00+03:00"
+          "endDate": "2020-05-30T01:00:00+03:00"
         }, 
         "id": "412564af110644e3949048b2056dcc18", 
         "unit": {
@@ -79,7 +79,7 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "deliveryDate": {
-          "endDate": "2020-05-17T01:00:00+03:00"
+          "endDate": "2020-05-31T01:00:00+03:00"
         }, 
         "id": "c81232e1b2444c14b9f8020014952cc9", 
         "unit": {
@@ -103,7 +103,7 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "deliveryDate": {
-          "endDate": "2020-05-18T01:00:00+03:00"
+          "endDate": "2020-06-01T01:00:00+03:00"
         }, 
         "id": "58d7324d089a457f8549f41ac09596c3", 
         "unit": {
@@ -113,7 +113,7 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 3000.0
       }
     ], 
-    "planID": "UA-P-2020-05-01-000003", 
+    "planID": "UA-P-2020-05-15-000003", 
     "budget": {
       "amountNet": 12222.0, 
       "description": "budget_description", 
@@ -129,12 +129,12 @@ Content-Type: application/json; charset=UTF-8
       "amount": 10000.0, 
       "id": "12303111000-2"
     }, 
-    "dateModified": "2020-05-01T01:00:00+03:00", 
+    "dateModified": "2020-05-15T01:00:00+03:00", 
     "tender": {
       "procurementMethod": "open", 
       "procurementMethodType": "belowThreshold", 
       "tenderPeriod": {
-        "startDate": "2020-05-08T01:00:00+03:00"
+        "startDate": "2020-05-22T01:00:00+03:00"
       }
     }, 
     "additionalClassifications": [
@@ -153,7 +153,7 @@ Content-Type: application/json; charset=UTF-8
       "name": "ДУС"
     }, 
     "owner": "broker", 
-    "datePublished": "2020-05-01T01:00:00+03:00", 
+    "datePublished": "2020-05-15T01:00:00+03:00", 
     "id": "4689139ff34a42b09939fc6e030ecdcc"
   }
 }

@@ -12,9 +12,9 @@ Content-Type: application/json; charset=UTF-8
       "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d/bids/4e7e80c7beff4410a7871440df169e6d/documents/1fa410ce0ac3417692601818c8bcb33f?download=fdb6c36e36e64099a4f22f00826a6df8", 
       "format": "application/pdf", 
       "documentOf": "tender", 
-      "datePublished": "2020-05-01T01:00:00+03:00", 
+      "datePublished": "2020-05-15T01:00:00+03:00", 
       "id": "1fa410ce0ac3417692601818c8bcb33f", 
-      "dateModified": "2020-05-01T01:00:00+03:00"
+      "dateModified": "2020-05-15T01:00:00+03:00"
     }
   ]
 }
