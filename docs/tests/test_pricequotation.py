@@ -6,8 +6,9 @@ from datetime import timedelta
 
 from openprocurement.api.models import get_now
 from openprocurement.tender.pricequotation.tests.base import (
-    BaseTenderWebTest, test_tender_data, test_bids, bid_with_docs
-)
+    BaseTenderWebTest, test_tender_data, test_bids, bid_with_docs, test_short_profile,
+    test_shortlisted_firms)
+from openprocurement.tender.core.tests.base import change_auth
 
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.base.constants import DOCS_URL, AUCTIONS_URL
@@ -38,34 +39,56 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         super(TenderResourceTest, self).tearDown()
 
     def test_docs_publish_tenders(self):
-        for item in test_tender_data['items']:
+        tender_data = deepcopy(test_tender_data)
+        tender_data.update({
+            "tenderPeriod": {"endDate": (get_now() + timedelta(days=14)).isoformat()}
+        })
+        for item in tender_data['items']:
             item['deliveryDate'] = {
                 "startDate": (get_now() + timedelta(days=2)).isoformat(),
                 "endDate": (get_now() + timedelta(days=5)).isoformat()
             }
 
-        test_tender_data.update({
-            "tenderPeriod": {"endDate": (get_now() + timedelta(days=14)).isoformat()}
-        })
-        test_tender_data2 = deepcopy(test_tender_data)
-        test_tender_data2["profile"] += "bad_profile"
-        test_tender_data2['status'] = 'draft.publishing'
+        tender_data_1 = deepcopy(tender_data)
+        tender_data_1['profile'] = test_short_profile["id"]
+        response = self.app.post_json("/tenders", {"data": tender_data_1})
+        self.assertEqual(response.status, "201 Created")
+        tender_id_1 = response.json["data"]["id"]
+        owner_token = response.json["access"]["token"]
+        tender = response.json["data"]
 
-        response = self.app.post_json(
-            '/tenders?opt_pretty=1',
-            {'data': test_tender_data})
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(tender["status"], "draft")
+        self.assertEqual(len(tender["items"]), 1)
+        self.assertNotIn("shortlistedFirms", tender)
+        self.assertIn("classification", tender["items"][0])
+        self.assertNotIn("unit", tender["items"][0])
+        self.assertEqual(tender["profile"], test_short_profile["id"])
 
-        tender_id_1 = response.json['data']['id']
-        owner_token = response.json['access']['token']
         with open(TARGET_DIR + 'tutorial/publish-tender.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}?acc_token={}'.format(tender_id_1, owner_token),
-                {'data': {'status': 'draft.publishing'}}
+                "/tenders/{}?acc_token={}".format(tender_id_1, owner_token),
+                {"data": {"status": "draft.publishing"}}
             )
-            self.assertEqual(response.status, '200 OK')
-            self.assertEqual(response.json['data']['status'], 'draft.publishing')
-        
+            self.assertEqual(response.status, "200 OK")
+        tender = response.json["data"]
+        self.assertEqual(tender["status"], "draft.publishing")
+
+        items = deepcopy(tender["items"])
+        items[0]["classification"] = test_short_profile["classification"]
+        items[0]["unit"] = test_short_profile["unit"]
+        criteria = deepcopy(test_short_profile["criteria"])
+        data = {
+            "data": {
+                "status": "active.tendering",
+                "items": items,
+                "shortlistedFirms": test_shortlisted_firms,
+                "criteria": criteria
+            }
+        }
+
+        test_tender_data2 = deepcopy(tender_data)
+        test_tender_data2["profile"] += "bad_profile"
+
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
             {'data': test_tender_data2})
@@ -73,16 +96,15 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         tender_id_2 = response.json['data']['id']
 
-        self.app.authorization = ('Basic', ('pricequotation', ''))
-        response = self.app.patch_json('/tenders/{}'.format(tender_id_1), {"data": {"status": "active.tendering"}})
-        self.assertEqual(response.status, "200 OK")
-        response = self.app.patch_json('/tenders/{}'.format(tender_id_2), {"data": {"status": "draft.unsuccessful"}})
-        self.assertEqual(response.status, "200 OK")
+        with change_auth(self.app, ("Basic", ("pricequotation", ""))) as app:
+            resp = app.patch_json("/tenders/{}".format(tender_id_1), data)
+            self.assertEqual(resp.status, "200 OK")
+            resp = app.patch_json('/tenders/{}'.format(tender_id_2), {"data": {"status": "draft.unsuccessful"}})
+            self.assertEqual(resp.status, "200 OK")
 
-        self.app.authorization = ('Basic', ('broker', ''))
         with open(TARGET_DIR + 'tutorial/tender-after-bot-active.http', 'w') as self.app.file_obj:
-            response = self.app.get('/tenders/{}'.format(tender_id_1))
-            self.assertEqual(response.status, '200 OK')
+            response = self.app.get("/tenders/{}".format(tender_id_1))
+            self.assertEqual(response.status, "200 OK")
 
         with open(TARGET_DIR + 'tutorial/tender-after-bot-unsuccessful.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}'.format(tender_id_2))

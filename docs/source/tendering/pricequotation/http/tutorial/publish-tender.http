@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/53143d9ff59345a2a52873f192d9b29d?acc_token=c23a50b39055406089d0b0c0b8f0b20f HTTP/1.0
+PATCH /api/2.5/tenders/85818863b7a4458ea02e3893422b0a0d?acc_token=ff06b08392354f79bae492fb807759ff HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 40
 Content-Type: application/json
@@ -48,7 +48,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-05-03T01:00:00+03:00", 
           "endDate": "2020-05-06T01:00:00+03:00"
         }, 
-        "id": "4ef6f13b130a443dac753a90979d9ebe", 
+        "id": "b42f7dc7dc134d06a7598e88df4821b1", 
         "quantity": 5.0
       }
     ], 
@@ -84,7 +84,7 @@ Content-Type: application/json; charset=UTF-8
     "awardCriteria": "lowestCost", 
     "owner": "broker", 
     "dateModified": "2020-05-01T01:00:00+03:00", 
-    "id": "53143d9ff59345a2a52873f192d9b29d", 
+    "id": "85818863b7a4458ea02e3893422b0a0d", 
     "tenderID": "UA-2020-05-01-000001"
   }
 }
