@@ -203,6 +203,9 @@ docs:
       --tx=popen//id=sand_relsease_2020_04_19//env:DB_NAME=test_sandbox_2020_04_19//env:SANDBOX_MODE=1//env:SINGLE_APP=1//env:DEFAULT_RELEASE_2020_04_19=2020-01-01
       --tx=popen//id=prod_relsease_2020_04_19//env:DB_NAME=test_prod_2020_04_19//env:SANDBOX_MODE=//env:SINGLE_APP=1//env:DEFAULT_RELEASE_2020_04_19=2020-01-01
   coverage: '/TOTAL\s+\d+\s+\d+\s+(\d+%)/'
+  retry:
+    max: 2
+    when: runner_system_failure
 
 test_relocation_api:
   extends: .test
