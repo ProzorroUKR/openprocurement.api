@@ -1,7 +1,7 @@
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.api.constants import RELEASE_2020_04_19
-from openprocurement.tender.core.utils import calculate_tender_business_date, calculate_complaint_business_date
+from openprocurement.tender.core.utils import calculate_tender_date, calculate_complaint_business_date
 from openprocurement.tender.core.constants import ALP_MILESTONE_REASONS
 from copy import deepcopy
 from datetime import timedelta
@@ -112,7 +112,7 @@ class TenderQualificationMilestone24HMixin(object):
         self.assertEqual(created_milestone["code"], request_data["code"])
         self.assertEqual(created_milestone["description"], request_data["description"])
         self.assertNotEqual(created_milestone["dueDate"], request_data["dueDate"])
-        expected_date = calculate_tender_business_date(
+        expected_date = calculate_tender_date(
             parse_date(created_milestone["date"]),
             timedelta(hours=24),
             tender_data

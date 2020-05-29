@@ -3,8 +3,10 @@ import os
 from datetime import timedelta
 
 from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.api.utils import get_now, apply_data_patch
 from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.tender.openuadefense.models import Tender
+from openprocurement.tender.openuadefense.tests.periods import PERIODS
+from openprocurement.tender.openuadefense.utils import calculate_tender_business_date
 from openprocurement.tender.openua.tests.base import (
     now,
     test_features_tender_data,
@@ -14,7 +16,6 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_procuringEntity as test_procuringEntity_api,
     test_tender_data as test_tender_data_api,
 )
-from openprocurement.api.utils import apply_data_patch
 
 
 test_tender_data = test_tender_ua_data = test_tender_data_api.copy()
@@ -76,164 +77,14 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
         "active.auction"
     )  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
 
+    periods = PERIODS
+    tender_class = Tender
+
     def set_enquiry_period_end(self):
-        now = get_now()
-        self.set_status(
-            "active.tendering",
-            {
-                "enquiryPeriod": {
-                    "startDate": (now - timedelta(days=13)).isoformat(),
-                    "endDate": (now - (timedelta(minutes=1) if SANDBOX_MODE else timedelta(days=1))).isoformat(),
-                },
-                "tenderPeriod": {
-                    "startDate": (now - timedelta(days=13)).isoformat(),
-                    "endDate": (now + (timedelta(minutes=2) if SANDBOX_MODE else timedelta(days=2))).isoformat(),
-                },
-                "auctionPeriod": {"startDate": (now + timedelta(days=2)).isoformat()},
-            },
-        )
+        self.set_status("active.tendering", startend="enquiry_end")
 
     def set_complaint_period_end(self):
-        now = get_now()
-        self.set_status(
-            "active.tendering",
-            {
-                "enquiryPeriod": {
-                    "startDate": (now - timedelta(days=12)).isoformat(),
-                    "endDate": now.isoformat(),
-                },
-                "tenderPeriod": {
-                    "startDate": (now - timedelta(days=12)).isoformat(),
-                    "endDate": (now + (timedelta(minutes=1) if SANDBOX_MODE else timedelta(days=1))).isoformat(),
-                },
-                "auctionPeriod": {"startDate": (now + timedelta(days=2)).isoformat()},
-            },
-        )
-
-    def update_status(self, status, extra=None):
-        now = get_now()
-        data = {"status": status}
-        if status == "active.tendering":
-            data.update(
-                {
-                    "enquiryPeriod": {
-                        "startDate": (now).isoformat(),
-                        "endDate": (now + timedelta(days=13)).isoformat(),
-                    },
-                    "tenderPeriod": {"startDate": (now).isoformat(), "endDate": (now + timedelta(days=16)).isoformat()},
-                }
-            )
-        elif status == "active.auction":
-            data.update(
-                {
-                    "enquiryPeriod": {
-                        "startDate": (now - timedelta(days=16)).isoformat(),
-                        "endDate": (now - timedelta(days=3)).isoformat(),
-                    },
-                    "tenderPeriod": {"startDate": (now - timedelta(days=16)).isoformat(), "endDate": (now).isoformat()},
-                    "auctionPeriod": {"startDate": (now).isoformat()},
-                }
-            )
-            if self.initial_lots:
-                data.update({"lots": [{"auctionPeriod": {"startDate": (now).isoformat()}} for i in self.initial_lots]})
-        elif status == "active.qualification":
-            data.update(
-                {
-                    "enquiryPeriod": {
-                        "startDate": (now - timedelta(days=17)).isoformat(),
-                        "endDate": (now - timedelta(days=4)).isoformat(),
-                    },
-                    "tenderPeriod": {
-                        "startDate": (now - timedelta(days=17)).isoformat(),
-                        "endDate": (now - timedelta(days=1)).isoformat(),
-                    },
-                    "auctionPeriod": {"startDate": (now - timedelta(days=1)).isoformat(), "endDate": (now).isoformat()},
-                    "awardPeriod": {"startDate": (now).isoformat()},
-                }
-            )
-            if self.initial_lots:
-                data.update(
-                    {
-                        "lots": [
-                            {
-                                "auctionPeriod": {
-                                    "startDate": (now - timedelta(days=1)).isoformat(),
-                                    "endDate": (now).isoformat(),
-                                }
-                            }
-                            for i in self.initial_lots
-                        ]
-                    }
-                )
-        elif status == "active.awarded":
-            data.update(
-                {
-                    "enquiryPeriod": {
-                        "startDate": (now - timedelta(days=17)).isoformat(),
-                        "endDate": (now - timedelta(days=4)).isoformat(),
-                    },
-                    "tenderPeriod": {
-                        "startDate": (now - timedelta(days=17)).isoformat(),
-                        "endDate": (now - timedelta(days=1)).isoformat(),
-                    },
-                    "auctionPeriod": {"startDate": (now - timedelta(days=1)).isoformat(), "endDate": (now).isoformat()},
-                    "awardPeriod": {"startDate": (now).isoformat(), "endDate": (now).isoformat()},
-                }
-            )
-            if self.initial_lots:
-                data.update(
-                    {
-                        "lots": [
-                            {
-                                "auctionPeriod": {
-                                    "startDate": (now - timedelta(days=1)).isoformat(),
-                                    "endDate": (now).isoformat(),
-                                }
-                            }
-                            for i in self.initial_lots
-                        ]
-                    }
-                )
-        elif status == "complete":
-            data.update(
-                {
-                    "enquiryPeriod": {
-                        "startDate": (now - timedelta(days=25)).isoformat(),
-                        "endDate": (now - timedelta(days=11)).isoformat(),
-                    },
-                    "tenderPeriod": {
-                        "startDate": (now - timedelta(days=25)).isoformat(),
-                        "endDate": (now - timedelta(days=8)).isoformat(),
-                    },
-                    "auctionPeriod": {
-                        "startDate": (now - timedelta(days=8)).isoformat(),
-                        "endDate": (now - timedelta(days=7)).isoformat(),
-                    },
-                    "awardPeriod": {
-                        "startDate": (now - timedelta(days=7)).isoformat(),
-                        "endDate": (now - timedelta(days=7)).isoformat(),
-                    },
-                }
-            )
-            if self.initial_lots:
-                data.update(
-                    {
-                        "lots": [
-                            {
-                                "auctionPeriod": {
-                                    "startDate": (now - timedelta(days=8)).isoformat(),
-                                    "endDate": (now - timedelta(days=7)).isoformat(),
-                                }
-                            }
-                            for i in self.initial_lots
-                        ]
-                    }
-                )
-
-        self.tender_document_patch = data
-        if extra:
-            self.tender_document_patch.update(extra)
-        self.save_changes()
+        self.set_status("active.tendering", startend="complaint_end")
 
 
 class BaseTenderUAContentWebTest(BaseTenderUAWebTest):

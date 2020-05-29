@@ -11,6 +11,6 @@ class SerializableTenderComplaintPeriod(Serializable):
     serialized_type = ModelType(Period)
 
     def __call__(self, obj, *args, **kwargs):
-        complaintPeriod_class = obj._fields["tenderPeriod"]
-        endDate = calculate_complaint_business_date(obj.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME, obj)
-        return complaintPeriod_class(dict(startDate=obj.tenderPeriod.startDate, endDate=endDate))
+        complaint_period_class = obj._fields["tenderPeriod"]
+        end_date = calculate_complaint_business_date(obj.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME, obj)
+        return complaint_period_class(dict(startDate=obj.tenderPeriod.startDate, endDate=end_date))

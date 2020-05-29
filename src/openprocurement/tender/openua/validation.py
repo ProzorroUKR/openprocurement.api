@@ -1,4 +1,8 @@
-from openprocurement.api.constants import RELEASE_2020_04_19
+from datetime import timedelta
+
+from schematics.exceptions import ValidationError
+
+from openprocurement.api.constants import RELEASE_2020_04_19, WORKING_DAYS
 from openprocurement.api.auth import extract_access_token
 from openprocurement.api.validation import (
     validate_data, validate_json_data, OPERATIONS, validate_accreditation_level,
@@ -10,7 +14,7 @@ from openprocurement.api.utils import (
     update_logging_context,
     upload_objects_documents,
 )
-from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.core.utils import calculate_tender_business_date, calculate_tender_date
 from openprocurement.tender.core.validation import validate_tender_period_extension, validate_patch_tender_data_draft
 from openprocurement.tender.openua.constants import POST_SUBMIT_TIME
 
@@ -44,6 +48,30 @@ def validate_update_tender_document(request):
     status = request.validated["tender_status"]
     if status == "active.tendering":
         validate_tender_period_extension(request)
+
+
+def validate_tender_period_start_date(data, period, working_days=False, calendar=WORKING_DAYS):
+    TENDER_CREATION_BUFFER_DURATION=timedelta(minutes=10)
+    min_allowed_date = calculate_tender_date(
+        get_now(), -TENDER_CREATION_BUFFER_DURATION,
+        working_days=working_days,
+        calendar=calendar
+    )
+    if min_allowed_date >= period.startDate:
+        raise ValidationError(u"tenderPeriod.startDate should be in greater than current date")
+
+
+def validate_tender_period_duration(data, period, duration, working_days=False, calendar=WORKING_DAYS):
+    tender_period_end_date = calculate_tender_business_date(
+        period.startDate, duration, data,
+        working_days=working_days,
+        calendar=calendar
+    )
+    if tender_period_end_date > period.endDate:
+        raise ValidationError(u"tenderPeriod must be at least {duration.days} full {type} days long".format(
+            duration=duration,
+            type="business" if working_days else "calendar"
+        ))
 
 
 # bids
@@ -100,9 +128,14 @@ def validate_update_bid_document_confidentiality(request):
 def validate_submit_claim_time(request):
     tender = request.validated["tender"]
     claim_submit_time = request.content_configurator.tender_claim_submit_time
-    if get_now() > calculate_tender_business_date(tender.tenderPeriod.endDate, -claim_submit_time, tender):
+    claim_end_date = calculate_tender_business_date(tender.tenderPeriod.endDate, -claim_submit_time, tender)
+    if get_now() > claim_end_date:
         raise_operation_error(
-            request, "Can submit claim not later than {0.days} days before tenderPeriod end".format(claim_submit_time)
+            request,
+            "Can submit claim not later than {duration.days} "
+            "full calendar days before tenderPeriod ends".format(
+                duration=claim_submit_time
+            )
         )
 
 
@@ -247,15 +280,20 @@ def validate_complaint_post_complaint_status(request):
         )
 
 
-def validate_complaint_post_review_date(request):
+def validate_complaint_post_review_date(request, calendar=WORKING_DAYS):
     complaint = request.validated["complaint"]
     if complaint.status == "accepted":
         tender = request.validated["tender"]
-        post_end_date = calculate_tender_business_date(complaint.reviewDate, -POST_SUBMIT_TIME, tender, True)
+        post_end_date = calculate_tender_business_date(
+            complaint.reviewDate, -POST_SUBMIT_TIME,
+            tender=tender, working_days=True, calendar=calendar
+        )
         if get_now() > post_end_date:
             raise_operation_error(
-                request, "Can submit or edit post not later than {0.days} working days before reviewDate".format(
-                    POST_SUBMIT_TIME
+                request,
+                "Can submit or edit post not later than {duration.days} "
+                "full business days before reviewDate".format(
+                    duration=POST_SUBMIT_TIME
                 )
             )
 

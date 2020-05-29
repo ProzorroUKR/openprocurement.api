@@ -28,6 +28,7 @@ from openprocurement.tender.competitivedialogue.models import TenderStage2EU, Te
 
 # CompetitiveDialogStage2Test
 from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.core.utils import calculate_tender_business_date
 
 
 def simple_add_cd_tender_eu(self):
@@ -401,21 +402,25 @@ def patch_tender_eu(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["errors"][0]["description"], "tenderPeriod should be extended by 7 days")
-    tenderPeriod_endDate = get_now() + timedelta(days=7, seconds=10)
-    enquiryPeriod_endDate = tenderPeriod_endDate - (timedelta(minutes=10) if SANDBOX_MODE else timedelta(days=10))
+    tender_period_end_date = calculate_tender_business_date(
+        get_now(), timedelta(days=7), tender
+    ) + timedelta(seconds=10)
+    enquiry_period_end_date = calculate_tender_business_date(
+        tender_period_end_date, -timedelta(days=10), tender
+    )
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
         {
             "data": {
                 "value": {"amount": 502, "currency": u"UAH"},
-                "tenderPeriod": {"endDate": tenderPeriod_endDate.isoformat()},
+                "tenderPeriod": {"endDate": tender_period_end_date.isoformat()},
             }
         },
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["tenderPeriod"]["endDate"], tenderPeriod_endDate.isoformat())
-    self.assertEqual(response.json["data"]["enquiryPeriod"]["endDate"], enquiryPeriod_endDate.isoformat())
+    self.assertEqual(response.json["data"]["tenderPeriod"]["endDate"], tender_period_end_date.isoformat())
+    self.assertEqual(response.json["data"]["enquiryPeriod"]["endDate"], enquiry_period_end_date.isoformat())
     self.assertNotEqual(response.json["data"]["value"]["amount"], 502)
     self.assertNotEqual(response.json["data"]["value"]["amount"], 501)
 
@@ -843,21 +848,25 @@ def patch_tender_ua(self):
     self.assertEqual(response.content_type, "application/json")
 
     self.assertEqual(response.json["errors"][0]["description"], "tenderPeriod should be extended by 7 days")
-    tenderPeriod_endDate = get_now() + timedelta(days=7, seconds=10)
-    enquiryPeriod_endDate = tenderPeriod_endDate - (timedelta(minutes=10) if SANDBOX_MODE else timedelta(days=10))
+    tender_period_end_date = calculate_tender_business_date(
+        get_now(), timedelta(days=7), tender
+    ) + timedelta(seconds=10)
+    enquiry_period_end_date = calculate_tender_business_date(
+        tender_period_end_date, -timedelta(days=10), tender
+    )
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
         {
             "data": {
                 "value": {"amount": 501, "currency": u"UAH"},
-                "tenderPeriod": {"endDate": tenderPeriod_endDate.isoformat()},
+                "tenderPeriod": {"endDate": tender_period_end_date.isoformat()},
             }
         },
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["tenderPeriod"]["endDate"], tenderPeriod_endDate.isoformat())
-    self.assertEqual(response.json["data"]["enquiryPeriod"]["endDate"], enquiryPeriod_endDate.isoformat())
+    self.assertEqual(response.json["data"]["tenderPeriod"]["endDate"], tender_period_end_date.isoformat())
+    self.assertEqual(response.json["data"]["enquiryPeriod"]["endDate"], enquiry_period_end_date.isoformat())
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),

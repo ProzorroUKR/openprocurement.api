@@ -2,7 +2,7 @@
 from openprocurement.tender.core.adapters import TenderConfigurator
 from openprocurement.tender.openua.models import Tender
 from openprocurement.tender.openua.constants import (
-    TENDER_PERIOD,
+    TENDERING_DURATION,
     TENDERING_EXTRA_PERIOD,
     STATUS4ROLE,
     CLAIM_SUBMIT_TIME,
@@ -17,7 +17,7 @@ class TenderAboveThresholdUAConfigurator(TenderConfigurator):
     model = Tender
 
     # duration of tendering period. timedelta object.
-    tendering_period_duration = TENDER_PERIOD
+    tendering_period_duration = TENDERING_DURATION
 
     # duration of tender period extension. timedelta object
     tendering_period_extra = TENDERING_EXTRA_PERIOD

@@ -2,9 +2,9 @@
 from uuid import uuid4
 from datetime import timedelta, time, datetime
 from openprocurement.api.models import OpenprocurementSchematicsDocument, BusinessOrganization, Guarantee
-from schematics.transforms import whitelist, blacklist, export_loop
 from zope.interface import implementer
 from pyramid.security import Allow
+from schematics.transforms import whitelist, blacklist, export_loop
 from schematics.exceptions import ValidationError
 from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
@@ -32,7 +32,10 @@ from openprocurement.api.models import Item as BaseItem
 from openprocurement.api.models import schematics_default_role, schematics_embedded_role
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.api.utils import (
-    get_now, get_first_revision_date, get_root, generate_docservice_url,
+    generate_docservice_url,
+    get_now,
+    get_first_revision_date,
+    get_root,
     get_uah_amount_from_value,
 )
 from openprocurement.api.constants import (
@@ -45,24 +48,31 @@ from openprocurement.api.constants import (
     MILESTONES_VALIDATION_FROM,
     RELEASE_2020_04_19,
     COMPLAINT_IDENTIFIER_REQUIRED_FROM,
+    CPV_ITEMS_CLASS_FROM,
 )
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
 
 from openprocurement.tender.core.constants import (
     CANT_DELETE_PERIOD_START_DATE_FROM,
     BID_LOTVALUES_VALIDATION_FROM,
-    CPV_ITEMS_CLASS_FROM,
-    COMPLAINT_AMOUNT_RATE, COMPLAINT_MIN_AMOUNT, COMPLAINT_MAX_AMOUNT,
-    COMPLAINT_ENHANCED_AMOUNT_RATE, COMPLAINT_ENHANCED_MIN_AMOUNT, COMPLAINT_ENHANCED_MAX_AMOUNT,
+    COMPLAINT_AMOUNT_RATE,
+    COMPLAINT_MIN_AMOUNT,
+    COMPLAINT_MAX_AMOUNT,
+    COMPLAINT_ENHANCED_AMOUNT_RATE,
+    COMPLAINT_ENHANCED_MIN_AMOUNT,
+    COMPLAINT_ENHANCED_MAX_AMOUNT,
 )
 from openprocurement.tender.core.utils import (
-    calc_auction_end_time, rounding_shouldStartAfter,
-    restrict_value_to_bounds, round_up_to_ten,
-    get_contract_supplier_roles, get_contract_supplier_permissions,
-    calculate_tender_business_date,
-    calculate_complaint_business_date,
+    normalize_should_start_after,
+    calc_auction_end_time,
+    restrict_value_to_bounds,
+    round_up_to_ten,
+    get_contract_supplier_roles,
+    get_contract_supplier_permissions,
+    calculate_tender_date,
     prepare_award_milestones,
     check_skip_award_complaint_period,
+    calculate_complaint_business_date,
 )
 from openprocurement.tender.core.validation import (
     validate_lotvalue_value,
@@ -131,7 +141,7 @@ class TenderAuctionPeriod(Period):
             start_after = calc_auction_end_time(tender.numberOfBids, self.startDate)
         else:
             start_after = tender.tenderPeriod.endDate
-        return rounding_shouldStartAfter(start_after, tender).isoformat()
+        return normalize_should_start_after(start_after, tender).isoformat()
 
 
 class ComplaintModelType(ModelType):
@@ -358,7 +368,8 @@ class LotAuctionPeriod(Period):
             return
         tender = get_tender(self)
         lot = self.__parent__
-        if tender.status not in ["active.tendering", "active.auction"] or lot.status != "active":
+        statuses = ["active.tendering", "active.auction"]
+        if tender.status not in statuses or lot.status != "active":
             return
         if self.startDate and get_now() > calc_auction_end_time(lot.numberOfBids, self.startDate):
             start_after = calc_auction_end_time(lot.numberOfBids, self.startDate)
@@ -372,7 +383,7 @@ class LotAuctionPeriod(Period):
             ]
             decision_dates.append(tender.tenderPeriod.endDate)
             start_after = max(decision_dates)
-        return rounding_shouldStartAfter(start_after, tender).isoformat()
+        return normalize_should_start_after(start_after, tender).isoformat()
 
 
 class Item(BaseItem):
@@ -1044,12 +1055,12 @@ class QualificationMilestone(Model):
     def set_due_date(self):
         if not self.dueDate:
             if self.code == self.CODE_24_HOURS:
-                self.dueDate = calculate_tender_business_date(
+                self.dueDate = calculate_tender_date(
                     self.date, timedelta(hours=24), get_tender(self)
                 )
             elif self.code == self.CODE_LOW_PRICE:
                 self.dueDate = calculate_complaint_business_date(
-                    self.date, timedelta(days=1), get_tender(self), working_days=True,
+                    self.date, timedelta(days=1), get_tender(self), working_days=True
                 )
         return self.dueDate and self.dueDate.isoformat()
 

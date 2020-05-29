@@ -10,7 +10,8 @@ from base64 import b64encode, b64decode
 from cornice.resource import resource, view
 from email.header import decode_header
 from functools import partial
-from jsonpatch import make_patch, apply_patch as _apply_patch
+
+from jsonpatch import make_patch, apply_patch
 from schematics.types import StringType
 
 from openprocurement.api.traversal import factory
@@ -45,7 +46,6 @@ from openprocurement.api.interfaces import IContentConfigurator
 import requests
 import decimal
 import json
-import sys
 
 json_view = partial(view, renderer="simplejson")
 
@@ -330,7 +330,7 @@ def apply_data_patch(item, changes):
     prepare_patch(patch_changes, item, changes)
     if not patch_changes:
         return {}
-    return _apply_patch(item, patch_changes)
+    return apply_patch(item, patch_changes)
 
 
 def get_revision_changes(dst, src):
@@ -665,7 +665,7 @@ def couchdb_json_decode():
 
 
 def get_first_revision_date(schematics_document, default=None):
-    revisions = schematics_document.get('revisions') if schematics_document else None
+    revisions = schematics_document.get("revisions") if schematics_document else None
     return revisions[0].date if revisions else default
 
 
@@ -788,3 +788,10 @@ def get_uah_amount_from_value(request, value, logging_params):
             ),
         )
     return amount
+
+
+def is_new_created(data):
+    """
+    Check if data['_rev'] is None then tender was created just now
+    """
+    return data["_rev"] is None

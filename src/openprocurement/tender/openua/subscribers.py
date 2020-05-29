@@ -3,7 +3,7 @@ from openprocurement.tender.core.events import TenderInitializeEvent
 from openprocurement.tender.core.utils import (
     get_now,
     calculate_tender_business_date,
-    calculate_clarifications_business_date,
+    calculate_clarif_business_date,
 )
 
 from openprocurement.tender.core.models import EnquiryPeriod
@@ -14,14 +14,14 @@ from openprocurement.tender.openua.constants import ENQUIRY_PERIOD_TIME, ENQUIRY
 def tender_init_handler(event):
     """ initialization handler for openua tenders """
     tender = event.tender
-    endDate = calculate_tender_business_date(tender.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME, tender)
-    clarificationsUntil = calculate_clarifications_business_date(endDate, ENQUIRY_STAND_STILL_TIME, tender, True)
+    end_date = calculate_tender_business_date(tender.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME, tender)
+    clarifications_until = calculate_clarif_business_date(end_date, ENQUIRY_STAND_STILL_TIME, tender, True)
     tender.enquiryPeriod = EnquiryPeriod(
         dict(
             startDate=tender.tenderPeriod.startDate,
-            endDate=endDate,
+            endDate=end_date,
             invalidationDate=tender.enquiryPeriod and tender.enquiryPeriod.invalidationDate,
-            clarificationsUntil=clarificationsUntil,
+            clarificationsUntil=clarifications_until,
         )
     )
     now = get_now()

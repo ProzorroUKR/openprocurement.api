@@ -6,9 +6,9 @@ from openprocurement.tender.cfaua.constants import TENDERING_AUCTION
 from openprocurement.tender.core.models import get_tender
 from openprocurement.api.models import PeriodEndRequired as BasePeriodEndRequired, Period
 from openprocurement.tender.core.utils import (
-    calculate_tender_business_date,
     calc_auction_end_time,
-    rounding_shouldStartAfter,
+    normalize_should_start_after,
+    calculate_tender_date,
 )
 from schematics.exceptions import ValidationError
 from schematics.types.serializable import serializable
@@ -37,7 +37,7 @@ class TenderAuctionPeriod(Period):
             return
         start_after = None
         if tender.status == "active.tendering" and tender.tenderPeriod.endDate:
-            start_after = calculate_tender_business_date(tender.tenderPeriod.endDate, TENDERING_AUCTION, tender)
+            start_after = calculate_tender_date(tender.tenderPeriod.endDate, TENDERING_AUCTION, tender)
         elif self.startDate and get_now() > calc_auction_end_time(tender.numberOfBids, self.startDate):
             start_after = calc_auction_end_time(tender.numberOfBids, self.startDate)
         elif tender.qualificationPeriod and tender.qualificationPeriod.endDate:
@@ -52,7 +52,7 @@ class TenderAuctionPeriod(Period):
             decision_dates.append(tender.qualificationPeriod.endDate)
             start_after = max(decision_dates)
         if start_after:
-            return rounding_shouldStartAfter(start_after, tender).isoformat()
+            return normalize_should_start_after(start_after, tender).isoformat()
 
 
 class ContractPeriod(Period):
@@ -68,14 +68,12 @@ class LotAuctionPeriod(Period):
             return
         tender = get_tender(self)
         lot = self.__parent__
-        if (
-            tender.status not in ["active.tendering", "active.pre-qualification.stand-still", "active.auction"]
-            or lot.status != "active"
-        ):
+        statuses = ["active.tendering", "active.pre-qualification.stand-still", "active.auction"]
+        if tender.status not in statuses or lot.status != "active":
             return
         start_after = None
         if tender.status == "active.tendering" and tender.tenderPeriod.endDate:
-            start_after = calculate_tender_business_date(tender.tenderPeriod.endDate, TENDERING_AUCTION, tender)
+            start_after = calculate_tender_date(tender.tenderPeriod.endDate, TENDERING_AUCTION, tender)
         elif self.startDate and get_now() > calc_auction_end_time(lot.numberOfBids, self.startDate):
             start_after = calc_auction_end_time(lot.numberOfBids, self.startDate)
         elif tender.qualificationPeriod and tender.qualificationPeriod.endDate:
@@ -90,4 +88,4 @@ class LotAuctionPeriod(Period):
             decision_dates.append(tender.qualificationPeriod.endDate)
             start_after = max(decision_dates)
         if start_after:
-            return rounding_shouldStartAfter(start_after, tender).isoformat()
+            return normalize_should_start_after(start_after, tender).isoformat()

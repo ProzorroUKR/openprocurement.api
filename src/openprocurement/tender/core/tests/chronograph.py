@@ -2,6 +2,7 @@
 from datetime import timedelta
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_draft_complaint, test_cancellation
+from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.openeu.models import Cancellation
 from copy import deepcopy
 from mock import patch
@@ -23,9 +24,10 @@ def switch_tender_complaints_draft(self):
 
     # and once the date passed
     tender = self.db.get(self.tender_id)
+    start_date = get_now() - timedelta(days=40)
     tender["tenderPeriod"] = dict(
-        startDate=(get_now() - timedelta(days=40)).isoformat(),
-        endDate=(get_now() - timedelta(days=10)).isoformat()
+        startDate=start_date.isoformat(),
+        endDate=calculate_tender_business_date(start_date, timedelta(days=30)).isoformat()
     )
     self.db.save(tender)
 

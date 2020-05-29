@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import os.path
 from jsonpointer import resolve_pointer
+from jsonpatch import apply_patch
 from copy import deepcopy
 
 from mock import patch
-from openprocurement.historical.core.utils import parse_hash, _apply_patch
+from openprocurement.historical.core.utils import parse_hash
 from openprocurement.historical.core.constants import VERSION, PREVIOUS_HASH as PHASH, HASH
 from openprocurement.tender.belowthreshold.tests.base import BaseTenderWebTest, test_tender_data, test_organization
 
@@ -151,7 +152,7 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
         revisions = data.pop("revisions")
         tenders = []
         for p in reversed(revisions):
-            data = _apply_patch(data, p["changes"])
+            data = apply_patch(data, p["changes"])
             tenders.append(data.copy())
 
         for tender in reversed(tenders[:-1]):

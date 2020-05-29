@@ -36,7 +36,7 @@ from openprocurement.tender.core.models import (
 )
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.openua.models import Item as BaseUAItem, Tender as BaseTenderUA
-from openprocurement.tender.openua.constants import TENDER_PERIOD as TENDERING_DURATION_UA
+from openprocurement.tender.openua.constants import TENDERING_DURATION as TENDERING_DURATION_UA
 from openprocurement.tender.openeu.models import (
     Administrator_bid_role,
     view_bid_role,
@@ -365,11 +365,12 @@ class CompetitiveDialogUA(CompetitiveDialogEU):
 # stage 2 models
 
 
-def init_PeriodStartEndRequired(tendering_duration):
+def default_period(tendering_duration):
     def wrapper():
-        return PeriodStartEndRequired(
-            {"startDate": get_now(), "endDate": calculate_tender_business_date(get_now(), tendering_duration)}
-        )
+        return PeriodStartEndRequired({
+            "startDate": get_now(),
+            "endDate": calculate_tender_business_date(get_now(), tendering_duration)
+        })
 
     return wrapper
 
@@ -483,7 +484,7 @@ class TenderStage2EU(BaseTenderEU):
     dialogueID = StringType()
     shortlistedFirms = ListType(ModelType(Firms, required=True), min_size=3, required=True)
     tenderPeriod = ModelType(
-        PeriodStartEndRequired, required=False, default=init_PeriodStartEndRequired(TENDERING_DURATION_EU)
+        PeriodStartEndRequired, required=False, default=default_period(TENDERING_DURATION_EU)
     )
     status = StringType(
         choices=[
@@ -608,7 +609,7 @@ class TenderStage2UA(BaseTenderUA):
     dialogueID = StringType()
     shortlistedFirms = ListType(ModelType(Firms, required=True), min_size=3, required=True)
     tenderPeriod = ModelType(
-        PeriodStartEndRequired, required=False, default=init_PeriodStartEndRequired(TENDERING_DURATION_UA)
+        PeriodStartEndRequired, required=False, default=default_period(TENDERING_DURATION_UA)
     )
     status = StringType(
         choices=[

@@ -1,5 +1,5 @@
 from jsonpointer import JsonPointerException
-from jsonpatch import JsonPatchException
+from jsonpatch import JsonPatchException, apply_patch
 
 from iso8601 import parse_date
 from zope.interface import providedBy
@@ -15,7 +15,7 @@ from openprocurement.historical.core.constants import (
     ACCREDITATION_LEVELS,
     VERSION_BY_DATE,
 )
-from openprocurement.api.utils import error_handler, _apply_patch, APIResource, json_view, context_unpack
+from openprocurement.api.utils import error_handler, APIResource, json_view, context_unpack
 
 
 class Root(object):
@@ -30,7 +30,7 @@ class Root(object):
 
 def get_valid_apply_patch_doc(doc, request, patch):
     try:
-        doc = _apply_patch(doc, patch["changes"])
+        doc = apply_patch(doc, patch["changes"])
         return doc
     except (JsonPointerException, JsonPatchException):
         raise_not_implemented(request)
@@ -177,7 +177,7 @@ def validate_header(request):
 def validate_accreditation(request):
     if request.authenticated_role != "Administrator" and not request.check_accreditations(ACCREDITATION_LEVELS):
         request.errors.add(
-            "historical", "accreditation", "Broker Accreditation level does not " "permit viewing tender historica info"
+            "historical", "accreditation", "Broker Accreditation level does not permit viewing tender historical info"
         )
         request.errors.status = 403
         return

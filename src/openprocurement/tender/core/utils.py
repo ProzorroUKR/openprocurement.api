@@ -2,6 +2,7 @@
 import jmespath
 from decimal import Decimal
 from re import compile
+from functools import wraps
 
 from dateorro import (
     calc_datetime,
@@ -9,6 +10,7 @@ from dateorro import (
     calc_normalized_datetime,
 )
 from dateorro.calculations import check_working_datetime
+from iso8601 import parse_date
 from jsonpointer import resolve_pointer
 from functools import partial
 from datetime import datetime, time, timedelta
@@ -25,9 +27,10 @@ from openprocurement.api.constants import (
     TZ,
     WORKING_DATE_ALLOW_MIDNIGHT_FROM,
     NORMALIZED_CLARIFICATIONS_PERIOD_FROM,
+    NORMALIZE_SHOULD_START_AFTER,
     RELEASE_2020_04_19,
+    NORMALIZED_TENDER_PERIOD_FROM,
 )
-from openprocurement.api.utils import error_handler, get_first_revision_date, handle_store_exceptions, append_revision
 from openprocurement.api.utils import (
     get_now,
     context_unpack,
@@ -35,6 +38,10 @@ from openprocurement.api.utils import (
     apply_data_patch,
     update_logging_context,
     set_modetest_titles,
+    error_handler,
+    get_first_revision_date,
+    handle_store_exceptions,
+    append_revision,
 )
 from openprocurement.tender.core.constants import (
     BIDDER_TIME,
@@ -44,6 +51,8 @@ from openprocurement.tender.core.constants import (
     ALP_MILESTONE_REASONS,
 )
 from openprocurement.tender.core.traversal import factory
+from openprocurement.tender.core.validation import validate_absence_of_pending_accepted_satisfied_complaints
+from openprocurement.tender.openua.constants import AUCTION_PERIOD_TIME
 from jsonpointer import JsonPointerException
 from jsonpatch import JsonPatchException, apply_patch as apply_json_patch
 from barbecue import chef
@@ -57,13 +66,12 @@ ACCELERATOR_RE = compile(r".accelerator=(?P<accelerator>\d+)")
 optendersresource = partial(resource, error_handler=error_handler, factory=factory)
 
 
-def rounding_shouldStartAfter(start_after, tender, use_from=datetime(2016, 7, 16, tzinfo=TZ)):
-    if use_from < (tender.enquiryPeriod and tender.enquiryPeriod.startDate or get_now()) and not (
-        SANDBOX_MODE and tender.submissionMethodDetails and u"quick" in tender.submissionMethodDetails
-    ):
-        midnigth = datetime.combine(start_after.date(), time(0, tzinfo=start_after.tzinfo))
-        if start_after > midnigth:
-            start_after = midnigth + timedelta(1)
+def normalize_should_start_after(start_after, tender):
+    if SANDBOX_MODE and tender.submissionMethodDetails and u"quick" in tender.submissionMethodDetails:
+        return start_after
+    date = tender.enquiryPeriod and tender.enquiryPeriod.startDate or get_now()
+    if NORMALIZE_SHOULD_START_AFTER < date:
+        return calc_normalized_datetime(start_after, ceil=True)
     return start_after
 
 
@@ -310,44 +318,50 @@ def get_tender_accelerator(context):
     return None
 
 
-def calculate_tender_date(date_obj, timedelta_obj, tender, working_days, calendar=WORKING_DAYS):
-    tender_date = get_first_revision_date(tender, default=get_now())
+def acceleratable(wrapped):
+    @wraps(wrapped)
+    def wrapper(date_obj, timedelta_obj, tender=None, working_days=False, calendar=WORKING_DAYS):
+        accelerator = get_tender_accelerator(tender)
+        if accelerator:
+            return calc_datetime(date_obj, timedelta_obj, accelerator=accelerator)
+        return wrapped(date_obj, timedelta_obj, tender=tender, working_days=working_days, calendar=calendar)
+    return wrapper
+
+
+@acceleratable
+def calculate_tender_date(date_obj, timedelta_obj, tender=None, working_days=False, calendar=WORKING_DAYS):
     if working_days:
+        tender_date = get_first_revision_date(tender, default=get_now())
         midnight = tender_date > WORKING_DATE_ALLOW_MIDNIGHT_FROM
         return calc_working_datetime(date_obj, timedelta_obj, midnight, calendar)
     else:
         return calc_datetime(date_obj, timedelta_obj)
 
 
+def calculate_period_start_date(date_obj, timedelta_obj, normalized_from_date_obj, tender=None):
+    tender_date = get_first_revision_date(tender, default=get_now())
+    if tender_date > normalized_from_date_obj:
+        return calc_normalized_datetime(date_obj, ceil=timedelta_obj > timedelta())
+    else:
+        return date_obj
+
+
+@acceleratable
 def calculate_tender_business_date(date_obj, timedelta_obj, tender=None, working_days=False, calendar=WORKING_DAYS):
-    accelerator = get_tender_accelerator(tender)
-    if accelerator:
-        return calc_datetime(date_obj, timedelta_obj, accelerator)
-    return calculate_tender_date(date_obj, timedelta_obj, tender, working_days, calendar)
+    start_obj = calculate_period_start_date(date_obj, timedelta_obj, NORMALIZED_TENDER_PERIOD_FROM, tender)
+    return calculate_tender_date(start_obj, timedelta_obj, tender, working_days, calendar)
 
 
+@acceleratable
 def calculate_complaint_business_date(date_obj, timedelta_obj, tender=None, working_days=False, calendar=WORKING_DAYS):
-    accelerator = get_tender_accelerator(tender)
-    if accelerator:
-        return calc_datetime(date_obj, timedelta_obj, accelerator)
-    tender_date = get_first_revision_date(tender, default=get_now())
-    if tender_date > NORMALIZED_COMPLAINT_PERIOD_FROM:
-        source_date_obj = calc_normalized_datetime(date_obj, ceil=timedelta_obj > timedelta())
-    else:
-        source_date_obj = date_obj
-    return calculate_tender_date(source_date_obj, timedelta_obj, tender, working_days, calendar)
+    start_obj = calculate_period_start_date(date_obj, timedelta_obj, NORMALIZED_COMPLAINT_PERIOD_FROM, tender)
+    return calculate_tender_date(start_obj, timedelta_obj, tender, working_days, calendar)
 
 
-def calculate_clarifications_business_date(date_obj, timedelta_obj, tender=None, working_days=False, calendar=WORKING_DAYS):
-    accelerator = get_tender_accelerator(tender)
-    if accelerator:
-        return calc_datetime(date_obj, timedelta_obj, accelerator)
-    tender_date = get_first_revision_date(tender, default=get_now())
-    if tender_date > NORMALIZED_CLARIFICATIONS_PERIOD_FROM:
-        source_date_obj = calc_normalized_datetime(date_obj, ceil=timedelta_obj > timedelta())
-    else:
-        source_date_obj = date_obj
-    return calculate_tender_date(source_date_obj, timedelta_obj, tender, working_days, calendar)
+@acceleratable
+def calculate_clarif_business_date(date_obj, timedelta_obj, tender=None, working_days=False, calendar=WORKING_DAYS):
+    start_obj = calculate_period_start_date(date_obj, timedelta_obj, NORMALIZED_CLARIFICATIONS_PERIOD_FROM, tender)
+    return calculate_tender_date(start_obj, timedelta_obj, tender, working_days, calendar)
 
 
 def calculate_date_diff(dt1, dt2, working_days=True, calendar=WORKING_DAYS):
@@ -386,6 +400,14 @@ def convert_to_decimal(value):
     raise TypeError("Unable to convert %s to Decimal" % value)
 
 
+def check_auction_period(period, tender):
+    if period and period.startDate and period.shouldStartAfter:
+        start = parse_date(period.shouldStartAfter)
+        date = calculate_tender_date(start, AUCTION_PERIOD_TIME, tender, True)
+        return period.startDate > date
+    return False
+
+
 def restrict_value_to_bounds(value, min_value, max_value):
     if value < min_value:
         return min_value
@@ -418,9 +440,6 @@ def check_skip_award_complaint_period(tender):
         tender.procurementMethodType == "belowThreshold"
         and tender.get("procurementMethodRationale", "") == "simple"
     )
-
-
-from openprocurement.tender.core.validation import validate_absence_of_pending_accepted_satisfied_complaints
 
 
 class CancelTenderLot(object):

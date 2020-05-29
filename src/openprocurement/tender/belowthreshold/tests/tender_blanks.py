@@ -13,13 +13,12 @@ from openprocurement.api.constants import (
     CPV_BLOCK_FROM,
     NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
     RELEASE_2020_04_19,
+    CPV_ITEMS_CLASS_FROM,
 )
-from openprocurement.tender.core.constants import CPV_ITEMS_CLASS_FROM
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )
 from openprocurement.tender.belowthreshold.models import Tender
-from openprocurement.tender.belowthreshold.utils import calculate_tender_business_date
 from openprocurement.tender.belowthreshold.tests.base import (
     test_organization,
     test_author,
@@ -31,6 +30,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 
 # TenderTest
 from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.core.utils import calculate_tender_business_date
 
 
 def simple_add_tender(self):
@@ -886,7 +886,7 @@ def validate_tenderPeriod(self):
         response.json["errors"],
         [
             {
-                u"description": [u"the tenderPeriod cannot end earlier than 2 business days after the start"],
+                u"description": [u"tenderPeriod must be at least 2 full business days long"],
                 u"location": u"body",
                 u"name": u"tenderPeriod",
             }
@@ -921,7 +921,7 @@ def validate_tenderPeriod(self):
         response.json["errors"],
         [
             {
-                u"description": [u"the tenderPeriod cannot end earlier than 2 business days after the start"],
+                u"description": [u"tenderPeriod must be at least 2 full business days long"],
                 u"location": u"body",
                 u"name": u"tenderPeriod",
             }

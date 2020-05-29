@@ -163,7 +163,7 @@ class TenderPendingAwardsResourceTest(BaseTenderContentWebTest):
 
         super(TenderPendingAwardsResourceTest, self).setUp()
         # switch to active.pre-qualification
-        self.time_shift("active.pre-qualification")
+        self.set_status("active.pre-qualification")
         self.app.authorization = ("Basic", ("chronograph", ""))
         response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
         self.assertEqual(response.status, "200 OK")

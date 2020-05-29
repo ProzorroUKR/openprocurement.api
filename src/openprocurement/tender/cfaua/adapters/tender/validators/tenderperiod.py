@@ -1,9 +1,10 @@
 # openprocurement.tender.openeu.models.Tender#validate_tenderPeriod
-from openprocurement.tender.core.utils import calculate_tender_business_date
-from datetime import timedelta
-from openprocurement.api.utils import get_now
-from schematics.exceptions import ValidationError
-from openprocurement.tender.cfaua.constants import TENDERING_DURATION, TENDERING_DAYS
+from openprocurement.api.utils import is_new_created
+from openprocurement.tender.cfaua.constants import TENDERING_DURATION
+from openprocurement.tender.openua.validation import (
+    validate_tender_period_start_date,
+    validate_tender_period_duration,
+)
 
 
 class TenderPeriodValidate(object):
@@ -11,7 +12,7 @@ class TenderPeriodValidate(object):
         self.context = tender
 
     def __call__(self, cls, data, period):
-        if not data["_rev"] and calculate_tender_business_date(get_now(), -timedelta(minutes=10)) >= period.startDate:
-            raise ValidationError(u"tenderPeriod.startDate should be in greater than current date")
-        if period and calculate_tender_business_date(period.startDate, TENDERING_DURATION, data) > period.endDate:
-            raise ValidationError(u"tenderPeriod should be greater than {} days".format(TENDERING_DAYS))
+        if period:
+            if is_new_created(data):
+                validate_tender_period_start_date(data, period)
+            validate_tender_period_duration(data, period, TENDERING_DURATION)

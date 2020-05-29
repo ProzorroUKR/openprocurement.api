@@ -7,7 +7,7 @@ from schematics.types.compound import ModelType
 from zope.interface import implementer, provider
 
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
-from openprocurement.api.models import Period, ListType, SifterListType, plain_role, IsoDurationType
+from openprocurement.api.models import Period, ListType, SifterListType, IsoDurationType
 from openprocurement.api.utils import get_now
 from openprocurement.api.validation import validate_cpv_group, validate_items_uniq, validate_classification_id
 from openprocurement.tender.cfaua.validation import validate_max_awards_number, validate_max_agreement_duration_period
@@ -30,12 +30,8 @@ from openprocurement.tender.core.models import (
     validate_features_uniq, Question, Tender, EUDocument,
 )
 from openprocurement.tender.core.utils import (
-    calculate_tender_business_date,
-    calc_auction_end_time,
-    has_unanswered_questions,
-    has_unanswered_complaints,
+    check_auction_period,
 )
-from openprocurement.tender.openua.constants import AUCTION_PERIOD_TIME
 
 
 @implementer(ICloseFrameworkAgreementUA)
@@ -226,26 +222,10 @@ class CloseFrameworkAgreementUA(Tender):
         return acl
 
     def check_auction_time(self):
-        if (
-            self.auctionPeriod
-            and self.auctionPeriod.startDate
-            and self.auctionPeriod.shouldStartAfter
-            and self.auctionPeriod.startDate
-            > calculate_tender_business_date(
-                parse_date(self.auctionPeriod.shouldStartAfter), AUCTION_PERIOD_TIME, self, True
-            )
-        ):
+        if check_auction_period(self.auctionPeriod, self):
             self.auctionPeriod.startDate = None
         for lot in self.lots:
-            if (
-                lot.auctionPeriod
-                and lot.auctionPeriod.startDate
-                and lot.auctionPeriod.shouldStartAfter
-                and lot.auctionPeriod.startDate
-                > calculate_tender_business_date(
-                    parse_date(lot.auctionPeriod.shouldStartAfter), AUCTION_PERIOD_TIME, self, True
-                )
-            ):
+            if check_auction_period(lot.auctionPeriod, self):
                 lot.auctionPeriod.startDate = None
 
     def invalidate_bids_data(self):

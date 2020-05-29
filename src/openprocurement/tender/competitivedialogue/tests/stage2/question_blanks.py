@@ -64,7 +64,7 @@ def create_tender_question_with_question(self):
     self.assertIn("id", question)
     self.assertIn(question["id"], response.headers["Location"])
 
-    self.time_shift("enquiryPeriod_ends")
+    self.set_enquiry_period_end()
 
     response = self.app.post_json(
         "/tenders/{}/questions".format(self.tender_id),
@@ -99,7 +99,7 @@ def create_tender_question(self):
     self.assertIn("id", question)
     self.assertIn(question["id"], response.headers["Location"])
 
-    self.time_shift("enquiryPeriod_ends")
+    self.set_enquiry_period_end()
 
     response = self.app.post_json(
         "/tenders/{}/questions".format(self.tender_id),

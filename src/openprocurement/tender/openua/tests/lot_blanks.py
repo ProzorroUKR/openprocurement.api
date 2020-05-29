@@ -211,8 +211,10 @@ def get_tender_lot(self):
     response = self.app.get("/tenders/{}/lots/{}".format(self.tender_id, lot["id"]))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
+    api_lot = response.json["data"]
     lot.pop("auctionPeriod")
-    self.assertEqual(response.json["data"], lot)
+    api_lot.pop("auctionPeriod")
+    self.assertEqual(api_lot, lot)
 
     response = self.app.get("/tenders/{}/lots/some_id".format(self.tender_id), status=404)
     self.assertEqual(response.status, "404 Not Found")
@@ -250,8 +252,10 @@ def get_tender_lots(self):
     response = self.app.get("/tenders/{}/lots".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
+    api_lot = response.json["data"][0]
     lot.pop("auctionPeriod")
-    self.assertEqual(response.json["data"][0], lot)
+    api_lot.pop("auctionPeriod")
+    self.assertEqual(api_lot, lot)
 
     response = self.app.get("/tenders/some_id/lots", status=404)
     self.assertEqual(response.status, "404 Not Found")

@@ -227,7 +227,7 @@ def create_tender_question_eu(self):
     self.assertIn(question["id"], response.headers["Location"])
 
     # Shift time to end of enquiry period
-    self.time_shift("enquiryPeriod_ends")
+    self.set_enquiry_period_end()
 
     # Try create question, when enquiry period end
     response = self.app.post_json(
@@ -285,7 +285,7 @@ def get_tender_question_eu(self):
     question["dateAnswered"] = response.json["data"]["dateAnswered"]
 
     self.time_shift("active.pre-qualification")  # Shift time tender to status active.pre-qualification
-    self.check_chronograph()
+    response = self.check_chronograph()
 
     # Get question by token_id, and question_id
     response = self.app.get("/tenders/{}/questions/{}".format(self.tender_id, question["id"]))

@@ -98,14 +98,14 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         #### Modifying tender
 
-        tenderPeriod_endDate = get_now() + timedelta(days=30, seconds=10)
+        tender_period_end_date = get_now() + timedelta(days=31)
         with open(TARGET_DIR + 'patch-items-value-periods.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
                 {'data':
                     {
                         "tenderPeriod": {
-                            "endDate": tenderPeriod_endDate.isoformat()
+                            "endDate": tender_period_end_date.isoformat()
                         }
                     }
                 })
@@ -192,7 +192,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 self.tender_id, question_id))
             self.assertEqual(response.status, '200 OK')
 
-        self.time_shift('enquiryPeriod_ends')
+        self.set_enquiry_period_end()
         self.app.authorization = ('Basic', ('broker', ''))
         with open(TARGET_DIR + 'update-tender-after-enqiery.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}?acc_token={}'.format(tender['id'], owner_token))
@@ -209,7 +209,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         with open(TARGET_DIR + 'update-tender-after-enqiery-with-update-periods.http',
                   'w') as self.app.file_obj:
-            tenderPeriod_endDate = get_now() + timedelta(days=8)
+            tender_period_end_date = get_now() + timedelta(days=8)
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
                 {'data': {
@@ -218,7 +218,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                         "currency": u"UAH"
                     },
                     "tenderPeriod": {
-                        "endDate": tenderPeriod_endDate.isoformat()
+                        "endDate": tender_period_end_date.isoformat()
                     }
                 }})
             self.assertEqual(response.status, '200 OK')

@@ -238,10 +238,11 @@ def check_tender_status_on_active_qualification_stand_still(request):
             extra=context_unpack(request, {"MESSAGE_ID": "switched_tender_active_awarded"}),
         )
         tender.status = "active.awarded"
-        tender.contractPeriod = {"startDate": now}
-        tender.contractPeriod["clarificationsUntil"] = calculate_tender_business_date(
-            now, config.clarifications_until_period, tender, False
-        )
+        clarif_date = calculate_tender_business_date(now, config.clarifications_until_period, tender, False)
+        tender.contractPeriod = {
+            "startDate": now,
+            "clarificationsUntil": clarif_date
+        }
         lots = [l for l in tender.get("lots", []) if l.status == "active"]
         if lots:
             for lot in lots:

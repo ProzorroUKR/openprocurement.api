@@ -1866,7 +1866,7 @@ def download_tender_bidder_document(self):
                 "Can't view bid documents in current (active.tendering) tender status",
             )
 
-    self.time_shift("active.pre-qualification")
+    self.set_status("active.pre-qualification")
     self.check_chronograph()
 
     def test_bids_documents_after_tendering_resource(self, doc_id_by_type, private_doc_id_by_type, status):

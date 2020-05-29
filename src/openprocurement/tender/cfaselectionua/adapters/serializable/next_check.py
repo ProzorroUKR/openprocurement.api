@@ -10,7 +10,7 @@ class SerializableTenderNextCheck(Serializable):
     serialized_name = "next_check"
     serialize_when_none = False
 
-    def __call__(self, obj):
+    def __call__(self, obj, *args, **kwargs):
         now = get_now()
         checks = []
         configurator = getAdapter(obj, IContentConfigurator)
@@ -27,10 +27,12 @@ class SerializableTenderNextCheck(Serializable):
         ):
             if now < obj.auctionPeriod.startDate:
                 checks.append(obj.auctionPeriod.startDate.astimezone(configurator.tz))
-            elif now < calc_auction_end_time(obj.numberOfBids, obj.auctionPeriod.startDate).astimezone(configurator.tz):
-                checks.append(
-                    calc_auction_end_time(obj.numberOfBids, obj.auctionPeriod.startDate).astimezone(configurator.tz)
-                )
+            else:
+                auction_end_time = calc_auction_end_time(
+                    obj.numberOfBids, obj.auctionPeriod.startDate
+                ).astimezone(configurator.tz)
+                if now < auction_end_time:
+                    checks.append(auction_end_time)
         elif obj.lots and obj.status == "active.auction":
             for lot in obj.lots:
                 if (
@@ -42,12 +44,12 @@ class SerializableTenderNextCheck(Serializable):
                     continue
                 if now < lot.auctionPeriod.startDate:
                     checks.append(lot.auctionPeriod.startDate.astimezone(configurator.tz))
-                elif now < calc_auction_end_time(lot.numberOfBids, lot.auctionPeriod.startDate).astimezone(
-                    configurator.tz
-                ):
-                    checks.append(
-                        calc_auction_end_time(lot.numberOfBids, lot.auctionPeriod.startDate).astimezone(configurator.tz)
-                    )
+                else:
+                    auction_end_time = calc_auction_end_time(
+                        lot.numberOfBids, lot.auctionPeriod.startDate
+                    ).astimezone(configurator.tz)
+                    if now < auction_end_time:
+                        checks.append(auction_end_time)
         elif obj.lots and obj.status in ["active.qualification", "active.awarded"]:
             for lot in obj.lots:
                 if lot["status"] != "active":

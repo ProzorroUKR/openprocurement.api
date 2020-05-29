@@ -1,17 +1,19 @@
 from logging import getLogger
 from openprocurement.api.constants import TZ
-from openprocurement.tender.openua.utils import check_complaint_status, add_next_award, check_cancellation_status
-from openprocurement.tender.belowthreshold.utils import check_tender_status, add_contract
 from openprocurement.tender.core.utils import (
-    calculate_tender_business_date as calculate_tender_business_date_base,
-    calculate_clarifications_business_date as calculate_clarifications_business_date_base,
-    calculate_complaint_business_date as calculate_complaint_business_date_base,
     check_complaint_statuses_at_complaint_period_end,
     context_unpack,
     get_now,
     has_unanswered_questions,
     has_unanswered_complaints,
     block_tender,
+)
+from openprocurement.tender.openua.utils import check_complaint_status, add_next_award, check_cancellation_status
+from openprocurement.tender.belowthreshold.utils import check_tender_status, add_contract
+from openprocurement.tender.core.utils import (
+    calculate_tender_business_date as calculate_tender_business_date_base,
+    calculate_clarif_business_date as calculate_clarif_business_date_base,
+    calculate_complaint_business_date as calculate_complaint_business_date_base
 )
 
 LOGGER = getLogger("openprocurement.tender.openuadefense")
@@ -41,8 +43,8 @@ def calculate_complaint_business_date(date_obj, timedelta_obj, tender=None, work
         date_obj, timedelta_obj, tender=tender, working_days=working_days, calendar=WORKING_DAYS
     )
 
-def calculate_clarifications_business_date(date_obj, timedelta_obj, tender=None, working_days=False):
-    return calculate_clarifications_business_date_base(
+def calculate_clarif_business_date(date_obj, timedelta_obj, tender=None, working_days=False):
+    return calculate_clarif_business_date_base(
         date_obj, timedelta_obj, tender=tender, working_days=working_days, calendar=WORKING_DAYS
     )
 

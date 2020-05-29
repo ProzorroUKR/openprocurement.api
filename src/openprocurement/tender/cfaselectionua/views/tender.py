@@ -7,6 +7,7 @@ from openprocurement.tender.core.utils import (
     optendersresource,
     apply_patch,
     calculate_tender_business_date,
+    calculate_tender_date,
 )
 from openprocurement.tender.core.validation import (
     validate_tender_not_in_terminated_status,

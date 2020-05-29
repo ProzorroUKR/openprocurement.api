@@ -2,6 +2,7 @@
 import os
 from copy import deepcopy
 
+from openprocurement.tender.esco.models import Tender
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderWebTest,
     test_features_tender_data as base_eu_test_features_data,
@@ -61,6 +62,8 @@ class BaseESCOWebTest(BaseTenderWebTest):
     initial_lots = None
     initial_auth = ("Basic", ("broker", ""))
     docservice = False
+
+    tender_class = Tender
 
 
 class BaseESCOContentWebTest(BaseESCOWebTest):

@@ -3,6 +3,7 @@ import os
 from copy import deepcopy
 
 from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.openeu.models import TENDERING_DURATION
 from openprocurement.api.models import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_tender_data, BaseTenderWebTest
@@ -432,23 +433,25 @@ class OpenUACompetitiveDialogueStage2TenderOwnershipChangeTest(TenderOwnershipCh
         self.assertNotEqual(transfer_creation_date, transfer_modification_date)
 
         # second owner can change the tender
-        now = get_now()
+        end_date = calculate_tender_business_date(
+            get_now(), TENDERING_DURATION
+        )
         with change_auth(self.app, ("Basic", (self.second_owner, ""))):
             response = self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(self.tender_id, new_access_token),
-                {"data": {"tenderPeriod": {"endDate": (now + TENDERING_DURATION).isoformat()}}},
+                {"data": {"tenderPeriod": {"endDate": end_date.isoformat()}}},
             )
         self.assertEqual(response.status, "200 OK")
         self.assertNotIn("transfer", response.json["data"])
         self.assertNotIn("transfer_token", response.json["data"])
         self.assertIn("owner", response.json["data"])
         self.assertEqual(response.json["data"]["owner"], self.second_owner)
-        self.assertEqual(response.json["data"]["tenderPeriod"]["endDate"], (now + TENDERING_DURATION).isoformat())
+        self.assertEqual(response.json["data"]["tenderPeriod"]["endDate"], end_date.isoformat())
 
         # first owner now can`t change tender
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, new_access_token),
-            {"data": {"tenderPeriod": {"endDate": (now + TENDERING_DURATION).isoformat()}}},
+            {"data": {"tenderPeriod": {"endDate": end_date.isoformat()}}},
             status=403,
         )
         self.assertEqual(response.status, "403 Forbidden")

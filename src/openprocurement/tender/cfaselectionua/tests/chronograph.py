@@ -2,6 +2,7 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.tender.belowthreshold.tests.chronograph_blanks import reset_auction_period, set_auction_period
 
 from openprocurement.tender.cfaselectionua.tests.base import TenderContentWebTest, test_lots, test_bids
 from openprocurement.tender.cfaselectionua.tests.chronograph_blanks import (
@@ -14,9 +15,6 @@ from openprocurement.tender.cfaselectionua.tests.chronograph_blanks import (
     switch_to_auction,
     # TenderSwitchUnsuccessfulResourceTest
     switch_to_unsuccessful,
-    # TenderAuctionPeriodResourceTest
-    set_auction_period,
-    reset_auction_period,
     # TenderComplaintSwitchResourceTest
     switch_to_ignored_on_complete,
     switch_from_pending_to_ignored,
