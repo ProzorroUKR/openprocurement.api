@@ -199,6 +199,7 @@ def create_tender_award(self):
     self.assertIn("Location", response.headers)
 
 
+
 def patch_tender_award(self):
     request_path = "/tenders/{}/awards".format(self.tender_id)
     response = self.app.patch_json(
@@ -283,7 +284,7 @@ def patch_tender_award(self):
     self.assertEqual(len(response.json["data"]), 2)
 
     response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award["id"], token),
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award["id"], self.tender_token),
         {"data": {"status": "cancelled"}},
     )
     self.assertEqual(response.status, "200 OK")
@@ -665,9 +666,8 @@ def create_tender_award_document(self):
 
     self.set_status("complete")
 
-    token = self.initial_bids_tokens[0]
     response = self.app.post(
-        "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, self.award_id, token),
+        "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
         upload_files=[("file", "name.doc", "content")],
         status=403,
     )
@@ -796,7 +796,7 @@ def put_tender_award_document(self):
 
     response = self.app.put(
         "/tenders/{}/awards/{}/documents/{}?acc_token={}".format(
-            self.tender_id, self.award_id, doc_id, token
+            self.tender_id, self.award_id, doc_id, self.tender_token
         ),
         upload_files=[("file", "name.doc", "content3")],
         status=403,
@@ -839,7 +839,7 @@ def patch_tender_award_document(self):
 
     response = self.app.patch_json(
         "/tenders/{}/awards/{}/documents/{}?acc_token={}".format(
-            self.tender_id, self.award_id, doc_id, token
+            self.tender_id, self.award_id, doc_id, self.tender_token
         ),
         {"data": {"description": "document description"}},
         status=403,
