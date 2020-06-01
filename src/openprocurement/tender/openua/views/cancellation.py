@@ -13,6 +13,8 @@ from openprocurement.tender.core.validation import (
     validate_create_cancellation_in_active_auction,
     validate_operation_cancellation_in_complaint_period,
     validate_operation_cancellation_permission,
+    validate_absence_of_pending_accepted_satisfied_complaints,
+
 )
 from openprocurement.tender.openua.utils import CancelTenderLot
 
@@ -39,6 +41,7 @@ class TenderUaCancellationResource(BaseTenderCancellationResource):
             validate_operation_cancellation_permission,
             validate_create_cancellation_in_active_auction,
             validate_cancellation_of_active_lot,
+            validate_absence_of_pending_accepted_satisfied_complaints,
             # from core above ^
             validate_not_only_unsuccessful_awards_or_qualifications,
         ),

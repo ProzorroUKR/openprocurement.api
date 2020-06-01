@@ -22,6 +22,7 @@ from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
 from openprocurement.tender.openua.tests.cancellation import (
     TenderCancellationResourceNewReleaseTestMixin,
     TenderCancellationComplaintResourceTestMixin,
+    TenderAwardsCancellationResourceTestMixin,
 )
 
 from openprocurement.tender.openua.tests.cancellation_blanks import (
@@ -30,7 +31,6 @@ from openprocurement.tender.openua.tests.cancellation_blanks import (
     patch_tender_cancellation,
     access_create_tender_cancellation_complaint,
     activate_cancellation,
-    create_cancellation_in_tender_complaint_period,
     create_cancellation_in_award_complaint_period,
     create_tender_cancellation_with_cancellation_lots
 )
@@ -55,7 +55,6 @@ from openprocurement.tender.openeu.tests.cancellation_blanks import (
 )
 
 from openprocurement.tender.esco.tests.base import BaseESCOContentWebTest, test_bids, test_lots
-from openprocurement.api.constants import RELEASE_2020_04_19
 
 
 class TenderCancellationResourceTest(
@@ -68,7 +67,6 @@ class TenderCancellationResourceTest(
     test_create_tender_cancellation = snitch(create_tender_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_cancellation)
     test_activate_cancellation = snitch(activate_cancellation)
-    test_create_cancellation_in_tender_complaint_period = snitch(create_cancellation_in_tender_complaint_period)
 
 
 class TenderCancellationBidsAvailabilityTest(BaseESCOContentWebTest, TenderCancellationBidsAvailabilityUtils):
@@ -113,7 +111,10 @@ class TenderLotsCancellationResourceTest(BaseESCOContentWebTest):
     test_create_tender_cancellation_with_cancellation_lots = snitch(create_tender_cancellation_with_cancellation_lots)
 
 
-class TenderAwardsCancellationResourceTest(BaseESCOContentWebTest):
+class TenderAwardsCancellationResourceTest(
+    BaseESCOContentWebTest,
+    TenderAwardsCancellationResourceTestMixin
+):
     initial_lots = 2 * test_lots
     initial_status = "active.tendering"
     initial_bids = test_bids

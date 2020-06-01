@@ -35,7 +35,6 @@ from openprocurement.tender.openua.tests.cancellation import (
 )
 from openprocurement.tender.openua.tests.cancellation_blanks import (
     activate_cancellation,
-    create_cancellation_in_tender_complaint_period,
     create_tender_cancellation_with_cancellation_lots
 )
 from openprocurement.api.constants import RELEASE_2020_04_19
@@ -114,7 +113,6 @@ class CompetitiveDialogEUCancellationResourceTest(
 ):
     initial_auth = ("Basic", ("broker", ""))
     test_activate_cancellation = snitch(activate_cancellation)
-    test_create_cancellation_in_tender_complaint_period = snitch(create_cancellation_in_tender_complaint_period)
 
 
 class CompetitiveDialogEULotCancellationResourceTest(BaseCompetitiveDialogEUContentWebTest):

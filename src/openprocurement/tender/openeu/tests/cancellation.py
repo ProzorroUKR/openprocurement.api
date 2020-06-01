@@ -25,6 +25,7 @@ from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
 from openprocurement.tender.openua.tests.cancellation import (
     TenderCancellationResourceNewReleaseTestMixin,
     TenderCancellationComplaintResourceTestMixin,
+    TenderAwardsCancellationResourceTestMixin,
 )
 
 from openprocurement.tender.openua.tests.cancellation_blanks import (
@@ -33,8 +34,6 @@ from openprocurement.tender.openua.tests.cancellation_blanks import (
     patch_tender_cancellation,
     access_create_tender_cancellation_complaint,
     activate_cancellation,
-    create_cancellation_in_tender_complaint_period,
-    create_cancellation_in_award_complaint_period,
     create_tender_cancellation_with_cancellation_lots,
 )
 
@@ -258,7 +257,6 @@ class TenderCancellationResourceTest(
     test_create_tender_cancellation = snitch(create_tender_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_cancellation)
     test_activate_cancellation = snitch(activate_cancellation)
-    test_create_cancellation_in_tender_complaint_period = snitch(create_cancellation_in_tender_complaint_period)
 
 
 class TenderCancellationBidsAvailabilityTest(
@@ -305,7 +303,10 @@ class TenderLotsCancellationResourceTest(BaseTenderContentWebTest):
     # test_patch_tender_cancellation = snitch(patch_tender_lots_cancellation)
 
 
-class TenderAwardsCancellationResourceTest(BaseTenderContentWebTest):
+class TenderAwardsCancellationResourceTest(
+    BaseTenderContentWebTest,
+    TenderAwardsCancellationResourceTestMixin,
+):
     initial_lots = 2 * test_lots
     initial_status = "active.tendering"
     initial_bids = test_bids
@@ -316,7 +317,6 @@ class TenderAwardsCancellationResourceTest(BaseTenderContentWebTest):
     test_cancellation_unsuccessful_qualification = snitch(cancellation_unsuccessful_qualification)
     test_cancellation_active_award = snitch(cancellation_active_award)
     test_cancellation_unsuccessful_award = snitch(cancellation_unsuccessful_award)
-    test_create_cancellation_in_award_complaint_period = snitch(create_cancellation_in_award_complaint_period)
 
 
 class TenderCancellationComplaintResourceTest(

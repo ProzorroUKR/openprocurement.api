@@ -36,6 +36,7 @@ class BaseTenderCancellationResource(APIResource):
             validate_operation_cancellation_in_complaint_period,
             validate_create_cancellation_in_active_auction,
             validate_cancellation_of_active_lot,
+            validate_absence_of_pending_accepted_satisfied_complaints,
         ),
         permission="edit_tender"
     )
@@ -94,9 +95,9 @@ class BaseTenderCancellationResource(APIResource):
         cancellation = self.request.context
         prev_status = cancellation.status
         apply_patch(self.request, save=False, src=cancellation.serialize())
-        new_rules = get_first_revision_date(self.request.tender, default=get_now()) > RELEASE_2020_04_19
+        rules_2020_04_19 = get_first_revision_date(self.request.tender, default=get_now()) > RELEASE_2020_04_19
 
-        if new_rules:
+        if rules_2020_04_19:
             if prev_status == "draft" and cancellation.status == "pending":
                 validate_absence_of_pending_accepted_satisfied_complaints(self.request)
                 tender = self.request.validated["tender"]
