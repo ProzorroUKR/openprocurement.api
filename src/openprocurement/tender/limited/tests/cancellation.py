@@ -25,6 +25,7 @@ from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
 from openprocurement.tender.openua.tests.cancellation import (
     TenderCancellationResourceNewReleaseTestMixin,
     TenderCancellationComplaintResourceTestMixin,
+    TenderAwardsCancellationResourceTestMixin,
 )
 
 from openprocurement.tender.openua.tests.cancellation_blanks import (
@@ -66,6 +67,7 @@ class TenderCancellationResourceTestMixin(object):
     test_get_tender_cancellation = snitch(get_tender_cancellation)
     test_get_tender_cancellations = snitch(get_tender_cancellations)
     test_create_cancellation_on_lot = snitch(create_cancellation_on_lot)
+    test_create_cancellation_with_tender_complaint = None
 
 
 class TenderCancellationResourceTest(

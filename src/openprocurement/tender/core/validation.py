@@ -528,12 +528,8 @@ def validate_operation_cancellation_in_complaint_period(request):
     )
 
     relatedLot = cancellation.get("relatedLot")
-    complaint_statuses = ["pending", "accepted", "satisfied"]
 
     if not relatedLot:
-        if any(i.status in complaint_statuses for i in tender.get("complaints", [])):
-            raise_operation_error(request, msg)
-
         if any(
             i for i in tender.awards
             if i.get("complaintPeriod")
@@ -542,12 +538,6 @@ def validate_operation_cancellation_in_complaint_period(request):
         ):
             raise_operation_error(request, msg)
     else:
-        if any(
-                i.status in complaint_statuses
-                for i in tender.get("complaints", [])
-                if relatedLot == i.get("relatedLot")
-        ):
-            raise_operation_error(request, msg)
 
         if any(
             i for i in tender.awards

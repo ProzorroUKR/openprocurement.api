@@ -35,11 +35,7 @@ from openprocurement.tender.openua.tests.cancellation import (
     TenderCancellationComplaintResourceTestMixin,
 
 )
-from openprocurement.tender.openua.tests.cancellation_blanks import (
-    activate_cancellation,
-    create_cancellation_in_tender_complaint_period,
-)
-from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.tender.openua.tests.cancellation_blanks import activate_cancellation
 
 
 for bid in test_bids:
@@ -55,7 +51,6 @@ class TenderStage2EUCancellationResourceTest(
     test_author = test_author
 
     test_activate_cancellation = snitch(activate_cancellation)
-    test_create_cancellation_in_tender_complaint_period = snitch(create_cancellation_in_tender_complaint_period)
 
 
 class TenderStage2EULotCancellationResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
@@ -125,7 +120,6 @@ class TenderStage2UACancellationResourceTest(
     test_author = test_author
 
     test_activate_cancellation = snitch(activate_cancellation)
-    test_create_cancellation_in_tender_complaint_period = snitch(create_cancellation_in_tender_complaint_period)
 
 
 class TenderStage2UALotCancellationResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
