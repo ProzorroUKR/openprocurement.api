@@ -30,5 +30,3 @@ services:
     environment:
       COUCHDB_USER: op
       COUCHDB_PASSWORD: op
-    ports:
-      - "5984:5984"
