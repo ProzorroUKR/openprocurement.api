@@ -8,7 +8,7 @@ from openprocurement.tender.pricequotation.constants import\
 
 @subscriber(TenderInitializeEvent, procurementMethodType=PMT)
 def tender_init_handler(event):
-    """ initialization handler for belowThreshold tenders """
+    """ Initialization handler for Price Quotation tenders """
     tender = event.tender
     now = get_now()
 
