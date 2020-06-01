@@ -60,16 +60,6 @@ def cancel_tender(request):
     tender.status = "cancelled"
 
 
-def check_cancellation_status(request):
-    tender = request.validated["tender"]
-    cancellations = tender.cancellations
-
-    for cancellation in cancellations:
-        if cancellation.status == "pending":
-            cancellation.status = "active"
-            cancel_tender(request)
-
-
 def check_award_status(request):
     tender = request.validated["tender"]
     now = get_now()
@@ -85,7 +75,6 @@ def check_award_status(request):
 
 def check_status(request):
 
-    check_cancellation_status(request)
     check_award_status(request)
 
     tender = request.validated["tender"]
@@ -192,7 +181,7 @@ def get_bid_owned_award_acl(award):
                    if a.bid_id == awarded_bid.id and a.id != award.id]
     bid_acl = "_".join((awarded_bid.owner, awarded_bid.owner_token))
     owner_acl = "_".join((tender.owner, tender.owner_token))
-    if prev_awards:
+    if prev_awards or award.status == 'active':
         acl.extend([
             (Allow, owner_acl, "upload_award_documents"),
             (Allow, owner_acl, "edit_award")
