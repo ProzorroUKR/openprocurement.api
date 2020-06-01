@@ -1,0 +1,67 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-06-01 12:43+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.8.0\n"
+
+msgid "Overview"
+msgstr ""
+
+msgid "The Open Procurement `Price Quotation` procedure is plugin to `Open Procurement API` software."
+msgstr ""
+
+msgid "REST-ful interface to plugin is in line with core software design principles."
+msgstr ""
+
+msgid "Main responsibilities"
+msgstr ""
+
+msgid "Price Quotation procedure is dedicated to Open Tender procedure for Ukrainian below threshold procurements.  The code for that type of procedure is `priceQuotation`."
+msgstr ""
+
+msgid "Business logic"
+msgstr ""
+
+msgid "Publication of the Price Quotation"
+msgstr ""
+
+msgid "Business process begins when the Procuring Entity creates a Price Quotation procedure using parameters from the e-Catalogues Profile database."
+msgstr ""
+
+msgid "After Procuring Entity supplements the procedure with quantity of items and delivery details and publishes the tender by sending a request for Price Quotation to ProZorro Business Process Engine the process starts."
+msgstr ""
+
+msgid "At this moment Business Process Engine receives and validates the Price Quotation request. Given the validation is passed the system automatically informs shortlisted (qualified to specific eCatalogue Profile) suppliers about the request."
+msgstr ""
+
+msgid "Tendering"
+msgstr ""
+
+msgid "Receiving a Price Quotation request, supplier decides if they are able to offer the requested product. In case of rejection supplier declines participation in procedure. Until the end of tender period (minimal two working days) suppliers would be able to submit a bid, while BPE will collect and register quotations."
+msgstr ""
+
+msgid "Awarding, Qualification"
+msgstr ""
+
+msgid "After the deadline system will publish received bids, awarding suppleir with most economically advantageous bid allowing to confirm award within two business days. In case if award was not confirmed system will automatically award next supplier providing same confirmation period. In case of no suppliers left system will transfer procedure to status `unsuccessful`."
+msgstr ""
+
+msgid "Contracting"
+msgstr ""
+
+msgid "Selecting a winner will lead both Procuring Entity and supplier to the contracting process, where the contract is signed, published and taken to execution."
+msgstr ""
+
