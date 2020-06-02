@@ -488,6 +488,11 @@ def create_tender_cancellation_2020_04_19(self):
         self.assertEqual(response.json["data"]["status"], "active.tendering")
 
 
+@patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.views.complaint.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def create_cancellation_with_tender_complaint(self):
     # Create tender complaint
     complaint_data = deepcopy(test_complaint)
@@ -513,9 +518,11 @@ def create_cancellation_with_tender_complaint(self):
 
     self.app.authorization = auth
 
+    cancellation_data = deepcopy(test_cancellation)
+    cancellation_data.update({"reasonType": self.valid_reasonType_choices[0]})
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": test_cancellation},
+        {"data": cancellation_data},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -536,6 +543,11 @@ def create_cancellation_with_tender_complaint(self):
     self.assertEqual(response.content_type, "application/json")
 
 
+@patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.views.award_complaint.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def create_cancellation_with_award_complaint(self):
     self.set_status("active.qualification")
 
@@ -591,6 +603,7 @@ def create_cancellation_with_award_complaint(self):
     cancellation = dict(**test_cancellation)
     cancellation.update({
         "status": "active",
+        "reasonType": "noDemand",
         "cancellationOf": "lot",
         "relatedLot": self.initial_lots[0]["id"],
     })
