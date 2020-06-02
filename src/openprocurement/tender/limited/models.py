@@ -434,12 +434,12 @@ class NegotiationTender(ReportingTender):
         "stateLegalServices",
     ]
 
-    _before_release_cause_choices = [
+    _cause_choices = [
         "artContestIP",
         "noCompetition",
     ] + _basic_cause_choices
 
-    _after_release_cause_choices = [
+    _cause_choices_2020_04_19 = [
         "resolvingInsolvency",
         "artPurchase",
         "contestWinner",
@@ -457,9 +457,9 @@ class NegotiationTender(ReportingTender):
     def validate_cause(self, data, value):
         if value:
             apply_rules_2020_04_19 = get_first_revision_date(data, default=get_now()) > RELEASE_2020_04_19
-            cause_choices = self._after_release_cause_choices \
+            cause_choices = self._cause_choices_2020_04_19 \
                 if apply_rules_2020_04_19 \
-                else self._before_release_cause_choices
+                else self._cause_choices
             if value not in cause_choices:
                 raise ValidationError(BaseType.MESSAGES['choices'].format(cause_choices))
         return value
@@ -506,13 +506,13 @@ class NegotiationQuickTender(NegotiationTender):
         "stateLegalServices",
     ]
 
-    _before_release_cause_choices = [
+    _cause_choices = [
         "quick",
         "artContestIP",
         "noCompetition",
     ] + _basic_cause_choices
 
-    _after_release_cause_choices = [
+    _cause_choices_2020_04_19 = [
         "emergency",
         "humanitarianAid",
         "contractCancelled",

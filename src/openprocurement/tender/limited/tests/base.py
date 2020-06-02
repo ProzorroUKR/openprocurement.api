@@ -33,7 +33,7 @@ test_tender_negotiation_data_2items["items"] = [
 
 test_tender_negotiation_quick_data = deepcopy(test_tender_data)
 test_tender_negotiation_quick_data["procurementMethodType"] = "negotiation.quick"
-test_tender_negotiation_quick_data["cause"] = "quick"
+test_tender_negotiation_quick_data["cause"] = "additionalConstruction"
 test_tender_negotiation_quick_data["causeDescription"] = "chupacabra"
 if SANDBOX_MODE:
     test_tender_negotiation_quick_data["procurementMethodDetails"] = "quick, accelerator=1440"

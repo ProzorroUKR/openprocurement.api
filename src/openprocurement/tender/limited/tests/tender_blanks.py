@@ -1454,7 +1454,7 @@ def tender_cause(self):
         [{u"description": [u"This field is required."], u"location": u"body", u"name": u"cause"}],
     )
 
-    data["cause"] = "noCompetition"
+    data["cause"] = "additionalPurchase"
     response = self.app.post_json("/tenders", {"data": data})
     self.assertEqual(response.status, "201 Created")
 
@@ -1462,10 +1462,10 @@ def tender_cause(self):
     owner_token = response.json["access"]["token"]
 
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"cause": "artContestIP"}}
+        "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"cause": "stateLegalServices"}}
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["cause"], "artContestIP")
+    self.assertEqual(response.json["data"]["cause"], "stateLegalServices")
 
 
 def tender_cause_quick(self):
@@ -1490,7 +1490,7 @@ def tender_cause_quick(self):
         [{u"description": [u"This field is required."], u"location": u"body", u"name": u"cause"}],
     )
 
-    data["cause"] = "quick"
+    data["cause"] = "additionalConstruction"
 
     with mock.patch(constant_target, get_now() - timedelta(days=1)):
         response = self.app.post_json("/tenders", {"data": data})
@@ -1507,16 +1507,18 @@ def tender_cause_choices(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
 
-    cause_choices = [
-        "artContestIP",
-        "noCompetition",
-        "twiceUnsuccessful",
-        "additionalPurchase",
-        "additionalConstruction",
-        "stateLegalServices",
-    ]
-    if "negotiation.quick" == data["procurementMethodType"]:
-        cause_choices = ['quick'] + cause_choices
+    if get_now() > RELEASE_2020_04_19:
+        cause_choices_map = {
+            "negotiation": NegotiationTender._cause_choices_2020_04_19,
+            "negotiation.quick": NegotiationQuickTender._cause_choices_2020_04_19,
+        }
+    else:
+        cause_choices_map = {
+            "negotiation": NegotiationTender._cause_choices,
+            "negotiation.quick": NegotiationQuickTender._cause_choices,
+        }
+
+    cause_choices = cause_choices_map.get(data["procurementMethodType"])
 
     self.assertEqual(
         response.json["errors"],
