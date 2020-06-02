@@ -247,6 +247,15 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             bids_access[bid2_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')
 
+        # Third bid registration
+        bid_with_docs['value']['amount'] += 10
+        response = self.app.post_json(
+            '/tenders/{}/bids'.format(self.tender_id),
+            {'data': bid_with_docs})
+        bid3_id = response.json['data']['id']
+        bids_access[bid3_id] = response.json['access']['token']
+        self.assertEqual(response.status, '201 Created')
+
         self.set_status('active.qualification')
 
         with open(TARGET_DIR + 'awards-listing.http', 'w') as self.app.file_obj:
@@ -259,7 +268,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         award_token = bids_access[award['bid_id']]
 
         with open(TARGET_DIR + 'award-unsuccesful.http', 'w') as self.app.file_obj:
-            self.app.patch_json(
+            response = self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, award_token),
                 {"data": {"status": "unsuccessful"}})
             self.assertEqual(response.status, '200 OK')
@@ -272,10 +281,26 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         award_token = bids_access[award['bid_id']]
         
         with open(TARGET_DIR + 'award-active.http', 'w') as self.app.file_obj:
-            self.app.patch_json(
+            response = self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, award_token),
                 {"data": {"status": "active"}})
             self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'award-cancelled.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                {"data": {"status": "cancelled"}})
+            self.assertEqual(response.status, '200 OK')
+
+        response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
+        award = [i for i in response.json['data'] if i['status'] == 'pending'][0]
+        award_id = award['id']
+        award_token = bids_access[award['bid_id']]
+
+        response = self.app.patch_json(
+            '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, award_token),
+            {"data": {"status": "active"}})
+        self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'contract-listing.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
