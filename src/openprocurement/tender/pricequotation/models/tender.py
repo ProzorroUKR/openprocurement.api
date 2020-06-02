@@ -24,7 +24,7 @@ from openprocurement.tender.core.models import (
     Tender,
     Model
     )
-from openprocurement.tender.pricequotation.constants import PMT
+from openprocurement.tender.pricequotation.constants import PMT, QUALIFICATION_DURATION
 from openprocurement.tender.pricequotation.interfaces\
     import IPriceQuotationTender
 
@@ -231,7 +231,7 @@ class PriceQuotationTender(Tender):
                 if award.status == 'pending':
                     checks.append(
                         calculate_tender_business_date(award.date,
-                                                       timedelta(days=2),
+                                                       QUALIFICATION_DURATION,
                                                        self)
                     )
                 if award.status == "active" and not\

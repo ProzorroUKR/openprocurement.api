@@ -10,6 +10,7 @@ from openprocurement.tender.core.utils import (
 )
 
 from openprocurement.tender.core.utils import get_first_revision_date
+from openprocurement.tender.pricequotation.constants import QUALIFICATION_DURATION
 
 
 LOGGER = getLogger("openprocurement.tender.pricequotation")
@@ -65,7 +66,10 @@ def check_award_status(request):
     now = get_now()
     awards = tender.awards
     for award in awards:
-        if award.status == 'pending' and calculate_tender_business_date(award.date, timedelta(days=2), tender) <= now:
+        if award.status == 'pending' and\
+           calculate_tender_business_date(award.date,
+                                          QUALIFICATION_DURATION,
+                                          tender) <= now:
             award.status = 'unsuccessful'
             add_next_award(request)
         if award.status == "active" and not any([i.awardID == award.id for i in tender.contracts]):
