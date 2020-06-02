@@ -179,6 +179,9 @@ docs:
   script:
     - python setup.py test --addopts="docs/tests --color=yes"
     - (set -e; [[ $(git diff) ]] && { git diff; exit 1; } || exit 0)
+  variables:
+    KUBERNETES_CPU_REQUEST: 3000m
+    KUBERNETES_MEMORY_REQUEST: 4Gi
 
 .test:
   image: $CI_REGISTRY_IMAGE:ci-$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA
@@ -206,6 +209,9 @@ docs:
   retry:
     max: 2
     when: runner_system_failure
+  variables:    
+    KUBERNETES_CPU_REQUEST: 3000m
+    KUBERNETES_MEMORY_REQUEST: 768Mi
 
 test_relocation_api:
   extends: .test
@@ -213,6 +219,8 @@ test_relocation_api:
     TESTS_PATH: src/openprocurement/relocation/api/tests
     COV_PATH: src/openprocurement/relocation/api
     COV_FILE: .coveragerc
+    KUBERNETES_CPU_REQUEST: 700m
+    KUBERNETES_MEMORY_REQUEST: 1100Mi     
 
 test_tender_esco:
   extends: .test
@@ -220,6 +228,8 @@ test_tender_esco:
     TESTS_PATH: src/openprocurement/tender/esco/tests
     COV_PATH: src/openprocurement/tender/esco
     COV_FILE: .coveragerc
+    KUBERNETES_MEMORY_REQUEST: 1500Mi       
+    
 
 test_tender_openeu:
   extends: .test
@@ -227,6 +237,7 @@ test_tender_openeu:
     TESTS_PATH: src/openprocurement/tender/openeu/tests
     COV_PATH: src/openprocurement/tender/openeu
     COV_FILE: .coveragerc
+    KUBERNETES_CPU_REQUEST: 1500m    
 
 test_tender_cfaua:
   extends: .test
@@ -234,6 +245,7 @@ test_tender_cfaua:
     TESTS_PATH: src/openprocurement/tender/cfaua/tests
     COV_PATH: src/openprocurement/tender/cfaua
     COV_FILE: .coveragerc
+    KUBERNETES_CPU_REQUEST: 1500m
 
 test_tender_comp_stage2:
   extends: .test
@@ -241,6 +253,7 @@ test_tender_comp_stage2:
     TESTS_PATH: src/openprocurement/tender/competitivedialogue/tests/stage2
     COV_PATH: src/openprocurement/tender/competitivedialogue/
     COV_FILE: src/openprocurement/tender/competitivedialogue/tests/stage2/.coveragerc
+    KUBERNETES_MEMORY_REQUEST: 1600Mi      
 
 test_tender_core:
   extends: .test
@@ -255,6 +268,8 @@ test_api:
     TESTS_PATH: src/openprocurement/api/tests
     COV_PATH: src/openprocurement/api
     COV_FILE: .coveragerc
+    KUBERNETES_MEMORY_REQUEST: 1100Mi 
+    KUBERNETES_CPU_REQUEST: 500m   
 
 test_agreement_core:
   extends: .test
@@ -269,6 +284,7 @@ test_agreement_cfaua:
     TESTS_PATH: src/openprocurement/agreement/cfaua/tests
     COV_PATH: src/openprocurement/agreement/cfaua
     COV_FILE: .coveragerc
+    KUBERNETES_CPU_REQUEST: 1500m
 
 test_contracting_api:
   extends: .test
@@ -276,6 +292,9 @@ test_contracting_api:
     TESTS_PATH: src/openprocurement/contracting/api/tests
     COV_PATH: src/openprocurement/contracting/api
     COV_FILE: .coveragerc
+    KUBERNETES_MEMORY_REQUEST: 1200Mi 
+    KUBERNETES_CPU_REQUEST: 500m    
+    
 
 test_planning_api:
   extends: .test
@@ -283,6 +302,8 @@ test_planning_api:
     TESTS_PATH: src/openprocurement/planning/api/tests
     COV_PATH: src/openprocurement/planning/api
     COV_FILE: .coveragerc
+    KUBERNETES_MEMORY_REQUEST: 1000Mi 
+    KUBERNETES_CPU_REQUEST: 1000m    
 
 test_historical_core:
   extends: .test
@@ -290,6 +311,8 @@ test_historical_core:
     TESTS_PATH: src/openprocurement/historical/core/tests
     COV_PATH: src/openprocurement/historical/core
     COV_FILE: .coveragerc
+    KUBERNETES_MEMORY_REQUEST: 500Mi 
+    KUBERNETES_CPU_REQUEST: 500m    
 
 test_historical_tender:
   extends: .test
@@ -297,6 +320,8 @@ test_historical_tender:
     TESTS_PATH: src/openprocurement/historical/tender/tests
     COV_PATH: src/openprocurement/historical/tender
     COV_FILE: .coveragerc
+    KUBERNETES_MEMORY_REQUEST: 500Mi 
+    KUBERNETES_CPU_REQUEST: 500m 
 
 test_tender_comp_stage1:
   extends: .test
@@ -304,6 +329,9 @@ test_tender_comp_stage1:
     TESTS_PATH: src/openprocurement/tender/competitivedialogue/tests/stage1
     COV_PATH: src/openprocurement/tender/competitivedialogue/
     COV_FILE: src/openprocurement/tender/competitivedialogue/tests/stage1/.coveragerc
+    KUBERNETES_MEMORY_REQUEST: 1600Mi 
+    KUBERNETES_CPU_REQUEST: 3000m       
+
 
 test_tender_limited:
   extends: .test
@@ -311,6 +339,7 @@ test_tender_limited:
     TESTS_PATH: src/openprocurement/tender/limited/tests
     COV_PATH: src/openprocurement/tender/limited
     COV_FILE: .coveragerc
+    KUBERNETES_CPU_REQUEST: 600m
 
 test_tender_openua:
   extends: .test
@@ -318,20 +347,23 @@ test_tender_openua:
     TESTS_PATH: src/openprocurement/tender/openua/tests
     COV_PATH: src/openprocurement/tender/openua
     COV_FILE: .coveragerc
-
+    KUBERNETES_MEMORY_REQUEST: 1400Mi
+  
 test_tender_belowthreshold:
   extends: .test
   variables:
     TESTS_PATH: src/openprocurement/tender/belowthreshold/tests
     COV_PATH: src/openprocurement/tender/belowthreshold
     COV_FILE: .coveragerc
-
+    KUBERNETES_CPU_REQUEST: 600m
+    
 test_tender_openuadefense:
   extends: .test
   variables:
     TESTS_PATH: src/openprocurement/tender/openuadefense/tests
     COV_PATH: src/openprocurement/tender/openuadefense
     COV_FILE: .coveragerc
+    KUBERNETES_CPU_REQUEST: 1800m       
 
 test_tender_cfaselectionua:
   extends: .test
@@ -339,3 +371,5 @@ test_tender_cfaselectionua:
     TESTS_PATH: src/openprocurement/tender/cfaselectionua/tests
     COV_PATH: src/openprocurement/tender/cfaselectionua
     COV_FILE: .coveragerc
+    KUBERNETES_MEMORY_REQUEST: 1200Mi 
+    KUBERNETES_CPU_REQUEST: 2500m       
