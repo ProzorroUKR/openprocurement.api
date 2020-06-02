@@ -9,6 +9,7 @@ from schematics.exceptions import ValidationError
 from openprocurement.api.constants import (
     MILESTONES_VALIDATION_FROM,
     QUICK_CAUSE_REQUIRED_FROM,
+    RELEASE_2020_04_19,
     TZ,
 )
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_3, ACCR_4, ACCR_5
@@ -412,21 +413,13 @@ class NegotiationTender(ReportingTender):
     )
     awards = ListType(ModelType(Award, required=True), default=list())
     contracts = ListType(ModelType(Contract, required=True), default=list())
-    cause = StringType(
-        choices=[
-            "artContestIP",
-            "noCompetition",
-            "twiceUnsuccessful",
-            "additionalPurchase",
-            "additionalConstruction",
-            "stateLegalServices",
-        ],
-        required=True,
-    )
+    cause = StringType(required=True)
     causeDescription = StringType(required=True, min_length=1)
     causeDescription_en = StringType(min_length=1)
     causeDescription_ru = StringType(min_length=1)
     procurementMethodType = StringType(default="negotiation")
+    lots = ListType(ModelType(Lot, required=True), default=list(), validators=[validate_lots_uniq])
+    cancellations = ListType(ModelType(NegotiationCancellation, required=True), default=list())
 
     create_accreditations = (ACCR_3, ACCR_5)
     central_accreditations = (ACCR_5,)
@@ -434,15 +427,42 @@ class NegotiationTender(ReportingTender):
 
     procuring_entity_kinds = ["authority", "central", "defense", "general", "social", "special"]
 
-    lots = ListType(ModelType(Lot, required=True), default=list(), validators=[validate_lots_uniq])
+    _basic_cause_choices = [
+        "twiceUnsuccessful",
+        "additionalPurchase",
+        "additionalConstruction",
+        "stateLegalServices",
+    ]
 
-    cancellations = ListType(ModelType(NegotiationCancellation, required=True), default=list())
+    _before_release_cause_choices = [
+        "artContestIP",
+        "noCompetition",
+    ] + _basic_cause_choices
+
+    _after_release_cause_choices = [
+        "resolvingInsolvency",
+        "artPurchase",
+        "contestWinner",
+        "technicalReasons",
+        "intProperty",
+        "lastHope"
+    ] + _basic_cause_choices
 
     # Required milestones
     def validate_milestones(self, data, value):
         required = get_first_revision_date(data, default=get_now()) > MILESTONES_VALIDATION_FROM
         if required and (value is None or len(value) < 1):
             raise ValidationError("Tender should contain at least one milestone")
+
+    def validate_cause(self, data, value):
+        if value:
+            apply_rules_2020_04_19 = get_first_revision_date(data, default=get_now()) > RELEASE_2020_04_19
+            cause_choices = self._after_release_cause_choices \
+                if apply_rules_2020_04_19 \
+                else self._before_release_cause_choices
+            if value not in cause_choices:
+                raise ValidationError(BaseType.MESSAGES['choices'].format(cause_choices))
+        return value
 
     def __acl__(self):
         acl = [
@@ -470,18 +490,7 @@ class NegotiationQuickTender(NegotiationTender):
         namespace = "Tender"
         roles = NegotiationTender.Options.roles
 
-    cause = StringType(
-        choices=[
-            "quick",
-            "artContestIP",
-            "noCompetition",
-            "twiceUnsuccessful",
-            "additionalPurchase",
-            "additionalConstruction",
-            "stateLegalServices",
-        ],
-        required=False,
-    )
+    cause = StringType(required=False)
     procurementMethodType = StringType(default="negotiation.quick")
 
     create_accreditations = (ACCR_3, ACCR_5)
@@ -490,7 +499,29 @@ class NegotiationQuickTender(NegotiationTender):
 
     procuring_entity_kinds = ["authority", "central", "defense", "general", "social", "special"]
 
+    _basic_cause_choices = [
+        "twiceUnsuccessful",
+        "additionalPurchase",
+        "additionalConstruction",
+        "stateLegalServices",
+    ]
+
+    _before_release_cause_choices = [
+        "quick",
+        "artContestIP",
+        "noCompetition",
+    ] + _basic_cause_choices
+
+    _after_release_cause_choices = [
+        "emergency",
+        "humanitarianAid",
+        "contractCancelled",
+        "activeComplaint",
+        "general",
+    ] + _basic_cause_choices
+
     def validate_cause(self, data, value):
         required = get_first_revision_date(data, default=get_now()) >= QUICK_CAUSE_REQUIRED_FROM
-        if required and value is None:
+        if required and not value:
             raise ValidationError(BaseType.MESSAGES["required"])
+        return super(NegotiationQuickTender, self)._validator_functions["cause"](self, data, value)
