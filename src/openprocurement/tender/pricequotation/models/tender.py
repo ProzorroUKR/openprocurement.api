@@ -287,6 +287,13 @@ class PriceQuotationTender(Tender):
             roles["{}_{}".format(i.owner, i.owner_token)] = "bid_owner"
         return roles
 
+    def _acl_cancellation(self, acl):
+        acl.extend([
+            (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_cancellation"),
+            (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_tender"),
+            (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_tender_documents"),
+        ])
+
     def __acl__(self):
         acl = [
             (Allow, "g:bots", "upload_award_documents"),
