@@ -55,8 +55,6 @@ Let's access the URL of the created object (the `Location` header of the respons
 .. include:: http/blank-tender-view.http
    :code:
 
-.. XXX body is empty for some reason (printf fails)
-
 We can see the same response we got after creating tender.
 
 Modifying tender
@@ -65,21 +63,14 @@ Modifying tender
 Procuring Entity can modify tender before publishing. 
 Let's update tender by supplementing it with all other essential properties:
 
-.. include:: http/patch-items-value-periods.http
+.. include:: http/patch-tender-data.http
    :code:
-
-.. XXX body is empty for some reason (printf fails)
 
 We see the added properties have merged with existing tender data. Additionally, the `dateModified` property was updated to reflect the last modification datestamp.
 
 Checking the listing again reflects the new modification date:
 
 .. include:: http/tender-listing-after-patch.http
-   :code:
-
-Procuring entity can set bid guarantee:
-
-.. include:: http/set-bid-guarantee.http
    :code:
 
 Publishing tender
@@ -128,7 +119,7 @@ Modifying bid
    
 Bid can be updated until the end of tender period. 
 
-.. include:: http/edit-bidder.http
+.. include:: http/patch-bidder.http
    :code:
    
 Proposal Uploading
@@ -156,12 +147,12 @@ After the tender period end date, system automatically creates `award` in `pendi
 
 The Supplier-winner can accept `award` by transferring it to status: `active`. The system is waiting for acceptance from the supplier-winner within `two working days`.
 
-.. include:: http/confirm-qualification.http
+.. include:: http/award-active.http
    :code:
 
 Procuring Entity can cancel `award` after acceptance by changing `award` status to `cancelled` in case if supplier-winner declines to sign contract.
 
-.. include:: http/active-cancellation.http
+.. include:: http/award-cancelled.http
    :code:
    
 After canceling `award` system creates `second` `award` for the same bid in status: `pending` with access for Procuring Entity only. 
@@ -169,7 +160,7 @@ By the decision of Procuring Entity `second` `award` can be either changed for `
    
 The Supplier-winner can decline `award` by transferring it to status: `unsuccessful`.
 
-.. include:: http/unsuccessful-qualification.http
+.. include:: http/award-unsuccesful.http
    :code:
  
 `Award` will be granted to the next bid with most economically advantageous price, for the following cases:
