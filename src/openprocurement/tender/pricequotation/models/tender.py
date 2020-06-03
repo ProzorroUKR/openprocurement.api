@@ -43,6 +43,35 @@ class ShortlistedFirm(BusinessOrganization):
 
 
 class Item(BaseItem):
+    class Options:
+        roles = {
+            'create': whitelist(
+                'id',
+                'description',
+                'description_en',
+                'description_ru',
+                'quantity',
+                'deliveryDate',
+                'deliveryAddress',
+                'deliveryLocation'
+            ),
+            'edit': whitelist(
+                'description',
+                'description_en',
+                'description_ru',
+                'quantity',
+                'deliveryDate',
+                'deliveryAddress',
+                'deliveryLocation',
+            ),
+            'bots': whitelist(
+                'classification',
+                'additionalClassifications',
+                'unit'
+            ),
+            "edit_contract": whitelist("unit")
+        }
+
     """A good, service, or work to be contracted."""
     classification = ModelType(CPVClassification)
 

@@ -46,7 +46,7 @@ class Bid(Model):
                 "documents",
                 "requirementResponses"
             ),
-            "edit": whitelist("value", "status", "tenderers", "parameters"),
+            "edit": whitelist("value", "status", "tenderers"),
             "active.tendering": whitelist(),
             "active.qualification": view_bid_role,
             "active.awarded": view_bid_role,
