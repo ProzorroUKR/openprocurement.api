@@ -62,14 +62,6 @@ class TenderCancellationActiveAwardedResourceTest(TenderCancellationActiveTender
     initial_bids = test_bids
     valid_reasonType_choices = ["noDemand", "unFixable", "expensesCut"]
 
-# class TenderCancellationActiveQualificationResourceTest(
-#     TenderContentWebTest,
-#     TenderCancellationResourceTestMixin,
-# ):
-#     initial_status = "active.qualification"
-#     initial_bids = test_bids
-#     valid_reasonType_choices = ["noDemand", "unFixable", "expensesCut"]
-
 
 class TenderCancellationDocumentResourceTest(TenderContentWebTest, TenderCancellationDocumentResourceTestMixin):
     def setUp(self):

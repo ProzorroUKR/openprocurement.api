@@ -32,13 +32,13 @@ class Cancellation(Model):
     reason_ru = StringType()
     date = IsoDateTimeType(default=get_now)
     status = StringType(
-        choices=["draft", "pending", "unsuccessful", "active"],
+        choices=["draft", "unsuccessful", "active"],
         default='draft'
     )
     documents = ListType(ModelType(Document, required=True), default=list())
     cancellationOf = StringType(
         required=True,
-        choices=["tender", "lot"],
+        choices=["tender"],
         default="tender"
         )
     reasonType = StringType(
