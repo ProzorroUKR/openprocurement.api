@@ -454,15 +454,18 @@ class NegotiationTender(ReportingTender):
         if required and (value is None or len(value) < 1):
             raise ValidationError("Tender should contain at least one milestone")
 
+    def validate_cause_choices(self, data, value):
+        apply_rules_2020_04_19 = get_first_revision_date(data, default=get_now()) > RELEASE_2020_04_19
+        cause_choices = self._cause_choices_2020_04_19 \
+            if apply_rules_2020_04_19 \
+            else self._cause_choices
+        if value not in cause_choices:
+            raise ValidationError(BaseType.MESSAGES['choices'].format(cause_choices))
+
     def validate_cause(self, data, value):
-        if value:
-            apply_rules_2020_04_19 = get_first_revision_date(data, default=get_now()) > RELEASE_2020_04_19
-            cause_choices = self._cause_choices_2020_04_19 \
-                if apply_rules_2020_04_19 \
-                else self._cause_choices
-            if value not in cause_choices:
-                raise ValidationError(BaseType.MESSAGES['choices'].format(cause_choices))
-        return value
+        if not value:
+            raise ValidationError(BaseType.MESSAGES["required"])
+        self._validator_functions["cause_choices"](self, data, value)
 
     def __acl__(self):
         acl = [
@@ -511,4 +514,5 @@ class NegotiationQuickTender(NegotiationTender):
         required = get_first_revision_date(data, default=get_now()) >= QUICK_CAUSE_REQUIRED_FROM
         if required and not value:
             raise ValidationError(BaseType.MESSAGES["required"])
-        return NegotiationTender._validator_functions["cause"](self, data, value)
+        if value:
+            NegotiationTender._validator_functions["cause_choices"](self, data, value)
