@@ -452,8 +452,6 @@ Schema
 
         * `stateLegalServices` Purchase of legal services connected with protection of rights and interests of Ukraine
 
-    Possible values for **negotiation** procedure:
-
         * `resolvingInsolvency` Goods procurement related to resolving insolvency according to the law
 
         * `artPurchase` Procurement related to creation or purchase of artwork
@@ -475,8 +473,6 @@ Schema
         * `contractCancelled` Termination of an agreement by the fault of supplier
 
         * `activeComplaint` Unfinished complaining process in active procurement
-
-        * `general` Purchase of oil, crude oil products, electrical energy, energy transfer and distribution services, thermal energy centralized delivery, hot water centralized delivery, centralized heating services, telecomunications services including radio and tv broadcast, centralized water supply and drainage services, railway transportation services
 
     Only in :ref:`limited`
 

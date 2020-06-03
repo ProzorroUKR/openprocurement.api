@@ -499,29 +499,16 @@ class NegotiationQuickTender(NegotiationTender):
 
     procuring_entity_kinds = ["authority", "central", "defense", "general", "social", "special"]
 
-    _basic_cause_choices = [
-        "twiceUnsuccessful",
-        "additionalPurchase",
-        "additionalConstruction",
-        "stateLegalServices",
-    ]
-
-    _cause_choices = [
-        "quick",
-        "artContestIP",
-        "noCompetition",
-    ] + _basic_cause_choices
-
-    _cause_choices_2020_04_19 = [
+    _cause_choices = NegotiationTender._cause_choices + ["quick"]
+    _cause_choices_2020_04_19 = NegotiationTender._cause_choices_2020_04_19 + [
         "emergency",
         "humanitarianAid",
         "contractCancelled",
         "activeComplaint",
-        "general",
-    ] + _basic_cause_choices
+    ]
 
     def validate_cause(self, data, value):
         required = get_first_revision_date(data, default=get_now()) >= QUICK_CAUSE_REQUIRED_FROM
         if required and not value:
             raise ValidationError(BaseType.MESSAGES["required"])
-        return super(NegotiationQuickTender, self)._validator_functions["cause"](self, data, value)
+        return NegotiationTender._validator_functions["cause"](self, data, value)
