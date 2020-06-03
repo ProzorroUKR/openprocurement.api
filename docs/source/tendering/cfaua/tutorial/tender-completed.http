@@ -473,9 +473,6 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
-        "complaintPeriod": {
-          "startDate": "2020-05-15T01:00:00+03:00"
-        }, 
         "bid_id": "5a84740ed0bd4aa3830adfb56c49ed62", 
         "value": {
           "currency": "UAH", 
@@ -513,9 +510,6 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
-        "complaintPeriod": {
-          "startDate": "2020-05-15T01:00:00+03:00"
-        }, 
         "bid_id": "e88e8fc3020640178a79c6e66d3dfd5f", 
         "value": {
           "currency": "UAH", 
@@ -553,9 +547,6 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
-        "complaintPeriod": {
-          "startDate": "2020-05-15T01:00:00+03:00"
-        }, 
         "bid_id": "410cb59a0945497eb61cc4461f661569", 
         "value": {
           "currency": "UAH", 

@@ -100,8 +100,6 @@ class TenderAwardResourceTest(BaseESCOContentWebTest, TenderAwardResourceTestMix
         self.award_id = response.json["data"][0]["id"]
         self.bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
         self.app.authorization = ("Basic", ("broker", ""))
-        self.old_complaint_period_start_date = dateutil.parser.parse(
-            response.json["data"][0]["complaintPeriod"]["startDate"])
 
     test_patch_tender_award = snitch(patch_tender_award)
     test_check_tender_award_complaint_period_dates = snitch(check_tender_award_complaint_period_dates)

@@ -1496,7 +1496,6 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
             "date": now,
             "value": bid["value"],
             "suppliers": bid["tenderers"],
-            "complaintPeriod": {"startDate": now},  # TODO: should I remove this for cfaua ?
         }
         # append an "alp" milestone if it's the case
         award_class = self.__class__.awards.model_class
