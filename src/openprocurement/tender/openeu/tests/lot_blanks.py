@@ -1020,8 +1020,9 @@ def one_lot_2bid(self):
 
     # # time travel
     tender = self.db.get(tender_id)
+    now = (get_now() - timedelta(seconds=1)).isoformat()
     for i in tender.get("awards", []):
-        i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+        i["complaintPeriod"] = {"startDate": now, "endDate": now}
     self.db.save(tender)
     # # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1241,8 +1242,9 @@ def one_lot_3bid_1del(self):
 
     # # time travel
     tender = self.db.get(tender_id)
+    now = (get_now() - timedelta(seconds=1)).isoformat()
     for i in tender.get("awards", []):
-        i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+        i["complaintPeriod"] = {"startDate": now, "endDate": now}
     self.db.save(tender)
     # # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1396,8 +1398,9 @@ def one_lot_3bid_1un(self):
 
     # # time travel
     tender = self.db.get(tender_id)
+    now = (get_now() - timedelta(seconds=1)).isoformat()
     for i in tender.get("awards", []):
-        i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+        i["complaintPeriod"] = {"startDate": now, "endDate": now}
     self.db.save(tender)
     # # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1715,8 +1718,9 @@ def two_lot_2bid_2com_2win(self):
     self.set_status("complete", {"status": "active.awarded"})
     # time travel
     tender = self.db.get(tender_id)
+    now = (get_now() - timedelta(seconds=1)).isoformat()
     for i in tender.get("awards", []):
-        i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+        i["complaintPeriod"] = {"startDate": now, "endDate": now}
     self.db.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1749,12 +1753,12 @@ def two_lot_2bid_2com_2win(self):
     # get contract id
     response = self.app.get("/tenders/{}".format(tender_id))
     contract_id = response.json["data"]["contracts"][-1]["id"]
-    # after stand slill period
+    # after stand still period
     self.set_status("complete", {"status": "active.awarded"})
     # time travel
     tender = self.db.get(tender_id)
     for i in tender.get("awards", []):
-        i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+        i["complaintPeriod"] = {"startDate": now, "endDate": now}
     self.db.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1920,12 +1924,13 @@ def two_lot_3bid_1win_bug(self):
     # get contract id
     response = self.app.get("/tenders/{}".format(tender_id))
     contract_id = response.json["data"]["contracts"][-1]["id"]
-    # after stand slill period
+    # after stand still period
     self.set_status("complete", {"status": "active.awarded"})
     # time travel
     tender = self.db.get(tender_id)
+    now = (get_now() - timedelta(seconds=1)).isoformat()
     for i in tender.get("awards", []):
-        i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+        i["complaintPeriod"] = {"startDate": now, "endDate": now}
     self.db.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1960,12 +1965,12 @@ def two_lot_3bid_1win_bug(self):
     response = self.app.get("/tenders/{}/awards?acc_token={}".format(tender_id, owner_token))
     # get pending award
     self.assertEqual([i["id"] for i in response.json["data"] if i["status"] == "pending" and i["lotID"] == lot_id], [])
-    # after stand slill period
+    # after stand still period
     self.set_status("complete", {"status": "active.awarded"})
     # time travel
     tender = self.db.get(tender_id)
     for i in tender.get("awards", []):
-        i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+        i["complaintPeriod"] = {"startDate": now, "endDate": now}
     self.db.save(tender)
     # ping by chronograph
     self.check_chronograph()

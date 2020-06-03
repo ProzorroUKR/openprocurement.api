@@ -9,9 +9,6 @@ Content-Type: application/json; charset=UTF-8
     {
       "status": "pending", 
       "lotID": "c7555f1bb878434d8815dea318304673", 
-      "complaintPeriod": {
-        "startDate": "2020-05-15T01:00:00+03:00"
-      }, 
       "suppliers": [
         {
           "contactPoint": {
@@ -47,9 +44,6 @@ Content-Type: application/json; charset=UTF-8
     {
       "status": "pending", 
       "lotID": "c7555f1bb878434d8815dea318304673", 
-      "complaintPeriod": {
-        "startDate": "2020-05-15T01:00:00+03:00"
-      }, 
       "suppliers": [
         {
           "contactPoint": {
@@ -85,9 +79,6 @@ Content-Type: application/json; charset=UTF-8
     {
       "status": "pending", 
       "lotID": "c7555f1bb878434d8815dea318304673", 
-      "complaintPeriod": {
-        "startDate": "2020-05-15T01:00:00+03:00"
-      }, 
       "suppliers": [
         {
           "contactPoint": {

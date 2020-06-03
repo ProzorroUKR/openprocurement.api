@@ -1795,7 +1795,8 @@ def proc_2lot_2bid_2com_2win(self):
     # time travel
     tender = self.db.get(tender_id)
     for i in tender.get("awards", []):
-        i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+        now = get_now().isoformat()
+        i["complaintPeriod"] = {"startDate": now, "endDate": now}
     self.db.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))

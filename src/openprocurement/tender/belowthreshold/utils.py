@@ -163,7 +163,11 @@ def check_status(request):
         [setattr(i.auctionPeriod, "startDate", None) for i in tender.lots if i.numberOfBids < 2 and i.auctionPeriod]
         return
     elif not tender.lots and tender.status == "active.awarded":
-        standStillEnds = [a.complaintPeriod.endDate.astimezone(TZ) for a in tender.awards if a.complaintPeriod.endDate]
+        standStillEnds = [
+            a.complaintPeriod.endDate.astimezone(TZ)
+            for a in tender.awards
+            if a.complaintPeriod and a.complaintPeriod.endDate
+        ]
         if not standStillEnds:
             return
         standStillEnd = max(standStillEnds)
@@ -176,7 +180,11 @@ def check_status(request):
             if lot["status"] != "active":
                 continue
             lot_awards = [i for i in tender.awards if i.lotID == lot.id]
-            standStillEnds = [a.complaintPeriod.endDate.astimezone(TZ) for a in lot_awards if a.complaintPeriod.endDate]
+            standStillEnds = [
+                a.complaintPeriod.endDate.astimezone(TZ)
+                for a in lot_awards
+                if a.complaintPeriod and a.complaintPeriod.endDate
+            ]
             if not standStillEnds:
                 continue
             standStillEnd = max(standStillEnds)

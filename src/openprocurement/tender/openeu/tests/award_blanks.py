@@ -342,11 +342,10 @@ def check_tender_award_complaint_period_dates(self):
 
     updated_award = response.json["data"]
     self.assertIn("endDate", updated_award["complaintPeriod"])
-    new_complaint_period_start_date = dateutil.parser.parse(updated_award["complaintPeriod"]["startDate"])
-    new_complaint_period_end_date = dateutil.parser.parse(updated_award["complaintPeriod"]["endDate"])
+    complaint_period_start_date = dateutil.parser.parse(updated_award["complaintPeriod"]["startDate"])
+    complaint_period_end_date = dateutil.parser.parse(updated_award["complaintPeriod"]["endDate"])
 
-    self.assertGreater(new_complaint_period_start_date, self.old_complaint_period_start_date)
-    self.assertGreater(new_complaint_period_end_date, new_complaint_period_start_date)
+    self.assertGreater(complaint_period_end_date, complaint_period_start_date)
 
 
 def patch_tender_award_active(self):

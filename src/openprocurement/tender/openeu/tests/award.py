@@ -95,8 +95,6 @@ class TenderAwardResourceTest(BaseTenderContentWebTest, TenderAwardResourceTestM
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
         self.award_id = response.json["data"][0]["id"]
         self.bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
-        self.old_complaint_period_start_date = dateutil.parser.parse(
-            response.json["data"][0]["complaintPeriod"]["startDate"])
         self.app.authorization = ("Basic", ("broker", ""))
 
     test_check_tender_award_complaint_period_dates = snitch(check_tender_award_complaint_period_dates)
@@ -143,8 +141,6 @@ class TenderLotAwardResourceTest(BaseTenderContentWebTest, TenderLotAwardResourc
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
         self.award_id = response.json["data"][0]["id"]
         self.bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
-        self.old_complaint_period_start_date = dateutil.parser.parse(
-            response.json["data"][0]["complaintPeriod"]["startDate"])
         self.app.authorization = ("Basic", ("broker", ""))
 
 
