@@ -12,7 +12,7 @@ from pyramid.security import Allow
 
 from openprocurement.api.auth import ACCR_3, ACCR_5
 from openprocurement.api.models import Period, IsoDateTimeType, ListType
-from openprocurement.planning.api.models import PlanOrganization
+from openprocurement.planning.api.models import BaseOrganization
 from openprocurement.agreement.core.models.agreement import Agreement as BaseAgreement
 from openprocurement.agreement.cfaua.models.document import Document
 from openprocurement.agreement.cfaua.models.feature import Feature

@@ -45,7 +45,10 @@ from openprocurement.planning.api.tests.plan_blanks import (
     create_plan_with_buyers,
     create_plan_with_two_buyers,
     create_plan_with_breakdown_required,
-    create_plan_with_breakdown_not_required
+    create_plan_with_breakdown_not_required,
+    create_plan_invalid_procuring_entity,
+    create_plan_invalid_buyers,
+    create_plan_invalid_procurement_method_type,
 )
 
 test_plan_data_mode_test = test_plan_data.copy()
@@ -77,6 +80,9 @@ class PlanResourceTest(BasePlanTest):
     test_listing = snitch(listing)
     test_listing_changes = snitch(listing_changes)
     test_create_plan_invalid = snitch(create_plan_invalid)
+    test_create_plan_invalid_procurement_method_type = snitch(create_plan_invalid_procurement_method_type)
+    test_create_plan_invalid_procuring_entity = snitch(create_plan_invalid_procuring_entity)
+    test_create_plan_invalid_buyers = snitch(create_plan_invalid_buyers)
     test_create_plan_generated = snitch(create_plan_generated)
     test_create_plan = snitch(create_plan)
     test_get_plan = snitch(get_plan)

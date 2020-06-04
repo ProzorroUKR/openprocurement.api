@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from itertools import chain
 from uuid import uuid4
+from copy import deepcopy
 
 from openprocurement.api.models import OpenprocurementSchematicsDocument as SchematicsDocument
 from openprocurement.api.models import Document as BaseDocument
 from openprocurement.api.models import Model, Period, Revision
-from openprocurement.api.models import Unit, CPVClassification, Classification, Identifier, Guarantee
+from openprocurement.api.models import Unit, CPVClassification, Classification, Identifier, Guarantee, Address
 from openprocurement.api.models import schematics_embedded_role, schematics_default_role, IsoDateTimeType, ListType
 from openprocurement.api.utils import get_now, get_first_revision_date, to_decimal
 from openprocurement.api.validation import validate_cpv_group, validate_items_uniq
@@ -18,6 +19,7 @@ from openprocurement.api.constants import (
     PLAN_BUYERS_REQUIRED_FROM,
     BUDGET_PERIOD_FROM,
     BUDGET_BREAKDOWN_REQUIRED_FROM,
+    PLAN_ADDRESS_KIND_REQUIRED_FROM,
 )
 from openprocurement.api.auth import ACCR_1, ACCR_3, ACCR_5
 from openprocurement.planning.api.constants import (
@@ -38,6 +40,7 @@ from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
 from zope.interface import implementer
 
+PROCURING_ENTITY_KINDS = ("authority", "central", "defense", "general", "other", "social", "special")
 
 class IPlan(IOPContent):
     """ Base plan marker interface """
@@ -190,13 +193,31 @@ class PlanItem(Model):
             )
 
 
-class PlanOrganization(Model):
-    """An organization"""
+class BaseOrganization(Model):
+    """Base organization"""
 
     name = StringType(required=True)
     name_en = StringType()
     name_ru = StringType()
     identifier = ModelType(Identifier, required=True)
+    address = ModelType(Address)
+    kind = StringType(choices=PROCURING_ENTITY_KINDS)
+
+
+class PlanOrganization(BaseOrganization):
+    """An organization"""
+
+    def validate_address(self, data, value):
+        _parent = data['__parent__']
+        validation_date = get_first_revision_date(_parent, default=get_now())
+        if validation_date >= PLAN_ADDRESS_KIND_REQUIRED_FROM and not value:
+            raise ValidationError(u"This field is required.")
+
+    def validate_kind(self, data, value):
+        _parent = data['__parent__']
+        validation_date = get_first_revision_date(_parent, default=get_now())
+        if validation_date >= PLAN_ADDRESS_KIND_REQUIRED_FROM and not value:
+            raise ValidationError(u"This field is required.")
 
 
 class PlanTender(Model):
@@ -207,8 +228,14 @@ class PlanTender(Model):
     tenderPeriod = ModelType(Period, required=True)
 
     def validate_procurementMethodType(self, data, procurementMethodType):
-        if procurementMethodType not in PROCEDURES[data.get("procurementMethod")]:
-            raise ValidationError(u"Value must be one of {!r}.".format(PROCEDURES[data.get("procurementMethod")]))
+        _procedures = deepcopy(PROCEDURES)
+        _parent = data['__parent__']
+        validation_date = get_first_revision_date(_parent, default=get_now())
+        if validation_date >= PLAN_ADDRESS_KIND_REQUIRED_FROM:
+            _procedures[""] = ("centralizedProcurement", )
+
+        if procurementMethodType not in _procedures[data.get("procurementMethod")]:
+            raise ValidationError(u"Value must be one of {!r}.".format(_procedures[data.get("procurementMethod")]))
 
 
 class Document(BaseDocument):
@@ -271,7 +298,7 @@ class Milestone(Model):
     documents = ListType(
         ModelType(Document, required=True), default=list()
     )
-    author = ModelType(PlanOrganization, required=True)
+    author = ModelType(BaseOrganization, required=True)
     dateModified = IsoDateTimeType(default=get_now)
     dateMet = IsoDateTimeType()
     owner = StringType()
