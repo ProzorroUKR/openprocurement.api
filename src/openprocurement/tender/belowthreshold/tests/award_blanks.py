@@ -9,7 +9,7 @@ from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_organization, test_draft_claim, test_claim, test_cancellation
+    test_organization, test_draft_claim, test_claim, test_cancellation, test_complaint
 )
 
 
@@ -1194,6 +1194,22 @@ def create_tender_award_complaint_invalid(self):
 
 def create_tender_award_complaint(self):
     token = self.initial_bids_tokens.values()[0]
+
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, token),
+        {
+            "data": test_complaint
+        },
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Can't add complaint of 'complaint' type"
+    )
+
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, token),
         {
