@@ -48,11 +48,27 @@ test_plan_data = {
     "procuringEntity": {
         "identifier": {"scheme": u"UA-EDR", "id": u"111983", "legalName": u"ДП Державне Управління Справами"},
         "name": u"ДУС",
+        "address": {
+            "countryName": "Україна",
+            "postalCode": "01220",
+            "region": "м. Київ",
+            "locality": "м. Київ",
+            "streetAddress": "вул. Банкова, 11, корпус 1",
+        },
+        "kind": "general",
     },
     "buyers": [
         {
             "identifier": {"scheme": u"UA-EDR", "id": u"111983", "legalName": u"ДП Державне Управління Справами"},
             "name": u"ДУС",
+            "address": {
+                "countryName": "Україна",
+                "postalCode": "01220",
+                "region": "м. Київ",
+                "locality": "м. Київ",
+                "streetAddress": "вул. Банкова, 11, корпус 1",
+            },
+            "kind": "general",
         }
     ],
     "budget": {

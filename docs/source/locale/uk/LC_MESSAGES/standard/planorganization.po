@@ -8,46 +8,72 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-21 12:43+0300\n"
+"POT-Creation-Date: 2020-05-18 10:36+0300\n"
 "PO-Revision-Date: 2019-06-21 14:12+0300\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 1.3\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: uk\n"
-"X-Generator: Poedit 2.2.3\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
 
-#: ../../source/standard/planorganization.rst:10
 msgid "PlanOrganization"
 msgstr ""
 
-#: ../../source/standard/planorganization.rst:13
 msgid "Schema"
 msgstr "Схема"
 
-#: ../../source/standard/planorganization.rst:0
 msgid "name"
 msgstr ""
 
-#: ../../source/standard/planorganization.rst:16
 msgid "string, multilingual"
 msgstr "рядок, багатомовний"
 
-#: ../../source/standard/planorganization.rst:18
 msgid "|ocdsDescription| The common name of the organization."
 msgstr "|ocdsDescription| Назва організації."
 
-#: ../../source/standard/planorganization.rst:0
 msgid "identifier"
 msgstr ""
 
-#: ../../source/standard/planorganization.rst:22
 msgid ":ref:`Identifier`"
 msgstr ":ref:`Identifier`, обов’язково"
 
-#: ../../source/standard/planorganization.rst:24
 msgid "|ocdsDescription| The primary identifier for this organization."
 msgstr "|ocdsDescription| Ідентифікатор цієї організації."
+
+msgid "address"
+msgstr ""
+
+msgid ":ref:`Address`, required"
+msgstr ":ref:`Address`, обов’язково"
+
+msgid "kind"
+msgstr ""
+
+msgid "string"
+msgstr "рядок"
+
+msgid "Possible values:"
+msgstr "Можливі значення:"
+
+msgid "``authority`` - Public authority, local government or law enforcement agency"
+msgstr "``authority`` - Орган державної влади, місцевого самоврядування або правоохоронний орган"
+
+msgid "``central`` - Legal entity that conducts procurement in the interests of the customers (CPB)"
+msgstr "``central`` - Юридична особа, що здійснює закупівлі в інтересах замовників (ЦЗО)"
+
+msgid "``defense`` - Procuring entity that conducts procurement for the defense needs"
+msgstr "``defense`` - Замовник, що здійснює закупівлі для потреб оборони"
+
+msgid "``general`` - Legal person providing the needs of the state or territorial community"
+msgstr "``general`` - Юридична особа, яка забезпечує потреби держави або територіальної громади"
+
+msgid "``other`` -  State or utility company that is not regarded as procuring entity"
+msgstr "``other`` - Державне або комунальне підприємство, яке не належить до замовників"
+
+msgid "``social`` - Social insurance authority"
+msgstr "``social`` - Орган соціального страхування"
+
+msgid "``special`` - A legal entity that operates in one or more specific business areas"
+msgstr "``special`` - Юридична особа, яка здійснює діяльність в одній або декількох окремих сферах господарювання"
+

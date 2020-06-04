@@ -72,7 +72,7 @@ from openprocurement.tender.core.validation import (
     validate_relatedlot,
 )
 from openprocurement.tender.esco.utils import get_complaint_amount as get_esco_complaint_amount
-from openprocurement.planning.api.models import PlanOrganization
+from openprocurement.planning.api.models import BaseOrganization
 from logging import getLogger
 
 
@@ -1384,7 +1384,7 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
     )
     mainProcurementCategory = StringType(choices=["goods", "services", "works"])
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
-    buyers = ListType(ModelType(PlanOrganization, required=True), default=list())
+    buyers = ListType(ModelType(BaseOrganization, required=True), default=list())
     plans = ListType(ModelType(PlanRelation, required=True), default=list())
 
     def link_plan(self, plan_id):

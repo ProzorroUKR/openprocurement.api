@@ -1,6 +1,6 @@
 POST /api/2.5/plans?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 3070
+Content-Length: 3744
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -8,12 +8,20 @@ DATA:
   "data": {
     "buyers": [
       {
+        "kind": "general", 
         "identifier": {
           "scheme": "UA-EDR", 
           "id": "111983", 
           "legalName": "ДП Державне Управління Справами"
         }, 
-        "name": "ДУС"
+        "name": "ДУС", 
+        "address": {
+          "countryName": "Україна", 
+          "postalCode": "01220", 
+          "region": "м. Київ", 
+          "streetAddress": "вул. Банкова, 11, корпус 1", 
+          "locality": "м. Київ"
+        }
       }
     ], 
     "classification": {
@@ -128,12 +136,20 @@ DATA:
       }
     ], 
     "procuringEntity": {
+      "kind": "general", 
       "identifier": {
         "scheme": "UA-EDR", 
         "id": "111983", 
         "legalName": "ДП Державне Управління Справами"
       }, 
-      "name": "ДУС"
+      "name": "ДУС", 
+      "address": {
+        "countryName": "Україна", 
+        "postalCode": "01220", 
+        "region": "м. Київ", 
+        "streetAddress": "вул. Банкова, 11, корпус 1", 
+        "locality": "м. Київ"
+      }
     }, 
     "tender": {
       "procurementMethod": "open", 
@@ -157,12 +173,20 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/f0b2403cba3040acaa
     "status": "scheduled", 
     "buyers": [
       {
+        "kind": "general", 
         "identifier": {
           "scheme": "UA-EDR", 
           "id": "111983", 
           "legalName": "ДП Державне Управління Справами"
         }, 
-        "name": "ДУС"
+        "name": "ДУС", 
+        "address": {
+          "postalCode": "01220", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова, 11, корпус 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }
       }
     ], 
     "classification": {
@@ -290,12 +314,20 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/f0b2403cba3040acaa
       }
     ], 
     "procuringEntity": {
+      "kind": "general", 
       "identifier": {
         "scheme": "UA-EDR", 
         "id": "111983", 
         "legalName": "ДП Державне Управління Справами"
       }, 
-      "name": "ДУС"
+      "name": "ДУС", 
+      "address": {
+        "postalCode": "01220", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Банкова, 11, корпус 1", 
+        "region": "м. Київ", 
+        "locality": "м. Київ"
+      }
     }, 
     "owner": "broker", 
     "dateModified": "2020-05-15T01:00:00+03:00", 

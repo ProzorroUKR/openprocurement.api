@@ -299,6 +299,9 @@ test_tenders = [
 def test_success_plan_tenders_creation(app, request_tender_data):
     app.authorization = ("Basic", ("broker", "broker"))
     request_plan_data = deepcopy(test_plan_data)
+
+    if request_tender_data["procurementMethodType"] == "aboveThresholdUA.defense":
+        request_plan_data['procuringEntity']['kind'] = 'defense'
     plan = create_plan_for_tender(app, request_tender_data, request_plan_data)
 
     response = app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {"data": request_tender_data})

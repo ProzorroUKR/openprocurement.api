@@ -389,6 +389,19 @@ def test_fail_complete_manually(app, value):
     test_data = deepcopy(test_plan_data)
     test_data["status"] = "scheduled"
     test_data["tender"]["procurementMethodType"] = value
+    if value == "aboveThresholdUA.defense":
+        response = app.post_json("/plans", {"data": test_data}, status=403)
+        assert response.status == "403 Forbidden"
+        assert response.json["errors"] == [
+            {u'description': u'procuringEntity with general kind cannot publish this type of procedure.'
+                             u' Procurement method types allowed for this kind: centralizedProcurement, reporting,'
+                             u' negotiation, negotiation.quick, belowThreshold, aboveThresholdUA, aboveThresholdEU,'
+                             u' competitiveDialogueUA, competitiveDialogueEU, esco, closeFrameworkAgreementUA.',
+             u'location': u'procuringEntity', u'name': u'kind'
+             }
+        ]
+        test_data["procuringEntity"]["kind"] = "defense"
+
     response = app.post_json("/plans", {"data": test_data})
     assert response.status == "201 Created"
     assert response.json["data"]["status"] == "scheduled"
@@ -410,7 +423,9 @@ def test_fail_complete_manually(app, value):
     }
 
 
-@pytest.mark.parametrize("value", [("open", "belowThreshold"), ("limited", "reporting"), ("", "")])
+@pytest.mark.parametrize(
+    "value", [("open", "belowThreshold"), ("limited", "reporting")]
+)
 def test_success_complete_manually(app, value):
     procurement_method, procurement_method_type = value
     app.authorization = ("Basic", ("broker", "broker"))
