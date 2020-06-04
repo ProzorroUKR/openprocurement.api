@@ -1515,7 +1515,8 @@ def validate_tender_matches_plan(request):
 
     pattern = plan.classification.id[:3] if plan.classification.id.startswith("336") else plan.classification.id[:4]
     for i, item in enumerate(tender.items):
-        if item.classification.id[: len(pattern)] != pattern:
+        # item.classification may be empty in pricequotaiton
+        if item.classification and item.classification.id[: len(pattern)] != pattern:
             request.errors.add(
                 "data",
                 "items[{}].classification.id".format(i),
