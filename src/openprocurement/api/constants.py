@@ -136,6 +136,9 @@ RELEASE_2020_04_19 = get_constant(CONSTANTS_CONFIG, "RELEASE_2020_04_19")
 # CS-6687 make required complaint identifier fields for tenders created from
 COMPLAINT_IDENTIFIER_REQUIRED_FROM = get_constant(CONSTANTS_CONFIG, "COMPLAINT_IDENTIFIER_REQUIRED_FROM")
 
+# CS-7231 new negotiation causes released (old partly disabled)
+NEW_NEGOTIATION_CAUSES_FROM = get_constant(CONSTANTS_CONFIG, "NEW_NEGOTIATION_CAUSES_FROM")
+
 # Address validation
 COUNTRIES = read_json("data/countries.json")
 UA_REGIONS = read_json("data/ua_regions.json")
