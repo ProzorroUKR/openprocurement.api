@@ -1009,16 +1009,7 @@ def unless_allowed_by_qualification_milestone(*validations):
             for milestone in award.get("milestones", ""):
                 if milestone["date"] <= now <= milestone["dueDate"]:
                     if milestone["code"] == "alp":
-                        # only skip if request is posting a document of documentType:evidence
-                        allowed_type = "evidence"
-                        if request.method == "POST":
-                            if request.validated.get("data", {}).get("documentType") == allowed_type:
-                                return
-                        elif (  # it's update of a docType evidence doc and docType remains the same
-                            getattr(request.context, "documentType", "") == allowed_type
-                            and request.validated.get("data", {}).get("documentType") == allowed_type
-                        ):
-                            return
+                        return  # skipping the validation because of low price milestone
 
         # else
         for validation in validations:

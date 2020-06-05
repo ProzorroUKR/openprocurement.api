@@ -323,9 +323,12 @@ class TenderQualificationMilestoneALPMixin(object):
             }
         )
 
-        # try to post/put/patch "evidence" docs
-        self._test_doc_upload(tender["procurementMethodType"], bid_id,
-                              self.initial_bids_tokens[bid_id], expected_due_date)
+        # try to post/put/patch docs
+        for doc_type in ["evidence", None]:
+            self._test_doc_upload(
+                tender["procurementMethodType"], doc_type,
+                bid_id, self.initial_bids_tokens[bid_id], expected_due_date
+            )
 
         # setting "dueDate" to now
         self.wait_until_award_milestone_due_date(award_index=0)
@@ -394,9 +397,9 @@ class TenderQualificationMilestoneALPMixin(object):
         tender["awards"][award_index]["milestones"][0]["dueDate"] = get_now().isoformat()
         self.db.save(tender)
 
-    def _test_doc_upload(self, procurement_method,  bid_id, bid_token, due_date):
+    def _test_doc_upload(self, procurement_method, doc_type, bid_id, bid_token, due_date):
         """
-        expected that post/patch/put of (only)evidence docs is allowed during the period
+        expected that post/patch/put of docs is allowed during the period
         """
         response = self.app.post_json(
             "/tenders/{}/bids/{}/documents?acc_token={}".format(
@@ -406,12 +409,15 @@ class TenderQualificationMilestoneALPMixin(object):
                 "url": self.generate_docservice_url(),
                 "hash": "md5:" + "0" * 32,
                 "format": "application/msword",
-                "documentType": "evidence"
+                "documentType": doc_type
             }},
             status=201
         )
         document = response.json["data"]
-        self.assertEqual(document["documentType"], "evidence")
+        if doc_type is not None:
+            self.assertEqual(document["documentType"], doc_type)
+        else:
+            self.assertNotIn("documentType", document)
 
         response = self.app.put_json(
             "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(
@@ -421,13 +427,16 @@ class TenderQualificationMilestoneALPMixin(object):
                 "url": self.generate_docservice_url(),
                 "hash": "md5:" + "0" * 32,
                 "format": "application/msword",
-                "documentType": "evidence",
+                "documentType": doc_type,
             }},
             status=200
         )
         document = response.json["data"]
         self.assertEqual(document["title"], "lorem(1).doc")
-        self.assertEqual(document["documentType"], "evidence")
+        if doc_type is not None:
+            self.assertEqual(document["documentType"], doc_type)
+        else:
+            self.assertNotIn("documentType", document)
 
         response = self.app.patch_json(
             "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(
@@ -437,60 +446,15 @@ class TenderQualificationMilestoneALPMixin(object):
         )
         document = response.json["data"]
         self.assertEqual(document["title"], "Spam.json")
-        self.assertEqual(document["documentType"], "evidence")
+        if doc_type is not None:
+            self.assertEqual(document["documentType"], doc_type)
+        else:
+            self.assertNotIn("documentType", document)
 
-        # can't post non-evidence docs or update docType of evidence
+        # can't post docs after milestone dueDate (except closeFrameworkAgreementUA)
         if procurement_method == "closeFrameworkAgreementUA":
             return
 
-        self.app.post_json(
-            "/tenders/{}/bids/{}/documents?acc_token={}".format(
-                self.tender_id, bid_id, bid_token),
-            {"data": {
-                "title": "lorem.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-                "documentType": None
-            }},
-            status=403
-        )
-
-        self.app.put_json(
-            "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(
-                self.tender_id, bid_id, document["id"], bid_token),
-            {"data": {
-                "title": "lorem(2).doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-                "documentType": "notice",
-            }},
-            status=403
-        )
-
-        self.app.patch_json(
-            "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(
-                self.tender_id, bid_id, document["id"], bid_token),
-            {"data": {"documentType": "biddingDocuments"}},
-            status=403
-        )
-
-        # also if there's a non-evidence we shouldn't be able to make it evidence
-        tender = self.db.get(self.tender_id)
-        document_source = tender["bids"][0]["documents"][1]
-        self.assertEqual(document_source["id"], document["id"])
-        document_source["documentType"] = "biddingDocuments"
-        self.db.save(tender)
-
-        self.app.patch_json(
-            "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(
-                self.tender_id, bid_id, document["id"], bid_token),
-            {"data": {"documentType": "evidence"}},
-            status=403
-        )
-
-        # after milestone dueDate
         with patch("openprocurement.tender.core.validation.get_now", lambda: due_date + timedelta(seconds=1)):
             self.app.post_json(
                 "/tenders/{}/bids/{}/documents?acc_token={}".format(
@@ -500,7 +464,7 @@ class TenderQualificationMilestoneALPMixin(object):
                     "url": self.generate_docservice_url(),
                     "hash": "md5:" + "0" * 32,
                     "format": "application/msword",
-                    "documentType": "evidence"
+                    "documentType": doc_type
                 }},
                 status=403
             )
@@ -512,7 +476,7 @@ class TenderQualificationMilestoneALPMixin(object):
                     "url": self.generate_docservice_url(),
                     "hash": "md5:" + "0" * 32,
                     "format": "application/msword",
-                    "documentType": "evidence",
+                    "documentType": doc_type
                 }},
                 status=403
             )
