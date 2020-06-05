@@ -444,10 +444,6 @@ Schema
 
     Possible values for **negotiation** and **negotiation.quick** procedures:
 
-        * `artContestIP` Purchase of art or intellectual property
-
-        * `noCompetition` Lack of competition
-
         * `twiceUnsuccessful` Two tenders have already been cancelled due to lack of participants
 
         * `additionalPurchase` Need to use the same supplier for unification, standardization, etc.
@@ -456,9 +452,27 @@ Schema
 
         * `stateLegalServices` Purchase of legal services connected with protection of rights and interests of Ukraine
 
+        * `resolvingInsolvency` Goods procurement related to resolving insolvency according to the law
+
+        * `artPurchase` Procurement related to creation or purchase of artwork
+
+        * `contestWinner` Conclusion of contract with the winner of architecture or art contest
+
+        * `technicalReasons` Lack of competition due to technical reasons
+
+        * `intProperty` Necessity of protecting intellectual property rights
+
+        * `lastHope` Conclusion of contract with the last hope supplier
+
     Possible values for **negotiation.quick** procedure:
 
-        * `quick` Procurement is urgent
+        * `emergency` Occurrence of special economical reasons related to emergency management
+
+        * `humanitarianAid` Occurrence of special economical reasons related to emergency management
+
+        * `contractCancelled` Termination of an agreement by the fault of supplier
+
+        * `activeComplaint` Unfinished complaining process in active procurement
 
     Only in :ref:`limited`
 
