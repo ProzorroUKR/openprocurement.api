@@ -658,6 +658,10 @@ class Tender(BaseTender):
         self._acl_cancellation_complaint(acl)
         return acl
 
+    def validate_enquiryPeriod(self, data, period):
+        # for deactivate validation to enquiryPeriod from parent class
+        return
+
     @serializable(serialized_name="enquiryPeriod", type=ModelType(EnquiryPeriod))
     def tender_enquiryPeriod(self):
         end_date = calculate_tender_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL, self)
