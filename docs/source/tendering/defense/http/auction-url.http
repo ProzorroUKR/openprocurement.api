@@ -15,8 +15,8 @@ Content-Type: application/json; charset=UTF-8
     "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/127bd59fdd464def8d1189b954eefcbb", 
     "enquiryPeriod": {
       "startDate": "2020-04-29T01:00:01+03:00", 
-      "clarificationsUntil": "2020-05-15T00:00:00+03:00", 
-      "endDate": "2020-05-12T01:00:01+03:00", 
+      "clarificationsUntil": "2020-05-14T00:00:00+03:00", 
+      "endDate": "2020-05-12T00:00:00+03:00", 
       "invalidationDate": "2020-05-15T01:00:01+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
