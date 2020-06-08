@@ -181,8 +181,12 @@ def get_bid_owned_award_acl(award):
         return acl
     tender = award.__parent__
     awarded_bid = [bid for bid in tender.bids if bid.id == award.bid_id][0]
-    prev_awards = [a for a in tender.awards
-                   if a.bid_id == awarded_bid.id and a.id != award.id]
+    prev_awards = [
+        a for a in tender.awards
+        if a.bid_id == awarded_bid.id and
+        a.id != award.id and
+        a['status'] != 'pending'
+    ]
     bid_acl = "_".join((awarded_bid.owner, awarded_bid.owner_token))
     owner_acl = "_".join((tender.owner, tender.owner_token))
     if prev_awards or award.status == 'active':

@@ -9,6 +9,8 @@ from openprocurement.api.validation import\
     validate_file_update, validate_patch_document_data, validate_file_upload
 from openprocurement.tender.core.utils import\
     save_tender, optendersresource, apply_patch
+from openprocurement.tender.core.validation import\
+    validate_role_for_contract_document_operation
 from openprocurement.tender.belowthreshold.views.contract_document\
     import TenderAwardContractDocumentResource
 from openprocurement.tender.pricequotation.constants import PMT
@@ -26,8 +28,12 @@ from openprocurement.tender.pricequotation.validation import\
 class PQTenderAwardContractDocumentResource(TenderAwardContractDocumentResource):
 
     @json_view(
-        permission="edit_tender",
-        validators=(validate_file_upload, validate_contract_document)
+        permission="upload_contract_documents",
+        validators=(
+            validate_file_upload,
+            validate_role_for_contract_document_operation,
+            validate_contract_document,
+        )
     )
     def collection_post(self):
         """Tender Contract Document Upload
@@ -51,8 +57,12 @@ class PQTenderAwardContractDocumentResource(TenderAwardContractDocumentResource)
             return {"data": document.serialize("view")}
 
     @json_view(
-        validators=(validate_file_update, validate_contract_document),
-        permission="edit_tender"
+        validators=(
+            validate_file_update,
+            validate_role_for_contract_document_operation,
+            validate_contract_document,
+        ),
+        permission="upload_contract_documents"
     )
     def put(self):
         """Tender Contract Document Update"""
@@ -70,8 +80,12 @@ class PQTenderAwardContractDocumentResource(TenderAwardContractDocumentResource)
 
     @json_view(
         content_type="application/json",
-        validators=(validate_patch_document_data, validate_contract_document),
-        permission="edit_tender"
+        validators=(
+            validate_patch_document_data,
+            validate_role_for_contract_document_operation,
+            validate_contract_document,
+        ),
+        permission="upload_contract_documents"
     )
     def patch(self):
         """Tender Contract Document Update"""

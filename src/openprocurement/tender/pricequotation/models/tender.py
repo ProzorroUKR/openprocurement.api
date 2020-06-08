@@ -278,11 +278,8 @@ class PriceQuotationTender(Tender):
             return
         cpv_336_group = items[0].classification.id[:3] == "336"\
             if items else False
-        cpv_validate_from = data.get("revisions")[0].date\
-            if data.get("revisions") else get_now()
         if (
             not cpv_336_group
-            and cpv_validate_from > CPV_ITEMS_CLASS_FROM
             and items
             and len(set([i.classification.id[:4] for i in items])) != 1
         ):
@@ -316,6 +313,12 @@ class PriceQuotationTender(Tender):
             roles["{}_{}".format(i.owner, i.owner_token)] = "bid_owner"
         return roles
 
+    def _acl_contract(self, acl):
+        acl.extend([
+            (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_contract"),
+            (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_contract_documents"),
+        ])
+
     def _acl_cancellation(self, acl):
         acl.extend([
             (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_cancellation"),
@@ -328,4 +331,5 @@ class PriceQuotationTender(Tender):
             (Allow, "g:bots", "upload_award_documents"),
         ]
         self._acl_cancellation(acl)
+        self._acl_contract(acl)
         return acl
