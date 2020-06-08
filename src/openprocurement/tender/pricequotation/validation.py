@@ -19,15 +19,14 @@ TYPEMAP = {
 
 
 # tender documents
-def validate_document_operation_in_not_allowed_tender_status(request):
-    if request.validated["tender_status"] != "active.tendering":
+def validate_document_operation_in_not_allowed_period(request):
+    if request.validated["tender_status"] not in ["active.tendering", "draft"]:
         raise_operation_error(
             request,
             "Can't {} document in current ({}) tender status".format(
                 OPERATIONS.get(request.method), request.validated["tender_status"]
             ),
         )
-
 
 # bids
 def validate_view_bids(request):

@@ -6,6 +6,9 @@ from openprocurement.tender.belowthreshold.views.tender_document import\
     TenderDocumentResource
 from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.pricequotation.constants import PMT
+from openprocurement.tender.core.validation import\
+    validate_tender_document_update_not_by_author_or_tender_owner
+from openprocurement.tender.pricequotation.validation import validate_document_operation_in_not_allowed_period
 
 
 @optendersresource(
@@ -21,7 +24,7 @@ class PQTenderDocumentResource(TenderDocumentResource):
         permission="upload_tender_documents",
         validators=(
             validate_file_upload,
-            # validate_operation_with_document_not_in_active_status
+            validate_document_operation_in_not_allowed_period
         ),
     )
     def collection_post(self):
@@ -31,7 +34,8 @@ class PQTenderDocumentResource(TenderDocumentResource):
         permission="upload_tender_documents",
         validators=(
             validate_file_update,
-            # validate_operation_with_document_not_in_active_status
+            validate_document_operation_in_not_allowed_period,
+            validate_tender_document_update_not_by_author_or_tender_owner
         ),
     )
     def put(self):
@@ -43,7 +47,8 @@ class PQTenderDocumentResource(TenderDocumentResource):
         permission="upload_tender_documents",
         validators=(
             validate_patch_document_data,
-            # validate_operation_with_document_not_in_active_status
+            validate_document_operation_in_not_allowed_period,
+            validate_tender_document_update_not_by_author_or_tender_owner
         ),
     )
     def patch(self):
