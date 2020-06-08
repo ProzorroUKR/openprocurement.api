@@ -17,7 +17,6 @@ class Cancellation(Model):
         roles = {
             "create": whitelist(
                 "reason",
-                "status",
                 "reasonType",
                 "cancellationOf",
             ),
