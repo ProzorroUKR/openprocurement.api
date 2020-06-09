@@ -114,9 +114,9 @@ class BaseTenderWebTest(BaseCoreWebTest):
             for award in reversed(awards):
                 if award["status"] == "active":
                     if award["value"]["valueAddedTaxIncluded"]:
-                        amount_net = award["value"]["amount"] - 1
+                        amount_net = float(award["value"]["amount"]) - 1
                     else:
-                        amount_net = award["value"]["amount"]                        
+                        amount_net = award["value"]["amount"]
                     contract = {
                         "id": uuid4().hex,
                         "title": "contract title",
@@ -189,7 +189,6 @@ class BaseTenderWebTest(BaseCoreWebTest):
             'value': value
         })
         self.save_changes()
-
 
     @property
     def tender_token(self):
