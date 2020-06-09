@@ -236,14 +236,6 @@ test_cancellation = {
     "reason": "cancellation reason",
     "reasonType": "noDemand",
     "cancellationOf": "tender",
-    "documents": [
-        {
-            'title': u'Protocol.pdf',
-            'url': u"http://broken1.ds",
-            'hash': 'md5:' + '0' * 32,
-            'format': 'application/pdf',
-        }
-    ]
 }
 
 

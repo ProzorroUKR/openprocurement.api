@@ -15,7 +15,6 @@ from openprocurement.tender.core.validation import (
 )
 from openprocurement.tender.pricequotation.validation import (
     validate_create_award_not_in_allowed_period,
-    validate_update_award_role
 )
 
 
@@ -63,7 +62,6 @@ class PQTenderAwardResource(TenderAwardResource):
         validators=(
             validate_patch_award_data,
             validate_update_award_in_not_allowed_status,
-            validate_update_award_role,
         ),
     )
     def patch(self):

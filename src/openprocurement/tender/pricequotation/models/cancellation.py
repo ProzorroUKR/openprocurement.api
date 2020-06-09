@@ -42,5 +42,4 @@ class Cancellation(Model):
         )
     reasonType = StringType(
         choices=["noDemand", "unFixable", "forceMajeure", "expensesCut"],
-        required=True
         )

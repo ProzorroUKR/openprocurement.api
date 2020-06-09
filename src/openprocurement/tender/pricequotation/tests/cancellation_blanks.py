@@ -62,8 +62,9 @@ def create_tender_cancellation_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"This field is required."], u"location": u"body", u"name": u"reason"},
-         {u"description": [u"This field is required."], u"location": u"body", u"name": u"reasonType"}],
+        [
+            {u"description": [u"This field is required."], u"location": u"body", u"name": u"reason"},
+        ],
     )
 
     response = self.app.post_json(request_path, {"data": {"invalid_field": "invalid_value"}}, status=422)

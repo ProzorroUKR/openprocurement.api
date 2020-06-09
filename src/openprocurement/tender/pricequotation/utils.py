@@ -10,6 +10,7 @@ from openprocurement.tender.core.utils import (
 )
 
 from openprocurement.tender.core.utils import get_first_revision_date
+from openprocurement.tender.belowthreshold.utils import add_contract
 from openprocurement.tender.pricequotation.constants import QUALIFICATION_DURATION
 
 
@@ -28,30 +29,6 @@ def check_bids(request):
         tender.status = "unsuccessful"
     else:
         add_next_award(request)
-
-
-def add_contract(request, award, now=None):
-    tender = request.validated["tender"]
-    tender.contracts.append(
-        type(tender).contracts.model_class(
-            {
-                "awardID": award.id,
-                "suppliers": award.suppliers,
-                "value": generate_contract_value(tender, award),
-                "date": now or get_now(),
-                "items": tender.items,
-                "contractID": "{}-{}{}".format(tender.tenderID, request.registry.server_id, len(tender.contracts) + 1),
-            }
-        )
-    )
-
-
-def generate_contract_value(tender, award):
-    if award.value:
-        value = type(tender).contracts.model_class.value.model_class(dict(award.value.items()))
-        value.amountNet = award.value.amount
-        return value
-    return None
 
 
 def cancel_tender(request):

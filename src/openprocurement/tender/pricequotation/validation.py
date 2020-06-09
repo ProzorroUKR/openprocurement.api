@@ -28,16 +28,6 @@ def validate_document_operation_in_not_allowed_period(request):
             ),
         )
 
-# bids
-def validate_view_bids(request):
-    if request.validated["tender_status"] in ["active.tendering"]:
-        raise_operation_error(
-            request,
-            "Can't view {} in current ({}) tender status".format(
-                "bid" if request.matchdict.get("bid_id") else "bids", request.validated["tender_status"]
-            ),
-        )
-
 
 # award
 def validate_create_award_not_in_allowed_period(request):
@@ -45,10 +35,6 @@ def validate_create_award_not_in_allowed_period(request):
     if tender.status != "active.qualification":
         raise_operation_error(request, "Can't create award in current ({}) tender status".format(tender.status))
 
-
-def validate_update_award_role(request):
-    tender = request.validated["tender"]
-    award = request.validated["award"]
 
 
 # contract document
@@ -68,16 +54,6 @@ def validate_contract_document(request):
             "Can't {} document in current contract status".format(operation)
         )
     return True
-
-
-def validate_cancellation_document_operation_not_in_allowed_status(request):
-    if request.validated["tender_status"] in ["complete", "cancelled", "unsuccessful"]:
-        raise_operation_error(
-            request,
-            "Can't {} document in current ({}) tender status".format(
-                OPERATIONS.get(request.method), request.validated["tender_status"]
-            ),
-        )
 
 
 def validate_award_document(request):
