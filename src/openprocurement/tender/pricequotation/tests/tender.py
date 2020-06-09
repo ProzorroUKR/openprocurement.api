@@ -9,47 +9,54 @@ from openprocurement.tender.pricequotation.tests.base import (
     test_tender_data,
     BaseApiWebTest,
 )
+
 from openprocurement.tender.pricequotation.tests.tender_blanks import (
-    # TenderProcessTest
+    simple_add_tender,
+
+    listing,
+    listing_draft,
+    listing_changes,
+
     one_valid_bid_tender,
     one_invalid_bid_tender,
     first_bid_tender,
+
     create_tender,
+    create_tender_draft,
+    create_tender_generated,
+    create_tender_invalid,
+    create_tender_with_inn,
+
     invalid_tender_conditions,
+    patch_tender,
+    patch_tender_by_pq_bot,
+    tender_owner_can_change_in_draft,
+    tender_owner_cannot_change_in_draft,
+    required_field_deletion,
+    tender_Administrator_change,
+    tender_fields,
     lost_contract_for_active_award,
-    # TestCoordinatesRegExp
+)
+from openprocurement.tender.belowthreshold.tests.tender_blanks import (
+    create_tender_central_invalid,
+    guarantee,
+    create_tender_with_inn_before,
+    tender_milestones_required,
+    create_tender_central,
     coordinates_reg_exp,
-    # TenderTest
-    simple_add_tender,
-    # TenderResourceTest
-    listing,
     get_tender,
     tender_not_found,
     dateModified_tender,
-    guarantee,
-    tender_Administrator_change,
     patch_not_author,
-    listing_draft,
-    tender_fields,
     tender_items_float_quantity,
-    listing_changes,
-    create_tender_invalid,
-    create_tender_generated,
-    create_tender_draft,
     patch_tender_jsonpatch,
-    patch_tender,
-    required_field_deletion,
     tender_funders,
     tender_with_main_procurement_category,
-    create_tender_with_inn,
     create_tender_with_inn_before,
     tender_token_invalid,
     create_tender_central,
     create_tender_central_invalid,
-    patch_tender_by_pq_bot,
-    tender_owner_can_change_in_draft,
-    tender_owner_cannot_change_in_draft)
-
+)
 
 class TenderResourceTestMixin(object):
     test_listing_changes = snitch(listing_changes)
@@ -98,14 +105,15 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_create_tender_with_inn = snitch(create_tender_with_inn)
     test_create_tender_with_inn_before = snitch(create_tender_with_inn_before)
     test_patch_tender_by_pq_bot = snitch(patch_tender_by_pq_bot)
+    test_invalid_tender_conditions = snitch(invalid_tender_conditions)
 
 
 class TenderProcessTest(TenderContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_data
     initial_status = 'active.tendering'
+    need_tender = True
 
-    test_invalid_tender_conditions = snitch(invalid_tender_conditions)
     test_one_valid_bid_tender = snitch(one_valid_bid_tender)
     test_one_invalid_bid_tender = snitch(one_invalid_bid_tender)
     test_first_bid_tender = snitch(first_bid_tender)

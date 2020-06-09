@@ -11,47 +11,37 @@ from openprocurement.tender.pricequotation.tests.base import (
     test_organization,
 )
 from openprocurement.tender.pricequotation.tests.award_blanks import (
-    # TenderAwardResourceTest
+    check_tender_award,
     create_tender_award_invalid,
-    create_tender_award_no_scale_invalid,
+    check_tender_award_disqualification,
     create_tender_award,
     patch_tender_award,
-    # patch_tender_award_unsuccessful,
+)
+from openprocurement.tender.belowthreshold.tests.award import (
+    TenderAwardDocumentResourceTestMixin,
+    TenderAwardResourceTestMixin
+)
+from openprocurement.tender.belowthreshold.tests.award_blanks import (
     get_tender_award,
-    check_tender_award,
-    check_tender_award_disqualification,
-    # TenderAwardDocumentResourceTest
-    not_found_award_document,
-    create_tender_award_document,
-    put_tender_award_document,
-    patch_tender_award_document,
-    create_award_document_bot,
-    patch_not_author,
-    # TenderAwardResourceScaleTest
     create_tender_award_with_scale_not_required,
     create_tender_award_no_scale,
+    create_tender_award_no_scale_invalid,
+    patch_tender_award_Administrator_change,
+    create_tender_award_no_scale_invalid,
 )
-
 
 class TenderAwardResourceTestMixin(object):
     test_create_tender_award_invalid = snitch(create_tender_award_invalid)
+    test_create_tender_award_no_scale_invalid = snitch(create_tender_award_no_scale_invalid)
     test_get_tender_award = snitch(get_tender_award)
-    # test_patch_unsuccessful = snitch(patch_tender_award_unsuccessful)
-
-
-class TenderAwardDocumentResourceTestMixin(object):
-    test_not_found_award_document = snitch(not_found_award_document)
-    test_create_tender_award_document = snitch(create_tender_award_document)
-    test_put_tender_award_document = snitch(put_tender_award_document)
-    test_patch_tender_award_document = snitch(patch_tender_award_document)
-    test_create_award_document_bot = snitch(create_award_document_bot)
-    test_patch_not_author = snitch(patch_not_author)
 
 
 class TenderAwardResourceTest(TenderContentWebTest, TenderAwardResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_bids
+    reverse = False
     maxAwards = 1
+    # init_awards = False
 
     test_create_tender_award = snitch(create_tender_award)
     test_patch_tender_award = snitch(patch_tender_award)
@@ -62,6 +52,7 @@ class TenderAwardResourceTest(TenderContentWebTest, TenderAwardResourceTestMixin
 class TenderAwardResourceScaleTest(TenderContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_bids
+    reverse = False
 
     test_create_tender_award_no_scale = snitch(create_tender_award_no_scale)
     test_create_tender_award_no_scale_invalid = snitch(
@@ -80,7 +71,11 @@ class TenderAwardDocumentResourceTest(TenderContentWebTest, TenderAwardDocumentR
         super(TenderAwardDocumentResourceTest, self).setUp()
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
         self.awards_ids = [award["id"] for award in response.json["data"]]
-        self.award_id = self.awards_ids[0]
+
+    @property
+    def award_id(self):
+        data = self.db.get(self.tender_id)
+        return data['awards'][-1]['id'] if data.get('awards') else None
 
 
 class TenderAwardDocumentWithDSResourceTest(TenderAwardDocumentResourceTest):

@@ -8,31 +8,30 @@ from openprocurement.tender.pricequotation.tests.base import (
     test_bids,
     test_requirement_response_valid,
 )
+from openprocurement.tender.belowthreshold.tests.bid_blanks import (
+    create_tender_bid_with_document_invalid,
+    create_tender_bid_with_document,
+    create_tender_bid_with_documents,
+    create_tender_bid_with_document_invalid,
+    create_tender_bid_with_document,
+    create_tender_bid_with_documents,
+    create_tender_bid_document_json,
+    put_tender_bid_document_json,
+    not_found,
+    create_tender_bid_document,
+    put_tender_bid_document,
+    
+    )
 from openprocurement.tender.pricequotation.tests.bid_blanks import (
-    # TenderBidResourceTest
-    create_tender_bid_invalid,
     create_tender_bid,
+    create_tender_bid_document_nopending,
+    create_tender_bid_invalid,
     patch_tender_bid,
     get_tender_bid,
     delete_tender_bid,
     get_tender_tenderers,
     bid_Administrator_change,
-    create_tender_bid_no_scale_invalid,
-    create_tender_bid_with_scale_not_required,
-    create_tender_bid_no_scale,
-    # TenderBidDocumentResourceTest
-    not_found,
-    create_tender_bid_document,
-    put_tender_bid_document,
     patch_tender_bid_document,
-    create_tender_bid_document_nopending,
-    # TenderBidDocumentWithDSResourceTest
-    create_tender_bid_document_json,
-    put_tender_bid_document_json,
-    # TenderBidBatchDocumentWithDSResourceTest
-    create_tender_bid_with_document_invalid,
-    create_tender_bid_with_document,
-    create_tender_bid_with_documents,
 )
 
 
@@ -46,11 +45,8 @@ class TenderBidResourceTest(TenderContentWebTest):
     test_delete_tender_bid = snitch(delete_tender_bid)
     test_get_tender_tenderers = snitch(get_tender_tenderers)
     test_bid_Administrator_change = snitch(bid_Administrator_change)
-    test_create_tender_bid_no_scale_invalid = snitch(create_tender_bid_no_scale_invalid)
-    test_create_tender_bid_with_scale_not_required = snitch(create_tender_bid_with_scale_not_required)
-    test_create_tender_bid_no_scale = snitch(create_tender_bid_no_scale)
 
-
+    
 class TenderBidDocumentResourceTest(TenderContentWebTest):
 
     initial_status = "active.tendering"

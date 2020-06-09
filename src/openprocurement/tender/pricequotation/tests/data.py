@@ -19,7 +19,7 @@ PERIODS = {
         },
         "end": {
             "tenderPeriod": {
-                "startDate": - timedelta(days=4),
+                "startDate": - timedelta(days=5),
                 "endDate": timedelta()
             },
         },
@@ -27,7 +27,7 @@ PERIODS = {
     "active.qualification": {
         "start": {
             "tenderPeriod": {
-                "startDate": - timedelta(days=5),
+                "startDate": - timedelta(days=10),
                 "endDate": - timedelta(days=1),
             },
             "awardPeriod": {"startDate": timedelta()},
@@ -184,7 +184,7 @@ test_item = {
     "additionalClassifications": [
         {"scheme": u"INN", "id": u"17.21.1", "description": u"папір і картон гофровані, паперова й картонна тара"}
     ],
-    "quantity": 5,
+    "quantity": 1,
     "deliveryDate": {
         "startDate": (now + timedelta(days=2)).isoformat(),
         "endDate": (now + timedelta(days=5)).isoformat(),
@@ -234,11 +234,18 @@ bid_with_docs["documents"] = [
 
 test_cancellation = {
     "reason": "cancellation reason",
+    "reasonType": "noDemand",
+    "cancellationOf": "tender",
+    "documents": [
+        {
+            'title': u'Protocol.pdf',
+            'url': u"http://broken1.ds",
+            'hash': 'md5:' + '0' * 32,
+            'format': 'application/pdf',
+        }
+    ]
 }
-if RELEASE_2020_04_19 < get_now():
-    test_cancellation.update({
-        "reasonType": "noDemand"
-    })
+
 
 test_shortlisted_firms = [
     {
@@ -506,7 +513,7 @@ test_short_profile = {
         }
     ],
     "value": {
-        "amount": 4500,
+        "amount": 500,
         "currency": "UAH",
         "valueAddedTaxIncluded": True
     }

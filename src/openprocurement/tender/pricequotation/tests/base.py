@@ -8,6 +8,7 @@ from datetime import timedelta
 from openprocurement.api.constants import SANDBOX_MODE, RELEASE_2020_04_19
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.tender.core.tests.base import BaseCoreWebTest
+from openprocurement.api.constants import TZ
 from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
 from openprocurement.tender.pricequotation.constants import PMT
 from openprocurement.tender.pricequotation.tests.data import *
@@ -44,11 +45,12 @@ class BaseTenderWebTest(BaseCoreWebTest):
     maxAwards = 2
     periods = PERIODS
     meta_initial_bids = test_bids
+    init_awards = True
 
     def generate_awards(self, status, startend):
         bids = self.tender_document.get("bids", []) or self.tender_document_patch.get("bids", [])
         awardPeriod_startDate = (self.now + self.periods[status][startend]["awardPeriod"]["startDate"]).isoformat()
-        if "awards" not in self.tender_document:
+        if "awards" not in self.tender_document and self.init_awards:
             self.award_ids = []
             self.tender_document_patch["awards"] = []
             for bid in bids:
@@ -58,6 +60,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
                     "suppliers": bid["tenderers"],
                     "bid_id": bid["id"],
                     "value": bid["value"],
+                    'items': self.tender_document['items'],
                     "date": awardPeriod_startDate,
                     "documents": [],
                     "id": id_,
@@ -103,6 +106,38 @@ class BaseTenderWebTest(BaseCoreWebTest):
         self.assertEqual(response.content_type, "application/json")
         self.initial_bids = response.json["data"]
 
+    def generate_contract(self):
+        awards = self.tender_document.get("awards", [])
+        contracts = self.tender_document.get("contracts", [])
+
+        if not contracts:
+            for award in reversed(awards):
+                if award["status"] == "active":
+                    if award["value"]["valueAddedTaxIncluded"]:
+                        amount_net = award["value"]["amount"] - 1
+                    else:
+                        amount_net = award["value"]["amount"]                        
+                    contract = {
+                        "id": uuid4().hex,
+                        "title": "contract title",
+                        "description": "contract description",
+                        "awardID": award["id"],
+                        "value": {
+                            "amount": award["value"]["amount"],
+                            "amountNet": amount_net,
+                            "currency": award["value"]["currency"],
+                            "valueAddedTaxIncluded": award["value"]["valueAddedTaxIncluded"],
+                        },
+                        "suppliers": award["suppliers"],
+                        "status": "pending",
+                        "contractID": "UA-2017-06-21-000001-1",
+                        "date": datetime.now(TZ).isoformat(),
+                        "items": self.tender_document["items"],
+                    }
+                    self.contract_id = contract["id"]
+                    self.tender_document_patch.update({"contracts": [contract]})
+            self.save_changes()
+
     def set_status(self, status, startend="start", extra=None):
         self.now = get_now()
         self.tender_document = self.db.get(self.tender_id)
@@ -112,25 +147,20 @@ class BaseTenderWebTest(BaseCoreWebTest):
             self.update_periods(status, startend)
         elif status == "active.qualification":
             self.update_periods(status, startend)
-            # generate bids
             self.generate_bids(status, startend)
-            # generate awards
             self.generate_awards(status, startend)
         elif status == "active.awarded":
             self.update_periods(status, startend)
-            # generate bids
             self.generate_bids(status, startend)
-            # generate awards
             self.generate_awards(status, startend)
             self.activate_awards()
+            self.generate_contract()
         elif status == "complete":
             self.update_periods(status, startend)
-            # generate bids
             self.generate_bids(status, startend)
-            # generate awards
             self.generate_awards(status, startend)
             self.activate_awards()
-            # TODO: generate contract
+            self.generate_contract()
         return self.get_tender("chronograph")
 
     def update_periods(self, status, startend):
@@ -160,11 +190,21 @@ class BaseTenderWebTest(BaseCoreWebTest):
         })
         self.save_changes()
 
+
+    @property
+    def tender_token(self):
+        data = self.db.get(self.tender_id)
+        award = data['awards'][-1] if data.get('awards') else None
+        if award and award['status'] == 'pending':
+            bid = [b for b in data['bids'] if b['id'] == award['bid_id']][0]
+            return bid['owner_token']
+        else:
+            return data['owner_token']
+
     def create_tender(self):
         data = deepcopy(self.initial_data)
         response = self.app.post_json("/tenders", {"data": data})
         tender = response.json["data"]
-        self.tender_token = response.json["access"]["token"]
         self.tender_id = tender["id"]
         status = tender["status"]
         if self.initial_status and self.initial_status != status:
@@ -175,7 +215,8 @@ class TenderContentWebTest(BaseTenderWebTest):
     initial_data = test_tender_data
     initial_status = None
     initial_bids = None
-
+    need_tender = True
     def setUp(self):
         super(TenderContentWebTest, self).setUp()
-        self.create_tender()
+        if self.need_tender:
+            self.create_tender()

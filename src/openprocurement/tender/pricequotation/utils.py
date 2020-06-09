@@ -39,7 +39,7 @@ def add_contract(request, award, now=None):
                 "suppliers": award.suppliers,
                 "value": generate_contract_value(tender, award),
                 "date": now or get_now(),
-                "items": [i for i in tender.items if not hasattr(award, "lotID") or i.relatedLot == award.lotID],
+                "items": tender.items,
                 "contractID": "{}-{}{}".format(tender.tenderID, request.registry.server_id, len(tender.contracts) + 1),
             }
         )
