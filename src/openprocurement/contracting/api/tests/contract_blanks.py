@@ -557,7 +557,7 @@ def put_transaction_to_contract(self):
 
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Forbidden", u"location": u"url", u"name": u"permission"}]
+        response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}]
     )
 
     response = self.app.put_json(
@@ -587,21 +587,21 @@ def put_transaction_to_contract(self):
         response.json['data']['implementation']['transactions'],
         [
             {
-                u'status': u'status1234',
-                u'dataSource': [
-                    u'data_source-string'
+                'status': 'status1234',
+                'dataSource': [
+                    'data_source-string'
                 ],
-                u'payer': {
-                    u'id': u'789', u'name': u'payer1'
+                'payer': {
+                    'id': '789', 'name': 'payer1'
                 },
-                u'value': {
-                    u'currency': u'UAH', u'amount': 500.0
+                'value': {
+                    'currency': 'UAH', 'amount': 500.0
                 },
-                u'payee': {
-                    u'id': u'789', u'name': u'payee1'
+                'payee': {
+                    'id': '789', 'name': 'payee1'
                 },
-                u'date': u'2020-05-20T18:47:47.136678+02:00',
-                u'id': u'12345'
+                'date': '2020-05-20T18:47:47.136678+02:00',
+                'id': '12345'
             }
         ]
     )
@@ -633,21 +633,21 @@ def put_transaction_to_contract(self):
         response.json['data']['implementation']['transactions'],
         [
             {
-                u'status': u'new_status_123',
-                u'dataSource': [
-                    u'data_source-string', u'new_data_source_string'
+                'status': 'new_status_123',
+                'dataSource': [
+                    'data_source-string', 'new_data_source_string'
                 ],
-                u'payer': {
-                    u'id': u'789', u'name': u'payer1'
+                'payer': {
+                    'id': '789', 'name': 'payer1'
                 },
-                u'value': {
-                    u'currency': u'UAH', u'amount': 500.0
+                'value': {
+                    'currency': 'UAH', 'amount': 500.0
                 },
-                u'payee': {
-                    u'id': u'789', u'name': u'payee1'
+                'payee': {
+                    'id': '789', 'name': 'payee1'
                 },
-                u'date': u'2020-05-20T18:47:47.136678+02:00',
-                u'id': u'12345'
+                'date': '2020-05-20T18:47:47.136678+02:00',
+                'id': '12345'
             }
         ]
     )
@@ -679,38 +679,38 @@ def put_transaction_to_contract(self):
         response.json['data']['implementation']['transactions'],
         [
             {
-                u'status': u'new_status_123',
-                u'dataSource': [
-                    u'data_source-string', u'new_data_source_string'
+                'status': 'new_status_123',
+                'dataSource': [
+                    'data_source-string', 'new_data_source_string'
                 ],
-                u'payer': {
-                    u'id': u'789', u'name': u'payer1'
+                'payer': {
+                    'id': '789', 'name': 'payer1'
                 },
-                u'value': {
-                    u'currency': u'UAH', u'amount': 500.0
+                'value': {
+                    'currency': 'UAH', 'amount': 500.0
                 },
-                u'payee': {
-                    u'id': u'789', u'name': u'payee1'
+                'payee': {
+                    'id': '789', 'name': 'payee1'
                 },
-                u'date': u'2020-05-20T18:47:47.136678+02:00',
-                u'id': u'12345'
+                'date': '2020-05-20T18:47:47.136678+02:00',
+                'id': '12345'
             },
             {
-                u'status': u'Accepted_status_123',
-                u'dataSource': [
-                    u'Data_source_string2'
+                'status': 'Accepted_status_123',
+                'dataSource': [
+                    'Data_source_string2'
                 ],
-                u'payer': {
-                    u'id': u'78999', u'name': u'payer2'
+                'payer': {
+                    'id': '78999', 'name': 'payer2'
                 },
-                u'value': {
-                    u'currency': u'UAH', u'amount': 14500.5
+                'value': {
+                    'currency': 'UAH', 'amount': 14500.5
                 },
-                u'payee': {
-                    u'id': u'199000', u'name': u'payee2'
+                'payee': {
+                    'id': '199000', 'name': 'payee2'
                 },
-                u'date': u'2020-06-10T10:47:47.136678+02:00',
-                u'id': u'90800777'
+                'date': '2020-06-10T10:47:47.136678+02:00',
+                'id': '90800777'
             }
         ]
     )
@@ -733,13 +733,13 @@ def put_transaction_to_contract(self):
     self.assertEqual(
         response.json["errors"],
         [{
-            u'description': {
-                u'transactions': [{
-                    u'status': [u'This field is required.'],
-                    u'payee': [u'This field is required.'],
-                    u'payer': [u'This field is required.']}]
+            'description': {
+                'transactions': [{
+                    'status': ['This field is required.'],
+                    'payee': ['This field is required.'],
+                    'payer': ['This field is required.']}]
             },
-            u'location': u'body', u'name': u'implementation'
+            'location': 'body', 'name': 'implementation'
         }]
     )
 
@@ -750,38 +750,38 @@ def put_transaction_to_contract(self):
         response.json['data']['implementation']['transactions'],
         [
             {
-                u'status': u'new_status_123',
-                u'dataSource': [
-                    u'data_source-string', u'new_data_source_string'
+                'status': 'new_status_123',
+                'dataSource': [
+                    'data_source-string', 'new_data_source_string'
                 ],
-                u'payer': {
-                    u'id': u'789', u'name': u'payer1'
+                'payer': {
+                    'id': '789', 'name': 'payer1'
                 },
-                u'value': {
-                    u'currency': u'UAH', u'amount': 500.0
+                'value': {
+                    'currency': 'UAH', 'amount': 500.0
                 },
-                u'payee': {
-                    u'id': u'789', u'name': u'payee1'
+                'payee': {
+                    'id': '789', 'name': 'payee1'
                 },
-                u'date': u'2020-05-20T18:47:47.136678+02:00',
-                u'id': u'12345'
+                'date': '2020-05-20T18:47:47.136678+02:00',
+                'id': '12345'
             },
             {
-                u'status': u'Accepted_status_123',
-                u'dataSource': [
-                    u'Data_source_string2'
+                'status': 'Accepted_status_123',
+                'dataSource': [
+                    'Data_source_string2'
                 ],
-                u'payer': {
-                    u'id': u'78999', u'name': u'payer2'
+                'payer': {
+                    'id': '78999', 'name': 'payer2'
                 },
-                u'value': {
-                    u'currency': u'UAH', u'amount': 14500.5
+                'value': {
+                    'currency': 'UAH', 'amount': 14500.5
                 },
-                u'payee': {
-                    u'id': u'199000', u'name': u'payee2'
+                'payee': {
+                    'id': '199000', 'name': 'payee2'
                 },
-                u'date': u'2020-06-10T10:47:47.136678+02:00',
-                u'id': u'90800777'
+                'date': '2020-06-10T10:47:47.136678+02:00',
+                'id': '90800777'
             }
         ]
     )

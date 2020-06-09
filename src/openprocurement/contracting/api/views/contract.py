@@ -140,19 +140,20 @@ class ContractCredentialsResource(APIResource):
 
 
 @contractingresource(
-    name="Contract transaction", path="/contracts/{contract_id}/transactions/{transaction_id}"
+    name="Contract transactions",
+    path="/contracts/{contract_id}/transactions/{transaction_id}",
+    description="Contract transactions",
 )
-class ContractTransactionResource(APIResource):
+class ContractTransactionsResource(APIResource):
     def __init__(self, request, context):
-        super(ContractTransactionResource, self).__init__(request, context)
+        super(ContractTransactionsResource, self).__init__(request, context)
         self.server = request.registry.couchdb_server
 
     @json_view(
         content_type="application/json",
-        permission="edit_contract"
+        permission="upload_contract_transactions",
     )
     def put(self):
-
         new_transaction = self.request.json["data"]
         transaction_id = self.request.matchdict["transaction_id"]
         new_transaction.update({"id": transaction_id})

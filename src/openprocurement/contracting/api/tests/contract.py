@@ -40,7 +40,7 @@ from openprocurement.contracting.api.tests.contract_blanks import (
     patch_tender_contract_wo_amount_net,
     patch_tender_without_value,
     skip_address_validation,
-    put_transaction_to_contract
+    put_transaction_to_contract,
 )
 
 
