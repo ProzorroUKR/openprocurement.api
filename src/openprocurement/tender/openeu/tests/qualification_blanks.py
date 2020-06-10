@@ -1188,16 +1188,29 @@ def patch_tender_qualification_complaint(self):
             response.json["errors"][0]["description"], "Can't update complaint from pending to stopping status"
         )
 
+    # create complaint
     response = self.app.post_json(
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
         ),
-        {"data": test_draft_claim},
+        {"data": test_draft_complaint},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     complaint = response.json["data"]
     owner_token = response.json["access"]["token"]
+
+    response = self.app.patch_json(
+        "/tenders/{}/qualifications/{}/complaints/{}?acc_token={}".format(
+            self.tender_id, self.qualification_id, complaint["id"], owner_token
+        ),
+        {"data": {"status": "claim"}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["errors"][0]["description"],
+                     "Can't update complaint from draft to claim status")
 
     self.set_status("complete")
 
