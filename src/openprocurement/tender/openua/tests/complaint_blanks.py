@@ -285,6 +285,28 @@ def patch_tender_complaint(self):
     complaint = response.json["data"]
     owner_token = response.json["access"]["token"]
 
+    # create complaint
+    complaint_data = deepcopy(test_draft_complaint)
+    complaint_data["author"] = getattr(self, "test_author", test_author)
+    response = self.app.post_json(
+        "/tenders/{}/complaints".format(self.tender_id),
+        {"data": complaint_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    complaint = response.json["data"]
+    owner_token = response.json["access"]["token"]
+
+    response = self.app.patch_json(
+        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], owner_token),
+        {"data": {"status": "claim"}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["errors"][0]["description"],
+                     "Can't update complaint from draft to claim status")
+
     self.set_status("complete")
 
     response = self.app.patch_json(

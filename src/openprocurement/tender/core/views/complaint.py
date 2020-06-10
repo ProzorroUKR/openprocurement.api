@@ -210,6 +210,7 @@ class BaseTenderComplaintResource(ComplaintBotPatchMixin, ComplaintAdminPatchMix
             apply_patch(self.request, save=False, src=context.serialize())
         elif (
             tender.status == "active.tendering"
+            and context.type == "claim"
             and status == "draft"
             and new_status == "claim"
         ):

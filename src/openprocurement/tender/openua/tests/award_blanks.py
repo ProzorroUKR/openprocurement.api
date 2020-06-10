@@ -1239,6 +1239,18 @@ def patch_tender_award_complaint(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["title"], "claim title")
 
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
+            self.tender_id, self.award_id, complaint["id"], owner_token
+        ),
+        {"data": {"status": "claim"}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["errors"][0]["description"],
+                     "Can't update draft complaint into claim status")
+
     if get_now() > COMPLAINT_IDENTIFIER_REQUIRED_FROM:
         denied_patch_fields = {
             "id": u"new_id",

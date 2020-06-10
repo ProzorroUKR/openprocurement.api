@@ -168,6 +168,7 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
             apply_patch(self.request, save=False, src=self.context.serialize())
         elif (
             is_qualificationPeriod
+            and self.context.type == "claim"
             and status == "draft"
             and new_status == "claim"
         ):
