@@ -43,7 +43,7 @@ class TenderEUAwardComplaintResource(BaseTenderAwardComplaintResource):
         complaint.relatedLot = self.context.lotID
         complaint.bid_id = get_bid_id(self.request)
 
-        if complaint.status == "claim":
+        if complaint.status == "claim" and complaint.type == "claim":
             self.validate_posting_claim()
             complaint.dateSubmitted = get_now()
         elif old_rules and complaint.status == "pending":

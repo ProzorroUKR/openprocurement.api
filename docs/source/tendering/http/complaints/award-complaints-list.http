@@ -242,7 +242,6 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "identifier": {
           "scheme": "UA-EDR", 
-          "legalName": "ДКП «Школяр»", 
           "id": "00137256", 
           "uri": "http://www.sc.gov.ua/"
         }, 
@@ -256,7 +255,7 @@ Content-Type: application/json; charset=UTF-8
         }
       }, 
       "resolutionType": "resolved", 
-      "type": "complaint", 
+      "type": "claim", 
       "title": "Недостатньо інформації", 
       "satisfied": true, 
       "dateAnswered": "2020-05-15T01:00:03+03:00", 
@@ -277,7 +276,6 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "identifier": {
           "scheme": "UA-EDR", 
-          "legalName": "ДКП «Школяр»", 
           "id": "00137256", 
           "uri": "http://www.sc.gov.ua/"
         }, 
@@ -291,7 +289,7 @@ Content-Type: application/json; charset=UTF-8
         }
       }, 
       "resolutionType": "invalid", 
-      "type": "complaint", 
+      "type": "claim", 
       "title": "Недостатньо інформації", 
       "satisfied": false, 
       "dateAnswered": "2020-05-15T01:00:03+03:00", 

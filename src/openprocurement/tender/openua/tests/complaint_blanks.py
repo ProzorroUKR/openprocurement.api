@@ -13,6 +13,19 @@ from datetime import timedelta
 
 
 def create_tender_complaint(self):
+    complaint_data = deepcopy(test_draft_complaint)
+    complaint_data["author"] = getattr(self, "test_author", test_author)
+    complaint_data["status"] = u"claim"
+    response = self.app.post_json(
+        "/tenders/{}/complaints".format(self.tender_id),
+        {
+            "data": complaint_data,
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    complaint = response.json["data"]
+    self.assertEqual(complaint["status"], u"draft")
+
     claim_data = deepcopy(test_claim)
     claim_data["author"] = getattr(self, "test_author", test_author)
     response = self.app.post_json(

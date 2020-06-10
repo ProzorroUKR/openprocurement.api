@@ -32,30 +32,9 @@ Content-Type: application/json; charset=UTF-8
     {
       "status": "resolved", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
-      "author": {
-        "contactPoint": {
-          "email": "soleksuk@gmail.com", 
-          "telephone": "+380 (432) 21-69-30", 
-          "name": "Сергій Олексюк"
-        }, 
-        "identifier": {
-          "scheme": "UA-EDR", 
-          "legalName": "ДКП «Школяр»", 
-          "id": "00137256", 
-          "uri": "http://www.sc.gov.ua/"
-        }, 
-        "name": "ДКП «Школяр»", 
-        "address": {
-          "postalCode": "21100", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 33", 
-          "region": "Вінницька область", 
-          "locality": "м. Вінниця"
-        }
-      }, 
-      "resolutionType": "resolved", 
-      "type": "complaint", 
       "title": "Недостатньо інформації", 
+      "resolutionType": "resolved", 
+      "type": "claim", 
       "satisfied": true, 
       "dateAnswered": "2020-05-15T01:00:00+03:00", 
       "dateSubmitted": "2020-05-15T01:00:00+03:00", 
@@ -105,38 +84,12 @@ Content-Type: application/json; charset=UTF-8
       "reviewPlace": "Place of review"
     }, 
     {
-      "status": "invalid", 
-      "dateDecision": "2020-05-15T01:00:00+03:00", 
+      "status": "answered", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
       "title": "Недостатньо інформації", 
       "resolutionType": "invalid", 
-      "type": "complaint", 
-      "acceptance": false, 
-      "satisfied": false, 
-      "dateEscalated": "2020-05-15T01:00:00+03:00", 
+      "type": "claim", 
       "dateAnswered": "2020-05-15T01:00:00+03:00", 
-      "rejectReason": "alreadyExists", 
-      "author": {
-        "contactPoint": {
-          "email": "soleksuk@gmail.com", 
-          "telephone": "+380 (432) 21-69-30", 
-          "name": "Сергій Олексюк"
-        }, 
-        "identifier": {
-          "scheme": "UA-EDR", 
-          "legalName": "ДКП «Школяр»", 
-          "id": "00137256", 
-          "uri": "http://www.sc.gov.ua/"
-        }, 
-        "name": "ДКП «Школяр»", 
-        "address": {
-          "postalCode": "21100", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 33", 
-          "region": "Вінницька область", 
-          "locality": "м. Вінниця"
-        }
-      }, 
       "dateSubmitted": "2020-05-15T01:00:00+03:00", 
       "complaintID": "UA-2020-05-15-000001.4", 
       "date": "2020-05-15T01:00:00+03:00", 
@@ -282,6 +235,44 @@ Content-Type: application/json; charset=UTF-8
       "reviewPlace": "Place of review"
     }, 
     {
+      "status": "invalid", 
+      "dateDecision": "2020-05-15T01:00:00+03:00", 
+      "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+      "author": {
+        "contactPoint": {
+          "email": "soleksuk@gmail.com", 
+          "telephone": "+380 (432) 21-69-30", 
+          "name": "Сергій Олексюк"
+        }, 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "legalName": "ДКП «Школяр»", 
+          "id": "00137256", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "name": "ДКП «Школяр»", 
+        "address": {
+          "postalCode": "21100", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 33", 
+          "region": "Вінницька область", 
+          "locality": "м. Вінниця"
+        }
+      }, 
+      "acceptance": false, 
+      "value": {
+        "currency": "UAH", 
+        "amount": 2000.0
+      }, 
+      "rejectReason": "alreadyExists", 
+      "dateSubmitted": "2020-05-15T01:00:00+03:00", 
+      "complaintID": "UA-2020-05-15-000001.8", 
+      "date": "2020-05-15T01:00:00+03:00", 
+      "title": "Недостатньо інформації", 
+      "type": "complaint", 
+      "id": "ede6804b22c5468a9819c2e0f4496ded"
+    }, 
+    {
       "status": "cancelled", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
       "author": {
@@ -312,7 +303,7 @@ Content-Type: application/json; charset=UTF-8
       }, 
       "cancellationReason": "Умови виправлено", 
       "dateCanceled": "2020-05-15T01:00:00+03:00", 
-      "complaintID": "UA-2020-05-15-000001.8", 
+      "complaintID": "UA-2020-05-15-000001.9", 
       "date": "2020-05-15T01:00:00+03:00", 
       "type": "complaint", 
       "id": "38d6d6628b5347e5af7a12c4c93fe47c"
@@ -409,7 +400,7 @@ Content-Type: application/json; charset=UTF-8
         "amount": 2000.0
       }, 
       "dateSubmitted": "2020-05-15T01:00:00+03:00", 
-      "complaintID": "UA-2020-05-15-000001.9", 
+      "complaintID": "UA-2020-05-15-000001.10", 
       "date": "2020-05-15T01:00:00+03:00", 
       "type": "complaint", 
       "id": "9f3a6c7d446b4503872063f6021b89f2"

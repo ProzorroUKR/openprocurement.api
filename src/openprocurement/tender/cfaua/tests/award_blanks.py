@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from copy import deepcopy
+
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.base import change_auth
@@ -1629,6 +1631,19 @@ def review_tender_award_stopping_complaint(self):
 
 def create_tender_award_complaint(self):
     self.set_status("active.qualification.stand-still")
+
+    complaint_data = deepcopy(test_draft_complaint)
+    complaint_data["status"] = u"claim"
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, self.bid_token),
+        {
+            "data": complaint_data
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    complaint = response.json["data"]
+    self.assertEqual(complaint["status"], u"draft")
+
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, self.bid_token),
         {
