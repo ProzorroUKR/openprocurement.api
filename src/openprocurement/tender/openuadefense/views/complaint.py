@@ -35,7 +35,7 @@ class TenderUaComplaintResource(BaseTenderComplaintResource):
         old_rules = get_first_revision_date(tender) < RELEASE_2020_04_19
 
         complaint = self.request.validated["complaint"]
-        if complaint.status == "claim":
+        if complaint.status == "claim" and complaint.type == "claim":
             self.validate_submit_claim_time_method(self.request)
         elif old_rules and complaint.status == "pending":
             self.validate_submit_claim_time_method(self.request)

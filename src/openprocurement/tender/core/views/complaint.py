@@ -76,7 +76,7 @@ class BaseTenderComplaintResource(ComplaintBotPatchMixin, ComplaintAdminPatchMix
 
         complaint = self.request.validated["complaint"]
         complaint.date = get_now()
-        if complaint.status == "claim":
+        if complaint.status == "claim" and complaint.type == "claim":
             self.validate_submit_claim_time_method(self.request)
             complaint.dateSubmitted = get_now()
         elif old_rules and complaint.status == "pending":

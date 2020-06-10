@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/1869e289e8cd4b7ea266c48f022e48cf/complaints?acc_token=8a83b61ae12e4be0b56c859c878a57b4 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1469
+Content-Length: 1381
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -10,14 +10,13 @@ DATA:
     "author": {
       "contactPoint": {
         "email": "soleksuk@gmail.com", 
-        "name": "Сергій Олексюк", 
-        "telephone": "+380 (432) 21-69-30"
+        "telephone": "+380 (432) 21-69-30", 
+        "name": "Сергій Олексюк"
       }, 
       "identifier": {
         "scheme": "UA-EDR", 
         "id": "00137256", 
-        "uri": "http://www.sc.gov.ua/", 
-        "legalName": "ДКП «Школяр»"
+        "uri": "http://www.sc.gov.ua/"
       }, 
       "name": "ДКП «Школяр»", 
       "address": {
@@ -28,7 +27,7 @@ DATA:
         "locality": "м. Вінниця"
       }
     }, 
-    "type": "complaint", 
+    "type": "claim", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "title": "Недостатньо інформації"
   }
@@ -53,7 +52,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/56aa844d9b3a43e4
       }, 
       "identifier": {
         "scheme": "UA-EDR", 
-        "legalName": "ДКП «Школяр»", 
         "id": "00137256", 
         "uri": "http://www.sc.gov.ua/"
       }, 
@@ -70,7 +68,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/56aa844d9b3a43e4
     "dateSubmitted": "2020-05-15T01:00:03+03:00", 
     "complaintID": "UA-2020-05-15-000001.6", 
     "date": "2020-05-15T01:00:03+03:00", 
-    "type": "complaint", 
+    "type": "claim", 
     "id": "c9e6b01cbe524a1cb3ffe8f053e7e9d9"
   }
 }
