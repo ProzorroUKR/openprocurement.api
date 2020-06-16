@@ -1,7 +1,7 @@
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.api.constants import RELEASE_2020_04_19
-from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.core.utils import calculate_tender_business_date, calculate_complaint_business_date
 from openprocurement.tender.core.constants import ALP_MILESTONE_REASONS
 from copy import deepcopy
 from datetime import timedelta
@@ -305,11 +305,11 @@ class TenderQualificationMilestoneALPMixin(object):
             {"data": unsuccessful_data},
             status=403
         )
-        expected_due_date = calculate_tender_business_date(
+        expected_due_date = calculate_complaint_business_date(
             parse_date(milestone["date"]),
             timedelta(days=1),
             tender,
-            working_days=True
+            working_days=True,
         )
         self.assertEqual(
             response.json,

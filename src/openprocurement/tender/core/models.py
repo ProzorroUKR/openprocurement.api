@@ -60,6 +60,7 @@ from openprocurement.tender.core.utils import (
     restrict_value_to_bounds, round_up_to_ten,
     get_contract_supplier_roles, get_contract_supplier_permissions,
     calculate_tender_business_date,
+    calculate_complaint_business_date,
     prepare_award_milestones,
 )
 from openprocurement.tender.core.validation import (
@@ -1028,8 +1029,8 @@ class QualificationMilestone(Model):
                     self.date, timedelta(hours=24), get_tender(self)
                 )
             elif self.code == self.CODE_LOW_PRICE:
-                self.dueDate = calculate_tender_business_date(
-                    self.date, timedelta(days=1), get_tender(self), working_days=True
+                self.dueDate = calculate_complaint_business_date(
+                    self.date, timedelta(days=1), get_tender(self), working_days=True,
                 )
         return self.dueDate and self.dueDate.isoformat()
 
