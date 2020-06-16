@@ -125,10 +125,10 @@ Submitting Resolution Confirmation
 Cancelling Tender Conditions Complaint
 ======================================
 
-Cancelling not accepted complaint
----------------------------------
+Cancelling not accepted(pending) complaint by Reviewer
+------------------------------------------------------
 
-.. include:: ../http/complaints/complaint-cancel.http
+.. include:: ../http/complaints/complaint-mistaken.http
    :code:
 
 Cancelling accepted complaint by Complainant

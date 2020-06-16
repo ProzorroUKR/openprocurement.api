@@ -181,10 +181,18 @@ class BaseTenderAwardComplaintResource(BaseTenderComplaintResource):
         tender = self.request.validated["tender"]
         rules_2020_04_19 = get_first_revision_date(tender, get_now()) > RELEASE_2020_04_19
         if (
-            status in ["draft", "claim", "answered"] and new_status == "cancelled"
-            or (status in ["pending", "accepted"]
-                and new_status == "stopping"
-                and not rules_2020_04_19)
+            new_status == "cancelled"
+            and status in ["draft", "claim", "answered"]
+            and self.context.type == "claim"
+        ) or (
+            new_status == "cancelled"
+            and status == "draft"
+            and self.context.type == "complaint"
+            and not rules_2020_04_19
+        ) or (
+            new_status == "stopping"
+            and status in ["pending", "accepted"]
+            and not rules_2020_04_19
         ):
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateCanceled = get_now()

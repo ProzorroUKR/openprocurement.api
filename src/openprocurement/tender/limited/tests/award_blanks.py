@@ -1811,6 +1811,40 @@ def patch_tender_award_complaint(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints".format(self.tender_id, self.award_id),
+        {"data": test_draft_complaint},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    complaint = response.json["data"]
+    owner_token = response.json["access"]["token"]
+
+    if get_now() < RELEASE_2020_04_19:
+        response = self.app.patch_json(
+            "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
+                self.tender_id, self.award_id, complaint["id"], owner_token
+            ),
+            {"data": {"status": "cancelled", "cancellationReason": "reason"}},
+            status=200,
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["data"]["status"], "cancelled")
+        self.assertEqual(response.json["data"]["cancellationReason"], "reason")
+    else:
+        response = self.app.patch_json(
+            "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
+                self.tender_id, self.award_id, complaint["id"], owner_token
+            ),
+            {"data": {"status": "cancelled", "cancellationReason": "reason"}},
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["errors"][0]["description"],
+                         "Can't update draft complaint to cancelled status")
+
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/complaints".format(self.tender_id, self.award_id),
         {"data": test_draft_claim},
     )
     self.assertEqual(response.status, "201 Created")

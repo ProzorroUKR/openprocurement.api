@@ -118,10 +118,10 @@ Submitting Resolution Confirmation
 Cancelling Tender Conditions Complaint
 ======================================
 
-Cancelling not accepted complaint
----------------------------------
+Cancelling draft complaint by Complainant
+-----------------------------------------
 
-.. include:: ../http/complaints/complaint-cancel.http
+.. include:: ../http/complaints/complaint-mistaken-2020-04-19.http
    :code:
 
 Cancelling accepted complaint by Complainant
