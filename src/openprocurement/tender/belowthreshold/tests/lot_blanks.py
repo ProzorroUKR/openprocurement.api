@@ -1511,8 +1511,9 @@ def proc_1lot_1bid(self):
     self.set_status("complete", {"status": "active.awarded"})
     # time travel
     tender = self.db.get(tender_id)
+    now = (get_now() - timedelta(seconds=1)).isoformat()
     for i in tender.get("awards", []):
-        i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+        i["complaintPeriod"] = {"startDate": now, "endDate": now}
     self.db.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1631,8 +1632,9 @@ def proc_1lot_2bid(self):
     self.set_status("complete", {"status": "active.awarded"})
     # time travel
     tender = self.db.get(tender_id)
+    now = (get_now() - timedelta(seconds=1)).isoformat()
     for i in tender.get("awards", []):
-        i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+        i["complaintPeriod"] = {"startDate": now, "endDate": now}
     self.db.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1862,8 +1864,9 @@ def proc_2lot_2bid_0com_1can_before_auction(self):
     self.set_status("complete", {"status": "active.awarded"})
     # time travel
     tender = self.db.get(tender_id)
+    now = get_now().isoformat()
     for i in tender.get("awards", []):
-        i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+        i["complaintPeriod"] = {"startDate": now, "endDate": now}
     self.db.save(tender)
     # check tender status
     self.app.authorization = ("Basic", ("chronograph", ""))
@@ -1964,8 +1967,9 @@ def proc_2lot_1bid_0com_1can(self):
     self.set_status("complete", {"status": "active.awarded"})
     # time travel
     tender = self.db.get(tender_id)
+    now = get_now().isoformat()
     for i in tender.get("awards", []):
-        i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+        i["complaintPeriod"] = {"startDate": now, "endDate": now}
     self.db.save(tender)
     # check tender status
     self.app.authorization = ("Basic", ("chronograph", ""))
@@ -2051,8 +2055,9 @@ def proc_2lot_1bid_2com_1win(self):
         self.set_status("complete", {"status": "active.awarded"})
         # time travel
         tender = self.db.get(tender_id)
+        now = (get_now() - timedelta(minutes=2)).isoformat()
         for i in tender.get("awards", []):
-            i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+            i["complaintPeriod"] = {"startDate": now, "endDate": now}
         self.db.save(tender)
         # sign contract
         self.app.authorization = ("Basic", ("broker", ""))
@@ -2139,8 +2144,9 @@ def proc_2lot_1bid_0com_0win(self):
         self.set_status("complete", {"status": "active.awarded"})
         # time travel
         tender = self.db.get(tender_id)
+        now = get_now().isoformat()
         for i in tender.get("awards", []):
-            i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+            i["complaintPeriod"] = {"startDate": now, "endDate": now}
         self.db.save(tender)
     # check tender status
     self.set_status("complete", {"status": "active.awarded"})
@@ -2227,8 +2233,9 @@ def proc_2lot_1bid_1com_1win(self):
     self.set_status("complete", {"status": "active.awarded"})
     # time travel
     tender = self.db.get(tender_id)
+    now = (get_now() - timedelta(seconds=1)).isoformat()
     for i in tender.get("awards", []):
-        i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+        i["complaintPeriod"] = {"startDate": now, "endDate": now}
     self.db.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
@@ -2253,7 +2260,7 @@ def proc_2lot_1bid_1com_1win(self):
     # time travel
     tender = self.db.get(tender_id)
     for i in tender.get("awards", []):
-        i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+        i["complaintPeriod"] = {"startDate": now, "endDate": now}
     self.db.save(tender)
     # check tender status
     self.app.authorization = ("Basic", ("chronograph", ""))
@@ -2382,8 +2389,9 @@ def proc_2lot_2bid_2com_2win(self):
     self.set_status("complete", {"status": "active.awarded"})
     # time travel
     tender = self.db.get(tender_id)
+    now = (get_now() - timedelta(minutes=2)).isoformat()
     for i in tender.get("awards", []):
-        i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+        i["complaintPeriod"] = {"startDate": now, "endDate": now}
     self.db.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
@@ -2419,8 +2427,9 @@ def proc_2lot_2bid_2com_2win(self):
     self.set_status("complete", {"status": "active.awarded"})
     # time travel
     tender = self.db.get(tender_id)
+    now = (get_now() - timedelta(minutes=1)).isoformat()
     for i in tender.get("awards", []):
-        i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+        i["complaintPeriod"] = {"startDate": now, "endDate": now}
     self.db.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
@@ -2532,8 +2541,9 @@ def proc_2lot_1feature_2bid_2com_2win(self):
     self.set_status("complete", {"status": "active.awarded"})
     # time travel
     tender = self.db.get(tender_id)
+    now = (get_now() - timedelta(minutes=2)).isoformat()
     for i in tender.get("awards", []):
-        i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+        i["complaintPeriod"] = {"startDate": now, "endDate": now}
     self.db.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
@@ -2559,8 +2569,9 @@ def proc_2lot_1feature_2bid_2com_2win(self):
     self.set_status("complete", {"status": "active.awarded"})
     # time travel
     tender = self.db.get(tender_id)
+    now = (get_now() - timedelta(minutes=1)).isoformat()
     for i in tender.get("awards", []):
-        i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+        i["complaintPeriod"] = {"startDate": now, "endDate": now}
     self.db.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))

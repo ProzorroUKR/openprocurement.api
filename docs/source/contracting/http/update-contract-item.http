@@ -156,7 +156,7 @@ Content-Type: application/json; charset=UTF-8
     "dateSigned": "2020-05-15T01:00:01+03:00", 
     "contractID": "UA-2020-05-15-000001-1", 
     "owner": "broker", 
-    "awardID": "e7fc32a4b2cd473793ff3b53b98c60ae", 
+    "awardID": "48868b35f7084c09bce3622c503b97a4", 
     "changes": [
       {
         "status": "pending", 

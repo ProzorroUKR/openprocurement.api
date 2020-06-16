@@ -1722,7 +1722,6 @@ def tender_bidder_confidential_document(self):
             "bid_id": self.bid_id,
             "date": get_now().isoformat(),
             "suppliers": bid["tenderers"],
-            "complaintPeriod": {"startDate": get_now().isoformat()},
         }
     ]
     self.db.save(tender)
