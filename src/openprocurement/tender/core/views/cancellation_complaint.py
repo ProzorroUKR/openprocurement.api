@@ -124,10 +124,7 @@ class TenderCancellationComplaintResource(ComplaintBotPatchMixin, ComplaintAdmin
     def patch_as_complaint_owner(self, data):
         status = self.context.status
         new_status = data.get("status", status)
-        if (
-            status == "draft" and new_status == "cancelled"
-            or status in ["pending", "accepted"] and new_status == "stopping"
-        ):
+        if status in ["pending", "accepted"] and new_status == "stopping":
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateCanceled = get_now()
 

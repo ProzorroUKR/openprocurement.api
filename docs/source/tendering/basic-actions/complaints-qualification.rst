@@ -123,10 +123,10 @@ Submitting Resolution Confirmation
 Cancelling Tender Qualification Complaint
 =========================================
 
-Cancelling not accepted complaint
----------------------------------
+Cancelling not accepted(pending) complaint by Reviewer
+------------------------------------------------------
 
-.. include:: ../http/complaints/qualification-complaint-cancel.http
+.. include:: ../http/complaints/qualification-complaint-mistaken.http
    :code:
 
 Cancelling accepted complaint by Complainant

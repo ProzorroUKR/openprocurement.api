@@ -372,7 +372,7 @@ Content-Type: application/json; charset=UTF-8
       "id": "347ccd6da34a4d5484e052a6bc7d7d49"
     }, 
     {
-      "status": "cancelled", 
+      "status": "mistaken", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
       "author": {
         "contactPoint": {
@@ -400,12 +400,11 @@ Content-Type: application/json; charset=UTF-8
         "currency": "UAH", 
         "amount": 3000.0
       }, 
-      "cancellationReason": "Умови виправлено", 
-      "dateCanceled": "2020-05-15T01:00:01+03:00", 
+      "rejectReason": "cancelledByComplainant", 
       "complaintID": "UA-2020-05-15-000001.10", 
       "date": "2020-05-15T01:00:01+03:00", 
       "type": "complaint", 
-      "id": "f6ab087f7ab049aaa72f6763c72a92ad"
+      "id": "8f1089341deb433986358a39b24aac50"
     }
   ]
 }
