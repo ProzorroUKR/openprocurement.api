@@ -346,7 +346,6 @@ def add_next_award(request):
                         "value": bid["value"],
                         "date": get_now(),
                         "suppliers": bid["tenderers"],
-                        "complaintPeriod": {"startDate": now.isoformat()},
                     }
                 )
                 award.__parent__ = tender
@@ -376,7 +375,7 @@ def add_next_award(request):
                         "date": get_now(),
                         "value": bid["value"],
                         "suppliers": bid["tenderers"],
-                        "complaintPeriod": {"startDate": get_now().isoformat()},
+
                     }
                 )
                 award.__parent__ = tender
