@@ -42,7 +42,7 @@ class TenderAwardDocumentResource(APIResource):
             validate_document_operation_not_in_active,
             validate_award_document_add_not_in_pending,
         ),
-        permission="edit_tender",
+        permission="upload_tender_documents",
     )
     def collection_post(self):
         """Tender Award Document Upload
