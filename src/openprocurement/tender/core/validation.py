@@ -191,7 +191,7 @@ def validate_tender_auction_data(request):
         if (
             SANDBOX_MODE
             and tender.submissionMethodDetails
-            and tender.submissionMethodDetails in [u"quick(mode:no-auction)", u"quick(mode:fast-forward)"]
+            and tender.submissionMethodDetails.endswith((u"quick(mode:no-auction)", u"quick(mode:fast-forward)"))
         ):
             if tender.lots:
                 data["lots"] = [
