@@ -104,7 +104,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         with open(TARGET_DIR + 'tender-after-bot-active.http', 'w') as self.app.file_obj:
             response = self.app.get("/tenders/{}".format(tender_id_1))
+            tender = response.json["data"]
             self.assertEqual(response.status, "200 OK")
+            self.assertIn("shortlistedFirms", tender)
+            self.assertIn("classification", tender["items"][0])
+            self.assertIn("unit", tender["items"][0])
 
         with open(TARGET_DIR + 'tender-after-bot-unsuccessful.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}'.format(tender_id_2))
