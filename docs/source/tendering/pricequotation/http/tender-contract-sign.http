@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/contracts/f3236223b20c4e64b7bd7919bd0a8685?acc_token=151a30932ee245e989771be867bc8235 HTTP/1.0
+PATCH /api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/contracts/0def0972e7a648cdbbb29a291331f1f2?acc_token=151a30932ee245e989771be867bc8235 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -68,7 +68,7 @@ Content-Type: application/json; charset=UTF-8
           "code": "H87", 
           "name": "штук"
         }, 
-        "quantity": 5.0
+        "quantity": 1.0
       }
     ], 
     "suppliers": [
@@ -107,7 +107,7 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "date": "2020-05-01T01:00:03+03:00", 
     "awardID": "e9d20fa47d934470b845028e492a8945", 
-    "id": "f3236223b20c4e64b7bd7919bd0a8685", 
+    "id": "0def0972e7a648cdbbb29a291331f1f2", 
     "contractID": "UA-2020-05-01-000001-2"
   }
 }

@@ -16,32 +16,20 @@ Content-Type: application/json; charset=UTF-8
     "title": "Комп’ютерне обладнання", 
     "items": [
       {
-        "description": "Комп’ютерне обладнання", 
-        "classification": {
-          "scheme": "ДК021", 
-          "description": "Cartons", 
-          "id": "44617100-9"
+        "deliveryDate": {
+          "startDate": "2020-05-03T01:00:00+03:00", 
+          "endDate": "2020-05-06T01:00:00+03:00"
         }, 
-        "additionalClassifications": [
-          {
-            "scheme": "INN", 
-            "id": "17.21.1", 
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ], 
+        "description": "Комп’ютерне обладнання", 
+        "quantity": 1.0, 
+        "id": "0d99ccf1875e4ab8bb13f46a98631885", 
         "deliveryAddress": {
           "postalCode": "79000", 
           "countryName": "Україна", 
           "streetAddress": "вул. Банкова 1", 
           "region": "м. Київ", 
           "locality": "м. Київ"
-        }, 
-        "deliveryDate": {
-          "startDate": "2020-05-03T01:00:00+03:00", 
-          "endDate": "2020-05-06T01:00:00+03:00"
-        }, 
-        "id": "0d99ccf1875e4ab8bb13f46a98631885", 
-        "quantity": 5.0
+        }
       }
     ], 
     "procurementMethodType": "priceQuotation", 

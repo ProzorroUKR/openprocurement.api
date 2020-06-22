@@ -60,7 +60,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.assertEqual(tender["status"], "draft")
         self.assertEqual(len(tender["items"]), 1)
         self.assertNotIn("shortlistedFirms", tender)
-        self.assertIn("classification", tender["items"][0])
+        self.assertNotIn("classification", tender["items"][0])
         self.assertNotIn("unit", tender["items"][0])
         self.assertEqual(tender["profile"], test_short_profile["id"])
 
