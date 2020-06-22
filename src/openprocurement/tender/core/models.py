@@ -62,6 +62,7 @@ from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
     calculate_complaint_business_date,
     prepare_award_milestones,
+    check_skip_award_complaint_period,
 )
 from openprocurement.tender.core.validation import (
     validate_lotvalue_value,
@@ -461,13 +462,15 @@ class Contract(BaseContract):
     def validate_dateSigned(self, data, value):
         parent = data["__parent__"]
         if value and isinstance(parent, Model):
-            award = [i for i in parent.awards if i.id == data["awardID"]][0]
-            if award.complaintPeriod and award.complaintPeriod.endDate >= value:
-                raise ValidationError(
-                    u"Contract signature date should be after award complaint period end date ({})".format(
-                        award.complaintPeriod.endDate.isoformat()
+            tender = get_tender(parent)
+            if not check_skip_award_complaint_period(tender):
+                award = [i for i in parent.awards if i.id == data["awardID"]][0]
+                if award.complaintPeriod and award.complaintPeriod.endDate >= value:
+                    raise ValidationError(
+                        u"Contract signature date should be after award complaint period end date ({})".format(
+                            award.complaintPeriod.endDate.isoformat()
+                        )
                     )
-                )
             if value > get_now():
                 raise ValidationError(u"Contract signature date can't be in the future")
 

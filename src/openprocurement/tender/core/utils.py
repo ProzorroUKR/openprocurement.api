@@ -413,6 +413,13 @@ def calculate_total_complaints(tender):
     return total_complaints
 
 
+def check_skip_award_complaint_period(tender):
+    return (
+        tender.procurementMethodType == "belowThreshold"
+        and tender.get("procurementMethodRationale", "") == "simple"
+    )
+
+
 from openprocurement.tender.core.validation import validate_absence_of_pending_accepted_satisfied_complaints
 
 

@@ -15,10 +15,12 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     create_tender_contract,
     create_tender_contract_in_complete_status,
     patch_tender_contract,
+    patch_tender_contract_rationale_simple,
     get_tender_contract,
     get_tender_contracts,
     # Tender2LotContractResourceTest
     lot2_patch_tender_contract,
+    lot2_patch_tender_contract_rationale_simple,
     # TenderContractDocumentResourceTest
     not_found,
     create_tender_contract_document,
@@ -93,6 +95,7 @@ class TenderContractResourceTest(TenderContentWebTest, TenderContractResourceTes
     test_create_tender_contract = snitch(create_tender_contract)
     test_create_tender_contract_in_complete_status = snitch(create_tender_contract_in_complete_status)
     test_patch_tender_contract = snitch(patch_tender_contract)
+    test_patch_tender_contract_rationale_simple = snitch(patch_tender_contract_rationale_simple)
     test_patch_tender_contract_value = snitch(patch_tender_contract_value)
     test_patch_tender_contract_status_by_owner = snitch(patch_tender_contract_status_by_owner)
     test_patch_tender_contract_status_by_supplier = snitch(patch_tender_contract_status_by_supplier)
@@ -170,6 +173,7 @@ class Tender2LotContractResourceTest(TenderContentWebTest):
         )
 
     test_lot2_patch_tender_contract = snitch(lot2_patch_tender_contract)
+    test_lot2_patch_tender_contract_rationale_simple = snitch(lot2_patch_tender_contract_rationale_simple)
 
 
 class TenderContractDocumentResourceTest(TenderContentWebTest, TenderContractDocumentResourceTestMixin):
