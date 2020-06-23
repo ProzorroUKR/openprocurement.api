@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/50c82523038349969f53f3e238932c46/awards/321497545e3f406b85f20fa2a7f33fc6?acc_token=90e5c1d7c0414b99a392234aee8cd1dc HTTP/1.0
+PATCH /api/2.5/tenders/50c82523038349969f53f3e238932c46/awards/569e493e88f6479e83d7cf7dc3b8182b?acc_token=90e5c1d7c0414b99a392234aee8cd1dc HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 67
 Content-Type: application/json
@@ -53,7 +53,7 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "qualified": true, 
     "date": "2020-05-15T01:00:00+03:00", 
-    "id": "321497545e3f406b85f20fa2a7f33fc6"
+    "id": "569e493e88f6479e83d7cf7dc3b8182b"
   }
 }
 

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/1869e289e8cd4b7ea266c48f022e48cf/complaints HTTP/1.0
+GET /api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/140b7d05238849ca9d3d2153a1b2a8d5/complaints HTTP/1.0
 Host: lb-api-sandbox.prozorro.gov.ua
 
 Response: 200 OK

@@ -76,7 +76,7 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "dateSigned": "2020-05-15T01:00:01+03:00", 
     "date": "2020-05-15T01:00:00+03:00", 
-    "awardID": "b442ded674714917b554a367607c2b68", 
+    "awardID": "4f20d1fe800a46fcb897610695fc61d6", 
     "id": "641aa8fa64b64829a1ad15ec65ec68a5", 
     "contractID": "UA-2020-05-15-000001-1"
   }

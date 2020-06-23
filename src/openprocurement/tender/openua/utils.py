@@ -196,7 +196,7 @@ def add_next_award(request, reverse=False, awarding_criteria_key="amount"):
             all_bids = prepare_bids_for_awarding(tender, tender.bids, lot_id=None)
             bids = exclude_unsuccessful_awarded_bids(tender, all_bids, lot_id=None)
             if bids:
-                tender.append_award(bids[0], bids)
+                tender.append_award(bids[0], all_bids)
                 request.response.headers["Location"] = request.route_url(
                     "{}:Tender Awards".format(tender.procurementMethodType),
                     tender_id=tender.id,
