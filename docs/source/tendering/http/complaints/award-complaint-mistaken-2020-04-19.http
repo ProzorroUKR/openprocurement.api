@@ -14,7 +14,7 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "status": "mistaken",
+    "status": "mistaken", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "author": {
       "contactPoint": {
@@ -42,8 +42,8 @@ Content-Type: application/json; charset=UTF-8
       "currency": "UAH", 
       "amount": 3000.0
     }, 
-    "rejectReason": "cancelledByComplainant",
-    "complaintID": "UA-2020-05-15-000001.11",
+    "rejectReason": "cancelledByComplainant", 
+    "complaintID": "UA-2020-05-15-000001.11", 
     "date": "2020-05-15T01:00:03+03:00", 
     "type": "complaint", 
     "id": "e15981bf83d54538a54f42ae219b8d0d"
