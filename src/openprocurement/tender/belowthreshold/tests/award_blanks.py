@@ -617,12 +617,12 @@ def create_tender_award_with_the_invalid_document_type(self):
     self.assertEqual(
         response_doctype_dict,
         {"tenderNotice","awardNotice","contractNotice","notice","biddingDocuments","technicalSpecifications",
-         "evaluationCriteria","clarifications","shortlistedFirms","riskProvisions","billOfQuantity","bidders",
-         "conflictOfInterest","debarments","evaluationReports","winningBid","complaints","contractSigned",
-         "contractArrangements","contractSchedule","contractAnnexe","contractGuarantees","subContract",
-         "eligibilityCriteria","contractProforma","commercialProposal","qualificationDocuments",
-         "eligibilityDocuments","registerExtract","registerFiscal","winningBid","contractTemplate",
-         "contractSchema","contractForm","contractData","contractProforma","evidence"})
+        "evaluationCriteria","clarifications","shortlistedFirms","riskProvisions","billOfQuantity","bidders",
+        "conflictOfInterest","debarments","evaluationReports","winningBid","complaints","contractSigned",
+        "contractArrangements","contractSchedule","contractAnnexe","contractGuarantees","subContract",
+        "eligibilityCriteria","contractProforma","commercialProposal","qualificationDocuments",
+        "eligibilityDocuments","registerExtract","registerFiscal","winningBid","contractTemplate",
+        "contractSchema","contractForm","contractData","contractProforma","contract", "evidence"})
 
 def put_tender_json_award_document_of_document(self):
     response = self.app.post(
