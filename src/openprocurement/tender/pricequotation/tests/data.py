@@ -242,47 +242,47 @@ test_cancellation = {
 test_shortlisted_firms = [
     {
         "address": {
-            "countryName": "Україна",
-            "locality": "м.Київ",
+            "countryName": u"Україна",
+            "locality": u"м.Київ",
             "postalCode": "01100",
-            "region": "Київська область",
-            "streetAddress": "бул.Дружби Народів, 8"
+            "region": u"Київська область",
+            "streetAddress": u"бул.Дружби Народів, 8"
         },
         "contactPoint": {
             "email": "contact@pixel.pix",
-            "name": "Оксана Піксель",
+            "name": u"Оксана Піксель",
             "telephone": "(067) 123-45-67"
         },
         "id": "UA-EDR-12345678",
         "identifier": {
             "id": "12345678",
-            "legalName": "Товариство з обмеженою відповідальністю «Пікселі»",
+            "legalName": u"Товариство з обмеженою відповідальністю «Пікселі»",
             "scheme": "UA-EDR"
         },
-        "name": "Товариство з обмеженою відповідальністю «Пікселі»",
+        "name": u"Товариство з обмеженою відповідальністю «Пікселі»",
         "scale": "large",
         "status": "active"
     },
     {
         "address": {
-            "countryName": "Україна",
-            "locality": "м.Тернопіль",
+            "countryName": u"Україна",
+            "locality": u"м.Тернопіль",
             "postalCode": "46000",
-            "region": "Тернопільська область",
-            "streetAddress": "вул. Кластерна, 777-К"
+            "region": u"Тернопільська область",
+            "streetAddress": u"вул. Кластерна, 777-К"
         },
         "contactPoint": {
             "email": "info@shteker.pek",
-            "name": "Олег Штекер",
+            "name": u"Олег Штекер",
             "telephone": "(095) 123-45-67"
         },
         "id": "UA-EDR-87654321",
         "identifier": {
             "id": "87654321",
-            "legalName": "Товариство з обмеженою відповідальністю «Штекер-Пекер»",
+            "legalName": u"Товариство з обмеженою відповідальністю «Штекер-Пекер»",
             "scheme": "UA-EDR"
         },
-        "name": "Товариство з обмеженою відповідальністю «Штекер-Пекер»",
+        "name": u"Товариство з обмеженою відповідальністю «Штекер-Пекер»",
         "scale": "large",
         "status": "active"
     }
@@ -290,218 +290,218 @@ test_shortlisted_firms = [
 
 test_short_profile = {
     "classification": {
-        "description": "Комп’ютерне обладнанн",
+        "description": u"Комп’ютерне обладнанн",
         "id": "30230000-0",
-        "scheme": "ДК021"
+        "scheme": u"ДК021"
     },
     "id": "655360-30230000-889652-40000777",
     "unit": {
         "code": "H87",
-        "name": "штук"
+        "name": u"штук"
     },
     "criteria": [
         {
-            "description": "Діагональ екрану",
+            "description": u"Діагональ екрану",
             "id": "655360-0001",
             "requirementGroups": [
                 {
-                    "description": "Діагональ екрану, не менше 23.8 дюймів",
+                    "description": u"Діагональ екрану, не менше 23.8 дюймів",
                     "id": "655360-0001-001",
                     "requirements": [
                         {
                             "dataType": "number",
                             "id": "655360-0001-001-01",
                             "minValue": "23.8",
-                            "title": "Діагональ екрану",
+                            "title": u"Діагональ екрану",
                             "unit": {
                                 "code": "INH",
-                                "name": "дюйм"
+                                "name": u"дюйм"
                             }
                         }
                     ]
                 }
             ],
-            "title": "Діагональ екрану"
+            "title": u"Діагональ екрану"
         },
         {
-            "description": "Роздільна здатність",
+            "description": u"Роздільна здатність",
             "id": "655360-0002",
             "requirementGroups": [
                 {
-                    "description": "Роздільна здатність - 1920x1080",
+                    "description": u"Роздільна здатність - 1920x1080",
                     "id": "655360-0002-001",
                     "requirements": [
                         {
                             "dataType": "string",
                             "expectedValue": "1920x1080",
                             "id": "655360-0002-001-01",
-                            "title": "Роздільна здатність"
+                            "title": u"Роздільна здатність"
                         }
                     ]
                 }
             ],
-            "title": "Роздільна здатність"
+            "title": u"Роздільна здатність"
         },
         {
-            "description": "Співвідношення сторін",
+            "description": u"Співвідношення сторін",
             "id": "655360-0003",
             "requirementGroups": [
                 {
-                    "description": "Співвідношення сторін",
+                    "description": u"Співвідношення сторін",
                     "id": "655360-0003-001",
                     "requirements": [
                         {
                             "dataType": "string",
                             "expectedValue": "16:9",
                             "id": "655360-0003-001-01",
-                            "title": "Співвідношення сторін"
+                            "title": u"Співвідношення сторін"
                         }
                     ]
                 }
             ],
-            "title": "Співвідношення сторін"
+            "title": u"Співвідношення сторін"
         },
         {
-            "description": "Яскравість дисплея",
+            "description": u"Яскравість дисплея",
             "id": "655360-0004",
             "requirementGroups": [
                 {
-                    "description": "Яскравість дисплея, не менше 250 кд/м²",
+                    "description": u"Яскравість дисплея, не менше 250 кд/м²",
                     "id": "655360-0004-001",
                     "requirements": [
                         {
                             "dataType": "integer",
                             "id": "655360-0004-001-01",
                             "minValue": 250,
-                            "title": "Яскравість дисплея",
+                            "title": u"Яскравість дисплея",
                             "unit": {
                                 "code": "A24",
-                                "name": "кд/м²"
+                                "name": u"кд/м²"
                             }
                         }
                     ]
                 }
             ],
-            "title": "Яскравість дисплея"
+            "title": u"Яскравість дисплея"
         },
         {
-            "description": "Контрастність (статична)",
+            "description": u"Контрастність (статична)",
             "id": "655360-0005",
             "requirementGroups": [
                 {
-                    "description": "Контрастність (статична) - 1000:1",
+                    "description": u"Контрастність (статична) - 1000:1",
                     "id": "655360-0005-001",
                     "requirements": [
                         {
                             "dataType": "string",
                             "expectedValue": "1000:1",
                             "id": "655360-0005-001-01",
-                            "title": "Контрастність (статична)"
+                            "title": u"Контрастність (статична)"
                         }
                     ]
                 },
                 {
-                    "description": "Контрастність (статична) - 3000:1",
+                    "description": u"Контрастність (статична) - 3000:1",
                     "id": "655360-0005-002",
                     "requirements": [
                         {
                             "dataType": "string",
                             "expectedValue": "3000:1",
                             "id": "655360-0005-002-01",
-                            "title": "Контрастність (статична)"
+                            "title": u"Контрастність (статична)"
                         }
                     ]
                 }
             ],
-            "title": "Контрастність (статична)"
+            "title": u"Контрастність (статична)"
         },
         {
-            "description": "Кількість портів HDMI",
+            "description": u"Кількість портів HDMI",
             "id": "655360-0006",
             "requirementGroups": [
                 {
-                    "description": "Кількість портів HDMI, не менше 1 шт.",
+                    "description": u"Кількість портів HDMI, не менше 1 шт.",
                     "id": "655360-0006-001",
                     "requirements": [
                         {
                             "dataType": "integer",
                             "id": "655360-0006-001-01",
                             "minValue": 1,
-                            "title": "Кількість портів HDMI",
+                            "title": u"Кількість портів HDMI",
                             "unit": {
                                 "code": "H87",
-                                "name": "штук"
+                                "name": u"штук"
                             }
                         }
                     ]
                 }
             ],
-            "title": "Кількість портів HDMI"
+            "title": u"Кількість портів HDMI"
         },
         {
-            "description": "Кількість портів D-sub",
+            "description": u"Кількість портів D-sub",
             "id": "655360-0007",
             "requirementGroups": [
                 {
-                    "description": "Кількість портів D-sub, не менше 1 шт.",
+                    "description": u"Кількість портів D-sub, не менше 1 шт.",
                     "id": "655360-0007-001",
                     "requirements": [
                         {
                             "dataType": "integer",
                             "id": "655360-0007-001-01",
                             "minValue": 1,
-                            "title": "Кількість портів D-sub",
+                            "title": u"Кількість портів D-sub",
                             "unit": {
                                 "code": "H87",
-                                "name": "штук"
+                                "name": u"штук"
                             }
                         }
                     ]
                 }
             ],
-            "title": "Кількість портів D-sub"
+            "title": u"Кількість портів D-sub"
         },
         {
-            "description": "Кабель для під’єднання",
+            "description": u"Кабель для під’єднання",
             "id": "655360-0008",
             "requirementGroups": [
                 {
-                    "description": "Кабель для під’єднання",
+                    "description": u"Кабель для під’єднання",
                     "id": "655360-0008-001",
                     "requirements": [
                         {
                             "dataType": "string",
                             "expectedValue": "HDMI",
                             "id": "655360-0008-001-01",
-                            "title": "Кабель для під’єднання"
+                            "title": u"Кабель для під’єднання"
                         }
                     ]
                 }
             ],
-            "title": "Кабель для під’єднання"
+            "title": u"Кабель для під’єднання"
         },
         {
-            "description": "Строк дії гарантії",
+            "description": u"Строк дії гарантії",
             "id": "655360-0009",
             "requirementGroups": [
                 {
-                    "description": "Гарантія, не менше 36 місяців",
+                    "description": u"Гарантія, не менше 36 місяців",
                     "id": "655360-0009-001",
                     "requirements": [
                         {
                             "dataType": "integer",
                             "id": "655360-0009-001-01",
                             "minValue": 36,
-                            "title": "Гарантія",
+                            "title": u"Гарантія",
                             "unit": {
                                 "code": "MON",
-                                "name": "місяців"
+                                "name": u"місяців"
                             }
                         }
                     ]
                 }
             ],
-            "title": "Гарантія"
+            "title": u"Гарантія"
         }
     ],
     "value": {
