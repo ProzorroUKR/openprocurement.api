@@ -181,25 +181,8 @@ class ConfidentialDocumentModelType(ModelType):
         else:
             model_class = self.model_class
 
-        root = model_instance.get_root()
-        request = root.request
-
-        parent = model_instance.__parent__
-        tender = parent.__parent__
-
-        acc_token = extract_access_token(request)
-        auth_user_id = request.authenticated_userid
-
-        is_owner = (auth_user_id == parent.owner and acc_token == parent.owner_token)
-        is_tender_owner = (auth_user_id == tender.owner and acc_token == tender.owner_token)
-
-        if (
-            role not in ["create", "edit", "plain", None]
-            and not is_owner
-            and not is_tender_owner
-            and model_instance.confidentiality == "buyerOnly"
-        ):
-            role = "restricted_view"
+        if role not in ["create", "edit", "plain", None] and hasattr(model_instance, "view_role"):
+            role = model_instance.view_role()
 
         shaped = export_loop(model_class, model_instance, field_converter, role=role, print_none=print_none)
 
@@ -220,6 +203,30 @@ class ConfidentialDocument(Document):
 
     confidentiality = StringType(choices=["public", "buyerOnly"])
     confidentialityRationale = StringType()
+
+    def view_role(self):
+        root = self.get_root()
+        request = root.request
+
+        parent = self.__parent__
+        tender = parent.__parent__
+
+        acc_token = extract_access_token(request)
+        auth_user_id = request.authenticated_userid
+
+        is_owner = (auth_user_id == parent.owner and acc_token == parent.owner_token)
+        is_tender_owner = (auth_user_id == tender.owner and acc_token == tender.owner_token)
+        access_roles = ["aboveThresholdReviewers", "sas"]
+
+        if (
+            not is_owner
+            and not is_tender_owner
+            and request.authenticated_role not in access_roles
+            and self.confidentiality == "buyerOnly"
+        ):
+            return "restricted_view"
+
+        return "view"
 
     def validate_confidentialityRationale(self, data, val):
         confidentiality = data.get("confidentiality")

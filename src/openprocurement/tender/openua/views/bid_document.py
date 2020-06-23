@@ -27,22 +27,7 @@ from openprocurement.tender.core.utils import optendersresource
 class TenderUaBidDocumentResource(TenderBidDocumentResource):
 
     def _get_doc_view_role(self, doc):
-
-        parent = doc.__parent__
-        tender = parent.__parent__
-
-        acc_token = extract_access_token(self.request)
-        auth_user_id = self.request.authenticated_userid
-        is_owner = auth_user_id == parent.owner and acc_token == parent.owner_token
-        is_tender_owner = (auth_user_id == tender.owner and acc_token == tender.owner_token)
-
-        if (
-            not is_owner
-            and not is_tender_owner
-            and doc.confidentiality == "buyerOnly"
-        ):
-            return "restricted_view"
-        return "view"
+        return doc.view_role()
 
     @json_view(
         validators=(
