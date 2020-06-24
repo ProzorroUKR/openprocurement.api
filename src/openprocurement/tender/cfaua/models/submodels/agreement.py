@@ -48,7 +48,7 @@ class Agreement(Model):
         awards_id = [c.awardID for c in data["contracts"]]
         if value and isinstance(parent, Model):
             award = [i for i in parent.awards if i.id in awards_id][0]
-            if award.complaintPeriod.endDate >= value:
+            if award.complaintPeriod and award.complaintPeriod.endDate >= value:
                 raise ValidationError(
                     u"Agreement signature date should be after award complaint period end date ({})".format(
                         award.complaintPeriod.endDate.isoformat()

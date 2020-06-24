@@ -213,7 +213,11 @@ def check_tender_status(request):
             pending_awards_complaints = any(
                 [i.status in tender.block_complaint_status for a in lot_awards for i in a.complaints]
             )
-            stand_still_end = max([(a.complaintPeriod and a.complaintPeriod.endDate) or now for a in lot_awards])
+            stand_still_end = max([
+                a.complaintPeriod.endDate
+                if a.complaintPeriod else now
+                for a in lot_awards
+            ])
             if pending_complaints or pending_awards_complaints or not stand_still_end <= now:
                 continue
             elif last_award.status == "unsuccessful":
