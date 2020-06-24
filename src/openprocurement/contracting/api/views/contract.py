@@ -7,6 +7,7 @@ from openprocurement.contracting.api.utils import (
     contract_serialize,
     set_ownership,
     save_contract,
+    get_transaction_by_id,
 )
 from openprocurement.contracting.api.validation import (
     validate_contract_data,
@@ -19,6 +20,8 @@ from openprocurement.contracting.api.validation import (
     validate_update_contracting_paid_amount,
     validate_update_contracting_value_amount,
     validate_update_contract_paid_net_required,
+    validate_put_transaction_to_contract,
+    validate_transaction_existence,
 )
 from openprocurement.contracting.api.design import (
     FIELDS,
@@ -151,7 +154,8 @@ class ContractTransactionsResource(APIResource):
 
     @json_view(
         content_type="application/json",
-        permission="upload_contract_transactions",
+        permission="edit_contract_transactions",
+        validators=(validate_put_transaction_to_contract,)
     )
     def put(self):
         new_transaction = self.request.json["data"]
@@ -161,21 +165,23 @@ class ContractTransactionsResource(APIResource):
         contract = self.request.validated["contract"]
         transactions = contract.implementation.transactions
 
+        status_mapping = {
+            0: "successful",
+            -1: "canceled",
+        }
+        _status_value = new_transaction['status']
+        new_transaction['status'] = status_mapping.get(_status_value, _status_value)
+
         existing_transaction = next((trans for trans in transactions if trans["id"] == transaction_id), None)
-        new_data_source = new_transaction['dataSource']
 
         if existing_transaction:
             existing_transaction["status"] = new_transaction["status"]
-
-            if new_data_source not in existing_transaction["dataSource"]:
-                existing_transaction["dataSource"].append(new_data_source)
 
             if save_contract(self.request):
                 self.LOGGER.info(
                     "Transaction {} for {} contract already exists, status updated".format(transaction_id, contract.id)
                 )
         else:
-            new_transaction.update({"dataSource": [new_data_source]})
 
             trans = type(contract.implementation).transactions.model_class(new_transaction)
             trans.__parent__ = contract.implementation
@@ -187,3 +193,11 @@ class ContractTransactionsResource(APIResource):
                 )
 
         return {"data": contract.serialize("view")}
+
+    @json_view(
+        permission="view_contract",
+        validators=(validate_transaction_existence,)
+    )
+    def get(self):
+        _transaction = get_transaction_by_id(self.request)
+        return {'data': _transaction.serialize("view")}

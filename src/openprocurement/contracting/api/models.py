@@ -140,6 +140,12 @@ class Document(BaseDocument):
                 raise ValidationError(u"relatedItem should be one of items")
 
 
+class TransactionDocument(BaseDocument):
+    """ Contract Transaction Document """
+
+    documentOf = StringType(required=True, default="contract")
+
+
 class ContactPoint(BaseContactPoint):
     availableLanguage = StringType()
 
@@ -240,12 +246,17 @@ class OrganizationReference(Model):
 
 class Transaction(Model):
     id = StringType(required=True)
-    dataSource = ListType(StringType(required=True), default=list())
+    documents = ListType(ModelType(TransactionDocument), default=list())
     date = IsoDateTimeType(required=True)
     value = ModelType(Guarantee, required=True)
     payer = ModelType(OrganizationReference, required=True)
     payee = ModelType(OrganizationReference, required=True)
     status = StringType(required=True)
+
+    class Options:
+        roles = {
+            "view": schematics_default_role,
+        }
 
 
 class Implementation(Model):
@@ -304,7 +315,8 @@ class Contract(SchematicsDocument, BaseContract):
             (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_contract"),
             (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_contract_documents"),
             (Allow, "{}_{}".format(self.owner, self.tender_token), "generate_credentials"),
-            (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_contract_transactions"),
+            (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_contract_transactions"),
+            (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_contract_transaction_documents"),
         ]
         return acl
 

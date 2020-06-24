@@ -565,7 +565,6 @@ def put_transaction_to_contract(self):
         {
             "data": {
                 "date": "2020-05-20T18:47:47.136678+02:00",
-                "dataSource": "data_source-string",
                 "value": {
                     "amount": 500,
                     "currency": "UAH"
@@ -578,7 +577,7 @@ def put_transaction_to_contract(self):
                     "id": 789,
                     "name": "payee1"
                 },
-                "status": "status1234"
+                "status": 0
             }
         }
     )
@@ -587,10 +586,7 @@ def put_transaction_to_contract(self):
         response.json['data']['implementation']['transactions'],
         [
             {
-                'status': 'status1234',
-                'dataSource': [
-                    'data_source-string'
-                ],
+                'status': 'successful',
                 'payer': {
                     'id': '789', 'name': 'payer1'
                 },
@@ -610,7 +606,6 @@ def put_transaction_to_contract(self):
         "/contracts/{}/transactions/{}?acc_token={}".format(self.contract["id"], 12345, token),
         {"data": {
             "date": "2020-05-20T18:47:47.136678+02:00",
-            "dataSource": "new_data_source_string",
             "value": {
                 "amount": 500,
                 "currency": "UAH"
@@ -634,9 +629,6 @@ def put_transaction_to_contract(self):
         [
             {
                 'status': 'new_status_123',
-                'dataSource': [
-                    'data_source-string', 'new_data_source_string'
-                ],
                 'payer': {
                     'id': '789', 'name': 'payer1'
                 },
@@ -656,7 +648,6 @@ def put_transaction_to_contract(self):
         "/contracts/{}/transactions/{}?acc_token={}".format(self.contract["id"], 90800777, token),
         {"data": {
             "date": "2020-06-10T10:47:47.136678+02:00",
-            "dataSource": "Data_source_string2",
             "value": {
                 "amount": 14500.5,
                 "currency": "UAH"
@@ -669,7 +660,7 @@ def put_transaction_to_contract(self):
                 "id": 199000,
                 "name": "payee2"
             },
-            "status": "Accepted_status_123"
+            "status": -1
         }
         }
     )
@@ -680,9 +671,6 @@ def put_transaction_to_contract(self):
         [
             {
                 'status': 'new_status_123',
-                'dataSource': [
-                    'data_source-string', 'new_data_source_string'
-                ],
                 'payer': {
                     'id': '789', 'name': 'payer1'
                 },
@@ -696,10 +684,7 @@ def put_transaction_to_contract(self):
                 'id': '12345'
             },
             {
-                'status': 'Accepted_status_123',
-                'dataSource': [
-                    'Data_source_string2'
-                ],
+                'status': 'canceled',
                 'payer': {
                     'id': '78999', 'name': 'payer2'
                 },
@@ -720,10 +705,9 @@ def put_transaction_to_contract(self):
         {
             "data": {
                 "date": "2020-06-10T10:47:47.136678+02:00",
-                "dataSource": "Data_source_string2",
                 "value": {
                     "amount": 18500.5,
-                    "currency": "UAH"
+                    "currency": "UAH",
                 },
             }
         }, status=422
@@ -732,17 +716,50 @@ def put_transaction_to_contract(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"],
-        [{
-            'description': {
-                'transactions': [{
-                    'status': ['This field is required.'],
-                    'payee': ['This field is required.'],
-                    'payer': ['This field is required.']}]
+        [
+            {
+                u'description': [u'This field is required.'], u'location': u'body', u'name': u'status'
             },
-            'location': 'body', 'name': 'implementation'
-        }]
+            {
+                u'description': [u'This field is required.'], u'location': u'body', u'name': u'payee'
+            },
+            {
+                u'description': [u'This field is required.'], u'location': u'body', u'name': u'payer'
+            }
+        ]
     )
 
+    response = self.app.put_json(
+        "/contracts/{}/transactions/{}?acc_token={}".format(self.contract["id"], 3444444, token),
+        {
+            "data": {
+                "date": "2020-06-10T10:47:47.136678+02:00",
+                "value": {
+                    "amount": 14500.5,
+                    "currency": "UAH"
+                },
+                "payer": {
+                    "id": 78999,
+                    "name": "payer2"
+                },
+                "payee": "payee_invalid_structure",
+                "status": "Accepted_status_123"
+            }
+        }, status=422
+    )
+
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u'description': [
+                    u'Please use a mapping for this field or OrganizationReference instance instead of unicode.'
+                ],
+                u'location': u'body', u'name': u'payee'
+            }
+        ]
+    )
     response = self.app.get("/contracts/{}".format(self.contract['id']))
     self.assertEqual(response.status, "200 OK")
 
@@ -751,9 +768,6 @@ def put_transaction_to_contract(self):
         [
             {
                 'status': 'new_status_123',
-                'dataSource': [
-                    'data_source-string', 'new_data_source_string'
-                ],
                 'payer': {
                     'id': '789', 'name': 'payer1'
                 },
@@ -767,10 +781,7 @@ def put_transaction_to_contract(self):
                 'id': '12345'
             },
             {
-                'status': 'Accepted_status_123',
-                'dataSource': [
-                    'Data_source_string2'
-                ],
+                'status': 'canceled',
                 'payer': {
                     'id': '78999', 'name': 'payer2'
                 },
@@ -784,6 +795,36 @@ def put_transaction_to_contract(self):
                 'id': '90800777'
             }
         ]
+    )
+    response = self.app.get("/contracts/{}/transactions/{}".format(self.contract['id'], 2222222), status=403)
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body", "name": "data",
+                "description": "Transaction does not exist"
+            }
+        ]
+    )
+
+    response = self.app.get("/contracts/{}/transactions/{}".format(self.contract['id'], 12345))
+    self.assertEqual(
+        response.json['data'],
+        {
+            'status': 'new_status_123',
+            'payer': {
+                'id': '789', 'name': 'payer1'
+            },
+            'value': {
+                'currency': 'UAH', 'amount': 500.0
+            },
+            'payee': {
+                'id': '789', 'name': 'payee1'
+            },
+            'date': '2020-05-20T18:47:47.136678+02:00',
+            'id': '12345'
+        }
     )
 
 
