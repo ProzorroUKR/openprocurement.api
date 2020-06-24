@@ -720,11 +720,11 @@ def put_transaction_to_contract(self):
         {
             "data": {
                 "date": "2020-06-10T10:47:47.136678+02:00",
-                "dataSource": "Data_source_string2",
                 "value": {
                     "amount": 18500.5,
-                    "currency": "UAH"
+                    "currency": "UAH",
                 },
+                "dataSource": "Data_source_string2"
             }
         }, status=422
     )
@@ -732,17 +732,51 @@ def put_transaction_to_contract(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"],
-        [{
-            'description': {
-                'transactions': [{
-                    'status': ['This field is required.'],
-                    'payee': ['This field is required.'],
-                    'payer': ['This field is required.']}]
+        [
+            {
+                u'description': [u'This field is required.'], u'location': u'body', u'name': u'status'
             },
-            'location': 'body', 'name': 'implementation'
-        }]
+            {
+                u'description': [u'This field is required.'], u'location': u'body', u'name': u'payee'
+            },
+            {
+                u'description': [u'This field is required.'], u'location': u'body', u'name': u'payer'
+            }
+        ]
     )
 
+    response = self.app.put_json(
+        "/contracts/{}/transactions/{}?acc_token={}".format(self.contract["id"], 3444444, token),
+        {
+            "data": {
+                "date": "2020-06-10T10:47:47.136678+02:00",
+                "dataSource": "Data_source_string2",
+                "value": {
+                    "amount": 14500.5,
+                    "currency": "UAH"
+                },
+                "payer": {
+                    "id": 78999,
+                    "name": "payer2"
+                },
+                "payee": "payee_invalid_structure",
+                "status": "Accepted_status_123"
+            }
+        }, status=422
+    )
+
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u'description': [
+                    u'Please use a mapping for this field or OrganizationReference instance instead of unicode.'
+                ],
+                u'location': u'body', u'name': u'payee'
+            }
+        ]
+    )
     response = self.app.get("/contracts/{}".format(self.contract['id']))
     self.assertEqual(response.status, "200 OK")
 

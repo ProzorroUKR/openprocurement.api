@@ -19,6 +19,7 @@ from openprocurement.contracting.api.validation import (
     validate_update_contracting_paid_amount,
     validate_update_contracting_value_amount,
     validate_update_contract_paid_net_required,
+    validate_put_transaction_to_contract,
 )
 from openprocurement.contracting.api.design import (
     FIELDS,
@@ -152,6 +153,7 @@ class ContractTransactionsResource(APIResource):
     @json_view(
         content_type="application/json",
         permission="upload_contract_transactions",
+        validators=(validate_put_transaction_to_contract,)
     )
     def put(self):
         new_transaction = self.request.json["data"]

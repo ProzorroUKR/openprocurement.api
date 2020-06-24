@@ -21,6 +21,11 @@ from openprocurement.tender.core.validation import (
     validate_update_contract_value_amount,
     validate_update_contract_value_net_required,
 )
+from openprocurement.api.models import Model, IsoDateTimeType, Guarantee
+from openprocurement.contracting.api.models import OrganizationReference
+from schematics.types import StringType
+from schematics.types.compound import ModelType
+from openprocurement.api.models import schematics_default_role
 
 
 def validate_contract_data(request):
@@ -38,6 +43,23 @@ def validate_contract_accreditation_level(request, model):
 
 def validate_patch_contract_data(request):
     return validate_data(request, Contract, True)
+
+
+def validate_put_transaction_to_contract(request):
+    class InitialTransaction(Model):
+        dataSource = StringType(required=True)
+        date = IsoDateTimeType(required=True)
+        value = ModelType(Guarantee, required=True)
+        payer = ModelType(OrganizationReference, required=True)
+        payee = ModelType(OrganizationReference, required=True)
+        status = StringType(required=True)
+
+        class Options:
+            roles = {
+                "create": schematics_default_role
+            }
+
+    return validate_data(request, model=InitialTransaction)
 
 
 def validate_change_data(request):
