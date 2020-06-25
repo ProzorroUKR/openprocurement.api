@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 2243
+Content-Length: 1802
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -15,31 +15,19 @@ DATA:
     "title": "Комп’ютерне обладнання", 
     "items": [
       {
-        "description": "Комп’ютерне обладнання", 
-        "classification": {
-          "scheme": "ДК021", 
-          "id": "44617100-9", 
-          "description": "Cartons"
+        "deliveryDate": {
+          "startDate": "2020-05-03T01:00:00+03:00", 
+          "endDate": "2020-05-06T01:00:00+03:00"
         }, 
-        "additionalClassifications": [
-          {
-            "scheme": "INN", 
-            "id": "17.21.1", 
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ], 
+        "quantity": 1, 
+        "description": "Комп’ютерне обладнання", 
         "deliveryAddress": {
           "countryName": "Україна", 
           "postalCode": "79000", 
           "region": "м. Київ", 
           "streetAddress": "вул. Банкова 1", 
           "locality": "м. Київ"
-        }, 
-        "deliveryDate": {
-          "startDate": "2020-05-03T01:00:00+03:00", 
-          "endDate": "2020-05-06T01:00:00+03:00"
-        }, 
-        "quantity": 1
+        }
       }
     ], 
     "procurementMethodType": "priceQuotation", 

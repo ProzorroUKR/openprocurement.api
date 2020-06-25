@@ -26,13 +26,6 @@ Content-Type: application/json; charset=UTF-8
           "description": "Комп’ютерне обладнанн", 
           "id": "30230000-0"
         }, 
-        "additionalClassifications": [
-          {
-            "scheme": "INN", 
-            "id": "17.21.1", 
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ], 
         "deliveryAddress": {
           "postalCode": "79000", 
           "countryName": "Україна", 

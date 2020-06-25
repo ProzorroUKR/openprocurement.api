@@ -14,6 +14,8 @@ from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.base.constants import DOCS_URL, AUCTIONS_URL
 
 test_tender_data = deepcopy(test_tender_data)
+test_tender_data['items'][0].pop('classification')
+test_tender_data['items'][0].pop('additionalClassifications')
 bid_draft = deepcopy(test_bids[0])
 bid_draft["status"] = "draft"
 
