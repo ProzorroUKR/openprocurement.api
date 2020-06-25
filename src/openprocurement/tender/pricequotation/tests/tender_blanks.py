@@ -1232,7 +1232,7 @@ def patch_tender_by_pq_bot(self):
     response = self.app.patch_json("/tenders/{}?acc_token={}".format(tender_id, owner_token), data, status=422)
     self.assertEqual(
         response.json["errors"],
-        [{"location": "body", "name": "profile", "description": ["The profile doesn't match to a regular expression"]}]
+        [{"location": "body", "name": "profile", "description": ["The profile value doesn't match id pattern"]}]
     )
 
     # set not existed profile id
