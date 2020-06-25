@@ -1203,6 +1203,18 @@ def patch_tender_by_pq_bot(self):
             "value": value
         }
     }
+
+    # try to patch by user
+    for patch in ({'data': {'status': 'active.tendering'}}, data):
+        with change_auth(self.app, ("Basic", ("broker", ""))) as app:
+            resp = app.patch_json("/tenders/{}?acc_token={}".format(tender_id, owner_token), patch, status=403)
+            self.assertEqual(resp.status, "403 Forbidden")
+            self.assertEqual(resp.json['status'], "error")
+            self.assertEqual(resp.json['errors'], [
+                {'description': "tender_owner can't publish tender", 'location': 'body', 'name': 'data'}
+            ])
+
+    # patch by bot
     with change_auth(self.app, ("Basic", ("pricequotation", ""))) as app:
         resp = app.patch_json("/tenders/{}".format(tender_id), data)
     response = self.app.get("/tenders/{}".format(tender_id))

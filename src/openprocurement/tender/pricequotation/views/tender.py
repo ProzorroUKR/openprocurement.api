@@ -9,7 +9,7 @@ from openprocurement.tender.belowthreshold.views.tender import TenderResource
 from openprocurement.tender.pricequotation.constants import PMT
 from openprocurement.tender.pricequotation.utils import check_status
 from openprocurement.tender.pricequotation.validation import\
-    validate_patch_tender_data
+    validate_patch_tender_data, validate_tender_publish
 
 
 @optendersresource(
@@ -25,6 +25,7 @@ class PriceQuotationTenderResource(TenderResource):
         content_type="application/json",
         validators=(
             validate_patch_tender_data,
+            validate_tender_publish,
             validate_tender_not_in_terminated_status,
         ),
         permission="edit_tender",

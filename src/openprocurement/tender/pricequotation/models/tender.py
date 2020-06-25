@@ -276,6 +276,8 @@ class PriceQuotationTender(Tender):
     def validate_items(self, data, items):
         if data["status"] in ("draft", "draft.publishing", "draft.unsuccessful"):
             return
+        if not all((i.classification for i in items)):
+            return
         cpv_336_group = items[0].classification.id[:3] == "336"\
             if items else False
         if (

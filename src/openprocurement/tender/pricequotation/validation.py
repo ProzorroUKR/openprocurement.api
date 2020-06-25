@@ -192,3 +192,18 @@ def validate_requirement_responses(criterias, req_responses):
         matches(criteria, response)
         for criteria, response in zip(criterias, req_responses)
     ]
+
+
+def validate_tender_publish(request):
+    tender = request.validated["tender"]
+    tender_status = request.validated['data'].get('status')
+    if tender.status == 'draft.publishing' and tender_status == 'active.tendering':
+        if request.authenticated_role != "bots":
+            raise_operation_error(
+                request,
+                "{} can't publish tender".format(
+                    request.authenticated_role
+                ),
+            )
+
+        return tender_status
