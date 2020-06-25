@@ -24,7 +24,7 @@ from openprocurement.tender.core.models import (
     Tender,
     Model
     )
-from openprocurement.tender.pricequotation.constants import PMT, QUALIFICATION_DURATION
+from openprocurement.tender.pricequotation.constants import PMT, QUALIFICATION_DURATION, PROFILE_PATTERN
 from openprocurement.tender.pricequotation.interfaces\
     import IPriceQuotationTender
 
@@ -306,6 +306,11 @@ class PriceQuotationTender(Tender):
             and period.endDate < calculate_tender_business_date(period.startDate, timedelta(days=2), data, True)
         ):
             raise ValidationError(u"the tenderPeriod cannot end earlier than 2 business days after the start")
+
+    def validate_profile(self, data, profile):
+        result = PROFILE_PATTERN.findall(profile)
+        if len(result) != 1:
+            raise ValidationError(u"The profile doesn't match to a regular expression")
 
     def __local_roles__(self):
         roles = dict([("{}_{}".format(self.owner, self.owner_token), "tender_owner")])

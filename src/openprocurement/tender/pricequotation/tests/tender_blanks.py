@@ -1228,12 +1228,20 @@ def patch_tender_by_pq_bot(self):
     self.assertNotIn("classification", tender["items"][0])
     self.assertNotIn("unit", tender["items"][0])
 
-    data = {"data": {"status": "draft.publishing", "profile": "some-invalid-id"}}
+    data = {"data": {"status": "draft.publishing", "profile": "a1b2c3-a1b2c3e4-f1g2i3-h1g2k3l4"}}
+    response = self.app.patch_json("/tenders/{}?acc_token={}".format(tender_id, owner_token), data, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "profile", "description": ["The profile doesn't match to a regular expression"]}]
+    )
+
+    # set not existed profile id
+    data["data"]["profile"] = "123456-12345678-123456-12345678"
     response = self.app.patch_json("/tenders/{}?acc_token={}".format(tender_id, owner_token), data)
     self.assertEqual(response.status, "200 OK")
     tender = response.json["data"]
     self.assertEqual(tender["status"], "draft.publishing")
-    self.assertEqual(tender["profile"], "some-invalid-id")
+    self.assertEqual(tender["profile"], "123456-12345678-123456-12345678")
 
     with change_auth(self.app, ("Basic", ("pricequotation", ""))) as app:
         self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"status": "draft.unsuccessful"}})
