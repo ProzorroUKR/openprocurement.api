@@ -13,6 +13,7 @@ from openprocurement.api.constants import (
     CPV_BLOCK_FROM,
     NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
     RELEASE_2020_04_19,
+    SANDBOX_MODE,
 )
 from openprocurement.tender.core.constants import CPV_ITEMS_CLASS_FROM
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
@@ -589,9 +590,14 @@ def create_tender_draft(self):
     self.assertEqual(tender["status"], "draft")
     self.assertNotIn("noticePublicationDate", tender)
 
-    period = {
-        'endDate': (get_now() + timedelta(days=1)).isoformat()
-    }
+    if SANDBOX_MODE:
+        period = {
+            'endDate': (get_now() + timedelta(minutes=1)).isoformat()
+        }
+    else:
+        period = {
+            'endDate': (get_now() + timedelta(days=1)).isoformat()
+        }
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token),
