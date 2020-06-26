@@ -9,7 +9,7 @@ from pyramid.security import Allow
 from zope.interface import implementer
 from openprocurement.api.constants import TZ, CPV_ITEMS_CLASS_FROM
 from openprocurement.api.models import\
-    BusinessOrganization, CPVClassification, Guarantee
+    BusinessOrganization, CPVClassification, Guarantee, IsoDateTimeType
 from openprocurement.api.models import Item as BaseItem
 from openprocurement.api.models import\
     ListType, Period, Value
@@ -137,7 +137,8 @@ class PriceQuotationTender(Tender):
                 "contracts",
                 "profile",
                 "shortlistedFirms",
-                "criteria"
+                "criteria",
+                "noticePublicationDate"
             )
         )
         _view_role = _view_tendering_role + whitelist("bids", "numberOfBids")
@@ -230,6 +231,7 @@ class PriceQuotationTender(Tender):
     profile = StringType(required=True)
     shortlistedFirms = ListType(ModelType(ShortlistedFirm), default=list())
     criteria = ListType(ModelType(Criterion), default=list())
+    noticePublicationDate = IsoDateTimeType()
 
     procuring_entity_kinds = ["general", "special",
                               "defense", "central", "other"]
@@ -299,15 +301,6 @@ class PriceQuotationTender(Tender):
             and period.startDate < data.get("tenderPeriod").endDate
         ):
             raise ValidationError(u"period should begin after tenderPeriod")
-
-    def validate_tenderPeriod(self, data, period):
-        if (
-            period
-            and period.startDate
-            and period.endDate
-            and period.endDate < calculate_tender_business_date(period.startDate, timedelta(days=2), data, True)
-        ):
-            raise ValidationError(u"the tenderPeriod cannot end earlier than 2 business days after the start")
 
     def validate_profile(self, data, profile):
         result = PROFILE_PATTERN.findall(profile)

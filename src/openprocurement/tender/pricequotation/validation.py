@@ -153,7 +153,7 @@ def matches(criteria, response):
                     criteria['id']
                 )
             )
-            
+
     if min_value and not max_value:
         min_value = datatype.to_native(min_value)
         if value < min_value:

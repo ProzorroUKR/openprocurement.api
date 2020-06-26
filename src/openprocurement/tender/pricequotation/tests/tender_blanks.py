@@ -587,6 +587,23 @@ def create_tender_draft(self):
     tender = response.json["data"]
     token = response.json["access"]["token"]
     self.assertEqual(tender["status"], "draft")
+    self.assertNotIn("noticePublicationDate", tender)
+
+    period = {
+        'endDate': (get_now() + timedelta(days=1)).isoformat()
+    }
+
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], token),
+        {"data": {"status": self.primary_tender_status, "tenderPeriod": period}},
+        status=403
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [{u'description': u'the tenderPeriod cannot end earlier than 2 business days after the start',
+          u'location': u'body',
+          u'name': u'data'}]
+    )
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token),
@@ -596,6 +613,7 @@ def create_tender_draft(self):
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
     self.assertEqual(tender["status"], self.primary_tender_status)
+    self.assertEqual(tender["noticePublicationDate"], tender["tenderPeriod"]["startDate"])
 
     response = self.app.get("/tenders/{}".format(tender["id"]))
     self.assertEqual(response.status, "200 OK")
