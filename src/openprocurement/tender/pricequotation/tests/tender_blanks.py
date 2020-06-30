@@ -30,7 +30,7 @@ from openprocurement.tender.pricequotation.tests.base import (
 from openprocurement.tender.pricequotation.tests.data import test_milestones
 # TenderTest
 from openprocurement.tender.core.tests.base import change_auth
-from openprocurement.tender.pricequotation.constants import PMT
+from openprocurement.tender.pricequotation.constants import PMT, PQ_KINDS
 
 
 def simple_add_tender(self):
@@ -490,7 +490,7 @@ def create_tender_invalid(self):
         [
             {
                 u"description": u"'' procuringEntity cannot publish this type of procedure. "
-                u"Only general, special, defense, central, other are allowed.",
+                u"Only general, special, defense, other, social, authority are allowed.",
                 u"location": u"procuringEntity",
                 u"name": u"kind",
             }
@@ -508,6 +508,20 @@ def create_tender_invalid(self):
             u"description": [u"Milestones are not applicable to pricequotation"],
             u"location": u"body",
             u"name": u"milestones"
+        }],
+    )
+
+    data = deepcopy(self.initial_data)
+    data["procuringEntity"]['kind'] = 'central'
+    response = self.app.post_json(request_path, {"data": data}, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"], [{
+            u"description": "u'central' procuringEntity cannot publish this type of procedure. Only general, special, defense, other, social, authority are allowed.",
+            u"location": u"procuringEntity",
+            u"name": u"kind"
         }],
     )
 
@@ -956,6 +970,17 @@ def create_tender(self):
     self.assertNotIn("locality", response.json["data"]["items"][0]["deliveryAddress"])
     self.assertNotIn("streetAddress", response.json["data"]["items"][0]["deliveryAddress"])
     self.assertNotIn("region", response.json["data"]["items"][0]["deliveryAddress"])
+
+    for kind in PQ_KINDS:
+        data = deepcopy(self.initial_data)
+        data['procuringEntity']['kind'] = kind
+        response = self.app.post_json("/tenders", {"data": data})
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json['data']['procuringEntity']['kind'],
+            kind
+        )
 
 
 def tender_fields(self):

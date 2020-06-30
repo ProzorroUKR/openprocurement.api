@@ -38,11 +38,9 @@ from openprocurement.tender.pricequotation.tests.tender_blanks import (
     lost_contract_for_active_award,
 )
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
-    create_tender_central_invalid,
     guarantee,
     create_tender_with_inn_before,
     tender_milestones_required,
-    create_tender_central,
     coordinates_reg_exp,
     get_tender,
     tender_not_found,
@@ -54,8 +52,6 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_with_main_procurement_category,
     create_tender_with_inn_before,
     tender_token_invalid,
-    create_tender_central,
-    create_tender_central_invalid,
 )
 
 class TenderResourceTestMixin(object):
@@ -67,7 +63,6 @@ class TenderResourceTestMixin(object):
     test_tender_owner_cannot_change_in_draft = snitch(tender_owner_cannot_change_in_draft)
     test_create_tender = snitch(create_tender)
     test_get_tender = snitch(get_tender)
-    test_create_tender_central_invalid = snitch(create_tender_central_invalid)
     test_dateModified_tender = snitch(dateModified_tender)
     test_tender_not_found = snitch(tender_not_found)
     test_tender_Administrator_change = snitch(tender_Administrator_change)
@@ -95,8 +90,6 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     Test_guarantee = snitch(guarantee)
     test_create_tender_invalid = snitch(create_tender_invalid)
     test_create_tender_generated = snitch(create_tender_generated)
-    test_create_tender_central = snitch(create_tender_central)
-    test_create_tender_central_invalid = snitch(create_tender_central_invalid)
     test_tender_fields = snitch(tender_fields)
     test_tender_items_float_quantity = snitch(tender_items_float_quantity)
     test_patch_tender_jsonpatch = snitch(patch_tender_jsonpatch)

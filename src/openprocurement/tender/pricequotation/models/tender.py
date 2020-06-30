@@ -24,7 +24,8 @@ from openprocurement.tender.core.models import (
     Tender,
     Model
     )
-from openprocurement.tender.pricequotation.constants import PMT, QUALIFICATION_DURATION, PROFILE_PATTERN
+from openprocurement.tender.pricequotation.constants import PMT,\
+    QUALIFICATION_DURATION, PQ_KINDS, PROFILE_PATTERN
 from openprocurement.tender.pricequotation.interfaces\
     import IPriceQuotationTender
 
@@ -233,8 +234,10 @@ class PriceQuotationTender(Tender):
     criteria = ListType(ModelType(Criterion), default=list())
     noticePublicationDate = IsoDateTimeType()
 
-    procuring_entity_kinds = ["general", "special",
-                              "defense", "central", "other"]
+    procuring_entity_kinds = PQ_KINDS
+
+    def validate_buyers(self, data, value):
+        return True
 
     def validate_milestones(self, data, value):
         # a hack to avoid duplicating all bese model fields
