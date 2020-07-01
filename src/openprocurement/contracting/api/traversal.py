@@ -13,6 +13,8 @@ class Root(object):
         (Allow, "g:contracting", "create_contract"),
         (Allow, "g:Administrator", "edit_contract"),
         (Allow, "g:admins", ALL_PERMISSIONS),
+        (Allow, "g:bots", "edit_contract_transactions"),
+        (Allow, "g:bots", "upload_contract_transaction_documents"),
     ]
 
     def __init__(self, request):
