@@ -537,6 +537,297 @@ def create_contract(self):
         self.assertEqual(response.status, "403 Forbidden")
 
 
+def put_transaction_to_contract(self):
+
+    response = self.app.get("/contracts/{}".format(self.contract["id"]))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "active")
+
+    tender_token = self.initial_data["tender_token"]
+    credentials_url = "/contracts/{}/credentials?acc_token={}".format(self.contract["id"], tender_token)
+    response = self.app.patch_json(credentials_url, {"data": ""})
+    self.assertEqual(response.status, "200 OK")
+    token = response.json["access"]["token"]
+
+    response = self.app.put_json(
+        "/contracts/{}/transactions/{}?acc_token={}".format(self.contract["id"], 12345, 'fake_token'),
+        {"data": ""}, status=403
+    )
+
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}]
+    )
+
+    response = self.app.put_json(
+        "/contracts/{}/transactions/{}?acc_token={}".format(self.contract["id"], 12345, token),
+        {
+            "data": {
+                "date": "2020-05-20T18:47:47.136678+02:00",
+                "value": {
+                    "amount": 500,
+                    "currency": "UAH"
+                },
+                "payer": {
+                    "id": 789,
+                    "name": "payer1"
+                },
+                "payee": {
+                    "id": 789,
+                    "name": "payee1"
+                },
+                "status": 0
+            }
+        }
+    )
+
+    self.assertEqual(
+        response.json['data']['implementation']['transactions'],
+        [
+            {
+                'status': 'successful',
+                'payer': {
+                    'id': '789', 'name': 'payer1'
+                },
+                'value': {
+                    'currency': 'UAH', 'amount': 500.0
+                },
+                'payee': {
+                    'id': '789', 'name': 'payee1'
+                },
+                'date': '2020-05-20T18:47:47.136678+02:00',
+                'id': '12345'
+            }
+        ]
+    )
+
+    response = self.app.put_json(
+        "/contracts/{}/transactions/{}?acc_token={}".format(self.contract["id"], 12345, token),
+        {"data": {
+            "date": "2020-05-20T18:47:47.136678+02:00",
+            "value": {
+                "amount": 500,
+                "currency": "UAH"
+            },
+            "payer": {
+                "id": 789,
+                "name": "payer1"
+            },
+            "payee": {
+                "id": 9000,
+                "name": "payee1"
+            },
+            "status": "new_status_123"
+        }
+        }
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    self.assertEqual(
+        response.json['data']['implementation']['transactions'],
+        [
+            {
+                'status': 'new_status_123',
+                'payer': {
+                    'id': '789', 'name': 'payer1'
+                },
+                'value': {
+                    'currency': 'UAH', 'amount': 500.0
+                },
+                'payee': {
+                    'id': '789', 'name': 'payee1'
+                },
+                'date': '2020-05-20T18:47:47.136678+02:00',
+                'id': '12345'
+            }
+        ]
+    )
+
+    response = self.app.put_json(
+        "/contracts/{}/transactions/{}?acc_token={}".format(self.contract["id"], 90800777, token),
+        {"data": {
+            "date": "2020-06-10T10:47:47.136678+02:00",
+            "value": {
+                "amount": 14500.5,
+                "currency": "UAH"
+            },
+            "payer": {
+                "id": 78999,
+                "name": "payer2"
+            },
+            "payee": {
+                "id": 199000,
+                "name": "payee2"
+            },
+            "status": -1
+        }
+        }
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    self.assertEqual(
+        response.json['data']['implementation']['transactions'],
+        [
+            {
+                'status': 'new_status_123',
+                'payer': {
+                    'id': '789', 'name': 'payer1'
+                },
+                'value': {
+                    'currency': 'UAH', 'amount': 500.0
+                },
+                'payee': {
+                    'id': '789', 'name': 'payee1'
+                },
+                'date': '2020-05-20T18:47:47.136678+02:00',
+                'id': '12345'
+            },
+            {
+                'status': 'canceled',
+                'payer': {
+                    'id': '78999', 'name': 'payer2'
+                },
+                'value': {
+                    'currency': 'UAH', 'amount': 14500.5
+                },
+                'payee': {
+                    'id': '199000', 'name': 'payee2'
+                },
+                'date': '2020-06-10T10:47:47.136678+02:00',
+                'id': '90800777'
+            }
+        ]
+    )
+
+    response = self.app.put_json(
+        "/contracts/{}/transactions/{}?acc_token={}".format(self.contract["id"], 111122, token),
+        {
+            "data": {
+                "date": "2020-06-10T10:47:47.136678+02:00",
+                "value": {
+                    "amount": 18500.5,
+                    "currency": "UAH",
+                },
+            }
+        }, status=422
+    )
+
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u'description': [u'This field is required.'], u'location': u'body', u'name': u'status'
+            },
+            {
+                u'description': [u'This field is required.'], u'location': u'body', u'name': u'payee'
+            },
+            {
+                u'description': [u'This field is required.'], u'location': u'body', u'name': u'payer'
+            }
+        ]
+    )
+
+    response = self.app.put_json(
+        "/contracts/{}/transactions/{}?acc_token={}".format(self.contract["id"], 3444444, token),
+        {
+            "data": {
+                "date": "2020-06-10T10:47:47.136678+02:00",
+                "value": {
+                    "amount": 14500.5,
+                    "currency": "UAH"
+                },
+                "payer": {
+                    "id": 78999,
+                    "name": "payer2"
+                },
+                "payee": "payee_invalid_structure",
+                "status": "Accepted_status_123"
+            }
+        }, status=422
+    )
+
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u'description': [
+                    u'Please use a mapping for this field or OrganizationReference instance instead of unicode.'
+                ],
+                u'location': u'body', u'name': u'payee'
+            }
+        ]
+    )
+    response = self.app.get("/contracts/{}".format(self.contract['id']))
+    self.assertEqual(response.status, "200 OK")
+
+    self.assertEqual(
+        response.json['data']['implementation']['transactions'],
+        [
+            {
+                'status': 'new_status_123',
+                'payer': {
+                    'id': '789', 'name': 'payer1'
+                },
+                'value': {
+                    'currency': 'UAH', 'amount': 500.0
+                },
+                'payee': {
+                    'id': '789', 'name': 'payee1'
+                },
+                'date': '2020-05-20T18:47:47.136678+02:00',
+                'id': '12345'
+            },
+            {
+                'status': 'canceled',
+                'payer': {
+                    'id': '78999', 'name': 'payer2'
+                },
+                'value': {
+                    'currency': 'UAH', 'amount': 14500.5
+                },
+                'payee': {
+                    'id': '199000', 'name': 'payee2'
+                },
+                'date': '2020-06-10T10:47:47.136678+02:00',
+                'id': '90800777'
+            }
+        ]
+    )
+    response = self.app.get("/contracts/{}/transactions/{}".format(self.contract['id'], 2222222), status=403)
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body", "name": "data",
+                "description": "Transaction does not exist"
+            }
+        ]
+    )
+
+    response = self.app.get("/contracts/{}/transactions/{}".format(self.contract['id'], 12345))
+    self.assertEqual(
+        response.json['data'],
+        {
+            'status': 'new_status_123',
+            'payer': {
+                'id': '789', 'name': 'payer1'
+            },
+            'value': {
+                'currency': 'UAH', 'amount': 500.0
+            },
+            'payee': {
+                'id': '789', 'name': 'payee1'
+            },
+            'date': '2020-05-20T18:47:47.136678+02:00',
+            'id': '12345'
+        }
+    )
+
+
 def create_contract_transfer_token(self):
     response = self.app.post_json("/contracts", {"data": self.initial_data})
     self.assertEqual(response.status, "201 Created")

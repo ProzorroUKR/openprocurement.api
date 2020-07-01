@@ -4,7 +4,7 @@ from zope.interface import implementer, Interface
 
 # from couchdb_schematics.document import SchematicsDocument
 from pyramid.security import Allow
-from schematics.types import StringType, BaseType, MD5Type
+from schematics.types import StringType, BaseType, MD5Type, FloatType
 from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
 from schematics.exceptions import ValidationError
@@ -21,7 +21,7 @@ from openprocurement.api.models import ContactPoint as BaseContactPoint
 from openprocurement.api.models import CPVClassification as BaseCPVClassification
 from openprocurement.api.models import Item as BaseItem
 from openprocurement.api.models import AdditionalClassification as BaseAdditionalClassification
-from openprocurement.api.models import Model, ListType, Revision, Value, IsoDateTimeType
+from openprocurement.api.models import Model, ListType, Revision, Value, IsoDateTimeType, Guarantee
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.api.models import plain_role, schematics_default_role, schematics_embedded_role
 from openprocurement.api.interfaces import IOPContent
@@ -65,6 +65,7 @@ contract_edit_role = whitelist(
     "amountPaid",
     "terminationDetails",
     "contract_amountPaid",
+    "implementation"
 )
 
 contract_view_role = whitelist(
@@ -94,6 +95,7 @@ contract_view_role = whitelist(
     "amountPaid",
     "terminationDetails",
     "contract_amountPaid",
+    "implementation",
 )
 
 contract_administrator_role = Tender.Options.roles["Administrator"] + whitelist("suppliers")
@@ -136,6 +138,12 @@ class Document(BaseDocument):
                 raise ValidationError(u"relatedItem should be one of changes")
             if data.get("documentOf") == "item" and relatedItem not in [i.id for i in contract.items]:
                 raise ValidationError(u"relatedItem should be one of items")
+
+
+class TransactionDocument(BaseDocument):
+    """ Contract Transaction Document """
+
+    documentOf = StringType(required=True, default="contract")
 
 
 class ContactPoint(BaseContactPoint):
@@ -231,6 +239,30 @@ class Change(Model):
             raise ValidationError(u"Contract signature date can't be in the future")
 
 
+class OrganizationReference(Model):
+    id = StringType(required=True)
+    name = StringType(required=True)
+
+
+class Transaction(Model):
+    id = StringType(required=True)
+    documents = ListType(ModelType(TransactionDocument), default=list())
+    date = IsoDateTimeType(required=True)
+    value = ModelType(Guarantee, required=True)
+    payer = ModelType(OrganizationReference, required=True)
+    payee = ModelType(OrganizationReference, required=True)
+    status = StringType(required=True)
+
+    class Options:
+        roles = {
+            "view": schematics_default_role,
+        }
+
+
+class Implementation(Model):
+    transactions = ListType(ModelType(Transaction), default=list())
+
+
 @implementer(IContract)
 class Contract(SchematicsDocument, BaseContract):
     """ Contract """
@@ -255,6 +287,7 @@ class Contract(SchematicsDocument, BaseContract):
     amountPaid = ModelType(ContractValue)
     value = ModelType(ContractValue)
     terminationDetails = StringType()
+    implementation = ModelType(Implementation, default=dict())
 
     create_accreditations = (ACCR_3, ACCR_5)  # TODO
 
@@ -282,6 +315,8 @@ class Contract(SchematicsDocument, BaseContract):
             (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_contract"),
             (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_contract_documents"),
             (Allow, "{}_{}".format(self.owner, self.tender_token), "generate_credentials"),
+            (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_contract_transactions"),
+            (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_contract_transaction_documents"),
         ]
         return acl
 

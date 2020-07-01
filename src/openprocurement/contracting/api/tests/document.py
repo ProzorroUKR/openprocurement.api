@@ -13,6 +13,7 @@ from openprocurement.contracting.api.tests.document_blanks import (
     create_contract_document_json_invalid,
     create_contract_document_json,
     put_contract_document_json,
+    create_contract_transaction_document_json
 )
 
 
@@ -32,6 +33,7 @@ class ContractDocumentWithDSResourceTest(ContractDocumentResourceTest):
     test_create_contract_documnet_json_invalid = snitch(create_contract_document_json_invalid)
     test_create_contract_documnet_json = snitch(create_contract_document_json)
     test_put_contract_document_json = snitch(put_contract_document_json)
+    test_create_contract_transaction_document_json = snitch(create_contract_transaction_document_json)
 
 
 def suite():

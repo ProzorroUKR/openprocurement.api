@@ -12,7 +12,9 @@ from openprocurement.api.validation import validate_file_update, validate_file_u
 from openprocurement.contracting.api.validation import (
     validate_add_document_to_active_change,
     validate_contract_document_operation_not_in_allowed_contract_status,
+    validate_file_transaction_upload,
 )
+from openprocurement.contracting.api.utils import get_transaction_by_id, upload_file_to_transaction
 
 
 @contractingresource(
@@ -101,3 +103,32 @@ class ContractsDocumentResource(APIResource):
                 extra=context_unpack(self.request, {"MESSAGE_ID": "contract_document_patch"}),
             )
             return {"data": self.request.context.serialize("view")}
+
+
+@contractingresource(
+    name="Contract Transaction Documents",
+    path="/contracts/{contract_id}/transactions/{transaction_id}/documents",
+    description="Contract transaction related binary files (PDFs, etc.)",
+)
+class ContractTransactionDocumentResource(APIResource):
+
+    @json_view(
+        content_type="application/json",
+        permission="upload_contract_transaction_documents",
+        validators=(validate_file_transaction_upload,),
+    )
+    def post(self):
+        """Contract Transaction Document Upload"""
+        document = upload_file_to_transaction(self.request)
+        _transaction = get_transaction_by_id(self.request)
+        _transaction.documents.append(document)
+        if save_contract(self.request):
+            self.LOGGER.info(
+                "Created contract transaction document {}".format(document.id),
+                extra=context_unpack(
+                    self.request, {"MESSAGE_ID": "contract_transaction_document_create"}, {"document_id": document.id}
+                ),
+            )
+
+            self.request.response.status = 201
+            return {"data": document.serialize("view")}
