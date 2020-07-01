@@ -237,7 +237,7 @@ class PriceQuotationTender(Tender):
     procuring_entity_kinds = PQ_KINDS
 
     def validate_buyers(self, data, value):
-        return True
+        pass
 
     def validate_milestones(self, data, value):
         # a hack to avoid duplicating all bese model fields
