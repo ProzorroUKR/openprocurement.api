@@ -305,6 +305,16 @@ class PriceQuotationTender(Tender):
         ):
             raise ValidationError(u"period should begin after tenderPeriod")
 
+    def validate_tenderPeriod(self, data, period):
+        if (
+            period
+            and period.startDate
+            and period.endDate
+            and period.endDate < calculate_tender_business_date(period.startDate, timedelta(days=2), data, True)
+        ):
+            raise ValidationError(u"the tenderPeriod cannot end earlier than 2 business days after the start")
+
+
     def validate_profile(self, data, profile):
         result = PROFILE_PATTERN.findall(profile)
         if len(result) != 1:

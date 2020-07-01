@@ -616,13 +616,14 @@ def create_tender_draft(self):
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token),
         {"data": {"status": self.primary_tender_status, "tenderPeriod": period}},
-        status=403
+        status=422
     )
+
     self.assertEqual(
         response.json["errors"],
-        [{u'description': u'the tenderPeriod cannot end earlier than 2 business days after the start',
+        [{u'description': [u'the tenderPeriod cannot end earlier than 2 business days after the start'],
           u'location': u'body',
-          u'name': u'data'}]
+          u'name': u'tenderPeriod'}]
     )
 
     response = self.app.patch_json(
