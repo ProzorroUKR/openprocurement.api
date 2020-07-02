@@ -628,6 +628,17 @@ def create_tender_draft(self):
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token),
+        {"data": {"status": 'active.tendering'}},
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json['status'], "error")
+    self.assertEqual(
+        response.json['errors'],
+        [{u'description': u"tender_owner can't publish tender", u'location': u'body', u'name': u'data'}]
+    )
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], token),
         {"data": {"status": self.primary_tender_status}}
     )
     self.assertEqual(response.status, "200 OK")
