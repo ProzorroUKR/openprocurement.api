@@ -13,8 +13,34 @@ Content-Type: application/json; charset=UTF-8
       "format": "application/msword", 
       "documentOf": "tender", 
       "datePublished": "2020-05-15T01:00:03+03:00", 
-      "id": "1b567d8562a54b8dbed747e3f604cf6f", 
-      "dateModified": "2020-05-15T01:00:03+03:00"
+      "dateModified": "2020-05-15T01:00:03+03:00", 
+      "id": "9f3ff556fde24588bb8d43242b4fe977"
+    }, 
+    {
+      "dateModified": "2020-05-15T01:00:03+03:00", 
+      "hash": "md5:00000000000000000000000000000000", 
+      "format": "application/pdf", 
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9e4d1c0b18cb48c7afc85a4e7acea0aa?KeyID=a8968c46&Signature=YD9Nxdzdct4TZKP2rcznflT7CNlYnWscEJNgMmAmvw0SzZrLFaptRbrvKjHiVUths8qMhHzMyNt%2FJluiTnV%2FBw%253D%253D", 
+      "author": "tender_owner", 
+      "documentOf": "document", 
+      "datePublished": "2020-05-15T01:00:03+03:00", 
+      "documentType": "contract", 
+      "title": "finalContract.pdf", 
+      "relatedItem": "e31f2506d6de4d20a0c52b6790177ee8", 
+      "id": "488c971a2b73483fab0f37c129f65c71"
+    }, 
+    {
+      "dateModified": "2020-05-15T01:00:03+03:00", 
+      "hash": "md5:00000000000000000000000000000000", 
+      "format": "application/json", 
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fc00e3b2b1934793b4103cdf91418613?KeyID=a8968c46&Signature=SHD7QGp2EMgyF1qRz82B8JsNg0B48VPcg4JxoVlObp8jbYN4tO15thZVtAxQMdqS1dpk4utomvnOwCHFjxjgBw%253D%253D", 
+      "author": "tender_owner", 
+      "documentOf": "document", 
+      "datePublished": "2020-05-15T01:00:03+03:00", 
+      "documentType": "contractData", 
+      "title": "finalContractData.json", 
+      "relatedItem": "e31f2506d6de4d20a0c52b6790177ee8", 
+      "id": "158aa8a96e6041f09a531ffc2d3aa175"
     }, 
     {
       "hash": "md5:00000000000000000000000000000000", 
@@ -23,8 +49,8 @@ Content-Type: application/json; charset=UTF-8
       "format": "application/msword", 
       "documentOf": "tender", 
       "datePublished": "2020-05-15T01:00:03+03:00", 
-      "id": "0fcd9edc0b0544c19fbc11c5f9c372dd", 
-      "dateModified": "2020-05-15T01:00:03+03:00"
+      "dateModified": "2020-05-15T01:00:03+03:00", 
+      "id": "d0c4000793a24e009a3057b4434ae119"
     }
   ]
 }

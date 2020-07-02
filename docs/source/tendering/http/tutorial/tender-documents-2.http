@@ -7,6 +7,17 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": [
     {
+      "title": "contractProforma", 
+      "url": null, 
+      "author": "tender_owner", 
+      "documentOf": "tender", 
+      "datePublished": "2020-05-15T01:00:00+03:00", 
+      "documentType": "contractProforma", 
+      "dateModified": "2020-05-15T01:00:00+03:00", 
+      "id": "e31f2506d6de4d20a0c52b6790177ee8", 
+      "templateId": "TEMPLATE-001"
+    }, 
+    {
       "hash": "md5:00000000000000000000000000000000", 
       "author": "tender_owner", 
       "title": "AwardCriteria.pdf", 
@@ -14,7 +25,9 @@ Content-Type: application/json; charset=UTF-8
       "format": "application/pdf", 
       "documentOf": "tender", 
       "datePublished": "2020-05-15T01:00:01+03:00", 
-      "id": "f05f28fd104147beb09d8b4f7bbcbd2b", 
+      "documentType": "technicalSpecifications", 
+      "id": "8a3d30101dc94ca58f768bec6a1f45dd", 
+      "title": "Notice.pdf", 
       "dateModified": "2020-05-15T01:00:01+03:00"
     }, 
     {
@@ -25,10 +38,8 @@ Content-Type: application/json; charset=UTF-8
       "format": "application/pdf", 
       "documentOf": "tender", 
       "datePublished": "2020-05-15T01:00:01+03:00", 
-      "author": "tender_owner", 
-      "documentType": "technicalSpecifications", 
-      "id": "8924acf921d645b7bce35748c4f9e237", 
-      "dateModified": "2020-05-15T01:00:01+03:00"
+      "dateModified": "2020-05-15T01:00:01+03:00", 
+      "id": "90a4fef3a0f545f4807445bbd4017f29"
     }
   ]
 }

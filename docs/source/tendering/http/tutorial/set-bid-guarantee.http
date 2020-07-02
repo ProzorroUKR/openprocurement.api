@@ -76,6 +76,19 @@ Content-Type: application/json; charset=UTF-8
       "currency": "USD", 
       "amount": 8.0
     }, 
+    "documents": [
+      {
+        "title": "contractProforma", 
+        "url": null, 
+        "author": "tender_owner", 
+        "documentOf": "tender", 
+        "datePublished": "2020-05-15T01:00:00+03:00", 
+        "documentType": "contractProforma", 
+        "dateModified": "2020-05-15T01:00:00+03:00", 
+        "id": "e31f2506d6de4d20a0c52b6790177ee8", 
+        "templateId": "TEMPLATE-001"
+      }
+    ], 
     "title": "футляри до державних нагород", 
     "tenderID": "UA-2020-05-15-000001", 
     "dateModified": "2020-05-15T01:00:01+03:00", 

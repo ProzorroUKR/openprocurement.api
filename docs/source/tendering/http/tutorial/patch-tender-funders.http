@@ -63,6 +63,59 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "procurementMethod": "open", 
+    "mainProcurementCategory": "goods", 
+    "enquiryPeriod": {
+      "startDate": "2020-05-15T01:00:00+03:00", 
+      "endDate": "2020-05-22T01:00:00+03:00"
+    }, 
+    "submissionMethod": "electronicAuction", 
+    "next_check": "2020-05-22T01:00:00+03:00", 
+    "procuringEntity": {
+      "contactPoint": {
+        "name": "Державне управління справами", 
+        "telephone": "0440000000"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "legalName": "Державне управління справами", 
+        "id": "00037256", 
+        "uri": "http://www.dus.gov.ua/"
+      }, 
+      "name": "Державне управління справами", 
+      "kind": "general", 
+      "address": {
+        "postalCode": "01220", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Банкова, 11, корпус 1", 
+        "region": "м. Київ", 
+        "locality": "м. Київ"
+      }
+    }, 
+    "owner": "broker", 
+    "id": "bc3a9016b29d4fed894cc62d3ff59680", 
+    "documents": [
+      {
+        "title": "contractProforma", 
+        "url": null, 
+        "author": "tender_owner", 
+        "documentOf": "tender", 
+        "datePublished": "2020-05-15T01:00:00+03:00", 
+        "documentType": "contractProforma", 
+        "dateModified": "2020-05-15T01:00:00+03:00", 
+        "id": "e31f2506d6de4d20a0c52b6790177ee8", 
+        "templateId": "TEMPLATE-001"
+      }
+    ], 
+    "title": "футляри до державних нагород", 
+    "tenderID": "UA-2020-05-15-000001", 
+    "dateModified": "2020-05-15T01:00:01+03:00", 
+    "status": "active.enquiries", 
+    "tenderPeriod": {
+      "startDate": "2020-05-22T01:00:00+03:00", 
+      "endDate": "2020-05-30T01:00:11+03:00"
+    }, 
+    "procurementMethodType": "belowThreshold", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "milestones": [
       {
         "code": "prepayment", 
@@ -89,12 +142,6 @@ Content-Type: application/json; charset=UTF-8
         "id": "af069a25c8f94e74a8b2428b51bcd1a7"
       }
     ], 
-    "mainProcurementCategory": "goods", 
-    "tenderPeriod": {
-      "startDate": "2020-05-22T01:00:00+03:00", 
-      "endDate": "2020-05-30T01:00:11+03:00"
-    }, 
-    "title": "футляри до державних нагород", 
     "minimalStep": {
       "currency": "UAH", 
       "amount": 15.0, 
@@ -134,46 +181,12 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 5.0
       }
     ], 
-    "procurementMethodType": "belowThreshold", 
     "value": {
       "currency": "UAH", 
       "amount": 500.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "submissionMethod": "electronicAuction", 
-    "date": "2020-05-15T01:00:00+03:00", 
-    "dateModified": "2020-05-15T01:00:01+03:00", 
-    "status": "active.enquiries", 
-    "procuringEntity": {
-      "contactPoint": {
-        "name": "Державне управління справами", 
-        "telephone": "0440000000"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "legalName": "Державне управління справами", 
-        "id": "00037256", 
-        "uri": "http://www.dus.gov.ua/"
-      }, 
-      "name": "Державне управління справами", 
-      "kind": "general", 
-      "address": {
-        "postalCode": "01220", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Банкова, 11, корпус 1", 
-        "region": "м. Київ", 
-        "locality": "м. Київ"
-      }
-    }, 
-    "awardCriteria": "lowestCost", 
-    "enquiryPeriod": {
-      "startDate": "2020-05-15T01:00:00+03:00", 
-      "endDate": "2020-05-22T01:00:00+03:00"
-    }, 
-    "owner": "broker", 
-    "next_check": "2020-05-22T01:00:00+03:00", 
-    "id": "bc3a9016b29d4fed894cc62d3ff59680", 
-    "tenderID": "UA-2020-05-15-000001"
+    "awardCriteria": "lowestCost"
   }
 }
 
