@@ -75,8 +75,23 @@ def validate_award_document(request):
 
 
 def validate_patch_tender_data(request):
-    data = validate_json_data(request)
-    return validate_data(request, type(request.tender), True, data)
+    model = type(request.tender)
+    data = validate_data(request, model, True, validate_json_data(request))
+    validate_kind_update(request, model)
+    return data
+
+
+def validate_kind_update(request, model):
+    data = request.validated["data"]
+    kind = data.get("procuringEntity", {}).get("kind", "")
+    if kind and kind not in model.procuring_entity_kinds:
+        request.errors.add(
+            "procuringEntity", "kind",
+            "{kind!r} procuringEntity cannot publish this type of procedure. Only {kinds} are allowed.".format(
+                kind=kind, kinds=", ".join(model.procuring_entity_kinds)
+            )
+        )
+        request.errors.status = 403
 
 
 def validate_bid_value(tender, value):

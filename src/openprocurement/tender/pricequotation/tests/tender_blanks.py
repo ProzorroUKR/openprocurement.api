@@ -639,6 +639,22 @@ def create_tender_draft(self):
     )
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token),
+        {"data": {"procuringEntity": {"kind": 'central'}}},
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json['status'], 'error')
+    self.assertEqual(
+        response.json['errors'],
+        [{
+            u'description': u"u'central' procuringEntity cannot publish this type of procedure. Only general, special, defense, other, social, authority are allowed.",
+            u'location': u'procuringEntity',
+            u'name': u'kind'
+        }]
+    )
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], token),
         {"data": {"status": self.primary_tender_status}}
     )
     self.assertEqual(response.status, "200 OK")
