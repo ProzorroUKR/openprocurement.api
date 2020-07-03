@@ -678,6 +678,20 @@ def create_tender_draft(self):
     self.assertEqual(tender["status"], self.primary_tender_status)
 
 
+def create_tender_in_not_draft_status(self):
+    data = self.initial_data.copy()
+    forbidden_statuses = ("draft.unsuccessful", "active.tendering", "active.qualification", "active.awarded",
+                          "complete", "cancelled", "unsuccessful")
+    for forbidden_status in forbidden_statuses:
+        data.update({"status": forbidden_status})
+        response = self.app.post_json("/tenders", {"data": data})
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        tender = response.json["data"]
+        token = response.json["access"]["token"]
+        self.assertEqual(tender["status"], "draft")
+
+
 def tender_owner_can_change_in_draft(self):
     data = self.initial_data.copy()
     data.update({"status": "draft"})

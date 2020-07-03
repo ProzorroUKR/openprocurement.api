@@ -122,7 +122,13 @@ class PriceQuotationTender(Tender):
                 "value",
                 "profile"
             )
-        _create_role = _core_roles["create"] + _edit_role
+        _create_role = _core_roles["create"] \
+                       + _core_roles["edit"] \
+                       + _edit_fields \
+                       + whitelist("contracts",
+                                   "numberOfBids",
+                                   "value",
+                                   "profile")
         _edit_pq_bot_role = whitelist(
             "items", "shortlistedFirms",
             "status", "criteria", "value",
