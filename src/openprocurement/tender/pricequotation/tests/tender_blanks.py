@@ -626,17 +626,25 @@ def create_tender_draft(self):
           u'name': u'tenderPeriod'}]
     )
 
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], token),
-        {"data": {"status": 'active.tendering'}},
-        status=403
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.json['status'], "error")
-    self.assertEqual(
-        response.json['errors'],
-        [{u'description': u"tender_owner can't publish tender", u'location': u'body', u'name': u'data'}]
-    )
+    forbidden_statuses = ("draft.unsuccessful", "active.tendering", "active.qualification", "active.awarded",
+                          "complete", "cancelled", "unsuccessful")
+    current_status = tender["status"]
+    for forbidden_status in forbidden_statuses:
+        response = self.app.patch_json(
+            "/tenders/{}?acc_token={}".format(tender["id"], token),
+            {"data": {"status": forbidden_status}},
+            status=403
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.json['status'], "error")
+        self.assertEqual(
+            response.json['errors'],
+            [{u'description': u"tender_owner can't switch tender from status ({}) to ({})".format(current_status,
+                                                                                                  forbidden_status),
+              u'location': u'body',
+              u'name': u'data'}]
+        )
+
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token),
         {"data": {"procuringEntity": {"kind": 'central'}}},
@@ -1288,7 +1296,9 @@ def patch_tender_by_pq_bot(self):
             self.assertEqual(resp.status, "403 Forbidden")
             self.assertEqual(resp.json['status'], "error")
             self.assertEqual(resp.json['errors'], [
-                {'description': "tender_owner can't publish tender", 'location': 'body', 'name': 'data'}
+                {'description': "tender_owner can't switch tender from status (draft.publishing) to (active.tendering)",
+                 'location': 'body',
+                 'name': 'data'}
             ])
 
     # patch by bot

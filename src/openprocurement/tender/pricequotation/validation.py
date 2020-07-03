@@ -210,12 +210,13 @@ def validate_requirement_responses(criterias, req_responses):
 
 
 def validate_tender_publish(request):
-    tender_status = request.validated['data'].get('status')
-    if request.authenticated_role not in ("bots", "Administrator")\
-       and tender_status == 'active.tendering':
-        raise_operation_error(
-            request,
-            "{} can't publish tender".format(
-                request.authenticated_role
-            ),
-        )
+    current_status = request.validated['tender'].status
+    tender_status = request.validated['data'].get('status', current_status)
+    if tender_status == current_status:
+        return
+    if request.authenticated_role not in ("bots", "Administrator", "chronograph") \
+            and tender_status != "draft.publishing":
+        raise_operation_error(request,
+                              "{} can't switch tender from status ({}) to ({})".format(request.authenticated_role,
+                                                                                       current_status,
+                                                                                       tender_status))
