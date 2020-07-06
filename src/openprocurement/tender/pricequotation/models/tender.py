@@ -131,7 +131,7 @@ class PriceQuotationTender(Tender):
                                    "profile")
         _edit_pq_bot_role = whitelist(
             "items", "shortlistedFirms",
-            "status", "criteria", "value",
+            "status", "criteria", "value", "unsuccessfulReason"
         )
         _view_tendering_role = (
             _core_roles["view"]
@@ -145,7 +145,8 @@ class PriceQuotationTender(Tender):
                 "profile",
                 "shortlistedFirms",
                 "criteria",
-                "noticePublicationDate"
+                "noticePublicationDate",
+                "unsuccessfulReason"
             )
         )
         _view_role = _view_tendering_role + whitelist("bids", "numberOfBids")
@@ -239,6 +240,7 @@ class PriceQuotationTender(Tender):
     shortlistedFirms = ListType(ModelType(ShortlistedFirm), default=list())
     criteria = ListType(ModelType(Criterion), default=list())
     noticePublicationDate = IsoDateTimeType()
+    unsuccessfulReason = StringType()
 
     procuring_entity_kinds = PQ_KINDS
 

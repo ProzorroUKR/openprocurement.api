@@ -603,6 +603,7 @@ def create_tender_draft(self):
     token = response.json["access"]["token"]
     self.assertEqual(tender["status"], "draft")
     self.assertNotIn("noticePublicationDate", tender)
+    self.assertNotIn("unsuccessfulReason", tender)
 
     if SANDBOX_MODE:
         period = {
@@ -663,13 +664,14 @@ def create_tender_draft(self):
     )
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token),
-        {"data": {"status": self.primary_tender_status}}
+        {"data": {"status": self.primary_tender_status, "unsuccessfulReason": "some value from buyer"}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
     self.assertEqual(tender["status"], self.primary_tender_status)
     self.assertEqual(tender["noticePublicationDate"], tender["tenderPeriod"]["startDate"])
+    self.assertNotIn("unsuccessfulReason", tender)
 
     response = self.app.get("/tenders/{}".format(tender["id"]))
     self.assertEqual(response.status, "200 OK")
@@ -1357,12 +1359,16 @@ def patch_tender_by_pq_bot(self):
     self.assertEqual(tender["profile"], "123456-12345678-123456-12345678")
 
     with change_auth(self.app, ("Basic", ("pricequotation", ""))) as app:
-        self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"status": "draft.unsuccessful"}})
+        self.app.patch_json(
+            "/tenders/{}".format(tender_id),
+            {"data": {"status": "draft.unsuccessful", "unsuccessfulReason": "Profile not found in catalogue"}}
+        )
 
     response = self.app.get("/tenders/{}".format(tender_id))
     self.assertEqual(response.status, "200 OK")
     tender = response.json["data"]
     self.assertEqual(tender["status"], "draft.unsuccessful")
+    self.assertEqual(tender["unsuccessfulReason"], "Profile not found in catalogue")
     self.assertNotIn("classification", tender["items"][0])
     self.assertNotIn("unit", tender["items"][0])
     self.assertNotIn("shortlistedFirms", tender)
