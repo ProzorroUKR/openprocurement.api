@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from collections import defaultdict
 from datetime import timedelta
 from logging import getLogger
 from pyramid.security import Allow
@@ -137,21 +138,6 @@ def add_next_award(request):
         tender.status = "active.awarded"
 
 
-def reformat_criteria(criterias):
-    return [
-        {
-            'id': req['id'],
-            'dataType': req['dataType'],
-            'maxValue': req.get("maxValue"),
-            'minValue': req.get("minValue"),
-            'expectedValue': req.get("expectedValue"),
-        }
-        for criteria in criterias
-        for req_group in criteria['requirementGroups']
-        for req in req_group['requirements']
-    ]
-
-
 def get_bid_owned_award_acl(award):
     acl = []
     if not hasattr(award, "__parent__") or 'bids' not in award.__parent__:
@@ -177,3 +163,40 @@ def get_bid_owned_award_acl(award):
             (Allow, bid_acl, "edit_award")
         ])
     return acl
+
+
+def find_parent(id_):
+    parts = id_.split('-')
+    return '-'.join(parts[:-1])
+
+
+def requirements_to_tree(requirements):
+    return {
+        requirement['id']: requirement
+        for requirement in requirements
+    }
+
+
+def group_to_tree(groups):
+    return {
+        group['id']: requirements_to_tree(group['requirements'])
+        for group in groups
+    }
+
+
+def criteria_to_tree(criterias):
+    return {
+        criteria['id']: group_to_tree(criteria['requirementGroups'])
+        for criteria in criterias
+    }
+
+
+def responses_to_tree(responses):
+    groups = defaultdict(dict)
+    for response in responses:
+        groups[find_parent(response.requirement.id)][response['requirement']['id']] = response
+
+    criterias = defaultdict(dict)
+    for group_id, group in groups.items():
+        criterias[find_parent(group_id)][group_id] = group
+    return criterias

@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
-from operator import itemgetter
 from schematics.types import DecimalType, StringType, IntType, BooleanType
 from schematics.exceptions import ValidationError
 
-from openprocurement.api.constants import RELEASE_2020_04_19
-from openprocurement.api.utils import error_handler, raise_operation_error, get_now, get_first_revision_date
-from openprocurement.api.validation import validate_data, OPERATIONS, validate_json_data
-from openprocurement.tender.core.models import get_tender
-from openprocurement.tender.pricequotation.utils import reformat_criteria
+from openprocurement.api.utils import error_handler, raise_operation_error
+from openprocurement.api.validation import\
+    validate_data, OPERATIONS, validate_json_data
+from openprocurement.tender.pricequotation.utils import\
+    responses_to_tree, criteria_to_tree
 
 
 TYPEMAP = {
@@ -33,8 +32,12 @@ def validate_document_operation_in_not_allowed_period(request):
 def validate_create_award_not_in_allowed_period(request):
     tender = request.validated["tender"]
     if tender.status != "active.qualification":
-        raise_operation_error(request, "Can't create award in current ({}) tender status".format(tender.status))
-
+        raise_operation_error(
+            request,
+            "Can't create award in current ({}) tender status".format(
+                tender.status
+            )
+        )
 
 
 # contract document
@@ -65,7 +68,9 @@ def validate_award_document(request):
     if request.validated["tender_status"] not in allowed_tender_statuses:
         raise_operation_error(
             request,
-            "Can't {} document in current ({}) tender status".format(operation, request.validated["tender_status"]),
+            "Can't {} document in current ({}) tender status".format(
+                operation, request.validated["tender_status"]
+            ),
         )
 
     if operation == "update" and request.authenticated_role != (request.context.author or "tender_owner"):
@@ -152,7 +157,7 @@ def matches(criteria, response):
         expected = datatype.to_native(expected)
         if datatype.to_native(expected) != value:
             raise ValidationError(
-                u'Value {} does not match expected value {} in reqirement {}'.format(
+                u'Value "{}" does not match expected value "{}" in reqirement {}'.format(
                     value, expected, criteria['id']
                 )
             )
@@ -161,7 +166,7 @@ def matches(criteria, response):
         max_value = datatype.to_native(max_value)
         if value < min_value or value > max_value:
             raise ValidationError(
-                u'Value {} does not match range from {} to {} in reqirement {}'.format(
+                u'Value "{}" does not match range from "{}" to "{}" in reqirement {}'.format(
                     value,
                     min_value,
                     max_value,
@@ -192,21 +197,36 @@ def matches(criteria, response):
 
 
 def validate_requirement_responses(criterias, req_responses):
-    criterias = sorted(reformat_criteria(criterias), key=itemgetter('id'))
-    req_responses = sorted(req_responses, key=lambda i: i['requirement']['id'])
-    if len(criterias) != len(req_responses):
-        raise ValidationError(u'Number of requitementResponeses ({}) does not match total number of reqirements ({})'.format(
-            len(req_responses), len(criterias))
-        )
-    diff = set((c['id'] for c in criterias)).difference((r['requirement']['id'] for r in req_responses))
+    criterias = criteria_to_tree(criterias)
+    responses = responses_to_tree(req_responses)
+    # top level criterias. all required
+    diff = set(criterias).difference(responses)
     if diff:
-        raise ValidationError(u'Mismatch in requirement_responses keys. Missing references: {}'.format(
+        raise ValidationError(u'Missing references for criterias: {}'.format(
             list(diff)
         ))
-    return [
-        matches(criteria, response)
-        for criteria, response in zip(criterias, req_responses)
-    ]
+
+    for criteria_id, group_response in responses.items():
+        # OR for requirementGroup
+        if len(group_response) > 1:
+            raise ValidationError(
+                u'Provided groups {} conflicting in criteria {}'.format(
+                    group_response.keys(), criteria_id
+                ))
+        criteria_groups = criterias[criteria_id]
+        for group_id, requirements in criteria_groups.items():
+            if group_id not in group_response:
+                continue
+            # response satisfies requirement
+            responses = group_response.get(group_id, set())
+            diff = set(requirements).difference(responses)
+            if diff:
+                raise ValidationError(
+                    u'Missing references for reqirements: {}'.format(
+                        list(diff)
+                    ))
+            for response_id, response in responses.items():
+                matches(requirements[response_id], response)
 
 
 def validate_tender_publish(request):

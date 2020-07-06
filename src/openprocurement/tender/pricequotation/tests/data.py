@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 from copy import deepcopy
 from datetime import datetime, timedelta
 from openprocurement.api.utils import get_now
@@ -127,12 +128,6 @@ test_requirement_response_valid = [
         "value": 36,
         'requirement': {
             'id': "655360-0009-001-01"
-        }
-    },
-    {
-        "value": "3000:1",
-        'requirement': {
-            "id": "655360-0005-002-01",
         }
     }
 ]
@@ -510,3 +505,254 @@ test_short_profile = {
         "valueAddedTaxIncluded": True
     }
 }
+
+
+test_criteria_1 = [
+    {
+        "description": u"Форма випуску",
+        "id": "400496-0001",
+        "requirementGroups": [
+            {
+                "description": u"Форма випуску",
+                "id": "400496-0001-001",
+                "requirements": [
+                    {
+                        "dataType": "string",
+                        "expectedValue": u"Розчин для інфузій",
+                        "id": "400496-0001-001-01",
+                        "title": u"Форма випуску"
+                    }
+                ]
+            }
+        ],
+        "title": u"Форма випуску"
+    },
+    {
+        "description": u"Доза діючої речовини",
+        "id": "400496-0002",
+        "requirementGroups": [
+            {
+                "description": u"Доза діючої речовини",
+                "id": "400496-0002-001",
+                "requirements": [
+                    {
+                        "dataType": "integer",
+                        "minValue": 5,
+                        "id": "400496-0002-001-01",
+                        "title": u"Доза діючої речовини",
+                        "unit": {
+                            "code": "GL",
+                            "name": "г/л"
+                        }
+                    }
+                ]
+            }
+        ],
+        "title": u"Доза діючої речовини"
+    }
+]
+
+test_criteria_2 = [
+    {
+        "description": u"Форма випуску",
+        "id": "400496-0001",
+        "requirementGroups": [
+            {
+                "description": u"Форма випуску",
+                "id": "400496-0001-001",
+                "requirements": [
+                    {
+                        "dataType": "string",
+                        "expectedValue": u"Розчин",
+                        "id": "400496-0001-001-01",
+                        "title": u"Форма випуску"
+                    }
+                ]
+            },
+            {
+                "description": u"Форма випуску",
+                "id": "400496-0001-002",
+                "requirements": [
+                    {
+                        "dataType": "string",
+                        "expectedValue": u"Порошок",
+                        "id": "400496-0001-002-01",
+                        "title": u"Форма випуску"
+                    }
+                ]
+            }
+        ],
+        "title": u"Форма випуску"
+    }
+]
+
+
+test_criteria_3 = [
+    {
+        "description": u"Форма випуску",
+        "id": "400496-0001",
+        "requirementGroups": [
+            {
+                "description": u"Форма випуску",
+                "id": "400496-0001-001",
+                "requirements": [
+                    {
+                        "dataType": "string",
+                        "expectedValue": u"Розчин",
+                        "id": "400496-0001-001-01",
+                        "title": u"Форма випуску"
+                    },
+                    {
+                        "dataType": "integer",
+                        "expectedValue": 500,
+                        "id": "400496-0001-001-02",
+                        "title": u"Форма випуску",
+                        "unit": {
+                            "code": "MLT",
+                            "name": u"мл"
+                        }
+                    }
+                ]
+            },
+            {
+                "description": u"Форма випуску",
+                "id": "400496-0001-002",
+                "requirements": [
+                    {
+                        "dataType": "string",
+                        "expectedValue": u"Порошок",
+                        "id": "400496-0001-002-01",
+                        "title": u"Форма випуску"
+                    }
+                ]
+            }
+        ],
+        "title": u"Форма випуску"
+    }]
+
+
+test_criteria_4 = [
+    {
+        "description": u"Форма випуску",
+        "title": u"Форма випуску",
+        "id": "400496-0001",
+        "requirementGroups": [
+            {
+                "description": u"Форма випуску",
+                "id": "400496-0001-001",
+                "requirements": [
+                    {
+                        "dataType": "string",
+                        "expectedValue": u"Розчин",
+                        "id": "400496-0001-001-01",
+                        "title": u"Форма випуску"
+                    },
+                    {
+                        "dataType": "integer",
+                        "expectedValue": 500,
+                        "id": "400496-0001-001-02",
+                        "title": u"Форма випуску",
+                        "unit": {
+                            "code": "MLT",
+                            "name": u"мл"
+                        },
+                    },
+                    {
+                        "dataType": "integer",
+                        "expectedValue": 1,
+                        "id": "400496-0001-001-03",
+                        "title": u"Форма випуску",
+                        "unit": {
+                            "code": "H87",
+                            "name": u"ШТ"
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+]
+
+
+test_response_1 = [
+    {
+        "requirement": {
+            "id": "400496-0001-001-01"
+        },
+        "value": u"Розчин для інфузій"
+    },
+    {
+        "requirement": {
+            "id": "400496-0002-001-01"
+        },
+        "value": 5
+    }
+]
+
+
+test_response_2_1 = [
+    {
+        "requirement": {
+            "id": "400496-0001-001-01"
+        },
+        "value": u"Розчин"
+    }
+]
+
+
+test_response_2_2 = [
+    {
+        "requirement": {
+            "id": "400496-0001-002-01"
+        },
+        "value": u"Порошок"
+    }
+]
+
+
+test_response_3_1 = [
+    {
+        "requirement": {
+            "id": "400496-0001-001-01"
+        },
+        "value": u"Розчин"
+    },
+    {
+        "requirement": {
+            "id": "400496-0001-001-02"
+        },
+        "value": 500
+    }
+]
+
+
+test_response_3_2 = [
+    {
+        "requirement": {
+            "id": "400496-0001-002-01"
+        },
+        "value": u"Порошок"
+    }
+]
+
+
+test_response_4 = [
+    {
+        "requirement": {
+            "id": "400496-0001-001-01"
+        },
+        "value": u"Порошок"
+    },
+    {
+        "requirement": {
+            "id": "400496-0001-001-02"
+        },
+        "value": 500
+    },
+    {
+        "requirement": {
+            "id": "400496-0001-001-03"
+        },
+        "value": 1
+    }
+]

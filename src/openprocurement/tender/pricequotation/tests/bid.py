@@ -8,6 +8,12 @@ from openprocurement.tender.pricequotation.tests.base import (
     test_bids,
     test_requirement_response_valid,
 )
+from openprocurement.tender.pricequotation.tests.data import (
+    test_criteria_1,
+    test_criteria_2,
+    test_criteria_3,
+    test_criteria_4
+    )
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_with_document_invalid,
     create_tender_bid_with_document,
@@ -20,7 +26,6 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     not_found,
     create_tender_bid_document,
     put_tender_bid_document,
-    
     )
 from openprocurement.tender.pricequotation.tests.bid_blanks import (
     create_tender_bid,
@@ -32,6 +37,10 @@ from openprocurement.tender.pricequotation.tests.bid_blanks import (
     get_tender_tenderers,
     bid_Administrator_change,
     patch_tender_bid_document,
+    requirement_response_validation_multiple_criterias,
+    requirement_response_validation_multiple_groups,
+    requirement_response_validation_multiple_groups_multiple_requirements,
+    requirement_response_validation_one_group_multiple_requirements
 )
 
 
@@ -46,7 +55,43 @@ class TenderBidResourceTest(TenderContentWebTest):
     test_get_tender_tenderers = snitch(get_tender_tenderers)
     test_bid_Administrator_change = snitch(bid_Administrator_change)
 
-    
+
+class TenderBidCriteriaTest(TenderContentWebTest):
+    initial_status = "active.tendering"
+    test_criteria = test_criteria_1
+
+    test_multiple_criterias = snitch(
+        requirement_response_validation_multiple_criterias
+    )
+
+
+class TenderBidCriteriaGroupTest(TenderContentWebTest):
+    initial_status = "active.tendering"
+    test_criteria = test_criteria_2
+
+    test_multiple_groups = snitch(
+        requirement_response_validation_multiple_groups
+    )
+
+
+class TenderBidCriteriaMultipleGroupTest(TenderContentWebTest):
+    initial_status = "active.tendering"
+    test_criteria = test_criteria_3
+
+    test_multiple_groups_multiple_requirements = snitch(
+        requirement_response_validation_multiple_groups_multiple_requirements
+    )
+
+
+class TenderBidCriteriaOneGroupMultipleRequirementsTest(TenderContentWebTest):
+    initial_status = "active.tendering"
+    test_criteria = test_criteria_4
+
+    test_multiple_groups_multiple_requirements = snitch(
+        requirement_response_validation_one_group_multiple_requirements
+    )
+
+
 class TenderBidDocumentResourceTest(TenderContentWebTest):
 
     initial_status = "active.tendering"
