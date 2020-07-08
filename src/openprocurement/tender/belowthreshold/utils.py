@@ -7,6 +7,7 @@ from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
     cleanup_bids_for_cancelled_lots,
     remove_draft_bids,
+    check_skip_award_complaint_period,
 )
 from openprocurement.tender.core.constants import COMPLAINT_STAND_STILL_TIME
 from openprocurement.tender.core.utils import (
@@ -218,7 +219,12 @@ def check_tender_status(request):
                 if a.complaintPeriod else now
                 for a in lot_awards
             ])
-            if pending_complaints or pending_awards_complaints or not stand_still_end <= now:
+            skip_award_complaint_period = check_skip_award_complaint_period(tender)
+            if (
+                    pending_complaints
+                    or pending_awards_complaints
+                    or (not stand_still_end <= now and not skip_award_complaint_period)
+            ):
                 continue
             elif last_award.status == "unsuccessful":
                 LOGGER.info(

@@ -424,6 +424,54 @@ def patch_tender_contract(self):
     self.assertEqual(response.json["data"]["dateSigned"], custom_signature_date)
 
 
+def patch_tender_contract_rationale_simple(self):
+    # make tender procurementMethodRationale simple
+    doc = self.db.get(self.tender_id)
+    doc["procurementMethodRationale"] = "simple"
+    self.db.save(doc)
+
+    self.app.authorization = ("Basic", ("token", ""))
+    response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
+    contract = response.json["data"][0]
+
+    self.assertEqual(contract["value"]["amount"], contract["value"]["amountNet"])
+
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
+        {
+            "data": {
+                "value": {
+                    "amountNet": contract["value"]["amount"] - 1
+                }
+            }
+        },
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    self.app.authorization = ("Basic", ("broker", ""))
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(
+            self.tender_id,
+            contract["id"],
+            self.tender_token
+        ),
+        {
+            "data": {
+                "status": "active"
+            }
+        },
+        status=200,
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "active")
+
+    response = self.app.get(
+        "/tenders/{}".format(self.tender_id)
+    )
+    self.assertEqual(response.json["data"]["status"], "complete")
+
+
 def patch_tender_contract_value(self):
     response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
     contract = response.json["data"][0]
@@ -817,6 +865,40 @@ def lot2_patch_tender_contract(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["errors"][0]["description"], "Can update contract only in active lot status")
+
+
+def lot2_patch_tender_contract_rationale_simple(self):
+    # make tender procurementMethodRationale simple
+    doc = self.db.get(self.tender_id)
+    doc["procurementMethodRationale"] = "simple"
+    self.db.save(doc)
+
+    self.app.authorization = ("Basic", ("token", ""))
+    response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
+    contract = response.json["data"][0]
+
+    self.app.authorization = ("Basic", ("broker", ""))
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
+        {
+            "data": {
+                "status": "active"
+            }
+        },
+        status=200,
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "active")
+
+    # check if lot complete after contract activated
+    response = self.app.get(
+        "/tenders/{}".format(self.tender_id)
+    )
+    tender = response.json["data"]
+    active_award = [award for award in tender["awards"] if award["id"] == self.award_id][0]
+    completed_lot = [lot for lot in tender["lots"] if lot["id"] == active_award["lotID"]][0]
+    self.assertEqual(completed_lot["status"], "complete")
 
 
 # TenderContractDocumentResourceTest

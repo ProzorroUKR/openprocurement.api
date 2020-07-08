@@ -36,7 +36,11 @@ from openprocurement.api.utils import (
     get_first_revision_date,
 )
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF, FIRST_STAGE_PROCUREMENT_TYPES
-from openprocurement.tender.core.utils import calculate_tender_business_date, requested_fields_changes
+from openprocurement.tender.core.utils import (
+    calculate_tender_business_date,
+    requested_fields_changes,
+    check_skip_award_complaint_period,
+)
 from openprocurement.planning.api.utils import extract_plan_adapter
 from schematics.exceptions import ValidationError
 
@@ -1407,12 +1411,14 @@ def validate_contract_signing(request):
     tender = request.validated["tender"]
     data = request.validated["data"]
     if request.context.status != "active" and "status" in data and data["status"] == "active":
-        award = [a for a in tender.awards if a.id == request.context.awardID][0]
-        stand_still_end = award.complaintPeriod.endDate
-        if stand_still_end > get_now():
-            raise_operation_error(
-                request, "Can't sign contract before stand-still period end ({})".format(stand_still_end.isoformat())
-            )
+        skip_complaint_period = check_skip_award_complaint_period(tender)
+        if not skip_complaint_period:
+            award = [a for a in tender.awards if a.id == request.context.awardID][0]
+            stand_still_end = award.complaintPeriod.endDate
+            if stand_still_end > get_now():
+                raise_operation_error(
+                    request, "Can't sign contract before stand-still period end ({})".format(stand_still_end.isoformat())
+                )
         pending_complaints = [
             i
             for i in tender.complaints
