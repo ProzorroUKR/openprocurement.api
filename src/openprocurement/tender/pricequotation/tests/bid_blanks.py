@@ -211,6 +211,36 @@ def create_tender_bid_invalid(self):
 def create_tender_bid(self):
     dateModified = self.db.get(self.tender_id).get("dateModified")
 
+    # Revert tender to statuses ('draft', 'draft.unsuccessful', 'draft.publishing')
+    data = self.db.get(self.tender_id)
+    current_status = data.get('status')
+    criteria = data.pop('criteria')
+
+    for status in ('draft', 'draft.publishing', 'draft.unsuccessful'):
+        data['status'] = status
+        self.db.save(data)
+        response = self.app.post_json(
+            "/tenders/{}/bids".format(self.tender_id),
+            {
+                "data": {
+                    "tenderers": [test_organization],
+                    "value": {"amount": 500},
+                    "requirementResponses": test_requirement_response_valid
+                }
+            },
+            status=403
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.json['errors'],
+                         [{"location": "body",
+                           "name": "data",
+                           "description": "Can't add bid in current ({}) tender status".format(status)}])
+
+    # Restore tender to 'active.tendering' status
+    data['status'] = current_status
+    data['criteria'] = criteria
+    self.db.save(data)
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": {"tenderers": [test_organization], "value": {"amount": 500}, "requirementResponses": test_requirement_response_valid }},
