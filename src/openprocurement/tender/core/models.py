@@ -467,14 +467,13 @@ class Contract(BaseContract):
             award = [i for i in parent.awards if i.id == data["awardID"]][0]
             if award.complaintPeriod:
                 if not skip_award_complaint_period:
-                    if value <= award.complaintPeriod.endDate:
+                    if award.complaintPeriod.endDate and value <= award.complaintPeriod.endDate:
                         raise ValidationError(
                             u"Contract signature date should be after award complaint period end date ({})".format(
                                 award.complaintPeriod.endDate.isoformat()
                             )
                         )
-                else:
-                    if value <= award.complaintPeriod.startDate:
+                elif award.complaintPeriod.startDate and value <= award.complaintPeriod.startDate:
                         raise ValidationError(
                             u"Contract signature date should be after award activation date ({})".format(
                                 award.complaintPeriod.startDate.isoformat()

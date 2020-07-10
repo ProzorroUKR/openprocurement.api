@@ -216,7 +216,7 @@ def check_tender_status(request):
             )
             stand_still_end = max([
                 a.complaintPeriod.endDate
-                if a.complaintPeriod else now
+                if a.complaintPeriod and a.complaintPeriod.endDate else now
                 for a in lot_awards
             ])
             skip_award_complaint_period = check_skip_award_complaint_period(tender)
