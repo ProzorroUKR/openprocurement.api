@@ -649,14 +649,16 @@ def delete_tender_bid(self):
     bid = response.json["data"]
     bid_token = response.json["access"]["token"]
 
-    response = self.app.delete("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token))
-    self.assertEqual(response.status, "200 OK")
+    response = self.app.delete(
+        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"], bid)
-
-    revisions = self.db.get(self.tender_id).get("revisions")
-    self.assertTrue(any([i for i in revisions[-2][u"changes"] if i["op"] == u"remove" and i["path"] == u"/bids"]))
-    self.assertTrue(any([i for i in revisions[-1][u"changes"] if i["op"] == u"add" and i["path"] == u"/bids"]))
+    self.assertEqual(response.json["status"], 'error')
+    self.assertEqual(response.json["errors"], [
+        {"location": "body", "name": "data", "description": "Can't delete bid in Price Quotation tender"}
+    ])
 
     response = self.app.delete("/tenders/{}/bids/some_id".format(self.tender_id), status=404)
     self.assertEqual(response.status, "404 Not Found")

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
+from openprocurement.api.validation import OPERATIONS
 from openprocurement.api.utils import\
-    get_now, json_view, context_unpack
+    get_now, json_view, context_unpack, raise_operation_error
 from openprocurement.tender.core.utils import optendersresource, apply_patch
 from openprocurement.tender.core.validation import (
     validate_patch_bid_data,
@@ -45,3 +46,23 @@ class TenderBidResource(BaseTenderBidResource):
                 extra=context_unpack(self.request, {"MESSAGE_ID": "tender_bid_patch"}),
             )
             return {"data": self.request.context.serialize("view")}
+
+    @json_view(
+        permission="edit_bid",
+        validators=(
+            validate_bid_operation_not_in_tendering,
+            validate_bid_operation_period
+        )
+    )
+    def delete(self):
+        """
+        Cancelling the proposal.
+        Forbidden for price quotation tender.
+        """
+        request = self.request
+        raise_operation_error(
+            request,
+            "Can't {} bid in Price Quotation tender".format(
+                OPERATIONS.get(request.method),
+            ),
+        )
