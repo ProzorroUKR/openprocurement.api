@@ -105,10 +105,10 @@ def add_next_award(request):
             a.bid_id for a in tender.awards
             if a.status == "unsuccessful"
         ]
-        bids = [
+        bids = sorted([
             bid for bid in tender.bids
             if bid.id not in unsuccessful_awards
-        ]
+        ], key=lambda bid: bid.value.amount)
         if bids:
             bid = bids[0].serialize()
             award = type(tender).awards.model_class(

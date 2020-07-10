@@ -1491,7 +1491,6 @@ def first_bid_tender(self):
     tender_id =  self.tender_id
     owner_token = self.tender_token
     # create bid
-    self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {"data": {
@@ -1500,18 +1499,19 @@ def first_bid_tender(self):
             "requirementResponses": test_requirement_response_valid
         }}
     )
+    bid_1 = response.json["data"]["id"]
     bid_token1 = response.json["access"]["token"]
 
     # create second bid
-    self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {"data": {
             "tenderers": [test_organization],
-            "value": {"amount": 475},
+            "value": {"amount": 300},
             "requirementResponses": test_requirement_response_valid
         }}
     )
+    bid_2 = response.json["data"]["id"]
     bid_token2 = response.json["access"]["token"]
     self.set_status('active.tendering', 'end')
     resp = self.check_chronograph()
@@ -1520,17 +1520,23 @@ def first_bid_tender(self):
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}/awards?acc_token={}".format(tender_id, owner_token))
     # get pending award
-    award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
+    award = [i for i in response.json["data"] if i["status"] == "pending"][0]
+    award_id = award['id']
+    self.assertEqual(award['bid_id'], bid_2)
+    self.assertEqual(award['value']['amount'], 300)
     # set award as unsuccessful
     self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, bid_token1),
+        "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, bid_token2),
         {"data": {"status": "unsuccessful"}},
     )
     # get awards
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}/awards?acc_token={}".format(tender_id, owner_token))
     # get pending award
-    award2_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
+    award = [i for i in response.json["data"] if i["status"] == "pending"][0]
+    award2_id = award['id']
+    self.assertEqual(award['bid_id'], bid_1)
+    self.assertEqual(award['value']['amount'], 450)
     self.assertNotEqual(award_id, award2_id)
 
     # get awards
@@ -1540,7 +1546,7 @@ def first_bid_tender(self):
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     # set award as active
     self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, bid_token2),
+        "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, bid_token1),
         {"data": {"status": "active"}}
     )
     # get contract id
