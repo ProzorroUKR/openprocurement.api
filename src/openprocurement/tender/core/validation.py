@@ -1412,12 +1412,20 @@ def validate_contract_signing(request):
     data = request.validated["data"]
     if request.context.status != "active" and "status" in data and data["status"] == "active":
         skip_complaint_period = check_skip_award_complaint_period(tender)
+        award = [a for a in tender.awards if a.id == request.context.awardID][0]
         if not skip_complaint_period:
-            award = [a for a in tender.awards if a.id == request.context.awardID][0]
             stand_still_end = award.complaintPeriod.endDate
             if stand_still_end > get_now():
                 raise_operation_error(
-                    request, "Can't sign contract before stand-still period end ({})".format(stand_still_end.isoformat())
+                    request,
+                    "Can't sign contract before stand-still period end ({})".format(stand_still_end.isoformat())
+                )
+        else:
+            stand_still_end = award.complaintPeriod.startDate
+            if stand_still_end > get_now():
+                raise_operation_error(
+                    request,
+                    "Can't sign contract before award activation date ({})".format(stand_still_end.isoformat())
                 )
         pending_complaints = [
             i

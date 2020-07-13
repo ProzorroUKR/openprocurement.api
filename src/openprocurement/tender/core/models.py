@@ -463,14 +463,24 @@ class Contract(BaseContract):
         parent = data["__parent__"]
         if value and isinstance(parent, Model):
             tender = get_tender(parent)
-            if not check_skip_award_complaint_period(tender):
-                award = [i for i in parent.awards if i.id == data["awardID"]][0]
-                if award.complaintPeriod and award.complaintPeriod.endDate >= value:
-                    raise ValidationError(
-                        u"Contract signature date should be after award complaint period end date ({})".format(
-                            award.complaintPeriod.endDate.isoformat()
+            skip_award_complaint_period = check_skip_award_complaint_period(tender)
+            award = [i for i in parent.awards if i.id == data["awardID"]][0]
+            if award.complaintPeriod:
+                if not skip_award_complaint_period:
+                    if value <= award.complaintPeriod.endDate:
+                        raise ValidationError(
+                            u"Contract signature date should be after award complaint period end date ({})".format(
+                                award.complaintPeriod.endDate.isoformat()
+                            )
                         )
-                    )
+                else:
+                    if value <= award.complaintPeriod.startDate:
+                        raise ValidationError(
+                            u"Contract signature date should be after award activation date ({})".format(
+                                award.complaintPeriod.startDate.isoformat()
+                            )
+                        )
+
             if value > get_now():
                 raise ValidationError(u"Contract signature date can't be in the future")
 
