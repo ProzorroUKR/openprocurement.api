@@ -152,7 +152,8 @@ def get_bid_owned_award_acl(award):
     ]
     bid_acl = "_".join((awarded_bid.owner, awarded_bid.owner_token))
     owner_acl = "_".join((tender.owner, tender.owner_token))
-    if prev_awards or award.status == 'active':
+
+    if prev_awards or award.status != 'pending':
         acl.extend([
             (Allow, owner_acl, "upload_award_documents"),
             (Allow, owner_acl, "edit_award")

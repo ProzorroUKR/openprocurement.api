@@ -40,6 +40,17 @@ def validate_create_award_not_in_allowed_period(request):
         )
 
 
+def validate_award_update_in_terminal_status(request):
+    award_status = request.validated['award'].status
+    if award_status in ('cancelled', 'unsuccessful'):
+        raise_operation_error(
+            request,
+            "Can't update award in current ({}) status".format(
+                award_status
+            )
+        )
+
+
 # contract document
 def validate_contract_document(request):
     operation = OPERATIONS.get(request.method)
