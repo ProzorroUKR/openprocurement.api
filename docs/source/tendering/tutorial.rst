@@ -440,3 +440,59 @@ Activating the request and cancelling tender
 
 .. include:: http/tutorial/active-cancellation.http
    :code:
+
+
+E-Contract flow
+~~~~~~~~~~~~~~~
+
+Замовник реєструє документ `contractProforma` з вказанням ID шаблону
+
+.. include:: http/tutorial/upload-proforma-with-templateId.http
+   :code:
+
+Піля реєстрації документу `trBot (template registry)` дозаватантажить наступні файли:
+
+* `contractSchema` - документ який містить описану схему даних для шаблону
+
+* `contractForm` - документ який містить рекомендовану json form для майданчика
+
+* `contractTemplate` - документ-шаблон контракту
+
+Подивимось як ці документи виглядають у тендері
+
+.. include:: http/tutorial/tender-documents-after-rg-bot.http
+   :code:
+
+Далі майданчик замовника дістає документи типу `contractForm` i `contractSchema` та завантажує у
+тендер документ типу `contractData` із заповненою інформацією про замовника відповідно до json schema,
+зв'язуючи цей документ із документом `contractProforma`
+
+.. include:: http/tutorial/tutorial/upload-owner-contract-data.http
+   :code:
+
+Після того як майданчик замовника завантажить документ `contractData` з інформацією про замовника `rBot (renderer)`
+завантажить в тендер нову версію документу `contractProforma` із взірцем контракту в якому буде заповнено інформацію
+про предмет закупівлі та замовника
+
+.. include:: http/tutorial/get-tender-document-after-rbot.http
+   :code:
+
+На етапі подачі пропозицій майданчик постачальника разом з подачею пропозиції повинен завантажити документ
+`contractData` із інформацією про замовника зв'язавши його з документом `contractProforma`
+
+.. include:: http/tutorial/upload-bidder-contract-data.http
+   :code:
+
+Якщо під час оголошення закупівлі чи подачі пропозиції було допущено помилки у даних `contractData` які
+завантажував майданчик замовника чи постачальника, можна виправити у відведений під це проміжок часу, зробити
+це може лише майданчик замовника, завантаживши документ `contractData` у відповідний `award`
+
+.. include:: http/tutorial/upload-fixed-bidder-contract-data.http
+   :code:
+
+Після чого на етапі підписання контракту `rBot` завантажує документи типу `contractData` i `contract` які містять
+дані по яких було згенеровано PDF весрію контакту і сам контракт, на етапі підписання контракту замовник
+і постачальник бачитимуть наступний перелік документів у контракті
+
+.. include:: http/tutorial/tender-contract-get-documents.http
+   :code:
