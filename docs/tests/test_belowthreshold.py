@@ -33,11 +33,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
     docservice = True
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL
-    
+
     def setUp(self):
         super(TenderResourceTest, self).setUp()
         self.setUpMock()
-        
+
     def tearDown(self):
         self.tearDownMock()
         super(TenderResourceTest, self).tearDown()
@@ -371,6 +371,19 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 }
             )
             self.assertEqual(response.status, "201 Created")
+
+        # renderer bot upload rendered contract proforma
+        with change_auth(self.app, ("Basic", ("rBot", ""))):
+            response = self.app.put(
+                "/tenders/{}/documents/{}".format(self.tender_id, proforma_id),
+                upload_files=[("file", "contractProforma.pdf", "contentRenderedPDF")],
+            )
+            self.assertEqual(response.status, "200 OK")
+
+        # get documents list after rBot uploading contract proforma
+        with open(TARGET_DIR + 'tutorial/get-tender-documents-after-rbot.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}/documents/{}'.format(self.tender_id, proforma_id))
+            self.assertEqual(response.json['data']['title'], "contractProforma.pdf")
 
         # Registering bid
 
