@@ -122,7 +122,7 @@ class TenderUaAwardResource(TenderAwardResource):
             for i in tender.awards:
                 if i.lotID != award.lotID:
                     continue
-                if not i.complaintPeriod.endDate or i.complaintPeriod.endDate > now:
+                if i.complaintPeriod and (not i.complaintPeriod.endDate or i.complaintPeriod.endDate > now):
                     i.complaintPeriod.endDate = now
                 i.status = "cancelled"
                 cancelled_awards.append(i.id)
@@ -156,7 +156,7 @@ class TenderUaAwardResource(TenderAwardResource):
             for i in tender.awards:
                 if i.lotID != award.lotID:
                     continue
-                if not i.complaintPeriod.endDate or i.complaintPeriod.endDate > now:
+                if i.complaintPeriod and (not i.complaintPeriod.endDate or i.complaintPeriod.endDate > now):
                     i.complaintPeriod.endDate = now
                 i.status = "cancelled"
                 cancelled_awards.append(i.id)
