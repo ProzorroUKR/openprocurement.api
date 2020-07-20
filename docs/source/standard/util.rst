@@ -185,6 +185,24 @@ Schema
     |ocdsDescription|
     The currency in 3-letter ISO 4217 format.
 
+.. _OrganizationReference:
+
+OrganizationReference
+=====================
+
+Schema
+------
+
+:id:
+    string, required
+
+    An id used to cross-reference the entry in the parties section that contains full information on this organization or entity;
+
+:name:
+    string, required
+
+    A name field that repeats the name given in the parties section, provided for the convenience of users viewing the data, and to support detection of mistakes in cross-referencing.
+
 
 .. _Change:
 

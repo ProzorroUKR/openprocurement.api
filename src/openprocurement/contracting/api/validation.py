@@ -21,6 +21,12 @@ from openprocurement.tender.core.validation import (
     validate_update_contract_value_amount,
     validate_update_contract_value_net_required,
 )
+from openprocurement.api.models import Model, IsoDateTimeType, Guarantee
+from openprocurement.contracting.api.models import OrganizationReference
+from schematics.types import StringType
+from schematics.types.compound import ModelType
+from openprocurement.api.models import schematics_default_role
+from openprocurement.contracting.api.utils import get_transaction_by_id
 
 
 def validate_contract_data(request):
@@ -38,6 +44,22 @@ def validate_contract_accreditation_level(request, model):
 
 def validate_patch_contract_data(request):
     return validate_data(request, Contract, True)
+
+
+def validate_put_transaction_to_contract(request):
+    class InitialTransaction(Model):
+        date = IsoDateTimeType(required=True)
+        value = ModelType(Guarantee, required=True)
+        payer = ModelType(OrganizationReference, required=True)
+        payee = ModelType(OrganizationReference, required=True)
+        status = StringType(required=True)
+
+        class Options:
+            roles = {
+                "create": schematics_default_role
+            }
+
+    return validate_data(request, model=InitialTransaction)
 
 
 def validate_change_data(request):
@@ -107,6 +129,23 @@ def validate_contract_document_operation_not_in_allowed_contract_status(request)
                 OPERATIONS.get(request.method), request.validated["contract"].status
             ),
         )
+
+
+def validate_transaction_existence(request):
+    transaction = get_transaction_by_id(request)
+    if not transaction:
+        raise_operation_error(request, "Transaction does not exist")
+
+
+def validate_file_transaction_upload(request):
+    transaction = get_transaction_by_id(request)
+    if not transaction:
+        raise_operation_error(request, "Can't add document contract to nonexistent transaction")
+
+    update_logging_context(request, {"document_id": "__new__"})
+    if request.registry.docservice_url and request.content_type == "application/json":
+        model = type(transaction).documents.model_class
+        return validate_data(request, model)
 
 
 def validate_add_document_to_active_change(request):

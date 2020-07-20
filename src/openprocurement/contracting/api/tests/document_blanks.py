@@ -801,3 +801,93 @@ def put_contract_document_json(self):
     self.assertIn("Signature=", response.location)
     self.assertIn("KeyID=", response.location)
     self.assertNotIn("Expires=", response.location)
+
+
+def create_contract_transaction_document_json(self):
+
+    transaction_id = 123456
+    response = self.app.put_json(
+        "/contracts/{}/transactions/{}?acc_token={}".format(self.contract_id, transaction_id, self.contract_token),
+        {
+            "data": {
+                "date": "2020-05-20T18:47:47.136678+02:00",
+                "value": {
+                    "amount": 500,
+                    "currency": "UAH"
+                },
+                "payer": {
+                    "id": 789,
+                    "name": "payer1"
+                },
+                "payee": {
+                    "id": 789,
+                    "name": "payee1"
+                },
+                "status": "status1234"
+            }
+        }
+    )
+
+    self.assertEqual(response.status, "200 OK")
+
+    response = self.app.post_json(
+        "/contracts/{}/transactions/{}/documents?acc_token={}".format(
+            self.contract_id, transaction_id, self.contract_token
+        ),
+        {
+            "data": {
+                "title": u"name name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/xml",
+            }
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(u"name name.doc", response.json["data"]["title"])
+    doc_id = response.json["data"]["id"]
+
+    response = self.app.get("/contracts/{}/transactions/{}".format(self.contract['id'], transaction_id))
+    documents = response.json['data']['documents']
+
+    self.assertEqual(doc_id, documents[0]['id'])
+
+    response = self.app.post_json(
+        "/contracts/{}/transactions/{}/documents?acc_token={}".format(
+            self.contract_id, transaction_id, self.contract_token
+        ),
+        {
+            "dt": {}
+        },
+        status=422
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"], [{u"description": u"Data not available", u"location": u"body", u"name": u"data"}]
+    )
+
+    response = self.app.post_json(
+        "/contracts/{}/transactions/{}/documents?acc_token={}".format(
+            self.contract_id, transaction_id, self.contract_token
+        ),
+        {
+            "data": {
+                "title": u"name name2.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/xml",
+            }
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(u"name name2.doc", response.json["data"]["title"])
+    doc_id2 = response.json["data"]["id"]
+
+    response = self.app.get("/contracts/{}/transactions/{}".format(self.contract['id'], transaction_id))
+    documents = response.json['data']['documents']
+    self.assertEqual(len(documents), 2)
+    self.assertEqual(doc_id2, documents[1]['id'])

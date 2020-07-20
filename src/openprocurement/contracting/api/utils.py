@@ -15,6 +15,8 @@ from openprocurement.api.utils import (
     get_now,
     handle_store_exceptions,
     append_revision,
+    check_document,
+    update_document_url,
 )
 
 from openprocurement.contracting.api.traversal import factory
@@ -101,3 +103,23 @@ def set_ownership(item, request):
         item.transfer_token = sha512(transfer).hexdigest()
         access["transfer"] = transfer
     return access
+
+
+def upload_file_to_transaction(request):
+
+    document = request.validated["document"]
+    check_document(request, document, "body")
+
+    document_route = request.matched_route.name.replace("collection_", "")
+    document = update_document_url(request, document, document_route, {})
+
+    return document
+
+
+def get_transaction_by_id(request):
+    transaction_id = request.matchdict["transaction_id"]
+    contract = request.validated["contract"]
+    transactions = contract.implementation.transactions
+
+    _transaction = next((trans for trans in transactions if trans["id"] == transaction_id), None)
+    return _transaction
