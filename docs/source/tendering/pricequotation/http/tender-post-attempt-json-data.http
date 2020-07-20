@@ -10,14 +10,14 @@ DATA:
     "procurementMethod": "selective", 
     "mainProcurementCategory": "goods", 
     "tenderPeriod": {
-      "endDate": "2020-05-15T01:00:00+03:00"
+      "endDate": "2020-05-29T01:00:00+03:00"
     }, 
     "title": "Комп’ютерне обладнання", 
     "items": [
       {
         "deliveryDate": {
-          "startDate": "2020-05-03T01:00:00+03:00", 
-          "endDate": "2020-05-06T01:00:00+03:00"
+          "startDate": "2020-05-17T01:00:00+03:00", 
+          "endDate": "2020-05-20T01:00:00+03:00"
         }, 
         "quantity": 1, 
         "description": "Комп’ютерне обладнання", 
@@ -60,30 +60,30 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2f6b50d7e72d4fc184f561d945af0397
 {
   "access": {
-    "transfer": "05c426dc625446f283427e553ae04763", 
-    "token": "151a30932ee245e989771be867bc8235"
+    "transfer": "d085ec4136e0420ba245de7739627028", 
+    "token": "ac342a9f314046808ffa89602219bf8d"
   }, 
   "data": {
     "status": "draft", 
     "procurementMethod": "selective", 
     "mainProcurementCategory": "goods", 
     "tenderPeriod": {
-      "startDate": "2020-05-01T01:00:00+03:00", 
-      "endDate": "2020-05-15T01:00:00+03:00"
+      "startDate": "2020-05-15T01:00:00+03:00", 
+      "endDate": "2020-05-29T01:00:00+03:00"
     }, 
     "title": "Комп’ютерне обладнання", 
     "items": [
       {
         "deliveryDate": {
-          "startDate": "2020-05-03T01:00:00+03:00", 
-          "endDate": "2020-05-06T01:00:00+03:00"
+          "startDate": "2020-05-17T01:00:00+03:00", 
+          "endDate": "2020-05-20T01:00:00+03:00"
         }, 
         "description": "Комп’ютерне обладнання", 
         "quantity": 1.0, 
-        "id": "0d99ccf1875e4ab8bb13f46a98631885", 
+        "id": "d2c4f983cbf340e29ff714a0f99d8844", 
         "deliveryAddress": {
           "postalCode": "79000", 
           "countryName": "Україна", 
@@ -100,7 +100,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db4fb6143a5f45b6
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "date": "2020-05-15T01:00:00+03:00", 
     "profile": "655360-30230000-889652-40000777", 
     "procuringEntity": {
       "contactPoint": {
@@ -124,9 +124,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db4fb6143a5f45b6
     }, 
     "awardCriteria": "lowestCost", 
     "owner": "broker", 
-    "dateModified": "2020-05-01T01:00:00+03:00", 
-    "id": "db4fb6143a5f45b6953e8f010ed8064e", 
-    "tenderID": "UA-2020-05-01-000001"
+    "dateModified": "2020-05-15T01:00:00+03:00", 
+    "id": "2f6b50d7e72d4fc184f561d945af0397", 
+    "tenderID": "UA-2020-05-15-000001"
   }
 }
 

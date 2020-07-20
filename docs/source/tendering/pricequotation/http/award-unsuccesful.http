@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/awards/4d207b4aaff146cf968e815e29d06bd6?acc_token=00e173e5f31f4decbb811cc01e10c1bf HTTP/1.0
+PATCH /api/2.5/tenders/2f6b50d7e72d4fc184f561d945af0397/awards/fa58e89a4f484cf3aed305b53c911112?acc_token=7ee1f0a7d9ca4a6d95fe2bf79100a9e1 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 36
 Content-Type: application/json
@@ -31,10 +31,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-03T01:00:00+03:00", 
-          "endDate": "2020-05-06T01:00:00+03:00"
+          "startDate": "2020-05-17T01:00:00+03:00", 
+          "endDate": "2020-05-20T01:00:00+03:00"
         }, 
-        "id": "0d99ccf1875e4ab8bb13f46a98631885", 
+        "id": "d2c4f983cbf340e29ff714a0f99d8844", 
         "unit": {
           "code": "H87", 
           "name": "штук"
@@ -64,14 +64,14 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "bid_id": "d8ffcf489b094edabfedd635dc87819e", 
+    "bid_id": "e46b68ebf7724fcfa182eeade05ec272", 
     "value": {
       "currency": "UAH", 
       "amount": 459.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2020-05-01T01:00:01+03:00", 
-    "id": "4d207b4aaff146cf968e815e29d06bd6"
+    "date": "2020-05-15T01:00:01+03:00", 
+    "id": "fa58e89a4f484cf3aed305b53c911112"
   }
 }
 

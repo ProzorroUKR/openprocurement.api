@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/contracts/0def0972e7a648cdbbb29a291331f1f2?acc_token=151a30932ee245e989771be867bc8235 HTTP/1.0
+PATCH /api/2.5/tenders/2f6b50d7e72d4fc184f561d945af0397/contracts/081c725a9a7f49c08e30ff870b3c2d56?acc_token=ac342a9f314046808ffa89602219bf8d HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -19,22 +19,22 @@ Content-Type: application/json; charset=UTF-8
       {
         "hash": "md5:00000000000000000000000000000000", 
         "title": "contract_first_document.doc", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ae8aa265abc14f87ac488057a2223e5b?KeyID=a8968c46&Signature=LBhaXoX3LRxqDOt6Be3hhvgc62NkQiRA%252BM%252BhqEGj25CYSEWbHWJKeXv4KX8KZwMxBF1ntynCOnQ%2F%252BQ0XeeqTDA%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/05c283398a464e0fa58038d9e1313f94?KeyID=a8968c46&Signature=XdzOWMLCaq8jRpC%2FI4N7%2Fb6Ec5l39pRbOpmyVKtiBYl140v4uJzfifxecIIdxnCggyD4GBWsZCIXFEZxGyUaAg%253D%253D", 
         "format": "application/msword", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-01T01:00:03+03:00", 
-        "id": "851b8175180f4883ba0651bd5f7bb830", 
-        "dateModified": "2020-05-01T01:00:03+03:00"
+        "datePublished": "2020-05-15T01:00:03+03:00", 
+        "id": "dc5e406cc06d44659918ed3acb29a6bc", 
+        "dateModified": "2020-05-15T01:00:03+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
         "title": "contract_second_document.doc", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0897ce4ba17b4ea2a43e11565ebc9bbe?KeyID=a8968c46&Signature=SWZWDphzyXVrcz%252Be%2FfXgHcekUsqHQvSQSWMu%252BmH0Lwznt8ENExLjHT8UNrijpUFjkjMnFXcOB9IBuQ4WOtoDBw%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/081deb42a20d45d299cea86a0dd80346?KeyID=a8968c46&Signature=Z1jfOvOOx0D1%252BMAWySO1THwhLB7v2WglDYjZtfyLdka3zO3hir%2FtiKJuEVHownh%252BAbqRz2fZAJ6ICpkEmuDABQ%253D%253D", 
         "format": "application/msword", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-01T01:00:03+03:00", 
-        "id": "c1d54014b44f4333a22ea7e8d6a02d8e", 
-        "dateModified": "2020-05-01T01:00:03+03:00"
+        "datePublished": "2020-05-15T01:00:03+03:00", 
+        "id": "58b01bbf809148a9a155be0fb7dc7e5f", 
+        "dateModified": "2020-05-15T01:00:03+03:00"
       }
     ], 
     "items": [
@@ -53,10 +53,10 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-03T01:00:00+03:00", 
-          "endDate": "2020-05-06T01:00:00+03:00"
+          "startDate": "2020-05-17T01:00:00+03:00", 
+          "endDate": "2020-05-20T01:00:00+03:00"
         }, 
-        "id": "0d99ccf1875e4ab8bb13f46a98631885", 
+        "id": "d2c4f983cbf340e29ff714a0f99d8844", 
         "unit": {
           "code": "H87", 
           "name": "штук"
@@ -88,20 +88,20 @@ Content-Type: application/json; charset=UTF-8
     ], 
     "contractNumber": "contract #13111", 
     "period": {
-      "startDate": "2020-05-01T01:00:03+03:00", 
-      "endDate": "2021-05-01T01:00:03+03:00"
+      "startDate": "2020-05-15T01:00:03+03:00", 
+      "endDate": "2021-05-15T01:00:03+03:00"
     }, 
-    "dateSigned": "2020-05-01T01:00:03+03:00", 
+    "dateSigned": "2020-05-15T01:00:03+03:00", 
     "value": {
       "currency": "UAH", 
       "amount": 238.0, 
       "amountNet": 230.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2020-05-01T01:00:03+03:00", 
-    "awardID": "e9d20fa47d934470b845028e492a8945", 
-    "id": "0def0972e7a648cdbbb29a291331f1f2", 
-    "contractID": "UA-2020-05-01-000001-2"
+    "date": "2020-05-15T01:00:03+03:00", 
+    "awardID": "c58f6124caae4fa8aee6e33233bb4ba3", 
+    "id": "081c725a9a7f49c08e30ff870b3c2d56", 
+    "contractID": "UA-2020-05-15-000001-2"
   }
 }
 

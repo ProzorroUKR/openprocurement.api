@@ -1,6 +1,6 @@
-POST /api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/bids HTTP/1.0
+POST /api/2.5/tenders/2f6b50d7e72d4fc184f561d945af0397/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1588
+Content-Length: 1522
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -61,12 +61,6 @@ DATA:
           "id": "655360-0009-001-01"
         }, 
         "value": 36
-      }, 
-      {
-        "requirement": {
-          "id": "655360-0005-002-01"
-        }, 
-        "value": "3000:1"
       }
     ], 
     "value": {
@@ -101,11 +95,11 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/bids/d8ffcf489b094edabfedd635dc87819e
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2f6b50d7e72d4fc184f561d945af0397/bids/e46b68ebf7724fcfa182eeade05ec272
 {
   "access": {
-    "transfer": "875163bc5cce4314b6d374d9f14ef4f3", 
-    "token": "00e173e5f31f4decbb811cc01e10c1bf"
+    "transfer": "f53b0359c5fe462f8eee71b2de180b53", 
+    "token": "7ee1f0a7d9ca4a6d95fe2bf79100a9e1"
   }, 
   "data": {
     "status": "draft", 
@@ -119,71 +113,64 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db4fb6143a5f45b6
         "requirement": {
           "id": "655360-0001-001-01"
         }, 
-        "id": "f603058e6c4c42b2a3778d76c2836ece", 
+        "id": "04afe4402ce94a529c34e9ad56e44459", 
         "value": "23.8"
       }, 
       {
         "requirement": {
           "id": "655360-0002-001-01"
         }, 
-        "id": "b7ddf84cf267494eb3d97d22f3857efa", 
+        "id": "3d7a8e3017134a8a99b92810201c874d", 
         "value": "1920x1080"
       }, 
       {
         "requirement": {
           "id": "655360-0003-001-01"
         }, 
-        "id": "b603a33928f5408a93d1bb5aa8d4d3f3", 
+        "id": "2de49e0ef8464280a14caeae06165265", 
         "value": "16:9"
       }, 
       {
         "requirement": {
           "id": "655360-0004-001-01"
         }, 
-        "id": "d6ac685ceebc470fafdf153624b70d77", 
+        "id": "a05088c5214046ddb11e9f8fd4bce0ab", 
         "value": "250"
       }, 
       {
         "requirement": {
           "id": "655360-0005-001-01"
         }, 
-        "id": "04bd3e2b441643caa3370503b32348a9", 
+        "id": "a7e6704a13ff4cd9b69fac3a55018f03", 
         "value": "1000:1"
       }, 
       {
         "requirement": {
           "id": "655360-0006-001-01"
         }, 
-        "id": "d7289021f0384f288589e4d666f8ef96", 
+        "id": "4bcc030a105b4975bd2a757b5a494108", 
         "value": "1"
       }, 
       {
         "requirement": {
           "id": "655360-0007-001-01"
         }, 
-        "id": "557164c265cb49559db3e6d17d0f939e", 
+        "id": "c20f0d05817647579c2f257ac8a7ac0a", 
         "value": "1"
       }, 
       {
         "requirement": {
           "id": "655360-0008-001-01"
         }, 
-        "id": "a9157241355c404c930a262d85f7f209", 
+        "id": "70558fb7e25b4264a53b566aa8696c54", 
         "value": "HDMI"
       }, 
       {
         "requirement": {
           "id": "655360-0009-001-01"
         }, 
-        "id": "6ea4118b04164415b95901eb65e867d0", 
+        "id": "e2a926693411449497151e6ac7b1f997", 
         "value": "36"
-      }, 
-      {
-        "requirement": {
-          "id": "655360-0005-002-01"
-        }, 
-        "id": "62620723b1494c8e863fc7447b46dac5", 
-        "value": "3000:1"
       }
     ], 
     "tenderers": [
@@ -208,8 +195,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db4fb6143a5f45b6
         }
       }
     ], 
-    "date": "2020-05-01T01:00:01+03:00", 
-    "id": "d8ffcf489b094edabfedd635dc87819e"
+    "date": "2020-05-15T01:00:01+03:00", 
+    "id": "e46b68ebf7724fcfa182eeade05ec272"
   }
 }
 

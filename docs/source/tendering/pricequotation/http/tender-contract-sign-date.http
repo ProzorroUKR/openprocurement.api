@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/contracts/0def0972e7a648cdbbb29a291331f1f2?acc_token=151a30932ee245e989771be867bc8235 HTTP/1.0
+PATCH /api/2.5/tenders/2f6b50d7e72d4fc184f561d945af0397/contracts/081c725a9a7f49c08e30ff870b3c2d56?acc_token=ac342a9f314046808ffa89602219bf8d HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 53
 Content-Type: application/json
@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "dateSigned": "2020-05-01T01:00:03+03:00"
+    "dateSigned": "2020-05-15T01:00:03+03:00"
   }
 }
 

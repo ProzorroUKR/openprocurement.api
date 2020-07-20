@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/85818863b7a4458ea02e3893422b0a0d?acc_token=ff06b08392354f79bae492fb807759ff HTTP/1.0
+PATCH /api/2.5/tenders/195eb794810a428e8ecfea8e721dc668?acc_token=fe46fdfa45b14ff3aac656bd1f686571 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 40
 Content-Type: application/json
@@ -18,19 +18,19 @@ Content-Type: application/json; charset=UTF-8
     "procurementMethod": "selective", 
     "mainProcurementCategory": "goods", 
     "tenderPeriod": {
-      "startDate": "2020-05-01T01:00:00+03:00", 
-      "endDate": "2020-05-15T01:00:00+03:00"
+      "startDate": "2020-05-15T01:00:00+03:00", 
+      "endDate": "2020-05-29T01:00:00+03:00"
     }, 
     "title": "Комп’ютерне обладнання", 
     "items": [
       {
         "deliveryDate": {
-          "startDate": "2020-05-03T01:00:00+03:00", 
-          "endDate": "2020-05-06T01:00:00+03:00"
+          "startDate": "2020-05-17T01:00:00+03:00", 
+          "endDate": "2020-05-20T01:00:00+03:00"
         }, 
         "description": "Комп’ютерне обладнання", 
         "quantity": 1.0, 
-        "id": "b42f7dc7dc134d06a7598e88df4821b1", 
+        "id": "e2ead0c612654db3af732ffd1749ab0e", 
         "deliveryAddress": {
           "postalCode": "79000", 
           "countryName": "Україна", 
@@ -47,7 +47,8 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "date": "2020-05-01T01:00:00+03:00", 
+    "date": "2020-05-15T01:00:00+03:00", 
+    "noticePublicationDate": "2020-05-15T01:00:00+03:00", 
     "profile": "655360-30230000-889652-40000777", 
     "procuringEntity": {
       "contactPoint": {
@@ -71,9 +72,9 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "awardCriteria": "lowestCost", 
     "owner": "broker", 
-    "dateModified": "2020-05-01T01:00:00+03:00", 
-    "id": "85818863b7a4458ea02e3893422b0a0d", 
-    "tenderID": "UA-2020-05-01-000001"
+    "dateModified": "2020-05-15T01:00:00+03:00", 
+    "id": "195eb794810a428e8ecfea8e721dc668", 
+    "tenderID": "UA-2020-05-15-000001"
   }
 }
 
