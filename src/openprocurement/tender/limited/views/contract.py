@@ -42,7 +42,7 @@ def check_tender_negotiation_status(request):
             )
             stand_still_end = max([
                 a.complaintPeriod.endDate
-                if a.complaintPeriod else now
+                if a.complaintPeriod and a.complaintPeriod.endDate else now
                 for a in lot_awards
             ])
             if pending_awards_complaints or not stand_still_end <= now:
