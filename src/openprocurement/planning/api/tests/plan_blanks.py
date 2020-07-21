@@ -908,7 +908,7 @@ def create_plan_invalid_procuring_entity(self):
             {
                 u'description': u'procuringEntity with general kind cannot publish this type of procedure.'
                                 u' Procurement method types allowed for this kind: centralizedProcurement,'
-                                u' reporting, negotiation, negotiation.quick, belowThreshold, aboveThresholdUA,'
+                                u' reporting, negotiation, negotiation.quick, priceQuotation, belowThreshold, aboveThresholdUA,'
                                 u' aboveThresholdEU, competitiveDialogueUA, competitiveDialogueEU, esco, '
                                 u'closeFrameworkAgreementUA.', u'location': u'procuringEntity', u'name': u'kind'
             }

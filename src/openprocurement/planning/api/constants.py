@@ -13,6 +13,7 @@ PROCEDURES = {
         "esco",
         "closeFrameworkAgreementUA",
     ),
+    "selective": ("priceQuotation",),
     "limited": ("reporting", "negotiation", "negotiation.quick"),
 }
 

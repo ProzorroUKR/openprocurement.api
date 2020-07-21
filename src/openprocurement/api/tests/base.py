@@ -89,6 +89,7 @@ class BaseWebTest(unittest.TestCase):
     def setUp(self):
         self.app.authorization = self.initial_auth
         self.db = self.app.recreate_db()
+        self.maxDiff = None
 
     def tearDown(self):
         self.app.drop_db()

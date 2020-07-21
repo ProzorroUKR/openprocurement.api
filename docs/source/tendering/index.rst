@@ -18,3 +18,4 @@ Contents:
    defense/index
    cfaua/index
    cfaselectionua/index
+   pricequotation/index

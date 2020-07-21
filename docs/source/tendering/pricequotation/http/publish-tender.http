@@ -1,0 +1,80 @@
+PATCH /api/2.5/tenders/85818863b7a4458ea02e3893422b0a0d?acc_token=ff06b08392354f79bae492fb807759ff HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 40
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "status": "draft.publishing"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "draft.publishing", 
+    "procurementMethod": "selective", 
+    "mainProcurementCategory": "goods", 
+    "tenderPeriod": {
+      "startDate": "2020-05-15T01:00:00+03:00", 
+      "endDate": "2020-05-29T01:00:00+03:00"
+    }, 
+    "title": "Комп’ютерне обладнання", 
+    "items": [
+      {
+        "deliveryDate": {
+          "startDate": "2020-05-17T01:00:00+03:00", 
+          "endDate": "2020-05-20T01:00:00+03:00"
+        }, 
+        "description": "Комп’ютерне обладнання", 
+        "quantity": 1.0, 
+        "id": "b42f7dc7dc134d06a7598e88df4821b1", 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }
+      }
+    ], 
+    "procurementMethodType": "priceQuotation", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 22000.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "submissionMethod": "electronicAuction", 
+    "date": "2020-05-15T01:00:00+03:00", 
+    "noticePublicationDate": "2020-05-15T01:00:00+03:00", 
+    "profile": "655360-30230000-889652-40000777", 
+    "procuringEntity": {
+      "contactPoint": {
+        "name": "Державне управління справами", 
+        "telephone": "0440000000"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "00037256", 
+        "uri": "http://www.dus.gov.ua/"
+      }, 
+      "name": "Державне управління справами", 
+      "kind": "general", 
+      "address": {
+        "postalCode": "01220", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Банкова, 11, корпус 1", 
+        "region": "м. Київ", 
+        "locality": "м. Київ"
+      }
+    }, 
+    "awardCriteria": "lowestCost", 
+    "owner": "broker", 
+    "dateModified": "2020-05-15T01:00:00+03:00", 
+    "id": "85818863b7a4458ea02e3893422b0a0d", 
+    "tenderID": "UA-2020-05-15-000001"
+  }
+}
+

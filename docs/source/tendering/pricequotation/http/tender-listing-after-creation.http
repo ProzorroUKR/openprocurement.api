@@ -1,0 +1,15 @@
+GET /api/2.5/tenders HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "next_page": {
+    "path": "/api/2.5/tenders?offset=", 
+    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders?offset=", 
+    "offset": ""
+  }, 
+  "data": []
+}
+

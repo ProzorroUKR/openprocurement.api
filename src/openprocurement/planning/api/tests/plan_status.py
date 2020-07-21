@@ -395,7 +395,7 @@ def test_fail_complete_manually(app, value):
         assert response.json["errors"] == [
             {u'description': u'procuringEntity with general kind cannot publish this type of procedure.'
                              u' Procurement method types allowed for this kind: centralizedProcurement, reporting,'
-                             u' negotiation, negotiation.quick, belowThreshold, aboveThresholdUA, aboveThresholdEU,'
+                             u' negotiation, negotiation.quick, priceQuotation, belowThreshold, aboveThresholdUA, aboveThresholdEU,'
                              u' competitiveDialogueUA, competitiveDialogueEU, esco, closeFrameworkAgreementUA.',
              u'location': u'procuringEntity', u'name': u'kind'
              }

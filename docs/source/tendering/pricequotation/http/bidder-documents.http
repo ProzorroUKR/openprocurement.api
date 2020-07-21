@@ -1,0 +1,21 @@
+GET /api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/bids/d8ffcf489b094edabfedd635dc87819e/documents?acc_token=00e173e5f31f4decbb811cc01e10c1bf HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": [
+    {
+      "hash": "md5:00000000000000000000000000000000", 
+      "title": "Proposal.pdf", 
+      "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/bids/d8ffcf489b094edabfedd635dc87819e/documents/8f9bc7ee6d724b70b462e09ca10d1993?download=05b0d65cf15d46708161e6e0921e5c0b", 
+      "format": "application/pdf", 
+      "documentOf": "tender", 
+      "datePublished": "2020-05-15T01:00:01+03:00", 
+      "id": "8f9bc7ee6d724b70b462e09ca10d1993", 
+      "dateModified": "2020-05-15T01:00:01+03:00"
+    }
+  ]
+}
+
