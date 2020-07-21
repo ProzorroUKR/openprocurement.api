@@ -19,6 +19,7 @@ from openprocurement.tender.openeu.tests.base import test_tender_data as openeu_
 from openprocurement.tender.openua.tests.base import test_tender_data as openua_tender_data
 from openprocurement.tender.openuadefense.tests.base import test_tender_data as defense_tender_data
 from openprocurement.tender.cfaselectionua.tests.tender import tender_data as cfa_selection_tender_data
+from openprocurement.tender.pricequotation.tests.data import test_tender_data as pricequotation_tender_data
 from copy import deepcopy
 import pytest
 
@@ -292,6 +293,7 @@ test_tenders = [
     openeu_tender_data,
     openua_tender_data,
     defense_tender_data,
+    pricequotation_tender_data
 ]
 
 

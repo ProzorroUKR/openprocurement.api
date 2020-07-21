@@ -1,0 +1,21 @@
+POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 4
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+data
+
+Response: 422 Unprocessable Entity
+Content-Type: application/json; charset=UTF-8
+{
+  "status": "error", 
+  "errors": [
+    {
+      "description": "No JSON object could be decoded", 
+      "location": "body", 
+      "name": "data"
+    }
+  ]
+}
+

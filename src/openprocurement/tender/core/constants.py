@@ -3,6 +3,8 @@ from decimal import Decimal
 from datetime import datetime, timedelta
 from openprocurement.api.constants import TZ, CPV_ITEMS_CLASS_FROM
 from openprocurement.tender.competitivedialogue.constants import CD_UA_TYPE, CD_EU_TYPE
+from openprocurement.tender.pricequotation.constants import PMT as PRICEQUOTATION
+
 
 BIDDER_TIME = timedelta(minutes=6)
 SERVICE_TIME = timedelta(minutes=9)
@@ -27,6 +29,7 @@ FIRST_STAGE_PROCUREMENT_TYPES = {
     "aboveThresholdEU",
     "aboveThresholdUA",
     "aboveThresholdUA.defense",
+    PRICEQUOTATION
 }
 
 

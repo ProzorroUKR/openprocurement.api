@@ -1,0 +1,132 @@
+POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 1802
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "profile": "655360-30230000-889652-40000777", 
+    "procurementMethod": "selective", 
+    "mainProcurementCategory": "goods", 
+    "tenderPeriod": {
+      "endDate": "2020-05-29T01:00:00+03:00"
+    }, 
+    "title": "Комп’ютерне обладнання", 
+    "items": [
+      {
+        "deliveryDate": {
+          "startDate": "2020-05-17T01:00:00+03:00", 
+          "endDate": "2020-05-20T01:00:00+03:00"
+        }, 
+        "quantity": 1, 
+        "description": "Комп’ютерне обладнання", 
+        "deliveryAddress": {
+          "countryName": "Україна", 
+          "postalCode": "79000", 
+          "region": "м. Київ", 
+          "streetAddress": "вул. Банкова 1", 
+          "locality": "м. Київ"
+        }
+      }
+    ], 
+    "procurementMethodType": "priceQuotation", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 22000
+    }, 
+    "procuringEntity": {
+      "contactPoint": {
+        "name": "Державне управління справами", 
+        "telephone": "0440000000"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "00037256", 
+        "uri": "http://www.dus.gov.ua/"
+      }, 
+      "name": "Державне управління справами", 
+      "kind": "general", 
+      "address": {
+        "countryName": "Україна", 
+        "postalCode": "01220", 
+        "region": "м. Київ", 
+        "streetAddress": "вул. Банкова, 11, корпус 1", 
+        "locality": "м. Київ"
+      }
+    }
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e
+{
+  "access": {
+    "transfer": "05c426dc625446f283427e553ae04763", 
+    "token": "151a30932ee245e989771be867bc8235"
+  }, 
+  "data": {
+    "status": "draft", 
+    "procurementMethod": "selective", 
+    "mainProcurementCategory": "goods", 
+    "tenderPeriod": {
+      "startDate": "2020-05-15T01:00:00+03:00", 
+      "endDate": "2020-05-29T01:00:00+03:00"
+    }, 
+    "title": "Комп’ютерне обладнання", 
+    "items": [
+      {
+        "deliveryDate": {
+          "startDate": "2020-05-17T01:00:00+03:00", 
+          "endDate": "2020-05-20T01:00:00+03:00"
+        }, 
+        "description": "Комп’ютерне обладнання", 
+        "quantity": 1.0, 
+        "id": "0d99ccf1875e4ab8bb13f46a98631885", 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }
+      }
+    ], 
+    "procurementMethodType": "priceQuotation", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 22000.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "submissionMethod": "electronicAuction", 
+    "date": "2020-05-15T01:00:00+03:00", 
+    "profile": "655360-30230000-889652-40000777", 
+    "procuringEntity": {
+      "contactPoint": {
+        "name": "Державне управління справами", 
+        "telephone": "0440000000"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "00037256", 
+        "uri": "http://www.dus.gov.ua/"
+      }, 
+      "name": "Державне управління справами", 
+      "kind": "general", 
+      "address": {
+        "postalCode": "01220", 
+        "countryName": "Україна", 
+        "streetAddress": "вул. Банкова, 11, корпус 1", 
+        "region": "м. Київ", 
+        "locality": "м. Київ"
+      }
+    }, 
+    "awardCriteria": "lowestCost", 
+    "owner": "broker", 
+    "dateModified": "2020-05-15T01:00:00+03:00", 
+    "id": "db4fb6143a5f45b6953e8f010ed8064e", 
+    "tenderID": "UA-2020-05-15-000001"
+  }
+}
+

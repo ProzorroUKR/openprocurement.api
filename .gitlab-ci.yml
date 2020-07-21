@@ -563,3 +563,10 @@ test_tender_cfaselectionua_2020_04_19:
   extends:
     - .test_before_2020_04_19
     - .test_tender_cfaselectionua
+
+test_tender_pricequotation:
+  extends: .test
+  variables:
+    TESTS_PATH: src/openprocurement/tender/pricequotation/tests
+    COV_PATH: src/openprocurement/tender/pricequotation
+    COV_FILE: .coveragerc

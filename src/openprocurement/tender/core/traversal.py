@@ -25,6 +25,7 @@ class Root(object):
         (Allow, "g:Administrator", "edit_complaint"),
         (Allow, "g:admins", ALL_PERMISSIONS),
         (Allow, "g:bots", "upload_tender_documents"),
+        (Allow, "g:bots", "edit_tender"),
         (Allow, "g:bots", "upload_qualification_documents"),
     ]
 
