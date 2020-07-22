@@ -891,3 +891,30 @@ def create_contract_transaction_document_json(self):
     documents = response.json['data']['documents']
     self.assertEqual(len(documents), 2)
     self.assertEqual(doc_id2, documents[1]['id'])
+
+    invalid_transaction_id = 678123
+    response = self.app.post_json(
+        "/contracts/{}/transactions/{}/documents?acc_token={}".format(
+            self.contract_id, invalid_transaction_id, self.contract_token
+        ),
+        {
+            "data": {
+                "title": u"name name2.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/xml",
+            }
+        },
+        status=404
+    )
+    self.assertEqual(response.status, "404 Not Found")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {u'description': u"Can't add document contract to nonexistent transaction",
+             u'location': u'body', u'name': u'data'
+             }
+        ]
+    )
+
+
