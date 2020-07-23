@@ -32,6 +32,7 @@ from openprocurement.tender.core.models import (
     validate_lots_uniq,
     Lot as BaseLotUA,
     EUConfidentialDocument,
+    ConfidentialDocumentModelType,
 )
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.openua.models import Item as BaseUAItem, Tender as BaseTenderUA
@@ -134,7 +135,7 @@ class Bid(BidEU):
             "deleted": whitelist("id", "status"),
         }
 
-    documents = ListType(ModelType(Document, required=True), default=list())
+    documents = ListType(ConfidentialDocumentModelType(Document, required=True), default=list())
     value = None
     lotValues = ListType(ModelType(LotValue, required=True), default=list())
 
