@@ -796,8 +796,8 @@ def put_transaction_to_contract(self):
             }
         ]
     )
-    response = self.app.get("/contracts/{}/transactions/{}".format(self.contract['id'], 2222222), status=403)
-    self.assertEqual(response.status, "403 Forbidden")
+    response = self.app.get("/contracts/{}/transactions/{}".format(self.contract['id'], 2222222), status=404)
+    self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(
         response.json["errors"],
         [

@@ -134,13 +134,13 @@ def validate_contract_document_operation_not_in_allowed_contract_status(request)
 def validate_transaction_existence(request):
     transaction = get_transaction_by_id(request)
     if not transaction:
-        raise_operation_error(request, "Transaction does not exist")
+        raise_operation_error(request, "Transaction does not exist", status=404)
 
 
 def validate_file_transaction_upload(request):
     transaction = get_transaction_by_id(request)
     if not transaction:
-        raise_operation_error(request, "Can't add document contract to nonexistent transaction")
+        raise_operation_error(request, "Can't add document contract to nonexistent transaction", status=404)
 
     update_logging_context(request, {"document_id": "__new__"})
     if request.registry.docservice_url and request.content_type == "application/json":
