@@ -81,15 +81,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/35f93e8dd5484abb
         "hash": "md5:00000000000000000000000000000000", 
         "confidentiality": "buyerOnly", 
         "language": "uk", 
-        "format": "application/pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/35f93e8dd5484abb8b90687952c82010/bids/8fe55741897d438581a0af90c21cc42d/documents/3ee0045cc6314ac78ba7a67aa8c90a52?download=9256c48555a442f9991381bf30f8f2c2", 
-        "confidentialityRationale": "Only our company sells badgers with pink hair.", 
         "title": "Proposal_part2.pdf", 
+        "confidentialityRationale": "Only our company sells badgers with pink hair.", 
+        "format": "application/pdf", 
         "isDescriptionDecision": false, 
         "documentOf": "tender", 
         "datePublished": "2020-05-15T01:00:00+03:00", 
-        "id": "3ee0045cc6314ac78ba7a67aa8c90a52", 
-        "dateModified": "2020-05-15T01:00:00+03:00"
+        "dateModified": "2020-05-15T01:00:00+03:00", 
+        "id": "3ee0045cc6314ac78ba7a67aa8c90a52"
       }
     ], 
     "selfEligible": true, 
