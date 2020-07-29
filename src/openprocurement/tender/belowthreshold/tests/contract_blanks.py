@@ -596,7 +596,7 @@ def patch_tender_contract_status_by_owner(self):
     response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
     contract = response.json["data"][0]
     contract_id = contract["id"]
-    self.set_status("complete", {"status": "active.awarded"})
+    self.set_status("active.awarded")
 
     # prepare contract
     doc = self.db.get(self.tender_id)
@@ -635,7 +635,7 @@ def patch_tender_contract_status_by_supplier(self):
     response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
     contract = response.json["data"][0]
     contract_id = contract["id"]
-    self.set_status("complete", {"status": "active.awarded"})
+    self.set_status("active.awarded")
 
     doc = self.db.get(self.tender_id)
     bid_id = jmespath.search("awards[?id=='{}'].bid_id".format(contract["awardID"]), doc)[0]
@@ -720,7 +720,7 @@ def patch_tender_contract_status_by_others(self):
     response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
     contract = response.json["data"][0]
     contract_id = contract["id"]
-    self.set_status("complete", {"status": "active.awarded"})
+    self.set_status("active.awarded")
 
     doc = self.db.get(self.tender_id)
     for i in doc.get("awards", []):
@@ -842,7 +842,7 @@ def lot2_patch_tender_contract(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("Can't sign contract before stand-still period end (", response.json["errors"][0]["description"])
 
-    self.set_status("complete", {"status": "active.awarded"})
+    self.set_status("complete", extra={"status": "active.awarded"})
 
     cancellation = dict(**test_cancellation)
     cancellation.update({
