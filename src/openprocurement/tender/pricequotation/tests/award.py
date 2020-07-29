@@ -30,6 +30,7 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     create_tender_award_no_scale_invalid,
     patch_tender_award_Administrator_change,
     create_tender_award_no_scale_invalid,
+    create_tender_award_contract_data_document_json,
 )
 
 class TenderAwardResourceTestMixin(object):
@@ -84,6 +85,8 @@ class TenderAwardDocumentResourceTest(TenderContentWebTest, TenderAwardDocumentR
 
 class TenderAwardDocumentWithDSResourceTest(TenderAwardDocumentResourceTest):
     docservice = True
+
+    test_create_tender_award_contract_data_document_json = snitch(create_tender_award_contract_data_document_json)
 
 
 def suite():

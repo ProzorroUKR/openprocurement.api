@@ -8,8 +8,7 @@ from openprocurement.api.models import IsoDateTimeType, ListType
 from openprocurement.tender.core.models import Model
 from openprocurement.api.models import\
     schematics_default_role, schematics_embedded_role
-from openprocurement.tender.pricequotation.models.document import\
-    Document
+from openprocurement.tender.core.models import Document
 
 
 class Cancellation(Model):

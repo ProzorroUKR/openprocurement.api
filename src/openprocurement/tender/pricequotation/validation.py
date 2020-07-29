@@ -54,7 +54,7 @@ def validate_contract_document(request):
                 operation, request.validated["tender_status"]
             ),
         )
-    if request.validated["contract"].status not in ["pending", "active"]:
+    if request.validated["contract"].status not in ["pending", "pending.winner-signing", "active"]:
         raise_operation_error(
             request,
             "Can't {} document in current contract status".format(operation)

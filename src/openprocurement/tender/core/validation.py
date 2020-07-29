@@ -1984,7 +1984,8 @@ def validate_relatedItem_for_contract_document_uploading(request):
 def validate_econtract_documents(resource, data, value):
     if resource == "contract" and data.get("status", "") != "pending":
         return
-    elif resource == "tender" and data.get("status", "") not in ("active.enquiries",
+    elif resource == "tender" and data.get("status", "") not in ("draft",
+                                                                 "active.enquiries",
                                                                  "active.tendering",
                                                                  "active.awarded"):
         return
