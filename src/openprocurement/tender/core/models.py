@@ -576,6 +576,9 @@ class Contract(BaseContract):
             if value > get_now():
                 raise ValidationError(u"Contract signature date can't be in the future")
 
+    def validate_documents(self, data, value):
+        return validate_econtract_documents("contract", data, value)
+
 
 class LotValue(Model):
     class Options:

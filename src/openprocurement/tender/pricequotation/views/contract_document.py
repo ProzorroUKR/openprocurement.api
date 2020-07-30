@@ -44,6 +44,7 @@ class PQTenderAwardContractDocumentResource(TenderAwardContractDocumentResource)
         """Tender Contract Document Upload
         """
         document = upload_file(self.request)
+        document.author = self.request.authenticated_role
         self.context.documents.append(document)
         if save_tender(self.request):
             self.LOGGER.info(
@@ -74,6 +75,7 @@ class PQTenderAwardContractDocumentResource(TenderAwardContractDocumentResource)
     def put(self):
         """Tender Contract Document Update"""
         document = upload_file(self.request)
+        document.author = self.request.authenticated_role
         self.request.validated["contract"].documents.append(document)
         if save_tender(self.request):
             self.LOGGER.info(

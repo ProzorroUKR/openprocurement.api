@@ -3335,3 +3335,190 @@ def lot2_patch_tender_contract_document_by_supplier(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["errors"][0]["description"],
                      "Supplier can't update document in current contract status")
+
+
+def create_contract_document_contract_data_by_owner(self):
+    self.add_contract_proforma_document()
+    response = self.app.post(
+        "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
+        upload_files=[("file", "contractData.json", "content")],
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    doc_id = response.json["data"]["id"]
+    self.assertIn(doc_id, response.headers["Location"])
+
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
+            self.tender_id, self.contract_id, doc_id, self.tender_token
+        ),
+        {"data": {"documentType": "contractData", "documentOf": "document", "relatedItem": self.proforma_doc_id}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(doc_id, response.json["data"]["id"])
+
+    response = self.app.get("/tenders/{}/contracts/{}/documents/{}".format(self.tender_id, self.contract_id, doc_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(doc_id, response.json["data"]["id"])
+    self.assertEqual(response.json["data"]["author"], "tender_owner")
+    self.assertEqual(response.json["data"]["documentOf"], "document")
+    self.assertEqual(response.json["data"]["relatedItem"], self.proforma_doc_id)
+
+
+def create_contract_document_second_contract_data_by_owner_fail(self):
+    self.add_contract_proforma_document()
+    response = self.app.post(
+        "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
+        upload_files=[("file", "contractData.json", "content")],
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    doc_id = response.json["data"]["id"]
+    self.assertIn(doc_id, response.headers["Location"])
+
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
+            self.tender_id, self.contract_id, doc_id, self.tender_token
+        ),
+        {"data": {"documentType": "contractData", "documentOf": "document", "relatedItem": self.proforma_doc_id}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(doc_id, response.json["data"]["id"])
+
+    response = self.app.get("/tenders/{}/contracts/{}/documents/{}".format(self.tender_id, self.contract_id, doc_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(doc_id, response.json["data"]["id"])
+    self.assertEqual(response.json["data"]["author"], "tender_owner")
+    self.assertEqual(response.json["data"]["documentOf"], "document")
+    self.assertEqual(response.json["data"]["relatedItem"], self.proforma_doc_id)
+
+    #second contractData
+    response = self.app.post(
+        "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
+        upload_files=[("file", "contractData.json", "content")],
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    doc_id = response.json["data"]["id"]
+    self.assertIn(doc_id, response.headers["Location"])
+
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
+            self.tender_id, self.contract_id, doc_id, self.tender_token
+        ),
+        {"data": {"documentType": "contractData", "documentOf": "document", "relatedItem": self.proforma_doc_id}},
+        status=422
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json['errors'],
+        [{"location": "body",
+          "name": "contracts",
+          "description": [{"documents": ["Allow only one document with documentType 'contractData' per contract."]}]}]
+    )
+
+
+def put_contract_document_contract_data_by_owner(self):
+    self.add_contract_proforma_document()
+    response = self.app.post(
+        "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
+        upload_files=[("file", "contractData.json", "content")],
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    doc_id = response.json["data"]["id"]
+    self.assertIn(doc_id, response.headers["Location"])
+
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
+            self.tender_id, self.contract_id, doc_id, self.tender_token
+        ),
+        {"data": {"documentType": "contractData", "documentOf": "document", "relatedItem": self.proforma_doc_id}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(doc_id, response.json["data"]["id"])
+
+    response = self.app.get("/tenders/{}/contracts/{}/documents/{}".format(self.tender_id, self.contract_id, doc_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(doc_id, response.json["data"]["id"])
+    self.assertEqual(response.json["data"]["author"], "tender_owner")
+    self.assertEqual(response.json["data"]["documentOf"], "document")
+    self.assertEqual(response.json["data"]["relatedItem"], self.proforma_doc_id)
+
+    response = self.app.put(
+        "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
+            self.tender_id, self.contract_id, doc_id, self.tender_token
+        ),
+        upload_files=[("file", "new_contractData.json", "content2")],
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    response = self.app.get("/tenders/{}/contracts/{}/documents/{}".format(self.tender_id, self.contract_id, doc_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(doc_id, response.json["data"]["id"])
+    self.assertEqual(response.json["data"]["author"], "tender_owner")
+    self.assertEqual(response.json["data"]["documentOf"], "document")
+    self.assertEqual(response.json["data"]["relatedItem"], self.proforma_doc_id)
+    self.assertEqual(response.json["data"]["title"], "new_contractData.json")
+    self.assertEqual(len(response.json["data"]["previousVersions"]), 1)
+
+
+def put_contract_document_contract_data_by_rbot(self):
+    self.add_contract_proforma_document()
+    response = self.app.post(
+        "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
+        upload_files=[("file", "contractData.json", "content")],
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    doc_id = response.json["data"]["id"]
+    self.assertIn(doc_id, response.headers["Location"])
+
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
+            self.tender_id, self.contract_id, doc_id, self.tender_token
+        ),
+        {"data": {"documentType": "contractData", "documentOf": "document", "relatedItem": self.proforma_doc_id}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(doc_id, response.json["data"]["id"])
+
+    response = self.app.get("/tenders/{}/contracts/{}/documents/{}".format(self.tender_id, self.contract_id, doc_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(doc_id, response.json["data"]["id"])
+    self.assertEqual(response.json["data"]["author"], "tender_owner")
+    self.assertEqual(response.json["data"]["documentOf"], "document")
+    self.assertEqual(response.json["data"]["relatedItem"], self.proforma_doc_id)
+
+
+    with change_auth(self.app, ("Basic", ("rBot", ""))):
+        response = self.app.put(
+            "/tenders/{}/contracts/{}/documents/{}".format(
+                self.tender_id, self.contract_id, doc_id
+            ),
+            upload_files=[("file", "bot_contractData.json", "content3")],
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+
+    response = self.app.get("/tenders/{}/contracts/{}/documents/{}".format(self.tender_id, self.contract_id, doc_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(doc_id, response.json["data"]["id"])
+    self.assertEqual(response.json["data"]["author"], "renderer_bots")
+    self.assertEqual(response.json["data"]["documentOf"], "document")
+    self.assertEqual(response.json["data"]["relatedItem"], self.proforma_doc_id)
+    self.assertEqual(response.json["data"]["title"], "bot_contractData.json")
+    self.assertEqual(len(response.json["data"]["previousVersions"]), 1)
+    self.assertEqual(response.json["data"]["previousVersions"][0]["author"], "tender_owner")

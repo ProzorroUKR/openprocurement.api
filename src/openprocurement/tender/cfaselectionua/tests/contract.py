@@ -47,6 +47,10 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     lot2_patch_tender_contract_document_by_supplier,
     create_contract_documents_by_render_bot,
     create_contract_documents_by_render_bot_invalid,
+    create_contract_document_contract_data_by_owner,
+    create_contract_document_second_contract_data_by_owner_fail,
+    put_contract_document_contract_data_by_owner,
+    put_contract_document_contract_data_by_rbot,
 )
 
 
@@ -63,6 +67,10 @@ class TenderContractDocumentResourceTestMixin(object):
     test_patch_tender_contract_document = snitch(patch_tender_contract_document)
     test_create_contract_documents_by_render_bot = snitch(create_contract_documents_by_render_bot)
     test_create_contract_documents_by_render_bot_invalid = snitch(create_contract_documents_by_render_bot_invalid)
+    test_create_contract_document_contract_data_by_owner = snitch(create_contract_document_contract_data_by_owner)
+    test_create_contract_document_second_contract_data_by_owner_fail = snitch(create_contract_document_second_contract_data_by_owner_fail)
+    test_put_contract_document_contract_data_by_owner = snitch(put_contract_document_contract_data_by_owner)
+    test_put_contract_document_contract_data_by_rbot = snitch(put_contract_document_contract_data_by_rbot)
 
 
 class TenderContractResourceTest(TenderContentWebTest, TenderContractResourceTestMixin):

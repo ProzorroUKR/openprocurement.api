@@ -9,6 +9,7 @@ from openprocurement.tender.core.utils import get_contract_supplier_roles,  get_
 from openprocurement.api.utils import get_now
 from openprocurement.api.models import Model, ListType, Contract as BaseContract, Document
 from openprocurement.tender.core.models import get_tender
+from openprocurement.tender.core.validation import validate_econtract_documents
 
 
 class ContractDocument(Document):
@@ -59,3 +60,6 @@ class Contract(BaseContract):
         parent = data["__parent__"]
         if value and isinstance(parent, Model) and value > get_now():
             raise ValidationError(u"Contract signature date can't be in the future")
+
+    def validate_documents(self, data, value):
+        return validate_econtract_documents("contract", data, value)

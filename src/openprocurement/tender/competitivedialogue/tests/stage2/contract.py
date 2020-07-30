@@ -218,7 +218,7 @@ class TenderStage2UAContractDocumentResourceTest(
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
     docservice = True
-    
+
     def setUp(self):
         super(TenderStage2UAContractDocumentResourceTest, self).setUp()
         # Create award

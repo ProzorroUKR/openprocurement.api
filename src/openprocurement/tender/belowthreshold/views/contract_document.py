@@ -117,6 +117,7 @@ class TenderAwardContractDocumentResource(APIResource):
         if not self.validate_contract_document("update"):
             return
         document = upload_file(self.request)
+        document.author = self.request.authenticated_role
         self.request.validated["contract"].documents.append(document)
         if save_tender(self.request):
             self.LOGGER.info(
