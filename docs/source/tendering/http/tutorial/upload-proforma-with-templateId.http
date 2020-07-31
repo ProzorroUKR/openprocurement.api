@@ -8,13 +8,13 @@ DATA:
   "data": {
     "title": "contractProforma", 
     "documentType": "contractProforma", 
-    "templateId": "TEMPLATE-001"
+    "templateId": "paper0000001"
   }
 }
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/documents/e31f2506d6de4d20a0c52b6790177ee8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/documents/6cbc4c0bf29a4502a2a6c7bfd382cb49
 {
   "data": {
     "title": "contractProforma", 
@@ -24,8 +24,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bc3a9016b29d4fed
     "datePublished": "2020-05-15T01:00:00+03:00", 
     "documentType": "contractProforma", 
     "dateModified": "2020-05-15T01:00:00+03:00", 
-    "id": "e31f2506d6de4d20a0c52b6790177ee8", 
-    "templateId": "TEMPLATE-001"
+    "id": "6cbc4c0bf29a4502a2a6c7bfd382cb49", 
+    "templateId": "paper0000001"
   }
 }
 

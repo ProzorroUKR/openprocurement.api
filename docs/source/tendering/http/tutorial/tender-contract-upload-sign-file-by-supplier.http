@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/contracts/4f7b2b4c16f24c66897d0d18d57c05f3/documents?acc_token=cfa7d625bdd049c79e3dfa84d8835a53 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 431
+Content-Length: 439
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -8,7 +8,7 @@ DATA:
   "data": {
     "hash": "md5:00000000000000000000000000000000", 
     "title": "supplier_first_document_sign.pkcs7", 
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5908779813ed41bab365e3e43c9d535f?KeyID=a8968c46&Signature=amJ7ZoVyRtiOXLchzGwmKyZsmMOXbHWSurzFSICjRAAQVVNKy63bEPlu0GZ6Yx79Qjly8EOQH2c0aOmLOTs9Bw%3D%3D", 
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1ea1e30dbd164d7fb5e492a4d855ba12?KeyID=a8968c46&Signature=Pt3V63UHzo2L8xNJpQ2bDXoIdU8MUODuAks%2B4G5%2F3JBuGW9rOtjUrro1LZbM%2FM%2F1qLdInUZ4Cnw1m1cXMuE8AQ%3D%3D", 
     "format": "application/pkcs7-signature", 
     "documentOf": "document", 
     "relatedItem": "9f3ff556fde24588bb8d43242b4fe977"
@@ -23,7 +23,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bc3a9016b29d4fed
     "dateModified": "2020-05-15T01:00:03+03:00", 
     "hash": "md5:00000000000000000000000000000000", 
     "format": "application/pkcs7-signature", 
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5908779813ed41bab365e3e43c9d535f?KeyID=a8968c46&Signature=1dYasNibri9usu%252B88WcK4Rlin6F6l4amchIPJDfuRXcxjzPn1J2ZrwaDrhLm8mspVf7istpQClq7yi4qQs3hBg%253D%253D", 
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1ea1e30dbd164d7fb5e492a4d855ba12?KeyID=a8968c46&Signature=wFizqgJiuo3qegdaLQC%252BkEU09N2ljdSZ0kvHxKFNGyLUAGc%252BQEG%2FhrWK%252BhJF7JtOa2dqGaBs81PXKbiqzsboBA%253D%253D", 
     "author": "contract_supplier", 
     "documentOf": "document", 
     "relatedItem": "9f3ff556fde24588bb8d43242b4fe977", 

@@ -134,7 +134,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     'data': {
                         'documentType': 'contractProforma',
                         'title': u'contractProforma',
-                        'templateId': "TEMPLATE-001"
+                        'templateId': "paper0000001"
                     }
                 }
             )
@@ -329,7 +329,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 "format": "application/json"
             },
             "contractSchema": {
-                "title": "paper0000001-scheme.json",
+                "title": "paper0000001-schema.json",
                 "documentType": "contractSchema",
                 "format": "application/json"
             }
@@ -582,41 +582,104 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         #### Uploading contract documentation
 
-        self.app.authorization = ('Basic', ('rBot', ''))
-
-        response = self.app.post_json(
-            "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, owner_token),
-            {
-                "data": {
-                    "title": "finalContract.pdf",
-                    "documentType": "contract",
-                    "format": "application/pdf",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "relatedItem": proforma_id,
-                    "documentOf": "document"
+        with change_auth(self.app, ('Basic', ('rBot', ''))):
+            response = self.app.post_json(
+                "/tenders/{}/contracts/{}/documents".format(self.tender_id, self.contract_id),
+                {
+                    "data": {
+                        "title": "finalContract.pdf",
+                        "documentType": "contract",
+                        "format": "application/pdf",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "relatedItem": proforma_id,
+                        "documentOf": "document"
+                    }
                 }
-            }
-        )
-        self.assertEqual(response.status, '201 Created')
+            )
+            self.assertEqual(response.status, '201 Created')
+            self.contract_pdf_doc_id = response.json['data']['id']
 
-        response = self.app.post_json(
-            "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, owner_token),
-            {
-                "data": {
-                    "title": "finalContractData.json",
-                    "documentType": "contractData",
-                    "format": "application/json",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "relatedItem": proforma_id,
-                    "documentOf": "document"
+            response = self.app.post_json(
+                "/tenders/{}/contracts/{}/documents".format(self.tender_id, self.contract_id),
+                {
+                    "data": {
+                        "title": "finalContractData.json",
+                        "documentType": "contractData",
+                        "format": "application/json",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "relatedItem": proforma_id,
+                        "documentOf": "document"
+                    }
                 }
-            }
-        )
-        self.assertEqual(response.status, '201 Created')
+            )
+            self.assertEqual(response.status, '201 Created')
+            self.contract_contract_data_doc_id = response.json['data']['id']
 
-        self.app.authorization = ('Basic', ('broker', ''))
+
+        # buyer upload fixed contract data
+        with open(TARGET_DIR + 'tutorial/tender-contract-fix-contract-data-document.http', 'w') as self.app.file_obj:
+            response = self.app.put_json(
+                "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(self.tender_id, self.contract_id,
+                                                                            self.contract_contract_data_doc_id,
+                                                                            owner_token),
+                {
+                    "data": {
+                        "title": "fixed_finalContractData.json",
+                        "documentType": "contractData",
+                        "format": "application/json",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "relatedItem": proforma_id,
+                        "documentOf": "document"
+                    }
+                }
+            )
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.json['data']['title'], 'fixed_finalContractData.json')
+            self.assertEqual(response.json['data']['author'], 'tender_owner')
+            self.assertEqual(response.json['data']['id'], self.contract_contract_data_doc_id)
+
+        # bot regenerate and upload files
+
+        with change_auth(self.app, ('Basic', ('rBot', ''))):
+            response = self.app.put_json(
+                "/tenders/{}/contracts/{}/documents/{}".format(self.tender_id, self.contract_id,
+                                                               self.contract_pdf_doc_id),
+                {
+                    "data": {
+                        "title": "new_finalContract.pdf",
+                        "documentType": "contract",
+                        "format": "application/pdf",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "relatedItem": proforma_id,
+                        "documentOf": "document"
+                    }
+                }
+            )
+            self.assertEqual(response.status, '200 OK')
+            self.contract_pdf_doc_id = response.json['data']['id']
+
+            response = self.app.put_json(
+                "/tenders/{}/contracts/{}/documents/{}".format(self.tender_id, self.contract_id,
+                                                               self.contract_contract_data_doc_id),
+                {
+                    "data": {
+                        "title": "new_finalContractData.json",
+                        "documentType": "contractData",
+                        "format": "application/json",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "relatedItem": proforma_id,
+                        "documentOf": "document"
+                    }
+                }
+            )
+            self.assertEqual(response.status, '200 OK')
+            self.contract_contract_data_doc_id = response.json['data']['id']
+
 
         with open(TARGET_DIR + 'tutorial/tender-contract-upload-document.http', 'w') as self.app.file_obj:
             response = self.app.post_json(

@@ -14,8 +14,8 @@ Content-Type: application/json; charset=UTF-8
       "datePublished": "2020-05-15T01:00:00+03:00", 
       "documentType": "contractProforma", 
       "dateModified": "2020-05-15T01:00:00+03:00", 
-      "id": "e31f2506d6de4d20a0c52b6790177ee8", 
-      "templateId": "TEMPLATE-001"
+      "id": "6cbc4c0bf29a4502a2a6c7bfd382cb49", 
+      "templateId": "paper0000001"
     }, 
     {
       "dateModified": "2020-05-15T01:00:01+03:00", 
@@ -26,8 +26,8 @@ Content-Type: application/json; charset=UTF-8
       "documentOf": "document", 
       "datePublished": "2020-05-15T01:00:01+03:00", 
       "documentType": "contractSchema", 
-      "title": "paper0000001-scheme.json", 
-      "relatedItem": "e31f2506d6de4d20a0c52b6790177ee8", 
+      "title": "paper0000001-schema.json", 
+      "relatedItem": "6cbc4c0bf29a4502a2a6c7bfd382cb49", 
       "id": "f816352dd5e04efbbe3aea6bd28f9d70"
     }, 
     {
@@ -53,7 +53,7 @@ Content-Type: application/json; charset=UTF-8
       "datePublished": "2020-05-15T01:00:01+03:00", 
       "documentType": "contractTemplate", 
       "title": "paper0000001.docx", 
-      "relatedItem": "e31f2506d6de4d20a0c52b6790177ee8", 
+      "relatedItem": "6cbc4c0bf29a4502a2a6c7bfd382cb49", 
       "id": "f8a8b9a268334c32bdc5f5b6a721b23f"
     }, 
     {
@@ -66,7 +66,7 @@ Content-Type: application/json; charset=UTF-8
       "datePublished": "2020-05-15T01:00:01+03:00", 
       "documentType": "contractForm", 
       "title": "paper0000001-form.json", 
-      "relatedItem": "e31f2506d6de4d20a0c52b6790177ee8", 
+      "relatedItem": "6cbc4c0bf29a4502a2a6c7bfd382cb49", 
       "id": "d96588cb22994173b288b63ab003eb03"
     }, 
     {

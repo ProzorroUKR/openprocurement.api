@@ -11,7 +11,7 @@ DATA:
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6dc1fe7be9c2414592768997663e5a7a?KeyID=a8968c46&Signature=5HL3x%2BCGuflmnB9Y7VJ6uPQLqCAJc6Z16W0cHbLzjKfr0gEcn6UN5uqo4FXi%2BfIN0pVYj1YyTRFJ4QbotipACA%3D%3D", 
     "format": "application/json", 
     "documentOf": "document", 
-    "relatedItem": "e31f2506d6de4d20a0c52b6790177ee8", 
+    "relatedItem": "6cbc4c0bf29a4502a2a6c7bfd382cb49", 
     "documentType": "contractData"
   }
 }
@@ -30,7 +30,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bc3a9016b29d4fed
     "datePublished": "2020-05-15T01:00:01+03:00", 
     "documentType": "contractData", 
     "title": "fixedBidderContractData.json", 
-    "relatedItem": "e31f2506d6de4d20a0c52b6790177ee8", 
+    "relatedItem": "6cbc4c0bf29a4502a2a6c7bfd382cb49", 
     "id": "4ae744986b95478d83142ca47ee38097"
   }
 }
