@@ -59,7 +59,11 @@ from openprocurement.tender.core.utils import (
     extend_next_check_by_complaint_period_ends,
 )
 from openprocurement.tender.belowthreshold.models import Tender as BaseTender
-from openprocurement.tender.core.validation import validate_lotvalue_value, validate_relatedlot
+from openprocurement.tender.core.validation import (
+    validate_lotvalue_value,
+    validate_relatedlot,
+    ValidateSelfEligibleMixin,
+)
 from openprocurement.tender.openua.models import (
     Complaint as BaseComplaint,
     Award as BaseAward,
@@ -342,7 +346,7 @@ class LotValue(BaseLotValue):
             validate_relatedlot(get_tender(parent), relatedLot)
 
 
-class Bid(BaseBid):
+class Bid(ValidateSelfEligibleMixin, BaseBid):
     class Options:
         roles = {
             "Administrator": Administrator_bid_role,
@@ -400,7 +404,7 @@ class Bid(BaseBid):
     qualificationDocuments = ListType(ConfidentialDocumentModelType(EUConfidentialDocument, required=True), default=list())
     lotValues = ListType(ModelType(LotValue, required=True), default=list())
     selfQualified = BooleanType(required=True, choices=[True])
-    selfEligible = BooleanType(required=True, choices=[True])
+    selfEligible = BooleanType(choices=[True])
     subcontractingDetails = StringType()
     parameters = ListType(ModelType(Parameter, required=True), default=list(), validators=[validate_parameters_uniq])
     status = StringType(

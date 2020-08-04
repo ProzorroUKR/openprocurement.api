@@ -24,6 +24,48 @@ Schema
 
 `startDate` should always precede `endDate`.
 
+
+.. _ExtendPeriod:
+
+ExtendPeriod
+============
+
+Scheme
+------
+
+:startDate:
+    string, :ref:`date`
+
+    |ocdsDescription|
+    The start date for the period.
+
+:endDate:
+    string, :ref:`date`
+
+    |ocdsDescription|
+    The end date for the period.
+
+:maxExtendDate:
+    string, :ref:`date`
+
+    |ocdsDescription|
+    The period cannot be extended beyond this date.
+
+:durationInDays:
+    integer
+
+    |ocdsDescription|
+    The maximum duration of this period in days. Where a start and end date are given, this field is optional, and should reflect the difference between those two days.
+
+:duration:
+    string, :ref:`date`
+
+    |ocdsDescription|
+    The duration of the period reflected in ISO format.
+
+`startDate` should always precede `endDate`.
+
+
 .. _Date:
 
 Date
@@ -202,6 +244,50 @@ Schema
     string, required
 
     A name field that repeats the name given in the parties section, provided for the convenience of users viewing the data, and to support detection of mistakes in cross-referencing.
+
+
+.. _Reference:
+
+Reference
+=========
+
+Schema
+------
+
+:id:
+    string, required
+
+    An id used to cross-reference the entry in the parties section that contains full information on entity;
+
+:title:
+    string, required
+
+    A title field that repeats the title given in the parties section, provided for the convenience of users viewing the data, and to support detection of mistakes in cross-referencing.
+
+
+.. _LegislationItem:
+
+LegislationItem
+===============
+
+Schema
+------
+
+:version:
+    string
+
+:identifier:
+    :ref:`Identifier`
+
+:type:
+    string
+
+    Possible values are:
+     * `NATIONAL_LEGISLATION`
+
+:article:
+    string
+
 
 
 .. _Change:

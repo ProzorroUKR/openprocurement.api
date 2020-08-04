@@ -13,6 +13,8 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
 from openprocurement.tender.openua.tests.bid import (
     TenderBidDocumentResourceTestMixin as TenderUABidDocumentResourceTestMixin,
     TenderBidDocumentWithDSResourceTestMixin as TenderUABidDocumentWithDSResourceTestMixin,
+    TenderBidRequirementResponseTestMixin,
+    TenderBidRequirementResponseEvidenceTestMixin,
 )
 from openprocurement.tender.openua.tests.bid_blanks import (
     # TenderStage2UABidResourceTest
@@ -69,6 +71,22 @@ from openprocurement.tender.competitivedialogue.tests.stage2.bid_blanks import (
 
 test_bids_stage2 = deepcopy(test_bids)
 test_bids_stage2[0]["tenderers"][0] = test_tenderer
+
+
+class CreateBidMixin(object):
+    def setUp(self):
+        super(CreateBidMixin, self).setUp()
+        # Create bid
+        bid_data = deepcopy(self.test_bids_data[0])
+        bid_data["value"] = {"amount": 500}
+        bid_data["status"] = "draft"
+        response = self.app.post_json(
+            "/tenders/{}/bids".format(self.tender_id),
+            {"data": bid_data},
+        )
+        bid = response.json["data"]
+        self.bid_id = bid["id"]
+        self.bid_token = response.json["access"]["token"]
 
 
 class TenderStage2EUBidResourceTest(
@@ -192,16 +210,11 @@ class BaseCDUAStage2BidContentWebTest(BaseCompetitiveDialogUAStage2ContentWebTes
     def setUp(self):
         super(BaseCDUAStage2BidContentWebTest, self).setUp()
         # Create bid
+        bid_data = deepcopy(self.test_bids_data[0])
+        bid_data["value"] = {"amount": 500}
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
-            {
-                "data": {
-                    "selfEligible": True,
-                    "selfQualified": True,
-                    "tenderers": [test_tenderer],
-                    "value": {"amount": 500},
-                }
-            },
+            {"data": bid_data},
         )
         bid = response.json["data"]
         self.bid_id = bid["id"]
@@ -219,6 +232,42 @@ class TenderStage2UABidDocumentWithDSResourceTest(
     pass
 
 
+class TenderEUBidRequirementResponseResourceTest(
+    TenderBidRequirementResponseTestMixin,
+    CreateBidMixin,
+    BaseCompetitiveDialogEUStage2ContentWebTest,
+):
+    test_bids_data = test_bids_stage2
+    initial_status = "active.tendering"
+
+
+class TenderUABidRequirementResponseResourceTest(
+    TenderBidRequirementResponseTestMixin,
+    CreateBidMixin,
+    BaseCDUAStage2BidContentWebTest,
+):
+    test_bids_data = test_bids_stage2
+    initial_status = "active.tendering"
+
+
+class TenderEUBidRequirementResponseEvidenceResourceTest(
+    TenderBidRequirementResponseEvidenceTestMixin,
+    CreateBidMixin,
+    BaseCompetitiveDialogEUStage2ContentWebTest,
+):
+    test_bids_data = test_bids_stage2
+    initial_status = "active.tendering"
+
+
+class TenderUABidRequirementResponseEvidenceResourceTest(
+    TenderBidRequirementResponseEvidenceTestMixin,
+    CreateBidMixin,
+    BaseCDUAStage2BidContentWebTest,
+):
+    test_bids_data = test_bids_stage2
+    initial_status = "active.tendering"
+
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderStage2EUBidDocumentResourceTest))
@@ -227,6 +276,10 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderStage2UABidResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2UABidFeaturesResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2UABidDocumentResourceTest))
+    suite.addTest(unittest.makeSuite(TenderEUBidRequirementResponseResourceTest))
+    suite.addTest(unittest.makeSuite(TenderUABidRequirementResponseResourceTest))
+    suite.addTest(unittest.makeSuite(TenderEUBidRequirementResponseEvidenceResourceTest))
+    suite.addTest(unittest.makeSuite(TenderUABidRequirementResponseEvidenceResourceTest))
     return suite
 
 

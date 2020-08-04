@@ -1,6 +1,12 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import error_handler, raise_operation_error
 from openprocurement.api.validation import OPERATIONS
+from openprocurement.tender.core.validation import (
+    RELEASE_ECRITERIA_ARTICLE_17,
+    validate_tender_first_revision_date,
+    base_validate_operation_ecriteria_objects,
+)
+
 
 
 # tender documents
@@ -142,3 +148,30 @@ def validate_cancellation_document_operation_not_in_allowed_status(request):
                 OPERATIONS.get(request.method), request.validated["tender_status"]
             ),
         )
+
+
+def validate_award_document(request):
+    operation = OPERATIONS.get(request.method)
+
+    allowed_tender_statuses = ["active.qualification"]
+    if request.authenticated_role == "bots":
+        allowed_tender_statuses.append("active.awarded")
+    if request.validated["tender_status"] not in allowed_tender_statuses:
+        raise_operation_error(
+            request,
+            "Can't {} document in current ({}) tender status".format(operation, request.validated["tender_status"]),
+        )
+
+    if any(
+        [i.status != "active" for i in request.validated["tender"].lots if i.id == request.validated["award"].lotID]
+    ):
+        raise_operation_error(request, "Can {} document only in active lot status".format(operation))
+    if operation == "update" and request.authenticated_role != (request.context.author or "tender_owner"):
+        request.errors.add("url", "role", "Can update document only author")
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+
+def validate_operation_ecriteria_objects(request):
+    valid_statuses = ["draft", "active.enquiries"]
+    base_validate_operation_ecriteria_objects(request, valid_statuses)

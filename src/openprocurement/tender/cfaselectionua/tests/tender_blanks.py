@@ -25,6 +25,7 @@ from openprocurement.tender.cfaselectionua.constants import (
     AGREEMENT_IDENTIFIER,
     TENDERING_DURATION,
 )
+from openprocurement.tender.core.constants import CPV_ITEMS_CLASS_FROM
 from openprocurement.tender.cfaselectionua.models.tender import CFASelectionUATender as Tender
 from openprocurement.tender.cfaselectionua.tests.base import test_organization, test_features
 

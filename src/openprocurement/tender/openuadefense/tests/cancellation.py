@@ -23,7 +23,6 @@ from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     create_tender_lots_cancellation,
     patch_tender_lots_cancellation,
 )
-from openprocurement.tender.openua.tests.base import test_bids
 from openprocurement.tender.openua.tests.cancellation import (
     TenderCancellationResourceNewReleaseTestMixin,
     TenderCancellationComplaintResourceTestMixin,
@@ -34,7 +33,7 @@ from openprocurement.tender.openua.tests.cancellation_blanks import (
     create_tender_cancellation_with_cancellation_lots,
 )
 
-from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest
+from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest, test_bids
 
 
 class TenderCancellationResourceTest(

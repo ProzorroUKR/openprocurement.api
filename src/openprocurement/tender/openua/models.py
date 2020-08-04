@@ -60,7 +60,11 @@ from openprocurement.tender.core.utils import (
     check_auction_period,
     extend_next_check_by_complaint_period_ends,
 )
-from openprocurement.tender.core.validation import validate_lotvalue_value, validate_relatedlot
+from openprocurement.tender.core.validation import (
+    validate_lotvalue_value,
+    validate_relatedlot,
+    ValidateSelfEligibleMixin,
+)
 from openprocurement.tender.belowthreshold.models import Tender as BaseTender
 from openprocurement.tender.openua.constants import (
     ENQUIRY_STAND_STILL_TIME,
@@ -145,7 +149,7 @@ class LotValue(BaseLotValue):
 
     def validate_value(self, data, value):
         parent = data["__parent__"]
-        if isinstance(parent, Bid) and parent.status not in self.skip:
+        if isinstance(parent, BaseUaBid) and parent.status not in self.skip:
             validate_lotvalue_value(get_tender(parent), data["relatedLot"], value)
 
     def validate_relatedLot(self, data, relatedLot):
@@ -164,7 +168,7 @@ class Parameter(BaseParameter):
         BaseParameter._validator_functions["code"](self, data, code)
 
 
-class Bid(BaseBid):
+class BaseUaBid(BaseBid):
     class Options:
         roles = {
             "Administrator": Administrator_bid_role,
@@ -201,14 +205,14 @@ class Bid(BaseBid):
     subcontractingDetails = StringType()
     status = StringType(choices=["draft", "active", "invalid", "deleted"], default="active")
     selfQualified = BooleanType(required=True, choices=[True])
-    selfEligible = BooleanType(required=True, choices=[True])
+    selfEligible = BooleanType(choices=[True])
     parameters = ListType(ModelType(Parameter, required=True), default=list(), validators=[validate_parameters_uniq])
     documents = ListType(ConfidentialDocumentModelType(ConfidentialDocument, required=True), default=list())
 
     def serialize(self, role=None):
         if role and self.status in ["invalid", "deleted"]:
             role = self.status
-        return super(Bid, self).serialize(role)
+        return super(BaseUaBid, self).serialize(role)
 
     @bids_validation_wrapper
     def validate_value(self, data, value):
@@ -225,6 +229,10 @@ class Bid(BaseBid):
     @bids_validation_wrapper
     def validate_parameters(self, data, parameters):
         BaseBid._validator_functions["parameters"](self, data, parameters)
+
+
+class Bid(BaseUaBid, ValidateSelfEligibleMixin):
+    pass
 
 
 class ComplaintPost(Model):

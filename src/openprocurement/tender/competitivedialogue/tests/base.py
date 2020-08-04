@@ -4,6 +4,7 @@ from hashlib import sha512
 from datetime import datetime, timedelta
 from uuid import uuid4
 from copy import deepcopy
+from mock import patch
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.tender.competitivedialogue.models import (
@@ -12,7 +13,9 @@ from openprocurement.tender.competitivedialogue.models import (
 )
 from openprocurement.tender.competitivedialogue.tests.periods import PERIODS, PERIODS_UA_STAGE_2
 from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest as BaseTenderWebTest
-from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_criteria
+from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
+from openprocurement.tender.openeu.constants import TENDERING_DURATION, QUESTIONS_STAND_STILL, COMPLAINT_STAND_STILL
 from openprocurement.tender.openeu.tests.base import (
     test_tender_data as base_test_tender_data_eu,
     test_features_tender_data,
@@ -316,11 +319,17 @@ def create_tender_stage2(self, initial_lots=None, initial_data=None, features=No
         {"data": {"status": "draft.stage2"}},
     )
 
+    if self.initial_criteria:
+        self.app.post_json(
+            "/tenders/{id}/criteria?acc_token={token}".format(id=self.tender_id, token=self.tender_token),
+            {"data": self.initial_criteria},
+        )
     self.app.authorization = ("Basic", ("broker", ""))
-    self.app.patch_json(
-        "/tenders/{id}?acc_token={token}".format(id=self.tender_id, token=self.tender_token),
-        {"data": {"status": "active.tendering"}},
-    )
+    with patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() + timedelta(days=1)):
+        self.app.patch_json(
+            "/tenders/{id}?acc_token={token}".format(id=self.tender_id, token=self.tender_token),
+            {"data": {"status": "active.tendering"}},
+        )
     self.app.authorization = auth
     if initial_bids:
         self.initial_bids_tokens = {}

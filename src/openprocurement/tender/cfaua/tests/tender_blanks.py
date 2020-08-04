@@ -18,6 +18,7 @@ from uuid import uuid4
 from openprocurement.tender.cfaua.constants import MAX_AGREEMENT_PERIOD
 from openprocurement.tender.cfaua.models.tender import CloseFrameworkAgreementUA
 from openprocurement.tender.cfaua.utils import add_next_awards
+from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 
 # TenderTest
 from openprocurement.tender.core.utils import calculate_tender_business_date
@@ -1149,9 +1150,13 @@ def unsuccessful_after_prequalification_tender(self):
     self.app.authorization = ("Basic", ("chronograph", ""))
     response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
+
+    assert_data = {u"id", u"status", u"tenderers", u"selfQualified"}
+    if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
+        assert_data.add(u"selfEligible")
     for bid in response.json["data"]["bids"]:
         self.assertEqual(bid["status"], "unsuccessful")
-        self.assertEqual(set(bid.keys()), set([u"id", u"status", u"selfEligible", u"tenderers", u"selfQualified"]))
+        self.assertEqual(set(bid.keys()), assert_data)
 
 
 def one_qualificated_bid_tender(self):

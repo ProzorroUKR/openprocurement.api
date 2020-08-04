@@ -610,8 +610,8 @@ class TenderConfidentialDocumentsTest(BaseTenderUAWebTest, MockWebTestMixin):
             )
         self.assertEqual(len(response.json["data"]), 3)
         self.assertNotIn("url", response.json["data"][0])
-        self.assertNotIn("url", response.json["data"][1])
-        self.assertIn("url", response.json["data"][2])
+        self.assertIn("url", response.json["data"][1])
+        self.assertNotIn("url", response.json["data"][2])
 
 
 TARGET_VALUE_DIR = 'docs/source/tendering/basic-actions/http/complaints-value/'

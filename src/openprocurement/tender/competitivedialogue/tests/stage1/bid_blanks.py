@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
 
+from openprocurement.api.utils import get_now
+from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
+
 
 # CompetitiveDialogEUBidResourceTest
 
@@ -97,93 +100,95 @@ def create_tender_bidder_invalid(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
+
+    assert_data = [
+        {u"description": [u"This field is required."], u"location": u"body", u"name": u"selfQualified"},
+        {
+            u"description": [
+                {
+                    u"contactPoint": [u"This field is required."],
+                    u"identifier": {u"scheme": [u"This field is required."], u"id": [u"This field is required."]},
+                    u"name": [u"This field is required."],
+                    u"address": [u"This field is required."],
+                }
+            ],
+            u"location": u"body",
+            u"name": u"tenderers",
+        },
+    ]
+    if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
+        assert_data.insert(0, {u"description": [u"This field is required."], u"location": u"body", u"name": u"selfEligible"},)
+
     self.assertEqual(
         response.json["errors"],
-        [
-            {u"description": [u"This field is required."], u"location": u"body", u"name": u"selfEligible"},
-            {u"description": [u"This field is required."], u"location": u"body", u"name": u"selfQualified"},
-            {
-                u"description": [
-                    {
-                        u"contactPoint": [u"This field is required."],
-                        u"identifier": {u"scheme": [u"This field is required."], u"id": [u"This field is required."]},
-                        u"name": [u"This field is required."],
-                        u"address": [u"This field is required."],
-                    }
-                ],
-                u"location": u"body",
-                u"name": u"tenderers",
-            },
-        ],
+        assert_data,
     )
 
     # Try create bid with invalid identifier.uri
+    assert_data = [
+        {u"description": [u"This field is required."], u"location": u"body", u"name": u"selfQualified"},
+        {
+            u"description": [
+                {
+                    u"contactPoint": [u"This field is required."],
+                    u"identifier": {
+                        u"scheme": [u"This field is required."],
+                        u"id": [u"This field is required."],
+                        u"uri": [u"Not a well formed URL."],
+                    },
+                    u"address": [u"This field is required."],
+                }
+            ],
+            u"location": u"body",
+            u"name": u"tenderers",
+        },
+    ]
+    bid_data = {"tenderers": [{"name": "name", "identifier": {"uri": "invalid_value"}}]}
+    if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
+        assert_data.insert(0, {u"description": [u"This field is required."], u"location": u"body",
+                               u"name": u"selfEligible"}, )
+        bid_data["selfEligible"] = False
+
     response = self.app.post_json(
         request_path,
-        {"data": {"selfEligible": False, "tenderers": [{"name": "name", "identifier": {"uri": "invalid_value"}}]}},
+        {"data": bid_data},
         status=422,
     )
+
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [
-            {u"description": [u"Value must be one of [True]."], u"location": u"body", u"name": u"selfEligible"},
-            {u"description": [u"This field is required."], u"location": u"body", u"name": u"selfQualified"},
-            {
-                u"description": [
-                    {
-                        u"contactPoint": [u"This field is required."],
-                        u"identifier": {
-                            u"scheme": [u"This field is required."],
-                            u"id": [u"This field is required."],
-                            u"uri": [u"Not a well formed URL."],
-                        },
-                        u"address": [u"This field is required."],
-                    }
-                ],
-                u"location": u"body",
-                u"name": u"tenderers",
-            },
-        ],
+        assert_data,
     )
+
+    bid_data = deepcopy(self.test_bids_data[0])
+    del bid_data["value"]
 
     # Field value doesn't exists on first stage
     # Try create bid without description
     response = self.app.post_json(
         request_path,
-        {"data": {"selfEligible": True, "selfQualified": True, "tenderers": self.test_bids_data[0]["tenderers"]}},
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
     # Try create bid with bad valueAddedTaxIncluded
+    bid_data["value"] = {"amount": 500, "valueAddedTaxIncluded": False}
     response = self.app.post_json(
         request_path,
-        {
-            "data": {
-                "selfEligible": True,
-                "selfQualified": True,
-                "tenderers": self.test_bids_data[0]["tenderers"],
-                "value": {"amount": 500, "valueAddedTaxIncluded": False},
-            }
-        },
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
+    bid_data["value"] = {"amount": 500, "currency": "USD"}
     # Try create bid bad currency
     response = self.app.post_json(
         request_path,
-        {
-            "data": {
-                "selfEligible": True,
-                "selfQualified": True,
-                "tenderers": self.test_bids_data[0]["tenderers"],
-                "value": {"amount": 500, "currency": "USD"},
-            }
-        },
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -191,30 +196,35 @@ def create_tender_bidder_invalid(self):
 
 def status_jumping(self):
     """ Owner try set active.stage2.waiting status after pre-qualification """
+    bid_data = deepcopy(self.test_bids_data[0])
+    del bid_data["value"]
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"selfEligible": True, "selfQualified": True, "tenderers": self.test_bids_data[0]["tenderers"]}},
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     bid = response.json["data"]
     bid_token = response.json["access"]["token"]
-    bidder_data = deepcopy(self.test_bids_data[0]["tenderers"][0])
+    bidder_data = bid_data["tenderers"][0]
     bidder_data["identifier"]["id"] = u"00037256"
+
+    # bid_data["tenderers"] = [bid_data]
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"selfEligible": True, "selfQualified": True, "tenderers": [bidder_data]}},
+        {"data": bid_data},
     )
 
     bidder_data["identifier"]["id"] = u"00037257"
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"selfEligible": True, "selfQualified": True, "tenderers": [bidder_data]}},
+        {"data": bid_data},
     )
     bidder_data["identifier"]["id"] = u"00037258"
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"selfEligible": True, "selfQualified": True, "tenderers": [bidder_data]}},
+        {"data": bid_data},
     )
 
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bid["id"]), status=403)
@@ -302,34 +312,24 @@ def create_bid_without_parameters(self):
     )
     self.assertEqual(response.status, "200 OK")
     # Create bid without parameters
+    bid_data = deepcopy(self.test_bids_data[0])
+    bid_data["lotValues"] = [{"relatedLot": lot["id"]}]
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "selfEligible": True,
-                "selfQualified": True,
-                "lotValues": [{"relatedLot": lot["id"]}],
-                "tenderers": self.test_bids_data[0]["tenderers"],
-            }
-        },
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     # Create another bid and send parameters
+
+    bid_data["parameters"] = [
+        {"code": "code_item", "value": 0.01},
+        {"code": "code_tenderer", "value": 0.01},
+        {"code": "code_lot", "value": 0.01},
+    ]
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "selfEligible": True,
-                "selfQualified": True,
-                "lotValues": [{"relatedLot": lot["id"]}],
-                "tenderers": self.test_bids_data[0]["tenderers"],
-                "parameters": [
-                    {"code": "code_item", "value": 0.01},
-                    {"code": "code_tenderer", "value": 0.01},
-                    {"code": "code_lot", "value": 0.01},
-                ],
-            }
-        },
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     bid = response.json["data"]
@@ -344,9 +344,11 @@ def patch_tender_bidder(self):
       Test path dialog bidder
     """
     # Create test bidder
+    bid_data = deepcopy(self.test_bids_data[0])
+    del bid_data["value"]
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"selfEligible": True, "selfQualified": True, "tenderers": self.test_bids_data[0]["tenderers"]}},
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -435,11 +437,13 @@ def get_tender_bidder(self):
       Try get bidder on different tender status
     """
     # Create bidder, and save
-    bidder_data = deepcopy(self.test_bids_data[0]["tenderers"][0])
+    bid_data = deepcopy(self.test_bids_data[0])
+    bidder_data = bid_data["tenderers"][0]
+    bid_data["value"]["amount"] = 500
     bidder_data["identifier"]["id"] = u"00037256"
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"selfEligible": True, "selfQualified": True, "tenderers": [bidder_data], "value": {"amount": 500}}},
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -448,16 +452,17 @@ def get_tender_bidder(self):
 
     # Create another bidder
     bidder_data["identifier"]["id"] = u"00037257"
+    bid_data["value"]["amount"] = 499
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"selfEligible": True, "selfQualified": True, "tenderers": [bidder_data], "value": {"amount": 499}}},
+        {"data": bid_data},
     )
 
     # Create another 2 bidder
     bidder_data["identifier"]["id"] = u"00037258"
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"selfEligible": True, "selfQualified": True, "tenderers": [bidder_data], "value": {"amount": 499}}},
+        {"data": bid_data},
     )
 
     # Try get bidder when dialog status active.tendering
@@ -543,19 +548,15 @@ def get_tender_bidder(self):
 def deleted_bid_do_not_locks_tender_in_state(self):
     bids = []
     bids_tokens = []
-    bidder_data = deepcopy(self.test_bids_data[0]["tenderers"][0])
+
+    bid_data = deepcopy(self.test_bids_data[0])
+    bidder_data = bid_data["tenderers"][0]
     for bid_amount in (400, 405):  # Create two bids
         bidder_data["identifier"]["id"] = "00037256" + str(bid_amount)
+        bid_data["value"] = {"amount": bid_amount}
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
-            {
-                "data": {
-                    "selfEligible": True,
-                    "selfQualified": True,
-                    "tenderers": [bidder_data],
-                    "value": {"amount": bid_amount},
-                }
-            },
+            {"data": bid_data},
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -571,15 +572,16 @@ def deleted_bid_do_not_locks_tender_in_state(self):
 
     # Create new bid
     bidder_data["identifier"]["id"] = u"00037258"
+    bid_data["value"] = {"amount": 101}
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"selfEligible": True, "selfQualified": True, "tenderers": [bidder_data], "value": {"amount": 101}}},
+        {"data": bid_data},
     )
     # Create new bid
     bidder_data["identifier"]["id"] = u"00037259"
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"selfEligible": True, "selfQualified": True, "tenderers": [bidder_data], "value": {"amount": 101}}},
+        {"data": bid_data},
     )
 
     # switch to active.pre-qualification
@@ -633,11 +635,13 @@ def deleted_bid_do_not_locks_tender_in_state(self):
 
 def get_tender_tenderers(self):
     # Create bid
-    bidder_data = deepcopy(self.test_bids_data[0]["tenderers"][0])
+    bid_data = deepcopy(self.test_bids_data[0])
+    bid_data["value"] = {"amount": 500}
+    bidder_data = bid_data["tenderers"][0]
     bidder_data["identifier"]["id"] = u"00037256"
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"selfEligible": True, "selfQualified": True, "tenderers": [bidder_data], "value": {"amount": 500}}},
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -652,16 +656,18 @@ def get_tender_tenderers(self):
     )
 
     # Create bid
+    bid_data["value"]["amount"] = 101
     bidder_data["identifier"]["id"] = u"00037257"
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"selfEligible": True, "selfQualified": True, "tenderers": [bidder_data], "value": {"amount": 101}}},
+        {"data": bid_data},
     )
     # Create another bid
+    bid_data["value"]["amount"] = 111
     bidder_data["identifier"]["id"] = u"00037258"
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"selfEligible": True, "selfQualified": True, "tenderers": [bidder_data], "value": {"amount": 111}}},
+        {"data": bid_data},
     )
 
     # switch to active.pre-qualification
@@ -763,15 +769,19 @@ def bids_invalidation_on_tender_change(self):
     bidder_data = deepcopy(self.test_bids_data[0]["tenderers"][0])
     bidder_data["identifier"]["id"] = u"00037257"
 
+    data.update({
+        "tenderers": [bidder_data],
+        "value": {"amount": 101},
+    })
     self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"selfEligible": True, "selfQualified": True, "tenderers": [bidder_data], "value": {"amount": 101}}},
+        {"data": data},
     )
 
     bidder_data["identifier"]["id"] = u"00037258"
     self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"selfEligible": True, "selfQualified": True, "tenderers": [bidder_data], "value": {"amount": 101}}},
+        {"data": data},
     )
 
     # switch to active.pre-qualification

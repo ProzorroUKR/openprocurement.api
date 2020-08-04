@@ -5,6 +5,7 @@ stages:
   - docs
   - test
   - test_before_2020_04_19
+  - test_before_ecriteria
   - repos
   - cleanup
 
@@ -232,6 +233,16 @@ docs:
       --tx=popen//id=sand//env:DB_NAME=test_sandbox//env:SANDBOX_MODE=1//env:SINGLE_APP=1//env:DEFAULT_RELEASE_2020_04_19=2030-01-01
       --tx=popen//id=prod//env:DB_NAME=test_prod//env:SANDBOX_MODE=//env:SINGLE_APP=1//env:DEFAULT_RELEASE_2020_04_19=2030-01-01
 
+.test_before_ecriteria:
+  extends: .test_base
+  stage: test_before_ecriteria
+  script:
+    - cd /app
+    - py.test $TESTS_PATH --cov=$COV_PATH --cov-config=$COV_FILE -v --color=yes --dist=each
+      --tx=popen//id=sand//env:DB_NAME=test_sandbox//env:SANDBOX_MODE=1//env:SINGLE_APP=1//env:DEFAULT_ECRITERIA_ARTICLE_17=2030-01-01
+      --tx=popen//id=prod//env:DB_NAME=test_prod//env:SANDBOX_MODE=//env:SINGLE_APP=1//env:DEFAULT_ECRITERIA_ARTICLE_17=2030-01-01
+
+
 .test_relocation_api:
   variables:
     TESTS_PATH: src/openprocurement/relocation/api/tests
@@ -250,13 +261,17 @@ test_relocation_api_before_2020_04_19:
     - .test_before_2020_04_19
     - .test_relocation_api
 
+test_relocation_api_ecriteria:
+  extends:
+    - .test_before_ecriteria
+    - .test_relocation_api
+
 .test_tender_esco:
   variables:
     TESTS_PATH: src/openprocurement/tender/esco/tests
     COV_PATH: src/openprocurement/tender/esco
     COV_FILE: .coveragerc
     KUBERNETES_MEMORY_REQUEST: 1500Mi
-
 
 test_tender_esco:
   extends:
@@ -267,6 +282,11 @@ test_tender_esco_before_2020_04_19:
   extends:
     - .test_before_2020_04_19
     - .test_tender_esco
+
+test_tender_esco_ecriteria:
+  extends:
+    - .test_before_ecriteria
+    - .test_tender_openeu
 
 .test_tender_openeu:
   variables:
@@ -280,9 +300,14 @@ test_tender_openeu:
     - .test
     - .test_tender_openeu
 
-test_tender_openeu_before_2020_04_19:
+test_tender_openeu_2020_04_19:
   extends:
     - .test_before_2020_04_19
+    - .test_tender_openeu
+
+test_tender_openeu_ecriteria:
+  extends:
+    - .test_before_ecriteria
     - .test_tender_openeu
 
 .test_tender_cfaua:
@@ -302,6 +327,11 @@ test_tender_cfaua_before_2020_04_19:
     - .test_before_2020_04_19
     - .test_tender_cfaua
 
+test_tender_cfaua_ecriteria:
+  extends:
+    - .test_before_ecriteria
+    - .test_tender_cfaua
+
 .test_tender_comp_stage2:
   variables:
     TESTS_PATH: src/openprocurement/tender/competitivedialogue/tests/stage2
@@ -319,6 +349,11 @@ test_tender_comp_stage2_before_2020_04_19:
     - .test_before_2020_04_19
     - .test_tender_comp_stage2
 
+test_tender_comp_stage2_ecriteria:
+  extends:
+    - .test_before_ecriteria
+    - .test_tender_comp_stage2
+
 .test_tender_core:
   variables:
     TESTS_PATH: src/openprocurement/tender/core/tests
@@ -333,6 +368,11 @@ test_tender_core:
 test_tender_core_before_2020_04_19:
   extends:
     - .test_before_2020_04_19
+    - .test_tender_core
+
+test_tender_core_ecriteria:
+  extends:
+    - .test_before_ecriteria
     - .test_tender_core
 
 .test_api:
@@ -353,6 +393,11 @@ test_api_before_2020_04_19:
     - .test_before_2020_04_19
     - .test_api
 
+test_api_ecriteria:
+  extends:
+    - .test_before_ecriteria
+    - .test_api
+
 .test_agreement_core:
   variables:
     TESTS_PATH: src/openprocurement/agreement/core/tests
@@ -367,6 +412,11 @@ test_agreement_core:
 test_agreement_core_before_2020_04_19:
   extends:
     - .test_before_2020_04_19
+    - .test_agreement_core
+
+test_agreement_core_ecriteria:
+  extends:
+    - .test_before_ecriteria
     - .test_agreement_core
 
 .test_agreement_cfaua:
@@ -384,6 +434,11 @@ test_agreement_cfaua:
 test_agreement_cfaua_before_2020_04_19:
   extends:
     - .test_before_2020_04_19
+    - .test_agreement_cfaua
+
+test_agreement_cfaua_ecriteria:
+  extends:
+    - .test_before_ecriteria
     - .test_agreement_cfaua
 
 .test_contracting_api:
@@ -405,6 +460,11 @@ test_contracting_api_before_2020_04_19:
     - .test_before_2020_04_19
     - .test_contracting_api
 
+test_contracting_api_ecriteria:
+  extends:
+    - .test_before_ecriteria
+    - .test_contracting_api
+
 .test_planning_api:
   variables:
     TESTS_PATH: src/openprocurement/planning/api/tests
@@ -421,6 +481,11 @@ test_planning_api:
 test_planning_api_before_2020_04_19:
   extends:
     - .test_before_2020_04_19
+    - .test_planning_api
+
+test_planning_apiecriteria:
+  extends:
+    - .test_before_ecriteria
     - .test_planning_api
 
 .test_historical_core:
@@ -441,6 +506,11 @@ test_historical_core_before_2020_04_19:
     - .test_before_2020_04_19
     - .test_historical_core
 
+test_historical_core_ecriteria:
+  extends:
+    - .test_before_ecriteria
+    - .test_historical_core
+
 .test_historical_tender:
   variables:
     TESTS_PATH: src/openprocurement/historical/tender/tests
@@ -457,6 +527,11 @@ test_historical_tender:
 test_historical_tender_before_2020_04_19:
   extends:
     - .test_before_2020_04_19
+    - .test_historical_tender
+
+test_historical_tender_ecriteria:
+  extends:
+    - .test_before_ecriteria
     - .test_historical_tender
 
 .test_tender_comp_stage1:
@@ -478,6 +553,11 @@ test_tender_comp_stage1_before_2020_04_19:
     - .test_before_2020_04_19
     - .test_tender_comp_stage1
 
+test_tender_comp_stage1_ecriteria:
+  extends:
+    - .test_before_ecriteria
+    - .test_tender_comp_stage1
+
 .test_tender_limited:
   variables:
     TESTS_PATH: src/openprocurement/tender/limited/tests
@@ -493,6 +573,11 @@ test_tender_limited:
 test_tender_limited_before_2020_04_19:
   extends:
     - .test_before_2020_04_19
+    - .test_tender_limited
+
+test_tender_limited_ecriteria:
+  extends:
+    - .test_before_ecriteria
     - .test_tender_limited
 
 .test_tender_openua:
@@ -512,6 +597,11 @@ test_tender_openua_2020_04_19:
     - .test_before_2020_04_19
     - .test_tender_openua
 
+test_tender_openua_ecriteria:
+  extends:
+    - .test_before_ecriteria
+    - .test_tender_openua
+
 .test_tender_belowthreshold:
   variables:
     TESTS_PATH: src/openprocurement/tender/belowthreshold/tests
@@ -527,6 +617,11 @@ test_tender_belowthreshold:
 test_tender_belowthreshold_2020_04_19:
   extends:
     - .test_before_2020_04_19
+    - .test_tender_belowthreshold
+
+test_tender_belowthreshold_ecriteria:
+  extends:
+    - .test_before_ecriteria
     - .test_tender_belowthreshold
 
 .test_tender_openuadefense:
@@ -546,6 +641,11 @@ test_tender_openuadefense_2020_04_19:
     - .test_before_2020_04_19
     - .test_tender_openuadefense
 
+test_tender_openuadefense_ecriteria:
+  extends:
+    - .test_before_ecriteria
+    - .test_tender_openuadefense
+
 .test_tender_cfaselectionua:
   variables:
     TESTS_PATH: src/openprocurement/tender/cfaselectionua/tests
@@ -562,6 +662,11 @@ test_tender_cfaselectionua:
 test_tender_cfaselectionua_2020_04_19:
   extends:
     - .test_before_2020_04_19
+    - .test_tender_cfaselectionua
+
+test_tender_cfaselectionua_ecriteria:
+  extends:
+    - .test_before_ecriteria
     - .test_tender_cfaselectionua
 
 test_tender_pricequotation:

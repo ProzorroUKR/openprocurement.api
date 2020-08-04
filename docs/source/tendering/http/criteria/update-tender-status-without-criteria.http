@@ -1,0 +1,25 @@
+PATCH /api/2.5/tenders/fb07ce223a754201a341023b86d832ef?acc_token=056f6edd10e84810b429550ae3a12f86 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 40
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "status": "active.tendering"
+  }
+}
+
+Response: 403 Forbidden
+Content-Type: application/json; charset=UTF-8
+{
+  "status": "error", 
+  "errors": [
+    {
+      "description": "Tender must contain all 9 `EXCLUSION` criteria", 
+      "location": "body", 
+      "name": "data"
+    }
+  ]
+}
+

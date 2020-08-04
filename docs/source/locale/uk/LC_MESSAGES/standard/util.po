@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-26 16:55+0300\n"
+"POT-Creation-Date: 2020-08-26 16:27+0300\n"
 "PO-Revision-Date: 2018-09-12 16:36+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
@@ -35,6 +35,33 @@ msgstr "|ocdsDescription| Кінцева дата періоду."
 
 msgid "`startDate` should always precede `endDate`."
 msgstr "Значення `startDate` завжди повинно йти перед `endDate`."
+
+msgid "ExtendPeriod"
+msgstr ""
+
+msgid "Scheme"
+msgstr "Схема"
+
+msgid "maxExtendDate"
+msgstr ""
+
+msgid "|ocdsDescription| The period cannot be extended beyond this date."
+msgstr "|ocdsDescription| Період не можна продовжувати після цієї дати."
+
+msgid "durationInDays"
+msgstr ""
+
+msgid "integer"
+msgstr ""
+
+msgid "|ocdsDescription| The maximum duration of this period in days. Where a start and end date are given, this field is optional, and should reflect the difference between those two days."
+msgstr "|ocdsDescription| Максимальна тривалість цього періоду в днях. Якщо вказані дата початку та закінчення, це поле є необов’язковим і повинно відображати різницю між цими двома днями."
+
+msgid "duration"
+msgstr ""
+
+msgid "|ocdsDescription| The duration of the period reflected in ISO format."
+msgstr "|ocdsDescription| Тривалість періоду відображена у форматі ISO."
 
 msgid "Date"
 msgstr "Date"
@@ -194,6 +221,45 @@ msgstr ""
 msgid "A name field that repeats the name given in the parties section, provided for the convenience of users viewing the data, and to support detection of mistakes in cross-referencing."
 msgstr "Поле імені, яке повторює ім'я, вказане в розділі сторін, передбачене для зручності перегляду даних і для підтримки виявлення помилок при перехресних посиланнях."
 
+msgid "Reference"
+msgstr ""
+
+msgid "An id used to cross-reference the entry in the parties section that contains full information on entity;"
+msgstr "Ідентифікатор, що використовується для перехресного посилання на запис у розділі сторін, який містить повну інформацію про цю організацію чи сутність."
+
+msgid "title"
+msgstr ""
+
+msgid "A title field that repeats the title given in the parties section, provided for the convenience of users viewing the data, and to support detection of mistakes in cross-referencing."
+msgstr "Поле імені, яке повторює ім'я, вказане в розділі сторін, передбачене для зручності перегляду даних і для підтримки виявлення помилок при перехресних посиланнях."
+
+msgid "LegislationItem"
+msgstr ""
+
+msgid "version"
+msgstr ""
+
+msgid "string"
+msgstr "рядок"
+
+msgid "identifier"
+msgstr ""
+
+msgid ":ref:`Identifier`"
+msgstr ""
+
+msgid "type"
+msgstr ""
+
+msgid "Possible values are:"
+msgstr "Можливі значення:"
+
+msgid "`NATIONAL_LEGISLATION`"
+msgstr ""
+
+msgid "article"
+msgstr ""
+
 msgid "Change"
 msgstr ""
 
@@ -288,17 +354,11 @@ msgstr ""
 msgid "contractNumber"
 msgstr ""
 
-msgid "string"
-msgstr "рядок"
-
 msgid "status"
 msgstr ""
 
 msgid "The current status of the change."
 msgstr "Поточний стан зміни."
-
-msgid "Possible values are:"
-msgstr "Можливі значення:"
 
 msgid "`pending` - this change has been added."
 msgstr "`очікування` - ця зміна була додана."

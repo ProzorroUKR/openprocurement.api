@@ -1,0 +1,17 @@
+DELETE /api/2.5/tenders/fb07ce223a754201a341023b86d832ef/criteria/3061d99566884fb3b45862a6d237616e/requirement_groups/672700185cd3443f9b4021f5300d11cf/requirements/adad5501a6584fe4a78e06af8d04a2eb/evidences/6cffeb7d8f75499a810317aaac795284?acc_token=056f6edd10e84810b429550ae3a12f86 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 0
+Host: lb-api-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "title_en": "Documented approve", 
+    "title": "Документальне підтвердження", 
+    "type": "document", 
+    "description": "Довідка в довільній формі", 
+    "id": "6cffeb7d8f75499a810317aaac795284"
+  }
+}
+

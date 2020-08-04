@@ -26,7 +26,7 @@ from openprocurement.tender.belowthreshold.tests.auction_blanks import (
     post_tender_lots_auction_features,
 )
 
-from openprocurement.tender.openua.tests.base import test_bids
+from openprocurement.tender.openuadefense.tests.base import test_bids
 
 from openprocurement.tender.openuadefense.tests.base import (
     BaseTenderUAContentWebTest,

@@ -1,0 +1,162 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-08-26 17:34+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
+
+msgid "Criterion"
+msgstr "Criterion"
+
+msgid "Schema"
+msgstr "Схема"
+
+msgid "id"
+msgstr ""
+
+msgid "uid, auto-generated"
+msgstr "uid, генерується автоматично"
+
+msgid "title"
+msgstr ""
+
+msgid "string, multilingual, required"
+msgstr "рядок, багатомовний, обов’язковий"
+
+msgid "|ocdsDescription| Criterion title."
+msgstr ""
+
+msgid "description"
+msgstr ""
+
+msgid "string, multilingual"
+msgstr "рядок, багатомовний"
+
+msgid "|ocdsDescription| Criterion description."
+msgstr "|ocdsDescription| Опис критерію."
+
+msgid "source"
+msgstr ""
+
+msgid "string"
+msgstr "рядок"
+
+msgid "|ocdsDescription| Source of response to the requirements specified in the criterion. For example, responses might be submitted by tenderers or by an assessment committee at the procuringEntity."
+msgstr "|ocdsDescription| Джерело відповіді на вимоги, зазначені в критерії. Наприклад, відповіді можуть бути подані учасниками тендеру або замовником."
+
+msgid "Possible values are:"
+msgstr "Можливі значення:"
+
+msgid "`tenderer`"
+msgstr ""
+
+msgid "Default. The response is provided by the tenderer."
+msgstr "За умовчуванням. Відповідь надається учасником."
+
+msgid "`buyer`"
+msgstr ""
+
+msgid "The response is provided by the buyer."
+msgstr "Відповідь надається замовником."
+
+msgid "`procuringEntity`"
+msgstr ""
+
+msgid "The response is provided by the procuring entity."
+msgstr "Відповідь надається замовнком."
+
+msgid "`ssrBot`"
+msgstr ""
+
+msgid "The response is provided by the bot."
+msgstr "Відповідь надається ботом."
+
+msgid "`winner`"
+msgstr ""
+
+msgid "The response is provided by the winner."
+msgstr "Відповідь надається переможцем."
+
+msgid "relatesTo"
+msgstr ""
+
+msgid "|ocdsDescription| The schema element that the criterion judges, evaluates or assesses. For example, the criterion might be defined against items or against bidders."
+msgstr "|ocdsDescription| Елемент схеми, який критерій оцінює. Наприклад, критерій може бути визначений щодо позицій або проти учасників торгів."
+
+msgid "Default. The criterion evaluates or assesses a tenderer."
+msgstr "За умовчуванням. Критерій відноситься до учасника."
+
+msgid "`item`"
+msgstr ""
+
+msgid "The criterion evaluates or assesses a item."
+msgstr "Критерій відноситься до предмету."
+
+msgid "`lot`"
+msgstr ""
+
+msgid "The criterion evaluates or assesses a lot."
+msgstr "Критерій відноситься до лоту."
+
+msgid "relatedItem"
+msgstr ""
+
+msgid "`if relatesTo == tender`"
+msgstr "якщо relatesTo == tender"
+
+msgid "Should be None."
+msgstr "Поле повинно бути пустим."
+
+msgid "`if relatesTo == item`"
+msgstr "якщо relatesTo == item"
+
+msgid "Id of related :ref:`item`."
+msgstr "Id пов'язанного :ref:`item`"
+
+msgid "`if relatesTo == lot`"
+msgstr "якщо relatesTo == lot`"
+
+msgid "Id of related :ref:`lot`."
+msgstr "Id пов'язанного :ref:`lot`"
+
+msgid "classification"
+msgstr ""
+
+msgid ":ref:`Classification`"
+msgstr ""
+
+msgid "|ocdsDescription| The primary classification for the item."
+msgstr "|ocdsDescription| Основна класифікація елемента"
+
+msgid "additionalClassifications"
+msgstr ""
+
+msgid "List of :ref:`Classification` objects"
+msgstr "Список об'єктів :ref:`Classification`."
+
+msgid "|ocdsDescription| An array of additional classifications for the item."
+msgstr "|ocdsDescription| Массив додаткових класифікацій елмента."
+
+msgid "legislation"
+msgstr ""
+
+msgid "List of :ref:`LegislationItem` objects."
+msgstr "Список об'єктів :ref:`LegislationItem`."
+
+msgid "requirementGroups"
+msgstr ""
+
+msgid "List of :ref:`RequirementGroup` objects."
+msgstr "Список об'єктів :ref:`RequirementGroup`."

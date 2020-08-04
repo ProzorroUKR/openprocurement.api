@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from schematics.types import DecimalType, StringType, IntType, BooleanType
 from schematics.exceptions import ValidationError
 
 from openprocurement.api.utils import error_handler, raise_operation_error
@@ -7,14 +6,7 @@ from openprocurement.api.validation import\
     validate_data, OPERATIONS, validate_json_data
 from openprocurement.tender.pricequotation.utils import\
     responses_to_tree, criteria_to_tree
-
-
-TYPEMAP = {
-    'string': StringType(),
-    'integer': IntType(),
-    'number': DecimalType(),
-    'boolean': BooleanType()
-}
+from openprocurement.tender.core.validation import TYPEMAP
 
 
 # tender documents
@@ -103,38 +95,39 @@ def validate_bid_value(tender, value):
         )
 
 
-# tender.criterion.requirementGrpoups
-def validate_requirement_groups(value):
-    for requirements in value:
-        for requirement in requirements.requirements:
-            expected = requirement.get('expectedValue')
-            min_value = requirement.get('minValue')
-            max_value = requirement.get('maxValue')
-            if not any((expected, min_value, max_value)):
+def validate_requirement_responses(criterias, req_responses):
+    criterias = criteria_to_tree(criterias)
+    responses = responses_to_tree(req_responses)
+    # top level criterias. all required
+    diff = set(criterias).difference(responses)
+    if diff:
+        raise ValidationError(u'Missing references for criterias: {}'.format(
+            list(diff)
+        ))
+
+    for criteria_id, group_response in responses.items():
+        # OR for requirementGroup
+        if len(group_response) > 1:
+            raise ValidationError(
+                u'Provided groups {} conflicting in criteria {}'.format(
+                    group_response.keys(), criteria_id
+                ))
+        criteria_groups = criterias[criteria_id]
+        for group_id, requirements in criteria_groups.items():
+            if group_id not in group_response:
+                continue
+            # response satisfies requirement
+            responses = group_response.get(group_id, set())
+            diff = set(requirements).difference(responses)
+            if diff:
                 raise ValidationError(
-                    u'Value required for at least one field ["expectedValue", "minValue", "maxValue"]'
-                )
-            if any((expected and min_value, expected and max_value)):
-                raise ValidationError(
-                    u'expectedValue conflicts with ["minValue", "maxValue"]'
-                )
+                    u'Missing references for reqirements: {}'.format(
+                        list(diff)
+                    ))
+            for response_id, response in responses.items():
+                matches(requirements[response_id], response)
 
 
-def validate_value_type(value, datatype):
-    if not value:
-        return
-    type_ = TYPEMAP.get(datatype)
-    if not type_:
-        raise ValidationError(
-            u'Type mismatch: value {} does not confront type {}'.format(
-                value, type_
-            )
-        )
-    # validate value
-    type_.to_native(value)
-
-
-# bid.requirementResponeses
 def matches(criteria, response):
     datatype = TYPEMAP[criteria['dataType']]
     # validate value
@@ -185,39 +178,6 @@ def matches(criteria, response):
                 )
             )
     return response
-
-
-def validate_requirement_responses(criterias, req_responses):
-    criterias = criteria_to_tree(criterias)
-    responses = responses_to_tree(req_responses)
-    # top level criterias. all required
-    diff = set(criterias).difference(responses)
-    if diff:
-        raise ValidationError(u'Missing references for criterias: {}'.format(
-            list(diff)
-        ))
-
-    for criteria_id, group_response in responses.items():
-        # OR for requirementGroup
-        if len(group_response) > 1:
-            raise ValidationError(
-                u'Provided groups {} conflicting in criteria {}'.format(
-                    group_response.keys(), criteria_id
-                ))
-        criteria_groups = criterias[criteria_id]
-        for group_id, requirements in criteria_groups.items():
-            if group_id not in group_response:
-                continue
-            # response satisfies requirement
-            responses = group_response.get(group_id, set())
-            diff = set(requirements).difference(responses)
-            if diff:
-                raise ValidationError(
-                    u'Missing references for reqirements: {}'.format(
-                        list(diff)
-                    ))
-            for response_id, response in responses.items():
-                matches(requirements[response_id], response)
 
 
 def validate_tender_publish(request):

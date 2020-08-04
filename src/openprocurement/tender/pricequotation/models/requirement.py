@@ -4,7 +4,7 @@ from schematics.exceptions import ValidationError
 
 from openprocurement.api.models import DecimalType, IsoDateTimeType, ListType, Model
 from openprocurement.api.models import Unit as BaseUnit
-from openprocurement.tender.pricequotation.validation import validate_value_type
+from openprocurement.tender.core.validation import validate_value_type
 
 
 class Unit(BaseUnit):

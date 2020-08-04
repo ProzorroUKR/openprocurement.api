@@ -1,0 +1,124 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-08-26 22:36+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
+
+msgid "Requirement"
+msgstr ""
+
+msgid "Schema"
+msgstr "Схема"
+
+msgid "id"
+msgstr ""
+
+msgid "uid, auto-generated"
+msgstr "uid, генерується автоматично"
+
+msgid "title"
+msgstr ""
+
+msgid "string, multilingual, required"
+msgstr "рядок, багатомовний, обов’язковий"
+
+msgid "|ocdsDescription| Requirement title."
+msgstr "|ocdsDescription| Назва вимоги."
+
+msgid "description"
+msgstr ""
+
+msgid "string, multilingual"
+msgstr "рядок, багатомовний"
+
+msgid "|ocdsDescription| Requirement description."
+msgstr "|ocdsDescription| Опис вимоги."
+
+msgid "dataType"
+msgstr ""
+
+msgid "string, required"
+msgstr "рядок, обов'язковий"
+
+msgid "|ocdsDescription| Determines the type of response."
+msgstr "|ocdsDescription| Визначає тип відповіді."
+
+msgid "Possible values are:"
+msgstr "Можливі значення:"
+
+msgid "`string`"
+msgstr ""
+
+msgid "The requirement response must be of type string"
+msgstr "Відповідь на вимогу має бути надана у строковому форматі"
+
+msgid "`number`"
+msgstr ""
+
+msgid "The requirement response must be of type number"
+msgstr "Відповідь на вимогу має бути надана у форматі числа"
+
+msgid "`integer`"
+msgstr ""
+
+msgid "The requirement response must be of type integer"
+msgstr "Відповідь на вимогу має бути надана у форматі цілого числа"
+
+msgid "`boolean`"
+msgstr ""
+
+msgid "The requirement response must be of type boolean"
+msgstr "Відповідь на вимогу має бути надана у булевуму форматі"
+
+msgid "minValue"
+msgstr ""
+
+msgid "string"
+msgstr ""
+
+msgid "|ocdsDescription| Used to state the lower bound of the requirement when the response must be within a certain range."
+msgstr "|ocdsDescription| Використовується для визначення нижньої межі вимоги, коли відповідь повинна знаходитися в певному діапазоні."
+
+msgid "maxValue"
+msgstr ""
+
+msgid "|ocdsDescription| Used to state the higher bound of the requirement when the response must be within a certain range."
+msgstr "|ocdsDescription| Використовується для визначення вищої межі вимоги, коли відповідь повинна знаходитися в певному діапазоні."
+
+msgid "expectedValue"
+msgstr ""
+
+msgid "|ocdsDescription| Used to state the requirement when the response must be particular value."
+msgstr "|ocdsDescription| Використовується коли відповідь на вимогу має мати визначене значення."
+
+msgid "period"
+msgstr ""
+
+msgid ":ref:`extendPeriod`"
+msgstr ""
+
+msgid "relatedFeature"
+msgstr ""
+
+msgid "Id of related :ref:`Feature`."
+msgstr "Id пов'язанного :ref:`Feature`."
+
+msgid "eligibleEvidences"
+msgstr ""
+
+msgid "List of :ref:`EligibleEvidence` objects."
+msgstr "Список об'єктів :ref:`EligibleEvidence`"
+

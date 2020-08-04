@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
+from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 
@@ -42,12 +43,7 @@ class TenderAuctionResourceTest(BaseTenderUAContentWebTest, TenderAuctionResourc
 class TenderSameValueAuctionResourceTest(BaseTenderUAContentWebTest):
     initial_status = "active.auction"
     initial_bids = [
-        {
-            "tenderers": [test_organization],
-            "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
-            "selfEligible": True,
-            "selfQualified": True,
-        }
+        test_bids[0]
         for i in range(3)
     ]
 
@@ -69,25 +65,15 @@ class TenderMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestM
 class TenderFeaturesAuctionResourceTest(BaseTenderUAContentWebTest):
     initial_data = test_features_tender_ua_data
     initial_status = "active.tendering"
-    initial_bids = [
-        {
-            "parameters": [{"code": i["code"], "value": 0.1} for i in test_features_tender_data["features"]],
-            "tenderers": [test_organization],
-            "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
-            "selfEligible": True,
-            "selfQualified": True,
-        },
-        {
-            "parameters": [{"code": i["code"], "value": 0.15} for i in test_features_tender_data["features"]],
-            "tenderers": [test_organization],
-            "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
-            "selfEligible": True,
-            "selfQualified": True,
-        },
-    ]
 
     test_get_tender_auction = snitch(get_tender_auction_feature)
     test_post_tender_auction = snitch(post_tender_auction_feature)
+
+    def setUp(self):
+        self.initial_bids = deepcopy(test_bids[:2])
+        self.initial_bids[0]["parameters"] = [{"code": i["code"], "value": 0.1} for i in test_features_tender_data["features"]]
+        self.initial_bids[1]["parameters"] = [{"code": i["code"], "value": 0.15} for i in test_features_tender_data["features"]]
+        super(TenderFeaturesAuctionResourceTest, self).setUp()
 
 
 class TenderFeaturesLotAuctionResourceTest(TenderLotAuctionResourceTestMixin, TenderFeaturesAuctionResourceTest):
