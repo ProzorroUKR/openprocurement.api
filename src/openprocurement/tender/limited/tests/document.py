@@ -38,6 +38,7 @@ class TenderDocumentWithDSResourceTest(TenderDocumentResourceTest, TenderDocumen
     test_upload_tender_document_by_renderer_bot = None
     test_patch_tender_contract_proforma_document_invalid = None
     test_put_tender_contract_proforma_document = None
+    test_upload_tender_document_contract_proforma_by_rbot_fail = None
 
 
 class TenderNegotiationDocumentWithDSResourceTest(TenderDocumentWithDSResourceTest):

@@ -35,6 +35,7 @@ from openprocurement.tender.belowthreshold.tests.document_blanks import (
     upload_lot_document_by_renderer_bot,
     patch_tender_contract_proforma_document_invalid,
     put_tender_contract_proforma_document,
+    upload_tender_document_contract_proforma_by_rbot_fail
 )
 
 
@@ -60,6 +61,8 @@ class TenderDocumentWithDSResourceTestMixin(object):
     test_upload_tender_document_by_renderer_bot = snitch(upload_tender_document_by_renderer_bot)
     test_patch_tender_contract_proforma_document_invalid = snitch(patch_tender_contract_proforma_document_invalid)
     test_put_tender_contract_proforma_document = snitch(put_tender_contract_proforma_document)
+    test_upload_tender_document_contract_proforma_by_rbot_fail = \
+        snitch(upload_tender_document_contract_proforma_by_rbot_fail)
 
 
 class TenderDocumentResourceTest(TenderContentWebTest, TenderDocumentResourceTestMixin):

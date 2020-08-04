@@ -1318,3 +1318,30 @@ def put_tender_contract_proforma_document(self):
     response = self.app.get("/tenders/{}/documents/{}".format(self.tender_id, doc_id))
     self.assertEqual(response.json["data"]["title"], data["title"])
     self.assertEqual(response.json["data"]["templateId"], data["templateId"])
+
+
+def upload_tender_document_contract_proforma_by_rbot_fail(self):
+    document_id = _create_contract_proforma_document(self)
+    _create_docs_by_registry_bot(self, document_id)
+    _create_contract_data_document(self, document_id)
+    _upload_contract_proforma_by_renderer_bot(self, document_id)
+
+    data = {
+        "title": "contractProforma.pdf",
+        "url": self.generate_docservice_url(),
+        "hash": "md5:" + "0" * 32,
+        "format": "application/json",
+        "documentOf": "document",
+        "documentType": "contractProforma",
+        "relatedItem": document_id,
+        "templateId": "paper0000001"
+    }
+    with change_auth(self.app, ("Basic", ("rBot", ""))):
+        response = self.app.post_json("/tenders/{}/documents".format(self.tender_id),
+                                      {'data': data},
+                                      status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.json["errors"],
+                     [{"location": "body",
+                       "name": "documents",
+                       "description": ["Can't link document 'contractProforma' to another 'contractProforma'"]}])

@@ -2014,8 +2014,11 @@ def validate_econtract_documents(resource, data, value):
     }
     for doc in value:
         if hasattr(doc, "documentType") and doc.documentType in docs:
-            docs[doc.documentType]["relatedItems"].add(doc.relatedItem)
+            related_item = doc.relatedItem if doc.relatedItem else doc.__parent__.id
+            docs[doc.documentType]["relatedItems"].add(related_item)
             docs[doc.documentType]["ids"].add(doc.id)
     for key in docs:
         if len(docs[key]["ids"]) != len(docs[key]["relatedItems"]):
             raise ValidationError("Allow only one document with documentType '{}' per {}.".format(key, resource))
+        if len(docs[key]["ids"] & docs[key]["relatedItems"]) > 0:
+            raise ValidationError(("Can't link document '{key}' to another '{key}'".format(key=key)))
