@@ -26,6 +26,7 @@ from openprocurement.api.validation import validate_items_uniq
 from openprocurement.api.models import plain_role, schematics_default_role, schematics_embedded_role
 from openprocurement.api.interfaces import IOPContent
 from openprocurement.tender.core.models import Tender, ContractValue, PROCURING_ENTITY_KINDS
+from openprocurement.api.models import BankAccount
 
 contract_create_role = whitelist(
     "id",
@@ -240,7 +241,7 @@ class Change(Model):
 
 
 class OrganizationReference(Model):
-    id = StringType(required=True)
+    bankAccount = ModelType(BankAccount, required=True)
     name = StringType(required=True)
 
 

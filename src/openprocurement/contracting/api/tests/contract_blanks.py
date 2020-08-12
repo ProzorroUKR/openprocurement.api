@@ -570,11 +570,17 @@ def put_transaction_to_contract(self):
                     "currency": "UAH"
                 },
                 "payer": {
-                    "id": 789,
+                    "bankAccount": {
+                        "id": 789,
+                        "scheme": "IBAN",
+                    },
                     "name": "payer1"
                 },
                 "payee": {
-                    "id": 789,
+                    "bankAccount": {
+                        "id": 888,
+                        "scheme": "IBAN",
+                    },
                     "name": "payee1"
                 },
                 "status": 0
@@ -588,13 +594,22 @@ def put_transaction_to_contract(self):
             {
                 'status': 'successful',
                 'payer': {
-                    'id': '789', 'name': 'payer1'
+                    "bankAccount": {
+                        "id": "789",
+                        "scheme": "IBAN",
+                    },
+                    "name": "payer1"
                 },
                 'value': {
-                    'currency': 'UAH', 'amount': 500.0
+                    'currency': 'UAH', 
+                    'amount': 500.0
                 },
                 'payee': {
-                    'id': '789', 'name': 'payee1'
+                    "bankAccount": {
+                        "id": "888",
+                        "scheme": "IBAN",
+                    },
+                    "name": "payee1"
                 },
                 'date': '2020-05-20T18:47:47.136678+02:00',
                 'id': '12345'
@@ -611,12 +626,18 @@ def put_transaction_to_contract(self):
                 "currency": "UAH"
             },
             "payer": {
-                "id": 789,
-                "name": "payer1"
+                "bankAccount": {
+                        "id": 800000000,
+                        "scheme": "IBAN",
+                    },
+                "name": "payer_should_not_applied1"
             },
             "payee": {
-                "id": 9000,
-                "name": "payee1"
+                "bankAccount": {
+                        "id": 90000000,
+                        "scheme": "IBAN",
+                    },
+                "name": "payee_should_not_applied1"
             },
             "status": "new_status_123"
         }
@@ -630,13 +651,21 @@ def put_transaction_to_contract(self):
             {
                 'status': 'new_status_123',
                 'payer': {
-                    'id': '789', 'name': 'payer1'
+                    "bankAccount": {
+                        "id": "789",
+                        "scheme": "IBAN",
+                    },
+                    "name": "payer1"
                 },
                 'value': {
                     'currency': 'UAH', 'amount': 500.0
                 },
                 'payee': {
-                    'id': '789', 'name': 'payee1'
+                    "bankAccount": {
+                        "id": "888",
+                        "scheme": "IBAN",
+                    },
+                    "name": "payee1"
                 },
                 'date': '2020-05-20T18:47:47.136678+02:00',
                 'id': '12345'
@@ -653,11 +682,17 @@ def put_transaction_to_contract(self):
                 "currency": "UAH"
             },
             "payer": {
-                "id": 78999,
+                "bankAccount": {
+                    "id": 78999,
+                    "scheme": "IBAN",
+                },
                 "name": "payer2"
             },
             "payee": {
-                "id": 199000,
+                "bankAccount": {
+                    "id": 199000,
+                    "scheme": "IBAN",
+                },
                 "name": "payee2"
             },
             "status": -1
@@ -665,20 +700,28 @@ def put_transaction_to_contract(self):
         }
     )
     self.assertEqual(response.status, "200 OK")
-
+    
     self.assertEqual(
         response.json['data']['implementation']['transactions'],
         [
             {
                 'status': 'new_status_123',
                 'payer': {
-                    'id': '789', 'name': 'payer1'
+                    "bankAccount": {
+                        "id": "789",
+                        "scheme": "IBAN",
+                    },
+                    "name": "payer1"
                 },
                 'value': {
                     'currency': 'UAH', 'amount': 500.0
                 },
                 'payee': {
-                    'id': '789', 'name': 'payee1'
+                    "bankAccount": {
+                        "id": "888",
+                        "scheme": "IBAN",
+                    },
+                    "name": "payee1"
                 },
                 'date': '2020-05-20T18:47:47.136678+02:00',
                 'id': '12345'
@@ -686,13 +729,21 @@ def put_transaction_to_contract(self):
             {
                 'status': 'canceled',
                 'payer': {
-                    'id': '78999', 'name': 'payer2'
+                    "bankAccount": {
+                        "id": "78999",
+                        "scheme": "IBAN",
+                    },
+                    "name": "payer2"
                 },
                 'value': {
                     'currency': 'UAH', 'amount': 14500.5
                 },
                 'payee': {
-                    'id': '199000', 'name': 'payee2'
+                    "bankAccount": {
+                        "id": "199000",
+                        "scheme": "IBAN",
+                    },
+                    'name': 'payee2'
                 },
                 'date': '2020-06-10T10:47:47.136678+02:00',
                 'id': '90800777'
@@ -739,7 +790,10 @@ def put_transaction_to_contract(self):
                     "currency": "UAH"
                 },
                 "payer": {
-                    "id": 78999,
+                    "bankAccount": {
+                        "id": "789",
+                        "scheme": "IBAN",
+                    },
                     "name": "payer2"
                 },
                 "payee": "payee_invalid_structure",
@@ -769,13 +823,21 @@ def put_transaction_to_contract(self):
             {
                 'status': 'new_status_123',
                 'payer': {
-                    'id': '789', 'name': 'payer1'
+                    "bankAccount": {
+                        "id": "789",
+                        "scheme": "IBAN",
+                    },
+                    "name": "payer1"
                 },
                 'value': {
                     'currency': 'UAH', 'amount': 500.0
                 },
                 'payee': {
-                    'id': '789', 'name': 'payee1'
+                    "bankAccount": {
+                        "id": "888",
+                        "scheme": "IBAN",
+                    },
+                    "name": "payee1"
                 },
                 'date': '2020-05-20T18:47:47.136678+02:00',
                 'id': '12345'
@@ -783,13 +845,21 @@ def put_transaction_to_contract(self):
             {
                 'status': 'canceled',
                 'payer': {
-                    'id': '78999', 'name': 'payer2'
+                    "bankAccount": {
+                        "id": "78999",
+                        "scheme": "IBAN",
+                    },
+                    "name": "payer2"
                 },
                 'value': {
                     'currency': 'UAH', 'amount': 14500.5
                 },
                 'payee': {
-                    'id': '199000', 'name': 'payee2'
+                    "bankAccount": {
+                        "id": "199000",
+                        "scheme": "IBAN",
+                    },
+                    "name": "payee2"
                 },
                 'date': '2020-06-10T10:47:47.136678+02:00',
                 'id': '90800777'
@@ -808,19 +878,78 @@ def put_transaction_to_contract(self):
         ]
     )
 
+    response = self.app.put_json(
+        "/contracts/{}/transactions/{}?acc_token={}".format(self.contract["id"], 5555, token),
+        {
+            "data": {
+                "date": "2020-06-10T10:47:47.136678+02:00",
+                "value": {
+                    "amount": 14500.5,
+                    "currency": "UAH"
+                },
+                "payer": {
+                    "bankAccount": {
+                        "id": "789",
+                        "scheme": "INCORRECT_SCHEMA",
+                    },
+                    "name": "payer2"
+                },
+                "payee": {
+                    "bankAccount": {
+                        "id": "789"
+                    },
+                    "name": "payee2"
+                },
+                "status": 0
+            }
+        }, status=422
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                'description': {
+                    'bankAccount': {
+                        'scheme': ["This field is required."]
+                    }
+                },
+                'location': 'body',
+                'name': 'payee'
+            },
+            {
+                'description': {
+                    'bankAccount': {
+                        'scheme': ["Value must be one of ['IBAN']."]
+                    }  
+                },
+                'location': 'body', 
+                'name': 'payer'
+            }
+        ]
+    )
+
     response = self.app.get("/contracts/{}/transactions/{}".format(self.contract['id'], 12345))
     self.assertEqual(
         response.json['data'],
         {
             'status': 'new_status_123',
             'payer': {
-                'id': '789', 'name': 'payer1'
+                "bankAccount": {
+                    "id": "789",
+                    "scheme": "IBAN",
+                },
+                'name': 'payer1'
             },
             'value': {
                 'currency': 'UAH', 'amount': 500.0
             },
             'payee': {
-                'id': '789', 'name': 'payee1'
+                "bankAccount": {
+                    "id": "888",
+                    "scheme": "IBAN",
+                },
+                'name': 'payee1'
             },
             'date': '2020-05-20T18:47:47.136678+02:00',
             'id': '12345'
