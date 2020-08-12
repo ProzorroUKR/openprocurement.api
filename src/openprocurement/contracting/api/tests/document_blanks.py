@@ -816,11 +816,17 @@ def create_contract_transaction_document_json(self):
                     "currency": "UAH"
                 },
                 "payer": {
-                    "id": 789,
+                    "bankAccount": {
+                        "id": 789,
+                        "scheme": "IBAN" 
+                    },
                     "name": "payer1"
                 },
                 "payee": {
-                    "id": 789,
+                    "bankAccount": {
+                        "id": 789,
+                        "scheme": "IBAN"
+                    },
                     "name": "payee1"
                 },
                 "status": "status1234"
