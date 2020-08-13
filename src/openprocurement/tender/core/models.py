@@ -72,6 +72,7 @@ from openprocurement.tender.core.validation import (
     validate_milestones,
     validate_bid_value,
     validate_relatedlot,
+    validate_minimalstep_limits,
 )
 from openprocurement.tender.esco.utils import get_complaint_amount as get_esco_complaint_amount
 from openprocurement.planning.api.models import BaseOrganization
@@ -1227,6 +1228,26 @@ class Lot(BaseLot):
         if value and value.amount and data.get("value"):
             if data.get("value").amount < value.amount:
                 raise ValidationError(u"value should be less than value of lot")
+
+
+class LotWithMinimalStepLimitsValidation(Lot):
+    """Additional minimalStep validation for :
+        belowThreshold
+        aboveThresholdUA
+        aboveThresholdEU
+        aboveThresholdUA.defense
+        competitiveDialogueUA.stage1
+        competitiveDialogueEU.stage1
+        closeFrameworkAgreementUA
+    """
+    class Options:
+        namespace = "Lot"
+
+    def validate_minimalStep(self, data, value):
+        if value and value.amount and data.get("value"):
+            if data.get("value").amount < value.amount:
+                raise ValidationError(u"value should be less than value of lot")
+        validate_minimalstep_limits(data, value)
 
 
 class Duration(Model):

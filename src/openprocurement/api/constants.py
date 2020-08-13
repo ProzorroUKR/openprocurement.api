@@ -139,6 +139,9 @@ COMPLAINT_IDENTIFIER_REQUIRED_FROM = get_constant(CONSTANTS_CONFIG, "COMPLAINT_I
 # CS-7231 new negotiation causes released (old partly disabled)
 NEW_NEGOTIATION_CAUSES_FROM = get_constant(CONSTANTS_CONFIG, "NEW_NEGOTIATION_CAUSES_FROM")
 
+# CS-8167 tender/lot minimalStep validation
+MINIMAL_STEP_VALIDATION_FROM = get_constant(CONSTANTS_CONFIG, "MINIMAL_STEP_VALIDATION_FROM")
+
 # Address validation
 COUNTRIES = read_json("data/countries.json")
 UA_REGIONS = read_json("data/ua_regions.json")

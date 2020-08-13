@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import copy
+from datetime import timedelta
+
 import mock
 import unittest
 from decimal import Decimal
@@ -8,6 +10,7 @@ from pyramid.httpexceptions import HTTPError
 from schematics.exceptions import ModelValidationError
 
 from openprocurement.api.auth import ACCR_TEST
+from openprocurement.api.utils import get_now
 from openprocurement.tender.core.validation import (
     validate_update_contract_value_with_award,
     validate_update_contract_value,
@@ -17,7 +20,7 @@ from openprocurement.tender.core.validation import (
     validate_tender_accreditation_level_mode
 )
 from openprocurement.tender.belowthreshold.models import Tender
-from openprocurement.tender.belowthreshold.tests.base import test_tender_data
+from openprocurement.tender.belowthreshold.tests.base import test_tender_data, test_lots
 
 
 @mock.patch("openprocurement.api.validation.error_handler", lambda *_: HTTPError)
@@ -478,3 +481,33 @@ class TestTenderAdditionalClassificationGMDN(unittest.TestCase):
         self.assertEqual(
             error_messages, {"id": [u"This field is required."], "description": [u"This field is required."]}
         )
+
+
+class TestTenderMinimalStepLimitsValidation(unittest.TestCase):
+
+    def setUp(self):
+        self.test_tender = copy.deepcopy(test_tender_data)
+        self.test_lots = copy.deepcopy(test_lots)
+
+    @mock.patch("openprocurement.tender.core.validation.MINIMAL_STEP_VALIDATION_FROM", get_now() - timedelta(days=1))
+    def test_validate_tender_minimalstep(self):
+        self.test_tender["minimalStep"]["amount"] = 35
+        tender = Tender(self.test_tender)
+        with self.assertRaises(ModelValidationError) as e:
+            tender.validate()
+        self.assertEqual(
+            e.exception.message,
+            {'minimalStep': [u'minimalstep must be between 0.5% and 3% of value (with 2 digits precision).']}
+        )
+
+    @mock.patch("openprocurement.tender.core.validation.MINIMAL_STEP_VALIDATION_FROM", get_now() + timedelta(days=1))
+    def test_not_validate_tender_minimalstep_before_feature_start_date(self):
+        self.test_tender["minimalStep"]["amount"] = 35
+        tender = Tender(self.test_tender)
+        tender.validate()
+
+    def test_not_validate_minimalstep_for_tender_with_lots(self):
+        self.test_tender["minimalStep"]["amount"] = 35
+        self.test_tender["lots"] = self.test_lots
+        tender = Tender(self.test_tender)
+        tender.validate()

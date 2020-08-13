@@ -109,7 +109,7 @@ test_tender_data = {
         },
     },
     "value": {"amount": 500, "currency": u"UAH"},
-    "minimalStep": {"amount": 35, "currency": u"UAH"},
+    "minimalStep": {"amount": 15, "currency": u"UAH"},
     "items": [
         {
             "description": u"футляри до державних нагород",

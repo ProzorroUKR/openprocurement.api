@@ -84,7 +84,7 @@ test_tender_data = {
     "mainProcurementCategory": "goods",
     "procuringEntity": test_procuringEntity,
     "value": {"amount": 500, "currency": u"UAH"},
-    "minimalStep": {"amount": 35, "currency": u"UAH"},
+    "minimalStep": {"amount": 15, "currency": u"UAH"},
     "items": [deepcopy(test_item)],
     "enquiryPeriod": {"endDate": (now + timedelta(days=7)).isoformat()},
     "tenderPeriod": {"endDate": (now + timedelta(days=14)).isoformat()},

@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+import mock
 from copy import deepcopy
+from datetime import timedelta
 from email.header import Header
 
 from openprocurement.api.constants import RELEASE_2020_04_19
@@ -160,6 +162,20 @@ def patch_tender_currency(self):
 def patch_tender_lot(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     lot = response.json["data"]["lots"][0]
+
+    with mock.patch("openprocurement.tender.core.validation.MINIMAL_STEP_VALIDATION_FROM",
+                    get_now() - timedelta(days=1)):
+        response = self.app.patch_json(
+            "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
+            {"data": {"minimalStep": {"amount": 35.0}}}, status=422
+        )
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [{u"description": [u"minimalstep must be between 0.5% and 3% of value (with 2 digits precision)."],
+              u"location": u"body", u"name": u"minimalStep"}]
+        )
 
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
@@ -1153,6 +1169,23 @@ def proc_1lot_1can(self):
 
 
 def create_tender_lot(self):
+    tender_data = deepcopy(self.initial_data)
+    tender_data["lots"] = deepcopy(self.initial_lots)
+    tender_data["lots"][0]["minimalStep"]["amount"] = 35
+
+    with mock.patch("openprocurement.tender.core.validation.MINIMAL_STEP_VALIDATION_FROM",
+                    get_now() - timedelta(days=1)):
+        response = self.app.post_json("/tenders", {"data": tender_data}, status=422)
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [{u'description': [
+                {u'minimalStep': [u'minimalstep must be between 0.5% and 3% of value (with 2 digits precision).']}],
+              u'location': u'body', u'name': u'lots'}],
+        )
+
     tender_data = deepcopy(self.initial_data)
     tender_data["lots"] = deepcopy(self.initial_lots)
     tender_data["lots"][0]["guarantee"] = {"amount": 100500, "currency": "USD"}

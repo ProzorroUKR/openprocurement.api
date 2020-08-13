@@ -63,7 +63,7 @@ Content-Type: application/json; charset=UTF-8
         "title": "lot title", 
         "minimalStep": {
           "currency": "UAH", 
-          "amount": 35.0, 
+          "amount": 15.0, 
           "valueAddedTaxIncluded": true
         }, 
         "auctionPeriod": {
@@ -440,7 +440,7 @@ Content-Type: application/json; charset=UTF-8
     ], 
     "minimalStep": {
       "currency": "UAH", 
-      "amount": 35, 
+      "amount": 15, 
       "valueAddedTaxIncluded": true
     }, 
     "items": [

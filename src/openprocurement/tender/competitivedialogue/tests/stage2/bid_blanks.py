@@ -233,7 +233,8 @@ def bids_invalidation_on_tender_change_eu(self):
     # update tender. we can set value that is less than a value in bids as
     # they will be invalidated by this request
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"value": {"amount": 300.0}}}
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"value": {"amount": 300.0}, "minimalStep": {"amount": 9.0}}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["value"]["amount"], 500)
@@ -938,7 +939,8 @@ def bids_invalidation_on_tender_change_ua(self):
     # update tender. we can set value that is less than a value in bids as
     # they will be invalidated by this request
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"value": {"amount": 300.0}}}
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"value": {"amount": 300.0}, "minimalStep": {"amount": 9.0}}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["value"]["amount"], 500)

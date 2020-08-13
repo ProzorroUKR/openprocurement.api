@@ -39,7 +39,7 @@ DATA:
     "title": "Насіння", 
     "minimalStep": {
       "currency": "UAH", 
-      "amount": 35
+      "amount": 15
     }, 
     "enquiryPeriod": {
       "endDate": "2020-05-29T01:00:00+03:00"
@@ -188,7 +188,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/821592d97e83442c
     "title": "Насіння", 
     "minimalStep": {
       "currency": "UAH", 
-      "amount": 35.0, 
+      "amount": 15.0, 
       "valueAddedTaxIncluded": true
     }, 
     "items": [

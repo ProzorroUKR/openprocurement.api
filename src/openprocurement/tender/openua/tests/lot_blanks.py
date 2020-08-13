@@ -1120,7 +1120,8 @@ def proc_1lot_1bid_patch(self):
     bid_token = response.json["access"]["token"]
 
     response = self.app.patch_json(
-        "/tenders/{}/lots/{}?acc_token={}".format(tender_id, lot_id, owner_token), {"data": {"value": {"amount": 499}}}
+        "/tenders/{}/lots/{}?acc_token={}".format(tender_id, lot_id, owner_token),
+        {"data": {"value": {"amount": 499}, "minimalStep": {"amount": 14.0}}}
     )
     self.assertEqual(response.status, "200 OK")
 

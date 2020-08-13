@@ -11,6 +11,8 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     patch_tender_lots_none,
     create_tender_central,
     create_tender_central_invalid,
+    tender_minimalstep_validation,
+    patch_tender_minimalstep_validation,
 )
 
 from openprocurement.tender.openua.tests.tender_blanks import (
@@ -85,6 +87,8 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest, TenderReso
     test_tender_finance_milestones = snitch(tender_finance_milestones)
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
     test_tender_milestones_required = snitch(tender_milestones_required)
+    test_tender_minimalstep_validation = snitch(tender_minimalstep_validation)
+    test_patch_tender_minimalstep_validation = snitch(patch_tender_minimalstep_validation)
 
 
 class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest, TenderResourceTestMixin):
@@ -104,6 +108,8 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest, TenderReso
     test_tender_finance_milestones = snitch(tender_finance_milestones)
     test_tender_milestones_required = snitch(tender_milestones_required)
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
+    test_tender_minimalstep_validation = snitch(tender_minimalstep_validation)
+    test_patch_tender_minimalstep_validation = snitch(patch_tender_minimalstep_validation)
 
 
 def suite():

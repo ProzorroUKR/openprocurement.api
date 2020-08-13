@@ -21,6 +21,8 @@ from openprocurement.tender.belowthreshold.tests.lot_blanks import (
     tender_features_invalid,
     get_tender_lot,
     get_tender_lots,
+    create_tender_lot_minimalstep_validation,
+    patch_tender_lot_minimalstep_validation,
 )
 from openprocurement.tender.openua.tests.lot_blanks import (
     # CompetitiveDialogueEULotFeatureBidderResourceTest
@@ -61,6 +63,8 @@ class CompetitiveDialogueEULotResourceTest(
 
     test_get_tender_lot = snitch(get_tender_lot)
     test_get_tender_lots = snitch(get_tender_lots)
+    test_create_tender_lot_minimalstep_validation = snitch(create_tender_lot_minimalstep_validation)
+    test_patch_tender_lot_minimalstep_validation = snitch(patch_tender_lot_minimalstep_validation)
 
 
 class CompetitiveDialogueEULotEdgeCasesTest(BaseCompetitiveDialogEUContentWebTest, TenderLotEdgeCasesTestMixin):

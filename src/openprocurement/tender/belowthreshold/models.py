@@ -35,7 +35,7 @@ from openprocurement.tender.core.models import (
     Question,
     Cancellation as BaseCancellation,
     Feature,
-    Lot as BaseLot,
+    LotWithMinimalStepLimitsValidation as BaseLot,
     Complaint,
 )
 
