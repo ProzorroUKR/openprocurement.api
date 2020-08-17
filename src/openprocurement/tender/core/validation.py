@@ -1977,6 +1977,10 @@ def validate_relatedItem_for_contract_document_uploading(request):
             doc_ids = [i.id
                        for i in contract.__parent__.get("documents", [])
                        if i.get("documentType") == "contractProforma"]
+            if data.get("documentType", "") == "contractData":
+                contract_id = [c.id for c in contract.documents if c.get("documentType", "") == "contract"]
+                if contract_id:
+                    doc_ids += contract_id
             if data.get("relatedItem") not in doc_ids:
                 raise_operation_error(request, "relatedItem should be one of tender contractProforma documents")
 

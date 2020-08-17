@@ -2275,23 +2275,6 @@ def patch_tender_contract_document_by_supplier(self):
 def create_contract_documents_by_render_bot(self):
     self.add_contract_proforma_document()
     with change_auth(self.app, ("Basic", ("rBot", ""))):
-        contract_data_json = {
-            "title": u"contractData.json",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/json",
-            "documentOf": "document",
-            "documentType": "contractData",
-            "relatedItem": self.proforma_doc_id
-        }
-
-        response = self.app.post_json("/tenders/{}/contracts/{}/documents".format(self.tender_id, self.contract_id),
-                                      {"data": contract_data_json})
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["data"]["documentType"], contract_data_json["documentType"])
-        self.assertEqual(response.json["data"]["relatedItem"], contract_data_json["relatedItem"])
-        self.assertEqual(response.json["data"]["documentOf"], "document")
 
         contract_pdf_json = {
             "title": u"contract.pdf",
@@ -2308,6 +2291,25 @@ def create_contract_documents_by_render_bot(self):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["data"]["documentType"], contract_pdf_json["documentType"])
         self.assertEqual(response.json["data"]["relatedItem"], contract_pdf_json["relatedItem"])
+        self.assertEqual(response.json["data"]["documentOf"], "document")
+        contract_id = response.json["data"]["id"]
+
+        contract_data_json = {
+            "title": u"contractData.json",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/json",
+            "documentOf": "document",
+            "documentType": "contractData",
+            "relatedItem": contract_id
+        }
+
+        response = self.app.post_json("/tenders/{}/contracts/{}/documents".format(self.tender_id, self.contract_id),
+                                      {"data": contract_data_json})
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["data"]["documentType"], contract_data_json["documentType"])
+        self.assertEqual(response.json["data"]["relatedItem"], contract_data_json["relatedItem"])
         self.assertEqual(response.json["data"]["documentOf"], "document")
 
 
