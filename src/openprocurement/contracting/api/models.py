@@ -127,7 +127,9 @@ def get_contract(model):
 class Document(BaseDocument):
     """ Contract Document """
 
-    documentOf = StringType(required=True, choices=["tender", "item", "lot", "contract", "change"], default="contract")
+    documentOf = StringType(required=True,
+                            choices=["tender", "item", "lot", "contract", "change", "document"],
+                            default="contract")
 
     def validate_relatedItem(self, data, relatedItem):
         if not relatedItem and data.get("documentOf") in ["item", "change"]:

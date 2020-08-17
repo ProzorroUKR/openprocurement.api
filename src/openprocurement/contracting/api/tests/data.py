@@ -85,6 +85,32 @@ del test_contract_data_wo_value_amount_net["value"]["amountNet"]
 
 documents = [
     {
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract.pdf",
+        "url": "http://localhost/get/e34c262322ff41e2bd59c3eafa901bdc?KeyID=a8968c46&Signature=GlqQYqhRk3%2FC3eT1jvOQIyT%2FlJLDsJ9NYUXUUUOOcuawVQlBFJAq7xrkveZ0pvLrYUmjGlyecw1K9sZsMOKHAA%253D%253D",
+        "format": "application/pdf",
+        "author": "renderer_bots",
+        "documentOf": "document",
+        "datePublished": "2020-08-17T09:05:20.087293+03:00",
+        "documentType": "contract",
+        "id": "45df405492a14429a475b5c3e44f400f",
+        "relatedItem": "d20fa28dc41340978b86ad562ad85860",
+        "dateModified": "2020-08-17T09:05:20.087311+03:00"
+    },
+    {
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contractData.json",
+        "url": "http://localhost/get/9870e6b6e2cf4832923b1132f49f6454?KeyID=a8968c46&Signature=D6XBAwehqKX%2FcQZDDnbkgiU64J4zV7qPi5ovM2vJ2VqlplbmMCI2xlB2AxRNJNiwEotqZdpkLP1C%2FEIBNenIBw%253D%253D",
+        "format": "application/json",
+        "author": "renderer_bots",
+        "documentOf": "document",
+        "datePublished": "2020-08-17T09:05:20.168888+03:00",
+        "documentType": "contractData",
+        "id": "ffc355b192524833b60b80ebf72c7cd6",
+        "relatedItem": "45df405492a14429a475b5c3e44f400f",
+        "dateModified": "2020-08-17T09:05:20.168906+03:00"
+    },
+    {
         "title": "contract_first_document.doc",
         "url": "http://api-sandbox.openprocurement.org/api/0.12/tenders/ce536c5f46d543ec81ffa86ce4c77c8b/contracts/1359720ade994a56b488a92f2fa577b2/documents/f4f9338cda06496f9f2e588660a5203e?download=711bc63427c444d3a0638616e559996a",
         "format": "application/msword",
