@@ -23,6 +23,7 @@ from openprocurement.tender.cfaselectionua.constants import (
     MIN_PERIOD_UNTIL_AGREEMENT_END,
     MIN_ACTIVE_CONTRACTS,
     AGREEMENT_IDENTIFIER,
+    TENDERING_DURATION,
 )
 from openprocurement.tender.cfaselectionua.models.tender import CFASelectionUATender as Tender
 from openprocurement.tender.cfaselectionua.tests.base import test_organization, test_features
@@ -1715,11 +1716,12 @@ def patch_tender_bot(self):
         response.json["data"]["lots"][0]["minimalStep"]["amount"],
         round(response.json["data"]["lots"][0]["minimalStep"]["amount"], 2),
     )
-    enquiry_period = ENQUIRY_PERIOD
-    if SANDBOX_MODE:
-        enquiry_period = ENQUIRY_PERIOD / 1440
     self.assertEqual(
-        parse_date(response.json["data"]["enquiryPeriod"]["startDate"]) + enquiry_period,
+        calculate_tender_business_date(
+            parse_date(response.json["data"]["enquiryPeriod"]["startDate"]),
+            ENQUIRY_PERIOD,
+            self.tender_class(tender)
+        ),
         parse_date(response.json["data"]["enquiryPeriod"]["endDate"]),
     )
 
@@ -1885,10 +1887,11 @@ def patch_tender_bot(self):
     )
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
 
+    tender_period_start_date = calculate_tender_business_date(get_now(), -TENDERING_DURATION)
     tender_doc = self.db.get(self.tender_id)
-    tender_doc["enquiryPeriod"]["startDate"] = get_now().isoformat()
-    tender_doc["enquiryPeriod"]["endDate"] = get_now().isoformat()
-    tender_doc["tenderPeriod"]["startDate"] = get_now().isoformat()
+    tender_doc["enquiryPeriod"]["startDate"] = tender_period_start_date.isoformat()
+    tender_doc["enquiryPeriod"]["endDate"] = tender_period_start_date.isoformat()
+    tender_doc["tenderPeriod"]["startDate"] = tender_period_start_date.isoformat()
     tender_doc["tenderPeriod"]["endDate"] = get_now().isoformat()
     self.db.save(tender_doc)
 
@@ -2576,11 +2579,12 @@ def edit_tender_in_active_enquiries(self):
         response.json["data"]["lots"][0]["minimalStep"]["amount"],
         round(response.json["data"]["lots"][0]["minimalStep"]["amount"], 2),
     )
-    enquiry_period = ENQUIRY_PERIOD
-    if SANDBOX_MODE:
-        enquiry_period = ENQUIRY_PERIOD / 1440
     self.assertEqual(
-        parse_date(response.json["data"]["enquiryPeriod"]["startDate"]) + enquiry_period,
+        calculate_tender_business_date(
+            parse_date(response.json["data"]["enquiryPeriod"]["startDate"]),
+            ENQUIRY_PERIOD,
+            self.tender_class(tender)
+        ),
         parse_date(response.json["data"]["enquiryPeriod"]["endDate"]),
     )
 

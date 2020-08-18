@@ -419,7 +419,7 @@ def two_lot_1bid_2com_1win(self):
         self.set_status("complete", {"status": "active.awarded"})
         # time travel
         tender = self.db.get(tender_id)
-        now = (get_now() - timedelta(seconds=1)).isoformat()
+        now = (get_now() - timedelta(minutes=1)).isoformat()
         for i in tender.get("awards", []):
             i["complaintPeriod"] = {"startDate": now, "endDate": now}
         self.db.save(tender)

@@ -231,20 +231,53 @@ PERIODS = {
                     - AUCTION_DURATION
                     - COMPLAINT_DURATION
                     - CLARIFICATIONS_DURATION
+                    - timedelta(days=3)
                 ),
-                "endDate": (-TENDERING_DURATION - AUCTION_DURATION - COMPLAINT_DURATION - CLARIFICATIONS_DURATION),
+                "endDate": (
+                    -TENDERING_DURATION
+                    - AUCTION_DURATION
+                    - COMPLAINT_DURATION
+                    - CLARIFICATIONS_DURATION
+                    - timedelta(days=2)
+                ),
             },
             "tenderPeriod": {
-                "startDate": (-TENDERING_DURATION - AUCTION_DURATION - COMPLAINT_DURATION - CLARIFICATIONS_DURATION),
-                "endDate": (-AUCTION_DURATION - COMPLAINT_DURATION - CLARIFICATIONS_DURATION),
+                "startDate": (
+                    -TENDERING_DURATION
+                    - AUCTION_DURATION
+                    - COMPLAINT_DURATION
+                    - CLARIFICATIONS_DURATION
+                    - timedelta(days=2)
+                ),
+                "endDate": (
+                    -AUCTION_DURATION
+                    - COMPLAINT_DURATION
+                    - CLARIFICATIONS_DURATION
+                    - timedelta(days=1)
+                ),
             },
             "auctionPeriod": {
-                "startDate": (-AUCTION_DURATION - COMPLAINT_DURATION - CLARIFICATIONS_DURATION),
-                "endDate": (-COMPLAINT_DURATION - CLARIFICATIONS_DURATION),
+                "startDate": (
+                    -AUCTION_DURATION
+                    - COMPLAINT_DURATION
+                    - CLARIFICATIONS_DURATION
+                    - timedelta(days=1)
+                ),
+                "endDate": (
+                    -COMPLAINT_DURATION
+                    - CLARIFICATIONS_DURATION
+                    - timedelta(days=1)
+                ),
             },
             "awardPeriod": {
-                "startDate": (-COMPLAINT_DURATION - CLARIFICATIONS_DURATION),
-                "endDate": (-CLARIFICATIONS_DURATION),
+                "startDate": (
+                    -COMPLAINT_DURATION
+                    - CLARIFICATIONS_DURATION
+                    - timedelta(days=1)
+                ),
+                "endDate": (
+                    -CLARIFICATIONS_DURATION
+                ),
             },
         }
     },
