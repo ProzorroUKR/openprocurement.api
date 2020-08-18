@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta
 from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist
 from schematics.types import IntType, StringType
@@ -7,34 +6,45 @@ from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from pyramid.security import Allow
 from zope.interface import implementer
-from openprocurement.api.constants import TZ, CPV_ITEMS_CLASS_FROM
-from openprocurement.api.models import\
-    BusinessOrganization, CPVClassification, Guarantee, IsoDateTimeType
+from openprocurement.api.constants import TZ
+from openprocurement.api.models import (
+    BusinessOrganization,
+    CPVClassification,
+    Guarantee,
+    IsoDateTimeType,
+)
 from openprocurement.api.models import Item as BaseItem
-from openprocurement.api.models import\
-    ListType, Period, Value
+from openprocurement.api.models import ListType, Period, Value
 from openprocurement.api.utils import get_now
-from openprocurement.api.validation import\
-    validate_classification_id, validate_cpv_group, validate_items_uniq
-from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.api.validation import (
+    validate_classification_id,
+    validate_cpv_group,
+    validate_items_uniq,
+)
+from openprocurement.tender.core.utils import calculate_tender_date
 from openprocurement.tender.core.models import (
     Contract as BaseContract,
     PeriodEndRequired,
     ProcuringEntity,
     Tender,
-    Model
-    )
-from openprocurement.tender.pricequotation.constants import PMT,\
-    QUALIFICATION_DURATION, PQ_KINDS, PROFILE_PATTERN
-from openprocurement.tender.pricequotation.interfaces\
-    import IPriceQuotationTender
+    Model,
+)
+from openprocurement.tender.openua.validation import validate_tender_period_duration
+from openprocurement.tender.pricequotation.constants import (
+    PMT,
+    QUALIFICATION_DURATION,
+    PQ_KINDS,
+    PROFILE_PATTERN,
+    TENDERING_DURATION,
+)
+from openprocurement.tender.pricequotation.interfaces import IPriceQuotationTender
 
 from openprocurement.tender.pricequotation.models import (
     Cancellation,
     Bid,
     Document,
-    Award
-    )
+    Award,
+)
 from openprocurement.tender.pricequotation.models.criterion import Criterion
 
 
@@ -272,9 +282,7 @@ class PriceQuotationTender(Tender):
             for award in self.awards:
                 if award.status == 'pending':
                     checks.append(
-                        calculate_tender_business_date(award.date,
-                                                       QUALIFICATION_DURATION,
-                                                       self)
+                        calculate_tender_date(award.date, QUALIFICATION_DURATION, self)
                     )
                 if award.status == "active" and not\
                    any([i.awardID == award.id for i in self.contracts]):
@@ -314,13 +322,8 @@ class PriceQuotationTender(Tender):
             raise ValidationError(u"period should begin after tenderPeriod")
 
     def validate_tenderPeriod(self, data, period):
-        if (
-            period
-            and period.startDate
-            and period.endDate
-            and period.endDate < calculate_tender_business_date(period.startDate, timedelta(days=2), data, True)
-        ):
-            raise ValidationError(u"the tenderPeriod cannot end earlier than 2 business days after the start")
+        if period and period.startDate and period.endDate:
+            validate_tender_period_duration(data, period, TENDERING_DURATION, working_days=True)
 
 
     def validate_profile(self, data, profile):
