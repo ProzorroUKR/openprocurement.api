@@ -51,7 +51,6 @@ from openprocurement.tender.core.constants import (
     ALP_MILESTONE_REASONS,
 )
 from openprocurement.tender.core.traversal import factory
-from openprocurement.tender.core.validation import validate_absence_of_pending_accepted_satisfied_complaints
 from openprocurement.tender.openua.constants import AUCTION_PERIOD_TIME
 from jsonpointer import JsonPointerException
 from jsonpatch import JsonPatchException, apply_patch as apply_json_patch
@@ -446,6 +445,7 @@ class CancelTenderLot(object):
 
     def __call__(self, request, cancellation):
         if cancellation.status == "active":
+            from openprocurement.tender.core.validation import validate_absence_of_pending_accepted_satisfied_complaints
             validate_absence_of_pending_accepted_satisfied_complaints(request, cancellation)
             if cancellation.relatedLot:
                 self.cancel_lot(request, cancellation)

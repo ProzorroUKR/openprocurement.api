@@ -830,7 +830,6 @@ def validate_tender_status_update_not_in_pre_qualificaton(request):
 def validate_tender_period_extension(request):
     extra_period = request.content_configurator.tendering_period_extra
     tender = request.validated["tender"]
-    from openprocurement.tender.core.utils import calculate_tender_business_date
     if calculate_tender_business_date(get_now(), extra_period, tender) > tender.tenderPeriod.endDate:
         raise_operation_error(request, "tenderPeriod should be extended by {0.days} days".format(extra_period))
 
@@ -1353,7 +1352,6 @@ def validate_update_contract_value(request, name="value", attrs=("currency",)):
 def validate_update_contract_value_net_required(request, name="value"):
     data = request.validated["data"]
     value = data.get(name)
-    from openprocurement.tender.core.utils import requested_fields_changes
     if value is not None and requested_fields_changes(request, (name, "status")):
         contract_amount_net = value.get("amountNet")
         if contract_amount_net is None:
@@ -1363,7 +1361,6 @@ def validate_update_contract_value_net_required(request, name="value"):
 def validate_update_contract_value_with_award(request):
     data = request.validated["data"]
     value = data.get("value")
-    from openprocurement.tender.core.utils import requested_fields_changes
     if value and requested_fields_changes(request, ("value", "status")):
         award = [award for award in request.validated["tender"].awards if award.id == request.context.awardID][0]
         amount = value.get("amount")
@@ -1386,7 +1383,6 @@ def validate_update_contract_value_amount(request, name="value", allow_equal=Fal
     data = request.validated["data"]
     contract_value = data.get(name)
     value = data.get("value") or data.get(name)
-    from openprocurement.tender.core.utils import requested_fields_changes
     if contract_value and requested_fields_changes(request, (name, "status")):
         amount = to_decimal(contract_value.get("amount"))
         amount_net = to_decimal(contract_value.get("amountNet"))
