@@ -5,7 +5,7 @@ from pyramid.security import Allow
 from openprocurement.api.utils import get_now, context_unpack
 from openprocurement.tender.core.utils import (
     remove_draft_bids,
-    calculate_tender_date,
+    calculate_tender_business_date,
 )
 
 from openprocurement.tender.belowthreshold.utils import add_contract
@@ -42,7 +42,7 @@ def check_award_status(request):
     awards = tender.awards
     for award in awards:
         if award.status == 'pending' and \
-            calculate_tender_date(award.date, QUALIFICATION_DURATION, tender) <= now:
+            calculate_tender_business_date(award.date, QUALIFICATION_DURATION, tender) <= now:
             award.status = 'unsuccessful'
             add_next_award(request)
         if award.status == "active" and not any([i.awardID == award.id for i in tender.contracts]):

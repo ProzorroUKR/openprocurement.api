@@ -6,7 +6,6 @@ from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.tender.openuadefense.models import Tender
 from openprocurement.tender.openuadefense.tests.periods import PERIODS
-from openprocurement.tender.openuadefense.utils import calculate_tender_business_date
 from openprocurement.tender.openua.tests.base import (
     now,
     test_features_tender_data,

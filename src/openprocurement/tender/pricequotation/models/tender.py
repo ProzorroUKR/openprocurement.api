@@ -21,7 +21,7 @@ from openprocurement.api.validation import (
     validate_cpv_group,
     validate_items_uniq,
 )
-from openprocurement.tender.core.utils import calculate_tender_date
+from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.core.models import (
     Contract as BaseContract,
     PeriodEndRequired,
@@ -282,7 +282,7 @@ class PriceQuotationTender(Tender):
             for award in self.awards:
                 if award.status == 'pending':
                     checks.append(
-                        calculate_tender_date(award.date, QUALIFICATION_DURATION, self)
+                        calculate_tender_business_date(award.date, QUALIFICATION_DURATION, self)
                     )
                 if award.status == "active" and not\
                    any([i.awardID == award.id for i in self.contracts]):
