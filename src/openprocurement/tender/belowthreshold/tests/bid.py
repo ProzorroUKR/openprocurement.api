@@ -41,6 +41,8 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_with_documents,
     # Tender2LotBidResourceTest
     patch_tender_with_bids_lots_none,
+    create_tender_bid_document_invalid_pmr,
+    update_tender_bid_document_invalid_pmr,
 )
 from openprocurement.tender.openeu.tests.bid import CreateBidMixin
 from openprocurement.tender.openeu.tests.bid import (
@@ -122,6 +124,8 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
     test_put_tender_bid_document = snitch(put_tender_bid_document)
     test_patch_tender_bid_document = snitch(patch_tender_bid_document)
     test_create_tender_bid_document_nopending = snitch(create_tender_bid_document_nopending)
+    test_create_tender_bid_document_invalid_pmr = snitch(create_tender_bid_document_invalid_pmr)
+    test_update_tender_bid_document_invalid_pmr = snitch(update_tender_bid_document_invalid_pmr)
 
 
 class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):

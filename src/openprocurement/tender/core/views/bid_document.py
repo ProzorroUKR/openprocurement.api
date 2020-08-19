@@ -7,7 +7,6 @@ from openprocurement.api.validation import (
     validate_patch_document_data,
     validate_file_upload,
 )
-from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.core.validation import (
     validate_bid_document_operation_period,
     validate_view_bid_document,
@@ -17,13 +16,6 @@ from openprocurement.tender.core.validation import (
 from openprocurement.tender.core.views.document import CoreDocumentResource
 
 
-@optendersresource(
-    name="belowThreshold:Tender Bid Documents",
-    collection_path="/tenders/{tender_id}/bids/{bid_id}/documents",
-    path="/tenders/{tender_id}/bids/{bid_id}/documents/{document_id}",
-    procurementMethodType="belowThreshold",
-    description="Tender bidder documents",
-)
 class TenderBidDocumentResource(CoreDocumentResource):
     container = "documents"
     context_name = "tender_bid"

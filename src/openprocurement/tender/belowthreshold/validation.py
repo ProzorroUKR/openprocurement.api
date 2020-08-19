@@ -194,3 +194,16 @@ def validate_put_requirement_objects(request, **kwargs):
     _validate_tender_first_revision_date(request, validation_date=CRITERION_REQUIREMENT_STATUSES_FROM)
     valid_statuses = ["active.enquiries", "active.tendering"]
     base_validate_operation_ecriteria_objects(request, valid_statuses)
+
+
+def validate_upload_documents_not_allowed_for_simple_pmr(request, **kwargs):
+    tender = request.validated["tender"]
+    upload_document_not_allowed_tender_statuses = ("active.qualification", )
+    if request.validated["tender_status"] in upload_document_not_allowed_tender_statuses:
+        if tender.get("procurementMethodRationale") == "simple":
+            raise_operation_error(
+                request,
+                "Can't upload document with {} tender status and procurementMethodRationale simple".format(
+                    upload_document_not_allowed_tender_statuses
+                ),
+            )
