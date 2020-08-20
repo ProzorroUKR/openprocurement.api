@@ -565,7 +565,11 @@ def patch_tender(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{"location": "body", "name": "tenderPeriod", "description": ["tenderPeriod should be greater than 30 days"]}],
+        [{
+            "location": "body",
+            "name": "tenderPeriod",
+            "description": ["tenderPeriod must be at least 30 full calendar days long"]
+        }],
     )
 
     response = self.app.patch_json(
@@ -766,16 +770,20 @@ def patch_tender_period(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["errors"][0]["description"], "tenderPeriod should be extended by 7 days")
-    tenderPeriod_endDate = get_now() + timedelta(days=7, seconds=10)
-    enquiryPeriod_endDate = tenderPeriod_endDate - (timedelta(minutes=10) if SANDBOX_MODE else timedelta(days=10))
+    tender_period_end_date = calculate_tender_business_date(
+        get_now(), timedelta(days=7), tender
+    ) + timedelta(seconds=10)
+    enquiry_period_end_date = calculate_tender_business_date(
+        tender_period_end_date, -timedelta(days=10), tender
+    )
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"description": "new description", "tenderPeriod": {"endDate": tenderPeriod_endDate.isoformat()}}},
+        {"data": {"description": "new description", "tenderPeriod": {"endDate": tender_period_end_date.isoformat()}}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["tenderPeriod"]["endDate"], tenderPeriod_endDate.isoformat())
-    self.assertEqual(response.json["data"]["enquiryPeriod"]["endDate"], enquiryPeriod_endDate.isoformat())
+    self.assertEqual(response.json["data"]["tenderPeriod"]["endDate"], tender_period_end_date.isoformat())
+    self.assertEqual(response.json["data"]["enquiryPeriod"]["endDate"], enquiry_period_end_date.isoformat())
 
 
 def tender_contract_period(self):

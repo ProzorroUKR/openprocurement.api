@@ -90,11 +90,11 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
 
         #### Modifying tender
 
-        tenderPeriod_endDate = get_now() + timedelta(days=15, seconds=10)
+        tender_period_end_date = get_now() + timedelta(days=16)
         with open(TARGET_DIR + 'patch-items-value-periods.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
-                {'data': {"tenderPeriod": {"endDate": tenderPeriod_endDate.isoformat()}}})
+                {'data': {"tenderPeriod": {"endDate": tender_period_end_date.isoformat()}}})
 
         with open(TARGET_DIR + 'tender-listing-after-patch.http', 'w') as self.app.file_obj:
             self.app.authorization = None
@@ -197,7 +197,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '403 Forbidden')
 
         with open(TARGET_DIR + 'update-tender-after-enqiery-with-update-periods.http', 'w') as self.app.file_obj:
-            tenderPeriod_endDate = get_now() + timedelta(days=8)
+            tender_period_end_date = get_now() + timedelta(days=8)
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
                 {'data': {
@@ -206,7 +206,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
                         "currency": u"UAH"
                     },
                     "tenderPeriod": {
-                        "endDate": tenderPeriod_endDate.isoformat()
+                        "endDate": tender_period_end_date.isoformat()
                     }
                 }})
             self.assertEqual(response.status, '200 OK')

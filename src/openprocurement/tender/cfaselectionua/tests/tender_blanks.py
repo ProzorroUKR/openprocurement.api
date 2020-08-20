@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import unittest
 import jmespath
 import mock
 from uuid import uuid4
@@ -13,6 +12,7 @@ from openprocurement.api.constants import (
     ROUTE_PREFIX,
     SANDBOX_MODE,
     NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
+    CPV_ITEMS_CLASS_FROM,
 )
 from openprocurement.tender.belowthreshold.tests.base import test_claim, test_cancellation
 from openprocurement.api.constants import RELEASE_2020_04_19
@@ -23,12 +23,13 @@ from openprocurement.tender.cfaselectionua.constants import (
     MIN_PERIOD_UNTIL_AGREEMENT_END,
     MIN_ACTIVE_CONTRACTS,
     AGREEMENT_IDENTIFIER,
+    TENDERING_DURATION,
 )
-from openprocurement.tender.core.constants import CANT_DELETE_PERIOD_START_DATE_FROM, CPV_ITEMS_CLASS_FROM
 from openprocurement.tender.cfaselectionua.models.tender import CFASelectionUATender as Tender
 from openprocurement.tender.cfaselectionua.tests.base import test_organization, test_features
 
 # TenderTest
+from openprocurement.tender.core.utils import calculate_tender_business_date
 
 
 def simple_add_tender(self):
@@ -1457,27 +1458,34 @@ def patch_tender(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     tender = response.json["data"]
 
-    endDate = (
-        parse_date(tender["tenderPeriod"]["startDate"]) + self.get_timedelta(days=2, hours=23, minutes=59)
-    ).isoformat()
+    end_date = calculate_tender_business_date(
+        parse_date(tender["tenderPeriod"]["startDate"]), timedelta(days=3), self.tender_class(tender)
+    ) - self.get_timedelta(minutes=1)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, owner_token),
-        {"data": {"tenderPeriod": {"endDate": endDate}}},
-        status=403,
+        {"data": {"tenderPeriod": {"endDate": end_date.isoformat()}}},
+        status=422,
     )
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"location": "body", "name": "data", "description": "tenderPeriod should last at least 3 days"}],
+        [{
+            "location": "body",
+            "name": "tenderPeriod",
+            "description": ["tenderPeriod must be at least 3 full calendar days long"]
+        }],
     )
-    endDate = (parse_date(tender["tenderPeriod"]["startDate"]) + self.get_timedelta(days=3, minutes=1)).isoformat()
+    end_date = calculate_tender_business_date(
+        parse_date(tender["tenderPeriod"]["startDate"]), timedelta(days=3), tender
+    ) + self.get_timedelta(minutes=1)
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, owner_token), {"data": {"tenderPeriod": {"endDate": endDate}}}
+        "/tenders/{}?acc_token={}".format(self.tender_id, owner_token),
+        {"data": {"tenderPeriod": {"endDate": end_date.isoformat()}}}
     )
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
-    self.assertNotEqual(endDate, tender["tenderPeriod"]["endDate"])
+    self.assertNotEqual(end_date.isoformat(), tender["tenderPeriod"]["endDate"])
 
     items = deepcopy(tender["items"])
     items[0]["quantity"] += 1
@@ -1550,13 +1558,15 @@ def patch_tender(self):
     tender = response.json["data"]
 
     startDate = (parse_date(tender["tenderPeriod"]["startDate"]) + self.get_timedelta(days=1)).isoformat()
+    endDate = (parse_date(tender["tenderPeriod"]["endDate"]) + self.get_timedelta(days=1)).isoformat()
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"tenderPeriod": {"startDate": startDate}}},
+        {"data": {"tenderPeriod": {"startDate": startDate, "endDate": endDate}}},
     )
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
     response = self.app.get("/tenders/{}".format(self.tender_id))
     tender = response.json["data"]
+    self.assertEqual(endDate, tender["tenderPeriod"]["endDate"])
     self.assertNotEqual(startDate, tender["tenderPeriod"]["startDate"])
 
     endDate = (parse_date(tender["tenderPeriod"]["endDate"]) + self.get_timedelta(days=1)).isoformat()
@@ -1582,10 +1592,12 @@ def patch_tender(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     tender = response.json["data"]
 
+    # can't startDate either
     startDate = (parse_date(tender["tenderPeriod"]["startDate"]) + self.get_timedelta(days=1)).isoformat()
+    endDate = (parse_date(tender["tenderPeriod"]["endDate"]) + self.get_timedelta(days=1)).isoformat()
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"tenderPeriod": {"startDate": startDate}}},
+        {"data": {"tenderPeriod": {"startDate": startDate, "endDate": endDate}}},
     )
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
     response = self.app.get("/tenders/{}".format(self.tender_id))
@@ -1704,11 +1716,12 @@ def patch_tender_bot(self):
         response.json["data"]["lots"][0]["minimalStep"]["amount"],
         round(response.json["data"]["lots"][0]["minimalStep"]["amount"], 2),
     )
-    enquiry_period = ENQUIRY_PERIOD
-    if SANDBOX_MODE:
-        enquiry_period = ENQUIRY_PERIOD / 1440
     self.assertEqual(
-        parse_date(response.json["data"]["enquiryPeriod"]["startDate"]) + enquiry_period,
+        calculate_tender_business_date(
+            parse_date(response.json["data"]["enquiryPeriod"]["startDate"]),
+            ENQUIRY_PERIOD,
+            self.tender_class(tender)
+        ),
         parse_date(response.json["data"]["enquiryPeriod"]["endDate"]),
     )
 
@@ -1874,10 +1887,11 @@ def patch_tender_bot(self):
     )
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
 
+    tender_period_start_date = calculate_tender_business_date(get_now(), -TENDERING_DURATION)
     tender_doc = self.db.get(self.tender_id)
-    tender_doc["enquiryPeriod"]["startDate"] = get_now().isoformat()
-    tender_doc["enquiryPeriod"]["endDate"] = get_now().isoformat()
-    tender_doc["tenderPeriod"]["startDate"] = get_now().isoformat()
+    tender_doc["enquiryPeriod"]["startDate"] = tender_period_start_date.isoformat()
+    tender_doc["enquiryPeriod"]["endDate"] = tender_period_start_date.isoformat()
+    tender_doc["tenderPeriod"]["startDate"] = tender_period_start_date.isoformat()
     tender_doc["tenderPeriod"]["endDate"] = get_now().isoformat()
     self.db.save(tender_doc)
 
@@ -2565,11 +2579,12 @@ def edit_tender_in_active_enquiries(self):
         response.json["data"]["lots"][0]["minimalStep"]["amount"],
         round(response.json["data"]["lots"][0]["minimalStep"]["amount"], 2),
     )
-    enquiry_period = ENQUIRY_PERIOD
-    if SANDBOX_MODE:
-        enquiry_period = ENQUIRY_PERIOD / 1440
     self.assertEqual(
-        parse_date(response.json["data"]["enquiryPeriod"]["startDate"]) + enquiry_period,
+        calculate_tender_business_date(
+            parse_date(response.json["data"]["enquiryPeriod"]["startDate"]),
+            ENQUIRY_PERIOD,
+            self.tender_class(tender)
+        ),
         parse_date(response.json["data"]["enquiryPeriod"]["endDate"]),
     )
 

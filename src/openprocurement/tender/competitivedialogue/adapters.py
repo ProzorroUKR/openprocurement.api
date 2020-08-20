@@ -9,7 +9,7 @@ from openprocurement.tender.competitivedialogue.models import (
     TenderStage2EU,
     TenderStage2UA,
 )
-from openprocurement.tender.openua.constants import TENDER_PERIOD as TENDERING_DURATION_UA
+from openprocurement.tender.openua.constants import TENDERING_DURATION as TENDERING_DURATION_UA
 from openprocurement.tender.openeu.constants import TENDERING_DURATION as TENDERING_DURATION_EU
 from openprocurement.tender.openeu.constants import PREQUALIFICATION_COMPLAINT_STAND_STILL
 

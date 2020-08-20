@@ -1096,7 +1096,10 @@ def validate_submit_complaint_time(request):
     if get_now() > tender.complaintPeriod.endDate:
         raise_operation_error(
             request,
-            "Can submit complaint not later than {0.days} days before tenderPeriod end".format(complaint_submit_time),
+            "Can submit complaint not later than {duration.days} "
+            "full calendar days before tenderPeriod ends".format(
+                duration=complaint_submit_time
+            ),
         )
 
 

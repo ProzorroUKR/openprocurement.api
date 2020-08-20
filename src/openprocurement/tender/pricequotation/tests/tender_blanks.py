@@ -3,25 +3,18 @@ import mock
 from uuid import uuid4
 from copy import deepcopy
 from datetime import timedelta
-from iso8601 import parse_date
 
 from openprocurement.api.utils import get_now
-from openprocurement.api import validation
 from openprocurement.api.constants import (
-    COORDINATES_REG_EXP,
     ROUTE_PREFIX,
     CPV_BLOCK_FROM,
     NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
-    RELEASE_2020_04_19,
     SANDBOX_MODE,
+    CPV_ITEMS_CLASS_FROM,
 )
-from openprocurement.tender.core.constants import CPV_ITEMS_CLASS_FROM
-from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
 from openprocurement.tender.pricequotation.models import PriceQuotationTender as Tender
-from openprocurement.tender.belowthreshold.utils import calculate_tender_business_date
 from openprocurement.tender.pricequotation.tests.base import (
     test_organization,
-    test_author,
     test_cancellation,
     test_shortlisted_firms,
     test_short_profile,
@@ -622,7 +615,7 @@ def create_tender_draft(self):
 
     self.assertEqual(
         response.json["errors"],
-        [{u'description': [u'the tenderPeriod cannot end earlier than 2 business days after the start'],
+        [{u'description': [u'tenderPeriod must be at least 2 full business days long'],
           u'location': u'body',
           u'name': u'tenderPeriod'}]
     )

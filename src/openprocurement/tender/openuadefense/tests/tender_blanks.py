@@ -4,8 +4,8 @@ from datetime import timedelta
 from iso8601 import parse_date
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization
-from openprocurement.api.constants import NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM
-from openprocurement.tender.core.models import get_now, CPV_ITEMS_CLASS_FROM
+from openprocurement.api.constants import NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM, CPV_ITEMS_CLASS_FROM
+from openprocurement.tender.core.models import get_now
 
 from openprocurement.tender.openuadefense.models import Tender
 
@@ -472,7 +472,7 @@ def patch_tender(self):
             {
                 "location": "body",
                 "name": "tenderPeriod",
-                "description": ["tenderPeriod should be greater than 6 working days"],
+                "description": ["tenderPeriod must be at least 6 full business days long"],
             }
         ],
     )
@@ -631,21 +631,21 @@ def patch_tender_ua(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["errors"][0]["description"], "tenderPeriod should be extended by 2 working days")
-    tenderPeriod_endDate = get_now() + timedelta(days=7, seconds=10)
-    # enquiryPeriod_endDate = tenderPeriod_endDate - timedelta(days=2)
+    tender_period_end_date = calculate_tender_business_date(
+        get_now(), timedelta(days=7), tender
+    ) + timedelta(seconds=10)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
         {
             "data": {
                 "value": {"amount": 501, "currency": u"UAH"},
-                "tenderPeriod": {"endDate": tenderPeriod_endDate.isoformat()},
+                "tenderPeriod": {"endDate": tender_period_end_date.isoformat()},
             }
         },
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["tenderPeriod"]["endDate"], tenderPeriod_endDate.isoformat())
-    # self.assertEqual(response.json['data']['enquiryPeriod']['endDate'], enquiryPeriod_endDate.isoformat())
+    self.assertEqual(response.json["data"]["tenderPeriod"]["endDate"], tender_period_end_date.isoformat())
 
 
 # TenderUAProcessTest

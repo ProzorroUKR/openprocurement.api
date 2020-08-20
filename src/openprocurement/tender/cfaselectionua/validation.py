@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
-from iso8601 import parse_date
+from schematics.exceptions import ValidationError
 
 from openprocurement.api.utils import error_handler, raise_operation_error, get_now
 from openprocurement.api.validation import OPERATIONS, validate_data, validate_json_data
 
-from openprocurement.tender.cfaselectionua.constants import TENDER_PERIOD_MINIMAL_DURATION
-from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.openua.validation import validate_tender_period_duration
 
 
 def validate_patch_tender_data(request):
@@ -178,7 +177,6 @@ def validate_json_data_in_active_enquiries(request):
     tender = request.validated["tender_src"]
     data = source
     if "tenderPeriod" in source and "endDate" in source["tenderPeriod"]:
-        validate_patch_tender_tenderPeriod(request)
         data["tenderPeriod"] = {"endDate": source["tenderPeriod"]["endDate"]}
 
     if len(source["items"]) != len(tender["items"]):
@@ -187,14 +185,3 @@ def validate_json_data_in_active_enquiries(request):
         raise_operation_error(request, "Can't update tender items. Items order mismatch")
 
     request.validated["data"] = data
-
-
-def validate_patch_tender_tenderPeriod(request):
-    source = request.validated["data"]
-    tender = request.validated["tender_src"]
-    startDate = tender["tenderPeriod"].get("startDate")
-    endDate = source["tenderPeriod"].get("endDate")
-
-    date = calculate_tender_business_date(parse_date(startDate), request.content_configurator.tender_period, tender)
-    if (startDate and endDate) and date > parse_date(endDate):
-        raise_operation_error(request, "tenderPeriod should last at least 3 days")

@@ -10,8 +10,8 @@ Content-Type: application/json; charset=UTF-8
     "procurementMethod": "selective", 
     "tenderID": "UA-2020-05-15-000001", 
     "tenderPeriod": {
-      "startDate": "2020-05-16T01:00:00+03:00", 
-      "endDate": "2020-05-19T01:00:00+03:00"
+      "startDate": "2020-05-17T00:00:00+03:00", 
+      "endDate": "2020-05-20T00:00:00+03:00"
     }, 
     "title": "футляри до державних нагород", 
     "lots": [
@@ -83,7 +83,7 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "dateModified": "2020-05-15T01:00:00+03:00", 
-    "next_check": "2020-05-16T01:00:00+03:00", 
+    "next_check": "2020-05-17T00:00:00+03:00", 
     "procuringEntity": {
       "kind": "general", 
       "name": "Державне управління справами", 
@@ -115,7 +115,7 @@ Content-Type: application/json; charset=UTF-8
     "awardCriteria": "lowestCost", 
     "enquiryPeriod": {
       "startDate": "2020-05-15T01:00:00+03:00", 
-      "endDate": "2020-05-16T01:00:00+03:00"
+      "endDate": "2020-05-17T00:00:00+03:00"
     }, 
     "owner": "broker", 
     "agreements": [

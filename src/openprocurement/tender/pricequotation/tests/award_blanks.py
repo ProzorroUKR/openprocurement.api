@@ -5,6 +5,8 @@ import mock
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.pricequotation.constants import QUALIFICATION_DURATION
 from openprocurement.tender.pricequotation.tests.base import test_organization
 
 
@@ -505,7 +507,7 @@ def check_tender_award_disqualification(self):
     self.assertEqual(response.json["data"]["bid_id"], sorted_bids[0]["id"])
 
     # wait 2 days
-    date = (get_now() - timedelta(days=2)).isoformat()
+    date = calculate_tender_business_date(get_now(), -QUALIFICATION_DURATION).isoformat()
     self.tender_document_patch = self.db.get(self.tender_id)
     self.tender_document_patch['awards'][0]['date'] = date
     self.save_changes()

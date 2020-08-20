@@ -20,8 +20,7 @@ from openprocurement.tender.cfaselectionua.traversal import agreement_factory
 from openprocurement.tender.core.utils import (
     cleanup_bids_for_cancelled_lots,
     remove_draft_bids,
-    calculate_tender_business_date,
-    get_first_revision_date,
+    calculate_tender_date,
     CancelTenderLot as BaseCancelTenderLot,
 )
 from functools import partial
@@ -329,7 +328,7 @@ def check_period_and_items(request, tender):
         return
 
     delta = -request.content_configurator.agreement_expired_until
-    date = calculate_tender_business_date(tender.agreements[0].period.endDate, delta, tender)
+    date = calculate_tender_date(tender.agreements[0].period.endDate, delta, tender)
     if get_now() > date:
         drop_draft_to_unsuccessful(request, tender, AGREEMENT_EXPIRED)
     elif tender.agreements[0].period.startDate > tender.date:

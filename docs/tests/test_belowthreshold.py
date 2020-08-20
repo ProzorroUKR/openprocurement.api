@@ -167,11 +167,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         self.tick()
 
-        tenderPeriod_endDate = get_now() + timedelta(days=15, seconds=10)
+        tender_period_end_date = get_now() + timedelta(days=15, seconds=10)
         with open(TARGET_DIR + 'tutorial/patch-items-value-periods.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
-                {'data': {"tenderPeriod": {"endDate": tenderPeriod_endDate.isoformat()}}})
+                {'data': {"tenderPeriod": {"endDate": tender_period_end_date.isoformat()}}})
 
         with open(TARGET_DIR + 'tutorial/tender-listing-after-patch.http', 'w') as self.app.file_obj:
             self.app.authorization = None

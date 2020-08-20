@@ -62,9 +62,10 @@ COORDINATES_REG_EXP = re.compile(r"-?\d{1,3}\.\d+|-?\d{1,3}")
 
 SCALE_CODES = ["micro", "sme", "mid", "large", "not specified"]
 
+NORMALIZE_SHOULD_START_AFTER = datetime(2016, 7, 16, tzinfo=TZ)
+
 CPV_ITEMS_CLASS_FROM = datetime(2017, 1, 1, tzinfo=TZ)
 CPV_BLOCK_FROM = datetime(2017, 6, 2, tzinfo=TZ)
-
 
 def get_default_constants_file_path():
     return os.path.join(os.path.dirname(os.path.realpath(__file__)), "constants.ini")
@@ -147,3 +148,4 @@ VALIDATE_ADDRESS_FROM = get_constant(CONSTANTS_CONFIG, "VALIDATE_ADDRESS_FROM")
 # address and kind fields required for procuringEntity and buyers objects in plan
 PLAN_ADDRESS_KIND_REQUIRED_FROM = get_constant(CONSTANTS_CONFIG, "PLAN_ADDRESS_KIND_REQUIRED_FROM")
 
+NORMALIZED_TENDER_PERIOD_FROM = get_constant(CONSTANTS_CONFIG, "NORMALIZED_TENDER_PERIOD_FROM")

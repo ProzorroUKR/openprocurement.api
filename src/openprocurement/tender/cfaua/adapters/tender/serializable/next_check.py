@@ -49,10 +49,12 @@ class SerializableTenderNextCheck(Serializable):
         ):
             if now < obj.auctionPeriod.startDate:
                 checks.append(obj.auctionPeriod.startDate.astimezone(configurator.tz))
-            elif now < calc_auction_end_time(obj.numberOfBids, obj.auctionPeriod.startDate).astimezone(configurator.tz):
-                checks.append(
-                    calc_auction_end_time(obj.numberOfBids, obj.auctionPeriod.startDate).astimezone(configurator.tz)
-                )
+            else:
+                auction_end_time = calc_auction_end_time(
+                    obj.numberOfBids, obj.auctionPeriod.startDate
+                ).astimezone(configurator.tz)
+                if now < auction_end_time:
+                    checks.append(auction_end_time)
         elif obj.lots and obj.status == "active.auction":
             for lot in obj.lots:
                 if (
@@ -64,12 +66,12 @@ class SerializableTenderNextCheck(Serializable):
                     continue
                 if now < lot.auctionPeriod.startDate:
                     checks.append(lot.auctionPeriod.startDate.astimezone(configurator.tz))
-                elif now < calc_auction_end_time(lot.numberOfBids, lot.auctionPeriod.startDate).astimezone(
-                    configurator.tz
-                ):
-                    checks.append(
-                        calc_auction_end_time(lot.numberOfBids, lot.auctionPeriod.startDate).astimezone(configurator.tz)
-                    )
+                else:
+                    auction_end_time = calc_auction_end_time(
+                        lot.numberOfBids, lot.auctionPeriod.startDate
+                    ).astimezone(configurator.tz)
+                    if now < auction_end_time:
+                        checks.append(auction_end_time)
         elif obj.status == "active.qualification.stand-still" and obj.awardPeriod and obj.awardPeriod.endDate:
             active_lots = [lot.id for lot in obj.lots if lot.status == "active"] if obj.lots else [None]
             if not any(

@@ -32,7 +32,7 @@ requires = [
     "zope.component",
     "zope.configuration",
     "esculator",
-    "dateorro>=0.0.2",
+    "dateorro>=0.0.3",
     "configparser",
     "sentry-sdk",
 ]

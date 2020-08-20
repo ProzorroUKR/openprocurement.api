@@ -85,7 +85,7 @@ def test_post_cancellation(app, tender_data):
 
     if get_now() < RELEASE_2020_04_19:
         with mock.patch(
-            "openprocurement.tender.core.utils.validate_absence_of_pending_accepted_satisfied_complaints",
+            "openprocurement.tender.core.validation.validate_absence_of_pending_accepted_satisfied_complaints",
             mock_validate
         ):
             cancellation = dict(**test_cancellation)
@@ -109,10 +109,10 @@ def test_patch_cancellation(app, tender_data):
     def mock_validate(request, cancellation=None):
         raise_operation_error(request, "hello")
 
-    def patch(data):
-        return "openprocurement.tender.core.utils.validate_absence_of_pending_accepted_satisfied_complaints"
-
-    with mock.patch(patch(tender_data), mock_validate):
+    with mock.patch(
+        "openprocurement.tender.core.validation.validate_absence_of_pending_accepted_satisfied_complaints",
+        mock_validate
+    ):
         if get_now() < RELEASE_2020_04_19:
             response = app.post_json(
                 "/tenders/{}/cancellations?acc_token={}".format(tender["id"], tender_token),

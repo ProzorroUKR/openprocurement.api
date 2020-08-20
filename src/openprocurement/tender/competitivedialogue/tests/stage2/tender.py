@@ -97,7 +97,7 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
     test_tender_features_invalid = snitch(tender_features_invalid)
     test_tender_features = snitch(tender_features)
     test_patch_tender = snitch(patch_tender_1)
-    test_patch_tender_ua = snitch(patch_tender_eu)
+    test_patch_tender_eu = snitch(patch_tender_eu)
     test_dateModified_tender = snitch(dateModified_tender)
     test_tender_not_found = snitch(tender_not_found)
     test_guarantee = snitch(guarantee)

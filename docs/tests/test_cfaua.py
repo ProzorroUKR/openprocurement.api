@@ -98,7 +98,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         owner_token = response.json['access']['token']
         self.tender_id = tender['id']
 
-        self.set_status('active.enquiries')
+        self.set_status('active.tendering', startend="enquiry_end")
 
         with open(TARGET_DIR + 'blank-tender-view.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}'.format(tender['id']))
@@ -112,11 +112,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         # Modifying tender
 
-        tenderPeriod_endDate = get_now() + timedelta(days=30, seconds=10)
+        tender_period_end_date = get_now() + timedelta(days=30, seconds=10)
         with open(TARGET_DIR + 'patch-items-value-periods.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
-                {'data': {"tenderPeriod": {"endDate": tenderPeriod_endDate.isoformat()}}})
+                {'data': {"tenderPeriod": {"endDate": tender_period_end_date.isoformat()}}})
 
         with open(TARGET_DIR + 'tender-listing-after-patch.http', 'w') as self.app.file_obj:
             self.app.authorization = None
@@ -193,7 +193,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 self.tender_id, question_id))
             self.assertEqual(response.status, '200 OK')
 
-        self.time_shift('enquiryPeriod_ends')
+        self.set_enquiry_period_end()
 
         self.app.authorization = ('Basic', ('broker', ''))
 
@@ -205,7 +205,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         with open(TARGET_DIR + 'update-tender-after-enqiery-with-update-periods.http',
                   'w') as self.app.file_obj:
-            tenderPeriod_endDate = get_now() + timedelta(days=8)
+            tender_period_end_date = get_now() + timedelta(days=8)
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
                 {'data': {
@@ -214,7 +214,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                         "currency": u"UAH"
                     },
                     "tenderPeriod": {
-                        "endDate": tenderPeriod_endDate.isoformat()
+                        "endDate": tender_period_end_date.isoformat()
                     }
                 }})
             self.assertEqual(response.status, '200 OK')

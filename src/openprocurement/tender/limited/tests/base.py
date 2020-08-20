@@ -4,6 +4,7 @@ from copy import deepcopy
 from datetime import datetime, timedelta
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.utils import get_now
+from openprocurement.tender.limited.models import ReportingTender
 from openprocurement.tender.belowthreshold.tests.base import test_tender_data as base_data
 from openprocurement.tender.belowthreshold.tests.base import BaseTenderWebTest as BaseBaseTenderWebTest
 
@@ -64,11 +65,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         "complete"
     )  # status, in which operations with tender's contract documents (adding, updating) are forbidden
 
-    def update_status(self, status, extra=None):
-        self.tender_document_patch = {"status": status}
-        if extra:
-            self.tender_document_patch.update(extra)
-        self.save_changes()
+    periods = {}
 
     def set_all_awards_complaint_period_end(self):
         now = get_now()

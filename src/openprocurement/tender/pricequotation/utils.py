@@ -1,16 +1,13 @@
 # -*- coding: utf-8 -*-
 from collections import defaultdict
-from datetime import timedelta
 from logging import getLogger
 from pyramid.security import Allow
-from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now, context_unpack
 from openprocurement.tender.core.utils import (
     remove_draft_bids,
     calculate_tender_business_date,
 )
 
-from openprocurement.tender.core.utils import get_first_revision_date
 from openprocurement.tender.belowthreshold.utils import add_contract
 from openprocurement.tender.pricequotation.constants import QUALIFICATION_DURATION
 
@@ -44,10 +41,8 @@ def check_award_status(request):
     now = get_now()
     awards = tender.awards
     for award in awards:
-        if award.status == 'pending' and\
-           calculate_tender_business_date(award.date,
-                                          QUALIFICATION_DURATION,
-                                          tender) <= now:
+        if award.status == 'pending' and \
+            calculate_tender_business_date(award.date, QUALIFICATION_DURATION, tender) <= now:
             award.status = 'unsuccessful'
             add_next_award(request)
         if award.status == "active" and not any([i.awardID == award.id for i in tender.contracts]):

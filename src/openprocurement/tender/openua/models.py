@@ -2,7 +2,6 @@
 from uuid import uuid4
 
 from datetime import time, timedelta, datetime
-from iso8601 import parse_date
 from zope.interface import implementer
 from pyramid.security import Allow
 from schematics.exceptions import ValidationError
@@ -10,7 +9,7 @@ from schematics.transforms import whitelist, blacklist
 from schematics.types import StringType, BooleanType, MD5Type, BaseType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
-from openprocurement.api.utils import get_now, get_first_revision_date
+from openprocurement.api.utils import get_now, get_first_revision_date, is_new_created
 from openprocurement.api.models import (
     schematics_default_role,
     schematics_embedded_role,
@@ -51,13 +50,14 @@ from openprocurement.tender.core.models import (
     QualificationMilestoneListMixin,
 )
 from openprocurement.tender.core.utils import (
-    rounding_shouldStartAfter,
+    normalize_should_start_after,
     has_unanswered_questions,
     has_unanswered_complaints,
     calc_auction_end_time,
     calculate_tender_business_date,
     calculate_complaint_business_date,
-    calculate_clarifications_business_date,
+    calculate_clarif_business_date,
+    check_auction_period,
     extend_next_check_by_complaint_period_ends,
 )
 from openprocurement.tender.core.validation import validate_lotvalue_value, validate_relatedlot
@@ -65,11 +65,15 @@ from openprocurement.tender.belowthreshold.models import Tender as BaseTender
 from openprocurement.tender.openua.constants import (
     ENQUIRY_STAND_STILL_TIME,
     COMPLAINT_SUBMIT_TIME,
-    TENDER_PERIOD,
+    TENDERING_DURATION,
     ENQUIRY_PERIOD_TIME,
-    AUCTION_PERIOD_TIME,
     PERIOD_END_REQUIRED_FROM,
 )
+from openprocurement.tender.openua.validation import (
+    validate_tender_period_duration,
+    validate_tender_period_start_date,
+)
+
 
 
 class IAboveThresholdUATender(ITender):
@@ -98,7 +102,7 @@ class TenderAuctionPeriod(Period):
             ]
             decision_dates.append(tender.tenderPeriod.endDate)
             start_after = max(decision_dates)
-        return rounding_shouldStartAfter(start_after, tender).isoformat()
+        return normalize_should_start_after(start_after, tender).isoformat()
 
 
 class PeriodEndRequired(BasePeriodEndRequired):
@@ -624,33 +628,32 @@ class Tender(BaseTender):
         return acl
 
     def validate_enquiryPeriod(self, data, period):
-        # for deactivate validation to enquiryPeriod from parent tender
+        # for deactivate validation to enquiryPeriod from parent class
         return
 
     def validate_tenderPeriod(self, data, period):
-        # data['_rev'] is None when tender was created just now
-        if not data["_rev"] and calculate_tender_business_date(get_now(), -timedelta(minutes=10)) >= period.startDate:
-            raise ValidationError(u"tenderPeriod.startDate should be in greater than current date")
-        if period and calculate_tender_business_date(period.startDate, TENDER_PERIOD, data) > period.endDate:
-            raise ValidationError(u"tenderPeriod should be greater than 15 days")
+        if period:
+            if is_new_created(data):
+                validate_tender_period_start_date(data, period)
+            validate_tender_period_duration(data, period, TENDERING_DURATION)
 
     @serializable(serialized_name="enquiryPeriod", type=ModelType(EnquiryPeriod))
     def tender_enquiryPeriod(self):
-        endDate = calculate_tender_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME, self)
-        clarificationsUntil = calculate_clarifications_business_date(endDate, ENQUIRY_STAND_STILL_TIME, self, True)
+        end_date = calculate_tender_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME, self)
+        clarifications_until = calculate_clarif_business_date(end_date, ENQUIRY_STAND_STILL_TIME, self, True)
         return EnquiryPeriod(
             dict(
                 startDate=self.tenderPeriod.startDate,
-                endDate=endDate,
+                endDate=end_date,
                 invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
-                clarificationsUntil=clarificationsUntil,
+                clarificationsUntil=clarifications_until,
             )
         )
 
     @serializable(type=ModelType(Period))
     def complaintPeriod(self):
-        endDate = calculate_complaint_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME, self)
-        return Period(dict(startDate=self.tenderPeriod.startDate, endDate=endDate))
+        end_date = calculate_complaint_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME, self)
+        return Period(dict(startDate=self.tenderPeriod.startDate, endDate=end_date))
 
     @serializable
     def numberOfBids(self):
@@ -677,8 +680,12 @@ class Tender(BaseTender):
         ):
             if now < self.auctionPeriod.startDate:
                 checks.append(self.auctionPeriod.startDate.astimezone(TZ))
-            elif now < calc_auction_end_time(self.numberOfBids, self.auctionPeriod.startDate).astimezone(TZ):
-                checks.append(calc_auction_end_time(self.numberOfBids, self.auctionPeriod.startDate).astimezone(TZ))
+            else:
+                auction_end_time = calc_auction_end_time(
+                    self.numberOfBids, self.auctionPeriod.startDate
+                ).astimezone(TZ)
+                if now < auction_end_time:
+                    checks.append(auction_end_time)
         elif self.lots and self.status == "active.auction":
             for lot in self.lots:
                 if (
@@ -690,8 +697,12 @@ class Tender(BaseTender):
                     continue
                 if now < lot.auctionPeriod.startDate:
                     checks.append(lot.auctionPeriod.startDate.astimezone(TZ))
-                elif now < calc_auction_end_time(lot.numberOfBids, lot.auctionPeriod.startDate).astimezone(TZ):
-                    checks.append(calc_auction_end_time(lot.numberOfBids, lot.auctionPeriod.startDate).astimezone(TZ))
+                else:
+                    auction_end_time = calc_auction_end_time(
+                        lot.numberOfBids, lot.auctionPeriod.startDate
+                    ).astimezone(TZ)
+                    if now < auction_end_time:
+                        checks.append(auction_end_time)
         elif (
             not self.lots
             and self.status == "active.awarded"
@@ -743,28 +754,15 @@ class Tender(BaseTender):
 
         return min(checks).isoformat() if checks else None
 
-    def invalidate_bids_data(self):
-        if (
-            self.auctionPeriod
-            and self.auctionPeriod.startDate
-            and self.auctionPeriod.shouldStartAfter
-            and self.auctionPeriod.startDate
-            > calculate_tender_business_date(
-                parse_date(self.auctionPeriod.shouldStartAfter), AUCTION_PERIOD_TIME, self, True
-            )
-        ):
+    def check_auction_time(self):
+        if check_auction_period(self.auctionPeriod, self):
             self.auctionPeriod.startDate = None
         for lot in self.lots:
-            if (
-                lot.auctionPeriod
-                and lot.auctionPeriod.startDate
-                and lot.auctionPeriod.shouldStartAfter
-                and lot.auctionPeriod.startDate
-                > calculate_tender_business_date(
-                    parse_date(lot.auctionPeriod.shouldStartAfter), AUCTION_PERIOD_TIME, self, True
-                )
-            ):
+            if check_auction_period(lot.auctionPeriod, self):
                 lot.auctionPeriod.startDate = None
+
+    def invalidate_bids_data(self):
+        self.check_auction_time()
         self.enquiryPeriod.invalidationDate = get_now()
         for bid in self.bids:
             if bid.status not in ["deleted", "draft"]:

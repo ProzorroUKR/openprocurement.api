@@ -1,7 +1,7 @@
+from openprocurement.api.constants import CPV_ITEMS_CLASS_FROM
 from openprocurement.api.validation import validate_cpv_group
 from schematics.exceptions import ValidationError
 from openprocurement.api.utils import get_now
-from openprocurement.tender.core.constants import CPV_ITEMS_CLASS_FROM
 
 
 class TenderCPVItemsValidate(object):

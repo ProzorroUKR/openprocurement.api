@@ -17,7 +17,7 @@ Content-Type: application/json; charset=UTF-8
     "enquiryPeriod": {
       "startDate": "2020-04-04T01:00:00+03:00", 
       "clarificationsUntil": "2020-04-30T00:00:00+03:00", 
-      "endDate": "2020-04-25T01:00:00+03:00", 
+      "endDate": "2020-04-25T00:00:00+03:00", 
       "invalidationDate": "2020-05-15T01:00:00+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
