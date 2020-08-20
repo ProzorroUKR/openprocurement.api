@@ -56,7 +56,6 @@ class CancelTenderLot(BaseTenderLot):
         cancelled_lots, cancelled_items, cancelled_features = self._get_cancelled_lot_objects(tender)
 
         self._invalidate_lot_bids(tender, cancelled_lots=cancelled_lots, cancelled_features=cancelled_features)
-        self._cancel_lot_qualifications(tender, cancelled_lots=cancelled_lots)
         self._lot_update_check_tender_status(request, tender)
         self._lot_update_check_next_award(request, tender)
 
@@ -105,12 +104,6 @@ class CancelTenderLot(BaseTenderLot):
                 bid.lotValues = [i for i in bid.lotValues if i.relatedLot not in cancelled_lots]
                 if not bid.lotValues and bid.status in ["pending", "active"]:
                     bid.status = "invalid" if tender.status == "active.tendering" else "invalid.pre-qualification"
-
-    @staticmethod
-    def _cancel_lot_qualifications(tender, cancelled_lots):
-        for qualification in tender.qualifications:
-            if qualification.lotID in cancelled_lots:
-                qualification.status = "cancelled"
 
 
 def check_initial_bids_count(request):
