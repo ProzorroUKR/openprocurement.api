@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 import os
-from copy import deepcopy
+
+from datetime import datetime
 from uuid import uuid4
 
-from datetime import timedelta
-
-from openprocurement.api.constants import SANDBOX_MODE, RELEASE_2020_04_19
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.tender.core.tests.base import BaseCoreWebTest
 from openprocurement.api.constants import TZ
 from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
-from openprocurement.tender.pricequotation.constants import PMT
+from openprocurement.tender.pricequotation.models import PriceQuotationTender
 from openprocurement.tender.pricequotation.tests.data import *
 
 
@@ -46,6 +44,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
     periods = PERIODS
     meta_initial_bids = test_bids
     init_awards = True
+    tender_class = PriceQuotationTender
 
     def generate_awards(self, status, startend):
         bids = self.tender_document.get("bids", []) or self.tender_document_patch.get("bids", [])
@@ -161,16 +160,8 @@ class BaseTenderWebTest(BaseCoreWebTest):
             self.generate_awards(status, startend)
             self.activate_awards()
             self.generate_contract()
-        return self.get_tender("chronograph")
-
-    def update_periods(self, status, startend):
-        for period in self.periods[status][startend]:
-            self.tender_document_patch.update({period: {}})
-            for date in self.periods[status][startend][period]:
-                self.tender_document_patch[period][date] = (
-                    self.now + self.periods[status][startend][period][date]
-                ).isoformat()
         self.save_changes()
+        return self.get_tender("chronograph")
 
     def patch_tender_bot(self):
         items = deepcopy(self.initial_data["items"])
