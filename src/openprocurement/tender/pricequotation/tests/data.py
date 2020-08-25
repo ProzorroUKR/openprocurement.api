@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from copy import deepcopy
-from datetime import datetime, timedelta
+from datetime import timedelta
 from openprocurement.api.utils import get_now
 from openprocurement.tender.pricequotation.constants import PMT
-from openprocurement.api.constants import SANDBOX_MODE, RELEASE_2020_04_19
+from openprocurement.api.constants import SANDBOX_MODE
 
 
 now = get_now()
@@ -15,12 +15,12 @@ PERIODS = {
         "start": {
             "tenderPeriod": {
                 "startDate": -timedelta(),
-                "endDate": timedelta(days=5)
+                "endDate": timedelta(days=6)
             },
         },
         "end": {
             "tenderPeriod": {
-                "startDate": - timedelta(days=5),
+                "startDate": - timedelta(days=6),
                 "endDate": timedelta()
             },
         },
