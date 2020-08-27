@@ -86,4 +86,4 @@ git+git://github.com/ProzorroUKR/openprocurement.archivarius.core.git@1.0.2dp
 git+git://github.com/ProzorroUKR/openprocurement.archivarius.tenders.git@1.0.1dp
 git+git://github.com/ProzorroUKR/openprocurement.archivarius.plans.git@1.0.1dp
 git+git://github.com/ProzorroUKR/openprocurement.archivarius.contracts.git@1.0.1dp
-git+git://github.com/ProzorroUKR/couchdb-python.git@1.2-bad-status-line
+git+git://github.com/ProzorroUKR/couchdb-python.git@1.2-bad-status-line#egg=couchdb
