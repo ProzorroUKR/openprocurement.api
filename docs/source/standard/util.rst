@@ -227,9 +227,10 @@ Schema
     |ocdsDescription|
     The currency in 3-letter ISO 4217 format.
 
-.. _OrganizationReference:
 
-OrganizationReference
+.. _BankAccount:
+
+BankAccount
 =====================
 
 Schema
@@ -238,7 +239,26 @@ Schema
 :id:
     string, required
 
-    An id used to cross-reference the entry in the parties section that contains full information on this organization or entity;
+    The unique identifier for BankAccount.
+
+:scheme:
+    string, required
+
+    Possible string values are:
+
+     * `IBAN` - International Bank Account Number
+
+.. _OrganizationReference:
+
+OrganizationReference
+=====================
+
+Schema
+------
+
+
+:bankAccount:
+    string, :ref:`BankAccount`, required
 
 :name:
     string, required
