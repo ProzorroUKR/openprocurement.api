@@ -141,12 +141,9 @@ deploy_master:
 deploy_sandbox2:
   tags:
     - k8s-sandbox
-  stage: 
-    - deploy
+  stage: deploy
   only:
     - tags
-  when:
-    - manual
   script:
     - git config --global user.email "gitlab@gitlab.dc.prozorro.gov.ua"
     - git config --global user.name "GitLab CI/CD Bot"
@@ -157,6 +154,7 @@ deploy_sandbox2:
     - git add sandbox/values.yaml
     - git commit -m "API/Public API image tag changed to $CI_COMMIT_TAG"
     - git push origin master
+  when: manual    
 
 
 robot_tests:
