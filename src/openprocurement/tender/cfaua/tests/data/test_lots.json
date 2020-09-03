@@ -2,7 +2,7 @@
     {
         "minimalStep": {
             "currency": "UAH",
-            "amount": 35
+            "amount": 15
         },
         "description": "lot description",
         "value": {

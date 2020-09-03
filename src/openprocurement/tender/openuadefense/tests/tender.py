@@ -12,6 +12,8 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_with_inn_before,
     tender_milestones_required,
     patch_tender_lots_none,
+    tender_minimalstep_validation,
+    patch_tender_minimalstep_validation,
 )
 
 from openprocurement.tender.openua.tests.tender import TenderUaProcessTestMixin
@@ -58,6 +60,8 @@ class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin):
     test_create_tender_with_inn_before = snitch(create_tender_with_inn_before)
     test_tender_milestones_required = snitch(tender_milestones_required)
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
+    test_tender_minimalstep_validation = snitch(tender_minimalstep_validation)
+    test_patch_tender_minimalstep_validation = snitch(patch_tender_minimalstep_validation)
 
 
 class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):

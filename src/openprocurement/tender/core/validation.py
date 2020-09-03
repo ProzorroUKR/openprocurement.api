@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from collections import defaultdict
+from math import floor, ceil
 from decimal import Decimal, ROUND_UP
 
 from schematics.types import BaseType
@@ -21,7 +22,8 @@ from openprocurement.api.constants import (
     ATC_SCHEME,
     INN_SCHEME,
     GMDN_CPV_PREFIXES,
-    RELEASE_2020_04_19
+    RELEASE_2020_04_19,
+    MINIMAL_STEP_VALIDATION_FROM,
 )
 from openprocurement.api.utils import (
     get_now,
@@ -34,6 +36,7 @@ from openprocurement.api.utils import (
     check_document_batch,
     handle_data_exceptions,
     get_first_revision_date,
+    get_root,
 )
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF, FIRST_STAGE_PROCUREMENT_TYPES
 from openprocurement.tender.core.utils import (
@@ -43,6 +46,11 @@ from openprocurement.tender.core.utils import (
 )
 from openprocurement.planning.api.utils import extract_plan_adapter
 from schematics.exceptions import ValidationError
+
+# Decided in CS-8167
+MINIMAL_STEP_VALIDATION_PRESCISSION = 2
+MINIMAL_STEP_VALIDATION_LOWER_LIMIT = 0.005
+MINIMAL_STEP_VALIDATION_UPPER_LIMIT = 0.03
 
 
 def validate_tender_data(request):
@@ -672,7 +680,7 @@ def validate_bid_value(tender, value):
 
 
 def validate_minimalstep(data, value):
-    if value and value.amount and data.get("value"):
+    if value and value.amount is not None and data.get("value"):
         if data.get("value").amount < value.amount:
             raise ValidationError(u"value should be less than value of tender")
         if data.get("value").currency != value.currency:
@@ -681,6 +689,25 @@ def validate_minimalstep(data, value):
             raise ValidationError(
                 u"valueAddedTaxIncluded should be identical " u"to valueAddedTaxIncluded of value of tender"
             )
+        if not data.get("lots"):
+            validate_minimalstep_limits(data, value, is_tender=True)
+
+
+def validate_minimalstep_limits(data, value, is_tender=False):
+    if value and value.amount is not None and data.get("value"):
+        tender = data if is_tender else get_root(data["__parent__"])
+        tender_created = get_first_revision_date(tender, default=get_now())
+        if tender_created > MINIMAL_STEP_VALIDATION_FROM:
+            precision_multiplier = 10**MINIMAL_STEP_VALIDATION_PRESCISSION
+            lower_minimalstep = (floor(float(data.get("value").amount)
+                                       * MINIMAL_STEP_VALIDATION_LOWER_LIMIT * precision_multiplier)
+                                 / precision_multiplier)
+            higher_minimalstep = (ceil(float(data.get("value").amount)
+                                       * MINIMAL_STEP_VALIDATION_UPPER_LIMIT * precision_multiplier)
+                                  / precision_multiplier)
+            if higher_minimalstep < value.amount or value.amount < lower_minimalstep:
+                raise ValidationError(
+                    u"minimalstep must be between 0.5% and 3% of value (with 2 digits precision).")
 
 
 # cancellation

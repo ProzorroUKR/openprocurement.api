@@ -60,7 +60,7 @@ Content-Type: application/json; charset=UTF-8
     "title": "футляри до державних нагород", 
     "minimalStep": {
       "currency": "UAH", 
-      "amount": 35.0, 
+      "amount": 15.0, 
       "valueAddedTaxIncluded": true
     }, 
     "items": [
@@ -141,7 +141,7 @@ Content-Type: application/json; charset=UTF-8
         "title": "lot title", 
         "minimalStep": {
           "currency": "UAH", 
-          "amount": 35.0, 
+          "amount": 15.0, 
           "valueAddedTaxIncluded": true
         }, 
         "value": {

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import mock
 from copy import deepcopy
 from datetime import timedelta
 from email.header import Header
@@ -130,7 +131,7 @@ def create_tender_lot_invalid(self):
                 "title": "lot title",
                 "description": "lot description",
                 "value": {"amount": "500.0"},
-                "minimalStep": {"amount": "100.0", "currency": "USD"},
+                "minimalStep": {"amount": "15.0", "currency": "USD"},
             }
         },
     )
@@ -141,7 +142,7 @@ def create_tender_lot_invalid(self):
     lots = response.json["data"]
     self.assertEqual(len(lots), 1)
     self.assertEqual(lots[0]["minimalStep"]["currency"], "UAH")
-    self.assertEqual(lots[0]["minimalStep"]["amount"], 100)
+    self.assertEqual(lots[0]["minimalStep"]["amount"], 15)
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
@@ -286,6 +287,29 @@ def create_tender_lot(self):
     )
 
 
+def create_tender_lot_minimalstep_validation(self):
+    data = deepcopy(self.test_lots_data)[0]
+    data["minimalStep"]["amount"] = 35
+    request_path = "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token)
+    with mock.patch("openprocurement.tender.core.validation.MINIMAL_STEP_VALIDATION_FROM",
+                    get_now() - timedelta(days=1)):
+        response = self.app.post_json(request_path, {"data": data}, status=422)
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [{u"description": [u"minimalstep must be between 0.5% and 3% of value (with 2 digits precision)."],
+              u"location": u"body", u"name": u"minimalStep"}],
+        )
+
+    with mock.patch("openprocurement.tender.core.validation.MINIMAL_STEP_VALIDATION_FROM",
+                    get_now() + timedelta(days=1)):
+        response = self.app.post_json(request_path, {"data": data}, status=201)
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+
+
 def patch_tender_lot(self):
     response = self.app.post_json(
         "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token), {"data": self.test_lots_data[0]}
@@ -354,6 +378,40 @@ def patch_tender_lot(self):
         response.json["errors"][0]["description"],
         "Can't update lot in current ({}) tender status".format(self.forbidden_lot_actions_status),
     )
+
+
+def patch_tender_lot_minimalstep_validation(self):
+    response = self.app.post_json(
+        "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token), {"data": self.test_lots_data[0]}
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    lot = response.json["data"]
+
+    with mock.patch("openprocurement.tender.core.validation.MINIMAL_STEP_VALIDATION_FROM",
+                    get_now() - timedelta(days=1)):
+        response = self.app.patch_json(
+            "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
+            {"data": {"minimalStep": {"amount": 100.0}}},
+            status=422,
+        )
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [{u"description": [u"minimalstep must be between 0.5% and 3% of value (with 2 digits precision)."],
+              u"location": u"body", u"name": u"minimalStep"}],
+        )
+    with mock.patch("openprocurement.tender.core.validation.MINIMAL_STEP_VALIDATION_FROM",
+                    get_now() + timedelta(days=1)):
+        response = self.app.patch_json(
+            "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
+            {"data": {"minimalStep": {"amount": 100.0}}},
+            status=200,
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
 
 
 def patch_tender_currency(self):

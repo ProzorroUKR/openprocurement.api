@@ -2,7 +2,7 @@ from openprocurement.api.roles import RolesFromCsv
 from openprocurement.tender.cfaua.models.submodels.guarantee import Guarantee
 from openprocurement.tender.cfaua.models.submodels.periods import LotAuctionPeriod
 from openprocurement.tender.cfaua.models.submodels.value import Value
-from openprocurement.tender.core.models import Lot as BaseLot
+from openprocurement.tender.core.models import LotWithMinimalStepLimitsValidation as BaseLot
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 

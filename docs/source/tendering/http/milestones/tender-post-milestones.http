@@ -37,7 +37,7 @@ DATA:
     "title": "футляри до державних нагород", 
     "minimalStep": {
       "currency": "UAH", 
-      "amount": 35
+      "amount": 15
     }, 
     "enquiryPeriod": {
       "endDate": "2020-05-22T01:00:00+03:00"
@@ -149,7 +149,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7e23f3f26faf4146
     "title": "футляри до державних нагород", 
     "minimalStep": {
       "currency": "UAH", 
-      "amount": 35.0, 
+      "amount": 15.0, 
       "valueAddedTaxIncluded": true
     }, 
     "items": [

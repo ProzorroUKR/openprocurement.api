@@ -59,6 +59,7 @@ def test_complaint_value_with_lots(app):
     test_data["lots"].append(deepcopy(test_lots[0]))
     test_data["lots"][0]["value"]["amount"] = 500
     test_data["lots"][1]["value"]["amount"] = 99999999999999
+    test_data["lots"][1]["minimalStep"]["amount"] = 2999999999999
     tender = create_tender(app, test_data)
 
     req_data = deepcopy(complaint_data)

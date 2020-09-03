@@ -10,7 +10,7 @@ from openprocurement.api.models import Period, ListType, ContactPoint as BaseCon
 from openprocurement.tender.core.models import (
     ProcuringEntity as BaseProcuringEntity,
     EnquiryPeriod,
-    Lot as BaseLot,
+    LotWithMinimalStepLimitsValidation as BaseLot,
     validate_lots_uniq,
     get_tender,
 )

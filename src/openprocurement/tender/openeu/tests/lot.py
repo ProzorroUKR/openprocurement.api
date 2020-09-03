@@ -11,6 +11,10 @@ from openprocurement.tender.belowthreshold.tests.lot import (
 )
 
 from openprocurement.tender.belowthreshold.tests.base import test_author
+from openprocurement.tender.belowthreshold.tests.lot_blanks import (
+    patch_tender_lot_minimalstep_validation,
+    create_tender_lot_minimalstep_validation,
+)
 
 from openprocurement.tender.openua.tests.lot_blanks import (
     # TenderLotResourceTest
@@ -61,6 +65,8 @@ class TenderLotResourceTest(BaseTenderContentWebTest, TenderLotResourceTestMixin
 
     test_get_tender_lot = snitch(get_tender_lot)
     test_get_tender_lots = snitch(get_tender_lots)
+    test_create_tender_lot_minimalstep_validation = snitch(create_tender_lot_minimalstep_validation)
+    test_patch_tender_lot_minimalstep_validation = snitch(patch_tender_lot_minimalstep_validation)
 
 
 class TenderLotEdgeCasesTest(BaseTenderContentWebTest, TenderLotEdgeCasesTestMixin):

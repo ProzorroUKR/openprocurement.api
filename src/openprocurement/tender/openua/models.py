@@ -30,7 +30,7 @@ from openprocurement.tender.core.models import (
     get_tender,
     validate_lots_uniq,
     bids_validation_wrapper,
-    Lot,
+    LotWithMinimalStepLimitsValidation as Lot,
     ComplaintModelType,
     Award as BaseAward,
     Parameter as BaseParameter,

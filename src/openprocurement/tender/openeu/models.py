@@ -25,7 +25,7 @@ from openprocurement.tender.core.models import (
     ITender,
     Bid as BaseBid,
     Contract as BaseContract,
-    Lot as BaseLot,
+    LotWithMinimalStepLimitsValidation as BaseLot,
     ConfidentialDocumentModelType,
     EUConfidentialDocument,
     EUDocument,

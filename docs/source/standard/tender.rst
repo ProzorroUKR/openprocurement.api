@@ -164,7 +164,7 @@ Schema
 
    The minimal step of auction (reduction). Validation rules:
 
-   * `amount` should be less then `Tender.value.amount`
+   * `amount` should be less then `Tender.value.amount` and between 0.5% and 3% of `Tender.value.amount`
    * `currency` should either be absent or match `Tender.value.currency`
    * `valueAddedTaxIncluded` should either be absent or match `Tender.value.valueAddedTaxIncluded`
 

@@ -190,7 +190,7 @@
  ],
  "minimalStep": {
   "currency": "UAH",
-  "amount": 35.0,
+  "amount": 15.0,
   "valueAddedTaxIncluded": true
  },
  "items": [

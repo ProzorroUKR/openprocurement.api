@@ -15,6 +15,8 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     patch_tender_lots_none,
     create_tender_central,
     create_tender_central_invalid,
+    tender_minimalstep_validation,
+    patch_tender_minimalstep_validation,
 )
 
 from openprocurement.tender.openua.tests.tender import TenderUAResourceTestMixin
@@ -70,6 +72,8 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin, TenderUARes
     test_create_tender_with_inn_before = snitch(create_tender_with_inn_before)
     test_tender_milestones_required = snitch(tender_milestones_required)
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
+    test_tender_minimalstep_validation = snitch(tender_minimalstep_validation)
+    test_patch_tender_minimalstep_validation = snitch(patch_tender_minimalstep_validation)
 
     def test_patch_not_author(self):
         response = self.app.post_json("/tenders", {"data": test_tender_data})

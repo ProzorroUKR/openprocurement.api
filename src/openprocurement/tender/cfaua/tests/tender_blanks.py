@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import mock
 from datetime import timedelta
 from copy import deepcopy
 
@@ -354,6 +355,22 @@ def create_tender_invalid(self):
             }
         ],
     )
+    with mock.patch("openprocurement.tender.core.validation.MINIMAL_STEP_VALIDATION_FROM",
+                    get_now() - timedelta(days=1)):
+        data = deepcopy(self.initial_data["lots"])
+        self.initial_data["lots"][0]["minimalStep"] = {"amount": "1.0"}
+        response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
+        self.initial_data["lots"] = data
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [{u'description':
+                  [{u'minimalStep': [u'minimalstep must be between 0.5% and 3% of value (with 2 digits precision).']}],
+              u'location': u'body', u'name': u'lots'}
+             ]
+        )
 
     data = self.initial_data["items"][0].pop("additionalClassifications")
     if get_now() > CPV_ITEMS_CLASS_FROM:
@@ -741,6 +758,25 @@ def patch_tender(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["errors"][0]["description"], "Can't update tender in current (complete) status")
+
+    with mock.patch("openprocurement.tender.core.validation.MINIMAL_STEP_VALIDATION_FROM",
+                    get_now() - timedelta(days=1)):
+        lots = deepcopy(self.initial_lots)
+        lots[0]["minimalStep"]["amount"] = 123
+        response = self.app.patch_json(
+            "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
+            {"data": {"lots": lots}},
+            status=422,
+        )
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"],
+            [{u'description':
+                  [{u'minimalStep': [u'minimalstep must be between 0.5% and 3% of value (with 2 digits precision).']}],
+              u'location': u'body', u'name': u'lots'}
+             ],
+        )
 
 
 def patch_tender_period(self):

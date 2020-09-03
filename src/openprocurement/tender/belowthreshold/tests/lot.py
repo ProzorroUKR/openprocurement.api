@@ -40,6 +40,8 @@ from openprocurement.tender.belowthreshold.tests.lot_blanks import (
     proc_2lot_2bid_2com_2win,
     proc_2lot_1feature_2bid_2com_2win,
     proc_2lot_2diff_bids_check_auction,
+    create_tender_lot_minimalstep_validation,
+    patch_tender_lot_minimalstep_validation,
 )
 
 
@@ -74,6 +76,8 @@ class TenderLotResourceTest(TenderContentWebTest, TenderLotResourceTestMixin, Te
 
     test_get_tender_lot = snitch(get_tender_lot)
     test_get_tender_lots = snitch(get_tender_lots)
+    test_create_tender_lot_minimalstep_validation = snitch(create_tender_lot_minimalstep_validation)
+    test_patch_tender_lot_minimalstep_validation = snitch(patch_tender_lot_minimalstep_validation)
 
 
 class TenderLotFeatureResourceTest(TenderContentWebTest, TenderLotFeatureResourceTestMixin):

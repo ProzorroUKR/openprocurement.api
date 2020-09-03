@@ -205,7 +205,7 @@ def bids_invalidation_on_tender_change(self):
     # they will be invalidated by this request
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, self.initial_lots[0]["id"], self.tender_token),
-        {"data": {"value": {"amount": 300.0}}},
+        {"data": {"value": {"amount": 300.0}, "minimalStep": {"amount": 9.0}}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["value"]["amount"], 300)
@@ -3721,7 +3721,7 @@ def patch_and_put_document_into_invalid_bid(self):
     # they will be invalidated by this request
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, self.initial_lots[0]["id"], self.tender_token),
-        {"data": {"value": {"amount": 300.0}}},
+        {"data": {"value": {"amount": 300.0}, "minimalStep": {"amount": 9.0}}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["value"]["amount"], 300)
