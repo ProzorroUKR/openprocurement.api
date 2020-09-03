@@ -11,6 +11,7 @@ from openprocurement.api.validation import validate_data, OPERATIONS
 from openprocurement.api.interfaces import IContentConfigurator
 
 from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER, MAX_AGREEMENT_PERIOD
+from openprocurement.tender.core.validation import validate_award_document_tender_not_in_allowed_status_base
 
 
 def validate_patch_qualification_data(request):
@@ -307,3 +308,9 @@ def validate_update_award_in_not_allowed_status(request):
     tender = request.validated["tender"]
     if tender.status not in ["active.qualification", "active.qualification.stand-still"]:
         raise_operation_error(request, "Can't update award in current ({}) tender status".format(tender.status))
+
+
+def validate_award_document_tender_not_in_allowed_status(request):
+    validate_award_document_tender_not_in_allowed_status_base(
+        request, allowed_bot_statuses=("active.awarded", "active.qualification.stand-still")
+    )

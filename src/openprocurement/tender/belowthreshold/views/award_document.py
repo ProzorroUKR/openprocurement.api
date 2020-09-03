@@ -3,7 +3,11 @@ from openprocurement.api.utils import json_view
 from openprocurement.api.validation import validate_file_update, validate_file_upload, validate_patch_document_data
 from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.core.views.document import BaseDocumentResource
-from openprocurement.tender.belowthreshold.validation import validate_award_document
+from openprocurement.tender.core.validation import (
+    validate_award_document_tender_not_in_allowed_status_base,
+    validate_award_document_lot_not_in_allowed_status,
+    validate_award_document_author,
+)
 
 
 @optendersresource(
@@ -20,7 +24,14 @@ class TenderAwardDocumentResource(BaseDocumentResource):
     def collection_get(self):
         return super(TenderAwardDocumentResource, self).collection_get()
 
-    @json_view(validators=(validate_file_upload, validate_award_document), permission="upload_tender_documents")
+    @json_view(
+        validators=(
+            validate_file_upload,
+            validate_award_document_tender_not_in_allowed_status_base,
+            validate_award_document_lot_not_in_allowed_status,
+            validate_award_document_author
+        ),
+        permission="upload_tender_documents")
     def collection_post(self):
         return super(TenderAwardDocumentResource, self).collection_post()
 
@@ -28,13 +39,25 @@ class TenderAwardDocumentResource(BaseDocumentResource):
     def get(self):
         return super(TenderAwardDocumentResource, self).get()
 
-    @json_view(validators=(validate_file_update, validate_award_document), permission="edit_tender")
+    @json_view(
+        validators=(
+            validate_file_update,
+            validate_award_document_tender_not_in_allowed_status_base,
+            validate_award_document_lot_not_in_allowed_status,
+            validate_award_document_author
+        ),
+        permission="edit_tender")
     def put(self):
         return super(TenderAwardDocumentResource, self).put()
 
     @json_view(
         content_type="application/json",
-        validators=(validate_patch_document_data, validate_award_document),
+        validators=(
+            validate_patch_document_data,
+            validate_award_document_tender_not_in_allowed_status_base,
+            validate_award_document_lot_not_in_allowed_status,
+            validate_award_document_author
+        ),
         permission="edit_tender",
     )
     def patch(self):
