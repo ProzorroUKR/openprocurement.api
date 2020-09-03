@@ -1623,3 +1623,35 @@ def validate_role_for_contract_document_operation(request):
         raise_operation_error(
             request, "Tender onwer can't {} document in current contract status".format(OPERATIONS.get(request.method))
         )
+
+
+def validate_award_document_tender_not_in_allowed_status_base(request, allowed_bot_statuses=("active.awarded",)):
+    allowed_tender_statuses = ["active.qualification"]
+    if request.authenticated_role == "bots":
+        allowed_tender_statuses.extend(allowed_bot_statuses)
+    if request.validated["tender_status"] not in allowed_tender_statuses:
+        raise_operation_error(
+            request,
+            "Can't {} document in current ({}) tender status".format(
+                OPERATIONS.get(request.method), request.validated["tender_status"]
+            ),
+        )
+
+
+def validate_award_document_lot_not_in_allowed_status(request):
+    if any([
+        i.status != "active"
+        for i in request.validated["tender"].lots
+        if i.id == request.validated["award"].lotID
+    ]):
+        raise_operation_error(request, "Can {} document only in active lot status".format(
+            OPERATIONS.get(request.method)
+        ))
+
+
+def validate_award_document_author(request):
+    operation = OPERATIONS.get(request.method)
+    if operation == "update" and request.authenticated_role != (request.context.author or "tender_owner"):
+        request.errors.add("url", "role", "Can update document only author")
+        request.errors.status = 403
+        raise error_handler(request.errors)

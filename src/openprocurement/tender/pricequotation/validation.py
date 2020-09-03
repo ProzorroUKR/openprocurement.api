@@ -70,26 +70,6 @@ def validate_contract_document(request):
     return True
 
 
-def validate_award_document(request):
-    operation = OPERATIONS.get(request.method)
-
-    allowed_tender_statuses = ["active.qualification"]
-    if request.authenticated_role == "bots":
-        allowed_tender_statuses.append("active.awarded")
-    if request.validated["tender_status"] not in allowed_tender_statuses:
-        raise_operation_error(
-            request,
-            "Can't {} document in current ({}) tender status".format(
-                operation, request.validated["tender_status"]
-            ),
-        )
-
-    if operation == "update" and request.authenticated_role != (request.context.author or "tender_owner"):
-        request.errors.add("url", "role", "Can update document only author")
-        request.errors.status = 403
-        raise error_handler(request.errors)
-
-
 def validate_patch_tender_data(request):
     model = type(request.tender)
     data = validate_data(request, model, True, validate_json_data(request))
