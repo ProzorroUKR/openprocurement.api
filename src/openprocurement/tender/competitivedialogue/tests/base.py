@@ -6,6 +6,7 @@ from uuid import uuid4
 from copy import deepcopy
 from mock import patch
 from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.tender.competitivedialogue.models import (
     TenderStage2UA, CompetitiveDialogEU, CompetitiveDialogUA,
@@ -13,9 +14,7 @@ from openprocurement.tender.competitivedialogue.models import (
 )
 from openprocurement.tender.competitivedialogue.tests.periods import PERIODS, PERIODS_UA_STAGE_2
 from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest as BaseTenderWebTest
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_criteria
-from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
-from openprocurement.tender.openeu.constants import TENDERING_DURATION, QUESTIONS_STAND_STILL, COMPLAINT_STAND_STILL
+from openprocurement.tender.belowthreshold.tests.base import test_organization
 from openprocurement.tender.openeu.tests.base import (
     test_tender_data as base_test_tender_data_eu,
     test_features_tender_data,

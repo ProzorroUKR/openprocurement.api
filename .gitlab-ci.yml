@@ -483,7 +483,7 @@ test_planning_api_before_2020_04_19:
     - .test_before_2020_04_19
     - .test_planning_api
 
-test_planning_apiecriteria:
+test_planning_api_ecriteria:
   extends:
     - .test_before_ecriteria
     - .test_planning_api
