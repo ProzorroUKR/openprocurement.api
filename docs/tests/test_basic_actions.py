@@ -1602,7 +1602,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         other_criteria = deepcopy(test_criteria[0])
         other_criteria["classification"]["id"] = "CRITERION.OTHER"
 
-        with open(TARGET_DIR + 'criteria/bulk-create-criteria.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/bulk-create-criteria.http', 'wb') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/criteria?acc_token={}'.format(self.tender_id, owner_token),
                 {'data': [other_criteria]},
@@ -1613,7 +1613,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         criteria_id_1 = criteria_1['id']
 
         # Try to update tender from `draft` to `active.tendering` without criteria
-        with open(TARGET_DIR + 'criteria/update-tender-status-without-criteria.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/update-tender-status-without-criteria.http', 'wb') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
                 {"data": {"status": "active.tendering"}},
@@ -1621,7 +1621,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, '403 Forbidden')
 
-        with open(TARGET_DIR + 'criteria/bulk-create-exclusion-criteria.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/bulk-create-exclusion-criteria.http', 'wb') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/criteria?acc_token={}'.format(self.tender_id, owner_token),
                 {'data': [test_criteria[1]]},
@@ -1631,7 +1631,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         criteria_2 = response.json['data'][0]
         criteria_id_2 = criteria_2['id']
 
-        with open(TARGET_DIR + 'criteria/patch-criteria.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/patch-criteria.http', 'wb') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/criteria/{}?acc_token={}'.format(
                     self.tender_id, criteria_id_1, owner_token),
@@ -1640,7 +1640,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         # Try to patch exclusion criteria
-        with open(TARGET_DIR + 'criteria/patch-exclusion-criteria.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/patch-exclusion-criteria.http', 'wb') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/criteria/{}?acc_token={}'.format(
                     self.tender_id, criteria_id_2, owner_token),
@@ -1655,7 +1655,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         test_rg_data = test_criteria[0]["requirementGroups"][0]
 
-        with open(TARGET_DIR + 'criteria/add-criteria-requirement-group.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/add-criteria-requirement-group.http', 'wb') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/criteria/{}/requirement_groups?acc_token={}'.format(
                     self.tender_id, criteria_id_1, owner_token),
@@ -1664,7 +1664,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '201 Created')
 
         # Try to add requirement group to exclusion criteria
-        with open(TARGET_DIR + 'criteria/add-exclusion-criteria-requirement-group.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/add-exclusion-criteria-requirement-group.http', 'wb') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/criteria/{}/requirement_groups?acc_token={}'.format(
                     self.tender_id, criteria_id_2, owner_token),
@@ -1673,7 +1673,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, '403 Forbidden')
 
-        with open(TARGET_DIR + 'criteria/patch-criteria-requirement-group.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/patch-criteria-requirement-group.http', 'wb') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/criteria/{}/requirement_groups/{}?acc_token={}'.format(
                     self.tender_id, criteria_id_1, rg_id_1, owner_token),
@@ -1681,7 +1681,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'criteria/patch-exclusion-criteria-requirement-group.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/patch-exclusion-criteria-requirement-group.http', 'wb') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/criteria/{}/requirement_groups/{}?acc_token={}'.format(
                     self.tender_id, criteria_id_2, rg_id_2, owner_token),
@@ -1690,13 +1690,13 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, '403 Forbidden')
 
-        with open(TARGET_DIR + 'criteria/criteria-requirement-group-list.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/criteria-requirement-group-list.http', 'wb') as self.app.file_obj:
             response = self.app.get(
                 '/tenders/{}/criteria/{}/requirement_groups'.format(self.tender_id, criteria_id_1),
             )
             self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'criteria/criteria-requirement-group.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/criteria-requirement-group.http', 'wb') as self.app.file_obj:
             response = self.app.get(
                 '/tenders/{}/criteria/{}/requirement_groups/{}'.format(self.tender_id, criteria_id_1, rg_id_1),
             )
@@ -1708,7 +1708,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         requirement_id_2 = criteria_2["requirementGroups"][0]["requirements"][0]["id"]
         test_requirement_data = deepcopy(test_rg_data["requirements"][0])
 
-        with open(TARGET_DIR + 'criteria/add-criteria-requirement.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/add-criteria-requirement.http', 'wb') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/criteria/{}/requirement_groups/{}/requirements?acc_token={}'.format(
                     self.tender_id, criteria_id_1, rg_id_1, owner_token),
@@ -1716,7 +1716,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, '201 Created')
 
-        with open(TARGET_DIR + 'criteria/add-exclusion-criteria-requirement.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/add-exclusion-criteria-requirement.http', 'wb') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/criteria/{}/requirement_groups/{}/requirements?acc_token={}'.format(
                     self.tender_id, criteria_id_2, rg_id_2, owner_token),
@@ -1725,7 +1725,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, '403 Forbidden')
 
-        with open(TARGET_DIR + 'criteria/patch-criteria-requirement.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/patch-criteria-requirement.http', 'wb') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}'.format(
                     self.tender_id, criteria_id_1, rg_id_1, requirement_id_1, owner_token),
@@ -1733,7 +1733,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'criteria/patch-exclusion-criteria-requirement.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/patch-exclusion-criteria-requirement.http', 'wb') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}'.format(
                     self.tender_id, criteria_id_2, rg_id_2, requirement_id_2, owner_token),
@@ -1742,14 +1742,14 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, '403 Forbidden')
 
-        with open(TARGET_DIR + 'criteria/criteria-requirement-list.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/criteria-requirement-list.http', 'wb') as self.app.file_obj:
             response = self.app.get(
                 '/tenders/{}/criteria/{}/requirement_groups/{}/requirements'.format(
                     self.tender_id, criteria_id_1, rg_id_1),
             )
             self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'criteria/criteria-requirement.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/criteria-requirement.http', 'wb') as self.app.file_obj:
             response = self.app.get(
                 '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}'.format(
                     self.tender_id, criteria_id_1, rg_id_1, requirement_id_1),
@@ -1764,7 +1764,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             "type": u"document",
         }
 
-        with open(TARGET_DIR + 'criteria/add-requirement-evidence.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/add-requirement-evidence.http', 'wb') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}/evidences?acc_token={}'.format(
                     self.tender_id, criteria_id_1, rg_id_1, requirement_id_1, owner_token),
@@ -1774,7 +1774,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         evidence_id = response.json['data']['id']
 
-        with open(TARGET_DIR + 'criteria/patch-requirement-evidence.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/patch-requirement-evidence.http', 'wb') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}/evidences/{}?acc_token={}'.format(
                     self.tender_id, criteria_id_1, rg_id_1, requirement_id_1, evidence_id, owner_token),
@@ -1782,32 +1782,32 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'criteria/requirement-evidences-list.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/requirement-evidences-list.http', 'wb') as self.app.file_obj:
             response = self.app.get(
                 '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}/evidences'.format(
                     self.tender_id, criteria_id_1, rg_id_1, requirement_id_1),
             )
             self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'criteria/requirement-evidence.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/requirement-evidence.http', 'wb') as self.app.file_obj:
             response = self.app.get(
                 '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}/evidences/{}'.format(
                     self.tender_id, criteria_id_1, rg_id_1, requirement_id_1, evidence_id),
             )
             self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'criteria/delete-requirement-evidence.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/delete-requirement-evidence.http', 'wb') as self.app.file_obj:
             response = self.app.delete(
                 '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}/evidences/{}?acc_token={}'.format(
                     self.tender_id, criteria_id_1, rg_id_1, requirement_id_1, evidence_id, owner_token),
             )
             self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'criteria/criteria-list.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/criteria-list.http', 'wb') as self.app.file_obj:
             response = self.app.get('/tenders/{}/criteria'.format(self.tender_id))
             self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'criteria/criteria.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/criteria.http', 'wb') as self.app.file_obj:
             response = self.app.get('/tenders/{}/criteria/{}'.format(self.tender_id, criteria_id_1))
             self.assertEqual(response.status, '200 OK')
 
@@ -1874,10 +1874,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             },
             "evidences": [
                 evidence_data,
-            ]
+            ],
+            "value": "True",
         }]
 
-        with open(TARGET_DIR + 'criteria/create-requirement-response.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/create-requirement-response.http', 'wb') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/bids/{}/requirement_responses?acc_token={}'.format(
                     self.tender_id, bid_id, bid_token),
@@ -1887,7 +1888,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         rr_id = response.json["data"][0]["id"]
 
-        with open(TARGET_DIR + 'criteria/update-requirement-response.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/update-requirement-response.http', 'wb') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/bids/{}/requirement_responses/{}?acc_token={}'.format(
                     self.tender_id, bid_id, rr_id, bid_token),
@@ -1895,17 +1896,17 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'criteria/requirement-response-list.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/requirement-response-list.http', 'wb') as self.app.file_obj:
             response = self.app.get(
                 '/tenders/{}/bids/{}/requirement_responses'.format(self.tender_id, bid_id))
             self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'criteria/requirement-response.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/requirement-response.http', 'wb') as self.app.file_obj:
             response = self.app.get(
                 '/tenders/{}/bids/{}/requirement_responses/{}'.format(self.tender_id, bid_id, rr_id))
             self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'criteria/create-requirement-response-evidence.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/create-requirement-response-evidence.http', 'wb') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/bids/{}/requirement_responses/{}/evidences?acc_token={}'.format(
                     self.tender_id, bid_id, rr_id, bid_token),
@@ -1915,7 +1916,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         evidence_id = response.json["data"]["id"]
 
-        with open(TARGET_DIR + 'criteria/update-requirement-response-evidence.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/update-requirement-response-evidence.http', 'wb') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/bids/{}/requirement_responses/{}/evidences/{}?acc_token={}'.format(
                     self.tender_id, bid_id, rr_id, evidence_id, bid_token),
@@ -1923,18 +1924,18 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'criteria/requirement-response-evidence-list.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/requirement-response-evidence-list.http', 'wb') as self.app.file_obj:
             response = self.app.get(
                 '/tenders/{}/bids/{}/requirement_responses/{}/evidences'.format(self.tender_id, bid_id, rr_id))
             self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'criteria/requirement-response-evidence.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/requirement-response-evidence.http', 'wb') as self.app.file_obj:
             response = self.app.get(
                 '/tenders/{}/bids/{}/requirement_responses/{}/evidences/{}'.format(
                     self.tender_id, bid_id, rr_id, evidence_id))
             self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'criteria/bid-activation.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/bid-activation.http', 'wb') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/bids/{}?acc_token={}'.format(
                     self.tender_id, bid_id, bid_token),
@@ -1943,13 +1944,13 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, '403 Forbidden')
 
-        with open(TARGET_DIR + 'criteria/delete-requirement-response-evidence.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/delete-requirement-response-evidence.http', 'wb') as self.app.file_obj:
             response = self.app.delete(
                 '/tenders/{}/bids/{}/requirement_responses/{}/evidences/{}?acc_token={}'.format(
                     self.tender_id, bid_id, rr_id, evidence_id, bid_token))
             self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'criteria/delete-requirement-response.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'criteria/delete-requirement-response.http', 'wb') as self.app.file_obj:
             response = self.app.get(
                 '/tenders/{}/bids/{}/requirement_responses/{}?acc_token={}'.format(
                     self.tender_id, bid_id, rr_id, bid_token))
