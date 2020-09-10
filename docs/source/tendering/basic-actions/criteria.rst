@@ -9,6 +9,8 @@ Criteria Basic Operation
 
 Criteria data :ref:`schema<criterion>`
 
+Criteria is part of tender documentation, so all operation with criteria make tender owner.
+
 Create Tender Criteria
 """"""""""""""""""""""
 
@@ -43,7 +45,7 @@ Get Tender Criteria
 Requirement Group basic operation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Requirement group :ref:`schema<requirement_group>`
+Requirement group :ref:`schema<RequirementGroup>`
 
 Create Criteria Requirement Group
 """""""""""""""""""""""""""""""""
@@ -98,7 +100,7 @@ Get Requirement
 Eligible Evidence basic operation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Eligible Evidence model :ref:`schema<eligible_evidence>`
+Eligible Evidence model :ref:`schema<EligibleEvidence>`
 
 Create Eligible Evidence
 """"""""""""""""""""""""

@@ -2,7 +2,7 @@
 .. include:: defs.hrst
 
 .. index:: EligibleEvidence
-.. _eligible_evidence:
+.. _EligibleEvidence:
 
 EligibleEvidence
 ================

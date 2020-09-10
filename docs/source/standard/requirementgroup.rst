@@ -2,7 +2,7 @@
 .. include:: defs.hrst
 
 .. index:: RequirementGroup
-.. _requirement_group:
+.. _RequirementGroup:
 
 RequirementGroup
 ================

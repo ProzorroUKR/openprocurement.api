@@ -4,12 +4,14 @@
 Bid Requirement response
 ========================
 
-Requirement response it's response for the criteria requirement
+Bid requirement response - an object that shows that the user meets the tender owner requirements, and can participate in the procurement.
+
+Any action on the requirement response in the bid can be performed only by the bid owner.
 
 Requirement response basic operation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Requirement response data :ref:`scheme<requirement_response>`
+Requirement response data :ref:`scheme<RequirementResponse>`
 
 Create Bid Requirement Response
 """""""""""""""""""""""""""""""
