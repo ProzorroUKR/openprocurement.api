@@ -731,7 +731,8 @@ class Requirement(Model):
             validate_value_type(value, data['dataType'])
 
     def validate_expectedValue(self, data, value):
-        validate_value_type(value, data['dataType'])
+        if value:
+            validate_value_type(value, data['dataType'])
 
     def validate_relatedFeature(self, data, feature_id):
         parent = data["__parent__"]

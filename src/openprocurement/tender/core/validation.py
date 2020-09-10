@@ -266,7 +266,7 @@ def validate_bid_documents(request):
 
 def validate_bid_activate_criteria(request):
     """
-    Validate that bidder gave requirement for all requirements
+    Validate that bidder gave response for all requirements
     for only one of requirementGroups inside all criteria
     """
 
@@ -1817,17 +1817,7 @@ def validate_requirement(requirement):
 def validate_requirement_groups(value):
     for requirements in value:
         for requirement in requirements.requirements:
-            expected = requirement.get('expectedValue')
-            min_value = requirement.get('minValue')
-            max_value = requirement.get('maxValue')
-            if not any((expected, min_value, max_value)):
-                raise ValidationError(
-                    u'Value required for at least one field ["expectedValue", "minValue", "maxValue"]'
-                )
-            if any((expected and min_value, expected and max_value)):
-                raise ValidationError(
-                    u'expectedValue conflicts with ["minValue", "maxValue"]'
-                )
+            validate_requirement(requirement)
 
 
 def base_validate_operation_ecriteria_objects(request, valid_statuses=""):
