@@ -6,7 +6,6 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
-from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 
 from openprocurement.tender.belowthreshold.tests.base import (
     test_organization,

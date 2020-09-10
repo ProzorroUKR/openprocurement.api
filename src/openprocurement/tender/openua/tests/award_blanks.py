@@ -2429,7 +2429,8 @@ def create_award_requirement_response(self):
         "requirement": {
             "id": self.requirement_id,
             "title": self.requirement_title,
-        }
+        },
+        "value": "True",
     }]
 
     response = self.app.post_json(
@@ -2471,7 +2472,8 @@ def create_award_requirement_response(self):
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{u'description': {u'requirement': [u'This field is required.']},
+        [{u'description': {u'requirement': [u'This field is required.'],
+                           u'value': [u'This field is required.']},
           u'location': u'body',
           u'name': 0}]
     )
@@ -2496,7 +2498,8 @@ def patch_award_requirement_response(self):
         "requirement": {
             "id": self.requirement_id,
             "title": self.requirement_title,
-        }
+        },
+        "value": "True",
     }]
 
     response = self.app.post_json(request_path, {"data": valid_data})
@@ -2581,7 +2584,8 @@ def get_award_requirement_response(self):
         "requirement": {
             "id": self.requirement_id,
             "title": self.requirement_title,
-        }
+        },
+        "value": "True",
     }]
 
     response = self.app.post_json(request_path, {"data": valid_data})
