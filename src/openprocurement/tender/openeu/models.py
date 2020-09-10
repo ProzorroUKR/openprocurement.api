@@ -46,6 +46,7 @@ from openprocurement.tender.core.models import (
     bids_validation_wrapper,
     PROCURING_ENTITY_KINDS,
     QualificationMilestoneListMixin,
+    RequirementResponse,
 )
 from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
@@ -513,6 +514,11 @@ class Qualification(QualificationMilestoneListMixin):
     complaints = ListType(ModelType(Complaint, required=True), default=list())
     qualified = BooleanType(default=False)
     eligible = BooleanType(default=False)
+
+    requirementResponses = ListType(
+        ModelType(RequirementResponse, required=True),
+        default=list()
+    )
 
     def validate_qualified(self, data, qualified):
         if data["status"] == "active" and not qualified:

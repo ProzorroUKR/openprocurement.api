@@ -832,9 +832,8 @@ class RequirementResponse(Model):
     relatedItem = MD5Type()
     evidences = ListType(ModelType(Evidence, required=True), default=list())
 
-    value = StringType()
+    value = StringType(required=True)
 
-    # TODO: update validation wrapper validate on obj creation
     @bids_response_validation_wrapper
     def validate_relatedItem(self, data, relatedItem):
         parent = data["__parent__"]
