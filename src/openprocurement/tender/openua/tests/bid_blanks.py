@@ -1706,6 +1706,8 @@ def tender_bidder_confidential_document(self):
 
 
 def create_bid_requirement_response(self):
+    self.app.authorization = ("Basic", ("broker", ""))
+
     base_request_path = "/tenders/{}/bids/{}/requirement_responses".format(self.tender_id, self.bid_id)
     request_path = "{}?acc_token={}".format(base_request_path, self.bid_token)
 
@@ -1715,10 +1717,9 @@ def create_bid_requirement_response(self):
         "requirement": {
             "id": self.requirement_id,
             "title": self.requirement_title,
-        }
+        },
+        "value": True,
     }]
-
-    self.app.authorization = ("Basic", ("broker", ""))
 
     response = self.app.post_json(
         base_request_path,
@@ -1748,8 +1749,6 @@ def create_bid_requirement_response(self):
         [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}]
     )
 
-    self.app.authorization = ("Basic", ("token", ""))
-
     response = self.app.post_json(
         request_path,
         {"data": [{"description": "some description"}]},
@@ -1761,7 +1760,29 @@ def create_bid_requirement_response(self):
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{u'description': {u'requirement': [u'This field is required.']},
+        [{u'description': {u'requirement': [u'This field is required.'], u'value': [u'This field is required.']},
+          u'location': u'body',
+          u'name': 0}]
+    )
+
+    response = self.app.post_json(
+        request_path,
+        {"data": [{
+            "description": "some description",
+            "requirement": {
+                "id": self.requirement_id,
+                "title": self.requirement_title,
+            },
+            "value": False,
+        }]},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("errors", response.json)
+    self.assertEqual(
+        response.json["errors"],
+        [{u'description': {u"value": [u"value and requirementGroup.expectedValue must be equal"]},
           u'location': u'body',
           u'name': 0}]
     )
@@ -1773,7 +1794,10 @@ def create_bid_requirement_response(self):
 
     for i, rr_data in enumerate(valid_data):
         for k, v in rr_data.items():
-            self.assertEqual(rr[i][k], v)
+            if k == "value":
+                self.assertEqual(str(rr[i][k]), str(v))
+            else:
+                self.assertEqual(rr[i][k], v)
 
 
 def patch_bid_requirement_response(self):
@@ -1786,7 +1810,8 @@ def patch_bid_requirement_response(self):
         "requirement": {
             "id": self.requirement_id,
             "title": self.requirement_title,
-        }
+        },
+        "value": "True"
     }]
 
     response = self.app.post_json(request_path, {"data": valid_data})
@@ -1879,7 +1904,8 @@ def get_bid_requirement_response(self):
         "requirement": {
             "id": self.requirement_id,
             "title": self.requirement_title,
-        }
+        },
+        "value": 'True'
     }]
 
     response = self.app.post_json(request_path, {"data": valid_data})
@@ -2177,8 +2203,9 @@ def bid_activate(self):
                         "requirement": {
                             "id": req["id"],
                             "title": req["title"],
-                        }
-                    }
+                        },
+                        "value": True,
+                    },
                 )
 
     response = self.app.post_json(
@@ -2213,7 +2240,8 @@ def bid_activate(self):
             "requirement": {
                 "id": another_rg_req["id"],
                 "title": another_rg_req["title"],
-            }
+            },
+            "value": "True",
         }]},
     )
     self.assertEqual(response.status, "201 Created")

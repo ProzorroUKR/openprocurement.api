@@ -1788,7 +1788,7 @@ def validate_value_type(value, datatype):
             )
         )
     # validate value
-    type_.to_native(value)
+    return type_.to_native(value)
 
 
 # tender.criterion.requirementGroups

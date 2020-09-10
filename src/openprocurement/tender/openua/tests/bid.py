@@ -143,7 +143,8 @@ class TenderBidRequirementResponseEvidenceTestMixin(object):
             "requirement": {
                 "id": self.requirement_id,
                 "title": self.requirement_title,
-            }
+            },
+            "value": True,
         }]
 
         response = self.app.post_json(request_path, {"data": rr_data})

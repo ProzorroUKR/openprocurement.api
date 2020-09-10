@@ -885,16 +885,20 @@ class RequirementResponse(Model):
                             requirement = req
                             break
             if requirement:
-                validate_value_type(value, requirement.dataType)
+                data_type = requirement.dataType
+                valid_value = validate_value_type(value, data_type)
                 expectedValue = requirement.get("expectedValue")
                 minValue = requirement.get("minValue")
                 maxValue = requirement.get("maxValue")
-                if expectedValue and expectedValue == value:
+
+                if expectedValue and validate_value_type(expectedValue, data_type) != valid_value:
                     raise ValidationError("value and requirementGroup.expectedValue must be equal")
-                if minValue and float(value) < float(minValue):
+                if minValue and valid_value < validate_value_type(minValue, data_type):
                     raise ValidationError("value should be higher than eligibleEvidence.minValue")
-                if maxValue and float(value) > float(maxValue):
+                if maxValue and valid_value > validate_value_type(maxValue, data_type):
                     raise ValidationError("value should be lower than eligibleEvidence.maxValue")
+
+                return valid_value
 
 
 class Bid(Model):
