@@ -41,7 +41,7 @@ Content-Type: application/json; charset=UTF-8
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
-        "id": "366a042aa96a4acdbe63112500608db1", 
+        "id": "e1e8352d141b4814ba5c79c757fdd72a", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -69,7 +69,7 @@ Content-Type: application/json; charset=UTF-8
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
-        "id": "9a24ed7daf1948b2923da55b02b720ed", 
+        "id": "3edb0dc8dd6542508b405eddb7260162", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"

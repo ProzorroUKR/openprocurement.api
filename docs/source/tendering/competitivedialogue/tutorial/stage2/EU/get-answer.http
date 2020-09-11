@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/50c82523038349969f53f3e238932c46/questions/d307480a47364bc5850a03e4643ca2fd HTTP/1.0
+GET /api/2.5/tenders/50c82523038349969f53f3e238932c46/questions/e928a5ef19284c6b8261f1f7c51fd561 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -11,7 +11,7 @@ Content-Type: application/json; charset=UTF-8
     "title": "Калорійність", 
     "date": "2020-05-15T01:00:00+03:00", 
     "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
-    "id": "d307480a47364bc5850a03e4643ca2fd", 
+    "id": "e928a5ef19284c6b8261f1f7c51fd561", 
     "questionOf": "tender"
   }
 }

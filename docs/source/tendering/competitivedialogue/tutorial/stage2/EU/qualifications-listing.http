@@ -51,7 +51,7 @@ Content-Type: application/json; charset=UTF-8
         "title": "Калорійність", 
         "date": "2020-05-15T01:00:00+03:00", 
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
-        "id": "d307480a47364bc5850a03e4643ca2fd", 
+        "id": "e928a5ef19284c6b8261f1f7c51fd561", 
         "questionOf": "tender"
       }
     ], 
@@ -138,7 +138,7 @@ Content-Type: application/json; charset=UTF-8
         "status": "pending", 
         "eligible": false, 
         "qualified": false, 
-        "bidID": "dc595a39267248abbf3e85d759d6c1ab", 
+        "bidID": "529f4dbc517942dc8dd3f040cd17ddc4", 
         "date": "2020-05-15T01:00:00+03:00", 
         "id": "bf3b21221bc845f5bb0ff5238b948c33"
       }, 
@@ -146,7 +146,7 @@ Content-Type: application/json; charset=UTF-8
         "status": "pending", 
         "eligible": false, 
         "qualified": false, 
-        "bidID": "e394381791b6444989e422262ffb9c7d", 
+        "bidID": "3d111b9b1a824d5b8162ee4da5d4f4f5", 
         "date": "2020-05-15T01:00:00+03:00", 
         "id": "d1dbb4fd0c354036b58e20727254e549"
       }, 
@@ -154,7 +154,7 @@ Content-Type: application/json; charset=UTF-8
         "status": "pending", 
         "eligible": false, 
         "qualified": false, 
-        "bidID": "0ee0193aeac246e791c6601952452387", 
+        "bidID": "e60107f58b494544803467b4a2dc9362", 
         "date": "2020-05-15T01:00:00+03:00", 
         "id": "52aa76f0b6d34ec8bdcfaec20e6eaa4c"
       }
@@ -193,7 +193,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-06-04T01:00:00+03:00", 
           "endDate": "2020-06-15T01:00:00+03:00"
         }, 
-        "id": "52ba02bed7a347fa9f8119661caf0ed2", 
+        "id": "c9279535363848ec981dbe0480847b88", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -230,7 +230,7 @@ Content-Type: application/json; charset=UTF-8
             "id": "ee89213792d8452b93c9ad66e68f8af9"
           }
         ], 
-        "id": "dc595a39267248abbf3e85d759d6c1ab", 
+        "id": "529f4dbc517942dc8dd3f040cd17ddc4", 
         "tenderers": [
           {
             "contactPoint": {
@@ -257,7 +257,7 @@ Content-Type: application/json; charset=UTF-8
       }, 
       {
         "status": "pending", 
-        "id": "e394381791b6444989e422262ffb9c7d", 
+        "id": "3d111b9b1a824d5b8162ee4da5d4f4f5", 
         "tenderers": [
           {
             "contactPoint": {
@@ -294,7 +294,7 @@ Content-Type: application/json; charset=UTF-8
             "format": "application/pdf", 
             "documentOf": "tender", 
             "datePublished": "2020-05-15T01:00:00+03:00", 
-            "id": "a38bd81182d84d43bef52d2698f89d98", 
+            "id": "54c20d16be604b31b972dbb5adf700f7", 
             "dateModified": "2020-05-15T01:00:00+03:00"
           }, 
           {
@@ -307,7 +307,7 @@ Content-Type: application/json; charset=UTF-8
             "documentOf": "tender", 
             "datePublished": "2020-05-15T01:00:00+03:00", 
             "dateModified": "2020-05-15T01:00:00+03:00", 
-            "id": "f896df38ec1e41cc89e6e463e54e81e8"
+            "id": "63d72e684d714ba395b241868803c3d0"
           }
         ], 
         "tenderers": [
@@ -333,7 +333,7 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
-        "id": "0ee0193aeac246e791c6601952452387", 
+        "id": "e60107f58b494544803467b4a2dc9362", 
         "eligibilityDocuments": [
           {
             "hash": "md5:00000000000000000000000000000000", 
@@ -344,7 +344,7 @@ Content-Type: application/json; charset=UTF-8
             "format": "application/pdf", 
             "documentOf": "tender", 
             "datePublished": "2020-05-15T01:00:00+03:00", 
-            "id": "5a466b5c43144a0e80632960a297cd18", 
+            "id": "a36f5356998846b7903c4043484842b3", 
             "dateModified": "2020-05-15T01:00:00+03:00"
           }
         ]

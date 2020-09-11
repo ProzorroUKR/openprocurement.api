@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/086edc68f12d4a248ded4f9cea52e69c/bids/eb8b16e4d30d4a81b046cae41632ed2d?acc_token=1be138ca4c9f4d4698c469fa4bdeb29d HTTP/1.0
+PATCH /api/2.5/tenders/086edc68f12d4a248ded4f9cea52e69c/bids/602221490fe54ad4866e70ecd5f09fe1?acc_token=1be138ca4c9f4d4698c469fa4bdeb29d HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 98
 Content-Type: application/json
@@ -9,7 +9,7 @@ DATA:
     "status": "pending", 
     "lotValues": [
       {
-        "relatedLot": "e928726a47b7461a9d8a00258123cf3d"
+        "relatedLot": "827f341aa45e495f853f5493aee68c42"
       }
     ]
   }
@@ -20,15 +20,14 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "pending", 
-    "selfEligible": true, 
     "lotValues": [
       {
-        "relatedLot": "e928726a47b7461a9d8a00258123cf3d", 
+        "relatedLot": "827f341aa45e495f853f5493aee68c42", 
         "date": "2020-05-15T01:00:00+03:00", 
         "status": "pending"
       }
     ], 
-    "selfQualified": true, 
+    "id": "602221490fe54ad4866e70ecd5f09fe1", 
     "tenderers": [
       {
         "contactPoint": {
@@ -53,7 +52,7 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "date": "2020-05-15T01:00:00+03:00", 
-    "id": "eb8b16e4d30d4a81b046cae41632ed2d"
+    "selfQualified": true
   }
 }
 

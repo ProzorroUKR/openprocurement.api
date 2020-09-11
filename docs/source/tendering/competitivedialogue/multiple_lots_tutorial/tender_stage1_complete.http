@@ -65,7 +65,7 @@ Content-Type: application/json; charset=UTF-8
           "valueAddedTaxIncluded": true
         }, 
         "date": "2020-05-15T01:00:00+03:00", 
-        "id": "e928726a47b7461a9d8a00258123cf3d"
+        "id": "827f341aa45e495f853f5493aee68c42"
       }, 
       {
         "status": "unsuccessful", 
@@ -82,7 +82,7 @@ Content-Type: application/json; charset=UTF-8
           "valueAddedTaxIncluded": true
         }, 
         "date": "2020-05-15T01:00:00+03:00", 
-        "id": "8de1614007d74757970d83c1d60ebc76"
+        "id": "fadc6f1d86d045bc995c327e65c864fa"
       }
     ], 
     "qualificationPeriod": {
@@ -100,28 +100,28 @@ Content-Type: application/json; charset=UTF-8
     "qualifications": [
       {
         "status": "active", 
-        "lotID": "e928726a47b7461a9d8a00258123cf3d", 
+        "lotID": "827f341aa45e495f853f5493aee68c42", 
         "eligible": true, 
         "qualified": true, 
-        "bidID": "5c57011a1a184851aa1a971e0f443b6c", 
+        "bidID": "5c40c6901b9d438fad1d986bf48a3b2c", 
         "date": "2020-05-15T01:00:00+03:00", 
         "id": "173c2b5bb93248a78c84a3827af6cbaa"
       }, 
       {
         "status": "active", 
-        "lotID": "e928726a47b7461a9d8a00258123cf3d", 
+        "lotID": "827f341aa45e495f853f5493aee68c42", 
         "eligible": true, 
         "qualified": true, 
-        "bidID": "44e377d158fa42f3b8d4437c84bdda52", 
+        "bidID": "572235daf46e42aab4f38d4ecfbf806e", 
         "date": "2020-05-15T01:00:00+03:00", 
         "id": "9894e7b3dee74b7f978607f213fb8d37"
       }, 
       {
         "status": "active", 
-        "lotID": "e928726a47b7461a9d8a00258123cf3d", 
+        "lotID": "827f341aa45e495f853f5493aee68c42", 
         "eligible": true, 
         "qualified": true, 
-        "bidID": "eb8b16e4d30d4a81b046cae41632ed2d", 
+        "bidID": "602221490fe54ad4866e70ecd5f09fe1", 
         "date": "2020-05-15T01:00:00+03:00", 
         "id": "ced896f884304acd86eae26ec8efe5c8"
       }
@@ -151,7 +151,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "percentage": 54.45, 
         "type": "financing", 
-        "id": "cec109dca07b4fe49195bae18cc796f3"
+        "id": "dda301a766ca433e86943a674a61fcce"
       }
     ], 
     "minimalStep": {
@@ -161,7 +161,7 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "items": [
       {
-        "relatedLot": "e928726a47b7461a9d8a00258123cf3d", 
+        "relatedLot": "827f341aa45e495f853f5493aee68c42", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "ДК021", 
@@ -187,7 +187,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-06-04T00:00:00+02:00", 
           "endDate": "2020-07-04T00:00:00+02:00"
         }, 
-        "id": "1fdf54d459244216b4a62e51a06defa3", 
+        "id": "50f583529d724487b9430dd0bbda9174", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -195,7 +195,7 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 1.0
       }, 
       {
-        "relatedLot": "8de1614007d74757970d83c1d60ebc76", 
+        "relatedLot": "fadc6f1d86d045bc995c327e65c864fa", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "ДК021", 
@@ -221,7 +221,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-06-04T00:00:00+02:00", 
           "endDate": "2020-07-04T00:00:00+02:00"
         }, 
-        "id": "0bea2a0b522b4cf6ac785fcf2aff1bed", 
+        "id": "91a14518464b4e81ae77ad46a8ef57ea", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -232,16 +232,15 @@ Content-Type: application/json; charset=UTF-8
     "bids": [
       {
         "status": "active", 
-        "selfEligible": true, 
         "lotValues": [
           {
-            "relatedLot": "e928726a47b7461a9d8a00258123cf3d", 
+            "relatedLot": "827f341aa45e495f853f5493aee68c42", 
             "date": "2020-05-15T01:00:00+03:00", 
             "status": "active", 
             "subcontractingDetails": "ДКП «Орфей»"
           }
         ], 
-        "selfQualified": true, 
+        "id": "5c40c6901b9d438fad1d986bf48a3b2c", 
         "tenderers": [
           {
             "contactPoint": {
@@ -266,19 +265,18 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "date": "2020-05-15T01:00:00+03:00", 
-        "id": "5c57011a1a184851aa1a971e0f443b6c"
+        "selfQualified": true
       }, 
       {
         "status": "active", 
-        "selfEligible": true, 
         "lotValues": [
           {
-            "relatedLot": "e928726a47b7461a9d8a00258123cf3d", 
+            "relatedLot": "827f341aa45e495f853f5493aee68c42", 
             "date": "2020-05-15T01:00:00+03:00", 
             "status": "active"
           }
         ], 
-        "selfQualified": true, 
+        "id": "572235daf46e42aab4f38d4ecfbf806e", 
         "tenderers": [
           {
             "contactPoint": {
@@ -303,19 +301,18 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "date": "2020-05-15T01:00:00+03:00", 
-        "id": "44e377d158fa42f3b8d4437c84bdda52"
+        "selfQualified": true
       }, 
       {
         "status": "active", 
-        "selfEligible": true, 
         "lotValues": [
           {
-            "relatedLot": "e928726a47b7461a9d8a00258123cf3d", 
+            "relatedLot": "827f341aa45e495f853f5493aee68c42", 
             "date": "2020-05-15T01:00:00+03:00", 
             "status": "active"
           }
         ], 
-        "selfQualified": true, 
+        "id": "602221490fe54ad4866e70ecd5f09fe1", 
         "tenderers": [
           {
             "contactPoint": {
@@ -340,7 +337,7 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "date": "2020-05-15T01:00:00+03:00", 
-        "id": "eb8b16e4d30d4a81b046cae41632ed2d"
+        "selfQualified": true
       }
     ], 
     "value": {

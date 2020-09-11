@@ -1,4 +1,4 @@
-PUT /api/2.5/tenders/6ccc95c340c94e32bcf0b8c2183e62f7/documents/c3be39b3c6954dcba33d6a72709ae9fa?acc_token=794fefa6abd34c81a289161fadb1feb4 HTTP/1.0
+PUT /api/2.5/tenders/6ccc95c340c94e32bcf0b8c2183e62f7/documents/d44dae4e682c4fb6ad546dc2f164f2c4?acc_token=794fefa6abd34c81a289161fadb1feb4 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 335
 Content-Type: application/json
@@ -24,7 +24,7 @@ Content-Type: application/json; charset=UTF-8
     "format": "application/pdf", 
     "documentOf": "tender", 
     "datePublished": "2020-05-15T01:00:00+03:00", 
-    "id": "c3be39b3c6954dcba33d6a72709ae9fa", 
+    "id": "d44dae4e682c4fb6ad546dc2f164f2c4", 
     "dateModified": "2020-05-15T01:00:00+03:00"
   }
 }

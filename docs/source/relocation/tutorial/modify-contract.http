@@ -1,4 +1,4 @@
-PATCH /api/2.5/contracts/223251091c99415eb820553413b6aa9e?acc_token=dfb44b90693542e39191ed53473b8cb5 HTTP/1.0
+PATCH /api/2.5/contracts/223251091c99415eb820553413b6aa9e?acc_token=259e5e2fd1aa40749d3f1e285299ad66 HTTP/1.0
 Authorization: Bearer broker3
 Content-Length: 64
 Content-Type: application/json

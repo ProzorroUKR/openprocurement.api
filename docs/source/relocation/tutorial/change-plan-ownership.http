@@ -58,7 +58,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-05-17T01:00:00+03:00", 
           "endDate": "2020-05-20T01:00:00+03:00"
         }, 
-        "id": "099cdfc7ed9842c6b300e3c804d97b77", 
+        "id": "3b769e31f1b34febb698f583d5e264cd", 
         "unit": {
           "code": "KGM", 
           "name": "кг"
@@ -83,7 +83,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-05-17T01:00:00+03:00", 
           "endDate": "2020-05-20T01:00:00+03:00"
         }, 
-        "id": "d08aa9cd1ae342039affd26af6a622bb", 
+        "id": "88433532a143404988f063275f2a32a2", 
         "unit": {
           "code": "KGM", 
           "name": "кг"
@@ -108,7 +108,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-05-17T01:00:00+03:00", 
           "endDate": "2020-05-20T01:00:00+03:00"
         }, 
-        "id": "775067ef9cd74cfcb3e2b07ba7f3237c", 
+        "id": "70f99b652a404d8e861f7c06543dd125", 
         "unit": {
           "code": "KGM", 
           "name": "кг"
@@ -126,7 +126,7 @@ Content-Type: application/json; charset=UTF-8
             "currency": "UAH", 
             "amount": 1500.0
           }, 
-          "id": "6b9885866d3f4488b4aac2dbd7d8ca89"
+          "id": "73d48f06e2124fbdbffe23cb37a0c417"
         }
       ], 
       "amountNet": 12222.0, 

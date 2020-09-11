@@ -20,7 +20,7 @@ Content-Type: application/json; charset=UTF-8
     "lotID": "c7555f1bb878434d8815dea318304673", 
     "eligible": true, 
     "qualified": true, 
-    "bidID": "5a84740ed0bd4aa3830adfb56c49ed62", 
+    "bidID": "e0d41b30b35a430fb164a63e2cd8792b", 
     "date": "2020-05-15T01:00:00+03:00", 
     "id": "cdc3670ed483448a8cd1ed6d1146da99"
   }

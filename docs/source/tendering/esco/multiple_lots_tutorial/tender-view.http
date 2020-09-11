@@ -65,7 +65,7 @@ Content-Type: application/json; charset=UTF-8
         "minimalStepPercentage": 0.006, 
         "yearlyPaymentsPercentageRange": 0.8, 
         "date": "2020-05-15T01:00:00+03:00", 
-        "id": "3c84167877eb48d693c12efd2c6cb01e"
+        "id": "45d538b502bd4124bff52a374958e9ea"
       }, 
       {
         "status": "active", 
@@ -83,7 +83,7 @@ Content-Type: application/json; charset=UTF-8
         "minimalStepPercentage": 0.006, 
         "yearlyPaymentsPercentageRange": 0.8, 
         "date": "2020-05-15T01:00:00+03:00", 
-        "id": "92e4a20a9d7f4dada89d434409f951d8"
+        "id": "aa439cf36abb4b2fb712ee9932b8d55b"
       }
     ], 
     "tenderID": "UA-2020-05-15-000001", 
@@ -126,13 +126,13 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "percentage": 54.45, 
         "type": "financing", 
-        "id": "d1202ca204144cbe9dc33b3be3890c2f"
+        "id": "ab5c5a60667c417b9617d930f57e7aa4"
       }
     ], 
     "fundingKind": "other", 
     "items": [
       {
-        "relatedLot": "3c84167877eb48d693c12efd2c6cb01e", 
+        "relatedLot": "45d538b502bd4124bff52a374958e9ea", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "ДК021", 
@@ -154,14 +154,14 @@ Content-Type: application/json; charset=UTF-8
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
-        "id": "690fde3cdacc4efc8e343748e53b099a", 
+        "id": "883dc1607ec54e498aaa32c18819bdff", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
         }
       }, 
       {
-        "relatedLot": "92e4a20a9d7f4dada89d434409f951d8", 
+        "relatedLot": "aa439cf36abb4b2fb712ee9932b8d55b", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "ДК021", 
@@ -183,7 +183,7 @@ Content-Type: application/json; charset=UTF-8
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
-        "id": "c9050d5dbc614321aba56eb555dc7ded", 
+        "id": "273260c57be54e9fb4f474cd84077507", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"

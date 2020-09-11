@@ -177,7 +177,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/821592d97e83442c
         }, 
         "percentage": 54.45, 
         "type": "financing", 
-        "id": "704e42f915594cc2af3a6c6e9f923443"
+        "id": "10bc97f3d7d842e79ec67890aa152d92"
       }
     ], 
     "mainProcurementCategory": "goods", 
@@ -209,7 +209,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/821592d97e83442c
         "deliveryDate": {
           "endDate": "2020-05-30T01:00:00+03:00"
         }, 
-        "id": "e6d836830ced4eca9bbaa3c3116cb408", 
+        "id": "16055704c1d645788f69e15e2de1e163", 
         "unit": {
           "code": "KGM", 
           "name": "кг"
@@ -233,7 +233,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/821592d97e83442c
         "deliveryDate": {
           "endDate": "2020-05-31T01:00:00+03:00"
         }, 
-        "id": "ced73ebf85cc415cb0c130e539f0fe6d", 
+        "id": "780f097c6daf4c919259a08babc0a36f", 
         "unit": {
           "code": "KGM", 
           "name": "кг"
@@ -257,7 +257,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/821592d97e83442c
         "deliveryDate": {
           "endDate": "2020-06-01T01:00:00+03:00"
         }, 
-        "id": "2b33000b59b54af7aef0cf2f9c91481a", 
+        "id": "5117c7514a494959afc386f26535883c", 
         "unit": {
           "code": "KGM", 
           "name": "кг"

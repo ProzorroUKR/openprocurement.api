@@ -68,7 +68,7 @@ Content-Type: application/json; charset=UTF-8
         "title": "Калорійність", 
         "date": "2020-05-15T01:00:00+03:00", 
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
-        "id": "d307480a47364bc5850a03e4643ca2fd", 
+        "id": "e928a5ef19284c6b8261f1f7c51fd561", 
         "questionOf": "tender"
       }
     ], 
@@ -184,7 +184,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-06-04T01:00:00+03:00", 
           "endDate": "2020-06-15T01:00:00+03:00"
         }, 
-        "id": "52ba02bed7a347fa9f8119661caf0ed2", 
+        "id": "c9279535363848ec981dbe0480847b88", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"

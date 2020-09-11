@@ -13,14 +13,14 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/28f1e5d8fcb146b68b6691df9238a223/qualifications/12341234123412341234123412341234/milestones/462a4a42b53947719f4468392e1992d0
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/28f1e5d8fcb146b68b6691df9238a223/qualifications/12341234123412341234123412341234/milestones/d3d80f8b862f4e8a92152c0047971f62
 {
   "data": {
     "date": "2020-05-02T05:00:20+03:00", 
     "dueDate": "2020-05-03T05:00:20+03:00", 
     "code": "24h", 
     "description": "One ring to bring them all and in the darkness bind them", 
-    "id": "462a4a42b53947719f4468392e1992d0"
+    "id": "d3d80f8b862f4e8a92152c0047971f62"
   }
 }
 

@@ -23,7 +23,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/77cf582ab7284fb1a0e748ea7fe9033f/milestones/e00a9a2282f647598f1688ad83fd9070
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/77cf582ab7284fb1a0e748ea7fe9033f/milestones/65ddb2f1dc114a3d9dbed945573ec4e7
 {
   "access": {
     "token": "6e455ae5f2a8451b9732a2e3c32260c3"
@@ -44,7 +44,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/77cf582ab7284fb1a0
     "dateModified": "2019-05-02T05:00:00+03:00", 
     "owner": "broker", 
     "type": "approval", 
-    "id": "e00a9a2282f647598f1688ad83fd9070"
+    "id": "65ddb2f1dc114a3d9dbed945573ec4e7"
   }
 }
 
