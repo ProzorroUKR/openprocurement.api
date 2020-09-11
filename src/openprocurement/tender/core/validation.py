@@ -1820,25 +1820,17 @@ def validate_requirement_groups(value):
             validate_requirement(requirement)
 
 
-def base_validate_operation_ecriteria_objects(request, valid_statuses=""):
+def base_validate_operation_ecriteria_objects(request, valid_statuses="", obj_name="tender"):
     validate_tender_first_revision_date(request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
-    tender_status = request.validated["tender"].status
-    if tender_status not in valid_statuses:
-        raise_operation_error(request, "Can't {} object if tender not in {} statuses".format(
-            request.method.lower(), valid_statuses))
+    current_status = request.validated[obj_name].status
+    if current_status not in valid_statuses:
+        raise_operation_error(request, "Can't {} object if {} not in {} statuses".format(
+            request.method.lower(), obj_name, valid_statuses))
 
 
 def validate_operation_ecriteria_objects(request):
     valid_statuses = ["draft", "draft.pending", "draft.stage2", "active.tendering"]
     base_validate_operation_ecriteria_objects(request, valid_statuses)
-
-
-def validate_operation_bid_requirement_response(request):
-    tender_status = request.validated["bid"].status
-    valid_statuses = ["draft", "invalid"]
-    if tender_status not in valid_statuses:
-        raise_operation_error(request, "Can't {} object if bid not in {} statuses".format(
-            request.method.lower(), valid_statuses))
 
 
 def validate_patch_exclusion_ecriteria_objects(request):
@@ -1847,13 +1839,14 @@ def validate_patch_exclusion_ecriteria_objects(request):
         raise_operation_error(request, "Can't update exclusion ecriteria objects")
 
 
-def validate_operation_award_rr(request):
+def validate_operation_bid_requirement_response(request):
+    valid_statuses = ["draft", "invalid"]
+    base_validate_operation_ecriteria_objects(request, valid_statuses, "bid")
+
+
+def validate_operation_award_requirement_response(request):
     validate_tender_first_revision_date(request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
-    tender_status = request.validated["award"].status
-    valid_statuses = ["pending"]
-    if tender_status not in valid_statuses:
-        raise_operation_error(request, "Can't {} object if award not in {} statuses".format(
-            request.method.lower(), valid_statuses))
+    base_validate_operation_ecriteria_objects(request, ["pending"], "award")
 
 
 def validate_criterion_data(request):
@@ -1891,18 +1884,16 @@ def validate_patch_requirement_data(request):
 
 def validate_eligible_evidence_data(request):
     update_logging_context(request, {"evidence_id": "__new__"})
-    model = type(request.tender).criteria.model_class.\
-        requirementGroups.model_class.\
-        requirements.model_class.\
-        eligibleEvidences.model_class
+    model = (type(request.tender).criteria.model_class.requirementGroups.model_class
+             .requirements.model_class
+             .eligibleEvidences.model_class)
     return validate_data(request, model)
 
 
 def validate_patch_eligible_evidence_data(request):
-    model = type(request.tender).criteria.model_class.\
-        requirementGroups.model_class.\
-        requirements.model_class.\
-        eligibleEvidences.model_class
+    model = (type(request.tender).criteria.model_class.requirementGroups.model_class
+             .requirements.model_class
+             .eligibleEvidences.model_class)
     return validate_data(request, model, True)
 
 

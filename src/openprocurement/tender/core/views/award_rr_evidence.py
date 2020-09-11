@@ -5,7 +5,7 @@ from openprocurement.api.utils import (
 from openprocurement.tender.core.validation import (
     validate_evidence_data,
     validate_patch_evidence_data,
-    validate_operation_award_rr,
+    validate_operation_award_requirement_response,
 )
 from openprocurement.tender.core.views.requirement_response_evidence import BaseRequirementResponseEvidenceResource
 
@@ -15,7 +15,7 @@ class BaseAwardRequirementResponseEvidenceResource(BaseRequirementResponseEviden
     @json_view(
         content_type="application/json",
         validators=(
-            validate_operation_award_rr,
+            validate_operation_award_requirement_response,
             validate_evidence_data,
         ),
         permission="edit_tender"
@@ -34,7 +34,7 @@ class BaseAwardRequirementResponseEvidenceResource(BaseRequirementResponseEviden
     @json_view(
         content_type="application/json",
         validators=(
-            validate_operation_award_rr,
+            validate_operation_award_requirement_response,
             validate_patch_evidence_data,
         ),
         permission="edit_tender"
@@ -43,7 +43,7 @@ class BaseAwardRequirementResponseEvidenceResource(BaseRequirementResponseEviden
         return super(BaseAwardRequirementResponseEvidenceResource, self).patch()
 
     @json_view(
-        validators=(validate_operation_award_rr,),
+        validators=(validate_operation_award_requirement_response,),
         permission="edit_bid",
     )
     def delete(self):
