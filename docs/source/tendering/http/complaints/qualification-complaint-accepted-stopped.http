@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/0ba5045de21b4930a220df9887be28ec/qualifications/de1fdfe83be64f45a3aa274d8f98a1e9/complaints/9ccb55897689468f978601fe46f2749e HTTP/1.0
+PATCH /api/2.5/tenders/0ba5045de21b4930a220df9887be28ec/qualifications/de1fdfe83be64f45a3aa274d8f98a1e9/complaints/c4eb9209aa72416c8c029a80816be774 HTTP/1.0
 Authorization: Bearer reviewer
 Content-Length: 252
 Content-Type: application/json
@@ -27,7 +27,7 @@ Content-Type: application/json; charset=UTF-8
       "currency": "UAH", 
       "amount": 3000.0
     }, 
-    "id": "9ccb55897689468f978601fe46f2749e", 
+    "id": "c4eb9209aa72416c8c029a80816be774", 
     "rejectReason": "tenderCancelled", 
     "dateAccepted": "2020-05-15T01:00:01+03:00", 
     "author": {

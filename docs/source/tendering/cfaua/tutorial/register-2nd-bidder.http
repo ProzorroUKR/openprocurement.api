@@ -1,12 +1,11 @@
 POST /api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 891
+Content-Length: 869
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "selfEligible": true, 
     "selfQualified": true, 
     "lotValues": [
       {
@@ -44,7 +43,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/e88e8fc3020640178a79c6e66d3dfd5f
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/1c4a2dcee85343898ea5fbfd8ce2bd6e
 {
   "access": {
     "transfer": "ad22cf4f696a4ae581936d20f1070ef4", 
@@ -52,7 +51,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f
   }, 
   "data": {
     "status": "pending", 
-    "selfEligible": true, 
     "lotValues": [
       {
         "relatedLot": "c7555f1bb878434d8815dea318304673", 
@@ -65,7 +63,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f
         }
       }
     ], 
-    "selfQualified": true, 
+    "id": "1c4a2dcee85343898ea5fbfd8ce2bd6e", 
     "tenderers": [
       {
         "contactPoint": {
@@ -90,7 +88,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f
       }
     ], 
     "date": "2020-05-15T01:00:00+03:00", 
-    "id": "e88e8fc3020640178a79c6e66d3dfd5f"
+    "selfQualified": true
   }
 }
 

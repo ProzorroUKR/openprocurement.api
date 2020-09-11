@@ -45,7 +45,7 @@ Content-Type: application/json; charset=UTF-8
       "startDate": "2020-05-15T01:00:00+03:00", 
       "endDate": "2020-05-26T00:00:00+03:00"
     }, 
-    "bid_id": "8bb3878e6aa347bf8d402a8988d6475c", 
+    "bid_id": "ca262e0588d5439b9bd58b3d33caf545", 
     "value": {
       "currency": "UAH", 
       "amount": 499.0, 

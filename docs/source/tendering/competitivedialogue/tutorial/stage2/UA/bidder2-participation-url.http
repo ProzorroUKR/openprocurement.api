@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d/bids/955d1e01f0604f458f923f2ce7cacf3a?acc_token=c631e154db144d01824af380c6d83247 HTTP/1.0
+GET /api/2.5/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d/bids/09c4b1e3c23e4f6cb647e58c5a1f55b6?acc_token=c631e154db144d01824af380c6d83247 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -11,21 +11,20 @@ Content-Type: application/json; charset=UTF-8
       {
         "hash": "md5:00000000000000000000000000000000", 
         "title": "Proposal_part1.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d/bids/955d1e01f0604f458f923f2ce7cacf3a/documents/8832c635d2004c048134be52dd6d6115?download=6ce04e80464b4567830a30ffc7c1bb62", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d/bids/09c4b1e3c23e4f6cb647e58c5a1f55b6/documents/61adf5465a82489bb4f746b75688805c?download=6ce04e80464b4567830a30ffc7c1bb62", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-05-15T01:00:00+03:00", 
-        "id": "8832c635d2004c048134be52dd6d6115", 
+        "id": "61adf5465a82489bb4f746b75688805c", 
         "dateModified": "2020-05-15T01:00:00+03:00"
       }
     ], 
-    "selfEligible": true, 
     "value": {
       "currency": "UAH", 
       "amount": 499.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "id": "955d1e01f0604f458f923f2ce7cacf3a", 
+    "id": "09c4b1e3c23e4f6cb647e58c5a1f55b6", 
     "tenderers": [
       {
         "contactPoint": {
@@ -51,7 +50,7 @@ Content-Type: application/json; charset=UTF-8
     ], 
     "date": "2020-05-15T01:00:00+03:00", 
     "selfQualified": true, 
-    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d?key_for_bid=955d1e01f0604f458f923f2ce7cacf3a"
+    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d?key_for_bid=09c4b1e3c23e4f6cb647e58c5a1f55b6"
   }
 }
 

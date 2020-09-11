@@ -15,7 +15,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db8f78603c144a8aac15730f9c763584/lots/3c84167877eb48d693c12efd2c6cb01e
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db8f78603c144a8aac15730f9c763584/lots/45d538b502bd4124bff52a374958e9ea
 {
   "data": {
     "status": "active", 
@@ -33,7 +33,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db8f78603c144a8a
     "minimalStepPercentage": 0.006, 
     "yearlyPaymentsPercentageRange": 0.8, 
     "date": "2020-05-15T01:00:00+03:00", 
-    "id": "3c84167877eb48d693c12efd2c6cb01e"
+    "id": "45d538b502bd4124bff52a374958e9ea"
   }
 }
 

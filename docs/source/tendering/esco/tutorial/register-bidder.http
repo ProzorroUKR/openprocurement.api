@@ -1,13 +1,14 @@
 POST /api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1217
+Content-Length: 1195
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
     "status": "draft", 
-    "selfEligible": true, 
+    "subcontractingDetails": "ДКП «Орфей», Україна", 
+    "selfQualified": true, 
     "value": {
       "contractDuration": {
         "days": 74, 
@@ -38,7 +39,6 @@ DATA:
         1000
       ]
     }, 
-    "subcontractingDetails": "ДКП «Орфей», Україна", 
     "tenderers": [
       {
         "contactPoint": {
@@ -61,14 +61,13 @@ DATA:
           "locality": "м. Вінниця"
         }
       }
-    ], 
-    "selfQualified": true
+    ]
   }
 }
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/e4528bc92c0f463ca1f661381961e106
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/498e07f6feea4ee99de14563abcf1d0c
 {
   "access": {
     "transfer": "386b1470e5744d81b11a1bd9b3b247ee", 
@@ -76,8 +75,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293
   }, 
   "data": {
     "status": "draft", 
-    "selfEligible": true, 
-    "id": "e4528bc92c0f463ca1f661381961e106", 
+    "id": "498e07f6feea4ee99de14563abcf1d0c", 
     "value": {
       "yearlyPaymentsPercentage": 0.9, 
       "valueAddedTaxIncluded": true, 

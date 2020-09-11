@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/6ccc95c340c94e32bcf0b8c2183e62f7/bids/d3401f691dc94a84ba7daa8eb8e0c4f0?acc_token=8c1be9249ea8445480b4c4e3ec6ee974 HTTP/1.0
+GET /api/2.5/tenders/6ccc95c340c94e32bcf0b8c2183e62f7/bids/d3232808966140b4817970455ae7c99e?acc_token=8c1be9249ea8445480b4c4e3ec6ee974 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -11,21 +11,21 @@ Content-Type: application/json; charset=UTF-8
       {
         "hash": "md5:00000000000000000000000000000000", 
         "title": "Proposal_part1.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6ccc95c340c94e32bcf0b8c2183e62f7/bids/d3401f691dc94a84ba7daa8eb8e0c4f0/documents/c5f17f5d6bd94560afb4e4276f410310?download=f4853348bbbc4a6faa08d0e2891ea2e8", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6ccc95c340c94e32bcf0b8c2183e62f7/bids/d3232808966140b4817970455ae7c99e/documents/62d42fd055ad4447b9025faab11e1af1?download=f4853348bbbc4a6faa08d0e2891ea2e8", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-05-15T01:00:00+03:00", 
-        "id": "c5f17f5d6bd94560afb4e4276f410310", 
+        "id": "62d42fd055ad4447b9025faab11e1af1", 
         "dateModified": "2020-05-15T01:00:00+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
         "title": "Proposal_part2.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6ccc95c340c94e32bcf0b8c2183e62f7/bids/d3401f691dc94a84ba7daa8eb8e0c4f0/documents/39a5a8f376d04e31b0dff87300913f99?download=e8f2a6a130ba44bb8e93f4056a8dbab7", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6ccc95c340c94e32bcf0b8c2183e62f7/bids/d3232808966140b4817970455ae7c99e/documents/a88535d579b44921bd723845d97bdb5c?download=e8f2a6a130ba44bb8e93f4056a8dbab7", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-05-15T01:00:00+03:00", 
-        "id": "39a5a8f376d04e31b0dff87300913f99", 
+        "id": "a88535d579b44921bd723845d97bdb5c", 
         "dateModified": "2020-05-15T01:00:00+03:00"
       }
     ], 
@@ -48,7 +48,7 @@ Content-Type: application/json; charset=UTF-8
           "amount": 499.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/6ccc95c340c94e32bcf0b8c2183e62f7_1b75c06ee58f4909a4201255b4ba5831?key_for_bid=d3401f691dc94a84ba7daa8eb8e0c4f0"
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/6ccc95c340c94e32bcf0b8c2183e62f7_1b75c06ee58f4909a4201255b4ba5831?key_for_bid=d3232808966140b4817970455ae7c99e"
       }
     ], 
     "tenderers": [
@@ -74,7 +74,7 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "date": "2020-05-15T01:00:00+03:00", 
-    "id": "d3401f691dc94a84ba7daa8eb8e0c4f0"
+    "id": "d3232808966140b4817970455ae7c99e"
   }
 }
 

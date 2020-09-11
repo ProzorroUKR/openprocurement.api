@@ -27,7 +27,7 @@ Content-Type: application/json; charset=UTF-8
       "complaintID": "UA-2020-05-15-000001.1", 
       "date": "2020-05-15T01:00:00+03:00", 
       "type": "claim", 
-      "id": "2777125e15cc49f890ea89cd88dceffb"
+      "id": "fd73a9631f4340858339163b6ef19dd1"
     }, 
     {
       "status": "resolved", 
@@ -41,7 +41,7 @@ Content-Type: application/json; charset=UTF-8
       "complaintID": "UA-2020-05-15-000001.2", 
       "date": "2020-05-15T01:00:00+03:00", 
       "resolution": "Виправлено неконкурентні умови", 
-      "id": "f69c1412dc8b4f318d464ff518799e37"
+      "id": "39e21275514647ba80d2ac1c9814d826"
     }, 
     {
       "status": "declined", 
@@ -80,7 +80,7 @@ Content-Type: application/json; charset=UTF-8
       "complaintID": "UA-2020-05-15-000001.3", 
       "date": "2020-05-15T01:00:00+03:00", 
       "type": "complaint", 
-      "id": "4bfb8ef256dd4c198abaccf0e9db7d58", 
+      "id": "437e05002e5e45a0bb463f5ad3220d2b", 
       "reviewPlace": "Place of review"
     }, 
     {
@@ -94,7 +94,7 @@ Content-Type: application/json; charset=UTF-8
       "complaintID": "UA-2020-05-15-000001.4", 
       "date": "2020-05-15T01:00:00+03:00", 
       "resolution": "Вимога не відповідає предмету закупівлі", 
-      "id": "b002454f45a448c19e5d2640996f289a"
+      "id": "8b3298544ec94c929481909e0c7adc08"
     }, 
     {
       "status": "resolved", 
@@ -128,7 +128,7 @@ Content-Type: application/json; charset=UTF-8
         "currency": "UAH", 
         "amount": 2000.0
       }, 
-      "id": "9698c2aae121470eb87342fb51872653", 
+      "id": "b84e3d4216374e81a4b85a973be2fff5", 
       "tendererAction": "Умови виправлено", 
       "dateSubmitted": "2020-05-15T01:00:00+03:00", 
       "complaintID": "UA-2020-05-15-000001.5", 
@@ -164,7 +164,7 @@ Content-Type: application/json; charset=UTF-8
         "currency": "UAH", 
         "amount": 2000.0
       }, 
-      "id": "b51604ff3434469a98320c9b034b4c0a", 
+      "id": "8ab5a1c471fc483581f80792dab75484", 
       "rejectReason": "tenderCancelled", 
       "dateAccepted": "2020-05-15T01:00:00+03:00", 
       "author": {
@@ -231,7 +231,7 @@ Content-Type: application/json; charset=UTF-8
       "date": "2020-05-15T01:00:00+03:00", 
       "title": "Недостатньо інформації", 
       "type": "complaint", 
-      "id": "bb9432ace0c047c6b4c925ec4ace0099", 
+      "id": "cfbf11a6c9c241988f120ecbb8c4867b", 
       "reviewPlace": "Place of review"
     }, 
     {
@@ -270,7 +270,7 @@ Content-Type: application/json; charset=UTF-8
       "date": "2020-05-15T01:00:00+03:00", 
       "title": "Недостатньо інформації", 
       "type": "complaint", 
-      "id": "ede6804b22c5468a9819c2e0f4496ded"
+      "id": "d3a973174cb548a9a4993fdbf5d9674e"
     }, 
     {
       "status": "mistaken", 
@@ -305,7 +305,7 @@ Content-Type: application/json; charset=UTF-8
       "complaintID": "UA-2020-05-15-000001.9", 
       "date": "2020-05-15T01:00:00+03:00", 
       "type": "complaint", 
-      "id": "38d6d6628b5347e5af7a12c4c93fe47c"
+      "id": "7d9aed18ef4847f2b353c7edb0c95143"
     }, 
     {
       "status": "pending", 
@@ -339,7 +339,7 @@ Content-Type: application/json; charset=UTF-8
           "author": "aboveThresholdReviewers", 
           "datePublished": "2020-05-15T01:00:00+03:00", 
           "recipient": "complaint_owner", 
-          "id": "49152b64d32449558213fe0e413d8476"
+          "id": "a7fcad7850ac470fb74d5ea7964a7e32"
         }, 
         {
           "documents": [
@@ -351,7 +351,7 @@ Content-Type: application/json; charset=UTF-8
               "format": "application/pdf", 
               "documentOf": "tender", 
               "datePublished": "2020-05-15T01:00:00+03:00", 
-              "id": "8be84c5e6df142b1bebc4dc846295cbf", 
+              "id": "e50966563324428fbe3375b2dc49a153", 
               "dateModified": "2020-05-15T01:00:00+03:00"
             }
           ], 
@@ -359,9 +359,9 @@ Content-Type: application/json; charset=UTF-8
           "title": "Уточнення по вимозі", 
           "author": "complaint_owner", 
           "datePublished": "2020-05-15T01:00:00+03:00", 
-          "relatedPost": "49152b64d32449558213fe0e413d8476", 
+          "relatedPost": "a7fcad7850ac470fb74d5ea7964a7e32", 
           "recipient": "aboveThresholdReviewers", 
-          "id": "2fce10c54207405fac5bdfda41aa37f9"
+          "id": "ec5d79b7aa544d36824079c03e462d3c"
         }, 
         {
           "description": "Відсутній документ", 
@@ -369,7 +369,7 @@ Content-Type: application/json; charset=UTF-8
           "author": "aboveThresholdReviewers", 
           "datePublished": "2020-05-15T01:00:00+03:00", 
           "recipient": "tender_owner", 
-          "id": "6ef16edfcfb54e459ba37ceae65ddf58"
+          "id": "a4b61c81a8cc44d6965de32baa8139e1"
         }, 
         {
           "documents": [
@@ -381,7 +381,7 @@ Content-Type: application/json; charset=UTF-8
               "format": "application/pdf", 
               "documentOf": "tender", 
               "datePublished": "2020-05-15T01:00:00+03:00", 
-              "id": "8797a89acda2403ba388caedc67686c3", 
+              "id": "fde3d09dd48b4ef994e747cc546ae78a", 
               "dateModified": "2020-05-15T01:00:00+03:00"
             }
           ], 
@@ -389,9 +389,9 @@ Content-Type: application/json; charset=UTF-8
           "title": "Уточнення по вимозі", 
           "author": "tender_owner", 
           "datePublished": "2020-05-15T01:00:00+03:00", 
-          "relatedPost": "6ef16edfcfb54e459ba37ceae65ddf58", 
+          "relatedPost": "a4b61c81a8cc44d6965de32baa8139e1", 
           "recipient": "aboveThresholdReviewers", 
-          "id": "c1c86e299d6a40baa9c0b37f09157800"
+          "id": "a9acd9a9b014433fa6a1eefc37f23b3b"
         }
       ], 
       "value": {
@@ -402,7 +402,7 @@ Content-Type: application/json; charset=UTF-8
       "complaintID": "UA-2020-05-15-000001.10", 
       "date": "2020-05-15T01:00:00+03:00", 
       "type": "complaint", 
-      "id": "9f3a6c7d446b4503872063f6021b89f2"
+      "id": "949127b6d2834a5ba8156ffef63a9a3c"
     }
   ]
 }

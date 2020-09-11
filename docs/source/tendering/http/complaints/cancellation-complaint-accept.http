@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/9de80116006a4e58b18ac56dda573693/cancellations/28437ff38b254dfdacc863e870354d20/complaints/57299cc6dd6a4e86b1bc8b2c406bf397 HTTP/1.0
+PATCH /api/2.5/tenders/9de80116006a4e58b18ac56dda573693/cancellations/31235ac89ae54d56b2b78a0243f2d589/complaints/ee791245be184fe89d11df7d4650b501 HTTP/1.0
 Authorization: Bearer reviewer
 Content-Length: 98
 Content-Type: application/json
@@ -64,7 +64,7 @@ Content-Type: application/json; charset=UTF-8
     "date": "2020-05-15T01:00:00+03:00", 
     "acceptance": true, 
     "type": "complaint", 
-    "id": "57299cc6dd6a4e86b1bc8b2c406bf397", 
+    "id": "ee791245be184fe89d11df7d4650b501", 
     "reviewPlace": "some"
   }
 }

@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/24660b6d159d42adb6aaba9d978575c7/bids/7d0b2418ff254e1c827ffe021c832900/requirement_responses?acc_token=f0760e708e124c8fb9f34e562dbf59cf HTTP/1.0
 Authorization: Bearer token
-Content-Length: 1534
+Content-Length: 1551
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -13,6 +13,7 @@ DATA:
       }, 
       "title": "Requirement response", 
       "description": "some description", 
+      "value": "True", 
       "evidences": [
         {
           "type": "document", 
@@ -32,13 +33,13 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": [
     {
-      "id": "77b00a6655054f71af72e8599f27e09e", 
       "requirement": {
         "id": "aa44e48527b84a61a1a157f92d304bac", 
         "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
       }, 
-      "title": "Requirement response", 
       "description": "some description", 
+      "title": "Requirement response", 
+      "value": "True", 
       "evidences": [
         {
           "title": "Requirement response", 
@@ -49,7 +50,8 @@ Content-Type: application/json; charset=UTF-8
           }, 
           "id": "80946715cbea46fab59296bd3f808848"
         }
-      ]
+      ], 
+      "id": "77b00a6655054f71af72e8599f27e09e"
     }
   ]
 }

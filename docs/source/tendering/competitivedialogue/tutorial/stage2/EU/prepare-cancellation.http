@@ -13,7 +13,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/50c82523038349969f53f3e238932c46/cancellations/3751f4fe25534d0e88b2f836338e014c
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/50c82523038349969f53f3e238932c46/cancellations/f532a92b50f04c6eb0f8efa928f32ca2
 {
   "data": {
     "status": "draft", 
@@ -21,7 +21,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/50c8252303834996
     "reasonType": "noDemand", 
     "date": "2020-05-15T01:00:01+03:00", 
     "cancellationOf": "tender", 
-    "id": "3751f4fe25534d0e88b2f836338e014c"
+    "id": "f532a92b50f04c6eb0f8efa928f32ca2"
   }
 }
 

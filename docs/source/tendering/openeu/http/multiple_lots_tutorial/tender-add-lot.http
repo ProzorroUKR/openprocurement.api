@@ -21,7 +21,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/52f1b75138ab4b2c87feff205f2a06f4/lots/a678eaf5090d45db8077d4ecd36154e0
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/52f1b75138ab4b2c87feff205f2a06f4/lots/fc297ff6c6a74743a96c6b274bae11c0
 {
   "data": {
     "status": "active", 
@@ -41,7 +41,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/52f1b75138ab4b2c
       "valueAddedTaxIncluded": true
     }, 
     "date": "2020-05-15T01:00:00+03:00", 
-    "id": "a678eaf5090d45db8077d4ecd36154e0"
+    "id": "fc297ff6c6a74743a96c6b274bae11c0"
   }
 }
 

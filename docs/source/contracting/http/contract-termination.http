@@ -30,7 +30,7 @@ Content-Type: application/json; charset=UTF-8
         "dateSigned": "2020-05-15T01:00:01+03:00", 
         "rationale": "Друга і третя поставка має бути розфасована", 
         "date": "2020-05-15T01:00:01+03:00", 
-        "id": "f3fe39d5213d4a029212ff4f1151cf40"
+        "id": "81250fd3a7ee4df6b89ed94e5b3996ce"
       }
     ], 
     "documents": [
@@ -41,7 +41,7 @@ Content-Type: application/json; charset=UTF-8
         "documentOf": "change", 
         "datePublished": "2020-05-15T01:00:01+03:00", 
         "id": "de3004e5b9844707bb35405277043c7c", 
-        "relatedItem": "f3fe39d5213d4a029212ff4f1151cf40", 
+        "relatedItem": "81250fd3a7ee4df6b89ed94e5b3996ce", 
         "dateModified": "2020-05-15T01:00:01+03:00"
       }, 
       {
@@ -98,7 +98,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-05-17T01:00:00+03:00", 
           "endDate": "2020-05-20T01:00:00+03:00"
         }, 
-        "id": "f9297f1a5b7148afa736fdb77d9a7d98", 
+        "id": "5aa33ced861b46229ef867cdad804781", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"

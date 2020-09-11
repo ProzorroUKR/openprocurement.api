@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/f69c1412dc8b4f318d464ff518799e37?acc_token=f3fcbf245b584352b8ee0c06c6298ad4 HTTP/1.0
+PATCH /api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/39e21275514647ba80d2ac1c9814d826?acc_token=f3fcbf245b584352b8ee0c06c6298ad4 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 250
 Content-Type: application/json
@@ -26,7 +26,7 @@ Content-Type: application/json; charset=UTF-8
     "complaintID": "UA-2020-05-15-000001.2", 
     "date": "2020-05-15T01:00:00+03:00", 
     "resolution": "Виправлено неконкурентні умови", 
-    "id": "f69c1412dc8b4f318d464ff518799e37"
+    "id": "39e21275514647ba80d2ac1c9814d826"
   }
 }
 

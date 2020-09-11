@@ -35,7 +35,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ba5045de21b4930a220df9887be28ec/qualifications/de1fdfe83be64f45a3aa274d8f98a1e9/complaints/e8010385c6704fe49613ae6cfd5f3bc3
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ba5045de21b4930a220df9887be28ec/qualifications/de1fdfe83be64f45a3aa274d8f98a1e9/complaints/f4f8a8dc1ed5421a8eed8e11a93cd2aa
 {
   "access": {
     "transfer": "4a714bf9b99d40f3aa79892add6225d8", 
@@ -45,12 +45,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ba5045de21b4930
     "status": "claim", 
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
     "title": "Недостатньо інформації", 
-    "bid_id": "91a7fd50cba44d128291a2298a582b95", 
+    "bid_id": "4e3560c629254c51802d8dc72d557ad6", 
     "dateSubmitted": "2020-05-15T01:00:01+03:00", 
     "complaintID": "UA-2020-05-15-000001.6", 
     "date": "2020-05-15T01:00:01+03:00", 
     "type": "claim", 
-    "id": "e8010385c6704fe49613ae6cfd5f3bc3"
+    "id": "f4f8a8dc1ed5421a8eed8e11a93cd2aa"
   }
 }
 

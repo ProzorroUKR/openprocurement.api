@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/52f1b75138ab4b2c87feff205f2a06f4/lots/885ae10af23944619f6730aa24a94d92?acc_token=20ea9bdc44d84eec82cf2059f999ad42 HTTP/1.0
+PATCH /api/2.5/tenders/52f1b75138ab4b2c87feff205f2a06f4/lots/d9ed347dda65496aa56d9f7692c949c3?acc_token=20ea9bdc44d84eec82cf2059f999ad42 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 36
 Content-Type: application/json
@@ -33,7 +33,7 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "date": "2020-05-15T01:00:00+03:00", 
-    "id": "885ae10af23944619f6730aa24a94d92"
+    "id": "d9ed347dda65496aa56d9f7692c949c3"
   }
 }
 

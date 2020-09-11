@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/bids/9d3968fda7eb41c0a97e5273a1d682ab?acc_token=209d79fd54db4c518400dd7525b7be77 HTTP/1.0
+PATCH /api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/bids/e0b930e1240c4c8c8e0116fe380767f2?acc_token=209d79fd54db4c518400dd7525b7be77 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -15,8 +15,7 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "active", 
-    "selfEligible": true, 
-    "id": "9d3968fda7eb41c0a97e5273a1d682ab", 
+    "id": "e0b930e1240c4c8c8e0116fe380767f2", 
     "value": {
       "currency": "UAH", 
       "amount": 500.0, 

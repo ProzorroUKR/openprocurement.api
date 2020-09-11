@@ -48,7 +48,7 @@ Content-Type: application/json; charset=UTF-8
         "deliveryDate": {
           "endDate": "2019-11-09T01:00:00+03:00"
         }, 
-        "id": "f7271f852efe465c876aba44613ab929", 
+        "id": "20af24c61dc7451a9205eca2dac56d65", 
         "unit": {
           "code": "KGM", 
           "name": "кг"
@@ -66,7 +66,7 @@ Content-Type: application/json; charset=UTF-8
             "currency": "UAH", 
             "amount": 1500.0
           }, 
-          "id": "d2eea74930724e5ea1f91acf90177772"
+          "id": "f0d2c36b24ed47169ca75a7803897a2d"
         }
       ], 
       "amountNet": 12222.0, 

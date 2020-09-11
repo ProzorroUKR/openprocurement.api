@@ -98,7 +98,7 @@ Content-Type: application/json; charset=UTF-8
                   "amount": 93, 
                   "valueAddedTaxIncluded": true
                 }, 
-                "relatedItem": "caa9e0207afd49d48ca553e562787699"
+                "relatedItem": "54eee06ff6d24b12b8e84dfe65d1b6b7"
               }
             ], 
             "suppliers": [
@@ -140,7 +140,7 @@ Content-Type: application/json; charset=UTF-8
                   "amount": 93, 
                   "valueAddedTaxIncluded": true
                 }, 
-                "relatedItem": "caa9e0207afd49d48ca553e562787699"
+                "relatedItem": "54eee06ff6d24b12b8e84dfe65d1b6b7"
               }
             ], 
             "suppliers": [
@@ -182,7 +182,7 @@ Content-Type: application/json; charset=UTF-8
                   "amount": 93, 
                   "valueAddedTaxIncluded": true
                 }, 
-                "relatedItem": "caa9e0207afd49d48ca553e562787699"
+                "relatedItem": "54eee06ff6d24b12b8e84dfe65d1b6b7"
               }
             ], 
             "suppliers": [
@@ -244,7 +244,7 @@ Content-Type: application/json; charset=UTF-8
               "startDate": "2018-06-27T13:39:09.362837+03:00", 
               "endDate": "2018-06-30T13:39:09.362837+03:00"
             }, 
-            "id": "caa9e0207afd49d48ca553e562787699", 
+            "id": "54eee06ff6d24b12b8e84dfe65d1b6b7", 
             "unit": {
               "code": "44617100-9", 
               "name": "item"
@@ -471,7 +471,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2018-06-27T13:39:09.362837+03:00", 
           "endDate": "2018-06-30T13:39:09.362837+03:00"
         }, 
-        "id": "caa9e0207afd49d48ca553e562787699", 
+        "id": "54eee06ff6d24b12b8e84dfe65d1b6b7", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -482,7 +482,6 @@ Content-Type: application/json; charset=UTF-8
     "bids": [
       {
         "status": "active", 
-        "selfEligible": true, 
         "lotValues": [
           {
             "relatedLot": "2b33a80c73cb4c39957170a963adfe52", 
@@ -495,7 +494,7 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
-        "selfQualified": true, 
+        "id": "f875346eda7843a3b3b9fefc28f5662c", 
         "tenderers": [
           {
             "scale": "micro", 
@@ -522,11 +521,10 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "date": "2020-03-18T01:00:01+03:00", 
-        "id": "f875346eda7843a3b3b9fefc28f5662c"
+        "selfQualified": true
       }, 
       {
         "status": "active", 
-        "selfEligible": true, 
         "lotValues": [
           {
             "relatedLot": "2b33a80c73cb4c39957170a963adfe52", 
@@ -539,7 +537,7 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
-        "selfQualified": true, 
+        "id": "f552af0c653d4d6a9ece8b678225ca20", 
         "tenderers": [
           {
             "scale": "micro", 
@@ -566,11 +564,10 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "date": "2020-03-18T01:00:02+03:00", 
-        "id": "f552af0c653d4d6a9ece8b678225ca20"
+        "selfQualified": true
       }, 
       {
         "status": "active", 
-        "selfEligible": true, 
         "lotValues": [
           {
             "relatedLot": "2b33a80c73cb4c39957170a963adfe52", 
@@ -583,7 +580,7 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
-        "selfQualified": true, 
+        "id": "8f15d54cd54a4ea2a61c9d56f0c444da", 
         "tenderers": [
           {
             "scale": "micro", 
@@ -610,7 +607,7 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "date": "2020-03-18T01:00:03+03:00", 
-        "id": "8f15d54cd54a4ea2a61c9d56f0c444da"
+        "selfQualified": true
       }
     ], 
     "value": {

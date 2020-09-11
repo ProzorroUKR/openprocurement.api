@@ -53,7 +53,7 @@ Content-Type: application/json; charset=UTF-8
         "date": "2020-05-15T01:00:00+03:00", 
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
         "dateAnswered": "2020-05-15T01:00:00+03:00", 
-        "id": "efba5567d08848afae0ebb78272aed79", 
+        "id": "815205150bf34d0c88019bd165a1a986", 
         "questionOf": "tender"
       }
     ], 
@@ -175,7 +175,7 @@ Content-Type: application/json; charset=UTF-8
                   "amount": 0.5, 
                   "valueAddedTaxIncluded": true
                 }, 
-                "relatedItem": "c9f1001e9cf04ec9b6dba5517f0be455"
+                "relatedItem": "0054e405b9d64563bb0437ddf2a830f8"
               }, 
               {
                 "value": {
@@ -183,7 +183,7 @@ Content-Type: application/json; charset=UTF-8
                   "amount": 0.5, 
                   "valueAddedTaxIncluded": true
                 }, 
-                "relatedItem": "d2921287716245e095f67d91b9ceafa6"
+                "relatedItem": "238443d82d0c43dab3543c1b3dd471b8"
               }
             ], 
             "suppliers": [
@@ -209,7 +209,7 @@ Content-Type: application/json; charset=UTF-8
                 }
               }
             ], 
-            "bidID": "5a84740ed0bd4aa3830adfb56c49ed62", 
+            "bidID": "e0d41b30b35a430fb164a63e2cd8792b", 
             "date": "2020-05-15T01:00:00+03:00", 
             "awardID": "58aa9c80eeb345e998dc764a75f940ee", 
             "id": "2221451d71af4bfa803fd5b9382103ed"
@@ -223,7 +223,7 @@ Content-Type: application/json; charset=UTF-8
                   "amount": 0.5, 
                   "valueAddedTaxIncluded": true
                 }, 
-                "relatedItem": "c9f1001e9cf04ec9b6dba5517f0be455"
+                "relatedItem": "0054e405b9d64563bb0437ddf2a830f8"
               }, 
               {
                 "value": {
@@ -231,7 +231,7 @@ Content-Type: application/json; charset=UTF-8
                   "amount": 0.5, 
                   "valueAddedTaxIncluded": true
                 }, 
-                "relatedItem": "d2921287716245e095f67d91b9ceafa6"
+                "relatedItem": "238443d82d0c43dab3543c1b3dd471b8"
               }
             ], 
             "suppliers": [
@@ -257,7 +257,7 @@ Content-Type: application/json; charset=UTF-8
                 }
               }
             ], 
-            "bidID": "e88e8fc3020640178a79c6e66d3dfd5f", 
+            "bidID": "1c4a2dcee85343898ea5fbfd8ce2bd6e", 
             "date": "2020-05-15T01:00:00+03:00", 
             "awardID": "e39130af90ba485cacb7cdc36cdfc089", 
             "id": "d5c9e2e28ee74a67a078c87bf9967a53"
@@ -271,7 +271,7 @@ Content-Type: application/json; charset=UTF-8
                   "amount": 0.5, 
                   "valueAddedTaxIncluded": true
                 }, 
-                "relatedItem": "c9f1001e9cf04ec9b6dba5517f0be455"
+                "relatedItem": "0054e405b9d64563bb0437ddf2a830f8"
               }, 
               {
                 "value": {
@@ -279,7 +279,7 @@ Content-Type: application/json; charset=UTF-8
                   "amount": 0.5, 
                   "valueAddedTaxIncluded": true
                 }, 
-                "relatedItem": "d2921287716245e095f67d91b9ceafa6"
+                "relatedItem": "238443d82d0c43dab3543c1b3dd471b8"
               }
             ], 
             "suppliers": [
@@ -305,7 +305,7 @@ Content-Type: application/json; charset=UTF-8
                 }
               }
             ], 
-            "bidID": "410cb59a0945497eb61cc4461f661569", 
+            "bidID": "ccd5dc4ca3f84f9a8f9ec11010bd01ba", 
             "date": "2020-05-15T01:00:00+03:00", 
             "awardID": "fead43daad534c50b0dc2da8b64ccfbb", 
             "id": "713faef521cf4366b30696f427b2f171"
@@ -339,7 +339,7 @@ Content-Type: application/json; charset=UTF-8
               "startDate": "2018-06-27T13:39:09.362837+03:00", 
               "endDate": "2018-06-30T13:39:09.362837+03:00"
             }, 
-            "id": "c9f1001e9cf04ec9b6dba5517f0be455", 
+            "id": "0054e405b9d64563bb0437ddf2a830f8", 
             "unit": {
               "code": "44617100-9", 
               "name": "item"
@@ -373,7 +373,7 @@ Content-Type: application/json; charset=UTF-8
               "startDate": "2018-06-27T13:39:09.362837+03:00", 
               "endDate": "2018-06-30T13:39:09.362837+03:00"
             }, 
-            "id": "d2921287716245e095f67d91b9ceafa6", 
+            "id": "238443d82d0c43dab3543c1b3dd471b8", 
             "unit": {
               "code": "44617100-8", 
               "name": "item"
@@ -411,7 +411,7 @@ Content-Type: application/json; charset=UTF-8
         "lotID": "c7555f1bb878434d8815dea318304673", 
         "eligible": true, 
         "qualified": true, 
-        "bidID": "410cb59a0945497eb61cc4461f661569", 
+        "bidID": "ccd5dc4ca3f84f9a8f9ec11010bd01ba", 
         "date": "2020-05-15T01:00:00+03:00", 
         "id": "9eafb5e0a5ac4268a1f0821a11dae69d"
       }, 
@@ -420,7 +420,7 @@ Content-Type: application/json; charset=UTF-8
         "lotID": "c7555f1bb878434d8815dea318304673", 
         "eligible": true, 
         "qualified": true, 
-        "bidID": "e88e8fc3020640178a79c6e66d3dfd5f", 
+        "bidID": "1c4a2dcee85343898ea5fbfd8ce2bd6e", 
         "date": "2020-05-15T01:00:00+03:00", 
         "id": "86fd0e3cd41f48eab89c5ac406b8334d"
       }, 
@@ -429,7 +429,7 @@ Content-Type: application/json; charset=UTF-8
         "lotID": "c7555f1bb878434d8815dea318304673", 
         "eligible": false, 
         "qualified": false, 
-        "bidID": "88c9f41eac914e1cb72d9a43fc03d702", 
+        "bidID": "76ccebf7a163452886a6d2d8d39a564b", 
         "date": "2020-05-15T01:00:00+03:00", 
         "id": "cb68d0f3a8c4468d9b7c5595eb8f9001"
       }, 
@@ -438,7 +438,7 @@ Content-Type: application/json; charset=UTF-8
         "lotID": "c7555f1bb878434d8815dea318304673", 
         "eligible": true, 
         "qualified": true, 
-        "bidID": "5a84740ed0bd4aa3830adfb56c49ed62", 
+        "bidID": "e0d41b30b35a430fb164a63e2cd8792b", 
         "date": "2020-05-15T01:00:00+03:00", 
         "id": "cdc3670ed483448a8cd1ed6d1146da99"
       }
@@ -473,7 +473,7 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
-        "bid_id": "5a84740ed0bd4aa3830adfb56c49ed62", 
+        "bid_id": "e0d41b30b35a430fb164a63e2cd8792b", 
         "value": {
           "currency": "UAH", 
           "amount": 485, 
@@ -510,7 +510,7 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
-        "bid_id": "e88e8fc3020640178a79c6e66d3dfd5f", 
+        "bid_id": "1c4a2dcee85343898ea5fbfd8ce2bd6e", 
         "value": {
           "currency": "UAH", 
           "amount": 499, 
@@ -547,7 +547,7 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
-        "bid_id": "410cb59a0945497eb61cc4461f661569", 
+        "bid_id": "ccd5dc4ca3f84f9a8f9ec11010bd01ba", 
         "value": {
           "currency": "UAH", 
           "amount": 500.0, 
@@ -586,7 +586,7 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
-        "bid_id": "5a84740ed0bd4aa3830adfb56c49ed62", 
+        "bid_id": "e0d41b30b35a430fb164a63e2cd8792b", 
         "value": {
           "currency": "UAH", 
           "amount": 485, 
@@ -626,7 +626,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-05-05T01:00:00+03:00", 
           "endDate": "2020-05-15T01:00:00+03:00"
         }, 
-        "bid_id": "5a84740ed0bd4aa3830adfb56c49ed62", 
+        "bid_id": "e0d41b30b35a430fb164a63e2cd8792b", 
         "value": {
           "currency": "UAH", 
           "amount": 485, 
@@ -667,7 +667,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-05-05T01:00:00+03:00", 
           "endDate": "2020-05-15T01:00:00+03:00"
         }, 
-        "bid_id": "e88e8fc3020640178a79c6e66d3dfd5f", 
+        "bid_id": "1c4a2dcee85343898ea5fbfd8ce2bd6e", 
         "value": {
           "currency": "UAH", 
           "amount": 499, 
@@ -708,7 +708,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-05-05T01:00:00+03:00", 
           "endDate": "2020-05-15T01:00:00+03:00"
         }, 
-        "bid_id": "410cb59a0945497eb61cc4461f661569", 
+        "bid_id": "ccd5dc4ca3f84f9a8f9ec11010bd01ba", 
         "value": {
           "currency": "UAH", 
           "amount": 500.0, 
@@ -767,7 +767,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2018-06-27T13:39:09.362837+03:00", 
           "endDate": "2018-06-30T13:39:09.362837+03:00"
         }, 
-        "id": "c9f1001e9cf04ec9b6dba5517f0be455", 
+        "id": "0054e405b9d64563bb0437ddf2a830f8", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -801,7 +801,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2018-06-27T13:39:09.362837+03:00", 
           "endDate": "2018-06-30T13:39:09.362837+03:00"
         }, 
-        "id": "d2921287716245e095f67d91b9ceafa6", 
+        "id": "238443d82d0c43dab3543c1b3dd471b8", 
         "unit": {
           "code": "44617100-8", 
           "name": "item"
@@ -852,14 +852,13 @@ Content-Type: application/json; charset=UTF-8
             "dateModified": "2020-05-15T01:00:00+03:00"
           }
         ], 
-        "selfEligible": true, 
-        "id": "410cb59a0945497eb61cc4461f661569", 
+        "id": "ccd5dc4ca3f84f9a8f9ec11010bd01ba", 
         "lotValues": [
           {
             "relatedLot": "c7555f1bb878434d8815dea318304673", 
             "date": "2020-05-15T01:00:00+03:00", 
             "status": "active", 
-            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/e5172ebc4c4c411f84f376ce6ede43b8_c7555f1bb878434d8815dea318304673?key_for_bid=410cb59a0945497eb61cc4461f661569", 
+            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/e5172ebc4c4c411f84f376ce6ede43b8_c7555f1bb878434d8815dea318304673?key_for_bid=ccd5dc4ca3f84f9a8f9ec11010bd01ba", 
             "value": {
               "currency": "UAH", 
               "amount": 500.0, 
@@ -867,7 +866,32 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
-        "selfQualified": true, 
+        "qualificationDocuments": [
+          {
+            "hash": "md5:00000000000000000000000000000000", 
+            "confidentiality": "public", 
+            "language": "uk", 
+            "title": "qualification_document.pdf", 
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fc6b13177ef949699443525662a19388?KeyID=a8968c46&Signature=pYd%252BsN9CAWQNJw9z0%2FiWRpC5pkNVl5YTtpkXcPXfua6QIBLN9F53AjKgbQuaEctK91DK3WBmGIPjqZSH0TpjBg%253D%253D", 
+            "format": "application/pdf", 
+            "documentOf": "tender", 
+            "datePublished": "2020-05-15T01:00:00+03:00", 
+            "id": "911a8244866f4ffdbd2b2a202d34043c", 
+            "dateModified": "2020-05-15T01:00:00+03:00"
+          }, 
+          {
+            "hash": "md5:00000000000000000000000000000000", 
+            "confidentiality": "public", 
+            "language": "uk", 
+            "title": "qualification_document2.pdf", 
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/03ec7a79367644d0b9d45ec78b8a35c2?KeyID=a8968c46&Signature=LvHcotXawGncqVZuX5z5Eg2s9uk%252BdTXahDYWx4VYTuv51lb8mtpzECd1efZKpF3nCyZ9PdY08rgLYfHSoh0lCQ%253D%253D", 
+            "format": "application/pdf", 
+            "documentOf": "tender", 
+            "datePublished": "2020-05-15T01:00:00+03:00", 
+            "id": "911a8244866f4ffdbd2b2a202d34043c", 
+            "dateModified": "2020-05-15T01:00:00+03:00"
+          }
+        ], 
         "financialDocuments": [
           {
             "hash": "md5:00000000000000000000000000000000", 
@@ -931,42 +955,16 @@ Content-Type: application/json; charset=UTF-8
         ], 
         "date": "2020-05-15T01:00:00+03:00", 
         "subcontractingDetails": "ДКП «Орфей», Україна", 
-        "qualificationDocuments": [
-          {
-            "hash": "md5:00000000000000000000000000000000", 
-            "confidentiality": "public", 
-            "language": "uk", 
-            "title": "qualification_document.pdf", 
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fc6b13177ef949699443525662a19388?KeyID=a8968c46&Signature=pYd%252BsN9CAWQNJw9z0%2FiWRpC5pkNVl5YTtpkXcPXfua6QIBLN9F53AjKgbQuaEctK91DK3WBmGIPjqZSH0TpjBg%253D%253D", 
-            "format": "application/pdf", 
-            "documentOf": "tender", 
-            "datePublished": "2020-05-15T01:00:00+03:00", 
-            "id": "911a8244866f4ffdbd2b2a202d34043c", 
-            "dateModified": "2020-05-15T01:00:00+03:00"
-          }, 
-          {
-            "hash": "md5:00000000000000000000000000000000", 
-            "confidentiality": "public", 
-            "language": "uk", 
-            "title": "qualification_document2.pdf", 
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/03ec7a79367644d0b9d45ec78b8a35c2?KeyID=a8968c46&Signature=LvHcotXawGncqVZuX5z5Eg2s9uk%252BdTXahDYWx4VYTuv51lb8mtpzECd1efZKpF3nCyZ9PdY08rgLYfHSoh0lCQ%253D%253D", 
-            "format": "application/pdf", 
-            "documentOf": "tender", 
-            "datePublished": "2020-05-15T01:00:00+03:00", 
-            "id": "911a8244866f4ffdbd2b2a202d34043c", 
-            "dateModified": "2020-05-15T01:00:00+03:00"
-          }
-        ]
+        "selfQualified": true
       }, 
       {
         "status": "active", 
-        "selfEligible": true, 
         "lotValues": [
           {
             "relatedLot": "c7555f1bb878434d8815dea318304673", 
             "date": "2020-05-15T01:00:00+03:00", 
             "status": "active", 
-            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/e5172ebc4c4c411f84f376ce6ede43b8_c7555f1bb878434d8815dea318304673?key_for_bid=e88e8fc3020640178a79c6e66d3dfd5f", 
+            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/e5172ebc4c4c411f84f376ce6ede43b8_c7555f1bb878434d8815dea318304673?key_for_bid=1c4a2dcee85343898ea5fbfd8ce2bd6e", 
             "value": {
               "currency": "UAH", 
               "amount": 499, 
@@ -974,7 +972,7 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
-        "selfQualified": true, 
+        "id": "1c4a2dcee85343898ea5fbfd8ce2bd6e", 
         "tenderers": [
           {
             "contactPoint": {
@@ -999,7 +997,7 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "date": "2020-05-15T01:00:00+03:00", 
-        "id": "e88e8fc3020640178a79c6e66d3dfd5f"
+        "selfQualified": true
       }, 
       {
         "status": "unsuccessful", 
@@ -1013,7 +1011,7 @@ Content-Type: application/json; charset=UTF-8
             "format": "application/pdf", 
             "documentOf": "tender", 
             "datePublished": "2020-05-15T01:00:00+03:00", 
-            "id": "5d9147ed06d348d69adf62875b7bd89b", 
+            "id": "2461364d2bef400580101b81b63f6b18", 
             "dateModified": "2020-05-15T01:00:00+03:00"
           }, 
           {
@@ -1026,7 +1024,7 @@ Content-Type: application/json; charset=UTF-8
             "documentOf": "tender", 
             "datePublished": "2020-05-15T01:00:00+03:00", 
             "dateModified": "2020-05-15T01:00:00+03:00", 
-            "id": "3f355e7a0b8646389ad0af8eef0e241b"
+            "id": "eb48db1664f34859b5f5dbc8253dd747"
           }
         ], 
         "eligibilityDocuments": [
@@ -1039,12 +1037,11 @@ Content-Type: application/json; charset=UTF-8
             "format": "application/pdf", 
             "documentOf": "tender", 
             "datePublished": "2020-05-15T01:00:00+03:00", 
-            "id": "474da502332f48a0a117f28b44e21dde", 
+            "id": "4bfdcd78d6c34992a2dd9e52cbcc4e25", 
             "dateModified": "2020-05-15T01:00:00+03:00"
           }
         ], 
-        "selfEligible": true, 
-        "selfQualified": true, 
+        "id": "76ccebf7a163452886a6d2d8d39a564b", 
         "tenderers": [
           {
             "contactPoint": {
@@ -1068,7 +1065,7 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
-        "id": "88c9f41eac914e1cb72d9a43fc03d702"
+        "selfQualified": true
       }, 
       {
         "status": "active", 
@@ -1082,7 +1079,7 @@ Content-Type: application/json; charset=UTF-8
             "format": "application/pdf", 
             "documentOf": "tender", 
             "datePublished": "2020-05-15T01:00:00+03:00", 
-            "id": "63630c59ee2e456bb92e2d0bd8c7a717", 
+            "id": "76385a93b70747b9a07b493fd542e5cb", 
             "dateModified": "2020-05-15T01:00:00+03:00"
           }, 
           {
@@ -1095,7 +1092,7 @@ Content-Type: application/json; charset=UTF-8
             "documentOf": "tender", 
             "datePublished": "2020-05-15T01:00:00+03:00", 
             "dateModified": "2020-05-15T01:00:00+03:00", 
-            "id": "44ff1578915a4ba48350bc0a1054b65c"
+            "id": "80a0f2685fff4cca98aa482618a1deb0"
           }
         ], 
         "eligibilityDocuments": [
@@ -1108,18 +1105,17 @@ Content-Type: application/json; charset=UTF-8
             "format": "application/pdf", 
             "documentOf": "tender", 
             "datePublished": "2020-05-15T01:00:00+03:00", 
-            "id": "28e17374e98c4f408038fb6c06f3dcc6", 
+            "id": "1e4758fc996f43d482ccd4421009ed0a", 
             "dateModified": "2020-05-15T01:00:00+03:00"
           }
         ], 
-        "selfEligible": true, 
-        "id": "5a84740ed0bd4aa3830adfb56c49ed62", 
+        "id": "e0d41b30b35a430fb164a63e2cd8792b", 
         "lotValues": [
           {
             "relatedLot": "c7555f1bb878434d8815dea318304673", 
             "date": "2020-05-15T01:00:00+03:00", 
             "status": "active", 
-            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/e5172ebc4c4c411f84f376ce6ede43b8_c7555f1bb878434d8815dea318304673?key_for_bid=5a84740ed0bd4aa3830adfb56c49ed62", 
+            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/e5172ebc4c4c411f84f376ce6ede43b8_c7555f1bb878434d8815dea318304673?key_for_bid=e0d41b30b35a430fb164a63e2cd8792b", 
             "value": {
               "currency": "UAH", 
               "amount": 485, 
@@ -1127,7 +1123,20 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
-        "selfQualified": true, 
+        "qualificationDocuments": [
+          {
+            "hash": "md5:00000000000000000000000000000000", 
+            "confidentiality": "public", 
+            "language": "uk", 
+            "title": "qualification_document.pdf", 
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/141bde5b81904999acc2752de07b93cb?KeyID=a8968c46&Signature=oExdL7A%252BNYUdd79P29TmuxGK5BaJGugoatMVNKfLh3yCPg%2Frwp18aHz8n6DTL5gBfSMN8bpT4Vh39fiM%2F%252BqNDw%253D%253D", 
+            "format": "application/pdf", 
+            "documentOf": "tender", 
+            "datePublished": "2020-05-15T01:00:00+03:00", 
+            "id": "5ead0617d1c14c7d9fc2ed9ae8d490ef", 
+            "dateModified": "2020-05-15T01:00:00+03:00"
+          }
+        ], 
         "financialDocuments": [
           {
             "hash": "md5:00000000000000000000000000000000", 
@@ -1138,7 +1147,7 @@ Content-Type: application/json; charset=UTF-8
             "format": "application/pdf", 
             "documentOf": "tender", 
             "datePublished": "2020-05-15T01:00:00+03:00", 
-            "id": "9ea2469f9ce448c2bba2acca54efbf6a", 
+            "id": "4ddd065a8215404b9f9e4d67b5283709", 
             "dateModified": "2020-05-15T01:00:00+03:00"
           }
         ], 
@@ -1166,20 +1175,7 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "date": "2020-05-15T01:00:00+03:00", 
-        "qualificationDocuments": [
-          {
-            "hash": "md5:00000000000000000000000000000000", 
-            "confidentiality": "public", 
-            "language": "uk", 
-            "title": "qualification_document.pdf", 
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/141bde5b81904999acc2752de07b93cb?KeyID=a8968c46&Signature=oExdL7A%252BNYUdd79P29TmuxGK5BaJGugoatMVNKfLh3yCPg%2Frwp18aHz8n6DTL5gBfSMN8bpT4Vh39fiM%2F%252BqNDw%253D%253D", 
-            "format": "application/pdf", 
-            "documentOf": "tender", 
-            "datePublished": "2020-05-15T01:00:00+03:00", 
-            "id": "6eaf563d3ca34c1e9ec07c39a4fe71ae", 
-            "dateModified": "2020-05-15T01:00:00+03:00"
-          }
-        ]
+        "selfQualified": true
       }
     ], 
     "value": {

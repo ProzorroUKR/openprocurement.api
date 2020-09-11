@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/9f3a6c7d446b4503872063f6021b89f2/posts?acc_token=f3fcbf245b584352b8ee0c06c6298ad4 HTTP/1.0
+POST /api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/949127b6d2834a5ba8156ffef63a9a3c/posts?acc_token=f3fcbf245b584352b8ee0c06c6298ad4 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 663
 Content-Type: application/json
@@ -15,7 +15,7 @@ DATA:
         "format": "application/pdf"
       }
     ], 
-    "relatedPost": "6ef16edfcfb54e459ba37ceae65ddf58", 
+    "relatedPost": "a4b61c81a8cc44d6965de32baa8139e1", 
     "description": "Додано документ", 
     "title": "Уточнення по вимозі"
   }
@@ -23,7 +23,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/9f3a6c7d446b4503872063f6021b89f2/posts/c1c86e299d6a40baa9c0b37f09157800
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/949127b6d2834a5ba8156ffef63a9a3c/posts/a9acd9a9b014433fa6a1eefc37f23b3b
 {
   "data": {
     "documents": [
@@ -35,7 +35,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1a7dc160a6954967
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-05-15T01:00:00+03:00", 
-        "id": "8797a89acda2403ba388caedc67686c3", 
+        "id": "fde3d09dd48b4ef994e747cc546ae78a", 
         "dateModified": "2020-05-15T01:00:00+03:00"
       }
     ], 
@@ -43,9 +43,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1a7dc160a6954967
     "title": "Уточнення по вимозі", 
     "author": "tender_owner", 
     "datePublished": "2020-05-15T01:00:00+03:00", 
-    "relatedPost": "6ef16edfcfb54e459ba37ceae65ddf58", 
+    "relatedPost": "a4b61c81a8cc44d6965de32baa8139e1", 
     "recipient": "aboveThresholdReviewers", 
-    "id": "c1c86e299d6a40baa9c0b37f09157800"
+    "id": "a9acd9a9b014433fa6a1eefc37f23b3b"
   }
 }
 

@@ -43,7 +43,7 @@ Content-Type: application/json; charset=UTF-8
           "valueAddedTaxIncluded": true
         }, 
         "date": "2020-05-15T01:00:00+03:00", 
-        "id": "28f98cde22964c8ea8bbc1fda693580e"
+        "id": "f1747ce5d8be4161ac56c6822b290e47"
       }
     ], 
     "causeDescription_en": "original tender has failed twice", 
@@ -79,12 +79,12 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "percentage": 54.45, 
         "type": "financing", 
-        "id": "155aad4a9e494a2fae96a8770c3fe7d7"
+        "id": "0d20327410394bd2afd4522ab4550a69"
       }
     ], 
     "items": [
       {
-        "relatedLot": "28f98cde22964c8ea8bbc1fda693580e", 
+        "relatedLot": "f1747ce5d8be4161ac56c6822b290e47", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "ДК021", 
@@ -109,7 +109,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-06-04T00:00:00+02:00", 
           "endDate": "2020-07-04T00:00:00+02:00"
         }, 
-        "id": "b96fb1f581bc4abab5ac8486238ea5f0", 
+        "id": "c3fab00941aa4c30aaed1bc6be6dee94", 
         "quantity": 1.0
       }
     ], 

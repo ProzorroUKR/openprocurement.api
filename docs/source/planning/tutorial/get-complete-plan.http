@@ -48,7 +48,7 @@ Content-Type: application/json; charset=UTF-8
         "deliveryDate": {
           "endDate": "2016-06-01T23:06:30.023018+03:00"
         }, 
-        "id": "000422af516c49e8a1ed22db4aa37b90", 
+        "id": "c83eb7ab3fa440958a4a0c18ae70dcb3", 
         "unit": {
           "code": "KGM", 
           "name": "кг"
@@ -66,7 +66,7 @@ Content-Type: application/json; charset=UTF-8
             "currency": "UAH", 
             "amount": 1500.0
           }, 
-          "id": "e519afb9b6a34a769f6d49dc45922bc1"
+          "id": "9e9302b002f943278d76a5610e0e3bac"
         }
       ], 
       "amountNet": 12222.0, 

@@ -8,19 +8,19 @@ Content-Type: application/json; charset=UTF-8
   "data": [
     {
       "status": "pending", 
-      "lotID": "3c84167877eb48d693c12efd2c6cb01e", 
+      "lotID": "45d538b502bd4124bff52a374958e9ea", 
       "eligible": false, 
       "qualified": false, 
-      "bidID": "b797c74bba014457870ceda8104f0444", 
+      "bidID": "6439ffe4a7324e8abdcf7d68874fb6b8", 
       "date": "2020-05-15T01:00:00+03:00", 
       "id": "221135486f7b40cd9f4087f7c58e9059"
     }, 
     {
       "status": "pending", 
-      "lotID": "3c84167877eb48d693c12efd2c6cb01e", 
+      "lotID": "45d538b502bd4124bff52a374958e9ea", 
       "eligible": false, 
       "qualified": false, 
-      "bidID": "e330641f19174449b434b4988cccf0c6", 
+      "bidID": "c036a6fb3127425ca2dc1bd343aad078", 
       "date": "2020-05-15T01:00:00+03:00", 
       "id": "c7f191fb400948a28117bcb2f0bb23de"
     }

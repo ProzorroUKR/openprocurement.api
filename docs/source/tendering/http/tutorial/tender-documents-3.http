@@ -8,6 +8,17 @@ Content-Type: application/json; charset=UTF-8
   "data": [
     {
       "hash": "md5:00000000000000000000000000000000", 
+      "author": "tender_owner", 
+      "title": "AwardCriteria-2.pdf", 
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5d1c2cddad3f45a3aac16cb29b81f97f?KeyID=a8968c46&Signature=E3RouA49wKUWYJ7BPlrzsmaNUW69ZPMHhlKAAOoUy3gSRyJaA98YqWOvmbQ30Z0oCAQ44WCDW4wlwGZV0RXjCA%253D%253D", 
+      "format": "application/pdf", 
+      "documentOf": "tender", 
+      "datePublished": "2020-05-15T01:00:01+03:00", 
+      "id": "f05f28fd104147beb09d8b4f7bbcbd2b", 
+      "dateModified": "2020-05-15T01:00:01+03:00"
+    }, 
+    {
+      "hash": "md5:00000000000000000000000000000000", 
       "description": "document description modified", 
       "title": "Notice.pdf", 
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4d52879c11df4aa7ae80d3b6c4a274ce?KeyID=a8968c46&Signature=BiR23Y26fUFdAaBBqxSqN2Lv29UkW8VjpoZA0NLoVj2cgKeSq3J%2FiuGzva%252Bl0R6wpgLbA2zfat9mNkErf3HjAg%253D%253D", 
@@ -16,18 +27,7 @@ Content-Type: application/json; charset=UTF-8
       "datePublished": "2020-05-15T01:00:01+03:00", 
       "author": "tender_owner", 
       "documentType": "technicalSpecifications", 
-      "id": "8a3d30101dc94ca58f768bec6a1f45dd", 
-      "dateModified": "2020-05-15T01:00:01+03:00"
-    }, 
-    {
-      "hash": "md5:00000000000000000000000000000000", 
-      "author": "tender_owner", 
-      "title": "AwardCriteria-2.pdf", 
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5d1c2cddad3f45a3aac16cb29b81f97f?KeyID=a8968c46&Signature=E3RouA49wKUWYJ7BPlrzsmaNUW69ZPMHhlKAAOoUy3gSRyJaA98YqWOvmbQ30Z0oCAQ44WCDW4wlwGZV0RXjCA%253D%253D", 
-      "format": "application/pdf", 
-      "documentOf": "tender", 
-      "datePublished": "2020-05-15T01:00:01+03:00", 
-      "id": "90a4fef3a0f545f4807445bbd4017f29", 
+      "id": "8924acf921d645b7bce35748c4f9e237", 
       "dateModified": "2020-05-15T01:00:01+03:00"
     }
   ]

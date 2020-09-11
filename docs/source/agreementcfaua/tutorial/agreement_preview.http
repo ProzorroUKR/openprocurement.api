@@ -17,7 +17,7 @@ Content-Type: application/json; charset=UTF-8
         "documentOf": "change", 
         "datePublished": "2020-05-15T01:00:00+03:00", 
         "id": "b8f02cdfc2cc43c2a6a5f014d524afc6", 
-        "relatedItem": "563cc544379744ed9b023a88ff6e415b", 
+        "relatedItem": "5937223446a044e689f16dc9912fed8b", 
         "dateModified": "2020-05-15T01:00:00+03:00"
       }
     ], 
@@ -31,7 +31,7 @@ Content-Type: application/json; charset=UTF-8
               "amount": 14.93, 
               "valueAddedTaxIncluded": true
             }, 
-            "relatedItem": "caa9e0207afd49d48ca553e562787699"
+            "relatedItem": "54eee06ff6d24b12b8e84dfe65d1b6b7"
           }
         ], 
         "suppliers": [
@@ -73,7 +73,7 @@ Content-Type: application/json; charset=UTF-8
               "amount": 14.93, 
               "valueAddedTaxIncluded": true
             }, 
-            "relatedItem": "caa9e0207afd49d48ca553e562787699"
+            "relatedItem": "54eee06ff6d24b12b8e84dfe65d1b6b7"
           }
         ], 
         "suppliers": [
@@ -115,7 +115,7 @@ Content-Type: application/json; charset=UTF-8
               "amount": 14.93, 
               "valueAddedTaxIncluded": true
             }, 
-            "relatedItem": "caa9e0207afd49d48ca553e562787699"
+            "relatedItem": "54eee06ff6d24b12b8e84dfe65d1b6b7"
           }
         ], 
         "suppliers": [
@@ -177,7 +177,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2018-06-27T13:39:09.362837+03:00", 
           "endDate": "2018-06-30T13:39:09.362837+03:00"
         }, 
-        "id": "caa9e0207afd49d48ca553e562787699", 
+        "id": "54eee06ff6d24b12b8e84dfe65d1b6b7", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -217,7 +217,7 @@ Content-Type: application/json; charset=UTF-8
         "status": "pending", 
         "modifications": [
           {
-            "itemId": "caa9e0207afd49d48ca553e562787699", 
+            "itemId": "54eee06ff6d24b12b8e84dfe65d1b6b7", 
             "factor": 0.1605
           }
         ], 
@@ -225,7 +225,7 @@ Content-Type: application/json; charset=UTF-8
         "rationale_en": "Agreement change cause", 
         "rationale": "Друга і третя поставка має бути розфасована", 
         "date": "2020-05-15T01:00:00+03:00", 
-        "id": "563cc544379744ed9b023a88ff6e415b"
+        "id": "5937223446a044e689f16dc9912fed8b"
       }
     ], 
     "dateModified": "2020-05-15T01:00:00+03:00", 
