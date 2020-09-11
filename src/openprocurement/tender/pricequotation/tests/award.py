@@ -16,7 +16,8 @@ from openprocurement.tender.pricequotation.tests.award_blanks import (
     check_tender_award_disqualification,
     create_tender_award,
     patch_tender_award,
-    tender_award_transitions
+    tender_award_transitions,
+    check_tender_award_cancellation
 )
 from openprocurement.tender.belowthreshold.tests.award import (
     TenderAwardDocumentResourceTestMixin,
@@ -49,6 +50,7 @@ class TenderAwardResourceTest(TenderContentWebTest, TenderAwardResourceTestMixin
     test_tender_award_transitions = snitch(tender_award_transitions)
     test_check_tender_award = snitch(check_tender_award)
     test_check_tender_award_disqualification = snitch(check_tender_award_disqualification)
+    test_check_tender_award_cancellation = snitch(check_tender_award_cancellation)
 
 
 class TenderAwardResourceScaleTest(TenderContentWebTest):
