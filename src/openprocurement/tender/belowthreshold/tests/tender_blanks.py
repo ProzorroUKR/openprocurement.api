@@ -31,6 +31,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 # TenderTest
 from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.core.tests.criteria_utils import add_criteria
 
 
 def simple_add_tender(self):
@@ -1096,7 +1097,7 @@ def create_tender_draft(self):
         response.json["errors"],
         [{u"description": u"Can't update tender in current (draft) status", u"location": u"body", u"name": u"data"}],
     )
-
+    add_criteria(self, tender["id"], token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": {"status": self.primary_tender_status}}
     )

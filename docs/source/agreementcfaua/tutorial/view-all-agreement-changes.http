@@ -10,7 +10,7 @@ Content-Type: application/json; charset=UTF-8
       "status": "active", 
       "modifications": [
         {
-          "itemId": "caa9e0207afd49d48ca553e562787699", 
+          "itemId": "54eee06ff6d24b12b8e84dfe65d1b6b7", 
           "factor": 0.1605
         }
       ], 
@@ -19,7 +19,7 @@ Content-Type: application/json; charset=UTF-8
       "dateSigned": "2020-05-15T01:00:00+03:00", 
       "rationale": "Друга і третя поставка має бути розфасована", 
       "date": "2020-05-15T01:00:00+03:00", 
-      "id": "563cc544379744ed9b023a88ff6e415b"
+      "id": "5937223446a044e689f16dc9912fed8b"
     }
   ]
 }

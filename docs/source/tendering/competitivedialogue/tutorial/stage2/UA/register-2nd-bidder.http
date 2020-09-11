@@ -1,12 +1,11 @@
 POST /api/2.5/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1163
+Content-Length: 1141
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "selfEligible": true, 
     "documents": [
       {
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6ce04e80464b4567830a30ffc7c1bb62?KeyID=a8968c46&Signature=pdjIfuseyC2eyZO%2FhbxhUqzXc4p4JuSiVqAiKSRsyFq%2B5DhMFQoZIIe4OE4eB5%2BRrSSJvQjkECo3WOwLbW8UAQ%3D%3D", 
@@ -47,7 +46,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d/bids/955d1e01f0604f458f923f2ce7cacf3a
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d/bids/09c4b1e3c23e4f6cb647e58c5a1f55b6
 {
   "access": {
     "transfer": "599945bbdf574a34816e226cf92a06fe", 
@@ -59,15 +58,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c4eafa4139e24f1d
       {
         "hash": "md5:00000000000000000000000000000000", 
         "title": "Proposal_part1.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d/bids/955d1e01f0604f458f923f2ce7cacf3a/documents/8832c635d2004c048134be52dd6d6115?download=6ce04e80464b4567830a30ffc7c1bb62", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d/bids/09c4b1e3c23e4f6cb647e58c5a1f55b6/documents/61adf5465a82489bb4f746b75688805c?download=6ce04e80464b4567830a30ffc7c1bb62", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-05-15T01:00:00+03:00", 
-        "id": "8832c635d2004c048134be52dd6d6115", 
+        "id": "61adf5465a82489bb4f746b75688805c", 
         "dateModified": "2020-05-15T01:00:00+03:00"
       }
     ], 
-    "selfEligible": true, 
     "value": {
       "currency": "UAH", 
       "amount": 499.0, 
@@ -98,7 +96,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c4eafa4139e24f1d
       }
     ], 
     "date": "2020-05-15T01:00:00+03:00", 
-    "id": "955d1e01f0604f458f923f2ce7cacf3a"
+    "id": "09c4b1e3c23e4f6cb647e58c5a1f55b6"
   }
 }
 

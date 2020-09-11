@@ -77,7 +77,7 @@ Content-Type: application/json; charset=UTF-8
           "valueAddedTaxIncluded": true
         }, 
         "date": "2020-05-15T01:00:00+03:00", 
-        "id": "a678eaf5090d45db8077d4ecd36154e0"
+        "id": "fc297ff6c6a74743a96c6b274bae11c0"
       }, 
       {
         "status": "unsuccessful", 
@@ -94,7 +94,7 @@ Content-Type: application/json; charset=UTF-8
           "valueAddedTaxIncluded": true
         }, 
         "date": "2020-05-15T01:00:00+03:00", 
-        "id": "885ae10af23944619f6730aa24a94d92"
+        "id": "d9ed347dda65496aa56d9f7692c949c3"
       }
     ], 
     "qualificationPeriod": {
@@ -111,19 +111,19 @@ Content-Type: application/json; charset=UTF-8
     "qualifications": [
       {
         "status": "active", 
-        "lotID": "a678eaf5090d45db8077d4ecd36154e0", 
+        "lotID": "fc297ff6c6a74743a96c6b274bae11c0", 
         "eligible": true, 
         "qualified": true, 
-        "bidID": "1db2a89bad604311b7166807eb63d4e3", 
+        "bidID": "28d7b15324514c31b62f48b15a1b0a2c", 
         "date": "2020-05-15T01:00:00+03:00", 
         "id": "69e23d94b0ec4a4cbf777d2557fe598a"
       }, 
       {
         "status": "active", 
-        "lotID": "a678eaf5090d45db8077d4ecd36154e0", 
+        "lotID": "fc297ff6c6a74743a96c6b274bae11c0", 
         "eligible": true, 
         "qualified": true, 
-        "bidID": "f4c99b9e469349e296d81e700168a070", 
+        "bidID": "ab9e4059fff24d9aa7b0c32166fce3ba", 
         "date": "2020-05-15T01:00:00+03:00", 
         "id": "73fa90c6e4a746cb859d4058ad16e5bf"
       }
@@ -153,7 +153,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "percentage": 54.45, 
         "type": "financing", 
-        "id": "fb9912a628e547ec86fd4052b35fd066"
+        "id": "f2ad38d355ac439d9491fc812a6a6b5f"
       }
     ], 
     "minimalStep": {
@@ -163,7 +163,7 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "items": [
       {
-        "relatedLot": "a678eaf5090d45db8077d4ecd36154e0", 
+        "relatedLot": "fc297ff6c6a74743a96c6b274bae11c0", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "ДК021", 
@@ -189,11 +189,11 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-06-04T00:00:00+02:00", 
           "endDate": "2020-07-04T00:00:00+02:00"
         }, 
-        "id": "79cd11ac44934e09a6ccc517d3810dd4", 
+        "id": "0124f833a40d45a29d30d291bee35ecb", 
         "quantity": 1.0
       }, 
       {
-        "relatedLot": "885ae10af23944619f6730aa24a94d92", 
+        "relatedLot": "d9ed347dda65496aa56d9f7692c949c3", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "ДК021", 
@@ -219,14 +219,14 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-06-04T00:00:00+02:00", 
           "endDate": "2020-07-04T00:00:00+02:00"
         }, 
-        "id": "faa12ba0bce042bfa5ad1bc8c827f6e9", 
+        "id": "d2b44da9ce9f46bc896d32b570fab363", 
         "quantity": 1.0
       }
     ], 
     "bids": [
       {
         "status": "active", 
-        "id": "1db2a89bad604311b7166807eb63d4e3", 
+        "id": "28d7b15324514c31b62f48b15a1b0a2c", 
         "tenderers": [
           {
             "contactPoint": {
@@ -253,7 +253,7 @@ Content-Type: application/json; charset=UTF-8
       }, 
       {
         "status": "active", 
-        "id": "f4c99b9e469349e296d81e700168a070", 
+        "id": "ab9e4059fff24d9aa7b0c32166fce3ba", 
         "tenderers": [
           {
             "contactPoint": {

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/5e79c825b4c54c36a179b22db2dae23b?acc_token=82d005b2183e43fe8edbb00cc6eb36c1 HTTP/1.0
+GET /api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/2d751be3f6aa46ba8dfd6eebcd5d9130?acc_token=82d005b2183e43fe8edbb00cc6eb36c1 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -17,7 +17,7 @@ Content-Type: application/json; charset=UTF-8
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-05-15T01:00:00+03:00", 
-        "id": "824f270cc0b749bd989983329634a5de", 
+        "id": "437ffa3708534314aa799bf9d166b0bc", 
         "dateModified": "2020-05-15T01:00:00+03:00"
       }, 
       {
@@ -25,12 +25,12 @@ Content-Type: application/json; charset=UTF-8
         "confidentiality": "buyerOnly", 
         "language": "uk", 
         "format": "application/pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/5e79c825b4c54c36a179b22db2dae23b/documents/fc90022e9584421e90d0438c8b331cc8?download=368ab90ae6a748e6be48d5d2151aee66", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/2d751be3f6aa46ba8dfd6eebcd5d9130/documents/685b1826738c419bb4af2e171204a06b?download=368ab90ae6a748e6be48d5d2151aee66", 
         "confidentialityRationale": "Only our company sells badgers with pink hair.", 
         "title": "Proposal_part2.pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-05-15T01:00:00+03:00", 
-        "id": "fc90022e9584421e90d0438c8b331cc8", 
+        "id": "685b1826738c419bb4af2e171204a06b", 
         "dateModified": "2020-05-15T01:00:00+03:00"
       }
     ], 
@@ -44,12 +44,11 @@ Content-Type: application/json; charset=UTF-8
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-05-15T01:00:00+03:00", 
-        "id": "7adad4419c2f4b30b066e8e584a62f25", 
+        "id": "59a1e9382b294643adc4e5d5927146b5", 
         "dateModified": "2020-05-15T01:00:00+03:00"
       }
     ], 
-    "selfEligible": true, 
-    "selfQualified": true, 
+    "id": "2d751be3f6aa46ba8dfd6eebcd5d9130", 
     "tenderers": [
       {
         "contactPoint": {
@@ -73,7 +72,7 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "id": "5e79c825b4c54c36a179b22db2dae23b"
+    "selfQualified": true
   }
 }
 

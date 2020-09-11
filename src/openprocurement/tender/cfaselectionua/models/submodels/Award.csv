@@ -1,7 +1,7 @@
-rolename,status,documents,description,title,items,suppliers,title_en,bid_id,description_en,subcontractingDetails,lotID,qualified,value,title_ru,date,description_ru,id,__parent__
+rolename,status,documents,description,title,items,suppliers,title_en,bid_id,description_en,subcontractingDetails,lotID,qualified,value,title_ru,date,description_ru, requirementResponses,id,__parent__
 Administrator,,,,,,,,,,,,,,,,,,
-embedded,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-edit,1,,1,1,,,1,,1,,,,,1,,1,,
-create,,,1,1,1,1,1,1,1,1,1,1,1,1,,1,,1
-default,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-view,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+embedded,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+edit,1,,1,1,,,1,,1,,,,,1,,1,,,
+create,,,1,1,1,1,1,1,1,1,1,1,1,1,,1,,,1,
+default,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+view,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,

@@ -9,6 +9,7 @@ from openprocurement.tender.core.validation import (
     validate_bid_operation_period,
     validate_bid_operation_not_in_tendering,
     validate_bid_status_update_not_to_pending,
+    validate_bid_activate_criteria,
 )
 from openprocurement.tender.competitivedialogue.validation import validate_bid_status_update_not_to_pending_or_draft
 
@@ -19,6 +20,7 @@ from openprocurement.tender.competitivedialogue.validation import validate_bid_s
         validate_bid_operation_period,
         validate_update_deleted_bid,
         validate_bid_status_update_not_to_pending_or_draft,
+        validate_bid_activate_criteria,
     )
 )
 def patch_bid_first_stage(self):
@@ -86,6 +88,7 @@ class CompetitiveDialogueEUBidResource(BaseResourceEU):
             validate_bid_operation_period,
             validate_update_deleted_bid,
             validate_bid_status_update_not_to_pending,
+            validate_bid_activate_criteria,
         ),
     )(patch_bid_first_stage)
 
@@ -109,5 +112,6 @@ class CompetitiveDialogueUABidResource(BaseResourceEU):
             validate_bid_operation_period,
             validate_update_deleted_bid,
             validate_bid_status_update_not_to_pending,
+            validate_bid_activate_criteria,
         ),
     )(patch_bid_first_stage)

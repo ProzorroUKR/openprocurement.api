@@ -1,16 +1,15 @@
 POST /api/2.5/tenders/db8f78603c144a8aac15730f9c763584/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1529
+Content-Length: 1507
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "selfEligible": true, 
     "selfQualified": true, 
     "lotValues": [
       {
-        "relatedLot": "3c84167877eb48d693c12efd2c6cb01e", 
+        "relatedLot": "45d538b502bd4124bff52a374958e9ea", 
         "value": {
           "contractDuration": {
             "years": 7
@@ -42,7 +41,7 @@ DATA:
         }
       }, 
       {
-        "relatedLot": "92e4a20a9d7f4dada89d434409f951d8", 
+        "relatedLot": "aa439cf36abb4b2fb712ee9932b8d55b", 
         "value": {
           "contractDuration": {
             "years": 9
@@ -103,7 +102,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db8f78603c144a8aac15730f9c763584/bids/e330641f19174449b434b4988cccf0c6
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db8f78603c144a8aac15730f9c763584/bids/c036a6fb3127425ca2dc1bd343aad078
 {
   "access": {
     "transfer": "09c47fa5005d433dadde01808925656c", 
@@ -111,10 +110,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db8f78603c144a8a
   }, 
   "data": {
     "status": "pending", 
-    "selfEligible": true, 
     "lotValues": [
       {
-        "relatedLot": "3c84167877eb48d693c12efd2c6cb01e", 
+        "relatedLot": "45d538b502bd4124bff52a374958e9ea", 
         "date": "2020-05-15T01:00:00+03:00", 
         "status": "pending", 
         "value": {
@@ -153,7 +151,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db8f78603c144a8a
         }
       }, 
       {
-        "relatedLot": "92e4a20a9d7f4dada89d434409f951d8", 
+        "relatedLot": "aa439cf36abb4b2fb712ee9932b8d55b", 
         "date": "2020-05-15T01:00:00+03:00", 
         "status": "pending", 
         "value": {
@@ -193,7 +191,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db8f78603c144a8a
         "subcontractingDetails": "ДКП «Укр Прінт», Україна"
       }
     ], 
-    "selfQualified": true, 
+    "id": "c036a6fb3127425ca2dc1bd343aad078", 
     "tenderers": [
       {
         "contactPoint": {
@@ -218,7 +216,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db8f78603c144a8a
       }
     ], 
     "date": "2020-05-15T01:00:00+03:00", 
-    "id": "e330641f19174449b434b4988cccf0c6"
+    "selfQualified": true
   }
 }
 

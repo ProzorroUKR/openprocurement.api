@@ -223,7 +223,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/086edc68f12d4a24
         }, 
         "percentage": 54.45, 
         "type": "financing", 
-        "id": "cec109dca07b4fe49195bae18cc796f3"
+        "id": "dda301a766ca433e86943a674a61fcce"
       }
     ], 
     "minimalStep": {
@@ -258,7 +258,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/086edc68f12d4a24
           "startDate": "2020-06-04T00:00:00+02:00", 
           "endDate": "2020-07-04T00:00:00+02:00"
         }, 
-        "id": "1fdf54d459244216b4a62e51a06defa3", 
+        "id": "50f583529d724487b9430dd0bbda9174", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -291,7 +291,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/086edc68f12d4a24
           "startDate": "2020-06-04T00:00:00+02:00", 
           "endDate": "2020-07-04T00:00:00+02:00"
         }, 
-        "id": "0bea2a0b522b4cf6ac785fcf2aff1bed", 
+        "id": "91a14518464b4e81ae77ad46a8ef57ea", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"

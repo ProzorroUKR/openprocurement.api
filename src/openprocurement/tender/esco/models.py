@@ -9,8 +9,8 @@ from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist, blacklist
 from barbecue import vnmax
 from esculator import npv, escp
-from openprocurement.api.utils import get_now, is_new_created
-from openprocurement.api.constants import TZ, CPV_ITEMS_CLASS_FROM
+from openprocurement.api.utils import get_now, is_new_created, get_root, get_first_revision_date
+from openprocurement.api.constants import TZ, CPV_ITEMS_CLASS_FROM, RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.validation import validate_cpv_group, validate_items_uniq
 from openprocurement.api.models import (
@@ -420,6 +420,12 @@ class Bid(BaseEUBid):
                     raise ValidationError(
                         u"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of minValue of tender"
                     )
+
+    def validate_selfEligible(self, data, value):
+        tender = get_root(data["__parent__"])
+        if get_first_revision_date(tender, default=get_now()) > RELEASE_ECRITERIA_ARTICLE_17:
+            if value is not None:
+                raise ValidationError("Rogue field.")
 
 
 class FeatureValue(BaseFeatureValue):

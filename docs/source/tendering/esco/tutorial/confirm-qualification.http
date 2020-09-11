@@ -45,7 +45,7 @@ Content-Type: application/json; charset=UTF-8
       "startDate": "2020-05-15T01:00:00+03:00", 
       "endDate": "2020-05-26T00:00:00+03:00"
     }, 
-    "bid_id": "e4528bc92c0f463ca1f661381961e106", 
+    "bid_id": "498e07f6feea4ee99de14563abcf1d0c", 
     "value": {
       "yearlyPaymentsPercentage": 0.9, 
       "valueAddedTaxIncluded": true, 

@@ -100,21 +100,16 @@ class TenderAuctionResourceTest(BaseESCOContentWebTest, TenderAuctionResourceTes
 class TenderSameValueAuctionResourceTest(BaseESCOContentWebTest):
     initial_status = "active.auction"
     tenderer_info = deepcopy(test_bids[0]["tenderers"])
-    initial_bids = [
-        {
-            "tenderers": tenderer_info,
-            "value": {
-                "yearlyPaymentsPercentage": 0.9,
-                "annualCostsReduction": [751.5] * 21,
-                "contractDuration": {"years": 10, "days": 10},
-            },
-            "selfQualified": True,
-            "selfEligible": True,
-        }
-        for i in range(3)
-    ]
 
     def setUp(self):
+        bid_data = deepcopy(test_bids[0])
+        bid_data["value"] = {
+            "yearlyPaymentsPercentage": 0.9,
+            "annualCostsReduction": [751.5] * 21,
+            "contractDuration": {"years": 10, "days": 10},
+        }
+        self.initial_bids = [bid_data for i in range(3)]
+
         super(TenderSameValueAuctionResourceTest, self).setUp()
         # switch to active.pre-qualification
         self.set_status("active.pre-qualification", {"status": "active.tendering"})
@@ -183,32 +178,20 @@ class TenderMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestM
 class TenderFeaturesAuctionResourceTest(BaseESCOContentWebTest):
     initial_data = test_features_tender_data
     tenderer_info = deepcopy(test_bids[0]["tenderers"])
-    initial_bids = [
-        {
-            "parameters": [{"code": i["code"], "value": 0.03} for i in test_features_tender_data["features"]],
-            "tenderers": tenderer_info,
-            "value": {
-                "yearlyPaymentsPercentage": 0.9,
-                "annualCostsReduction": [100] * 21,
-                "contractDuration": {"years": 10},
-            },
-            "selfQualified": True,
-            "selfEligible": True,
-        },
-        {
-            "parameters": [{"code": i["code"], "value": 0.07} for i in test_features_tender_data["features"]],
-            "tenderers": tenderer_info,
-            "value": {
-                "yearlyPaymentsPercentage": 0.9,
-                "annualCostsReduction": [100] * 21,
-                "contractDuration": {"years": 10},
-            },
-            "selfQualified": True,
-            "selfEligible": True,
-        },
-    ]
 
     def setUp(self):
+        bid_data_1 = deepcopy(test_bids[0])
+        bid_data_1["value"] = {
+            "yearlyPaymentsPercentage": 0.9,
+            "annualCostsReduction": [100] * 21,
+            "contractDuration": {"years": 10},
+        }
+        bid_data_1["parameters"] = [{"code": i["code"], "value": 0.03} for i in test_features_tender_data["features"]]
+
+        bid_data_2 = deepcopy(bid_data_1)
+        bid_data_2["parameters"] = [{"code": i["code"], "value": 0.07} for i in test_features_tender_data["features"]]
+
+        self.initial_bids = [bid_data_1, bid_data_2]
         super(TenderFeaturesAuctionResourceTest, self).setUp()
         prepare_for_auction(self)
 

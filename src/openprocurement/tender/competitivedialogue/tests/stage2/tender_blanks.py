@@ -24,6 +24,7 @@ from openprocurement.tender.competitivedialogue.constants import (
     CD_EU_TYPE,
 )
 from openprocurement.tender.competitivedialogue.models import TenderStage2EU, TenderStage2UA
+from openprocurement.tender.core.tests.criteria_utils import add_criteria
 
 
 # CompetitiveDialogStage2Test
@@ -918,6 +919,7 @@ def listing(self):
     # set status to active.tendering
     for tender in tenders:
         offset = get_now().isoformat()
+        add_criteria(self, tender["id"], tokens[tenders.index(tender)])
         response = self.set_tender_status(tender, tokens[tenders.index(tender)], "active.tendering")
         tenders[tenders.index(tender)] = response.json["data"]
 
@@ -1089,6 +1091,7 @@ def invalid_procurementMethod(self):
     token = response.json["access"]["token"]
     self.assertEqual(response.json["data"]["procurementMethod"], "selective")
 
+    add_criteria(self, tender["id"], token)
     # Try edit
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.patch_json(
@@ -1938,18 +1941,15 @@ def one_valid_bid_tender_ua(self):
     self.app.authorization = ("Basic", ("broker", ""))
     tender_db = self.db.get(tender["id"])
     identifier = tender_db["shortlistedFirms"][0]["identifier"]
-    self.test_bids_data[0]["tenderers"][0]["identifier"]["id"] = identifier["id"]
-    self.test_bids_data[0]["tenderers"][0]["identifier"]["scheme"] = identifier["scheme"]
+    bid_data = deepcopy(self.test_bids_data[0])
+    del bid_data["value"]
+    bid_data["tenderers"][0]["identifier"]["id"] = identifier["id"]
+    bid_data["tenderers"][0]["identifier"]["scheme"] = identifier["scheme"]
+    bid_data["value"] = {"amount": 500}
+
     self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
-        {
-            "data": {
-                "selfEligible": True,
-                "selfQualified": True,
-                "tenderers": [self.test_bids_data[0]["tenderers"][0]],
-                "value": {"amount": 500},
-            }
-        },
+        {"data": bid_data},
     )
 
     # switch to active.qualification
@@ -1975,32 +1975,21 @@ def one_invalid_and_1draft_bids_tender(self):
     self.app.authorization = ("Basic", ("broker", ""))
     tender_db = self.db.get(tender["id"])
     identifier = tender_db["shortlistedFirms"][0]["identifier"]
-    self.test_bids_data[0]["tenderers"][0]["identifier"]["id"] = identifier["id"]
-    self.test_bids_data[0]["tenderers"][0]["identifier"]["scheme"] = identifier["scheme"]
+    bid_data = deepcopy(self.test_bids_data[0])
+    del bid_data["value"]
+    bid_data["tenderers"][0]["identifier"]["id"] = identifier["id"]
+    bid_data["tenderers"][0]["identifier"]["scheme"] = identifier["scheme"]
+    bid_data["value"] = {"amount": 500}
     self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
-        {
-            "data": {
-                "selfEligible": True,
-                "selfQualified": True,
-                "tenderers": [self.test_bids_data[0]["tenderers"][0]],
-                "value": {"amount": 500},
-            }
-        },
+        {"data": bid_data},
     )
 
+    bid_data["status"] = "draft"
     self.app.authorization = ("Basic", ("broker", ""))
     self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
-        {
-            "data": {
-                "selfEligible": True,
-                "selfQualified": True,
-                "status": "draft",
-                "tenderers": [self.test_bids_data[0]["tenderers"][0]],
-                "value": {"amount": 500},
-            }
-        },
+        {"data": bid_data},
     )
     # switch to active.qualification
     self.set_status("active.auction", {"auctionPeriod": {"startDate": None}, "status": "active.tendering"})
@@ -2028,33 +2017,25 @@ def first_bid_tender(self):
     self.app.authorization = ("Basic", ("broker", ""))
     tender_db = self.db.get(tender["id"])
     identifier = tender_db["shortlistedFirms"][0]["identifier"]
-    self.test_bids_data[0]["tenderers"][0]["identifier"]["id"] = identifier["id"]
-    self.test_bids_data[0]["tenderers"][0]["identifier"]["scheme"] = identifier["scheme"]
+    bid_data = deepcopy(self.test_bids_data[0])
+    del bid_data["value"]
+    bid_data["tenderers"][0]["identifier"]["id"] = identifier["id"]
+    bid_data["tenderers"][0]["identifier"]["scheme"] = identifier["scheme"]
+    bid_data["value"] =  {"amount": 450}
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
-        {
-            "data": {
-                "selfEligible": True,
-                "selfQualified": True,
-                "tenderers": [self.test_bids_data[0]["tenderers"][0]],
-                "value": {"amount": 450},
-            }
-        },
+        {"data": bid_data},
     )
     bid_id = response.json["data"]["id"]
     bid_token = response.json["access"]["token"]
     # create second bid
+    bid_data["value"] = {"amount": 475}
+
     self.app.authorization = ("Basic", ("broker", ""))
     self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
-        {
-            "data": {
-                "selfEligible": True,
-                "selfQualified": True,
-                "tenderers": [self.test_bids_data[0]["tenderers"][0]],
-                "value": {"amount": 475},
-            }
-        },
+        {"data": bid_data},
     )
     # switch to active.auction
     self.set_status("active.auction")

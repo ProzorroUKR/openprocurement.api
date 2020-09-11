@@ -2417,3 +2417,417 @@ def tender_award_complaint_period(self):
     end = parse_date(award["complaintPeriod"]["endDate"])
     delta = end - start
     self.assertEqual(delta.days, 0 if SANDBOX_MODE else STAND_STILL_TIME.days)
+
+
+def create_award_requirement_response(self):
+    base_request_path = "/tenders/{}/awards/{}/requirement_responses".format(self.tender_id, self.award_id)
+    request_path = "{}?acc_token={}".format(base_request_path, self.tender_token)
+
+    valid_data = [{
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+            "id": self.requirement_id,
+            "title": self.requirement_title,
+        },
+        "value": "True",
+    }]
+
+    response = self.app.post_json(
+        base_request_path,
+        {"data": valid_data},
+        status=403,
+    )
+
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("errors", response.json)
+    self.assertEqual(
+        response.json["errors"],
+        [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}]
+    )
+
+    response = self.app.post_json(
+        "{}?acc_token={}".format(base_request_path, "some_random_phrase"),
+        {"data": valid_data},
+        status=403,
+    )
+
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("errors", response.json)
+    self.assertEqual(
+        response.json["errors"],
+        [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}]
+    )
+
+    response = self.app.post_json(
+        request_path,
+        {"data": [{"description": "some description"}]},
+        status=422,
+    )
+
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("errors", response.json)
+    self.assertEqual(
+        response.json["errors"],
+        [{u'description': {u'requirement': [u'This field is required.'],
+                           u'value': [u'This field is required.']},
+          u'location': u'body',
+          u'name': 0}]
+    )
+
+    response = self.app.post_json(request_path, {"data": valid_data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    rr = response.json["data"]
+
+    for i, rr_data in enumerate(valid_data):
+        for k, v in rr_data.items():
+            self.assertEqual(rr[i][k], v)
+
+
+def patch_award_requirement_response(self):
+    request_path = "/tenders/{}/awards/{}/requirement_responses?acc_token={}".format(
+        self.tender_id, self.award_id, self.tender_token)
+
+    valid_data = [{
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+            "id": self.requirement_id,
+            "title": self.requirement_title,
+        },
+        "value": "True",
+    }]
+
+    response = self.app.post_json(request_path, {"data": valid_data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    rr_id = response.json["data"][0]["id"]
+
+    base_request_path = "/tenders/{}/awards/{}/requirement_responses/{}".format(self.tender_id, self.award_id, rr_id)
+    request_path = "{}?acc_token={}".format(base_request_path, self.tender_token)
+    updated_data = {
+        "title": "Rquirement response updated",
+        "value": 100,
+    }
+
+    response = self.app.patch_json(
+        base_request_path,
+        {"data": updated_data},
+        status=403,
+    )
+
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("errors", response.json)
+    self.assertEqual(
+        response.json["errors"],
+        [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}]
+    )
+
+    response = self.app.patch_json(
+        "{}?acc_token={}".format(base_request_path, "some_random_token"),
+        {"data": updated_data},
+        status=403,
+    )
+
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("errors", response.json)
+    self.assertEqual(
+        response.json["errors"],
+        [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}]
+    )
+
+    response = self.app.patch_json(
+        request_path,
+        {"data": updated_data},
+        status=422,
+    )
+
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("errors", response.json)
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            u'description': [u'Must be either true or false.'],
+            u'location': u'body',
+            u'name': u'value',
+        }]
+    )
+
+    updated_data["value"] = "True"
+    response = self.app.patch_json(
+        request_path,
+        {"data": updated_data},
+    )
+
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    rr = response.json["data"]
+    self.assertEqual(rr["title"], updated_data["title"])
+    self.assertEqual(rr["value"], updated_data["value"])
+    self.assertNotIn("evidences", rr)
+
+
+def get_award_requirement_response(self):
+    request_path = "/tenders/{}/awards/{}/requirement_responses?acc_token={}".format(
+        self.tender_id, self.award_id, self.tender_token)
+
+    valid_data = [{
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+            "id": self.requirement_id,
+            "title": self.requirement_title,
+        },
+        "value": "True",
+    }]
+
+    response = self.app.post_json(request_path, {"data": valid_data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    rr_id = response.json["data"][0]["id"]
+
+    response = self.app.get("/tenders/{}/awards/{}/requirement_responses".format(self.tender_id, self.award_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    rrs = response.json["data"]
+    self.assertEqual(len(rrs), 1)
+
+    for i, rr_data in enumerate(valid_data):
+        for k, v in rr_data.items():
+            self.assertIn(k, rrs[i])
+            self.assertEqual(v, rrs[i][k])
+
+    response = self.app.get("/tenders/{}/awards/{}/requirement_responses/{}".format(self.tender_id, self.award_id, rr_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    rr = response.json["data"]
+    for k, v in valid_data[0].items():
+        self.assertIn(k, rr)
+        self.assertEqual(v, rr[k])
+
+
+def create_award_requirement_response_evidence(self):
+    base_request_path = "/tenders/{}/awards/{}/requirement_responses/{}/evidences".format(
+        self.tender_id, self.award_id, self.rr_id)
+    request_path = "{}?acc_token={}".format(base_request_path, self.tender_token)
+
+    valid_data = {
+        "title": "Requirement response",
+        "relatedDocument": {
+            "id": self.doc_id,
+            "title": "name.doc",
+        },
+        "type": "document",
+    }
+
+    response = self.app.post_json(
+        base_request_path,
+        {"data": valid_data},
+        status=403,
+    )
+
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("errors", response.json)
+    self.assertEqual(
+        response.json["errors"],
+        [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}]
+    )
+
+    response = self.app.post_json(
+        "{}?acc_token={}".format(base_request_path, "some_test_token"),
+        {"data": valid_data},
+        status=403,
+    )
+
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("errors", response.json)
+    self.assertEqual(
+        response.json["errors"],
+        [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}]
+    )
+
+    response = self.app.post_json(
+        request_path,
+        {"data": {
+            "description": "some description"
+        }},
+        status=422
+    )
+
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("errors", response.json)
+    self.assertEqual(
+        response.json["errors"],
+        [{u'description': [u'This field is required.'],
+          u'location': u'body',
+          u'name': u'title'}]
+    )
+
+    response = self.app.post_json(
+        request_path,
+        {"data": {
+            "title": "Some title",
+            "description": "some description",
+        }},
+        status=422,
+    )
+
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("errors", response.json)
+    self.assertEqual(
+        response.json["errors"],
+        [{u'description': [u'type should be one of eligibleEvidences types'],
+          u'location': u'body',
+          u'name': u'type'}],
+    )
+
+    response = self.app.post_json(
+        request_path,
+        {"data": {
+            "title": "Some title",
+            "description": "some description",
+            "type": "document",
+        }},
+        status=422,
+    )
+
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("errors", response.json)
+    self.assertEqual(
+        response.json["errors"],
+        [{u'description': [u'This field is required.'],
+          u'location': u'body',
+          u'name': u'relatedDocument'}]
+    )
+
+    response = self.app.post_json(
+        request_path,
+        {"data": {
+            "title": "Some title",
+            "description": "some description",
+            "type": "document",
+            "relatedDocument": {
+                "id": "0"*32,
+                "title": "name.doc",
+            }
+        }},
+        status=422,
+    )
+
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("errors", response.json)
+    self.assertEqual(
+        response.json["errors"],
+        [{u'description': [u'relatedDocument.id should be one of award documents'],
+          u'location': u'body',
+          u'name': u'relatedDocument'}]
+    )
+
+    response = self.app.post_json(
+        request_path,
+        {"data": valid_data}
+    )
+
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    evidence = response.json["data"]
+
+    for k, v in valid_data.items():
+        self.assertIn(k, evidence)
+        self.assertEqual(evidence[k], v)
+
+
+def patch_award_requirement_response_evidence(self):
+
+    valid_data = {
+        "title": "Requirement response",
+        "relatedDocument": {
+            "id": self.doc_id,
+            "title": "name.doc",
+        },
+        "type": "document",
+    }
+
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/requirement_responses/{}/evidences?acc_token={}".format(
+            self.tender_id, self.award_id, self.rr_id, self.tender_token),
+        {"data": valid_data},
+    )
+
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    evidence_id = response.json["data"]["id"]
+
+    updated_data = {
+        "title": "Updated title",
+        "description": "Updated description",
+    }
+
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}/requirement_responses/{}/evidences/{}?acc_token={}".format(
+            self.tender_id, self.award_id, self.rr_id, evidence_id, self.tender_token),
+        {"data": updated_data},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    evidence = response.json["data"]
+
+    self.assertEqual(evidence["title"], updated_data["title"])
+    self.assertEqual(evidence["description"], updated_data["description"])
+
+
+def get_award_requirement_response_evidence(self):
+    valid_data = {
+        "title": "Requirement response",
+        "relatedDocument": {
+            "id": self.doc_id,
+            "title": "name.doc",
+        },
+        "type": "document",
+    }
+
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/requirement_responses/{}/evidences?acc_token={}".format(
+            self.tender_id, self.award_id, self.rr_id, self.tender_token),
+        {"data": valid_data},
+    )
+
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    evidence_id = response.json["data"]["id"]
+
+    response = self.app.get("/tenders/{}/awards/{}/requirement_responses/{}/evidences".format(
+        self.tender_id, self.award_id, self.rr_id
+    ))
+
+    evidences = response.json["data"]
+    self.assertEqual(len(evidences), 1)
+
+    for k, v in valid_data.items():
+        self.assertIn(k, evidences[0])
+        self.assertEqual(v, evidences[0][k])
+
+    response = self.app.get("/tenders/{}/awards/{}/requirement_responses/{}/evidences/{}".format(
+        self.tender_id, self.award_id, self.rr_id, evidence_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    rr = response.json["data"]
+    for k, v in valid_data.items():
+        self.assertIn(k, rr)
+        self.assertEqual(v, rr[k])

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/26b780552e084bbcb2b53c5383a6e976/cancellations/4c7f6d0311634a6094eca6ccf61256d1?acc_token=df3d7d3c62c74918a4905630dbce126b HTTP/1.0
+PATCH /api/2.5/tenders/26b780552e084bbcb2b53c5383a6e976/cancellations/e57e4f5a014e4f3aad51281fcafb24a8?acc_token=df3d7d3c62c74918a4905630dbce126b HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 41
 Content-Type: application/json
@@ -19,7 +19,7 @@ Content-Type: application/json; charset=UTF-8
     "reasonType": "dateViolation", 
     "date": "2020-05-15T01:00:00+03:00", 
     "cancellationOf": "tender", 
-    "id": "4c7f6d0311634a6094eca6ccf61256d1"
+    "id": "e57e4f5a014e4f3aad51281fcafb24a8"
   }
 }
 

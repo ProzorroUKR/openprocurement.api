@@ -1,0 +1,32 @@
+POST /api/2.5/tenders/24660b6d159d42adb6aaba9d978575c7/bids/7d0b2418ff254e1c827ffe021c832900/requirement_responses/77b00a6655054f71af72e8599f27e09e/evidences?acc_token=f0760e708e124c8fb9f34e562dbf59cf HTTP/1.0
+Authorization: Bearer token
+Content-Length: 147
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "type": "document", 
+    "relatedDocument": {
+      "id": "7261f09218de4ce79c11a48d275491e8", 
+      "title": "name.doc"
+    }, 
+    "title": "Requirement response"
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/24660b6d159d42adb6aaba9d978575c7/bids/7d0b2418ff254e1c827ffe021c832900/requirement_responses/77b00a6655054f71af72e8599f27e09e/evidences/55c0261bc0cf47309851f85411a00d0d
+{
+  "data": {
+    "title": "Requirement response", 
+    "type": "document", 
+    "relatedDocument": {
+      "id": "7261f09218de4ce79c11a48d275491e8", 
+      "title": "name.doc"
+    }, 
+    "id": "55c0261bc0cf47309851f85411a00d0d"
+  }
+}
+

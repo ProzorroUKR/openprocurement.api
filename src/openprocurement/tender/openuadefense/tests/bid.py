@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
+from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 
@@ -15,7 +16,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     patch_tender_with_bids_lots_none,
 )
 
-from openprocurement.tender.openua.tests.base import test_bids
+
 from openprocurement.tender.openua.tests.bid import TenderBidResourceTestMixin, TenderBidDocumentResourceTestMixin
 from openprocurement.tender.openua.tests.bid_blanks import (
     # TenderBidFeaturesResourceTest
@@ -27,7 +28,11 @@ from openprocurement.tender.openua.tests.bid_blanks import (
     tender_bidder_confidential_document,
 )
 
-from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest, test_features_tender_ua_data
+from openprocurement.tender.openuadefense.tests.base import (
+    BaseTenderUAContentWebTest,
+    test_features_tender_ua_data,
+    test_bids,
+)
 
 
 class TenderBidResourceTest(BaseTenderUAContentWebTest, TenderBidResourceTestMixin):
@@ -47,6 +52,7 @@ class Tender2LotBidResourceTest(BaseTenderUAContentWebTest):
 class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
     initial_data = test_features_tender_ua_data
     initial_status = "active.tendering"
+    test_bids_data = test_bids
 
     test_features_bidder = snitch(features_bidder)
     test_features_bidder_invalid = snitch(features_bidder_invalid)
@@ -59,17 +65,13 @@ class TenderBidDocumentResourceTest(BaseTenderUAContentWebTest, TenderBidDocumen
 
     def setUp(self):
         super(TenderBidDocumentResourceTest, self).setUp()
+
+        bid_data = deepcopy(self.test_bids_data[0])
+        bid_data["value"] = {"amount": 500}
         # Create bid
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
-            {
-                "data": {
-                    "tenderers": [test_organization],
-                    "value": {"amount": 500},
-                    "selfEligible": True,
-                    "selfQualified": True,
-                }
-            },
+            {"data": bid_data},
         )
         bid = response.json["data"]
         self.bid_id = bid["id"]
@@ -78,16 +80,12 @@ class TenderBidDocumentResourceTest(BaseTenderUAContentWebTest, TenderBidDocumen
     test_not_found = snitch(not_found)
 
     def test_create_tender_bidder_document_nopending(self):
+        bid_data = deepcopy(self.test_bids_data[0])
+        bid_data["value"] = {"amount": 500}
+
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
-            {
-                "data": {
-                    "selfEligible": True,
-                    "selfQualified": True,
-                    "tenderers": [self.test_bids_data[0]["tenderers"][0]],
-                    "value": {"amount": 500},
-                }
-            },
+            {"data": bid_data},
         )
         bid = response.json["data"]
         bid_id = bid["id"]

@@ -30,7 +30,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "description": "Комп’ютерне обладнання", 
         "quantity": 1.0, 
-        "id": "b42f7dc7dc134d06a7598e88df4821b1", 
+        "id": "98c87e3a8f2b48fa887616989dcf8294", 
         "deliveryAddress": {
           "postalCode": "79000", 
           "countryName": "Україна", 

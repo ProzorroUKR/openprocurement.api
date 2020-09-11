@@ -41,7 +41,7 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
 )
 
 from openprocurement.tender.core.tests.base import change_auth
-from openprocurement.tender.openua.tests.base import test_bids
+from openprocurement.tender.openuadefense.tests.base import test_bids
 from openprocurement.tender.openua.tests.award_blanks import (
     # TenderAwardResourceTest
     create_tender_award,

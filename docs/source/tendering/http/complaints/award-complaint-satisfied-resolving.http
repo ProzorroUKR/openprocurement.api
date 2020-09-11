@@ -44,7 +44,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/56aa844d9b3a43e4
       "startDate": "2020-05-15T01:00:00+03:00", 
       "endDate": "2020-05-15T01:00:03+03:00"
     }, 
-    "bid_id": "5089c58b70d041138c76a92723a7f82e", 
+    "bid_id": "73d7d50ef4c3464e9ff440581c7364ce", 
     "value": {
       "currency": "UAH", 
       "amount": 499.0, 
@@ -85,7 +85,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/56aa844d9b3a43e4
           "currency": "UAH", 
           "amount": 3000.0
         }, 
-        "id": "eea6ee3d38cc4aefb76da96645d4a3c5", 
+        "id": "bb9107253f974b9e91ba6171b4ee3273", 
         "tendererAction": "Умови виправлено, вибір переможня буде розгянуто повторно", 
         "dateSubmitted": "2020-05-15T01:00:03+03:00", 
         "complaintID": "UA-2020-05-15-000001.1", 
@@ -157,7 +157,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/56aa844d9b3a43e4
         "date": "2020-05-15T01:00:03+03:00", 
         "title": "Недостатньо інформації", 
         "type": "complaint", 
-        "id": "98bdde54ef9f440f83b78dbacd9ab16e"
+        "id": "dcc5ec1cf90047d0aee10ee7ceabc0e8"
       }, 
       {
         "status": "declined", 
@@ -196,7 +196,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/56aa844d9b3a43e4
         "complaintID": "UA-2020-05-15-000001.3", 
         "date": "2020-05-15T01:00:03+03:00", 
         "type": "complaint", 
-        "id": "21880d3a2a7c44ad8e30cb2a19172605", 
+        "id": "c42514eda49c48ed89c94bb94b0d7527", 
         "reviewPlace": "Place of review"
       }, 
       {
@@ -237,7 +237,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/56aa844d9b3a43e4
         "complaintID": "UA-2020-05-15-000001.4", 
         "date": "2020-05-15T01:00:03+03:00", 
         "type": "complaint", 
-        "id": "d6be5dac0e684783846bcdf71ad12359", 
+        "id": "cba74db2af9c4994836cce43b0df8de4", 
         "reviewPlace": "Place of review"
       }, 
       {
@@ -252,7 +252,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/56aa844d9b3a43e4
           "currency": "UAH", 
           "amount": 3000.0
         }, 
-        "id": "a7a63ff68a584a2ab6cf6cf88993b950", 
+        "id": "cb67aafa016c41ef9b510d82f012e166", 
         "rejectReason": "tenderCancelled", 
         "dateAccepted": "2020-05-15T01:00:03+03:00", 
         "author": {
@@ -315,7 +315,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/56aa844d9b3a43e4
         "complaintID": "UA-2020-05-15-000001.6", 
         "date": "2020-05-15T01:00:03+03:00", 
         "resolution": "Умови виправлено, вибір переможня буде розгянуто повторно", 
-        "id": "c9e6b01cbe524a1cb3ffe8f053e7e9d9"
+        "id": "e287472069134e9195a569cc7ed34896"
       }, 
       {
         "status": "answered", 
@@ -349,7 +349,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/56aa844d9b3a43e4
         "complaintID": "UA-2020-05-15-000001.7", 
         "date": "2020-05-15T01:00:03+03:00", 
         "resolution": "Вимога не відповідає предмету закупівлі", 
-        "id": "b9d791e890424c06b02c308aa516a710"
+        "id": "c2cf837fe0d34e5d90acc2b43b54cead"
       }, 
       {
         "status": "pending", 
@@ -383,7 +383,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/56aa844d9b3a43e4
             "author": "aboveThresholdReviewers", 
             "datePublished": "2020-05-15T01:00:03+03:00", 
             "recipient": "complaint_owner", 
-            "id": "c3886b1e75184f8f8332c9ea1fad01c0"
+            "id": "264158c62a8f4bd1b37986f33693d9c6"
           }, 
           {
             "documents": [
@@ -395,7 +395,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/56aa844d9b3a43e4
                 "format": "application/pdf", 
                 "documentOf": "tender", 
                 "datePublished": "2020-05-15T01:00:03+03:00", 
-                "id": "7b35f9df135d4de28f26444a0aeb8fad", 
+                "id": "daa18dd118b54cde8132b7293b498900", 
                 "dateModified": "2020-05-15T01:00:03+03:00"
               }
             ], 
@@ -403,9 +403,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/56aa844d9b3a43e4
             "title": "Уточнення по вимозі", 
             "author": "complaint_owner", 
             "datePublished": "2020-05-15T01:00:03+03:00", 
-            "relatedPost": "c3886b1e75184f8f8332c9ea1fad01c0", 
+            "relatedPost": "264158c62a8f4bd1b37986f33693d9c6", 
             "recipient": "aboveThresholdReviewers", 
-            "id": "77a7265af591460ebbc63c162a2c7587"
+            "id": "fd1e94a259aa498d9a6f0f8f3cebbda5"
           }, 
           {
             "description": "Відсутній документ", 
@@ -413,7 +413,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/56aa844d9b3a43e4
             "author": "aboveThresholdReviewers", 
             "datePublished": "2020-05-15T01:00:03+03:00", 
             "recipient": "tender_owner", 
-            "id": "bb86fc2c70504c49919353932f924bab"
+            "id": "77de93b8d543420094da972262676838"
           }, 
           {
             "documents": [
@@ -425,7 +425,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/56aa844d9b3a43e4
                 "format": "application/pdf", 
                 "documentOf": "tender", 
                 "datePublished": "2020-05-15T01:00:03+03:00", 
-                "id": "eab0f30e991e4587ad185c37024d6b79", 
+                "id": "03c91c7904d34442bd94855db5fe8ded", 
                 "dateModified": "2020-05-15T01:00:03+03:00"
               }
             ], 
@@ -433,9 +433,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/56aa844d9b3a43e4
             "title": "Уточнення по вимозі", 
             "author": "tender_owner", 
             "datePublished": "2020-05-15T01:00:03+03:00", 
-            "relatedPost": "bb86fc2c70504c49919353932f924bab", 
+            "relatedPost": "77de93b8d543420094da972262676838", 
             "recipient": "aboveThresholdReviewers", 
-            "id": "9f8fa840973b491ba9203f8a314b320e"
+            "id": "7159127ebbfa4de0a460ea3741a862ff"
           }
         ], 
         "value": {
@@ -446,7 +446,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/56aa844d9b3a43e4
         "complaintID": "UA-2020-05-15-000001.8", 
         "date": "2020-05-15T01:00:03+03:00", 
         "type": "complaint", 
-        "id": "9b9892fdb7be477384fadd7514e5a8d4"
+        "id": "5686f14f5c4649b1ac87a631dc6996a1"
       }, 
       {
         "status": "claim", 
@@ -476,7 +476,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/56aa844d9b3a43e4
         "complaintID": "UA-2020-05-15-000001.9", 
         "date": "2020-05-15T01:00:03+03:00", 
         "type": "claim", 
-        "id": "a01979c79a024470bbf203c6cc3c09cd"
+        "id": "14732702aa0240afb3838e9e87ca7e7c"
       }
     ], 
     "id": "140b7d05238849ca9d3d2153a1b2a8d5"

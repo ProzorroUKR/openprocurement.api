@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/db8f78603c144a8aac15730f9c763584/lots/92e4a20a9d7f4dada89d434409f951d8?acc_token=cf69efce7aca41c2b952f04d86d7fb90 HTTP/1.0
+PATCH /api/2.5/tenders/db8f78603c144a8aac15730f9c763584/lots/aa439cf36abb4b2fb712ee9932b8d55b?acc_token=cf69efce7aca41c2b952f04d86d7fb90 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 39
 Content-Type: application/json
@@ -31,7 +31,7 @@ Content-Type: application/json; charset=UTF-8
     "minimalStepPercentage": 0.006, 
     "yearlyPaymentsPercentageRange": 0.8, 
     "date": "2020-05-15T01:00:00+03:00", 
-    "id": "92e4a20a9d7f4dada89d434409f951d8"
+    "id": "aa439cf36abb4b2fb712ee9932b8d55b"
   }
 }
 

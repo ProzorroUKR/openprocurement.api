@@ -230,7 +230,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293
         }, 
         "percentage": 54.45, 
         "type": "financing", 
-        "id": "93b9835cd6f8419fb56014c014773e8b"
+        "id": "d1068593e9a7477a8994ecee0e7fb48c"
       }
     ], 
     "fundingKind": "other", 
@@ -257,7 +257,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
-        "id": "366a042aa96a4acdbe63112500608db1", 
+        "id": "e1e8352d141b4814ba5c79c757fdd72a", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -285,7 +285,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
-        "id": "9a24ed7daf1948b2923da55b02b720ed", 
+        "id": "3edb0dc8dd6542508b405eddb7260162", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"

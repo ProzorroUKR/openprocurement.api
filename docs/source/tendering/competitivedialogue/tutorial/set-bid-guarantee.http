@@ -96,7 +96,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "percentage": 54.45, 
         "type": "financing", 
-        "id": "e355df7685f14016b48e45d3b6ba7f0f"
+        "id": "69a5415ca5f7457ebe20137639f410e0"
       }
     ], 
     "minimalStep": {
@@ -131,7 +131,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-06-04T00:00:00+02:00", 
           "endDate": "2020-07-04T00:00:00+02:00"
         }, 
-        "id": "95b041402a794b48aa9200874907a06a", 
+        "id": "8bc8ded5746c4badb496d3297fce132c", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -164,7 +164,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-06-04T00:00:00+02:00", 
           "endDate": "2020-07-04T00:00:00+02:00"
         }, 
-        "id": "8673d15afe1147e3b19e6aa7ee6fe462", 
+        "id": "cbb964e3acb24801b28a9a27ea7efb14", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"

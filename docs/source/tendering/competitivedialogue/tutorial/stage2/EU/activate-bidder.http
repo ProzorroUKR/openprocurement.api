@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/50c82523038349969f53f3e238932c46/bids/dc595a39267248abbf3e85d759d6c1ab?acc_token=4983fc47c71047729730599c7b0329ae HTTP/1.0
+PATCH /api/2.5/tenders/50c82523038349969f53f3e238932c46/bids/529f4dbc517942dc8dd3f040cd17ddc4?acc_token=4983fc47c71047729730599c7b0329ae HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 31
 Content-Type: application/json
@@ -15,7 +15,6 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "pending", 
-    "selfEligible": true, 
     "value": {
       "currency": "UAH", 
       "amount": 500.0, 
@@ -47,7 +46,7 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "date": "2020-05-15T01:00:00+03:00", 
-    "id": "dc595a39267248abbf3e85d759d6c1ab"
+    "id": "529f4dbc517942dc8dd3f040cd17ddc4"
   }
 }
 

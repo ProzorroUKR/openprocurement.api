@@ -49,7 +49,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-06-04T00:00:00+02:00", 
           "endDate": "2020-07-04T00:00:00+02:00"
         }, 
-        "id": "ca90fedbd6494c9588a959536fe7a354", 
+        "id": "3cbf25c0bb094819a3084be21bc85cd7", 
         "unit": {
           "code": "MON", 
           "name": "month", 
@@ -92,7 +92,7 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "date": "2020-05-15T01:00:00+03:00", 
-    "awardID": "68ea182233e3452d9017623a786375bf", 
+    "awardID": "7957eb73ee0e4bde954e87031a364f27", 
     "id": "ec50d5084bd940d68482479c4834cdf4", 
     "contractID": "UA-2020-05-15-000001-1"
   }

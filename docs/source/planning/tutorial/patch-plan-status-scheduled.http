@@ -56,7 +56,7 @@ Content-Type: application/json; charset=UTF-8
         "deliveryDate": {
           "endDate": "2020-05-30T01:00:00+03:00"
         }, 
-        "id": "000422af516c49e8a1ed22db4aa37b90", 
+        "id": "c83eb7ab3fa440958a4a0c18ae70dcb3", 
         "unit": {
           "code": "KGM", 
           "name": "кг"
@@ -80,7 +80,7 @@ Content-Type: application/json; charset=UTF-8
         "deliveryDate": {
           "endDate": "2020-05-31T01:00:00+03:00"
         }, 
-        "id": "1226cf717eb84d9e8e5460ba47c31c03", 
+        "id": "ed7a8d82d9814016b3c57cf5174a71dd", 
         "unit": {
           "code": "KGM", 
           "name": "кг"
@@ -104,7 +104,7 @@ Content-Type: application/json; charset=UTF-8
         "deliveryDate": {
           "endDate": "2020-06-01T01:00:00+03:00"
         }, 
-        "id": "3e49b373a6984ec69010d1264c5c7aa8", 
+        "id": "ab1a34aca8e64ee693e8915fa971d20a", 
         "unit": {
           "code": "KGM", 
           "name": "кг"

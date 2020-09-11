@@ -1,16 +1,15 @@
 POST /api/2.5/tenders/d99c61237b1945578b8cde56d011dbef/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1049
+Content-Length: 1027
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "selfEligible": true, 
     "selfQualified": true, 
     "lotValues": [
       {
-        "relatedLot": "8de1614007d74757970d83c1d60ebc76", 
+        "relatedLot": "fadc6f1d86d045bc995c327e65c864fa", 
         "value": {
           "amount": 300
         }, 

@@ -68,12 +68,7 @@ class TenderSameValueAuctionResourceTest(BaseTenderContentWebTest):
     initial_status = "active.auction"
     tenderer_info = deepcopy(test_organization)
     initial_bids = [
-        {
-            "tenderers": [tenderer_info],
-            "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
-            "selfQualified": True,
-            "selfEligible": True,
-        }
+        test_bids[0]
         for i in range(3)
     ]
 
@@ -130,25 +125,15 @@ class TenderMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestM
 class TenderFeaturesAuctionResourceTest(TenderAuctionResourceTest):
     initial_data = test_features_tender_data
     tenderer_info = deepcopy(test_organization)
-    initial_bids = [
-        {
-            "parameters": [{"code": i["code"], "value": 0.1} for i in test_features_tender_data["features"]],
-            "tenderers": [tenderer_info],
-            "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
-            "selfQualified": True,
-            "selfEligible": True,
-        },
-        {
-            "parameters": [{"code": i["code"], "value": 0.15} for i in test_features_tender_data["features"]],
-            "tenderers": [tenderer_info],
-            "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
-            "selfQualified": True,
-            "selfEligible": True,
-        },
-    ]
 
     test_get_tender_auction = snitch(get_tender_auction_feature)
     test_post_tender_auction = snitch(post_tender_auction_feature)
+
+    def setUp(self):
+        self.initial_bids = deepcopy(test_bids[:2])
+        self.initial_bids[0]["parameters"] = [{"code": i["code"], "value": 0.1} for i in test_features_tender_data["features"]]
+        self.initial_bids[1]["parameters"] = [{"code": i["code"], "value": 0.15} for i in test_features_tender_data["features"]]
+        super(TenderFeaturesAuctionResourceTest, self).setUp()
 
 
 class TenderFeaturesLotAuctionResourceTest(TenderLotAuctionResourceTestMixin, TenderFeaturesAuctionResourceTest):

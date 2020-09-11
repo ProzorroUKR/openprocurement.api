@@ -8,8 +8,12 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     patch_tender_with_bids_lots_none,
 )
 
-from openprocurement.tender.openeu.tests.bid import TenderBidResourceTestMixin
-from openprocurement.tender.openua.tests.bid import TenderBidDocumentWithDSResourceTestMixin
+from openprocurement.tender.openeu.tests.bid import TenderBidResourceTestMixin, CreateBidMixin
+from openprocurement.tender.openua.tests.bid import (
+    TenderBidDocumentWithDSResourceTestMixin,
+    TenderBidRequirementResponseTestMixin,
+    TenderBidRequirementResponseEvidenceTestMixin,
+)
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogUAContentWebTest,
     BaseCompetitiveDialogEUContentWebTest,
@@ -130,20 +134,53 @@ class TenderUABidDocumentWithDSWebTest(TenderBidDocumentWithDSResourceTestMixin,
     def setUp(self):
         super(TenderUABidDocumentWithDSWebTest, self).setUp()
         # Create bid
+        bid_data = deepcopy(self.test_bids_data[0])
+        bid_data["value"] = {"amount": 500}
+        bid_data["tenderers"] = [test_tenderer]
+
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
-            {
-                "data": {
-                    "selfEligible": True,
-                    "selfQualified": True,
-                    "tenderers": [test_tenderer],
-                    "value": {"amount": 500},
-                }
-            },
+            {"data": bid_data},
         )
         bid = response.json["data"]
         self.bid_id = bid["id"]
         self.bid_token = response.json["access"]["token"]
+
+
+class TenderEUBidRequirementResponseResourceTest(
+    TenderBidRequirementResponseTestMixin,
+    CreateBidMixin,
+    BaseCompetitiveDialogEUContentWebTest,
+):
+    test_bids_data = test_bids
+    initial_status = "active.tendering"
+
+
+class TenderUABidRequirementResponseResourceTest(
+    TenderBidRequirementResponseTestMixin,
+    CreateBidMixin,
+    BaseCompetitiveDialogUAContentWebTest,
+):
+    test_bids_data = test_bids
+    initial_status = "active.tendering"
+
+
+class TenderEUBidRequirementResponseEvidenceResourceTest(
+    TenderBidRequirementResponseEvidenceTestMixin,
+    CreateBidMixin,
+    BaseCompetitiveDialogEUContentWebTest,
+):
+    test_bids_data = test_bids
+    initial_status = "active.tendering"
+
+
+class TenderUABidRequirementResponseEvidenceResourceTest(
+    TenderBidRequirementResponseEvidenceTestMixin,
+    CreateBidMixin,
+    BaseCompetitiveDialogUAContentWebTest,
+):
+    test_bids_data = test_bids
+    initial_status = "active.tendering"
 
 
 def suite():
@@ -151,6 +188,10 @@ def suite():
     suite.addTest(unittest.makeSuite(CompetitiveDialogEUBidResourceTest))
     suite.addTest(unittest.makeSuite(CompetitiveDialogEUBidFeaturesResourceTest))
     suite.addTest(unittest.makeSuite(CompetitiveDialogEUBidDocumentResourceTest))
+    suite.addTest(unittest.makeSuite(TenderEUBidRequirementResponseResourceTest))
+    suite.addTest(unittest.makeSuite(TenderUABidRequirementResponseResourceTest))
+    suite.addTest(unittest.makeSuite(TenderEUBidRequirementResponseEvidenceResourceTest))
+    suite.addTest(unittest.makeSuite(TenderUABidRequirementResponseEvidenceResourceTest))
 
     return suite
 

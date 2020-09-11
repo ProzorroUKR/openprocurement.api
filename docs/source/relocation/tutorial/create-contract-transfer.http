@@ -12,8 +12,8 @@ Response: 201 Created
 Content-Type: application/json; charset=UTF-8
 {
   "access": {
-    "transfer": "069f65d2ef164b538ee94b68f3583275", 
-    "token": "dfb44b90693542e39191ed53473b8cb5"
+    "transfer": "9315b8e8f9d34a7bab23be72ac789734", 
+    "token": "259e5e2fd1aa40749d3f1e285299ad66"
   }, 
   "data": {
     "date": "2020-05-15T01:00:00+03:00", 

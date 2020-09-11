@@ -19,6 +19,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     patch_tender_minimalstep_validation,
 )
 
+from openprocurement.tender.openuadefense.tests.base import test_bids
 from openprocurement.tender.openua.tests.tender import TenderUAResourceTestMixin
 from openprocurement.tender.openua.tests.tender_blanks import (
     tender_with_main_procurement_category,

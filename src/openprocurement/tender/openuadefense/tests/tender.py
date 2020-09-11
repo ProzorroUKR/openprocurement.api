@@ -25,7 +25,12 @@ from openprocurement.tender.openua.tests.tender_blanks import (
     tender_finance_milestones,
 )
 
-from openprocurement.tender.openuadefense.tests.base import BaseTenderUAWebTest, test_tender_data, BaseApiWebTest
+from openprocurement.tender.openuadefense.tests.base import (
+    BaseTenderUAWebTest,
+    test_tender_data,
+    test_bids,
+    BaseApiWebTest,
+)
 from openprocurement.tender.openuadefense.tests.tender_blanks import (
     # TenderUATest
     simple_add_tender,
@@ -66,6 +71,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin):
 
 class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):
     initial_data = test_tender_data
+    test_bids_data = test_bids
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
     test_one_valid_bid_tender_ua = snitch(one_valid_bid_tender_ua)

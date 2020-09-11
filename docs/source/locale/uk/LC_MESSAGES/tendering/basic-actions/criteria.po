@@ -1,0 +1,112 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-09-10 15:51+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
+
+msgid "Tender Criteria"
+msgstr "Критерії закупівлі"
+
+msgid "Criteria Basic Operation"
+msgstr "Критерії базові операції"
+
+msgid "Criteria data :ref:`schema<criterion>`"
+msgstr "Схема даних :ref:`критеріїв<criterion>`"
+
+msgid "Criteria is part of tender documentation, so all operation with criteria make tender owner."
+msgstr "Критерії це частина тенедрної документації, тому всі дії над критеріями може виконувати лише власник тендеру."
+
+msgid "Create Tender Criteria"
+msgstr "Створення критеріїв закупівлі"
+
+msgid "Criteria exist in procedures: belowThreshold, aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA, closeFrameworkAgreementSelectionUA"
+msgstr "Критіерії існуть в даних процедурах:  belowThreshold, aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA, closeFrameworkAgreementSelectionUA"
+
+msgid "You can create few criteria in one request with complete set of data."
+msgstr "Можна створити одразу декілька критеріїв за один запит з повним набором даних."
+
+msgid "Update Tender Criteria"
+msgstr "Оновлення критерію закупівлі"
+
+msgid "Get Tender Criteria"
+msgstr "Отримання інформації по критерію закупівлі"
+
+msgid "Requirement Group basic operation"
+msgstr "Базові операції над групами вимог"
+
+msgid "Requirement group :ref:`schema<RequirementGroup>`"
+msgstr "Схема даних :ref:`групи вимог<RequirementGroup>`"
+
+msgid "Create Criteria Requirement Group"
+msgstr "Створення групи вимог"
+
+msgid "Update Criteria Requirement Group"
+msgstr "Оновлення групи вимог"
+
+msgid "Get Criteria Requirement Group"
+msgstr "Отпимання інформації по групам вимог"
+
+msgid "Requirement basic operation"
+msgstr "Базові інформації над вимогами"
+
+msgid "Requirement model :ref:`schema<requirement>`"
+msgstr "Схема даних :ref:`вимог<requirement>`"
+
+msgid "Create Requirement"
+msgstr "Створення вимоиг"
+
+msgid "Update Requirement"
+msgstr "Оновлення вимоги"
+
+msgid "Get Requirement"
+msgstr "Отримання інформації по вимогам"
+
+msgid "Eligible Evidence basic operation"
+msgstr "Базові операції на прийнятними доказами"
+
+msgid "Eligible Evidence model :ref:`schema<EligibleEvidence>`"
+msgstr "Схема даних :ref:`прийнятних доказів<EligibleEvidence>`"
+
+msgid "Create Eligible Evidence"
+msgstr "Створення прийнятного доказу"
+
+msgid "Update Eligible Evidence"
+msgstr "Оновлення інформації прияйнятного доказу"
+
+msgid "Delete Eligible Evidence"
+msgstr "Видалення прийнятного доказу"
+
+msgid "Retrieve Eligible Evidence"
+msgstr "Отримання інформації по прийнятних доказах"
+
+msgid "Exclusion criteria"
+msgstr "Виключні критерії"
+
+msgid "Exclusion criteria available only on: aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA"
+msgstr "Виключні критерії доступні лише в: aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA"
+
+msgid "Standard data, you could get `here <https://github.com/ProzorroUKR/standards/pull/79/files>`__"
+msgstr "Стандарт, можна отримати `тут <https://github.com/ProzorroUKR/standards/pull/79/files>`__"
+
+msgid "You can't update tender to status `active.tendering` without 9 EXCLUSION criteria:"
+msgstr "Неможливо перевести тендер у статус `active.tendering` без 9-ти вийнятнхових критеріїв:"
+
+msgid "EXCLUSION criteria and all criteria objects are not updated:"
+msgstr "Вийняткові критерії та всі дочірні об'єкти є незміннми:"
+
+msgid "Exclusion criteria workflow"
+msgstr "Схема роботи вийняткових критеріїв"
+

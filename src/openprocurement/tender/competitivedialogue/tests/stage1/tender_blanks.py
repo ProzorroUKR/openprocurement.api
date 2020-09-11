@@ -11,6 +11,7 @@ from openprocurement.tender.belowthreshold.tests.base import test_organization
 
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE, FEATURES_MAX_SUM
 from openprocurement.tender.competitivedialogue.models import CompetitiveDialogUA, CompetitiveDialogEU
+from openprocurement.tender.competitivedialogue.tests.base import test_bids
 
 
 # CompetitiveDialogTest
@@ -598,21 +599,26 @@ def multiple_bidders_tender_eu(self):
     # create bids
     bidder_data = deepcopy(test_organization)
     self.app.authorization = ("Basic", ("broker", ""))
+    bid_data = deepcopy(test_bids[0])
+    bid_data["value"] = {"amount": 500}
+    bid_data["tenderers"] = [bidder_data]
     response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
-        {"data": {"selfEligible": True, "selfQualified": True, "tenderers": [bidder_data], "value": {"amount": 500}}},
+        {"data": bid_data},
     )
+    bid_data["value"]["amount"] = 499
     bidder_data["identifier"]["id"] = u"00037257"
     response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
-        {"data": {"selfEligible": True, "selfQualified": True, "tenderers": [bidder_data], "value": {"amount": 499}}},
+        {"data": bid_data},
     )
     bid_id = response.json["data"]["id"]
     bid_token = response.json["access"]["token"]
+    bid_data["value"]["amount"] = 498
     bidder_data["identifier"]["id"] = u"00037259"
     response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
-        {"data": {"selfEligible": True, "selfQualified": True, "tenderers": [bidder_data], "value": {"amount": 498}}},
+        {"data": bid_data},
     )
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": tender_id, "status": "active.tendering"})
@@ -702,23 +708,28 @@ def try_go_to_ready_stage_eu(self):
     tender_id = self.tender_id = response.json["data"]["id"]
     tender_owner_token = response.json["access"]["token"]
     # create bids
+    bid_data = deepcopy(test_bids[0])
+    bid_data["value"] = {"amount": 500}
     bidder_data = deepcopy(test_organization)
+    bid_data["tenderers"] = [bidder_data]
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
-        {"data": {"selfEligible": True, "selfQualified": True, "tenderers": [bidder_data], "value": {"amount": 500}}},
+        {"data": bid_data},
     )
+    bid_data["value"]["amount"] = 499
     bidder_data["identifier"]["id"] = u"00037257"
     response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
-        {"data": {"selfEligible": True, "selfQualified": True, "tenderers": [bidder_data], "value": {"amount": 499}}},
+        {"data": bid_data},
     )
     bid_id = response.json["data"]["id"]
     bid_token = response.json["access"]["token"]
+    bid_data["value"]["amount"] = 498
     bidder_data["identifier"]["id"] = u"00037258"
     response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
-        {"data": {"selfEligible": True, "selfQualified": True, "tenderers": [bidder_data], "value": {"amount": 498}}},
+        {"data": bid_data},
     )
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": tender_id, "status": "active.tendering"})

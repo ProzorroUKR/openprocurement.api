@@ -4,7 +4,9 @@ from hashlib import sha512
 from datetime import datetime, timedelta
 from uuid import uuid4
 from copy import deepcopy
+from mock import patch
 from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.tender.competitivedialogue.models import (
     TenderStage2UA, CompetitiveDialogEU, CompetitiveDialogUA,
@@ -316,11 +318,17 @@ def create_tender_stage2(self, initial_lots=None, initial_data=None, features=No
         {"data": {"status": "draft.stage2"}},
     )
 
+    if self.initial_criteria:
+        self.app.post_json(
+            "/tenders/{id}/criteria?acc_token={token}".format(id=self.tender_id, token=self.tender_token),
+            {"data": self.initial_criteria},
+        )
     self.app.authorization = ("Basic", ("broker", ""))
-    self.app.patch_json(
-        "/tenders/{id}?acc_token={token}".format(id=self.tender_id, token=self.tender_token),
-        {"data": {"status": "active.tendering"}},
-    )
+    with patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() + timedelta(days=1)):
+        self.app.patch_json(
+            "/tenders/{id}?acc_token={token}".format(id=self.tender_id, token=self.tender_token),
+            {"data": {"status": "active.tendering"}},
+        )
     self.app.authorization = auth
     if initial_bids:
         self.initial_bids_tokens = {}

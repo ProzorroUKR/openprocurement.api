@@ -3,7 +3,7 @@ import copy
 import os
 
 from datetime import datetime, timedelta
-from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.api.constants import SANDBOX_MODE, RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.tender.belowthreshold.tests.base import test_milestones as base_test_milestones
 from openprocurement.tender.openeu.models import Tender
 from openprocurement.tender.openeu.tests.periods import PERIODS
@@ -45,7 +45,6 @@ test_bids = [
         ],
         "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
         "selfQualified": True,
-        "selfEligible": True,
     },
     {
         "tenderers": [
@@ -76,9 +75,13 @@ test_bids = [
         ],
         "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
         "selfQualified": True,
-        "selfEligible": True,
     },
 ]
+
+if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
+    for i in test_bids:
+        i["selfEligible"] = True
+
 now = datetime.now()
 test_tender_data = {
     "title": u"футляри до державних нагород",

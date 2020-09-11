@@ -3,7 +3,7 @@ from schematics.types.compound import ModelType
 
 from openprocurement.api.models import ListType, Model
 from openprocurement.tender.pricequotation.models.requirement import Requirement
-from openprocurement.tender.pricequotation.validation import validate_requirement_groups
+from openprocurement.tender.core.validation import validate_requirement_groups
 
 
 class RequirementGroup(Model):

@@ -107,6 +107,8 @@ There are additional `envelopes` - document containers that manage time when the
     :qualificationDocuments:
         List of :ref:`ConfidentialDocument` objects. This envelope is revealed at post-qualification.
 
+    :requirementResponses:
+        List of :ref:`RequirementResponse` objects.
 
 .. _Parameter:
 

@@ -11,6 +11,7 @@ from openprocurement.tender.core.models import (
     EUConfidentialDocument,
     ConfidentialDocumentModelType,
 )
+from openprocurement.tender.core.validation import ValidateSelfEligibleMixin
 from openprocurement.tender.cfaua.constants import BID_UNSUCCESSFUL_FROM
 from openprocurement.tender.cfaua.models.submodels.lotvalue import LotValue
 from openprocurement.tender.cfaua.models.submodels.parameters import BidParameter
@@ -44,12 +45,12 @@ class BidModelType(ModelType):
             return shaped
 
 
-class Bid(BaseBid):
+class Bid(ValidateSelfEligibleMixin, BaseBid):
     class Options:
         _all_documents = whitelist("documents", "eligibilityDocuments", "financialDocuments", "qualificationDocuments")
         _edit = whitelist("value", "lotValues", "parameters", "subcontractingDetails", "tenderers", "status")
         _create = _all_documents + _edit + {"selfEligible", "selfQualified"}
-        _open_view = _create + whitelist("id", "date", "participationUrl")
+        _open_view = _create + whitelist("id", "date", "participationUrl", "requirementResponses")
         _qualification_view = whitelist("id", "status", "tenderers", "documents", "eligibilityDocuments")
         roles = {
             "create": _create,
@@ -86,7 +87,7 @@ class Bid(BaseBid):
     qualificationDocuments = ListType(ConfidentialDocumentModelType(EUConfidentialDocument, required=True), default=list())
     lotValues = ListType(ModelType(LotValue, required=True), default=list())
     selfQualified = BooleanType(required=True, choices=[True])
-    selfEligible = BooleanType(required=True, choices=[True])
+    selfEligible = BooleanType(choices=[True])
     subcontractingDetails = StringType()
     parameters = ListType(ModelType(BidParameter, required=True), default=list(), validators=[validate_parameters_uniq])
     status = StringType(

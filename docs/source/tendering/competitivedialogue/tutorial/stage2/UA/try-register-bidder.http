@@ -1,17 +1,12 @@
 POST /api/2.5/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 946
+Content-Length: 924
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
     "status": "draft", 
-    "selfEligible": true, 
-    "value": {
-      "amount": 500
-    }, 
-    "subcontractingDetails": "ДКП «Орфей», Україна", 
     "tenderers": [
       {
         "contactPoint": {
@@ -36,7 +31,11 @@ DATA:
         }
       }
     ], 
-    "selfQualified": true
+    "selfQualified": true, 
+    "value": {
+      "amount": 500
+    }, 
+    "subcontractingDetails": "ДКП «Орфей», Україна"
   }
 }
 

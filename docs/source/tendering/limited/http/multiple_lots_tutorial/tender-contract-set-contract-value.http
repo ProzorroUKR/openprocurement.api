@@ -20,7 +20,7 @@ Content-Type: application/json; charset=UTF-8
     "status": "pending", 
     "items": [
       {
-        "relatedLot": "28f98cde22964c8ea8bbc1fda693580e", 
+        "relatedLot": "f1747ce5d8be4161ac56c6822b290e47", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "ДК021", 
@@ -45,7 +45,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-06-04T00:00:00+02:00", 
           "endDate": "2020-07-04T00:00:00+02:00"
         }, 
-        "id": "b96fb1f581bc4abab5ac8486238ea5f0", 
+        "id": "c3fab00941aa4c30aaed1bc6be6dee94", 
         "quantity": 1.0
       }
     ], 
@@ -79,7 +79,7 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "date": "2020-05-15T01:00:00+03:00", 
-    "awardID": "f5d5d3d41f2f415ab04f3fa3e768e09d", 
+    "awardID": "035ed729412b41d7a5695de302128f7a", 
     "id": "ffcf1156a46843bba9887c44b866cf0a", 
     "contractID": "UA-2020-05-15-000001-1"
   }

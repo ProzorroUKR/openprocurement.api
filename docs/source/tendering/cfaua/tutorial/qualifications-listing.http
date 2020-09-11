@@ -11,7 +11,7 @@ Content-Type: application/json; charset=UTF-8
       "lotID": "c7555f1bb878434d8815dea318304673", 
       "eligible": false, 
       "qualified": false, 
-      "bidID": "410cb59a0945497eb61cc4461f661569", 
+      "bidID": "ccd5dc4ca3f84f9a8f9ec11010bd01ba", 
       "date": "2020-05-15T01:00:00+03:00", 
       "id": "9eafb5e0a5ac4268a1f0821a11dae69d"
     }, 
@@ -20,7 +20,7 @@ Content-Type: application/json; charset=UTF-8
       "lotID": "c7555f1bb878434d8815dea318304673", 
       "eligible": false, 
       "qualified": false, 
-      "bidID": "e88e8fc3020640178a79c6e66d3dfd5f", 
+      "bidID": "1c4a2dcee85343898ea5fbfd8ce2bd6e", 
       "date": "2020-05-15T01:00:00+03:00", 
       "id": "86fd0e3cd41f48eab89c5ac406b8334d"
     }, 
@@ -29,7 +29,7 @@ Content-Type: application/json; charset=UTF-8
       "lotID": "c7555f1bb878434d8815dea318304673", 
       "eligible": false, 
       "qualified": false, 
-      "bidID": "88c9f41eac914e1cb72d9a43fc03d702", 
+      "bidID": "76ccebf7a163452886a6d2d8d39a564b", 
       "date": "2020-05-15T01:00:00+03:00", 
       "id": "cb68d0f3a8c4468d9b7c5595eb8f9001"
     }, 
@@ -38,7 +38,7 @@ Content-Type: application/json; charset=UTF-8
       "lotID": "c7555f1bb878434d8815dea318304673", 
       "eligible": false, 
       "qualified": false, 
-      "bidID": "5a84740ed0bd4aa3830adfb56c49ed62", 
+      "bidID": "e0d41b30b35a430fb164a63e2cd8792b", 
       "date": "2020-05-15T01:00:00+03:00", 
       "id": "cdc3670ed483448a8cd1ed6d1146da99"
     }

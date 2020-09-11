@@ -22,7 +22,7 @@ class Award(BaseAward, QualificationMilestoneListMixin):
         )
         _all = _common + whitelist(
             "status", "lotID", "complaintPeriod", "bid_id", "subcontractingDetails", "date",
-            "complaints", "id", "documents", "items", "suppliers", "value", "milestones",
+            "complaints", "id", "documents", "items", "suppliers", "value", "milestones", "requirementResponses"
         )
         roles = {
             "Administrator": whitelist("complaintPeriod"),

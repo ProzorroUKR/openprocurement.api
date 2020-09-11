@@ -78,38 +78,30 @@ class TenderCompetitiveDialogUAQualificationComplaintPostResourceTest(
     def setUp(self):
         super(TenderCompetitiveDialogUAQualificationComplaintPostResourceTest, self).setUp()
         # Create bid
-        bidder_data = deepcopy(self.initial_bids[0]["tenderers"][0])
+        bid_data = deepcopy(test_bids[0])
+        bid_data["value"] = {"amount": 500}
+        bidder_data = bid_data["tenderers"][0]
         bidder_data["identifier"]["id"] = u"00037256"
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
-            {
-                "data": {
-                    "selfEligible": True, "selfQualified": True, "tenderers": [bidder_data], "value": {"amount": 500}
-                }
-            },
+            {"data": bid_data},
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
 
         # Create bid
+        bid_data["value"] = {"amount": 101}
         bidder_data["identifier"]["id"] = u"00037257"
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
-            {
-                "data": {
-                    "selfEligible": True, "selfQualified": True, "tenderers": [bidder_data], "value": {"amount": 101}
-                }
-            },
+            {"data": bid_data},
         )
         # Create another bid
+        bid_data["value"] = {"amount": 111}
         bidder_data["identifier"]["id"] = u"00037258"
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
-            {
-                "data": {
-                    "selfEligible": True, "selfQualified": True, "tenderers": [bidder_data], "value": {"amount": 111}
-                }
-            },
+            {"data": bid_data},
         )
 
         # update periods to have possibility to change tender status by chronograph
@@ -165,7 +157,6 @@ class TenderCompetitiveDialogUAQualificationComplaintPostResourceTest(
         self.assertEqual(response.content_type, "application/json")
 
 
-
 class TenderCompetitiveDialogEUQualificationComplaintPostResourceTest(
     BaseCompetitiveDialogEUContentWebTest,
     ComplaintPostResourceMixin,
@@ -181,38 +172,30 @@ class TenderCompetitiveDialogEUQualificationComplaintPostResourceTest(
     def setUp(self):
         super(TenderCompetitiveDialogEUQualificationComplaintPostResourceTest, self).setUp()
         # Create bid
-        bidder_data = deepcopy(self.initial_bids[0]["tenderers"][0])
+        bid_data = deepcopy(self.initial_bids[0])
+        bid_data["value"] = {"amount": 500}
+        bidder_data = bid_data["tenderers"][0]
         bidder_data["identifier"]["id"] = u"00037256"
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
-            {
-                "data": {
-                    "selfEligible": True, "selfQualified": True, "tenderers": [bidder_data], "value": {"amount": 500}
-                }
-            },
+            {"data": bid_data},
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
 
         # Create bid
+        bid_data["value"] = {"amount": 101}
         bidder_data["identifier"]["id"] = u"00037257"
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
-            {
-                "data": {
-                    "selfEligible": True, "selfQualified": True, "tenderers": [bidder_data], "value": {"amount": 101}
-                }
-            },
+            {"data": bid_data},
         )
         # Create another bid
+        bid_data["value"] = {"amount": 111}
         bidder_data["identifier"]["id"] = u"00037258"
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
-            {
-                "data": {
-                    "selfEligible": True, "selfQualified": True, "tenderers": [bidder_data], "value": {"amount": 111}
-                }
-            },
+            {"data": bid_data},
         )
 
         # update periods to have possibility to change tender status by chronograph

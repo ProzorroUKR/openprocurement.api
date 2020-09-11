@@ -1,0 +1,129 @@
+POST /api/2.5/tenders/fb07ce223a754201a341023b86d832ef/criteria?acc_token=056f6edd10e84810b429550ae3a12f86 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 5360
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": [
+    {
+      "requirementGroups": [
+        {
+          "requirements": [
+            {
+              "dataType": "boolean", 
+              "expectedValue": "true", 
+              "title": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів"
+            }
+          ], 
+          "description": "Учасник підтверджує, що"
+        }
+      ], 
+      "description": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів", 
+      "classification": {
+        "scheme": " espd211", 
+        "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
+      }, 
+      "title": "Вчинення економічних правопорушень", 
+      "relatesTo": "tenderer", 
+      "legislation": [
+        {
+          "article": "17.1.4", 
+          "version": "2020-04-19", 
+          "type": "NATIONAL_LEGISLATION", 
+          "identifier": {
+            "id": "922-VIII", 
+            "uri": "https://zakon.rada.gov.ua/laws/show/922-19", 
+            "legalName": "Закон України \"Про публічні закупівлі\""
+          }
+        }, 
+        {
+          "article": "6.2.4", 
+          "version": "2020-02-13", 
+          "type": "NATIONAL_LEGISLATION", 
+          "identifier": {
+            "id": "2210-III", 
+            "uri": "https://zakon.rada.gov.ua/laws/show/2210-14", 
+            "legalName": "Закон України \"Про захист економічної конкуренції\""
+          }
+        }, 
+        {
+          "article": "50.1", 
+          "version": "2020-02-13", 
+          "type": "NATIONAL_LEGISLATION", 
+          "identifier": {
+            "id": "2210-III", 
+            "uri": "https://zakon.rada.gov.ua/laws/show/2210-14", 
+            "legalName": "Закон України \"Про захист економічної конкуренції\""
+          }
+        }
+      ], 
+      "source": "tenderer"
+    }
+  ]
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+{
+  "data": [
+    {
+      "requirementGroups": [
+        {
+          "requirements": [
+            {
+              "dataType": "boolean", 
+              "id": "213508eab3f64741b217607ab238f91d", 
+              "expectedValue": "true", 
+              "title": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів"
+            }
+          ], 
+          "id": "ec9d9e3fe29c4e50b32efc796967ae1f", 
+          "description": "Учасник підтверджує, що"
+        }
+      ], 
+      "description": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів", 
+      "classification": {
+        "scheme": " espd211", 
+        "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
+      }, 
+      "title": "Вчинення економічних правопорушень", 
+      "legislation": [
+        {
+          "article": "17.1.4", 
+          "version": "2020-04-19", 
+          "type": "NATIONAL_LEGISLATION", 
+          "identifier": {
+            "legalName": "Закон України \"Про публічні закупівлі\"", 
+            "uri": "https://zakon.rada.gov.ua/laws/show/922-19", 
+            "id": "922-VIII"
+          }
+        }, 
+        {
+          "article": "6.2.4", 
+          "version": "2020-02-13", 
+          "type": "NATIONAL_LEGISLATION", 
+          "identifier": {
+            "legalName": "Закон України \"Про захист економічної конкуренції\"", 
+            "uri": "https://zakon.rada.gov.ua/laws/show/2210-14", 
+            "id": "2210-III"
+          }
+        }, 
+        {
+          "article": "50.1", 
+          "version": "2020-02-13", 
+          "type": "NATIONAL_LEGISLATION", 
+          "identifier": {
+            "legalName": "Закон України \"Про захист економічної конкуренції\"", 
+            "uri": "https://zakon.rada.gov.ua/laws/show/2210-14", 
+            "id": "2210-III"
+          }
+        }
+      ], 
+      "relatesTo": "tenderer", 
+      "source": "tenderer", 
+      "id": "209d9586a4ac466986e070f57ec244d6"
+    }
+  ]
+}
+

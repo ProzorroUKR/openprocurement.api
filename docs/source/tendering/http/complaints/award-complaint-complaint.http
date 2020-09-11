@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/140b7d05238849ca9d3d2153a1b2a8d5/complaints/eea6ee3d38cc4aefb76da96645d4a3c5 HTTP/1.0
+PATCH /api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/140b7d05238849ca9d3d2153a1b2a8d5/complaints/bb9107253f974b9e91ba6171b4ee3273 HTTP/1.0
 Authorization: Bearer bot
 Content-Length: 31
 Content-Type: application/json
@@ -60,7 +60,7 @@ Content-Type: application/json; charset=UTF-8
     "complaintID": "UA-2020-05-15-000001.1", 
     "date": "2020-05-15T01:00:03+03:00", 
     "type": "complaint", 
-    "id": "eea6ee3d38cc4aefb76da96645d4a3c5"
+    "id": "bb9107253f974b9e91ba6171b4ee3273"
   }
 }
 

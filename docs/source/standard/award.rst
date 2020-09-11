@@ -129,6 +129,8 @@ Additionally in :ref:`limited`:
 
     Confirms that Procuring entity has no grounds to reject a participant in accordance with Article 17 of the Law of Ukraine "On Public Procurement".
 
+:requirementResponses:
+        List of :ref:`RequirementResponse` objects.
 
 Award workflow in :ref:`limited`:
 ---------------------------------
