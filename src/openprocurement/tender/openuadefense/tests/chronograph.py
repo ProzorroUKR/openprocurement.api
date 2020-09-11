@@ -11,7 +11,6 @@ from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
     switch_to_qualification as not_switch_to_unsuccessful,
 )
 
-from openprocurement.tender.openua.tests.base import test_bids
 from openprocurement.tender.openua.tests.chronograph import (
     TenderSwitchAuctionResourceTestMixin,
     TenderLotSwitchAuctionResourceTestMixin,
@@ -24,7 +23,7 @@ from openprocurement.tender.openua.tests.chronograph_blanks import (
     set_auction_period_0bid,
 )
 
-from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest
+from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest, test_bids
 from openprocurement.tender.openuadefense.tests.chronograph_blanks import (
     # TenderSwitchAuctionResourceTest
     switch_to_auction,

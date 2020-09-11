@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/cancellations/c7fb36d745c44f4ca4779bd0fee9fe03?acc_token=62607c36ce4a4d64961ecc0d0a21540e HTTP/1.0
+GET /api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/cancellations/aab29dadbafa4eadaeda723a20d44b49?acc_token=62607c36ce4a4d64961ecc0d0a21540e HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -39,7 +39,7 @@ Content-Type: application/json; charset=UTF-8
     "reasonType": "forceMajeure", 
     "date": "2020-05-26T01:00:02+03:00", 
     "cancellationOf": "tender", 
-    "id": "c7fb36d745c44f4ca4779bd0fee9fe03"
+    "id": "aab29dadbafa4eadaeda723a20d44b49"
   }
 }
 

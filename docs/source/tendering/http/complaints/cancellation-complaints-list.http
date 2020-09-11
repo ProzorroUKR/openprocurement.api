@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/9de80116006a4e58b18ac56dda573693/cancellations/28437ff38b254dfdacc863e870354d20/complaints HTTP/1.0
+GET /api/2.5/tenders/9de80116006a4e58b18ac56dda573693/cancellations/31235ac89ae54d56b2b78a0243f2d589/complaints HTTP/1.0
 Host: lb-api-sandbox.prozorro.gov.ua
 
 Response: 200 OK
@@ -67,7 +67,7 @@ Content-Type: application/json; charset=UTF-8
       "date": "2020-05-15T01:00:00+03:00", 
       "acceptance": true, 
       "type": "complaint", 
-      "id": "57299cc6dd6a4e86b1bc8b2c406bf397", 
+      "id": "ee791245be184fe89d11df7d4650b501", 
       "reviewPlace": "some", 
       "dateAccepted": "2020-05-15T01:00:00+03:00"
     }, 
@@ -108,7 +108,7 @@ Content-Type: application/json; charset=UTF-8
       "complaintID": "UA-2020-05-15-000001.2", 
       "date": "2020-05-15T01:00:00+03:00", 
       "type": "complaint", 
-      "id": "97865ab92faa492cb811582710d889df", 
+      "id": "4b2468b3657a4f8f9d66b73c680f9675", 
       "reviewPlace": "some"
     }, 
     {
@@ -148,7 +148,7 @@ Content-Type: application/json; charset=UTF-8
       "date": "2020-05-15T01:00:00+03:00", 
       "title": "Недостатньо інформації", 
       "type": "complaint", 
-      "id": "f87398f50f0f43ce8637ea8bdb532eaf"
+      "id": "f7fa79ff504943328d4d06c5a29cc37c"
     }, 
     {
       "status": "stopped", 
@@ -162,7 +162,7 @@ Content-Type: application/json; charset=UTF-8
         "currency": "UAH", 
         "amount": 2000.0
       }, 
-      "id": "c449ec9e93c749889ee412a864f8bd4f", 
+      "id": "5f7017dae2a146f088381533135c2f68", 
       "rejectReason": "tenderCancelled", 
       "dateAccepted": "2020-05-15T01:00:00+03:00", 
       "author": {
@@ -205,7 +205,7 @@ Content-Type: application/json; charset=UTF-8
         "currency": "UAH", 
         "amount": 2000.0
       }, 
-      "id": "3bc7bafd9a5e4494ab22e3b770a85200", 
+      "id": "fed31a7c8bcf4216ab2ce41691ffe84b", 
       "rejectReason": "tenderCancelled", 
       "dateAccepted": "2020-05-15T01:00:00+03:00", 
       "author": {

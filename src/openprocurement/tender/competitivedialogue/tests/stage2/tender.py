@@ -52,6 +52,7 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_access_token_stage1,
     test_author,
 )
+from openprocurement.tender.core.tests.criteria_utils import add_criteria
 
 
 class CompetitiveDialogStage2Test(BaseCompetitiveDialogApiWebTest):
@@ -79,6 +80,7 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
             self.app.authorization = auth
             return response
         if status == "active.tendering":
+            add_criteria(self, tender["id"], token)
             self.app.authorization = ("Basic", ("broker", ""))
             response = self.app.patch_json(
                 "/tenders/{id}?acc_token={token}".format(id=tender["id"], token=token), {"data": {"status": status}}
@@ -123,6 +125,7 @@ class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
             self.app.authorization = auth
             return response
         if status == "active.tendering":
+            add_criteria(self, tender["id"], token)
             self.app.authorization = ("Basic", ("broker", ""))
             response = self.app.patch_json(
                 "/tenders/{id}?acc_token={token}".format(id=tender["id"], token=token), {"data": {"status": status}}

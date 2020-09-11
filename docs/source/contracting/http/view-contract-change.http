@@ -1,4 +1,4 @@
-GET /api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/changes/f3fe39d5213d4a029212ff4f1151cf40 HTTP/1.0
+GET /api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/changes/81250fd3a7ee4df6b89ed94e5b3996ce HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -14,7 +14,7 @@ Content-Type: application/json; charset=UTF-8
     "rationale_en": "Contract change cause", 
     "rationale": "Опис причини змін контракту", 
     "date": "2020-05-15T01:00:01+03:00", 
-    "id": "f3fe39d5213d4a029212ff4f1151cf40"
+    "id": "81250fd3a7ee4df6b89ed94e5b3996ce"
   }
 }
 

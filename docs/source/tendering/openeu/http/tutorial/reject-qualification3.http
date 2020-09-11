@@ -17,7 +17,7 @@ Content-Type: application/json; charset=UTF-8
     "status": "unsuccessful", 
     "eligible": false, 
     "qualified": false, 
-    "bidID": "300d8d13119e4450b4fa9cab0c0e9507", 
+    "bidID": "b8bb2055efc445abbaad89741fff85c6", 
     "date": "2020-05-15T01:00:00+03:00", 
     "id": "44650235cbbc4993af51233c8dcc6187"
   }

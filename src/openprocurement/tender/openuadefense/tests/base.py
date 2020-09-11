@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 import os
 from datetime import timedelta
+from copy import deepcopy
 
 from openprocurement.api.tests.base import BaseWebTest
+from openprocurement.api.utils import get_now, apply_data_patch
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.tender.openuadefense.models import Tender
 from openprocurement.tender.openuadefense.tests.periods import PERIODS
@@ -15,6 +17,8 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_procuringEntity as test_procuringEntity_api,
     test_tender_data as test_tender_data_api,
 )
+from openprocurement.api.utils import apply_data_patch
+from openprocurement.tender.belowthreshold.tests.base import test_bids as base_test_bids
 
 
 test_tender_data = test_tender_ua_data = test_tender_data_api.copy()
@@ -60,6 +64,13 @@ del test_features_tender_ua_data["enquiryPeriod"]
 test_features_tender_ua_data["tenderPeriod"] = {"endDate": (now + timedelta(days=16)).isoformat()}
 test_features_tender_ua_data["items"][0]["deliveryDate"] = test_tender_data["items"][0]["deliveryDate"]
 test_features_tender_ua_data["items"][0]["deliveryAddress"] = test_tender_data["items"][0]["deliveryAddress"]
+
+test_bids = deepcopy(base_test_bids)
+
+bid_update_data = {"selfQualified": True, "selfEligible": True}
+
+for i in test_bids:
+    i.update(bid_update_data)
 
 
 class BaseApiWebTest(BaseWebTest):

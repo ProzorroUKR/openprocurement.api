@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "documentOf": "change", 
-    "relatedItem": "563cc544379744ed9b023a88ff6e415b"
+    "relatedItem": "5937223446a044e689f16dc9912fed8b"
   }
 }
 
@@ -22,7 +22,7 @@ Content-Type: application/json; charset=UTF-8
     "documentOf": "change", 
     "datePublished": "2020-05-15T01:00:00+03:00", 
     "id": "b8f02cdfc2cc43c2a6a5f014d524afc6", 
-    "relatedItem": "563cc544379744ed9b023a88ff6e415b", 
+    "relatedItem": "5937223446a044e689f16dc9912fed8b", 
     "dateModified": "2020-05-15T01:00:00+03:00"
   }
 }

@@ -1,6 +1,5 @@
 from openprocurement.tender.openuadefense.tests.award import TenderAwardPendingResourceTestCase
-from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest
-from openprocurement.tender.openua.tests.base import test_bids
+from openprocurement.tender.openuadefense.tests.base import test_bids, BaseTenderUAContentWebTest
 from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.belowthreshold.tests.base import test_lots
 from openprocurement.tender.core.tests.qualification_milestone import (

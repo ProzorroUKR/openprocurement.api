@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/6ccc95c340c94e32bcf0b8c2183e62f7/bids/cc8919c6d27b47e89829b7c64b3a7878?acc_token=ebff7d432d3d4d0a8756f67f9bb07ef5 HTTP/1.0
+GET /api/2.5/tenders/6ccc95c340c94e32bcf0b8c2183e62f7/bids/436a89f5f496498fa9134f3caedb168d?acc_token=ebff7d432d3d4d0a8756f67f9bb07ef5 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -11,11 +11,11 @@ Content-Type: application/json; charset=UTF-8
       {
         "hash": "md5:00000000000000000000000000000000", 
         "title": "Proposal.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6ccc95c340c94e32bcf0b8c2183e62f7/bids/cc8919c6d27b47e89829b7c64b3a7878/documents/b84352b9f54c4f14bf296d9b79f48ebc?download=396c2bbf6e0c4ea1aa1292ff2f195d11", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6ccc95c340c94e32bcf0b8c2183e62f7/bids/436a89f5f496498fa9134f3caedb168d/documents/ec90a6e35c674a8eafa7fe0958a50a8c?download=396c2bbf6e0c4ea1aa1292ff2f195d11", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-05-15T01:00:00+03:00", 
-        "id": "b84352b9f54c4f14bf296d9b79f48ebc", 
+        "id": "ec90a6e35c674a8eafa7fe0958a50a8c", 
         "dateModified": "2020-05-15T01:00:00+03:00"
       }
     ], 
@@ -38,7 +38,7 @@ Content-Type: application/json; charset=UTF-8
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/6ccc95c340c94e32bcf0b8c2183e62f7_1b75c06ee58f4909a4201255b4ba5831?key_for_bid=cc8919c6d27b47e89829b7c64b3a7878"
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/6ccc95c340c94e32bcf0b8c2183e62f7_1b75c06ee58f4909a4201255b4ba5831?key_for_bid=436a89f5f496498fa9134f3caedb168d"
       }
     ], 
     "tenderers": [
@@ -64,7 +64,7 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "date": "2020-05-15T01:00:00+03:00", 
-    "id": "cc8919c6d27b47e89829b7c64b3a7878"
+    "id": "436a89f5f496498fa9134f3caedb168d"
   }
 }
 

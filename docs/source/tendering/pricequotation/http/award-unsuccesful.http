@@ -34,7 +34,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-05-17T01:00:00+03:00", 
           "endDate": "2020-05-20T01:00:00+03:00"
         }, 
-        "id": "0d99ccf1875e4ab8bb13f46a98631885", 
+        "id": "1f2cf1221e8f42f7af3cce0e941e14b5", 
         "unit": {
           "code": "H87", 
           "name": "штук"
@@ -64,7 +64,7 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "bid_id": "d8ffcf489b094edabfedd635dc87819e", 
+    "bid_id": "8cfbfea1a5d6465292985704865c464d", 
     "value": {
       "currency": "UAH", 
       "amount": 459.0, 

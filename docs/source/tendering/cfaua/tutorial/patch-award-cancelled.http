@@ -40,7 +40,7 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "bid_id": "5a84740ed0bd4aa3830adfb56c49ed62", 
+    "bid_id": "e0d41b30b35a430fb164a63e2cd8792b", 
     "value": {
       "currency": "UAH", 
       "amount": 485, 

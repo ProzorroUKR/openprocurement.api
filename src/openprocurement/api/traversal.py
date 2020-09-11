@@ -18,14 +18,14 @@ class Root(object):
         self.db = request.registry.db
 
 
-def get_item(parent, key, request):
+def get_item(parent, key, request, where_search=None):
     if "document" in key and key != "document":
         item_type = "document"
         item_field = key.split("_")
         item_field = item_field[0] + item_field[1].capitalize() + "s"
     else:
         item_type = key
-        item_field = "{}s".format(item_type)
+        item_field = where_search if where_search else "{}s".format(item_type)
 
     item_id_key = "{}_id".format(item_type)
     item_id = request.matchdict[item_id_key]

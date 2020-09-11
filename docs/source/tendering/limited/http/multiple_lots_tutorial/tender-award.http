@@ -30,7 +30,7 @@ DATA:
         }
       }
     ], 
-    "lotID": "28f98cde22964c8ea8bbc1fda693580e", 
+    "lotID": "f1747ce5d8be4161ac56c6822b290e47", 
     "value": {
       "currency": "UAH", 
       "amount": 475000, 
@@ -41,11 +41,11 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0cd37a4798fe40d1b45324a394f61c9f/awards/f5d5d3d41f2f415ab04f3fa3e768e09d
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0cd37a4798fe40d1b45324a394f61c9f/awards/035ed729412b41d7a5695de302128f7a
 {
   "data": {
     "status": "pending", 
-    "lotID": "28f98cde22964c8ea8bbc1fda693580e", 
+    "lotID": "f1747ce5d8be4161ac56c6822b290e47", 
     "suppliers": [
       {
         "contactPoint": {
@@ -75,7 +75,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0cd37a4798fe40d1
       "valueAddedTaxIncluded": true
     }, 
     "date": "2020-05-15T01:00:00+03:00", 
-    "id": "f5d5d3d41f2f415ab04f3fa3e768e09d"
+    "id": "035ed729412b41d7a5695de302128f7a"
   }
 }
 

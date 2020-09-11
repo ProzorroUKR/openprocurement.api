@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/9698c2aae121470eb87342fb51872653 HTTP/1.0
+GET /api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/b84e3d4216374e81a4b85a973be2fff5 HTTP/1.0
 Host: lb-api-sandbox.prozorro.gov.ua
 
 Response: 200 OK
@@ -36,7 +36,7 @@ Content-Type: application/json; charset=UTF-8
       "currency": "UAH", 
       "amount": 2000.0
     }, 
-    "id": "9698c2aae121470eb87342fb51872653", 
+    "id": "b84e3d4216374e81a4b85a973be2fff5", 
     "tendererAction": "Умови виправлено", 
     "dateSubmitted": "2020-05-15T01:00:00+03:00", 
     "complaintID": "UA-2020-05-15-000001.5", 

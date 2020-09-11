@@ -11,7 +11,7 @@ from openprocurement.tender.cfaua.tests.periods import PERIODS
 from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest as BaseBaseTenderWebTest
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_with_complaints_after_2020_04_19
 from openprocurement.api.utils import apply_data_patch, get_now
-from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.constants import RELEASE_2020_04_19, RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.tender.cfaua.constants import (
     TENDERING_DAYS,
     MIN_BIDS_NUMBER,
@@ -25,6 +25,8 @@ with open(os.path.join(BASE_DIR, "data/test_bids.json")) as fd:
     test_bids = json.load(fd)
     test_bids = [deepcopy(test_bids[0]) for _ in range(MIN_BIDS_NUMBER)]
     for num, test_bid in enumerate(test_bids):
+        if get_now() > RELEASE_ECRITERIA_ARTICLE_17:
+            del test_bid["selfEligible"]
         test_bid["value"]["amount"] = test_bid["value"]["amount"] + num * 1
 
 # Prepare test_features_tender_data

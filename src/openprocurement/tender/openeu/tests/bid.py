@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 import unittest
+from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
+from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
 
@@ -19,6 +22,10 @@ from openprocurement.tender.openeu.tests.base import (
     test_features_tender_data,
     test_bids,
     test_lots,
+)
+from openprocurement.tender.openua.tests.bid import (
+    TenderBidRequirementResponseTestMixin,
+    TenderBidRequirementResponseEvidenceTestMixin,
 )
 from openprocurement.tender.openeu.tests.bid_blanks import (
     # TenderBidDocumentWithDSResourceTest
@@ -68,6 +75,22 @@ from openprocurement.tender.openua.tests.bid_blanks import (
     create_tender_bid_with_scale_not_required,
     create_tender_bid_no_scale,
 )
+
+
+class CreateBidMixin(object):
+    base_bid_status = "draft"
+
+    def setUp(self):
+        super(CreateBidMixin, self).setUp()
+        # Create bid
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('broker', ''))
+        bid_data = self.test_bids_data[0].copy()
+        bid_data["status"] = self.base_bid_status
+        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
+        bid = response.json["data"]
+        self.bid_id = bid["id"]
+        self.bid_token = response.json["access"]["token"]
 
 
 class TenderBidResourceTestMixin(object):
@@ -160,14 +183,6 @@ class TenderBidBatchDocumentsWithDSResourceTest(BaseTenderContentWebTest):
     docservice = True
     initial_status = "active.tendering"
 
-    bid_data_wo_docs = {
-        "tenderers": [test_organization],
-        "value": {"amount": 500},
-        "selfEligible": True,
-        "selfQualified": True,
-        "documents": [],
-    }
-
     test_create_tender_bid_with_document_invalid = snitch(create_tender_bid_with_document_invalid)
     test_create_tender_bid_with_document = snitch(create_tender_bid_with_document)
     test_create_tender_bid_with_documents = snitch(create_tender_bid_with_documents)
@@ -190,6 +205,36 @@ class TenderBidBatchDocumentsWithDSResourceTest(BaseTenderContentWebTest):
 
     test_create_tender_bid_with_all_documents = snitch(create_tender_bid_with_all_documents)
 
+    def setUp(self):
+        self.bid_data_wo_docs = {
+            "tenderers": [test_organization],
+            "value": {"amount": 500},
+            "selfQualified": True,
+            "documents": [],
+        }
+        if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
+            self.bid_data_wo_docs["selfEligible"] = True
+
+        super(TenderBidBatchDocumentsWithDSResourceTest, self).setUp()
+
+
+class TenderBidRequirementResponseResourceTest(
+    TenderBidRequirementResponseTestMixin,
+    CreateBidMixin,
+    BaseTenderContentWebTest,
+):
+    test_bids_data = test_bids
+    initial_status = "active.tendering"
+
+
+class TenderBidRequirementResponseEvidenceResourceTest(
+    TenderBidRequirementResponseEvidenceTestMixin,
+    CreateBidMixin,
+    BaseTenderContentWebTest,
+):
+    test_bids_data = test_bids
+    initial_status = "active.tendering"
+
 
 def suite():
     suite = unittest.TestSuite()
@@ -198,6 +243,8 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderBidFeaturesResourceTest))
     suite.addTest(unittest.makeSuite(TenderBidResourceTest))
     suite.addTest(unittest.makeSuite(TenderBidBatchDocumentsWithDSResourceTest))
+    suite.addTest(unittest.makeSuite(TenderBidRequirementResponseResourceTest))
+    suite.addTest(unittest.makeSuite(TenderBidRequirementResponseEvidenceResourceTest))
     return suite
 
 

@@ -19,7 +19,7 @@ Content-Type: application/json; charset=UTF-8
     "status": "active", 
     "eligible": true, 
     "qualified": true, 
-    "bidID": "9161500fb17744ce90346052ddf8479c", 
+    "bidID": "799d983fc3ca4f18a3d22ead02ec7826", 
     "date": "2020-05-15T01:00:00+03:00", 
     "id": "688adb9bb70e4d4fbcaf4ba1025e7e1a"
   }

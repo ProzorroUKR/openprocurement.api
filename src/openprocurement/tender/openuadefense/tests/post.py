@@ -6,7 +6,6 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_cancellation,
 )
 from openprocurement.tender.core.tests.base import change_auth
-from openprocurement.tender.openua.tests.base import test_bids
 from openprocurement.tender.openua.tests.post import (
     ComplaintPostResourceMixin,
     TenderComplaintPostResourceMixin,
@@ -14,7 +13,7 @@ from openprocurement.tender.openua.tests.post import (
     TenderCancellationComplaintPostResourceMixin,
     date_after_2020_04_19,
 )
-from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest
+from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest, test_bids
 
 
 class TenderComplaintPostResourceTest(

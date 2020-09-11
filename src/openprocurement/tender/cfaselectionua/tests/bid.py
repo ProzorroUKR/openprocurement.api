@@ -15,6 +15,10 @@ from openprocurement.tender.cfaselectionua.tests.base import (
     test_agreement_features,
     test_bids,
 )
+from openprocurement.tender.openua.tests.bid import (
+    TenderBidRequirementResponseTestMixin,
+    TenderBidRequirementResponseEvidenceTestMixin,
+)
 from openprocurement.tender.cfaselectionua.tests.bid_blanks import (
     # TenderBidResourceTest
     create_tender_bid_invalid,
@@ -42,6 +46,26 @@ from openprocurement.tender.cfaselectionua.tests.bid_blanks import (
     create_tender_bid_with_document,
     create_tender_bid_with_documents,
 )
+
+
+class CreateBidMixin(object):
+    base_bid_status = "draft"
+    def setUp(self):
+        super(CreateBidMixin, self).setUp()
+        # Create bid
+        response = self.app.post_json(
+            "/tenders/{}/bids".format(self.tender_id),
+            {
+                "data": {
+                    "status": self.base_bid_status,
+                    "tenderers": [test_organization],
+                    "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
+                }
+            },
+        )
+        bid = response.json["data"]
+        self.bid_id = bid["id"]
+        self.bid_token = response.json["access"]["token"]
 
 
 class TenderBidResourceTest(TenderContentWebTest):
@@ -130,12 +154,34 @@ class TenderBidBatchDocumentWithDSResourceTest(TenderContentWebTest):
     test_create_tender_bid_with_documents = snitch(create_tender_bid_with_documents)
 
 
+class TenderBidRequirementResponseResourceTest(
+    TenderBidRequirementResponseTestMixin,
+    CreateBidMixin,
+    TenderContentWebTest,
+):
+    initial_lots = deepcopy(test_lots)
+    test_bids_data = test_bids
+    initial_status = "active.tendering"
+
+
+class TenderBidRequirementResponseEvidenceResourceTest(
+    TenderBidRequirementResponseEvidenceTestMixin,
+    CreateBidMixin,
+    TenderContentWebTest,
+):
+    initial_lots = deepcopy(test_lots)
+    test_bids_data = test_bids
+    initial_status = "active.tendering"
+
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderBidDocumentResourceTest))
     suite.addTest(unittest.makeSuite(TenderBidDocumentWithDSResourceTest))
     suite.addTest(unittest.makeSuite(TenderBidFeaturesResourceTest))
     suite.addTest(unittest.makeSuite(TenderBidResourceTest))
+    suite.addTest(unittest.makeSuite(TenderBidRequirementResponseResourceTest))
+    suite.addTest(unittest.makeSuite(TenderBidRequirementResponseEvidenceResourceTest))
     return suite
 
 

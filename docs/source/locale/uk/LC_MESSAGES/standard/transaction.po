@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-12 21:36+0300\n"
+"POT-Creation-Date: 2020-08-26 16:27+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,7 +41,7 @@ msgstr ""
 msgid "Used to point either to a corresponding Fiscal Data Package, IATI file, or machine or human-readable source"
 msgstr "Використовується для вказівки або на відповідний пакет Fiscal Data Package, або на файл IATI, або на машинне чи людське джерело"
 
-msgid "date, required"
+msgid "date"
 msgstr ""
 
 msgid "string, :ref:`date`, required"
@@ -50,7 +50,7 @@ msgstr "рядок, :ref:`date`, обов'язково"
 msgid "The date of the transaction."
 msgstr "Дата транзакції"
 
-msgid "value, required"
+msgid "value"
 msgstr ""
 
 msgid ":ref:`Guarantee`, required"
@@ -77,9 +77,12 @@ msgstr "Довідка організації про організацію, я�
 msgid "status"
 msgstr ""
 
-msgid "string, required"
-msgstr "рядок, обов'язково"
-
 msgid "The current status of transaction."
 msgstr "Поточний стан транзакції."
+
+#~ msgid "date, required"
+#~ msgstr ""
+
+#~ msgid "value, required"
+#~ msgstr ""
 

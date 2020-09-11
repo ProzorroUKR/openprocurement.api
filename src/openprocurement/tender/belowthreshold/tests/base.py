@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import json
 from copy import deepcopy
 from uuid import uuid4
 
@@ -188,6 +189,14 @@ test_draft_complaint = {
 }
 
 
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+with open(os.path.join(current_dir, "test_criteria.json")) as json_file:
+    test_criteria = json.load(json_file)
+
+test_requirement_groups = test_criteria[0]["requirementGroups"]
+
+
 def set_tender_lots(tender, lots):
     tender["lots"] = []
     for lot in lots:
@@ -197,6 +206,15 @@ def set_tender_lots(tender, lots):
     for i, item in enumerate(tender["items"]):
         item["relatedLot"] = tender["lots"][i % len(tender["lots"])]["id"]
     return tender
+
+
+def set_tender_criteria(criteria, lots, items):
+    for i, criterion in enumerate(criteria):
+        if lots and criterion["relatesTo"] == "lot":
+            criterion["relatedItem"] = lots[i % len(lots)]["id"]
+        elif items and criterion["relatesTo"] == "item":
+            criterion["relatedItem"] = items[i % len(lots)]["id"]
+    return criteria
 
 
 def set_bid_lotvalues(bid, lots):
@@ -215,6 +233,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
     initial_status = None
     initial_bids = None
     initial_lots = None
+    initial_criteria = None
     initial_auth = ("Basic", ("broker", ""))
     docservice = False
     min_bids_number = MIN_BIDS_NUMBER
@@ -252,6 +271,19 @@ class BaseTenderWebTest(BaseCoreWebTest):
         tender = response.json["data"]
         self.tender_token = response.json["access"]["token"]
         self.tender_id = tender["id"]
+
+        if self.initial_criteria:
+            self.app.post_json(
+                "/tenders/{}/criteria?acc_token={}&bulk=true".format(self.tender_id, self.tender_token),
+                {
+                    "data": set_tender_criteria(
+                        self.initial_criteria,
+                        tender.get("lots", []),
+                        tender.get("items", []),
+                    )
+                }
+            )
+
         status = tender["status"]
         if self.initial_bids:
             self.initial_bids_tokens = {}

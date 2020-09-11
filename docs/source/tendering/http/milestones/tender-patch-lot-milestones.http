@@ -8,10 +8,10 @@ DATA:
   "data": {
     "milestones": [
       {
-        "relatedLot": "db096b31c7ef4b2e95516f47a34a07e1"
+        "relatedLot": "7d4acdfde1b44eca8454e96734f0588c"
       }, 
       {
-        "relatedLot": "db096b31c7ef4b2e95516f47a34a07e1"
+        "relatedLot": "7d4acdfde1b44eca8454e96734f0588c"
       }
     ]
   }
@@ -25,7 +25,7 @@ Content-Type: application/json; charset=UTF-8
     "status": "active.enquiries", 
     "milestones": [
       {
-        "relatedLot": "db096b31c7ef4b2e95516f47a34a07e1", 
+        "relatedLot": "7d4acdfde1b44eca8454e96734f0588c", 
         "code": "prepayment", 
         "sequenceNumber": 0, 
         "title": "signingTheContract", 
@@ -35,10 +35,10 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "percentage": 45.55, 
         "type": "financing", 
-        "id": "9cdfea22b0b04b33b1a653ad1301c648"
+        "id": "fefc9f6e15a84b86b2fddc14f6591d99"
       }, 
       {
-        "relatedLot": "db096b31c7ef4b2e95516f47a34a07e1", 
+        "relatedLot": "7d4acdfde1b44eca8454e96734f0588c", 
         "code": "postpayment", 
         "description": "Підозрілий опис", 
         "sequenceNumber": 1, 
@@ -49,7 +49,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "percentage": 54.45, 
         "type": "financing", 
-        "id": "3381cdf128b840cf9921a72eaa4f3c56"
+        "id": "38783ac1487a4f55abd2e61b58497e22"
       }
     ], 
     "mainProcurementCategory": "goods", 
@@ -89,7 +89,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-05-17T01:00:00+03:00", 
           "endDate": "2020-05-20T01:00:00+03:00"
         }, 
-        "id": "6b281007ddb54da29dcfbfae47a3b1ad", 
+        "id": "59416cdafac94b998fbf6bdec61facf2", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -150,7 +150,7 @@ Content-Type: application/json; charset=UTF-8
           "valueAddedTaxIncluded": true
         }, 
         "date": "2020-05-15T01:00:00+03:00", 
-        "id": "db096b31c7ef4b2e95516f47a34a07e1"
+        "id": "7d4acdfde1b44eca8454e96734f0588c"
       }
     ], 
     "id": "7e23f3f26faf4146af5f668247cf04f4", 

@@ -3,6 +3,8 @@ from copy import deepcopy
 from datetime import datetime, timedelta
 from openprocurement.tender.cfaua.constants import CLARIFICATIONS_UNTIL_PERIOD
 from openprocurement.tender.cfaua.tests.base import agreement_period
+from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
+from openprocurement.api.utils import get_now
 
 
 extra = {"agreements": [{"contracts": [{"unitPrices": [{"value": {"amount": 0}}]}] * 3}]}
@@ -251,17 +253,15 @@ def bids_invalidation_on_tender_change(self):
     valid_bid_token = response.json["access"]["token"]
     valid_bid_date = response.json["data"]["date"]
 
+    bid_data = deepcopy(self.test_bids_data[0])
+    del bid_data["value"]
+    bid_data["lotValues"] = [{"value": {"amount": 101}, "relatedLot": self.initial_lots[0]["id"]}]
+
     for i in range(1, self.min_bids_number):
+        bid_data["tenderers"] = initial_bids[i]["tenderers"]
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
-            {
-                "data": {
-                    "selfEligible": True,
-                    "selfQualified": True,
-                    "tenderers": initial_bids[i]["tenderers"],
-                    "lotValues": [{"value": {"amount": 101}, "relatedLot": self.initial_lots[0]["id"]}],
-                }
-            },
+            {"data": bid_data},
         )
 
     # switch to active.pre-qualification
@@ -811,47 +811,38 @@ def get_tender_bidder_document(self):
     response = self.app.get("/tenders/{}/bids".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), self.min_bids_number)
+    assert_data_1 = {
+        u"date",
+        u"status",
+        u"id",
+        u"lotValues",
+        u"tenderers",
+        u"documents",
+        u"eligibilityDocuments",
+        u"qualificationDocuments",
+        u"financialDocuments",
+        u"selfQualified",
+    }
+
+    assert_data_2 = {u"date", u"status", u"id", u"lotValues", u"tenderers", u"selfQualified"}
+
+    if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
+        assert_data_1.add(u"selfEligible")
+        assert_data_2.add(u"selfEligible")
+
     self.assertEqual(
         set(response.json["data"][0].keys()),
-        set(
-            [
-                u"date",
-                u"status",
-                u"id",
-                u"lotValues",
-                u"tenderers",
-                u"documents",
-                u"eligibilityDocuments",
-                u"qualificationDocuments",
-                u"financialDocuments",
-                u"selfEligible",
-                u"selfQualified",
-            ]
-        ),
+        assert_data_1,
     )
     self.assertEqual(
         set(response.json["data"][1].keys()),
-        set([u"date", u"status", u"id", u"lotValues", u"tenderers", u"selfEligible", u"selfQualified"]),
+        assert_data_2,
     )
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, self.bid_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(
         set(response.json["data"].keys()),
-        set(
-            [
-                u"date",
-                u"status",
-                u"id",
-                u"lotValues",
-                u"tenderers",
-                u"documents",
-                u"eligibilityDocuments",
-                u"qualificationDocuments",
-                u"financialDocuments",
-                u"selfEligible",
-                u"selfQualified",
-            ]
-        ),
+        assert_data_1,
     )
 
     all_documents_are_accessible_for_bid_owner(doc_resource)
@@ -868,45 +859,17 @@ def get_tender_bidder_document(self):
     self.assertEqual(len(response.json["data"]), self.min_bids_number)
     self.assertEqual(
         set(response.json["data"][0].keys()),
-        set(
-            [
-                u"date",
-                u"status",
-                u"id",
-                u"lotValues",
-                u"tenderers",
-                u"documents",
-                u"eligibilityDocuments",
-                u"qualificationDocuments",
-                u"financialDocuments",
-                u"selfEligible",
-                u"selfQualified",
-            ]
-        ),
+        assert_data_1,
     )
     self.assertEqual(
         set(response.json["data"][1].keys()),
-        set([u"date", u"status", u"id", u"lotValues", u"tenderers", u"selfEligible", u"selfQualified"]),
+        assert_data_2,
     )
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, self.bid_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(
         set(response.json["data"].keys()),
-        set(
-            [
-                u"date",
-                u"status",
-                u"id",
-                u"lotValues",
-                u"tenderers",
-                u"documents",
-                u"eligibilityDocuments",
-                u"qualificationDocuments",
-                u"financialDocuments",
-                u"selfEligible",
-                u"selfQualified",
-            ]
-        ),
+        assert_data_1,
     )
     all_documents_are_accessible_for_bid_owner(doc_resource)
     for doc_resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:
@@ -922,45 +885,17 @@ def get_tender_bidder_document(self):
     self.assertEqual(len(response.json["data"]), self.min_bids_number)
     self.assertEqual(
         set(response.json["data"][0].keys()),
-        set(
-            [
-                u"date",
-                u"status",
-                u"id",
-                u"lotValues",
-                u"tenderers",
-                u"documents",
-                u"eligibilityDocuments",
-                u"qualificationDocuments",
-                u"financialDocuments",
-                u"selfEligible",
-                u"selfQualified",
-            ]
-        ),
+        assert_data_1,
     )
     self.assertEqual(
         set(response.json["data"][1].keys()),
-        set([u"date", u"status", u"id", u"lotValues", u"tenderers", u"selfEligible", u"selfQualified"]),
+        assert_data_2,
     )
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, self.bid_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(
         set(response.json["data"].keys()),
-        set(
-            [
-                u"date",
-                u"status",
-                u"id",
-                u"lotValues",
-                u"tenderers",
-                u"documents",
-                u"eligibilityDocuments",
-                u"qualificationDocuments",
-                u"financialDocuments",
-                u"selfEligible",
-                u"selfQualified",
-            ]
-        ),
+        assert_data_1,
     )
     all_documents_are_accessible_for_bid_owner(doc_resource)
     for doc_resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:
@@ -2204,32 +2139,26 @@ def create_tender_bidder_document_nopending(self):
 
 
 def bid_Administrator_change(self):
+    bid_data = deepcopy(self.test_bids_data[0])
+    bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}]
+    del bid_data["value"]
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "selfEligible": True,
-                "selfQualified": True,
-                "tenderers": [self.test_bids_data[0]["tenderers"][0]],
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
-            }
-        },
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     bid = response.json["data"]
 
     self.app.authorization = ("Basic", ("administrator", ""))
+
+    bid_data.update({
+        "tenderers": [{"identifier": {"id": "00000000"}}],
+        "lotValues": [{"value": {"amount": 400}, "relatedLot": self.initial_lots[0]["id"]}],
+    })
     response = self.app.patch_json(
         "/tenders/{}/bids/{}".format(self.tender_id, bid["id"]),
-        {
-            "data": {
-                "selfEligible": True,
-                "selfQualified": True,
-                "tenderers": [{"identifier": {"id": "00000000"}}],
-                "lotValues": [{"value": {"amount": 400}, "relatedLot": self.initial_lots[0]["id"]}],
-            }
-        },
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -2356,24 +2285,27 @@ def create_tender_biddder_invalid(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
+
+    assert_data = [
+        {u"description": [u"This field is required."], u"location": u"body", u"name": u"selfQualified"},
+        {
+            u"description": [
+                {
+                    u"contactPoint": [u"This field is required."],
+                    u"identifier": {u"scheme": [u"This field is required."], u"id": [u"This field is required."]},
+                    u"name": [u"This field is required."],
+                    u"address": [u"This field is required."],
+                }
+            ],
+            u"location": u"body",
+            u"name": u"tenderers",
+        },
+    ]
+    if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
+        assert_data.insert(0, {u"description": [u"This field is required."], u"location": u"body", u"name": u"selfEligible"})
     self.assertEqual(
         response.json["errors"],
-        [
-            {u"description": [u"This field is required."], u"location": u"body", u"name": u"selfEligible"},
-            {u"description": [u"This field is required."], u"location": u"body", u"name": u"selfQualified"},
-            {
-                u"description": [
-                    {
-                        u"contactPoint": [u"This field is required."],
-                        u"identifier": {u"scheme": [u"This field is required."], u"id": [u"This field is required."]},
-                        u"name": [u"This field is required."],
-                        u"address": [u"This field is required."],
-                    }
-                ],
-                u"location": u"body",
-                u"name": u"tenderers",
-            },
-        ],
+        assert_data
     )
 
     response = self.app.post_json(
@@ -2381,35 +2313,40 @@ def create_tender_biddder_invalid(self):
         {"data": {"selfEligible": False, "tenderers": [{"name": "name", "identifier": {"uri": "invalid_value"}}]}},
         status=422,
     )
+    assert_data = [
+        {u"description": [u"Value must be one of [True]."], u"location": u"body", u"name": u"selfEligible"},
+        {u"description": [u"This field is required."], u"location": u"body", u"name": u"selfQualified"},
+        {
+            u"description": [
+                {
+                    u"contactPoint": [u"This field is required."],
+                    u"identifier": {
+                        u"scheme": [u"This field is required."],
+                        u"id": [u"This field is required."],
+                        u"uri": [u"Not a well formed URL."],
+                    },
+                    u"address": [u"This field is required."],
+                }
+            ],
+            u"location": u"body",
+            u"name": u"tenderers",
+        },
+    ]
+
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [
-            {u"description": [u"Value must be one of [True]."], u"location": u"body", u"name": u"selfEligible"},
-            {u"description": [u"This field is required."], u"location": u"body", u"name": u"selfQualified"},
-            {
-                u"description": [
-                    {
-                        u"contactPoint": [u"This field is required."],
-                        u"identifier": {
-                            u"scheme": [u"This field is required."],
-                            u"id": [u"This field is required."],
-                            u"uri": [u"Not a well formed URL."],
-                        },
-                        u"address": [u"This field is required."],
-                    }
-                ],
-                u"location": u"body",
-                u"name": u"tenderers",
-            },
-        ],
+        assert_data,
     )
+
+    bid_data = deepcopy(self.test_bids_data[0])
+    del bid_data["value"]
 
     response = self.app.post_json(
         request_path,
-        {"data": {"selfEligible": True, "selfQualified": True, "tenderers": initial_bids[0]["tenderers"]}},
+        {"data": bid_data},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -2663,34 +2600,22 @@ def features_bidder(self):
     initial_bids = deepcopy(self.test_bids_data)
     self.convert_bids_for_tender_with_lots(initial_bids, self.initial_lots)
 
-    test_features_bids = [
+    test_features_bids = initial_bids[:2]
+    test_features_bids[0]["parameters"] = [{"code": i["code"], "value": 0.1} for i in self.initial_data["features"]]
+    test_features_bids[0]["lotValues"] = [
         {
-            # "status": "pending",
-            "parameters": [{"code": i["code"], "value": 0.1} for i in self.initial_data["features"]],
-            "tenderers": initial_bids[0]["tenderers"],
-            "lotValues": [
-                {
-                    "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
-                    "relatedLot": self.initial_lots[0]["id"],
-                }
-            ],
-            "selfQualified": True,
-            "selfEligible": True,
-        },
-        {
-            "status": "pending",
-            "parameters": [{"code": i["code"], "value": 0.15} for i in self.initial_data["features"]],
-            "tenderers": initial_bids[1]["tenderers"],
-            "lotValues": [
-                {
-                    "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
-                    "relatedLot": self.initial_lots[0]["id"],
-                }
-            ],
-            "selfQualified": True,
-            "selfEligible": True,
-        },
+            "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "relatedLot": self.initial_lots[0]["id"],
+        }
     ]
+    test_features_bids[1]["parameters"] = [{"code": i["code"], "value": 0.15} for i in self.initial_data["features"]]
+    test_features_bids[1]["lotValues"] = [
+        {
+            "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "relatedLot": self.initial_lots[0]["id"],
+        }
+    ]
+
     for i in test_features_bids:
         response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": i})
         i["status"] = "pending"
@@ -2708,18 +2633,13 @@ def features_bidder_invalid(self):
     initial_bids = deepcopy(self.test_bids_data)
     self.convert_bids_for_tender_with_lots(initial_bids, self.initial_lots)
 
-    data = {
-        "tenderers": initial_bids[0]["tenderers"],
-        "lotValues": [
-            {
-                "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
-                "relatedLot": self.initial_lots[0]["id"],
-            }
-        ],
-        "selfQualified": True,
-        "selfEligible": True,
-    }
-    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data}, status=422)
+    bid_data = deepcopy(self.test_bids_data[0])
+    del bid_data["value"]
+    bid_data["lotValues"] = [{
+        "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+        "relatedLot": self.initial_lots[0]["id"],
+    }]
+    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -2727,8 +2647,8 @@ def features_bidder_invalid(self):
         response.json["errors"],
         [{u"description": [u"All features parameters is required."], u"location": u"body", u"name": u"parameters"}],
     )
-    data["parameters"] = [{"code": "OCDS-123454-AIR-INTAKE", "value": 0.1}]
-    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data}, status=422)
+    bid_data["parameters"] = [{"code": "OCDS-123454-AIR-INTAKE", "value": 0.1}]
+    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -2736,8 +2656,8 @@ def features_bidder_invalid(self):
         response.json["errors"],
         [{u"description": [u"All features parameters is required."], u"location": u"body", u"name": u"parameters"}],
     )
-    data["parameters"].append({"code": "OCDS-123454-AIR-INTAKE", "value": 0.1})
-    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data}, status=422)
+    bid_data["parameters"].append({"code": "OCDS-123454-AIR-INTAKE", "value": 0.1})
+    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -2751,9 +2671,9 @@ def features_bidder_invalid(self):
             }
         ],
     )
-    data["parameters"][1]["code"] = "OCDS-123454-YEARS"
-    data["parameters"][1]["value"] = 0.2
-    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data}, status=422)
+    bid_data["parameters"][1]["code"] = "OCDS-123454-YEARS"
+    bid_data["parameters"][1]["value"] = 0.2
+    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -3448,51 +3368,42 @@ def get_tender_bidder_document_ds(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "active.qualification")
 
+    assert_data_1 = {
+        u"date",
+        u"status",
+        u"id",
+        u"lotValues",
+        u"tenderers",
+        u"documents",
+        u"eligibilityDocuments",
+        u"qualificationDocuments",
+        u"financialDocuments",
+        u"selfQualified",
+    }
+
+    assert_data_2 = {u"date", u"status", u"id", u"lotValues", u"tenderers", u"selfQualified"}
+
+    if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
+        assert_data_1.add(u"selfEligible")
+        assert_data_2.add(u"selfEligible")
+
     self.app.authorization = ("Basic", ("anon", ""))
     response = self.app.get("/tenders/{}/bids".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), self.min_bids_number)
     self.assertEqual(
         set(response.json["data"][0].keys()),
-        set(
-            [
-                u"date",
-                u"status",
-                u"id",
-                u"lotValues",
-                u"tenderers",
-                u"documents",
-                u"eligibilityDocuments",
-                u"qualificationDocuments",
-                u"financialDocuments",
-                u"selfEligible",
-                u"selfQualified",
-            ]
-        ),
+        assert_data_1,
     )
     self.assertEqual(
         set(response.json["data"][1].keys()),
-        set([u"date", u"status", u"id", u"lotValues", u"tenderers", u"selfEligible", u"selfQualified"]),
+        assert_data_2,
     )
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, self.bid_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(
         set(response.json["data"].keys()),
-        set(
-            [
-                u"date",
-                u"status",
-                u"id",
-                u"lotValues",
-                u"tenderers",
-                u"documents",
-                u"eligibilityDocuments",
-                u"qualificationDocuments",
-                u"financialDocuments",
-                u"selfEligible",
-                u"selfQualified",
-            ]
-        ),
+        assert_data_1,
     )
 
     all_documents_are_accessible_for_bid_owner(doc_resource)
@@ -3511,45 +3422,17 @@ def get_tender_bidder_document_ds(self):
     self.assertEqual(len(response.json["data"]), self.min_bids_number)
     self.assertEqual(
         set(response.json["data"][0].keys()),
-        set(
-            [
-                u"date",
-                u"status",
-                u"id",
-                u"lotValues",
-                u"tenderers",
-                u"documents",
-                u"eligibilityDocuments",
-                u"qualificationDocuments",
-                u"financialDocuments",
-                u"selfEligible",
-                u"selfQualified",
-            ]
-        ),
+        assert_data_1,
     )
     self.assertEqual(
         set(response.json["data"][1].keys()),
-        set([u"date", u"status", u"id", u"lotValues", u"tenderers", u"selfEligible", u"selfQualified"]),
+        assert_data_2,
     )
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, self.bid_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(
         set(response.json["data"].keys()),
-        set(
-            [
-                u"date",
-                u"status",
-                u"id",
-                u"lotValues",
-                u"tenderers",
-                u"documents",
-                u"eligibilityDocuments",
-                u"qualificationDocuments",
-                u"financialDocuments",
-                u"selfEligible",
-                u"selfQualified",
-            ]
-        ),
+        assert_data_1,
     )
     all_documents_are_accessible_for_bid_owner(doc_resource)
     for doc_resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:
@@ -3601,45 +3484,17 @@ def get_tender_bidder_document_ds(self):
     self.assertEqual(len(response.json["data"]), self.min_bids_number)
     self.assertEqual(
         set(response.json["data"][0].keys()),
-        set(
-            [
-                u"date",
-                u"status",
-                u"id",
-                u"lotValues",
-                u"tenderers",
-                u"documents",
-                u"eligibilityDocuments",
-                u"qualificationDocuments",
-                u"financialDocuments",
-                u"selfEligible",
-                u"selfQualified",
-            ]
-        ),
+        assert_data_1,
     )
     self.assertEqual(
         set(response.json["data"][1].keys()),
-        set([u"date", u"status", u"id", u"lotValues", u"tenderers", u"selfEligible", u"selfQualified"]),
+        assert_data_2,
     )
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, self.bid_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(
         set(response.json["data"].keys()),
-        set(
-            [
-                u"date",
-                u"status",
-                u"id",
-                u"lotValues",
-                u"tenderers",
-                u"documents",
-                u"eligibilityDocuments",
-                u"qualificationDocuments",
-                u"financialDocuments",
-                u"selfEligible",
-                u"selfQualified",
-            ]
-        ),
+        assert_data_1,
     )
     all_documents_are_accessible_for_bid_owner(doc_resource)
     for doc_resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:
@@ -4022,7 +3877,9 @@ def view_bid_in_qualification_st_st(self):   # CS-5342
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "active.qualification.stand-still")
     bids = response.json["data"]["bids"]
-    expected_keys = {"id", "status", "selfEligible", "selfQualified", "lotValues", "tenderers", "date"}
+    expected_keys = {"id", "status", "selfQualified", "lotValues", "tenderers", "date"}
+    if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
+        expected_keys.add("selfEligible")
     self.assertEqual(set(bids[0].keys()), expected_keys)
 
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bids[0]["id"]))

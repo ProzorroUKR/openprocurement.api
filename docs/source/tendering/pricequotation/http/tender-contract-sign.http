@@ -23,7 +23,7 @@ Content-Type: application/json; charset=UTF-8
         "format": "application/msword", 
         "documentOf": "tender", 
         "datePublished": "2020-05-15T01:00:03+03:00", 
-        "id": "851b8175180f4883ba0651bd5f7bb830", 
+        "id": "26a79e8ffd684b638b28e472efd912b2", 
         "dateModified": "2020-05-15T01:00:03+03:00"
       }, 
       {
@@ -33,7 +33,7 @@ Content-Type: application/json; charset=UTF-8
         "format": "application/msword", 
         "documentOf": "tender", 
         "datePublished": "2020-05-15T01:00:03+03:00", 
-        "id": "c1d54014b44f4333a22ea7e8d6a02d8e", 
+        "id": "f940e358b1814ad7b2c1ba6ad6485656", 
         "dateModified": "2020-05-15T01:00:03+03:00"
       }
     ], 
@@ -56,7 +56,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-05-17T01:00:00+03:00", 
           "endDate": "2020-05-20T01:00:00+03:00"
         }, 
-        "id": "0d99ccf1875e4ab8bb13f46a98631885", 
+        "id": "1f2cf1221e8f42f7af3cce0e941e14b5", 
         "unit": {
           "code": "H87", 
           "name": "штук"

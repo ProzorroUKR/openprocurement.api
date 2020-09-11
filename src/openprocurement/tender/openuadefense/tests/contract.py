@@ -9,14 +9,13 @@ from openprocurement.tender.belowthreshold.tests.contract import (
     TenderContractDocumentResourceTestMixin,
 )
 
-from openprocurement.tender.openua.tests.base import test_bids
 from openprocurement.tender.openua.tests.contract_blanks import (
     # TenderContractResourceTest
     create_tender_contract,
     patch_tender_contract,
 )
 
-from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest
+from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest, test_bids
 
 from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     patch_tender_contract_value_vat_not_included,

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/ce6fe53ed8074a8993c306b027fa9a53?acc_token=d2a2184be75540dc9943d755fd56b1e0 HTTP/1.0
+PATCH /api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/9d482818789a45e88dfb8ad4c89bd4ef?acc_token=d2a2184be75540dc9943d755fd56b1e0 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 31
 Content-Type: application/json
@@ -21,7 +21,7 @@ Content-Type: application/json; charset=UTF-8
         "confidentiality": "public", 
         "language": "uk", 
         "title": "Proposal.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/ce6fe53ed8074a8993c306b027fa9a53/documents/ffb8f68e7a9442ca8c7c909ce9475091?download=b1254823518c427e84bddac2609d49cb", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/9d482818789a45e88dfb8ad4c89bd4ef/documents/ffb8f68e7a9442ca8c7c909ce9475091?download=b1254823518c427e84bddac2609d49cb", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-05-15T01:00:00+03:00", 
@@ -33,7 +33,7 @@ Content-Type: application/json; charset=UTF-8
         "confidentiality": "buyerOnly", 
         "language": "uk", 
         "format": "application/pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/ce6fe53ed8074a8993c306b027fa9a53/documents/ca89fb4746d64cfd87f857401fe85d90?download=46eae2bb26bb459e80168cde78780897", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/9d482818789a45e88dfb8ad4c89bd4ef/documents/ca89fb4746d64cfd87f857401fe85d90?download=46eae2bb26bb459e80168cde78780897", 
         "confidentialityRationale": "Only our company sells badgers with pink hair.", 
         "title": "Proposal_top_secrets.pdf", 
         "documentOf": "tender", 
@@ -48,7 +48,7 @@ Content-Type: application/json; charset=UTF-8
         "confidentiality": "public", 
         "language": "uk", 
         "title": "eligibility_doc.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/ce6fe53ed8074a8993c306b027fa9a53/eligibility_documents/84e8cce5126f4088a9d49b2d8a61147c?download=f5bd5faca0ed402f9f631588655730d2", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/9d482818789a45e88dfb8ad4c89bd4ef/eligibility_documents/84e8cce5126f4088a9d49b2d8a61147c?download=f5bd5faca0ed402f9f631588655730d2", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-05-15T01:00:00+03:00", 
@@ -56,21 +56,33 @@ Content-Type: application/json; charset=UTF-8
         "dateModified": "2020-05-15T01:00:00+03:00"
       }
     ], 
-    "selfEligible": true, 
-    "id": "ce6fe53ed8074a8993c306b027fa9a53", 
+    "id": "9d482818789a45e88dfb8ad4c89bd4ef", 
     "value": {
       "currency": "UAH", 
       "amount": 500.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "selfQualified": true, 
+    "qualificationDocuments": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "public", 
+        "language": "uk", 
+        "title": "qualification_document.pdf", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/9d482818789a45e88dfb8ad4c89bd4ef/qualification_documents/967be1d89cf846feae631c84ec4d0834?download=72b7b1d29c754e0eb64489482ad92680", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2020-05-15T01:00:00+03:00", 
+        "id": "967be1d89cf846feae631c84ec4d0834", 
+        "dateModified": "2020-05-15T01:00:00+03:00"
+      }
+    ], 
     "financialDocuments": [
       {
         "hash": "md5:00000000000000000000000000000000", 
         "confidentiality": "public", 
         "language": "uk", 
         "title": "financial_doc.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/ce6fe53ed8074a8993c306b027fa9a53/financial_documents/4d63bcaab539462fbc4dad2cd151cd99?download=14fd1c06e9f640f7b8891f22f2a645d6", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/9d482818789a45e88dfb8ad4c89bd4ef/financial_documents/4d63bcaab539462fbc4dad2cd151cd99?download=14fd1c06e9f640f7b8891f22f2a645d6", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-05-15T01:00:00+03:00", 
@@ -82,7 +94,7 @@ Content-Type: application/json; charset=UTF-8
         "confidentiality": "public", 
         "language": "uk", 
         "title": "financial_doc2.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/ce6fe53ed8074a8993c306b027fa9a53/financial_documents/d8273962ff464b59accf03c3dcac9460?download=4727233454434ece80cdf932dbc3ade9", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/9d482818789a45e88dfb8ad4c89bd4ef/financial_documents/d8273962ff464b59accf03c3dcac9460?download=4727233454434ece80cdf932dbc3ade9", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-05-15T01:00:00+03:00", 
@@ -115,20 +127,7 @@ Content-Type: application/json; charset=UTF-8
     ], 
     "date": "2020-05-15T01:00:00+03:00", 
     "subcontractingDetails": "ДКП «Орфей», Україна", 
-    "qualificationDocuments": [
-      {
-        "hash": "md5:00000000000000000000000000000000", 
-        "confidentiality": "public", 
-        "language": "uk", 
-        "title": "qualification_document.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/ce6fe53ed8074a8993c306b027fa9a53/qualification_documents/967be1d89cf846feae631c84ec4d0834?download=72b7b1d29c754e0eb64489482ad92680", 
-        "format": "application/pdf", 
-        "documentOf": "tender", 
-        "datePublished": "2020-05-15T01:00:00+03:00", 
-        "id": "967be1d89cf846feae631c84ec4d0834", 
-        "dateModified": "2020-05-15T01:00:00+03:00"
-      }
-    ]
+    "selfQualified": true
   }
 }
 

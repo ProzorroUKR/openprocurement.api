@@ -8,6 +8,7 @@ from uuid import uuid4
 from openprocurement.api.constants import SANDBOX_MODE, TZ
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import set_tender_criteria
 from openprocurement.tender.cfaselectionua.constants import BOT_NAME
 from openprocurement.tender.cfaselectionua.models.tender import CFASelectionUATender
 from openprocurement.tender.core.tests.base import BaseCoreWebTest
@@ -75,6 +76,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
     initial_data = test_tender_data
     initial_agreement = deepcopy(test_agreement)
     initial_status = None
+    initial_criteria = None
     initial_bids = None
     initial_lots = None
     initial_auth = ("Basic", ("broker", ""))
@@ -252,6 +254,15 @@ class BaseTenderWebTest(BaseCoreWebTest):
         self.tender_token = response.json["access"]["token"]
         self.tender_id = tender["id"]
         status = tender["status"]
+        if self.initial_criteria:
+            self.app.post_json(
+                "/tenders/{id}/criteria?acc_token={token}".format(id=self.tender_id, token=self.tender_token),
+                {"data": set_tender_criteria(
+                    self.initial_criteria,
+                    tender.get("lots", []),
+                    tender.get("items", []),
+                )},
+            )
         if self.initial_status != status and self.initial_status:
             self.set_status(self.initial_status)
 

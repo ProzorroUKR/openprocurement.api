@@ -13,6 +13,7 @@ from openprocurement.tender.core.validation import (
     validate_tender_period_extension,
     validate_tender_not_in_terminated_status,
     validate_tender_change_status_with_cancellation_lot_pending,
+    validate_tender_activate_with_criteria,
 )
 from openprocurement.tender.belowthreshold.views.tender import TenderResource
 from openprocurement.tender.cfaua.utils import check_status, all_bids_are_reviewed, all_awards_are_reviewed
@@ -38,6 +39,7 @@ class TenderEUResource(TenderResource):
             validate_tender_not_in_terminated_status,
             validate_tender_status_update,
             validate_tender_change_status_with_cancellation_lot_pending,
+            validate_tender_activate_with_criteria,
         ),
         permission="edit_tender",
     )

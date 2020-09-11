@@ -1,4 +1,4 @@
-GET /api/2.5/agreements/eb35d61e7cde4a008003f5cd17ddb0c7/changes/563cc544379744ed9b023a88ff6e415b HTTP/1.0
+GET /api/2.5/agreements/eb35d61e7cde4a008003f5cd17ddb0c7/changes/5937223446a044e689f16dc9912fed8b HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -11,7 +11,7 @@ Content-Type: application/json; charset=UTF-8
     "rationale_en": "Agreement change cause", 
     "rationale": "Опис причини змін егріменту", 
     "date": "2020-05-15T01:00:00+03:00", 
-    "id": "563cc544379744ed9b023a88ff6e415b"
+    "id": "5937223446a044e689f16dc9912fed8b"
   }
 }
 

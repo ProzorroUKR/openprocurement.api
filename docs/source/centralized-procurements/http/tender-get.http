@@ -41,7 +41,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "percentage": 54.45, 
         "type": "financing", 
-        "id": "b2587d4a2cd547b5af3468d740da3131"
+        "id": "442dc8681e8844d38f672de6d5380e61"
       }
     ], 
     "mainProcurementCategory": "goods", 
@@ -74,7 +74,7 @@ Content-Type: application/json; charset=UTF-8
         "deliveryDate": {
           "endDate": "2019-11-09T01:00:00+03:00"
         }, 
-        "id": "f504abadba414a5ea3b148a8323a19c4", 
+        "id": "5361183669984f2e81cf72c95081f037", 
         "unit": {
           "code": "KGM", 
           "name": "кг"

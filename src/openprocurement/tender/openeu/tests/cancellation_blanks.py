@@ -4,7 +4,7 @@ from datetime import timedelta
 from mock import patch
 
 from openprocurement.api.utils import get_now
-from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.constants import RELEASE_2020_04_19, RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_with_complaints_after_2020_04_19,
 )
@@ -154,13 +154,15 @@ def bids_on_tender_cancellation_in_qualification(self):
         u"id",
         u"selfQualified",
         u"eligibilityDocuments",
-        u"selfEligible",
         u"value",
         u"date",
         u"financialDocuments",
         u"participationUrl",
         u"qualificationDocuments",
     ]
+    if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
+        self.bid_visible_fields.append(u"selfEligible")
+
     deleted_bid_id = self._mark_one_bid_deleted()
 
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
@@ -180,6 +182,16 @@ def bids_on_tender_cancellation_in_qualification(self):
     tender = self._cancel_tender()
 
     self.app.authorization = ("Basic", ("broker", ""))
+    visible_fields = {
+        u"documents",
+        u"eligibilityDocuments",
+        u"id",
+        u"status",
+        u"tenderers",
+        u"selfQualified",
+    }
+    if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
+        visible_fields.add(u"selfEligible")
     for bid in tender["bids"]:
         if bid["id"] in self.valid_bids:
             self.assertEqual(bid["status"], "active")
@@ -191,17 +203,7 @@ def bids_on_tender_cancellation_in_qualification(self):
             self.assertEqual(bid["status"], "unsuccessful")
             self.assertEqual(
                 set(bid.keys()),
-                set(
-                    [
-                        u"documents",
-                        u"eligibilityDocuments",
-                        u"id",
-                        u"status",
-                        u"selfEligible",
-                        u"tenderers",
-                        u"selfQualified",
-                    ]
-                ),
+                visible_fields,
             )
 
     for bid_id, bid_token in self.initial_bids_tokens.items():
@@ -247,13 +249,15 @@ def bids_on_tender_cancellation_in_awarded(self):
         u"id",
         u"selfQualified",
         u"eligibilityDocuments",
-        u"selfEligible",
         u"value",
         u"date",
         u"financialDocuments",
         u"participationUrl",
         u"qualificationDocuments",
     ]
+
+    if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
+        self.bid_visible_fields.append(u"selfEligible")
     self._mark_one_bid_deleted()
 
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})

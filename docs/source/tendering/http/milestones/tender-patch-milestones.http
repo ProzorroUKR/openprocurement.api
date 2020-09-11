@@ -33,7 +33,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "percentage": 45.55, 
         "type": "financing", 
-        "id": "9cdfea22b0b04b33b1a653ad1301c648"
+        "id": "fefc9f6e15a84b86b2fddc14f6591d99"
       }, 
       {
         "code": "postpayment", 
@@ -46,7 +46,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "percentage": 54.45, 
         "type": "financing", 
-        "id": "3381cdf128b840cf9921a72eaa4f3c56"
+        "id": "38783ac1487a4f55abd2e61b58497e22"
       }
     ], 
     "mainProcurementCategory": "goods", 
@@ -86,7 +86,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-05-17T01:00:00+03:00", 
           "endDate": "2020-05-20T01:00:00+03:00"
         }, 
-        "id": "6b281007ddb54da29dcfbfae47a3b1ad", 
+        "id": "59416cdafac94b998fbf6bdec61facf2", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"

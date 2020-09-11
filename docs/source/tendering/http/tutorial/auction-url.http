@@ -67,7 +67,7 @@ Content-Type: application/json; charset=UTF-8
         "title": "Калорійність", 
         "date": "2020-05-15T01:00:01+03:00", 
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
-        "id": "2758aa9c71374230ab34f91ac85d72c1", 
+        "id": "3f751fcae5fa40be86e8b38392376e1c", 
         "questionOf": "tender"
       }
     ], 
@@ -88,7 +88,7 @@ Content-Type: application/json; charset=UTF-8
         "datePublished": "2020-05-15T01:00:01+03:00", 
         "author": "tender_owner", 
         "documentType": "technicalSpecifications", 
-        "id": "8a3d30101dc94ca58f768bec6a1f45dd", 
+        "id": "8924acf921d645b7bce35748c4f9e237", 
         "dateModified": "2020-05-15T01:00:01+03:00"
       }, 
       {
@@ -99,7 +99,7 @@ Content-Type: application/json; charset=UTF-8
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-05-15T01:00:01+03:00", 
-        "id": "90a4fef3a0f545f4807445bbd4017f29", 
+        "id": "f05f28fd104147beb09d8b4f7bbcbd2b", 
         "dateModified": "2020-05-15T01:00:01+03:00"
       }, 
       {
@@ -110,7 +110,7 @@ Content-Type: application/json; charset=UTF-8
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-05-15T01:00:01+03:00", 
-        "id": "90a4fef3a0f545f4807445bbd4017f29", 
+        "id": "f05f28fd104147beb09d8b4f7bbcbd2b", 
         "dateModified": "2020-05-15T01:00:01+03:00"
       }
     ], 
@@ -151,7 +151,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "percentage": 54.45, 
         "type": "financing", 
-        "id": "bbe57ebfab144c58adb7ed673a73b0aa"
+        "id": "af069a25c8f94e74a8b2428b51bcd1a7"
       }
     ], 
     "minimalStep": {
@@ -185,7 +185,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-05-17T01:00:00+03:00", 
           "endDate": "2020-05-20T01:00:00+03:00"
         }, 
-        "id": "22efe85457d041aab3bc5a64aae6be0f", 
+        "id": "53de0c90af0e430ea270c5970351ba0c", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"

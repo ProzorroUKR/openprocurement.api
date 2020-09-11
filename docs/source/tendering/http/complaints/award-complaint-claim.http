@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/140b7d05238849ca9d3d2153a1b2a8d5/complaints/a01979c79a024470bbf203c6cc3c09cd?acc_token=c27e41ba5b154d409ca05fe489ccbfbc HTTP/1.0
+PATCH /api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/140b7d05238849ca9d3d2153a1b2a8d5/complaints/14732702aa0240afb3838e9e87ca7e7c?acc_token=c27e41ba5b154d409ca05fe489ccbfbc HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 29
 Content-Type: application/json
@@ -41,7 +41,7 @@ Content-Type: application/json; charset=UTF-8
     "complaintID": "UA-2020-05-15-000001.9", 
     "date": "2020-05-15T01:00:03+03:00", 
     "type": "claim", 
-    "id": "a01979c79a024470bbf203c6cc3c09cd"
+    "id": "14732702aa0240afb3838e9e87ca7e7c"
   }
 }
 

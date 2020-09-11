@@ -62,7 +62,7 @@ Content-Type: application/json; charset=UTF-8
         "title": "Калорійність", 
         "date": "2020-05-15T01:00:00+03:00", 
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
-        "id": "d3803d4479ee43cc9ed13e8d5f59d394", 
+        "id": "997d92880fb34795ab24da25cdd60c8a", 
         "questionOf": "tender"
       }
     ], 
@@ -144,7 +144,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "percentage": 54.45, 
         "type": "financing", 
-        "id": "3f86a6cd00524bf9b6a2ceb1654234a2"
+        "id": "ca388d7e9a7b43b1857dd01b677e64be"
       }
     ], 
     "minimalStep": {
@@ -178,7 +178,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-06-04T00:00:00+02:00", 
           "endDate": "2020-07-04T00:00:00+02:00"
         }, 
-        "id": "576b1d3783f148f9a65c2664ef759400", 
+        "id": "c44dbd3e52ea497088ba82bff063bed9", 
         "quantity": 1.0
       }
     ], 

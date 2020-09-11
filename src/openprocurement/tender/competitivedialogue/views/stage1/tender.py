@@ -3,6 +3,7 @@ from openprocurement.tender.core.utils import optendersresource, save_tender
 from openprocurement.tender.core.validation import (
     validate_tender_not_in_terminated_status,
     validate_tender_change_status_with_cancellation_lot_pending,
+    validate_tender_activate_with_criteria,
 )
 from openprocurement.api.utils import json_view, context_unpack, APIResource
 from openprocurement.tender.belowthreshold.views.tender import TenderResource
@@ -37,6 +38,7 @@ class CompetitiveDialogueEUResource(TenderEUResource):
             validate_tender_not_in_terminated_status,
             validate_tender_update,
             validate_tender_change_status_with_cancellation_lot_pending,
+            validate_tender_activate_with_criteria,
         ),
         permission="edit_tender",
     )
@@ -60,6 +62,7 @@ class CompetitiveDialogueUAResource(TenderResource):
             validate_tender_not_in_terminated_status,
             validate_tender_update,
             validate_tender_change_status_with_cancellation_lot_pending,
+            validate_tender_activate_with_criteria,
         ),
         permission="edit_tender",
     )

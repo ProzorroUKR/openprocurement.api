@@ -1,0 +1,39 @@
+POST /api/2.5/tenders/fb07ce223a754201a341023b86d832ef/criteria/209d9586a4ac466986e070f57ec244d6/requirement_groups?acc_token=056f6edd10e84810b429550ae3a12f86 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 1904
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "requirements": [
+      {
+        "dataType": "boolean", 
+        "eligibleEvidences": [
+          {
+            "type": "document", 
+            "description": "Довідка в довільній формі", 
+            "title": "Документальне підтвердження"
+          }
+        ], 
+        "expectedValue": "true", 
+        "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
+      }
+    ], 
+    "description": "Учасник фізична особа підтверджує, що"
+  }
+}
+
+Response: 403 Forbidden
+Content-Type: application/json; charset=UTF-8
+{
+  "status": "error", 
+  "errors": [
+    {
+      "description": "Can't update exclusion ecriteria objects", 
+      "location": "body", 
+      "name": "data"
+    }
+  ]
+}
+

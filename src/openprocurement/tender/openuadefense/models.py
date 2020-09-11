@@ -1,12 +1,17 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta, datetime, time
 from schematics.exceptions import ValidationError
-from schematics.types import StringType
+from schematics.types import StringType, BooleanType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from zope.interface import implementer
 from openprocurement.api.utils import get_now
-from openprocurement.api.models import Period, ListType, ContactPoint as BaseContactPoint
+from openprocurement.api.models import (
+    Period,
+    ListType,
+    ContactPoint as BaseContactPoint,
+    SifterListType,
+)
 from openprocurement.tender.core.models import (
     ProcuringEntity as BaseProcuringEntity,
     EnquiryPeriod,
@@ -17,7 +22,8 @@ from openprocurement.tender.core.models import (
 from openprocurement.tender.openua.models import (
     Tender as BaseTender,
     Cancellation as BaseCancellation,
-    IAboveThresholdUATender
+    IAboveThresholdUATender,
+    BaseUaBid,
 )
 from openprocurement.tender.core.utils import (
     calc_auction_end_time,
@@ -93,6 +99,10 @@ class Cancellation(BaseCancellation):
     _after_release_reasonType_choices = ["noDemand", "unFixable", "expensesCut"]
 
 
+class Bid(BaseUaBid):
+    selfEligible = BooleanType(choices=[True], required=True)
+
+
 @implementer(IAboveThresholdUADefTender)
 class Tender(BaseTender):
     """Data regarding tender process - publicly inviting prospective contractors to submit bids for evaluation and selecting a winner or winners."""
@@ -103,6 +113,10 @@ class Tender(BaseTender):
     lots = ListType(ModelType(Lot, required=True), default=list(), validators=[validate_lots_uniq])
     procurementMethodType = StringType(default="aboveThresholdUA.defense")
     procuring_entity_kinds = ["defense"]
+
+    bids = SifterListType(
+        ModelType(Bid, required=True), default=list(), filter_by="status", filter_in_values=["invalid", "deleted"]
+    )
 
     cancellations = ListType(ModelType(Cancellation, required=True), default=list())
 
@@ -130,3 +144,7 @@ class Tender(BaseTender):
         else:
             end_date = calculate_complaint_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME, self, True)
         return Period(dict(startDate=self.tenderPeriod.startDate, endDate=end_date))
+
+    def validate_criteria(self, data, value):
+        if value:
+            raise ValidationError("Rogue field")

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/35f93e8dd5484abb8b90687952c82010/bids/9161500fb17744ce90346052ddf8479c?acc_token=3779418188014a5197c514e6dd1908a2 HTTP/1.0
+PATCH /api/2.5/tenders/35f93e8dd5484abb8b90687952c82010/bids/799d983fc3ca4f18a3d22ead02ec7826?acc_token=3779418188014a5197c514e6dd1908a2 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 31
 Content-Type: application/json
@@ -15,8 +15,6 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "pending", 
-    "selfEligible": true, 
-    "subcontractingDetails": "ДКП «Орфей», Україна", 
     "selfQualified": true, 
     "tenderers": [
       {
@@ -42,7 +40,8 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "date": "2020-05-15T01:00:00+03:00", 
-    "id": "9161500fb17744ce90346052ddf8479c"
+    "subcontractingDetails": "ДКП «Орфей», Україна", 
+    "id": "799d983fc3ca4f18a3d22ead02ec7826"
   }
 }
 

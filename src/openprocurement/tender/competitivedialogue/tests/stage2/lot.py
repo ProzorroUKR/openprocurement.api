@@ -5,6 +5,7 @@ from uuid import uuid4
 
 from openprocurement.api.tests.base import snitch
 
+from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUStage2ContentWebTest,
     BaseCompetitiveDialogUAStage2ContentWebTest,
@@ -224,6 +225,8 @@ class TenderStage2EULotProcessTest(BaseCompetitiveDialogEUStage2WebTest):
             {"data": {"status": "draft.stage2"}},
         )
 
+        add_criteria(self)
+
         self.app.authorization = ("Basic", ("broker", ""))
         self.app.patch_json(
             "/tenders/{id}?acc_token={token}".format(id=self.tender_id, token=self.tender_token),
@@ -396,6 +399,7 @@ class TenderStage2UALotProcessTest(BaseCompetitiveDialogUAStage2ContentWebTest):
             {"data": {"status": "draft.stage2"}},
         )
 
+        add_criteria(self)
         self.app.authorization = ("Basic", ("broker", ""))
         self.app.patch_json(
             "/tenders/{id}?acc_token={token}".format(id=self.tender_id, token=self.tender_token),

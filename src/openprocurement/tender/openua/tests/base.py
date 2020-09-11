@@ -6,6 +6,7 @@ from copy import deepcopy
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
+from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_data as test_tender_data_api,
     test_features_tender_data,
@@ -47,8 +48,13 @@ if SANDBOX_MODE:
     test_tender_data["procurementMethodDetails"] = "quick, accelerator=1440"
 
 test_bids = deepcopy(base_test_bids)
+
+bid_update_data = {"selfQualified": True}
+if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
+    bid_update_data["selfEligible"] = True
+
 for i in test_bids:
-    i.update({"selfEligible": True, "selfQualified": True})
+    i.update(bid_update_data)
 
 test_features_tender_ua_data = test_features_tender_data.copy()
 test_features_tender_ua_data["procurementMethodType"] = "aboveThresholdUA"
@@ -68,6 +74,7 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
     initial_status = None
     initial_bids = None
     initial_lots = None
+    initial_criteria = None
     primary_tender_status = "active.tendering"  # status, to which tender should be switched from 'draft'
     question_claim_block_status = (
         "active.auction"

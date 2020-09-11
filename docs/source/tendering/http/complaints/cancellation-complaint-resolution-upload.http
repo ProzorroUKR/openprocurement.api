@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/9de80116006a4e58b18ac56dda573693/cancellations/28437ff38b254dfdacc863e870354d20/complaints/57299cc6dd6a4e86b1bc8b2c406bf397/documents HTTP/1.0
+POST /api/2.5/tenders/9de80116006a4e58b18ac56dda573693/cancellations/31235ac89ae54d56b2b78a0243f2d589/complaints/ee791245be184fe89d11df7d4650b501/documents HTTP/1.0
 Authorization: Bearer reviewer
 Content-Length: 155
 Content-Type: multipart/form-data; boundary=---BOUNDARY
@@ -14,7 +14,7 @@ content
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9de80116006a4e58b18ac56dda573693/cancellations/28437ff38b254dfdacc863e870354d20/complaints/57299cc6dd6a4e86b1bc8b2c406bf397/documents/c91a3b839a7f4bae91fd90c00e56f407
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9de80116006a4e58b18ac56dda573693/cancellations/31235ac89ae54d56b2b78a0243f2d589/complaints/ee791245be184fe89d11df7d4650b501/documents/c91a3b839a7f4bae91fd90c00e56f407
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000", 

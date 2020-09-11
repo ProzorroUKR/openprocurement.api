@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 2698
+Content-Length: 2676
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -30,7 +30,6 @@ DATA:
         "title": "eligibility_doc.pdf"
       }
     ], 
-    "selfEligible": true, 
     "lotValues": [
       {
         "relatedLot": "c7555f1bb878434d8815dea318304673", 
@@ -84,7 +83,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/88c9f41eac914e1cb72d9a43fc03d702
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/76ccebf7a163452886a6d2d8d39a564b
 {
   "access": {
     "transfer": "6cde841ee2954195921f072347856fc6", 
@@ -98,11 +97,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f
         "confidentiality": "public", 
         "language": "uk", 
         "title": "Proposal_part1.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/88c9f41eac914e1cb72d9a43fc03d702/documents/5d9147ed06d348d69adf62875b7bd89b?download=521c95e91644431cbbc1e5fcf8326faf", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/76ccebf7a163452886a6d2d8d39a564b/documents/2461364d2bef400580101b81b63f6b18?download=521c95e91644431cbbc1e5fcf8326faf", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-05-15T01:00:00+03:00", 
-        "id": "5d9147ed06d348d69adf62875b7bd89b", 
+        "id": "2461364d2bef400580101b81b63f6b18", 
         "dateModified": "2020-05-15T01:00:00+03:00"
       }, 
       {
@@ -115,7 +114,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f
         "documentOf": "tender", 
         "datePublished": "2020-05-15T01:00:00+03:00", 
         "dateModified": "2020-05-15T01:00:00+03:00", 
-        "id": "3f355e7a0b8646389ad0af8eef0e241b"
+        "id": "eb48db1664f34859b5f5dbc8253dd747"
       }
     ], 
     "eligibilityDocuments": [
@@ -124,16 +123,15 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f
         "confidentiality": "public", 
         "language": "uk", 
         "title": "eligibility_doc.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/88c9f41eac914e1cb72d9a43fc03d702/eligibility_documents/474da502332f48a0a117f28b44e21dde?download=bdb8f478361c43a0ac9a66feb62f281a", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/76ccebf7a163452886a6d2d8d39a564b/eligibility_documents/4bfdcd78d6c34992a2dd9e52cbcc4e25?download=bdb8f478361c43a0ac9a66feb62f281a", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-05-15T01:00:00+03:00", 
-        "id": "474da502332f48a0a117f28b44e21dde", 
+        "id": "4bfdcd78d6c34992a2dd9e52cbcc4e25", 
         "dateModified": "2020-05-15T01:00:00+03:00"
       }
     ], 
-    "selfEligible": true, 
-    "id": "88c9f41eac914e1cb72d9a43fc03d702", 
+    "id": "76ccebf7a163452886a6d2d8d39a564b", 
     "lotValues": [
       {
         "relatedLot": "c7555f1bb878434d8815dea318304673", 
@@ -146,18 +144,31 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f
         }
       }
     ], 
-    "selfQualified": true, 
+    "qualificationDocuments": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "public", 
+        "language": "uk", 
+        "title": "qualification_document.pdf", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/76ccebf7a163452886a6d2d8d39a564b/qualification_documents/334e19d83bdb49e993b2deb8abf73b74?download=141bde5b81904999acc2752de07b93cb", 
+        "format": "application/pdf", 
+        "documentOf": "tender", 
+        "datePublished": "2020-05-15T01:00:00+03:00", 
+        "id": "334e19d83bdb49e993b2deb8abf73b74", 
+        "dateModified": "2020-05-15T01:00:00+03:00"
+      }
+    ], 
     "financialDocuments": [
       {
         "hash": "md5:00000000000000000000000000000000", 
         "confidentiality": "public", 
         "language": "uk", 
         "title": "financial_doc.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/88c9f41eac914e1cb72d9a43fc03d702/financial_documents/e659e8802f38444a9f6f130ed5b39370?download=b4ed150c66e44f4bb8b86bb5285479f7", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/76ccebf7a163452886a6d2d8d39a564b/financial_documents/60829f4ac5c740839457a16950ddb22e?download=b4ed150c66e44f4bb8b86bb5285479f7", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-05-15T01:00:00+03:00", 
-        "id": "e659e8802f38444a9f6f130ed5b39370", 
+        "id": "60829f4ac5c740839457a16950ddb22e", 
         "dateModified": "2020-05-15T01:00:00+03:00"
       }
     ], 
@@ -185,20 +196,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f
       }
     ], 
     "date": "2020-05-15T01:00:00+03:00", 
-    "qualificationDocuments": [
-      {
-        "hash": "md5:00000000000000000000000000000000", 
-        "confidentiality": "public", 
-        "language": "uk", 
-        "title": "qualification_document.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/88c9f41eac914e1cb72d9a43fc03d702/qualification_documents/7fe9f418924a4f158c03e64046ec1c36?download=141bde5b81904999acc2752de07b93cb", 
-        "format": "application/pdf", 
-        "documentOf": "tender", 
-        "datePublished": "2020-05-15T01:00:00+03:00", 
-        "id": "7fe9f418924a4f158c03e64046ec1c36", 
-        "dateModified": "2020-05-15T01:00:00+03:00"
-      }
-    ]
+    "selfQualified": true
   }
 }
 

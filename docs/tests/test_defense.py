@@ -20,6 +20,8 @@ bid2 = deepcopy(bid2)
 bid.update(subcontracting)
 bid.update(qualified)
 bid2.update(qualified)
+bid.update({"selfEligible": True})
+bid2.update({"selfEligible": True})
 
 TARGET_DIR = 'docs/source/tendering/defense/http/'
 

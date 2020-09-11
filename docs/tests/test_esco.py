@@ -748,7 +748,6 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin):
             response = self.app.post_json(
                 '/tenders/{}/bids'.format(tender_id),
                 {'data': {
-                    'selfEligible': True,
                     'selfQualified': True,
                     'tenderers': bid["tenderers"],
                     'lotValues': [{
@@ -769,7 +768,6 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin):
             response = self.app.post_json(
                 '/tenders/{}/bids'.format(tender_id),
                 {'data': {
-                    'selfEligible': True,
                     'selfQualified': True,
                     'tenderers': bid2["tenderers"],
                     'lotValues': [{

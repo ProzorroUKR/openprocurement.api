@@ -33,7 +33,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/questions/65f9591952ca461c89bdf888ef0d7f44
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/questions/a6b080b510574611a8899ecb99479271
 {
   "data": {
     "description": "Просимо додати таблицю потрібної калорійності харчування", 
@@ -59,7 +59,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7898ec9992af47cc
     }, 
     "title": "Калорійність", 
     "date": "2020-05-15T01:00:00+03:00", 
-    "id": "65f9591952ca461c89bdf888ef0d7f44", 
+    "id": "a6b080b510574611a8899ecb99479271", 
     "questionOf": "tender"
   }
 }

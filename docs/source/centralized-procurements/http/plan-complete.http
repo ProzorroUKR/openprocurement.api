@@ -27,7 +27,7 @@ Content-Type: application/json; charset=UTF-8
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d890dc3d64cf4f178fb9db75ba5af9ba?KeyID=a8968c46&Signature=l9Wow2YLingYU5xYfD1kzPUP0kjqpX8Ly4roCF5sxfCs0HdBfUMon7%2FN%252BpsAIJEt%2FROpe%252B6w9Bt1rGK0dgCIAw%253D%253D", 
             "format": "application/pdf", 
             "datePublished": "2019-05-02T06:00:00+03:00", 
-            "id": "a89815d701b947879ebda169b524e54c", 
+            "id": "e3fa77b8dce5482ebb27c1cbe9752896", 
             "dateModified": "2019-05-02T06:00:00+03:00"
           }
         ], 
@@ -46,7 +46,7 @@ Content-Type: application/json; charset=UTF-8
         "owner": "broker", 
         "dateMet": "2019-05-02T06:00:00+03:00", 
         "type": "approval", 
-        "id": "e00a9a2282f647598f1688ad83fd9070"
+        "id": "65ddb2f1dc114a3d9dbed945573ec4e7"
       }
     ], 
     "classification": {
@@ -72,7 +72,7 @@ Content-Type: application/json; charset=UTF-8
         "deliveryDate": {
           "endDate": "2019-11-09T01:00:00+03:00"
         }, 
-        "id": "f7271f852efe465c876aba44613ab929", 
+        "id": "20af24c61dc7451a9205eca2dac56d65", 
         "unit": {
           "code": "KGM", 
           "name": "кг"
@@ -90,7 +90,7 @@ Content-Type: application/json; charset=UTF-8
             "currency": "UAH", 
             "amount": 1500.0
           }, 
-          "id": "d2eea74930724e5ea1f91acf90177772"
+          "id": "f0d2c36b24ed47169ca75a7803897a2d"
         }
       ], 
       "amountNet": 12222.0, 

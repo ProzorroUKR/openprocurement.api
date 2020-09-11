@@ -33,7 +33,7 @@ Content-Type: application/json; charset=UTF-8
           }
         }
       ], 
-      "bid_id": "5a84740ed0bd4aa3830adfb56c49ed62", 
+      "bid_id": "e0d41b30b35a430fb164a63e2cd8792b", 
       "value": {
         "currency": "UAH", 
         "amount": 485, 
@@ -70,7 +70,7 @@ Content-Type: application/json; charset=UTF-8
           }
         }
       ], 
-      "bid_id": "e88e8fc3020640178a79c6e66d3dfd5f", 
+      "bid_id": "1c4a2dcee85343898ea5fbfd8ce2bd6e", 
       "value": {
         "currency": "UAH", 
         "amount": 499, 
@@ -107,7 +107,7 @@ Content-Type: application/json; charset=UTF-8
           }
         }
       ], 
-      "bid_id": "410cb59a0945497eb61cc4461f661569", 
+      "bid_id": "ccd5dc4ca3f84f9a8f9ec11010bd01ba", 
       "value": {
         "currency": "UAH", 
         "amount": 500.0, 
@@ -146,7 +146,7 @@ Content-Type: application/json; charset=UTF-8
           }
         }
       ], 
-      "bid_id": "5a84740ed0bd4aa3830adfb56c49ed62", 
+      "bid_id": "e0d41b30b35a430fb164a63e2cd8792b", 
       "value": {
         "currency": "UAH", 
         "amount": 485, 
@@ -181,7 +181,7 @@ Content-Type: application/json; charset=UTF-8
           }
         }
       ], 
-      "bid_id": "5a84740ed0bd4aa3830adfb56c49ed62", 
+      "bid_id": "e0d41b30b35a430fb164a63e2cd8792b", 
       "value": {
         "currency": "UAH", 
         "amount": 485, 
@@ -216,7 +216,7 @@ Content-Type: application/json; charset=UTF-8
           }
         }
       ], 
-      "bid_id": "e88e8fc3020640178a79c6e66d3dfd5f", 
+      "bid_id": "1c4a2dcee85343898ea5fbfd8ce2bd6e", 
       "value": {
         "currency": "UAH", 
         "amount": 499, 
@@ -251,7 +251,7 @@ Content-Type: application/json; charset=UTF-8
           }
         }
       ], 
-      "bid_id": "410cb59a0945497eb61cc4461f661569", 
+      "bid_id": "ccd5dc4ca3f84f9a8f9ec11010bd01ba", 
       "value": {
         "currency": "UAH", 
         "amount": 500.0, 

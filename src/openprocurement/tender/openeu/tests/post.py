@@ -111,7 +111,6 @@ class TenderQualificationComplaintPostResourceTest(
         self.assertEqual(response.content_type, "application/json")
 
 
-
 class TenderAwardComplaintPostResourceTest(
     BaseTenderContentWebTest,
     ComplaintPostResourceMixin,

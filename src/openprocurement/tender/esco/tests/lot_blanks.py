@@ -1018,9 +1018,13 @@ def tender_min_value(self):
 
 def create_tender_bid_invalid(self):
     request_path = "/tenders/{}/bids".format(self.tender_id)
+
+    bid_data = deepcopy(self.test_bids_data[0])
+    del bid_data["value"]
+
     response = self.app.post_json(
         request_path,
-        {"data": {"selfEligible": True, "selfQualified": True, "tenderers": self.test_bids_data[0]["tenderers"]}},
+        {"data": bid_data},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1031,16 +1035,10 @@ def create_tender_bid_invalid(self):
         [{u"description": [u"This field is required."], u"location": u"body", u"name": u"lotValues"}],
     )
 
+    bid_data["lotValues"] = [{"value": self.test_bids_data[0]["value"]}]
     response = self.app.post_json(
         request_path,
-        {
-            "data": {
-                "selfEligible": True,
-                "selfQualified": True,
-                "tenderers": self.test_bids_data[0]["tenderers"],
-                "lotValues": [{"value": self.test_bids_data[0]["value"]}],
-            }
-        },
+        {"data": bid_data},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1056,17 +1054,10 @@ def create_tender_bid_invalid(self):
             }
         ],
     )
-
+    bid_data["lotValues"] = [{"value": self.test_bids_data[0]["value"], "relatedLot": "0" * 32}]
     response = self.app.post_json(
         request_path,
-        {
-            "data": {
-                "selfEligible": True,
-                "selfQualified": True,
-                "tenderers": self.test_bids_data[0]["tenderers"],
-                "lotValues": [{"value": self.test_bids_data[0]["value"], "relatedLot": "0" * 32}],
-            }
-        },
+        {"data": bid_data},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1095,25 +1086,19 @@ def create_tender_bid_invalid(self):
     #     {u'description': [{u'value': [u'value of bid should be greater than minValue of lot']}], u'location': u'body', u'name': u'lotValues'}
     # ])
 
+    bid_data["lotValues"] = [
+        {
+            "value": {
+                "yearlyPaymentsPercentage": 0.9,
+                "annualCostsReduction": [751.5] * 11,
+                "contractDuration": {"years": 10},
+            },
+            "relatedLot": self.initial_lots[0]["id"],
+        }
+    ]
     response = self.app.post_json(
         request_path,
-        {
-            "data": {
-                "selfEligible": True,
-                "selfQualified": True,
-                "tenderers": self.test_bids_data[0]["tenderers"],
-                "lotValues": [
-                    {
-                        "value": {
-                            "yearlyPaymentsPercentage": 0.9,
-                            "annualCostsReduction": [751.5] * 11,
-                            "contractDuration": {"years": 10},
-                        },
-                        "relatedLot": self.initial_lots[0]["id"],
-                    }
-                ],
-            }
-        },
+        {"data": bid_data},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1132,25 +1117,19 @@ def create_tender_bid_invalid(self):
         ],
     )
 
+    bid_data["lotValues"] = [
+        {
+            "value": {
+                "yearlyPaymentsPercentage": 0.9,
+                "annualCostsReduction": 751.5,
+                "contractDuration": {"years": 25},
+            },
+            "relatedLot": self.initial_lots[0]["id"],
+        }
+    ]
     response = self.app.post_json(
         request_path,
-        {
-            "data": {
-                "selfEligible": True,
-                "selfQualified": True,
-                "tenderers": self.test_bids_data[0]["tenderers"],
-                "lotValues": [
-                    {
-                        "value": {
-                            "yearlyPaymentsPercentage": 0.9,
-                            "annualCostsReduction": 751.5,
-                            "contractDuration": {"years": 25},
-                        },
-                        "relatedLot": self.initial_lots[0]["id"],
-                    }
-                ],
-            }
-        },
+        {"data": bid_data},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1167,26 +1146,20 @@ def create_tender_bid_invalid(self):
         ],
     )
 
+    bid_data["lotValues"] = [
+        {
+            "value": {
+                "yearlyPaymentsPercentage": 0.8,
+                "contractDuration": {"years": 12},
+                "annualCostsReduction": [100] * 21,
+                "currency": "USD",
+            },
+            "relatedLot": self.initial_lots[0]["id"],
+         }
+    ]
     response = self.app.post_json(
         request_path,
-        {
-            "data": {
-                "selfEligible": True,
-                "selfQualified": True,
-                "tenderers": self.test_bids_data[0]["tenderers"],
-                "lotValues": [
-                    {
-                        "value": {
-                            "yearlyPaymentsPercentage": 0.8,
-                            "contractDuration": {"years": 12},
-                            "annualCostsReduction": [100] * 21,
-                            "currency": "USD",
-                        },
-                        "relatedLot": self.initial_lots[0]["id"],
-                    }
-                ],
-            }
-        },
+        {"data": bid_data},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1203,27 +1176,21 @@ def create_tender_bid_invalid(self):
         ],
     )
 
+    bid_data["lotValues"] = [
+        {
+            "value": {
+                "yearlyPaymentsPercentage": 0.8,
+                "contractDuration": {"years": 12},
+                "annualCostsReduction": [100] * 21,
+                "currency": "UAH",
+                "valueAddedTaxIncluded": False,
+            },
+            "relatedLot": self.initial_lots[0]["id"],
+        }
+    ]
     response = self.app.post_json(
         request_path,
-        {
-            "data": {
-                "selfEligible": True,
-                "selfQualified": True,
-                "tenderers": self.test_bids_data[0]["tenderers"],
-                "lotValues": [
-                    {
-                        "value": {
-                            "yearlyPaymentsPercentage": 0.8,
-                            "contractDuration": {"years": 12},
-                            "annualCostsReduction": [100] * 21,
-                            "currency": "UAH",
-                            "valueAddedTaxIncluded": False,
-                        },
-                        "relatedLot": self.initial_lots[0]["id"],
-                    }
-                ],
-            }
-        },
+        {"data": bid_data},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1246,17 +1213,13 @@ def create_tender_bid_invalid(self):
         ],
     )
 
+    bid_data.update({
+        "value": self.test_bids_data[0]["value"],
+        "lotValues": [{"value": self.test_bids_data[0]["value"], "relatedLot": self.initial_lots[0]["id"]}]
+    })
     response = self.app.post_json(
         request_path,
-        {
-            "data": {
-                "selfEligible": True,
-                "selfQualified": True,
-                "tenderers": self.test_bids_data[0]["tenderers"],
-                "value": self.test_bids_data[0]["value"],
-                "lotValues": [{"value": self.test_bids_data[0]["value"], "relatedLot": self.initial_lots[0]["id"]}],
-            }
-        },
+        {"data": bid_data},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1270,16 +1233,13 @@ def create_tender_bid_invalid(self):
 
 def patch_tender_bid(self):
     lot_id = self.initial_lots[0]["id"]
+
+    bid_data = deepcopy(self.test_bids_data[0])
+    del bid_data["value"]
+    bid_data["lotValues"] = [{"value": self.test_bids_data[0]["value"], "relatedLot": lot_id}]
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "selfEligible": True,
-                "selfQualified": True,
-                "tenderers": self.test_bids_data[0]["tenderers"],
-                "lotValues": [{"value": self.test_bids_data[0]["value"], "relatedLot": lot_id}],
-            }
-        },
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1415,18 +1375,15 @@ def patch_tender_bid(self):
 
 def bids_invalidation_on_lot_change(self):
     bids_access = {}
-
     lot_id = self.initial_lots[0]["id"]
+
+    bid_data = deepcopy(self.test_bids_data[0])
+    del bid_data["value"]
+    bid_data["lotValues"] = [{"value": self.test_bids_data[0]["value"], "relatedLot": lot_id}]
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "selfEligible": True,
-                "selfQualified": True,
-                "tenderers": self.test_bids_data[0]["tenderers"],
-                "lotValues": [{"value": self.test_bids_data[0]["value"], "relatedLot": lot_id}],
-            }
-        },
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1465,14 +1422,20 @@ def bids_invalidation_on_lot_change(self):
 
 def create_tender_feature_bid_invalid(self):
     request_path = "/tenders/{}/bids".format(self.tender_id)
+
+    bid_data = deepcopy(self.test_bids_data[0])
+    del bid_data["value"]
+
     response = self.app.post_json(
         request_path,
-        {"data": {"selfEligible": True, "selfQualified": True, "tenderers": self.test_bids_data[0]["tenderers"]}},
+        {"data": bid_data},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
+
+    bid_data["lotValues"] = [{"value": self.test_bids_data[0]["value"]}]
 
     response = self.app.post_json(
         request_path,
@@ -1500,16 +1463,11 @@ def create_tender_feature_bid_invalid(self):
         ],
     )
 
+    bid_data["lotValues"] = [{"value": self.test_bids_data[0]["value"], "relatedLot": "0" * 32}]
+
     response = self.app.post_json(
         request_path,
-        {
-            "data": {
-                "selfEligible": True,
-                "selfQualified": True,
-                "tenderers": self.test_bids_data[0]["tenderers"],
-                "lotValues": [{"value": self.test_bids_data[0]["value"], "relatedLot": "0" * 32}],
-            }
-        },
+        {"data": bid_data},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1538,16 +1496,11 @@ def create_tender_feature_bid_invalid(self):
     #     {u'description': [{u'value': [u'value of bid should be greater than minValue of lot']}], u'location': u'body', u'name': u'lotValues'}
     # ])
 
+    bid_data["lotValues"] = [{"value": self.test_bids_data[0]["value"], "relatedLot": self.lot_id}]
+
     response = self.app.post_json(
         request_path,
-        {
-            "data": {
-                "selfEligible": True,
-                "selfQualified": True,
-                "tenderers": self.test_bids_data[0]["tenderers"],
-                "lotValues": [{"value": self.test_bids_data[0]["value"], "relatedLot": self.lot_id}],
-            }
-        },
+        {"data": bid_data},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1558,17 +1511,11 @@ def create_tender_feature_bid_invalid(self):
         [{u"description": [u"All features parameters is required."], u"location": u"body", u"name": u"parameters"}],
     )
 
+    bid_data["parameters"] = [{"code": "code_item", "value": 0.01}]
+
     response = self.app.post_json(
         request_path,
-        {
-            "data": {
-                "selfEligible": True,
-                "selfQualified": True,
-                "tenderers": self.test_bids_data[0]["tenderers"],
-                "lotValues": [{"value": self.test_bids_data[0]["value"], "relatedLot": self.lot_id}],
-                "parameters": [{"code": "code_item", "value": 0.01}],
-            }
-        },
+        {"data": bid_data},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1579,17 +1526,10 @@ def create_tender_feature_bid_invalid(self):
         [{u"description": [u"All features parameters is required."], u"location": u"body", u"name": u"parameters"}],
     )
 
+    bid_data["parameters"] = [{"code": "code_invalid", "value": 0.01}]
     response = self.app.post_json(
         request_path,
-        {
-            "data": {
-                "selfEligible": True,
-                "selfQualified": True,
-                "tenderers": self.test_bids_data[0]["tenderers"],
-                "lotValues": [{"value": self.test_bids_data[0]["value"], "relatedLot": self.lot_id}],
-                "parameters": [{"code": "code_invalid", "value": 0.01}],
-            }
-        },
+        {"data": bid_data},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1606,21 +1546,15 @@ def create_tender_feature_bid_invalid(self):
         ],
     )
 
+    bid_data["parameters"] = [
+        {"code": "code_item", "value": 0.01},
+        {"code": "code_tenderer", "value": 0},
+        {"code": "code_lot", "value": 0.01},
+    ]
+
     response = self.app.post_json(
         request_path,
-        {
-            "data": {
-                "selfEligible": True,
-                "selfQualified": True,
-                "tenderers": self.test_bids_data[0]["tenderers"],
-                "lotValues": [{"value": self.test_bids_data[0]["value"], "relatedLot": self.lot_id}],
-                "parameters": [
-                    {"code": "code_item", "value": 0.01},
-                    {"code": "code_tenderer", "value": 0},
-                    {"code": "code_lot", "value": 0.01},
-                ],
-            }
-        },
+        {"data": bid_data},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1640,21 +1574,20 @@ def create_tender_feature_bid_invalid(self):
 
 def create_tender_feature_bid(self):
     request_path = "/tenders/{}/bids".format(self.tender_id)
+
+    bid_data = deepcopy(self.test_bids_data[0])
+    del bid_data["value"]
+    bid_data.update({
+        "lotValues": [{"value": self.test_bids_data[0]["value"], "relatedLot": self.lot_id}],
+        "parameters": [
+            {"code": "code_item", "value": 0.01},
+            {"code": "code_tenderer", "value": 0.01},
+            {"code": "code_lot", "value": 0.01},
+        ]
+    })
     response = self.app.post_json(
         request_path,
-        {
-            "data": {
-                "selfEligible": True,
-                "selfQualified": True,
-                "tenderers": self.test_bids_data[0]["tenderers"],
-                "lotValues": [{"value": self.test_bids_data[0]["value"], "relatedLot": self.lot_id}],
-                "parameters": [
-                    {"code": "code_item", "value": 0.01},
-                    {"code": "code_tenderer", "value": 0.01},
-                    {"code": "code_lot", "value": 0.01},
-                ],
-            }
-        },
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1668,19 +1601,7 @@ def create_tender_feature_bid(self):
 
     response = self.app.post_json(
         request_path,
-        {
-            "data": {
-                "selfEligible": True,
-                "selfQualified": True,
-                "tenderers": self.test_bids_data[0]["tenderers"],
-                "lotValues": [{"value": self.test_bids_data[0]["value"], "relatedLot": self.lot_id}],
-                "parameters": [
-                    {"code": "code_item", "value": 0.01},
-                    {"code": "code_tenderer", "value": 0.01},
-                    {"code": "code_lot", "value": 0.01},
-                ],
-            }
-        },
+        {"data": bid_data},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")

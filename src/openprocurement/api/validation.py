@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from schematics.exceptions import ValidationError
+from schematics.exceptions import ValidationError, ModelValidationError
 from openprocurement.api.auth import check_user_accreditations, ACCR_TEST, ACCR_EXIT
 from openprocurement.api.constants import INN_SCHEME, CPV_PHARM_PRODUCTS, CPV_336_INN_FROM
 from openprocurement.api.utils import (
@@ -16,14 +16,14 @@ from openprocurement.api.utils import (
 OPERATIONS = {"POST": "add", "PATCH": "update", "PUT": "update", "DELETE": "delete"}
 
 
-def validate_json_data(request):
+def validate_json_data(request, expected_type=dict):
     try:
         json = request.json_body
     except ValueError as e:
         request.errors.add("body", "data", str(e))
         request.errors.status = 422
         raise error_handler(request.errors)
-    if not isinstance(json, dict) or "data" not in json or not isinstance(json.get("data"), dict):
+    if not isinstance(json, dict) or "data" not in json or not isinstance(json.get("data"), expected_type):
         request.errors.add("body", "data", "Data not available")
         request.errors.status = 422
         raise error_handler(request.errors)
@@ -31,7 +31,7 @@ def validate_json_data(request):
     return json["data"]
 
 
-def validate_data(request, model, partial=False, data=None):
+def validate_object_data(request, model, partial=False, data=None):
     if data is None:
         data = validate_json_data(request)
 
@@ -67,6 +67,61 @@ def validate_data(request, model, partial=False, data=None):
                 request.validated[model._options.namespace.lower()] = m
             else:
                 request.validated[model.__name__.lower()] = m
+    return data
+
+
+def validate_post_list_data(request, model, data=None):
+    if data is None:
+        data = validate_json_data(request, list)
+
+    with handle_data_exceptions(request):
+        valid_data = []
+        valid_models = []
+        errors = {}
+        for i, el in enumerate(data):
+            m = model(el)
+            m.__parent__ = request.context
+            try:
+                m.validate()
+            except ModelValidationError as err:
+                errors[i] = err.messages
+            valid_models.append(m)
+            valid_data.append(m.serialize("create"))
+
+        if errors:
+            raise ModelValidationError(errors)
+
+    if hasattr(type(m), "_options") and "create" not in type(m)._options.roles:
+        request.errors.add("url", "role", "Forbidden")
+        request.errors.status = 403
+        raise error_handler(request.errors)
+
+    request.validated["data"] = data
+    if model._options.namespace:
+        request.validated["{}s".format(model._options.namespace.lower())] = valid_models
+    else:
+        request.validated["{}s".format(model.__name__.lower())] = valid_models
+    return data
+
+
+def validate_data(request, model, partial=False, data=None, bulk=None):
+    """
+    function that validate input data for view
+    @param request: pyramid.request.Request object
+    @param model: api.models.Model object
+    @param partial: boolean
+    @param data: None or dict
+    @param bulk: None, 'partial' or 'full', show use bulk create validation
+    @return: list or dict
+    """
+
+    if (
+        request.method == "POST"
+        and ((request.params.get("bulk") and bulk == "partial") or bulk == "full")
+    ):
+        data = validate_post_list_data(request, model, data)
+    else:
+        data = validate_object_data(request, model, partial, data)
     return data
 
 

@@ -340,7 +340,6 @@ complaint = {
 
 
 qualified = {
-    'selfEligible': True,
     'selfQualified': True
 }
 

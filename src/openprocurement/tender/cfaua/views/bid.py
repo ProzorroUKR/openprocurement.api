@@ -7,6 +7,7 @@ from openprocurement.tender.core.validation import (
     validate_bid_operation_period,
     validate_bid_operation_not_in_tendering,
     validate_bid_status_update_not_to_pending,
+    validate_bid_activate_criteria,
 )
 from openprocurement.tender.openua.views.bid import TenderUABidResource as BaseResource
 from openprocurement.tender.cfaua.validation import validate_view_bids_in_active_tendering
@@ -108,6 +109,7 @@ class TenderBidResource(BaseResource):
             validate_bid_operation_period,
             validate_update_deleted_bid,
             validate_bid_status_update_not_to_pending,
+            validate_bid_activate_criteria,
         ),
     )
     def patch(self):

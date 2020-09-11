@@ -72,7 +72,7 @@ Content-Type: application/json; charset=UTF-8
         "date": "2020-05-15T01:00:00+03:00", 
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
         "dateAnswered": "2020-05-15T01:00:00+03:00", 
-        "id": "f74db777262d460099620965f673a415", 
+        "id": "0541cf2833f347a7a46d919f60289a54", 
         "questionOf": "tender"
       }
     ], 
@@ -139,7 +139,7 @@ Content-Type: application/json; charset=UTF-8
         "status": "active", 
         "eligible": true, 
         "qualified": true, 
-        "bidID": "9161500fb17744ce90346052ddf8479c", 
+        "bidID": "799d983fc3ca4f18a3d22ead02ec7826", 
         "date": "2020-05-15T01:00:00+03:00", 
         "id": "688adb9bb70e4d4fbcaf4ba1025e7e1a"
       }, 
@@ -147,7 +147,7 @@ Content-Type: application/json; charset=UTF-8
         "status": "active", 
         "eligible": true, 
         "qualified": true, 
-        "bidID": "253a8b6e43504db9a3d4ec839dc7e5ce", 
+        "bidID": "5c14615bc32a4efea822c166a6fa4023", 
         "date": "2020-05-15T01:00:00+03:00", 
         "id": "be53976fae27403594b3de9b7bdfba6a"
       }, 
@@ -155,7 +155,7 @@ Content-Type: application/json; charset=UTF-8
         "status": "unsuccessful", 
         "eligible": false, 
         "qualified": false, 
-        "bidID": "d2423013b43642f98ce4b78bc3c99d66", 
+        "bidID": "d3aa2f675e1e4ba28b29163a5e247111", 
         "date": "2020-05-15T01:00:00+03:00", 
         "id": "5ffc4b1c851848199fd66861aa118688"
       }, 
@@ -163,7 +163,7 @@ Content-Type: application/json; charset=UTF-8
         "status": "active", 
         "eligible": true, 
         "qualified": true, 
-        "bidID": "8fe55741897d438581a0af90c21cc42d", 
+        "bidID": "80b8867552f446eebf0fbc93b10fbdf5", 
         "date": "2020-05-15T01:00:00+03:00", 
         "id": "21a68f5b2e664a23827a19a669007d33"
       }
@@ -193,7 +193,7 @@ Content-Type: application/json; charset=UTF-8
         }, 
         "percentage": 54.45, 
         "type": "financing", 
-        "id": "e355df7685f14016b48e45d3b6ba7f0f"
+        "id": "69a5415ca5f7457ebe20137639f410e0"
       }
     ], 
     "minimalStep": {
@@ -228,7 +228,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-06-04T00:00:00+02:00", 
           "endDate": "2020-07-04T00:00:00+02:00"
         }, 
-        "id": "95b041402a794b48aa9200874907a06a", 
+        "id": "8bc8ded5746c4badb496d3297fce132c", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -261,7 +261,7 @@ Content-Type: application/json; charset=UTF-8
           "startDate": "2020-06-04T00:00:00+02:00", 
           "endDate": "2020-07-04T00:00:00+02:00"
         }, 
-        "id": "8673d15afe1147e3b19e6aa7ee6fe462", 
+        "id": "cbb964e3acb24801b28a9a27ea7efb14", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -291,7 +291,7 @@ Content-Type: application/json; charset=UTF-8
             "confidentiality": "buyerOnly", 
             "language": "uk", 
             "title": "DescriptiveProposal.pdf", 
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/35f93e8dd5484abb8b90687952c82010/bids/9161500fb17744ce90346052ddf8479c/documents/b3ba98a293ec412b966a9cb2c035020a?download=ec4c001ffaee4fb494eaa38e6bfe7bd7", 
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/35f93e8dd5484abb8b90687952c82010/bids/799d983fc3ca4f18a3d22ead02ec7826/documents/b3ba98a293ec412b966a9cb2c035020a?download=ec4c001ffaee4fb494eaa38e6bfe7bd7", 
             "format": "application/pdf", 
             "isDescriptionDecision": true, 
             "documentOf": "tender", 
@@ -304,7 +304,7 @@ Content-Type: application/json; charset=UTF-8
             "confidentiality": "buyerOnly", 
             "language": "uk", 
             "format": "application/pdf", 
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/35f93e8dd5484abb8b90687952c82010/bids/9161500fb17744ce90346052ddf8479c/documents/c1b944c8854543e58b0d043843de553c?download=f47657026ea64bf6b5a840519258f836", 
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/35f93e8dd5484abb8b90687952c82010/bids/799d983fc3ca4f18a3d22ead02ec7826/documents/c1b944c8854543e58b0d043843de553c?download=f47657026ea64bf6b5a840519258f836", 
             "confidentialityRationale": "Only our company sells badgers with pink hair.", 
             "title": "Proposal_top_secrets.pdf", 
             "isDescriptionDecision": false, 
@@ -314,7 +314,6 @@ Content-Type: application/json; charset=UTF-8
             "dateModified": "2020-05-15T01:00:00+03:00"
           }
         ], 
-        "selfEligible": true, 
         "subcontractingDetails": "ДКП «Орфей», Україна", 
         "selfQualified": true, 
         "tenderers": [
@@ -341,12 +340,11 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "date": "2020-05-15T01:00:00+03:00", 
-        "id": "9161500fb17744ce90346052ddf8479c"
+        "id": "799d983fc3ca4f18a3d22ead02ec7826"
       }, 
       {
+        "date": "2020-05-15T01:00:00+03:00", 
         "status": "active", 
-        "selfEligible": true, 
-        "selfQualified": true, 
         "tenderers": [
           {
             "contactPoint": {
@@ -370,13 +368,12 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
-        "date": "2020-05-15T01:00:00+03:00", 
-        "id": "253a8b6e43504db9a3d4ec839dc7e5ce"
+        "selfQualified": true, 
+        "id": "5c14615bc32a4efea822c166a6fa4023"
       }, 
       {
+        "date": "2020-05-15T01:00:00+03:00", 
         "status": "unsuccessful", 
-        "selfEligible": true, 
-        "selfQualified": true, 
         "tenderers": [
           {
             "contactPoint": {
@@ -400,8 +397,8 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
-        "date": "2020-05-15T01:00:00+03:00", 
-        "id": "d2423013b43642f98ce4b78bc3c99d66"
+        "selfQualified": true, 
+        "id": "d3aa2f675e1e4ba28b29163a5e247111"
       }, 
       {
         "status": "active", 
@@ -416,7 +413,7 @@ Content-Type: application/json; charset=UTF-8
             "isDescriptionDecision": false, 
             "documentOf": "tender", 
             "datePublished": "2020-05-15T01:00:00+03:00", 
-            "id": "e92a237d2cc241d1ae1047f4599874c7", 
+            "id": "4ad15f4646fc4d29a4b63cb9bd25ac01", 
             "dateModified": "2020-05-15T01:00:00+03:00"
           }, 
           {
@@ -424,17 +421,16 @@ Content-Type: application/json; charset=UTF-8
             "confidentiality": "buyerOnly", 
             "language": "uk", 
             "format": "application/pdf", 
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/35f93e8dd5484abb8b90687952c82010/bids/8fe55741897d438581a0af90c21cc42d/documents/3ee0045cc6314ac78ba7a67aa8c90a52?download=9256c48555a442f9991381bf30f8f2c2", 
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/35f93e8dd5484abb8b90687952c82010/bids/80b8867552f446eebf0fbc93b10fbdf5/documents/b8516bf8ea92481a8be558849bb81b11?download=9256c48555a442f9991381bf30f8f2c2", 
             "confidentialityRationale": "Only our company sells badgers with pink hair.", 
             "title": "Proposal_part2.pdf", 
             "isDescriptionDecision": false, 
             "documentOf": "tender", 
             "datePublished": "2020-05-15T01:00:00+03:00", 
-            "id": "3ee0045cc6314ac78ba7a67aa8c90a52", 
+            "id": "b8516bf8ea92481a8be558849bb81b11", 
             "dateModified": "2020-05-15T01:00:00+03:00"
           }
         ], 
-        "selfEligible": true, 
         "selfQualified": true, 
         "tenderers": [
           {
@@ -460,7 +456,7 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "date": "2020-05-15T01:00:00+03:00", 
-        "id": "8fe55741897d438581a0af90c21cc42d"
+        "id": "80b8867552f446eebf0fbc93b10fbdf5"
       }
     ], 
     "value": {

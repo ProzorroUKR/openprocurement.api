@@ -4,9 +4,10 @@ from copy import deepcopy
 
 from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.openeu.models import TENDERING_DURATION
 from openprocurement.api.models import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_tender_data, BaseTenderWebTest
+from openprocurement.tender.belowthreshold.tests.base import test_tender_data, test_criteria, BaseTenderWebTest
 from openprocurement.tender.openua.tests.base import test_tender_data as test_ua_tender_data
 from openprocurement.tender.openuadefense.tests.base import test_tender_data as test_uadefense_tender_data
 from openprocurement.tender.openeu.tests.base import test_tender_data as test_eu_tender_data
@@ -48,6 +49,7 @@ class TenderOwnershipChangeTest(BaseTenderOwnershipChangeTest):
     test_owner = "broker1t"
     invalid_owner = "broker3"
     central_owner = "broker5"
+    initial_criteria = test_criteria
 
     def setUp(self):
         super(TenderOwnershipChangeTest, self).setUp()
@@ -393,6 +395,9 @@ class OpenUACompetitiveDialogueStage2TenderOwnershipChangeTest(TenderOwnershipCh
         )
         self.tender_transfer = response.json["access"]["transfer"]
         tender_access_token = response.json["access"]["token"]
+
+        add_criteria(self, tender_token=tender_access_token)
+
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, tender_access_token),
             {"data": {"status": "active.tendering"}},

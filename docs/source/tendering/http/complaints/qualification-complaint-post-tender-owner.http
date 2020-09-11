@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/0ba5045de21b4930a220df9887be28ec/qualifications/de1fdfe83be64f45a3aa274d8f98a1e9/complaints/db37925f5b4a4cb5b092f72f3045c53b/posts?acc_token=22b631b8c3684fad8b7c465850ef22c0 HTTP/1.0
+POST /api/2.5/tenders/0ba5045de21b4930a220df9887be28ec/qualifications/de1fdfe83be64f45a3aa274d8f98a1e9/complaints/70b8bcbbcc3c4484b773051e4a196590/posts?acc_token=22b631b8c3684fad8b7c465850ef22c0 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 669
 Content-Type: application/json
@@ -15,7 +15,7 @@ DATA:
         "format": "application/pdf"
       }
     ], 
-    "relatedPost": "a3b0139ca88a4ee5b896f564e4c37e9a", 
+    "relatedPost": "5e32117cd7fe4f72ad1e5f335b28393f", 
     "description": "Додано документ", 
     "title": "Уточнення по вимозі"
   }
@@ -23,7 +23,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json; charset=UTF-8
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ba5045de21b4930a220df9887be28ec/qualifications/de1fdfe83be64f45a3aa274d8f98a1e9/complaints/db37925f5b4a4cb5b092f72f3045c53b/posts/29a12be25ae341e097ba0d865a87566a
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ba5045de21b4930a220df9887be28ec/qualifications/de1fdfe83be64f45a3aa274d8f98a1e9/complaints/70b8bcbbcc3c4484b773051e4a196590/posts/cd2575e194de406a9ae663e2e750fa22
 {
   "data": {
     "documents": [
@@ -35,7 +35,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ba5045de21b4930
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-05-15T01:00:01+03:00", 
-        "id": "a87923eb0155455d9fd22d1e3d7691e6", 
+        "id": "98631763c0e2437792df6b134419de05", 
         "dateModified": "2020-05-15T01:00:01+03:00"
       }
     ], 
@@ -43,9 +43,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ba5045de21b4930
     "title": "Уточнення по вимозі", 
     "author": "tender_owner", 
     "datePublished": "2020-05-15T01:00:01+03:00", 
-    "relatedPost": "a3b0139ca88a4ee5b896f564e4c37e9a", 
+    "relatedPost": "5e32117cd7fe4f72ad1e5f335b28393f", 
     "recipient": "aboveThresholdReviewers", 
-    "id": "29a12be25ae341e097ba0d865a87566a"
+    "id": "cd2575e194de406a9ae663e2e750fa22"
   }
 }
 

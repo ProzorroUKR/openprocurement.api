@@ -16,7 +16,7 @@ Content-Type: application/json; charset=UTF-8
       "datePublished": "2020-05-15T01:00:00+03:00", 
       "author": "tender_owner", 
       "documentType": "technicalSpecifications", 
-      "id": "45b3da2674bc4cabaacf6eae668ba321", 
+      "id": "e1361638f83e4a6ab2b160639b5264c8", 
       "dateModified": "2020-05-15T01:00:00+03:00"
     }, 
     {
@@ -27,7 +27,7 @@ Content-Type: application/json; charset=UTF-8
       "format": "application/pdf", 
       "documentOf": "tender", 
       "datePublished": "2020-05-15T01:00:00+03:00", 
-      "id": "c3be39b3c6954dcba33d6a72709ae9fa", 
+      "id": "d44dae4e682c4fb6ad546dc2f164f2c4", 
       "dateModified": "2020-05-15T01:00:00+03:00"
     }
   ]

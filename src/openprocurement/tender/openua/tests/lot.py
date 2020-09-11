@@ -18,11 +18,11 @@ from openprocurement.tender.belowthreshold.tests.lot_blanks import (
 )
 
 from openprocurement.tender.openua.tests.base import (
-    test_bids,
     BaseTenderUAContentWebTest,
     test_tender_data,
     test_features_tender_ua_data,
 )
+from openprocurement.tender.openua.tests.base import test_bids
 from openprocurement.tender.openua.tests.lot_blanks import (
     # TenderLotResourceTest
     patch_tender_currency,
@@ -94,6 +94,7 @@ class TenderLotEdgeCasesTest(BaseTenderUAContentWebTest):
 class TenderLotFeatureResourceTest(BaseTenderUAContentWebTest, TenderLotFeatureResourceTestMixin):
     initial_data = test_tender_data
     initial_lots = 2 * test_lots
+    test_bids_data = test_bids
     invalid_feature_value = 0.5
     max_feature_value = 0.3
     sum_of_max_value_of_all_features = 0.3
@@ -102,6 +103,7 @@ class TenderLotFeatureResourceTest(BaseTenderUAContentWebTest, TenderLotFeatureR
 class TenderLotBidderResourceTest(BaseTenderUAContentWebTest):
     initial_data = test_tender_data
     initial_lots = test_lots
+    test_bids_data = test_bids
 
     test_create_tender_bidder_invalid = snitch(create_tender_bidder_invalid)
     test_patch_tender_bidder = snitch(patch_tender_bidder)
@@ -110,6 +112,7 @@ class TenderLotBidderResourceTest(BaseTenderUAContentWebTest):
 class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
     initial_data = test_tender_data
     initial_lots = test_lots
+    test_bids_data = test_bids
 
     def setUp(self):
         super(TenderLotFeatureBidderResourceTest, self).setUp()
@@ -154,6 +157,7 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
 
 class TenderLotProcessTest(BaseTenderUAContentWebTest, TenderLotProcessTestMixin, TenderUALotProcessTestMixin):
     initial_data = test_tender_data
+    test_bids_data = test_bids
     test_lots_data = test_lots
     test_features_tender_data = test_features_tender_ua_data
     setUp = BaseTenderUAContentWebTest.setUp
