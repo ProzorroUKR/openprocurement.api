@@ -825,3 +825,26 @@ def get_requirement_evidence(self):
 
     for k, v in self.test_evidence_data.items():
         self.assertEqual(evidence[k], v)
+
+
+def validate_requirement_evidence_document(self):
+    response = self.app.post_json(
+        "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}/evidences?acc_token={}".format(
+            self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, self.tender_token),
+        {"data": self.test_evidence_data}
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    evidence_id = response.json["data"]["id"]
+
+    url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}/evidences/{}?acc_token={}"
+    response = self.app.patch_json(
+        url.format(self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, evidence_id, self.tender_token),
+        {"data": {"relatedDocument": {"id": "", "title": "Any Document"}}},
+        status=422
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [{u'description': [u'relatedDocument.id should be one of tender documents'],
+          u'location': u'body', u'name': u'relatedDocument'}],
+    )

@@ -31,6 +31,7 @@ from openprocurement.tender.openua.tests.criterion_blanks import (
     patch_requirement_evidence,
     delete_requirement_evidence,
     get_requirement_evidence,
+    validate_requirement_evidence_document,
 )
 
 
@@ -99,6 +100,7 @@ class TenderCriteriaRGRequirementEvidenceTestMixin(object):
     test_patch_requirement_evidence = snitch(patch_requirement_evidence)
     test_get_requirement_evidence = snitch(get_requirement_evidence)
     test_delete_requirement_evidence = snitch(delete_requirement_evidence)
+    test_validate_requirement_evidence_document = snitch(validate_requirement_evidence_document)
 
     test_evidence_data = {
         "title": u"Документальне підтвердження",
