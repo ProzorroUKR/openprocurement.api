@@ -53,8 +53,8 @@ msgstr "Дата транзакції"
 msgid "value"
 msgstr ""
 
-msgid ":ref:`Guarantee`, required"
-msgstr ":ref:`Guarantee`, обов'язково"
+msgid "string, :ref:`Guarantee`, required"
+msgstr "рядок, :ref:`Guarantee`, обов'язково"
 
 msgid "The value of the transaction."
 msgstr "Значення транзакції"
@@ -77,12 +77,9 @@ msgstr "Довідка організації про організацію, я�
 msgid "status"
 msgstr ""
 
+msgid "string, required"
+msgstr "рядок, обов'язково"
+
 msgid "The current status of transaction."
 msgstr "Поточний стан транзакції."
-
-#~ msgid "date, required"
-#~ msgstr ""
-
-#~ msgid "value, required"
-#~ msgstr ""
 

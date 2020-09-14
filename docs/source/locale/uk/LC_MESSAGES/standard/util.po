@@ -206,14 +206,32 @@ msgstr "Guarantee"
 msgid "string, required, default = `UAH`"
 msgstr "рядок, обов’язковий, за замовчуванням = `UAH`"
 
-msgid "OrganizationReference"
+msgid "BankAccount"
 msgstr ""
 
 msgid "id"
 msgstr ""
 
-msgid "An id used to cross-reference the entry in the parties section that contains full information on this organization or entity;"
-msgstr "Ідентифікатор, що використовується для перехресного посилання на запис у розділі сторін, який містить повну інформацію про цю організацію чи сутність"
+msgid "The unique identifier for BankAccount."
+msgstr "Унікальний ідентифікатор для BankAccount."
+
+msgid "scheme"
+msgstr ""
+
+msgid "Possible string values are:"
+msgstr "Можливі значення:"
+
+msgid "`IBAN` - International Bank Account Number"
+msgstr "`IBAN` - International Bank Account Number"
+
+msgid "OrganizationReference"
+msgstr ""
+
+msgid "bankAccount"
+msgstr ""
+
+msgid "string, :ref:`BankAccount`, required"
+msgstr "рядок, :ref:`BankAccount`, обов’язковий"
 
 msgid "name"
 msgstr ""
@@ -354,11 +372,17 @@ msgstr ""
 msgid "contractNumber"
 msgstr ""
 
+msgid "string"
+msgstr "рядок"
+
 msgid "status"
 msgstr ""
 
 msgid "The current status of the change."
 msgstr "Поточний стан зміни."
+
+msgid "Possible values are:"
+msgstr "Можливі значення:"
 
 msgid "`pending` - this change has been added."
 msgstr "`очікування` - ця зміна була додана."
