@@ -8,6 +8,7 @@ from iso8601 import parse_date
 from openprocurement.api.models import get_now
 from openprocurement.tender.openeu.tests.tender import BaseTenderWebTest
 from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.belowthreshold.tests.base import test_criteria
 
 from openprocurement.api.constants import RELEASE_2020_04_19
 from tests.base.constants import DOCS_URL, AUCTIONS_URL
@@ -15,10 +16,11 @@ from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.base.data import (
     question, complaint, claim, lots, subcontracting,
     bid_draft, bid2, bid3_with_docs,
-    qualified, tender_openeu
+    qualified, tender_openeu, test_eligible_evidence_data,
+    test_requirement_data, test_requirement_group_data,
+    test_criterion_data,
 )
 from tests.base.helpers import complaint_create_pending
-from openprocurement.tender.belowthreshold.tests.base import test_criteria
 from tests.base.constants import MOCK_DATETIME
 
 test_tender_data = deepcopy(tender_openeu)
@@ -1599,8 +1601,10 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         owner_token = response.json['access']['token']
         self.tender_id = tender['id']
 
-        other_criteria = deepcopy(test_criteria[0])
+        other_criteria = deepcopy(test_criterion_data)
         other_criteria["classification"]["id"] = "CRITERION.OTHER"
+
+        exclusion_criteria = deepcopy(test_criterion_data)
 
         with open(TARGET_DIR + 'criteria/bulk-create-criteria.http', 'wb') as self.app.file_obj:
             response = self.app.post_json(
@@ -1624,7 +1628,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'criteria/bulk-create-exclusion-criteria.http', 'wb') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/criteria?acc_token={}'.format(self.tender_id, owner_token),
-                {'data': [test_criteria[1]]},
+                {'data': [exclusion_criteria]},
             )
             self.assertEqual(response.status, '201 Created')
 
@@ -1653,7 +1657,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         rg_id_1 = criteria_1["requirementGroups"][0]["id"]
         rg_id_2 = criteria_2["requirementGroups"][0]["id"]
 
-        test_rg_data = test_criteria[0]["requirementGroups"][0]
+        test_rg_data = deepcopy(test_requirement_group_data)
 
         with open(TARGET_DIR + 'criteria/add-criteria-requirement-group.http', 'wb') as self.app.file_obj:
             response = self.app.post_json(
@@ -1706,7 +1710,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         requirement_id_1 = criteria_1["requirementGroups"][0]["requirements"][0]["id"]
         requirement_id_2 = criteria_2["requirementGroups"][0]["requirements"][0]["id"]
-        test_requirement_data = deepcopy(test_rg_data["requirements"][0])
 
         with open(TARGET_DIR + 'criteria/add-criteria-requirement.http', 'wb') as self.app.file_obj:
             response = self.app.post_json(
@@ -1737,7 +1740,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.patch_json(
                 '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}'.format(
                     self.tender_id, criteria_id_2, rg_id_2, requirement_id_2, owner_token),
-                {'data': test_requirement_data},
+                {'data': {'title': 'Updated title'}},
                 status=403,
             )
             self.assertEqual(response.status, '403 Forbidden')
@@ -1758,11 +1761,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         # Eligible evidence operation
 
-        test_evidence_data = {
-            "title": u"Документальне підтвердження",
-            "description": u"Довідка в довільній формі",
-            "type": u"document",
-        }
+        test_evidence_data = deepcopy(test_eligible_evidence_data)
 
         with open(TARGET_DIR + 'criteria/add-requirement-evidence.http', 'wb') as self.app.file_obj:
             response = self.app.post_json(
