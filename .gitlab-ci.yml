@@ -183,7 +183,7 @@ docs:
     - python setup.py test --addopts="docs/tests --color=yes"
     - (set -e; [[ $(git diff) ]] && { git diff; exit 1; } || exit 0)
   when: manual
-  allow_failure: true
+  allow_failure: false
   needs:
     - build
   variables:

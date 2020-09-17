@@ -903,3 +903,65 @@ plan = {
         ],
     },
 }
+
+
+test_eligible_evidence_data = {
+    "title": u"Документальне підтвердження",
+    "description": u"Довідка в довільній формі",
+    "type": u"document",
+}
+
+
+test_requirement_data = {
+    "dataType": "boolean",
+    "eligibleEvidences": [test_eligible_evidence_data],
+    "expectedValue": "true",
+    "title": "Фізична особа, яка є учасником процедури закупівлі, "
+             "не була засуджена за злочин, учинений з корисливих мотивів "
+             "(зокрема, пов'язаний з хабарництвом та відмиванням коштів), "
+             "судимість з якої знято або погашено у встановленому законом порядку",
+}
+
+test_requirement_group_data = {
+    "requirements": [test_requirement_data],
+    "description": "Учасник фізична особа підтверджує, що"
+}
+
+
+test_criterion_data = {
+    "requirementGroups": [test_requirement_group_data],
+    "description": "Службова (посадова) особа учасника процедури закупівлі, яка підписала тендерну пропозицію "
+                   "(або уповноважена на підписання договору в разі переговорної процедури закупівлі) або фізична особа, "
+                   "яка є учасником процедури закупівлі, не була засуджена за злочин, "
+                   "учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), "
+                   "судимість з якої знято або погашено у встановленому законом порядку",
+    "classification": {
+      "scheme": " espd211",
+      "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
+    },
+    "title": "Вчинення злочинів, учинених з корисливих мотивів",
+    "relatesTo": "tenderer",
+    "legislation": [
+      {
+        "article": "17.1.5",
+        "version": "2020-04-19",
+        "type": "NATIONAL_LEGISLATION",
+        "identifier": {
+          "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
+          "id": "922-VIII",
+          "legalName": "Закон України \"Про публічні закупівлі\""
+        }
+      },
+      {
+        "article": "17.1.6",
+        "version": "2020-04-19",
+        "type": "NATIONAL_LEGISLATION",
+        "identifier": {
+          "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
+          "id": "922-VIII",
+          "legalName": "Закон України \"Про публічні закупівлі\""
+        }
+      }
+    ],
+    "source": "tenderer",
+}
