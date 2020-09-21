@@ -657,7 +657,7 @@ def create_tender_draft(self):
     )
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token),
-        {"data": {"status": self.primary_tender_status, "unsuccessfulReason": "some value from buyer"}}
+        {"data": {"status": self.primary_tender_status, "unsuccessfulReason": ["some value from buyer"]}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -1354,14 +1354,14 @@ def patch_tender_by_pq_bot(self):
     with change_auth(self.app, ("Basic", ("pricequotation", ""))) as app:
         self.app.patch_json(
             "/tenders/{}".format(tender_id),
-            {"data": {"status": "draft.unsuccessful", "unsuccessfulReason": "Profile not found in catalogue"}}
+            {"data": {"status": "draft.unsuccessful", "unsuccessfulReason": ["Profile not found in catalogue"]}}
         )
 
     response = self.app.get("/tenders/{}".format(tender_id))
     self.assertEqual(response.status, "200 OK")
     tender = response.json["data"]
     self.assertEqual(tender["status"], "draft.unsuccessful")
-    self.assertEqual(tender["unsuccessfulReason"], "Profile not found in catalogue")
+    self.assertEqual(tender["unsuccessfulReason"], ["Profile not found in catalogue"])
     self.assertNotIn("classification", tender["items"][0])
     self.assertNotIn("unit", tender["items"][0])
     self.assertNotIn("shortlistedFirms", tender)

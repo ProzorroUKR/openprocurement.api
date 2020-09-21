@@ -367,8 +367,8 @@ test_short_profile = {
                         {
                             "dataType": "integer",
                             "id": "655360-0004-001-01",
-                            "minValue": 250,
-                            "title": u"Яскравість дисплея",
+                            "maxValue": 250,
+                            "title": "Яскравість дисплея",
                             "unit": {
                                 "code": "A24",
                                 "name": u"кд/м²"

@@ -250,7 +250,7 @@ class PriceQuotationTender(Tender):
     shortlistedFirms = ListType(ModelType(ShortlistedFirm), default=list())
     criteria = ListType(ModelType(Criterion), default=list())
     noticePublicationDate = IsoDateTimeType()
-    unsuccessfulReason = StringType()
+    unsuccessfulReason = ListType(StringType)
 
     procuring_entity_kinds = PQ_KINDS
 
