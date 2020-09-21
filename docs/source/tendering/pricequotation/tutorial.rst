@@ -156,7 +156,7 @@ Procuring Entity can cancel `award` after acceptance by changing `award` status 
    :code:
    
 After canceling `award` system creates `second` `award` for the same bid in status: `pending` with access for Procuring Entity only. 
-By the decision of Procuring Entity `second` `award` can be either changed for `active` or to `unsuccessful` with ability to upload supplementary documents.
+Procuring Entity can change `second` `award` status to `unsuccessful` with ability to upload supplementary documents.
    
 The Supplier-winner can decline `award` by transferring it to status: `unsuccessful`.
 
@@ -167,9 +167,8 @@ The Supplier-winner can decline `award` by transferring it to status: `unsuccess
  
  1. Supplier-winner didn't accept `award` within two working days.
  2. Supplier-winner declined `award`.
- 3. Supplier-winner refused to sign contract and `award` was canceled by Procuring Entity.
 
-**Note !** In the case of `award` being transferred to `unsuccessful` status for the last bid, procedure will inherit termination status: **`unsuccessful`**.
+**Note !** In the case of `award` being transferred to `unsuccessful` status for the last bid or if cancelled by Procuring Entity procedure will inherit termination status: **`unsuccessful`**.
 
 .. index:: Setting Contract
 

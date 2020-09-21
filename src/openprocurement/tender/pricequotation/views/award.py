@@ -69,10 +69,19 @@ class PQTenderAwardResource(TenderAwardResource):
     def patch(self):
         tender = self.request.validated["tender"]
         award = self.request.context
+        is_awarded = [
+            a for a in tender.awards
+            if a.bid_id == award.bid_id and a.id != award.id
+        ]
         award_status = award.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
 
         now = get_now()
+        if is_awarded and award.status != 'unsuccessful':
+            raise_operation_error(
+                self.request,
+                "Can't change award status to {} from {}".format(award.status, award_status)
+            )
 
         if award_status == "pending" and award.status == "active":
             add_contract(self.request, award, now)
@@ -83,22 +92,10 @@ class PQTenderAwardResource(TenderAwardResource):
                     i.status = "cancelled"
             add_next_award(self.request)
         elif award_status == "pending" and award.status == "unsuccessful":
-            add_next_award(self.request)
-        elif (
-            award_status == "unsuccessful"
-            and award.status == "cancelled"
-        ):
-            if tender.status == "active.awarded":
-                tender.status = "active.qualification"
-                tender.awardPeriod.endDate = None
-            cancelled_awards = []
-            for i in tender.awards[tender.awards.index(award):]:
-                i.status = "cancelled"
-                cancelled_awards.append(i.id)
-            for i in tender.contracts:
-                if i.awardID in cancelled_awards:
-                    i.status = "cancelled"
-            add_next_award(self.request)
+            if is_awarded:
+                tender.status = 'unsuccessful'
+            else:
+                add_next_award(self.request)
         elif self.request.authenticated_role != "Administrator" and not (
             award_status == "pending" and award.status == "pending"
         ):

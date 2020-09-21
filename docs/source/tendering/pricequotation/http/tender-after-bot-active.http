@@ -189,12 +189,12 @@ Content-Type: application/json; charset=UTF-8
               {
                 "dataType": "integer", 
                 "title": "Яскравість дисплея", 
-                "id": "655360-0004-001-01", 
+                "maxValue": "250", 
                 "unit": {
                   "code": "A24", 
                   "name": "кд/м²"
                 }, 
-                "minValue": "250"
+                "id": "655360-0004-001-01"
               }
             ], 
             "id": "655360-0004-001", 

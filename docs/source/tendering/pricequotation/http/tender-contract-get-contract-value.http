@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/contracts/0def0972e7a648cdbbb29a291331f1f2 HTTP/1.0
+GET /api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/contracts/d83498cb2ab24c89b96447ddef5e258d HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -63,9 +63,9 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "date": "2020-05-15T01:00:01+03:00", 
-    "awardID": "e9d20fa47d934470b845028e492a8945", 
-    "id": "0def0972e7a648cdbbb29a291331f1f2", 
-    "contractID": "UA-2020-05-15-000001-2"
+    "awardID": "763e8aa953f246728f00ff21743bd1dd", 
+    "id": "d83498cb2ab24c89b96447ddef5e258d", 
+    "contractID": "UA-2020-05-15-000001-1"
   }
 }
 
