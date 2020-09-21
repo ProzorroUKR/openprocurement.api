@@ -52,6 +52,7 @@ from openprocurement.tender.core.utils import (
 from openprocurement.planning.api.utils import extract_plan_adapter
 from schematics.exceptions import ValidationError
 from schematics.types import DecimalType, StringType, IntType, BooleanType, DateTimeType
+from openprocurement.tender.pricequotation.constants import PMT
 
 # Decided in CS-8167
 MINIMAL_STEP_VALIDATION_PRESCISSION = 2
@@ -1661,6 +1662,8 @@ def validate_tender_plan_procurement_method_type(request):
     tender = request.validated["tender"]
 
     if plan.tender.procurementMethodType not in (tender.procurementMethodType, "centralizedProcurement"):
+        if tender.procurementMethodType == PMT and plan.tender.procurementMethodType == "belowThreshold":
+            return
         request.errors.add(
             "data",
             "procurementMethodType",
