@@ -693,11 +693,6 @@ def create_requirement_evidence_invalid(self):
                 u"location": u"body",
                 u"name": u"type",
             },
-            {
-                u"description": [u"This field is required."],
-                u"location": u"body",
-                u"name": u"title",
-            }
         ],
     )
 

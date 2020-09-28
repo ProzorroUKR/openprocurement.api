@@ -621,7 +621,7 @@ class EligibleEvidence(Model):
         }
 
     id = StringType(required=True, default=lambda: uuid4().hex)
-    title = StringType(required=True, min_length=1)
+    title = StringType()
     title_en = StringType()
     title_ru = StringType()
     description = StringType()
