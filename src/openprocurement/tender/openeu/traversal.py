@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.core.traversal import (
     get_item, handle_root, resolve_complaint, resolve_document,
-    resolve_bid, resolve_milestone,
+    resolve_bid, resolve_milestone, resolve_requirement_response,
 )
 
 
@@ -24,6 +24,8 @@ def resolve_qualification(request, obj):
         return resolve_milestone(request, qualification)
     elif request.matchdict.get("document_id"):
         return resolve_document(request, qualification)
+    elif request.matchdict.get("requirement_response_id"):
+        return resolve_requirement_response(request, qualification)
     else:
         return qualification
 

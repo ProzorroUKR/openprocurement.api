@@ -1843,13 +1843,27 @@ def validate_patch_exclusion_ecriteria_objects(request):
 
 
 def validate_operation_bid_requirement_response(request):
-    valid_statuses = ["draft", "invalid"]
+    valid_statuses = ["draft", "invalid", "pending"]
     base_validate_operation_ecriteria_objects(request, valid_statuses, "bid")
 
 
 def validate_operation_award_requirement_response(request):
     validate_tender_first_revision_date(request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
+    tender_type = request.validated["tender"].procurementMethodType
+    pre_qualification_tenders = ["aboveThresholdEU", "competitiveDialogueUA",
+                                 "competitiveDialogueEU", "competitiveDialogueEU.stage2",
+                                 "esco", "closeFrameworkAgreementUA"]
+    if tender_type in pre_qualification_tenders:
+        valid_tender_statuses = ["active.pre-qualification"]
+    else:
+        valid_tender_statuses = ["active.qualification"]
+    base_validate_operation_ecriteria_objects(request, valid_tender_statuses)
     base_validate_operation_ecriteria_objects(request, ["pending"], "award")
+
+
+def validate_operation_qualification_requirement_response(request):
+    validate_tender_first_revision_date(request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
+    base_validate_operation_ecriteria_objects(request, ["pending"], "qualification")
 
 
 def validate_criterion_data(request):

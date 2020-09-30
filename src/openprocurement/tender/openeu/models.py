@@ -373,10 +373,10 @@ class Bid(ValidateSelfEligibleMixin, BaseBid):
             "auction_patch": whitelist("id", "lotValues", "participationUrl"),
             "active.enquiries": whitelist(),
             "active.tendering": whitelist(),
-            "active.pre-qualification": whitelist("id", "status", "documents", "eligibilityDocuments", "tenderers"),
+            "active.pre-qualification": whitelist(
+                "id", "status", "documents", "eligibilityDocuments", "tenderers", "requirementResponses"),
             "active.pre-qualification.stand-still": whitelist(
-                "id", "status", "documents", "eligibilityDocuments", "tenderers"
-            ),
+                "id", "status", "documents", "eligibilityDocuments", "tenderers", "requirementResponses"),
             "active.auction": whitelist("id", "status", "documents", "eligibilityDocuments", "tenderers"),
             "active.qualification": view_bid_role,
             "active.awarded": view_bid_role,

@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 import unittest
+from mock import patch
+from datetime import timedelta
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_author, test_draft_claim
+from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import test_author, test_draft_claim, test_criteria
 
 from openprocurement.tender.openeu.tests.base import BaseTenderContentWebTest, test_bids, test_lots
 from openprocurement.tender.openeu.tests.qualification_blanks import (
@@ -55,7 +58,82 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
     lot_patch_tender_qualifications_lots_none,
     bot_patch_tender_qualification_complaint,
     bot_patch_tender_qualification_complaint_forbidden,
+    # TenderQualificationRequirementResponseResourceTest
+    create_qualification_requirement_response,
+    patch_qualification_requirement_response,
+    get_qualification_requirement_response,
+    # TenderQualificationRequirementResponseEvidenceResourceTest
+    create_qualification_requirement_response_evidence,
+    patch_qualification_requirement_response_evidence,
+    get_qualification_requirement_response_evidence,
 )
+
+
+@patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
+class TenderQualificationRequirementResponseTestMixin(object):
+    test_create_bid_requirement_response = snitch(create_qualification_requirement_response)
+    test_patch_bid_requirement_response = snitch(patch_qualification_requirement_response)
+    test_get_bid_requirement_response = snitch(get_qualification_requirement_response)
+
+    initial_criteria = test_criteria
+
+    @patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
+    def setUp(self):
+        super(TenderQualificationRequirementResponseTestMixin, self).setUp()
+        response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
+        criteria = response.json["data"]
+        requirement = criteria[0]["requirementGroups"][0]["requirements"][0]
+        self.requirement_id = requirement["id"]
+        self.requirement_title = requirement["title"]
+
+
+@patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
+class TenderQualificationRequirementResponseEvidenceTestMixin(object):
+    test_create_bid_requirement_response_evidence = snitch(create_qualification_requirement_response_evidence)
+    test_patch_bid_requirement_response_evidence = snitch(patch_qualification_requirement_response_evidence)
+    test_get_bid_requirement_response_evidence = snitch(get_qualification_requirement_response_evidence)
+
+    initial_criteria = test_criteria
+
+    @patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
+    def setUp(self):
+        super(TenderQualificationRequirementResponseEvidenceTestMixin, self).setUp()
+        response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
+        criteria = response.json["data"]
+        requirement = criteria[0]["requirementGroups"][0]["requirements"][0]
+        self.requirement_id = requirement["id"]
+        self.requirement_title = requirement["title"]
+
+        request_path = "/tenders/{}/qualifications/{}/requirement_responses?acc_token={}".format(
+            self.tender_id, self.qualification_id, self.tender_token)
+
+        rr_data = [{
+            "title": "Requirement response",
+            "description": "some description",
+            "requirement": {
+                "id": self.requirement_id,
+                "title": self.requirement_title,
+            },
+            "value": True,
+        }]
+
+        response = self.app.post_json(request_path, {"data": rr_data})
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        self.rr_id = response.json["data"][0]["id"]
+
+        auth = self.app.authorization
+        self.app.authorization = ("Basic", ("bot", ""))
+        response = self.app.post(
+            "/tenders/{}/qualifications/{}/documents?acc_token={}".format(
+                self.tender_id, self.qualification_id, self.tender_token),
+            upload_files=[("file", "name.doc", "content")],
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        self.doc_id = response.json["data"]["id"]
+
+        self.app.authorization = auth
 
 
 class TenderQualificationBaseTestCase(BaseTenderContentWebTest):
@@ -70,6 +148,11 @@ class TenderQualificationBaseTestCase(BaseTenderContentWebTest):
         self.set_status("active.pre-qualification", extra={"status": "active.tendering"})
         response = self.check_chronograph()
         self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
+
+        response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
+        self.assertEqual(response.content_type, "application/json")
+        qualifications = response.json["data"]
+        self.qualification_id = qualifications[0]["id"]
 
 
 class TenderQualificationResourceTest(TenderQualificationBaseTestCase):
@@ -275,9 +358,25 @@ class TenderIssueCBD1713Test(Tender2LotQualificationResourceTest):
     test_switch_bid_status_unsuccessul_to_active = snitch(switch_bid_status_unsuccessul_to_active)
 
 
+class TenderQualificationRequirementResponseResourceTest(
+    TenderQualificationRequirementResponseTestMixin,
+    TenderQualificationBaseTestCase,
+):
+    pass
+
+
+class TenderQualificationRequirementResponseEvidenceResourceTest(
+    TenderQualificationRequirementResponseEvidenceTestMixin,
+    TenderQualificationBaseTestCase,
+):
+    pass
+
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderQualificationResourceTest))
+    suite.addTest(unittest.makeSuite(TenderQualificationRequirementResponseResourceTest))
+    suite.addTest(unittest.makeSuite(TenderQualificationRequirementResponseEvidenceResourceTest))
     return suite
 
 

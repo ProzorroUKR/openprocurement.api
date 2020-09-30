@@ -3,6 +3,10 @@ import unittest
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import test_author, test_draft_claim
 from openprocurement.tender.cfaua.tests.base import BaseTenderContentWebTest, test_bids, test_lots
+from openprocurement.tender.openeu.tests.qualification import (
+    TenderQualificationRequirementResponseTestMixin,
+    TenderQualificationRequirementResponseEvidenceTestMixin,
+)
 from openprocurement.tender.openeu.tests.qualification_blanks import (
     complaint_not_found,
     create_tender_qualification_complaint_document,
@@ -59,6 +63,11 @@ class TenderQualificationBaseTestCase(BaseTenderContentWebTest):
         self.set_status("active.pre-qualification", extra={"status": "active.tendering"})
         response = self.check_chronograph()
         self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
+
+        response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
+        self.assertEqual(response.content_type, "application/json")
+        qualifications = response.json["data"]
+        self.qualification_id = qualifications[0]["id"]
 
 
 class TenderQualificationResourceTest(TenderQualificationBaseTestCase):
@@ -168,6 +177,20 @@ class TenderQualificationComplaintDocumentResourceTest(TenderQualificationBaseTe
     test_create_tender_qualification_complaint_document = snitch(create_tender_qualification_complaint_document)
     test_put_tender_qualification_complaint_document = snitch(put_tender_qualification_complaint_document)
     test_patch_tender_qualification_complaint_document = snitch(patch_tender_qualification_complaint_document)
+
+
+class TenderQualificationRequirementResponseResourceTest(
+    TenderQualificationRequirementResponseTestMixin,
+    TenderQualificationBaseTestCase,
+):
+    pass
+
+
+class TenderQualificationRequirementResponseEvidenceResourceTest(
+    TenderQualificationRequirementResponseEvidenceTestMixin,
+    TenderQualificationBaseTestCase,
+):
+    pass
 
 
 def suite():

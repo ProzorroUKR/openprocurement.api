@@ -51,7 +51,8 @@ class Bid(ValidateSelfEligibleMixin, BaseBid):
         _edit = whitelist("value", "lotValues", "parameters", "subcontractingDetails", "tenderers", "status")
         _create = _all_documents + _edit + {"selfEligible", "selfQualified"}
         _open_view = _create + whitelist("id", "date", "participationUrl", "requirementResponses")
-        _qualification_view = whitelist("id", "status", "tenderers", "documents", "eligibilityDocuments")
+        _qualification_view = whitelist(
+            "id", "status", "tenderers", "documents", "eligibilityDocuments", "requirementResponses")
         roles = {
             "create": _create,
             "edit": _edit,
