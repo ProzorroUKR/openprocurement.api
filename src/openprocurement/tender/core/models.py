@@ -631,6 +631,13 @@ class EligibleEvidence(Model):
         choices=["document", "statement"],
         default="statement"
     )
+    relatedDocument = ModelType(Reference)
+
+    def validate_relatedDocument(self, data, document_reference):
+        if document_reference:
+            tender = get_tender(data["__parent__"])
+            if document_reference.id not in [document.id for document in tender.documents if document]:
+                raise ValidationError("relatedDocument.id should be one of tender documents")
 
 
 class Evidence(EligibleEvidence):
@@ -642,7 +649,6 @@ class Evidence(EligibleEvidence):
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
         }
-    relatedDocument = ModelType(Reference)
 
     @bids_response_validation_wrapper
     def validate_relatedDocument(self, data, document_reference):
