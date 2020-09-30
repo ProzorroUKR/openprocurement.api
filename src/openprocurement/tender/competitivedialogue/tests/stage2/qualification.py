@@ -10,6 +10,10 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_author,
     test_tenderer,
 )
+from openprocurement.tender.openeu.tests.qualification import (
+    TenderQualificationRequirementResponseTestMixin,
+    TenderQualificationRequirementResponseEvidenceTestMixin,
+)
 from openprocurement.tender.openeu.tests.qualification_blanks import (
     # TenderStage2EUQualificationResourceTest
     post_tender_qualifications,
@@ -74,6 +78,11 @@ class TenderQualificationBaseTestCase(BaseCompetitiveDialogEUStage2ContentWebTes
         self.set_status("active.pre-qualification", extra={"status": "active.tendering"})
         response = self.check_chronograph()
         self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
+
+        response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
+        self.assertEqual(response.content_type, "application/json")
+        qualifications = response.json["data"]
+        self.qualification_id = qualifications[0]["id"]
 
 
 class TenderStage2EUQualificationResourceTest(TenderQualificationBaseTestCase):
@@ -217,6 +226,20 @@ class TenderStage2EU2LotQualificationComplaintDocumentResourceTest(
     initial_auth = ("Basic", ("broker", ""))
     test_create_tender_qualification_complaint_document = snitch(create_tender_2lot_qualification_complaint_document)
     test_put_tender_qualification_complaint_document = snitch(put_tender_2lot_qualification_complaint_document)
+
+
+class TenderStage2EUQualificationRequirementResponseResourceTest(
+    TenderQualificationRequirementResponseTestMixin,
+    TenderQualificationBaseTestCase,
+):
+    pass
+
+
+class TenderStageEUQualificationRequirementResponseEvidenceResourceTest(
+    TenderQualificationRequirementResponseEvidenceTestMixin,
+    TenderQualificationBaseTestCase,
+):
+    pass
 
 
 def suite():

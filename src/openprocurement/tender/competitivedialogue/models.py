@@ -122,8 +122,9 @@ class Bid(BidEU):
             "edit": whitelist("tenderers", "lotValues", "status", "subcontractingDetails"),
             "active.enquiries": whitelist(),
             "active.tendering": whitelist(),
-            "active.pre-qualification": whitelist("id", "status", "documents", "tenderers"),
-            "active.pre-qualification.stand-still": whitelist("id", "status", "documents", "tenderers"),
+            "active.pre-qualification": whitelist("id", "status", "documents", "tenderers", "requirementResponses"),
+            "active.pre-qualification.stand-still": whitelist(
+                "id", "status", "documents", "tenderers", "requirementResponses"),
             "active.auction": whitelist("id", "status", "documents", "tenderers"),
             "active.stage2.pending": whitelist("id", "status", "documents", "tenderers"),
             "active.stage2.waiting": whitelist("id", "status", "documents", "tenderers"),

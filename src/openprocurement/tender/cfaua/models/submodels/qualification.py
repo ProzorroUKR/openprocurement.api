@@ -1,7 +1,11 @@
 from uuid import uuid4
 from openprocurement.api.models import Model, IsoDateTimeType, ListType
 from openprocurement.tender.cfaua.models.submodels.complaint import Complaint
-from openprocurement.tender.core.models import EUDocument, QualificationMilestoneListMixin
+from openprocurement.tender.core.models import (
+    EUDocument,
+    QualificationMilestoneListMixin,
+    RequirementResponse,
+)
 from schematics.exceptions import ValidationError
 from schematics.types import StringType, MD5Type, BooleanType
 from schematics.types.compound import ModelType
@@ -14,7 +18,8 @@ class Qualification(QualificationMilestoneListMixin):
     class Options:
         _common = whitelist('eligible', 'qualified', 'title', 'title_en', 'title_ru',
                             'description', 'description_en', 'description_ru')
-        _all = _common + whitelist('status', 'lotID', 'id', 'date', 'bidID', 'complaints', 'documents', 'milestones')
+        _all = _common + whitelist('status', 'lotID', 'id', 'date', 'bidID',
+                                   'complaints', 'documents', 'milestones', 'requirementResponses')
         roles = {
             "edit": _common + whitelist('status',),
             "default": _all,
@@ -39,6 +44,8 @@ class Qualification(QualificationMilestoneListMixin):
     complaints = ListType(ModelType(Complaint, required=True), default=list())
     qualified = BooleanType(default=False)
     eligible = BooleanType(default=False)
+
+    requirementResponses = ListType(ModelType(RequirementResponse, required=True), default=list())
 
     def validate_qualified(self, data, qualified):
         if data["status"] == "active" and not qualified:
