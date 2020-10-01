@@ -615,7 +615,7 @@ class EligibleEvidence(Model):
         namespace = "Evidence"
         roles = {
             "create": blacklist(),
-            "edit": blacklist("type"),
+            "edit": blacklist("id", "type"),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
         }
@@ -645,7 +645,7 @@ class Evidence(EligibleEvidence):
         namespace = "Evidence"
         roles = {
             "create": blacklist(),
-            "edit": blacklist(),
+            "edit": blacklist("id"),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
         }
@@ -659,7 +659,14 @@ class Evidence(EligibleEvidence):
             requirement_response = data["__parent__"]
             parent = requirement_response["__parent__"]
             parent_name = parent.__class__.__name__.lower()
-            if document_reference.id not in [document.id for document in parent.documents if document]:
+            docs_id = [document.id for document in parent.documents if document]
+            if "financialDocuments" in parent:
+                docs_id.extend([document.id for document in parent.financialDocuments if document])
+            if "eligibilityDocuments" in parent:
+                docs_id.extend([document.id for document in parent.eligibilityDocuments if document])
+            if "qualificationDocuments" in parent:
+                docs_id.extend([document.id for document in parent.qualificationDocuments if document])
+            if document_reference.id not in docs_id:
                 raise ValidationError("relatedDocument.id should be one of {} documents".format(parent_name))
 
     @bids_response_validation_wrapper
@@ -702,7 +709,7 @@ class Requirement(Model):
     class Options:
         roles = {
             "create": blacklist("eligibleEvidences"),
-            "edit": blacklist("eligibleEvidences"),
+            "edit": blacklist("id", "eligibleEvidences"),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
         }
@@ -753,7 +760,7 @@ class RequirementGroup(Model):
     class Options:
         roles = {
             "create": blacklist(),
-            "edit": blacklist("requirements"),
+            "edit": blacklist("id", "requirements"),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
         }
@@ -777,6 +784,7 @@ class Criterion(Model):
         roles = {
             "create": blacklist(),
             "edit": blacklist(
+                "id",
                 "requirementGroups",
                 "additionalClassifications",
                 "legislation",
@@ -821,7 +829,7 @@ class RequirementResponse(Model):
     class Options:
         roles = {
             "create": blacklist("evidences"),
-            "edit": blacklist("evidences"),
+            "edit": blacklist("id", "evidences"),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
         }

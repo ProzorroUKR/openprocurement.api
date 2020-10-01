@@ -476,13 +476,13 @@ def tender_owner_create_qualification_document(self):
             self.tender_id, self.qualifications[0]["id"], self.tender_token
         ),
         upload_files=[("file", "name.doc", "content")],
-        status=403,
     )
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json,
-        {"status": "error", "errors": [{"location": "url", "name": "permission", "description": "Forbidden"}]},
-    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    doc_id = response.json["data"]["id"]
+    self.assertIn(doc_id, response.headers["Location"])
+    self.assertEqual("name.doc", response.json["data"]["title"])
 
 
 def create_qualification_document(self):

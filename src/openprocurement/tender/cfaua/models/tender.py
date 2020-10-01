@@ -216,6 +216,7 @@ class CloseFrameworkAgreementUA(Tender):
         acl.extend(
             [
                 (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_complaint"),
+                (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_qualification_documents"),
             ]
         )
         self._acl_cancellation_complaint(acl)

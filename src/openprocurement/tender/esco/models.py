@@ -664,6 +664,7 @@ class Tender(BaseTender):
                 (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_complaint"),
                 (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_contract"),
                 (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_contract_documents"),
+                (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_qualification_documents"),
             ]
         )
 
