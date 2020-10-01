@@ -392,10 +392,12 @@ class Bid(ValidateSelfEligibleMixin, BaseBid):
                 "selfQualified",
                 "selfEligible",
                 "subcontractingDetails",
+                "requirementResponses",
             ),
             "cancelled": view_bid_role,
             "invalid": whitelist("id", "status"),
-            "invalid.pre-qualification": whitelist("id", "status", "documents", "eligibilityDocuments", "tenderers"),
+            "invalid.pre-qualification": whitelist(
+                "id", "status", "documents", "eligibilityDocuments", "tenderers", "requirementResponses"),
             "deleted": whitelist("id", "status"),
         }
 
@@ -662,6 +664,7 @@ class Tender(BaseTender):
                 (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_complaint"),
                 (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_contract"),
                 (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_contract_documents"),
+                (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_qualification_documents"),
             ]
         )
 

@@ -323,6 +323,7 @@ class CompetitiveDialogEU(BaseTenderEU):
                 (Allow, "g:competitive_dialogue", "extract_credentials"),
                 (Allow, "g:competitive_dialogue", "edit_tender"),
                 (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_cancellation"),
+                (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_qualification_documents"),
             ]
         )
 
@@ -382,8 +383,9 @@ def stage2__acl__(obj):
         (Allow, "{}_{}".format(obj.owner, obj.owner_token), "edit_complaint"),
         (Allow, "{}_{}".format(obj.owner, obj.owner_token), "edit_contract"),
         (Allow, "{}_{}".format(obj.owner, obj.owner_token), "upload_contract_documents"),
+        (Allow, "{}_{}".format(obj.owner, obj.owner_token), "upload_qualification_documents"),
         (Allow, "g:competitive_dialogue", "edit_tender"),
-        (Allow, "g:competitive_dialogue", "edit_cancellation")
+        (Allow, "g:competitive_dialogue", "edit_cancellation"),
     ]
     acl.extend(
         [
