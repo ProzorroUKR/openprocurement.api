@@ -95,7 +95,10 @@ class Contract(BaseContract):
         if value and isinstance(parent, Model):
             if value > get_now():
                 raise ValidationError(u"Contract signature date can't be in the future")
-
+            active_award = [award for award in parent.awards if award.status == 'active']
+            if active_award and value < active_award[0].date:
+                raise ValidationError(u"Contract signature date should be after award activation date ({})".format(
+                                active_award[0].date.isoformat()))
 
 
 @implementer(IPriceQuotationTender)

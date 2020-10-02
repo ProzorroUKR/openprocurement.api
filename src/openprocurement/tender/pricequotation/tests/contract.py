@@ -35,6 +35,7 @@ class TenderContractResourceTest(TenderContentWebTest,
         self.award_value = award["value"]
         self.award_suppliers = award["suppliers"]
         self.award_items = award["items"]
+        self.award_date = award["date"]
 
     test_create_tender_contract = snitch(create_tender_contract)
     test_create_tender_contract_in_complete_status = snitch(
