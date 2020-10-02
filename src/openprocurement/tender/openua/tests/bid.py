@@ -64,6 +64,7 @@ from openprocurement.tender.openua.tests.bid_blanks import (
     create_bid_requirement_response,
     patch_bid_requirement_response,
     get_bid_requirement_response,
+    patch_bid_with_responses,
     # TenderBidRequirementResponseEvidenceResourceTest
     create_bid_requirement_response_evidence,
     patch_bid_requirement_response_evidence,
@@ -102,6 +103,7 @@ class TenderBidRequirementResponseTestMixin(object):
     test_create_bid_requirement_response = snitch(create_bid_requirement_response)
     test_patch_bid_requirement_response = snitch(patch_bid_requirement_response)
     test_get_bid_requirement_response = snitch(get_bid_requirement_response)
+    test_patch_bid_with_responses = snitch(patch_bid_with_responses)
 
     initial_criteria = test_criteria
 

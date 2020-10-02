@@ -1023,6 +1023,8 @@ def validate_update_deleted_bid(request):
 def validate_bid_status_update_not_to_pending(request):
     if request.authenticated_role != "Administrator":
         bid_status_to = request.validated["data"].get("status", request.context.status)
+        if bid_status_to in ("draft", "invalid") and bid_status_to == request.context.status:
+            return
         if bid_status_to != "pending":
             raise_operation_error(request, "Can't update bid to ({}) status".format(bid_status_to))
 

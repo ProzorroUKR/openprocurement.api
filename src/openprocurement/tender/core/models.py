@@ -828,8 +828,8 @@ class Criterion(Model):
 class RequirementResponse(Model):
     class Options:
         roles = {
-            "create": blacklist("evidences"),
-            "edit": blacklist("id", "evidences"),
+            "create": blacklist(),
+            "edit": blacklist("id"),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
         }
@@ -886,6 +886,7 @@ class RequirementResponse(Model):
             if not requirements:
                 raise ValidationError("requirement should be one of criteria requirements")
 
+
     @bids_response_validation_wrapper
     def validate_value(self, data, value):
         requirement_reference = data.get("requirement")
@@ -924,6 +925,7 @@ class Bid(Model):
             "view": view_bid_role,
             "create": whitelist("value", "status", "tenderers", "parameters", "lotValues", "documents"),
             "edit": whitelist("value", "status", "tenderers", "parameters", "lotValues"),
+            "edit.draft": whitelist("value", "status", "tenderers", "parameters", "lotValues", "requirementResponses"),
             "auction_view": whitelist("value", "lotValues", "id", "date", "parameters", "participationUrl"),
             "auction_post": whitelist("value", "lotValues", "id", "date"),
             "auction_patch": whitelist("id", "lotValues", "participationUrl"),
@@ -939,6 +941,16 @@ class Bid(Model):
 
     def __local_roles__(self):
         return dict([("{}_{}".format(self.owner, self.owner_token), "bid_owner")])
+
+    def get_role(self):
+        root = self.get_root()
+        request = root.request
+        role = "edit"
+        if request.authenticated_role == "Administrator":
+            role = "Administrator"
+        elif self.status in ("draft", "invalid"):
+            role = "edit.draft"
+        return role
 
     tenderers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1, max_size=1)
     parameters = ListType(ModelType(Parameter, required=True), default=list(), validators=[validate_parameters_uniq])
