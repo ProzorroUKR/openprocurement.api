@@ -614,7 +614,7 @@ class EligibleEvidence(Model):
     class Options:
         namespace = "Evidence"
         roles = {
-            "create": blacklist(),
+            "create": blacklist("id"),
             "edit": blacklist("id", "type"),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
@@ -644,7 +644,7 @@ class Evidence(EligibleEvidence):
     class Options:
         namespace = "Evidence"
         roles = {
-            "create": blacklist(),
+            "create": blacklist("id"),
             "edit": blacklist("id"),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
@@ -708,8 +708,8 @@ class LegislationItem(Model):
 class Requirement(Model):
     class Options:
         roles = {
-            "create": blacklist("eligibleEvidences"),
-            "edit": blacklist("id", "eligibleEvidences"),
+            "create": blacklist("id"),
+            "edit": blacklist("id"),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
         }
@@ -759,8 +759,8 @@ class Requirement(Model):
 class RequirementGroup(Model):
     class Options:
         roles = {
-            "create": blacklist(),
-            "edit": blacklist("id", "requirements"),
+            "create": blacklist("id"),
+            "edit": blacklist("id"),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
         }
@@ -782,7 +782,7 @@ class CriterionClassification(BaseClassification):
 class Criterion(Model):
     class Options:
         roles = {
-            "create": blacklist(),
+            "create": blacklist("id"),
             "edit": blacklist(
                 "id",
                 "requirementGroups",
@@ -828,7 +828,7 @@ class Criterion(Model):
 class RequirementResponse(Model):
     class Options:
         roles = {
-            "create": blacklist(),
+            "create": blacklist("id"),
             "edit": blacklist("id"),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
