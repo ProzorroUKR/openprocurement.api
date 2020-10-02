@@ -67,7 +67,6 @@ class BaseTenderCriteriaRGRequirementResource(APIResource):
         content_type="application/json",
         validators=(
             validate_operation_ecriteria_objects,
-            validate_patch_exclusion_ecriteria_objects,
             validate_patch_requirement_data,
         ),
         permission="edit_tender"

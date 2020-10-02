@@ -710,6 +710,7 @@ class Requirement(Model):
         roles = {
             "create": blacklist("id"),
             "edit": blacklist("id"),
+            "edit_exclusion": whitelist("eligibleEvidences"),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
         }
@@ -730,6 +731,15 @@ class Requirement(Model):
     eligibleEvidences = ListType(ModelType(EligibleEvidence, required=True), default=list())
     relatedFeature = MD5Type()
     expectedValue = StringType()
+
+    def get_role(self):
+        root = self.get_root()
+        request = root.request
+        criterion = self.get("__parent__").get("__parent__")
+        role = "edit"
+        if criterion.classification.id.startswith("CRITERION.EXCLUSION"):
+            role = "edit_exclusion"
+        return role
 
     def validate_minValue(self, data, value):
         if value:
