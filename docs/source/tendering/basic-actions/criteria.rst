@@ -156,7 +156,7 @@ EXCLUSION criteria and all criteria objects are not updated:
    :code:
 
 
-You can patch exclusion requirement, but only one filed that you can send that is `eligibleEvidences`
+You can patch exclusion requirement, but you can send only `eligibleEvidences`
 
 .. include:: ../http/criteria/add-exclusion-criteria-requirement.http
    :code:
