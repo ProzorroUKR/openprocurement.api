@@ -40,11 +40,20 @@ def check_award_status(request):
     tender = request.validated["tender"]
     now = get_now()
     awards = tender.awards
+    is_cancelled = (award for award in tender.awards if award.status == 'cancelled')
     for award in awards:
-        if award.status == 'pending' and \
-            calculate_tender_business_date(award.date, QUALIFICATION_DURATION, tender) <= now:
+        if (award.status == 'pending' and
+                calculate_tender_business_date(award.date, QUALIFICATION_DURATION, tender) <= now):
             award.status = 'unsuccessful'
-            add_next_award(request)
+            if is_cancelled:
+                tender.status = 'unsuccessful'
+                LOGGER.info(
+                    "Switched tender {} to {}".format(tender["id"], tender.status),
+                    extra=context_unpack(request,
+                                         {"MESSAGE_ID": "switched_tender_{}".format(tender.status)}),
+                )
+            else:
+                add_next_award(request)
         if award.status == "active" and not any([i.awardID == award.id for i in tender.contracts]):
             add_contract(request, award, now)
             add_next_award(request)
