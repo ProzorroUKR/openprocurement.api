@@ -152,10 +152,11 @@ EXCLUSION criteria and all criteria objects are not updated:
 .. include:: ../http/criteria/add-exclusion-criteria-requirement-group.http
    :code:
 
-You can patch exclusion requirement, but only one filed that you can send that is `eligibleEvidences`
-
 .. include:: ../http/criteria/patch-exclusion-criteria-requirement-group.http
    :code:
+
+
+You can patch exclusion requirement, but only one filed that you can send that is `eligibleEvidences`
 
 .. include:: ../http/criteria/add-exclusion-criteria-requirement.http
    :code:
