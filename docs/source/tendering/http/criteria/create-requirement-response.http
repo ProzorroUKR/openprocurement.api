@@ -11,9 +11,6 @@ DATA:
         "id": "aa44e48527b84a61a1a157f92d304bac", 
         "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
       }, 
-      "title": "Requirement response", 
-      "description": "some description", 
-      "value": "True", 
       "evidences": [
         {
           "type": "document", 
@@ -23,7 +20,10 @@ DATA:
           }, 
           "title": "Requirement response"
         }
-      ]
+      ], 
+      "description": "some description", 
+      "value": "True", 
+      "title": "Requirement response"
     }
   ]
 }

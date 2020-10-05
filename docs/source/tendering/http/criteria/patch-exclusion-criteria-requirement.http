@@ -1,25 +1,23 @@
 PATCH /api/2.5/tenders/fb07ce223a754201a341023b86d832ef/criteria/1d06411539624def86eded220418ae50/requirement_groups/8cd633ab69364e08adc68488e215dbe1/requirements/7fc65062da6f48e199817218db245e89?acc_token=056f6edd10e84810b429550ae3a12f86 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 36
+Content-Length: 405
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
+    "eligibleEvidences": [
+      {
+        "type": "document", 
+        "description": "Довідка в довільній формі", 
+        "title": "Документальне підтвердження"
+      }
+    ], 
     "title": "Updated title"
   }
 }
 
-Response: 403 Forbidden
+Response: 200 OK
 Content-Type: application/json; charset=UTF-8
-{
-  "status": "error", 
-  "errors": [
-    {
-      "description": "Can't update exclusion ecriteria objects", 
-      "location": "body", 
-      "name": "data"
-    }
-  ]
-}
+null
 

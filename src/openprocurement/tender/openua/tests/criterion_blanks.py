@@ -510,18 +510,21 @@ def create_rg_requirement_invalid(self):
 
     requirement_data = deepcopy(self.test_requirement_data)
 
-    response = self.app.post_json(exclusion_request_path, {"data": requirement_data}, status=403)
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{
-            u'description': u"Can't update exclusion ecriteria objects",
-            u'location': u'body',
-            u'name': u'data',
-        }]
-    )
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender_type = response.json["data"]["procurementMethodType"]
+    if tender_type not in ("belowThreshold", "closeFrameworkAgreementSelectionUA"):
+        response = self.app.post_json(exclusion_request_path, {"data": requirement_data}, status=403)
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [{
+                u'description': u"Can't update exclusion ecriteria objects",
+                u'location': u'body',
+                u'name': u'data',
+            }]
+        )
 
     requirement_data["minValue"] = 2
     response = self.app.post_json(request_path, {"data": requirement_data}, status=422)

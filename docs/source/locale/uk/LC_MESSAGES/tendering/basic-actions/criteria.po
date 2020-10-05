@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-10 15:51+0300\n"
+"POT-Creation-Date: 2020-10-05 15:44+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -106,6 +106,9 @@ msgstr "Неможливо перевести тендер у статус `acti
 
 msgid "EXCLUSION criteria and all criteria objects are not updated:"
 msgstr "Вийняткові критерії та всі дочірні об'єкти є незміннми:"
+
+msgid "You can patch exclusion requirement, but only one filed that you can send that is `eligibleEvidences`"
+msgstr "Вийняткові вимоги можливо релагувати, але тілки передаючи поле 'eligibleEvidences'"
 
 msgid "Exclusion criteria workflow"
 msgstr "Схема роботи вийняткових критеріїв"
