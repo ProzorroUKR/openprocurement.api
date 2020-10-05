@@ -56,6 +56,18 @@ def patch_tender_contract(self):
         ],
     )
 
+    custom_signature_date = (get_now()-timedelta(days=1)).isoformat()
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
+        {"data": {"dateSigned": custom_signature_date}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"][0].split("(")[0],
+        "Contract signature date should be after award activation date "
+    )
+
     custom_signature_date = get_now().isoformat()
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
