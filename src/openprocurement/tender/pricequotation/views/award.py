@@ -77,7 +77,7 @@ class PQTenderAwardResource(TenderAwardResource):
         apply_patch(self.request, save=False, src=self.request.context.serialize())
 
         now = get_now()
-        if is_awarded and award.status != 'unsuccessful':
+        if is_awarded and award.status not in ('unsuccessful', 'pending'):
             raise_operation_error(
                 self.request,
                 "Can't change award status to {} from {}".format(award.status, award_status)

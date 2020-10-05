@@ -163,7 +163,6 @@ def create_tender_award_invalid(self):
     )
 
 
-
 def create_tender_award(self):
     with change_auth(self.app, ("Basic", ("token", ""))):
         request_path = "/tenders/{}/awards".format(self.tender_id)
@@ -304,6 +303,24 @@ def patch_tender_award(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 3)
+
+    tender_token = self.db.get(self.tender_id)['owner_token']
+    tender = self.app.get("/tenders/{}".format(self.tender_id)).json['data']
+    gen_award_id = tender['awards'][-1]['id']
+
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, gen_award_id, tender_token),
+        {"data": {"title": "one"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["title"], "one")
+
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, gen_award_id, tender_token),
+        {"data": {"status": "unsuccessful"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["title"], "one")
 
     self.set_status("complete")
 
