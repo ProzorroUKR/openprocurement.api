@@ -106,7 +106,7 @@ msgstr "Неможливо перевести тендер у статус `acti
 
 msgid "EXCLUSION criteria and all criteria objects are not updated:"
 msgstr "Вийняткові критерії та всі дочірні об'єкти є незміннми:"
-#, fuzzy
+
 msgid "You can patch exclusion requirement, but you can send only `eligibleEvidences`"
 msgstr "Вийняткові вимоги можливо релагувати, але тілки передаючи поле `eligibleEvidences`"
 
