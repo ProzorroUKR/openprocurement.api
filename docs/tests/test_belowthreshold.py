@@ -506,23 +506,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         # get pending award
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
 
-        # upload fixed bidder contractData
-        with open(TARGET_DIR + 'tutorial/upload-fixed-bidder-contract-data.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(
-                '/tenders/{}/awards/{}/documents?acc_token={}'.format(
-                    self.tender_id, award_id, owner_token),
-                {'data': {
-                    "title": "fixedBidderContractData.json",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/json",
-                    "documentOf": "document",
-                    "documentType": "contractData",
-                    "relatedItem": proforma_id,
-                }}
-            )
-            self.assertEqual(response.status, '201 Created')
-
         with open(TARGET_DIR + 'tutorial/confirm-qualification.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
@@ -587,7 +570,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 "/tenders/{}/contracts/{}/documents".format(self.tender_id, self.contract_id),
                 {
                     "data": {
-                        "title": "finalContract.pdf",
+                        "title": "Contract.pdf",
                         "documentType": "contract",
                         "format": "application/pdf",
                         "url": self.generate_docservice_url(),
@@ -604,12 +587,12 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 "/tenders/{}/contracts/{}/documents".format(self.tender_id, self.contract_id),
                 {
                     "data": {
-                        "title": "finalContractData.json",
+                        "title": "ContractData.json",
                         "documentType": "contractData",
                         "format": "application/json",
                         "url": self.generate_docservice_url(),
                         "hash": "md5:" + "0" * 32,
-                        "relatedItem": proforma_id,
+                        "relatedItem": self.contract_pdf_doc_id,
                         "documentOf": "document"
                     }
                 }
@@ -620,10 +603,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         # buyer upload fixed contract data
         with open(TARGET_DIR + 'tutorial/tender-contract-fix-contract-data-document.http', 'w') as self.app.file_obj:
-            response = self.app.put_json(
-                "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(self.tender_id, self.contract_id,
-                                                                            self.contract_contract_data_doc_id,
-                                                                            owner_token),
+            response = self.app.post_json(
+                "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, owner_token),
                 {
                     "data": {
                         "title": "fixed_finalContractData.json",
@@ -636,10 +617,9 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 }
             )
-            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.status, "201 Created")
             self.assertEqual(response.json['data']['title'], 'fixed_finalContractData.json')
             self.assertEqual(response.json['data']['author'], 'tender_owner')
-            self.assertEqual(response.json['data']['id'], self.contract_contract_data_doc_id)
 
         # bot regenerate and upload files
 
@@ -649,7 +629,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                                                                self.contract_pdf_doc_id),
                 {
                     "data": {
-                        "title": "new_finalContract.pdf",
+                        "title": "newContract.pdf",
                         "documentType": "contract",
                         "format": "application/pdf",
                         "url": self.generate_docservice_url(),
@@ -667,12 +647,12 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                                                                self.contract_contract_data_doc_id),
                 {
                     "data": {
-                        "title": "new_finalContractData.json",
+                        "title": "newContractData.json",
                         "documentType": "contractData",
                         "format": "application/json",
                         "url": self.generate_docservice_url(),
                         "hash": "md5:" + "0" * 32,
-                        "relatedItem": proforma_id,
+                        "relatedItem": self.contract_pdf_doc_id,
                         "documentOf": "document"
                     }
                 }
@@ -735,7 +715,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.json["data"]["status"], "pending")
             contract = response.json["data"]
             contract_id = contract["id"]
-        
+
 
         # Contract preparation 
 

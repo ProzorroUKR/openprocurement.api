@@ -86,7 +86,7 @@ Content-Type: application/json; charset=UTF-8
         "datePublished": "2020-05-15T01:00:00+03:00", 
         "documentType": "contractProforma", 
         "dateModified": "2020-05-15T01:00:00+03:00", 
-        "id": "6cbc4c0bf29a4502a2a6c7bfd382cb49", 
+        "id": "f77c2444fc6f47e1bb441a284cd344e6", 
         "templateId": "paper0000001"
       }, 
       {
@@ -98,7 +98,7 @@ Content-Type: application/json; charset=UTF-8
         "documentOf": "tender", 
         "datePublished": "2020-05-15T01:00:01+03:00", 
         "documentType": "technicalSpecifications", 
-        "id": "8a3d30101dc94ca58f768bec6a1f45dd", 
+        "id": "8924acf921d645b7bce35748c4f9e237", 
         "title": "Notice.pdf", 
         "dateModified": "2020-05-15T01:00:01+03:00"
       }, 
@@ -111,7 +111,7 @@ Content-Type: application/json; charset=UTF-8
         "documentOf": "tender", 
         "datePublished": "2020-05-15T01:00:01+03:00", 
         "dateModified": "2020-05-15T01:00:01+03:00", 
-        "id": "90a4fef3a0f545f4807445bbd4017f29"
+        "id": "f05f28fd104147beb09d8b4f7bbcbd2b"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
@@ -122,7 +122,7 @@ Content-Type: application/json; charset=UTF-8
         "documentOf": "tender", 
         "datePublished": "2020-05-15T01:00:01+03:00", 
         "dateModified": "2020-05-15T01:00:01+03:00", 
-        "id": "90a4fef3a0f545f4807445bbd4017f29"
+        "id": "f05f28fd104147beb09d8b4f7bbcbd2b"
       }, 
       {
         "dateModified": "2020-05-15T01:00:01+03:00", 
@@ -134,8 +134,8 @@ Content-Type: application/json; charset=UTF-8
         "datePublished": "2020-05-15T01:00:01+03:00", 
         "documentType": "contractForm", 
         "title": "paper0000001-form.json", 
-        "relatedItem": "6cbc4c0bf29a4502a2a6c7bfd382cb49", 
-        "id": "d96588cb22994173b288b63ab003eb03"
+        "relatedItem": "f77c2444fc6f47e1bb441a284cd344e6", 
+        "id": "e1d5e08ba83b4566bcea7e5cb75eae49"
       }, 
       {
         "dateModified": "2020-05-15T01:00:01+03:00", 
@@ -147,8 +147,8 @@ Content-Type: application/json; charset=UTF-8
         "datePublished": "2020-05-15T01:00:01+03:00", 
         "documentType": "contractSchema", 
         "title": "paper0000001-schema.json", 
-        "relatedItem": "6cbc4c0bf29a4502a2a6c7bfd382cb49", 
-        "id": "f816352dd5e04efbbe3aea6bd28f9d70"
+        "relatedItem": "f77c2444fc6f47e1bb441a284cd344e6", 
+        "id": "4def4093a1af4480859c5785d8675c1b"
       }, 
       {
         "dateModified": "2020-05-15T01:00:01+03:00", 
@@ -160,8 +160,8 @@ Content-Type: application/json; charset=UTF-8
         "datePublished": "2020-05-15T01:00:01+03:00", 
         "documentType": "contractTemplate", 
         "title": "paper0000001.docx", 
-        "relatedItem": "6cbc4c0bf29a4502a2a6c7bfd382cb49", 
-        "id": "f8a8b9a268334c32bdc5f5b6a721b23f"
+        "relatedItem": "f77c2444fc6f47e1bb441a284cd344e6", 
+        "id": "2f9c9e234bfc48d98a61dd50fcd2f5d8"
       }, 
       {
         "dateModified": "2020-05-15T01:00:01+03:00", 
@@ -173,8 +173,8 @@ Content-Type: application/json; charset=UTF-8
         "datePublished": "2020-05-15T01:00:01+03:00", 
         "documentType": "contractData", 
         "title": "ownerContractData.json", 
-        "relatedItem": "6cbc4c0bf29a4502a2a6c7bfd382cb49", 
-        "id": "4b8f82a4201d4f1da31a8b7ffd646263"
+        "relatedItem": "f77c2444fc6f47e1bb441a284cd344e6", 
+        "id": "e6282176a09042e98da8914ea70c5880"
       }, 
       {
         "dateModified": "2020-05-15T01:00:01+03:00", 
@@ -186,7 +186,7 @@ Content-Type: application/json; charset=UTF-8
         "datePublished": "2020-05-15T01:00:00+03:00", 
         "documentType": "contractProforma", 
         "title": "contractProforma.pdf", 
-        "id": "6cbc4c0bf29a4502a2a6c7bfd382cb49", 
+        "id": "f77c2444fc6f47e1bb441a284cd344e6", 
         "templateId": "paper0000001"
       }
     ], 

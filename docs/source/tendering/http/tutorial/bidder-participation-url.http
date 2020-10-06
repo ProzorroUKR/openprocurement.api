@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/bids/b31ec66637a141c7bb03446a0f22f5dc?acc_token=7a7e299c46ba4430a2a63af9bf91af30 HTTP/1.0
+GET /api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/bids/74c272933f3046b0a4cdcc7036b67323?acc_token=7a7e299c46ba4430a2a63af9bf91af30 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -16,19 +16,19 @@ Content-Type: application/json; charset=UTF-8
         "documentOf": "tender", 
         "datePublished": "2020-05-15T01:00:01+03:00", 
         "dateModified": "2020-05-15T01:00:01+03:00", 
-        "id": "86cd9a1b304d4530852984610d67c933"
+        "id": "a37bf33d76374160ba0da18168a744ca"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
         "format": "application/json", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/bids/b31ec66637a141c7bb03446a0f22f5dc/documents/b8a48dcfd05e48e3b1b7a433616ad9d2?download=d313b550714947df99d96f17e0a9bad0", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/bids/74c272933f3046b0a4cdcc7036b67323/documents/5a44b2133c51497e81a71d6d58dbbc67?download=d313b550714947df99d96f17e0a9bad0", 
         "title": "bidderContractData.json", 
         "documentOf": "document", 
         "datePublished": "2020-05-15T01:00:01+03:00", 
         "documentType": "contractData", 
         "dateModified": "2020-05-15T01:00:01+03:00", 
-        "relatedItem": "6cbc4c0bf29a4502a2a6c7bfd382cb49", 
-        "id": "b8a48dcfd05e48e3b1b7a433616ad9d2"
+        "relatedItem": "f77c2444fc6f47e1bb441a284cd344e6", 
+        "id": "5a44b2133c51497e81a71d6d58dbbc67"
       }
     ], 
     "value": {

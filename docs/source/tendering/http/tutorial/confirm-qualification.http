@@ -15,21 +15,6 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "active", 
-    "documents": [
-      {
-        "dateModified": "2020-05-15T01:00:01+03:00", 
-        "hash": "md5:00000000000000000000000000000000", 
-        "format": "application/json", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6dc1fe7be9c2414592768997663e5a7a?KeyID=a8968c46&Signature=peZGjdLOljmZMG1bYMz9mHkM54El741Dop%2F3LiD6UdTgFysrRj5gH%2Fzl38jrq1%252BWpKxlg1XrfrMzhHUUquz9Aw%253D%253D", 
-        "author": "tender_owner", 
-        "documentOf": "document", 
-        "datePublished": "2020-05-15T01:00:01+03:00", 
-        "documentType": "contractData", 
-        "title": "fixedBidderContractData.json", 
-        "relatedItem": "6cbc4c0bf29a4502a2a6c7bfd382cb49", 
-        "id": "4ae744986b95478d83142ca47ee38097"
-      }
-    ], 
     "complaintPeriod": {
       "startDate": "2020-05-15T01:00:01+03:00", 
       "endDate": "2020-05-20T00:00:00+03:00"
