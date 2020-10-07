@@ -40,7 +40,7 @@ def check_award_status(request):
     tender = request.validated["tender"]
     now = get_now()
     awards = tender.awards
-    is_cancelled = (award for award in tender.awards if award.status == 'cancelled')
+    is_cancelled = [award for award in tender.awards if award.status == 'cancelled']
     for award in awards:
         if (award.status == 'pending' and
                 calculate_tender_business_date(award.date, QUALIFICATION_DURATION, tender) <= now):
