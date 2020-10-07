@@ -539,10 +539,17 @@ def check_tender_award_disqualification(self):
     response = self.app.get("/tenders/{}/awards".format(self.tender_id))
     # # get pending award
     awards = response.json['data']
-    self.assertEqual(len(awards), 1)
+    self.assertEqual(len(awards), 2)
     self.assertEqual(awards[0]['status'], "unsuccessful")
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertEqual(response.json["data"]["status"], "unsuccessful")
+    award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
+    # check new award
+    response = self.app.get("/tenders/{}/awards/{}".format(self.tender_id, award_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["suppliers"][0]["name"], sorted_bids[1]["tenderers"][0]["name"])
+    self.assertEqual(
+        response.json["data"]["suppliers"][0]["identifier"]["id"], sorted_bids[1]["tenderers"][0]["identifier"]["id"]
+    )
+    self.assertEqual(response.json["data"]["bid_id"], sorted_bids[1]["id"])
 
 
 def check_tender_award_cancellation(self):
