@@ -108,7 +108,7 @@ msgid "EXCLUSION criteria and all criteria objects are not updated:"
 msgstr "Вийняткові критерії та всі дочірні об'єкти є незміннми:"
 
 msgid "You can patch exclusion requirement, but you can send only `eligibleEvidences`"
-msgstr "Вийняткові вимоги можливо релагувати, але тілки передаючи поле `eligibleEvidences`"
+msgstr "Вийняткові вимоги можливо редагувати, але тілки передаючи поле `eligibleEvidences`"
 
 msgid "Exclusion criteria workflow"
 msgstr "Схема роботи вийняткових критеріїв"
