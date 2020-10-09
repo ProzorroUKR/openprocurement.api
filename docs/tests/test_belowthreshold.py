@@ -600,6 +600,15 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '201 Created')
             self.contract_contract_data_doc_id = response.json['data']['id']
 
+        #### Get contract generated documents
+
+        with open(TARGET_DIR + 'tutorial/tender-contract-with-generated-documents.http', 'w') as self.app.file_obj:
+            response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, self.contract_id))
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(len(response.json['data']['documents']), 2)
+            for index, doc_type in enumerate(('contract', 'contractData')):
+                self.assertEqual(response.json['data']['documents'][index]['documentType'], doc_type)
+                self.assertEqual(response.json['data']['documents'][index]['author'], 'renderer_bots')
 
         # buyer upload fixed contract data
         with open(TARGET_DIR + 'tutorial/tender-contract-fix-contract-data-document.http', 'w') as self.app.file_obj:
