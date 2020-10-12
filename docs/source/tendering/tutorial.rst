@@ -340,8 +340,8 @@ Let's see the list of all added contract documents:
 .. include:: http/tutorial/tender-contract-get-documents-again.http
    :code:
 
-Contract signing tutorial
---------------------------------
+Contract signing flow
+---------------------
 
 Checking if contract has the `pending` status:
 
@@ -460,7 +460,7 @@ Afterwards system automatically (with the help of auxiliary component tempalte r
 * `contractForm` - document with recommended JSON form. 
 
 
-**! Note:** Documents are linked with `contractProforma` by new reference type ``documentOf`` attribute equal to ``document`` and ``relatedItem`` equal to corresponding `contractProforma` document ``id``.
+.. note:: Documents are linked with `contractProforma` by new reference type ``documentOf`` attribute equal to ``document`` and ``relatedItem`` equal to corresponding `contractProforma` document ``id``.
 
 
 Let's review above mentioned documents in tender:
@@ -508,10 +508,10 @@ Contract signing stage
 
 At the beginning of the contracting process auxiliary component rBot (renderer) generates a JSON `contractData` document based on aggregated data from various procedure objects, such as: **Plan, Tender, Bid, Award** and **Contract** and forms **PDF/A** version of contract based on this file.
 
-.. include:: http/tutorial/tender-contract-get-documents.http
+.. include:: http/tutorial/tender-contract-with-generated-documents.http
    :code:
 
-**! Note:** Process data related to **Plan, Tender, Award** and **Bid** at the time of contract generation are complete and can not be modified. 
+.. note:: Process data related to **Plan, Tender, Award** and **Bid** at the time of contract generation are complete and can not be modified. 
    
 In case of errors in aggregated `contractData` (from tender announcement or bid submission stages), Procuring Entity can upload updates for `contractData` to `contract` document until activation of the contract.
 
@@ -522,4 +522,9 @@ To do this marketplace of Contracting Authority performs following steps:
     * Uploads JSON document with `contractData` type with acquired data linked with `contractProforma` by providing `documentOf` attribute equal to document and `relatedItem` equal to corresponding `contractProforma` document `id`. 
    
 .. include:: http/tutorial/tender-contract-fix-contract-data-document.http
+   :code:
+
+Let's review updated document in tender:
+   
+.. include:: http/tutorial/tender-contract-get-documents.http
    :code:
