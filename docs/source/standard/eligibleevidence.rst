@@ -14,7 +14,7 @@ Schema
     uid, auto-generated
 
 :title:
-    string, multilingual, required
+    string, multilingual
 
     |ocdsDescription|
     EligibleEvidence title.
