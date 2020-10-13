@@ -1,0 +1,66 @@
+PATCH /api/2.5/tenders/24660b6d159d42adb6aaba9d978575c7/bids/7d0b2418ff254e1c827ffe021c832900?acc_token=f0760e708e124c8fb9f34e562dbf59cf HTTP/1.0
+Authorization: Bearer token
+Content-Length: 38
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "requirementResponses": []
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "draft", 
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "public", 
+        "language": "uk", 
+        "title": "name.doc", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/24660b6d159d42adb6aaba9d978575c7/bids/7d0b2418ff254e1c827ffe021c832900/documents/7261f09218de4ce79c11a48d275491e8?download=d7c0f761ecc4403a9411415f1c36fa67", 
+        "format": "application/msword", 
+        "documentOf": "tender", 
+        "datePublished": "2020-05-15T01:00:00+03:00", 
+        "id": "7261f09218de4ce79c11a48d275491e8", 
+        "dateModified": "2020-05-15T01:00:00+03:00"
+      }
+    ], 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "subcontractingDetails": "ДКП «Орфей», Україна", 
+    "selfQualified": true, 
+    "tenderers": [
+      {
+        "contactPoint": {
+          "email": "soleksuk@gmail.com", 
+          "telephone": "+380 (432) 21-69-30", 
+          "name": "Сергій Олексюк"
+        }, 
+        "scale": "micro", 
+        "name": "ДКП «Школяр»", 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137256", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "address": {
+          "postalCode": "21100", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 33", 
+          "region": "Вінницька область", 
+          "locality": "м. Вінниця"
+        }
+      }
+    ], 
+    "date": "2020-05-15T01:00:00+03:00", 
+    "id": "7d0b2418ff254e1c827ffe021c832900"
+  }
+}
+

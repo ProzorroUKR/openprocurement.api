@@ -44,7 +44,7 @@ class BaseAwardRequirementResponseEvidenceResource(BaseRequirementResponseEviden
 
     @json_view(
         validators=(validate_operation_award_requirement_response,),
-        permission="edit_bid",
+        permission="edit_tender",
     )
     def delete(self):
         return super(BaseAwardRequirementResponseEvidenceResource, self).delete()

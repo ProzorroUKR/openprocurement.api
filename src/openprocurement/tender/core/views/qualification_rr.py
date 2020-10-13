@@ -42,7 +42,7 @@ class BaseQualificationRequirementResponseResource(BaseRequirementResponseResour
 
     @json_view(
         validators=(validate_operation_qualification_requirement_response,),
-        permission="edit_bid",
+        permission="edit_tender",
     )
     def delete(self):
         return super(BaseQualificationRequirementResponseResource, self).delete()

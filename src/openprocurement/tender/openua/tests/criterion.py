@@ -32,6 +32,7 @@ from openprocurement.tender.openua.tests.criterion_blanks import (
     delete_requirement_evidence,
     get_requirement_evidence,
     validate_requirement_evidence_document,
+    create_patch_delete_evidences_from_requirement,
 )
 
 
@@ -92,6 +93,9 @@ class TenderCriteriaRGRequirementTestMixin(object):
         self.criteria_id = response.json["data"][0]["id"]
         self.rg_id = response.json["data"][0]["requirementGroups"][0]["id"]
 
+        self.exclusion_criteria_id = response.json["data"][1]["id"]
+        self.exclusion_rg_id = response.json["data"][1]["requirementGroups"][0]["id"]
+
 
 @patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
 class TenderCriteriaRGRequirementEvidenceTestMixin(object):
@@ -101,6 +105,7 @@ class TenderCriteriaRGRequirementEvidenceTestMixin(object):
     test_get_requirement_evidence = snitch(get_requirement_evidence)
     test_delete_requirement_evidence = snitch(delete_requirement_evidence)
     test_validate_requirement_evidence_document = snitch(validate_requirement_evidence_document)
+    test_create_patch_delete_evidences_from_requirement = snitch(create_patch_delete_evidences_from_requirement)
 
     test_evidence_data = {
         "title": u"Документальне підтвердження",
@@ -119,6 +124,10 @@ class TenderCriteriaRGRequirementEvidenceTestMixin(object):
         self.criteria_id = response.json["data"][0]["id"]
         self.rg_id = response.json["data"][0]["requirementGroups"][0]["id"]
         self.requirement_id = response.json["data"][0]["requirementGroups"][0]["requirements"][0]["id"]
+
+        self.exclusion_criteria_id = response.json["data"][0]["id"]
+        self.exclusion_rg_id = response.json["data"][0]["requirementGroups"][0]["id"]
+        self.exclusion_requirement_id = response.json["data"][0]["requirementGroups"][0]["requirements"][0]["id"]
 
 
 class TenderUACriteriaTest(TenderCriteriaTestMixin, BaseTenderUAContentWebTest):

@@ -71,9 +71,9 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
 
 @patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
 class TenderQualificationRequirementResponseTestMixin(object):
-    test_create_bid_requirement_response = snitch(create_qualification_requirement_response)
-    test_patch_bid_requirement_response = snitch(patch_qualification_requirement_response)
-    test_get_bid_requirement_response = snitch(get_qualification_requirement_response)
+    test_create_qualification_requirement_response = snitch(create_qualification_requirement_response)
+    test_patch_qualification_requirement_response = snitch(patch_qualification_requirement_response)
+    test_get_qualification_requirement_response = snitch(get_qualification_requirement_response)
 
     initial_criteria = test_criteria
 
@@ -89,9 +89,9 @@ class TenderQualificationRequirementResponseTestMixin(object):
 
 @patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
 class TenderQualificationRequirementResponseEvidenceTestMixin(object):
-    test_create_bid_requirement_response_evidence = snitch(create_qualification_requirement_response_evidence)
-    test_patch_bid_requirement_response_evidence = snitch(patch_qualification_requirement_response_evidence)
-    test_get_bid_requirement_response_evidence = snitch(get_qualification_requirement_response_evidence)
+    test_create_qualification_requirement_response_evidence = snitch(create_qualification_requirement_response_evidence)
+    test_patch_qualification_requirement_response_evidence = snitch(patch_qualification_requirement_response_evidence)
+    test_get_qualification_requirement_response_evidence = snitch(get_qualification_requirement_response_evidence)
 
     initial_criteria = test_criteria
 

@@ -1728,11 +1728,16 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, '403 Forbidden')
 
+        test_evidence_data = deepcopy(test_eligible_evidence_data)
+
         with open(TARGET_DIR + 'criteria/patch-criteria-requirement.http', 'wb') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}'.format(
                     self.tender_id, criteria_id_1, rg_id_1, requirement_id_1, owner_token),
-                {'data': {'title': 'Updated title'}},
+                {'data': {
+                    'title': 'Updated title',
+                    'eligibleEvidences': [test_evidence_data]
+                }},
             )
             self.assertEqual(response.status, '200 OK')
 
@@ -1740,10 +1745,14 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.patch_json(
                 '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}'.format(
                     self.tender_id, criteria_id_2, rg_id_2, requirement_id_2, owner_token),
-                {'data': {'title': 'Updated title'}},
-                status=403,
+                {'data': {
+                    'title': 'Updated title',
+                    'eligibleEvidences': [
+                        test_evidence_data,
+                    ]
+                }},
             )
-            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'criteria/criteria-requirement-list.http', 'wb') as self.app.file_obj:
             response = self.app.get(
@@ -1760,8 +1769,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         # Eligible evidence operation
-
-        test_evidence_data = deepcopy(test_eligible_evidence_data)
 
         with open(TARGET_DIR + 'criteria/add-requirement-evidence.http', 'wb') as self.app.file_obj:
             response = self.app.post_json(
@@ -1863,8 +1870,9 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         }
 
         requirement_1 = criteria[0]["requirementGroups"][0]["requirements"][0]
+        requirement_2 = criteria[1]["requirementGroups"][0]["requirements"][0]
 
-        test_rr_data = [{
+        rr_mock = {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
@@ -1875,7 +1883,41 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 evidence_data,
             ],
             "value": "True",
-        }]
+        }
+        rr_1 = deepcopy(rr_mock)
+        rr_2 = deepcopy(rr_mock)
+        rr_2["title"] = "Requirement response 2"
+        rr_2["requirement"] = {
+            "id": requirement_2["id"],
+            "title": requirement_2["title"],
+        }
+
+        with open(TARGET_DIR + 'criteria/add-requirement-response-from-bid.http', 'wb') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/bids/{}?acc_token={}'.format(
+                    self.tender_id, bid_id, bid_token),
+                {'data': {'requirementResponses': [rr_1, rr_2]}},
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        rr_1["title"] = "Requirement response 1"
+        with open(TARGET_DIR + 'criteria/patch-requirement-response-from-bid.http', 'wb') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/bids/{}?acc_token={}'.format(
+                    self.tender_id, bid_id, bid_token),
+                {'data': {'requirementResponses': [rr_1, rr_2]}},
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'criteria/delete-requirement-response-from-bid.http', 'wb') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/bids/{}?acc_token={}'.format(
+                    self.tender_id, bid_id, bid_token),
+                {'data': {'requirementResponses': []}},
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        test_rr_data = [deepcopy(rr_mock)]
 
         with open(TARGET_DIR + 'criteria/create-requirement-response.http', 'wb') as self.app.file_obj:
             response = self.app.post_json(

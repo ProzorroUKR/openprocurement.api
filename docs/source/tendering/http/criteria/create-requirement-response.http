@@ -8,12 +8,9 @@ DATA:
   "data": [
     {
       "requirement": {
-        "id": "aa44e48527b84a61a1a157f92d304bac", 
+        "id": "d9b0e1740123433f8accf08bcb0171f6", 
         "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
       }, 
-      "title": "Requirement response", 
-      "description": "some description", 
-      "value": "True", 
       "evidences": [
         {
           "type": "document", 
@@ -23,7 +20,10 @@ DATA:
           }, 
           "title": "Requirement response"
         }
-      ]
+      ], 
+      "description": "some description", 
+      "value": "True", 
+      "title": "Requirement response"
     }
   ]
 }
@@ -34,7 +34,7 @@ Content-Type: application/json; charset=UTF-8
   "data": [
     {
       "requirement": {
-        "id": "aa44e48527b84a61a1a157f92d304bac", 
+        "id": "d9b0e1740123433f8accf08bcb0171f6", 
         "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
       }, 
       "description": "some description", 
@@ -48,10 +48,10 @@ Content-Type: application/json; charset=UTF-8
             "id": "7261f09218de4ce79c11a48d275491e8", 
             "title": "name.doc"
           }, 
-          "id": "80946715cbea46fab59296bd3f808848"
+          "id": "b0fb461076fd40b5bf0a6610dccea574"
         }
       ], 
-      "id": "77b00a6655054f71af72e8599f27e09e"
+      "id": "ce6891c78c434af29aa5a080d027392b"
     }
   ]
 }
