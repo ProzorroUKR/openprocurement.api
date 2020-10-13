@@ -56,6 +56,7 @@ class Bid(ValidateSelfEligibleMixin, BaseBid):
         roles = {
             "create": _create,
             "edit": _edit,
+            "edit.draft": _edit + whitelist("requirementResponses"),
             "active.tendering": whitelist(),
             "active.enquiries": whitelist(),
             "invalid.pre-qualification": _qualification_view,

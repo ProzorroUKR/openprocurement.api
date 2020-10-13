@@ -2270,3 +2270,77 @@ def bid_activate(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
+
+
+def patch_bid_with_responses(self):
+    base_request_path = "/tenders/{}/bids/{}".format(self.tender_id, self.bid_id)
+    request_path = "{}?acc_token={}".format(base_request_path, self.bid_token)
+
+    valid_data = {
+        u"title": u"Requirement response",
+        u"description": u"some description",
+        u"requirement": {
+            u"id": self.requirement_id,
+            u"title": self.requirement_title,
+        },
+        u"value": u"True"
+    }
+
+    # add
+    response = self.app.patch_json(
+        request_path,
+        {"data": {
+            "requirementResponses": [valid_data, valid_data]
+        }}
+    )
+
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    rrs = response.json["data"]["requirementResponses"]
+    self.assertEqual(len(rrs), 2)
+
+    # add third
+    response = self.app.patch_json(
+        request_path,
+        {"data": {
+            "requirementResponses": [rrs[0], rrs[1], valid_data]
+        }}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    rrs = response.json["data"]["requirementResponses"]
+    self.assertEqual(len(rrs), 3)
+
+    # patch first and third
+
+    rrs[0]["title"] = "Requirement response 1"
+    rrs[2]["title"] = "Requirement response 3"
+
+    response = self.app.patch_json(
+        request_path,
+        {"data": {
+            "requirementResponses": rrs
+        }}
+    )
+
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    rrs = response.json["data"]["requirementResponses"]
+    self.assertEqual(rrs[0]["title"], "Requirement response 1")
+    self.assertEqual(rrs[1]["title"], "Requirement response")
+    self.assertEqual(rrs[2]["title"], "Requirement response 3")
+
+    # delete second
+
+    response = self.app.patch_json(
+        request_path,
+        {"data": {
+            "requirementResponses": [rrs[0], rrs[2]]
+        }}
+    )
+
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    rrs = response.json["data"]["requirementResponses"]
+    self.assertEqual(rrs[0]["title"], "Requirement response 1")
+    self.assertEqual(rrs[1]["title"], "Requirement response 3")

@@ -21,9 +21,20 @@ You can create few requirement responses in one request with complete set of dat
 .. include:: ../http/criteria/create-requirement-response.http
    :code:
 
+You can create requirement responses in one request with bid patch.
+
+.. include:: ../http/criteria/add-requirement-response-from-bid.http
+   :code:
+
 
 Update Bid Requirement Response
 """""""""""""""""""""""""""""""
+
+.. include:: ../http/criteria/update-requirement-response.http
+   :code:
+
+You can patch requirement responses in one request with bid patch,
+and you must send data about other requirement responses or this other requirement responses will be deleted.
 
 .. include:: ../http/criteria/update-requirement-response.http
    :code:
@@ -43,6 +54,11 @@ Delete Requirement Response
 """""""""""""""""""""""""""
 
 .. include:: ../http/criteria/delete-requirement-response.http
+   :code:
+
+You can delete requirement responses in one request with bid patch, not send this requirement response data.
+
+.. include:: ../http/criteria/update-requirement-response.http
    :code:
 
 

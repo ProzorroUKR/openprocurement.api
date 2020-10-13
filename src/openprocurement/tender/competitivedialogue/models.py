@@ -120,6 +120,7 @@ class Bid(BidEU):
                 "documents",
             ),
             "edit": whitelist("tenderers", "lotValues", "status", "subcontractingDetails"),
+            "edit.draft": whitelist("tenderers", "lotValues", "status", "subcontractingDetails", "requirementResponses"),
             "active.enquiries": whitelist(),
             "active.tendering": whitelist(),
             "active.pre-qualification": whitelist("id", "status", "documents", "tenderers", "requirementResponses"),
