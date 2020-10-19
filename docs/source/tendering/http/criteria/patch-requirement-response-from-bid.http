@@ -1,0 +1,149 @@
+PATCH /api/2.5/tenders/24660b6d159d42adb6aaba9d978575c7/bids/7d0b2418ff254e1c827ffe021c832900?acc_token=f0760e708e124c8fb9f34e562dbf59cf HTTP/1.0
+Authorization: Bearer token
+Content-Length: 3612
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "requirementResponses": [
+      {
+        "requirement": {
+          "id": "d9b0e1740123433f8accf08bcb0171f6", 
+          "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
+        }, 
+        "evidences": [
+          {
+            "type": "document", 
+            "relatedDocument": {
+              "id": "7261f09218de4ce79c11a48d275491e8", 
+              "title": "name.doc"
+            }, 
+            "title": "Requirement response"
+          }
+        ], 
+        "description": "some description", 
+        "value": "True", 
+        "title": "Requirement response 1"
+      }, 
+      {
+        "requirement": {
+          "id": "0253179972b2474290cd66436eeffa5c", 
+          "title": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів"
+        }, 
+        "evidences": [
+          {
+            "type": "document", 
+            "relatedDocument": {
+              "id": "7261f09218de4ce79c11a48d275491e8", 
+              "title": "name.doc"
+            }, 
+            "title": "Requirement response"
+          }
+        ], 
+        "description": "some description", 
+        "value": "True", 
+        "title": "Requirement response 2"
+      }
+    ]
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "draft", 
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "confidentiality": "public", 
+        "language": "uk", 
+        "title": "name.doc", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/24660b6d159d42adb6aaba9d978575c7/bids/7d0b2418ff254e1c827ffe021c832900/documents/7261f09218de4ce79c11a48d275491e8?download=d7c0f761ecc4403a9411415f1c36fa67", 
+        "format": "application/msword", 
+        "documentOf": "tender", 
+        "datePublished": "2020-05-15T01:00:00+03:00", 
+        "id": "7261f09218de4ce79c11a48d275491e8", 
+        "dateModified": "2020-05-15T01:00:00+03:00"
+      }
+    ], 
+    "id": "7d0b2418ff254e1c827ffe021c832900", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 500.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "requirementResponses": [
+      {
+        "requirement": {
+          "id": "d9b0e1740123433f8accf08bcb0171f6", 
+          "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
+        }, 
+        "description": "some description", 
+        "title": "Requirement response 1", 
+        "value": "True", 
+        "evidences": [
+          {
+            "title": "Requirement response", 
+            "type": "document", 
+            "relatedDocument": {
+              "id": "7261f09218de4ce79c11a48d275491e8", 
+              "title": "name.doc"
+            }, 
+            "id": "f45edb12331e440b9741851468969376"
+          }
+        ], 
+        "id": "b91f23c68d85497ba3de5806136a5775"
+      }, 
+      {
+        "requirement": {
+          "id": "0253179972b2474290cd66436eeffa5c", 
+          "title": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів"
+        }, 
+        "description": "some description", 
+        "title": "Requirement response 2", 
+        "value": "True", 
+        "evidences": [
+          {
+            "title": "Requirement response", 
+            "type": "document", 
+            "relatedDocument": {
+              "id": "7261f09218de4ce79c11a48d275491e8", 
+              "title": "name.doc"
+            }, 
+            "id": "c9d30ee741ef4b16aaedcd448e89a1dd"
+          }
+        ], 
+        "id": "b0483fe07de744eaacd351c7d2d8353f"
+      }
+    ], 
+    "tenderers": [
+      {
+        "contactPoint": {
+          "email": "soleksuk@gmail.com", 
+          "telephone": "+380 (432) 21-69-30", 
+          "name": "Сергій Олексюк"
+        }, 
+        "scale": "micro", 
+        "name": "ДКП «Школяр»", 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137256", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "address": {
+          "postalCode": "21100", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 33", 
+          "region": "Вінницька область", 
+          "locality": "м. Вінниця"
+        }
+      }
+    ], 
+    "date": "2020-05-15T01:00:00+03:00", 
+    "subcontractingDetails": "ДКП «Орфей», Україна", 
+    "selfQualified": true
+  }
+}
+

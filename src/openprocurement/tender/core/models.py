@@ -614,14 +614,14 @@ class EligibleEvidence(Model):
     class Options:
         namespace = "Evidence"
         roles = {
-            "create": blacklist(),
-            "edit": blacklist("id", "type"),
+            "create": blacklist("id"),
+            "edit": blacklist("id"),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
         }
 
-    id = StringType(required=True, default=lambda: uuid4().hex)
-    title = StringType(required=True, min_length=1)
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    title = StringType()
     title_en = StringType()
     title_ru = StringType()
     description = StringType()
@@ -644,7 +644,7 @@ class Evidence(EligibleEvidence):
     class Options:
         namespace = "Evidence"
         roles = {
-            "create": blacklist(),
+            "create": blacklist("id"),
             "edit": blacklist("id"),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
@@ -708,13 +708,14 @@ class LegislationItem(Model):
 class Requirement(Model):
     class Options:
         roles = {
-            "create": blacklist("eligibleEvidences"),
-            "edit": blacklist("id", "eligibleEvidences"),
+            "create": blacklist("id"),
+            "edit": blacklist("id"),
+            "edit_exclusion": whitelist("eligibleEvidences"),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
         }
 
-    id = StringType(required=True, default=lambda: uuid4().hex)
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
     title = StringType(required=True, min_length=1)
     title_en = StringType()
     title_ru = StringType()
@@ -730,6 +731,15 @@ class Requirement(Model):
     eligibleEvidences = ListType(ModelType(EligibleEvidence, required=True), default=list())
     relatedFeature = MD5Type()
     expectedValue = StringType()
+
+    def get_role(self):
+        root = self.get_root()
+        request = root.request
+        criterion = self.get("__parent__").get("__parent__")
+        role = "edit"
+        if criterion.classification.id.startswith("CRITERION.EXCLUSION"):
+            role = "edit_exclusion"
+        return role
 
     def validate_minValue(self, data, value):
         if value:
@@ -759,8 +769,8 @@ class Requirement(Model):
 class RequirementGroup(Model):
     class Options:
         roles = {
-            "create": blacklist(),
-            "edit": blacklist("id", "requirements"),
+            "create": blacklist("id"),
+            "edit": blacklist("id"),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
         }
@@ -782,7 +792,7 @@ class CriterionClassification(BaseClassification):
 class Criterion(Model):
     class Options:
         roles = {
-            "create": blacklist(),
+            "create": blacklist("id"),
             "edit": blacklist(
                 "id",
                 "requirementGroups",
@@ -828,12 +838,12 @@ class Criterion(Model):
 class RequirementResponse(Model):
     class Options:
         roles = {
-            "create": blacklist("evidences"),
-            "edit": blacklist("id", "evidences"),
+            "create": blacklist("id"),
+            "edit": blacklist("id"),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
         }
-    id = StringType(required=True, default=lambda: uuid4().hex)
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
     title = StringType()
     title_en = StringType()
     title_ru = StringType()
@@ -886,6 +896,7 @@ class RequirementResponse(Model):
             if not requirements:
                 raise ValidationError("requirement should be one of criteria requirements")
 
+
     @bids_response_validation_wrapper
     def validate_value(self, data, value):
         requirement_reference = data.get("requirement")
@@ -924,6 +935,7 @@ class Bid(Model):
             "view": view_bid_role,
             "create": whitelist("value", "status", "tenderers", "parameters", "lotValues", "documents"),
             "edit": whitelist("value", "status", "tenderers", "parameters", "lotValues"),
+            "edit.draft": whitelist("value", "status", "tenderers", "parameters", "lotValues", "requirementResponses"),
             "auction_view": whitelist("value", "lotValues", "id", "date", "parameters", "participationUrl"),
             "auction_post": whitelist("value", "lotValues", "id", "date"),
             "auction_patch": whitelist("id", "lotValues", "participationUrl"),
@@ -939,6 +951,16 @@ class Bid(Model):
 
     def __local_roles__(self):
         return dict([("{}_{}".format(self.owner, self.owner_token), "bid_owner")])
+
+    def get_role(self):
+        root = self.get_root()
+        request = root.request
+        role = "edit"
+        if request.authenticated_role == "Administrator":
+            role = "Administrator"
+        elif self.status in ("draft", "invalid", "pending"):
+            role = "edit.draft"
+        return role
 
     tenderers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1, max_size=1)
     parameters = ListType(ModelType(Parameter, required=True), default=list(), validators=[validate_parameters_uniq])

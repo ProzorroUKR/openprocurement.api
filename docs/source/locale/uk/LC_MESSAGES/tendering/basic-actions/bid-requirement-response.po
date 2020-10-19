@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-10 15:51+0300\n"
+"POT-Creation-Date: 2020-10-05 15:44+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,14 +38,23 @@ msgstr "Створення відповіді на вимогу"
 msgid "You can create few requirement responses in one request with complete set of data."
 msgstr "Можливо створити декілька відповідей на вимогу за один запит з повним набором даних."
 
+msgid "You can create requirement responses in one request with bid patch."
+msgstr "Можливо також створювати відповіді на вимоги одним запитом через оновлення пропозиції."
+
 msgid "Update Bid Requirement Response"
 msgstr "Оновлення відповіді на вимогу"
+
+msgid "You can patch requirement responses in one request with bid patch, and you must send data about other requirement responses or this other requirement responses will be deleted."
+msgstr "Можливо редагувати відповіді на вимоги один запитом через оновлення пропозиції, але потрібно передавати також всі відповіді на вимоги, або віповіді, які не будуть передані - будуть видалені."
 
 msgid "Get Bid Requirement Response"
 msgstr "Отримання інформації по відповіді на вимогу"
 
 msgid "Delete Requirement Response"
 msgstr "Видалення відповіді на вимогу"
+sphinx-intl build
+msgid "You can delete requirement responses in one request with bid patch, not send this requirement response data."
+msgstr "Можливо видалити відповіді на вимогу за один запит через оновлення пропозиції, просто не передавши ці відповіді."
 
 msgid "Evidence basic operation"
 msgstr "Базові операції над доказами"
