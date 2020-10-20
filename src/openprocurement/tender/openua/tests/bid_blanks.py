@@ -1924,6 +1924,19 @@ def get_bid_requirement_response(self):
     self.assertEqual(response.content_type, "application/json")
     rr_id = response.json["data"][0]["id"]
 
+    response = self.app.get(
+        "/tenders/{}/bids/{}/requirement_responses".format(self.tender_id, self.bid_id),
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Can't view bid in current (active.tendering) tender status"
+    )
+
+    self.set_status("active.qualification")
+
     response = self.app.get("/tenders/{}/bids/{}/requirement_responses".format(self.tender_id, self.bid_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -2127,6 +2140,19 @@ def get_bid_requirement_response_evidence(self):
     self.assertEqual(response.content_type, "application/json")
     evidence_id = response.json["data"]["id"]
 
+    response = self.app.get(
+        "/tenders/{}/bids/{}/requirement_responses".format(self.tender_id, self.bid_id),
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Can't view bid in current (active.tendering) tender status"
+    )
+
+    self.set_status("active.qualification")
+
     response = self.app.get("/tenders/{}/bids/{}/requirement_responses/{}/evidences".format(
         self.tender_id, self.bid_id, self.rr_id
     ))
@@ -2167,17 +2193,17 @@ def bid_activate(self):
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
         {"data": {"status": next_status}},
-        status=403,
+        status=422,
     )
 
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{u'description': u'Must be answered on all criteria with source `tenderer`',
+        [{u'description': [u'Must be answered on all criteria with source `tenderer`'],
           u'location': u'body',
-          u'name': u'data'}],
+          u'name': u'requirementResponses'}]
     )
 
     response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
@@ -2212,17 +2238,17 @@ def bid_activate(self):
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
         {"data": {"status": next_status}},
-        status=403,
+        status=422,
     )
 
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{u'description': u'Inside requirement group must get answered all of requirements',
+        [{u'description': [u'Inside requirement group must get answered all of requirements'],
           u'location': u'body',
-          u'name': u'data'}],
+          u'name': u'requirementResponses'}],
     )
 
     another_rg_req = criteria[0]["requirementGroups"][1]["requirements"][0]
@@ -2244,17 +2270,17 @@ def bid_activate(self):
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
         {"data": {"status": next_status}},
-        status=403,
+        status=422,
     )
 
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{u'description': u'Inside criteria must be answered only one requirement group',
+        [{u'description': [u'Inside criteria must be answered only one requirement group'],
           u'location': u'body',
-          u'name': u'data'}]
+          u'name': u'requirementResponses'}],
     )
 
     response = self.app.delete(

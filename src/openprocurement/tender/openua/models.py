@@ -48,6 +48,7 @@ from openprocurement.tender.core.models import (
     ConfidentialDocument,
     Document,
     QualificationMilestoneListMixin,
+    BidResponsesMixin,
 )
 from openprocurement.tender.core.utils import (
     normalize_should_start_after,
@@ -63,7 +64,6 @@ from openprocurement.tender.core.utils import (
 from openprocurement.tender.core.validation import (
     validate_lotvalue_value,
     validate_relatedlot,
-    ValidateSelfEligibleMixin,
 )
 from openprocurement.tender.belowthreshold.models import Tender as BaseTender
 from openprocurement.tender.openua.constants import (
@@ -184,8 +184,17 @@ class BaseUaBid(BaseBid):
                 "selfEligible",
                 "subcontractingDetails",
                 "documents",
+                "requirementResponses",
             ),
-            "edit": whitelist("value", "tenderers", "parameters", "lotValues", "status", "subcontractingDetails"),
+            "edit": whitelist(
+                "value",
+                "tenderers",
+                "parameters",
+                "lotValues",
+                "status",
+                "subcontractingDetails",
+                "requirementResponses",
+            ),
             "auction_view": whitelist("value", "lotValues", "id", "date", "parameters", "participationUrl", "status"),
             "auction_post": whitelist("value", "lotValues", "id", "date"),
             "auction_patch": whitelist("id", "lotValues", "participationUrl"),
@@ -231,7 +240,7 @@ class BaseUaBid(BaseBid):
         BaseBid._validator_functions["parameters"](self, data, parameters)
 
 
-class Bid(BaseUaBid, ValidateSelfEligibleMixin):
+class Bid(BaseUaBid, BidResponsesMixin):
     pass
 
 
@@ -510,6 +519,7 @@ class Award(BaseAward, QualificationMilestoneListMixin):
                 "description",
                 "description_en",
                 "description_ru",
+                "requirementResponses",
             )
         }
 

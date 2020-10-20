@@ -67,6 +67,8 @@ from openprocurement.tender.competitivedialogue.tests.stage2.bid_blanks import (
     # TenderStage2UABidDocumentResourceTest
     put_tender_bidder_document_ua,
 )
+from openprocurement.tender.core.tests.criteria_utils import generate_responses
+from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 
 
 test_bids_stage2 = deepcopy(test_bids)
@@ -212,6 +214,8 @@ class BaseCDUAStage2BidContentWebTest(BaseCompetitiveDialogUAStage2ContentWebTes
         # Create bid
         bid_data = deepcopy(self.test_bids_data[0])
         bid_data["value"] = {"amount": 500}
+        if self.initial_criteria:
+            bid_data["requirementResponses"] = generate_responses(self)
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
             {"data": bid_data},

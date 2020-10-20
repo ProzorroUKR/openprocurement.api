@@ -6,7 +6,6 @@ from openprocurement.tender.core.validation import (
     validate_patch_bid_data,
     validate_bid_operation_period,
     validate_bid_operation_not_in_tendering,
-    validate_bid_activate_criteria,
 )
 
 from openprocurement.tender.belowthreshold.validation import validate_view_bids, validate_update_bid_status
@@ -209,7 +208,6 @@ class TenderBidResource(APIResource):
             validate_bid_operation_not_in_tendering,
             validate_bid_operation_period,
             validate_update_bid_status,
-            validate_bid_activate_criteria,
         ),
     )
     def patch(self):

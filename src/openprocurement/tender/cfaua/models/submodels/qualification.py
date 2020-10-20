@@ -18,9 +18,9 @@ class Qualification(QualificationMilestoneListMixin):
 
     class Options:
         _common = whitelist('eligible', 'qualified', 'title', 'title_en', 'title_ru',
-                            'description', 'description_en', 'description_ru')
+                            'description', 'description_en', 'description_ru', 'requirementResponses')
         _all = _common + whitelist('status', 'lotID', 'id', 'date', 'bidID',
-                                   'complaints', 'documents', 'milestones', 'requirementResponses')
+                                   'complaints', 'documents', 'milestones')
         roles = {
             "edit": _common + whitelist('status',),
             "default": _all,

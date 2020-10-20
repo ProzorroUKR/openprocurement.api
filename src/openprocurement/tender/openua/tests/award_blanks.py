@@ -2771,6 +2771,13 @@ def patch_award_requirement_response_evidence(self):
     self.assertEqual(evidence["title"], updated_data["title"])
     self.assertEqual(evidence["description"], updated_data["description"])
 
+    response = self.app.delete(
+        "/tenders/{}/awards/{}/requirement_responses/{}/evidences/{}?acc_token={}".format(
+            self.tender_id, self.award_id, self.rr_id, evidence_id, self.tender_token),
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
 
 def get_award_requirement_response_evidence(self):
     valid_data = {

@@ -50,6 +50,7 @@ from openprocurement.api.constants import (
     RELEASE_2020_04_19,
     COMPLAINT_IDENTIFIER_REQUIRED_FROM,
     CPV_ITEMS_CLASS_FROM,
+    RELEASE_ECRITERIA_ARTICLE_17,
 )
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
 
@@ -970,9 +971,16 @@ class Bid(Model):
             "Administrator": Administrator_bid_role,
             "embedded": view_bid_role,
             "view": view_bid_role,
-            "create": whitelist("value", "status", "tenderers", "parameters", "lotValues", "documents"),
-            "edit": whitelist("value", "status", "tenderers", "parameters", "lotValues"),
-            "edit.draft": whitelist("value", "status", "tenderers", "parameters", "lotValues", "requirementResponses"),
+            "create": whitelist(
+                "value",
+                "status",
+                "tenderers",
+                "parameters",
+                "lotValues",
+                "documents",
+                "requirementResponses",
+            ),
+            "edit": whitelist("value", "status", "tenderers", "parameters", "lotValues", "requirementResponses"),
             "auction_view": whitelist("value", "lotValues", "id", "date", "parameters", "participationUrl"),
             "auction_post": whitelist("value", "lotValues", "id", "date"),
             "auction_patch": whitelist("id", "lotValues", "participationUrl"),
@@ -988,16 +996,6 @@ class Bid(Model):
 
     def __local_roles__(self):
         return dict([("{}_{}".format(self.owner, self.owner_token), "bid_owner")])
-
-    def get_role(self):
-        root = self.get_root()
-        request = root.request
-        role = "edit"
-        if request.authenticated_role == "Administrator":
-            role = "Administrator"
-        elif self.status in ("draft", "invalid", "pending"):
-            role = "edit.draft"
-        return role
 
     tenderers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1, max_size=1)
     parameters = ListType(ModelType(Parameter, required=True), default=list(), validators=[validate_parameters_uniq])
@@ -1083,6 +1081,60 @@ class Bid(Model):
                 raise ValidationError(u"This field is required.")
             elif set([i["code"] for i in parameters]) != set([i.code for i in (tender.features or [])]):
                 raise ValidationError(u"All features parameters is required.")
+
+
+class BidResponsesMixin(Model):
+    requirementResponses = ListType(
+        ModelType(RequirementResponse, required=True),
+        default=list(),
+        validators=[validate_response_requirement_uniq],
+    )
+
+    def validate_selfEligible(self, data, value):
+        tender = get_root(data["__parent__"])
+        if get_first_revision_date(tender, default=get_now()) > RELEASE_ECRITERIA_ARTICLE_17:
+            if value is not None:
+                raise ValidationError("Rogue field.")
+        elif value is None:
+            raise ValidationError("This field is required.")
+
+    def validate_requirementResponses(self, data, requirementResponses):
+        tender = data["__parent__"]
+        tender_created = get_first_revision_date(tender, default=get_now())
+
+        if tender_created < RELEASE_ECRITERIA_ARTICLE_17:
+            if requirementResponses:
+                raise ValidationError("Rogue field.")
+            return
+
+        if data["status"] not in ["active", "pending"]:
+            return
+
+        all_answered_requirements = [i.requirement.id for i in requirementResponses]
+
+        for criteria in tender.criteria:
+            if criteria.source != "tenderer":
+                continue
+
+            criteria_ids = {}
+            group_answered_requirement_ids = {}
+            for rg in criteria.requirementGroups:
+                req_ids = {i.id for i in rg.requirements}
+                answered_reqs = {i for i in all_answered_requirements if i in req_ids}
+
+                if answered_reqs:
+                    group_answered_requirement_ids[rg.id] = answered_reqs
+                criteria_ids[rg.id] = req_ids
+
+            if not group_answered_requirement_ids:
+                raise ValidationError("Must be answered on all criteria with source `tenderer`")
+
+            if len(group_answered_requirement_ids) > 1:
+                raise ValidationError("Inside criteria must be answered only one requirement group")
+
+            rg_id = group_answered_requirement_ids.keys()[0]
+            if set(criteria_ids[rg_id]).difference(set(group_answered_requirement_ids[rg_id])):
+                raise ValidationError("Inside requirement group must get answered all of requirements")
 
 
 PROCURING_ENTITY_KINDS = ("authority", "central", "defense", "general", "other", "social", "special")
@@ -1533,7 +1585,8 @@ class Award(BaseAward):
         roles = {
             "create": blacklist("id", "status", "date", "documents", "complaints", "complaintPeriod"),
             "edit": whitelist(
-                "status", "title", "title_en", "title_ru", "description", "description_en", "description_ru"
+                "status", "title", "title_en", "title_ru", "description",
+                "description_en", "description_ru", "requirementResponses",
             ),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
