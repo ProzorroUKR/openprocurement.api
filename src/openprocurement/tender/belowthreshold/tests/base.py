@@ -217,6 +217,25 @@ def set_tender_criteria(criteria, lots, items):
     return criteria
 
 
+def set_bid_responses(criteria):
+    rrs = []
+    for criterion in criteria:
+        for req in criterion["requirementGroups"][0]["requirements"]:
+            if criterion["source"] == "tenderer":
+                rrs.append(
+                    {
+                        "title": "Requirement response",
+                        "description": "some description",
+                        "requirement": {
+                            "id": req["id"],
+                            "title": req["title"],
+                        },
+                        "value": True,
+                    },
+                )
+    return rrs
+
+
 def set_bid_lotvalues(bid, lots):
     value = bid.pop("value", None) or bid["lotValues"][0]["value"]
     bid["lotValues"] = [{"value": value, "relatedLot": lot["id"]} for lot in lots]
@@ -271,9 +290,9 @@ class BaseTenderWebTest(BaseCoreWebTest):
         tender = response.json["data"]
         self.tender_token = response.json["access"]["token"]
         self.tender_id = tender["id"]
-
+        criteria = []
         if self.initial_criteria:
-            self.app.post_json(
+            response = self.app.post_json(
                 "/tenders/{}/criteria?acc_token={}&bulk=true".format(self.tender_id, self.tender_token),
                 {
                     "data": set_tender_criteria(
@@ -283,6 +302,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
                     )
                 }
             )
+            criteria = response.json["data"]
 
         status = tender["status"]
         if self.initial_bids:
@@ -290,10 +310,13 @@ class BaseTenderWebTest(BaseCoreWebTest):
             response = self.set_status("active.tendering")
             status = response.json["data"]["status"]
             bids = []
+            rrs = set_bid_responses(criteria)
             for bid in self.initial_bids:
+                bid = bid.copy()
                 if self.initial_lots:
-                    bid = bid.copy()
                     set_bid_lotvalues(bid, self.initial_lots)
+                if self.initial_criteria:
+                    bid["requirementResponses"] = rrs
                 response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid})
                 self.assertEqual(response.status, "201 Created")
                 bids.append(response.json["data"])

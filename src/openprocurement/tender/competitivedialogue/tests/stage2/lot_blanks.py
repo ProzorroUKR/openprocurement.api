@@ -9,6 +9,7 @@ from openprocurement.tender.core.tests.cancellation import (
 )
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_cancellation
 from openprocurement.tender.competitivedialogue.tests.base import test_bids
+from openprocurement.tender.core.tests.criteria_utils import generate_responses
 
 # TenderStage2EU(UA)LotResourceTest
 
@@ -1160,6 +1161,7 @@ def one_lot_1bid(self):
     tenderers[0]["identifier"]["scheme"] = self.initial_data["shortlistedFirms"][0]["identifier"]["scheme"]
     # create bid
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}]
+    bid_data["requirementResponses"] = generate_responses(self)
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
@@ -1186,6 +1188,7 @@ def one_lot_2bid_1un(self):
 
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}]
     self.app.authorization = ("Basic", ("broker", ""))
+    bid_data["requirementResponses"] = generate_responses(self)
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": bid_data},
@@ -1245,6 +1248,7 @@ def one_lot_2bid(self):
     bid_data["tenderers"] = tenderers_1
     bid_data["lotValues"] = [{"value": {"amount": 450}, "relatedLot": self.lots_id[0]}]
     del bid_data["value"]
+    bid_data["requirementResponses"] = generate_responses(self)
 
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.post_json(
@@ -1405,6 +1409,7 @@ def two_lot_2bid_1lot_del(self):
         "tenderers": tenderers_1,
         "lotValues": [{"value": {"amount": 500}, "relatedLot": lot["id"]} for lot in self.initial_lots],
     })
+    bid_data["requirementResponses"] = generate_responses(self)
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
@@ -1440,6 +1445,7 @@ def one_lot_3bid_1del(self):
         tenderer[0]["identifier"]["id"] = self.initial_data["shortlistedFirms"][i]["identifier"]["id"]
         tenderer[0]["identifier"]["scheme"] = self.initial_data["shortlistedFirms"][i]["identifier"]["scheme"]
         tenderers.append(tenderer)
+    bid_data["requirementResponses"] = generate_responses(self)
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
     bids = []
@@ -1580,6 +1586,7 @@ def one_lot_3bid_1un(self):
     bid_data = deepcopy(test_bids[0])
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 450}, "relatedLot": self.initial_lots[0]["id"]}]
+    bid_data["requirementResponses"] = generate_responses(self)
     for i in xrange(bid_count):
         bid_data["tenderers"] = tenderers[i]
         response = self.app.post_json(
@@ -1819,6 +1826,7 @@ def two_lot_2bid_0com_1can(self):
     del bid_data["value"]
     bid_data["tenderers"] = tenderers[0]
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": lot["id"]} for lot in self.initial_lots]
+    bid_data["requirementResponses"] = generate_responses(self)
     self.app.authorization = ("Basic", ("broker", ""))
     self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
@@ -1880,6 +1888,7 @@ def two_lot_2bid_2com_2win(self):
     # create bid
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
+    bid_data["requirementResponses"] = generate_responses(self)
     bid_data.update({
         "tenderers": tenderers[0],
         "lotValues": [{"value": {"amount": 500}, "relatedLot": lot["id"]} for lot in self.initial_lots],
@@ -2131,6 +2140,7 @@ def one_lot_2bid_ua(self):
     bid_data["lotValues"] = [
         {"subcontractingDetails": "test", "value": {"amount": 450}, "relatedLot": self.lots_id[0]}
     ]
+    bid_data["requirementResponses"] = generate_responses(self)
 
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.post_json(
@@ -2238,6 +2248,7 @@ def one_lot_3bid_1un_ua(self):
     bid_data["lotValues"] = [{"value": {"amount": 450}, "relatedLot": self.lots_id[0]}]
     for i in range(3):
         bid_data["tenderers"] = tenderers[i]
+        bid_data["requirementResponses"] = generate_responses(self)
         self.app.authorization = ("Basic", ("broker", ""))
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
@@ -2343,6 +2354,7 @@ def one_lot_1bid_patch_ua(self):
         "tenderers": tenderers[0],
         "lotValues": [{"value": {"amount": 500}, "relatedLot": self.lots_id[0]}],
     })
+    bid_data["requirementResponses"] = generate_responses(self)
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": bid_data},
@@ -2405,6 +2417,7 @@ def two_lot_1bid_0com_1can_ua(self):
         "tenderers": tenderers[0],
         "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in self.lots_id],
     })
+    bid_data["requirementResponses"] = generate_responses(self)
 
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.post_json(
@@ -2442,6 +2455,7 @@ def two_lot_1bid_2com_1win_ua(self):
         "tenderers": tenderers[0],
         "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in self.lots_id],
     })
+    bid_data["requirementResponses"] = generate_responses(self)
     self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": bid_data},
@@ -2510,6 +2524,7 @@ def two_lot_1bid_0com_0win_ua(self):
         "tenderers": tenderers[0],
         "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in self.lots_id],
     })
+    bid_data["requirementResponses"] = generate_responses(self)
     self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": bid_data},
@@ -2545,6 +2560,7 @@ def two_lot_1bid_1com_1win_ua(self):
         "tenderers": tenderers[0],
         "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in self.lots_id],
     })
+    bid_data["requirementResponses"] = generate_responses(self)
     self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": bid_data},
@@ -2575,6 +2591,7 @@ def two_lot_2bid_2com_2win_ua(self):
     self.app.authorization = ("Basic", ("broker", ""))
 
     bid_data = deepcopy(test_bids[0])
+    bid_data["requirementResponses"] = generate_responses(self)
     del bid_data["value"]
     bid_data.update({
         "tenderers": tenderers[0],

@@ -10,8 +10,8 @@ from openprocurement.tender.core.models import (
     bids_validation_wrapper,
     EUConfidentialDocument,
     ConfidentialDocumentModelType,
+    BidResponsesMixin,
 )
-from openprocurement.tender.core.validation import ValidateSelfEligibleMixin
 from openprocurement.tender.cfaua.constants import BID_UNSUCCESSFUL_FROM
 from openprocurement.tender.cfaua.models.submodels.lotvalue import LotValue
 from openprocurement.tender.cfaua.models.submodels.parameters import BidParameter
@@ -45,10 +45,11 @@ class BidModelType(ModelType):
             return shaped
 
 
-class Bid(ValidateSelfEligibleMixin, BaseBid):
+class Bid(BidResponsesMixin, BaseBid):
     class Options:
         _all_documents = whitelist("documents", "eligibilityDocuments", "financialDocuments", "qualificationDocuments")
-        _edit = whitelist("value", "lotValues", "parameters", "subcontractingDetails", "tenderers", "status")
+        _edit = whitelist("value", "lotValues", "parameters", "subcontractingDetails",
+                          "tenderers", "status", "requirementResponses")
         _create = _all_documents + _edit + {"selfEligible", "selfQualified"}
         _open_view = _create + whitelist("id", "date", "participationUrl", "requirementResponses")
         _qualification_view = whitelist(
@@ -56,7 +57,6 @@ class Bid(ValidateSelfEligibleMixin, BaseBid):
         roles = {
             "create": _create,
             "edit": _edit,
-            "edit.draft": _edit + whitelist("requirementResponses"),
             "active.tendering": whitelist(),
             "active.enquiries": whitelist(),
             "invalid.pre-qualification": _qualification_view,

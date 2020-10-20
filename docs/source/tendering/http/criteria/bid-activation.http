@@ -10,15 +10,17 @@ DATA:
   }
 }
 
-Response: 403 Forbidden
+Response: 422 Unprocessable Entity
 Content-Type: application/json; charset=UTF-8
 {
   "status": "error", 
   "errors": [
     {
-      "description": "Can't update bid to (active) status", 
+      "description": [
+        "Must be answered on all criteria with source `tenderer`"
+      ], 
       "location": "body", 
-      "name": "data"
+      "name": "requirementResponses"
     }
   ]
 }

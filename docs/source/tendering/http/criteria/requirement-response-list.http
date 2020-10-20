@@ -23,6 +23,15 @@ Content-Type: application/json; charset=UTF-8
             "title": "name.doc"
           }, 
           "id": "b0fb461076fd40b5bf0a6610dccea574"
+        }, 
+        {
+          "title": "Update evidence title", 
+          "type": "document", 
+          "relatedDocument": {
+            "id": "7261f09218de4ce79c11a48d275491e8", 
+            "title": "name.doc"
+          }, 
+          "id": "8c21ded9369b403ba56901a7d13311d9"
         }
       ], 
       "id": "ce6891c78c434af29aa5a080d027392b"

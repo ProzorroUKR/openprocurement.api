@@ -265,52 +265,6 @@ def validate_bid_documents(request):
     return documents
 
 
-def validate_bid_activate_criteria(request):
-    """
-    Validate that bidder gave response for all requirements
-    for only one of requirementGroups inside all criteria
-    """
-
-    tender = request.validated["tender"]
-    bid = request.context
-
-    bid_status_to = request.validated["data"].get("status", request.context.status)
-    tender_created = get_first_revision_date(tender, default=get_now())
-
-    if (
-        tender_created < RELEASE_ECRITERIA_ARTICLE_17
-        or bid.status == bid_status_to
-        or bid_status_to not in ["active", "pending"]
-    ):
-        return
-
-    all_answered_requirements = [i.requirement.id for i in bid.requirementResponses]
-
-    for criteria in tender.criteria:
-        if criteria.source != "tenderer":
-            continue
-
-        criteria_ids = {}
-        group_answered_requirement_ids = {}
-        for rg in criteria.requirementGroups:
-            req_ids = {i.id for i in rg.requirements}
-            answered_reqs = {i for i in all_answered_requirements if i in req_ids}
-
-            if answered_reqs:
-                group_answered_requirement_ids[rg.id] = answered_reqs
-            criteria_ids[rg.id] = req_ids
-
-        if not group_answered_requirement_ids:
-            raise_operation_error(request, "Must be answered on all criteria with source `tenderer`")
-
-        if len(group_answered_requirement_ids) > 1:
-            raise_operation_error(request, "Inside criteria must be answered only one requirement group")
-
-        rg_id = group_answered_requirement_ids.keys()[0]
-        if set(criteria_ids[rg_id]).difference(set(group_answered_requirement_ids[rg_id])):
-            raise_operation_error(request, "Inside requirement group must get answered all of requirements")
-
-
 def validate_patch_bid_data(request):
     model = type(request.tender).bids.model_class
     return validate_data(request, model, True)
@@ -1844,9 +1798,24 @@ def validate_patch_exclusion_ecriteria_objects(request):
         raise_operation_error(request, "Can't update exclusion ecriteria objects")
 
 
-def validate_operation_bid_requirement_response(request):
-    valid_statuses = ["draft", "invalid", "pending"]
-    base_validate_operation_ecriteria_objects(request, valid_statuses, "bid")
+def validate_view_requirement_responses(request):
+    pre_qualification_tenders = ["aboveThresholdEU", "competitiveDialogueUA",
+                                 "competitiveDialogueEU", "competitiveDialogueEU.stage2",
+                                 "esco", "closeFrameworkAgreementUA"]
+
+    tender_type = request.validated["tender"].procurementMethodType
+    if tender_type in pre_qualification_tenders:
+        tender_statuses = ["active.tendering"]
+    else:
+        tender_statuses = ["active.tendering", "active.auction"]
+
+    if request.validated["tender_status"] in tender_statuses:
+        raise_operation_error(
+            request,
+            "Can't view {} in current ({}) tender status".format(
+                "bid" if request.matchdict.get("bid_id") else "bids", request.validated["tender_status"]
+            ),
+        )
 
 
 def validate_operation_award_requirement_response(request):
@@ -1936,13 +1905,3 @@ def validate_evidence_data(request):
 def validate_patch_evidence_data(request):
     model = type(request.tender).bids.model_class.requirementResponses.model_class.evidences.model_class
     return validate_data(request, model, True)
-
-
-class ValidateSelfEligibleMixin(Model):
-    def validate_selfEligible(self, data, value):
-        tender = get_root(data["__parent__"])
-        if get_first_revision_date(tender, default=get_now()) > RELEASE_ECRITERIA_ARTICLE_17:
-            if value is not None:
-                raise ValidationError("Rogue field.")
-        elif value is None:
-            raise ValidationError("This field is required.")

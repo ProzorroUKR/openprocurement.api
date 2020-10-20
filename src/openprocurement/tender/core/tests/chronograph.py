@@ -43,6 +43,7 @@ def switch_tender_complaints_draft(self):
 
 @patch("openprocurement.tender.core.utils.RELEASE_2020_04_19", get_now() - timedelta(1))
 @patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
 def switch_tender_cancellation_complaints_draft(self):
     # first we post a cancellation
     tender = self.db.get(self.tender_id)
@@ -126,7 +127,10 @@ def switch_qualification_complaints_draft(self):
 
     # get tender and check next_check
     response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertEqual(response.json["data"].get("next_check"), tender["qualificationPeriod"]["endDate"])
+    self.assertEqual(
+        parse_date(response.json["data"].get("next_check")),
+        parse_date(tender["qualificationPeriod"]["endDate"])
+    )
 
     # and once the date passed
     tender = self.db.get(self.tender_id)

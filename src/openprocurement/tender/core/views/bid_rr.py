@@ -4,9 +4,9 @@ from openprocurement.tender.core.validation import (
     validate_requirement_response_data,
     validate_patch_requirement_response_data,
     validate_operation_ecriteria_objects,
-    validate_operation_bid_requirement_response,
-
+    validate_view_requirement_responses,
 )
+
 from openprocurement.tender.core.views.requirement_response import BaseRequirementResponseResource
 
 
@@ -17,18 +17,17 @@ class BaseBidRequirementResponseResource(BaseRequirementResponseResource):
         validators=(
             validate_operation_ecriteria_objects,
             validate_requirement_response_data,
-            validate_operation_bid_requirement_response,
         ),
         permission="edit_bid",
     )
     def collection_post(self):
         return super(BaseBidRequirementResponseResource, self).collection_post()
 
-    @json_view(permission="view_tender")
+    @json_view(permission="view_tender", validators=(validate_view_requirement_responses,))
     def collection_get(self):
         return super(BaseBidRequirementResponseResource, self).collection_get()
 
-    @json_view(permission="view_tender")
+    @json_view(permission="view_tender", validators=(validate_view_requirement_responses,))
     def get(self):
         return super(BaseBidRequirementResponseResource, self).get()
 
@@ -37,7 +36,6 @@ class BaseBidRequirementResponseResource(BaseRequirementResponseResource):
         validators=(
             validate_operation_ecriteria_objects,
             validate_patch_requirement_response_data,
-            validate_operation_bid_requirement_response,
         ),
         permission="edit_bid",
     )
@@ -47,7 +45,6 @@ class BaseBidRequirementResponseResource(BaseRequirementResponseResource):
     @json_view(
         validators=(
             validate_operation_ecriteria_objects,
-            validate_operation_bid_requirement_response,
         ),
         permission="edit_bid",
     )
