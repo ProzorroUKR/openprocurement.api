@@ -3084,28 +3084,6 @@ def create_qualification_requirement_response(self):
           u'name': 0}]
     )
 
-    response = self.app.post_json(
-        request_path,
-        {"data": [{
-            "description": "some description",
-            "requirement": {
-                "id": self.requirement_id,
-                "title": self.requirement_title,
-            },
-            "value": False,
-        }]},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertIn("errors", response.json)
-    self.assertEqual(
-        response.json["errors"],
-        [{u'description': {u"value": [u"value and requirementGroup.expectedValue must be equal"]},
-          u'location': u'body',
-          u'name': 0}]
-    )
-
     response = self.app.post_json(request_path, {"data": valid_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")

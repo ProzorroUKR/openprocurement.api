@@ -47,6 +47,9 @@ from openprocurement.tender.core.models import (
     PROCURING_ENTITY_KINDS,
     QualificationMilestoneListMixin,
     RequirementResponse,
+
+    # validators
+    validate_response_requirement_uniq,
 )
 from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
@@ -528,7 +531,8 @@ class Qualification(QualificationMilestoneListMixin):
 
     requirementResponses = ListType(
         ModelType(RequirementResponse, required=True),
-        default=list()
+        default=list(),
+        validators=[validate_response_requirement_uniq],
     )
 
     def validate_qualified(self, data, qualified):

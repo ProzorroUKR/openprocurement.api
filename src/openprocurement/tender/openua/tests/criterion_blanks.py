@@ -500,6 +500,20 @@ def create_rg_requirement_valid(self):
     self.assertEqual(requirement["dataType"], self.test_requirement_data["dataType"])
     self.assertEqual(requirement["expectedValue"], self.test_requirement_data["expectedValue"])
 
+    requirement_data = deepcopy(self.test_requirement_data)
+    requirement_data["id"] = requirement["id"]
+
+    response = self.app.post_json(request_path, {"data": requirement_data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{u'description': [u'Requirement id should be uniq for all requirements in tender'],
+          u'location': u'body',
+          u'name': u'criteria'}],
+    )
+
 
 def create_rg_requirement_invalid(self):
     request_path = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements?acc_token={}".format(

@@ -97,6 +97,7 @@ def validate_post_list_data(request, model, data=None):
         raise error_handler(request.errors)
 
     request.validated["data"] = data
+    valid_models = [model(i) for i in valid_data]
     if model._options.namespace:
         request.validated["{}s".format(model._options.namespace.lower())] = valid_models
     else:

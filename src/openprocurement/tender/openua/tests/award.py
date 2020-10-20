@@ -270,7 +270,7 @@ class TenderAwardRequirementResponseResourceTest(
         super(TenderAwardRequirementResponseResourceTest, self).setUp()
         response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
         criteria = response.json["data"]
-        requirement = criteria[0]["requirementGroups"][0]["requirements"][0]
+        requirement = criteria[6]["requirementGroups"][0]["requirements"][0]
         self.requirement_id = requirement["id"]
         self.requirement_title = requirement["title"]
 
@@ -284,7 +284,7 @@ class TenderAwardRequirementResponsEvidenceResourceTest(
         super(TenderAwardRequirementResponsEvidenceResourceTest, self).setUp()
         response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
         criteria = response.json["data"]
-        requirement = criteria[0]["requirementGroups"][0]["requirements"][0]
+        requirement = criteria[6]["requirementGroups"][0]["requirements"][0]
         self.requirement_id = requirement["id"]
         self.requirement_title = requirement["title"]
 

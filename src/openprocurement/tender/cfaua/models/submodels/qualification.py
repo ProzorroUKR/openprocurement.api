@@ -5,6 +5,7 @@ from openprocurement.tender.core.models import (
     EUDocument,
     QualificationMilestoneListMixin,
     RequirementResponse,
+    validate_response_requirement_uniq,
 )
 from schematics.exceptions import ValidationError
 from schematics.types import StringType, MD5Type, BooleanType
@@ -45,7 +46,11 @@ class Qualification(QualificationMilestoneListMixin):
     qualified = BooleanType(default=False)
     eligible = BooleanType(default=False)
 
-    requirementResponses = ListType(ModelType(RequirementResponse, required=True), default=list())
+    requirementResponses = ListType(
+        ModelType(RequirementResponse, required=True),
+        default=list(),
+        validators=[validate_response_requirement_uniq],
+    )
 
     def validate_qualified(self, data, qualified):
         if data["status"] == "active" and not qualified:

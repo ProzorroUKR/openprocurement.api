@@ -105,7 +105,7 @@ Schema
 ------
 
 :scheme:
-   string, required
+   string, required(in `Legislation` object is not required)
 
    |ocdsDescription|
    Organization identifiers be drawn from an existing identification scheme. 
