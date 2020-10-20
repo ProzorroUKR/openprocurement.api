@@ -115,6 +115,9 @@ class TenderBidRequirementResponseTestMixin(object):
         requirement = criteria[0]["requirementGroups"][0]["requirements"][0]
         self.requirement_id = requirement["id"]
         self.requirement_title = requirement["title"]
+        requirement = criteria[1]["requirementGroups"][0]["requirements"][0]
+        self.requirement_2_id = requirement["id"]
+        self.requirement_2_title = requirement["title"]
 
 
 @patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))

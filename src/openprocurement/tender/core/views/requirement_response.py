@@ -25,6 +25,7 @@ class BaseRequirementResponseResource(APIResource):
                 self.request.response.status = 201
 
             return {"data": [i.serialize("view") for i in requirement_responses]}
+        return
 
     def collection_get(self):
         return {"data": [i.serialize("view") for i in self.request.context.requirementResponses]}
@@ -43,6 +44,7 @@ class BaseRequirementResponseResource(APIResource):
                 extra=context_unpack(self.request, {"MESSAGE_ID": "{}_requirement_response_patch".format(context_name)}),
             )
             return {"data": requirement_response.serialize("view")}
+        return
 
     def delete(self):
         rr = self.request.context

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
+from iso8601 import parse_date
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_draft_complaint, test_cancellation
 from openprocurement.tender.core.utils import calculate_tender_business_date
@@ -65,8 +66,10 @@ def switch_tender_cancellation_complaints_draft(self):
 
     # get tender and check next_check
     response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertEqual(response.json["data"].get("next_check"),
-                     cancellation_data["complaintPeriod"]["endDate"])
+    self.assertEqual(
+        parse_date(response.json["data"].get("next_check")),
+        parse_date(cancellation_data["complaintPeriod"]["endDate"]),
+    )
 
     # and once the date passed
     tender = self.db.get(self.tender_id)
@@ -161,7 +164,10 @@ def switch_award_complaints_draft(self):
 
     # get tender and check next_check
     response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertEqual(response.json["data"].get("next_check"), award_data["complaintPeriod"]["endDate"])
+    self.assertEqual(
+        parse_date(response.json["data"].get("next_check")),
+        parse_date(award_data["complaintPeriod"]["endDate"]),
+    )
 
     # and once the date passed
     tender = self.db.get(self.tender_id)
