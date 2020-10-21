@@ -1792,6 +1792,16 @@ def validate_operation_ecriteria_objects(request):
     base_validate_operation_ecriteria_objects(request, valid_statuses)
 
 
+def validate_patch_requirement_objects(request):
+    valid_statuses = ["draft", "draft.pending", "draft.stage2"]
+    base_validate_operation_ecriteria_objects(request, valid_statuses)
+
+
+def validate_put_requirement_objects(request):
+    valid_statuses = ["active.tendering"]
+    base_validate_operation_ecriteria_objects(request, valid_statuses)
+
+
 def validate_patch_exclusion_ecriteria_objects(request):
     criterion = request.validated["criterion"]
     if criterion.classification.id.startswith("CRITERION.EXCLUSION"):

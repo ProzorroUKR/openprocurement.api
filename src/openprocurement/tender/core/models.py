@@ -38,6 +38,7 @@ from openprocurement.api.utils import (
     get_first_revision_date,
     get_root,
     get_uah_amount_from_value,
+    get_particular_parent,
 )
 from openprocurement.api.constants import (
     SANDBOX_MODE,
@@ -95,6 +96,7 @@ from logging import getLogger
 
 LOGGER = getLogger(__name__)
 
+DEFAULT_REQUIREMENT_STATUS = "active"
 
 view_bid_role = blacklist("owner_token", "owner", "transfer_token") + schematics_default_role
 Administrator_bid_role = whitelist("tenderers")
@@ -364,7 +366,10 @@ def validate_object_id_uniq(objs, *args):
 
 def validate_criteria_requirement_id_uniq(criteria, *args):
     if criteria:
-        req_ids = [req.id for c in criteria for rg in c.requirementGroups for req in rg.requirements]
+        req_ids = [req.id
+                   for c in criteria
+                   for rg in c.requirementGroups
+                   for req in rg.requirements if req.status == DEFAULT_REQUIREMENT_STATUS]
         if [i for i in set(req_ids) if req_ids.count(i) > 1]:
             raise ValidationError(u"Requirement id should be uniq for all requirements in tender")
 
@@ -732,9 +737,9 @@ class LegislationItem(Model):
 class Requirement(Model):
     class Options:
         roles = {
-            "create": blacklist(),
-            "edit": blacklist("id"),
-            "edit_exclusion": whitelist("eligibleEvidences"),
+            "create": blacklist("datePublished", "dateModified"),
+            "edit": blacklist("id", "datePublished", "dateModified"),
+            "edit_exclusion": whitelist("eligibleEvidences", "status"),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
         }
@@ -759,11 +764,14 @@ class Requirement(Model):
     )
     relatedFeature = MD5Type()
     expectedValue = StringType()
+    status = StringType(choices=["active", "cancelled"], default=DEFAULT_REQUIREMENT_STATUS)
+    datePublished = IsoDateTimeType(default=get_now)
+    dateModified = IsoDateTimeType()
 
     def get_role(self):
         root = self.get_root()
         request = root.request
-        criterion = self.get("__parent__").get("__parent__")
+        criterion = get_particular_parent(request.context.__parent__, Criterion)
         role = "edit"
         if criterion.classification.id.startswith("CRITERION.EXCLUSION"):
             role = "edit_exclusion"

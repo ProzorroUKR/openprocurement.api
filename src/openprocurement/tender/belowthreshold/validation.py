@@ -175,3 +175,8 @@ def validate_award_document(request):
 def validate_operation_ecriteria_objects(request):
     valid_statuses = ["draft", "active.enquiries"]
     base_validate_operation_ecriteria_objects(request, valid_statuses)
+
+
+def validate_operation_requirement_objects(request):
+    valid_statuses = ["active.enquiries"]
+    base_validate_operation_ecriteria_objects(request, valid_statuses)

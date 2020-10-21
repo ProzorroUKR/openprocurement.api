@@ -80,6 +80,14 @@ def get_root(item):
     return item
 
 
+def get_particular_parent(item, model):
+    """ traverse back to particular parent
+    """
+    while not isinstance(item, model):
+        item = item.__parent__
+    return item
+
+
 def generate_id():
     return uuid4().hex
 
