@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
+from iso8601 import parse_date
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_draft_complaint, test_cancellation
 from openprocurement.tender.core.utils import calculate_tender_business_date
@@ -42,6 +43,7 @@ def switch_tender_complaints_draft(self):
 
 @patch("openprocurement.tender.core.utils.RELEASE_2020_04_19", get_now() - timedelta(1))
 @patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
 def switch_tender_cancellation_complaints_draft(self):
     # first we post a cancellation
     tender = self.db.get(self.tender_id)
@@ -65,8 +67,10 @@ def switch_tender_cancellation_complaints_draft(self):
 
     # get tender and check next_check
     response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertEqual(response.json["data"].get("next_check"),
-                     cancellation_data["complaintPeriod"]["endDate"])
+    self.assertEqual(
+        parse_date(response.json["data"].get("next_check")),
+        parse_date(cancellation_data["complaintPeriod"]["endDate"]),
+    )
 
     # and once the date passed
     tender = self.db.get(self.tender_id)
@@ -123,7 +127,10 @@ def switch_qualification_complaints_draft(self):
 
     # get tender and check next_check
     response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertEqual(response.json["data"].get("next_check"), tender["qualificationPeriod"]["endDate"])
+    self.assertEqual(
+        parse_date(response.json["data"].get("next_check")),
+        parse_date(tender["qualificationPeriod"]["endDate"])
+    )
 
     # and once the date passed
     tender = self.db.get(self.tender_id)
@@ -161,7 +168,10 @@ def switch_award_complaints_draft(self):
 
     # get tender and check next_check
     response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertEqual(response.json["data"].get("next_check"), award_data["complaintPeriod"]["endDate"])
+    self.assertEqual(
+        parse_date(response.json["data"].get("next_check")),
+        parse_date(award_data["complaintPeriod"]["endDate"]),
+    )
 
     # and once the date passed
     tender = self.db.get(self.tender_id)

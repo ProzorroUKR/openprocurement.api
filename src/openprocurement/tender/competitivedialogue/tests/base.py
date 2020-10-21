@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from uuid import uuid4
 from copy import deepcopy
 from mock import patch
-from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.api.constants import SANDBOX_MODE, RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.tender.competitivedialogue.models import (
@@ -14,7 +14,7 @@ from openprocurement.tender.competitivedialogue.models import (
 )
 from openprocurement.tender.competitivedialogue.tests.periods import PERIODS, PERIODS_UA_STAGE_2
 from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest as BaseTenderWebTest
-from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_organization, set_bid_responses
 from openprocurement.tender.openeu.tests.base import (
     test_tender_data as base_test_tender_data_eu,
     test_features_tender_data,
@@ -318,11 +318,13 @@ def create_tender_stage2(self, initial_lots=None, initial_data=None, features=No
         {"data": {"status": "draft.stage2"}},
     )
 
+    criteria = []
     if self.initial_criteria:
-        self.app.post_json(
+        response = self.app.post_json(
             "/tenders/{id}/criteria?acc_token={token}".format(id=self.tender_id, token=self.tender_token),
             {"data": self.initial_criteria},
         )
+        criteria = response.json["data"]
     self.app.authorization = ("Basic", ("broker", ""))
     with patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() + timedelta(days=1)):
         self.app.patch_json(
@@ -336,11 +338,14 @@ def create_tender_stage2(self, initial_lots=None, initial_data=None, features=No
         status = response.json["data"]["status"]
         bids = []
         for i in initial_bids:
+            i = i.copy()
             if initial_lots:
-                i = i.copy()
                 value = i.pop("value")
                 i["lotValues"] = [{"value": value, "relatedLot": l["id"]} for l in self.lots]
+            if self.initial_criteria:
+                i["requirementResponses"] = set_bid_responses(criteria)
             response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": i})
+
             self.assertEqual(response.status, "201 Created")
             bids.append(response.json["data"])
             self.initial_bids_tokens[response.json["data"]["id"]] = response.json["access"]["token"]

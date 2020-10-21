@@ -1799,6 +1799,17 @@ def create_bid_requirement_response(self):
             else:
                 self.assertEqual(rr[i][k], v)
 
+    response = self.app.post_json(request_path, {"data": valid_data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("errors", response.json)
+    self.assertEqual(
+        response.json["errors"],
+        [{u'description': [{u'requirementResponses': [u'Requirement id should be uniq for all requirement responses']}],
+          u'location': u'body',
+          u'name': u'bids'}]
+    )
+
 
 def patch_bid_requirement_response(self):
     base_request_path = "/tenders/{}/bids/{}/requirement_responses".format(self.tender_id, self.bid_id)
@@ -1912,6 +1923,19 @@ def get_bid_requirement_response(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     rr_id = response.json["data"][0]["id"]
+
+    response = self.app.get(
+        "/tenders/{}/bids/{}/requirement_responses".format(self.tender_id, self.bid_id),
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Can't view bid in current (active.tendering) tender status"
+    )
+
+    self.set_status("active.qualification")
 
     response = self.app.get("/tenders/{}/bids/{}/requirement_responses".format(self.tender_id, self.bid_id))
     self.assertEqual(response.status, "200 OK")
@@ -2116,6 +2140,19 @@ def get_bid_requirement_response_evidence(self):
     self.assertEqual(response.content_type, "application/json")
     evidence_id = response.json["data"]["id"]
 
+    response = self.app.get(
+        "/tenders/{}/bids/{}/requirement_responses".format(self.tender_id, self.bid_id),
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Can't view bid in current (active.tendering) tender status"
+    )
+
+    self.set_status("active.qualification")
+
     response = self.app.get("/tenders/{}/bids/{}/requirement_responses/{}/evidences".format(
         self.tender_id, self.bid_id, self.rr_id
     ))
@@ -2156,17 +2193,17 @@ def bid_activate(self):
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
         {"data": {"status": next_status}},
-        status=403,
+        status=422,
     )
 
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{u'description': u'Must be answered on all criteria with source `tenderer`',
+        [{u'description': [u'Must be answered on all criteria with source `tenderer`'],
           u'location': u'body',
-          u'name': u'data'}],
+          u'name': u'requirementResponses'}]
     )
 
     response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
@@ -2176,6 +2213,7 @@ def bid_activate(self):
     rrs = []
     for criterion in criteria:
         for req in criterion["requirementGroups"][0]["requirements"]:
+
             if criterion["source"] == "tenderer":
                 rrs.append(
                     {
@@ -2188,6 +2226,7 @@ def bid_activate(self):
                         "value": True,
                     },
                 )
+    rrs = rrs[1:]
 
     response = self.app.post_json(
         "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
@@ -2199,17 +2238,17 @@ def bid_activate(self):
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
         {"data": {"status": next_status}},
-        status=403,
+        status=422,
     )
 
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{u'description': u'Inside requirement group must get answered all of requirements',
+        [{u'description': [u'Inside requirement group must get answered all of requirements'],
           u'location': u'body',
-          u'name': u'data'}],
+          u'name': u'requirementResponses'}],
     )
 
     another_rg_req = criteria[0]["requirementGroups"][1]["requirements"][0]
@@ -2231,17 +2270,17 @@ def bid_activate(self):
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
         {"data": {"status": next_status}},
-        status=403,
+        status=422,
     )
 
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{u'description': u'Inside criteria must be answered only one requirement group',
+        [{u'description': [u'Inside criteria must be answered only one requirement group'],
           u'location': u'body',
-          u'name': u'data'}]
+          u'name': u'requirementResponses'}],
     )
 
     response = self.app.delete(
@@ -2255,14 +2294,6 @@ def bid_activate(self):
         {"data": [rrs[-1]]},
     )
     self.assertEqual(response.status, "201 Created")
-
-
-    response = self.app.post_json(
-        "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
-        {"data": rrs},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
@@ -2286,11 +2317,16 @@ def patch_bid_with_responses(self):
         u"value": u"True"
     }
 
+    valid_data_1 = deepcopy(valid_data)
+    valid_data_1["requirement"] = {
+        u"id": self.requirement_2_id,
+        u"title": self.requirement_2_title,
+    }
     # add
     response = self.app.patch_json(
         request_path,
         {"data": {
-            "requirementResponses": [valid_data, valid_data]
+            "requirementResponses": [valid_data, valid_data_1]
         }}
     )
 
@@ -2299,22 +2335,23 @@ def patch_bid_with_responses(self):
     rrs = response.json["data"]["requirementResponses"]
     self.assertEqual(len(rrs), 2)
 
-    # add third
+    valid_data["id"] = "2" * 32
+
     response = self.app.patch_json(
         request_path,
         {"data": {
-            "requirementResponses": [rrs[0], rrs[1], valid_data]
+            "requirementResponses": [rrs[1], valid_data],
         }}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     rrs = response.json["data"]["requirementResponses"]
-    self.assertEqual(len(rrs), 3)
+    self.assertEqual(len(rrs), 2)
 
     # patch first and third
 
-    rrs[0]["title"] = "Requirement response 1"
-    rrs[2]["title"] = "Requirement response 3"
+    rrs[0]["title"] = "Requirement response 2"
+    rrs[1]["title"] = "Requirement response 3"
 
     response = self.app.patch_json(
         request_path,
@@ -2326,21 +2363,5 @@ def patch_bid_with_responses(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     rrs = response.json["data"]["requirementResponses"]
-    self.assertEqual(rrs[0]["title"], "Requirement response 1")
-    self.assertEqual(rrs[1]["title"], "Requirement response")
-    self.assertEqual(rrs[2]["title"], "Requirement response 3")
-
-    # delete second
-
-    response = self.app.patch_json(
-        request_path,
-        {"data": {
-            "requirementResponses": [rrs[0], rrs[2]]
-        }}
-    )
-
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    rrs = response.json["data"]["requirementResponses"]
-    self.assertEqual(rrs[0]["title"], "Requirement response 1")
+    self.assertEqual(rrs[0]["title"], "Requirement response 2")
     self.assertEqual(rrs[1]["title"], "Requirement response 3")

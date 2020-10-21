@@ -24,7 +24,7 @@ from openprocurement.tender.core.models import (
     TenderAuctionPeriod,
     PeriodEndRequired,
     Tender as BaseTender,
-    Bid,
+    Bid as BaseBid,
     ProcuringEntity,
     Item,
     Award,
@@ -34,6 +34,7 @@ from openprocurement.tender.core.models import (
     Feature,
     LotWithMinimalStepLimitsValidation as BaseLot,
     Complaint,
+    BidResponsesMixin,
     validate_features_uniq,
     validate_lots_uniq,
     get_tender
@@ -82,6 +83,10 @@ class Cancellation(BaseCancellation):
     _after_release_reasonType_choices = ["noDemand", "unFixable", "expensesCut"]
 
     _after_release_status_choices = ["draft", "unsuccessful", "active"]
+
+
+class Bid(BaseBid, BidResponsesMixin):
+    pass
 
 
 @implementer(IBelowThresholdTender)

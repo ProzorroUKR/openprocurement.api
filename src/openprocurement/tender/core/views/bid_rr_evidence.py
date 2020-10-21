@@ -4,7 +4,7 @@ from openprocurement.tender.core.validation import (
     validate_evidence_data,
     validate_patch_evidence_data,
     validate_operation_ecriteria_objects,
-    validate_operation_bid_requirement_response,
+    validate_view_requirement_responses,
 )
 from openprocurement.tender.core.views.requirement_response_evidence import BaseRequirementResponseEvidenceResource
 
@@ -15,7 +15,6 @@ class BaseBidRequirementResponseEvidenceResource(BaseRequirementResponseEvidence
         content_type="application/json",
         validators=(
             validate_operation_ecriteria_objects,
-            validate_operation_bid_requirement_response,
             validate_evidence_data,
         ),
         permission="edit_bid",
@@ -23,11 +22,11 @@ class BaseBidRequirementResponseEvidenceResource(BaseRequirementResponseEvidence
     def collection_post(self):
         return super(BaseBidRequirementResponseEvidenceResource, self).collection_post()
 
-    @json_view(permission="view_tender")
+    @json_view(permission="view_tender",  validators=(validate_view_requirement_responses,))
     def collection_get(self):
         return super(BaseBidRequirementResponseEvidenceResource, self).collection_get()
 
-    @json_view(permission="view_tender")
+    @json_view(permission="view_tender",  validators=(validate_view_requirement_responses,))
     def get(self):
         return super(BaseBidRequirementResponseEvidenceResource, self).get()
 
@@ -35,7 +34,6 @@ class BaseBidRequirementResponseEvidenceResource(BaseRequirementResponseEvidence
         content_type="application/json",
         validators=(
             validate_operation_ecriteria_objects,
-            validate_operation_bid_requirement_response,
             validate_patch_evidence_data,
         ),
         permission="edit_bid",
@@ -46,7 +44,6 @@ class BaseBidRequirementResponseEvidenceResource(BaseRequirementResponseEvidence
     @json_view(
         validators=(
             validate_operation_ecriteria_objects,
-            validate_operation_bid_requirement_response,
         ),
         permission="edit_bid",
     )

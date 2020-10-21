@@ -47,6 +47,10 @@ from openprocurement.tender.core.models import (
     PROCURING_ENTITY_KINDS,
     QualificationMilestoneListMixin,
     RequirementResponse,
+    BidResponsesMixin,
+
+    # validators
+    validate_response_requirement_uniq,
 )
 from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
@@ -63,7 +67,6 @@ from openprocurement.tender.belowthreshold.models import Tender as BaseTender
 from openprocurement.tender.core.validation import (
     validate_lotvalue_value,
     validate_relatedlot,
-    ValidateSelfEligibleMixin,
 )
 from openprocurement.tender.openua.models import (
     Complaint as BaseComplaint,
@@ -347,7 +350,7 @@ class LotValue(BaseLotValue):
             validate_relatedlot(get_tender(parent), relatedLot)
 
 
-class Bid(ValidateSelfEligibleMixin, BaseBid):
+class Bid(BidResponsesMixin, BaseBid):
     class Options:
         roles = {
             "Administrator": Administrator_bid_role,
@@ -366,9 +369,9 @@ class Bid(ValidateSelfEligibleMixin, BaseBid):
                 "financialDocuments",
                 "eligibilityDocuments",
                 "qualificationDocuments",
+                "requirementResponses",
             ),
-            "edit": whitelist("value", "tenderers", "parameters", "lotValues", "status", "subcontractingDetails"),
-            "edit.draft": whitelist(
+            "edit": whitelist(
                 "value",
                 "tenderers",
                 "parameters",
@@ -494,7 +497,7 @@ class Qualification(QualificationMilestoneListMixin):
 
     class Options:
         roles = {
-            "create": blacklist("id", "status", "documents", "date"),
+            "create": blacklist("id", "status", "documents", "date", "requirementResponses"),
             "edit": whitelist(
                 "status",
                 "qualified",
@@ -505,6 +508,7 @@ class Qualification(QualificationMilestoneListMixin):
                 "description",
                 "description_en",
                 "description_ru",
+                "requirementResponses",
             ),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,

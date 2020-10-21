@@ -1917,7 +1917,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, '200 OK')
 
-        test_rr_data = [deepcopy(rr_mock)]
+        test_rr_data = [deepcopy(rr_mock), ]
 
         with open(TARGET_DIR + 'criteria/create-requirement-response.http', 'wb') as self.app.file_obj:
             response = self.app.post_json(
@@ -1935,16 +1935,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     self.tender_id, bid_id, rr_id, bid_token),
                 {'data': {'title': 'Updated title'}},
             )
-            self.assertEqual(response.status, '200 OK')
-
-        with open(TARGET_DIR + 'criteria/requirement-response-list.http', 'wb') as self.app.file_obj:
-            response = self.app.get(
-                '/tenders/{}/bids/{}/requirement_responses'.format(self.tender_id, bid_id))
-            self.assertEqual(response.status, '200 OK')
-
-        with open(TARGET_DIR + 'criteria/requirement-response.http', 'wb') as self.app.file_obj:
-            response = self.app.get(
-                '/tenders/{}/bids/{}/requirement_responses/{}'.format(self.tender_id, bid_id, rr_id))
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'criteria/create-requirement-response-evidence.http', 'wb') as self.app.file_obj:
@@ -1965,6 +1955,26 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, '200 OK')
 
+        with open(TARGET_DIR + 'criteria/bid-activation.http', 'wb') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/bids/{}?acc_token={}'.format(
+                    self.tender_id, bid_id, bid_token),
+                {'data': {'status': 'active'}},
+                status=422
+            )
+            self.assertEqual(response.status, '422 Unprocessable Entity')
+
+        self.set_status("active.auction")
+        with open(TARGET_DIR + 'criteria/requirement-response-list.http', 'wb') as self.app.file_obj:
+            response = self.app.get(
+                '/tenders/{}/bids/{}/requirement_responses'.format(self.tender_id, bid_id))
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'criteria/requirement-response.http', 'wb') as self.app.file_obj:
+            response = self.app.get(
+                '/tenders/{}/bids/{}/requirement_responses/{}'.format(self.tender_id, bid_id, rr_id))
+            self.assertEqual(response.status, '200 OK')
+
         with open(TARGET_DIR + 'criteria/requirement-response-evidence-list.http', 'wb') as self.app.file_obj:
             response = self.app.get(
                 '/tenders/{}/bids/{}/requirement_responses/{}/evidences'.format(self.tender_id, bid_id, rr_id))
@@ -1976,14 +1986,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     self.tender_id, bid_id, rr_id, evidence_id))
             self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'criteria/bid-activation.http', 'wb') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/bids/{}?acc_token={}'.format(
-                    self.tender_id, bid_id, bid_token),
-                {'data': {'status': 'active'}},
-                status=403
-            )
-            self.assertEqual(response.status, '403 Forbidden')
+        self.set_status("draft")
 
         with open(TARGET_DIR + 'criteria/delete-requirement-response-evidence.http', 'wb') as self.app.file_obj:
             response = self.app.delete(
