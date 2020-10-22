@@ -285,7 +285,7 @@ class PriceQuotationTender(Tender):
             for award in self.awards:
                 if award.status == 'pending':
                     checks.append(
-                        calculate_tender_business_date(award.date, QUALIFICATION_DURATION, self)
+                        calculate_tender_business_date(award.date, QUALIFICATION_DURATION, self, working_days=True)
                     )
                 if award.status == "active" and not\
                    any([i.awardID == award.id for i in self.contracts]):
