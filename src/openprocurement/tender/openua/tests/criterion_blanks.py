@@ -650,6 +650,107 @@ def patch_rg_requirement(self):
         self.assertEqual(updated_requirement[k], v)
 
 
+def put_rg_requirement_valid(self):
+    put_fields = {
+        u"title": u"Фізична особа",
+        u"expectedValue": u"false",
+        u"datePublished": u"2030-10-22T11:14:18.511585+03:00",
+        u"dateModified": u"2030-10-22T11:14:18.511585+03:00",
+        u"id": u"11111111111111111111111111111111",
+    }
+    post_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements?acc_token={}"
+    put_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}"
+    get_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements"
+
+    # Add requirement to non exclusion criteria
+    response = self.app.post_json(post_url.format(self.tender_id, self.criteria_id, self.rg_id, self.tender_token),
+                                  {"data": self.test_requirement_data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    self.requirement_id = response.json["data"]["id"]
+
+    # Add requirement to exclusion criteria
+    test_criteria_ = deepcopy(test_criteria[0])
+    test_criteria_["classification"]["id"] = "CRITERION.EXCLUSION.SOMETHING"
+    response = self.app.post_json(
+        "/tenders/{}/criteria?acc_token={}&bulk=true".format(self.tender_id, self.tender_token),
+        {"data": test_criteria})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    exclusion_criteria_id = response.json["data"][0]["id"]
+    exclusion_rg_id = response.json["data"][0]["requirementGroups"][0]["id"]
+    exc_requirement_id = response.json["data"][0]["requirementGroups"][0]["requirements"][0]["id"]
+
+    self.set_status("active.tendering")
+
+    # Test put non exclusion criteria
+    response = self.app.put_json(
+        put_url.format(self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, self.tender_token),
+        {"data": put_fields})
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    response = self.app.get(get_url.format(self.tender_id, self.criteria_id, self.rg_id))
+    self.assertEqual(len(response.json["data"]), 2)
+    self.assertEqual(response.json["data"][0]["status"], "cancelled")
+    self.assertIsNotNone(response.json["data"][0]["dateModified"])
+    self.assertEqual(response.json["data"][1]["status"], "active")
+    self.assertEqual(response.json["data"][1]["id"], self.requirement_id)
+    self.assertEqual(response.json["data"][1]["title"], put_fields["title"])
+    self.assertEqual(response.json["data"][1]["expectedValue"], put_fields["expectedValue"])
+    self.assertIsNone(response.json["data"][1].get("dateModified"))
+
+    # Test put exclusion criteria
+    response = self.app.put_json(
+        put_url.format(
+            self.tender_id, exclusion_criteria_id,  exclusion_rg_id,  exc_requirement_id, self.tender_token
+        ),
+        {"data": put_fields})
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    response = self.app.get(get_url.format(self.tender_id, exclusion_criteria_id, exclusion_rg_id))
+    self.assertEqual(len(response.json["data"]), 2)
+    self.assertEqual(response.json["data"][0]["status"], "cancelled")
+    self.assertIsNotNone(response.json["data"][0]["dateModified"])
+    self.assertEqual(response.json["data"][1]["status"], "active")
+    self.assertEqual(response.json["data"][1]["id"], exc_requirement_id)
+    self.assertEqual(response.json["data"][1]["title"], response.json["data"][0]["title"])
+    self.assertEqual(response.json["data"][1]["expectedValue"], response.json["data"][0]["expectedValue"])
+    self.assertIsNone(response.json["data"][1].get("dateModified"))
+
+
+def put_rg_requirement_invalid(self):
+    put_fields = {}
+    post_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements?acc_token={}"
+    put_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}"
+    response = self.app.post_json(post_url.format(self.tender_id, self.criteria_id, self.rg_id, self.tender_token),
+                                  {"data": self.test_requirement_data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    self.requirement_id = response.json["data"]["id"]
+    self.set_status("active.qualification")
+
+    response = self.app.put_json(
+        put_url.format(self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, self.tender_token),
+        {"data": put_fields},
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Can't put object if tender not in ['active.tendering'] statuses"
+            }
+        ],
+    )
+
+
 def get_rg_requirement(self):
     response = self.app.post_json(
         "/tenders/{}/criteria/{}/requirement_groups/{}/requirements?acc_token={}".format(
