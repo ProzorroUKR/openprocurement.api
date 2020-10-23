@@ -620,6 +620,7 @@ def create_rg_requirement_invalid(self):
 
 
 def patch_rg_requirement(self):
+    self.set_status("draft")
     response = self.app.post_json(
         "/tenders/{}/criteria/{}/requirement_groups/{}/requirements?acc_token={}".format(
             self.tender_id, self.criteria_id, self.rg_id, self.tender_token),
@@ -817,7 +818,7 @@ def create_requirement_evidence_invalid(self):
 
 
 def patch_requirement_evidence(self):
-
+    self.set_status("draft")
     response = self.app.post_json(
         "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}/evidences?acc_token={}".format(
             self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, self.tender_token),
@@ -847,6 +848,7 @@ def patch_requirement_evidence(self):
 
 
 def create_patch_delete_evidences_from_requirement(self):
+    self.set_status("draft")
     request_path = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}".format(
         self.tender_id,
         self.exclusion_criteria_id,
@@ -921,6 +923,7 @@ def create_patch_delete_evidences_from_requirement(self):
 
 
 def delete_requirement_evidence(self):
+    self.set_status("draft")
     response = self.app.post_json(
         "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}/evidences?acc_token={}".format(
             self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, self.tender_token),
@@ -1012,6 +1015,7 @@ def get_requirement_evidence(self):
 
 
 def validate_requirement_evidence_document(self):
+    self.set_status("draft")
     response = self.app.post_json(
         "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}/evidences?acc_token={}".format(
             self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, self.tender_token),

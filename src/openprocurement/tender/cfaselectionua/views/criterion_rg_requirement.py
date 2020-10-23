@@ -5,7 +5,7 @@ from openprocurement.tender.belowthreshold.views.criterion_rg_requirement import
 
 from openprocurement.tender.core.validation import (
     validate_patch_requirement_data,
-    validate_put_requirement_objects
+    validate_put_requirement_objects,
 )
 
 from openprocurement.api.utils import json_view

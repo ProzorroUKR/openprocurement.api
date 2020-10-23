@@ -131,6 +131,7 @@ def patch_criteria_rg(self):
 
 
 def delete_requirement_evidence(self):
+    self.set_status("draft")
     response = self.app.post_json(
         "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}/evidences?acc_token={}".format(
             self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, self.tender_token),
@@ -166,7 +167,7 @@ def delete_requirement_evidence(self):
     self.assertEqual(response.content_type, "application/json")
     evidence_id = response.json["data"]["id"]
 
-    self.set_status("active.auction")
+    self.set_status("active.enquiries")
 
     response = self.app.delete(
         "{}/{}?acc_token={}".format(base_request_path, evidence_id, self.tender_token),

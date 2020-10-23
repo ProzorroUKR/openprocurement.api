@@ -24,10 +24,12 @@ Content-Type: application/json; charset=UTF-8
 Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/fb07ce223a754201a341023b86d832ef/criteria/3061d99566884fb3b45862a6d237616e/requirement_groups/672700185cd3443f9b4021f5300d11cf/requirements/7e0c482b657a4cb8bbcfb850c2069acd
 {
   "data": {
-    "dataType": "boolean", 
+    "status": "active", 
     "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку", 
-    "id": "7e0c482b657a4cb8bbcfb850c2069acd", 
+    "dataType": "boolean", 
+    "datePublished": "2020-05-15T01:00:00+03:00", 
     "expectedValue": "true", 
+    "id": "7e0c482b657a4cb8bbcfb850c2069acd", 
     "eligibleEvidences": [
       {
         "title": "Документальне підтвердження", 
