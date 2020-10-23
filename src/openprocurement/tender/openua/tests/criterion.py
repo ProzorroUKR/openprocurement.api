@@ -82,6 +82,7 @@ class TenderCriteriaRGRequirementTestMixin(object):
         u"dataType": u"boolean",
         u"expectedValue": u"true",
     }
+    allowed_put_statuses = ["active.tendering"]
 
     @patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
     def setUp(self):

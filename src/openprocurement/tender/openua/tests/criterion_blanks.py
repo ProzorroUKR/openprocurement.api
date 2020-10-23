@@ -729,7 +729,7 @@ def put_rg_requirement_invalid(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.requirement_id = response.json["data"]["id"]
-    self.set_status("active.qualification")
+    self.set_status("active.auction")
 
     response = self.app.put_json(
         put_url.format(self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, self.tender_token),
@@ -745,7 +745,7 @@ def put_rg_requirement_invalid(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Can't put object if tender not in ['active.tendering'] statuses"
+                "description": "Can't put object if tender not in {} statuses".format(self.allowed_put_statuses)
             }
         ],
     )
@@ -969,8 +969,7 @@ def delete_requirement_evidence(self):
         response.json["errors"],
         [{
             u'description': u"Can't delete object if tender not in "
-                            u"['draft', 'draft.pending', 'draft.stage2', "
-                            u"'active.tendering'] statuses",
+                            u"['draft', 'draft.pending', 'draft.stage2'] statuses",
             u'location': u'body',
             u'name': u'data',
         }]

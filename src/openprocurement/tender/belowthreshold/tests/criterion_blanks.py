@@ -179,7 +179,7 @@ def delete_requirement_evidence(self):
         response.json["errors"],
         [{
             u'description': u"Can't delete object if tender not in "
-                            u"['draft', 'active.enquiries'] statuses",
+                            u"['draft'] statuses",
             u'location': u'body',
             u'name': u'data',
         }]
