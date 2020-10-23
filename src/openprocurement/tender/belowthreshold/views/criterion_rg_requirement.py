@@ -7,7 +7,8 @@ from openprocurement.tender.core.validation import (
 )
 from openprocurement.tender.belowthreshold.validation import (
     validate_operation_ecriteria_objects,
-    validate_operation_requirement_objects
+    validate_put_requirement_objects,
+    validate_patch_requirement_objects,
 )
 from openprocurement.api.utils import json_view
 
@@ -36,7 +37,7 @@ class TenderCriteriaRGRequirementResource(BaseTenderCriteriaRGRequirementResourc
     @json_view(
         content_type="application/json",
         validators=(
-            validate_operation_ecriteria_objects,
+            validate_patch_requirement_objects,
             validate_patch_requirement_data,
         ),
         permission="edit_tender"
@@ -47,7 +48,7 @@ class TenderCriteriaRGRequirementResource(BaseTenderCriteriaRGRequirementResourc
     @json_view(
         content_type="application/json",
         validators=(
-            validate_operation_requirement_objects,
+            validate_put_requirement_objects,
             validate_patch_requirement_data,
         ),
         permission="edit_tender"
