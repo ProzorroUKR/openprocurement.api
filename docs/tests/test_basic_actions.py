@@ -1770,6 +1770,33 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         # Eligible evidence operation
 
+        test_evidence_data_1 = deepcopy(test_evidence_data)
+        test_evidence_data_2 = deepcopy(test_evidence_data)
+        test_evidence_data_2["type"] = "statement"
+        with open(TARGET_DIR + 'criteria/bulk-update-requirement-evidence.http', 'wb') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}'.format(
+                    self.tender_id, criteria_id_1, rg_id_1, requirement_id_1, owner_token),
+                {"data": {"eligibleEvidences": [test_evidence_data_1, test_evidence_data_2]}},
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        evidence = response.json["data"]["eligibleEvidences"][1]
+
+        with open(TARGET_DIR + 'criteria/bulk-delete-requirement-evidence.http', 'wb') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}'.format(
+                    self.tender_id, criteria_id_1, rg_id_1, requirement_id_1, owner_token),
+                {"data": {"eligibleEvidences": [evidence]}},
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        self.app.patch_json(
+            '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}'.format(
+                self.tender_id, criteria_id_1, rg_id_1, requirement_id_1, owner_token),
+            {"data": {"eligibleEvidences": [test_evidence_data_1, test_evidence_data_2]}},
+        )
+
         with open(TARGET_DIR + 'criteria/add-requirement-evidence.http', 'wb') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}/evidences?acc_token={}'.format(
@@ -1777,7 +1804,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 {'data': test_evidence_data},
             )
             self.assertEqual(response.status, '201 Created')
-
         evidence_id = response.json['data']['id']
 
         with open(TARGET_DIR + 'criteria/patch-requirement-evidence.http', 'wb') as self.app.file_obj:
@@ -1820,7 +1846,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
     @mock.patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", parse_date(MOCK_DATETIME) - timedelta(days=1))
     def test_bid_requirement_response(self):
         tender_data = deepcopy(test_tender_data)
-        # tender_data.update({"status": "draft"})
 
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
@@ -1833,11 +1858,18 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         criteria_data = deepcopy(test_criteria[:2])
 
-        response = self.app.post_json(
-            '/tenders/{}/criteria?acc_token={}'.format(self.tender_id, owner_token),
-            {'data': criteria_data},
-        )
-        self.assertEqual(response.status, '201 Created')
+        criteria_data[1]["requirementGroups"][0]["requirements"].append({
+            u"dataType": u"boolean",
+            u"expectedValue": u"true",
+            u"title": u"Additional requirement"
+        })
+
+        with open(TARGET_DIR + 'criteria/base-criteria.http', 'wb') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/criteria?acc_token={}'.format(self.tender_id, owner_token),
+                {'data': criteria_data},
+            )
+            self.assertEqual(response.status, '201 Created')
 
         criteria = response.json["data"]
 
@@ -1869,43 +1901,101 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             "type": "document",
         }
 
-        requirement_1 = criteria[0]["requirementGroups"][0]["requirements"][0]
-        requirement_2 = criteria[1]["requirementGroups"][0]["requirements"][0]
+        requirement_1_1 = criteria[0]["requirementGroups"][0]["requirements"][0]
+        requirement_1_2 = criteria[0]["requirementGroups"][1]["requirements"][0]
+        requirement_2_1 = criteria[1]["requirementGroups"][0]["requirements"][0]
+        requirement_2_2 = criteria[1]["requirementGroups"][0]["requirements"][1]
 
         rr_mock = {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-                "id": requirement_1["id"],
-                "title": requirement_1["title"],
+                "id": requirement_1_1["id"],
+                "title": requirement_1_1["title"],
             },
             "evidences": [
                 evidence_data,
             ],
             "value": "True",
         }
-        rr_1 = deepcopy(rr_mock)
-        rr_2 = deepcopy(rr_mock)
-        rr_2["title"] = "Requirement response 2"
-        rr_2["requirement"] = {
-            "id": requirement_2["id"],
-            "title": requirement_2["title"],
+        rr_1_1 = deepcopy(rr_mock)
+        rr_1_2 = deepcopy(rr_mock)
+        rr_1_2["requirement"] = {
+            "id": requirement_1_2["id"],
+            "title": requirement_1_2["title"],
         }
+        rr_2_1 = deepcopy(rr_mock)
+        rr_2_1["title"] = "Requirement response 2"
+        rr_2_1["requirement"] = {
+            "id": requirement_2_1["id"],
+            "title": requirement_2_1["title"],
+        }
+
+        with open(TARGET_DIR + 'criteria/requirement-response-basic-data-1.http', 'wb') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/bids/{}?acc_token={}'.format(
+                    self.tender_id, bid_id, bid_token),
+                {'data': {'requirementResponses': [rr_1_1]}},
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'criteria/bid-activation-not-all-criteria.http', 'wb') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/bids/{}?acc_token={}'.format(
+                    self.tender_id, bid_id, bid_token),
+                {'data': {'status': 'active'}},
+                status=422
+            )
+            self.assertEqual(response.status, '422 Unprocessable Entity')
+
+        with open(TARGET_DIR + 'criteria/requirement-response-basic-data-2.http', 'wb') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/bids/{}?acc_token={}'.format(
+                    self.tender_id, bid_id, bid_token),
+                {'data': {'requirementResponses': [rr_1_1, rr_1_2, rr_2_1]}},
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'criteria/bid-activation-answered-on-two-groups.http', 'wb') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/bids/{}?acc_token={}'.format(
+                    self.tender_id, bid_id, bid_token),
+                {'data': {'status': 'active'}},
+                status=422
+            )
+            self.assertEqual(response.status, '422 Unprocessable Entity')
+
+        with open(TARGET_DIR + 'criteria/requirement-response-basic-data-3.http', 'wb') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/bids/{}?acc_token={}'.format(
+                    self.tender_id, bid_id, bid_token),
+                {'data': {'requirementResponses': [rr_1_1, rr_2_1]}},
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'criteria/bid-activation-not-all-requirements.http', 'wb') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/bids/{}?acc_token={}'.format(
+                    self.tender_id, bid_id, bid_token),
+                {'data': {'status': 'active'}},
+                status=422
+            )
+            self.assertEqual(response.status, '422 Unprocessable Entity')
 
         with open(TARGET_DIR + 'criteria/add-requirement-response-from-bid.http', 'wb') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/bids/{}?acc_token={}'.format(
                     self.tender_id, bid_id, bid_token),
-                {'data': {'requirementResponses': [rr_1, rr_2]}},
+                {'data': {'requirementResponses': [rr_1_1, rr_2_1]}},
             )
             self.assertEqual(response.status, '200 OK')
 
-        rr_1["title"] = "Requirement response 1"
+        rr_1_1["title"] = "Requirement response 1"
         with open(TARGET_DIR + 'criteria/patch-requirement-response-from-bid.http', 'wb') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/bids/{}?acc_token={}'.format(
                     self.tender_id, bid_id, bid_token),
-                {'data': {'requirementResponses': [rr_1, rr_2]}},
+                {'data': {'requirementResponses': [rr_1_1, rr_2_1]}},
             )
             self.assertEqual(response.status, '200 OK')
 
@@ -1955,15 +2045,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'criteria/bid-activation.http', 'wb') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/bids/{}?acc_token={}'.format(
-                    self.tender_id, bid_id, bid_token),
-                {'data': {'status': 'active'}},
-                status=422
-            )
-            self.assertEqual(response.status, '422 Unprocessable Entity')
-
         self.set_status("active.auction")
         with open(TARGET_DIR + 'criteria/requirement-response-list.http', 'wb') as self.app.file_obj:
             response = self.app.get(
@@ -1998,4 +2079,446 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.get(
                 '/tenders/{}/bids/{}/requirement_responses/{}?acc_token={}'.format(
                     self.tender_id, bid_id, rr_id, bid_token))
+            self.assertEqual(response.status, '200 OK')
+
+    @mock.patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17",
+                parse_date(MOCK_DATETIME) - timedelta(days=1))
+    def test_award_requirement_response(self):
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        response = self.app.post_json(
+            '/tenders?opt_pretty=1',
+            {'data': test_tender_data})
+        self.assertEqual(response.status, '201 Created')
+
+        tender = response.json['data']
+        owner_token = response.json['access']['token']
+        self.tender_id = tender['id']
+
+        criteria_data = deepcopy(test_criteria[6:8])
+
+        response = self.app.post_json(
+            '/tenders/{}/criteria?acc_token={}'.format(self.tender_id, owner_token),
+            {'data': criteria_data},
+        )
+        self.assertEqual(response.status, '201 Created')
+
+        criteria = response.json["data"]
+
+        bid_data = deepcopy(bid)
+        bid_data["status"] = "draft"
+
+        response = self.app.post_json(
+            '/tenders/{}/bids'.format(self.tender_id),
+            {'data': bid})
+        bid_id = response.json['data']['id']
+        bid_token = response.json['access']['token']
+
+        response = self.app.patch_json(
+            '/tenders/{}/bids/{}?acc_token={}'.format(
+                self.tender_id, bid_id, bid_token),
+            {'data': {"status": "pending"}})
+
+        # create second bid
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.post_json(
+            '/tenders/{}/bids'.format(self.tender_id),
+            {'data': bid2})
+
+        # Pre-qualification
+        self.set_status(
+            'active.pre-qualification',
+            {"id": self.tender_id, 'status': 'active.tendering'})
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json(
+            '/tenders/{}'.format(self.tender_id),
+            {'data': {"id": self.tender_id}})
+        self.app.authorization = auth
+
+        response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
+        self.assertEqual(response.status, "200 OK")
+        qualifications = response.json['data']
+
+        for qualification in qualifications:
+            response = self.app.patch_json(
+                '/tenders/{}/qualifications/{}?acc_token={}'.format(
+                    self.tender_id, qualification['id'], owner_token),
+                {"data": {
+                    "status": "active",
+                    "qualified": True,
+                    "eligible": True
+                }})
+            self.assertEqual(response.status, "200 OK")
+
+        # active.pre-qualification.stand-still
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
+            {"data": {"status": "active.pre-qualification.stand-still"}})
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json['data']['status'], "active.pre-qualification.stand-still")
+
+        # switch to active.auction
+        self.set_status('active.auction')
+        self.app.authorization = ('Basic', ('auction', ''))
+        response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
+        auction_bids_data = response.json['data']['bids']
+        self.app.post_json(
+            '/tenders/{}/auction'.format(self.tender_id),
+            {'data': {'bids': auction_bids_data}})
+
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.get('/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token))
+        # get pending award
+        award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
+
+        self.set_status("active.qualification")
+
+        response = self.app.post(
+            "/tenders/{}/awards/{}/documents?acc_token={}".format(
+                self.tender_id, award_id, owner_token),
+            upload_files=[("file", "name.doc", "content")],
+        )
+        self.assertEqual(response.status, "201 Created")
+
+        doc_id = response.json["data"]["id"]
+
+        # response = self.app.patch_json(
+        #     '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+        #     {"data": {
+        #         "status": "active",
+        #         "qualified": True,
+        #         "eligible": True
+        #     }})
+        # self.assertEqual(response.status, '200 OK')
+
+        evidence_data = {
+            "title": "Requirement response",
+            "relatedDocument": {
+                "id": doc_id,
+                "title": "name.doc",
+            },
+            "type": "document",
+        }
+
+        requirement_1 = criteria[0]["requirementGroups"][0]["requirements"][0]
+        requirement_2 = criteria[1]["requirementGroups"][0]["requirements"][0]
+
+        rr_mock = {
+            "title": "Requirement response",
+            "description": "some description",
+            "requirement": {
+                "id": requirement_1["id"],
+                "title": requirement_1["title"],
+            },
+            "evidences": [
+                evidence_data,
+            ],
+            "value": "True",
+        }
+        rr_1 = deepcopy(rr_mock)
+        rr_2 = deepcopy(rr_mock)
+        rr_2["title"] = "Requirement response 2"
+        rr_2["requirement"] = {
+            "id": requirement_2["id"],
+            "title": requirement_2["title"],
+        }
+
+        self.tick()
+
+        with open(TARGET_DIR + 'criteria/add-requirement-response-from-award.http', 'wb') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(
+                    self.tender_id, award_id, owner_token),
+                {'data': {'requirementResponses': [rr_1, rr_2]}},
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        rr_1["title"] = "Requirement response 1"
+        with open(TARGET_DIR + 'criteria/patch-requirement-response-from-award.http', 'wb') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(
+                    self.tender_id, award_id, owner_token),
+                {'data': {'requirementResponses': [rr_1, rr_2]}},
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'criteria/delete-requirement-response-from-award.http', 'wb') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(
+                    self.tender_id, award_id, owner_token),
+                {'data': {'requirementResponses': []}},
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        test_rr_data = [deepcopy(rr_mock), ]
+
+        with open(TARGET_DIR + 'criteria/award-create-requirement-response.http', 'wb') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/awards/{}/requirement_responses?acc_token={}'.format(
+                    self.tender_id, award_id, owner_token),
+                {'data': test_rr_data},
+            )
+            self.assertEqual(response.status, '201 Created')
+
+        rr_id = response.json["data"][0]["id"]
+
+        with open(TARGET_DIR + 'criteria/award-update-requirement-response.http', 'wb') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/awards/{}/requirement_responses/{}?acc_token={}'.format(
+                    self.tender_id, award_id, rr_id, owner_token),
+                {'data': {'title': 'Updated title'}},
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'criteria/award-create-requirement-response-evidence.http', 'wb') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/awards/{}/requirement_responses/{}/evidences?acc_token={}'.format(
+                    self.tender_id, award_id, rr_id, owner_token),
+                {'data': evidence_data},
+            )
+            self.assertEqual(response.status, '201 Created')
+
+        evidence_id = response.json["data"]["id"]
+
+        with open(TARGET_DIR + 'criteria/award-update-requirement-response-evidence.http', 'wb') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/awards/{}/requirement_responses/{}/evidences/{}?acc_token={}'.format(
+                    self.tender_id, award_id, rr_id, evidence_id, owner_token),
+                {'data': {'title': 'Update evidence title'}},
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'criteria/award-requirement-response-list.http', 'wb') as self.app.file_obj:
+            response = self.app.get(
+                '/tenders/{}/awards/{}/requirement_responses'.format(self.tender_id, award_id))
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'criteria/award-requirement-response.http', 'wb') as self.app.file_obj:
+            response = self.app.get(
+                '/tenders/{}/awards/{}/requirement_responses/{}'.format(self.tender_id, award_id, rr_id))
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'criteria/award-requirement-response-evidence-list.http', 'wb') as self.app.file_obj:
+            response = self.app.get(
+                '/tenders/{}/awards/{}/requirement_responses/{}/evidences'.format(self.tender_id, award_id, rr_id))
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'criteria/award-requirement-response-evidence.http', 'wb') as self.app.file_obj:
+            response = self.app.get(
+                '/tenders/{}/awards/{}/requirement_responses/{}/evidences/{}'.format(
+                    self.tender_id, award_id, rr_id, evidence_id))
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'criteria/award-delete-requirement-response-evidence.http', 'wb') as self.app.file_obj:
+            response = self.app.delete(
+                '/tenders/{}/awards/{}/requirement_responses/{}/evidences/{}?acc_token={}'.format(
+                    self.tender_id, award_id, rr_id, evidence_id, owner_token))
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'criteria/award-delete-requirement-response.http', 'wb') as self.app.file_obj:
+            response = self.app.get(
+                '/tenders/{}/awards/{}/requirement_responses/{}?acc_token={}'.format(
+                    self.tender_id, award_id, rr_id, owner_token))
+            self.assertEqual(response.status, '200 OK')
+
+    @mock.patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17",
+                parse_date(MOCK_DATETIME) - timedelta(days=1))
+    def test_qualification_requirement_response(self):
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        response = self.app.post_json(
+            '/tenders?opt_pretty=1',
+            {'data': test_tender_data})
+        self.assertEqual(response.status, '201 Created')
+
+        tender = response.json['data']
+        owner_token = response.json['access']['token']
+        self.tender_id = tender['id']
+
+        criteria_data = deepcopy(test_criteria[6:8])
+
+        response = self.app.post_json(
+            '/tenders/{}/criteria?acc_token={}'.format(self.tender_id, owner_token),
+            {'data': criteria_data},
+        )
+        self.assertEqual(response.status, '201 Created')
+
+        criteria = response.json["data"]
+
+        bid_data = deepcopy(bid)
+        bid_data["status"] = "draft"
+
+        response = self.app.post_json(
+            '/tenders/{}/bids'.format(self.tender_id),
+            {'data': bid})
+        bid_id = response.json['data']['id']
+        bid_token = response.json['access']['token']
+
+        response = self.app.patch_json(
+            '/tenders/{}/bids/{}?acc_token={}'.format(
+                self.tender_id, bid_id, bid_token),
+            {'data': {"status": "pending"}})
+
+        # create second bid
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.post_json(
+            '/tenders/{}/bids'.format(self.tender_id),
+            {'data': bid2})
+
+        # Pre-qualification
+        self.set_status(
+            'active.pre-qualification',
+            {"id": self.tender_id, 'status': 'active.tendering'})
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json(
+            '/tenders/{}'.format(self.tender_id),
+            {'data': {"id": self.tender_id}})
+        self.app.authorization = auth
+
+        response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
+        self.assertEqual(response.status, "200 OK")
+        qualifications = response.json['data']
+
+        qualification_id = qualifications[0]["id"]
+        response = self.app.post(
+            "/tenders/{}/qualifications/{}/documents?acc_token={}".format(
+                self.tender_id, qualification_id, owner_token),
+            upload_files=[("file", "name.doc", "content")],
+        )
+        self.assertEqual(response.status, "201 Created")
+
+        doc_id = response.json["data"]["id"]
+
+        evidence_data = {
+            "title": "Requirement response",
+            "relatedDocument": {
+                "id": doc_id,
+                "title": "name.doc",
+            },
+            "type": "document",
+        }
+
+        requirement_1 = criteria[0]["requirementGroups"][0]["requirements"][0]
+        requirement_2 = criteria[1]["requirementGroups"][0]["requirements"][0]
+
+        rr_mock = {
+            "title": "Requirement response",
+            "description": "some description",
+            "requirement": {
+                "id": requirement_1["id"],
+                "title": requirement_1["title"],
+            },
+            "evidences": [
+                evidence_data,
+            ],
+            "value": "True",
+        }
+        rr_1 = deepcopy(rr_mock)
+        rr_2 = deepcopy(rr_mock)
+        rr_2["title"] = "Requirement response 2"
+        rr_2["requirement"] = {
+            "id": requirement_2["id"],
+            "title": requirement_2["title"],
+        }
+
+        self.tick()
+
+        with open(TARGET_DIR + 'criteria/add-requirement-response-from-qualification.http', 'wb') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/qualifications/{}?acc_token={}'.format(
+                    self.tender_id, qualification_id, owner_token),
+                {'data': {'requirementResponses': [rr_1, rr_2]}},
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        rr_1["title"] = "Requirement response 1"
+        with open(TARGET_DIR + 'criteria/patch-requirement-response-from-qualification.http', 'wb') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/qualifications/{}?acc_token={}'.format(
+                    self.tender_id, qualification_id, owner_token),
+                {'data': {'requirementResponses': [rr_1, rr_2]}},
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'criteria/delete-requirement-response-from-qualification.http', 'wb') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/qualifications/{}?acc_token={}'.format(
+                    self.tender_id, qualification_id, owner_token),
+                {'data': {'requirementResponses': []}},
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        test_rr_data = [deepcopy(rr_mock), ]
+
+        with open(TARGET_DIR + 'criteria/qualification-create-requirement-response.http', 'wb') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/qualifications/{}/requirement_responses?acc_token={}'.format(
+                    self.tender_id, qualification_id, owner_token),
+                {'data': test_rr_data},
+            )
+            self.assertEqual(response.status, '201 Created')
+
+        rr_id = response.json["data"][0]["id"]
+
+        with open(TARGET_DIR + 'criteria/qualification-update-requirement-response.http', 'wb') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/qualifications/{}/requirement_responses/{}?acc_token={}'.format(
+                    self.tender_id, qualification_id, rr_id, owner_token),
+                {'data': {'title': 'Updated title'}},
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'criteria/qualification-create-requirement-response-evidence.http', 'wb') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/qualifications/{}/requirement_responses/{}/evidences?acc_token={}'.format(
+                    self.tender_id, qualification_id, rr_id, owner_token),
+                {'data': evidence_data},
+            )
+            self.assertEqual(response.status, '201 Created')
+
+        evidence_id = response.json["data"]["id"]
+
+        with open(TARGET_DIR + 'criteria/qualification-update-requirement-response-evidence.http', 'wb') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/qualifications/{}/requirement_responses/{}/evidences/{}?acc_token={}'.format(
+                    self.tender_id, qualification_id, rr_id, evidence_id, owner_token),
+                {'data': {'title': 'Update evidence title'}},
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'criteria/qualification-requirement-response-list.http', 'wb') as self.app.file_obj:
+            response = self.app.get(
+                '/tenders/{}/qualifications/{}/requirement_responses'.format(self.tender_id, qualification_id))
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'criteria/qualification-requirement-response.http', 'wb') as self.app.file_obj:
+            response = self.app.get(
+                '/tenders/{}/qualifications/{}/requirement_responses/{}'.format(
+                    self.tender_id, qualification_id, rr_id))
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'criteria/qualification-requirement-response-evidence-list.http', 'wb') as self.app.file_obj:
+            response = self.app.get(
+                '/tenders/{}/qualifications/{}/requirement_responses/{}/evidences'.format(
+                    self.tender_id, qualification_id, rr_id))
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'criteria/qualification-requirement-response-evidence.http', 'wb') as self.app.file_obj:
+            response = self.app.get(
+                '/tenders/{}/qualifications/{}/requirement_responses/{}/evidences/{}'.format(
+                    self.tender_id, qualification_id, rr_id, evidence_id))
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'criteria/qualification-delete-requirement-response-evidence.http', 'wb') as self.app.file_obj:
+            response = self.app.delete(
+                '/tenders/{}/qualifications/{}/requirement_responses/{}/evidences/{}?acc_token={}'.format(
+                    self.tender_id, qualification_id, rr_id, evidence_id, owner_token))
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'criteria/qualification-delete-requirement-response.http', 'wb') as self.app.file_obj:
+            response = self.app.get(
+                '/tenders/{}/qualifications/{}/requirement_responses/{}?acc_token={}'.format(
+                    self.tender_id, qualification_id, rr_id, owner_token))
             self.assertEqual(response.status, '200 OK')

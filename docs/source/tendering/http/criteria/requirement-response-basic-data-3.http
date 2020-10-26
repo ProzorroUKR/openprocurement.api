@@ -1,6 +1,6 @@
 PATCH /api/2.5/tenders/24660b6d159d42adb6aaba9d978575c7/bids/7d0b2418ff254e1c827ffe021c832900?acc_token=f0760e708e124c8fb9f34e562dbf59cf HTTP/1.0
 Authorization: Bearer token
-Content-Length: 3612
+Content-Length: 3610
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -24,7 +24,7 @@ DATA:
         ], 
         "description": "some description", 
         "value": "True", 
-        "title": "Requirement response 1"
+        "title": "Requirement response"
       }, 
       {
         "requirement": {
@@ -81,7 +81,7 @@ Content-Type: application/json; charset=UTF-8
           "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
         }, 
         "description": "some description", 
-        "title": "Requirement response 1", 
+        "title": "Requirement response", 
         "value": "True", 
         "evidences": [
           {

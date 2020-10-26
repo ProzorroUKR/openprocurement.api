@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-05 16:32+0300\n"
+"POT-Creation-Date: 2020-10-26 18:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
-msgid "Tender Criteria"
-msgstr "Критерії закупівлі"
-
 msgid "Criteria Basic Operation"
-msgstr "Критерії базові операції"
+msgstr "Базові операції над критеріями"
 
 msgid "Criteria data :ref:`schema<criterion>`"
 msgstr "Схема даних :ref:`критеріїв<criterion>`"
@@ -50,6 +47,15 @@ msgstr "Базові операції над групами вимог"
 msgid "Requirement group :ref:`schema<RequirementGroup>`"
 msgstr "Схема даних :ref:`групи вимог<RequirementGroup>`"
 
+msgid "Requirement group that's object that contain requirements, and sets the rules for how to respond to requirements."
+msgstr "Група вимог це об'єкт який містить вимоги, та встановулює правила як, та на які вимоги надавати відповідь."
+
+msgid "Inside requirement groups you must gave response to all requirements(that's mean gave response to requirement group). If criterion have more than one requirement groups you must gave response only to one requirement group. If you try to gave responses to few requirement groups system will be returned error."
+msgstr "В рамках групи вимог потрібно надати відповідь на всі вимоги(це означає відповісти на групу вимог). Якщо критеріон має більше однієї групи вимог, потрібно надати відповідь лише на одну групу, у випадку, якщо відповідь буде надана більше ніж на одну групу система поверне помилку."
+
+msgid ":ref:`There you can see how it works on practice. <bid_activation_with_requirement_responses>`"
+msgstr ":ref:`Тут ви можете побачити як це працює. <bid_activation_with_requirement_responses>`"
+
 msgid "Create Criteria Requirement Group"
 msgstr "Створення групи вимог"
 
@@ -75,7 +81,7 @@ msgid "Get Requirement"
 msgstr "Отримання інформації по вимогам"
 
 msgid "Eligible Evidence basic operation"
-msgstr "Базові операції на прийнятними доказами"
+msgstr "Базові операції над прийнятними доказами"
 
 msgid "Eligible Evidence model :ref:`schema<EligibleEvidence>`"
 msgstr "Схема даних :ref:`прийнятних доказів<EligibleEvidence>`"
@@ -89,22 +95,25 @@ msgstr "Оновлення інформації прияйнятного док�
 msgid "Delete Eligible Evidence"
 msgstr "Видалення прийнятного доказу"
 
+msgid "There is possibility to create, update and delete eligibleEvidences, make PATCH request to requirement and send new list of `eligibleEvidences`:"
+msgstr "Існує інша можливість для створення, оновлення та видалення доказів через PATCH запит на вимогу де потрібно передати новий списко `eligibleEvidences`:"
+
 msgid "Retrieve Eligible Evidence"
 msgstr "Отримання інформації по прийнятних доказах"
 
 msgid "Exclusion criteria"
 msgstr "Виключні критерії"
 
-msgid "Exclusion criteria available only on: aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA"
-msgstr "Виключні критерії доступні лише в: aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA"
+msgid "Exclusion criteria available and required for the following procedures: aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA"
+msgstr "Виключні критерії доступні та обоі'язкові в наступних процедурах: aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA
 
-msgid "Standard data, you could get `here <https://github.com/ProzorroUKR/standards/pull/79/files>`__"
-msgstr "Стандарт, можна отримати `тут <https://github.com/ProzorroUKR/standards/pull/79/files>`__"
+msgid "`Standard data, you could get here <https://github.com/ProzorroUKR/standards/blob/master/criteria/article_17.json>`__"
+msgstr "Стандарт можна отримати тут <https://github.com/ProzorroUKR/standards/blob/master/criteria/article_17.json>`__"
 
 msgid "You can't update tender to status `active.tendering` without 9 EXCLUSION criteria:"
 msgstr "Неможливо перевести тендер у статус `active.tendering` без 9-ти вийнятнхових критеріїв:"
 
-msgid "EXCLUSION criteria and all criteria objects are not updated:"
+msgid "EXCLUSION criteria and all criteria objects are unchangeable:"
 msgstr "Вийняткові критерії та всі дочірні об'єкти є незміннми:"
 
 msgid "You can patch exclusion requirement, but you can send only `eligibleEvidences`"
@@ -112,4 +121,3 @@ msgstr "Вийняткові вимоги можливо редагувати, �
 
 msgid "Exclusion criteria workflow"
 msgstr "Схема роботи вийняткових критеріїв"
-

@@ -2,16 +2,21 @@
 .. _bid_requirement_response_operation:
 
 Bid Requirement response
-========================
+------------------------
 
 Bid requirement response - an object that shows that the user meets the tender owner requirements, and can participate in the procurement.
 
 Any action on the requirement response in the bid can be performed only by the bid owner.
 
 Requirement response basic operation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------------
 
 Requirement response data :ref:`scheme<RequirementResponse>`
+
+Set criteria:
+
+.. include:: ../http/criteria/base-criteria.http
+   :code:
 
 Create Bid Requirement Response
 """""""""""""""""""""""""""""""
@@ -36,7 +41,7 @@ Update Bid Requirement Response
 You can patch requirement responses in one request with bid patch,
 and you must send data about other requirement responses or this other requirement responses will be deleted.
 
-.. include:: ../http/criteria/update-requirement-response.http
+.. include:: ../http/criteria/patch-requirement-response-from-bid.http
    :code:
 
 
@@ -63,7 +68,7 @@ You can delete requirement responses in one request with bid patch, not send thi
 
 
 Evidence basic operation
-~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------
 
 Evidence data :ref:`scheme<evidence>`
 
@@ -95,8 +100,41 @@ Delete Requirement Response Evidence
 .. include:: ../http/criteria/delete-requirement-response-evidence.http
    :code:
 
+.. _bid_activation_with_requirement_responses:
+
+Bid activation
+--------------
+
+When you update bid to `active`/`pending` status or PATCH bid in these statuses, the validation is triggered
+that checks the compliance of the responses and criteria requirements.
+
+Error when bid doesn't have response for one of criteria:
+
+.. include:: ../http/criteria/requirement-response-basic-data-1.http
+   :code:
+
+.. include:: ../http/criteria/bid-activation-not-all-criteria.http
+   :code:
+
+Error when bid have responses for few requirement groups inside one criteria:
+
+.. include:: ../http/criteria/requirement-response-basic-data-2.http
+   :code:
+
+.. include:: ../http/criteria/bid-activation-answered-on-two-groups.http
+   :code:
+
+
+Error when bid doesn't have all responses for all requirements inside requirement group:
+
+.. include:: ../http/criteria/requirement-response-basic-data-3.http
+   :code:
+
+.. include:: ../http/criteria/bid-activation-not-all-requirements.http
+   :code:
+
 
 Workflow Requirement Response
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------
 
 Workflow of requirement response you could see here: :ref:`Criteria Workflow <criteria_workflow>`

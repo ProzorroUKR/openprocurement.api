@@ -1,0 +1,122 @@
+PATCH /api/2.5/tenders/dbaf5c5918364ee18fe7536bcb7ac13d/qualifications/59efad2924154abf958fa603c0869cd8?acc_token=121d6534069841adb88a5ad291d559fe HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 4255
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "requirementResponses": [
+      {
+        "requirement": {
+          "id": "e97eb65b1edc49c4bbb5c667816e9083", 
+          "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
+        }, 
+        "evidences": [
+          {
+            "type": "document", 
+            "relatedDocument": {
+              "id": "57c658a929084380b6fe254d754e5747", 
+              "title": "name.doc"
+            }, 
+            "title": "Requirement response"
+          }
+        ], 
+        "description": "some description", 
+        "value": "True", 
+        "title": "Requirement response 1"
+      }, 
+      {
+        "requirement": {
+          "id": "84afa6eecfb445f087f334fb0cb49fab", 
+          "title": "Замовник має незаперечні докази того, що учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі"
+        }, 
+        "evidences": [
+          {
+            "type": "document", 
+            "relatedDocument": {
+              "id": "57c658a929084380b6fe254d754e5747", 
+              "title": "name.doc"
+            }, 
+            "title": "Requirement response"
+          }
+        ], 
+        "description": "some description", 
+        "value": "True", 
+        "title": "Requirement response 2"
+      }
+    ]
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "pending", 
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "author": "tender_owner", 
+        "language": "uk", 
+        "title": "name.doc", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3c1152df7e3a48e4ab0bcb5587617510?KeyID=a8968c46&Signature=FdwjxXuUiAsBUhZG9sF2kZ9k7T3%2FYPbuLKimJvMprammaKYM1LthPTEdpwsfzTezgMWVFJKW5zG10NEVhf5LCA%253D%253D", 
+        "format": "application/msword", 
+        "documentOf": "tender", 
+        "datePublished": "2020-05-15T01:00:00+03:00", 
+        "id": "57c658a929084380b6fe254d754e5747", 
+        "dateModified": "2020-05-15T01:00:00+03:00"
+      }
+    ], 
+    "eligible": false, 
+    "requirementResponses": [
+      {
+        "requirement": {
+          "id": "e97eb65b1edc49c4bbb5c667816e9083", 
+          "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
+        }, 
+        "description": "some description", 
+        "title": "Requirement response 1", 
+        "value": "True", 
+        "evidences": [
+          {
+            "title": "Requirement response", 
+            "type": "document", 
+            "relatedDocument": {
+              "id": "57c658a929084380b6fe254d754e5747", 
+              "title": "name.doc"
+            }, 
+            "id": "56c5c35a09364b189d64c869cd75f23f"
+          }
+        ], 
+        "id": "8a44ef20f0ce4d16838e6cd5dd9ce3db"
+      }, 
+      {
+        "requirement": {
+          "id": "84afa6eecfb445f087f334fb0cb49fab", 
+          "title": "Замовник має незаперечні докази того, що учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі"
+        }, 
+        "description": "some description", 
+        "title": "Requirement response 2", 
+        "value": "True", 
+        "evidences": [
+          {
+            "title": "Requirement response", 
+            "type": "document", 
+            "relatedDocument": {
+              "id": "57c658a929084380b6fe254d754e5747", 
+              "title": "name.doc"
+            }, 
+            "id": "ecdb94f26b4f4776bca537fe6190f5ba"
+          }
+        ], 
+        "id": "faec78d78daa46e0821081244008ed03"
+      }
+    ], 
+    "qualified": false, 
+    "bidID": "9d90952b299b4e0dbcdf4edaedf1d315", 
+    "date": "2020-05-15T01:00:00+03:00", 
+    "id": "59efad2924154abf958fa603c0869cd8"
+  }
+}
+

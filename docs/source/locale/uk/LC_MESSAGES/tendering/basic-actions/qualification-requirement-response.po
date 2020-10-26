@@ -1,0 +1,72 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-26 18:20+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
+
+msgid "Qualification Requirement response"
+msgstr "Відповідь на вимогу в пре-кваліфікації"
+
+msgid "Any action on the requirement response in the award can be performed only by the tender owner."
+msgstr "Будь-які дії над відповіддю на вимогу в кваліфікації може виконувати лише власник пропозиції."
+
+msgid "Requirement response basic operation"
+msgstr "Базові операції над відповідями на вимоги"
+
+msgid "Requirement response data :ref:`scheme<RequirementResponse>`"
+msgstr "Схема даних :ref:`відповіді на вимогу<RequirementResponse>`"
+
+msgid "Create Qualification Requirement Response"
+msgstr "Стоврення відповіді на вимогу"
+
+msgid "You can create few requirement responses in one request with complete set of data."
+msgstr "Можливо створити декілька відповідей на вимогу за один запит з повним набором даних."
+
+msgid "You can create requirement responses in one request with qualification patch."
+msgstr "Можливо також створювати відповіді на вимоги одним запитом через оновлення пре-кваліфікації."
+
+msgid "Update Qualification Requirement Response"
+msgstr "Оновлення відповіді на вимогу"
+
+msgid "You can patch requirement responses in one request with qualification patch, and you must send data about other requirement responses or this other requirement responses will be deleted."
+msgstr "Можливо редагувати відповіді на вимоги один запитом через оновлення пре-кваліфікації, але потрібно передавати також всі відповіді на вимоги, або віповіді, які не будуть передані - будуть видалені."
+
+msgid "Get Qualification Requirement Response"
+msgstr "Отримання інформації по відповіді на вимогу"
+
+msgid "Delete Requirement Response"
+msgstr "Видалення відповіді на вимогу"
+
+msgid "You can delete requirement responses in one request with qualification patch, not send this requirement response data."
+msgstr "Можливо видалити відповіді на вимогу за один запит через оновлення пре-кваліфікації, просто не передавши ці відповіді."
+
+msgid "Evidence basic operation"
+msgstr "Базові операції над доказами"
+
+msgid "Evidence data :ref:`scheme<evidence>`"
+msgstr "Схема даних :ref:`доказу<evidence>`"
+
+msgid "Create Requirement Response Evidence"
+msgstr "Створення Доказу"
+
+msgid "Update Requirement Response Evidence"
+msgstr "Оновлення доказу"
+
+msgid "Get Requirement Response Evidence"
+msgstr "Отримання інформації по доказу"
+
+msgid "Delete Requirement Response Evidence"
+msgstr "Видалення доказу"
