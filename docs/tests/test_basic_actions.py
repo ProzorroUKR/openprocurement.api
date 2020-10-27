@@ -1864,12 +1864,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             u"title": u"Additional requirement"
         })
 
-        with open(TARGET_DIR + 'criteria/base-criteria.http', 'wb') as self.app.file_obj:
-            response = self.app.post_json(
-                '/tenders/{}/criteria?acc_token={}'.format(self.tender_id, owner_token),
-                {'data': criteria_data},
-            )
-            self.assertEqual(response.status, '201 Created')
+        response = self.app.post_json(
+            '/tenders/{}/criteria?acc_token={}'.format(self.tender_id, owner_token),
+            {'data': criteria_data},
+        )
+        self.assertEqual(response.status, '201 Created')
 
         criteria = response.json["data"]
 

@@ -13,11 +13,6 @@ Requirement response basic operation
 
 Requirement response data :ref:`scheme<RequirementResponse>`
 
-Set criteria:
-
-.. include:: ../http/criteria/base-criteria.http
-   :code:
-
 Create Bid Requirement Response
 """""""""""""""""""""""""""""""
 
