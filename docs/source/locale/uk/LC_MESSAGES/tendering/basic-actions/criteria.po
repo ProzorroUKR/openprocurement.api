@@ -108,7 +108,7 @@ msgid "Exclusion criteria available and required for the following procedures: a
 msgstr "Виключні критерії доступні та обоі'язкові в наступних процедурах: aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA
 
 msgid "`Standard data, you could get here <https://github.com/ProzorroUKR/standards/blob/master/criteria/article_17.json>`__"
-msgstr "Стандарт можна отримати тут <https://github.com/ProzorroUKR/standards/blob/master/criteria/article_17.json>`__"
+msgstr "`Стандарт можна отримати тут <https://github.com/ProzorroUKR/standards/blob/master/criteria/article_17.json>`__"
 
 msgid "You can't update tender to status `active.tendering` without 9 EXCLUSION criteria:"
 msgstr "Неможливо перевести тендер у статус `active.tendering` без 9-ти вийнятнхових критеріїв:"
