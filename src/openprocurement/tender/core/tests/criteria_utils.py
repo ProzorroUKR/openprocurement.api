@@ -1,4 +1,4 @@
-from openprocurement.tender.belowthreshold.tests.base import test_criteria
+from openprocurement.tender.belowthreshold.tests.base import test_criteria, language_criterion
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.utils import get_now
 
@@ -23,6 +23,13 @@ def add_criteria(self, tender_id=None, tender_token=None):
 
         self.assertEqual(response.status, "201 Created")
 
+        response = self.app.post_json(
+            "/tenders/{}/criteria?acc_token={}".format(tender_id, tender_token),
+            {"data": language_criterion},
+        )
+
+        self.assertEqual(response.status, "201 Created")
+
 
 def generate_responses(self, tender_id=None):
     if not tender_id:
@@ -38,6 +45,8 @@ def generate_responses(self, tender_id=None):
         for criterion in tender["criteria"]:
             for req in criterion["requirementGroups"][0]["requirements"]:
                 if criterion["source"] == "tenderer":
+                    value = "english" if criterion["classification"]["id"] == "CRITERION.OTHER.BID.LANGUAGE" else True
+
                     rrs.append(
                         {
                             "title": "Requirement response",
@@ -46,7 +55,7 @@ def generate_responses(self, tender_id=None):
                                 "id": req["id"],
                                 "title": req["title"],
                             },
-                            "value": True,
+                            "value": value,
                         },
                     )
     return rrs

@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
 
-from openprocurement.tender.belowthreshold.tests.base import test_criteria, test_requirement_groups
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_criteria,
+    test_requirement_groups,
+    language_criterion,
+)
+
 
 
 def create_tender_criteria_valid(self):
@@ -19,12 +24,13 @@ def create_tender_criteria_valid(self):
     for requirementGroup in criteria["requirementGroups"]:
         self.assertIn("requirements", requirementGroup)
 
-    test_criteria[9]["requirementGroups"][0]["requirements"][0]["dataType"] = "boolean"
-    response = self.app.post_json(request_path, {"data": test_criteria})
+    lang_criterion = deepcopy(language_criterion)
+    lang_criterion[0]["requirementGroups"][0]["requirements"][0]["dataType"] = "boolean"
+    response = self.app.post_json(request_path, {"data": lang_criterion})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
-    self.assertEqual(response.json["data"][9]["requirementGroups"][0]["requirements"][0]["dataType"], "string")
+    self.assertEqual(response.json["data"][0]["requirementGroups"][0]["requirements"][0]["dataType"], "string")
 
 
 def create_tender_criteria_invalid(self):
@@ -135,9 +141,9 @@ def create_tender_criteria_invalid(self):
         ],
     )
 
-    lang_criteria = [invalid_criteria[9]]
-    lang_criteria[0]["requirementGroups"][0]["requirements"][0]["expectedValue"] = "test"
-    response = self.app.post_json(request_path, {"data": lang_criteria}, status=422)
+    lang_criterion = deepcopy(language_criterion)
+    lang_criterion[0]["requirementGroups"][0]["requirements"][0]["expectedValue"] = "test"
+    response = self.app.post_json(request_path, {"data": lang_criterion}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -160,8 +166,8 @@ def create_tender_criteria_invalid(self):
         ],
     )
 
-    lang_criteria[0]["requirementGroups"][0]["requirements"][0]["expectedValue"] = "ukrainian"
-    lang_criteria[0]["requirementGroups"][0]["requirements"][0]["eligibleEvidences"] = [
+    lang_criterion[0]["requirementGroups"][0]["requirements"][0]["expectedValue"] = "ukrainian"
+    lang_criterion[0]["requirementGroups"][0]["requirements"][0]["eligibleEvidences"] = [
         {
             "description": "Довідка в довільній формі",
             "type": "document",
@@ -169,7 +175,7 @@ def create_tender_criteria_invalid(self):
         }
     ]
 
-    response = self.app.post_json(request_path, {"data": lang_criteria}, status=422)
+    response = self.app.post_json(request_path, {"data": lang_criterion}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -448,6 +454,13 @@ def activate_tender(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
+    response = self.app.post_json(
+        "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": language_criterion},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+
     response = self.app.patch_json(
         request_path,
         {"data": {"status": "active.tendering"}},
@@ -455,7 +468,6 @@ def activate_tender(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "active.tendering")
-    # self.tender_document["procurementMethodType"]
     self.assertEqual(len(response.json["data"]["criteria"]), 11)
 
 

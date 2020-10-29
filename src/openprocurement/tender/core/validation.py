@@ -877,6 +877,10 @@ def validate_tender_activate_with_criteria(request):
 
 
 def validate_tender_activate_with_language_criteria(request):
+    """
+    raise error if CRITERION.OTHER.BID.LANGUAGE wasn't created
+    for listed tenders_types and trying to change status to active
+    """
     tender = request.context
     data = request.validated["data"]
     tender_created = get_first_revision_date(tender, default=get_now())
@@ -888,7 +892,7 @@ def validate_tender_activate_with_language_criteria(request):
     ):
         return
 
-    tenders = ["aboveThresholdUA", "aboveThresholdEU",
+    tenders_types = ["aboveThresholdUA", "aboveThresholdEU",
                "competitiveDialogueUA", "competitiveDialogueEU",
                "competitiveDialogueUA.stage2", "competitiveDialogueEU.stage2"]
     tender_type = request.validated["tender"].procurementMethodType
@@ -897,7 +901,7 @@ def validate_tender_activate_with_language_criteria(request):
     tender_criteria = [criterion.classification.id for criterion in tender.criteria if criterion.classification]
 
     if (
-            tender_type in tenders
+            tender_type in tenders_types
             and needed_criterion not in tender_criteria
     ):
         raise_operation_error(request, "Tender must contain {} criterion".format(needed_criterion))

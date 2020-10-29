@@ -196,6 +196,9 @@ with open(os.path.join(current_dir, "test_criteria.json")) as json_file:
 
 test_requirement_groups = test_criteria[0]["requirementGroups"]
 
+with open(os.path.join(current_dir, "test_lang_criteria.json")) as json_file:
+    language_criterion = json.load(json_file)
+
 
 def set_tender_lots(tender, lots):
     tender["lots"] = []
