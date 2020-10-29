@@ -850,6 +850,24 @@ def validate_tender_change_status_with_cancellation_lot_pending(request):
         )
 
 
+def validate_lot_related_criterion(request, relatedItem_id, action="cancel"):
+    tender = request.validated["tender"]
+    if hasattr(tender, "criteria"):
+        related_criteria = [
+            criterion
+            for criterion in tender.criteria
+            for rg in criterion.requirementGroups
+            for requirement in rg.requirements
+            if criterion.relatedItem == relatedItem_id and requirement.status == "active"
+        ]
+        if related_criteria:
+            raise_operation_error(
+                request, "Can't {} {} lot while related criterion has active requirements".format(
+                    action, relatedItem_id
+                )
+            )
+
+
 def validate_tender_activate_with_criteria(request):
     tender = request.context
     data = request.validated["data"]

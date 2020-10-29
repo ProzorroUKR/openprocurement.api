@@ -81,11 +81,7 @@ class BaseTenderCriteriaRGRequirementResource(APIResource):
         apply_patch(self.request, save=False, src=requirement.serialize())
         tender = self.request.validated["tender"]
 
-        if (
-                self.request.authenticated_role == "tender_owner"
-                and tender.status == "active.tendering"
-                and hasattr(tender, "invalidate_bids_data")
-        ):
+        if self.request.authenticated_role == "tender_owner" and hasattr(tender, "invalidate_bids_data"):
             tender.invalidate_bids_data()
 
         if save_tender(self.request):
@@ -118,7 +114,11 @@ class BaseTenderCriteriaRGRequirementResource(APIResource):
         old_requirement.dateModified = get_now()
 
         tender = self.request.validated["tender"]
-        if self.request.authenticated_role == "tender_owner"  and hasattr(tender, "invalidate_bids_data"):
+        if (
+                self.request.authenticated_role == "tender_owner"
+                and tender.status == "active.tendering"
+                and hasattr(tender, "invalidate_bids_data")
+        ):
             tender.invalidate_bids_data()
 
         if save_tender(self.request):

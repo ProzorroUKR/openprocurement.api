@@ -5,6 +5,7 @@ from openprocurement.tender.core.validation import (
     RELEASE_ECRITERIA_ARTICLE_17,
     validate_tender_first_revision_date,
     base_validate_operation_ecriteria_objects,
+    validate_lot_related_criterion,
 )
 
 
@@ -52,6 +53,11 @@ def validate_lot_operation(request):
         raise_operation_error(
             request, "Can't {} lot in current ({}) tender status".format(OPERATIONS.get(request.method), tender.status)
         )
+
+
+def validate_delete_lot_related_criterion(request):
+    lot_id = request.context.id
+    validate_lot_related_criterion(request, lot_id, action="delete")
 
 
 # complaint
