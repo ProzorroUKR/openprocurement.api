@@ -781,9 +781,27 @@ class Requirement(Model):
                 raise ValidationError("minValue must be integer or number")
             validate_value_type(value, data['dataType'])
 
+    def validate_dataType(self, data, value):
+        criterion = data["__parent__"].__parent__
+        if criterion.classification.id.startswith("CRITERION.OTHER.BID.LANGUAGE"):
+            if value != "string":
+                data["dataType"] = "string"
+
     def validate_expectedValue(self, data, value):
         if value:
             validate_value_type(value, data['dataType'])
+
+        languages = ["ukrainian", "english"]
+        criterion = data["__parent__"].__parent__
+        if criterion.classification.id.startswith("CRITERION.OTHER.BID.LANGUAGE"):
+            if value not in languages:
+                raise ValidationError("Value must be one of {}".format(str(languages)))
+
+    def validate_eligibleEvidences(self, data, value):
+        if value:
+            criterion = data["__parent__"].__parent__
+            if criterion.classification.id.startswith("CRITERION.OTHER.BID.LANGUAGE"):
+                raise ValidationError("This field is forbidden for current criterion")
 
     def validate_relatedFeature(self, data, feature_id):
         parent = data["__parent__"]

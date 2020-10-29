@@ -876,6 +876,33 @@ def validate_tender_activate_with_criteria(request):
         raise_operation_error(request, "Tender must contain all 9 `EXCLUSION` criteria")
 
 
+def validate_tender_activate_with_language_criteria(request):
+    tender = request.context
+    data = request.validated["data"]
+    tender_created = get_first_revision_date(tender, default=get_now())
+
+    if (
+            tender_created < RELEASE_ECRITERIA_ARTICLE_17
+            or request.validated["tender_src"]["status"] == data.get("status")
+            or data.get("status") not in ["active", "active.tendering"]
+    ):
+        return
+
+    tenders = ["aboveThresholdUA", "aboveThresholdEU",
+               "competitiveDialogueUA", "competitiveDialogueEU",
+               "competitiveDialogueUA.stage2", "competitiveDialogueEU.stage2"]
+    tender_type = request.validated["tender"].procurementMethodType
+    needed_criterion = "CRITERION.OTHER.BID.LANGUAGE"
+
+    tender_criteria = [criterion.classification.id for criterion in tender.criteria if criterion.classification]
+
+    if (
+            tender_type in tenders
+            and needed_criterion not in tender_criteria
+    ):
+        raise_operation_error(request, "Tender must contain {} criterion".format(needed_criterion))
+
+
 def validate_tender_status_update_not_in_pre_qualificaton(request):
     tender = request.context
     data = request.validated["data"]

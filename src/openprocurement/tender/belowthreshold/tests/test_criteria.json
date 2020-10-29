@@ -447,6 +447,48 @@
                 ]
             }
         ]
+    },
+    {
+        "title": "Мова (мови), якою (якими) повинні готуватися тендерні пропозиції",
+        "source": "tenderer",
+        "classification": {
+            "scheme": " ESPD211",
+            "id": "CRITERION.OTHER.BID.LANGUAGE"
+        },
+        "relatesTo": "tenderer",
+        "legislation": [
+            {
+                "version": "2020-04-19",
+                "identifier": {
+                    "id": "922-VIII",
+                    "legalName": "Закон України \"Про публічні закупівлі\"",
+                    "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+                },
+                "type": "NATIONAL_LEGISLATION"
+            }
+        ],
+        "requirementGroups": [
+            {
+                "description": "Учасник фізична особа підтверджує, що",
+                "requirements": [
+                    {
+                        "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку",
+                        "dataType": "string",
+                        "expectedValue": "english"
+                    }
+                ]
+            },
+            {
+                "description": "Учасник юридична особа підтверджує, що",
+                "requirements": [
+                    {
+                        "title": "Мова (мови), якою (якими) повинні готуватися тендерні пропозиції",
+                        "dataType": "string",
+                        "expectedValue": "ukrainian"
+                    }
+                ]
+            }
+        ]
     }
 ]
 
