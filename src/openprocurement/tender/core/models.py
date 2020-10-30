@@ -906,7 +906,7 @@ class RequirementResponse(Model):
             for criteria in tender.criteria:
                 for group in criteria.requirementGroups:
                     for req in group.requirements:
-                        if req.id == requirement_id:
+                        if req.id == requirement_id and req.status == "active":
                             return req
 
     @bids_response_validation_wrapper

@@ -104,7 +104,7 @@ class BaseTenderCriteriaRGRequirementResource(APIResource):
         model = type(old_requirement)
         data = copy(self.request.validated["data"])
         for attr_name in type(old_requirement)._fields:
-            if not data.get(attr_name):
+            if data.get(attr_name) is None:
                 data[attr_name] = getattr(old_requirement, attr_name)
         requirement = model(data)
         requirement.datePublished = get_now()

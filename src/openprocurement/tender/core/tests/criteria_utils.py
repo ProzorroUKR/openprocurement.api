@@ -6,7 +6,7 @@ from openprocurement.api.utils import get_now
 TENDERS_WITHOUT_CRITERIA = ["aboveThresholdUA.defense", "reporting", "negotiation", "negotiation.quick"]
 
 
-def add_criteria(self, tender_id=None, tender_token=None):
+def add_criteria(self, tender_id=None, tender_token=None, criteria=test_criteria):
     if not tender_id:
         tender_id = self.tender_id
     if not tender_token:
@@ -18,7 +18,7 @@ def add_criteria(self, tender_id=None, tender_token=None):
     if get_now() > RELEASE_ECRITERIA_ARTICLE_17:
         response = self.app.post_json(
             "/tenders/{}/criteria?acc_token={}".format(tender_id, tender_token),
-            {"data": test_criteria},
+            {"data": criteria},
         )
 
         self.assertEqual(response.status, "201 Created")
