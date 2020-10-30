@@ -787,3 +787,20 @@ def get_bids_before_auction_results(tender):
         initial_bids_list.append(m)
 
     return initial_bids_list
+
+
+def flatten_multidimensional_list(list_to_flatten):
+    for element in list_to_flatten:
+        if isinstance(element,(list, tuple)):
+            for x in flatten_multidimensional_list(element):
+                yield x
+        else:
+            yield element
+
+
+def get_all_nested_from_the_object(objects_to_find, obj):
+    nested_regex = ["", "*.", "*[*]."]
+    search_query = ' || '.join([item + objects_to_find for item in nested_regex])
+    nested_objects = jmespath.search(search_query, obj)
+    nested_objects = list(flatten_multidimensional_list(nested_objects))
+    return nested_objects

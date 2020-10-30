@@ -340,6 +340,38 @@ Let's see the list of all added contract documents:
 .. include:: http/tutorial/tender-contract-get-documents-again.http
    :code:
 
+Contract signing flow
+---------------------
+
+Checking if contract has the `pending` status:
+
+.. note::
+   To identify a winner supplier we need to find a bid which owner won an auction.
+   Bid and award should be in the status `active`. 
+
+.. include:: http/tutorial/get-tender-contracts.http
+   :code:
+
+Changing a contract status to `pending.winner-signing` by the tender owner:
+
+.. include:: http/tutorial/change-contract-status-to-pending-winner-signing-by-owner.http
+   :code:
+
+Uploading a sign document to the contract document by supplier:
+
+.. include:: http/tutorial/tender-contract-upload-sign-file-by-supplier.http
+   :code:
+
+Changing a contract status to `pending` by supplier:
+
+.. include:: http/tutorial/tutorial/change-contract-status-to-pending-by-supplier.http
+   :code:
+
+Uploading a sign document to the contract document by tender owner:
+
+.. include:: http/tutorial/tender-contract-upload-sign-file-by-owner.http
+   :code:
+
 Set contract signature date
 ---------------------------
 
@@ -407,4 +439,92 @@ Activating the request and cancelling tender
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. include:: http/tutorial/active-cancellation.http
+   :code:
+
+
+E-Contracting 
+-------------
+
+Tender announcement stage
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Procuring Entity registers document of `contractProforma` providing ``ID`` of template.
+
+.. include:: http/tutorial/upload-proforma-with-templateId.http
+   :code:
+
+Afterwards system automatically (with the help of auxiliary component tempalte registry bot) extracts template document from e-Contracting template registry and generates following documents based on data extracted from template:
+
+* `contractTemplate` - contract template document;
+* `contractSchema` - document with required contract data schema for template; 
+* `contractForm` - document with recommended JSON form. 
+
+
+.. note:: Documents are linked with `contractProforma` by new reference type ``documentOf`` attribute equal to ``document`` and ``relatedItem`` equal to corresponding `contractProforma` document ``id``.
+
+
+Let's review above mentioned documents in tender:
+
+.. include:: http/tutorial/tender-documents-after-rg-bot.http
+   :code:
+
+Within **tenderPeriod** marketplace of Contracting Authority performs following steps:
+
+    * Obtains documents of type `contractForm` and `contractSchema` for data collection; 
+    * Acquire data about Contracting Authority according to `contractSchema` with ``role`` equal to ``buyer``; 
+    * Uploads JSON document with `contractData` type with acquired data linked with `contractProforma` by providing `documentOf` attribute equal to document and `relatedItem` equal to corresponding `contractProforma` document `id`. 
+
+Document is uploaded into **tender documents** collection;
+
+.. include:: http/tutorial/upload-owner-contract-data.http
+   :code:
+
+Afterwards system automatically (with the help of auxiliary component renderer bot):
+
+    * Supplements `contractData` with information about purchased product from procedure;
+    * Generates initial **PDF/A file** of `contractProforma` with information about Contracting Authority and purchased product;
+    * Updates tender with new version of document `contractProforma`.
+
+.. include:: http/tutorial/get-tender-documents-after-rbot.http
+   :code:
+
+Bid submission stage
+~~~~~~~~~~~~~~~~~~~~
+
+At the bid submission stage, marketplace of Economic Operator performs following steps:
+
+    * Obtain documents of type `contractForm` and `contractSchema` for data collection;
+    * Acquire data about Economic Operator according to `contractSchema` with ``role`` equal to ``supplier``;
+    * **(Optional)** Generates `contractData` document and **PDF/A file** of contract as if Economic Operator awarded as a `winner`, available for `preview`;
+    * Uploads JSON document with `contractData` type with acquired data linked with `contractProforma` by providing `documentOf` attribute equal to document and `relatedItem` equal to corresponding `contractProforma` document `id`.
+    
+Document is uploaded into **supplier bid documents** collection;
+    
+.. include:: http/tutorial/upload-bidder-contract-data.http
+   :code:
+
+Contract signing stage
+~~~~~~~~~~~~~~~~~~~~~~
+
+At the beginning of the contracting process auxiliary component rBot (renderer) generates a JSON `contractData` document based on aggregated data from various procedure objects, such as: **Plan, Tender, Bid, Award** and **Contract** and forms **PDF/A** version of contract based on this file.
+
+.. include:: http/tutorial/tender-contract-with-generated-documents.http
+   :code:
+
+.. note:: Process data related to **Plan, Tender, Award** and **Bid** at the time of contract generation are complete and can not be modified. 
+   
+In case of errors in aggregated `contractData` (from tender announcement or bid submission stages), Procuring Entity can upload updates for `contractData` to `contract` document until activation of the contract.
+
+To do this marketplace of Contracting Authority performs following steps:
+
+    * Obtains documents of type `contractForm` and `contractSchema` for data collection; 
+    * Updates data about Contracting Authority and/or Economic Operator according to `contractSchema` with ``role`` equal to ``buyerCorrigenda``; 
+    * Uploads JSON document with `contractData` type with acquired data linked with `contractProforma` by providing `documentOf` attribute equal to document and `relatedItem` equal to corresponding `contractProforma` document `id`. 
+   
+.. include:: http/tutorial/tender-contract-fix-contract-data-document.http
+   :code:
+
+Let's review updated document in tender:
+   
+.. include:: http/tutorial/tender-contract-get-documents.http
    :code:

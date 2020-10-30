@@ -916,9 +916,21 @@ def validate_document_operation_in_not_allowed_period(request):
 
 def validate_tender_document_update_not_by_author_or_tender_owner(request):
     if request.authenticated_role != (request.context.author or "tender_owner"):
+        if hasattr(request.context, "documentType") \
+                and request.context.documentType == "contractProforma" \
+                and request.authenticated_role == "renderer_bots":
+            return
         request.errors.add("url", "role", "Can update document only author")
         request.errors.status = 403
         raise error_handler(request.errors)
+
+
+def validate_patch_document_contract_proforma(request):
+    if request.validated["document"].documentType == "contractProforma":
+        raise_operation_error(
+            request,
+            "Not allowed update document with documentType contractProforma, use append new version of this document"\
+            " instead")
 
 
 # bids
@@ -1679,6 +1691,10 @@ def validate_update_contract_status_by_supplier(request):
 
 
 def validate_role_for_contract_document_operation(request):
+    if request.authenticated_role == "renderer_bots" and \
+            hasattr(request.validated["document"], "documentType") and \
+            request.validated["document"].documentType in ("contractData", "contract"):
+        return
     if request.authenticated_role not in ("tender_owner", "contract_supplier",):
         raise_operation_error(request, "Can {} document only buyer or supplier".format(OPERATIONS.get(request.method)))
     if request.authenticated_role == "contract_supplier" and \
@@ -1905,3 +1921,108 @@ def validate_evidence_data(request):
 def validate_patch_evidence_data(request):
     model = type(request.tender).bids.model_class.requirementResponses.model_class.evidences.model_class
     return validate_data(request, model, True)
+
+
+class ValidateSelfEligibleMixin(Model):
+    def validate_selfEligible(self, data, value):
+        tender = get_root(data["__parent__"])
+        if get_first_revision_date(tender, default=get_now()) > RELEASE_ECRITERIA_ARTICLE_17:
+            if value is not None:
+                raise ValidationError("Rogue field.")
+        elif value is None:
+            raise ValidationError("This field is required.")
+
+
+def validate_contract_supplier_role_for_contract_document_uploading(request):
+    if request.authenticated_role in ("contract_supplier"):
+        if 'file' in request.validated:
+            raise_operation_error(
+                request, "Supplier can't {} contract documents".format(
+                    OPERATIONS.get(request.method))
+            )
+        elif "data" in request.validated:
+            data = request.validated["data"]
+            if data["documentOf"] == "document":
+                if data["format"] != "application/pkcs7-signature":
+                    raise_operation_error(
+                        request, "Supplier can {} only 'application/pkcs7-signature' document format files".format(
+                            OPERATIONS.get(request.method))
+                    )
+            else:
+                raise_operation_error(
+                    request, "Supplier can't {} {} documents".format(
+                        OPERATIONS.get(request.method), data["documentOf"])
+                )
+        elif request.content_type != "application/pkcs7-signature":
+            raise_operation_error(
+                request, "Supplier can {} only 'application/pkcs7-signature' document format files".format(
+                    OPERATIONS.get(request.method))
+            )
+
+
+def validate_relatedItem_for_contract_document_uploading(request):
+    if "data" in request.validated:
+        data = request.validated["data"]
+        contract = data["__parent__"] if request.method != "PUT" else data["__parent__"].__parent__
+        documents = []
+        if hasattr(contract, "documents"):
+            documents = contract.documents
+        elif hasattr(contract["__parent__"], "documents"):
+            documents = contract["__parent__"].documents
+        if data.get("documentOf") == "document" and \
+                data.get("documentType") not in ("contract", "contractData") and \
+                data.get("relatedItem") not in [i.id for i in documents]:
+            raise_operation_error(request, "relatedItem should be one of contract documents")
+        if data.get("documentType") in ("contract", "contractData"):
+            doc_ids = [i.id
+                       for i in contract.__parent__.get("documents", [])
+                       if i.get("documentType") == "contractProforma"]
+            if data.get("documentType", "") == "contractData":
+                contract_id = [c.id for c in contract.documents if c.get("documentType", "") == "contract"]
+                if contract_id:
+                    doc_ids += contract_id
+            if data.get("relatedItem") not in doc_ids:
+                raise_operation_error(request, "relatedItem should be one of tender contractProforma documents")
+
+
+def validate_econtract_documents(resource, data, value):
+    if resource == "contract" and data.get("status", "") != "pending":
+        return
+    elif resource == "tender" and data.get("status", "") not in ("draft",
+                                                                 "active.enquiries",
+                                                                 "active.tendering",
+                                                                 "active.awarded"):
+        return
+
+    docs = {
+        "contractProforma": {
+            "ids": set(),
+            "relatedItems": set()
+        },
+        "contractTemplate": {
+            "ids": set(),
+            "relatedItems": set()
+        },
+        "contractForm": {
+            "ids": set(),
+            "relatedItems": set()
+        },
+        "contractSchema": {
+            "ids": set(),
+            "relatedItems": set()
+        },
+        "contractData": {
+            "ids": set(),
+            "relatedItems": set()
+        }
+    }
+    for doc in value:
+        if hasattr(doc, "documentType") and doc.documentType in docs:
+            related_item = doc.relatedItem if doc.relatedItem else doc.__parent__.id
+            docs[doc.documentType]["relatedItems"].add(related_item)
+            docs[doc.documentType]["ids"].add(doc.id)
+    for key in docs:
+        if len(docs[key]["ids"]) != len(docs[key]["relatedItems"]):
+            raise ValidationError("Allow only one document with documentType '{}' per {}.".format(key, resource))
+        if len(docs[key]["ids"] & docs[key]["relatedItems"]) > 0:
+            raise ValidationError(("Can't link document '{key}' to another '{key}'".format(key=key)))

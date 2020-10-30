@@ -1637,6 +1637,8 @@ def create_contract_w_documents(self):
         self.assertEqual(response.json["data"]["documents"][index]["id"], doc["id"])
         self.assertEqual(response.json["data"]["documents"][index]["datePublished"], doc["datePublished"])
         self.assertEqual(response.json["data"]["documents"][index]["dateModified"], doc["dateModified"])
+        if 'author' in doc:
+            self.assertEqual(response.json["data"]["documents"][index]["author"], doc["author"])
 
     self.assertIn("Signature=", response.json["data"]["documents"][-1]["url"])
     self.assertIn("KeyID=", response.json["data"]["documents"][-1]["url"])

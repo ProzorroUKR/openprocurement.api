@@ -52,6 +52,7 @@ class TenderStage2EUContractResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
     initial_bids = test_tender_bids
     initial_auth = ("Basic", ("broker", ""))
     author_data = test_author
+    docservice = True
 
     def setUp(self):
         super(TenderStage2EUContractResourceTest, self).setUp()
@@ -97,6 +98,7 @@ class TenderStage2EUContractDocumentResourceTest(
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
     initial_auth = ("Basic", ("broker", ""))
+    docservice = True
 
     def setUp(self):
         super(TenderStage2EUContractDocumentResourceTest, self).setUp()
@@ -132,6 +134,7 @@ class TenderStage2EUContractDocumentResourceTest(
 class TenderStage2UAContractResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
+    docservice = True
 
     def setUp(self):
         super(TenderStage2UAContractResourceTest, self).setUp()
@@ -172,6 +175,7 @@ class TenderStage2UAContractResourceTest(BaseCompetitiveDialogUAStage2ContentWeb
 class TenderContractVATNotIncludedResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
+    docservice = True
 
     def create_award(self):
         auth = self.app.authorization
@@ -213,6 +217,7 @@ class TenderStage2UAContractDocumentResourceTest(
 ):
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
+    docservice = True
 
     def setUp(self):
         super(TenderStage2UAContractDocumentResourceTest, self).setUp()

@@ -350,6 +350,8 @@ def set_ownership(item, request):
 
 
 def check_document(request, document, document_container):
+    if document.documentType == "contractProforma" and not document.url:
+        return
     url = document.url
     parsed_url = urlparse(url)
     parsed_query = dict(parse_qsl(parsed_url.query))
@@ -390,6 +392,8 @@ def check_document(request, document, document_container):
 
 
 def update_document_url(request, document, document_route, route_kwargs):
+    if document.documentType == "contractProforma" and not document.url:
+        return document
     key = urlparse(document.url).path.split("/")[-1]
     route_kwargs.update({"_route_name": document_route, "document_id": document.id, "_query": {"download": key}})
     document_path = request.current_route_path(**route_kwargs)
@@ -615,6 +619,8 @@ def fix_url(item, app_url):
     if isinstance(item, list):
         [fix_url(i, app_url) for i in item if isinstance(i, dict) or isinstance(i, list)]
     elif isinstance(item, dict):
+        if "documentType" in item and item["documentType"] == "contractProforma" and "url" not in "item":
+            return
         if "format" in item and "url" in item and "?download=" in item["url"]:
             path = item["url"] if item["url"].startswith("/") else "/" + "/".join(item["url"].split("/")[5:])
             item["url"] = app_url + ROUTE_PREFIX + path

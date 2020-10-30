@@ -1,0 +1,35 @@
+GET /api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/documents/f77c2444fc6f47e1bb441a284cd344e6 HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "dateModified": "2020-05-15T01:00:01+03:00", 
+    "hash": "md5:00000000000000000000000000000000", 
+    "format": "application/pdf", 
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3f003255450240f1b322c644a1d57a67?KeyID=a8968c46&Signature=1oskI3DnUz5JDXg9rrJGpqFU806VMd6KGjV0OHDecyw2ahKkac3M3O4OhVkzceIlW3qFqm%252BK4g5EJMeEm2FkAA%253D%253D", 
+    "author": "tender_owner", 
+    "documentOf": "tender", 
+    "datePublished": "2020-05-15T01:00:00+03:00", 
+    "previousVersions": [
+      {
+        "title": "contractProforma", 
+        "url": null, 
+        "author": "tender_owner", 
+        "documentOf": "tender", 
+        "datePublished": "2020-05-15T01:00:00+03:00", 
+        "documentType": "contractProforma", 
+        "dateModified": "2020-05-15T01:00:00+03:00", 
+        "id": "f77c2444fc6f47e1bb441a284cd344e6", 
+        "templateId": "paper0000001"
+      }
+    ], 
+    "documentType": "contractProforma", 
+    "title": "contractProforma.pdf", 
+    "id": "f77c2444fc6f47e1bb441a284cd344e6", 
+    "templateId": "paper0000001"
+  }
+}
+

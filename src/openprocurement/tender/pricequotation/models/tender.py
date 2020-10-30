@@ -42,7 +42,6 @@ from openprocurement.tender.pricequotation.interfaces import IPriceQuotationTend
 from openprocurement.tender.pricequotation.models import (
     Cancellation,
     Bid,
-    Document,
     Award,
 )
 from openprocurement.tender.pricequotation.models.criterion import Criterion
@@ -88,7 +87,6 @@ class Item(BaseItem):
 
 
 class Contract(BaseContract):
-    documents = ListType(ModelType(Document, required=True), default=list())
 
     def validate_dateSigned(self, data, value):
         parent = data["__parent__"]
@@ -241,9 +239,6 @@ class PriceQuotationTender(Tender):
         ModelType(Cancellation, required=True),
         default=list()
     )
-    documents = ListType(
-        ModelType(Document, required=True), default=list()
-    )  # All documents and attachments related to the tender.
     guarantee = ModelType(Guarantee)
     procurementMethod = StringType(
         choices=["selective"], default="selective"

@@ -20,6 +20,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_with_document,
     # Tender2LotBidResourceTest
     patch_tender_with_bids_lots_none,
+    create_tender_bid_contract_data_document_json,
 )
 from openprocurement.tender.openeu.tests.bid import (
     TenderBidDocumentResourceTestMixin,
@@ -175,6 +176,7 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
     test_patch_tender_bidder_document_private_json = snitch(patch_tender_bidder_document_private_json)
     test_put_tender_bidder_document_private_json = snitch(put_tender_bidder_document_private_json)
     test_get_tender_bidder_document_ds = snitch(get_tender_bidder_document_ds)
+    test_create_tender_bid_contract_data_document_json = snitch(create_tender_bid_contract_data_document_json)
 
 
 class TenderBidDocumentWithoutDSResourceTest(TenderBidDocumentResourceTest):

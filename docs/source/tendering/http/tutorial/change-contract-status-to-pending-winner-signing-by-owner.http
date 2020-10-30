@@ -1,0 +1,182 @@
+PATCH /api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/contracts/4f7b2b4c16f24c66897d0d18d57c05f3?acc_token=e6bb69a4c5474e4987130585951b6f3e HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 46
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "status": "pending.winner-signing"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "pending.winner-signing", 
+    "documents": [
+      {
+        "dateModified": "2020-05-15T01:00:03+03:00", 
+        "hash": "md5:00000000000000000000000000000000", 
+        "format": "application/pdf", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6dc1fe7be9c2414592768997663e5a7a?KeyID=a8968c46&Signature=peZGjdLOljmZMG1bYMz9mHkM54El741Dop%2F3LiD6UdTgFysrRj5gH%2Fzl38jrq1%252BWpKxlg1XrfrMzhHUUquz9Aw%253D%253D", 
+        "author": "renderer_bots", 
+        "documentOf": "document", 
+        "datePublished": "2020-05-15T01:00:03+03:00", 
+        "documentType": "contract", 
+        "title": "Contract.pdf", 
+        "relatedItem": "f77c2444fc6f47e1bb441a284cd344e6", 
+        "id": "7e80ffcc469043b9873f87b0af303d21"
+      }, 
+      {
+        "dateModified": "2020-05-15T01:00:03+03:00", 
+        "hash": "md5:00000000000000000000000000000000", 
+        "format": "application/json", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9e4d1c0b18cb48c7afc85a4e7acea0aa?KeyID=a8968c46&Signature=YD9Nxdzdct4TZKP2rcznflT7CNlYnWscEJNgMmAmvw0SzZrLFaptRbrvKjHiVUths8qMhHzMyNt%2FJluiTnV%2FBw%253D%253D", 
+        "author": "renderer_bots", 
+        "documentOf": "document", 
+        "datePublished": "2020-05-15T01:00:03+03:00", 
+        "documentType": "contractData", 
+        "title": "ContractData.json", 
+        "relatedItem": "7e80ffcc469043b9873f87b0af303d21", 
+        "id": "bab91701c47a40499083fb2e3c2a4fea"
+      }, 
+      {
+        "dateModified": "2020-05-15T01:00:03+03:00", 
+        "hash": "md5:00000000000000000000000000000000", 
+        "format": "application/json", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fc00e3b2b1934793b4103cdf91418613?KeyID=a8968c46&Signature=SHD7QGp2EMgyF1qRz82B8JsNg0B48VPcg4JxoVlObp8jbYN4tO15thZVtAxQMdqS1dpk4utomvnOwCHFjxjgBw%253D%253D", 
+        "author": "tender_owner", 
+        "documentOf": "document", 
+        "datePublished": "2020-05-15T01:00:03+03:00", 
+        "documentType": "contractData", 
+        "title": "fixed_finalContractData.json", 
+        "relatedItem": "f77c2444fc6f47e1bb441a284cd344e6", 
+        "id": "5295062005f04a688d702ce9ea801314"
+      }, 
+      {
+        "dateModified": "2020-05-15T01:00:03+03:00", 
+        "hash": "md5:00000000000000000000000000000000", 
+        "format": "application/pdf", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5908779813ed41bab365e3e43c9d535f?KeyID=a8968c46&Signature=1dYasNibri9usu%252B88WcK4Rlin6F6l4amchIPJDfuRXcxjzPn1J2ZrwaDrhLm8mspVf7istpQClq7yi4qQs3hBg%253D%253D", 
+        "author": "renderer_bots", 
+        "documentOf": "document", 
+        "datePublished": "2020-05-15T01:00:03+03:00", 
+        "documentType": "contract", 
+        "title": "newContract.pdf", 
+        "relatedItem": "f77c2444fc6f47e1bb441a284cd344e6", 
+        "id": "7e80ffcc469043b9873f87b0af303d21"
+      }, 
+      {
+        "dateModified": "2020-05-15T01:00:03+03:00", 
+        "hash": "md5:00000000000000000000000000000000", 
+        "format": "application/json", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/81c001667b484036bfcc40e4509977c9?KeyID=a8968c46&Signature=rb%2F6lWS6F46E2YQEz3%252BrYWaGE8%2FwuKMAy10jz9UhFDTM9%2FsaaN62KdjatiqG3AKwzrieISgYk80Gc2dBISluDA%253D%253D", 
+        "author": "renderer_bots", 
+        "documentOf": "document", 
+        "datePublished": "2020-05-15T01:00:03+03:00", 
+        "documentType": "contractData", 
+        "title": "newContractData.json", 
+        "relatedItem": "7e80ffcc469043b9873f87b0af303d21", 
+        "id": "bab91701c47a40499083fb2e3c2a4fea"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "author": "tender_owner", 
+        "title": "contract_first_document.doc", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b97562e3f33c493297fd14dd6d8c50f0?KeyID=a8968c46&Signature=dQMvA4OqNyUhOiqC5GLb4uSEt49HDaSNcEbdsglo9C4Wq8XJDos68B7pBOwMEiRZWStfSwxaG5Hf8DZduhr9DA%253D%253D", 
+        "format": "application/msword", 
+        "documentOf": "tender", 
+        "datePublished": "2020-05-15T01:00:03+03:00", 
+        "dateModified": "2020-05-15T01:00:03+03:00", 
+        "id": "0fcd9edc0b0544c19fbc11c5f9c372dd"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "author": "tender_owner", 
+        "title": "contract_second_document.doc", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a2aa5b35517c445ca3778b7b25560cc9?KeyID=a8968c46&Signature=VkkdjRhMvrxZzXFjmULpNVxzcq52P09KEEXjD2Fe%252BBMNBH9FUupk0ZN6hHIwAFGr5lYmPcm2HzuX83tijpfOBw%253D%253D", 
+        "format": "application/msword", 
+        "documentOf": "tender", 
+        "datePublished": "2020-05-15T01:00:03+03:00", 
+        "dateModified": "2020-05-15T01:00:03+03:00", 
+        "id": "1b567d8562a54b8dbed747e3f604cf6f"
+      }
+    ], 
+    "items": [
+      {
+        "description": "футляри до державних нагород", 
+        "classification": {
+          "scheme": "ДК021", 
+          "description": "Cartons", 
+          "id": "44617100-9"
+        }, 
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП", 
+            "id": "17.21.1", 
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ], 
+        "deliveryAddress": {
+          "postalCode": "79000", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Банкова 1", 
+          "region": "м. Київ", 
+          "locality": "м. Київ"
+        }, 
+        "deliveryDate": {
+          "startDate": "2020-05-17T01:00:00+03:00", 
+          "endDate": "2020-05-20T01:00:00+03:00"
+        }, 
+        "id": "53de0c90af0e430ea270c5970351ba0c", 
+        "unit": {
+          "code": "44617100-9", 
+          "name": "item"
+        }, 
+        "quantity": 5.0
+      }
+    ], 
+    "suppliers": [
+      {
+        "contactPoint": {
+          "email": "aagt@gmail.com", 
+          "telephone": "+380 (322) 91-69-30", 
+          "name": "Андрій Олексюк"
+        }, 
+        "scale": "sme", 
+        "name": "ДКП «Книга»", 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137226", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "address": {
+          "postalCode": "79013", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 34", 
+          "region": "Львівська область", 
+          "locality": "м. Львів"
+        }
+      }
+    ], 
+    "contractNumber": "contract #13111", 
+    "period": {
+      "startDate": "2020-05-15T01:00:03+03:00", 
+      "endDate": "2021-05-15T01:00:03+03:00"
+    }, 
+    "dateSigned": "2020-05-15T01:00:03+03:00", 
+    "value": {
+      "currency": "UAH", 
+      "amount": 238.0, 
+      "amountNet": 237.0, 
+      "valueAddedTaxIncluded": true
+    }, 
+    "date": "2020-05-15T01:00:03+03:00", 
+    "awardID": "898563864e114bff9ca304570bfc199e", 
+    "id": "4f7b2b4c16f24c66897d0d18d57c05f3", 
+    "contractID": "UA-2020-05-15-000001-1"
+  }
+}
+

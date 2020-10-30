@@ -94,6 +94,26 @@ test_tender_data = {
     "procurementMethodType": "belowThreshold",
     "milestones": test_milestones,
 }
+
+test_tender_document_data = {
+    "url": "http://ds.prozorro.local/get/b97562e3f33c493297fd14dd6d8c50f0?KeyID=a8968c46&Signature=3OV7QC7f%2ByfcGTvpy0tf%2FaM%2BFRI6kkg1ImfEJlfAx5qi%2FLY7IIj7TFqtxgaPrzdd%2BWIOCe3O5Q7WhXkOdCB9CQ%3D%3D",
+    "documentType":"tenderNotice",
+    "title": "Notice.pdf",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/pdf"
+}
+
+test_tender_full_document_data = {
+        "hash": "md5:00000000000000000000000000000000",
+        "author": "tender_owner",
+        "format": "application/msword",
+        "title": "tender_document.doc",
+        "documentOf": "tender",
+        "datePublished": "2020-04-23T14:31:34.217330+03:00",
+        "dateModified": "2020-04-23T14:31:34.217368+03:00",
+        "id": uuid4().hex
+}
+
 if SANDBOX_MODE:
     test_tender_data["procurementMethodDetails"] = "quick, accelerator=1440"
 test_features_tender_data = test_tender_data.copy()

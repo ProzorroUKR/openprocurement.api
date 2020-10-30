@@ -27,6 +27,9 @@ class Root(object):
         (Allow, "g:bots", "upload_tender_documents"),
         (Allow, "g:bots", "edit_tender"),
         (Allow, "g:bots", "upload_qualification_documents"),
+        (Allow, "g:template_registry_bots", "upload_tender_documents"),
+        (Allow, "g:renderer_bots", "upload_tender_documents"),
+        (Allow, "g:renderer_bots", "upload_contract_documents"),
     ]
 
     def __init__(self, request):

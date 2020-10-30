@@ -75,6 +75,7 @@ from openprocurement.tender.core.utils import (
     prepare_award_milestones,
     check_skip_award_complaint_period,
     calculate_complaint_business_date,
+    get_all_nested_from_the_object,
 )
 from openprocurement.tender.core.validation import (
     validate_lotvalue_value,
@@ -87,6 +88,7 @@ from openprocurement.tender.core.validation import (
     validate_value_type,
     validate_requirement_values,
     validate_minimalstep_limits,
+    validate_econtract_documents,
 )
 from openprocurement.tender.esco.utils import get_complaint_amount as get_esco_complaint_amount
 from openprocurement.planning.api.models import BaseOrganization
@@ -176,10 +178,14 @@ class ComplaintModelType(ModelType):
 
 
 class Document(BaseDocument):
-    documentOf = StringType(required=True, choices=["tender", "item", "lot"], default="tender")
+    format = StringType(regex="^[-\w]+/[-\.\w\+]+$")
+    url = StringType()
+    documentOf = StringType(required=True, choices=[
+                            "tender", "item", "lot",  "document"], default="tender")
+    templateId = StringType()
 
     def validate_relatedItem(self, data, relatedItem):
-        if not relatedItem and data.get("documentOf") in ["item", "lot"]:
+        if not relatedItem and data.get("documentOf") in ["item", "lot", "document"]:
             raise ValidationError(u"This field is required.")
         parent = data["__parent__"]
         if relatedItem and isinstance(parent, Model):
@@ -188,6 +194,25 @@ class Document(BaseDocument):
                 raise ValidationError(u"relatedItem should be one of lots")
             if data.get("documentOf") == "item" and relatedItem not in [i.id for i in tender.items if i]:
                 raise ValidationError(u"relatedItem should be one of items")
+            if data.get("documentOf") == "document":
+                documents = get_all_nested_from_the_object("documents",tender) + get_all_nested_from_the_object("documents",parent)
+                if relatedItem not in [i.id for i in documents]:
+                    raise ValidationError(u"relatedItem should be one of documents")
+
+    def validate_templateId(self, data, templateId):
+        document_type = data.get("documentType")
+        if document_type and document_type == "contractProforma" and not templateId:
+            raise ValidationError(u"templateId is required for documentType 'contractProforma'")
+        elif document_type and document_type != "contractProforma" and templateId:
+            raise ValidationError(u"Rogue field")
+
+    def validate_url(self, data, url):
+        if not url and data.get("documentType", "") != "contractProforma":
+            raise ValidationError(u"This field is required")
+
+    def validate_format(self, data, format):
+        if not format and data.get("documentType", "") != "contractProforma":
+            raise ValidationError(u"This field is required.")
 
 
 class ConfidentialDocumentModelType(ModelType):
@@ -550,6 +575,9 @@ class Contract(BaseContract):
 
             if value > get_now():
                 raise ValidationError(u"Contract signature date can't be in the future")
+
+    def validate_documents(self, data, value):
+        return validate_econtract_documents("contract", data, value)
 
 
 class LotValue(Model):
@@ -1960,6 +1988,10 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
     def validate_buyers(self, data, value):
         if data.get("procuringEntity", {}).get("kind", "") == "central" and not value:
             raise ValidationError(BaseType.MESSAGES["required"])
+
+    def validate_documents(self, data, value):
+        resource = "lot" if data.get("lots", []) else "tender"
+        return validate_econtract_documents(resource, data, value)
 
     def _acl_cancellation(self, acl):
         acl.extend(

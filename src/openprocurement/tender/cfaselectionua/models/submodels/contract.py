@@ -1,12 +1,29 @@
 # -*- coding: utf-8 -*-
+import jmespath
 from openprocurement.api.roles import RolesFromCsv
 from schematics.exceptions import ValidationError
 from schematics.types.compound import ModelType
 from schematics.types import StringType
 from openprocurement.tender.core.models import ContractValue
-from openprocurement.tender.core.utils import get_contract_supplier_roles, get_contract_supplier_permissions
+from openprocurement.tender.core.utils import get_contract_supplier_roles,  get_contract_supplier_permissions, flatten_multidimensional_list, get_all_nested_from_the_object
 from openprocurement.api.utils import get_now
 from openprocurement.api.models import Model, ListType, Contract as BaseContract, Document
+from openprocurement.tender.core.models import get_tender
+from openprocurement.tender.core.validation import validate_econtract_documents
+
+
+class ContractDocument(Document):
+    documentOf = StringType(required=True, choices=["tender","document"], default="tender")
+
+    def validate_relatedItem(self, data, relatedItem):
+        if not relatedItem and data.get("documentOf") in ["document"]:
+            raise ValidationError(u"This field is required.")
+        parent = data["__parent__"]
+        tender = get_tender(parent)
+        if data.get("documentOf") == "document":
+            documents = get_all_nested_from_the_object("documents",tender) + get_all_nested_from_the_object("documents",parent)
+            if relatedItem not in [i.id for i in documents]:
+                raise ValidationError(u"relatedItem should be one of documents")
 
 
 class Contract(BaseContract):
@@ -15,7 +32,7 @@ class Contract(BaseContract):
 
     value = ModelType(ContractValue)
     awardID = StringType(required=True)
-    documents = ListType(ModelType(Document, required=True), default=list())
+    documents = ListType(ModelType(ContractDocument, required=True), default=list())
 
     def __acl__(self):
         return get_contract_supplier_permissions(self)
@@ -43,3 +60,6 @@ class Contract(BaseContract):
         parent = data["__parent__"]
         if value and isinstance(parent, Model) and value > get_now():
             raise ValidationError(u"Contract signature date can't be in the future")
+
+    def validate_documents(self, data, value):
+        return validate_econtract_documents("contract", data, value)

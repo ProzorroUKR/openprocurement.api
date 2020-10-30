@@ -10,13 +10,11 @@ from openprocurement.api.models import BusinessOrganization
 from openprocurement.api.models import (
     ListType, Value, IsoDateTimeType
     )
-from openprocurement.tender.core.models import Model
+from openprocurement.tender.core.models import Model, Document
 from openprocurement.tender.core.models import (
     Administrator_bid_role,
     view_bid_role,
 )
-from openprocurement.tender.pricequotation.models.document import\
-    Document
 from openprocurement.tender.pricequotation.validation import\
     validate_bid_value, validate_requirement_responses
 

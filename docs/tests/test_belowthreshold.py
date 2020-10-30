@@ -2,12 +2,15 @@
 import os
 from copy import deepcopy
 from uuid import uuid4
+
+import jmespath
 from datetime import timedelta
 
 from openprocurement.api.models import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     BaseTenderWebTest, test_tender_data, test_bids, test_lots
 )
+from openprocurement.tender.core.tests.base import change_auth
 
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.base.constants import DOCS_URL, AUCTIONS_URL
@@ -30,11 +33,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
     docservice = True
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL
-    
+
     def setUp(self):
         super(TenderResourceTest, self).setUp()
         self.setUpMock()
-        
+
     def tearDown(self):
         self.tearDownMock()
         super(TenderResourceTest, self).tearDown()
@@ -122,6 +125,26 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         tender = response.json['data']
         owner_token = response.json['access']['token']
         self.tender_id = tender['id']
+
+        # register proforma
+        with open(TARGET_DIR + 'tutorial/upload-proforma-with-templateId.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/documents?acc_token={}'.format(self.tender_id, owner_token),
+                {
+                    'data': {
+                        'documentType': 'contractProforma',
+                        'title': u'contractProforma',
+                        'templateId': "paper0000001"
+                    }
+                }
+            )
+            self.assertEqual(response.status, "201 Created")
+
+        docs = self.app.get('/tenders/{}/documents'.format(self.tender_id)).json['data']
+        self.assertIn('contractProforma', [doc['documentType'] for doc in docs])
+        for doc in docs:
+            if doc['documentType'] == 'contractProforma':
+                proforma_id = doc['id']
 
         self.set_status('active.enquiries')
 
@@ -293,6 +316,75 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 self.tender_id, question_id))
             self.assertEqual(response.status, '200 OK')
 
+        # rg bot upload documents
+        doc_types = {
+            "contractTemplate": {
+                "title": "paper0000001.docx",
+                "documentType": "contractTemplate",
+                "format": "application/msword"
+            },
+            "contractForm": {
+                "title": "paper0000001-form.json",
+                "documentType": "contractForm",
+                "format": "application/json"
+            },
+            "contractSchema": {
+                "title": "paper0000001-schema.json",
+                "documentType": "contractSchema",
+                "format": "application/json"
+            }
+        }
+        with change_auth(self.app, ("Basic", ("trBot", ""))):
+            for doc_type in doc_types:
+                doc_data = {
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "relatedItem": proforma_id,
+                    "documentOf": "document"
+                }
+                doc_data.update(doc_types[doc_type])
+                response = self.app.post_json("/tenders/{}/documents".format(self.tender_id), {"data": doc_data})
+                self.assertEqual(response.status, "201 Created")
+                self.assertEqual(response.json["data"]["documentType"], doc_data["documentType"])
+                self.assertEqual(response.json["data"]["relatedItem"], proforma_id)
+                self.assertEqual(response.json["data"]["documentOf"], "document")
+
+        with open(TARGET_DIR + 'tutorial/tender-documents-after-rg-bot.http', 'w') as self.app.file_obj:
+            response = self.app.get("/tenders/{}/documents".format(self.tender_id))
+        docs = [doc for doc in response.json["data"] if doc.get("documentType", "") in doc_types]
+        self.assertEqual(len(docs), 3)
+
+        # upload owner contractData
+        with open(TARGET_DIR + 'tutorial/upload-owner-contract-data.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                "/tenders/{}/documents?acc_token={}".format(self.tender_id, owner_token),
+                {
+                    "data": {
+                        "title": "ownerContractData.json",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/json",
+                        "documentOf": "document",
+                        "documentType": "contractData",
+                        "relatedItem": proforma_id,
+                    }
+                }
+            )
+            self.assertEqual(response.status, "201 Created")
+
+        # renderer bot upload rendered contract proforma
+        with change_auth(self.app, ("Basic", ("rBot", ""))):
+            response = self.app.put(
+                "/tenders/{}/documents/{}".format(self.tender_id, proforma_id),
+                upload_files=[("file", "contractProforma.pdf", "contentRenderedPDF")],
+            )
+            self.assertEqual(response.status, "200 OK")
+
+        # get documents list after rBot uploading contract proforma
+        with open(TARGET_DIR + 'tutorial/get-tender-documents-after-rbot.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}/documents/{}'.format(self.tender_id, proforma_id))
+            self.assertEqual(response.json['data']['title'], "contractProforma.pdf")
+
         # Registering bid
 
         self.set_status('active.tendering')
@@ -332,6 +424,23 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.get('/tenders/{}/bids/{}/documents?acc_token={}'.format(
                 self.tender_id, bid1_id, bids_access[bid1_id]))
             self.assertEqual(response.status, '200 OK')
+
+        # upload bidder contractData
+        with open(TARGET_DIR + 'tutorial/upload-bidder-contract-data.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/bids/{}/documents?acc_token={}'.format(
+                    self.tender_id, bid1_id, bids_access[bid1_id]),
+                {'data': {
+                    "title": "bidderContractData.json",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/json",
+                    "documentOf": "document",
+                    "documentType": "contractData",
+                    "relatedItem": proforma_id,
+                }}
+            )
+            self.assertEqual(response.status, '201 Created')
 
         # Second bid registration with documents
 
@@ -398,7 +507,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
 
         with open(TARGET_DIR + 'tutorial/confirm-qualification.http', 'w') as self.app.file_obj:
-            self.app.patch_json(
+            response = self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
                 {"data": {"status": "active"}})
             self.assertEqual(response.status, '200 OK')
@@ -456,6 +565,111 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         #### Uploading contract documentation
 
+        with change_auth(self.app, ('Basic', ('rBot', ''))):
+            response = self.app.post_json(
+                "/tenders/{}/contracts/{}/documents".format(self.tender_id, self.contract_id),
+                {
+                    "data": {
+                        "title": "Contract.pdf",
+                        "documentType": "contract",
+                        "format": "application/pdf",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "relatedItem": proforma_id,
+                        "documentOf": "document"
+                    }
+                }
+            )
+            self.assertEqual(response.status, '201 Created')
+            self.contract_pdf_doc_id = response.json['data']['id']
+
+            response = self.app.post_json(
+                "/tenders/{}/contracts/{}/documents".format(self.tender_id, self.contract_id),
+                {
+                    "data": {
+                        "title": "ContractData.json",
+                        "documentType": "contractData",
+                        "format": "application/json",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "relatedItem": self.contract_pdf_doc_id,
+                        "documentOf": "document"
+                    }
+                }
+            )
+            self.assertEqual(response.status, '201 Created')
+            self.contract_contract_data_doc_id = response.json['data']['id']
+
+        #### Get contract generated documents
+
+        with open(TARGET_DIR + 'tutorial/tender-contract-with-generated-documents.http', 'w') as self.app.file_obj:
+            response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, self.contract_id))
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(len(response.json['data']['documents']), 2)
+            for index, doc_type in enumerate(('contract', 'contractData')):
+                self.assertEqual(response.json['data']['documents'][index]['documentType'], doc_type)
+                self.assertEqual(response.json['data']['documents'][index]['author'], 'renderer_bots')
+
+        # buyer upload fixed contract data
+        with open(TARGET_DIR + 'tutorial/tender-contract-fix-contract-data-document.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, owner_token),
+                {
+                    "data": {
+                        "title": "fixed_finalContractData.json",
+                        "documentType": "contractData",
+                        "format": "application/json",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "relatedItem": proforma_id,
+                        "documentOf": "document"
+                    }
+                }
+            )
+            self.assertEqual(response.status, "201 Created")
+            self.assertEqual(response.json['data']['title'], 'fixed_finalContractData.json')
+            self.assertEqual(response.json['data']['author'], 'tender_owner')
+
+        # bot regenerate and upload files
+
+        with change_auth(self.app, ('Basic', ('rBot', ''))):
+            response = self.app.put_json(
+                "/tenders/{}/contracts/{}/documents/{}".format(self.tender_id, self.contract_id,
+                                                               self.contract_pdf_doc_id),
+                {
+                    "data": {
+                        "title": "newContract.pdf",
+                        "documentType": "contract",
+                        "format": "application/pdf",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "relatedItem": proforma_id,
+                        "documentOf": "document"
+                    }
+                }
+            )
+            self.assertEqual(response.status, '200 OK')
+            self.contract_pdf_doc_id = response.json['data']['id']
+
+            response = self.app.put_json(
+                "/tenders/{}/contracts/{}/documents/{}".format(self.tender_id, self.contract_id,
+                                                               self.contract_contract_data_doc_id),
+                {
+                    "data": {
+                        "title": "newContractData.json",
+                        "documentType": "contractData",
+                        "format": "application/json",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "relatedItem": self.contract_pdf_doc_id,
+                        "documentOf": "document"
+                    }
+                }
+            )
+            self.assertEqual(response.status, '200 OK')
+            self.contract_contract_data_doc_id = response.json['data']['id']
+
+
         with open(TARGET_DIR + 'tutorial/tender-contract-upload-document.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/contracts/{}/documents?acc_token={}'.format(
@@ -467,6 +681,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     'format': 'application/msword',
                 }})
             self.assertEqual(response.status, '201 Created')
+
+            contract_first_document_id = response.json["data"]["id"]
 
         with open(TARGET_DIR + 'tutorial/tender-contract-get-documents.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}/contracts/{}/documents'.format(
@@ -484,6 +700,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     'format': 'application/msword',
                 }})
             self.assertEqual(response.status, '201 Created')
+            contract_second_document_id = response.json["data"]["id"]
 
         with open(TARGET_DIR + 'tutorial/tender-contract-get-documents-again.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}/contracts/{}/documents'.format(
@@ -499,20 +716,93 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 {'data': {"dateSigned": get_now().isoformat()}})
             self.assertEqual(response.status, '200 OK')
 
-        #### Contract signing
+       #### Contract signing procedure
+        # Checking if contract has the `pending` status
+
+        with open(TARGET_DIR + 'tutorial/get-tender-contracts.http', 'w') as self.app.file_obj:
+            response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, self.contract_id))
+            self.assertEqual(response.json["data"]["status"], "pending")
+            contract = response.json["data"]
+            contract_id = contract["id"]
+
+
+        # Contract preparation 
+
+        # To identify a winner supplier we need to find a bid which owner won an auction.
+        # Bid and award should be in the status `active`. 
 
         tender = self.db.get(self.tender_id)
-        for i in tender.get('awards', []):
-            i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
+        bid_id = jmespath.search("awards[?id=='{}'].bid_id".format(contract["awardID"]), tender)[0]
+        bid_token = jmespath.search("bids[?id=='{}'].owner_token".format(bid_id), tender)[0]
+
+        for bid in tender.get("bids", []):
+            if bid["id"] == bid_id and bid["status"] == "pending":
+                bid["status"] = "active"
+        for i in tender.get("awards", []):
+            if 'complaintPeriod' in i:
+                i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+        if 'value' in tender['contracts'][0] and tender['contracts'][0]['value']['valueAddedTaxIncluded']:
+            tender['contracts'][0]['value']['amountNet'] = str(float(tender['contracts'][0]['value']['amount']) - 1)
         self.db.save(tender)
 
-        with open(TARGET_DIR + 'tutorial/tender-contract-sign.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/contracts/{}?acc_token={}'.format(
-                    self.tender_id, self.contract_id, owner_token),
-                {'data': {'status': 'active'}})
-            self.assertEqual(response.status, '200 OK')
+        # Changing a contract status to `pending.winner-signing` by the tender owner
 
+        with open(TARGET_DIR + 'tutorial/change-contract-status-to-pending-winner-signing-by-owner.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, self.contract_id, owner_token),
+                {"data": {"status": "pending.winner-signing"}}
+            )
+            self.assertEqual(response.status, "200 OK")
+        
+        # Uploading a sign document to the contract document by supplier 
+
+        with open(TARGET_DIR + 'tutorial/tender-contract-upload-sign-file-by-supplier.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
+                {
+                        "data": {
+                            "title": u"supplier_first_document_sign.pkcs7",
+                            "url": self.generate_docservice_url(),
+                            "hash": "md5:" + "0" * 32,
+                            "format": "application/pkcs7-signature",
+                            "documentOf": "document",
+                            "relatedItem": contract_first_document_id,
+                        }
+                    },
+                    status=201
+                )
+            self.assertEqual(response.status, "201 Created")
+            doc_id = response.json["data"]["id"]
+
+        # Changing a contract status to `pending` by supplier
+
+        with open(TARGET_DIR + 'tutorial/change-contract-status-to-pending-by-supplier.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, bid_token),
+                {"data": {"status": "pending"}}
+            )
+        self.assertEqual(response.status, "200 OK")
+
+        # Uploading a sign document to the contract document by owner 
+
+        with open(TARGET_DIR + 'tutorial/tender-contract-upload-sign-file-by-owner.http', 'w') as self.app.file_obj:
+
+            response = self.app.post_json(
+                "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, owner_token),
+                {
+                        "data": {
+                            "title": u"owner_first_document_sign.pkcs7",
+                            "url": self.generate_docservice_url(),
+                            "hash": "md5:" + "0" * 32,
+                            "format": "application/pkcs7-signature",
+                            "documentOf": "document",
+                            "relatedItem": contract_first_document_id,
+                        }
+                    },
+                    status=201
+                )
+            self.assertEqual(response.status, "201 Created")
+            
         # Preparing the cancellation request
 
         self.set_status('active.awarded')

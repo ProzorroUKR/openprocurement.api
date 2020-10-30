@@ -1,20 +1,11 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import (
-    get_file,
-    upload_file,
-    update_file_content_type,
-    json_view,
-    context_unpack,
-    APIResource,
-)
-
+from openprocurement.api.utils import (APIResource, context_unpack, get_file, json_view, update_file_content_type,
+                                       upload_file)
 from openprocurement.api.validation import validate_file_update, validate_file_upload, validate_patch_document_data
-
-from openprocurement.tender.core.utils import save_tender, optendersresource, apply_patch
-
-from openprocurement.tender.core.validation import validate_tender_document_update_not_by_author_or_tender_owner
-
 from openprocurement.tender.belowthreshold.validation import validate_document_operation_in_not_allowed_tender_status
+from openprocurement.tender.core.utils import apply_patch, optendersresource, save_tender
+from openprocurement.tender.core.validation import (validate_patch_document_contract_proforma,
+                                                    validate_tender_document_update_not_by_author_or_tender_owner)
 
 
 @optendersresource(
@@ -96,6 +87,7 @@ class TenderDocumentResource(APIResource):
         permission="upload_tender_documents",
         validators=(
             validate_patch_document_data,
+            validate_patch_document_contract_proforma,
             validate_document_operation_in_not_allowed_tender_status,
             validate_tender_document_update_not_by_author_or_tender_owner,
         ),

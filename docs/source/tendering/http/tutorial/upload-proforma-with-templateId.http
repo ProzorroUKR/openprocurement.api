@@ -1,0 +1,31 @@
+POST /api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/documents?acc_token=e6bb69a4c5474e4987130585951b6f3e HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 105
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "title": "contractProforma", 
+    "documentType": "contractProforma", 
+    "templateId": "paper0000001"
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/documents/f77c2444fc6f47e1bb441a284cd344e6
+{
+  "data": {
+    "title": "contractProforma", 
+    "url": null, 
+    "author": "tender_owner", 
+    "documentOf": "tender", 
+    "datePublished": "2020-05-15T01:00:00+03:00", 
+    "documentType": "contractProforma", 
+    "dateModified": "2020-05-15T01:00:00+03:00", 
+    "id": "f77c2444fc6f47e1bb441a284cd344e6", 
+    "templateId": "paper0000001"
+  }
+}
+

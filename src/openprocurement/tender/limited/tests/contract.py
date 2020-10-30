@@ -50,7 +50,8 @@ class TenderContractResourceTest(BaseTenderContentWebTest, TenderContractResourc
     initial_status = "active"
     initial_data = test_tender_data
     initial_bids = None  # test_bids
-
+    docservice = True
+    
     def create_award(self):
         # Create award
         response = self.app.post_json(
@@ -364,6 +365,7 @@ class TenderNegotiationAccelerationTest(TenderNegotiationQuickAccelerationTest):
 class TenderContractDocumentResourceTest(BaseTenderContentWebTest, TenderContractDocumentResourceTestMixin):
     initial_status = "active"
     initial_bids = None
+    docservice = True
 
     def create_award(self):
         # Create award
@@ -393,6 +395,12 @@ class TenderContractDocumentResourceTest(BaseTenderContentWebTest, TenderContrac
     test_create_tender_contract_document = snitch(create_tender_contract_document)
     test_patch_tender_contract_document = snitch(patch_tender_contract_document)
     test_put_tender_contract_document = snitch(put_tender_contract_document)
+    test_create_contract_documents_by_render_bot = None
+    test_create_contract_documents_by_render_bot_invalid = None
+    test_create_contract_document_contract_data_by_owner = None
+    test_create_contract_document_second_contract_data_by_owner_fail = None
+    test_put_contract_document_contract_data_by_owner = None
+    test_put_contract_document_contract_data_by_rbot = None
 
 
 class TenderContractNegotiationDocumentResourceTest(TenderContractDocumentResourceTest):

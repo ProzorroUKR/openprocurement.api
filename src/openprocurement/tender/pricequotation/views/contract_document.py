@@ -9,8 +9,11 @@ from openprocurement.api.validation import\
     validate_file_update, validate_patch_document_data, validate_file_upload
 from openprocurement.tender.core.utils import\
     save_tender, optendersresource, apply_patch
-from openprocurement.tender.core.validation import\
-    validate_role_for_contract_document_operation
+from openprocurement.tender.core.validation import (
+    validate_role_for_contract_document_operation,
+    validate_relatedItem_for_contract_document_uploading,
+    validate_contract_supplier_role_for_contract_document_uploading,
+)
 from openprocurement.tender.belowthreshold.views.contract_document\
     import TenderAwardContractDocumentResource
 from openprocurement.tender.pricequotation.constants import PMT
@@ -33,12 +36,15 @@ class PQTenderAwardContractDocumentResource(TenderAwardContractDocumentResource)
             validate_file_upload,
             validate_role_for_contract_document_operation,
             validate_contract_document,
+            validate_contract_supplier_role_for_contract_document_uploading,
+            validate_relatedItem_for_contract_document_uploading,
         )
     )
     def collection_post(self):
         """Tender Contract Document Upload
         """
         document = upload_file(self.request)
+        document.author = self.request.authenticated_role
         self.context.documents.append(document)
         if save_tender(self.request):
             self.LOGGER.info(
@@ -61,12 +67,15 @@ class PQTenderAwardContractDocumentResource(TenderAwardContractDocumentResource)
             validate_file_update,
             validate_role_for_contract_document_operation,
             validate_contract_document,
+            validate_contract_supplier_role_for_contract_document_uploading,
+            validate_relatedItem_for_contract_document_uploading,
         ),
         permission="upload_contract_documents"
     )
     def put(self):
         """Tender Contract Document Update"""
         document = upload_file(self.request)
+        document.author = self.request.authenticated_role
         self.request.validated["contract"].documents.append(document)
         if save_tender(self.request):
             self.LOGGER.info(
@@ -84,6 +93,8 @@ class PQTenderAwardContractDocumentResource(TenderAwardContractDocumentResource)
             validate_patch_document_data,
             validate_role_for_contract_document_operation,
             validate_contract_document,
+            validate_contract_supplier_role_for_contract_document_uploading,
+            validate_relatedItem_for_contract_document_uploading,
         ),
         permission="upload_contract_documents"
     )

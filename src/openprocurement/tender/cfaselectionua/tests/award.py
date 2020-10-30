@@ -3,7 +3,13 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.award_blanks import patch_tender_lot_award_lots_none
+from openprocurement.tender.belowthreshold.tests.award_blanks import (
+    patch_tender_lot_award_lots_none,
+    create_tender_award_with_the_invalid_document_type,
+    put_tender_json_award_document_of_document,
+    create_tender_award_contract_data_document,
+    create_tender_award_contract_data_document_json,
+)
 from openprocurement.tender.cfaselectionua.adapters.configurator import TenderCfaSelectionUAConfigurator
 from openprocurement.tender.cfaselectionua.tests.base import (
     TenderContentWebTest,
@@ -53,10 +59,13 @@ class TenderAwardResourceTestMixin(object):
 class TenderAwardDocumentResourceTestMixin(object):
     test_not_found_award_document = snitch(not_found_award_document)
     test_create_tender_award_document = snitch(create_tender_award_document)
+    test_create_tender_award_with_the_invalid_document_type = snitch(create_tender_award_with_the_invalid_document_type)
+    test_put_tender_json_award_document_of_document = snitch(put_tender_json_award_document_of_document)
     test_put_tender_award_document = snitch(put_tender_award_document)
     test_patch_tender_award_document = snitch(patch_tender_award_document)
     test_create_award_document_bot = snitch(create_award_document_bot)
     test_patch_not_author = snitch(patch_not_author)
+    test_create_tender_award_contract_data_document = snitch(create_tender_award_contract_data_document)
 
 
 class TenderLotAwardCheckResourceTestMixin(object):
@@ -67,6 +76,7 @@ class Tender2LotAwardDocumentResourceTestMixin(object):
     test_create_tender_lots_award_document = snitch(create_tender_lots_award_document)
     test_put_tender_lots_award_document = snitch(put_tender_lots_award_document)
     test_patch_tender_lots_award_document = snitch(patch_tender_lots_award_document)
+    test_create_tender_lots_award_contract_data_document = snitch(create_tender_award_contract_data_document)
 
 
 class TenderLotAwardCheckResourceTest(TenderContentWebTest, TenderLotAwardCheckResourceTestMixin):
@@ -125,6 +135,8 @@ class TenderAwardDocumentResourceTest(TenderContentWebTest, TenderAwardDocumentR
 
 class TenderAwardDocumentWithDSResourceTest(TenderAwardDocumentResourceTest):
     docservice = True
+
+    test_create_tender_award_contract_data_document_json = snitch(create_tender_award_contract_data_document_json)
 
 
 @unittest.skipIf(skip_multi_lots, "Skip multi-lots tests")
