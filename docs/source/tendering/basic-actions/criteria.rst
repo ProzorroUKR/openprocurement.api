@@ -139,7 +139,7 @@ competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage
 
 Standard data, you could get `here <https://github.com/ProzorroUKR/standards/pull/79/files>`__
 
-You can't update tender to status `active.tendering` without 9 EXCLUSION criteria:
+You can't update tender to status `active.tendering` without 9 EXCLUSION and 1 OTHER.BID.LANGUAGE criteria::
 
 .. include:: ../http/criteria/update-tender-status-without-criteria.http
    :code:
@@ -162,6 +162,25 @@ You can patch exclusion requirement, but you can send only `eligibleEvidences`
    :code:
 
 .. include:: ../http/criteria/patch-exclusion-criteria-requirement.http
+   :code:
+
+
+Language criterion workflow
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Language criterion creates as other and could be presented in bulk request with other criteria.
+
+.. include:: ../http/criteria/create-language-criterion.http
+   :code:
+
+But field `eligibleEvidences` is forbidden
+
+.. include:: ../http/criteria/update-language-criterion-with-evidence.http
+   :code:
+
+Could be only 2 choices for `expectedValue`: ['ukrainian', 'english']
+
+.. include:: ../http/criteria/update-language-criterion-with-not-listed-lang.http
    :code:
 
 

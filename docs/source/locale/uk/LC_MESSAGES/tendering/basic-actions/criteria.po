@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-05 16:32+0300\n"
+"POT-Creation-Date: 2020-10-31 14:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -101,14 +101,30 @@ msgstr "Виключні критерії доступні лише в: aboveThr
 msgid "Standard data, you could get `here <https://github.com/ProzorroUKR/standards/pull/79/files>`__"
 msgstr "Стандарт, можна отримати `тут <https://github.com/ProzorroUKR/standards/pull/79/files>`__"
 
-msgid "You can't update tender to status `active.tendering` without 9 EXCLUSION criteria:"
-msgstr "Неможливо перевести тендер у статус `active.tendering` без 9-ти вийнятнхових критеріїв:"
+#, fuzzy
+msgid "You can't update tender to status `active.tendering` without 9 EXCLUSION and 1 OTHER.BID.LANGUAGE criteria::"
+msgstr "Неможливо перевести тендер у статус `active.tendering` без 9-ти вийнятнхових та одного мовного критеріїв:"
+
+msgid "code"
+msgstr ""
 
 msgid "EXCLUSION criteria and all criteria objects are not updated:"
 msgstr "Вийняткові критерії та всі дочірні об'єкти є незміннми:"
 
 msgid "You can patch exclusion requirement, but you can send only `eligibleEvidences`"
 msgstr "Вийняткові вимоги можливо редагувати, але тілки передаючи поле `eligibleEvidences`"
+
+msgid "Language criterion workflow"
+msgstr "Схема роботи мовного критерія"
+
+msgid "Language criterion creates as other and could be presented in bulk request with other criteria."
+msgstr "Мовний критерій створюється так само як і інші та може бути включений до запиту на створення з іншими критеріями"
+
+msgid "But field `eligibleEvidences` is forbidden"
+msgstr "Але поле `eligibleEvidences` заборонено для цього критерію"
+
+msgid "Could be only 2 choices for `expectedValue`: ['ukrainian', 'english']"
+msgstr "Доступно лише два значення для `expectedValue`: ['ukrainian', 'english']"
 
 msgid "Exclusion criteria workflow"
 msgstr "Схема роботи вийняткових критеріїв"
