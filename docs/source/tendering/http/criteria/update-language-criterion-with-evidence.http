@@ -11,9 +11,9 @@ DATA:
         {
           "requirements": [
             {
-              "dataType": "string",
-              "expectedValue": "english",
-              "title": "Мова",
+              "dataType": "boolean",
+              "expectedValue": "true",
+              "title": "Мова тендерної пропозиції українська",
               "eligibleEvidences": [
                             {
                                 "description": "Довідка в довільній формі",

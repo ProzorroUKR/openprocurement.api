@@ -168,7 +168,7 @@ You can patch exclusion requirement, but you can send only `eligibleEvidences`
 Language criterion workflow
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Language criterion creates as other and could be presented in bulk request with other criteria.
+Language criterion creates as other and could be presented in bulk request with other criteria. Language should be specified in `title`
 
 .. include:: ../http/criteria/create-language-criterion.http
    :code:
@@ -178,7 +178,7 @@ But field `eligibleEvidences` is forbidden
 .. include:: ../http/criteria/update-language-criterion-with-evidence.http
    :code:
 
-Could be only 2 choices for `expectedValue`: ['ukrainian', 'english']
+`expectedValue` must be only true
 
 .. include:: ../http/criteria/update-language-criterion-with-not-listed-lang.http
    :code:

@@ -30,9 +30,9 @@ DATA:
                 "description": "Учасник фізична особа підтверджує, що",
                 "requirements": [
                     {
-                        "title": "Мова (мови), якою (якими) повинні готуватися тендерні пропозиції",
-                        "dataType": "string",
-                        "expectedValue": "english"
+                        "title": "Мова тендерної пропозиції українська",
+                        "dataType": "boolean",
+                        "expectedValue": "true"
                     }
                 ]
             }
@@ -50,10 +50,10 @@ Content-Type: application/json; charset=UTF-8
                 {
                     "requirements": [
                         {
-                            "dataType": "string",
+                            "dataType": "boolean",
                             "id": "5caf18cb9564436992d9c4d6a9a435de",
-                            "expectedValue": "ukrainian",
-                            "title": "Мова"
+                            "expectedValue": "true",
+                            "title": "Мова тендерної пропозиції українська"
                         }
                     ],
                     "id": "908f1976f2e24246b30b711c3fb12b32",

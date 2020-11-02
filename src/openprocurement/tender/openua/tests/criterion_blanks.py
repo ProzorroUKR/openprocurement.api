@@ -25,12 +25,9 @@ def create_tender_criteria_valid(self):
         self.assertIn("requirements", requirementGroup)
 
     lang_criterion = deepcopy(language_criterion)
-    lang_criterion[0]["requirementGroups"][0]["requirements"][0]["dataType"] = "boolean"
     response = self.app.post_json(request_path, {"data": lang_criterion})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-
-    self.assertEqual(response.json["data"][0]["requirementGroups"][0]["requirements"][0]["dataType"], "string")
 
 
 def create_tender_criteria_invalid(self):
@@ -142,7 +139,7 @@ def create_tender_criteria_invalid(self):
     )
 
     lang_criterion = deepcopy(language_criterion)
-    lang_criterion[0]["requirementGroups"][0]["requirements"][0]["expectedValue"] = "test"
+    lang_criterion[0]["requirementGroups"][0]["requirements"][0]["expectedValue"] = False
     response = self.app.post_json(request_path, {"data": lang_criterion}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -155,7 +152,7 @@ def create_tender_criteria_invalid(self):
                     u"requirementGroups": [
                         {
                             u"requirements": [
-                                {u'expectedValue': [u"Value must be one of ['ukrainian', 'english']"]}
+                                {u'expectedValue': [u"Value must be true"]}
                             ]
                         }
                     ]
@@ -166,7 +163,39 @@ def create_tender_criteria_invalid(self):
         ],
     )
 
-    lang_criterion[0]["requirementGroups"][0]["requirements"][0]["expectedValue"] = "ukrainian"
+    lang_criterion[0]["requirementGroups"][0]["requirements"][0]["expectedValue"] = True
+    lang_criterion[0]["requirementGroups"][0]["requirements"][0]["dataType"] = "string"
+    response = self.app.post_json(request_path, {"data": lang_criterion}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u"description": {
+                    u"requirementGroups": [
+                        {
+                            u"requirements": [
+                                {
+                                    u"dataType": [
+                                        u"dataType must be boolean"
+                                    ],
+                                    u"expectedValue": [
+                                        u"Value must be true"
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                u"location": u"body",
+                u"name": 0,
+            }
+        ],
+    )
+
+    lang_criterion[0]["requirementGroups"][0]["requirements"][0]["dataType"] = "boolean"
     lang_criterion[0]["requirementGroups"][0]["requirements"][0]["eligibleEvidences"] = [
         {
             "description": "Довідка в довільній формі",

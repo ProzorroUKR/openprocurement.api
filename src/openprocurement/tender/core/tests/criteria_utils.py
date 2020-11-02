@@ -45,8 +45,6 @@ def generate_responses(self, tender_id=None):
         for criterion in tender["criteria"]:
             for req in criterion["requirementGroups"][0]["requirements"]:
                 if criterion["source"] == "tenderer":
-                    value = "english" if criterion["classification"]["id"] == "CRITERION.OTHER.BID.LANGUAGE" else True
-
                     rrs.append(
                         {
                             "title": "Requirement response",
@@ -55,7 +53,7 @@ def generate_responses(self, tender_id=None):
                                 "id": req["id"],
                                 "title": req["title"],
                             },
-                            "value": value,
+                            "value": True,
                         },
                     )
     return rrs

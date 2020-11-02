@@ -11,9 +11,9 @@ DATA:
         {
           "requirements": [
             {
-              "dataType": "string",
-              "expectedValue": "test",
-              "title": "Мова"
+              "dataType": "boolean",
+              "expectedValue": "false",
+              "title": "Мова тендерної пропозиції українська"
           ],
           "description": "Учасник фізична особа підтверджує, що"
         }
@@ -52,7 +52,7 @@ Content-Type: application/json; charset=UTF-8
                     "requirements": [
                         {
                             "expectedValue": [
-                                "Value must be one of ['ukrainian', 'english']"
+                                "Value must be true"
                             ]
                         }
                     ]

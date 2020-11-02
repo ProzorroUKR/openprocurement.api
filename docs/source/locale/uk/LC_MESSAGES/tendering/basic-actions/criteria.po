@@ -117,14 +117,14 @@ msgstr "Вийняткові вимоги можливо редагувати, �
 msgid "Language criterion workflow"
 msgstr "Схема роботи мовного критерія"
 
-msgid "Language criterion creates as other and could be presented in bulk request with other criteria."
-msgstr "Мовний критерій створюється так само як і інші та може бути включений до запиту на створення з іншими критеріями"
+msgid "Language criterion creates as other and could be presented in bulk request with other criteria. Language should be specified in `title`"
+msgstr "Мовний критерій створюється так само як і інші та може бути включений до запиту на створення з іншими критеріями. Мова має бути вказана в `title`"
 
 msgid "But field `eligibleEvidences` is forbidden"
 msgstr "Але поле `eligibleEvidences` заборонено для цього критерію"
 
-msgid "Could be only 2 choices for `expectedValue`: ['ukrainian', 'english']"
-msgstr "Доступно лише два значення для `expectedValue`: ['ukrainian', 'english']"
+msgid "`expectedValue` must be only true"
+msgstr "`expectedValue` може бути лише true"
 
 msgid "Exclusion criteria workflow"
 msgstr "Схема роботи вийняткових критеріїв"

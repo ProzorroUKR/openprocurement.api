@@ -23,19 +23,9 @@
                 "description": "Учасник фізична особа підтверджує, що",
                 "requirements": [
                     {
-                        "title": "Мова (мови), якою (якими) повинні готуватися тендерні пропозиції",
-                        "dataType": "string",
-                        "expectedValue": "english"
-                    }
-                ]
-            },
-            {
-                "description": "Учасник юридична особа підтверджує, що",
-                "requirements": [
-                    {
-                        "title": "Мова (мови), якою (якими) повинні готуватися тендерні пропозиції",
-                        "dataType": "string",
-                        "expectedValue": "english"
+                        "title": "Мова тендерної пропозиції українська",
+                        "dataType": "boolean",
+                        "expectedValue": "true"
                     }
                 ]
             }
