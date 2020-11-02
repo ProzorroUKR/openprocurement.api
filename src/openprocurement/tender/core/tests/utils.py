@@ -19,6 +19,7 @@ from openprocurement.tender.core.utils import (
     has_unanswered_questions,
     calculate_tender_business_date,
     calculate_date_diff,
+    submission_search,
 )
 from openprocurement.api.constants import TZ
 from openprocurement.tender.core.models import Tender as BaseTender, Lot, Complaint, Item, Question
@@ -33,7 +34,36 @@ class Tender(BaseTender):
     )
 
 
-class TestUtils(unittest.TestCase):
+class TestUtilsBase(unittest.TestCase):
+    def setUp(self):
+        self.tender_data = {
+            "id": "ae50ea25bb1349898600ab380ee74e57",
+            "dateModified": "2016-04-18T11:26:10.320970+03:00",
+            "status": "draft",
+            "tenderID": "UA-2016-04-18-000003",
+        }
+        self.lots = [
+            Lot(
+                {
+                    "id": "11111111111111111111111111111111",
+                    "title": "Earth",
+                    "value": {"amount": 500000},
+                    "minimalStep": {"amount": 1000},
+                }
+            ),
+            Lot(
+                {
+                    "id": "22222222222222222222222222222222",
+                    "title": "Mars",
+                    "value": {"amount": 600000},
+                    "minimalStep": {"amount": 2000},
+                }
+            ),
+        ]
+        self.items = [Item({"description": "Some item", "relatedLot": "11111111111111111111111111111111"})]
+
+
+class TestUtils(TestUtilsBase):
     def setUp(self):
         self.tender_data = {
             "id": "ae50ea25bb1349898600ab380ee74e57",
@@ -262,7 +292,7 @@ class TestUtils(unittest.TestCase):
         self.assertEqual(False, has_unanswered_questions(tender, False))
 
 
-class TestIsTender(TestUtils):
+class TestIsTender(TestUtilsBase):
     def test_is_tender(self):
         tender = Tender(self.tender_data)
         is_tender = isTender("bellowThreshold", None)
@@ -294,6 +324,37 @@ class TestIsTender(TestUtils):
         picker = SubscribersPicker("esco.EU", None)
         self.assertEqual(picker.phash(), "procurementMethodType = esco.EU")
         self.assertEqual(False, picker(event))
+
+
+class TestSubmissionSearch(TestUtilsBase):
+
+    @patch("openprocurement.tender.core.utils.SANDBOX_MODE", True)
+    def test_search(self):
+        tender = Tender(self.tender_data)
+        tender.submissionMethodDetails = "some;quick"
+
+        self.assertTrue(submission_search("quick", tender))
+
+    @patch("openprocurement.tender.core.utils.SANDBOX_MODE", True)
+    def test_search_tuple(self):
+        tender = Tender(self.tender_data)
+        tender.submissionMethodDetails = "some;quick"
+
+        self.assertTrue(submission_search(("quick", "another"), tender))
+
+    @patch("openprocurement.tender.core.utils.SANDBOX_MODE", True)
+    def test_search_list(self):
+        tender = Tender(self.tender_data)
+        tender.submissionMethodDetails = "some;quick"
+
+        self.assertTrue(submission_search(["quick", "another"], tender))
+
+    @patch("openprocurement.tender.core.utils.SANDBOX_MODE", False)
+    def test_search_not_sandbox(self):
+        tender = Tender(self.tender_data)
+        tender.submissionMethodDetails = "some;quick"
+
+        self.assertFalse(submission_search("quick", tender))
 
 
 def suite():

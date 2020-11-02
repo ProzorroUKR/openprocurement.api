@@ -48,6 +48,10 @@ from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
     requested_fields_changes,
     check_skip_award_complaint_period,
+    submission_search,
+    QUICK_NO_AUCTION,
+    QUICK_FAST_FORWARD,
+    QUICK_FAST_AUCTION,
 )
 from openprocurement.planning.api.utils import extract_plan_adapter
 from schematics.exceptions import ValidationError
@@ -207,22 +211,14 @@ def validate_tender_auction_data(request):
         data = {}
     if request.method == "POST":
         now = get_now().isoformat()
-        if (
-            SANDBOX_MODE
-            and tender.submissionMethodDetails
-            and tender.submissionMethodDetails.endswith((u"quick(mode:no-auction)", u"quick(mode:fast-forward)"))
-        ):
-            if tender.lots:
-                data["lots"] = [
-                    {"auctionPeriod": {"startDate": now, "endDate": now}} if i.id == lot_id else {} for i in tender.lots
-                ]
-            else:
-                data["auctionPeriod"] = {"startDate": now, "endDate": now}
+        if submission_search((QUICK_NO_AUCTION, QUICK_FAST_FORWARD, QUICK_FAST_AUCTION), tender):
+            auction_period = {"startDate": now, "endDate": now}
         else:
-            if tender.lots:
-                data["lots"] = [{"auctionPeriod": {"endDate": now}} if i.id == lot_id else {} for i in tender.lots]
-            else:
-                data["auctionPeriod"] = {"endDate": now}
+            auction_period = {"endDate": now}
+        if tender.lots:
+            data["lots"] = [{"auctionPeriod": auction_period} if i.id == lot_id else {} for i in tender.lots]
+        else:
+            data["auctionPeriod"] = auction_period
     request.validated["data"] = data
 
 

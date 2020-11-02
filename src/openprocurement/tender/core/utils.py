@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import jmespath
+import re
 from decimal import Decimal
-from re import compile
 from functools import wraps
 
 from dateorro import (
@@ -59,14 +59,28 @@ import math
 
 LOGGER = getLogger("openprocurement.tender.core")
 
-ACCELERATOR_RE = compile(r".accelerator=(?P<accelerator>\d+)")
+ACCELERATOR_RE = re.compile(".accelerator=(?P<accelerator>\d+)")
 
 
 optendersresource = partial(resource, error_handler=error_handler, factory=factory)
 
 
+QUICK = "quick"
+QUICK_NO_AUCTION = "quick(mode:no-auction)"
+QUICK_FAST_FORWARD = "quick(mode:fast-forward)"
+QUICK_FAST_AUCTION = "quick(mode:fast-auction)"
+
+
+def submission_search(pattern, tender):
+    patterns = pattern if isinstance(pattern, (tuple, list)) else (pattern,)
+    details = tender.submissionMethodDetails
+    if SANDBOX_MODE and details:
+        return any(re.search(pattern, details) for pattern in patterns)
+    return False
+
+
 def normalize_should_start_after(start_after, tender):
-    if SANDBOX_MODE and tender.submissionMethodDetails and u"quick" in tender.submissionMethodDetails:
+    if submission_search(QUICK, tender):
         return start_after
     date = tender.enquiryPeriod and tender.enquiryPeriod.startDate or get_now()
     if NORMALIZE_SHOULD_START_AFTER < date:
