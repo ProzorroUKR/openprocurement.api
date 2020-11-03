@@ -81,10 +81,6 @@ cleanup:
 
 .base_deploy: &base_deploy
   stage: deploy
-  script:
-    - helm repo add prozorro $REPO_URL
-    - helm repo update
-    - helm upgrade $CI_COMMIT_REF_SLUG --install prozorro/$HELM_CHART --namespace $HELM_NAMESPACE --set $HELM_TAG_PARAMETER=$TAG --wait --debug
   dependencies:
     - build
   tags:
@@ -92,8 +88,21 @@ cleanup:
   variables:
     TAG: ci-$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA
 
-review:
+.deploy: &deploy
   <<: *base_deploy
+  script:
+    - helm repo add prozorro $REPO_URL
+    - helm repo update
+    - helm upgrade $CI_COMMIT_REF_SLUG --install prozorro/$HELM_CHART --namespace $HELM_NAMESPACE --set $HELM_TAG_PARAMETER=$TAG --set deployAuction=false --wait --debug
+
+.deploy_with_auction: &deploy_with_auction
+  <<: *base_deploy
+  script:
+    - helm repo add prozorro $REPO_URL
+    - helm repo update
+    - helm upgrade $CI_COMMIT_REF_SLUG --install prozorro/$HELM_CHART --namespace $HELM_NAMESPACE --set $HELM_TAG_PARAMETER=$TAG --set deployAuction=true --wait --debug
+
+.base_review: &base_review
   environment:
     name: review/${CI_COMMIT_REF_SLUG}
     action: start
@@ -108,8 +117,17 @@ review:
     - schedules
   when: manual
 
+review:
+  <<: *deploy
+  <<: *base_review
+
+review_with_auctions:
+  <<: *deploy_with_auction
+  <<: *base_review
+
+
 deploy_master:
-  <<: *base_deploy
+  <<: *deploy_with_auction
   environment:
     name: review/${CI_COMMIT_REF_SLUG}
     url: http://api.${CI_COMMIT_REF_SLUG}.${K8S_DOMAIN}/api/2.5/tenders
