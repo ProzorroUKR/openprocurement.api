@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-31 14:04+0200\n"
+"POT-Creation-Date: 2020-11-04 11:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -101,12 +101,8 @@ msgstr "Виключні критерії доступні лише в: aboveThr
 msgid "Standard data, you could get `here <https://github.com/ProzorroUKR/standards/pull/79/files>`__"
 msgstr "Стандарт, можна отримати `тут <https://github.com/ProzorroUKR/standards/pull/79/files>`__"
 
-#, fuzzy
-msgid "You can't update tender to status `active.tendering` without 9 EXCLUSION and 1 OTHER.BID.LANGUAGE criteria::"
+msgid "You can't update tender to status `active.tendering` without 9 EXCLUSION and 1 OTHER.BID.LANGUAGE criteria:"
 msgstr "Неможливо перевести тендер у статус `active.tendering` без 9-ти вийнятнхових та одного мовного критеріїв:"
-
-msgid "code"
-msgstr ""
 
 msgid "EXCLUSION criteria and all criteria objects are not updated:"
 msgstr "Вийняткові критерії та всі дочірні об'єкти є незміннми:"

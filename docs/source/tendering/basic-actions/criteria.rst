@@ -139,7 +139,7 @@ competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage
 
 Standard data, you could get `here <https://github.com/ProzorroUKR/standards/pull/79/files>`__
 
-You can't update tender to status `active.tendering` without 9 EXCLUSION and 1 OTHER.BID.LANGUAGE criteria::
+You can't update tender to status `active.tendering` without 9 EXCLUSION and 1 OTHER.BID.LANGUAGE criteria:
 
 .. include:: ../http/criteria/update-tender-status-without-criteria.http
    :code:
