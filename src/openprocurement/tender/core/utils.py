@@ -447,11 +447,9 @@ class CancelTenderLot(object):
         if cancellation.status == "active":
             from openprocurement.tender.core.validation import (
                 validate_absence_of_pending_accepted_satisfied_complaints,
-                validate_lot_related_criterion,
             )
             validate_absence_of_pending_accepted_satisfied_complaints(request, cancellation)
             if cancellation.relatedLot:
-                validate_lot_related_criterion(request, cancellation.relatedLot)
                 self.cancel_lot(request, cancellation)
             else:
                 self.cancel_tender(request)

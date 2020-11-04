@@ -5,7 +5,7 @@ from openprocurement.tender.core.validation import (
     RELEASE_ECRITERIA_ARTICLE_17,
     validate_tender_first_revision_date,
     base_validate_operation_ecriteria_objects,
-    validate_lot_related_criterion,
+    validate_related_criterion,
 )
 
 
@@ -57,7 +57,7 @@ def validate_lot_operation(request):
 
 def validate_delete_lot_related_criterion(request):
     lot_id = request.context.id
-    validate_lot_related_criterion(request, lot_id, action="delete")
+    validate_related_criterion(request, lot_id, action="delete")
 
 
 # complaint

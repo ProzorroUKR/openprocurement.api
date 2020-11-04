@@ -1123,6 +1123,15 @@ class BidResponsesMixin(Model):
         for criteria in tender.criteria:
             if criteria.source != "tenderer":
                 continue
+            else:
+                active_requirements = [
+                    requirement
+                    for rg in criteria.requirementGroups
+                    for requirement in rg.requirements
+                    if requirement.status == "active"
+                ]
+                if not active_requirements:
+                    continue
 
             criteria_ids = {}
             group_answered_requirement_ids = {}

@@ -101,6 +101,7 @@ class BaseTenderCriteriaRGRequirementResource(APIResource):
     )
     def put(self):
         old_requirement = self.request.context
+        requirement = old_requirement
         if self.request.validated["data"].get("status") != "cancelled":
             model = type(old_requirement)
             data = copy(self.request.validated["data"])

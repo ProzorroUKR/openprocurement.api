@@ -774,6 +774,13 @@ def validate_tender_not_in_terminated_status(request):
         raise_operation_error(request, "Can't update tender in current ({}) status".format(tender_status))
 
 
+def validate_item_quantity(request):
+    items = request.validated["data"].get("items", [])
+    for item in items:
+        if item.get("quantity") is not None and not item["quantity"]:
+            validate_related_criterion(request, item["id"], action="set to 0 quantity of", relatedItem="item")
+
+
 def validate_absence_of_pending_accepted_satisfied_complaints(request, cancellation=None):
     """
     Disallow cancellation of tenders and lots that have any complaints in affected statuses
@@ -850,7 +857,7 @@ def validate_tender_change_status_with_cancellation_lot_pending(request):
         )
 
 
-def validate_lot_related_criterion(request, relatedItem_id, action="cancel"):
+def validate_related_criterion(request, relatedItem_id, action="cancel", relatedItem="lot"):
     tender = request.validated["tender"]
     if hasattr(tender, "criteria"):
         related_criteria = [
@@ -862,8 +869,8 @@ def validate_lot_related_criterion(request, relatedItem_id, action="cancel"):
         ]
         if related_criteria:
             raise_operation_error(
-                request, "Can't {} {} lot while related criterion has active requirements".format(
-                    action, relatedItem_id
+                request, "Can't {} {} {} while related criterion has active requirements".format(
+                    action, relatedItem_id, relatedItem
                 )
             )
 
