@@ -101,14 +101,15 @@ class BaseTenderCriteriaRGRequirementResource(APIResource):
     )
     def put(self):
         old_requirement = self.request.context
-        model = type(old_requirement)
-        data = copy(self.request.validated["data"])
-        for attr_name in type(old_requirement)._fields:
-            if data.get(attr_name) is None:
-                data[attr_name] = getattr(old_requirement, attr_name)
-        requirement = model(data)
-        requirement.datePublished = get_now()
-        self.request.validated["requirement_group"].requirements.append(requirement)
+        if self.request.validated["data"].get("status") != "cancelled":
+            model = type(old_requirement)
+            data = copy(self.request.validated["data"])
+            for attr_name in type(old_requirement)._fields:
+                if data.get(attr_name) is None:
+                    data[attr_name] = getattr(old_requirement, attr_name)
+            requirement = model(data)
+            requirement.datePublished = get_now()
+            self.request.validated["requirement_group"].requirements.append(requirement)
 
         old_requirement.status = "cancelled"
         old_requirement.dateModified = get_now()
