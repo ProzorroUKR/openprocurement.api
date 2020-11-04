@@ -278,7 +278,7 @@ def patch_tender_auction(self):
 def post_tender_auction_document(self):
     self.app.authorization = ("Basic", ("auction", ""))
     response = self.app.post(
-        "/tenders/{}/documents".format(self.tender_id), upload_files=[("file", "name.doc", "content")], status=403
+        "/tenders/{}/documents".format(self.tender_id), upload_files=[("file", "name.doc", b"content")], status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
@@ -292,7 +292,7 @@ def post_tender_auction_document(self):
     self.set_status("active.auction")
 
     response = self.app.post(
-        "/tenders/{}/documents".format(self.tender_id), upload_files=[("file", "name.doc", "content")]
+        "/tenders/{}/documents".format(self.tender_id), upload_files=[("file", "name.doc", b"content")]
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -318,7 +318,7 @@ def post_tender_auction_document(self):
 
     response = self.app.put(
         "/tenders/{}/documents/{}".format(self.tender_id, doc_id),
-        upload_files=[("file", "name.doc", "content_with_names")],
+        upload_files=[("file", "name.doc", b"content_with_names")],
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -328,7 +328,7 @@ def post_tender_auction_document(self):
 
     self.set_status("complete")
     response = self.app.post(
-        "/tenders/{}/documents".format(self.tender_id), upload_files=[("file", "name.doc", "content")], status=403
+        "/tenders/{}/documents".format(self.tender_id), upload_files=[("file", "name.doc", b"content")], status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
@@ -393,7 +393,7 @@ def get_tender_lot_auction(self):
     auction = response.json["data"]
     self.assertNotEqual(auction, self.initial_data)
     self.assertIn("dateModified", auction)
-    self.assertIn("minimalStep", auction)
+    self.assertIn("minimalStep", auction['lots'][0])  # PY3_QUESTION
     self.assertIn("lots", auction)
     self.assertNotIn("procuringEntity", auction)
     self.assertNotIn("tenderers", auction["bids"][0])
@@ -527,7 +527,7 @@ def patch_tender_lot_auction(self):
 def post_tender_lot_auction_document(self):
     self.app.authorization = ("Basic", ("auction", ""))
     response = self.app.post(
-        "/tenders/{}/documents".format(self.tender_id), upload_files=[("file", "name.doc", "content")], status=403
+        "/tenders/{}/documents".format(self.tender_id), upload_files=[("file", "name.doc", b"content")], status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
@@ -541,7 +541,7 @@ def post_tender_lot_auction_document(self):
     self.set_status("active.auction")
 
     response = self.app.post(
-        "/tenders/{}/documents".format(self.tender_id), upload_files=[("file", "name.doc", "content")]
+        "/tenders/{}/documents".format(self.tender_id), upload_files=[("file", "name.doc", b"content")]
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -577,7 +577,7 @@ def post_tender_lot_auction_document(self):
 
     response = self.app.put(
         "/tenders/{}/documents/{}".format(self.tender_id, doc_id),
-        upload_files=[("file", "name.doc", "content_with_names")],
+        upload_files=[("file", "name.doc", b"content_with_names")],
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -587,7 +587,7 @@ def post_tender_lot_auction_document(self):
 
     self.set_status("complete")
     response = self.app.post(
-        "/tenders/{}/documents".format(self.tender_id), upload_files=[("file", "name.doc", "content")], status=403
+        "/tenders/{}/documents".format(self.tender_id), upload_files=[("file", "name.doc", b"content")], status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")

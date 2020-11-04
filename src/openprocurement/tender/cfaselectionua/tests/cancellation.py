@@ -78,6 +78,7 @@ def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderLotCancellationResourceTest))
     suite.addTest(unittest.makeSuite(TenderCancellationDocumentResourceTest))
+    # PASSED_PY3
     return suite
 
 

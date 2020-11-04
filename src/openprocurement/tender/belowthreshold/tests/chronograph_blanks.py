@@ -294,7 +294,7 @@ def switch_to_complaint(self):
 
 
 def award_switch_to_ignored_on_complete(self):
-    token = self.initial_bids_tokens.values()[0]
+    token = list(self.initial_bids_tokens.values())[0]
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, token),
         {
@@ -326,7 +326,7 @@ def award_switch_to_ignored_on_complete(self):
 
 
 def award_switch_from_pending_to_ignored(self):
-    token = self.initial_bids_tokens.values()[0]
+    token = list(self.initial_bids_tokens.values())[0]
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, token),
         {
@@ -345,7 +345,7 @@ def award_switch_from_pending_to_ignored(self):
 
 
 def award_switch_from_pending(self):
-    token = self.initial_bids_tokens.values()[0]
+    token = list(self.initial_bids_tokens.values())[0]
     for status in ["invalid", "resolved", "declined"]:
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, token),
@@ -369,7 +369,7 @@ def award_switch_from_pending(self):
 
 
 def award_switch_to_complaint(self):
-    token = self.initial_bids_tokens.values()[0]
+    token = list(self.initial_bids_tokens.values())[0]
     for status in ["invalid", "resolved", "declined"]:
         self.app.authorization = ("Basic", ("broker", ""))
         response = self.app.post_json(

@@ -350,7 +350,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"No JSON object could be decoded", u"location": u"body", u"name": u"data"}],
+        [{u"description": 'Expecting value: line 1 column 1 (char 0)', u"location": u"body", u"name": u"data"}],
     )
 
     response = self.app.post_json(request_path, "data", status=422)
@@ -402,7 +402,7 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [u"Please use a mapping for this field or Value instance instead of unicode."],
+                u"description": [u"Please use a mapping for this field or Value instance instead of str."],
                 u"location": u"body",
                 u"name": u"value",
             }
@@ -724,7 +724,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertIn(u"classification", response.json["errors"][0][u"description"][0])
     self.assertIn(u"id", response.json["errors"][0][u"description"][0][u"classification"])
-    self.assertIn("Value must be one of [u", response.json["errors"][0][u"description"][0][u"classification"][u"id"][0])
+    self.assertIn("Value must be one of [", response.json["errors"][0][u"description"][0][u"classification"][u"id"][0])
 
     cpv = self.initial_data["items"][0]["classification"]["id"]
     if get_now() < CPV_BLOCK_FROM:
@@ -739,7 +739,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertIn(u"classification", response.json["errors"][0][u"description"][0])
     self.assertIn(u"id", response.json["errors"][0][u"description"][0][u"classification"])
-    self.assertIn("Value must be one of [u", response.json["errors"][0][u"description"][0][u"classification"][u"id"][0])
+    self.assertIn("Value must be one of [", response.json["errors"][0][u"description"][0][u"classification"][u"id"][0])
 
     procuringEntity = self.initial_data["procuringEntity"]
     data = self.initial_data["procuringEntity"].copy()
@@ -1210,17 +1210,17 @@ def create_tender(self):
     response = self.app.post_json("/tenders?opt_jsonp=callback", {"data": self.initial_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/javascript")
-    self.assertIn('callback({"', response.body)
+    self.assertIn('callback({"', response.body.decode())
 
     response = self.app.post_json("/tenders?opt_pretty=1", {"data": self.initial_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertIn('{\n    "', response.body)
+    self.assertIn('{\n    "', response.body.decode())
 
     response = self.app.post_json("/tenders", {"data": self.initial_data, "options": {"pretty": True}})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertIn('{\n    "', response.body)
+    self.assertIn('{\n    "', response.body.decode())
 
     tender_data = deepcopy(self.initial_data)
     tender_data["guarantee"] = {"amount": 100500, "currency": "USD"}
@@ -1418,12 +1418,12 @@ def get_tender(self):
     response = self.app.get("/tenders/{}?opt_jsonp=callback".format(tender["id"]))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/javascript")
-    self.assertIn('callback({"data": {"', response.body)
+    self.assertIn('callback({"data": {"', response.body.decode())
 
     response = self.app.get("/tenders/{}?opt_pretty=1".format(tender["id"]))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertIn('{\n    "data": {\n        "', response.body)
+    self.assertIn('{\n    "data": {\n        "', response.body.decode())
 
 
 def tender_features_invalid(self):
@@ -2081,7 +2081,7 @@ def patch_not_author(self):
     self.app.authorization = ("Basic", ("bot", "bot"))
 
     response = self.app.post(
-        "/tenders/{}/documents".format(tender["id"]), upload_files=[("file", "name.doc", "content")]
+        "/tenders/{}/documents".format(tender["id"]), upload_files=[("file", "name.doc", b"content")]
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -2369,7 +2369,7 @@ def first_bid_tender(self):
     # create tender contract document for test
     response = self.app.post(
         "/tenders/{}/contracts/{}/documents?acc_token={}".format(tender_id, contract_id, owner_token),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
         status=201,
     )
     self.assertEqual(response.status, "201 Created")
@@ -2397,7 +2397,7 @@ def first_bid_tender(self):
 
     response = self.app.post(
         "/tenders/{}/contracts/{}/documents?acc_token={}".format(tender_id, contract_id, owner_token),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -2419,7 +2419,7 @@ def first_bid_tender(self):
 
     response = self.app.put(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(tender_id, contract_id, doc_id, owner_token),
-        upload_files=[("file", "name.doc", "content3")],
+        upload_files=[("file", "name.doc", b"content3")],
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -2636,12 +2636,12 @@ def patch_tender_lots_none(self):
         {
             "status": "error",
             "errors": [
-                {"location": "body", "name": "lots", "description": [["This field is required."]]},
                 {
                     "location": "body",
                     "name": "items",
                     "description": [{"relatedLot": ["relatedLot should be one of lots"]}],
                 },
+                {"location": "body", "name": "lots", "description": [["This field is required."]]},
             ],
         },
     )
@@ -2661,9 +2661,9 @@ def tender_token_invalid(self):
     )
 
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, "токен з кирилицею"), {"data": {}}, status=403
+        "/tenders/{}?acc_token={}".format(self.tender_id, "токен з кирилицею"), {"data": {}}, status=422
     )
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"], [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}]
     )

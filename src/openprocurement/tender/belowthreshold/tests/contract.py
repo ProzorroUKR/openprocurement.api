@@ -270,10 +270,10 @@ class Tender2LotContractDocumentResourceTest(TenderContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderContractResourceTest))
-    suite.addTest(unittest.makeSuite(TenderContractDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderContractVATNotIncludedResourceTest))
-    suite.addTest(unittest.makeSuite(Tender2LotContractDocumentResourceTest))
+    suite.addTest(unittest.makeSuite(TenderContractResourceTest))  # PASSED_PY3
+    suite.addTest(unittest.makeSuite(TenderContractDocumentResourceTest))  # PASSED_PY3
+    suite.addTest(unittest.makeSuite(TenderContractVATNotIncludedResourceTest))  # PASSED_PY3
+    suite.addTest(unittest.makeSuite(Tender2LotContractDocumentResourceTest))  # PASSED_PY3
     return suite
 
 

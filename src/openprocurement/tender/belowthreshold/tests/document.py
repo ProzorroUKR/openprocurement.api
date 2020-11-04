@@ -23,14 +23,14 @@ from openprocurement.tender.belowthreshold.tests.document_blanks import (
 )
 
 
-class TenderDocumentResourceTestMixin(object):
+class TenderDocumentResourceTestMixin:
     test_not_found = snitch(not_found)
     test_create_tender_document = snitch(create_tender_document)
     test_put_tender_document = snitch(put_tender_document)
     test_patch_tender_document = snitch(patch_tender_document)
 
 
-class TenderDocumentWithDSResourceTestMixin(object):
+class TenderDocumentWithDSResourceTestMixin:
     test_create_tender_document_json_invalid = snitch(create_tender_document_json_invalid)
     test_create_tender_document_json = snitch(create_tender_document_json)
     test_create_tender_document_json_bulk = snitch(create_tender_document_json_bulk)
