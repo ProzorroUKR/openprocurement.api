@@ -16,14 +16,14 @@ def next_check_field_in_active_qualification(self):
     self.assertEqual(response.content_type, "application/json")
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.auction")
-    self.assertIn("next_check", response.json["data"].keys())
+    self.assertIn("next_check", list(response.json["data"].keys()))
 
     response = self.set_status("active.auction", "end")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.auction")
-    self.assertNotIn("next_check", response.json["data"].keys())
+    self.assertNotIn("next_check", list(response.json["data"].keys()))
 
 
 def active_tendering_to_pre_qual(self):

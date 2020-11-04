@@ -1,5 +1,6 @@
 from barbecue import vnmax
 from schematics.exceptions import ValidationError
+from decimal import Decimal
 
 
 class TenderFeaturesValidate(object):
@@ -27,10 +28,10 @@ class TenderFeaturesValidate(object):
                         ),
                         15,
                     )
-                    > 0.3
+                    > Decimal("0.3")
                     for lot in data["lots"]
                 ]
             ):
                 raise ValidationError(u"Sum of max value of all features for lot should be less then or equal to 30%")
-            elif not data["lots"] and round(vnmax(features), 15) > 0.3:
+            elif not data["lots"] and round(vnmax(features), 15) > Decimal("0.3"):
                 raise ValidationError(u"Sum of max value of all features should be less then or equal to 30%")

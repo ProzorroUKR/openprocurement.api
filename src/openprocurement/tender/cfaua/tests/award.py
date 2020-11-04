@@ -260,6 +260,7 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderAwardBidsOverMaxAwardsResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotAwardResourceTest))
     suite.addTest(unittest.makeSuite(TenderAwardComplaintExtendedResourceTest))
+    # PASSED_PY3
     return suite
 
 
