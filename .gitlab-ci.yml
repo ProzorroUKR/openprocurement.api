@@ -212,8 +212,8 @@ docs:
     max: 2
     when: runner_system_failure
   variables:
-    KUBERNETES_CPU_REQUEST: 3000m
-    KUBERNETES_MEMORY_REQUEST: 768Mi
+    KUBERNETES_CPU_REQUEST: 100m
+    KUBERNETES_MEMORY_REQUEST: 200Mi
 
 .test:
   extends: .test_base
