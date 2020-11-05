@@ -26,6 +26,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_cancellation,
     test_claim,
     test_draft_claim,
+    test_criteria,
 )
 
 # TenderTest
@@ -2724,3 +2725,36 @@ def patch_tender_minimalstep_validation(self):
             "/tenders/{}?acc_token={}".format(self.tender_id, self.token_token), {"data": {"lots": lots}}, status=200)
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
+
+
+def patch_item_with_zero_quantity(self):
+    self.create_tender()
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    item = response.json["data"]["items"][0]
+    item["quantity"] = 0
+    response = self.app.patch_json("/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+                                   {"data": {"items": [item]}})
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["items"][0]["quantity"], 0)
+    item = response.json["data"]["items"][0]
+    item["quantity"] = 5
+    response = self.app.patch_json("/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+                                   {"data": {"items": [item]}})
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["items"][0]["quantity"], 5)
+    criteria = deepcopy(test_criteria)
+    criteria[0]["relatesTo"] = "item"
+    criteria[0]["relatedItem"] = item["id"]
+    add_criteria(self, criteria=criteria)
+    item["quantity"] = 0
+    response = self.app.patch_json("/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+                                   {"data": {"items": [item]}},
+                                   status=403)
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [{u'description': u"Can't set to 0 quantity of {} item while related criterion "
+                          u"has active requirements".format(item["id"]),
+          u'location': u'body', u'name': u'data'}])

@@ -6,6 +6,7 @@ from datetime import timedelta
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_organization, now
+from openprocurement.tender.core.tests.base import change_auth
 
 from openprocurement.tender.openua.tests.base import test_bids
 
@@ -2294,6 +2295,84 @@ def bid_activate(self):
         {"data": [rrs[-1]]},
     )
     self.assertEqual(response.status, "201 Created")
+
+    response = self.app.patch_json(
+        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+        {"data": {"status": next_status}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+
+def bid_activate_with_cancelled_tenderer_criterion(self):
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    bid_pending_procedures = [
+        "aboveThresholdEU",
+        "esco",
+        "closeFrameworkAgreementUA",
+        "competitiveDialogueEU",
+        "competitiveDialogueUA",
+        "competitiveDialogueEU.stage2",
+    ]
+    if response.json["data"]["procurementMethodType"] in bid_pending_procedures:
+        next_status = "pending"
+    else:
+        next_status = "active"
+    response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
+    self.assertEqual(response.content_type, "application/json")
+    criteria = response.json["data"]
+
+    rrs = []
+    for criterion in criteria[:-1]:
+        for req in criterion["requirementGroups"][0]["requirements"]:
+
+            if criterion["source"] == "tenderer":
+                rrs.append(
+                    {
+                        "title": "Requirement response",
+                        "description": "some description",
+                        "requirement": {
+                            "id": req["id"],
+                            "title": req["title"],
+                        },
+                        "value": True,
+                    },
+                )
+    rrs = rrs[1:]
+    response = self.app.post_json(
+        "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+        {"data": rrs},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    response = self.app.patch_json(
+        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+        {"data": {"status": next_status}},
+        status=422
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("errors", response.json)
+    self.assertEqual(
+        response.json["errors"],
+        [{u'description': [u'Must be answered on all criteria with source `tenderer`'],
+          u'location': u'body',
+          u'name': u'requirementResponses'}]
+    )
+    if not hasattr(self, "tender_auth"):
+        self.tender_auth = self.app.authorization
+    with change_auth(self.app, self.tender_auth) as app:
+        criterion_to_cancel = criteria[-1]
+        criterion_id = criterion_to_cancel["id"]
+        rg_id = criterion_to_cancel["requirementGroups"][0]["id"]
+        requirement_ids = [requirement["id"] for requirement in criterion_to_cancel["requirementGroups"][0]["requirements"]]
+        requirement_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}"
+        for requirement_id in requirement_ids:
+            response = self.app.put_json(
+                requirement_url.format(self.tender_id, criterion_id, rg_id, requirement_id, self.tender_token),
+                {"data": {"status": "cancelled"}})
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.content_type, "application/json")
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),

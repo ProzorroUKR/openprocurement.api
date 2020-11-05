@@ -1613,3 +1613,15 @@ def create_tender_generated(self):
     self.assertNotEqual(data["id"], tender["id"])
     self.assertNotEqual(data["doc_id"], tender["id"])
     self.assertNotEqual(data["tenderID"], tender["tenderID"])
+
+
+def patch_item_with_zero_quantity(self):
+    self.create_tender()
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    item = response.json["data"]["items"][0]
+    item["quantity"] = 0
+    response = self.app.patch_json("/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+                                   {"data": {"items": [item]}})
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIsNone(response.json["data"]["items"][0].get("quantity"))
