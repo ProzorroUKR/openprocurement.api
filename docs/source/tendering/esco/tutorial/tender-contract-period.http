@@ -7,8 +7,8 @@ DATA:
 {
   "data": {
     "period": {
-      "startDate": "2020-05-15T01:00:01+03:00", 
-      "endDate": "2021-05-15T01:00:01+03:00"
+      "startDate": "2020-09-08T01:00:01+03:00", 
+      "endDate": "2021-09-08T01:00:01+03:00"
     }
   }
 }
@@ -101,16 +101,16 @@ Content-Type: application/json; charset=UTF-8
     ], 
     "contractNumber": "contract#1", 
     "period": {
-      "startDate": "2020-05-15T01:00:01+03:00", 
-      "endDate": "2021-05-15T01:00:01+03:00"
+      "startDate": "2020-09-08T01:00:01+03:00", 
+      "endDate": "2021-09-08T01:00:01+03:00"
     }, 
-    "dateSigned": "2020-05-15T01:00:01+03:00", 
+    "dateSigned": "2020-09-08T01:00:01+03:00", 
     "value": {
       "yearlyPaymentsPercentage": 0.9, 
-      "amountNet": 9064.34, 
-      "amountPerformance": 829.39, 
+      "amountNet": 9350.37, 
+      "amountPerformance": 856.84, 
       "currency": "UAH", 
-      "amount": 9065.34, 
+      "amount": 9351.37, 
       "contractDuration": {
         "days": 74, 
         "years": 10
@@ -140,10 +140,10 @@ Content-Type: application/json; charset=UTF-8
         1000.0
       ]
     }, 
-    "date": "2020-05-15T01:00:00+03:00", 
+    "date": "2020-09-08T01:00:00+03:00", 
     "awardID": "577be693449349a8ac00a37dcd7e61ab", 
     "id": "b24337545a6c4c25843d326ae2a60645", 
-    "contractID": "UA-2020-05-15-000001-1"
+    "contractID": "UA-2020-09-08-000001-1"
   }
 }
 

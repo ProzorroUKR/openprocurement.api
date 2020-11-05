@@ -6,7 +6,7 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "agreementID": "UA-2020-05-15-000001-9f98cc211b664fa997a83e3375b3464e1", 
+    "agreementID": "UA-2020-09-08-000001-9f98cc211b664fa997a83e3375b3464e1", 
     "status": "pending", 
     "documents": [
       {
@@ -15,9 +15,9 @@ Content-Type: application/json; charset=UTF-8
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9a798ae84f1245279847a0383649333a?KeyID=a8968c46&Signature=Oy4In%2FIXmvZq5pCOBlM%2Fiq91zMKTq%252B%2FyqlgZ5A3Sm7bEeu1n%2Fw6ASH9b8zyJt2Gi%252B484%2FPTOYpsRPBnV9RpfCA%253D%253D", 
         "format": "application/msword", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-15T01:00:00+03:00", 
+        "datePublished": "2020-09-08T01:00:00+03:00", 
         "id": "e846fc10d0b24aa38e445012b9287be5", 
-        "dateModified": "2020-05-15T01:00:00+03:00"
+        "dateModified": "2020-09-08T01:00:00+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
@@ -27,10 +27,10 @@ Content-Type: application/json; charset=UTF-8
         "format": "application/msword", 
         "title_en": "Title of Document", 
         "description_en": "Description of Document", 
-        "datePublished": "2020-05-15T01:00:00+03:00", 
+        "datePublished": "2020-09-08T01:00:00+03:00", 
         "documentOf": "tender", 
         "id": "382c614554d2459d81f1672c8cf39db0", 
-        "dateModified": "2020-05-15T01:00:00+03:00"
+        "dateModified": "2020-09-08T01:00:00+03:00"
       }
     ], 
     "contracts": [
@@ -78,7 +78,7 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "bidID": "e0d41b30b35a430fb164a63e2cd8792b", 
-        "date": "2020-05-15T01:00:00+03:00", 
+        "date": "2020-09-08T01:00:00+03:00", 
         "awardID": "58aa9c80eeb345e998dc764a75f940ee", 
         "id": "2221451d71af4bfa803fd5b9382103ed"
       }, 
@@ -126,7 +126,7 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "bidID": "1c4a2dcee85343898ea5fbfd8ce2bd6e", 
-        "date": "2020-05-15T01:00:00+03:00", 
+        "date": "2020-09-08T01:00:00+03:00", 
         "awardID": "e39130af90ba485cacb7cdc36cdfc089", 
         "id": "d5c9e2e28ee74a67a078c87bf9967a53"
       }, 
@@ -174,7 +174,7 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "bidID": "ccd5dc4ca3f84f9a8f9ec11010bd01ba", 
-        "date": "2020-05-15T01:00:00+03:00", 
+        "date": "2020-09-08T01:00:00+03:00", 
         "awardID": "fead43daad534c50b0dc2da8b64ccfbb", 
         "id": "713faef521cf4366b30696f427b2f171"
       }
@@ -249,7 +249,7 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 5.0
       }
     ], 
-    "date": "2020-05-15T01:00:00+03:00", 
+    "date": "2020-09-08T01:00:00+03:00", 
     "id": "85b5a0dd7da441c08eb664e2412cc5d5"
   }
 }

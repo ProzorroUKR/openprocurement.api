@@ -45,7 +45,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/35f93e8dd5484abb
     "token": "cd63d2f076eb412c9ab423ff0a83ba89"
   }, 
   "data": {
-    "date": "2020-05-15T01:00:00+03:00", 
+    "date": "2020-09-08T01:00:00+03:00", 
     "status": "pending", 
     "tenderers": [
       {

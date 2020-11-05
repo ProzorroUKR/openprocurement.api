@@ -77,12 +77,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293
       "yearlyPaymentsPercentage": 0.85, 
       "valueAddedTaxIncluded": true, 
       "currency": "UAH", 
-      "amount": 9457.12, 
+      "amount": 9700.25, 
       "contractDuration": {
         "days": 200, 
         "years": 12
       }, 
-      "amountPerformance": 750.92, 
+      "amountPerformance": 789.95, 
       "annualCostsReduction": [
         400.0, 
         900.0, 
@@ -131,7 +131,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293
         }
       }
     ], 
-    "date": "2020-05-15T01:00:00+03:00", 
+    "date": "2020-09-08T01:00:00+03:00", 
     "selfQualified": true
   }
 }

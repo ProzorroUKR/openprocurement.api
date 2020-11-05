@@ -24,7 +24,7 @@ Content-Type: application/json; charset=UTF-8
     "lotValues": [
       {
         "relatedLot": "827f341aa45e495f853f5493aee68c42", 
-        "date": "2020-05-15T01:00:00+03:00", 
+        "date": "2020-09-08T01:00:00+03:00", 
         "status": "pending", 
         "subcontractingDetails": "ДКП «Орфей»"
       }
@@ -53,7 +53,7 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "date": "2020-05-15T01:00:00+03:00", 
+    "date": "2020-09-08T01:00:00+03:00", 
     "selfQualified": true
   }
 }

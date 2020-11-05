@@ -16,9 +16,9 @@ Content-Type: application/json; charset=UTF-8
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/521c95e91644431cbbc1e5fcf8326faf?KeyID=a8968c46&Signature=DHqhZQqfkuq2g4KTK2Kk4BVsQ0nkkCqZhK%2FPYqpct42%2FtQ%2FuqgZrarDo%2FT5VKKLylRDslEbK5vR1thA4wWlzBQ%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-15T01:00:00+03:00", 
+        "datePublished": "2020-09-08T01:00:00+03:00", 
         "id": "2461364d2bef400580101b81b63f6b18", 
-        "dateModified": "2020-05-15T01:00:00+03:00"
+        "dateModified": "2020-09-08T01:00:00+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
@@ -29,9 +29,9 @@ Content-Type: application/json; charset=UTF-8
         "confidentialityRationale": "Only our company sells badgers with pink hair.", 
         "title": "Proposal_part2.pdf", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-15T01:00:00+03:00", 
+        "datePublished": "2020-09-08T01:00:00+03:00", 
         "id": "eb48db1664f34859b5f5dbc8253dd747", 
-        "dateModified": "2020-05-15T01:00:00+03:00"
+        "dateModified": "2020-09-08T01:00:00+03:00"
       }
     ], 
     "eligibilityDocuments": [
@@ -43,9 +43,9 @@ Content-Type: application/json; charset=UTF-8
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bdb8f478361c43a0ac9a66feb62f281a?KeyID=a8968c46&Signature=yS0T2I%2FNDHflQQMOCtYNT%252BN9fSCCKBvEMj3Y%2Fdsf50kBiXPhcRRu%2FuKFg0yJ%2F%2FUtjP8a5C%2Fw3LA6LH4UVPSeBw%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-15T01:00:00+03:00", 
+        "datePublished": "2020-09-08T01:00:00+03:00", 
         "id": "4bfdcd78d6c34992a2dd9e52cbcc4e25", 
-        "dateModified": "2020-05-15T01:00:00+03:00"
+        "dateModified": "2020-09-08T01:00:00+03:00"
       }
     ], 
     "id": "76ccebf7a163452886a6d2d8d39a564b", 

@@ -10,8 +10,8 @@ Content-Type: application/json; charset=UTF-8
     "procurementMethod": "selective", 
     "mainProcurementCategory": "goods", 
     "tenderPeriod": {
-      "startDate": "2020-05-15T01:00:00+03:00", 
-      "endDate": "2020-05-29T01:00:00+03:00"
+      "startDate": "2020-09-08T01:00:00+03:00", 
+      "endDate": "2020-09-22T01:00:00+03:00"
     }, 
     "title": "Комп’ютерне обладнання", 
     "items": [
@@ -30,8 +30,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-17T01:00:00+03:00", 
-          "endDate": "2020-05-20T01:00:00+03:00"
+          "startDate": "2020-09-10T01:00:00+03:00", 
+          "endDate": "2020-09-13T01:00:00+03:00"
         }, 
         "id": "98c87e3a8f2b48fa887616989dcf8294", 
         "unit": {
@@ -96,8 +96,8 @@ Content-Type: application/json; charset=UTF-8
         "id": "UA-EDR-87654321"
       }
     ], 
-    "date": "2020-05-15T01:00:00+03:00", 
-    "noticePublicationDate": "2020-05-15T01:00:00+03:00", 
+    "date": "2020-09-08T01:00:00+03:00", 
+    "noticePublicationDate": "2020-09-08T01:00:00+03:00", 
     "profile": "655360-30230000-889652-40000777", 
     "procuringEntity": {
       "contactPoint": {
@@ -119,7 +119,7 @@ Content-Type: application/json; charset=UTF-8
         "locality": "м. Київ"
       }
     }, 
-    "dateModified": "2020-05-15T01:00:00+03:00", 
+    "dateModified": "2020-09-08T01:00:00+03:00", 
     "criteria": [
       {
         "requirementGroups": [
@@ -326,10 +326,10 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "owner": "broker", 
-    "next_check": "2020-05-29T01:00:00+03:00", 
+    "next_check": "2020-09-22T01:00:00+03:00", 
     "awardCriteria": "lowestCost", 
     "id": "85818863b7a4458ea02e3893422b0a0d", 
-    "tenderID": "UA-2020-05-15-000001"
+    "tenderID": "UA-2020-09-08-000001"
   }
 }
 

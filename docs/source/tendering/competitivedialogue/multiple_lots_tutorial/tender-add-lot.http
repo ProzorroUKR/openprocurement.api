@@ -37,7 +37,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/086edc68f12d4a24
       "amount": 500.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2020-05-15T01:00:00+03:00", 
+    "date": "2020-09-08T01:00:00+03:00", 
     "id": "827f341aa45e495f853f5493aee68c42"
   }
 }

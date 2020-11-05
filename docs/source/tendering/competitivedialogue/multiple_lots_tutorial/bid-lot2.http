@@ -55,12 +55,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/086edc68f12d4a24
     "lotValues": [
       {
         "relatedLot": "827f341aa45e495f853f5493aee68c42", 
-        "date": "2020-05-15T01:00:00+03:00", 
+        "date": "2020-09-08T01:00:00+03:00", 
         "status": "pending"
       }, 
       {
         "relatedLot": "fadc6f1d86d045bc995c327e65c864fa", 
-        "date": "2020-05-15T01:00:00+03:00", 
+        "date": "2020-09-08T01:00:00+03:00", 
         "status": "pending", 
         "subcontractingDetails": "ДКП «Укр Прінт», Україна"
       }
@@ -89,7 +89,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/086edc68f12d4a24
         }
       }
     ], 
-    "date": "2020-05-15T01:00:00+03:00", 
+    "date": "2020-09-08T01:00:00+03:00", 
     "selfQualified": true
   }
 }

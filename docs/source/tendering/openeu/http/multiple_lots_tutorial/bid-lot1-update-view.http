@@ -27,7 +27,7 @@ Content-Type: application/json; charset=UTF-8
     "lotValues": [
       {
         "relatedLot": "fc297ff6c6a74743a96c6b274bae11c0", 
-        "date": "2020-05-15T01:00:00+03:00", 
+        "date": "2020-09-08T01:00:00+03:00", 
         "status": "pending", 
         "value": {
           "currency": "UAH", 
@@ -61,7 +61,7 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "date": "2020-05-15T01:00:00+03:00", 
+    "date": "2020-09-08T01:00:00+03:00", 
     "selfQualified": true
   }
 }

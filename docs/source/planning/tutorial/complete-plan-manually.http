@@ -54,7 +54,7 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "deliveryDate": {
-          "endDate": "2020-05-30T01:00:00+03:00"
+          "endDate": "2020-09-23T01:00:00+03:00"
         }, 
         "id": "4eda329bf7f448b8a6079ef67fa59574", 
         "unit": {
@@ -78,7 +78,7 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "deliveryDate": {
-          "endDate": "2020-05-31T01:00:00+03:00"
+          "endDate": "2020-09-24T01:00:00+03:00"
         }, 
         "id": "795342d7820543d4b1f69cf2acd00cdf", 
         "unit": {
@@ -102,7 +102,7 @@ Content-Type: application/json; charset=UTF-8
           }
         ], 
         "deliveryDate": {
-          "endDate": "2020-06-01T01:00:00+03:00"
+          "endDate": "2020-09-25T01:00:00+03:00"
         }, 
         "id": "7c8012eb2b19489fa8a704dbe996344f", 
         "unit": {
@@ -112,7 +112,7 @@ Content-Type: application/json; charset=UTF-8
         "quantity": 3000.0
       }
     ], 
-    "planID": "UA-P-2020-05-15-000002", 
+    "planID": "UA-P-2020-09-08-000002", 
     "budget": {
       "amountNet": 12222.0, 
       "description": "budget_description", 
@@ -128,12 +128,12 @@ Content-Type: application/json; charset=UTF-8
       "amount": 10000.0, 
       "id": "12303111000-2"
     }, 
-    "datePublished": "2020-05-15T01:00:00+03:00", 
+    "datePublished": "2020-09-08T01:00:00+03:00", 
     "tender": {
       "procurementMethod": "open", 
       "procurementMethodType": "belowThreshold", 
       "tenderPeriod": {
-        "startDate": "2020-05-22T01:00:00+03:00"
+        "startDate": "2020-09-15T01:00:00+03:00"
       }
     }, 
     "additionalClassifications": [
@@ -160,7 +160,7 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "owner": "broker", 
-    "dateModified": "2020-05-15T01:00:00+03:00", 
+    "dateModified": "2020-09-08T01:00:00+03:00", 
     "id": "c6255f3084f0409cb80fe4220c16c2ae"
   }
 }

@@ -29,7 +29,7 @@ Content-Type: application/json; charset=UTF-8
       "amount": 400.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "date": "2020-05-15T01:00:00+03:00", 
+    "date": "2020-09-08T01:00:00+03:00", 
     "id": "fadc6f1d86d045bc995c327e65c864fa"
   }
 }

@@ -42,20 +42,20 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "complaintPeriod": {
-      "startDate": "2020-05-15T01:00:00+03:00", 
-      "endDate": "2020-05-26T00:00:00+03:00"
+      "startDate": "2020-09-08T01:00:00+03:00", 
+      "endDate": "2020-09-19T00:00:00+03:00"
     }, 
     "bid_id": "498e07f6feea4ee99de14563abcf1d0c", 
     "value": {
       "yearlyPaymentsPercentage": 0.9, 
       "valueAddedTaxIncluded": true, 
       "currency": "UAH", 
-      "amount": 9065.34, 
+      "amount": 9351.37, 
       "contractDuration": {
         "days": 74, 
         "years": 10
       }, 
-      "amountPerformance": 829.39, 
+      "amountPerformance": 856.84, 
       "annualCostsReduction": [
         500.0, 
         1000.0, 
@@ -81,7 +81,7 @@ Content-Type: application/json; charset=UTF-8
       ]
     }, 
     "qualified": true, 
-    "date": "2020-05-15T01:00:00+03:00", 
+    "date": "2020-09-08T01:00:00+03:00", 
     "id": "577be693449349a8ac00a37dcd7e61ab"
   }
 }
