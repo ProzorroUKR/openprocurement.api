@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2020-05-30T01:00:11+03:00"
+      "endDate": "2020-09-23T01:00:11+03:00"
     }
   }
 }
@@ -20,15 +20,15 @@ Content-Type: application/json; charset=UTF-8
     "procurementMethod": "selective", 
     "mainProcurementCategory": "goods", 
     "tenderPeriod": {
-      "startDate": "2020-05-15T01:00:00+03:00", 
-      "endDate": "2020-05-30T01:00:11+03:00"
+      "startDate": "2020-09-08T01:00:00+03:00", 
+      "endDate": "2020-09-23T01:00:11+03:00"
     }, 
     "title": "Комп’ютерне обладнання", 
     "items": [
       {
         "deliveryDate": {
-          "startDate": "2020-05-17T01:00:00+03:00", 
-          "endDate": "2020-05-20T01:00:00+03:00"
+          "startDate": "2020-09-10T01:00:00+03:00", 
+          "endDate": "2020-09-13T01:00:00+03:00"
         }, 
         "description": "Комп’ютерне обладнання", 
         "quantity": 1.0, 
@@ -49,7 +49,7 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "date": "2020-05-15T01:00:00+03:00", 
+    "date": "2020-09-08T01:00:00+03:00", 
     "profile": "655360-30230000-889652-40000777", 
     "procuringEntity": {
       "contactPoint": {
@@ -73,9 +73,9 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "awardCriteria": "lowestCost", 
     "owner": "broker", 
-    "dateModified": "2020-05-15T01:00:01+03:00", 
+    "dateModified": "2020-09-08T01:00:01+03:00", 
     "id": "db4fb6143a5f45b6953e8f010ed8064e", 
-    "tenderID": "UA-2020-05-15-000001"
+    "tenderID": "UA-2020-09-08-000001"
   }
 }
 

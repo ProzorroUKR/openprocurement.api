@@ -9,13 +9,13 @@ Content-Type: application/json; charset=UTF-8
     "procurementMethod": "open", 
     "status": "complete", 
     "awardPeriod": {
-      "startDate": "2020-05-05T01:00:00+03:00", 
-      "endDate": "2020-05-05T01:00:00+03:00"
+      "startDate": "2020-08-29T01:00:00+03:00", 
+      "endDate": "2020-08-29T01:00:00+03:00"
     }, 
     "mainProcurementCategory": "goods", 
     "enquiryPeriod": {
-      "startDate": "2020-04-20T01:00:00+03:00", 
-      "endDate": "2020-04-27T01:00:00+03:00"
+      "startDate": "2020-08-14T01:00:00+03:00", 
+      "endDate": "2020-08-21T01:00:00+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
     "procuringEntity": {
@@ -42,12 +42,12 @@ Content-Type: application/json; charset=UTF-8
     "owner": "broker", 
     "id": "ffa3d33ea0004692a4a30af55a8f6a5b", 
     "title": "футляри до державних нагород", 
-    "tenderID": "UA-2020-05-15-000001", 
-    "dateModified": "2020-05-15T01:00:01+03:00", 
+    "tenderID": "UA-2020-09-08-000001", 
+    "dateModified": "2020-09-08T01:00:01+03:00", 
     "numberOfBids": 1, 
     "tenderPeriod": {
-      "startDate": "2020-04-27T01:00:00+03:00", 
-      "endDate": "2020-05-04T01:00:00+03:00"
+      "startDate": "2020-08-21T01:00:00+03:00", 
+      "endDate": "2020-08-28T01:00:00+03:00"
     }, 
     "contracts": [
       {
@@ -75,8 +75,8 @@ Content-Type: application/json; charset=UTF-8
               "locality": "м. Київ"
             }, 
             "deliveryDate": {
-              "startDate": "2020-05-17T01:00:00+03:00", 
-              "endDate": "2020-05-20T01:00:00+03:00"
+              "startDate": "2020-09-10T01:00:00+03:00", 
+              "endDate": "2020-09-13T01:00:00+03:00"
             }, 
             "id": "5aa33ced861b46229ef867cdad804781", 
             "unit": {
@@ -107,8 +107,8 @@ Content-Type: application/json; charset=UTF-8
               "locality": "м. Київ"
             }, 
             "deliveryDate": {
-              "startDate": "2020-05-17T01:00:00+03:00", 
-              "endDate": "2020-05-20T01:00:00+03:00"
+              "startDate": "2020-09-10T01:00:00+03:00", 
+              "endDate": "2020-09-13T01:00:00+03:00"
             }, 
             "id": "6c7f176182554740ad5aa5757c9d1f4e", 
             "unit": {
@@ -147,24 +147,24 @@ Content-Type: application/json; charset=UTF-8
           "amountNet": 490.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "dateSigned": "2020-05-15T01:00:01+03:00", 
-        "date": "2020-05-15T01:00:01+03:00", 
+        "dateSigned": "2020-09-08T01:00:01+03:00", 
+        "date": "2020-09-08T01:00:01+03:00", 
         "awardID": "48868b35f7084c09bce3622c503b97a4", 
         "id": "05870adde49c424db6a2dba280ea90ab", 
-        "contractID": "UA-2020-05-15-000001-1"
+        "contractID": "UA-2020-09-08-000001-1"
       }
     ], 
     "auctionPeriod": {
-      "startDate": "2020-05-04T01:00:00+03:00", 
-      "endDate": "2020-05-05T01:00:00+03:00"
+      "startDate": "2020-08-28T01:00:00+03:00", 
+      "endDate": "2020-08-29T01:00:00+03:00"
     }, 
     "procurementMethodType": "belowThreshold", 
     "awards": [
       {
         "status": "active", 
         "complaintPeriod": {
-          "startDate": "2020-05-15T01:00:00+03:00", 
-          "endDate": "2020-05-15T01:00:00+03:00"
+          "startDate": "2020-09-08T01:00:00+03:00", 
+          "endDate": "2020-09-08T01:00:00+03:00"
         }, 
         "suppliers": [
           {
@@ -195,11 +195,11 @@ Content-Type: application/json; charset=UTF-8
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "date": "2020-05-15T01:00:00+03:00", 
+        "date": "2020-09-08T01:00:00+03:00", 
         "id": "48868b35f7084c09bce3622c503b97a4"
       }
     ], 
-    "date": "2020-05-15T01:00:01+03:00", 
+    "date": "2020-09-08T01:00:01+03:00", 
     "milestones": [
       {
         "code": "prepayment", 
@@ -254,8 +254,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-17T01:00:00+03:00", 
-          "endDate": "2020-05-20T01:00:00+03:00"
+          "startDate": "2020-09-10T01:00:00+03:00", 
+          "endDate": "2020-09-13T01:00:00+03:00"
         }, 
         "id": "5aa33ced861b46229ef867cdad804781", 
         "unit": {
@@ -286,8 +286,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-17T01:00:00+03:00", 
-          "endDate": "2020-05-20T01:00:00+03:00"
+          "startDate": "2020-09-10T01:00:00+03:00", 
+          "endDate": "2020-09-13T01:00:00+03:00"
         }, 
         "id": "6c7f176182554740ad5aa5757c9d1f4e", 
         "unit": {
@@ -299,7 +299,7 @@ Content-Type: application/json; charset=UTF-8
     ], 
     "bids": [
       {
-        "date": "2020-05-15T01:00:00+03:00", 
+        "date": "2020-09-08T01:00:00+03:00", 
         "status": "active", 
         "id": "52e4c58721f44de7b6960352cda9c813", 
         "value": {

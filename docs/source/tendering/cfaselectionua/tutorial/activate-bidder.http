@@ -28,7 +28,7 @@ Content-Type: application/json; charset=UTF-8
     "lotValues": [
       {
         "relatedLot": "1b75c06ee58f4909a4201255b4ba5831", 
-        "date": "2020-05-15T01:00:00+03:00", 
+        "date": "2020-09-08T01:00:00+03:00", 
         "value": {
           "currency": "UAH", 
           "amount": 500.0, 
@@ -58,7 +58,7 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "date": "2020-05-15T01:00:00+03:00", 
+    "date": "2020-09-08T01:00:00+03:00", 
     "id": "436a89f5f496498fa9134f3caedb168d"
   }
 }

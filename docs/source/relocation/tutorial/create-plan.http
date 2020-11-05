@@ -45,8 +45,8 @@ DATA:
           }
         ], 
         "deliveryDate": {
-          "startDate": "2020-05-17T01:00:00+03:00", 
-          "endDate": "2020-05-20T01:00:00+03:00"
+          "startDate": "2020-09-10T01:00:00+03:00", 
+          "endDate": "2020-09-13T01:00:00+03:00"
         }, 
         "unit": {
           "code": "KGM", 
@@ -69,8 +69,8 @@ DATA:
           }
         ], 
         "deliveryDate": {
-          "startDate": "2020-05-17T01:00:00+03:00", 
-          "endDate": "2020-05-20T01:00:00+03:00"
+          "startDate": "2020-09-10T01:00:00+03:00", 
+          "endDate": "2020-09-13T01:00:00+03:00"
         }, 
         "unit": {
           "code": "KGM", 
@@ -93,8 +93,8 @@ DATA:
           }
         ], 
         "deliveryDate": {
-          "startDate": "2020-05-17T01:00:00+03:00", 
-          "endDate": "2020-05-20T01:00:00+03:00"
+          "startDate": "2020-09-10T01:00:00+03:00", 
+          "endDate": "2020-09-13T01:00:00+03:00"
         }, 
         "unit": {
           "code": "KGM", 
@@ -155,7 +155,7 @@ DATA:
       "procurementMethod": "open", 
       "procurementMethodType": "belowThreshold", 
       "tenderPeriod": {
-        "startDate": "2020-05-22T01:00:00+03:00"
+        "startDate": "2020-09-15T01:00:00+03:00"
       }
     }
   }
@@ -210,8 +210,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/f0b2403cba3040acaa
           }
         ], 
         "deliveryDate": {
-          "startDate": "2020-05-17T01:00:00+03:00", 
-          "endDate": "2020-05-20T01:00:00+03:00"
+          "startDate": "2020-09-10T01:00:00+03:00", 
+          "endDate": "2020-09-13T01:00:00+03:00"
         }, 
         "id": "3b769e31f1b34febb698f583d5e264cd", 
         "unit": {
@@ -235,8 +235,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/f0b2403cba3040acaa
           }
         ], 
         "deliveryDate": {
-          "startDate": "2020-05-17T01:00:00+03:00", 
-          "endDate": "2020-05-20T01:00:00+03:00"
+          "startDate": "2020-09-10T01:00:00+03:00", 
+          "endDate": "2020-09-13T01:00:00+03:00"
         }, 
         "id": "88433532a143404988f063275f2a32a2", 
         "unit": {
@@ -260,8 +260,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/f0b2403cba3040acaa
           }
         ], 
         "deliveryDate": {
-          "startDate": "2020-05-17T01:00:00+03:00", 
-          "endDate": "2020-05-20T01:00:00+03:00"
+          "startDate": "2020-09-10T01:00:00+03:00", 
+          "endDate": "2020-09-13T01:00:00+03:00"
         }, 
         "id": "70f99b652a404d8e861f7c06543dd125", 
         "unit": {
@@ -271,7 +271,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/f0b2403cba3040acaa
         "quantity": 3000.0
       }
     ], 
-    "planID": "UA-P-2020-05-15-000001", 
+    "planID": "UA-P-2020-09-08-000001", 
     "budget": {
       "breakdown": [
         {
@@ -298,12 +298,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/f0b2403cba3040acaa
       "amount": 10000.0, 
       "id": "12303111000-2"
     }, 
-    "datePublished": "2020-05-15T01:00:00+03:00", 
+    "datePublished": "2020-09-08T01:00:00+03:00", 
     "tender": {
       "procurementMethod": "open", 
       "procurementMethodType": "belowThreshold", 
       "tenderPeriod": {
-        "startDate": "2020-05-22T01:00:00+03:00"
+        "startDate": "2020-09-15T01:00:00+03:00"
       }
     }, 
     "additionalClassifications": [
@@ -330,7 +330,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/f0b2403cba3040acaa
       }
     }, 
     "owner": "broker", 
-    "dateModified": "2020-05-15T01:00:00+03:00", 
+    "dateModified": "2020-09-08T01:00:00+03:00", 
     "id": "f0b2403cba3040acaaf3d6d45dc953be"
   }
 }

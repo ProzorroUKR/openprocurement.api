@@ -10,14 +10,14 @@ Content-Type: application/json; charset=UTF-8
     "status": "complete", 
     "mainProcurementCategory": "services", 
     "complaintPeriod": {
-      "startDate": "2020-04-04T01:00:00+03:00", 
-      "endDate": "2020-05-01T00:00:00+03:00"
+      "startDate": "2020-07-29T01:00:00+03:00", 
+      "endDate": "2020-08-25T00:00:00+03:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2020-04-04T01:00:00+03:00", 
-      "clarificationsUntil": "2020-04-30T00:00:00+03:00", 
-      "endDate": "2020-04-25T00:00:00+03:00", 
-      "invalidationDate": "2020-05-15T01:00:00+03:00"
+      "startDate": "2020-07-29T01:00:00+03:00", 
+      "clarificationsUntil": "2020-08-26T00:00:00+03:00", 
+      "endDate": "2020-08-19T01:00:00+03:00", 
+      "invalidationDate": "2020-09-08T01:00:00+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
     "procuringEntity": {
@@ -69,9 +69,9 @@ Content-Type: application/json; charset=UTF-8
           }
         }, 
         "title": "Калорійність", 
-        "date": "2020-05-15T01:00:00+03:00", 
+        "date": "2020-09-08T01:00:00+03:00", 
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
-        "dateAnswered": "2020-05-15T01:00:00+03:00", 
+        "dateAnswered": "2020-09-08T01:00:00+03:00", 
         "id": "0541cf2833f347a7a46d919f60289a54", 
         "questionOf": "tender"
       }
@@ -92,9 +92,9 @@ Content-Type: application/json; charset=UTF-8
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4595254e01ba4f178bc3f567f549c368?KeyID=a8968c46&Signature=vATRHadWn0nVBxb0CiMIpgP0xxQIku%252BdiyZ8ihkWO95OatUx1wZ4jP%2FgFmiPl39XpZ20nMbkVtTZ8dyP4BuRCw%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-15T01:00:00+03:00", 
+        "datePublished": "2020-09-08T01:00:00+03:00", 
         "id": "588c354ef78f4155a37d4c22dbec1a9d", 
-        "dateModified": "2020-05-15T01:00:00+03:00"
+        "dateModified": "2020-09-08T01:00:00+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
@@ -104,9 +104,9 @@ Content-Type: application/json; charset=UTF-8
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0d2761804fdb420aa12c0adad1c06c65?KeyID=a8968c46&Signature=sbObhmcEbppKi4eZAllrjNUbkOwWSsKRZU1RLSqTy3LqH9lGOKQ4Vp49qAbw2XU2egbmexaEAcruNXTzaqOiDQ%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-15T01:00:00+03:00", 
+        "datePublished": "2020-09-08T01:00:00+03:00", 
         "id": "de1a505be7ed4337b657a9a1332b38cb", 
-        "dateModified": "2020-05-15T01:00:00+03:00"
+        "dateModified": "2020-09-08T01:00:00+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
@@ -116,22 +116,22 @@ Content-Type: application/json; charset=UTF-8
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d3921bb3169f47d4aa0048f2094e1b1a?KeyID=a8968c46&Signature=XMvb4vRCXAclorqdyoEzjjfKzF5Wxu%2FQctqL67LHsm8M%252BpvhBr08ep33esbJbN7CQ%252BBuIaMLfrb9CWEyY0uWDw%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-15T01:00:00+03:00", 
+        "datePublished": "2020-09-08T01:00:00+03:00", 
         "id": "de1a505be7ed4337b657a9a1332b38cb", 
-        "dateModified": "2020-05-15T01:00:00+03:00"
+        "dateModified": "2020-09-08T01:00:00+03:00"
       }
     ], 
     "title": "Послуги шкільних їдалень", 
     "qualificationPeriod": {
-      "startDate": "2020-05-05T01:00:00+03:00", 
-      "endDate": "2020-05-15T01:00:00+03:00"
+      "startDate": "2020-08-29T01:00:00+03:00", 
+      "endDate": "2020-09-08T01:00:00+03:00"
     }, 
-    "tenderID": "UA-2020-05-15-000001", 
-    "dateModified": "2020-05-15T01:00:00+03:00", 
+    "tenderID": "UA-2020-09-08-000001", 
+    "dateModified": "2020-09-08T01:00:00+03:00", 
     "numberOfBids": 3, 
     "tenderPeriod": {
-      "startDate": "2020-04-04T01:00:00+03:00", 
-      "endDate": "2020-05-05T01:00:00+03:00"
+      "startDate": "2020-07-29T01:00:00+03:00", 
+      "endDate": "2020-08-29T01:00:00+03:00"
     }, 
     "stage2TenderID": "785f8bdb2f804fe4be16b2cc4134dec6", 
     "qualifications": [
@@ -140,7 +140,7 @@ Content-Type: application/json; charset=UTF-8
         "eligible": true, 
         "qualified": true, 
         "bidID": "799d983fc3ca4f18a3d22ead02ec7826", 
-        "date": "2020-05-15T01:00:00+03:00", 
+        "date": "2020-09-08T01:00:00+03:00", 
         "id": "688adb9bb70e4d4fbcaf4ba1025e7e1a"
       }, 
       {
@@ -148,7 +148,7 @@ Content-Type: application/json; charset=UTF-8
         "eligible": true, 
         "qualified": true, 
         "bidID": "5c14615bc32a4efea822c166a6fa4023", 
-        "date": "2020-05-15T01:00:00+03:00", 
+        "date": "2020-09-08T01:00:00+03:00", 
         "id": "be53976fae27403594b3de9b7bdfba6a"
       }, 
       {
@@ -156,7 +156,7 @@ Content-Type: application/json; charset=UTF-8
         "eligible": false, 
         "qualified": false, 
         "bidID": "d3aa2f675e1e4ba28b29163a5e247111", 
-        "date": "2020-05-15T01:00:00+03:00", 
+        "date": "2020-09-08T01:00:00+03:00", 
         "id": "5ffc4b1c851848199fd66861aa118688"
       }, 
       {
@@ -164,12 +164,12 @@ Content-Type: application/json; charset=UTF-8
         "eligible": true, 
         "qualified": true, 
         "bidID": "80b8867552f446eebf0fbc93b10fbdf5", 
-        "date": "2020-05-15T01:00:00+03:00", 
+        "date": "2020-09-08T01:00:00+03:00", 
         "id": "21a68f5b2e664a23827a19a669007d33"
       }
     ], 
     "procurementMethodType": "competitiveDialogueEU", 
-    "date": "2020-05-15T01:00:00+03:00", 
+    "date": "2020-09-08T01:00:00+03:00", 
     "milestones": [
       {
         "code": "prepayment", 
@@ -225,8 +225,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-06-04T00:00:00+02:00", 
-          "endDate": "2020-07-04T00:00:00+02:00"
+          "startDate": "2020-09-28T00:00:00+02:00", 
+          "endDate": "2020-10-28T00:00:00+02:00"
         }, 
         "id": "8bc8ded5746c4badb496d3297fce132c", 
         "unit": {
@@ -258,8 +258,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-06-04T00:00:00+02:00", 
-          "endDate": "2020-07-04T00:00:00+02:00"
+          "startDate": "2020-09-28T00:00:00+02:00", 
+          "endDate": "2020-10-28T00:00:00+02:00"
         }, 
         "id": "cbb964e3acb24801b28a9a27ea7efb14", 
         "unit": {
@@ -282,9 +282,9 @@ Content-Type: application/json; charset=UTF-8
             "format": "application/pdf", 
             "isDescriptionDecision": false, 
             "documentOf": "tender", 
-            "datePublished": "2020-05-15T01:00:00+03:00", 
+            "datePublished": "2020-09-08T01:00:00+03:00", 
             "id": "bdf03760f26641e6b662ddd1eb2e1e1f", 
-            "dateModified": "2020-05-15T01:00:00+03:00"
+            "dateModified": "2020-09-08T01:00:00+03:00"
           }, 
           {
             "hash": "md5:00000000000000000000000000000000", 
@@ -295,9 +295,9 @@ Content-Type: application/json; charset=UTF-8
             "format": "application/pdf", 
             "isDescriptionDecision": true, 
             "documentOf": "tender", 
-            "datePublished": "2020-05-15T01:00:00+03:00", 
+            "datePublished": "2020-09-08T01:00:00+03:00", 
             "id": "b3ba98a293ec412b966a9cb2c035020a", 
-            "dateModified": "2020-05-15T01:00:00+03:00"
+            "dateModified": "2020-09-08T01:00:00+03:00"
           }, 
           {
             "hash": "md5:00000000000000000000000000000000", 
@@ -309,9 +309,9 @@ Content-Type: application/json; charset=UTF-8
             "title": "Proposal_top_secrets.pdf", 
             "isDescriptionDecision": false, 
             "documentOf": "tender", 
-            "datePublished": "2020-05-15T01:00:00+03:00", 
+            "datePublished": "2020-09-08T01:00:00+03:00", 
             "id": "c1b944c8854543e58b0d043843de553c", 
-            "dateModified": "2020-05-15T01:00:00+03:00"
+            "dateModified": "2020-09-08T01:00:00+03:00"
           }
         ], 
         "subcontractingDetails": "ДКП «Орфей», Україна", 
@@ -339,11 +339,11 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
-        "date": "2020-05-15T01:00:00+03:00", 
+        "date": "2020-09-08T01:00:00+03:00", 
         "id": "799d983fc3ca4f18a3d22ead02ec7826"
       }, 
       {
-        "date": "2020-05-15T01:00:00+03:00", 
+        "date": "2020-09-08T01:00:00+03:00", 
         "status": "active", 
         "tenderers": [
           {
@@ -372,7 +372,7 @@ Content-Type: application/json; charset=UTF-8
         "id": "5c14615bc32a4efea822c166a6fa4023"
       }, 
       {
-        "date": "2020-05-15T01:00:00+03:00", 
+        "date": "2020-09-08T01:00:00+03:00", 
         "status": "unsuccessful", 
         "tenderers": [
           {
@@ -412,9 +412,9 @@ Content-Type: application/json; charset=UTF-8
             "format": "application/pdf", 
             "isDescriptionDecision": false, 
             "documentOf": "tender", 
-            "datePublished": "2020-05-15T01:00:00+03:00", 
+            "datePublished": "2020-09-08T01:00:00+03:00", 
             "id": "4ad15f4646fc4d29a4b63cb9bd25ac01", 
-            "dateModified": "2020-05-15T01:00:00+03:00"
+            "dateModified": "2020-09-08T01:00:00+03:00"
           }, 
           {
             "hash": "md5:00000000000000000000000000000000", 
@@ -426,9 +426,9 @@ Content-Type: application/json; charset=UTF-8
             "title": "Proposal_part2.pdf", 
             "isDescriptionDecision": false, 
             "documentOf": "tender", 
-            "datePublished": "2020-05-15T01:00:00+03:00", 
+            "datePublished": "2020-09-08T01:00:00+03:00", 
             "id": "b8516bf8ea92481a8be558849bb81b11", 
-            "dateModified": "2020-05-15T01:00:00+03:00"
+            "dateModified": "2020-09-08T01:00:00+03:00"
           }
         ], 
         "selfQualified": true, 
@@ -455,7 +455,7 @@ Content-Type: application/json; charset=UTF-8
             }
           }
         ], 
-        "date": "2020-05-15T01:00:00+03:00", 
+        "date": "2020-09-08T01:00:00+03:00", 
         "id": "80b8867552f446eebf0fbc93b10fbdf5"
       }
     ], 

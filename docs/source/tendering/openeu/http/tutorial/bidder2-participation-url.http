@@ -36,7 +36,7 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "date": "2020-05-15T01:00:00+03:00", 
+    "date": "2020-09-08T01:00:00+03:00", 
     "selfQualified": true, 
     "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/ef61695c05174b37b2bb6a8da114cc9d?key_for_bid=ca262e0588d5439b9bd58b3d33caf545"
   }

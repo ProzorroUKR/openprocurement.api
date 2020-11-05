@@ -58,7 +58,7 @@ DATA:
     ], 
     "mainProcurementCategory": "goods", 
     "tenderPeriod": {
-      "endDate": "2020-05-29T01:00:00+03:00"
+      "endDate": "2020-09-22T01:00:00+03:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -66,7 +66,7 @@ DATA:
       "amount": 15
     }, 
     "enquiryPeriod": {
-      "endDate": "2020-05-22T01:00:00+03:00"
+      "endDate": "2020-09-15T01:00:00+03:00"
     }, 
     "procurementMethodType": "belowThreshold", 
     "value": {
@@ -117,8 +117,8 @@ DATA:
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-17T01:00:00+03:00", 
-          "endDate": "2020-05-20T01:00:00+03:00"
+          "startDate": "2020-09-10T01:00:00+03:00", 
+          "endDate": "2020-09-13T01:00:00+03:00"
         }, 
         "unit": {
           "code": "44617100-9", 
@@ -192,8 +192,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/360cfcaeb0ec4394
     ], 
     "mainProcurementCategory": "goods", 
     "tenderPeriod": {
-      "startDate": "2020-05-22T01:00:00+03:00", 
-      "endDate": "2020-05-29T01:00:00+03:00"
+      "startDate": "2020-09-15T01:00:00+03:00", 
+      "endDate": "2020-09-22T01:00:00+03:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -224,8 +224,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/360cfcaeb0ec4394
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-17T01:00:00+03:00", 
-          "endDate": "2020-05-20T01:00:00+03:00"
+          "startDate": "2020-09-10T01:00:00+03:00", 
+          "endDate": "2020-09-13T01:00:00+03:00"
         }, 
         "id": "e36f862d48e0411c8390ea7a8811c0de", 
         "unit": {
@@ -242,8 +242,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/360cfcaeb0ec4394
       "valueAddedTaxIncluded": true
     }, 
     "submissionMethod": "electronicAuction", 
-    "date": "2020-05-15T01:00:00+03:00", 
-    "dateModified": "2020-05-15T01:00:00+03:00", 
+    "date": "2020-09-08T01:00:00+03:00", 
+    "dateModified": "2020-09-08T01:00:00+03:00", 
     "status": "active.enquiries", 
     "procuringEntity": {
       "contactPoint": {
@@ -268,13 +268,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/360cfcaeb0ec4394
     }, 
     "awardCriteria": "lowestCost", 
     "enquiryPeriod": {
-      "startDate": "2020-05-15T01:00:00+03:00", 
-      "endDate": "2020-05-22T01:00:00+03:00"
+      "startDate": "2020-09-08T01:00:00+03:00", 
+      "endDate": "2020-09-15T01:00:00+03:00"
     }, 
     "owner": "broker", 
-    "next_check": "2020-05-22T01:00:00+03:00", 
+    "next_check": "2020-09-15T01:00:00+03:00", 
     "id": "360cfcaeb0ec43948ba2c03584e41ea0", 
-    "tenderID": "UA-2020-05-15-000003"
+    "tenderID": "UA-2020-09-08-000003"
   }
 }
 

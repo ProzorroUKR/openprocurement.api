@@ -11,12 +11,12 @@ Content-Type: application/json; charset=UTF-8
       "yearlyPaymentsPercentage": 0.85, 
       "valueAddedTaxIncluded": true, 
       "currency": "UAH", 
-      "amount": 9457.12, 
+      "amount": 9700.25, 
       "contractDuration": {
         "days": 200, 
         "years": 12
       }, 
-      "amountPerformance": 750.92, 
+      "amountPerformance": 789.95, 
       "annualCostsReduction": [
         400.0, 
         900.0, 
@@ -65,7 +65,7 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "date": "2020-05-15T01:00:00+03:00", 
+    "date": "2020-09-08T01:00:00+03:00", 
     "id": "c72b35cfbfd84d7a980f772c02d025f6", 
     "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/0aac695e27804293a2854dff7bed4be8?key_for_bid=c72b35cfbfd84d7a980f772c02d025f6"
   }

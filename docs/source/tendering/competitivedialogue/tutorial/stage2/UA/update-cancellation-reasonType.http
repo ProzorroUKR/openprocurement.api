@@ -17,7 +17,7 @@ Content-Type: application/json; charset=UTF-8
     "status": "draft", 
     "reason": "cancellation reason", 
     "reasonType": "unFixable", 
-    "date": "2020-05-15T01:00:03+03:00", 
+    "date": "2020-09-08T01:00:03+03:00", 
     "cancellationOf": "tender", 
     "id": "778f01babc364fba9ec0a685ec81d2f1"
   }

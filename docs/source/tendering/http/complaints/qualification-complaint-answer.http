@@ -22,10 +22,10 @@ Content-Type: application/json; charset=UTF-8
     "resolutionType": "resolved", 
     "type": "claim", 
     "bid_id": "4e3560c629254c51802d8dc72d557ad6", 
-    "dateAnswered": "2020-05-15T01:00:01+03:00", 
-    "dateSubmitted": "2020-05-15T01:00:01+03:00", 
-    "complaintID": "UA-2020-05-15-000001.6", 
-    "date": "2020-05-15T01:00:01+03:00", 
+    "dateAnswered": "2020-09-08T01:00:01+03:00", 
+    "dateSubmitted": "2020-09-08T01:00:01+03:00", 
+    "complaintID": "UA-2020-09-08-000001.6", 
+    "date": "2020-09-08T01:00:01+03:00", 
     "resolution": "Умови виправлено, вибір переможня буде розгянуто повторно", 
     "id": "f4f8a8dc1ed5421a8eed8e11a93cd2aa"
   }

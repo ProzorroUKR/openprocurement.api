@@ -29,8 +29,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-17T01:00:00+03:00", 
-          "endDate": "2020-05-20T01:00:00+03:00"
+          "startDate": "2020-09-10T01:00:00+03:00", 
+          "endDate": "2020-09-13T01:00:00+03:00"
         }, 
         "id": "5aa33ced861b46229ef867cdad804781", 
         "unit": {
@@ -61,8 +61,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-05-17T01:00:00+03:00", 
-          "endDate": "2020-05-20T01:00:00+03:00"
+          "startDate": "2020-09-10T01:00:00+03:00", 
+          "endDate": "2020-09-13T01:00:00+03:00"
         }, 
         "id": "6c7f176182554740ad5aa5757c9d1f4e", 
         "unit": {
@@ -95,8 +95,8 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "dateSigned": "2020-05-15T01:00:01+03:00", 
-    "dateModified": "2020-05-15T01:00:01+03:00", 
+    "dateSigned": "2020-09-08T01:00:01+03:00", 
+    "dateModified": "2020-09-08T01:00:01+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 
@@ -124,7 +124,7 @@ Content-Type: application/json; charset=UTF-8
       "amountNet": 490.0, 
       "valueAddedTaxIncluded": true
     }, 
-    "contractID": "UA-2020-05-15-000001-1", 
+    "contractID": "UA-2020-09-08-000001-1", 
     "owner": "broker", 
     "awardID": "48868b35f7084c09bce3622c503b97a4", 
     "id": "05870adde49c424db6a2dba280ea90ab", 

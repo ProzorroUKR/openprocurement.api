@@ -43,8 +43,8 @@ Content-Type: application/json; charset=UTF-8
       "amount": 3000.0
     }, 
     "rejectReason": "cancelledByComplainant", 
-    "complaintID": "UA-2020-05-15-000001.11", 
-    "date": "2020-05-15T01:00:03+03:00", 
+    "complaintID": "UA-2020-09-08-000001.11", 
+    "date": "2020-09-08T01:00:03+03:00", 
     "type": "complaint", 
     "id": "41f0e09065aa46a5abf57c193a4baf88"
   }

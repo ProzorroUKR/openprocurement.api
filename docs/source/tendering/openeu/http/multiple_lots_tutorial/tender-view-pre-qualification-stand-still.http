@@ -18,17 +18,17 @@ Content-Type: application/json; charset=UTF-8
     "status": "active.pre-qualification.stand-still", 
     "mainProcurementCategory": "services", 
     "complaintPeriod": {
-      "startDate": "2020-04-14T01:00:00+03:00", 
-      "endDate": "2020-05-11T00:00:00+03:00"
+      "startDate": "2020-08-08T01:00:00+03:00", 
+      "endDate": "2020-09-04T00:00:00+03:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2020-04-14T01:00:00+03:00", 
-      "clarificationsUntil": "2020-05-08T00:00:00+03:00", 
-      "endDate": "2020-05-05T00:00:00+03:00", 
-      "invalidationDate": "2020-05-15T01:00:00+03:00"
+      "startDate": "2020-08-08T01:00:00+03:00", 
+      "clarificationsUntil": "2020-09-03T00:00:00+03:00", 
+      "endDate": "2020-08-29T01:00:00+03:00", 
+      "invalidationDate": "2020-09-08T01:00:00+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2020-05-21T00:00:00+03:00", 
+    "next_check": "2020-09-14T00:00:00+03:00", 
     "procuringEntity": {
       "kind": "general", 
       "name": "ЗОСШ #10 м.Вінниці", 
@@ -69,14 +69,14 @@ Content-Type: application/json; charset=UTF-8
           "valueAddedTaxIncluded": true
         }, 
         "auctionPeriod": {
-          "shouldStartAfter": "2020-05-21T00:00:00+03:00"
+          "shouldStartAfter": "2020-09-14T00:00:00+03:00"
         }, 
         "value": {
           "currency": "UAH", 
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "date": "2020-05-15T01:00:00+03:00", 
+        "date": "2020-09-08T01:00:00+03:00", 
         "id": "fc297ff6c6a74743a96c6b274bae11c0"
       }, 
       {
@@ -93,20 +93,20 @@ Content-Type: application/json; charset=UTF-8
           "amount": 400.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "date": "2020-05-15T01:00:00+03:00", 
+        "date": "2020-09-08T01:00:00+03:00", 
         "id": "d9ed347dda65496aa56d9f7692c949c3"
       }
     ], 
     "qualificationPeriod": {
-      "startDate": "2020-05-15T01:00:00+03:00", 
-      "endDate": "2020-05-21T00:00:00+03:00"
+      "startDate": "2020-09-08T01:00:00+03:00", 
+      "endDate": "2020-09-14T00:00:00+03:00"
     }, 
-    "tenderID": "UA-2020-05-15-000001", 
-    "dateModified": "2020-05-15T01:00:00+03:00", 
+    "tenderID": "UA-2020-09-08-000001", 
+    "dateModified": "2020-09-08T01:00:00+03:00", 
     "numberOfBids": 2, 
     "tenderPeriod": {
-      "startDate": "2020-04-14T01:00:00+03:00", 
-      "endDate": "2020-05-15T01:00:00+03:00"
+      "startDate": "2020-08-08T01:00:00+03:00", 
+      "endDate": "2020-09-08T01:00:00+03:00"
     }, 
     "qualifications": [
       {
@@ -115,7 +115,7 @@ Content-Type: application/json; charset=UTF-8
         "eligible": true, 
         "qualified": true, 
         "bidID": "28d7b15324514c31b62f48b15a1b0a2c", 
-        "date": "2020-05-15T01:00:00+03:00", 
+        "date": "2020-09-08T01:00:00+03:00", 
         "id": "69e23d94b0ec4a4cbf777d2557fe598a"
       }, 
       {
@@ -124,12 +124,12 @@ Content-Type: application/json; charset=UTF-8
         "eligible": true, 
         "qualified": true, 
         "bidID": "ab9e4059fff24d9aa7b0c32166fce3ba", 
-        "date": "2020-05-15T01:00:00+03:00", 
+        "date": "2020-09-08T01:00:00+03:00", 
         "id": "73fa90c6e4a746cb859d4058ad16e5bf"
       }
     ], 
     "procurementMethodType": "aboveThresholdEU", 
-    "date": "2020-05-15T01:00:00+03:00", 
+    "date": "2020-09-08T01:00:00+03:00", 
     "milestones": [
       {
         "code": "prepayment", 
@@ -186,8 +186,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-06-04T00:00:00+02:00", 
-          "endDate": "2020-07-04T00:00:00+02:00"
+          "startDate": "2020-09-28T00:00:00+02:00", 
+          "endDate": "2020-10-28T00:00:00+02:00"
         }, 
         "id": "0124f833a40d45a29d30d291bee35ecb", 
         "quantity": 1.0
@@ -216,8 +216,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-06-04T00:00:00+02:00", 
-          "endDate": "2020-07-04T00:00:00+02:00"
+          "startDate": "2020-09-28T00:00:00+02:00", 
+          "endDate": "2020-10-28T00:00:00+02:00"
         }, 
         "id": "d2b44da9ce9f46bc896d32b570fab363", 
         "quantity": 1.0

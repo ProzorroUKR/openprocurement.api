@@ -63,9 +63,7 @@ class TenderCancellationResource(BaseTenderCancellationResource):
 
         if cancellation.status == "active" and prev_status != "active":
             if cancellation.cancellationOf == "lot":
-                validate_related_criterion(
-                    self.request, cancellation.relatedLot, action="set active status to cancellation for"
-                )
+                validate_related_criterion(self.request, cancellation.relatedLot)
             self.cancel_tender_lot_method(self.request, cancellation)
 
         if save_tender(self.request):
