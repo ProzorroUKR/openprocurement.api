@@ -224,7 +224,7 @@ docs:
   needs:
     - build
   variables:
-    KUBERNETES_CPU_REQUEST: 3000m
+    KUBERNETES_CPU_REQUEST: 1000m
     KUBERNETES_MEMORY_REQUEST: 4Gi
 
 .test_base:
@@ -250,7 +250,7 @@ docs:
     when: runner_system_failure
   variables:
     KUBERNETES_CPU_REQUEST: 100m
-    KUBERNETES_MEMORY_REQUEST: 200Mi
+    KUBERNETES_MEMORY_REQUEST: 500Mi
 
 .test:
   extends: .test_base
@@ -286,7 +286,7 @@ docs:
     COV_PATH: src/openprocurement/relocation/api
     COV_FILE: .coveragerc
     KUBERNETES_CPU_REQUEST: 700m
-    KUBERNETES_MEMORY_REQUEST: 1100Mi
+    KUBERNETES_MEMORY_REQUEST: 800Mi
 
 test_relocation_api:
   extends:
@@ -308,7 +308,8 @@ test_relocation_api_ecriteria:
     TESTS_PATH: src/openprocurement/tender/esco/tests
     COV_PATH: src/openprocurement/tender/esco
     COV_FILE: .coveragerc
-    KUBERNETES_MEMORY_REQUEST: 1500Mi
+    KUBERNETES_CPU_REQUEST: 1000m
+    KUBERNETES_MEMORY_REQUEST: 500Mi
 
 test_tender_esco:
   extends:
@@ -330,6 +331,7 @@ test_tender_esco_ecriteria:
     TESTS_PATH: src/openprocurement/tender/openeu/tests
     COV_PATH: src/openprocurement/tender/openeu
     COV_FILE: .coveragerc
+    KUBERNETES_CPU_REQUEST: 1000m
     KUBERNETES_CPU_REQUEST: 1500m
 
 test_tender_openeu:
@@ -352,6 +354,7 @@ test_tender_openeu_ecriteria:
     TESTS_PATH: src/openprocurement/tender/cfaua/tests
     COV_PATH: src/openprocurement/tender/cfaua
     COV_FILE: .coveragerc
+    KUBERNETES_CPU_REQUEST: 1000m
     KUBERNETES_CPU_REQUEST: 1500m
 
 test_tender_cfaua:
@@ -374,7 +377,8 @@ test_tender_cfaua_ecriteria:
     TESTS_PATH: src/openprocurement/tender/competitivedialogue/tests/stage2
     COV_PATH: src/openprocurement/tender/competitivedialogue/
     COV_FILE: src/openprocurement/tender/competitivedialogue/tests/stage2/.coveragerc
-    KUBERNETES_MEMORY_REQUEST: 1600Mi
+    KUBERNETES_CPU_REQUEST: 1500m
+    KUBERNETES_MEMORY_REQUEST: 800Mi
 
 test_tender_comp_stage2:
   extends:
@@ -396,11 +400,13 @@ test_tender_comp_stage2_ecriteria:
     TESTS_PATH: src/openprocurement/tender/core/tests
     COV_PATH: src/openprocurement/tender/core
     COV_FILE: .coveragerc
+    KUBERNETES_MEMORY_REQUEST: 800Mi
 
 test_tender_core:
   extends:
     - .test
     - .test_tender_core
+
 
 test_tender_core_before_2020_04_19:
   extends:
@@ -417,8 +423,7 @@ test_tender_core_ecriteria:
     TESTS_PATH: src/openprocurement/api/tests
     COV_PATH: src/openprocurement/api
     COV_FILE: .coveragerc
-    KUBERNETES_MEMORY_REQUEST: 1100Mi
-    KUBERNETES_CPU_REQUEST: 500m
+    KUBERNETES_CPU_REQUEST: 800m
 
 test_api:
   extends:
@@ -577,7 +582,7 @@ test_historical_tender_ecriteria:
     COV_PATH: src/openprocurement/tender/competitivedialogue/
     COV_FILE: src/openprocurement/tender/competitivedialogue/tests/stage1/.coveragerc
     KUBERNETES_MEMORY_REQUEST: 1600Mi
-    KUBERNETES_CPU_REQUEST: 3000m
+    KUBERNETES_CPU_REQUEST: 1500m
 
 
 test_tender_comp_stage1:
@@ -600,7 +605,8 @@ test_tender_comp_stage1_ecriteria:
     TESTS_PATH: src/openprocurement/tender/limited/tests
     COV_PATH: src/openprocurement/tender/limited
     COV_FILE: .coveragerc
-    KUBERNETES_CPU_REQUEST: 600m
+    KUBERNETES_MEMORY_REQUEST: 600Mi    
+    KUBERNETES_CPU_REQUEST: 1000m
 
 test_tender_limited:
   extends:
@@ -622,7 +628,8 @@ test_tender_limited_ecriteria:
     TESTS_PATH: src/openprocurement/tender/openua/tests
     COV_PATH: src/openprocurement/tender/openua
     COV_FILE: .coveragerc
-    KUBERNETES_MEMORY_REQUEST: 1400Mi
+    KUBERNETES_MEMORY_REQUEST: 800Mi
+    KUBERNETES_CPU_REQUEST: 1000m    
 
 test_tender_openua:
   extends:
@@ -666,7 +673,8 @@ test_tender_belowthreshold_ecriteria:
     TESTS_PATH: src/openprocurement/tender/openuadefense/tests
     COV_PATH: src/openprocurement/tender/openuadefense
     COV_FILE: .coveragerc
-    KUBERNETES_CPU_REQUEST: 1800m
+    KUBERNETES_CPU_REQUEST: 1000m
+    KUBERNETES_MEMORY_REQUEST: 800Mi    
 
 test_tender_openuadefense:
   extends:
@@ -689,7 +697,7 @@ test_tender_openuadefense_ecriteria:
     COV_PATH: src/openprocurement/tender/cfaselectionua
     COV_FILE: .coveragerc
     KUBERNETES_MEMORY_REQUEST: 1200Mi
-    KUBERNETES_CPU_REQUEST: 2500m
+    KUBERNETES_CPU_REQUEST: 1500m
 
 test_tender_cfaselectionua:
   extends:
