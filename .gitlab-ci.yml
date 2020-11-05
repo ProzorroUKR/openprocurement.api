@@ -138,6 +138,25 @@ deploy_master:
   except:
     - schedules
 
+deploy_sandbox2:
+  tags:
+    - k8s-sandbox
+  stage: deploy
+  only:
+    - tags
+  script:
+    - git config --global user.email "gitlab@gitlab.dc.prozorro.gov.ua"
+    - git config --global user.name "GitLab CI/CD Bot"
+    - git clone git@git.prozorro.gov.ua:DP/k8s-sandbox.git
+    - cd k8s-sandbox
+    - cat sandbox/values.yaml | python -c "import sys; import yaml; file=sys.stdin.read(); dct=yaml.safe_load(file); dct['prozorro-api']['image']['tag'] = '$CI_COMMIT_TAG'; dct['prozorro-public-api']['image']['tag'] = '$CI_COMMIT_TAG'; print yaml.dump(dct)" >out
+    - mv out sandbox/values.yaml
+    - git add sandbox/values.yaml
+    - git commit -m "API/Public API image tag changed to $CI_COMMIT_TAG"
+    - git push origin master
+  when: manual    
+
+
 robot_tests:
   stage: robot
   script:
