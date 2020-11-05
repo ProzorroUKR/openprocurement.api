@@ -34,15 +34,15 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/56aa844d9b3a43e4
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/43d2c2ffaea9467d9aa18231344b833c?KeyID=a8968c46&Signature=as7NMb%2Fvs9Tm4TnQ32YAT36JdpgHSLDTlaBYOpBfC9013QWqcubWBAOKIwQNSnvwY03o%2FOnoXlSnelRrySCMBw%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
-        "datePublished": "2020-05-15T01:00:03+03:00", 
+        "datePublished": "2020-09-08T01:00:03+03:00", 
         "id": "daa18dd118b54cde8132b7293b498900", 
-        "dateModified": "2020-05-15T01:00:03+03:00"
+        "dateModified": "2020-09-08T01:00:03+03:00"
       }
     ], 
     "description": "Додано документ", 
     "title": "Уточнення по вимозі", 
     "author": "complaint_owner", 
-    "datePublished": "2020-05-15T01:00:03+03:00", 
+    "datePublished": "2020-09-08T01:00:03+03:00", 
     "relatedPost": "264158c62a8f4bd1b37986f33693d9c6", 
     "recipient": "aboveThresholdReviewers", 
     "id": "fd1e94a259aa498d9a6f0f8f3cebbda5"

@@ -8,17 +8,17 @@ Content-Type: application/json; charset=UTF-8
     "procurementMethod": "open", 
     "mainProcurementCategory": "services", 
     "complaintPeriod": {
-      "startDate": "2020-05-15T01:00:00+03:00", 
-      "endDate": "2020-06-11T00:00:00+02:00"
+      "startDate": "2020-09-08T01:00:00+03:00", 
+      "endDate": "2020-10-05T00:00:00+02:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2020-05-15T01:00:00+03:00", 
-      "clarificationsUntil": "2020-06-11T00:00:00+02:00", 
-      "endDate": "2020-06-05T00:00:00+02:00", 
-      "invalidationDate": "2020-05-15T01:00:00+03:00"
+      "startDate": "2020-09-08T01:00:00+03:00", 
+      "clarificationsUntil": "2020-10-02T00:00:00+02:00", 
+      "endDate": "2020-09-29T00:00:00+02:00", 
+      "invalidationDate": "2020-09-08T01:00:00+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2020-06-15T01:00:00+03:00", 
+    "next_check": "2020-10-09T01:00:00+03:00", 
     "procuringEntity": {
       "kind": "general", 
       "name": "ЗОСШ #10 м.Вінниці", 
@@ -58,14 +58,14 @@ Content-Type: application/json; charset=UTF-8
           "valueAddedTaxIncluded": true
         }, 
         "auctionPeriod": {
-          "shouldStartAfter": "2020-07-20T00:00:00+02:00"
+          "shouldStartAfter": "2020-11-13T00:00:00+02:00"
         }, 
         "value": {
           "currency": "UAH", 
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "date": "2020-05-15T01:00:00+03:00", 
+        "date": "2020-09-08T01:00:00+03:00", 
         "id": "fc297ff6c6a74743a96c6b274bae11c0"
       }, 
       {
@@ -78,27 +78,27 @@ Content-Type: application/json; charset=UTF-8
           "valueAddedTaxIncluded": true
         }, 
         "auctionPeriod": {
-          "shouldStartAfter": "2020-07-20T00:00:00+02:00"
+          "shouldStartAfter": "2020-11-13T00:00:00+02:00"
         }, 
         "value": {
           "currency": "UAH", 
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "date": "2020-05-15T01:00:00+03:00", 
+        "date": "2020-09-08T01:00:00+03:00", 
         "id": "d9ed347dda65496aa56d9f7692c949c3"
       }
     ], 
-    "tenderID": "UA-2020-05-15-000001", 
-    "dateModified": "2020-05-15T01:00:00+03:00", 
+    "tenderID": "UA-2020-09-08-000001", 
+    "dateModified": "2020-09-08T01:00:00+03:00", 
     "status": "active.tendering", 
     "tenderPeriod": {
-      "startDate": "2020-05-15T01:00:00+03:00", 
-      "endDate": "2020-06-15T00:00:00+02:00"
+      "startDate": "2020-09-08T01:00:00+03:00", 
+      "endDate": "2020-10-09T00:00:00+02:00"
     }, 
     "title_en": "Services in school canteens", 
     "procurementMethodType": "aboveThresholdEU", 
-    "date": "2020-05-15T01:00:00+03:00", 
+    "date": "2020-09-08T01:00:00+03:00", 
     "milestones": [
       {
         "code": "prepayment", 
@@ -155,8 +155,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-06-04T00:00:00+02:00", 
-          "endDate": "2020-07-04T00:00:00+02:00"
+          "startDate": "2020-09-28T00:00:00+02:00", 
+          "endDate": "2020-10-28T00:00:00+02:00"
         }, 
         "id": "0124f833a40d45a29d30d291bee35ecb", 
         "quantity": 1.0
@@ -185,8 +185,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-06-04T00:00:00+02:00", 
-          "endDate": "2020-07-04T00:00:00+02:00"
+          "startDate": "2020-09-28T00:00:00+02:00", 
+          "endDate": "2020-10-28T00:00:00+02:00"
         }, 
         "id": "d2b44da9ce9f46bc896d32b570fab363", 
         "quantity": 1.0

@@ -42,8 +42,8 @@ Content-Type: application/json; charset=UTF-8
       }
     ], 
     "complaintPeriod": {
-      "startDate": "2020-05-15T01:00:01+03:00", 
-      "endDate": "2020-05-22T00:00:00+03:00"
+      "startDate": "2020-09-08T01:00:01+03:00", 
+      "endDate": "2020-09-15T00:00:00+03:00"
     }, 
     "bid_id": "844a8e0cf0f14d1bb310d7046066f966", 
     "value": {
@@ -52,7 +52,7 @@ Content-Type: application/json; charset=UTF-8
       "valueAddedTaxIncluded": true
     }, 
     "qualified": true, 
-    "date": "2020-05-15T01:00:01+03:00", 
+    "date": "2020-09-08T01:00:01+03:00", 
     "id": "ec709adbc2d14d43a6f8ff74f02b43a6"
   }
 }

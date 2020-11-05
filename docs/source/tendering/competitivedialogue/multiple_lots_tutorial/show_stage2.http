@@ -8,17 +8,17 @@ Content-Type: application/json; charset=UTF-8
   "data": {
     "procurementMethod": "selective", 
     "complaintPeriod": {
-      "startDate": "2020-05-15T01:00:00+03:00", 
-      "endDate": "2020-06-11T00:00:00+03:00"
+      "startDate": "2020-09-08T01:00:00+03:00", 
+      "endDate": "2020-10-04T00:00:00+03:00"
     }, 
     "enquiryPeriod": {
-      "startDate": "2020-05-15T01:00:00+03:00", 
-      "clarificationsUntil": "2020-06-11T00:00:00+03:00", 
-      "endDate": "2020-06-05T00:00:00+03:00", 
-      "invalidationDate": "2020-05-15T01:00:00+03:00"
+      "startDate": "2020-09-08T01:00:00+03:00", 
+      "clarificationsUntil": "2020-10-02T00:00:00+03:00", 
+      "endDate": "2020-09-28T01:00:00+03:00", 
+      "invalidationDate": "2020-09-08T01:00:00+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2020-06-15T00:00:00+03:00", 
+    "next_check": "2020-10-08T01:00:00+03:00", 
     "awardCriteria": "lowestCost", 
     "owner": "broker", 
     "id": "d99c61237b1945578b8cde56d011dbef", 
@@ -34,14 +34,14 @@ Content-Type: application/json; charset=UTF-8
           "valueAddedTaxIncluded": true
         }, 
         "auctionPeriod": {
-          "shouldStartAfter": "2020-07-20T00:00:00+03:00"
+          "shouldStartAfter": "2020-11-13T00:00:00+03:00"
         }, 
         "value": {
           "currency": "UAH", 
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "date": "2020-05-15T01:00:00+03:00", 
+        "date": "2020-09-08T01:00:00+03:00", 
         "id": "827f341aa45e495f853f5493aee68c42"
       }, 
       {
@@ -54,14 +54,14 @@ Content-Type: application/json; charset=UTF-8
           "valueAddedTaxIncluded": true
         }, 
         "auctionPeriod": {
-          "shouldStartAfter": "2020-07-20T00:00:00+03:00"
+          "shouldStartAfter": "2020-11-13T00:00:00+03:00"
         }, 
         "value": {
           "currency": "UAH", 
           "amount": 400.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "date": "2020-05-15T01:00:00+03:00", 
+        "date": "2020-09-08T01:00:00+03:00", 
         "id": "fadc6f1d86d045bc995c327e65c864fa"
       }
     ], 
@@ -112,16 +112,16 @@ Content-Type: application/json; charset=UTF-8
         "name": "«Кенгуру»"
       }
     ], 
-    "tenderID": "UA-2020-05-15-000002", 
-    "dateModified": "2020-05-15T01:00:00+03:00", 
+    "tenderID": "UA-2020-09-08-000002", 
+    "dateModified": "2020-09-08T01:00:00+03:00", 
     "status": "active.tendering", 
     "tenderPeriod": {
-      "startDate": "2020-05-15T01:00:00+03:00", 
-      "endDate": "2020-06-15T00:00:00+03:00"
+      "startDate": "2020-09-08T01:00:00+03:00", 
+      "endDate": "2020-10-08T01:00:00+03:00"
     }, 
     "title_en": "Services in school canteens", 
     "procurementMethodType": "competitiveDialogueEU.stage2", 
-    "date": "2020-05-15T01:00:00+03:00", 
+    "date": "2020-09-08T01:00:00+03:00", 
     "minimalStep": {
       "currency": "UAH", 
       "amount": 35.0, 
@@ -152,8 +152,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-06-04T00:00:00+02:00", 
-          "endDate": "2020-07-04T00:00:00+02:00"
+          "startDate": "2020-09-28T00:00:00+02:00", 
+          "endDate": "2020-10-28T00:00:00+02:00"
         }, 
         "id": "50f583529d724487b9430dd0bbda9174", 
         "unit": {
@@ -186,8 +186,8 @@ Content-Type: application/json; charset=UTF-8
           "locality": "м. Київ"
         }, 
         "deliveryDate": {
-          "startDate": "2020-06-04T00:00:00+02:00", 
-          "endDate": "2020-07-04T00:00:00+02:00"
+          "startDate": "2020-09-28T00:00:00+02:00", 
+          "endDate": "2020-10-28T00:00:00+02:00"
         }, 
         "id": "91a14518464b4e81ae77ad46a8ef57ea", 
         "unit": {

@@ -26,18 +26,18 @@ Content-Type: application/json; charset=UTF-8
     "lotValues": [
       {
         "relatedLot": "45d538b502bd4124bff52a374958e9ea", 
-        "date": "2020-05-15T01:00:00+03:00", 
+        "date": "2020-09-08T01:00:00+03:00", 
         "status": "pending", 
         "value": {
           "yearlyPaymentsPercentage": 0.9, 
           "valueAddedTaxIncluded": true, 
           "currency": "UAH", 
-          "amount": 9802.6, 
+          "amount": 10260.25, 
           "contractDuration": {
             "days": 0, 
             "years": 7
           }, 
-          "amountPerformance": 2031.2, 
+          "amountPerformance": 2076.73, 
           "annualCostsReduction": [
             700.0, 
             1600.0, 
@@ -88,7 +88,7 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "date": "2020-05-15T01:00:00+03:00", 
+    "date": "2020-09-08T01:00:00+03:00", 
     "selfQualified": true
   }
 }

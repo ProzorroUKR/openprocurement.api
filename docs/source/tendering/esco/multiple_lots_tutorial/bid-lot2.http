@@ -113,18 +113,18 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db8f78603c144a8a
     "lotValues": [
       {
         "relatedLot": "45d538b502bd4124bff52a374958e9ea", 
-        "date": "2020-05-15T01:00:00+03:00", 
+        "date": "2020-09-08T01:00:00+03:00", 
         "status": "pending", 
         "value": {
           "yearlyPaymentsPercentage": 0.9, 
           "valueAddedTaxIncluded": true, 
           "currency": "UAH", 
-          "amount": 9802.6, 
+          "amount": 10260.25, 
           "contractDuration": {
             "days": 0, 
             "years": 7
           }, 
-          "amountPerformance": 2031.2, 
+          "amountPerformance": 2076.73, 
           "annualCostsReduction": [
             700.0, 
             1600.0, 
@@ -152,18 +152,18 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db8f78603c144a8a
       }, 
       {
         "relatedLot": "aa439cf36abb4b2fb712ee9932b8d55b", 
-        "date": "2020-05-15T01:00:00+03:00", 
+        "date": "2020-09-08T01:00:00+03:00", 
         "status": "pending", 
         "value": {
           "yearlyPaymentsPercentage": 0.96, 
           "valueAddedTaxIncluded": true, 
           "currency": "UAH", 
-          "amount": 10218.08, 
+          "amount": 10584.2, 
           "contractDuration": {
             "days": 0, 
             "years": 9
           }, 
-          "amountPerformance": 899.45, 
+          "amountPerformance": 913.25, 
           "annualCostsReduction": [
             600.0, 
             1200.0, 
@@ -215,7 +215,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db8f78603c144a8a
         }
       }
     ], 
-    "date": "2020-05-15T01:00:00+03:00", 
+    "date": "2020-09-08T01:00:00+03:00", 
     "selfQualified": true
   }
 }

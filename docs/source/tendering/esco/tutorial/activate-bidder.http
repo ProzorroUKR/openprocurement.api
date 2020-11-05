@@ -20,12 +20,12 @@ Content-Type: application/json; charset=UTF-8
       "yearlyPaymentsPercentage": 0.9, 
       "valueAddedTaxIncluded": true, 
       "currency": "UAH", 
-      "amount": 9065.34, 
+      "amount": 9351.37, 
       "contractDuration": {
         "days": 74, 
         "years": 10
       }, 
-      "amountPerformance": 829.39, 
+      "amountPerformance": 856.84, 
       "annualCostsReduction": [
         500.0, 
         1000.0, 
@@ -74,7 +74,7 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "date": "2020-05-15T01:00:00+03:00", 
+    "date": "2020-09-08T01:00:00+03:00", 
     "selfQualified": true
   }
 }

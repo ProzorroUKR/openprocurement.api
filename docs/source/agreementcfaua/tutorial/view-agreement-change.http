@@ -10,7 +10,7 @@ Content-Type: application/json; charset=UTF-8
     "rationaleType": "taxRate", 
     "rationale_en": "Agreement change cause", 
     "rationale": "Опис причини змін егріменту", 
-    "date": "2020-05-15T01:00:00+03:00", 
+    "date": "2020-09-08T01:00:00+03:00", 
     "id": "5937223446a044e689f16dc9912fed8b"
   }
 }
