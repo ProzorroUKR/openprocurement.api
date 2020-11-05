@@ -1,0 +1,29 @@
+GET /api/2.5/tenders/dbaf5c5918364ee18fe7536bcb7ac13d/qualifications/59efad2924154abf958fa603c0869cd8/requirement_responses/51d3fb76de6f49cc8b6f8f5f53dc0181/evidences HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": [
+    {
+      "title": "Requirement response", 
+      "type": "document", 
+      "relatedDocument": {
+        "id": "57c658a929084380b6fe254d754e5747", 
+        "title": "name.doc"
+      }, 
+      "id": "c9c730ec8a0249628e5aacc4a50ae6be"
+    }, 
+    {
+      "title": "Update evidence title", 
+      "type": "document", 
+      "relatedDocument": {
+        "id": "57c658a929084380b6fe254d754e5747", 
+        "title": "name.doc"
+      }, 
+      "id": "1a483fe628794b92b3c7f200ab2f0a35"
+    }
+  ]
+}
+

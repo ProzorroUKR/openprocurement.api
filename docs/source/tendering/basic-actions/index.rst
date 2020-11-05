@@ -15,8 +15,7 @@ Contents:
    qualifications
    complaints
    complaint-payments
-   criteria
-   bid-requirement-response
+   etd
    procuring
    lots
    bidding

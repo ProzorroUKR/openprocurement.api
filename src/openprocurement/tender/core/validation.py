@@ -1816,14 +1816,7 @@ def validate_view_requirement_responses(request):
 
 def validate_operation_award_requirement_response(request):
     validate_tender_first_revision_date(request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
-    tender_type = request.validated["tender"].procurementMethodType
-    pre_qualification_tenders = ["aboveThresholdEU", "competitiveDialogueUA",
-                                 "competitiveDialogueEU", "competitiveDialogueEU.stage2",
-                                 "esco", "closeFrameworkAgreementUA"]
-    if tender_type in pre_qualification_tenders:
-        valid_tender_statuses = ["active.pre-qualification"]
-    else:
-        valid_tender_statuses = ["active.qualification"]
+    valid_tender_statuses = ["active.qualification"]
     base_validate_operation_ecriteria_objects(request, valid_tender_statuses)
     base_validate_operation_ecriteria_objects(request, ["pending"], "award")
 

@@ -1,11 +1,8 @@
 
 .. _criteria_operation:
 
-Tender Criteria
-===============
-
 Criteria Basic Operation
-~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------
 
 Criteria data :ref:`schema<criterion>`
 
@@ -43,9 +40,18 @@ Get Tender Criteria
 
 
 Requirement Group basic operation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------------
 
 Requirement group :ref:`schema<RequirementGroup>`
+
+Requirement group that's object that contain requirements,
+and sets the rules for how to respond to requirements.
+
+Inside requirement groups you must gave response to all requirements(that's mean gave response to requirement group).
+If criterion have more than one requirement groups you must gave response only to one requirement group.
+If you try to gave responses to few requirement groups system will be returned error.
+
+:ref:`There you can see how it works on practice. <bid_activation_with_requirement_responses>`
 
 Create Criteria Requirement Group
 """""""""""""""""""""""""""""""""
@@ -71,7 +77,7 @@ Get Criteria Requirement Group
 
 
 Requirement basic operation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------
 
 Requirement model :ref:`schema<requirement>`
 
@@ -98,7 +104,7 @@ Get Requirement
    :code:
 
 Eligible Evidence basic operation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------------
 
 Eligible Evidence model :ref:`schema<EligibleEvidence>`
 
@@ -121,6 +127,14 @@ Delete Eligible Evidence
    :code:
 
 
+There is possibility to create, update and delete eligibleEvidences, make PATCH request to requirement and send new list of `eligibleEvidences`:
+
+.. include:: ../http/criteria/bulk-update-requirement-evidence.http
+   :code:
+
+.. include:: ../http/criteria/bulk-delete-requirement-evidence.http
+   :code:
+
 Retrieve Eligible Evidence
 """"""""""""""""""""""""""
 
@@ -132,19 +146,19 @@ Retrieve Eligible Evidence
 
 
 Exclusion criteria
-~~~~~~~~~~~~~~~~~~
+------------------
 
-Exclusion criteria available only on: aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA,
+Exclusion criteria available and required for the following procedures: aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA,
 competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA
 
-Standard data, you could get `here <https://github.com/ProzorroUKR/standards/pull/79/files>`__
+`Standard data, you could get here <https://github.com/ProzorroUKR/standards/blob/master/criteria/article_17.json>`__
 
 You can't update tender to status `active.tendering` without 9 EXCLUSION criteria:
 
 .. include:: ../http/criteria/update-tender-status-without-criteria.http
    :code:
 
-EXCLUSION criteria and all criteria objects are not updated:
+EXCLUSION criteria and all criteria objects are unchangeable:
 
 .. include:: ../http/criteria/patch-exclusion-criteria.http
    :code:
@@ -155,11 +169,10 @@ EXCLUSION criteria and all criteria objects are not updated:
 .. include:: ../http/criteria/patch-exclusion-criteria-requirement-group.http
    :code:
 
-
-You can patch exclusion requirement, but you can send only `eligibleEvidences`
-
 .. include:: ../http/criteria/add-exclusion-criteria-requirement.http
    :code:
+
+You can patch exclusion requirement, but you can send only `eligibleEvidences`
 
 .. include:: ../http/criteria/patch-exclusion-criteria-requirement.http
    :code:
@@ -168,7 +181,7 @@ You can patch exclusion requirement, but you can send only `eligibleEvidences`
 .. _criteria_workflow:
 
 Exclusion criteria workflow
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+"""""""""""""""""""""""""""
 
 .. graphviz::
 
