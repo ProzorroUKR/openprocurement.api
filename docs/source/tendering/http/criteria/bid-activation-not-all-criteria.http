@@ -1,0 +1,27 @@
+PATCH /api/2.5/tenders/24660b6d159d42adb6aaba9d978575c7/bids/7d0b2418ff254e1c827ffe021c832900?acc_token=f0760e708e124c8fb9f34e562dbf59cf HTTP/1.0
+Authorization: Bearer token
+Content-Length: 30
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "status": "active"
+  }
+}
+
+Response: 422 Unprocessable Entity
+Content-Type: application/json; charset=UTF-8
+{
+  "status": "error", 
+  "errors": [
+    {
+      "description": [
+        "Must be answered on all criteria with source `tenderer`"
+      ], 
+      "location": "body", 
+      "name": "requirementResponses"
+    }
+  ]
+}
+
