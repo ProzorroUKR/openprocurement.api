@@ -898,9 +898,9 @@ def validate_tender_period_extension(request):
 def validate_document_operation_in_not_allowed_period(request):
     if (
         request.authenticated_role != "auction"
-        and request.validated["tender_status"] not in ["active.tendering", "draft"]
+        and request.validated["tender_status"] not in ("active.tendering", "draft", "draft.stage2")
         or request.authenticated_role == "auction"
-        and request.validated["tender_status"] not in ["active.auction", "active.qualification"]
+        and request.validated["tender_status"] not in ("active.auction", "active.qualification")
     ):
         raise_operation_error(
             request,
