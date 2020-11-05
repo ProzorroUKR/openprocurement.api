@@ -81,10 +81,6 @@ cleanup:
 
 .base_deploy: &base_deploy
   stage: deploy
-  script:
-    - helm repo add prozorro $REPO_URL
-    - helm repo update
-    - helm upgrade $CI_COMMIT_REF_SLUG --install prozorro/$HELM_CHART --namespace $HELM_NAMESPACE --set $HELM_TAG_PARAMETER=$TAG --wait --debug
   dependencies:
     - build
   tags:
@@ -92,8 +88,21 @@ cleanup:
   variables:
     TAG: ci-$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA
 
-review:
+.deploy: &deploy
   <<: *base_deploy
+  script:
+    - helm repo add prozorro $REPO_URL
+    - helm repo update
+    - helm upgrade $CI_COMMIT_REF_SLUG --install prozorro/$HELM_CHART --namespace $HELM_NAMESPACE --set $HELM_TAG_PARAMETER=$TAG --set deployAuction=false --wait --debug
+
+.deploy_with_auction: &deploy_with_auction
+  <<: *base_deploy
+  script:
+    - helm repo add prozorro $REPO_URL
+    - helm repo update
+    - helm upgrade $CI_COMMIT_REF_SLUG --install prozorro/$HELM_CHART --namespace $HELM_NAMESPACE --set $HELM_TAG_PARAMETER=$TAG --set deployAuction=true --wait --debug
+
+.base_review: &base_review
   environment:
     name: review/${CI_COMMIT_REF_SLUG}
     action: start
@@ -108,8 +117,17 @@ review:
     - schedules
   when: manual
 
+review:
+  <<: *deploy
+  <<: *base_review
+
+review_with_auctions:
+  <<: *deploy_with_auction
+  <<: *base_review
+
+
 deploy_master:
-  <<: *base_deploy
+  <<: *deploy_with_auction
   environment:
     name: review/${CI_COMMIT_REF_SLUG}
     url: http://api.${CI_COMMIT_REF_SLUG}.${K8S_DOMAIN}/api/2.5/tenders
@@ -119,6 +137,25 @@ deploy_master:
     - master
   except:
     - schedules
+
+deploy_sandbox2:
+  tags:
+    - k8s-sandbox
+  stage: deploy
+  only:
+    - tags
+  script:
+    - git config --global user.email "gitlab@gitlab.dc.prozorro.gov.ua"
+    - git config --global user.name "GitLab CI/CD Bot"
+    - git clone git@git.prozorro.gov.ua:DP/k8s-sandbox.git
+    - cd k8s-sandbox
+    - cat sandbox/values.yaml | python -c "import sys; import yaml; file=sys.stdin.read(); dct=yaml.safe_load(file); dct['prozorro-api']['image']['tag'] = '$CI_COMMIT_TAG'; dct['prozorro-public-api']['image']['tag'] = '$CI_COMMIT_TAG'; print yaml.dump(dct)" >out
+    - mv out sandbox/values.yaml
+    - git add sandbox/values.yaml
+    - git commit -m "API/Public API image tag changed to $CI_COMMIT_TAG"
+    - git push origin master
+  when: manual    
+
 
 robot_tests:
   stage: robot
@@ -187,7 +224,7 @@ docs:
   needs:
     - build
   variables:
-    KUBERNETES_CPU_REQUEST: 3000m
+    KUBERNETES_CPU_REQUEST: 1000m
     KUBERNETES_MEMORY_REQUEST: 4Gi
 
 .test_base:
@@ -212,8 +249,8 @@ docs:
     max: 2
     when: runner_system_failure
   variables:
-    KUBERNETES_CPU_REQUEST: 3000m
-    KUBERNETES_MEMORY_REQUEST: 768Mi
+    KUBERNETES_CPU_REQUEST: 100m
+    KUBERNETES_MEMORY_REQUEST: 500Mi
 
 .test:
   extends: .test_base
@@ -249,7 +286,7 @@ docs:
     COV_PATH: src/openprocurement/relocation/api
     COV_FILE: .coveragerc
     KUBERNETES_CPU_REQUEST: 700m
-    KUBERNETES_MEMORY_REQUEST: 1100Mi
+    KUBERNETES_MEMORY_REQUEST: 800Mi
 
 test_relocation_api:
   extends:
@@ -271,7 +308,8 @@ test_relocation_api_ecriteria:
     TESTS_PATH: src/openprocurement/tender/esco/tests
     COV_PATH: src/openprocurement/tender/esco
     COV_FILE: .coveragerc
-    KUBERNETES_MEMORY_REQUEST: 1500Mi
+    KUBERNETES_CPU_REQUEST: 1000m
+    KUBERNETES_MEMORY_REQUEST: 500Mi
 
 test_tender_esco:
   extends:
@@ -293,6 +331,7 @@ test_tender_esco_ecriteria:
     TESTS_PATH: src/openprocurement/tender/openeu/tests
     COV_PATH: src/openprocurement/tender/openeu
     COV_FILE: .coveragerc
+    KUBERNETES_CPU_REQUEST: 1000m
     KUBERNETES_CPU_REQUEST: 1500m
 
 test_tender_openeu:
@@ -315,6 +354,7 @@ test_tender_openeu_ecriteria:
     TESTS_PATH: src/openprocurement/tender/cfaua/tests
     COV_PATH: src/openprocurement/tender/cfaua
     COV_FILE: .coveragerc
+    KUBERNETES_CPU_REQUEST: 1000m
     KUBERNETES_CPU_REQUEST: 1500m
 
 test_tender_cfaua:
@@ -337,7 +377,8 @@ test_tender_cfaua_ecriteria:
     TESTS_PATH: src/openprocurement/tender/competitivedialogue/tests/stage2
     COV_PATH: src/openprocurement/tender/competitivedialogue/
     COV_FILE: src/openprocurement/tender/competitivedialogue/tests/stage2/.coveragerc
-    KUBERNETES_MEMORY_REQUEST: 1600Mi
+    KUBERNETES_CPU_REQUEST: 1500m
+    KUBERNETES_MEMORY_REQUEST: 800Mi
 
 test_tender_comp_stage2:
   extends:
@@ -359,11 +400,13 @@ test_tender_comp_stage2_ecriteria:
     TESTS_PATH: src/openprocurement/tender/core/tests
     COV_PATH: src/openprocurement/tender/core
     COV_FILE: .coveragerc
+    KUBERNETES_MEMORY_REQUEST: 800Mi
 
 test_tender_core:
   extends:
     - .test
     - .test_tender_core
+
 
 test_tender_core_before_2020_04_19:
   extends:
@@ -380,8 +423,7 @@ test_tender_core_ecriteria:
     TESTS_PATH: src/openprocurement/api/tests
     COV_PATH: src/openprocurement/api
     COV_FILE: .coveragerc
-    KUBERNETES_MEMORY_REQUEST: 1100Mi
-    KUBERNETES_CPU_REQUEST: 500m
+    KUBERNETES_CPU_REQUEST: 800m
 
 test_api:
   extends:
@@ -540,7 +582,7 @@ test_historical_tender_ecriteria:
     COV_PATH: src/openprocurement/tender/competitivedialogue/
     COV_FILE: src/openprocurement/tender/competitivedialogue/tests/stage1/.coveragerc
     KUBERNETES_MEMORY_REQUEST: 1600Mi
-    KUBERNETES_CPU_REQUEST: 3000m
+    KUBERNETES_CPU_REQUEST: 1500m
 
 
 test_tender_comp_stage1:
@@ -563,7 +605,8 @@ test_tender_comp_stage1_ecriteria:
     TESTS_PATH: src/openprocurement/tender/limited/tests
     COV_PATH: src/openprocurement/tender/limited
     COV_FILE: .coveragerc
-    KUBERNETES_CPU_REQUEST: 600m
+    KUBERNETES_MEMORY_REQUEST: 600Mi    
+    KUBERNETES_CPU_REQUEST: 1000m
 
 test_tender_limited:
   extends:
@@ -585,7 +628,8 @@ test_tender_limited_ecriteria:
     TESTS_PATH: src/openprocurement/tender/openua/tests
     COV_PATH: src/openprocurement/tender/openua
     COV_FILE: .coveragerc
-    KUBERNETES_MEMORY_REQUEST: 1400Mi
+    KUBERNETES_MEMORY_REQUEST: 800Mi
+    KUBERNETES_CPU_REQUEST: 1000m    
 
 test_tender_openua:
   extends:
@@ -629,7 +673,8 @@ test_tender_belowthreshold_ecriteria:
     TESTS_PATH: src/openprocurement/tender/openuadefense/tests
     COV_PATH: src/openprocurement/tender/openuadefense
     COV_FILE: .coveragerc
-    KUBERNETES_CPU_REQUEST: 1800m
+    KUBERNETES_CPU_REQUEST: 1000m
+    KUBERNETES_MEMORY_REQUEST: 800Mi    
 
 test_tender_openuadefense:
   extends:
@@ -652,7 +697,7 @@ test_tender_openuadefense_ecriteria:
     COV_PATH: src/openprocurement/tender/cfaselectionua
     COV_FILE: .coveragerc
     KUBERNETES_MEMORY_REQUEST: 1200Mi
-    KUBERNETES_CPU_REQUEST: 2500m
+    KUBERNETES_CPU_REQUEST: 1500m
 
 test_tender_cfaselectionua:
   extends:
