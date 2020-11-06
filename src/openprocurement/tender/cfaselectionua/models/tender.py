@@ -8,13 +8,19 @@ from openprocurement.tender.cfaselectionua.models.submodels.feature import Featu
 from openprocurement.tender.cfaselectionua.models.submodels.item import Item
 from openprocurement.tender.cfaselectionua.models.submodels.lot import Lot
 from openprocurement.tender.cfaselectionua.models.submodels.organizationAndPocuringEntity import ProcuringEntity
+from openprocurement.tender.cfaselectionua.constants import TENDERING_DURATION
+from openprocurement.tender.openua.validation import _validate_tender_period_duration
 from schematics.types import StringType, IntType, URLType, BooleanType
 from schematics.types.compound import ModelType
 from schematics.transforms import whitelist
-from zope.interface import implementer, provider
+from schematics.types.serializable import serializable
+from schematics.exceptions import ValidationError
+from zope.interface import implementer
 from pyramid.security import Allow
 from openprocurement.api.models import ListType, Period, Value, Guarantee
-from openprocurement.api.validation import validate_items_uniq
+from openprocurement.api.validation import validate_items_uniq, validate_cpv_group
+from openprocurement.api.utils import get_now
+from openprocurement.api.constants import TZ
 from openprocurement.tender.core.models import (
     validate_lots_uniq,
     TenderAuctionPeriod,
@@ -23,6 +29,10 @@ from openprocurement.tender.core.models import (
     Cancellation as BaseCancellation,
     validate_features_uniq,
 )
+from openprocurement.tender.core.utils import calc_auction_end_time
+from openprocurement.tender.core.validation import validate_minimalstep
+from barbecue import vnmax
+from decimal import Decimal
 
 
 class Cancellation(BaseCancellation):
@@ -32,7 +42,6 @@ class Cancellation(BaseCancellation):
 
 
 @implementer(ICFASelectionUATender)
-@provider(ICFASelectionUATender)
 class CFASelectionUATender(BaseTender):
     """Data regarding tender process - publicly inviting prospective contractors
     to submit bids for evaluation and selecting a winner or winners.
@@ -48,7 +57,7 @@ class CFASelectionUATender(BaseTender):
             + whitelist(
                 "procuringEntity",
                 "numberOfBidders",
-                "serializable_guarantee",
+                "guarantee",
                 "items",
                 "next_check",
                 "tender_guarantee",
@@ -58,7 +67,7 @@ class CFASelectionUATender(BaseTender):
             )
         )
         _edit_role = _base_edit + whitelist(
-            "enquiryPeriod", "tender_minimalStep", "contracts", "tenderPeriod", "features", "serializable_minimalStep"
+            "enquiryPeriod", "tender_minimalStep", "contracts", "tenderPeriod", "features", "minimalStep"
         )
         _draft_view_role = (
             _core_roles["view"]
@@ -79,7 +88,7 @@ class CFASelectionUATender(BaseTender):
                 "agreements",
                 "numberOfBidders",
                 "awards",
-                "serializable_guarantee",
+                "guarantee",
                 "hasEnquiries",
             )
         )
@@ -104,8 +113,8 @@ class CFASelectionUATender(BaseTender):
             "features",
             "enquiryPeriod",
             "tender_minimalStep",
-            "serializable_value",
-            "serializable_minimalStep",
+            "value",
+            "minimalStep",
         )
         _view_role = _view_tendering_role + whitelist("bids", "numberOfBids")
         _procurement_method_details = whitelist("procurementMethodDetails")
@@ -128,7 +137,7 @@ class CFASelectionUATender(BaseTender):
                 "items",
                 "lots",
                 "procurementMethodDetails",
-                "serializable_guarantee",
+                "guarantee",
                 "tenderPeriod",
                 "tender_guarantee",
                 "title",
@@ -156,8 +165,7 @@ class CFASelectionUATender(BaseTender):
             "auction_post": _core_roles["auction_post"] + _procurement_method_details,
             "auction_patch": _core_roles["auction_patch"] + _procurement_method_details,
             "auction_view": _core_roles["auction_view"]
-            - whitelist("minimalStep")
-            + whitelist("serializable_minimalStep")
+            + whitelist("minimalStep")
             + _procurement_method_details,
             "listing": _core_roles["listing"] + _procurement_method_details,
             "embedded": _core_roles["embedded"],
@@ -263,3 +271,186 @@ class CFASelectionUATender(BaseTender):
     # Not required milestones
     def validate_milestones(self, data, value):
         pass
+
+    @serializable(serialized_name="guarantee", serialize_when_none=False, type=ModelType(Guarantee))
+    def tender_guarantee(self):
+        if self.lots:
+            lots_amount = [i.guarantee.amount for i in self.lots if i.guarantee]
+            if not lots_amount:
+                return self.guarantee
+            guarantee = {"amount": sum(lots_amount)}
+            lots_currency = [i.guarantee.currency for i in self.lots if i.guarantee]
+            guarantee["currency"] = lots_currency[0] if lots_currency else None
+            if self.guarantee:
+                guarantee["currency"] = self.guarantee.currency
+            guarantee_class = self._fields["guarantee"]
+            return guarantee_class(guarantee)
+        else:
+            return self.guarantee
+
+    @serializable(serialized_name="minimalStep", serialize_when_none=False, type=ModelType(Value, required=False))
+    def tender_minimalStep(self):
+        if all([i.minimalStep for i in self.lots]):
+            value_class = self._fields["minimalStep"]
+            return (
+                value_class(
+                    dict(
+                        amount=min([i.minimalStep.amount for i in self.lots]),
+                        currency=self.lots[0].minimalStep.currency,
+                        valueAddedTaxIncluded=self.lots[0].minimalStep.valueAddedTaxIncluded,
+                    )
+                )
+                if self.lots
+                else self.minimalStep
+            )
+
+    @serializable(serialized_name="value", serialize_when_none=False, type=ModelType(Value))
+    def tender_value(self):
+        if all([i.value for i in self.lots]):
+            value_class = self._fields["value"]
+            return (
+                value_class(
+                    dict(
+                        amount=sum([i.value.amount for i in self.lots]),
+                        currency=self.lots[0].value.currency,
+                        valueAddedTaxIncluded=self.lots[0].value.valueAddedTaxIncluded,
+                    )
+                )
+                if self.lots
+                else self.value
+            )
+
+    @serializable(serialize_when_none=False)
+    def next_check(self):
+        now = get_now()
+        checks = []
+        if self.status == "active.enquiries" and self.enquiryPeriod and self.enquiryPeriod.endDate:
+            checks.append(self.enquiryPeriod.endDate.astimezone(TZ))
+        elif self.status == "active.tendering" and self.tenderPeriod and self.tenderPeriod.endDate:
+            checks.append(self.tenderPeriod.endDate.astimezone(TZ))
+        elif (
+                not self.lots
+                and self.status == "active.auction"
+                and self.auctionPeriod
+                and self.auctionPeriod.startDate
+                and not self.auctionPeriod.endDate
+        ):
+            if now < self.auctionPeriod.startDate:
+                checks.append(self.auctionPeriod.startDate.astimezone(TZ))
+            else:
+                auction_end_time = calc_auction_end_time(
+                    self.numberOfBids, self.auctionPeriod.startDate
+                ).astimezone(TZ)
+                if now < auction_end_time:
+                    checks.append(auction_end_time)
+        elif self.lots and self.status == "active.auction":
+            for lot in self.lots:
+                if (
+                        lot.status != "active"
+                        or not lot.auctionPeriod
+                        or not lot.auctionPeriod.startDate
+                        or lot.auctionPeriod.endDate
+                ):
+                    continue
+                if now < lot.auctionPeriod.startDate:
+                    checks.append(lot.auctionPeriod.startDate.astimezone(TZ))
+                else:
+                    auction_end_time = calc_auction_end_time(
+                        lot.numberOfBids, lot.auctionPeriod.startDate
+                    ).astimezone(TZ)
+                    if now < auction_end_time:
+                        checks.append(auction_end_time)
+        elif self.lots and self.status in ["active.qualification", "active.awarded"]:
+            for lot in self.lots:
+                if lot["status"] != "active":
+                    continue
+        if self.status.startswith("active"):
+            for award in self.awards:
+                if award.status == "active" and not any([i.awardID == award.id for i in self.contracts]):
+                    checks.append(award.date)
+        return min(checks).isoformat() if checks else None
+
+    @serializable
+    def numberOfBids(self):
+        return len(self.bids)
+
+    def validate_auctionUrl(self, data, url):
+        if url and data["lots"]:
+            raise ValidationError(u"url should be posted for each lot")
+
+    def validate_awardPeriod(self, data, period):
+        if (
+            period
+            and period.startDate
+            and data.get("auctionPeriod")
+            and data.get("auctionPeriod").endDate
+            and period.startDate < data.get("auctionPeriod").endDate
+        ):
+            raise ValidationError(u"period should begin after auctionPeriod")
+        if (
+            period
+            and period.startDate
+            and data.get("tenderPeriod")
+            and data.get("tenderPeriod").endDate
+            and period.startDate < data.get("tenderPeriod").endDate
+        ):
+            raise ValidationError(u"period should begin after tenderPeriod")
+
+    def validate_features(self, data, features):
+        if (
+            features
+            and data["lots"]
+            and any(
+                [
+                    round(
+                        vnmax(
+                            [
+                                i
+                                for i in features
+                                if i.featureOf == "tenderer"
+                                or i.featureOf == "lot"
+                                and i.relatedItem == lot["id"]
+                                or i.featureOf == "item"
+                                and i.relatedItem in [j.id for j in data["items"] if j.relatedLot == lot["id"]]
+                            ]
+                        ),
+                        15,
+                    )
+                    > Decimal("0.3")
+                    for lot in data["lots"]
+                ]
+            )
+        ):
+            raise ValidationError(u"Sum of max value of all features for lot should be less then or equal to 30%")
+        elif features and not data["lots"] and round(vnmax(features), 15) > Decimal("0.3"):
+            raise ValidationError(u"Sum of max value of all features should be less then or equal to 30%")
+
+    def validate_items(self, data, items):
+        cpv_336_group = items[0].classification.id[:3] == "336" if items else False
+        if not cpv_336_group and items and len(set([i.classification.id[:4] for i in items])) != 1:
+            raise ValidationError(u"CPV class of items should be identical")
+        else:
+            validate_cpv_group(items)
+
+    def validate_lots(self, data, lots):
+        if len(set([lot.guarantee.currency for lot in lots if lot.guarantee])) > 1:
+            raise ValidationError(u"lot guarantee currency should be identical to tender guarantee currency")
+
+    def validate_minimalStep(self, data, value):
+        validate_minimalstep(data, value)
+
+    def validate_tenderPeriod(self, data, period):
+        if (
+            period
+            and period.startDate
+            and data.get("enquiryPeriod")
+            and data.get("enquiryPeriod").endDate
+            and period.startDate < data.get("enquiryPeriod").endDate
+        ):
+            raise ValidationError(u"period should begin after enquiryPeriod")
+        if (
+            period
+            and period.startDate
+            and period.endDate
+        ):
+            _validate_tender_period_duration(data, period, TENDERING_DURATION)

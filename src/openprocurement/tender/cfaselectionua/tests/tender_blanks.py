@@ -957,6 +957,43 @@ def create_tender_from_agreement_with_changes(self):
     create_tender_from_agreement_with_pending_changes(self)
 
 
+def create_tender_from_agreement_with_invalid_changes(self):
+    self.agreement = agreement = deepcopy(self.initial_agreement)
+    now = get_now().isoformat()
+    agreement["changes"] = [
+        {
+            "modifications": [{"itemId": agreement["items"][0]["id"], "addend": 0.9}],
+            "rationaleType": "InvalidRationalType",
+            "dateSigned": now,
+            "rationale": "text",
+            "date": now,
+            "id": uuid4().hex,
+        }
+    ]
+    agreement["id"] = self.agreement_id
+    create_tender_draft_pending(self)
+
+    self.app.authorization = ("Basic", (BOT_NAME, ""))
+
+    self.agreement["changes"][0]["status"] = "active"
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"agreements": [self.agreement], "status": "active.enquiries"}},
+        status=422
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        {
+            'location': 'body', 'name': 'agreements',
+            'description': {
+                'changes': ['Input for polymorphic field did not match any model']
+            }
+        },
+        response.json["errors"][0]
+    )
+
+
 def create_tender_from_agreement_with_active_changes(self):
     self.app.authorization = ("Basic", (BOT_NAME, ""))
 
