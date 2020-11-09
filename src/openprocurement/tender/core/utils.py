@@ -65,10 +65,10 @@ ACCELERATOR_RE = re.compile(".accelerator=(?P<accelerator>\d+)")
 optendersresource = partial(resource, error_handler=error_handler, factory=factory)
 
 
-QUICK = "quick"
-QUICK_NO_AUCTION = "quick(mode:no-auction)"
-QUICK_FAST_FORWARD = "quick(mode:fast-forward)"
-QUICK_FAST_AUCTION = "quick(mode:fast-auction)"
+QUICK = r"quick"
+QUICK_NO_AUCTION = r"quick\(mode:no-auction\)"
+QUICK_FAST_FORWARD = r"quick\(mode:fast-forward\)"
+QUICK_FAST_AUCTION = r"quick\(mode:fast-auction\)"
 
 
 def submission_search(pattern, tender):
