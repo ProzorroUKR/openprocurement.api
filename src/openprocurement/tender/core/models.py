@@ -830,9 +830,7 @@ class Criterion(Model):
             "create": blacklist(),
             "edit": blacklist(
                 "id",
-                "requirementGroups",
                 "additionalClassifications",
-                "legislation",
             ),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,

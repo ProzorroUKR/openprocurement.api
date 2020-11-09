@@ -166,9 +166,8 @@ def patch_tender_criteria_valid(self):
     self.assertEqual(criteria["title_en"], updated_data["title_en"])
     self.assertEqual(criteria["title_ru"], updated_data["title_ru"])
     self.assertEqual(criteria["description"], updated_data["description"])
-    self.assertNotEqual(criteria["requirementGroups"], updated_data["requirementGroups"])
     for rg in criteria["requirementGroups"]:
-        self.assertNotEqual(rg["description"], updated_data["requirementGroups"][0]["description"])
+        self.assertEqual(rg["description"], updated_data["requirementGroups"][0]["description"])
 
 
 def patch_tender_criteria_invalid(self):
