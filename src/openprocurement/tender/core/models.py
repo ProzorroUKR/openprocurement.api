@@ -839,7 +839,7 @@ class Criterion(Model):
     description_ru = StringType()
 
     source = StringType(choices=["tenderer", "buyer", "procuringEntity", "ssrBot", "winner"])
-    relatesTo = StringType(choices=["tenderer", "item", "lot"])
+    relatesTo = StringType(choices=["tenderer", "item", "lot", "tender"])
     relatedItem = MD5Type()
     classification = ModelType(CriterionClassification, required=True) # TODO: make it required
     additionalClassifications = ListType(ModelType(BaseClassification, required=True), default=list())
