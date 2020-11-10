@@ -1,0 +1,39 @@
+PATCH /api/2.5/tenders/dbaf5c5918364ee18fe7536bcb7ac13d/qualifications/59efad2924154abf958fa603c0869cd8?acc_token=121d6534069841adb88a5ad291d559fe HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 38
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "requirementResponses": []
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "pending", 
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "author": "tender_owner", 
+        "language": "uk", 
+        "title": "name.doc", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3c1152df7e3a48e4ab0bcb5587617510?KeyID=a8968c46&Signature=FdwjxXuUiAsBUhZG9sF2kZ9k7T3%2FYPbuLKimJvMprammaKYM1LthPTEdpwsfzTezgMWVFJKW5zG10NEVhf5LCA%253D%253D", 
+        "format": "application/msword", 
+        "documentOf": "tender", 
+        "datePublished": "2020-09-08T01:00:00+03:00", 
+        "id": "57c658a929084380b6fe254d754e5747", 
+        "dateModified": "2020-09-08T01:00:00+03:00"
+      }
+    ], 
+    "eligible": false, 
+    "qualified": false, 
+    "bidID": "9d90952b299b4e0dbcdf4edaedf1d315", 
+    "date": "2020-09-08T01:00:00+03:00", 
+    "id": "59efad2924154abf958fa603c0869cd8"
+  }
+}
+
