@@ -1,4 +1,4 @@
-from openprocurement.tender.belowthreshold.tests.base import test_criteria
+from openprocurement.tender.belowthreshold.tests.base import test_criteria, language_criterion
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.utils import get_now
 
@@ -19,6 +19,13 @@ def add_criteria(self, tender_id=None, tender_token=None):
         response = self.app.post_json(
             "/tenders/{}/criteria?acc_token={}".format(tender_id, tender_token),
             {"data": test_criteria},
+        )
+
+        self.assertEqual(response.status, "201 Created")
+
+        response = self.app.post_json(
+            "/tenders/{}/criteria?acc_token={}".format(tender_id, tender_token),
+            {"data": language_criterion},
         )
 
         self.assertEqual(response.status, "201 Created")

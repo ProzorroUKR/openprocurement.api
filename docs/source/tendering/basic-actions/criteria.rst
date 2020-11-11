@@ -153,7 +153,7 @@ competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage
 
 `Standard data, you could get here <https://github.com/ProzorroUKR/standards/blob/master/criteria/article_17.json>`__
 
-You can't update tender to status `active.tendering` without 9 EXCLUSION criteria:
+You can't update tender to status `active.tendering` without 9 EXCLUSION and 1 OTHER.BID.LANGUAGE criteria:
 
 .. include:: ../http/criteria/update-tender-status-without-criteria.http
    :code:
@@ -175,6 +175,25 @@ EXCLUSION criteria and all criteria objects are unchangeable:
 You can patch exclusion requirement, but you can send only `eligibleEvidences`
 
 .. include:: ../http/criteria/patch-exclusion-criteria-requirement.http
+   :code:
+
+
+Language criterion workflow
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Language criterion creates as other and could be presented in bulk request with other criteria. Language should be specified in `title`
+
+.. include:: ../http/criteria/create-language-criterion.http
+   :code:
+
+But field `eligibleEvidences` is forbidden
+
+.. include:: ../http/criteria/update-language-criterion-with-evidence.http
+   :code:
+
+`expectedValue` must be only true
+
+.. include:: ../http/criteria/update-language-criterion-with-not-listed-lang.http
    :code:
 
 

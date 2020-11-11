@@ -12,6 +12,7 @@ from openprocurement.tender.core.validation import (
     validate_tender_status_update_not_in_pre_qualificaton,
     validate_tender_change_status_with_cancellation_lot_pending,
     validate_tender_activate_with_criteria,
+    validate_tender_activate_with_language_criteria,
 )
 from openprocurement.tender.belowthreshold.views.tender import TenderResource
 from openprocurement.tender.openeu.utils import check_status, all_bids_are_reviewed
@@ -37,6 +38,7 @@ class TenderEUResource(TenderResource):
             validate_tender_status_update_not_in_pre_qualificaton,
             validate_tender_change_status_with_cancellation_lot_pending,
             validate_tender_activate_with_criteria,
+            validate_tender_activate_with_language_criteria,
         ),
         permission="edit_tender",
     )

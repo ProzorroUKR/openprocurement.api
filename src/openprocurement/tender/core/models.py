@@ -747,7 +747,8 @@ class Requirement(Model):
     description_en = StringType()
     description_ru = StringType()
     dataType = StringType(required=True,
-                          choices=["string", "number", "integer", "boolean", "date-time"])
+                          choices=["string", "number", "integer", "boolean", "date-time"],
+                          default="boolean")
 
     minValue = StringType()
     maxValue = StringType()
@@ -781,9 +782,27 @@ class Requirement(Model):
                 raise ValidationError("minValue must be integer or number")
             validate_value_type(value, data['dataType'])
 
+    def validate_dataType(self, data, value):
+        criterion = data["__parent__"].__parent__
+        if criterion.classification.id.startswith("CRITERION.OTHER.BID.LANGUAGE"):
+            if value != "boolean":
+                raise ValidationError("dataType must be boolean")
+
     def validate_expectedValue(self, data, value):
+        valid_value = False
         if value:
-            validate_value_type(value, data['dataType'])
+            valid_value = validate_value_type(value, data['dataType'])
+
+        criterion = data["__parent__"].__parent__
+        if criterion.classification.id.startswith("CRITERION.OTHER.BID.LANGUAGE"):
+            if valid_value is not True:
+                raise ValidationError("Value must be true")
+
+    def validate_eligibleEvidences(self, data, value):
+        if value:
+            criterion = data["__parent__"].__parent__
+            if criterion.classification.id.startswith("CRITERION.OTHER.BID.LANGUAGE"):
+                raise ValidationError("This field is forbidden for current criterion")
 
     def validate_relatedFeature(self, data, feature_id):
         parent = data["__parent__"]
