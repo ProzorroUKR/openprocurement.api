@@ -78,7 +78,7 @@ class TenderCancellationBidsAvailabilityTest(BaseESCOContentWebTest, TenderCance
 
     def setUp(self):
         super(TenderCancellationBidsAvailabilityTest, self).setUp()
-        self.valid_bids = self.initial_bids_tokens.keys()
+        self.valid_bids = list(self.initial_bids_tokens.keys())
         self._prepare_bids_docs()
 
     test_bids_on_tender_cancellation_in_tendering = snitch(bids_on_tender_cancellation_in_tendering)
@@ -176,6 +176,7 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderLotsCancellationResourceTest))
     suite.addTest(unittest.makeSuite(TenderAwardsCancellationResourceTest))
     suite.addTest(unittest.makeSuite(TenderCancellationDocumentResourceTest))
+    # PASSED_PY3
     return suite
 
 

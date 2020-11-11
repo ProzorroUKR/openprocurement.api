@@ -55,27 +55,31 @@ from openprocurement.tender.esco.utils import to_decimal
 
 
 award_amountPerformance = round(
-    to_decimal(
-        npv(
-            test_bids[0]["value"]["contractDuration"]["years"],
-            test_bids[0]["value"]["contractDuration"]["days"],
-            test_bids[0]["value"]["yearlyPaymentsPercentage"],
-            test_bids[0]["value"]["annualCostsReduction"],
-            get_now(),
-            NBU_DISCOUNT_RATE,
+    float(
+        to_decimal(
+            npv(
+                test_bids[0]["value"]["contractDuration"]["years"],
+                test_bids[0]["value"]["contractDuration"]["days"],
+                test_bids[0]["value"]["yearlyPaymentsPercentage"],
+                test_bids[0]["value"]["annualCostsReduction"],
+                get_now(),
+                NBU_DISCOUNT_RATE,
+            )
         )
     ),
     2,
 )
 
 award_amount = round(
-    to_decimal(
-        escp(
-            test_bids[0]["value"]["contractDuration"]["years"],
-            test_bids[0]["value"]["contractDuration"]["days"],
-            test_bids[0]["value"]["yearlyPaymentsPercentage"],
-            test_bids[0]["value"]["annualCostsReduction"],
-            get_now(),
+    float(
+        to_decimal(
+            escp(
+                test_bids[0]["value"]["contractDuration"]["years"],
+                test_bids[0]["value"]["contractDuration"]["days"],
+                test_bids[0]["value"]["yearlyPaymentsPercentage"],
+                test_bids[0]["value"]["annualCostsReduction"],
+                get_now(),
+            )
         )
     ),
     2,
@@ -283,7 +287,7 @@ class TenderAwardComplaintDocumentResourceTest(BaseESCOContentWebTest, TenderAwa
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(
                 self.tender_id, self.award_id,
-                self.initial_bids_tokens.values()[0]
+                list(self.initial_bids_tokens.values())[0]
             ),
             {"data": test_draft_complaint},
         )
@@ -325,7 +329,7 @@ class Tender2LotAwardComplaintDocumentResourceTest(BaseESCOContentWebTest):
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(
                 self.tender_id, self.award_id,
-                self.initial_bids_tokens.values()[0]
+                list(self.initial_bids_tokens.values())[0]
             ),
             {"data": test_draft_complaint},
         )
@@ -397,6 +401,7 @@ def suite():
     suite.addTest(unittest.makeSuite(Tender2LotAwardComplaintDocumentResourceTest))
     suite.addTest(unittest.makeSuite(TenderAwardDocumentResourceTest))
     suite.addTest(unittest.makeSuite(Tender2LotAwardDocumentResourceTest))
+    # PASSED_PY3
     return suite
 
 

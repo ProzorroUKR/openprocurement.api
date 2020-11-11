@@ -67,27 +67,31 @@ from openprocurement.tender.esco.utils import to_decimal
 
 
 lot_bid_amountPerformance = round(
-    to_decimal(
-        npv(
-            test_bids[0]["value"]["contractDuration"]["years"],
-            test_bids[0]["value"]["contractDuration"]["days"],
-            test_bids[0]["value"]["yearlyPaymentsPercentage"],
-            test_bids[0]["value"]["annualCostsReduction"],
-            get_now(),
-            NBU_DISCOUNT_RATE,
+    float(
+        to_decimal(
+            npv(
+                test_bids[0]["value"]["contractDuration"]["years"],
+                test_bids[0]["value"]["contractDuration"]["days"],
+                test_bids[0]["value"]["yearlyPaymentsPercentage"],
+                test_bids[0]["value"]["annualCostsReduction"],
+                get_now(),
+                NBU_DISCOUNT_RATE,
+            )
         )
     ),
     2,
 )
 
 lot_bid_amount = round(
-    to_decimal(
-        escp(
-            test_bids[0]["value"]["contractDuration"]["years"],
-            test_bids[0]["value"]["contractDuration"]["days"],
-            test_bids[0]["value"]["yearlyPaymentsPercentage"],
-            test_bids[0]["value"]["annualCostsReduction"],
-            get_now(),
+    float(
+        to_decimal(
+            escp(
+                test_bids[0]["value"]["contractDuration"]["years"],
+                test_bids[0]["value"]["contractDuration"]["days"],
+                test_bids[0]["value"]["yearlyPaymentsPercentage"],
+                test_bids[0]["value"]["annualCostsReduction"],
+                get_now(),
+            )
         )
     ),
     2,
@@ -234,6 +238,7 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderLotBidResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotFeatureBidResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotProcessTest))
+    # PASSED_PY3
     return suite
 
 
