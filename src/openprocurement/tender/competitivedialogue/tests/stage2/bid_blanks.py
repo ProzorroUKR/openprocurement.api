@@ -51,7 +51,7 @@ def delete_tender_bidder_eu(self):
     for doc_resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:
         response = self.app.post(
             "/tenders/{}/bids/{}/{}?acc_token={}".format(self.tender_id, bid["id"], doc_resource, bid_token),
-            upload_files=[("file", "name_{}.doc".format(doc_resource[:-1]), "content")],
+            upload_files=[("file", "name_{}.doc".format(doc_resource[:-1]), b"content")],
             status=403,
         )
         self.assertEqual(response.status, "403 Forbidden")
@@ -221,7 +221,7 @@ def bids_invalidation_on_tender_change_eu(self):
     for doc_resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:
         response = self.app.post(
             "/tenders/{}/bids/{}/{}?acc_token={}".format(self.tender_id, bid_id, doc_resource, token),
-            upload_files=[("file", "name_{}.doc".format(doc_resource[:-1]), "content")],
+            upload_files=[("file", "name_{}.doc".format(doc_resource[:-1]), b"content")],
             status=403,
         )
         self.assertEqual(response.status, "403 Forbidden")
@@ -457,7 +457,7 @@ def create_tender_bidder_document_nopending_eu(self):
 
     response = self.app.post(
         "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, token),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -529,7 +529,7 @@ def create_tender_bidder_document_nopending_eu(self):
 
     response = self.app.post(
         "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, token),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -578,7 +578,7 @@ def create_tender_biddder_invalid_ua(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"No JSON object could be decoded", u"location": u"body", u"name": u"data"}],
+        [{u"description": u"Expecting value: line 1 column 1 (char 0)", u"location": u"body", u"name": u"data"}],
     )
 
     response = self.app.post_json(request_path, "data", status=422)
@@ -618,7 +618,7 @@ def create_tender_biddder_invalid_ua(self):
         [
             {
                 u"description": {
-                    u"identifier": [u"Please use a mapping for this field or Identifier instance instead of unicode."]
+                    u"identifier": [u"Please use a mapping for this field or Identifier instance instead of str."]
                 },
                 u"location": u"body",
                 u"name": u"tenderers",
@@ -946,7 +946,7 @@ def bids_activation_on_tender_documents_ua(self):
 
     response = self.app.post(
         "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
-        upload_files=[("file", u"укр.doc", "content")],
+        upload_files=[("file", u"укр.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1007,7 +1007,7 @@ def features_bidder_ua(self):
 def put_tender_bidder_document_ua(self):
     response = self.app.post(
         "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1017,7 +1017,7 @@ def put_tender_bidder_document_ua(self):
     response = self.app.put(
         "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_id, self.bid_token),
         status=404,
-        upload_files=[("invalid_name", "name.doc", "content")],
+        upload_files=[("invalid_name", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -1026,7 +1026,7 @@ def put_tender_bidder_document_ua(self):
 
     response = self.app.put(
         "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_id, self.bid_token),
-        upload_files=[("file", "name.doc", "content2")],
+        upload_files=[("file", "name.doc", b"content2")],
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -1041,7 +1041,7 @@ def put_tender_bidder_document_ua(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/msword")
     self.assertEqual(response.content_length, 8)
-    self.assertEqual(response.body, "content2")
+    self.assertEqual(response.body, b"content2")
 
     response = self.app.get(
         "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_id, self.bid_token)
@@ -1069,13 +1069,13 @@ def put_tender_bidder_document_ua(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/msword")
     self.assertEqual(response.content_length, 8)
-    self.assertEqual(response.body, "content3")
+    self.assertEqual(response.body, b"content3")
 
     self.set_status("active.awarded")
 
     response = self.app.put(
         "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_id, self.bid_token),
-        upload_files=[("file", "name.doc", "content3")],
+        upload_files=[("file", "name.doc", b"content3")],
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")

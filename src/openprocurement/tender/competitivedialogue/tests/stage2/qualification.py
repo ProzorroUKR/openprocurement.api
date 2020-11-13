@@ -213,7 +213,7 @@ class TenderStage2EUQualificationComplaintDocumentResourceTest(TenderQualificati
         # Create complaint for qualification
         response = self.app.post_json(
             "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
-                self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
+                self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
             ),
             {"data": test_draft_claim},
         )
@@ -260,6 +260,7 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderStage2EU2LotQualificationComplaintResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2EUQualificationComplaintDocumentResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2EU2LotQualificationComplaintDocumentResourceTest))
+    # PASSED_PY3
     return suite
 
 

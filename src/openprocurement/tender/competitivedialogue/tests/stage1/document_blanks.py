@@ -10,7 +10,7 @@ def put_tender_document(self):
       Test put dialog document
     """
     from six import BytesIO
-    from urllib import quote
+    from urllib.parse import quote
 
     # Try create document without acc_token
     body = u"""--BOUNDARY\nContent-Disposition: form-data; name="file"; filename={}\nContent-Type: application/msword\n\ncontent\n""".format(
@@ -55,7 +55,7 @@ def put_tender_document(self):
     # Update document
     response = self.app.put(
         "/tenders/{}/documents/{}?acc_token={}".format(self.tender_id, doc_id, self.tender_token),
-        upload_files=[("file", "name  name.doc", "content2")],
+        upload_files=[("file", "name  name.doc", b"content2")],
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -86,7 +86,7 @@ def put_tender_document(self):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/msword")
         self.assertEqual(response.content_length, 8)
-        self.assertEqual(response.body, "content2")
+        self.assertEqual(response.body, b"content2")
 
     # Get document and check response fields
     response = self.app.get("/tenders/{}/documents/{}".format(self.tender_id, doc_id))
@@ -108,7 +108,7 @@ def put_tender_document(self):
     # Create new documents, save doc_id, dateModified
     response = self.app.post(
         "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -127,7 +127,7 @@ def put_tender_document(self):
     response = self.app.put(
         "/tenders/{}/documents/{}?acc_token={}".format(self.tender_id, doc_id, self.tender_token),
         status=404,
-        upload_files=[("invalid_name", "name.doc", "content")],
+        upload_files=[("invalid_name", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -169,7 +169,7 @@ def put_tender_document(self):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/msword")
         self.assertEqual(response.content_length, 8)
-        self.assertEqual(response.body, "content3")
+        self.assertEqual(response.body, b"content3")
 
 
 def patch_tender_document(self):
@@ -179,7 +179,7 @@ def patch_tender_document(self):
     # Create documents, check response fields and save doc_id
     response = self.app.post(
         "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
-        upload_files=[("file", str(Header(u"укр.doc", "utf-8")), "content")],
+        upload_files=[("file", str(Header(u"укр.doc", "utf-8")), b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")

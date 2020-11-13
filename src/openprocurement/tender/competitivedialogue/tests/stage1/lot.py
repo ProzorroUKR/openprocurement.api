@@ -282,6 +282,7 @@ def suite():
     suite.addTest(unittest.makeSuite(CompetitiveDialogueUALotBidderResourceTest))
     suite.addTest(unittest.makeSuite(CompetitiveDialogueUALotProcessTest))
     suite.addTest(unittest.makeSuite(CompetitiveDialogueUALotFeatureBidderResourceTest))
+    # PASSED_PY3
 
     return suite
 

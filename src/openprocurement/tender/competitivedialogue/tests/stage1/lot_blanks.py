@@ -528,7 +528,7 @@ def one_lot_3bid_1del(self):
         bids.append({response.json["data"]["id"]: response.json["access"]["token"]})
 
     response = self.app.delete(
-        "/tenders/{}/bids/{}?acc_token={}".format(tender_id, bids[2].keys()[0], bids[2].values()[0])
+        "/tenders/{}/bids/{}?acc_token={}".format(tender_id, list(bids[2].keys())[0], list(bids[2].values())[0])
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.pre-qualification
@@ -581,7 +581,7 @@ def one_lot_3bid_1un(self):
     self.assertEqual(response.content_type, "application/json")
     qualifications = response.json["data"]
     for qualification in qualifications:
-        if qualification["bidID"] == bids[2].keys()[0]:
+        if qualification["bidID"] == list(bids[2].keys())[0]:
             response = self.app.patch_json(
                 "/tenders/{}/qualifications/{}?acc_token={}".format(self.tender_id, qualification["id"], owner_token),
                 {"data": {"status": "unsuccessful"}},

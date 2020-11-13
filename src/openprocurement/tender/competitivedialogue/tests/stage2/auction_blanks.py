@@ -123,7 +123,7 @@ def patch_tender_with_lots_auction(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"],
+        response.json["errors"][-1]["description"],
         [
             {u"lots": [{u"id": [u"id should be one of lots"]}]},
             {u"lots": [{u"id": [u"id should be one of lots"]}]},

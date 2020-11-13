@@ -8,7 +8,6 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     # CompetitiveDialogResourceTest
     guarantee,
     tender_milestones_required,
-    patch_tender_lots_none,
     create_tender_central,
     create_tender_central_invalid,
     tender_minimalstep_validation,
@@ -42,6 +41,7 @@ from openprocurement.tender.competitivedialogue.tests.stage1.tender_blanks impor
     create_tender_invalid_eu,
     create_tender_generated_eu,
     patch_tender,
+    patch_tender_lots_none,
     multiple_bidders_tender_eu,
     try_go_to_ready_stage_eu,
     # CompetitiveDialogUAResourceTest
@@ -117,6 +117,7 @@ def suite():
     suite.addTest(unittest.makeSuite(CompetitiveDialogTest))
     suite.addTest(unittest.makeSuite(CompetitiveDialogEUResourceTest))
     suite.addTest(unittest.makeSuite(CompetitiveDialogUAResourceTest))
+    # PASSED_PY3
     return suite
 
 
