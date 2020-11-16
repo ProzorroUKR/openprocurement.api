@@ -91,10 +91,10 @@ Content-Type: application/json; charset=UTF-8
               "id": "7261f09218de4ce79c11a48d275491e8", 
               "title": "name.doc"
             }, 
-            "id": "fc49ce0b6c7e4e58a02ea80d497e6afd"
+            "id": "afe73664dc6f42a7a3e0b4039f33ebe5"
           }
         ], 
-        "id": "beb3c33537114a76bfb7a61acd67fb8b"
+        "id": "75deb3a5e48a4a3999b22dbb9e1e8c7e"
       }, 
       {
         "requirement": {
@@ -112,10 +112,10 @@ Content-Type: application/json; charset=UTF-8
               "id": "7261f09218de4ce79c11a48d275491e8", 
               "title": "name.doc"
             }, 
-            "id": "79296e60dd5246f0ab028fd7061be04b"
+            "id": "4a5b8eab72f24eeeb34ff76279036905"
           }
         ], 
-        "id": "eac30a6b0a84430c887764bb64a30e0f"
+        "id": "bb5d702e024d4dde902cc3c2a5e3a50e"
       }
     ], 
     "tenderers": [
