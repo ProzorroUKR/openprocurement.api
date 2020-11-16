@@ -670,9 +670,17 @@ class Evidence(EligibleEvidence):
         roles = {
             "create": blacklist(),
             "edit": blacklist(),
+            "edit_view": blacklist("id"),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
         }
+
+    def get_role(self):
+        root = self.get_root()
+        request = root.request
+        if request.matchdict.get("evidence_id"):
+            return "edit_view"
+        return "edit"
 
     @bids_response_validation_wrapper
     def validate_relatedDocument(self, data, document_reference):
@@ -887,6 +895,7 @@ class RequirementResponse(Model):
         roles = {
             "create": blacklist(),
             "edit": blacklist(),
+            "edit_view": blacklist("id"),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
         }
@@ -909,6 +918,13 @@ class RequirementResponse(Model):
     )
 
     value = StringType(required=True)
+
+    def get_role(self):
+        root = self.get_root()
+        request = root.request
+        if request.matchdict.get("requirement_response_id"):
+            return "edit_view"
+        return "edit"
 
     @staticmethod
     def get_requirement_obj(requirement_id=None, parent=None):
