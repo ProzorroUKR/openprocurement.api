@@ -669,7 +669,7 @@ class Evidence(EligibleEvidence):
         namespace = "Evidence"
         roles = {
             "create": blacklist(),
-            "edit": blacklist("id"),
+            "edit": blacklist(),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
         }
@@ -886,7 +886,7 @@ class RequirementResponse(Model):
     class Options:
         roles = {
             "create": blacklist(),
-            "edit": blacklist("id"),
+            "edit": blacklist(),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
         }
