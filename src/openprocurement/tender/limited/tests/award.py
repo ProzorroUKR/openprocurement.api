@@ -484,6 +484,7 @@ def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderAwardDocumentResourceTest))
     suite.addTest(unittest.makeSuite(TenderAwardResourceTest))
+    # PASSED_PY3
     return suite
 
 

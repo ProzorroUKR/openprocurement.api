@@ -46,7 +46,7 @@ def create_tender_cancellation_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"No JSON object could be decoded", u"location": u"body", u"name": u"data"}],
+        [{u"description": u"Expecting value: line 1 column 1 (char 0)", u"location": u"body", u"name": u"data"}],
     )
 
     response = self.app.post_json(request_path, "data", status=422)
@@ -208,7 +208,6 @@ def create_cancellation_on_lot(self):
     self.assertEqual(
         response.json["errors"],
         [
-            {u"location": u"body", u"name": u"relatedLot", u"description": [u"relatedLot should be one of lots"]},
             {
                 u"location": u"body",
                 u"name": u"cancellationOf",
@@ -216,6 +215,7 @@ def create_cancellation_on_lot(self):
                     u'Lot cancellation can not be submitted, since "multiple lots" option is not available for this type of tender.'
                 ],
             },
+            {u"location": u"body", u"name": u"relatedLot", u"description": [u"relatedLot should be one of lots"]},
         ],
     )
 
@@ -596,7 +596,7 @@ def create_tender_cancellation_2020_04_19(self):
         "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
             self.tender_id, cancellation_id, self.tender_token
         ),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
     )
 
     self.assertEqual(response.status, "201 Created")
@@ -670,7 +670,7 @@ def patch_tender_cancellation_2020_04_19(self):
         "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
             self.tender_id, cancellation_id, self.tender_token
         ),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
     )
 
     self.assertEqual(response.status, "201 Created")
@@ -769,7 +769,7 @@ def patch_tender_cancellation_2020_04_19(self):
         "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
             self.tender_id, cancellation_id, self.tender_token
         ),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
     )
 
     self.assertEqual(response.status, "201 Created")
