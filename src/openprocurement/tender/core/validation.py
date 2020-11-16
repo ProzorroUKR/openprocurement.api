@@ -893,8 +893,9 @@ def validate_tender_activate_with_language_criteria(request):
         return
 
     tenders_types = ["aboveThresholdUA", "aboveThresholdEU",
-               "competitiveDialogueUA", "competitiveDialogueEU",
-               "competitiveDialogueUA.stage2", "competitiveDialogueEU.stage2"]
+                     "competitiveDialogueUA", "competitiveDialogueEU",
+                     "competitiveDialogueUA.stage2", "competitiveDialogueEU.stage2",
+                     "esco", "closeFrameworkAgreementUA"]
     tender_type = request.validated["tender"].procurementMethodType
     needed_criterion = "CRITERION.OTHER.BID.LANGUAGE"
 
