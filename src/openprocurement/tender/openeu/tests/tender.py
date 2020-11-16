@@ -86,7 +86,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin, TenderUARes
         self.app.authorization = ("Basic", ("bot", "bot"))
 
         response = self.app.post(
-            "/tenders/{}/documents".format(tender["id"]), upload_files=[("file", "name.doc", "content")]
+            "/tenders/{}/documents".format(tender["id"]), upload_files=[("file", "name.doc", b"content")]
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -123,6 +123,7 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderProcessTest))
     suite.addTest(unittest.makeSuite(TenderResourceTest))
     suite.addTest(unittest.makeSuite(TenderTest))
+    # PASSED_PY3
     return suite
 
 
