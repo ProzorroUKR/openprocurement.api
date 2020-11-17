@@ -247,7 +247,7 @@ class ReportingTender(BaseTender):
 
         roles = {
             "create": _parent_roles["create"] + _edit_fields + whitelist("lots"),
-            "edit_draft": _parent_roles["edit_draft"],
+            "edit_draft": _edit_role + whitelist("status"),
             "edit": _edit_role,
             "edit_active": _edit_role,
             "edit_active.awarded": _all_forbidden,

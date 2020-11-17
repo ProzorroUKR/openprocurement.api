@@ -37,6 +37,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     validate_tenderPeriod,
     create_tender_generated,
     create_tender_draft,
+    patch_tender_draft,
     tender_features,
     patch_tender_jsonpatch,
     patch_tender,
@@ -61,6 +62,7 @@ class TenderResourceTestMixin(object):
     test_listing_draft = snitch(listing_draft)
     test_listing = snitch(listing)
     test_create_tender_draft = snitch(create_tender_draft)
+    test_patch_tender_draft = snitch(patch_tender_draft)
     test_create_tender = snitch(create_tender)
     test_tender_features = snitch(tender_features)
     test_get_tender = snitch(get_tender)

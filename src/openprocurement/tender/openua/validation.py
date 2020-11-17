@@ -23,7 +23,6 @@ def validate_patch_tender_ua_data(request):
     data = validate_json_data(request)
     if request.context.status == "draft":
         validate_patch_tender_data_draft(request)
-        return
     if data:
         if "items" in data:
             items = request.context.items

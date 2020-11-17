@@ -83,6 +83,21 @@ class CFASelectionUATender(BaseTender):
                 "hasEnquiries",
             )
         )
+        _edit_active_enquires_role = whitelist(
+            "description",
+            "description_en",
+            "description_ru",
+            "documents",
+            "items",
+            "lots",
+            "procurementMethodDetails",
+            "serializable_guarantee",
+            "tenderPeriod",
+            "tender_guarantee",
+            "title",
+            "title_en",
+            "title_ru",
+        )
         _view_tendering_role = _draft_view_role + whitelist(
             "tender_value",
             "tenderPeriod",
@@ -96,7 +111,7 @@ class CFASelectionUATender(BaseTender):
         _procurement_method_details = whitelist("procurementMethodDetails")
         roles = {
             "create": _base_edit + whitelist("lots", "procurementMethodType", "mode"),
-            "edit_draft": _core_roles["edit_draft"] + _procurement_method_details,
+            "edit_draft": _edit_active_enquires_role + whitelist("status"),
             "edit_draft.pending": whitelist("agreements", "unsuccessfulReason") + _procurement_method_details,
             "edit_cancelled": _procurement_method_details,
             "edit_complete": _procurement_method_details,

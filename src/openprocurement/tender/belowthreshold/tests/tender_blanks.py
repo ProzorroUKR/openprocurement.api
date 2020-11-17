@@ -1087,16 +1087,6 @@ def create_tender_draft(self):
     token = response.json["access"]["token"]
     self.assertEqual(tender["status"], "draft")
 
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": {"value": {"amount": 100}}}, status=403
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{u"description": u"Can't update tender in current (draft) status", u"location": u"body", u"name": u"data"}],
-    )
     add_criteria(self, tender["id"], token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": {"status": self.primary_tender_status}}
@@ -1111,6 +1101,62 @@ def create_tender_draft(self):
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
     self.assertEqual(tender["status"], self.primary_tender_status)
+
+
+def patch_tender_draft(self):
+    data = self.initial_data.copy()
+    data.update({"status": "draft"})
+    is_cfaselectionua = data["procurementMethodType"] == "closeFrameworkAgreementSelectionUA"
+    if is_cfaselectionua:
+        data.update({"enquiryPeriod": {"endDate": (get_now() + timedelta(days=1)).isoformat()}})
+
+    response = self.app.post_json("/tenders", {"data": data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    tender = response.json["data"]
+    token = response.json["access"]["token"]
+    self.assertEqual(tender["status"], "draft")
+
+    if not is_cfaselectionua:
+        tender_period = tender["tenderPeriod"]
+        tender_period["startDate"] = (parse_date(tender_period["startDate"]) + timedelta(days=1)).isoformat()
+        tender_period["endDate"] = (parse_date(tender_period["endDate"]) + timedelta(days=1)).isoformat()
+    else:
+        tender_period = {
+            "startDate": (get_now() + timedelta(days=2)).isoformat(),
+            "endDate": (get_now() + timedelta(days=6)).isoformat(),
+        }
+
+    tender_patch_data = {
+        "items": [{"description": "test item", "quantity": 20, "id": "0" * 32}],
+        "features": [
+            {
+                "title": "test feature",
+                "relatedItem": "0" * 32,
+                "enum": [{"value": 0.1, "title": "test feature value"}],
+            }
+        ],
+        "tenderPeriod": tender_period,
+    }
+
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], token),
+        {
+            "data": tender_patch_data
+        }
+    )
+
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    tender = response.json["data"]
+    self.assertIn("items", tender)
+    self.assertEqual(len(tender["items"]), 1)
+    self.assertEqual(tender["items"][0]["description"], "test item")
+    if not is_cfaselectionua:
+        self.assertEqual(tender["tenderPeriod"], tender_period)
+        self.assertEqual(len(tender["features"]), 1)
+        self.assertEqual(tender["features"][0]["title"], "test feature")
+        self.assertEqual(tender["features"][0]["enum"][0]["value"], 0.1)
 
 
 def create_tender_central(self):

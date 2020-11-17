@@ -502,7 +502,7 @@ class Tender(BaseTender):
         roles = {
             "create": _parent_roles["create"] + _edit_fields + whitelist("lots") - _esco_edit_forbidden,
             "edit": _edit_role,
-            "edit_draft": _edit_role,
+            "edit_draft": _edit_role + whitelist("status"),
             "edit_active.tendering": _edit_role,
             "edit_active.pre-qualification": whitelist("status"),
             "edit_active.pre-qualification.stand-still": _all_forbidden,
@@ -615,7 +615,7 @@ class Tender(BaseTender):
     central_accreditations = (ACCR_5,)
     edit_accreditations = (ACCR_4,)
 
-    special_fields = ["fundingKind", "yearlyPaymentsPercentageRange"]
+    special_fields = ["fundingKind", "yearlyPaymentsPercentageRange", "status"]
     procuring_entity_kinds = ["authority", "central", "defense", "general", "social", "special"]
 
     block_tender_complaint_status = OpenUATender.block_tender_complaint_status

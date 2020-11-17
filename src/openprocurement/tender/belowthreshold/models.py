@@ -134,7 +134,7 @@ class Tender(BaseTender):
         roles = {
             "create": _core_roles["create"] + _edit_role + whitelist("lots"),
             "edit": _edit_role,
-            "edit_draft": _core_roles["edit_draft"],
+            "edit_draft": _edit_role + whitelist("status"),
             "edit_active.enquiries": _edit_role,
             "edit_active.tendering": _all_forbidden,
             "edit_active.auction": _all_forbidden,

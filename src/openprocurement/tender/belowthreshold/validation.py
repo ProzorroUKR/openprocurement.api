@@ -48,7 +48,7 @@ def validate_update_bid_status(request):
 # lot
 def validate_lot_operation(request):
     tender = request.validated["tender"]
-    if tender.status not in ["active.enquiries"]:
+    if tender.status not in ("active.enquiries", "draft"):
         raise_operation_error(
             request, "Can't {} lot in current ({}) tender status".format(OPERATIONS.get(request.method), tender.status)
         )
