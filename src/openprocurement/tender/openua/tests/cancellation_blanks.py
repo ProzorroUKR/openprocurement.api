@@ -728,7 +728,7 @@ def patch_tender_cancellation_2020_04_19(self):
         "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
             self.tender_id, cancellation_id, self.tender_token
         ),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
     )
 
     self.assertEqual(response.status, "201 Created")
@@ -899,7 +899,7 @@ def patch_tender_cancellation_2020_04_19(self):
         "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
             self.tender_id, cancellation_id, self.tender_token
         ),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
     )
 
     self.assertEqual(response.status, "201 Created")
@@ -951,7 +951,7 @@ def access_create_tender_cancellation_complaint(self):
         "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
             self.tender_id, self.cancellation_id, self.tender_token
         ),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -1080,7 +1080,7 @@ def access_create_tender_cancellation_complaint(self):
         "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
             self.tender_id, cancellation_id, self.tender_token
         ),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -1164,7 +1164,7 @@ def permission_cancellation_pending(self):
         "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
             self.tender_id, cancellation_1_id, self.tender_token
         ),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -1193,7 +1193,7 @@ def permission_cancellation_pending(self):
         "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
             self.tender_id, cancellation_2_id, self.tender_token
         ),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1241,7 +1241,7 @@ def activate_cancellation(self):
         "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
             self.tender_id, cancellation_id, self.tender_token
         ),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -1423,7 +1423,7 @@ def create_tender_cancellation_complaint(self):
         "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
             self.tender_id, self.cancellation_id, self.tender_token
         ),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -1535,7 +1535,7 @@ def patch_tender_cancellation_complaint(self):
         "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
             self.tender_id, self.cancellation_id, self.tender_token
         ),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -1678,7 +1678,7 @@ def get_tender_cancellation_complaints(self):
         "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
             self.tender_id, self.cancellation_id, self.tender_token
         ),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -1751,7 +1751,7 @@ def create_tender_cancellation_with_cancellation_lots(self):
         "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
             self.tender_id, cancellation_id, self.tender_token
         ),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -1799,7 +1799,7 @@ def bot_patch_tender_cancellation_complaint(self):
         "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
             self.tender_id, self.cancellation_id, self.tender_token
         ),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
 

@@ -167,7 +167,7 @@ class TenderBidRequirementResponseEvidenceTestMixin(object):
         response = self.app.post(
             "/tenders/{}/bids/{}/documents?acc_token={}".format(
                 self.tender_id, self.bid_id, self.bid_token),
-            upload_files=[("file", "name.doc", "content")],
+            upload_files=[("file", "name.doc", b"content")],
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -286,6 +286,7 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderBidResourceTest))
     suite.addTest(unittest.makeSuite(TenderBidRequirementResponseResourceTest))
     suite.addTest(unittest.makeSuite(TenderBidRequirementResponseEvidenceResourceTest))
+    # PASSED_PY3
     return suite
 
 

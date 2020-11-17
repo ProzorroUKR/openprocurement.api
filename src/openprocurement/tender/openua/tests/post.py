@@ -95,7 +95,7 @@ class TenderComplaintPostResourceMixin(object):
         url = "/tenders/{}/complaints/{}/posts/{}/documents".format(
             self.tender_id, self.complaint_id, self.post_id)
         if params:
-            url = "{}?{}".format(url, "&".join(["{}={}".format(k, v) for k, v in params.iteritems()]))
+            url = "{}?{}".format(url, "&".join(["{}={}".format(k, v) for k, v in params.items()]))
         return self.app.get(url, status=status)
 
     def get_post_document(self, status=200):
@@ -115,7 +115,7 @@ class TenderQualificationComplaintPostResourceMixin(object):
 
     def post_claim(self, status=201):
         url = "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
-            self.tender_id, self.qualification_id,  self.initial_bids_tokens.values()[0]
+            self.tender_id, self.qualification_id,  list(self.initial_bids_tokens.values())[0]
         )
         result = self.app.post_json(url, {"data": self.claim_data}, status=status)
         self.complaint_id = result.json["data"]["id"]
@@ -168,7 +168,7 @@ class TenderQualificationComplaintPostResourceMixin(object):
         url = "/tenders/{}/qualifications/{}/complaints/{}/posts/{}/documents".format(
             self.tender_id, self.qualification_id, self.complaint_id, self.post_id)
         if params:
-            url = "{}?{}".format(url, "&".join(["{}={}".format(k, v) for k, v in params.iteritems()]))
+            url = "{}?{}".format(url, "&".join(["{}={}".format(k, v) for k, v in params.items()]))
         return self.app.get(url, status=status)
 
     def get_post_document(self, status=200):
@@ -188,7 +188,7 @@ class TenderAwardComplaintPostResourceMixin(object):
 
     def post_claim(self, status=201):
         url = "/tenders/{}/awards/{}/complaints?acc_token={}".format(
-            self.tender_id, self.award_id, self.initial_bids_tokens.values()[0]
+            self.tender_id, self.award_id, list(self.initial_bids_tokens.values())[0]
         )
         result = self.app.post_json(url, {"data": self.claim_data}, status=status)
         self.complaint_id = result.json["data"]["id"]
@@ -241,7 +241,7 @@ class TenderAwardComplaintPostResourceMixin(object):
         url = "/tenders/{}/awards/{}/complaints/{}/posts/{}/documents".format(
             self.tender_id, self.award_id, self.complaint_id, self.post_id)
         if params:
-            url = "{}?{}".format(url, "&".join(["{}={}".format(k, v) for k, v in params.iteritems()]))
+            url = "{}?{}".format(url, "&".join(["{}={}".format(k, v) for k, v in params.items()]))
         return self.app.get(url, status=status)
 
     def get_post_document(self, status=200):
@@ -305,7 +305,7 @@ class TenderCancellationComplaintPostResourceMixin(object):
         url = "/tenders/{}/cancellations/{}/complaints/{}/posts/{}/documents".format(
             self.tender_id, self.cancellation_id, self.complaint_id, self.post_id)
         if params:
-            url = "{}?{}".format(url, "&".join(["{}={}".format(k, v) for k, v in params.iteritems()]))
+            url = "{}?{}".format(url, "&".join(["{}={}".format(k, v) for k, v in params.items()]))
         return self.app.get(url, status=status)
 
     def get_post_document(self, status=200):

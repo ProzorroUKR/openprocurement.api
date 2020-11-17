@@ -8,7 +8,6 @@ from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTes
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     # TenderUAResourceTest
     guarantee,
-    patch_tender_lots_none,
     # TenderUAProcessTest
     invalid_tender_conditions,
     create_tender_with_inn,
@@ -31,6 +30,7 @@ from openprocurement.tender.openua.tests.tender_blanks import (
     create_tender_generated,
     tender_fields,
     patch_tender,
+    patch_tender_lots_none,
     patch_tender_period,
     tender_with_main_procurement_category,
     tender_finance_milestones,
@@ -99,6 +99,7 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderUAProcessTest))
     suite.addTest(unittest.makeSuite(TenderUAResourceTest))
     suite.addTest(unittest.makeSuite(TenderUATest))
+    # PASSED_PY3
     return suite
 
 

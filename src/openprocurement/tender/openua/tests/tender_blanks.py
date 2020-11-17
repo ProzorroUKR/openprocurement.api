@@ -10,7 +10,7 @@ from openprocurement.api.constants import (
 )
 from openprocurement.api.utils import parse_date
 
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_lots
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_lots, set_tender_lots
 from openprocurement.tender.openua.tests.base import test_bids
 from openprocurement.tender.core.utils import calculate_tender_business_date
 
@@ -48,28 +48,28 @@ def empty_listing(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"], [])
-    self.assertNotIn('{\n    "', response.body)
-    self.assertNotIn("callback({", response.body)
+    self.assertNotIn('{\n    "', response.body.decode())
+    self.assertNotIn("callback({", response.body.decode())
     self.assertEqual(response.json["next_page"]["offset"], "")
     self.assertNotIn("prev_page", response.json)
 
     response = self.app.get("/tenders?opt_jsonp=callback")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/javascript")
-    self.assertNotIn('{\n    "', response.body)
-    self.assertIn("callback({", response.body)
+    self.assertNotIn('{\n    "', response.body.decode())
+    self.assertIn("callback({", response.body.decode())
 
     response = self.app.get("/tenders?opt_pretty=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertIn('{\n    "', response.body)
-    self.assertNotIn("callback({", response.body)
+    self.assertIn('{\n    "', response.body.decode())
+    self.assertNotIn("callback({", response.body.decode())
 
     response = self.app.get("/tenders?opt_jsonp=callback&opt_pretty=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/javascript")
-    self.assertIn('{\n    "', response.body)
-    self.assertIn("callback({", response.body)
+    self.assertIn('{\n    "', response.body.decode())
+    self.assertIn("callback({", response.body.decode())
 
     response = self.app.get("/tenders?offset=2015-01-01T00:00:00+02:00&descending=1&limit=10")
     self.assertEqual(response.status, "200 OK")
@@ -129,7 +129,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"No JSON object could be decoded", u"location": u"body", u"name": u"data"}],
+        [{u"description": u"Expecting value: line 1 column 1 (char 0)", u"location": u"body", u"name": u"data"}],
     )
 
     response = self.app.post_json(request_path, "data", status=422)
@@ -187,7 +187,7 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [u"Please use a mapping for this field or Value instance instead of unicode."],
+                u"description": [u"Please use a mapping for this field or Value instance instead of str."],
                 u"location": u"body",
                 u"name": u"value",
             }
@@ -631,7 +631,7 @@ def patch_draft_invalid_json(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Extra data: line 1 column 3 - line 1 column 4 (char 2 - 3)",
+                "description": "Extra data: line 1 column 3 (char 2)",
             }
         ],
     )
@@ -823,6 +823,37 @@ def patch_tender(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["errors"][0]["description"], "Can't update tender in current (complete) status")
+
+
+def patch_tender_lots_none(self):
+    data = deepcopy(self.initial_data)
+
+    set_tender_lots(data, self.test_lots_data)
+
+    response = self.app.post_json("/tenders", {"data": data})
+    self.assertEqual(response.status, "201 Created")
+    self.tender_id = response.json["data"]["id"]
+    self.token_token = response.json["access"]["token"]
+
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.token_token), {"data": {"lots": [None]}}, status=422
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json,
+        {
+            "status": "error",
+            "errors": [
+                {"location": "body", "name": "lots", "description": [["This field is required."]]},
+                {
+                    "location": "body",
+                    "name": "items",
+                    "description": [{"relatedLot": ["relatedLot should be one of lots"]}],
+                },
+            ],
+        },
+    )
 
 
 def patch_tender_period(self):
@@ -1201,7 +1232,7 @@ def first_bid_tender(self):
     # create tender contract document for test
     response = self.app.post(
         "/tenders/{}/contracts/{}/documents?acc_token={}".format(tender_id, contract_id, owner_token),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
         status=201,
     )
     self.assertEqual(response.status, "201 Created")
@@ -1229,7 +1260,7 @@ def first_bid_tender(self):
 
     response = self.app.post(
         "/tenders/{}/contracts/{}/documents?acc_token={}".format(tender_id, contract_id, owner_token),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1251,7 +1282,7 @@ def first_bid_tender(self):
 
     response = self.app.put(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(tender_id, contract_id, doc_id, owner_token),
-        upload_files=[("file", "name.doc", "content3")],
+        upload_files=[("file", "name.doc", b"content3")],
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
