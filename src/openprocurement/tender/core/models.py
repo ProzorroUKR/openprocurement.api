@@ -1833,7 +1833,7 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
         _create_role = _edit_role + whitelist("mode", "procurementMethodType")
         roles = {
             "create": _create_role,
-            "edit_draft": whitelist("status"),
+            "edit_draft": _edit_role + whitelist("status"),
             "edit": _edit_role,
             "view": _create_role
             + whitelist(
@@ -1953,8 +1953,11 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
             The data to be imported.
         """
         data = self.convert(raw_data, **kw)
+        excluded_fields = ('status',)
         del_keys = [
-            k for k in data.keys() if data[k] == self.__class__.fields[k].default or data[k] == getattr(self, k)
+            k
+            for k in data.keys()
+            if (k not in excluded_fields and data[k] == self.__class__.fields[k].default) or (data[k] == getattr(self, k))
         ]
         for k in del_keys:
             del data[k]

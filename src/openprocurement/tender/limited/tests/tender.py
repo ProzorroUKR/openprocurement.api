@@ -17,6 +17,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     patch_tender_lots_none,
     create_tender_central,
     create_tender_central_invalid,
+    patch_tender_draft,
 )
 
 from openprocurement.tender.limited.tests.base import (
@@ -103,6 +104,7 @@ class TenderResourceTest(BaseTenderWebTest):
     test_create_tender_central_invalid = snitch(create_tender_central_invalid)
     test_get_tender = snitch(get_tender)
     test_patch_tender = snitch(patch_tender)
+    patch_tender_draft = snitch(patch_tender_draft)
     test_dateModified_tender = snitch(dateModified_tender)
     test_tender_not_found = snitch(tender_not_found)
     test_tender_Administrator_change = snitch(tender_Administrator_change)

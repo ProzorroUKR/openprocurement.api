@@ -107,7 +107,12 @@ def validate_add_complaint_not_in_qualification_period(request):
 def validate_tender_status_update(request):
     tender = request.context
     data = request.validated["data"]
-    if request.authenticated_role == "tender_owner" and "status" in data:
+    if (
+        request.authenticated_role == "tender_owner"
+        and "status" in data
+        and tender
+        and tender.status != 'draft'
+    ):
         if tender.status == "active.pre-qualification" and data["status"] not in [
             "active.pre-qualification.stand-still",
             tender.status,

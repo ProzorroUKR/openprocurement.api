@@ -11,6 +11,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_milestones_not_required,
     create_tender_central,
     create_tender_central_invalid,
+    patch_tender_draft,
 )
 from openprocurement.tender.cfaselectionua.tests.base import (
     test_lots,
@@ -74,6 +75,7 @@ class TenderResourceTestMixin(object):
     test_listing_draft = snitch(listing_draft)
     test_listing = snitch(listing)
     test_create_tender_draft = snitch(create_tender_draft)
+    test_patch_tender_draft = snitch(patch_tender_draft)
     test_create_tender = snitch(create_tender)
     test_create_tender_central = snitch(create_tender_central)
     test_create_tender_central_invalid = snitch(create_tender_central_invalid)

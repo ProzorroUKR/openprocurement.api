@@ -110,17 +110,15 @@ def validate_tender_kind(request, model):
 def validate_patch_tender_data_draft(request):
     data = request.validated["json_data"]
     default_status = type(request.tender).fields["status"].default
-    if data and data.get("status") != default_status:
-        raise_operation_error(request, "Can't update tender in current (draft) status")
-    request.validated["data"] = {"status": default_status}
-    request.context.status = default_status
+    new_status = data.get("status", request.context.status)
+    if data and new_status not in ("draft", "draft.stage2", default_status):
+        raise_operation_error(request, "Can't update tender to {} status".format(new_status))
 
 
 def validate_patch_tender_data(request):
     data = validate_json_data(request)
     if request.context.status == "draft":
         validate_patch_tender_data_draft(request)
-        return
     return validate_data(request, type(request.tender), True, data)
 
 
@@ -913,6 +911,7 @@ def validate_tender_status_update_not_in_pre_qualificaton(request):
     data = request.validated["data"]
     if (
         request.authenticated_role == "tender_owner"
+        and tender["status"] not in ('draft',)
         and "status" in data
         and data["status"] not in ["active.pre-qualification.stand-still", tender.status]
     ):
@@ -1139,7 +1138,7 @@ def validate_update_status_before_milestone_due_date(request):
 # lots
 def validate_lot_operation_not_in_allowed_status(request):
     tender = request.validated["tender"]
-    if tender.status not in ["active.tendering"]:
+    if tender.status not in ("active.tendering", "draft", "draft.stage2"):
         raise_operation_error(
             request, "Can't {} lot in current ({}) tender status".format(OPERATIONS.get(request.method), tender.status)
         )

@@ -570,7 +570,7 @@ class Tender(BaseTender):
         roles = {
             "create": _parent_roles["create"] - whitelist("enquiryPeriod"),
             "edit": _edit_role,
-            "edit_draft": _edit_role,
+            "edit_draft": _edit_role + whitelist("status"),
             "edit_active.tendering": _edit_role,
             "edit_active.pre-qualification": whitelist("status"),
             "edit_active.pre-qualification.stand-still": _all_forbidden,

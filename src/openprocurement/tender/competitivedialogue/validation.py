@@ -145,6 +145,7 @@ def validate_tender_update(request):
     if (
         request.authenticated_role == "tender_owner"
         and "status" in data
+        and tender["status"] not in ('draft',)
         and data["status"] not in ["active.pre-qualification.stand-still", "active.stage2.waiting", tender.status]
     ):
         raise_operation_error(request, "Can't update tender status")
