@@ -226,28 +226,28 @@ def empty_listing(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"], [])
-    self.assertNotIn('{\n    "', response.body)
-    self.assertNotIn("callback({", response.body)
+    self.assertNotIn('{\n    "', response.body.decode())
+    self.assertNotIn("callback({", response.body.decode())
     self.assertEqual(response.json["next_page"]["offset"], "")
     self.assertNotIn("prev_page", response.json)
 
     response = self.app.get("/agreements?opt_jsonp=callback")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/javascript")
-    self.assertNotIn('{\n    "', response.body)
-    self.assertIn("callback({", response.body)
+    self.assertNotIn('{\n    "', response.body.decode())
+    self.assertIn("callback({", response.body.decode())
 
     response = self.app.get("/agreements?opt_pretty=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertIn('{\n    "', response.body)
-    self.assertNotIn("callback({", response.body)
+    self.assertIn('{\n    "', response.body.decode())
+    self.assertNotIn("callback({", response.body.decode())
 
     response = self.app.get("/agreements?opt_jsonp=callback&opt_pretty=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/javascript")
-    self.assertIn('{\n    "', response.body)
-    self.assertIn("callback({", response.body)
+    self.assertIn('{\n    "', response.body.decode())
+    self.assertIn("callback({", response.body.decode())
 
     response = self.app.get("/agreements?offset=2015-01-01T00:00:00+02:00&descending=1&limit=10")
     self.assertEqual(response.status, "200 OK")
@@ -797,11 +797,16 @@ def agreement_token_invalid(self):
     )
 
     response = self.app.patch_json(
-        "/agreements/{}?acc_token={}".format(self.agreement_id, "токен з кирилицею"), {"data": {}}, status=403
+        "/agreements/{}?acc_token={}".format(self.agreement_id, "токен з кирилицею"), {"data": {}}, status=422
     )
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Forbidden", u"location": u"url", u"name": u"permission"}]
+        response.json["errors"], [
+            {
+                'location': 'body', 'name': 'UnicodeEncodeError',
+                'description': "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)"
+            }
+        ]
     )
 
 
@@ -817,11 +822,16 @@ def generate_credentials_invalid(self):
     response = self.app.patch_json(
         "/agreements/{0}/credentials?acc_token={1}".format(self.agreement_id, "токен з кирилицею"),
         {"data": ""},
-        status=403,
+        status=422,
     )
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Forbidden", u"location": u"url", u"name": u"permission"}]
+        response.json["errors"], [
+            {
+                'location': 'body', 'name': 'UnicodeEncodeError',
+                'description': "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)"
+            }
+        ]
     )
 
 

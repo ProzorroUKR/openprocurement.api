@@ -21,7 +21,7 @@ def get_document_by_id(self):
 
 def create_agreement_document_forbidden(self):
     response = self.app.post(
-        "/agreements/{}/documents".format(self.agreement_id), upload_files=[("file", u"укр.doc", "content")], status=403
+        "/agreements/{}/documents".format(self.agreement_id), upload_files=[("file", u"укр.doc", b"content")], status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
 
@@ -29,7 +29,7 @@ def create_agreement_document_forbidden(self):
 def create_agreement_documents(self):
     response = self.app.post(
         "/agreements/{}/documents?acc_token={}".format(self.agreement_id, self.agreement_token),
-        upload_files=[("file", u"укр.doc", "content")],
+        upload_files=[("file", u"укр.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -45,7 +45,7 @@ def not_found(self):
     )
 
     response = self.app.post(
-        "/agreements/some_id/documents", status=404, upload_files=[("file", "name.doc", "content")]
+        "/agreements/some_id/documents", status=404, upload_files=[("file", "name.doc", b"content")]
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -56,14 +56,14 @@ def not_found(self):
     response = self.app.post(
         "/agreements/{}/documents?acc_token={}".format(self.agreement_id, self.agreement_token),
         status=404,
-        upload_files=[("invalid_name", "name.doc", "content")],
+        upload_files=[("invalid_name", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(response.json["errors"], [{u"description": u"Not Found", u"location": u"body", u"name": u"file"}])
     response = self.app.put(
-        "/agreements/some_id/documents/some_id", status=404, upload_files=[("file", "name.doc", "content2")]
+        "/agreements/some_id/documents/some_id", status=404, upload_files=[("file", "name.doc", b"content2")]
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -75,7 +75,7 @@ def not_found(self):
     response = self.app.put(
         "/agreements/{}/documents/some_id".format(self.agreement_id),
         status=404,
-        upload_files=[("file", "name.doc", "content2")],
+        upload_files=[("file", "name.doc", b"content2")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -103,7 +103,7 @@ def not_found(self):
 
 def put_contract_document(self):
     from six import BytesIO
-    from urllib import quote
+    from urllib.parse import quote
 
     response = self.app.patch_json(
         "/agreements/{}?acc_token={}".format(self.agreement_id, self.agreement_token), {"data": {"status": "active"}}
@@ -150,7 +150,7 @@ def put_contract_document(self):
 
     response = self.app.put(
         "/agreements/{}/documents/{}?acc_token={}".format(self.agreement_id, doc_id, self.agreement_token),
-        upload_files=[("file", "name  name.doc", "content2")],
+        upload_files=[("file", "name  name.doc", b"content2")],
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -182,7 +182,7 @@ def put_contract_document(self):
 
     response = self.app.post(
         "/agreements/{}/documents?acc_token={}".format(self.agreement_id, self.agreement_token),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -198,7 +198,7 @@ def put_contract_document(self):
     response = self.app.put(
         "/agreements/{}/documents/{}?acc_token={}".format(self.agreement_id, doc_id, self.agreement_token),
         status=404,
-        upload_files=[("invalid_name", "name.doc", "content")],
+        upload_files=[("invalid_name", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")

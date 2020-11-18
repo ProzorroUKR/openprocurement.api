@@ -450,7 +450,7 @@ def patch_change(self):
         {"data": {"date": now}},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.body, "null")
+    self.assertEqual(response.body, b"null")
 
     response = self.app.patch_json(
         "/agreements/{}/changes/{}?acc_token={}".format(self.agreement["id"], change["id"], self.agreement_token),
@@ -475,14 +475,14 @@ def patch_change(self):
         {"data": {"rationaleType": "thirdParty"}},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.body, "null")
+    self.assertEqual(response.body, b"null")
 
     response = self.app.patch_json(
         "/agreements/{}/changes/{}?acc_token={}".format(self.agreement["id"], change["id"], self.agreement_token),
         {"data": {"id": "1234" * 8}},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.body, "null")
+    self.assertEqual(response.body, b"null")
 
     self.app.authorization = None
     response = self.app.patch_json(
