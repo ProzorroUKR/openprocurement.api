@@ -46,7 +46,7 @@ def create_tender_bid_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"No JSON object could be decoded", u"location": u"body", u"name": u"data"}],
+        [{u"description": u"Expecting value: line 1 column 1 (char 0)", u"location": u"body", u"name": u"data"}],
     )
 
     response = self.app.post_json(request_path, "data", status=422)
@@ -82,7 +82,7 @@ def create_tender_bid_invalid(self):
         [
             {
                 u"description": {
-                    u"identifier": [u"Please use a mapping for this field or Identifier instance instead of unicode."]
+                    u"identifier": [u"Please use a mapping for this field or Identifier instance instead of str."]
                 },
                 u"location": u"body",
                 u"name": u"tenderers",
@@ -340,9 +340,9 @@ def requirement_response_validation_multiple_criterias(self):
     self.assertEqual(data['status'], "error")
     self.assertEqual(
         data['errors'], [{
-            u'description': [u"Missing references for criterias: [u'400496-0002']"],
-            u'location': u'body',
-            u'name': u'requirementResponses'
+            'description': ["Missing references for criterias: ['400496-0002']"],
+            'location': 'body',
+            'name': 'requirementResponses'
         }]
     )
 
@@ -388,9 +388,11 @@ def requirement_response_validation_multiple_groups(self):
     self.assertEqual(data['status'], "error")
     self.assertEqual(
         data['errors'], [{
-            u'description': [u"Provided groups [u'400496-0001-002', u'400496-0001-001'] conflicting in criteria 400496-0001"],
-            u'location': u'body',
-            u'name': u'requirementResponses'
+            'description': [
+                "Provided groups ['400496-0001-002', '400496-0001-001'] conflicting in criteria 400496-0001"
+            ],
+            'location': 'body',
+            'name': 'requirementResponses'
         }]
     )
 
@@ -436,9 +438,11 @@ def requirement_response_validation_multiple_groups_multiple_requirements(self):
     self.assertEqual(data['status'], "error")
     self.assertEqual(
         data['errors'], [{
-            u'description': [u"Provided groups [u'400496-0001-002', u'400496-0001-001'] conflicting in criteria 400496-0001"],
-            u'location': u'body',
-            u'name': u'requirementResponses'
+            'description': [
+                "Provided groups ['400496-0001-001', '400496-0001-002'] conflicting in criteria 400496-0001"
+            ],
+            'location': 'body',
+            'name': 'requirementResponses'
         }]
     )
 
@@ -730,7 +734,7 @@ def bid_Administrator_change(self):
 def patch_tender_bid_document(self):
     response = self.app.post(
         "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -780,7 +784,7 @@ def create_tender_bid_document_nopending(self):
 
     response = self.app.post(
         "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, token),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -815,7 +819,7 @@ def create_tender_bid_document_nopending(self):
 
     response = self.app.post(
         "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, token),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
