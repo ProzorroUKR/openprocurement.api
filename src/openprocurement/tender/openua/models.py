@@ -555,7 +555,7 @@ class Tender(BaseTender):
         _all_forbidden = whitelist()
         roles = {
             "create": _parent_roles["create"],
-            "edit_draft": _parent_roles["edit_draft"] + whitelist("status"),
+            "edit_draft": _edit_role + whitelist("status"),
             "edit": _edit_role,
             "edit_active.tendering": _edit_role,
             "edit_active.auction": _all_forbidden,

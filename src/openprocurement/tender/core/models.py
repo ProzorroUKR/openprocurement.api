@@ -1833,7 +1833,7 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
         _create_role = _edit_role + whitelist("mode", "procurementMethodType")
         roles = {
             "create": _create_role,
-            "edit_draft": _edit_role + whitelist("status"),
+            "edit_draft": whitelist("status"),
             "edit": _edit_role,
             "view": _create_role
             + whitelist(
