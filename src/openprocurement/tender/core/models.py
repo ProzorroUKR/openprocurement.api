@@ -640,6 +640,7 @@ class EligibleEvidence(Model):
         roles = {
             "create": blacklist(),
             "edit": blacklist("id"),
+            "edit_view": blacklist("id"),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
         }
@@ -663,6 +664,13 @@ class EligibleEvidence(Model):
             if document_reference.id not in [document.id for document in tender.documents if document]:
                 raise ValidationError("relatedDocument.id should be one of tender documents")
 
+    def get_role(self):
+        root = self.get_root()
+        request = root.request
+        if request.matchdict.get("evidence_id"):
+            return "edit_view"
+        return "edit"
+
 
 class Evidence(EligibleEvidence):
     class Options:
@@ -674,13 +682,6 @@ class Evidence(EligibleEvidence):
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
         }
-
-    def get_role(self):
-        root = self.get_root()
-        request = root.request
-        if request.matchdict.get("evidence_id"):
-            return "edit_view"
-        return "edit"
 
     @bids_response_validation_wrapper
     def validate_relatedDocument(self, data, document_reference):
