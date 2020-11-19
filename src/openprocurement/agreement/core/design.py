@@ -13,17 +13,6 @@ def add_design():
             setattr(design, i, j)
 
 
-agreements_all_view = ViewDefinition(
-    "agreements",
-    "all",
-    """function(doc) {
-    if(doc.doc_type == 'Agreement') {
-        emit(doc.agreementID, null);
-    }
-}""",
-)
-
-
 agreements_by_dateModified_view = ViewDefinition(
     "agreements",
     "by_dateModified",
