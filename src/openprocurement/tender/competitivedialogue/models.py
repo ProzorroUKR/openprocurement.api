@@ -545,7 +545,7 @@ class TenderStage2EU(BaseTenderEU):
             "edit": whitelist("tenderPeriod"),
             "edit_draft": whitelist("status"),  # only bridge must change only status
             "edit_active.pre-qualification": whitelist("status"),
-            "edit_" + STAGE2_STATUS: whitelist("tenderPeriod", "status"),
+            "edit_" + STAGE2_STATUS: whitelist("tenderPeriod", "status", "items"),
             "edit_active.tendering": whitelist("tenderPeriod", "items"),
             "edit_active.pre-qualification.stand-still": _all_forbidden,
             "edit_active.auction": _all_forbidden,

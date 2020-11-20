@@ -111,7 +111,7 @@ class CFASelectionUATender(BaseTender):
         _procurement_method_details = whitelist("procurementMethodDetails")
         roles = {
             "create": _base_edit + whitelist("lots", "procurementMethodType", "mode"),
-            "edit_draft": _edit_active_enquires_role + whitelist("status"),
+            "edit_draft": _core_roles["edit_draft"] + _procurement_method_details,
             "edit_draft.pending": whitelist("agreements", "unsuccessfulReason") + _procurement_method_details,
             "edit_cancelled": _procurement_method_details,
             "edit_complete": _procurement_method_details,
