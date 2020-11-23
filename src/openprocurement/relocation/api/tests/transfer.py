@@ -53,12 +53,12 @@ class TransferResourceTest(BaseWebTest):
         response = self.app.get("/transfers/{}?opt_jsonp=callback".format(transfer["id"]))
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/javascript")
-        self.assertIn('callback({"data": {"', response.body)
+        self.assertIn('callback({"data": {"', response.body.decode())
 
         response = self.app.get("/transfers/{}?opt_pretty=1".format(transfer["id"]))
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
-        self.assertIn('{\n    "data": {\n        "', response.body)
+        self.assertIn('{\n    "data": {\n        "', response.body.decode())
 
     def test_not_found(self):
         response = self.app.post_json("/transfers", {"data": {}})
@@ -108,7 +108,7 @@ class TransferResourceTest(BaseWebTest):
         self.assertEqual(response.status, "422 Unprocessable Entity")
         self.assertEqual(
             response.json["errors"],
-            [{u"description": u"No JSON object could be decoded", u"location": u"body", u"name": u"data"}],
+            [{u"description": u"Expecting value: line 1 column 1 (char 0)", u"location": u"body", u"name": u"data"}],
         )
 
         response = self.app.post_json("/transfers", {"data": {}})
@@ -128,14 +128,14 @@ class TransferResourceTest(BaseWebTest):
         response = self.app.post_json("/transfers?opt_jsonp=callback", {"data": {}})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/javascript")
-        self.assertIn('callback({"', response.body)
+        self.assertIn('callback({"', response.body.decode())
 
         response = self.app.post_json("/transfers?opt_pretty=1", {"data": {}})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
-        self.assertIn('{\n    "', response.body)
+        self.assertIn('{\n    "', response.body.decode())
 
         response = self.app.post_json("/transfers", {"data": {}, "options": {"pretty": True}})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
-        self.assertIn('{\n    "', response.body)
+        self.assertIn('{\n    "', response.body.decode())
