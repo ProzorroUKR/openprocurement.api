@@ -79,28 +79,28 @@ def empty_listing(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"], [])
-    self.assertNotIn('{\n    "', response.body)
-    self.assertNotIn("callback({", response.body)
+    self.assertNotIn('{\n    "', response.body.decode())
+    self.assertNotIn("callback({", response.body.decode())
     self.assertEqual(response.json["next_page"]["offset"], "")
     self.assertNotIn("prev_page", response.json)
 
     response = self.app.get("/plans?opt_jsonp=callback")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/javascript")
-    self.assertNotIn('{\n    "', response.body)
-    self.assertIn("callback({", response.body)
+    self.assertNotIn('{\n    "', response.body.decode())
+    self.assertIn("callback({", response.body.decode())
 
     response = self.app.get("/plans?opt_pretty=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertIn('{\n    "', response.body)
-    self.assertNotIn("callback({", response.body)
+    self.assertIn('{\n    "', response.body.decode())
+    self.assertNotIn("callback({", response.body.decode())
 
     response = self.app.get("/plans?opt_jsonp=callback&opt_pretty=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/javascript")
-    self.assertIn('{\n    "', response.body)
-    self.assertIn("callback({", response.body)
+    self.assertIn('{\n    "', response.body.decode())
+    self.assertIn("callback({", response.body.decode())
 
     response = self.app.get("/plans?offset=2015-01-01T00:00:00+02:00&descending=1&limit=10")
     self.assertEqual(response.status, "200 OK")
@@ -364,7 +364,7 @@ def create_plan_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"No JSON object could be decoded", u"location": u"body", u"name": u"data"}],
+        [{u"description": u"Expecting value: line 1 column 1 (char 0)", u"location": u"body", u"name": u"data"}],
     )
 
     response = self.app.post_json(request_path, "data", status=422)
@@ -407,7 +407,7 @@ def create_plan_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [u"Please use a mapping for this field or Budget instance instead of unicode."],
+                u"description": [u"Please use a mapping for this field or Budget instance instead of str."],
                 u"location": u"body",
                 u"name": u"budget",
             }
@@ -907,11 +907,11 @@ def create_plan_invalid_procuring_entity(self):
     self.assertEqual(
         response.json["errors"], [
             {
-                u'description': u'procuringEntity with general kind cannot publish this type of procedure.'
-                                u' Procurement method types allowed for this kind: centralizedProcurement,'
-                                u' reporting, negotiation, negotiation.quick, priceQuotation, belowThreshold, aboveThresholdUA,'
-                                u' aboveThresholdEU, competitiveDialogueUA, competitiveDialogueEU, esco, '
-                                u'closeFrameworkAgreementUA.', u'location': u'body', u'name': u'kind'
+                "description": "procuringEntity with general kind cannot publish this type of procedure. Procurement "
+                               "method types allowed for this kind: centralizedProcurement, belowThreshold, "
+                               "aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA, competitiveDialogueEU, esco,"
+                               " closeFrameworkAgreementUA, priceQuotation, reporting, negotiation, negotiation.quick.",
+                               'location': 'body', 'name': 'kind'
             }
         ]
     )
@@ -1248,17 +1248,17 @@ def create_plan(self):
     response = self.app.post_json("/plans?opt_jsonp=callback", {"data": self.initial_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/javascript")
-    self.assertIn('callback({"', response.body)
+    self.assertIn('callback({"', response.body.decode())
 
     response = self.app.post_json("/plans?opt_pretty=1", {"data": self.initial_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertIn('{\n    "', response.body)
+    self.assertIn('{\n    "', response.body.decode())
 
     response = self.app.post_json("/plans", {"data": self.initial_data, "options": {"pretty": True}})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertIn('{\n    "', response.body)
+    self.assertIn('{\n    "', response.body.decode())
 
     response = self.app.post_json("/plans", {"data": self.initial_data_with_year}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1291,12 +1291,12 @@ def get_plan(self):
     response = self.app.get("/plans/{}?opt_jsonp=callback".format(plan["id"]))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/javascript")
-    self.assertIn('callback({"data": {"', response.body)
+    self.assertIn('callback({"data": {"', response.body.decode())
 
     response = self.app.get("/plans/{}?opt_pretty=1".format(plan["id"]))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertIn('{\n    "data": {\n        "', response.body)
+    self.assertIn('{\n    "data": {\n        "', response.body.decode())
 
 
 def patch_plan(self):
@@ -1983,7 +1983,7 @@ def fail_create_plan_with_diff_breakdown_currencies(self):
 def fail_create_plan_with_amounts_sum_greater(self):
     data = deepcopy(self.initial_data)
     data["budget"]["breakdown"] = [
-        dict(id="0" * 31 + str(i), title="state", value=dict(amount=1500, currency="UAH")) for i in xrange(10)
+        dict(id="0" * 31 + str(i), title="state", value=dict(amount=1500, currency="UAH")) for i in range(10)
     ]
 
     response = self.app.post_json("/plans", {"data": data}, status=422)
@@ -2021,9 +2021,14 @@ def plan_token_invalid(self):
     )
 
     response = self.app.patch_json(
-        "/plans/{}?acc_token={}".format(self.plan_id, "токен з кирилицею"), {"data": {}}, status=403
+        "/plans/{}?acc_token={}".format(self.plan_id, "токен з кирилицею"), {"data": {}}, status=422
     )
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Forbidden", u"location": u"url", u"name": u"permission"}]
+        response.json["errors"], [
+            {
+                'location': 'body', 'name': 'UnicodeEncodeError',
+                'description': "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)"
+            }
+        ]
     )
