@@ -73,7 +73,7 @@ test_contract_data = {
     u"id": uuid4().hex,
     u"contractID": u"UA-2016-03-18-000001-1",
     u"tender_id": uuid4().hex,
-    u"tender_token": sha512(test_tender_token).hexdigest(),
+    u"tender_token": sha512(test_tender_token.encode()).hexdigest(),
     u"owner": u"broker",
 }
 

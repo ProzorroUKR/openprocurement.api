@@ -12,7 +12,7 @@ def not_found(self):
         response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"contract_id"}]
     )
 
-    response = self.app.post("/contracts/some_id/documents", status=404, upload_files=[("file", "name.doc", "content")])
+    response = self.app.post("/contracts/some_id/documents", status=404, upload_files=[("file", "name.doc", b"content")])
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -23,7 +23,7 @@ def not_found(self):
     response = self.app.post(
         "/contracts/{}/documents?acc_token={}".format(self.contract_id, self.contract_token),
         status=404,
-        upload_files=[("invalid_name", "name.doc", "content")],
+        upload_files=[("invalid_name", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -31,7 +31,7 @@ def not_found(self):
     self.assertEqual(response.json["errors"], [{u"description": u"Not Found", u"location": u"body", u"name": u"file"}])
 
     response = self.app.put(
-        "/contracts/some_id/documents/some_id", status=404, upload_files=[("file", "name.doc", "content2")]
+        "/contracts/some_id/documents/some_id", status=404, upload_files=[("file", "name.doc", b"content2")]
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -43,7 +43,7 @@ def not_found(self):
     response = self.app.put(
         "/contracts/{}/documents/some_id".format(self.contract_id),
         status=404,
-        upload_files=[("file", "name.doc", "content2")],
+        upload_files=[("file", "name.doc", b"content2")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -77,7 +77,7 @@ def create_contract_document(self):
 
     response = self.app.post(
         "/contracts/{}/documents?acc_token={}".format(self.contract_id, self.contract_token),
-        upload_files=[("file", u"укр.doc", "content")],
+        upload_files=[("file", u"укр.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -124,7 +124,7 @@ def create_contract_document(self):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/msword")
         self.assertEqual(response.content_length, 7)
-        self.assertEqual(response.body, "content")
+        self.assertEqual(response.body, b"content")
 
     response = self.app.get("/contracts/{}/documents/{}".format(self.contract_id, doc_id))
     self.assertEqual(response.status, "200 OK")
@@ -134,7 +134,7 @@ def create_contract_document(self):
 
     response = self.app.post(
         "/contracts/{}/documents?acc_token={}".format(self.contract_id, self.contract_token),
-        upload_files=[("file", u"укр.doc".encode("ascii", "xmlcharrefreplace"), "content")],
+        upload_files=[("file", u"укр.doc".encode("ascii", "xmlcharrefreplace"), b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -152,7 +152,7 @@ def create_contract_document(self):
 
     response = self.app.post(
         "/contracts/{}/documents?acc_token={}".format(self.contract_id, self.contract_token),
-        upload_files=[("file", u"укр.doc".encode("ascii", "xmlcharrefreplace"), "contentX")],
+        upload_files=[("file", u"укр.doc".encode("ascii", "xmlcharrefreplace"), b"contentX")],
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -170,7 +170,7 @@ def create_contract_document(self):
 
 def put_contract_document(self):
     from six import BytesIO
-    from urllib import quote
+    from urllib.parse import quote
 
     response = self.app.patch_json(
         "/contracts/{}?acc_token={}".format(self.contract_id, self.contract_token), {"data": {"status": "active"}}
@@ -215,7 +215,7 @@ def put_contract_document(self):
 
     response = self.app.put(
         "/contracts/{}/documents/{}?acc_token={}".format(self.contract_id, doc_id, self.contract_token),
-        upload_files=[("file", "name  name.doc", "content2")],
+        upload_files=[("file", "name  name.doc", b"content2")],
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -245,7 +245,7 @@ def put_contract_document(self):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/msword")
         self.assertEqual(response.content_length, 8)
-        self.assertEqual(response.body, "content2")
+        self.assertEqual(response.body, b"content2")
 
     response = self.app.get("/contracts/{}/documents/{}".format(self.contract_id, doc_id))
     self.assertEqual(response.status, "200 OK")
@@ -264,7 +264,7 @@ def put_contract_document(self):
 
     response = self.app.post(
         "/contracts/{}/documents?acc_token={}".format(self.contract_id, self.contract_token),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -281,7 +281,7 @@ def put_contract_document(self):
     response = self.app.put(
         "/contracts/{}/documents/{}?acc_token={}".format(self.contract_id, doc_id, self.contract_token),
         status=404,
-        upload_files=[("invalid_name", "name.doc", "content")],
+        upload_files=[("invalid_name", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -357,7 +357,7 @@ def patch_contract_document(self):
 
     response = self.app.post(
         "/contracts/{}/documents?acc_token={}".format(self.contract_id, self.contract_token),
-        upload_files=[("file", str(Header(u"укр.doc", "utf-8")), "content")],
+        upload_files=[("file", str(Header(u"укр.doc", "utf-8")), b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -425,7 +425,7 @@ def contract_change_document(self):
 
     response = self.app.post(
         "/contracts/{}/documents?acc_token={}".format(self.contract_id, self.contract_token),
-        upload_files=[("file", str(Header(u"укр.doc", "utf-8")), "content")],
+        upload_files=[("file", str(Header(u"укр.doc", "utf-8")), b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -472,7 +472,7 @@ def contract_change_document(self):
 
     response = self.app.put(
         "/contracts/{}/documents/{}?acc_token={}".format(self.contract_id, doc_id, self.contract_token),
-        upload_files=[("file", str(Header(u"укр2.doc", "utf-8")), "content2")],
+        upload_files=[("file", str(Header(u"укр2.doc", "utf-8")), b"content2")],
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -486,7 +486,7 @@ def contract_change_document(self):
 
     response = self.app.post(
         "/contracts/{}/documents?acc_token={}".format(self.contract_id, self.contract_token),
-        upload_files=[("file", str(Header(u"укр2.doc", "utf-8")), "content2")],
+        upload_files=[("file", str(Header(u"укр2.doc", "utf-8")), b"content2")],
     )
     self.assertEqual(response.status, "201 Created")
     doc_id = response.json["data"]["id"]
@@ -566,7 +566,7 @@ def create_contract_document_json_invalid(self):
         {
             "data": {
                 "title": u"укр.doc",
-                "url": self.generate_docservice_url().replace(self.app.app.registry.keyring.keys()[-1], "0" * 8),
+                "url": self.generate_docservice_url().replace(list(self.app.app.registry.keyring.keys())[-1], "0" * 8),
                 "hash": "md5:" + "0" * 32,
                 "format": "application/msword",
             }
