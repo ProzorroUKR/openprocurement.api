@@ -25,7 +25,7 @@ def create_csv_roles(cls):
     path_role_csv = ""
     for i in os.path.abspath(sys.modules[cls.__module__].__file__).split("/")[:-1]:
         path_role_csv += i + "/"
-    with open("{0}{1}.csv".format(path_role_csv, cls.__name__), "wb") as csvfile:
+    with open("{0}{1}.csv".format(path_role_csv, cls.__name__), "w") as csvfile:
         fields_name.insert(0, "rolename")
         writer = csv.DictWriter(csvfile, fieldnames=fields_name)
         writer.writeheader()

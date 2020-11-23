@@ -33,7 +33,7 @@ def snitch(func):
         contains non-executable test functions) for tests and to include
         different set of functions into different test cases.
     """
-    return FunctionType(func.func_code, func.func_globals, "test_" + func.func_name, closure=func.func_closure)
+    return FunctionType(func.__code__, func.__globals__, "test_" + func.__name__, closure=func.__closure__)
 
 
 class PrefixedTestRequest(webtest.app.TestRequest):

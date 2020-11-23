@@ -3,9 +3,9 @@ import os
 import re
 
 import pytz
-from ConfigParser import ConfigParser, DEFAULTSECT
-from ciso8601 import parse_datetime
 
+from configparser import ConfigParser, DEFAULTSECT
+from ciso8601 import parse_datetime
 from pytz import timezone
 from datetime import datetime
 from logging import getLogger

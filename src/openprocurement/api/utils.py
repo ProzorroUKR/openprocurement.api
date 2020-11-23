@@ -21,11 +21,13 @@ from openprocurement.api.traversal import factory
 from rfc6266 import build_header
 from hashlib import sha512
 from time import time as ttime
-from urllib import quote, unquote, urlencode
-from urlparse import urlparse, urlunsplit, parse_qsl
+from urllib.parse import urlparse, urlunsplit, parse_qsl, quote, unquote, urlencode
+from nacl.encoding import HexEncoder
+from nacl.exceptions import BadSignatureError
 from uuid import uuid4
 from webob.multidict import NestedMultiDict
 from binascii import hexlify, unhexlify
+from binascii import Error as BinasciiError
 from Crypto.Cipher import AES
 from cornice.util import json_error
 from json import dumps
@@ -124,7 +126,9 @@ def get_schematics_document(model):
 
 
 def generate_docservice_url(request, doc_id, temporary=True, prefix=None):
-    docservice_key = getattr(request.registry, "docservice_key", None)
+    signer = getattr(request.registry, "docservice_key", None)
+    keyid = signer.verify_key.encode(encoder=HexEncoder)[:8].decode()
+
     parsed_url = urlparse(request.registry.docservice_url)
     query = {}
     if temporary:
@@ -136,8 +140,8 @@ def generate_docservice_url(request, doc_id, temporary=True, prefix=None):
     if prefix:
         mess = "{}/{}".format(prefix, mess)
         query["Prefix"] = prefix
-    query["Signature"] = quote(b64encode(docservice_key.signature(mess.encode("utf-8"))))
-    query["KeyID"] = docservice_key.hex_vk()[:8]
+    query["Signature"] = b64encode(signer.sign(mess.encode()).signature)
+    query["KeyID"] = keyid
     return urlunsplit((parsed_url.scheme, parsed_url.netloc, "/get/{}".format(doc_id), urlencode(query), ""))
 
 
@@ -152,6 +156,12 @@ def error_handler(request, request_params=True):
         for x, j in request.matchdict.items():
             params[x.upper()] = j
     request.registry.notify(ErrorDescriptorEvent(request, params))
+
+    for item in errors:
+        for key, value in item.items():
+            if isinstance(value, bytes):
+                item[key] = value.decode('utf-8')
+
     LOGGER.info(
         'Error on processing request "{}"'.format(dumps(errors, indent=4)),
         extra=context_unpack(request, {"MESSAGE_ID": "error_handler"}, params),
@@ -293,7 +303,7 @@ def upload_file_to_attachments(document, in_file, request):
     filename = "{}_{}".format(document.id, key)
     request.validated["db_doc"]["_attachments"][filename] = {
         "content_type": document.format,
-        "data": b64encode(in_file.read()),
+        "data": b64encode(in_file.read()).decode('utf-8'),
     }
     return key
 
@@ -359,10 +369,10 @@ def get_file_docservice(request, db_doc_id, key):
             url = generate_docservice_url(request, key, prefix="{}/{}".format(db_doc_id, document.id))
         else:
             url = generate_docservice_url(request, key)
-    request.response.content_type = document.format.encode("utf-8")
+    request.response.content_type = document.format
     request.response.content_disposition = build_header(
         document.title, filename_compat=quote(document.title.encode("utf-8"))
-    )
+    ).decode("utf-8")
     request.response.status = "302 Moved Temporarily"
     request.response.location = url
     return url
@@ -370,10 +380,10 @@ def get_file_docservice(request, db_doc_id, key):
 def get_file_attachment(request, document, db_doc_id, filename):
     data = request.registry.db.get_attachment(db_doc_id, filename)
     if data:
-        request.response.content_type = document.format.encode("utf-8")
+        request.response.content_type = document.format
         request.response.content_disposition = build_header(
             document.title, filename_compat=quote(document.title.encode("utf-8"))
-        )
+        ).decode("utf-8")
         request.response.body_file = data
         return request.response
     request.errors.add("url", "download", "Not Found")
@@ -421,7 +431,7 @@ def set_ownership(item, request):
     access = {"token": item.owner_token}
     if isinstance(getattr(type(item), "transfer_token", None), StringType):
         transfer = generate_id()
-        item.transfer_token = sha512(transfer).hexdigest()
+        item.transfer_token = sha512(transfer.encode("utf-8")).hexdigest()
         access["transfer"] = transfer
     return access
 
@@ -433,7 +443,7 @@ def check_document(request, document):
     if (
         not url.startswith(request.registry.docservice_url)
         or len(parsed_url.path.split("/")) != 3
-        or set(["Signature", "KeyID"]) != set(parsed_query)
+        or {"Signature", "KeyID"} != set(parsed_query)
     ):
         request.errors.add("body", "url", "Can add document only from document service.")
         request.errors.status = 403
@@ -452,15 +462,15 @@ def check_document(request, document):
     key = urlparse(url).path.split("/")[-1]
     try:
         signature = b64decode(unquote(signature))
-    except TypeError:
+    except BinasciiError:
         request.errors.add("body", "url", "Document url signature invalid.")
         request.errors.status = 422
         raise error_handler(request)
     mess = "{}\0{}".format(key, document.hash.split(":", 1)[-1])
     try:
-        if mess != dockey.verify(signature + mess.encode("utf-8")):
-            raise ValueError
-    except ValueError:
+        if mess.encode() != dockey.verify(signature + mess.encode("utf-8")):
+            raise BadSignatureError
+    except BadSignatureError:
         request.errors.add("body", "url", "Document url invalid.")
         request.errors.status = 422
         raise error_handler(request)
@@ -594,7 +604,14 @@ class APIResourceListing(APIResource):
             view_fields = fields | {"dateModified", "id"}
             if changes:
                 results = [
-                    (dict([(i, j) for i, j in x.value.items() + [("id", x.id)] if i in view_fields]), x.key)
+                    (
+                        dict(
+                            (i, j)
+                            for i, j in list(x.value.items()) + [('id', x.id)]
+                            if i in view_fields
+                        ),
+                        x.key
+                    )
                     for x in view()
                 ]
             else:
@@ -603,7 +620,7 @@ class APIResourceListing(APIResource):
                         dict(
                             [
                                 (i, j)
-                                for i, j in x.value.items() + [("id", x.id), ("dateModified", x.key)]
+                                for i, j in list(x.value.items()) + [("id", x.id), ("dateModified", x.key)]
                                 if i in view_fields
                             ]
                         ),
@@ -630,8 +647,8 @@ class APIResourceListing(APIResource):
                 params["offset"], pparams["offset"] = results[-1][1], view_offset
             results = [i[0] for i in results]
             if changes:
-                params["offset"] = encrypt(self.server.uuid, self.db.name, params["offset"])
-                pparams["offset"] = encrypt(self.server.uuid, self.db.name, pparams["offset"])
+                params["offset"] = encrypt(self.server.uuid, self.db.name, params["offset"]).decode()
+                pparams["offset"] = encrypt(self.server.uuid, self.db.name, pparams["offset"]).decode()
         else:
             params["offset"] = offset
             pparams["offset"] = offset
@@ -838,9 +855,9 @@ def to_decimal(value):
     """
     if isinstance(value, Decimal):
         return value
-    if isinstance(value, (int, long)):
+    if isinstance(value, int):
         return Decimal(value)
-    if isinstance(value, (float)):
+    if isinstance(value, float):
         return Decimal(repr(value))
 
     raise TypeError("Unable to convert %s to Decimal" % value)
@@ -971,3 +988,21 @@ def parse_date(value, default_timezone=pytz.utc):
     if not date.tzinfo:
         date = default_timezone.localize(date)
     return date
+
+
+def get_change_class(poly_model, data, _validation=False):
+    rationale_type = data.get("rationaleType")
+    rationale_type_class_name_mapping = {
+        "taxRate": "ChangeTaxRate",
+        "itemPriceVariation": "ChangeItemPriceVariation",
+        "partyWithdrawal": "ChangePartyWithdrawal",
+        "thirdParty": "ChangeThirdParty"
+    }
+    _class_name = rationale_type_class_name_mapping.get(rationale_type)
+    if not _class_name:
+        if _validation:
+            return None
+        raise ValidationError("Input for polymorphic field did not match any model")
+
+    _change_class = [model_class for model_class in poly_model.model_classes if model_class.__name__ == _class_name][0]
+    return _change_class

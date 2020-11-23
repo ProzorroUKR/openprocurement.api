@@ -4,9 +4,9 @@ from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
 from isodate import ISO8601Error, parse_duration, duration_isoformat
 from isodate.duration import Duration
 from uuid import uuid4
-from urlparse import urlparse, parse_qs
+from urllib.parse import urlparse, parse_qs
 from string import hexdigits
-from hashlib import algorithms, new as hash_new
+from hashlib import algorithms_guaranteed, new as hash_new
 from couchdb_schematics.document import SchematicsDocument
 from schematics.exceptions import ConversionError, ValidationError
 from schematics.models import Model as SchematicsModel
@@ -98,13 +98,13 @@ class AdaptiveDict(dict):
             yield item[0]
 
     def iteritems(self):
-        for i in super(AdaptiveDict, self).iteritems():
+        for i in super(AdaptiveDict, self).items():
             yield i
         for k, v in getAdapters((self.context,), self.interface):
             if self.prefix:
                 k = self.prefix + k
             self.adaptive_items[k] = v
-        for i in self.adaptive_items.iteritems():
+        for i in self.adaptive_items.items():
             yield i
 
 
@@ -116,9 +116,7 @@ class OpenprocurementCouchdbDocumentMeta(DocumentMeta):
         return klass
 
 
-class OpenprocurementSchematicsDocument(SchematicsDocument):
-
-    __metaclass__ = OpenprocurementCouchdbDocumentMeta
+class OpenprocurementSchematicsDocument(SchematicsDocument, metaclass=OpenprocurementCouchdbDocumentMeta):
 
     def __init__(self, raw_data=None, deserialize_mapping=None):
         super(OpenprocurementSchematicsDocument, self).__init__(
@@ -272,10 +270,9 @@ class SifterListType(ListType):
             return data
 
 
-class Model(SchematicsModel):
-    __metaclass__ = OpenprocurementCouchdbDocumentMeta
+class Model(SchematicsModel, metaclass=OpenprocurementCouchdbDocumentMeta):    
 
-    class Options(object):
+    class Options:
         """Export options for Document."""
 
         serialize_when_none = False
@@ -375,16 +372,16 @@ class CPVClassification(Classification):
 
     def validate_id(self, data, code):
         if data.get("scheme") == u"CPV" and code not in CPV_CODES:
-            raise ValidationError(BaseType.MESSAGES["choices"].format(unicode(CPV_CODES)))
+            raise ValidationError(BaseType.MESSAGES["choices"].format(CPV_CODES))
         elif data.get("scheme") == u"ДК021" and code not in DK_CODES:
-            raise ValidationError(BaseType.MESSAGES["choices"].format(unicode(DK_CODES)))
+            raise ValidationError(BaseType.MESSAGES["choices"].format(DK_CODES))
 
     def validate_scheme(self, data, scheme):
         schematics_document = get_schematics_document(data["__parent__"])
         if (
             schematics_document.get("revisions")[0].date if schematics_document.get("revisions") else get_now()
         ) > CPV_BLOCK_FROM and scheme != u"ДК021":
-            raise ValidationError(BaseType.MESSAGES["choices"].format(unicode([u"ДК021"])))
+            raise ValidationError(BaseType.MESSAGES["choices"].format([u"ДК021"]))
 
 
 class AdditionalClassification(Classification):
@@ -471,7 +468,7 @@ class HashType(StringType):
 
         hash_type, hash_value = value.split(":", 1)
 
-        if hash_type not in algorithms:
+        if hash_type not in algorithms_guaranteed:
             raise ValidationError(self.messages["hash_invalid"])
 
         if len(hash_value) != hash_new(hash_type).digest_size * 2:

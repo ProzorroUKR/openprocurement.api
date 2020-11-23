@@ -45,7 +45,7 @@ class TestBusinessOrganizationScale(unittest.TestCase):
         with self.assertRaises(ModelValidationError) as e:
             organization.validate()
         self.assertEqual(
-            e.exception.message, {"scale": [u"Value must be one of ['micro', 'sme', 'mid', 'large', 'not specified']."]}
+            e.exception.messages, {"scale": [u"Value must be one of ['micro', 'sme', 'mid', 'large', 'not specified']."]}
         )
 
     def test_validate_required(self):
@@ -53,7 +53,7 @@ class TestBusinessOrganizationScale(unittest.TestCase):
         organization.__parent__ = SchematicsDocument()
         with self.assertRaises(ModelValidationError) as e:
             organization.validate()
-        self.assertEqual(e.exception.message, {"scale": [u"This field is required."]})
+        self.assertEqual(e.exception.messages, {"scale": [u"This field is required."]})
 
     @mock.patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
     def test_validate_not_required(self):
@@ -84,7 +84,7 @@ class TestAddress(unittest.TestCase):
         with self.assertRaises(ModelValidationError) as e:
             address.validate()
         self.assertEqual(
-            e.exception.message, {'countryName': [u"field address:countryName not exist in countries catalog"]}
+            e.exception.messages, {'countryName': [u"field address:countryName not exist in countries catalog"]}
         )
 
         address.countryName = u"Україна"
@@ -106,7 +106,7 @@ class TestAddress(unittest.TestCase):
         with self.assertRaises(ModelValidationError) as e:
             address.validate()
         self.assertEqual(
-            e.exception.message, {"region": [u"field address:region not exist in ua_regions catalog"]}
+            e.exception.messages, {"region": [u"field address:region not exist in ua_regions catalog"]}
         )
 
         address.region = u"Київська область"
