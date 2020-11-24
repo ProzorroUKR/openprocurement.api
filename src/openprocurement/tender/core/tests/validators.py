@@ -347,7 +347,7 @@ class TestTenderAdditionalClassificationUAROAD(unittest.TestCase):
         tender = Tender(self.test_tender)
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
-        error_message = e.exception.message["items"][0]["additionalClassifications"][0]
+        error_message = e.exception.messages["items"][0]["additionalClassifications"][0]
         self.assertIn(
             u"Item shouldn't have additionalClassification with scheme UA-ROAD for cpv not starts with", error_message
         )
@@ -370,7 +370,7 @@ class TestTenderAdditionalClassificationUAROAD(unittest.TestCase):
         tender = Tender(self.test_tender)
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
-        error_message = e.exception.message["items"][0]["additionalClassifications"][0]["id"][0]
+        error_message = e.exception.messages["items"][0]["additionalClassifications"][0]["id"][0]
         self.assertEqual(error_message, "UA-ROAD id not found in standards")
 
     def test_invalid_description(self):
@@ -381,7 +381,7 @@ class TestTenderAdditionalClassificationUAROAD(unittest.TestCase):
         tender = Tender(self.test_tender)
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
-        error_message = e.exception.message["items"][0]["additionalClassifications"][0]["description"][0]
+        error_message = e.exception.messages["items"][0]["additionalClassifications"][0]["description"][0]
         self.assertEqual(u"UA-ROAD description invalid", error_message)
 
     def test_more_than_one_ua_road(self):
@@ -390,7 +390,7 @@ class TestTenderAdditionalClassificationUAROAD(unittest.TestCase):
         tender = Tender(self.test_tender)
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
-        error_message = e.exception.message["items"][0]["additionalClassifications"][0]
+        error_message = e.exception.messages["items"][0]["additionalClassifications"][0]
         self.assertIn("Item shouldn't have more than 1 additionalClassification", error_message)
 
     def test_required_id_description(self):
@@ -399,7 +399,7 @@ class TestTenderAdditionalClassificationUAROAD(unittest.TestCase):
         tender = Tender(self.test_tender)
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
-        error_messages = e.exception.message["items"][0]["additionalClassifications"][0]
+        error_messages = e.exception.messages["items"][0]["additionalClassifications"][0]
         self.assertEqual(
             error_messages, {"id": [u"This field is required."], "description": [u"This field is required."]}
         )
@@ -417,7 +417,7 @@ class TestTenderAdditionalClassificationGMDN(unittest.TestCase):
         tender = Tender(self.test_tender)
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
-        error_message = e.exception.message["items"][0]["additionalClassifications"][0]
+        error_message = e.exception.messages["items"][0]["additionalClassifications"][0]
         self.assertIn(
             u"Item shouldn't have additionalClassification with scheme GMDN for cpv not starts with", error_message
         )
@@ -436,7 +436,7 @@ class TestTenderAdditionalClassificationGMDN(unittest.TestCase):
         tender = Tender(self.test_tender)
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
-        error_message = e.exception.message["items"][0]["additionalClassifications"][0]["id"][0]
+        error_message = e.exception.messages["items"][0]["additionalClassifications"][0]["id"][0]
         self.assertEqual(error_message, "GMDN id not found in standards")
 
     def test_invalid_description(self):
@@ -453,7 +453,7 @@ class TestTenderAdditionalClassificationGMDN(unittest.TestCase):
         tender = Tender(self.test_tender)
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
-        error_message = e.exception.message["items"][0]["additionalClassifications"][0]
+        error_message = e.exception.messages["items"][0]["additionalClassifications"][0]
         self.assertIn("Item shouldn't have more than 1 additionalClassification", error_message)
 
     def test_gmdn_with_inn_atc(self):
@@ -466,7 +466,7 @@ class TestTenderAdditionalClassificationGMDN(unittest.TestCase):
             tender = Tender(self.test_tender)
             with self.assertRaises(ModelValidationError) as e:
                 tender.validate()
-            error_message = e.exception.message["items"][0]["additionalClassifications"][0]
+            error_message = e.exception.messages["items"][0]["additionalClassifications"][0]
             self.assertIn(
                 u"Item shouldn't have additionalClassifications with both schemes INN/ATC and GMDN", error_message
             )
@@ -477,7 +477,7 @@ class TestTenderAdditionalClassificationGMDN(unittest.TestCase):
         tender = Tender(self.test_tender)
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
-        error_messages = e.exception.message["items"][0]["additionalClassifications"][0]
+        error_messages = e.exception.messages["items"][0]["additionalClassifications"][0]
         self.assertEqual(
             error_messages, {"id": [u"This field is required."], "description": [u"This field is required."]}
         )
@@ -496,7 +496,7 @@ class TestTenderMinimalStepLimitsValidation(unittest.TestCase):
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
         self.assertEqual(
-            e.exception.message,
+            e.exception.messages,
             {'minimalStep': [u'minimalstep must be between 0.5% and 3% of value (with 2 digits precision).']}
         )
 

@@ -168,7 +168,7 @@ class TestUtils(TestUtilsBase):
 
         with self.assertRaises(Exception) as e:
             tender_from_data(request, self.tender_data)
-        self.assertEqual(e.exception.message, "Mocked!")
+        self.assertEqual(str(e.exception), "Mocked!")
         self.assertEqual(request.errors.status, 415)
         request.errors.add.assert_called_once_with("body", "procurementMethodType", "Not implemented")
 
@@ -204,7 +204,7 @@ class TestUtils(TestUtilsBase):
         mocked_error_handler.return_value = Exception("Oops.")
         mocked_decode_path.side_effect = [
             KeyError("Missing 'PATH_INFO'"),
-            UnicodeDecodeError("UTF-8", "obj", 1, 10, "Hm..."),
+            UnicodeDecodeError("UTF-8", b"obj", 1, 10, "Hm..."),
             "/",
             "/api/2.3/tenders/{}".format(self.tender_data["id"]),
         ]
@@ -223,7 +223,7 @@ class TestUtils(TestUtilsBase):
         with self.assertRaises(URLDecodeError) as e:
             extract_tender(request)
         self.assertEqual(e.exception.encoding, "UTF-8")
-        self.assertEqual(e.exception.object, "obj")
+        self.assertEqual(e.exception.object, b"obj")
         self.assertEqual(e.exception.start, 1)
         self.assertEqual(e.exception.end, 10)
         self.assertEqual(e.exception.reason, "Hm...")

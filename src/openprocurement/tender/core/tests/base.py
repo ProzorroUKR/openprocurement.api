@@ -3,7 +3,8 @@ import os
 from contextlib import contextmanager
 
 from uuid import uuid4
-from urllib import urlencode
+from urllib.parse import urlencode
+from nacl.encoding import HexEncoder
 from base64 import b64encode
 from datetime import datetime, timedelta
 from requests.models import Response
@@ -55,17 +56,20 @@ class BaseWebTest(BaseApiWebTest):
                 data = '{{"url":"{url}","hash":"md5:{md5}","format":"{format}","title":"{title}"}}'.format(
                     url=url, md5="0" * 32, title="name.doc", format="application/msword"
                 )
-                response._content = '{{"data": {data},"get_url":"{url}"}}'.format(url=url, data=data)
+                response._content = '{{"data": {data},"get_url":"{url}"}}'.format(url=url, data=data).encode()
                 response.reason = "200 OK"
             return response
 
         SESSION.request = request
 
-    def generate_docservice_url(self):
+    def generate_docservice_url(self, doc_hash=None):
         uuid = uuid4().hex
-        key = self.app.app.registry.docservice_key
-        keyid = key.hex_vk()[:8]
-        signature = b64encode(key.signature("{}\0{}".format(uuid, "0" * 32)))
+        doc_hash = doc_hash or '0' * 32
+        registry = self.app.app.registry
+        signer = registry.docservice_key
+        keyid = signer.verify_key.encode(encoder=HexEncoder)[:8].decode()
+        msg = "{}\0{}".format(uuid, doc_hash).encode()
+        signature = b64encode(signer.sign(msg).signature)
         query = {"Signature": signature, "KeyID": keyid}
         return "{}/get/{}?{}".format(self.docservice_url, uuid, urlencode(query))
 

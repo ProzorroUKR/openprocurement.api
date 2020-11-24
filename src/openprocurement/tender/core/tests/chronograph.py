@@ -117,7 +117,7 @@ def switch_qualification_complaints_draft(self):
     qualification = tender["qualifications"][0]
 
     # let's post a draft complaint
-    token = self.initial_bids_tokens.values()[0]
+    token = list(self.initial_bids_tokens.values())[0]
     response = self.app.post_json(
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(self.tender_id, qualification["id"], token),
         {"data": test_draft_complaint},
@@ -158,7 +158,7 @@ def switch_award_complaints_draft(self):
     award_data = response.json["data"]
 
     # let's post a draft complaint
-    token = self.initial_bids_tokens.values()[0]
+    token = list(self.initial_bids_tokens.values())[0]
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, token),
         {"data": test_draft_complaint},

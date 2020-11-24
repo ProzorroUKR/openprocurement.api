@@ -1,7 +1,9 @@
 import unittest
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.core.adapters import TenderConfigurator
-from configurator_blanks import reverse_awarding_criteria_check, awarding_criteria_key, configurator_model
+from openprocurement.tender.core.tests.configurator_blanks import (
+    reverse_awarding_criteria_check, awarding_criteria_key, configurator_model,
+)
 
 
 class ConfiguratorTestMixin(object):

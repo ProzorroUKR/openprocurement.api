@@ -25,7 +25,7 @@ class TestPeriodEndRequired(unittest.TestCase):
         model = PeriodEndRequired({"startDate": end_date.isoformat(), "endDate": start_date.isoformat()})
         with self.assertRaises(ModelValidationError) as e:
             model.validate()
-        self.assertEqual(e.exception.message, {"startDate": [u"period should begin before its end"]})
+        self.assertEqual(e.exception.messages, {"startDate": [u"period should begin before its end"]})
 
         revision = MagicMock()
         revision.date = datetime.now(TZ)
@@ -33,7 +33,7 @@ class TestPeriodEndRequired(unittest.TestCase):
         model = PeriodEndRequired({"endDate": end_date.isoformat()})
         with self.assertRaises(ModelValidationError) as e:
             model.validate()
-        self.assertEqual(e.exception.message, {"startDate": [u"This field cannot be deleted"]})
+        self.assertEqual(e.exception.messages, {"startDate": [u"This field cannot be deleted"]})
 
         model = PeriodEndRequired({"startDate": start_date.isoformat(), "endDate": end_date.isoformat()})
         model.validate()
@@ -59,7 +59,7 @@ class TestModelsUtils(unittest.TestCase):
         period._data["__parent__"] = None
         with self.assertRaises(AttributeError) as e:
             get_tender(second_period)
-        self.assertEqual(e.exception.message, "'NoneType' object has no attribute '__parent__'")
+        self.assertEqual(str(e.exception), "'NoneType' object has no attribute '__parent__'")
 
 
 class TestTenderAuctionPeriod(unittest.TestCase):
@@ -133,7 +133,7 @@ class TestQuestionModel(unittest.TestCase):
         with self.assertRaises(ValueError) as e:
             question.serialize("invalid_role")
         self.assertIsInstance(e.exception, ValueError)
-        self.assertEqual(e.exception.message, 'Question Model has no role "invalid_role"')
+        self.assertEqual(str(e.exception), 'Question Model has no role "invalid_role"')
         serialized_question = question.serialize("active.pre-qualification")
         self.assertEqual(serialized_question["questionOf"], "tender")
         self.assertEqual(len(serialized_question["id"]), 32)
@@ -170,14 +170,14 @@ class TestTenderMainProcurementCategory(unittest.TestCase):
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
         self.assertEqual(
-            e.exception.message, {"mainProcurementCategory": [u"Value must be one of ['goods', 'services', 'works']."]}
+            e.exception.messages, {"mainProcurementCategory": [u"Value must be one of ['goods', 'services', 'works']."]}
         )
 
     def test_validate_empty(self):
         with self.assertRaises(ModelValidationError) as e:
             tender = Tender({"title": "whatever", "milestones": [copy.deepcopy(self.milestones)]})
             tender.validate()
-        self.assertEqual(e.exception.message, {"mainProcurementCategory": [u"This field is required."]})
+        self.assertEqual(e.exception.messages, {"mainProcurementCategory": [u"This field is required."]})
 
 
 class TestTender(Tender):

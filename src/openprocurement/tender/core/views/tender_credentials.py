@@ -15,5 +15,5 @@ class TenderResource(APIResource):
         self.LOGGER.info("Extract credentials for tender {}".format(self.context.id))
         tender = self.request.validated["tender"]
         data = tender.serialize("contracting")
-        data["tender_token"] = sha512(tender.owner_token).hexdigest()
+        data["tender_token"] = sha512(tender.owner_token.encode("utf-8")).hexdigest()
         return {"data": data}

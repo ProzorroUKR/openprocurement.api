@@ -57,7 +57,7 @@ def activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id
         "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
             tender_id, cancellation_id, tender_token
         ),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -99,7 +99,7 @@ def activate_cancellation_without_complaints_after_2020_04_19(self, cancellation
         "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
             tender_id, cancellation_id, tender_token
         ),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
