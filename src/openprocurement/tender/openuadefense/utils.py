@@ -15,22 +15,9 @@ from openprocurement.tender.core.utils import (
     calculate_clarif_business_date as calculate_clarif_business_date_base,
     calculate_complaint_business_date as calculate_complaint_business_date_base
 )
+from openprocurement.tender.openuadefense.constants import WORKING_DAYS
 
 LOGGER = getLogger("openprocurement.tender.openuadefense")
-
-
-def read_json(name):
-    import os.path
-    from json import loads
-
-    curr_dir = os.path.dirname(os.path.realpath(__file__))
-    file_path = os.path.join(curr_dir, name)
-    with open(file_path) as lang_file:
-        data = lang_file.read()
-    return loads(data)
-
-
-WORKING_DAYS = read_json("data/working_days.json")
 
 
 def calculate_tender_business_date(date_obj, timedelta_obj, tender=None, working_days=False):
