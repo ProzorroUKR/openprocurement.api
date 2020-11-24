@@ -74,6 +74,10 @@ parameterized==0.7.0
 sentry-sdk==0.10.2
 
 
+############
+### Don't forget to upload new versions to
+### https://repo.prozorro.gov.ua/repos/dist.quintagroup.com/prozorro/
+############
 git+git://github.com/ProzorroUKR/request_id_middleware.git@0.1.2
 git+git://github.com/ProzorroUKR/openprocurement.subscribers.serverid.git@1.1
 git+git://github.com/ProzorroUKR/esculator.git@0.0.2
@@ -89,9 +93,12 @@ git+git://github.com/ProzorroUKR/openprocurement.archivarius.contracts.git@1.0.1
 git+git://github.com/ProzorroUKR/couchdb-python.git@1.2-bad-status-line#egg=couchdb
 
 ############
-### On standards version update you should consider to update it in all related repos and chronograph db:
+### On standards version update you should consider
+### to update it in all related repos and chronograph db:
 ### https://github.com/ProzorroUKR/openprocurement.api
 ### https://github.com/ProzorroUKR/openprocurement.audit.api
 ### https://github.com/ProzorroUKR/prozorro_tasks
+### Also don't forget to upload new versions to
+### https://repo.prozorro.gov.ua/repos/dist.quintagroup.com/prozorro/
 ############
 git+git://github.com/ProzorroUKR/standards.git@1.0.3
