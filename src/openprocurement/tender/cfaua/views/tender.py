@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-from zope.component import getAdapter
 
-from openprocurement.api.interfaces import IContentConfigurator
 from openprocurement.api.utils import json_view, context_unpack, get_now, raise_operation_error
 from openprocurement.tender.core.utils import (
     optendersresource,
@@ -22,6 +20,10 @@ from openprocurement.tender.cfaua.utils import check_status, all_bids_are_review
 from openprocurement.tender.openua.validation import validate_patch_tender_ua_data
 from openprocurement.tender.core.events import TenderInitializeEvent
 from openprocurement.tender.cfaua.validation import validate_tender_status_update
+from openprocurement.tender.cfaua.constants import (
+    PREQUALIFICATION_COMPLAINT_STAND_STILL,
+    QUALIFICATION_COMPLAINT_STAND_STILL,
+)
 
 
 @optendersresource(
@@ -96,7 +98,6 @@ class TenderEUResource(TenderResource):
 
         """
         tender = self.context
-        config = getAdapter(tender, IContentConfigurator)
         data = self.request.validated["data"]
         now = get_now()
         if (
@@ -135,7 +136,7 @@ class TenderEUResource(TenderResource):
                 )
             if all_bids_are_reviewed(self.request):
                 tender.qualificationPeriod.endDate = calculate_complaint_business_date(
-                    now, config.prequalification_complaint_stand_still, self.request.validated["tender"]
+                    now, PREQUALIFICATION_COMPLAINT_STAND_STILL, self.request.validated["tender"]
                 )
                 tender.check_auction_time()
             else:
@@ -162,7 +163,7 @@ class TenderEUResource(TenderResource):
                 )
             if all_awards_are_reviewed(self.request):
                 tender.awardPeriod.endDate = calculate_complaint_business_date(
-                    now, config.qualification_complaint_stand_still, self.request.validated["tender"]
+                    now, QUALIFICATION_COMPLAINT_STAND_STILL, self.request.validated["tender"]
                 )
                 for award in [a for a in tender.awards if a.status != "cancelled"]:
                     award["complaintPeriod"] = {

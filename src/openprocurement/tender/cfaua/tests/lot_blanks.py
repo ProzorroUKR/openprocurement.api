@@ -1592,7 +1592,7 @@ def one_lot_1bid(self):
 def tender_lot_document(self):
     response = self.app.post(
         "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
-        upload_files=[("file", str(Header(u"укр.doc", "utf-8")), "content")],
+        upload_files=[("file", str(Header(u"укр.doc", "utf-8")), b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")

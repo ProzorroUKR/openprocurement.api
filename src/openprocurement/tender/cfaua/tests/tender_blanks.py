@@ -1048,12 +1048,12 @@ def invalid_bid_tender_lot(self):
     self.assertEqual(
         response.json["errors"],
         [
-            {u"description": [u"Please provide at least 1 item."], u"location": u"body", u"name": u"lots"},
             {
                 u"description": [{u"relatedLot": [u"relatedLot should be one of lots"]}],
                 u"location": u"body",
                 u"name": u"items",
             },
+            {u"description": [u"Please provide at least 1 item."], u"location": u"body", u"name": u"lots"},
         ],
     )
 

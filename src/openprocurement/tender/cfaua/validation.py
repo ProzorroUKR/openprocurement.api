@@ -172,11 +172,11 @@ def validate_agreement_signing(request, **kwargs):
             raise_operation_error(request, "startDate and endDate are required in agreement.period.")
         agreement_start_date = parse_date(data["period"]["startDate"])
         agreement_end_date = parse_date(data["period"]["endDate"])
-        calculated_end_date = agreement_start_date + config.max_agreement_period
+        calculated_end_date = agreement_start_date + MAX_AGREEMENT_PERIOD
         if calculated_end_date < agreement_end_date:
             raise_operation_error(
                 request,
-                "Agreement period can't be greater than {}.".format(duration_isoformat(config.max_agreement_period)),
+                "Agreement period can't be greater than {}.".format(duration_isoformat(MAX_AGREEMENT_PERIOD)),
             )
         awards = [a for a in tender.awards if a.id in request.context.get_awards_id()]
         lots_id = set([a.lotID for a in awards] + [None])
@@ -200,7 +200,7 @@ def validate_agreement_signing(request, **kwargs):
                     empty_unitprices.append(unit_price.value.amount is None)
         if any(empty_unitprices):
             raise_operation_error(request, "Can't sign agreement without all contracts.unitPrices.value.amount")
-        if len(active_contracts) < config.min_bids_number:
+        if len(active_contracts) < MIN_BIDS_NUMBER:
             raise_operation_error(request, "Agreement don't reach minimum active contracts.")
 
 

@@ -10,7 +10,7 @@ from openprocurement.api.utils import get_now, parse_date
 def create_tender_lot_qualification_complaint(self):
     response = self.app.post_json(
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
-            self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
+            self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
         ),
         {
             "data": test_complaint
@@ -58,7 +58,7 @@ def create_tender_lot_qualification_complaint(self):
 
         response = self.app.post_json(
             "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
-                self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
+                self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
             ),
             {"data": test_draft_claim},
             status=403,
@@ -75,7 +75,7 @@ def create_tender_qualification_complaint(self):
     complaint_data['status'] = "claim"
     response = self.app.post_json(
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
-            self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
+            self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
         ),
         {
             "data": complaint_data
@@ -86,7 +86,7 @@ def create_tender_qualification_complaint(self):
 
     response = self.app.post_json(
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
-            self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
+            self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
         ),
         {
             "data": test_complaint
@@ -133,7 +133,7 @@ def create_tender_qualification_complaint(self):
 
         response = self.app.post_json(
             "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
-                self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
+                self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
             ),
             {"data": test_draft_claim},
             status=403,
@@ -146,7 +146,7 @@ def create_tender_qualification_complaint(self):
 
 
 def switch_bid_status_unsuccessul_to_active(self):
-    bid_id, bid_token = self.initial_bids_tokens.items()[0]
+    bid_id, bid_token = list(self.initial_bids_tokens.items())[0]
 
     response = self.app.get("/tenders/{}/qualifications?acc_token={}".format(self.tender_id, self.tender_token))
     self.assertEqual(response.content_type, "application/json")
