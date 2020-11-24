@@ -74,6 +74,10 @@ parameterized==0.7.0
 sentry-sdk==0.10.2
 
 
+############
+### Don't forget to upload new versions to
+### https://repo.prozorro.gov.ua/repos/dist.quintagroup.com/prozorro/
+############
 git+git://github.com/ProzorroUKR/request_id_middleware.git@0.1.2
 git+git://github.com/ProzorroUKR/openprocurement.subscribers.serverid.git@1.1
 git+git://github.com/ProzorroUKR/esculator.git@0.0.2
