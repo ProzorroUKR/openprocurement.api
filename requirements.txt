@@ -101,4 +101,4 @@ git+git://github.com/ProzorroUKR/couchdb-python.git@1.2-bad-status-line#egg=couc
 ### Also don't forget to upload new versions to
 ### https://repo.prozorro.gov.ua/repos/dist.quintagroup.com/prozorro/
 ############
-git+git://github.com/ProzorroUKR/standards.git@1.0.3
+git+git://github.com/ProzorroUKR/standards.git@1.0.4

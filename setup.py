@@ -35,7 +35,7 @@ requires = [
     "dateorro>=0.0.3",
     "configparser",
     "sentry-sdk",
-    "standards>=1.0.3",
+    "standards>=1.0.4",
 ]
 tests_requires = requires + [
     "pytest",
