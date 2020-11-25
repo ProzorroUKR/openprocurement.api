@@ -548,6 +548,10 @@ def extend_next_check_by_complaint_period_ends(tender, checks):
     should be added to next_check tender methods
     to schedule switching complaints draft-mistaken and others
     """
+    now = get_now()
+    if get_first_revision_date(tender, default=now) < RELEASE_2020_04_19:
+        return  # only for tenders from RELEASE_2020_04_19
+
     # no need to check procedures that don't have cancellation complaints
     excluded = ("belowThreshold", "closeFrameworkAgreementSelectionUA")
     for cancellation in tender.cancellations:
@@ -586,8 +590,7 @@ def check_complaint_statuses_at_complaint_period_end(tender, now):
     also cancellation complaint changes will be able to affect statuses of cancellations
     """
     if get_first_revision_date(tender, default=now) < RELEASE_2020_04_19:
-        return
-    # only for tenders from RELEASE_2020_04_19
+        return  # only for tenders from RELEASE_2020_04_19
 
     def check_complaints(complaints):
         for complaint in complaints:
