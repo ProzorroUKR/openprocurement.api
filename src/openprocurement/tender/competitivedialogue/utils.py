@@ -18,7 +18,7 @@ from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
     has_unanswered_questions,
     has_unanswered_complaints,
-    block_tender,
+    cancellation_block_tender,
     check_complaint_statuses_at_complaint_period_end,
 )
 from openprocurement.tender.core.validation import validate_tender_period_extension
@@ -221,7 +221,7 @@ def check_status(request):
     check_complaint_statuses_at_complaint_period_end(tender, now)
     check_cancellation_status(request, CancelTenderLot)
 
-    if block_tender(request):
+    if cancellation_block_tender(tender):
         return
 
     if (

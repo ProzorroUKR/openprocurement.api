@@ -32,7 +32,10 @@ from openprocurement.tender.core.models import (
     ProcuringEntity as BaseProcuringEntity,
 )
 
-from openprocurement.tender.core.utils import extend_next_check_by_complaint_period_ends
+from openprocurement.tender.core.utils import (
+    extend_next_check_by_complaint_period_ends,
+    cancellation_block_tender,
+)
 from openprocurement.tender.openua.models import (
     Complaint as BaseComplaint,
     Item,
@@ -481,7 +484,14 @@ class NegotiationTender(ReportingTender):
     @serializable(serialize_when_none=False)
     def next_check(self):
         checks = []
+
         extend_next_check_by_complaint_period_ends(self, checks)
+
+        if cancellation_block_tender(self):
+            return min(checks).isoformat() if checks else None
+
+        # Add checks here if needed
+
         return min(checks).isoformat() if checks else None
 
 

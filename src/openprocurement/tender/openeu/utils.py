@@ -11,7 +11,7 @@ from openprocurement.tender.core.utils import (
     has_unanswered_questions,
     has_unanswered_complaints,
     check_cancellation_status,
-    block_tender,
+    cancellation_block_tender,
     CancelTenderLot as BaseTenderLot,
     check_complaint_statuses_at_complaint_period_end,
 )
@@ -204,10 +204,6 @@ def check_status(request):
     check_complaint_statuses_at_complaint_period_end(tender, now)
     check_cancellation_status(request, CancelTenderLot)
 
-    active_lots = [
-        lot.id for lot in tender.lots
-        if lot.status == "active"
-    ] if tender.lots else [None]
     for award in tender.awards:
         if award.status == "active" and not any([i.awardID == award.id for i in tender.contracts]):
             add_contract(request, award, now)
@@ -217,8 +213,13 @@ def check_status(request):
                 awarding_criteria_key=configurator.awarding_criteria_key,
             )
 
-    if block_tender(request):
+    if cancellation_block_tender(tender):
         return
+
+    active_lots = [
+        lot.id for lot in tender.lots
+        if lot.status == "active"
+    ] if tender.lots else [None]
 
     if (
         tender.status == "active.tendering"

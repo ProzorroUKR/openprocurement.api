@@ -57,6 +57,7 @@ from openprocurement.tender.core.utils import (
     check_auction_period,
     calculate_tender_date,
     extend_next_check_by_complaint_period_ends,
+    cancellation_block_tender,
 )
 from openprocurement.tender.belowthreshold.models import Tender as BaseTender
 from openprocurement.tender.core.validation import validate_lotvalue_value, validate_relatedlot
@@ -684,6 +685,12 @@ class Tender(BaseTender):
     def next_check(self):
         now = get_now()
         checks = []
+
+        extend_next_check_by_complaint_period_ends(self, checks)
+
+        if cancellation_block_tender(self):
+            return min(checks).isoformat() if checks else None
+
         if (
             self.status == "active.tendering"
             and self.tenderPeriod.endDate
@@ -784,8 +791,6 @@ class Tender(BaseTender):
             for award in self.awards:
                 if award.status == "active" and not any([i.awardID == award.id for i in self.contracts]):
                     checks.append(award.date)
-
-        extend_next_check_by_complaint_period_ends(self, checks)
 
         return min(checks).isoformat() if checks else None
 

@@ -3,8 +3,10 @@ from openprocurement.api.interfaces import IContentConfigurator
 from openprocurement.api.adapters import Serializable
 from openprocurement.tender.core.utils import (
     calc_auction_end_time,
-    has_unanswered_questions, has_unanswered_complaints,
+    has_unanswered_questions,
+    has_unanswered_complaints,
     extend_next_check_by_complaint_period_ends,
+    cancellation_block_tender,
 )
 
 from openprocurement.api.utils import get_now
@@ -17,6 +19,12 @@ class SerializableTenderNextCheck(Serializable):
     def __call__(self, obj):
         now = get_now()
         checks = []
+
+        extend_next_check_by_complaint_period_ends(obj, checks)
+
+        if cancellation_block_tender(obj):
+            return min(checks).isoformat() if checks else None
+
         configurator = getAdapter(obj, IContentConfigurator)
         if (
             obj.status == "active.tendering"
@@ -83,7 +91,5 @@ class SerializableTenderNextCheck(Serializable):
                 ]
             ):
                 checks.append(obj.awardPeriod.endDate.astimezone(configurator.tz))
-
-        extend_next_check_by_complaint_period_ends(obj, checks)
 
         return min(checks).isoformat() if checks else None

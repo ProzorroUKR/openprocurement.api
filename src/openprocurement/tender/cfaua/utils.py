@@ -11,7 +11,7 @@ from openprocurement.tender.core.utils import (
     has_unanswered_questions,
     has_unanswered_complaints,
     calculate_tender_business_date,
-    block_tender,
+    cancellation_block_tender,
     check_complaint_statuses_at_complaint_period_end,
 )
 from openprocurement.tender.openeu.utils import CancelTenderLot as BaseCancelTenderLot
@@ -291,13 +291,13 @@ def check_status(request):
     check_complaint_statuses_at_complaint_period_end(tender, now)
     check_cancellation_status(request, CancelTenderLot)
 
+    if cancellation_block_tender(tender):
+        return
+
     active_lots = [
         lot.id
         for lot in tender.lots if lot.status == "active"
     ] if tender.lots else [None]
-
-    if block_tender(request):
-        return
 
     if (
         tender.status == "active.tendering"

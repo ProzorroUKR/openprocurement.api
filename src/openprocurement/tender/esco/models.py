@@ -53,6 +53,7 @@ from openprocurement.tender.core.utils import (
     calculate_clarif_business_date,
     check_auction_period,
     extend_next_check_by_complaint_period_ends,
+    cancellation_block_tender,
 )
 from openprocurement.tender.openua.models import Tender as OpenUATender
 from openprocurement.tender.openua.constants import COMPLAINT_SUBMIT_TIME, ENQUIRY_STAND_STILL_TIME
@@ -687,6 +688,12 @@ class Tender(BaseTender):
     def next_check(self):
         now = get_now()
         checks = []
+
+        extend_next_check_by_complaint_period_ends(self, checks)
+
+        if cancellation_block_tender(self):
+            return min(checks).isoformat() if checks else None
+
         if (
             self.status == "active.tendering"
             and self.tenderPeriod.endDate
@@ -787,8 +794,6 @@ class Tender(BaseTender):
             for award in self.awards:
                 if award.status == "active" and not any([i.awardID == award.id for i in self.contracts]):
                     checks.append(award.date)
-
-        extend_next_check_by_complaint_period_ends(self, checks)
 
         return min(checks).isoformat() if checks else None
 
