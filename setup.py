@@ -57,7 +57,8 @@ entry_points = {
         "contracting.api = openprocurement.contracting.api.includeme:includeme",
         "agreement.core = openprocurement.agreement.core.includeme:includeme",
         "historical.core = openprocurement.historical.core.includeme:includeme",
-        "relocation.api = openprocurement.relocation.api.includeme:includeme"
+        "relocation.api = openprocurement.relocation.api.includeme:includeme",
+        "framework.core = openprocurement.framework.core.includeme:includeme",
     ],
     "openprocurement.tender.core.plugins": [
         "tender.belowthreshold = openprocurement.tender.belowthreshold.includeme:includeme",
@@ -79,10 +80,14 @@ entry_points = {
     "openprocurement.historical.core.plugins": [
         "historical.tender = openprocurement.historical.tender.includeme:includeme",
     ],
+    "openprocurement.framework.core.plugins": [
+        "framework.electroniccatalogue = openprocurement.framework.electroniccatalogue.includeme:includeme",
+    ],
     "openprocurement.api.migrations": [
         "tenders = openprocurement.api.migration:migrate_data",
         "contracts = openprocurement.contracting.api.migration:migrate_data",
         "plans = openprocurement.planning.api.migration:migrate_data",
+        "frameworks = openprocurement.framework.core.migration:migrate_data",
     ],
     "console_scripts": [
         "bootstrap_api_security = openprocurement.api.database:bootstrap_api_security"

@@ -223,3 +223,9 @@ def validate_tender_first_revision_date(request, validation_date, message="Forbi
     tender_creation_date = get_first_revision_date(tender, default=get_now())
     if tender_creation_date < validation_date:
         raise_operation_error(request, message)
+
+
+def validate_doc_accreditation_level_mode(request, methodType, doc_type):
+    data = request.validated["data"]
+    mode = data.get("mode", None)
+    validate_accreditation_level_mode(request, mode, methodType, doc_type, "creation")
