@@ -75,7 +75,6 @@ def suite():
     suite.addTest(AuctionFeaturesOnPreQualificationStandStillTests)
     suite.addTest(AuctionViewTests)
     suite.addTest(AuctionWithBidsOverMaxAwardsTests)
-    # PASSED_PY3
     return suite
 
 

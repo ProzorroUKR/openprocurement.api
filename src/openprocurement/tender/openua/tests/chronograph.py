@@ -103,7 +103,6 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderSwitch0BidResourceTest))
     suite.addTest(unittest.makeSuite(TenderSwitch1BidResourceTest))
     suite.addTest(unittest.makeSuite(TenderSwitchAuctionResourceTest))
-    # PASSED_PY3
     return suite
 
 

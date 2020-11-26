@@ -89,15 +89,6 @@ def main(global_config, **settings):
     config.registry.docservice_username = settings.get("docservice_username")
     config.registry.docservice_password = settings.get("docservice_password")
     config.registry.docservice_upload_url = settings.get("docservice_upload_url")
-    # config.registry.docservice_key = dockey = Signer(settings.get('dockey', '').decode('hex'))
-    # config.registry.keyring = keyring = {}
-    # dockeys = settings.get('dockeys') if 'dockeys' in settings else dockey.hex_vk()
-    # for key in dockeys.split('\0'):
-    #     keyring[key[:8]] = Verifier(key)
-
-    # Archive keys
-    # arch_pubkey = settings.get("arch_pubkey", None)
-    # config.registry.arch_pubkey = PublicKey(arch_pubkey.decode("hex") if arch_pubkey else SecretKey().pk)
 
     signing_key = settings.get('dockey', '')
     signer = SigningKey(signing_key, encoder=HexEncoder) if signing_key else SigningKey.generate()

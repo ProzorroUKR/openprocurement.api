@@ -134,7 +134,7 @@ def create_contract_document(self):
 
     response = self.app.post(
         "/contracts/{}/documents?acc_token={}".format(self.contract_id, self.contract_token),
-        upload_files=[("file", u"укр.doc".encode("ascii", "xmlcharrefreplace"), b"content")],
+        upload_files=[("file", u"укр.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -152,7 +152,7 @@ def create_contract_document(self):
 
     response = self.app.post(
         "/contracts/{}/documents?acc_token={}".format(self.contract_id, self.contract_token),
-        upload_files=[("file", u"укр.doc".encode("ascii", "xmlcharrefreplace"), b"contentX")],
+        upload_files=[("file", u"укр.doc", b"contentX")],
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -169,43 +169,10 @@ def create_contract_document(self):
 
 
 def put_contract_document(self):
-    from six import BytesIO
-    from urllib.parse import quote
-
-    response = self.app.patch_json(
-        "/contracts/{}?acc_token={}".format(self.contract_id, self.contract_token), {"data": {"status": "active"}}
+    response = self.app.post(
+        "/contracts/{}/documents?acc_token={}".format(self.contract_id, self.contract_token),
+        upload_files=[("file", "укр.doc", b"content")],
     )
-    self.assertEqual(response.status, "200 OK")
-
-    body = u"""--BOUNDARY\nContent-Disposition: form-data; name="file"; filename={}\nContent-Type: application/msword\n\ncontent\n""".format(
-        u"\uff07"
-    )
-    environ = self.app._make_environ()
-    environ["CONTENT_TYPE"] = "multipart/form-data; boundary=BOUNDARY"
-    environ["REQUEST_METHOD"] = "POST"
-    req = self.app.RequestClass.blank(
-        self.app._remove_fragment("/contracts/{}/documents".format(self.contract_id)), environ
-    )
-    req.environ["wsgi.input"] = BytesIO(body.encode("utf8"))
-    req.content_length = len(body)
-    response = self.app.do_request(req, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "could not decode params")
-
-    body = u"""--BOUNDARY\nContent-Disposition: form-data; name="file"; filename*=utf-8''{}\nContent-Type: application/msword\n\ncontent\n""".format(
-        quote("укр.doc")
-    )
-    environ = self.app._make_environ()
-    environ["CONTENT_TYPE"] = "multipart/form-data; boundary=BOUNDARY"
-    environ["REQUEST_METHOD"] = "POST"
-    req = self.app.RequestClass.blank(
-        self.app._remove_fragment("/contracts/{}/documents?acc_token={}".format(self.contract_id, self.contract_token)),
-        environ,
-    )
-    req.environ["wsgi.input"] = BytesIO(body.encode(req.charset or "utf8"))
-    req.content_length = len(body)
-    response = self.app.do_request(req)
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(u"укр.doc", response.json["data"]["title"])
@@ -215,7 +182,7 @@ def put_contract_document(self):
 
     response = self.app.put(
         "/contracts/{}/documents/{}?acc_token={}".format(self.contract_id, doc_id, self.contract_token),
-        upload_files=[("file", "name  name.doc", b"content2")],
+        upload_files=[("file", "name name.doc", b"content2")],
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -321,7 +288,7 @@ def put_contract_document(self):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/msword")
         self.assertEqual(response.content_length, 8)
-        self.assertEqual(response.body, "content3")
+        self.assertEqual(response.body, b"content3")
 
     response = self.app.patch_json(
         "/contracts/{}?acc_token={}".format(self.contract_id, self.contract_token),

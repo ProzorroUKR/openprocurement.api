@@ -308,7 +308,6 @@ def suite():
     suite.addTest(unittest.makeSuite(Tender2LotQualificationClaimResourceTest))
     suite.addTest(unittest.makeSuite(TenderQualificationComplaintDocumentResourceTest))
     suite.addTest(unittest.makeSuite(Tender2LotQualificationComplaintDocumentResourceTest))
-    # PASSED_PY3
     return suite
 
 

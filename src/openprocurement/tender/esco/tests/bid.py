@@ -254,7 +254,6 @@ def suite():
     suite.addTest(TenderBidBatchDocumentsWithDSResourceTest)
     suite.addTest(TenderBidRequirementResponseResourceTest)
     suite.addTest(TenderBidRequirementResponseEvidenceResourceTest)
-    # PASSED_PY3
     return suite
 
 

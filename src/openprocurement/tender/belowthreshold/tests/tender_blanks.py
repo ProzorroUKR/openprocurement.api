@@ -2665,7 +2665,12 @@ def tender_token_invalid(self):
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
-        response.json["errors"], [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}]
+        response.json["errors"], [
+            {
+                'location': 'body', 'name': 'UnicodeEncodeError',
+                'description': "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)"
+            }
+        ]
     )
 
 

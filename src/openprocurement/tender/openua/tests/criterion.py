@@ -167,7 +167,6 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderUACriteriaRGTest))
     suite.addTest(unittest.makeSuite(TenderUACriteriaRGRequirementTest))
     suite.addTest(unittest.makeSuite(TenderUACriteriaRGRequirementEvidenceTest))
-    # PASSED_PY3
     return suite
 
 

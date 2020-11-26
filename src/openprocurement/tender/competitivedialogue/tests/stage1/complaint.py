@@ -105,7 +105,6 @@ def suite():
     suite.addTest(unittest.makesuite(CompetitiveDialogUALotAwardComplaintResourceTest))
     suite.addTest(unittest.makeSuite(CompetitiveDialogEUComplaintDocumentResourceTest))
     suite.addTest(unittest.makeSuite(CompetitiveDialogUAComplaintDocumentResourceTest))
-    # PASSED_PY3
     return suite
 
 

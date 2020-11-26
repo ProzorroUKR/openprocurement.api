@@ -59,5 +59,4 @@ class TenderLotNegotiationResourceTest(BaseTenderContentWebTest):
 
 
 class TenderLotNegotiationQuickResourceTest(TenderLotNegotiationResourceTest):
-    # PASSED_PY3
     initial_data = test_tender_negotiation_quick_data

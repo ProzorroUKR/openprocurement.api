@@ -314,7 +314,6 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderStage2EULotQuestionResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2UAQuestionResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2UALotQuestionResourceTest))
-    # PASSED_PY3
     return suite
 
 

@@ -166,7 +166,6 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderStage2UALotCancellationResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2UALotsCancellationResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2UACancellationDocumentResourceTest))
-    # PASSED_PY3
     return suite
 
 

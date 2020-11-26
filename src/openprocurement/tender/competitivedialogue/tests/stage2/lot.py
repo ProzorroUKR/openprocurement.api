@@ -432,7 +432,6 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderStage2UALotFeatureResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2UALotBidderResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2UALotFeatureBidderResourceTest))
-    # PASSED_PY3
     return suite
 
 

@@ -401,7 +401,6 @@ def suite():
     suite.addTest(unittest.makeSuite(Tender2LotAwardComplaintDocumentResourceTest))
     suite.addTest(unittest.makeSuite(TenderAwardDocumentResourceTest))
     suite.addTest(unittest.makeSuite(Tender2LotAwardDocumentResourceTest))
-    # PASSED_PY3
     return suite
 
 

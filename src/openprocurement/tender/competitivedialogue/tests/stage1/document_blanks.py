@@ -9,42 +9,10 @@ def put_tender_document(self):
     """
       Test put dialog document
     """
-    from six import BytesIO
-    from urllib.parse import quote
-
-    # Try create document without acc_token
-    body = u"""--BOUNDARY\nContent-Disposition: form-data; name="file"; filename={}\nContent-Type: application/msword\n\ncontent\n""".format(
-        u"\uff07"
+    response = self.app.post(
+        "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
+        upload_files=[("file", "укр.doc", b"content")],
     )
-    environ = self.app._make_environ()
-    environ["CONTENT_TYPE"] = "multipart/form-data; boundary=BOUNDARY"
-    environ["REQUEST_METHOD"] = "POST"
-    req = self.app.RequestClass.blank(
-        self.app._remove_fragment("/tenders/{}/documents".format(self.tender_id)), environ
-    )
-    req.environ["wsgi.input"] = BytesIO(body.encode("utf8"))
-    req.content_length = len(body)
-    response = self.app.do_request(req, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "could not decode params")
-
-    # Create document
-    body = u"""--BOUNDARY\nContent-Disposition: form-data; name="file"; filename*=utf-8''{}\nContent-Type: application/msword\n\ncontent\n""".format(
-        quote("укр.doc")
-    )
-    environ = self.app._make_environ()
-    environ["CONTENT_TYPE"] = "multipart/form-data; boundary=BOUNDARY"
-    environ["REQUEST_METHOD"] = "POST"
-    req = self.app.RequestClass.blank(
-        self.app._remove_fragment("/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token)),
-        environ,
-    )
-    req.environ["wsgi.input"] = BytesIO(body.encode(req.charset or "utf8"))
-    req.content_length = len(body)
-    response = self.app.do_request(req)
-    # response = self.app.post('/tenders/{}/documents'.format(
-    # self.tender_id), upload_files=[('file', 'name.doc', 'content')])
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(u"укр.doc", response.json["data"]["title"])
@@ -55,7 +23,7 @@ def put_tender_document(self):
     # Update document
     response = self.app.put(
         "/tenders/{}/documents/{}?acc_token={}".format(self.tender_id, doc_id, self.tender_token),
-        upload_files=[("file", "name  name.doc", b"content2")],
+        upload_files=[("file", "name name.doc", b"content2")],
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")

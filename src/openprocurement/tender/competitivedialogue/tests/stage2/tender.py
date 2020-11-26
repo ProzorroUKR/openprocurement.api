@@ -165,5 +165,4 @@ class TenderStage2UAProcessTest(BaseCompetitiveDialogUAStage2WebTest):
 
 
 if __name__ == "__main__":
-    # PASSED_PY3
     unittest.main(defaultTest="suite")

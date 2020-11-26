@@ -128,7 +128,7 @@ def create_plan_document(self):
 
     response = self.app.post(
         "/plans/{}/documents?acc_token=acc_token".format(self.plan_id),
-        upload_files=[("file", u"укр.doc".encode("ascii", "xmlcharrefreplace"), b"content")],
+        upload_files=[("file", u"укр.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -139,33 +139,9 @@ def create_plan_document(self):
 
 
 def put_plan_document(self):
-    from six import BytesIO
-    from urllib.parse import quote
-
-    body = u"""--BOUNDARY\nContent-Disposition: form-data; name="file"; filename={}\nContent-Type: application/msword\n\ncontent\n""".format(
-        u"\uff07"
+    response = self.app.post(
+        "/plans/{}/documents".format(self.plan_id), upload_files=[("file", "укр.doc", b"content")]
     )
-    environ = self.app._make_environ()
-    environ["CONTENT_TYPE"] = "multipart/form-data; boundary=BOUNDARY"
-    environ["REQUEST_METHOD"] = "POST"
-    req = self.app.RequestClass.blank(self.app._remove_fragment("/plans/{}/documents".format(self.plan_id)), environ)
-    req.environ["wsgi.input"] = BytesIO(body.encode("utf8"))
-    req.content_length = len(body)
-    response = self.app.do_request(req, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "could not decode params")
-
-    body = u"""--BOUNDARY\nContent-Disposition: form-data; name="file"; filename*=utf-8''{}\nContent-Type: application/msword\n\ncontent\n""".format(
-        quote("укр.doc")
-    )
-    environ = self.app._make_environ()
-    environ["CONTENT_TYPE"] = "multipart/form-data; boundary=BOUNDARY"
-    environ["REQUEST_METHOD"] = "POST"
-    req = self.app.RequestClass.blank(self.app._remove_fragment("/plans/{}/documents".format(self.plan_id)), environ)
-    req.environ["wsgi.input"] = BytesIO(body.encode(req.charset or "utf8"))
-    req.content_length = len(body)
-    response = self.app.do_request(req)
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(u"укр.doc", response.json["data"]["title"])
@@ -174,7 +150,7 @@ def put_plan_document(self):
     self.assertIn(doc_id, response.headers["Location"])
 
     response = self.app.put(
-        "/plans/{}/documents/{}".format(self.plan_id, doc_id), upload_files=[("file", "name  name.doc", b"content2")]
+        "/plans/{}/documents/{}".format(self.plan_id, doc_id), upload_files=[("file", "name name.doc", b"content2")]
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -204,7 +180,7 @@ def put_plan_document(self):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/msword")
         self.assertEqual(response.content_length, 8)
-        self.assertEqual(response.body, "content2")
+        self.assertEqual(response.body, b"content2")
 
     response = self.app.get("/plans/{}/documents/{}".format(self.plan_id, doc_id))
     self.assertEqual(response.status, "200 OK")
@@ -275,7 +251,7 @@ def put_plan_document(self):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/msword")
         self.assertEqual(response.content_length, 8)
-        self.assertEqual(response.body, "content3")
+        self.assertEqual(response.body, b"content3")
 
 
 def patch_plan_document(self):

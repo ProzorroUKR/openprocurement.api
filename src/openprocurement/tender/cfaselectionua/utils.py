@@ -37,22 +37,6 @@ class CancelTenderLot(BaseCancelTenderLot):
         return add_next_award(request)
 
 
-def get_change_class(poly_model, data):
-    rationale_type = data.get("rationaleType")
-    rationale_type_class_name_mapping = {
-        "taxRate": "ChangeTaxRate",
-        "itemPriceVariation": "ChangeItemPriceVariation",
-        "partyWithdrawal": "ChangePartyWithdrawal",
-        "thirdParty": "ChangeThirdParty"
-    }
-    _class_name = rationale_type_class_name_mapping.get(rationale_type)
-    if not _class_name:
-        raise ValidationError("Input for polymorphic field did not match any model")
-
-    _change_class = [model_class for model_class in poly_model.model_classes if model_class.__name__ == _class_name][0]
-    return _change_class
-
-
 def check_bids(request):
     tender = request.validated["tender"]
 

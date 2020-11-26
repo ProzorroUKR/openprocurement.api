@@ -99,7 +99,6 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderUAProcessTest))
     suite.addTest(unittest.makeSuite(TenderUAResourceTest))
     suite.addTest(unittest.makeSuite(TenderUATest))
-    # PASSED_PY3
     return suite
 
 

@@ -692,7 +692,6 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderStage2EUAwardDocumentResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2EUAwardResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2EULotAwardResourceTest))
-    # PASSED_PY3
     return suite
 
 
