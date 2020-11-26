@@ -7,7 +7,7 @@ from openprocurement.tender.core.utils import (
     has_unanswered_complaints,
     remove_draft_bids,
     check_cancellation_status,
-    block_tender,
+    cancellation_block_tender,
     CancelTenderLot as BaseCancelTenderLot,
     check_complaint_statuses_at_complaint_period_end,
     prepare_bids_for_awarding,
@@ -76,7 +76,7 @@ def check_status(request):
                 awarding_criteria_key=configurator.awarding_criteria_key,
             )
 
-    if block_tender(request):
+    if cancellation_block_tender(tender):
         return
 
     if (

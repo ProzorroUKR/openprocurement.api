@@ -6,7 +6,7 @@ from openprocurement.tender.core.utils import (
     get_now,
     has_unanswered_questions,
     has_unanswered_complaints,
-    block_tender,
+    cancellation_block_tender,
 )
 from openprocurement.tender.openua.utils import check_complaint_status, add_next_award, check_cancellation_status
 from openprocurement.tender.belowthreshold.utils import check_tender_status, add_contract
@@ -71,7 +71,7 @@ def check_status(request):
     check_complaint_statuses_at_complaint_period_end(tender, now)
     check_cancellation_status(request)
 
-    if block_tender(request):
+    if cancellation_block_tender(tender):
         return
 
     for award in tender.awards:

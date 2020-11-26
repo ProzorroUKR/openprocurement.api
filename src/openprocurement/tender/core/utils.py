@@ -524,8 +524,7 @@ def check_cancellation_status(request, cancel_class=CancelTenderLot):
             cancel_tender_lot(request, cancellation)
 
 
-def block_tender(request):
-    tender = request.validated["tender"]
+def cancellation_block_tender(tender):
     new_rules = get_first_revision_date(tender, default=get_now()) > RELEASE_2020_04_19
 
     if not new_rules:
