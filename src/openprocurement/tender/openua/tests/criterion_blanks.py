@@ -779,6 +779,7 @@ def get_rg_requirement(self):
 
 
 def create_requirement_evidence_valid(self):
+    self.set_status("draft")
     request_path = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}/evidences?acc_token={}".format(
         self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, self.tender_token)
 
@@ -793,6 +794,7 @@ def create_requirement_evidence_valid(self):
 
 
 def create_requirement_evidence_invalid(self):
+    self.set_status("draft")
     request_path = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}/evidences?acc_token={}".format(
         self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, self.tender_token)
 
@@ -979,6 +981,7 @@ def delete_requirement_evidence(self):
 
 
 def get_requirement_evidence(self):
+    self.set_status("draft")
     response = self.app.post_json(
         "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}/evidences?acc_token={}".format(
             self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, self.tender_token),

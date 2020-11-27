@@ -1813,6 +1813,11 @@ def validate_operation_ecriteria_objects(request):
     base_validate_operation_ecriteria_objects(request, valid_statuses)
 
 
+def validate_post_evidence_objects(request):
+    valid_statuses = ["draft", "draft.pending", "draft.stage2"]
+    base_validate_operation_ecriteria_objects(request, valid_statuses)
+
+
 def validate_patch_requirement_objects(request):
     valid_statuses = ["draft", "draft.pending", "draft.stage2"]
     base_validate_operation_ecriteria_objects(request, valid_statuses)
