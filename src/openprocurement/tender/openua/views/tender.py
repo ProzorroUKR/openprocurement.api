@@ -4,6 +4,7 @@ from openprocurement.tender.core.validation import (
     validate_tender_not_in_terminated_status,
     validate_tender_change_status_with_cancellation_lot_pending,
     validate_tender_activate_with_criteria,
+    validate_tender_activate_with_language_criteria,
     validate_item_quantity,
 )
 from openprocurement.tender.belowthreshold.views.tender import TenderResource
@@ -34,6 +35,7 @@ class TenderUAResource(TenderResource):
             validate_tender_not_in_terminated_status,
             validate_tender_change_status_with_cancellation_lot_pending,
             validate_tender_activate_with_criteria,
+            validate_tender_activate_with_language_criteria,
             validate_item_quantity,
         ),
         permission="edit_tender",

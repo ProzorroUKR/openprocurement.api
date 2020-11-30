@@ -12,6 +12,7 @@ from openprocurement.tender.core.validation import (
     validate_tender_status_update_not_in_pre_qualificaton,
     validate_tender_change_status_with_cancellation_lot_pending,
     validate_tender_activate_with_criteria,
+    validate_tender_activate_with_language_criteria,
     validate_item_quantity,
 )
 from openprocurement.tender.openua.views.tender import TenderUAResource
@@ -40,6 +41,7 @@ class TenderStage2UAResource(TenderUAResource):
             validate_tender_not_in_terminated_status,
             validate_tender_change_status_with_cancellation_lot_pending,
             validate_tender_activate_with_criteria,
+            validate_tender_activate_with_language_criteria,
             validate_item_quantity,
         ),
         permission="edit_tender",
@@ -137,6 +139,7 @@ class TenderStage2UEResource(TenderEUResource):
             validate_tender_status_update_not_in_pre_qualificaton,
             validate_tender_change_status_with_cancellation_lot_pending,
             validate_tender_activate_with_criteria,
+            validate_tender_activate_with_language_criteria,
             validate_item_quantity,
         ),
         permission="edit_tender",

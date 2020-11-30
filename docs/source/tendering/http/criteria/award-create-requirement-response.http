@@ -1,0 +1,58 @@
+POST /api/2.5/tenders/c5e325f0cd634594b24af3751466d2c5/awards/6b8f3a13e88f40748ef410c1e7bf452a/requirement_responses?acc_token=d7b20652ab64425db2ffa58663dd189d HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 1663
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": [
+    {
+      "requirement": {
+        "id": "2b8b4b12e1004e01be3a1dde6939f18f", 
+        "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
+      }, 
+      "evidences": [
+        {
+          "type": "document", 
+          "relatedDocument": {
+            "id": "89c951b63cf14730802d38345b277a76", 
+            "title": "name.doc"
+          }, 
+          "title": "Requirement response"
+        }
+      ], 
+      "description": "some description", 
+      "value": "True", 
+      "title": "Requirement response"
+    }
+  ]
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+{
+  "data": [
+    {
+      "requirement": {
+        "id": "2b8b4b12e1004e01be3a1dde6939f18f", 
+        "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
+      }, 
+      "description": "some description", 
+      "title": "Requirement response", 
+      "value": "True", 
+      "evidences": [
+        {
+          "title": "Requirement response", 
+          "type": "document", 
+          "relatedDocument": {
+            "id": "89c951b63cf14730802d38345b277a76", 
+            "title": "name.doc"
+          }, 
+          "id": "121fd17542ba49849cd7a3c6436b7b13"
+        }
+      ], 
+      "id": "1d0c909933ca4d759aea187f057aa3bd"
+    }
+  ]
+}
+

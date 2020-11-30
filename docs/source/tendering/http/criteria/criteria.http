@@ -22,6 +22,12 @@ Content-Type: application/json; charset=UTF-8
                 "type": "document", 
                 "description": "Довідка в довільній формі", 
                 "id": "a550bea95b42465cb3a1d1d9528e90e2"
+              }, 
+              {
+                "title": "Документальне підтвердження", 
+                "type": "statement", 
+                "description": "Довідка в довільній формі", 
+                "id": "1dcab503d5bf418697a0c246c7e3091d"
               }
             ]
           }, 

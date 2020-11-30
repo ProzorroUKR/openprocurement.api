@@ -594,6 +594,7 @@ def precondition(request):
     request.errors.status = 412
     return error_handler(request.errors)
 
+
 def update_logging_context(request, params):
     if not request.__dict__.get("logging_context"):
         request.logging_context = {}

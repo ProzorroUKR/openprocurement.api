@@ -9,6 +9,8 @@ from datetime import datetime
 from logging import getLogger
 from requests import Session
 
+import standards
+
 LOGGER = getLogger("openprocurement.api")
 VERSION = "2.5"
 ROUTE_PREFIX = "/api/{}".format(VERSION)
@@ -21,6 +23,11 @@ SANDBOX_MODE = os.environ.get("SANDBOX_MODE", False)
 
 DOCUMENT_BLACKLISTED_FIELDS = ("title", "format", "url", "dateModified", "hash")
 DOCUMENT_WHITELISTED_FIELDS = ("id", "datePublished", "author", "__parent__")
+
+WORKING_DAYS = {}
+HOLIDAYS = standards.load("calendars/workdays_off.json")
+for date_str in HOLIDAYS:
+    WORKING_DAYS[date_str] = True
 
 
 def read_json(name):
@@ -39,7 +46,6 @@ CPV_CODES.append("99999999-9")
 DK_CODES = read_json("data/dk021.json")
 FUNDERS = [(i["scheme"], i["id"]) for i in read_json("data/funders.json")["data"]]
 ORA_CODES = [i["code"] for i in read_json("data/organization_identifier_scheme.json")["data"]]
-WORKING_DAYS = read_json("data/working_days.json")
 GMDN = {k for k in read_json("data/gmdn.json").keys()}
 GMDN_CPV_PREFIXES = read_json("data/gmdn_cpv_prefixes.json")
 UA_ROAD = read_json("data/ua_road.json")

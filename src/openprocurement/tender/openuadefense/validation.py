@@ -6,7 +6,8 @@ from openprocurement.tender.openua.validation import (
 from openprocurement.tender.openua.validation import (
     validate_complaint_post_review_date as validate_complaint_post_review_date_base
 )
-from openprocurement.tender.openuadefense.utils import calculate_tender_business_date, WORKING_DAYS
+from openprocurement.tender.openuadefense.utils import calculate_tender_business_date
+from openprocurement.tender.openuadefense.constants import WORKING_DAYS
 
 
 def validate_tender_period_extension_with_working_days(request):

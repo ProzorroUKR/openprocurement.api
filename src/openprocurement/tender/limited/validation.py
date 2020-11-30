@@ -50,7 +50,7 @@ def validate_update_tender_with_awards(request):
 
 # tender document
 def validate_operation_with_document_not_in_active_status(request):
-    if request.validated["tender_status"] != "active":
+    if request.validated["tender_status"] not in ("draft", "active"):
         raise_operation_error(
             request,
             "Can't {} document in current ({}) tender status".format(
@@ -62,7 +62,7 @@ def validate_operation_with_document_not_in_active_status(request):
 # lot
 def validate_lot_operation_not_in_active_status(request):
     tender = request.validated["tender"]
-    if tender.status != "active":
+    if tender.status not in ("active", "draft"):
         raise_operation_error(
             request, "Can't {} lot in current ({}) tender status".format(OPERATIONS.get(request.method), tender.status)
         )

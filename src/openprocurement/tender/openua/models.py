@@ -60,6 +60,7 @@ from openprocurement.tender.core.utils import (
     calculate_clarif_business_date,
     check_auction_period,
     extend_next_check_by_complaint_period_ends,
+    cancellation_block_tender,
 )
 from openprocurement.tender.core.validation import (
     validate_lotvalue_value,
@@ -555,7 +556,7 @@ class Tender(BaseTender):
         _all_forbidden = whitelist()
         roles = {
             "create": _parent_roles["create"],
-            "edit_draft": _parent_roles["edit_draft"],
+            "edit_draft": _edit_role + whitelist("status"),
             "edit": _edit_role,
             "edit_active.tendering": _edit_role,
             "edit_active.auction": _all_forbidden,
@@ -682,6 +683,12 @@ class Tender(BaseTender):
     def next_check(self):
         now = get_now()
         checks = []
+
+        extend_next_check_by_complaint_period_ends(self, checks)
+
+        if cancellation_block_tender(self):
+            return min(checks).isoformat() if checks else None
+
         if (
             self.status == "active.tendering"
             and self.tenderPeriod.endDate
@@ -767,8 +774,6 @@ class Tender(BaseTender):
             for award in self.awards:
                 if award.status == "active" and not any([i.awardID == award.id for i in self.contracts]):
                     checks.append(award.date)
-
-        extend_next_check_by_complaint_period_ends(self, checks)
 
         return min(checks).isoformat() if checks else None
 

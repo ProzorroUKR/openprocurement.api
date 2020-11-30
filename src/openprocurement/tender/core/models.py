@@ -752,7 +752,8 @@ class Requirement(Model):
     description_en = StringType()
     description_ru = StringType()
     dataType = StringType(required=True,
-                          choices=["string", "number", "integer", "boolean", "date-time"])
+                          choices=["string", "number", "integer", "boolean", "date-time"],
+                          default="boolean")
 
     minValue = StringType()
     maxValue = StringType()
@@ -789,9 +790,27 @@ class Requirement(Model):
                 raise ValidationError("minValue must be integer or number")
             validate_value_type(value, data['dataType'])
 
+    def validate_dataType(self, data, value):
+        criterion = data["__parent__"].__parent__
+        if criterion.classification.id.startswith("CRITERION.OTHER.BID.LANGUAGE"):
+            if value != "boolean":
+                raise ValidationError("dataType must be boolean")
+
     def validate_expectedValue(self, data, value):
+        valid_value = False
         if value:
-            validate_value_type(value, data['dataType'])
+            valid_value = validate_value_type(value, data['dataType'])
+
+        criterion = data["__parent__"].__parent__
+        if criterion.classification.id.startswith("CRITERION.OTHER.BID.LANGUAGE"):
+            if valid_value is not True:
+                raise ValidationError("Value must be true")
+
+    def validate_eligibleEvidences(self, data, value):
+        if value:
+            criterion = data["__parent__"].__parent__
+            if criterion.classification.id.startswith("CRITERION.OTHER.BID.LANGUAGE"):
+                raise ValidationError("This field is forbidden for current criterion")
 
     def validate_relatedFeature(self, data, feature_id):
         parent = data["__parent__"]
@@ -845,7 +864,7 @@ class Criterion(Model):
     description_ru = StringType()
 
     source = StringType(choices=["tenderer", "buyer", "procuringEntity", "ssrBot", "winner"])
-    relatesTo = StringType(choices=["tenderer", "item", "lot"])
+    relatesTo = StringType(choices=["tenderer", "item", "lot", "tender"])
     relatedItem = MD5Type()
     classification = ModelType(CriterionClassification, required=True) # TODO: make it required
     additionalClassifications = ListType(ModelType(BaseClassification, required=True), default=list())
@@ -1949,8 +1968,11 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
             The data to be imported.
         """
         data = self.convert(raw_data, **kw)
+        excluded_fields = ('status',)
         del_keys = [
-            k for k in data.keys() if data[k] == self.__class__.fields[k].default or data[k] == getattr(self, k)
+            k
+            for k in data.keys()
+            if (k not in excluded_fields and data[k] == self.__class__.fields[k].default) or (data[k] == getattr(self, k))
         ]
         for k in del_keys:
             del data[k]

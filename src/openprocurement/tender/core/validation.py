@@ -110,17 +110,15 @@ def validate_tender_kind(request, model):
 def validate_patch_tender_data_draft(request):
     data = request.validated["json_data"]
     default_status = type(request.tender).fields["status"].default
-    if data and data.get("status") != default_status:
-        raise_operation_error(request, "Can't update tender in current (draft) status")
-    request.validated["data"] = {"status": default_status}
-    request.context.status = default_status
+    new_status = data.get("status", request.context.status)
+    if data and new_status not in ("draft", "draft.stage2", default_status):
+        raise_operation_error(request, "Can't update tender to {} status".format(new_status))
 
 
 def validate_patch_tender_data(request):
     data = validate_json_data(request)
     if request.context.status == "draft":
         validate_patch_tender_data_draft(request)
-        return
     return validate_data(request, type(request.tender), True, data)
 
 
@@ -901,11 +899,44 @@ def validate_tender_activate_with_criteria(request):
         raise_operation_error(request, "Tender must contain all 9 `EXCLUSION` criteria")
 
 
+def validate_tender_activate_with_language_criteria(request):
+    """
+    raise error if CRITERION.OTHER.BID.LANGUAGE wasn't created
+    for listed tenders_types and trying to change status to active
+    """
+    tender = request.context
+    data = request.validated["data"]
+    tender_created = get_first_revision_date(tender, default=get_now())
+
+    if (
+            tender_created < RELEASE_ECRITERIA_ARTICLE_17
+            or request.validated["tender_src"]["status"] == data.get("status")
+            or data.get("status") not in ["active", "active.tendering"]
+    ):
+        return
+
+    tenders_types = ["aboveThresholdUA", "aboveThresholdEU",
+                     "competitiveDialogueUA", "competitiveDialogueEU",
+                     "competitiveDialogueUA.stage2", "competitiveDialogueEU.stage2",
+                     "esco", "closeFrameworkAgreementUA"]
+    tender_type = request.validated["tender"].procurementMethodType
+    needed_criterion = "CRITERION.OTHER.BID.LANGUAGE"
+
+    tender_criteria = [criterion.classification.id for criterion in tender.criteria if criterion.classification]
+
+    if (
+            tender_type in tenders_types
+            and needed_criterion not in tender_criteria
+    ):
+        raise_operation_error(request, "Tender must contain {} criterion".format(needed_criterion))
+
+
 def validate_tender_status_update_not_in_pre_qualificaton(request):
     tender = request.context
     data = request.validated["data"]
     if (
         request.authenticated_role == "tender_owner"
+        and tender["status"] not in ('draft',)
         and "status" in data
         and data["status"] not in ["active.pre-qualification.stand-still", tender.status]
     ):
@@ -923,9 +954,9 @@ def validate_tender_period_extension(request):
 def validate_document_operation_in_not_allowed_period(request):
     if (
         request.authenticated_role != "auction"
-        and request.validated["tender_status"] not in ["active.tendering", "draft"]
+        and request.validated["tender_status"] not in ("active.tendering", "draft", "draft.stage2")
         or request.authenticated_role == "auction"
-        and request.validated["tender_status"] not in ["active.auction", "active.qualification"]
+        and request.validated["tender_status"] not in ("active.auction", "active.qualification")
     ):
         raise_operation_error(
             request,
@@ -1132,7 +1163,7 @@ def validate_update_status_before_milestone_due_date(request):
 # lots
 def validate_lot_operation_not_in_allowed_status(request):
     tender = request.validated["tender"]
-    if tender.status not in ["active.tendering"]:
+    if tender.status not in ("active.tendering", "draft", "draft.stage2"):
         raise_operation_error(
             request, "Can't {} lot in current ({}) tender status".format(OPERATIONS.get(request.method), tender.status)
         )
@@ -1856,14 +1887,7 @@ def validate_view_requirement_responses(request):
 
 def validate_operation_award_requirement_response(request):
     validate_tender_first_revision_date(request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
-    tender_type = request.validated["tender"].procurementMethodType
-    pre_qualification_tenders = ["aboveThresholdEU", "competitiveDialogueUA",
-                                 "competitiveDialogueEU", "competitiveDialogueEU.stage2",
-                                 "esco", "closeFrameworkAgreementUA"]
-    if tender_type in pre_qualification_tenders:
-        valid_tender_statuses = ["active.pre-qualification"]
-    else:
-        valid_tender_statuses = ["active.qualification"]
+    valid_tender_statuses = ["active.qualification"]
     base_validate_operation_ecriteria_objects(request, valid_tender_statuses)
     base_validate_operation_ecriteria_objects(request, ["pending"], "award")
 

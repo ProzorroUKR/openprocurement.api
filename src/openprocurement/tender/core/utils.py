@@ -65,10 +65,10 @@ ACCELERATOR_RE = re.compile(".accelerator=(?P<accelerator>\d+)")
 optendersresource = partial(resource, error_handler=error_handler, factory=factory)
 
 
-QUICK = "quick"
-QUICK_NO_AUCTION = "quick(mode:no-auction)"
-QUICK_FAST_FORWARD = "quick(mode:fast-forward)"
-QUICK_FAST_AUCTION = "quick(mode:fast-auction)"
+QUICK = r"quick"
+QUICK_NO_AUCTION = r"quick\(mode:no-auction\)"
+QUICK_FAST_FORWARD = r"quick\(mode:fast-forward\)"
+QUICK_FAST_AUCTION = r"quick\(mode:fast-auction\)"
 
 
 def submission_search(pattern, tender):
@@ -526,8 +526,7 @@ def check_cancellation_status(request, cancel_class=CancelTenderLot):
             cancel_tender_lot(request, cancellation)
 
 
-def block_tender(request):
-    tender = request.validated["tender"]
+def cancellation_block_tender(tender):
     new_rules = get_first_revision_date(tender, default=get_now()) > RELEASE_2020_04_19
 
     if not new_rules:
@@ -550,6 +549,10 @@ def extend_next_check_by_complaint_period_ends(tender, checks):
     should be added to next_check tender methods
     to schedule switching complaints draft-mistaken and others
     """
+    now = get_now()
+    if get_first_revision_date(tender, default=now) < RELEASE_2020_04_19:
+        return  # only for tenders from RELEASE_2020_04_19
+
     # no need to check procedures that don't have cancellation complaints
     excluded = ("belowThreshold", "closeFrameworkAgreementSelectionUA")
     for cancellation in tender.cancellations:
@@ -588,8 +591,7 @@ def check_complaint_statuses_at_complaint_period_end(tender, now):
     also cancellation complaint changes will be able to affect statuses of cancellations
     """
     if get_first_revision_date(tender, default=now) < RELEASE_2020_04_19:
-        return
-    # only for tenders from RELEASE_2020_04_19
+        return  # only for tenders from RELEASE_2020_04_19
 
     def check_complaints(complaints):
         for complaint in complaints:

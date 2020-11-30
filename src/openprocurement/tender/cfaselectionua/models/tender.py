@@ -83,6 +83,21 @@ class CFASelectionUATender(BaseTender):
                 "hasEnquiries",
             )
         )
+        _edit_active_enquires_role = whitelist(
+            "description",
+            "description_en",
+            "description_ru",
+            "documents",
+            "items",
+            "lots",
+            "procurementMethodDetails",
+            "serializable_guarantee",
+            "tenderPeriod",
+            "tender_guarantee",
+            "title",
+            "title_en",
+            "title_ru",
+        )
         _view_tendering_role = _draft_view_role + whitelist(
             "tender_value",
             "tenderPeriod",

@@ -16,9 +16,9 @@ def validate_patch_tender_data(request):
 def validate_document_operation_in_not_allowed_tender_status(request):
     if (
         request.authenticated_role != "auction"
-        and request.validated["tender_status"] not in ["draft.pending", "active.enquiries"]
+        and request.validated["tender_status"] not in ("draft", "draft.pending", "active.enquiries")
         or request.authenticated_role == "auction"
-        and request.validated["tender_status"] not in ["active.auction", "active.qualification"]
+        and request.validated["tender_status"] not in ("active.auction", "active.qualification")
     ):
         raise_operation_error(
             request,
@@ -84,7 +84,7 @@ def validate_bid(request):
 # lot
 def validate_lot_operation(request):
     tender = request.validated["tender"]
-    if tender.status not in ["draft.pending", "active.enquiries"]:
+    if tender.status not in ("draft", "draft.pending", "active.enquiries"):
         raise_operation_error(
             request, "Can't {} lot in current ({}) tender status".format(OPERATIONS.get(request.method), tender.status)
         )

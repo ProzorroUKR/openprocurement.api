@@ -32,7 +32,10 @@ from openprocurement.tender.core.models import (
     ProcuringEntity as BaseProcuringEntity,
 )
 
-from openprocurement.tender.core.utils import extend_next_check_by_complaint_period_ends
+from openprocurement.tender.core.utils import (
+    extend_next_check_by_complaint_period_ends,
+    cancellation_block_tender,
+)
 from openprocurement.tender.openua.models import (
     Complaint as BaseComplaint,
     Item,
@@ -247,7 +250,7 @@ class ReportingTender(BaseTender):
 
         roles = {
             "create": _parent_roles["create"] + _edit_fields + whitelist("lots"),
-            "edit_draft": _parent_roles["edit_draft"],
+            "edit_draft": _edit_role + whitelist("status"),
             "edit": _edit_role,
             "edit_active": _edit_role,
             "edit_active.awarded": _all_forbidden,
@@ -481,7 +484,14 @@ class NegotiationTender(ReportingTender):
     @serializable(serialize_when_none=False)
     def next_check(self):
         checks = []
+
         extend_next_check_by_complaint_period_ends(self, checks)
+
+        if cancellation_block_tender(self):
+            return min(checks).isoformat() if checks else None
+
+        # Add checks here if needed
+
         return min(checks).isoformat() if checks else None
 
 

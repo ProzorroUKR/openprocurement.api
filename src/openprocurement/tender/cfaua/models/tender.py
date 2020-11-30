@@ -86,7 +86,7 @@ class CloseFrameworkAgreementUA(Tender):
         _complete_view_role = _view_role + whitelist("contractPeriod")
         roles = {
             "create": _edit_role + whitelist("mode", "procurementMethodType", "lots"),
-            "edit_draft": _edit_role,
+            "edit_draft": _edit_role + whitelist("status"),
             "edit": _edit_role,
             "edit_active.tendering": _edit_role,
             "edit_active.pre-qualification": _edit_qualification,

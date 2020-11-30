@@ -1,0 +1,58 @@
+POST /api/2.5/tenders/dbaf5c5918364ee18fe7536bcb7ac13d/qualifications/59efad2924154abf958fa603c0869cd8/requirement_responses?acc_token=121d6534069841adb88a5ad291d559fe HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 1663
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": [
+    {
+      "requirement": {
+        "id": "e97eb65b1edc49c4bbb5c667816e9083", 
+        "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
+      }, 
+      "evidences": [
+        {
+          "type": "document", 
+          "relatedDocument": {
+            "id": "57c658a929084380b6fe254d754e5747", 
+            "title": "name.doc"
+          }, 
+          "title": "Requirement response"
+        }
+      ], 
+      "description": "some description", 
+      "value": "True", 
+      "title": "Requirement response"
+    }
+  ]
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+{
+  "data": [
+    {
+      "requirement": {
+        "id": "e97eb65b1edc49c4bbb5c667816e9083", 
+        "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
+      }, 
+      "description": "some description", 
+      "title": "Requirement response", 
+      "value": "True", 
+      "evidences": [
+        {
+          "title": "Requirement response", 
+          "type": "document", 
+          "relatedDocument": {
+            "id": "57c658a929084380b6fe254d754e5747", 
+            "title": "name.doc"
+          }, 
+          "id": "c9c730ec8a0249628e5aacc4a50ae6be"
+        }
+      ], 
+      "id": "51d3fb76de6f49cc8b6f8f5f53dc0181"
+    }
+  ]
+}
+

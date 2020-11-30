@@ -253,11 +253,12 @@ def items_without_deliveryDate_quantity(self):
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"items": [{"quantity": 5}]}},
-        status=403,
     )
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't update tender in current (draft) status")
+    for item in response.json["data"]["items"]:
+        self.assertNotIn("deliveryDate", item)
+        self.assertNotIn("quantity", item)
 
     add_criteria(self)
     # edit_active.tendering role
@@ -439,16 +440,6 @@ def tender_noticePublicationDate(self):
     self.assertNotIn("noticePublicationDate", response.json["data"])
     self.tender_id = response.json["data"]["id"]
     self.tender_token = response.json["access"]["token"]
-
-    # try to set noticePublicationDate in draft
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"noticePublicationDate": (get_now() + timedelta(minutes=30)).isoformat()}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't update tender in current (draft) status")
 
     add_criteria(self)
     # set active.tendering status

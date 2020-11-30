@@ -53,6 +53,7 @@ from openprocurement.tender.core.utils import (
     calculate_clarif_business_date,
     check_auction_period,
     extend_next_check_by_complaint_period_ends,
+    cancellation_block_tender,
 )
 from openprocurement.tender.openua.models import Tender as OpenUATender
 from openprocurement.tender.openua.constants import COMPLAINT_SUBMIT_TIME, ENQUIRY_STAND_STILL_TIME
@@ -502,7 +503,7 @@ class Tender(BaseTender):
         roles = {
             "create": _parent_roles["create"] + _edit_fields + whitelist("lots") - _esco_edit_forbidden,
             "edit": _edit_role,
-            "edit_draft": _edit_role,
+            "edit_draft": _edit_role + whitelist("status"),
             "edit_active.tendering": _edit_role,
             "edit_active.pre-qualification": whitelist("status"),
             "edit_active.pre-qualification.stand-still": _all_forbidden,
@@ -615,7 +616,7 @@ class Tender(BaseTender):
     central_accreditations = (ACCR_5,)
     edit_accreditations = (ACCR_4,)
 
-    special_fields = ["fundingKind", "yearlyPaymentsPercentageRange"]
+    special_fields = ["fundingKind", "yearlyPaymentsPercentageRange", "status"]
     procuring_entity_kinds = ["authority", "central", "defense", "general", "social", "special"]
 
     block_tender_complaint_status = OpenUATender.block_tender_complaint_status
@@ -694,6 +695,12 @@ class Tender(BaseTender):
     def next_check(self):
         now = get_now()
         checks = []
+
+        extend_next_check_by_complaint_period_ends(self, checks)
+
+        if cancellation_block_tender(self):
+            return min(checks).isoformat() if checks else None
+
         if (
             self.status == "active.tendering"
             and self.tenderPeriod.endDate
@@ -794,8 +801,6 @@ class Tender(BaseTender):
             for award in self.awards:
                 if award.status == "active" and not any([i.awardID == award.id for i in self.contracts]):
                     checks.append(award.date)
-
-        extend_next_check_by_complaint_period_ends(self, checks)
 
         return min(checks).isoformat() if checks else None
 
