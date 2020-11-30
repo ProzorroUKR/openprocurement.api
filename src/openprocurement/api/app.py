@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 def is_test():
+    import sys
+    import os
     return any([
-        "test" in __import__("sys").argv[0],
-        "setup.py" in __import__("sys").argv[0],
-        "PYTEST_XDIST_WORKER" in __import__("os").environ,
+        "test" in sys.argv[0],
+        "setup.py" in sys.argv[0],
+        "PYTEST_XDIST_WORKER" in os.environ,
     ])
 
 if not is_test():

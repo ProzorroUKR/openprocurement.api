@@ -102,19 +102,21 @@ def create_tender_bidder_invalid(self):
     self.assertEqual(response.json["status"], "error")
 
     assert_data = [
-        {u"description": [u"This field is required."], u"location": u"body", u"name": u"selfQualified"},
         {
             u"description": [
                 {
-                    u"contactPoint": [u"This field is required."],
-                    u"identifier": {u"scheme": [u"This field is required."], u"id": [u"This field is required."]},
-                    u"name": [u"This field is required."],
-                    u"address": [u"This field is required."],
+                    "address": ["This field is required."],
+                    "contactPoint": ["This field is required."],
+                    "identifier": {"scheme": ["This field is required."], "id": ["This field is required."]},
+                    "name": ["This field is required."],
+
                 }
             ],
-            u"location": u"body",
-            u"name": u"tenderers",
+            "location": "body",
+            "name": "tenderers",
         },
+        {"description": ["This field is required."], "location": "body", "name": "selfQualified"},
+
     ]
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         assert_data.insert(0, {u"description": [u"This field is required."], u"location": u"body", u"name": u"selfEligible"},)
@@ -126,22 +128,23 @@ def create_tender_bidder_invalid(self):
 
     # Try create bid with invalid identifier.uri
     assert_data = [
-        {u"description": [u"This field is required."], u"location": u"body", u"name": u"selfQualified"},
         {
-            u"description": [
+            "description": [
                 {
-                    u"contactPoint": [u"This field is required."],
-                    u"identifier": {
-                        u"scheme": [u"This field is required."],
-                        u"id": [u"This field is required."],
-                        u"uri": [u"Not a well formed URL."],
+                    "address": ["This field is required."],
+                    "contactPoint": ["This field is required."],
+                    "identifier": {
+                        "scheme": ["This field is required."],
+                        "id": ["This field is required."],
+                        "uri": ["Not a well formed URL."],
                     },
-                    u"address": [u"This field is required."],
+
                 }
             ],
-            u"location": u"body",
-            u"name": u"tenderers",
+            "location": "body",
+            "name": "tenderers",
         },
+        {"description": ["This field is required."], "location": "body", "name": "selfQualified"},
     ]
     bid_data = {"tenderers": [{"name": "name", "identifier": {"uri": "invalid_value"}}]}
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
@@ -1269,7 +1272,7 @@ def create_tender_bidder_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/msword")
     self.assertEqual(response.content_length, 7)
-    self.assertEqual(response.body, "content")
+    self.assertEqual(response.body, b"content")
 
     response = self.app.get(
         "/tenders/{}/bids/{}/{}/{}".format(self.tender_id, self.bid_id, doc_resource, doc_id), status=403
@@ -1388,7 +1391,7 @@ def put_tender_bidder_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/msword")
     self.assertEqual(response.content_length, 8)
-    self.assertEqual(response.body, "content2")
+    self.assertEqual(response.body, b"content2")
 
     response = self.app.get(
         "/tenders/{}/bids/{}/{}/{}?acc_token={}".format(
@@ -1420,7 +1423,7 @@ def put_tender_bidder_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/msword")
     self.assertEqual(response.content_length, 8)
-    self.assertEqual(response.body, "content3")
+    self.assertEqual(response.body, b"content3")
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"status": "active.tendering"})
@@ -1824,7 +1827,7 @@ def download_tender_bidder_document(self):
             )
         )
         self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.body, "content")
+        self.assertEqual(response.body, b"content")
         self.assertEqual(
             response.headers["Content-Disposition"], "attachment; filename=name_{}.doc".format(doc_resource[:-1])
         )
@@ -1879,7 +1882,7 @@ def download_tender_bidder_document(self):
                 )
             )
             self.assertEqual(response.status, "200 OK")
-            self.assertEqual(response.body, "content")
+            self.assertEqual(response.body, b"content")
             self.assertEqual(
                 response.headers["Content-Disposition"], "attachment; filename=name_{}.doc".format(doc_resource[:-1])
             )
@@ -2024,7 +2027,7 @@ def create_tender_bidder_document_description(self):
                 )
             )
             self.assertEqual(response.status, "200 OK")
-            self.assertEqual(response.body, "content")
+            self.assertEqual(response.body, b"content")
             self.assertEqual(
                 response.headers["Content-Disposition"], "attachment; filename=name_{}.doc".format(doc_resource[:-1])
             )
@@ -2125,7 +2128,7 @@ def create_tender_bidder_invalid_document_description(self):
             )
         )
         self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.body, "content")
+        self.assertEqual(response.body, b"content")
         self.assertEqual(
             response.headers["Content-Disposition"], "attachment; filename=name_{}.doc".format(doc_resource[:-1])
         )

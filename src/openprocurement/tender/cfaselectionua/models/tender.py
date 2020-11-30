@@ -92,21 +92,6 @@ class CFASelectionUATender(BaseTender):
                 "hasEnquiries",
             )
         )
-        _edit_active_enquires_role = whitelist(
-            "description",
-            "description_en",
-            "description_ru",
-            "documents",
-            "items",
-            "lots",
-            "procurementMethodDetails",
-            "serializable_guarantee",
-            "tenderPeriod",
-            "tender_guarantee",
-            "title",
-            "title_en",
-            "title_ru",
-        )
         _view_tendering_role = _draft_view_role + whitelist(
             "tender_value",
             "tenderPeriod",
@@ -166,6 +151,7 @@ class CFASelectionUATender(BaseTender):
             "auction_patch": _core_roles["auction_patch"] + _procurement_method_details,
             "auction_view": _core_roles["auction_view"]
             + whitelist("minimalStep")
+            + whitelist("tender_minimalStep")
             + _procurement_method_details,
             "listing": _core_roles["listing"] + _procurement_method_details,
             "embedded": _core_roles["embedded"],

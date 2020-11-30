@@ -1,11 +1,11 @@
 # Dockerfile is not optimized, for optimized build use werf.yml
-FROM python:2.7-slim-jessie
+FROM python:3.8-slim-buster
 
-RUN apt-get update && apt-get install -y libsodium-dev git libevent-dev libzmq-dev libffi-dev libssl-dev gcc
+RUN apt-get update && apt-get install -y git gcc libssl-dev
 
 WORKDIR /app
 COPY requirements.txt /app/
-RUN pip install --upgrade pip && pip install -r requirements.txt
+RUN pip install --upgrade pip setuptools wheel && pip install --no-cache-dir -r requirements.txt
 
 COPY . /app
 RUN pip install -e .

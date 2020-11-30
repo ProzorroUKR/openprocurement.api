@@ -199,7 +199,7 @@ stop_review:
   when: manual
 
 .setuptools:
-  image: python:2.7
+  image: python:3.8-slim-buster
   services:
     - couchdb:1.6
   tags:
@@ -212,9 +212,9 @@ stop_review:
     - schedules
   before_script:
     - apt-get update
-    - apt-get install -y libsodium-dev
-    - pip install --upgrade pip setuptools
+    - apt-get install -y git gcc libssl-dev
     - echo '127.0.0.1  couchdb' >> /etc/hosts
+    - pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
 
 test:
   extends: .setuptools

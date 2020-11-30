@@ -271,7 +271,7 @@ class TenderCancellationBidsAvailabilityTest(
 
     def setUp(self):
         super(TenderCancellationBidsAvailabilityTest, self).setUp()
-        self.valid_bids = self.initial_bids_tokens.keys()
+        self.valid_bids = list(self.initial_bids_tokens.keys())
         self._prepare_bids_docs()
 
     test_bids_on_tender_cancellation_in_tendering = snitch(bids_on_tender_cancellation_in_tendering)

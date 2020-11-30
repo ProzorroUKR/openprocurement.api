@@ -8,43 +8,15 @@ here = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(here, "README.md")) as f:
     README = f.read()
 
-requires = [
-    "pyramid<1.8.0",
-    "schematics<2.0.0",
-    "WebOb<=1.8.6",
-    "cornice==4.0.1",
-    "couchdb-schematics",
-    "barbecue",
-    "gunicorn",
-    "gevent",
-    "ciso8601",
-    "isodate",
-    "jsonpatch",
-    "jmespath",
-    "libnacl",
-    "pbkdf2",
-    "pycrypto",
-    "pyramid_exclog",
-    "requests",
-    "rfc6266",
-    "setuptools",
-    "tzlocal",
-    "zope.component",
-    "zope.configuration",
-    "esculator",
-    "dateorro>=0.0.3",
-    "configparser",
-    "sentry-sdk",
-    "standards>=1.0.4",
-]
-tests_requires = requires + [
-    "pytest",
-    "webtest",
-    "python-coveralls",
-    "mock",
-    "freezegun==1.0.0",
-    "parameterized",
-]
+requires = []
+
+with open('requirements.txt', 'r') as f:
+    for resource in f.readlines():
+        if not resource.startswith('git+'):
+            requires.append(resource.strip())
+
+tests_requires = requires
+
 
 entry_points = {
     "paste.app_factory": [

@@ -21,7 +21,7 @@ def migrate_data(registry, destination=None):
     cur_version = get_db_schema_version(registry.db)
     if cur_version == SCHEMA_VERSION:
         return cur_version
-    for step in xrange(cur_version, destination or SCHEMA_VERSION):
+    for step in range(cur_version, destination or SCHEMA_VERSION):
         LOGGER.info(
             "Migrate openprocurement schema from {} to {}".format(step, step + 1), extra={"MESSAGE_ID": "migrate_data"}
         )

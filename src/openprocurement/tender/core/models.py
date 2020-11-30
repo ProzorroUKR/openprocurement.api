@@ -1206,7 +1206,7 @@ class BidResponsesMixin(Model):
             if len(group_answered_requirement_ids) > 1:
                 raise ValidationError("Inside criteria must be answered only one requirement group")
 
-            rg_id = group_answered_requirement_ids.keys()[0]
+            rg_id = list(group_answered_requirement_ids.keys())[0]
             if set(criteria_ids[rg_id]).difference(set(group_answered_requirement_ids[rg_id])):
                 raise ValidationError("Inside requirement group must get answered all of requirements")
 

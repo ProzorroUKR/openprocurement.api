@@ -2,12 +2,10 @@
 from datetime import datetime
 from isodate import duration_isoformat
 from schematics.exceptions import ValidationError
-from zope.component import getAdapter
 from decimal import Decimal
 
 from openprocurement.api.utils import get_now, raise_operation_error, update_logging_context, parse_date
 from openprocurement.api.validation import validate_data, OPERATIONS
-from openprocurement.api.interfaces import IContentConfigurator
 
 from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER, MAX_AGREEMENT_PERIOD
 from openprocurement.tender.core.validation import validate_award_document_tender_not_in_allowed_status_base
@@ -164,7 +162,6 @@ def validate_update_agreement_only_for_active_lots(request, **kwargs):
 def validate_agreement_signing(request, **kwargs):
     tender = request.validated["tender"]
     data = request.validated["data"]
-    config = getAdapter(tender, IContentConfigurator)
     if request.context.status != "active" and "status" in data and data["status"] == "active":
         if "period" not in data or not data["period"]:
             raise_operation_error(request, "Period is required for agreement signing.")
