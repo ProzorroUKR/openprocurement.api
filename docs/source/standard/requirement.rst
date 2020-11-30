@@ -19,6 +19,17 @@ Schema
     |ocdsDescription|
     Requirement title.
 
+:status:
+    string
+
+    Possible values are:
+
+    * `active`
+    * `cancelled`
+
+    |ocdsDescription|
+    Requirement status (`active` by default).
+
 :description:
     string, multilingual
 
@@ -69,3 +80,15 @@ Schema
 
 :eligibleEvidences:
     List of :ref:`EligibleEvidence` objects.
+
+:datePublished:
+    string, :ref:`date`
+
+    |ocdsDescription|
+    The date on which the requirement version was published.
+
+:dateModified:
+    string, :ref:`date`
+
+    |ocdsDescription|
+    Date that the requirement version was cancelled

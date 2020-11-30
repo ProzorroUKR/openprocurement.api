@@ -25,10 +25,12 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "dataType": "boolean", 
+    "status": "active", 
     "title": "Updated title", 
-    "id": "4e7c2e5730574b87a39eed9d06bc1eb1", 
+    "dataType": "boolean", 
+    "datePublished": "2020-09-08T01:00:00+03:00", 
     "expectedValue": "true", 
+    "id": "4e7c2e5730574b87a39eed9d06bc1eb1", 
     "eligibleEvidences": [
       {
         "title": "Документальне підтвердження", 
