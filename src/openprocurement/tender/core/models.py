@@ -1062,6 +1062,58 @@ class RequirementResponse(Model):
                 raise ValidationError("value should be lower than eligibleEvidence.maxValue")
 
 
+class Dimension(Model):
+    description = StringType()
+
+
+class MilestoneReference(Model):
+    id = MD5Type()
+    title = StringType()
+
+
+class Unit(Model):
+    name = StringType()
+    id = StringType()
+    scheme = StringType()
+    uri = StringType()
+
+
+class Observation(Model):
+    class Options:
+        roles = {
+            "create": blacklist(),
+            "edit": blacklist("id"),
+            "embedded": schematics_embedded_role,
+            "view": schematics_default_role,
+        }
+
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    title = StringType(required=True, min_length=1)
+    value = ModelType(Value)
+    description = StringType()
+    period = ModelType(Period)
+    measure = StringType()
+    unit = ModelType(Unit)
+    dimensions = ListType(ModelType(Dimension), default=list())
+    notes = StringType()
+    relatedImplementationMilestone = ModelType(MilestoneReference)
+
+
+class Metric(Model):
+    class Options:
+        roles = {
+            "create": blacklist(),
+            "edit": blacklist("id"),
+            "embedded": schematics_embedded_role,
+            "view": schematics_default_role,
+        }
+
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    title = StringType(required=True, min_length=1)
+    description = StringType()
+    observations = ListType(ModelType(Observation), default=list())
+
+
 class Bid(Model):
     class Options:
         roles = {

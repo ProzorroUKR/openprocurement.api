@@ -49,6 +49,7 @@ from openprocurement.tender.core.models import (
     Document,
     QualificationMilestoneListMixin,
     BidResponsesMixin,
+    Metric,
 )
 from openprocurement.tender.core.utils import (
     normalize_should_start_after,
@@ -555,17 +556,17 @@ class Tender(BaseTender):
         _view_role = _parent_roles["view"] + _above_fields
         _all_forbidden = whitelist()
         roles = {
-            "create": _parent_roles["create"],
-            "edit_draft": _edit_role + whitelist("status"),
+            "create": _parent_roles["create"] + whitelist("targets"),
+            "edit_draft": _edit_role + whitelist("status", "targets"),
             "edit": _edit_role,
-            "edit_active.tendering": _edit_role,
+            "edit_active.tendering": _edit_role + whitelist("targets"),
             "edit_active.auction": _all_forbidden,
             "edit_active.qualification": _all_forbidden,
             "edit_active.awarded": _all_forbidden,
             "edit_complete": _all_forbidden,
             "edit_unsuccessful": _all_forbidden,
             "edit_cancelled": _all_forbidden,
-            "draft": _tendering_role,
+            "draft": _tendering_role + whitelist("targets"),
             "active.tendering": _tendering_role,
             "active.auction": _tendering_role,
             "view": _view_role,
@@ -619,6 +620,11 @@ class Tender(BaseTender):
         default="active.tendering",
     )
     cancellations = ListType(ModelType(Cancellation, required=True), default=list())
+
+    targets = ListType(
+        ModelType(Metric),
+        default=list(),
+    )
 
     create_accreditations = (ACCR_3, ACCR_5)
     central_accreditations = (ACCR_5,)
