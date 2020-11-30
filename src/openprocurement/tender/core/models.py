@@ -640,6 +640,7 @@ class EligibleEvidence(Model):
         roles = {
             "create": blacklist(),
             "edit": blacklist("id"),
+            "edit_view": blacklist("id"),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
         }
@@ -663,13 +664,21 @@ class EligibleEvidence(Model):
             if document_reference.id not in [document.id for document in tender.documents if document]:
                 raise ValidationError("relatedDocument.id should be one of tender documents")
 
+    def get_role(self):
+        root = self.get_root()
+        request = root.request
+        if request.matchdict.get("evidence_id"):
+            return "edit_view"
+        return "edit"
+
 
 class Evidence(EligibleEvidence):
     class Options:
         namespace = "Evidence"
         roles = {
             "create": blacklist(),
-            "edit": blacklist("id"),
+            "edit": blacklist(),
+            "edit_view": blacklist("id"),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
         }
@@ -886,7 +895,8 @@ class RequirementResponse(Model):
     class Options:
         roles = {
             "create": blacklist(),
-            "edit": blacklist("id"),
+            "edit": blacklist(),
+            "edit_view": blacklist("id"),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
         }
@@ -909,6 +919,13 @@ class RequirementResponse(Model):
     )
 
     value = StringType(required=True)
+
+    def get_role(self):
+        root = self.get_root()
+        request = root.request
+        if request.matchdict.get("requirement_response_id"):
+            return "edit_view"
+        return "edit"
 
     @staticmethod
     def get_requirement_obj(requirement_id=None, parent=None):
