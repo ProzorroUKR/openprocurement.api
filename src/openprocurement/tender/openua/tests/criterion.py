@@ -84,7 +84,6 @@ class TenderCriteriaRGRequirementTestMixin(object):
         super(TenderCriteriaRGRequirementTestMixin, self).setUp()
         criteria_data = deepcopy(test_criteria)
         criteria_data[0]["classification"]["id"] = "CRITERION.OTHER"
-        del criteria_data[0]["requirementGroups"][0]["requirements"]
 
         response = self.app.post_json(
             "/tenders/{}/criteria?acc_token={}&bulk=true".format(self.tender_id, self.tender_token),

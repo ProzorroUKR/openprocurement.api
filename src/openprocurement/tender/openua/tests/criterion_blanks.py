@@ -772,10 +772,10 @@ def get_rg_requirement(self):
             self.tender_id, self.criteria_id, self.rg_id, self.tender_token),
     )
     requirements = response.json["data"]
-    self.assertEqual(len(requirements), 1)
+    self.assertEqual(len(requirements), 2)
 
     for k, v in self.test_requirement_data.items():
-        self.assertEqual(requirements[0][k], v)
+        self.assertEqual(requirements[1][k], v)
 
     response = self.app.get("/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}".format(
         self.tender_id, self.criteria_id, self.rg_id, requirement_id, self.tender_token),

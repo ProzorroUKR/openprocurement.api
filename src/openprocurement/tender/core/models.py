@@ -326,11 +326,7 @@ def bids_response_validation_wrapper(validation_func):
         tender = data["__parent__"]
         request = tender.__parent__.request
 
-        # TODO: find better solution for check if object created
-        if (
-            not isinstance(data, (Bid, dict))
-            or (request.method == "POST" and request.authenticated_role == "bid_owner" and data["status"] == "draft")
-        ):
+        if not isinstance(data, (Bid, dict)):
             return validation_func(klass, orig_data, value)
 
         if data["status"] in ("deleted", "invalid", "invalid.pre-qualification", "unsuccessful", "draft"):
@@ -837,7 +833,7 @@ class RequirementGroup(Model):
     description_ru = StringType()
     requirements = ListType(
         ModelType(Requirement, required=True, validators=[validate_requirement_values]),
-        default=list())
+        default=list(), min_size=1)
 
 
 class CriterionClassification(BaseClassification):
