@@ -1765,51 +1765,6 @@ def create_bid_requirement_response(self):
           u'name': 0}]
     )
 
-    response = self.app.post_json(
-        request_path,
-        {"data": [{
-            "description": "some description",
-            "requirement": {
-                "id": self.requirement_id,
-                "title": self.requirement_title,
-            },
-            "value": False,
-        }]},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertIn("errors", response.json)
-    self.assertEqual(
-        response.json["errors"],
-        [{u'description': {u"value": [u"value and requirementGroup.expectedValue must be equal"]},
-          u'location': u'body',
-          u'name': 0}]
-    )
-
-    response = self.app.post_json(request_path, {"data": valid_data})
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    rr = response.json["data"]
-
-    for i, rr_data in enumerate(valid_data):
-        for k, v in rr_data.items():
-            if k == "value":
-                self.assertEqual(str(rr[i][k]), str(v))
-            else:
-                self.assertEqual(rr[i][k], v)
-
-    response = self.app.post_json(request_path, {"data": valid_data}, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertIn("errors", response.json)
-    self.assertEqual(
-        response.json["errors"],
-        [{u'description': [{u'requirementResponses': [u'Requirement id should be uniq for all requirement responses']}],
-          u'location': u'body',
-          u'name': u'bids'}]
-    )
-
 
 def patch_bid_requirement_response(self):
     base_request_path = "/tenders/{}/bids/{}/requirement_responses".format(self.tender_id, self.bid_id)
@@ -2003,82 +1958,6 @@ def create_bid_requirement_response_evidence(self):
         response.json["errors"],
         [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}]
     )
-
-    self.app.authorization = auth
-    response = self.app.post_json(
-        request_path,
-        {"data": {
-            "description": "some description"
-        }},
-        status=422
-    )
-
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertIn("errors", response.json)
-    self.assertEqual(
-        response.json["errors"],
-        [{u'description': [u'type should be one of eligibleEvidences types'],
-          u'location': u'body',
-          u'name': u'type'}],
-    )
-
-    response = self.app.post_json(
-        request_path,
-        {"data": {
-            "title": "Some title",
-            "description": "some description",
-            "type": "document",
-        }},
-        status=422,
-    )
-
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertIn("errors", response.json)
-    self.assertEqual(
-        response.json["errors"],
-        [{u'description': [u'This field is required.'],
-          u'location': u'body',
-          u'name': u'relatedDocument'}]
-    )
-
-    response = self.app.post_json(
-        request_path,
-        {"data": {
-            "title": "Some title",
-            "description": "some description",
-            "type": "document",
-            "relatedDocument": {
-                "id": "0"*32,
-                "title": "test.doc",
-            }
-        }},
-        status=422,
-    )
-
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertIn("errors", response.json)
-    self.assertEqual(
-        response.json["errors"],
-        [{u'description': [u'relatedDocument.id should be one of bid documents'],
-          u'location': u'body',
-          u'name': u'relatedDocument'}]
-    )
-
-    response = self.app.post_json(
-        request_path,
-        {"data": valid_data}
-    )
-
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    evidence = response.json["data"]
-
-    for k, v in valid_data.items():
-        self.assertIn(k, evidence)
-        self.assertEqual(evidence[k], v)
 
 
 def patch_bid_requirement_response_evidence(self):
