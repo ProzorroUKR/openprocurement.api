@@ -15,7 +15,7 @@ requires = [
     "cornice==1.2.0.dev0",
     "couchdb-schematics",
     "barbecue",
-    "chaussette",
+    "gunicorn",
     "gevent",
     "iso8601",
     "isodate",
