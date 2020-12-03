@@ -92,7 +92,6 @@ cleanup:
   <<: *base_deploy
   script:
     - helm repo add prozorro $REPO_URL
-    - helm repo add bitnami https://charts.bitnami.com/bitnami
     - helm repo update
     - helm upgrade $CI_COMMIT_REF_SLUG --install prozorro/$HELM_CHART --namespace $HELM_NAMESPACE --set $HELM_TAG_PARAMETER=$TAG --set deployAuction=false --wait --debug
 
@@ -100,7 +99,6 @@ cleanup:
   <<: *base_deploy
   script:
     - helm repo add prozorro $REPO_URL
-    - helm repo add bitnami https://charts.bitnami.com/bitnami
     - helm repo update
     - helm upgrade $CI_COMMIT_REF_SLUG --install prozorro/$HELM_CHART --namespace $HELM_NAMESPACE --set $HELM_TAG_PARAMETER=$TAG --set deployAuction=true --wait --debug
 
