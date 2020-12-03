@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta
-
 from pyramid.security import Allow
 from schematics.exceptions import ValidationError
 from schematics.transforms import blacklist, whitelist
-from schematics.types import StringType, BaseType, IntType, EmailType
+from schematics.types import StringType, BaseType, EmailType, BooleanType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 
@@ -22,12 +20,14 @@ from openprocurement.api.models import (
     schematics_default_role,
 )
 from openprocurement.api.models import Model
-from openprocurement.api.utils import get_now
-from openprocurement.framework.core.models import Framework
+from openprocurement.framework.core.models import (
+    Framework,
+    Submission as BaseSubmission,
+    Qualification as BaseQualification,
+)
 from openprocurement.framework.electroniccatalogue.utils import (
-    calculate_framework_date,
-    DAYS_TO_UNSUCCESSFUL_STATUS,
     AUTHORIZED_CPB,
+    get_framework_unsuccessful_status_check_date,
 )
 
 
@@ -84,10 +84,9 @@ class ElectronicCatalogueFramework(Framework):
     class Options:
         namespace = "Framework"
         _status_view_role = blacklist(
-            "frameworkType",
             "doc_type",
+            "successful",
             "transfer_token",
-            "numberOfSubmissions",
             "owner_token",
             "revisions",
             "_id",
@@ -95,6 +94,7 @@ class ElectronicCatalogueFramework(Framework):
             "__parent__",
         )
         _edit_role = _status_view_role + blacklist(
+            "frameworkType",
             "prettyID",
             "period",
             "enquiryPeriod",
@@ -114,7 +114,8 @@ class ElectronicCatalogueFramework(Framework):
                 "description",
                 "description_en",
                 "description_ru",
-                "documents"
+                "documents",
+                "frameworkDetails"
             ),
             "draft": _status_view_role + blacklist("mode"),
             "active": _status_view_role + blacklist("mode"),
@@ -137,13 +138,13 @@ class ElectronicCatalogueFramework(Framework):
                 "enquiryPeriod",
                 "qualificationPeriod",
                 "doc_id",
-                "submissionMethodDetails",
+                "frameworkDetails",
                 "mode",
             ),
             "Administrator": whitelist("status", "mode"),
-            "default": blacklist("doc_id", "numberOfSubmissions", "__parent__"),  # obj.store() use default role
+            "default": blacklist("doc_id", "__parent__"),  # obj.store() use default role
             "plain": blacklist(  # is used for getting patches
-                "_attachments", "revisions", "dateModified", "numberOfSubmissions", "_id", "_rev", "doc_type",
+                "_attachments", "revisions", "dateModified", "_id", "_rev", "doc_type",
                 "__parent__"
             ),
             "listing": whitelist("dateModified", "doc_id"),
@@ -154,6 +155,7 @@ class ElectronicCatalogueFramework(Framework):
         choices=[
             "draft",
             "active",
+            "deleted",
             "complete",
             "unsuccessful",
         ],
@@ -168,27 +170,52 @@ class ElectronicCatalogueFramework(Framework):
     additionalClassifications = ListType(ModelType(BaseClassification))
     documents = ListType(ModelType(Document, required=True), default=list())
 
-    numberOfSubmissions = IntType()
+    successful = BooleanType(required=True, default=False)
 
     procuring_entity_kinds = ["central"]
     central_accreditations = (ACCR_5,)
     edit_accreditations = (ACCR_5,)
 
-    @serializable(serialized_name="next_check")
+    @serializable(serialize_when_none=False)
     def next_check(self):
         checks = []
-        if self.period and self.period.startDate:
-            unsuccessful_status_check = calculate_framework_date(
-                self.period.startDate, timedelta(days=DAYS_TO_UNSUCCESSFUL_STATUS), self, working_days=True, ceil=True
-            )
-            if unsuccessful_status_check > get_now():
-                checks.append(unsuccessful_status_check)
-            if self.period.endDate > get_now():
-                checks.append(self.period.endDate)
-        checks.append(self.qualificationPeriod.endDate)
+        if self.status == "active":
+            if not self.successful:
+                unsuccessful_status_check = get_framework_unsuccessful_status_check_date(self)
+                if unsuccessful_status_check:
+                    checks.append(unsuccessful_status_check)
+            checks.append(self.qualificationPeriod.endDate)
         return min(checks).isoformat() if checks else None
 
     def __acl__(self):
         acl = super(ElectronicCatalogueFramework, self).__acl__()
         acl.append((Allow, "{}_{}".format(self.owner, self.owner_token), "upload_framework_documents"))
         return acl
+
+
+class Submission(BaseSubmission):
+
+    status = StringType(
+        choices=[
+            "draft",
+            "active",
+            "deleted",
+            "complete"
+        ],
+        default="draft",
+    )
+    submissionType = StringType(default="electronicCatalogue")
+
+
+class Qualification(BaseQualification):
+
+    status = StringType(
+        choices=[
+            "pending",
+            "active",
+            "unsuccessful"
+        ],
+        default="pending",
+    )
+
+    qualificationType = StringType(default="electronicCatalogue", required=True)

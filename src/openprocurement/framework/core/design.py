@@ -3,16 +3,37 @@ from couchdb.design import ViewDefinition
 
 from openprocurement.api import design
 
-FIELDS = ["id",
-          "prettyID",
-          "enquiryPeriod",
-          "period",
-          "qualificationPeriod",
-          "status",
-          "frameworkType",
-          "next_check",
-          ]
-CHANGES_FIELDS = FIELDS + ["dateModified"]
+FRAMEWORK_FIELDS = [
+    "id",
+    "prettyID",
+    "enquiryPeriod",
+    "period",
+    "qualificationPeriod",
+    "status",
+    "frameworkType",
+    "next_check",
+]
+FRAMEWORK_CHANGES_FIELDS = FRAMEWORK_FIELDS + ["dateModified"]
+
+
+SUBMISSION_FIELDS = [
+    "id",
+    "frameworkID",
+    "qualificationID",
+    "status",
+    "documents",
+]
+
+SUBMISSION_CHANGES_FIELDS = SUBMISSION_FIELDS + ["dateModified", "date", "datePublished"]
+
+QUALIFICATION_FIELDS = [
+    "id",
+    "frameworkID",
+    "submissionID",
+    "status",
+]
+
+QUALIFICATION_CHANGES_FIELDS = QUALIFICATION_FIELDS + ["dateModified", "date"]
 
 
 def add_design():
@@ -46,7 +67,7 @@ frameworks_by_dateModified_view = ViewDefinition(
         emit(doc.dateModified, data);
     }
 }"""
-    % FIELDS,
+    % FRAMEWORK_FIELDS,
 )
 
 frameworks_real_by_dateModified_view = ViewDefinition(
@@ -63,7 +84,7 @@ frameworks_real_by_dateModified_view = ViewDefinition(
         emit(doc.dateModified, data);
     }
 }"""
-    % FIELDS,
+    % FRAMEWORK_FIELDS,
 )
 
 frameworks_test_by_dateModified_view = ViewDefinition(
@@ -80,7 +101,7 @@ frameworks_test_by_dateModified_view = ViewDefinition(
         emit(doc.dateModified, data);
     }
 }"""
-    % FIELDS,
+    % FRAMEWORK_FIELDS,
 )
 
 frameworks_by_local_seq_view = ViewDefinition(
@@ -97,7 +118,7 @@ frameworks_by_local_seq_view = ViewDefinition(
         emit(doc._local_seq, data);
     }
 }"""
-    % CHANGES_FIELDS,
+    % FRAMEWORK_CHANGES_FIELDS,
 )
 
 frameworks_real_by_local_seq_view = ViewDefinition(
@@ -114,7 +135,7 @@ frameworks_real_by_local_seq_view = ViewDefinition(
         emit(doc._local_seq, data);
     }
 }"""
-    % CHANGES_FIELDS,
+    % FRAMEWORK_CHANGES_FIELDS,
 )
 
 frameworks_test_by_local_seq_view = ViewDefinition(
@@ -131,5 +152,288 @@ frameworks_test_by_local_seq_view = ViewDefinition(
         emit(doc._local_seq, data);
     }
 }"""
-    % CHANGES_FIELDS,
+    % FRAMEWORK_CHANGES_FIELDS,
+)
+
+# Submissions design
+
+submissions_all_view = ViewDefinition(
+    "submissions",
+    "all",
+    """function(doc) {
+    if(doc.doc_type == 'Submission') {
+        emit(doc._id, null);
+    }
+}""",
+)
+
+
+submissions_by_dateModified_view = ViewDefinition(
+    "submissions",
+    "by_dateModified",
+    """function(doc) {
+    if(doc.doc_type == 'Submission' && doc.status != 'draft' && doc.status != 'deleted') {
+        var fields=%s, data={};
+        for (var i in fields) {
+            if (doc[fields[i]]) {
+                data[fields[i]] = doc[fields[i]]
+            }
+        }
+        emit(doc.dateModified, data);
+    }
+}"""
+    % SUBMISSION_FIELDS,
+)
+
+submissions_real_by_dateModified_view = ViewDefinition(
+    "submissions",
+    "real_by_dateModified",
+    """function(doc) {
+    if(doc.doc_type == 'Submission' && doc.status != 'draft' && doc.status != 'deleted' && !doc.mode) {
+        var fields=%s, data={};
+        for (var i in fields) {
+            if (doc[fields[i]]) {
+                data[fields[i]] = doc[fields[i]]
+            }
+        }
+        emit(doc.dateModified, data);
+    }
+}"""
+    % SUBMISSION_FIELDS,
+)
+
+submissions_test_by_dateModified_view = ViewDefinition(
+    "submissions",
+    "test_by_dateModified",
+    """function(doc) {
+    if(doc.doc_type == 'Submission' && doc.status != 'draft' && doc.status != 'deleted' && doc.mode == 'test') {
+        var fields=%s, data={};
+        for (var i in fields) {
+            if (doc[fields[i]]) {
+                data[fields[i]] = doc[fields[i]]
+            }
+        }
+        emit(doc.dateModified, data);
+    }
+}"""
+    % SUBMISSION_FIELDS,
+)
+
+submissions_by_local_seq_view = ViewDefinition(
+    "submissions",
+    "by_local_seq",
+    """function(doc) {
+    if(doc.doc_type == 'Submission' && doc.status != 'draft' && doc.status != 'deleted') {
+        var fields=%s, data={};
+        for (var i in fields) {
+            if (doc[fields[i]]) {
+                data[fields[i]] = doc[fields[i]]
+            }
+        }
+        emit(doc._local_seq, data);
+    }
+}"""
+    % SUBMISSION_CHANGES_FIELDS,
+)
+
+submissions_real_by_local_seq_view = ViewDefinition(
+    "submissions",
+    "real_by_local_seq",
+    """function(doc) {
+    if(doc.doc_type == 'Submission' && doc.status != 'draft' && doc.status != 'deleted' && !doc.mode) {
+        var fields=%s, data={};
+        for (var i in fields) {
+            if (doc[fields[i]]) {
+                data[fields[i]] = doc[fields[i]]
+            }
+        }
+        emit(doc._local_seq, data);
+    }
+}"""
+    % SUBMISSION_CHANGES_FIELDS,
+)
+
+submissions_test_by_local_seq_view = ViewDefinition(
+    "submissions",
+    "test_by_local_seq",
+    """function(doc) {
+    if(doc.doc_type == 'Submission' && doc.status != 'draft' && doc.status != 'deleted' && doc.mode == 'test') {
+        var fields=%s, data={};
+        for (var i in fields) {
+            if (doc[fields[i]]) {
+                data[fields[i]] = doc[fields[i]]
+            }
+        }
+        emit(doc._local_seq, data);
+    }
+}"""
+    % SUBMISSION_CHANGES_FIELDS,
+)
+
+submissions_by_framework_id_view = ViewDefinition(
+    'submissions',
+    'by_framework_id', '''function(doc) {
+    if(doc.doc_type == 'Submission' && doc.status != 'draft' && doc.status != 'deleted') {
+        var fields=%s, data={};
+        for (var i in fields) {
+            if (doc[fields[i]]) {
+                data[fields[i]] = doc[fields[i]]
+            }
+        }
+        emit([doc.frameworkID, doc.dateModified], data);
+    }
+}''' % SUBMISSION_CHANGES_FIELDS)
+
+submissions_by_framework_id_total_view = ViewDefinition(
+    submissions_by_framework_id_view.design,
+    submissions_by_framework_id_view.name + "_total",
+    submissions_by_framework_id_view.map_fun,
+    "_count"
+)
+
+submissions_active_by_framework_id_count_view = ViewDefinition(
+    "submissions",
+    "active_by_framework_id",
+    '''function(doc) {
+        if(doc.doc_type == 'Submission' && doc.status == 'active') {
+            emit([doc.frameworkID, doc.tenderers[0].identifier.id], doc._id);
+        }
+    }''',
+    "_count",
+)
+
+# Qualification design
+
+qualifications_all_view = ViewDefinition(
+    "qualifications",
+    "all",
+    """function(doc) {
+    if(doc.doc_type == 'Qualification') {
+        emit(doc._id, null);
+    }
+}""",
+)
+
+
+qualifications_by_dateModified_view = ViewDefinition(
+    "qualifications",
+    "by_dateModified",
+    """function(doc) {
+    if(doc.doc_type == 'Qualification' && doc.status != 'draft') {
+        var fields=%s, data={};
+        for (var i in fields) {
+            if (doc[fields[i]]) {
+                data[fields[i]] = doc[fields[i]]
+            }
+        }
+        emit(doc.dateModified, data);
+    }
+}"""
+    % QUALIFICATION_FIELDS,
+)
+
+qualifications_real_by_dateModified_view = ViewDefinition(
+    "qualifications",
+    "real_by_dateModified",
+    """function(doc) {
+    if(doc.doc_type == 'Qualification' && doc.status != 'draft' && !doc.mode) {
+        var fields=%s, data={};
+        for (var i in fields) {
+            if (doc[fields[i]]) {
+                data[fields[i]] = doc[fields[i]]
+            }
+        }
+        emit(doc.dateModified, data);
+    }
+}"""
+    % QUALIFICATION_FIELDS,
+)
+
+qualifications_test_by_dateModified_view = ViewDefinition(
+    "qualifications",
+    "test_by_dateModified",
+    """function(doc) {
+    if(doc.doc_type == 'Qualification' && doc.status != 'draft' && doc.mode == 'test') {
+        var fields=%s, data={};
+        for (var i in fields) {
+            if (doc[fields[i]]) {
+                data[fields[i]] = doc[fields[i]]
+            }
+        }
+        emit(doc.dateModified, data);
+    }
+}"""
+    % QUALIFICATION_FIELDS,
+)
+
+qualifications_by_local_seq_view = ViewDefinition(
+    "qualifications",
+    "by_local_seq",
+    """function(doc) {
+    if(doc.doc_type == 'Qualification' && doc.status != 'draft') {
+        var fields=%s, data={};
+        for (var i in fields) {
+            if (doc[fields[i]]) {
+                data[fields[i]] = doc[fields[i]]
+            }
+        }
+        emit(doc._local_seq, data);
+    }
+}"""
+    % QUALIFICATION_CHANGES_FIELDS,
+)
+
+qualifications_real_by_local_seq_view = ViewDefinition(
+    "qualifications",
+    "real_by_local_seq",
+    """function(doc) {
+    if(doc.doc_type == 'Qualification' && doc.status != 'draft' && !doc.mode) {
+        var fields=%s, data={};
+        for (var i in fields) {
+            if (doc[fields[i]]) {
+                data[fields[i]] = doc[fields[i]]
+            }
+        }
+        emit(doc._local_seq, data);
+    }
+}"""
+    % QUALIFICATION_CHANGES_FIELDS,
+)
+
+qualifications_test_by_local_seq_view = ViewDefinition(
+    "qualifications",
+    "test_by_local_seq",
+    """function(doc) {
+    if(doc.doc_type == 'Qualification' && doc.status != 'draft' && doc.mode == 'test') {
+        var fields=%s, data={};
+        for (var i in fields) {
+            if (doc[fields[i]]) {
+                data[fields[i]] = doc[fields[i]]
+            }
+        }
+        emit(doc._local_seq, data);
+    }
+}"""
+    % QUALIFICATION_CHANGES_FIELDS,
+)
+
+qualifications_by_framework_id_view = ViewDefinition(
+    'qualifications',
+    'by_framework_id', '''function(doc) {
+    if(doc.doc_type == 'Qualification' && doc.status != 'draft') {
+        var fields=%s, data={};
+        for (var i in fields) {
+            if (doc[fields[i]]) {
+                data[fields[i]] = doc[fields[i]]
+            }
+        }
+        emit([doc.frameworkID, doc.dateModified], data);
+    }
+}''' % QUALIFICATION_CHANGES_FIELDS)
+
+qualifications_by_framework_id_total_view = ViewDefinition(
+    qualifications_by_framework_id_view.design,
+    qualifications_by_framework_id_view.name + "_total",
+    qualifications_by_framework_id_view.map_fun,
+    "_count"
 )

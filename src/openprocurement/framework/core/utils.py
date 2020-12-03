@@ -20,19 +20,26 @@ from openprocurement.api.utils import (
     context_unpack,
     apply_data_patch,
     append_revision,
+    get_doc_by_id,
 )
-from openprocurement.framework.core.traversal import factory
+from openprocurement.framework.core.traversal import (
+    framework_factory,
+    submission_factory,
+    qualification_factory,
+)
 from openprocurement.tender.core.utils import ACCELERATOR_RE
 
 LOGGER = getLogger("openprocurement.framework.core")
 ENQUIRY_PERIOD_DURATION = 10
 SUBMISSION_STAND_STILL_DURATION = 30
 
-frameworksresource = partial(resource, error_handler=error_handler, factory=factory)
+frameworksresource = partial(resource, error_handler=error_handler, factory=framework_factory)
+submissionsresource = partial(resource, error_handler=error_handler, factory=submission_factory)
+qualificationsresource = partial(resource, error_handler=error_handler, factory=qualification_factory)
 
 
 class isFramework(object):
-    """ Route predicate. """
+    """Framework Route predicate. """
 
     def __init__(self, val, config):
         self.val = val
@@ -48,6 +55,41 @@ class isFramework(object):
         return False
 
 
+class isSubmission(object):
+    """Submission Route predicate. """
+
+    def __init__(self, val, config):
+        self.val = val
+
+    def text(self):
+        return "submissionType = %s" % (self.val,)
+
+    phash = text
+
+    def __call__(self, context, request):
+        if request.submission is not None:
+            return getattr(request.submission, "submissionType", None) == self.val
+
+        return False
+
+
+class isQualification(object):
+    """Qualification Route predicate. """
+
+    def __init__(self, val, config):
+        self.val = val
+
+    def text(self):
+        return "qualificationType = %s" % (self.val,)
+
+    phash = text
+
+    def __call__(self, context, request):
+        if request.qualification is not None:
+            return getattr(request.qualification, "qualificationType", None) == self.val
+        return False
+
+
 def register_framework_frameworkType(config, model):
     """Register a framework frameworkType.
     :param config:
@@ -58,14 +100,25 @@ def register_framework_frameworkType(config, model):
     config.registry.framework_frameworkTypes[model.frameworkType.default] = model
 
 
-def framework_from_data(request, data, raise_error=True, create=True):
-    frameworkType = data.get("frameworkType", "electronicCatalogue")
-    model = request.registry.framework_frameworkTypes.get(frameworkType)
+def register_submission_submissionType(config, model):
+    submission_type = model.submissionType.default
+    config.registry.submission_submissionTypes[submission_type] = model
+
+
+def register_qualification_qualificationType(config, model):
+    qualification_type = model.qualificationType.default
+    config.registry.qualification_qualificationTypes[qualification_type] = model
+
+
+def object_from_data(request, data, obj_name, raise_error=True, create=True):
+    objType = data.get("%sType" % obj_name, "electronicCatalogue")
+    model_types = getattr(request.registry, "%s_%sTypes" % (obj_name, obj_name))
+    model = model_types.get(objType)
     if model is None and raise_error:
-        request.errors.add("data", "frameworkType", "Not implemented")
+        request.errors.add("data", "%sType" % obj_name, "Not implemented")
         request.errors.status = 415
         raise error_handler(request.errors)
-    update_logging_context(request, {"framework_type": frameworkType})
+    update_logging_context(request, {"%s_type" % obj_name: objType})
     if model is not None and create:
         if request.environ.get("REQUEST_METHOD") == "GET" and data.get("revisions"):
             # to optimize get requests to frameworks with many revisions
@@ -77,15 +130,28 @@ def framework_from_data(request, data, raise_error=True, create=True):
     return model
 
 
-def extract_doc_adapter(request, framework_id):
-    db = request.registry.db
-    doc = db.get(framework_id)
-    if doc is None or doc.get("doc_type") != "Framework":
-        request.errors.add("url", "framework_id", "Not Found")
+def framework_from_data(request, data, raise_error=True, create=True):
+    return object_from_data(request, data, "framework", raise_error=raise_error, create=create)
+
+
+def submission_from_data(request, data, raise_error=True, create=True):
+    return object_from_data(request, data, "submission", raise_error=raise_error, create=create)
+
+
+def qualification_from_data(request, data, raise_error=True, create=True):
+    return object_from_data(request, data, "qualification", raise_error=raise_error, create=create)
+
+
+def extract_doc_adapter(request, doc_type, doc_id):
+    doc = get_doc_by_id(request.registry.db, doc_type, doc_id)
+    doc_type_lower = doc_type[0].lower() + doc_type[1:]
+    if doc is None:
+        request.errors.add("url", "%s_id" % doc_type_lower, "Not Found")
         request.errors.status = 404
         raise error_handler(request.errors)
 
-    return request.framework_from_data(doc)
+    method = getattr(request, "%s_from_data" % doc_type_lower)
+    return method(doc)
 
 
 def extract_doc(request):
@@ -97,14 +163,15 @@ def extract_doc(request):
     except UnicodeDecodeError as e:
         raise URLDecodeError(e.encoding, e.object, e.start, e.end, e.reason)
 
-    framework_id = ""
-    # extract framework id
+    obj_id = ""
+    # extract object id
     parts = path.split("/")
-    if len(parts) < 4 or parts[3] != "frameworks":
+    if len(parts) < 4 or parts[3] not in ("frameworks", "submissions", "qualifications"):
         return
 
-    framework_id = parts[4]
-    return extract_doc_adapter(request, framework_id)
+    obj_type = parts[3][0].upper() + parts[3][1:-1]
+    obj_id = parts[4]
+    return extract_doc_adapter(request, obj_type, obj_id)
 
 
 def generate_framework_pretty_id(ctime, db, server_id=""):
@@ -122,42 +189,55 @@ def generate_framework_pretty_id(ctime, db, server_id=""):
             sleep(1)
         else:
             break
-    return "UA-{:04}-{:02}-{:02}-{:06}{}".format(
+    return "UA-F-{:04}-{:02}-{:02}-{:06}{}".format(
         ctime.year, ctime.month, ctime.day, index, server_id and "-" + server_id
     )
 
 
-def save_framework(request):
-    framework = request.validated["framework"]
+def save_object(request, obj_name, with_test_mode=True):
+    obj = request.validated[obj_name]
 
-    if framework.mode == u"test":
-        set_modetest_titles(framework)
+    if with_test_mode and obj.mode == u"test":
+        set_modetest_titles(obj)
 
-    patch = get_revision_changes(framework.serialize("plain"), request.validated["framework_src"])
+    patch = get_revision_changes(obj.serialize("plain"), request.validated["%s_src" % obj_name])
     if patch:
         now = get_now()
-        append_framework_revision(request, framework, patch, now)
+        append_framework_revision(request, obj, patch, now)
 
-        old_date_modified = framework.dateModified
-        if getattr(framework, "modified", True):
-            framework.dateModified = now
+        old_date_modified = obj.dateModified
+        if getattr(obj, "modified", True):
+            obj.dateModified = now
 
         with handle_store_exceptions(request):
-            framework.store(request.registry.db)
+            obj.store(request.registry.db)
             LOGGER.info(
-                "Saved framework {}: dateModified {} -> {}".format(
-                    framework.id,
+                "Saved {} {}: dateModified {} -> {}".format(
+                    obj_name,
+                    obj.id,
                     old_date_modified and old_date_modified.isoformat(),
-                    framework.dateModified.isoformat()
+                    obj.dateModified.isoformat()
                 ),
-                extra=context_unpack(request, {"MESSAGE_ID": "save_framework"}, {"RESULT": framework.rev}),
+                extra=context_unpack(request, {"MESSAGE_ID": "save_{}".format(obj_name)}, {"RESULT": obj.rev}),
             )
             return True
 
 
+def save_framework(request):
+    return save_object(request, "framework")
+
+
+def save_submission(request):
+    return save_object(request, "submission", with_test_mode=False)
+
+
+def save_qualification(request):
+    return save_object(request, "qualification", with_test_mode=False)
+
+
 def get_framework_accelerator(context):
-    if context and "submissionMethodDetails" in context and context["submissionMethodDetails"]:
-        re_obj = ACCELERATOR_RE.search(context["submissionMethodDetails"])
+    if context and "frameworkDetails" in context and context["frameworkDetails"]:
+        re_obj = ACCELERATOR_RE.search(context["frameworkDetails"])
         if re_obj and "accelerator" in re_obj.groupdict():
             return int(re_obj.groupdict()["accelerator"])
     return None
@@ -181,6 +261,10 @@ def apply_patch(request, data=None, save=True, src=None):
     if patch:
         request.context.import_data(patch)
         if save:
+            if "submission" in request.validated:
+                return save_submission(request)
+            if "qualification" in request.validated:
+                return save_qualification(request)
             return save_framework(request)
 
 
@@ -201,7 +285,15 @@ def append_framework_revision(request, framework, patch, date):
     return append_revision(request, framework, patch)
 
 
-def framework_serialize(request, framework_data, fields):
-    framework = request.framework_from_data(framework_data, raise_error=False)
-    framework.__parent__ = request.context
-    return dict([(i, j) for i, j in framework.serialize("view").items() if i in fields])
+def obj_serialize(request, framework_data, fields):
+    obj = request.framework_from_data(framework_data, raise_error=False)
+    obj.__parent__ = request.context
+    return dict([(i, j) for i, j in obj.serialize("view").items() if i in fields])
+
+
+def get_submission_by_id(db, submission_id):
+    return get_doc_by_id(db, "Submission", submission_id)
+
+
+def get_framework_by_id(db, framework_id):
+    return get_doc_by_id(db, "Framework", framework_id)

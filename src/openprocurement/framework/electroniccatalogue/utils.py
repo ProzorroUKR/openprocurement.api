@@ -5,6 +5,9 @@ from dateorro import calc_normalized_datetime, calc_working_datetime, calc_datet
 
 from openprocurement.api.constants import WORKING_DAYS
 from openprocurement.api.utils import get_now, context_unpack
+from openprocurement.framework.core.design import (
+    submissions_by_framework_id_total_view,
+)
 from openprocurement.framework.core.utils import (
     ENQUIRY_PERIOD_DURATION,
     SUBMISSION_STAND_STILL_DURATION,
@@ -44,23 +47,47 @@ def calculate_framework_periods(request, model):
     data["qualificationPeriod"]["startDate"] = enquiryPeriod_endDate
 
 
+def get_framework_unsuccessful_status_check_date(framework):
+    if framework.period and framework.period.startDate:
+        return calculate_framework_date(
+            framework.period.startDate, timedelta(days=DAYS_TO_UNSUCCESSFUL_STATUS),
+            framework, working_days=True, ceil=True
+        )
+
+
+def get_framework_number_of_submissions(request, framework):
+    total_submission_results = submissions_by_framework_id_total_view(
+        request.registry.db,
+        startkey=[framework.id, None],
+        endkey=[framework.id, {}]
+    )
+    if total_submission_results:
+        return [e.value for e in total_submission_results][0]
+    return 0
+
+
 def check_status(request):
     framework = request.validated["framework"]
-    number_of_submissions = request.validated["json_data"].get("numberOfSubmissions")
 
-    if number_of_submissions is not None:
-        unsuccessful_status_check = calculate_framework_date(framework.period.startDate, timedelta(days=DAYS_TO_UNSUCCESSFUL_STATUS), framework, working_days=True, ceil=True)
-        if not number_of_submissions and unsuccessful_status_check < get_now():
+    if framework.status == "active":
+        if not framework.successful:
+            unsuccessful_status_check = get_framework_unsuccessful_status_check_date(framework)
+            if unsuccessful_status_check and unsuccessful_status_check < get_now():
+                number_of_submissions = get_framework_number_of_submissions(request, framework)
+                if number_of_submissions == 0:
+                    LOGGER.info(
+                        "Switched framework {} to {}".format(framework.id, "unsuccessful"),
+                        extra=context_unpack(request, {"MESSAGE_ID": "switched_framework_unsuccessful"}),
+                    )
+                    framework.status = "unsuccessful"
+                    return
+                else:
+                    framework.successful = True
+
+        if framework.qualificationPeriod.endDate < get_now():
             LOGGER.info(
-                "Switched framework {} to {}".format(framework.id, "unsuccessful"),
-                extra=context_unpack(request, {"MESSAGE_ID": "switched_framework_unsuccessful"}),
+                "Switched framework {} to {}".format(framework.id, "complete"),
+                extra=context_unpack(request, {"MESSAGE_ID": "switched_framework_complete"}),
             )
-            framework.status = "unsuccessful"
+            framework.status = "complete"
             return
-    if framework.qualificationPeriod.endDate < get_now():
-        LOGGER.info(
-            "Switched framework {} to {}".format(framework.id, "complete"),
-            extra=context_unpack(request, {"MESSAGE_ID": "switched_framework_complete"}),
-        )
-        framework.status = "complete"
-        return

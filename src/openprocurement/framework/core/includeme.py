@@ -6,11 +6,17 @@ from pkg_resources import iter_entry_points
 from openprocurement.framework.core.utils import (
     extract_doc,
     register_framework_frameworkType,
+    register_submission_submissionType,
+    register_qualification_qualificationType,
     isFramework,
+    isSubmission,
+    isQualification,
     framework_from_data,
+    submission_from_data,
+    qualification_from_data,
 )
 
-LOGGER = getLogger("openprocurement.historical.core")
+LOGGER = getLogger("openprocurement.framework.core")
 
 
 def includeme(config):
@@ -19,12 +25,22 @@ def includeme(config):
 
     add_design()
     config.add_request_method(extract_doc, "framework", reify=True)
+    config.add_request_method(extract_doc, "submission", reify=True)
+    config.add_request_method(extract_doc, "qualification", reify=True)
 
     # tender procurementMethodType plugins support
     config.registry.framework_frameworkTypes = {}
+    config.registry.submission_submissionTypes = {}
+    config.registry.qualification_qualificationTypes = {}
     config.add_route_predicate("frameworkType", isFramework)
+    config.add_route_predicate("submissionType", isSubmission)
+    config.add_route_predicate("qualificationType", isQualification)
     config.add_request_method(framework_from_data)
+    config.add_request_method(submission_from_data)
+    config.add_request_method(qualification_from_data)
     config.add_directive("add_framework_frameworkTypes", register_framework_frameworkType)
+    config.add_directive("add_submission_submissionTypes", register_submission_submissionType)
+    config.add_directive("add_qualification_qualificationTypes", register_qualification_qualificationType)
     config.scan("openprocurement.framework.core.views")
 
     # search for plugins

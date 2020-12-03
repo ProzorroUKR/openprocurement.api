@@ -14,6 +14,8 @@ from openprocurement.api.models import (
     Revision,
     IsoDateTimeType,
     ListType,
+    BusinessOrganization,
+    Document,
 )
 from openprocurement.api.utils import get_now
 
@@ -34,7 +36,7 @@ class Framework(OpenprocurementSchematicsDocument, Model):
             "description_en",
             "description_ru",
         )
-        _create_role = _edit_role + whitelist("frameworkType", "submissionMethodDetails", "mode")
+        _create_role = _edit_role + whitelist("frameworkType", "frameworkDetails", "mode")
 
         roles = {
             "create": _create_role,
@@ -44,7 +46,7 @@ class Framework(OpenprocurementSchematicsDocument, Model):
                 "prettyID",
                 "documents",
                 "doc_id",
-                "submissionMethodDetails",
+                "frameworkDetails",
                 "dateModified",
                 "frameworkType",
                 "owner",
@@ -53,7 +55,7 @@ class Framework(OpenprocurementSchematicsDocument, Model):
             "chronograph_view": whitelist(
                 "status",
                 "doc_id",
-                "submissionMethodDetails",
+                "frameworkDetails",
                 "mode",
             ),
             # "Administrator": whitelist("status", "mode"),
@@ -76,7 +78,7 @@ class Framework(OpenprocurementSchematicsDocument, Model):
     dateModified = IsoDateTimeType()
     frameworkType = StringType(required=True)
     if SANDBOX_MODE:
-        submissionMethodDetails = StringType()
+        frameworkDetails = StringType()
     owner = StringType()
     owner_token = StringType()
     mode = StringType(choices=["test"])
@@ -139,6 +141,178 @@ class Framework(OpenprocurementSchematicsDocument, Model):
         ]
         return acl
 
-    def validate_submissionMethodDetails(self, *args, **kw):
-        if self.mode and self.mode == "test" and self.submissionMethodDetails and self.submissionMethodDetails != "":
-            raise ValidationError(u"submissionMethodDetails should be used with mode test")
+    def validate_frameworkDetails(self, *args, **kw):
+        if self.mode and self.mode == "test" and self.frameworkDetails and self.frameworkDetails != "":
+            raise ValidationError(u"frameworkDetails should be used with mode test")
+
+
+class ISubmission(IOPContent):
+    pass
+
+
+@implementer(ISubmission)
+class Submission(OpenprocurementSchematicsDocument, Model):
+    class Options:
+        namespace = "Submission"
+        roles = {
+            "create": whitelist("tenderers", "documents", "frameworkID"),
+            "edit": whitelist("tenderers", "status", "documents", "frameworkID"),
+            "edit_active": whitelist(),
+            "edit_bot": whitelist("status", "qualificationID"),
+            "default": blacklist("doc_id", "__parent__"),
+            "plain": blacklist(  # is used for getting patches
+                "_attachments", "revisions", "dateModified", "_id", "_rev", "doc_type", "__parent__"
+            ),
+            "view": whitelist(
+                "doc_id",
+                "status",
+                "tenderers",
+                "documents",
+                "qualificationID",
+                "frameworkID",
+                "dateModified",
+                "date",
+                "datePublished",
+                "submissionType",
+            ),
+            "embedded":  blacklist("_id", "_rev", "doc_type", "__parent__"),
+        }
+
+    tenderers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1,)
+    documents = ListType(ModelType(Document, required=True), default=list())
+    qualificationID = StringType()
+    frameworkID = StringType(required=True)
+    dateModified = IsoDateTimeType()
+    date = IsoDateTimeType()
+    datePublished = IsoDateTimeType()
+
+    owner = StringType()
+    owner_token = StringType()
+    transfer_token = StringType()
+
+    _attachments = DictType(DictType(BaseType), default=dict())
+    revisions = ListType(ModelType(Revision, required=True), default=list())
+
+    mode = StringType(choices=["test"])
+
+    def get_role(self):
+        role = "edit"
+        root = self.__parent__
+        auth_role = root.request.authenticated_role
+        if auth_role == "bots":
+            role = "edit_bot"
+        elif self.status == "active":
+            role = "edit_active"
+        return role
+
+    def __repr__(self):
+        return "<%s:%r@%r>" % (type(self).__name__, self.id, self.rev)
+
+    def __local_roles__(self):
+        roles = dict([("{}_{}".format(self.owner, self.owner_token), "submission_owner")])
+        return roles
+
+    @serializable(serialized_name="id")
+    def doc_id(self):
+        """A property that is serialized by schematics exports."""
+        return self._id
+
+    def import_data(self, raw_data, **kw):
+        """
+        Converts and imports the raw data into the instance of the model
+        according to the fields in the model.
+        :param raw_data:
+            The data to be imported.
+        """
+        data = self.convert(raw_data, **kw)
+        del_keys = [
+            k for k in data.keys() if data[k] == self.__class__.fields[k].default or data[k] == getattr(self, k)
+        ]
+        for k in del_keys:
+            del data[k]
+
+        self._data.update(data)
+        return self
+
+    def __acl__(self):
+        acl = [
+            (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_submission"),
+        ]
+        return acl
+
+
+class IQualification(IOPContent):
+    pass
+
+
+@implementer(IQualification)
+class Qualification(OpenprocurementSchematicsDocument, Model):
+
+    class Options:
+        namespace = "Qualification"
+        roles = {
+            "create": whitelist("submissionID", "frameworkID", "documents"),
+            "edit": whitelist("status", "documents"),
+            "default": blacklist("doc_id", "__parent__"),
+            "plain": blacklist(  # is used for getting patches
+                "_attachments", "revisions", "dateModified", "_id", "_rev", "doc_type", "__parent__"
+            ),
+            "view": whitelist(
+                "doc_id",
+                "status",
+                "submissionID",
+                "frameworkID",
+                "documents",
+                "date",
+                "dateModified",
+                "qualificationType",
+            ),
+            "embedded":  blacklist("_id", "_rev", "doc_type", "__parent__"),
+        }
+
+    submissionID = StringType(required=True)
+    frameworkID = StringType(required=True)
+
+    date = IsoDateTimeType()
+    dateModified = IsoDateTimeType()
+
+    framework_owner = StringType()
+    framework_token = StringType()
+
+    documents = ListType(ModelType(Document, required=True), default=list())
+
+    _attachments = DictType(DictType(BaseType), default=dict())
+    revisions = ListType(ModelType(Revision, required=True), default=list())
+
+    mode = StringType(choices=["test"])
+
+    def __repr__(self):
+        return "<%s:%r@%r>" % (type(self).__name__, self.id, self.rev)
+
+    @serializable(serialized_name="id")
+    def doc_id(self):
+        """A property that is serialized by schematics exports."""
+        return self._id
+
+    def import_data(self, raw_data, **kw):
+        """
+        Converts and imports the raw data into the instance of the model
+        according to the fields in the model.
+        :param raw_data:
+            The data to be imported.
+        """
+        data = self.convert(raw_data, **kw)
+        del_keys = [
+            k for k in data.keys() if data[k] == self.__class__.fields[k].default or data[k] == getattr(self, k)
+        ]
+        for k in del_keys:
+            del data[k]
+
+        self._data.update(data)
+        return self
+
+    def __acl__(self):
+        acl = [
+            (Allow, "{}_{}".format(self.framework_owner, self.framework_token), "edit_qualification"),
+        ]
+        return acl
