@@ -1,4 +1,9 @@
-from openprocurement.api.utils import APIResource, json_view, context_unpack, raise_operation_error
+from openprocurement.api.utils import (
+    APIResource,
+    json_view,
+    context_unpack,
+    raise_operation_error,
+)
 from openprocurement.framework.core.utils import (
     frameworksresource,
     apply_patch,

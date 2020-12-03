@@ -8,22 +8,22 @@ from openprocurement.api.utils import (
     json_view,
 )
 from openprocurement.api.validation import validate_file_update, validate_file_upload, validate_patch_document_data
-from openprocurement.framework.core.utils import save_framework, apply_patch, frameworksresource
-from openprocurement.framework.electroniccatalogue.validation import (
-    validate_framework_document_operation_not_in_allowed_status,
+from openprocurement.framework.core.utils import save_submission, apply_patch, submissionsresource
+from openprocurement.framework.core.validation import (
+    validate_document_operation_in_not_allowed_period
 )
 
 
-@frameworksresource(
-    name="Framework Documents",
-    collection_path="/frameworks/{framework_id}/documents",
-    path="/frameworks/{framework_id}/documents/{document_id}",
-    description="Framework related binary files (PDFs, etc.)",
+@submissionsresource(
+    name="electronicCatalogue: Submission Documents",
+    collection_path="/submissions/{submission_id}/documents",
+    path="/submissions/{submission_id}/documents/{document_id}",
+    description="Submission related binary files (PDFs, etc.)",
 )
-class FrameworkDocumentResource(APIResource):
-    @json_view(permission="view_framework")
+class SubmissionDocumentResource(APIResource):
+    @json_view(permission="view_submission")
     def collection_get(self):
-        """Contract Documents List"""
+        """Submission Documents List"""
         if self.request.params.get("all", ""):
             collection_data = [i.serialize("view") for i in self.context.documents]
         else:
@@ -34,18 +34,21 @@ class FrameworkDocumentResource(APIResource):
         return {"data": collection_data}
 
     @json_view(
-        permission="upload_framework_documents",
-        validators=(validate_file_upload, validate_framework_document_operation_not_in_allowed_status),
+        permission="edit_submission",
+        validators=(
+            validate_document_operation_in_not_allowed_period,
+            validate_file_upload,
+        ),
     )
     def collection_post(self):
-        """Framework Document Upload"""
+        """Submission Document Upload"""
         document = upload_file(self.request)
         self.context.documents.append(document)
-        if save_framework(self.request):
+        if save_submission(self.request):
             self.LOGGER.info(
-                "Created framework document {}".format(document.id),
+                "Created submission document {}".format(document.id),
                 extra=context_unpack(
-                    self.request, {"MESSAGE_ID": "framework_document_create"}, {"document_id": document.id}
+                    self.request, {"MESSAGE_ID": "submission_document_create"}, {"document_id": document.id}
                 ),
             )
             self.request.response.status = 201
@@ -55,9 +58,9 @@ class FrameworkDocumentResource(APIResource):
             )
             return {"data": document.serialize("view")}
 
-    @json_view(permission="view_framework")
+    @json_view(permission="view_submission")
     def get(self):
-        """Framework Document Read"""
+        """Submission Document Read"""
         if self.request.params.get("download"):
             return get_file(self.request)
         document = self.request.validated["document"]
@@ -68,33 +71,37 @@ class FrameworkDocumentResource(APIResource):
         return {"data": document_data}
 
     @json_view(
-        permission="upload_framework_documents",
-        validators=(validate_file_update, validate_framework_document_operation_not_in_allowed_status),
+        permission="edit_submission",
+        validators=(
+            validate_document_operation_in_not_allowed_period,
+            validate_file_update,
+        ),
     )
     def put(self):
-        """Framework Document Update"""
+        """Submission Document Update"""
         document = upload_file(self.request)
-        self.request.validated["framework"].documents.append(document)
-        if save_framework(self.request):
+        self.request.validated["submission"].documents.append(document)
+        if save_submission(self.request):
             self.LOGGER.info(
-                "Updated framework document {}".format(self.request.context.id),
-                extra=context_unpack(self.request, {"MESSAGE_ID": "framework_document_put"}),
+                "Updated submission document {}".format(self.request.context.id),
+                extra=context_unpack(self.request, {"MESSAGE_ID": "submission_document_put"}),
             )
             return {"data": document.serialize("view")}
 
     @json_view(
         content_type="application/json",
-        permission="upload_framework_documents",
+        permission="edit_submission",
         validators=(
-                validate_patch_document_data, validate_framework_document_operation_not_in_allowed_status
+            validate_document_operation_in_not_allowed_period,
+            validate_patch_document_data,
         ),
     )
     def patch(self):
-        """Framework Document Update"""
+        """Submission Document Update"""
         if apply_patch(self.request, src=self.request.context.serialize()):
             update_file_content_type(self.request)
             self.LOGGER.info(
-                "Updated framework document {}".format(self.request.context.id),
-                extra=context_unpack(self.request, {"MESSAGE_ID": "framework_document_patch"}),
+                "Updated submission document {}".format(self.request.context.id),
+                extra=context_unpack(self.request, {"MESSAGE_ID": "submission_document_patch"}),
             )
             return {"data": self.request.context.serialize("view")}

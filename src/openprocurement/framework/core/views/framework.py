@@ -1,5 +1,6 @@
 from openprocurement.api.utils import (
     APIResourceListing,
+    APIResourcePaginatedListing,
     json_view,
     generate_id,
     get_now,
@@ -7,19 +8,27 @@ from openprocurement.api.utils import (
     context_unpack,
 )
 from openprocurement.framework.core.design import (
-    FIELDS,
+    FRAMEWORK_FIELDS,
+    SUBMISSION_CHANGES_FIELDS,
+    QUALIFICATION_CHANGES_FIELDS,
     frameworks_by_dateModified_view,
     frameworks_test_by_dateModified_view,
     frameworks_by_local_seq_view,
     frameworks_test_by_local_seq_view,
     frameworks_real_by_local_seq_view,
     frameworks_real_by_dateModified_view,
+    # submission
+    submissions_by_framework_id_view,
+    submissions_by_framework_id_total_view,
+    # qualification
+    qualifications_by_framework_id_view,
+    qualifications_by_framework_id_total_view,
 )
 from openprocurement.framework.core.utils import (
     frameworksresource,
     generate_framework_pretty_id,
     save_framework,
-    framework_serialize,
+    obj_serialize,
 )
 from openprocurement.framework.core.validation import validate_framework_data
 
@@ -49,8 +58,8 @@ class FrameworkResource(APIResourceListing):
         self.VIEW_MAP = VIEW_MAP
         self.CHANGES_VIEW_MAP = CHANGES_VIEW_MAP
         self.FEED = FEED
-        self.FIELDS = FIELDS
-        self.serialize_func = framework_serialize
+        self.FIELDS = FRAMEWORK_FIELDS
+        self.serialize_func = obj_serialize
         self.object_name_for_listing = "Frameworks"
         self.log_message_id = "framework_list_custom"
 
@@ -86,3 +95,37 @@ class FrameworkResource(APIResourceListing):
                 "{}:Framework".format(framework.frameworkType), framework_id=framework_id
             )
             return {"data": framework.serialize(framework.status), "access": access}
+
+
+@frameworksresource(
+    name='Framework Submissions',
+    path='/frameworks/{framework_id}/submissions',
+    description="",
+)
+class FrameworkSubmissionRequestResource(APIResourcePaginatedListing):
+    obj_id_key = "framework_id"
+    serialize_method = obj_serialize
+    default_fields = set(SUBMISSION_CHANGES_FIELDS) | {"id", "dateModified"}
+    views = {
+        "": submissions_by_framework_id_view,
+    }
+    views_total = {
+        "": submissions_by_framework_id_total_view,
+    }
+
+
+@frameworksresource(
+    name='Framework Qualifications',
+    path='/frameworks/{framework_id}/qualifications',
+    description="",
+)
+class FrameworkQualificationRequestResource(APIResourcePaginatedListing):
+    obj_id_key = "framework_id"
+    serialize_method = obj_serialize
+    default_fields = set(QUALIFICATION_CHANGES_FIELDS) | {"id", "dateModified"}
+    views = {
+        "": qualifications_by_framework_id_view,
+    }
+    views_total = {
+        "": qualifications_by_framework_id_total_view,
+    }

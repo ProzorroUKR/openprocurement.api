@@ -1,5 +1,7 @@
 from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
+from openprocurement.api.traversal import get_item
+
 
 class Root(object):
     __name__ = None
@@ -8,10 +10,23 @@ class Root(object):
         # (Allow, Everyone, ALL_PERMISSIONS),
         (Allow, Everyone, "view_listing"),
         (Allow, Everyone, "view_framework"),
+        (Allow, Everyone, "view_submission"),
         (Allow, "g:brokers", "create_framework"),
         (Allow, "g:chronograph", "edit_framework"),
         (Allow, "g:framework_owner", "edit_framework"),
         (Allow, "g:Administrator", "edit_framework"),
+        # Submission permissions
+        (Allow, "g:brokers", "create_submission"),
+        (Allow, "g:chronograph", "edit_submission"),
+        (Allow, "g:bots", "edit_submission"),
+        (Allow, "g:submission_owner", "edit_submission"),
+        (Allow, "g:Administrator", "edit_submission"),
+        # Qualification permissions
+        (Allow, Everyone, "view_qualification"),
+        (Allow, "g:bots", "create_qualification"),
+        (Allow, "g:bots", "edit_qualification"),
+        (Allow, "g:framework_owner", "edit_qualification"),
+        (Allow, "g:Administrator", "edit_qualification"),
         (Allow, "g:admins", ALL_PERMISSIONS),
     ]
 
@@ -20,20 +35,41 @@ class Root(object):
         self.db = request.registry.db
 
 
-def factory(request):
-    request.validated["framework_src"] = {}
+def resolve_document(request, obj, document_type=None):
+    return get_item(obj, "{}_document".format(document_type) if document_type else "document", request)
+
+
+def base_factory(request, obj_name):
+    obj_name_src = "%s_src" % obj_name
+    obj_name_id = "%s_id" % obj_name
+
+    request.validated[obj_name_src] = {}
     root = Root(request)
-    if not request.matchdict or not request.matchdict.get("framework_id"):
+    if not request.matchdict or not request.matchdict.get(obj_name_id):
         return root
-    request.validated["framework_id"] = request.matchdict["framework_id"]
-    framework = request.framework
-    framework.__parent__ = root
-    request.validated["framework"] = request.validated["db_doc"] = framework
+    request.validated[obj_name_id] = request.matchdict[obj_name_id]
+    obj = getattr(request, obj_name)
+    obj.__parent__ = root
+    request.validated[obj_name] = request.validated["db_doc"] = obj
     if request.method != "GET":
-        request.validated["framework_src"] = framework.serialize("plain")
-    if request.method != "GET" and framework._initial.get("next_check"):
-        request.validated["framework_src"]["next_check"] = framework._initial.get("next_check")
+        request.validated[obj_name_src] = obj.serialize("plain")
+    if request.method != "GET" and obj._initial.get("next_check"):
+        request.validated[obj_name_src]["next_check"] = obj._initial.get("next_check")
 
-    request.validated["id"] = request.matchdict["framework_id"]
+    request.validated["id"] = request.matchdict[obj_name_id]
+    if request.matchdict.get("document_id"):
+        return resolve_document(request, obj)
 
-    return framework
+    return obj
+
+
+def framework_factory(request):
+    return base_factory(request, "framework")
+
+
+def submission_factory(request):
+    return base_factory(request, "submission")
+
+
+def qualification_factory(request):
+    return base_factory(request, "qualification")

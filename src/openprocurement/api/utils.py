@@ -50,6 +50,11 @@ import json
 json_view = partial(view, renderer="simplejson")
 
 
+DEFAULT_PAGE = 1
+DEFAULT_LIMIT = 100
+DEFAULT_DESCENDING = False
+
+
 def validate_dkpp(items, *args):
     if items and not any([i.scheme in ADDITIONAL_CLASSIFICATIONS_SCHEMES for i in items]):
         raise ValidationError(
@@ -575,6 +580,81 @@ class APIResourceListing(APIResource):
         return data
 
 
+class APIResourcePaginatedListing(APIResource):
+    obj_id_key = None
+    serialize_method = None
+    default_fields = None
+    views = None
+    views_total = None
+
+    @classmethod
+    def serialize(cls, *args, **kwargs):
+        if not cls.serialize_method:
+            raise NotImplemented
+        return cls.serialize_method(*args, **kwargs)
+
+    @json_view(permission='view_listing')
+    def get(self):
+        if not all([
+            self.default_fields,
+            self.views,
+            self.obj_id_key
+        ]) or '' not in self.views:
+            raise NotImplemented
+
+        obj_id = self.request.matchdict[self.obj_id_key]
+
+        opt_fields = self.request.params.get('opt_fields', '')
+        opt_fields = set(e for e in opt_fields.split(',') if e)
+
+        mode = self.request.params.get('mode', '')
+        list_view = self.views.get(mode, self.views.get(''))
+
+        descending = bool(self.request.params.get('descending', DEFAULT_DESCENDING))
+        limit = int(self.request.params.get('limit', DEFAULT_LIMIT))
+        page = int(self.request.params.get('page', DEFAULT_PAGE))
+        skip = page * limit - limit
+
+        startkey = [obj_id, None if not descending else {}]
+        endkey = [obj_id, {} if not descending else None]
+
+        view_kwargs = dict(startkey=startkey, endkey=endkey, descending=descending, limit=limit, skip=skip)
+
+        if opt_fields - self.default_fields:
+            self.LOGGER.info(
+                'Used custom fields list: {}'.format(','.join(sorted(opt_fields))),
+                extra=context_unpack(self.request, {'MESSAGE_ID': "CUSTOM_LIST"}))
+
+            results = [
+                self.serialize(self.request, i[u'doc'], opt_fields | self.default_fields)
+                for i in list_view(self.db, include_docs=True, **view_kwargs)
+            ]
+        else:
+            def make_result(item):
+                result = dict(**item.value)
+                result.setdefault('id', item.id)
+                result.setdefault('dateCreated', item.key[1])
+                return result
+            results = [make_result(e) for e in list_view(self.db, **view_kwargs)]
+
+        count = len(results)
+
+        data = {
+            'data': results,
+            'count': count,
+            'page': page,
+            'limit': limit
+        }
+
+        if self.views_total:
+            total_view = self.views_total.get(mode, "")
+            total_results = total_view(self.db, **view_kwargs)
+            total = [e.value for e in total_results][0] if total_results else 0
+            data["total"] = total
+
+        return data
+
+
 def forbidden(request):
     request.errors.add("url", "permission", "Forbidden")
     request.errors.status = 403
@@ -796,3 +876,9 @@ def is_new_created(data):
     Check if data['_rev'] is None then tender was created just now
     """
     return data["_rev"] is None
+
+
+def get_doc_by_id(db, doc_type, doc_id):
+    doc = db.get(doc_id)
+    if doc and doc.get("doc_type") == doc_type:
+        return doc

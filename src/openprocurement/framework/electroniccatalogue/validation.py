@@ -40,17 +40,3 @@ def validate_framework_document_operation_not_in_allowed_status(request):
             ),
         )
 
-
-def validate_changes_in_documents(request, document):
-    if (
-            request.validated["framework"].status == "active"
-            and request.validated["framework"].enquiryPeriod.endDate < get_now()
-            and (document.title != "sign.p7s"
-                 or document.documentType is not None)
-    ):
-        raise_operation_error(
-            request,
-            "Can't {} document when enquiry period expires".format(
-                OPERATIONS.get(request.method)
-            ),
-        )
