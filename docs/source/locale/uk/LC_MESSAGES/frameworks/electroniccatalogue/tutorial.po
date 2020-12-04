@@ -1,0 +1,85 @@
+#
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-12-04 20:14+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
+
+msgid "Tutorial"
+msgstr "Туторіал"
+
+msgid "Framework creation and activation"
+msgstr "Створення та активація кваліфікації."
+
+msgid "Only markets with 5th accreditation level can create frameworks. Framework can be created only for cpb that have `active: true` status https://prozorroukr.github.io/standards/organizations/authorized_cpb.json"
+msgstr "Лише майданчики з 5м рівнем аккредитації можуть створювати кваліфікації. Кваліфікацію можуть створювати лише активні ЦЗО зі списку: https://prozorroukr.github.io/standards/organizations/authorized_cpb.json"
+
+msgid "Let’s create a framework:"
+msgstr "Створимо кваліфікацію:"
+
+msgid "We have `201 Created` response code, `Location` header and body with extra properties."
+msgstr "Ми отримали код відповіді `201 Created`, заголовок `Location` і тіло з додатковими полями."
+
+msgid "Framework was created in `draft` status. In this status any field, except technical, can be changed using PATCH method."
+msgstr "Кваліфікацію було створено у статусі `draft`. У цьому статусі будь-яке поле, окрім технічних, може бути змінено."
+
+msgid "The second step is moving the framework to `active` status."
+msgstr "Наступний крок - змінити статус кваліфікації на `active`."
+
+msgid "`qualificationPeriod.endDate` should be in between 30 and 1095 days from activation moment."
+msgstr "`qualificationPeriod.endDate` має бути у проміжку не менш ніж 30 днів і не більш ніж 1095 днів з моменту активації."
+
+msgid "There should be at least 1 document in addition to sign document."
+msgstr "Перед активацією до кваліфікації має бути додано хоча б один документ та підпис."
+
+msgid "After framework activation frameworks periods was calculated:"
+msgstr "Після активації кваліфікації будуть розраховані періоди:"
+
+msgid "`enquiryPeriod` - first 10 full working days after activation when suppliers can ask questions and cannot add submissions to framework."
+msgstr "`enquiryPeriod` - перші 10 повних робочих днів з моменту активації. У цей період постачальники можуть ставити запитання до кваліфікації та не можуть подавати заявки."
+
+msgid "`period` - period when suppliers can add submissions (except `enquiryPeriod`)."
+msgstr "`period` - період, коли постачальники можуть подавати заявки (окрім періоду `enquiryPeriod`)."
+
+msgid "`qualificationPeriod` - last 30 full calendar days of framework when suppliers cannot add submissions but still can be qualified based on previous submissions."
+msgstr "`qualificationPeriod` - останні 30 повних календарних днів кваліфікації. У цей період постачальники не можуть подавати нові заявки, але ще приймаються рішення щодо попередньо поданих заявок."
+
+msgid "Let's check what framework registry contains:"
+msgstr "Перевіримо, що містить реєстр кваліфікації:"
+
+msgid "We do see the internal `id` of a framework and its `dateModified` datestamp."
+msgstr "Відображається  `id` - внутрішній ідентифікатор та мітка часу `dateModified`."
+
+msgid "Modifying framework"
+msgstr "Зміна кваліфікації"
+
+msgid "In `active` status only some fields can be changed."
+msgstr "У статусі `active` можна змінювати лише деякі поля."
+
+msgid "If `qualificationPeriod.endDate` was changed all periods will be recalculated."
+msgstr "Якщо було змінено поле `qualificationPeriod.endDate` - всі періоди будуть перераховані."
+
+msgid "Additionally, the `dateModified` property was updated to reflect the last modification datestamp."
+msgstr "Додатково оновлена властивість `dateModified`, щоб відображати останню дату модифікації."
+
+msgid "Checking the listing again reflects the new modification date:"
+msgstr "Ще одна перевірка списку відображає нову дату модифікації:"
+
+msgid "Framework completing"
+msgstr "Завершення кваліфікації"
+
+msgid "Framework is completed automatically at `qualificationPeriod.endDate` moment."
+msgstr "Завершення кваліфікації відбувається автоматично після настання дати `qualificationPeriod.endDate`."
+
+msgid "PATCH with new `qualificationPeriod.endDate` allow to complete framework earlier than was planned, but not earlier than 30 full calendar days from change moment."
+msgstr "PATCH запит з новим значенням `qualificationPeriod.endDate` дозволяє завершити фрейморк раніше запланованого часу, але не раніше 30 повних календарних днів з моменту зміни `qualificationPeriod.endDate`."
+
