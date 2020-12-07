@@ -255,17 +255,26 @@ def acceleratable(wrapped):
     return wrapper
 
 
-def apply_patch(request, data=None, save=True, src=None):
+def apply_patch(request, data=None, save=True, src=None, obj_name=None):
+    save_map = {
+        "framework": save_framework,
+        "submission": save_submission,
+        "qualification": save_qualification,
+    }
+
     data = request.validated["data"] if data is None else data
     patch = data and apply_data_patch(src or request.context.serialize(), data)
     if patch:
         request.context.import_data(patch)
         if save:
-            if "submission" in request.validated:
-                return save_submission(request)
-            if "qualification" in request.validated:
-                return save_qualification(request)
-            return save_framework(request)
+            save_func = save_map.get(obj_name)
+            if not save_func:
+                if "submission" in request.validated:
+                    return save_submission(request)
+                if "qualification" in request.validated:
+                    return save_qualification(request)
+                return save_framework(request)
+            return save_func(request)
 
 
 def append_framework_revision(request, framework, patch, date):

@@ -45,17 +45,17 @@ class QualificationResource(APIResource):
         changed_status = old_status != new_status
         if changed_status:
             qualification.date = get_now()
-        apply_patch(self.request, src=self.request.validated["qualification_src"])
+        apply_patch(self.request, src=self.request.validated["qualification_src"], obj_name="qualification")
 
         self.LOGGER.info("Updated qualification {}".format(qualification.id),
                          extra=context_unpack(self.request, {"MESSAGE_ID": "qualification_patch"}))
 
         if changed_status:
-            self.complete_submssion()
+            self.complete_submission()
 
         return {"data": qualification.serialize("view")}
 
-    def complete_submssion(self):
+    def complete_submission(self):
         db = self.request.registry.db
         qualification = self.request.validated["qualification"]
         submission_data = get_submission_by_id(db, qualification.submissionID)
@@ -63,6 +63,6 @@ class QualificationResource(APIResource):
         self.request.validated["submission_src"] = submission.serialize("plain")
         submission.status = "complete"
         self.request.validated["submission"] = submission
-        if save_submission(self.request):
-            self.LOGGER.info("Updated submission {}".format(submission.id),
-                             extra=context_unpack(self.request, {"MESSAGE_ID": "submission_patch"}))
+        apply_patch(self.request, src=self.request.validated["submission_src"], obj_name="submission")
+        self.LOGGER.info("Updated submission {}".format(submission.id),
+                         extra=context_unpack(self.request, {"MESSAGE_ID": "submission_patch"}))
