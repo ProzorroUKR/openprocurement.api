@@ -20,7 +20,7 @@ from openprocurement.tender.belowthreshold.views.award import TenderAwardResourc
 from openprocurement.api.utils import json_view, context_unpack, get_first_revision_date
 from openprocurement.api.constants import NEW_DEFENSE_COMPLAINTS_FROM, NEW_DEFENSE_COMPLAINTS_TO
 from openprocurement.tender.openuadefense.constants import STAND_STILL_TIME
-from openprocurement.tender.openua.utils import add_next_award
+from openprocurement.tender.openuadefense.utils import add_next_award
 from openprocurement.tender.openuadefense.utils import calculate_complaint_business_date
 
 

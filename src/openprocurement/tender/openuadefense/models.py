@@ -5,13 +5,14 @@ from schematics.types import StringType, BooleanType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from zope.interface import implementer
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import get_now, get_first_revision_date
 from openprocurement.api.models import (
     Period,
     ListType,
     ContactPoint as BaseContactPoint,
     SifterListType,
 )
+from openprocurement.api.constants import TZ, NEW_DEFENSE_COMPLAINTS_FROM, NEW_DEFENSE_COMPLAINTS_TO
 from openprocurement.tender.core.models import (
     ProcuringEntity as BaseProcuringEntity,
     EnquiryPeriod,
@@ -27,6 +28,10 @@ from openprocurement.tender.openua.models import (
 )
 from openprocurement.tender.core.utils import (
     calc_auction_end_time,
+    has_unanswered_questions,
+    has_unanswered_complaints,
+    extend_next_check_by_complaint_period_ends,
+    cancellation_block_tender,
 )
 from openprocurement.tender.openuadefense.constants import (
     TENDERING_DURATION,
@@ -148,3 +153,113 @@ class Tender(BaseTender):
     def validate_criteria(self, data, value):
         if value:
             raise ValidationError("Rogue field")
+
+    @serializable(serialize_when_none=False)
+    def next_check(self):
+        now = get_now()
+        checks = []
+
+        extend_next_check_by_complaint_period_ends(self, checks)
+
+        if cancellation_block_tender(self):
+            return min(checks).isoformat() if checks else None
+
+        if (
+            self.status == "active.tendering"
+            and self.tenderPeriod.endDate
+            and not has_unanswered_complaints(self)
+            and not has_unanswered_questions(self)
+        ):
+            checks.append(self.tenderPeriod.endDate.astimezone(TZ))
+        elif (
+            not self.lots
+            and self.status == "active.auction"
+            and self.auctionPeriod
+            and self.auctionPeriod.startDate
+            and not self.auctionPeriod.endDate
+        ):
+            if now < self.auctionPeriod.startDate:
+                checks.append(self.auctionPeriod.startDate.astimezone(TZ))
+            else:
+                auction_end_time = calc_auction_end_time(
+                    self.numberOfBids, self.auctionPeriod.startDate
+                ).astimezone(TZ)
+                if now < auction_end_time:
+                    checks.append(auction_end_time)
+        elif self.lots and self.status == "active.auction":
+            for lot in self.lots:
+                if (
+                    lot.status != "active"
+                    or not lot.auctionPeriod
+                    or not lot.auctionPeriod.startDate
+                    or lot.auctionPeriod.endDate
+                ):
+                    continue
+                if now < lot.auctionPeriod.startDate:
+                    checks.append(lot.auctionPeriod.startDate.astimezone(TZ))
+                else:
+                    auction_end_time = calc_auction_end_time(
+                        lot.numberOfBids, lot.auctionPeriod.startDate
+                    ).astimezone(TZ)
+                    if now < auction_end_time:
+                        checks.append(auction_end_time)
+        elif (
+            not self.lots
+            and self.status == "active.awarded"
+            and not any([i.status in self.block_complaint_status for i in self.complaints])
+            and not any([i.status in self.block_complaint_status for a in self.awards for i in a.complaints])
+        ):
+            first_revision_date = get_first_revision_date(self)
+            new_defence_complaints = NEW_DEFENSE_COMPLAINTS_FROM < first_revision_date < NEW_DEFENSE_COMPLAINTS_TO
+            standStillEnds = [
+                a.complaintPeriod.endDate.astimezone(TZ)
+                for a in self.awards
+                if (
+                    a.complaintPeriod
+                    and a.complaintPeriod.endDate
+                    and a.status != "cancelled" if new_defence_complaints else True
+                )
+            ]
+            last_award_status = self.awards[-1].status if self.awards else ""
+            if standStillEnds and last_award_status == "unsuccessful":
+                checks.append(max(standStillEnds))
+        elif (
+            self.lots
+            and self.status in ["active.qualification", "active.awarded"]
+            and not any([i.status in self.block_complaint_status and i.relatedLot is None for i in self.complaints])
+        ):
+            for lot in self.lots:
+                if lot["status"] != "active":
+                    continue
+                lot_awards = [i for i in self.awards if i.lotID == lot.id]
+                pending_complaints = any(
+                    [i["status"] in self.block_complaint_status and i.relatedLot == lot.id for i in self.complaints]
+                )
+                pending_awards_complaints = any(
+                    [i.status in self.block_complaint_status for a in lot_awards for i in a.complaints]
+                )
+                first_revision_date = get_first_revision_date(self)
+                new_defence_complaints = NEW_DEFENSE_COMPLAINTS_FROM < first_revision_date < NEW_DEFENSE_COMPLAINTS_TO
+                standStillEnds = [
+                    a.complaintPeriod.endDate.astimezone(TZ)
+                    for a in lot_awards
+                    if (
+                            a.complaintPeriod
+                            and a.complaintPeriod.endDate
+                            and a.status != "cancelled" if new_defence_complaints else True
+                    )
+                ]
+                last_award_status = lot_awards[-1].status if lot_awards else ""
+                if (
+                    not pending_complaints
+                    and not pending_awards_complaints
+                    and standStillEnds
+                    and last_award_status == "unsuccessful"
+                ):
+                    checks.append(max(standStillEnds))
+        if self.status.startswith("active"):
+            for award in self.awards:
+                if award.status == "active" and not any([i.awardID == award.id for i in self.contracts]):
+                    checks.append(award.date)
+
+        return min(checks).isoformat() if checks else None
