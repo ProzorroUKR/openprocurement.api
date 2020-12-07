@@ -40,14 +40,7 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
 )
 
 from openprocurement.tender.core.tests.base import change_auth
-from openprocurement.tender.openuadefense.tests.base import test_bids
-from openprocurement.tender.openuadefense.tests.award_blanks import (
-    # TenderAwardResourceTest
-    patch_tender_award_active,
-    patch_tender_award_active_new,
-    patch_tender_award_unsuccessful,
-    patch_tender_award_unsuccessful_new,
-)
+
 from openprocurement.tender.openua.tests.award_blanks import (
     # TenderAwardResourceTest
     create_tender_award,
@@ -84,13 +77,23 @@ from openprocurement.tender.openua.tests.award_blanks import (
     bot_patch_tender_award_complaint,
     bot_patch_tender_award_complaint_forbidden,
 )
-from openprocurement.tender.openuadefense.tests.award_blanks import (
-    tender_award_complaint_period,
-    check_tender_award_complaint_period_dates,
-    check_tender_award_complaint_period_dates_new,
-)
 
-from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest, BaseTenderUAWebTest
+from openprocurement.tender.openuadefense.tests.base import (
+    test_bids,
+    BaseTenderUAContentWebTest,
+    BaseTenderUAWebTest,
+)
+from openprocurement.tender.openuadefense.tests.award_blanks import (
+    # TenderAwardResourceComplaintPeriodTest
+    tender_award_complaint_period,
+    # TenderAwardResourceTest
+    check_tender_award_complaint_period_dates_new,
+    check_tender_award_complaint_period_dates,
+    patch_tender_award_active,
+    patch_tender_award_active_new,
+    patch_tender_award_unsuccessful,
+    patch_tender_award_unsuccessful_new,
+)
 
 
 class TenderAwardResourceTest(BaseTenderUAContentWebTest):
