@@ -20,6 +20,7 @@ areas that were not covered by it.
    confidentialdocument
    contract
    criterion
+   dimension
    document
    eligibleevidence
    evidence
@@ -28,7 +29,10 @@ areas that were not covered by it.
    qualificationmilestone
    item
    lot
+   metric
    milestone
+   milestoneReference
+   observation
    organization
    plan
    procuringentity
@@ -42,6 +46,7 @@ areas that were not covered by it.
    qualification
    question
    tender
+   unit
    unitPrice
    util
    transfer

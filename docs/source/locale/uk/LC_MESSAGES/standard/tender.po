@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-13 14:20+0300\n"
+"POT-Creation-Date: 2020-12-08 16:42+0200\n"
 "PO-Revision-Date: 2020-06-03 00:11+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
@@ -719,6 +719,18 @@ msgstr "|ocdsDescription| Список усіх компаній, які под�
 
 msgid "Only in :ref:`competitivedialogue` stage2"
 msgstr "Тільки у :ref:`competitivedialogue` stage2"
+
+msgid "targets"
+msgstr ""
+
+msgid "List of :ref:`Metric`"
+msgstr "Список об’єктів :ref:`Feature`"
+
+msgid "Only in :ref:`openua`"
+msgstr "Тільки для :ref:`cfaua`"
+
+msgid "Could be created only if ``status`` of tender is ``draft``. Modifying is possible if ``status`` of tender in [``draft``, ``active.tendering``]. In all other statuses creating and modifying is forbidden."
+msgstr "Може бути створений лише у якщо ``status`` тендера ``draft``. Модифікація можлива, тільки за умови, що ``status`` тендера один з [``draft``, ``active.tendering``]. В усіх інших випадках створення та модифікація заборонена."
 
 msgid "Additionally in :ref:`esco`:"
 msgstr "Додатково у :ref:`esco`:"

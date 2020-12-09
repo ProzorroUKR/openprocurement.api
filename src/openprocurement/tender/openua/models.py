@@ -50,6 +50,8 @@ from openprocurement.tender.core.models import (
     QualificationMilestoneListMixin,
     BidResponsesMixin,
     Metric,
+    validate_metric_ids_uniq,
+    validate_observation_ids_uniq,
 )
 from openprocurement.tender.core.utils import (
     normalize_should_start_after,
@@ -551,7 +553,7 @@ class Tender(BaseTender):
         _parent_roles = BaseTender.Options.roles
 
         _edit_role = _parent_roles["edit"]
-        _above_fields = whitelist("complaintPeriod")
+        _above_fields = whitelist("complaintPeriod", "targets")
         _tendering_role = _parent_roles["active.tendering"] + _above_fields
         _view_role = _parent_roles["view"] + _above_fields
         _all_forbidden = whitelist()
@@ -566,7 +568,7 @@ class Tender(BaseTender):
             "edit_complete": _all_forbidden,
             "edit_unsuccessful": _all_forbidden,
             "edit_cancelled": _all_forbidden,
-            "draft": _tendering_role + whitelist("targets"),
+            "draft": _tendering_role,
             "active.tendering": _tendering_role,
             "active.auction": _tendering_role,
             "view": _view_role,
@@ -624,6 +626,7 @@ class Tender(BaseTender):
     targets = ListType(
         ModelType(Metric),
         default=list(),
+        validators=[validate_metric_ids_uniq,validate_observation_ids_uniq],
     )
 
     create_accreditations = (ACCR_3, ACCR_5)
