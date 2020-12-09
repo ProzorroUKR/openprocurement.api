@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from barbecue import chef
 from logging import getLogger
-from openprocurement.api.constants import TZ, RELEASE_2020_04_19
+from openprocurement.api.constants import TZ, RELEASE_2020_04_19, NEW_DEFENSE_COMPLAINTS_FROM, NEW_DEFENSE_COMPLAINTS_TO
 from openprocurement.api.utils import get_now, context_unpack
 from openprocurement.tender.core.constants import COMPLAINT_STAND_STILL_TIME
 from openprocurement.tender.core.utils import (
@@ -214,10 +214,17 @@ def check_tender_status(request):
             pending_awards_complaints = any(
                 [i.status in tender.block_complaint_status for a in lot_awards for i in a.complaints]
             )
+            first_revision_date = get_first_revision_date(tender)
+            new_defence_complaints = NEW_DEFENSE_COMPLAINTS_FROM < first_revision_date < NEW_DEFENSE_COMPLAINTS_TO
             stand_still_end = max([
                 a.complaintPeriod.endDate
                 if a.complaintPeriod and a.complaintPeriod.endDate else now
                 for a in lot_awards
+                if (
+                    a.complaintPeriod
+                    and a.complaintPeriod.endDate
+                    and a.status != "cancelled" if new_defence_complaints else True
+                )
             ])
             skip_award_complaint_period = check_skip_award_complaint_period(tender)
             if (
@@ -271,10 +278,16 @@ def check_tender_status(request):
         pending_awards_complaints = any(
             [i.status in tender.block_complaint_status for a in tender.awards for i in a.complaints]
         )
+        first_revision_date = get_first_revision_date(tender)
+        new_defence_complaints = NEW_DEFENSE_COMPLAINTS_FROM < first_revision_date < NEW_DEFENSE_COMPLAINTS_TO
         stand_still_ends = [
             a.complaintPeriod.endDate
             for a in tender.awards
-            if a.complaintPeriod and a.complaintPeriod.endDate
+            if (
+                a.complaintPeriod
+                and a.complaintPeriod.endDate
+                and a.status != "cancelled" if new_defence_complaints else True
+            )
         ]
         stand_still_end = max(stand_still_ends) if stand_still_ends else now
         stand_still_time_expired = stand_still_end < now
