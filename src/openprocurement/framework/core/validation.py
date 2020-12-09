@@ -35,7 +35,7 @@ def validate_patch_framework_data(request):
 def validate_framework_patch_status(request, allowed_statuses=["draft"]):
     framework_status = request.validated["framework"].status
     if request.authenticated_role != "Administrator" and framework_status not in allowed_statuses:
-        raise_operation_error(request, "Can't update tender in current ({}) status".format(framework_status))
+        raise_operation_error(request, "Can't update framework in current ({}) status".format(framework_status))
 
 
 def validate_submission_data(request):

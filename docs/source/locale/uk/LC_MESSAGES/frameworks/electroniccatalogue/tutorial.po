@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-04 20:14+0200\n"
+"POT-Creation-Date: 2020-12-09 14:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 msgid "Tutorial"
 msgstr "Туторіал"
 
-msgid "Framework creation and activation"
-msgstr "Створення та активація кваліфікації."
+msgid "Framework creation"
+msgstr "Створення кваліфікації"
 
-msgid "Only markets with 5th accreditation level can create frameworks. Framework can be created only for cpb that have `active: true` status https://prozorroukr.github.io/standards/organizations/authorized_cpb.json"
-msgstr "Лише майданчики з 5м рівнем аккредитації можуть створювати кваліфікації. Кваліфікацію можуть створювати лише активні ЦЗО зі списку: https://prozorroukr.github.io/standards/organizations/authorized_cpb.json"
+msgid "Only markets with 5th accreditation level can create frameworks. `ProcuringEntity` can have only `central` kind. Framework can be created only for cpb that have `active: true` status https://prozorroukr.github.io/standards/organizations/authorized_cpb.json"
+msgstr "Лише майданчики з 5м рівнем аккредитації можуть створювати кваліфікації. `ProcuringEntity` може бути лише типу `central`. Кваліфікацію можуть створювати лише активні ЦЗО зі списку: https://prozorroukr.github.io/standards/organizations/authorized_cpb.json"
 
 msgid "Let’s create a framework:"
 msgstr "Створимо кваліфікацію:"
@@ -31,6 +31,27 @@ msgstr "Ми отримали код відповіді `201 Created`, заго�
 
 msgid "Framework was created in `draft` status. In this status any field, except technical, can be changed using PATCH method."
 msgstr "Кваліфікацію було створено у статусі `draft`. У цьому статусі будь-яке поле, окрім технічних, може бути змінено."
+
+msgid "Uploading documentation"
+msgstr "Завантаження документації"
+
+msgid "Procuring entity can upload files into the created framework. Uploading should follow the :ref:`upload` rules."
+msgstr "Замовник може завантажити PDF файл у створениу кваліфікацію. Завантаження повинно відбуватись згідно правил :ref:`upload`."
+
+msgid "`201 Created` response code and `Location` header confirm document creation. We can additionally query the `documents` collection API endpoint to confirm the action:"
+msgstr "Код відповіді `201 Created` та заголовок `Location` підтверджують, що документ було створено. Додатково можна зробити запит точки входу API колекції документів, щоб підтвердити дію:"
+
+msgid "And again we can confirm that there are two documents uploaded."
+msgstr "І знову можна перевірити, що є два завантажених документа."
+
+msgid "In case we made an error, we can reupload the document over the older version:"
+msgstr "Якщо сталась помилка, ми можемо ще раз завантажити документ поверх старої версії:"
+
+msgid "And we can see that it is overriding the original version:"
+msgstr "І ми бачимо, що вона перекриває оригінальну версію:"
+
+msgid "Framework activation"
+msgstr "Активація кваліфікації"
 
 msgid "The second step is moving the framework to `active` status."
 msgstr "Наступний крок - змінити статус кваліфікації на `active`."
@@ -44,8 +65,8 @@ msgstr "Перед активацією до кваліфікації має б�
 msgid "After framework activation frameworks periods was calculated:"
 msgstr "Після активації кваліфікації будуть розраховані періоди:"
 
-msgid "`enquiryPeriod` - first 10 full working days after activation when suppliers can ask questions and cannot add submissions to framework."
-msgstr "`enquiryPeriod` - перші 10 повних робочих днів з моменту активації. У цей період постачальники можуть ставити запитання до кваліфікації та не можуть подавати заявки."
+msgid "`enquiryPeriod` - first 10 full working days after activation."
+msgstr "`enquiryPeriod` - перші 10 повних робочих днів з моменту активації."
 
 msgid "`period` - period when suppliers can add submissions (except `enquiryPeriod`)."
 msgstr "`period` - період, коли постачальники можуть подавати заявки (окрім періоду `enquiryPeriod`)."
@@ -62,8 +83,8 @@ msgstr "Відображається  `id` - внутрішній ідентиф
 msgid "Modifying framework"
 msgstr "Зміна кваліфікації"
 
-msgid "In `active` status only some fields can be changed."
-msgstr "У статусі `active` можна змінювати лише деякі поля."
+msgid "In `active` status only some fields can be changed: `telephone`, `name`, `email` for `procuringEntity.contactPoint`, `endDate` for `qualificationPeriod`, `description` and `documents`."
+msgstr "У статусі `active` можна змінювати лише деякі поля: `telephone`, `name`, `email` для `procuringEntity.contactPoint`, `endDate` для `qualificationPeriod`, `description` and `documents`."
 
 msgid "If `qualificationPeriod.endDate` was changed all periods will be recalculated."
 msgstr "Якщо було змінено поле `qualificationPeriod.endDate` - всі періоди будуть перераховані."

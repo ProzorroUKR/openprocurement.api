@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from openprocurement.api.utils import (
     APIResourceListing,
     APIResourcePaginatedListing,
@@ -49,7 +50,7 @@ FEED = {u"dateModified": VIEW_MAP, u"changes": CHANGES_VIEW_MAP}
 @frameworksresource(
     name="Frameworks",
     path="/frameworks",
-    description="",  # TODO: Add description
+    description="See https://standard.open-contracting.org/latest/en/guidance/map/related_processes/",
 )
 class FrameworkResource(APIResourceListing):
     def __init__(self, request, context):
@@ -71,7 +72,120 @@ class FrameworkResource(APIResourceListing):
         )
     )
     def post(self):
-        """"""  # TODO: Add description
+        """This API request is targeted to creating new Frameworks by procuring organizations.
+
+        Creating new Framework
+        -------------------
+
+        Example request to create framework:
+
+        .. sourcecode:: http
+
+            POST /frameworks HTTP/1.1
+            Host: example.com
+            Accept: application/json
+
+            {
+              "data": {
+                "description": "Назва предмета закупівлі",
+                "classification": {
+                  "scheme": "ДК021",
+                  "description": "Mustard seeds",
+                  "id": "03111600-8"
+                },
+                "title": "Узагальнена назва закупівлі",
+                "qualificationPeriod": {
+                  "endDate": "2021-02-07T14:33:22.129267+02:00"
+                },
+                "additionalClassifications": [
+                  {
+                    "scheme": "ДК003",
+                    "id": "17.21.1",
+                    "description": "папір і картон гофровані, паперова й картонна тара"
+                  }
+                ],
+                "procuringEntity": {
+                  "contactPoint": {
+                    "telephone": "0440000000",
+                    "email": "aa@aa.com",
+                    "name": "Назва організації(ЦЗО)"
+                  },
+                  "identifier": {
+                    "scheme": "UA-EDR",
+                    "id": "40996564",
+                    "legalName": "Назва організації(ЦЗО)"
+                  },
+                  "kind": "central",
+                  "name": "Повна назва юридичної організації.",
+                  "address": {
+                    "countryName": "Україна",
+                    "postalCode": "01220",
+                    "region": "м. Київ",
+                    "streetAddress": "вул. Банкова, 11, корпус 1",
+                    "locality": "м. Київ"
+                  }
+                }
+              }
+            }
+
+        This is what one should expect in response:
+
+        .. sourcecode:: http
+
+            HTTP/1.1 201 Created
+            Location: http://localhost/api/0.1/frameworks/40b48e4878534db1bf228d5928f8f1d9
+            Content-Type: application/json
+
+            {
+                "data": {
+                    "status": "draft",
+                    "description": "Назва предмета закупівлі",
+                    "classification": {
+                      "scheme": "ДК021",
+                      "description": "Mustard seeds",
+                      "id": "03111600-8"
+                    },
+                    "prettyID": "UA-F-2020-09-08-000001",
+                    "qualificationPeriod": {
+                      "endDate": "2021-02-07T14:33:22.129267+02:00"
+                    },
+                    "frameworkType": "electronicCatalogue",
+                    "dateModified": "2020-09-08T01:00:00+03:00",
+                    "date": "2020-09-08T01:00:00+03:00",
+                    "additionalClassifications": [
+                      {
+                        "scheme": "ДК003",
+                        "id": "17.21.1",
+                        "description": "папір і картон гофровані, паперова й картонна тара"
+                      }
+                    ],
+                    "procuringEntity": {
+                      "contactPoint": {
+                        "email": "aa@aa.com",
+                        "telephone": "0440000000",
+                        "name": "Назва організації(ЦЗО)"
+                      },
+                      "identifier": {
+                        "scheme": "UA-EDR",
+                        "id": "40996564",
+                        "legalName": "Назва організації(ЦЗО)"
+                      },
+                      "name": "Повна назва юридичної організації.",
+                      "kind": "central",
+                      "address": {
+                        "countryName": "Україна",
+                        "postalCode": "01220",
+                        "streetAddress": "вул. Банкова, 11, корпус 1",
+                        "region": "м. Київ",
+                        "locality": "м. Київ"
+                      }
+                    },
+                    "owner": "broker",
+                    "title": "Узагальнена назва закупівлі",
+                    "id": "40b48e4878534db1bf228d5928f8f1d9"
+                }
+            }
+        """
         framework_id = generate_id()
         framework = self.request.validated["framework"]
         framework.id = framework_id

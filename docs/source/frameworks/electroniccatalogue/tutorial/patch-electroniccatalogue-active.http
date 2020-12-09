@@ -1,15 +1,22 @@
 PATCH /api/2.5/frameworks/40b48e4878534db1bf228d5928f8f1d9?acc_token=7c6a46e300bb41438ef626232028950b HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 125
+Content-Length: 359
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
     "qualificationPeriod": {
-      "endDate": "2021-02-16T23:41:39.191011+02:00"
+      "endDate": "2020-11-22T00:00:00+02:00"
     }, 
-    "description": "updated in active status"
+    "procuringEntity": {
+      "contactPoint": {
+        "email": "ab@aa.com", 
+        "name": "зміна", 
+        "telephone": "0440000002"
+      }
+    }, 
+    "description": "Назва предмета закупівлі1"
   }
 }
 
@@ -18,7 +25,36 @@ Content-Type: application/json; charset=UTF-8
 {
   "data": {
     "status": "active", 
-    "description": "updated in active status", 
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "title": "framework.doc", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c8197b0516f54e64a211feb0537fc8b9?KeyID=a8968c46&Signature=d5pVDMYcZJat%252BReXgkkFQ7RkiRpqDFkgtDPcqZSYBY4PWyFqUkI1heh3WA66xDBGl8c9u7MnZ1SlFAg3h%252BlBCg%253D%253D", 
+        "format": "application/msword", 
+        "datePublished": "2020-09-08T01:00:00+03:00", 
+        "id": "cd52b90af77e4f5b8cb0f210e83987b5", 
+        "dateModified": "2020-09-08T01:00:00+03:00"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "title": "framework_additional_docs.doc", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/73eed689a4354306a3b317f25f445378?KeyID=a8968c46&Signature=ojV7dRl52s5L%252BDlrxaayg2ZV3DayjfuYLQlQ8h5i0by2kny4L4c1otpIlN2z5Q8A7Zo3IpPWbjFJKoVSWp0HBw%253D%253D", 
+        "format": "application/msword", 
+        "datePublished": "2020-09-08T01:00:00+03:00", 
+        "id": "3fe9486c38a1473ca201e42ebbf9b648", 
+        "dateModified": "2020-09-08T01:00:00+03:00"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "title": "framework_additional_docs.doc", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/16b8ae470c014763bc900671e4561343?KeyID=a8968c46&Signature=dZMriB2bvrhAyHAn9Abl9UjyU9SaGga%252BMrHtXfrB2kphRjXqwWd0BWaVmAi1gBjdDXU6BB5n3ZYu0ZEaC1weDw%253D%253D", 
+        "format": "application/msword", 
+        "datePublished": "2020-09-08T01:00:00+03:00", 
+        "id": "3fe9486c38a1473ca201e42ebbf9b648", 
+        "dateModified": "2020-09-08T01:00:00+03:00"
+      }
+    ], 
+    "description": "Назва предмета закупівлі1", 
     "classification": {
       "scheme": "ДК021", 
       "description": "Mustard seeds", 
@@ -31,14 +67,14 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "qualificationPeriod": {
       "startDate": "2020-09-23T00:00:00+03:00", 
-      "endDate": "2021-02-16T23:41:39.191011+02:00"
+      "endDate": "2020-11-22T00:00:00+02:00"
     }, 
-    "prettyID": "UA-2020-09-08-000001", 
+    "prettyID": "UA-F-2020-09-08-000001", 
     "period": {
       "startDate": "2020-09-08T01:00:00+03:00", 
-      "endDate": "2021-01-17T00:00:00+02:00"
+      "endDate": "2020-10-23T00:00:00+02:00"
     }, 
-    "dateModified": "2020-09-08T01:00:00+03:00", 
+    "frameworkType": "electronicCatalogue", 
     "date": "2020-09-08T01:00:00+03:00", 
     "additionalClassifications": [
       {
@@ -50,9 +86,9 @@ Content-Type: application/json; charset=UTF-8
     "next_check": "2020-10-07T00:00:00+03:00", 
     "procuringEntity": {
       "contactPoint": {
-        "email": "aa@aa.com", 
-        "telephone": "0440000001", 
-        "name": "Назва організації(ЦЗО)"
+        "email": "ab@aa.com", 
+        "telephone": "0440000002", 
+        "name": "зміна"
       }, 
       "identifier": {
         "scheme": "UA-EDR", 
@@ -70,6 +106,7 @@ Content-Type: application/json; charset=UTF-8
       }
     }, 
     "owner": "broker", 
+    "dateModified": "2020-09-08T01:00:00+03:00", 
     "id": "40b48e4878534db1bf228d5928f8f1d9"
   }
 }

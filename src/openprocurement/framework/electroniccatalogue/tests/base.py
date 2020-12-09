@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
+import os
 from copy import deepcopy
 from datetime import timedelta
-import os
+
+from dateutil.parser import parse
+from tests.base.constants import MOCK_DATETIME
+
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.base import BaseCoreWebTest
 
-# TODO: if it become invalid?
+# CPB that have "active": true in standards https://prozorroukr.github.io/standards/organizations/authorized_cpb.json
 valid_identifier_id = "40996564"
 
 now = get_now()
@@ -45,7 +49,7 @@ test_electronicCatalogue_data = {
     },
     "title": "Узагальнена назва закупівлі",
     "description": "Назва предмета закупівлі",
-    "qualificationPeriod": {"endDate": (now + timedelta(days=60)).isoformat()}
+    "qualificationPeriod": {"endDate": (parse(MOCK_DATETIME) + timedelta(days=60)).isoformat()}
 }
 
 
@@ -54,13 +58,13 @@ class BaseElectronicCatalogueTest(BaseCoreWebTest):
     initial_auth = ("Basic", ("broker", ""))
 
 
-class BaseelEctronicCatalogueWebTest(BaseCoreWebTest):
+class BaseElectronicCatalogueWebTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = test_electronicCatalogue_data
     docservice = False
 
     def setUp(self):
-        super(BaseelEctronicCatalogueWebTest, self).setUp()
+        super(BaseElectronicCatalogueWebTest, self).setUp()
         self.create_framework()
 
     def create_framework(self):
@@ -73,4 +77,4 @@ class BaseelEctronicCatalogueWebTest(BaseCoreWebTest):
 
     def tearDown(self):
         del self.db[self.framework_id]
-        super(BaseelEctronicCatalogueWebTest, self).tearDown()
+        super(BaseElectronicCatalogueWebTest, self).tearDown()

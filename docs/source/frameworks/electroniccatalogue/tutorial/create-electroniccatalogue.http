@@ -1,6 +1,6 @@
 POST /api/2.5/frameworks HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1797
+Content-Length: 1790
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -14,7 +14,7 @@ DATA:
     }, 
     "title": "Узагальнена назва закупівлі", 
     "qualificationPeriod": {
-      "endDate": "2021-02-01T23:41:39.191011+02:00"
+      "endDate": "2020-11-07T00:00:00+02:00"
     }, 
     "additionalClassifications": [
       {
@@ -63,10 +63,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/40b48e4878534
       "description": "Mustard seeds", 
       "id": "03111600-8"
     }, 
-    "prettyID": "UA-2020-09-08-000001", 
+    "prettyID": "UA-F-2020-09-08-000001", 
     "qualificationPeriod": {
-      "endDate": "2021-02-01T23:41:39.191011+02:00"
+      "endDate": "2020-11-07T00:00:00+02:00"
     }, 
+    "frameworkType": "electronicCatalogue", 
     "dateModified": "2020-09-08T01:00:00+03:00", 
     "date": "2020-09-08T01:00:00+03:00", 
     "additionalClassifications": [
@@ -76,7 +77,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/40b48e4878534
         "description": "папір і картон гофровані, паперова й картонна тара"
       }
     ], 
-    "next_check": "2021-02-01T23:41:39.191011+02:00", 
     "procuringEntity": {
       "contactPoint": {
         "email": "aa@aa.com", 
