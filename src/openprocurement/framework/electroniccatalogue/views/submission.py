@@ -55,14 +55,12 @@ class SubmissionResource(APIResource):
         activated = new_status == "active" and old_status != new_status
         if activated:
             submission.datePublished = now
+            self.create_qualification()
 
-        apply_patch(self.request, src=self.request.validated["submission_src"])
+        apply_patch(self.request, src=self.request.validated["submission_src"], obj_name="submission")
 
         self.LOGGER.info("Updated submission {}".format(submission.id),
                          extra=context_unpack(self.request, {"MESSAGE_ID": "submission_patch"}))
-
-        if activated:
-            self.create_qualification()
 
         return {"data": submission.serialize("view")}
 

@@ -98,7 +98,7 @@ class SubmissionDocumentResource(APIResource):
     )
     def patch(self):
         """Submission Document Update"""
-        if apply_patch(self.request, src=self.request.context.serialize()):
+        if apply_patch(self.request, src=self.request.context.serialize(), obj_name="submission"):
             update_file_content_type(self.request)
             self.LOGGER.info(
                 "Updated submission document {}".format(self.request.context.id),

@@ -57,7 +57,7 @@ class FrameworkResource(APIResource):
                 calculate_framework_periods(self.request, model)
                 validate_qualification_period_duration(self.request, model)
 
-            apply_patch(self.request, src=self.request.validated["framework_src"])
+            apply_patch(self.request, src=self.request.validated["framework_src"], obj_name="framework")
         self.LOGGER.info("Updated framework {}".format(framework.id),
                          extra=context_unpack(self.request, {"MESSAGE_ID": "framework_patch"}))
         return {"data": framework.serialize(framework.status)}
