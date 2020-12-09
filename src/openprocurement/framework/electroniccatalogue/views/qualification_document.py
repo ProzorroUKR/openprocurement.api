@@ -98,7 +98,7 @@ class QualificationDocumentResource(APIResource):
     )
     def patch(self):
         """Qualification Document Update"""
-        if apply_patch(self.request, src=self.request.context.serialize()):
+        if apply_patch(self.request, src=self.request.context.serialize(), obj_name="qualification"):
             update_file_content_type(self.request)
             self.LOGGER.info(
                 "Updated qualification document {}".format(self.request.context.id),

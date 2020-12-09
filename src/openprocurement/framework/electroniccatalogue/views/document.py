@@ -91,7 +91,7 @@ class FrameworkDocumentResource(APIResource):
     )
     def patch(self):
         """Framework Document Update"""
-        if apply_patch(self.request, src=self.request.context.serialize()):
+        if apply_patch(self.request, src=self.request.context.serialize(), obj_name="framework"):
             update_file_content_type(self.request)
             self.LOGGER.info(
                 "Updated framework document {}".format(self.request.context.id),
