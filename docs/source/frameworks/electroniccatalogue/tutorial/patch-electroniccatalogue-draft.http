@@ -26,10 +26,11 @@ Content-Type: application/json; charset=UTF-8
       "description": "Mustard seeds", 
       "id": "03111600-8"
     }, 
-    "prettyID": "UA-2020-09-08-000001", 
+    "prettyID": "UA-F-2020-09-08-000001", 
     "qualificationPeriod": {
-      "endDate": "2021-02-01T23:41:39.191011+02:00"
+      "endDate": "2021-02-07T14:33:22.129267+02:00"
     }, 
+    "frameworkType": "electronicCatalogue", 
     "dateModified": "2020-09-08T01:00:00+03:00", 
     "date": "2020-09-08T01:00:00+03:00", 
     "additionalClassifications": [
@@ -39,7 +40,6 @@ Content-Type: application/json; charset=UTF-8
         "description": "папір і картон гофровані, паперова й картонна тара"
       }
     ], 
-    "next_check": "2021-02-01T23:41:39.191011+02:00", 
     "procuringEntity": {
       "contactPoint": {
         "email": "aa@aa.com", 

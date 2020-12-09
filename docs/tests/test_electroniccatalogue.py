@@ -65,6 +65,31 @@ class EctronicCatalogueResourceTest(BaseelEctronicCatalogueWebTest, MockWebTestM
             )
             self.assertEqual(response.status, '200 OK')
 
+        with open(TARGET_DIR + 'upload-framework-document.http', 'w') as self.app.file_obj:
+            response = self.app.post('/frameworks/{}/documents?acc_token={}'.format(
+                framework['id'], owner_token),
+                upload_files=[('file', u'framework.doc', 'content')])
+
+        with open(TARGET_DIR + 'framework-documents.http', 'w') as self.app.file_obj:
+            response = self.app.get('/frameworks/{}/documents?acc_token={}'.format(
+                framework['id'], owner_token))
+
+        with open(TARGET_DIR + 'upload-framework-document-2.http', 'w') as self.app.file_obj:
+            response = self.app.post('/frameworks/{}/documents?acc_token={}'.format(
+                framework['id'], owner_token),
+                upload_files=[('file', u'framework_additional_docs.doc', 'additional info')])
+
+        doc_id = response.json['data']['id']
+
+        with open(TARGET_DIR + 'upload-framework-document-3.http', 'w') as self.app.file_obj:
+            response = self.app.put('/frameworks/{}/documents/{}?acc_token={}'.format(
+                framework['id'], doc_id, owner_token),
+                upload_files=[('file', 'framework_additional_docs.doc', 'extended additional info')])
+
+        with open(TARGET_DIR + 'get-framework-document-3.http', 'w') as self.app.file_obj:
+            response = self.app.get(
+                '/frameworks/{}/documents/{}?acc_token={}'.format(framework['id'], doc_id, owner_token))
+
         with open(TARGET_DIR + 'patch-electroniccatalogue-draft-to-active.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/frameworks/{}?acc_token={}'.format(framework['id'], owner_token), {'data': {"status": "active"}}
@@ -84,10 +109,16 @@ class EctronicCatalogueResourceTest(BaseelEctronicCatalogueWebTest, MockWebTestM
             response = self.app.patch_json(
                 '/frameworks/{}?acc_token={}'.format(framework['id'], owner_token),
                 {'data': {
+                    "procuringEntity": {
+                        "contactPoint": {
+                            "telephone": "0440000002",
+                            "name": "зміна",
+                            "email": "ab@aa.com"
+                        }},
+                    "description": "Назва предмета закупівлі1",
                     "qualificationPeriod": {
                         "endDate": new_endDate
-                    },
-                    "description": "updated in active status"
+                    }
                 }}
             )
             self.assertEqual(response.status, '200 OK')

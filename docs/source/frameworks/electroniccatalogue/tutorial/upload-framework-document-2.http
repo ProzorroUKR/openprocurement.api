@@ -1,0 +1,29 @@
+POST /api/2.5/frameworks/40b48e4878534db1bf228d5928f8f1d9/documents?acc_token=7c6a46e300bb41438ef626232028950b HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 172
+Content-Type: multipart/form-data; boundary=---BOUNDARY
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+-----BOUNDARY
+Content-Disposition: form-data; name="file"; filename="framework_additional_docs.doc"
+Content-Type: application/msword
+
+additional info
+-----BOUNDARY--
+
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/40b48e4878534db1bf228d5928f8f1d9/documents/3fe9486c38a1473ca201e42ebbf9b648
+{
+  "data": {
+    "hash": "md5:00000000000000000000000000000000", 
+    "title": "framework_additional_docs.doc", 
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/73eed689a4354306a3b317f25f445378?KeyID=a8968c46&Signature=ojV7dRl52s5L%252BDlrxaayg2ZV3DayjfuYLQlQ8h5i0by2kny4L4c1otpIlN2z5Q8A7Zo3IpPWbjFJKoVSWp0HBw%253D%253D", 
+    "format": "application/msword", 
+    "datePublished": "2020-09-08T01:00:00+03:00", 
+    "id": "3fe9486c38a1473ca201e42ebbf9b648", 
+    "dateModified": "2020-09-08T01:00:00+03:00"
+  }
+}
+

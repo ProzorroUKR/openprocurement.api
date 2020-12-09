@@ -1,0 +1,20 @@
+GET /api/2.5/frameworks/40b48e4878534db1bf228d5928f8f1d9/documents?acc_token=7c6a46e300bb41438ef626232028950b HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": [
+    {
+      "hash": "md5:00000000000000000000000000000000", 
+      "title": "framework.doc", 
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c8197b0516f54e64a211feb0537fc8b9?KeyID=a8968c46&Signature=d5pVDMYcZJat%252BReXgkkFQ7RkiRpqDFkgtDPcqZSYBY4PWyFqUkI1heh3WA66xDBGl8c9u7MnZ1SlFAg3h%252BlBCg%253D%253D", 
+      "format": "application/msword", 
+      "datePublished": "2020-09-08T01:00:00+03:00", 
+      "id": "cd52b90af77e4f5b8cb0f210e83987b5", 
+      "dateModified": "2020-09-08T01:00:00+03:00"
+    }
+  ]
+}
+

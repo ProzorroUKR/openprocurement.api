@@ -3,10 +3,10 @@
 Tutorial
 ========
 
-Framework creation and activation
----------------------------------
+Framework creation
+------------------
 
-Only markets with 5th accreditation level can create frameworks.
+Only markets with 5th accreditation level can create frameworks. `ProcuringEntity` can have only `central` kind.
 Framework can be created only for cpb that have `active: true` status https://prozorroukr.github.io/standards/organizations/authorized_cpb.json
 
 Let’s create a framework:
@@ -21,6 +21,40 @@ Framework was created in `draft` status. In this status any field, except techni
 .. include:: tutorial/patch-electroniccatalogue-draft.http
    :code:
 
+Uploading documentation
+-----------------------
+
+Procuring entity can upload files into the created framework. Uploading should
+follow the :ref:`upload` rules.
+
+.. include:: http/upload-framework-document.http
+   :code:
+
+`201 Created` response code and `Location` header confirm document creation.
+We can additionally query the `documents` collection API endpoint to confirm the
+action:
+
+.. include:: tutorial/framework-documents.http
+   :code:
+
+And again we can confirm that there are two documents uploaded.
+
+.. include:: tutorial/upload-framework-document-2.http
+   :code:
+
+In case we made an error, we can reupload the document over the older version:
+
+.. include:: tutorial/upload-framework-document-3.http
+   :code:
+
+And we can see that it is overriding the original version:
+
+.. include:: tutorial/get-framework-document-3.http
+   :code:
+
+Framework activation
+--------------------
+
 The second step is moving the framework to `active` status.
 
 `qualificationPeriod.endDate` should be in between 30 and 1095 days from activation moment.
@@ -32,7 +66,7 @@ There should be at least 1 document in addition to sign document.
 
 After framework activation frameworks periods was calculated:
 
-`enquiryPeriod` - first 10 full working days after activation when suppliers can ask questions and cannot add submissions to framework.
+`enquiryPeriod` - first 10 full working days after activation.
 
 `period` - period when suppliers can add submissions (except `enquiryPeriod`).
 
@@ -51,7 +85,7 @@ We do see the internal `id` of a framework and its `dateModified` datestamp.
 Modifying framework
 -------------------
 
-In `active` status only some fields can be changed.
+In `active` status only some fields can be changed: `telephone`, `name`, `email` for `procuringEntity.contactPoint`, `endDate` for `qualificationPeriod`, `description` and `documents`.
 
 If `qualificationPeriod.endDate` was changed all periods will be recalculated.
 
