@@ -5,6 +5,7 @@ from openprocurement.api import design
 
 FRAMEWORK_FIELDS = [
     "id",
+    "title",
     "prettyID",
     "enquiryPeriod",
     "period",
