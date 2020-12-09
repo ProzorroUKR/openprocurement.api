@@ -499,6 +499,15 @@ Schema
 
     Only in :ref:`competitivedialogue` stage2
 
+:targets:
+    List of :ref:`Metric`
+
+    Only in :ref:`openua`
+
+    Could be created only if ``status`` of tender is ``draft``.
+    Modifying is possible if ``status`` of tender in [``draft``, ``active.tendering``].
+    In all other statuses creating and modifying is forbidden.
+
 Additionally in :ref:`esco`:
 
 :NBUdiscountRate:
