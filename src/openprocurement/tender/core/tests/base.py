@@ -14,7 +14,6 @@ from openprocurement.api.tests.base import BaseWebTest as BaseApiWebTest
 from openprocurement.api.utils import SESSION, apply_data_patch, get_now
 from openprocurement.tender.core.utils import (
     calculate_tender_date,
-    calculate_tender_business_date,
 )
 
 now = datetime.now()

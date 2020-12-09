@@ -1,14 +1,10 @@
 # -*- coding: utf-8 -*-
 import os.path
 
-from uuid import uuid4
-from urllib import urlencode
-from base64 import b64encode
-from requests import Response
-
 from openprocurement.api.tests.base import BaseWebTest as BaseApiWebTest, change_auth
 from openprocurement.api.utils import get_now, apply_data_patch, SESSION
 from openprocurement.framework.electroniccatalogue.utils import calculate_framework_date
+from openprocurement.tender.core.tests.base import BaseWebTest
 
 here = os.path.dirname(os.path.abspath(__file__))
 srequest = SESSION.request
@@ -23,54 +19,6 @@ test_framework_data = {
 class BaseFrameworkTest(BaseApiWebTest):
     relative_to = os.path.dirname(__file__)
     docservice = False
-
-
-class BaseWebTest(BaseApiWebTest):
-    initial_auth = ("Basic", ("token", ""))
-    docservice = False
-    docservice_url = "http://localhost"
-    relative_to = os.path.dirname(__file__)
-
-    def setUp(self):
-        super(BaseWebTest, self).setUp()
-        if self.docservice:
-            self.setUpDS()
-
-    def setUpDS(self):
-        self.app.app.registry.docservice_url = self.docservice_url
-        test = self
-
-        def request(method, url, **kwargs):
-            response = Response()
-            if method == "POST" and "/upload" in url:
-                url = test.generate_docservice_url()
-                response.status_code = 200
-                response.encoding = "application/json"
-                data = '{{"url":"{url}","hash":"md5:{md5}","format":"{format}","title":"{title}"}}'.format(
-                    url=url, md5="0" * 32, title="name.doc", format="application/msword"
-                )
-                response._content = '{{"data": {data},"get_url":"{url}"}}'.format(url=url, data=data)
-                response.reason = "200 OK"
-            return response
-
-        SESSION.request = request
-
-    def generate_docservice_url(self):
-        uuid = uuid4().hex
-        key = self.app.app.registry.docservice_key
-        keyid = key.hex_vk()[:8]
-        signature = b64encode(key.signature("{}\0{}".format(uuid, "0" * 32)))
-        query = {"Signature": signature, "KeyID": keyid}
-        return "{}/get/{}?{}".format(self.docservice_url, uuid, urlencode(query))
-
-    def tearDownDS(self):
-        SESSION.request = srequest
-        self.app.app.registry.docservice_url = None
-
-    def tearDown(self):
-        if self.docservice:
-            self.tearDownDS()
-        super(BaseWebTest, self).tearDown()
 
 
 class BaseCoreWebTest(BaseWebTest):

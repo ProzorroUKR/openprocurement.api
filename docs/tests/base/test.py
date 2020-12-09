@@ -1,6 +1,7 @@
 import json
-import mimetypes
 import traceback
+import io
+import mimetypes
 
 from datetime import timedelta
 
@@ -8,12 +9,11 @@ import mock
 from freezegun import freeze_time
 from openprocurement.api.tests.base import BaseTestApp
 from openprocurement.api.utils import get_now
-from six import text_type
-
 from uuid import UUID
 from hashlib import md5
-from webtest import forms
+from six import text_type
 from webtest.compat import to_bytes
+from webtest import forms
 
 from tests.base.constants import API_HOST, MOCK_DATETIME
 
@@ -32,19 +32,34 @@ class DumpsWebTestApp(BaseTestApp):
 
     def write_request(self, req):
         if hasattr(self, 'file_obj') and not self.file_obj.closed:
-            self.file_obj.write(req.as_bytes(True))
-            self.file_obj.write("\n")
-            if req.body:
-                try:
-                    obj = json.loads(req.body)
-                except ValueError:
-                    self.file_obj.write('DATA:\n' + req.body)
-                else:
-                    self.file_obj.write('DATA:\n' + json.dumps(
-                        obj, indent=self.indent, ensure_ascii=self.ensure_ascii
-                    ).encode('utf8'))
+            if isinstance(self.file_obj, io.TextIOWrapper):
+                self.file_obj.write(req.as_bytes(True).decode("utf-8"))
                 self.file_obj.write("\n")
-            self.file_obj.write("\n")
+                if req.body:
+                    try:
+                        obj = json.loads(req.body)
+                    except ValueError:
+                        self.file_obj.write('DATA:\n' + req.body.decode("utf-8"))
+                    else:
+                        self.file_obj.write('DATA:\n' + json.dumps(
+                            obj, indent=self.indent, ensure_ascii=self.ensure_ascii
+                        ))
+                    self.file_obj.write("\n")
+                self.file_obj.write("\n")
+            else:
+                self.file_obj.write(req.as_bytes(True))
+                self.file_obj.write(b"\n")
+                if req.body:
+                    try:
+                        obj = json.loads(req.body)
+                    except ValueError:
+                        self.file_obj.write(b'DATA:\n' + req.body)
+                    else:
+                        self.file_obj.write(b'DATA:\n' + json.dumps(
+                            obj, indent=self.indent, ensure_ascii=self.ensure_ascii
+                        ).encode('utf8'))
+                    self.file_obj.write(b"\n")
+                self.file_obj.write(b"\n")
 
     def write_response(self, resp):
         if hasattr(self, 'file_obj') and not self.file_obj.closed:
@@ -54,22 +69,38 @@ class DumpsWebTestApp(BaseTestApp):
                 if n.lower() != 'content-length'
             ]
             headers.sort()
-            self.file_obj.write(str('Response: %s\n%s\n') % (
-                resp.status,
-                str('\n').join([str('%s: %s') % (n, v) for n, v in headers]),
-            ))
-            if resp.testbody:
-                try:
-                    obj = json.loads(resp.testbody)
-                except ValueError:
-                    pass
-                else:
-                    self.file_obj.write(json.dumps(
-                        obj, indent=self.indent, ensure_ascii=self.ensure_ascii
-                    ).encode('utf8'))
-                    self.file_obj.write("\n")
-            self.file_obj.write("\n")
-
+            if isinstance(self.file_obj, io.TextIOWrapper):
+                self.file_obj.write(str('Response: %s\n%s\n') % (
+                    resp.status,
+                    str('\n').join([str('%s: %s') % (n, v) for n, v in headers]),
+                ))
+                if resp.testbody:
+                    try:
+                        obj = json.loads(resp.testbody)
+                    except ValueError:
+                        pass
+                    else:
+                        self.file_obj.write(json.dumps(
+                            obj, indent=self.indent, ensure_ascii=self.ensure_ascii
+                        ))
+                        self.file_obj.write("\n")
+                self.file_obj.write("\n")
+            else:
+                self.file_obj.write((str('Response: %s\n%s\n') % (
+                    resp.status,
+                    str('\n').join([str('%s: %s') % (n, v) for n, v in headers]),
+                )).encode('utf8'))
+                if resp.testbody:
+                    try:
+                        obj = json.loads(resp.testbody)
+                    except ValueError:
+                        pass
+                    else:
+                        self.file_obj.write((json.dumps(
+                            obj, indent=self.indent, ensure_ascii=self.ensure_ascii
+                        )).encode('utf8'))
+                        self.file_obj.write(b"\n")
+                self.file_obj.write(b"\n")
 
     def encode_multipart(self, params, files):
         """
@@ -78,7 +109,7 @@ class DumpsWebTestApp(BaseTestApp):
         typical POST body, returning the (content_type, body).
 
         """
-        boundary = '---BOUNDARY'
+        boundary = b'---BOUNDARY'
         lines = []
 
         def _append_file(file_info):
@@ -190,9 +221,9 @@ class MockWebTestMixin(object):
 
     def uuid(self, version=None, **kwargs):
         stack = self.stack()
-        hex = md5(str(stack)).hexdigest()
+        hex = md5(str(stack).encode("utf-8")).hexdigest()
         count = self.count(hex)
-        hash = md5(hex + str(count)).digest()
+        hash = md5((hex + str(count)).encode("utf-8")).digest()
         return UUID(bytes=hash[:16], version=version)
 
     def stack(self):

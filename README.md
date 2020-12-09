@@ -23,7 +23,7 @@ https://prozorro-api-docs.readthedocs.io/en/latest/
 1. Install requirements
 
 ```
-virtualenv -p python2.7 venv
+virtualenv -p python3.8 venv
 source venv/bin/activate
 pip install -r docs/source/requirements.txt
 ```
