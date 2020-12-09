@@ -70,7 +70,8 @@ def tender_award_complaint_period(
 
 
 @patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
-def check_tender_award_complaint_period_dates(self):
+@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
+def check_tender_award_complaint_period_dates_before_new(self):
     auth = self.app.authorization
     self.app.authorization = ("Basic", ("token", ""))
     request_path = "/tenders/{}/awards".format(self.tender_id)
@@ -115,7 +116,14 @@ def check_tender_award_complaint_period_dates(self):
     self.assertIn("endDate", updated_award["complaintPeriod"])
 
 
+@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
+def check_tender_award_complaint_period_dates_after_new(self):
+    return check_tender_award_complaint_period_dates_before_new(self)
+
+
 @patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
 def check_tender_award_complaint_period_dates_new(self):
     auth = self.app.authorization
     self.app.authorization = ("Basic", ("token", ""))
@@ -162,9 +170,6 @@ def check_tender_award_complaint_period_dates_new(self):
     self.assertIn("complaintPeriod", updated_award)
     self.assertIn("startDate", updated_award["complaintPeriod"])
     self.assertIn("endDate", updated_award["complaintPeriod"])
-    # import pprint
-    # pp = pprint.PrettyPrinter(indent=4)
-    # pp.pprint(response.json["data"])
 
     response = self.app.get("/tenders/{}/awards".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
@@ -181,8 +186,8 @@ def check_tender_award_complaint_period_dates_new(self):
 
 
 @patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
-@patch("openprocurement.tender.openuadefense.validation.NO_DEFENSE_AWARD_CLAIMS_FROM", get_now() + timedelta(days=1))
-def patch_tender_award_active(self):
+@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
+def patch_tender_award_active_before_new(self):
     auth = self.app.authorization
     self.app.authorization = ("Basic", ("token", ""))
     response = self.app.post_json(
@@ -294,9 +299,15 @@ def patch_tender_award_active(self):
     self.assertEqual(len(response.json["data"]), 4)
 
 
+@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
+def patch_tender_award_active_after_new(self):
+    return patch_tender_award_active_before_new(self)
+
+
 @patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
-@patch("openprocurement.tender.openuadefense.validation.NO_DEFENSE_AWARD_CLAIMS_FROM", get_now() + timedelta(days=1))
-def patch_tender_award_unsuccessful(self):
+@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
+def patch_tender_award_unsuccessful_before_new(self):
     auth = self.app.authorization
     self.app.authorization = ("Basic", ("token", ""))
     response = self.app.post_json(
@@ -384,11 +395,6 @@ def patch_tender_award_unsuccessful(self):
     self.assertEqual(response.status, "200 OK")
 
     self.app.authorization = ("Basic", ("token", ""))
-    response = self.app.post_json(
-        "{}/complaints".format(new_award_location[-81:]),
-        {"data": test_draft_claim},
-    )
-    self.assertEqual(response.status, "201 Created")
 
     response = self.app.patch_json(
         "/tenders/{}/awards/{}".format(self.tender_id, award["id"]), {"data": {"status": "cancelled"}}
@@ -416,8 +422,14 @@ def patch_tender_award_unsuccessful(self):
     self.assertEqual(len(response.json["data"]), 4)
 
 
+@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
+def patch_tender_award_unsuccessful_after_new(self):
+    return patch_tender_award_unsuccessful_before_new(self)
+
+
 @patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.openuadefense.validation.NO_DEFENSE_AWARD_CLAIMS_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
 def patch_tender_award_active_new(self):
     auth = self.app.authorization
     self.app.authorization = ("Basic", ("token", ""))
@@ -532,7 +544,7 @@ def patch_tender_award_active_new(self):
 
 
 @patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.openuadefense.validation.NO_DEFENSE_AWARD_CLAIMS_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
 def patch_tender_award_unsuccessful_new(self):
     auth = self.app.authorization
     self.app.authorization = ("Basic", ("token", ""))

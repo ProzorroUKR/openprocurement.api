@@ -87,11 +87,14 @@ from openprocurement.tender.openuadefense.tests.award_blanks import (
     # TenderAwardResourceComplaintPeriodTest
     tender_award_complaint_period,
     # TenderAwardResourceTest
+    check_tender_award_complaint_period_dates_before_new,
+    check_tender_award_complaint_period_dates_after_new,
     check_tender_award_complaint_period_dates_new,
-    check_tender_award_complaint_period_dates,
-    patch_tender_award_active,
+    patch_tender_award_active_before_new,
+    patch_tender_award_active_after_new,
     patch_tender_award_active_new,
-    patch_tender_award_unsuccessful,
+    patch_tender_award_unsuccessful_before_new,
+    patch_tender_award_unsuccessful_after_new,
     patch_tender_award_unsuccessful_new,
 )
 
@@ -103,11 +106,14 @@ class TenderAwardResourceTest(BaseTenderUAContentWebTest):
     test_create_tender_award_invalid = snitch(create_tender_award_invalid)
     test_create_tender_award = snitch(create_tender_award)
     test_patch_tender_award = snitch(patch_tender_award)
-    test_check_tender_award_complaint_period_dates = snitch(check_tender_award_complaint_period_dates)
+    test_check_tender_award_complaint_period_dates_before_new = snitch(check_tender_award_complaint_period_dates_before_new)
+    test_check_tender_award_complaint_period_dates_after_new = snitch(check_tender_award_complaint_period_dates_after_new)
     test_check_tender_award_complaint_period_dates_new = snitch(check_tender_award_complaint_period_dates_new)
-    test_patch_tender_award_active = snitch(patch_tender_award_active)
+    test_patch_tender_award_active_before_new = snitch(patch_tender_award_active_before_new)
+    test_patch_tender_award_active_after_new = snitch(patch_tender_award_active_after_new)
     test_patch_tender_award_active_new = snitch(patch_tender_award_active_new)
-    test_patch_tender_award_unsuccessful = snitch(patch_tender_award_unsuccessful)
+    test_patch_tender_award_unsuccessful_before_new = snitch(patch_tender_award_unsuccessful_before_new)
+    test_patch_tender_award_unsuccessful_after_new = snitch(patch_tender_award_unsuccessful_after_new)
     test_patch_tender_award_unsuccessful_new = snitch(patch_tender_award_unsuccessful_new)
     test_get_tender_award = snitch(get_tender_award)
     test_patch_tender_award_Administrator_change = snitch(patch_tender_award_Administrator_change)
