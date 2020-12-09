@@ -7,7 +7,7 @@ from iso8601 import parse_date
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import SANDBOX_MODE, RELEASE_2020_04_19
 from openprocurement.tender.core.tests.base import change_auth
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_complaint, test_draft_claim
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_complaint
 
 
 def tender_award_complaint_period(

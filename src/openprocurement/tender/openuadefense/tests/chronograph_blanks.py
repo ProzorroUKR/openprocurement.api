@@ -207,33 +207,36 @@ def switch_to_active_to_unsuccessful_lot(self):
 
     with change_auth(self.app, ("Basic", ("token", ""))):
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
-        award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
-        response = self.app.patch_json(
-            "/tenders/{}/awards/{}".format(self.tender_id, award_id), {"data": {"status": "unsuccessful"}}
-        )
+        award_ids = [i["id"] for i in response.json["data"] if i["status"] == "pending"]
+        for award_id in award_ids:
+            response = self.app.patch_json(
+                "/tenders/{}/awards/{}".format(self.tender_id, award_id), {"data": {"status": "unsuccessful"}}
+            )
 
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
-        award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
-        response = self.app.patch_json(
-            "/tenders/{}/awards/{}".format(self.tender_id, award_id),
-            {
-                "data": {
-                    "status": "active",
-                    "qualified": True,
-                    "eligible": True
+        award_ids = [i["id"] for i in response.json["data"] if i["status"] == "pending"]
+        for award_id in award_ids:
+            response = self.app.patch_json(
+                "/tenders/{}/awards/{}".format(self.tender_id, award_id),
+                {
+                    "data": {
+                        "status": "active",
+                        "qualified": True,
+                        "eligible": True
+                    }
                 }
-            }
-        )
-
-        response = self.app.patch_json(
-            "/tenders/{}/awards/{}".format(self.tender_id, award_id), {"data": {"status": "cancelled"}}
-        )
+            )
+            response = self.app.patch_json(
+                "/tenders/{}/awards/{}".format(self.tender_id, award_id), {"data": {"status": "cancelled"}}
+            )
 
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
-        award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
-        response = self.app.patch_json(
-            "/tenders/{}/awards/{}".format(self.tender_id, award_id), {"data": {"status": "unsuccessful"}}
-        )
+        while any([i["status"] == "pending" for i in response.json["data"]]):
+            award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
+            self.app.patch_json(
+                "/tenders/{}/awards/{}".format(self.tender_id, award_id), {"data": {"status": "unsuccessful"}}
+            )
+            response = self.app.get("/tenders/{}/awards".format(self.tender_id))
 
     tender = self.db.get(self.tender_id)
     for i in tender.get("awards", []):

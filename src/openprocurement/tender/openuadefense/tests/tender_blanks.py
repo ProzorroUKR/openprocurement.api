@@ -4,7 +4,12 @@ from datetime import timedelta
 from iso8601 import parse_date
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_criteria
-from openprocurement.api.constants import NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM, CPV_ITEMS_CLASS_FROM
+from openprocurement.api.constants import (
+    NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
+    CPV_ITEMS_CLASS_FROM,
+    NEW_DEFENSE_COMPLAINTS_FROM,
+    NEW_DEFENSE_COMPLAINTS_TO,
+)
 from openprocurement.tender.core.models import get_now
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 
@@ -725,17 +730,23 @@ def one_invalid_bid_tender(self):
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
         {"data": {"status": "unsuccessful"}},
     )
-    # time travel
-    tender = self.db.get(tender_id)
-    for i in tender.get("awards", []):
-        i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
-    # set tender status after stand slill period
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
+
+    new_defence_complaints = NEW_DEFENSE_COMPLAINTS_FROM < get_now() < NEW_DEFENSE_COMPLAINTS_TO
+    if new_defence_complaints:
+        self.app.authorization = ("Basic", ("broker", ""))
+        response = self.app.get("/tenders/{}".format(tender_id))
+    else:
+        # time travel
+        tender = self.db.get(tender_id)
+        for i in tender.get("awards", []):
+            if i.get("complaintPeriod", None):
+                i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+        self.db.save(tender)
+        # set tender status after stand slill period
+        self.app.authorization = ("Basic", ("chronograph", ""))
+        response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
+
     # check status
-    self.app.authorization = ("Basic", ("broker", ""))
-    response = self.app.get("/tenders/{}".format(tender_id))
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
 

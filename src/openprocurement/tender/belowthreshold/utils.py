@@ -216,7 +216,7 @@ def check_tender_status(request):
             )
             first_revision_date = get_first_revision_date(tender)
             new_defence_complaints = NEW_DEFENSE_COMPLAINTS_FROM < first_revision_date < NEW_DEFENSE_COMPLAINTS_TO
-            stand_still_end = max([
+            stand_still_ends = [
                 a.complaintPeriod.endDate
                 if a.complaintPeriod and a.complaintPeriod.endDate else now
                 for a in lot_awards
@@ -225,12 +225,14 @@ def check_tender_status(request):
                     and a.complaintPeriod.endDate
                     and a.status != "cancelled" if new_defence_complaints else True
                 )
-            ])
+            ]
+            stand_still_end = max(stand_still_ends) if stand_still_ends else now
+            in_stand_still = now < stand_still_end
             skip_award_complaint_period = check_skip_award_complaint_period(tender)
             if (
                     pending_complaints
                     or pending_awards_complaints
-                    or (not stand_still_end <= now and not skip_award_complaint_period)
+                    or (in_stand_still and not skip_award_complaint_period)
             ):
                 continue
             elif last_award.status == "unsuccessful":
