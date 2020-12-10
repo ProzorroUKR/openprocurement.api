@@ -786,11 +786,11 @@ def patch_tender_lot_award_unsuccessful(self):
     self.assertEqual(response.status, "200 OK")
 
     self.app.authorization = ("Basic", ("token", ""))
-    response = self.app.post_json(
-        "{}/complaints".format(new_award_location[-81:]),
-        {"data": test_draft_claim},
-    )
-    self.assertEqual(response.status, "201 Created")
+    # response = self.app.post_json(
+    #     "{}/complaints".format(new_award_location[-81:]),
+    #     {"data": test_draft_claim},
+    # )
+    # self.assertEqual(response.status, "201 Created")
 
     response = self.app.patch_json(
         "/tenders/{}/awards/{}".format(self.tender_id, award["id"]), {"data": {"status": "cancelled"}}
@@ -1210,7 +1210,7 @@ def create_tender_award_complaint(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, self.bid_token),
-        {"data": test_draft_claim},
+        {"data": test_complaint},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1421,7 +1421,7 @@ def patch_tender_award_complaint(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, self.bid_token),
-        {"data": test_draft_claim},
+        {"data": test_draft_complaint},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1430,13 +1430,23 @@ def patch_tender_award_complaint(self):
 
     self.set_status("complete")
 
-    response = self.app.patch_json(
-        "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
-            self.tender_id, self.award_id, complaint["id"], owner_token
-        ),
-        {"data": {"status": "claim"}},
-        status=403,
-    )
+    if get_now() > RELEASE_2020_04_19:
+        with change_auth(self.app, ("Basic", ("bot", ""))):
+            response = self.app.patch_json(
+                "/tenders/{}/awards/{}/complaints/{}".format(
+                    self.tender_id, self.award_id, complaint["id"]
+                ),
+                {"data": {"status": "pending"}},
+                status=403,
+            )
+    else:
+        response = self.app.patch_json(
+            "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
+                self.tender_id, self.award_id, complaint["id"], owner_token
+            ),
+            {"data": {"status": "pending"}},
+            status=403,
+        )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
@@ -1718,7 +1728,7 @@ def create_tender_lot_award_complaint(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, self.bid_token),
-        {"data": test_draft_claim},
+        {"data": test_complaint},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1831,7 +1841,7 @@ def patch_tender_lot_award_complaint(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, self.bid_token),
-        {"data": test_draft_claim},
+        {"data": test_complaint},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1840,13 +1850,23 @@ def patch_tender_lot_award_complaint(self):
 
     self.set_status("complete")
 
-    response = self.app.patch_json(
-        "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
-            self.tender_id, self.award_id, complaint["id"], owner_token
-        ),
-        {"data": {"status": "claim"}},
-        status=403,
-    )
+    if get_now() < RELEASE_2020_04_19:
+        response = self.app.patch_json(
+            "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
+                self.tender_id, self.award_id, complaint["id"], owner_token
+            ),
+            {"data": {"status": "pending"}},
+            status=403,
+        )
+    else:
+        with change_auth(self.app, ("Basic", ("bot", ""))):
+            response = self.app.patch_json(
+                "/tenders/{}/awards/{}/complaints/{}".format(
+                    self.tender_id, self.award_id, complaint["id"]
+                ),
+                {"data": {"status": "pending"}},
+                status=403,
+            )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
@@ -1930,7 +1950,7 @@ def create_tender_lots_award_complaint(self):
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(
             self.tender_id, self.award_id, self.initial_bids_tokens[self.initial_bids[0]["id"]]
         ),
-        {"data": test_draft_claim},
+        {"data": test_complaint},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1978,7 +1998,7 @@ def patch_tender_lots_award_complaint(self):
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(
             self.tender_id, self.award_id, self.initial_bids_tokens[self.initial_bids[0]["id"]]
         ),
-        {"data": test_draft_claim},
+        {"data": test_complaint},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -2004,16 +2024,35 @@ def patch_tender_lots_award_complaint(self):
     if RELEASE_2020_04_19 < get_now():
         activate_cancellation_after_2020_04_19(self, cancellation_id)
 
-    response = self.app.patch_json(
-        "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
-            self.tender_id, self.award_id, complaint["id"], owner_token
-        ),
-        {"data": {"status": "pending"}},
-        status=403,
-    )
+    # response = self.app.patch_json(
+    #     "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
+    #         self.tender_id, self.award_id, complaint["id"], owner_token
+    #     ),
+    #     {"data": {"status": "pending"}},
+    #     status=403,
+    # )
+
+    if get_now() < RELEASE_2020_04_19:
+        response = self.app.patch_json(
+            "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
+                self.tender_id, self.award_id, complaint["id"], owner_token
+            ),
+            {"data": {"status": "pending"}},
+            status=403,
+        )
+    else:
+        with change_auth(self.app, ("Basic", ("bot", ""))):
+            response = self.app.patch_json(
+                "/tenders/{}/awards/{}/complaints/{}".format(
+                    self.tender_id, self.award_id, complaint["id"]
+                ),
+                {"data": {"status": "pending"}},
+                status=403,
+            )
+
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can update complaint only in active lot status")
+    # self.assertEqual(response.json["errors"][0]["description"], "Can update complaint only in active lot status")
 
 
 # TenderAwardComplaintDocumentResourceTest

@@ -20,11 +20,6 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     patch_tender_award_Administrator_change,
     # TenderAwardComplaintResourceTest
     create_tender_award_complaint_invalid,
-    get_tender_award_complaint,
-    get_tender_award_complaints,
-    # TenderLotAwardComplaintResourceTest
-    get_tender_lot_award_complaint,
-    get_tender_lot_award_complaints,
     # TenderAwardComplaintDocumentResourceTest
     not_found as complaint_docs_not_found,
     create_tender_award_complaint_document,
@@ -53,12 +48,10 @@ from openprocurement.tender.openua.tests.award_blanks import (
     create_tender_lots_award,
     patch_tender_lots_award,
     # TenderAwardComplaintResourceTest
-    create_tender_award_claim,
     create_tender_award_complaint_not_active,
     create_tender_award_complaint,
     patch_tender_award_complaint,
     review_tender_award_complaint,
-    review_tender_award_claim,
     review_tender_award_stopping_complaint,
     # TenderLotAwardComplaintResourceTest
     create_tender_lot_award_complaint,
@@ -96,6 +89,15 @@ from openprocurement.tender.openuadefense.tests.award_blanks import (
     patch_tender_award_unsuccessful_before_new,
     patch_tender_award_unsuccessful_after_new,
     patch_tender_award_unsuccessful_new,
+    # TenderAwardComplaintResourceTest
+    create_tender_award_claim,
+    create_tender_award_claim_denied,
+    review_tender_award_claim,
+    get_tender_award_complaint,
+    get_tender_award_complaints,
+    # TenderLotAwardComplaintResourceTest
+    get_tender_lot_award_complaint,
+    get_tender_lot_award_complaints,
 )
 
 
@@ -263,6 +265,7 @@ class TenderAwardComplaintResourceTest(TenderAwardActiveResourceTestCase):
 
     test_create_tender_award_complaint_invalid = snitch(create_tender_award_complaint_invalid)
     test_create_tender_award_claim = snitch(create_tender_award_claim)
+    test_create_tender_award_claim_denied = snitch(create_tender_award_claim_denied)
     test_create_tender_award_complaint_not_active = snitch(create_tender_award_complaint_not_active)
     test_create_tender_award_complaint = snitch(create_tender_award_complaint)
     test_patch_tender_award_complaint = snitch(patch_tender_award_complaint)

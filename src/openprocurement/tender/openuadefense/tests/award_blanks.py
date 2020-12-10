@@ -7,7 +7,11 @@ from iso8601 import parse_date
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import SANDBOX_MODE, RELEASE_2020_04_19
 from openprocurement.tender.core.tests.base import change_auth
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_complaint
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_complaint, test_claim
+from openprocurement.tender.openua.tests.award_blanks import (
+    create_tender_award_claim as create_tender_award_claim_ua,
+    review_tender_award_claim as review_tender_award_claim_ua,
+)
 
 
 def tender_award_complaint_period(
@@ -663,3 +667,200 @@ def patch_tender_award_unsuccessful_new(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 4)
+
+
+# TenderAwardComplaintResourceTest
+
+@patch("openprocurement.tender.openuadefense.validation.NO_DEFENSE_AWARD_CLAIMS_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
+def create_tender_award_claim(self):
+    return create_tender_award_claim_ua(self)
+
+
+@patch("openprocurement.tender.openuadefense.validation.NO_DEFENSE_AWARD_CLAIMS_FROM", get_now() - timedelta(days=1))
+def create_tender_award_claim_denied(self):
+    auth = self.app.authorization
+    self.app.authorization = ("Basic", ("token", ""))
+    self.app.patch_json(
+        "/tenders/{}/awards/{}".format(self.tender_id, self.award_id), {"data": {"status": "cancelled"}}
+    )
+
+    response = self.app.get("/tenders/{}/awards".format(self.tender_id))
+    award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][-1]
+    bid_token = self.initial_bids_tokens[self.initial_bids[1]["id"]]
+
+    self.app.authorization = auth
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, award_id, bid_token),
+        {
+            "data": test_claim
+        },
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u"description": u"Can't add complaint of 'claim' type",
+                u"location": u"body",
+                u"name": u"data",
+            }
+        ],
+    )
+
+
+def get_tender_award_complaint(self):
+    bid_token = self.initial_bids_tokens.values()[0]
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
+        {"data": test_complaint},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    complaint = response.json["data"]
+
+    response = self.app.get(
+        "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, self.award_id, complaint["id"])
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"], complaint)
+
+    response = self.app.get(
+        "/tenders/{}/awards/{}/complaints/some_id".format(self.tender_id, self.award_id), status=404
+    )
+    self.assertEqual(response.status, "404 Not Found")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"complaint_id"}]
+    )
+
+    response = self.app.get("/tenders/some_id/awards/some_id/complaints/some_id", status=404)
+    self.assertEqual(response.status, "404 Not Found")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+    )
+
+
+def get_tender_award_complaints(self):
+    bid_token = self.initial_bids_tokens.values()[0]
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
+        {"data": test_complaint},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    complaint = response.json["data"]
+
+    response = self.app.get("/tenders/{}/awards/{}/complaints".format(self.tender_id, self.award_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"][0], complaint)
+
+    response = self.app.get("/tenders/some_id/awards/some_id/complaints", status=404)
+    self.assertEqual(response.status, "404 Not Found")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+    )
+
+    tender = self.db.get(self.tender_id)
+    for i in tender.get("awards", []):
+        now = get_now().isoformat()
+        i["complaintPeriod"] = {"startDate": now, "endDate": now}
+    self.db.save(tender)
+
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
+        {"data": test_complaint},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["errors"][0]["description"], "Can add complaint only in complaintPeriod")
+
+
+
+def get_tender_lot_award_complaint(self):
+    bid_token = self.initial_bids_tokens.values()[0]
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
+        {"data": test_complaint},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    complaint = response.json["data"]
+
+    response = self.app.get(
+        "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, self.award_id, complaint["id"])
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"], complaint)
+
+    response = self.app.get(
+        "/tenders/{}/awards/{}/complaints/some_id".format(self.tender_id, self.award_id), status=404
+    )
+    self.assertEqual(response.status, "404 Not Found")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"complaint_id"}]
+    )
+
+    response = self.app.get("/tenders/some_id/awards/some_id/complaints/some_id", status=404)
+    self.assertEqual(response.status, "404 Not Found")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+    )
+
+
+def get_tender_lot_award_complaints(self):
+    bid_token = self.initial_bids_tokens.values()[0]
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
+        {"data": test_complaint},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    complaint = response.json["data"]
+
+    response = self.app.get("/tenders/{}/awards/{}/complaints".format(self.tender_id, self.award_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"][0], complaint)
+
+    response = self.app.get("/tenders/some_id/awards/some_id/complaints", status=404)
+    self.assertEqual(response.status, "404 Not Found")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+    )
+
+    tender = self.db.get(self.tender_id)
+    for i in tender.get("awards", []):
+        now = get_now().isoformat()
+        i["complaintPeriod"] = {"startDate": now, "endDate": now}
+    self.db.save(tender)
+
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
+        {"data": test_complaint},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["errors"][0]["description"], "Can add complaint only in complaintPeriod")
+
+
+@patch("openprocurement.tender.openuadefense.validation.NO_DEFENSE_AWARD_CLAIMS_FROM", get_now() + timedelta(days=1))
+def review_tender_award_claim(self):
+    return review_tender_award_claim_ua(self)
