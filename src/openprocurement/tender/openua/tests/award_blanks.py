@@ -1841,7 +1841,7 @@ def patch_tender_lot_award_complaint(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, self.bid_token),
-        {"data": test_complaint},
+        {"data": test_draft_complaint},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
