@@ -117,10 +117,10 @@ class ElectronicCatalogueFramework(Framework):
                 "documents",
                 "frameworkDetails"
             ),
-            "draft": _status_view_role + blacklist("mode"),
-            "active": _status_view_role + blacklist("mode"),
-            "complete": _status_view_role + blacklist("mode"),
-            "unsuccessful": _status_view_role + blacklist("mode"),
+            "draft": _status_view_role,
+            "active": _status_view_role,
+            "complete": _status_view_role,
+            "unsuccessful": _status_view_role,
             "view": _edit_role + whitelist(
                 "date",
                 "period",
