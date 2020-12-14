@@ -51,11 +51,11 @@ class QualificationResource(APIResource):
                          extra=context_unpack(self.request, {"MESSAGE_ID": "qualification_patch"}))
 
         if changed_status:
-            self.complete_submssion()
+            self.complete_submission()
 
         return {"data": qualification.serialize("view")}
 
-    def complete_submssion(self):
+    def complete_submission(self):
         db = self.request.registry.db
         qualification = self.request.validated["qualification"]
         submission_data = get_submission_by_id(db, qualification.submissionID)

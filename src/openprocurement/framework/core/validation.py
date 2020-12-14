@@ -79,7 +79,7 @@ def validate_operation_submission_in_not_allowed_period(request):
     ):
         raise_operation_error(
             request,
-            "Submission cannot be {}d without framework enquiryPeriod or period".format(operation)
+            "Submission cannot be {} without framework enquiryPeriod or period".format(operation)
         )
     enquiryPeriod_endDate = parse_date(enquiryPeriod["endDate"])
     period_endDate = parse_date(period["endDate"])
@@ -88,7 +88,7 @@ def validate_operation_submission_in_not_allowed_period(request):
     if now < enquiryPeriod_endDate or now > period_endDate:
         raise_operation_error(
             request,
-            "Submission can be {}d only during the period: from ({}) to ({}).".format(
+            "Submission can be {} only during the period: from ({}) to ({}).".format(
                 operation, enquiryPeriod_endDate, period_endDate),
         )
 
