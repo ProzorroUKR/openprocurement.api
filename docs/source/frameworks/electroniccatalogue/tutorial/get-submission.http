@@ -1,0 +1,50 @@
+GET /api/2.5/submissions/19973fee87084fe7a00db94ad14f0c0d HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "draft", 
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "title": "submission_docs.doc", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/68b97f94a48445cb9144e3bfc23729e7?KeyID=a8968c46&Signature=5XyI%252BtoVJPji5yUzbw1lfX4eIp8HiPGRV5Eb4z1AZVJt9H7knKK46Om%2Fr4NY176dQ6SUgHNG%2FSWS2naLX2imDw%253D%253D", 
+        "format": "application/msword", 
+        "datePublished": "2020-09-24T01:00:00+03:00", 
+        "id": "30adbb19270a4fd985abbea82946aa03", 
+        "dateModified": "2020-09-24T01:00:00+03:00"
+      }
+    ], 
+    "submissionType": "electronicCatalogue", 
+    "frameworkID": "40b48e4878534db1bf228d5928f8f1d9", 
+    "dateModified": "2020-09-24T01:00:00+03:00", 
+    "tenderers": [
+      {
+        "contactPoint": {
+          "email": "soleksuk@gmail.com", 
+          "telephone": "+380 (432) 21-69-30", 
+          "name": "Сергій Олексюк"
+        }, 
+        "scale": "micro", 
+        "name": "ДКП «Школяр»", 
+        "identifier": {
+          "scheme": "UA-EDR", 
+          "id": "00137256", 
+          "uri": "http://www.sc.gov.ua/"
+        }, 
+        "address": {
+          "postalCode": "21100", 
+          "countryName": "Україна", 
+          "streetAddress": "вул. Островського, 33", 
+          "region": "Вінницька область", 
+          "locality": "м. Вінниця"
+        }
+      }
+    ], 
+    "id": "19973fee87084fe7a00db94ad14f0c0d"
+  }
+}
+

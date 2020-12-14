@@ -1,0 +1,37 @@
+PATCH /api/2.5/qualifications/c58e796114e34db69494ba28b7ba323d?acc_token=7c6a46e300bb41438ef626232028950b HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 36
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "status": "unsuccessful"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "unsuccessful", 
+    "qualificationType": "electronicCatalogue", 
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "title": "qualification.doc", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/485590d9f57e478eade934826dba2ce1?KeyID=a8968c46&Signature=5LQt%2FKA51mZezBxkHnqQgrtPtvOwOwLNFeriJJGdkCymBhhTooHlxbkg0jzK6IYwvp784irBz%2FlITYjd7qJfCQ%253D%253D", 
+        "format": "application/msword", 
+        "datePublished": "2020-09-24T01:00:00+03:00", 
+        "id": "618a32c8965446e084b015408f4c9334", 
+        "dateModified": "2020-09-24T01:00:00+03:00"
+      }
+    ], 
+    "frameworkID": "40b48e4878534db1bf228d5928f8f1d9", 
+    "submissionID": "acb9f31ebb904dc696a96bb78b529433", 
+    "date": "2020-09-24T01:00:00+03:00", 
+    "dateModified": "2020-09-24T01:00:00+03:00", 
+    "id": "c58e796114e34db69494ba28b7ba323d"
+  }
+}
+

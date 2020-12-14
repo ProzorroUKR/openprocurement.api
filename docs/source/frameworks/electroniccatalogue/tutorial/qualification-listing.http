@@ -1,0 +1,24 @@
+GET /api/2.5/qualifications HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "next_page": {
+    "path": "/api/2.5/qualifications?offset=2020-09-24T01%3A00%3A00%2B03%3A00", 
+    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/qualifications?offset=2020-09-24T01%3A00%3A00%2B03%3A00", 
+    "offset": "2020-09-24T01:00:00+03:00"
+  }, 
+  "data": [
+    {
+      "id": "c58e796114e34db69494ba28b7ba323d", 
+      "dateModified": "2020-09-24T01:00:00+03:00"
+    }, 
+    {
+      "id": "d3c7b3f81f2843eda4c93a9675056969", 
+      "dateModified": "2020-09-24T01:00:00+03:00"
+    }
+  ]
+}
+

@@ -1,0 +1,20 @@
+GET /api/2.5/submissions HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "next_page": {
+    "path": "/api/2.5/submissions?offset=2020-09-24T01%3A00%3A00%2B03%3A00", 
+    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions?offset=2020-09-24T01%3A00%3A00%2B03%3A00", 
+    "offset": "2020-09-24T01:00:00+03:00"
+  }, 
+  "data": [
+    {
+      "id": "acb9f31ebb904dc696a96bb78b529433", 
+      "dateModified": "2020-09-24T01:00:00+03:00"
+    }
+  ]
+}
+

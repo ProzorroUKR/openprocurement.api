@@ -1,0 +1,20 @@
+GET /api/2.5/submissions/19973fee87084fe7a00db94ad14f0c0d/documents HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": [
+    {
+      "hash": "md5:00000000000000000000000000000000", 
+      "title": "submission_docs.doc", 
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/68b97f94a48445cb9144e3bfc23729e7?KeyID=a8968c46&Signature=5XyI%252BtoVJPji5yUzbw1lfX4eIp8HiPGRV5Eb4z1AZVJt9H7knKK46Om%2Fr4NY176dQ6SUgHNG%2FSWS2naLX2imDw%253D%253D", 
+      "format": "application/msword", 
+      "datePublished": "2020-09-24T01:00:00+03:00", 
+      "id": "30adbb19270a4fd985abbea82946aa03", 
+      "dateModified": "2020-09-24T01:00:00+03:00"
+    }
+  ]
+}
+

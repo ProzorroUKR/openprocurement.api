@@ -1,0 +1,17 @@
+GET /api/2.5/qualifications/c58e796114e34db69494ba28b7ba323d HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "pending", 
+    "qualificationType": "electronicCatalogue", 
+    "frameworkID": "40b48e4878534db1bf228d5928f8f1d9", 
+    "id": "c58e796114e34db69494ba28b7ba323d", 
+    "submissionID": "acb9f31ebb904dc696a96bb78b529433", 
+    "dateModified": "2020-09-24T01:00:00+03:00"
+  }
+}
+

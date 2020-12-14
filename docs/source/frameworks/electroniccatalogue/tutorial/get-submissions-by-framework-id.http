@@ -1,0 +1,33 @@
+GET /api/2.5/frameworks/40b48e4878534db1bf228d5928f8f1d9/submissions HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "count": 2, 
+  "data": [
+    {
+      "status": "complete", 
+      "id": "7aa3936518124ba88869faa489fc4f23", 
+      "frameworkID": "40b48e4878534db1bf228d5928f8f1d9", 
+      "datePublished": "2020-09-24T01:00:00+03:00", 
+      "date": "2020-09-24T01:00:00+03:00", 
+      "dateCreated": "2020-09-24T01:00:00+03:00", 
+      "dateModified": "2020-09-24T01:00:00+03:00"
+    }, 
+    {
+      "status": "complete", 
+      "id": "acb9f31ebb904dc696a96bb78b529433", 
+      "frameworkID": "40b48e4878534db1bf228d5928f8f1d9", 
+      "datePublished": "2020-09-24T01:00:00+03:00", 
+      "date": "2020-09-24T01:00:00+03:00", 
+      "dateCreated": "2020-09-24T01:00:00+03:00", 
+      "dateModified": "2020-09-24T01:00:00+03:00"
+    }
+  ], 
+  "total": 2, 
+  "limit": 100, 
+  "page": 1
+}
+
