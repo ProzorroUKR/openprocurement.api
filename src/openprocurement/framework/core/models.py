@@ -162,6 +162,7 @@ class Submission(OpenprocurementSchematicsDocument, Model):
             ),
             "view": whitelist(
                 "doc_id",
+                "owner",
                 "status",
                 "tenderers",
                 "documents",

@@ -8,7 +8,6 @@ from openprocurement.tender.belowthreshold.tests.base import (
 )
 
 
-
 def create_tender_criteria_valid(self):
 
     request_path = "/tenders/{}/criteria?acc_token={}&bulk=true".format(self.tender_id, self.tender_token)
