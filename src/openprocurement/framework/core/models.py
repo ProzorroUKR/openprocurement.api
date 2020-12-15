@@ -37,11 +37,7 @@ class Framework(OpenprocurementSchematicsDocument, Model):
             "description_ru",
         )
         _create_role = _edit_role + whitelist("frameworkType", "frameworkDetails", "mode")
-
-        roles = {
-            "create": _create_role,
-            "edit_draft": _edit_role,
-            "view": _create_role + whitelist(
+        _view_role = _create_role + whitelist(
                 "date",
                 "prettyID",
                 "documents",
@@ -50,14 +46,14 @@ class Framework(OpenprocurementSchematicsDocument, Model):
                 "dateModified",
                 "frameworkType",
                 "owner",
-            ),
-            "chronograph": whitelist("status", "next_check"),
-            "chronograph_view": whitelist(
-                "status",
-                "doc_id",
-                "frameworkDetails",
-                "mode",
-            ),
+            )
+        roles = {
+            # Specify for inheritance when several framework types appear
+            "create": _create_role,
+            "edit_draft": _edit_role,
+            "view": _view_role,
+            "chronograph": whitelist("next_check"),
+            "chronograph_view": _view_role,
             # "Administrator": whitelist("status", "mode"),
             "default": blacklist("doc_id", "__parent__"),  # obj.store() use default role
             "plain": blacklist(  # is used for getting patches
@@ -83,6 +79,7 @@ class Framework(OpenprocurementSchematicsDocument, Model):
     owner_token = StringType()
     mode = StringType(choices=["test"])
     transfer_token = StringType()
+    status = StringType(choices=["draft"], default="draft")
 
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
     revisions = ListType(ModelType(Revision, required=True), default=list())

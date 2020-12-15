@@ -60,4 +60,5 @@ class FrameworkResource(APIResource):
             apply_patch(self.request, src=self.request.validated["framework_src"], obj_name="framework")
         self.LOGGER.info("Updated framework {}".format(framework.id),
                          extra=context_unpack(self.request, {"MESSAGE_ID": "framework_patch"}))
+        # TODO: Change to chronograph_view for chronograph
         return {"data": framework.serialize(framework.status)}
