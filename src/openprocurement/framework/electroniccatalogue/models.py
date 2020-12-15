@@ -131,16 +131,10 @@ class ElectronicCatalogueFramework(Framework):
                 "dateModified",
                 "status",
                 "owner",
+                "next_check",
             ),
             "chronograph": whitelist("next_check"),
-            "chronograph_view": whitelist(
-                "status",
-                "enquiryPeriod",
-                "qualificationPeriod",
-                "doc_id",
-                "frameworkDetails",
-                "mode",
-            ),
+            "chronograph_view": _status_view_role,
             "Administrator": whitelist("status", "mode"),
             "default": blacklist("doc_id", "__parent__"),  # obj.store() use default role
             "plain": blacklist(  # is used for getting patches
