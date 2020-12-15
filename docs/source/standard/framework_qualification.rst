@@ -24,7 +24,7 @@ Schema
     string, auto-generated, read-only
 
     :`electronicCatalogue`:
-        Submission for electronic catalog process
+        Qualification for electronic catalog process
 
 :date:
     string, :ref:`date`, auto-generated
@@ -42,7 +42,7 @@ Schema
    string
 
    :`pending`:
-      If :code:`qualificationType` is :code:`electronicCatalogue`, then in this status any fields of submission can be changed.
+      If :code:`qualificationType` is :code:`electronicCatalogue`, then in this status can be uploaded documents and changed status.
    :`active`:
       If :code:`qualificationType` is :code:`electronicCatalogue`, in this status creates qualification object and set :code:`qualificationID`.
    :`unsuccessful`:

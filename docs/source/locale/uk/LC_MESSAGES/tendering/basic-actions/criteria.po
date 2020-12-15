@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-26 18:20+0200\n"
+"POT-Creation-Date: 2020-12-14 17:24+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -105,7 +105,7 @@ msgid "Exclusion criteria"
 msgstr "Виключні критерії"
 
 msgid "Exclusion criteria available and required for the following procedures: aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA"
-msgstr "Виключні критерії доступні та обоі'язкові в наступних процедурах: aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA
+msgstr "Виключні критерії доступні та обоі'язкові в наступних процедурах: aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementU"
 
 msgid "`Standard data, you could get here <https://github.com/ProzorroUKR/standards/blob/master/criteria/article_17.json>`__"
 msgstr "`Стандарт можна отримати тут <https://github.com/ProzorroUKR/standards/blob/master/criteria/article_17.json>`__"
@@ -119,9 +119,6 @@ msgstr "Вийняткові критерії та всі дочірні об'є
 msgid "You can patch exclusion requirement, but you can send only `eligibleEvidences`"
 msgstr "Вийняткові вимоги можливо редагувати, але тілки передаючи поле `eligibleEvidences`"
 
-msgid "Language criterion workflow"
-msgstr "Схема роботи мовного критерія"
-
 msgid "Language criterion creates as other and could be presented in bulk request with other criteria. Language should be specified in `title`"
 msgstr "Мовний критерій створюється так само як і інші та може бути включений до запиту на створення з іншими критеріями. Мова має бути вказана в `title`"
 
@@ -133,3 +130,7 @@ msgstr "`expectedValue` може бути лише true"
 
 msgid "Exclusion criteria workflow"
 msgstr "Схема роботи вийняткових критеріїв"
+
+#~ msgid "Language criterion workflow"
+#~ msgstr "Схема роботи мовного критерія"
+
