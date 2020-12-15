@@ -56,7 +56,8 @@ def validate_submission_data(request):
 def validate_patch_submission_data(request):
     data = validate_json_data(request)
     data = validate_data(request, type(request.submission), True, data)
-    framework = get_framework_by_id(request.registry.db, data["frameworkID"])
+    submission = request.validated["submission"]
+    framework = get_framework_by_id(request.registry.db, submission.get("frameworkID"))
     if not framework:
         raise_operation_error(
             request,
@@ -96,7 +97,7 @@ def validate_operation_submission_in_not_allowed_period(request):
 def validate_submission_status(request):
     status_map = {
         "draft": ("draft", "active", "deleted"),
-        "active": ("complete", "active"),
+        "active": ("complete",),
     }
     curr_status = request.validated["submission_src"]["status"]
     new_status = request.validated["data"].get("status", curr_status)
@@ -114,14 +115,9 @@ def validate_submission_status(request):
 
 def validate_update_submission_in_not_allowed_status(request):
     status = request.validated["submission_src"]["status"]
-    not_allowed_statuses = ("deleted", "complete")
+    not_allowed_statuses = ("deleted", "active", "complete")
 
-    auth_role = request.authenticated_role
-
-    if (
-        status in not_allowed_statuses
-        or (status == "active" and auth_role != "bots")
-    ):
+    if status in not_allowed_statuses:
         raise_operation_error(
             request,
             "Can't update submission in current ({}) status".format(status),
