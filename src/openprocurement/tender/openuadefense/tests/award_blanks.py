@@ -7,7 +7,15 @@ from iso8601 import parse_date
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import SANDBOX_MODE, RELEASE_2020_04_19
 from openprocurement.tender.core.tests.base import change_auth
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_complaint, test_claim
+from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_organization,
+    test_complaint,
+    test_draft_complaint,
+    test_claim,
+    test_draft_claim,
+    test_cancellation,
+)
 from openprocurement.tender.openua.tests.award_blanks import (
     create_tender_award_claim as create_tender_award_claim_ua,
     review_tender_award_claim as review_tender_award_claim_ua,
@@ -72,6 +80,8 @@ def tender_award_complaint_period(
 
     freezer.stop()
 
+
+# TenderAwardResourceTest
 
 @patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
 @patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
@@ -785,7 +795,6 @@ def get_tender_award_complaints(self):
     self.assertEqual(response.json["errors"][0]["description"], "Can add complaint only in complaintPeriod")
 
 
-
 def get_tender_lot_award_complaint(self):
     bid_token = self.initial_bids_tokens.values()[0]
     response = self.app.post_json(
@@ -864,3 +873,89 @@ def get_tender_lot_award_complaints(self):
 @patch("openprocurement.tender.openuadefense.validation.NO_DEFENSE_AWARD_CLAIMS_FROM", get_now() + timedelta(days=1))
 def review_tender_award_claim(self):
     return review_tender_award_claim_ua(self)
+
+
+# Tender2LotAwardComplaintResourceTest
+
+def patch_tender_lots_award_complaint(self):
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/complaints?acc_token={}".format(
+            self.tender_id, self.award_id, self.initial_bids_tokens[self.initial_bids[0]["id"]]
+        ),
+        {"data": test_draft_complaint},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    complaint = response.json["data"]
+    owner_token = response.json["access"]["token"]
+
+    if RELEASE_2020_04_19 < get_now():
+        response = self.app.patch_json(
+            "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
+                self.tender_id, self.award_id, complaint["id"], owner_token
+            ),
+            {"data": {"status": "pending"}},
+            status=403
+        )
+        self.assertEqual(
+            response.json,
+            {"status": "error", "errors": [
+                {"location": "body", "name": "data", "description": "Can't update draft complaint into pending status"}]}
+        )
+
+    else:
+        response = self.app.patch_json(
+            "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
+                self.tender_id, self.award_id, complaint["id"], owner_token
+            ),
+            {"data": {"status": "pending"}},
+            status=200
+        )
+        self.assertEqual(response.status, "200 OK")
+
+    with patch(
+        "openprocurement.tender.openuadefense.validation.NO_DEFENSE_AWARD_CLAIMS_FROM",
+        get_now() + timedelta(days=1)
+    ):
+
+        response = self.app.post_json(
+            "/tenders/{}/awards/{}/complaints?acc_token={}".format(
+                self.tender_id, self.award_id, self.initial_bids_tokens[self.initial_bids[0]["id"]]
+            ),
+            {"data": test_draft_claim},
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        complaint = response.json["data"]
+        owner_token = response.json["access"]["token"]
+
+        if RELEASE_2020_04_19:
+            self.set_all_awards_complaint_period_end()
+
+        cancellation = dict(**test_cancellation)
+        cancellation.update({
+            "status": "active",
+            "cancellationOf": "lot",
+            "relatedLot": self.initial_lots[0]["id"],
+        })
+        response = self.app.post_json(
+            "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": cancellation},
+        )
+        self.assertEqual(response.status, "201 Created")
+        cancellation_id = response.json["data"]["id"]
+
+        if RELEASE_2020_04_19 < get_now():
+            activate_cancellation_after_2020_04_19(self, cancellation_id)
+
+        response = self.app.patch_json(
+            "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
+                self.tender_id, self.award_id, complaint["id"], owner_token
+            ),
+            {"data": {"status": "pending"}},
+            status=403,
+        )
+
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["errors"][0]["description"], "Can update complaint only in active lot status")

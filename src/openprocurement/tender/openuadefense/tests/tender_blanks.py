@@ -2,6 +2,7 @@
 from copy import deepcopy
 from datetime import timedelta
 from iso8601 import parse_date
+from mock import patch
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_criteria
 from openprocurement.api.constants import (
@@ -748,6 +749,30 @@ def one_invalid_bid_tender(self):
 
     # check status
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
+
+
+@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.tests.tender_blanks.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
+def one_invalid_bid_tender_before_new(self):
+    return one_invalid_bid_tender(self)
+
+
+@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.tests.tender_blanks.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
+def one_invalid_bid_tender_after_new(self):
+    return one_invalid_bid_tender(self)
+
+
+@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.tests.tender_blanks.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
+def one_invalid_bid_tender_new(self):
+    return one_invalid_bid_tender(self)
 
 
 def patch_item_with_zero_quantity(self):

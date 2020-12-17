@@ -58,7 +58,6 @@ from openprocurement.tender.openua.tests.award_blanks import (
     patch_tender_lot_award_complaint,
     # Tender2LotAwardComplaintResourceTest
     create_tender_lots_award_complaint,
-    patch_tender_lots_award_complaint,
     # TenderAwardComplaintDocumentResourceTest
     patch_tender_award_complaint_document,
     # Tender2LotAwardComplaintDocumentResourceTest
@@ -98,6 +97,7 @@ from openprocurement.tender.openuadefense.tests.award_blanks import (
     # TenderLotAwardComplaintResourceTest
     get_tender_lot_award_complaint,
     get_tender_lot_award_complaints,
+    patch_tender_lots_award_complaint,
 )
 
 
