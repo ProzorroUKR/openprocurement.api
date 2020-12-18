@@ -22,19 +22,24 @@ SUBMISSION_FIELDS = [
     "frameworkID",
     "qualificationID",
     "status",
+    "tenderers",
     "documents",
+    "date",
+    "datePublished",
 ]
 
-SUBMISSION_CHANGES_FIELDS = SUBMISSION_FIELDS + ["dateModified", "date", "datePublished"]
+SUBMISSION_CHANGES_FIELDS = SUBMISSION_FIELDS + ["dateModified"]
 
 QUALIFICATION_FIELDS = [
     "id",
     "frameworkID",
     "submissionID",
     "status",
+    "documents",
+    "date",
 ]
 
-QUALIFICATION_CHANGES_FIELDS = QUALIFICATION_FIELDS + ["dateModified", "date"]
+QUALIFICATION_CHANGES_FIELDS = QUALIFICATION_FIELDS + ["dateModified"]
 
 
 def add_design():

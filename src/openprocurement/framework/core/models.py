@@ -181,7 +181,7 @@ class Submission(OpenprocurementSchematicsDocument, Model):
     qualificationID = StringType()
     frameworkID = StringType(required=True)
     dateModified = IsoDateTimeType()
-    date = IsoDateTimeType()
+    date = IsoDateTimeType(default=get_now)
     datePublished = IsoDateTimeType()
 
     owner = StringType()
@@ -271,7 +271,7 @@ class Qualification(OpenprocurementSchematicsDocument, Model):
     submissionID = StringType(required=True)
     frameworkID = StringType(required=True)
 
-    date = IsoDateTimeType()
+    date = IsoDateTimeType(default=get_now)
     dateModified = IsoDateTimeType()
 
     framework_owner = StringType()
