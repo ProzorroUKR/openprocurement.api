@@ -786,11 +786,11 @@ def patch_tender_lot_award_unsuccessful(self):
     self.assertEqual(response.status, "200 OK")
 
     self.app.authorization = ("Basic", ("token", ""))
-    # response = self.app.post_json(
-    #     "{}/complaints".format(new_award_location[-81:]),
-    #     {"data": test_draft_claim},
-    # )
-    # self.assertEqual(response.status, "201 Created")
+    response = self.app.post_json(
+        "{}/complaints".format(new_award_location[-81:]),
+        {"data": test_draft_claim},
+    )
+    self.assertEqual(response.status, "201 Created")
 
     response = self.app.patch_json(
         "/tenders/{}/awards/{}".format(self.tender_id, award["id"]), {"data": {"status": "cancelled"}}

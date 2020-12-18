@@ -43,7 +43,6 @@ from openprocurement.tender.openua.tests.award_blanks import (
     # TenderLotAwardResourceTest
     create_tender_lot_award,
     patch_tender_lot_award,
-    patch_tender_lot_award_unsuccessful,
     # Tender2LotAwardResourceTest
     create_tender_lots_award,
     patch_tender_lots_award,
@@ -88,6 +87,10 @@ from openprocurement.tender.openuadefense.tests.award_blanks import (
     patch_tender_award_unsuccessful_before_new,
     patch_tender_award_unsuccessful_after_new,
     patch_tender_award_unsuccessful_new,
+    # TenderLotAwardResourceTest
+    patch_tender_lot_award_unsuccessful_before_new,
+    patch_tender_lot_award_unsuccessful_after_new,
+    patch_tender_lot_award_unsuccessful_new,
     # TenderAwardComplaintResourceTest
     create_tender_award_claim,
     create_tender_award_claim_denied,
@@ -216,7 +219,9 @@ class TenderLotAwardResourceTest(BaseTenderUAContentWebTest):
 
     test_create_tender_award = snitch(create_tender_lot_award)
     test_patch_tender_award = snitch(patch_tender_lot_award)
-    test_patch_tender_award_unsuccessful = snitch(patch_tender_lot_award_unsuccessful)
+    test_patch_tender_award_unsuccessful_before_new = snitch(patch_tender_lot_award_unsuccessful_before_new)
+    test_patch_tender_award_unsuccessful_after_new = snitch(patch_tender_lot_award_unsuccessful_after_new)
+    test_patch_tender_award_unsuccessful_new = snitch(patch_tender_lot_award_unsuccessful_new)
     test_patch_tender_lot_award_lots_none = snitch(patch_tender_lot_award_lots_none)
 
 

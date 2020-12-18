@@ -5,7 +5,13 @@ from mock import patch
 from iso8601 import parse_date
 
 from openprocurement.api.utils import get_now
-from openprocurement.api.constants import SANDBOX_MODE, RELEASE_2020_04_19
+from openprocurement.api.constants import (
+    SANDBOX_MODE,
+    RELEASE_2020_04_19,
+    NEW_DEFENSE_COMPLAINTS_FROM,
+    NEW_DEFENSE_COMPLAINTS_TO,
+    NO_DEFENSE_AWARD_CLAIMS_FROM,
+)
 from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -199,252 +205,7 @@ def check_tender_award_complaint_period_dates_new(self):
     self.assertIn("endDate", updated_award["complaintPeriod"])
 
 
-@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
-@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
-def patch_tender_award_active_before_new(self):
-    auth = self.app.authorization
-    self.app.authorization = ("Basic", ("token", ""))
-    response = self.app.post_json(
-        "/tenders/{}/awards".format(self.tender_id),
-        {
-            "data": {
-                "suppliers": [test_organization],
-                "status": u"pending",
-                "bid_id": self.initial_bids[0]["id"],
-                "value": {"amount": 500},
-            }
-        },
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    award = response.json["data"]
-
-    self.app.authorization = auth
-    response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
-        {"data": {"status": "unsuccessful"}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertIn("Location", response.headers)
-    new_award_location = response.headers["Location"]
-
-    response = self.app.patch_json(
-        new_award_location[-81:] + "?acc_token={}".format(self.tender_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertNotIn("Location", response.headers)
-
-    response = self.app.get("/tenders/{}/awards".format(self.tender_id))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(len(response.json["data"]), 2)
-
-    bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
-    response = self.app.post_json(
-        new_award_location[-81:] + "/complaints?acc_token={}".format(bid_token),
-        {
-            "data": test_complaint
-        },
-    )
-    self.assertEqual(response.status, "201 Created")
-    complaint_id = response.json["data"]["id"]
-    now = get_now()
-    if RELEASE_2020_04_19 < now:
-        self.assertEqual(response.json["data"]["status"], "draft")
-
-        with change_auth(self.app, ("Basic", ("bot", ""))):
-            response = self.app.patch_json(
-                new_award_location[-81:] + "/complaints/{}".format(complaint_id),
-                {"data": {"status": "pending"}},
-            )
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["data"]["status"], "pending")
-
-    self.app.authorization = ("Basic", ("reviewer", ""))
-    data = {"status": "accepted"}
-    if RELEASE_2020_04_19 < now:
-        data.update({
-            "reviewDate": now.isoformat(),
-            "reviewPlace": "some",
-        })
-
-    response = self.app.patch_json(
-        new_award_location[-81:] + "/complaints/{}".format(complaint_id),
-        {"data": data},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "accepted")
-    if RELEASE_2020_04_19 < now:
-        self.assertEqual(response.json["data"]["reviewPlace"], "some")
-        self.assertEqual(response.json["data"]["reviewDate"], now.isoformat())
-
-    response = self.app.patch_json(
-        new_award_location[-81:] + "/complaints/{}".format(response.json["data"]["id"]),
-        {"data": {"status": "satisfied"}},
-    )
-    self.assertEqual(response.status, "200 OK")
-
-    self.app.authorization = ("Basic", ("token", ""))
-    response = self.app.patch_json(new_award_location[-81:], {"data": {"status": "cancelled"}})
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertGreater(get_now(), parse_date(response.json["data"]["complaintPeriod"]["endDate"]))
-    self.assertIn("Location", response.headers)
-    new_award_location = response.headers["Location"]
-
-    response = self.app.patch_json(new_award_location[-81:], {"data": {"status": "unsuccessful"}})
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertIn("Location", response.headers)
-    new_award_location = response.headers["Location"]
-
-    response = self.app.patch_json(new_award_location[-81:], {"data": {"status": "unsuccessful"}})
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertNotIn("Location", response.headers)
-
-    response = self.app.get("/tenders/{}/awards".format(self.tender_id))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(len(response.json["data"]), 4)
-
-
-@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
-def patch_tender_award_active_after_new(self):
-    return patch_tender_award_active_before_new(self)
-
-
-@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
-@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
-def patch_tender_award_unsuccessful_before_new(self):
-    auth = self.app.authorization
-    self.app.authorization = ("Basic", ("token", ""))
-    response = self.app.post_json(
-        "/tenders/{}/awards".format(self.tender_id),
-        {
-            "data": {
-                "suppliers": [test_organization],
-                "status": u"pending",
-                "bid_id": self.initial_bids[0]["id"],
-                "value": {"amount": 500},
-            }
-        },
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    award = response.json["data"]
-
-    self.app.authorization = auth
-    response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
-        {"data": {"status": "unsuccessful"}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertIn("Location", response.headers)
-    new_award_location = response.headers["Location"]
-
-    response = self.app.patch_json(
-        new_award_location[-81:] + "?acc_token={}".format(self.tender_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertNotIn("Location", response.headers)
-
-    response = self.app.get("/tenders/{}/awards".format(self.tender_id))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(len(response.json["data"]), 2)
-
-    bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
-    response = self.app.post_json(
-        "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, award["id"], bid_token),
-        {
-            "data": test_complaint
-        },
-    )
-    self.assertEqual(response.status, "201 Created")
-    complaint_id = response.json["data"]["id"]
-
-    now = get_now()
-    if RELEASE_2020_04_19 < now:
-        self.assertEqual(response.json["data"]["status"], "draft")
-
-        with change_auth(self.app, ("Basic", ("bot", ""))):
-            response = self.app.patch_json(
-                "/tenders/{}/awards/{}/complaints/{}".format(
-                    self.tender_id, award["id"], complaint_id),
-                {"data": {"status": "pending"}},
-            )
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["data"]["status"], "pending")
-
-    self.app.authorization = ("Basic", ("reviewer", ""))
-    data = {"status": "accepted"}
-    if RELEASE_2020_04_19 < now:
-        data.update({
-            "reviewDate": now.isoformat(),
-            "reviewPlace": "some",
-        })
-    response = self.app.patch_json(
-        "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, award["id"], complaint_id),
-        {"data": data},
-    )
-    self.assertEqual(response.status, "200 OK")
-    if RELEASE_2020_04_19 < now:
-        self.assertEqual(response.json["data"]["reviewPlace"], "some")
-        self.assertEqual(response.json["data"]["reviewDate"], now.isoformat())
-
-    response = self.app.patch_json(
-        "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, award["id"], complaint_id),
-        {"data": {"status": "satisfied"}},
-    )
-    self.assertEqual(response.status, "200 OK")
-
-    self.app.authorization = ("Basic", ("token", ""))
-
-    response = self.app.patch_json(
-        "/tenders/{}/awards/{}".format(self.tender_id, award["id"]), {"data": {"status": "cancelled"}}
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertGreater(get_now(), parse_date(response.json["data"]["complaintPeriod"]["endDate"]))
-    self.assertIn("Location", response.headers)
-    new_award_location = response.headers["Location"]
-
-    response = self.app.patch_json(new_award_location[-81:], {"data": {"status": "unsuccessful"}})
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertIn("Location", response.headers)
-    new_award_location = response.headers["Location"]
-
-    response = self.app.patch_json(new_award_location[-81:], {"data": {"status": "unsuccessful"}})
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertNotIn("Location", response.headers)
-
-    response = self.app.get("/tenders/{}/awards".format(self.tender_id))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(len(response.json["data"]), 4)
-
-
-@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
-def patch_tender_award_unsuccessful_after_new(self):
-    return patch_tender_award_unsuccessful_before_new(self)
-
-
-@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
-def patch_tender_award_active_new(self):
+def patch_tender_award_active(self):
     auth = self.app.authorization
     self.app.authorization = ("Basic", ("token", ""))
     response = self.app.post_json(
@@ -536,7 +297,12 @@ def patch_tender_award_active_new(self):
     response = self.app.patch_json(new_award_location[-81:], {"data": {"status": "cancelled"}})
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(origin_complaint_period_end_date, parse_date(response.json["data"]["complaintPeriod"]["endDate"]))
+    new_defence_complaints = NEW_DEFENSE_COMPLAINTS_FROM < get_now() < NEW_DEFENSE_COMPLAINTS_TO
+    if new_defence_complaints:
+        self.assertEqual(origin_complaint_period_end_date, parse_date(response.json["data"]["complaintPeriod"]["endDate"]))
+    else:
+        self.assertGreater(get_now(), parse_date(response.json["data"]["complaintPeriod"]["endDate"]))
+
     self.assertIn("Location", response.headers)
     new_award_location = response.headers["Location"]
 
@@ -557,9 +323,28 @@ def patch_tender_award_active_new(self):
     self.assertEqual(len(response.json["data"]), 4)
 
 
-@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.tests.award_blanks.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
+def patch_tender_award_active_before_new(self):
+    return patch_tender_award_active(self)
+
+
+@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
-def patch_tender_award_unsuccessful_new(self):
+@patch("openprocurement.tender.openuadefense.tests.award_blanks.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
+def patch_tender_award_active_after_new(self):
+    return patch_tender_award_active(self)
+
+
+@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.tests.award_blanks.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
+def patch_tender_award_active_new(self):
+    return patch_tender_award_active(self)
+
+
+def patch_tender_award_unsuccessful(self):
     auth = self.app.authorization
     self.app.authorization = ("Basic", ("token", ""))
     response = self.app.post_json(
@@ -658,7 +443,12 @@ def patch_tender_award_unsuccessful_new(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(origin_complaint_period_end_date, parse_date(response.json["data"]["complaintPeriod"]["endDate"]))
+    new_defence_complaints = NEW_DEFENSE_COMPLAINTS_FROM < get_now() < NEW_DEFENSE_COMPLAINTS_TO
+    if new_defence_complaints:
+        self.assertEqual(origin_complaint_period_end_date, parse_date(response.json["data"]["complaintPeriod"]["endDate"]))
+    else:
+        self.assertGreater(get_now(), parse_date(response.json["data"]["complaintPeriod"]["endDate"]))
+
     self.assertIn("Location", response.headers)
     new_award_location = response.headers["Location"]
 
@@ -677,6 +467,194 @@ def patch_tender_award_unsuccessful_new(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 4)
+
+
+@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.tests.award_blanks.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
+def patch_tender_award_unsuccessful_before_new(self):
+    return patch_tender_award_unsuccessful(self)
+
+
+@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.tests.award_blanks.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
+def patch_tender_award_unsuccessful_after_new(self):
+    return patch_tender_award_unsuccessful(self)
+
+
+@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.tests.award_blanks.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
+def patch_tender_award_unsuccessful_new(self):
+    return patch_tender_award_unsuccessful(self)
+
+
+# TenderLotAwardResourceTest
+
+def patch_tender_lot_award_unsuccessful(self):
+    auth = self.app.authorization
+    self.app.authorization = ("Basic", ("token", ""))
+
+    response = self.app.post_json(
+        "/tenders/{}/awards".format(self.tender_id),
+        {
+            "data": {
+                "suppliers": [test_organization],
+                "status": u"pending",
+                "bid_id": self.initial_bids[0]["id"],
+                "lotID": self.initial_lots[0]["id"],
+                "value": {"amount": 500},
+            }
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    award = response.json["data"]
+
+    self.app.authorization = auth
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
+        {"data": {"status": "unsuccessful"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("Location", response.headers)
+    new_award_location = response.headers["Location"]
+
+    response = self.app.patch_json(
+        new_award_location[-81:] + "?acc_token={}".format(self.tender_token),
+        {"data": {"status": "active", "qualified": True, "eligible": True}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertNotIn("Location", response.headers)
+
+    response = self.app.get("/tenders/{}/awards".format(self.tender_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(len(response.json["data"]), 2)
+
+    response = self.app.get("/tenders/{}/awards/{}".format(self.tender_id, award["id"]))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    origin_complaint_period_end_date = parse_date(response.json["data"]["complaintPeriod"]["endDate"])
+
+    bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, award["id"], bid_token),
+        {
+            "data": test_complaint
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    complaint_id = response.json["data"]["id"]
+
+    now = get_now()
+    if RELEASE_2020_04_19 < now:
+        self.assertEqual(response.json["data"]["status"], "draft")
+
+        with change_auth(self.app, ("Basic", ("bot", ""))):
+            response = self.app.patch_json(
+                "/tenders/{}/awards/{}/complaints/{}".format(
+                    self.tender_id, award["id"], complaint_id),
+                {"data": {"status": "pending"}},
+            )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["data"]["status"], "pending")
+
+    self.app.authorization = ("Basic", ("reviewer", ""))
+    now = get_now()
+    data = {"status": "accepted"}
+    if RELEASE_2020_04_19 < now:
+        data.update({
+            "reviewDate": now.isoformat(),
+            "reviewPlace": "some",
+        })
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, award["id"], complaint_id),
+        {"data": data},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "accepted")
+    if RELEASE_2020_04_19 < now:
+        self.assertEqual(response.json["data"]["reviewPlace"], "some")
+        self.assertEqual(response.json["data"]["reviewDate"], now.isoformat())
+
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, award["id"], complaint_id),
+        {"data": {"status": "satisfied"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    self.app.authorization = ("Basic", ("token", ""))
+    if now < NO_DEFENSE_AWARD_CLAIMS_FROM:
+        response = self.app.post_json(
+            "{}/complaints".format(new_award_location[-81:]),
+            {"data": test_draft_claim},
+        )
+        self.assertEqual(response.status, "201 Created")
+
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}".format(self.tender_id, award["id"]), {"data": {"status": "cancelled"}}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("Location", response.headers)
+    new_award_location = response.headers["Location"]
+
+    new_defence_complaints = NEW_DEFENSE_COMPLAINTS_FROM < get_now() < NEW_DEFENSE_COMPLAINTS_TO
+    if new_defence_complaints:
+        self.assertEqual(origin_complaint_period_end_date, parse_date(response.json["data"]["complaintPeriod"]["endDate"]))
+    else:
+        self.assertGreater(get_now(), parse_date(response.json["data"]["complaintPeriod"]["endDate"]))
+
+    response = self.app.patch_json(new_award_location[-81:], {"data": {"status": "unsuccessful"}})
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("Location", response.headers)
+    new_award_location = response.headers["Location"]
+
+    response = self.app.patch_json(new_award_location[-81:], {"data": {"status": "unsuccessful"}})
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertNotIn("Location", response.headers)
+
+    response = self.app.get("/tenders/{}/awards".format(self.tender_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(len(response.json["data"]), 4)
+
+
+@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.tests.award_blanks.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.validation.NO_DEFENSE_AWARD_CLAIMS_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.tests.award_blanks.NO_DEFENSE_AWARD_CLAIMS_FROM", get_now() + timedelta(days=1))
+
+def patch_tender_lot_award_unsuccessful_before_new(self):
+    return patch_tender_lot_award_unsuccessful(self)
+
+
+@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.tests.award_blanks.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.validation.NO_DEFENSE_AWARD_CLAIMS_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.tests.award_blanks.NO_DEFENSE_AWARD_CLAIMS_FROM", get_now() - timedelta(days=1))
+
+def patch_tender_lot_award_unsuccessful_after_new(self):
+    return patch_tender_lot_award_unsuccessful(self)
+
+
+@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.tests.award_blanks.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.validation.NO_DEFENSE_AWARD_CLAIMS_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.tests.award_blanks.NO_DEFENSE_AWARD_CLAIMS_FROM", get_now() - timedelta(days=1))
+
+def patch_tender_lot_award_unsuccessful_new(self):
+    return patch_tender_lot_award_unsuccessful(self)
 
 
 # TenderAwardComplaintResourceTest
