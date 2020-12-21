@@ -618,7 +618,9 @@ class APIResourcePaginatedListing(APIResource):
         startkey = [obj_id, None if not descending else {}]
         endkey = [obj_id, {} if not descending else None]
 
-        view_kwargs = dict(startkey=startkey, endkey=endkey, descending=descending, limit=limit, skip=skip)
+        count_view_kwargs = dict(startkey=startkey, endkey=endkey, descending=descending, limit=limit)
+        view_kwargs = count_view_kwargs.copy()
+        view_kwargs["skip"] = skip
 
         if opt_fields - self.default_fields:
             self.LOGGER.info(
@@ -648,7 +650,7 @@ class APIResourcePaginatedListing(APIResource):
 
         if self.views_total:
             total_view = self.views_total.get(mode, "")
-            total_results = total_view(self.db, **view_kwargs)
+            total_results = total_view(self.db, **count_view_kwargs)
             total = [e.value for e in total_results][0] if total_results else 0
             data["total"] = total
 
