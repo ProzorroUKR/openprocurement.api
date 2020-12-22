@@ -128,6 +128,13 @@ class ElectronicCatalogueResourceTest(BaseElectronicCatalogueWebTest, MockWebTes
             response = self.app.get('/submissions/{}'.format(self.submission_id))
             self.assertEqual(response.status, '200 OK')
 
+        with open(TARGET_DIR + 'updating-submission.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/submissions/{}?acc_token={}'.format(self.submission_id, self.submission_token),
+                {'data': {"tenderers": [{"name": "НАЗВА"}]}},
+            )
+            self.assertEqual(response.status, '200 OK')
+
         with open(TARGET_DIR + 'deleting-submission.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/submissions/{}?acc_token={}'.format(self.submission_id, self.submission_token),

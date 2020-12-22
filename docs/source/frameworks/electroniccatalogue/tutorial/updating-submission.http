@@ -1,12 +1,16 @@
 PATCH /api/2.5/submissions/19973fee87084fe7a00db94ad14f0c0d?acc_token=b10f2c28f49b4f9a80ff4b8ac2973b3c HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 31
+Content-Length: 69
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "status": "deleted"
+    "tenderers": [
+      {
+        "name": "НАЗВА"
+      }
+    ]
   }
 }
 
@@ -14,7 +18,7 @@ Response: 200 OK
 Content-Type: application/json; charset=UTF-8
 {
   "data": {
-    "status": "deleted", 
+    "status": "draft", 
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000", 
@@ -52,7 +56,6 @@ Content-Type: application/json; charset=UTF-8
         }
       }
     ], 
-    "date": "2020-09-24T01:00:00+03:00", 
     "id": "19973fee87084fe7a00db94ad14f0c0d"
   }
 }

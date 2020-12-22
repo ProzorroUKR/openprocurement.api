@@ -113,7 +113,7 @@ We have `201 Created` response code, `Location` header and body with extra prope
 Uploading Submission documentation
 ----------------------------------
 
-Documents can be uploaded only for submission in `draft` status.
+Documents can be uploaded/changed only for submission in `draft` status.
 
 Documents operations is same like in framework:
 
@@ -133,8 +133,18 @@ Submission can be deleted only in `draft` status:
    :code:
 
 
+Updating Submission
+-------------------
+
+Submission can be changed only in `draft` status:
+
+.. include:: tutorial/updating-submission.http
+   :code:
+
 Submission activation
 ---------------------
+
+Submission can be activated before `period.endDate`
 
 .. include:: tutorial/activating-submission.http
    :code:
@@ -157,7 +167,7 @@ All operations with qualification object can do only `framework_owner`.
 Uploading qualification documentation
 -------------------------------------
 
-Documents can be uploaded only for qualification in :code:`draft` status.
+Documents can be uploaded/changed only for qualification in `pending` status.
 
 Documents operations is same like in framework:
 
@@ -171,6 +181,8 @@ Documents operations is same like in framework:
 Canceled qualification
 ----------------------
 
+Qualification can be cancelled only in `pending` status.
+
 .. include:: tutorial/unsuccessful-qualification.http
    :code:
 
@@ -183,6 +195,8 @@ Let's check what happen with submissions after cancelling qualification:
 
 Approve qualification
 ------------------------
+
+Qualification can be approved only in `pending` status.
 
 .. include:: tutorial/activation-qualification.http
    :code:
