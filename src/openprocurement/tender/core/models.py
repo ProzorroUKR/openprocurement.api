@@ -53,6 +53,7 @@ from openprocurement.api.constants import (
     CPV_ITEMS_CLASS_FROM,
     RELEASE_ECRITERIA_ARTICLE_17,
     CRITERION_REQUIREMENT_STATUSES_FROM,
+    RELEASE_GUARANTEE_CRITERION,
 )
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
 
@@ -866,6 +867,22 @@ class RequirementGroup(Model):
 class CriterionClassification(BaseClassification):
     description = StringType()
 
+    def validate_id(self, data, code):
+        parent = data["__parent__"]
+        tender = get_tender(parent)
+        tender_created = get_first_revision_date(tender, default=get_now())
+
+        if tender_created < RELEASE_GUARANTEE_CRITERION:
+            return
+
+        allowed_tenders = ("belowThreshold", "aboveThresholdUA", "aboveThresholdEU", "esco")
+        criteria_to_check = ("CRITERION.OTHER.CONTRACT.GUARANTEE", "CRITERION.OTHER.BID.GUARANTEE")
+        if (
+                code in criteria_to_check
+                and tender.procurementMethodType not in allowed_tenders
+        ):
+            raise ValidationError(u"{} is available only in {}".format(code, allowed_tenders))
+
 
 class Criterion(Model):
     class Options:
@@ -997,12 +1014,21 @@ class RequirementResponse(Model):
         source_map = {
             "procuringEntity": (BaseAward, QualificationMilestoneListMixin),
             "tenderer": Bid,
+            "winner": BaseAward,
         }
         available_parents = source_map.get(criterion.source)
         if available_parents and not isinstance(parent, available_parents):
             raise ValidationError("Requirement response in {} can't have requirement criteria with source: {}".format(
                 parent.__class__.__name__, criterion.source
             ))
+
+        if (
+                criterion.source == "winner"
+                and parent.status != "active"
+                and criterion.classification.id.startswith("CRITERION.OTHER.CONTRACT.GUARANTEE")
+        ):
+            raise ValidationError(u"Only award in status 'active' could have requirement response for criteria "
+                                  "requirement with source: 'winner'")
 
         return requirement_ref
 
