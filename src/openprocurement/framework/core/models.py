@@ -7,6 +7,7 @@ from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
 from zope.interface import implementer
 
+from openprocurement.api.auth import ACCR_5
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.interfaces import IOPContent
 from openprocurement.api.models import OpenprocurementSchematicsDocument, Model
@@ -84,6 +85,9 @@ class Framework(OpenprocurementSchematicsDocument, Model):
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
     revisions = ListType(ModelType(Revision, required=True), default=list())
 
+    central_accreditations = (ACCR_5,)
+    edit_accreditations = (ACCR_5,)
+
     def __repr__(self):
         return "<%s:%r@%r>" % (type(self).__name__, self.id, self.rev)
 
@@ -98,9 +102,11 @@ class Framework(OpenprocurementSchematicsDocument, Model):
 
     @serializable(serialized_name="date")
     def old_date(self):
+        if self.__parent__ is None:
+            return get_now().isoformat()
         root = self.get_root()
         request = root.request
-        if request.method == "POST":
+        if not self.date and request.method == "POST":
             return get_now().isoformat()
         return self.date.isoformat()
 

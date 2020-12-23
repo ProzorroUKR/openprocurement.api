@@ -21,13 +21,13 @@ from openprocurement.api.utils import (
     apply_data_patch,
     append_revision,
     get_doc_by_id,
+    ACCELERATOR_RE,
 )
 from openprocurement.framework.core.traversal import (
     framework_factory,
     submission_factory,
     qualification_factory,
 )
-from openprocurement.tender.core.utils import ACCELERATOR_RE
 
 LOGGER = getLogger("openprocurement.framework.core")
 ENQUIRY_PERIOD_DURATION = 10

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from contextlib import contextmanager
+
 from paste.deploy.loadwsgi import loadapp
 from types import FunctionType
 from openprocurement.api.constants import VERSION
@@ -108,3 +110,11 @@ def app(singleton_app):
     singleton_app.recreate_db()
     yield singleton_app
     singleton_app.drop_db()
+
+
+@contextmanager
+def change_auth(app, auth):
+    authorization = app.authorization
+    app.authorization = auth
+    yield app
+    app.authorization = authorization

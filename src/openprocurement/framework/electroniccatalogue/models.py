@@ -35,8 +35,8 @@ class DKClassification(BaseClassification):
     scheme = StringType(required=True, choices=[u"ДК021"])
     id = StringType(required=True)
 
-    def validate_code(self, data, code):
-        if code not in DK_CODES:
+    def validate_id(self, data, id):
+        if id not in DK_CODES:
             raise ValidationError(BaseType.MESSAGES["choices"].format(unicode(DK_CODES)))
 
 
@@ -106,7 +106,7 @@ class ElectronicCatalogueFramework(Framework):
 
         roles = {
             "create": _create_role,
-            "edit_draft": _edit_role + blacklist("owner"),
+            "edit_draft": _edit_role + blacklist("owner", "old_date"),
             "edit_active": whitelist(
                 "status",
                 "procuringEntity",

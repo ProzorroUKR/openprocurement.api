@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import re
 from contextlib import contextmanager
 from decimal import Decimal
 
@@ -48,6 +49,8 @@ import decimal
 import json
 
 json_view = partial(view, renderer="simplejson")
+
+ACCELERATOR_RE = re.compile(".accelerator=(?P<accelerator>\d+)")
 
 
 DEFAULT_PAGE = 1

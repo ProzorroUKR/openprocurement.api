@@ -1,0 +1,113 @@
+PATCH /api/2.5/frameworks/40b48e4878534db1bf228d5928f8f1d9?acc_token=7c6a46e300bb41438ef626232028950b HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 359
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "qualificationPeriod": {
+      "endDate": "2020-11-22T01:00:00+03:00"
+    }, 
+    "procuringEntity": {
+      "contactPoint": {
+        "email": "ab@aa.com", 
+        "name": "зміна", 
+        "telephone": "0440000002"
+      }
+    }, 
+    "description": "Назва предмета закупівлі1"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "active", 
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "title": "framework.doc", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f76fd74118794d3099163fb571f7d374?KeyID=a8968c46&Signature=enQ0CbN82KUq2UF35XE5AoHQp4akyyXL8a18JJhKTwe2gBZouJQV8JxVPA%2FirPrEZoN6LsYF%2FmqpcaFFaHGnAg%253D%253D", 
+        "format": "application/msword", 
+        "datePublished": "2020-09-08T01:00:00+03:00", 
+        "id": "cd52b90af77e4f5b8cb0f210e83987b5", 
+        "dateModified": "2020-09-08T01:00:00+03:00"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "title": "framework_additional_docs.doc", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/abf06db1635b48e0819cb258b3fc1179?KeyID=a8968c46&Signature=%2FsMVClawScZwgZdy%2FXVGRQpaN4KUmLiGNRpyNxh%252BTLvtTMwaKtLdizgNWNevCqZqDTjBmKDHGXnfMG8d2%252BIrBg%253D%253D", 
+        "format": "application/msword", 
+        "datePublished": "2020-09-08T01:00:00+03:00", 
+        "id": "3fe9486c38a1473ca201e42ebbf9b648", 
+        "dateModified": "2020-09-08T01:00:00+03:00"
+      }, 
+      {
+        "hash": "md5:00000000000000000000000000000000", 
+        "title": "framework_additional_docs.doc", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4cf75d2a81c64711bdccbed55bcb10fc?KeyID=a8968c46&Signature=ijDPle6V3lQQZjOoEIB0hbFXJgsEHcq26VnDeLHfVAUeBoBXUCkV1rGOvL%252BXpX2f4ZeUMwJ5XXqw6SikMBU%2FDQ%253D%253D", 
+        "format": "application/msword", 
+        "datePublished": "2020-09-08T01:00:00+03:00", 
+        "id": "3fe9486c38a1473ca201e42ebbf9b648", 
+        "dateModified": "2020-09-08T01:00:00+03:00"
+      }
+    ], 
+    "description": "Назва предмета закупівлі1", 
+    "classification": {
+      "scheme": "ДК021", 
+      "description": "Mustard seeds", 
+      "id": "03111600-8"
+    }, 
+    "title": "updated in draft status", 
+    "enquiryPeriod": {
+      "startDate": "2020-09-08T01:00:00+03:00", 
+      "endDate": "2020-09-23T00:00:00+03:00"
+    }, 
+    "qualificationPeriod": {
+      "startDate": "2020-09-23T00:00:00+03:00", 
+      "endDate": "2020-11-22T01:00:00+03:00"
+    }, 
+    "prettyID": "UA-F-2020-09-08-000001", 
+    "period": {
+      "startDate": "2020-09-08T01:00:00+03:00", 
+      "endDate": "2020-10-23T00:00:00+03:00"
+    }, 
+    "frameworkType": "electronicCatalogue", 
+    "date": "2020-09-08T01:00:00+03:00", 
+    "additionalClassifications": [
+      {
+        "scheme": "ДК003", 
+        "id": "17.21.1", 
+        "description": "папір і картон гофровані, паперова й картонна тара"
+      }
+    ], 
+    "next_check": "2020-10-07T00:00:00+03:00", 
+    "procuringEntity": {
+      "contactPoint": {
+        "email": "ab@aa.com", 
+        "telephone": "0440000002", 
+        "name": "зміна"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "40996564", 
+        "legalName": "Назва організації(ЦЗО)"
+      }, 
+      "name": "Повна назва юридичної організації.", 
+      "kind": "central", 
+      "address": {
+        "countryName": "Україна", 
+        "postalCode": "01220", 
+        "streetAddress": "вул. Банкова, 11, корпус 1", 
+        "region": "м. Київ", 
+        "locality": "м. Київ"
+      }
+    }, 
+    "owner": "broker", 
+    "dateModified": "2020-09-08T01:00:00+03:00", 
+    "id": "40b48e4878534db1bf228d5928f8f1d9"
+  }
+}
+
