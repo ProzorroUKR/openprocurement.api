@@ -697,4 +697,4 @@ class BankAccount(Model):
 
 class Reference(Model):
     id = StringType(required=True)
-    title = StringType(required=True, min_length=1)
+    title = StringType()
