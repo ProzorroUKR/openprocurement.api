@@ -17,17 +17,30 @@ OPERATIONS = {"POST": "add", "PATCH": "update", "PUT": "update", "DELETE": "dele
 
 
 def validate_json_data(request, expected_type=dict):
+
     try:
         json = request.json_body
     except ValueError as e:
         request.errors.add("body", "data", str(e))
         request.errors.status = 422
         raise error_handler(request.errors)
-    if not isinstance(json, dict) or "data" not in json or not isinstance(json.get("data"), expected_type):
+    if (
+        not isinstance(json, dict)
+        or "data" not in json
+        or not isinstance(json.get("data"), expected_type)
+    ):
         request.errors.add("body", "data", "Data not available")
         request.errors.status = 422
         raise error_handler(request.errors)
-    request.validated["json_data"] = json["data"]
+    data = json["data"]
+    if (
+        expected_type is list
+        and (not data or not all(isinstance(i, dict) for i in data))
+    ):
+        request.errors.add("body", "data", "Data not available")
+        request.errors.status = 422
+        raise error_handler(request.errors)
+    request.validated["json_data"] = data
     return json["data"]
 
 
@@ -78,6 +91,7 @@ def validate_post_list_data(request, model, data=None):
         valid_data = []
         valid_models = []
         errors = {}
+
         for i, el in enumerate(data):
             m = model(el)
             m.__parent__ = request.context
