@@ -1,15 +1,18 @@
 # -*- coding: utf-8 -*-
 
 # TenderCancellationResourceTest
+from copy import deepcopy
+
 from mock import patch
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_2020_04_19
-from openprocurement.tender.belowthreshold.tests.base import test_cancellation
+from openprocurement.tender.belowthreshold.tests.base import test_cancellation, test_criteria
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )
+from openprocurement.tender.core.tests.criteria_utils import add_criteria
 
 
 def create_tender_cancellation_invalid(self):
@@ -1149,3 +1152,44 @@ def permission_cancellation_pending(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"][0]["description"], "Can't update tender in current (cancelled) status")
+
+
+@patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
+def lot_cancellation_with_related_criteria(self):
+    self.set_status("active.enquiries")
+    lot_id = self.app.get("/tenders/{}".format(self.tender_id)).json["data"]["lots"][0]["id"]
+    criteria = deepcopy(test_criteria)
+    related_criteria = criteria[0]
+    related_criteria["relatesTo"] = "lot"
+    related_criteria["relatedItem"] = lot_id
+    add_criteria(self, self.tender_id, self.tender_token, criteria)
+
+    self.set_status("active.tendering")
+    cancellation = dict(test_cancellation,
+                        reasonType="noDemand",
+                        cancellationOf="lot",
+                        relatedLot=lot_id
+                        )
+    response = self.app.post_json("/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+                                  {"data": cancellation})
+    cancellation_id = response.json["data"]["id"]
+    response = self.app.post(
+        "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
+            self.tender_id, cancellation_id, self.tender_token
+        ),
+        upload_files=[("file", "name.doc", "content")],
+    )
+    response = self.app.patch_json(
+        "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation_id, self.tender_token),
+        {"data": {"status": "active"}},
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Can't cancel {} lot while related criterion has active requirements".format(lot_id)
+    )

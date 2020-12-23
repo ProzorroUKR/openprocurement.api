@@ -12,6 +12,7 @@ from openprocurement.tender.limited.validation import (
     validate_lot_operation_with_awards,
     validate_lot_operation_not_in_active_status,
 )
+from openprocurement.tender.belowthreshold.validation import validate_delete_lot_related_criterion
 
 
 @optendersresource(
@@ -80,6 +81,7 @@ class TenderLimitedNegotiationQuickLotResource(TenderLotResource):
         validators=(
             validate_operation_with_lot_cancellation_in_pending("lot"),
             validate_lot_operation_not_in_active_status,
+            validate_delete_lot_related_criterion,
             validate_lot_operation_with_awards
         ),
     )

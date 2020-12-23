@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-26 22:36+0300\n"
+"POT-Creation-Date: 2020-11-30 20:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,6 +37,24 @@ msgstr "рядок, багатомовний, обов’язковий"
 
 msgid "|ocdsDescription| Requirement title."
 msgstr "|ocdsDescription| Назва вимоги."
+
+msgid "status"
+msgstr ""
+
+msgid "string"
+msgstr "рядок"
+
+msgid "Possible values are:"
+msgstr "Можливі значення:"
+
+msgid "`active`"
+msgstr ""
+
+msgid "`cancelled`"
+msgstr ""
+
+msgid "Requirement status (`active` by default)."
+msgstr "Статус вимоги (`active` за замовчуванням)."
 
 msgid "description"
 msgstr ""
@@ -121,4 +139,19 @@ msgstr ""
 
 msgid "List of :ref:`EligibleEvidence` objects."
 msgstr "Список об'єктів :ref:`EligibleEvidence`"
+
+msgid "datePublished"
+msgstr ""
+
+msgid "string, :ref:`date`"
+msgstr "рядок, :ref:`date`"
+
+msgid "The date on which the requirement version was published."
+msgstr "Дата публікації вимоги"
+
+msgid "dateModified"
+msgstr ""
+
+msgid "Date that the requirement version was cancelled"
+msgstr "Дата зміни статусу вимоги на `cancelled`."
 

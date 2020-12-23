@@ -59,6 +59,7 @@ from openprocurement.tender.esco.tests.tender_blanks import (
     tender_features_invalid,
     invalid_bid_tender_features,
     create_tender_generated,
+    patch_item_with_zero_quantity,
 )
 
 
@@ -105,6 +106,7 @@ class TestTenderEU(BaseESCOContentWebTest, TenderResourceTestMixin, TenderUAReso
     test_tender_with_main_procurement_category = snitch(tender_with_main_procurement_category)
     test_tender_finance_milestones = snitch(tender_finance_milestones)
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
+    test_patch_item_with_zero_quantity = snitch(patch_item_with_zero_quantity)
 
 
 class TestTenderEUProcess(BaseESCOContentWebTest):

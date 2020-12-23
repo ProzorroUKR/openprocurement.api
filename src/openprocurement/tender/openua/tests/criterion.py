@@ -33,6 +33,8 @@ from openprocurement.tender.openua.tests.criterion_blanks import (
     get_requirement_evidence,
     validate_requirement_evidence_document,
     create_patch_delete_evidences_from_requirement,
+    put_rg_requirement_valid,
+    put_rg_requirement_invalid,
 )
 
 
@@ -70,6 +72,8 @@ class TenderCriteriaRGRequirementTestMixin(object):
     test_create_rg_requirement_valid = snitch(create_rg_requirement_valid)
     test_create_rg_requirement_invalid = snitch(create_rg_requirement_invalid)
     test_patch_rg_requirement = snitch(patch_rg_requirement)
+    test_put_tender_criteria_valid = snitch(put_rg_requirement_valid)
+    test_put_tender_criteria_invalid = snitch(put_rg_requirement_invalid)
     test_get_rg_requirement = snitch(get_rg_requirement)
 
     test_requirement_data = {
@@ -78,6 +82,7 @@ class TenderCriteriaRGRequirementTestMixin(object):
         u"dataType": u"boolean",
         u"expectedValue": u"true",
     }
+    allowed_put_statuses = ["active.tendering"]
 
     @patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
     def setUp(self):
