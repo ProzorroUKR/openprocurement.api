@@ -990,7 +990,7 @@ class RequirementResponse(Model):
             minValue = requirement.get("minValue")
             maxValue = requirement.get("maxValue")
             if expectedValue and validate_value_type(expectedValue, data_type) != valid_value:
-                raise ValidationError("value and requirementGroup.expectedValue must be equal")
+                raise ValidationError("value and requirement.expectedValue must be equal")
             if minValue and valid_value < validate_value_type(minValue, data_type):
                 raise ValidationError("value should be higher than eligibleEvidence.minValue")
             if maxValue and valid_value > validate_value_type(maxValue, data_type):
@@ -1119,7 +1119,7 @@ class BidResponsesMixin(Model):
     requirementResponses = ListType(
         ModelType(RequirementResponse, required=True),
         default=list(),
-        validators=[validate_response_requirement_uniq],
+        validators=[validate_object_id_uniq, validate_response_requirement_uniq],
     )
 
     def validate_selfEligible(self, data, value):

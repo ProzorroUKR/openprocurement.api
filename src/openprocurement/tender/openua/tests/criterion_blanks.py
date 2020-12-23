@@ -35,6 +35,25 @@ def create_tender_criteria_invalid(self):
     invalid_criteria[0]["relatesTo"] = "lot"
 
     request_path = "/tenders/{}/criteria?acc_token={}&bulk=true".format(self.tender_id, self.tender_token)
+
+    response = self.app.post_json(request_path, {"data": []}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "data", "description": "Data not available"}]
+    )
+
+    response = self.app.post_json(request_path, {"data": ["some text"]}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "data", "description": "Data not available"}]
+    )
+
     response = self.app.post_json(request_path, {"data": invalid_criteria}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
