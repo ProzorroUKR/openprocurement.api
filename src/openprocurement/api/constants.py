@@ -26,6 +26,9 @@ SANDBOX_MODE = os.environ.get("SANDBOX_MODE", False)
 DOCUMENT_BLACKLISTED_FIELDS = ("title", "format", "url", "dateModified", "hash")
 DOCUMENT_WHITELISTED_FIELDS = ("id", "datePublished", "author", "__parent__")
 
+# Tenders in which could be used criteria connected with guarantee
+GUARANTEE_ALLOWED_TENDERS = ("belowThreshold", "aboveThresholdUA", "aboveThresholdEU", "esco")
+
 WORKING_DAYS = {}
 HOLIDAYS = standards.load("calendars/workdays_off.json")
 for date_str in HOLIDAYS:

@@ -54,6 +54,7 @@ from openprocurement.api.constants import (
     RELEASE_ECRITERIA_ARTICLE_17,
     CRITERION_REQUIREMENT_STATUSES_FROM,
     RELEASE_GUARANTEE_CRITERION,
+    GUARANTEE_ALLOWED_TENDERS,
 )
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
 
@@ -871,17 +872,14 @@ class CriterionClassification(BaseClassification):
         parent = data["__parent__"]
         tender = get_tender(parent)
         tender_created = get_first_revision_date(tender, default=get_now())
-
-        if tender_created < RELEASE_GUARANTEE_CRITERION:
-            return
-
-        allowed_tenders = ("belowThreshold", "aboveThresholdUA", "aboveThresholdEU", "esco")
         criteria_to_check = ("CRITERION.OTHER.CONTRACT.GUARANTEE", "CRITERION.OTHER.BID.GUARANTEE")
+
         if (
-                code in criteria_to_check
-                and tender.procurementMethodType not in allowed_tenders
+                tender_created >= RELEASE_GUARANTEE_CRITERION
+                and code in criteria_to_check
+                and tender.procurementMethodType not in GUARANTEE_ALLOWED_TENDERS
         ):
-            raise ValidationError(u"{} is available only in {}".format(code, allowed_tenders))
+            raise ValidationError(u"{} is available only in {}".format(code, GUARANTEE_ALLOWED_TENDERS))
 
 
 class Criterion(Model):

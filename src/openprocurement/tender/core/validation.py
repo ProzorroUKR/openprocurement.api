@@ -26,6 +26,8 @@ from openprocurement.api.constants import (
     MINIMAL_STEP_VALIDATION_FROM,
     CRITERION_REQUIREMENT_STATUSES_FROM,
     RELEASE_SIMPLE_DEFENSE_FROM,
+    RELEASE_GUARANTEE_CRITERION,
+    GUARANTEE_ALLOWED_TENDERS,
 )
 from openprocurement.api.utils import (
     get_now,
@@ -941,7 +943,35 @@ def validate_tender_activate_with_language_criteria(request, **kwargs):
         raise_operation_error(request, "Tender must contain {} criterion".format(needed_criterion))
 
 
-def validate_tender_status_update_not_in_pre_qualificaton(request, **kwargs):
+def validate_tender_guarantee(request):
+    tender = request.context
+    data = request.validated["data"]
+    tender_type = request.validated["tender"].procurementMethodType
+    tender_created = get_first_revision_date(tender, default=get_now())
+
+    if (
+            tender_created < RELEASE_GUARANTEE_CRITERION
+            or tender_type not in GUARANTEE_ALLOWED_TENDERS
+            or request.validated["tender_src"]["status"] == data.get("status")
+            or data.get("status") not in ["active", "active.tendering"]
+    ):
+        return
+
+    amount = data["guarantee"]["amount"] if data["guarantee"] else -1
+    needed_criterion = "CRITERION.OTHER.BID.GUARANTEE"
+    tender_criteria = [criterion.classification.id for criterion in tender.criteria if criterion.classification]
+
+    if (
+            (amount == 0 and needed_criterion in tender_criteria)
+            or (amount >= 0 and needed_criterion not in tender_criteria)
+    ):
+        raise_operation_error(
+            request,
+            u"Should be specified {} and 'guarantee.amount' more than 0".format(needed_criterion)
+        )
+
+
+def validate_tender_status_update_not_in_pre_qualificaton(request):
     tender = request.context
     data = request.validated["data"]
     if (

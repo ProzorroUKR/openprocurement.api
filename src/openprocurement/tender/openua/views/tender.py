@@ -6,6 +6,7 @@ from openprocurement.tender.core.validation import (
     validate_tender_activate_with_criteria,
     validate_tender_activate_with_language_criteria,
     validate_item_quantity,
+    validate_tender_guarantee,
 )
 from openprocurement.tender.belowthreshold.views.tender import TenderResource
 from openprocurement.tender.openua.validation import validate_patch_tender_ua_data
@@ -37,6 +38,7 @@ class TenderUAResource(TenderResource):
             validate_tender_activate_with_criteria,
             validate_tender_activate_with_language_criteria,
             validate_item_quantity,
+            validate_tender_guarantee,
         ),
         permission="edit_tender",
     )
