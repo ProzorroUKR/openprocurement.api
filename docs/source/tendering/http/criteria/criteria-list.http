@@ -11,10 +11,12 @@ Content-Type: application/json; charset=UTF-8
         {
           "requirements": [
             {
-              "dataType": "boolean", 
+              "status": "active", 
               "title": "Updated title", 
-              "id": "4e7c2e5730574b87a39eed9d06bc1eb1", 
+              "dataType": "boolean", 
+              "datePublished": "2020-09-08T01:00:00+03:00", 
               "expectedValue": "true", 
+              "id": "4e7c2e5730574b87a39eed9d06bc1eb1", 
               "eligibleEvidences": [
                 {
                   "title": "Документальне підтвердження", 
@@ -31,10 +33,12 @@ Content-Type: application/json; charset=UTF-8
               ]
             }, 
             {
-              "dataType": "boolean", 
+              "status": "active", 
               "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку", 
-              "id": "7e0c482b657a4cb8bbcfb850c2069acd", 
+              "dataType": "boolean", 
+              "datePublished": "2020-09-08T01:00:00+03:00", 
               "expectedValue": "true", 
+              "id": "7e0c482b657a4cb8bbcfb850c2069acd", 
               "eligibleEvidences": [
                 {
                   "title": "Документальне підтвердження", 
@@ -51,10 +55,12 @@ Content-Type: application/json; charset=UTF-8
         {
           "requirements": [
             {
-              "dataType": "boolean", 
+              "status": "active", 
               "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку", 
-              "id": "acbf6c49e48047c3b2bbabe3547e1d57", 
+              "dataType": "boolean", 
+              "datePublished": "2020-09-08T01:00:00+03:00", 
               "expectedValue": "true", 
+              "id": "acbf6c49e48047c3b2bbabe3547e1d57", 
               "eligibleEvidences": [
                 {
                   "title": "Документальне підтвердження", 
@@ -106,10 +112,12 @@ Content-Type: application/json; charset=UTF-8
         {
           "requirements": [
             {
-              "dataType": "boolean", 
+              "status": "active", 
               "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку", 
-              "id": "0ca3dbd1704e4448904c18da557b7f9e", 
+              "dataType": "boolean", 
+              "datePublished": "2020-09-08T01:00:00+03:00", 
               "expectedValue": "true", 
+              "id": "0ca3dbd1704e4448904c18da557b7f9e", 
               "eligibleEvidences": [
                 {
                   "title": "Документальне підтвердження", 

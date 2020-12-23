@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
+from copy import copy
+
 from openprocurement.api.utils import (
     json_view,
     context_unpack,
     APIResource,
+    get_now,
 )
 from openprocurement.tender.core.utils import save_tender, apply_patch
 from openprocurement.tender.core.validation import (
@@ -10,6 +13,8 @@ from openprocurement.tender.core.validation import (
     validate_patch_requirement_data,
     validate_operation_ecriteria_objects,
     validate_patch_exclusion_ecriteria_objects,
+    validate_patch_requirement_objects,
+    validate_put_requirement_objects,
 )
 
 
@@ -66,7 +71,7 @@ class BaseTenderCriteriaRGRequirementResource(APIResource):
     @json_view(
         content_type="application/json",
         validators=(
-            validate_operation_ecriteria_objects,
+            validate_patch_requirement_objects,
             validate_patch_requirement_data,
         ),
         permission="edit_tender"
@@ -83,5 +88,44 @@ class BaseTenderCriteriaRGRequirementResource(APIResource):
             self.LOGGER.info(
                 "Updated  {}".format(requirement.id),
                 extra=context_unpack(self.request, {"MESSAGE_ID": "requirement_group_requirement_patch"}),
+            )
+            return {"data": requirement.serialize("view")}
+
+    @json_view(
+        content_type="application/json",
+        validators=(
+            validate_put_requirement_objects,
+            validate_patch_requirement_data,
+        ),
+        permission="edit_tender"
+    )
+    def put(self):
+        old_requirement = self.request.context
+        requirement = old_requirement
+        if self.request.validated["data"].get("status") != "cancelled":
+            model = type(old_requirement)
+            data = copy(self.request.validated["data"])
+            for attr_name in type(old_requirement)._fields:
+                if data.get(attr_name) is None:
+                    data[attr_name] = getattr(old_requirement, attr_name)
+            requirement = model(data)
+            requirement.datePublished = get_now()
+            self.request.validated["requirement_group"].requirements.append(requirement)
+
+        old_requirement.status = "cancelled"
+        old_requirement.dateModified = get_now()
+
+        tender = self.request.validated["tender"]
+        if (
+                self.request.authenticated_role == "tender_owner"
+                and tender.status == "active.tendering"
+                and hasattr(tender, "invalidate_bids_data")
+        ):
+            tender.invalidate_bids_data()
+
+        if save_tender(self.request):
+            self.LOGGER.info(
+                "New version of requirement {}".format(requirement.id),
+                extra=context_unpack(self.request, {"MESSAGE_ID": "requirement_group_requirement_put"}),
             )
             return {"data": requirement.serialize("view")}

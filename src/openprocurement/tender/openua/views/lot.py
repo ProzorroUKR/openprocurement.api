@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from openprocurement.tender.belowthreshold.validation import validate_delete_lot_related_criterion
 from openprocurement.tender.belowthreshold.views.lot import TenderLotResource
 from openprocurement.api.utils import get_now, json_view, context_unpack
 from openprocurement.tender.core.validation import (
@@ -79,6 +80,7 @@ class TenderUaLotResource(TenderLotResource):
         validators=(
             validate_lot_operation_not_in_allowed_status,
             validate_operation_with_lot_cancellation_in_pending("lot"),
+            validate_delete_lot_related_criterion,
             validate_tender_period_extension,
         ),
     )

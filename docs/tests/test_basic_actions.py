@@ -1843,6 +1843,69 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.get('/tenders/{}/criteria/{}'.format(self.tender_id, criteria_id_1))
             self.assertEqual(response.status, '200 OK')
 
+        self.set_status("active.tendering")
+        with open(TARGET_DIR + 'criteria/put-exclusion-criteria-requirement.http', 'wb') as self.app.file_obj:
+            response = self.app.put_json(
+                '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}'.format(
+                    self.tender_id, criteria_id_2, rg_id_2, requirement_id_2, owner_token),
+                {'data': {
+                    'title': 'Updated title',
+                    'eligibleEvidences': [
+                        test_evidence_data,
+                    ]
+                }},
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'criteria/requirement-put-add-evidence.http', 'wb') as self.app.file_obj:
+            test_evidence_data_new = deepcopy(test_evidence_data)
+            test_evidence_data_new["title"] = "new, added by requirement PUT"
+            response = self.app.put_json(
+                '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}'.format(
+                    self.tender_id, criteria_id_2, rg_id_2, requirement_id_2, owner_token),
+                {'data': {
+                    'eligibleEvidences': [
+                        test_evidence_data,
+                        test_evidence_data_new
+                    ]
+                }},
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'criteria/requirement-put-update-evidence.http', 'wb') as self.app.file_obj:
+            test_evidence_data_new["title"] = "changed_new, changed by requirement PUT"
+            response = self.app.put_json(
+                '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}'.format(
+                    self.tender_id, criteria_id_2, rg_id_2, requirement_id_2, owner_token),
+                {'data': {
+                    'eligibleEvidences': [
+                        test_evidence_data,
+                        test_evidence_data_new
+                    ]
+                }},
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'criteria/requirement-put-delete-evidence.http', 'wb') as self.app.file_obj:
+            response = self.app.put_json(
+                '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}'.format(
+                    self.tender_id, criteria_id_2, rg_id_2, requirement_id_2, owner_token),
+                {'data': {
+                    'eligibleEvidences': []
+                }},
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'criteria/criteria-requirement-cancellation.http', 'wb') as self.app.file_obj:
+            response = self.app.put_json(
+                '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}'.format(
+                    self.tender_id, criteria_id_2, rg_id_2, requirement_id_2, owner_token),
+                {'data': {
+                    'status': 'cancelled'
+                }},
+            )
+            self.assertEqual(response.status, '200 OK')
+
     @mock.patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", parse_date(MOCK_DATETIME) - timedelta(days=1))
     def test_bid_requirement_response(self):
         tender_data = deepcopy(test_tender_data)

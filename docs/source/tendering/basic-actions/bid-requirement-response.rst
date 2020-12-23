@@ -103,6 +103,8 @@ Bid activation
 When you update bid to `active`/`pending` status or PATCH bid in these statuses, the validation is triggered
 that checks the compliance of the responses and criteria requirements.
 
+Responses are necessary only for criteria that have at least one requirement in status "active".
+
 Error when bid doesn't have response for one of criteria:
 
 .. include:: ../http/criteria/requirement-response-basic-data-1.http

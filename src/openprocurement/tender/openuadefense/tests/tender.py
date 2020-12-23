@@ -41,6 +41,7 @@ from openprocurement.tender.openuadefense.tests.tender_blanks import (
     # TenderUAProcessTest
     one_valid_bid_tender_ua,
     one_invalid_bid_tender,
+    patch_item_with_zero_quantity,
 )
 
 
@@ -67,6 +68,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin):
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
     test_tender_minimalstep_validation = snitch(tender_minimalstep_validation)
     test_patch_tender_minimalstep_validation = snitch(patch_tender_minimalstep_validation)
+    test_patch_item_with_zero_quantity = snitch(patch_item_with_zero_quantity)
 
 
 class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):

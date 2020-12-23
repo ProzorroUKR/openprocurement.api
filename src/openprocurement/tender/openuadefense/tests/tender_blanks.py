@@ -3,9 +3,10 @@ from copy import deepcopy
 from datetime import timedelta
 from iso8601 import parse_date
 
-from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_criteria
 from openprocurement.api.constants import NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM, CPV_ITEMS_CLASS_FROM
 from openprocurement.tender.core.models import get_now
+from openprocurement.tender.core.tests.criteria_utils import add_criteria
 
 from openprocurement.tender.openuadefense.models import Tender
 
@@ -736,3 +737,30 @@ def one_invalid_bid_tender(self):
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
+
+
+def patch_item_with_zero_quantity(self):
+    self.create_tender()
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    item = response.json["data"]["items"][0]
+    item["quantity"] = 0
+    response = self.app.patch_json("/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+                                   {"data": {"items": [item]}})
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["items"][0]["quantity"], 0)
+    item = response.json["data"]["items"][0]
+    item["quantity"] = 5
+    response = self.app.patch_json("/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+                                   {"data": {"items": [item]}})
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["items"][0]["quantity"], 5)
+    criteria = deepcopy(test_criteria)
+    criteria[0]["relatesTo"] = "item"
+    criteria[0]["relatedItem"] = item["id"]
+    add_criteria(self, criteria=criteria)
+    item["quantity"] = 0
+    response = self.app.patch_json("/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+                                   {"data": {"items": [item]}})
+    self.assertEqual(response.status, "200 OK")

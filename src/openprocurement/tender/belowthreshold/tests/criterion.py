@@ -41,6 +41,7 @@ class TenderCriteriaRGRequirementTest(
     initial_data = test_tender_data
     test_lots_data = test_lots
     initial_status = "draft"
+    allowed_put_statuses = ["active.enquiries", "active.tendering"]
 
 
 class TenderCriteriaRGRequirementEvidenceTest(

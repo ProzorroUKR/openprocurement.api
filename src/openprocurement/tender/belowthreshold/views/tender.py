@@ -8,6 +8,7 @@ from openprocurement.tender.belowthreshold.utils import check_status
 from openprocurement.tender.core.validation import (
     validate_patch_tender_data,
     validate_tender_not_in_terminated_status,
+    validate_item_quantity,
 )
 
 
@@ -116,6 +117,7 @@ class TenderResource(APIResource):
         validators=(
             validate_patch_tender_data,
             validate_tender_not_in_terminated_status,
+            validate_item_quantity,
         ),
         permission="edit_tender",
     )

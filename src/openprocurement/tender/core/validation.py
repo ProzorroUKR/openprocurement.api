@@ -768,6 +768,13 @@ def validate_tender_not_in_terminated_status(request):
         raise_operation_error(request, "Can't update tender in current ({}) status".format(tender_status))
 
 
+def validate_item_quantity(request):
+    items = request.validated["data"].get("items", [])
+    for item in items:
+        if item.get("quantity") is not None and not item["quantity"]:
+            validate_related_criterion(request, item["id"], action="set to 0 quantity of", relatedItem="item")
+
+
 def validate_absence_of_pending_accepted_satisfied_complaints(request, cancellation=None):
     """
     Disallow cancellation of tenders and lots that have any complaints in affected statuses
@@ -842,6 +849,24 @@ def validate_tender_change_status_with_cancellation_lot_pending(request):
             request,
             "Can't update tender with pending cancellation in one of exists lot",
         )
+
+
+def validate_related_criterion(request, relatedItem_id, action="cancel", relatedItem="lot"):
+    tender = request.validated["tender"]
+    if hasattr(tender, "criteria"):
+        related_criteria = [
+            criterion
+            for criterion in tender.criteria
+            for rg in criterion.requirementGroups
+            for requirement in rg.requirements
+            if criterion.relatedItem == relatedItem_id and requirement.status == "active"
+        ]
+        if related_criteria:
+            raise_operation_error(
+                request, "Can't {} {} {} while related criterion has active requirements".format(
+                    action, relatedItem_id, relatedItem
+                )
+            )
 
 
 def validate_tender_activate_with_criteria(request):
@@ -1816,6 +1841,21 @@ def base_validate_operation_ecriteria_objects(request, valid_statuses="", obj_na
 
 def validate_operation_ecriteria_objects(request):
     valid_statuses = ["draft", "draft.pending", "draft.stage2", "active.tendering"]
+    base_validate_operation_ecriteria_objects(request, valid_statuses)
+
+
+def validate_post_evidence_objects(request):
+    valid_statuses = ["draft", "draft.pending", "draft.stage2"]
+    base_validate_operation_ecriteria_objects(request, valid_statuses)
+
+
+def validate_patch_requirement_objects(request):
+    valid_statuses = ["draft", "draft.pending", "draft.stage2"]
+    base_validate_operation_ecriteria_objects(request, valid_statuses)
+
+
+def validate_put_requirement_objects(request):
+    valid_statuses = ["active.tendering"]
     base_validate_operation_ecriteria_objects(request, valid_statuses)
 
 

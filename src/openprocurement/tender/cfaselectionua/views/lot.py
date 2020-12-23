@@ -5,6 +5,7 @@ from openprocurement.tender.core.validation import validate_lot_data, validate_p
 from openprocurement.tender.core.utils import save_tender, optendersresource, apply_patch
 
 from openprocurement.tender.cfaselectionua.validation import validate_lot_operation
+from openprocurement.tender.belowthreshold.validation import validate_delete_lot_related_criterion
 
 
 @optendersresource(
@@ -65,7 +66,7 @@ class TenderLotResource(APIResource):
             )
             return {"data": self.request.context.serialize("view")}
 
-    @json_view(permission="edit_tender", validators=(validate_lot_operation,))
+    @json_view(permission="edit_tender", validators=(validate_lot_operation, validate_delete_lot_related_criterion))
     def delete(self):
         """Lot deleting
         """

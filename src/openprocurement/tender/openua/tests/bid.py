@@ -70,6 +70,7 @@ from openprocurement.tender.openua.tests.bid_blanks import (
     patch_bid_requirement_response_evidence,
     get_bid_requirement_response_evidence,
     bid_activate,
+    bid_activate_with_cancelled_tenderer_criterion,
 )
 
 
@@ -130,6 +131,7 @@ class TenderBidRequirementResponseEvidenceTestMixin(object):
     test_patch_bid_requirement_response_evidence = snitch(patch_bid_requirement_response_evidence)
     test_get_bid_requirement_response_evidence = snitch(get_bid_requirement_response_evidence)
     test_bid_activate = snitch(bid_activate)
+    test_bid_activate_with_cancelled_tenderer_criterion = snitch(bid_activate_with_cancelled_tenderer_criterion)
 
     initial_criteria = test_criteria
 
