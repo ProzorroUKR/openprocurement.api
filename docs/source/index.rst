@@ -18,6 +18,7 @@ Contents:
    planning/index
    contracting/index
    agreementcfaua/index
+   frameworks/index
    relocation/index
    medicines-registry/index
    centralized-procurements/index

@@ -1,0 +1,106 @@
+POST /api/2.5/frameworks HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 1790
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "description": "Назва предмета закупівлі", 
+    "classification": {
+      "scheme": "ДК021", 
+      "description": "Mustard seeds", 
+      "id": "03111600-8"
+    }, 
+    "title": "Узагальнена назва закупівлі", 
+    "qualificationPeriod": {
+      "endDate": "2020-11-07T01:00:00+03:00"
+    }, 
+    "additionalClassifications": [
+      {
+        "scheme": "ДК003", 
+        "id": "17.21.1", 
+        "description": "папір і картон гофровані, паперова й картонна тара"
+      }
+    ], 
+    "procuringEntity": {
+      "contactPoint": {
+        "telephone": "0440000000", 
+        "email": "aa@aa.com", 
+        "name": "Назва організації(ЦЗО)"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "40996564", 
+        "legalName": "Назва організації(ЦЗО)"
+      }, 
+      "kind": "central", 
+      "name": "Повна назва юридичної організації.", 
+      "address": {
+        "countryName": "Україна", 
+        "postalCode": "01220", 
+        "region": "м. Київ", 
+        "streetAddress": "вул. Банкова, 11, корпус 1", 
+        "locality": "м. Київ"
+      }
+    }
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json; charset=UTF-8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/40b48e4878534db1bf228d5928f8f1d9
+{
+  "access": {
+    "transfer": "d7861475c6df4a558e65288f6599a30d", 
+    "token": "7c6a46e300bb41438ef626232028950b"
+  }, 
+  "data": {
+    "status": "draft", 
+    "description": "Назва предмета закупівлі", 
+    "classification": {
+      "scheme": "ДК021", 
+      "description": "Mustard seeds", 
+      "id": "03111600-8"
+    }, 
+    "prettyID": "UA-F-2020-09-08-000001", 
+    "qualificationPeriod": {
+      "endDate": "2020-11-07T01:00:00+03:00"
+    }, 
+    "frameworkType": "electronicCatalogue", 
+    "dateModified": "2020-09-08T01:00:00+03:00", 
+    "date": "2020-09-08T01:00:00+03:00", 
+    "additionalClassifications": [
+      {
+        "scheme": "ДК003", 
+        "id": "17.21.1", 
+        "description": "папір і картон гофровані, паперова й картонна тара"
+      }
+    ], 
+    "procuringEntity": {
+      "contactPoint": {
+        "email": "aa@aa.com", 
+        "telephone": "0440000000", 
+        "name": "Назва організації(ЦЗО)"
+      }, 
+      "identifier": {
+        "scheme": "UA-EDR", 
+        "id": "40996564", 
+        "legalName": "Назва організації(ЦЗО)"
+      }, 
+      "name": "Повна назва юридичної організації.", 
+      "kind": "central", 
+      "address": {
+        "countryName": "Україна", 
+        "postalCode": "01220", 
+        "streetAddress": "вул. Банкова, 11, корпус 1", 
+        "region": "м. Київ", 
+        "locality": "м. Київ"
+      }
+    }, 
+    "owner": "broker", 
+    "title": "Узагальнена назва закупівлі", 
+    "id": "40b48e4878534db1bf228d5928f8f1d9"
+  }
+}
+

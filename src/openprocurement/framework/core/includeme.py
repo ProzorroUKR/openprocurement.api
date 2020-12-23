@@ -28,7 +28,7 @@ def includeme(config):
     config.add_request_method(extract_doc, "submission", reify=True)
     config.add_request_method(extract_doc, "qualification", reify=True)
 
-    # tender procurementMethodType plugins support
+    # framework frameworkType plugins support
     config.registry.framework_frameworkTypes = {}
     config.registry.submission_submissionTypes = {}
     config.registry.qualification_qualificationTypes = {}
