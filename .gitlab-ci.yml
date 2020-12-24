@@ -576,6 +576,32 @@ test_historical_tender_ecriteria:
     - .test_before_ecriteria
     - .test_historical_tender
 
+.test_framework_core:
+  variables:
+    TESTS_PATH: src/openprocurement/framework/core/tests
+    COV_PATH: src/openprocurement/framework/core
+    COV_FILE: .coveragerc
+    KUBERNETES_MEMORY_REQUEST: 500Mi
+    KUBERNETES_CPU_REQUEST: 500m
+
+test_framework_core:
+  extends:
+    - .test
+    - .test_framework_core
+
+.test_framework_electroniccatalogue:
+  variables:
+    TESTS_PATH: src/openprocurement/framework/electroniccatalogue/tests
+    COV_PATH: src/openprocurement/framework/electroniccatalogue
+    COV_FILE: .coveragerc
+    KUBERNETES_MEMORY_REQUEST: 500Mi
+    KUBERNETES_CPU_REQUEST: 500m
+
+test_framework_electroniccatalogue:
+  extends:
+    - .test
+    - .test_framework_electroniccatalogue
+
 .test_tender_comp_stage1:
   variables:
     TESTS_PATH: src/openprocurement/tender/competitivedialogue/tests/stage1

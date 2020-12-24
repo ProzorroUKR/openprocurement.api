@@ -121,15 +121,15 @@ class UtilsFrameworkTest(BaseFrameworkTest):
     def test_apply_patch(self, mocked_apply_data_patch, mocked_save_framework):
         request = MagicMock()
         data = deepcopy(test_framework_data)
-        request.validated = {"data": data}
+        request.validated = {"data": data, "framework": data}
         mocked_save_framework.return_value = True
 
         request.context.serialize.return_value = data
-        res = apply_patch(request)
+        res = apply_patch(request, "framework")
         self.assertTrue(res)
 
         mocked_apply_data_patch.return_value = data
-        res = apply_patch(request)
+        res = apply_patch(request, "framework")
         self.assertEqual(res, data)
 
     def test_generate_framework_id(self):
