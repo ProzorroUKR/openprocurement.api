@@ -1027,6 +1027,18 @@ class RequirementResponse(Model):
         ):
             raise ValidationError(u"Only award in status 'active' could have requirement response for criteria "
                                   "requirement with source: 'winner'")
+        elif (
+                criterion.source == "winner"
+                and parent.status == "active"
+                and criterion.classification.id.startswith("CRITERION.OTHER.CONTRACT.GUARANTEE")
+        ):
+            tender = get_tender(parent)
+            contracts = tender.contracts
+            for contract in contracts:
+                if contract.awardId == parent.id:
+                    if contract.status == "pending":
+                        raise ValidationError(u"Forbidden edit requirementResponse if contract not in status `pending`")
+                    break
 
         return requirement_ref
 
