@@ -155,3 +155,72 @@ Cancelling accepted complaint by Reviewer
 
 .. include:: ../http/complaints/award-complaint-accepted-stopped.http
    :code:
+
+Complaints in Defense open tender
+=================================
+Complaint periods creation in Defense open tender differs from other procurement methods.
+
+In moment of award activation (status changes to `active`):
+
+- Complaint period is created for this award
+- Complaint periods are created/updated for awards with `unsuccessful` status (if lots - only for active lots)
+
+Claims are denied in Defense open tender
+
+List awards after auction
+-----------------------------------------
+We have tender on qualification stage with 3 bids and one pending award
+
+.. include:: ../defense/http/new-complaints-list-award.http
+   :code:
+
+Disqualification of first bid award
+-----------------------------------------
+Tender owner patches first bid award from `pending` to `unsuccessful`.
+No complaint period for the award was created.
+
+.. include:: ../defense/http/new-complaints-patch-award-unsuccessful.http
+   :code:
+
+Activation of second bid award
+-----------------------------------------
+Tender owner patches second bid award from `pending` to `active`.
+Complaint period for the second bid award was created.
+
+.. include:: ../defense/http/new-complaints-patch-award-active.http
+   :code:
+
+Also Complaint period for the first (unsuccessful) bid award was created.
+
+.. include:: ../defense/http/new-complaints-list-award-2.http
+   :code:
+
+Cancellation of second bid award
+-----------------------------------------
+Tender owner patches second bid award from `active` to `cancelled`.
+Complaint period for the award remains unchanged.
+
+.. include:: ../defense/http/new-complaints-patch-award-cancelled.http
+   :code:
+
+Disqualification of second bid award
+-----------------------------------------
+Tender owner patches second bid award from `pending` to `unsuccessful`.
+No complaint period for the award was created.
+
+.. include:: ../defense/http/new-complaints-patch-award-unsuccessful-2.http
+   :code:
+
+Activation of third bid award
+-----------------------------------------
+One day time delay left.
+Tender owner patches third bid award from `pending` to `active`.
+Complaint period for the third bid award was created.
+
+.. include:: ../defense/http/new-complaints-patch-award-active-2.http
+   :code:
+
+Also complaint period for the first and second (unsuccessful) bid award was created/updated.
+
+.. include:: ../defense/http/new-complaints-list-award-3.http
+   :code:
