@@ -8,7 +8,7 @@ from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.openuadefense.tests.tender import BaseTenderUAWebTest
 from openprocurement.tender.openuadefense.tests.base import test_tender_data
 from openprocurement.tender.belowthreshold.tests.base import test_organization
-from openprocurement.tender.openua.tests.base import test_bids
+from openprocurement.tender.openua.tests.base import test_bids as base_test_bids
 
 
 from tests.base.constants import DOCS_URL, AUCTIONS_URL
@@ -454,13 +454,14 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '201 Created')
 
 
+test_bids = deepcopy(base_test_bids)
 bid_3 = deepcopy(test_bids[0])
 bid_3["value"]["amount"] = 489
-test_bids.append(deepcopy(bid_3))
+test_bids.append(bid_3)
 
 for i in test_bids:
     i["selfEligible"] = True
-    i["selfEligible"] = True
+    i["selfQualified"] = True
 
 
 class TenderUADefenceNewComplaintsResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
