@@ -6,7 +6,7 @@ from uuid import uuid4
 
 from datetime import timedelta
 
-from openprocurement.api.constants import SANDBOX_MODE, RELEASE_2020_04_19
+from openprocurement.api.constants import SANDBOX_MODE, RELEASE_2020_04_19, GUARANTEE_ALLOWED_TENDERS
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.models import Tender
