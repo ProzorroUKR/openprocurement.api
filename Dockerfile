@@ -19,4 +19,4 @@ ENV PYTHONPATH "/app/src/:${PYTHONPATH}"
 
 EXPOSE 80
 
-CMD ["gunicorn", "--bind", "0.0.0.0:80", "-k", "gevent", "--paste", "/app/etc/service.ini", "--graceful-timeout=60"]
+CMD ["gunicorn", "--bind", "0.0.0.0:80", "-k", "gevent", "--paste", "/app/etc/service.ini", "--graceful-timeout=60", "--timeout=360"]

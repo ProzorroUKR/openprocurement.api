@@ -50,6 +50,9 @@ entry_points = {
     "paste.app_factory": [
         "main = openprocurement.api.app:main"
     ],
+    "paste.filter_app_factory": [
+        "translogger = openprocurement.api.translogger:make_filter"
+    ],
     "openprocurement.api.plugins": [
         "api = openprocurement.api.includeme:includeme",
         "tender.core = openprocurement.tender.core.includeme:includeme",
