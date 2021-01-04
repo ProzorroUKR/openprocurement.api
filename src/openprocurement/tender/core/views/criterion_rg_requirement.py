@@ -109,6 +109,10 @@ class BaseTenderCriteriaRGRequirementResource(APIResource):
                 if data.get(attr_name) is None:
                     data[attr_name] = getattr(old_requirement, attr_name)
             requirement = model(data)
+
+            if old_requirement.to_primitive() == requirement.to_primitive():
+                return {"data": old_requirement.serialize("view")}
+
             requirement.datePublished = get_now()
             self.request.validated["requirement_group"].requirements.append(requirement)
 
