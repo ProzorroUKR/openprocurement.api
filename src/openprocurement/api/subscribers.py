@@ -44,7 +44,7 @@ def set_renderer(event):
     request = event.request
 
     try:
-        json = request.json_body
+        json = request.json
     except ValueError:
         json = {}
     pretty = isinstance(json, dict) and json.get("options", {}).get("pretty") or request.params.get("opt_pretty")

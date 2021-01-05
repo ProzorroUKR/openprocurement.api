@@ -66,7 +66,7 @@ class SubmissionResource(APIResourceListing):
         framework = self.request.validated["framework"]
         submission.submissionType = framework["frameworkType"]
         submission.mode = framework.get("mode")
-        if self.request.json_body["data"].get("status") == "draft":
+        if self.request.json["data"].get("status") == "draft":
             submission.status = "draft"
         access = set_ownership(submission, self.request)
         self.request.validated["submission"] = submission

@@ -207,7 +207,7 @@ class TendersResource(APIResourceListing):
         if not tender.get("tenderID"):
             tender.tenderID = generate_tender_id(get_now(), self.db, self.server_id)
         self.request.registry.notify(TenderInitializeEvent(tender))
-        if self.request.json_body["data"].get("status") == "draft":
+        if self.request.json["data"].get("status") == "draft":
             tender.status = "draft"
         access = set_ownership(tender, self.request)
         self.request.validated["tender"] = tender
