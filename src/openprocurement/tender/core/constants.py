@@ -29,6 +29,7 @@ FIRST_STAGE_PROCUREMENT_TYPES = {
     "aboveThresholdEU",
     "aboveThresholdUA",
     "aboveThresholdUA.defense",
+    "simple.defense",
     PRICEQUOTATION
 }
 

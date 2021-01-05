@@ -17,7 +17,8 @@ from openprocurement.tender.limited.tests.base import (
 )
 from openprocurement.tender.openeu.tests.base import test_tender_data as openeu_tender_data
 from openprocurement.tender.openua.tests.base import test_tender_data as openua_tender_data
-from openprocurement.tender.openuadefense.tests.base import test_tender_data as defense_tender_data
+from openprocurement.tender.openuadefense.tests.base import test_tender_data as openuadefense_tender_data
+from openprocurement.tender.openuadefense.tests.base import test_tender_data as simpledefense_tender_data
 from openprocurement.tender.cfaselectionua.tests.tender import tender_data as cfa_selection_tender_data
 from openprocurement.tender.pricequotation.tests.data import test_tender_data as pricequotation_tender_data
 from copy import deepcopy
@@ -292,7 +293,8 @@ test_tenders = [
     negotiation_quick_tender_data,
     openeu_tender_data,
     openua_tender_data,
-    defense_tender_data,
+    openuadefense_tender_data,
+    simpledefense_tender_data,
     pricequotation_tender_data
 ]
 
@@ -302,7 +304,7 @@ def test_success_plan_tenders_creation(app, request_tender_data):
     app.authorization = ("Basic", ("broker", "broker"))
     request_plan_data = deepcopy(test_plan_data)
 
-    if request_tender_data["procurementMethodType"] == "aboveThresholdUA.defense":
+    if request_tender_data["procurementMethodType"] in ("aboveThresholdUA.defense", "simple.defense"):
         request_plan_data['procuringEntity']['kind'] = 'defense'
     plan = create_plan_for_tender(app, request_tender_data, request_plan_data)
 

@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
-from openprocurement.planning.api.tests.base import app, singleton_app, test_plan_data, generate_docservice_url
 from copy import deepcopy
+from mock import patch
+from datetime import timedelta
+
+from openprocurement.planning.api.tests.base import app, singleton_app, test_plan_data, generate_docservice_url
+from openprocurement.api.utils import get_now
 import pytest
 
 
@@ -377,6 +381,7 @@ def test_fail_update_complete_or_cancelled_plan(app, status):
     [
         "aboveThresholdUA",
         "aboveThresholdUA.defense",
+        "simple.defense",
         "aboveThresholdEU",
         "esco",
         "competitiveDialogueUA",
@@ -390,7 +395,14 @@ def test_fail_complete_manually(app, value):
     test_data["status"] = "scheduled"
     test_data["tender"]["procurementMethodType"] = value
     if value == "aboveThresholdUA.defense":
-        response = app.post_json("/plans", {"data": test_data}, status=403)
+        patch_date = get_now() + timedelta(days=1)
+    else:
+        patch_date = get_now() - timedelta(days=1)
+
+    if value in ("aboveThresholdUA.defense", "simple.defense"):
+
+        with patch("openprocurement.planning.api.validation.RELEASE_SIMPLE_DEFENSE_FROM", patch_date):
+            response = app.post_json("/plans", {"data": test_data}, status=403)
         assert response.status == "403 Forbidden"
         assert response.json["errors"] == [
             {u'description': u'procuringEntity with general kind cannot publish this type of procedure.'
@@ -402,7 +414,8 @@ def test_fail_complete_manually(app, value):
         ]
         test_data["procuringEntity"]["kind"] = "defense"
 
-    response = app.post_json("/plans", {"data": test_data})
+    with patch("openprocurement.planning.api.validation.RELEASE_SIMPLE_DEFENSE_FROM", patch_date):
+        response = app.post_json("/plans", {"data": test_data})
     assert response.status == "201 Created"
     assert response.json["data"]["status"] == "scheduled"
     plan_id = response.json["data"]["id"]

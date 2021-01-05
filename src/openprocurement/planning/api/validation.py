@@ -5,7 +5,13 @@ from openprocurement.api.validation import (
     _validate_accreditation_level,
     _validate_accreditation_level_mode,
 )
-from openprocurement.api.utils import update_logging_context, error_handler, upload_objects_documents
+from openprocurement.api.constants import RELEASE_SIMPLE_DEFENSE_FROM
+from openprocurement.api.utils import (
+    update_logging_context,
+    error_handler,
+    upload_objects_documents,
+    raise_operation_error,
+)
 from openprocurement.planning.api.models import Plan, Milestone
 from openprocurement.planning.api.constants import PROCEDURES
 from itertools import chain
@@ -20,6 +26,7 @@ def validate_plan_data(request, **kwargs):
     model = request.plan_from_data(data, create=False)
     _validate_plan_accreditation_level(request, model)
     data = validate_data(request, model, data=data)
+    _validate_plan_availability(request)
     _validate_plan_accreditation_level_mode(request)
     _validate_tender_procurement_method_type(request)
     return data
@@ -35,13 +42,27 @@ def _validate_plan_accreditation_level_mode(request):
     _validate_accreditation_level_mode(request, mode, "plan", "creation")
 
 
+def _validate_plan_availability(request):
+    data = request.validated["data"]
+    procurement_method_type = data.get("tender", {}).get("procurementMethodType", "")
+    now = get_now()
+    if (
+        (now >= RELEASE_SIMPLE_DEFENSE_FROM and procurement_method_type == "aboveThresholdUA.defense")
+        or (now < RELEASE_SIMPLE_DEFENSE_FROM and procurement_method_type == "simple.defense")
+    ):
+        raise_operation_error(
+            request,
+            "procedure with procurementMethodType = {} is not available".format(procurement_method_type),
+        )
+
+
 def _validate_tender_procurement_method_type(request):
     _procedures = deepcopy(PROCEDURES)
     if get_now() >= PLAN_ADDRESS_KIND_REQUIRED_FROM:
         _procedures[""] = ("centralizedProcurement", )
     procurement_method_types = list(chain(*_procedures.values()))
     procurement_method_types_without_above_threshold_ua_defense = list(
-        filter(lambda x: x != 'aboveThresholdUA.defense', procurement_method_types)
+        filter(lambda x: x not in ('aboveThresholdUA.defense', 'simple.defense'), procurement_method_types)
     )
     kind_allows_procurement_method_type_mapping = {
         "defense": procurement_method_types,
@@ -109,6 +130,30 @@ def validate_plan_status_update(request, **kwargs):
     status = request.validated["json_data"].get("status")
     if status == "draft" and request.validated["plan"].status != status:
         request.errors.add("body", "status", "Plan status can not be changed back to 'draft'")
+        request.errors.status = 422
+        raise error_handler(request)
+
+
+def validate_plan_procurementMethodType_update(request, **kwargs):
+    new_pmt = request.validated["json_data"].get("tender", {}).get("procurementMethodType", "")
+    current_pmt = request.validated["plan"].tender.procurementMethodType
+
+    now = get_now()
+
+    if (
+        current_pmt != new_pmt
+        and (
+            now < RELEASE_SIMPLE_DEFENSE_FROM and new_pmt == "simple.defense"
+            or now > RELEASE_SIMPLE_DEFENSE_FROM and new_pmt == "aboveThresholdUA.defense"
+        )
+    ):
+        request.errors.add(
+            "body",
+            "tender",
+            "Plan tender.procurementMethodType can not be changed from '{}' to '{}'".format(
+                current_pmt, new_pmt
+            )
+        )
         request.errors.status = 422
         raise error_handler(request)
 

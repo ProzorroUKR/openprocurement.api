@@ -2,9 +2,11 @@
 import os
 from datetime import timedelta
 from copy import deepcopy
+from mock import patch
 
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.api.utils import get_now
 from openprocurement.tender.openuadefense.models import Tender
 from openprocurement.tender.openuadefense.tests.periods import PERIODS
 from openprocurement.tender.openua.tests.base import (
@@ -88,11 +90,22 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
     periods = PERIODS
     tender_class = Tender
 
+    def setUp(self):
+        self.pathcer_release_date = patch("openprocurement.tender.core.validation.RELEASE_SIMPLE_DEFENSE_FROM",
+                                          get_now() + timedelta(days=1))
+        self.pathcer_release_date.start()
+        super(BaseTenderUAWebTest, self).setUp()
+
+    def tearDown(self):
+        super(BaseTenderUAWebTest, self).tearDown()
+        self.pathcer_release_date.stop()
+
     def set_enquiry_period_end(self):
         self.set_status("active.tendering", startend="enquiry_end")
 
     def set_complaint_period_end(self):
-        self.set_status("active.tendering", startend="complaint_end")
+        a = self.set_status("active.tendering", startend="complaint_end")
+        return a
 
 
 class BaseTenderUAContentWebTest(BaseTenderUAWebTest):

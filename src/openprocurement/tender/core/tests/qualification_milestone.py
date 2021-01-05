@@ -34,7 +34,8 @@ class TenderQualificationMilestone24HMixin(object):
         context = response.json["data"]["{}s".format(self.context_name)][0]
         bid_id = context.get("bid_id") or context.get("bidID")  # awards and qualifications developed on different days
         winner_token = self.initial_bids_tokens[bid_id]
-        upload_allowed_by_default = response.json["data"]["procurementMethodType"] == "aboveThresholdUA.defense"
+        upload_allowed_by_default = response.json["data"]["procurementMethodType"] in \
+                                    ("aboveThresholdUA.defense", "simple.defense")
         self.assert_upload_docs_status(bid_id, winner_token, success=upload_allowed_by_default)
 
         # invalid creation

@@ -22,6 +22,8 @@ from openprocurement.planning.api.tests.plan_blanks import (
     create_plan,
     get_plan,
     patch_plan,
+    patch_plan_to_simpledefense,
+    patch_plan_to_openuadefense,
     patch_plan_with_token,
     patch_plan_item_quantity,
     plan_token_invalid,
@@ -87,6 +89,8 @@ class PlanResourceTest(BasePlanTest):
     test_create_plan = snitch(create_plan)
     test_get_plan = snitch(get_plan)
     test_patch_plan = snitch(patch_plan)
+    test_patch_plan_to_simpledefense = snitch(patch_plan_to_simpledefense)
+    test_patch_plan_to_openuadefense = snitch(patch_plan_to_openuadefense)
     test_patch_plan_with_token = snitch(patch_plan_with_token)
     test_patch_plan_item_quantity = snitch(patch_plan_item_quantity)
     test_plan_token_invalid = snitch(plan_token_invalid)

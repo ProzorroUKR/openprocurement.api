@@ -31,6 +31,7 @@ from openprocurement.planning.api.validation import (
     validate_plan_with_tender,
     validate_plan_not_terminated,
     validate_plan_status_update,
+    validate_plan_procurementMethodType_update,
     validate_patch_milestone_data,
 )
 from openprocurement.tender.core.validation import (
@@ -339,6 +340,7 @@ class PlanResource(APIResource):
         validators=(
             validate_patch_plan_data,
             validate_plan_not_terminated,
+            validate_plan_procurementMethodType_update,
             validate_plan_status_update,
             validate_plan_with_tender,  # we need this because of the plans created before the statuses release
         ),
