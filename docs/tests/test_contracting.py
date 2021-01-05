@@ -45,7 +45,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 "endDate": (get_now() + timedelta(days=5)).isoformat()
             }
         test_tender_data.update({
-            "enquiryPeriod": {"endDate": (get_now() + timedelta(days=7)).isoformat()},
+            "enquiryPeriod": {"endDate": (get_now() + timedelta(days=8)).isoformat()},
             "tenderPeriod": {"endDate": (get_now() + timedelta(days=14)).isoformat()}
         })
         response = self.app.post_json('/tenders', {"data": test_tender_data})

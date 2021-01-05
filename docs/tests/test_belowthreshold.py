@@ -51,7 +51,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             }
 
         test_tender_data.update({
-            "enquiryPeriod": {"endDate": (get_now() + timedelta(days=7)).isoformat()},
+            "enquiryPeriod": {"endDate": (get_now() + timedelta(days=8)).isoformat()},
             "tenderPeriod": {"endDate": (get_now() + timedelta(days=14)).isoformat()}
         })
 
@@ -109,7 +109,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             }
 
         test_tender_data.update({
-            "enquiryPeriod": {"endDate": (get_now() + timedelta(days=7)).isoformat()},
+            "enquiryPeriod": {"endDate": (get_now() + timedelta(days=8)).isoformat()},
             "tenderPeriod": {"endDate": (get_now() + timedelta(days=14)).isoformat()}
         })
 
@@ -578,7 +578,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             }
 
         test_tender_data.update({
-            "enquiryPeriod": {"endDate": (get_now() + timedelta(days=7)).isoformat()},
+            "enquiryPeriod": {"endDate": (get_now() + timedelta(days=8)).isoformat()},
             "tenderPeriod": {"endDate": (get_now() + timedelta(days=14)).isoformat()}
         })
 

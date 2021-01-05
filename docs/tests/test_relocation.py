@@ -39,7 +39,7 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
                 "endDate": (get_now() + timedelta(days=5)).isoformat()
             }
         data.update({
-            "enquiryPeriod": {"endDate": (now + timedelta(days=7)).isoformat()},
+            "enquiryPeriod": {"endDate": (now + timedelta(days=8)).isoformat()},
             "tenderPeriod": {"endDate": (now + timedelta(days=14)).isoformat()}})
 
         self.app.authorization = ('Basic', ('broker', ''))
