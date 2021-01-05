@@ -18,7 +18,6 @@ class Root(object):
         # Submission permissions
         (Allow, "g:brokers", "create_submission"),
         (Allow, "g:chronograph", "edit_submission"),
-        (Allow, "g:bots", "edit_submission"),
         (Allow, "g:submission_owner", "edit_submission"),
         (Allow, "g:Administrator", "edit_submission"),
         # Qualification permissions

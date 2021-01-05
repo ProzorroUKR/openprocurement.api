@@ -2,11 +2,13 @@
 import os
 from copy import deepcopy
 from datetime import timedelta
+from iso8601 import parse_date
+from freezegun import freeze_time
 
 import standards
 
-from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.api.utils import get_now
+from openprocurement.api.tests.base import BaseWebTest, change_auth
+from openprocurement.api.utils import get_now, apply_data_patch
 from openprocurement.framework.core.tests.base import BaseCoreWebTest
 from openprocurement.framework.electroniccatalogue.models import ElectronicCatalogueFramework
 from openprocurement.framework.electroniccatalogue.tests.periods import PERIODS
@@ -102,6 +104,35 @@ test_electronicCatalogue_documents = [
     }
 ]
 
+tenderer = {
+    "name": "Державне управління справами",
+    "name_en": "State administration",
+    "identifier": {
+        "legalName_en": "dus.gov.ua",
+        "legalName": "Державне управління справами",
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/"
+    },
+    "address": {
+        "countryName": "Україна",
+        "postalCode": "01220",
+        "region": "м. Київ",
+        "locality": "м. Київ",
+        "streetAddress": "вул. Банкова, 11, корпус 1"
+    },
+    "contactPoint": {
+        "name": "Державне управління справами",
+        "name_en": "State administration",
+        "telephone": "0440000000"
+    },
+    "scale": "micro"
+}
+
+test_submission_data = {
+    "tenderers": [tenderer],
+}
+
 
 class BaseApiWebTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)
@@ -134,3 +165,58 @@ class ElectronicCatalogueContentWebTest(BaseElectronicCatalogueWebTest):
 
 class BaseDSElectronicCatalogueContentWebTest(ElectronicCatalogueContentWebTest):
     docservice = True
+
+
+class BaseSubmissionContentWebTest(ElectronicCatalogueContentWebTest):
+    initial_submission_data = None
+
+    def get_submission(self, role):
+        with change_auth(self.app, ("Basic", (role, ""))):
+            url = "/submissions/{}".format(self.submission_id)
+            response = self.app.get(url)
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.content_type, "application/json")
+        return response
+
+    def set_submission_status(self, status, extra=None):
+        self.now = get_now()
+        self.submission_document = self.db.get(self.submission_id)
+        self.submission_document_patch = {"status": status}
+        if extra:
+            self.submission_document_patch.update(extra)
+        self.save_submission_changes()
+        return self.get_submission("chronograph")
+
+    def save_submission_changes(self):
+        if self.submission_document_patch:
+            patch = apply_data_patch(self.submission_document, self.submission_document_patch)
+            self.submission_document.update(patch)
+            self.db.save(self.submission_document)
+            self.submission_document = self.db.get(self.submission_id)
+            self.submission_document_patch = {}
+
+    def create_submission(self):
+        response = self.app.post_json("/submissions", {"data": self.initial_submission_data})
+        self.submission_id = response.json["data"]["id"]
+        self.submission_token = response.json["access"]["token"]
+
+    def setUp(self):
+        super(BaseSubmissionContentWebTest, self).setUp()
+        self.initial_submission_data["frameworkID"] = self.framework_id
+        response = self.app.patch_json(
+            "/frameworks/{}?acc_token={}".format(self.framework_id, self.framework_token),
+            {"data": {"status": "active"}}
+        )
+        submission_date = parse_date(response.json["data"]["enquiryPeriod"]["endDate"])
+
+        self.freezer = freeze_time((submission_date + timedelta(hours=1)).isoformat(), tick=True)
+        self.freezer.start()
+
+    def tearDown(self):
+        self.freezer.stop()
+
+
+class SubmissionContentWebTest(BaseSubmissionContentWebTest):
+    def setUp(self):
+        super(SubmissionContentWebTest, self).setUp()
+        self.create_submission()

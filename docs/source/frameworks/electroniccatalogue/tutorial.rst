@@ -27,7 +27,7 @@ Uploading documentation
 Procuring entity can upload files into the created framework. Uploading should
 follow the :ref:`upload` rules.
 
-.. include:: http/upload-framework-document.http
+.. include:: tutorial/upload-framework-document.http
    :code:
 
 `201 Created` response code and `Location` header confirm document creation.
@@ -98,6 +98,126 @@ Checking the listing again reflects the new modification date:
 
 .. include:: tutorial/framework-listing.http
    :code:
+
+Registering submission
+----------------------
+
+After activating framework, users can register their submissions in period from `framework.enquiryPeriod.endDate` to `period.Date`:
+
+.. include:: tutorial/register-submission.http
+   :code:
+
+We have `201 Created` response code, `Location` header and body with extra properties.
+
+
+Uploading Submission documentation
+----------------------------------
+
+Documents can be uploaded/changed only for submission in `draft` status.
+
+Documents operations is same like in framework:
+
+.. include:: tutorial/upload-submission-document.http
+   :code:
+
+.. include:: tutorial/get-submission-documents.http
+   :code:
+
+
+Deleting submission
+-------------------
+
+Submission can be deleted only in `draft` status:
+
+.. include:: tutorial/deleting-submission.http
+   :code:
+
+
+Updating Submission
+-------------------
+
+Submission can be changed only in `draft` status:
+
+.. include:: tutorial/updating-submission.http
+   :code:
+
+Submission activation
+---------------------
+
+Submission can be activated before `period.endDate`
+
+.. include:: tutorial/activating-submission.http
+   :code:
+
+After activating the submission, a qualification object is automatically created and submission `qualificationID` field is filled.
+
+Let's check what submission registry contains:
+
+.. include:: tutorial/submission-listing.http
+   :code:
+
+Let's check created qualification object:
+
+.. include:: tutorial/get-qualification.http
+   :code:
+
+All operations with qualification object can do only `framework_owner`.
+
+
+Uploading qualification documentation
+-------------------------------------
+
+Documents can be uploaded/changed only for qualification in `pending` status.
+
+Documents operations is same like in framework:
+
+.. include:: tutorial/upload-qualification-document.http
+   :code:
+
+.. include:: tutorial/get-qualification-documents.http
+   :code:
+
+
+Canceled qualification
+----------------------
+
+Qualification can be cancelled only in `pending` status.
+
+.. include:: tutorial/unsuccessful-qualification.http
+   :code:
+
+After cancelling qualification, related submission changed status from `active` to `complete`.
+
+Let's check what happen with submissions after cancelling qualification:
+
+.. include:: tutorial/get-submissions-by-framework-id.http
+   :code:
+
+Approve qualification
+------------------------
+
+Qualification can be approved only in `pending` status.
+
+.. include:: tutorial/activation-qualification.http
+   :code:
+
+After approving qualification, related submission changed status from `active` to `complete`.
+
+Let's check what happen with submissions after approving qualification:
+
+.. include:: tutorial/get-submissions-by-framework-id.http
+   :code:
+
+Let's check what qualification registry contains:
+
+.. include:: tutorial/qualification-listing.http
+   :code:
+
+Let's check all qualifications for current framework:
+
+.. include:: tutorial/get-qualifications-by-framework-id.http
+   :code:
+
 
 Framework completing
 --------------------

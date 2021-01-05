@@ -1,0 +1,26 @@
+PATCH /api/2.5/qualifications/d3c7b3f81f2843eda4c93a9675056969?acc_token=7c6a46e300bb41438ef626232028950b HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 30
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "status": "active"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json; charset=UTF-8
+{
+  "data": {
+    "status": "active", 
+    "qualificationType": "electronicCatalogue", 
+    "frameworkID": "40b48e4878534db1bf228d5928f8f1d9", 
+    "submissionID": "7aa3936518124ba88869faa489fc4f23", 
+    "date": "2020-09-24T01:00:00+03:00", 
+    "dateModified": "2020-09-24T01:00:00+03:00", 
+    "id": "d3c7b3f81f2843eda4c93a9675056969"
+  }
+}
+
