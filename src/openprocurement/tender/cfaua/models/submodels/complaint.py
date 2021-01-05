@@ -99,7 +99,7 @@ class Complaint(BaseComplaint):
     def get_role(self):
         root = self.get_root()
         request = root.request
-        data = request.json_body["data"]
+        data = request.json["data"]
         auth_role = request.authenticated_role
         status = data.get("status", self.status)
         if auth_role == "Administrator":

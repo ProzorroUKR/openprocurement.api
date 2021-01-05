@@ -42,14 +42,14 @@ class AuthTest(TestBasicAuthAuthenticationPolicy):
         request = testing.DummyRequest()
         request.content_type = "application/json"
         request.method = "POST"
-        request.json_body = {'access': {"token": "token"}}
+        request.json = {'access': {"token": "token"}}
         self.assertPrincipals(request, "token")
 
     def test_principals_acc_token_body_utf8(self):
         request = testing.DummyRequest()
         request.content_type = "application/json"
         request.method = "POST"
-        request.json_body = {'access': {"token": b'm\xc3\xb6rk\xc3\xb6'.decode("utf8")}}
+        request.json = {'access': {"token": b'm\xc3\xb6rk\xc3\xb6'.decode("utf8")}}
         self.assertPrincipals(request, b'm\xc3\xb6rk\xc3\xb6'.decode("utf8"))
 
     def assertPrincipals(self, request, acc_token):
