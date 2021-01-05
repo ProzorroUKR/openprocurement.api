@@ -57,7 +57,8 @@ def validate_patch_submission_data(request):
     data = validate_json_data(request)
     data = validate_data(request, type(request.submission), True, data)
     submission = request.validated["submission"]
-    framework = get_framework_by_id(request.registry.db, submission.get("frameworkID"))
+    framework_id = data.get("frameworkID", submission["frameworkID"])
+    framework = get_framework_by_id(request.registry.db, framework_id)
     if not framework:
         raise_operation_error(
             request,
@@ -80,7 +81,7 @@ def validate_operation_submission_in_not_allowed_period(request):
     ):
         raise_operation_error(
             request,
-            "Submission cannot be {}d without framework enquiryPeriod or period".format(operation)
+            "Submission cannot be {} without framework enquiryPeriod or period".format(operation)
         )
     enquiryPeriod_endDate = parse_date(enquiryPeriod["endDate"])
     period_endDate = parse_date(period["endDate"])
@@ -89,7 +90,7 @@ def validate_operation_submission_in_not_allowed_period(request):
     if now < enquiryPeriod_endDate or now > period_endDate:
         raise_operation_error(
             request,
-            "Submission can be {}d only during the period: from ({}) to ({}).".format(
+            "Submission can be {} only during the period: from ({}) to ({}).".format(
                 operation, enquiryPeriod_endDate, period_endDate),
         )
 
@@ -97,7 +98,6 @@ def validate_operation_submission_in_not_allowed_period(request):
 def validate_submission_status(request):
     status_map = {
         "draft": ("draft", "active", "deleted"),
-        "active": ("complete",),
     }
     curr_status = request.validated["submission_src"]["status"]
     new_status = request.validated["data"].get("status", curr_status)
