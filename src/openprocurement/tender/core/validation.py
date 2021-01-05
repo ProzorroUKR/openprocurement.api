@@ -1954,8 +1954,61 @@ def validate_view_requirement_responses(request, **kwargs):
 def validate_operation_award_requirement_response(request, **kwargs):
     _validate_tender_first_revision_date(request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
     valid_tender_statuses = ["active.qualification"]
+    valid_award_statuses = ["pending"]
+    criteria = request.tender.criteria
+    for criterion in criteria:
+        if criterion.classification.id.startswith("CRITERION.OTHER.CONTRACT.GUARANTEE"):
+            valid_tender_statuses = ["active.qualification", "active.awarded"]
+            valid_award_statuses = ["pending", "active"]
+            break
+
     base_validate_operation_ecriteria_objects(request, valid_tender_statuses)
-    base_validate_operation_ecriteria_objects(request, ["pending"], "award")
+    base_validate_operation_ecriteria_objects(request, valid_award_statuses, "award")
+
+
+def get_criterion_requirement(tender, requirement_id):
+    for criteria in tender.criteria:
+        for group in criteria.requirementGroups:
+            for req in group.requirements:
+                if req.id == requirement_id:
+                    return criteria
+    return None
+
+
+def validate_requirement_response_award_active(request):
+    validate_tender_first_revision_date(request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
+    if request.validated["tender"].status != "active.awarded":
+        return
+
+    data = request.json.get("data", {})
+    guarantee_criterion = "CRITERION.OTHER.CONTRACT.GUARANTEE"
+
+    if len(data) > 1:
+        raise_operation_error(request, "Can't {} multiple requirements in status active.awarded".format(request.method))
+
+    requirement_id = data[0].get("requirement", {}).get("id")
+    criterion = get_criterion_requirement(request.validated["tender"], requirement_id)
+
+    if criterion is None or not criterion.classification.id.startswith(guarantee_criterion):
+        raise_operation_error(
+            request,
+            "Can't {} requirementResponse that doesn't relates to {}".format(request.method, guarantee_criterion)
+        )
+
+
+def validate_patch_requirement_response_award_active(request):
+    validate_tender_first_revision_date(request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
+    if request.validated["tender"].status != "active.awarded":
+        return
+
+    requirement_id = request.validated["requirement_response"].requirement.id
+    criterion = get_criterion_requirement(request.validated["tender"], requirement_id)
+    guarantee_criterion = "CRITERION.OTHER.CONTRACT.GUARANTEE"
+    if criterion is None or not criterion.classification.id.startswith(guarantee_criterion):
+        raise_operation_error(
+            request,
+            "Can't {} requirementResponse that doesn't relates to {}".format(request.method, guarantee_criterion)
+        )
 
 
 def validate_operation_qualification_requirement_response(request, **kwargs):

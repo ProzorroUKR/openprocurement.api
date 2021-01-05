@@ -1034,11 +1034,13 @@ class RequirementResponse(Model):
         ):
             tender = get_tender(parent)
             contracts = tender.contracts
+            current_contract = None
             for contract in contracts:
-                if contract.awardId == parent.id:
-                    if contract.status == "pending":
-                        raise ValidationError(u"Forbidden edit requirementResponse if contract not in status `pending`")
+                if contract.get("awardId") == parent.id:
+                    current_contract = contract
                     break
+            if current_contract and contract.status == "pending":
+                raise ValidationError(u"Forbidden edit requirementResponse if contract not in status `pending`")
 
         return requirement_ref
 

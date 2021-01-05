@@ -4,6 +4,8 @@ from openprocurement.tender.core.validation import (
     validate_requirement_response_data,
     validate_patch_requirement_response_data,
     validate_operation_award_requirement_response,
+    validate_requirement_response_award_active,
+    validate_patch_requirement_response_award_active,
 )
 from openprocurement.tender.core.views.requirement_response import BaseRequirementResponseResource
 
@@ -15,6 +17,7 @@ class BaseAwardRequirementResponseResource(BaseRequirementResponseResource):
         validators=(
             validate_operation_award_requirement_response,
             validate_requirement_response_data,
+            validate_requirement_response_award_active,
         ),
         permission="edit_tender"
     )
@@ -34,6 +37,7 @@ class BaseAwardRequirementResponseResource(BaseRequirementResponseResource):
         validators=(
             validate_operation_award_requirement_response,
             validate_patch_requirement_response_data,
+            validate_patch_requirement_response_award_active,
         ),
         permission="edit_tender"
     )
@@ -41,7 +45,7 @@ class BaseAwardRequirementResponseResource(BaseRequirementResponseResource):
         return super(BaseAwardRequirementResponseResource, self).patch()
 
     @json_view(
-        validators=(validate_operation_award_requirement_response,),
+        validators=(validate_operation_award_requirement_response, validate_requirement_response_award_active),
         permission="edit_tender",
     )
     def delete(self):

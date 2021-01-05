@@ -18,7 +18,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_organization, test_author,
     test_draft_claim, test_claim,
     test_complaint, test_draft_complaint,
-    test_cancellation
+    test_cancellation, test_criteria
 )
 from openprocurement.tender.openua.constants import STAND_STILL_TIME
 
@@ -2505,6 +2505,42 @@ def create_award_requirement_response(self):
     for i, rr_data in enumerate(valid_data):
         for k, v in rr_data.items():
             self.assertEqual(rr[i][k], v)
+
+    self.app.authorization = ("Basic", ("token", ""))
+    criterion = test_criteria[0]
+    criterion["classification"]["id"] = "CRITERION.OTHER.CONTRACT.GUARANTEE"
+    criterion["source"] = "winner"
+    self.set_status("draft")
+    response = self.app.post_json(
+        "/tenders/{}/criteria?acc_token=".format(self.tender_id, self.tender_token),
+        {"data": [criterion]},
+        status=201
+    )
+    requirement_id = response.json["data"][0]["requirementGroups"][0]["requirements"][0]["id"]
+    requirement_title = response.json["data"][0]["requirementGroups"][0]["requirements"][0]["title"]
+
+    self.set_status("active.qualification")
+    self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+        {"data": {"eligible": True, "qualified": True, "status": "active"}},
+        status=200
+    )
+
+    rr_data = [{
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+            "id": requirement_id,
+            "title": requirement_title,
+        },
+        "value": "True"
+    }]
+
+    self.app.post_json(
+        "/tenders/{}/awards/{}/requirement_responses?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+        {"data": rr_data},
+        status=201,
+    )
 
 
 def patch_award_requirement_response(self):
