@@ -18,7 +18,8 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_organization, test_author,
     test_draft_claim, test_claim,
     test_complaint, test_draft_complaint,
-    test_cancellation, test_criteria
+    test_cancellation, test_criteria,
+    GUARANTEE_ALLOWED_TENDERS,
 )
 from openprocurement.tender.openua.constants import STAND_STILL_TIME
 
@@ -2506,8 +2507,15 @@ def create_award_requirement_response(self):
         for k, v in rr_data.items():
             self.assertEqual(rr[i][k], v)
 
+
+def create_award_requirement_response_winner(self):
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    procurementMethodType = response.json["data"]["procurementMethodType"]
+    if procurementMethodType not in GUARANTEE_ALLOWED_TENDERS:
+        return
     self.app.authorization = ("Basic", ("token", ""))
-    criterion = test_criteria[0]
+    criteria = deepcopy(test_criteria)
+    criterion = criteria[0]
     criterion["classification"]["id"] = "CRITERION.OTHER.CONTRACT.GUARANTEE"
     criterion["source"] = "winner"
     self.set_status("draft")
@@ -2518,14 +2526,6 @@ def create_award_requirement_response(self):
     )
     requirement_id = response.json["data"][0]["requirementGroups"][0]["requirements"][0]["id"]
     requirement_title = response.json["data"][0]["requirementGroups"][0]["requirements"][0]["title"]
-
-    self.set_status("active.qualification")
-    self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
-        {"data": {"eligible": True, "qualified": True, "status": "active"}},
-        status=200
-    )
-
     rr_data = [{
         "title": "Requirement response",
         "description": "some description",
@@ -2535,6 +2535,43 @@ def create_award_requirement_response(self):
         },
         "value": "True"
     }]
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/requirement_responses?acc_token={}".format(self.tender_id, self.award_id,
+                                                                          self.tender_token),
+        {"data": rr_data},
+        status=403,
+    )
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{u'description': u"Can't post object if tender not in ['active.qualification', 'active.awarded'] statuses",
+          u'location': u'body',
+          u'name': u'data'}]
+    )
+
+    self.set_status("active.qualification")
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/requirement_responses?acc_token={}".format(self.tender_id, self.award_id,
+                                                                          self.tender_token),
+        {"data": rr_data},
+        status=422,
+    )
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{u'description':
+            {u'requirement': [
+                u"Only award in status 'active' could have requirement response for criteria with source: 'winner'"
+            ]},
+            u'location': u'body',
+            u'name': 0}]
+    )
+
+    self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+        {"data": {"eligible": True, "qualified": True, "status": "active"}},
+        status=200
+    )
 
     self.app.post_json(
         "/tenders/{}/awards/{}/requirement_responses?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),

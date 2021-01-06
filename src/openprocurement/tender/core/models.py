@@ -1026,7 +1026,7 @@ class RequirementResponse(Model):
                 and criterion.classification.id.startswith("CRITERION.OTHER.CONTRACT.GUARANTEE")
         ):
             raise ValidationError(u"Only award in status 'active' could have requirement response for criteria "
-                                  "requirement with source: 'winner'")
+                                  "with source: 'winner'")
         elif (
                 criterion.source == "winner"
                 and parent.status == "active"

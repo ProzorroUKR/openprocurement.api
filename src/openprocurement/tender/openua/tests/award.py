@@ -82,6 +82,7 @@ from openprocurement.tender.openua.tests.award_blanks import (
     create_award_requirement_response,
     patch_award_requirement_response,
     get_award_requirement_response,
+    create_award_requirement_response_winner,
     # TenderAwardRequirementResponseResourceEvidenceTest
     create_award_requirement_response_evidence,
     patch_award_requirement_response_evidence,
@@ -110,6 +111,7 @@ class TenderAwardRequirementResponseTestMixin(object):
     test_create_award_requirement_response = snitch(create_award_requirement_response)
     test_patch_award_requirement_response = snitch(patch_award_requirement_response)
     test_get_award_requirement_response = snitch(get_award_requirement_response)
+    test_create_award_requirement_response_winner = snitch(create_award_requirement_response_winner)
 
 
 @mock.patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
