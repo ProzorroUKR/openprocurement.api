@@ -5,11 +5,11 @@ PERIODS = {
         "start": {
             "enquiryPeriod": {
                 "startDate": timedelta(),
-                "endDate": timedelta(days=7)
+                "endDate": timedelta(days=9)
             },
             "tenderPeriod": {
-                "startDate": timedelta(days=7),
-                "endDate": timedelta(days=14),
+                "startDate": timedelta(days=9),
+                "endDate": timedelta(days=18),
             },
         },
     },

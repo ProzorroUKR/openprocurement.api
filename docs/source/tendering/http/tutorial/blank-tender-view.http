@@ -36,8 +36,8 @@ Content-Type: application/json; charset=UTF-8
     ], 
     "mainProcurementCategory": "goods", 
     "tenderPeriod": {
-      "startDate": "2020-09-15T01:00:00+03:00", 
-      "endDate": "2020-09-22T01:00:00+03:00"
+      "startDate": "2020-09-17T01:00:00+03:00", 
+      "endDate": "2020-09-26T01:00:00+03:00"
     }, 
     "title": "футляри до державних нагород", 
     "minimalStep": {
@@ -87,7 +87,7 @@ Content-Type: application/json; charset=UTF-8
     }, 
     "submissionMethod": "electronicAuction", 
     "date": "2020-09-08T01:00:00+03:00", 
-    "next_check": "2020-09-15T01:00:00+03:00", 
+    "next_check": "2020-09-17T01:00:00+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 
@@ -112,7 +112,7 @@ Content-Type: application/json; charset=UTF-8
     "awardCriteria": "lowestCost", 
     "enquiryPeriod": {
       "startDate": "2020-09-08T01:00:00+03:00", 
-      "endDate": "2020-09-15T01:00:00+03:00"
+      "endDate": "2020-09-17T01:00:00+03:00"
     }, 
     "owner": "broker", 
     "dateModified": "2020-09-08T01:00:00+03:00", 
