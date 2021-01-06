@@ -89,8 +89,8 @@ test_tender_data = {
     "value": {"amount": 500, "currency": u"UAH"},
     "minimalStep": {"amount": 15, "currency": u"UAH"},
     "items": [deepcopy(test_item)],
-    "enquiryPeriod": {"endDate": (now + timedelta(days=7)).isoformat()},
-    "tenderPeriod": {"endDate": (now + timedelta(days=14)).isoformat()},
+    "enquiryPeriod": {"endDate": (now + timedelta(days=9)).isoformat()},
+    "tenderPeriod": {"endDate": (now + timedelta(days=18)).isoformat()},
     "procurementMethodType": "belowThreshold",
     "milestones": test_milestones,
 }

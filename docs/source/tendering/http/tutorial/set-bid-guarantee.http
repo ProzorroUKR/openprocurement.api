@@ -45,10 +45,10 @@ Content-Type: application/json; charset=UTF-8
     "mainProcurementCategory": "goods", 
     "enquiryPeriod": {
       "startDate": "2020-09-08T01:00:00+03:00", 
-      "endDate": "2020-09-15T01:00:00+03:00"
+      "endDate": "2020-09-17T01:00:00+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
-    "next_check": "2020-09-15T01:00:00+03:00", 
+    "next_check": "2020-09-17T01:00:00+03:00", 
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами", 
@@ -81,7 +81,7 @@ Content-Type: application/json; charset=UTF-8
     "dateModified": "2020-09-08T01:00:01+03:00", 
     "status": "active.enquiries", 
     "tenderPeriod": {
-      "startDate": "2020-09-15T01:00:00+03:00", 
+      "startDate": "2020-09-17T01:00:00+03:00", 
       "endDate": "2020-09-23T01:00:11+03:00"
     }, 
     "procurementMethodType": "belowThreshold", 

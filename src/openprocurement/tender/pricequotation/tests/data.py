@@ -15,7 +15,7 @@ PERIODS = {
         "start": {
             "tenderPeriod": {
                 "startDate": -timedelta(),
-                "endDate": timedelta(days=6)
+                "endDate": timedelta(days=8)
             },
         },
         "end": {
