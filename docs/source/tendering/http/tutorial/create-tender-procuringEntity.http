@@ -198,15 +198,15 @@ X-Content-Type-Options: nosniff
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "unit": {
-          "name": "item",
-          "code": "44617100-9"
-        },
         "quantity": 5.0,
         "classification": {
           "description": "Cartons",
           "scheme": "ДК021",
           "id": "44617100-9"
+        },
+        "unit": {
+          "name": "item",
+          "code": "44617100-9"
         }
       }
     ],

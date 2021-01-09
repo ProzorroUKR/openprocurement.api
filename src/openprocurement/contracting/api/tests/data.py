@@ -31,7 +31,15 @@ test_contract_data = {
                 "endDate": "2016-03-23T18:47:47.136678+02:00",
             },
             "id": "c6c6e8ed4b1542e4bf13d3f98ec5ab59",
-            "unit": {"code": "44617100-9", "name": "item"},
+            "unit": {
+                "code": "44617100-9",
+                "name": "item",
+                "value": {
+                    "currency": "UAH",
+                    "amount": 20.8,
+                    "valueAddedTaxIncluded": True
+                }
+            },
             "quantity": 5,
         }
     ],

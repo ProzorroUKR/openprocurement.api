@@ -11,9 +11,9 @@ from schematics.types.serializable import serializable
 from barbecue import vnmax
 from zope.interface import implementer
 
-from openprocurement.api.models import ListType, Period, Value, Guarantee
+from openprocurement.api.models import ListType, Period, Value, Guarantee, Model
 from openprocurement.api.utils import get_now, get_first_revision_date
-from openprocurement.api.constants import TZ, RELEASE_2020_04_19, CPV_ITEMS_CLASS_FROM
+from openprocurement.api.constants import TZ, RELEASE_2020_04_19, CPV_ITEMS_CLASS_FROM, UNIT_PRICE_REQUIRED_FROM
 from openprocurement.api.validation import validate_items_uniq, validate_cpv_group, validate_classification_id
 from openprocurement.tender.core.constants import COMPLAINT_STAND_STILL_TIME
 from openprocurement.tender.core.validation import validate_minimalstep
@@ -26,9 +26,9 @@ from openprocurement.tender.core.models import (
     Tender as BaseTender,
     Bid as BaseBid,
     ProcuringEntity,
-    Item,
+    Item as BaseItem,
     Award,
-    Contract,
+    Contract as BaseContract,
     Question,
     Cancellation as BaseCancellation,
     Feature,
@@ -37,7 +37,8 @@ from openprocurement.tender.core.models import (
     BidResponsesMixin,
     validate_features_uniq,
     validate_lots_uniq,
-    get_tender
+    get_tender,
+    Unit as BaseUnit,
 )
 
 from openprocurement.tender.core.utils import (
@@ -88,6 +89,71 @@ class Cancellation(BaseCancellation):
 
 class Bid(BaseBid, BidResponsesMixin):
     pass
+
+
+class UnitValue(Value):
+    currency = StringType(default=u"UAH", max_length=3, min_length=3)
+    valueAddedTaxIncluded = BooleanType(default=True)
+
+    @serializable(serialized_name="currency", serialize_when_none=False)
+    def unit_currency(self):
+
+        context = self.__parent__ if isinstance(self.__parent__, Model) else {}
+        while isinstance(context.__parent__, Model):
+            context = context.__parent__
+            if isinstance(context, BaseContract):
+                if context.get("value"):
+                    break
+            if isinstance(context, BaseTender):
+                break
+
+        value = context.get("value", {})
+        return value.get("currency", None)
+
+    @serializable(serialized_name="valueAddedTaxIncluded", serialize_when_none=False)
+    def unit_valueAddedTaxIncluded(self):
+
+        context = self.__parent__ if isinstance(self.__parent__, Model) else {}
+        while isinstance(context.__parent__, Model):
+            context = context.__parent__
+            if isinstance(context, BaseContract):
+                if context.get("value"):
+                    break
+            if isinstance(context, BaseTender):
+                break
+
+        value = context.get("value", {})
+        return value.get("valueAddedTaxIncluded", None)
+
+
+class Unit(BaseUnit):
+    class Options:
+        roles = {"edit_contract": whitelist("value")}
+
+    value = ModelType(UnitValue)
+
+
+class Item(BaseItem):
+    class Options:
+        roles = {"edit_contract": whitelist("unit")}
+
+    unit = ModelType(Unit)
+
+    def validate_unit(self, data, value):
+        _parent = data['__parent__']
+        validation_date = get_first_revision_date(_parent, default=get_now())
+        if validation_date >= UNIT_PRICE_REQUIRED_FROM and not value:
+            raise ValidationError(u"This field is required.")
+
+    def validate_quantity(self, data, value):
+        _parent = data['__parent__']
+        validation_date = get_first_revision_date(_parent, default=get_now())
+        if validation_date >= UNIT_PRICE_REQUIRED_FROM and value is None:
+            raise ValidationError(u"This field is required.")
+
+
+class Contract(BaseContract):
+    items = ListType(ModelType(Item, required=True))
 
 
 @implementer(IBelowThresholdTender)

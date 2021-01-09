@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
+from copy import deepcopy
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.pricequotation.tests.base import (
     TenderContentWebTest,
@@ -7,12 +8,14 @@ from openprocurement.tender.pricequotation.tests.base import (
     )
 from openprocurement.tender.belowthreshold.tests.contract import (
     TenderContractResourceTestMixin,
-    TenderContractDocumentResourceTestMixin
+    TenderContractDocumentResourceTestMixin,
     )
 from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     create_tender_contract,
     create_tender_contract_in_complete_status,
     patch_tender_contract_value,
+    patch_contract_single_item_unit_value,
+    patch_contract_multi_items_unit_value,
     )
 from openprocurement.tender.pricequotation.tests.contract_blanks import (
     patch_tender_contract,
@@ -73,6 +76,27 @@ class TenderContractDocumentResourceTest(TenderContentWebTest,
 
     def setUp(self):
         super(TenderContractDocumentResourceTest, self).setUp()
+
+
+class TenderPriceQuotationContractUnitValueResourceTest(TenderContentWebTest):
+    initial_status = "active.awarded"
+    initial_bids = test_bids
+
+    def setUp(self):
+        super(TenderPriceQuotationContractUnitValueResourceTest, self).setUp()
+        auth = self.app.authorization
+        self.award_id = self.award_ids[-1]
+        resp = self.app.get(
+            "/tenders/{}/awards/{}".format(self.tender_id, self.award_id),
+        )
+        self.award = resp.json["data"]
+        self.award_value = self.award["value"]
+        self.award_suppliers = self.award["suppliers"]
+        self.app.authorization = ("Basic", ("token", ""))
+        self.app.authorization = auth
+
+    test_patch_contract_single_item_unit_value = snitch(patch_contract_single_item_unit_value)
+    test_patch_contract_multi_items_unit_value = snitch(patch_contract_multi_items_unit_value)
 
 
 def suite():

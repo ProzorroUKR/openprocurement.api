@@ -28,6 +28,7 @@ from openprocurement.api.constants import (
     RELEASE_SIMPLE_DEFENSE_FROM,
     RELEASE_GUARANTEE_CRITERION_FROM,
     GUARANTEE_ALLOWED_TENDER_TYPES,
+    UNIT_PRICE_REQUIRED_FROM,
 )
 from openprocurement.api.utils import (
     get_now,
@@ -1678,6 +1679,49 @@ def validate_contract_signing(request, **kwargs):
         ]
         if pending_complaints or pending_awards_complaints:
             raise_operation_error(request, "Can't sign contract before reviewing all complaints")
+
+
+def validate_activate_contract(request, **kwargs):
+    tender = request.validated["tender"]
+    updated_data = request.validated["data"]
+    contract = request.context
+
+    if contract.status != "active" and "status" in updated_data and updated_data["status"] == "active":
+        if contract.items:
+            validate_contract_items_unit_value_amount(request, contract)
+
+        tender_created = get_first_revision_date(tender, default=get_now())
+        if tender_created < UNIT_PRICE_REQUIRED_FROM:
+            return
+
+        if contract.items:
+            for item in contract.items:
+                if item.unit and item.unit.value is None:
+                    raise_operation_error(
+                        request, "Can't activate contract while 'Unit.Value' is not set for each Item"
+                    )
+
+
+def validate_contract_items_unit_value_amount(request, contract, **kwargs):
+    items_unit_value_amount = []
+    for item in contract.items:
+        if item.unit and item.quantity is not None:
+            if item.unit.value:
+                if item.quantity == 0 and item.unit.value.amount != 0:
+                    raise_operation_error(
+                        request, "Item.unit.value.amount should be updated to 0 if item.quantity equal to 0"
+                    )
+                items_unit_value_amount.append(
+                    Decimal(str(item.quantity)) * Decimal(str(item.unit.value.amount))
+                )
+
+    if items_unit_value_amount and contract.value:
+        calculated_value = float(sum(items_unit_value_amount))
+
+        if calculated_value > contract.value.amount:
+            raise_operation_error(
+                request, "Total amount of unit values can't be greater than contract.value.amount"
+            )
 
 
 def is_positive_float(value):

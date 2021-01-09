@@ -68,10 +68,6 @@ X-Content-Type-Options: nosniff
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "unit": {
-          "name": "item",
-          "code": "44617100-9"
-        },
         "classification": {
           "description": "Test",
           "scheme": "ДК021",
@@ -84,6 +80,10 @@ X-Content-Type-Options: nosniff
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
+        },
+        "unit": {
+          "name": "item",
+          "code": "44617100-9"
         }
       },
       {
@@ -96,10 +96,6 @@ X-Content-Type-Options: nosniff
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "unit": {
-          "name": "item",
-          "code": "44617100-9"
-        },
         "classification": {
           "description": "Test",
           "scheme": "ДК021",
@@ -112,6 +108,10 @@ X-Content-Type-Options: nosniff
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
+        },
+        "unit": {
+          "name": "item",
+          "code": "44617100-9"
         }
       }
     ],

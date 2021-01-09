@@ -37,7 +37,8 @@ from openprocurement.tender.pricequotation.tests.tender_blanks import (
     tender_fields,
     lost_contract_for_active_award,
     create_tender_in_not_draft_status,
-    patch_tender_status
+    patch_tender_status,
+    create_pricequotation_tender_with_earlier_non_required_unit,
 )
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     guarantee,
@@ -53,6 +54,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_with_main_procurement_category,
     create_tender_with_inn_before,
     tender_token_invalid,
+    create_tender_with_required_unit,
 )
 
 class TenderResourceTestMixin(object):
@@ -96,6 +98,10 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_patch_tender_by_pq_bot = snitch(patch_tender_by_pq_bot)
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
     test_patch_tender_status = snitch(patch_tender_status)
+    test_create_pricequotation_tender_with_earlier_non_required_unit = snitch(
+        create_pricequotation_tender_with_earlier_non_required_unit
+    )
+    test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
 
 
 class TenderProcessTest(TenderContentWebTest):

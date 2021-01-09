@@ -3,6 +3,7 @@ import jmespath
 from datetime import timedelta
 from copy import deepcopy
 from openprocurement.api.utils import get_now
+from uuid import uuid4
 
 from openprocurement.tender.belowthreshold.tests.base import test_claim, test_cancellation
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
@@ -588,6 +589,280 @@ def patch_tender_contract_value_vat_not_included(self):
         response.json["errors"][0]["description"],
         "Amount should be greater than amountNet and differ by no more than 20.0%",
     )
+
+
+def patch_contract_single_item_unit_value(self):
+    response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
+    contract = response.json["data"][0]
+    contract_id = contract["id"]
+    self.assertEqual(len(contract["items"]), 1)
+    expected_item_unit_currency = contract["items"][0]["unit"]["value"]["currency"]  # "UAH"
+    expected_item_quantity = contract["items"][0]["quantity"]
+
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
+        {"data": {
+            "items": [
+                {
+                    "unit": {
+                        "value": {
+                            "amount": 2000,  # all Item fields except amount will be ignored by edit_contract role
+                            "currency": "GPB",
+                        },
+                    },
+                    "quantity": 100500
+                }
+            ]
+        }},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["items"][0]["unit"]["value"]["amount"], 2000.0)
+    self.assertEqual(response.json["data"]["items"][0]["unit"]["value"]["currency"], expected_item_unit_currency)
+    self.assertEqual(response.json["data"]["items"][0]["quantity"], expected_item_quantity)
+
+    # prepare contract
+    doc = self.db.get(self.tender_id)
+    for i in doc.get("awards", []):
+        if 'complaintPeriod' in i:
+            i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+    if doc['contracts'][0]['value']['valueAddedTaxIncluded']:
+        doc['contracts'][0]['value']['amountNet'] = str(float(doc['contracts'][0]['value']['amount']) - 1)
+    self.db.save(doc)
+
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
+        {"data": {"status": "active"}}, status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"], [{
+            "description": "Total amount of unit values can't be greater than contract.value.amount",
+            "location": "body",
+            "name": "data"
+        }]
+    )
+
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
+        {"data": {
+            "items": [
+                {
+                    "unit": {
+                        "value": {
+                            "amount": 15
+                        },
+                    }
+                }
+            ]
+        }},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["items"][0]["unit"]["value"]["amount"], 15.0)
+
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
+        {"data": {"status": "active"}}, status=200
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "active")
+
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
+        {"data": {
+            "items": [
+                {
+                    "unit": {
+                        "value": {
+                            "amount": 555555
+                        },
+                    }
+                }
+            ]
+        }}, status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"], [{
+            "description": "Can't update contract in current (complete) tender status",
+            "location": "body",
+            "name": "data"
+        }]
+    )
+
+
+def patch_contract_multi_items_unit_value(self):
+
+    auth = self.app.authorization
+    self.app.authorization = ("Basic", ("token", ""))
+
+    contract_items = []
+    for i in range(3):
+        item = deepcopy(self.initial_data["items"][0])
+        item['id'] = str(i+1)*10
+        del item['unit']['value']
+        contract_items.append(item)
+
+    contract_items[0]['quantity'] = 10
+    contract_items[0]['unit']['value'] = {
+        "amount": 200,
+        "currency": "UAH",
+    }
+
+    contract_items[1]['quantity'] = 8
+
+    contract_items[2]['quantity'] = 0
+    contract_items[2]['unit']['value'] = {
+        "amount": 100,
+        "currency": "UAH",
+    }
+
+    response = self.app.post_json(
+        "/tenders/{}/contracts".format(self.tender_id),
+        {
+            "data": {
+                "title": "contract title",
+                "description": "contract description",
+                "awardID": self.award_id,
+                "value": {
+                    "amount": 300,
+                    "valueAddedTaxIncluded": True,
+                    "currency": 'UAH',
+                    "amountNet": 285,
+                },
+                "suppliers": self.award_suppliers,
+                "items": contract_items,
+            }
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    contract = response.json["data"]
+    contract_id = contract['id']
+    self.assertEqual(len(contract["items"]), 3)
+
+    if self.initial_status != 'active.awarded':
+        self.set_status("complete", {"status": "active.awarded"})
+
+    # prepare contract
+    doc = self.db.get(self.tender_id)
+    for i in doc.get("awards", []):
+        if 'complaintPeriod' in i:
+            i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+    if doc['contracts'][1]['value']['valueAddedTaxIncluded']:
+        doc['contracts'][1]['value']['amountNet'] = str(float(doc['contracts'][1]['value']['amount']) - 1)
+    self.db.save(doc)
+
+    self.app.authorization = auth
+
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
+        {"data": {"status": "active"}}, status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"], [{
+            "description": "Item.unit.value.amount should be updated to 0 if item.quantity equal to 0",
+            "location": "body",
+            "name": "data"
+        }]
+    )
+
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
+        {"data": {
+            "items": [
+                {}, {},
+                {
+                    "unit": {
+                        "value": {
+                            "amount": 0
+                        },
+                    }
+                }
+            ]
+        }},
+    )
+
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json['data']['items'][2]["unit"]["value"]["amount"], 0.0)
+    self.assertEqual(response.json["data"]["status"], "pending")
+
+    unit_value_amount_sum = sum([
+        item['unit']['value']['amount'] * item['quantity']
+        for item in response.json['data']['items'] if item['unit'].get('value')
+    ])
+    self.assertEqual(unit_value_amount_sum, 2000)  # 10 * 200 for first item
+
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
+        {"data": {"status": "active"}}, status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"], [{
+            "description": "Total amount of unit values can't be greater than contract.value.amount",
+            "location": "body",
+            "name": "data"
+        }]
+    )
+
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
+        {"data": {
+            "items": [
+                {
+                    "unit": {
+                        "value": {
+                            "amount": 7.56345
+                        },
+                    }
+                },
+                {}, {}
+            ]
+        }},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json['data']['items'][0]["unit"]["value"]["amount"], 7.56345)
+
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
+        {"data": {"status": "active"}}, status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+
+    self.assertEqual(
+        response.json["errors"], [{
+            "description": "Can't activate contract while 'Unit.Value' is not set for each Item",
+            "location": "body",
+            "name": "data"
+        }]
+    )
+
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
+        {"data": {
+            "items": [
+                {},
+                {
+                    "unit": {
+                        "value": {
+                            "amount": 10
+                        },
+                    }
+                },
+                {}
+            ]
+        }},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json['data']['items'][1]["unit"]["value"]["amount"], 10.0)
+
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
+        {"data": {"status": "active"}}
+    )
+    self.assertEqual(response.status, "200 OK")
 
 
 def patch_tender_contract_status_by_owner(self):

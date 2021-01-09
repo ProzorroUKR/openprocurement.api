@@ -179,7 +179,12 @@ test_item = {
     "additionalClassifications": [
         {"scheme": "INN", "id": "17.21.1", "description": "папір і картон гофровані, паперова й картонна тара"}
     ],
-    "quantity": 1,
+    "unit": {
+        "name": "unit12345",
+        "code": "KGM",
+        "value": {"amount": 6},
+    },
+    "quantity": 5,
     "deliveryDate": {
         "startDate": (now + timedelta(days=2)).isoformat(),
         "endDate": (now + timedelta(days=5)).isoformat(),

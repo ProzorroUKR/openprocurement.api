@@ -67,7 +67,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.assertEqual(len(tender["items"]), 1)
         self.assertNotIn("shortlistedFirms", tender)
         self.assertNotIn("classification", tender["items"][0])
-        self.assertNotIn("unit", tender["items"][0])
+        self.assertIn("unit", tender["items"][0])
         self.assertEqual(tender["profile"], test_short_profile["id"])
 
         with open(TARGET_DIR + 'publish-tender.http', 'w') as self.app.file_obj:
@@ -81,7 +81,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         items = deepcopy(tender["items"])
         items[0]["classification"] = test_short_profile["classification"]
-        items[0]["unit"] = test_short_profile["unit"]
         criteria = deepcopy(test_short_profile["criteria"])
         data = {
             "data": {

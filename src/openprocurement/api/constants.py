@@ -190,6 +190,8 @@ VALIDATE_TELEPHONE_FROM = get_constant(CONSTANTS_CONFIG, "VALIDATE_TELEPHONE_FRO
 
 # CS-10305 validation required fields by submission
 REQUIRED_FIELDS_BY_SUBMISSION_FROM = get_constant(CONSTANTS_CONFIG, "REQUIRED_FIELDS_BY_SUBMISSION_FROM")
+# CS-9333 unit object required for item
+UNIT_PRICE_REQUIRED_FROM = get_constant(CONSTANTS_CONFIG, "UNIT_PRICE_REQUIRED_FROM")
 
 # CS-10431 validation currency
 CURRENCIES = standards.load("codelists/tender/tender_currency.json")
