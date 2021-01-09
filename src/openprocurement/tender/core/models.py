@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import standards
 from uuid import uuid4
 from datetime import timedelta, time, datetime
 from openprocurement.api.models import OpenprocurementSchematicsDocument, BusinessOrganization, Guarantee
@@ -27,6 +28,7 @@ from openprocurement.api.models import (
     Contract as BaseContract,
     Value,
     PeriodEndRequired as BasePeriodEndRequired,
+    Unit as BaseUnit,
 )
 from openprocurement.api.models import Item as BaseItem, Reference
 from openprocurement.api.models import schematics_default_role, schematics_embedded_role
@@ -98,12 +100,18 @@ from openprocurement.tender.core.validation import (
 )
 from openprocurement.tender.esco.utils import get_complaint_amount as get_esco_complaint_amount
 from openprocurement.planning.api.models import BaseOrganization
+from openprocurement.api.constants import UNIT_PRICE_REQUIRED_FROM
 from logging import getLogger
 
 
 LOGGER = getLogger(__name__)
 
 DEFAULT_REQUIREMENT_STATUS = "active"
+
+AWARD_CRITERIA_LOWEST_COST = "lowestCost"
+AWARD_CRITERIA_LIFE_CYCLE_COST = "lifeCycleCost"
+AWARD_CRITERIA_RATED_CRITERIA = "ratedCriteria"
+UNIT_CODES = standards.load("unit_codes/recommended.json")
 
 view_bid_role = blacklist("owner_token", "owner", "transfer_token") + schematics_default_role
 Administrator_bid_role = whitelist("tenderers")
@@ -537,7 +545,7 @@ class Contract(BaseContract):
         roles = {
             "create": blacklist("id", "status", "date", "documents", "dateSigned"),
             "admins": blacklist("id", "documents", "date", "awardID", "suppliers", "items", "contractID"),
-            "edit_tender_owner": blacklist("id", "documents", "date", "awardID", "suppliers", "items", "contractID"),
+            "edit_contract": blacklist("id", "documents", "date", "awardID", "suppliers", "contractID"),
             "edit_contract_supplier": whitelist("status"),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
@@ -553,8 +561,10 @@ class Contract(BaseContract):
     def get_role(self):
         root = self.get_root()
         request = root.request
-        if request.authenticated_role in ("tender_owner", "contract_supplier"):
-            role = "edit_{}".format(request.authenticated_role)
+        if request.authenticated_role == "contract_supplier":
+            role = "edit_contract_supplier"
+        elif request.authenticated_role == "tender_owner":
+            role = "edit_contract"
         else:
             role = request.authenticated_role
         return role
@@ -2374,3 +2384,14 @@ class Tender(BaseTender):
         )
         self._acl_cancellation_complaint(acl)
         return acl
+
+
+class Unit(BaseUnit):
+
+    def validate_code(self, data, value):
+        _parent = data['__parent__']
+        validation_date = get_first_revision_date(_parent, default=get_now())
+        if validation_date >= UNIT_PRICE_REQUIRED_FROM:
+            if value not in UNIT_CODES:
+                raise ValidationError(u"Code should be one of valid UNIT CODES.")
+

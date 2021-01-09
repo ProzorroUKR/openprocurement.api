@@ -172,10 +172,6 @@ X-Content-Type-Options: nosniff
             "description": "Насіння гірчиці"
           }
         ],
-        "unit": {
-          "name": "кг",
-          "code": "KGM"
-        },
         "quantity": 1000.0,
         "deliveryDate": {
           "endDate": "2019-11-09T01:00:00+03:00"
@@ -184,6 +180,10 @@ X-Content-Type-Options: nosniff
           "description": "Mustard seeds",
           "scheme": "ДК021",
           "id": "03111600-8"
+        },
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
         }
       }
     ],

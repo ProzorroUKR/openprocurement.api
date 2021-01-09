@@ -129,12 +129,12 @@ X-Content-Type-Options: nosniff
             "description": "Послуги шкільних їдалень"
           }
         ],
+        "quantity": 1.0,
+        "relatedLot": "150e2750fa2942ce9315e80ddf78a62a",
         "unit": {
           "name": "item",
           "code": "44617100-9"
         },
-        "quantity": 1.0,
-        "relatedLot": "150e2750fa2942ce9315e80ddf78a62a",
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",
           "endDate": "2021-05-05T00:00:00+02:00"
@@ -163,12 +163,12 @@ X-Content-Type-Options: nosniff
             "description": "Послуги шкільних їдалень"
           }
         ],
+        "quantity": 1.0,
+        "relatedLot": "a18842d9d4a349c799437d0102e40965",
         "unit": {
           "name": "item",
           "code": "44617100-9"
         },
-        "quantity": 1.0,
-        "relatedLot": "a18842d9d4a349c799437d0102e40965",
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",
           "endDate": "2021-05-05T00:00:00+02:00"

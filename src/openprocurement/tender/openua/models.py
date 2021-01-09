@@ -41,7 +41,6 @@ from openprocurement.tender.core.models import (
     Bid as BaseBid,
     Complaint as BaseComplaint,
     LotValue as BaseLotValue,
-    Item as BaseItem,
     Contract as BaseContract,
     Cancellation as BaseCancellation,
     validate_parameters_uniq,
@@ -78,6 +77,10 @@ from openprocurement.tender.core.constants import (
     AWARD_CRITERIA_LIFE_CYCLE_COST,
 )
 from openprocurement.tender.belowthreshold.models import Tender as BaseTender
+from openprocurement.tender.belowthreshold.models import (
+    Tender as BaseTender,
+    Item as BaseItem,
+)
 from openprocurement.tender.openua.constants import (
     ENQUIRY_STAND_STILL_TIME,
     COMPLAINT_SUBMIT_TIME,

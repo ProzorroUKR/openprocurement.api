@@ -1051,9 +1051,43 @@ def contract_items_change(self):
     response = self.app.patch_json(
         "/contracts/{}?acc_token={}".format(self.contract["id"], token),
         {"data": {"items": [{"quantity": 12, "description": "тапочки для тараканів"}]}},
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Total amount of unit values can't be greater than contract.value.amount"
+            }
+        ]
+    )
+
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract["id"], token),
+        {
+            "data":
+                {
+                    "items":
+                        [
+                            {
+                                "quantity": 12,
+                                "description": "тапочки для тараканів",
+                                "unit": {
+                                    "value": {
+                                        "amount": 3.2394
+                                    },
+                                }
+                            }
+                        ]
+                }
+        },
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["items"][0]["quantity"], 12)
+    self.assertEqual(response.json["data"]["items"][0]["unit"]["value"]["amount"], 3.2394)
     self.assertEqual(response.json["data"]["items"][0]["description"], "тапочки для тараканів")
 
     # add one more item

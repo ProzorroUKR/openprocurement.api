@@ -327,7 +327,7 @@ def items_without_deliveryDate_quantity(self):
                                 "description": "папір і картон гофровані, паперова й картонна тара",
                             }
                         ],
-                        "unit": {"name": "item", "code": "44617100-9"},
+                        "unit": {"name": "item", "code": "KGM"},
                         "quantity": 5,
                         "deliveryDate": {
                             "startDate": (get_now() + timedelta(days=2)).isoformat(),

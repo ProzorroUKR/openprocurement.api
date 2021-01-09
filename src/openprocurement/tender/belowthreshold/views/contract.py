@@ -12,6 +12,7 @@ from openprocurement.tender.core.validation import (
     validate_update_contract_value_amount,
     validate_update_contract_value_net_required,
     validate_update_contract_status_by_supplier,
+    validate_activate_contract,
 )
 from openprocurement.tender.belowthreshold.utils import check_tender_status
 
@@ -75,6 +76,7 @@ class TenderAwardContractResource(APIResource):
             validate_update_contract_value_net_required,
             validate_update_contract_value_with_award,
             validate_update_contract_value_amount,
+            validate_activate_contract,
         ),
     )
     def patch(self):

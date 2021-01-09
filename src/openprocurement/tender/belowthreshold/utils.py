@@ -84,14 +84,23 @@ def check_ignored_claim(tender):
 
 def add_contract(request, award, now=None):
     tender = request.validated["tender"]
+    contract_model = type(tender).contracts.model_class
+    contract_item_model = contract_model.items.model_class
+
+    contract_items = []
+    for i in tender.items:
+        if not hasattr(award, "lotID") or i.relatedLot == award.lotID:
+            c_item = contract_item_model(dict(i))
+            contract_items.append(c_item)
+
     tender.contracts.append(
-        type(tender).contracts.model_class(
+        contract_model(
             {
                 "awardID": award.id,
                 "suppliers": award.suppliers,
                 "value": generate_contract_value(tender, award),
                 "date": now or get_now(),
-                "items": [i for i in tender.items if not hasattr(award, "lotID") or i.relatedLot == award.lotID],
+                "items": contract_items,
                 "contractID": "{}-{}{}".format(tender.tenderID, request.registry.server_id, len(tender.contracts) + 1),
             }
         )

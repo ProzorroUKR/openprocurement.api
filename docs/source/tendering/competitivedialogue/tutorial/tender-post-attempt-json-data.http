@@ -238,15 +238,15 @@ X-Content-Type-Options: nosniff
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "unit": {
-          "name": "item",
-          "code": "44617100-9"
-        },
         "quantity": 1.0,
         "classification": {
           "description": "Test",
           "scheme": "ДК021",
           "id": "37810000-9"
+        },
+        "unit": {
+          "name": "item",
+          "code": "44617100-9"
         },
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",
@@ -271,15 +271,15 @@ X-Content-Type-Options: nosniff
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "unit": {
-          "name": "item",
-          "code": "44617100-9"
-        },
         "quantity": 1.0,
         "classification": {
           "description": "Test",
           "scheme": "ДК021",
           "id": "37810000-9"
+        },
+        "unit": {
+          "name": "item",
+          "code": "44617100-9"
         },
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",

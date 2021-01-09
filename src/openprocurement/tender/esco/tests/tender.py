@@ -61,6 +61,7 @@ from openprocurement.tender.esco.tests.tender_blanks import (
     create_tender_generated,
     patch_item_with_zero_quantity,
 )
+from openprocurement.tender.competitivedialogue.tests.stage2.tender_blanks import create_tender_with_non_required_unit
 
 
 class TenderESCOTest(BaseESCOWebTest):
@@ -108,6 +109,7 @@ class TestTenderEU(BaseESCOContentWebTest, TenderResourceTestMixin, TenderUAReso
     test_tender_finance_milestones = snitch(tender_finance_milestones)
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
     test_patch_item_with_zero_quantity = snitch(patch_item_with_zero_quantity)
+    test_create_tender_with_non_required_unit = snitch(create_tender_with_non_required_unit)
 
 
 class TestTenderEUProcess(BaseESCOContentWebTest):

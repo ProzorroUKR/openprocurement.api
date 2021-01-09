@@ -29,6 +29,8 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     put_tender_contract_document_by_supplier,
     put_tender_contract_document_by_others,
     patch_tender_contract_document_by_supplier,
+    patch_contract_single_item_unit_value,
+    patch_contract_multi_items_unit_value,
 )
 from openprocurement.tender.openua.tests.contract_blanks import (
     # TenderStage2EU(UA)ContractResourceTest
@@ -136,6 +138,7 @@ class TenderStage2UAContractResourceTest(BaseCompetitiveDialogUAStage2ContentWeb
     def setUp(self):
         super(TenderStage2UAContractResourceTest, self).setUp()
         # Create award
+        auth = self.app.authorization
         self.app.authorization = ("Basic", ("token", ""))
         response = self.app.post_json(
             "/tenders/{}/awards".format(self.tender_id),
@@ -151,7 +154,7 @@ class TenderStage2UAContractResourceTest(BaseCompetitiveDialogUAStage2ContentWeb
         )
         award = response.json["data"]
         self.award_id = award["id"]
-        self.app.authotization = ("Basic", ("broker", ""))
+        self.app.authorization = auth
         self.award_value = award["value"]
         self.award_suppliers = award["suppliers"]
         self.award_items = award["items"]
@@ -167,6 +170,8 @@ class TenderStage2UAContractResourceTest(BaseCompetitiveDialogUAStage2ContentWeb
     test_patch_tender_contract_status_by_owner = snitch(patch_tender_contract_status_by_owner)
     test_patch_tender_contract_status_by_others = snitch(patch_tender_contract_status_by_others)
     test_patch_tender_contract_status_by_supplier = snitch(patch_tender_contract_status_by_supplier)
+    test_patch_contract_single_item_unit_value = snitch(patch_contract_single_item_unit_value)
+    test_patch_contract_multi_items_unit_value = snitch(patch_contract_multi_items_unit_value)
 
 
 class TenderContractVATNotIncludedResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
@@ -245,6 +250,41 @@ class TenderStage2UAContractDocumentResourceTest(
     test_patch_tender_contract_document_by_supplier = snitch(patch_tender_contract_document_by_supplier)
 
 
+class TenderStage2EUContractUnitValueResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
+    initial_status = "active.qualification"
+    initial_bids = test_tender_bids
+
+    def setUp(self):
+        super(TenderStage2EUContractUnitValueResourceTest, self).setUp()
+        auth = self.app.authorization
+        self.app.authorization = ("Basic", ("token", ""))
+        response = self.app.post_json(
+            "/tenders/{}/awards".format(self.tender_id),
+            {
+                "data": {
+                    "suppliers": [test_tenderer],
+                    "status": "pending",
+                    "bid_id": self.initial_bids[0]["id"],
+                    "value": {
+                        "amount": self.initial_data["value"]["amount"],
+                        "currency": self.initial_data["value"]["currency"],
+                        "valueAddedTaxIncluded": True,
+                    },
+                }
+            },
+        )
+        self.award = response.json["data"]
+        self.award_id = self.award["id"]
+        self.award_suppliers = self.award["suppliers"]
+        self.app.authorization = auth
+        self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+            {"data": {"status": "active", "qualified": True, "eligible": True}},
+        )
+    test_patch_contract_single_item_unit_value = snitch(patch_contract_single_item_unit_value)
+    test_patch_contract_multi_items_unit_value = snitch(patch_contract_multi_items_unit_value)
+
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderStage2EUContractResourceTest))
@@ -252,6 +292,7 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderStage2UAContractResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2UAContractDocumentResourceTest))
     suite.addTest(unittest.makeSuite(TenderContractVATNotIncludedResourceTest))
+    suite.addTest(unittest.makeSuite(TenderStage2EUContractUnitValueResourceTest))
     return suite
 
 

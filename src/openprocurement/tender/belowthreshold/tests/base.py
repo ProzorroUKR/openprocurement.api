@@ -67,7 +67,11 @@ test_item = {
     "additionalClassifications": [
         {"scheme": "ДКПП", "id": "17.21.1", "description": "папір і картон гофровані, паперова й картонна тара"}
     ],
-    "unit": {"name": "item", "code": "44617100-9"},
+    "unit": {
+        "name": "unit12345",
+        "code": "KGM",
+        "value": {"amount": 6},
+    },
     "quantity": 5,
     "deliveryDate": {
         "startDate": (now + timedelta(days=2)).isoformat(),

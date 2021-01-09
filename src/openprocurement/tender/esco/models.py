@@ -33,6 +33,8 @@ from openprocurement.tender.core.models import (
     Feature as BaseFeature,
     BaseLot,
     FeatureValue as BaseFeatureValue,
+    AWARD_CRITERIA_RATED_CRITERIA,
+    Unit,
 )
 from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA
 from openprocurement.tender.core.models import (
@@ -379,6 +381,13 @@ class Item(BaseItem):
     deliveryAddress = ModelType(Address, required=False)
     deliveryDate = ModelType(PeriodEndRequired, required=False)
     quantity = IntType(required=False)
+    unit = ModelType(Unit, required=False)
+
+    def validate_unit(self, data, value):
+        pass
+
+    def validate_quantity(self, data, value):
+        pass
 
 
 class Contract(BaseEUContract):

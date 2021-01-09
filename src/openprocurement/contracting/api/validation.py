@@ -20,6 +20,7 @@ from openprocurement.tender.core.validation import (
     validate_update_contract_value,
     validate_update_contract_value_amount,
     validate_update_contract_value_net_required,
+    validate_contract_items_unit_value_amount,
 )
 from openprocurement.api.models import Model, IsoDateTimeType, Guarantee
 from openprocurement.contracting.api.models import OrganizationReference
@@ -145,6 +146,12 @@ def validate_file_transaction_upload(request, **kwargs):
     if request.registry.docservice_url and request.content_type == "application/json":
         model = type(transaction).documents.model_class
         return validate_data(request, model)
+
+
+def validate_update_contracting_items_unit_value_amount(request, **kwargs):
+    contract = request.validated["contract"]
+    if contract.items:
+        validate_contract_items_unit_value_amount(request, contract)
 
 
 def validate_add_document_to_active_change(request, **kwargs):

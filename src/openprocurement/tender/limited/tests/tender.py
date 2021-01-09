@@ -18,6 +18,8 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_central,
     create_tender_central_invalid,
     patch_tender_draft,
+    create_tender_with_earlier_non_required_unit,
+    create_tender_with_required_unit,
 )
 from openprocurement.tender.limited.models import NegotiationTender, NegotiationQuickTender, ReportingTender
 from openprocurement.tender.limited.tests.base import (
@@ -107,6 +109,8 @@ class TenderResourceTest(BaseTenderWebTest):
     test_tender_finance_milestones = snitch(tender_finance_milestones)
     test_create_tender_with_inn = snitch(create_tender_with_inn)
     test_create_tender_with_inn_before = snitch(create_tender_with_inn_before)
+    test_create_tender_with_earlier_non_required_unit = snitch(create_tender_with_earlier_non_required_unit)
+    test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
 
 
 class TenderNegotiationResourceTest(TenderResourceTest):

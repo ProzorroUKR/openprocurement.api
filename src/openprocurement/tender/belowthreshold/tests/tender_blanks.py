@@ -1030,6 +1030,141 @@ def create_tender_with_inn_before(self):
     self.assertGreater(validation.CPV_336_INN_FROM, get_now())
 
 
+@mock.patch(
+    "openprocurement.tender.belowthreshold.models.UNIT_PRICE_REQUIRED_FROM", get_now() + timedelta(days=1))
+def create_tender_with_earlier_non_required_unit(self):
+    # can be removed later
+
+    response = self.app.get("/tenders")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(len(response.json["data"]), 0)
+    tender_data = deepcopy(self.initial_data)
+
+    _unit = tender_data["items"][0].pop("unit")
+    response = self.app.post_json("/tenders", {"data": tender_data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertNotIn("unit", response.json["data"]['items'][0])
+
+    _quantity = tender_data["items"][0].pop("quantity")
+    response = self.app.post_json("/tenders", {"data": tender_data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertNotIn("quantity", response.json["data"]['items'][0])
+    self.assertNotIn("unit", response.json["data"]['items'][0])
+
+
+def create_tender_with_required_unit(self):
+    response = self.app.get("/tenders")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(len(response.json["data"]), 0)
+    tender_data = deepcopy(self.initial_data)
+
+    _unit = tender_data["items"][0].pop("unit")
+    _quantity = tender_data["items"][0].pop("quantity")
+    response = self.app.post_json("/tenders", {"data": tender_data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                'description': [
+                    {
+                        'unit': ['This field is required.'],
+                        'quantity': ['This field is required.']
+                    }
+                ],
+                'location': 'body', 'name': 'items'
+            }
+        ]
+    )
+    tender_data["items"][0]['quantity'] = _quantity
+    response = self.app.post_json("/tenders", {"data": tender_data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                'description': [{'unit': ['This field is required.']}],
+                'location': 'body', 'name': 'items'
+            }
+        ]
+    )
+    tender_data["items"][0]['unit'] = _unit
+    response = self.app.post_json("/tenders", {"data": tender_data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertIn("quantity", response.json["data"]['items'][0])
+    self.assertIn("unit", response.json["data"]['items'][0])
+
+    _unit_code = tender_data["items"][0]["unit"].pop("code")
+    response = self.app.post_json("/tenders", {"data": tender_data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                'description': [{'unit': {'code': ['This field is required.']}}],
+                'location': 'body', 'name': 'items'
+            }
+        ]
+    )
+    tender_data["items"][0]['unit']['code'] = _unit_code
+    tender_data["items"][0]['unit']['value'] = {
+        "currency": "USD",  # should be ignored during serializable
+        "valueAddedTaxIncluded": False
+    }
+    response = self.app.post_json("/tenders", {"data": tender_data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json['errors'],
+        [
+            {
+                'description': [
+                    {'unit': {'value': {'amount': ['This field is required.']}}}
+                ],
+                'location': 'body', 'name': 'items'
+            }
+        ]
+    )
+    tender_data["items"][0]['unit']['value']['amount'] = 100
+    response = self.app.post_json("/tenders", {"data": tender_data})
+    self.assertEqual(response.status, "201 Created")
+    resp = response.json["data"]
+    self.assertIn("value", resp['items'][0]['unit'])
+    self.assertEqual('UAH', resp['value']['currency'])
+    self.assertEqual(True, resp['value']['valueAddedTaxIncluded'])
+
+    self.assertEqual(
+        resp['items'][0]['unit']['value']['currency'],
+        resp['value']['currency']
+    )
+    self.assertEqual(
+        resp['items'][0]['unit']['value']['valueAddedTaxIncluded'],
+        resp['value']['valueAddedTaxIncluded']
+    )
+
+    tender_data["items"][0]["unit"]["code"] = "unknown_code"
+    response = self.app.post_json("/tenders", {"data": tender_data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json['errors'],
+        [
+            {
+                'description': [
+                    {u'unit': {u'code': [u'Code should be one of valid UNIT CODES.']}}
+                ],
+                'location': 'body', 'name': 'items'
+            }
+        ]
+    )
+
+    tender_data["items"][0]["unit"]["code"] = "KGM"
+    response = self.app.post_json("/tenders", {"data": tender_data})
+    self.assertEqual(response.status, "201 Created")
+    resp = response.json["data"]
+    self.assertEqual("KGM", resp["items"][0]["unit"]["code"])
+
+
 def create_tender_generated(self):
     data = self.initial_data.copy()
     data.update({"id": "hash", "doc_id": "hash2", "tenderID": "hash3"})

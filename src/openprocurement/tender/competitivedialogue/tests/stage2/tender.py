@@ -42,6 +42,7 @@ from openprocurement.tender.competitivedialogue.tests.stage2.tender_blanks impor
     first_bid_tender,
     tender_milestones_not_required,
     create_tender_central,
+    create_tender_with_non_required_unit,
 )
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogApiWebTest,
@@ -53,6 +54,9 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_author,
 )
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
+from openprocurement.tender.belowthreshold.tests.tender_blanks import (
+    create_tender_with_earlier_non_required_unit,
+)
 
 
 class CompetitiveDialogStage2Test(BaseCompetitiveDialogApiWebTest):
@@ -107,6 +111,8 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
     test_patch_not_author = snitch(patch_not_author)
     test_tender_funders = snitch(tender_funders)
     test_tender_milestones_not_required = snitch(tender_milestones_not_required)
+    test_create_tender_with_non_required_unit = snitch(create_tender_with_non_required_unit)
+    test_create_tender_with_earlier_non_required_unit = snitch(create_tender_with_earlier_non_required_unit)
 
 
 class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
