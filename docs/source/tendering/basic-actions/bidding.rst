@@ -15,6 +15,14 @@ Registration of Bid proposal
   HTTP/1.1 201 Created
   Location: /tenders/64e93250be76435397e8c992ed4214d1/bids/4879d3f8ee2443169b5fbbc9f89fa607
 
+Also documents could be uploaded if:
+ - exists `award` in status `active`
+ - tender has criterion `CRITERION.OTHER.CONTRACT.GUARANTEE`
+ - document has type `contractGuarantees`
+
+.. include:: ../http/criteria/add-bid-document-with-active-award.http
+   :code:
+
 Uploading Bid documents
 ~~~~~~~~~~~~~~~~~~~~~~~
 
