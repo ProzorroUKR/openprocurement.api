@@ -3,6 +3,11 @@ import six
 
 from paste.translogger import TransLogger
 
+try:
+    from logging import _nameToLevel as levels
+except ImportError:
+    from logging import _levelNames as levels
+
 
 def make_filter(
     app, global_conf,
@@ -13,9 +18,9 @@ def make_filter(
     set_logger_level=logging.DEBUG):
     from paste.util.converters import asbool
     if isinstance(logging_level, (six.binary_type, six.text_type)):
-        logging_level = logging._nameToLevel[logging_level]
+        logging_level = levels[logging_level]
     if isinstance(set_logger_level, (six.binary_type, six.text_type)):
-        set_logger_level = logging._nameToLevel[set_logger_level]
+        set_logger_level = levels[set_logger_level]
     return TransLogger(
         app,
         format=format or None,
