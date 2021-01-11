@@ -895,3 +895,7 @@ def get_doc_by_id(db, doc_type, doc_id):
     doc = db.get(doc_id)
     if doc and doc.get("doc_type") == doc_type:
         return doc
+
+
+def json_body(request):
+    return request.json_body

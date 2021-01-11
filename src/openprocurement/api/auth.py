@@ -181,7 +181,7 @@ def extract_access_token(request):
     token = request.params.get("acc_token") or request.headers.get("X-Access-Token")
     if not token and request.method in ["POST", "PUT", "PATCH"] and request.content_type == "application/json":
         try:
-            json = request.json_body
+            json = request.json
         except ValueError:
             json = None
         token = json.get("access", {}).get("token") if isinstance(json, dict) else None

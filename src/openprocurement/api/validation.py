@@ -19,7 +19,7 @@ OPERATIONS = {"POST": "add", "PATCH": "update", "PUT": "update", "DELETE": "dele
 def validate_json_data(request, expected_type=dict):
 
     try:
-        json = request.json_body
+        json = request.json
     except ValueError as e:
         request.errors.add("body", "data", str(e))
         request.errors.status = 422

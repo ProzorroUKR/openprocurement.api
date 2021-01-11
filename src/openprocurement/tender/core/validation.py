@@ -1143,7 +1143,7 @@ def unless_allowed_by_qualification_milestone(*validations):
 def validate_update_status_before_milestone_due_date(request):
     from openprocurement.tender.core.models import QualificationMilestone
     context = request.context
-    sent_status = request.json_body.get("data", {}).get("status")
+    sent_status = request.json.get("data", {}).get("status")
     if context.status == "pending" and context.status != sent_status:
         now = get_now()
         for milestone in context.milestones:
