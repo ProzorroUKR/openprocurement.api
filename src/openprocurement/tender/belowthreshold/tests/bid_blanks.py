@@ -8,7 +8,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_organization,
     set_bid_lotvalues,
     test_criteria,
-    GUARANTEE_ALLOWED_TENDERS,
+    GUARANTEE_ALLOWED_TENDER_TYPES,
 )
 
 
@@ -866,7 +866,7 @@ def create_tender_bid_document(self):
         self.assertIn("http://localhost/get/", response.location)
         self.assertIn("Signature=", response.location)
         self.assertIn("KeyID=", response.location)
-        # self.assertIn("Expires=", response.location)
+        self.assertIn("Expires=", response.location)
     else:
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/msword")
@@ -1285,7 +1285,7 @@ def create_tender_bid_document_json_bulk(self):
 def create_tender_bid_document_with_award_json(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     procurementMethodType = response.json["data"]["procurementMethodType"]
-    if procurementMethodType not in GUARANTEE_ALLOWED_TENDERS:
+    if procurementMethodType not in GUARANTEE_ALLOWED_TENDER_TYPES:
         return
 
     self.app.authorization = ("Basic", ("token", ""))
@@ -1332,7 +1332,7 @@ def create_tender_bid_document_with_award_json(self):
 def create_tender_bid_document_with_award_json_fail(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     procurementMethodType = response.json["data"]["procurementMethodType"]
-    if procurementMethodType not in GUARANTEE_ALLOWED_TENDERS:
+    if procurementMethodType not in GUARANTEE_ALLOWED_TENDER_TYPES:
         return
 
     self.app.authorization = ("Basic", ("token", ""))

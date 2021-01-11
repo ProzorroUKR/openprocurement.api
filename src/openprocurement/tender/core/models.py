@@ -53,8 +53,8 @@ from openprocurement.api.constants import (
     CPV_ITEMS_CLASS_FROM,
     RELEASE_ECRITERIA_ARTICLE_17,
     CRITERION_REQUIREMENT_STATUSES_FROM,
-    RELEASE_GUARANTEE_CRITERION,
-    GUARANTEE_ALLOWED_TENDERS,
+    RELEASE_GUARANTEE_CRITERION_FROM,
+    GUARANTEE_ALLOWED_TENDER_TYPES,
 )
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
 
@@ -875,11 +875,11 @@ class CriterionClassification(BaseClassification):
         criteria_to_check = ("CRITERION.OTHER.CONTRACT.GUARANTEE", "CRITERION.OTHER.BID.GUARANTEE")
 
         if (
-                tender_created >= RELEASE_GUARANTEE_CRITERION
+                tender_created >= RELEASE_GUARANTEE_CRITERION_FROM
                 and code in criteria_to_check
-                and tender.procurementMethodType not in GUARANTEE_ALLOWED_TENDERS
+                and tender.procurementMethodType not in GUARANTEE_ALLOWED_TENDER_TYPES
         ):
-            raise ValidationError(u"{} is available only in {}".format(code, GUARANTEE_ALLOWED_TENDERS))
+            raise ValidationError(u"{} is available only in {}".format(code, GUARANTEE_ALLOWED_TENDER_TYPES))
 
 
 class Criterion(Model):

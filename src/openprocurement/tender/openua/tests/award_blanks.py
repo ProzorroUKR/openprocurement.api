@@ -19,7 +19,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_draft_claim, test_claim,
     test_complaint, test_draft_complaint,
     test_cancellation, test_criteria,
-    GUARANTEE_ALLOWED_TENDERS,
+    GUARANTEE_ALLOWED_TENDER_TYPES,
 )
 from openprocurement.tender.openua.constants import STAND_STILL_TIME
 
@@ -2511,7 +2511,7 @@ def create_award_requirement_response(self):
 def create_award_requirement_response_winner(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     procurementMethodType = response.json["data"]["procurementMethodType"]
-    if procurementMethodType not in GUARANTEE_ALLOWED_TENDERS:
+    if procurementMethodType not in GUARANTEE_ALLOWED_TENDER_TYPES:
         return
     self.app.authorization = ("Basic", ("token", ""))
     criteria = deepcopy(test_criteria)

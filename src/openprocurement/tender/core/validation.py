@@ -26,8 +26,8 @@ from openprocurement.api.constants import (
     MINIMAL_STEP_VALIDATION_FROM,
     CRITERION_REQUIREMENT_STATUSES_FROM,
     RELEASE_SIMPLE_DEFENSE_FROM,
-    RELEASE_GUARANTEE_CRITERION,
-    GUARANTEE_ALLOWED_TENDERS,
+    RELEASE_GUARANTEE_CRITERION_FROM,
+    GUARANTEE_ALLOWED_TENDER_TYPES,
 )
 from openprocurement.api.utils import (
     get_now,
@@ -943,15 +943,15 @@ def validate_tender_activate_with_language_criteria(request, **kwargs):
         raise_operation_error(request, "Tender must contain {} criterion".format(needed_criterion))
 
 
-def validate_tender_guarantee(request):
+def validate_tender_guarantee(request, **kwargs):
     tender = request.context
     data = request.validated["data"]
     tender_type = request.validated["tender"].procurementMethodType
     tender_created = get_first_revision_date(tender, default=get_now())
 
     if (
-            tender_created < RELEASE_GUARANTEE_CRITERION
-            or tender_type not in GUARANTEE_ALLOWED_TENDERS
+            tender_created < RELEASE_GUARANTEE_CRITERION_FROM
+            or tender_type not in GUARANTEE_ALLOWED_TENDER_TYPES
             or request.validated["tender_src"]["status"] == data.get("status")
             or data.get("status") not in ["active", "active.tendering"]
     ):
@@ -971,7 +971,7 @@ def validate_tender_guarantee(request):
         )
 
 
-def validate_tender_status_update_not_in_pre_qualificaton(request):
+def validate_tender_status_update_not_in_pre_qualificaton(request, **kwargs):
     tender = request.context
     data = request.validated["data"]
     if (
@@ -1121,7 +1121,7 @@ def validate_bid_document_operation_in_not_allowed_tender_status(request, **kwar
 
     if (
             request.validated["tender_status"] == "active.awarded"
-            and tender.procurementMethodType in GUARANTEE_ALLOWED_TENDERS
+            and tender.procurementMethodType in GUARANTEE_ALLOWED_TENDER_TYPES
     ):
         bid_id = request.validated["bid_id"]
         criteria = tender["criteria"]
@@ -1975,8 +1975,8 @@ def get_criterion_requirement(tender, requirement_id):
     return None
 
 
-def validate_requirement_response_award_active(request):
-    validate_tender_first_revision_date(request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
+def validate_requirement_response_award_active(request, **kwargs):
+    _validate_tender_first_revision_date(request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
     if request.validated["tender"].status != "active.awarded":
         return
 
@@ -1996,8 +1996,8 @@ def validate_requirement_response_award_active(request):
         )
 
 
-def validate_patch_requirement_response_award_active(request):
-    validate_tender_first_revision_date(request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
+def validate_patch_requirement_response_award_active(request, **kwargs):
+    _validate_tender_first_revision_date(request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
     if request.validated["tender"].status != "active.awarded":
         return
 

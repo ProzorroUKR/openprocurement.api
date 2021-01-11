@@ -13,7 +13,7 @@ services:
       - "./docs:/app/docs:delegated"
     ports:
       - "8000:80"
-    command: pserve etc/service.ini --reload
+    command: sleep infinity
   test:
     build:
       context: .
