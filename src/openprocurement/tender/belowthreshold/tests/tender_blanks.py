@@ -3,9 +3,8 @@ import mock
 from uuid import uuid4
 from copy import deepcopy
 from datetime import timedelta
-from iso8601 import parse_date
 
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import get_now, parse_date
 from openprocurement.api import validation
 from openprocurement.api.constants import (
     COORDINATES_REG_EXP,

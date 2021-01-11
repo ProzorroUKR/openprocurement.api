@@ -5,14 +5,13 @@ from copy import deepcopy
 
 from datetime import datetime, timedelta
 
-from iso8601 import parse_date
 from openprocurement.api.constants import (
     ROUTE_PREFIX,
     CPV_ITEMS_CLASS_FROM,
     NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
     TZ,
 )
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import get_now, parse_date
 
 from openprocurement.planning.api.models import Plan
 from openprocurement.planning.api.constants import PROCEDURES

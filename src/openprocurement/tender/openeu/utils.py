@@ -2,8 +2,7 @@
 from logging import getLogger
 from functools import partial
 from cornice.resource import resource
-from openprocurement.api.models import get_now, TZ
-from openprocurement.api.utils import error_handler, context_unpack
+from openprocurement.api.utils import error_handler, context_unpack, get_now, TZ
 from openprocurement.tender.belowthreshold.utils import check_tender_status, add_contract
 from openprocurement.tender.openua.utils import add_next_award, check_complaint_status
 from openprocurement.tender.core.utils import (

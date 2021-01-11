@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 import os
 import re
-from ConfigParser import ConfigParser, DEFAULTSECT
 
+import pytz
+from ConfigParser import ConfigParser, DEFAULTSECT
 from iso8601 import parse_date
+
 from pytz import timezone
 from datetime import datetime
 from logging import getLogger
@@ -90,11 +92,11 @@ def load_constants(file_path):
     return config
 
 
-def parse_date_tz(datestring):
-    return parse_date(datestring, TZ)
+def parse_constant_date(datestring):
+    return parse_date(datestring, default_timezone=pytz.utc)
 
 
-def get_constant(config, constant, section=DEFAULTSECT, parse_func=parse_date_tz):
+def get_constant(config, constant, section=DEFAULTSECT, parse_func=parse_constant_date):
     return parse_func(os.environ.get("{}_{}".format(section, constant)) or config.get(section, constant))
 
 

@@ -1,7 +1,7 @@
+import pytz
 from jsonpointer import JsonPointerException
 from jsonpatch import JsonPatchException, apply_patch
 
-from iso8601 import parse_date
 from zope.interface import providedBy
 
 from pyramid.view import _call_view
@@ -15,7 +15,7 @@ from openprocurement.historical.core.constants import (
     ACCREDITATION_LEVELS,
     VERSION_BY_DATE,
 )
-from openprocurement.api.utils import error_handler, APIResource, json_view, context_unpack
+from openprocurement.api.utils import error_handler, APIResource, json_view, context_unpack, parse_date
 
 
 class Root(object):
@@ -37,7 +37,7 @@ def get_valid_apply_patch_doc(doc, request, patch):
 
 
 def get_version_from_date(request, doc, revisions):
-    version_date = parse_date(request.headers.get(VERSION_BY_DATE))
+    version_date = parse_date(request.headers.get(VERSION_BY_DATE, pytz.utc))
     if version_date > parse_date(doc["dateModified"]) or version_date < parse_date(revisions[1]["date"]):
         return return404(request, "header", "version")
     for version, revision in reversed(list(enumerate(revisions))):
@@ -163,7 +163,7 @@ def validate_header(request):
     request.validated[HASH] = request.headers.get(HASH, "")
     if request.headers.get(VERSION_BY_DATE, "") != "":
         try:
-            request.validated[VERSION_BY_DATE] = parse_date(request.headers.get(VERSION_BY_DATE, ""))
+            request.validated[VERSION_BY_DATE] = parse_date(request.headers.get(VERSION_BY_DATE, ""), pytz.utc)
         except:
             if (version and (not version.isdigit() or int(version) < 1)) or version == "":
                 return404(request, "header", "version")

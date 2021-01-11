@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
+from pytz import utc, timezone
+
 from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.api.utils import APIResourceListing, get_currency_rates, get_uah_amount_from_value
+from openprocurement.api.utils import APIResourceListing, get_currency_rates, get_uah_amount_from_value, parse_date
 from pyramid.testing import DummyRequest, testConfig
 from requests.exceptions import ConnectionError
 from datetime import datetime
@@ -244,3 +246,28 @@ class GetUAHAmountFromValueTestCase(unittest.TestCase):
             u"Couldn't find currency {} on bank.gov.ua".format(value["currency"]),
             status=422
         )
+
+
+class ParseDateTestCase(unittest.TestCase):
+    def test_parse_date(self):
+        dt_str = "2020-01-01T12:00:00+02:00"
+        dt_result = parse_date(dt_str)
+        dt_expected = timezone("Europe/Kiev").localize(datetime(2020, 1, 1, 12, 0, 0))
+        self.assertEqual(dt_result, dt_expected)
+
+    def test_parse_date_with_no_tz(self):
+        dt_str = "2020-01-01T12:00:00"
+        dt_result = parse_date(dt_str)
+        dt_expected = utc.localize(datetime(2020, 1, 1, 12, 0, 0))
+        self.assertEqual(dt_result, dt_expected)
+
+    def test_parse_date_with_no_time_and_tz(self):
+        dt_str = "2020-01-01"
+        dt_result = parse_date(dt_str)
+        dt_expected = utc.localize(datetime(2020, 1, 1))
+        self.assertEqual(dt_result, dt_expected)
+
+    def test_parse_date_invalid_format(self):
+        dt_str = "test"
+        with self.assertRaises(ValueError) as e:
+            parse_date(dt_str)

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
-from iso8601 import parse_date
 from copy import deepcopy
 from openprocurement.api.models import get_now
 from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.utils import parse_date
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )

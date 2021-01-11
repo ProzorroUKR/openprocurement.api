@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
 import unittest
-from datetime import timedelta
+from datetime import timedelta, datetime
 import mock
+from pytz import timezone
 
-from schematics.exceptions import ValidationError, ModelValidationError
+from schematics.exceptions import ValidationError, ModelValidationError, ConversionError
 from couchdb_schematics.document import SchematicsDocument
 
 import openprocurement
-from openprocurement.api.models import Item
+from openprocurement.api.models import Item, IsoDateTimeType
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.models import BusinessOrganization, Address
 from openprocurement.api.utils import get_now
-from openprocurement.api.constants import COUNTRIES, UA_REGIONS, VALIDATE_ADDRESS_FROM
+from openprocurement.api.constants import COUNTRIES, UA_REGIONS, VALIDATE_ADDRESS_FROM, TZ
 
 
 class ItemTestCase(BaseWebTest):
@@ -111,6 +112,57 @@ class TestAddress(unittest.TestCase):
         address.region = u"Київська область"
         address.validate_region(address, address.region)
         self.assertIn(address.region, UA_REGIONS)
+
+
+class TestIsoDateTimeType(unittest.TestCase):
+    def test_to_native_string(self):
+        dt_str = "2020-01-01T12:00:00+02:00"
+        dt_result = IsoDateTimeType().to_native(dt_str)
+        dt_expected = TZ.localize(datetime(2020, 1, 1, 12, 0, 0))
+        self.assertEqual(dt_result, dt_expected)
+
+    def test_to_native_string_with_no_tz(self):
+        dt_str = "2020-01-01T12:00:00"
+        dt_result = IsoDateTimeType().to_native(dt_str)
+        dt_expected = TZ.localize(datetime(2020, 1, 1, 12, 0, 0))
+        self.assertEqual(dt_result, dt_expected)
+
+    def test_to_native_string_with_no_time_and_tz(self):
+        dt_str = "2020-01-01"
+        dt_result = IsoDateTimeType().to_native(dt_str)
+        dt_expected = TZ.localize(datetime(2020, 1, 1))
+        self.assertEqual(dt_result, dt_expected)
+
+    def test_to_native_string_with_not_default_tz(self):
+        dt_str = "2020-01-01T12:00:00-05:00"
+        dt_result = IsoDateTimeType().to_native(dt_str)
+        dt_expected = timezone('US/Eastern').localize(datetime(2020, 1, 1, 12, 0, 0))
+        self.assertEqual(dt_result, dt_expected)
+
+    def test_to_native_string_invalid_format(self):
+        dt_str = "test"
+        with self.assertRaises(ConversionError) as e:
+            IsoDateTimeType().to_native(dt_str)
+            self.assertEqual(
+                e.exception.message,
+                IsoDateTimeType.MESSAGES["parse"].format(dt_str)
+            )
+
+    def test_to_native_datetime(self):
+        dt = TZ.localize(datetime(2020, 1, 1, 12, 0, 0))
+        dt_result = IsoDateTimeType().to_native(dt)
+        self.assertEqual(dt_result, dt)
+
+    def test_to_primitive_string(self):
+        dt_str = "2020-01-01T12:00:00+02:00"
+        dt_result = IsoDateTimeType().to_primitive(dt_str)
+        self.assertEqual(dt_result, dt_str)
+
+    def test_to_primitive_datetime(self):
+        dt = TZ.localize(datetime(2020, 1, 1, 12, 0, 0))
+        dt_str_result = IsoDateTimeType().to_primitive(dt)
+        dt_str_expected = "2020-01-01T12:00:00+02:00"
+        self.assertEqual(dt_str_result, dt_str_expected)
 
 
 def suite():

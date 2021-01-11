@@ -2,13 +2,12 @@
 import os
 from copy import deepcopy
 from datetime import timedelta
-from iso8601 import parse_date
 from freezegun import freeze_time
 
 import standards
 
 from openprocurement.api.tests.base import BaseWebTest, change_auth
-from openprocurement.api.utils import get_now, apply_data_patch
+from openprocurement.api.utils import get_now, apply_data_patch, parse_date
 from openprocurement.framework.core.tests.base import BaseCoreWebTest
 from openprocurement.framework.electroniccatalogue.models import ElectronicCatalogueFramework
 from openprocurement.framework.electroniccatalogue.tests.periods import PERIODS

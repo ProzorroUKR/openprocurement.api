@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
 from copy import deepcopy
-from iso8601 import parse_date
 from openprocurement.tender.belowthreshold.tests.base import test_claim, test_author
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )
-from openprocurement.api.utils import get_now
-
+from openprocurement.api.utils import get_now, parse_date
 
 # TenderLotEdgeCasesTest
 from openprocurement.tender.belowthreshold.tests.base import test_cancellation

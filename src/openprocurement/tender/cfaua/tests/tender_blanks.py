@@ -3,7 +3,6 @@ import mock
 from datetime import timedelta
 from copy import deepcopy
 
-from iso8601 import parse_date
 from isodate import duration_isoformat
 from mock import patch
 from openprocurement.api.constants import (
@@ -11,7 +10,7 @@ from openprocurement.api.constants import (
     SANDBOX_MODE,
     NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
 )
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import get_now, parse_date
 from openprocurement.tender.belowthreshold.tests.base import test_organization
 from uuid import uuid4
 

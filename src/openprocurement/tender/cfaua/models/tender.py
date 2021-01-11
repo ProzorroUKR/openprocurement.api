@@ -1,4 +1,3 @@
-from iso8601 import parse_date
 from pyramid.security import Allow
 from schematics.transforms import whitelist
 from schematics.types import IntType, URLType, BooleanType

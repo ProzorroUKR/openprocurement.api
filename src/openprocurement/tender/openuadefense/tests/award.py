@@ -5,11 +5,10 @@ from copy import deepcopy
 from datetime import timedelta
 
 import mock
-from iso8601 import parse_date
 from parameterized import parameterized
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import get_now, parse_date
 
 from openprocurement.tender.belowthreshold.tests.base import test_lots, test_organization, test_draft_complaint
 from openprocurement.tender.belowthreshold.tests.award import TenderAwardDocumentResourceTestMixin

@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 import unittest
 import time
-from iso8601 import parse_date
 from datetime import timedelta
 
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import get_now, parse_date
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.constants import SANDBOX_MODE
 

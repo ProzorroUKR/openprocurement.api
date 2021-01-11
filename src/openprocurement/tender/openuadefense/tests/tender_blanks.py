@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
 from datetime import timedelta
-from iso8601 import parse_date
 
+from openprocurement.api.utils import parse_date
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_criteria
 from openprocurement.api.constants import NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM, CPV_ITEMS_CLASS_FROM
 from openprocurement.tender.core.models import get_now

@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from iso8601 import parse_date
 from datetime import timedelta
 
 from openprocurement.api.constants import RELEASE_2020_04_19
@@ -10,7 +9,7 @@ from openprocurement.api.utils import (
     set_ownership,
     APIResource,
     raise_operation_error,
-    get_first_revision_date,
+    get_first_revision_date, parse_date,
 )
 from openprocurement.tender.core.validation import (
     validate_complaint_data,
