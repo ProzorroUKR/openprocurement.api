@@ -20,7 +20,7 @@ PERIODS = {
         },
         "end": {
             "tenderPeriod": {
-                "startDate": - timedelta(days=6),
+                "startDate": - timedelta(days=8),
                 "endDate": timedelta()
             },
         },

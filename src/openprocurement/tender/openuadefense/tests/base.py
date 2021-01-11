@@ -4,7 +4,6 @@ from datetime import timedelta
 from copy import deepcopy
 
 from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.api.utils import get_now, apply_data_patch
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.tender.openuadefense.models import Tender
 from openprocurement.tender.openuadefense.tests.periods import PERIODS
@@ -17,7 +16,6 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_procuringEntity as test_procuringEntity_api,
     test_tender_data as test_tender_data_api,
 )
-from openprocurement.api.utils import apply_data_patch
 from openprocurement.tender.belowthreshold.tests.base import test_bids as base_test_bids
 
 

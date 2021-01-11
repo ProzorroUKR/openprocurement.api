@@ -25,11 +25,11 @@ PERIODS = {
         },
         "complaint_end": {
             "enquiryPeriod": {
-                "startDate": -timedelta(days=12),
+                "startDate": -timedelta(days=13),
                 "endDate": timedelta(),
             },
             "tenderPeriod": {
-                "startDate": -timedelta(days=12),
+                "startDate": -timedelta(days=13),
                 "endDate": timedelta(days=1),
             },
             "auctionPeriod": {"startDate": timedelta(days=2)}
