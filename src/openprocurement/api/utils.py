@@ -4,6 +4,7 @@ from contextlib import contextmanager
 from decimal import Decimal
 
 import couchdb.json
+import pytz
 from couchdb import util, ResourceConflict
 from logging import getLogger
 from datetime import datetime
@@ -12,6 +13,7 @@ from cornice.resource import resource, view
 from email.header import decode_header
 from functools import partial
 
+from iso8601 import parse_date as iso_parse_date, ParseError
 from jsonpatch import make_patch, apply_patch
 from schematics.types import StringType
 
@@ -31,8 +33,9 @@ from json import dumps
 from schematics.exceptions import ValidationError, ModelValidationError, ModelConversionError
 from couchdb_schematics.document import SchematicsDocument
 from openprocurement.api.events import ErrorDesctiptorEvent
-from openprocurement.api.constants import LOGGER, JOURNAL_PREFIX
 from openprocurement.api.constants import (
+    LOGGER,
+    JOURNAL_PREFIX,
     ADDITIONAL_CLASSIFICATIONS_SCHEMES,
     DOCUMENT_BLACKLISTED_FIELDS,
     DOCUMENT_WHITELISTED_FIELDS,
@@ -899,3 +902,13 @@ def get_doc_by_id(db, doc_type, doc_id):
 
 def json_body(request):
     return request.json_body
+
+
+def parse_date(value, default_timezone=pytz.utc):
+    try:
+        date = iso_parse_date(value, None)
+        if not date.tzinfo:
+            date = default_timezone.localize(date)
+        return date
+    except ParseError:
+        raise ValueError

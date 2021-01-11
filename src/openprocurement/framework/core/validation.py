@@ -1,6 +1,4 @@
-from iso8601 import parse_date
-
-from openprocurement.api.utils import update_logging_context, raise_operation_error, get_now
+from openprocurement.api.utils import update_logging_context, raise_operation_error, get_now, parse_date
 from openprocurement.api.validation import (
     OPERATIONS,
     validate_json_data,

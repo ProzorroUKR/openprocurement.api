@@ -2,10 +2,9 @@
 from mock import patch
 from datetime import timedelta
 from copy import deepcopy
-from iso8601 import parse_date
 
 from openprocurement.api.constants import RELEASE_2020_04_19
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import get_now, parse_date
 from openprocurement.tender.belowthreshold.tests.base import (
     test_author, test_organization, test_cancellation,
     test_draft_complaint,

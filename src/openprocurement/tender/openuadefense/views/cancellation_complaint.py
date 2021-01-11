@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from iso8601 import parse_date
 from datetime import timedelta
 
+from openprocurement.api.utils import parse_date
 from openprocurement.tender.core.views.cancellation_complaint import TenderCancellationComplaintResource
 from openprocurement.tender.core.utils import optendersresource, calculate_date_diff
 from openprocurement.tender.openuadefense.utils import calculate_tender_business_date

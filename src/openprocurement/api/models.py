@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime, timedelta
 from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
-from iso8601 import parse_date, ParseError
 from isodate import ISO8601Error, parse_duration, duration_isoformat
 from isodate.duration import Duration
 from uuid import uuid4
@@ -25,11 +24,17 @@ from schematics.types import (
 from schematics.types.compound import ModelType, DictType, ListType as BaseListType
 from schematics.types.serializable import serializable
 from openprocurement.api.interfaces import ISerializable, IValidator
-from openprocurement.api.utils import get_now, set_parent, get_schematics_document, get_first_revision_date, get_root
+from openprocurement.api.utils import (
+    get_now,
+    set_parent,
+    get_schematics_document,
+    get_first_revision_date,
+    get_root,
+    parse_date,
+)
 from openprocurement.api.constants import (
     CPV_CODES,
     ORA_CODES,
-    TZ,
     DK_CODES,
     CPV_BLOCK_FROM,
     SCALE_CODES,
@@ -40,7 +45,7 @@ from openprocurement.api.constants import (
     GMDN,
     COUNTRIES,
     UA_REGIONS,
-    VALIDATE_ADDRESS_FROM
+    VALIDATE_ADDRESS_FROM, TZ,
 )
 
 schematics_default_role = SchematicsDocument.Options.roles["default"] + blacklist("__parent__")
@@ -50,7 +55,7 @@ plain_role = blacklist("_attachments", "revisions", "dateModified") + schematics
 listing_role = whitelist("dateModified", "doc_id")
 draft_role = whitelist("status")
 from couchdb_schematics.document import DocumentMeta
-from zope.component import getAdapter, queryAdapter, getAdapters
+from zope.component import queryAdapter, getAdapters
 
 
 class AdaptiveDict(dict):
@@ -150,17 +155,16 @@ class IsoDateTimeType(BaseType):
         if isinstance(value, datetime):
             return value
         try:
-            date = parse_date(value, None)
-            if not date.tzinfo:
-                date = TZ.localize(date)
-            return date
-        except ParseError:
+            return parse_date(value, default_timezone=TZ)
+        except ValueError:
             raise ConversionError(self.messages["parse"].format(value))
         except OverflowError as e:
             raise ConversionError(str(e))
 
     def to_primitive(self, value, context=None):
-        return value.isoformat()
+        if isinstance(value, datetime):
+            return value.isoformat()
+        return value
 
 
 class IsoDurationType(BaseType):

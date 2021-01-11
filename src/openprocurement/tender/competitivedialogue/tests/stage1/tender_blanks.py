@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
 from datetime import timedelta
-from iso8601 import parse_date
 
 from openprocurement.api.constants import SANDBOX_MODE, CPV_ITEMS_CLASS_FROM, ROUTE_PREFIX
-from openprocurement.api.utils import get_now
-
+from openprocurement.api.utils import get_now, parse_date
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization
 

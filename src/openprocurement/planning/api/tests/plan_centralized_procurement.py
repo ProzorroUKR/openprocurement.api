@@ -8,9 +8,8 @@ from openprocurement.planning.api.constants import (
     MILESTONE_APPROVAL_TITLE,
     MILESTONE_APPROVAL_DESCRIPTION
 )
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import get_now, parse_date
 from datetime import timedelta, datetime
-from iso8601 import parse_date
 from copy import deepcopy
 import pytest
 

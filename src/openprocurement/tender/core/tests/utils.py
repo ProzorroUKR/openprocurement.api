@@ -145,19 +145,19 @@ class TestUtils(TestUtilsBase):
         self.assertEqual(business_date, datetime(2017, 10, 7, 0, 7))
 
     def test_calculate_date_diff(self):
-        dt1 = datetime(2020, 03, 17, 13)
+        dt1 = datetime(2020, 3, 17, 13)
         dt2 = dt1
-        dt3 = datetime(2020, 03, 20)
-        dt4 = datetime(2020, 03, 22)
-        dt5 = datetime(2020, 03, 23, 15)
+        dt3 = datetime(2020, 3, 20)
+        dt4 = datetime(2020, 3, 22)
+        dt5 = datetime(2020, 3, 23, 15)
 
         self.assertEqual(calculate_date_diff(dt2, dt1), timedelta(days=0))
         self.assertEqual(calculate_date_diff(dt3, dt1), timedelta(days=2, hours=11))
         self.assertEqual(calculate_date_diff(dt4, dt1), timedelta(days=2, hours=11))
         self.assertEqual(calculate_date_diff(dt5, dt1), timedelta(days=4, hours=2))
 
-        dt6 = datetime(2020, 04, 17, 17, 37)
-        dt7 = datetime(2020, 04, 17, 17, 30)
+        dt6 = datetime(2020, 4, 17, 17, 37)
+        dt7 = datetime(2020, 4, 17, 17, 30)
         self.assertEqual(calculate_date_diff(dt6, dt7), timedelta(minutes=7))
 
     @patch("openprocurement.tender.core.utils.error_handler")

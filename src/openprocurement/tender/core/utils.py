@@ -10,7 +10,6 @@ from dateorro import (
     calc_normalized_datetime,
 )
 from dateorro.calculations import check_working_datetime
-from iso8601 import parse_date
 from jsonpointer import resolve_pointer
 from functools import partial
 from datetime import datetime, time, timedelta
@@ -41,7 +40,7 @@ from openprocurement.api.utils import (
     error_handler,
     get_first_revision_date,
     handle_store_exceptions,
-    append_revision,
+    append_revision, parse_date,
 )
 from openprocurement.tender.core.constants import (
     BIDDER_TIME,

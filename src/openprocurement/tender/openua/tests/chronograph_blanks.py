@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-from iso8601 import parse_date
 from copy import deepcopy
+
+from openprocurement.api.utils import parse_date
 from openprocurement.tender.belowthreshold.tests.base import test_claim, test_author
 from openprocurement.tender.core.tests.base import change_auth
 

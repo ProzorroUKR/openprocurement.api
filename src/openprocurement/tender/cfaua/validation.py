@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
-from iso8601 import parse_date
 from isodate import duration_isoformat
 from schematics.exceptions import ValidationError
 from zope.component import getAdapter
 from decimal import Decimal
 
-from openprocurement.api.utils import get_now, raise_operation_error, update_logging_context
+from openprocurement.api.utils import get_now, raise_operation_error, update_logging_context, parse_date
 from openprocurement.api.validation import validate_data, OPERATIONS
 from openprocurement.api.interfaces import IContentConfigurator
 
