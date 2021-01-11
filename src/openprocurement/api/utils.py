@@ -13,7 +13,7 @@ from cornice.resource import resource, view
 from email.header import decode_header
 from functools import partial
 
-from iso8601 import parse_date as iso_parse_date, ParseError
+from ciso8601 import parse_datetime
 from jsonpatch import make_patch, apply_patch
 from schematics.types import StringType
 
@@ -905,10 +905,7 @@ def json_body(request):
 
 
 def parse_date(value, default_timezone=pytz.utc):
-    try:
-        date = iso_parse_date(value, None)
-        if not date.tzinfo:
-            date = default_timezone.localize(date)
-        return date
-    except ParseError:
-        raise ValueError
+    date = parse_datetime(value)
+    if not date.tzinfo:
+        date = default_timezone.localize(date)
+    return date

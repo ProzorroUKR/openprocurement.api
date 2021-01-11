@@ -3,8 +3,8 @@ import os
 import mock
 from copy import deepcopy
 from datetime import timedelta
-from iso8601 import parse_date
 
+from openprocurement.api.utils import parse_date
 from openprocurement.api.models import get_now
 from openprocurement.tender.openeu.tests.tender import BaseTenderWebTest
 from openprocurement.tender.core.tests.base import change_auth

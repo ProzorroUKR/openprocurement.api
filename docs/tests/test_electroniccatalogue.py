@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 import os
-from mock import patch
 from copy import deepcopy
 from datetime import timedelta
 
-from iso8601 import parse_date
 from tests.base.data import tenderer
 from tests.base.constants import DOCS_URL
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import get_now, parse_date
 from openprocurement.framework.electroniccatalogue.tests.base import (
     test_electronicCatalogue_data,
     BaseElectronicCatalogueWebTest,
