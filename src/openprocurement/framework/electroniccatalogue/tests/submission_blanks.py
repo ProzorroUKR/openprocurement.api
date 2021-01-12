@@ -320,7 +320,7 @@ def create_submission_draft_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Not implemented", u"location": u"data", u"name": u"submissionType"}],
+        [{u"description": u"Not implemented", u"location": u"body", u"name": u"submissionType"}],
     )
 
     response = self.app.post_json(request_path, {"data": {"invalid_field": "invalid_value"}}, status=422)

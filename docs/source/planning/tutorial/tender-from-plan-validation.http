@@ -140,7 +140,7 @@ X-Content-Type-Options: nosniff
   "errors": [
     {
       "description": "procurementMethodType doesn't match: belowThreshold != aboveThresholdEU", 
-      "location": "data", 
+      "location": "body", 
       "name": "procurementMethodType"
     }
   ]

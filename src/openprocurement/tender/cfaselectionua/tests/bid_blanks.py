@@ -1603,7 +1603,7 @@ def create_tender_bid_with_document_invalid(self):
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["location"], docs_container)
+    self.assertEqual(response.json["errors"][0]["location"], "body")
     self.assertEqual(response.json["errors"][0]["name"], "hash")
     self.assertEqual(response.json["errors"][0]["description"], "This field is required.")
 

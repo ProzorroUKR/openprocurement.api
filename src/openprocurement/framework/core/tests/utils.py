@@ -38,7 +38,7 @@ class UtilsFrameworkTest(BaseFrameworkTest):
         with self.assertRaises(Exception) as e:
             framework_from_data(request, self.framework_data)
         self.assertEqual(request.errors.status, 415)
-        request.errors.add.assert_called_once_with("data", "frameworkType", "Not implemented")
+        request.errors.add.assert_called_once_with("body", "frameworkType", "Not implemented")
 
         model = framework_from_data(request, self.framework_data, raise_error=False)
         self.assertIs(model, None)

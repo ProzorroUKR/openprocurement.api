@@ -10,8 +10,8 @@ from openprocurement.tender.competitivedialogue.utils import (
     get_item_by_id,
 )
 from openprocurement.tender.core.validation import (
-    validate_complaint_accreditation_level,
-    validate_question_accreditation_level,
+    _validate_complaint_accreditation_level,
+    _validate_question_accreditation_level,
     validate_tender_document_update_not_by_author_or_tender_owner,
 )
 from openprocurement.tender.openua.validation import (
@@ -19,7 +19,7 @@ from openprocurement.tender.openua.validation import (
 )
 
 
-def validate_patch_tender_stage2_data(request):
+def validate_patch_tender_stage2_data(request, **kwargs):
     data = validate_json_data(request)
     if request.context.status == "draft":
         default_statuses = ["active.tendering", STAGE2_STATUS]
@@ -38,12 +38,12 @@ def validate_patch_tender_stage2_data(request):
             if len(set(cpv_group_lists)) != 1:
                 request.errors.add("body", "item", "Can't change classification")
                 request.errors.status = 403
-                raise error_handler(request.errors)
+                raise error_handler(request)
         if "enquiryPeriod" in data:
             if apply_data_patch(request.context.enquiryPeriod.serialize(), data["enquiryPeriod"]):
                 request.errors.add("body", "item", "Can't change enquiryPeriod")
                 request.errors.status = 403
-                raise error_handler(request.errors)
+                raise error_handler(request)
     if request.context.status == STAGE2_STATUS and data.get("status") == "active.tendering":
         data = validate_data(request, type(request.tender), True, data)
         if data:  # if no error then add status to validate data
@@ -55,7 +55,7 @@ def validate_patch_tender_stage2_data(request):
     return data
 
 
-def validate_update_tender_document(request):
+def validate_update_tender_document(request, **kwargs):
     status = request.validated["tender_status"]
     role = request.authenticated_role
     statuses = ["active.tendering", STAGE2_STATUS]
@@ -90,13 +90,13 @@ def validate_author(request, shortlistedFirms, obj):
         request.errors.add("body", "author", error_message)
         request.errors.status = 403
         # return False
-        raise error_handler(request.errors)
+        raise error_handler(request)
     return True
 
 
-def validate_complaint_data_stage2(request):
+def validate_complaint_data_stage2(request, **kwargs):
     update_logging_context(request, {"complaint_id": "__new__"})
-    validate_complaint_accreditation_level(request)
+    _validate_complaint_accreditation_level(request)
     data = validate_data(request, type(request.tender).complaints.model_class)
     if data:
         if validate_author(request, request.tender["shortlistedFirms"], request.validated["complaint"]):
@@ -106,7 +106,7 @@ def validate_complaint_data_stage2(request):
     return data
 
 
-def validate_patch_complaint_data_stage2(request):
+def validate_patch_complaint_data_stage2(request, **kwargs):
     model = type(request.tender).complaints.model_class
     data = validate_data(request, model, True)
     if data:
@@ -117,9 +117,9 @@ def validate_patch_complaint_data_stage2(request):
     return data
 
 
-def validate_post_question_data_stage2(request):
+def validate_post_question_data_stage2(request, **kwargs):
     update_logging_context(request, {"question_id": "__new__"})
-    validate_question_accreditation_level(request)
+    _validate_question_accreditation_level(request)
     model = type(request.tender).questions.model_class
     data = validate_data(request, model)
     if data:
@@ -131,7 +131,7 @@ def validate_post_question_data_stage2(request):
 
 
 # tender
-def validate_credentials_generation(request):
+def validate_credentials_generation(request, **kwargs):
     if request.validated["tender"].status != "draft.stage2":
         raise_operation_error(
             request,
@@ -139,7 +139,7 @@ def validate_credentials_generation(request):
         )
 
 
-def validate_tender_update(request):
+def validate_tender_update(request, **kwargs):
     tender = request.context
     data = request.validated["data"]
     if (
@@ -152,16 +152,16 @@ def validate_tender_update(request):
 
 
 # bid
-def validate_bid_status_update_not_to_pending_or_draft(request):
+def validate_bid_status_update_not_to_pending_or_draft(request, **kwargs):
     if request.authenticated_role != "Administrator":
         bid_status_to = request.validated["data"].get("status", request.context.status)
         if bid_status_to not in ["pending", "draft"]:
             request.errors.add("body", "bid", "Can't update bid to ({}) status".format(bid_status_to))
             request.errors.status = 403
-            raise error_handler(request.errors)
+            raise error_handler(request)
 
 
-def validate_firm_to_create_bid(request):
+def validate_firm_to_create_bid(request, **kwargs):
     tender = request.validated["tender"]
     bid = request.validated["bid"]
     firm_keys = prepare_shortlistedFirms(tender.shortlistedFirms)
@@ -171,6 +171,6 @@ def validate_firm_to_create_bid(request):
 
 
 # lot
-def validate_lot_operation_for_stage2(request):
+def validate_lot_operation_for_stage2(request, **kwargs):
     operations = {"POST": "create", "PATCH": "update", "DELETE": "delete"}
     raise_operation_error(request, "Can't {} lot for tender stage2".format(operations.get(request.method)))

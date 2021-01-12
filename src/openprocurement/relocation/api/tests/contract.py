@@ -185,7 +185,7 @@ class ContractOwnershipChangeTest(BaseContractOwnershipChangeTest):
             [
                 {
                     u"description": u"Broker Accreditation level does not permit ownership change",
-                    u"location": u"ownership",
+                    u"location": u"url",
                     u"name": u"accreditation",
                 }
             ],
@@ -212,7 +212,7 @@ class ContractOwnershipChangeTest(BaseContractOwnershipChangeTest):
             [
                 {
                     u"description": u"Broker Accreditation level does not permit ownership change",
-                    u"location": u"ownership",
+                    u"location": u"url",
                     u"name": u"mode",
                 }
             ],
@@ -252,7 +252,7 @@ class ContractOwnershipChangeTest(BaseContractOwnershipChangeTest):
             [
                 {
                     u"description": u"Broker Accreditation level does not permit ownership change",
-                    u"location": u"ownership",
+                    u"location": u"url",
                     u"name": u"accreditation",
                 }
             ],
@@ -308,7 +308,7 @@ class ContractOwnerOwnershipChangeTest(BaseContractOwnershipChangeTest):
             [
                 {
                     u"description": u"Owner Accreditation level does not permit ownership change",
-                    u"location": u"ownership",
+                    u"location": u"url",
                     u"name": u"accreditation",
                 }
             ],

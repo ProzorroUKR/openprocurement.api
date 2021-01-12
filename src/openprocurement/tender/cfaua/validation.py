@@ -13,13 +13,13 @@ from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER, MAX_AGREEMEN
 from openprocurement.tender.core.validation import validate_award_document_tender_not_in_allowed_status_base
 
 
-def validate_patch_qualification_data(request):
+def validate_patch_qualification_data(request, **kwargs):
     qualification_class = type(request.context)
     return validate_data(request, qualification_class, True)
 
 
 # bids
-def validate_view_bids_in_active_tendering(request):
+def validate_view_bids_in_active_tendering(request, **kwargs):
     if request.validated["tender_status"] == "active.tendering":
         raise_operation_error(
             request,
@@ -30,13 +30,13 @@ def validate_view_bids_in_active_tendering(request):
 
 
 # bid document
-def validate_add_bid_document_not_in_allowed_tender_status(request):
+def validate_add_bid_document_not_in_allowed_tender_status(request, **kwargs):
     tender_status = request.validated["tender_status"]
     if tender_status not in ("active.tendering", "active.qualification", "active.qualification.stand-still"):
         raise_operation_error(request, "Can't upload document in current ({}) tender status".format(tender_status))
 
 
-def validate_add_bid_financial_document_not_in_allowed_tender_status(request):
+def validate_add_bid_financial_document_not_in_allowed_tender_status(request, **kwargs):
     tender_status = request.validated["tender_status"]
     if tender_status not in ("active.tendering", "active.qualification",
                              "active.awarded", "active.qualification.stand-still"):
@@ -44,7 +44,7 @@ def validate_add_bid_financial_document_not_in_allowed_tender_status(request):
 
 
 # qualification
-def validate_qualification_document_operation_not_in_allowed_status(request):
+def validate_qualification_document_operation_not_in_allowed_status(request, **kwargs):
     if request.validated["tender_status"] != "active.pre-qualification":
         raise_operation_error(
             request,
@@ -54,7 +54,7 @@ def validate_qualification_document_operation_not_in_allowed_status(request):
         )
 
 
-def validate_qualification_document_operation_not_in_pending(request):
+def validate_qualification_document_operation_not_in_pending(request, **kwargs):
     qualification = request.validated["qualification"]
     if qualification.status != "pending":
         raise_operation_error(
@@ -63,36 +63,36 @@ def validate_qualification_document_operation_not_in_pending(request):
 
 
 # qualification complaint
-def validate_qualification_update_not_in_pre_qualification(request):
+def validate_qualification_update_not_in_pre_qualification(request, **kwargs):
     tender = request.validated["tender"]
     if tender.status not in ["active.pre-qualification"]:
         raise_operation_error(request, "Can't update qualification in current ({}) tender status".format(tender.status))
 
 
-def validate_cancelled_qualification_update(request):
+def validate_cancelled_qualification_update(request, **kwargs):
     if request.context.status == "cancelled":
         raise_operation_error(request, "Can't update qualification in current cancelled qualification status")
 
 
-def validate_add_complaint_not_in_pre_qualification(request):
+def validate_add_complaint_not_in_pre_qualification(request, **kwargs):
     tender = request.validated["tender"]
     if tender.status not in ["active.pre-qualification.stand-still"]:
         raise_operation_error(request, "Can't add complaint in current ({}) tender status".format(tender.status))
 
 
-def validate_update_complaint_not_in_pre_qualification(request):
+def validate_update_complaint_not_in_pre_qualification(request, **kwargs):
     tender = request.validated["tender"]
     if tender.status not in ["active.pre-qualification", "active.pre-qualification.stand-still"]:
         raise_operation_error(request, "Can't update complaint in current ({}) tender status".format(tender.status))
 
 
-def validate_update_qualification_complaint_only_for_active_lots(request):
+def validate_update_qualification_complaint_only_for_active_lots(request, **kwargs):
     tender = request.validated["tender"]
     if any([i.status != "active" for i in tender.lots if i.id == request.validated["qualification"].lotID]):
         raise_operation_error(request, "Can update complaint only in active lot status")
 
 
-def validate_add_complaint_not_in_qualification_period(request):
+def validate_add_complaint_not_in_qualification_period(request, **kwargs):
     tender = request.validated["tender"]
     if tender.qualificationPeriod and (
         tender.qualificationPeriod.startDate
@@ -103,7 +103,7 @@ def validate_add_complaint_not_in_qualification_period(request):
         raise_operation_error(request, "Can add complaint only in qualificationPeriod")
 
 
-def validate_tender_status_update(request):
+def validate_tender_status_update(request, **kwargs):
     tender = request.context
     data = request.validated["data"]
     if (
@@ -131,18 +131,18 @@ def validate_tender_status_update(request):
 
 
 # agreement
-def validate_agreement_data(request):
+def validate_agreement_data(request, **kwargs):
     update_logging_context(request, {"agreement_id": "__new__"})
     model = type(request.tender).agreements.model_class
     return validate_data(request, model)
 
 
-def validate_patch_agreement_data(request):
+def validate_patch_agreement_data(request, **kwargs):
     model = type(request.tender).agreements.model_class
     return validate_data(request, model, True)
 
 
-def validate_agreement_operation_not_in_allowed_status(request):
+def validate_agreement_operation_not_in_allowed_status(request, **kwargs):
     if request.validated["tender_status"] != "active.awarded":
         raise_operation_error(
             request,
@@ -152,7 +152,7 @@ def validate_agreement_operation_not_in_allowed_status(request):
         )
 
 
-def validate_update_agreement_only_for_active_lots(request):
+def validate_update_agreement_only_for_active_lots(request, **kwargs):
     tender = request.validated["tender"]
     awards_id = request.context.get_awards_id()
     if any(
@@ -161,7 +161,7 @@ def validate_update_agreement_only_for_active_lots(request):
         raise_operation_error(request, "Can update agreement only in active lot status")
 
 
-def validate_agreement_signing(request):
+def validate_agreement_signing(request, **kwargs):
     tender = request.validated["tender"]
     data = request.validated["data"]
     config = getAdapter(tender, IContentConfigurator)
@@ -204,7 +204,7 @@ def validate_agreement_signing(request):
             raise_operation_error(request, "Agreement don't reach minimum active contracts.")
 
 
-def validate_agreement_update_with_accepted_complaint(request):
+def validate_agreement_update_with_accepted_complaint(request, **kwargs):
     tender = request.validated["tender"]
     awards_id = request.context.get_awards_id()
     if any(
@@ -218,7 +218,7 @@ def validate_agreement_update_with_accepted_complaint(request):
 
 
 # award complaint
-def validate_add_complaint_not_in_qualification_stand_still(request):
+def validate_add_complaint_not_in_qualification_stand_still(request, **kwargs):
     tender = request.validated["tender"]
     if tender.status not in ("active.qualification.stand-still",):
         raise_operation_error(
@@ -227,7 +227,7 @@ def validate_add_complaint_not_in_qualification_stand_still(request):
         )
 
 
-def validate_update_complaint_not_in_qualification(request):
+def validate_update_complaint_not_in_qualification(request, **kwargs):
     tender = request.validated["tender"]
     if tender.status not in ("active.qualification", "active.qualification.stand-still"):
         raise_operation_error(
@@ -236,7 +236,7 @@ def validate_update_complaint_not_in_qualification(request):
         )
 
 
-def validate_add_complaint_not_in_complaint_period(request):
+def validate_add_complaint_not_in_complaint_period(request, **kwargs):
     if not request.context.complaintPeriod or (
         request.context.complaintPeriod
         and (
@@ -255,12 +255,12 @@ def validate_max_awards_number(number, *args):
 
 
 # agreement contract
-def validate_patch_agreement_contract_data(request):
+def validate_patch_agreement_contract_data(request, **kwargs):
     model = type(request.tender).agreements.model_class.contracts.model_class
     return validate_data(request, model, True)
 
 
-def validate_agreement_contract_unitprices_update(request):
+def validate_agreement_contract_unitprices_update(request, **kwargs):
     contract = request.context
     tender = request.validated["tender"]
     agreement_items_id = {u.relatedItem for u in contract.unitPrices}
@@ -308,13 +308,13 @@ def validate_max_agreement_duration_period(value):
 
 
 # awards
-def validate_update_award_in_not_allowed_status(request):
+def validate_update_award_in_not_allowed_status(request, **kwargs):
     tender = request.validated["tender"]
     if tender.status not in ["active.qualification", "active.qualification.stand-still"]:
         raise_operation_error(request, "Can't update award in current ({}) tender status".format(tender.status))
 
 
-def validate_award_document_tender_not_in_allowed_status(request):
+def validate_award_document_tender_not_in_allowed_status(request, **kwargs):
     validate_award_document_tender_not_in_allowed_status_base(
         request, allowed_bot_statuses=("active.awarded", "active.qualification.stand-still")
     )

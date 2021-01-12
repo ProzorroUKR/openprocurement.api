@@ -22,7 +22,7 @@ from openprocurement.tender.core.validation import (
     validate_absence_of_pending_accepted_satisfied_complaints,
     validate_operation_cancellation_in_complaint_period,
     validate_operation_cancellation_permission,
-    validate_related_criterion,
+    _validate_related_criterion,
 )
 
 
@@ -55,7 +55,7 @@ class BaseTenderCancellationResource(APIResource):
 
         if cancellation.status == "active":
             if cancellation.cancellationOf == "lot":
-                validate_related_criterion(self.request, cancellation.relatedLot)
+                _validate_related_criterion(self.request, cancellation.relatedLot)
             self.cancel_tender_lot_method(self.request, cancellation)
 
         self.request.context.cancellations.append(cancellation)
@@ -103,7 +103,7 @@ class BaseTenderCancellationResource(APIResource):
         if rules_2020_04_19:
             if prev_status == "draft" and cancellation.status == "pending":
                 if cancellation.cancellationOf == "lot":
-                    validate_related_criterion(self.request, cancellation.relatedLot)
+                    _validate_related_criterion(self.request, cancellation.relatedLot)
                 validate_absence_of_pending_accepted_satisfied_complaints(self.request)
                 tender = self.request.validated["tender"]
                 now = get_now()
@@ -114,7 +114,7 @@ class BaseTenderCancellationResource(APIResource):
                 }
         if cancellation.status == "active" and prev_status != "active":
             if cancellation.cancellationOf == "lot":
-                validate_related_criterion(self.request, cancellation.relatedLot)
+                _validate_related_criterion(self.request, cancellation.relatedLot)
             self.cancel_tender_lot_method(self.request, cancellation)
 
         if save_tender(self.request):

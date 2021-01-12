@@ -6,42 +6,40 @@ from openprocurement.api.utils import (
     error_handler,
     get_now,
     raise_operation_error,
-    get_revision_changes,
     get_first_revision_date,
-)  # XXX tender context
-from openprocurement.tender.core.utils import apply_patch
+)
 from openprocurement.tender.core.validation import (
-    validate_complaint_accreditation_level,
+    _validate_complaint_accreditation_level,
     validate_cancellation_status_with_complaints,
     validate_cancellation_status_without_complaints,
 )
 
 
-def validate_complaint_data(request):
+def validate_complaint_data(request, **kwargs):
     update_logging_context(request, {"complaint_id": "__new__"})
-    validate_complaint_accreditation_level(request)
+    _validate_complaint_accreditation_level(request)
     model = type(request.context).complaints.model_class
     return validate_data(request, model)
 
 
-def validate_patch_complaint_data(request):
+def validate_patch_complaint_data(request, **kwargs):
     model = type(request.context.__parent__).complaints.model_class
     return validate_data(request, model, True)
 
 
 # tender
-def validate_chronograph(request):
+def validate_chronograph(request, **kwargs):
     if request.authenticated_role == "chronograph":
         raise_operation_error(request, "Chronograph has no power over me!")
 
 
-def validate_chronograph_before_2020_04_19(request):
+def validate_chronograph_before_2020_04_19(request, **kwargs):
     tender = request.validated["tender"]
     if get_first_revision_date(tender, default=get_now()) < RELEASE_2020_04_19:
         validate_chronograph(request)
 
 
-def validate_update_tender_with_awards(request):
+def validate_update_tender_with_awards(request, **kwargs):
     tender = request.validated["tender"]
 
     if tender.awards and request.authenticated_role != "chronograph":
@@ -49,7 +47,7 @@ def validate_update_tender_with_awards(request):
 
 
 # tender document
-def validate_operation_with_document_not_in_active_status(request):
+def validate_operation_with_document_not_in_active_status(request, **kwargs):
     if request.validated["tender_status"] not in ("draft", "active"):
         raise_operation_error(
             request,
@@ -60,7 +58,7 @@ def validate_operation_with_document_not_in_active_status(request):
 
 
 # lot
-def validate_lot_operation_not_in_active_status(request):
+def validate_lot_operation_not_in_active_status(request, **kwargs):
     tender = request.validated["tender"]
     if tender.status not in ("active", "draft"):
         raise_operation_error(
@@ -68,7 +66,7 @@ def validate_lot_operation_not_in_active_status(request):
         )
 
 
-def validate_lot_operation_with_awards(request):
+def validate_lot_operation_with_awards(request, **kwargs):
     tender = request.validated["tender"]
     if tender.awards:
         raise_operation_error(
@@ -77,7 +75,7 @@ def validate_lot_operation_with_awards(request):
 
 
 # award
-def validate_award_operation_not_in_active_status(request):
+def validate_award_operation_not_in_active_status(request, **kwargs):
     tender = request.validated["tender"]
     if tender.status != "active":
         raise_operation_error(
@@ -88,7 +86,7 @@ def validate_award_operation_not_in_active_status(request):
         )
 
 
-def validate_create_new_award(request):
+def validate_create_new_award(request, **kwargs):
     tender = request.validated["tender"]
     if tender.awards and tender.awards[-1].status in ["pending", "active"]:
         raise_operation_error(
@@ -96,7 +94,7 @@ def validate_create_new_award(request):
         )
 
 
-def validate_lot_cancellation(request):
+def validate_lot_cancellation(request, **kwargs):
 
     tender = request.validated["tender"]
 
@@ -121,7 +119,7 @@ def validate_lot_cancellation(request):
         )
 
 
-def validate_create_new_award_with_lots(request):
+def validate_create_new_award_with_lots(request, **kwargs):
     tender = request.validated["tender"]
     award = request.validated["award"]
     if tender.awards:
@@ -136,7 +134,7 @@ def validate_create_new_award_with_lots(request):
 
 
 # award document
-def validate_document_operation_not_in_active(request):
+def validate_document_operation_not_in_active(request, **kwargs):
     if request.validated["tender_status"] != "active":
         raise_operation_error(
             request,
@@ -146,7 +144,7 @@ def validate_document_operation_not_in_active(request):
         )
 
 
-def validate_award_document_add_not_in_pending(request):
+def validate_award_document_add_not_in_pending(request, **kwargs):
     if request.validated["award"].status != "pending":
         raise_operation_error(
             request, "Can't add document in current ({}) award status".format(request.validated["award"].status)
@@ -154,7 +152,7 @@ def validate_award_document_add_not_in_pending(request):
 
 
 # award complaint
-def validate_award_complaint_operation_not_in_active(request):
+def validate_award_complaint_operation_not_in_active(request, **kwargs):
     tender = request.validated["tender"]
     if tender.status != "active":
         raise_operation_error(
@@ -164,7 +162,7 @@ def validate_award_complaint_operation_not_in_active(request):
 
 
 # cancellation
-def validate_absence_complete_lots_on_tender_cancel(request):
+def validate_absence_complete_lots_on_tender_cancel(request, **kwargs):
     tender = request.validated["tender"]
     cancellation = request.validated["cancellation"]
     if tender.lots and not cancellation.relatedLot:
@@ -176,7 +174,7 @@ def validate_absence_complete_lots_on_tender_cancel(request):
                 )
 
 
-def validate_cancellation_status(request):
+def validate_cancellation_status(request, **kwargs):
     tender = request.validated["tender"]
     cancellation = request.validated["cancellation"]
 
@@ -192,7 +190,7 @@ def validate_cancellation_status(request):
 
 
 # contract
-def validate_contract_operation_not_in_active(request):
+def validate_contract_operation_not_in_active(request, **kwargs):
     if request.validated["tender_status"] not in ["active"]:
         raise_operation_error(
             request,
@@ -202,12 +200,12 @@ def validate_contract_operation_not_in_active(request):
         )
 
 
-def validate_contract_update_in_cancelled(request):
+def validate_contract_update_in_cancelled(request, **kwargs):
     if request.context.status == "cancelled":
         raise_operation_error(request, "Can't update contract in current ({}) status".format(request.context.status))
 
 
-def validate_contract_with_cancellations_and_contract_signing(request):
+def validate_contract_with_cancellations_and_contract_signing(request, **kwargs):
     data = request.validated["data"]
     tender = request.validated["tender"]
     new_rules = get_first_revision_date(tender, default=get_now()) > RELEASE_2020_04_19
@@ -253,18 +251,18 @@ def validate_contract_with_cancellations_and_contract_signing(request):
             raise_operation_error(request, "Can't sign contract before reviewing all complaints")
 
 
-def validate_contract_items_count_modification(request):
+def validate_contract_items_count_modification(request, **kwargs):
     # as it is alowed to set/change contract.item.unit.value we need to
     # ensure that nobody is able to add or delete contract.item
     data = request.validated["data"]
     if data.get("items") and len(data["items"]) != len(request.context["items"]):
         request.errors.add("body", "data", "Can't change items count")
         request.errors.status = 403
-        raise error_handler(request.errors)
+        raise error_handler(request)
 
 
 # contract document
-def validate_contract_document_operation_not_in_allowed_contract_status(request):
+def validate_contract_document_operation_not_in_allowed_contract_status(request, **kwargs):
     contract = request.validated["contract"]
     if contract.status not in ["pending", "active"]:
         raise_operation_error(

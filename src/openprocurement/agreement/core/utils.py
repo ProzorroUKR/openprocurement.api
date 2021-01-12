@@ -30,9 +30,9 @@ def agreement_from_data(request, data, raise_error=True, create=True):
     agreement_type = data.get("agreementType", DEFAULT_TYPE)
     model = request.registry.agreements_types.get(agreement_type)
     if model is None and raise_error:
-        request.errors.add("data", "agreementType", "Not implemented")
+        request.errors.add("body", "agreementType", "Not implemented")
         request.errors.status = 415
-        raise error_handler(request.errors)
+        raise error_handler(request)
     if model is not None and create:
         model = model(data)
     return model
@@ -44,11 +44,11 @@ def extract_agreement_by_id(request, agreement_id):
     if doc is not None and doc.get("doc_type") == "agreement":
         request.errors.add("url", "agreement_id", "Archived")
         request.errors.status = 410
-        raise error_handler(request.errors)
+        raise error_handler(request)
     elif doc is None or doc.get("doc_type") != "Agreement":
         request.errors.add("url", "agreement_id", "Not Found")
         request.errors.status = 404
-        raise error_handler(request.errors)
+        raise error_handler(request)
     return request.agreement_from_data(doc)
 
 

@@ -124,7 +124,7 @@ def empty_listing(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Offset expired/invalid", u"location": u"params", u"name": u"offset"}],
+        [{u"description": u"Offset expired/invalid", u"location": u"url", u"name": u"offset"}],
     )
 
     response = self.app.get("/plans?feed=changes&descending=1&limit=10")
@@ -909,7 +909,7 @@ def create_plan_invalid_procuring_entity(self):
                                 u' Procurement method types allowed for this kind: centralizedProcurement,'
                                 u' reporting, negotiation, negotiation.quick, priceQuotation, belowThreshold, aboveThresholdUA,'
                                 u' aboveThresholdEU, competitiveDialogueUA, competitiveDialogueEU, esco, '
-                                u'closeFrameworkAgreementUA.', u'location': u'procuringEntity', u'name': u'kind'
+                                u'closeFrameworkAgreementUA.', u'location': u'body', u'name': u'kind'
             }
         ]
     )
@@ -942,7 +942,7 @@ def create_plan_invalid_procuring_entity(self):
             {
                 u'description': u'procuringEntity with other kind cannot publish this type of procedure. '
                                 u'Procurement method types allowed for this kind: belowThreshold, reporting.',
-                                u'location': u'procuringEntity', u'name': u'kind'
+                                u'location': u'body', u'name': u'kind'
             }
         ]
     )

@@ -402,7 +402,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Not implemented", u"location": u"data", u"name": u"procurementMethodType"}],
+        [{u"description": u"Not implemented", u"location": u"body", u"name": u"procurementMethodType"}],
     )
 
     response = self.app.post_json(
@@ -685,7 +685,7 @@ def create_tender_invalid(self):
         [
             {
                 u"description": u"'' procuringEntity cannot publish this type of procedure. Only authority, central, defense, general, other, social, special are allowed.",
-                u"location": u"procuringEntity",
+                u"location": u"body",
                 u"name": u"kind",
             }
         ],

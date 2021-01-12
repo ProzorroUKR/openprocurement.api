@@ -24,7 +24,7 @@ class TenderEUAwardComplaintDocumentResource(TenderUaAwardComplaintDocumentResou
         if operation == "update" and self.request.authenticated_role != self.context.author:
             self.request.errors.add("url", "role", "Can update document only author")
             self.request.errors.status = 403
-            raise error_handler(self.request.errors)
+            raise error_handler(self.request)
         if self.request.validated["tender_status"] not in tuple(
             ["active.qualification.stand-still", "active.qualification"]
         ):

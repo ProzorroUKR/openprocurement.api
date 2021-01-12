@@ -108,7 +108,7 @@ def test_fail_post_milestone_author(app, centralized_plan):
         status=422
     )
     assert response.json == {u"status": u"error", u"errors": [
-        {u"description": u"Should match plan.procuringEntity", u"location": u"data", u"name": u"author"}]}
+        {u"description": u"Should match plan.procuringEntity", u"location": u"body", u"name": u"author"}]}
 
 
 def test_post_milestone_author_validate_identifier(app, centralized_plan):
@@ -144,7 +144,7 @@ def test_fail_post_milestone_status(app, centralized_plan, test_status):
     )
     assert response.json == {u"status": u"error", u"errors": [
         {u"description": u"Cannot create milestone with status: {}".format(test_status),
-         u"location": u"data", u"name": u"status"}]}
+         u"location": u"body", u"name": u"status"}]}
 
 
 def test_post_milestone(app, centralized_plan):
@@ -215,7 +215,7 @@ def test_fail_post_another_milestone(app, centralized_milestone, test_status):
     )
     assert response.json == {u'status': u'error', u'errors': [
         {u'description': u'An active milestone already exists for this author',
-         u'location': u'data', u'name': u'author'}]}
+         u'location': u'body', u'name': u'author'}]}
 
 
 @pytest.mark.parametrize("test_status", [Milestone.STATUS_NOT_MET, Milestone.STATUS_INVALID])

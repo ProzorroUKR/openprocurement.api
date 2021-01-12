@@ -1,19 +1,15 @@
 # -*- coding: utf-8 -*-
-from schematics.exceptions import ValidationError
-
 from openprocurement.api.utils import error_handler, raise_operation_error, get_now
 from openprocurement.api.validation import OPERATIONS, validate_data, validate_json_data
 
-from openprocurement.tender.openua.validation import validate_tender_period_duration
 
-
-def validate_patch_tender_data(request):
+def validate_patch_tender_data(request, **kwargs):
     data = validate_json_data(request)
     return validate_data(request, type(request.tender), True, data)
 
 
 # tender documents
-def validate_document_operation_in_not_allowed_tender_status(request):
+def validate_document_operation_in_not_allowed_tender_status(request, **kwargs):
     if (
         request.authenticated_role != "auction"
         and request.validated["tender_status"] not in ("draft", "draft.pending", "active.enquiries")
@@ -29,7 +25,7 @@ def validate_document_operation_in_not_allowed_tender_status(request):
 
 
 # bids
-def validate_view_bids(request):
+def validate_view_bids(request, **kwargs):
     if request.validated["tender_status"] in ["active.tendering", "active.auction"]:
         raise_operation_error(
             request,
@@ -39,13 +35,13 @@ def validate_view_bids(request):
         )
 
 
-def validate_update_bid_status(request):
+def validate_update_bid_status(request, **kwargs):
     if request.authenticated_role != "Administrator":
         bid_status_to = request.validated["data"].get("status")
         if bid_status_to != request.context.status and bid_status_to != "active":
             request.errors.add("body", "bid", "Can't update bid to ({}) status".format(bid_status_to))
             request.errors.status = 403
-            raise error_handler(request.errors)
+            raise error_handler(request)
 
 
 # bid documents
@@ -59,7 +55,7 @@ def get_supplier_contract(contracts, tenderers):
                     return contract
 
 
-def validate_bid(request):
+def validate_bid(request, **kwargs):
     if request.method == "POST":
         bid = request.validated["bid"]
     elif request.method == "PATCH":
@@ -82,7 +78,7 @@ def validate_bid(request):
 
 
 # lot
-def validate_lot_operation(request):
+def validate_lot_operation(request, **kwargs):
     tender = request.validated["tender"]
     if tender.status not in ("draft", "draft.pending", "active.enquiries"):
         raise_operation_error(
@@ -91,7 +87,7 @@ def validate_lot_operation(request):
 
 
 # auction
-def validate_auction_info_view(request):
+def validate_auction_info_view(request, **kwargs):
     if request.validated["tender_status"] != "active.auction":
         raise_operation_error(
             request, "Can't get auction info in current ({}) tender status".format(request.validated["tender_status"])
@@ -99,13 +95,13 @@ def validate_auction_info_view(request):
 
 
 # award
-def validate_create_award_not_in_allowed_period(request):
+def validate_create_award_not_in_allowed_period(request, **kwargs):
     tender = request.validated["tender"]
     if tender.status != "active.qualification":
         raise_operation_error(request, "Can't create award in current ({}) tender status".format(tender.status))
 
 
-def validate_create_award_only_for_active_lot(request):
+def validate_create_award_only_for_active_lot(request, **kwargs):
     tender = request.validated["tender"]
     award = request.validated["award"]
     if any([i.status != "active" for i in tender.lots if i.id == award.lotID]):
@@ -113,13 +109,13 @@ def validate_create_award_only_for_active_lot(request):
 
 
 # award complaint
-def validate_award_complaint_update_not_in_allowed_status(request):
+def validate_award_complaint_update_not_in_allowed_status(request, **kwargs):
     if request.context.status not in ["draft", "claim", "answered"]:
         raise_operation_error(request, "Can't update complaint in current ({}) status".format(request.context.status))
 
 
 # contract document
-def validate_cancellation_document_operation_not_in_allowed_status(request):
+def validate_cancellation_document_operation_not_in_allowed_status(request, **kwargs):
     if request.validated["tender_status"] in ["complete", "cancelled", "unsuccessful"]:
         raise_operation_error(
             request,
@@ -130,7 +126,7 @@ def validate_cancellation_document_operation_not_in_allowed_status(request):
 
 
 # patch agreement
-def validate_agreement_operation_not_in_allowed_status(request):
+def validate_agreement_operation_not_in_allowed_status(request, **kwargs):
     if request.validated["tender_status"] != "draft.pending":
         raise_operation_error(
             request,
@@ -140,13 +136,13 @@ def validate_agreement_operation_not_in_allowed_status(request):
         )
 
 
-def validate_patch_agreement_data(request):
+def validate_patch_agreement_data(request, **kwargs):
     model = type(request.tender).agreements.model_class
     return validate_data(request, model, True)
 
 
 # tender
-def validate_patch_tender_in_draft_pending(request):
+def validate_patch_tender_in_draft_pending(request, **kwargs):
     if request.validated["tender_src"]["status"] == "draft.pending" and request.authenticated_role not in (
         "agreement_selection",
         "Administrator",
@@ -159,7 +155,7 @@ def validate_patch_tender_in_draft_pending(request):
         )
 
 
-def validate_patch_tender_bot_only_in_draft_pending(request):
+def validate_patch_tender_bot_only_in_draft_pending(request, **kwargs):
     if (
         request.authenticated_role == "agreement_selection"
         and request.validated["tender_src"]["status"] != "draft.pending"
@@ -172,7 +168,7 @@ def validate_patch_tender_bot_only_in_draft_pending(request):
         )
 
 
-def validate_json_data_in_active_enquiries(request):
+def validate_json_data_in_active_enquiries(request, **kwargs):
     source = request.validated["data"]
     tender = request.validated["tender_src"]
     data = source

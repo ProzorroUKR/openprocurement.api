@@ -29,7 +29,7 @@ from openprocurement.tender.core.models import (
     Tender,
     Model,
 )
-from openprocurement.tender.openua.validation import validate_tender_period_duration
+from openprocurement.tender.openua.validation import _validate_tender_period_duration
 from openprocurement.tender.pricequotation.constants import (
     PMT,
     QUALIFICATION_DURATION,
@@ -326,7 +326,7 @@ class PriceQuotationTender(Tender):
 
     def validate_tenderPeriod(self, data, period):
         if period and period.startDate and period.endDate:
-            validate_tender_period_duration(data, period, TENDERING_DURATION, working_days=True)
+            _validate_tender_period_duration(data, period, TENDERING_DURATION, working_days=True)
 
 
     def validate_profile(self, data, profile):

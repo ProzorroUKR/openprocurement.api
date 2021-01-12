@@ -115,9 +115,9 @@ def object_from_data(request, data, obj_name, raise_error=True, create=True):
     model_types = getattr(request.registry, "%s_%sTypes" % (obj_name, obj_name))
     model = model_types.get(objType)
     if model is None and raise_error:
-        request.errors.add("data", "%sType" % obj_name, "Not implemented")
+        request.errors.add("body", "%sType" % obj_name, "Not implemented")
         request.errors.status = 415
-        raise error_handler(request.errors)
+        raise error_handler(request)
     update_logging_context(request, {"%s_type" % obj_name: objType})
     if model is not None and create:
         if request.environ.get("REQUEST_METHOD") == "GET" and data.get("revisions"):
@@ -148,7 +148,7 @@ def extract_doc_adapter(request, doc_type, doc_id):
     if doc is None:
         request.errors.add("url", "%s_id" % doc_type_lower, "Not Found")
         request.errors.status = 404
-        raise error_handler(request.errors)
+        raise error_handler(request)
 
     method = getattr(request, "%s_from_data" % doc_type_lower)
     return method(doc)

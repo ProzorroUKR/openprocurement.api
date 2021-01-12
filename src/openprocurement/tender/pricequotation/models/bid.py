@@ -18,7 +18,7 @@ from openprocurement.tender.core.models import (
 from openprocurement.tender.pricequotation.models.document import\
     Document
 from openprocurement.tender.pricequotation.validation import\
-    validate_bid_value, validate_requirement_responses
+    _validate_bid_value, _validate_requirement_responses
 
 
 class RequirementReference(Model):
@@ -103,10 +103,10 @@ class Bid(Model):
     def validate_value(self, data, value):
         parent = data["__parent__"]
         if isinstance(parent, Model):
-            validate_bid_value(parent, value)
+            _validate_bid_value(parent, value)
 
     def validate_requirementResponses(self, data, value):
         criterion = data["__parent__"]['criteria']
-        validate_requirement_responses(
+        _validate_requirement_responses(
             criterion, value
         )

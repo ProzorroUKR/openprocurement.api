@@ -151,7 +151,7 @@ X-Content-Type-Options: nosniff
   "errors": [
     {
       "description": "Plan should contain budget breakdown", 
-      "location": "data", 
+      "location": "body", 
       "name": "budget.breakdown"
     }
   ]

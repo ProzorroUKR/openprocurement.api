@@ -165,7 +165,7 @@ def test_fail_duplicate(app, tender, plan):
         status=422
     )
     assert response.json == {u'status': u'error', u'errors': [
-        {u'description': u"Can't update plan in 'complete' status", u'location': u'data', u'name': u'status'}]}
+        {u'description': u"Can't update plan in 'complete' status", u'location': u'body', u'name': u'status'}]}
 
     # what if plan hasn't been updated for an unknown reason
     plan_obj = app.app.registry.db.get(plan["data"]["id"])

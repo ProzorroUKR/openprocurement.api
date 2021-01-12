@@ -29,7 +29,7 @@ def test_get_plan_tenders_405(app, plan):
     response = app.get("/plans/{}/tenders".format(plan["data"]["id"]), status=405)
     assert response.json == {
         u"status": u"error",
-        u"errors": [{u"description": u"Method not allowed", u"location": u"request", u"name": u"method"}],
+        u"errors": [{u"description": u"Method not allowed", u"location": u"url", u"name": u"method"}],
     }
 
 
@@ -328,7 +328,7 @@ def test_success_plan_tenders_creation(app, request_tender_data):
     error_data = response.json["errors"]
     assert len(error_data) == 1
     error = error_data[0]
-    assert error["location"] == "data"
+    assert error["location"] == "body"
     assert error["name"] == "tender_id"
     assert error["description"] == "This plan has already got a tender"
 
@@ -390,7 +390,7 @@ def test_validations_before_and_after_tender(app):
         u"errors": [
             {
                 u"description": u"Changing this field is not allowed after tender creation",
-                u"location": u"data",
+                u"location": u"body",
                 u"name": u"procuringEntity",
             }
         ],
@@ -407,7 +407,7 @@ def test_validations_before_and_after_tender(app):
         u"errors": [
             {
                 u"description": u"Changing this field is not allowed after tender creation",
-                u"location": u"data",
+                u"location": u"body",
                 u"name": u"budget.breakdown",
             }
         ],
@@ -436,7 +436,7 @@ def test_validations_before_and_after_tender(app):
     )
     assert response.json == {
         "status": "error",
-        "errors": [{"location": "data", "name": "status", "description": "Can't update plan in 'complete' status"}],
+        "errors": [{"location": "body", "name": "status", "description": "Can't update plan in 'complete' status"}],
     }
 
 
@@ -533,7 +533,7 @@ def test_fail_tender_creation_without_budget_breakdown(app):
     error_data = response.json["errors"]
     assert len(error_data) > 0
     error = error_data[0]
-    assert error["location"] == "data"
+    assert error["location"] == "body"
     assert error["name"] == "budget.breakdown"
     assert error["description"] == "Plan should contain budget breakdown"
 

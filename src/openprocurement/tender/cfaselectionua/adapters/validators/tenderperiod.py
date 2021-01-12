@@ -1,7 +1,7 @@
 from schematics.exceptions import ValidationError
 
 from openprocurement.tender.cfaselectionua.constants import TENDERING_DURATION
-from openprocurement.tender.openua.validation import validate_tender_period_duration
+from openprocurement.tender.openua.validation import _validate_tender_period_duration
 
 
 class TenderPeriodValidate(object):
@@ -22,4 +22,4 @@ class TenderPeriodValidate(object):
             and period.startDate
             and period.endDate
         ):
-            validate_tender_period_duration(data, period, TENDERING_DURATION)
+            _validate_tender_period_duration(data, period, TENDERING_DURATION)
