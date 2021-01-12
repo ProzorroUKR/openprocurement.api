@@ -17,7 +17,7 @@ requires = [
     "barbecue",
     "gunicorn",
     "gevent",
-    "iso8601",
+    "ciso8601",
     "isodate",
     "jsonpatch",
     "jmespath",

@@ -4,7 +4,7 @@ import re
 
 import pytz
 from ConfigParser import ConfigParser, DEFAULTSECT
-from iso8601 import parse_date
+from ciso8601 import parse_datetime
 
 from pytz import timezone
 from datetime import datetime
@@ -92,8 +92,11 @@ def load_constants(file_path):
     return config
 
 
-def parse_constant_date(datestring):
-    return parse_date(datestring, default_timezone=pytz.utc)
+def parse_constant_date(value):
+    date = parse_datetime(value)
+    if not date.tzinfo:
+        date = TZ.localize(date)
+    return date
 
 
 def get_constant(config, constant, section=DEFAULTSECT, parse_func=parse_constant_date):
