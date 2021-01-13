@@ -37,7 +37,7 @@ class DKClassification(BaseClassification):
 
     def validate_id(self, data, id):
         if id not in DK_CODES:
-            raise ValidationError(BaseType.MESSAGES["choices"].format(unicode(DK_CODES)))
+            raise ValidationError(BaseType.MESSAGES["choices"].format(DK_CODES))
 
 
 class Identifier(BaseIdentifier):

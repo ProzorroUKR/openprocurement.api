@@ -305,7 +305,7 @@ def patch_qualification_active(self):
 
     response = self.app.post(
         "/qualifications/{}/documents?acc_token={}".format(qualification_id, self.framework_token),
-        upload_files=[("file", "name  name.doc", "content")]
+        upload_files=[("file", "name  name.doc", b"content")]
     )
     self.assertEqual(response.status, "201 Created")
     document_id = response.json["data"]["id"]
@@ -336,7 +336,7 @@ def patch_qualification_active(self):
 
     response = self.app.post(
         "/qualifications/{}/documents?acc_token={}".format(qualification_id, self.framework_token),
-        upload_files=[("file", "name  name2.doc", "content2")],
+        upload_files=[("file", "name  name2.doc", b"content2")],
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -375,7 +375,7 @@ def patch_qualification_unsuccessful(self):
 
     response = self.app.post(
         "/qualifications/{}/documents?acc_token={}".format(qualification_id, self.framework_token),
-        upload_files=[("file", "name  name.doc", "content")]
+        upload_files=[("file", "name  name.doc", b"content")]
     )
     self.assertEqual(response.status, "201 Created")
     document_id = response.json["data"]["id"]
@@ -406,7 +406,7 @@ def patch_qualification_unsuccessful(self):
 
     response = self.app.post(
         "/qualifications/{}/documents?acc_token={}".format(qualification_id, self.framework_token),
-        upload_files=[("file", "name  name2.doc", "content2")],
+        upload_files=[("file", "name  name2.doc", b"content2")],
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -456,12 +456,12 @@ def get_qualification(self):
     response = self.app.get("/qualifications/{}?opt_jsonp=callback".format(qualification_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/javascript")
-    self.assertIn('callback({"data": {"', response.body)
+    self.assertIn('callback({"data": {"', response.body.decode())
 
     response = self.app.get("/qualifications/{}?opt_pretty=1".format(qualification_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertIn('{\n    "data": {\n        "', response.body)
+    self.assertIn('{\n    "data": {\n        "', response.body.decode())
 
 
 def qualification_fields(self):
@@ -518,7 +518,7 @@ def date_qualification(self):
 
     response = self.app.post(
         "/qualifications/{}/documents?acc_token={}".format(qualification_id, self.framework_token),
-        upload_files=[("file", "name  name.doc", "content")]
+        upload_files=[("file", "name  name.doc", b"content")]
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -564,7 +564,7 @@ def dateModified_qualification(self):
 
     response = self.app.post(
         "/qualifications/{}/documents?acc_token={}".format(qualification_id, self.framework_token),
-        upload_files=[("file", "name  name.doc", "content")]
+        upload_files=[("file", "name  name.doc", b"content")]
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -665,11 +665,16 @@ def qualification_token_invalid(self):
     )
 
     response = self.app.patch_json(
-        "/qualifications/{}?acc_token={}".format(qualification_id, "токен з кирилицею"), {"data": {}}, status=403
+        "/qualifications/{}?acc_token={}".format(qualification_id, "токен з кирилицею"), {"data": {}}, status=422,
     )
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
-        response.json["errors"], [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}]
+        response.json["errors"], [
+            {
+                'location': 'body', 'name': 'UnicodeEncodeError',
+                'description': "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)"
+            }
+        ]
     )
 
 
@@ -677,7 +682,7 @@ def get_documents_list(self):
 
     self.app.post(
         "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
-        upload_files=[("file", "name name.doc", "content2")],
+        upload_files=[("file", "name name.doc", b"content2")],
     )
 
     response = self.app.get("/qualifications/{}/documents".format(self.qualification_id))
@@ -688,7 +693,7 @@ def get_documents_list(self):
 def get_document_by_id(self):
     self.app.post(
         "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
-        upload_files=[("file", "name%s.doc" % i, "content2") for i in range(3)],
+        upload_files=[("file", "name%s.doc" % i, b"content2") for i in range(3)],
     )
     documents = self.db.get(self.qualification_id).get("documents")
     for doc in documents:
@@ -703,7 +708,7 @@ def get_document_by_id(self):
 def create_qualification_document_forbidden(self):
     response = self.app.post(
         "/qualifications/{}/documents".format(self.qualification_id),
-        upload_files=[("file", u"укр.doc", "content")],
+        upload_files=[("file", u"укр.doc", b"content")],
         status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -715,7 +720,7 @@ def create_qualification_document_forbidden(self):
     with change_auth(self.app, ("Basic", ("broker1", ""))):
         response = self.app.post(
             "/qualifications/{}/documents".format(self.qualification_id),
-            upload_files=[("file", u"укр.doc", "content")],
+            upload_files=[("file", u"укр.doc", b"content")],
             status=403,
         )
         self.assertEqual(response.status, "403 Forbidden")
@@ -728,7 +733,7 @@ def create_qualification_document_forbidden(self):
 def create_qualification_document(self):
     response = self.app.post(
         "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
-        upload_files=[("file", u"укр.doc", "content")],
+        upload_files=[("file", u"укр.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -736,7 +741,7 @@ def create_qualification_document(self):
     with change_auth(self.app, ("Basic", ("token", ""))):
         response = self.app.post(
             "/qualifications/{}/documents".format(self.qualification_id),
-            upload_files=[("file", u"укр.doc", "content")],
+            upload_files=[("file", u"укр.doc", b"content")],
         )
         self.assertEqual(response.status, "201 Created")
 
@@ -800,7 +805,7 @@ def document_not_found(self):
     )
 
     response = self.app.post(
-        "/qualifications/some_id/documents", status=404, upload_files=[("file", "name.doc", "content")]
+        "/qualifications/some_id/documents", status=404, upload_files=[("file", "name.doc", b"content")]
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -811,14 +816,14 @@ def document_not_found(self):
     response = self.app.post(
         "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
         status=404,
-        upload_files=[("invalid_name", "name.doc", "content")],
+        upload_files=[("invalid_name", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(response.json["errors"], [{u"description": u"Not Found", u"location": u"body", u"name": u"file"}])
     response = self.app.put(
-        "/qualifications/some_id/documents/some_id", status=404, upload_files=[("file", "name.doc", "content2")]
+        "/qualifications/some_id/documents/some_id", status=404, upload_files=[("file", "name.doc", b"content2")]
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -830,7 +835,7 @@ def document_not_found(self):
     response = self.app.put(
         "/qualifications/{}/documents/some_id".format(self.qualification_id),
         status=404,
-        upload_files=[("file", "name.doc", "content2")],
+        upload_files=[("file", "name.doc", b"content2")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -857,40 +862,10 @@ def document_not_found(self):
 
 
 def put_qualification_document(self):
-    from six import BytesIO
-    from urllib import quote
-
-    body = u"""--BOUNDARY\nContent-Disposition: form-data; name="file"; filename={}\nContent-Type: application/msword\n\ncontent\n""".format(
-        u"\uff07"
+    response = self.app.post(
+        "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
+        upload_files=[("file", "укр.doc", b"content")],
     )
-    environ = self.app._make_environ()
-    environ["CONTENT_TYPE"] = "multipart/form-data; boundary=BOUNDARY"
-    environ["REQUEST_METHOD"] = "POST"
-    req = self.app.RequestClass.blank(
-        self.app._remove_fragment("/qualifications/{}/documents".format(self.qualification_id)), environ
-    )
-    req.environ["wsgi.input"] = BytesIO(body.encode("utf8"))
-    req.content_length = len(body)
-    response = self.app.do_request(req, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "could not decode params")
-
-    body = u"""--BOUNDARY\nContent-Disposition: form-data; name="file"; filename*=utf-8''{}\nContent-Type: application/msword\n\ncontent\n""".format(
-        quote("укр.doc")
-    )
-    environ = self.app._make_environ()
-    environ["CONTENT_TYPE"] = "multipart/form-data; boundary=BOUNDARY"
-    environ["REQUEST_METHOD"] = "POST"
-    req = self.app.RequestClass.blank(
-        self.app._remove_fragment(
-            "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token)
-        ),
-        environ,
-    )
-    req.environ["wsgi.input"] = BytesIO(body.encode(req.charset or "utf8"))
-    req.content_length = len(body)
-    response = self.app.do_request(req)
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(u"укр.doc", response.json["data"]["title"])
@@ -900,7 +875,7 @@ def put_qualification_document(self):
 
     response = self.app.put(
         "/qualifications/{}/documents/{}?acc_token={}".format(self.qualification_id, doc_id, self.framework_token),
-        upload_files=[("file", "name name.doc", "content2")],
+        upload_files=[("file", "name name.doc", b"content2")],
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -932,7 +907,7 @@ def put_qualification_document(self):
 
     response = self.app.post(
         "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -948,7 +923,7 @@ def put_qualification_document(self):
     response = self.app.put(
         "/qualifications/{}/documents/{}?acc_token={}".format(self.qualification_id, doc_id, self.framework_token),
         status=404,
-        upload_files=[("invalid_name", "name.doc", "content")],
+        upload_files=[("invalid_name", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")

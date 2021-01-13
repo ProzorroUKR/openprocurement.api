@@ -23,7 +23,7 @@ def get_document_by_id(self):
 def create_framework_document_forbidden(self):
     response = self.app.post(
         "/frameworks/{}/documents".format(self.framework_id),
-        upload_files=[("file", u"укр.doc", "content")],
+        upload_files=[("file", u"укр.doc", b"content")],
         status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -35,7 +35,7 @@ def create_framework_document_forbidden(self):
     with change_auth(self.app, ("Basic", ("broker1", ""))):
         response = self.app.post(
             "/frameworks/{}/documents?acc_token={}".format(self.framework_id, self.framework_token),
-            upload_files=[("file", u"укр.doc", "content")],
+            upload_files=[("file", u"укр.doc", b"content")],
             status=403
         )
         self.assertEqual(response.status, "403 Forbidden")
@@ -48,7 +48,7 @@ def create_framework_document_forbidden(self):
 def create_framework_document(self):
     response = self.app.post(
         "/frameworks/{}/documents?acc_token={}".format(self.framework_id, self.framework_token),
-        upload_files=[("file", u"укр.doc", "content")],
+        upload_files=[("file", u"укр.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -56,7 +56,7 @@ def create_framework_document(self):
     with change_auth(self.app, ("Basic", ("token", ""))):
         response = self.app.post(
             "/frameworks/{}/documents?acc_token={}".format(self.framework_id, self.framework_token),
-            upload_files=[("file", u"укр.doc", "content")],
+            upload_files=[("file", u"укр.doc", b"content")],
         )
         self.assertEqual(response.status, "201 Created")
 
@@ -120,7 +120,7 @@ def not_found(self):
     )
 
     response = self.app.post(
-        "/frameworks/some_id/documents", status=404, upload_files=[("file", "name.doc", "content")]
+        "/frameworks/some_id/documents", status=404, upload_files=[("file", "name.doc", b"content")]
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -131,14 +131,14 @@ def not_found(self):
     response = self.app.post(
         "/frameworks/{}/documents".format(self.framework_id),
         status=404,
-        upload_files=[("invalid_name", "name.doc", "content")],
+        upload_files=[("invalid_name", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(response.json["errors"], [{u"description": u"Not Found", u"location": u"body", u"name": u"file"}])
     response = self.app.put(
-        "/frameworks/some_id/documents/some_id", status=404, upload_files=[("file", "name.doc", "content2")]
+        "/frameworks/some_id/documents/some_id", status=404, upload_files=[("file", "name.doc", b"content2")]
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -150,7 +150,7 @@ def not_found(self):
     response = self.app.put(
         "/frameworks/{}/documents/some_id".format(self.framework_id),
         status=404,
-        upload_files=[("file", "name.doc", "content2")],
+        upload_files=[("file", "name.doc", b"content2")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -177,40 +177,10 @@ def not_found(self):
 
 
 def put_contract_document(self):
-    from six import BytesIO
-    from urllib import quote
-
-    body = u"""--BOUNDARY\nContent-Disposition: form-data; name="file"; filename={}\nContent-Type: application/msword\n\ncontent\n""".format(
-        u"\uff07"
+    response = self.app.post(
+        "/frameworks/{}/documents?acc_token={}".format(self.framework_id, self.framework_token),
+        upload_files=[("file", "укр.doc", b"content")],
     )
-    environ = self.app._make_environ()
-    environ["CONTENT_TYPE"] = "multipart/form-data; boundary=BOUNDARY"
-    environ["REQUEST_METHOD"] = "POST"
-    req = self.app.RequestClass.blank(
-        self.app._remove_fragment("/frameworks/{}/documents".format(self.framework_id)), environ
-    )
-    req.environ["wsgi.input"] = BytesIO(body.encode("utf8"))
-    req.content_length = len(body)
-    response = self.app.do_request(req, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "could not decode params")
-
-    body = u"""--BOUNDARY\nContent-Disposition: form-data; name="file"; filename*=utf-8''{}\nContent-Type: application/msword\n\ncontent\n""".format(
-        quote("укр.doc")
-    )
-    environ = self.app._make_environ()
-    environ["CONTENT_TYPE"] = "multipart/form-data; boundary=BOUNDARY"
-    environ["REQUEST_METHOD"] = "POST"
-    req = self.app.RequestClass.blank(
-        self.app._remove_fragment(
-            "/frameworks/{}/documents?acc_token={}".format(self.framework_id, self.framework_token)
-        ),
-        environ,
-    )
-    req.environ["wsgi.input"] = BytesIO(body.encode(req.charset or "utf8"))
-    req.content_length = len(body)
-    response = self.app.do_request(req)
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(u"укр.doc", response.json["data"]["title"])
@@ -220,7 +190,7 @@ def put_contract_document(self):
 
     response = self.app.put(
         "/frameworks/{}/documents/{}?acc_token={}".format(self.framework_id, doc_id, self.framework_token),
-        upload_files=[("file", "name name.doc", "content2")],
+        upload_files=[("file", "name name.doc", b"content2")],
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -252,7 +222,7 @@ def put_contract_document(self):
 
     response = self.app.post(
         "/frameworks/{}/documents?acc_token={}".format(self.framework_id, self.framework_token),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -268,7 +238,7 @@ def put_contract_document(self):
     response = self.app.put(
         "/frameworks/{}/documents/{}?acc_token={}".format(self.framework_id, doc_id, self.framework_token),
         status=404,
-        upload_files=[("invalid_name", "name.doc", "content")],
+        upload_files=[("invalid_name", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")

@@ -53,7 +53,7 @@ class UtilsFrameworkTest(BaseFrameworkTest):
     def test_extract_doc(self, mocked_decode_path):
         mocked_decode_path.side_effect = [
             KeyError("Missing 'PATH_INFO'"),
-            UnicodeDecodeError("UTF-8", "obj", 1, 10, "Hm..."),
+            UnicodeDecodeError("UTF-8", b"obj", 1, 10, "Hm..."),
             "/",
             "/api/2.3/frameworks/{}".format(self.framework_data["id"]),
         ]
@@ -72,7 +72,7 @@ class UtilsFrameworkTest(BaseFrameworkTest):
         with self.assertRaises(URLDecodeError) as e:
             extract_doc(request)
         self.assertEqual(e.exception.encoding, "UTF-8")
-        self.assertEqual(e.exception.object, "obj")
+        self.assertEqual(e.exception.object, b"obj")
         self.assertEqual(e.exception.start, 1)
         self.assertEqual(e.exception.end, 10)
         self.assertEqual(e.exception.reason, "Hm...")
