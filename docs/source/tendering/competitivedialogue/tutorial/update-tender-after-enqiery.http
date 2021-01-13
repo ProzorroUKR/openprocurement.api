@@ -3,7 +3,7 @@ Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
 Response: 200 OK
-Content-Type: application/json; charset=UTF-8
+Content-Type: application/json
 {
   "data": {
     "procurementMethod": "open", 
@@ -234,7 +234,7 @@ DATA:
 }
 
 Response: 403 Forbidden
-Content-Type: application/json; charset=UTF-8
+Content-Type: application/json
 {
   "status": "error", 
   "errors": [

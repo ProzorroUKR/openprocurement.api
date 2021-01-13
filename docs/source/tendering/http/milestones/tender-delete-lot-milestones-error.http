@@ -4,7 +4,7 @@ Content-Length: 0
 Host: lb-api-sandbox.prozorro.gov.ua
 
 Response: 422 Unprocessable Entity
-Content-Type: application/json; charset=UTF-8
+Content-Type: application/json
 {
   "status": "error", 
   "errors": [

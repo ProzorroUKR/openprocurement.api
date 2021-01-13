@@ -2,7 +2,7 @@ GET /api/2.5/tenders/52f1b75138ab4b2c87feff205f2a06f4 HTTP/1.0
 Host: lb-api-sandbox.prozorro.gov.ua
 
 Response: 200 OK
-Content-Type: application/json; charset=UTF-8
+Content-Type: application/json
 {
   "data": {
     "procurementMethod": "open", 

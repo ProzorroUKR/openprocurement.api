@@ -2,7 +2,7 @@ GET /api/2.5/contracts/05870adde49c424db6a2dba280ea90ab HTTP/1.0
 Host: lb-api-sandbox.prozorro.gov.ua
 
 Response: 200 OK
-Content-Type: application/json; charset=UTF-8
+Content-Type: application/json
 {
   "data": {
     "status": "active", 

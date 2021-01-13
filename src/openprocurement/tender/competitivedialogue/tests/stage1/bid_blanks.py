@@ -1828,7 +1828,7 @@ def download_tender_bidder_document(self):
         self.assertEqual(
             response.headers["Content-Disposition"], "attachment; filename=name_{}.doc".format(doc_resource[:-1])
         )
-        self.assertEqual(response.headers["Content-Type"], "application/msword; charset=UTF-8")
+        self.assertEqual(response.headers["Content-Type"], "application/msword")
 
         # Try get bid document by tender owner when tender status is active.tendering
         response = self.app.get(
@@ -1883,7 +1883,7 @@ def download_tender_bidder_document(self):
             self.assertEqual(
                 response.headers["Content-Disposition"], "attachment; filename=name_{}.doc".format(doc_resource[:-1])
             )
-            self.assertEqual(response.headers["Content-Type"], "application/msword; charset=UTF-8")
+            self.assertEqual(response.headers["Content-Type"], "application/msword")
 
         for container in private_doc_id_by_type, doc_id_by_type:
             response = self.app.get(
@@ -2028,7 +2028,7 @@ def create_tender_bidder_document_description(self):
             self.assertEqual(
                 response.headers["Content-Disposition"], "attachment; filename=name_{}.doc".format(doc_resource[:-1])
             )
-            self.assertEqual(response.headers["Content-Type"], "application/msword; charset=UTF-8")
+            self.assertEqual(response.headers["Content-Type"], "application/msword")
 
             # Try get bid document by tender owner when tender status is active.tendering
             response = self.app.get(
@@ -2129,7 +2129,7 @@ def create_tender_bidder_invalid_document_description(self):
         self.assertEqual(
             response.headers["Content-Disposition"], "attachment; filename=name_{}.doc".format(doc_resource[:-1])
         )
-        self.assertEqual(response.headers["Content-Type"], "application/msword; charset=UTF-8")
+        self.assertEqual(response.headers["Content-Type"], "application/msword")
 
         # Try get bid document by tender owner when tender status is active.tendering
         response = self.app.get(

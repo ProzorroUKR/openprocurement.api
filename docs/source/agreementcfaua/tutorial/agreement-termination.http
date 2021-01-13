@@ -11,7 +11,7 @@ DATA:
 }
 
 Response: 200 OK
-Content-Type: application/json; charset=UTF-8
+Content-Type: application/json
 {
   "data": {
     "agreementID": "UA-2020-09-08-000001-3a5c4330ac6643cc8ed442175cc20dba1", 

@@ -14,7 +14,7 @@ DATA:
 }
 
 Response: 201 Created
-Content-Type: application/json; charset=UTF-8
+Content-Type: application/json
 Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/28f1e5d8fcb146b68b6691df9238a223/bids/dc155a4012b64c0d81cef6ef9d0cace4/documents/5fadba4eb81c4288bf714cecd7349916
 {
   "data": {
