@@ -600,7 +600,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.post(
                 '/tenders/{}/bids/{}/financial_documents?acc_token={}'.format(
                     self.tender_id, bid1_id, bids_access[bid1_id]),
-                upload_files=[('file', 'prices.xlsx', b'<raw_file_data>')])
+                upload_files=[('file', 'prices.xls', b'<raw_file_data>')])
 
         with open(TARGET_DIR + 'agreements-list.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}/agreements'.format(self.tender_id))

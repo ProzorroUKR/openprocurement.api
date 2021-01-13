@@ -2,6 +2,7 @@ import json
 import traceback
 import io
 import mimetypes
+import re
 
 from datetime import timedelta
 
@@ -206,8 +207,8 @@ class MockWebTestMixin(object):
     freezer = None
     tick_delta = None
 
-    whitelist = ('/openprocurement/', '/tests/')
-    blacklist = ('/tests/base/test.py',)
+    whitelist = ('/openprocurement/', '/openprocurement/.*/tests/', 'docs/tests')
+    blacklist = ('/tests/base/test\.py',)
 
     def setUpMock(self):
         self.uuid_patch = mock.patch('uuid.UUID', side_effect=self.uuid)
@@ -229,13 +230,13 @@ class MockWebTestMixin(object):
     def stack(self):
         def trim_path(path):
             for whitelist_item in self.whitelist:
-                pos = path.find(whitelist_item)
-                if pos > -1:
-                    return path[pos:]
+                found = re.search(whitelist_item, path)
+                if found:
+                    return path[found.span()[0]:]
         stack = traceback.extract_stack()
         return [(trim_path(item[0]), item[2], item[3]) for item in stack if all([
-            any([path in item[0] for path in self.whitelist]),
-            all([path not in item[0] for path in self.blacklist])
+            any([re.search(pattern, item[0]) is not None for pattern in self.whitelist]),
+            all([re.search(pattern, item[0]) is None for pattern in self.blacklist])
         ])]
 
     def count(self, name):
