@@ -1,8 +1,5 @@
 from openprocurement.api.utils import (
     APIResourceListing,
-    json_view,
-    generate_id,
-    context_unpack,
 )
 from openprocurement.framework.core.design import (
     QUALIFICATION_FIELDS,
@@ -13,11 +10,6 @@ from openprocurement.framework.core.design import (
 )
 from openprocurement.framework.core.utils import (
     qualificationsresource,
-    save_qualification,
-)
-from openprocurement.framework.core.validation import (
-    validate_qualification_data,
-    validate_post_qualification_in_not_allowed_period,
 )
 
 VIEW_MAP = {

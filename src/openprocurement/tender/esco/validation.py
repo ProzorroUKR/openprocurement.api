@@ -1,7 +1,7 @@
 from openprocurement.tender.core.validation import validate_update_contract_value
 
 
-def validate_update_contract_value_esco(request):
+def validate_update_contract_value_esco(request, **kwargs):
     validate_update_contract_value(
         request,
         attrs=(

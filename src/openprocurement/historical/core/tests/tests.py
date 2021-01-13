@@ -203,7 +203,7 @@ class HistoricalResourceTestCase(unittest.TestCase):
         self.assertEqual(response.status, "501 Not Implemented")
         self.assertEqual(
             response.json["errors"],
-            [{u"description": u"Not Implemented", u"location": u"tender", u"name": u"revision"}],
+            [{u"description": u"Not Implemented", u"location": u"body", u"name": u"revision"}],
         )
 
     def test_hash_not_found(self):

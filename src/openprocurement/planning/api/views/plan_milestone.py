@@ -3,17 +3,13 @@ from logging import getLogger
 from openprocurement.api.utils import (
     context_unpack,
     get_now,
-    generate_id,
     json_view,
     set_ownership,
-    APIResourceListing,
     raise_operation_error,
 )
 from openprocurement.planning.api.models import Milestone
 from openprocurement.planning.api.utils import (
-    generate_plan_id,
     save_plan,
-    plan_serialize,
     apply_patch,
     opresource,
     APIResource

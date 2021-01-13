@@ -98,8 +98,8 @@ def add_responce_headers(request, version="", rhash="", phash=""):
 
 def raise_not_implemented(request):
     request.errors.status = 501
-    request.errors.add("tender", "revision", "Not Implemented")
-    raise error_handler(request.errors)
+    request.errors.add("body", "revision", "Not Implemented")
+    raise error_handler(request)
 
 
 def apply_while(request, doc, revisions):
@@ -147,7 +147,7 @@ def call_view(request, context, route):
 def return404(request, where, why):
     request.errors.add(where, why, "Not Found")
     request.errors.status = 404
-    raise error_handler(request.errors)
+    raise error_handler(request)
 
 
 def parse_hash(rev_hash):
@@ -174,10 +174,10 @@ def validate_header(request):
         return404(request, "header", "version")
 
 
-def validate_accreditation(request):
+def validate_accreditation(request, **kwargs):
     if request.authenticated_role != "Administrator" and not request.check_accreditations(ACCREDITATION_LEVELS):
         request.errors.add(
-            "historical", "accreditation", "Broker Accreditation level does not permit viewing tender historical info"
+            "url", "accreditation", "Broker Accreditation level does not permit viewing tender historical info"
         )
         request.errors.status = 403
         return

@@ -1036,50 +1036,6 @@ def patch_tender_agreement_contract(self):
     self.assertEqual(response.json["data"]["unitPrices"][0]["value"]["amount"], 60)
 
 
-# def patch_no_lot_agreement_contract_unit_prices(self):
-#     response = self.app.post_json('/tenders', {'data': self.initial_data})
-#     self.tender_id = response.json['data']['id']
-#     self.tender_token = response.json['access']['token']
-
-#     bids = deepcopy(self.meta_initial_bids)
-#     bids[0]['value']['amount'] = 0
-#     for bid in bids:
-#         response = self.app.post_json(
-#             '/tenders/{}/bids?acc_token={}'
-#                 .format(self.tender_id, self.tender_token),
-#             {'data': bid}
-#         )
-#     bid_id = response.json['data']['id']
-
-#     self.set_status('active.awarded')
-#     response = self.app.get('/tenders/{}/agreements'.format(self.tender_id))
-#     agreement = response.json['data'][0]
-#     contract = [c for c in agreement['contracts'] if c['bidID'] == bid_id][0]
-
-#     response = self.app.patch_json('/tenders/{}/agreements/{}/contracts/{}?acc_token={}'
-#             .format(self.tender_id, agreement['id'], contract['id'], self.tender_token),
-#             {'data': {'unitPrices': [{'value': {'amount': 60}}]}},
-#     )
-#     self.assertEqual(response.status, '200 OK')
-
-#     response = self.app.get('/tenders/{}/bids'.format(self.tender_id))
-#     bids = response.json['data']
-#     bid_id = [b for b in bids if b['value']['amount'] == 0][0]['id']
-#     contract = [c for c in agreement['contracts'] if c['bidID'] == bid_id][0]
-
-#     response = self.app.patch_json('/tenders/{}/agreements/{}/contracts/{}?acc_token={}'
-#             .format(self.tender_id, agreement['id'], contract['id'], self.tender_token),
-#             {'data': {'unitPrices': [{'value': {'amount': 60}}]}},
-#             status=403
-#     )
-#     self.assertEqual(response.status, '403 Forbidden')
-#     self.assertEqual(response.json['errors'], [{
-#         "location": "body",
-#         "name": "data",
-#         "description": "Total amount can't be greater than bid.value.amount"}]
-#     )
-
-
 def patch_lots_agreement_contract_unit_prices(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     bid_id = response.json["data"]["bids"][-1]["id"]

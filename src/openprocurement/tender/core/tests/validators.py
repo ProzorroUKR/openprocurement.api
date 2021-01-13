@@ -15,9 +15,9 @@ from openprocurement.tender.core.validation import (
     validate_update_contract_value_with_award,
     validate_update_contract_value,
     validate_update_contract_value_amount,
-    validate_tender_accreditation_level,
-    validate_tender_accreditation_level_central,
-    validate_tender_accreditation_level_mode
+    _validate_tender_accreditation_level,
+    _validate_tender_accreditation_level_central,
+    _validate_tender_accreditation_level_mode
 )
 from openprocurement.tender.belowthreshold.models import Tender
 from openprocurement.tender.belowthreshold.tests.base import test_tender_data, test_lots
@@ -31,7 +31,7 @@ class TestValidateAccreditationLevel(unittest.TestCase):
         model = mock.MagicMock()
 
         try:
-            validate_tender_accreditation_level(request, model)
+            _validate_tender_accreditation_level(request, model)
         except HTTPError:
             self.fail("validate_tender_accreditation_level() raised HTTPError unexpectedly")
 
@@ -43,10 +43,10 @@ class TestValidateAccreditationLevel(unittest.TestCase):
         model = mock.MagicMock()
 
         with self.assertRaises(HTTPError):
-            validate_tender_accreditation_level(request, model)
+            _validate_tender_accreditation_level(request, model)
 
         request.errors.add.assert_called_once_with(
-            "procurementMethodType", "accreditation",
+            "url", "accreditation",
             "Broker Accreditation level does not permit tender creation"
         )
 
@@ -62,7 +62,7 @@ class TestValidateAccreditationLevelCentral(unittest.TestCase):
         model = mock.MagicMock()
 
         try:
-            validate_tender_accreditation_level_central(request, model)
+            _validate_tender_accreditation_level_central(request, model)
         except HTTPError:
             self.fail("validate_tender_accreditation_level() raised HTTPError unexpectedly")
 
@@ -75,7 +75,7 @@ class TestValidateAccreditationLevelCentral(unittest.TestCase):
         model = mock.MagicMock()
 
         try:
-            validate_tender_accreditation_level_central(request, model)
+            _validate_tender_accreditation_level_central(request, model)
         except HTTPError:
             self.fail("validate_tender_accreditation_level() raised HTTPError unexpectedly")
 
@@ -88,10 +88,10 @@ class TestValidateAccreditationLevelCentral(unittest.TestCase):
         model = mock.MagicMock()
 
         with self.assertRaises(HTTPError):
-            validate_tender_accreditation_level_central(request, model)
+            _validate_tender_accreditation_level_central(request, model)
 
         request.errors.add.assert_called_once_with(
-            "procurementMethodType", "accreditation",
+            "url", "accreditation",
             "Broker Accreditation level does not permit tender creation"
         )
 
@@ -106,7 +106,7 @@ class TestValidateAccreditationLevelMode(unittest.TestCase):
         request.validated["data"] = {"mode": "test"}
 
         try:
-            validate_tender_accreditation_level_mode(request)
+            _validate_tender_accreditation_level_mode(request)
         except HTTPError:
             self.fail("validate_tender_accreditation_level() raised HTTPError unexpectedly")
 
@@ -118,7 +118,7 @@ class TestValidateAccreditationLevelMode(unittest.TestCase):
         request.check_accreditations.return_value = False
 
         try:
-            validate_tender_accreditation_level_mode(request)
+            _validate_tender_accreditation_level_mode(request)
         except HTTPError:
             self.fail("validate_tender_accreditation_level() raised HTTPError unexpectedly")
 
@@ -130,10 +130,10 @@ class TestValidateAccreditationLevelMode(unittest.TestCase):
         request.check_accreditations.return_value = True
 
         with self.assertRaises(HTTPError):
-            validate_tender_accreditation_level_mode(request)
+            _validate_tender_accreditation_level_mode(request)
 
         request.errors.add.assert_called_once_with(
-            "procurementMethodType", "mode",
+            "url", "mode",
             "Broker Accreditation level does not permit tender creation"
         )
 

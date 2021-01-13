@@ -132,7 +132,7 @@ def create_tender_invalid_eu(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Not implemented", u"location": u"data", u"name": u"procurementMethodType"}],
+        [{u"description": u"Not implemented", u"location": u"body", u"name": u"procurementMethodType"}],
     )
 
     self.app.authorization = ("Basic", ("competitive_dialogue", ""))
@@ -494,7 +494,7 @@ def empty_listing_ua(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Offset expired/invalid", u"location": u"params", u"name": u"offset"}],
+        [{u"description": u"Offset expired/invalid", u"location": u"url", u"name": u"offset"}],
     )
 
     response = self.app.get("/tenders?feed=changes&descending=1&limit=10")
@@ -564,7 +564,7 @@ def create_tender_invalid_ua(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Not implemented", u"location": u"data", u"name": u"procurementMethodType"}],
+        [{u"description": u"Not implemented", u"location": u"body", u"name": u"procurementMethodType"}],
     )
     response = self.app.post_json(
         request_path, {"data": {"procurementMethodType": CD_UA_TYPE, "invalid_field": "invalid_value"}}, status=403

@@ -378,7 +378,7 @@ def create_framework_draft_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Not implemented", u"location": u"data", u"name": u"frameworkType"}],
+        [{u"description": u"Not implemented", u"location": u"body", u"name": u"frameworkType"}],
     )
 
     response = self.app.post_json(request_path, {"data": {"invalid_field": "invalid_value"}}, status=422)
@@ -1072,7 +1072,7 @@ def accreditation_level(self):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
             response.json["errors"],
-            [{u"location": u"frameworkType", u"name": u"accreditation",
+            [{u"location": u"url", u"name": u"accreditation",
               u"description": u"Broker Accreditation level does not permit framework creation"}],
         )
 

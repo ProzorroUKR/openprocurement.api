@@ -187,7 +187,7 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
         self.assertEqual(resp.status, "501 Not Implemented")
         self.assertEqual(resp.json["status"], "error")
         self.assertEqual(
-            resp.json["errors"], [{u"description": u"Not Implemented", u"location": u"tender", u"name": u"revision"}]
+            resp.json["errors"], [{u"description": u"Not Implemented", u"location": u"body", u"name": u"revision"}]
         )
 
 

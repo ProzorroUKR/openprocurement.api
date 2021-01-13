@@ -28,12 +28,12 @@ def validate_qualification_period_duration(request, model):
                                   max_duration=MAX_QUALIFICATION_DURATION))
 
 
-def validate_ec_framework_patch_status(request):
+def validate_ec_framework_patch_status(request, **kwargs):
     allowed_statuses = ("draft", "active")
     validate_framework_patch_status(request, allowed_statuses)
 
 
-def validate_framework_document_operation_not_in_allowed_status(request):
+def validate_framework_document_operation_not_in_allowed_status(request, **kwargs):
     if request.validated["framework"].status not in ["draft", "active"]:
         raise_operation_error(
             request,

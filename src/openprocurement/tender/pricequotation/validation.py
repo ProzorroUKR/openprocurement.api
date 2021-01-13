@@ -10,7 +10,7 @@ from openprocurement.tender.core.validation import TYPEMAP
 
 
 # tender documents
-def validate_document_operation_in_not_allowed_period(request):
+def validate_document_operation_in_not_allowed_period(request, **kwargs):
     if request.validated["tender_status"] not in ["active.tendering", "draft"]:
         raise_operation_error(
             request,
@@ -21,7 +21,7 @@ def validate_document_operation_in_not_allowed_period(request):
 
 
 # award
-def validate_create_award_not_in_allowed_period(request):
+def validate_create_award_not_in_allowed_period(request, **kwargs):
     tender = request.validated["tender"]
     if tender.status != "active.qualification":
         raise_operation_error(
@@ -32,7 +32,7 @@ def validate_create_award_not_in_allowed_period(request):
         )
 
 
-def validate_award_update_in_terminal_status(request):
+def validate_award_update_in_terminal_status(request, **kwargs):
     award_status = request.validated['award'].status
     if award_status in ('cancelled', 'unsuccessful'):
         raise_operation_error(
@@ -44,7 +44,7 @@ def validate_award_update_in_terminal_status(request):
 
 
 # contract document
-def validate_contract_document(request):
+def validate_contract_document(request, **kwargs):
     operation = OPERATIONS.get(request.method)
     if request.validated["tender_status"] not in\
        ["active.qualification", "active.awarded"]:
@@ -62,19 +62,19 @@ def validate_contract_document(request):
     return True
 
 
-def validate_patch_tender_data(request):
+def validate_patch_tender_data(request, **kwargs):
     model = type(request.tender)
     data = validate_data(request, model, True, validate_json_data(request))
-    validate_kind_update(request, model)
+    _validate_kind_update(request, model)
     return data
 
 
-def validate_kind_update(request, model):
+def _validate_kind_update(request, model):
     data = request.validated["data"]
     kind = data.get("procuringEntity", {}).get("kind", "")
     if kind and kind not in model.procuring_entity_kinds:
         request.errors.add(
-            "procuringEntity", "kind",
+            "body", "kind",
             "{kind!r} procuringEntity cannot publish this type of procedure. Only {kinds} are allowed.".format(
                 kind=kind, kinds=", ".join(model.procuring_entity_kinds)
             )
@@ -82,7 +82,7 @@ def validate_kind_update(request, model):
         request.errors.status = 403
 
 
-def validate_bid_value(tender, value):
+def _validate_bid_value(tender, value):
     if not value:
         raise ValidationError(u"This field is required.")
     if tender.value.amount < value.amount:
@@ -95,7 +95,7 @@ def validate_bid_value(tender, value):
         )
 
 
-def validate_requirement_responses(criterias, req_responses):
+def _validate_requirement_responses(criterias, req_responses):
     criterias = criteria_to_tree(criterias)
     responses = responses_to_tree(req_responses)
     # top level criterias. all required
@@ -125,10 +125,10 @@ def validate_requirement_responses(criterias, req_responses):
                         list(diff)
                     ))
             for response_id, response in responses.items():
-                matches(requirements[response_id], response)
+                _matches(requirements[response_id], response)
 
 
-def matches(criteria, response):
+def _matches(criteria, response):
     datatype = TYPEMAP[criteria['dataType']]
     # validate value
     value = datatype.to_native(response['value'])
@@ -180,7 +180,7 @@ def matches(criteria, response):
     return response
 
 
-def validate_tender_publish(request):
+def validate_tender_publish(request, **kwargs):
     current_status = request.validated['tender'].status
     tender_status = request.validated['data'].get('status', current_status)
     if tender_status == current_status:

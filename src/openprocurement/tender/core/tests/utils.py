@@ -170,7 +170,7 @@ class TestUtils(TestUtilsBase):
             tender_from_data(request, self.tender_data)
         self.assertEqual(e.exception.message, "Mocked!")
         self.assertEqual(request.errors.status, 415)
-        request.errors.add.assert_called_once_with("data", "procurementMethodType", "Not implemented")
+        request.errors.add.assert_called_once_with("body", "procurementMethodType", "Not implemented")
 
         model = tender_from_data(request, self.tender_data, raise_error=False)
         self.assertIs(model, None)

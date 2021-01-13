@@ -37,7 +37,7 @@ def get_item(parent, key, request, where_search=None):
         from openprocurement.api.utils import error_handler
         request.errors.add("url", item_id_key, "Not Found")
         request.errors.status = 404
-        raise error_handler(request.errors)
+        raise error_handler(request)
 
     if item_type == "document":
         request.validated["{}s".format(item_type)] = items

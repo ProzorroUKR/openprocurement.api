@@ -536,7 +536,7 @@ class TenderNegotiationAwardResource(TenderAwardResource):
         ):
             self.request.errors.add("body", "lotID", "Another award is already using this lotID.")
             self.request.errors.status = 403
-            raise error_handler(self.request.errors)
+            raise error_handler(self.request)
         if award_status == "pending" and award.status == "active":
             award.complaintPeriod = {"startDate": now.isoformat(),
                                      "endDate": calculate_complaint_business_date(now, self.stand_still_delta, tender)

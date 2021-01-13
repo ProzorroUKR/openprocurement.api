@@ -420,9 +420,9 @@ class PlanResource(APIResource):
 class PlanTendersResource(TendersResource):
     @json_view()
     def get(self):
-        self.request.errors.add("request", "method", "Method not allowed")
+        self.request.errors.add("url", "method", "Method not allowed")
         self.request.errors.status = 405
-        raise json_error(self.request.errors)
+        raise json_error(self.request)
 
     @json_view(
         content_type="application/json",

@@ -72,6 +72,7 @@ configparser==3.5.0
 freezegun==0.3.12
 parameterized==0.7.0
 sentry-sdk==0.10.2
+cornice==4.0.1
 
 
 ############
@@ -84,7 +85,6 @@ git+git://github.com/ProzorroUKR/esculator.git@0.0.2
 git+git://github.com/ProzorroUKR/dateorro.git@0.0.3
 git+git://github.com/ProzorroUKR/rfc6266.git@0.0.6
 git+git://github.com/ProzorroUKR/python-json-patch.git@1.13-jsondiff.unicode.replacefix.0
-git+git://github.com/ProzorroUKR/cornice.git@1.2.0.dev0
 git+git://github.com/ProzorroUKR/barbecue.git@0.2
 git+git://github.com/ProzorroUKR/openprocurement.archivarius.core.git@1.0.2dp
 git+git://github.com/ProzorroUKR/openprocurement.archivarius.tenders.git@1.0.1dp

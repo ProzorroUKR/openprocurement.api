@@ -41,7 +41,7 @@ from openprocurement.tender.openuadefense.utils import (
     calculate_clarif_business_date,
     calculate_complaint_business_date,
 )
-from openprocurement.tender.openuadefense.validation import validate_tender_period_duration
+from openprocurement.tender.openuadefense.validation import _validate_tender_period_duration
 
 
 class IAboveThresholdUADefTender(IAboveThresholdUATender):
@@ -122,7 +122,7 @@ class Tender(BaseTender):
 
     def validate_tenderPeriod(self, data, period):
         if period:
-            validate_tender_period_duration(data, period, TENDERING_DURATION, working_days=True)
+            _validate_tender_period_duration(data, period, TENDERING_DURATION, working_days=True)
 
     @serializable(serialized_name="enquiryPeriod", type=ModelType(EnquiryPeriod))
     def tender_enquiryPeriod(self):

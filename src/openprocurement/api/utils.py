@@ -32,7 +32,7 @@ from json import dumps
 
 from schematics.exceptions import ValidationError, ModelValidationError, ModelConversionError
 from couchdb_schematics.document import SchematicsDocument
-from openprocurement.api.events import ErrorDesctiptorEvent
+from openprocurement.api.events import ErrorDescriptorEvent
 from openprocurement.api.constants import (
     LOGGER,
     JOURNAL_PREFIX,
@@ -141,21 +141,22 @@ def generate_docservice_url(request, doc_id, temporary=True, prefix=None):
     return urlunsplit((parsed_url.scheme, parsed_url.netloc, "/get/{}".format(doc_id), urlencode(query), ""))
 
 
-def error_handler(errors, request_params=True):
+def error_handler(request, request_params=True):
+    errors = request.errors
     params = {"ERROR_STATUS": errors.status}
     if request_params:
-        params["ROLE"] = str(errors.request.authenticated_role)
-        if errors.request.params:
-            params["PARAMS"] = str(dict(errors.request.params))
-    if errors.request.matchdict:
-        for x, j in errors.request.matchdict.items():
+        params["ROLE"] = str(request.authenticated_role)
+        if request.params:
+            params["PARAMS"] = str(dict(request.params))
+    if request.matchdict:
+        for x, j in request.matchdict.items():
             params[x.upper()] = j
-    errors.request.registry.notify(ErrorDesctiptorEvent(errors, params))
+    request.registry.notify(ErrorDescriptorEvent(request, params))
     LOGGER.info(
         'Error on processing request "{}"'.format(dumps(errors, indent=4)),
-        extra=context_unpack(errors.request, {"MESSAGE_ID": "error_handler"}, params),
+        extra=context_unpack(request, {"MESSAGE_ID": "error_handler"}, params),
     )
-    return json_error(errors)
+    return json_error(request)
 
 
 def raise_operation_error(request, message, status=403, location="body", name="data"):
@@ -165,7 +166,7 @@ def raise_operation_error(request, message, status=403, location="body", name="d
     """
     request.errors.add(location, name, message)
     request.errors.status = status
-    raise error_handler(request.errors)
+    raise error_handler(request)
 
 
 def upload_file(
@@ -178,7 +179,7 @@ def upload_file(
     )
     if "data" in request.validated and request.validated["data"]:
         document = request.validated["document"]
-        check_document(request, document, "body")
+        check_document(request, document)
 
         if first_document:
             for attr_name in type(first_document)._fields:
@@ -257,9 +258,9 @@ def upload_file(
             in_file.seek(0)
             index -= 1
         else:
-            request.errors.add("body", "data", "Can't upload document to document service.")
+            request.errors.add("body", "body", "Can't upload document to document service.")
             request.errors.status = 422
-            raise error_handler(request.errors)
+            raise error_handler(request)
         document.hash = doc_hash
         key = urlparse(doc_url).path.split("/")[-1]
     else:
@@ -368,7 +369,7 @@ def set_ownership(item, request):
     return access
 
 
-def check_document(request, document, document_container):
+def check_document(request, document):
     url = document.url
     parsed_url = urlparse(url)
     parsed_query = dict(parse_qsl(parsed_url.query))
@@ -377,35 +378,35 @@ def check_document(request, document, document_container):
         or len(parsed_url.path.split("/")) != 3
         or set(["Signature", "KeyID"]) != set(parsed_query)
     ):
-        request.errors.add(document_container, "url", "Can add document only from document service.")
+        request.errors.add("body", "url", "Can add document only from document service.")
         request.errors.status = 403
-        raise error_handler(request.errors)
+        raise error_handler(request)
     if not document.hash:
-        request.errors.add(document_container, "hash", "This field is required.")
+        request.errors.add("body", "hash", "This field is required.")
         request.errors.status = 422
-        raise error_handler(request.errors)
+        raise error_handler(request)
     keyid = parsed_query["KeyID"]
     if keyid not in request.registry.keyring:
-        request.errors.add(document_container, "url", "Document url expired.")
+        request.errors.add("body", "url", "Document url expired.")
         request.errors.status = 422
-        raise error_handler(request.errors)
+        raise error_handler(request)
     dockey = request.registry.keyring[keyid]
     signature = parsed_query["Signature"]
     key = urlparse(url).path.split("/")[-1]
     try:
         signature = b64decode(unquote(signature))
     except TypeError:
-        request.errors.add(document_container, "url", "Document url signature invalid.")
+        request.errors.add("body", "url", "Document url signature invalid.")
         request.errors.status = 422
-        raise error_handler(request.errors)
+        raise error_handler(request)
     mess = "{}\0{}".format(key, document.hash.split(":", 1)[-1])
     try:
         if mess != dockey.verify(signature + mess.encode("utf-8")):
             raise ValueError
     except ValueError:
-        request.errors.add(document_container, "url", "Document url invalid.")
+        request.errors.add("body", "url", "Document url invalid.")
         request.errors.status = 422
-        raise error_handler(request.errors)
+        raise error_handler(request)
 
 
 def update_document_url(request, document, document_route, route_kwargs):
@@ -417,8 +418,7 @@ def update_document_url(request, document, document_route, route_kwargs):
 
 
 def check_document_batch(request, document, document_container, route_kwargs):
-    check_document(request, document, document_container)
-
+    check_document(request, document)
     document_route = request.matched_route.name.replace("collection_", "")
     # Following piece of code was written by leits, so no one knows how it works
     # and why =)
@@ -426,13 +426,11 @@ def check_document_batch(request, document, document_container, route_kwargs):
     # is created with documents? I hope so :)
     if "Documents" not in document_route:
         if document_container != "body":
-            specified_document_route_end = (
-                (document_container.lower().rsplit("documents")[0] + " documents").lstrip().title()
-            )
+            route_end = document_container.lower().rsplit("documents")[0] + " documents"
         else:
-            specified_document_route_end = "documents".lstrip().title()
+            route_end = "documents"
+        specified_document_route_end = route_end.lstrip().title()
         document_route = " ".join([document_route[:-1], specified_document_route_end])
-
     return update_document_url(request, document, document_route, route_kwargs)
 
 
@@ -449,11 +447,11 @@ def request_params(request):
     except UnicodeDecodeError:
         request.errors.add("body", "data", "could not decode params")
         request.errors.status = 422
-        raise error_handler(request.errors, False)
+        raise error_handler(request, False)
     except Exception as e:
         request.errors.add("body", str(e.__class__.__name__), str(e))
         request.errors.status = 422
-        raise error_handler(request.errors, False)
+        raise error_handler(request, False)
     return params
 
 
@@ -514,9 +512,9 @@ class APIResourceListing(APIResource):
                 if view_offset and view_offset.isdigit():
                     view_offset = int(view_offset)
                 else:
-                    self.request.errors.add("params", "offset", "Offset expired/invalid")
+                    self.request.errors.add("url", "offset", "Offset expired/invalid")
                     self.request.errors.status = 404
-                    raise error_handler(self.request.errors)
+                    raise error_handler(self.request)
             if not offset:
                 view_offset = "now" if descending else 0
         else:
@@ -674,13 +672,13 @@ class APIResourcePaginatedListing(APIResource):
 def forbidden(request):
     request.errors.add("url", "permission", "Forbidden")
     request.errors.status = 403
-    return error_handler(request.errors)
+    return error_handler(request)
 
 
 def precondition(request):
     request.errors.add("url", "precondition", "Precondition Failed")
     request.errors.status = 412
-    return error_handler(request.errors)
+    return error_handler(request)
 
 
 def update_logging_context(request, params):
@@ -807,11 +805,11 @@ def handle_data_exceptions(request):
         for i in e.messages:
             request.errors.add("body", i, e.messages[i])
         request.errors.status = 422
-        raise error_handler(request.errors)
+        raise error_handler(request)
     except ValueError as e:
         request.errors.add("body", "data", str(e))
         request.errors.status = 422
-        raise error_handler(request.errors)
+        raise error_handler(request)
 
 
 @contextmanager

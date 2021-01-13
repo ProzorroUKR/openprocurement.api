@@ -8,30 +8,25 @@ from schematics.types import BaseType
 from openprocurement.api.validation import (
     validate_data,
     validate_json_data,
-    validate_accreditation_level,
-    validate_accreditation_level_mode,
+    _validate_accreditation_level,
+    _validate_accreditation_level_mode,
+    _validate_accreditation_level_kind,
+    _validate_tender_first_revision_date,
     OPERATIONS,
-    validate_accreditation_level_kind,
-    validate_tender_first_revision_date,
-    validate_post_list_data,
 )
-from openprocurement.api.models import Model
 from openprocurement.api.constants import (
-    SANDBOX_MODE,
     UA_ROAD_SCHEME,
     UA_ROAD_CPV_PREFIXES,
     GMDN_SCHEME,
     ATC_SCHEME,
     INN_SCHEME,
     GMDN_CPV_PREFIXES,
-    RELEASE_2020_04_19,
     RELEASE_ECRITERIA_ARTICLE_17,
     RELEASE_2020_04_19,
     MINIMAL_STEP_VALIDATION_FROM,
 )
 from openprocurement.api.utils import (
     get_now,
-    get_root,
     is_ua_road_classification,
     is_gmdn_classification,
     to_decimal,
@@ -64,42 +59,40 @@ MINIMAL_STEP_VALIDATION_LOWER_LIMIT = 0.005
 MINIMAL_STEP_VALIDATION_UPPER_LIMIT = 0.03
 
 
-def validate_tender_data(request):
+def validate_tender_data(request, **kwargs):
     update_logging_context(request, {"tender_id": "__new__"})
     data = validate_json_data(request)
     model = request.tender_from_data(data, create=False)
-    validate_tender_accreditation_level(request, model)
-    validate_tender_accreditation_level_central(request, model)
+    _validate_tender_accreditation_level(request, model)
+    _validate_tender_accreditation_level_central(request, model)
     data = validate_data(request, model, data=data)
-    validate_tender_accreditation_level_mode(request)
-    validate_tender_kind(request, model)
+    _validate_tender_accreditation_level_mode(request)
+    _validate_tender_kind(request, model)
     return data
 
 
-def validate_tender_accreditation_level(request, model):
-    levels = model.create_accreditations
-    validate_accreditation_level(request, levels, "procurementMethodType", "tender", "creation")
+def _validate_tender_accreditation_level(request, model):
+    _validate_accreditation_level(request, model.create_accreditations, "tender", "creation")
 
 
-def validate_tender_accreditation_level_central(request, model):
+def _validate_tender_accreditation_level_central(request, model):
     data = request.validated["json_data"]
     kind = data.get("procuringEntity", {}).get("kind", "")
-    levels = model.central_accreditations
-    validate_accreditation_level_kind(request, levels, kind, "procurementMethodType", "tender", "creation")
+    _validate_accreditation_level_kind(request, model.central_accreditations, kind, "tender", "creation")
 
 
-def validate_tender_accreditation_level_mode(request):
+def _validate_tender_accreditation_level_mode(request, **kwargs):
     data = request.validated["data"]
     mode = data.get("mode", None)
-    validate_accreditation_level_mode(request, mode, "procurementMethodType", "tender", "creation")
+    _validate_accreditation_level_mode(request, mode, "tender", "creation")
 
 
-def validate_tender_kind(request, model):
+def _validate_tender_kind(request, model):
     data = request.validated["data"]
     kind = data.get("procuringEntity", {}).get("kind", "")
     if kind not in model.procuring_entity_kinds:
         request.errors.add(
-            "procuringEntity", "kind",
+            "body", "kind",
             "{kind!r} procuringEntity cannot publish this type of procedure. Only {kinds} are allowed.".format(
                 kind=kind, kinds=", ".join(model.procuring_entity_kinds)
             )
@@ -107,7 +100,7 @@ def validate_tender_kind(request, model):
         request.errors.status = 403
 
 
-def validate_patch_tender_data_draft(request):
+def validate_patch_tender_data_draft(request, **kwargs):
     data = request.validated["json_data"]
     default_status = type(request.tender).fields["status"].default
     new_status = data.get("status", request.context.status)
@@ -115,14 +108,14 @@ def validate_patch_tender_data_draft(request):
         raise_operation_error(request, "Can't update tender to {} status".format(new_status))
 
 
-def validate_patch_tender_data(request):
+def validate_patch_tender_data(request, **kwargs):
     data = validate_json_data(request)
     if request.context.status == "draft":
         validate_patch_tender_data_draft(request)
     return validate_data(request, type(request.tender), True, data)
 
 
-def validate_tender_auction_data(request):
+def validate_tender_auction_data(request, **kwargs):
     data = validate_patch_tender_data(request)
     tender = request.validated["tender"]
     if tender.status != "active.auction":
@@ -146,22 +139,22 @@ def validate_tender_auction_data(request):
         if len(bids) != len(tender.bids):
             request.errors.add("body", "bids", "Number of auction results did not match the number of tender bids")
             request.errors.status = 422
-            raise error_handler(request.errors)
+            raise error_handler(request)
         if set([i["id"] for i in bids]) != set(tender_bids_ids):
             request.errors.add("body", "bids", "Auction bids should be identical to the tender bids")
             request.errors.status = 422
-            raise error_handler(request.errors)
+            raise error_handler(request)
         data["bids"] = [x for (y, x) in sorted(zip([tender_bids_ids.index(i["id"]) for i in bids], bids))]
         if data.get("lots"):
             tender_lots_ids = [i.id for i in tender.lots]
             if len(data.get("lots", [])) != len(tender.lots):
                 request.errors.add("body", "lots", "Number of lots did not match the number of tender lots")
                 request.errors.status = 422
-                raise error_handler(request.errors)
+                raise error_handler(request)
             if set([i["id"] for i in data.get("lots", [])]) != set([i.id for i in tender.lots]):
                 request.errors.add("body", "lots", "Auction lots should be identical to the tender lots")
                 request.errors.status = 422
-                raise error_handler(request.errors)
+                raise error_handler(request)
             data["lots"] = [
                 x if x["id"] == lot_id else {}
                 for (y, x) in sorted(
@@ -184,7 +177,7 @@ def validate_tender_auction_data(request):
                             ],
                         )
                         request.errors.status = 422
-                        raise error_handler(request.errors)
+                        raise error_handler(request)
                     for lot_index, lotValue in enumerate(tender.bids[index].lotValues):
                         if lotValue.relatedLot != bid.get("lotValues", [])[lot_index].get("relatedLot", None):
                             request.errors.add(
@@ -193,7 +186,7 @@ def validate_tender_auction_data(request):
                                 [{u"lotValues": [{u"relatedLot": ["relatedLot should be one of lots of bid"]}]}],
                             )
                             request.errors.status = 422
-                            raise error_handler(request.errors)
+                            raise error_handler(request)
             for bid_index, bid in enumerate(data["bids"]):
                 if "lotValues" in bid:
                     bid["lotValues"] = [
@@ -220,15 +213,15 @@ def validate_tender_auction_data(request):
     request.validated["data"] = data
 
 
-def validate_bid_data(request):
+def validate_bid_data(request, **kwargs):
     update_logging_context(request, {"bid_id": "__new__"})
-    validate_bid_accreditation_level(request)
+    _validate_bid_accreditation_level(request)
     model = type(request.tender).bids.model_class
     bid = validate_data(request, model)
     validated_bid = request.validated.get("bid")
     if validated_bid:
         if any([key == "documents" or "Documents" in key for key in validated_bid.keys()]):
-            bid_documents = validate_bid_documents(request)
+            bid_documents = _validate_bid_documents(request)
             if not bid_documents:
                 return
             for documents_type, documents in bid_documents.items():
@@ -236,15 +229,14 @@ def validate_bid_data(request):
     return bid
 
 
-def validate_bid_accreditation_level(request):
+def _validate_bid_accreditation_level(request, **kwargs):
     tender = request.validated["tender"]
-    levels = tender.edit_accreditations
-    validate_accreditation_level(request, levels, "procurementMethodType", "bid", "creation")
     mode = tender.get("mode", None)
-    validate_accreditation_level_mode(request, mode, "procurementMethodType", "bid", "creation")
+    _validate_accreditation_level(request, tender.edit_accreditations, "bid", "creation")
+    _validate_accreditation_level_mode(request, mode, "bid", "creation")
 
 
-def validate_bid_documents(request):
+def _validate_bid_documents(request, **kwargs):
     bid_documents = [key for key in request.validated["bid"].keys() if key == "documents" or "Documents" in key]
     documents = {}
     for doc_type in bid_documents:
@@ -259,24 +251,24 @@ def validate_bid_documents(request):
     return documents
 
 
-def validate_patch_bid_data(request):
+def validate_patch_bid_data(request, **kwargs):
     model = type(request.tender).bids.model_class
     return validate_data(request, model, True)
 
 
-def validate_award_data(request):
+def validate_award_data(request, **kwargs):
     update_logging_context(request, {"award_id": "__new__"})
     model = type(request.tender).awards.model_class
     return validate_data(request, model)
 
 
-def validate_award_milestone_data(request):
+def validate_award_milestone_data(request, **kwargs):
     update_logging_context(request, {"milestone_id": "__new__"})
     model = type(request.tender).awards.model_class.milestones.model_class
     return validate_data(request, model)
 
 
-def validate_qualification_milestone_data(request):
+def validate_qualification_milestone_data(request, **kwargs):
     update_logging_context(request, {"milestone_id": "__new__"})
     model = type(request.tender).qualifications.model_class.milestones.model_class
     return validate_data(request, model)
@@ -302,44 +294,43 @@ def _validate_item_milestone_24hours(request, item_name):
         )
 
 
-def validate_award_milestone_24hours(request):
+def validate_award_milestone_24hours(request, **kwargs):
     return _validate_item_milestone_24hours(request, item_name="award")
 
 
-def validate_qualification_milestone_24hours(request):
+def validate_qualification_milestone_24hours(request, **kwargs):
     return _validate_item_milestone_24hours(request, item_name="qualification")
 
 
-def validate_24h_milestone_released(request):
-    validate_tender_first_revision_date(request, validation_date=RELEASE_2020_04_19)
+def validate_24h_milestone_released(request, **kwargs):
+    _validate_tender_first_revision_date(request, validation_date=RELEASE_2020_04_19)
 
 
-def validate_patch_award_data(request):
+def validate_patch_award_data(request, **kwargs):
     model = type(request.tender).awards.model_class
     return validate_data(request, model, True)
 
 
-def validate_question_data(request):
+def validate_question_data(request, **kwargs):
     update_logging_context(request, {"question_id": "__new__"})
-    validate_question_accreditation_level(request)
+    _validate_question_accreditation_level(request)
     model = type(request.tender).questions.model_class
     return validate_data(request, model)
 
 
-def validate_question_accreditation_level(request):
+def _validate_question_accreditation_level(request, **kwargs):
     tender = request.validated["tender"]
-    levels = tender.edit_accreditations
-    validate_accreditation_level(request, levels, "procurementMethodType", "question", "creation")
     mode = tender.get("mode", None)
-    validate_accreditation_level_mode(request, mode, "procurementMethodType", "question", "creation")
+    _validate_accreditation_level(request, tender.edit_accreditations, "question", "creation")
+    _validate_accreditation_level_mode(request, mode, "question", "creation")
 
 
-def validate_patch_question_data(request):
+def validate_patch_question_data(request, **kwargs):
     model = type(request.tender).questions.model_class
     return validate_data(request, model, True)
 
 
-def validate_question_update_with_cancellation_lot_pending(request):
+def validate_question_update_with_cancellation_lot_pending(request, **kwargs):
     tender = request.validated["tender"]
     tender_created = get_first_revision_date(tender, default=get_now())
     question = request.validated["question"]
@@ -368,9 +359,9 @@ def validate_question_update_with_cancellation_lot_pending(request):
         )
 
 
-def validate_complaint_data(request):
+def validate_complaint_data(request, **kwargs):
     update_logging_context(request, {"complaint_id": "__new__"})
-    validate_complaint_accreditation_level(request)
+    _validate_complaint_accreditation_level(request)
     if "cancellation" in request.validated:
         model = type(request.validated["cancellation"]).complaints.model_class
     else:
@@ -378,15 +369,14 @@ def validate_complaint_data(request):
     return validate_data(request, model)
 
 
-def validate_complaint_accreditation_level(request):
+def _validate_complaint_accreditation_level(request, **kwargs):
     tender = request.validated["tender"]
-    levels = tender.edit_accreditations
-    validate_accreditation_level(request, levels, "procurementMethodType", "complaint", "creation")
     mode = tender.get("mode", None)
-    validate_accreditation_level_mode(request, mode, "procurementMethodType", "complaint", "creation")
+    _validate_accreditation_level(request, tender.edit_accreditations, "complaint", "creation")
+    _validate_accreditation_level_mode(request, mode, "complaint", "creation")
 
 
-def validate_patch_complaint_data(request):
+def validate_patch_complaint_data(request, **kwargs):
     if "cancellation" in request.validated:
         model = type(request.validated["cancellation"]).complaints.model_class
     else:
@@ -394,19 +384,19 @@ def validate_patch_complaint_data(request):
     return validate_data(request, model, True)
 
 
-def validate_cancellation_data(request):
+def validate_cancellation_data(request, **kwargs):
     update_logging_context(request, {"cancellation_id": "__new__"})
     model = type(request.tender).cancellations.model_class
     return validate_data(request, model)
 
 
-def validate_patch_cancellation_data(request):
+def validate_patch_cancellation_data(request, **kwargs):
     model = type(request.tender).cancellations.model_class
     return validate_data(request, model, True)
 
 # Cancellation
 
-def validate_cancellation_operation_document(request):
+def validate_cancellation_operation_document(request, **kwargs):
     tender = request.validated["tender"]
 
     if get_first_revision_date(tender, default=get_now()) < RELEASE_2020_04_19:
@@ -426,7 +416,7 @@ def validate_cancellation_operation_document(request):
         )
 
 
-def validate_cancellation_status_with_complaints(request):
+def validate_cancellation_status_with_complaints(request, **kwargs):
     cancellation = request.context
 
     if get_first_revision_date(request.tender, default=get_now()) < RELEASE_2020_04_19:
@@ -483,7 +473,7 @@ def validate_cancellation_status_with_complaints(request):
         )
 
 
-def validate_cancellation_status_without_complaints(request):
+def validate_cancellation_status_without_complaints(request, **kwargs):
     cancellation = request.context
 
     if get_first_revision_date(request.tender, default=get_now()) < RELEASE_2020_04_19:
@@ -522,7 +512,7 @@ def validate_cancellation_status_without_complaints(request):
         )
 
 
-def validate_operation_cancellation_in_complaint_period(request):
+def validate_operation_cancellation_in_complaint_period(request, **kwargs):
     tender = request.validated["tender"]
     now = get_now()
     tender_created = get_first_revision_date(tender, default=now)
@@ -563,7 +553,7 @@ def validate_operation_cancellation_in_complaint_period(request):
 
 
 # Cancellation complaint
-def validate_cancellation_complaint(request):
+def validate_cancellation_complaint(request, **kwargs):
     old_rules = get_first_revision_date(request.tender, default=get_now()) < RELEASE_2020_04_19
     tender = request.validated["tender"]
     without_complaints = ["belowThreshold", "reporting", "closeFrameworkAgreementSelectionUA"]
@@ -571,7 +561,7 @@ def validate_cancellation_complaint(request):
         raise_operation_error(request, "Not Found", status=404)
 
 
-def validate_cancellation_complaint_add_only_in_pending(request):
+def validate_cancellation_complaint_add_only_in_pending(request, **kwargs):
 
     cancellation = request.validated["cancellation"]
     complaint_period = cancellation.complaintPeriod
@@ -595,7 +585,7 @@ def validate_cancellation_complaint_add_only_in_pending(request):
         )
 
 
-def validate_cancellation_complaint_only_one(request):
+def validate_cancellation_complaint_only_one(request, **kwargs):
     cancellation = request.validated["cancellation"]
     complaints = cancellation.complaints
     if (
@@ -609,7 +599,7 @@ def validate_cancellation_complaint_only_one(request):
         )
 
 
-def validate_cancellation_complaint_resolved(request):
+def validate_cancellation_complaint_resolved(request, **kwargs):
     cancellation = request.validated["cancellation"]
     complaint = request.validated["data"]
     if complaint.get("tendererAction") and cancellation.status != "unsuccessful":
@@ -620,24 +610,24 @@ def validate_cancellation_complaint_resolved(request):
         )
 
 
-def validate_contract_data(request):
+def validate_contract_data(request, **kwargs):
     update_logging_context(request, {"contract_id": "__new__"})
     model = type(request.tender).contracts.model_class
     return validate_data(request, model)
 
 
-def validate_patch_contract_data(request):
+def validate_patch_contract_data(request, **kwargs):
     model = type(request.tender).contracts.model_class
     return validate_data(request, model, True)
 
 
-def validate_lot_data(request):
+def validate_lot_data(request, **kwargs):
     update_logging_context(request, {"lot_id": "__new__"})
     model = type(request.tender).lots.model_class
     return validate_data(request, model)
 
 
-def validate_patch_lot_data(request):
+def validate_patch_lot_data(request, **kwargs):
     model = type(request.tender).lots.model_class
     return validate_data(request, model, True)
 
@@ -712,7 +702,7 @@ def validate_minimalstep_limits(data, value, is_tender=False):
 
 
 # cancellation
-def validate_cancellation_of_active_lot(request):
+def validate_cancellation_of_active_lot(request, **kwargs):
     tender = request.validated["tender"]
     cancellation = request.validated["cancellation"]
     if any(lot.status != "active"
@@ -721,7 +711,7 @@ def validate_cancellation_of_active_lot(request):
         raise_operation_error(request, "Can perform cancellation only in active lot status")
 
 
-def validate_operation_cancellation_permission(request):
+def validate_operation_cancellation_permission(request, **kwargs):
 
     tender = request.validated["tender"]
     tender_created = get_first_revision_date(tender, default=get_now())
@@ -750,7 +740,7 @@ def validate_operation_cancellation_permission(request):
             raise_operation_error(request, "Forbidden")
 
 
-def validate_create_cancellation_in_active_auction(request):
+def validate_create_cancellation_in_active_auction(request, **kwargs):
     tender = request.validated["tender"]
     tender_created = get_first_revision_date(tender, default=get_now())
 
@@ -760,7 +750,7 @@ def validate_create_cancellation_in_active_auction(request):
 
 
 # tender
-def validate_tender_not_in_terminated_status(request):
+def validate_tender_not_in_terminated_status(request, **kwargs):
     tender = request.validated["tender"]
     tender_status = tender.status
     term_statuses = ("complete", "unsuccessful", "cancelled", "draft.unsuccessful")
@@ -768,14 +758,14 @@ def validate_tender_not_in_terminated_status(request):
         raise_operation_error(request, "Can't update tender in current ({}) status".format(tender_status))
 
 
-def validate_item_quantity(request):
+def validate_item_quantity(request, **kwargs):
     items = request.validated["data"].get("items", [])
     for item in items:
         if item.get("quantity") is not None and not item["quantity"]:
-            validate_related_criterion(request, item["id"], action="set to 0 quantity of", relatedItem="item")
+            _validate_related_criterion(request, item["id"], action="set to 0 quantity of", relatedItem="item")
 
 
-def validate_absence_of_pending_accepted_satisfied_complaints(request, cancellation=None):
+def validate_absence_of_pending_accepted_satisfied_complaints(request, cancellation=None, **kwargs):
     """
     Disallow cancellation of tenders and lots that have any complaints in affected statuses
     """
@@ -817,7 +807,7 @@ def validate_absence_of_pending_accepted_satisfied_complaints(request, cancellat
             validate_complaint(c, award.get("lotID"), "an award")
 
 
-def validate_tender_change_status_with_cancellation_lot_pending(request):
+def validate_tender_change_status_with_cancellation_lot_pending(request, **kwargs):
     tender = request.validated["tender"]
     tender_created = get_first_revision_date(tender, default=get_now())
     data = request.validated["data"]
@@ -851,7 +841,7 @@ def validate_tender_change_status_with_cancellation_lot_pending(request):
         )
 
 
-def validate_related_criterion(request, relatedItem_id, action="cancel", relatedItem="lot"):
+def _validate_related_criterion(request, relatedItem_id, action="cancel", relatedItem="lot"):
     tender = request.validated["tender"]
     if hasattr(tender, "criteria"):
         related_criteria = [
@@ -869,7 +859,7 @@ def validate_related_criterion(request, relatedItem_id, action="cancel", related
             )
 
 
-def validate_tender_activate_with_criteria(request):
+def validate_tender_activate_with_criteria(request, **kwargs):
     tender = request.context
     data = request.validated["data"]
     tender_created = get_first_revision_date(tender, default=get_now())
@@ -899,7 +889,7 @@ def validate_tender_activate_with_criteria(request):
         raise_operation_error(request, "Tender must contain all 9 `EXCLUSION` criteria")
 
 
-def validate_tender_activate_with_language_criteria(request):
+def validate_tender_activate_with_language_criteria(request, **kwargs):
     """
     raise error if CRITERION.OTHER.BID.LANGUAGE wasn't created
     for listed tenders_types and trying to change status to active
@@ -931,7 +921,7 @@ def validate_tender_activate_with_language_criteria(request):
         raise_operation_error(request, "Tender must contain {} criterion".format(needed_criterion))
 
 
-def validate_tender_status_update_not_in_pre_qualificaton(request):
+def validate_tender_status_update_not_in_pre_qualificaton(request, **kwargs):
     tender = request.context
     data = request.validated["data"]
     if (
@@ -943,7 +933,7 @@ def validate_tender_status_update_not_in_pre_qualificaton(request):
         raise_operation_error(request, "Can't update tender status")
 
 
-def validate_tender_period_extension(request):
+def validate_tender_period_extension(request, **kwargs):
     extra_period = request.content_configurator.tendering_period_extra
     tender = request.validated["tender"]
     if calculate_tender_business_date(get_now(), extra_period, tender) > tender.tenderPeriod.endDate:
@@ -951,7 +941,7 @@ def validate_tender_period_extension(request):
 
 
 # tender documents
-def validate_document_operation_in_not_allowed_period(request):
+def validate_document_operation_in_not_allowed_period(request, **kwargs):
     if (
         request.authenticated_role != "auction"
         and request.validated["tender_status"] not in ("active.tendering", "draft", "draft.stage2")
@@ -966,15 +956,15 @@ def validate_document_operation_in_not_allowed_period(request):
         )
 
 
-def validate_tender_document_update_not_by_author_or_tender_owner(request):
+def validate_tender_document_update_not_by_author_or_tender_owner(request, **kwargs):
     if request.authenticated_role != (request.context.author or "tender_owner"):
         request.errors.add("url", "role", "Can update document only author")
         request.errors.status = 403
-        raise error_handler(request.errors)
+        raise error_handler(request)
 
 
 # bids
-def validate_bid_operation_not_in_tendering(request):
+def validate_bid_operation_not_in_tendering(request, **kwargs):
     if request.validated["tender_status"] != "active.tendering":
         operation = "add" if request.method == "POST" else "delete"
         if request.authenticated_role != "Administrator" and request.method in ("PUT", "PATCH"):
@@ -984,7 +974,7 @@ def validate_bid_operation_not_in_tendering(request):
         )
 
 
-def validate_bid_document_in_tender_status(request):
+def validate_bid_document_in_tender_status(request, **kwargs):
     """
     active.tendering - tendering docs
     active.awarded - qualification docs that should be posted into award (another temp solution)
@@ -1001,7 +991,7 @@ def validate_bid_document_in_tender_status(request):
         )
 
 
-def validate_bid_operation_period(request):
+def validate_bid_operation_period(request, **kwargs):
     tender = request.validated["tender"]
     if (
         tender.tenderPeriod.startDate
@@ -1021,12 +1011,12 @@ def validate_bid_operation_period(request):
         )
 
 
-def validate_update_deleted_bid(request):
+def validate_update_deleted_bid(request, **kwargs):
     if request.context.status == "deleted":
         raise_operation_error(request, "Can't update bid in ({}) status".format(request.context.status))
 
 
-def validate_bid_status_update_not_to_pending(request):
+def validate_bid_status_update_not_to_pending(request, **kwargs):
     if request.authenticated_role != "Administrator":
         bid_status_to = request.validated["data"].get("status", request.context.status)
         if bid_status_to in ("draft", "invalid") and bid_status_to == request.context.status:
@@ -1036,7 +1026,7 @@ def validate_bid_status_update_not_to_pending(request):
 
 
 # bid document
-def validate_bid_document_operation_period(request):
+def validate_bid_document_operation_period(request, **kwargs):
     tender = request.validated["tender"]
     if request.validated["tender_status"] == "active.tendering" and (
         tender.tenderPeriod.startDate
@@ -1053,7 +1043,7 @@ def validate_bid_document_operation_period(request):
         )
 
 
-def validate_bid_document_operation_in_award_status(request):
+def validate_bid_document_operation_in_award_status(request, **kwargs):
     if request.validated["tender_status"] in ("active.qualification", "active.awarded") and not any(
         award.status in ("pending", "active")
         for award in request.validated["tender"].awards
@@ -1067,7 +1057,7 @@ def validate_bid_document_operation_in_award_status(request):
         )
 
 
-def validate_view_bid_document(request):
+def validate_view_bid_document(request, **kwargs):
     tender_status = request.validated["tender_status"]
     if tender_status in ("active.tendering", "active.auction") and request.authenticated_role != "bid_owner":
         raise_operation_error(
@@ -1076,7 +1066,7 @@ def validate_view_bid_document(request):
         )
 
 
-def validate_bid_document_operation_in_not_allowed_tender_status(request):
+def validate_bid_document_operation_in_not_allowed_tender_status(request, **kwargs):
     if request.validated["tender_status"] not in ["active.tendering", "active.qualification"]:
         raise_operation_error(
             request,
@@ -1086,7 +1076,7 @@ def validate_bid_document_operation_in_not_allowed_tender_status(request):
         )
 
 
-def validate_bid_document_operation_with_not_pending_award(request):
+def validate_bid_document_operation_with_not_pending_award(request, **kwargs):
     if request.validated["tender_status"] == "active.qualification" and not any(
         award.status == "pending"
         for award in request.validated["tender"].awards
@@ -1105,7 +1095,7 @@ def unless_allowed_by_qualification_milestone(*validations):
     :param validation: a function runs unless it's disabled by an active qualification milestone
     :return:
     """
-    def decorated_validation(request):
+    def decorated_validation(request, **kwargs):
         now = get_now()
         tender = request.validated["tender"]
         bid_id = request.validated["bid"]["id"]
@@ -1140,7 +1130,7 @@ def unless_allowed_by_qualification_milestone(*validations):
     return decorated_validation
 
 
-def validate_update_status_before_milestone_due_date(request):
+def validate_update_status_before_milestone_due_date(request, **kwargs):
     from openprocurement.tender.core.models import QualificationMilestone
     context = request.context
     sent_status = request.json.get("data", {}).get("status")
@@ -1161,7 +1151,7 @@ def validate_update_status_before_milestone_due_date(request):
 
 
 # lots
-def validate_lot_operation_not_in_allowed_status(request):
+def validate_lot_operation_not_in_allowed_status(request, **kwargs):
     tender = request.validated["tender"]
     if tender.status not in ("active.tendering", "draft", "draft.stage2"):
         raise_operation_error(
@@ -1170,7 +1160,7 @@ def validate_lot_operation_not_in_allowed_status(request):
 
 
 # complaints
-def validate_complaint_operation_not_in_active_tendering(request):
+def validate_complaint_operation_not_in_active_tendering(request, **kwargs):
     tender = request.validated["tender"]
     if tender.status != "active.tendering":
         raise_operation_error(
@@ -1179,7 +1169,7 @@ def validate_complaint_operation_not_in_active_tendering(request):
         )
 
 
-def validate_complaint_update_with_cancellation_lot_pending(request):
+def validate_complaint_update_with_cancellation_lot_pending(request, **kwargs):
     tender = request.validated["tender"]
     tender_created = get_first_revision_date(tender, default=get_now())
     complaint = request.validated["complaint"]
@@ -1208,7 +1198,7 @@ def validate_complaint_update_with_cancellation_lot_pending(request):
         )
 
 
-def validate_submit_complaint_time(request):
+def validate_submit_complaint_time(request, **kwargs):
     complaint_submit_time = request.content_configurator.tender_complaint_submit_time
     tender = request.validated["tender"]
     if get_now() > tender.complaintPeriod.endDate:
@@ -1222,7 +1212,7 @@ def validate_submit_complaint_time(request):
 
 
 # complaints document
-def validate_status_and_role_for_complaint_document_operation(request):
+def validate_status_and_role_for_complaint_document_operation(request, **kwargs):
     roles = request.content_configurator.allowed_statuses_for_complaint_operations_for_roles
     if request.validated["complaint"].status not in roles.get(request.authenticated_role, []):
         raise_operation_error(
@@ -1233,15 +1223,15 @@ def validate_status_and_role_for_complaint_document_operation(request):
         )
 
 
-def validate_complaint_document_update_not_by_author(request):
+def validate_complaint_document_update_not_by_author(request, **kwargs):
     if request.authenticated_role != request.context.author:
         request.errors.add("url", "role", "Can update document only author")
         request.errors.status = 403
-        raise error_handler(request.errors)
+        raise error_handler(request)
 
 
 # awards
-def validate_update_award_with_cancellation_lot_pending(request):
+def validate_update_award_with_cancellation_lot_pending(request, **kwargs):
     tender = request.validated["tender"]
     tender_created = get_first_revision_date(tender, default=get_now())
 
@@ -1263,20 +1253,20 @@ def validate_update_award_with_cancellation_lot_pending(request):
         raise_operation_error(request, "Can't update award with pending cancellation lot")
 
 
-def validate_update_award_in_not_allowed_status(request):
+def validate_update_award_in_not_allowed_status(request, **kwargs):
     tender = request.validated["tender"]
     if tender.status not in ["active.qualification", "active.awarded"]:
         raise_operation_error(request, "Can't update award in current ({}) tender status".format(tender.status))
 
 
-def validate_update_award_only_for_active_lots(request):
+def validate_update_award_only_for_active_lots(request, **kwargs):
     tender = request.validated["tender"]
     award = request.context
     if any([i.status != "active" for i in tender.lots if i.id == award.lotID]):
         raise_operation_error(request, "Can update award only in active lot status")
 
 
-def validate_update_award_with_accepted_complaint(request):
+def validate_update_award_with_accepted_complaint(request, **kwargs):
     tender = request.validated["tender"]
     award = request.context
     if any([any([c.status == "accepted" for c in i.complaints]) for i in tender.awards if i.lotID == award.lotID]):
@@ -1284,7 +1274,7 @@ def validate_update_award_with_accepted_complaint(request):
 
 
 # award complaint
-def validate_award_complaint_operation_not_in_allowed_status(request):
+def validate_award_complaint_operation_not_in_allowed_status(request, **kwargs):
     tender = request.validated["tender"]
     if tender.status not in ["active.qualification", "active.awarded"]:
         raise_operation_error(
@@ -1293,19 +1283,19 @@ def validate_award_complaint_operation_not_in_allowed_status(request):
         )
 
 
-def validate_award_complaint_add_only_for_active_lots(request):
+def validate_award_complaint_add_only_for_active_lots(request, **kwargs):
     tender = request.validated["tender"]
     if any([i.status != "active" for i in tender.lots if i.id == request.context.lotID]):
         raise_operation_error(request, "Can add complaint only in active lot status")
 
 
-def validate_award_complaint_update_only_for_active_lots(request):
+def validate_award_complaint_update_only_for_active_lots(request, **kwargs):
     tender = request.validated["tender"]
     if any([i.status != "active" for i in tender.lots if i.id == request.validated["award"].lotID]):
         raise_operation_error(request, "Can update complaint only in active lot status")
 
 
-def validate_add_complaint_with_tender_cancellation_in_pending(request):
+def validate_add_complaint_with_tender_cancellation_in_pending(request, **kwargs):
     tender = request.validated["tender"]
     tender_created = get_first_revision_date(tender, default=get_now())
 
@@ -1320,7 +1310,7 @@ def validate_add_complaint_with_lot_cancellation_in_pending(type_name):
 
     type_name = type_name.lower()
 
-    def validation(request):
+    def validation(request, **kwargs):
         fields_names = {
             "lot": "id",
             "award": "lotID",
@@ -1350,7 +1340,7 @@ def validate_add_complaint_with_lot_cancellation_in_pending(type_name):
 
 
 def validate_operation_with_lot_cancellation_in_pending(type_name):
-    def validation(request):
+    def validation(request, **kwargs):
         fields_names = {
             "lot": "id",
             "award": "lotID",
@@ -1395,7 +1385,7 @@ def validate_operation_with_lot_cancellation_in_pending(type_name):
     return validation
 
 
-def validate_add_complaint_not_in_complaint_period(request):
+def validate_add_complaint_not_in_complaint_period(request, **kwargs):
     period = request.context.complaintPeriod
     award = request.context
     if not (award.status in ["active", "unsuccessful"]
@@ -1404,18 +1394,18 @@ def validate_add_complaint_not_in_complaint_period(request):
         raise_operation_error(request, "Can add complaint only in complaintPeriod")
 
 
-def validate_update_cancellation_complaint_not_in_allowed_complaint_status(request):
+def validate_update_cancellation_complaint_not_in_allowed_complaint_status(request, **kwargs):
     if request.context.status not in ["draft", "pending", "accepted", "satisfied", "stopping"]:
         raise_operation_error(request, "Can't update complaint in current ({}) status".format(request.context.status))
 
 
-def validate_update_complaint_not_in_allowed_complaint_status(request):
+def validate_update_complaint_not_in_allowed_complaint_status(request, **kwargs):
     if request.context.status not in ["draft", "claim", "answered", "pending", "accepted", "satisfied", "stopping"]:
         raise_operation_error(request, "Can't update complaint in current ({}) status".format(request.context.status))
 
 
 # award complaint document
-def validate_award_complaint_document_operation_not_in_allowed_status(request):
+def validate_award_complaint_document_operation_not_in_allowed_status(request, **kwargs):
     if request.validated["tender_status"] not in ["active.qualification", "active.awarded"]:
         raise_operation_error(
             request,
@@ -1425,7 +1415,7 @@ def validate_award_complaint_document_operation_not_in_allowed_status(request):
         )
 
 
-def validate_award_complaint_document_operation_only_for_active_lots(request):
+def validate_award_complaint_document_operation_only_for_active_lots(request, **kwargs):
     if any(
         [i.status != "active" for i in request.validated["tender"].lots if i.id == request.validated["award"].lotID]
     ):
@@ -1435,7 +1425,7 @@ def validate_award_complaint_document_operation_only_for_active_lots(request):
 
 
 # contract
-def validate_contract_operation_not_in_allowed_status(request):
+def validate_contract_operation_not_in_allowed_status(request, **kwargs):
     if request.validated["tender_status"] not in ["active.qualification", "active.awarded"]:
         raise_operation_error(
             request,
@@ -1445,7 +1435,7 @@ def validate_contract_operation_not_in_allowed_status(request):
         )
 
 
-def validate_update_contract_only_for_active_lots(request):
+def validate_update_contract_only_for_active_lots(request, **kwargs):
     tender = request.validated["tender"]
     if any(
         [
@@ -1457,7 +1447,7 @@ def validate_update_contract_only_for_active_lots(request):
         raise_operation_error(request, "Can update contract only in active lot status")
 
 
-def validate_update_contract_value(request, name="value", attrs=("currency",)):
+def validate_update_contract_value(request, name="value", attrs=("currency",), **kwargs):
     data = request.validated["data"]
     value = data.get(name)
     if value:
@@ -1467,7 +1457,7 @@ def validate_update_contract_value(request, name="value", attrs=("currency",)):
                 raise_operation_error(request, "Can't update {} for contract {}".format(ro_attr, name), name=name)
 
 
-def validate_update_contract_value_net_required(request, name="value"):
+def validate_update_contract_value_net_required(request, name="value", **kwargs):
     data = request.validated["data"]
     value = data.get(name)
     if value is not None and requested_fields_changes(request, (name, "status")):
@@ -1476,7 +1466,7 @@ def validate_update_contract_value_net_required(request, name="value"):
             raise_operation_error(request, dict(amountNet=BaseType.MESSAGES["required"]), status=422, name=name)
 
 
-def validate_update_contract_value_with_award(request):
+def validate_update_contract_value_with_award(request, **kwargs):
     data = request.validated["data"]
     value = data.get("value")
     if value and requested_fields_changes(request, ("value", "status")):
@@ -1497,7 +1487,7 @@ def validate_update_contract_value_with_award(request):
                 raise_operation_error(request, "Amount should be less or equal to awarded amount", name="value")
 
 
-def validate_update_contract_value_amount(request, name="value", allow_equal=False):
+def validate_update_contract_value_amount(request, name="value", allow_equal=False, **kwargs):
     data = request.validated["data"]
     contract_value = data.get(name)
     value = data.get("value") or data.get(name)
@@ -1528,7 +1518,7 @@ def validate_update_contract_value_amount(request, name="value", allow_equal=Fal
                     raise_operation_error(request, "Amount and amountNet should be equal", name=name)
 
 
-def validate_contract_signing(request):
+def validate_contract_signing(request, **kwargs):
     tender = request.validated["tender"]
     data = request.validated["data"]
     if request.context.status != "active" and "status" in data and data["status"] == "active":
@@ -1621,19 +1611,19 @@ def validate_milestones(value):
                 )
 
 
-def validate_procurement_type_of_first_stage(request):
+def validate_procurement_type_of_first_stage(request, **kwargs):
     tender = request.validated["tender"]
     if tender.procurementMethodType not in FIRST_STAGE_PROCUREMENT_TYPES:
         request.errors.add(
-            "data",
+            "body",
             "procurementMethodType",
             u"Should be one of the first stage values: {}".format(FIRST_STAGE_PROCUREMENT_TYPES),
         )
         request.errors.status = 422
-        raise error_handler(request.errors)
+        raise error_handler(request)
 
 
-def validate_tender_matches_plan(request):
+def validate_tender_matches_plan(request, **kwargs):
     plan = request.validated["plan"]
     tender = request.validated["tender"]
 
@@ -1641,7 +1631,7 @@ def validate_tender_matches_plan(request):
     tender_identifier = tender.procuringEntity.identifier
     if plan_identifier.id != tender_identifier.id or plan_identifier.scheme != tender_identifier.scheme:
         request.errors.add(
-            "data",
+            "body",
             "procuringEntity",
             u"procuringEntity.identifier doesn't match: {} {} != {} {}".format(
                 plan_identifier.scheme, plan_identifier.id, tender_identifier.scheme, tender_identifier.id
@@ -1653,7 +1643,7 @@ def validate_tender_matches_plan(request):
         # item.classification may be empty in pricequotaiton
         if item.classification and item.classification.id[: len(pattern)] != pattern:
             request.errors.add(
-                "data",
+                "body",
                 "items[{}].classification.id".format(i),
                 u"Plan classification.id {} and item's {} should be of the same group {}".format(
                     plan.classification.id, item.classification.id, pattern
@@ -1662,10 +1652,10 @@ def validate_tender_matches_plan(request):
 
     if request.errors:
         request.errors.status = 422
-        raise error_handler(request.errors)
+        raise error_handler(request)
 
 
-def validate_tender_plan_procurement_method_type(request):
+def validate_tender_plan_procurement_method_type(request, **kwargs):
     plan = request.validated["plan"]
     tender = request.validated["tender"]
 
@@ -1673,37 +1663,37 @@ def validate_tender_plan_procurement_method_type(request):
         if tender.procurementMethodType == PMT and plan.tender.procurementMethodType == "belowThreshold":
             return
         request.errors.add(
-            "data",
+            "body",
             "procurementMethodType",
             u"procurementMethodType doesn't match: {} != {}".format(
                 plan.tender.procurementMethodType, tender.procurementMethodType
             ),
         )
         request.errors.status = 422
-        raise error_handler(request.errors)
+        raise error_handler(request)
 
 
-def validate_plan_budget_breakdown(request):
+def validate_plan_budget_breakdown(request, **kwargs):
     plan = request.validated["plan"]
 
     if not plan.budget or not plan.budget.breakdown:
-        request.errors.add("data", "budget.breakdown", u"Plan should contain budget breakdown")
+        request.errors.add("body", "budget.breakdown", u"Plan should contain budget breakdown")
         request.errors.status = 422
-        raise error_handler(request.errors)
+        raise error_handler(request)
 
 
-def validate_tender_in_draft(request):
+def validate_tender_in_draft(request, **kwargs):
     if request.validated["tender"].status != "draft":
         raise raise_operation_error(request, u"Only allowed in draft tender status")
 
 
-def validate_procurement_kind_is_central(request):
+def validate_procurement_kind_is_central(request, **kwargs):
     kind = "central"
     if request.validated["tender"].procuringEntity.kind != kind:
         raise raise_operation_error(request, u"Only allowed for procurementEntity.kind = '{}'".format(kind))
 
 
-def validate_tender_plan_data(request):
+def validate_tender_plan_data(request, **kwargs):
     data = validate_data(request, type(request.tender).plans.model_class)
     plan_id = data["id"]
     update_logging_context(request, {"plan_id": plan_id})
@@ -1715,7 +1705,7 @@ def validate_tender_plan_data(request):
     request.validated["plan_src"] = plan.serialize("plain")
 
 
-def validate_complaint_type_change(request):
+def validate_complaint_type_change(request, **kwargs):
     tender = request.validated["tender"]
     if get_first_revision_date(tender, default=get_now()) > RELEASE_2020_04_19:
         complaint = request.validated["complaint"]
@@ -1723,14 +1713,14 @@ def validate_complaint_type_change(request):
             raise_operation_error(request, "Can't update claim to complaint")
 
 
-def validate_update_contract_status_by_supplier(request):
+def validate_update_contract_status_by_supplier(request, **kwargs):
     if request.authenticated_role == "contract_supplier":
         data = request.validated["data"]
         if "status" in data and data["status"] != "pending" or request.context.status != "pending.winner-signing":
             raise_operation_error(request, "Supplier can change status to `pending`")
 
 
-def validate_role_for_contract_document_operation(request):
+def validate_role_for_contract_document_operation(request, **kwargs):
     if request.authenticated_role not in ("tender_owner", "contract_supplier",):
         raise_operation_error(request, "Can {} document only buyer or supplier".format(OPERATIONS.get(request.method)))
     if request.authenticated_role == "contract_supplier" and \
@@ -1745,7 +1735,9 @@ def validate_role_for_contract_document_operation(request):
         )
 
 
-def validate_award_document_tender_not_in_allowed_status_base(request, allowed_bot_statuses=("active.awarded",)):
+def validate_award_document_tender_not_in_allowed_status_base(
+    request, allowed_bot_statuses=("active.awarded",), **kwargs
+):
     allowed_tender_statuses = ["active.qualification"]
     if request.authenticated_role == "bots":
         allowed_tender_statuses.extend(allowed_bot_statuses)
@@ -1758,7 +1750,7 @@ def validate_award_document_tender_not_in_allowed_status_base(request, allowed_b
         )
 
 
-def validate_award_document_lot_not_in_allowed_status(request):
+def validate_award_document_lot_not_in_allowed_status(request, **kwargs):
     if any([
         i.status != "active"
         for i in request.validated["tender"].lots
@@ -1769,12 +1761,12 @@ def validate_award_document_lot_not_in_allowed_status(request):
         ))
 
 
-def validate_award_document_author(request):
+def validate_award_document_author(request, **kwargs):
     operation = OPERATIONS.get(request.method)
     if operation == "update" and request.authenticated_role != (request.context.author or "tender_owner"):
         request.errors.add("url", "role", "Can update document only author")
         request.errors.status = 403
-        raise error_handler(request.errors)
+        raise error_handler(request)
 
 
 TYPEMAP = {
@@ -1832,40 +1824,40 @@ def validate_requirement_groups(value):
 
 
 def base_validate_operation_ecriteria_objects(request, valid_statuses="", obj_name="tender"):
-    validate_tender_first_revision_date(request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
+    _validate_tender_first_revision_date(request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
     current_status = request.validated[obj_name].status
     if current_status not in valid_statuses:
         raise_operation_error(request, "Can't {} object if {} not in {} statuses".format(
             request.method.lower(), obj_name, valid_statuses))
 
 
-def validate_operation_ecriteria_objects(request):
+def validate_operation_ecriteria_objects(request, **kwargs):
     valid_statuses = ["draft", "draft.pending", "draft.stage2", "active.tendering"]
     base_validate_operation_ecriteria_objects(request, valid_statuses)
 
 
-def validate_post_evidence_objects(request):
+def validate_post_evidence_objects(request, **kwargs):
     valid_statuses = ["draft", "draft.pending", "draft.stage2"]
     base_validate_operation_ecriteria_objects(request, valid_statuses)
 
 
-def validate_patch_requirement_objects(request):
+def validate_patch_requirement_objects(request, **kwargs):
     valid_statuses = ["draft", "draft.pending", "draft.stage2"]
     base_validate_operation_ecriteria_objects(request, valid_statuses)
 
 
-def validate_put_requirement_objects(request):
+def validate_put_requirement_objects(request, **kwargs):
     valid_statuses = ["active.tendering"]
     base_validate_operation_ecriteria_objects(request, valid_statuses)
 
 
-def validate_patch_exclusion_ecriteria_objects(request):
+def validate_patch_exclusion_ecriteria_objects(request, **kwargs):
     criterion = request.validated["criterion"]
     if criterion.classification.id.startswith("CRITERION.EXCLUSION"):
         raise_operation_error(request, "Can't update exclusion ecriteria objects")
 
 
-def validate_view_requirement_responses(request):
+def validate_view_requirement_responses(request, **kwargs):
     pre_qualification_tenders = ["aboveThresholdEU", "competitiveDialogueUA",
                                  "competitiveDialogueEU", "competitiveDialogueEU.stage2",
                                  "esco", "closeFrameworkAgreementUA"]
@@ -1885,52 +1877,52 @@ def validate_view_requirement_responses(request):
         )
 
 
-def validate_operation_award_requirement_response(request):
-    validate_tender_first_revision_date(request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
+def validate_operation_award_requirement_response(request, **kwargs):
+    _validate_tender_first_revision_date(request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
     valid_tender_statuses = ["active.qualification"]
     base_validate_operation_ecriteria_objects(request, valid_tender_statuses)
     base_validate_operation_ecriteria_objects(request, ["pending"], "award")
 
 
-def validate_operation_qualification_requirement_response(request):
-    validate_tender_first_revision_date(request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
+def validate_operation_qualification_requirement_response(request, **kwargs):
+    _validate_tender_first_revision_date(request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
     base_validate_operation_ecriteria_objects(request, ["pending"], "qualification")
 
 
-def validate_criterion_data(request):
+def validate_criterion_data(request, **kwargs):
     update_logging_context(request, {"criterion_id": "__new__"})
     model = type(request.tender).criteria.model_class
     return validate_data(request, model, bulk="full")
 
 
-def validate_patch_criterion_data(request):
+def validate_patch_criterion_data(request, **kwargs):
     model = type(request.tender).criteria.model_class
     return validate_data(request, model, True)
 
 
-def validate_requirement_group_data(request):
+def validate_requirement_group_data(request, **kwargs):
     update_logging_context(request, {"requirementgroup_id": "__new__"})
     model = type(request.tender).criteria.model_class.requirementGroups.model_class
     return validate_data(request, model)
 
 
-def validate_patch_requirement_group_data(request):
+def validate_patch_requirement_group_data(request, **kwargs):
     model = type(request.tender).criteria.model_class.requirementGroups.model_class
     return validate_data(request, model, True)
 
 
-def validate_requirement_data(request):
+def validate_requirement_data(request, **kwargs):
     update_logging_context(request, {"requirement_id": "__new__"})
     model = type(request.tender).criteria.model_class.requirementGroups.model_class.requirements.model_class
     return validate_data(request, model)
 
 
-def validate_patch_requirement_data(request):
+def validate_patch_requirement_data(request, **kwargs):
     model = type(request.tender).criteria.model_class.requirementGroups.model_class.requirements.model_class
     return validate_data(request, model, True)
 
 
-def validate_eligible_evidence_data(request):
+def validate_eligible_evidence_data(request, **kwargs):
     update_logging_context(request, {"evidence_id": "__new__"})
     model = (type(request.tender).criteria.model_class.requirementGroups.model_class
              .requirements.model_class
@@ -1938,30 +1930,30 @@ def validate_eligible_evidence_data(request):
     return validate_data(request, model)
 
 
-def validate_patch_eligible_evidence_data(request):
+def validate_patch_eligible_evidence_data(request, **kwargs):
     model = (type(request.tender).criteria.model_class.requirementGroups.model_class
              .requirements.model_class
              .eligibleEvidences.model_class)
     return validate_data(request, model, True)
 
 
-def validate_requirement_response_data(request):
+def validate_requirement_response_data(request, **kwargs):
     update_logging_context(request, {"requirement_response_id": "__new__"})
     model = type(request.tender).bids.model_class.requirementResponses.model_class
     return validate_data(request, model, bulk="full")
 
 
-def validate_patch_requirement_response_data(request):
+def validate_patch_requirement_response_data(request, **kwargs):
     model = type(request.tender).bids.model_class.requirementResponses.model_class
     return validate_data(request, model, True)
 
 
-def validate_evidence_data(request):
+def validate_evidence_data(request, **kwargs):
     update_logging_context(request, {"evidence_id": "__new__"})
     model = type(request.tender).bids.model_class.requirementResponses.model_class.evidences.model_class
     return validate_data(request, model)
 
 
-def validate_patch_evidence_data(request):
+def validate_patch_evidence_data(request, **kwargs):
     model = type(request.tender).bids.model_class.requirementResponses.model_class.evidences.model_class
     return validate_data(request, model, True)

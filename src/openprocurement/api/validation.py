@@ -23,7 +23,7 @@ def validate_json_data(request, expected_type=dict):
     except ValueError as e:
         request.errors.add("body", "data", str(e))
         request.errors.status = 422
-        raise error_handler(request.errors)
+        raise error_handler(request)
     if (
         not isinstance(json, dict)
         or "data" not in json
@@ -31,7 +31,7 @@ def validate_json_data(request, expected_type=dict):
     ):
         request.errors.add("body", "data", "Data not available")
         request.errors.status = 422
-        raise error_handler(request.errors)
+        raise error_handler(request)
     data = json["data"]
     if (
         expected_type is list
@@ -39,7 +39,7 @@ def validate_json_data(request, expected_type=dict):
     ):
         request.errors.add("body", "data", "Data not available")
         request.errors.status = 422
-        raise error_handler(request.errors)
+        raise error_handler(request)
     request.validated["json_data"] = data
     return json["data"]
 
@@ -69,7 +69,7 @@ def validate_object_data(request, model, partial=False, data=None):
     if hasattr(type(m), "_options") and role not in type(m)._options.roles:
         request.errors.add("url", "role", "Forbidden")
         request.errors.status = 403
-        raise error_handler(request.errors)
+        raise error_handler(request)
     else:
         data = method(role)
         request.validated["data"] = data
@@ -108,7 +108,7 @@ def validate_post_list_data(request, model, data=None):
     if hasattr(type(m), "_options") and "create" not in type(m)._options.roles:
         request.errors.add("url", "role", "Forbidden")
         request.errors.status = 403
-        raise error_handler(request.errors)
+        raise error_handler(request)
 
     request.validated["data"] = data
     valid_models = [model(i) for i in valid_data]
@@ -140,7 +140,7 @@ def validate_data(request, model, partial=False, data=None, bulk=None):
     return data
 
 
-def validate_patch_document_data(request):
+def validate_patch_document_data(request, **kwargs):
     model = type(request.context)
     return validate_data(request, model, True)
 
@@ -151,19 +151,19 @@ def validate_document_data(request):
     return validate_data(request, model)
 
 
-def validate_file_upload(request):
+def validate_file_upload(request, **kwargs):
     update_logging_context(request, {"document_id": "__new__"})
     if request.registry.docservice_url and request.content_type == "application/json":
         return validate_document_data(request)
     if "file" not in request.POST or not hasattr(request.POST["file"], "filename"):
         request.errors.add("body", "file", "Not Found")
         request.errors.status = 404
-        raise error_handler(request.errors)
+        raise error_handler(request)
     else:
         request.validated["file"] = request.POST["file"]
 
 
-def validate_file_update(request):
+def validate_file_update(request, **kwargs):
     if request.registry.docservice_url and request.content_type == "application/json":
         return validate_document_data(request)
     if request.content_type == "multipart/form-data":
@@ -200,39 +200,39 @@ def validate_classification_id(items, *args):
                 )
 
 
-def validate_accreditation_level(request, levels, location, name, action):
+def _validate_accreditation_level(request, levels, name, action):
     if not request.check_accreditations(levels):
         request.errors.add(
-            location, "accreditation", "Broker Accreditation level does not permit {} {}".format(name, action)
+            "url", "accreditation", "Broker Accreditation level does not permit {} {}".format(name, action)
         )
         request.errors.status = 403
-        raise error_handler(request.errors)
+        raise error_handler(request)
 
 
-def validate_accreditation_level_mode(request, mode, location, name, action):
+def _validate_accreditation_level_mode(request, mode, name, action):
     if mode is None and request.check_accreditations((ACCR_TEST,)):
         request.errors.add(
-            location, "mode", "Broker Accreditation level does not permit {} {}".format(name, action)
+            "url", "mode", "Broker Accreditation level does not permit {} {}".format(name, action)
         )
         request.errors.status = 403
-        raise error_handler(request.errors)
+        raise error_handler(request)
 
 
-def validate_accreditation_level_owner(request, owner, location, name, action):
+def _validate_accreditation_level_owner(request, owner, location, name, action):
     if not check_user_accreditations(request, owner, (ACCR_EXIT,), default=True):
         request.errors.add(
-            location, "accreditation", "Owner Accreditation level does not permit {} {}".format(name, action)
+            "url", "accreditation", "Owner Accreditation level does not permit {} {}".format(name, action)
         )
         request.errors.status = 403
-        raise error_handler(request.errors)
+        raise error_handler(request)
 
 
-def validate_accreditation_level_kind(request, levels, kind, location, name, action):
+def _validate_accreditation_level_kind(request, levels, kind, name, action):
     if kind == "central":
-        validate_accreditation_level(request, levels, location, name, action)
+        _validate_accreditation_level(request, levels, name, action)
 
 
-def validate_tender_first_revision_date(request, validation_date, message="Forbidden"):
+def _validate_tender_first_revision_date(request, validation_date, message="Forbidden"):
     tender = request.validated["tender"]
     tender_creation_date = get_first_revision_date(tender, default=get_now())
     if tender_creation_date < validation_date:
@@ -242,4 +242,4 @@ def validate_tender_first_revision_date(request, validation_date, message="Forbi
 def validate_doc_accreditation_level_mode(request, methodType, doc_type):
     data = request.validated["data"]
     mode = data.get("mode", None)
-    validate_accreditation_level_mode(request, mode, methodType, doc_type, "creation")
+    _validate_accreditation_level_mode(request, mode, doc_type, "creation")

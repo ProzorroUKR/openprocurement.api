@@ -35,11 +35,11 @@ def extract_contract(request):
     if doc is not None and doc.get("doc_type") == "contract":
         request.errors.add("url", "contract_id", "Archived")
         request.errors.status = 410
-        raise error_handler(request.errors)
+        raise error_handler(request)
     elif doc is None or doc.get("doc_type") != "Contract":
         request.errors.add("url", "contract_id", "Not Found")
         request.errors.status = 404
-        raise error_handler(request.errors)
+        raise error_handler(request)
 
     return request.contract_from_data(doc)
 
@@ -108,7 +108,7 @@ def set_ownership(item, request):
 def upload_file_to_transaction(request):
 
     document = request.validated["document"]
-    check_document(request, document, "body")
+    check_document(request, document)
 
     document_route = request.matched_route.name.replace("collection_", "")
     document = update_document_url(request, document, document_route, {})

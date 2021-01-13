@@ -3,11 +3,13 @@ from datetime import timedelta
 from schematics.exceptions import ValidationError
 
 from openprocurement.api.constants import RELEASE_2020_04_19, WORKING_DAYS
-from openprocurement.api.auth import extract_access_token
 from openprocurement.api.validation import (
-    validate_data, validate_json_data, OPERATIONS, validate_accreditation_level,
-    validate_accreditation_level_mode,
-    validate_tender_first_revision_date,
+    validate_data,
+    validate_json_data,
+    OPERATIONS,
+    _validate_accreditation_level,
+    _validate_accreditation_level_mode,
+    _validate_tender_first_revision_date,
 )
 from openprocurement.api.utils import (
     apply_data_patch, error_handler, get_now, raise_operation_error,
@@ -19,7 +21,7 @@ from openprocurement.tender.core.validation import validate_tender_period_extens
 from openprocurement.tender.openua.constants import POST_SUBMIT_TIME
 
 
-def validate_patch_tender_ua_data(request):
+def validate_patch_tender_ua_data(request, **kwargs):
     data = validate_json_data(request)
     if request.context.status == "draft":
         validate_patch_tender_data_draft(request)
@@ -33,23 +35,23 @@ def validate_patch_tender_ua_data(request):
             if len(set(cpv_group_lists)) != 1:
                 request.errors.add("body", "item", "Can't change classification")
                 request.errors.status = 403
-                raise error_handler(request.errors)
+                raise error_handler(request)
         if "enquiryPeriod" in data:
             if apply_data_patch(request.context.enquiryPeriod.serialize(), data["enquiryPeriod"]):
                 request.errors.add("body", "item", "Can't change enquiryPeriod")
                 request.errors.status = 403
-                raise error_handler(request.errors)
+                raise error_handler(request)
 
     return validate_data(request, type(request.tender), True, data)
 
 
-def validate_update_tender_document(request):
+def validate_update_tender_document(request, **kwargs):
     status = request.validated["tender_status"]
     if status == "active.tendering":
         validate_tender_period_extension(request)
 
 
-def validate_tender_period_start_date(data, period, working_days=False, calendar=WORKING_DAYS):
+def _validate_tender_period_start_date(data, period, working_days=False, calendar=WORKING_DAYS):
     TENDER_CREATION_BUFFER_DURATION=timedelta(minutes=10)
     min_allowed_date = calculate_tender_date(
         get_now(), -TENDER_CREATION_BUFFER_DURATION,
@@ -60,7 +62,7 @@ def validate_tender_period_start_date(data, period, working_days=False, calendar
         raise ValidationError(u"tenderPeriod.startDate should be in greater than current date")
 
 
-def validate_tender_period_duration(data, period, duration, working_days=False, calendar=WORKING_DAYS):
+def _validate_tender_period_duration(data, period, duration, working_days=False, calendar=WORKING_DAYS):
     tender_period_end_date = calculate_tender_business_date(
         period.startDate, duration, data,
         working_days=working_days,
@@ -74,24 +76,24 @@ def validate_tender_period_duration(data, period, duration, working_days=False, 
 
 
 # bids
-def validate_update_bid_to_draft(request):
+def validate_update_bid_to_draft(request, **kwargs):
     bid_status_to = request.validated["data"].get("status", request.context.status)
     if request.context.status != "draft" and bid_status_to == "draft":
         request.errors.add("body", "bid", "Can't update bid to ({}) status".format(bid_status_to))
         request.errors.status = 403
-        raise error_handler(request.errors)
+        raise error_handler(request)
 
 
-def validate_update_bid_to_active_status(request):
+def validate_update_bid_to_active_status(request, **kwargs):
     bid_status_to = request.validated["data"].get("status", request.context.status)
     if bid_status_to != request.context.status and bid_status_to != "active":
         request.errors.add("body", "bid", "Can't update bid to ({}) status".format(bid_status_to))
         request.errors.status = 403
-        raise error_handler(request.errors)
+        raise error_handler(request)
 
 
 # bid documents
-def validate_download_bid_document(request):
+def validate_download_bid_document(request, **kwargs):
 
     if request.params.get("download"):
         document = request.validated["document"]
@@ -99,7 +101,7 @@ def validate_download_bid_document(request):
             raise_operation_error(request, "Document download forbidden.")
 
 
-def validate_bid_document_operation_in_award_status(request):
+def validate_bid_document_operation_in_award_status(request, **kwargs):
     if request.validated["tender_status"] in ("active.qualification", "active.awarded") and not any(
         award.status == "active"
         for award in request.validated["tender"].awards
@@ -113,7 +115,7 @@ def validate_bid_document_operation_in_award_status(request):
         )
 
 
-def validate_update_bid_document_confidentiality(request):
+def validate_update_bid_document_confidentiality(request, **kwargs):
     tender_status = request.validated["tender_status"]
     if tender_status != "active.tendering" and "confidentiality" in request.validated.get("data", {}):
         if request.context.confidentiality != request.validated["data"]["confidentiality"]:
@@ -124,7 +126,7 @@ def validate_update_bid_document_confidentiality(request):
 
 
 # complaint
-def validate_submit_claim_time(request):
+def validate_submit_claim_time(request, **kwargs):
     tender = request.validated["tender"]
     claim_submit_time = request.content_configurator.tender_claim_submit_time
     claim_end_date = calculate_tender_business_date(tender.tenderPeriod.endDate, -claim_submit_time, tender)
@@ -138,14 +140,14 @@ def validate_submit_claim_time(request):
         )
 
 
-def validate_update_claim_time(request):
+def validate_update_claim_time(request, **kwargs):
     tender = request.validated["tender"]
     if get_now() > tender.enquiryPeriod.clarificationsUntil:
         raise_operation_error(request, "Can update claim only before enquiryPeriod.clarificationsUntil")
 
 
 # complaint documents
-def validate_complaint_document_operation_not_in_allowed_status(request):
+def validate_complaint_document_operation_not_in_allowed_status(request, **kwargs):
     if request.validated["tender_status"] not in ["active.tendering"]:
         raise_operation_error(
             request,
@@ -156,7 +158,7 @@ def validate_complaint_document_operation_not_in_allowed_status(request):
 
 
 # contract
-def validate_contract_update_with_accepted_complaint(request):
+def validate_contract_update_with_accepted_complaint(request, **kwargs):
     tender = request.validated["tender"]
     if any(
         [
@@ -168,7 +170,7 @@ def validate_contract_update_with_accepted_complaint(request):
         raise_operation_error(request, "Can't update contract with accepted complaint")
 
 
-def validate_accepted_complaints(request):
+def validate_accepted_complaints(request, **kwargs):
     if any(
         [
             any([c.status == "accepted" for c in i.complaints])
@@ -181,7 +183,7 @@ def validate_accepted_complaints(request):
 
 
 # cancellation
-def validate_not_only_unsuccessful_awards_or_qualifications(request):
+def validate_not_only_unsuccessful_awards_or_qualifications(request, **kwargs):
     unsuccessful_statuses = {"unsuccessful", "cancelled"}
     tender = request.validated["tender"]
     cancellation = request.validated["cancellation"]
@@ -213,17 +215,16 @@ def validate_not_only_unsuccessful_awards_or_qualifications(request):
 
 
 # post
-def validate_post_accreditation_level(request):
+def _validate_post_accreditation_level(request, **kwargs):
     tender = request.validated["tender"]
-    levels = tender.edit_accreditations
-    validate_accreditation_level(request, levels, "procurementMethodType", "post", "creation")
     mode = tender.get("mode", None)
-    validate_accreditation_level_mode(request, mode, "procurementMethodType", "post", "creation")
+    _validate_accreditation_level(request, tender.edit_accreditations, "post", "creation")
+    _validate_accreditation_level_mode(request, mode, "post", "creation")
 
 
-def validate_complaint_post_data(request):
+def validate_complaint_post_data(request, **kwargs):
     update_logging_context(request, {"post_id": "__new__"})
-    validate_post_accreditation_level(request)
+    _validate_post_accreditation_level(request)
     model = type(request.tender).complaints.model_class.posts.model_class
     post = validate_data(request, model)
     upload_objects_documents(
@@ -233,9 +234,9 @@ def validate_complaint_post_data(request):
     return post
 
 
-def validate_award_complaint_post_data(request):
+def validate_award_complaint_post_data(request, **kwargs):
     update_logging_context(request, {"post_id": "__new__"})
-    validate_post_accreditation_level(request)
+    _validate_post_accreditation_level(request)
     model = type(request.tender).awards.model_class.complaints.model_class.posts.model_class
     post = validate_data(request, model)
     upload_objects_documents(
@@ -245,9 +246,9 @@ def validate_award_complaint_post_data(request):
     return post
 
 
-def validate_cancellation_complaint_post_data(request):
+def validate_cancellation_complaint_post_data(request, **kwargs):
     update_logging_context(request, {"post_id": "__new__"})
-    validate_post_accreditation_level(request)
+    _validate_post_accreditation_level(request)
     model = type(request.tender).cancellations.model_class.complaints.model_class.posts.model_class
     post = validate_data(request, model)
     upload_objects_documents(
@@ -257,9 +258,9 @@ def validate_cancellation_complaint_post_data(request):
     return post
 
 
-def validate_qualification_complaint_post_data(request):
+def validate_qualification_complaint_post_data(request, **kwargs):
     update_logging_context(request, {"post_id": "__new__"})
-    validate_post_accreditation_level(request)
+    _validate_post_accreditation_level(request)
     model = type(request.tender).qualifications.model_class.complaints.model_class.posts.model_class
     post = validate_data(request, model)
     upload_objects_documents(
@@ -269,7 +270,7 @@ def validate_qualification_complaint_post_data(request):
     return post
 
 
-def validate_complaint_post_complaint_status(request):
+def validate_complaint_post_complaint_status(request, **kwargs):
     complaint = request.validated["complaint"]
     if complaint.status not in ["pending", "accepted"]:
         raise_operation_error(
@@ -279,7 +280,7 @@ def validate_complaint_post_complaint_status(request):
         )
 
 
-def validate_complaint_post_review_date(request, calendar=WORKING_DAYS):
+def validate_complaint_post_review_date(request, calendar=WORKING_DAYS, **kwargs):
     complaint = request.validated["complaint"]
     if complaint.status == "accepted":
         tender = request.validated["tender"]
@@ -297,12 +298,12 @@ def validate_complaint_post_review_date(request, calendar=WORKING_DAYS):
             )
 
 
-def validate_complaint_post_document_upload_by_author(request):
+def validate_complaint_post_document_upload_by_author(request, **kwargs):
     if request.authenticated_role != request.context.author:
         request.errors.add("url", "role", "Can add document only by post author")
         request.errors.status = 403
-        raise error_handler(request.errors)
+        raise error_handler(request)
 
 
-def validate_complaint_post(request):
-    validate_tender_first_revision_date(request, validation_date=RELEASE_2020_04_19)
+def validate_complaint_post(request, **kwargs):
+    _validate_tender_first_revision_date(request, validation_date=RELEASE_2020_04_19)

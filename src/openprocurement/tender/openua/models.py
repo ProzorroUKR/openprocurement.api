@@ -75,8 +75,8 @@ from openprocurement.tender.openua.constants import (
     PERIOD_END_REQUIRED_FROM,
 )
 from openprocurement.tender.openua.validation import (
-    validate_tender_period_duration,
-    validate_tender_period_start_date,
+    _validate_tender_period_duration,
+    _validate_tender_period_start_date,
 )
 
 
@@ -653,8 +653,8 @@ class Tender(BaseTender):
     def validate_tenderPeriod(self, data, period):
         if period:
             if is_new_created(data):
-                validate_tender_period_start_date(data, period)
-            validate_tender_period_duration(data, period, TENDERING_DURATION)
+                _validate_tender_period_start_date(data, period)
+            _validate_tender_period_duration(data, period, TENDERING_DURATION)
 
     @serializable(serialized_name="enquiryPeriod", type=ModelType(EnquiryPeriod))
     def tender_enquiryPeriod(self):

@@ -8,19 +8,19 @@ from openprocurement.api.validation import validate_data, validate_json_data, OP
 from openprocurement.agreement.cfaua.interfaces import IChange
 
 
-def validate_agreement_patch(request):
+def validate_agreement_patch(request, **kwargs):
     data = validate_json_data(request)
     if data:
         if "features" in data:
             if apply_data_patch([f.serialize() for f in request.context.features], data["features"]):
                 request.errors.add("body", "features", "Can't change features")
                 request.errors.status = 403
-                raise error_handler(request.errors)
+                raise error_handler(request)
 
     return validate_data(request, type(request.agreement), True, data=data)
 
 
-def validate_update_agreement_status(request):
+def validate_update_agreement_status(request, **kwargs):
     if request.context.changes:
         data = request.validated["data"]
         pending_changes = [c for c in request.context.changes if c["status"] == "pending"]
@@ -28,7 +28,7 @@ def validate_update_agreement_status(request):
             raise_operation_error(request, "Can't update agreement status with pending change.")
 
 
-def validate_credentials_generate(request):
+def validate_credentials_generate(request, **kwargs):
     agreement = request.validated["agreement"]
     if agreement.status != "active":
         raise_operation_error(
@@ -36,7 +36,7 @@ def validate_credentials_generate(request):
         )
 
 
-def validate_document_operation_on_agreement_status(request):
+def validate_document_operation_on_agreement_status(request, **kwargs):
     status = request.validated["agreement"].status
     if status != "active":
         raise_operation_error(
@@ -44,7 +44,7 @@ def validate_document_operation_on_agreement_status(request):
         )
 
 
-def validate_change_data(request):
+def validate_change_data(request, **kwargs):
     update_logging_context(request, {"change_id": "__new__"})
     data = validate_json_data(request)
     if not "rationaleType" in data:
@@ -60,7 +60,7 @@ def validate_change_data(request):
     return validate_data(request, model, data=data)
 
 
-def validate_agreement_change_add_not_in_allowed_agreement_status(request):
+def validate_agreement_change_add_not_in_allowed_agreement_status(request, **kwargs):
     agreement = request.validated["agreement"]
     if agreement.status != "active":
         raise_operation_error(
@@ -68,24 +68,24 @@ def validate_agreement_change_add_not_in_allowed_agreement_status(request):
         )
 
 
-def validate_create_agreement_change(request):
+def validate_create_agreement_change(request, **kwargs):
     agreement = request.validated["agreement"]
     if agreement.changes and agreement.changes[-1].status == "pending":
         raise_operation_error(request, "Can't create new agreement change while any (pending) change exists")
 
 
-def validate_patch_change_data(request):
+def validate_patch_change_data(request, **kwargs):
     model = request.context.__class__
     return validate_data(request, model, True)
 
 
-def validate_agreement_change_update_not_in_allowed_change_status(request):
+def validate_agreement_change_update_not_in_allowed_change_status(request, **kwargs):
     change = request.validated["change"]
     if change.status in {"active", "cancelled"}:
         raise_operation_error(request, "Can't update agreement change in current ({}) status".format(change.status))
 
 
-def validate_update_agreement_change_status(request):
+def validate_update_agreement_change_status(request, **kwargs):
     data = request.validated["data"]
     if data["status"] == "active" and not data.get("dateSigned", ""):
         raise_operation_error(request, "Can't update agreement change status. 'dateSigned' is required.")

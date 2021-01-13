@@ -118,7 +118,7 @@ def create_tender_invalid_eu(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Not implemented", u"location": u"data", u"name": u"procurementMethodType"}],
+        [{u"description": u"Not implemented", u"location": u"body", u"name": u"procurementMethodType"}],
     )
 
     response = self.app.post_json(
@@ -864,7 +864,7 @@ def create_tender_invalid_ua(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Not implemented", u"location": u"data", u"name": u"procurementMethodType"}],
+        [{u"description": u"Not implemented", u"location": u"body", u"name": u"procurementMethodType"}],
     )
 
     response = self.app.post_json(

@@ -25,7 +25,7 @@ def extract_transfer(request, transfer_id=None):
     if doc is None or doc.get("doc_type") != "Transfer":
         request.errors.add("url", "transfer_id", "Not Found")
         request.errors.status = 404
-        raise error_handler(request.errors)
+        raise error_handler(request)
 
     return request.transfer_from_data(doc)
 

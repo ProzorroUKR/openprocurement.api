@@ -239,11 +239,11 @@ def extract_tender_adapter(request, tender_id):
     if doc is not None and doc.get("doc_type") == "tender":
         request.errors.add("url", "tender_id", "Archived")
         request.errors.status = 410
-        raise error_handler(request.errors)
+        raise error_handler(request)
     elif doc is None or doc.get("doc_type") != "Tender":
         request.errors.add("url", "tender_id", "Not Found")
         request.errors.status = 404
-        raise error_handler(request.errors)
+        raise error_handler(request)
 
     return request.tender_from_data(doc)
 
@@ -307,9 +307,9 @@ def tender_from_data(request, data, raise_error=True, create=True):
     procurementMethodType = data.get("procurementMethodType", "belowThreshold")
     model = request.registry.tender_procurementMethodTypes.get(procurementMethodType)
     if model is None and raise_error:
-        request.errors.add("data", "procurementMethodType", "Not implemented")
+        request.errors.add("body", "procurementMethodType", "Not implemented")
         request.errors.status = 415
-        raise error_handler(request.errors)
+        raise error_handler(request)
     update_logging_context(request, {"tender_type": procurementMethodType})
     if model is not None and create:
         if request.environ.get("REQUEST_METHOD") == "GET" and data.get("revisions"):

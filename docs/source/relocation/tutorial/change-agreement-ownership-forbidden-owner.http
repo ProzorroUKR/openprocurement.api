@@ -19,7 +19,7 @@ X-Content-Type-Options: nosniff
   "errors": [
     {
       "description": "Owner Accreditation level does not permit ownership change", 
-      "location": "ownership", 
+      "location": "url", 
       "name": "accreditation"
     }
   ]

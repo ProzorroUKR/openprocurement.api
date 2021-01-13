@@ -48,9 +48,6 @@ from openprocurement.tender.core.models import (
     QualificationMilestoneListMixin,
     RequirementResponse,
     BidResponsesMixin,
-
-    # validators
-    validate_response_requirement_uniq,
 )
 from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
@@ -85,8 +82,8 @@ from openprocurement.tender.openeu.constants import (
     BID_UNSUCCESSFUL_FROM,
 )
 from openprocurement.tender.openua.validation import (
-    validate_tender_period_start_date,
-    validate_tender_period_duration,
+    _validate_tender_period_duration,
+    _validate_tender_period_start_date,
 )
 
 
@@ -822,8 +819,8 @@ class Tender(BaseTender):
 
     def validate_tenderPeriod(self, data, period):
         if is_new_created(data):
-            validate_tender_period_start_date(data, period)
-        validate_tender_period_duration(data, period, TENDERING_DURATION)
+            _validate_tender_period_start_date(data, period)
+        _validate_tender_period_duration(data, period, TENDERING_DURATION)
 
     @serializable
     def numberOfBids(self):

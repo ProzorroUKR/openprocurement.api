@@ -93,7 +93,7 @@ def empty_listing(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Offset expired/invalid", u"location": u"params", u"name": u"offset"}],
+        [{u"description": u"Offset expired/invalid", u"location": u"url", u"name": u"offset"}],
     )
 
     response = self.app.get("/tenders?feed=changes&descending=1&limit=10")
@@ -162,7 +162,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Not implemented", u"location": u"data", u"name": u"procurementMethodType"}],
+        [{u"description": u"Not implemented", u"location": u"body", u"name": u"procurementMethodType"}],
     )
 
     response = self.app.post_json(

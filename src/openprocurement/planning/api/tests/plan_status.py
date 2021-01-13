@@ -67,7 +67,7 @@ def test_fail_update_back_to_draft(app, initial_status):
         u"errors": [
             {
                 u"description": u"Plan status can not be changed back to 'draft'",
-                u"location": u"data",
+                u"location": u"body",
                 u"name": u"status",
             }
         ],
@@ -289,7 +289,7 @@ def test_fail_update_complete_or_cancelled_plan(app, status):
         u"errors": [
             {
                 u"description": u"Can't update plan in '{}' status".format(status),
-                u"location": u"data",
+                u"location": u"body",
                 u"name": u"status",
             }
         ],
@@ -313,7 +313,7 @@ def test_fail_update_complete_or_cancelled_plan(app, status):
         u"errors": [
             {
                 u"description": u"Can't update plan in '{}' status".format(status),
-                u"location": u"data",
+                u"location": u"body",
                 u"name": u"status",
             }
         ],
@@ -336,7 +336,7 @@ def test_fail_update_complete_or_cancelled_plan(app, status):
         u"errors": [
             {
                 u"description": u"Can't update plan in '{}' status".format(status),
-                u"location": u"data",
+                u"location": u"body",
                 u"name": u"status",
             }
         ],
@@ -352,7 +352,7 @@ def test_fail_update_complete_or_cancelled_plan(app, status):
         u"errors": [
             {
                 u"description": u"Can't update plan in '{}' status".format(status),
-                u"location": u"data",
+                u"location": u"body",
                 u"name": u"status",
             }
         ],
@@ -365,7 +365,7 @@ def test_fail_update_complete_or_cancelled_plan(app, status):
         u"errors": [
             {
                 u"description": u"Can't update plan in '{}' status".format(status),
-                u"location": u"data",
+                u"location": u"body",
                 u"name": u"status",
             }
         ],
@@ -397,7 +397,7 @@ def test_fail_complete_manually(app, value):
                              u' Procurement method types allowed for this kind: centralizedProcurement, reporting,'
                              u' negotiation, negotiation.quick, priceQuotation, belowThreshold, aboveThresholdUA, aboveThresholdEU,'
                              u' competitiveDialogueUA, competitiveDialogueEU, esco, closeFrameworkAgreementUA.',
-             u'location': u'procuringEntity', u'name': u'kind'
+             u'location': u'body', u'name': u'kind'
              }
         ]
         test_data["procuringEntity"]["kind"] = "defense"

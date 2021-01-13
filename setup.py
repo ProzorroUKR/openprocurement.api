@@ -11,8 +11,8 @@ with open(os.path.join(here, "README.md")) as f:
 requires = [
     "pyramid<1.8.0",
     "schematics<2.0.0",
-    "WebOb>=1.8.6",
-    "cornice==1.2.0.dev0",
+    "WebOb<=1.8.6",
+    "cornice==4.0.1",
     "couchdb-schematics",
     "barbecue",
     "gunicorn",

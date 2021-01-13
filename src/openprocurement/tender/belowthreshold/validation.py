@@ -2,16 +2,14 @@
 from openprocurement.api.utils import error_handler, raise_operation_error
 from openprocurement.api.validation import OPERATIONS
 from openprocurement.tender.core.validation import (
-    RELEASE_ECRITERIA_ARTICLE_17,
-    validate_tender_first_revision_date,
     base_validate_operation_ecriteria_objects,
-    validate_related_criterion,
+    _validate_related_criterion,
 )
 
 
 
 # tender documents
-def validate_document_operation_in_not_allowed_tender_status(request):
+def validate_document_operation_in_not_allowed_tender_status(request, **kwargs):
     if (
         request.authenticated_role != "auction"
         and request.validated["tender_status"] not in ("draft", "active.enquiries")
@@ -27,7 +25,7 @@ def validate_document_operation_in_not_allowed_tender_status(request):
 
 
 # bids
-def validate_view_bids(request):
+def validate_view_bids(request, **kwargs):
     if request.validated["tender_status"] in ["active.tendering", "active.auction"]:
         raise_operation_error(
             request,
@@ -37,17 +35,17 @@ def validate_view_bids(request):
         )
 
 
-def validate_update_bid_status(request):
+def validate_update_bid_status(request, **kwargs):
     if request.authenticated_role != "Administrator":
         bid_status_to = request.validated["data"].get("status")
         if bid_status_to != request.context.status and bid_status_to != "active":
             request.errors.add("body", "bid", "Can't update bid to ({}) status".format(bid_status_to))
             request.errors.status = 403
-            raise error_handler(request.errors)
+            raise error_handler(request)
 
 
 # lot
-def validate_lot_operation(request):
+def validate_lot_operation(request, **kwargs):
     tender = request.validated["tender"]
     if tender.status not in ("active.enquiries", "draft"):
         raise_operation_error(
@@ -55,19 +53,19 @@ def validate_lot_operation(request):
         )
 
 
-def validate_delete_lot_related_criterion(request):
+def validate_delete_lot_related_criterion(request, **kwargs):
     lot_id = request.context.id
-    validate_related_criterion(request, lot_id, action="delete")
+    _validate_related_criterion(request, lot_id, action="delete")
 
 
 # complaint
-def validate_add_complaint_not_in_allowed_tender_status(request):
+def validate_add_complaint_not_in_allowed_tender_status(request, **kwargs):
     tender = request.context
     if tender.status not in ["active.enquiries", "active.tendering"]:
         raise_operation_error(request, "Can't add complaint in current ({}) tender status".format(tender.status))
 
 
-def validate_update_complaint_not_in_allowed_tender_status(request):
+def validate_update_complaint_not_in_allowed_tender_status(request, **kwargs):
     tender = request.validated["tender"]
     if tender.status not in [
         "active.enquiries",
@@ -79,12 +77,12 @@ def validate_update_complaint_not_in_allowed_tender_status(request):
         raise_operation_error(request, "Can't update complaint in current ({}) tender status".format(tender.status))
 
 
-def validate_update_complaint_not_in_allowed_status(request):
+def validate_update_complaint_not_in_allowed_status(request, **kwargs):
     if request.context.status not in ["draft", "claim", "answered", "pending"]:
         raise_operation_error(request, "Can't update complaint in current ({}) status".format(request.context.status))
 
 
-def validate_only_claim_allowed(request):
+def validate_only_claim_allowed(request, **kwargs):
     if request.validated["complaint"]["type"] != "claim":
         raise_operation_error(
             request,
@@ -93,7 +91,7 @@ def validate_only_claim_allowed(request):
 
 
 # complaint document
-def validate_complaint_document_operation_not_in_allowed_status(request):
+def validate_complaint_document_operation_not_in_allowed_status(request, **kwargs):
     if request.validated["tender_status"] not in [
         "active.enquiries",
         "active.tendering",
@@ -109,7 +107,7 @@ def validate_complaint_document_operation_not_in_allowed_status(request):
         )
 
 
-def validate_role_and_status_for_add_complaint_document(request):
+def validate_role_and_status_for_add_complaint_document(request, **kwargs):
     roles = request.content_configurator.allowed_statuses_for_complaint_operations_for_roles
     if request.context.status not in roles.get(request.authenticated_role, []):
         raise_operation_error(
@@ -118,7 +116,7 @@ def validate_role_and_status_for_add_complaint_document(request):
 
 
 # auction
-def validate_auction_info_view(request):
+def validate_auction_info_view(request, **kwargs):
     if request.validated["tender_status"] != "active.auction":
         raise_operation_error(
             request, "Can't get auction info in current ({}) tender status".format(request.validated["tender_status"])
@@ -126,13 +124,13 @@ def validate_auction_info_view(request):
 
 
 # award
-def validate_create_award_not_in_allowed_period(request):
+def validate_create_award_not_in_allowed_period(request, **kwargs):
     tender = request.validated["tender"]
     if tender.status != "active.qualification":
         raise_operation_error(request, "Can't create award in current ({}) tender status".format(tender.status))
 
 
-def validate_create_award_only_for_active_lot(request):
+def validate_create_award_only_for_active_lot(request, **kwargs):
     tender = request.validated["tender"]
     award = request.validated["award"]
     if any([i.status != "active" for i in tender.lots if i.id == award.lotID]):
@@ -140,13 +138,13 @@ def validate_create_award_only_for_active_lot(request):
 
 
 # award complaint
-def validate_award_complaint_update_not_in_allowed_status(request):
+def validate_award_complaint_update_not_in_allowed_status(request, **kwargs):
     if request.context.status not in ["draft", "claim", "answered"]:
         raise_operation_error(request, "Can't update complaint in current ({}) status".format(request.context.status))
 
 
 # contract document
-def validate_cancellation_document_operation_not_in_allowed_status(request):
+def validate_cancellation_document_operation_not_in_allowed_status(request, **kwargs):
     if request.validated["tender_status"] in ["complete", "cancelled", "unsuccessful"]:
         raise_operation_error(
             request,
@@ -156,7 +154,7 @@ def validate_cancellation_document_operation_not_in_allowed_status(request):
         )
 
 
-def validate_award_document(request):
+def validate_award_document(request, **kwargs):
     operation = OPERATIONS.get(request.method)
 
     allowed_tender_statuses = ["active.qualification"]
@@ -175,24 +173,24 @@ def validate_award_document(request):
     if operation == "update" and request.authenticated_role != (request.context.author or "tender_owner"):
         request.errors.add("url", "role", "Can update document only author")
         request.errors.status = 403
-        raise error_handler(request.errors)
+        raise error_handler(request)
 
 
-def validate_operation_ecriteria_objects(request):
+def validate_operation_ecriteria_objects(request, **kwargs):
     valid_statuses = ["draft", "active.enquiries"]
     base_validate_operation_ecriteria_objects(request, valid_statuses)
 
 
-def validate_post_evidence_objects(request):
+def validate_post_evidence_objects(request, **kwargs):
     valid_statuses = ["draft"]
     base_validate_operation_ecriteria_objects(request, valid_statuses)
 
 
-def validate_patch_requirement_objects(request):
+def validate_patch_requirement_objects(request, **kwargs):
     valid_statuses = ["draft"]
     base_validate_operation_ecriteria_objects(request, valid_statuses)
 
 
-def validate_put_requirement_objects(request):
+def validate_put_requirement_objects(request, **kwargs):
     valid_statuses = ["active.enquiries", "active.tendering"]
     base_validate_operation_ecriteria_objects(request, valid_statuses)

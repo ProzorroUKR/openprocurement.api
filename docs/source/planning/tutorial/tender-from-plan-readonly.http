@@ -25,7 +25,7 @@ X-Content-Type-Options: nosniff
   "errors": [
     {
       "description": "Can't update plan in 'complete' status", 
-      "location": "data", 
+      "location": "body", 
       "name": "status"
     }
   ]
