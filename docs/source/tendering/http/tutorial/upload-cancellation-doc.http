@@ -16,6 +16,7 @@ DATA:
 Response: 201 Created
 Content-Type: application/json
 Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/cancellations/442eab37b845408d81ed635c8d8ebadb/documents/ada2083ffec749c5ae3c8fc110e1fb3b
+X-Content-Type-Options: nosniff
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000", 

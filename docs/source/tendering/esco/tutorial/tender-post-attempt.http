@@ -7,6 +7,7 @@ data
 
 Response: 415 Unsupported Media Type
 Content-Type: application/json
+X-Content-Type-Options: nosniff
 {
   "status": "error", 
   "errors": [

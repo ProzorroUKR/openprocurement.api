@@ -90,6 +90,7 @@ DATA:
 Response: 201 Created
 Content-Type: application/json
 Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c4b851839b51462fbf72e030424fca88
+X-Content-Type-Options: nosniff
 {
   "access": {
     "transfer": "c327b6d901f74ed9b327a8e292394b19", 

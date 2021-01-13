@@ -12,6 +12,7 @@ DATA:
 
 Response: 200 OK
 Content-Type: application/json
+X-Content-Type-Options: nosniff
 {
   "data": {
     "status": "active", 
@@ -88,6 +89,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 Response: 200 OK
 Content-Type: application/json
+X-Content-Type-Options: nosniff
 {
   "data": {
     "status": "active", 

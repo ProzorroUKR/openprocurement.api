@@ -12,6 +12,7 @@ DATA:
 
 Response: 200 OK
 Content-Type: application/json
+X-Content-Type-Options: nosniff
 {
   "data": {
     "requirements": [

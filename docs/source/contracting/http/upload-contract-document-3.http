@@ -14,6 +14,7 @@ extended additional info
 
 Response: 200 OK
 Content-Type: application/json
+X-Content-Type-Options: nosniff
 {
   "data": {
     "title": "contract_additional_docs.doc", 

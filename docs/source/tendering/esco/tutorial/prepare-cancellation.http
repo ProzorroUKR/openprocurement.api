@@ -14,6 +14,7 @@ DATA:
 Response: 201 Created
 Content-Type: application/json
 Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/cancellations/03ede869eb8e44be9018e92170eb8423
+X-Content-Type-Options: nosniff
 {
   "data": {
     "status": "draft", 

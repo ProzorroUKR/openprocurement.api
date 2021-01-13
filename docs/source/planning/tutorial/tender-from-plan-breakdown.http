@@ -145,6 +145,7 @@ DATA:
 
 Response: 422 Unprocessable Entity
 Content-Type: application/json
+X-Content-Type-Options: nosniff
 {
   "status": "error", 
   "errors": [
