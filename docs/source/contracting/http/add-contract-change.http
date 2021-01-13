@@ -17,6 +17,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
+X-Content-Type-Options: nosniff
 {
   "data": {
     "status": "pending", 

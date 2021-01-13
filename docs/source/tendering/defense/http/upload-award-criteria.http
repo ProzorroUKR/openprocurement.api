@@ -15,6 +15,7 @@ content
 Response: 201 Created
 Content-Type: application/json
 Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/127bd59fdd464def8d1189b954eefcbb/documents/af19de0bb1e149869a2fa37596133890
+X-Content-Type-Options: nosniff
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000", 

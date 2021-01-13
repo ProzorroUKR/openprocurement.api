@@ -13,6 +13,7 @@ DATA:
 Response: 200 OK
 Content-Type: application/json
 Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6ccc95c340c94e32bcf0b8c2183e62f7/awards/1c87ef6c69a34696b307f78e1d9839e7
+X-Content-Type-Options: nosniff
 {
   "data": {
     "status": "unsuccessful", 

@@ -36,6 +36,7 @@ DATA:
 
 Response: 409 Conflict
 Content-Type: application/json
+X-Content-Type-Options: nosniff
 {
   "status": "error", 
   "errors": [

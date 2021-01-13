@@ -4,6 +4,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 Response: 200 OK
 Content-Type: application/json
+X-Content-Type-Options: nosniff
 {
   "data": {
     "procurementMethod": "open", 
@@ -230,6 +231,7 @@ DATA:
 
 Response: 403 Forbidden
 Content-Type: application/json
+X-Content-Type-Options: nosniff
 {
   "status": "error", 
   "errors": [

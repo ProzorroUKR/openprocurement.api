@@ -34,6 +34,7 @@ DATA:
 Response: 201 Created
 Content-Type: application/json
 Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/questions/3f751fcae5fa40be86e8b38392376e1c
+X-Content-Type-Options: nosniff
 {
   "data": {
     "description": "Просимо додати таблицю потрібної калорійності харчування", 

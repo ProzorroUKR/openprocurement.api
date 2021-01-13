@@ -164,6 +164,7 @@ DATA:
 Response: 201 Created
 Content-Type: application/json
 Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/f0b2403cba3040acaaf3d6d45dc953be
+X-Content-Type-Options: nosniff
 {
   "access": {
     "transfer": "1eb53c2056db4f7295dc001b64d55189", 

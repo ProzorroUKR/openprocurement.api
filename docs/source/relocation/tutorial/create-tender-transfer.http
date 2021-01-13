@@ -10,6 +10,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
+X-Content-Type-Options: nosniff
 {
   "access": {
     "transfer": "86fc7fcbd11a419f8be51ea488a09168", 

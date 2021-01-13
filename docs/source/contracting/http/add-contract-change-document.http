@@ -15,6 +15,7 @@ content
 Response: 201 Created
 Content-Type: application/json
 Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/de3004e5b9844707bb35405277043c7c
+X-Content-Type-Options: nosniff
 {
   "data": {
     "title": "contract_changes.doc", 
