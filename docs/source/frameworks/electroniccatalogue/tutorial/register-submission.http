@@ -34,7 +34,7 @@ DATA:
 }
 
 Response: 201 Created
-Content-Type: application/json; charset=UTF-8
+Content-Type: application/json
 Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/19973fee87084fe7a00db94ad14f0c0d
 {
   "access": {

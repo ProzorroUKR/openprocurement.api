@@ -1766,7 +1766,7 @@ def download_tender_bidder_document(self):
                     response.headers["Content-Disposition"],
                     "attachment; filename=name_{}.doc".format(doc_resource[:-1]),
                 )
-                self.assertEqual(response.headers["Content-Type"], "application/msword; charset=UTF-8")
+                self.assertEqual(response.headers["Content-Type"], "application/msword")
 
             response = self.app.get(
                 "/tenders/{}/bids/{}/{}/{}?acc_token={}&{}".format(
@@ -1829,7 +1829,7 @@ def download_tender_bidder_document(self):
                         response.headers["Content-Disposition"],
                         "attachment; filename=name_{}.doc".format(doc_resource[:-1]),
                     )
-                    self.assertEqual(response.headers["Content-Type"], "application/msword; charset=UTF-8")
+                    self.assertEqual(response.headers["Content-Type"], "application/msword")
 
         for doc_resource in ["documents", "eligibility_documents"]:
             for container in private_doc_id_by_type, doc_id_by_type:
@@ -1981,7 +1981,7 @@ def download_tender_bidder_document(self):
                         response.headers["Content-Disposition"],
                         "attachment; filename=name_{}.doc".format(doc_resource[:-1]),
                     )
-                    self.assertEqual(response.headers["Content-Type"], "application/msword; charset=UTF-8")
+                    self.assertEqual(response.headers["Content-Type"], "application/msword")
 
         for doc_resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:
             for container in private_doc_id_by_type, doc_id_by_type:
@@ -2007,7 +2007,7 @@ def download_tender_bidder_document(self):
                         response.headers["Content-Disposition"],
                         "attachment; filename=name_{}.doc".format(doc_resource[:-1]),
                     )
-                    self.assertEqual(response.headers["Content-Type"], "application/msword; charset=UTF-8")
+                    self.assertEqual(response.headers["Content-Type"], "application/msword")
 
         for doc_resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:
             response = self.app.get(
@@ -2031,7 +2031,7 @@ def download_tender_bidder_document(self):
                     response.headers["Content-Disposition"],
                     "attachment; filename=name_{}.doc".format(doc_resource[:-1]),
                 )
-                self.assertEqual(response.headers["Content-Type"], "application/msword; charset=UTF-8")
+                self.assertEqual(response.headers["Content-Type"], "application/msword")
 
             response = self.app.get(
                 "/tenders/{}/bids/{}/{}/{}?{}".format(

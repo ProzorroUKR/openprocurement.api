@@ -13,7 +13,7 @@ content
 
 
 Response: 201 Created
-Content-Type: application/json; charset=UTF-8
+Content-Type: application/json
 Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/127bd59fdd464def8d1189b954eefcbb/cancellations/104ab67eaa9e4bd1a1af508433066884/documents/a07c11ed15064e1bad53c031eaad847c
 {
   "data": {

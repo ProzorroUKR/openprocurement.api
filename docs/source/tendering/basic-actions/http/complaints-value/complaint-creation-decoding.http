@@ -35,7 +35,7 @@ DATA:
 }
 
 Response: 409 Conflict
-Content-Type: application/json; charset=UTF-8
+Content-Type: application/json
 {
   "status": "error", 
   "errors": [

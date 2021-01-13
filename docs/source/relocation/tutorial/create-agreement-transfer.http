@@ -9,7 +9,7 @@ DATA:
 }
 
 Response: 201 Created
-Content-Type: application/json; charset=UTF-8
+Content-Type: application/json
 {
   "access": {
     "transfer": "8dc38bd93c2d46d2b5920fb034830ff8", 

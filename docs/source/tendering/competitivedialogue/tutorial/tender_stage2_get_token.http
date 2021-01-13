@@ -7,7 +7,7 @@ DATA:
 {}
 
 Response: 200 OK
-Content-Type: application/json; charset=UTF-8
+Content-Type: application/json
 {
   "access": {
     "transfer": "9eb7c60c9b5246f3a84bfa8094343442", 

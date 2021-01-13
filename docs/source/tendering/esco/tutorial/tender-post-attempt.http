@@ -6,7 +6,7 @@ DATA:
 data
 
 Response: 415 Unsupported Media Type
-Content-Type: application/json; charset=UTF-8
+Content-Type: application/json
 {
   "status": "error", 
   "errors": [

@@ -2,7 +2,7 @@ GET /api/2.5/tenders/9de80116006a4e58b18ac56dda573693/cancellations/31235ac89ae5
 Host: lb-api-sandbox.prozorro.gov.ua
 
 Response: 200 OK
-Content-Type: application/json; charset=UTF-8
+Content-Type: application/json
 {
   "data": {
     "status": "resolved", 

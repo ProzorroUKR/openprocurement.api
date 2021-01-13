@@ -13,7 +13,7 @@ additional info
 
 
 Response: 201 Created
-Content-Type: application/json; charset=UTF-8
+Content-Type: application/json
 Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/agreements/eb35d61e7cde4a008003f5cd17ddb0c7/documents/29c3149772784d53925c9e7a92100127
 {
   "data": {
