@@ -7,7 +7,7 @@ class BaseRequirementResponseResource(APIResource):
 
     def collection_post(self):
 
-        requirement_responses = self.request.validated["requirementresponses"]
+        requirement_responses = self.request.validated["requirementresponse_bulk"]
         self.request.context.requirementResponses.extend(requirement_responses)
 
         context_name = self.request.context.__class__.__name__.lower()

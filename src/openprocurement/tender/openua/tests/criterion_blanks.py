@@ -14,7 +14,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 
 def create_tender_criteria_valid(self):
 
-    request_path = "/tenders/{}/criteria?acc_token={}&bulk=true".format(self.tender_id, self.tender_token)
+    request_path = "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token)
 
     response = self.app.post_json(request_path, {"data": test_criteria})
     self.assertEqual(response.status, "201 Created")
@@ -38,7 +38,7 @@ def create_tender_criteria_invalid(self):
     invalid_criteria = deepcopy(test_criteria)
     invalid_criteria[0]["relatesTo"] = "lot"
 
-    request_path = "/tenders/{}/criteria?acc_token={}&bulk=true".format(self.tender_id, self.tender_token)
+    request_path = "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token)
 
     response = self.app.post_json(request_path, {"data": []}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -257,7 +257,7 @@ def patch_tender_criteria_valid(self):
     criteria_data[0]["classification"]["id"] = "CRITERION.OTHER"
 
     response = self.app.post_json(
-        "/tenders/{}/criteria?acc_token={}&bulk=true".format(self.tender_id, self.tender_token),
+        "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": criteria_data}
     )
     self.assertEqual(response.status, "201 Created")
@@ -299,7 +299,7 @@ def patch_tender_criteria_invalid(self):
     criteria_data[0]["classification"]["id"] = "CRITERION.OTHER"
 
     response = self.app.post_json(
-        "/tenders/{}/criteria?acc_token={}&bulk=true".format(self.tender_id, self.tender_token),
+        "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": criteria_data}
     )
     self.assertEqual(response.status, "201 Created")
@@ -402,7 +402,7 @@ def patch_tender_criteria_invalid(self):
 
 def get_tender_criteria(self):
     response = self.app.post_json(
-        "/tenders/{}/criteria?acc_token={}&bulk=true".format(self.tender_id, self.tender_token),
+        "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": test_criteria}
     )
     self.assertEqual(response.status, "201 Created")

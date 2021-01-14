@@ -25,7 +25,7 @@ class BaseTenderCriteriaResource(APIResource):
     )
     def collection_post(self):
 
-        criterions = self.request.validated["criterions"]
+        criterions = self.request.validated["criterion_bulk"]
         self.request.context.criteria.extend(criterions)
         tender = self.request.validated["tender"]
 
