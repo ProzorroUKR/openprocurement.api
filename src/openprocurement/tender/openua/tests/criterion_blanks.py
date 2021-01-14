@@ -909,8 +909,26 @@ def put_rg_requirement_valid(self):
     self.assertEqual(response.content_type, "application/json")
     response = self.app.get(get_url.format(self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id))
     self.assertEqual(len(response.json["data"]), 4)
-    self.assertEqual(response.json["data"][0]["status"], "cancelled")
-    self.assertEqual(response.json["data"][1]["status"], "cancelled")
+    self.assertEqual(response.json["data"][2]["status"], "cancelled")
+    self.assertEqual(response.json["data"][3]["status"], "cancelled")
+
+    response = self.app.put_json(
+        put_url.format(
+            self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id, exc_requirement_id, self.tender_token
+        ),
+        {"data": {
+            "status": "active",
+            "eligibleEvidences": []
+        }}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    response = self.app.get(get_url.format(self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id))
+    self.assertEqual(len(response.json["data"]), 5)
+    self.assertEqual(response.json["data"][3]["status"], "cancelled")
+    self.assertEqual(response.json["data"][4]["status"], "active")
+    self.assertIsNone(response.json["data"][4].get("dateModified"))
+    self.assertIsNone(response.json["data"][4].get("eligibleEvidences"))
 
 
 def put_rg_requirement_invalid(self):
