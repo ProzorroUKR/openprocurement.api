@@ -24,11 +24,12 @@ X-Content-Type-Options: nosniff
         "documents": [
           {
             "hash": "md5:00000000000000000000000000000000", 
+            "author": "milestone_owner", 
             "title": "Notice.pdf", 
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d890dc3d64cf4f178fb9db75ba5af9ba?KeyID=a8968c46&Signature=l9Wow2YLingYU5xYfD1kzPUP0kjqpX8Ly4roCF5sxfCs0HdBfUMon7%2FN%252BpsAIJEt%2FROpe%252B6w9Bt1rGK0dgCIAw%253D%253D", 
             "format": "application/pdf", 
             "datePublished": "2019-05-02T06:00:00+03:00", 
-            "id": "e3fa77b8dce5482ebb27c1cbe9752896", 
+            "id": "a745faa7353742e9bf2912a5c1f79f2e", 
             "dateModified": "2019-05-02T06:00:00+03:00"
           }
         ], 
@@ -47,7 +48,7 @@ X-Content-Type-Options: nosniff
         "owner": "broker", 
         "dateMet": "2019-05-02T06:00:00+03:00", 
         "type": "approval", 
-        "id": "65ddb2f1dc114a3d9dbed945573ec4e7"
+        "id": "6d57fe301561480babf138054aa46d09"
       }
     ], 
     "classification": {
@@ -73,7 +74,7 @@ X-Content-Type-Options: nosniff
         "deliveryDate": {
           "endDate": "2019-11-09T01:00:00+03:00"
         }, 
-        "id": "20af24c61dc7451a9205eca2dac56d65", 
+        "id": "74da637ff7004631829675899680caef", 
         "unit": {
           "code": "KGM", 
           "name": "кг"
@@ -91,7 +92,7 @@ X-Content-Type-Options: nosniff
             "currency": "UAH", 
             "amount": 1500.0
           }, 
-          "id": "f0d2c36b24ed47169ca75a7803897a2d"
+          "id": "49dd127988894cbd9c6b2ca655db136f"
         }
       ], 
       "amountNet": 12222.0, 

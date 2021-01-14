@@ -9,11 +9,12 @@ X-Content-Type-Options: nosniff
   "data": [
     {
       "hash": "md5:00000000000000000000000000000000", 
+      "author": "submission_owner", 
       "title": "submission_docs.doc", 
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7cf748c0eeba401bad6a536957058f28?KeyID=a8968c46&Signature=SauFQRp9WIIuZj995VWk4iBo7ocqk8JecJLXIoZGCboc4Pr2xae3%2FWt4O2k7Zd8k7TJfxVKXkdboHDBVHx5xAQ%253D%253D", 
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4b9ffed69fec43c8845ebfe3801a6706?KeyID=a8968c46&Signature=N%2Fy0V3xKDXaCRrW6kNv01lxv%252BFj65DRTIoKIhnACuYCr3TenyRzEAGunpSd8L18Dy9rioVgl1%2FZDaTz1yvHvBA%253D%253D", 
       "format": "application/msword", 
       "datePublished": "2020-09-24T01:00:00+03:00", 
-      "id": "30adbb19270a4fd985abbea82946aa03", 
+      "id": "2be5e7f8a8544219aa06a842bc67baf8", 
       "dateModified": "2020-09-24T01:00:00+03:00"
     }
   ]

@@ -10,5 +10,5 @@ from openprocurement.tender.core.views.bid_document import TenderBidDocumentReso
     procurementMethodType="closeFrameworkAgreementSelectionUA",
     description="Tender bidder documents",
 )
-class TenderBidDocumentResource(TenderBidDocumentResource):
+class TenderCFASUABidDocumentResource(TenderBidDocumentResource):
     pass

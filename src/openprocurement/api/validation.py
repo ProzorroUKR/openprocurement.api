@@ -38,9 +38,6 @@ def validate_json_data(request, allow_bulk=False):
 
 
 def validate_object_data(request, model, partial=False, data=None, allow_bulk=False):
-    if data is None:
-        data = validate_json_data(request)
-
     with handle_data_exceptions(request):
         if partial and isinstance(request.context, model):
             initial_data = request.context.serialize()
@@ -78,9 +75,6 @@ def validate_object_data(request, model, partial=False, data=None, allow_bulk=Fa
 
 
 def validate_post_list_data(request, model, data=None):
-    if data is None:
-        data = validate_json_data(request, allow_bulk=True)
-
     with handle_data_exceptions(request):
         valid_data = []
         valid_models = []
@@ -143,16 +137,16 @@ def validate_patch_document_data(request, **kwargs):
     return validate_data(request, model, True)
 
 
-def validate_document_data(request):
+def validate_document_data(request, allow_bulk=False):
     context = request.context if "documents" in request.context else request.context.__parent__
     model = type(context).documents.model_class
-    return validate_data(request, model)
+    return validate_data(request, model, allow_bulk=allow_bulk)
 
 
 def validate_file_upload(request, **kwargs):
     update_logging_context(request, {"document_id": "__new__"})
     if request.registry.docservice_url and request.content_type == "application/json":
-        return validate_document_data(request)
+        return validate_document_data(request, allow_bulk=True)
     if "file" not in request.POST or not hasattr(request.POST["file"], "filename"):
         request.errors.add("body", "file", "Not Found")
         request.errors.status = 404

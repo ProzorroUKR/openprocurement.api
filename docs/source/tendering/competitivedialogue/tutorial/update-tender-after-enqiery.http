@@ -53,7 +53,7 @@ X-Content-Type-Options: nosniff
         "title": "Калорійність", 
         "date": "2020-09-08T01:00:00+03:00", 
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
-        "id": "0541cf2833f347a7a46d919f60289a54", 
+        "id": "3f658c69107944beb5c9681d47f09f8e", 
         "questionOf": "tender"
       }
     ], 
@@ -69,11 +69,11 @@ X-Content-Type-Options: nosniff
         "author": "tender_owner", 
         "language": "uk", 
         "title": "Notice.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4595254e01ba4f178bc3f567f549c368?KeyID=a8968c46&Signature=vATRHadWn0nVBxb0CiMIpgP0xxQIku%252BdiyZ8ihkWO95OatUx1wZ4jP%2FgFmiPl39XpZ20nMbkVtTZ8dyP4BuRCw%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2099dc81bce04ab19490b387cafba441?KeyID=a8968c46&Signature=S3KrS1%252BRa28PlrGhoap1jgkIhPkTi%252B%252ByZglKeq7IO72zDXrWB%252BuE3F%252BFCwwAu8S0jRywLDCkmeiZr3m9KXr8Cg%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "588c354ef78f4155a37d4c22dbec1a9d", 
+        "id": "a12bc99b6a244c18aae463ac7e97bf8f", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }, 
       {
@@ -81,11 +81,11 @@ X-Content-Type-Options: nosniff
         "author": "tender_owner", 
         "language": "uk", 
         "title": "AwardCriteria.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0d2761804fdb420aa12c0adad1c06c65?KeyID=a8968c46&Signature=sbObhmcEbppKi4eZAllrjNUbkOwWSsKRZU1RLSqTy3LqH9lGOKQ4Vp49qAbw2XU2egbmexaEAcruNXTzaqOiDQ%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1e1b0e8adc164650b907da8bc1d423b1?KeyID=a8968c46&Signature=2IKuEqkdp3Y9mKurMu21GrmEnO5FZXPOjk7KwTSIYUIPM%2FbtOp7sYt4nYL8BMdfgYvFse%252BUcmJGXEvL2%252BPCbBQ%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "de1a505be7ed4337b657a9a1332b38cb", 
+        "id": "c8495b8e18614a87bd084d73f4d5a65c", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }, 
       {
@@ -93,11 +93,11 @@ X-Content-Type-Options: nosniff
         "author": "tender_owner", 
         "language": "uk", 
         "title": "AwardCriteria-2.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d3921bb3169f47d4aa0048f2094e1b1a?KeyID=a8968c46&Signature=XMvb4vRCXAclorqdyoEzjjfKzF5Wxu%2FQctqL67LHsm8M%252BpvhBr08ep33esbJbN7CQ%252BBuIaMLfrb9CWEyY0uWDw%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8d07e99095c44992956479a79f570d3b?KeyID=a8968c46&Signature=NSILHI0j1geYH82Dzl5g3Esh3yQ5gav7bLN0JvA%252BjrliX4u6BtOoALzsVscs4ddnL3kB5%252BF1k5jN8vEHs3FWDQ%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "de1a505be7ed4337b657a9a1332b38cb", 
+        "id": "c8495b8e18614a87bd084d73f4d5a65c", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }
     ], 
@@ -135,7 +135,7 @@ X-Content-Type-Options: nosniff
         }, 
         "percentage": 54.45, 
         "type": "financing", 
-        "id": "69a5415ca5f7457ebe20137639f410e0"
+        "id": "e0c16a80b17e4ade9800094a91e36366"
       }
     ], 
     "minimalStep": {
@@ -170,7 +170,7 @@ X-Content-Type-Options: nosniff
           "startDate": "2020-09-28T00:00:00+02:00", 
           "endDate": "2020-10-28T00:00:00+02:00"
         }, 
-        "id": "8bc8ded5746c4badb496d3297fce132c", 
+        "id": "bd1284e3bc8a4c99a3831d9399ffbaf5", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -203,7 +203,7 @@ X-Content-Type-Options: nosniff
           "startDate": "2020-09-28T00:00:00+02:00", 
           "endDate": "2020-10-28T00:00:00+02:00"
         }, 
-        "id": "cbb964e3acb24801b28a9a27ea7efb14", 
+        "id": "176b4baca1564aebada987e37d769c7a", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"

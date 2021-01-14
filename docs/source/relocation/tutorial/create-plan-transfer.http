@@ -13,8 +13,8 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "access": {
-    "transfer": "6109ccb1b9d44715876fcef5701b3260", 
-    "token": "6827cd0ece6f4891a00cf118b33268e3"
+    "transfer": "05ffe875ffd04158ba39083e5e3e6494", 
+    "token": "dfb65f987979480081977a8f6809bf82"
   }, 
   "data": {
     "date": "2020-09-08T01:00:00+03:00", 

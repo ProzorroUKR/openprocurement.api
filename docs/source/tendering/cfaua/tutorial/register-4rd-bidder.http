@@ -83,7 +83,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/e0d41b30b35a430fb164a63e2cd8792b
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/f15395a4363049ad92d56f8b5ff97fac
 X-Content-Type-Options: nosniff
 {
   "access": {
@@ -98,11 +98,11 @@ X-Content-Type-Options: nosniff
         "confidentiality": "public", 
         "language": "uk", 
         "title": "Proposal_part1.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/e0d41b30b35a430fb164a63e2cd8792b/documents/76385a93b70747b9a07b493fd542e5cb?download=521c95e91644431cbbc1e5fcf8326faf", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/f15395a4363049ad92d56f8b5ff97fac/documents/9f9bdfe5f95744c690a665505cc42708?download=521c95e91644431cbbc1e5fcf8326faf", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "76385a93b70747b9a07b493fd542e5cb", 
+        "id": "9f9bdfe5f95744c690a665505cc42708", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }, 
       {
@@ -115,7 +115,7 @@ X-Content-Type-Options: nosniff
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
         "dateModified": "2020-09-08T01:00:00+03:00", 
-        "id": "80a0f2685fff4cca98aa482618a1deb0"
+        "id": "bd4ca6b051e04cbd8dfabecdb7133da1"
       }
     ], 
     "eligibilityDocuments": [
@@ -124,15 +124,15 @@ X-Content-Type-Options: nosniff
         "confidentiality": "public", 
         "language": "uk", 
         "title": "eligibility_doc.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/e0d41b30b35a430fb164a63e2cd8792b/eligibility_documents/1e4758fc996f43d482ccd4421009ed0a?download=bdb8f478361c43a0ac9a66feb62f281a", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/f15395a4363049ad92d56f8b5ff97fac/eligibility_documents/efe084e3b7904c718f64cd4bda7c7657?download=bdb8f478361c43a0ac9a66feb62f281a", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "1e4758fc996f43d482ccd4421009ed0a", 
+        "id": "efe084e3b7904c718f64cd4bda7c7657", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }
     ], 
-    "id": "e0d41b30b35a430fb164a63e2cd8792b", 
+    "id": "f15395a4363049ad92d56f8b5ff97fac", 
     "lotValues": [
       {
         "relatedLot": "c7555f1bb878434d8815dea318304673", 
@@ -151,11 +151,11 @@ X-Content-Type-Options: nosniff
         "confidentiality": "public", 
         "language": "uk", 
         "title": "qualification_document.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/e0d41b30b35a430fb164a63e2cd8792b/qualification_documents/5ead0617d1c14c7d9fc2ed9ae8d490ef?download=141bde5b81904999acc2752de07b93cb", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/f15395a4363049ad92d56f8b5ff97fac/qualification_documents/4524a8961b7b40d2a1e6cd0a8584d46e?download=141bde5b81904999acc2752de07b93cb", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "5ead0617d1c14c7d9fc2ed9ae8d490ef", 
+        "id": "4524a8961b7b40d2a1e6cd0a8584d46e", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }
     ], 
@@ -165,11 +165,11 @@ X-Content-Type-Options: nosniff
         "confidentiality": "public", 
         "language": "uk", 
         "title": "financial_doc.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/e0d41b30b35a430fb164a63e2cd8792b/financial_documents/4ddd065a8215404b9f9e4d67b5283709?download=b4ed150c66e44f4bb8b86bb5285479f7", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/f15395a4363049ad92d56f8b5ff97fac/financial_documents/bc71cd21522646b0b51d0c72251efedd?download=b4ed150c66e44f4bb8b86bb5285479f7", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "4ddd065a8215404b9f9e4d67b5283709", 
+        "id": "bc71cd21522646b0b51d0c72251efedd", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }
     ], 

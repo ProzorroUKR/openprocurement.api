@@ -19,29 +19,32 @@ X-Content-Type-Options: nosniff
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000", 
+        "author": "framework_owner", 
         "title": "framework.doc", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f76fd74118794d3099163fb571f7d374?KeyID=a8968c46&Signature=enQ0CbN82KUq2UF35XE5AoHQp4akyyXL8a18JJhKTwe2gBZouJQV8JxVPA%2FirPrEZoN6LsYF%2FmqpcaFFaHGnAg%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bdc03945e1fc4d769ba6342e59fda9a5?KeyID=a8968c46&Signature=6qcK6tQsiV3yAjt6nVEUGOItWWSBMSDtX0SW4dNAeUgVxEC9foBLN5%252BifnZhegvPksQH7yqPNjr6MoN%252BoKueAQ%253D%253D", 
         "format": "application/msword", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "cd52b90af77e4f5b8cb0f210e83987b5", 
+        "id": "cba3b39917dd4f5aaba946791674fe76", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
+        "author": "framework_owner", 
         "title": "framework_additional_docs.doc", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/abf06db1635b48e0819cb258b3fc1179?KeyID=a8968c46&Signature=%2FsMVClawScZwgZdy%2FXVGRQpaN4KUmLiGNRpyNxh%252BTLvtTMwaKtLdizgNWNevCqZqDTjBmKDHGXnfMG8d2%252BIrBg%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4605a66669e84bc293040c5bbeb8d6b1?KeyID=a8968c46&Signature=lqy%252Bhwfsx2YbgHA6HRJm1tJ8aebCAOUP1rYdqi8DjsydegsFrU7a8YRpLgkd0uJ4MIkpQT59IBdKLTuuPZTkBA%253D%253D", 
         "format": "application/msword", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "3fe9486c38a1473ca201e42ebbf9b648", 
+        "id": "0be832c754934419844dba2e1db51f63", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
+        "author": "framework_owner", 
         "title": "framework_additional_docs.doc", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4cf75d2a81c64711bdccbed55bcb10fc?KeyID=a8968c46&Signature=ijDPle6V3lQQZjOoEIB0hbFXJgsEHcq26VnDeLHfVAUeBoBXUCkV1rGOvL%252BXpX2f4ZeUMwJ5XXqw6SikMBU%2FDQ%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bdf3fd6529b84459a7bb2e50f1b9dd36?KeyID=a8968c46&Signature=H6%2F56A0OVJFUARDj4BlQD0HaupXTblcPm5BPZllup6jwwuFJVfGq%2Fa4ppcToLhkH%252B9YvsjAJ4vd39rPHtR9TBQ%253D%253D", 
         "format": "application/msword", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "3fe9486c38a1473ca201e42ebbf9b648", 
+        "id": "0be832c754934419844dba2e1db51f63", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }
     ], 

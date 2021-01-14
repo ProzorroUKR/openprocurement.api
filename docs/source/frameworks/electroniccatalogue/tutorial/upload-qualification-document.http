@@ -14,16 +14,17 @@ content
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/qualifications/c58e796114e34db69494ba28b7ba323d/documents/618a32c8965446e084b015408f4c9334
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/qualifications/c58e796114e34db69494ba28b7ba323d/documents/b5a784c35a354fe3890843eef86e0768
 X-Content-Type-Options: nosniff
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000", 
+    "author": "brokers", 
     "title": "qualification.doc", 
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7041dddc1a9f459c89a4bba86ccb4d91?KeyID=a8968c46&Signature=pez3X3pmwzDLFVOIr2VJFJAPmd7spT0BYIt30XndYvM%252BEIlU150sPdQoVJTvu3OENscUnmr6rhaldquNTEmUBw%253D%253D", 
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0884c29d055d44fdae77c41d1d38a9cb?KeyID=a8968c46&Signature=sUHUXqj%2F8YXi7y6VldYICjaCo4LlIO4vbmOG7RLMaw17xSKaGfdtrwooiSPaWwK8LsyRZ3ORBGfJFFeyoHiUCQ%253D%253D", 
     "format": "application/msword", 
     "datePublished": "2020-09-24T01:00:00+03:00", 
-    "id": "618a32c8965446e084b015408f4c9334", 
+    "id": "b5a784c35a354fe3890843eef86e0768", 
     "dateModified": "2020-09-24T01:00:00+03:00"
   }
 }

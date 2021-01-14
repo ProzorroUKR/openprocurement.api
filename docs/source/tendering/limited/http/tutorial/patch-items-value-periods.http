@@ -48,7 +48,7 @@ X-Content-Type-Options: nosniff
         }, 
         "percentage": 54.45, 
         "type": "financing", 
-        "id": "17f2a088dfd24ab297fbb7bc53d60906"
+        "id": "32af9164ccde424fb7614cdfc39875d4"
       }
     ], 
     "mainProcurementCategory": "services", 
@@ -79,7 +79,7 @@ X-Content-Type-Options: nosniff
           "startDate": "2020-09-28T00:00:00+02:00", 
           "endDate": "2020-10-28T00:00:00+02:00"
         }, 
-        "id": "3cbf25c0bb094819a3084be21bc85cd7", 
+        "id": "4feda185bf0f460b87d2359b82615a99", 
         "unit": {
           "code": "MON", 
           "name": "month"

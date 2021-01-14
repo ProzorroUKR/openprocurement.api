@@ -11,26 +11,28 @@ X-Content-Type-Options: nosniff
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000", 
+        "author": "tender_owner", 
         "language": "uk", 
         "title": "contract_first_document.doc", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ba728ae4dec3456eb6e6149f7e74684d?KeyID=a8968c46&Signature=GqB9UsqjxCd36J5D5wWk7yS7HsKtqxVA%252BPQlUPxK7y5I8Q%2F880EOeMaguwJ%2FQ8W2xkUoJConZ0FFUewuZQ8VCw%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f49c5c1135b747a0ae927cc691df0973?KeyID=a8968c46&Signature=WQ34NQYyVjJO%252B6Wt8RNl8weDkSQwcKF7fw92uhyAKPyCGPifq61vaGSCHQDdSf%252BGEFfaKqvVhBL5z2X99%2FwRAw%253D%253D", 
         "format": "application/msword", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:01+03:00", 
-        "id": "e8768351820940f0a3d5089547d57464", 
+        "id": "5d8c9a8ab9324f13b6b007d58c998cd3", 
         "dateModified": "2020-09-08T01:00:01+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
+        "author": "tender_owner", 
         "language": "en", 
         "title": "contract_second_document.doc", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a460ef95aa264f26b431db01676246bf?KeyID=a8968c46&Signature=0D3A5hJywRVOngur447ADofwrSC6pLTtg4b1uEe0XnHPH5UL4%252Bpd0cEPkCl3gps9rJwzY2bj79kVZIiSajWQDQ%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d15ee9bf3ff842e0b3796122681bc79b?KeyID=a8968c46&Signature=P7UtsL1RYzXUpiqFnXtyTXHoldRFWE6af%252BQ3VIV%2FPTM4YGWL5yTStgh0S4ee0z4hAB8YPw910Bjq477Iger1DQ%253D%253D", 
         "format": "application/msword", 
         "title_en": "Title of Document", 
         "description_en": "Description of Document", 
         "datePublished": "2020-09-08T01:00:01+03:00", 
         "documentOf": "tender", 
-        "id": "dd14fd85ae6841fc8c50d5f301bccd27", 
+        "id": "dc545c3c09554c8c8e3057277cf01a12", 
         "dateModified": "2020-09-08T01:00:01+03:00"
       }
     ], 
@@ -61,7 +63,7 @@ X-Content-Type-Options: nosniff
           "startDate": "2020-09-28T00:00:00+02:00", 
           "endDate": "2020-10-28T00:00:00+02:00"
         }, 
-        "id": "342d8d19d6aa4ee1a5e7402aef5f5308", 
+        "id": "a05c9533cb5e4c60a37c8fdf2555aa7b", 
         "quantity": 1.0
       }, 
       {
@@ -90,7 +92,7 @@ X-Content-Type-Options: nosniff
           "startDate": "2020-09-28T00:00:00+02:00", 
           "endDate": "2020-10-28T00:00:00+02:00"
         }, 
-        "id": "ae7d27b9ef6d491c9527f262d9004c0f", 
+        "id": "357f4ccfcf664b2e8ddc904e116a19c5", 
         "quantity": 1.0
       }
     ], 

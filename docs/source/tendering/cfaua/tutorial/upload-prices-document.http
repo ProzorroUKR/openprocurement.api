@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/ccd5dc4ca3f84f9a8f9ec11010bd01ba/financial_documents?acc_token=7ba8d77208c04422b161882dc2c4b5c2 HTTP/1.0
+POST /api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/544359015fd047a8b79fa81bda0889fc/financial_documents?acc_token=7ba8d77208c04422b161882dc2c4b5c2 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 201
 Content-Type: multipart/form-data; boundary=---BOUNDARY
@@ -14,20 +14,21 @@ Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/ccd5dc4ca3f84f9a8f9ec11010bd01ba/financial_documents/dd6f8798839349599db8e7fa493e9901
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/544359015fd047a8b79fa81bda0889fc/financial_documents/b945f8f1256f4c50a75f941042d8c508
 X-Content-Type-Options: nosniff
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000", 
-    "confidentiality": "public", 
+    "author": "bid_owner", 
     "language": "uk", 
     "title": "prices.xlsx", 
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8004e07e26f2490db9879e64f60e7bea?KeyID=a8968c46&Signature=7XXTgibU1ecjtmt2u2WC4Bs90LcQoZ%252BDYGptKvmoncoCOigXRDh84e0vIQlWm6Yu1vmTZmR2qedfTBgr6QC6Dw%253D%253D", 
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/39dd1d6ffecf4e14864212bbc90fad70?KeyID=a8968c46&Signature=cZbFbaiqgMYdlaujIOpBmR9ivFJ2NKj35xoyvvdcE9CF2XcWSlgkT%2F94AHxyjOiZTlPS6dPS9y6ziw5zBH5%252BBQ%253D%253D", 
     "format": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
     "documentOf": "tender", 
     "datePublished": "2020-09-08T01:00:00+03:00", 
-    "id": "dd6f8798839349599db8e7fa493e9901", 
-    "dateModified": "2020-09-08T01:00:00+03:00"
+    "id": "b945f8f1256f4c50a75f941042d8c508", 
+    "dateModified": "2020-09-08T01:00:00+03:00", 
+    "confidentiality": "public"
   }
 }
 

@@ -35,7 +35,7 @@ X-Content-Type-Options: nosniff
           "startDate": "2020-09-10T01:00:00+03:00", 
           "endDate": "2020-09-13T01:00:00+03:00"
         }, 
-        "id": "1f2cf1221e8f42f7af3cce0e941e14b5", 
+        "id": "d581e0b6310f42a29db8b39d3940beb4", 
         "unit": {
           "code": "H87", 
           "name": "штук"
@@ -65,7 +65,7 @@ X-Content-Type-Options: nosniff
         }
       }
     ], 
-    "bid_id": "5d821fdb36364bf59cada4ece712e18c", 
+    "bid_id": "6b18ba7a8bf04784907487360146dcb2", 
     "value": {
       "currency": "UAH", 
       "amount": 479.0, 

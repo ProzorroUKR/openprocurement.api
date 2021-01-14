@@ -68,7 +68,7 @@ X-Content-Type-Options: nosniff
         "title": "Калорійність", 
         "date": "2020-09-08T01:00:01+03:00", 
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
-        "id": "3f751fcae5fa40be86e8b38392376e1c", 
+        "id": "2d5b2ff814d74f9a99cf7eda998f5e9c", 
         "questionOf": "tender"
       }
     ], 
@@ -89,7 +89,7 @@ X-Content-Type-Options: nosniff
         "datePublished": "2020-09-08T01:00:01+03:00", 
         "author": "tender_owner", 
         "documentType": "technicalSpecifications", 
-        "id": "8924acf921d645b7bce35748c4f9e237", 
+        "id": "1600c2979e7c4d82821a15c5cc065b6a", 
         "dateModified": "2020-09-08T01:00:01+03:00"
       }, 
       {
@@ -100,7 +100,7 @@ X-Content-Type-Options: nosniff
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:01+03:00", 
-        "id": "f05f28fd104147beb09d8b4f7bbcbd2b", 
+        "id": "ffea25fb82d346c5a3f1e85578c959a8", 
         "dateModified": "2020-09-08T01:00:01+03:00"
       }, 
       {
@@ -111,7 +111,7 @@ X-Content-Type-Options: nosniff
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:01+03:00", 
-        "id": "f05f28fd104147beb09d8b4f7bbcbd2b", 
+        "id": "ffea25fb82d346c5a3f1e85578c959a8", 
         "dateModified": "2020-09-08T01:00:01+03:00"
       }
     ], 
@@ -152,7 +152,7 @@ X-Content-Type-Options: nosniff
         }, 
         "percentage": 54.45, 
         "type": "financing", 
-        "id": "af069a25c8f94e74a8b2428b51bcd1a7"
+        "id": "ad428edb96b84981b08d90cabefe1067"
       }
     ], 
     "minimalStep": {
@@ -186,7 +186,7 @@ X-Content-Type-Options: nosniff
           "startDate": "2020-09-10T01:00:00+03:00", 
           "endDate": "2020-09-13T01:00:00+03:00"
         }, 
-        "id": "53de0c90af0e430ea270c5970351ba0c", 
+        "id": "264336e83a7241d5a1178ae0e10a9479", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"

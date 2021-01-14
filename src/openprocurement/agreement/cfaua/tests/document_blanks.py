@@ -274,7 +274,7 @@ def put_contract_document(self):
         response.json["errors"],
         [
             {
-                u"description": u"Can't update document in current (terminated)" u" agreement status",
+                u"description": u"Can't update document in current (terminated) agreement status",
                 u"location": u"body",
                 u"name": u"data",
             }

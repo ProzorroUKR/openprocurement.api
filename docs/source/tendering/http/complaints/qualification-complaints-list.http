@@ -38,7 +38,7 @@ X-Content-Type-Options: nosniff
         "currency": "UAH", 
         "amount": 3000.0
       }, 
-      "id": "92d563efe7594cd480975bd51bcf44a5", 
+      "id": "fb84721b8c944f59906bc84eb4a322f3", 
       "tendererAction": "Умови виправлено", 
       "dateSubmitted": "2020-09-08T01:00:01+03:00", 
       "complaintID": "UA-2020-09-08-000001.1", 
@@ -51,11 +51,11 @@ X-Content-Type-Options: nosniff
           "author": "complaint_owner", 
           "language": "uk", 
           "title": "Complaint_Attachment.pdf", 
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/366e5e17590c48ebaded3f668d5b291e?KeyID=a8968c46&Signature=19Yz6PdBzqxeVopfo82gcDXc43YDLC%252BRIord%252BW3Ci4aYJW%252BBxwBVtEWAOUdRZvY6ydgsOgfLy60K%252BGS1gQOyDA%253D%253D", 
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f027962bd9bc4867852f85d2741e24b1?KeyID=a8968c46&Signature=00xPgVkXhm603c09prBVjUoXOBm0eI14Xxh1mG2zJQn93WIxuwOpqQHK1tcrH6EieSE2IbWeYgqBjwJ966PTAQ%253D%253D", 
           "format": "application/pdf", 
           "documentOf": "tender", 
           "datePublished": "2020-09-08T01:00:01+03:00", 
-          "id": "152434b16d35497095495409ee93f221", 
+          "id": "fde44d7d738344c2850d741172161602", 
           "dateModified": "2020-09-08T01:00:01+03:00"
         }, 
         {
@@ -63,11 +63,11 @@ X-Content-Type-Options: nosniff
           "author": "aboveThresholdReviewers", 
           "language": "uk", 
           "title": "ComplaintResolution.pdf", 
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/09dd1b6456ba44e490cadef1350e50f1?KeyID=a8968c46&Signature=Zoit1DpmM5%2F1qI6ngLb2hVW3um2i9XsehfEgJTIe158OzK8IuJJ9ieFy3xnKumY%252B7CXgYu0i7o1x7owDjezEDA%253D%253D", 
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/52c1a57a696f43c4977346eedaacd9c9?KeyID=a8968c46&Signature=vEBOfwC8R2bgR0bgGB%2F1MtmW4GFcvFCMUkq2gPad06RVcjs3XQ3PWJkOYOsJLWW5%2F2DYh31SzvaGbyGVvp7xCA%253D%253D", 
           "format": "application/pdf", 
           "documentOf": "tender", 
           "datePublished": "2020-09-08T01:00:01+03:00", 
-          "id": "ee89a6151f1749b5b56da91a2c0976a5", 
+          "id": "708602e0767748cfa522360e38007aa4", 
           "dateModified": "2020-09-08T01:00:01+03:00"
         }
       ], 
@@ -110,7 +110,7 @@ X-Content-Type-Options: nosniff
       "date": "2020-09-08T01:00:01+03:00", 
       "title": "Недостатньо інформації", 
       "type": "complaint", 
-      "id": "0470e0b89a594f4d9a6c62eac67d9737"
+      "id": "63ca02faf3db4941a3f8804c73789d05"
     }, 
     {
       "status": "declined", 
@@ -149,7 +149,7 @@ X-Content-Type-Options: nosniff
       "complaintID": "UA-2020-09-08-000001.3", 
       "date": "2020-09-08T01:00:01+03:00", 
       "type": "complaint", 
-      "id": "e8f806800f1845c99f664494c6d8c4c8", 
+      "id": "f9854d19fd634452b00a2d471f7ef565", 
       "reviewPlace": "Place of review"
     }, 
     {
@@ -188,7 +188,7 @@ X-Content-Type-Options: nosniff
       "date": "2020-09-08T01:00:01+03:00", 
       "title": "Недостатньо інформації", 
       "type": "complaint", 
-      "id": "f4f7e7f498444d84a193ec705975bf7d", 
+      "id": "3facd8ba95b64dfe82f7ac57d6504851", 
       "reviewPlace": "Place of review"
     }, 
     {
@@ -203,7 +203,7 @@ X-Content-Type-Options: nosniff
         "currency": "UAH", 
         "amount": 3000.0
       }, 
-      "id": "c4eb9209aa72416c8c029a80816be774", 
+      "id": "568072f92ecb489bbac62ea9816100b8", 
       "rejectReason": "tenderCancelled", 
       "dateAccepted": "2020-09-08T01:00:01+03:00", 
       "author": {
@@ -241,13 +241,13 @@ X-Content-Type-Options: nosniff
       "resolutionType": "resolved", 
       "type": "claim", 
       "satisfied": true, 
-      "bid_id": "4e3560c629254c51802d8dc72d557ad6", 
+      "bid_id": "2b76168084ec43af8c6a26b41462272e", 
       "dateAnswered": "2020-09-08T01:00:01+03:00", 
       "dateSubmitted": "2020-09-08T01:00:01+03:00", 
       "complaintID": "UA-2020-09-08-000001.6", 
       "date": "2020-09-08T01:00:01+03:00", 
       "resolution": "Умови виправлено, вибір переможня буде розгянуто повторно", 
-      "id": "f4f8a8dc1ed5421a8eed8e11a93cd2aa"
+      "id": "ceb0d63f59024d809a82483ab9cd5064"
     }, 
     {
       "status": "answered", 
@@ -256,13 +256,13 @@ X-Content-Type-Options: nosniff
       "resolutionType": "invalid", 
       "type": "claim", 
       "satisfied": false, 
-      "bid_id": "4e3560c629254c51802d8dc72d557ad6", 
+      "bid_id": "2b76168084ec43af8c6a26b41462272e", 
       "dateAnswered": "2020-09-08T01:00:01+03:00", 
       "dateSubmitted": "2020-09-08T01:00:01+03:00", 
       "complaintID": "UA-2020-09-08-000001.7", 
       "date": "2020-09-08T01:00:01+03:00", 
       "resolution": "Вимога не відповідає предмету закупівлі", 
-      "id": "b9af204ddb9d4238b49073c87ce97e2a"
+      "id": "cb612ef8c84b40748594ad5c15bda383"
     }, 
     {
       "status": "pending", 
@@ -296,7 +296,7 @@ X-Content-Type-Options: nosniff
           "author": "aboveThresholdReviewers", 
           "datePublished": "2020-09-08T01:00:01+03:00", 
           "recipient": "complaint_owner", 
-          "id": "b93e1872927e4987baa557b6d13913b5"
+          "id": "b964fef6d8074a318f180c1f7479c873"
         }, 
         {
           "documents": [
@@ -308,7 +308,7 @@ X-Content-Type-Options: nosniff
               "format": "application/pdf", 
               "documentOf": "tender", 
               "datePublished": "2020-09-08T01:00:01+03:00", 
-              "id": "124e2ee15d174594aec8c62260dbb803", 
+              "id": "c5a25ca1c0ec47c5880ceb591325313f", 
               "dateModified": "2020-09-08T01:00:01+03:00"
             }
           ], 
@@ -316,9 +316,9 @@ X-Content-Type-Options: nosniff
           "title": "Уточнення по вимозі", 
           "author": "complaint_owner", 
           "datePublished": "2020-09-08T01:00:01+03:00", 
-          "relatedPost": "b93e1872927e4987baa557b6d13913b5", 
+          "relatedPost": "b964fef6d8074a318f180c1f7479c873", 
           "recipient": "aboveThresholdReviewers", 
-          "id": "30dc3477f8954cfcb1514e0b58ae481a"
+          "id": "a54e7fd69ffb4d24b2da9a34e9b534bc"
         }, 
         {
           "description": "Відсутній документ", 
@@ -326,7 +326,7 @@ X-Content-Type-Options: nosniff
           "author": "aboveThresholdReviewers", 
           "datePublished": "2020-09-08T01:00:01+03:00", 
           "recipient": "tender_owner", 
-          "id": "5e32117cd7fe4f72ad1e5f335b28393f"
+          "id": "f19400258b594cb09b407656ca5f707c"
         }, 
         {
           "documents": [
@@ -338,7 +338,7 @@ X-Content-Type-Options: nosniff
               "format": "application/pdf", 
               "documentOf": "tender", 
               "datePublished": "2020-09-08T01:00:01+03:00", 
-              "id": "98631763c0e2437792df6b134419de05", 
+              "id": "210d9b7ae76e4a64aebb6457be63b28f", 
               "dateModified": "2020-09-08T01:00:01+03:00"
             }
           ], 
@@ -346,9 +346,9 @@ X-Content-Type-Options: nosniff
           "title": "Уточнення по вимозі", 
           "author": "tender_owner", 
           "datePublished": "2020-09-08T01:00:01+03:00", 
-          "relatedPost": "5e32117cd7fe4f72ad1e5f335b28393f", 
+          "relatedPost": "f19400258b594cb09b407656ca5f707c", 
           "recipient": "aboveThresholdReviewers", 
-          "id": "cd2575e194de406a9ae663e2e750fa22"
+          "id": "fea6c9369f7b45cf86636f7d541c0863"
         }
       ], 
       "value": {
@@ -359,18 +359,18 @@ X-Content-Type-Options: nosniff
       "complaintID": "UA-2020-09-08-000001.8", 
       "date": "2020-09-08T01:00:01+03:00", 
       "type": "complaint", 
-      "id": "70b8bcbbcc3c4484b773051e4a196590"
+      "id": "09d24b97ac9e4916ace7746b6a2a13e0"
     }, 
     {
       "status": "claim", 
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
       "title": "Недостатньо інформації", 
-      "bid_id": "4e3560c629254c51802d8dc72d557ad6", 
+      "bid_id": "2b76168084ec43af8c6a26b41462272e", 
       "dateSubmitted": "2020-09-08T01:00:01+03:00", 
       "complaintID": "UA-2020-09-08-000001.9", 
       "date": "2020-09-08T01:00:01+03:00", 
       "type": "claim", 
-      "id": "f9709d9435fd45329c82a62193890485"
+      "id": "32d953fbcc944f7fab54ba65bf338676"
     }, 
     {
       "status": "mistaken", 
@@ -405,7 +405,7 @@ X-Content-Type-Options: nosniff
       "complaintID": "UA-2020-09-08-000001.10", 
       "date": "2020-09-08T01:00:01+03:00", 
       "type": "complaint", 
-      "id": "09aec589ca79414db92b38c44d8d2e3f"
+      "id": "ebeff53b9e984a01aa7dca7f797ac171"
     }
   ]
 }

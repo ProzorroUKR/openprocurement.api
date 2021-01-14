@@ -19,22 +19,24 @@ X-Content-Type-Options: nosniff
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000", 
+        "author": "tender_owner", 
         "title": "contract_first_document.doc", 
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b97562e3f33c493297fd14dd6d8c50f0?KeyID=a8968c46&Signature=dQMvA4OqNyUhOiqC5GLb4uSEt49HDaSNcEbdsglo9C4Wq8XJDos68B7pBOwMEiRZWStfSwxaG5Hf8DZduhr9DA%253D%253D", 
         "format": "application/msword", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:03+03:00", 
-        "id": "0fcd9edc0b0544c19fbc11c5f9c372dd", 
+        "id": "a1411b4d0d464f198aef9ba8589660d3", 
         "dateModified": "2020-09-08T01:00:03+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
+        "author": "tender_owner", 
         "title": "contract_second_document.doc", 
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a2aa5b35517c445ca3778b7b25560cc9?KeyID=a8968c46&Signature=VkkdjRhMvrxZzXFjmULpNVxzcq52P09KEEXjD2Fe%252BBMNBH9FUupk0ZN6hHIwAFGr5lYmPcm2HzuX83tijpfOBw%253D%253D", 
         "format": "application/msword", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:03+03:00", 
-        "id": "1b567d8562a54b8dbed747e3f604cf6f", 
+        "id": "2d48e564a3844afe902af48b627d631d", 
         "dateModified": "2020-09-08T01:00:03+03:00"
       }
     ], 
@@ -64,7 +66,7 @@ X-Content-Type-Options: nosniff
           "startDate": "2020-09-10T01:00:00+03:00", 
           "endDate": "2020-09-13T01:00:00+03:00"
         }, 
-        "id": "53de0c90af0e430ea270c5970351ba0c", 
+        "id": "264336e83a7241d5a1178ae0e10a9479", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"

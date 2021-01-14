@@ -44,7 +44,7 @@ def validate_award_update_in_terminal_status(request, **kwargs):
 
 
 # contract document
-def validate_contract_document(request, **kwargs):
+def validate_contract_document_operation(request, **kwargs):
     operation = OPERATIONS.get(request.method)
     if request.validated["tender_status"] not in\
        ["active.qualification", "active.awarded"]:

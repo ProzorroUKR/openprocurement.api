@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/bids/e0b930e1240c4c8c8e0116fe380767f2/documents?acc_token=209d79fd54db4c518400dd7525b7be77 HTTP/1.0
+POST /api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/bids/338f854402e74ffc9a09603fc72c3d8f/documents?acc_token=209d79fd54db4c518400dd7525b7be77 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 360
 Content-Type: application/json
@@ -16,18 +16,19 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/bids/e0b930e1240c4c8c8e0116fe380767f2/documents/dbabb976fd0f4592b76f90ee9ec281a3
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/bids/338f854402e74ffc9a09603fc72c3d8f/documents/8cff43d95f9a44bd977c9939894315c8
 X-Content-Type-Options: nosniff
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000", 
+    "author": "bid_owner", 
     "title": "lorem.doc", 
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a80b88c2517343558b6e061f834130a6?KeyID=a8968c46&Signature=OVCMQ8bK%2FoWqq2QkNI9hadUpOHnKBO5FM9RWBlzucA8djS7aOsydCRRxlGRoIGRdWbnLVHPu5suA1ylO2d3TCw%253D%253D", 
     "format": "application/msword", 
     "documentOf": "tender", 
     "datePublished": "2020-09-08T01:00:00+03:00", 
     "documentType": "evidence", 
-    "id": "dbabb976fd0f4592b76f90ee9ec281a3", 
+    "id": "8cff43d95f9a44bd977c9939894315c8", 
     "dateModified": "2020-09-08T01:00:00+03:00"
   }
 }

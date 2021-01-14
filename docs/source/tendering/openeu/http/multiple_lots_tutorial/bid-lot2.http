@@ -9,13 +9,13 @@ DATA:
     "selfQualified": true, 
     "lotValues": [
       {
-        "relatedLot": "fc297ff6c6a74743a96c6b274bae11c0", 
+        "relatedLot": "090c95ac79ff405687b005d25de27fde", 
         "value": {
           "amount": 500
         }
       }, 
       {
-        "relatedLot": "d9ed347dda65496aa56d9f7692c949c3", 
+        "relatedLot": "a206e5bc9620433bae8318938bca34bc", 
         "value": {
           "amount": 500
         }, 
@@ -50,7 +50,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/52f1b75138ab4b2c87feff205f2a06f4/bids/ab9e4059fff24d9aa7b0c32166fce3ba
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/52f1b75138ab4b2c87feff205f2a06f4/bids/6bcf17fc2b2d438193158ce070beb475
 X-Content-Type-Options: nosniff
 {
   "access": {
@@ -61,7 +61,7 @@ X-Content-Type-Options: nosniff
     "status": "pending", 
     "lotValues": [
       {
-        "relatedLot": "fc297ff6c6a74743a96c6b274bae11c0", 
+        "relatedLot": "090c95ac79ff405687b005d25de27fde", 
         "date": "2020-09-08T01:00:00+03:00", 
         "status": "pending", 
         "value": {
@@ -71,7 +71,7 @@ X-Content-Type-Options: nosniff
         }
       }, 
       {
-        "relatedLot": "d9ed347dda65496aa56d9f7692c949c3", 
+        "relatedLot": "a206e5bc9620433bae8318938bca34bc", 
         "date": "2020-09-08T01:00:00+03:00", 
         "status": "pending", 
         "value": {
@@ -82,7 +82,7 @@ X-Content-Type-Options: nosniff
         "subcontractingDetails": "ДКП «Укр Прінт», Україна"
       }
     ], 
-    "id": "ab9e4059fff24d9aa7b0c32166fce3ba", 
+    "id": "6bcf17fc2b2d438193158ce070beb475", 
     "tenderers": [
       {
         "contactPoint": {

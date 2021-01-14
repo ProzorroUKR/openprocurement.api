@@ -18,7 +18,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0cd37a4798fe40d1b45324a394f61c9f/lots/f1747ce5d8be4161ac56c6822b290e47
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0cd37a4798fe40d1b45324a394f61c9f/lots/f78ad341e5db4a2aa8cdd9f0222fe861
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -31,7 +31,7 @@ X-Content-Type-Options: nosniff
       "valueAddedTaxIncluded": true
     }, 
     "date": "2020-09-08T01:00:00+03:00", 
-    "id": "f1747ce5d8be4161ac56c6822b290e47"
+    "id": "f78ad341e5db4a2aa8cdd9f0222fe861"
   }
 }
 

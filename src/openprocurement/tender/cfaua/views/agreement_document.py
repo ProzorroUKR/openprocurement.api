@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.validation import validate_file_update, validate_file_upload, validate_patch_document_data
+from openprocurement.api.validation import (
+    validate_file_update,
+    validate_patch_document_data,
+    validate_file_upload,
+)
 from openprocurement.api.utils import (
-    context_unpack,
     json_view,
     raise_operation_error,
-    update_file_content_type,
-    upload_file,
 )
-from openprocurement.tender.core.utils import apply_patch, save_tender
-from openprocurement.tender.openua.views.contract_document import TenderUaAwardContractDocumentResource as BaseResource
-
+from openprocurement.tender.core.views.document import CoreDocumentResource
 from openprocurement.tender.cfaua.utils import agreement_resource
 
 
@@ -20,8 +19,10 @@ from openprocurement.tender.cfaua.utils import agreement_resource
     procurementMethodType="closeFrameworkAgreementUA",
     description="Tender agreement documents",
 )
-class TenderAwardContractDocumentResource(BaseResource):
+class TenderAwardAgreementDocumentResource(CoreDocumentResource):
     """ Tender Award Agreement Document """
+    container = "documents"
+    context_name = "tender_agreement"
 
     def validate_agreement_document(self, operation):
         """ TODO move validators
@@ -70,45 +71,18 @@ class TenderAwardContractDocumentResource(BaseResource):
         """ Tender Agreement Document Upload """
         if not self.validate_agreement_document("add"):
             return
-        document = upload_file(self.request)
-        self.context.documents.append(document)
-        if save_tender(self.request):
-            self.LOGGER.info(
-                "Created tender agreement document {}".format(document.id),
-                extra=context_unpack(
-                    self.request, {"MESSAGE_ID": "tender_agreement_document_create"}, {"document_id": document.id}
-                ),
-            )
-            self.request.response.status = 201
-            document_route = self.request.matched_route.name.replace("collection_", "")
-            self.request.response.headers["Location"] = self.request.current_route_url(
-                _route_name=document_route, document_id=document.id, _query={}
-            )
-            return {"data": document.serialize("view")}
+        return super(TenderAwardAgreementDocumentResource, self).collection_post()
 
     @json_view(validators=(validate_file_update,), permission="edit_tender")
     def put(self):
         """ Tender Agreement Document Update """
         if not self.validate_agreement_document("update"):
             return
-        document = upload_file(self.request)
-        self.request.validated["agreement"].documents.append(document)
-        if save_tender(self.request):
-            self.LOGGER.info(
-                "Updated tender agreement document {}".format(self.request.context.id),
-                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_agreement_document_put"}),
-            )
-            return {"data": document.serialize("view")}
+        return super(TenderAwardAgreementDocumentResource, self).put()
 
     @json_view(content_type="application/json", validators=(validate_patch_document_data,), permission="edit_tender")
     def patch(self):
         """ Tender Agreement Document Update """
         if not self.validate_agreement_document("update"):
             return
-        if apply_patch(self.request, src=self.request.context.serialize()):
-            update_file_content_type(self.request)
-            self.LOGGER.info(
-                "Updated tender agreement document {}".format(self.request.context.id),
-                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_agreement_document_patch"}),
-            )
-            return {"data": self.request.context.serialize("view")}
+        return super(TenderAwardAgreementDocumentResource, self).patch()

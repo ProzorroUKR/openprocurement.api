@@ -12,7 +12,7 @@ X-Content-Type-Options: nosniff
       "lotID": "c7555f1bb878434d8815dea318304673", 
       "eligible": false, 
       "qualified": false, 
-      "bidID": "ccd5dc4ca3f84f9a8f9ec11010bd01ba", 
+      "bidID": "544359015fd047a8b79fa81bda0889fc", 
       "date": "2020-09-08T01:00:00+03:00", 
       "id": "9eafb5e0a5ac4268a1f0821a11dae69d"
     }, 
@@ -21,7 +21,7 @@ X-Content-Type-Options: nosniff
       "lotID": "c7555f1bb878434d8815dea318304673", 
       "eligible": false, 
       "qualified": false, 
-      "bidID": "1c4a2dcee85343898ea5fbfd8ce2bd6e", 
+      "bidID": "7463b9ba00b849cb8e5a5421f550868e", 
       "date": "2020-09-08T01:00:00+03:00", 
       "id": "86fd0e3cd41f48eab89c5ac406b8334d"
     }, 
@@ -30,7 +30,7 @@ X-Content-Type-Options: nosniff
       "lotID": "c7555f1bb878434d8815dea318304673", 
       "eligible": false, 
       "qualified": false, 
-      "bidID": "76ccebf7a163452886a6d2d8d39a564b", 
+      "bidID": "2110e7baf82545d594bd7a435975fdda", 
       "date": "2020-09-08T01:00:00+03:00", 
       "id": "cb68d0f3a8c4468d9b7c5595eb8f9001"
     }, 
@@ -39,7 +39,7 @@ X-Content-Type-Options: nosniff
       "lotID": "c7555f1bb878434d8815dea318304673", 
       "eligible": false, 
       "qualified": false, 
-      "bidID": "e0d41b30b35a430fb164a63e2cd8792b", 
+      "bidID": "f15395a4363049ad92d56f8b5ff97fac", 
       "date": "2020-09-08T01:00:00+03:00", 
       "id": "cdc3670ed483448a8cd1ed6d1146da99"
     }

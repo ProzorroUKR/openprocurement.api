@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/bids/74c272933f3046b0a4cdcc7036b67323?acc_token=7a7e299c46ba4430a2a63af9bf91af30 HTTP/1.0
+PATCH /api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/bids/86abc989313f4a28a0d916b159292b6a?acc_token=7a7e299c46ba4430a2a63af9bf91af30 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -17,7 +17,7 @@ X-Content-Type-Options: nosniff
   "data": {
     "date": "2020-09-08T01:00:01+03:00", 
     "status": "active", 
-    "id": "74c272933f3046b0a4cdcc7036b67323", 
+    "id": "86abc989313f4a28a0d916b159292b6a", 
     "value": {
       "currency": "UAH", 
       "amount": 500.0, 

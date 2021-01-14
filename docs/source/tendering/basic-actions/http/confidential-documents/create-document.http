@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/bids/930c04e6be2946bfa41898d03dec400e/documents?acc_token=dd8db01099664827aa1826260c296fa8 HTTP/1.0
+POST /api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/bids/ad3518204d0f4cdcaa3c0940fa21e417/documents?acc_token=dd8db01099664827aa1826260c296fa8 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 462
 Content-Type: application/json
@@ -17,20 +17,21 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/bids/930c04e6be2946bfa41898d03dec400e/documents/dbabb976fd0f4592b76f90ee9ec281a3
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/bids/ad3518204d0f4cdcaa3c0940fa21e417/documents/8cff43d95f9a44bd977c9939894315c8
 X-Content-Type-Options: nosniff
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000", 
-    "confidentiality": "buyerOnly", 
-    "title": "private.doc", 
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/bids/930c04e6be2946bfa41898d03dec400e/documents/dbabb976fd0f4592b76f90ee9ec281a3?download=a80b88c2517343558b6e061f834130a6", 
-    "confidentialityRationale": "This document contains some secret data that shouldn't be public", 
+    "author": "bid_owner", 
     "format": "application/msword", 
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/bids/ad3518204d0f4cdcaa3c0940fa21e417/documents/8cff43d95f9a44bd977c9939894315c8?download=a80b88c2517343558b6e061f834130a6", 
+    "confidentialityRationale": "This document contains some secret data that shouldn't be public", 
+    "title": "private.doc", 
     "documentOf": "tender", 
     "datePublished": "2020-09-08T01:00:00+03:00", 
-    "id": "dbabb976fd0f4592b76f90ee9ec281a3", 
-    "dateModified": "2020-09-08T01:00:00+03:00"
+    "id": "8cff43d95f9a44bd977c9939894315c8", 
+    "dateModified": "2020-09-08T01:00:00+03:00", 
+    "confidentiality": "buyerOnly"
   }
 }
 

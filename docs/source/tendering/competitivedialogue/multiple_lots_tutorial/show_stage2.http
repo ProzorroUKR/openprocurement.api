@@ -43,7 +43,7 @@ X-Content-Type-Options: nosniff
           "valueAddedTaxIncluded": true
         }, 
         "date": "2020-09-08T01:00:00+03:00", 
-        "id": "827f341aa45e495f853f5493aee68c42"
+        "id": "5b9f7b2c302b40c780b44b39d95138a7"
       }, 
       {
         "status": "active", 
@@ -63,14 +63,14 @@ X-Content-Type-Options: nosniff
           "valueAddedTaxIncluded": true
         }, 
         "date": "2020-09-08T01:00:00+03:00", 
-        "id": "fadc6f1d86d045bc995c327e65c864fa"
+        "id": "453d55385a734a8db16a2b047440b4de"
       }
     ], 
     "shortlistedFirms": [
       {
         "lots": [
           {
-            "id": "827f341aa45e495f853f5493aee68c42"
+            "id": "5b9f7b2c302b40c780b44b39d95138a7"
           }
         ], 
         "identifier": {
@@ -83,10 +83,10 @@ X-Content-Type-Options: nosniff
       {
         "lots": [
           {
-            "id": "827f341aa45e495f853f5493aee68c42"
+            "id": "5b9f7b2c302b40c780b44b39d95138a7"
           }, 
           {
-            "id": "fadc6f1d86d045bc995c327e65c864fa"
+            "id": "453d55385a734a8db16a2b047440b4de"
           }
         ], 
         "identifier": {
@@ -99,10 +99,10 @@ X-Content-Type-Options: nosniff
       {
         "lots": [
           {
-            "id": "827f341aa45e495f853f5493aee68c42"
+            "id": "5b9f7b2c302b40c780b44b39d95138a7"
           }, 
           {
-            "id": "fadc6f1d86d045bc995c327e65c864fa"
+            "id": "453d55385a734a8db16a2b047440b4de"
           }
         ], 
         "identifier": {
@@ -130,7 +130,7 @@ X-Content-Type-Options: nosniff
     }, 
     "items": [
       {
-        "relatedLot": "827f341aa45e495f853f5493aee68c42", 
+        "relatedLot": "5b9f7b2c302b40c780b44b39d95138a7", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "ДК021", 
@@ -156,7 +156,7 @@ X-Content-Type-Options: nosniff
           "startDate": "2020-09-28T00:00:00+02:00", 
           "endDate": "2020-10-28T00:00:00+02:00"
         }, 
-        "id": "50f583529d724487b9430dd0bbda9174", 
+        "id": "dfb21e2b2582481ca199567369a6dc6d", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -164,7 +164,7 @@ X-Content-Type-Options: nosniff
         "quantity": 1.0
       }, 
       {
-        "relatedLot": "fadc6f1d86d045bc995c327e65c864fa", 
+        "relatedLot": "453d55385a734a8db16a2b047440b4de", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "ДК021", 
@@ -190,7 +190,7 @@ X-Content-Type-Options: nosniff
           "startDate": "2020-09-28T00:00:00+02:00", 
           "endDate": "2020-10-28T00:00:00+02:00"
         }, 
-        "id": "91a14518464b4e81ae77ad46a8ef57ea", 
+        "id": "a6b146ebdfca4a2cb044198c40df2c39", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"

@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import json_view
-from openprocurement.api.validation import validate_file_upload, validate_file_update, validate_patch_document_data
+from openprocurement.api.validation import (
+    validate_file_update,
+    validate_patch_document_data,
+    validate_file_upload,
+)
 from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.core.validation import (
     validate_document_operation_in_not_allowed_period,

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d/questions/54c507eed6eb49158dc7d6a7e2230e1c?acc_token=ce9ee5fc97484fc3b51e3f4dcea722d4 HTTP/1.0
+PATCH /api/2.5/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d/questions/71e5b7f5917546f8a4f8986a84cc4458?acc_token=ce9ee5fc97484fc3b51e3f4dcea722d4 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 162
 Content-Type: application/json
@@ -20,7 +20,7 @@ X-Content-Type-Options: nosniff
     "title": "Калорійність", 
     "date": "2020-09-08T01:00:00+03:00", 
     "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
-    "id": "54c507eed6eb49158dc7d6a7e2230e1c", 
+    "id": "71e5b7f5917546f8a4f8986a84cc4458", 
     "questionOf": "tender"
   }
 }

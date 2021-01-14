@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/cancellations/56410c1c084d442fa6b1fdde4b1b98e1?acc_token=151a30932ee245e989771be867bc8235 HTTP/1.0
+PATCH /api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/cancellations/5318086493954250b6f44b317389a0b4?acc_token=151a30932ee245e989771be867bc8235 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 39
 Content-Type: application/json
@@ -20,7 +20,7 @@ X-Content-Type-Options: nosniff
     "reasonType": "expensesCut", 
     "date": "2020-09-08T01:00:03+03:00", 
     "cancellationOf": "tender", 
-    "id": "56410c1c084d442fa6b1fdde4b1b98e1"
+    "id": "5318086493954250b6f44b317389a0b4"
   }
 }
 

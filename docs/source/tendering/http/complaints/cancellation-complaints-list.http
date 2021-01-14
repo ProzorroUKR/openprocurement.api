@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/9de80116006a4e58b18ac56dda573693/cancellations/31235ac89ae54d56b2b78a0243f2d589/complaints HTTP/1.0
+GET /api/2.5/tenders/9de80116006a4e58b18ac56dda573693/cancellations/9eaff9bb04ef486c9efc3aff3a4d9015/complaints HTTP/1.0
 Host: lb-api-sandbox.prozorro.gov.ua
 
 Response: 200 OK
@@ -14,22 +14,22 @@ X-Content-Type-Options: nosniff
           "hash": "md5:00000000000000000000000000000000", 
           "author": "complaint_owner", 
           "title": "Complaint_Attachment.pdf", 
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e25f6aba89644561bae192add05b9fd9?KeyID=a8968c46&Signature=ZaY8t187j5xyaKqSZJiXzNjLfc9wYq7QVRnymLc8G6CNw7uPJUCHtDnMzfD3ayNLhZfXGcU%2F2YJQgqw9umX4AQ%253D%253D", 
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0618555c65214d2191765bd2434f3e0f?KeyID=a8968c46&Signature=6YSzWMA7FddnNqBK0VmOy4qlzLbYbB2jaJNVKqoks6m95OHMZs4w%2FLhaP%252BpzaKUXVtdTD4RYwKfpItTRC%2FteDw%253D%253D", 
           "format": "application/pdf", 
           "documentOf": "tender", 
           "datePublished": "2020-09-08T01:00:00+03:00", 
-          "id": "06517cdbfecf446b994bb0912e3d9b51", 
+          "id": "9cc3afec0887434abf5b85ac12a5c8e2", 
           "dateModified": "2020-09-08T01:00:00+03:00"
         }, 
         {
           "hash": "md5:00000000000000000000000000000000", 
           "author": "aboveThresholdReviewers", 
           "title": "ComplaintResolution.pdf", 
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0e12ad4e0a744ff7bcedf16b387c9824?KeyID=a8968c46&Signature=Yl%252B7YxFTtJcyNDrXFC7ACM1kNZvB8PehiI0lqzpdbLuwz3%252Br2eslLDs7S9HKMYej%2FRaghdWk1sgYulXL%252B69iDw%253D%253D", 
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/30c81ff8c7864be3802398720decbb55?KeyID=a8968c46&Signature=dqgSObRfm%2F25OlhV1zQGJE6SfcvV5d8X9GZZ4v6pdtbpuz9an1%252B0UayJYwa9d2HM1Jgt0J5DPyecIbvUgnjhDw%253D%253D", 
           "format": "application/pdf", 
           "documentOf": "tender", 
           "datePublished": "2020-09-08T01:00:00+03:00", 
-          "id": "c91a3b839a7f4bae91fd90c00e56f407", 
+          "id": "3fb151f830fa4732b455084df27dfb21", 
           "dateModified": "2020-09-08T01:00:00+03:00"
         }
       ], 
@@ -68,7 +68,7 @@ X-Content-Type-Options: nosniff
       "date": "2020-09-08T01:00:00+03:00", 
       "acceptance": true, 
       "type": "complaint", 
-      "id": "ee791245be184fe89d11df7d4650b501", 
+      "id": "c1f8273c987d4fc2b4eea78dfc846e55", 
       "reviewPlace": "some", 
       "dateAccepted": "2020-09-08T01:00:00+03:00"
     }, 
@@ -109,7 +109,7 @@ X-Content-Type-Options: nosniff
       "complaintID": "UA-2020-09-08-000001.2", 
       "date": "2020-09-08T01:00:00+03:00", 
       "type": "complaint", 
-      "id": "4b2468b3657a4f8f9d66b73c680f9675", 
+      "id": "5d7bc5c881d74ccb9f369c6c98f2e974", 
       "reviewPlace": "some"
     }, 
     {
@@ -149,7 +149,7 @@ X-Content-Type-Options: nosniff
       "date": "2020-09-08T01:00:00+03:00", 
       "title": "Недостатньо інформації", 
       "type": "complaint", 
-      "id": "f7fa79ff504943328d4d06c5a29cc37c"
+      "id": "0b049570f8344f37b3ebbe26f686b222"
     }, 
     {
       "status": "stopped", 
@@ -163,7 +163,7 @@ X-Content-Type-Options: nosniff
         "currency": "UAH", 
         "amount": 2000.0
       }, 
-      "id": "5f7017dae2a146f088381533135c2f68", 
+      "id": "ca1463788d384338981083b5aa0a2a04", 
       "rejectReason": "tenderCancelled", 
       "dateAccepted": "2020-09-08T01:00:00+03:00", 
       "author": {
@@ -206,7 +206,7 @@ X-Content-Type-Options: nosniff
         "currency": "UAH", 
         "amount": 2000.0
       }, 
-      "id": "fed31a7c8bcf4216ab2ce41691ffe84b", 
+      "id": "1cef2d314a1046da8ddb14fc7fe33c82", 
       "rejectReason": "tenderCancelled", 
       "dateAccepted": "2020-09-08T01:00:00+03:00", 
       "author": {

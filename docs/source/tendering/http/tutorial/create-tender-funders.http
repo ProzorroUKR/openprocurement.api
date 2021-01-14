@@ -188,7 +188,7 @@ X-Content-Type-Options: nosniff
         }, 
         "percentage": 54.45, 
         "type": "financing", 
-        "id": "94f9e1dd7ea74d2a99d4eff7a488a4a4"
+        "id": "ba6929df3cab4c77a1d0f3c72b64c969"
       }
     ], 
     "mainProcurementCategory": "goods", 
@@ -228,7 +228,7 @@ X-Content-Type-Options: nosniff
           "startDate": "2020-09-10T01:00:00+03:00", 
           "endDate": "2020-09-13T01:00:00+03:00"
         }, 
-        "id": "e36f862d48e0411c8390ea7a8811c0de", 
+        "id": "2bbcb6a330814b658651e51d6343863c", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"

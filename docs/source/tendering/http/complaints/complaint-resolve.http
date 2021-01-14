@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/b84e3d4216374e81a4b85a973be2fff5 HTTP/1.0
+PATCH /api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/7f34a62567884c49aec9b86fc612ef73 HTTP/1.0
 Authorization: Bearer reviewer
 Content-Length: 33
 Content-Type: application/json
@@ -23,11 +23,11 @@ X-Content-Type-Options: nosniff
         "author": "aboveThresholdReviewers", 
         "language": "uk", 
         "title": "ComplaintResolution.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a759d056bbd44bf78310d118bba3bbac?KeyID=a8968c46&Signature=ZxRv8tJTqiDY7s8rJ6D3IJgYyFCa8rkKpPPR1Up2JlLbpVbUFLr%252BoKpqqLEZ%2F5SD%252BJT2OmRzVzrDlDyPTKvwCQ%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2cb960965a2947b69ee43a5bc236b632?KeyID=a8968c46&Signature=Lnca9H7vo62UG1uiqOiULUdx5Ytd10nXv7uqIUaFKoF8acUHFKVeejFt5eWQxHLzOprP5Yk9pkN%2FFSd2juvWAA%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "b9923ce980e745aaa07acc494d311c00", 
+        "id": "fc982c8531654d7b95de9d93bcef291d", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }
     ], 
@@ -65,7 +65,7 @@ X-Content-Type-Options: nosniff
     "complaintID": "UA-2020-09-08-000001.5", 
     "date": "2020-09-08T01:00:00+03:00", 
     "type": "complaint", 
-    "id": "b84e3d4216374e81a4b85a973be2fff5", 
+    "id": "7f34a62567884c49aec9b86fc612ef73", 
     "reviewPlace": "Place of review"
   }
 }

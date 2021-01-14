@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import json_view
-from openprocurement.api.validation import validate_file_update, validate_file_upload, validate_patch_document_data
+from openprocurement.api.validation import (
+    validate_file_update,
+    validate_patch_document_data,
+    validate_file_upload,
+)
 from openprocurement.tender.core.utils import optendersresource
-from openprocurement.tender.core.views.document import BaseDocumentResource
+from openprocurement.tender.core.views.document import CoreDocumentResource
 from openprocurement.tender.core.validation import (
     validate_award_document_tender_not_in_allowed_status_base,
     validate_award_document_lot_not_in_allowed_status,
@@ -17,7 +21,7 @@ from openprocurement.tender.core.validation import (
     procurementMethodType="belowThreshold",
     description="Tender award documents",
 )
-class TenderAwardDocumentResource(BaseDocumentResource):
+class TenderAwardDocumentResource(CoreDocumentResource):
     context_name = "tender_award"
 
     @json_view(permission="view_tender")

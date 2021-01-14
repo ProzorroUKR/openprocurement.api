@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/ccd5dc4ca3f84f9a8f9ec11010bd01ba/financial_documents?acc_token=7ba8d77208c04422b161882dc2c4b5c2 HTTP/1.0
+GET /api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/544359015fd047a8b79fa81bda0889fc/financial_documents?acc_token=7ba8d77208c04422b161882dc2c4b5c2 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -9,27 +9,29 @@ X-Content-Type-Options: nosniff
   "data": [
     {
       "hash": "md5:00000000000000000000000000000000", 
-      "confidentiality": "public", 
+      "author": "bid_owner", 
       "language": "uk", 
       "title": "financial_doc.pdf", 
-      "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/ccd5dc4ca3f84f9a8f9ec11010bd01ba/financial_documents/7ee1271306dc4c19befc8c2f5868c34a?download=2f8852ebe331410c908fecb00de667a4", 
+      "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/544359015fd047a8b79fa81bda0889fc/financial_documents/d975aba62d06453cb06347b5429cd0a0?download=28fdf9b1227f4484b543630107c11234", 
       "format": "application/pdf", 
       "documentOf": "tender", 
       "datePublished": "2020-09-08T01:00:00+03:00", 
-      "id": "7ee1271306dc4c19befc8c2f5868c34a", 
-      "dateModified": "2020-09-08T01:00:00+03:00"
+      "id": "d975aba62d06453cb06347b5429cd0a0", 
+      "dateModified": "2020-09-08T01:00:00+03:00", 
+      "confidentiality": "public"
     }, 
     {
       "hash": "md5:00000000000000000000000000000000", 
-      "confidentiality": "public", 
+      "author": "bid_owner", 
       "language": "uk", 
       "title": "financial_doc2.pdf", 
-      "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/ccd5dc4ca3f84f9a8f9ec11010bd01ba/financial_documents/4566fae4373e41588527c5a6ea6c4408?download=d7f6eb2a77d04872b0778dd876645d75", 
+      "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/544359015fd047a8b79fa81bda0889fc/financial_documents/5c1d0afba2a94f4ebcba74d770e27380?download=5637a39135e448dc9cf990fff4f454f2", 
       "format": "application/pdf", 
       "documentOf": "tender", 
       "datePublished": "2020-09-08T01:00:00+03:00", 
-      "id": "4566fae4373e41588527c5a6ea6c4408", 
-      "dateModified": "2020-09-08T01:00:00+03:00"
+      "id": "5c1d0afba2a94f4ebcba74d770e27380", 
+      "dateModified": "2020-09-08T01:00:00+03:00", 
+      "confidentiality": "public"
     }
   ]
 }

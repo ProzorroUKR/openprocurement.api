@@ -42,7 +42,7 @@ X-Content-Type-Options: nosniff
         }, 
         "percentage": 54.45, 
         "type": "financing", 
-        "id": "442dc8681e8844d38f672de6d5380e61"
+        "id": "c48e374a5e5a48fe9c134d01678d8e75"
       }
     ], 
     "mainProcurementCategory": "goods", 
@@ -75,7 +75,7 @@ X-Content-Type-Options: nosniff
         "deliveryDate": {
           "endDate": "2019-11-09T01:00:00+03:00"
         }, 
-        "id": "5361183669984f2e81cf72c95081f037", 
+        "id": "a5f4719db260461fbaf7a054855bd7a1", 
         "unit": {
           "code": "KGM", 
           "name": "кг"

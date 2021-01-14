@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/documents/8924acf921d645b7bce35748c4f9e237 HTTP/1.0
+GET /api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/documents/1600c2979e7c4d82821a15c5cc065b6a HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -15,7 +15,7 @@ X-Content-Type-Options: nosniff
     "documentOf": "tender", 
     "datePublished": "2020-09-08T01:00:01+03:00", 
     "previousVersions": [], 
-    "id": "8924acf921d645b7bce35748c4f9e237", 
+    "id": "1600c2979e7c4d82821a15c5cc065b6a", 
     "dateModified": "2020-09-08T01:00:01+03:00"
   }
 }

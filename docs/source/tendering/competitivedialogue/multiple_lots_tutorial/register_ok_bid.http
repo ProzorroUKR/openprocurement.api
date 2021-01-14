@@ -9,7 +9,7 @@ DATA:
     "selfQualified": true, 
     "lotValues": [
       {
-        "relatedLot": "827f341aa45e495f853f5493aee68c42", 
+        "relatedLot": "5b9f7b2c302b40c780b44b39d95138a7", 
         "value": {
           "amount": 500
         }, 
@@ -44,7 +44,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d99c61237b1945578b8cde56d011dbef/bids/27921103a2704670ae2a47f38fa67f97
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d99c61237b1945578b8cde56d011dbef/bids/ffd166a4d94e4c22ac8c1cb953199e3a
 X-Content-Type-Options: nosniff
 {
   "access": {
@@ -55,7 +55,7 @@ X-Content-Type-Options: nosniff
     "status": "pending", 
     "lotValues": [
       {
-        "relatedLot": "827f341aa45e495f853f5493aee68c42", 
+        "relatedLot": "5b9f7b2c302b40c780b44b39d95138a7", 
         "date": "2020-09-08T01:00:00+03:00", 
         "status": "pending", 
         "value": {
@@ -66,7 +66,7 @@ X-Content-Type-Options: nosniff
         "subcontractingDetails": "ДКП «Орфей», Україна"
       }
     ], 
-    "id": "27921103a2704670ae2a47f38fa67f97", 
+    "id": "ffd166a4d94e4c22ac8c1cb953199e3a", 
     "tenderers": [
       {
         "contactPoint": {

@@ -22,11 +22,11 @@ X-Content-Type-Options: nosniff
         "author": "tender_owner", 
         "language": "uk", 
         "title": "name.doc", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5c56f0e835fa4528a14410d29b397b8c?KeyID=a8968c46&Signature=gpHjYMZXL%2F1np1wBZ4XrrvVUvuUkvTt4FP7E6ZMGXozDGGyXNC7sRUuzoklszmzvNlZO3b2%2FwfnajtjU%2FTzlBw%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0e827ced88514da18757f24f1fefe30d?KeyID=a8968c46&Signature=zora065xQQZ%2FzngFC4jRidQnX%252ByvoUDb8t89qmoTW2Vsxb%2FOYj2wexiNuM4V0KrXZfM52UBOyEN19%2F23q%252BHIDw%253D%253D", 
         "format": "application/msword", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "89c951b63cf14730802d38345b277a76", 
+        "id": "829b7e6ae5ef40e7930e32a74d1cc580", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }
     ], 
@@ -53,7 +53,7 @@ X-Content-Type-Options: nosniff
         }
       }
     ], 
-    "bid_id": "14cd87081e954157a0ad88f903ede90a", 
+    "bid_id": "b3b33fdb3ecb497e9fd1238647a67110", 
     "value": {
       "currency": "UAH", 
       "amount": 499.0, 

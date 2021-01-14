@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/d3a973174cb548a9a4993fdbf5d9674e HTTP/1.0
+PATCH /api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/5c0138f4466a4bffb1ed11c4d7751c87 HTTP/1.0
 Authorization: Bearer reviewer
 Content-Length: 64
 Content-Type: application/json
@@ -51,7 +51,7 @@ X-Content-Type-Options: nosniff
     "date": "2020-09-08T01:00:00+03:00", 
     "title": "Недостатньо інформації", 
     "type": "complaint", 
-    "id": "d3a973174cb548a9a4993fdbf5d9674e"
+    "id": "5c0138f4466a4bffb1ed11c4d7751c87"
   }
 }
 

@@ -66,7 +66,7 @@ X-Content-Type-Options: nosniff
           "valueAddedTaxIncluded": true
         }, 
         "date": "2020-09-08T01:00:00+03:00", 
-        "id": "fc297ff6c6a74743a96c6b274bae11c0"
+        "id": "090c95ac79ff405687b005d25de27fde"
       }, 
       {
         "status": "unsuccessful", 
@@ -83,7 +83,7 @@ X-Content-Type-Options: nosniff
           "valueAddedTaxIncluded": true
         }, 
         "date": "2020-09-08T01:00:00+03:00", 
-        "id": "d9ed347dda65496aa56d9f7692c949c3"
+        "id": "a206e5bc9620433bae8318938bca34bc"
       }
     ], 
     "qualificationPeriod": {
@@ -99,19 +99,19 @@ X-Content-Type-Options: nosniff
     "qualifications": [
       {
         "status": "pending", 
-        "lotID": "fc297ff6c6a74743a96c6b274bae11c0", 
+        "lotID": "090c95ac79ff405687b005d25de27fde", 
         "eligible": false, 
         "qualified": false, 
-        "bidID": "28d7b15324514c31b62f48b15a1b0a2c", 
+        "bidID": "25bd970afcce4abcadf49eab65090119", 
         "date": "2020-09-08T01:00:00+03:00", 
         "id": "69e23d94b0ec4a4cbf777d2557fe598a"
       }, 
       {
         "status": "pending", 
-        "lotID": "fc297ff6c6a74743a96c6b274bae11c0", 
+        "lotID": "090c95ac79ff405687b005d25de27fde", 
         "eligible": false, 
         "qualified": false, 
-        "bidID": "ab9e4059fff24d9aa7b0c32166fce3ba", 
+        "bidID": "6bcf17fc2b2d438193158ce070beb475", 
         "date": "2020-09-08T01:00:00+03:00", 
         "id": "73fa90c6e4a746cb859d4058ad16e5bf"
       }
@@ -141,7 +141,7 @@ X-Content-Type-Options: nosniff
         }, 
         "percentage": 54.45, 
         "type": "financing", 
-        "id": "f2ad38d355ac439d9491fc812a6a6b5f"
+        "id": "e5221f5f9dfd4faa9b1072d3e43c94c0"
       }
     ], 
     "minimalStep": {
@@ -151,7 +151,7 @@ X-Content-Type-Options: nosniff
     }, 
     "items": [
       {
-        "relatedLot": "fc297ff6c6a74743a96c6b274bae11c0", 
+        "relatedLot": "090c95ac79ff405687b005d25de27fde", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "ДК021", 
@@ -177,11 +177,11 @@ X-Content-Type-Options: nosniff
           "startDate": "2020-09-28T00:00:00+02:00", 
           "endDate": "2020-10-28T00:00:00+02:00"
         }, 
-        "id": "0124f833a40d45a29d30d291bee35ecb", 
+        "id": "aaef9ccbedeb4298aaef9f19e8db9c74", 
         "quantity": 1.0
       }, 
       {
-        "relatedLot": "d9ed347dda65496aa56d9f7692c949c3", 
+        "relatedLot": "a206e5bc9620433bae8318938bca34bc", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "ДК021", 
@@ -207,14 +207,14 @@ X-Content-Type-Options: nosniff
           "startDate": "2020-09-28T00:00:00+02:00", 
           "endDate": "2020-10-28T00:00:00+02:00"
         }, 
-        "id": "d2b44da9ce9f46bc896d32b570fab363", 
+        "id": "1c6f3a753b394b7f90538cd8515bbc72", 
         "quantity": 1.0
       }
     ], 
     "bids": [
       {
         "status": "pending", 
-        "id": "28d7b15324514c31b62f48b15a1b0a2c", 
+        "id": "25bd970afcce4abcadf49eab65090119", 
         "tenderers": [
           {
             "contactPoint": {
@@ -241,7 +241,7 @@ X-Content-Type-Options: nosniff
       }, 
       {
         "status": "pending", 
-        "id": "ab9e4059fff24d9aa7b0c32166fce3ba", 
+        "id": "6bcf17fc2b2d438193158ce070beb475", 
         "tenderers": [
           {
             "contactPoint": {

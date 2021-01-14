@@ -66,7 +66,7 @@ X-Content-Type-Options: nosniff
           "valueAddedTaxIncluded": true
         }, 
         "date": "2020-09-08T01:00:00+03:00", 
-        "id": "827f341aa45e495f853f5493aee68c42"
+        "id": "5b9f7b2c302b40c780b44b39d95138a7"
       }, 
       {
         "status": "unsuccessful", 
@@ -83,7 +83,7 @@ X-Content-Type-Options: nosniff
           "valueAddedTaxIncluded": true
         }, 
         "date": "2020-09-08T01:00:00+03:00", 
-        "id": "fadc6f1d86d045bc995c327e65c864fa"
+        "id": "453d55385a734a8db16a2b047440b4de"
       }
     ], 
     "qualificationPeriod": {
@@ -100,28 +100,28 @@ X-Content-Type-Options: nosniff
     "qualifications": [
       {
         "status": "active", 
-        "lotID": "827f341aa45e495f853f5493aee68c42", 
+        "lotID": "5b9f7b2c302b40c780b44b39d95138a7", 
         "eligible": true, 
         "qualified": true, 
-        "bidID": "5c40c6901b9d438fad1d986bf48a3b2c", 
+        "bidID": "ed0a8b00b0b240d0a1c40d0dfe9d343b", 
         "date": "2020-09-08T01:00:00+03:00", 
         "id": "173c2b5bb93248a78c84a3827af6cbaa"
       }, 
       {
         "status": "active", 
-        "lotID": "827f341aa45e495f853f5493aee68c42", 
+        "lotID": "5b9f7b2c302b40c780b44b39d95138a7", 
         "eligible": true, 
         "qualified": true, 
-        "bidID": "572235daf46e42aab4f38d4ecfbf806e", 
+        "bidID": "a539801e33fe406cbe5502a0fb566044", 
         "date": "2020-09-08T01:00:00+03:00", 
         "id": "9894e7b3dee74b7f978607f213fb8d37"
       }, 
       {
         "status": "active", 
-        "lotID": "827f341aa45e495f853f5493aee68c42", 
+        "lotID": "5b9f7b2c302b40c780b44b39d95138a7", 
         "eligible": true, 
         "qualified": true, 
-        "bidID": "602221490fe54ad4866e70ecd5f09fe1", 
+        "bidID": "55ac58fe9d284cc6925bcd0fdc74b60c", 
         "date": "2020-09-08T01:00:00+03:00", 
         "id": "ced896f884304acd86eae26ec8efe5c8"
       }
@@ -151,7 +151,7 @@ X-Content-Type-Options: nosniff
         }, 
         "percentage": 54.45, 
         "type": "financing", 
-        "id": "dda301a766ca433e86943a674a61fcce"
+        "id": "f178de7fede1438d8be41731b276f32b"
       }
     ], 
     "minimalStep": {
@@ -161,7 +161,7 @@ X-Content-Type-Options: nosniff
     }, 
     "items": [
       {
-        "relatedLot": "827f341aa45e495f853f5493aee68c42", 
+        "relatedLot": "5b9f7b2c302b40c780b44b39d95138a7", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "ДК021", 
@@ -187,7 +187,7 @@ X-Content-Type-Options: nosniff
           "startDate": "2020-09-28T00:00:00+02:00", 
           "endDate": "2020-10-28T00:00:00+02:00"
         }, 
-        "id": "50f583529d724487b9430dd0bbda9174", 
+        "id": "dfb21e2b2582481ca199567369a6dc6d", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -195,7 +195,7 @@ X-Content-Type-Options: nosniff
         "quantity": 1.0
       }, 
       {
-        "relatedLot": "fadc6f1d86d045bc995c327e65c864fa", 
+        "relatedLot": "453d55385a734a8db16a2b047440b4de", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "ДК021", 
@@ -221,7 +221,7 @@ X-Content-Type-Options: nosniff
           "startDate": "2020-09-28T00:00:00+02:00", 
           "endDate": "2020-10-28T00:00:00+02:00"
         }, 
-        "id": "91a14518464b4e81ae77ad46a8ef57ea", 
+        "id": "a6b146ebdfca4a2cb044198c40df2c39", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -232,7 +232,7 @@ X-Content-Type-Options: nosniff
     "bids": [
       {
         "status": "active", 
-        "id": "5c40c6901b9d438fad1d986bf48a3b2c", 
+        "id": "ed0a8b00b0b240d0a1c40d0dfe9d343b", 
         "tenderers": [
           {
             "contactPoint": {
@@ -259,7 +259,7 @@ X-Content-Type-Options: nosniff
       }, 
       {
         "status": "active", 
-        "id": "572235daf46e42aab4f38d4ecfbf806e", 
+        "id": "a539801e33fe406cbe5502a0fb566044", 
         "tenderers": [
           {
             "contactPoint": {
@@ -286,7 +286,7 @@ X-Content-Type-Options: nosniff
       }, 
       {
         "status": "active", 
-        "id": "602221490fe54ad4866e70ecd5f09fe1", 
+        "id": "55ac58fe9d284cc6925bcd0fdc74b60c", 
         "tenderers": [
           {
             "contactPoint": {

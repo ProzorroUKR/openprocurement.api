@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import json_view
 from openprocurement.api.validation import (
-    validate_file_upload,
     validate_file_update,
-    validate_patch_document_data,
+    validate_patch_document_data, validate_file_upload,
 )
 from openprocurement.tender.competitivedialogue.validation import validate_update_tender_document
 from openprocurement.tender.core.validation import (
@@ -27,9 +26,9 @@ class CompetitiveDialogueStage2EUDocumentResource(TenderEUDocumentResource):
     @json_view(
         permission="upload_tender_documents",
         validators=(
-                validate_file_upload,
-                validate_document_operation_in_not_allowed_period,
-                validate_update_tender_document,
+            validate_file_upload,
+            validate_document_operation_in_not_allowed_period,
+            validate_update_tender_document,
         ),
     )
     def collection_post(self):

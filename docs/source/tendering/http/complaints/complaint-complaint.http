@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/b84e3d4216374e81a4b85a973be2fff5 HTTP/1.0
+PATCH /api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/7f34a62567884c49aec9b86fc612ef73 HTTP/1.0
 Authorization: Bearer bot
 Content-Length: 31
 Content-Type: application/json
@@ -47,7 +47,7 @@ X-Content-Type-Options: nosniff
     "complaintID": "UA-2020-09-08-000001.5", 
     "date": "2020-09-08T01:00:00+03:00", 
     "type": "complaint", 
-    "id": "b84e3d4216374e81a4b85a973be2fff5"
+    "id": "7f34a62567884c49aec9b86fc612ef73"
   }
 }
 

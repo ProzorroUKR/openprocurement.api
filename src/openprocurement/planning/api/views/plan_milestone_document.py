@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 from openprocurement.planning.api.utils import opresource
-from openprocurement.api.utils import get_now, context_unpack, json_view
+from openprocurement.api.utils import get_now, json_view
 from openprocurement.planning.api.validation import validate_plan_not_terminated
-from openprocurement.api.validation import validate_file_update, validate_file_upload, validate_patch_document_data
+from openprocurement.api.validation import (
+    validate_file_update,
+    validate_patch_document_data,
+    validate_file_upload,
+)
 from openprocurement.planning.api.views.plan_document import PlansDocumentResource
 
 
@@ -13,8 +17,9 @@ from openprocurement.planning.api.views.plan_document import PlansDocumentResour
     description="Plan milestone related files",
 )
 class PlanMilestoneDocumentResource(PlansDocumentResource):
+    context_name = "plan_milestone"
 
-    def update_modified_dates(self):
+    def update_modified(self):
         plan = self.request.validated["plan"]
         milestone = self.request.validated["milestone"]
         plan.dateModified = milestone.dateModified = get_now()
@@ -25,7 +30,7 @@ class PlanMilestoneDocumentResource(PlansDocumentResource):
         validators=(validate_file_upload, validate_plan_not_terminated)
     )
     def collection_post(self):
-        self.update_modified_dates()
+        self.update_modified()
         return super(PlanMilestoneDocumentResource, self).collection_post()
 
     @json_view(
@@ -33,7 +38,7 @@ class PlanMilestoneDocumentResource(PlansDocumentResource):
         validators=(validate_file_update, validate_plan_not_terminated)
     )
     def put(self):
-        self.update_modified_dates()
+        self.update_modified()
         return super(PlanMilestoneDocumentResource, self).put()
 
     @json_view(
@@ -42,29 +47,5 @@ class PlanMilestoneDocumentResource(PlansDocumentResource):
         validators=(validate_patch_document_data, validate_plan_not_terminated),
     )
     def patch(self):
-        self.update_modified_dates()
+        self.update_modified()
         return super(PlanMilestoneDocumentResource, self).patch()
-
-    def _post_document_log(self, document):
-        self.LOGGER.info(
-            "Created plan milestone document {}".format(document.id),
-            extra=context_unpack(
-                self.request,
-                {"MESSAGE_ID": "plan_milestone_document_create"},
-                {"document_id": document.id}
-            ),
-        )
-
-    def _put_document_log(self):
-        self.LOGGER.info(
-            "Updated plan milestone document {}".format(self.request.context.id),
-            extra=context_unpack(self.request,
-                                 {"MESSAGE_ID": "plan_milestone_document_put"}),
-        )
-
-    def _patch_document_log(self):
-        self.LOGGER.info(
-            "Updated plan milestone document {}".format(self.request.context.id),
-            extra=context_unpack(self.request,
-                                 {"MESSAGE_ID": "plan_milestone_document_patch"}),
-        )

@@ -1,15 +1,11 @@
 # -*- coding: utf-8 -*-
+from openprocurement.api.validation import validate_file_upload, validate_file_update, validate_patch_document_data
 from openprocurement.tender.belowthreshold.views.award_complaint_document import TenderAwardComplaintDocumentResource
 from openprocurement.api.utils import (
-    context_unpack,
-    json_view,
-    update_file_content_type,
-    upload_file,
     raise_operation_error,
-    error_handler,
+    error_handler, json_view,
 )
-from openprocurement.tender.core.utils import save_tender, optendersresource, apply_patch
-from openprocurement.api.validation import validate_file_update, validate_file_upload, validate_patch_document_data
+from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.openua.constants import STATUS4ROLE
 
 
@@ -60,47 +56,18 @@ class TenderUaAwardComplaintDocumentResource(TenderAwardComplaintDocumentResourc
         """
         if not self.validate_complaint_document("add"):
             return
-        document = upload_file(self.request)
-        document.author = self.request.authenticated_role
-        self.context.documents.append(document)
-        if save_tender(self.request):
-            self.LOGGER.info(
-                "Created tender award complaint document {}".format(document.id),
-                extra=context_unpack(
-                    self.request, {"MESSAGE_ID": "tender_award_complaint_document_create"}, {"document_id": document.id}
-                ),
-            )
-            self.request.response.status = 201
-            document_route = self.request.matched_route.name.replace("collection_", "")
-            self.request.response.headers["Location"] = self.request.current_route_url(
-                _route_name=document_route, document_id=document.id, _query={}
-            )
-            return {"data": document.serialize("view")}
+        return super(TenderUaAwardComplaintDocumentResource, self).collection_post()
 
     @json_view(validators=(validate_file_update,), permission="edit_complaint")
     def put(self):
         """Tender Award Complaint Document Update"""
         if not self.validate_complaint_document("update"):
             return
-        document = upload_file(self.request)
-        document.author = self.request.authenticated_role
-        self.request.validated["complaint"].documents.append(document)
-        if save_tender(self.request):
-            self.LOGGER.info(
-                "Updated tender award complaint document {}".format(self.request.context.id),
-                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_award_complaint_document_put"}),
-            )
-            return {"data": document.serialize("view")}
+        return super(TenderUaAwardComplaintDocumentResource, self).put()
 
     @json_view(content_type="application/json", validators=(validate_patch_document_data,), permission="edit_complaint")
     def patch(self):
         """Tender Award Complaint Document Update"""
         if not self.validate_complaint_document("update"):
             return
-        if apply_patch(self.request, src=self.request.context.serialize()):
-            update_file_content_type(self.request)
-            self.LOGGER.info(
-                "Updated tender award complaint document {}".format(self.request.context.id),
-                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_award_complaint_document_patch"}),
-            )
-            return {"data": self.request.context.serialize("view")}
+        return super(TenderUaAwardComplaintDocumentResource, self).patch()

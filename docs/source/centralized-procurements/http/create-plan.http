@@ -141,7 +141,7 @@ X-Content-Type-Options: nosniff
         "deliveryDate": {
           "endDate": "2019-11-09T01:00:00+03:00"
         }, 
-        "id": "20af24c61dc7451a9205eca2dac56d65", 
+        "id": "74da637ff7004631829675899680caef", 
         "unit": {
           "code": "KGM", 
           "name": "кг"
@@ -159,7 +159,7 @@ X-Content-Type-Options: nosniff
             "currency": "UAH", 
             "amount": 1500.0
           }, 
-          "id": "f0d2c36b24ed47169ca75a7803897a2d"
+          "id": "49dd127988894cbd9c6b2ca655db136f"
         }
       ], 
       "amountNet": 12222.0, 

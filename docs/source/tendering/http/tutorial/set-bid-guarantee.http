@@ -110,7 +110,7 @@ X-Content-Type-Options: nosniff
         }, 
         "percentage": 54.45, 
         "type": "financing", 
-        "id": "af069a25c8f94e74a8b2428b51bcd1a7"
+        "id": "ad428edb96b84981b08d90cabefe1067"
       }
     ], 
     "minimalStep": {
@@ -144,7 +144,7 @@ X-Content-Type-Options: nosniff
           "startDate": "2020-09-10T01:00:00+03:00", 
           "endDate": "2020-09-13T01:00:00+03:00"
         }, 
-        "id": "53de0c90af0e430ea270c5970351ba0c", 
+        "id": "264336e83a7241d5a1178ae0e10a9479", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"

@@ -31,45 +31,49 @@ X-Content-Type-Options: nosniff
         "dateSigned": "2020-09-08T01:00:01+03:00", 
         "rationale": "Друга і третя поставка має бути розфасована", 
         "date": "2020-09-08T01:00:01+03:00", 
-        "id": "81250fd3a7ee4df6b89ed94e5b3996ce"
+        "id": "b43b7e72488d4394883aea3331d71f51"
       }
     ], 
     "documents": [
       {
+        "author": "contract_owner", 
         "title": "contract_changes.doc", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/de3004e5b9844707bb35405277043c7c?download=c264f9ae7a754b25badeff4e01b1cb43", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/d2ea556f315a4af68213e62484bbf5cc?download=8953ae2817074fbc95f8ba976223ee2d", 
         "format": "application/msword", 
         "documentOf": "change", 
         "datePublished": "2020-09-08T01:00:01+03:00", 
-        "id": "de3004e5b9844707bb35405277043c7c", 
-        "relatedItem": "81250fd3a7ee4df6b89ed94e5b3996ce", 
+        "id": "d2ea556f315a4af68213e62484bbf5cc", 
+        "relatedItem": "b43b7e72488d4394883aea3331d71f51", 
         "dateModified": "2020-09-08T01:00:01+03:00"
       }, 
       {
+        "author": "contract_owner", 
         "title": "contract.doc", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/e280bc973d5b4ce284dd152f15ae24f4?download=5311a5f7a2dc43d68092e08adad8737b", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/82f4c54a28af4be280feb435be724a79?download=4ae1c382769e49bdb4783d79a0e1ab4a", 
         "format": "application/msword", 
         "documentOf": "contract", 
         "datePublished": "2020-09-08T01:00:01+03:00", 
-        "id": "e280bc973d5b4ce284dd152f15ae24f4", 
+        "id": "82f4c54a28af4be280feb435be724a79", 
         "dateModified": "2020-09-08T01:00:01+03:00"
       }, 
       {
+        "author": "contract_owner", 
         "title": "contract_additional_docs.doc", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/884f1aed57d741a7a8011e28edc20860?download=54f475dac20b45d0aefff43fc60f1822", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/35a5078c6491476b9f518bc90365373e?download=8a0aa1a2c2e74707979e7f0f65f74b2b", 
         "format": "application/msword", 
         "documentOf": "contract", 
         "datePublished": "2020-09-08T01:00:01+03:00", 
-        "id": "884f1aed57d741a7a8011e28edc20860", 
+        "id": "35a5078c6491476b9f518bc90365373e", 
         "dateModified": "2020-09-08T01:00:01+03:00"
       }, 
       {
+        "author": "contract_owner", 
         "title": "contract_additional_docs.doc", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/884f1aed57d741a7a8011e28edc20860?download=2562188623c64e25967736fbcc3a38d2", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/35a5078c6491476b9f518bc90365373e?download=fb342535a998407f88fb1c9bff81c4a1", 
         "format": "application/msword", 
         "documentOf": "contract", 
         "datePublished": "2020-09-08T01:00:01+03:00", 
-        "id": "884f1aed57d741a7a8011e28edc20860", 
+        "id": "35a5078c6491476b9f518bc90365373e", 
         "dateModified": "2020-09-08T01:00:01+03:00"
       }
     ], 
@@ -99,7 +103,7 @@ X-Content-Type-Options: nosniff
           "startDate": "2020-09-10T01:00:00+03:00", 
           "endDate": "2020-09-13T01:00:00+03:00"
         }, 
-        "id": "5aa33ced861b46229ef867cdad804781", 
+        "id": "d5238ea8b041451197f49ed746c0d577", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
