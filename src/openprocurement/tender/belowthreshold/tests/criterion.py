@@ -14,6 +14,8 @@ from openprocurement.tender.belowthreshold.tests.criterion_blanks import (
     patch_tender_criteria_invalid,
     patch_criteria_rg,
     delete_requirement_evidence,
+    put_rg_requirement_invalid,
+    put_rg_requirement_valid,
 )
 
 
@@ -42,6 +44,9 @@ class TenderCriteriaRGRequirementTest(
     test_lots_data = test_lots
     initial_status = "draft"
     allowed_put_statuses = ["active.enquiries", "active.tendering"]
+
+    test_put_rg_requirement_invalid = snitch(put_rg_requirement_invalid)
+    test_put_rg_requirement_valid = snitch(put_rg_requirement_valid)
 
 
 class TenderCriteriaRGRequirementEvidenceTest(

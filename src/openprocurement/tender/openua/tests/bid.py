@@ -65,12 +65,13 @@ from openprocurement.tender.openua.tests.bid_blanks import (
     patch_bid_requirement_response,
     get_bid_requirement_response,
     patch_bid_with_responses,
+    bid_activate_with_cancelled_tenderer_criterion,
+    bid_invalidation_after_requirement_put,
     # TenderBidRequirementResponseEvidenceResourceTest
     create_bid_requirement_response_evidence,
     patch_bid_requirement_response_evidence,
     get_bid_requirement_response_evidence,
     bid_activate,
-    bid_activate_with_cancelled_tenderer_criterion,
 )
 
 
@@ -273,6 +274,8 @@ class TenderBidRequirementResponseEvidenceResourceTest(
     initial_data = test_tender_data
     base_bid_status = "draft"
     initial_status = "active.tendering"
+
+    test_bid_invalidation_after_requirement_put = snitch(bid_invalidation_after_requirement_put)
 
 
 def suite():

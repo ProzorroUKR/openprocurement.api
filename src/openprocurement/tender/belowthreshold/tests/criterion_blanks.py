@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from copy import deepcopy
+from datetime import timedelta
+
+import mock
+
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_criteria
 
 
@@ -169,19 +174,238 @@ def delete_requirement_evidence(self):
 
     self.set_status("active.enquiries")
 
-    response = self.app.delete(
-        "{}/{}?acc_token={}".format(base_request_path, evidence_id, self.tender_token),
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
+    with mock.patch("openprocurement.tender.belowthreshold.validation.CRITERION_REQUIREMENT_STATUSES_FROM",
+                    get_now() - timedelta(days=1)):
+        response = self.app.delete(
+            "{}/{}?acc_token={}".format(base_request_path, evidence_id, self.tender_token),
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [{
+                u'description': u"Can't delete object if tender not in "
+                                u"['draft'] statuses",
+                u'location': u'body',
+                u'name': u'data',
+            }]
+        )
+
+        self.set_status("active.auction")
+        with mock.patch("openprocurement.tender.belowthreshold.validation.CRITERION_REQUIREMENT_STATUSES_FROM",
+                        get_now() + timedelta(days=1)):
+            response = self.app.delete(
+                "{}/{}?acc_token={}".format(base_request_path, evidence_id, self.tender_token),
+                status=403,
+            )
+            self.assertEqual(response.status, "403 Forbidden")
+            self.assertEqual(response.content_type, "application/json")
+            self.assertEqual(response.json["status"], "error")
+            self.assertEqual(
+                response.json["errors"],
+                [{
+                    u'description': u"Can't delete object if tender not in "
+                                    u"['draft', 'active.enquiries'] statuses",
+                    u'location': u'body',
+                    u'name': u'data',
+                }]
+            )
+            with mock.patch("openprocurement.tender.belowthreshold.validation.CRITERION_REQUIREMENT_STATUSES_FROM",
+                            get_now() - timedelta(days=1)):
+                response = self.app.delete(
+                    "{}/{}?acc_token={}".format(base_request_path, evidence_id, self.tender_token),
+                    status=403,
+                )
+                self.assertEqual(response.status, "403 Forbidden")
+                self.assertEqual(response.content_type, "application/json")
+                self.assertEqual(response.json["status"], "error")
+                self.assertEqual(
+                    response.json["errors"],
+                    [{
+                        u'description': u"Can't delete object if tender not in "
+                                        u"['draft'] statuses",
+                        u'location': u'body',
+                        u'name': u'data',
+                    }]
+                )
+
+
+def put_rg_requirement_invalid(self):
+    post_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements?acc_token={}"
+    put_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}"
+    response = self.app.post_json(post_url.format(self.tender_id, self.criteria_id, self.rg_id, self.tender_token),
+                                  {"data": self.test_requirement_data})
+    self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{
-            u'description': u"Can't delete object if tender not in "
-                            u"['draft'] statuses",
-            u'location': u'body',
-            u'name': u'data',
-        }]
+    self.requirement_id = response.json["data"]["id"]
+
+    with mock.patch("openprocurement.tender.belowthreshold.validation.CRITERION_REQUIREMENT_STATUSES_FROM",
+                    get_now() + timedelta(days=1)):
+        response = self.app.put_json(
+            put_url.format(self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, self.tender_token),
+            {"data": {}},
+            status=403
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [{u'description': u'Forbidden', u'location': u'body', u'name': u'data'}],
+        )
+
+    with mock.patch("openprocurement.tender.belowthreshold.validation.CRITERION_REQUIREMENT_STATUSES_FROM",
+                    get_now() - timedelta(days=1)):
+        self.set_status("active.auction")
+        response = self.app.put_json(
+            put_url.format(self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, self.tender_token),
+            {"data": {}},
+            status=403
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "data",
+                    "description": "Can't put object if tender not in {} statuses".format(self.allowed_put_statuses)
+                }
+            ],
+        )
+
+
+@mock.patch("openprocurement.tender.belowthreshold.validation.CRITERION_REQUIREMENT_STATUSES_FROM", get_now() - timedelta(days=1))
+@mock.patch("openprocurement.tender.core.models.CRITERION_REQUIREMENT_STATUSES_FROM", get_now() - timedelta(days=1))
+def put_rg_requirement_valid(self):
+    put_fields = {
+        u"title": u"Фізична особа",
+        u"expectedValue": u"false",
+        u"datePublished": u"2030-10-22T11:14:18.511585+03:00",
+        u"dateModified": u"2030-10-22T11:14:18.511585+03:00",
+        u"id": u"11111111111111111111111111111111",
+    }
+    put_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}"
+    get_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements"
+    self.set_status("active.tendering")
+
+    # Test put non exclusion criteria
+    response = self.app.get(get_url.format(self.tender_id, self.criteria_id, self.rg_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.requirement_id = response.json["data"][0]["id"]
+
+    response = self.app.put_json(
+        put_url.format(self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, self.tender_token),
+        {"data": put_fields})
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    response = self.app.get(get_url.format(self.tender_id, self.criteria_id, self.rg_id))
+    self.assertEqual(len(response.json["data"]), 2)
+    self.assertEqual(response.json["data"][0]["status"], "cancelled")
+    self.assertIsNotNone(response.json["data"][0]["dateModified"])
+    self.assertEqual(response.json["data"][1]["status"], "active")
+    self.assertEqual(response.json["data"][1]["id"], self.requirement_id)
+    self.assertEqual(response.json["data"][1]["title"], put_fields["title"])
+    self.assertEqual(response.json["data"][1]["expectedValue"], put_fields["expectedValue"])
+    self.assertIsNone(response.json["data"][1].get("dateModified"))
+
+    # Test put exclusion criteria
+    response = self.app.get(
+        get_url.format(self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id, self.tender_token)
     )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    exc_requirement_id = response.json["data"][0]["id"]
+
+    response = self.app.put_json(
+        put_url.format(
+            self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id, exc_requirement_id, self.tender_token
+        ),
+        {"data": put_fields})
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    response = self.app.get(get_url.format(self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id))
+    self.assertEqual(len(response.json["data"]), 1)
+    self.assertEqual(response.json["data"][0]["status"], "active")
+    self.assertIsNone(response.json["data"][0].get("eligibleEvidences"))
+
+    put_data = {"eligibleEvidences": [
+        {
+            u"description": u"Довідка в довільній формі",
+            u"type": u"document",
+            u"title": u"Документальне підтвердження",
+            u'id': u'32cd3841bf59486c85d7fbfa0b756872'
+        }
+    ]}
+    response = self.app.put_json(
+        put_url.format(
+            self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id, exc_requirement_id, self.tender_token
+        ),
+        {"data": put_data})
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    response = self.app.get(get_url.format(self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id))
+    self.assertEqual(len(response.json["data"]), 2)
+    self.assertEqual(response.json["data"][0]["status"], "cancelled")
+    self.assertIsNotNone(response.json["data"][0]["dateModified"])
+    self.assertEqual(response.json["data"][1]["status"], "active")
+    self.assertEqual(response.json["data"][1]["id"], exc_requirement_id)
+    self.assertEqual(response.json["data"][1]["title"], response.json["data"][0]["title"])
+    self.assertEqual(response.json["data"][1]["expectedValue"], response.json["data"][0]["expectedValue"])
+    self.assertIsNone(response.json["data"][1].get("dateModified"))
+    self.assertEqual(response.json["data"][1]["eligibleEvidences"], put_data["eligibleEvidences"])
+
+    put_data = {"eligibleEvidences": [
+        {
+            u"description": u"changed",
+            u"type": u"document",
+            u"title": u"changed",
+            u'id': u'32cd3841bf59486c85d7fbfa0b756872'
+        },
+        {
+            u"description": u"Довідка в довільній формі",
+            u"type": u"document",
+            u"title": u"Документальне підтвердження",
+            u'id': u'32cd3841bf59486c85d7fbfa0b756845'
+        }
+    ]}
+    response = self.app.put_json(
+        put_url.format(
+            self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id, exc_requirement_id, self.tender_token
+        ),
+        {"data": put_data})
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    response = self.app.get(get_url.format(self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id))
+    self.assertEqual(response.json["data"][2]["eligibleEvidences"], put_data["eligibleEvidences"])
+
+    response = self.app.put_json(
+        put_url.format(
+            self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id, exc_requirement_id, self.tender_token
+        ),
+        {"data": {"eligibleEvidences": []}})
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    response = self.app.get(get_url.format(self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id))
+    self.assertIsNone(response.json["data"][3].get("eligibleEvidences"))
+
+    response = self.app.put_json(
+        put_url.format(
+            self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id, exc_requirement_id, self.tender_token
+        ),
+        {"data": {"status": "cancelled"}}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    response = self.app.get(get_url.format(self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id))
+    self.assertEqual(len(response.json["data"]), 4)
+    self.assertEqual(response.json["data"][0]["status"], "cancelled")
+    self.assertEqual(response.json["data"][1]["status"], "cancelled")

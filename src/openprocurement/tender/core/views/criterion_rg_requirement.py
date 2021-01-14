@@ -13,7 +13,7 @@ from openprocurement.tender.core.validation import (
     validate_patch_requirement_data,
     validate_operation_ecriteria_objects,
     validate_patch_exclusion_ecriteria_objects,
-    validate_patch_requirement_objects,
+    validate_change_requirement_objects,
     validate_put_requirement_objects,
 )
 
@@ -71,7 +71,7 @@ class BaseTenderCriteriaRGRequirementResource(APIResource):
     @json_view(
         content_type="application/json",
         validators=(
-            validate_patch_requirement_objects,
+            validate_change_requirement_objects,
             validate_patch_requirement_data,
         ),
         permission="edit_tender"

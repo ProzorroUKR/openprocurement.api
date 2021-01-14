@@ -72,8 +72,8 @@ class TenderCriteriaRGRequirementTestMixin(object):
     test_create_rg_requirement_valid = snitch(create_rg_requirement_valid)
     test_create_rg_requirement_invalid = snitch(create_rg_requirement_invalid)
     test_patch_rg_requirement = snitch(patch_rg_requirement)
-    test_put_tender_criteria_valid = snitch(put_rg_requirement_valid)
-    test_put_tender_criteria_invalid = snitch(put_rg_requirement_invalid)
+    test_put_rg_requirement_valid = snitch(put_rg_requirement_valid)
+    test_put_rg_requirement_invalid = snitch(put_rg_requirement_invalid)
     test_get_rg_requirement = snitch(get_rg_requirement)
 
     test_requirement_data = {
