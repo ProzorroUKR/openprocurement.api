@@ -52,6 +52,7 @@ from openprocurement.api.constants import (
     COMPLAINT_IDENTIFIER_REQUIRED_FROM,
     CPV_ITEMS_CLASS_FROM,
     RELEASE_ECRITERIA_ARTICLE_17,
+    CRITERION_REQUIREMENT_STATUSES_FROM,
 )
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
 
@@ -362,10 +363,14 @@ def validate_object_id_uniq(objs, *args):
 
 def validate_criteria_requirement_id_uniq(criteria, *args):
     if criteria:
-        req_ids = [req.id
-                   for c in criteria
-                   for rg in c.requirementGroups
-                   for req in rg.requirements if req.status == DEFAULT_REQUIREMENT_STATUS]
+        tender = get_tender(criteria[0])
+        tender_created = get_first_revision_date(tender, default=get_now())
+        req_ids = [req.id for c in criteria for rg in c.requirementGroups for req in rg.requirements]
+        if tender_created > CRITERION_REQUIREMENT_STATUSES_FROM:
+            req_ids = [req.id
+                       for c in criteria
+                       for rg in c.requirementGroups
+                       for req in rg.requirements if req.status == DEFAULT_REQUIREMENT_STATUS]
         if [i for i in set(req_ids) if req_ids.count(i) > 1]:
             raise ValidationError(u"Requirement id should be uniq for all requirements in tender")
 
@@ -770,8 +775,8 @@ class Requirement(Model):
     )
     relatedFeature = MD5Type()
     expectedValue = StringType()
-    status = StringType(choices=["active", "cancelled"], default=DEFAULT_REQUIREMENT_STATUS)
-    datePublished = IsoDateTimeType(default=get_now)
+    status = StringType(choices=[DEFAULT_REQUIREMENT_STATUS, "cancelled"])
+    datePublished = IsoDateTimeType()
     dateModified = IsoDateTimeType()
 
     def get_role(self):
@@ -825,6 +830,20 @@ class Requirement(Model):
             if feature_id not in [feature.id for feature in features]:
                 raise ValidationError("relatedFeature should be one of features")
 
+    @serializable(serialized_name="status", serialize_when_none=False)
+    def set_status(self):
+        request = self.get_root().request
+        tender = request.validated["tender"]
+        if get_first_revision_date(tender, default=get_now()) > CRITERION_REQUIREMENT_STATUSES_FROM:
+            return self.status if self.status else DEFAULT_REQUIREMENT_STATUS
+
+    @serializable(serialized_name="datePublished", serialize_when_none=False)
+    def set_datePublished(self):
+        request = self.get_root().request
+        tender = request.validated["tender"]
+        if get_first_revision_date(tender, default=get_now()) > CRITERION_REQUIREMENT_STATUSES_FROM:
+            return self.datePublished.isoformat() if self.datePublished else get_now().isoformat()
+
 
 class RequirementGroup(Model):
     class Options:
@@ -855,6 +874,8 @@ class Criterion(Model):
             "edit": blacklist(
                 "id",
                 "additionalClassifications",
+                "requirementGroups",
+                "legislation",
             ),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
@@ -933,10 +954,15 @@ class RequirementResponse(Model):
     def get_requirement_obj(requirement_id=None, parent=None):
         if requirement_id and isinstance(parent, Model):
             tender = get_tender(parent)
+            tender_creation = get_first_revision_date(tender, default=get_now())
             for criteria in tender.criteria:
                 for group in criteria.requirementGroups:
-                    for req in group.requirements:
-                        if req.id == requirement_id and req.status == "active":
+                    for req in group.requirements[::-1]:
+                        if req.id == requirement_id:
+                            if (tender_creation > CRITERION_REQUIREMENT_STATUSES_FROM
+                                    and req.status
+                                    and req.status != DEFAULT_REQUIREMENT_STATUS):
+                                return
                             return req
 
     @bids_response_validation_wrapper
@@ -1154,14 +1180,15 @@ class BidResponsesMixin(Model):
             if criteria.source != "tenderer":
                 continue
             else:
-                active_requirements = [
-                    requirement
-                    for rg in criteria.requirementGroups
-                    for requirement in rg.requirements
-                    if requirement.status == "active"
-                ]
-                if not active_requirements:
-                    continue
+                if tender_created > CRITERION_REQUIREMENT_STATUSES_FROM:
+                    active_requirements = [
+                        requirement
+                        for rg in criteria.requirementGroups
+                        for requirement in rg.requirements
+                        if requirement.status == "active"
+                    ]
+                    if not active_requirements:
+                        continue
 
             criteria_ids = {}
             group_answered_requirement_ids = {}

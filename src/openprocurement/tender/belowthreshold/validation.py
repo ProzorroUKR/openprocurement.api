@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import error_handler, raise_operation_error
-from openprocurement.api.validation import OPERATIONS
+from openprocurement.api.constants import CRITERION_REQUIREMENT_STATUSES_FROM
+from openprocurement.api.utils import error_handler, raise_operation_error, get_first_revision_date, get_now
+from openprocurement.api.validation import OPERATIONS, _validate_tender_first_revision_date
 from openprocurement.tender.core.validation import (
     base_validate_operation_ecriteria_objects,
     _validate_related_criterion,
 )
-
 
 
 # tender documents
@@ -181,16 +181,16 @@ def validate_operation_ecriteria_objects(request, **kwargs):
     base_validate_operation_ecriteria_objects(request, valid_statuses)
 
 
-def validate_post_evidence_objects(request, **kwargs):
+def validate_change_requirement_objects(request, **kwargs):
     valid_statuses = ["draft"]
-    base_validate_operation_ecriteria_objects(request, valid_statuses)
-
-
-def validate_patch_requirement_objects(request, **kwargs):
-    valid_statuses = ["draft"]
+    tender = request.validated["tender"]
+    tender_creation_date = get_first_revision_date(tender, default=get_now())
+    if tender_creation_date < CRITERION_REQUIREMENT_STATUSES_FROM:
+        valid_statuses.append("active.enquiries")
     base_validate_operation_ecriteria_objects(request, valid_statuses)
 
 
 def validate_put_requirement_objects(request, **kwargs):
+    _validate_tender_first_revision_date(request, validation_date=CRITERION_REQUIREMENT_STATUSES_FROM)
     valid_statuses = ["active.enquiries", "active.tendering"]
     base_validate_operation_ecriteria_objects(request, valid_statuses)

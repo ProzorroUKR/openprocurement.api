@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
+from datetime import timedelta
 
+import mock
+
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_criteria,
     test_requirement_groups,
@@ -285,8 +289,9 @@ def patch_tender_criteria_valid(self):
     self.assertEqual(criteria["title_en"], updated_data["title_en"])
     self.assertEqual(criteria["title_ru"], updated_data["title_ru"])
     self.assertEqual(criteria["description"], updated_data["description"])
+    self.assertNotEqual(criteria["requirementGroups"], updated_data["requirementGroups"])
     for rg in criteria["requirementGroups"]:
-        self.assertEqual(rg["description"], updated_data["requirementGroups"][0]["description"])
+        self.assertNotEqual(rg["description"], updated_data["requirementGroups"][0]["description"])
 
 
 def patch_tender_criteria_invalid(self):
@@ -776,6 +781,8 @@ def patch_rg_requirement(self):
         self.assertEqual(updated_requirement[k], v)
 
 
+@mock.patch("openprocurement.tender.core.validation.CRITERION_REQUIREMENT_STATUSES_FROM", get_now() - timedelta(days=1))
+@mock.patch("openprocurement.tender.core.models.CRITERION_REQUIREMENT_STATUSES_FROM", get_now() - timedelta(days=1))
 def put_rg_requirement_valid(self):
     put_fields = {
         u"title": u"Фізична особа",
@@ -829,18 +836,21 @@ def put_rg_requirement_valid(self):
     response = self.app.get(get_url.format(self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id))
     self.assertEqual(len(response.json["data"]), 1)
     self.assertEqual(response.json["data"][0]["status"], "active")
+    self.assertIsNone(response.json["data"][0].get("eligibleEvidences"))
 
+    put_data = {"eligibleEvidences": [
+        {
+            u"description": u"Довідка в довільній формі",
+            u"type": u"document",
+            u"title": u"Документальне підтвердження",
+            u'id': u'32cd3841bf59486c85d7fbfa0b756872'
+        }
+    ]}
     response = self.app.put_json(
         put_url.format(
             self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id, exc_requirement_id, self.tender_token
         ),
-        {"data": {"eligibleEvidences": [
-            {
-                "description": "Довідка в довільній формі",
-                "type": "document",
-                "title": "Документальне підтвердження"
-            }
-        ]}})
+        {"data": put_data})
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
@@ -853,10 +863,57 @@ def put_rg_requirement_valid(self):
     self.assertEqual(response.json["data"][1]["title"], response.json["data"][0]["title"])
     self.assertEqual(response.json["data"][1]["expectedValue"], response.json["data"][0]["expectedValue"])
     self.assertIsNone(response.json["data"][1].get("dateModified"))
+    self.assertEqual(response.json["data"][1]["eligibleEvidences"], put_data["eligibleEvidences"])
+
+    put_data = {"eligibleEvidences": [
+        {
+            u"description": u"changed",
+            u"type": u"document",
+            u"title": u"changed",
+            u'id': u'32cd3841bf59486c85d7fbfa0b756872'
+        },
+        {
+            u"description": u"Довідка в довільній формі",
+            u"type": u"document",
+            u"title": u"Документальне підтвердження",
+            u'id': u'32cd3841bf59486c85d7fbfa0b756845'
+        }
+    ]}
+    response = self.app.put_json(
+        put_url.format(
+            self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id, exc_requirement_id, self.tender_token
+        ),
+        {"data": put_data})
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    response = self.app.get(get_url.format(self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id))
+    self.assertEqual(response.json["data"][2]["eligibleEvidences"], put_data["eligibleEvidences"])
+
+    response = self.app.put_json(
+        put_url.format(
+            self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id, exc_requirement_id, self.tender_token
+        ),
+        {"data": {"eligibleEvidences": []}})
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    response = self.app.get(get_url.format(self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id))
+    self.assertIsNone(response.json["data"][3].get("eligibleEvidences"))
+
+    response = self.app.put_json(
+        put_url.format(
+            self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id, exc_requirement_id, self.tender_token
+        ),
+        {"data": {"status": "cancelled"}}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    response = self.app.get(get_url.format(self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id))
+    self.assertEqual(len(response.json["data"]), 4)
+    self.assertEqual(response.json["data"][0]["status"], "cancelled")
+    self.assertEqual(response.json["data"][1]["status"], "cancelled")
 
 
 def put_rg_requirement_invalid(self):
-    put_fields = {}
     post_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements?acc_token={}"
     put_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}"
     response = self.app.post_json(post_url.format(self.tender_id, self.criteria_id, self.rg_id, self.tender_token),
@@ -864,26 +921,43 @@ def put_rg_requirement_invalid(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.requirement_id = response.json["data"]["id"]
-    self.set_status("active.auction")
 
-    response = self.app.put_json(
-        put_url.format(self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, self.tender_token),
-        {"data": put_fields},
-        status=403
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "location": "body",
-                "name": "data",
-                "description": "Can't put object if tender not in {} statuses".format(self.allowed_put_statuses)
-            }
-        ],
-    )
+    with mock.patch("openprocurement.tender.core.validation.CRITERION_REQUIREMENT_STATUSES_FROM",
+                    get_now() + timedelta(days=1)):
+        response = self.app.put_json(
+            put_url.format(self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, self.tender_token),
+            {"data": {}},
+            status=403
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [{u'description': u'Forbidden', u'location': u'body', u'name': u'data'}],
+        )
+
+    with mock.patch("openprocurement.tender.core.validation.CRITERION_REQUIREMENT_STATUSES_FROM",
+                    get_now() - timedelta(days=1)):
+        self.set_status("active.auction")
+        response = self.app.put_json(
+            put_url.format(self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, self.tender_token),
+            {"data": {}},
+            status=403
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "data",
+                    "description": "Can't put object if tender not in {} statuses".format(self.allowed_put_statuses)
+                }
+            ],
+        )
 
 
 def get_rg_requirement(self):
@@ -1095,24 +1169,65 @@ def delete_requirement_evidence(self):
     self.assertEqual(response.content_type, "application/json")
     evidence_id = response.json["data"]["id"]
 
-    self.set_status("active.auction")
+    self.set_status("active.tendering")
 
-    response = self.app.delete(
-        "{}/{}?acc_token={}".format(base_request_path, evidence_id, self.tender_token),
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{
-            u'description': u"Can't delete object if tender not in "
-                            u"['draft', 'draft.pending', 'draft.stage2'] statuses",
-            u'location': u'body',
-            u'name': u'data',
-        }]
-    )
+    with mock.patch("openprocurement.tender.core.validation.CRITERION_REQUIREMENT_STATUSES_FROM",
+                    get_now() - timedelta(days=1)):
+        response = self.app.delete(
+            "{}/{}?acc_token={}".format(base_request_path, evidence_id, self.tender_token),
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [{
+                u'description': u"Can't delete object if tender not in "
+                                u"['draft', 'draft.pending', 'draft.stage2'] statuses",
+                u'location': u'body',
+                u'name': u'data',
+            }]
+        )
+
+    self.set_status("active.auction")
+    with mock.patch("openprocurement.tender.core.validation.CRITERION_REQUIREMENT_STATUSES_FROM",
+                    get_now() + timedelta(days=1)):
+        response = self.app.delete(
+            "{}/{}?acc_token={}".format(base_request_path, evidence_id, self.tender_token),
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [{
+                u'description': u"Can't delete object if tender not in "
+                                u"['draft', 'draft.pending', 'draft.stage2', 'active.tendering'] statuses",
+                u'location': u'body',
+                u'name': u'data',
+            }]
+        )
+
+    with mock.patch("openprocurement.tender.core.validation.CRITERION_REQUIREMENT_STATUSES_FROM",
+                    get_now() - timedelta(days=1)):
+        response = self.app.delete(
+            "{}/{}?acc_token={}".format(base_request_path, evidence_id, self.tender_token),
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [{
+                u'description': u"Can't delete object if tender not in "
+                                u"['draft', 'draft.pending', 'draft.stage2'] statuses",
+                u'location': u'body',
+                u'name': u'data',
+            }]
+        )
 
 
 def get_requirement_evidence(self):

@@ -4,8 +4,10 @@ from copy import deepcopy
 import mock
 from datetime import timedelta
 
+from mock import patch
+
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_organization, now
+from openprocurement.tender.belowthreshold.tests.base import test_organization, now, test_criteria
 from openprocurement.tender.core.tests.base import change_auth
 
 from openprocurement.tender.openua.tests.base import test_bids
@@ -2183,6 +2185,9 @@ def bid_activate(self):
     self.assertEqual(response.content_type, "application/json")
 
 
+@patch("openprocurement.tender.core.validation.CRITERION_REQUIREMENT_STATUSES_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.models.CRITERION_REQUIREMENT_STATUSES_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.belowthreshold.validation.CRITERION_REQUIREMENT_STATUSES_FROM", get_now() - timedelta(days=1))
 def bid_activate_with_cancelled_tenderer_criterion(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     bid_pending_procedures = [
@@ -2323,3 +2328,62 @@ def patch_bid_with_responses(self):
     rrs = response.json["data"]["requirementResponses"]
     self.assertEqual(rrs[0]["title"], "Requirement response 2")
     self.assertEqual(rrs[1]["title"], "Requirement response 3")
+
+
+@mock.patch("openprocurement.tender.core.validation.CRITERION_REQUIREMENT_STATUSES_FROM", get_now() - timedelta(days=1))
+@mock.patch("openprocurement.tender.core.models.CRITERION_REQUIREMENT_STATUSES_FROM", get_now() - timedelta(days=1))
+def bid_invalidation_after_requirement_put(self):
+    next_status = "active"
+    response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
+    self.assertEqual(response.content_type, "application/json")
+    criteria = response.json["data"]
+
+    rrs = []
+    for criterion in criteria:
+        for req in criterion["requirementGroups"][0]["requirements"]:
+
+            if criterion["source"] == "tenderer":
+                rrs.append(
+                    {
+                        "title": "Requirement response",
+                        "description": "some description",
+                        "requirement": {
+                            "id": req["id"],
+                            "title": req["title"],
+                        },
+                        "value": True,
+                    },
+                )
+    rrs = rrs[1:]
+    response = self.app.post_json(
+        "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+        {"data": rrs},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+
+    response = self.app.patch_json(
+        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+        {"data": {"status": next_status}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], next_status)
+
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    criteria_id = response.json["data"]["criteria"][-1]["id"]
+    rg_id = response.json["data"]["criteria"][-1]["requirementGroups"][0]["id"]
+    requirement_id = response.json["data"]["criteria"][-1]["requirementGroups"][0]["requirements"][0]["id"]
+    response = self.app.put_json(
+        "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}".format(
+            self.tender_id, criteria_id, rg_id, requirement_id, self.tender_token),
+        {"data": {"eligibleEvidences": [{"title": "1"}]}}
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "invalid")

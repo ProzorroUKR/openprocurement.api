@@ -8,8 +8,7 @@ from openprocurement.tender.core.utils import save_tender, apply_patch
 from openprocurement.tender.core.validation import (
     validate_eligible_evidence_data,
     validate_patch_eligible_evidence_data,
-    validate_patch_requirement_objects,
-    validate_post_evidence_objects,
+    validate_change_requirement_objects,
 )
 
 
@@ -18,7 +17,7 @@ class BaseTenderCriteriaRGRequirementEvidenceResource(APIResource):
     @json_view(
         content_type="application/json",
         validators=(
-            validate_post_evidence_objects,
+            validate_change_requirement_objects,
             validate_eligible_evidence_data,
         ),
         permission="edit_tender"
@@ -67,7 +66,7 @@ class BaseTenderCriteriaRGRequirementEvidenceResource(APIResource):
     @json_view(
         content_type="application/json",
         validators=(
-            validate_patch_requirement_objects,
+            validate_change_requirement_objects,
             validate_patch_eligible_evidence_data,
         ),
         permission="edit_tender"
@@ -88,7 +87,7 @@ class BaseTenderCriteriaRGRequirementEvidenceResource(APIResource):
 
     @json_view(
         validators=(
-            validate_patch_requirement_objects,
+            validate_change_requirement_objects,
         ),
         permission="edit_tender"
     )

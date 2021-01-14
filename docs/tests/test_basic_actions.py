@@ -10,7 +10,7 @@ from openprocurement.tender.openeu.tests.tender import BaseTenderWebTest
 from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.belowthreshold.tests.base import test_criteria
 
-from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.constants import RELEASE_2020_04_19, CRITERION_REQUIREMENT_STATUSES_FROM
 from tests.base.constants import DOCS_URL, AUCTIONS_URL
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.base.data import (
@@ -1587,6 +1587,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
     @mock.patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", parse_date(MOCK_DATETIME) - timedelta(days=1))
+    @mock.patch("openprocurement.tender.core.validation.CRITERION_REQUIREMENT_STATUSES_FROM", parse_date(MOCK_DATETIME) - timedelta(days=1))
+    @mock.patch("openprocurement.tender.core.models.CRITERION_REQUIREMENT_STATUSES_FROM", parse_date(MOCK_DATETIME) - timedelta(days=1))
     def test_tender_criteria_article_17(self):
         self.app.authorization = ('Basic', ('broker', ''))
         tender_data = deepcopy(test_tender_data)

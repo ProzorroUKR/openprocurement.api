@@ -7,10 +7,7 @@ from openprocurement.tender.core.validation import (
     validate_eligible_evidence_data,
     validate_patch_eligible_evidence_data,
 )
-from openprocurement.tender.belowthreshold.validation import (
-    validate_patch_requirement_objects,
-    validate_post_evidence_objects,
-)
+from openprocurement.tender.belowthreshold.validation import validate_change_requirement_objects
 from openprocurement.api.utils import json_view
 
 
@@ -27,7 +24,7 @@ class TenderCriteriaRGRequirementEvidenceResource(BaseTenderCriteriaRGRequiremen
     @json_view(
         content_type="application/json",
         validators=(
-            validate_post_evidence_objects,
+            validate_change_requirement_objects,
             validate_eligible_evidence_data,
         ),
         permission="edit_tender"
@@ -38,7 +35,7 @@ class TenderCriteriaRGRequirementEvidenceResource(BaseTenderCriteriaRGRequiremen
     @json_view(
         content_type="application/json",
         validators=(
-            validate_patch_requirement_objects,
+            validate_change_requirement_objects,
             validate_patch_eligible_evidence_data,
         ),
         permission="edit_tender"
@@ -47,7 +44,7 @@ class TenderCriteriaRGRequirementEvidenceResource(BaseTenderCriteriaRGRequiremen
         return super(TenderCriteriaRGRequirementEvidenceResource, self).patch()
 
     @json_view(
-        validators=(validate_patch_requirement_objects,),
+        validators=(validate_change_requirement_objects,),
         permission="edit_tender"
     )
     def delete(self):

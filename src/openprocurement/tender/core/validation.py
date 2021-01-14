@@ -24,6 +24,7 @@ from openprocurement.api.constants import (
     RELEASE_ECRITERIA_ARTICLE_17,
     RELEASE_2020_04_19,
     MINIMAL_STEP_VALIDATION_FROM,
+    CRITERION_REQUIREMENT_STATUSES_FROM,
 )
 from openprocurement.api.utils import (
     get_now,
@@ -843,6 +844,9 @@ def validate_tender_change_status_with_cancellation_lot_pending(request, **kwarg
 
 def _validate_related_criterion(request, relatedItem_id, action="cancel", relatedItem="lot"):
     tender = request.validated["tender"]
+    tender_creation_date = get_first_revision_date(tender, default=get_now())
+    if tender_creation_date < CRITERION_REQUIREMENT_STATUSES_FROM:
+        return
     if hasattr(tender, "criteria"):
         related_criteria = [
             criterion
@@ -1836,17 +1840,17 @@ def validate_operation_ecriteria_objects(request, **kwargs):
     base_validate_operation_ecriteria_objects(request, valid_statuses)
 
 
-def validate_post_evidence_objects(request, **kwargs):
+def validate_change_requirement_objects(request, **kwargs):
     valid_statuses = ["draft", "draft.pending", "draft.stage2"]
-    base_validate_operation_ecriteria_objects(request, valid_statuses)
-
-
-def validate_patch_requirement_objects(request, **kwargs):
-    valid_statuses = ["draft", "draft.pending", "draft.stage2"]
+    tender = request.validated["tender"]
+    tender_creation_date = get_first_revision_date(tender, default=get_now())
+    if tender_creation_date < CRITERION_REQUIREMENT_STATUSES_FROM:
+        valid_statuses.append("active.tendering")
     base_validate_operation_ecriteria_objects(request, valid_statuses)
 
 
 def validate_put_requirement_objects(request, **kwargs):
+    _validate_tender_first_revision_date(request, validation_date=CRITERION_REQUIREMENT_STATUSES_FROM)
     valid_statuses = ["active.tendering"]
     base_validate_operation_ecriteria_objects(request, valid_statuses)
 
