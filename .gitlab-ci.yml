@@ -710,12 +710,25 @@ test_tender_belowthreshold_ecriteria:
     COV_PATH: src/openprocurement/tender/openuadefense
     COV_FILE: .coveragerc
     KUBERNETES_CPU_REQUEST: 1000m
-    KUBERNETES_MEMORY_REQUEST: 800Mi    
+    KUBERNETES_MEMORY_REQUEST: 800Mi
 
 test_tender_openuadefense:
   extends:
     - .test
     - .test_tender_openuadefense
+
+.test_tender_simpledefense:
+  variables:
+    TESTS_PATH: src/openprocurement/tender/simpledefense/tests
+    COV_PATH: src/openprocurement/tender/simpledefense
+    COV_FILE: .coveragerc
+    KUBERNETES_CPU_REQUEST: 1000m
+    KUBERNETES_MEMORY_REQUEST: 800Mi
+
+test_tender_simpledefense:
+  extends:
+    - .test
+    - .test_tender_simpledefense
 
 test_tender_openuadefense_2020_04_19:
   extends:

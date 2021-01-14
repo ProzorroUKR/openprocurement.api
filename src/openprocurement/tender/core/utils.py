@@ -717,7 +717,7 @@ def prepare_award_milestones(tender, bid, all_bids, lot_id=None):
     """
     milestones = []
     if (
-        getattr(tender, "procurementMethodType", "") in ("esco", "aboveThresholdUA.defense")
+        getattr(tender, "procurementMethodType", "") in ("esco", "aboveThresholdUA.defense", "simple.defense")
         or get_first_revision_date(tender, default=get_now()) < RELEASE_2020_04_19
     ):
         return milestones   # skipping

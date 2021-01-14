@@ -1783,6 +1783,7 @@ class LotWithMinimalStepLimitsValidation(Lot):
         aboveThresholdUA
         aboveThresholdEU
         aboveThresholdUA.defense
+        simple.defense
         competitiveDialogueUA.stage1
         competitiveDialogueEU.stage1
         closeFrameworkAgreementUA

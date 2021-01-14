@@ -897,7 +897,9 @@ def create_plan_invalid_procuring_entity(self):
     initial_data["tender"]["procurementMethod"] = u"open"
     initial_data["tender"]["procurementMethodType"] = u"aboveThresholdUA.defense"
 
-    response = self.app.post_json(request_path, {"data": initial_data}, status=403)
+    with mock.patch("openprocurement.planning.api.validation.RELEASE_SIMPLE_DEFENSE_FROM", get_now() + timedelta(days=1)):
+        response = self.app.post_json(request_path, {"data": initial_data}, status=403)
+
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -915,8 +917,8 @@ def create_plan_invalid_procuring_entity(self):
     )
 
     initial_data["procuringEntity"]["kind"] = u"defense"
-
-    response = self.app.post_json(request_path, {"data": initial_data})
+    with mock.patch("openprocurement.planning.api.validation.RELEASE_SIMPLE_DEFENSE_FROM", get_now() + timedelta(days=1)):
+        response = self.app.post_json(request_path, {"data": initial_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
@@ -1440,6 +1442,70 @@ def patch_plan(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertNotIn("items", response.json["data"])
+
+
+@mock.patch("openprocurement.planning.api.validation.RELEASE_SIMPLE_DEFENSE_FROM", get_now() - timedelta(days=1))
+def patch_plan_to_simpledefense(self):
+    response = self.app.post_json("/plans", {"data": self.initial_data})
+    self.assertEqual(response.status, "201 Created")
+    plan = response.json["data"]
+    acc_token = response.json["access"]["token"]
+
+    response = self.app.patch_json(
+        "/plans/{}?acc_token={}".format(plan["id"], acc_token),
+        {"data": {"tender": {"procurementMethodType": "aboveThresholdUA.defense"}}},
+        status=422,
+    )
+
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [{
+             u'description': u"Plan tender.procurementMethodType can not be changed from 'belowThreshold' to 'aboveThresholdUA.defense'",
+             u'location': u'body',
+             u'name': u'tender',
+        }]
+    )
+
+    response = self.app.patch_json(
+        "/plans/{}?acc_token={}".format(plan["id"], acc_token),
+        {"data": {"tender": {"procurementMethodType": "simple.defense"}}},
+    )
+
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["tender"]["procurementMethodType"], "simple.defense")
+
+
+@mock.patch("openprocurement.planning.api.validation.RELEASE_SIMPLE_DEFENSE_FROM", get_now() + timedelta(days=1))
+def patch_plan_to_openuadefense(self):
+    response = self.app.post_json("/plans", {"data": self.initial_data})
+    self.assertEqual(response.status, "201 Created")
+    plan = response.json["data"]
+    acc_token = response.json["access"]["token"]
+
+    response = self.app.patch_json(
+        "/plans/{}?acc_token={}".format(plan["id"], acc_token),
+        {"data": {"tender": {"procurementMethodType": "simple.defense"}}},
+        status=422,
+    )
+
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            u'description': u"Plan tender.procurementMethodType can not be changed from 'belowThreshold' to 'simple.defense'",
+            u'location': u'body',
+            u'name': u'tender',
+        }]
+    )
+
+    response = self.app.patch_json(
+        "/plans/{}?acc_token={}".format(plan["id"], acc_token),
+        {"data": {"tender": {"procurementMethodType": "aboveThresholdUA.defense"}}},
+    )
+
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["tender"]["procurementMethodType"], "aboveThresholdUA.defense")
 
 
 def patch_plan_with_token(self):

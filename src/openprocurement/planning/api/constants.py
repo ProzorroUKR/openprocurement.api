@@ -8,6 +8,7 @@ PROCEDURES = {
         "aboveThresholdUA",
         "aboveThresholdEU",
         "aboveThresholdUA.defense",
+        "simple.defense",
         "competitiveDialogueUA",
         "competitiveDialogueEU",
         "esco",

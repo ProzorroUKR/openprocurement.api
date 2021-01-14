@@ -25,6 +25,7 @@ from openprocurement.api.constants import (
     RELEASE_2020_04_19,
     MINIMAL_STEP_VALIDATION_FROM,
     CRITERION_REQUIREMENT_STATUSES_FROM,
+    RELEASE_SIMPLE_DEFENSE_FROM,
 )
 from openprocurement.api.utils import (
     get_now,
@@ -67,9 +68,24 @@ def validate_tender_data(request, **kwargs):
     _validate_tender_accreditation_level(request, model)
     _validate_tender_accreditation_level_central(request, model)
     data = validate_data(request, model, data=data)
+    _validate_procedures_availability(request)
     _validate_tender_accreditation_level_mode(request)
     _validate_tender_kind(request, model)
     return data
+
+
+def _validate_procedures_availability(request):
+    data = request.validated["data"]
+    procurement_type = data.get("procurementMethodType")
+    now = get_now()
+    if (
+        (now >= RELEASE_SIMPLE_DEFENSE_FROM and procurement_type == "aboveThresholdUA.defense")
+        or (now < RELEASE_SIMPLE_DEFENSE_FROM and procurement_type == "simple.defense")
+    ):
+        raise_operation_error(
+            request,
+            "procedure with procurementMethodType = {} is not available".format(procurement_type),
+        )
 
 
 def _validate_tender_accreditation_level(request, model):
