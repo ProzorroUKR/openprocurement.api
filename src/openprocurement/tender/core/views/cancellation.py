@@ -99,13 +99,18 @@ class BaseTenderCancellationResource(APIResource):
         prev_status = cancellation.status
         apply_patch(self.request, save=False, src=cancellation.serialize())
         rules_2020_04_19 = get_first_revision_date(self.request.tender, default=get_now()) > RELEASE_2020_04_19
+        tender = self.request.validated["tender"]
+
+        if (
+                cancellation.status in ("pending", "active")
+                and cancellation.cancellationOf == "lot"
+                and tender.status in ("draft", "draft.pending", "draft.stage2", "active.enquiries", "active.tendering")
+        ):
+            _validate_related_criterion(self.request, cancellation.relatedLot)
 
         if rules_2020_04_19:
             if prev_status == "draft" and cancellation.status == "pending":
-                if cancellation.cancellationOf == "lot":
-                    _validate_related_criterion(self.request, cancellation.relatedLot)
                 validate_absence_of_pending_accepted_satisfied_complaints(self.request)
-                tender = self.request.validated["tender"]
                 now = get_now()
                 cancellation.complaintPeriod = {
                     "startDate": now.isoformat(),
@@ -113,8 +118,6 @@ class BaseTenderCancellationResource(APIResource):
                         now, timedelta(days=10), tender).isoformat()
                 }
         if cancellation.status == "active" and prev_status != "active":
-            if cancellation.cancellationOf == "lot":
-                _validate_related_criterion(self.request, cancellation.relatedLot)
             self.cancel_tender_lot_method(self.request, cancellation)
 
         if save_tender(self.request):

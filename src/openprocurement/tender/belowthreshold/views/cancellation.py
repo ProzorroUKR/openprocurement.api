@@ -60,10 +60,15 @@ class TenderCancellationResource(BaseTenderCancellationResource):
         cancellation = self.request.context
         prev_status = cancellation.status
         apply_patch(self.request, save=False, src=cancellation.serialize())
+        tender = self.request.validated["tender"]
 
+        if (
+                cancellation.status == "active"
+                and cancellation.cancellationOf == "lot"
+                and tender.status in ("draft", "active.enquiries", "active.tendering")
+        ):
+            _validate_related_criterion(self.request, cancellation.relatedLot)
         if cancellation.status == "active" and prev_status != "active":
-            if cancellation.cancellationOf == "lot":
-                _validate_related_criterion(self.request, cancellation.relatedLot)
             self.cancel_tender_lot_method(self.request, cancellation)
 
         if save_tender(self.request):
