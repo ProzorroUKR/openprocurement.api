@@ -54,7 +54,7 @@ X-Content-Type-Options: nosniff
         "date": "2020-09-08T01:00:00+03:00", 
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
         "dateAnswered": "2020-09-08T01:00:00+03:00", 
-        "id": "815205150bf34d0c88019bd165a1a986", 
+        "id": "87106a3ddee744e1a09c37c8fa8f538c", 
         "questionOf": "tender"
       }
     ], 
@@ -71,11 +71,11 @@ X-Content-Type-Options: nosniff
         "author": "tender_owner", 
         "language": "uk", 
         "title": "Notice.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/737e92977b1348bf9bbb0f9d96a353fb?KeyID=a8968c46&Signature=%252B3heKDaHcguEs74c9qKkJ34abfbTXtk9Iomqulz%2FIrIIf%2FDJQm7KyxTNmaYHMUs3v4P%2F1T98S4LdFjlEKlM1Dw%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4f149adf6db9445ca26a74b5d8c0ff9c?KeyID=a8968c46&Signature=gdGeAwMz%252Ba0XYMfT1QQq2KXh90dnL3C0FSuHQzcX0K4vMoXC5u%2FVu1hMyunknIcmKvxAsWHe28szNxM45fPJDQ%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "946a5bea2c884fd187f834566ce4f391", 
+        "id": "6cac0be8a7bb4d8e84580ce3da958e18", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }, 
       {
@@ -83,11 +83,11 @@ X-Content-Type-Options: nosniff
         "author": "tender_owner", 
         "language": "uk", 
         "title": "AwardCriteria.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c846d08e3153421cb0c3eb734bd70eeb?KeyID=a8968c46&Signature=kfSb3gPHdvhu9SaVPESjB7zG8jXZuy8cIurf8Cqh2N%2F112wxi5ETRP3vSBo6g%2FqJk%252B2kNEVIUqwmoGU98jAWBQ%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6aa36d4bc7af4b49819750d00fa1275b?KeyID=a8968c46&Signature=t%2F%2FlnR3AS4DkJtsNmFTOe5X4NYMZJeI0BB6d975e6hEQDAHOY2ZSbIFr2YtU2WbphmO5ASAcNxF16Is4EizJBA%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "103903f8e0ae424ca30a8fb377c1f5ad", 
+        "id": "4025f24287bd475f862468d53ab3eeff", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }, 
       {
@@ -95,11 +95,11 @@ X-Content-Type-Options: nosniff
         "author": "tender_owner", 
         "language": "uk", 
         "title": "AwardCriteria-2.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3fc9f137b61b46e181ea404c940f5e28?KeyID=a8968c46&Signature=yAMp0ABkvZaJ72OCL0Gj0hb%2Fvh9Oa%2FGsQI%2F3h7ZQ%252BN5ZERiCoUtwIxLi0QF1W379foh%2F4WRKz3CDliPbBaZtCQ%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/24df00fe640a410cb66a50936cbdfbf2?KeyID=a8968c46&Signature=mG9wDZG1TRZnhJPoODkyp2MfPJ7PgQeGJMDzP8d0Wqz5QSJTcX%2FB1vGSs%2Fd%252BlJOdZTuAmJOZEl9rB749zsB9Cw%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "103903f8e0ae424ca30a8fb377c1f5ad", 
+        "id": "4025f24287bd475f862468d53ab3eeff", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }
     ], 
@@ -144,25 +144,27 @@ X-Content-Type-Options: nosniff
         "documents": [
           {
             "hash": "md5:00000000000000000000000000000000", 
+            "author": "tender_owner", 
             "title": "agreement_first_document.doc", 
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9a798ae84f1245279847a0383649333a?KeyID=a8968c46&Signature=Oy4In%2FIXmvZq5pCOBlM%2Fiq91zMKTq%252B%2FyqlgZ5A3Sm7bEeu1n%2Fw6ASH9b8zyJt2Gi%252B484%2FPTOYpsRPBnV9RpfCA%253D%253D", 
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a8489559ac784f5ca9e21f192413a4c5?KeyID=a8968c46&Signature=4cINHZlWKBzQHsCjivBf3kPEona6SH82mcWBi3%2FKzi1dOSyd1sLdrJYASRH5niIDmUb4zL9TAqEOBB8CvuBJDw%253D%253D", 
             "format": "application/msword", 
             "documentOf": "tender", 
             "datePublished": "2020-09-08T01:00:00+03:00", 
-            "id": "e846fc10d0b24aa38e445012b9287be5", 
+            "id": "be5542dbaf2e458b911691765473459f", 
             "dateModified": "2020-09-08T01:00:00+03:00"
           }, 
           {
             "hash": "md5:00000000000000000000000000000000", 
+            "author": "tender_owner", 
             "language": "en", 
             "title": "agreement_second_document.doc", 
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8bbbaa7fc0c4490fa107c3026df2f11c?KeyID=a8968c46&Signature=H%2FUZicvwTJ2z%2FHi7AxouACeLE6gsE5HKtQooqbu77SdsyQ5cnSvQMZ6Msms9va5iEQTDL3jg0eXapl%252Bj1%252B9rCQ%253D%253D", 
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f7bc9e78966d44b0b57ac0e9f117a0f5?KeyID=a8968c46&Signature=ValcHh6yBCloSldI%252BE58jl6kVLVsOigf6G9ZtvjRWHgJe%252BIw9%2FBDShIZws0UrVxm76OcGpvlIIGkmohbgJu%2FCQ%253D%253D", 
             "format": "application/msword", 
             "title_en": "Title of Document", 
             "description_en": "Description of Document", 
             "datePublished": "2020-09-08T01:00:00+03:00", 
             "documentOf": "tender", 
-            "id": "382c614554d2459d81f1672c8cf39db0", 
+            "id": "e0863507fdbb41f79ee822d3636603d0", 
             "dateModified": "2020-09-08T01:00:00+03:00"
           }
         ], 
@@ -176,7 +178,7 @@ X-Content-Type-Options: nosniff
                   "amount": 0.5, 
                   "valueAddedTaxIncluded": true
                 }, 
-                "relatedItem": "0054e405b9d64563bb0437ddf2a830f8"
+                "relatedItem": "0f3aaf18780b488798fcd61b8e98d5b4"
               }, 
               {
                 "value": {
@@ -184,7 +186,7 @@ X-Content-Type-Options: nosniff
                   "amount": 0.5, 
                   "valueAddedTaxIncluded": true
                 }, 
-                "relatedItem": "238443d82d0c43dab3543c1b3dd471b8"
+                "relatedItem": "1a9ae9179087434e8970d4f22cc8e59d"
               }
             ], 
             "suppliers": [
@@ -210,7 +212,7 @@ X-Content-Type-Options: nosniff
                 }
               }
             ], 
-            "bidID": "e0d41b30b35a430fb164a63e2cd8792b", 
+            "bidID": "f15395a4363049ad92d56f8b5ff97fac", 
             "date": "2020-09-08T01:00:00+03:00", 
             "awardID": "58aa9c80eeb345e998dc764a75f940ee", 
             "id": "2221451d71af4bfa803fd5b9382103ed"
@@ -224,7 +226,7 @@ X-Content-Type-Options: nosniff
                   "amount": 0.5, 
                   "valueAddedTaxIncluded": true
                 }, 
-                "relatedItem": "0054e405b9d64563bb0437ddf2a830f8"
+                "relatedItem": "0f3aaf18780b488798fcd61b8e98d5b4"
               }, 
               {
                 "value": {
@@ -232,7 +234,7 @@ X-Content-Type-Options: nosniff
                   "amount": 0.5, 
                   "valueAddedTaxIncluded": true
                 }, 
-                "relatedItem": "238443d82d0c43dab3543c1b3dd471b8"
+                "relatedItem": "1a9ae9179087434e8970d4f22cc8e59d"
               }
             ], 
             "suppliers": [
@@ -258,7 +260,7 @@ X-Content-Type-Options: nosniff
                 }
               }
             ], 
-            "bidID": "1c4a2dcee85343898ea5fbfd8ce2bd6e", 
+            "bidID": "7463b9ba00b849cb8e5a5421f550868e", 
             "date": "2020-09-08T01:00:00+03:00", 
             "awardID": "e39130af90ba485cacb7cdc36cdfc089", 
             "id": "d5c9e2e28ee74a67a078c87bf9967a53"
@@ -272,7 +274,7 @@ X-Content-Type-Options: nosniff
                   "amount": 0.5, 
                   "valueAddedTaxIncluded": true
                 }, 
-                "relatedItem": "0054e405b9d64563bb0437ddf2a830f8"
+                "relatedItem": "0f3aaf18780b488798fcd61b8e98d5b4"
               }, 
               {
                 "value": {
@@ -280,7 +282,7 @@ X-Content-Type-Options: nosniff
                   "amount": 0.5, 
                   "valueAddedTaxIncluded": true
                 }, 
-                "relatedItem": "238443d82d0c43dab3543c1b3dd471b8"
+                "relatedItem": "1a9ae9179087434e8970d4f22cc8e59d"
               }
             ], 
             "suppliers": [
@@ -306,7 +308,7 @@ X-Content-Type-Options: nosniff
                 }
               }
             ], 
-            "bidID": "ccd5dc4ca3f84f9a8f9ec11010bd01ba", 
+            "bidID": "544359015fd047a8b79fa81bda0889fc", 
             "date": "2020-09-08T01:00:00+03:00", 
             "awardID": "fead43daad534c50b0dc2da8b64ccfbb", 
             "id": "713faef521cf4366b30696f427b2f171"
@@ -340,7 +342,7 @@ X-Content-Type-Options: nosniff
               "startDate": "2018-06-27T13:39:09.362837+03:00", 
               "endDate": "2018-06-30T13:39:09.362837+03:00"
             }, 
-            "id": "0054e405b9d64563bb0437ddf2a830f8", 
+            "id": "0f3aaf18780b488798fcd61b8e98d5b4", 
             "unit": {
               "code": "44617100-9", 
               "name": "item"
@@ -374,7 +376,7 @@ X-Content-Type-Options: nosniff
               "startDate": "2018-06-27T13:39:09.362837+03:00", 
               "endDate": "2018-06-30T13:39:09.362837+03:00"
             }, 
-            "id": "238443d82d0c43dab3543c1b3dd471b8", 
+            "id": "1a9ae9179087434e8970d4f22cc8e59d", 
             "unit": {
               "code": "44617100-8", 
               "name": "item"
@@ -412,7 +414,7 @@ X-Content-Type-Options: nosniff
         "lotID": "c7555f1bb878434d8815dea318304673", 
         "eligible": true, 
         "qualified": true, 
-        "bidID": "ccd5dc4ca3f84f9a8f9ec11010bd01ba", 
+        "bidID": "544359015fd047a8b79fa81bda0889fc", 
         "date": "2020-09-08T01:00:00+03:00", 
         "id": "9eafb5e0a5ac4268a1f0821a11dae69d"
       }, 
@@ -421,7 +423,7 @@ X-Content-Type-Options: nosniff
         "lotID": "c7555f1bb878434d8815dea318304673", 
         "eligible": true, 
         "qualified": true, 
-        "bidID": "1c4a2dcee85343898ea5fbfd8ce2bd6e", 
+        "bidID": "7463b9ba00b849cb8e5a5421f550868e", 
         "date": "2020-09-08T01:00:00+03:00", 
         "id": "86fd0e3cd41f48eab89c5ac406b8334d"
       }, 
@@ -430,7 +432,7 @@ X-Content-Type-Options: nosniff
         "lotID": "c7555f1bb878434d8815dea318304673", 
         "eligible": false, 
         "qualified": false, 
-        "bidID": "76ccebf7a163452886a6d2d8d39a564b", 
+        "bidID": "2110e7baf82545d594bd7a435975fdda", 
         "date": "2020-09-08T01:00:00+03:00", 
         "id": "cb68d0f3a8c4468d9b7c5595eb8f9001"
       }, 
@@ -439,7 +441,7 @@ X-Content-Type-Options: nosniff
         "lotID": "c7555f1bb878434d8815dea318304673", 
         "eligible": true, 
         "qualified": true, 
-        "bidID": "e0d41b30b35a430fb164a63e2cd8792b", 
+        "bidID": "f15395a4363049ad92d56f8b5ff97fac", 
         "date": "2020-09-08T01:00:00+03:00", 
         "id": "cdc3670ed483448a8cd1ed6d1146da99"
       }
@@ -474,7 +476,7 @@ X-Content-Type-Options: nosniff
             }
           }
         ], 
-        "bid_id": "e0d41b30b35a430fb164a63e2cd8792b", 
+        "bid_id": "f15395a4363049ad92d56f8b5ff97fac", 
         "value": {
           "currency": "UAH", 
           "amount": 485, 
@@ -511,7 +513,7 @@ X-Content-Type-Options: nosniff
             }
           }
         ], 
-        "bid_id": "1c4a2dcee85343898ea5fbfd8ce2bd6e", 
+        "bid_id": "7463b9ba00b849cb8e5a5421f550868e", 
         "value": {
           "currency": "UAH", 
           "amount": 499, 
@@ -548,7 +550,7 @@ X-Content-Type-Options: nosniff
             }
           }
         ], 
-        "bid_id": "ccd5dc4ca3f84f9a8f9ec11010bd01ba", 
+        "bid_id": "544359015fd047a8b79fa81bda0889fc", 
         "value": {
           "currency": "UAH", 
           "amount": 500.0, 
@@ -587,7 +589,7 @@ X-Content-Type-Options: nosniff
             }
           }
         ], 
-        "bid_id": "e0d41b30b35a430fb164a63e2cd8792b", 
+        "bid_id": "f15395a4363049ad92d56f8b5ff97fac", 
         "value": {
           "currency": "UAH", 
           "amount": 485, 
@@ -627,7 +629,7 @@ X-Content-Type-Options: nosniff
           "startDate": "2020-08-29T01:00:00+03:00", 
           "endDate": "2020-09-08T01:00:00+03:00"
         }, 
-        "bid_id": "e0d41b30b35a430fb164a63e2cd8792b", 
+        "bid_id": "f15395a4363049ad92d56f8b5ff97fac", 
         "value": {
           "currency": "UAH", 
           "amount": 485, 
@@ -668,7 +670,7 @@ X-Content-Type-Options: nosniff
           "startDate": "2020-08-29T01:00:00+03:00", 
           "endDate": "2020-09-08T01:00:00+03:00"
         }, 
-        "bid_id": "1c4a2dcee85343898ea5fbfd8ce2bd6e", 
+        "bid_id": "7463b9ba00b849cb8e5a5421f550868e", 
         "value": {
           "currency": "UAH", 
           "amount": 499, 
@@ -709,7 +711,7 @@ X-Content-Type-Options: nosniff
           "startDate": "2020-08-29T01:00:00+03:00", 
           "endDate": "2020-09-08T01:00:00+03:00"
         }, 
-        "bid_id": "ccd5dc4ca3f84f9a8f9ec11010bd01ba", 
+        "bid_id": "544359015fd047a8b79fa81bda0889fc", 
         "value": {
           "currency": "UAH", 
           "amount": 500.0, 
@@ -768,7 +770,7 @@ X-Content-Type-Options: nosniff
           "startDate": "2018-06-27T13:39:09.362837+03:00", 
           "endDate": "2018-06-30T13:39:09.362837+03:00"
         }, 
-        "id": "0054e405b9d64563bb0437ddf2a830f8", 
+        "id": "0f3aaf18780b488798fcd61b8e98d5b4", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -802,7 +804,7 @@ X-Content-Type-Options: nosniff
           "startDate": "2018-06-27T13:39:09.362837+03:00", 
           "endDate": "2018-06-30T13:39:09.362837+03:00"
         }, 
-        "id": "238443d82d0c43dab3543c1b3dd471b8", 
+        "id": "1a9ae9179087434e8970d4f22cc8e59d", 
         "unit": {
           "code": "44617100-8", 
           "name": "item"

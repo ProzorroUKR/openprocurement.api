@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/fb07ce223a754201a341023b86d832ef/criteria/3061d99566884fb3b45862a6d237616e/requirement_groups?acc_token=056f6edd10e84810b429550ae3a12f86 HTTP/1.0
+POST /api/2.5/tenders/fb07ce223a754201a341023b86d832ef/criteria/7b9ccfe6992245678a8a621bb0ebe987/requirement_groups?acc_token=056f6edd10e84810b429550ae3a12f86 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1904
 Content-Type: application/json
@@ -26,7 +26,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/fb07ce223a754201a341023b86d832ef/criteria/3061d99566884fb3b45862a6d237616e/requirement_groups/2db55debe004498b88e04e8173f09c7e
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/fb07ce223a754201a341023b86d832ef/criteria/7b9ccfe6992245678a8a621bb0ebe987/requirement_groups/b8fd6870306f4afbafef59c884fd0d56
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -37,18 +37,18 @@ X-Content-Type-Options: nosniff
         "dataType": "boolean", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
         "expectedValue": "true", 
-        "id": "acbf6c49e48047c3b2bbabe3547e1d57", 
+        "id": "7bd0d5812bb2401e855d249295c1d902", 
         "eligibleEvidences": [
           {
             "title": "Документальне підтвердження", 
             "type": "document", 
             "description": "Довідка в довільній формі", 
-            "id": "9c53197562ba4b249777c11c484139cf"
+            "id": "07af40fdaded485f9f3c1f5c4620e4f1"
           }
         ]
       }
     ], 
-    "id": "2db55debe004498b88e04e8173f09c7e", 
+    "id": "b8fd6870306f4afbafef59c884fd0d56", 
     "description": "Учасник фізична особа підтверджує, що"
   }
 }

@@ -67,7 +67,7 @@ X-Content-Type-Options: nosniff
         "deliveryDate": {
           "endDate": "2020-09-23T01:00:00+03:00"
         }, 
-        "id": "db625f93faef43e4ba2e05a892e01822", 
+        "id": "aa37f7aff1fc4cd08704fb6aec182939", 
         "unit": {
           "code": "KGM", 
           "name": "кг"
@@ -91,7 +91,7 @@ X-Content-Type-Options: nosniff
         "deliveryDate": {
           "endDate": "2020-09-24T01:00:00+03:00"
         }, 
-        "id": "b5dc327654764d098563e95836fc6416", 
+        "id": "ef7d29fbede748bb92d9e59eca7dcae0", 
         "unit": {
           "code": "KGM", 
           "name": "кг"
@@ -115,7 +115,7 @@ X-Content-Type-Options: nosniff
         "deliveryDate": {
           "endDate": "2020-09-25T01:00:00+03:00"
         }, 
-        "id": "ca0860a5660643c5b5966626a3de9a3c", 
+        "id": "82205a4359ea44f69f27b607abf7c1aa", 
         "unit": {
           "code": "KGM", 
           "name": "кг"

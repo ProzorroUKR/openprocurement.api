@@ -8,14 +8,14 @@ DATA:
   "data": [
     {
       "requirement": {
-        "id": "2b8b4b12e1004e01be3a1dde6939f18f", 
+        "id": "ed1ed109c0684be3b7c89192679d5526", 
         "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
       }, 
       "evidences": [
         {
           "type": "document", 
           "relatedDocument": {
-            "id": "89c951b63cf14730802d38345b277a76", 
+            "id": "829b7e6ae5ef40e7930e32a74d1cc580", 
             "title": "name.doc"
           }, 
           "title": "Requirement response"
@@ -35,7 +35,7 @@ X-Content-Type-Options: nosniff
   "data": [
     {
       "requirement": {
-        "id": "2b8b4b12e1004e01be3a1dde6939f18f", 
+        "id": "ed1ed109c0684be3b7c89192679d5526", 
         "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
       }, 
       "description": "some description", 
@@ -46,13 +46,13 @@ X-Content-Type-Options: nosniff
           "title": "Requirement response", 
           "type": "document", 
           "relatedDocument": {
-            "id": "89c951b63cf14730802d38345b277a76", 
+            "id": "829b7e6ae5ef40e7930e32a74d1cc580", 
             "title": "name.doc"
           }, 
-          "id": "121fd17542ba49849cd7a3c6436b7b13"
+          "id": "d589689fc79e4fbab10c1f15c31819ce"
         }
       ], 
-      "id": "1d0c909933ca4d759aea187f057aa3bd"
+      "id": "56a16722c2fc4b9189311a66d1960f06"
     }
   ]
 }

@@ -9,11 +9,12 @@ X-Content-Type-Options: nosniff
   "data": [
     {
       "hash": "md5:00000000000000000000000000000000", 
+      "author": "tender_owner", 
       "title": "contract_first_document.doc", 
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0f746bb86abe44069b70422d6460b960?KeyID=a8968c46&Signature=pSYFHP3nW5EEk%2FIRb2QtEpFxYLsjj6qRelcysPR0of3o%2Fw7RiugEvP0mQ0%252BTwF%2FI9tUIUc6MDtRrLGReXyaRCw%253D%253D", 
       "format": "application/msword", 
       "datePublished": "2020-09-08T01:00:00+03:00", 
-      "id": "9902e5df539b4e97a6da5707e6a3d77f", 
+      "id": "84aa2f02abd04aa1bc7d037a69bfcdec", 
       "dateModified": "2020-09-08T01:00:00+03:00"
     }
   ]

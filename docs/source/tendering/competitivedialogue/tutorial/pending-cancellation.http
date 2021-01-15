@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d/cancellations/778f01babc364fba9ec0a685ec81d2f1?acc_token=ce9ee5fc97484fc3b51e3f4dcea722d4 HTTP/1.0
+PATCH /api/2.5/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d/cancellations/96b00dca1a73405d90d9e6a02e00a275?acc_token=ce9ee5fc97484fc3b51e3f4dcea722d4 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 31
 Content-Type: application/json
@@ -21,22 +21,24 @@ X-Content-Type-Options: nosniff
         "hash": "md5:00000000000000000000000000000000", 
         "description": "Changed description", 
         "title": "Notice.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e85ae2a32fb548f29d2b321f6661db4b?KeyID=a8968c46&Signature=QwOcKTHTR%252BiaW3nV5Jb0Xs806tn%2FkWhE2eXgcAX5PtcIsLV8ZL%2FsWldHGOrPXQn1Ochj2eBquhQEr6XAOZTbBQ%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c2dba6026d134e97a126b2ce64d0d075?KeyID=a8968c46&Signature=bGLIjk77s7HcSH2ML4QutL1z0FbRMZr2TbrxBdPP3rE5etsLPDxUcCOif6jdQkvfmSo7AdDsoO9WNM5nKvoJAw%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:03+03:00", 
-        "id": "b660c69f66784b979da3b1cf1fff9e76", 
+        "author": "tender_owner", 
+        "id": "e03dd59b28a54190bab543725e04c15a", 
         "dateModified": "2020-09-08T01:00:03+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
         "description": "Changed description", 
         "title": "Notice-2.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3ac9a4ce62c4476ba9625858f2afdd7b?KeyID=a8968c46&Signature=OlH1qH0aTmkEShCvVI3QImyM%2FWwbqgj9cnxOLXbOi%2FjuueUHgxpygOt%252BK4lyRoTt4fyTIgSgQrek%2FrMpp%252BUVBg%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7da487c48657495da972a10e19b9652c?KeyID=a8968c46&Signature=OwYlNf3B%2FdD0G5HObW8R98BwF0J5OfTYtf6011D1KeY0Qyqxewnwzbzmx%2FiVS4%2F3jdlQgq3GP7jbGxWcs8PqBw%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:03+03:00", 
-        "id": "b660c69f66784b979da3b1cf1fff9e76", 
+        "author": "tender_owner", 
+        "id": "e03dd59b28a54190bab543725e04c15a", 
         "dateModified": "2020-09-08T01:00:03+03:00"
       }
     ], 
@@ -48,7 +50,7 @@ X-Content-Type-Options: nosniff
     "reasonType": "unFixable", 
     "date": "2020-09-08T01:00:03+03:00", 
     "cancellationOf": "tender", 
-    "id": "778f01babc364fba9ec0a685ec81d2f1"
+    "id": "96b00dca1a73405d90d9e6a02e00a275"
   }
 }
 

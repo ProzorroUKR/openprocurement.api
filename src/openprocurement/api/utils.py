@@ -170,13 +170,11 @@ def raise_operation_error(request, message, status=403, location="body", name="d
 
 
 def upload_file(
-    request, blacklisted_fields=DOCUMENT_BLACKLISTED_FIELDS, whitelisted_fields=DOCUMENT_WHITELISTED_FIELDS
+    request,
+    blacklisted_fields=DOCUMENT_BLACKLISTED_FIELDS,
+    whitelisted_fields=DOCUMENT_WHITELISTED_FIELDS
 ):
-    first_document = (
-        request.validated["documents"][-1]
-        if "documents" in request.validated and request.validated["documents"]
-        else None
-    )
+    first_document = request.validated.get("documents", [None])[-1]
     if "data" in request.validated and request.validated["data"]:
         document = request.validated["document"]
         check_document(request, document)
@@ -191,6 +189,15 @@ def upload_file(
         document_route = request.matched_route.name.replace("collection_", "")
         document = update_document_url(request, document, document_route, {})
         return document
+
+    return upload_file_attached(request, blacklisted_fields)
+
+
+def upload_file_attached(
+    request,
+    blacklisted_fields=DOCUMENT_BLACKLISTED_FIELDS,
+):
+    first_document = request.validated.get("documents", [None])[-1]
     if request.content_type == "multipart/form-data":
         data = request.validated["file"]
         filename = get_filename(data)
@@ -200,7 +207,6 @@ def upload_file(
         filename = first_document.title
         content_type = request.content_type
         in_file = request.body_file
-
     if hasattr(request.context, "documents"):
         # upload new document
         model = type(request.context).documents.model_class
@@ -216,60 +222,9 @@ def upload_file(
             if attr_name not in blacklisted_fields:
                 setattr(document, attr_name, getattr(first_document, attr_name))
     if request.registry.docservice_url:
-        parsed_url = urlparse(request.registry.docservice_url)
-        url = request.registry.docservice_upload_url or urlunsplit(
-            (parsed_url.scheme, parsed_url.netloc, "/upload", "", "")
-        )
-        files = {"file": (filename, in_file, content_type)}
-        doc_url = None
-        index = 10
-        while index:
-            try:
-                r = SESSION.post(
-                    url,
-                    files=files,
-                    headers={"X-Client-Request-ID": request.environ.get("REQUEST_ID", "")},
-                    auth=(request.registry.docservice_username, request.registry.docservice_password),
-                )
-                json_data = r.json()
-            except Exception as e:
-                LOGGER.warning(
-                    "Raised exception '{}' on uploading document to document service': {}.".format(type(e), e),
-                    extra=context_unpack(
-                        request, {"MESSAGE_ID": "document_service_exception"}, {"file_size": in_file.tell()}
-                    ),
-                )
-            else:
-                if r.status_code == 200 and json_data.get("data", {}).get("url"):
-                    doc_url = json_data["data"]["url"]
-                    doc_hash = json_data["data"]["hash"]
-                    break
-                else:
-                    LOGGER.warning(
-                        "Error {} on uploading document to document service '{}': {}".format(
-                            r.status_code, url, r.text
-                        ),
-                        extra=context_unpack(
-                            request,
-                            {"MESSAGE_ID": "document_service_error"},
-                            {"ERROR_STATUS": r.status_code, "file_size": in_file.tell()},
-                        ),
-                    )
-            in_file.seek(0)
-            index -= 1
-        else:
-            request.errors.add("body", "body", "Can't upload document to document service.")
-            request.errors.status = 422
-            raise error_handler(request)
-        document.hash = doc_hash
-        key = urlparse(doc_url).path.split("/")[-1]
+        key = upload_file_to_document_service(request, document, in_file, filename, content_type)
     else:
-        key = generate_id()
-        filename = "{}_{}".format(document.id, key)
-        request.validated["db_doc"]["_attachments"][filename] = {
-            "content_type": document.format,
-            "data": b64encode(in_file.read()),
-        }
+        key = attach_file_to_doc(document, in_file, request)
     document_route = request.matched_route.name.replace("collection_", "")
     document_path = request.current_route_path(
         _route_name=document_route, document_id=document.id, _query={"download": key}
@@ -277,6 +232,67 @@ def upload_file(
     document.url = "/" + "/".join(document_path.split("/")[3:])
     update_logging_context(request, {"file_size": in_file.tell()})
     return document
+
+
+def upload_file_to_document_service(request, document, in_file, filename, content_type):
+    parsed_url = urlparse(request.registry.docservice_url)
+    url = request.registry.docservice_upload_url or urlunsplit(
+        (parsed_url.scheme, parsed_url.netloc, "/upload", "", "")
+    )
+    files = {"file": (filename, in_file, content_type)}
+    doc_url = None
+    index = 10
+    while index:
+        try:
+            r = SESSION.post(
+                url,
+                files=files,
+                headers={"X-Client-Request-ID": request.environ.get("REQUEST_ID", "")},
+                auth=(request.registry.docservice_username, request.registry.docservice_password),
+            )
+            json_data = r.json()
+        except Exception as e:
+            LOGGER.warning(
+                "Raised exception '{}' on uploading document to document service': {}.".format(type(e), e),
+                extra=context_unpack(
+                    request, {"MESSAGE_ID": "document_service_exception"}, {"file_size": in_file.tell()}
+                ),
+            )
+        else:
+            if r.status_code == 200 and json_data.get("data", {}).get("url"):
+                doc_url = json_data["data"]["url"]
+                doc_hash = json_data["data"]["hash"]
+                break
+            else:
+                LOGGER.warning(
+                    "Error {} on uploading document to document service '{}': {}".format(
+                        r.status_code, url, r.text
+                    ),
+                    extra=context_unpack(
+                        request,
+                        {"MESSAGE_ID": "document_service_error"},
+                        {"ERROR_STATUS": r.status_code, "file_size": in_file.tell()},
+                    ),
+                )
+        in_file.seek(0)
+        index -= 1
+    else:
+        request.errors.add("body", "body", "Can't upload document to document service.")
+        request.errors.status = 422
+        raise error_handler(request)
+    document.hash = doc_hash
+    key = urlparse(doc_url).path.split("/")[-1]
+    return key
+
+
+def attach_file_to_doc(document, in_file, request):
+    key = generate_id()
+    filename = "{}_{}".format(document.id, key)
+    request.validated["db_doc"]["_attachments"][filename] = {
+        "content_type": document.format,
+        "data": b64encode(in_file.read()),
+    }
+    return key
 
 
 def update_file_content_type(request):  # XXX TODO
@@ -409,7 +425,8 @@ def check_document(request, document):
         raise error_handler(request)
 
 
-def update_document_url(request, document, document_route, route_kwargs):
+def update_document_url(request, document, document_route, route_kwargs=None):
+    route_kwargs = route_kwargs or {}
     key = urlparse(document.url).path.split("/")[-1]
     route_kwargs.update({"_route_name": document_route, "document_id": document.id, "_query": {"download": key}})
     document_path = request.current_route_path(**route_kwargs)
@@ -417,7 +434,7 @@ def update_document_url(request, document, document_route, route_kwargs):
     return document
 
 
-def check_document_batch(request, document, document_container, route_kwargs):
+def check_document_batch(request, document, document_container, route_kwargs=None):
     check_document(request, document)
     document_route = request.matched_route.name.replace("collection_", "")
     # Following piece of code was written by leits, so no one knows how it works
@@ -435,9 +452,8 @@ def check_document_batch(request, document, document_container, route_kwargs):
 
 
 def upload_objects_documents(request, obj, document_container='body', route_kwargs=None):
-    if not route_kwargs:
-        route_kwargs = {}
-    for document in getattr(obj, 'documents', []):
+    documents = getattr(obj, 'documents', []) if not isinstance(obj, list) else obj
+    for document in documents:
         check_document_batch(request, document, document_container, route_kwargs)
 
 

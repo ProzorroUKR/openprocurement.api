@@ -108,7 +108,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/bids/5d821fdb36364bf59cada4ece712e18c
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/bids/6b18ba7a8bf04784907487360146dcb2
 X-Content-Type-Options: nosniff
 {
   "access": {
@@ -121,21 +121,21 @@ X-Content-Type-Options: nosniff
       {
         "hash": "md5:00000000000000000000000000000000", 
         "title": "Proposal_part1.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/bids/5d821fdb36364bf59cada4ece712e18c/documents/e3f80c76f23f46269e97ec31a9f4ae3e?download=883ee4e2b9dc4d36b2d4d7c83afcb7d6", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/bids/6b18ba7a8bf04784907487360146dcb2/documents/06a136ecc5054b998bbf84c3bf8ffac7?download=883ee4e2b9dc4d36b2d4d7c83afcb7d6", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:01+03:00", 
-        "id": "e3f80c76f23f46269e97ec31a9f4ae3e", 
+        "id": "06a136ecc5054b998bbf84c3bf8ffac7", 
         "dateModified": "2020-09-08T01:00:01+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
         "title": "Proposal_part2.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/bids/5d821fdb36364bf59cada4ece712e18c/documents/87a8e97e6765449a99b9353de4b7c75c?download=084e3b1245d94306aee75ddc828ae9fd", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/bids/6b18ba7a8bf04784907487360146dcb2/documents/a8f6102ee2604e24943e5af36de726ba?download=084e3b1245d94306aee75ddc828ae9fd", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:01+03:00", 
-        "id": "87a8e97e6765449a99b9353de4b7c75c", 
+        "id": "a8f6102ee2604e24943e5af36de726ba", 
         "dateModified": "2020-09-08T01:00:01+03:00"
       }
     ], 
@@ -149,63 +149,63 @@ X-Content-Type-Options: nosniff
         "requirement": {
           "id": "655360-0001-001-01"
         }, 
-        "id": "994e7754eff04617aae6b21297cd0f6a", 
+        "id": "b3f4ee1e272b475d8196f8b1e7bc1c9a", 
         "value": "23.8"
       }, 
       {
         "requirement": {
           "id": "655360-0002-001-01"
         }, 
-        "id": "d6d86c4dc7374b528364a98aef9c8072", 
+        "id": "1e778c32da8842faa35297dcab1c2672", 
         "value": "1920x1080"
       }, 
       {
         "requirement": {
           "id": "655360-0003-001-01"
         }, 
-        "id": "a3f53df73f2b4525965b95a86050130c", 
+        "id": "d2e1fa5cd90c407881499be453388bf8", 
         "value": "16:9"
       }, 
       {
         "requirement": {
           "id": "655360-0004-001-01"
         }, 
-        "id": "d8f00910e39b4abb97e674b7e969e8f8", 
+        "id": "ef4274f21b1245e0984e1c5a28de1841", 
         "value": "250"
       }, 
       {
         "requirement": {
           "id": "655360-0005-001-01"
         }, 
-        "id": "e1220e2c66cc4e56a87cc0cb0668c15e", 
+        "id": "1896b7c3720341789daf8bf6237f9300", 
         "value": "1000:1"
       }, 
       {
         "requirement": {
           "id": "655360-0006-001-01"
         }, 
-        "id": "4c9ca29cd7df4db4a9726242f59864f0", 
+        "id": "3e43ddb03d984337b279b4382dbf44f0", 
         "value": "1"
       }, 
       {
         "requirement": {
           "id": "655360-0007-001-01"
         }, 
-        "id": "f3d36b3f13c244e59c3e2b9e6e287628", 
+        "id": "183af38389f048c19e249e8de5e12e74", 
         "value": "1"
       }, 
       {
         "requirement": {
           "id": "655360-0008-001-01"
         }, 
-        "id": "369ea970956549e482dcd570d3e7846f", 
+        "id": "e25986f50d6d4da3901ffb632256f44f", 
         "value": "HDMI"
       }, 
       {
         "requirement": {
           "id": "655360-0009-001-01"
         }, 
-        "id": "27c7eff0b1cf4e35a4ef93229c5c638c", 
+        "id": "2211733a5e794627ad7f26cd0425303e", 
         "value": "36"
       }
     ], 
@@ -232,7 +232,7 @@ X-Content-Type-Options: nosniff
       }
     ], 
     "date": "2020-09-08T01:00:01+03:00", 
-    "id": "5d821fdb36364bf59cada4ece712e18c"
+    "id": "6b18ba7a8bf04784907487360146dcb2"
   }
 }
 

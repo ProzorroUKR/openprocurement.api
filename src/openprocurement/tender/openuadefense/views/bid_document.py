@@ -4,8 +4,8 @@ from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.openua.views.bid_document import TenderUaBidDocumentResource as TenderBidDocumentResource
 from openprocurement.api.validation import (
     validate_file_update,
-    validate_file_upload,
     validate_patch_document_data,
+    validate_file_upload,
 )
 from openprocurement.tender.core.validation import (
     validate_bid_document_operation_period,

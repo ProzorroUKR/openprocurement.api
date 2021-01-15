@@ -9,14 +9,14 @@ DATA:
     "requirementResponses": [
       {
         "requirement": {
-          "id": "e97eb65b1edc49c4bbb5c667816e9083", 
+          "id": "557e21d1a63f43ba87e0c5a77a9df87f", 
           "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
         }, 
         "evidences": [
           {
             "type": "document", 
             "relatedDocument": {
-              "id": "57c658a929084380b6fe254d754e5747", 
+              "id": "11826e6ba17949c48777477c1f5adcf2", 
               "title": "name.doc"
             }, 
             "title": "Requirement response"
@@ -28,14 +28,14 @@ DATA:
       }, 
       {
         "requirement": {
-          "id": "84afa6eecfb445f087f334fb0cb49fab", 
+          "id": "c2635e569fac4b05ae3a467c79b4e6c5", 
           "title": "Замовник має незаперечні докази того, що учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі"
         }, 
         "evidences": [
           {
             "type": "document", 
             "relatedDocument": {
-              "id": "57c658a929084380b6fe254d754e5747", 
+              "id": "11826e6ba17949c48777477c1f5adcf2", 
               "title": "name.doc"
             }, 
             "title": "Requirement response"
@@ -61,11 +61,11 @@ X-Content-Type-Options: nosniff
         "author": "tender_owner", 
         "language": "uk", 
         "title": "name.doc", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3c1152df7e3a48e4ab0bcb5587617510?KeyID=a8968c46&Signature=FdwjxXuUiAsBUhZG9sF2kZ9k7T3%2FYPbuLKimJvMprammaKYM1LthPTEdpwsfzTezgMWVFJKW5zG10NEVhf5LCA%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/65b2c7ca9f8442dd858c324ec55c50db?KeyID=a8968c46&Signature=29%2FXasQLg3VFXi0zdi9O0XeS0jg2hzq2xyV64g%252B%2FBcswUwKrvzLlXB5zg9fZWnu1RdJFWmj4ygV0CisQ75n6Dg%253D%253D", 
         "format": "application/msword", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "57c658a929084380b6fe254d754e5747", 
+        "id": "11826e6ba17949c48777477c1f5adcf2", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }
     ], 
@@ -73,7 +73,7 @@ X-Content-Type-Options: nosniff
     "requirementResponses": [
       {
         "requirement": {
-          "id": "e97eb65b1edc49c4bbb5c667816e9083", 
+          "id": "557e21d1a63f43ba87e0c5a77a9df87f", 
           "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
         }, 
         "description": "some description", 
@@ -84,17 +84,17 @@ X-Content-Type-Options: nosniff
             "title": "Requirement response", 
             "type": "document", 
             "relatedDocument": {
-              "id": "57c658a929084380b6fe254d754e5747", 
+              "id": "11826e6ba17949c48777477c1f5adcf2", 
               "title": "name.doc"
             }, 
-            "id": "ba34d5a849814c38a8f822f71c90cfe2"
+            "id": "5b3ee5f504a149908d7c076e8d49622b"
           }
         ], 
-        "id": "b15c05db37c7482ea62ce76e9158c035"
+        "id": "2590bb2bec4546858a80bf9b90e7f8f7"
       }, 
       {
         "requirement": {
-          "id": "84afa6eecfb445f087f334fb0cb49fab", 
+          "id": "c2635e569fac4b05ae3a467c79b4e6c5", 
           "title": "Замовник має незаперечні докази того, що учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі"
         }, 
         "description": "some description", 
@@ -105,17 +105,17 @@ X-Content-Type-Options: nosniff
             "title": "Requirement response", 
             "type": "document", 
             "relatedDocument": {
-              "id": "57c658a929084380b6fe254d754e5747", 
+              "id": "11826e6ba17949c48777477c1f5adcf2", 
               "title": "name.doc"
             }, 
-            "id": "5e82fe8606b54d58a2b2ea0089921c9f"
+            "id": "c7ff2c7a20574d97a4934c27429d280c"
           }
         ], 
-        "id": "9266112c617f4b4eb435fa0864376af5"
+        "id": "a9cb8289cadd4b539a57c2419fc34b98"
       }
     ], 
     "qualified": false, 
-    "bidID": "9d90952b299b4e0dbcdf4edaedf1d315", 
+    "bidID": "673febca985146d3bb10d5e0ad14da96", 
     "date": "2020-09-08T01:00:00+03:00", 
     "id": "59efad2924154abf958fa603c0869cd8"
   }

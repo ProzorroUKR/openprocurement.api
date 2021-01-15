@@ -18,10 +18,10 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "status": "active", 
-    "lotID": "fc297ff6c6a74743a96c6b274bae11c0", 
+    "lotID": "090c95ac79ff405687b005d25de27fde", 
     "eligible": true, 
     "qualified": true, 
-    "bidID": "28d7b15324514c31b62f48b15a1b0a2c", 
+    "bidID": "25bd970afcce4abcadf49eab65090119", 
     "date": "2020-09-08T01:00:00+03:00", 
     "id": "69e23d94b0ec4a4cbf777d2557fe598a"
   }

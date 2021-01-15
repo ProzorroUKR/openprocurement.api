@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/140b7d05238849ca9d3d2153a1b2a8d5/complaints/5686f14f5c4649b1ac87a631dc6996a1/posts HTTP/1.0
+POST /api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/140b7d05238849ca9d3d2153a1b2a8d5/complaints/a41ab0adff2149afae20f7a721a769e0/posts HTTP/1.0
 Authorization: Bearer reviewer
 Content-Length: 281
 Content-Type: application/json
@@ -14,7 +14,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/140b7d05238849ca9d3d2153a1b2a8d5/complaints/5686f14f5c4649b1ac87a631dc6996a1/posts/264158c62a8f4bd1b37986f33693d9c6
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/140b7d05238849ca9d3d2153a1b2a8d5/complaints/a41ab0adff2149afae20f7a721a769e0/posts/294d0d9716ab47dc9a005b76fabbccff
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -23,7 +23,7 @@ X-Content-Type-Options: nosniff
     "author": "aboveThresholdReviewers", 
     "datePublished": "2020-09-08T01:00:03+03:00", 
     "recipient": "complaint_owner", 
-    "id": "264158c62a8f4bd1b37986f33693d9c6"
+    "id": "294d0d9716ab47dc9a005b76fabbccff"
   }
 }
 

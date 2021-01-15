@@ -95,7 +95,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/bids/8cfbfea1a5d6465292985704865c464d
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/bids/e5f41295f7054beb9b741317fa6de5b2
 X-Content-Type-Options: nosniff
 {
   "access": {
@@ -114,63 +114,63 @@ X-Content-Type-Options: nosniff
         "requirement": {
           "id": "655360-0001-001-01"
         }, 
-        "id": "0274c6a64a19467294e660c9ee6601f7", 
+        "id": "bc074137ccbd45deb7cb909bb4c0c05c", 
         "value": "23.8"
       }, 
       {
         "requirement": {
           "id": "655360-0002-001-01"
         }, 
-        "id": "854103aaa1c6469daf6e79ebb09e8537", 
+        "id": "b29ec66aeeb44caf8a63343e8541d294", 
         "value": "1920x1080"
       }, 
       {
         "requirement": {
           "id": "655360-0003-001-01"
         }, 
-        "id": "905e7e82679c45ae855141ef72f77c43", 
+        "id": "7e79287c47e84824ace560a757175e88", 
         "value": "16:9"
       }, 
       {
         "requirement": {
           "id": "655360-0004-001-01"
         }, 
-        "id": "ab0e0709808c4dcf92ef070ef2be6ab5", 
+        "id": "4975a5e85dd749f197d997df74b4db6a", 
         "value": "250"
       }, 
       {
         "requirement": {
           "id": "655360-0005-001-01"
         }, 
-        "id": "747adb2de1c44fa0abb8f165bbc477b4", 
+        "id": "f71b2987363046c49d67809cfeb9f485", 
         "value": "1000:1"
       }, 
       {
         "requirement": {
           "id": "655360-0006-001-01"
         }, 
-        "id": "335cd3c0cab64ac28eae3d9813a5f6cd", 
+        "id": "713d1d04ed3e4ff6a2bf29bb23147636", 
         "value": "1"
       }, 
       {
         "requirement": {
           "id": "655360-0007-001-01"
         }, 
-        "id": "80be27ee91be4d38926bc4749ee7068f", 
+        "id": "6ef693d69bc846a58a064d5babdff756", 
         "value": "1"
       }, 
       {
         "requirement": {
           "id": "655360-0008-001-01"
         }, 
-        "id": "74b57ecd0172411cb26c241775852f48", 
+        "id": "8a0ff48941e9479495cbca737eed6379", 
         "value": "HDMI"
       }, 
       {
         "requirement": {
           "id": "655360-0009-001-01"
         }, 
-        "id": "234c914f187a492e9dfe17d484bd6f0f", 
+        "id": "00f78400db744dc09363ff0a1d49ad4a", 
         "value": "36"
       }
     ], 
@@ -197,7 +197,7 @@ X-Content-Type-Options: nosniff
       }
     ], 
     "date": "2020-09-08T01:00:01+03:00", 
-    "id": "8cfbfea1a5d6465292985704865c464d"
+    "id": "e5f41295f7054beb9b741317fa6de5b2"
   }
 }
 

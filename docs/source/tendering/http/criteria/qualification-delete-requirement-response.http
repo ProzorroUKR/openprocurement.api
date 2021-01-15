@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/dbaf5c5918364ee18fe7536bcb7ac13d/qualifications/59efad2924154abf958fa603c0869cd8/requirement_responses/51d3fb76de6f49cc8b6f8f5f53dc0181?acc_token=121d6534069841adb88a5ad291d559fe HTTP/1.0
+GET /api/2.5/tenders/dbaf5c5918364ee18fe7536bcb7ac13d/qualifications/59efad2924154abf958fa603c0869cd8/requirement_responses/9f7da91b742e402489a5d8987b71ce10?acc_token=121d6534069841adb88a5ad291d559fe HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -8,7 +8,7 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "requirement": {
-      "id": "e97eb65b1edc49c4bbb5c667816e9083", 
+      "id": "557e21d1a63f43ba87e0c5a77a9df87f", 
       "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
     }, 
     "description": "some description", 
@@ -19,13 +19,13 @@ X-Content-Type-Options: nosniff
         "title": "Requirement response", 
         "type": "document", 
         "relatedDocument": {
-          "id": "57c658a929084380b6fe254d754e5747", 
+          "id": "11826e6ba17949c48777477c1f5adcf2", 
           "title": "name.doc"
         }, 
-        "id": "c9c730ec8a0249628e5aacc4a50ae6be"
+        "id": "cd75dc72849a4a7fa33bdc597878040e"
       }
     ], 
-    "id": "51d3fb76de6f49cc8b6f8f5f53dc0181"
+    "id": "9f7da91b742e402489a5d8987b71ce10"
   }
 }
 

@@ -11,13 +11,13 @@ DATA:
         "value": {
           "amount": 0.5
         }, 
-        "relatedItem": "0054e405b9d64563bb0437ddf2a830f8"
+        "relatedItem": "0f3aaf18780b488798fcd61b8e98d5b4"
       }, 
       {
         "value": {
           "amount": 0.5
         }, 
-        "relatedItem": "238443d82d0c43dab3543c1b3dd471b8"
+        "relatedItem": "1a9ae9179087434e8970d4f22cc8e59d"
       }
     ]
   }
@@ -36,7 +36,7 @@ X-Content-Type-Options: nosniff
           "amount": 0.5, 
           "valueAddedTaxIncluded": true
         }, 
-        "relatedItem": "0054e405b9d64563bb0437ddf2a830f8"
+        "relatedItem": "0f3aaf18780b488798fcd61b8e98d5b4"
       }, 
       {
         "value": {
@@ -44,7 +44,7 @@ X-Content-Type-Options: nosniff
           "amount": 0.5, 
           "valueAddedTaxIncluded": true
         }, 
-        "relatedItem": "238443d82d0c43dab3543c1b3dd471b8"
+        "relatedItem": "1a9ae9179087434e8970d4f22cc8e59d"
       }
     ], 
     "suppliers": [
@@ -70,7 +70,7 @@ X-Content-Type-Options: nosniff
         }
       }
     ], 
-    "bidID": "ccd5dc4ca3f84f9a8f9ec11010bd01ba", 
+    "bidID": "544359015fd047a8b79fa81bda0889fc", 
     "date": "2020-09-08T01:00:00+03:00", 
     "awardID": "fead43daad534c50b0dc2da8b64ccfbb", 
     "id": "713faef521cf4366b30696f427b2f171"

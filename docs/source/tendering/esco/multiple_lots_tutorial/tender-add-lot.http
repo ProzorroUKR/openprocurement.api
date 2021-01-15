@@ -15,7 +15,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db8f78603c144a8aac15730f9c763584/lots/45d538b502bd4124bff52a374958e9ea
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db8f78603c144a8aac15730f9c763584/lots/a49c398a1df943319dc21b99238de1f1
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -34,7 +34,7 @@ X-Content-Type-Options: nosniff
     "minimalStepPercentage": 0.006, 
     "yearlyPaymentsPercentageRange": 0.8, 
     "date": "2020-09-08T01:00:00+03:00", 
-    "id": "45d538b502bd4124bff52a374958e9ea"
+    "id": "a49c398a1df943319dc21b99238de1f1"
   }
 }
 

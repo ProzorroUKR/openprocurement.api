@@ -9,19 +9,19 @@ X-Content-Type-Options: nosniff
   "data": [
     {
       "status": "pending", 
-      "lotID": "fc297ff6c6a74743a96c6b274bae11c0", 
+      "lotID": "090c95ac79ff405687b005d25de27fde", 
       "eligible": false, 
       "qualified": false, 
-      "bidID": "28d7b15324514c31b62f48b15a1b0a2c", 
+      "bidID": "25bd970afcce4abcadf49eab65090119", 
       "date": "2020-09-08T01:00:00+03:00", 
       "id": "69e23d94b0ec4a4cbf777d2557fe598a"
     }, 
     {
       "status": "pending", 
-      "lotID": "fc297ff6c6a74743a96c6b274bae11c0", 
+      "lotID": "090c95ac79ff405687b005d25de27fde", 
       "eligible": false, 
       "qualified": false, 
-      "bidID": "ab9e4059fff24d9aa7b0c32166fce3ba", 
+      "bidID": "6bcf17fc2b2d438193158ce070beb475", 
       "date": "2020-09-08T01:00:00+03:00", 
       "id": "73fa90c6e4a746cb859d4058ad16e5bf"
     }

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/086edc68f12d4a248ded4f9cea52e69c/bids/5c40c6901b9d438fad1d986bf48a3b2c?acc_token=e1acbdb735954beda3c4b55d6dffc720 HTTP/1.0
+PATCH /api/2.5/tenders/086edc68f12d4a248ded4f9cea52e69c/bids/ed0a8b00b0b240d0a1c40d0dfe9d343b?acc_token=e1acbdb735954beda3c4b55d6dffc720 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 188
 Content-Type: application/json
@@ -9,7 +9,7 @@ DATA:
     "status": "pending", 
     "lotValues": [
       {
-        "relatedLot": "827f341aa45e495f853f5493aee68c42", 
+        "relatedLot": "5b9f7b2c302b40c780b44b39d95138a7", 
         "subcontractingDetails": "ДКП «Орфей»"
       }
     ]
@@ -24,13 +24,13 @@ X-Content-Type-Options: nosniff
     "status": "pending", 
     "lotValues": [
       {
-        "relatedLot": "827f341aa45e495f853f5493aee68c42", 
+        "relatedLot": "5b9f7b2c302b40c780b44b39d95138a7", 
         "date": "2020-09-08T01:00:00+03:00", 
         "status": "pending", 
         "subcontractingDetails": "ДКП «Орфей»"
       }
     ], 
-    "id": "5c40c6901b9d438fad1d986bf48a3b2c", 
+    "id": "ed0a8b00b0b240d0a1c40d0dfe9d343b", 
     "tenderers": [
       {
         "contactPoint": {

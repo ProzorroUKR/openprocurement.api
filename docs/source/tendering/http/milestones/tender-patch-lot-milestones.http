@@ -8,10 +8,10 @@ DATA:
   "data": {
     "milestones": [
       {
-        "relatedLot": "7d4acdfde1b44eca8454e96734f0588c"
+        "relatedLot": "1c07c1352f73427e8fd85a219d67e235"
       }, 
       {
-        "relatedLot": "7d4acdfde1b44eca8454e96734f0588c"
+        "relatedLot": "1c07c1352f73427e8fd85a219d67e235"
       }
     ]
   }
@@ -26,7 +26,7 @@ X-Content-Type-Options: nosniff
     "status": "active.enquiries", 
     "milestones": [
       {
-        "relatedLot": "7d4acdfde1b44eca8454e96734f0588c", 
+        "relatedLot": "1c07c1352f73427e8fd85a219d67e235", 
         "code": "prepayment", 
         "sequenceNumber": 0, 
         "title": "signingTheContract", 
@@ -36,10 +36,10 @@ X-Content-Type-Options: nosniff
         }, 
         "percentage": 45.55, 
         "type": "financing", 
-        "id": "fefc9f6e15a84b86b2fddc14f6591d99"
+        "id": "d09511e3595d477eb94699714d140a1c"
       }, 
       {
-        "relatedLot": "7d4acdfde1b44eca8454e96734f0588c", 
+        "relatedLot": "1c07c1352f73427e8fd85a219d67e235", 
         "code": "postpayment", 
         "description": "Підозрілий опис", 
         "sequenceNumber": 1, 
@@ -50,7 +50,7 @@ X-Content-Type-Options: nosniff
         }, 
         "percentage": 54.45, 
         "type": "financing", 
-        "id": "38783ac1487a4f55abd2e61b58497e22"
+        "id": "454e8f6bbb614397a84f6d90299dabb9"
       }
     ], 
     "mainProcurementCategory": "goods", 
@@ -90,7 +90,7 @@ X-Content-Type-Options: nosniff
           "startDate": "2020-09-10T01:00:00+03:00", 
           "endDate": "2020-09-13T01:00:00+03:00"
         }, 
-        "id": "59416cdafac94b998fbf6bdec61facf2", 
+        "id": "5e26797fb7964136ae156072f77c6a13", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -151,7 +151,7 @@ X-Content-Type-Options: nosniff
           "valueAddedTaxIncluded": true
         }, 
         "date": "2020-09-08T01:00:00+03:00", 
-        "id": "7d4acdfde1b44eca8454e96734f0588c"
+        "id": "1c07c1352f73427e8fd85a219d67e235"
       }
     ], 
     "id": "7e23f3f26faf4146af5f668247cf04f4", 

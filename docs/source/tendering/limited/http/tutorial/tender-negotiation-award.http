@@ -40,7 +40,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26b780552e084bbcb2b53c5383a6e976/awards/25e94c29b961421a9128a267c2ffe263
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26b780552e084bbcb2b53c5383a6e976/awards/5a256c6436b6427591c07677af8492c1
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -69,7 +69,7 @@ X-Content-Type-Options: nosniff
         }
       }
     ], 
-    "id": "25e94c29b961421a9128a267c2ffe263", 
+    "id": "5a256c6436b6427591c07677af8492c1", 
     "value": {
       "currency": "UAH", 
       "amount": 475000.0, 

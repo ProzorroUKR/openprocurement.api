@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/6ccc95c340c94e32bcf0b8c2183e62f7/bids/436a89f5f496498fa9134f3caedb168d?acc_token=ebff7d432d3d4d0a8756f67f9bb07ef5 HTTP/1.0
+GET /api/2.5/tenders/6ccc95c340c94e32bcf0b8c2183e62f7/bids/532d5f3ad8d94691881ee10ff993d5e4?acc_token=ebff7d432d3d4d0a8756f67f9bb07ef5 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -11,12 +11,13 @@ X-Content-Type-Options: nosniff
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000", 
+        "author": "bid_owner", 
         "title": "Proposal.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6ccc95c340c94e32bcf0b8c2183e62f7/bids/436a89f5f496498fa9134f3caedb168d/documents/ec90a6e35c674a8eafa7fe0958a50a8c?download=396c2bbf6e0c4ea1aa1292ff2f195d11", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6ccc95c340c94e32bcf0b8c2183e62f7/bids/532d5f3ad8d94691881ee10ff993d5e4/documents/2a4dac7d060b463f84ed4cf309401be1?download=396c2bbf6e0c4ea1aa1292ff2f195d11", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "ec90a6e35c674a8eafa7fe0958a50a8c", 
+        "id": "2a4dac7d060b463f84ed4cf309401be1", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }
     ], 
@@ -39,7 +40,7 @@ X-Content-Type-Options: nosniff
           "amount": 500.0, 
           "valueAddedTaxIncluded": true
         }, 
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/6ccc95c340c94e32bcf0b8c2183e62f7_1b75c06ee58f4909a4201255b4ba5831?key_for_bid=436a89f5f496498fa9134f3caedb168d"
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/6ccc95c340c94e32bcf0b8c2183e62f7_1b75c06ee58f4909a4201255b4ba5831?key_for_bid=532d5f3ad8d94691881ee10ff993d5e4"
       }
     ], 
     "tenderers": [
@@ -65,7 +66,7 @@ X-Content-Type-Options: nosniff
       }
     ], 
     "date": "2020-09-08T01:00:00+03:00", 
-    "id": "436a89f5f496498fa9134f3caedb168d"
+    "id": "532d5f3ad8d94691881ee10ff993d5e4"
   }
 }
 

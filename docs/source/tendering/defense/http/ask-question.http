@@ -33,7 +33,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/127bd59fdd464def8d1189b954eefcbb/questions/997d92880fb34795ab24da25cdd60c8a
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/127bd59fdd464def8d1189b954eefcbb/questions/7a61c35cf07e40a196fc54c54f876cba
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -60,7 +60,7 @@ X-Content-Type-Options: nosniff
     }, 
     "title": "Калорійність", 
     "date": "2020-09-08T01:00:00+03:00", 
-    "id": "997d92880fb34795ab24da25cdd60c8a", 
+    "id": "7a61c35cf07e40a196fc54c54f876cba", 
     "questionOf": "tender"
   }
 }

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/140b7d05238849ca9d3d2153a1b2a8d5/complaints/bb9107253f974b9e91ba6171b4ee3273 HTTP/1.0
+PATCH /api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/140b7d05238849ca9d3d2153a1b2a8d5/complaints/679256ca159643319d6ab0acfd88f7ba HTTP/1.0
 Authorization: Bearer reviewer
 Content-Length: 33
 Content-Type: application/json
@@ -23,11 +23,11 @@ X-Content-Type-Options: nosniff
         "author": "complaint_owner", 
         "language": "uk", 
         "title": "Complaint_Attachment.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2dbe6f1054394a44ba2e056738860386?KeyID=a8968c46&Signature=rHnLLl804eIOgBlPmgEQaTmsfZ%252BXPdYzA%2F8kEo%2FDs6ZgH2gFnU3bsHXNezEeUtJuB6ktAonk%2FuNTwOY%252B0NzBCw%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/09f5e390f78141c1b5c7ab013f1d44b0?KeyID=a8968c46&Signature=itONZA3JMpkXhr3YP53Zg5Ev8nK%2F6t2%2FgeQ7zcTjau4fCZ6vT%252Bmbm%2FwoQgJvGmdUuYGfrZH6hSRvS%252BNbW7OgCA%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:03+03:00", 
-        "id": "d8a38dd58c724648ad4f17195a207166", 
+        "id": "ea327d97d85d431484ab6ba492656652", 
         "dateModified": "2020-09-08T01:00:03+03:00"
       }, 
       {
@@ -35,11 +35,11 @@ X-Content-Type-Options: nosniff
         "author": "aboveThresholdReviewers", 
         "language": "uk", 
         "title": "ComplaintResolution.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/402ab7ec9b9d43628ba621fc2efed595?KeyID=a8968c46&Signature=m%2FpPoKYOULyjq%2FiCI2lyIxpU2kWojgUVytLt%252B9qKOdjwAvCnQM1p%252BAMgO5XJ5pNQAV7NK4DcNHEyjTovcHOJBw%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d8b874d02a9d4e4baad3260a60440e1b?KeyID=a8968c46&Signature=hFT3amxNnW9F6Er53qPxUYorJMbm5yQ%252BirZnYeUoTiijM5W8wC5FUXOFBI01lgWoQRWr9k7IxPC%252B0mCvz4RqCQ%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:03+03:00", 
-        "id": "50010030ed9647afa89d33c126c2e307", 
+        "id": "7e56b6479e2646f1be426148495b8ec7", 
         "dateModified": "2020-09-08T01:00:03+03:00"
       }
     ], 
@@ -77,7 +77,7 @@ X-Content-Type-Options: nosniff
     "complaintID": "UA-2020-09-08-000001.1", 
     "date": "2020-09-08T01:00:03+03:00", 
     "type": "complaint", 
-    "id": "bb9107253f974b9e91ba6171b4ee3273", 
+    "id": "679256ca159643319d6ab0acfd88f7ba", 
     "reviewPlace": "Place of review"
   }
 }

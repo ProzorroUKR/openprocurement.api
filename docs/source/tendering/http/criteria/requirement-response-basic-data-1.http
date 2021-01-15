@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/24660b6d159d42adb6aaba9d978575c7/bids/7d0b2418ff254e1c827ffe021c832900?acc_token=f0760e708e124c8fb9f34e562dbf59cf HTTP/1.0
+PATCH /api/2.5/tenders/24660b6d159d42adb6aaba9d978575c7/bids/9e2ee09e73b94c1aab0be7ed1f2c9bd9?acc_token=f0760e708e124c8fb9f34e562dbf59cf HTTP/1.0
 Authorization: Bearer token
 Content-Length: 1577
 Content-Type: application/json
@@ -9,14 +9,14 @@ DATA:
     "requirementResponses": [
       {
         "requirement": {
-          "id": "d9b0e1740123433f8accf08bcb0171f6", 
+          "id": "53f799fd59d04ff18875d7d7c32a20ca", 
           "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
         }, 
         "evidences": [
           {
             "type": "document", 
             "relatedDocument": {
-              "id": "7261f09218de4ce79c11a48d275491e8", 
+              "id": "edd9dc8d53004504a450acdf5953472f", 
               "title": "name.doc"
             }, 
             "title": "Requirement response"
@@ -39,18 +39,19 @@ X-Content-Type-Options: nosniff
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000", 
-        "confidentiality": "public", 
+        "author": "bid_owner", 
         "language": "uk", 
         "title": "name.doc", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/24660b6d159d42adb6aaba9d978575c7/bids/7d0b2418ff254e1c827ffe021c832900/documents/7261f09218de4ce79c11a48d275491e8?download=d7c0f761ecc4403a9411415f1c36fa67", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/24660b6d159d42adb6aaba9d978575c7/bids/9e2ee09e73b94c1aab0be7ed1f2c9bd9/documents/edd9dc8d53004504a450acdf5953472f?download=9eb943ac564f4a18a54c4020b0a02370", 
         "format": "application/msword", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "7261f09218de4ce79c11a48d275491e8", 
-        "dateModified": "2020-09-08T01:00:00+03:00"
+        "id": "edd9dc8d53004504a450acdf5953472f", 
+        "dateModified": "2020-09-08T01:00:00+03:00", 
+        "confidentiality": "public"
       }
     ], 
-    "id": "7d0b2418ff254e1c827ffe021c832900", 
+    "id": "9e2ee09e73b94c1aab0be7ed1f2c9bd9", 
     "value": {
       "currency": "UAH", 
       "amount": 500.0, 
@@ -59,7 +60,7 @@ X-Content-Type-Options: nosniff
     "requirementResponses": [
       {
         "requirement": {
-          "id": "d9b0e1740123433f8accf08bcb0171f6", 
+          "id": "53f799fd59d04ff18875d7d7c32a20ca", 
           "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
         }, 
         "description": "some description", 
@@ -70,13 +71,13 @@ X-Content-Type-Options: nosniff
             "title": "Requirement response", 
             "type": "document", 
             "relatedDocument": {
-              "id": "7261f09218de4ce79c11a48d275491e8", 
+              "id": "edd9dc8d53004504a450acdf5953472f", 
               "title": "name.doc"
             }, 
-            "id": "afe73664dc6f42a7a3e0b4039f33ebe5"
+            "id": "4e431408a75448aea6225750a67fabf8"
           }
         ], 
-        "id": "75deb3a5e48a4a3999b22dbb9e1e8c7e"
+        "id": "8c594ce61a2a455dacb061dc35ae71c0"
       }
     ], 
     "tenderers": [

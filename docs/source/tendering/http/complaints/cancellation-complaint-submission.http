@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/9de80116006a4e58b18ac56dda573693/cancellations/31235ac89ae54d56b2b78a0243f2d589/complaints HTTP/1.0
+POST /api/2.5/tenders/9de80116006a4e58b18ac56dda573693/cancellations/9eaff9bb04ef486c9efc3aff3a4d9015/complaints HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1469
 Content-Type: application/json
@@ -36,7 +36,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9de80116006a4e58b18ac56dda573693/cancellations/31235ac89ae54d56b2b78a0243f2d589/complaints/ee791245be184fe89d11df7d4650b501
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9de80116006a4e58b18ac56dda573693/cancellations/9eaff9bb04ef486c9efc3aff3a4d9015/complaints/c1f8273c987d4fc2b4eea78dfc846e55
 X-Content-Type-Options: nosniff
 {
   "access": {
@@ -75,7 +75,7 @@ X-Content-Type-Options: nosniff
     "complaintID": "UA-2020-09-08-000001.1", 
     "date": "2020-09-08T01:00:00+03:00", 
     "type": "complaint", 
-    "id": "ee791245be184fe89d11df7d4650b501"
+    "id": "c1f8273c987d4fc2b4eea78dfc846e55"
   }
 }
 

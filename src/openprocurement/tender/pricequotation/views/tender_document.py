@@ -1,14 +1,21 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import json_view
-from openprocurement.api.validation import validate_patch_document_data,\
-    validate_file_upload, validate_file_update
-from openprocurement.tender.belowthreshold.views.tender_document import\
-    TenderDocumentResource
+from openprocurement.api.validation import (
+    validate_patch_document_data,
+    validate_file_update,
+    validate_file_upload,
+)
+from openprocurement.tender.belowthreshold.views.tender_document import (
+    TenderDocumentResource,
+)
 from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.pricequotation.constants import PMT
-from openprocurement.tender.core.validation import\
-    validate_tender_document_update_not_by_author_or_tender_owner
-from openprocurement.tender.pricequotation.validation import validate_document_operation_in_not_allowed_period
+from openprocurement.tender.core.validation import (
+    validate_tender_document_update_not_by_author_or_tender_owner,
+)
+from openprocurement.tender.pricequotation.validation import (
+    validate_document_operation_in_not_allowed_period,
+)
 
 
 @optendersresource(

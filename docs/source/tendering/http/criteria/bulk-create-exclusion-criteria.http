@@ -75,18 +75,18 @@ X-Content-Type-Options: nosniff
               "dataType": "boolean", 
               "datePublished": "2020-09-08T01:00:00+03:00", 
               "expectedValue": "true", 
-              "id": "0ca3dbd1704e4448904c18da557b7f9e", 
+              "id": "c0ee02c50e0246e2bb169151d889cd8f", 
               "eligibleEvidences": [
                 {
                   "title": "Документальне підтвердження", 
                   "type": "document", 
                   "description": "Довідка в довільній формі", 
-                  "id": "9b59932e95c94b6cb81c36ac7ed86426"
+                  "id": "d0c7eceb2cb441aca8fba42c09ee6f84"
                 }
               ]
             }
           ], 
-          "id": "8cd633ab69364e08adc68488e215dbe1", 
+          "id": "e380f5492d164bb29a31effd85003468", 
           "description": "Учасник фізична особа підтверджує, що"
         }
       ], 
@@ -120,7 +120,7 @@ X-Content-Type-Options: nosniff
       ], 
       "relatesTo": "tenderer", 
       "source": "tenderer", 
-      "id": "1d06411539624def86eded220418ae50"
+      "id": "08f2281d3cac4734813ff9785f7ec33e"
     }
   ]
 }

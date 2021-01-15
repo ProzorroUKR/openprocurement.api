@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/cancellations/442eab37b845408d81ed635c8d8ebadb/documents/ada2083ffec749c5ae3c8fc110e1fb3b?acc_token=e6bb69a4c5474e4987130585951b6f3e HTTP/1.0
+PATCH /api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/cancellations/b1c6b22e3571488c89c0a0161a1ba53c/documents/04b84778fb4d41209ac943d6b1cb10a0?acc_token=e6bb69a4c5474e4987130585951b6f3e HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 48
 Content-Type: application/json
@@ -22,7 +22,8 @@ X-Content-Type-Options: nosniff
     "format": "application/pdf", 
     "documentOf": "tender", 
     "datePublished": "2020-09-08T01:00:03+03:00", 
-    "id": "ada2083ffec749c5ae3c8fc110e1fb3b", 
+    "author": "tender_owner", 
+    "id": "04b84778fb4d41209ac943d6b1cb10a0", 
     "dateModified": "2020-09-08T01:00:03+03:00"
   }
 }

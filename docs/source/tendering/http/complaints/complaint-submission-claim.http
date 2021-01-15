@@ -35,7 +35,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/39e21275514647ba80d2ac1c9814d826
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/7e00f6e93d7242f9bf50e4ac8e43ebab
 X-Content-Type-Options: nosniff
 {
   "access": {
@@ -70,7 +70,7 @@ X-Content-Type-Options: nosniff
     "complaintID": "UA-2020-09-08-000001.2", 
     "date": "2020-09-08T01:00:00+03:00", 
     "type": "claim", 
-    "id": "39e21275514647ba80d2ac1c9814d826"
+    "id": "7e00f6e93d7242f9bf50e4ac8e43ebab"
   }
 }
 

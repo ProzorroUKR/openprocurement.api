@@ -9,7 +9,7 @@ X-Content-Type-Options: nosniff
   "data": [
     {
       "requirement": {
-        "id": "e97eb65b1edc49c4bbb5c667816e9083", 
+        "id": "557e21d1a63f43ba87e0c5a77a9df87f", 
         "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
       }, 
       "description": "some description", 
@@ -20,22 +20,22 @@ X-Content-Type-Options: nosniff
           "title": "Requirement response", 
           "type": "document", 
           "relatedDocument": {
-            "id": "57c658a929084380b6fe254d754e5747", 
+            "id": "11826e6ba17949c48777477c1f5adcf2", 
             "title": "name.doc"
           }, 
-          "id": "c9c730ec8a0249628e5aacc4a50ae6be"
+          "id": "cd75dc72849a4a7fa33bdc597878040e"
         }, 
         {
           "title": "Update evidence title", 
           "type": "document", 
           "relatedDocument": {
-            "id": "57c658a929084380b6fe254d754e5747", 
+            "id": "11826e6ba17949c48777477c1f5adcf2", 
             "title": "name.doc"
           }, 
-          "id": "1a483fe628794b92b3c7f200ab2f0a35"
+          "id": "1775f2c320914a54ae378e78edca8b1d"
         }
       ], 
-      "id": "51d3fb76de6f49cc8b6f8f5f53dc0181"
+      "id": "9f7da91b742e402489a5d8987b71ce10"
     }
   ]
 }

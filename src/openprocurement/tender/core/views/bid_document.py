@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import (
-    get_file,
-    upload_file,
-    update_file_content_type,
     json_view,
-    context_unpack,
-    APIResource,
 )
-from openprocurement.api.validation import validate_file_update, validate_file_upload, validate_patch_document_data
-from openprocurement.tender.core.utils import save_tender, optendersresource, apply_patch
+from openprocurement.api.validation import (
+    validate_file_update,
+    validate_patch_document_data,
+    validate_file_upload,
+)
+from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.core.validation import (
     validate_bid_document_operation_period,
     validate_view_bid_document,
     validate_bid_document_operation_with_not_pending_award,
     validate_bid_document_operation_in_not_allowed_tender_status,
 )
+from openprocurement.tender.core.views.document import CoreDocumentResource
 
 
 @optendersresource(
@@ -24,8 +24,13 @@ from openprocurement.tender.core.validation import (
     procurementMethodType="belowThreshold",
     description="Tender bidder documents",
 )
-class TenderBidDocumentResource(APIResource):
+class TenderBidDocumentResource(CoreDocumentResource):
     container = "documents"
+    context_name = "tender_bid"
+
+    def pre_save(self):
+        if self.request.validated["tender_status"] == "active.tendering":
+            self.request.validated["tender"].modified = False
 
     def _get_doc_view_role(self, doc):
         return "view"
@@ -38,21 +43,7 @@ class TenderBidDocumentResource(APIResource):
     )
     def collection_get(self):
         """Tender Bid Documents List"""
-        if self.request.params.get("all", ""):
-            collection_data = [
-                i.serialize(self._get_doc_view_role(i))
-                for i in getattr(self.context, self.container)
-            ]
-        else:
-            documents_by_id = {
-                i.id: i.serialize(self._get_doc_view_role(i))
-                for i in getattr(self.context, self.container)
-            }
-            collection_data = sorted(
-                documents_by_id.values(),
-                key=lambda i: i["dateModified"],
-            )
-        return {"data": collection_data}
+        return super(TenderBidDocumentResource, self).collection_get()
 
     @json_view(
         validators=(
@@ -66,38 +57,12 @@ class TenderBidDocumentResource(APIResource):
     def collection_post(self):
         """Tender Bid Document Upload
         """
-        document = upload_file(self.request)
-        getattr(self.context, self.container).append(document)
-        if self.request.validated["tender_status"] == "active.tendering":
-            self.request.validated["tender"].modified = False
-        if save_tender(self.request):
-            self.LOGGER.info(
-                "Created tender bid document {}".format(document.id),
-                extra=context_unpack(
-                    self.request, {"MESSAGE_ID": "tender_bid_document_create"}, {"document_id": document.id}
-                ),
-            )
-            self.request.response.status = 201
-            document_route = self.request.matched_route.name.replace("collection_", "")
-            self.request.response.headers["Location"] = self.request.current_route_url(
-                _route_name=document_route, document_id=document.id, _query={}
-            )
-            return {"data": document.serialize("view")}
+        return super(TenderBidDocumentResource, self).collection_post()
 
     @json_view(permission="view_tender", validators=(validate_view_bid_document,))
     def get(self):
         """Tender Bid Document Read"""
-        if self.request.params.get("download"):
-            return get_file(self.request)
-        document = self.request.validated["document"]
-        serialize_role = self._get_doc_view_role(document)
-        document_data = document.serialize(serialize_role)
-        document_data["previousVersions"] = [
-            i.serialize(serialize_role)
-            for i in self.request.validated["documents"]
-            if i.url != document.url
-        ]
-        return {"data": document_data}
+        return super(TenderBidDocumentResource, self).get()
 
     @json_view(
         validators=(
@@ -110,16 +75,7 @@ class TenderBidDocumentResource(APIResource):
     )
     def put(self):
         """Tender Bid Document Update"""
-        document = upload_file(self.request)
-        getattr(self.request.validated["bid"], self.container).append(document)
-        if self.request.validated["tender_status"] == "active.tendering":
-            self.request.validated["tender"].modified = False
-        if save_tender(self.request):
-            self.LOGGER.info(
-                "Updated tender bid document {}".format(self.request.context.id),
-                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_bid_document_put"}),
-            )
-            return {"data": document.serialize("view")}
+        return super(TenderBidDocumentResource, self).put()
 
     @json_view(
         content_type="application/json",
@@ -133,12 +89,4 @@ class TenderBidDocumentResource(APIResource):
     )
     def patch(self):
         """Tender Bid Document Update"""
-        if self.request.validated["tender_status"] == "active.tendering":
-            self.request.validated["tender"].modified = False
-        if apply_patch(self.request, src=self.request.context.serialize()):
-            update_file_content_type(self.request)
-            self.LOGGER.info(
-                "Updated tender bid document {}".format(self.request.context.id),
-                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_bid_document_patch"}),
-            )
-            return {"data": self.request.context.serialize("view")}
+        return super(TenderBidDocumentResource, self).patch()

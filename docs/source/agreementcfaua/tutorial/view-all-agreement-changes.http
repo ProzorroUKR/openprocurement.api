@@ -11,7 +11,7 @@ X-Content-Type-Options: nosniff
       "status": "active", 
       "modifications": [
         {
-          "itemId": "54eee06ff6d24b12b8e84dfe65d1b6b7", 
+          "itemId": "89714a1ef42f4d809c74ca67c293da13", 
           "factor": 0.1605
         }
       ], 
@@ -20,7 +20,7 @@ X-Content-Type-Options: nosniff
       "dateSigned": "2020-09-08T01:00:00+03:00", 
       "rationale": "Друга і третя поставка має бути розфасована", 
       "date": "2020-09-08T01:00:00+03:00", 
-      "id": "5937223446a044e689f16dc9912fed8b"
+      "id": "3589aa88ba3f41be89b973cf88d9c9b8"
     }
   ]
 }

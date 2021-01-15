@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/140b7d05238849ca9d3d2153a1b2a8d5/complaints/cb67aafa016c41ef9b510d82f012e166 HTTP/1.0
+PATCH /api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/140b7d05238849ca9d3d2153a1b2a8d5/complaints/bb3a0e4e26734ef499b7027e44ebb74e HTTP/1.0
 Authorization: Bearer reviewer
 Content-Length: 252
 Content-Type: application/json
@@ -28,7 +28,7 @@ X-Content-Type-Options: nosniff
       "currency": "UAH", 
       "amount": 3000.0
     }, 
-    "id": "cb67aafa016c41ef9b510d82f012e166", 
+    "id": "bb3a0e4e26734ef499b7027e44ebb74e", 
     "rejectReason": "tenderCancelled", 
     "dateAccepted": "2020-09-08T01:00:03+03:00", 
     "author": {

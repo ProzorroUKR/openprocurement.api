@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import upload_file, update_file_content_type, json_view, context_unpack
-from openprocurement.tender.core.utils import apply_patch, save_tender, optendersresource
+from openprocurement.api.utils import json_view
+from openprocurement.tender.core.utils import optendersresource
 
-from openprocurement.api.validation import validate_file_update, validate_file_upload, validate_patch_document_data
+from openprocurement.api.validation import (
+    validate_file_update,
+    validate_patch_document_data,
+    validate_file_upload,
+)
 from openprocurement.tender.belowthreshold.views.contract_document import (
     TenderAwardContractDocumentResource as BaseTenderAwardContractDocumentResource,
 )
@@ -20,18 +24,9 @@ from openprocurement.tender.limited.validation import (
     description="Tender contract documents",
 )
 class TenderAwardContractDocumentResource(BaseTenderAwardContractDocumentResource):
-    @json_view(permission="view_tender")
-    def collection_get(self):
-        """Tender Contract Documents List"""
-        contract = self.request.validated["contract"]
-        if self.request.params.get("all", ""):
-            collection_data = [i.serialize("view") for i in contract["documents"]]
-        else:
-            collection_data = sorted(
-                dict([(i.id, i.serialize("view")) for i in contract["documents"]]).values(),
-                key=lambda i: i["dateModified"],
-            )
-        return {"data": collection_data}
+
+    def validate_contract_document(self, operation):
+        return True
 
     @json_view(
         permission="edit_tender",
@@ -44,21 +39,7 @@ class TenderAwardContractDocumentResource(BaseTenderAwardContractDocumentResourc
     def collection_post(self):
         """Tender Contract Document Upload
         """
-        document = upload_file(self.request)
-        self.request.validated["contract"].documents.append(document)
-        if save_tender(self.request):
-            self.LOGGER.info(
-                "Created tender contract document {}".format(document.id),
-                extra=context_unpack(
-                    self.request, {"MESSAGE_ID": "tender_contract_document_create"}, {"document_id": document.id}
-                ),
-            )
-            self.request.response.status = 201
-            document_route = self.request.matched_route.name.replace("collection_", "")
-            self.request.response.headers["Location"] = self.request.current_route_url(
-                _route_name=document_route, document_id=document.id, _query={}
-            )
-            return {"data": document.serialize("view")}
+        return super(TenderAwardContractDocumentResource, self).collection_post()
 
     @json_view(
         validators=(
@@ -70,14 +51,7 @@ class TenderAwardContractDocumentResource(BaseTenderAwardContractDocumentResourc
     )
     def put(self):
         """Tender Contract Document Update"""
-        document = upload_file(self.request)
-        self.request.validated["contract"].documents.append(document)
-        if save_tender(self.request):
-            self.LOGGER.info(
-                "Created tender contract document {}".format(self.request.context.id),
-                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_contract_document_put"}),
-            )
-            return {"data": document.serialize("view")}
+        return super(TenderAwardContractDocumentResource, self).put()
 
     @json_view(
         content_type="application/json",
@@ -90,13 +64,7 @@ class TenderAwardContractDocumentResource(BaseTenderAwardContractDocumentResourc
     )
     def patch(self):
         """Tender Contract Document Update"""
-        if apply_patch(self.request, src=self.request.context.serialize()):
-            update_file_content_type(self.request)
-            self.LOGGER.info(
-                "Created tender contract document {}".format(self.request.context.id),
-                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_contract_document_patch"}),
-            )
-            return {"data": self.request.context.serialize("view")}
+        return super(TenderAwardContractDocumentResource, self).patch()
 
 
 @optendersresource(

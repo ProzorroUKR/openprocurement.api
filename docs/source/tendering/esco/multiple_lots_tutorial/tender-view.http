@@ -66,7 +66,7 @@ X-Content-Type-Options: nosniff
         "minimalStepPercentage": 0.006, 
         "yearlyPaymentsPercentageRange": 0.8, 
         "date": "2020-09-08T01:00:00+03:00", 
-        "id": "45d538b502bd4124bff52a374958e9ea"
+        "id": "a49c398a1df943319dc21b99238de1f1"
       }, 
       {
         "status": "active", 
@@ -84,7 +84,7 @@ X-Content-Type-Options: nosniff
         "minimalStepPercentage": 0.006, 
         "yearlyPaymentsPercentageRange": 0.8, 
         "date": "2020-09-08T01:00:00+03:00", 
-        "id": "aa439cf36abb4b2fb712ee9932b8d55b"
+        "id": "185782d51df549ca92f39da44a153ef5"
       }
     ], 
     "tenderID": "UA-2020-09-08-000001", 
@@ -127,13 +127,13 @@ X-Content-Type-Options: nosniff
         }, 
         "percentage": 54.45, 
         "type": "financing", 
-        "id": "ab5c5a60667c417b9617d930f57e7aa4"
+        "id": "0c054611664347f082e4886115b9bce3"
       }
     ], 
     "fundingKind": "other", 
     "items": [
       {
-        "relatedLot": "45d538b502bd4124bff52a374958e9ea", 
+        "relatedLot": "a49c398a1df943319dc21b99238de1f1", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "ДК021", 
@@ -155,14 +155,14 @@ X-Content-Type-Options: nosniff
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
-        "id": "883dc1607ec54e498aaa32c18819bdff", 
+        "id": "8a06ff8a964e46d5bdec1b90d637dad4", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
         }
       }, 
       {
-        "relatedLot": "aa439cf36abb4b2fb712ee9932b8d55b", 
+        "relatedLot": "185782d51df549ca92f39da44a153ef5", 
         "description": "Послуги шкільних їдалень", 
         "classification": {
           "scheme": "ДК021", 
@@ -184,7 +184,7 @@ X-Content-Type-Options: nosniff
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
-        "id": "273260c57be54e9fb4f474cd84077507", 
+        "id": "bdc9e8c71d184e9397f0db406a90a2e9", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"

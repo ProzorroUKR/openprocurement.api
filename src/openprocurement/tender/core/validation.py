@@ -1912,7 +1912,7 @@ def validate_operation_qualification_requirement_response(request, **kwargs):
 def validate_criterion_data(request, **kwargs):
     update_logging_context(request, {"criterion_id": "__new__"})
     model = type(request.tender).criteria.model_class
-    return validate_data(request, model, bulk="full")
+    return validate_data(request, model, allow_bulk=True, force_bulk=True)
 
 
 def validate_patch_criterion_data(request, **kwargs):
@@ -1960,7 +1960,7 @@ def validate_patch_eligible_evidence_data(request, **kwargs):
 def validate_requirement_response_data(request, **kwargs):
     update_logging_context(request, {"requirement_response_id": "__new__"})
     model = type(request.tender).bids.model_class.requirementResponses.model_class
-    return validate_data(request, model, bulk="full")
+    return validate_data(request, model, allow_bulk=True, force_bulk=True)
 
 
 def validate_patch_requirement_response_data(request, **kwargs):

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/9d482818789a45e88dfb8ad4c89bd4ef?acc_token=d2a2184be75540dc9943d755fd56b1e0 HTTP/1.0
+GET /api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/91475b6934a54a49b2d66d529a29b600?acc_token=d2a2184be75540dc9943d755fd56b1e0 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -11,45 +11,48 @@ X-Content-Type-Options: nosniff
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000", 
-        "confidentiality": "public", 
+        "author": "bid_owner", 
         "language": "uk", 
         "title": "Proposal.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/9d482818789a45e88dfb8ad4c89bd4ef/documents/ffb8f68e7a9442ca8c7c909ce9475091?download=b1254823518c427e84bddac2609d49cb", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/91475b6934a54a49b2d66d529a29b600/documents/c718bc5f858947729ba55f2b7073bb0e?download=ae5b36a63ed242abbf9ce2a202a171b4", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "ffb8f68e7a9442ca8c7c909ce9475091", 
-        "dateModified": "2020-09-08T01:00:00+03:00"
+        "id": "c718bc5f858947729ba55f2b7073bb0e", 
+        "dateModified": "2020-09-08T01:00:00+03:00", 
+        "confidentiality": "public"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
         "confidentiality": "buyerOnly", 
         "language": "uk", 
         "format": "application/pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/9d482818789a45e88dfb8ad4c89bd4ef/documents/ca89fb4746d64cfd87f857401fe85d90?download=46eae2bb26bb459e80168cde78780897", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/91475b6934a54a49b2d66d529a29b600/documents/ad4cde28f9164bc3a210475a9564bb83?download=0d43784035d74c878b23eff644f71f6a", 
         "confidentialityRationale": "Only our company sells badgers with pink hair.", 
-        "title": "Proposal_top_secrets.pdf", 
+        "author": "bid_owner", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "ca89fb4746d64cfd87f857401fe85d90", 
+        "id": "ad4cde28f9164bc3a210475a9564bb83", 
+        "title": "Proposal_top_secrets.pdf", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }
     ], 
     "eligibilityDocuments": [
       {
         "hash": "md5:00000000000000000000000000000000", 
-        "confidentiality": "public", 
+        "author": "bid_owner", 
         "language": "uk", 
         "title": "eligibility_doc.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/9d482818789a45e88dfb8ad4c89bd4ef/eligibility_documents/84e8cce5126f4088a9d49b2d8a61147c?download=f5bd5faca0ed402f9f631588655730d2", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/91475b6934a54a49b2d66d529a29b600/eligibility_documents/74bb77d74c4e43bba2e17ab054a5756d?download=9b0a66eb4fd941f4a1753ee4e318b14c", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "84e8cce5126f4088a9d49b2d8a61147c", 
-        "dateModified": "2020-09-08T01:00:00+03:00"
+        "id": "74bb77d74c4e43bba2e17ab054a5756d", 
+        "dateModified": "2020-09-08T01:00:00+03:00", 
+        "confidentiality": "public"
       }
     ], 
-    "id": "9d482818789a45e88dfb8ad4c89bd4ef", 
+    "id": "91475b6934a54a49b2d66d529a29b600", 
     "value": {
       "currency": "UAH", 
       "amount": 500.0, 
@@ -58,41 +61,44 @@ X-Content-Type-Options: nosniff
     "qualificationDocuments": [
       {
         "hash": "md5:00000000000000000000000000000000", 
-        "confidentiality": "public", 
+        "author": "bid_owner", 
         "language": "uk", 
         "title": "qualification_document.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/9d482818789a45e88dfb8ad4c89bd4ef/qualification_documents/967be1d89cf846feae631c84ec4d0834?download=72b7b1d29c754e0eb64489482ad92680", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/91475b6934a54a49b2d66d529a29b600/qualification_documents/b33ea0fc931940a0a591a0ad4ce94e60?download=af6cb48ddaed4088a88516cb35dce96f", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "967be1d89cf846feae631c84ec4d0834", 
-        "dateModified": "2020-09-08T01:00:00+03:00"
+        "id": "b33ea0fc931940a0a591a0ad4ce94e60", 
+        "dateModified": "2020-09-08T01:00:00+03:00", 
+        "confidentiality": "public"
       }
     ], 
     "financialDocuments": [
       {
         "hash": "md5:00000000000000000000000000000000", 
-        "confidentiality": "public", 
+        "author": "bid_owner", 
         "language": "uk", 
         "title": "financial_doc.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/9d482818789a45e88dfb8ad4c89bd4ef/financial_documents/4d63bcaab539462fbc4dad2cd151cd99?download=14fd1c06e9f640f7b8891f22f2a645d6", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/91475b6934a54a49b2d66d529a29b600/financial_documents/30c768a77b2f45499dd50833539f4ea1?download=5fd8910d26d340f4a83428bd25b62fa1", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "4d63bcaab539462fbc4dad2cd151cd99", 
-        "dateModified": "2020-09-08T01:00:00+03:00"
+        "id": "30c768a77b2f45499dd50833539f4ea1", 
+        "dateModified": "2020-09-08T01:00:00+03:00", 
+        "confidentiality": "public"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
-        "confidentiality": "public", 
+        "author": "bid_owner", 
         "language": "uk", 
         "title": "financial_doc2.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/9d482818789a45e88dfb8ad4c89bd4ef/financial_documents/d8273962ff464b59accf03c3dcac9460?download=4727233454434ece80cdf932dbc3ade9", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/91475b6934a54a49b2d66d529a29b600/financial_documents/328e677848504c568c247bde249c63d4?download=c0039e8646414fb2a720d6727d06c0f7", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "d8273962ff464b59accf03c3dcac9460", 
-        "dateModified": "2020-09-08T01:00:00+03:00"
+        "id": "328e677848504c568c247bde249c63d4", 
+        "dateModified": "2020-09-08T01:00:00+03:00", 
+        "confidentiality": "public"
       }
     ], 
     "tenderers": [

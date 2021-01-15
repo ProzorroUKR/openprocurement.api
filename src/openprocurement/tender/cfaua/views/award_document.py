@@ -5,7 +5,8 @@ from openprocurement.tender.cfaua.validation import validate_award_document_tend
 from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.core.validation import (
     validate_award_document_lot_not_in_allowed_status,
-    validate_award_document_author)
+    validate_award_document_author
+)
 from openprocurement.tender.openua.validation import validate_accepted_complaints
 from openprocurement.tender.openua.views.award_document import TenderUaAwardDocumentResource as BaseResource
 

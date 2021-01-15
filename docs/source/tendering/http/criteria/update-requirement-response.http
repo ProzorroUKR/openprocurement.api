@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/24660b6d159d42adb6aaba9d978575c7/bids/7d0b2418ff254e1c827ffe021c832900/requirement_responses/ce6891c78c434af29aa5a080d027392b?acc_token=f0760e708e124c8fb9f34e562dbf59cf HTTP/1.0
+PATCH /api/2.5/tenders/24660b6d159d42adb6aaba9d978575c7/bids/9e2ee09e73b94c1aab0be7ed1f2c9bd9/requirement_responses/50f10bd750d04f9ba64287d61eadcd44?acc_token=f0760e708e124c8fb9f34e562dbf59cf HTTP/1.0
 Authorization: Bearer token
 Content-Length: 36
 Content-Type: application/json
@@ -16,7 +16,7 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "requirement": {
-      "id": "d9b0e1740123433f8accf08bcb0171f6", 
+      "id": "53f799fd59d04ff18875d7d7c32a20ca", 
       "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
     }, 
     "description": "some description", 
@@ -27,13 +27,13 @@ X-Content-Type-Options: nosniff
         "title": "Requirement response", 
         "type": "document", 
         "relatedDocument": {
-          "id": "7261f09218de4ce79c11a48d275491e8", 
+          "id": "edd9dc8d53004504a450acdf5953472f", 
           "title": "name.doc"
         }, 
-        "id": "b0fb461076fd40b5bf0a6610dccea574"
+        "id": "52030280eaa2452cbb51465a0a4a5008"
       }
     ], 
-    "id": "ce6891c78c434af29aa5a080d027392b"
+    "id": "50f10bd750d04f9ba64287d61eadcd44"
   }
 }
 

@@ -20,25 +20,27 @@ X-Content-Type-Options: nosniff
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000", 
+        "author": "tender_owner", 
         "title": "agreement_first_document.doc", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9a798ae84f1245279847a0383649333a?KeyID=a8968c46&Signature=Oy4In%2FIXmvZq5pCOBlM%2Fiq91zMKTq%252B%2FyqlgZ5A3Sm7bEeu1n%2Fw6ASH9b8zyJt2Gi%252B484%2FPTOYpsRPBnV9RpfCA%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a8489559ac784f5ca9e21f192413a4c5?KeyID=a8968c46&Signature=4cINHZlWKBzQHsCjivBf3kPEona6SH82mcWBi3%2FKzi1dOSyd1sLdrJYASRH5niIDmUb4zL9TAqEOBB8CvuBJDw%253D%253D", 
         "format": "application/msword", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "e846fc10d0b24aa38e445012b9287be5", 
+        "id": "be5542dbaf2e458b911691765473459f", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
+        "author": "tender_owner", 
         "language": "en", 
         "title": "agreement_second_document.doc", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8bbbaa7fc0c4490fa107c3026df2f11c?KeyID=a8968c46&Signature=H%2FUZicvwTJ2z%2FHi7AxouACeLE6gsE5HKtQooqbu77SdsyQ5cnSvQMZ6Msms9va5iEQTDL3jg0eXapl%252Bj1%252B9rCQ%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f7bc9e78966d44b0b57ac0e9f117a0f5?KeyID=a8968c46&Signature=ValcHh6yBCloSldI%252BE58jl6kVLVsOigf6G9ZtvjRWHgJe%252BIw9%2FBDShIZws0UrVxm76OcGpvlIIGkmohbgJu%2FCQ%253D%253D", 
         "format": "application/msword", 
         "title_en": "Title of Document", 
         "description_en": "Description of Document", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
         "documentOf": "tender", 
-        "id": "382c614554d2459d81f1672c8cf39db0", 
+        "id": "e0863507fdbb41f79ee822d3636603d0", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }
     ], 
@@ -52,7 +54,7 @@ X-Content-Type-Options: nosniff
               "amount": 0.5, 
               "valueAddedTaxIncluded": true
             }, 
-            "relatedItem": "0054e405b9d64563bb0437ddf2a830f8"
+            "relatedItem": "0f3aaf18780b488798fcd61b8e98d5b4"
           }, 
           {
             "value": {
@@ -60,7 +62,7 @@ X-Content-Type-Options: nosniff
               "amount": 0.5, 
               "valueAddedTaxIncluded": true
             }, 
-            "relatedItem": "238443d82d0c43dab3543c1b3dd471b8"
+            "relatedItem": "1a9ae9179087434e8970d4f22cc8e59d"
           }
         ], 
         "suppliers": [
@@ -86,7 +88,7 @@ X-Content-Type-Options: nosniff
             }
           }
         ], 
-        "bidID": "e0d41b30b35a430fb164a63e2cd8792b", 
+        "bidID": "f15395a4363049ad92d56f8b5ff97fac", 
         "date": "2020-09-08T01:00:00+03:00", 
         "awardID": "58aa9c80eeb345e998dc764a75f940ee", 
         "id": "2221451d71af4bfa803fd5b9382103ed"
@@ -100,7 +102,7 @@ X-Content-Type-Options: nosniff
               "amount": 0.5, 
               "valueAddedTaxIncluded": true
             }, 
-            "relatedItem": "0054e405b9d64563bb0437ddf2a830f8"
+            "relatedItem": "0f3aaf18780b488798fcd61b8e98d5b4"
           }, 
           {
             "value": {
@@ -108,7 +110,7 @@ X-Content-Type-Options: nosniff
               "amount": 0.5, 
               "valueAddedTaxIncluded": true
             }, 
-            "relatedItem": "238443d82d0c43dab3543c1b3dd471b8"
+            "relatedItem": "1a9ae9179087434e8970d4f22cc8e59d"
           }
         ], 
         "suppliers": [
@@ -134,7 +136,7 @@ X-Content-Type-Options: nosniff
             }
           }
         ], 
-        "bidID": "1c4a2dcee85343898ea5fbfd8ce2bd6e", 
+        "bidID": "7463b9ba00b849cb8e5a5421f550868e", 
         "date": "2020-09-08T01:00:00+03:00", 
         "awardID": "e39130af90ba485cacb7cdc36cdfc089", 
         "id": "d5c9e2e28ee74a67a078c87bf9967a53"
@@ -148,7 +150,7 @@ X-Content-Type-Options: nosniff
               "amount": 0.5, 
               "valueAddedTaxIncluded": true
             }, 
-            "relatedItem": "0054e405b9d64563bb0437ddf2a830f8"
+            "relatedItem": "0f3aaf18780b488798fcd61b8e98d5b4"
           }, 
           {
             "value": {
@@ -156,7 +158,7 @@ X-Content-Type-Options: nosniff
               "amount": 0.5, 
               "valueAddedTaxIncluded": true
             }, 
-            "relatedItem": "238443d82d0c43dab3543c1b3dd471b8"
+            "relatedItem": "1a9ae9179087434e8970d4f22cc8e59d"
           }
         ], 
         "suppliers": [
@@ -182,7 +184,7 @@ X-Content-Type-Options: nosniff
             }
           }
         ], 
-        "bidID": "ccd5dc4ca3f84f9a8f9ec11010bd01ba", 
+        "bidID": "544359015fd047a8b79fa81bda0889fc", 
         "date": "2020-09-08T01:00:00+03:00", 
         "awardID": "fead43daad534c50b0dc2da8b64ccfbb", 
         "id": "713faef521cf4366b30696f427b2f171"
@@ -216,7 +218,7 @@ X-Content-Type-Options: nosniff
           "startDate": "2018-06-27T13:39:09.362837+03:00", 
           "endDate": "2018-06-30T13:39:09.362837+03:00"
         }, 
-        "id": "0054e405b9d64563bb0437ddf2a830f8", 
+        "id": "0f3aaf18780b488798fcd61b8e98d5b4", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -250,7 +252,7 @@ X-Content-Type-Options: nosniff
           "startDate": "2018-06-27T13:39:09.362837+03:00", 
           "endDate": "2018-06-30T13:39:09.362837+03:00"
         }, 
-        "id": "238443d82d0c43dab3543c1b3dd471b8", 
+        "id": "1a9ae9179087434e8970d4f22cc8e59d", 
         "unit": {
           "code": "44617100-8", 
           "name": "item"

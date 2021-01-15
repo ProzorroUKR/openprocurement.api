@@ -231,7 +231,7 @@ X-Content-Type-Options: nosniff
         }, 
         "percentage": 54.45, 
         "type": "financing", 
-        "id": "ab5c5a60667c417b9617d930f57e7aa4"
+        "id": "0c054611664347f082e4886115b9bce3"
       }
     ], 
     "fundingKind": "other", 
@@ -258,7 +258,7 @@ X-Content-Type-Options: nosniff
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
-        "id": "883dc1607ec54e498aaa32c18819bdff", 
+        "id": "8a06ff8a964e46d5bdec1b90d637dad4", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"
@@ -286,7 +286,7 @@ X-Content-Type-Options: nosniff
           "region": "м. Київ", 
           "locality": "м. Київ"
         }, 
-        "id": "273260c57be54e9fb4f474cd84077507", 
+        "id": "bdc9e8c71d184e9397f0db406a90a2e9", 
         "unit": {
           "code": "44617100-9", 
           "name": "item"

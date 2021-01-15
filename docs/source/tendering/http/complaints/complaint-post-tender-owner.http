@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/949127b6d2834a5ba8156ffef63a9a3c/posts?acc_token=f3fcbf245b584352b8ee0c06c6298ad4 HTTP/1.0
+POST /api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/b77be1c04a754989b602432418f2e453/posts?acc_token=f3fcbf245b584352b8ee0c06c6298ad4 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 663
 Content-Type: application/json
@@ -15,7 +15,7 @@ DATA:
         "format": "application/pdf"
       }
     ], 
-    "relatedPost": "a4b61c81a8cc44d6965de32baa8139e1", 
+    "relatedPost": "5f3a8481c5e249729644cad200a4c6b5", 
     "description": "Додано документ", 
     "title": "Уточнення по вимозі"
   }
@@ -23,7 +23,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/949127b6d2834a5ba8156ffef63a9a3c/posts/a9acd9a9b014433fa6a1eefc37f23b3b
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/b77be1c04a754989b602432418f2e453/posts/c2d08c52033645d983c8f7464c26ac99
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -36,7 +36,7 @@ X-Content-Type-Options: nosniff
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "fde3d09dd48b4ef994e747cc546ae78a", 
+        "id": "46228e94467144c199dca7d5330c324c", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }
     ], 
@@ -44,9 +44,9 @@ X-Content-Type-Options: nosniff
     "title": "Уточнення по вимозі", 
     "author": "tender_owner", 
     "datePublished": "2020-09-08T01:00:00+03:00", 
-    "relatedPost": "a4b61c81a8cc44d6965de32baa8139e1", 
+    "relatedPost": "5f3a8481c5e249729644cad200a4c6b5", 
     "recipient": "aboveThresholdReviewers", 
-    "id": "a9acd9a9b014433fa6a1eefc37f23b3b"
+    "id": "c2d08c52033645d983c8f7464c26ac99"
   }
 }
 

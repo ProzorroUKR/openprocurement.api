@@ -91,7 +91,7 @@ class TenderCriteriaRGRequirementTestMixin(object):
         criteria_data[0]["classification"]["id"] = "CRITERION.OTHER"
 
         response = self.app.post_json(
-            "/tenders/{}/criteria?acc_token={}&bulk=true".format(self.tender_id, self.tender_token),
+            "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": criteria_data},
         )
         self.criteria_id = response.json["data"][0]["id"]
@@ -122,7 +122,7 @@ class TenderCriteriaRGRequirementEvidenceTestMixin(object):
         super(TenderCriteriaRGRequirementEvidenceTestMixin, self).setUp()
         criteria_data = deepcopy(test_criteria)
         response = self.app.post_json(
-            "/tenders/{}/criteria?acc_token={}&bulk=true".format(self.tender_id, self.tender_token),
+            "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": criteria_data},
         )
         self.criteria_id = response.json["data"][0]["id"]

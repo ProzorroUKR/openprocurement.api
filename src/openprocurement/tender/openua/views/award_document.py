@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import raise_operation_error, error_handler, json_view
-from openprocurement.api.validation import validate_file_update, validate_file_upload, validate_patch_document_data
+from openprocurement.api.utils import json_view
+from openprocurement.api.validation import (
+    validate_file_update,
+    validate_patch_document_data,
+    validate_file_upload,
+)
 from openprocurement.tender.belowthreshold.views.award_document import TenderAwardDocumentResource
 from openprocurement.tender.core.validation import (
     validate_award_document_tender_not_in_allowed_status_base,

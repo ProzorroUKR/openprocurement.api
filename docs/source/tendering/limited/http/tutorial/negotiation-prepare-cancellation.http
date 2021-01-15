@@ -13,7 +13,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26b780552e084bbcb2b53c5383a6e976/cancellations/e57e4f5a014e4f3aad51281fcafb24a8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26b780552e084bbcb2b53c5383a6e976/cancellations/09fd6a95f9a3422ea1f6172665c5c445
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -22,7 +22,7 @@ X-Content-Type-Options: nosniff
     "reasonType": "noDemand", 
     "date": "2020-09-08T01:00:00+03:00", 
     "cancellationOf": "tender", 
-    "id": "e57e4f5a014e4f3aad51281fcafb24a8"
+    "id": "09fd6a95f9a3422ea1f6172665c5c445"
   }
 }
 

@@ -1,4 +1,4 @@
-GET /api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/884f1aed57d741a7a8011e28edc20860?acc_token=9e4e9f4da0514309b6c79bbafb5b59c3 HTTP/1.0
+GET /api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/35a5078c6491476b9f518bc90365373e?acc_token=9e4e9f4da0514309b6c79bbafb5b59c3 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,23 +7,25 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
+    "author": "contract_owner", 
     "title": "contract_additional_docs.doc", 
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/884f1aed57d741a7a8011e28edc20860?download=2562188623c64e25967736fbcc3a38d2", 
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/35a5078c6491476b9f518bc90365373e?download=fb342535a998407f88fb1c9bff81c4a1", 
     "format": "application/msword", 
     "documentOf": "contract", 
     "datePublished": "2020-09-08T01:00:01+03:00", 
     "previousVersions": [
       {
+        "author": "contract_owner", 
         "title": "contract_additional_docs.doc", 
-        "url": "/contracts/05870adde49c424db6a2dba280ea90ab/documents/884f1aed57d741a7a8011e28edc20860?download=54f475dac20b45d0aefff43fc60f1822", 
+        "url": "/contracts/05870adde49c424db6a2dba280ea90ab/documents/35a5078c6491476b9f518bc90365373e?download=8a0aa1a2c2e74707979e7f0f65f74b2b", 
         "format": "application/msword", 
         "documentOf": "contract", 
         "datePublished": "2020-09-08T01:00:01+03:00", 
-        "id": "884f1aed57d741a7a8011e28edc20860", 
+        "id": "35a5078c6491476b9f518bc90365373e", 
         "dateModified": "2020-09-08T01:00:01+03:00"
       }
     ], 
-    "id": "884f1aed57d741a7a8011e28edc20860", 
+    "id": "35a5078c6491476b9f518bc90365373e", 
     "dateModified": "2020-09-08T01:00:01+03:00"
   }
 }

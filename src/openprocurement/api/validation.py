@@ -16,27 +16,20 @@ from openprocurement.api.utils import (
 OPERATIONS = {"POST": "add", "PATCH": "update", "PUT": "update", "DELETE": "delete"}
 
 
-def validate_json_data(request, expected_type=dict):
-
+def validate_json_data(request, allow_bulk=False):
     try:
         json = request.json
     except ValueError as e:
         request.errors.add("body", "data", str(e))
         request.errors.status = 422
         raise error_handler(request)
-    if (
-        not isinstance(json, dict)
-        or "data" not in json
-        or not isinstance(json.get("data"), expected_type)
-    ):
-        request.errors.add("body", "data", "Data not available")
-        request.errors.status = 422
-        raise error_handler(request)
-    data = json["data"]
-    if (
-        expected_type is list
-        and (not data or not all(isinstance(i, dict) for i in data))
-    ):
+    data = json.get("data") if isinstance(json, dict) else None
+    allowed_types = (list, dict) if allow_bulk else dict
+    if any([
+        not isinstance(data, allowed_types),
+        isinstance(data, list) and not data,
+        isinstance(data, list) and not all(isinstance(i, dict) for i in data)
+    ]):
         request.errors.add("body", "data", "Data not available")
         request.errors.status = 422
         raise error_handler(request)
@@ -44,10 +37,7 @@ def validate_json_data(request, expected_type=dict):
     return json["data"]
 
 
-def validate_object_data(request, model, partial=False, data=None):
-    if data is None:
-        data = validate_json_data(request)
-
+def validate_object_data(request, model, partial=False, data=None, allow_bulk=False):
     with handle_data_exceptions(request):
         if partial and isinstance(request.context, model):
             initial_data = request.context.serialize()
@@ -76,17 +66,15 @@ def validate_object_data(request, model, partial=False, data=None):
         if not partial:
             m = model(data)
             m.__parent__ = request.context
-            if model._options.namespace:
-                request.validated[model._options.namespace.lower()] = m
+            validated_name = get_model_namespace(model).lower()
+            if allow_bulk:
+                request.validated["{}_bulk".format(validated_name)] = [m]
             else:
-                request.validated[model.__name__.lower()] = m
+                request.validated[validated_name] = m
     return data
 
 
 def validate_post_list_data(request, model, data=None):
-    if data is None:
-        data = validate_json_data(request, list)
-
     with handle_data_exceptions(request):
         valid_data = []
         valid_models = []
@@ -112,31 +100,35 @@ def validate_post_list_data(request, model, data=None):
 
     request.validated["data"] = data
     valid_models = [model(i) for i in valid_data]
-    if model._options.namespace:
-        request.validated["{}s".format(model._options.namespace.lower())] = valid_models
-    else:
-        request.validated["{}s".format(model.__name__.lower())] = valid_models
+    validated_name = "{}_bulk".format(get_model_namespace(model).lower())
+    request.validated[validated_name] = valid_models
     return data
 
 
-def validate_data(request, model, partial=False, data=None, bulk=None):
+def get_model_namespace(model):
+    if model._options.namespace:
+        return model._options.namespace
+    else:
+        return model.__name__.lower()
+
+
+def validate_data(request, model, partial=False, data=None, allow_bulk=False, force_bulk=False):
     """
     function that validate input data for view
     @param request: pyramid.request.Request object
     @param model: api.models.Model object
     @param partial: boolean
     @param data: None or dict
-    @param bulk: None, 'partial' or 'full', show use bulk create validation
+    @param allow_bulk: boolean, allow bulk create
+    @param force_bulk: boolean, force bulk even on single data dict
     @return: list or dict
     """
-
-    if (
-        request.method == "POST"
-        and ((request.params.get("bulk") and bulk == "partial") or bulk == "full")
-    ):
+    if data is None:
+        data = validate_json_data(request, allow_bulk=allow_bulk)
+    if request.method == "POST" and isinstance(data, list) and allow_bulk:
         data = validate_post_list_data(request, model, data)
     else:
-        data = validate_object_data(request, model, partial, data)
+        data = validate_object_data(request, model, partial, data, allow_bulk=force_bulk)
     return data
 
 
@@ -145,16 +137,16 @@ def validate_patch_document_data(request, **kwargs):
     return validate_data(request, model, True)
 
 
-def validate_document_data(request):
+def validate_document_data(request, allow_bulk=False):
     context = request.context if "documents" in request.context else request.context.__parent__
     model = type(context).documents.model_class
-    return validate_data(request, model)
+    return validate_data(request, model, allow_bulk=allow_bulk)
 
 
 def validate_file_upload(request, **kwargs):
     update_logging_context(request, {"document_id": "__new__"})
     if request.registry.docservice_url and request.content_type == "application/json":
-        return validate_document_data(request)
+        return validate_document_data(request, allow_bulk=True)
     if "file" not in request.POST or not hasattr(request.POST["file"], "filename"):
         request.errors.add("body", "file", "Not Found")
         request.errors.status = 404

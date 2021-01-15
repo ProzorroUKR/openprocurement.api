@@ -296,7 +296,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
         criteria = []
         if self.initial_criteria:
             response = self.app.post_json(
-                "/tenders/{}/criteria?acc_token={}&bulk=true".format(self.tender_id, self.tender_token),
+                "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
                 {
                     "data": set_tender_criteria(
                         self.initial_criteria,

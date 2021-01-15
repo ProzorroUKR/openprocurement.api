@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/bids/930c04e6be2946bfa41898d03dec400e/documents/facc91ddd3184f379736baed56674c62?acc_token=dd8db01099664827aa1826260c296fa8 HTTP/1.0
+PATCH /api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/bids/ad3518204d0f4cdcaa3c0940fa21e417/documents/898bfdf6dbc145a2a92487db1af8849a?acc_token=dd8db01099664827aa1826260c296fa8 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 178
 Content-Type: application/json
@@ -17,15 +17,16 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000", 
-    "confidentiality": "buyerOnly", 
-    "title": "public-to-private.doc", 
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/bids/930c04e6be2946bfa41898d03dec400e/documents/facc91ddd3184f379736baed56674c62?download=284617724bff4ff6bd1023f665da3b47", 
-    "confidentialityRationale": "Lol, this document contains some secret data that shouldn't be public, I'm changing it's confidentiality", 
+    "author": "bid_owner", 
     "format": "application/msword", 
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/bids/ad3518204d0f4cdcaa3c0940fa21e417/documents/898bfdf6dbc145a2a92487db1af8849a?download=284617724bff4ff6bd1023f665da3b47", 
+    "confidentialityRationale": "Lol, this document contains some secret data that shouldn't be public, I'm changing it's confidentiality", 
+    "title": "public-to-private.doc", 
     "documentOf": "tender", 
     "datePublished": "2020-09-08T01:00:00+03:00", 
-    "id": "facc91ddd3184f379736baed56674c62", 
-    "dateModified": "2020-09-08T01:00:00+03:00"
+    "id": "898bfdf6dbc145a2a92487db1af8849a", 
+    "dateModified": "2020-09-08T01:00:00+03:00", 
+    "confidentiality": "buyerOnly"
   }
 }
 

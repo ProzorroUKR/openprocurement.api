@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/2d751be3f6aa46ba8dfd6eebcd5d9130?acc_token=82d005b2183e43fe8edbb00cc6eb36c1 HTTP/1.0
+GET /api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/18b4ccde8a594577835398cb0747e340?acc_token=82d005b2183e43fe8edbb00cc6eb36c1 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -18,7 +18,7 @@ X-Content-Type-Options: nosniff
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "437ffa3708534314aa799bf9d166b0bc", 
+        "id": "1c0632e5d9564241aba8a2d5d86cecaf", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }, 
       {
@@ -26,12 +26,12 @@ X-Content-Type-Options: nosniff
         "confidentiality": "buyerOnly", 
         "language": "uk", 
         "format": "application/pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/2d751be3f6aa46ba8dfd6eebcd5d9130/documents/685b1826738c419bb4af2e171204a06b?download=368ab90ae6a748e6be48d5d2151aee66", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/18b4ccde8a594577835398cb0747e340/documents/f7647c945fc0436ba41aaefa10171742?download=368ab90ae6a748e6be48d5d2151aee66", 
         "confidentialityRationale": "Only our company sells badgers with pink hair.", 
         "title": "Proposal_part2.pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "685b1826738c419bb4af2e171204a06b", 
+        "id": "f7647c945fc0436ba41aaefa10171742", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }
     ], 
@@ -45,11 +45,11 @@ X-Content-Type-Options: nosniff
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "59a1e9382b294643adc4e5d5927146b5", 
+        "id": "5f709f74b8b84a45b38f3f161bc14cd3", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }
     ], 
-    "id": "2d751be3f6aa46ba8dfd6eebcd5d9130", 
+    "id": "18b4ccde8a594577835398cb0747e340", 
     "tenderers": [
       {
         "contactPoint": {

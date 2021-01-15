@@ -178,7 +178,7 @@ X-Content-Type-Options: nosniff
         }, 
         "percentage": 54.45, 
         "type": "financing", 
-        "id": "10bc97f3d7d842e79ec67890aa152d92"
+        "id": "3768c7e801cf4c6ea0ff0f2153ecbd09"
       }
     ], 
     "mainProcurementCategory": "goods", 
@@ -210,7 +210,7 @@ X-Content-Type-Options: nosniff
         "deliveryDate": {
           "endDate": "2020-09-23T01:00:00+03:00"
         }, 
-        "id": "16055704c1d645788f69e15e2de1e163", 
+        "id": "f21d98fa3042438cbcd6b68acf054e76", 
         "unit": {
           "code": "KGM", 
           "name": "кг"
@@ -234,7 +234,7 @@ X-Content-Type-Options: nosniff
         "deliveryDate": {
           "endDate": "2020-09-24T01:00:00+03:00"
         }, 
-        "id": "780f097c6daf4c919259a08babc0a36f", 
+        "id": "ce756d3aa5164b069434a4225d11f5af", 
         "unit": {
           "code": "KGM", 
           "name": "кг"
@@ -258,7 +258,7 @@ X-Content-Type-Options: nosniff
         "deliveryDate": {
           "endDate": "2020-09-25T01:00:00+03:00"
         }, 
-        "id": "5117c7514a494959afc386f26535883c", 
+        "id": "c84744cc907e420799511678897fc9fd", 
         "unit": {
           "code": "KGM", 
           "name": "кг"
