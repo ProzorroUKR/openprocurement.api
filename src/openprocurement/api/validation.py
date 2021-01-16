@@ -125,7 +125,7 @@ def validate_data(request, model, partial=False, data=None, allow_bulk=False, fo
     """
     if data is None:
         data = validate_json_data(request, allow_bulk=allow_bulk)
-    if request.method == "POST" and isinstance(data, list) and allow_bulk:
+    if request.method in ("POST", "PUT") and isinstance(data, list) and allow_bulk:
         data = validate_post_list_data(request, model, data)
     else:
         data = validate_object_data(request, model, partial, data, allow_bulk=force_bulk)

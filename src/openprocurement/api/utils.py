@@ -169,34 +169,42 @@ def raise_operation_error(request, message, status=403, location="body", name="d
     raise error_handler(request)
 
 
-def upload_file(
-    request,
-    blacklisted_fields=DOCUMENT_BLACKLISTED_FIELDS,
-    whitelisted_fields=DOCUMENT_WHITELISTED_FIELDS
-):
+def upload_file(request):
     first_document = request.validated.get("documents", [None])[-1]
     if "data" in request.validated and request.validated["data"]:
         document = request.validated["document"]
         check_document(request, document)
-
         if first_document:
-            for attr_name in type(first_document)._fields:
-                if attr_name in whitelisted_fields:
-                    setattr(document, attr_name, getattr(first_document, attr_name))
-                elif attr_name not in blacklisted_fields and attr_name not in request.validated["json_data"]:
-                    setattr(document, attr_name, getattr(first_document, attr_name))
-
+            update_new_document_version(request, document, first_document)
         document_route = request.matched_route.name.replace("collection_", "")
         document = update_document_url(request, document, document_route, {})
         return document
 
-    return upload_file_attached(request, blacklisted_fields)
+    return upload_file_direct(request)
 
 
-def upload_file_attached(
-    request,
+def update_new_document_version(
+    request, document, first_document,
+    blacklisted_fields=DOCUMENT_BLACKLISTED_FIELDS,
+    whitelisted_fields=DOCUMENT_WHITELISTED_FIELDS
+):
+    for attr_name in type(first_document)._fields:
+        if attr_name in whitelisted_fields:
+            setattr(document, attr_name, getattr(first_document, attr_name))
+        elif attr_name not in blacklisted_fields and attr_name not in request.validated["json_data"]:
+            setattr(document, attr_name, getattr(first_document, attr_name))
+
+
+def update_new_document_direct_version(
+    document, first_document,
     blacklisted_fields=DOCUMENT_BLACKLISTED_FIELDS,
 ):
+    for attr_name in type(first_document)._fields:
+        if attr_name not in blacklisted_fields:
+            setattr(document, attr_name, getattr(first_document, attr_name))
+
+
+def upload_file_direct(request):
     first_document = request.validated.get("documents", [None])[-1]
     if request.content_type == "multipart/form-data":
         data = request.validated["file"]
@@ -218,13 +226,11 @@ def upload_file_attached(
     if "document_id" in request.validated:
         document.id = request.validated["document_id"]
     if first_document:
-        for attr_name in type(first_document)._fields:
-            if attr_name not in blacklisted_fields:
-                setattr(document, attr_name, getattr(first_document, attr_name))
+        update_new_document_direct_version(document, first_document)
     if request.registry.docservice_url:
-        key = upload_file_to_document_service(request, document, in_file, filename, content_type)
+        key = upload_file_to_docservice(request, document, in_file, filename, content_type)
     else:
-        key = attach_file_to_doc(document, in_file, request)
+        key = upload_file_to_attachments(document, in_file, request)
     document_route = request.matched_route.name.replace("collection_", "")
     document_path = request.current_route_path(
         _route_name=document_route, document_id=document.id, _query={"download": key}
@@ -234,7 +240,7 @@ def upload_file_attached(
     return document
 
 
-def upload_file_to_document_service(request, document, in_file, filename, content_type):
+def upload_file_to_docservice(request, document, in_file, filename, content_type):
     parsed_url = urlparse(request.registry.docservice_url)
     url = request.registry.docservice_upload_url or urlunsplit(
         (parsed_url.scheme, parsed_url.netloc, "/upload", "", "")
@@ -285,7 +291,7 @@ def upload_file_to_document_service(request, document, in_file, filename, conten
     return key
 
 
-def attach_file_to_doc(document, in_file, request):
+def upload_file_to_attachments(document, in_file, request):
     key = generate_id()
     filename = "{}_{}".format(document.id, key)
     request.validated["db_doc"]["_attachments"][filename] = {
@@ -309,34 +315,41 @@ def get_file(request):
         return
     filename = "{}_{}".format(document.id, key)
     if request.registry.docservice_url and filename not in request.validated["db_doc"]["_attachments"]:
-        document = [i for i in request.validated["documents"] if key in i.url][-1]
-        if "Signature=" in document.url and "KeyID" in document.url:
-            url = document.url
+        return get_file_docservice(request, db_doc_id, key)
+    else:
+        return get_file_attachment(request, document, db_doc_id, filename)
+
+
+def get_file_docservice(request, db_doc_id, key):
+    document = [i for i in request.validated["documents"] if key in i.url][-1]
+    if "Signature=" in document.url and "KeyID" in document.url:
+        url = document.url
+    else:
+        if "download=" not in document.url:
+            key = urlparse(document.url).path.replace("/get/", "")
+        if not document.hash:
+            url = generate_docservice_url(request, key, prefix="{}/{}".format(db_doc_id, document.id))
         else:
-            if "download=" not in document.url:
-                key = urlparse(document.url).path.replace("/get/", "")
-            if not document.hash:
-                url = generate_docservice_url(request, key, prefix="{}/{}".format(db_doc_id, document.id))
-            else:
-                url = generate_docservice_url(request, key)
+            url = generate_docservice_url(request, key)
+    request.response.content_type = document.format.encode("utf-8")
+    request.response.content_disposition = build_header(
+        document.title, filename_compat=quote(document.title.encode("utf-8"))
+    )
+    request.response.status = "302 Moved Temporarily"
+    request.response.location = url
+    return url
+
+def get_file_attachment(request, document, db_doc_id, filename):
+    data = request.registry.db.get_attachment(db_doc_id, filename)
+    if data:
         request.response.content_type = document.format.encode("utf-8")
         request.response.content_disposition = build_header(
             document.title, filename_compat=quote(document.title.encode("utf-8"))
         )
-        request.response.status = "302 Moved Temporarily"
-        request.response.location = url
-        return url
-    else:
-        data = request.registry.db.get_attachment(db_doc_id, filename)
-        if data:
-            request.response.content_type = document.format.encode("utf-8")
-            request.response.content_disposition = build_header(
-                document.title, filename_compat=quote(document.title.encode("utf-8"))
-            )
-            request.response.body_file = data
-            return request.response
-        request.errors.add("url", "download", "Not Found")
-        request.errors.status = 404
+        request.response.body_file = data
+        return request.response
+    request.errors.add("url", "download", "Not Found")
+    request.errors.status = 404
 
 
 def prepare_patch(changes, orig, patch, basepath=""):
@@ -818,8 +831,12 @@ def handle_data_exceptions(request):
     try:
         yield
     except (ModelValidationError, ModelConversionError) as e:
-        for i in e.messages:
-            request.errors.add("body", i, e.messages[i])
+        if isinstance(e.messages, dict):
+            for key, value in e.messages.items():
+                request.errors.add("body", key, value)
+        elif isinstance(e.messages, list):
+            for i, value in enumerate(e.messages):
+                request.errors.add("body", "data", value)
         request.errors.status = 422
         raise error_handler(request)
     except ValueError as e:
