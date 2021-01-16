@@ -14,17 +14,17 @@ content
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/d2ea556f315a4af68213e62484bbf5cc
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/a7bf4e4e2e994700a5f998fe7e9c0cd6
 X-Content-Type-Options: nosniff
 {
   "data": {
     "author": "contract_owner", 
     "title": "contract_changes.doc", 
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/d2ea556f315a4af68213e62484bbf5cc?download=8953ae2817074fbc95f8ba976223ee2d", 
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/a7bf4e4e2e994700a5f998fe7e9c0cd6?download=7b1e68d6f18f488f86d17aa35f1913b9", 
     "format": "application/msword", 
     "documentOf": "contract", 
     "datePublished": "2020-09-08T01:00:01+03:00", 
-    "id": "d2ea556f315a4af68213e62484bbf5cc", 
+    "id": "a7bf4e4e2e994700a5f998fe7e9c0cd6", 
     "dateModified": "2020-09-08T01:00:01+03:00"
   }
 }

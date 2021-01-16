@@ -21,11 +21,11 @@ X-Content-Type-Options: nosniff
         "hash": "md5:00000000000000000000000000000000", 
         "author": "bid_owner", 
         "title": "Proposal.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/bids/338f854402e74ffc9a09603fc72c3d8f/documents/730dc2400e9243d5af025e97de4451e0?download=b65b8fe295ba4202a8b01f439cbb2b76", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/bids/338f854402e74ffc9a09603fc72c3d8f/documents/fdca6a40d7b64666a1e1f56827f8ed35?download=328e47e3f29649529eaeb6a2d2360b3f", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "730dc2400e9243d5af025e97de4451e0", 
+        "id": "fdca6a40d7b64666a1e1f56827f8ed35", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }
     ], 

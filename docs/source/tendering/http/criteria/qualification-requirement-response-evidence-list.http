@@ -11,7 +11,7 @@ X-Content-Type-Options: nosniff
       "title": "Requirement response", 
       "type": "document", 
       "relatedDocument": {
-        "id": "11826e6ba17949c48777477c1f5adcf2", 
+        "id": "9c3a6bcb857f419dbb9dcdbeb71242a7", 
         "title": "name.doc"
       }, 
       "id": "cd75dc72849a4a7fa33bdc597878040e"
@@ -20,7 +20,7 @@ X-Content-Type-Options: nosniff
       "title": "Update evidence title", 
       "type": "document", 
       "relatedDocument": {
-        "id": "11826e6ba17949c48777477c1f5adcf2", 
+        "id": "9c3a6bcb857f419dbb9dcdbeb71242a7", 
         "title": "name.doc"
       }, 
       "id": "1775f2c320914a54ae378e78edca8b1d"

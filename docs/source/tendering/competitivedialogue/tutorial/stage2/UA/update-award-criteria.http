@@ -1,4 +1,4 @@
-PUT /api/2.5/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d/documents/7334dc71271d4d719c8fd3314922f8ae?acc_token=ce9ee5fc97484fc3b51e3f4dcea722d4 HTTP/1.0
+PUT /api/2.5/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d/documents/0853646114e645ee9581b10a72b2626e?acc_token=ce9ee5fc97484fc3b51e3f4dcea722d4 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 152
 Content-Type: multipart/form-data; boundary=---BOUNDARY
@@ -20,11 +20,11 @@ X-Content-Type-Options: nosniff
     "hash": "md5:00000000000000000000000000000000", 
     "author": "tender_owner", 
     "title": "AwardCriteria-2.pdf", 
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0b8b3d1768694408ac4f3bb54545a609?KeyID=a8968c46&Signature=1Z5KwY1wIy%252BM0L%2FyJ9lfGmK7u3YE9bSDO10ZgNwEF9i0OVrIAnZhocrKQ7HqtA72oHYafP%252BjGfdfm71X0925Ag%253D%253D", 
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/84eac427eb3e4c05afb4069f332016f0?KeyID=a8968c46&Signature=jc9v4TK1SJCeY0waXZHQks%2FjI7ZvPQoc1wjfYvZcXlNG0MGBP01tNDISe8NPQ8hVkDnTRFvU35QBDcJSBvj0Aw%253D%253D", 
     "format": "application/pdf", 
     "documentOf": "tender", 
     "datePublished": "2020-09-08T01:00:00+03:00", 
-    "id": "7334dc71271d4d719c8fd3314922f8ae", 
+    "id": "0853646114e645ee9581b10a72b2626e", 
     "dateModified": "2020-09-08T01:00:00+03:00"
   }
 }

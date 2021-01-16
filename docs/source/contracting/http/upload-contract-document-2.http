@@ -14,17 +14,17 @@ additional info
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/35a5078c6491476b9f518bc90365373e
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/aaf6580443ec42409abba0e6a3ce0f79
 X-Content-Type-Options: nosniff
 {
   "data": {
     "author": "contract_owner", 
     "title": "contract_additional_docs.doc", 
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/35a5078c6491476b9f518bc90365373e?download=8a0aa1a2c2e74707979e7f0f65f74b2b", 
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/aaf6580443ec42409abba0e6a3ce0f79?download=57135966f708434394292817f0c99f79", 
     "format": "application/msword", 
     "documentOf": "contract", 
     "datePublished": "2020-09-08T01:00:01+03:00", 
-    "id": "35a5078c6491476b9f518bc90365373e", 
+    "id": "aaf6580443ec42409abba0e6a3ce0f79", 
     "dateModified": "2020-09-08T01:00:01+03:00"
   }
 }

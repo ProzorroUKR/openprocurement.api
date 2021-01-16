@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/cancellations/fa48b2980fcb4cb584a5914a977a2626/documents/2fe89e59945741d99922a5d36a1aeb67?acc_token=62607c36ce4a4d64961ecc0d0a21540e HTTP/1.0
+PATCH /api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/cancellations/fa48b2980fcb4cb584a5914a977a2626/documents/c46cf1a841c44159b7156250e7a80cf3?acc_token=62607c36ce4a4d64961ecc0d0a21540e HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 48
 Content-Type: application/json
@@ -18,12 +18,12 @@ X-Content-Type-Options: nosniff
     "hash": "md5:00000000000000000000000000000000", 
     "description": "Changed description", 
     "title": "Notice.pdf", 
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c9321c9a76f841258978f9bfd027260b?KeyID=a8968c46&Signature=TWEXy6uuJURAG%2FWn3s9KwvUIQryuK7IsEIfDiqX8IrzOUgqaExc5Y6BVcxZYdGmUoooMxVb0sfmtnfETF8zgAA%253D%253D", 
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a7290ae4a9a9422c9df8aae32306439e?KeyID=a8968c46&Signature=vhb27eRWIDDlo8j7pQmGAxC7In5fO3WJH3pvWC98FkwsW6vANigaVXpQz1nskhAEuympE5otCKwPERvUjA24Bw%253D%253D", 
     "format": "application/pdf", 
     "documentOf": "tender", 
     "datePublished": "2020-09-08T01:00:01+03:00", 
     "author": "tender_owner", 
-    "id": "2fe89e59945741d99922a5d36a1aeb67", 
+    "id": "c46cf1a841c44159b7156250e7a80cf3", 
     "dateModified": "2020-09-08T01:00:01+03:00"
   }
 }

@@ -10,24 +10,24 @@ X-Content-Type-Options: nosniff
     {
       "hash": "md5:00000000000000000000000000000000", 
       "author": "agreement_owner", 
-      "title": "agreement_changes.doc", 
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/99cfc2752e3a4004a1dd7c3bb67f009c?KeyID=a8968c46&Signature=U7dqZI0Vr%252BdSlHR%2FpZpsDfpwzPPzmQt0DbBdeiK4%252Bf6SoGhbICzS7NgIo730D1g8uhUAVbD64GDm%252Bcc841KDAA%253D%253D", 
+      "title": "agreement.doc", 
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/daf712459139433385a44e9aadf48077?KeyID=a8968c46&Signature=DSi6XLPPfJZ%252Blz7%2Fe9cdUSwXnRcYNSAsPj4bBgha%252BVuBMmGZUckPOPJF6Ez1nhn1BPQYKWtKeIDPQx%2FtGSMaCA%253D%253D", 
       "format": "application/msword", 
-      "documentOf": "change", 
+      "documentOf": "agreement", 
       "datePublished": "2020-09-08T01:00:00+03:00", 
-      "id": "e486c88db09345c8a7597320c59e4979", 
-      "relatedItem": "3589aa88ba3f41be89b973cf88d9c9b8", 
+      "id": "e9891e0ad8fe4cf29239ec0cbfe145f7", 
       "dateModified": "2020-09-08T01:00:00+03:00"
     }, 
     {
       "hash": "md5:00000000000000000000000000000000", 
       "author": "agreement_owner", 
-      "title": "agreement.doc", 
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1ef3a00b90e548c6bbc90a7478222a93?KeyID=a8968c46&Signature=tLA0myeltmtjn%2FwXc0fGz6JDWbsIKkoJ71jOOmW3e9S4Vo9Z0977VeqxggbmPlFqaSQfp1GPi9HGe%2FDu2btPAQ%253D%253D", 
+      "title": "agreement_changes.doc", 
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fac5b30f7445448c96cf4a198245608a?KeyID=a8968c46&Signature=ycUELfBeLkr4q6%2FYPhROw%252Ba9M1WtAvLBTFjDaZTcFMQpDSGR9mm2SDTbSkMFcyqnZS4uYVH0b4iTjmuu3xVPDw%253D%253D", 
       "format": "application/msword", 
-      "documentOf": "agreement", 
+      "documentOf": "change", 
       "datePublished": "2020-09-08T01:00:00+03:00", 
-      "id": "8dbff5590bbc4349ad4f665d2f00310f", 
+      "id": "fe6f0d8934924b818b0179553d6c7b8c", 
+      "relatedItem": "3589aa88ba3f41be89b973cf88d9c9b8", 
       "dateModified": "2020-09-08T01:00:00+03:00"
     }
   ]

@@ -16,7 +16,7 @@ DATA:
           {
             "type": "document", 
             "relatedDocument": {
-              "id": "829b7e6ae5ef40e7930e32a74d1cc580", 
+              "id": "63b6e914bfa742de88d300790882fcfe", 
               "title": "name.doc"
             }, 
             "title": "Requirement response"
@@ -35,7 +35,7 @@ DATA:
           {
             "type": "document", 
             "relatedDocument": {
-              "id": "829b7e6ae5ef40e7930e32a74d1cc580", 
+              "id": "63b6e914bfa742de88d300790882fcfe", 
               "title": "name.doc"
             }, 
             "title": "Requirement response"
@@ -61,11 +61,11 @@ X-Content-Type-Options: nosniff
         "author": "tender_owner", 
         "language": "uk", 
         "title": "name.doc", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0e827ced88514da18757f24f1fefe30d?KeyID=a8968c46&Signature=zora065xQQZ%2FzngFC4jRidQnX%252ByvoUDb8t89qmoTW2Vsxb%2FOYj2wexiNuM4V0KrXZfM52UBOyEN19%2F23q%252BHIDw%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/15cefade99374cd6b6a98f00bc5c3a11?KeyID=a8968c46&Signature=QmVOIkuROuKnO0E9LDqU0tvhJTk5NR5ZEtJ%252BVJwOdeAE81vRMCeimT7I83HiP3luzOPb0QyqaR1ds3Fw87d%252BCQ%253D%253D", 
         "format": "application/msword", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "829b7e6ae5ef40e7930e32a74d1cc580", 
+        "id": "63b6e914bfa742de88d300790882fcfe", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }
     ], 
@@ -112,7 +112,7 @@ X-Content-Type-Options: nosniff
             "title": "Requirement response", 
             "type": "document", 
             "relatedDocument": {
-              "id": "829b7e6ae5ef40e7930e32a74d1cc580", 
+              "id": "63b6e914bfa742de88d300790882fcfe", 
               "title": "name.doc"
             }, 
             "id": "5f9522170e7b4aeaaa0ab5313051b06b"
@@ -133,7 +133,7 @@ X-Content-Type-Options: nosniff
             "title": "Requirement response", 
             "type": "document", 
             "relatedDocument": {
-              "id": "829b7e6ae5ef40e7930e32a74d1cc580", 
+              "id": "63b6e914bfa742de88d300790882fcfe", 
               "title": "name.doc"
             }, 
             "id": "9e4c939efb6d4b8c947123889dca0b16"

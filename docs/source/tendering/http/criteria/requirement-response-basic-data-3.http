@@ -16,7 +16,7 @@ DATA:
           {
             "type": "document", 
             "relatedDocument": {
-              "id": "edd9dc8d53004504a450acdf5953472f", 
+              "id": "e2dcc0a8564445aa8eed192eb4960984", 
               "title": "name.doc"
             }, 
             "title": "Requirement response"
@@ -35,7 +35,7 @@ DATA:
           {
             "type": "document", 
             "relatedDocument": {
-              "id": "edd9dc8d53004504a450acdf5953472f", 
+              "id": "e2dcc0a8564445aa8eed192eb4960984", 
               "title": "name.doc"
             }, 
             "title": "Requirement response"
@@ -61,11 +61,11 @@ X-Content-Type-Options: nosniff
         "author": "bid_owner", 
         "language": "uk", 
         "title": "name.doc", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/24660b6d159d42adb6aaba9d978575c7/bids/9e2ee09e73b94c1aab0be7ed1f2c9bd9/documents/edd9dc8d53004504a450acdf5953472f?download=9eb943ac564f4a18a54c4020b0a02370", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/24660b6d159d42adb6aaba9d978575c7/bids/9e2ee09e73b94c1aab0be7ed1f2c9bd9/documents/e2dcc0a8564445aa8eed192eb4960984?download=5801c525ee6d4de8ac62c34835650ed9", 
         "format": "application/msword", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "edd9dc8d53004504a450acdf5953472f", 
+        "id": "e2dcc0a8564445aa8eed192eb4960984", 
         "dateModified": "2020-09-08T01:00:00+03:00", 
         "confidentiality": "public"
       }
@@ -90,7 +90,7 @@ X-Content-Type-Options: nosniff
             "title": "Requirement response", 
             "type": "document", 
             "relatedDocument": {
-              "id": "edd9dc8d53004504a450acdf5953472f", 
+              "id": "e2dcc0a8564445aa8eed192eb4960984", 
               "title": "name.doc"
             }, 
             "id": "4e431408a75448aea6225750a67fabf8"
@@ -111,7 +111,7 @@ X-Content-Type-Options: nosniff
             "title": "Requirement response", 
             "type": "document", 
             "relatedDocument": {
-              "id": "edd9dc8d53004504a450acdf5953472f", 
+              "id": "e2dcc0a8564445aa8eed192eb4960984", 
               "title": "name.doc"
             }, 
             "id": "a8dd645e36a54ed688ac59322f2dff89"

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/127bd59fdd464def8d1189b954eefcbb/documents/719bd8b0f23046e686efab969dfb29b0?acc_token=78250e99c9974266933e656d51b30048 HTTP/1.0
+GET /api/2.5/tenders/127bd59fdd464def8d1189b954eefcbb/documents/95ebf42587f047a4bd219e9b47f1e35c?acc_token=78250e99c9974266933e656d51b30048 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -10,12 +10,12 @@ X-Content-Type-Options: nosniff
     "hash": "md5:00000000000000000000000000000000", 
     "author": "tender_owner", 
     "title": "Notice.pdf", 
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3ab76989757645629cd9237ca54763e4?KeyID=a8968c46&Signature=PfczpTSFClXRqUWweDcsYBuhz%2F1nggPR85bOfhw4Jhi6lkeKi%252Bdyiju5Zu3krp5puFkOnesTNnewn4QjiFctCA%253D%253D", 
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/eff35f6fd57d452cb216c6fc8a2394be?KeyID=a8968c46&Signature=lQHQe08U%2Fwn6qDhmI8d2XqiDbgYUHCLEBezn4wS7WQw%2F50AajIaeYfRrxcNHZfneTJVqzfFzmsYdg1zkga%2FTBA%253D%253D", 
     "format": "application/pdf", 
     "documentOf": "tender", 
     "datePublished": "2020-09-08T01:00:00+03:00", 
     "previousVersions": [], 
-    "id": "719bd8b0f23046e686efab969dfb29b0", 
+    "id": "95ebf42587f047a4bd219e9b47f1e35c", 
     "dateModified": "2020-09-08T01:00:00+03:00"
   }
 }
