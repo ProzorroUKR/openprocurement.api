@@ -825,37 +825,6 @@ def patch_tender(self):
     self.assertEqual(response.json["errors"][0]["description"], "Can't update tender in current (complete) status")
 
 
-def patch_tender_lots_none(self):
-    data = deepcopy(self.initial_data)
-
-    set_tender_lots(data, self.test_lots_data)
-
-    response = self.app.post_json("/tenders", {"data": data})
-    self.assertEqual(response.status, "201 Created")
-    self.tender_id = response.json["data"]["id"]
-    self.token_token = response.json["access"]["token"]
-
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.token_token), {"data": {"lots": [None]}}, status=422
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json,
-        {
-            "status": "error",
-            "errors": [
-                {"location": "body", "name": "lots", "description": [["This field is required."]]},
-                {
-                    "location": "body",
-                    "name": "items",
-                    "description": [{"relatedLot": ["relatedLot should be one of lots"]}],
-                },
-            ],
-        },
-    )
-
-
 def patch_tender_period(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     self.assertEqual(response.status, "201 Created")

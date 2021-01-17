@@ -80,7 +80,6 @@ class CloseFrameworkAgreementUA(Tender):
             "agreements",
             "numberOfBidders",
             "hasEnquiries",
-            ""
             "tender_guarantee",
             "tender_value",
             "tender_minimalStep",

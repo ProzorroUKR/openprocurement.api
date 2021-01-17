@@ -506,7 +506,6 @@ class TenderStage2EU(BaseTenderEU):
         ],
         default="active.tendering",
     )
-    lots = ListType(ModelType(LotStage2EU, required=True), default=list(), validators=[validate_lots_uniq])
     procurementMethod = StringType(choices=["open", "selective", "limited"], default="selective")
 
     # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
@@ -516,6 +515,7 @@ class TenderStage2EU(BaseTenderEU):
         min_size=1,
         validators=[validate_cpv_group, validate_items_uniq],
     )
+    lots = ListType(ModelType(LotStage2EU, required=True), default=list(), validators=[validate_lots_uniq])
     awards = ListType(ModelType(Award, required=True), default=list())
     contracts = ListType(ModelType(Contract, required=True), default=list())
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
@@ -631,13 +631,13 @@ class TenderStage2UA(BaseTenderUA):
         ],
         default="active.tendering",
     )
-    lots = ListType(ModelType(LotStage2UA, required=True), default=list(), validators=[validate_lots_uniq])
     items = ListType(
         ModelType(ItemStage2UA, required=True),
         required=True,
         min_size=1,
         validators=[validate_cpv_group, validate_items_uniq],
     )
+    lots = ListType(ModelType(LotStage2UA, required=True), default=list(), validators=[validate_lots_uniq])
     awards = ListType(ModelType(Award, required=True), default=list())
     contracts = ListType(ModelType(Contract, required=True), default=list())
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])

@@ -35,13 +35,13 @@ from openprocurement.tender.competitivedialogue.tests.stage1.tender_blanks impor
     simple_add_tender_eu,
     # CompetitiveDialogResourceTest
     patch_tender_eu_ua,
+    patch_tender_lots_none,
     path_complete_tender,
     tender_features_invalid,
     # CompetitiveDialogEUResourceTest
     create_tender_invalid_eu,
     create_tender_generated_eu,
     patch_tender,
-    patch_tender_lots_none,
     multiple_bidders_tender_eu,
     try_go_to_ready_stage_eu,
     # CompetitiveDialogUAResourceTest
