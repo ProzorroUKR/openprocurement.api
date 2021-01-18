@@ -6,6 +6,8 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     # TenderBidResourceTest
     patch_tender_with_bids_lots_none,
+    # TenderBidDocumentWithDSResourceTest
+    create_tender_bid_document_json_bulk,
 )
 
 from openprocurement.tender.cfaselectionua.tests.base import (
@@ -140,6 +142,7 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
     docservice = True
 
     test_create_tender_bid_document_json = snitch(create_tender_bid_document_json)
+    test_create_tender_bid_document_json_bulk = snitch(create_tender_bid_document_json_bulk)
     test_put_tender_bid_document_json = snitch(put_tender_bid_document_json)
 
 

@@ -42,7 +42,6 @@ class TenderDocumentResource(CoreDocumentResource):
     )
     def put(self):
         """Tender Document Update"""
-        self.pre_save()
         return super(TenderDocumentResource, self).put()
 
     @json_view(
@@ -56,5 +55,4 @@ class TenderDocumentResource(CoreDocumentResource):
     )
     def patch(self):
         """Tender Document Update"""
-        self.pre_save()
         return super(TenderDocumentResource, self).patch()

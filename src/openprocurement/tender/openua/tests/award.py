@@ -32,6 +32,8 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     create_tender_lots_award_complaint_document,
     # TenderLotAwardResourceTest
     patch_tender_lot_award_lots_none,
+    # TenderAwardDocumentWithDSResourceTest
+    create_tender_award_document_json_bulk,
 )
 
 from openprocurement.tender.openua.tests.base import test_bids, BaseTenderUAContentWebTest
@@ -314,6 +316,12 @@ class TenderAwardRequirementResponsEvidenceResourceTest(
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
         self.doc_id = response.json["data"]["id"]
+
+
+class TenderAwardDocumentWithDSResourceTest(TenderAwardDocumentResourceTest):
+    docservice = True
+
+    test_create_tender_award_document_json_bulk = snitch(create_tender_award_document_json_bulk)
 
 
 def suite():

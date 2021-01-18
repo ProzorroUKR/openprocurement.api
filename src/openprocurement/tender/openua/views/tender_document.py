@@ -46,6 +46,18 @@ class TenderUaDocumentResource(TenderDocumentResource):
     @json_view(
         permission="upload_tender_documents",
         validators=(
+            validate_file_upload,
+            validate_document_operation_in_not_allowed_period,
+            validate_update_tender_document,
+        ),
+    )
+    def collection_put(self):
+        """Tender Document Upload"""
+        return super(TenderUaDocumentResource, self).collection_put()
+
+    @json_view(
+        permission="upload_tender_documents",
+        validators=(
                 validate_file_update,
                 validate_document_operation_in_not_allowed_period,
                 validate_tender_document_update_not_by_author_or_tender_owner,

@@ -75,6 +75,8 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     # TenderAwardResourceScaleTest
     create_tender_award_with_scale_not_required,
     create_tender_award_no_scale,
+    # TenderAwardDocumentWithDSResourceTest
+    create_tender_award_document_json_bulk,
 )
 
 
@@ -367,6 +369,8 @@ class TenderAwardDocumentResourceTest(TenderContentWebTest, TenderAwardDocumentR
 
 class TenderAwardDocumentWithDSResourceTest(TenderAwardDocumentResourceTest):
     docservice = True
+
+    test_create_tender_award_document_json_bulk = snitch(create_tender_award_document_json_bulk)
 
 
 class Tender2LotAwardDocumentResourceTest(TenderContentWebTest, Tender2LotAwardDocumentResourceTestMixin):

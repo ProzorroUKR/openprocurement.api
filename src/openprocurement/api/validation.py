@@ -112,7 +112,10 @@ def get_model_namespace(model):
         return model.__name__.lower()
 
 
-def validate_data(request, model, partial=False, data=None, allow_bulk=False, force_bulk=False):
+def validate_data(
+    request, model, partial=False, data=None,
+    allow_bulk=False, force_bulk=False
+):
     """
     function that validate input data for view
     @param request: pyramid.request.Request object
@@ -157,7 +160,7 @@ def validate_file_upload(request, **kwargs):
 
 def validate_file_update(request, **kwargs):
     if request.registry.docservice_url and request.content_type == "application/json":
-        return validate_document_data(request)
+        return validate_document_data(request, allow_bulk=True)
     if request.content_type == "multipart/form-data":
         validate_file_upload(request)
 

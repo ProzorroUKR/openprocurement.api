@@ -15,6 +15,8 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_with_document,
     # Tender2LotBidResourceTest
     patch_tender_with_bids_lots_none,
+    # TenderBidDocumentWithDSResourceTest
+    create_tender_bid_document_json_bulk,
 )
 
 from openprocurement.tender.openeu.tests.base import (
@@ -174,6 +176,7 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest, TenderBidDocumentR
 class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
     docservice = True
 
+    test_create_tender_bid_document_json_bulk = snitch(create_tender_bid_document_json_bulk)
     test_patch_tender_bidder_document_private_json = snitch(patch_tender_bidder_document_private_json)
     test_put_tender_bidder_document_private_json = snitch(put_tender_bidder_document_private_json)
     test_get_tender_bidder_document_ds = snitch(get_tender_bidder_document_ds)

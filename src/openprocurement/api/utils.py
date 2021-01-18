@@ -170,42 +170,40 @@ def raise_operation_error(request, message, status=403, location="body", name="d
 
 
 def upload_file(request):
-    first_document = request.validated.get("documents", [None])[-1]
     if "data" in request.validated and request.validated["data"]:
-        document = request.validated["document"]
-        check_document(request, document)
-        if first_document:
-            update_new_document_version(request, document, first_document)
-        document_route = request.matched_route.name.replace("collection_", "")
-        document = update_document_url(request, document, document_route, {})
-        return document
-
+        return upload_file_json(request)
     return upload_file_direct(request)
 
 
-def update_new_document_version(
-    request, document, first_document,
-    blacklisted_fields=DOCUMENT_BLACKLISTED_FIELDS,
-    whitelisted_fields=DOCUMENT_WHITELISTED_FIELDS
-):
-    for attr_name in type(first_document)._fields:
-        if attr_name in whitelisted_fields:
-            setattr(document, attr_name, getattr(first_document, attr_name))
-        elif attr_name not in blacklisted_fields and attr_name not in request.validated["json_data"]:
-            setattr(document, attr_name, getattr(first_document, attr_name))
+def upload_files(request, container="documents"):
+    bulk_documents = request.validated.get("document_bulk")
+    if bulk_documents:
+        all_documents = getattr(request.context, container)
+        for document in bulk_documents:
+            yield upload_file_data(request, document, None)
+    else:
+        yield upload_file(request)
 
 
-def update_new_document_direct_version(
-    document, first_document,
-    blacklisted_fields=DOCUMENT_BLACKLISTED_FIELDS,
-):
-    for attr_name in type(first_document)._fields:
-        if attr_name not in blacklisted_fields:
-            setattr(document, attr_name, getattr(first_document, attr_name))
+def upload_file_json(request):
+    document = request.validated["document"]
+    prev_documents = request.validated.get("documents")
+    return upload_file_data(request, document, prev_documents)
+
+
+def upload_file_data(request, document, prev_documents):
+    first_document = prev_documents[-1] if prev_documents else None
+    check_document(request, document)
+    if first_document:
+        update_new_document_version(request, document, first_document)
+    document_route = request.matched_route.name.replace("collection_", "")
+    document = update_document_url(request, document, document_route, {})
+    return document
 
 
 def upload_file_direct(request):
-    first_document = request.validated.get("documents", [None])[-1]
+    prev_documents = request.validated.get("documents")
+    first_document = prev_documents[-1] if prev_documents else None
     if request.content_type == "multipart/form-data":
         data = request.validated["file"]
         filename = get_filename(data)
@@ -299,6 +297,37 @@ def upload_file_to_attachments(document, in_file, request):
         "data": b64encode(in_file.read()),
     }
     return key
+
+
+def update_new_document_version(
+    request, document, first_document,
+    blacklisted_fields=DOCUMENT_BLACKLISTED_FIELDS,
+    whitelisted_fields=DOCUMENT_WHITELISTED_FIELDS
+):
+    json_data = request.validated["json_data"]
+    if isinstance(json_data, list):
+        for json_item in json_data:
+            if json_item["id"] == first_document["id"]:
+                json_document = json_item
+                break
+        else:
+            raise ValueError
+    else:
+        json_document = json_data
+    for attr_name in type(first_document)._fields:
+        if attr_name in whitelisted_fields:
+            setattr(document, attr_name, getattr(first_document, attr_name))
+        elif attr_name not in blacklisted_fields and attr_name not in json_document:
+            setattr(document, attr_name, getattr(first_document, attr_name))
+
+
+def update_new_document_direct_version(
+    document, first_document,
+    blacklisted_fields=DOCUMENT_BLACKLISTED_FIELDS,
+):
+    for attr_name in type(first_document)._fields:
+        if attr_name not in blacklisted_fields:
+            setattr(document, attr_name, getattr(first_document, attr_name))
 
 
 def update_file_content_type(request):  # XXX TODO

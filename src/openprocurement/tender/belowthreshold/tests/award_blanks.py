@@ -2933,6 +2933,51 @@ def create_tender_award_document(self):
     )
 
 
+def create_tender_award_document_json_bulk(self):
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+        {
+            "data": [
+                {
+                    "title": "name1.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                },
+                {
+                    "title": "name2.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            ]
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    doc_1 = response.json["data"][0]
+    doc_2 = response.json["data"][1]
+
+    def assert_document(document, title):
+        self.assertEqual(title, document["title"])
+        self.assertIn("Signature=", document["url"])
+        self.assertIn("KeyID=", document["url"])
+        self.assertNotIn("Expires=", document["url"])
+
+    assert_document(doc_1, "name1.doc")
+    assert_document(doc_2, "name2.doc")
+
+    response = self.app.get(
+        "/tenders/{}/awards/{}/documents".format(self.tender_id, self.award_id),
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    doc_1 = response.json["data"][0]
+    doc_2 = response.json["data"][1]
+    assert_document(doc_1, "name1.doc")
+    assert_document(doc_2, "name2.doc")
+
+
 def put_tender_award_document(self):
     response = self.app.post(
         "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
