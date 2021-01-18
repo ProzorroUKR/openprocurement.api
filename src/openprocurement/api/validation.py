@@ -128,7 +128,7 @@ def validate_data(
     """
     if data is None:
         data = validate_json_data(request, allow_bulk=allow_bulk)
-    if request.method in ("POST", "PUT") and isinstance(data, list) and allow_bulk:
+    if request.method == "POST" and isinstance(data, list) and allow_bulk:
         data = validate_post_list_data(request, model, data)
     else:
         data = validate_object_data(request, model, partial, data, allow_bulk=force_bulk)
@@ -160,7 +160,7 @@ def validate_file_upload(request, **kwargs):
 
 def validate_file_update(request, **kwargs):
     if request.registry.docservice_url and request.content_type == "application/json":
-        return validate_document_data(request, allow_bulk=True)
+        return validate_document_data(request)
     if request.content_type == "multipart/form-data":
         validate_file_upload(request)
 
