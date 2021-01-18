@@ -28,7 +28,7 @@ PERIODS = {
     "active.auction": {
         "start": {
             "enquiryPeriod": {
-                "startDate": -timedelta(days=14),
+                "startDate": -timedelta(days=15),
                 "endDate": -timedelta(days=7),
             },
             "tenderPeriod": {
@@ -43,7 +43,7 @@ PERIODS = {
     "active.qualification": {
         "start": {
             "enquiryPeriod": {
-                "startDate": -timedelta(days=15),
+                "startDate": -timedelta(days=16),
                 "endDate": -timedelta(days=8),
             },
             "tenderPeriod": {
@@ -62,7 +62,7 @@ PERIODS = {
     "active.awarded": {
         "start": {
             "enquiryPeriod": {
-                "startDate": -timedelta(days=15),
+                "startDate": -timedelta(days=16),
                 "endDate": -timedelta(days=8),
             },
             "tenderPeriod": {
@@ -82,7 +82,7 @@ PERIODS = {
     "complete": {
         "start": {
             "enquiryPeriod": {
-                "startDate": -timedelta(days=25),
+                "startDate": -timedelta(days=26),
                 "endDate": -timedelta(days=18),
             },
             "tenderPeriod": {
