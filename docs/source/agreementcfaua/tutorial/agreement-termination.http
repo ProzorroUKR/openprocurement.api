@@ -22,11 +22,11 @@ X-Content-Type-Options: nosniff
         "hash": "md5:00000000000000000000000000000000", 
         "author": "agreement_owner", 
         "title": "agreement_changes.doc", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fac5b30f7445448c96cf4a198245608a?KeyID=a8968c46&Signature=ycUELfBeLkr4q6%2FYPhROw%252Ba9M1WtAvLBTFjDaZTcFMQpDSGR9mm2SDTbSkMFcyqnZS4uYVH0b4iTjmuu3xVPDw%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d95f533960c3442989ca0c2229179ba7?KeyID=a8968c46&Signature=wXBfssQe1jX171n0gvBZiqq%2FwQ2Puh9QIYYuJR1KcbhS%252BeWgxIkCKPrqtkJ0jxw3mXaEJ0eTnBRV3uM9lSj4CA%253D%253D", 
         "format": "application/msword", 
         "documentOf": "change", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "fe6f0d8934924b818b0179553d6c7b8c", 
+        "id": "cda3d43d28ea4490b453a9209e420615", 
         "relatedItem": "3589aa88ba3f41be89b973cf88d9c9b8", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }, 
@@ -34,22 +34,22 @@ X-Content-Type-Options: nosniff
         "hash": "md5:00000000000000000000000000000000", 
         "author": "agreement_owner", 
         "title": "agreement.doc", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/daf712459139433385a44e9aadf48077?KeyID=a8968c46&Signature=DSi6XLPPfJZ%252Blz7%2Fe9cdUSwXnRcYNSAsPj4bBgha%252BVuBMmGZUckPOPJF6Ez1nhn1BPQYKWtKeIDPQx%2FtGSMaCA%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/636ff7a612814a27bb12f38a47fbe8dd?KeyID=a8968c46&Signature=LTyYvB6x9%2FHQOfsr%2F%2F12Q2d6v7fJ3vrVtaSfHl4nNN%252BFVzDyN9NkHliW96%2FgarvzZ6In7eachfSgTvEE%2F8VXAg%253D%253D", 
         "format": "application/msword", 
         "documentOf": "agreement", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "e9891e0ad8fe4cf29239ec0cbfe145f7", 
+        "id": "834aba7c946743da932d5d23c32c15d6", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
         "author": "agreement_owner", 
         "title": "agreement_additional_docs.doc", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cf314e9808e348bfb0ef1f3cd8c55880?KeyID=a8968c46&Signature=XVLJMOC3akr6765bb%2Fi9Szxh%252Bp1FSDHory95Pm3LAXXHHWhxlxc6QHqu8mA2Hyno92FcFUBf7kNfUYo9x18yAA%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a3984ac00aca4fe5bdab3fd55f356001?KeyID=a8968c46&Signature=YaPhLtr021tuByvglSJT9V5lS1XJaEUrY99Q73%2Fwl5svhMUoX6kQNQN0pA3W3qgUN7%252Bzb%252B%252Bb9pDnM%2FoAfOqHBQ%253D%253D", 
         "format": "application/msword", 
         "documentOf": "agreement", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "dbf68666056749cbb852a25e836c5048", 
+        "id": "a2b8d37c71e644d68069520aa7c6584b", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }, 
       {
@@ -60,7 +60,7 @@ X-Content-Type-Options: nosniff
         "format": "application/msword", 
         "documentOf": "agreement", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "dbf68666056749cbb852a25e836c5048", 
+        "id": "a2b8d37c71e644d68069520aa7c6584b", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }
     ], 

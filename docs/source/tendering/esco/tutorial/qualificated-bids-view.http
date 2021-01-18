@@ -15,11 +15,11 @@ X-Content-Type-Options: nosniff
           "author": "bid_owner", 
           "language": "uk", 
           "title": "Proposal.pdf", 
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/843d5ace40394ea7bab3faba6b73fd39?KeyID=a8968c46&Signature=pz1aM1P0PDFdvnRjzhWMHnt3ujoGyp8tkfk52S3XQLML0JqPkVvvhEwPLaeo3%2Fe5VmzV%2Fc%252BJSZYSzMmVlzbRBg%253D%253D", 
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/940c3a49ee3d4eb6b809a35551b7cba4?KeyID=a8968c46&Signature=Gi1cqoXqCTl2LceEuq%2FX57207trOlCAexfwTeUjKB4d%2FWViLx4clgF5Qboy1W4IKlgrOqlc1rrlbpGyMK7uVDw%253D%253D", 
           "format": "application/pdf", 
           "documentOf": "tender", 
           "datePublished": "2020-09-08T01:00:00+03:00", 
-          "id": "e304a2416f904b2cb3512333df997012", 
+          "id": "06ad110e935b46448bb1ebb2660553a4", 
           "dateModified": "2020-09-08T01:00:00+03:00", 
           "confidentiality": "public"
         }, 
@@ -28,12 +28,12 @@ X-Content-Type-Options: nosniff
           "confidentiality": "buyerOnly", 
           "language": "uk", 
           "format": "application/pdf", 
-          "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/08414abbba9a40a687efcc829425d57d/documents/c6bd3859fd9248d79c4b79ab150c4b73?download=537eb0682beb4a7995fbc0e016c44e97", 
+          "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/08414abbba9a40a687efcc829425d57d/documents/e5131fb421b24c048fae888f0a188311?download=0a8bee5dcf764d37ae49868999f8f53e", 
           "confidentialityRationale": "Only our company sells badgers with pink hair.", 
           "author": "bid_owner", 
           "documentOf": "tender", 
           "datePublished": "2020-09-08T01:00:00+03:00", 
-          "id": "c6bd3859fd9248d79c4b79ab150c4b73", 
+          "id": "e5131fb421b24c048fae888f0a188311", 
           "title": "Proposal_top_secrets.pdf", 
           "dateModified": "2020-09-08T01:00:00+03:00"
         }
@@ -68,11 +68,11 @@ X-Content-Type-Options: nosniff
           "author": "bid_owner", 
           "language": "uk", 
           "title": "eligibility_doc.pdf", 
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ba2cd260dc214de1a39e014248d91fe2?KeyID=a8968c46&Signature=ekZs95uGhSRSRgsYJhHu8eoLhFgpz2HAtumwMV%252BWZRx8pV7ahvK2FB0dG645%2Fn%2FJhypqtmmn2tg7r10v7TPDCQ%253D%253D", 
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f6a4657af91c4df98ed608a50fc0ad52?KeyID=a8968c46&Signature=5j4jxKTaWXThvFZ%2F6BvkrlbdjY4yJK6LxRSQ%2Ff7sR6nK55j4U1uDGgdSd3rBRmyEoBtYJ%252BO77ziNonUAR6DhCA%253D%253D", 
           "format": "application/pdf", 
           "documentOf": "tender", 
           "datePublished": "2020-09-08T01:00:00+03:00", 
-          "id": "40cd27d986b34473bbcf778552e44a0d", 
+          "id": "46b729e2976a446b9036d45a4dcb5e41", 
           "dateModified": "2020-09-08T01:00:00+03:00", 
           "confidentiality": "public"
         }

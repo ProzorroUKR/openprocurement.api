@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/08414abbba9a40a687efcc829425d57d/documents/c6bd3859fd9248d79c4b79ab150c4b73?acc_token=29627267ed794908800e9ab5426bbd2e HTTP/1.0
+PATCH /api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/08414abbba9a40a687efcc829425d57d/documents/e5131fb421b24c048fae888f0a188311?acc_token=29627267ed794908800e9ab5426bbd2e HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 120
 Content-Type: application/json
@@ -20,12 +20,12 @@ X-Content-Type-Options: nosniff
     "confidentiality": "buyerOnly", 
     "language": "uk", 
     "format": "application/pdf", 
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/08414abbba9a40a687efcc829425d57d/documents/c6bd3859fd9248d79c4b79ab150c4b73?download=537eb0682beb4a7995fbc0e016c44e97", 
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/08414abbba9a40a687efcc829425d57d/documents/e5131fb421b24c048fae888f0a188311?download=0a8bee5dcf764d37ae49868999f8f53e", 
     "confidentialityRationale": "Only our company sells badgers with pink hair.", 
     "author": "bid_owner", 
     "documentOf": "tender", 
     "datePublished": "2020-09-08T01:00:00+03:00", 
-    "id": "c6bd3859fd9248d79c4b79ab150c4b73", 
+    "id": "e5131fb421b24c048fae888f0a188311", 
     "title": "Proposal_top_secrets.pdf", 
     "dateModified": "2020-09-08T01:00:00+03:00"
   }

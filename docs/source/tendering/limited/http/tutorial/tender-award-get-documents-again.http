@@ -10,23 +10,23 @@ X-Content-Type-Options: nosniff
     {
       "hash": "md5:00000000000000000000000000000000", 
       "author": "tender_owner", 
-      "title": "award_first_document.doc", 
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/06b0c138ecd54dac88cf123bcb43fe5f?KeyID=a8968c46&Signature=PfbaBa9v0vuwCo8m6%252B6ojURnOIhihMT1sMGqMC6xzya3DYPTIMe7pAWg%252BAygXkC%252BJuwjBMk0PbVWGG5a8I0rDQ%253D%253D", 
+      "title": "award_second_document.doc", 
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d13ee9dc05244d5784cfde6a0351eb44?KeyID=a8968c46&Signature=yuW1C4LaJ6FpRueJtOVoa8fD90n7QKGVPYt6Gyfs0slow18bnI4FxrINbJSBffS1c6jHbfxLwu3MwliKkKNRCQ%253D%253D", 
       "format": "application/msword", 
       "documentOf": "tender", 
       "datePublished": "2020-09-08T01:00:00+03:00", 
-      "id": "2be6becc35734e27a8fdc6f0f4be5941", 
+      "id": "9130c7b6610d4bc584659a89536ce07e", 
       "dateModified": "2020-09-08T01:00:00+03:00"
     }, 
     {
       "hash": "md5:00000000000000000000000000000000", 
       "author": "tender_owner", 
-      "title": "award_second_document.doc", 
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3e091512e50540ab9a6a35ee3bc6c167?KeyID=a8968c46&Signature=v0SYw7zbo83bvdde%252Bl1V66g3FO8u9ZDxqI7I3UokBxNCRfFuRqy54YT6DhZ2oceyZ28lQ%252BwGRX%2FXcRaz6E4%252BCQ%253D%253D", 
+      "title": "award_first_document.doc", 
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ac981c80161c429a95b52658777c49d2?KeyID=a8968c46&Signature=84XP%2F38IB1gn1ff9d66hXiJ%252BUNHWeL97%252BdcCTeM06q86FvVaGfPX63Da7sIo7p5UtmFKaqKd2J3xQhmABPiTCA%253D%253D", 
       "format": "application/msword", 
       "documentOf": "tender", 
       "datePublished": "2020-09-08T01:00:00+03:00", 
-      "id": "a6c822f80f7f4ae59187b317e4dae1c2", 
+      "id": "c520c4f2ee634596a22a4292de8bba7c", 
       "dateModified": "2020-09-08T01:00:00+03:00"
     }
   ]

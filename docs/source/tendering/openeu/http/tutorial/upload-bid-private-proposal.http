@@ -14,7 +14,7 @@ content
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/91475b6934a54a49b2d66d529a29b600/documents/4f790c9b84fe44968bed218ce95be531
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/91475b6934a54a49b2d66d529a29b600/documents/6ad15d76a0344c8499de4b39804106fb
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -22,11 +22,11 @@ X-Content-Type-Options: nosniff
     "author": "bid_owner", 
     "language": "uk", 
     "title": "Proposal_top_secrets.pdf", 
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/91475b6934a54a49b2d66d529a29b600/documents/4f790c9b84fe44968bed218ce95be531?download=2a25bf65587a4d58a79f18238086b4a0", 
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/91475b6934a54a49b2d66d529a29b600/documents/6ad15d76a0344c8499de4b39804106fb?download=283d261b32334c89a201217790d76246", 
     "format": "application/pdf", 
     "documentOf": "tender", 
     "datePublished": "2020-09-08T01:00:00+03:00", 
-    "id": "4f790c9b84fe44968bed218ce95be531", 
+    "id": "6ad15d76a0344c8499de4b39804106fb", 
     "dateModified": "2020-09-08T01:00:00+03:00", 
     "confidentiality": "public"
   }

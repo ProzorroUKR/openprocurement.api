@@ -1,4 +1,4 @@
-PATCH /api/2.5/agreements/eb35d61e7cde4a008003f5cd17ddb0c7/documents/fe6f0d8934924b818b0179553d6c7b8c?acc_token=76b0c07026994e7089d5f9716acfc3e7 HTTP/1.0
+PATCH /api/2.5/agreements/eb35d61e7cde4a008003f5cd17ddb0c7/documents/cda3d43d28ea4490b453a9209e420615?acc_token=76b0c07026994e7089d5f9716acfc3e7 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 85
 Content-Type: application/json
@@ -19,11 +19,11 @@ X-Content-Type-Options: nosniff
     "hash": "md5:00000000000000000000000000000000", 
     "author": "agreement_owner", 
     "title": "agreement_changes.doc", 
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fac5b30f7445448c96cf4a198245608a?KeyID=a8968c46&Signature=ycUELfBeLkr4q6%2FYPhROw%252Ba9M1WtAvLBTFjDaZTcFMQpDSGR9mm2SDTbSkMFcyqnZS4uYVH0b4iTjmuu3xVPDw%253D%253D", 
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d95f533960c3442989ca0c2229179ba7?KeyID=a8968c46&Signature=wXBfssQe1jX171n0gvBZiqq%2FwQ2Puh9QIYYuJR1KcbhS%252BeWgxIkCKPrqtkJ0jxw3mXaEJ0eTnBRV3uM9lSj4CA%253D%253D", 
     "format": "application/msword", 
     "documentOf": "change", 
     "datePublished": "2020-09-08T01:00:00+03:00", 
-    "id": "fe6f0d8934924b818b0179553d6c7b8c", 
+    "id": "cda3d43d28ea4490b453a9209e420615", 
     "relatedItem": "3589aa88ba3f41be89b973cf88d9c9b8", 
     "dateModified": "2020-09-08T01:00:00+03:00"
   }

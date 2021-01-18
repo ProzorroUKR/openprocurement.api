@@ -14,7 +14,7 @@ content
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/35f93e8dd5484abb8b90687952c82010/documents/25917600e92b4f01bae6c76fcc2098db
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/35f93e8dd5484abb8b90687952c82010/documents/3b14ce8988e3476a9954f807f645ef71
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -22,11 +22,11 @@ X-Content-Type-Options: nosniff
     "author": "tender_owner", 
     "language": "uk", 
     "title": "Notice.pdf", 
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d2b7e55f1cbb48f1946f160fe830191e?KeyID=a8968c46&Signature=%2Fdv9ZZOqYkmmZ4k5ukuAAJ%252BxBr9xppHXqn1FjufVngNWq%252BwYBxeGHbkgB34q7Rxtqvm%252BfWZ78XKKNiouwWT1DA%253D%253D", 
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/da2c5131738c4bc1915d2258757791c0?KeyID=a8968c46&Signature=S4ruU9Smv31ei17u%2F0iwYJUChdCaNu%2FP9ZAP2YOmLV9VlGKG6M7Y1Akc1n9fqINhZGo5Kwiog%252BPuysYp3%252BDcCg%253D%253D", 
     "format": "application/pdf", 
     "documentOf": "tender", 
     "datePublished": "2020-09-08T01:00:00+03:00", 
-    "id": "25917600e92b4f01bae6c76fcc2098db", 
+    "id": "3b14ce8988e3476a9954f807f645ef71", 
     "dateModified": "2020-09-08T01:00:00+03:00"
   }
 }

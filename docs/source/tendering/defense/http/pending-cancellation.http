@@ -21,12 +21,12 @@ X-Content-Type-Options: nosniff
         "hash": "md5:00000000000000000000000000000000", 
         "description": "Changed description", 
         "title": "Notice.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/14a635dc071744c095283d77ea66c4a3?KeyID=a8968c46&Signature=9wd%2F3f%252B5icTlyKEQ74bGmJns9Gc3PikSfh05kqOsU38wcDWeategnj3esXB1gEjOqy5h0u66kuMAnER22Rs6BA%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d9f3adb3688b44fe8b2e033ebf2f8628?KeyID=a8968c46&Signature=%2Fdyh2r%252B7AWgmICEBwwVx0tSEXxkY59DBs2xy0e63Kc6gY7iaI5vJXRLI6lPiHdKQ4xV97dmXb6LD2u%2F5fAOCDQ%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:03+03:00", 
         "author": "tender_owner", 
-        "id": "07e44fd6b20a49c3945b89a11e19218b", 
+        "id": "ce77da327668407fb23e498c110458e4", 
         "dateModified": "2020-09-08T01:00:03+03:00"
       }, 
       {
@@ -38,7 +38,7 @@ X-Content-Type-Options: nosniff
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:03+03:00", 
         "author": "tender_owner", 
-        "id": "07e44fd6b20a49c3945b89a11e19218b", 
+        "id": "ce77da327668407fb23e498c110458e4", 
         "dateModified": "2020-09-08T01:00:03+03:00"
       }
     ], 

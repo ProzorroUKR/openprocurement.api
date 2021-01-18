@@ -14,18 +14,18 @@ content
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/127bd59fdd464def8d1189b954eefcbb/contracts/815bd06a9ab34af69743fc32a8451cc6/documents/aaee4dc1e1c94bb5baaba95a955a224d
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/127bd59fdd464def8d1189b954eefcbb/contracts/815bd06a9ab34af69743fc32a8451cc6/documents/20e9860c23674cc997300b091abfeb7f
 X-Content-Type-Options: nosniff
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000", 
     "author": "tender_owner", 
     "title": "contract_document.doc", 
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c8f8988e71f9425bbabc933a689ff013?KeyID=a8968c46&Signature=Yizoz%252BdRz5oOSZyZp1lMpjmOuoxGT3z6FA2VKz7UnSUJEzAbEnfOlm1xN4eZwEp4qDhXK4gYRKHQg3dH5crGBw%253D%253D", 
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1ab14e7fb81b46cda90355f1dd9b035d?KeyID=a8968c46&Signature=VIIarzFX0PmI%2FVcUaQoqJYHlhQdWWonWdSWk5HAXmAc2IZ6R%252BxrCDuOoMzLxOCrAJkLOmxpDpzP%252B9rRlpijRDA%253D%253D", 
     "format": "application/msword", 
     "documentOf": "tender", 
     "datePublished": "2020-09-08T01:00:03+03:00", 
-    "id": "aaee4dc1e1c94bb5baaba95a955a224d", 
+    "id": "20e9860c23674cc997300b091abfeb7f", 
     "dateModified": "2020-09-08T01:00:03+03:00"
   }
 }

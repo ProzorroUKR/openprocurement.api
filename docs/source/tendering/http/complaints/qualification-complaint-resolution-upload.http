@@ -14,7 +14,7 @@ content
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ba5045de21b4930a220df9887be28ec/qualifications/de1fdfe83be64f45a3aa274d8f98a1e9/complaints/fb84721b8c944f59906bc84eb4a322f3/documents/250968bb7e6d4e0b8a130c038f56ccce
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ba5045de21b4930a220df9887be28ec/qualifications/de1fdfe83be64f45a3aa274d8f98a1e9/complaints/fb84721b8c944f59906bc84eb4a322f3/documents/2a6513c422ab4552b35f42ee01c5a01f
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -22,11 +22,11 @@ X-Content-Type-Options: nosniff
     "author": "aboveThresholdReviewers", 
     "language": "uk", 
     "title": "ComplaintResolution.pdf", 
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ecbd8680616d4fcdab192cb34ad8f7fa?KeyID=a8968c46&Signature=WOzWlKRCho3qE2I47IDUQP6FK7VT35bKQyfGX0YRXbCBawNkKxz5%2FtvP9p1cL%252BK%252BrBhwuUyqcAdux25zAOTGCg%253D%253D", 
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c8940e74227a4c82b24b8eeece82a30e?KeyID=a8968c46&Signature=N2dhyUhp%252BfWseEuOt%252BR431NDIJbHEivr79pc0AAjRIo7IABX69exmwn9Q1o1O7sCk53gqCVGA%2FkEese3gjYbDA%253D%253D", 
     "format": "application/pdf", 
     "documentOf": "tender", 
     "datePublished": "2020-09-08T01:00:01+03:00", 
-    "id": "250968bb7e6d4e0b8a130c038f56ccce", 
+    "id": "2a6513c422ab4552b35f42ee01c5a01f", 
     "dateModified": "2020-09-08T01:00:01+03:00"
   }
 }

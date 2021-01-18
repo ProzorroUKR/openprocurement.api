@@ -14,17 +14,17 @@ additional info
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/19973fee87084fe7a00db94ad14f0c0d/documents/8a7a241ce7434c6c96f9821dad6d3cf7
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/19973fee87084fe7a00db94ad14f0c0d/documents/630f2f43390545a3b17d6ce977788263
 X-Content-Type-Options: nosniff
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000", 
     "author": "submission_owner", 
     "title": "submission_docs.doc", 
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/dd99e3c3763441a18e6e17ed919206ba?KeyID=a8968c46&Signature=J3CgfEQsfqMFPWbfImAxEj1j4671M%252BwJUR65vDefWsaBxPFDkYAgbKbycKpErXp1qTR4J%2FYsJj0oReF5RbiAAQ%253D%253D", 
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/32da6e3568f94e1cae910e5c4e7ed18c?KeyID=a8968c46&Signature=FJH%252BGTlP%2FhH9s5nRRIYIa3MK0f8x5h8Osr%2F09%252BbvNFfJOwPZuXVgDonmPr2D5Mav25u99Qwe41ENg67ZJmbiBA%253D%253D", 
     "format": "application/msword", 
     "datePublished": "2020-09-24T01:00:00+03:00", 
-    "id": "8a7a241ce7434c6c96f9821dad6d3cf7", 
+    "id": "630f2f43390545a3b17d6ce977788263", 
     "dateModified": "2020-09-24T01:00:00+03:00"
   }
 }

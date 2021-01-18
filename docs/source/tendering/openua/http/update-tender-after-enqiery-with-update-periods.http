@@ -78,22 +78,22 @@ X-Content-Type-Options: nosniff
         "hash": "md5:00000000000000000000000000000000", 
         "author": "tender_owner", 
         "title": "Notice.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/852db4b111684ca28ce933ee44ae0413?KeyID=a8968c46&Signature=A8FHv56QzGXQBme9La7Hd%252BjlsUGxzrLoPW1qB8dt%2FR0Sse9T5LjLZpiRQBvfb5w8agCK7k1KP58eaxaWtHAiBA%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c702d06f23f14ec189cd1bd66c90abd0?KeyID=a8968c46&Signature=688FEMWrJkWC6VBBk4wwQ2WFI79vKzYAw4v%2FH9PDt5a3Sy3ndEpP929cqlLucJvuC1lZ71Xi3I3aL9oEN3mrCA%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "fca2859f2afc426bbe4f12a45ed80f79", 
+        "id": "2b26222a4d28407c9a2106c18c73ed59", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
         "author": "tender_owner", 
         "title": "AwardCriteria.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d5ed20ad2ba94a63ae844057010087d5?KeyID=a8968c46&Signature=BeYxWuS6LByGjZS379BKKyjep3XCYUzhUo6MrGzUfSmpB6f1EzKGbzsC8BftqvoKUJWDl906MzDnSvkp7n8mAQ%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/382eba2281e341d88fc724ea328302fd?KeyID=a8968c46&Signature=k6wmTxxTDQYcalrdEQWBoYH0gSbJMFUgLUH6eowPp%252BepzSM8XGRhdml5ThkxKwYavfTOg1rFPMKNi719M%2FqYBg%253D%253D", 
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "ab9b32930dc54485896e22cd0224978e", 
+        "id": "7b880a22b1c942cdad482344ecc029ea", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }, 
       {
@@ -104,7 +104,7 @@ X-Content-Type-Options: nosniff
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "ab9b32930dc54485896e22cd0224978e", 
+        "id": "7b880a22b1c942cdad482344ecc029ea", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }
     ], 

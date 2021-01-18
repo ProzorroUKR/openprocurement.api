@@ -14,11 +14,11 @@ X-Content-Type-Options: nosniff
         "author": "tender_owner", 
         "language": "uk", 
         "title": "contract_first_document.doc", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e2946c7ba51c4609a340bc4c8c2e81ed?KeyID=a8968c46&Signature=%2FVOI7la49tXk5%2FUZH1wqDSjbDMIotjS4I%252B1PSqCpCVm68CjKKmJmiyRB3Rw2nHVeAzmP%2FgDQJ5LzwQ%252Bf%2FXN3Dg%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d0ee6c4495cc4c6f990bc57866deafcd?KeyID=a8968c46&Signature=MqOcqJ%252BL2R93uaYQ%252BQOQ52oWZYqoFNjvBaWNaFoAk4vlHL6%252BtnzgWphwoT6p0Yd3VrVuhUQP%2FabAcGEcuCHjCw%253D%253D", 
         "format": "application/msword", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:01+03:00", 
-        "id": "04b0c874babe42748bff0b4c056f31af", 
+        "id": "65dfc1eba4e34865ab3f4e09f062a190", 
         "dateModified": "2020-09-08T01:00:01+03:00"
       }, 
       {
@@ -26,13 +26,13 @@ X-Content-Type-Options: nosniff
         "author": "tender_owner", 
         "language": "en", 
         "title": "contract_second_document.doc", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f71b4c80df6547229e13ecd1c8cb24e9?KeyID=a8968c46&Signature=mTilE8ZGPrIqcDLOEaDHjp8FspY8O71068NFpCnfb3Re4OHy0nh1b7ydJ16OsbBlsvZ%252BugwuldrBAvJD5x7SAQ%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d885432c20be4689a55b94588f44049c?KeyID=a8968c46&Signature=1OmLgt00QIdPyDg%2FiMVEFBzK%2Fdzvz7MAKoIWxj%2FBxHfcN4H093%2Fg4VFtb12uSrqsTpYAYUEfi87uI8Kls5AFBA%253D%253D", 
         "format": "application/msword", 
         "title_en": "Title of Document", 
         "description_en": "Description of Document", 
         "datePublished": "2020-09-08T01:00:01+03:00", 
         "documentOf": "tender", 
-        "id": "45625ebd069448d6878ba31cd15f4e9e", 
+        "id": "1e882e890bc84ae8b52f39207a89e21b", 
         "dateModified": "2020-09-08T01:00:01+03:00"
       }
     ], 

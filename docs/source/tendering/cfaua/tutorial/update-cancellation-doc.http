@@ -1,4 +1,4 @@
-PUT /api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/cancellations/239746d7afa3403f82b83f40879c4deb/documents/e2186fc610c14beda1a5ef6ef45dfe05?acc_token=1e40f3cf3fd64b8ebca3076b70a86e71 HTTP/1.0
+PUT /api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/cancellations/239746d7afa3403f82b83f40879c4deb/documents/4a9753deb7984446bb3ef182a8060a67?acc_token=1e40f3cf3fd64b8ebca3076b70a86e71 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 145
 Content-Type: multipart/form-data; boundary=---BOUNDARY
@@ -26,7 +26,7 @@ X-Content-Type-Options: nosniff
     "documentOf": "tender", 
     "datePublished": "2020-09-08T01:00:01+03:00", 
     "author": "tender_owner", 
-    "id": "e2186fc610c14beda1a5ef6ef45dfe05", 
+    "id": "4a9753deb7984446bb3ef182a8060a67", 
     "dateModified": "2020-09-08T01:00:01+03:00"
   }
 }

@@ -12,11 +12,11 @@ X-Content-Type-Options: nosniff
       {
         "author": "contract_owner", 
         "title": "contract_changes.doc", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/a7bf4e4e2e994700a5f998fe7e9c0cd6?download=7b1e68d6f18f488f86d17aa35f1913b9", 
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/951905d76d2341e088917e1430c9f41c?download=0eb459624a8b4586998c3b1fc94dfebf", 
         "format": "application/msword", 
         "documentOf": "change", 
         "datePublished": "2020-09-08T01:00:01+03:00", 
-        "id": "a7bf4e4e2e994700a5f998fe7e9c0cd6", 
+        "id": "951905d76d2341e088917e1430c9f41c", 
         "relatedItem": "b43b7e72488d4394883aea3331d71f51", 
         "dateModified": "2020-09-08T01:00:01+03:00"
       }
