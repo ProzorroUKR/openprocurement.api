@@ -2866,10 +2866,11 @@ def create_tender_award_document(self):
         self.assertNotIn("Expires=", response.json["data"]["url"])
         key = response.json["data"]["url"].split("/")[-1].split("?")[0]
         tender = self.db.get(self.tender_id)
-        self.assertIn(key, tender["awards"][-1]["documents"][-1]["url"])
-        self.assertIn("Signature=", tender["awards"][-1]["documents"][-1]["url"])
-        self.assertIn("KeyID=", tender["awards"][-1]["documents"][-1]["url"])
-        self.assertNotIn("Expires=", tender["awards"][-1]["documents"][-1]["url"])
+        award = [award for award in tender["awards"] if award["id"] == self.award_id][0]
+        self.assertIn(key, award["documents"][-1]["url"])
+        self.assertIn("Signature=", award["documents"][-1]["url"])
+        self.assertIn("KeyID=", award["documents"][-1]["url"])
+        self.assertNotIn("Expires=", award["documents"][-1]["url"])
     else:
         key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
 
@@ -3015,10 +3016,11 @@ def put_tender_award_document(self):
         self.assertNotIn("Expires=", response.json["data"]["url"])
         key = response.json["data"]["url"].split("/")[-1].split("?")[0]
         tender = self.db.get(self.tender_id)
-        self.assertIn(key, tender["awards"][-1]["documents"][-1]["url"])
-        self.assertIn("Signature=", tender["awards"][-1]["documents"][-1]["url"])
-        self.assertIn("KeyID=", tender["awards"][-1]["documents"][-1]["url"])
-        self.assertNotIn("Expires=", tender["awards"][-1]["documents"][-1]["url"])
+        award = [award for award in tender["awards"] if award["id"] == self.award_id][0]
+        self.assertIn(key, award["documents"][-1]["url"])
+        self.assertIn("Signature=", award["documents"][-1]["url"])
+        self.assertIn("KeyID=", award["documents"][-1]["url"])
+        self.assertNotIn("Expires=", award["documents"][-1]["url"])
     else:
         key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
 
@@ -3059,10 +3061,11 @@ def put_tender_award_document(self):
         self.assertNotIn("Expires=", response.json["data"]["url"])
         key = response.json["data"]["url"].split("/")[-1].split("?")[0]
         tender = self.db.get(self.tender_id)
-        self.assertIn(key, tender["awards"][-1]["documents"][-1]["url"])
-        self.assertIn("Signature=", tender["awards"][-1]["documents"][-1]["url"])
-        self.assertIn("KeyID=", tender["awards"][-1]["documents"][-1]["url"])
-        self.assertNotIn("Expires=", tender["awards"][-1]["documents"][-1]["url"])
+        award = [award for award in tender["awards"] if award["id"] == self.award_id][0]
+        self.assertIn(key, award["documents"][-1]["url"])
+        self.assertIn("Signature=", award["documents"][-1]["url"])
+        self.assertIn("KeyID=", award["documents"][-1]["url"])
+        self.assertNotIn("Expires=", award["documents"][-1]["url"])
     else:
         key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
 
@@ -3159,10 +3162,11 @@ def create_award_document_bot(self):
         self.assertNotIn("Expires=", response.json["data"]["url"])
         key = response.json["data"]["url"].split("/")[-1].split("?")[0]
         tender = self.db.get(self.tender_id)
-        self.assertIn(key, tender["awards"][-1]["documents"][-1]["url"])
-        self.assertIn("Signature=", tender["awards"][-1]["documents"][-1]["url"])
-        self.assertIn("KeyID=", tender["awards"][-1]["documents"][-1]["url"])
-        self.assertNotIn("Expires=", tender["awards"][-1]["documents"][-1]["url"])
+        award = [award for award in tender["awards"] if award["id"] == self.award_id][0]
+        self.assertIn(key, award["documents"][-1]["url"])
+        self.assertIn("Signature=", award["documents"][-1]["url"])
+        self.assertIn("KeyID=", award["documents"][-1]["url"])
+        self.assertNotIn("Expires=", award["documents"][-1]["url"])
 
     # set tender to active.awarded status
     self.app.authorization = broker_authorization
@@ -3233,10 +3237,11 @@ def create_tender_lots_award_document(self):
         self.assertNotIn("Expires=", response.json["data"]["url"])
         key = response.json["data"]["url"].split("/")[-1].split("?")[0]
         tender = self.db.get(self.tender_id)
-        self.assertIn(key, tender["awards"][-1]["documents"][-1]["url"])
-        self.assertIn("Signature=", tender["awards"][-1]["documents"][-1]["url"])
-        self.assertIn("KeyID=", tender["awards"][-1]["documents"][-1]["url"])
-        self.assertNotIn("Expires=", tender["awards"][-1]["documents"][-1]["url"])
+        award = [award for award in tender["awards"] if award["id"] == self.award_id][0]
+        self.assertIn(key, award["documents"][-1]["url"])
+        self.assertIn("Signature=", award["documents"][-1]["url"])
+        self.assertIn("KeyID=", award["documents"][-1]["url"])
+        self.assertNotIn("Expires=", award["documents"][-1]["url"])
     else:
         key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
 
@@ -3346,10 +3351,11 @@ def put_tender_lots_award_document(self):
         self.assertNotIn("Expires=", response.json["data"]["url"])
         key = response.json["data"]["url"].split("/")[-1].split("?")[0]
         tender = self.db.get(self.tender_id)
-        self.assertIn(key, tender["awards"][-1]["documents"][-1]["url"])
-        self.assertIn("Signature=", tender["awards"][-1]["documents"][-1]["url"])
-        self.assertIn("KeyID=", tender["awards"][-1]["documents"][-1]["url"])
-        self.assertNotIn("Expires=", tender["awards"][-1]["documents"][-1]["url"])
+        award = [award for award in tender["awards"] if award["id"] == self.award_id][0]
+        self.assertIn(key, award["documents"][-1]["url"])
+        self.assertIn("Signature=", award["documents"][-1]["url"])
+        self.assertIn("KeyID=", award["documents"][-1]["url"])
+        self.assertNotIn("Expires=", award["documents"][-1]["url"])
     else:
         key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
 
@@ -3390,10 +3396,11 @@ def put_tender_lots_award_document(self):
         self.assertNotIn("Expires=", response.json["data"]["url"])
         key = response.json["data"]["url"].split("/")[-1].split("?")[0]
         tender = self.db.get(self.tender_id)
-        self.assertIn(key, tender["awards"][-1]["documents"][-1]["url"])
-        self.assertIn("Signature=", tender["awards"][-1]["documents"][-1]["url"])
-        self.assertIn("KeyID=", tender["awards"][-1]["documents"][-1]["url"])
-        self.assertNotIn("Expires=", tender["awards"][-1]["documents"][-1]["url"])
+        award = [award for award in tender["awards"] if award["id"] == self.award_id][0]
+        self.assertIn(key, award["documents"][-1]["url"])
+        self.assertIn("Signature=", award["documents"][-1]["url"])
+        self.assertIn("KeyID=", award["documents"][-1]["url"])
+        self.assertNotIn("Expires=", award["documents"][-1]["url"])
     else:
         key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
 

@@ -31,4 +31,4 @@ class TenderAwardDocumentResource(BaseResource):
         permission="upload_tender_documents",
     )
     def collection_post(self):
-        return super(BaseResource, self).collection_post()
+        return super(TenderAwardDocumentResource, self).collection_post()
