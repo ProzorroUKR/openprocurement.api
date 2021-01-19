@@ -30,13 +30,62 @@ def create_framework_document_forbidden(self):
         self.assertEqual(response.status, "403 Forbidden")
 
 
-def create_framework_documents(self):
+def create_framework_document(self):
     response = self.app.post(
         "/frameworks/{}/documents".format(self.framework_id),
         upload_files=[("file", u"укр.doc", "content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
+
+
+def create_framework_document_json_bulk(self):
+    response = self.app.post_json(
+        "/frameworks/{}/documents?acc_token={}".format(self.framework_id, self.framework_token),
+        {
+            "data": [
+                {
+                    "title": "name1.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                },
+                {
+                    "title": "name2.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            ]
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    doc_1 = response.json["data"][0]
+    doc_2 = response.json["data"][1]
+
+    def assert_document(document, title):
+        self.assertEqual(title, document["title"])
+        self.assertIn("Signature=", document["url"])
+        self.assertIn("KeyID=", document["url"])
+        self.assertNotIn("Expires=", document["url"])
+
+    assert_document(doc_1, "name1.doc")
+    assert_document(doc_2, "name2.doc")
+
+    framework = self.db.get(self.framework_id)
+    doc_1 = framework["documents"][0]
+    doc_2 = framework["documents"][1]
+    assert_document(doc_1, "name1.doc")
+    assert_document(doc_2, "name2.doc")
+
+    response = self.app.get("/frameworks/{}/documents".format(self.framework_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    doc_1 = response.json["data"][0]
+    doc_2 = response.json["data"][1]
+    assert_document(doc_1, "name1.doc")
+    assert_document(doc_2, "name2.doc")
 
 
 def not_found(self):

@@ -22,11 +22,12 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_with_document,
     create_tender_bid_with_documents,
     create_tender_bid_document_json,
+    create_tender_bid_document_json_bulk,
     put_tender_bid_document_json,
     not_found,
     create_tender_bid_document,
     put_tender_bid_document,
-    )
+)
 from openprocurement.tender.pricequotation.tests.bid_blanks import (
     create_tender_bid,
     create_tender_bid_document_nopending,
@@ -120,13 +121,19 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
     docservice = True
 
     test_create_tender_bid_document_json = snitch(create_tender_bid_document_json)
+    test_create_tender_bid_document_json_bulk = snitch(create_tender_bid_document_json_bulk)
     test_put_tender_bid_document_json = snitch(put_tender_bid_document_json)
 
 
 class TenderBidBatchDocumentWithDSResourceTest(TenderContentWebTest):
     docservice = True
     initial_status = "active.tendering"
-    bid_data_wo_docs = {"tenderers": [test_organization], "value": {"amount": 500}, "documents": [], "requirementResponses": test_requirement_response_valid}
+    bid_data_wo_docs = {
+        "tenderers": [test_organization],
+        "value": {"amount": 500},
+        "documents": [],
+        "requirementResponses": test_requirement_response_valid
+    }
 
     test_create_tender_bid_with_document_invalid = snitch(create_tender_bid_with_document_invalid)
     test_create_tender_bid_with_document = snitch(create_tender_bid_with_document)
@@ -137,7 +144,6 @@ def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderBidDocumentResourceTest))
     suite.addTest(unittest.makeSuite(TenderBidDocumentWithDSResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidFeaturesResourceTest))
     suite.addTest(unittest.makeSuite(TenderBidResourceTest))
     return suite
 

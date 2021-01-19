@@ -25,9 +25,10 @@ from openprocurement.framework.electroniccatalogue.tests.qualification_blanks im
     get_documents_list,
     get_document_by_id,
     create_qualification_document_forbidden,
-    create_qualification_documents,
+    create_qualification_document,
     document_not_found,
     put_qualification_document,
+    create_qualification_document_json_bulk,
 )
 
 
@@ -76,7 +77,8 @@ class TestQualificationDocumentsCreate(QualificationContentWebTest):
     docservice = True
 
     test_create_qualification_document_forbidden = snitch(create_qualification_document_forbidden)
-    test_create_qualification_documents = snitch(create_qualification_documents)
+    test_create_qualification_document = snitch(create_qualification_document)
+    test_create_qualification_document_json_bulk = snitch(create_qualification_document_json_bulk)
     test_document_not_found = snitch(document_not_found)
     test_put_qualification_document = snitch(put_qualification_document)
 

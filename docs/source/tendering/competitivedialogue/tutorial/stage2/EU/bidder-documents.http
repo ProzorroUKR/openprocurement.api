@@ -9,30 +9,30 @@ X-Content-Type-Options: nosniff
   "data": [
     {
       "hash": "md5:00000000000000000000000000000000", 
+      "author": "bid_owner", 
+      "language": "uk", 
+      "title": "Proposal.pdf", 
+      "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/50c82523038349969f53f3e238932c46/bids/35a41cb1beb746a68b7ab656f69ecfad/documents/c00154b4e07247218edb6146228627ef?download=52925f3fbe94410f9b830a5dc138686e", 
+      "format": "application/pdf", 
+      "documentOf": "tender", 
+      "datePublished": "2020-09-08T01:00:00+03:00", 
+      "id": "c00154b4e07247218edb6146228627ef", 
+      "dateModified": "2020-09-08T01:00:00+03:00", 
+      "confidentiality": "public"
+    }, 
+    {
+      "hash": "md5:00000000000000000000000000000000", 
       "confidentiality": "buyerOnly", 
       "language": "uk", 
       "format": "application/pdf", 
-      "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/50c82523038349969f53f3e238932c46/bids/35a41cb1beb746a68b7ab656f69ecfad/documents/73558e21af2d41c4834bf2a5bbed5d84?download=8f278c27cef64cde9845ebdd91359dbd", 
+      "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/50c82523038349969f53f3e238932c46/bids/35a41cb1beb746a68b7ab656f69ecfad/documents/45d79b72a46541fc95ca16f906995737?download=64ddd8a47dc54bc89bda7e132bd586f4", 
       "confidentialityRationale": "Only our company sells badgers with pink hair.", 
       "author": "bid_owner", 
       "documentOf": "tender", 
       "datePublished": "2020-09-08T01:00:00+03:00", 
-      "id": "73558e21af2d41c4834bf2a5bbed5d84", 
+      "id": "45d79b72a46541fc95ca16f906995737", 
       "title": "Proposal_top_secrets.pdf", 
       "dateModified": "2020-09-08T01:00:00+03:00"
-    }, 
-    {
-      "hash": "md5:00000000000000000000000000000000", 
-      "author": "bid_owner", 
-      "language": "uk", 
-      "title": "Proposal.pdf", 
-      "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/50c82523038349969f53f3e238932c46/bids/35a41cb1beb746a68b7ab656f69ecfad/documents/a4eecbf8026c468796220218104b8636?download=5443413cf3304d9fbf671971178a6776", 
-      "format": "application/pdf", 
-      "documentOf": "tender", 
-      "datePublished": "2020-09-08T01:00:00+03:00", 
-      "id": "a4eecbf8026c468796220218104b8636", 
-      "dateModified": "2020-09-08T01:00:00+03:00", 
-      "confidentiality": "public"
     }
   ]
 }

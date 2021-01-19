@@ -1,4 +1,4 @@
-GET /api/2.5/agreements/eb35d61e7cde4a008003f5cd17ddb0c7/documents/3d46991db96e422e865d1903fecf5c48?acc_token=76b0c07026994e7089d5f9716acfc3e7 HTTP/1.0
+GET /api/2.5/agreements/eb35d61e7cde4a008003f5cd17ddb0c7/documents/a2b8d37c71e644d68069520aa7c6584b?acc_token=76b0c07026994e7089d5f9716acfc3e7 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -10,7 +10,7 @@ X-Content-Type-Options: nosniff
     "hash": "md5:00000000000000000000000000000000", 
     "author": "agreement_owner", 
     "title": "agreement_additional_docs.doc", 
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/01fb55b12f054e6695e98107c9df0b8e?KeyID=a8968c46&Signature=MLsYAp2IL97lodswz9pMPY9pJI4JRes5o8ulO1nwglq8zpyImrie74CDN4wg9N93sF6KfsAmgG2XodtjgbmBDg%253D%253D", 
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/93605fd614d74289a0d08bd6e5f580e1?KeyID=a8968c46&Signature=mJwc0fyvShLjY0dFD9Yj%252BVQQUF5NYgoapm3Fe92BI0gHQLRZ0CPfwJtlyf4FDiTjZ%252BlbCaxgVuNXdlNIz3x0Cg%253D%253D", 
     "format": "application/msword", 
     "documentOf": "agreement", 
     "datePublished": "2020-09-08T01:00:00+03:00", 
@@ -19,15 +19,15 @@ X-Content-Type-Options: nosniff
         "hash": "md5:00000000000000000000000000000000", 
         "author": "agreement_owner", 
         "title": "agreement_additional_docs.doc", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/68431cdec7a04312b9a632a6599b9123?KeyID=a8968c46&Signature=7Apwgl7YALEUFmaKd1a0f3kzuMnr85G4Xxdu61ff2FmAPIZQqgoqkXv6NaL3vXtUcRX9kLFLCtPOWyRSC0G2Bw%253D%253D", 
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a3984ac00aca4fe5bdab3fd55f356001?KeyID=a8968c46&Signature=YaPhLtr021tuByvglSJT9V5lS1XJaEUrY99Q73%2Fwl5svhMUoX6kQNQN0pA3W3qgUN7%252Bzb%252B%252Bb9pDnM%2FoAfOqHBQ%253D%253D", 
         "format": "application/msword", 
         "documentOf": "agreement", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "3d46991db96e422e865d1903fecf5c48", 
+        "id": "a2b8d37c71e644d68069520aa7c6584b", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }
     ], 
-    "id": "3d46991db96e422e865d1903fecf5c48", 
+    "id": "a2b8d37c71e644d68069520aa7c6584b", 
     "dateModified": "2020-09-08T01:00:00+03:00"
   }
 }

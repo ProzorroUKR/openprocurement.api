@@ -7,7 +7,10 @@ from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
-from openprocurement.tender.belowthreshold.tests.bid_blanks import patch_tender_with_bids_lots_none
+from openprocurement.tender.belowthreshold.tests.bid_blanks import (
+    patch_tender_with_bids_lots_none,
+    create_tender_bid_document_json_bulk,
+)
 from openprocurement.tender.cfaua.tests.base import (
     BaseTenderContentWebTest,
     test_features_tender_data,
@@ -141,6 +144,7 @@ class TenderBidDocumentResourceTest(BaseTenderLotsContentWebTest):
 class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
     docservice = True
 
+    test_create_tender_bid_document_json_bulk = snitch(create_tender_bid_document_json_bulk)
     test_patch_tender_bidder_document_private_json = snitch(patch_tender_bidder_document_private_json)
     test_put_tender_bidder_document_private_json = snitch(put_tender_bidder_document_private_json)
     test_get_tender_bidder_document_ds = snitch(get_tender_bidder_document_ds)

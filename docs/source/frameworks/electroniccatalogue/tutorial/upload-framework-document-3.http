@@ -1,4 +1,4 @@
-PUT /api/2.5/frameworks/40b48e4878534db1bf228d5928f8f1d9/documents/0be832c754934419844dba2e1db51f63?acc_token=7c6a46e300bb41438ef626232028950b HTTP/1.0
+PUT /api/2.5/frameworks/40b48e4878534db1bf228d5928f8f1d9/documents/66ce11067b1b414186963f84d3f85f9f?acc_token=7c6a46e300bb41438ef626232028950b HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 181
 Content-Type: multipart/form-data; boundary=---BOUNDARY
@@ -20,10 +20,10 @@ X-Content-Type-Options: nosniff
     "hash": "md5:00000000000000000000000000000000", 
     "author": "framework_owner", 
     "title": "framework_additional_docs.doc", 
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bdf3fd6529b84459a7bb2e50f1b9dd36?KeyID=a8968c46&Signature=H6%2F56A0OVJFUARDj4BlQD0HaupXTblcPm5BPZllup6jwwuFJVfGq%2Fa4ppcToLhkH%252B9YvsjAJ4vd39rPHtR9TBQ%253D%253D", 
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/68b809b6021343db99ff1ce7a8b14d5d?KeyID=a8968c46&Signature=9qRxil6XErTfIcCSZVwHDh3zJ7O6cqEcsIu68bwpyX79MNM5KRk0APR2InzWIIxn5pi4IJKr3KWVInbnsueWAg%253D%253D", 
     "format": "application/msword", 
     "datePublished": "2020-09-08T01:00:00+03:00", 
-    "id": "0be832c754934419844dba2e1db51f63", 
+    "id": "66ce11067b1b414186963f84d3f85f9f", 
     "dateModified": "2020-09-08T01:00:00+03:00"
   }
 }

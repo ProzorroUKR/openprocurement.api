@@ -41,6 +41,8 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
     lot_patch_tender_qualifications_lots_none,
     bot_patch_tender_qualification_complaint,
     bot_patch_tender_qualification_complaint_forbidden,
+    # TenderQualificationDocumentWithDSResourceTest
+    create_tender_qualifications_document_json_bulk,
 )
 from openprocurement.tender.cfaua.tests.qualification_blanks import (
     create_tender_lot_qualification_complaint,
@@ -97,6 +99,11 @@ class TenderQualificationDocumentResourceTest(TenderQualificationBaseTestCase):
     test_create_qualification_document_after_status_change = snitch(create_qualification_document_after_status_change)
     test_put_qualification_document_after_status_change = snitch(put_qualification_document_after_status_change)
     test_tender_owner_create_qualification_document = snitch(tender_owner_create_qualification_document)
+
+class TenderQualificationDocumentWithDSResourceTest(TenderQualificationDocumentResourceTest):
+    docservice = True
+
+    test_create_tender_qualifications_document_json_bulk = snitch(create_tender_qualifications_document_json_bulk)
 
 
 class TenderQualificationComplaintResourceTest(BaseTenderContentWebTest):

@@ -59,6 +59,8 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
     put_tender_2lot_qualification_complaint_document,
     bot_patch_tender_qualification_complaint,
     bot_patch_tender_qualification_complaint_forbidden,
+    # TenderStage2EUQualificationDocumentWithDSResourceTest
+    create_tender_qualifications_document_json_bulk,
 )
 
 test_tender_bids = deepcopy(test_bids[:2])
@@ -120,6 +122,12 @@ class TenderStage2EUQualificationDocumentResourceTest(TenderQualificationBaseTes
     test_create_qualification_document_after_status_change = snitch(create_qualification_document_after_status_change)
     test_put_qualification_document_after_status_change = snitch(put_qualification_document_after_status_change)
     test_tender_owner_create_qualification_document = snitch(tender_owner_create_qualification_document)
+
+
+class TenderStage2EUQualificationDocumentWithDSResourceTest(TenderStage2EUQualificationDocumentResourceTest):
+    docservice = True
+
+    test_create_tender_qualifications_document_json_bulk = snitch(create_tender_qualifications_document_json_bulk)
 
 
 class TenderStage2EUQualificationComplaintResourceTest(TenderQualificationBaseTestCase):

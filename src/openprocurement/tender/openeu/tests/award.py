@@ -23,6 +23,8 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     get_tender_lot_award_complaints,
     # TenderLotAwardResourceTestMixin
     patch_tender_lot_award_lots_none,
+    # TenderAwardDocumentWithDSResourceTest
+    create_tender_award_document_json_bulk,
 )
 
 from openprocurement.tender.openua.tests.award import TenderUAAwardComplaintResourceTestMixin
@@ -354,6 +356,12 @@ class Tender2LotAwardDocumentResourceTest(BaseTenderContentWebTest, Tender2LotAw
         )
         award = response.json["data"]
         self.award_id = award["id"]
+
+
+class TenderAwardDocumentWithDSResourceTest(TenderAwardDocumentResourceTest):
+    docservice = True
+
+    test_create_tender_award_document_json_bulk = snitch(create_tender_award_document_json_bulk)
 
 
 def suite():

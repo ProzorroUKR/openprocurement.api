@@ -14,18 +14,18 @@ content
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d/documents/7334dc71271d4d719c8fd3314922f8ae
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d/documents/7098eba5c9a042459b8527174be6d4b0
 X-Content-Type-Options: nosniff
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000", 
     "author": "tender_owner", 
     "title": "AwardCriteria.pdf", 
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/694d6674c646416db32357544d9aef70?KeyID=a8968c46&Signature=w%252BYN6L35OF%252BW6nTPOcEOj5bqpiqObUuJ3Q66i9u9dgQA6zqXg9GHOzyoEpOxXS%252BBlgVCApku9ehDPaLKW0ANBw%253D%253D", 
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/720ff08fa8e34c40af73dced4b284430?KeyID=a8968c46&Signature=2pQrTlrdLpD9TRLopTyGWTJOown8vGVsQFRttO6SDFf4zEl%2FFPuqSzHkgWQckFkqwRDSMwPCsCmJ5R5%252B52TVDQ%253D%253D", 
     "format": "application/pdf", 
     "documentOf": "tender", 
     "datePublished": "2020-09-08T01:00:00+03:00", 
-    "id": "7334dc71271d4d719c8fd3314922f8ae", 
+    "id": "7098eba5c9a042459b8527174be6d4b0", 
     "dateModified": "2020-09-08T01:00:00+03:00"
   }
 }

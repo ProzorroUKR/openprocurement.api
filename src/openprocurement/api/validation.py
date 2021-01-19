@@ -112,7 +112,10 @@ def get_model_namespace(model):
         return model.__name__.lower()
 
 
-def validate_data(request, model, partial=False, data=None, allow_bulk=False, force_bulk=False):
+def validate_data(
+    request, model, partial=False, data=None,
+    allow_bulk=False, force_bulk=False
+):
     """
     function that validate input data for view
     @param request: pyramid.request.Request object

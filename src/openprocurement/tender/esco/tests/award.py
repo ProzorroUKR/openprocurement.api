@@ -12,6 +12,7 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     create_tender_award_with_scale_not_required,
     create_tender_award_no_scale,
     patch_tender_lot_award_lots_none,
+    create_tender_award_document_json_bulk,
 )
 from openprocurement.tender.esco.adapters import TenderESCOConfigurator
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_draft_complaint
@@ -376,6 +377,12 @@ class Tender2LotAwardDocumentResourceTest(BaseESCOContentWebTest, Tender2LotAwar
         )
         award = response.json["data"]
         self.award_id = award["id"]
+
+
+class TenderAwardDocumentWithDSResourceTest(TenderAwardDocumentResourceTest):
+    docservice = True
+
+    test_create_tender_award_document_json_bulk = snitch(create_tender_award_document_json_bulk)
 
 
 def suite():

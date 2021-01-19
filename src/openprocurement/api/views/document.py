@@ -4,7 +4,8 @@ from openprocurement.api.utils import (
     upload_file,
     update_file_content_type,
     context_unpack,
-    APIResource, upload_objects_documents,
+    APIResource,
+    upload_files,
 )
 
 class BaseDocumentResource(APIResource):
@@ -53,23 +54,14 @@ class BaseDocumentResource(APIResource):
         return {"data": collection_data}
 
     def collection_post(self):
-        is_bulk = "document_bulk" in self.request.validated
-
-        if is_bulk:
-            documents = self.request.validated["document_bulk"]
-            upload_objects_documents(self.request, documents)
-        else:
-            document = upload_file(self.request)
-            documents = [document]
-
+        documents = list(upload_files(self.request, container=self.container))
         for document in documents:
             document.author = self.request.authenticated_role
-
         getattr(self.context, self.container).extend(documents)
 
         self.pre_save()
         if self.save(self.request):
-            for item in documents:
+            for document in documents:
                 self.LOGGER.info(
                     "Created {} document {}".format(self.context_pretty_name, document.id),
                     extra=context_unpack(
@@ -80,9 +72,10 @@ class BaseDocumentResource(APIResource):
                 )
             self.request.response.status = 201
 
-        if is_bulk:
-            return {"data": [item.serialize("view") for item in documents]}
+        if "document_bulk" in self.request.validated:
+            return {"data": [document.serialize("view") for document in documents]}
         else:
+            document = documents[0]
             document_route = self.request.matched_route.name.replace("collection_", "")
             self.request.response.headers["Location"] = self.request.current_route_url(
                 _route_name=document_route, document_id=document.id, _query={}
@@ -103,6 +96,7 @@ class BaseDocumentResource(APIResource):
     def put(self):
         document = upload_file(self.request)
         getattr(self.request.validated[self.context_short_name], self.container).append(document)
+        self.pre_save()
         if self.save(self.request):
             self.LOGGER.info(
                 "Updated {} document {}".format(self.context_pretty_name, self.request.context.id),
@@ -111,6 +105,7 @@ class BaseDocumentResource(APIResource):
             return {"data": document.serialize("view")}
 
     def patch(self):
+        self.pre_save()
         if self.apply(self.request, src=self.request.context.serialize()):
             update_file_content_type(self.request)
             self.LOGGER.info(

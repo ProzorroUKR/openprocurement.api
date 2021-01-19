@@ -35,7 +35,7 @@ X-Content-Type-Options: nosniff
     "mainProcurementCategory": "goods", 
     "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/bc3a9016b29d4fed894cc62d3ff59680", 
     "enquiryPeriod": {
-      "startDate": "2020-08-25T01:00:01+03:00", 
+      "startDate": "2020-08-24T01:00:01+03:00", 
       "endDate": "2020-09-01T01:00:01+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
