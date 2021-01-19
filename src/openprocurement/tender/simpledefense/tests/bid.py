@@ -93,7 +93,7 @@ class TenderBidDocumentResourceTest(BaseSimpleDefContentWebTest, TenderBidDocume
 
         response = self.app.post(
             "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, bid_token),
-            upload_files=[("file", "name.doc", "content")],
+            upload_files=[("file", "name.doc", b"content")],
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -129,7 +129,7 @@ class TenderBidDocumentResourceTest(BaseSimpleDefContentWebTest, TenderBidDocume
 
         response = self.app.post(
             "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, bid_token),
-            upload_files=[("file", "name.doc", "content")],
+            upload_files=[("file", "name.doc", b"content")],
             status=403,
         )
         self.assertEqual(response.status, "403 Forbidden")
