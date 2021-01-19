@@ -1008,6 +1008,55 @@ def create_submission_documents(self):
     self.assertEqual(response.content_type, "application/json")
 
 
+def create_submission_document_json_bulk(self):
+    response = self.app.post_json(
+        "/submissions/{}/documents".format(self.submission_id),
+        {
+            "data": [
+                {
+                    "title": "name1.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                },
+                {
+                    "title": "name2.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            ]
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    doc_1 = response.json["data"][0]
+    doc_2 = response.json["data"][1]
+
+    def assert_document(document, title):
+        self.assertEqual(title, document["title"])
+        self.assertIn("Signature=", document["url"])
+        self.assertIn("KeyID=", document["url"])
+        self.assertNotIn("Expires=", document["url"])
+
+    assert_document(doc_1, "name1.doc")
+    assert_document(doc_2, "name2.doc")
+
+    submission = self.db.get(self.submission_id)
+    doc_1 = submission["documents"][0]
+    doc_2 = submission["documents"][1]
+    assert_document(doc_1, "name1.doc")
+    assert_document(doc_2, "name2.doc")
+
+    response = self.app.get("/submissions/{}/documents".format(self.submission_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    doc_1 = response.json["data"][0]
+    doc_2 = response.json["data"][1]
+    assert_document(doc_1, "name1.doc")
+    assert_document(doc_2, "name2.doc")
+
+
 def document_not_found(self):
     response = self.app.get("/submissions/some_id/documents", status=404)
     self.assertEqual(response.status, "404 Not Found")

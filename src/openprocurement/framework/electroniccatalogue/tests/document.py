@@ -12,8 +12,8 @@ from openprocurement.framework.electroniccatalogue.tests.base import (
 from openprocurement.framework.electroniccatalogue.tests.document_blanks import (
     get_documents_list,
     get_document_by_id,
-    create_framework_document_forbidden, create_framework_documents,
-    not_found, put_contract_document,
+    create_framework_document_forbidden, create_framework_document,
+    not_found, put_contract_document, create_framework_document_json_bulk,
 )
 
 
@@ -29,7 +29,8 @@ class TestDocumentsCreate(BaseDSElectronicCatalogueContentWebTest):
     initial_data = test_electronicCatalogue_data
 
     test_create_framework_document_forbidden = snitch(create_framework_document_forbidden)
-    test_create_framework_documents = snitch(create_framework_documents)
+    test_create_framework_document = snitch(create_framework_document)
+    test_create_framework_document_json_bulk = snitch(create_framework_document_json_bulk)
 
 
 class ElectronicCatalogueDocumentWithDSResourceTest(BaseDSElectronicCatalogueContentWebTest):

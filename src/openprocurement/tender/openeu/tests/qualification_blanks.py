@@ -496,7 +496,22 @@ def create_qualification_document(self):
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
     self.assertEqual("name.doc", response.json["data"]["title"])
-    key = response.json["data"]["url"].split("?")[-1]
+    if self.docservice:
+        self.assertIn("Signature=", response.json["data"]["url"])
+        self.assertIn("KeyID=", response.json["data"]["url"])
+        self.assertNotIn("Expires=", response.json["data"]["url"])
+        key = response.json["data"]["url"].split("/")[-1].split("?")[0]
+        tender = self.db.get(self.tender_id)
+        qualification = [
+            qualification for qualification in tender["qualifications"]
+            if qualification["id"] == self.qualifications[0]["id"]
+        ][0]
+        self.assertIn(key, qualification["documents"][-1]["url"])
+        self.assertIn("Signature=", qualification["documents"][-1]["url"])
+        self.assertIn("KeyID=", qualification["documents"][-1]["url"])
+        self.assertNotIn("Expires=", qualification["documents"][-1]["url"])
+    else:
+        key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
 
     # qualifications are public
     response = self.app.get(
@@ -529,14 +544,21 @@ def create_qualification_document(self):
     )
 
     response = self.app.get(
-        "/tenders/{}/qualifications/{}/documents/{}?{}".format(
+        "/tenders/{}/qualifications/{}/documents/{}?download={}".format(
             self.tender_id, self.qualifications[0]["id"], doc_id, key
         )
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/msword")
-    self.assertEqual(response.content_length, 7)
-    self.assertEqual(response.body, "content")
+    if self.docservice:
+        self.assertEqual(response.status, "302 Moved Temporarily")
+        self.assertIn("http://localhost/get/", response.location)
+        self.assertIn("Signature=", response.location)
+        self.assertIn("KeyID=", response.location)
+        self.assertNotIn("Expires=", response.location)
+    else:
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/msword")
+        self.assertEqual(response.content_length, 7)
+        self.assertEqual(response.body, "content")
 
     response = self.app.get(
         "/tenders/{}/qualifications/{}/documents/{}".format(self.tender_id, self.qualifications[0]["id"], doc_id)
@@ -545,6 +567,53 @@ def create_qualification_document(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("name.doc", response.json["data"]["title"])
+
+
+def create_tender_qualifications_document_json_bulk(self):
+    self.app.authorization = ("Basic", ("bot", "bot"))
+
+    response = self.app.post_json(
+        "/tenders/{}/qualifications/{}/documents".format(self.tender_id, self.qualifications[0]["id"]),
+        {
+            "data": [
+                {
+                    "title": "name1.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                },
+                {
+                    "title": "name2.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            ]
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    doc_1 = response.json["data"][0]
+    doc_2 = response.json["data"][1]
+
+    def assert_document(document, title):
+        self.assertEqual(title, document["title"])
+        self.assertIn("Signature=", document["url"])
+        self.assertIn("KeyID=", document["url"])
+        self.assertNotIn("Expires=", document["url"])
+
+    assert_document(doc_1, "name1.doc")
+    assert_document(doc_2, "name2.doc")
+
+    response = self.app.get(
+        "/tenders/{}/qualifications/{}/documents".format(self.tender_id, self.qualifications[0]["id"]),
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    doc_1 = response.json["data"][0]
+    doc_2 = response.json["data"][1]
+    assert_document(doc_1, "name1.doc")
+    assert_document(doc_2, "name2.doc")
 
 
 def put_qualification_document(self):
@@ -576,17 +645,39 @@ def put_qualification_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    key = response.json["data"]["url"].split("?")[-1]
+    if self.docservice:
+        self.assertIn("Signature=", response.json["data"]["url"])
+        self.assertIn("KeyID=", response.json["data"]["url"])
+        self.assertNotIn("Expires=", response.json["data"]["url"])
+        key = response.json["data"]["url"].split("/")[-1].split("?")[0]
+        tender = self.db.get(self.tender_id)
+        qualification = [
+            qualification for qualification in tender["qualifications"]
+            if qualification["id"] == self.qualifications[0]["id"]
+        ][0]
+        self.assertIn(key, qualification["documents"][-1]["url"])
+        self.assertIn("Signature=", qualification["documents"][-1]["url"])
+        self.assertIn("KeyID=", qualification["documents"][-1]["url"])
+        self.assertNotIn("Expires=", qualification["documents"][-1]["url"])
+    else:
+        key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
 
     response = self.app.get(
-        "/tenders/{}/qualifications/{}/documents/{}?{}".format(
+        "/tenders/{}/qualifications/{}/documents/{}?download={}".format(
             self.tender_id, self.qualifications[0]["id"], doc_id, key
         )
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/msword")
-    self.assertEqual(response.content_length, 8)
-    self.assertEqual(response.body, "content2")
+    if self.docservice:
+        self.assertEqual(response.status, "302 Moved Temporarily")
+        self.assertIn("http://localhost/get/", response.location)
+        self.assertIn("Signature=", response.location)
+        self.assertIn("KeyID=", response.location)
+        self.assertNotIn("Expires=", response.location)
+    else:
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/msword")
+        self.assertEqual(response.content_length, 8)
+        self.assertEqual(response.body, "content2")
 
     response = self.app.get(
         "/tenders/{}/qualifications/{}/documents/{}".format(self.tender_id, self.qualifications[0]["id"], doc_id)
@@ -604,17 +695,39 @@ def put_qualification_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    key = response.json["data"]["url"].split("?")[-1]
+    if self.docservice:
+        self.assertIn("Signature=", response.json["data"]["url"])
+        self.assertIn("KeyID=", response.json["data"]["url"])
+        self.assertNotIn("Expires=", response.json["data"]["url"])
+        key = response.json["data"]["url"].split("/")[-1].split("?")[0]
+        tender = self.db.get(self.tender_id)
+        qualification = [
+            qualification for qualification in tender["qualifications"]
+            if qualification["id"] == self.qualifications[0]["id"]
+        ][0]
+        self.assertIn(key, qualification["documents"][-1]["url"])
+        self.assertIn("Signature=", qualification["documents"][-1]["url"])
+        self.assertIn("KeyID=", qualification["documents"][-1]["url"])
+        self.assertNotIn("Expires=", qualification["documents"][-1]["url"])
+    else:
+        key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
 
     response = self.app.get(
-        "/tenders/{}/qualifications/{}/documents/{}?{}".format(
+        "/tenders/{}/qualifications/{}/documents/{}?download={}".format(
             self.tender_id, self.qualifications[0]["id"], doc_id, key
         )
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/msword")
-    self.assertEqual(response.content_length, 8)
-    self.assertEqual(response.body, "content3")
+    if self.docservice:
+        self.assertEqual(response.status, "302 Moved Temporarily")
+        self.assertIn("http://localhost/get/", response.location)
+        self.assertIn("Signature=", response.location)
+        self.assertIn("KeyID=", response.location)
+        self.assertNotIn("Expires=", response.location)
+    else:
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/msword")
+        self.assertEqual(response.content_length, 8)
+        self.assertEqual(response.body, "content3")
 
     with change_auth(self.app, ("Basic", ("broker", "broker"))):
         response = self.app.patch_json(

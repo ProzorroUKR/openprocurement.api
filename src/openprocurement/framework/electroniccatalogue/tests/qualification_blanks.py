@@ -710,13 +710,62 @@ def create_qualification_document_forbidden(self):
         self.assertEqual(response.status, "403 Forbidden")
 
 
-def create_qualification_documents(self):
+def create_qualification_document(self):
     response = self.app.post(
         "/qualifications/{}/documents".format(self.qualification_id),
         upload_files=[("file", u"укр.doc", "content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
+
+
+def create_qualification_document_json_bulk(self):
+    response = self.app.post_json(
+        "/qualifications/{}/documents".format(self.qualification_id),
+        {
+            "data": [
+                {
+                    "title": "name1.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                },
+                {
+                    "title": "name2.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            ]
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    doc_1 = response.json["data"][0]
+    doc_2 = response.json["data"][1]
+
+    def assert_document(document, title):
+        self.assertEqual(title, document["title"])
+        self.assertIn("Signature=", document["url"])
+        self.assertIn("KeyID=", document["url"])
+        self.assertNotIn("Expires=", document["url"])
+
+    assert_document(doc_1, "name1.doc")
+    assert_document(doc_2, "name2.doc")
+
+    qualification = self.db.get(self.qualification_id)
+    doc_1 = qualification["documents"][0]
+    doc_2 = qualification["documents"][1]
+    assert_document(doc_1, "name1.doc")
+    assert_document(doc_2, "name2.doc")
+
+    response = self.app.get("/qualifications/{}/documents".format(self.qualification_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    doc_1 = response.json["data"][0]
+    doc_2 = response.json["data"][1]
+    assert_document(doc_1, "name1.doc")
+    assert_document(doc_2, "name2.doc")
 
 
 def document_not_found(self):

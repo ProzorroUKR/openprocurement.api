@@ -36,6 +36,7 @@ from openprocurement.framework.electroniccatalogue.tests.submission_blanks impor
     create_submission_document_forbidden,
     document_not_found,
     put_submission_document,
+    create_submission_document_json_bulk,
 )
 
 
@@ -81,6 +82,7 @@ class TestDocumentsCreate(SubmissionContentWebTest):
 
     test_create_submission_document_forbidden = snitch(create_submission_document_forbidden)
     test_create_submission_documents = snitch(create_submission_documents)
+    test_create_submission_document_json_bulk = snitch(create_submission_document_json_bulk)
     test_document_not_found = snitch(document_not_found)
     test_put_submission_document = snitch(put_submission_document)
 
