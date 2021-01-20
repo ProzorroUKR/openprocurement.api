@@ -17,14 +17,8 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     create_tender_award_invalid,
     get_tender_award,
     patch_tender_award_Administrator_change,
-    check_tender_award_complaint_period_dates,
     # TenderAwardComplaintResourceTest
     create_tender_award_complaint_invalid,
-    get_tender_award_complaint,
-    get_tender_award_complaints,
-    # TenderLotAwardComplaintResourceTest
-    get_tender_lot_award_complaint,
-    get_tender_lot_award_complaints,
     # TenderAwardComplaintDocumentResourceTest
     not_found as complaint_docs_not_found,
     create_tender_award_complaint_document,
@@ -42,34 +36,28 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
 )
 
 from openprocurement.tender.core.tests.base import change_auth
-from openprocurement.tender.openuadefense.tests.base import test_bids
+
 from openprocurement.tender.openua.tests.award_blanks import (
     # TenderAwardResourceTest
     create_tender_award,
     patch_tender_award,
-    patch_tender_award_active,
-    patch_tender_award_unsuccessful,
     # TenderLotAwardResourceTest
     create_tender_lot_award,
     patch_tender_lot_award,
-    patch_tender_lot_award_unsuccessful,
     # Tender2LotAwardResourceTest
     create_tender_lots_award,
     patch_tender_lots_award,
     # TenderAwardComplaintResourceTest
-    create_tender_award_claim,
     create_tender_award_complaint_not_active,
     create_tender_award_complaint,
     patch_tender_award_complaint,
     review_tender_award_complaint,
-    review_tender_award_claim,
     review_tender_award_stopping_complaint,
     # TenderLotAwardComplaintResourceTest
     create_tender_lot_award_complaint,
     patch_tender_lot_award_complaint,
     # Tender2LotAwardComplaintResourceTest
     create_tender_lots_award_complaint,
-    patch_tender_lots_award_complaint,
     # TenderAwardComplaintDocumentResourceTest
     patch_tender_award_complaint_document,
     # Tender2LotAwardComplaintDocumentResourceTest
@@ -81,9 +69,40 @@ from openprocurement.tender.openua.tests.award_blanks import (
     bot_patch_tender_award_complaint,
     bot_patch_tender_award_complaint_forbidden,
 )
-from openprocurement.tender.openuadefense.tests.award_blanks import tender_award_complaint_period
 
-from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest, BaseTenderUAWebTest
+from openprocurement.tender.openuadefense.tests.base import (
+    test_bids,
+    BaseTenderUAContentWebTest,
+    BaseTenderUAWebTest,
+)
+from openprocurement.tender.openuadefense.tests.award_blanks import (
+    # TenderAwardResourceComplaintPeriodTest
+    tender_award_complaint_period,
+    # TenderAwardResourceTest
+    check_tender_award_complaint_period_dates_before_new,
+    check_tender_award_complaint_period_dates_after_new,
+    check_tender_award_complaint_period_dates_new,
+    patch_tender_award_active_before_new,
+    patch_tender_award_active_after_new,
+    patch_tender_award_active_new,
+    patch_tender_award_unsuccessful_before_new,
+    patch_tender_award_unsuccessful_after_new,
+    patch_tender_award_unsuccessful_new,
+    # TenderLotAwardResourceTest
+    patch_tender_lot_award_unsuccessful_before_new,
+    patch_tender_lot_award_unsuccessful_after_new,
+    patch_tender_lot_award_unsuccessful_new,
+    # TenderAwardComplaintResourceTest
+    create_tender_award_claim,
+    create_tender_award_claim_denied,
+    review_tender_award_claim,
+    get_tender_award_complaint,
+    get_tender_award_complaints,
+    # TenderLotAwardComplaintResourceTest
+    get_tender_lot_award_complaint,
+    get_tender_lot_award_complaints,
+    patch_tender_lots_award_complaint,
+)
 
 
 class TenderAwardResourceTest(BaseTenderUAContentWebTest):
@@ -93,9 +112,15 @@ class TenderAwardResourceTest(BaseTenderUAContentWebTest):
     test_create_tender_award_invalid = snitch(create_tender_award_invalid)
     test_create_tender_award = snitch(create_tender_award)
     test_patch_tender_award = snitch(patch_tender_award)
-    test_check_tender_award_complaint_period_dates = snitch(check_tender_award_complaint_period_dates)
-    test_patch_tender_award_active = snitch(patch_tender_award_active)
-    test_patch_tender_award_unsuccessful = snitch(patch_tender_award_unsuccessful)
+    test_check_tender_award_complaint_period_dates_before_new = snitch(check_tender_award_complaint_period_dates_before_new)
+    test_check_tender_award_complaint_period_dates_after_new = snitch(check_tender_award_complaint_period_dates_after_new)
+    test_check_tender_award_complaint_period_dates_new = snitch(check_tender_award_complaint_period_dates_new)
+    test_patch_tender_award_active_before_new = snitch(patch_tender_award_active_before_new)
+    test_patch_tender_award_active_after_new = snitch(patch_tender_award_active_after_new)
+    test_patch_tender_award_active_new = snitch(patch_tender_award_active_new)
+    test_patch_tender_award_unsuccessful_before_new = snitch(patch_tender_award_unsuccessful_before_new)
+    test_patch_tender_award_unsuccessful_after_new = snitch(patch_tender_award_unsuccessful_after_new)
+    test_patch_tender_award_unsuccessful_new = snitch(patch_tender_award_unsuccessful_new)
     test_get_tender_award = snitch(get_tender_award)
     test_patch_tender_award_Administrator_change = snitch(patch_tender_award_Administrator_change)
     test_create_tender_award_no_scale_invalid = snitch(create_tender_award_no_scale_invalid)
@@ -195,7 +220,9 @@ class TenderLotAwardResourceTest(BaseTenderUAContentWebTest):
 
     test_create_tender_award = snitch(create_tender_lot_award)
     test_patch_tender_award = snitch(patch_tender_lot_award)
-    test_patch_tender_award_unsuccessful = snitch(patch_tender_lot_award_unsuccessful)
+    test_patch_tender_award_unsuccessful_before_new = snitch(patch_tender_lot_award_unsuccessful_before_new)
+    test_patch_tender_award_unsuccessful_after_new = snitch(patch_tender_lot_award_unsuccessful_after_new)
+    test_patch_tender_award_unsuccessful_new = snitch(patch_tender_lot_award_unsuccessful_new)
     test_patch_tender_lot_award_lots_none = snitch(patch_tender_lot_award_lots_none)
 
 
@@ -244,6 +271,7 @@ class TenderAwardComplaintResourceTest(TenderAwardActiveResourceTestCase):
 
     test_create_tender_award_complaint_invalid = snitch(create_tender_award_complaint_invalid)
     test_create_tender_award_claim = snitch(create_tender_award_claim)
+    test_create_tender_award_claim_denied = snitch(create_tender_award_claim_denied)
     test_create_tender_award_complaint_not_active = snitch(create_tender_award_complaint_not_active)
     test_create_tender_award_complaint = snitch(create_tender_award_complaint)
     test_patch_tender_award_complaint = snitch(patch_tender_award_complaint)

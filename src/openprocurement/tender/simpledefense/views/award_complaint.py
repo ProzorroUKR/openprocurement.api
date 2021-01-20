@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.core.utils import optendersresource
-from openprocurement.tender.core.views.award_complaint import BaseTenderAwardComplaintResource
+from openprocurement.tender.openuadefense.views.award_complaint import TenderUaAwardComplaintResource
 
 
 @optendersresource(
@@ -10,5 +10,5 @@ from openprocurement.tender.core.views.award_complaint import BaseTenderAwardCom
     procurementMethodType="simple.defense",
     description="Tender award complaints",
 )
-class TenderSimpleDefAwardComplaintResource(BaseTenderAwardComplaintResource):
+class TenderSimpleDefAwardComplaintResource(TenderUaAwardComplaintResource):
     """ """

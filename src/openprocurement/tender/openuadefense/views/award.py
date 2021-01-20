@@ -17,9 +17,10 @@ from openprocurement.tender.core.validation import (
     validate_update_status_before_milestone_due_date,
 )
 from openprocurement.tender.belowthreshold.views.award import TenderAwardResource
-from openprocurement.api.utils import json_view, context_unpack
+from openprocurement.api.utils import json_view, context_unpack, get_first_revision_date
+from openprocurement.api.constants import NEW_DEFENSE_COMPLAINTS_FROM, NEW_DEFENSE_COMPLAINTS_TO
 from openprocurement.tender.openuadefense.constants import STAND_STILL_TIME
-from openprocurement.tender.openua.utils import add_next_award
+from openprocurement.tender.openuadefense.utils import add_next_award
 from openprocurement.tender.openuadefense.utils import calculate_complaint_business_date
 
 
@@ -106,11 +107,28 @@ class TenderUaAwardResource(TenderAwardResource):
         apply_patch(self.request, save=False, src=self.request.context.serialize())
 
         now = get_now()
+        first_revision_date = get_first_revision_date(tender)
+        new_defence_complaints = NEW_DEFENSE_COMPLAINTS_FROM < first_revision_date < NEW_DEFENSE_COMPLAINTS_TO
 
         if award_status == "pending" and award.status == "active":
-            award.complaintPeriod = {"startDate": now.isoformat(),
-                                     "endDate": calculate_complaint_business_date(now, STAND_STILL_TIME, tender, True)
-                                     }
+
+            complaint_end_date = calculate_complaint_business_date(now, STAND_STILL_TIME, tender, True)
+            award.complaintPeriod = {
+                "startDate": now.isoformat(),
+                "endDate": complaint_end_date,
+            }
+
+            if new_defence_complaints:
+                for i in tender.awards:
+                    if i.lotID != award.lotID:
+                        continue
+                    if i.status != "unsuccessful":
+                        continue
+                    i.complaintPeriod = {
+                        "startDate": now.isoformat(),
+                        "endDate": complaint_end_date,
+                    }
+
             add_contract(self.request, award, now)
             add_next_award(self.request)
         elif (
@@ -122,7 +140,11 @@ class TenderUaAwardResource(TenderAwardResource):
             for i in tender.awards:
                 if i.lotID != award.lotID:
                     continue
-                if i.complaintPeriod and (not i.complaintPeriod.endDate or i.complaintPeriod.endDate > now):
+                if (
+                    not new_defence_complaints
+                    and i.complaintPeriod
+                    and (not i.complaintPeriod.endDate or i.complaintPeriod.endDate > now)
+                ):
                     i.complaintPeriod.endDate = now
                 i.status = "cancelled"
                 cancelled_awards.append(i.id)
@@ -131,16 +153,21 @@ class TenderUaAwardResource(TenderAwardResource):
                     i.status = "cancelled"
             add_next_award(self.request)
         elif award_status == "active" and award.status == "cancelled":
-            if award.complaintPeriod.endDate > now:
+            if (
+                not new_defence_complaints
+                and award.complaintPeriod.endDate > now
+            ):
                 award.complaintPeriod.endDate = now
             for i in tender.contracts:
                 if i.awardID == award.id:
                     i.status = "cancelled"
             add_next_award(self.request)
         elif award_status == "pending" and award.status == "unsuccessful":
-            award.complaintPeriod = {"startDate": now.isoformat(),
-                                     "endDate": calculate_complaint_business_date(now, STAND_STILL_TIME, tender, True)
-                                     }
+            if not new_defence_complaints:
+                award.complaintPeriod = {
+                    "startDate": now.isoformat(),
+                    "endDate": calculate_complaint_business_date(now, STAND_STILL_TIME, tender, True)
+                }
             add_next_award(self.request)
         elif (
             award_status == "unsuccessful"
@@ -150,13 +177,20 @@ class TenderUaAwardResource(TenderAwardResource):
             if tender.status == "active.awarded":
                 tender.status = "active.qualification"
                 tender.awardPeriod.endDate = None
-            if award.complaintPeriod.endDate > now:
+            if (
+                not new_defence_complaints
+                and award.complaintPeriod.endDate > now
+            ):
                 award.complaintPeriod.endDate = now
             cancelled_awards = []
             for i in tender.awards:
                 if i.lotID != award.lotID:
                     continue
-                if i.complaintPeriod and (not i.complaintPeriod.endDate or i.complaintPeriod.endDate > now):
+                if (
+                    not new_defence_complaints
+                    and i.complaintPeriod
+                    and (not i.complaintPeriod.endDate or i.complaintPeriod.endDate > now)
+                ):
                     i.complaintPeriod.endDate = now
                 i.status = "cancelled"
                 cancelled_awards.append(i.id)
