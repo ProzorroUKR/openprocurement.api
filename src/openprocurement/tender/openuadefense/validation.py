@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import get_now, raise_operation_error
+from openprocurement.api.constants import NO_DEFENSE_AWARD_CLAIMS_FROM
+
 from openprocurement.tender.openua.validation import (
     _validate_tender_period_duration as _validate_tender_period_duration_base,
 )
@@ -29,6 +31,17 @@ def validate_submit_claim_time(request, **kwargs):
             "full business days before tenderPeriod ends".format(
                 duration=claim_submit_time
             )
+        )
+
+
+def validate_only_complaint_allowed(request, **kwargs):
+    if (
+        get_now() > NO_DEFENSE_AWARD_CLAIMS_FROM
+        and request.validated["complaint"]["type"] != "complaint"
+    ):
+        raise_operation_error(
+            request,
+            "Can't add complaint of '{}' type".format(request.validated["complaint"]["type"])
         )
 
 

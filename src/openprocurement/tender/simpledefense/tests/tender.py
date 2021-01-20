@@ -38,8 +38,10 @@ from openprocurement.tender.openuadefense.tests.tender_blanks import (
     patch_tender_ua,
     # TenderUAProcessTest
     one_valid_bid_tender_ua,
-    one_invalid_bid_tender,
     patch_item_with_zero_quantity,
+    one_invalid_bid_tender_new,
+    one_invalid_bid_tender_after_new,
+    one_invalid_bid_tender_before_new,
 )
 
 
@@ -75,7 +77,9 @@ class TenderUAProcessTest(BaseSimpleDefWebTest, TenderUaProcessTestMixin):
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
     test_one_valid_bid_tender_ua = snitch(one_valid_bid_tender_ua)
-    test_one_invalid_bid_tender = snitch(one_invalid_bid_tender)
+    test_one_invalid_bid_tender_new = snitch(one_invalid_bid_tender_new)
+    test_one_invalid_bid_tender_after_new = snitch(one_invalid_bid_tender_after_new)
+    test_one_invalid_bid_tender_before_new = snitch(one_invalid_bid_tender_before_new)
 
     def test_patch_not_author(self):
         response = self.app.post_json("/tenders", {"data": test_tender_data})

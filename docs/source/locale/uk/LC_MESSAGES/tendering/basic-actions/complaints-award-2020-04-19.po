@@ -3,16 +3,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-20 22:35+0300\n"
-"PO-Revision-Date: 2020-05-20 23:04+0300\n"
+"POT-Creation-Date: 2020-12-28 02:23+0200\n"
+"PO-Revision-Date: 2020-12-28 03:46+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.8.0\n"
+"Generated-By: Babel 1.3\n"
 "Language: uk\n"
-"X-Generator: Poedit 2.3.1\n"
+"X-Generator: Poedit 2.4.2\n"
 
 msgid "Claim/Complaint Retrieval"
 msgstr "Отримання інформації про звернення/скарги"
@@ -121,3 +121,63 @@ msgstr "Відміна прийнятої скарги скаржником"
 
 msgid "Cancelling accepted complaint by Reviewer"
 msgstr "Відміна прийнятої скарги рецензентом"
+
+msgid "Complaints in Defense open tender"
+msgstr "Оскарження в Процедурі відкритих торгів для оборонних цілей"
+
+msgid "Complaint periods creation in Defense open tender differs from other procurement methods."
+msgstr "Створення періодів оскарження в Процедурі відкритих торгів для оборонних цілей відрізняється від інших процедур."
+
+msgid "In moment of award activation (status changes to `active`):"
+msgstr "В момент підтвердження визначення переможця (при зміні статусу аварда на `active`):"
+
+msgid "Complaint period is created for this award"
+msgstr "Для цього аварда буде створено період оскарження"
+
+msgid "Complaint periods are created/updated for awards with `unsuccessful` status (if lots - only for active lots)"
+msgstr "Періоди оскарження будет створено/оновлено для авардів в статусі `unsuccessful` (для лотових тендерів - лише для активних лотів)"
+
+msgid "Claims are denied in Defense open tender"
+msgstr "Вимогу на переможця в Процедурі відкритих торгів для оборонних цілей подати неможна"
+
+msgid "List awards after auction"
+msgstr "Список авардів після аукціону"
+
+msgid "We have tender on qualification stage with 3 bids and one pending award"
+msgstr "Ми маємо тендер на етапі кваліфікації з трьома пропозиціями (bids) та одним авардом в статусі `pending`"
+
+msgid "Disqualification of first bid award"
+msgstr "Дискваліфікація аварду для першої пропозиції"
+
+msgid "Tender owner patches first bid award from `pending` to `unsuccessful`. No complaint period for the award was created."
+msgstr "Власник тендеру переводить авард для першої пропозиції зі статусу `pending` в `unsuccessful`. Період оскарження для аварду не створюється."
+
+msgid "Activation of second bid award"
+msgstr "Підтвердження визначення переможця для другої пропозиції"
+
+msgid "Tender owner patches second bid award from `pending` to `active`. Complaint period for the second bid award was created."
+msgstr "Власник тендеру переводить авард для другої пропозиції зі статусу `pending` в `active`. Період оскарження для аварду створюється."
+
+msgid "Also Complaint period for the first (unsuccessful) bid award was created."
+msgstr "Також створюється період оскарження для аварду (в статусі `unsuccessful`) для першої пропозиції."
+
+msgid "Cancellation of second bid award"
+msgstr "Відміна аварду для другої пропозиції"
+
+msgid "Tender owner patches second bid award from `active` to `cancelled`. Complaint period for the award remains unchanged."
+msgstr "Власник тендеру переводить авард для другої пропрозиції зі статусу `active` в `cancelled`. Період оскарження для аварду залишається незмінним."
+
+msgid "Disqualification of second bid award"
+msgstr "Дискваліфікація аварду для другої пропозиції"
+
+msgid "Tender owner patches second bid award from `pending` to `unsuccessful`. No complaint period for the award was created."
+msgstr "Власник тендеру переводить авард для другої пропозиції зі статусу `pending` в `unsuccessful`. Період оскарження для аварду не створюється."
+
+msgid "Activation of third bid award"
+msgstr "Підтвердження визначення переможця для третьої пропозиції"
+
+msgid "One day time delay left. Tender owner patches third bid award from `pending` to `active`. Complaint period for the third bid award was created."
+msgstr "Витримаємо один день затримки часу. Власник тендеру переводить авард для третьої пропозиції зі статусу `pending` в `active`. Період оскарження для аварду створюється."
+
+msgid "Also complaint period for the first and second (unsuccessful) bid award was created/updated."
+msgstr "Також оновлюється/створюється період оскарження для авардів (в статусі `unsuccessful`) для першої та другої пропозицій."

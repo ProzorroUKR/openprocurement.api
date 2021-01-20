@@ -330,17 +330,6 @@ def two_lot_1bid_0com_1can(self):
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
         {"data": {"status": "unsuccessful"}},
     )
-    # after stand slill period
-    self.set_status("complete", {"status": "active.awarded"})
-    # time travel
-    tender = self.db.get(tender_id)
-    now = get_now().isoformat()
-    for i in tender.get("awards", []):
-        i["complaintPeriod"] = {"startDate": now, "endDate": now}
-    self.db.save(tender)
-    # check tender status
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))
@@ -497,18 +486,6 @@ def two_lot_1bid_0com_0win(self):
             "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
             {"data": {"status": "unsuccessful"}},
         )
-        # after stand slill period
-        self.set_status("complete", {"status": "active.awarded"})
-        # time travel
-        tender = self.db.get(tender_id)
-        now = get_now().isoformat()
-        for i in tender.get("awards", []):
-            i["complaintPeriod"] = {"startDate": now, "endDate": now}
-        self.db.save(tender)
-    # check tender status
-    self.set_status("complete", {"status": "active.awarded"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))

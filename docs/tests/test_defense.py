@@ -4,7 +4,12 @@ from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.models import get_now
+from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.openuadefense.tests.tender import BaseTenderUAWebTest
+from openprocurement.tender.openuadefense.tests.base import test_tender_data
+from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.openua.tests.base import test_bids as base_test_bids
+
 
 from tests.base.constants import DOCS_URL, AUCTIONS_URL
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
@@ -447,3 +452,118 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
                 '/tenders?opt_pretty=1',
                 {'data': test_tender_ua_data})
             self.assertEqual(response.status, '201 Created')
+
+
+test_bids = deepcopy(base_test_bids)
+bid_3 = deepcopy(test_bids[0])
+bid_3["value"]["amount"] = 489
+test_bids.append(bid_3)
+
+for i in test_bids:
+    i["selfEligible"] = True
+    i["selfQualified"] = True
+
+
+class TenderUADefenceNewComplaintsResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
+    AppClass = DumpsWebTestApp
+
+    relative_to = os.path.dirname(__file__)
+    docservice = True
+    docservice_url = DOCS_URL
+    auctions_url = AUCTIONS_URL
+
+    initial_status = "active.qualification"
+    initial_data = test_tender_data
+    initial_bids = test_bids
+
+    def setUp(self):
+        super(TenderUADefenceNewComplaintsResourceTest, self).setUp()
+        self.setUpMock()
+        self.create_tender()
+        with change_auth(self.app, ("Basic", ("token", ""))):
+            response = self.app.post_json(
+                "/tenders/{}/awards".format(self.tender_id),
+                {"data": {
+                    "suppliers": [test_organization],
+                    "status": "pending",
+                    "bid_id": self.initial_bids[0]["id"],
+                    "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"] if self.initial_lots else None,
+                }},
+            )
+        award = response.json["data"]
+        self.award_id = award["id"]
+
+    def test_docs(self):
+        # list awards
+        with open(TARGET_DIR + 'new-complaints-list-award.http', 'w') as self.app.file_obj:
+            response = self.app.get(
+                "/tenders/{}/awards?acc_token={}".format(
+                    self.tender_id, self.tender_token
+                ),
+            )
+
+        # award1: pending -> unsuccessful (http award no complaint period)
+        with open(TARGET_DIR + 'new-complaints-patch-award-unsuccessful.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                "/tenders/{}/awards/{}?acc_token={}".format(
+                    self.tender_id, self.award_id, self.tender_token
+                ),
+                {"data": {"status": "unsuccessful"}},
+            )
+
+        # award2.1: pending -> active (http award with complaint period 1)
+        new_award_id = response.headers["Location"].rsplit("/", 1)[-1]
+        with open(TARGET_DIR + 'new-complaints-patch-award-active.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                "/tenders/{}/awards/{}?acc_token={}".format(
+                    self.tender_id, new_award_id, self.tender_token
+                ),
+                {"data": {"status": "active", "qualified": True, "eligible": True}},
+            )
+
+        # (http list awards 1, 2.1 with complaint period 1)
+        with open(TARGET_DIR + 'new-complaints-list-award-2.http', 'w') as self.app.file_obj:
+            self.app.get(
+                "/tenders/{}/awards?acc_token={}".format(
+                    self.tender_id, self.tender_token
+                ),
+            )
+
+        # award2.1: active -> cancelled (http award with complaint period 1)
+        with open(TARGET_DIR + 'new-complaints-patch-award-cancelled.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                "/tenders/{}/awards/{}?acc_token={}".format(
+                    self.tender_id, new_award_id, self.tender_token
+                ),
+                {"data": {"status": "cancelled"}},
+            )
+        new_award_id = response.headers["Location"].rsplit("/", 1)[-1]
+
+        # award2.2: pending -> unsuccessful (http award no complaint period)
+        with open(TARGET_DIR + 'new-complaints-patch-award-unsuccessful-2.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                "/tenders/{}/awards/{}?acc_token={}".format(
+                    self.tender_id, new_award_id, self.tender_token
+                ),
+                {"data": {"status": "unsuccessful"}},
+            )
+        new_award_id = response.headers["Location"].rsplit("/", 1)[-1]
+
+        self.tick(delta=timedelta(days=1))
+
+        # award3: pending -> active (http award with complaint period 2)
+        with open(TARGET_DIR + 'new-complaints-patch-award-active-2.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                "/tenders/{}/awards/{}?acc_token={}".format(
+                    self.tender_id, new_award_id, self.tender_token
+                ),
+                {"data": {"status": "active", "qualified": True, "eligible": True}},
+            )
+
+        # (http list awards 1, 2.2 with complaint period 2)
+        with open(TARGET_DIR + 'new-complaints-list-award-3.http', 'w') as self.app.file_obj:
+            self.app.get(
+                "/tenders/{}/awards?acc_token={}".format(
+                    self.tender_id, self.tender_token
+                ),
+            )
