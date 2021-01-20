@@ -42,7 +42,7 @@ tests_requires = requires + [
     "webtest",
     "python-coveralls",
     "mock",
-    "freezegun",
+    "freezegun==1.0.0",
     "parameterized",
 ]
 
