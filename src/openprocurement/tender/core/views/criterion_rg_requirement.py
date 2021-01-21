@@ -114,6 +114,7 @@ class BaseTenderCriteriaRGRequirementResource(APIResource):
                 return {"data": old_requirement.serialize("view")}
 
             requirement.datePublished = get_now()
+            requirement.dateModified = None
             self.request.validated["requirement_group"].requirements.append(requirement)
 
         old_requirement.status = "cancelled"
