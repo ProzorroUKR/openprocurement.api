@@ -18,9 +18,12 @@ from openprocurement.tender.limited.tests.base import (
 from openprocurement.tender.openeu.tests.base import test_tender_data as openeu_tender_data
 from openprocurement.tender.openua.tests.base import test_tender_data as openua_tender_data
 from openprocurement.tender.openuadefense.tests.base import test_tender_data as openuadefense_tender_data
-from openprocurement.tender.openuadefense.tests.base import test_tender_data as simpledefense_tender_data
+from openprocurement.tender.simpledefense.tests.base import test_tender_data as simpledefense_tender_data
 from openprocurement.tender.cfaselectionua.tests.tender import tender_data as cfa_selection_tender_data
 from openprocurement.tender.pricequotation.tests.data import test_tender_data as pricequotation_tender_data
+
+from openprocurement.api.constants import RELEASE_SIMPLE_DEFENSE_FROM
+from openprocurement.api.utils import get_now
 from copy import deepcopy
 import pytest
 
@@ -293,10 +296,13 @@ test_tenders = [
     negotiation_quick_tender_data,
     openeu_tender_data,
     openua_tender_data,
-    openuadefense_tender_data,
-    simpledefense_tender_data,
     pricequotation_tender_data
 ]
+
+if get_now() > RELEASE_SIMPLE_DEFENSE_FROM:
+    test_tenders.append(simpledefense_tender_data)
+else:
+    test_tenders.append(openuadefense_tender_data)
 
 
 @pytest.mark.parametrize("request_tender_data", test_tenders)

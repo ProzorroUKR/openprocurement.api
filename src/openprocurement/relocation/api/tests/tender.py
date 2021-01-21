@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
+from mock import patch
+from datetime import timedelta
 
 from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.core.utils import calculate_tender_business_date
@@ -10,6 +12,7 @@ from openprocurement.api.models import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_tender_data, test_criteria, BaseTenderWebTest
 from openprocurement.tender.openua.tests.base import test_tender_data as test_ua_tender_data
 from openprocurement.tender.openuadefense.tests.base import test_tender_data as test_uadefense_tender_data
+from openprocurement.tender.simpledefense.tests.base import test_tender_data as test_simpledefense_tender_data
 from openprocurement.tender.openeu.tests.base import test_tender_data as test_eu_tender_data
 from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_data_eu as test_tender_data_competitive_eu,
@@ -356,6 +359,33 @@ class OpenUADefenseTenderOwnershipChangeTest(TenderOwnershipChangeTest):
     second_owner = "broker3"
     test_owner = "broker3t"
     invalid_owner = "broker1"
+
+    def setUp(self):
+        self.pathcer_release_date = patch("openprocurement.tender.core.validation.RELEASE_SIMPLE_DEFENSE_FROM",
+                                          get_now() + timedelta(days=1))
+        self.pathcer_release_date.start()
+        super(OpenUADefenseTenderOwnershipChangeTest, self).setUp()
+
+    def tearDown(self):
+        super(OpenUADefenseTenderOwnershipChangeTest, self).tearDown()
+        self.pathcer_release_date.stop()
+
+
+class SimpleDefenseTenderOwnershipChangeTest(TenderOwnershipChangeTest):
+    initial_data = test_simpledefense_tender_data
+    second_owner = "broker3"
+    test_owner = "broker3t"
+    invalid_owner = "broker1"
+
+    def setUp(self):
+        self.pathcer_release_date = patch("openprocurement.tender.core.validation.RELEASE_SIMPLE_DEFENSE_FROM",
+                                          get_now() - timedelta(days=1))
+        self.pathcer_release_date.start()
+        super(SimpleDefenseTenderOwnershipChangeTest, self).setUp()
+
+    def tearDown(self):
+        super(SimpleDefenseTenderOwnershipChangeTest, self).tearDown()
+        self.pathcer_release_date.stop()
 
 
 class OpenUACompetitiveTenderOwnershipChangeTest(TenderOwnershipChangeTest):
