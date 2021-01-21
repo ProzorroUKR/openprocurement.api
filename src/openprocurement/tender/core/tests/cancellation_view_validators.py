@@ -11,6 +11,7 @@ from openprocurement.tender.cfaselectionua.tests.base import (
     test_lots as cfaselection_lots,
 )
 from openprocurement.tender.openuadefense.tests.base import test_tender_data as defense_tender_data
+from openprocurement.tender.simpledefense.tests.base import test_tender_data as simpledefense_tender_data
 from openprocurement.tender.openeu.tests.base import test_tender_data as eu_tender_data
 from openprocurement.tender.esco.tests.base import test_tender_data as esco_tender_data
 from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
@@ -38,12 +39,21 @@ import pytest
 
 
 def post_tender(app, data):
+    if data["procurementMethodType"] == "aboveThresholdUA.defense":
+        release_simpledef_date = get_now() + timedelta(days=1)
+    else:
+        release_simpledef_date = get_now() - timedelta(days=1)
+    release_simpledef_patcher = mock.patch("openprocurement.tender.core.validation.RELEASE_SIMPLE_DEFENSE_FROM",
+                                          release_simpledef_date)
+
+    release_simpledef_patcher.start()
     if data["procurementMethodType"] in (STAGE_2_EU_TYPE, STAGE_2_UA_TYPE):
         app.authorization = ("Basic", ("competitive_dialogue", ""))
     else:
         app.authorization = ("Basic", ("broker", "broker"))
     test_data = deepcopy(data)
     response = app.post_json("/tenders", dict(data=test_data))
+    release_simpledef_patcher.stop()
     assert response.status == "201 Created"
     return response.json["data"], response.json["access"]["token"]
 
@@ -70,6 +80,7 @@ procedures = (
     ua_tender_data,
     eu_tender_data,
     defense_tender_data,
+    simpledefense_tender_data,
 )
 
 

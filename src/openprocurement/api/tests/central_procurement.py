@@ -15,8 +15,11 @@ from openprocurement.tender.openeu.tests.base import test_tender_data as openeu_
 from openprocurement.tender.openua.tests.base import test_tender_data as openua_tender_data
 from openprocurement.tender.openuadefense.tests.base import test_tender_data as defense_tender_data
 from openprocurement.tender.cfaselectionua.tests.tender import tender_data as cfa_selection_tender_data
+from openprocurement.tender.simpledefense.tests.tender import test_tender_data as simple_defense_tender_data
 
 from openprocurement.api.tests.base import BaseTestApp, loadwsgiapp
+from openprocurement.api.constants import RELEASE_SIMPLE_DEFENSE_FROM
+from openprocurement.api.utils import get_now
 from copy import deepcopy
 import pytest
 import os
@@ -33,9 +36,14 @@ test_tenders = [
     negotiation_quick_tender_data,
     openeu_tender_data,
     openua_tender_data,
-    defense_tender_data,
     cfa_selection_tender_data,
 ]
+
+
+if get_now() > RELEASE_SIMPLE_DEFENSE_FROM:
+    test_tenders.append(simple_defense_tender_data)
+else:
+    test_tenders.append(defense_tender_data)
 
 
 @pytest.fixture(scope="session")
@@ -57,7 +65,6 @@ def app(singleton_app):
 def test_buyers_not_required(app, request_tender_data):
     test_data = deepcopy(request_tender_data)
     test_data.pop("buyers", None)
-
     app.authorization = ("Basic", ("broker", "broker"))
     response = app.post_json("/tenders", {"data": test_data})
     assert response.status == "201 Created"
@@ -77,7 +84,6 @@ def test_set_buyers(app, request_tender_data):
             },
         }
     ]
-
     response = app.post_json("/tenders", {"data": test_data})
     assert response.status == "201 Created"
     assert len(response.json["data"]["buyers"]) == 1
