@@ -21,8 +21,11 @@ class BaseDocumentResource(APIResource):
     def apply(self, request, **kwargs):
         raise NotImplementedError
 
-    def _get_doc_view_role(self, doc):
+    def get_doc_view_role(self, doc):
         return "view"
+
+    def set_doc_author(self, doc):
+        pass
 
     @property
     def context_pretty_name(self):
@@ -39,12 +42,12 @@ class BaseDocumentResource(APIResource):
     def collection_get(self):
         if self.request.params.get("all", ""):
             collection_data = [
-                i.serialize(self._get_doc_view_role(i))
+                i.serialize(self.get_doc_view_role(i))
                 for i in getattr(self.context, self.container)
             ]
         else:
             documents_by_id = {
-                i.id: i.serialize(self._get_doc_view_role(i))
+                i.id: i.serialize(self.get_doc_view_role(i))
                 for i in getattr(self.context, self.container)
             }
             collection_data = sorted(
@@ -56,7 +59,7 @@ class BaseDocumentResource(APIResource):
     def collection_post(self):
         documents = list(upload_files(self.request, container=self.container))
         for document in documents:
-            document.author = self.request.authenticated_role
+            self.set_doc_author(document)
         getattr(self.context, self.container).extend(documents)
 
         self.pre_save()
@@ -86,7 +89,7 @@ class BaseDocumentResource(APIResource):
         if self.request.params.get("download"):
             return get_file(self.request)
         document = self.request.validated["document"]
-        serialize_role = self._get_doc_view_role(document)
+        serialize_role = self.get_doc_view_role(document)
         document_data = document.serialize(serialize_role)
         document_data["previousVersions"] = [
             i.serialize(serialize_role) for i in self.request.validated["documents"] if i.url != document.url

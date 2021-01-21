@@ -19,7 +19,7 @@ X-Content-Type-Options: nosniff
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000", 
-        "author": "bid_owner", 
+        "confidentiality": "public", 
         "language": "uk", 
         "title": "Proposal.pdf", 
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/35f93e8dd5484abb8b90687952c82010/bids/3743ee6ffa2347c7978a588bff6cfa37/documents/ebcc0ca67ec7417c8366a0bf840f592e?download=9776780632994a63840045e96181cab5", 
@@ -28,12 +28,11 @@ X-Content-Type-Options: nosniff
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
         "id": "ebcc0ca67ec7417c8366a0bf840f592e", 
-        "dateModified": "2020-09-08T01:00:00+03:00", 
-        "confidentiality": "public"
+        "dateModified": "2020-09-08T01:00:00+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
-        "author": "bid_owner", 
+        "confidentiality": "buyerOnly", 
         "language": "uk", 
         "title": "DescriptiveProposal.pdf", 
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/35f93e8dd5484abb8b90687952c82010/bids/3743ee6ffa2347c7978a588bff6cfa37/documents/619daefbea474b86a2b42519b4d185fc?download=95821fda79174e82829598d9e2f6b630", 
@@ -42,8 +41,7 @@ X-Content-Type-Options: nosniff
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
         "id": "619daefbea474b86a2b42519b4d185fc", 
-        "dateModified": "2020-09-08T01:00:00+03:00", 
-        "confidentiality": "buyerOnly"
+        "dateModified": "2020-09-08T01:00:00+03:00"
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
@@ -52,12 +50,11 @@ X-Content-Type-Options: nosniff
         "format": "application/pdf", 
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/35f93e8dd5484abb8b90687952c82010/bids/3743ee6ffa2347c7978a588bff6cfa37/documents/a5ab37cd731e44e096a1338a852d5e6b?download=ffc031255aa94cdebb81169f18d7d414", 
         "confidentialityRationale": "Only our company sells badgers with pink hair.", 
-        "author": "bid_owner", 
+        "title": "Proposal_top_secrets.pdf", 
         "isDescriptionDecision": false, 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:00+03:00", 
         "id": "a5ab37cd731e44e096a1338a852d5e6b", 
-        "title": "Proposal_top_secrets.pdf", 
         "dateModified": "2020-09-08T01:00:00+03:00"
       }
     ], 

@@ -16,7 +16,7 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000", 
-    "author": "bid_owner", 
+    "confidentiality": "buyerOnly", 
     "language": "uk", 
     "title": "DescriptiveProposal.pdf", 
     "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/35f93e8dd5484abb8b90687952c82010/bids/3743ee6ffa2347c7978a588bff6cfa37/documents/619daefbea474b86a2b42519b4d185fc?download=95821fda79174e82829598d9e2f6b630", 
@@ -25,8 +25,7 @@ X-Content-Type-Options: nosniff
     "documentOf": "tender", 
     "datePublished": "2020-09-08T01:00:00+03:00", 
     "id": "619daefbea474b86a2b42519b4d185fc", 
-    "dateModified": "2020-09-08T01:00:00+03:00", 
-    "confidentiality": "buyerOnly"
+    "dateModified": "2020-09-08T01:00:00+03:00"
   }
 }
 

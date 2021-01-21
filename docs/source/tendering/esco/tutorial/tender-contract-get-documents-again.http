@@ -9,7 +9,6 @@ X-Content-Type-Options: nosniff
   "data": [
     {
       "hash": "md5:00000000000000000000000000000000", 
-      "author": "tender_owner", 
       "language": "uk", 
       "title": "contract_first_document.doc", 
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8816b3b5d566485e928837a0d6a56013?KeyID=a8968c46&Signature=457dRUCNIPlzVStMlxMkm94lCrAUxqLqqTfswCUpZLbOd85kcmGg585SiCgHn1NvspTC1Dv%252B9evOKFpBbWmFCQ%253D%253D", 
@@ -21,7 +20,6 @@ X-Content-Type-Options: nosniff
     }, 
     {
       "hash": "md5:00000000000000000000000000000000", 
-      "author": "tender_owner", 
       "language": "en", 
       "title": "contract_second_document.doc", 
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3a7a9dd8bda049a8a089239c3801f53e?KeyID=a8968c46&Signature=zTiPe6cmzZBEt0A0giTOrRSVvI%252BOUMf6rG0b4VxTwpiBGNYACTWaIJWJxT5RaSln1%252BzS%2FU1QJ5AOKIzcM4bgBg%253D%253D", 

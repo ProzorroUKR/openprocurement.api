@@ -18,7 +18,6 @@ X-Content-Type-Options: nosniff
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:01+03:00", 
-        "author": "tender_owner", 
         "id": "4a9753deb7984446bb3ef182a8060a67", 
         "dateModified": "2020-09-08T01:00:01+03:00"
       }, 
@@ -31,7 +30,6 @@ X-Content-Type-Options: nosniff
         "format": "application/pdf", 
         "documentOf": "tender", 
         "datePublished": "2020-09-08T01:00:01+03:00", 
-        "author": "tender_owner", 
         "id": "4a9753deb7984446bb3ef182a8060a67", 
         "dateModified": "2020-09-08T01:00:01+03:00"
       }

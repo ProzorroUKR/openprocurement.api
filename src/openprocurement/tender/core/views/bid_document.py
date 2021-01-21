@@ -32,7 +32,7 @@ class TenderBidDocumentResource(CoreDocumentResource):
         if self.request.validated["tender_status"] == "active.tendering":
             self.request.validated["tender"].modified = False
 
-    def _get_doc_view_role(self, doc):
+    def get_doc_view_role(self, doc):
         return "view"
 
     @json_view(

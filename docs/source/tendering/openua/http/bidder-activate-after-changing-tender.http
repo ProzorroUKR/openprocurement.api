@@ -19,7 +19,6 @@ X-Content-Type-Options: nosniff
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000", 
-        "author": "bid_owner", 
         "title": "Proposal.pdf", 
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/bids/338f854402e74ffc9a09603fc72c3d8f/documents/07dfe53c1e8448ffb734b2b3695ef6a8?download=30a1ef5611344de5849e6449f51ff0a2", 
         "format": "application/pdf", 

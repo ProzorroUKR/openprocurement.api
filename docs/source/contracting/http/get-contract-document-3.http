@@ -7,7 +7,6 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "author": "contract_owner", 
     "title": "contract_additional_docs.doc", 
     "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/6ebd7e8898db422cb1721110baa86dda?download=e6843dc0736840c4a82810b867e46b50", 
     "format": "application/msword", 
@@ -15,7 +14,6 @@ X-Content-Type-Options: nosniff
     "datePublished": "2020-09-08T01:00:01+03:00", 
     "previousVersions": [
       {
-        "author": "contract_owner", 
         "title": "contract_additional_docs.doc", 
         "url": "/contracts/05870adde49c424db6a2dba280ea90ab/documents/6ebd7e8898db422cb1721110baa86dda?download=0e1cfa7c0b10405ebe55e120b1be4b68", 
         "format": "application/msword", 

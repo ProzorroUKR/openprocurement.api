@@ -19,7 +19,7 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000", 
-    "author": "bid_owner", 
+    "confidentiality": "public", 
     "language": "uk", 
     "title": "Proposal_top_secrets.pdf", 
     "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/08414abbba9a40a687efcc829425d57d/documents/e5131fb421b24c048fae888f0a188311?download=0a8bee5dcf764d37ae49868999f8f53e", 
@@ -27,8 +27,7 @@ X-Content-Type-Options: nosniff
     "documentOf": "tender", 
     "datePublished": "2020-09-08T01:00:00+03:00", 
     "id": "e5131fb421b24c048fae888f0a188311", 
-    "dateModified": "2020-09-08T01:00:00+03:00", 
-    "confidentiality": "public"
+    "dateModified": "2020-09-08T01:00:00+03:00"
   }
 }
 

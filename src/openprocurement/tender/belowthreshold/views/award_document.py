@@ -24,6 +24,10 @@ from openprocurement.tender.core.validation import (
 class TenderAwardDocumentResource(CoreDocumentResource):
     context_name = "tender_award"
 
+    def set_doc_author(self, doc):
+        doc.author = self.request.authenticated_role
+        return doc
+
     @json_view(permission="view_tender")
     def collection_get(self):
         return super(TenderAwardDocumentResource, self).collection_get()

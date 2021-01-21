@@ -31,6 +31,10 @@ from openprocurement.tender.openua.validation import (
 class TenderComplaintPostDocumentResource(CoreDocumentResource):
     context_name = "tender_complaint_post"
 
+    def set_doc_author(self, doc):
+        doc.author = self.request.authenticated_role
+        return doc
+
     @json_view(
         validators=(
             validate_file_upload,

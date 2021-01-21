@@ -24,7 +24,6 @@ X-Content-Type-Options: nosniff
         "documents": [
           {
             "hash": "md5:00000000000000000000000000000000", 
-            "author": "milestone_owner", 
             "title": "Notice.pdf", 
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d890dc3d64cf4f178fb9db75ba5af9ba?KeyID=a8968c46&Signature=l9Wow2YLingYU5xYfD1kzPUP0kjqpX8Ly4roCF5sxfCs0HdBfUMon7%2FN%252BpsAIJEt%2FROpe%252B6w9Bt1rGK0dgCIAw%253D%253D", 
             "format": "application/pdf", 
