@@ -13,7 +13,6 @@ X-Content-Type-Options: nosniff
       "documents": [
         {
           "hash": "md5:00000000000000000000000000000000", 
-          "author": "brokers", 
           "format": "application/msword", 
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ccf69b1e25b849d4a0c5adc18feca851?KeyID=a8968c46&Signature=H3kP%2FIu4Bu7PdaZzeNbMggl9eByN%2FNHaLzmWDxpyZ4O8g7OaOjM2UEPNBht25jqJNNAOGyEkBegCbxoCUIYrDw%253D%253D", 
           "title": "qualification.doc", 

@@ -22,11 +22,10 @@ X-Content-Type-Options: nosniff
     "format": "application/pdf", 
     "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/50c82523038349969f53f3e238932c46/bids/35a41cb1beb746a68b7ab656f69ecfad/documents/45d79b72a46541fc95ca16f906995737?download=64ddd8a47dc54bc89bda7e132bd586f4", 
     "confidentialityRationale": "Only our company sells badgers with pink hair.", 
-    "author": "bid_owner", 
+    "title": "Proposal_top_secrets.pdf", 
     "documentOf": "tender", 
     "datePublished": "2020-09-08T01:00:00+03:00", 
     "id": "45d79b72a46541fc95ca16f906995737", 
-    "title": "Proposal_top_secrets.pdf", 
     "dateModified": "2020-09-08T01:00:00+03:00"
   }
 }

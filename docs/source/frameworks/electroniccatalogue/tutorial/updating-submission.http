@@ -23,7 +23,6 @@ X-Content-Type-Options: nosniff
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000", 
-        "author": "submission_owner", 
         "title": "submission_docs.doc", 
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/32da6e3568f94e1cae910e5c4e7ed18c?KeyID=a8968c46&Signature=FJH%252BGTlP%2FhH9s5nRRIYIa3MK0f8x5h8Osr%2F09%252BbvNFfJOwPZuXVgDonmPr2D5Mav25u99Qwe41ENg67ZJmbiBA%253D%253D", 
         "format": "application/msword", 

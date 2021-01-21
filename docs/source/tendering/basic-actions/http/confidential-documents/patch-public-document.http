@@ -17,16 +17,15 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000", 
-    "author": "bid_owner", 
-    "format": "application/msword", 
+    "confidentiality": "buyerOnly", 
+    "title": "public-to-private.doc", 
     "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/bids/ad3518204d0f4cdcaa3c0940fa21e417/documents/898bfdf6dbc145a2a92487db1af8849a?download=284617724bff4ff6bd1023f665da3b47", 
     "confidentialityRationale": "Lol, this document contains some secret data that shouldn't be public, I'm changing it's confidentiality", 
-    "title": "public-to-private.doc", 
+    "format": "application/msword", 
     "documentOf": "tender", 
     "datePublished": "2020-09-08T01:00:00+03:00", 
     "id": "898bfdf6dbc145a2a92487db1af8849a", 
-    "dateModified": "2020-09-08T01:00:00+03:00", 
-    "confidentiality": "buyerOnly"
+    "dateModified": "2020-09-08T01:00:00+03:00"
   }
 }
 

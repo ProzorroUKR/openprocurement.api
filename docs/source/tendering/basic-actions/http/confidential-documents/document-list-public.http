@@ -9,31 +9,28 @@ X-Content-Type-Options: nosniff
   "data": [
     {
       "hash": "md5:00000000000000000000000000000000", 
-      "author": "bid_owner", 
-      "format": "application/msword", 
-      "confidentialityRationale": "Lol, this document contains some secret data that shouldn't be public, I'm changing it's confidentiality", 
+      "confidentiality": "buyerOnly", 
       "title": "public-to-private.doc", 
-      "documentOf": "tender", 
-      "datePublished": "2020-09-08T01:00:00+03:00", 
-      "dateModified": "2020-09-08T01:00:00+03:00", 
-      "id": "898bfdf6dbc145a2a92487db1af8849a", 
-      "confidentiality": "buyerOnly"
-    }, 
-    {
-      "hash": "md5:00000000000000000000000000000000", 
-      "author": "bid_owner", 
+      "confidentialityRationale": "Lol, this document contains some secret data that shouldn't be public, I'm changing it's confidentiality", 
       "format": "application/msword", 
-      "confidentialityRationale": "This document contains some secret data that shouldn't be public", 
-      "title": "private.doc", 
       "documentOf": "tender", 
       "datePublished": "2020-09-08T01:00:00+03:00", 
       "dateModified": "2020-09-08T01:00:00+03:00", 
-      "id": "8cff43d95f9a44bd977c9939894315c8", 
-      "confidentiality": "buyerOnly"
+      "id": "898bfdf6dbc145a2a92487db1af8849a"
     }, 
     {
       "hash": "md5:00000000000000000000000000000000", 
-      "author": "bid_owner", 
+      "confidentiality": "buyerOnly", 
+      "title": "private.doc", 
+      "confidentialityRationale": "This document contains some secret data that shouldn't be public", 
+      "format": "application/msword", 
+      "documentOf": "tender", 
+      "datePublished": "2020-09-08T01:00:00+03:00", 
+      "dateModified": "2020-09-08T01:00:00+03:00", 
+      "id": "8cff43d95f9a44bd977c9939894315c8"
+    }, 
+    {
+      "hash": "md5:00000000000000000000000000000000", 
       "title": "public.doc", 
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/aef3d5621c2b4f80ba8bad34c4e234be?KeyID=a8968c46&Signature=ecMxMkHmJGMdBO%2FRF%2FheD0B4yPa%252B5rAxpglLW5ZBltgJNrGY%2F3Zko8oL117%252BQ95Eossv5LcWOR1mC%252BDBEcBQDg%253D%253D", 
       "format": "application/msword", 

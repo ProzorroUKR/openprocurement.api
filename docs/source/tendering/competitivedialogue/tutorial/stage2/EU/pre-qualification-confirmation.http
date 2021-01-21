@@ -220,7 +220,7 @@ X-Content-Type-Options: nosniff
         "documents": [
           {
             "hash": "md5:00000000000000000000000000000000", 
-            "author": "bid_owner", 
+            "confidentiality": "public", 
             "language": "uk", 
             "title": "Proposal.pdf", 
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/52925f3fbe94410f9b830a5dc138686e?KeyID=a8968c46&Signature=nEFiMJDG3epR6qvUI%2F5pXFkYTxG9Jm6g%2F3waCUvHjuMqPgs4ozVywDiAgI9USdOZZaTzS0wtSG1wQ0Pu8cPmAw%253D%253D", 
@@ -228,8 +228,7 @@ X-Content-Type-Options: nosniff
             "documentOf": "tender", 
             "datePublished": "2020-09-08T01:00:00+03:00", 
             "id": "c00154b4e07247218edb6146228627ef", 
-            "dateModified": "2020-09-08T01:00:00+03:00", 
-            "confidentiality": "public"
+            "dateModified": "2020-09-08T01:00:00+03:00"
           }, 
           {
             "hash": "md5:00000000000000000000000000000000", 
@@ -238,11 +237,10 @@ X-Content-Type-Options: nosniff
             "format": "application/pdf", 
             "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/50c82523038349969f53f3e238932c46/bids/35a41cb1beb746a68b7ab656f69ecfad/documents/45d79b72a46541fc95ca16f906995737?download=64ddd8a47dc54bc89bda7e132bd586f4", 
             "confidentialityRationale": "Only our company sells badgers with pink hair.", 
-            "author": "bid_owner", 
+            "title": "Proposal_top_secrets.pdf", 
             "documentOf": "tender", 
             "datePublished": "2020-09-08T01:00:00+03:00", 
             "id": "45d79b72a46541fc95ca16f906995737", 
-            "title": "Proposal_top_secrets.pdf", 
             "dateModified": "2020-09-08T01:00:00+03:00"
           }
         ], 
