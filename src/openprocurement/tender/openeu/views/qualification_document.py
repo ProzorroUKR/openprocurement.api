@@ -27,6 +27,10 @@ class TenderQualificationDocumentResource(CoreDocumentResource):
     container = "documents"
     context_name = "tender_qualification"
 
+    def set_doc_author(self, doc):
+        doc.author = self.request.authenticated_role
+        return doc
+
     @json_view(
         permission="upload_qualification_documents",
         validators=(

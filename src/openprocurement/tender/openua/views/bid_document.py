@@ -29,7 +29,7 @@ from openprocurement.tender.core.utils import optendersresource
 )
 class TenderUaBidDocumentResource(TenderBidDocumentResource):
 
-    def _get_doc_view_role(self, doc):
+    def get_doc_view_role(self, doc):
         return doc.view_role()
 
     @json_view(

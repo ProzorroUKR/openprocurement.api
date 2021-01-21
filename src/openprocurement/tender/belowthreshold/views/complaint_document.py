@@ -33,6 +33,10 @@ class TenderComplaintDocumentResource(CoreDocumentResource):
     container = "documents"
     context_name = "tender_complaint"
 
+    def set_doc_author(self, doc):
+        doc.author = self.request.authenticated_role
+        return doc
+
     @json_view(
         validators=(
             validate_file_upload,

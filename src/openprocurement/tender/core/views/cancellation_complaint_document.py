@@ -17,6 +17,10 @@ class BaseTenderComplaintCancellationDocumentResource(CoreDocumentResource):
     container = "documents"
     context_name = "tender_cancellation_complaint"
 
+    def set_doc_author(self, doc):
+        doc.author = self.request.authenticated_role
+        return doc
+
     @json_view(
         validators=(
             validate_file_upload,

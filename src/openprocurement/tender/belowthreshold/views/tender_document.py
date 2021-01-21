@@ -24,6 +24,10 @@ from openprocurement.tender.core.views.document import CoreDocumentResource
 )
 class TenderDocumentResource(CoreDocumentResource):
 
+    def set_doc_author(self, doc):
+        doc.author = self.request.authenticated_role
+        return doc
+
     @json_view(
         permission="upload_tender_documents",
         validators=(validate_file_upload, validate_document_operation_in_not_allowed_tender_status),
