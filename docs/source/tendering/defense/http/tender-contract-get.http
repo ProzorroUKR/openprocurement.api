@@ -11,7 +11,6 @@ X-Content-Type-Options: nosniff
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000", 
-        "author": "tender_owner", 
         "title": "contract_document.doc", 
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1ab14e7fb81b46cda90355f1dd9b035d?KeyID=a8968c46&Signature=VIIarzFX0PmI%2FVcUaQoqJYHlhQdWWonWdSWk5HAXmAc2IZ6R%252BxrCDuOoMzLxOCrAJkLOmxpDpzP%252B9rRlpijRDA%253D%253D", 
         "format": "application/msword", 

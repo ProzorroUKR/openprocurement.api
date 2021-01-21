@@ -19,7 +19,7 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000", 
-    "author": "bid_owner", 
+    "confidentiality": "public", 
     "language": "uk", 
     "title": "prices.xlsx", 
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/117a923aed2141e7b4510774c5053093?KeyID=a8968c46&Signature=tGJOLIxhuZzkrURyVSWAMcs%252BLFibk59k62hvwxzTeIgj1G2y9JdziJY42yjf4OmIJcdM1z3esuvZPgFs4xTwAQ%253D%253D", 
@@ -27,8 +27,7 @@ X-Content-Type-Options: nosniff
     "documentOf": "tender", 
     "datePublished": "2020-09-08T01:00:00+03:00", 
     "id": "b7dbf4fb85574d4c94f7a66e384d4957", 
-    "dateModified": "2020-09-08T01:00:00+03:00", 
-    "confidentiality": "public"
+    "dateModified": "2020-09-08T01:00:00+03:00"
   }
 }
 

@@ -9,7 +9,7 @@ X-Content-Type-Options: nosniff
   "data": [
     {
       "hash": "md5:00000000000000000000000000000000", 
-      "author": "bid_owner", 
+      "confidentiality": "public", 
       "language": "uk", 
       "title": "financial_doc2.pdf", 
       "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/08414abbba9a40a687efcc829425d57d/financial_documents/38724e06cd204689ae893ba947cbaf19?download=1465c5f507154f4eb96b6993ffcfc7fe", 
@@ -17,12 +17,11 @@ X-Content-Type-Options: nosniff
       "documentOf": "tender", 
       "datePublished": "2020-09-08T01:00:00+03:00", 
       "id": "38724e06cd204689ae893ba947cbaf19", 
-      "dateModified": "2020-09-08T01:00:00+03:00", 
-      "confidentiality": "public"
+      "dateModified": "2020-09-08T01:00:00+03:00"
     }, 
     {
       "hash": "md5:00000000000000000000000000000000", 
-      "author": "bid_owner", 
+      "confidentiality": "public", 
       "language": "uk", 
       "title": "financial_doc.pdf", 
       "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/08414abbba9a40a687efcc829425d57d/financial_documents/f06798e4ed1345df86eb739cd25a4fa2?download=72a886cc940d4475aea590bbec928d06", 
@@ -30,8 +29,7 @@ X-Content-Type-Options: nosniff
       "documentOf": "tender", 
       "datePublished": "2020-09-08T01:00:00+03:00", 
       "id": "f06798e4ed1345df86eb739cd25a4fa2", 
-      "dateModified": "2020-09-08T01:00:00+03:00", 
-      "confidentiality": "public"
+      "dateModified": "2020-09-08T01:00:00+03:00"
     }
   ]
 }

@@ -8,7 +8,6 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000", 
-    "author": "framework_owner", 
     "title": "framework_additional_docs.doc", 
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/68b809b6021343db99ff1ce7a8b14d5d?KeyID=a8968c46&Signature=9qRxil6XErTfIcCSZVwHDh3zJ7O6cqEcsIu68bwpyX79MNM5KRk0APR2InzWIIxn5pi4IJKr3KWVInbnsueWAg%253D%253D", 
     "format": "application/msword", 
@@ -16,7 +15,6 @@ X-Content-Type-Options: nosniff
     "previousVersions": [
       {
         "hash": "md5:00000000000000000000000000000000", 
-        "author": "framework_owner", 
         "title": "framework_additional_docs.doc", 
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fd5b62a27ac64d9da112c081f463e811?KeyID=a8968c46&Signature=iFgO%2FXDVbNxIbSB6N5rOgY409pz0QUeBMUOt3pdwuOFw6L%2FlgBdsSxd6LHzbCck2XNGKntgmaJM6wV%2FonZYMBA%253D%253D", 
         "format": "application/msword", 

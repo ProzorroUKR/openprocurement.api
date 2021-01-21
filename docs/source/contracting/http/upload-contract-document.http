@@ -18,7 +18,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c42
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "author": "contract_owner", 
     "title": "contract.doc", 
     "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/acd30b77ef8243858cd33aeee5e6518d?download=bdfe22301a624a34bd8be9ca5b6496ca", 
     "format": "application/msword", 

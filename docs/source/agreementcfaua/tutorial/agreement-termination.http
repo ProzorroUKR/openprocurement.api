@@ -20,7 +20,6 @@ X-Content-Type-Options: nosniff
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000", 
-        "author": "agreement_owner", 
         "title": "agreement_changes.doc", 
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d95f533960c3442989ca0c2229179ba7?KeyID=a8968c46&Signature=wXBfssQe1jX171n0gvBZiqq%2FwQ2Puh9QIYYuJR1KcbhS%252BeWgxIkCKPrqtkJ0jxw3mXaEJ0eTnBRV3uM9lSj4CA%253D%253D", 
         "format": "application/msword", 
@@ -32,7 +31,6 @@ X-Content-Type-Options: nosniff
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
-        "author": "agreement_owner", 
         "title": "agreement.doc", 
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/636ff7a612814a27bb12f38a47fbe8dd?KeyID=a8968c46&Signature=LTyYvB6x9%2FHQOfsr%2F%2F12Q2d6v7fJ3vrVtaSfHl4nNN%252BFVzDyN9NkHliW96%2FgarvzZ6In7eachfSgTvEE%2F8VXAg%253D%253D", 
         "format": "application/msword", 
@@ -43,7 +41,6 @@ X-Content-Type-Options: nosniff
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
-        "author": "agreement_owner", 
         "title": "agreement_additional_docs.doc", 
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a3984ac00aca4fe5bdab3fd55f356001?KeyID=a8968c46&Signature=YaPhLtr021tuByvglSJT9V5lS1XJaEUrY99Q73%2Fwl5svhMUoX6kQNQN0pA3W3qgUN7%252Bzb%252B%252Bb9pDnM%2FoAfOqHBQ%253D%253D", 
         "format": "application/msword", 
@@ -54,7 +51,6 @@ X-Content-Type-Options: nosniff
       }, 
       {
         "hash": "md5:00000000000000000000000000000000", 
-        "author": "agreement_owner", 
         "title": "agreement_additional_docs.doc", 
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/93605fd614d74289a0d08bd6e5f580e1?KeyID=a8968c46&Signature=mJwc0fyvShLjY0dFD9Yj%252BVQQUF5NYgoapm3Fe92BI0gHQLRZ0CPfwJtlyf4FDiTjZ%252BlbCaxgVuNXdlNIz3x0Cg%253D%253D", 
         "format": "application/msword", 
