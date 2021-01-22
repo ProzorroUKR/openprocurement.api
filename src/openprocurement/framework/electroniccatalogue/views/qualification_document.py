@@ -17,7 +17,7 @@ from openprocurement.framework.core.views.document import (
 
 
 @qualificationsresource(
-    name="electronicCatalogue: Qualification Documents",
+    name="electronicCatalogue:Qualification Documents",
     collection_path="/qualifications/{qualification_id}/documents",
     path="/qualifications/{qualification_id}/documents/{document_id}",
     description="Qualification related binary files (PDFs, etc.)",

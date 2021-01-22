@@ -6,7 +6,6 @@ from uuid import uuid4
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.tests.base import change_auth
-from openprocurement.framework.electroniccatalogue.tests.base import test_electronicCatalogue_documents
 
 
 def listing(self):
@@ -975,7 +974,7 @@ def submission_token_invalid(self):
 def get_documents_list(self):
     response = self.app.get("/submissions/{}/documents".format(self.submission_id))
     documents = response.json["data"]
-    self.assertEqual(len(documents), len(test_electronicCatalogue_documents))
+    self.assertEqual(len(documents), len(self.initial_submission_data["documents"]))
 
 
 def get_document_by_id(self):

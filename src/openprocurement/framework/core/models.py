@@ -159,7 +159,7 @@ class Submission(OpenprocurementSchematicsDocument, Model):
         namespace = "Submission"
         roles = {
             "create": whitelist("tenderers", "documents", "frameworkID"),
-            "edit": whitelist("tenderers", "status", "documents", "frameworkID"),
+            "edit": whitelist("tenderers", "status", "frameworkID"),
             "edit_active": whitelist(),
             "edit_bot": whitelist("status", "qualificationID"),
             "default": blacklist("doc_id", "__parent__"),

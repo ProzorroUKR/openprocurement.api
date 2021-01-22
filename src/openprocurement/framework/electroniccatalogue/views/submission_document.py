@@ -15,7 +15,7 @@ from openprocurement.framework.core.views.document import CoreSubmissionDocument
 
 
 @submissionsresource(
-    name="electronicCatalogue: Submission Documents",
+    name="electronicCatalogue:Submission Documents",
     collection_path="/submissions/{submission_id}/documents",
     path="/submissions/{submission_id}/documents/{document_id}",
     description="Submission related binary files (PDFs, etc.)",

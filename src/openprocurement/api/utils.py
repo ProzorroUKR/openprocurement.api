@@ -178,7 +178,6 @@ def upload_file(request):
 def upload_files(request, container="documents"):
     bulk_documents = request.validated.get("document_bulk")
     if bulk_documents:
-        all_documents = getattr(request.context, container)
         for document in bulk_documents:
             yield upload_file_data(request, document, None)
     else:
@@ -476,7 +475,7 @@ def update_document_url(request, document, document_route, route_kwargs=None):
     return document
 
 
-def check_document_batch(request, document, document_container, route_kwargs=None):
+def check_document_batch(request, document, document_container, route_kwargs=None, route_prefix=None):
     check_document(request, document)
     document_route = request.matched_route.name.replace("collection_", "")
     # Following piece of code was written by leits, so no one knows how it works
@@ -490,13 +489,16 @@ def check_document_batch(request, document, document_container, route_kwargs=Non
             route_end = "documents"
         specified_document_route_end = route_end.lstrip().title()
         document_route = " ".join([document_route[:-1], specified_document_route_end])
+        if route_prefix:
+            document_route = ":".join([route_prefix, document_route])
     return update_document_url(request, document, document_route, route_kwargs)
 
 
-def upload_objects_documents(request, obj, document_container='body', route_kwargs=None):
-    documents = getattr(obj, 'documents', []) if not isinstance(obj, list) else obj
-    for document in documents:
-        check_document_batch(request, document, document_container, route_kwargs)
+def upload_objects_documents(request, obj, document_container='body', route_kwargs=None, route_prefix=None):
+    if request.registry.docservice_url:
+        documents = getattr(obj, 'documents', []) if not isinstance(obj, list) else obj
+        for document in documents:
+            check_document_batch(request, document, document_container, route_kwargs, route_prefix)
 
 
 def request_params(request):
