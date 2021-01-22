@@ -6,7 +6,6 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.framework.electroniccatalogue.tests.base import (
     SubmissionContentWebTest,
     test_electronicCatalogue_data,
-    test_electronicCatalogue_documents,
     test_submission_data
 )
 from openprocurement.framework.electroniccatalogue.tests.qualification_blanks import (

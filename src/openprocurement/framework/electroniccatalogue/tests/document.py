@@ -19,7 +19,12 @@ from openprocurement.framework.electroniccatalogue.tests.document_blanks import 
 
 class TestDocumentGet(ElectronicCatalogueContentWebTest):
     initial_data = deepcopy(test_electronicCatalogue_data)
-    initial_data["documents"] = test_electronicCatalogue_documents
+
+    def setUp(self):
+        self.initial_data["documents"] = deepcopy(test_electronicCatalogue_documents)
+        for document in self.initial_data["documents"]:
+            document["url"] = self.generate_docservice_url()
+        super(TestDocumentGet, self).setUp()
 
     test_get_documents_list = snitch(get_documents_list)
     test_get_document_by_id = snitch(get_document_by_id)

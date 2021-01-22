@@ -69,10 +69,15 @@ class SubmissionResourceTest(BaseSubmissionContentWebTest):
 class TestSubmissionDocumentGet(SubmissionContentWebTest):
     initial_data = deepcopy(test_electronicCatalogue_data)
     initial_submission_data = deepcopy(test_submission_data)
-    initial_submission_data["documents"] = test_electronicCatalogue_documents
 
     test_get_documents_list = snitch(get_documents_list)
     test_get_document_by_id = snitch(get_document_by_id)
+
+    def setUp(self):
+        self.initial_submission_data["documents"] = deepcopy(test_electronicCatalogue_documents)
+        for document in self.initial_submission_data["documents"]:
+            document["url"] = self.generate_docservice_url()
+        super(TestSubmissionDocumentGet, self).setUp()
 
 
 class TestDocumentsCreate(SubmissionContentWebTest):

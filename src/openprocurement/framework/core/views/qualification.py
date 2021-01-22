@@ -27,7 +27,7 @@ FEED = {u"dateModified": VIEW_MAP, u"changes": CHANGES_VIEW_MAP}
 
 
 @qualificationsresource(
-    name="Qualification",
+    name="Qualifications",
     path="/qualifications",
     description="",  # TODO: Add description
 )
@@ -40,5 +40,5 @@ class QualificationResource(APIResourceListing):
         self.FEED = FEED
         self.FIELDS = QUALIFICATION_FIELDS
         # self.serialize_func = tender_serialize
-        self.object_name_for_listing = "Qualification"
+        self.object_name_for_listing = "Qualifications"
         self.log_message_id = "qualification_list_custom"
