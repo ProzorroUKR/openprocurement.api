@@ -19,7 +19,7 @@ from openprocurement.framework.electroniccatalogue.validation import (
 
 
 @frameworksresource(
-    name="electronicCatalogue:Framework",
+    name="electronicCatalogue:Frameworks",
     path="/frameworks/{framework_id}",
     frameworkType="electronicCatalogue",
     description="See https://standard.open-contracting.org/latest/en/guidance/map/related_processes/",

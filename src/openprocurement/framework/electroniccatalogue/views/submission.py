@@ -15,7 +15,7 @@ from openprocurement.framework.electroniccatalogue.models import Qualification
 
 
 @submissionsresource(
-    name="electronicCatalogue:Submission",
+    name="electronicCatalogue:Submissions",
     path="/submissions/{submission_id}",
     submissionType="electronicCatalogue",
     description="",  # TODO: add description

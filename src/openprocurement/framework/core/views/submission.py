@@ -4,6 +4,7 @@ from openprocurement.api.utils import (
     generate_id,
     set_ownership,
     context_unpack,
+    upload_objects_documents,
 )
 from openprocurement.framework.core.design import (
     SUBMISSION_FIELDS,
@@ -33,7 +34,7 @@ FEED = {u"dateModified": VIEW_MAP, u"changes": CHANGES_VIEW_MAP}
 
 
 @submissionsresource(
-    name="Submission",
+    name="Submissions",
     path="/submissions",
     description="Create Submission",
 )
@@ -45,7 +46,7 @@ class SubmissionResource(APIResourceListing):
         self.CHANGES_VIEW_MAP = CHANGES_VIEW_MAP
         self.FEED = FEED
         self.FIELDS = SUBMISSION_FIELDS
-        self.object_name_for_listing = "Submission"
+        self.object_name_for_listing = "Submissions"
         self.log_message_id = "submission_list_custom"
 
     @json_view(
@@ -68,6 +69,11 @@ class SubmissionResource(APIResourceListing):
         submission.mode = framework.get("mode")
         if self.request.json["data"].get("status") == "draft":
             submission.status = "draft"
+        upload_objects_documents(
+            self.request, submission,
+            route_kwargs={"submission_id": submission.id},
+            route_prefix=framework["frameworkType"]
+        )
         access = set_ownership(submission, self.request)
         self.request.validated["submission"] = submission
         self.request.validated["submission_src"] = {}
@@ -83,6 +89,6 @@ class SubmissionResource(APIResourceListing):
             )
             self.request.response.status = 201
             self.request.response.headers["Location"] = self.request.route_url(
-                "{}:Submission".format(submission.submissionType), submission_id=submission_id
+                "{}:Submissions".format(submission.submissionType), submission_id=submission_id
             )
             return {"data": submission.serialize("view"), "access": access}

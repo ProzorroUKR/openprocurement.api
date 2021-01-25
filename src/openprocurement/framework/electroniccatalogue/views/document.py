@@ -15,7 +15,7 @@ from openprocurement.framework.electroniccatalogue.validation import (
 
 
 @frameworksresource(
-    name="Framework Documents",
+    name="electronicCatalogue:Framework Documents",
     collection_path="/frameworks/{framework_id}/documents",
     path="/frameworks/{framework_id}/documents/{document_id}",
     description="Framework related binary files (PDFs, etc.)",

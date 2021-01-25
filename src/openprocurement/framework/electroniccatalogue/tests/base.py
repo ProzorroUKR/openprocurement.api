@@ -77,7 +77,6 @@ test_electronicCatalogue_documents = [
     {
         "hash": "md5:00000000000000000000000000000000",
         "title": "framework.doc",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f76fd74118794d3099163fb571f7d374?KeyID=a8968c46&Signature=enQ0CbN82KUq2UF35XE5AoHQp4akyyXL8a18JJhKTwe2gBZouJQV8JxVPA%2FirPrEZoN6LsYF%2FmqpcaFFaHGnAg%253D%253D",
         "format": "application/msword",
         "datePublished": "2020-09-08T01:00:00+03:00",
         "id": "cd52b90af77e4f5b8cb0f210e83987b5",
@@ -86,7 +85,6 @@ test_electronicCatalogue_documents = [
     {
         "hash": "md5:00000000000000000000000000000000",
         "title": "framework_additional_docs.doc",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/abf06db1635b48e0819cb258b3fc1179?KeyID=a8968c46&Signature=%2FsMVClawScZwgZdy%2FXVGRQpaN4KUmLiGNRpyNxh%252BTLvtTMwaKtLdizgNWNevCqZqDTjBmKDHGXnfMG8d2%252BIrBg%253D%253D",
         "format": "application/msword",
         "datePublished": "2020-09-08T01:00:00+03:00",
         "id": "3fe9486c38a1473ca201e42ebbf9b648",
@@ -95,7 +93,6 @@ test_electronicCatalogue_documents = [
     {
         "hash": "md5:00000000000000000000000000000000",
         "title": "framework_additional_docs.doc",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4cf75d2a81c64711bdccbed55bcb10fc?KeyID=a8968c46&Signature=ijDPle6V3lQQZjOoEIB0hbFXJgsEHcq26VnDeLHfVAUeBoBXUCkV1rGOvL%252BXpX2f4ZeUMwJ5XXqw6SikMBU%2FDQ%253D%253D",
         "format": "application/msword",
         "datePublished": "2020-09-08T01:00:00+03:00",
         "id": "3fe9486c38a1473ca201e42ebbf9b648",

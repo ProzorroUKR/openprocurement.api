@@ -7,6 +7,7 @@ from openprocurement.api.utils import (
     get_now,
     set_ownership,
     context_unpack,
+    upload_objects_documents,
 )
 from openprocurement.framework.core.design import (
     FRAMEWORK_FIELDS,
@@ -192,6 +193,11 @@ class FrameworkResource(APIResourceListing):
         if not framework.get("prettyID"):
             framework.prettyID = generate_framework_pretty_id(get_now(), self.db, self.server_id)
         access = set_ownership(framework, self.request)
+        upload_objects_documents(
+            self.request, framework,
+            route_kwargs={"framework_id": framework.id},
+            route_prefix=framework["frameworkType"]
+        )
         self.request.validated["framework"] = framework
         self.request.validated["framework_src"] = {}
         if save_framework(self.request):
@@ -206,7 +212,7 @@ class FrameworkResource(APIResourceListing):
             )
             self.request.response.status = 201
             self.request.response.headers["Location"] = self.request.route_url(
-                "{}:Framework".format(framework.frameworkType), framework_id=framework_id
+                "{}:Frameworks".format(framework.frameworkType), framework_id=framework_id
             )
             return {"data": framework.serialize(framework.status), "access": access}
 

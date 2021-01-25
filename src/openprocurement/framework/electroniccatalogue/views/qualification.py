@@ -13,7 +13,7 @@ from openprocurement.framework.electroniccatalogue.models import Submission
 
 
 @qualificationsresource(
-    name="electronicCatalogue:Qualification",
+    name="electronicCatalogue:Qualifications",
     path="/qualifications/{qualification_id}",
     qualificationType="electronicCatalogue",
     description="",  # TODO: add description
