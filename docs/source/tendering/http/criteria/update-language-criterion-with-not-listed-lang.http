@@ -39,7 +39,7 @@ DATA:
     }
 }
 
-Response: 403 Forbidden
+Response: 422 Unprocessable Entity
 Content-Type: application/json; charset=UTF-8
 {
     "status": "error",
