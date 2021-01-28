@@ -10,13 +10,13 @@ X-Content-Type-Options: nosniff
     "procurementMethod": "open", 
     "status": "complete", 
     "awardPeriod": {
-      "startDate": "2020-08-29T01:00:00+03:00", 
-      "endDate": "2020-08-29T01:00:00+03:00"
+      "startDate": "2020-09-05T01:00:00.022147+03:00", 
+      "endDate": "2020-09-05T01:00:00.022811+03:00"
     }, 
     "mainProcurementCategory": "goods", 
     "enquiryPeriod": {
-      "startDate": "2020-08-13T01:00:00+03:00", 
-      "endDate": "2020-08-21T01:00:00+03:00"
+      "startDate": "2020-08-25T01:00:00.018142+03:00", 
+      "endDate": "2020-08-31T01:00:00.018786+03:00"
     }, 
     "submissionMethod": "electronicAuction", 
     "procuringEntity": {
@@ -47,8 +47,8 @@ X-Content-Type-Options: nosniff
     "dateModified": "2020-09-08T01:00:01+03:00", 
     "numberOfBids": 1, 
     "tenderPeriod": {
-      "startDate": "2020-08-21T01:00:00+03:00", 
-      "endDate": "2020-08-28T01:00:00+03:00"
+      "startDate": "2020-08-31T01:00:00.019431+03:00", 
+      "endDate": "2020-09-04T01:00:00.020073+03:00"
     }, 
     "contracts": [
       {
@@ -156,8 +156,8 @@ X-Content-Type-Options: nosniff
       }
     ], 
     "auctionPeriod": {
-      "startDate": "2020-08-28T01:00:00+03:00", 
-      "endDate": "2020-08-29T01:00:00+03:00"
+      "startDate": "2020-09-04T01:00:00.020778+03:00", 
+      "endDate": "2020-09-05T01:00:00.021405+03:00"
     }, 
     "procurementMethodType": "belowThreshold", 
     "awards": [

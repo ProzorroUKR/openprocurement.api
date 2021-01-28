@@ -19,6 +19,18 @@ msgstr "Операції для учасників закупівлі"
 msgid "Registration of Bid proposal"
 msgstr "Реєстрація цінової пропозиції "
 
+msgid "Also documents could be uploaded if:"
+msgstr "Також можливо завантажувати документи за таких умов:"
+
+msgid "exists `award` in status `active`"
+msgstr "є `award` в статусі `active`"
+
+msgid "tender has criterion `CRITERION.OTHER.CONTRACT.GUARANTEE`"
+msgstr "у тенедра наявний критерій `CRITERION.OTHER.CONTRACT.GUARANTEE`"
+
+msgid "document has type `contractGuarantees`"
+msgstr "документ має тип `contractGuarantees`"
+
 msgid "Uploading Bid documents"
 msgstr "Завантаження документів пропозиції"
 

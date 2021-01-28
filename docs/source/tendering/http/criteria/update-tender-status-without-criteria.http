@@ -10,17 +10,3 @@ DATA:
   }
 }
 
-Response: 403 Forbidden
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-{
-  "status": "error", 
-  "errors": [
-    {
-      "description": "Tender must contain all 9 `EXCLUSION` criteria", 
-      "location": "body", 
-      "name": "data"
-    }
-  ]
-}
-
