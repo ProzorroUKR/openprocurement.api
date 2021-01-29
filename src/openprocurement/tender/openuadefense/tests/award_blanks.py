@@ -730,7 +730,7 @@ def create_tender_award_claim_denied(self):
 
 
 def get_tender_award_complaint(self):
-    bid_token = self.initial_bids_tokens.values()[0]
+    bid_token = list(self.initial_bids_tokens.values())[0]
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
         {"data": test_complaint},
@@ -766,7 +766,7 @@ def get_tender_award_complaint(self):
 
 
 def get_tender_award_complaints(self):
-    bid_token = self.initial_bids_tokens.values()[0]
+    bid_token = list(self.initial_bids_tokens.values())[0]
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
         {"data": test_complaint},
@@ -805,7 +805,7 @@ def get_tender_award_complaints(self):
 
 
 def get_tender_lot_award_complaint(self):
-    bid_token = self.initial_bids_tokens.values()[0]
+    bid_token = list(self.initial_bids_tokens.values())[0]
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
         {"data": test_complaint},
@@ -841,7 +841,7 @@ def get_tender_lot_award_complaint(self):
 
 
 def get_tender_lot_award_complaints(self):
-    bid_token = self.initial_bids_tokens.values()[0]
+    bid_token = list(self.initial_bids_tokens.values())[0]
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
         {"data": test_complaint},
