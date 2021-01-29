@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/c5e325f0cd634594b24af3751466d2c5/awards/6b8f3a13e88f40748ef410c1e7bf452a/requirement_responses/56a16722c2fc4b9189311a66d1960f06 HTTP/1.0
+GET /api/2.5/tenders/2093f4e9bf3a4d7eb82c15d9c5321604/awards/0cf85a17ac284f7aac48ec7f6afe9a11/requirement_responses/15d63b2f54e14bca8ca2e2cd677b82b2 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,34 +7,34 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
+    "id": "15d63b2f54e14bca8ca2e2cd677b82b2",
+    "title": "Updated title",
+    "description": "some description",
     "requirement": {
-      "id": "ed1ed109c0684be3b7c89192679d5526", 
+      "id": "411e25f3563845f589c2548988c2d8db",
       "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
-    }, 
-    "description": "some description", 
-    "title": "Updated title", 
-    "value": "True", 
+    },
     "evidences": [
       {
-        "title": "Requirement response", 
-        "type": "document", 
+        "id": "f10d04c755e74e6a8e6a963adec75b7e",
+        "title": "Requirement response",
+        "type": "document",
         "relatedDocument": {
-          "id": "acfc570579ef40e7a24f97ff842356df", 
+          "id": "e23439b470b24f90b7a4aa9ba1725a8b",
           "title": "name.doc"
-        }, 
-        "id": "d589689fc79e4fbab10c1f15c31819ce"
-      }, 
+        }
+      },
       {
-        "title": "Update evidence title", 
-        "type": "document", 
+        "id": "f52d3aad05b54958a44b17d7d52bd232",
+        "title": "Update evidence title",
+        "type": "document",
         "relatedDocument": {
-          "id": "acfc570579ef40e7a24f97ff842356df", 
+          "id": "e23439b470b24f90b7a4aa9ba1725a8b",
           "title": "name.doc"
-        }, 
-        "id": "7fc2da769e224eaba6f5c2440cf5f532"
+        }
       }
-    ], 
-    "id": "56a16722c2fc4b9189311a66d1960f06"
+    ],
+    "value": "True"
   }
 }
 

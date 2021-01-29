@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/b5338e7a746b4e749a9afb528d3d53a8/complaints/16fcfac394aa433bb7987b94f7ea5702?acc_token=2ae1e128ac964682900a6c92a9824c7f HTTP/1.0
+PATCH /api/2.5/tenders/9eb167a6c08a4130af77258c680e4ebf/awards/71cec6d2810741f889dfe76df4456612/complaints/dc90ca48c9d44ee59817884074ca3144?acc_token=2f0c945daad1424ba8015be45fe6ddf6 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 32
 Content-Type: application/json
@@ -15,39 +15,39 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "mistaken", 
-    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+    "id": "dc90ca48c9d44ee59817884074ca3144",
+    "complaintID": "UA-2020-09-08-000001.11",
+    "date": "2020-09-08T01:00:03+03:00",
+    "type": "complaint",
     "author": {
-      "contactPoint": {
-        "email": "soleksuk@gmail.com", 
-        "telephone": "+380 (432) 21-69-30", 
-        "name": "Сергій Олексюк"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "legalName": "ДКП «Школяр»", 
-        "id": "00137256", 
-        "uri": "http://www.sc.gov.ua/"
-      }, 
-      "name": "ДКП «Школяр»", 
+      "name": "ДКП «Школяр»",
       "address": {
-        "postalCode": "21100", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Островського, 33", 
-        "region": "Вінницька область", 
-        "locality": "м. Вінниця"
+        "streetAddress": "вул. Островського, 33",
+        "locality": "м. Вінниця",
+        "region": "Вінницька область",
+        "postalCode": "21100",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Сергій Олексюк",
+        "email": "soleksuk@gmail.com",
+        "telephone": "+380 (432) 21-69-30"
+      },
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00137256",
+        "legalName": "ДКП «Школяр»",
+        "uri": "http://www.sc.gov.ua/"
       }
-    }, 
-    "title": "Недостатньо інформації", 
+    },
+    "title": "Недостатньо інформації",
+    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
     "value": {
-      "currency": "UAH", 
-      "amount": 3000.0
-    }, 
-    "rejectReason": "cancelledByComplainant", 
-    "complaintID": "UA-2020-09-08-000001.11", 
-    "date": "2020-09-08T01:00:03+03:00", 
-    "type": "complaint", 
-    "id": "16fcfac394aa433bb7987b94f7ea5702"
+      "amount": 3000.0,
+      "currency": "UAH"
+    },
+    "rejectReason": "cancelledByComplainant",
+    "status": "mistaken"
   }
 }
 

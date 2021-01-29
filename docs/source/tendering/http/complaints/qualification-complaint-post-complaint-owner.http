@@ -1,52 +1,52 @@
-POST /api/2.5/tenders/0ba5045de21b4930a220df9887be28ec/qualifications/de1fdfe83be64f45a3aa274d8f98a1e9/complaints/09d24b97ac9e4916ace7746b6a2a13e0/posts?acc_token=66944e0dd8cc4dd5bd1c7b1b637408e6 HTTP/1.0
+POST /api/2.5/tenders/b61b0e1aaa1f43adba91292fda2cfaf5/qualifications/e55187f774a4459b956756a96aac6406/complaints/8e25888b9df74ca4872cfa3d3020e761/posts?acc_token=9e88103173b14e019ae36a23ab0b331b HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 666
+Content-Length: 674
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "recipient": "aboveThresholdReviewers", 
+    "title": "Уточнення по вимозі",
+    "description": "Додано документ",
+    "recipient": "aboveThresholdReviewers",
+    "relatedPost": "5232e91d15da421b8330928601470bf3",
     "documents": [
       {
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5586e41867cc4284b5f26581ef8f3b4a?KeyID=a8968c46&Signature=%2F5foYMyttERUsGcHr66rPqmfKtex913gxtuDkNPhie3yjksEAPAXo48Dc8tuo9K3GazMwTI26xugAmhpeB70AA%3D%3D", 
-        "title": "post_document_complaint.pdf", 
-        "hash": "md5:00000000000000000000000000000000", 
+        "title": "post_document_complaint.pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f3ade0fbc9f34687b3fb8649c13e1b75?Signature=0Yw0PIYXKrhDX6mSYyv%2Bacx%2Bfg8F%2FvMreCH1Wd6osA3Qjue%2Ff1QgNxhcLoAU%2FYae5jcSeqLSCflFpOyfW6zTBg%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
         "format": "application/pdf"
       }
-    ], 
-    "relatedPost": "b964fef6d8074a318f180c1f7479c873", 
-    "description": "Додано документ", 
-    "title": "Уточнення по вимозі"
+    ]
   }
 }
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ba5045de21b4930a220df9887be28ec/qualifications/de1fdfe83be64f45a3aa274d8f98a1e9/complaints/09d24b97ac9e4916ace7746b6a2a13e0/posts/a54e7fd69ffb4d24b2da9a34e9b534bc
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b61b0e1aaa1f43adba91292fda2cfaf5/qualifications/e55187f774a4459b956756a96aac6406/complaints/8e25888b9df74ca4872cfa3d3020e761/posts/f7c4c63fe83842d7b68ee15dd7021c0a
 X-Content-Type-Options: nosniff
 {
   "data": {
+    "id": "f7c4c63fe83842d7b68ee15dd7021c0a",
+    "title": "Уточнення по вимозі",
+    "description": "Додано документ",
     "documents": [
       {
-        "hash": "md5:00000000000000000000000000000000", 
-        "author": "complaint_owner", 
-        "title": "post_document_complaint.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5586e41867cc4284b5f26581ef8f3b4a?KeyID=a8968c46&Signature=6MWTMkDBOUCBBc09c349LYsgFU7COZ590X%252BaD84K78Jq3eBstnjw%2FQnjxocZeU0Ikj%252BMYJivkLdqd0aBbN8%252BAg%253D%253D", 
-        "format": "application/pdf", 
-        "documentOf": "tender", 
-        "datePublished": "2020-09-08T01:00:01+03:00", 
-        "id": "c5a25ca1c0ec47c5880ceb591325313f", 
-        "dateModified": "2020-09-08T01:00:01+03:00"
+        "id": "dff95a6a2b4e4b039f17b28f804a9c43",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "post_document_complaint.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f3ade0fbc9f34687b3fb8649c13e1b75?Signature=%2BmS22rGZQy0KAc%2BkNTebwrpSCb5AnZRirVGHNVCUzppse9XMrUsZgzR5gOsCclTRkluh3Q%2F7UI56Jlk8S9ueAA%3D%3D&KeyID=a8968c46",
+        "datePublished": "2020-09-08T01:00:01+03:00",
+        "dateModified": "2020-09-08T01:00:01+03:00",
+        "author": "complaint_owner",
+        "documentOf": "tender"
       }
-    ], 
-    "description": "Додано документ", 
-    "title": "Уточнення по вимозі", 
-    "author": "complaint_owner", 
-    "datePublished": "2020-09-08T01:00:01+03:00", 
-    "relatedPost": "b964fef6d8074a318f180c1f7479c873", 
-    "recipient": "aboveThresholdReviewers", 
-    "id": "a54e7fd69ffb4d24b2da9a34e9b534bc"
+    ],
+    "author": "complaint_owner",
+    "recipient": "aboveThresholdReviewers",
+    "datePublished": "2020-09-08T01:00:01+03:00",
+    "relatedPost": "5232e91d15da421b8330928601470bf3"
   }
 }
 

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/127bd59fdd464def8d1189b954eefcbb/questions HTTP/1.0
+GET /api/2.5/tenders/f8aae737ac8f4d34a52254e2f3416505/questions HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -8,13 +8,13 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "description": "Просимо додати таблицю потрібної калорійності харчування", 
-      "dateAnswered": "2020-09-08T01:00:00+03:00", 
-      "title": "Калорійність", 
-      "date": "2020-09-08T01:00:00+03:00", 
-      "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
-      "id": "7a61c35cf07e40a196fc54c54f876cba", 
-      "questionOf": "tender"
+      "id": "a20a872aeacd4e4dac5482c2045a52eb",
+      "title": "Калорійність",
+      "description": "Просимо додати таблицю потрібної калорійності харчування",
+      "date": "2020-09-08T01:00:00+03:00",
+      "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"",
+      "questionOf": "tender",
+      "dateAnswered": "2020-09-08T01:00:00+03:00"
     }
   ]
 }

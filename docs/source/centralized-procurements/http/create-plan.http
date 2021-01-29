@@ -6,202 +6,202 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "status": "draft", 
-    "buyers": [
-      {
-        "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "111983", 
-          "legalName": "ДП Державне Управління Справами"
-        }, 
-        "name": "ДУС"
-      }
-    ], 
-    "classification": {
-      "scheme": "ДК021", 
-      "description": "Seeds", 
-      "id": "03111000-2"
-    }, 
-    "items": [
-      {
-        "description": "Насіння гірчиці", 
-        "classification": {
-          "scheme": "ДК021", 
-          "description": "Mustard seeds", 
-          "id": "03111600-8"
-        }, 
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП", 
-            "id": "01.11.92", 
-            "description": "Насіння гірчиці"
-          }
-        ], 
-        "deliveryDate": {
-          "endDate": "2019-11-09T01:00:00+03:00"
-        }, 
-        "unit": {
-          "code": "KGM", 
-          "name": "кг"
-        }, 
-        "quantity": 1000
-      }
-    ], 
-    "budget": {
-      "breakdown": [
-        {
-          "description": "Breakdown other description.", 
-          "value": {
-            "currency": "UAH", 
-            "amount": 1500
-          }, 
-          "title": "other"
-        }
-      ], 
-      "amountNet": 12222, 
-      "description": "budget_description", 
-      "period": {
-        "startDate": "2020-01-01T00:00:00", 
-        "endDate": "2020-12-31T00:00:00"
-      }, 
-      "project": {
-        "name": "proj_name", 
-        "id": "123"
-      }, 
-      "currency": "UAH", 
-      "amount": 10000, 
-      "id": "12303111000-2"
-    }, 
-    "additionalClassifications": [
-      {
-        "scheme": "КЕКВ", 
-        "id": "1", 
-        "description": "-"
-      }
-    ], 
-    "procuringEntity": {
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "id": "111111", 
-        "legalName": "ДП Центральний закупівельний орган №1"
-      }, 
-      "name": "ЦЗО №1"
-    }, 
     "tender": {
-      "procurementMethod": "open", 
-      "procurementMethodType": "belowThreshold", 
+      "procurementMethod": "open",
+      "procurementMethodType": "belowThreshold",
       "tenderPeriod": {
         "startDate": "2019-11-01T01:00:00+03:00"
       }
-    }
+    },
+    "items": [
+      {
+        "deliveryDate": {
+          "endDate": "2019-11-09T01:00:00+03:00"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "01.11.92",
+            "description": "Насіння гірчиці"
+          }
+        ],
+        "unit": {
+          "code": "KGM",
+          "name": "кг"
+        },
+        "classification": {
+          "scheme": "ДК021",
+          "description": "Mustard seeds",
+          "id": "03111600-8"
+        },
+        "quantity": 1000,
+        "description": "Насіння гірчиці"
+      }
+    ],
+    "classification": {
+      "scheme": "ДК021",
+      "description": "Seeds",
+      "id": "03111000-2"
+    },
+    "additionalClassifications": [
+      {
+        "scheme": "КЕКВ",
+        "id": "1",
+        "description": "-"
+      }
+    ],
+    "procuringEntity": {
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "111111",
+        "legalName": "ДП Центральний закупівельний орган №1"
+      },
+      "name": "ЦЗО №1"
+    },
+    "buyers": [
+      {
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "111983",
+          "legalName": "ДП Державне Управління Справами"
+        },
+        "name": "ДУС"
+      }
+    ],
+    "budget": {
+      "project": {
+        "name": "proj_name",
+        "id": "123"
+      },
+      "amount": 10000,
+      "amountNet": 12222,
+      "currency": "UAH",
+      "id": "12303111000-2",
+      "description": "budget_description",
+      "period": {
+        "startDate": "2020-01-01T00:00:00",
+        "endDate": "2020-12-31T00:00:00"
+      },
+      "breakdown": [
+        {
+          "title": "other",
+          "description": "Breakdown other description.",
+          "value": {
+            "amount": 1500,
+            "currency": "UAH"
+          }
+        }
+      ]
+    },
+    "status": "draft"
   }
 }
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/77cf582ab7284fb1a0e748ea7fe9033f
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/6cb30e0a8f2d4487946a40c0b043c761
 X-Content-Type-Options: nosniff
 {
-  "access": {
-    "transfer": "eefdeb1e2e984f22a62ddb137dceba45", 
-    "token": "b1fb3396cb2041f9812f66f4c4ddd2c7"
-  }, 
   "data": {
-    "status": "draft", 
-    "buyers": [
-      {
-        "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "111983", 
-          "legalName": "ДП Державне Управління Справами"
-        }, 
-        "name": "ДУС"
+    "procuringEntity": {
+      "name": "ЦЗО №1",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "111111",
+        "legalName": "ДП Центральний закупівельний орган №1"
       }
-    ], 
-    "classification": {
-      "scheme": "ДК021", 
-      "description": "Seeds", 
-      "id": "03111000-2"
-    }, 
-    "items": [
-      {
-        "description": "Насіння гірчиці", 
-        "classification": {
-          "scheme": "ДК021", 
-          "description": "Mustard seeds", 
-          "id": "03111600-8"
-        }, 
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП", 
-            "id": "01.11.92", 
-            "description": "Насіння гірчиці"
-          }
-        ], 
-        "deliveryDate": {
-          "endDate": "2019-11-09T01:00:00+03:00"
-        }, 
-        "id": "74da637ff7004631829675899680caef", 
-        "unit": {
-          "code": "KGM", 
-          "name": "кг"
-        }, 
-        "quantity": 1000.0
-      }
-    ], 
-    "planID": "UA-P-2019-05-02-000001", 
-    "budget": {
-      "breakdown": [
-        {
-          "title": "other", 
-          "description": "Breakdown other description.", 
-          "value": {
-            "currency": "UAH", 
-            "amount": 1500.0
-          }, 
-          "id": "49dd127988894cbd9c6b2ca655db136f"
-        }
-      ], 
-      "amountNet": 12222.0, 
-      "description": "budget_description", 
-      "period": {
-        "startDate": "2020-01-01T00:00:00+02:00", 
-        "endDate": "2020-12-31T00:00:00+02:00"
-      }, 
-      "project": {
-        "id": "123", 
-        "name": "proj_name"
-      }, 
-      "currency": "UAH", 
-      "amount": 10000.0, 
-      "id": "12303111000-2"
-    }, 
-    "datePublished": "2019-05-02T04:00:00+03:00", 
+    },
     "tender": {
-      "procurementMethod": "open", 
-      "procurementMethodType": "belowThreshold", 
+      "procurementMethod": "open",
+      "procurementMethodType": "belowThreshold",
       "tenderPeriod": {
         "startDate": "2019-11-01T01:00:00+03:00"
       }
-    }, 
+    },
+    "budget": {
+      "id": "12303111000-2",
+      "description": "budget_description",
+      "amount": 10000.0,
+      "currency": "UAH",
+      "amountNet": 12222.0,
+      "project": {
+        "id": "123",
+        "name": "proj_name"
+      },
+      "period": {
+        "startDate": "2020-01-01T00:00:00+02:00",
+        "endDate": "2020-12-31T00:00:00+02:00"
+      },
+      "breakdown": [
+        {
+          "id": "1bf7d60f1ad24027a538784c5b6c9bc2",
+          "title": "other",
+          "description": "Breakdown other description.",
+          "value": {
+            "amount": 1500.0,
+            "currency": "UAH"
+          }
+        }
+      ]
+    },
+    "classification": {
+      "description": "Seeds",
+      "scheme": "ДК021",
+      "id": "03111000-2"
+    },
     "additionalClassifications": [
       {
-        "scheme": "КЕКВ", 
-        "id": "1", 
+        "scheme": "КЕКВ",
+        "id": "1",
         "description": "-"
       }
-    ], 
-    "procuringEntity": {
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "id": "111111", 
-        "legalName": "ДП Центральний закупівельний орган №1"
-      }, 
-      "name": "ЦЗО №1"
-    }, 
-    "owner": "broker", 
-    "dateModified": "2019-05-02T04:00:00+03:00", 
-    "id": "77cf582ab7284fb1a0e748ea7fe9033f"
+    ],
+    "planID": "UA-P-2019-05-02-000001",
+    "items": [
+      {
+        "id": "17c0df4205d34d73b32c735a06a6b533",
+        "classification": {
+          "description": "Mustard seeds",
+          "scheme": "ДК021",
+          "id": "03111600-8"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "01.11.92",
+            "description": "Насіння гірчиці"
+          }
+        ],
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        },
+        "quantity": 1000.0,
+        "deliveryDate": {
+          "endDate": "2019-11-09T01:00:00+03:00"
+        },
+        "description": "Насіння гірчиці"
+      }
+    ],
+    "buyers": [
+      {
+        "name": "ДУС",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "111983",
+          "legalName": "ДП Державне Управління Справами"
+        }
+      }
+    ],
+    "status": "draft",
+    "dateModified": "2019-05-02T04:00:00+03:00",
+    "datePublished": "2019-05-02T04:00:00+03:00",
+    "owner": "broker",
+    "id": "6cb30e0a8f2d4487946a40c0b043c761"
+  },
+  "access": {
+    "token": "68c63f3cbac242fbb15c334a84fb2fcf",
+    "transfer": "5765c54af6b5450aaabaa146c2861dd3"
   }
 }
 

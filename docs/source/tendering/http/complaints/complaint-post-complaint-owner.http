@@ -1,52 +1,52 @@
-POST /api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/b77be1c04a754989b602432418f2e453/posts?acc_token=10197838fdcd403ba5f9180fc7683aec HTTP/1.0
+POST /api/2.5/tenders/423ce3389d0f48b1a1ee6cd5a8dad65f/complaints/f7ef1f798a94494ea0b70566a665bf2c/posts?acc_token=54bb2d76fb5248d5b26063354994b881 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 670
+Content-Length: 664
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "recipient": "aboveThresholdReviewers", 
+    "title": "Уточнення по вимозі",
+    "description": "Додано документ",
+    "recipient": "aboveThresholdReviewers",
+    "relatedPost": "8f0d51ad72b74490b4f86b86ab6bb7cc",
     "documents": [
       {
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/648aef3e96d847e7b2cbff7850df6769?KeyID=a8968c46&Signature=50Fo%2Bo2IL6vXnV746ivKClK8MUpYbAc5dUmf%2BFv62EjVob9JKdKqjZY83SDLDSwwOQCP0EgsbOWXXyt2FAq%2BDg%3D%3D", 
-        "title": "post_document_complaint.pdf", 
-        "hash": "md5:00000000000000000000000000000000", 
+        "title": "post_document_complaint.pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/afe325decc3a47b9a6152c78f5b19667?Signature=YFd7QUeLSkzheLfOUo5ekkOkrxkKkunjzbsvOvAjrbjg4zCJlKlUHFA8AtEKyRBwy89AhlLfspoKZzik9DYMBQ%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
         "format": "application/pdf"
       }
-    ], 
-    "relatedPost": "7f5d9ea671294d479da2e8a06659e473", 
-    "description": "Додано документ", 
-    "title": "Уточнення по вимозі"
+    ]
   }
 }
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/b77be1c04a754989b602432418f2e453/posts/ce01adb63f4b43aca3a6a8c23c5d8d69
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/423ce3389d0f48b1a1ee6cd5a8dad65f/complaints/f7ef1f798a94494ea0b70566a665bf2c/posts/85f2b58b04b84814866d0426c5f9ef8c
 X-Content-Type-Options: nosniff
 {
   "data": {
+    "id": "85f2b58b04b84814866d0426c5f9ef8c",
+    "title": "Уточнення по вимозі",
+    "description": "Додано документ",
     "documents": [
       {
-        "hash": "md5:00000000000000000000000000000000", 
-        "author": "complaint_owner", 
-        "title": "post_document_complaint.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/648aef3e96d847e7b2cbff7850df6769?KeyID=a8968c46&Signature=MOSDGwDvPzV8o1U%252BbJfIvX26EYaEX908WNHi%2FsNCEaVnKpNkzvZOBdYAQOsi0WZMnFMyx2P3RUxx2wtWUmGZDA%253D%253D", 
-        "format": "application/pdf", 
-        "documentOf": "tender", 
-        "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "9e21a93b28e149789e7532884321c3c9", 
-        "dateModified": "2020-09-08T01:00:00+03:00"
+        "id": "02693ba9c5624cefafa7d013b20922d9",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "post_document_complaint.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/afe325decc3a47b9a6152c78f5b19667?Signature=I%2BSDHWQGH9hP4eLNQgKNS44%2BMe0IXre%2Bnt3gT5QwhGxNPi75C71dT2jK2gPUnWL3uO1nEAoloRQgnZTOueVuDQ%3D%3D&KeyID=a8968c46",
+        "datePublished": "2020-09-08T01:00:00+03:00",
+        "dateModified": "2020-09-08T01:00:00+03:00",
+        "author": "complaint_owner",
+        "documentOf": "tender"
       }
-    ], 
-    "description": "Додано документ", 
-    "title": "Уточнення по вимозі", 
-    "author": "complaint_owner", 
-    "datePublished": "2020-09-08T01:00:00+03:00", 
-    "relatedPost": "7f5d9ea671294d479da2e8a06659e473", 
-    "recipient": "aboveThresholdReviewers", 
-    "id": "ce01adb63f4b43aca3a6a8c23c5d8d69"
+    ],
+    "author": "complaint_owner",
+    "recipient": "aboveThresholdReviewers",
+    "datePublished": "2020-09-08T01:00:00+03:00",
+    "relatedPost": "8f0d51ad72b74490b4f86b86ab6bb7cc"
   }
 }
 

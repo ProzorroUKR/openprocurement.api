@@ -1,4 +1,4 @@
-PATCH /api/2.5/qualifications/c58e796114e34db69494ba28b7ba323d?acc_token=7c6a46e300bb41438ef626232028950b HTTP/1.0
+PATCH /api/2.5/qualifications/46df298c7ea542c291830c9610a09781?acc_token=b9eeebd1ead246da9383d2c218518ab5 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 36
 Content-Type: application/json
@@ -15,24 +15,24 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "unsuccessful", 
-    "qualificationType": "electronicCatalogue", 
+    "submissionID": "7f0bddee73c749c48914890b109a3946",
+    "frameworkID": "3176109c7572429b99dbc5707a10617c",
+    "date": "2020-09-24T01:00:00+03:00",
+    "dateModified": "2020-09-24T01:00:00+03:00",
     "documents": [
       {
-        "hash": "md5:00000000000000000000000000000000", 
-        "title": "qualification.doc", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ccf69b1e25b849d4a0c5adc18feca851?KeyID=a8968c46&Signature=H3kP%2FIu4Bu7PdaZzeNbMggl9eByN%2FNHaLzmWDxpyZ4O8g7OaOjM2UEPNBht25jqJNNAOGyEkBegCbxoCUIYrDw%253D%253D", 
-        "format": "application/msword", 
-        "datePublished": "2020-09-24T01:00:00+03:00", 
-        "id": "922674be3794469a8936fbe029e652fa", 
+        "id": "35e63c5c0dc64ffba41d96f94c0aab7d",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "qualification.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/53ecf67fd58e4933a19146b27596d3b6?Signature=Kbm9FS%2Fkui6%2BHgPXwujZGhr1HLVgFJMHrsg%2B8Q2C%2Fwnf2uq7EIuHY217fSkN7tQM0Z%2Bl1IuEgr7Xe8B9fseFAw%3D%3D&KeyID=a8968c46",
+        "datePublished": "2020-09-24T01:00:00+03:00",
         "dateModified": "2020-09-24T01:00:00+03:00"
       }
-    ], 
-    "frameworkID": "40b48e4878534db1bf228d5928f8f1d9", 
-    "submissionID": "acb9f31ebb904dc696a96bb78b529433", 
-    "date": "2020-09-24T01:00:00+03:00", 
-    "dateModified": "2020-09-24T01:00:00+03:00", 
-    "id": "c58e796114e34db69494ba28b7ba323d"
+    ],
+    "status": "unsuccessful",
+    "qualificationType": "electronicCatalogue",
+    "id": "46df298c7ea542c291830c9610a09781"
   }
 }
 

@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/127bd59fdd464def8d1189b954eefcbb/bids HTTP/1.0
+POST /api/2.5/tenders/f8aae737ac8f4d34a52254e2f3416505/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 982
 Content-Type: application/json
@@ -6,82 +6,82 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "selfEligible": true, 
     "tenderers": [
       {
-        "contactPoint": {
-          "email": "soleksuk@gmail.com", 
-          "telephone": "+380 (432) 21-69-30", 
-          "name": "Сергій Олексюк"
-        }, 
-        "scale": "micro", 
-        "name": "ДКП «Школяр»", 
-        "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137256", 
-          "uri": "http://www.sc.gov.ua/"
-        }, 
         "address": {
-          "countryName": "Україна", 
-          "postalCode": "21100", 
-          "region": "Вінницька область", 
-          "streetAddress": "вул. Островського, 33", 
-          "locality": "м. Вінниця"
-        }
+          "countryName": "Україна",
+          "locality": "м. Вінниця",
+          "postalCode": "21100",
+          "region": "Вінницька область",
+          "streetAddress": "вул. Островського, 33"
+        },
+        "contactPoint": {
+          "email": "soleksuk@gmail.com",
+          "name": "Сергій Олексюк",
+          "telephone": "+380 (432) 21-69-30"
+        },
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "ДКП «Школяр»",
+        "scale": "micro"
       }
-    ], 
-    "selfQualified": true, 
+    ],
     "value": {
       "amount": 500
-    }, 
-    "subcontractingDetails": "ДКП «Орфей», Україна"
+    },
+    "subcontractingDetails": "ДКП «Орфей», Україна",
+    "selfQualified": true,
+    "selfEligible": true
   }
 }
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/127bd59fdd464def8d1189b954eefcbb/bids/945438442aec48d68e5f5be69af64f5d
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f8aae737ac8f4d34a52254e2f3416505/bids/a91aeed6db4a4969982ce37fab972938
 X-Content-Type-Options: nosniff
 {
-  "access": {
-    "transfer": "d5756578a82f48fba71a9186e94a15de", 
-    "token": "d2f6e6c8a7a54d2cb138ef2ef5de765a"
-  }, 
   "data": {
-    "status": "active", 
-    "selfEligible": true, 
-    "id": "945438442aec48d68e5f5be69af64f5d", 
-    "value": {
-      "currency": "UAH", 
-      "amount": 500.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "subcontractingDetails": "ДКП «Орфей», Україна", 
     "tenderers": [
       {
-        "contactPoint": {
-          "email": "soleksuk@gmail.com", 
-          "telephone": "+380 (432) 21-69-30", 
-          "name": "Сергій Олексюк"
-        }, 
-        "scale": "micro", 
-        "name": "ДКП «Школяр»", 
+        "name": "ДКП «Школяр»",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137256", 
+          "scheme": "UA-EDR",
+          "id": "00137256",
           "uri": "http://www.sc.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "21100", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 33", 
-          "region": "Вінницька область", 
-          "locality": "м. Вінниця"
-        }
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Сергій Олексюк",
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380 (432) 21-69-30"
+        },
+        "scale": "micro"
       }
-    ], 
-    "date": "2020-09-08T01:00:01+03:00", 
-    "selfQualified": true
+    ],
+    "date": "2020-09-08T01:00:01+03:00",
+    "id": "a91aeed6db4a4969982ce37fab972938",
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "subcontractingDetails": "ДКП «Орфей», Україна",
+    "status": "active",
+    "selfQualified": true,
+    "selfEligible": true
+  },
+  "access": {
+    "token": "b6333f0eb61e422e8c473bf9f5ba0127",
+    "transfer": "be60db29f88e4d2a829d3934ce065b4e"
   }
 }
 

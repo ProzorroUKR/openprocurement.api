@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/50c82523038349969f53f3e238932c46/bids HTTP/1.0
+POST /api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 802
 Content-Type: application/json
@@ -6,78 +6,78 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "selfQualified": true, 
-    "value": {
-      "amount": 499
-    }, 
     "tenderers": [
       {
-        "contactPoint": {
-          "email": "aagt@gmail.com", 
-          "telephone": "+380 (322) 91-69-30", 
-          "name": "Андрій Олексюк"
-        }, 
-        "scale": "sme", 
-        "name": "ДКП «Книга»", 
-        "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137226", 
-          "uri": "http://www.sc.gov.ua/"
-        }, 
         "address": {
-          "countryName": "Україна", 
-          "postalCode": "79013", 
-          "region": "Львівська область", 
-          "streetAddress": "вул. Островського, 34", 
-          "locality": "м. Львів"
-        }
+          "countryName": "Україна",
+          "locality": "м. Львів",
+          "postalCode": "79013",
+          "region": "Львівська область",
+          "streetAddress": "вул. Островського, 34"
+        },
+        "contactPoint": {
+          "email": "aagt@gmail.com",
+          "name": "Андрій Олексюк",
+          "telephone": "+380 (322) 91-69-30"
+        },
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137226",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "ДКП «Книга»",
+        "scale": "sme"
       }
-    ]
+    ],
+    "value": {
+      "amount": 499
+    },
+    "selfQualified": true
   }
 }
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/50c82523038349969f53f3e238932c46/bids/56f16cb4b9e6446b97bcfec824b3809f
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/c4f7d0327d87406ea7d7ae34717a0120
 X-Content-Type-Options: nosniff
 {
-  "access": {
-    "transfer": "2421a944d51647b9821e47ed4e107ddd", 
-    "token": "de2d86e647f74a1981622cabe57f792b"
-  }, 
   "data": {
-    "status": "pending", 
-    "value": {
-      "currency": "UAH", 
-      "amount": 499.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "id": "56f16cb4b9e6446b97bcfec824b3809f", 
     "tenderers": [
       {
-        "contactPoint": {
-          "email": "aagt@gmail.com", 
-          "telephone": "+380 (322) 91-69-30", 
-          "name": "Андрій Олексюк"
-        }, 
-        "scale": "sme", 
-        "name": "ДКП «Книга»", 
+        "name": "ДКП «Книга»",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137226", 
+          "scheme": "UA-EDR",
+          "id": "00137226",
           "uri": "http://www.sc.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "79013", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 34", 
-          "region": "Львівська область", 
-          "locality": "м. Львів"
-        }
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Андрій Олексюк",
+          "email": "aagt@gmail.com",
+          "telephone": "+380 (322) 91-69-30"
+        },
+        "scale": "sme"
       }
-    ], 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "selfQualified": true
+    ],
+    "date": "2020-09-08T01:00:00+03:00",
+    "id": "c4f7d0327d87406ea7d7ae34717a0120",
+    "value": {
+      "amount": 499.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "selfQualified": true,
+    "status": "pending"
+  },
+  "access": {
+    "token": "7e8ca46347264ab19ef25115a1137497",
+    "transfer": "8607c6b86d3748729db430bebc37342c"
   }
 }
 

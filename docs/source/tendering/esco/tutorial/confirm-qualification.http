@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/awards/577be693449349a8ac00a37dcd7e61ab?acc_token=82d005b2183e43fe8edbb00cc6eb36c1 HTTP/1.0
+PATCH /api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/awards/6f1d78c5363149ef9523e958b1b4e2cb?acc_token=7cb87b2d0f3d446993a6da1f03746396 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 67
 Content-Type: application/json
@@ -6,8 +6,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "status": "active", 
-    "qualified": true, 
+    "status": "active",
+    "qualified": true,
     "eligible": true
   }
 }
@@ -17,73 +17,73 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "active", 
-    "eligible": true, 
+    "id": "6f1d78c5363149ef9523e958b1b4e2cb",
+    "status": "active",
+    "date": "2020-09-08T01:00:00+03:00",
     "suppliers": [
       {
-        "contactPoint": {
-          "email": "soleksuk@gmail.com", 
-          "telephone": "+380 (432) 21-69-30", 
-          "name": "Сергій Олексюк"
-        }, 
-        "scale": "micro", 
-        "name": "ДКП «Школяр»", 
+        "name": "ДКП «Школяр»",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137256", 
+          "scheme": "UA-EDR",
+          "id": "00137256",
           "uri": "http://www.sc.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "21100", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 33", 
-          "region": "Вінницька область", 
-          "locality": "м. Вінниця"
-        }
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Сергій Олексюк",
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380 (432) 21-69-30"
+        },
+        "scale": "micro"
       }
-    ], 
+    ],
+    "bid_id": "291c4bea0d1d4ffb95615993a06b785c",
     "complaintPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00", 
+      "startDate": "2020-09-08T01:00:00+03:00",
       "endDate": "2020-09-19T00:00:00+03:00"
-    }, 
-    "bid_id": "08414abbba9a40a687efcc829425d57d", 
+    },
+    "qualified": true,
+    "eligible": true,
     "value": {
-      "yearlyPaymentsPercentage": 0.9, 
-      "valueAddedTaxIncluded": true, 
-      "currency": "UAH", 
-      "amount": 9351.37, 
-      "contractDuration": {
-        "days": 74, 
-        "years": 10
-      }, 
-      "amountPerformance": 856.84, 
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amount": 9351.37,
+      "amountPerformance": 856.84,
+      "yearlyPaymentsPercentage": 0.9,
       "annualCostsReduction": [
-        500.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
+        500.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
         1000.0
-      ]
-    }, 
-    "qualified": true, 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "id": "577be693449349a8ac00a37dcd7e61ab"
+      ],
+      "contractDuration": {
+        "years": 10,
+        "days": 74
+      }
+    }
   }
 }
 

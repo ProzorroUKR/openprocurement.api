@@ -1,4 +1,4 @@
-POST /api/2.5/plans/f580aa1bdcf84194995a102bc3a96d2d/tenders HTTP/1.0
+POST /api/2.5/plans/18d6b21a07094c71b423e91c5e28579b/tenders HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 3376
 Content-Type: application/json
@@ -6,140 +6,140 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "status": "draft", 
-    "milestones": [
-      {
-        "code": "prepayment", 
-        "sequenceNumber": 0, 
-        "title": "signingTheContract", 
-        "duration": {
-          "type": "banking", 
-          "days": 2
-        }, 
-        "percentage": 45.55, 
-        "type": "financing", 
-        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      }, 
-      {
-        "code": "postpayment", 
-        "sequenceNumber": 0, 
-        "title": "deliveryOfGoods", 
-        "duration": {
-          "type": "calendar", 
-          "days": 900
-        }, 
-        "percentage": 54.45, 
-        "type": "financing"
-      }
-    ], 
-    "mainProcurementCategory": "goods", 
-    "tenderPeriod": {
-      "endDate": "2020-09-29T01:00:00+03:00"
-    }, 
-    "title": "Насіння", 
-    "minimalStep": {
-      "currency": "UAH", 
-      "amount": 15
-    }, 
-    "enquiryPeriod": {
-      "endDate": "2020-09-22T01:00:00+03:00"
-    }, 
-    "procurementMethodType": "belowThreshold", 
-    "value": {
-      "currency": "UAH", 
-      "amount": 500
-    }, 
+    "title": "Насіння",
+    "mainProcurementCategory": "goods",
     "procuringEntity": {
-      "contactPoint": {
-        "name": "Державне управління справами", 
-        "telephone": "0440000000"
-      }, 
+      "name": "Державне управління справами",
       "identifier": {
-        "scheme": "UA-EDR", 
-        "id": "111983", 
+        "scheme": "UA-EDR",
+        "id": "111983",
         "legalName": "ДП Державне Управління Справами"
-      }, 
-      "name": "Державне управління справами", 
-      "kind": "general", 
+      },
       "address": {
-        "countryName": "Україна", 
-        "postalCode": "01220", 
-        "region": "м. Київ", 
-        "streetAddress": "вул. Банкова, 11, корпус 1", 
-        "locality": "м. Київ"
-      }
-    }, 
+        "countryName": "Україна",
+        "postalCode": "01220",
+        "region": "м. Київ",
+        "locality": "м. Київ",
+        "streetAddress": "вул. Банкова, 11, корпус 1"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "0440000000"
+      },
+      "kind": "general"
+    },
+    "value": {
+      "amount": 500,
+      "currency": "UAH"
+    },
+    "minimalStep": {
+      "amount": 15,
+      "currency": "UAH"
+    },
     "items": [
       {
-        "description": "Насіння гірчиці", 
-        "classification": {
-          "scheme": "ДК021", 
-          "description": "Mustard seeds", 
-          "id": "03111600-8"
-        }, 
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП", 
-            "id": "01.11.92", 
-            "description": "Насіння гірчиці"
-          }
-        ], 
         "deliveryDate": {
           "endDate": "2020-09-23T01:00:00+03:00"
-        }, 
-        "unit": {
-          "code": "KGM", 
-          "name": "кг"
-        }, 
-        "quantity": 1000
-      }, 
-      {
-        "description": "Насіння соняшнику", 
-        "classification": {
-          "scheme": "ДК021", 
-          "description": "Sunflower seeds", 
-          "id": "03111300-5"
-        }, 
+        },
         "additionalClassifications": [
           {
-            "scheme": "ДКПП", 
-            "id": "01.11.95", 
-            "description": "Насіння соняшнику"
+            "scheme": "ДКПП",
+            "id": "01.11.92",
+            "description": "Насіння гірчиці"
           }
-        ], 
+        ],
+        "unit": {
+          "code": "KGM",
+          "name": "кг"
+        },
+        "classification": {
+          "scheme": "ДК021",
+          "description": "Mustard seeds",
+          "id": "03111600-8"
+        },
+        "quantity": 1000,
+        "description": "Насіння гірчиці"
+      },
+      {
         "deliveryDate": {
           "endDate": "2020-09-24T01:00:00+03:00"
-        }, 
-        "unit": {
-          "code": "KGM", 
-          "name": "кг"
-        }, 
-        "quantity": 2000
-      }, 
-      {
-        "description": "Насіння бавовнику", 
-        "classification": {
-          "scheme": "ДК021", 
-          "description": "Cotton seeds", 
-          "id": "03111400-6"
-        }, 
+        },
         "additionalClassifications": [
           {
-            "scheme": "ДКПП", 
-            "id": "01.11.84", 
-            "description": "Насіння бавовнику"
+            "scheme": "ДКПП",
+            "id": "01.11.95",
+            "description": "Насіння соняшнику"
           }
-        ], 
+        ],
+        "unit": {
+          "code": "KGM",
+          "name": "кг"
+        },
+        "classification": {
+          "scheme": "ДК021",
+          "description": "Sunflower seeds",
+          "id": "03111300-5"
+        },
+        "quantity": 2000,
+        "description": "Насіння соняшнику"
+      },
+      {
         "deliveryDate": {
           "endDate": "2020-09-25T01:00:00+03:00"
-        }, 
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "01.11.84",
+            "description": "Насіння бавовнику"
+          }
+        ],
         "unit": {
-          "code": "KGM", 
+          "code": "KGM",
           "name": "кг"
-        }, 
-        "quantity": 3000
+        },
+        "classification": {
+          "scheme": "ДК021",
+          "description": "Cotton seeds",
+          "id": "03111400-6"
+        },
+        "quantity": 3000,
+        "description": "Насіння бавовнику"
       }
-    ]
+    ],
+    "enquiryPeriod": {
+      "endDate": "2020-09-22T01:00:00+03:00"
+    },
+    "tenderPeriod": {
+      "endDate": "2020-09-29T01:00:00+03:00"
+    },
+    "procurementMethodType": "belowThreshold",
+    "milestones": [
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "code": "prepayment",
+        "type": "financing",
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 0,
+        "percentage": 45.55
+      },
+      {
+        "title": "deliveryOfGoods",
+        "code": "postpayment",
+        "type": "financing",
+        "duration": {
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 0,
+        "percentage": 54.45
+      }
+    ],
+    "status": "draft"
   }
 }
 
@@ -147,12 +147,12 @@ Response: 422 Unprocessable Entity
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
-  "status": "error", 
+  "status": "error",
   "errors": [
     {
-      "description": "Plan should contain budget breakdown", 
-      "location": "body", 
-      "name": "budget.breakdown"
+      "location": "body",
+      "name": "budget.breakdown",
+      "description": "Plan should contain budget breakdown"
     }
   ]
 }

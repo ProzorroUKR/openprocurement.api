@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/agreements/85b5a0dd7da441c08eb664e2412cc5d5?acc_token=1e40f3cf3fd64b8ebca3076b70a86e71 HTTP/1.0
+PATCH /api/2.5/tenders/37cb590308a242a9836f51a9994c7492/agreements/0fea7d7c4c8649f5a499885d630671f5?acc_token=fbb49b806b484733bc09390b0e01078d HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 36
 Content-Type: application/json
@@ -15,256 +15,256 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "agreementID": "UA-2020-09-08-000001-9f98cc211b664fa997a83e3375b3464e1", 
-    "status": "unsuccessful", 
+    "id": "0fea7d7c4c8649f5a499885d630671f5",
+    "agreementID": "UA-2020-09-08-000001-774f515207d840bbb2291a27f848ca611",
+    "date": "2020-09-19T01:00:02+03:00",
+    "dateSigned": "2020-09-08T01:00:01+03:00",
     "documents": [
       {
-        "hash": "md5:00000000000000000000000000000000", 
-        "title": "agreement_first_document.doc", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a72ff80db95f4c2ea13ec42a383db5b6?KeyID=a8968c46&Signature=uY5Ns6Y%2FFzQHBWcJ5MLpt%2FVslUibSPjnyOIPpWFCAWRBPYausxDxF5uW%252BF6ano35cQ2%2Fs9XQsl%252BV49vUJjWCDg%253D%253D", 
-        "format": "application/msword", 
-        "documentOf": "tender", 
-        "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "a6633574e637461988d9b3ce20113a6a", 
-        "dateModified": "2020-09-08T01:00:00+03:00"
-      }, 
+        "id": "2d45d008024549f885f6c42b6fe570f2",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "agreement_first_document.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/257b51818ec24ff7ba9bd1536cabbe1a?Signature=iDFXj6P4QP4EFu7aFSqGrJNK2CPGgPIy8kNLT4lexv1ScfBy%2BvGvd1JURyrmiQ2pFlxy2ocEuEI8%2BrTMDBRQDw%3D%3D&KeyID=a8968c46",
+        "datePublished": "2020-09-08T01:00:00+03:00",
+        "dateModified": "2020-09-08T01:00:00+03:00",
+        "documentOf": "tender"
+      },
       {
-        "hash": "md5:00000000000000000000000000000000", 
-        "language": "en", 
-        "title": "agreement_second_document.doc", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c2d35e83048c4c27961b80738e51e1d5?KeyID=a8968c46&Signature=0d%2Fi2oukjLG2fU9f8ojsNFHRfh0GBUaVCTLHe6K1rALLul3y6DCnRnRe%2FmNwRfYTuOUfzdinuXmywXVQmN1mDA%253D%253D", 
-        "format": "application/msword", 
-        "title_en": "Title of Document", 
-        "description_en": "Description of Document", 
-        "datePublished": "2020-09-08T01:00:00+03:00", 
-        "documentOf": "tender", 
-        "id": "cdc80289d5c4488595054c8cea9aef2f", 
-        "dateModified": "2020-09-08T01:00:00+03:00"
+        "id": "ca51f1ed6bbf48f9a3d6ec04bd5d7b1f",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "agreement_second_document.doc",
+        "title_en": "Title of Document",
+        "description_en": "Description of Document",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a56b952a99f44f05973bcbeb97dfa9a6?Signature=pnTEHvfi%2FJOCEyEHt%2FpLlfDhg4czz03WDlp6nd39IMpkwwC8x3F9W%2FOAd1xMhXagLWfx0JaIWbnvAsYf1S%2BHBw%3D%3D&KeyID=a8968c46",
+        "datePublished": "2020-09-08T01:00:00+03:00",
+        "dateModified": "2020-09-08T01:00:00+03:00",
+        "language": "en",
+        "documentOf": "tender"
       }
-    ], 
-    "contracts": [
-      {
-        "status": "active", 
-        "unitPrices": [
-          {
-            "value": {
-              "currency": "UAH", 
-              "amount": 0.5, 
-              "valueAddedTaxIncluded": true
-            }, 
-            "relatedItem": "0f3aaf18780b488798fcd61b8e98d5b4"
-          }, 
-          {
-            "value": {
-              "currency": "UAH", 
-              "amount": 0.5, 
-              "valueAddedTaxIncluded": true
-            }, 
-            "relatedItem": "1a9ae9179087434e8970d4f22cc8e59d"
-          }
-        ], 
-        "suppliers": [
-          {
-            "contactPoint": {
-              "email": "fake@mail.com", 
-              "telephone": "+380 (322) 12-34-56", 
-              "name": "Іван Іваненко"
-            }, 
-            "scale": "mid", 
-            "name": "«Снігур»", 
-            "identifier": {
-              "scheme": "UA-EDR", 
-              "id": "00137227", 
-              "uri": "http://www.sc.gov.ua/"
-            }, 
-            "address": {
-              "postalCode": "79013", 
-              "countryName": "Україна", 
-              "streetAddress": "вул. Островського, 35", 
-              "region": "Львівська область", 
-              "locality": "м. Львів"
-            }
-          }
-        ], 
-        "bidID": "f15395a4363049ad92d56f8b5ff97fac", 
-        "date": "2020-09-08T01:00:00+03:00", 
-        "awardID": "58aa9c80eeb345e998dc764a75f940ee", 
-        "id": "2221451d71af4bfa803fd5b9382103ed"
-      }, 
-      {
-        "status": "active", 
-        "unitPrices": [
-          {
-            "value": {
-              "currency": "UAH", 
-              "amount": 0.5, 
-              "valueAddedTaxIncluded": true
-            }, 
-            "relatedItem": "0f3aaf18780b488798fcd61b8e98d5b4"
-          }, 
-          {
-            "value": {
-              "currency": "UAH", 
-              "amount": 0.5, 
-              "valueAddedTaxIncluded": true
-            }, 
-            "relatedItem": "1a9ae9179087434e8970d4f22cc8e59d"
-          }
-        ], 
-        "suppliers": [
-          {
-            "contactPoint": {
-              "email": "aagt@gmail.com", 
-              "telephone": "+380 (322) 91-69-30", 
-              "name": "Андрій Олексюк"
-            }, 
-            "scale": "sme", 
-            "name": "ДКП «Книга»", 
-            "identifier": {
-              "scheme": "UA-EDR", 
-              "id": "00137226", 
-              "uri": "http://www.sc.gov.ua/"
-            }, 
-            "address": {
-              "postalCode": "79013", 
-              "countryName": "Україна", 
-              "streetAddress": "вул. Островського, 34", 
-              "region": "Львівська область", 
-              "locality": "м. Львів"
-            }
-          }
-        ], 
-        "bidID": "7463b9ba00b849cb8e5a5421f550868e", 
-        "date": "2020-09-08T01:00:00+03:00", 
-        "awardID": "e39130af90ba485cacb7cdc36cdfc089", 
-        "id": "d5c9e2e28ee74a67a078c87bf9967a53"
-      }, 
-      {
-        "status": "active", 
-        "unitPrices": [
-          {
-            "value": {
-              "currency": "UAH", 
-              "amount": 0.5, 
-              "valueAddedTaxIncluded": true
-            }, 
-            "relatedItem": "0f3aaf18780b488798fcd61b8e98d5b4"
-          }, 
-          {
-            "value": {
-              "currency": "UAH", 
-              "amount": 0.5, 
-              "valueAddedTaxIncluded": true
-            }, 
-            "relatedItem": "1a9ae9179087434e8970d4f22cc8e59d"
-          }
-        ], 
-        "suppliers": [
-          {
-            "contactPoint": {
-              "email": "soleksuk@gmail.com", 
-              "telephone": "+380 (432) 21-69-30", 
-              "name": "Сергій Олексюк"
-            }, 
-            "scale": "micro", 
-            "name": "ДКП «Школяр»", 
-            "identifier": {
-              "scheme": "UA-EDR", 
-              "id": "00137256", 
-              "uri": "http://www.sc.gov.ua/"
-            }, 
-            "address": {
-              "postalCode": "21100", 
-              "countryName": "Україна", 
-              "streetAddress": "вул. Островського, 33", 
-              "region": "Вінницька область", 
-              "locality": "м. Вінниця"
-            }
-          }
-        ], 
-        "bidID": "544359015fd047a8b79fa81bda0889fc", 
-        "date": "2020-09-08T01:00:00+03:00", 
-        "awardID": "fead43daad534c50b0dc2da8b64ccfbb", 
-        "id": "713faef521cf4366b30696f427b2f171"
-      }
-    ], 
+    ],
     "items": [
       {
-        "relatedLot": "c7555f1bb878434d8815dea318304673", 
-        "description": "футляри до державних нагород", 
-        "classification": {
-          "scheme": "ДК021", 
-          "description": "Cartons", 
-          "id": "44617100-9"
-        }, 
-        "description_en": "Cases for state awards", 
+        "id": "fb692f97b807462b94668d4091b2779b",
+        "description": "футляри до державних нагород",
         "additionalClassifications": [
           {
-            "scheme": "ДКПП", 
-            "id": "17.21.1", 
+            "scheme": "ДКПП",
+            "id": "17.21.1",
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
-        ], 
-        "deliveryAddress": {
-          "postalCode": "79000", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }, 
+        ],
+        "quantity": 5.0,
+        "relatedLot": "52815e9d01914c7a9bf4ba18ebb5e783",
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "description_en": "Cases for state awards",
         "deliveryDate": {
-          "startDate": "2018-06-27T13:39:09.362837+03:00", 
+          "startDate": "2018-06-27T13:39:09.362837+03:00",
           "endDate": "2018-06-30T13:39:09.362837+03:00"
-        }, 
-        "id": "0f3aaf18780b488798fcd61b8e98d5b4", 
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
         "unit": {
-          "code": "44617100-9", 
-          "name": "item"
-        }, 
-        "quantity": 5.0
-      }, 
+          "name": "item",
+          "code": "44617100-9"
+        }
+      },
       {
-        "relatedLot": "c7555f1bb878434d8815dea318304673", 
-        "description": "футляри до державних нагород", 
-        "classification": {
-          "scheme": "ДК021", 
-          "description": "Cartons", 
-          "id": "44617100-9"
-        }, 
-        "description_en": "Cases for state awards", 
+        "id": "eda37d51e2854d93aedc7e1d31e01cea",
+        "description": "футляри до державних нагород",
         "additionalClassifications": [
           {
-            "scheme": "ДКПП", 
-            "id": "17.21.1", 
+            "scheme": "ДКПП",
+            "id": "17.21.1",
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
-        ], 
-        "deliveryAddress": {
-          "postalCode": "79000", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }, 
+        ],
+        "quantity": 5.0,
+        "relatedLot": "52815e9d01914c7a9bf4ba18ebb5e783",
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "description_en": "Cases for state awards",
         "deliveryDate": {
-          "startDate": "2018-06-27T13:39:09.362837+03:00", 
+          "startDate": "2018-06-27T13:39:09.362837+03:00",
           "endDate": "2018-06-30T13:39:09.362837+03:00"
-        }, 
-        "id": "1a9ae9179087434e8970d4f22cc8e59d", 
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
         "unit": {
-          "code": "44617100-8", 
-          "name": "item"
-        }, 
-        "quantity": 5.0
+          "name": "item",
+          "code": "44617100-8"
+        }
       }
-    ], 
+    ],
     "period": {
-      "startDate": "2020-09-08T01:00:01+03:00", 
+      "startDate": "2020-09-08T01:00:01+03:00",
       "endDate": "2024-09-07T01:00:01+03:00"
-    }, 
-    "dateSigned": "2020-09-08T01:00:01+03:00", 
-    "date": "2020-09-19T01:00:02+03:00", 
-    "id": "85b5a0dd7da441c08eb664e2412cc5d5"
+    },
+    "status": "unsuccessful",
+    "contracts": [
+      {
+        "id": "edb78279aaec40d3be65c96c5c5eb0db",
+        "status": "active",
+        "suppliers": [
+          {
+            "name": "«Снігур»",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "00137227",
+              "uri": "http://www.sc.gov.ua/"
+            },
+            "address": {
+              "streetAddress": "вул. Островського, 35",
+              "locality": "м. Львів",
+              "region": "Львівська область",
+              "postalCode": "79013",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "name": "Іван Іваненко",
+              "email": "fake@mail.com",
+              "telephone": "+380 (322) 12-34-56"
+            },
+            "scale": "mid"
+          }
+        ],
+        "unitPrices": [
+          {
+            "relatedItem": "fb692f97b807462b94668d4091b2779b",
+            "value": {
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true,
+              "amount": 0.5
+            }
+          },
+          {
+            "relatedItem": "eda37d51e2854d93aedc7e1d31e01cea",
+            "value": {
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true,
+              "amount": 0.5
+            }
+          }
+        ],
+        "awardID": "05a621257252432fa202ba058a22a2cd",
+        "bidID": "98b3bff73c4a4879b603800966926a71",
+        "date": "2020-09-08T01:00:00+03:00"
+      },
+      {
+        "id": "4ffc79bd176541f7a1aa8bdd26bc5a87",
+        "status": "active",
+        "suppliers": [
+          {
+            "name": "ДКП «Книга»",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "00137226",
+              "uri": "http://www.sc.gov.ua/"
+            },
+            "address": {
+              "streetAddress": "вул. Островського, 34",
+              "locality": "м. Львів",
+              "region": "Львівська область",
+              "postalCode": "79013",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "name": "Андрій Олексюк",
+              "email": "aagt@gmail.com",
+              "telephone": "+380 (322) 91-69-30"
+            },
+            "scale": "sme"
+          }
+        ],
+        "unitPrices": [
+          {
+            "relatedItem": "fb692f97b807462b94668d4091b2779b",
+            "value": {
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true,
+              "amount": 0.5
+            }
+          },
+          {
+            "relatedItem": "eda37d51e2854d93aedc7e1d31e01cea",
+            "value": {
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true,
+              "amount": 0.5
+            }
+          }
+        ],
+        "awardID": "3697fd1be39e487da32bc85c8f8af500",
+        "bidID": "c4cc8a18f70745389bffcab828a9cb83",
+        "date": "2020-09-08T01:00:00+03:00"
+      },
+      {
+        "id": "4b5cb6ae595b43a48a5a1ac2001d1dcb",
+        "status": "active",
+        "suppliers": [
+          {
+            "name": "ДКП «Школяр»",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "00137256",
+              "uri": "http://www.sc.gov.ua/"
+            },
+            "address": {
+              "streetAddress": "вул. Островського, 33",
+              "locality": "м. Вінниця",
+              "region": "Вінницька область",
+              "postalCode": "21100",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "name": "Сергій Олексюк",
+              "email": "soleksuk@gmail.com",
+              "telephone": "+380 (432) 21-69-30"
+            },
+            "scale": "micro"
+          }
+        ],
+        "unitPrices": [
+          {
+            "relatedItem": "fb692f97b807462b94668d4091b2779b",
+            "value": {
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true,
+              "amount": 0.5
+            }
+          },
+          {
+            "relatedItem": "eda37d51e2854d93aedc7e1d31e01cea",
+            "value": {
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true,
+              "amount": 0.5
+            }
+          }
+        ],
+        "awardID": "26ffb17c93b84851b599dafde1c1d897",
+        "bidID": "9eee26d528d9490a9e52cf6b1f696c41",
+        "date": "2020-09-08T01:00:00+03:00"
+      }
+    ]
   }
 }
 

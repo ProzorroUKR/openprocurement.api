@@ -1,106 +1,106 @@
-POST /api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/bids HTTP/1.0
+POST /api/2.5/tenders/e821f507458c4e99bdd9928981355ffa/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 2164
+Content-Length: 2172
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "requirementResponses": [
-      {
-        "requirement": {
-          "id": "655360-0001-001-01"
-        }, 
-        "value": "23.8"
-      }, 
-      {
-        "requirement": {
-          "id": "655360-0002-001-01"
-        }, 
-        "value": "1920x1080"
-      }, 
-      {
-        "requirement": {
-          "id": "655360-0003-001-01"
-        }, 
-        "value": "16:9"
-      }, 
-      {
-        "requirement": {
-          "id": "655360-0004-001-01"
-        }, 
-        "value": 250
-      }, 
-      {
-        "requirement": {
-          "id": "655360-0005-001-01"
-        }, 
-        "value": "1000:1"
-      }, 
-      {
-        "requirement": {
-          "id": "655360-0006-001-01"
-        }, 
-        "value": 1
-      }, 
-      {
-        "requirement": {
-          "id": "655360-0007-001-01"
-        }, 
-        "value": 1
-      }, 
-      {
-        "requirement": {
-          "id": "655360-0008-001-01"
-        }, 
-        "value": "HDMI"
-      }, 
-      {
-        "requirement": {
-          "id": "655360-0009-001-01"
-        }, 
-        "value": 36
-      }
-    ], 
-    "documents": [
-      {
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/883ee4e2b9dc4d36b2d4d7c83afcb7d6?KeyID=a8968c46&Signature=nNqvawdCDXaHhB9pJq4SCtXMo4m64qsruih%2FuYQbE5OmETDIZzvQ2Soqym8WnrH9M%2Fln0QExC%2FLw1BPb%2FKnVBA%3D%3D", 
-        "title": "Proposal_part1.pdf", 
-        "hash": "md5:00000000000000000000000000000000", 
-        "format": "application/pdf"
-      }, 
-      {
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/084e3b1245d94306aee75ddc828ae9fd?KeyID=a8968c46&Signature=PPiUbFTdTBk9nWnNsFz44zBopOoOwfBy4LRw4WZMGfvaFJpm%2FY6zT1QTEEdFoIfe6WfgpcXzngoW9wcDovTUBw%3D%3D", 
-        "title": "Proposal_part2.pdf", 
-        "hash": "md5:00000000000000000000000000000000", 
-        "format": "application/pdf"
-      }
-    ], 
-    "value": {
-      "currency": "UAH", 
-      "amount": 479, 
-      "valueAddedTaxIncluded": true
-    }, 
     "tenderers": [
       {
-        "contactPoint": {
-          "name": "Державне управління справами", 
-          "telephone": "0440000000"
-        }, 
-        "scale": "micro", 
-        "name": "Державне управління справами", 
+        "name": "Державне управління справами",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00037256", 
+          "scheme": "UA-EDR",
+          "id": "00037256",
           "uri": "http://www.dus.gov.ua/"
-        }, 
+        },
         "address": {
-          "countryName": "Україна", 
-          "postalCode": "01220", 
-          "region": "м. Київ", 
-          "streetAddress": "вул. Банкова, 11, корпус 1", 
-          "locality": "м. Київ"
+          "countryName": "Україна",
+          "postalCode": "01220",
+          "region": "м. Київ",
+          "locality": "м. Київ",
+          "streetAddress": "вул. Банкова, 11, корпус 1"
+        },
+        "contactPoint": {
+          "name": "Державне управління справами",
+          "telephone": "0440000000"
+        },
+        "scale": "micro"
+      }
+    ],
+    "value": {
+      "amount": 479,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "requirementResponses": [
+      {
+        "value": "23.8",
+        "requirement": {
+          "id": "655360-0001-001-01"
         }
+      },
+      {
+        "value": "1920x1080",
+        "requirement": {
+          "id": "655360-0002-001-01"
+        }
+      },
+      {
+        "value": "16:9",
+        "requirement": {
+          "id": "655360-0003-001-01"
+        }
+      },
+      {
+        "value": 250,
+        "requirement": {
+          "id": "655360-0004-001-01"
+        }
+      },
+      {
+        "value": "1000:1",
+        "requirement": {
+          "id": "655360-0005-001-01"
+        }
+      },
+      {
+        "value": 1,
+        "requirement": {
+          "id": "655360-0006-001-01"
+        }
+      },
+      {
+        "value": 1,
+        "requirement": {
+          "id": "655360-0007-001-01"
+        }
+      },
+      {
+        "value": "HDMI",
+        "requirement": {
+          "id": "655360-0008-001-01"
+        }
+      },
+      {
+        "value": 36,
+        "requirement": {
+          "id": "655360-0009-001-01"
+        }
+      }
+    ],
+    "documents": [
+      {
+        "title": "Proposal_part1.pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/192b7b24d38d4de6bc9a6b1e6c77960b?Signature=KZvg8%2BrfogEUWyFgSzDTkGRGEnKYenxZZFGYsF4%2FGgTlwcqr2Ce3l59X68OVJ0Q%2BM7LHNy67BE5p45F%2Bc%2B2mCg%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "application/pdf"
+      },
+      {
+        "title": "Proposal_part2.pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e6ac8b976a3445839cd998263b5ffb42?Signature=zvZOxC7UDz%2BEdfbTEGPVBorDfc%2FN93QjOxcBJ6NKcalH0dgUdGOUMCkuJs%2Ba5QU6zg7SFUFwM11FS9T%2BZcuDDA%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "application/pdf"
       }
     ]
   }
@@ -108,131 +108,131 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/bids/6b18ba7a8bf04784907487360146dcb2
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e821f507458c4e99bdd9928981355ffa/bids/4f6256946cb844bc899c4570307f502a
 X-Content-Type-Options: nosniff
 {
-  "access": {
-    "transfer": "02b88cfbcf524ed6829cb76880a56bfe", 
-    "token": "01c4e9b4c80843dfbb75ae001368a5cc"
-  }, 
   "data": {
-    "status": "active", 
-    "documents": [
-      {
-        "hash": "md5:00000000000000000000000000000000", 
-        "title": "Proposal_part1.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/bids/6b18ba7a8bf04784907487360146dcb2/documents/06a136ecc5054b998bbf84c3bf8ffac7?download=883ee4e2b9dc4d36b2d4d7c83afcb7d6", 
-        "format": "application/pdf", 
-        "documentOf": "tender", 
-        "datePublished": "2020-09-08T01:00:01+03:00", 
-        "id": "06a136ecc5054b998bbf84c3bf8ffac7", 
-        "dateModified": "2020-09-08T01:00:01+03:00"
-      }, 
-      {
-        "hash": "md5:00000000000000000000000000000000", 
-        "title": "Proposal_part2.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/bids/6b18ba7a8bf04784907487360146dcb2/documents/a8f6102ee2604e24943e5af36de726ba?download=084e3b1245d94306aee75ddc828ae9fd", 
-        "format": "application/pdf", 
-        "documentOf": "tender", 
-        "datePublished": "2020-09-08T01:00:01+03:00", 
-        "id": "a8f6102ee2604e24943e5af36de726ba", 
-        "dateModified": "2020-09-08T01:00:01+03:00"
-      }
-    ], 
-    "value": {
-      "currency": "UAH", 
-      "amount": 479.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "requirementResponses": [
-      {
-        "requirement": {
-          "id": "655360-0001-001-01"
-        }, 
-        "id": "b3f4ee1e272b475d8196f8b1e7bc1c9a", 
-        "value": "23.8"
-      }, 
-      {
-        "requirement": {
-          "id": "655360-0002-001-01"
-        }, 
-        "id": "1e778c32da8842faa35297dcab1c2672", 
-        "value": "1920x1080"
-      }, 
-      {
-        "requirement": {
-          "id": "655360-0003-001-01"
-        }, 
-        "id": "d2e1fa5cd90c407881499be453388bf8", 
-        "value": "16:9"
-      }, 
-      {
-        "requirement": {
-          "id": "655360-0004-001-01"
-        }, 
-        "id": "ef4274f21b1245e0984e1c5a28de1841", 
-        "value": "250"
-      }, 
-      {
-        "requirement": {
-          "id": "655360-0005-001-01"
-        }, 
-        "id": "1896b7c3720341789daf8bf6237f9300", 
-        "value": "1000:1"
-      }, 
-      {
-        "requirement": {
-          "id": "655360-0006-001-01"
-        }, 
-        "id": "3e43ddb03d984337b279b4382dbf44f0", 
-        "value": "1"
-      }, 
-      {
-        "requirement": {
-          "id": "655360-0007-001-01"
-        }, 
-        "id": "183af38389f048c19e249e8de5e12e74", 
-        "value": "1"
-      }, 
-      {
-        "requirement": {
-          "id": "655360-0008-001-01"
-        }, 
-        "id": "e25986f50d6d4da3901ffb632256f44f", 
-        "value": "HDMI"
-      }, 
-      {
-        "requirement": {
-          "id": "655360-0009-001-01"
-        }, 
-        "id": "2211733a5e794627ad7f26cd0425303e", 
-        "value": "36"
-      }
-    ], 
     "tenderers": [
       {
-        "contactPoint": {
-          "name": "Державне управління справами", 
-          "telephone": "0440000000"
-        }, 
-        "scale": "micro", 
-        "name": "Державне управління справами", 
+        "name": "Державне управління справами",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00037256", 
+          "scheme": "UA-EDR",
+          "id": "00037256",
           "uri": "http://www.dus.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "01220", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова, 11, корпус 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "01220",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Державне управління справами",
+          "telephone": "0440000000"
+        },
+        "scale": "micro"
       }
-    ], 
-    "date": "2020-09-08T01:00:01+03:00", 
-    "id": "6b18ba7a8bf04784907487360146dcb2"
+    ],
+    "date": "2020-09-08T01:00:01+03:00",
+    "id": "4f6256946cb844bc899c4570307f502a",
+    "status": "active",
+    "value": {
+      "amount": 479.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "documents": [
+      {
+        "id": "ab4c925fdc5e443597c0ba46a646bd20",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Proposal_part1.pdf",
+        "format": "application/pdf",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e821f507458c4e99bdd9928981355ffa/bids/4f6256946cb844bc899c4570307f502a/documents/ab4c925fdc5e443597c0ba46a646bd20?download=192b7b24d38d4de6bc9a6b1e6c77960b",
+        "datePublished": "2020-09-08T01:00:01+03:00",
+        "dateModified": "2020-09-08T01:00:01+03:00",
+        "documentOf": "tender"
+      },
+      {
+        "id": "13aac7e6bf354a2b8e5bf9b2d3698a67",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Proposal_part2.pdf",
+        "format": "application/pdf",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e821f507458c4e99bdd9928981355ffa/bids/4f6256946cb844bc899c4570307f502a/documents/13aac7e6bf354a2b8e5bf9b2d3698a67?download=e6ac8b976a3445839cd998263b5ffb42",
+        "datePublished": "2020-09-08T01:00:01+03:00",
+        "dateModified": "2020-09-08T01:00:01+03:00",
+        "documentOf": "tender"
+      }
+    ],
+    "requirementResponses": [
+      {
+        "id": "1c02e80aed4c49c7a9a15382d3257881",
+        "requirement": {
+          "id": "655360-0001-001-01"
+        },
+        "value": "23.8"
+      },
+      {
+        "id": "22ff8af65dbc48d88f0873ec569e7609",
+        "requirement": {
+          "id": "655360-0002-001-01"
+        },
+        "value": "1920x1080"
+      },
+      {
+        "id": "2b0245851ee74e6d97798466b99920db",
+        "requirement": {
+          "id": "655360-0003-001-01"
+        },
+        "value": "16:9"
+      },
+      {
+        "id": "63c0dc036e78457cab01693b0e984dab",
+        "requirement": {
+          "id": "655360-0004-001-01"
+        },
+        "value": "250"
+      },
+      {
+        "id": "ad8f586d57c943008054098df5b9ab06",
+        "requirement": {
+          "id": "655360-0005-001-01"
+        },
+        "value": "1000:1"
+      },
+      {
+        "id": "9cc05c615c31429da5600b66b8de8364",
+        "requirement": {
+          "id": "655360-0006-001-01"
+        },
+        "value": "1"
+      },
+      {
+        "id": "fc25700491e24117bb772a8c7748efde",
+        "requirement": {
+          "id": "655360-0007-001-01"
+        },
+        "value": "1"
+      },
+      {
+        "id": "ccbbeaf7c9684eb9bebad4a9aedf5d27",
+        "requirement": {
+          "id": "655360-0008-001-01"
+        },
+        "value": "HDMI"
+      },
+      {
+        "id": "66f7ff5f51994de4a733cd3aa22cec38",
+        "requirement": {
+          "id": "655360-0009-001-01"
+        },
+        "value": "36"
+      }
+    ]
+  },
+  "access": {
+    "token": "8f1004e671ba4f989b18485e22a81772",
+    "transfer": "b45eb5876d434c689af99945b6bec368"
   }
 }
 

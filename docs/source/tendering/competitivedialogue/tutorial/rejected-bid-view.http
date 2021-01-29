@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/35f93e8dd5484abb8b90687952c82010/bids/215c2938873a430ab0ead01f3f7b16dc?acc_token=67e88a4fa34541c2bbdd1b66c8b11b71 HTTP/1.0
+GET /api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb/bids/d075f39915d34bb98a8f4abb50f7e3ff?acc_token=b02a0a0cbe7842149f3fab16c42f0d94 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,32 +7,32 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "unsuccessful", 
     "tenderers": [
       {
-        "contactPoint": {
-          "email": "fake@mail.com", 
-          "telephone": "+380 (322) 12-34-56", 
-          "name": "Іван Іваненко"
-        }, 
-        "scale": "mid", 
-        "name": "«Снігур»", 
+        "name": "«Снігур»",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137227", 
+          "scheme": "UA-EDR",
+          "id": "00137227",
           "uri": "http://www.sc.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "79013", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 35", 
-          "region": "Львівська область", 
-          "locality": "м. Львів"
-        }
+          "streetAddress": "вул. Островського, 35",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Іван Іваненко",
+          "email": "fake@mail.com",
+          "telephone": "+380 (322) 12-34-56"
+        },
+        "scale": "mid"
       }
-    ], 
-    "selfQualified": true, 
-    "id": "215c2938873a430ab0ead01f3f7b16dc"
+    ],
+    "id": "d075f39915d34bb98a8f4abb50f7e3ff",
+    "selfQualified": true,
+    "status": "unsuccessful"
   }
 }
 

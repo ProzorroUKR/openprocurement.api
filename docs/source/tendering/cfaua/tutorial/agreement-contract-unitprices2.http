@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/agreements/85b5a0dd7da441c08eb664e2412cc5d5/contracts/d5c9e2e28ee74a67a078c87bf9967a53?acc_token=1e40f3cf3fd64b8ebca3076b70a86e71 HTTP/1.0
+PATCH /api/2.5/tenders/37cb590308a242a9836f51a9994c7492/agreements/0fea7d7c4c8649f5a499885d630671f5/contracts/4ffc79bd176541f7a1aa8bdd26bc5a87?acc_token=fbb49b806b484733bc09390b0e01078d HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 184
 Content-Type: application/json
@@ -8,16 +8,16 @@ DATA:
   "data": {
     "unitPrices": [
       {
+        "relatedItem": "fb692f97b807462b94668d4091b2779b",
         "value": {
           "amount": 0.5
-        }, 
-        "relatedItem": "0f3aaf18780b488798fcd61b8e98d5b4"
-      }, 
+        }
+      },
       {
+        "relatedItem": "eda37d51e2854d93aedc7e1d31e01cea",
         "value": {
           "amount": 0.5
-        }, 
-        "relatedItem": "1a9ae9179087434e8970d4f22cc8e59d"
+        }
       }
     ]
   }
@@ -28,52 +28,52 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "active", 
-    "unitPrices": [
-      {
-        "value": {
-          "currency": "UAH", 
-          "amount": 0.5, 
-          "valueAddedTaxIncluded": true
-        }, 
-        "relatedItem": "0f3aaf18780b488798fcd61b8e98d5b4"
-      }, 
-      {
-        "value": {
-          "currency": "UAH", 
-          "amount": 0.5, 
-          "valueAddedTaxIncluded": true
-        }, 
-        "relatedItem": "1a9ae9179087434e8970d4f22cc8e59d"
-      }
-    ], 
+    "id": "4ffc79bd176541f7a1aa8bdd26bc5a87",
+    "status": "active",
     "suppliers": [
       {
-        "contactPoint": {
-          "email": "aagt@gmail.com", 
-          "telephone": "+380 (322) 91-69-30", 
-          "name": "Андрій Олексюк"
-        }, 
-        "scale": "sme", 
-        "name": "ДКП «Книга»", 
+        "name": "ДКП «Книга»",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137226", 
+          "scheme": "UA-EDR",
+          "id": "00137226",
           "uri": "http://www.sc.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "79013", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 34", 
-          "region": "Львівська область", 
-          "locality": "м. Львів"
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Андрій Олексюк",
+          "email": "aagt@gmail.com",
+          "telephone": "+380 (322) 91-69-30"
+        },
+        "scale": "sme"
+      }
+    ],
+    "unitPrices": [
+      {
+        "relatedItem": "fb692f97b807462b94668d4091b2779b",
+        "value": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true,
+          "amount": 0.5
+        }
+      },
+      {
+        "relatedItem": "eda37d51e2854d93aedc7e1d31e01cea",
+        "value": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true,
+          "amount": 0.5
         }
       }
-    ], 
-    "bidID": "7463b9ba00b849cb8e5a5421f550868e", 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "awardID": "e39130af90ba485cacb7cdc36cdfc089", 
-    "id": "d5c9e2e28ee74a67a078c87bf9967a53"
+    ],
+    "awardID": "3697fd1be39e487da32bc85c8f8af500",
+    "bidID": "c4cc8a18f70745389bffcab828a9cb83",
+    "date": "2020-09-08T01:00:00+03:00"
   }
 }
 

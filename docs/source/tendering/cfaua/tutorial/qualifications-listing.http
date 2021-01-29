@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/qualifications HTTP/1.0
+GET /api/2.5/tenders/37cb590308a242a9836f51a9994c7492/qualifications HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -8,40 +8,40 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "status": "pending", 
-      "lotID": "c7555f1bb878434d8815dea318304673", 
-      "eligible": false, 
-      "qualified": false, 
-      "bidID": "544359015fd047a8b79fa81bda0889fc", 
-      "date": "2020-09-08T01:00:00+03:00", 
-      "id": "9eafb5e0a5ac4268a1f0821a11dae69d"
-    }, 
+      "id": "ef09cd8e035b42b0a1699961b9f7dd62",
+      "bidID": "9eee26d528d9490a9e52cf6b1f696c41",
+      "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
+      "status": "pending",
+      "date": "2020-09-08T01:00:00+03:00",
+      "qualified": false,
+      "eligible": false
+    },
     {
-      "status": "pending", 
-      "lotID": "c7555f1bb878434d8815dea318304673", 
-      "eligible": false, 
-      "qualified": false, 
-      "bidID": "7463b9ba00b849cb8e5a5421f550868e", 
-      "date": "2020-09-08T01:00:00+03:00", 
-      "id": "86fd0e3cd41f48eab89c5ac406b8334d"
-    }, 
+      "id": "223559f5ba3246c1b155a3ef32cbe44c",
+      "bidID": "c4cc8a18f70745389bffcab828a9cb83",
+      "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
+      "status": "pending",
+      "date": "2020-09-08T01:00:00+03:00",
+      "qualified": false,
+      "eligible": false
+    },
     {
-      "status": "pending", 
-      "lotID": "c7555f1bb878434d8815dea318304673", 
-      "eligible": false, 
-      "qualified": false, 
-      "bidID": "2110e7baf82545d594bd7a435975fdda", 
-      "date": "2020-09-08T01:00:00+03:00", 
-      "id": "cb68d0f3a8c4468d9b7c5595eb8f9001"
-    }, 
+      "id": "2d10211cb2184b6faa2cb9dffe9d674e",
+      "bidID": "0163fc12e0c04ae08080a47a9ef3909a",
+      "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
+      "status": "pending",
+      "date": "2020-09-08T01:00:00+03:00",
+      "qualified": false,
+      "eligible": false
+    },
     {
-      "status": "pending", 
-      "lotID": "c7555f1bb878434d8815dea318304673", 
-      "eligible": false, 
-      "qualified": false, 
-      "bidID": "f15395a4363049ad92d56f8b5ff97fac", 
-      "date": "2020-09-08T01:00:00+03:00", 
-      "id": "cdc3670ed483448a8cd1ed6d1146da99"
+      "id": "06288b758a524a9bbe729309e4c63db1",
+      "bidID": "98b3bff73c4a4879b603800966926a71",
+      "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
+      "status": "pending",
+      "date": "2020-09-08T01:00:00+03:00",
+      "qualified": false,
+      "eligible": false
     }
   ]
 }

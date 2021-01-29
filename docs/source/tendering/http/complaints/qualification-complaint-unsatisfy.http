@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/0ba5045de21b4930a220df9887be28ec/qualifications/de1fdfe83be64f45a3aa274d8f98a1e9/complaints/cb612ef8c84b40748594ad5c15bda383?acc_token=83df640e134b41f983356094948e8a69 HTTP/1.0
+PATCH /api/2.5/tenders/b61b0e1aaa1f43adba91292fda2cfaf5/qualifications/e55187f774a4459b956756a96aac6406/complaints/ab1153b9a7684f14a3c4cf479d2f1786?acc_token=3f5721579e2e4cf0bd3675ea3d5dad66 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -15,19 +15,19 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "answered", 
-    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
-    "title": "Недостатньо інформації", 
-    "resolutionType": "invalid", 
-    "type": "claim", 
-    "satisfied": false, 
-    "bid_id": "2b76168084ec43af8c6a26b41462272e", 
-    "dateAnswered": "2020-09-08T01:00:01+03:00", 
-    "dateSubmitted": "2020-09-08T01:00:01+03:00", 
-    "complaintID": "UA-2020-09-08-000001.7", 
-    "date": "2020-09-08T01:00:01+03:00", 
-    "resolution": "Вимога не відповідає предмету закупівлі", 
-    "id": "cb612ef8c84b40748594ad5c15bda383"
+    "id": "ab1153b9a7684f14a3c4cf479d2f1786",
+    "complaintID": "UA-2020-09-08-000001.7",
+    "date": "2020-09-08T01:00:01+03:00",
+    "type": "claim",
+    "title": "Недостатньо інформації",
+    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
+    "dateSubmitted": "2020-09-08T01:00:01+03:00",
+    "resolution": "Вимога не відповідає предмету закупівлі",
+    "resolutionType": "invalid",
+    "dateAnswered": "2020-09-08T01:00:01+03:00",
+    "satisfied": false,
+    "status": "answered",
+    "bid_id": "b653082e4cd842c0b258fd71c2a775ff"
   }
 }
 

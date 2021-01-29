@@ -6,73 +6,73 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "frameworkID": "40b48e4878534db1bf228d5928f8f1d9", 
     "tenderers": [
       {
-        "contactPoint": {
-          "telephone": "+380 (432) 21-69-30", 
-          "name": "Сергій Олексюк", 
-          "email": "soleksuk@gmail.com"
-        }, 
-        "scale": "micro", 
-        "name": "ДКП «Школяр»", 
-        "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137256", 
-          "uri": "http://www.sc.gov.ua/"
-        }, 
         "address": {
-          "countryName": "Україна", 
-          "postalCode": "21100", 
-          "region": "Вінницька область", 
-          "streetAddress": "вул. Островського, 33", 
-          "locality": "м. Вінниця"
-        }
+          "countryName": "Україна",
+          "locality": "м. Вінниця",
+          "postalCode": "21100",
+          "region": "Вінницька область",
+          "streetAddress": "вул. Островського, 33"
+        },
+        "contactPoint": {
+          "email": "soleksuk@gmail.com",
+          "name": "Сергій Олексюк",
+          "telephone": "+380 (432) 21-69-30"
+        },
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "ДКП «Школяр»",
+        "scale": "micro"
       }
-    ]
+    ],
+    "frameworkID": "3176109c7572429b99dbc5707a10617c"
   }
 }
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/19973fee87084fe7a00db94ad14f0c0d
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/dc84e2b5e35d412395875ba678c6e158
 X-Content-Type-Options: nosniff
 {
-  "access": {
-    "transfer": "7049402d742e425bb49686f6f2a04cb3", 
-    "token": "b10f2c28f49b4f9a80ff4b8ac2973b3c"
-  }, 
   "data": {
-    "status": "draft", 
-    "submissionType": "electronicCatalogue", 
-    "frameworkID": "40b48e4878534db1bf228d5928f8f1d9", 
-    "dateModified": "2020-09-24T01:00:00+03:00", 
-    "date": "2020-09-24T01:00:00+03:00", 
     "tenderers": [
       {
-        "contactPoint": {
-          "email": "soleksuk@gmail.com", 
-          "telephone": "+380 (432) 21-69-30", 
-          "name": "Сергій Олексюк"
-        }, 
-        "scale": "micro", 
-        "name": "ДКП «Школяр»", 
+        "name": "ДКП «Школяр»",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137256", 
+          "scheme": "UA-EDR",
+          "id": "00137256",
           "uri": "http://www.sc.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "21100", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 33", 
-          "region": "Вінницька область", 
-          "locality": "м. Вінниця"
-        }
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Сергій Олексюк",
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380 (432) 21-69-30"
+        },
+        "scale": "micro"
       }
-    ], 
-    "owner": "broker", 
-    "id": "19973fee87084fe7a00db94ad14f0c0d"
+    ],
+    "frameworkID": "3176109c7572429b99dbc5707a10617c",
+    "dateModified": "2020-09-24T01:00:00+03:00",
+    "date": "2020-09-24T01:00:00+03:00",
+    "owner": "broker",
+    "status": "draft",
+    "submissionType": "electronicCatalogue",
+    "id": "dc84e2b5e35d412395875ba678c6e158"
+  },
+  "access": {
+    "token": "f7bede9bae594684b04254d5dfe83894",
+    "transfer": "bcfb2c2a6ea2490ea8ffe44d1c68dc38"
   }
 }
 

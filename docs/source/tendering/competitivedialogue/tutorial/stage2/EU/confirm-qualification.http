@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/50c82523038349969f53f3e238932c46/awards/569e493e88f6479e83d7cf7dc3b8182b?acc_token=90e5c1d7c0414b99a392234aee8cd1dc HTTP/1.0
+PATCH /api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/awards/c2e13260a5ab4b4bbb27486eab5d6d97?acc_token=3ba9d3fdf58a40ac8a19d43f43de9e28 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 67
 Content-Type: application/json
@@ -6,8 +6,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "status": "active", 
-    "qualified": true, 
+    "status": "active",
+    "qualified": true,
     "eligible": true
   }
 }
@@ -17,44 +17,44 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "active", 
-    "eligible": true, 
+    "id": "c2e13260a5ab4b4bbb27486eab5d6d97",
+    "status": "active",
+    "date": "2020-09-08T01:00:00+03:00",
+    "value": {
+      "amount": 499.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "suppliers": [
       {
-        "contactPoint": {
-          "email": "aagt@gmail.com", 
-          "telephone": "+380 (322) 91-69-30", 
-          "name": "Андрій Олексюк"
-        }, 
-        "scale": "sme", 
-        "name": "ДКП «Книга»", 
+        "name": "ДКП «Книга»",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137226", 
+          "scheme": "UA-EDR",
+          "id": "00137226",
           "uri": "http://www.sc.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "79013", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 34", 
-          "region": "Львівська область", 
-          "locality": "м. Львів"
-        }
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Андрій Олексюк",
+          "email": "aagt@gmail.com",
+          "telephone": "+380 (322) 91-69-30"
+        },
+        "scale": "sme"
       }
-    ], 
+    ],
+    "bid_id": "c4f7d0327d87406ea7d7ae34717a0120",
     "complaintPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00", 
+      "startDate": "2020-09-08T01:00:00+03:00",
       "endDate": "2020-09-19T00:00:00+03:00"
-    }, 
-    "bid_id": "56f16cb4b9e6446b97bcfec824b3809f", 
-    "value": {
-      "currency": "UAH", 
-      "amount": 499.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "qualified": true, 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "id": "569e493e88f6479e83d7cf7dc3b8182b"
+    },
+    "qualified": true,
+    "eligible": true
   }
 }
 

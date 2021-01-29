@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/c5e325f0cd634594b24af3751466d2c5/awards/6b8f3a13e88f40748ef410c1e7bf452a/requirement_responses?acc_token=d7b20652ab64425db2ffa58663dd189d HTTP/1.0
+POST /api/2.5/tenders/2093f4e9bf3a4d7eb82c15d9c5321604/awards/0cf85a17ac284f7aac48ec7f6afe9a11/requirement_responses?acc_token=9bfc00e9aaf843b5abd64a61388484b1 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1663
 Content-Type: application/json
@@ -7,23 +7,23 @@ DATA:
 {
   "data": [
     {
+      "title": "Requirement response",
+      "description": "some description",
       "requirement": {
-        "id": "ed1ed109c0684be3b7c89192679d5526", 
+        "id": "411e25f3563845f589c2548988c2d8db",
         "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
-      }, 
+      },
       "evidences": [
         {
-          "type": "document", 
+          "title": "Requirement response",
           "relatedDocument": {
-            "id": "acfc570579ef40e7a24f97ff842356df", 
+            "id": "e23439b470b24f90b7a4aa9ba1725a8b",
             "title": "name.doc"
-          }, 
-          "title": "Requirement response"
+          },
+          "type": "document"
         }
-      ], 
-      "description": "some description", 
-      "value": "True", 
-      "title": "Requirement response"
+      ],
+      "value": "True"
     }
   ]
 }
@@ -34,25 +34,25 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
+      "id": "15d63b2f54e14bca8ca2e2cd677b82b2",
+      "title": "Requirement response",
+      "description": "some description",
       "requirement": {
-        "id": "ed1ed109c0684be3b7c89192679d5526", 
+        "id": "411e25f3563845f589c2548988c2d8db",
         "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
-      }, 
-      "description": "some description", 
-      "title": "Requirement response", 
-      "value": "True", 
+      },
       "evidences": [
         {
-          "title": "Requirement response", 
-          "type": "document", 
+          "id": "f10d04c755e74e6a8e6a963adec75b7e",
+          "title": "Requirement response",
+          "type": "document",
           "relatedDocument": {
-            "id": "acfc570579ef40e7a24f97ff842356df", 
+            "id": "e23439b470b24f90b7a4aa9ba1725a8b",
             "title": "name.doc"
-          }, 
-          "id": "d589689fc79e4fbab10c1f15c31819ce"
+          }
         }
-      ], 
-      "id": "56a16722c2fc4b9189311a66d1960f06"
+      ],
+      "value": "True"
     }
   ]
 }

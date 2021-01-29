@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/contracts/641aa8fa64b64829a1ad15ec65ec68a5?acc_token=62607c36ce4a4d64961ecc0d0a21540e HTTP/1.0
+PATCH /api/2.5/tenders/bac835240efd4adea01560554d7bfdb4/contracts/f87dcf81aedf43d194092296791a7bca?acc_token=ecfd2afb0d2844039379a26cddd96d93 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 54
 Content-Type: application/json
@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "value": {
-      "amount": 238, 
+      "amount": 238,
       "amountNet": 230
     }
   }
@@ -18,70 +18,70 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "pending", 
-    "items": [
-      {
-        "description": "Послуги шкільних їдалень", 
-        "classification": {
-          "scheme": "ДК021", 
-          "description": "Послуги з харчування у школах", 
-          "id": "55523100-3"
-        }, 
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП", 
-            "id": "17.21.1", 
-            "description": "Послуги шкільних їдалень"
-          }
-        ], 
-        "deliveryAddress": {
-          "postalCode": "79000", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }, 
-        "deliveryDate": {
-          "startDate": "2020-09-28T00:00:00+02:00", 
-          "endDate": "2020-10-28T00:00:00+02:00"
-        }, 
-        "id": "b81cc70ba26142e99836a1eac5259867", 
-        "quantity": 1.0
-      }
-    ], 
+    "id": "f87dcf81aedf43d194092296791a7bca",
+    "contractID": "UA-2020-09-08-000001-1",
+    "status": "pending",
     "suppliers": [
       {
-        "contactPoint": {
-          "email": "soleksuk@gmail.com", 
-          "telephone": "+380 (432) 21-69-30", 
-          "name": "Сергій Олексюк"
-        }, 
-        "scale": "micro", 
-        "name": "ДКП «Школяр»", 
+        "name": "ДКП «Школяр»",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137256", 
+          "scheme": "UA-EDR",
+          "id": "00137256",
           "uri": "http://www.sc.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "21100", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 33", 
-          "region": "Вінницька область", 
-          "locality": "м. Вінниця"
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Сергій Олексюк",
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380 (432) 21-69-30"
+        },
+        "scale": "micro"
+      }
+    ],
+    "date": "2020-09-08T01:00:00+03:00",
+    "value": {
+      "amount": 238.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amountNet": 230.0
+    },
+    "awardID": "4573a8a4febd4917b28f761911ea4a63",
+    "items": [
+      {
+        "id": "c8240ac851604470952a8ad2038fd9aa",
+        "description": "Послуги шкільних їдалень",
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "quantity": 1.0,
+        "classification": {
+          "description": "Послуги з харчування у школах",
+          "scheme": "ДК021",
+          "id": "55523100-3"
+        },
+        "deliveryDate": {
+          "startDate": "2020-09-28T00:00:00+02:00",
+          "endDate": "2020-10-28T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
         }
       }
-    ], 
-    "value": {
-      "currency": "UAH", 
-      "amount": 238.0, 
-      "amountNet": 230.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "awardID": "4f20d1fe800a46fcb897610695fc61d6", 
-    "id": "641aa8fa64b64829a1ad15ec65ec68a5", 
-    "contractID": "UA-2020-09-08-000001-1"
+    ]
   }
 }
 

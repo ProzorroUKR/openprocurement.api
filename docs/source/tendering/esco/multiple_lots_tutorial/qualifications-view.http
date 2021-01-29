@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/db8f78603c144a8aac15730f9c763584/qualifications?acc_token=cf69efce7aca41c2b952f04d86d7fb90 HTTP/1.0
+GET /api/2.5/tenders/3999e118d0d4460a8852c363407a5252/qualifications?acc_token=f99bcc9314684664a35ef7bb9975975d HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -8,22 +8,22 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "status": "pending", 
-      "lotID": "a49c398a1df943319dc21b99238de1f1", 
-      "eligible": false, 
-      "qualified": false, 
-      "bidID": "f5023f05e8aa47b9a4bac1433d52051c", 
-      "date": "2020-09-08T01:00:00+03:00", 
-      "id": "221135486f7b40cd9f4087f7c58e9059"
-    }, 
+      "id": "b679283404804eca89ada7eee7cf23d5",
+      "bidID": "27dc631e3a514d21b07100fa83eb4c1f",
+      "lotID": "93256198e2e7429ab4d0300cc250244f",
+      "status": "pending",
+      "date": "2020-09-08T01:00:00+03:00",
+      "qualified": false,
+      "eligible": false
+    },
     {
-      "status": "pending", 
-      "lotID": "a49c398a1df943319dc21b99238de1f1", 
-      "eligible": false, 
-      "qualified": false, 
-      "bidID": "9e1b65743abd434caadf35a08b87fd90", 
-      "date": "2020-09-08T01:00:00+03:00", 
-      "id": "c7f191fb400948a28117bcb2f0bb23de"
+      "id": "5b004ef2774746db88d46a7ea4e0e62f",
+      "bidID": "eab0708798ec433cb13cf7d269f77582",
+      "lotID": "93256198e2e7429ab4d0300cc250244f",
+      "status": "pending",
+      "date": "2020-09-08T01:00:00+03:00",
+      "qualified": false,
+      "eligible": false
     }
   ]
 }

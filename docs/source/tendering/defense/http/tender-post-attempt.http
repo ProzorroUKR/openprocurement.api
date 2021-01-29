@@ -9,12 +9,12 @@ Response: 415 Unsupported Media Type
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
-  "status": "error", 
+  "status": "error",
   "errors": [
     {
-      "description": "Content-Type header should be one of ['application/json']", 
-      "location": "header", 
-      "name": "Content-Type"
+      "location": "header",
+      "name": "Content-Type",
+      "description": "Content-Type header should be one of ['application/json']"
     }
   ]
 }

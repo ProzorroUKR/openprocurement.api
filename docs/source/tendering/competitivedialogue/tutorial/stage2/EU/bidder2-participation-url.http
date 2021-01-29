@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/50c82523038349969f53f3e238932c46/bids/56f16cb4b9e6446b97bcfec824b3809f?acc_token=de2d86e647f74a1981622cabe57f792b HTTP/1.0
+GET /api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/c4f7d0327d87406ea7d7ae34717a0120?acc_token=7e8ca46347264ab19ef25115a1137497 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,39 +7,39 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "active", 
-    "value": {
-      "currency": "UAH", 
-      "amount": 499.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "id": "56f16cb4b9e6446b97bcfec824b3809f", 
     "tenderers": [
       {
-        "contactPoint": {
-          "email": "aagt@gmail.com", 
-          "telephone": "+380 (322) 91-69-30", 
-          "name": "Андрій Олексюк"
-        }, 
-        "scale": "sme", 
-        "name": "ДКП «Книга»", 
+        "name": "ДКП «Книга»",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137226", 
+          "scheme": "UA-EDR",
+          "id": "00137226",
           "uri": "http://www.sc.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "79013", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 34", 
-          "region": "Львівська область", 
-          "locality": "м. Львів"
-        }
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Андрій Олексюк",
+          "email": "aagt@gmail.com",
+          "telephone": "+380 (322) 91-69-30"
+        },
+        "scale": "sme"
       }
-    ], 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "selfQualified": true, 
-    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/50c82523038349969f53f3e238932c46?key_for_bid=56f16cb4b9e6446b97bcfec824b3809f"
+    ],
+    "date": "2020-09-08T01:00:00+03:00",
+    "id": "c4f7d0327d87406ea7d7ae34717a0120",
+    "value": {
+      "amount": 499.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/db1ddb06a5a44954bc0b9f555776112d?key_for_bid=c4f7d0327d87406ea7d7ae34717a0120",
+    "selfQualified": true,
+    "status": "active"
   }
 }
 

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/52f1b75138ab4b2c87feff205f2a06f4?acc_token=20ea9bdc44d84eec82cf2059f999ad42 HTTP/1.0
+PATCH /api/2.5/tenders/4f6f9f4965ae47e99cd03a167c41c1a0?acc_token=446ff1f48bde44b08788bbf0b34f6d62 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 60
 Content-Type: application/json
@@ -15,277 +15,277 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "procurementMethod": "open", 
-    "status": "active.pre-qualification.stand-still", 
-    "mainProcurementCategory": "services", 
-    "complaintPeriod": {
-      "startDate": "2020-08-08T01:00:00+03:00", 
-      "endDate": "2020-09-04T00:00:00+03:00"
-    }, 
-    "enquiryPeriod": {
-      "startDate": "2020-08-08T01:00:00+03:00", 
-      "clarificationsUntil": "2020-09-03T00:00:00+03:00", 
-      "endDate": "2020-08-29T01:00:00+03:00", 
-      "invalidationDate": "2020-09-08T01:00:00+03:00"
-    }, 
-    "submissionMethod": "electronicAuction", 
-    "next_check": "2020-09-14T00:00:00+03:00", 
-    "procuringEntity": {
-      "kind": "general", 
-      "name": "ЗОСШ #10 м.Вінниці", 
-      "address": {
-        "postalCode": "21027", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Стахурського. 22", 
-        "region": "Вінницька область", 
-        "locality": "м. Вінниця"
-      }, 
-      "contactPoint": {
-        "url": "http://sch10.edu.vn.ua/", 
-        "name_en": "Kutsa Svitlana V.", 
-        "name": "Куца Світлана Валентинівна", 
-        "availableLanguage": "uk", 
-        "telephone": "+380 (432) 46-53-02"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\"", 
-        "id": "21725150", 
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
-      }, 
-      "name_en": "School #10 of Vinnytsia"
-    }, 
-    "owner": "broker", 
-    "title_en": "Services in school canteens", 
-    "id": "52f1b75138ab4b2c87feff205f2a06f4", 
-    "title": "Послуги шкільних їдалень", 
-    "lots": [
-      {
-        "status": "active", 
-        "description": "Опис Лот №1", 
-        "title": "Лот №1", 
-        "minimalStep": {
-          "currency": "UAH", 
-          "amount": 35.0, 
-          "valueAddedTaxIncluded": true
-        }, 
-        "auctionPeriod": {
-          "shouldStartAfter": "2020-09-14T00:00:00+03:00"
-        }, 
-        "value": {
-          "currency": "UAH", 
-          "amount": 500.0, 
-          "valueAddedTaxIncluded": true
-        }, 
-        "date": "2020-09-08T01:00:00+03:00", 
-        "id": "090c95ac79ff405687b005d25de27fde"
-      }, 
-      {
-        "status": "unsuccessful", 
-        "description": "Опис Лот №2", 
-        "title": "Лот №2", 
-        "minimalStep": {
-          "currency": "UAH", 
-          "amount": 35.0, 
-          "valueAddedTaxIncluded": true
-        }, 
-        "value": {
-          "currency": "UAH", 
-          "amount": 400.0, 
-          "valueAddedTaxIncluded": true
-        }, 
-        "date": "2020-09-08T01:00:00+03:00", 
-        "id": "a206e5bc9620433bae8318938bca34bc"
-      }
-    ], 
-    "qualificationPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00", 
-      "endDate": "2020-09-14T00:00:00+03:00"
-    }, 
-    "tenderID": "UA-2020-09-08-000001", 
-    "dateModified": "2020-09-08T01:00:00+03:00", 
-    "numberOfBids": 2, 
-    "tenderPeriod": {
-      "startDate": "2020-08-08T01:00:00+03:00", 
-      "endDate": "2020-09-08T01:00:00+03:00"
-    }, 
-    "qualifications": [
-      {
-        "status": "active", 
-        "lotID": "090c95ac79ff405687b005d25de27fde", 
-        "eligible": true, 
-        "qualified": true, 
-        "bidID": "25bd970afcce4abcadf49eab65090119", 
-        "date": "2020-09-08T01:00:00+03:00", 
-        "id": "69e23d94b0ec4a4cbf777d2557fe598a"
-      }, 
-      {
-        "status": "active", 
-        "lotID": "090c95ac79ff405687b005d25de27fde", 
-        "eligible": true, 
-        "qualified": true, 
-        "bidID": "6bcf17fc2b2d438193158ce070beb475", 
-        "date": "2020-09-08T01:00:00+03:00", 
-        "id": "73fa90c6e4a746cb859d4058ad16e5bf"
-      }
-    ], 
-    "procurementMethodType": "aboveThresholdEU", 
-    "date": "2020-09-08T01:00:00+03:00", 
+    "title": "Послуги шкільних їдалень",
+    "date": "2020-09-08T01:00:00+03:00",
+    "dateModified": "2020-09-08T01:00:00+03:00",
+    "tenderID": "UA-2020-09-08-000001",
+    "owner": "broker",
+    "mainProcurementCategory": "services",
     "milestones": [
       {
-        "code": "prepayment", 
-        "sequenceNumber": 0, 
-        "title": "signingTheContract", 
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
         "duration": {
-          "type": "banking", 
-          "days": 2
-        }, 
-        "percentage": 45.55, 
-        "type": "financing", 
-        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      }, 
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 0
+      },
       {
-        "code": "postpayment", 
-        "sequenceNumber": 0, 
-        "title": "deliveryOfGoods", 
+        "id": "acc85630434f4c76bc85836264b3a856",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
         "duration": {
-          "type": "calendar", 
-          "days": 900
-        }, 
-        "percentage": 54.45, 
-        "type": "financing", 
-        "id": "e5221f5f9dfd4faa9b1072d3e43c94c0"
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 0
       }
-    ], 
-    "minimalStep": {
-      "currency": "UAH", 
-      "amount": 35.0, 
+    ],
+    "procurementMethod": "open",
+    "awardCriteria": "lowestCost",
+    "submissionMethod": "electronicAuction",
+    "value": {
+      "amount": 900.0,
+      "currency": "UAH",
       "valueAddedTaxIncluded": true
-    }, 
+    },
+    "minimalStep": {
+      "amount": 35.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "procurementMethodType": "aboveThresholdEU",
+    "title_en": "Services in school canteens",
+    "enquiryPeriod": {
+      "startDate": "2020-08-08T01:00:00+03:00",
+      "endDate": "2020-08-29T01:00:00+03:00",
+      "clarificationsUntil": "2020-09-03T00:00:00+03:00",
+      "invalidationDate": "2020-09-08T01:00:00+03:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2020-08-08T01:00:00+03:00",
+      "endDate": "2020-09-08T01:00:00+03:00"
+    },
     "items": [
       {
-        "relatedLot": "090c95ac79ff405687b005d25de27fde", 
-        "description": "Послуги шкільних їдалень", 
-        "classification": {
-          "scheme": "ДК021", 
-          "description": "Test", 
-          "id": "37810000-9"
-        }, 
-        "description_en": "Services in school canteens", 
+        "id": "141f360a5d9e4fec9a10742d7285e4be",
+        "description": "Послуги шкільних їдалень",
         "additionalClassifications": [
           {
-            "scheme": "ДКПП", 
-            "id": "17.21.1", 
+            "scheme": "ДКПП",
+            "id": "17.21.1",
             "description": "Послуги шкільних їдалень"
           }
-        ], 
-        "deliveryAddress": {
-          "postalCode": "79000", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }, 
+        ],
+        "quantity": 1.0,
+        "relatedLot": "5563fbab2bd848b398a5de9cb3ac555b",
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
+        },
         "deliveryDate": {
-          "startDate": "2020-09-28T00:00:00+02:00", 
+          "startDate": "2020-09-28T00:00:00+02:00",
           "endDate": "2020-10-28T00:00:00+02:00"
-        }, 
-        "id": "aaef9ccbedeb4298aaef9f19e8db9c74", 
-        "quantity": 1.0
-      }, 
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "description_en": "Services in school canteens"
+      },
       {
-        "relatedLot": "a206e5bc9620433bae8318938bca34bc", 
-        "description": "Послуги шкільних їдалень", 
-        "classification": {
-          "scheme": "ДК021", 
-          "description": "Test", 
-          "id": "37810000-9"
-        }, 
-        "description_en": "Services in school canteens", 
+        "id": "90b5fc4117ba429ea32cb2889907566b",
+        "description": "Послуги шкільних їдалень",
         "additionalClassifications": [
           {
-            "scheme": "ДКПП", 
-            "id": "17.21.1", 
+            "scheme": "ДКПП",
+            "id": "17.21.1",
             "description": "Послуги шкільних їдалень"
           }
-        ], 
-        "deliveryAddress": {
-          "postalCode": "79000", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }, 
+        ],
+        "quantity": 1.0,
+        "relatedLot": "e2a64c7bb22f4a6d838531ede04bc02a",
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
+        },
         "deliveryDate": {
-          "startDate": "2020-09-28T00:00:00+02:00", 
+          "startDate": "2020-09-28T00:00:00+02:00",
           "endDate": "2020-10-28T00:00:00+02:00"
-        }, 
-        "id": "1c6f3a753b394b7f90538cd8515bbc72", 
-        "quantity": 1.0
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "description_en": "Services in school canteens"
       }
-    ], 
+    ],
+    "procuringEntity": {
+      "name": "ЗОСШ #10 м.Вінниці",
+      "name_en": "School #10 of Vinnytsia",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "21725150",
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
+        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
+      },
+      "address": {
+        "streetAddress": "вул. Стахурського. 22",
+        "locality": "м. Вінниця",
+        "region": "Вінницька область",
+        "postalCode": "21027",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Куца Світлана Валентинівна",
+        "telephone": "+380 (432) 46-53-02",
+        "url": "http://sch10.edu.vn.ua/",
+        "name_en": "Kutsa Svitlana V.",
+        "availableLanguage": "uk"
+      },
+      "kind": "general"
+    },
     "bids": [
       {
-        "status": "active", 
-        "id": "25bd970afcce4abcadf49eab65090119", 
         "tenderers": [
           {
-            "contactPoint": {
-              "email": "soleksuk@gmail.com", 
-              "telephone": "+380 (432) 21-69-30", 
-              "name": "Сергій Олексюк"
-            }, 
-            "scale": "micro", 
-            "name": "ДКП «Школяр»", 
+            "name": "ДКП «Школяр»",
             "identifier": {
-              "scheme": "UA-EDR", 
-              "id": "00137256", 
+              "scheme": "UA-EDR",
+              "id": "00137256",
               "uri": "http://www.sc.gov.ua/"
-            }, 
+            },
             "address": {
-              "postalCode": "21100", 
-              "countryName": "Україна", 
-              "streetAddress": "вул. Островського, 33", 
-              "region": "Вінницька область", 
-              "locality": "м. Вінниця"
-            }
+              "streetAddress": "вул. Островського, 33",
+              "locality": "м. Вінниця",
+              "region": "Вінницька область",
+              "postalCode": "21100",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "name": "Сергій Олексюк",
+              "email": "soleksuk@gmail.com",
+              "telephone": "+380 (432) 21-69-30"
+            },
+            "scale": "micro"
           }
-        ]
-      }, 
+        ],
+        "id": "53c36a7d70f74146adcee826a1c7273a",
+        "status": "active"
+      },
       {
-        "status": "active", 
-        "id": "6bcf17fc2b2d438193158ce070beb475", 
         "tenderers": [
           {
-            "contactPoint": {
-              "email": "aagt@gmail.com", 
-              "telephone": "+380 (322) 91-69-30", 
-              "name": "Андрій Олексюк"
-            }, 
-            "scale": "sme", 
-            "name": "ДКП «Книга»", 
+            "name": "ДКП «Книга»",
             "identifier": {
-              "scheme": "UA-EDR", 
-              "id": "00137226", 
+              "scheme": "UA-EDR",
+              "id": "00137226",
               "uri": "http://www.sc.gov.ua/"
-            }, 
+            },
             "address": {
-              "postalCode": "79013", 
-              "countryName": "Україна", 
-              "streetAddress": "вул. Островського, 34", 
-              "region": "Львівська область", 
-              "locality": "м. Львів"
-            }
+              "streetAddress": "вул. Островського, 34",
+              "locality": "м. Львів",
+              "region": "Львівська область",
+              "postalCode": "79013",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "name": "Андрій Олексюк",
+              "email": "aagt@gmail.com",
+              "telephone": "+380 (322) 91-69-30"
+            },
+            "scale": "sme"
           }
-        ]
+        ],
+        "id": "01342dd1e2b4444da922161ff3179fc3",
+        "status": "active"
       }
-    ], 
-    "value": {
-      "currency": "UAH", 
-      "amount": 900.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "awardCriteria": "lowestCost"
+    ],
+    "qualifications": [
+      {
+        "id": "dad5d663985f4e1f89fed69eb21d3b97",
+        "bidID": "53c36a7d70f74146adcee826a1c7273a",
+        "lotID": "5563fbab2bd848b398a5de9cb3ac555b",
+        "status": "active",
+        "date": "2020-09-08T01:00:00+03:00",
+        "qualified": true,
+        "eligible": true
+      },
+      {
+        "id": "eb923e797e5045e78c90c59bdb3fc212",
+        "bidID": "01342dd1e2b4444da922161ff3179fc3",
+        "lotID": "5563fbab2bd848b398a5de9cb3ac555b",
+        "status": "active",
+        "date": "2020-09-08T01:00:00+03:00",
+        "qualified": true,
+        "eligible": true
+      }
+    ],
+    "qualificationPeriod": {
+      "startDate": "2020-09-08T01:00:00+03:00",
+      "endDate": "2020-09-14T00:00:00+03:00"
+    },
+    "lots": [
+      {
+        "id": "5563fbab2bd848b398a5de9cb3ac555b",
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "date": "2020-09-08T01:00:00+03:00",
+        "status": "active",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStep": {
+          "amount": 35.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "auctionPeriod": {
+          "shouldStartAfter": "2020-09-14T00:00:00+03:00"
+        }
+      },
+      {
+        "id": "e2a64c7bb22f4a6d838531ede04bc02a",
+        "title": "Лот №2",
+        "description": "Опис Лот №2",
+        "date": "2020-09-08T01:00:00+03:00",
+        "status": "unsuccessful",
+        "value": {
+          "amount": 400.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStep": {
+          "amount": 35.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        }
+      }
+    ],
+    "status": "active.pre-qualification.stand-still",
+    "id": "4f6f9f4965ae47e99cd03a167c41c1a0",
+    "next_check": "2020-09-14T00:00:00+03:00",
+    "numberOfBids": 2,
+    "complaintPeriod": {
+      "startDate": "2020-08-08T01:00:00+03:00",
+      "endDate": "2020-09-04T00:00:00+03:00"
+    }
   }
 }
 

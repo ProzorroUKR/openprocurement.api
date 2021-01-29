@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/140b7d05238849ca9d3d2153a1b2a8d5/complaints/685f41c7775d4343b9887af79c4d42b8 HTTP/1.0
+PATCH /api/2.5/tenders/9eb167a6c08a4130af77258c680e4ebf/awards/7c4e912c78ea46af96c33febe8b597a9/complaints/c810a00070bd40cd934c42d88b2b9a37 HTTP/1.0
 Authorization: Bearer reviewer
 Content-Length: 64
 Content-Type: application/json
@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "status": "invalid", 
+    "status": "invalid",
     "rejectReason": "alreadyExists"
   }
 }
@@ -16,42 +16,42 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "invalid", 
-    "dateDecision": "2020-09-08T01:00:03+03:00", 
-    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
+    "id": "c810a00070bd40cd934c42d88b2b9a37",
+    "complaintID": "UA-2020-09-08-000001.2",
+    "date": "2020-09-08T01:00:03+03:00",
+    "type": "complaint",
     "author": {
-      "contactPoint": {
-        "email": "soleksuk@gmail.com", 
-        "telephone": "+380 (432) 21-69-30", 
-        "name": "Сергій Олексюк"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "legalName": "ДКП «Школяр»", 
-        "id": "00137256", 
-        "uri": "http://www.sc.gov.ua/"
-      }, 
-      "name": "ДКП «Школяр»", 
+      "name": "ДКП «Школяр»",
       "address": {
-        "postalCode": "21100", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Островського, 33", 
-        "region": "Вінницька область", 
-        "locality": "м. Вінниця"
+        "streetAddress": "вул. Островського, 33",
+        "locality": "м. Вінниця",
+        "region": "Вінницька область",
+        "postalCode": "21100",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Сергій Олексюк",
+        "email": "soleksuk@gmail.com",
+        "telephone": "+380 (432) 21-69-30"
+      },
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00137256",
+        "legalName": "ДКП «Школяр»",
+        "uri": "http://www.sc.gov.ua/"
       }
-    }, 
-    "acceptance": false, 
+    },
+    "title": "Недостатньо інформації",
+    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
+    "dateSubmitted": "2020-09-08T01:00:03+03:00",
+    "dateDecision": "2020-09-08T01:00:03+03:00",
     "value": {
-      "currency": "UAH", 
-      "amount": 3000.0
-    }, 
-    "rejectReason": "alreadyExists", 
-    "dateSubmitted": "2020-09-08T01:00:03+03:00", 
-    "complaintID": "UA-2020-09-08-000001.2", 
-    "date": "2020-09-08T01:00:03+03:00", 
-    "title": "Недостатньо інформації", 
-    "type": "complaint", 
-    "id": "685f41c7775d4343b9887af79c4d42b8"
+      "amount": 3000.0,
+      "currency": "UAH"
+    },
+    "rejectReason": "alreadyExists",
+    "status": "invalid",
+    "acceptance": false
   }
 }
 

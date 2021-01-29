@@ -1,14 +1,14 @@
-PUT /api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/cancellations/5318086493954250b6f44b317389a0b4/documents/4c1bef4477f84d37af6c5819ef38eb63?acc_token=151a30932ee245e989771be867bc8235 HTTP/1.0
+PUT /api/2.5/tenders/e821f507458c4e99bdd9928981355ffa/cancellations/0ba60a6120604826bc9b170d0949cd4d/documents/205cc90c9da944499f541b2219b6ec36?acc_token=c87b58b4160f425b8973621e89008a15 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 326
+Content-Length: 324
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/63db88a0b4614dae9f611d03620daf1e?KeyID=a8968c46&Signature=tGgz0Qg6BDkREmuIiVDQqIVLTxfnWrTCnUi3YM6TZQmgEBNmNrvkvODKBfll8KotoI%2B5fMFizVH%2BO%2FSt9hmJBg%3D%3D", 
-    "title": "Notice-2.pdf", 
-    "hash": "md5:00000000000000000000000000000000", 
+    "title": "Notice-2.pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/da826e19829843aab44cb0acfa34523c?Signature=WWRkgcVAiZFJ18H1EfHrJDRZEdU4Lah3ArNZjouff47trE%2FCPhLX%2Bh0cP1Wz102KmU2WLh5tp4DYXAtqTeoCCQ%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
     "format": "application/pdf"
   }
 }
@@ -18,15 +18,15 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "hash": "md5:00000000000000000000000000000000", 
-    "description": "Changed description", 
-    "title": "Notice-2.pdf", 
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/63db88a0b4614dae9f611d03620daf1e?KeyID=a8968c46&Signature=0qyfbRdug5WQ32d0Ov%2F1Nqz0INT0%252B8QcUTRhRPX9Z1P%2F0GAZBRLGalDi1oZhrDaBwfGuOEUDSH7njA5uPDVaBQ%253D%253D", 
-    "format": "application/pdf", 
-    "documentOf": "tender", 
-    "datePublished": "2020-09-08T01:00:03+03:00", 
-    "id": "4c1bef4477f84d37af6c5819ef38eb63", 
-    "dateModified": "2020-09-08T01:00:03+03:00"
+    "id": "205cc90c9da944499f541b2219b6ec36",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "Notice-2.pdf",
+    "description": "Changed description",
+    "format": "application/pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/da826e19829843aab44cb0acfa34523c?Signature=B0D4Oyy5MvzbxkGQzYoSoC7k%2BAukyd2sdrrh%2FtOc0jB6b4kNdvfe%2BrfPFDNHeA6JcPQHcJYkm3x%2BBbjKS2%2FhCg%3D%3D&KeyID=a8968c46",
+    "datePublished": "2020-09-08T01:00:03+03:00",
+    "dateModified": "2020-09-08T01:00:03+03:00",
+    "documentOf": "tender"
   }
 }
 

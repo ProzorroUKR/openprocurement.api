@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids HTTP/1.0
+POST /api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1195
 Content-Type: application/json
@@ -6,137 +6,137 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "status": "draft", 
-    "subcontractingDetails": "ДКП «Орфей», Україна", 
-    "selfQualified": true, 
-    "value": {
-      "contractDuration": {
-        "days": 74, 
-        "years": 10
-      }, 
-      "yearlyPaymentsPercentage": 0.9, 
-      "annualCostsReduction": [
-        500, 
-        1000, 
-        1000, 
-        1000, 
-        1000, 
-        1000, 
-        1000, 
-        1000, 
-        1000, 
-        1000, 
-        1000, 
-        1000, 
-        1000, 
-        1000, 
-        1000, 
-        1000, 
-        1000, 
-        1000, 
-        1000, 
-        1000, 
-        1000
-      ]
-    }, 
     "tenderers": [
       {
-        "contactPoint": {
-          "email": "soleksuk@gmail.com", 
-          "name": "Сергій Олексюк", 
-          "telephone": "+380 (432) 21-69-30"
-        }, 
-        "scale": "micro", 
-        "name": "ДКП «Школяр»", 
-        "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137256", 
-          "uri": "http://www.sc.gov.ua/"
-        }, 
         "address": {
-          "countryName": "Україна", 
-          "postalCode": "21100", 
-          "region": "Вінницька область", 
-          "streetAddress": "вул. Островського, 33", 
-          "locality": "м. Вінниця"
-        }
+          "countryName": "Україна",
+          "locality": "м. Вінниця",
+          "postalCode": "21100",
+          "region": "Вінницька область",
+          "streetAddress": "вул. Островського, 33"
+        },
+        "contactPoint": {
+          "email": "soleksuk@gmail.com",
+          "name": "Сергій Олексюк",
+          "telephone": "+380 (432) 21-69-30"
+        },
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "ДКП «Школяр»",
+        "scale": "micro"
       }
-    ]
+    ],
+    "value": {
+      "annualCostsReduction": [
+        500,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "yearlyPaymentsPercentage": 0.9,
+      "contractDuration": {
+        "years": 10,
+        "days": 74
+      }
+    },
+    "status": "draft",
+    "subcontractingDetails": "ДКП «Орфей», Україна",
+    "selfQualified": true
   }
 }
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/08414abbba9a40a687efcc829425d57d
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/291c4bea0d1d4ffb95615993a06b785c
 X-Content-Type-Options: nosniff
 {
-  "access": {
-    "transfer": "386b1470e5744d81b11a1bd9b3b247ee", 
-    "token": "29627267ed794908800e9ab5426bbd2e"
-  }, 
   "data": {
-    "status": "draft", 
-    "id": "08414abbba9a40a687efcc829425d57d", 
-    "value": {
-      "yearlyPaymentsPercentage": 0.9, 
-      "valueAddedTaxIncluded": true, 
-      "currency": "UAH", 
-      "amount": 9351.37, 
-      "contractDuration": {
-        "days": 74, 
-        "years": 10
-      }, 
-      "amountPerformance": 856.84, 
-      "annualCostsReduction": [
-        500.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0, 
-        1000.0
-      ]
-    }, 
-    "subcontractingDetails": "ДКП «Орфей», Україна", 
     "tenderers": [
       {
-        "contactPoint": {
-          "email": "soleksuk@gmail.com", 
-          "telephone": "+380 (432) 21-69-30", 
-          "name": "Сергій Олексюк"
-        }, 
-        "scale": "micro", 
-        "name": "ДКП «Школяр»", 
+        "name": "ДКП «Школяр»",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137256", 
+          "scheme": "UA-EDR",
+          "id": "00137256",
           "uri": "http://www.sc.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "21100", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 33", 
-          "region": "Вінницька область", 
-          "locality": "м. Вінниця"
-        }
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Сергій Олексюк",
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380 (432) 21-69-30"
+        },
+        "scale": "micro"
       }
-    ], 
-    "date": "2020-09-08T01:00:00+03:00", 
+    ],
+    "date": "2020-09-08T01:00:00+03:00",
+    "id": "291c4bea0d1d4ffb95615993a06b785c",
+    "subcontractingDetails": "ДКП «Орфей», Україна",
+    "status": "draft",
+    "value": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amount": 9351.37,
+      "amountPerformance": 856.84,
+      "yearlyPaymentsPercentage": 0.9,
+      "annualCostsReduction": [
+        500.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0
+      ],
+      "contractDuration": {
+        "years": 10,
+        "days": 74
+      }
+    },
     "selfQualified": true
+  },
+  "access": {
+    "token": "3558940bd3654d09b73766b6712599cc",
+    "transfer": "844e527cb4ed42dc8469ac19ea0395be"
   }
 }
 

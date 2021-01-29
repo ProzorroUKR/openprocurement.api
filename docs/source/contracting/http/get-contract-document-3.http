@@ -1,4 +1,4 @@
-GET /api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/6ebd7e8898db422cb1721110baa86dda?acc_token=9e4e9f4da0514309b6c79bbafb5b59c3 HTTP/1.0
+GET /api/2.5/contracts/77d160a2092f40068cba075e1dfac436/documents/d72c6e6b2a7741a1910849d0446b7d3f?acc_token=d7ef3060443a419f93a65b3aeb4f5f9b HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,24 +7,24 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "title": "contract_additional_docs.doc", 
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/6ebd7e8898db422cb1721110baa86dda?download=e6843dc0736840c4a82810b867e46b50", 
-    "format": "application/msword", 
-    "documentOf": "contract", 
-    "datePublished": "2020-09-08T01:00:01+03:00", 
+    "id": "d72c6e6b2a7741a1910849d0446b7d3f",
+    "title": "contract_additional_docs.doc",
+    "format": "application/msword",
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/77d160a2092f40068cba075e1dfac436/documents/d72c6e6b2a7741a1910849d0446b7d3f?download=29a6f4e9de4d44debe9cdfd98a391aa3",
+    "datePublished": "2020-09-08T01:00:01+03:00",
+    "dateModified": "2020-09-08T01:00:01+03:00",
+    "documentOf": "contract",
     "previousVersions": [
       {
-        "title": "contract_additional_docs.doc", 
-        "url": "/contracts/05870adde49c424db6a2dba280ea90ab/documents/6ebd7e8898db422cb1721110baa86dda?download=0e1cfa7c0b10405ebe55e120b1be4b68", 
-        "format": "application/msword", 
-        "documentOf": "contract", 
-        "datePublished": "2020-09-08T01:00:01+03:00", 
-        "id": "6ebd7e8898db422cb1721110baa86dda", 
-        "dateModified": "2020-09-08T01:00:01+03:00"
+        "id": "d72c6e6b2a7741a1910849d0446b7d3f",
+        "title": "contract_additional_docs.doc",
+        "format": "application/msword",
+        "url": "/contracts/77d160a2092f40068cba075e1dfac436/documents/d72c6e6b2a7741a1910849d0446b7d3f?download=98f487db80604f78ae7d691595fa5d9b",
+        "datePublished": "2020-09-08T01:00:01+03:00",
+        "dateModified": "2020-09-08T01:00:01+03:00",
+        "documentOf": "contract"
       }
-    ], 
-    "id": "6ebd7e8898db422cb1721110baa86dda", 
-    "dateModified": "2020-09-08T01:00:01+03:00"
+    ]
   }
 }
 

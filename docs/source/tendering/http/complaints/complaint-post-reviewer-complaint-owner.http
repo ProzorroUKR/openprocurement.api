@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/b77be1c04a754989b602432418f2e453/posts HTTP/1.0
+POST /api/2.5/tenders/423ce3389d0f48b1a1ee6cd5a8dad65f/complaints/f7ef1f798a94494ea0b70566a665bf2c/posts HTTP/1.0
 Authorization: Bearer reviewer
 Content-Length: 281
 Content-Type: application/json
@@ -6,24 +6,24 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "recipient": "complaint_owner", 
-    "description": "Відсутній документ", 
-    "title": "Уточнення по вимозі"
+    "title": "Уточнення по вимозі",
+    "description": "Відсутній документ",
+    "recipient": "complaint_owner"
   }
 }
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/b77be1c04a754989b602432418f2e453/posts/7f5d9ea671294d479da2e8a06659e473
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/423ce3389d0f48b1a1ee6cd5a8dad65f/complaints/f7ef1f798a94494ea0b70566a665bf2c/posts/8f0d51ad72b74490b4f86b86ab6bb7cc
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "description": "Відсутній документ", 
-    "title": "Уточнення по вимозі", 
-    "author": "aboveThresholdReviewers", 
-    "datePublished": "2020-09-08T01:00:00+03:00", 
-    "recipient": "complaint_owner", 
-    "id": "7f5d9ea671294d479da2e8a06659e473"
+    "id": "8f0d51ad72b74490b4f86b86ab6bb7cc",
+    "title": "Уточнення по вимозі",
+    "description": "Відсутній документ",
+    "author": "aboveThresholdReviewers",
+    "recipient": "complaint_owner",
+    "datePublished": "2020-09-08T01:00:00+03:00"
   }
 }
 

@@ -6,99 +6,99 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "milestones": [
-      {
-        "code": "prepayment", 
-        "sequenceNumber": 0, 
-        "title": "signingTheContract", 
-        "duration": {
-          "type": "banking", 
-          "days": 5
-        }, 
-        "percentage": 45.55, 
-        "type": "financing"
-      }, 
-      {
-        "code": "postpayment", 
-        "sequenceNumber": 1, 
-        "title": "deliveryOfGoods", 
-        "duration": {
-          "type": "calendar", 
-          "days": 7
-        }, 
-        "percentage": 54.45, 
-        "type": "financing"
-      }
-    ], 
-    "mainProcurementCategory": "goods", 
-    "tenderPeriod": {
-      "endDate": "2020-09-22T01:00:00+03:00"
-    }, 
-    "title": "футляри до державних нагород", 
-    "minimalStep": {
-      "currency": "UAH", 
-      "amount": 15
-    }, 
-    "enquiryPeriod": {
-      "endDate": "2020-09-15T01:00:00+03:00"
-    }, 
-    "procurementMethodType": "belowThreshold", 
-    "value": {
-      "currency": "UAH", 
-      "amount": 500
-    }, 
+    "title": "футляри до державних нагород",
+    "mainProcurementCategory": "goods",
     "procuringEntity": {
-      "contactPoint": {
-        "name": "Державне управління справами", 
-        "telephone": "0440000000"
-      }, 
+      "name": "Державне управління справами",
       "identifier": {
-        "scheme": "UA-EDR", 
-        "legalName": "Державне управління справами", 
-        "id": "00037256", 
-        "uri": "http://www.dus.gov.ua/"
-      }, 
-      "name": "Державне управління справами", 
-      "kind": "general", 
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/",
+        "legalName": "Державне управління справами"
+      },
       "address": {
-        "countryName": "Україна", 
-        "postalCode": "01220", 
-        "region": "м. Київ", 
-        "streetAddress": "вул. Банкова, 11, корпус 1", 
-        "locality": "м. Київ"
-      }
-    }, 
+        "countryName": "Україна",
+        "postalCode": "01220",
+        "region": "м. Київ",
+        "locality": "м. Київ",
+        "streetAddress": "вул. Банкова, 11, корпус 1"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "0440000000"
+      },
+      "kind": "general"
+    },
+    "value": {
+      "amount": 500,
+      "currency": "UAH"
+    },
+    "minimalStep": {
+      "amount": 15,
+      "currency": "UAH"
+    },
     "items": [
       {
-        "description": "футляри до державних нагород", 
+        "description": "футляри до державних нагород",
         "classification": {
-          "scheme": "ДК021", 
-          "id": "44617100-9", 
+          "scheme": "ДК021",
+          "id": "44617100-9",
           "description": "Cartons"
-        }, 
+        },
         "additionalClassifications": [
           {
-            "scheme": "ДКПП", 
-            "id": "17.21.1", 
+            "scheme": "ДКПП",
+            "id": "17.21.1",
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
-        ], 
-        "deliveryAddress": {
-          "countryName": "Україна", 
-          "postalCode": "79000", 
-          "region": "м. Київ", 
-          "streetAddress": "вул. Банкова 1", 
-          "locality": "м. Київ"
-        }, 
-        "deliveryDate": {
-          "startDate": "2020-09-10T01:00:00+03:00", 
-          "endDate": "2020-09-13T01:00:00+03:00"
-        }, 
+        ],
         "unit": {
-          "code": "44617100-9", 
-          "name": "item"
-        }, 
-        "quantity": 5
+          "name": "item",
+          "code": "44617100-9"
+        },
+        "quantity": 5,
+        "deliveryDate": {
+          "startDate": "2020-09-10T01:00:00+03:00",
+          "endDate": "2020-09-13T01:00:00+03:00"
+        },
+        "deliveryAddress": {
+          "countryName": "Україна",
+          "postalCode": "79000",
+          "region": "м. Київ",
+          "locality": "м. Київ",
+          "streetAddress": "вул. Банкова 1"
+        }
+      }
+    ],
+    "enquiryPeriod": {
+      "endDate": "2020-09-15T01:00:00+03:00"
+    },
+    "tenderPeriod": {
+      "endDate": "2020-09-22T01:00:00+03:00"
+    },
+    "procurementMethodType": "belowThreshold",
+    "milestones": [
+      {
+        "title": "signingTheContract",
+        "code": "prepayment",
+        "type": "financing",
+        "duration": {
+          "days": 5,
+          "type": "banking"
+        },
+        "sequenceNumber": 0,
+        "percentage": 45.55
+      },
+      {
+        "title": "deliveryOfGoods",
+        "code": "postpayment",
+        "type": "financing",
+        "duration": {
+          "days": 7,
+          "type": "calendar"
+        },
+        "sequenceNumber": 1,
+        "percentage": 54.45
       }
     ]
   }
@@ -106,126 +106,126 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7e23f3f26faf4146af5f668247cf04f4
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cc1418f989634e5ebec00becb174f72d
 X-Content-Type-Options: nosniff
 {
-  "access": {
-    "transfer": "299d395afa1c4767a924aa4bc1d7c14d", 
-    "token": "1fa15f3780344958b25159593e9b4836"
-  }, 
   "data": {
-    "procurementMethod": "open", 
-    "status": "active.enquiries", 
+    "title": "футляри до державних нагород",
+    "date": "2020-09-08T01:00:00+03:00",
+    "dateModified": "2020-09-08T01:00:00+03:00",
+    "tenderID": "UA-2020-09-08-000001",
+    "owner": "broker",
+    "mainProcurementCategory": "goods",
     "milestones": [
       {
-        "code": "prepayment", 
-        "sequenceNumber": 0, 
-        "title": "signingTheContract", 
+        "id": "356c9c8a670647a3b548c10e0b85316b",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
         "duration": {
-          "type": "banking", 
-          "days": 5
-        }, 
-        "percentage": 45.55, 
-        "type": "financing", 
-        "id": "d09511e3595d477eb94699714d140a1c"
-      }, 
+          "days": 5,
+          "type": "banking"
+        },
+        "sequenceNumber": 0
+      },
       {
-        "code": "postpayment", 
-        "sequenceNumber": 1, 
-        "title": "deliveryOfGoods", 
+        "id": "a26e16936f294618af8d0531339331d3",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
         "duration": {
-          "type": "calendar", 
-          "days": 7
-        }, 
-        "percentage": 54.45, 
-        "type": "financing", 
-        "id": "454e8f6bbb614397a84f6d90299dabb9"
+          "days": 7,
+          "type": "calendar"
+        },
+        "sequenceNumber": 1
       }
-    ], 
-    "mainProcurementCategory": "goods", 
-    "tenderPeriod": {
-      "startDate": "2020-09-15T01:00:00+03:00", 
-      "endDate": "2020-09-22T01:00:00+03:00"
-    }, 
-    "title": "футляри до державних нагород", 
-    "minimalStep": {
-      "currency": "UAH", 
-      "amount": 15.0, 
-      "valueAddedTaxIncluded": true
-    }, 
+    ],
+    "procurementMethod": "open",
+    "awardCriteria": "lowestCost",
+    "submissionMethod": "electronicAuction",
+    "status": "active.enquiries",
     "items": [
       {
-        "description": "футляри до державних нагород", 
-        "classification": {
-          "scheme": "ДК021", 
-          "description": "Cartons", 
-          "id": "44617100-9"
-        }, 
+        "id": "60ffd7cbd43d4b8b93e58e914f4e5b19",
+        "description": "футляри до державних нагород",
         "additionalClassifications": [
           {
-            "scheme": "ДКПП", 
-            "id": "17.21.1", 
+            "scheme": "ДКПП",
+            "id": "17.21.1",
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
-        ], 
-        "deliveryAddress": {
-          "postalCode": "79000", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }, 
-        "deliveryDate": {
-          "startDate": "2020-09-10T01:00:00+03:00", 
-          "endDate": "2020-09-13T01:00:00+03:00"
-        }, 
-        "id": "5e26797fb7964136ae156072f77c6a13", 
+        ],
         "unit": {
-          "code": "44617100-9", 
-          "name": "item"
-        }, 
-        "quantity": 5.0
+          "name": "item",
+          "code": "44617100-9"
+        },
+        "quantity": 5.0,
+        "deliveryDate": {
+          "startDate": "2020-09-10T01:00:00+03:00",
+          "endDate": "2020-09-13T01:00:00+03:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        }
       }
-    ], 
-    "procurementMethodType": "belowThreshold", 
+    ],
     "value": {
-      "currency": "UAH", 
-      "amount": 500.0, 
+      "amount": 500.0,
+      "currency": "UAH",
       "valueAddedTaxIncluded": true
-    }, 
-    "submissionMethod": "electronicAuction", 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "next_check": "2020-09-15T01:00:00+03:00", 
-    "procuringEntity": {
-      "contactPoint": {
-        "name": "Державне управління справами", 
-        "telephone": "0440000000"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "legalName": "Державне управління справами", 
-        "id": "00037256", 
-        "uri": "http://www.dus.gov.ua/"
-      }, 
-      "name": "Державне управління справами", 
-      "kind": "general", 
-      "address": {
-        "postalCode": "01220", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Банкова, 11, корпус 1", 
-        "region": "м. Київ", 
-        "locality": "м. Київ"
-      }
-    }, 
-    "awardCriteria": "lowestCost", 
+    },
     "enquiryPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00", 
+      "startDate": "2020-09-08T01:00:00+03:00",
       "endDate": "2020-09-15T01:00:00+03:00"
-    }, 
-    "owner": "broker", 
-    "dateModified": "2020-09-08T01:00:00+03:00", 
-    "id": "7e23f3f26faf4146af5f668247cf04f4", 
-    "tenderID": "UA-2020-09-08-000001"
+    },
+    "tenderPeriod": {
+      "startDate": "2020-09-15T01:00:00+03:00",
+      "endDate": "2020-09-22T01:00:00+03:00"
+    },
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "legalName": "Державне управління справами",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "0440000000"
+      },
+      "kind": "general"
+    },
+    "minimalStep": {
+      "amount": 15.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "procurementMethodType": "belowThreshold",
+    "id": "cc1418f989634e5ebec00becb174f72d",
+    "next_check": "2020-09-15T01:00:00+03:00"
+  },
+  "access": {
+    "token": "e52663fc65a840e998dfd864e35d273c",
+    "transfer": "ba09e5edede8459f92b1fd1cb76bd246"
   }
 }
 

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680 HTTP/1.0
+GET /api/2.5/tenders/4826290bfb064165b70a94d71e93a63b HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,199 +7,199 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "funders": [
-      {
-        "contactPoint": {
-          "url": "https://www.theglobalfund.org/en/", 
-          "email": "ccm@theglobalfund.org", 
-          "telephone": "+41 58 791 1700", 
-          "name": "", 
-          "faxNumber": "+41 44 580 6820"
-        }, 
-        "identifier": {
-          "scheme": "XM-DAC", 
-          "id": "47045", 
-          "legalName": "Глобальний Фонд для боротьби зі СНІДом, туберкульозом і малярією"
-        }, 
-        "name": "Глобальний фонд", 
-        "address": {
-          "postalCode": "1218", 
-          "countryName": "Швейцарська Конфедерація", 
-          "streetAddress": "Global Health Campus, Chemin du Pommier 40", 
-          "region": "Grand-Saconnex", 
-          "locality": "Geneva"
-        }
-      }
-    ], 
-    "procurementMethod": "open", 
-    "mainProcurementCategory": "goods", 
-    "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/bc3a9016b29d4fed894cc62d3ff59680", 
-    "enquiryPeriod": {
-      "startDate": "2020-08-24T01:00:01+03:00", 
-      "endDate": "2020-09-01T01:00:01+03:00"
-    }, 
-    "submissionMethod": "electronicAuction", 
-    "next_check": "2020-09-08T01:36:01+03:00", 
-    "procuringEntity": {
-      "contactPoint": {
-        "name": "Державне управління справами", 
-        "telephone": "0440000000"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "legalName": "Державне управління справами", 
-        "id": "00037256", 
-        "uri": "http://www.dus.gov.ua/"
-      }, 
-      "name": "Державне управління справами", 
-      "kind": "general", 
-      "address": {
-        "postalCode": "01220", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Банкова, 11, корпус 1", 
-        "region": "м. Київ", 
-        "locality": "м. Київ"
-      }
-    }, 
-    "questions": [
-      {
-        "description": "Просимо додати таблицю потрібної калорійності харчування", 
-        "dateAnswered": "2020-09-08T01:00:01+03:00", 
-        "title": "Калорійність", 
-        "date": "2020-09-08T01:00:01+03:00", 
-        "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
-        "id": "2d5b2ff814d74f9a99cf7eda998f5e9c", 
-        "questionOf": "tender"
-      }
-    ], 
-    "owner": "broker", 
-    "id": "bc3a9016b29d4fed894cc62d3ff59680", 
-    "guarantee": {
-      "currency": "USD", 
-      "amount": 8.0
-    }, 
+    "title": "футляри до державних нагород",
     "documents": [
       {
-        "hash": "md5:00000000000000000000000000000000", 
-        "description": "document description modified", 
-        "title": "Notice.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4d52879c11df4aa7ae80d3b6c4a274ce?KeyID=a8968c46&Signature=BiR23Y26fUFdAaBBqxSqN2Lv29UkW8VjpoZA0NLoVj2cgKeSq3J%2FiuGzva%252Bl0R6wpgLbA2zfat9mNkErf3HjAg%253D%253D", 
-        "format": "application/pdf", 
-        "documentOf": "tender", 
-        "datePublished": "2020-09-08T01:00:01+03:00", 
-        "author": "tender_owner", 
-        "documentType": "technicalSpecifications", 
-        "id": "1600c2979e7c4d82821a15c5cc065b6a", 
-        "dateModified": "2020-09-08T01:00:01+03:00"
-      }, 
+        "id": "7ca7263e081c464cb08d676e9305f821",
+        "hash": "md5:00000000000000000000000000000000",
+        "documentType": "technicalSpecifications",
+        "title": "Notice.pdf",
+        "description": "document description modified",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ae50ebf41e54463faca2b20961cec265?Signature=vwVV5yBxoQF9tqHPeCmryD53w8gnll1fHTDbd5zeJaxFY0yt9pqIso9lPTh6uoOq9oM42i%2FfziR1dRPW08mAAQ%3D%3D&KeyID=a8968c46",
+        "datePublished": "2020-09-08T01:00:01+03:00",
+        "dateModified": "2020-09-08T01:00:01+03:00",
+        "author": "tender_owner",
+        "documentOf": "tender"
+      },
       {
-        "hash": "md5:00000000000000000000000000000000", 
-        "author": "tender_owner", 
-        "title": "AwardCriteria.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/55286412717f4997b35cde1cdc8ca4a3?KeyID=a8968c46&Signature=SLJwlJyNeYyhfqlj5fjfDUM5HpgwZKwSFTALjLjeIuv5mzql8Jjjua0WO8iNogqE6c0DA0%252BkyD8utzz3zI27BA%253D%253D", 
-        "format": "application/pdf", 
-        "documentOf": "tender", 
-        "datePublished": "2020-09-08T01:00:01+03:00", 
-        "id": "ffea25fb82d346c5a3f1e85578c959a8", 
-        "dateModified": "2020-09-08T01:00:01+03:00"
-      }, 
+        "id": "fe77ff6d9c9e4ba68f443a5c13846ccb",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "AwardCriteria.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cdae0c7762d04dd79267107910a38887?Signature=XYYEbloOKUZEJGpSNkVG2W6akky8yhAYXv3PQEBg%2F58GSCH3Q4rTcKzx7BgsChTUjfRmETSbVHxZvoPo0vgNCw%3D%3D&KeyID=a8968c46",
+        "datePublished": "2020-09-08T01:00:01+03:00",
+        "dateModified": "2020-09-08T01:00:01+03:00",
+        "author": "tender_owner",
+        "documentOf": "tender"
+      },
       {
-        "hash": "md5:00000000000000000000000000000000", 
-        "author": "tender_owner", 
-        "title": "AwardCriteria-2.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5d1c2cddad3f45a3aac16cb29b81f97f?KeyID=a8968c46&Signature=E3RouA49wKUWYJ7BPlrzsmaNUW69ZPMHhlKAAOoUy3gSRyJaA98YqWOvmbQ30Z0oCAQ44WCDW4wlwGZV0RXjCA%253D%253D", 
-        "format": "application/pdf", 
-        "documentOf": "tender", 
-        "datePublished": "2020-09-08T01:00:01+03:00", 
-        "id": "ffea25fb82d346c5a3f1e85578c959a8", 
-        "dateModified": "2020-09-08T01:00:01+03:00"
+        "id": "fe77ff6d9c9e4ba68f443a5c13846ccb",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "AwardCriteria-2.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d2ddcb167ca344f8a134f53a369b2d74?Signature=Fj1QZ2XYWz9ZmlUWoO1mWazItV5%2B71k2fdj56oiNOTx5Vi6tLqeIvwEycORox70I%2FSN8D%2BO8uoZpGV8bABpfCA%3D%3D&KeyID=a8968c46",
+        "datePublished": "2020-09-08T01:00:01+03:00",
+        "dateModified": "2020-09-08T01:00:01+03:00",
+        "author": "tender_owner",
+        "documentOf": "tender"
       }
-    ], 
-    "title": "футляри до державних нагород", 
-    "tenderID": "UA-2020-09-08-000001", 
-    "dateModified": "2020-09-08T01:00:01+03:00", 
-    "status": "active.auction", 
-    "tenderPeriod": {
-      "startDate": "2020-09-01T01:00:01+03:00", 
-      "endDate": "2020-09-08T01:00:01+03:00"
-    }, 
-    "auctionPeriod": {
-      "startDate": "2020-09-08T01:00:01+03:00", 
-      "shouldStartAfter": "2020-09-09T00:00:00+03:00"
-    }, 
-    "procurementMethodType": "belowThreshold", 
-    "date": "2020-09-08T01:00:00+03:00", 
+    ],
+    "date": "2020-09-08T01:00:00+03:00",
+    "dateModified": "2020-09-08T01:00:01+03:00",
+    "tenderID": "UA-2020-09-08-000001",
+    "owner": "broker",
+    "funders": [
+      {
+        "name": "Глобальний фонд",
+        "identifier": {
+          "scheme": "XM-DAC",
+          "id": "47045",
+          "legalName": "Глобальний Фонд для боротьби зі СНІДом, туберкульозом і малярією"
+        },
+        "address": {
+          "streetAddress": "Global Health Campus, Chemin du Pommier 40",
+          "locality": "Geneva",
+          "region": "Grand-Saconnex",
+          "postalCode": "1218",
+          "countryName": "Швейцарська Конфедерація"
+        },
+        "contactPoint": {
+          "name": "",
+          "email": "ccm@theglobalfund.org",
+          "telephone": "+41 58 791 1700",
+          "faxNumber": "+41 44 580 6820",
+          "url": "https://www.theglobalfund.org/en/"
+        }
+      }
+    ],
+    "mainProcurementCategory": "goods",
     "milestones": [
       {
-        "code": "prepayment", 
-        "sequenceNumber": 0, 
-        "title": "signingTheContract", 
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
         "duration": {
-          "type": "banking", 
-          "days": 2
-        }, 
-        "percentage": 45.55, 
-        "type": "financing", 
-        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      }, 
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 0
+      },
       {
-        "code": "postpayment", 
-        "sequenceNumber": 0, 
-        "title": "deliveryOfGoods", 
+        "id": "f9864a1afd7048e19c55bbef4bae07ec",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
         "duration": {
-          "type": "calendar", 
-          "days": 900
-        }, 
-        "percentage": 54.45, 
-        "type": "financing", 
-        "id": "ad428edb96b84981b08d90cabefe1067"
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 0
       }
-    ], 
-    "minimalStep": {
-      "currency": "UAH", 
-      "amount": 15.0, 
-      "valueAddedTaxIncluded": true
-    }, 
+    ],
+    "procurementMethod": "open",
+    "awardCriteria": "lowestCost",
+    "submissionMethod": "electronicAuction",
+    "status": "active.auction",
     "items": [
       {
-        "description": "футляри до державних нагород", 
-        "classification": {
-          "scheme": "ДК021", 
-          "description": "Cartons", 
-          "id": "44617100-9"
-        }, 
+        "id": "ca8069063cb44e45afe6bb5f71ef33f8",
+        "description": "футляри до державних нагород",
         "additionalClassifications": [
           {
-            "scheme": "ДКПП", 
-            "id": "17.21.1", 
+            "scheme": "ДКПП",
+            "id": "17.21.1",
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
-        ], 
-        "deliveryAddress": {
-          "postalCode": "79000", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }, 
-        "deliveryDate": {
-          "startDate": "2020-09-10T01:00:00+03:00", 
-          "endDate": "2020-09-13T01:00:00+03:00"
-        }, 
-        "id": "264336e83a7241d5a1178ae0e10a9479", 
+        ],
         "unit": {
-          "code": "44617100-9", 
-          "name": "item"
-        }, 
-        "quantity": 5.0
+          "name": "item",
+          "code": "44617100-9"
+        },
+        "quantity": 5.0,
+        "deliveryDate": {
+          "startDate": "2020-09-10T01:00:00+03:00",
+          "endDate": "2020-09-13T01:00:00+03:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        }
       }
-    ], 
+    ],
     "value": {
-      "currency": "UAH", 
-      "amount": 500.0, 
+      "amount": 500.0,
+      "currency": "UAH",
       "valueAddedTaxIncluded": true
-    }, 
-    "awardCriteria": "lowestCost"
+    },
+    "enquiryPeriod": {
+      "startDate": "2020-08-24T01:00:01+03:00",
+      "endDate": "2020-09-01T01:00:01+03:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2020-09-01T01:00:01+03:00",
+      "endDate": "2020-09-08T01:00:01+03:00"
+    },
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "legalName": "Державне управління справами",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "0440000000"
+      },
+      "kind": "general"
+    },
+    "auctionPeriod": {
+      "startDate": "2020-09-08T01:00:01+03:00",
+      "shouldStartAfter": "2020-09-09T00:00:00+03:00"
+    },
+    "minimalStep": {
+      "amount": 15.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "questions": [
+      {
+        "id": "58ca81fbcacb44d09c452c091ba26b46",
+        "title": "Калорійність",
+        "description": "Просимо додати таблицю потрібної калорійності харчування",
+        "date": "2020-09-08T01:00:01+03:00",
+        "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"",
+        "questionOf": "tender",
+        "dateAnswered": "2020-09-08T01:00:01+03:00"
+      }
+    ],
+    "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/4826290bfb064165b70a94d71e93a63b",
+    "guarantee": {
+      "amount": 8.0,
+      "currency": "USD"
+    },
+    "procurementMethodType": "belowThreshold",
+    "id": "4826290bfb064165b70a94d71e93a63b",
+    "next_check": "2020-09-08T01:36:01+03:00"
   }
 }
 

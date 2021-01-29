@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/086edc68f12d4a248ded4f9cea52e69c/lots/453d55385a734a8db16a2b047440b4de?acc_token=2d40003375644e37bcda2c4fc8319cd8 HTTP/1.0
+PATCH /api/2.5/tenders/d59e1783dc5149518a3c20a016d652c6/lots/a18842d9d4a349c799437d0102e40965?acc_token=08f1e8ef6e2a42278777917b90121d0d HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 36
 Content-Type: application/json
@@ -17,21 +17,21 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "active", 
-    "description": "Опис Лот №2", 
-    "title": "Лот №2", 
-    "minimalStep": {
-      "currency": "UAH", 
-      "amount": 35.0, 
-      "valueAddedTaxIncluded": true
-    }, 
+    "id": "a18842d9d4a349c799437d0102e40965",
+    "title": "Лот №2",
+    "description": "Опис Лот №2",
+    "date": "2020-09-08T01:00:00+03:00",
+    "status": "active",
     "value": {
-      "currency": "UAH", 
-      "amount": 400.0, 
+      "amount": 400.0,
+      "currency": "UAH",
       "valueAddedTaxIncluded": true
-    }, 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "id": "453d55385a734a8db16a2b047440b4de"
+    },
+    "minimalStep": {
+      "amount": 35.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    }
   }
 }
 

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/6ccc95c340c94e32bcf0b8c2183e62f7/awards/1c87ef6c69a34696b307f78e1d9839e7?acc_token=794fefa6abd34c81a289161fadb1feb4 HTTP/1.0
+PATCH /api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/awards/66be0c9de92442328df31214e95f6673?acc_token=1649f66a8e4c4492affe5b291314ebf9 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -15,38 +15,38 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "active", 
-    "lotID": "1b75c06ee58f4909a4201255b4ba5831", 
+    "id": "66be0c9de92442328df31214e95f6673",
+    "status": "active",
+    "date": "2020-09-08T01:00:00+03:00",
+    "value": {
+      "amount": 499.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "suppliers": [
       {
-        "contactPoint": {
-          "name": "Державне управління справами", 
-          "telephone": "0440000000"
-        }, 
-        "scale": "micro", 
-        "name": "Державне управління справами", 
+        "name": "Державне управління справами",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00037258", 
+          "scheme": "UA-EDR",
+          "id": "00037258",
           "uri": "http://www.dus.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "01220", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова, 11, корпус 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "01220",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Державне управління справами",
+          "telephone": "0440000000"
+        },
+        "scale": "micro"
       }
-    ], 
-    "bid_id": "a35c0f03ed30443daf734aa2138351f0", 
-    "value": {
-      "currency": "UAH", 
-      "amount": 499.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "id": "1c87ef6c69a34696b307f78e1d9839e7"
+    ],
+    "bid_id": "c9f975cb0c254a88b330acbb0d579744",
+    "lotID": "f2599a519a45416db792d9ee833a8e5a"
   }
 }
 

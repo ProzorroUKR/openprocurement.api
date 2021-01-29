@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/fb07ce223a754201a341023b86d832ef/criteria HTTP/1.0
+GET /api/2.5/tenders/28620043ada5424cbbfbdc7f6246096f/criteria HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -8,162 +8,162 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "requirementGroups": [
-        {
-          "requirements": [
-            {
-              "status": "active", 
-              "title": "Updated title", 
-              "dataType": "boolean", 
-              "datePublished": "2020-09-08T01:00:00+03:00", 
-              "expectedValue": "true", 
-              "id": "24d2f553c73941398f47ccfcfdf8ffbc", 
-              "eligibleEvidences": [
-                {
-                  "title": "Документальне підтвердження", 
-                  "type": "document", 
-                  "description": "Довідка в довільній формі", 
-                  "id": "2a4e1361ff9347859f3ce9e13e2c2a4c"
-                }, 
-                {
-                  "title": "Документальне підтвердження", 
-                  "type": "statement", 
-                  "description": "Довідка в довільній формі", 
-                  "id": "1dcab503d5bf418697a0c246c7e3091d"
-                }
-              ]
-            }, 
-            {
-              "status": "active", 
-              "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку", 
-              "dataType": "boolean", 
-              "datePublished": "2020-09-08T01:00:00+03:00", 
-              "expectedValue": "true", 
-              "id": "dfc5011afed24f3cbdf24c66227ae566", 
-              "eligibleEvidences": [
-                {
-                  "title": "Документальне підтвердження", 
-                  "type": "document", 
-                  "description": "Довідка в довільній формі", 
-                  "id": "528c9aa1e0994ab0bf37c2ce3a315728"
-                }
-              ]
-            }
-          ], 
-          "id": "0fa4344344a741028c886f211dd5d1d5", 
-          "description": "Updated description"
-        }, 
-        {
-          "requirements": [
-            {
-              "status": "active", 
-              "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку", 
-              "dataType": "boolean", 
-              "datePublished": "2020-09-08T01:00:00+03:00", 
-              "expectedValue": "true", 
-              "id": "7bd0d5812bb2401e855d249295c1d902", 
-              "eligibleEvidences": [
-                {
-                  "title": "Документальне підтвердження", 
-                  "type": "document", 
-                  "description": "Довідка в довільній формі", 
-                  "id": "07af40fdaded485f9f3c1f5c4620e4f1"
-                }
-              ]
-            }
-          ], 
-          "id": "b8fd6870306f4afbafef59c884fd0d56", 
-          "description": "Учасник фізична особа підтверджує, що"
-        }
-      ], 
-      "description": "Службова (посадова) особа учасника процедури закупівлі, яка підписала тендерну пропозицію (або уповноважена на підписання договору в разі переговорної процедури закупівлі) або фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку", 
+      "id": "1d3d0c833904401a9c378e7e171c68ba",
+      "title": "Updated title",
+      "description": "Службова (посадова) особа учасника процедури закупівлі, яка підписала тендерну пропозицію (або уповноважена на підписання договору в разі переговорної процедури закупівлі) або фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку",
+      "source": "tenderer",
+      "relatesTo": "tenderer",
       "classification": {
-        "scheme": " espd211", 
+        "scheme": " espd211",
         "id": "CRITERION.OTHER"
-      }, 
-      "title": "Updated title", 
+      },
       "legislation": [
         {
-          "article": "17.1.5", 
-          "version": "2020-04-19", 
-          "type": "NATIONAL_LEGISLATION", 
+          "version": "2020-04-19",
           "identifier": {
-            "legalName": "Закон України \"Про публічні закупівлі\"", 
-            "uri": "https://zakon.rada.gov.ua/laws/show/922-19", 
-            "id": "922-VIII"
-          }
-        }, 
+            "id": "922-VIII",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "17.1.5"
+        },
         {
-          "article": "17.1.6", 
-          "version": "2020-04-19", 
-          "type": "NATIONAL_LEGISLATION", 
+          "version": "2020-04-19",
           "identifier": {
-            "legalName": "Закон України \"Про публічні закупівлі\"", 
-            "uri": "https://zakon.rada.gov.ua/laws/show/922-19", 
-            "id": "922-VIII"
-          }
+            "id": "922-VIII",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "17.1.6"
         }
-      ], 
-      "relatesTo": "tenderer", 
-      "source": "tenderer", 
-      "id": "7b9ccfe6992245678a8a621bb0ebe987"
-    }, 
-    {
+      ],
       "requirementGroups": [
         {
+          "id": "2d2d30613e824b4fb3651404df351f4b",
+          "description": "Updated description",
           "requirements": [
             {
-              "status": "active", 
-              "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку", 
-              "dataType": "boolean", 
-              "datePublished": "2020-09-08T01:00:00+03:00", 
-              "expectedValue": "true", 
-              "id": "c0ee02c50e0246e2bb169151d889cd8f", 
+              "id": "d3a5444cc18b4a1b822b83397b2b7d5f",
+              "title": "Updated title",
+              "dataType": "boolean",
               "eligibleEvidences": [
                 {
-                  "title": "Документальне підтвердження", 
-                  "type": "document", 
-                  "description": "Довідка в довільній формі", 
-                  "id": "d0c7eceb2cb441aca8fba42c09ee6f84"
+                  "id": "8d6ce4abf8d44164843866b82f99fb86",
+                  "title": "Документальне підтвердження",
+                  "description": "Довідка в довільній формі",
+                  "type": "document"
+                },
+                {
+                  "id": "a061896b7ba7490f830f64887ed13d8d",
+                  "title": "Документальне підтвердження",
+                  "description": "Довідка в довільній формі",
+                  "type": "statement"
                 }
-              ]
+              ],
+              "expectedValue": "true",
+              "status": "active",
+              "datePublished": "2020-09-08T01:00:00+03:00"
+            },
+            {
+              "id": "055b78b7a0e6485d9255f8f2311213b3",
+              "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку",
+              "dataType": "boolean",
+              "eligibleEvidences": [
+                {
+                  "id": "514b7f120ef14d819bbeaaaebcc9349d",
+                  "title": "Документальне підтвердження",
+                  "description": "Довідка в довільній формі",
+                  "type": "document"
+                }
+              ],
+              "expectedValue": "true",
+              "status": "active",
+              "datePublished": "2020-09-08T01:00:00+03:00"
             }
-          ], 
-          "id": "e380f5492d164bb29a31effd85003468", 
-          "description": "Учасник фізична особа підтверджує, що"
+          ]
+        },
+        {
+          "id": "3f9498c932bb41b4ac0e26f6ee92aa21",
+          "description": "Учасник фізична особа підтверджує, що",
+          "requirements": [
+            {
+              "id": "dfbb9f1be9f84579b9d4199b79e9ee63",
+              "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку",
+              "dataType": "boolean",
+              "eligibleEvidences": [
+                {
+                  "id": "05d9a87e3e6343d39987fae616b1894c",
+                  "title": "Документальне підтвердження",
+                  "description": "Довідка в довільній формі",
+                  "type": "document"
+                }
+              ],
+              "expectedValue": "true",
+              "status": "active",
+              "datePublished": "2020-09-08T01:00:00+03:00"
+            }
+          ]
         }
-      ], 
-      "description": "Службова (посадова) особа учасника процедури закупівлі, яка підписала тендерну пропозицію (або уповноважена на підписання договору в разі переговорної процедури закупівлі) або фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку", 
+      ]
+    },
+    {
+      "id": "02b94013102f4d3280fb2f414499d2ed",
+      "title": "Вчинення злочинів, учинених з корисливих мотивів",
+      "description": "Службова (посадова) особа учасника процедури закупівлі, яка підписала тендерну пропозицію (або уповноважена на підписання договору в разі переговорної процедури закупівлі) або фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку",
+      "source": "tenderer",
+      "relatesTo": "tenderer",
       "classification": {
-        "scheme": " espd211", 
+        "scheme": " espd211",
         "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
-      }, 
-      "title": "Вчинення злочинів, учинених з корисливих мотивів", 
+      },
       "legislation": [
         {
-          "article": "17.1.5", 
-          "version": "2020-04-19", 
-          "type": "NATIONAL_LEGISLATION", 
+          "version": "2020-04-19",
           "identifier": {
-            "legalName": "Закон України \"Про публічні закупівлі\"", 
-            "uri": "https://zakon.rada.gov.ua/laws/show/922-19", 
-            "id": "922-VIII"
-          }
-        }, 
+            "id": "922-VIII",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "17.1.5"
+        },
         {
-          "article": "17.1.6", 
-          "version": "2020-04-19", 
-          "type": "NATIONAL_LEGISLATION", 
+          "version": "2020-04-19",
           "identifier": {
-            "legalName": "Закон України \"Про публічні закупівлі\"", 
-            "uri": "https://zakon.rada.gov.ua/laws/show/922-19", 
-            "id": "922-VIII"
-          }
+            "id": "922-VIII",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "17.1.6"
         }
-      ], 
-      "relatesTo": "tenderer", 
-      "source": "tenderer", 
-      "id": "08f2281d3cac4734813ff9785f7ec33e"
+      ],
+      "requirementGroups": [
+        {
+          "id": "86839e884b084170b11d231998e9fff8",
+          "description": "Учасник фізична особа підтверджує, що",
+          "requirements": [
+            {
+              "id": "14ffa2e54f764a29bd363470d3cd2ec2",
+              "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку",
+              "dataType": "boolean",
+              "eligibleEvidences": [
+                {
+                  "id": "688b013e65bf44dd86758f3c19b1c81f",
+                  "title": "Документальне підтвердження",
+                  "description": "Довідка в довільній формі",
+                  "type": "document"
+                }
+              ],
+              "expectedValue": "true",
+              "status": "active",
+              "datePublished": "2020-09-08T01:00:00+03:00"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

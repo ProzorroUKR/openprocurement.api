@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/0ba5045de21b4930a220df9887be28ec/qualifications/de1fdfe83be64f45a3aa274d8f98a1e9/complaints/fb84721b8c944f59906bc84eb4a322f3/documents HTTP/1.0
+POST /api/2.5/tenders/b61b0e1aaa1f43adba91292fda2cfaf5/qualifications/e55187f774a4459b956756a96aac6406/complaints/d5df8a022c8d49eba3f98a83c686bc84/documents HTTP/1.0
 Authorization: Bearer reviewer
 Content-Length: 155
 Content-Type: multipart/form-data; boundary=---BOUNDARY
@@ -14,20 +14,20 @@ content
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ba5045de21b4930a220df9887be28ec/qualifications/de1fdfe83be64f45a3aa274d8f98a1e9/complaints/fb84721b8c944f59906bc84eb4a322f3/documents/2a6513c422ab4552b35f42ee01c5a01f
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b61b0e1aaa1f43adba91292fda2cfaf5/qualifications/e55187f774a4459b956756a96aac6406/complaints/d5df8a022c8d49eba3f98a83c686bc84/documents/bd960c6fe26840fba817f735da9ed086
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "hash": "md5:00000000000000000000000000000000", 
-    "author": "aboveThresholdReviewers", 
-    "language": "uk", 
-    "title": "ComplaintResolution.pdf", 
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c8940e74227a4c82b24b8eeece82a30e?KeyID=a8968c46&Signature=N2dhyUhp%252BfWseEuOt%252BR431NDIJbHEivr79pc0AAjRIo7IABX69exmwn9Q1o1O7sCk53gqCVGA%2FkEese3gjYbDA%253D%253D", 
-    "format": "application/pdf", 
-    "documentOf": "tender", 
-    "datePublished": "2020-09-08T01:00:01+03:00", 
-    "id": "2a6513c422ab4552b35f42ee01c5a01f", 
-    "dateModified": "2020-09-08T01:00:01+03:00"
+    "id": "bd960c6fe26840fba817f735da9ed086",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "ComplaintResolution.pdf",
+    "format": "application/pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bcbd7b368356473d89e484285c325a8c?Signature=H5N8XtJ1FOpP5xir638FgIs3YZKl43LL3L2ePmVyCK1LVC0yafq2lyNrOtwef0otGwo2SXKf%2BZHmdYu2gKUTDQ%3D%3D&KeyID=a8968c46",
+    "datePublished": "2020-09-08T01:00:01+03:00",
+    "dateModified": "2020-09-08T01:00:01+03:00",
+    "author": "aboveThresholdReviewers",
+    "documentOf": "tender",
+    "language": "uk"
   }
 }
 

@@ -1,4 +1,4 @@
-GET /api/2.5/frameworks/40b48e4878534db1bf228d5928f8f1d9/qualifications HTTP/1.0
+GET /api/2.5/frameworks/3176109c7572429b99dbc5707a10617c/qualifications HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -6,40 +6,40 @@ Response: 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
-  "count": 2, 
   "data": [
     {
-      "status": "unsuccessful", 
+      "frameworkID": "3176109c7572429b99dbc5707a10617c",
+      "submissionID": "f2e160b74b4b4120ae4acc472545162c",
+      "status": "active",
+      "date": "2020-09-24T01:00:00+03:00",
+      "dateModified": "2020-09-24T01:00:00+03:00",
+      "id": "04ceb9dba9aa4ee5a175baae9b05c9b5",
+      "dateCreated": "2020-09-24T01:00:00+03:00"
+    },
+    {
+      "frameworkID": "3176109c7572429b99dbc5707a10617c",
+      "submissionID": "7f0bddee73c749c48914890b109a3946",
+      "status": "unsuccessful",
       "documents": [
         {
-          "hash": "md5:00000000000000000000000000000000", 
-          "format": "application/msword", 
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ccf69b1e25b849d4a0c5adc18feca851?KeyID=a8968c46&Signature=H3kP%2FIu4Bu7PdaZzeNbMggl9eByN%2FNHaLzmWDxpyZ4O8g7OaOjM2UEPNBht25jqJNNAOGyEkBegCbxoCUIYrDw%253D%253D", 
-          "title": "qualification.doc", 
-          "datePublished": "2020-09-24T01:00:00+03:00", 
-          "dateModified": "2020-09-24T01:00:00+03:00", 
-          "id": "922674be3794469a8936fbe029e652fa"
+          "id": "35e63c5c0dc64ffba41d96f94c0aab7d",
+          "hash": "md5:00000000000000000000000000000000",
+          "title": "qualification.doc",
+          "format": "application/msword",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/53ecf67fd58e4933a19146b27596d3b6?Signature=Kbm9FS%2Fkui6%2BHgPXwujZGhr1HLVgFJMHrsg%2B8Q2C%2Fwnf2uq7EIuHY217fSkN7tQM0Z%2Bl1IuEgr7Xe8B9fseFAw%3D%3D&KeyID=a8968c46",
+          "datePublished": "2020-09-24T01:00:00+03:00",
+          "dateModified": "2020-09-24T01:00:00+03:00"
         }
-      ], 
-      "frameworkID": "40b48e4878534db1bf228d5928f8f1d9", 
-      "dateCreated": "2020-09-24T01:00:00+03:00", 
-      "date": "2020-09-24T01:00:00+03:00", 
-      "dateModified": "2020-09-24T01:00:00+03:00", 
-      "submissionID": "acb9f31ebb904dc696a96bb78b529433", 
-      "id": "c58e796114e34db69494ba28b7ba323d"
-    }, 
-    {
-      "status": "active", 
-      "id": "d3c7b3f81f2843eda4c93a9675056969", 
-      "frameworkID": "40b48e4878534db1bf228d5928f8f1d9", 
-      "submissionID": "7aa3936518124ba88869faa489fc4f23", 
-      "date": "2020-09-24T01:00:00+03:00", 
-      "dateCreated": "2020-09-24T01:00:00+03:00", 
-      "dateModified": "2020-09-24T01:00:00+03:00"
+      ],
+      "date": "2020-09-24T01:00:00+03:00",
+      "dateModified": "2020-09-24T01:00:00+03:00",
+      "id": "46df298c7ea542c291830c9610a09781",
+      "dateCreated": "2020-09-24T01:00:00+03:00"
     }
-  ], 
-  "total": 2, 
-  "limit": 100, 
-  "page": 1
+  ],
+  "count": 2,
+  "page": 1,
+  "limit": 100,
+  "total": 2
 }
 

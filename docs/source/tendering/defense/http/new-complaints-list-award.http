@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/d4e2f413caf6487cb85b87226ade82c6/awards?acc_token=92b82a871148436c91c1a28f43913234 HTTP/1.0
+GET /api/2.5/tenders/4e26fc6d9ddf44cb997c219b4d7c25f7/awards?acc_token=ad9fe16460044cee848ba21b924cdc59 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -8,35 +8,35 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "status": "pending", 
-      "eligible": false, 
+      "id": "e9c9c5a0451a4c3485d932b4b45b9055",
+      "status": "pending",
+      "date": "2020-09-08T01:00:00+03:00",
       "suppliers": [
         {
-          "contactPoint": {
-            "name": "Державне управління справами", 
-            "telephone": "0440000000"
-          }, 
-          "scale": "micro", 
-          "name": "Державне управління справами", 
+          "name": "Державне управління справами",
           "identifier": {
-            "scheme": "UA-EDR", 
-            "legalName": "Державне управління справами", 
-            "id": "00037256", 
+            "scheme": "UA-EDR",
+            "id": "00037256",
+            "legalName": "Державне управління справами",
             "uri": "http://www.dus.gov.ua/"
-          }, 
+          },
           "address": {
-            "postalCode": "01220", 
-            "countryName": "Україна", 
-            "streetAddress": "вул. Банкова, 11, корпус 1", 
-            "region": "м. Київ", 
-            "locality": "м. Київ"
-          }
+            "streetAddress": "вул. Банкова, 11, корпус 1",
+            "locality": "м. Київ",
+            "region": "м. Київ",
+            "postalCode": "01220",
+            "countryName": "Україна"
+          },
+          "contactPoint": {
+            "name": "Державне управління справами",
+            "telephone": "0440000000"
+          },
+          "scale": "micro"
         }
-      ], 
-      "bid_id": "d2d2905416c94bfca46a8d4f09981914", 
-      "qualified": false, 
-      "date": "2020-09-08T01:00:00+03:00", 
-      "id": "07a7e0e497f8442fb3fc6c68dde50313"
+      ],
+      "bid_id": "74cbe41227cd41b6ac016f2ead985881",
+      "qualified": false,
+      "eligible": false
     }
   ]
 }

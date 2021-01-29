@@ -12,13 +12,13 @@ Response: 201 Created
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
-  "access": {
-    "transfer": "f55c11d5454d40d0bdebb93021b31228", 
-    "token": "7859a9d7b9bb401a9c4227f54e9d710e"
-  }, 
   "data": {
-    "date": "2020-09-08T01:00:00+03:00", 
-    "id": "e12304edbbb945618010929a159d473b"
+    "date": "2020-09-08T01:00:00+03:00",
+    "id": "6db42685af9a45eda91d17077009fee7"
+  },
+  "access": {
+    "token": "cece5928fe0f4a3ba06b1ecb8363d458",
+    "transfer": "e3aaf90ea5ed4587ab02bee1fd15a68c"
   }
 }
 

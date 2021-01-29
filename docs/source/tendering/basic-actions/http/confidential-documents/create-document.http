@@ -1,36 +1,36 @@
-POST /api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/bids/ad3518204d0f4cdcaa3c0940fa21e417/documents?acc_token=dd8db01099664827aa1826260c296fa8 HTTP/1.0
+POST /api/2.5/tenders/bac835240efd4adea01560554d7bfdb4/bids/2191d9a2aadb44418238d8cf893ae395/documents?acc_token=d4640e490c734ea5ae304b02ec4304d9 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 462
+Content-Length: 452
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "hash": "md5:00000000000000000000000000000000", 
-    "confidentiality": "buyerOnly", 
-    "title": "private.doc", 
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a80b88c2517343558b6e061f834130a6?KeyID=a8968c46&Signature=HIm0blH%2BhAke1zBWo25GwhAsfq%2BSc%2FG532m%2BIIPcnJw4iaHt2cPyPfq6Wn1Dnowa10yu%2Fe7daveFu0G1PJQ%2FDw%3D%3D", 
-    "confidentialityRationale": "This document contains some secret data that shouldn't be public", 
-    "format": "application/msword"
+    "title": "private.doc",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2b8ffb74c36644aa9b216aa7ca82eacc?Signature=Vlq4xCQg4KjJHvyKrsTBGM6Qae8gxGjXw9oGfnGz35ohSBvYQwkcOeoLSuHqoaBokhJap%2Flzposh9Bx5ZtMZBQ%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/msword",
+    "confidentiality": "buyerOnly",
+    "confidentialityRationale": "This document contains some secret data that shouldn't be public"
   }
 }
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/bids/ad3518204d0f4cdcaa3c0940fa21e417/documents/8cff43d95f9a44bd977c9939894315c8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bac835240efd4adea01560554d7bfdb4/bids/2191d9a2aadb44418238d8cf893ae395/documents/37931b79e4a24a4b922ef4a7bf83b52e
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "hash": "md5:00000000000000000000000000000000", 
-    "confidentiality": "buyerOnly", 
-    "title": "private.doc", 
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/bids/ad3518204d0f4cdcaa3c0940fa21e417/documents/8cff43d95f9a44bd977c9939894315c8?download=a80b88c2517343558b6e061f834130a6", 
-    "confidentialityRationale": "This document contains some secret data that shouldn't be public", 
-    "format": "application/msword", 
-    "documentOf": "tender", 
-    "datePublished": "2020-09-08T01:00:00+03:00", 
-    "id": "8cff43d95f9a44bd977c9939894315c8", 
-    "dateModified": "2020-09-08T01:00:00+03:00"
+    "id": "37931b79e4a24a4b922ef4a7bf83b52e",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "private.doc",
+    "format": "application/msword",
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bac835240efd4adea01560554d7bfdb4/bids/2191d9a2aadb44418238d8cf893ae395/documents/37931b79e4a24a4b922ef4a7bf83b52e?download=2b8ffb74c36644aa9b216aa7ca82eacc",
+    "datePublished": "2020-09-08T01:00:00+03:00",
+    "dateModified": "2020-09-08T01:00:00+03:00",
+    "documentOf": "tender",
+    "confidentiality": "buyerOnly",
+    "confidentialityRationale": "This document contains some secret data that shouldn't be public"
   }
 }
 

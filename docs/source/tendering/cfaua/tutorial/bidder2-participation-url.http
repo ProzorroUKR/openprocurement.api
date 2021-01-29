@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/7463b9ba00b849cb8e5a5421f550868e?acc_token=6efd2617b0c1409f9949bec517f22600 HTTP/1.0
+GET /api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/c4cc8a18f70745389bffcab828a9cb83?acc_token=acee2456fb93474caa983e9dbf3b94dc HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,46 +7,46 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "active", 
-    "lotValues": [
-      {
-        "relatedLot": "c7555f1bb878434d8815dea318304673", 
-        "date": "2020-09-08T01:00:00+03:00", 
-        "status": "active", 
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/e5172ebc4c4c411f84f376ce6ede43b8_c7555f1bb878434d8815dea318304673?key_for_bid=7463b9ba00b849cb8e5a5421f550868e", 
-        "value": {
-          "currency": "UAH", 
-          "amount": 499, 
-          "valueAddedTaxIncluded": true
-        }
-      }
-    ], 
-    "id": "7463b9ba00b849cb8e5a5421f550868e", 
     "tenderers": [
       {
-        "contactPoint": {
-          "email": "aagt@gmail.com", 
-          "telephone": "+380 (322) 91-69-30", 
-          "name": "Андрій Олексюк"
-        }, 
-        "scale": "sme", 
-        "name": "ДКП «Книга»", 
+        "name": "ДКП «Книга»",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137226", 
+          "scheme": "UA-EDR",
+          "id": "00137226",
           "uri": "http://www.sc.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "79013", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 34", 
-          "region": "Львівська область", 
-          "locality": "м. Львів"
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Андрій Олексюк",
+          "email": "aagt@gmail.com",
+          "telephone": "+380 (322) 91-69-30"
+        },
+        "scale": "sme"
+      }
+    ],
+    "date": "2020-09-08T01:00:00+03:00",
+    "id": "c4cc8a18f70745389bffcab828a9cb83",
+    "lotValues": [
+      {
+        "relatedLot": "52815e9d01914c7a9bf4ba18ebb5e783",
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/37cb590308a242a9836f51a9994c7492_52815e9d01914c7a9bf4ba18ebb5e783?key_for_bid=c4cc8a18f70745389bffcab828a9cb83",
+        "date": "2020-09-08T01:00:00+03:00",
+        "status": "active",
+        "value": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true,
+          "amount": 499
         }
       }
-    ], 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "selfQualified": true
+    ],
+    "selfQualified": true,
+    "status": "active"
   }
 }
 

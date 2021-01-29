@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/agreements/85b5a0dd7da441c08eb664e2412cc5d5/contracts/2221451d71af4bfa803fd5b9382103ed?acc_token=1e40f3cf3fd64b8ebca3076b70a86e71 HTTP/1.0
+PATCH /api/2.5/tenders/37cb590308a242a9836f51a9994c7492/agreements/0fea7d7c4c8649f5a499885d630671f5/contracts/edb78279aaec40d3be65c96c5c5eb0db?acc_token=fbb49b806b484733bc09390b0e01078d HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 184
 Content-Type: application/json
@@ -8,16 +8,16 @@ DATA:
   "data": {
     "unitPrices": [
       {
+        "relatedItem": "fb692f97b807462b94668d4091b2779b",
         "value": {
           "amount": 0.5
-        }, 
-        "relatedItem": "0f3aaf18780b488798fcd61b8e98d5b4"
-      }, 
+        }
+      },
       {
+        "relatedItem": "eda37d51e2854d93aedc7e1d31e01cea",
         "value": {
           "amount": 0.5
-        }, 
-        "relatedItem": "1a9ae9179087434e8970d4f22cc8e59d"
+        }
       }
     ]
   }
@@ -28,52 +28,52 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "active", 
-    "unitPrices": [
-      {
-        "value": {
-          "currency": "UAH", 
-          "amount": 0.5, 
-          "valueAddedTaxIncluded": true
-        }, 
-        "relatedItem": "0f3aaf18780b488798fcd61b8e98d5b4"
-      }, 
-      {
-        "value": {
-          "currency": "UAH", 
-          "amount": 0.5, 
-          "valueAddedTaxIncluded": true
-        }, 
-        "relatedItem": "1a9ae9179087434e8970d4f22cc8e59d"
-      }
-    ], 
+    "id": "edb78279aaec40d3be65c96c5c5eb0db",
+    "status": "active",
     "suppliers": [
       {
-        "contactPoint": {
-          "email": "fake@mail.com", 
-          "telephone": "+380 (322) 12-34-56", 
-          "name": "Іван Іваненко"
-        }, 
-        "scale": "mid", 
-        "name": "«Снігур»", 
+        "name": "«Снігур»",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137227", 
+          "scheme": "UA-EDR",
+          "id": "00137227",
           "uri": "http://www.sc.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "79013", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 35", 
-          "region": "Львівська область", 
-          "locality": "м. Львів"
+          "streetAddress": "вул. Островського, 35",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Іван Іваненко",
+          "email": "fake@mail.com",
+          "telephone": "+380 (322) 12-34-56"
+        },
+        "scale": "mid"
+      }
+    ],
+    "unitPrices": [
+      {
+        "relatedItem": "fb692f97b807462b94668d4091b2779b",
+        "value": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true,
+          "amount": 0.5
+        }
+      },
+      {
+        "relatedItem": "eda37d51e2854d93aedc7e1d31e01cea",
+        "value": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true,
+          "amount": 0.5
         }
       }
-    ], 
-    "bidID": "f15395a4363049ad92d56f8b5ff97fac", 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "awardID": "58aa9c80eeb345e998dc764a75f940ee", 
-    "id": "2221451d71af4bfa803fd5b9382103ed"
+    ],
+    "awardID": "05a621257252432fa202ba058a22a2cd",
+    "bidID": "98b3bff73c4a4879b603800966926a71",
+    "date": "2020-09-08T01:00:00+03:00"
   }
 }
 

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/awards/763e8aa953f246728f00ff21743bd1dd?acc_token=01c4e9b4c80843dfbb75ae001368a5cc HTTP/1.0
+PATCH /api/2.5/tenders/e821f507458c4e99bdd9928981355ffa/awards/2457dbf1f0fa43daaf6148695865ce39?acc_token=8f1004e671ba4f989b18485e22a81772 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -15,64 +15,64 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "active", 
-    "items": [
-      {
-        "description": "Комп’ютерне обладнання", 
-        "classification": {
-          "scheme": "ДК021", 
-          "description": "Комп’ютерне обладнанн", 
-          "id": "30230000-0"
-        }, 
-        "deliveryAddress": {
-          "postalCode": "79000", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }, 
-        "deliveryDate": {
-          "startDate": "2020-09-10T01:00:00+03:00", 
-          "endDate": "2020-09-13T01:00:00+03:00"
-        }, 
-        "id": "d581e0b6310f42a29db8b39d3940beb4", 
-        "unit": {
-          "code": "H87", 
-          "name": "штук"
-        }, 
-        "quantity": 1.0
-      }
-    ], 
+    "id": "2457dbf1f0fa43daaf6148695865ce39",
+    "status": "active",
+    "date": "2020-09-08T01:00:01+03:00",
+    "value": {
+      "amount": 479.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "suppliers": [
       {
-        "contactPoint": {
-          "name": "Державне управління справами", 
-          "telephone": "0440000000"
-        }, 
-        "scale": "micro", 
-        "name": "Державне управління справами", 
+        "name": "Державне управління справами",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00037256", 
+          "scheme": "UA-EDR",
+          "id": "00037256",
           "uri": "http://www.dus.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "01220", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова, 11, корпус 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "01220",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Державне управління справами",
+          "telephone": "0440000000"
+        },
+        "scale": "micro"
+      }
+    ],
+    "items": [
+      {
+        "id": "61a6737049384b08876fb0407eda182f",
+        "description": "Комп’ютерне обладнання",
+        "unit": {
+          "name": "штук",
+          "code": "H87"
+        },
+        "quantity": 1.0,
+        "deliveryDate": {
+          "startDate": "2020-09-10T01:00:00+03:00",
+          "endDate": "2020-09-13T01:00:00+03:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "classification": {
+          "description": "Комп’ютерне обладнанн",
+          "scheme": "ДК021",
+          "id": "30230000-0"
         }
       }
-    ], 
-    "bid_id": "6b18ba7a8bf04784907487360146dcb2", 
-    "value": {
-      "currency": "UAH", 
-      "amount": 479.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "date": "2020-09-08T01:00:01+03:00", 
-    "id": "763e8aa953f246728f00ff21743bd1dd"
+    ],
+    "bid_id": "4f6256946cb844bc899c4570307f502a"
   }
 }
 

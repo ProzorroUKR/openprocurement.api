@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/50c82523038349969f53f3e238932c46/questions HTTP/1.0
+POST /api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/questions HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1147
 Content-Type: application/json
@@ -7,60 +7,60 @@ DATA:
 {
   "data": {
     "author": {
-      "contactPoint": {
-        "email": "aagt@gmail.com", 
-        "telephone": "+380 (322) 91-69-30", 
-        "name": "Андрій Олексюк"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "id": "00137226", 
-        "uri": "http://www.sc.gov.ua/"
-      }, 
-      "name": "ДКП «Книга»", 
       "address": {
-        "countryName": "Україна", 
-        "postalCode": "79013", 
-        "region": "Львівська область", 
-        "streetAddress": "вул. Островського, 34", 
-        "locality": "м. Львів"
-      }
-    }, 
-    "description": "Просимо додати таблицю потрібної калорійності харчування", 
+        "countryName": "Україна",
+        "locality": "м. Львів",
+        "postalCode": "79013",
+        "region": "Львівська область",
+        "streetAddress": "вул. Островського, 34"
+      },
+      "contactPoint": {
+        "email": "aagt@gmail.com",
+        "name": "Андрій Олексюк",
+        "telephone": "+380 (322) 91-69-30"
+      },
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00137226",
+        "uri": "http://www.sc.gov.ua/"
+      },
+      "name": "ДКП «Книга»"
+    },
+    "description": "Просимо додати таблицю потрібної калорійності харчування",
     "title": "Калорійність"
   }
 }
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/50c82523038349969f53f3e238932c46/questions/ce4ede90660e4efbaad13eafee008821
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/questions/5c4d8b539f1f40c4a1f6d18512279013
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "description": "Просимо додати таблицю потрібної калорійності харчування", 
+    "id": "5c4d8b539f1f40c4a1f6d18512279013",
     "author": {
-      "contactPoint": {
-        "email": "aagt@gmail.com", 
-        "telephone": "+380 (322) 91-69-30", 
-        "name": "Андрій Олексюк"
-      }, 
+      "name": "ДКП «Книга»",
       "identifier": {
-        "scheme": "UA-EDR", 
-        "id": "00137226", 
+        "scheme": "UA-EDR",
+        "id": "00137226",
         "uri": "http://www.sc.gov.ua/"
-      }, 
-      "name": "ДКП «Книга»", 
+      },
       "address": {
-        "postalCode": "79013", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Островського, 34", 
-        "region": "Львівська область", 
-        "locality": "м. Львів"
+        "streetAddress": "вул. Островського, 34",
+        "locality": "м. Львів",
+        "region": "Львівська область",
+        "postalCode": "79013",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Андрій Олексюк",
+        "email": "aagt@gmail.com",
+        "telephone": "+380 (322) 91-69-30"
       }
-    }, 
-    "title": "Калорійність", 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "id": "ce4ede90660e4efbaad13eafee008821", 
+    },
+    "title": "Калорійність",
+    "description": "Просимо додати таблицю потрібної калорійності харчування",
+    "date": "2020-09-08T01:00:00+03:00",
     "questionOf": "tender"
   }
 }

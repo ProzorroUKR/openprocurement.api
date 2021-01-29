@@ -6,16 +6,16 @@ Response: 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
-  "next_page": {
-    "path": "/api/2.5/frameworks?offset=2020-09-08T01%3A00%3A00%2B03%3A00", 
-    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks?offset=2020-09-08T01%3A00%3A00%2B03%3A00", 
-    "offset": "2020-09-08T01:00:00+03:00"
-  }, 
   "data": [
     {
-      "id": "40b48e4878534db1bf228d5928f8f1d9", 
+      "id": "3176109c7572429b99dbc5707a10617c",
       "dateModified": "2020-09-08T01:00:00+03:00"
     }
-  ]
+  ],
+  "next_page": {
+    "offset": "2020-09-08T01:00:00+03:00",
+    "path": "/api/2.5/frameworks?offset=2020-09-08T01%3A00%3A00%2B03%3A00",
+    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks?offset=2020-09-08T01%3A00%3A00%2B03%3A00"
+  }
 }
 

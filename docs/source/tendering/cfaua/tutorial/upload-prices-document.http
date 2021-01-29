@@ -1,12 +1,12 @@
-POST /api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/544359015fd047a8b79fa81bda0889fc/financial_documents?acc_token=7ba8d77208c04422b161882dc2c4b5c2 HTTP/1.0
+POST /api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/9eee26d528d9490a9e52cf6b1f696c41/financial_documents?acc_token=c0c98c22f5594c6e99ba094d5d9a9b63 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 201
+Content-Length: 159
 Content-Type: multipart/form-data; boundary=---BOUNDARY
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 -----BOUNDARY
-Content-Disposition: form-data; name="file"; filename="prices.xlsx"
-Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+Content-Disposition: form-data; name="file"; filename="prices.xls"
+Content-Type: application/vnd.ms-excel
 
 <raw_file_data>
 -----BOUNDARY--
@@ -14,20 +14,20 @@ Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/544359015fd047a8b79fa81bda0889fc/financial_documents/b7dbf4fb85574d4c94f7a66e384d4957
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/9eee26d528d9490a9e52cf6b1f696c41/financial_documents/eee02e6c3acd49ecabdc3b0a07cfe1f9
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "hash": "md5:00000000000000000000000000000000", 
-    "confidentiality": "public", 
-    "language": "uk", 
-    "title": "prices.xlsx", 
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/117a923aed2141e7b4510774c5053093?KeyID=a8968c46&Signature=tGJOLIxhuZzkrURyVSWAMcs%252BLFibk59k62hvwxzTeIgj1G2y9JdziJY42yjf4OmIJcdM1z3esuvZPgFs4xTwAQ%253D%253D", 
-    "format": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
-    "documentOf": "tender", 
-    "datePublished": "2020-09-08T01:00:00+03:00", 
-    "id": "b7dbf4fb85574d4c94f7a66e384d4957", 
-    "dateModified": "2020-09-08T01:00:00+03:00"
+    "id": "eee02e6c3acd49ecabdc3b0a07cfe1f9",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "prices.xls",
+    "format": "application/vnd.ms-excel",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2caba79533ba45dd9a504a552daa0bb1?Signature=W4QPL618Rk4J6bFv6Wlgx5Bg3NX8tn7z76wCaPKJh8n451KK3K5q3KEKGY%2BN%2FjXg6DP%2B7cA3QstN97YDgklRBg%3D%3D&KeyID=a8968c46",
+    "datePublished": "2020-09-08T01:00:00+03:00",
+    "dateModified": "2020-09-08T01:00:00+03:00",
+    "documentOf": "tender",
+    "confidentiality": "public",
+    "language": "uk"
   }
 }
 

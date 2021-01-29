@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/dbaf5c5918364ee18fe7536bcb7ac13d/qualifications/59efad2924154abf958fa603c0869cd8/requirement_responses HTTP/1.0
+GET /api/2.5/tenders/f309105c88c04402b39a328832ebb6a8/qualifications/1f12772864df4308b4600d354a9f16f1/requirement_responses HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -8,34 +8,34 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
+      "id": "3fbc7e99c59d48f6b7e8ccc81a3a6547",
+      "title": "Updated title",
+      "description": "some description",
       "requirement": {
-        "id": "557e21d1a63f43ba87e0c5a77a9df87f", 
+        "id": "25db5dd6476d408bb11dcda6485cc5b7",
         "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
-      }, 
-      "description": "some description", 
-      "title": "Updated title", 
-      "value": "True", 
+      },
       "evidences": [
         {
-          "title": "Requirement response", 
-          "type": "document", 
+          "id": "d32c5e53dfaf48ef8f81a7337830ef22",
+          "title": "Requirement response",
+          "type": "document",
           "relatedDocument": {
-            "id": "c4fdfaf72cac4bfca7b25f3c75daf52b", 
+            "id": "9a0a38e8ad5a4cc4a48a8ebb2621d097",
             "title": "name.doc"
-          }, 
-          "id": "cd75dc72849a4a7fa33bdc597878040e"
-        }, 
+          }
+        },
         {
-          "title": "Update evidence title", 
-          "type": "document", 
+          "id": "b1bcc35d28054cefa8b0f566a380bc79",
+          "title": "Update evidence title",
+          "type": "document",
           "relatedDocument": {
-            "id": "c4fdfaf72cac4bfca7b25f3c75daf52b", 
+            "id": "9a0a38e8ad5a4cc4a48a8ebb2621d097",
             "title": "name.doc"
-          }, 
-          "id": "1775f2c320914a54ae378e78edca8b1d"
+          }
         }
-      ], 
-      "id": "9f7da91b742e402489a5d8987b71ce10"
+      ],
+      "value": "True"
     }
   ]
 }

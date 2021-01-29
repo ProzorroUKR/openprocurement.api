@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/bids/e5f41295f7054beb9b741317fa6de5b2?acc_token=00e173e5f31f4decbb811cc01e10c1bf HTTP/1.0
+PATCH /api/2.5/tenders/e821f507458c4e99bdd9928981355ffa/bids/29415ac0f0d54c9d9b7b4db698534302?acc_token=90b0dcd4dfc944c281316a559b1666ca HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 36
 Content-Type: application/json
@@ -17,101 +17,101 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "draft", 
-    "value": {
-      "currency": "UAH", 
-      "amount": 459.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "requirementResponses": [
-      {
-        "requirement": {
-          "id": "655360-0001-001-01"
-        }, 
-        "id": "bc074137ccbd45deb7cb909bb4c0c05c", 
-        "value": "23.8"
-      }, 
-      {
-        "requirement": {
-          "id": "655360-0002-001-01"
-        }, 
-        "id": "b29ec66aeeb44caf8a63343e8541d294", 
-        "value": "1920x1080"
-      }, 
-      {
-        "requirement": {
-          "id": "655360-0003-001-01"
-        }, 
-        "id": "7e79287c47e84824ace560a757175e88", 
-        "value": "16:9"
-      }, 
-      {
-        "requirement": {
-          "id": "655360-0004-001-01"
-        }, 
-        "id": "4975a5e85dd749f197d997df74b4db6a", 
-        "value": "250"
-      }, 
-      {
-        "requirement": {
-          "id": "655360-0005-001-01"
-        }, 
-        "id": "f71b2987363046c49d67809cfeb9f485", 
-        "value": "1000:1"
-      }, 
-      {
-        "requirement": {
-          "id": "655360-0006-001-01"
-        }, 
-        "id": "713d1d04ed3e4ff6a2bf29bb23147636", 
-        "value": "1"
-      }, 
-      {
-        "requirement": {
-          "id": "655360-0007-001-01"
-        }, 
-        "id": "6ef693d69bc846a58a064d5babdff756", 
-        "value": "1"
-      }, 
-      {
-        "requirement": {
-          "id": "655360-0008-001-01"
-        }, 
-        "id": "8a0ff48941e9479495cbca737eed6379", 
-        "value": "HDMI"
-      }, 
-      {
-        "requirement": {
-          "id": "655360-0009-001-01"
-        }, 
-        "id": "00f78400db744dc09363ff0a1d49ad4a", 
-        "value": "36"
-      }
-    ], 
     "tenderers": [
       {
-        "contactPoint": {
-          "name": "Державне управління справами", 
-          "telephone": "0440000000"
-        }, 
-        "scale": "micro", 
-        "name": "Державне управління справами", 
+        "name": "Державне управління справами",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00037256", 
+          "scheme": "UA-EDR",
+          "id": "00037256",
           "uri": "http://www.dus.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "01220", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова, 11, корпус 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "01220",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Державне управління справами",
+          "telephone": "0440000000"
+        },
+        "scale": "micro"
       }
-    ], 
-    "date": "2020-09-08T01:00:01+03:00", 
-    "id": "e5f41295f7054beb9b741317fa6de5b2"
+    ],
+    "date": "2020-09-08T01:00:01+03:00",
+    "id": "29415ac0f0d54c9d9b7b4db698534302",
+    "status": "draft",
+    "value": {
+      "amount": 459.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "requirementResponses": [
+      {
+        "id": "42a37c28db48487b9087887d1de9f565",
+        "requirement": {
+          "id": "655360-0001-001-01"
+        },
+        "value": "23.8"
+      },
+      {
+        "id": "65416ef63bb9439b9633bc48f0e3d92a",
+        "requirement": {
+          "id": "655360-0002-001-01"
+        },
+        "value": "1920x1080"
+      },
+      {
+        "id": "7b66650890ca46508873f93d32baa3b6",
+        "requirement": {
+          "id": "655360-0003-001-01"
+        },
+        "value": "16:9"
+      },
+      {
+        "id": "aab0baa58eec462eb29e0c498f986f66",
+        "requirement": {
+          "id": "655360-0004-001-01"
+        },
+        "value": "250"
+      },
+      {
+        "id": "c5d81c755bd649f99103701d4ac2af11",
+        "requirement": {
+          "id": "655360-0005-001-01"
+        },
+        "value": "1000:1"
+      },
+      {
+        "id": "4cafe402e83c43aa89c477f760d00907",
+        "requirement": {
+          "id": "655360-0006-001-01"
+        },
+        "value": "1"
+      },
+      {
+        "id": "826a01de04c3489da77a770ce8bdabd5",
+        "requirement": {
+          "id": "655360-0007-001-01"
+        },
+        "value": "1"
+      },
+      {
+        "id": "cb2a26252cc545bfa45db902b929b171",
+        "requirement": {
+          "id": "655360-0008-001-01"
+        },
+        "value": "HDMI"
+      },
+      {
+        "id": "a3b4c8e5ba15493aaf9816ecedc236f6",
+        "requirement": {
+          "id": "655360-0009-001-01"
+        },
+        "value": "36"
+      }
+    ]
   }
 }
 

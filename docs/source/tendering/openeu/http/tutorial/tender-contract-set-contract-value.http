@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/contracts/9f6f0333b6bb47c0962d17b48be30ac3?acc_token=5af527ef599c4cb0a283a7ba4c445288 HTTP/1.0
+PATCH /api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/contracts/7b1a9e2857ae47f78a76fdb104dc9a46?acc_token=a18895cc933048798f66084924c3fdf5 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 86
 Content-Type: application/json
@@ -6,9 +6,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "contractNumber": "contract#1", 
+    "contractNumber": "contract#1",
     "value": {
-      "amount": 238, 
+      "amount": 238,
       "amountNet": 230
     }
   }
@@ -19,101 +19,101 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "pending", 
-    "items": [
-      {
-        "description": "Послуги шкільних їдалень", 
-        "classification": {
-          "scheme": "ДК021", 
-          "description": "Test", 
-          "id": "37810000-9"
-        }, 
-        "description_en": "Services in school canteens", 
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП", 
-            "id": "17.21.1", 
-            "description": "Послуги шкільних їдалень"
-          }
-        ], 
-        "deliveryAddress": {
-          "postalCode": "79000", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }, 
-        "deliveryDate": {
-          "startDate": "2020-09-28T00:00:00+02:00", 
-          "endDate": "2020-10-28T00:00:00+02:00"
-        }, 
-        "id": "a05c9533cb5e4c60a37c8fdf2555aa7b", 
-        "quantity": 1.0
-      }, 
-      {
-        "description": "Послуги шкільних їдалень", 
-        "classification": {
-          "scheme": "ДК021", 
-          "description": "Test", 
-          "id": "37810000-9"
-        }, 
-        "description_en": "Services in school canteens", 
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП", 
-            "id": "17.21.1", 
-            "description": "Послуги шкільних їдалень"
-          }
-        ], 
-        "deliveryAddress": {
-          "postalCode": "79000", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }, 
-        "deliveryDate": {
-          "startDate": "2020-09-28T00:00:00+02:00", 
-          "endDate": "2020-10-28T00:00:00+02:00"
-        }, 
-        "id": "357f4ccfcf664b2e8ddc904e116a19c5", 
-        "quantity": 1.0
-      }
-    ], 
+    "id": "7b1a9e2857ae47f78a76fdb104dc9a46",
+    "contractID": "UA-2020-09-08-000001-1",
+    "contractNumber": "contract#1",
+    "status": "pending",
     "suppliers": [
       {
-        "contactPoint": {
-          "email": "aagt@gmail.com", 
-          "telephone": "+380 (322) 91-69-30", 
-          "name": "Андрій Олексюк"
-        }, 
-        "scale": "sme", 
-        "name": "ДКП «Книга»", 
+        "name": "ДКП «Книга»",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137226", 
+          "scheme": "UA-EDR",
+          "id": "00137226",
           "uri": "http://www.sc.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "79013", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 34", 
-          "region": "Львівська область", 
-          "locality": "м. Львів"
-        }
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Андрій Олексюк",
+          "email": "aagt@gmail.com",
+          "telephone": "+380 (322) 91-69-30"
+        },
+        "scale": "sme"
       }
-    ], 
-    "contractNumber": "contract#1", 
+    ],
+    "date": "2020-09-08T01:00:00+03:00",
     "value": {
-      "currency": "UAH", 
-      "amount": 238.0, 
-      "amountNet": 230.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "awardID": "8f7a3fd606ef4cad912be818c9e690d6", 
-    "id": "9f6f0333b6bb47c0962d17b48be30ac3", 
-    "contractID": "UA-2020-09-08-000001-1"
+      "amount": 238.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amountNet": 230.0
+    },
+    "awardID": "f447d32b13f04aa9bbf79b7481eda7ec",
+    "items": [
+      {
+        "id": "c2eff2b9323c40a8a017e4f2fe8af8a3",
+        "description": "Послуги шкільних їдалень",
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "quantity": 1.0,
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
+        },
+        "deliveryDate": {
+          "startDate": "2020-09-28T00:00:00+02:00",
+          "endDate": "2020-10-28T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "description_en": "Services in school canteens"
+      },
+      {
+        "id": "7d309b62d3314959ad7a563221df232c",
+        "description": "Послуги шкільних їдалень",
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "quantity": 1.0,
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
+        },
+        "deliveryDate": {
+          "startDate": "2020-09-28T00:00:00+02:00",
+          "endDate": "2020-10-28T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "description_en": "Services in school canteens"
+      }
+    ]
   }
 }
 

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660?acc_token=62607c36ce4a4d64961ecc0d0a21540e HTTP/1.0
+PATCH /api/2.5/tenders/bac835240efd4adea01560554d7bfdb4?acc_token=ecfd2afb0d2844039379a26cddd96d93 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 113
 Content-Type: application/json
@@ -6,12 +6,12 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
+    "value": {
+      "amount": 501,
+      "currency": "UAH"
+    },
     "tenderPeriod": {
       "endDate": "2020-09-16T01:00:00+03:00"
-    }, 
-    "value": {
-      "currency": "UAH", 
-      "amount": 501
     }
   }
 }
@@ -21,174 +21,174 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "procurementMethod": "open", 
-    "mainProcurementCategory": "services", 
-    "complaintPeriod": {
-      "startDate": "2020-08-24T01:00:00+03:00", 
-      "endDate": "2020-09-12T00:00:00+03:00"
-    }, 
-    "enquiryPeriod": {
-      "startDate": "2020-08-24T01:00:00+03:00", 
-      "clarificationsUntil": "2020-09-10T00:00:00+03:00", 
-      "endDate": "2020-09-06T01:00:00+03:00", 
-      "invalidationDate": "2020-09-08T01:00:00+03:00"
-    }, 
-    "submissionMethod": "electronicAuction", 
-    "next_check": "2020-09-16T01:00:00+03:00", 
-    "procuringEntity": {
-      "contactPoint": {
-        "url": "http://sch10.edu.vn.ua/", 
-        "name": "Куца Світлана Валентинівна", 
-        "telephone": "+380 (432) 46-53-02"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "id": "21725150", 
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
-      }, 
-      "name": "ЗОСШ #10 м.Вінниці", 
-      "kind": "special", 
-      "address": {
-        "postalCode": "21027", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Стахурського. 22", 
-        "region": "Вінницька область", 
-        "locality": "м. Вінниця"
-      }
-    }, 
-    "questions": [
-      {
-        "description": "Просимо додати таблицю потрібної калорійності харчування", 
-        "dateAnswered": "2020-09-08T01:00:00+03:00", 
-        "title": "Калорійність", 
-        "date": "2020-09-08T01:00:00+03:00", 
-        "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
-        "id": "6f8dbfa6825f4e48bee512c1e14d51df", 
-        "questionOf": "tender"
-      }
-    ], 
-    "owner": "broker", 
-    "id": "7898ec9992af47ccbc9b8bf1b8539660", 
-    "guarantee": {
-      "currency": "USD", 
-      "amount": 8.0
-    }, 
+    "title": "футляри до державних нагород",
     "documents": [
       {
-        "hash": "md5:00000000000000000000000000000000", 
-        "author": "tender_owner", 
-        "title": "Notice.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c702d06f23f14ec189cd1bd66c90abd0?KeyID=a8968c46&Signature=688FEMWrJkWC6VBBk4wwQ2WFI79vKzYAw4v%2FH9PDt5a3Sy3ndEpP929cqlLucJvuC1lZ71Xi3I3aL9oEN3mrCA%253D%253D", 
-        "format": "application/pdf", 
-        "documentOf": "tender", 
-        "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "2b26222a4d28407c9a2106c18c73ed59", 
-        "dateModified": "2020-09-08T01:00:00+03:00"
-      }, 
+        "id": "e6cca34e2dd54d7ca00c933af33cbae8",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Notice.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f5dbdeabd6d043ce9262c376e4618051?Signature=1pxYXpYiS4DLQMuSFO9SIBLDRvf8cpwi11twIuAFMTpLSLwqq8X3SszZn6liInxFeI50pn4ZBPMztVEf3tUxDw%3D%3D&KeyID=a8968c46",
+        "datePublished": "2020-09-08T01:00:00+03:00",
+        "dateModified": "2020-09-08T01:00:00+03:00",
+        "author": "tender_owner",
+        "documentOf": "tender"
+      },
       {
-        "hash": "md5:00000000000000000000000000000000", 
-        "author": "tender_owner", 
-        "title": "AwardCriteria.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/382eba2281e341d88fc724ea328302fd?KeyID=a8968c46&Signature=k6wmTxxTDQYcalrdEQWBoYH0gSbJMFUgLUH6eowPp%252BepzSM8XGRhdml5ThkxKwYavfTOg1rFPMKNi719M%2FqYBg%253D%253D", 
-        "format": "application/pdf", 
-        "documentOf": "tender", 
-        "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "7b880a22b1c942cdad482344ecc029ea", 
-        "dateModified": "2020-09-08T01:00:00+03:00"
-      }, 
+        "id": "b59853a88867427893387b555f9b1aa7",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "AwardCriteria.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/24f21caba1554bdaba62659a1963f356?Signature=ku7opICrC1GZxeXwJxZCa60hwQnseDy1p7I7fZjS0UxhN5yZEnv%2F7hFW%2BG52AcT2rmfCwbEkDmfGu1qqXfuGDQ%3D%3D&KeyID=a8968c46",
+        "datePublished": "2020-09-08T01:00:00+03:00",
+        "dateModified": "2020-09-08T01:00:00+03:00",
+        "author": "tender_owner",
+        "documentOf": "tender"
+      },
       {
-        "hash": "md5:00000000000000000000000000000000", 
-        "author": "tender_owner", 
-        "title": "AwardCriteria-2.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c04e815dd1e14b81b49bcd4e9964b09f?KeyID=a8968c46&Signature=N5Yc%2F1EBBvzw5Rs2lVNy%2F6Ke%2FxXrhdOB57Ovx5VfpdqurQfttYv4uFpxEj%2FQWakhGZMZZw4RrHsnzbpGtyuLAQ%253D%253D", 
-        "format": "application/pdf", 
-        "documentOf": "tender", 
-        "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "7b880a22b1c942cdad482344ecc029ea", 
-        "dateModified": "2020-09-08T01:00:00+03:00"
+        "id": "b59853a88867427893387b555f9b1aa7",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "AwardCriteria-2.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/76512a476bf444a280465306f2864083?Signature=%2BQPg9pHTPcIybhmvIAOUi6%2FX3rXu8pdkvRcGLzQg1woeeob3xkAVAW6eMx0TVffOaiMD1Cw9Us2RCrJhogT1Cw%3D%3D&KeyID=a8968c46",
+        "datePublished": "2020-09-08T01:00:00+03:00",
+        "dateModified": "2020-09-08T01:00:00+03:00",
+        "author": "tender_owner",
+        "documentOf": "tender"
       }
-    ], 
-    "title": "футляри до державних нагород", 
-    "tenderID": "UA-2020-09-08-000001", 
-    "dateModified": "2020-09-08T01:00:00+03:00", 
-    "status": "active.tendering", 
-    "tenderPeriod": {
-      "startDate": "2020-08-24T01:00:00+03:00", 
-      "endDate": "2020-09-16T01:00:00+03:00"
-    }, 
-    "auctionPeriod": {
-      "startDate": "2020-09-10T01:00:00+03:00", 
-      "shouldStartAfter": "2020-09-17T00:00:00+03:00"
-    }, 
-    "procurementMethodType": "aboveThresholdUA", 
-    "date": "2020-09-08T01:00:00+03:00", 
+    ],
+    "date": "2020-09-08T01:00:00+03:00",
+    "dateModified": "2020-09-08T01:00:00+03:00",
+    "tenderID": "UA-2020-09-08-000001",
+    "owner": "broker",
+    "mainProcurementCategory": "services",
     "milestones": [
       {
-        "code": "prepayment", 
-        "sequenceNumber": 0, 
-        "title": "signingTheContract", 
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
         "duration": {
-          "type": "banking", 
-          "days": 2
-        }, 
-        "percentage": 45.55, 
-        "type": "financing", 
-        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      }, 
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 0
+      },
       {
-        "code": "postpayment", 
-        "sequenceNumber": 0, 
-        "title": "deliveryOfGoods", 
+        "id": "194bf6a24651493799fced01ec0c874f",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
         "duration": {
-          "type": "calendar", 
-          "days": 900
-        }, 
-        "percentage": 54.45, 
-        "type": "financing", 
-        "id": "a7fcfa16a7044ec98e25ebf223edc6c7"
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 0
       }
-    ], 
-    "minimalStep": {
-      "currency": "UAH", 
-      "amount": 35.0, 
+    ],
+    "procurementMethod": "open",
+    "awardCriteria": "lowestCost",
+    "submissionMethod": "electronicAuction",
+    "value": {
+      "amount": 501.0,
+      "currency": "UAH",
       "valueAddedTaxIncluded": true
-    }, 
+    },
+    "procuringEntity": {
+      "name": "ЗОСШ #10 м.Вінниці",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "21725150",
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+      },
+      "address": {
+        "streetAddress": "вул. Стахурського. 22",
+        "locality": "м. Вінниця",
+        "region": "Вінницька область",
+        "postalCode": "21027",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Куца Світлана Валентинівна",
+        "telephone": "+380 (432) 46-53-02",
+        "url": "http://sch10.edu.vn.ua/"
+      },
+      "kind": "special"
+    },
+    "minimalStep": {
+      "amount": 35.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "questions": [
+      {
+        "id": "a5e2fe3c430a428a8bf1c2f8bab1974d",
+        "title": "Калорійність",
+        "description": "Просимо додати таблицю потрібної калорійності харчування",
+        "date": "2020-09-08T01:00:00+03:00",
+        "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"",
+        "questionOf": "tender",
+        "dateAnswered": "2020-09-08T01:00:00+03:00"
+      }
+    ],
+    "guarantee": {
+      "amount": 8.0,
+      "currency": "USD"
+    },
+    "enquiryPeriod": {
+      "startDate": "2020-08-24T01:00:00+03:00",
+      "endDate": "2020-09-06T01:00:00+03:00",
+      "clarificationsUntil": "2020-09-10T00:00:00+03:00",
+      "invalidationDate": "2020-09-08T01:00:00+03:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2020-08-24T01:00:00+03:00",
+      "endDate": "2020-09-16T01:00:00+03:00"
+    },
+    "auctionPeriod": {
+      "startDate": "2020-09-10T01:00:00+03:00",
+      "shouldStartAfter": "2020-09-17T00:00:00+03:00"
+    },
+    "procurementMethodType": "aboveThresholdUA",
     "items": [
       {
-        "description": "Послуги шкільних їдалень", 
-        "classification": {
-          "scheme": "ДК021", 
-          "description": "Послуги з харчування у школах", 
-          "id": "55523100-3"
-        }, 
+        "id": "c8240ac851604470952a8ad2038fd9aa",
+        "description": "Послуги шкільних їдалень",
         "additionalClassifications": [
           {
-            "scheme": "ДКПП", 
-            "id": "17.21.1", 
+            "scheme": "ДКПП",
+            "id": "17.21.1",
             "description": "Послуги шкільних їдалень"
           }
-        ], 
-        "deliveryAddress": {
-          "postalCode": "79000", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }, 
+        ],
+        "quantity": 1.0,
+        "classification": {
+          "description": "Послуги з харчування у школах",
+          "scheme": "ДК021",
+          "id": "55523100-3"
+        },
         "deliveryDate": {
-          "startDate": "2020-09-28T00:00:00+02:00", 
+          "startDate": "2020-09-28T00:00:00+02:00",
           "endDate": "2020-10-28T00:00:00+02:00"
-        }, 
-        "id": "b81cc70ba26142e99836a1eac5259867", 
-        "quantity": 1.0
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        }
       }
-    ], 
-    "value": {
-      "currency": "UAH", 
-      "amount": 501.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "awardCriteria": "lowestCost"
+    ],
+    "status": "active.tendering",
+    "id": "bac835240efd4adea01560554d7bfdb4",
+    "next_check": "2020-09-16T01:00:00+03:00",
+    "complaintPeriod": {
+      "startDate": "2020-08-24T01:00:00+03:00",
+      "endDate": "2020-09-12T00:00:00+03:00"
+    }
   }
 }
 

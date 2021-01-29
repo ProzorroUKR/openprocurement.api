@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/bids/7a06b14aeefa4addb9a4277794eb7819?acc_token=cfa7d625bdd049c79e3dfa84d8835a53 HTTP/1.0
+GET /api/2.5/tenders/4826290bfb064165b70a94d71e93a63b/bids/3ab765b05e8746edb4fabf8c09d0c17b?acc_token=650ab709871444d4b9e646ffd84c0a4b HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,60 +7,60 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "active", 
-    "documents": [
-      {
-        "hash": "md5:00000000000000000000000000000000", 
-        "title": "Proposal_part1.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/bids/7a06b14aeefa4addb9a4277794eb7819/documents/3eff86f751b64943b2f9b7a5b13e4bc0?download=9152e77768004ab1ba6b843902ac3f12", 
-        "format": "application/pdf", 
-        "documentOf": "tender", 
-        "datePublished": "2020-09-08T01:00:01+03:00", 
-        "id": "3eff86f751b64943b2f9b7a5b13e4bc0", 
-        "dateModified": "2020-09-08T01:00:01+03:00"
-      }, 
-      {
-        "hash": "md5:00000000000000000000000000000000", 
-        "title": "Proposal_part2.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/bids/7a06b14aeefa4addb9a4277794eb7819/documents/f71555ac51264bf6b7f869d3c45adda8?download=99993315a2cd472f9387941fe22ee6d5", 
-        "format": "application/pdf", 
-        "documentOf": "tender", 
-        "datePublished": "2020-09-08T01:00:01+03:00", 
-        "id": "f71555ac51264bf6b7f869d3c45adda8", 
-        "dateModified": "2020-09-08T01:00:01+03:00"
-      }
-    ], 
-    "value": {
-      "currency": "UAH", 
-      "amount": 499.0, 
-      "valueAddedTaxIncluded": true
-    }, 
     "tenderers": [
       {
-        "contactPoint": {
-          "email": "aagt@gmail.com", 
-          "telephone": "+380 (322) 91-69-30", 
-          "name": "Андрій Олексюк"
-        }, 
-        "scale": "sme", 
-        "name": "ДКП «Книга»", 
+        "name": "ДКП «Книга»",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137226", 
+          "scheme": "UA-EDR",
+          "id": "00137226",
           "uri": "http://www.sc.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "79013", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 34", 
-          "region": "Львівська область", 
-          "locality": "м. Львів"
-        }
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Андрій Олексюк",
+          "email": "aagt@gmail.com",
+          "telephone": "+380 (322) 91-69-30"
+        },
+        "scale": "sme"
       }
-    ], 
-    "date": "2020-09-08T01:00:01+03:00", 
-    "id": "7a06b14aeefa4addb9a4277794eb7819", 
-    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/bc3a9016b29d4fed894cc62d3ff59680?key_for_bid=7a06b14aeefa4addb9a4277794eb7819"
+    ],
+    "date": "2020-09-08T01:00:01+03:00",
+    "id": "3ab765b05e8746edb4fabf8c09d0c17b",
+    "status": "active",
+    "value": {
+      "amount": 499.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "documents": [
+      {
+        "id": "8555723251474499a3598d3ed2e0af34",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Proposal_part1.pdf",
+        "format": "application/pdf",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4826290bfb064165b70a94d71e93a63b/bids/3ab765b05e8746edb4fabf8c09d0c17b/documents/8555723251474499a3598d3ed2e0af34?download=4723ad37c9a04058983e5acc8d0ce9f4",
+        "datePublished": "2020-09-08T01:00:01+03:00",
+        "dateModified": "2020-09-08T01:00:01+03:00",
+        "documentOf": "tender"
+      },
+      {
+        "id": "aa1e5b694fc249d897bdd95e2f5a1904",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Proposal_part2.pdf",
+        "format": "application/pdf",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4826290bfb064165b70a94d71e93a63b/bids/3ab765b05e8746edb4fabf8c09d0c17b/documents/aa1e5b694fc249d897bdd95e2f5a1904?download=200d1dfb2afc4cf791ec2fea005cefde",
+        "datePublished": "2020-09-08T01:00:01+03:00",
+        "dateModified": "2020-09-08T01:00:01+03:00",
+        "documentOf": "tender"
+      }
+    ],
+    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/4826290bfb064165b70a94d71e93a63b?key_for_bid=3ab765b05e8746edb4fabf8c09d0c17b"
   }
 }
 

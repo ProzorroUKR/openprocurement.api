@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/50c82523038349969f53f3e238932c46/questions HTTP/1.0
+POST /api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/questions HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1116
 Content-Type: application/json
@@ -7,27 +7,27 @@ DATA:
 {
   "data": {
     "author": {
-      "contactPoint": {
-        "email": "pole@gmail.com", 
-        "telephone": "+380 (452) 21-69-31", 
-        "name": "Вільям Поле"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "id": "00137230", 
-        "uri": "http://pole.edu.vn.ua/", 
-        "legalName": "ТОВ Бур"
-      }, 
-      "name": "ТОВ \"Бур\"", 
       "address": {
-        "countryName": "Україна", 
-        "postalCode": "21100", 
-        "region": "Львівська область", 
-        "streetAddress": "вул. Поле, 33", 
-        "locality": "м. Львів"
-      }
-    }, 
-    "description": "Просимо додати таблицю потрібної калорійності харчування", 
+        "countryName": "Україна",
+        "locality": "м. Львів",
+        "postalCode": "21100",
+        "region": "Львівська область",
+        "streetAddress": "вул. Поле, 33"
+      },
+      "contactPoint": {
+        "email": "pole@gmail.com",
+        "name": "Вільям Поле",
+        "telephone": "+380 (452) 21-69-31"
+      },
+      "identifier": {
+        "id": "00137230",
+        "legalName": "ТОВ Бур",
+        "scheme": "UA-EDR",
+        "uri": "http://pole.edu.vn.ua/"
+      },
+      "name": "ТОВ \"Бур\""
+    },
+    "description": "Просимо додати таблицю потрібної калорійності харчування",
     "title": "Калорійність"
   }
 }
@@ -36,12 +36,12 @@ Response: 403 Forbidden
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
-  "status": "error", 
+  "status": "error",
   "errors": [
     {
-      "description": "Author can't create question", 
-      "location": "body", 
-      "name": "author"
+      "location": "body",
+      "name": "author",
+      "description": "Author can't create question"
     }
   ]
 }

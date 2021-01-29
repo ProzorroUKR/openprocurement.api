@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/bids/91475b6934a54a49b2d66d529a29b600?acc_token=d2a2184be75540dc9943d755fd56b1e0 HTTP/1.0
+PATCH /api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids/c48ab04ff9f84430ad5a724b31b56f19?acc_token=cae2bd9386d44acc8a8d9bd1c5e5eea5 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 31
 Content-Type: application/json
@@ -15,39 +15,39 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "pending", 
-    "value": {
-      "currency": "UAH", 
-      "amount": 500.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "subcontractingDetails": "ДКП «Орфей», Україна", 
-    "selfQualified": true, 
     "tenderers": [
       {
-        "contactPoint": {
-          "email": "soleksuk@gmail.com", 
-          "telephone": "+380 (432) 21-69-30", 
-          "name": "Сергій Олексюк"
-        }, 
-        "scale": "micro", 
-        "name": "ДКП «Школяр»", 
+        "name": "ДКП «Школяр»",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137256", 
+          "scheme": "UA-EDR",
+          "id": "00137256",
           "uri": "http://www.sc.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "21100", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 33", 
-          "region": "Вінницька область", 
-          "locality": "м. Вінниця"
-        }
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Сергій Олексюк",
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380 (432) 21-69-30"
+        },
+        "scale": "micro"
       }
-    ], 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "id": "91475b6934a54a49b2d66d529a29b600"
+    ],
+    "date": "2020-09-08T01:00:00+03:00",
+    "id": "c48ab04ff9f84430ad5a724b31b56f19",
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "selfQualified": true,
+    "subcontractingDetails": "ДКП «Орфей», Україна",
+    "status": "pending"
   }
 }
 

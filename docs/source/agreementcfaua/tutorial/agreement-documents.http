@@ -1,4 +1,4 @@
-GET /api/2.5/agreements/eb35d61e7cde4a008003f5cd17ddb0c7/documents?acc_token=76b0c07026994e7089d5f9716acfc3e7 HTTP/1.0
+GET /api/2.5/agreements/6305e36dbee94cfd9dd0bab9039a9265/documents?acc_token=0853fab32963423980f0f96af024c1eb HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -8,25 +8,25 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "hash": "md5:00000000000000000000000000000000", 
-      "title": "agreement.doc", 
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/636ff7a612814a27bb12f38a47fbe8dd?KeyID=a8968c46&Signature=LTyYvB6x9%2FHQOfsr%2F%2F12Q2d6v7fJ3vrVtaSfHl4nNN%252BFVzDyN9NkHliW96%2FgarvzZ6In7eachfSgTvEE%2F8VXAg%253D%253D", 
-      "format": "application/msword", 
-      "documentOf": "agreement", 
-      "datePublished": "2020-09-08T01:00:00+03:00", 
-      "id": "834aba7c946743da932d5d23c32c15d6", 
-      "dateModified": "2020-09-08T01:00:00+03:00"
-    }, 
+      "id": "6f1b80da83904c2cb6bdc6e62d89519a",
+      "hash": "md5:00000000000000000000000000000000",
+      "title": "agreement_changes.doc",
+      "format": "application/msword",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/23a6b64da382493aa12e212969c8fb0e?Signature=czloEVYiYdO9r3NjxCRivL1cQcvy5sdRC9MYfAH5iqE%2FVGaPKmMy1MRaHHKGitY5bL1egTSaqHEBuvowpWHABA%3D%3D&KeyID=a8968c46",
+      "datePublished": "2020-09-08T01:00:00+03:00",
+      "dateModified": "2020-09-08T01:00:00+03:00",
+      "relatedItem": "df47057385d947269587d47789743d9f",
+      "documentOf": "change"
+    },
     {
-      "hash": "md5:00000000000000000000000000000000", 
-      "title": "agreement_changes.doc", 
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d95f533960c3442989ca0c2229179ba7?KeyID=a8968c46&Signature=wXBfssQe1jX171n0gvBZiqq%2FwQ2Puh9QIYYuJR1KcbhS%252BeWgxIkCKPrqtkJ0jxw3mXaEJ0eTnBRV3uM9lSj4CA%253D%253D", 
-      "format": "application/msword", 
-      "documentOf": "change", 
-      "datePublished": "2020-09-08T01:00:00+03:00", 
-      "id": "cda3d43d28ea4490b453a9209e420615", 
-      "relatedItem": "3589aa88ba3f41be89b973cf88d9c9b8", 
-      "dateModified": "2020-09-08T01:00:00+03:00"
+      "id": "3088519bbb5447b7a1bdce9ed85114cb",
+      "hash": "md5:00000000000000000000000000000000",
+      "title": "agreement.doc",
+      "format": "application/msword",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e82b3292b8d642aca9d386a9548b2a0b?Signature=T%2F%2FKI3vOfu3on7olqbDAGiBLWn6lqT9WoIxsVmVB9VV5sVImIxzpLp1WmpB1bf6UOxVCpOGHSZyFJRhOtRIICQ%3D%3D&KeyID=a8968c46",
+      "datePublished": "2020-09-08T01:00:00+03:00",
+      "dateModified": "2020-09-08T01:00:00+03:00",
+      "documentOf": "agreement"
     }
   ]
 }

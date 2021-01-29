@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/50c82523038349969f53f3e238932c46/bids/35a41cb1beb746a68b7ab656f69ecfad/documents?acc_token=4983fc47c71047729730599c7b0329ae HTTP/1.0
+POST /api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/815df7967805489faa3fa1a4e74fa2d1/documents?acc_token=4db6be0e33ad4f88b44450c99971d911 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 156
 Content-Type: multipart/form-data; boundary=---BOUNDARY
@@ -14,20 +14,20 @@ content
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/50c82523038349969f53f3e238932c46/bids/35a41cb1beb746a68b7ab656f69ecfad/documents/45d79b72a46541fc95ca16f906995737
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/815df7967805489faa3fa1a4e74fa2d1/documents/c9983431a8f942aeb6799621933ab1a6
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "hash": "md5:00000000000000000000000000000000", 
-    "confidentiality": "public", 
-    "language": "uk", 
-    "title": "Proposal_top_secrets.pdf", 
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/50c82523038349969f53f3e238932c46/bids/35a41cb1beb746a68b7ab656f69ecfad/documents/45d79b72a46541fc95ca16f906995737?download=64ddd8a47dc54bc89bda7e132bd586f4", 
-    "format": "application/pdf", 
-    "documentOf": "tender", 
-    "datePublished": "2020-09-08T01:00:00+03:00", 
-    "id": "45d79b72a46541fc95ca16f906995737", 
-    "dateModified": "2020-09-08T01:00:00+03:00"
+    "id": "c9983431a8f942aeb6799621933ab1a6",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "Proposal_top_secrets.pdf",
+    "format": "application/pdf",
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/815df7967805489faa3fa1a4e74fa2d1/documents/c9983431a8f942aeb6799621933ab1a6?download=75625e3d666f4f468436a93f99d87fdd",
+    "datePublished": "2020-09-08T01:00:00+03:00",
+    "dateModified": "2020-09-08T01:00:00+03:00",
+    "documentOf": "tender",
+    "confidentiality": "public",
+    "language": "uk"
   }
 }
 

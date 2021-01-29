@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/1a7dc160a6954967bfb3fcd1dd4545d3/complaints/7e00f6e93d7242f9bf50e4ac8e43ebab?acc_token=4c65710b45dc4f67af804bfc7ac805ff HTTP/1.0
+PATCH /api/2.5/tenders/423ce3389d0f48b1a1ee6cd5a8dad65f/complaints/680e8e80972340a9aae04c40119ceb2f?acc_token=68769d11c5b44878ba16083177e1c45e HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 51
 Content-Type: application/json
@@ -6,8 +6,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "status": "resolved", 
-    "satisfied": true
+    "satisfied": true,
+    "status": "resolved"
   }
 }
 
@@ -16,18 +16,18 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "resolved", 
-    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
-    "title": "Недостатньо інформації", 
-    "resolutionType": "resolved", 
-    "type": "claim", 
-    "satisfied": true, 
-    "dateAnswered": "2020-09-08T01:00:00+03:00", 
-    "dateSubmitted": "2020-09-08T01:00:00+03:00", 
-    "complaintID": "UA-2020-09-08-000001.2", 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "resolution": "Виправлено неконкурентні умови", 
-    "id": "7e00f6e93d7242f9bf50e4ac8e43ebab"
+    "id": "680e8e80972340a9aae04c40119ceb2f",
+    "complaintID": "UA-2020-09-08-000001.2",
+    "date": "2020-09-08T01:00:00+03:00",
+    "type": "claim",
+    "title": "Недостатньо інформації",
+    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
+    "dateSubmitted": "2020-09-08T01:00:00+03:00",
+    "resolution": "Виправлено неконкурентні умови",
+    "resolutionType": "resolved",
+    "dateAnswered": "2020-09-08T01:00:00+03:00",
+    "satisfied": true,
+    "status": "resolved"
   }
 }
 

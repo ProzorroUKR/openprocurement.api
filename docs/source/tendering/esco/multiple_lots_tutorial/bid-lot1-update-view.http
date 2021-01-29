@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/db8f78603c144a8aac15730f9c763584/bids/f5023f05e8aa47b9a4bac1433d52051c?acc_token=0949a68ffd9a4f4cbb1747d304615609 HTTP/1.0
+PATCH /api/2.5/tenders/3999e118d0d4460a8852c363407a5252/bids/27dc631e3a514d21b07100fa83eb4c1f?acc_token=e25474c85dbb461bbabe5f65c722b6df HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 214
 Content-Type: application/json
@@ -6,16 +6,16 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "status": "pending", 
     "lotValues": [
       {
-        "relatedLot": "a49c398a1df943319dc21b99238de1f1", 
+        "subcontractingDetails": "ДКП «Орфей»",
         "value": {
           "amount": 500
-        }, 
-        "subcontractingDetails": "ДКП «Орфей»"
+        },
+        "relatedLot": "93256198e2e7429ab4d0300cc250244f"
       }
-    ]
+    ],
+    "status": "pending"
   }
 }
 
@@ -24,74 +24,74 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "pending", 
-    "lotValues": [
-      {
-        "relatedLot": "a49c398a1df943319dc21b99238de1f1", 
-        "date": "2020-09-08T01:00:00+03:00", 
-        "status": "pending", 
-        "value": {
-          "yearlyPaymentsPercentage": 0.87, 
-          "valueAddedTaxIncluded": true, 
-          "currency": "UAH", 
-          "amount": 5992.27, 
-          "contractDuration": {
-            "days": 0, 
-            "years": 7
-          }, 
-          "amountPerformance": 1372.5, 
-          "annualCostsReduction": [
-            200.0, 
-            1000.0, 
-            1000.0, 
-            1000.0, 
-            1000.0, 
-            1000.0, 
-            1000.0, 
-            1000.0, 
-            1000.0, 
-            1000.0, 
-            1000.0, 
-            1000.0, 
-            1000.0, 
-            1000.0, 
-            1000.0, 
-            1000.0, 
-            1000.0, 
-            1000.0, 
-            1000.0, 
-            1000.0, 
-            1000.0
-          ]
-        }, 
-        "subcontractingDetails": "ДКП «Орфей»"
-      }
-    ], 
-    "id": "f5023f05e8aa47b9a4bac1433d52051c", 
     "tenderers": [
       {
-        "contactPoint": {
-          "email": "soleksuk@gmail.com", 
-          "telephone": "+380 (432) 21-69-30", 
-          "name": "Сергій Олексюк"
-        }, 
-        "scale": "micro", 
-        "name": "ДКП «Школяр»", 
+        "name": "ДКП «Школяр»",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137256", 
+          "scheme": "UA-EDR",
+          "id": "00137256",
           "uri": "http://www.sc.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "21100", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 33", 
-          "region": "Вінницька область", 
-          "locality": "м. Вінниця"
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Сергій Олексюк",
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380 (432) 21-69-30"
+        },
+        "scale": "micro"
+      }
+    ],
+    "date": "2020-09-08T01:00:00+03:00",
+    "id": "27dc631e3a514d21b07100fa83eb4c1f",
+    "status": "pending",
+    "lotValues": [
+      {
+        "relatedLot": "93256198e2e7429ab4d0300cc250244f",
+        "date": "2020-09-08T01:00:00+03:00",
+        "subcontractingDetails": "ДКП «Орфей»",
+        "status": "pending",
+        "value": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true,
+          "amount": 5992.27,
+          "amountPerformance": 1372.5,
+          "yearlyPaymentsPercentage": 0.87,
+          "annualCostsReduction": [
+            200.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0
+          ],
+          "contractDuration": {
+            "years": 7,
+            "days": 0
+          }
         }
       }
-    ], 
-    "date": "2020-09-08T01:00:00+03:00", 
+    ],
     "selfQualified": true
   }
 }

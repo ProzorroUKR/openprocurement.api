@@ -1,4 +1,4 @@
-POST /api/2.5/agreements/eb35d61e7cde4a008003f5cd17ddb0c7/documents?acc_token=76b0c07026994e7089d5f9716acfc3e7 HTTP/1.0
+POST /api/2.5/agreements/6305e36dbee94cfd9dd0bab9039a9265/documents?acc_token=0853fab32963423980f0f96af024c1eb HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 148
 Content-Type: multipart/form-data; boundary=---BOUNDARY
@@ -14,18 +14,18 @@ content
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/agreements/eb35d61e7cde4a008003f5cd17ddb0c7/documents/834aba7c946743da932d5d23c32c15d6
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/agreements/6305e36dbee94cfd9dd0bab9039a9265/documents/3088519bbb5447b7a1bdce9ed85114cb
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "hash": "md5:00000000000000000000000000000000", 
-    "title": "agreement.doc", 
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/636ff7a612814a27bb12f38a47fbe8dd?KeyID=a8968c46&Signature=LTyYvB6x9%2FHQOfsr%2F%2F12Q2d6v7fJ3vrVtaSfHl4nNN%252BFVzDyN9NkHliW96%2FgarvzZ6In7eachfSgTvEE%2F8VXAg%253D%253D", 
-    "format": "application/msword", 
-    "documentOf": "agreement", 
-    "datePublished": "2020-09-08T01:00:00+03:00", 
-    "id": "834aba7c946743da932d5d23c32c15d6", 
-    "dateModified": "2020-09-08T01:00:00+03:00"
+    "id": "3088519bbb5447b7a1bdce9ed85114cb",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "agreement.doc",
+    "format": "application/msword",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e82b3292b8d642aca9d386a9548b2a0b?Signature=T%2F%2FKI3vOfu3on7olqbDAGiBLWn6lqT9WoIxsVmVB9VV5sVImIxzpLp1WmpB1bf6UOxVCpOGHSZyFJRhOtRIICQ%3D%3D&KeyID=a8968c46",
+    "datePublished": "2020-09-08T01:00:00+03:00",
+    "dateModified": "2020-09-08T01:00:00+03:00",
+    "documentOf": "agreement"
   }
 }
 

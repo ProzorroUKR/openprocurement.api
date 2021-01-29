@@ -1,4 +1,4 @@
-GET /api/2.5/submissions/19973fee87084fe7a00db94ad14f0c0d/documents HTTP/1.0
+GET /api/2.5/submissions/dc84e2b5e35d412395875ba678c6e158/documents HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -8,12 +8,12 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "hash": "md5:00000000000000000000000000000000", 
-      "title": "submission_docs.doc", 
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/32da6e3568f94e1cae910e5c4e7ed18c?KeyID=a8968c46&Signature=FJH%252BGTlP%2FhH9s5nRRIYIa3MK0f8x5h8Osr%2F09%252BbvNFfJOwPZuXVgDonmPr2D5Mav25u99Qwe41ENg67ZJmbiBA%253D%253D", 
-      "format": "application/msword", 
-      "datePublished": "2020-09-24T01:00:00+03:00", 
-      "id": "630f2f43390545a3b17d6ce977788263", 
+      "id": "9a63de7df1a64cd0b223adc0176409b1",
+      "hash": "md5:00000000000000000000000000000000",
+      "title": "submission_docs.doc",
+      "format": "application/msword",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c83a57730e26469188fd8709a3d9b28e?Signature=ENk6GOzdM%2FAQMDDjSiIam7uUUmyBfQVZ1Z4pdpqAcWgw9L6GlWNRlL4x8pHWH%2B1x%2B3ZsJDu8JbWQ4MfdbTfIDQ%3D%3D&KeyID=a8968c46",
+      "datePublished": "2020-09-24T01:00:00+03:00",
       "dateModified": "2020-09-24T01:00:00+03:00"
     }
   ]

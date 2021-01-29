@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/a40454d58b7b4e1eb327f6aef0d0d21d HTTP/1.0
+GET /api/2.5/tenders/2d3b9e1f38c34125b1d2f7a164f871ba HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,123 +7,123 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "procurementMethod": "open", 
-    "status": "draft", 
-    "buyers": [
-      {
-        "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "111983", 
-          "legalName": "ДП Державне Управління Справами"
-        }, 
-        "name": "ДУС"
-      }
-    ], 
+    "title": "футляри до державних нагород",
+    "date": "2019-05-12T12:00:00+03:00",
+    "dateModified": "2019-05-12T12:01:00+03:00",
+    "tenderID": "UA-2019-05-12-000001",
+    "owner": "broker",
+    "mainProcurementCategory": "goods",
     "milestones": [
       {
-        "code": "prepayment", 
-        "sequenceNumber": 0, 
-        "title": "signingTheContract", 
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
         "duration": {
-          "type": "banking", 
-          "days": 2
-        }, 
-        "percentage": 45.55, 
-        "type": "financing", 
-        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      }, 
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 0
+      },
       {
-        "code": "postpayment", 
-        "sequenceNumber": 0, 
-        "title": "deliveryOfGoods", 
+        "id": "bc6cce300c9941c4a5df776d1cf7a062",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
         "duration": {
-          "type": "calendar", 
-          "days": 900
-        }, 
-        "percentage": 54.45, 
-        "type": "financing", 
-        "id": "c48e374a5e5a48fe9c134d01678d8e75"
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 0
       }
-    ], 
-    "mainProcurementCategory": "goods", 
+    ],
+    "buyers": [
+      {
+        "name": "ДУС",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "111983",
+          "legalName": "ДП Державне Управління Справами"
+        }
+      }
+    ],
     "plans": [
       {
-        "id": "77cf582ab7284fb1a0e748ea7fe9033f"
+        "id": "6cb30e0a8f2d4487946a40c0b043c761"
       }
-    ], 
-    "title": "футляри до державних нагород", 
-    "minimalStep": {
-      "currency": "UAH", 
-      "amount": 15.0, 
-      "valueAddedTaxIncluded": true
-    }, 
+    ],
+    "procurementMethod": "open",
+    "awardCriteria": "lowestCost",
+    "submissionMethod": "electronicAuction",
+    "status": "draft",
     "items": [
       {
-        "description": "Насіння гірчиці", 
-        "classification": {
-          "scheme": "ДК021", 
-          "description": "Mustard seeds", 
-          "id": "03111600-8"
-        }, 
+        "id": "95fea057d382491fb93778d67d3c70f3",
+        "description": "Насіння гірчиці",
         "additionalClassifications": [
           {
-            "scheme": "ДКПП", 
-            "id": "01.11.92", 
+            "scheme": "ДКПП",
+            "id": "01.11.92",
             "description": "Насіння гірчиці"
           }
-        ], 
+        ],
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        },
+        "quantity": 1000.0,
         "deliveryDate": {
           "endDate": "2019-11-09T01:00:00+03:00"
-        }, 
-        "id": "a5f4719db260461fbaf7a054855bd7a1", 
-        "unit": {
-          "code": "KGM", 
-          "name": "кг"
-        }, 
-        "quantity": 1000.0
+        },
+        "classification": {
+          "description": "Mustard seeds",
+          "scheme": "ДК021",
+          "id": "03111600-8"
+        }
       }
-    ], 
-    "procurementMethodType": "belowThreshold", 
+    ],
     "value": {
-      "currency": "UAH", 
-      "amount": 500.0, 
+      "amount": 500.0,
+      "currency": "UAH",
       "valueAddedTaxIncluded": true
-    }, 
-    "submissionMethod": "electronicAuction", 
-    "procuringEntity": {
-      "contactPoint": {
-        "name": "Довідкова", 
-        "telephone": "0440000000"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "id": "111111", 
-        "legalName": "ДП Центральний закупівельний орган №1"
-      }, 
-      "name": "ЦЗО №1", 
-      "kind": "central", 
-      "address": {
-        "postalCode": "01220", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Банкова, 11, корпус 1", 
-        "region": "м. Київ", 
-        "locality": "м. Київ"
-      }
-    }, 
-    "date": "2019-05-12T12:00:00+03:00", 
-    "tenderID": "UA-2019-05-12-000001", 
-    "awardCriteria": "lowestCost", 
+    },
     "enquiryPeriod": {
-      "startDate": "2019-10-01T01:00:00+03:00", 
+      "startDate": "2019-10-01T01:00:00+03:00",
       "endDate": "2019-10-30T01:00:00+03:00"
-    }, 
-    "owner": "broker", 
-    "dateModified": "2019-05-12T12:01:00+03:00", 
-    "id": "a40454d58b7b4e1eb327f6aef0d0d21d", 
+    },
     "tenderPeriod": {
-      "startDate": "2019-11-01T01:00:00+03:00", 
+      "startDate": "2019-11-01T01:00:00+03:00",
       "endDate": "2019-11-11T01:00:00+03:00"
-    }
+    },
+    "procuringEntity": {
+      "name": "ЦЗО №1",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "111111",
+        "legalName": "ДП Центральний закупівельний орган №1"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Довідкова",
+        "telephone": "0440000000"
+      },
+      "kind": "central"
+    },
+    "minimalStep": {
+      "amount": 15.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "procurementMethodType": "belowThreshold",
+    "id": "2d3b9e1f38c34125b1d2f7a164f871ba"
   }
 }
 

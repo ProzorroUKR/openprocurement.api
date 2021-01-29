@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/c4b851839b51462fbf72e030424fca88 HTTP/1.0
+GET /api/2.5/tenders/86632d7f051f455881abee60f4fef31d HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,501 +7,501 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "active.enquiries", 
-    "procurementMethod": "selective", 
-    "tenderID": "UA-2020-09-08-000001", 
-    "tenderPeriod": {
-      "startDate": "2020-09-09T01:00:00+03:00", 
-      "endDate": "2020-09-12T01:00:00+03:00"
-    }, 
-    "title": "футляри до державних нагород", 
-    "lots": [
-      {
-        "status": "active", 
-        "description": "Опис Лот №1", 
-        "title": "Лот №1", 
-        "minimalStep": {
-          "currency": "UAH", 
-          "amount": 2.5, 
-          "valueAddedTaxIncluded": true
-        }, 
-        "value": {
-          "currency": "UAH", 
-          "amount": 500.56, 
-          "valueAddedTaxIncluded": true
-        }, 
-        "date": "2020-09-08T01:00:00+03:00", 
-        "id": "1b75c06ee58f4909a4201255b4ba5831"
-      }
-    ], 
+    "title": "футляри до державних нагород",
+    "date": "2020-09-08T01:00:00+03:00",
+    "dateModified": "2020-09-08T01:00:00+03:00",
+    "tenderID": "UA-2020-09-08-000001",
+    "owner": "broker",
+    "awardCriteria": "lowestCost",
+    "submissionMethod": "electronicAuction",
     "items": [
       {
-        "relatedLot": "1b75c06ee58f4909a4201255b4ba5831", 
-        "description": "футляри до державних нагород", 
-        "classification": {
-          "scheme": "ДК021", 
-          "description": "New Cartons", 
-          "id": "44617100-9"
-        }, 
-        "description_en": "futliary do derzhavnyh nagorod", 
+        "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
+        "description": "футляри до державних нагород",
+        "description_en": "futliary do derzhavnyh nagorod",
         "additionalClassifications": [
           {
-            "scheme": "ДКПП", 
-            "id": "17.21.1", 
+            "scheme": "ДКПП",
+            "id": "17.21.1",
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
-        ], 
-        "deliveryAddress": {
-          "postalCode": "79000", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }, 
-        "deliveryDate": {
-          "startDate": "2020-09-10T01:00:00+03:00", 
-          "endDate": "2020-09-13T01:00:00+03:00"
-        }, 
-        "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
+        ],
         "unit": {
-          "code": "44617100-9", 
-          "name": "item"
-        }, 
-        "quantity": 5.0
+          "name": "item",
+          "code": "44617100-9"
+        },
+        "quantity": 5.0,
+        "deliveryDate": {
+          "startDate": "2020-09-10T01:00:00+03:00",
+          "endDate": "2020-09-13T01:00:00+03:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "relatedLot": "f2599a519a45416db792d9ee833a8e5a",
+        "classification": {
+          "description": "New Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        }
       }
-    ], 
-    "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
+    ],
     "value": {
-      "currency": "UAH", 
-      "amount": 500.56, 
+      "amount": 500.56,
+      "currency": "UAH",
       "valueAddedTaxIncluded": true
-    }, 
-    "submissionMethod": "electronicAuction", 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "minimalStep": {
-      "currency": "UAH", 
-      "amount": 2.5, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "dateModified": "2020-09-08T01:00:00+03:00", 
-    "next_check": "2020-09-09T01:00:00+03:00", 
+    },
+    "enquiryPeriod": {
+      "startDate": "2020-09-08T01:00:00+03:00",
+      "endDate": "2020-09-09T01:00:00+03:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2020-09-09T01:00:00+03:00",
+      "endDate": "2020-09-12T01:00:00+03:00"
+    },
     "procuringEntity": {
-      "kind": "general", 
-      "name": "Державне управління справами", 
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/"
+      },
       "address": {
-        "postalCode": "01220", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Банкова, 11, корпус 1", 
-        "region": "м. Київ", 
-        "locality": "м. Київ"
-      }, 
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "0440000000",
+        "availableLanguage": "en"
+      },
+      "kind": "general",
       "additionalContactPoints": [
         {
-          "name": "Державне управління справами 1", 
-          "availableLanguage": "uk", 
-          "telephone": "0440000000"
+          "name": "Державне управління справами 1",
+          "telephone": "0440000000",
+          "availableLanguage": "uk"
         }
-      ], 
-      "contactPoint": {
-        "name": "Державне управління справами", 
-        "availableLanguage": "en", 
-        "telephone": "0440000000"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "id": "00037256", 
-        "uri": "http://www.dus.gov.ua/"
-      }
-    }, 
-    "awardCriteria": "lowestCost", 
-    "enquiryPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00", 
-      "endDate": "2020-09-09T01:00:00+03:00"
-    }, 
-    "owner": "broker", 
-    "agreements": [
-      {
-        "agreementID": "UA-2018-09-11-000002-1", 
-        "status": "active", 
-        "features": [
-          {
-            "code": "OCDS-123454-AIR-INTAKE", 
-            "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)", 
-            "title": "Потужність всмоктування", 
-            "enum": [
-              {
-                "value": 0.1, 
-                "title": "До 1000 Вт"
-              }, 
-              {
-                "value": 0.15, 
-                "title": "Більше 1000 Вт"
-              }
-            ], 
-            "title_en": "Air Intake", 
-            "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
-            "featureOf": "item"
-          }, 
-          {
-            "code": "OCDS-123454-YEARS", 
-            "description": "Кількість років, які організація учасник працює на ринку", 
-            "title": "Років на ринку", 
-            "enum": [
-              {
-                "value": 0.05, 
-                "title": "До 3 років"
-              }, 
-              {
-                "value": 0.1, 
-                "title": "Більше 3 років, менше 5 років"
-              }, 
-              {
-                "value": 0.15, 
-                "title": "Більше 5 років"
-              }
-            ], 
-            "title_en": "Years trading", 
-            "featureOf": "tenderer"
-          }
-        ], 
-        "title": "[ТЕСТУВАННЯ] ", 
-        "contracts": [
-          {
-            "status": "active", 
-            "parameters": [
-              {
-                "code": "OCDS-123454-AIR-INTAKE", 
-                "value": 0.1
-              }, 
-              {
-                "code": "OCDS-123454-YEARS", 
-                "value": 0.1
-              }
-            ], 
-            "unitPrices": [
-              {
-                "value": {
-                  "currency": "UAH", 
-                  "amount": 100.0, 
-                  "valueAddedTaxIncluded": true
-                }, 
-                "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc"
-              }
-            ], 
-            "suppliers": [
-              {
-                "contactPoint": {
-                  "name": "Державне управління справами", 
-                  "telephone": "0440000000"
-                }, 
-                "scale": "large", 
-                "name": "Державне управління справами", 
-                "identifier": {
-                  "scheme": "UA-EDR", 
-                  "id": "00037256", 
-                  "uri": "http://www.dus.gov.ua/"
-                }, 
-                "address": {
-                  "postalCode": "01220", 
-                  "countryName": "Україна", 
-                  "streetAddress": "вул. Банкова, 11, корпус 1", 
-                  "region": "м. Київ", 
-                  "locality": "м. Київ"
-                }
-              }
-            ], 
-            "value": {
-              "currency": "UAH", 
-              "amount": 500.0, 
-              "valueAddedTaxIncluded": true
-            }, 
-            "bidID": "0a292b6466274139ad3d973fd64830ff", 
-            "date": "2018-07-30T17:40:15.471158+03:00", 
-            "awardID": "d7406b07c05b4796bb168a7c47ee7d31", 
-            "id": "d6cd8c3188d74e1481a9cebb57fd9329"
-          }, 
-          {
-            "status": "active", 
-            "parameters": [
-              {
-                "code": "OCDS-123454-AIR-INTAKE", 
-                "value": 0.1
-              }, 
-              {
-                "code": "OCDS-123454-YEARS", 
-                "value": 0.1
-              }
-            ], 
-            "unitPrices": [
-              {
-                "value": {
-                  "currency": "UAH", 
-                  "amount": 100.111, 
-                  "valueAddedTaxIncluded": true
-                }, 
-                "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc"
-              }
-            ], 
-            "suppliers": [
-              {
-                "contactPoint": {
-                  "name": "Державне управління справами", 
-                  "telephone": "0440000000"
-                }, 
-                "scale": "micro", 
-                "name": "Державне управління справами", 
-                "identifier": {
-                  "scheme": "UA-EDR", 
-                  "id": "00037257", 
-                  "uri": "http://www.dus.gov.ua/"
-                }, 
-                "address": {
-                  "postalCode": "01220", 
-                  "countryName": "Україна", 
-                  "streetAddress": "вул. Банкова, 11, корпус 1", 
-                  "region": "м. Київ", 
-                  "locality": "м. Київ"
-                }
-              }
-            ], 
-            "value": {
-              "currency": "UAH", 
-              "amount": 500.56, 
-              "valueAddedTaxIncluded": true
-            }, 
-            "bidID": "d85ef51272f14087abb2eed535340493", 
-            "date": "2018-07-30T17:40:15.471207+03:00", 
-            "awardID": "cdb6da320600480d8eaabd8eaa920872", 
-            "id": "c8ef8c0d1cb74528b13335a623225762"
-          }, 
-          {
-            "status": "unsuccessful", 
-            "parameters": [
-              {
-                "code": "OCDS-123454-AIR-INTAKE", 
-                "value": 0.1
-              }, 
-              {
-                "code": "OCDS-123454-YEARS", 
-                "value": 0.1
-              }
-            ], 
-            "unitPrices": [
-              {
-                "value": {
-                  "currency": "UAH", 
-                  "amount": 100.111, 
-                  "valueAddedTaxIncluded": true
-                }, 
-                "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc"
-              }
-            ], 
-            "suppliers": [
-              {
-                "contactPoint": {
-                  "name": "Державне управління справами 1", 
-                  "telephone": "0440000000"
-                }, 
-                "scale": "micro", 
-                "name": "Державне управління справами 1", 
-                "identifier": {
-                  "scheme": "UA-EDR", 
-                  "id": "00037251", 
-                  "uri": "http://www.dus.gov.ua/"
-                }, 
-                "address": {
-                  "postalCode": "01220", 
-                  "countryName": "Україна", 
-                  "streetAddress": "вул. Банкова, 11, корпус 1", 
-                  "region": "м. Київ", 
-                  "locality": "м. Київ"
-                }
-              }
-            ], 
-            "value": {
-              "currency": "UAH", 
-              "amount": 500.56, 
-              "valueAddedTaxIncluded": true
-            }, 
-            "bidID": "d85ef51272f14087abb2eed535340493", 
-            "date": "2018-07-30T17:40:15.471207+03:00", 
-            "awardID": "cdb6da320600480d8eaabd8eaa920872", 
-            "id": "c8ef8c0d1cb74528b13335a623225762"
-          }, 
-          {
-            "status": "active", 
-            "parameters": [
-              {
-                "code": "OCDS-123454-AIR-INTAKE", 
-                "value": 0.1
-              }, 
-              {
-                "code": "OCDS-123454-YEARS", 
-                "value": 0.1
-              }
-            ], 
-            "unitPrices": [
-              {
-                "value": {
-                  "currency": "UAH", 
-                  "amount": 100.0, 
-                  "valueAddedTaxIncluded": true
-                }, 
-                "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc"
-              }
-            ], 
-            "suppliers": [
-              {
-                "contactPoint": {
-                  "name": "Державне управління справами", 
-                  "telephone": "0440000000"
-                }, 
-                "scale": "micro", 
-                "name": "Державне управління справами", 
-                "identifier": {
-                  "scheme": "UA-EDR", 
-                  "id": "00037258", 
-                  "uri": "http://www.dus.gov.ua/"
-                }, 
-                "address": {
-                  "postalCode": "01220", 
-                  "countryName": "Україна", 
-                  "streetAddress": "вул. Банкова, 11, корпус 1", 
-                  "region": "м. Київ", 
-                  "locality": "м. Київ"
-                }
-              }
-            ], 
-            "value": {
-              "currency": "UAH", 
-              "amount": 500.0, 
-              "valueAddedTaxIncluded": true
-            }, 
-            "bidID": "fc02090c338a477f8013156a4fa2da10", 
-            "date": "2018-07-30T17:40:15.471264+03:00", 
-            "awardID": "a915a07f7f0b4dafa583cce119bf1823", 
-            "id": "d925d6c6124447d581f2ae5f52ba710f"
-          }
-        ], 
-        "items": [
-          {
-            "description": "футляри до державних нагород", 
-            "classification": {
-              "scheme": "ДК021", 
-              "description": "Cartons", 
-              "id": "44617100-9"
-            }, 
-            "description_en": "Cases for state awards", 
-            "additionalClassifications": [
-              {
-                "scheme": "ДКПП", 
-                "id": "17.21.1", 
-                "description": "папір і картон гофровані, паперова й картонна тара"
-              }
-            ], 
-            "deliveryAddress": {
-              "postalCode": "79000", 
-              "countryName": "Україна", 
-              "streetAddress": "вул. Банкова 1", 
-              "region": "м. Київ", 
-              "locality": "м. Київ"
-            }, 
-            "deliveryDate": {
-              "startDate": "2018-06-27T13:39:09.362837+03:00", 
-              "endDate": "2018-06-30T13:39:09.362837+03:00"
-            }, 
-            "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
-            "unit": {
-              "code": "44617100-9", 
-              "name": "item"
-            }, 
-            "quantity": 5.0
-          }
-        ], 
-        "title_en": "[TESTING] ", 
-        "period": {
-          "startDate": "2018-09-11T11:23:20.418390+03:00", 
-          "endDate": "2022-01-23T11:23:20.418436+03:00"
-        }, 
-        "dateSigned": "2018-09-11T11:23:23.220310+03:00", 
-        "id": "106468013e6f47398b6f2f4da3bdeba6", 
-        "procuringEntity": {
-          "kind": "general", 
-          "name": "Шевченківська районна в місті Києві державна адміністрація", 
-          "address": {
-            "postalCode": "01030", 
-            "countryName": "Україна", 
-            "streetAddress": "Богдана Хмельницького вулиця, 21-29", 
-            "region": "Київська область", 
-            "locality": "Переяслав-Хмельницький"
-          }, 
-          "contactPoint": {
-            "name": "Ліповець Євген Іванович", 
-            "url": "http://www.shev.gov.ua/", 
-            "telephone": "2341170", 
-            "faxNumber": "2343591", 
-            "name_en": "Gregory Gillespie", 
-            "email": "buh510@ukr.net", 
-            "availableLanguage": "en"
-          }, 
-          "identifier": {
-            "scheme": "UA-EDR", 
-            "legalName_en": "Institution \"Vinnytsia City Council primary and secondary general school № 10\"", 
-            "id": "00037256", 
-            "legalName": "Шевченківська районна в місті Києві державна адміністрація"
-          }, 
-          "name_en": "Angelica Davis"
-        }, 
-        "numberOfContracts": 3, 
-        "mode": "test", 
-        "title_ru": "[ТЕСТИРОВАНИЕ] ", 
-        "owner": "broker", 
-        "dateModified": "2018-09-17T16:26:31.372995+03:00", 
-        "tender_id": "c3f4116d38d34fe2b7d8de8aae8c0b32"
-      }
-    ], 
-    "id": "c4b851839b51462fbf72e030424fca88", 
+      ]
+    },
+    "minimalStep": {
+      "amount": 2.5,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "features": [
       {
-        "code": "OCDS-123454-AIR-INTAKE", 
-        "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)", 
-        "title": "Потужність всмоктування", 
+        "code": "OCDS-123454-AIR-INTAKE",
+        "featureOf": "item",
+        "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
+        "title": "Потужність всмоктування",
+        "title_en": "Air Intake",
+        "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
         "enum": [
           {
-            "value": 0.1, 
+            "value": 0.1,
             "title": "До 1000 Вт"
-          }, 
+          },
           {
-            "value": 0.15, 
+            "value": 0.15,
             "title": "Більше 1000 Вт"
           }
-        ], 
-        "title_en": "Air Intake", 
-        "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc", 
-        "featureOf": "item"
-      }, 
+        ]
+      },
       {
-        "code": "OCDS-123454-YEARS", 
-        "description": "Кількість років, які організація учасник працює на ринку", 
-        "title": "Років на ринку", 
+        "code": "OCDS-123454-YEARS",
+        "featureOf": "tenderer",
+        "title": "Років на ринку",
+        "title_en": "Years trading",
+        "description": "Кількість років, які організація учасник працює на ринку",
         "enum": [
           {
-            "value": 0.05, 
+            "value": 0.05,
             "title": "До 3 років"
-          }, 
+          },
           {
-            "value": 0.1, 
+            "value": 0.1,
             "title": "Більше 3 років, менше 5 років"
-          }, 
+          },
           {
-            "value": 0.15, 
+            "value": 0.15,
             "title": "Більше 5 років"
           }
-        ], 
-        "title_en": "Years trading", 
-        "featureOf": "tenderer"
+        ]
       }
-    ]
+    ],
+    "lots": [
+      {
+        "id": "f2599a519a45416db792d9ee833a8e5a",
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "date": "2020-09-08T01:00:00+03:00",
+        "status": "active",
+        "value": {
+          "amount": 500.56,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStep": {
+          "amount": 2.5,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        }
+      }
+    ],
+    "status": "active.enquiries",
+    "agreements": [
+      {
+        "id": "b29bf3b2d53a43bb9103fbab098eb983",
+        "agreementID": "UA-2018-09-11-000002-1",
+        "contracts": [
+          {
+            "id": "d6cd8c3188d74e1481a9cebb57fd9329",
+            "parameters": [
+              {
+                "code": "OCDS-123454-AIR-INTAKE",
+                "value": 0.1
+              },
+              {
+                "code": "OCDS-123454-YEARS",
+                "value": 0.1
+              }
+            ],
+            "status": "active",
+            "suppliers": [
+              {
+                "name": "Державне управління справами",
+                "identifier": {
+                  "scheme": "UA-EDR",
+                  "id": "00037256",
+                  "uri": "http://www.dus.gov.ua/"
+                },
+                "address": {
+                  "streetAddress": "вул. Банкова, 11, корпус 1",
+                  "locality": "м. Київ",
+                  "region": "м. Київ",
+                  "postalCode": "01220",
+                  "countryName": "Україна"
+                },
+                "contactPoint": {
+                  "name": "Державне управління справами",
+                  "telephone": "0440000000"
+                },
+                "scale": "large"
+              }
+            ],
+            "unitPrices": [
+              {
+                "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
+                "value": {
+                  "currency": "UAH",
+                  "valueAddedTaxIncluded": true,
+                  "amount": 100.0
+                }
+              }
+            ],
+            "awardID": "d7406b07c05b4796bb168a7c47ee7d31",
+            "bidID": "0a292b6466274139ad3d973fd64830ff",
+            "date": "2018-07-30T17:40:15.471158+03:00",
+            "value": {
+              "amount": 500.0,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true
+            }
+          },
+          {
+            "id": "c8ef8c0d1cb74528b13335a623225762",
+            "parameters": [
+              {
+                "code": "OCDS-123454-AIR-INTAKE",
+                "value": 0.1
+              },
+              {
+                "code": "OCDS-123454-YEARS",
+                "value": 0.1
+              }
+            ],
+            "status": "active",
+            "suppliers": [
+              {
+                "name": "Державне управління справами",
+                "identifier": {
+                  "scheme": "UA-EDR",
+                  "id": "00037257",
+                  "uri": "http://www.dus.gov.ua/"
+                },
+                "address": {
+                  "streetAddress": "вул. Банкова, 11, корпус 1",
+                  "locality": "м. Київ",
+                  "region": "м. Київ",
+                  "postalCode": "01220",
+                  "countryName": "Україна"
+                },
+                "contactPoint": {
+                  "name": "Державне управління справами",
+                  "telephone": "0440000000"
+                },
+                "scale": "micro"
+              }
+            ],
+            "unitPrices": [
+              {
+                "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
+                "value": {
+                  "currency": "UAH",
+                  "valueAddedTaxIncluded": true,
+                  "amount": 100.111
+                }
+              }
+            ],
+            "awardID": "cdb6da320600480d8eaabd8eaa920872",
+            "bidID": "d85ef51272f14087abb2eed535340493",
+            "date": "2018-07-30T17:40:15.471207+03:00",
+            "value": {
+              "amount": 500.56,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true
+            }
+          },
+          {
+            "id": "c8ef8c0d1cb74528b13335a623225762",
+            "parameters": [
+              {
+                "code": "OCDS-123454-AIR-INTAKE",
+                "value": 0.1
+              },
+              {
+                "code": "OCDS-123454-YEARS",
+                "value": 0.1
+              }
+            ],
+            "status": "unsuccessful",
+            "suppliers": [
+              {
+                "name": "Державне управління справами 1",
+                "identifier": {
+                  "scheme": "UA-EDR",
+                  "id": "00037251",
+                  "uri": "http://www.dus.gov.ua/"
+                },
+                "address": {
+                  "streetAddress": "вул. Банкова, 11, корпус 1",
+                  "locality": "м. Київ",
+                  "region": "м. Київ",
+                  "postalCode": "01220",
+                  "countryName": "Україна"
+                },
+                "contactPoint": {
+                  "name": "Державне управління справами 1",
+                  "telephone": "0440000000"
+                },
+                "scale": "micro"
+              }
+            ],
+            "unitPrices": [
+              {
+                "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
+                "value": {
+                  "currency": "UAH",
+                  "valueAddedTaxIncluded": true,
+                  "amount": 100.111
+                }
+              }
+            ],
+            "awardID": "cdb6da320600480d8eaabd8eaa920872",
+            "bidID": "d85ef51272f14087abb2eed535340493",
+            "date": "2018-07-30T17:40:15.471207+03:00",
+            "value": {
+              "amount": 500.56,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true
+            }
+          },
+          {
+            "id": "d925d6c6124447d581f2ae5f52ba710f",
+            "parameters": [
+              {
+                "code": "OCDS-123454-AIR-INTAKE",
+                "value": 0.1
+              },
+              {
+                "code": "OCDS-123454-YEARS",
+                "value": 0.1
+              }
+            ],
+            "status": "active",
+            "suppliers": [
+              {
+                "name": "Державне управління справами",
+                "identifier": {
+                  "scheme": "UA-EDR",
+                  "id": "00037258",
+                  "uri": "http://www.dus.gov.ua/"
+                },
+                "address": {
+                  "streetAddress": "вул. Банкова, 11, корпус 1",
+                  "locality": "м. Київ",
+                  "region": "м. Київ",
+                  "postalCode": "01220",
+                  "countryName": "Україна"
+                },
+                "contactPoint": {
+                  "name": "Державне управління справами",
+                  "telephone": "0440000000"
+                },
+                "scale": "micro"
+              }
+            ],
+            "unitPrices": [
+              {
+                "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
+                "value": {
+                  "currency": "UAH",
+                  "valueAddedTaxIncluded": true,
+                  "amount": 100.0
+                }
+              }
+            ],
+            "awardID": "a915a07f7f0b4dafa583cce119bf1823",
+            "bidID": "fc02090c338a477f8013156a4fa2da10",
+            "date": "2018-07-30T17:40:15.471264+03:00",
+            "value": {
+              "amount": 500.0,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true
+            }
+          }
+        ],
+        "dateSigned": "2018-09-11T11:23:23.220310+03:00",
+        "dateModified": "2018-09-17T16:26:31.372995+03:00",
+        "items": [
+          {
+            "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
+            "description": "футляри до державних нагород",
+            "classification": {
+              "description": "Cartons",
+              "scheme": "ДК021",
+              "id": "44617100-9"
+            },
+            "additionalClassifications": [
+              {
+                "scheme": "ДКПП",
+                "id": "17.21.1",
+                "description": "папір і картон гофровані, паперова й картонна тара"
+              }
+            ],
+            "unit": {
+              "name": "item",
+              "code": "44617100-9"
+            },
+            "quantity": 5.0,
+            "description_en": "Cases for state awards",
+            "deliveryDate": {
+              "startDate": "2018-06-27T13:39:09.362837+03:00",
+              "endDate": "2018-06-30T13:39:09.362837+03:00"
+            },
+            "deliveryAddress": {
+              "streetAddress": "вул. Банкова 1",
+              "locality": "м. Київ",
+              "region": "м. Київ",
+              "postalCode": "79000",
+              "countryName": "Україна"
+            }
+          }
+        ],
+        "features": [
+          {
+            "code": "OCDS-123454-AIR-INTAKE",
+            "featureOf": "item",
+            "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
+            "title": "Потужність всмоктування",
+            "title_en": "Air Intake",
+            "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
+            "enum": [
+              {
+                "value": 0.1,
+                "title": "До 1000 Вт"
+              },
+              {
+                "value": 0.15,
+                "title": "Більше 1000 Вт"
+              }
+            ]
+          },
+          {
+            "code": "OCDS-123454-YEARS",
+            "featureOf": "tenderer",
+            "title": "Років на ринку",
+            "title_en": "Years trading",
+            "description": "Кількість років, які організація учасник працює на ринку",
+            "enum": [
+              {
+                "value": 0.05,
+                "title": "До 3 років"
+              },
+              {
+                "value": 0.1,
+                "title": "Більше 3 років, менше 5 років"
+              },
+              {
+                "value": 0.15,
+                "title": "Більше 5 років"
+              }
+            ]
+          }
+        ],
+        "mode": "test",
+        "owner": "broker",
+        "period": {
+          "startDate": "2018-09-11T11:23:20.418390+03:00",
+          "endDate": "2022-01-23T11:23:20.418436+03:00"
+        },
+        "procuringEntity": {
+          "name": "Шевченківська районна в місті Києві державна адміністрація",
+          "name_en": "Angelica Davis",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "00037256",
+            "legalName": "Шевченківська районна в місті Києві державна адміністрація",
+            "legalName_en": "Institution \"Vinnytsia City Council primary and secondary general school № 10\""
+          },
+          "address": {
+            "streetAddress": "Богдана Хмельницького вулиця, 21-29",
+            "locality": "Переяслав-Хмельницький",
+            "region": "Київська область",
+            "postalCode": "01030",
+            "countryName": "Україна"
+          },
+          "kind": "general",
+          "contactPoint": {
+            "name": "Ліповець Євген Іванович",
+            "name_en": "Gregory Gillespie",
+            "email": "buh510@ukr.net",
+            "telephone": "2341170",
+            "faxNumber": "2343591",
+            "url": "http://www.shev.gov.ua/",
+            "availableLanguage": "en"
+          }
+        },
+        "status": "active",
+        "tender_id": "c3f4116d38d34fe2b7d8de8aae8c0b32",
+        "title": "[ТЕСТУВАННЯ] ",
+        "title_en": "[TESTING] ",
+        "title_ru": "[ТЕСТИРОВАНИЕ] ",
+        "numberOfContracts": 3
+      }
+    ],
+    "procurementMethod": "selective",
+    "procurementMethodType": "closeFrameworkAgreementSelectionUA",
+    "id": "86632d7f051f455881abee60f4fef31d",
+    "next_check": "2020-09-09T01:00:00+03:00"
   }
 }
 

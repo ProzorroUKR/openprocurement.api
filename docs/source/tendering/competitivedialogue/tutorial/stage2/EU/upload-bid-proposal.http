@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/50c82523038349969f53f3e238932c46/bids/35a41cb1beb746a68b7ab656f69ecfad/documents?acc_token=4983fc47c71047729730599c7b0329ae HTTP/1.0
+POST /api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/815df7967805489faa3fa1a4e74fa2d1/documents?acc_token=4db6be0e33ad4f88b44450c99971d911 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 144
 Content-Type: multipart/form-data; boundary=---BOUNDARY
@@ -14,20 +14,20 @@ content
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/50c82523038349969f53f3e238932c46/bids/35a41cb1beb746a68b7ab656f69ecfad/documents/c00154b4e07247218edb6146228627ef
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/815df7967805489faa3fa1a4e74fa2d1/documents/268f8dd0be3e46c185d767ab3caf1e59
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "hash": "md5:00000000000000000000000000000000", 
-    "confidentiality": "public", 
-    "language": "uk", 
-    "title": "Proposal.pdf", 
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/50c82523038349969f53f3e238932c46/bids/35a41cb1beb746a68b7ab656f69ecfad/documents/c00154b4e07247218edb6146228627ef?download=52925f3fbe94410f9b830a5dc138686e", 
-    "format": "application/pdf", 
-    "documentOf": "tender", 
-    "datePublished": "2020-09-08T01:00:00+03:00", 
-    "id": "c00154b4e07247218edb6146228627ef", 
-    "dateModified": "2020-09-08T01:00:00+03:00"
+    "id": "268f8dd0be3e46c185d767ab3caf1e59",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "Proposal.pdf",
+    "format": "application/pdf",
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/815df7967805489faa3fa1a4e74fa2d1/documents/268f8dd0be3e46c185d767ab3caf1e59?download=e5320aedb5374fa791ff1f424ba5ba7b",
+    "datePublished": "2020-09-08T01:00:00+03:00",
+    "dateModified": "2020-09-08T01:00:00+03:00",
+    "documentOf": "tender",
+    "confidentiality": "public",
+    "language": "uk"
   }
 }
 

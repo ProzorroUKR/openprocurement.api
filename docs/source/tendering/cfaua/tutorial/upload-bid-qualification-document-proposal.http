@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/544359015fd047a8b79fa81bda0889fc/qualification_documents?acc_token=7ba8d77208c04422b161882dc2c4b5c2 HTTP/1.0
+POST /api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/9eee26d528d9490a9e52cf6b1f696c41/qualification_documents?acc_token=c0c98c22f5594c6e99ba094d5d9a9b63 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 158
 Content-Type: multipart/form-data; boundary=---BOUNDARY
@@ -14,20 +14,20 @@ content
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/544359015fd047a8b79fa81bda0889fc/qualification_documents/a5f1ac003eec457482d9811ca0749c6b
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/9eee26d528d9490a9e52cf6b1f696c41/qualification_documents/13a99a17b16648f5940131d68841cfc1
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "hash": "md5:00000000000000000000000000000000", 
-    "confidentiality": "public", 
-    "language": "uk", 
-    "title": "qualification_document.pdf", 
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/bids/544359015fd047a8b79fa81bda0889fc/qualification_documents/a5f1ac003eec457482d9811ca0749c6b?download=056c856ab30e43a7b8eeca4da4d3a42b", 
-    "format": "application/pdf", 
-    "documentOf": "tender", 
-    "datePublished": "2020-09-08T01:00:00+03:00", 
-    "id": "a5f1ac003eec457482d9811ca0749c6b", 
-    "dateModified": "2020-09-08T01:00:00+03:00"
+    "id": "13a99a17b16648f5940131d68841cfc1",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "qualification_document.pdf",
+    "format": "application/pdf",
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/9eee26d528d9490a9e52cf6b1f696c41/qualification_documents/13a99a17b16648f5940131d68841cfc1?download=7cd719b4e43044d99c422791d2008a68",
+    "datePublished": "2020-09-08T01:00:00+03:00",
+    "dateModified": "2020-09-08T01:00:00+03:00",
+    "documentOf": "tender",
+    "confidentiality": "public",
+    "language": "uk"
   }
 }
 

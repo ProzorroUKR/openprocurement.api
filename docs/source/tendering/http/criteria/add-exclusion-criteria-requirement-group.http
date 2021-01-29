@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/fb07ce223a754201a341023b86d832ef/criteria/08f2281d3cac4734813ff9785f7ec33e/requirement_groups?acc_token=056f6edd10e84810b429550ae3a12f86 HTTP/1.0
+POST /api/2.5/tenders/28620043ada5424cbbfbdc7f6246096f/criteria/02b94013102f4d3280fb2f414499d2ed/requirement_groups?acc_token=b00ba6728a854f2aa3959cc53ebab5d8 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1904
 Content-Type: application/json
@@ -8,18 +8,18 @@ DATA:
   "data": {
     "requirements": [
       {
-        "dataType": "boolean", 
-        "expectedValue": "true", 
+        "dataType": "boolean",
         "eligibleEvidences": [
           {
-            "type": "document", 
-            "description": "Довідка в довільній формі", 
-            "title": "Документальне підтвердження"
+            "title": "Документальне підтвердження",
+            "description": "Довідка в довільній формі",
+            "type": "document"
           }
-        ], 
+        ],
+        "expectedValue": "true",
         "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
       }
-    ], 
+    ],
     "description": "Учасник фізична особа підтверджує, що"
   }
 }
@@ -28,12 +28,12 @@ Response: 403 Forbidden
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
-  "status": "error", 
+  "status": "error",
   "errors": [
     {
-      "description": "Can't update exclusion ecriteria objects", 
-      "location": "body", 
-      "name": "data"
+      "location": "body",
+      "name": "data",
+      "description": "Can't update exclusion ecriteria objects"
     }
   ]
 }

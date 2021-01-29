@@ -1,4 +1,4 @@
-PUT /api/2.5/tenders/6ccc95c340c94e32bcf0b8c2183e62f7/documents/006668ed5a9b47dd9011b8b671e3fee8?acc_token=794fefa6abd34c81a289161fadb1feb4 HTTP/1.0
+PUT /api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/documents/860508a52298440486b9e15153aee3ba?acc_token=1649f66a8e4c4492affe5b291314ebf9 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 335
 Content-Type: application/json
@@ -6,9 +6,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/47d4864c89104801b7903301080f2b67?KeyID=a8968c46&Signature=Hco27SOxEFWNRg15WQtbku%2BRHvrF71z%2F4EwBEx9Q4g5LFQjByRABi4MWl%2BAEF%2FtfKIIfzigRC9EsE5SKKf0GBQ%3D%3D", 
-    "title": "AwardCriteria-2.pdf", 
-    "hash": "md5:00000000000000000000000000000000", 
+    "title": "AwardCriteria-2.pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6e8b1d9784784942a6b37f5041f729f5?Signature=%2Fk5pgWBNyKtmATkxW2O5o6kH%2F1R%2FKFmIdGf02lJ1K9Gv2omUyAsk%2BFSNStqlmSBrwHb0vLJyVWbI2f1xGrDOCg%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
     "format": "application/pdf"
   }
 }
@@ -18,15 +18,15 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "hash": "md5:00000000000000000000000000000000", 
-    "author": "tender_owner", 
-    "title": "AwardCriteria-2.pdf", 
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/47d4864c89104801b7903301080f2b67?KeyID=a8968c46&Signature=e3FMzyWIbV16OyRubrjsJYuYsFSTPG91PjuH8hiqKO1kbwM4tlroiQgICT4uTQPVHcC%2FdPtdLmNh0EgObct0CA%253D%253D", 
-    "format": "application/pdf", 
-    "documentOf": "tender", 
-    "datePublished": "2020-09-08T01:00:00+03:00", 
-    "id": "006668ed5a9b47dd9011b8b671e3fee8", 
-    "dateModified": "2020-09-08T01:00:00+03:00"
+    "id": "860508a52298440486b9e15153aee3ba",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "AwardCriteria-2.pdf",
+    "format": "application/pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6e8b1d9784784942a6b37f5041f729f5?Signature=zKOJJYR83YcTMuUIRUG52Ici77P2rKgUjAYdibD2IVV3cCfGCXKyAwNahfE59Cy8%2BkkDJP2LjKXWXuabr07TDg%3D%3D&KeyID=a8968c46",
+    "datePublished": "2020-09-08T01:00:00+03:00",
+    "dateModified": "2020-09-08T01:00:00+03:00",
+    "author": "tender_owner",
+    "documentOf": "tender"
   }
 }
 

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/24660b6d159d42adb6aaba9d978575c7/bids/9e2ee09e73b94c1aab0be7ed1f2c9bd9/requirement_responses/50f10bd750d04f9ba64287d61eadcd44/evidences/954551cb19fc4b8c88fa9359d02a8a47 HTTP/1.0
+GET /api/2.5/tenders/930000429dcc4a83a2879dcc45bc5d8a/bids/65928406b44b4f73ad7b8be9591d208f/requirement_responses/b9507fa7a0584774b3d0e865d458e50c/evidences/b118a97aeba6458eb5a63e2638eba301 HTTP/1.0
 Authorization: Bearer token
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,13 +7,13 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "title": "Update evidence title", 
-    "type": "document", 
+    "id": "b118a97aeba6458eb5a63e2638eba301",
+    "title": "Update evidence title",
+    "type": "document",
     "relatedDocument": {
-      "id": "6eb7454af50b49adaa5e50100a7ee92d", 
+      "id": "6b128e5a0f5a49c3948866fe84c616b4",
       "title": "name.doc"
-    }, 
-    "id": "954551cb19fc4b8c88fa9359d02a8a47"
+    }
   }
 }
 

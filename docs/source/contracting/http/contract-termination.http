@@ -1,4 +1,4 @@
-PATCH /api/2.5/contracts/05870adde49c424db6a2dba280ea90ab?acc_token=9e4e9f4da0514309b6c79bbafb5b59c3 HTTP/1.0
+PATCH /api/2.5/contracts/77d160a2092f40068cba075e1dfac436?acc_token=d7ef3060443a419f93a65b3aeb4f5f9b HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 83
 Content-Type: application/json
@@ -6,9 +6,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "status": "terminated", 
+    "status": "terminated",
     "amountPaid": {
-      "amount": 430, 
+      "amount": 430,
       "amountNet": 420
     }
   }
@@ -19,161 +19,161 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "terminated", 
-    "changes": [
-      {
-        "status": "active", 
-        "rationaleTypes": [
-          "volumeCuts", 
-          "priceReduction"
-        ], 
-        "rationale_en": "Contract change cause", 
-        "dateSigned": "2020-09-08T01:00:01+03:00", 
-        "rationale": "Друга і третя поставка має бути розфасована", 
-        "date": "2020-09-08T01:00:01+03:00", 
-        "id": "b43b7e72488d4394883aea3331d71f51"
-      }
-    ], 
-    "documents": [
-      {
-        "title": "contract_changes.doc", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/951905d76d2341e088917e1430c9f41c?download=0eb459624a8b4586998c3b1fc94dfebf", 
-        "format": "application/msword", 
-        "documentOf": "change", 
-        "datePublished": "2020-09-08T01:00:01+03:00", 
-        "id": "951905d76d2341e088917e1430c9f41c", 
-        "relatedItem": "b43b7e72488d4394883aea3331d71f51", 
-        "dateModified": "2020-09-08T01:00:01+03:00"
-      }, 
-      {
-        "title": "contract.doc", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/acd30b77ef8243858cd33aeee5e6518d?download=bdfe22301a624a34bd8be9ca5b6496ca", 
-        "format": "application/msword", 
-        "documentOf": "contract", 
-        "datePublished": "2020-09-08T01:00:01+03:00", 
-        "id": "acd30b77ef8243858cd33aeee5e6518d", 
-        "dateModified": "2020-09-08T01:00:01+03:00"
-      }, 
-      {
-        "title": "contract_additional_docs.doc", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/6ebd7e8898db422cb1721110baa86dda?download=0e1cfa7c0b10405ebe55e120b1be4b68", 
-        "format": "application/msword", 
-        "documentOf": "contract", 
-        "datePublished": "2020-09-08T01:00:01+03:00", 
-        "id": "6ebd7e8898db422cb1721110baa86dda", 
-        "dateModified": "2020-09-08T01:00:01+03:00"
-      }, 
-      {
-        "title": "contract_additional_docs.doc", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/05870adde49c424db6a2dba280ea90ab/documents/6ebd7e8898db422cb1721110baa86dda?download=e6843dc0736840c4a82810b867e46b50", 
-        "format": "application/msword", 
-        "documentOf": "contract", 
-        "datePublished": "2020-09-08T01:00:01+03:00", 
-        "id": "6ebd7e8898db422cb1721110baa86dda", 
-        "dateModified": "2020-09-08T01:00:01+03:00"
-      }
-    ], 
+    "id": "77d160a2092f40068cba075e1dfac436",
+    "awardID": "b4decc2283114aac9621c147a566addf",
+    "contractID": "UA-2020-09-08-000001-1",
+    "period": {
+      "startDate": "2020-09-08T01:00:01+03:00",
+      "endDate": "2020-10-08T01:00:01+03:00"
+    },
+    "dateSigned": "2020-09-08T01:00:01+03:00",
+    "dateModified": "2020-09-08T01:00:01+03:00",
     "items": [
       {
-        "description": "футляри до державних нагород", 
+        "id": "299ef8cb981340528d0f7dcf2aa70caa",
+        "description": "футляри до державних нагород",
+        "unit": {
+          "name": "item",
+          "code": "44617100-9"
+        },
+        "quantity": 2.0,
+        "deliveryDate": {
+          "startDate": "2020-09-10T01:00:00+03:00",
+          "endDate": "2020-09-13T01:00:00+03:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
         "classification": {
-          "scheme": "ДК021", 
-          "description": "Cartons", 
+          "description": "Cartons",
+          "scheme": "ДК021",
           "id": "44617100-9"
-        }, 
+        },
         "additionalClassifications": [
           {
-            "scheme": "ДКПП", 
-            "id": "17.21.1", 
+            "scheme": "ДКПП",
+            "id": "17.21.1",
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
-        ], 
-        "deliveryAddress": {
-          "postalCode": "79000", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }, 
-        "deliveryDate": {
-          "startDate": "2020-09-10T01:00:00+03:00", 
-          "endDate": "2020-09-13T01:00:00+03:00"
-        }, 
-        "id": "d5238ea8b041451197f49ed746c0d577", 
-        "unit": {
-          "code": "44617100-9", 
-          "name": "item"
-        }, 
-        "quantity": 2.0
+        ]
       }
-    ], 
+    ],
+    "tender_id": "0189f1fe7bc24dc5be6e5c51fa30da0d",
+    "owner": "broker",
+    "status": "terminated",
     "suppliers": [
       {
-        "contactPoint": {
-          "name": "Державне управління справами", 
-          "telephone": "0440000000"
-        }, 
-        "scale": "micro", 
-        "name": "Державне управління справами", 
+        "name": "Державне управління справами",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "legalName": "Державне управління справами", 
-          "id": "00037256", 
+          "scheme": "UA-EDR",
+          "id": "00037256",
+          "legalName": "Державне управління справами",
           "uri": "http://www.dus.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "01220", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова, 11, корпус 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "01220",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Державне управління справами",
+          "telephone": "0440000000"
+        },
+        "scale": "micro"
       }
-    ], 
-    "period": {
-      "startDate": "2020-09-08T01:00:01+03:00", 
-      "endDate": "2020-10-08T01:00:01+03:00"
-    }, 
-    "value": {
-      "currency": "UAH", 
-      "amount": 438.0, 
-      "amountNet": 430.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "dateModified": "2020-09-08T01:00:01+03:00", 
+    ],
     "procuringEntity": {
-      "contactPoint": {
-        "name": "Державне управління справами", 
-        "telephone": "0440000000"
-      }, 
+      "name": "Державне управління справами",
       "identifier": {
-        "scheme": "UA-EDR", 
-        "legalName": "Державне управління справами", 
-        "id": "00037256", 
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "legalName": "Державне управління справами",
         "uri": "http://www.dus.gov.ua/"
-      }, 
-      "name": "Державне управління справами", 
-      "kind": "general", 
+      },
       "address": {
-        "postalCode": "01220", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Банкова, 11, корпус 1", 
-        "region": "м. Київ", 
-        "locality": "м. Київ"
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "0440000000"
+      },
+      "kind": "general"
+    },
+    "changes": [
+      {
+        "id": "90238f35b68a4a7ebeb6a5632b1b0d9a",
+        "status": "active",
+        "date": "2020-09-08T01:00:01+03:00",
+        "rationale": "Друга і третя поставка має бути розфасована",
+        "rationale_en": "Contract change cause",
+        "rationaleTypes": [
+          "volumeCuts",
+          "priceReduction"
+        ],
+        "dateSigned": "2020-09-08T01:00:01+03:00"
       }
-    }, 
-    "dateSigned": "2020-09-08T01:00:01+03:00", 
-    "contractID": "UA-2020-09-08-000001-1", 
-    "owner": "broker", 
-    "awardID": "48868b35f7084c09bce3622c503b97a4", 
+    ],
+    "documents": [
+      {
+        "id": "901e908a86b94c3581d0f85fd8137db3",
+        "title": "contract_changes.doc",
+        "format": "application/msword",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/77d160a2092f40068cba075e1dfac436/documents/901e908a86b94c3581d0f85fd8137db3?download=c4a63488537c437b894d08c8f4d11e28",
+        "datePublished": "2020-09-08T01:00:01+03:00",
+        "dateModified": "2020-09-08T01:00:01+03:00",
+        "relatedItem": "90238f35b68a4a7ebeb6a5632b1b0d9a",
+        "documentOf": "change"
+      },
+      {
+        "id": "9a29a997e01d4f519250c0c8224f11bf",
+        "title": "contract.doc",
+        "format": "application/msword",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/77d160a2092f40068cba075e1dfac436/documents/9a29a997e01d4f519250c0c8224f11bf?download=61326b7ec07643d296aa348f6a84b5e0",
+        "datePublished": "2020-09-08T01:00:01+03:00",
+        "dateModified": "2020-09-08T01:00:01+03:00",
+        "documentOf": "contract"
+      },
+      {
+        "id": "d72c6e6b2a7741a1910849d0446b7d3f",
+        "title": "contract_additional_docs.doc",
+        "format": "application/msword",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/77d160a2092f40068cba075e1dfac436/documents/d72c6e6b2a7741a1910849d0446b7d3f?download=98f487db80604f78ae7d691595fa5d9b",
+        "datePublished": "2020-09-08T01:00:01+03:00",
+        "dateModified": "2020-09-08T01:00:01+03:00",
+        "documentOf": "contract"
+      },
+      {
+        "id": "d72c6e6b2a7741a1910849d0446b7d3f",
+        "title": "contract_additional_docs.doc",
+        "format": "application/msword",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/77d160a2092f40068cba075e1dfac436/documents/d72c6e6b2a7741a1910849d0446b7d3f?download=29a6f4e9de4d44debe9cdfd98a391aa3",
+        "datePublished": "2020-09-08T01:00:01+03:00",
+        "dateModified": "2020-09-08T01:00:01+03:00",
+        "documentOf": "contract"
+      }
+    ],
     "amountPaid": {
-      "currency": "UAH", 
-      "amount": 430.0, 
-      "amountNet": 420.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "id": "05870adde49c424db6a2dba280ea90ab", 
-    "tender_id": "ffa3d33ea0004692a4a30af55a8f6a5b"
+      "amount": 430.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amountNet": 420.0
+    },
+    "value": {
+      "amount": 438.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amountNet": 430.0
+    }
   }
 }
 

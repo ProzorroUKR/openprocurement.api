@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/24660b6d159d42adb6aaba9d978575c7/bids/9e2ee09e73b94c1aab0be7ed1f2c9bd9?acc_token=f0760e708e124c8fb9f34e562dbf59cf HTTP/1.0
+PATCH /api/2.5/tenders/930000429dcc4a83a2879dcc45bc5d8a/bids/65928406b44b4f73ad7b8be9591d208f?acc_token=07e06cacd82447318b5e6202df60b523 HTTP/1.0
 Authorization: Bearer token
 Content-Length: 3610
 Content-Type: application/json
@@ -8,42 +8,42 @@ DATA:
   "data": {
     "requirementResponses": [
       {
+        "title": "Requirement response",
+        "description": "some description",
         "requirement": {
-          "id": "53f799fd59d04ff18875d7d7c32a20ca", 
+          "id": "cd36c26ca1b04fffb35dfe068a5aaf9d",
           "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
-        }, 
+        },
         "evidences": [
           {
-            "type": "document", 
+            "title": "Requirement response",
             "relatedDocument": {
-              "id": "6eb7454af50b49adaa5e50100a7ee92d", 
+              "id": "6b128e5a0f5a49c3948866fe84c616b4",
               "title": "name.doc"
-            }, 
-            "title": "Requirement response"
+            },
+            "type": "document"
           }
-        ], 
-        "description": "some description", 
-        "value": "True", 
-        "title": "Requirement response"
-      }, 
+        ],
+        "value": "True"
+      },
       {
+        "title": "Requirement response 2",
+        "description": "some description",
         "requirement": {
-          "id": "2f00406edaa743e59b4fab4e22cceea4", 
+          "id": "bd0af2946f3e4e76b8c6243a3fbb11fb",
           "title": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів"
-        }, 
+        },
         "evidences": [
           {
-            "type": "document", 
+            "title": "Requirement response",
             "relatedDocument": {
-              "id": "6eb7454af50b49adaa5e50100a7ee92d", 
+              "id": "6b128e5a0f5a49c3948866fe84c616b4",
               "title": "name.doc"
-            }, 
-            "title": "Requirement response"
+            },
+            "type": "document"
           }
-        ], 
-        "description": "some description", 
-        "value": "True", 
-        "title": "Requirement response 2"
+        ],
+        "value": "True"
       }
     ]
   }

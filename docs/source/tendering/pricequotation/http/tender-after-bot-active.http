@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/85818863b7a4458ea02e3893422b0a0d HTTP/1.0
+GET /api/2.5/tenders/fd1a15553b7047a9b514d57529cb5a44 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,330 +7,330 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "active.tendering", 
-    "procurementMethod": "selective", 
-    "mainProcurementCategory": "goods", 
-    "tenderPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00", 
-      "endDate": "2020-09-22T01:00:00+03:00"
-    }, 
-    "title": "Комп’ютерне обладнання", 
+    "title": "Комп’ютерне обладнання",
+    "date": "2020-09-08T01:00:00+03:00",
+    "dateModified": "2020-09-08T01:00:00+03:00",
+    "tenderID": "UA-2020-09-08-000001",
+    "owner": "broker",
+    "mainProcurementCategory": "goods",
+    "awardCriteria": "lowestCost",
+    "submissionMethod": "electronicAuction",
+    "status": "active.tendering",
     "items": [
       {
-        "description": "Комп’ютерне обладнання", 
-        "classification": {
-          "scheme": "ДК021", 
-          "description": "Комп’ютерне обладнанн", 
-          "id": "30230000-0"
-        }, 
-        "deliveryAddress": {
-          "postalCode": "79000", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }, 
-        "deliveryDate": {
-          "startDate": "2020-09-10T01:00:00+03:00", 
-          "endDate": "2020-09-13T01:00:00+03:00"
-        }, 
-        "id": "29bb5e925e904de8acf43dbfc98b6046", 
+        "id": "58875aff79b44134818670145fe82398",
+        "description": "Комп’ютерне обладнання",
         "unit": {
-          "code": "H87", 
-          "name": "штук"
-        }, 
-        "quantity": 1.0
+          "name": "штук",
+          "code": "H87"
+        },
+        "quantity": 1.0,
+        "deliveryDate": {
+          "startDate": "2020-09-10T01:00:00+03:00",
+          "endDate": "2020-09-13T01:00:00+03:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "classification": {
+          "description": "Комп’ютерне обладнанн",
+          "scheme": "ДК021",
+          "id": "30230000-0"
+        }
       }
-    ], 
-    "procurementMethodType": "priceQuotation", 
+    ],
     "value": {
-      "currency": "UAH", 
-      "amount": 22000.0, 
+      "amount": 22000.0,
+      "currency": "UAH",
       "valueAddedTaxIncluded": true
-    }, 
-    "submissionMethod": "electronicAuction", 
+    },
+    "tenderPeriod": {
+      "startDate": "2020-09-08T01:00:00+03:00",
+      "endDate": "2020-09-22T01:00:00+03:00"
+    },
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "0440000000"
+      },
+      "kind": "general"
+    },
+    "procurementMethod": "selective",
+    "procurementMethodType": "priceQuotation",
+    "profile": "655360-30230000-889652-40000777",
     "shortlistedFirms": [
       {
-        "status": "active", 
-        "scale": "large", 
-        "name": "Товариство з обмеженою відповідальністю «Пікселі»", 
-        "address": {
-          "postalCode": "01100", 
-          "countryName": "Україна", 
-          "streetAddress": "бул.Дружби Народів, 8", 
-          "region": "Київська область", 
-          "locality": "м.Київ"
-        }, 
-        "contactPoint": {
-          "email": "contact@pixel.pix", 
-          "telephone": "(067) 123-45-67", 
-          "name": "Оксана Піксель"
-        }, 
+        "name": "Товариство з обмеженою відповідальністю «Пікселі»",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "12345678", 
+          "scheme": "UA-EDR",
+          "id": "12345678",
           "legalName": "Товариство з обмеженою відповідальністю «Пікселі»"
-        }, 
-        "id": "UA-EDR-12345678"
-      }, 
-      {
-        "status": "active", 
-        "scale": "large", 
-        "name": "Товариство з обмеженою відповідальністю «Штекер-Пекер»", 
+        },
         "address": {
-          "postalCode": "46000", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Кластерна, 777-К", 
-          "region": "Тернопільська область", 
-          "locality": "м.Тернопіль"
-        }, 
+          "streetAddress": "бул.Дружби Народів, 8",
+          "locality": "м.Київ",
+          "region": "Київська область",
+          "postalCode": "01100",
+          "countryName": "Україна"
+        },
         "contactPoint": {
-          "email": "info@shteker.pek", 
-          "telephone": "(095) 123-45-67", 
-          "name": "Олег Штекер"
-        }, 
+          "name": "Оксана Піксель",
+          "email": "contact@pixel.pix",
+          "telephone": "(067) 123-45-67"
+        },
+        "scale": "large",
+        "id": "UA-EDR-12345678",
+        "status": "active"
+      },
+      {
+        "name": "Товариство з обмеженою відповідальністю «Штекер-Пекер»",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "87654321", 
+          "scheme": "UA-EDR",
+          "id": "87654321",
           "legalName": "Товариство з обмеженою відповідальністю «Штекер-Пекер»"
-        }, 
-        "id": "UA-EDR-87654321"
+        },
+        "address": {
+          "streetAddress": "вул. Кластерна, 777-К",
+          "locality": "м.Тернопіль",
+          "region": "Тернопільська область",
+          "postalCode": "46000",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Олег Штекер",
+          "email": "info@shteker.pek",
+          "telephone": "(095) 123-45-67"
+        },
+        "scale": "large",
+        "id": "UA-EDR-87654321",
+        "status": "active"
       }
-    ], 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "noticePublicationDate": "2020-09-08T01:00:00+03:00", 
-    "profile": "655360-30230000-889652-40000777", 
-    "procuringEntity": {
-      "contactPoint": {
-        "name": "Державне управління справами", 
-        "telephone": "0440000000"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "id": "00037256", 
-        "uri": "http://www.dus.gov.ua/"
-      }, 
-      "name": "Державне управління справами", 
-      "kind": "general", 
-      "address": {
-        "postalCode": "01220", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Банкова, 11, корпус 1", 
-        "region": "м. Київ", 
-        "locality": "м. Київ"
-      }
-    }, 
-    "dateModified": "2020-09-08T01:00:00+03:00", 
+    ],
     "criteria": [
       {
+        "id": "655360-0001",
+        "title": "Діагональ екрану",
+        "description": "Діагональ екрану",
         "requirementGroups": [
           {
+            "id": "655360-0001-001",
+            "description": "Діагональ екрану, не менше 23.8 дюймів",
             "requirements": [
               {
-                "dataType": "number", 
-                "title": "Діагональ екрану", 
-                "id": "655360-0001-001-01", 
+                "id": "655360-0001-001-01",
+                "title": "Діагональ екрану",
+                "dataType": "number",
                 "unit": {
-                  "code": "INH", 
+                  "code": "INH",
                   "name": "дюйм"
-                }, 
+                },
                 "minValue": "23.8"
               }
-            ], 
-            "id": "655360-0001-001", 
-            "description": "Діагональ екрану, не менше 23.8 дюймів"
+            ]
           }
-        ], 
-        "title": "Діагональ екрану", 
-        "description": "Діагональ екрану", 
-        "id": "655360-0001"
-      }, 
+        ]
+      },
       {
+        "id": "655360-0002",
+        "title": "Роздільна здатність",
+        "description": "Роздільна здатність",
         "requirementGroups": [
           {
+            "id": "655360-0002-001",
+            "description": "Роздільна здатність - 1920x1080",
             "requirements": [
               {
-                "dataType": "string", 
-                "id": "655360-0002-001-01", 
-                "expectedValue": "1920x1080", 
-                "title": "Роздільна здатність"
+                "id": "655360-0002-001-01",
+                "title": "Роздільна здатність",
+                "dataType": "string",
+                "expectedValue": "1920x1080"
               }
-            ], 
-            "id": "655360-0002-001", 
-            "description": "Роздільна здатність - 1920x1080"
+            ]
           }
-        ], 
-        "title": "Роздільна здатність", 
-        "description": "Роздільна здатність", 
-        "id": "655360-0002"
-      }, 
+        ]
+      },
       {
+        "id": "655360-0003",
+        "title": "Співвідношення сторін",
+        "description": "Співвідношення сторін",
         "requirementGroups": [
           {
+            "id": "655360-0003-001",
+            "description": "Співвідношення сторін",
             "requirements": [
               {
-                "dataType": "string", 
-                "id": "655360-0003-001-01", 
-                "expectedValue": "16:9", 
-                "title": "Співвідношення сторін"
+                "id": "655360-0003-001-01",
+                "title": "Співвідношення сторін",
+                "dataType": "string",
+                "expectedValue": "16:9"
               }
-            ], 
-            "id": "655360-0003-001", 
-            "description": "Співвідношення сторін"
+            ]
           }
-        ], 
-        "title": "Співвідношення сторін", 
-        "description": "Співвідношення сторін", 
-        "id": "655360-0003"
-      }, 
+        ]
+      },
       {
+        "id": "655360-0004",
+        "title": "Яскравість дисплея",
+        "description": "Яскравість дисплея",
         "requirementGroups": [
           {
+            "id": "655360-0004-001",
+            "description": "Яскравість дисплея, не менше 250 кд/м²",
             "requirements": [
               {
-                "dataType": "integer", 
-                "title": "Яскравість дисплея", 
-                "maxValue": "250", 
+                "id": "655360-0004-001-01",
+                "title": "Яскравість дисплея",
+                "dataType": "integer",
                 "unit": {
-                  "code": "A24", 
+                  "code": "A24",
                   "name": "кд/м²"
-                }, 
-                "id": "655360-0004-001-01"
+                },
+                "maxValue": "250"
               }
-            ], 
-            "id": "655360-0004-001", 
-            "description": "Яскравість дисплея, не менше 250 кд/м²"
+            ]
           }
-        ], 
-        "title": "Яскравість дисплея", 
-        "description": "Яскравість дисплея", 
-        "id": "655360-0004"
-      }, 
+        ]
+      },
       {
+        "id": "655360-0005",
+        "title": "Контрастність (статична)",
+        "description": "Контрастність (статична)",
         "requirementGroups": [
           {
+            "id": "655360-0005-001",
+            "description": "Контрастність (статична) - 1000:1",
             "requirements": [
               {
-                "dataType": "string", 
-                "id": "655360-0005-001-01", 
-                "expectedValue": "1000:1", 
-                "title": "Контрастність (статична)"
+                "id": "655360-0005-001-01",
+                "title": "Контрастність (статична)",
+                "dataType": "string",
+                "expectedValue": "1000:1"
               }
-            ], 
-            "id": "655360-0005-001", 
-            "description": "Контрастність (статична) - 1000:1"
-          }, 
+            ]
+          },
           {
+            "id": "655360-0005-002",
+            "description": "Контрастність (статична) - 3000:1",
             "requirements": [
               {
-                "dataType": "string", 
-                "id": "655360-0005-002-01", 
-                "expectedValue": "3000:1", 
-                "title": "Контрастність (статична)"
+                "id": "655360-0005-002-01",
+                "title": "Контрастність (статична)",
+                "dataType": "string",
+                "expectedValue": "3000:1"
               }
-            ], 
-            "id": "655360-0005-002", 
-            "description": "Контрастність (статична) - 3000:1"
+            ]
           }
-        ], 
-        "title": "Контрастність (статична)", 
-        "description": "Контрастність (статична)", 
-        "id": "655360-0005"
-      }, 
+        ]
+      },
       {
+        "id": "655360-0006",
+        "title": "Кількість портів HDMI",
+        "description": "Кількість портів HDMI",
         "requirementGroups": [
           {
+            "id": "655360-0006-001",
+            "description": "Кількість портів HDMI, не менше 1 шт.",
             "requirements": [
               {
-                "dataType": "integer", 
-                "title": "Кількість портів HDMI", 
-                "id": "655360-0006-001-01", 
+                "id": "655360-0006-001-01",
+                "title": "Кількість портів HDMI",
+                "dataType": "integer",
                 "unit": {
-                  "code": "H87", 
+                  "code": "H87",
                   "name": "штук"
-                }, 
+                },
                 "minValue": "1"
               }
-            ], 
-            "id": "655360-0006-001", 
-            "description": "Кількість портів HDMI, не менше 1 шт."
+            ]
           }
-        ], 
-        "title": "Кількість портів HDMI", 
-        "description": "Кількість портів HDMI", 
-        "id": "655360-0006"
-      }, 
+        ]
+      },
       {
+        "id": "655360-0007",
+        "title": "Кількість портів D-sub",
+        "description": "Кількість портів D-sub",
         "requirementGroups": [
           {
+            "id": "655360-0007-001",
+            "description": "Кількість портів D-sub, не менше 1 шт.",
             "requirements": [
               {
-                "dataType": "integer", 
-                "title": "Кількість портів D-sub", 
-                "id": "655360-0007-001-01", 
+                "id": "655360-0007-001-01",
+                "title": "Кількість портів D-sub",
+                "dataType": "integer",
                 "unit": {
-                  "code": "H87", 
+                  "code": "H87",
                   "name": "штук"
-                }, 
+                },
                 "minValue": "1"
               }
-            ], 
-            "id": "655360-0007-001", 
-            "description": "Кількість портів D-sub, не менше 1 шт."
+            ]
           }
-        ], 
-        "title": "Кількість портів D-sub", 
-        "description": "Кількість портів D-sub", 
-        "id": "655360-0007"
-      }, 
+        ]
+      },
       {
+        "id": "655360-0008",
+        "title": "Кабель для під’єднання",
+        "description": "Кабель для під’єднання",
         "requirementGroups": [
           {
+            "id": "655360-0008-001",
+            "description": "Кабель для під’єднання",
             "requirements": [
               {
-                "dataType": "string", 
-                "id": "655360-0008-001-01", 
-                "expectedValue": "HDMI", 
-                "title": "Кабель для під’єднання"
+                "id": "655360-0008-001-01",
+                "title": "Кабель для під’єднання",
+                "dataType": "string",
+                "expectedValue": "HDMI"
               }
-            ], 
-            "id": "655360-0008-001", 
-            "description": "Кабель для під’єднання"
+            ]
           }
-        ], 
-        "title": "Кабель для під’єднання", 
-        "description": "Кабель для під’єднання", 
-        "id": "655360-0008"
-      }, 
+        ]
+      },
       {
+        "id": "655360-0009",
+        "title": "Гарантія",
+        "description": "Строк дії гарантії",
         "requirementGroups": [
           {
+            "id": "655360-0009-001",
+            "description": "Гарантія, не менше 36 місяців",
             "requirements": [
               {
-                "dataType": "integer", 
-                "title": "Гарантія", 
-                "id": "655360-0009-001-01", 
+                "id": "655360-0009-001-01",
+                "title": "Гарантія",
+                "dataType": "integer",
                 "unit": {
-                  "code": "MON", 
+                  "code": "MON",
                   "name": "місяців"
-                }, 
+                },
                 "minValue": "36"
               }
-            ], 
-            "id": "655360-0009-001", 
-            "description": "Гарантія, не менше 36 місяців"
+            ]
           }
-        ], 
-        "title": "Гарантія", 
-        "description": "Строк дії гарантії", 
-        "id": "655360-0009"
+        ]
       }
-    ], 
-    "owner": "broker", 
-    "next_check": "2020-09-22T01:00:00+03:00", 
-    "awardCriteria": "lowestCost", 
-    "id": "85818863b7a4458ea02e3893422b0a0d", 
-    "tenderID": "UA-2020-09-08-000001"
+    ],
+    "noticePublicationDate": "2020-09-08T01:00:00+03:00",
+    "id": "fd1a15553b7047a9b514d57529cb5a44",
+    "next_check": "2020-09-22T01:00:00+03:00"
   }
 }
 

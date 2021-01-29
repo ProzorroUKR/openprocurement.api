@@ -1,4 +1,4 @@
-PATCH /api/2.5/plans/f580aa1bdcf84194995a102bc3a96d2d?acc_token=ead4319976ca4849973333da0242d440 HTTP/1.0
+PATCH /api/2.5/plans/18d6b21a07094c71b423e91c5e28579b?acc_token=2f494f7656ce4232be04b28595bf472a HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 301
 Content-Type: application/json
@@ -8,10 +8,10 @@ DATA:
   "data": {
     "procuringEntity": {
       "identifier": {
-        "scheme": "UA-EDR", 
-        "id": "111983", 
+        "scheme": "UA-EDR",
+        "id": "111983",
         "legalName": "ДП Державне Управління Справами"
-      }, 
+      },
       "name": "ДУС"
     }
   }
@@ -21,12 +21,12 @@ Response: 422 Unprocessable Entity
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
-  "status": "error", 
+  "status": "error",
   "errors": [
     {
-      "description": "Can't update plan in 'complete' status", 
-      "location": "body", 
-      "name": "status"
+      "location": "body",
+      "name": "status",
+      "description": "Can't update plan in 'complete' status"
     }
   ]
 }
