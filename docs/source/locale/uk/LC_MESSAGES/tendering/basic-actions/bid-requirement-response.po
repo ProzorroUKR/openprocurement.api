@@ -97,7 +97,3 @@ msgstr "Схема роботи відповідей на вимогу"
 
 msgid "Workflow of requirement response you could see here: :ref:`Criteria Workflow <criteria_workflow>`"
 msgstr "Схему роботу ви можете побачити тут: :ref:`Схема роботи <criteria_workflow>`"
-
-#~ msgid "Set criteria:"
-#~ msgstr "Додамо критерії:"
-
