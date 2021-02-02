@@ -755,10 +755,18 @@ def one_invalid_bid_tender(self):
 @patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
 @patch("openprocurement.tender.openuadefense.tests.tender_blanks.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
 @patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.tests.tender_blanks.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
 def one_invalid_bid_tender_before_new(self):
     return one_invalid_bid_tender(self)
 
 
+@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.tests.tender_blanks.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=100))
+@patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=100))
 @patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.openuadefense.tests.tender_blanks.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
@@ -771,6 +779,10 @@ def one_invalid_bid_tender_after_new(self):
 @patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.openuadefense.tests.tender_blanks.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.tests.tender_blanks.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
 def one_invalid_bid_tender_new(self):
     return one_invalid_bid_tender(self)
 

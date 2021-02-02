@@ -218,12 +218,11 @@ def check_tender_status(request):
             new_defence_complaints = NEW_DEFENSE_COMPLAINTS_FROM < first_revision_date < NEW_DEFENSE_COMPLAINTS_TO
             stand_still_ends = [
                 a.complaintPeriod.endDate
-                if a.complaintPeriod and a.complaintPeriod.endDate else now
                 for a in lot_awards
                 if (
                     a.complaintPeriod
                     and a.complaintPeriod.endDate
-                    and a.status != "cancelled" if new_defence_complaints else True
+                    and (a.status != "cancelled" if new_defence_complaints else True)
                 )
             ]
             stand_still_end = max(stand_still_ends) if stand_still_ends else now
@@ -288,7 +287,7 @@ def check_tender_status(request):
             if (
                 a.complaintPeriod
                 and a.complaintPeriod.endDate
-                and a.status != "cancelled" if new_defence_complaints else True
+                and (a.status != "cancelled" if new_defence_complaints else True)
             )
         ]
         stand_still_end = max(stand_still_ends) if stand_still_ends else now
