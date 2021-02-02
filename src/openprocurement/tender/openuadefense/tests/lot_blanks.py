@@ -2,7 +2,12 @@
 from datetime import timedelta
 from copy import deepcopy
 from openprocurement.api.utils import get_now, parse_date
-from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.constants import (
+    RELEASE_2020_04_19,
+    NEW_DEFENSE_COMPLAINTS_FROM,
+    NEW_DEFENSE_COMPLAINTS_TO,
+    NO_DEFENSE_AWARD_CLAIMS_FROM,
+)
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_with_complaints_after_2020_04_19
 
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -330,6 +335,19 @@ def two_lot_1bid_0com_1can(self):
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
         {"data": {"status": "unsuccessful"}},
     )
+    new_defence_complaints = NEW_DEFENSE_COMPLAINTS_FROM < get_now() < NEW_DEFENSE_COMPLAINTS_TO
+    if not new_defence_complaints:
+        # after stand slill period
+        self.set_status("complete", {"status": "active.awarded"})
+        # time travel
+        tender = self.db.get(tender_id)
+        now = get_now().isoformat()
+        for i in tender.get("awards", []):
+            i["complaintPeriod"] = {"startDate": now, "endDate": now}
+        self.db.save(tender)
+        # check tender status
+        self.app.authorization = ("Basic", ("chronograph", ""))
+        self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))
@@ -475,6 +493,7 @@ def two_lot_1bid_0com_0win(self):
     response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
     self.assertEqual(response.json["data"]["status"], "active.qualification")
 
+    new_defence_complaints = NEW_DEFENSE_COMPLAINTS_FROM < get_now() < NEW_DEFENSE_COMPLAINTS_TO
     for lot_id in lots:
         # get awards
         self.app.authorization = ("Basic", ("broker", ""))
@@ -486,6 +505,22 @@ def two_lot_1bid_0com_0win(self):
             "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
             {"data": {"status": "unsuccessful"}},
         )
+        if not new_defence_complaints:
+            # after stand slill period
+            self.set_status("complete", {"status": "active.awarded"})
+            # time travel
+            tender = self.db.get(tender_id)
+            now = get_now().isoformat()
+            for i in tender.get("awards", []):
+                i["complaintPeriod"] = {"startDate": now, "endDate": now}
+            self.db.save(tender)
+
+    if not new_defence_complaints:
+        # check tender status
+        self.set_status("complete", {"status": "active.awarded"})
+        self.app.authorization = ("Basic", ("chronograph", ""))
+        self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
+
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))

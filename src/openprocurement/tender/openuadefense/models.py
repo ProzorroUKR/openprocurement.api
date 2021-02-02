@@ -217,7 +217,7 @@ class Tender(BaseTender):
                 if (
                     a.complaintPeriod
                     and a.complaintPeriod.endDate
-                    and a.status != "cancelled" if new_defence_complaints else True
+                    and (a.status != "cancelled" if new_defence_complaints else True)
                 )
             ]
             last_award_status = self.awards[-1].status if self.awards else ""
@@ -246,7 +246,7 @@ class Tender(BaseTender):
                     if (
                             a.complaintPeriod
                             and a.complaintPeriod.endDate
-                            and a.status != "cancelled" if new_defence_complaints else True
+                            and (a.status != "cancelled" if new_defence_complaints else True)
                     )
                 ]
                 last_award_status = lot_awards[-1].status if lot_awards else ""

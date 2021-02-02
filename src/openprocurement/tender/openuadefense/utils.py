@@ -125,7 +125,7 @@ def check_status(request):
             if (
                     a.complaintPeriod
                     and a.complaintPeriod.endDate
-                    and a.status != "cancelled" if new_defence_complaints else True
+                    and (a.status != "cancelled" if new_defence_complaints else True)
             )
         ]
         if not standStillEnds:
@@ -159,7 +159,7 @@ def check_status(request):
                 if (
                         a.complaintPeriod
                         and a.complaintPeriod.endDate
-                        and a.status != "cancelled" if new_defence_complaints else True
+                        and (a.status != "cancelled" if new_defence_complaints else True)
                 )
             ]
             if not standStillEnds:

@@ -30,10 +30,16 @@ def switch_to_qualification(self):
 @patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
 @patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
 @patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
 def switch_to_unsuccessful_before_new(self):
     return switch_to_unsuccessful_ua(self)
 
 
+@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=100))
+@patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=100))
 @patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
@@ -44,6 +50,9 @@ def switch_to_unsuccessful_after_new(self):
 @patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
 def switch_to_unsuccessful_new(self):
     self.set_status("active.auction", {"status": self.initial_status})
     response = self.check_chronograph()
@@ -82,6 +91,9 @@ def switch_to_unsuccessful_new(self):
 @patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
 def switch_to_active_to_unsuccessful(self):
     self.set_status("active.auction", {"status": self.initial_status})
     response = self.check_chronograph()
@@ -139,10 +151,16 @@ def switch_to_active_to_unsuccessful(self):
 @patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
 @patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
 @patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
 def switch_to_unsuccessful_lot_before_new(self):
     return switch_to_unsuccessful_lot_ua(self)
 
 
+@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=100))
+@patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=100))
 @patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
@@ -153,6 +171,9 @@ def switch_to_unsuccessful_lot_after_new(self):
 @patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
 def switch_to_unsuccessful_lot_new(self):
     self.set_status("active.auction", {"status": self.initial_status})
     response = self.check_chronograph()
@@ -190,6 +211,9 @@ def switch_to_unsuccessful_lot_new(self):
 @patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
 def switch_to_active_to_unsuccessful_lot(self):
     self.set_status("active.auction", {"status": self.initial_status})
     response = self.check_chronograph()
