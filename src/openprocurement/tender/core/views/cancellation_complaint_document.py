@@ -41,7 +41,7 @@ class BaseTenderComplaintCancellationDocumentResource(CoreDocumentResource):
     )
     def put(self):
         """Tender Cancellation Complaint Document Update"""
-        return uper(BaseTenderComplaintCancellationDocumentResource, self).put()
+        return super(BaseTenderComplaintCancellationDocumentResource, self).put()
 
     @json_view(
         content_type="application/json",
