@@ -701,27 +701,49 @@ def get_document_by_id(self):
 
 
 def create_qualification_document_forbidden(self):
+    response = self.app.post(
+        "/qualifications/{}/documents".format(self.qualification_id),
+        upload_files=[("file", u"укр.doc", "content")],
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}],
+    )
+
     with change_auth(self.app, ("Basic", ("broker1", ""))):
         response = self.app.post(
             "/qualifications/{}/documents".format(self.qualification_id),
             upload_files=[("file", u"укр.doc", "content")],
-            status=403
+            status=403,
         )
         self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(
+            response.json["errors"],
+            [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}],
+        )
 
 
 def create_qualification_document(self):
     response = self.app.post(
-        "/qualifications/{}/documents".format(self.qualification_id),
+        "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
         upload_files=[("file", u"укр.doc", "content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
+    with change_auth(self.app, ("Basic", ("token", ""))):
+        response = self.app.post(
+            "/qualifications/{}/documents".format(self.qualification_id),
+            upload_files=[("file", u"укр.doc", "content")],
+        )
+        self.assertEqual(response.status, "201 Created")
+
 
 def create_qualification_document_json_bulk(self):
     response = self.app.post_json(
-        "/qualifications/{}/documents".format(self.qualification_id),
+        "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
         {
             "data": [
                 {
@@ -787,7 +809,7 @@ def document_not_found(self):
         response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"qualification_id"}]
     )
     response = self.app.post(
-        "/qualifications/{}/documents".format(self.qualification_id),
+        "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
         status=404,
         upload_files=[("invalid_name", "name.doc", "content")],
     )
