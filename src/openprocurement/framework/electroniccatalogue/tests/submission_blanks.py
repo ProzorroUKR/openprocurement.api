@@ -1152,7 +1152,7 @@ def document_not_found(self):
 
 def put_submission_document(self):
     response = self.app.post(
-        "/submissions/{}/documents?acc_token={}".format(self.submission_id, self.framework_token),
+        "/submissions/{}/documents?acc_token={}".format(self.submission_id, self.submission_token),
         upload_files=[("file", "укр.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
