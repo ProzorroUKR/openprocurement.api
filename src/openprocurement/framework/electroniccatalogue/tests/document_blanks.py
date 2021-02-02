@@ -21,22 +21,44 @@ def get_document_by_id(self):
 
 
 def create_framework_document_forbidden(self):
+    response = self.app.post(
+        "/frameworks/{}/documents".format(self.framework_id),
+        upload_files=[("file", u"укр.doc", "content")],
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}],
+    )
+
     with change_auth(self.app, ("Basic", ("broker1", ""))):
         response = self.app.post(
-            "/frameworks/{}/documents".format(self.framework_id),
+            "/frameworks/{}/documents?acc_token={}".format(self.framework_id, self.framework_token),
             upload_files=[("file", u"укр.doc", "content")],
             status=403
         )
         self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(
+            response.json["errors"],
+            [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}],
+        )
 
 
 def create_framework_document(self):
     response = self.app.post(
-        "/frameworks/{}/documents".format(self.framework_id),
+        "/frameworks/{}/documents?acc_token={}".format(self.framework_id, self.framework_token),
         upload_files=[("file", u"укр.doc", "content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
+
+    with change_auth(self.app, ("Basic", ("token", ""))):
+        response = self.app.post(
+            "/frameworks/{}/documents?acc_token={}".format(self.framework_id, self.framework_token),
+            upload_files=[("file", u"укр.doc", "content")],
+        )
+        self.assertEqual(response.status, "201 Created")
 
 
 def create_framework_document_json_bulk(self):

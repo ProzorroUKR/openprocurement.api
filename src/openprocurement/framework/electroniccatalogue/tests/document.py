@@ -32,6 +32,7 @@ class TestDocumentGet(ElectronicCatalogueContentWebTest):
 
 class TestDocumentsCreate(BaseDSElectronicCatalogueContentWebTest):
     initial_data = test_electronicCatalogue_data
+    initial_auth = ("Basic", ("broker", ""))
 
     test_create_framework_document_forbidden = snitch(create_framework_document_forbidden)
     test_create_framework_document = snitch(create_framework_document)
