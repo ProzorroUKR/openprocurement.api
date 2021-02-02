@@ -23,7 +23,6 @@ agreements_all_view = ViewDefinition(
 }""",
 )
 
-
 agreements_by_dateModified_view = ViewDefinition(
     "agreements",
     "by_dateModified",

@@ -7,7 +7,8 @@ from openprocurement.tender.core.tests.base import BaseWebTest as BaseCoreWebTes
 from openprocurement.api.tests.base import BaseTestApp, loadwsgiapp, BaseWebTest
 from uuid import uuid4
 from base64 import b64encode
-from six.moves.urllib_parse import urlencode
+from urllib.parse import urlencode
+from nacl.encoding import HexEncoder
 
 
 now = datetime.now()
@@ -146,10 +147,13 @@ def plan(app):
     return response.json
 
 
-def generate_docservice_url(app):
+def generate_docservice_url(app, doc_hash=None):
     uuid = uuid4().hex
-    key = app.app.registry.docservice_key
-    keyid = key.hex_vk()[:8]
-    signature = b64encode(key.signature("{}\0{}".format(uuid, "0" * 32)))
+    doc_hash = doc_hash or '0' * 32
+    registry = app.app.registry
+    signer = registry.docservice_key
+    keyid = signer.verify_key.encode(encoder=HexEncoder)[:8].decode()
+    msg = "{}\0{}".format(uuid, doc_hash).encode()
+    signature = b64encode(signer.sign(msg).signature)
     query = {"Signature": signature, "KeyID": keyid}
     return "{}/get/{}?{}".format(app.app.registry.docservice_url, uuid, urlencode(query))

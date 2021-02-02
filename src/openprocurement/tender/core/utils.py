@@ -398,20 +398,6 @@ def requested_fields_changes(request, fieldnames):
     return set(fieldnames) & set(changed_fields)
 
 
-def convert_to_decimal(value):
-    """
-    Convert other to Decimal.
-    """
-    if isinstance(value, Decimal):
-        return value
-    if isinstance(value, (int, long)):
-        return Decimal(value)
-    if isinstance(value, (float)):
-        return Decimal(repr(value))
-
-    raise TypeError("Unable to convert %s to Decimal" % value)
-
-
 def check_auction_period(period, tender):
     if period and period.startDate and period.shouldStartAfter:
         start = parse_date(period.shouldStartAfter)
@@ -702,7 +688,7 @@ def prepare_bids_for_awarding(tender, bids, lot_id=None):
 def exclude_unsuccessful_awarded_bids(tender, bids, lot_id):
     lot_awards = [i for i in tender.awards if i.lotID == lot_id]  # all awards in case of non-lot tender
     ignore_bid_ids = [b.bid_id for b in lot_awards if b.status == "unsuccessful"]
-    bids = filter(lambda b: b["id"] not in ignore_bid_ids, bids)
+    bids = list(filter(lambda b: b["id"] not in ignore_bid_ids, bids))
     return bids
 
 

@@ -5,16 +5,16 @@ Response: 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
-  "next_page": {
-    "path": "/api/2.5/tenders?offset=2020-09-08T01%3A00%3A00%2B03%3A00", 
-    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders?offset=2020-09-08T01%3A00%3A00%2B03%3A00", 
-    "offset": "2020-09-08T01:00:00+03:00"
-  }, 
   "data": [
     {
-      "id": "35f93e8dd5484abb8b90687952c82010", 
+      "id": "cce509cd3c324437829f34f6d4d074fb",
       "dateModified": "2020-09-08T01:00:00+03:00"
     }
-  ]
+  ],
+  "next_page": {
+    "offset": "2020-09-08T01:00:00+03:00",
+    "path": "/api/2.5/tenders?offset=2020-09-08T01%3A00%3A00%2B03%3A00",
+    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders?offset=2020-09-08T01%3A00%3A00%2B03%3A00"
+  }
 }
 

@@ -187,7 +187,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'add-contract-change-document.http', 'w') as self.app.file_obj:
             response = self.app.post('/contracts/{}/documents?acc_token={}'.format(
                 contract_id, contract_token),
-                upload_files=[('file', 'contract_changes.doc', 'content')])
+                upload_files=[('file', 'contract_changes.doc', b'content')])
             self.assertEqual(response.status, '201 Created')
             self.assertEqual(response.content_type, 'application/json')
             doc_id = response.json["data"]['id']
@@ -255,7 +255,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'upload-contract-document.http', 'w') as self.app.file_obj:
             response = self.app.post('/contracts/{}/documents?acc_token={}'.format(
                 contract_id, contract_token),
-                upload_files=[('file', u'contract.doc', 'content')])
+                upload_files=[('file', u'contract.doc', b'content')])
 
         with open(TARGET_DIR + 'contract-documents.http', 'w') as self.app.file_obj:
             response = self.app.get('/contracts/{}/documents?acc_token={}'.format(
@@ -264,14 +264,14 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'upload-contract-document-2.http', 'w') as self.app.file_obj:
             response = self.app.post('/contracts/{}/documents?acc_token={}'.format(
                 contract_id, contract_token),
-                upload_files=[('file', u'contract_additional_docs.doc', 'additional info')])
+                upload_files=[('file', u'contract_additional_docs.doc', b'additional info')])
 
         doc_id = response.json['data']['id']
 
         with open(TARGET_DIR + 'upload-contract-document-3.http', 'w') as self.app.file_obj:
             response = self.app.put('/contracts/{}/documents/{}?acc_token={}'.format(
                 contract_id, doc_id, contract_token),
-                upload_files=[('file', 'contract_additional_docs.doc', 'extended additional info')])
+                upload_files=[('file', 'contract_additional_docs.doc', b'extended additional info')])
 
         with open(TARGET_DIR + 'get-contract-document-3.http', 'w') as self.app.file_obj:
             response = self.app.get(

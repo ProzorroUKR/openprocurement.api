@@ -6,10 +6,6 @@ from openprocurement.agreement.cfaua.interfaces import IChange
 from openprocurement.agreement.cfaua.models.modification import UnitPriceModification
 
 
-def get_change_class(instance, data):
-    return queryUtility(IChange, data["rationaleType"])
-
-
 def apply_modifications(request, agreement, save=False):
     warnings = []
     if not save:

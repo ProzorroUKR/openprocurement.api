@@ -3,7 +3,6 @@ from logging import getLogger
 from functools import partial
 
 from cornice.resource import resource
-from openprocurement.api.interfaces import IContentConfigurator
 from openprocurement.api.utils import error_handler, context_unpack, get_now
 from barbecue import chef
 from openprocurement.tender.core.utils import (
@@ -30,7 +29,10 @@ from openprocurement.tender.cfaua.traversal import (
     bid_eligibility_documents_factory,
     bid_qualification_documents_factory,
 )
-from zope.component import getAdapter
+from openprocurement.tender.cfaua.constants import (
+    MIN_BIDS_NUMBER,
+    CLARIFICATIONS_UNTIL_PERIOD,
+)
 
 
 LOGGER = getLogger(__name__)
@@ -86,14 +88,14 @@ def check_initial_bids_count(request):
         [
             setattr(i.auctionPeriod, "startDate", None)
             for i in tender.lots
-            if i.numberOfBids < getAdapter(tender, IContentConfigurator).min_bids_number
+            if i.numberOfBids < MIN_BIDS_NUMBER
             and i.auctionPeriod
             and i.auctionPeriod.startDate
         ]
 
         for i in tender.lots:
             if (
-                i.numberOfBids < getAdapter(tender, IContentConfigurator).min_bids_number
+                i.numberOfBids < MIN_BIDS_NUMBER
                 and i.status == "active"
             ):
                 setattr(i, "status", "unsuccessful")
@@ -110,7 +112,7 @@ def check_initial_bids_count(request):
                 extra=context_unpack(request, {"MESSAGE_ID": "switched_tender_unsuccessful"}),
             )
             tender.status = "unsuccessful"
-    elif tender.numberOfBids < getAdapter(tender, IContentConfigurator).min_bids_number:  # pragma: no cover
+    elif tender.numberOfBids < MIN_BIDS_NUMBER:  # pragma: no cover
         LOGGER.info(
             "Switched tender {} to {}".format(tender.id, "unsuccessful"),
             extra=context_unpack(request, {"MESSAGE_ID": "switched_tender_unsuccessful"}),
@@ -177,7 +179,6 @@ def all_bids_are_reviewed(request):
 def check_tender_status_on_active_qualification_stand_still(request):
 
     tender = request.validated["tender"]
-    config = getAdapter(tender, IContentConfigurator)
     now = get_now()
     active_lots = [
         lot.id for lot in tender.lots
@@ -204,7 +205,7 @@ def check_tender_status_on_active_qualification_stand_still(request):
                 statuses.add(lot.status)
                 continue
             active_lot_awards = [i for i in tender.awards if i.lotID == lot.id and i.status == "active"]
-            if len(active_lot_awards) < config.min_bids_number:
+            if len(active_lot_awards) < MIN_BIDS_NUMBER:
                 LOGGER.info(
                     "Switched lot {} of tender {} to {}".format(lot.id, tender.id, "unsuccessful"),
                     extra=context_unpack(request, {"MESSAGE_ID": "switched_lot_unsuccessful"}, {"LOT_ID": lot.id}),
@@ -215,7 +216,7 @@ def check_tender_status_on_active_qualification_stand_still(request):
             statuses.add(lot.status)
     else:  # pragma: no cover
         active_awards = [i for i in tender.awards if i.status == "active"]
-        if len(active_awards) <= config.min_bids_count:
+        if len(active_awards) <= MIN_BIDS_NUMBER:
             statuses.add("unsuccessful")
         else:
             statuses.add("active.awarded")
@@ -238,7 +239,7 @@ def check_tender_status_on_active_qualification_stand_still(request):
             extra=context_unpack(request, {"MESSAGE_ID": "switched_tender_active_awarded"}),
         )
         tender.status = "active.awarded"
-        clarif_date = calculate_tender_business_date(now, config.clarifications_until_period, tender, False)
+        clarif_date = calculate_tender_business_date(now, CLARIFICATIONS_UNTIL_PERIOD, tender, False)
         tender.contractPeriod = {
             "startDate": now,
             "clarificationsUntil": clarif_date

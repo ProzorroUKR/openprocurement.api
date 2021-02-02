@@ -1172,7 +1172,7 @@ def proc_1lot_3bid_1un(self):
     )
     self.assertEqual(response.status, "200 OK")
     # create second bid
-    for bid_id, bid_token in bids_data.items()[:-1]:
+    for bid_id, bid_token in list(bids_data.items())[:-1]:
         self.app.authorization = ("Basic", ("broker", ""))
         self.app.patch_json(
             "/tenders/{}/bids/{}?acc_token={}".format(tender_id, bid_id, bid_token), {"data": {"status": "active"}}

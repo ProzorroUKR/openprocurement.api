@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/dbaf5c5918364ee18fe7536bcb7ac13d/qualifications/59efad2924154abf958fa603c0869cd8?acc_token=121d6534069841adb88a5ad291d559fe HTTP/1.0
+PATCH /api/2.5/tenders/f309105c88c04402b39a328832ebb6a8/qualifications/1f12772864df4308b4600d354a9f16f1?acc_token=970d8ef841074014b34291d4ef377636 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 38
 Content-Type: application/json
@@ -15,26 +15,26 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "pending", 
+    "id": "1f12772864df4308b4600d354a9f16f1",
+    "bidID": "c43dbb178dc84351af6ae46e22674824",
+    "status": "pending",
+    "date": "2020-09-08T01:00:00+03:00",
     "documents": [
       {
-        "hash": "md5:00000000000000000000000000000000", 
-        "author": "tender_owner", 
-        "language": "uk", 
-        "title": "name.doc", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/22545db787d44ac885f6e09df612b48f?KeyID=a8968c46&Signature=vn2KXkFHZjtIiKWGLkivo%252BKq9IcuAGH0Wdczv01O3mac4b7AVaHCAu2kYS6uJJYOUkfs7OAgD7dvFxp6Hrr9DA%253D%253D", 
-        "format": "application/msword", 
-        "documentOf": "tender", 
-        "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "c4fdfaf72cac4bfca7b25f3c75daf52b", 
-        "dateModified": "2020-09-08T01:00:00+03:00"
+        "id": "9a0a38e8ad5a4cc4a48a8ebb2621d097",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "name.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d9987e77cfc4466aac17b61b47d9bab8?Signature=ajcpMD4GvqikaaKYovKWMGoHSHXWPV4GMBfAI00hyqj3Peo7%2FP%2FkJR81%2FqXuWMlPCaORKlKE24qVQFVZuoHFAA%3D%3D&KeyID=a8968c46",
+        "datePublished": "2020-09-08T01:00:00+03:00",
+        "dateModified": "2020-09-08T01:00:00+03:00",
+        "author": "tender_owner",
+        "documentOf": "tender",
+        "language": "uk"
       }
-    ], 
-    "eligible": false, 
-    "qualified": false, 
-    "bidID": "673febca985146d3bb10d5e0ad14da96", 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "id": "59efad2924154abf958fa603c0869cd8"
+    ],
+    "qualified": false,
+    "eligible": false
   }
 }
 

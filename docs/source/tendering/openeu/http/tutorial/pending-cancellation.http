@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/ef61695c05174b37b2bb6a8da114cc9d/cancellations/89d17628bae347458ce29d15656433fb?acc_token=5af527ef599c4cb0a283a7ba4c445288 HTTP/1.0
+PATCH /api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/cancellations/60670055aa224496a1eb40b06c4e3065?acc_token=a18895cc933048798f66084924c3fdf5 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 31
 Content-Type: application/json
@@ -15,42 +15,42 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "pending", 
+    "id": "60670055aa224496a1eb40b06c4e3065",
+    "reason": "cancellation reason",
+    "date": "2020-09-08T01:00:01+03:00",
+    "status": "pending",
+    "cancellationOf": "tender",
+    "reasonType": "unFixable",
+    "complaintPeriod": {
+      "startDate": "2020-09-08T01:00:01+03:00",
+      "endDate": "2020-09-19T00:00:00+03:00"
+    },
     "documents": [
       {
-        "hash": "md5:00000000000000000000000000000000", 
-        "description": "Changed description", 
-        "language": "uk", 
-        "title": "Notice.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e9bf2a2d80a04c51add4de9eeeba9868?KeyID=a8968c46&Signature=dxZaYdT6jwFuGv9Yd98sJhW%2FhBFyBzs%252Bo63tgYevJrH4heL1XL7HmweVOOcS6ZAM2kDgrc9A0bHFVZGtm5E1AA%253D%253D", 
-        "format": "application/pdf", 
-        "documentOf": "tender", 
-        "datePublished": "2020-09-08T01:00:01+03:00", 
-        "id": "92a88c2452de4eb7b190ccab127d6314", 
-        "dateModified": "2020-09-08T01:00:01+03:00"
-      }, 
+        "id": "03cf5b3241ea4c298f825dfbc60817f2",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Notice.pdf",
+        "description": "Changed description",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c88777bbac3f43f1a535dee4da3d2416?Signature=s2zKjUhsSex8o4hqKDmDQwjBlOhtT6hjVP0gpvwdE8OXsxO4MI89S0i7tCjcyNl%2B5gySc2LstGj2cm8shcLGBw%3D%3D&KeyID=a8968c46",
+        "datePublished": "2020-09-08T01:00:01+03:00",
+        "dateModified": "2020-09-08T01:00:01+03:00",
+        "documentOf": "tender",
+        "language": "uk"
+      },
       {
-        "hash": "md5:00000000000000000000000000000000", 
-        "description": "Changed description", 
-        "language": "uk", 
-        "title": "Notice-2.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/29d5b47f975e4f9d9f6da4368da87aa9?KeyID=a8968c46&Signature=QxwHiKwTqf1Zgmt93gzsnSWs6faF6NUqakb90vgjzO0m3vfyxx7isWHAia0%2FN4ymGFnzgnD5KY3G5jaaEAaICA%253D%253D", 
-        "format": "application/pdf", 
-        "documentOf": "tender", 
-        "datePublished": "2020-09-08T01:00:01+03:00", 
-        "id": "92a88c2452de4eb7b190ccab127d6314", 
-        "dateModified": "2020-09-08T01:00:01+03:00"
+        "id": "03cf5b3241ea4c298f825dfbc60817f2",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Notice-2.pdf",
+        "description": "Changed description",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/13bf6a7af9894bfc937315e4736337a4?Signature=y6cFLUFhG%2Fph4xptAMs%2B6j4%2FoBk4bbGFQ88f6LHpgJKIgtP1AXDa8Q3G5zvRuONp7WWi8MVXu%2BLW2zKrve37Ag%3D%3D&KeyID=a8968c46",
+        "datePublished": "2020-09-08T01:00:01+03:00",
+        "dateModified": "2020-09-08T01:00:01+03:00",
+        "documentOf": "tender",
+        "language": "uk"
       }
-    ], 
-    "complaintPeriod": {
-      "startDate": "2020-09-08T01:00:01+03:00", 
-      "endDate": "2020-09-19T00:00:00+03:00"
-    }, 
-    "reason": "cancellation reason", 
-    "reasonType": "unFixable", 
-    "date": "2020-09-08T01:00:01+03:00", 
-    "cancellationOf": "tender", 
-    "id": "89d17628bae347458ce29d15656433fb"
+    ]
   }
 }
 

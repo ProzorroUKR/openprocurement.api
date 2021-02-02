@@ -1,4 +1,4 @@
-PUT /api/2.5/tenders/fb07ce223a754201a341023b86d832ef/criteria/08f2281d3cac4734813ff9785f7ec33e/requirement_groups/e380f5492d164bb29a31effd85003468/requirements/c0ee02c50e0246e2bb169151d889cd8f?acc_token=056f6edd10e84810b429550ae3a12f86 HTTP/1.0
+PUT /api/2.5/tenders/28620043ada5424cbbfbdc7f6246096f/criteria/02b94013102f4d3280fb2f414499d2ed/requirement_groups/86839e884b084170b11d231998e9fff8/requirements/14ffa2e54f764a29bd363470d3cd2ec2?acc_token=b00ba6728a854f2aa3959cc53ebab5d8 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 33
 Content-Type: application/json
@@ -15,12 +15,12 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "cancelled", 
-    "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку", 
-    "dataType": "boolean", 
-    "datePublished": "2020-09-08T01:00:00+03:00", 
-    "expectedValue": "true", 
-    "id": "c0ee02c50e0246e2bb169151d889cd8f", 
+    "id": "14ffa2e54f764a29bd363470d3cd2ec2",
+    "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку",
+    "dataType": "boolean",
+    "expectedValue": "true",
+    "status": "cancelled",
+    "datePublished": "2020-09-08T01:00:00+03:00",
     "dateModified": "2020-09-08T01:00:00+03:00"
   }
 }

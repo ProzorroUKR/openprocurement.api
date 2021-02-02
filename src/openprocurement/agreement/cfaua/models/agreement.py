@@ -8,6 +8,7 @@ from zope.interface import implementer, provider
 from schematics.types import StringType
 from schematics.types.compound import ModelType, PolyModelType
 from schematics.transforms import whitelist
+from schematics.types.serializable import serializable
 from pyramid.security import Allow
 
 from openprocurement.api.auth import ACCR_3, ACCR_5
@@ -21,11 +22,10 @@ from openprocurement.agreement.cfaua.models.item import Item
 from openprocurement.agreement.cfaua.models.procuringentity import ProcuringEntity
 from openprocurement.agreement.cfaua.interfaces import IClosedFrameworkAgreementUA
 from openprocurement.agreement.cfaua.validation import validate_features_uniq
-from openprocurement.agreement.cfaua.utils import get_change_class
+from openprocurement.api.utils import get_change_class
 
 
 @implementer(IClosedFrameworkAgreementUA)
-@provider(IClosedFrameworkAgreementUA)
 class Agreement(BaseAgreement):
     class Options:
         _data_fields = whitelist(
@@ -89,4 +89,8 @@ class Agreement(BaseAgreement):
         return role
 
     def get_active_contracts_count(self):
+        return len([c.id for c in self.contracts if c.status == "active"])
+
+    @serializable
+    def numberOfContracts(self):
         return len([c.id for c in self.contracts if c.status == "active"])

@@ -119,7 +119,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
             response = self.app.post(
                 '/tenders/{}/documents?acc_token={}'.format(
                     self.tender_id, owner_token),
-                upload_files=[('file', u'Notice.pdf', 'content')])
+                upload_files=[('file', u'Notice.pdf', b'content')])
             self.assertEqual(response.status, '201 Created')
 
         doc_id = response.json["data"]["id"]
@@ -133,7 +133,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
             response = self.app.post(
                 '/tenders/{}/documents?acc_token={}'.format(
                     self.tender_id, owner_token),
-                upload_files=[('file', u'AwardCriteria.pdf', 'content')])
+                upload_files=[('file', u'AwardCriteria.pdf', b'content')])
             self.assertEqual(response.status, '201 Created')
 
         doc_id = response.json["data"]["id"]
@@ -148,7 +148,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
             response = self.app.put(
                 '/tenders/{}/documents/{}?acc_token={}'.format(
                     self.tender_id, doc_id, owner_token),
-                upload_files=[('file', 'AwardCriteria-2.pdf', 'content2')])
+                upload_files=[('file', 'AwardCriteria-2.pdf', b'content2')])
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'tender-documents-3.http', 'w') as self.app.file_obj:
@@ -235,7 +235,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
             response = self.app.post(
                 '/tenders/{}/bids/{}/documents?acc_token={}'.format(
                     self.tender_id, bid1_id, bids_access[bid1_id]),
-                upload_files=[('file', 'Proposal.pdf', 'content')])
+                upload_files=[('file', 'Proposal.pdf', b'content')])
             self.assertEqual(response.status, '201 Created')
 
         with open(TARGET_DIR + 'bidder-documents.http', 'w') as self.app.file_obj:
@@ -414,7 +414,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'tender-contract-upload-document.http', 'w') as self.app.file_obj:
             response = self.app.post('/tenders/{}/contracts/{}/documents?acc_token={}'.format(
                 self.tender_id, self.contract_id, owner_token),
-                upload_files=[('file', 'contract_document.doc', 'content')])
+                upload_files=[('file', 'contract_document.doc', b'content')])
             self.assertEqual(response.status, '201 Created')
             self.document_id = response.json['data']['id']
 
@@ -447,7 +447,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
             response = self.app.post(
                 '/tenders/{}/cancellations/{}/documents?acc_token={}'.format(
                     self.tender_id, cancellation_id, owner_token),
-                upload_files=[('file', u'Notice.pdf', 'content')])
+                upload_files=[('file', u'Notice.pdf', b'content')])
             cancellation_doc_id = response.json['data']['id']
             self.assertEqual(response.status, '201 Created')
 
@@ -462,7 +462,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
             response = self.app.put(
                 '/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(
                     self.tender_id, cancellation_id, cancellation_doc_id, owner_token),
-                upload_files=[('file', 'Notice-2.pdf', 'content2')])
+                upload_files=[('file', 'Notice-2.pdf', b'content2')])
             self.assertEqual(response.status, '200 OK')
 
         #### Activating the request and cancelling tender
@@ -602,6 +602,8 @@ class TenderConfidentialDocumentsTest(BaseTenderUAWebTest, MockWebTestMixin):
                 "/tenders/{}/bids/{}/documents?acc_token={}".format(tender_id, bid_id, tender_token)
             )
         self.assertEqual(len(response.json["data"]), 3)
+        for index in range(len(response.json['data'])):
+            self.assertIn("url", response.json["data"][index])
 
         # get list as public
         with open(TARGET_DIR_DOCS + 'document-list-public.http', 'w') as self.app.file_obj:

@@ -25,14 +25,14 @@ def patch_tender_award(self):
         {"data": {"value": {"amount": 500}}},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.body, "null")
+    self.assertEqual(response.body, b"null")
 
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
         {"data": {"value": {"amountPerformance": 500}}},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.body, "null")
+    self.assertEqual(response.body, b"null")
 
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
@@ -47,7 +47,7 @@ def patch_tender_award(self):
         },
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.body, "null")
+    self.assertEqual(response.body, b"null")
 
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
@@ -65,14 +65,14 @@ def patch_tender_award(self):
         {"data": {"value": {"amount": 500}}},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.body, "null")
+    self.assertEqual(response.body, b"null")
 
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
         {"data": {"value": {"amountPerformance": 500}}},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.body, "null")
+    self.assertEqual(response.body, b"null")
 
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
@@ -87,7 +87,7 @@ def patch_tender_award(self):
         },
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.body, "null")
+    self.assertEqual(response.body, b"null")
 
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),

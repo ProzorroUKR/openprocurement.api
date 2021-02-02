@@ -36,28 +36,28 @@ def empty_listing(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"], [])
-    self.assertNotIn('{\n    "', response.body)
-    self.assertNotIn("callback({", response.body)
+    self.assertNotIn('{\n    "', response.body.decode())
+    self.assertNotIn("callback({", response.body.decode())
     self.assertEqual(response.json["next_page"]["offset"], "")
     self.assertNotIn("prev_page", response.json)
 
     response = self.app.get("/contracts?opt_jsonp=callback")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/javascript")
-    self.assertNotIn('{\n    "', response.body)
-    self.assertIn("callback({", response.body)
+    self.assertNotIn('{\n    "', response.body.decode())
+    self.assertIn("callback({", response.body.decode())
 
     response = self.app.get("/contracts?opt_pretty=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertIn('{\n    "', response.body)
-    self.assertNotIn("callback({", response.body)
+    self.assertIn('{\n    "', response.body.decode())
+    self.assertNotIn("callback({", response.body.decode())
 
     response = self.app.get("/contracts?opt_jsonp=callback&opt_pretty=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/javascript")
-    self.assertIn('{\n    "', response.body)
-    self.assertIn("callback({", response.body)
+    self.assertIn('{\n    "', response.body.decode())
+    self.assertIn("callback({", response.body.decode())
 
     response = self.app.get("/contracts?offset=2015-01-01T00:00:00+02:00&descending=1&limit=10")
     self.assertEqual(response.status, "200 OK")
@@ -321,12 +321,12 @@ def get_contract(self):
     response = self.app.get("/contracts/{}?opt_jsonp=callback".format(contract["id"]))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/javascript")
-    self.assertIn('callback({"data": {"', response.body)
+    self.assertIn('callback({"data": {"', response.body.decode())
 
     response = self.app.get("/contracts/{}?opt_pretty=1".format(contract["id"]))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertIn('{\n    "data": {\n        "', response.body)
+    self.assertIn('{\n    "data": {\n        "', response.body.decode())
 
 
 def not_found(self):
@@ -412,7 +412,7 @@ def create_contract_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"No JSON object could be decoded", u"location": u"body", u"name": u"data"}],
+        [{u"description": u"Expecting value: line 1 column 1 (char 0)", u"location": u"body", u"name": u"data"}],
     )
 
     response = self.app.post_json(request_path, "data", status=422)
@@ -517,19 +517,19 @@ def create_contract(self):
     response = self.app.post_json("/contracts?opt_jsonp=callback", {"data": data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/javascript")
-    self.assertIn('callback({"', response.body)
+    self.assertIn('callback({"', response.body.decode())
 
     data["id"] = uuid4().hex
     response = self.app.post_json("/contracts?opt_pretty=1", {"data": data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertIn('{\n    "', response.body)
+    self.assertIn('{\n    "', response.body.decode())
 
     data["id"] = uuid4().hex
     response = self.app.post_json("/contracts", {"data": data, "options": {"pretty": True}})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertIn('{\n    "', response.body)
+    self.assertIn('{\n    "', response.body.decode())
 
     # broker has no permissions to create contract
     with change_auth(self.app, ("Basic", ("broker", ""))):
@@ -769,13 +769,13 @@ def put_transaction_to_contract(self):
         response.json["errors"],
         [
             {
-                u'description': [u'This field is required.'], u'location': u'body', u'name': u'status'
+                u'description': [u'This field is required.'], u'location': u'body', u'name': u'payer'
             },
             {
                 u'description': [u'This field is required.'], u'location': u'body', u'name': u'payee'
             },
             {
-                u'description': [u'This field is required.'], u'location': u'body', u'name': u'payer'
+                u'description': [u'This field is required.'], u'location': u'body', u'name': u'status'
             }
         ]
     )
@@ -808,7 +808,7 @@ def put_transaction_to_contract(self):
         [
             {
                 u'description': [
-                    u'Please use a mapping for this field or OrganizationReference instance instead of unicode.'
+                    u'Please use a mapping for this field or OrganizationReference instance instead of str.'
                 ],
                 u'location': u'body', u'name': u'payee'
             }
@@ -911,21 +911,21 @@ def put_transaction_to_contract(self):
             {
                 'description': {
                     'bankAccount': {
+                        'scheme': ["Value must be one of ['IBAN']."]
+                    }  
+                },
+                'location': 'body', 
+                'name': 'payer'
+            },
+            {
+                'description': {
+                    'bankAccount': {
                         'scheme': ["This field is required."]
                     }
                 },
                 'location': 'body',
                 'name': 'payee'
             },
-            {
-                'description': {
-                    'bankAccount': {
-                        'scheme': ["Value must be one of ['IBAN']."]
-                    }  
-                },
-                'location': 'body', 
-                'name': 'payer'
-            }
         ]
     )
 
@@ -1551,7 +1551,7 @@ def contract_administrator_change(self):
             }
         },
     )
-    self.assertEqual(response.body, "null")
+    self.assertEqual(response.body, b"null")
 
     response = self.app.get("/contracts/{}".format(self.contract["id"]))
     self.assertEqual(response.json["data"]["value"]["amount"], 238)
@@ -1724,11 +1724,16 @@ def contract_token_invalid(self):
     )
 
     response = self.app.patch_json(
-        "/contracts/{}?acc_token={}".format(self.contract_id, "токен з кирилицею"), {"data": {}}, status=403
+        "/contracts/{}?acc_token={}".format(self.contract_id, "токен з кирилицею"), {"data": {}}, status=422
     )
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Forbidden", u"location": u"url", u"name": u"permission"}]
+        response.json["errors"], [
+            {
+                'location': 'body', 'name': 'UnicodeEncodeError',
+                'description': "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)"
+            }
+        ]
     )
 
 
@@ -1744,11 +1749,16 @@ def generate_credentials_invalid(self):
     response = self.app.patch_json(
         "/contracts/{0}/credentials?acc_token={1}".format(self.contract_id, "токен з кирилицею"),
         {"data": ""},
-        status=403,
+        status=422,
     )
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Forbidden", u"location": u"url", u"name": u"permission"}]
+        response.json["errors"], [
+            {
+                'location': 'body', 'name': 'UnicodeEncodeError',
+                'description': "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)"
+            }
+        ]
     )
 
 

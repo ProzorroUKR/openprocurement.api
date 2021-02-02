@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/086edc68f12d4a248ded4f9cea52e69c/bids/55ac58fe9d284cc6925bcd0fdc74b60c?acc_token=1be138ca4c9f4d4698c469fa4bdeb29d HTTP/1.0
+PATCH /api/2.5/tenders/d59e1783dc5149518a3c20a016d652c6/bids/c620d7172864477692204ed6f5d5de4b?acc_token=8805e18d9fc448c29d6afafdbabe6561 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 98
 Content-Type: application/json
@@ -6,12 +6,12 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "status": "pending", 
     "lotValues": [
       {
-        "relatedLot": "5b9f7b2c302b40c780b44b39d95138a7"
+        "relatedLot": "150e2750fa2942ce9315e80ddf78a62a"
       }
-    ]
+    ],
+    "status": "pending"
   }
 }
 
@@ -20,40 +20,40 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "pending", 
-    "lotValues": [
-      {
-        "relatedLot": "5b9f7b2c302b40c780b44b39d95138a7", 
-        "date": "2020-09-08T01:00:00+03:00", 
-        "status": "pending"
-      }
-    ], 
-    "id": "55ac58fe9d284cc6925bcd0fdc74b60c", 
     "tenderers": [
       {
-        "contactPoint": {
-          "email": "fake@mail.com", 
-          "telephone": "+380 (322) 12-34-56", 
-          "name": "Іван Іваненко"
-        }, 
-        "scale": "mid", 
-        "name": "«Снігур»", 
+        "name": "«Снігур»",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137227", 
+          "scheme": "UA-EDR",
+          "id": "00137227",
           "uri": "http://www.sc.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "79013", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 35", 
-          "region": "Львівська область", 
-          "locality": "м. Львів"
-        }
+          "streetAddress": "вул. Островського, 35",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Іван Іваненко",
+          "email": "fake@mail.com",
+          "telephone": "+380 (322) 12-34-56"
+        },
+        "scale": "mid"
       }
-    ], 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "selfQualified": true
+    ],
+    "date": "2020-09-08T01:00:00+03:00",
+    "id": "c620d7172864477692204ed6f5d5de4b",
+    "selfQualified": true,
+    "status": "pending",
+    "lotValues": [
+      {
+        "relatedLot": "150e2750fa2942ce9315e80ddf78a62a",
+        "date": "2020-09-08T01:00:00+03:00",
+        "status": "pending"
+      }
+    ]
   }
 }
 

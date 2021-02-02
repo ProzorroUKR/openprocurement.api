@@ -1,4 +1,4 @@
-POST /api/2.5/plans/f580aa1bdcf84194995a102bc3a96d2d/tenders HTTP/1.0
+POST /api/2.5/plans/18d6b21a07094c71b423e91c5e28579b/tenders HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 3376
 Content-Type: application/json
@@ -6,308 +6,308 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "status": "draft", 
-    "milestones": [
-      {
-        "code": "prepayment", 
-        "sequenceNumber": 0, 
-        "title": "signingTheContract", 
-        "duration": {
-          "type": "banking", 
-          "days": 2
-        }, 
-        "percentage": 45.55, 
-        "type": "financing", 
-        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      }, 
-      {
-        "code": "postpayment", 
-        "sequenceNumber": 0, 
-        "title": "deliveryOfGoods", 
-        "duration": {
-          "type": "calendar", 
-          "days": 900
-        }, 
-        "percentage": 54.45, 
-        "type": "financing"
-      }
-    ], 
-    "mainProcurementCategory": "goods", 
-    "tenderPeriod": {
-      "endDate": "2020-09-29T01:00:00+03:00"
-    }, 
-    "title": "Насіння", 
-    "minimalStep": {
-      "currency": "UAH", 
-      "amount": 15
-    }, 
-    "enquiryPeriod": {
-      "endDate": "2020-09-22T01:00:00+03:00"
-    }, 
-    "procurementMethodType": "belowThreshold", 
-    "value": {
-      "currency": "UAH", 
-      "amount": 500
-    }, 
+    "title": "Насіння",
+    "mainProcurementCategory": "goods",
     "procuringEntity": {
-      "contactPoint": {
-        "name": "Державне управління справами", 
-        "telephone": "0440000000"
-      }, 
+      "name": "Державне управління справами",
       "identifier": {
-        "scheme": "UA-EDR", 
-        "id": "111983", 
+        "scheme": "UA-EDR",
+        "id": "111983",
         "legalName": "ДП Державне Управління Справами"
-      }, 
-      "name": "Державне управління справами", 
-      "kind": "general", 
+      },
       "address": {
-        "countryName": "Україна", 
-        "postalCode": "01220", 
-        "region": "м. Київ", 
-        "streetAddress": "вул. Банкова, 11, корпус 1", 
-        "locality": "м. Київ"
-      }
-    }, 
+        "countryName": "Україна",
+        "postalCode": "01220",
+        "region": "м. Київ",
+        "locality": "м. Київ",
+        "streetAddress": "вул. Банкова, 11, корпус 1"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "0440000000"
+      },
+      "kind": "general"
+    },
+    "value": {
+      "amount": 500,
+      "currency": "UAH"
+    },
+    "minimalStep": {
+      "amount": 15,
+      "currency": "UAH"
+    },
     "items": [
       {
-        "description": "Насіння гірчиці", 
-        "classification": {
-          "scheme": "ДК021", 
-          "description": "Mustard seeds", 
-          "id": "03111600-8"
-        }, 
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП", 
-            "id": "01.11.92", 
-            "description": "Насіння гірчиці"
-          }
-        ], 
         "deliveryDate": {
           "endDate": "2020-09-23T01:00:00+03:00"
-        }, 
-        "unit": {
-          "code": "KGM", 
-          "name": "кг"
-        }, 
-        "quantity": 1000
-      }, 
-      {
-        "description": "Насіння соняшнику", 
-        "classification": {
-          "scheme": "ДК021", 
-          "description": "Sunflower seeds", 
-          "id": "03111300-5"
-        }, 
+        },
         "additionalClassifications": [
           {
-            "scheme": "ДКПП", 
-            "id": "01.11.95", 
-            "description": "Насіння соняшнику"
+            "scheme": "ДКПП",
+            "id": "01.11.92",
+            "description": "Насіння гірчиці"
           }
-        ], 
+        ],
+        "unit": {
+          "code": "KGM",
+          "name": "кг"
+        },
+        "classification": {
+          "scheme": "ДК021",
+          "description": "Mustard seeds",
+          "id": "03111600-8"
+        },
+        "quantity": 1000,
+        "description": "Насіння гірчиці"
+      },
+      {
         "deliveryDate": {
           "endDate": "2020-09-24T01:00:00+03:00"
-        }, 
-        "unit": {
-          "code": "KGM", 
-          "name": "кг"
-        }, 
-        "quantity": 2000
-      }, 
-      {
-        "description": "Насіння бавовнику", 
-        "classification": {
-          "scheme": "ДК021", 
-          "description": "Cotton seeds", 
-          "id": "03111400-6"
-        }, 
+        },
         "additionalClassifications": [
           {
-            "scheme": "ДКПП", 
-            "id": "01.11.84", 
-            "description": "Насіння бавовнику"
+            "scheme": "ДКПП",
+            "id": "01.11.95",
+            "description": "Насіння соняшнику"
           }
-        ], 
+        ],
+        "unit": {
+          "code": "KGM",
+          "name": "кг"
+        },
+        "classification": {
+          "scheme": "ДК021",
+          "description": "Sunflower seeds",
+          "id": "03111300-5"
+        },
+        "quantity": 2000,
+        "description": "Насіння соняшнику"
+      },
+      {
         "deliveryDate": {
           "endDate": "2020-09-25T01:00:00+03:00"
-        }, 
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "01.11.84",
+            "description": "Насіння бавовнику"
+          }
+        ],
         "unit": {
-          "code": "KGM", 
+          "code": "KGM",
           "name": "кг"
-        }, 
-        "quantity": 3000
+        },
+        "classification": {
+          "scheme": "ДК021",
+          "description": "Cotton seeds",
+          "id": "03111400-6"
+        },
+        "quantity": 3000,
+        "description": "Насіння бавовнику"
       }
-    ]
+    ],
+    "enquiryPeriod": {
+      "endDate": "2020-09-22T01:00:00+03:00"
+    },
+    "tenderPeriod": {
+      "endDate": "2020-09-29T01:00:00+03:00"
+    },
+    "procurementMethodType": "belowThreshold",
+    "milestones": [
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "code": "prepayment",
+        "type": "financing",
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 0,
+        "percentage": 45.55
+      },
+      {
+        "title": "deliveryOfGoods",
+        "code": "postpayment",
+        "type": "financing",
+        "duration": {
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 0,
+        "percentage": 54.45
+      }
+    ],
+    "status": "draft"
   }
 }
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/821592d97e83442cbb6f2aee3a5367b1
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/084ae2fb40504804adb632dc7ddba0d7
 X-Content-Type-Options: nosniff
 {
-  "access": {
-    "transfer": "5be584eac3ef4e32809a084b2b49f2ba", 
-    "token": "1e87f2df8def4c3c83ae0890a9038210"
-  }, 
   "data": {
-    "procurementMethod": "open", 
-    "status": "draft", 
+    "title": "Насіння",
+    "date": "2020-09-08T01:00:00+03:00",
+    "dateModified": "2020-09-08T01:00:00+03:00",
+    "tenderID": "UA-2020-09-08-000001",
+    "owner": "broker",
+    "mainProcurementCategory": "goods",
     "milestones": [
       {
-        "code": "prepayment", 
-        "sequenceNumber": 0, 
-        "title": "signingTheContract", 
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
         "duration": {
-          "type": "banking", 
-          "days": 2
-        }, 
-        "percentage": 45.55, 
-        "type": "financing", 
-        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      }, 
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 0
+      },
       {
-        "code": "postpayment", 
-        "sequenceNumber": 0, 
-        "title": "deliveryOfGoods", 
+        "id": "9c67275562ab457dae01582a85a5ecd5",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
         "duration": {
-          "type": "calendar", 
-          "days": 900
-        }, 
-        "percentage": 54.45, 
-        "type": "financing", 
-        "id": "3768c7e801cf4c6ea0ff0f2153ecbd09"
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 0
       }
-    ], 
-    "mainProcurementCategory": "goods", 
-    "tenderPeriod": {
-      "startDate": "2020-09-22T01:00:00+03:00", 
-      "endDate": "2020-09-29T01:00:00+03:00"
-    }, 
-    "title": "Насіння", 
-    "minimalStep": {
-      "currency": "UAH", 
-      "amount": 15.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "items": [
-      {
-        "description": "Насіння гірчиці", 
-        "classification": {
-          "scheme": "ДК021", 
-          "description": "Mustard seeds", 
-          "id": "03111600-8"
-        }, 
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП", 
-            "id": "01.11.92", 
-            "description": "Насіння гірчиці"
-          }
-        ], 
-        "deliveryDate": {
-          "endDate": "2020-09-23T01:00:00+03:00"
-        }, 
-        "id": "f21d98fa3042438cbcd6b68acf054e76", 
-        "unit": {
-          "code": "KGM", 
-          "name": "кг"
-        }, 
-        "quantity": 1000.0
-      }, 
-      {
-        "description": "Насіння соняшнику", 
-        "classification": {
-          "scheme": "ДК021", 
-          "description": "Sunflower seeds", 
-          "id": "03111300-5"
-        }, 
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП", 
-            "id": "01.11.95", 
-            "description": "Насіння соняшнику"
-          }
-        ], 
-        "deliveryDate": {
-          "endDate": "2020-09-24T01:00:00+03:00"
-        }, 
-        "id": "ce756d3aa5164b069434a4225d11f5af", 
-        "unit": {
-          "code": "KGM", 
-          "name": "кг"
-        }, 
-        "quantity": 2000.0
-      }, 
-      {
-        "description": "Насіння бавовнику", 
-        "classification": {
-          "scheme": "ДК021", 
-          "description": "Cotton seeds", 
-          "id": "03111400-6"
-        }, 
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП", 
-            "id": "01.11.84", 
-            "description": "Насіння бавовнику"
-          }
-        ], 
-        "deliveryDate": {
-          "endDate": "2020-09-25T01:00:00+03:00"
-        }, 
-        "id": "c84744cc907e420799511678897fc9fd", 
-        "unit": {
-          "code": "KGM", 
-          "name": "кг"
-        }, 
-        "quantity": 3000.0
-      }
-    ], 
-    "procurementMethodType": "belowThreshold", 
-    "value": {
-      "currency": "UAH", 
-      "amount": 500.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "submissionMethod": "electronicAuction", 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "tenderID": "UA-2020-09-08-000001", 
-    "procuringEntity": {
-      "contactPoint": {
-        "name": "Державне управління справами", 
-        "telephone": "0440000000"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "id": "111983", 
-        "legalName": "ДП Державне Управління Справами"
-      }, 
-      "name": "Державне управління справами", 
-      "kind": "general", 
-      "address": {
-        "postalCode": "01220", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Банкова, 11, корпус 1", 
-        "region": "м. Київ", 
-        "locality": "м. Київ"
-      }
-    }, 
-    "awardCriteria": "lowestCost", 
-    "enquiryPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00", 
-      "endDate": "2020-09-22T01:00:00+03:00"
-    }, 
-    "owner": "broker", 
-    "dateModified": "2020-09-08T01:00:00+03:00", 
-    "id": "821592d97e83442cbb6f2aee3a5367b1", 
+    ],
     "plans": [
       {
-        "id": "f580aa1bdcf84194995a102bc3a96d2d"
+        "id": "18d6b21a07094c71b423e91c5e28579b"
       }
-    ]
+    ],
+    "procurementMethod": "open",
+    "awardCriteria": "lowestCost",
+    "submissionMethod": "electronicAuction",
+    "status": "draft",
+    "items": [
+      {
+        "id": "a1abad5746bd450ca7833e80d49f5915",
+        "description": "Насіння гірчиці",
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "01.11.92",
+            "description": "Насіння гірчиці"
+          }
+        ],
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        },
+        "quantity": 1000.0,
+        "deliveryDate": {
+          "endDate": "2020-09-23T01:00:00+03:00"
+        },
+        "classification": {
+          "description": "Mustard seeds",
+          "scheme": "ДК021",
+          "id": "03111600-8"
+        }
+      },
+      {
+        "id": "1c9d47b791584e50858a774cc10b1f8c",
+        "description": "Насіння соняшнику",
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "01.11.95",
+            "description": "Насіння соняшнику"
+          }
+        ],
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        },
+        "quantity": 2000.0,
+        "deliveryDate": {
+          "endDate": "2020-09-24T01:00:00+03:00"
+        },
+        "classification": {
+          "description": "Sunflower seeds",
+          "scheme": "ДК021",
+          "id": "03111300-5"
+        }
+      },
+      {
+        "id": "1c8868d6a2814b35849be3d03543fbc7",
+        "description": "Насіння бавовнику",
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "01.11.84",
+            "description": "Насіння бавовнику"
+          }
+        ],
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        },
+        "quantity": 3000.0,
+        "deliveryDate": {
+          "endDate": "2020-09-25T01:00:00+03:00"
+        },
+        "classification": {
+          "description": "Cotton seeds",
+          "scheme": "ДК021",
+          "id": "03111400-6"
+        }
+      }
+    ],
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "enquiryPeriod": {
+      "startDate": "2020-09-08T01:00:00+03:00",
+      "endDate": "2020-09-22T01:00:00+03:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2020-09-22T01:00:00+03:00",
+      "endDate": "2020-09-29T01:00:00+03:00"
+    },
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "111983",
+        "legalName": "ДП Державне Управління Справами"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "0440000000"
+      },
+      "kind": "general"
+    },
+    "minimalStep": {
+      "amount": 15.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "procurementMethodType": "belowThreshold",
+    "id": "084ae2fb40504804adb632dc7ddba0d7"
+  },
+  "access": {
+    "token": "9a1df4ee99cf4d5ca6def0e4ebfaa2e4",
+    "transfer": "f3db4c349919447e86b5b0cdd779f6fd"
   }
 }
 

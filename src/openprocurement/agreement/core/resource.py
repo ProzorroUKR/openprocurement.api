@@ -5,7 +5,6 @@ from openprocurement.api.utils import error_handler, APIResourceListing
 from openprocurement.agreement.core.traversal import factory
 from openprocurement.agreement.core.design import (
     FIELDS,
-    agreements_all_view,
     agreements_by_dateModified_view,
     agreements_real_by_dateModified_view,
     agreements_test_by_dateModified_view,

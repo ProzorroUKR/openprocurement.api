@@ -6,125 +6,125 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "funders": [
-      {
-        "additionalIdentifiers": [], 
-        "contactPoint": {
-          "url": "https://www.theglobalfund.org/en/", 
-          "faxNumber": "+41 44 580 6820", 
-          "telephone": "+41 58 791 1700", 
-          "name": "", 
-          "email": "ccm@theglobalfund.org"
-        }, 
-        "identifier": {
-          "scheme": "XM-DAC", 
-          "id": "47045", 
-          "legalName": "Глобальний Фонд для боротьби зі СНІДом, туберкульозом і малярією"
-        }, 
-        "name": "Глобальний фонд", 
-        "address": {
-          "countryName": "Швейцарська Конфедерація", 
-          "postalCode": "1218", 
-          "region": "Grand-Saconnex", 
-          "streetAddress": "Global Health Campus, Chemin du Pommier 40", 
-          "locality": "Geneva"
-        }
-      }
-    ], 
-    "milestones": [
-      {
-        "code": "prepayment", 
-        "sequenceNumber": 0, 
-        "title": "signingTheContract", 
-        "duration": {
-          "type": "banking", 
-          "days": 2
-        }, 
-        "percentage": 45.55, 
-        "type": "financing", 
-        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      }, 
-      {
-        "code": "postpayment", 
-        "sequenceNumber": 0, 
-        "title": "deliveryOfGoods", 
-        "duration": {
-          "type": "calendar", 
-          "days": 900
-        }, 
-        "percentage": 54.45, 
-        "type": "financing"
-      }
-    ], 
-    "mainProcurementCategory": "goods", 
-    "tenderPeriod": {
-      "endDate": "2020-09-22T01:00:00+03:00"
-    }, 
-    "title": "футляри до державних нагород", 
-    "minimalStep": {
-      "currency": "UAH", 
-      "amount": 15
-    }, 
-    "enquiryPeriod": {
-      "endDate": "2020-09-15T01:00:00+03:00"
-    }, 
-    "procurementMethodType": "belowThreshold", 
-    "value": {
-      "currency": "UAH", 
-      "amount": 500
-    }, 
+    "title": "футляри до державних нагород",
+    "mainProcurementCategory": "goods",
     "procuringEntity": {
-      "contactPoint": {
-        "name": "Державне управління справами", 
-        "telephone": "0440000000"
-      }, 
+      "name": "Державне управління справами",
       "identifier": {
-        "scheme": "UA-EDR", 
-        "id": "00037256", 
-        "uri": "http://www.dus.gov.ua/", 
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/",
         "legalName": "Державне управління справами"
-      }, 
-      "name": "Державне управління справами", 
-      "kind": "general", 
+      },
       "address": {
-        "countryName": "Україна", 
-        "postalCode": "01220", 
-        "region": "м. Київ", 
-        "streetAddress": "вул. Банкова, 11, корпус 1", 
-        "locality": "м. Київ"
-      }
-    }, 
+        "countryName": "Україна",
+        "postalCode": "01220",
+        "region": "м. Київ",
+        "locality": "м. Київ",
+        "streetAddress": "вул. Банкова, 11, корпус 1"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "0440000000"
+      },
+      "kind": "general"
+    },
+    "value": {
+      "amount": 500,
+      "currency": "UAH"
+    },
+    "minimalStep": {
+      "amount": 15,
+      "currency": "UAH"
+    },
     "items": [
       {
-        "description": "футляри до державних нагород", 
+        "description": "футляри до державних нагород",
         "classification": {
-          "scheme": "ДК021", 
-          "id": "44617100-9", 
+          "scheme": "ДК021",
+          "id": "44617100-9",
           "description": "Cartons"
-        }, 
+        },
         "additionalClassifications": [
           {
-            "scheme": "ДКПП", 
-            "id": "17.21.1", 
+            "scheme": "ДКПП",
+            "id": "17.21.1",
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
-        ], 
-        "deliveryAddress": {
-          "countryName": "Україна", 
-          "postalCode": "79000", 
-          "region": "м. Київ", 
-          "streetAddress": "вул. Банкова 1", 
-          "locality": "м. Київ"
-        }, 
-        "deliveryDate": {
-          "startDate": "2020-09-10T01:00:00+03:00", 
-          "endDate": "2020-09-13T01:00:00+03:00"
-        }, 
+        ],
         "unit": {
-          "code": "44617100-9", 
-          "name": "item"
-        }, 
-        "quantity": 5
+          "name": "item",
+          "code": "44617100-9"
+        },
+        "quantity": 5,
+        "deliveryDate": {
+          "startDate": "2020-09-10T01:00:00+03:00",
+          "endDate": "2020-09-13T01:00:00+03:00"
+        },
+        "deliveryAddress": {
+          "countryName": "Україна",
+          "postalCode": "79000",
+          "region": "м. Київ",
+          "locality": "м. Київ",
+          "streetAddress": "вул. Банкова 1"
+        }
+      }
+    ],
+    "enquiryPeriod": {
+      "endDate": "2020-09-15T01:00:00+03:00"
+    },
+    "tenderPeriod": {
+      "endDate": "2020-09-22T01:00:00+03:00"
+    },
+    "procurementMethodType": "belowThreshold",
+    "milestones": [
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "code": "prepayment",
+        "type": "financing",
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 0,
+        "percentage": 45.55
+      },
+      {
+        "title": "deliveryOfGoods",
+        "code": "postpayment",
+        "type": "financing",
+        "duration": {
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 0,
+        "percentage": 54.45
+      }
+    ],
+    "funders": [
+      {
+        "additionalIdentifiers": [],
+        "address": {
+          "countryName": "Швейцарська Конфедерація",
+          "locality": "Geneva",
+          "postalCode": "1218",
+          "region": "Grand-Saconnex",
+          "streetAddress": "Global Health Campus, Chemin du Pommier 40"
+        },
+        "contactPoint": {
+          "email": "ccm@theglobalfund.org",
+          "faxNumber": "+41 44 580 6820",
+          "name": "",
+          "telephone": "+41 58 791 1700",
+          "url": "https://www.theglobalfund.org/en/"
+        },
+        "identifier": {
+          "id": "47045",
+          "legalName": "Глобальний Фонд для боротьби зі СНІДом, туберкульозом і малярією",
+          "scheme": "XM-DAC"
+        },
+        "name": "Глобальний фонд"
       }
     ]
   }
@@ -132,150 +132,150 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/360cfcaeb0ec43948ba2c03584e41ea0
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/253f8285f3164e52bdcbffdfffbb56fb
 X-Content-Type-Options: nosniff
 {
-  "access": {
-    "transfer": "0842188b93a94bfda035c3fb6c97c59a", 
-    "token": "b04f8dbb303a4d1a9f6eaca0b322a8b8"
-  }, 
   "data": {
+    "title": "футляри до державних нагород",
+    "date": "2020-09-08T01:00:00+03:00",
+    "dateModified": "2020-09-08T01:00:00+03:00",
+    "tenderID": "UA-2020-09-08-000003",
+    "owner": "broker",
     "funders": [
       {
-        "contactPoint": {
-          "url": "https://www.theglobalfund.org/en/", 
-          "email": "ccm@theglobalfund.org", 
-          "telephone": "+41 58 791 1700", 
-          "name": "", 
-          "faxNumber": "+41 44 580 6820"
-        }, 
+        "name": "Глобальний фонд",
         "identifier": {
-          "scheme": "XM-DAC", 
-          "id": "47045", 
+          "scheme": "XM-DAC",
+          "id": "47045",
           "legalName": "Глобальний Фонд для боротьби зі СНІДом, туберкульозом і малярією"
-        }, 
-        "name": "Глобальний фонд", 
+        },
         "address": {
-          "postalCode": "1218", 
-          "countryName": "Швейцарська Конфедерація", 
-          "streetAddress": "Global Health Campus, Chemin du Pommier 40", 
-          "region": "Grand-Saconnex", 
-          "locality": "Geneva"
+          "streetAddress": "Global Health Campus, Chemin du Pommier 40",
+          "locality": "Geneva",
+          "region": "Grand-Saconnex",
+          "postalCode": "1218",
+          "countryName": "Швейцарська Конфедерація"
+        },
+        "contactPoint": {
+          "name": "",
+          "email": "ccm@theglobalfund.org",
+          "telephone": "+41 58 791 1700",
+          "faxNumber": "+41 44 580 6820",
+          "url": "https://www.theglobalfund.org/en/"
         }
       }
-    ], 
-    "procurementMethod": "open", 
+    ],
+    "mainProcurementCategory": "goods",
     "milestones": [
       {
-        "code": "prepayment", 
-        "sequenceNumber": 0, 
-        "title": "signingTheContract", 
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
         "duration": {
-          "type": "banking", 
-          "days": 2
-        }, 
-        "percentage": 45.55, 
-        "type": "financing", 
-        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      }, 
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 0
+      },
       {
-        "code": "postpayment", 
-        "sequenceNumber": 0, 
-        "title": "deliveryOfGoods", 
+        "id": "e874401d8ed44b42a6ad54a1ce20ef68",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
         "duration": {
-          "type": "calendar", 
-          "days": 900
-        }, 
-        "percentage": 54.45, 
-        "type": "financing", 
-        "id": "ba6929df3cab4c77a1d0f3c72b64c969"
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 0
       }
-    ], 
-    "mainProcurementCategory": "goods", 
-    "tenderPeriod": {
-      "startDate": "2020-09-15T01:00:00+03:00", 
-      "endDate": "2020-09-22T01:00:00+03:00"
-    }, 
-    "title": "футляри до державних нагород", 
-    "minimalStep": {
-      "currency": "UAH", 
-      "amount": 15.0, 
-      "valueAddedTaxIncluded": true
-    }, 
+    ],
+    "procurementMethod": "open",
+    "awardCriteria": "lowestCost",
+    "submissionMethod": "electronicAuction",
+    "status": "active.enquiries",
     "items": [
       {
-        "description": "футляри до державних нагород", 
-        "classification": {
-          "scheme": "ДК021", 
-          "description": "Cartons", 
-          "id": "44617100-9"
-        }, 
+        "id": "b2b23d71f4b64c1687e5e25c8aeabe1a",
+        "description": "футляри до державних нагород",
         "additionalClassifications": [
           {
-            "scheme": "ДКПП", 
-            "id": "17.21.1", 
+            "scheme": "ДКПП",
+            "id": "17.21.1",
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
-        ], 
-        "deliveryAddress": {
-          "postalCode": "79000", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }, 
-        "deliveryDate": {
-          "startDate": "2020-09-10T01:00:00+03:00", 
-          "endDate": "2020-09-13T01:00:00+03:00"
-        }, 
-        "id": "2bbcb6a330814b658651e51d6343863c", 
+        ],
         "unit": {
-          "code": "44617100-9", 
-          "name": "item"
-        }, 
-        "quantity": 5.0
+          "name": "item",
+          "code": "44617100-9"
+        },
+        "quantity": 5.0,
+        "deliveryDate": {
+          "startDate": "2020-09-10T01:00:00+03:00",
+          "endDate": "2020-09-13T01:00:00+03:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        }
       }
-    ], 
-    "procurementMethodType": "belowThreshold", 
+    ],
     "value": {
-      "currency": "UAH", 
-      "amount": 500.0, 
+      "amount": 500.0,
+      "currency": "UAH",
       "valueAddedTaxIncluded": true
-    }, 
-    "submissionMethod": "electronicAuction", 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "dateModified": "2020-09-08T01:00:00+03:00", 
-    "status": "active.enquiries", 
-    "procuringEntity": {
-      "contactPoint": {
-        "name": "Державне управління справами", 
-        "telephone": "0440000000"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "legalName": "Державне управління справами", 
-        "id": "00037256", 
-        "uri": "http://www.dus.gov.ua/"
-      }, 
-      "name": "Державне управління справами", 
-      "kind": "general", 
-      "address": {
-        "postalCode": "01220", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Банкова, 11, корпус 1", 
-        "region": "м. Київ", 
-        "locality": "м. Київ"
-      }
-    }, 
-    "awardCriteria": "lowestCost", 
+    },
     "enquiryPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00", 
+      "startDate": "2020-09-08T01:00:00+03:00",
       "endDate": "2020-09-15T01:00:00+03:00"
-    }, 
-    "owner": "broker", 
-    "next_check": "2020-09-15T01:00:00+03:00", 
-    "id": "360cfcaeb0ec43948ba2c03584e41ea0", 
-    "tenderID": "UA-2020-09-08-000003"
+    },
+    "tenderPeriod": {
+      "startDate": "2020-09-15T01:00:00+03:00",
+      "endDate": "2020-09-22T01:00:00+03:00"
+    },
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "legalName": "Державне управління справами",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "0440000000"
+      },
+      "kind": "general"
+    },
+    "minimalStep": {
+      "amount": 15.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "procurementMethodType": "belowThreshold",
+    "id": "253f8285f3164e52bdcbffdfffbb56fb",
+    "next_check": "2020-09-15T01:00:00+03:00"
+  },
+  "access": {
+    "token": "251e846dda044dd8b7ed7a07ed4888cd",
+    "transfer": "c2df8f14a6514b9cb9e19cb4b506dd03"
   }
 }
 

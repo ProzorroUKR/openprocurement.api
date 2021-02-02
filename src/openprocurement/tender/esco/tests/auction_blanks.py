@@ -42,12 +42,12 @@ def get_tender_auction(self):
     response = self.app.get("/tenders/{}/auction?opt_jsonp=callback".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/javascript")
-    self.assertIn('callback({"data": {"', response.body)
+    self.assertIn('callback({"data": {"', response.body.decode())
 
     response = self.app.get("/tenders/{}/auction?opt_pretty=1".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertIn('{\n    "data": {\n        "', response.body)
+    self.assertIn('{\n    "data": {\n        "', response.body.decode())
 
     self.set_status("active.qualification")
 
@@ -139,32 +139,35 @@ def post_tender_auction(self):
     )
 
     expected_amountPerformance = round(
-        to_decimal(
-            npv(
-                tender["bids"][0]["value"]["contractDuration"]["years"],
-                tender["bids"][0]["value"]["contractDuration"]["days"],
-                tender["bids"][0]["value"]["yearlyPaymentsPercentage"],
-                tender["bids"][0]["value"]["annualCostsReduction"],
-                get_now(),
-                tender["NBUdiscountRate"],
+        float(
+            to_decimal(
+                npv(
+                    tender["bids"][0]["value"]["contractDuration"]["years"],
+                    tender["bids"][0]["value"]["contractDuration"]["days"],
+                    tender["bids"][0]["value"]["yearlyPaymentsPercentage"],
+                    tender["bids"][0]["value"]["annualCostsReduction"],
+                    get_now(),
+                    tender["NBUdiscountRate"],
+                )
             )
         ),
         2,
     )
 
     expected_amount = round(
-        to_decimal(
-            escp(
-                tender["bids"][0]["value"]["contractDuration"]["years"],
-                tender["bids"][0]["value"]["contractDuration"]["days"],
-                tender["bids"][0]["value"]["yearlyPaymentsPercentage"],
-                tender["bids"][0]["value"]["annualCostsReduction"],
-                get_now(),
+        float(
+            to_decimal(
+                escp(
+                    tender["bids"][0]["value"]["contractDuration"]["years"],
+                    tender["bids"][0]["value"]["contractDuration"]["days"],
+                    tender["bids"][0]["value"]["yearlyPaymentsPercentage"],
+                    tender["bids"][0]["value"]["annualCostsReduction"],
+                    get_now(),
+                )
             )
         ),
         2,
     )
-
     self.assertEqual(tender["bids"][0]["value"]["amountPerformance"], expected_amountPerformance)
     self.assertEqual(tender["bids"][0]["value"]["amount"], expected_amount)
 
@@ -459,27 +462,31 @@ def post_tender_lot_auction(self):
     )
 
     expected_amountPerformance = round(
-        to_decimal(
-            npv(
-                tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["years"],
-                tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["days"],
-                tender["bids"][0]["lotValues"][0]["value"]["yearlyPaymentsPercentage"],
-                tender["bids"][0]["lotValues"][0]["value"]["annualCostsReduction"],
-                get_now(),
-                tender["NBUdiscountRate"],
+        float(
+            to_decimal(
+                npv(
+                    tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["years"],
+                    tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["days"],
+                    tender["bids"][0]["lotValues"][0]["value"]["yearlyPaymentsPercentage"],
+                    tender["bids"][0]["lotValues"][0]["value"]["annualCostsReduction"],
+                    get_now(),
+                    tender["NBUdiscountRate"],
+                )
             )
         ),
         2,
     )
 
     expected_amount = round(
-        to_decimal(
-            escp(
-                tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["years"],
-                tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["days"],
-                tender["bids"][0]["lotValues"][0]["value"]["yearlyPaymentsPercentage"],
-                tender["bids"][0]["lotValues"][0]["value"]["annualCostsReduction"],
-                get_now(),
+        float(
+            to_decimal(
+                escp(
+                    tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["years"],
+                    tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["days"],
+                    tender["bids"][0]["lotValues"][0]["value"]["yearlyPaymentsPercentage"],
+                    tender["bids"][0]["lotValues"][0]["value"]["annualCostsReduction"],
+                    get_now(),
+                )
             )
         ),
         2,
@@ -666,27 +673,31 @@ def post_tender_lots_auction(self):
     )
 
     expected_amountPerformance = round(
-        to_decimal(
-            npv(
-                tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["years"],
-                tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["days"],
-                tender["bids"][0]["lotValues"][0]["value"]["yearlyPaymentsPercentage"],
-                tender["bids"][0]["lotValues"][0]["value"]["annualCostsReduction"],
-                get_now(),
-                tender["NBUdiscountRate"],
+        float(
+            to_decimal(
+                npv(
+                    tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["years"],
+                    tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["days"],
+                    tender["bids"][0]["lotValues"][0]["value"]["yearlyPaymentsPercentage"],
+                    tender["bids"][0]["lotValues"][0]["value"]["annualCostsReduction"],
+                    get_now(),
+                    tender["NBUdiscountRate"],
+                )
             )
         ),
         2,
     )
 
     expected_amount = round(
-        to_decimal(
-            escp(
-                tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["years"],
-                tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["days"],
-                tender["bids"][0]["lotValues"][0]["value"]["yearlyPaymentsPercentage"],
-                tender["bids"][0]["lotValues"][0]["value"]["annualCostsReduction"],
-                get_now(),
+        float(
+            to_decimal(
+                escp(
+                    tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["years"],
+                    tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["days"],
+                    tender["bids"][0]["lotValues"][0]["value"]["yearlyPaymentsPercentage"],
+                    tender["bids"][0]["lotValues"][0]["value"]["annualCostsReduction"],
+                    get_now(),
+                )
             )
         ),
         2,
@@ -846,27 +857,31 @@ def post_tender_auction_feature(self):
     )
 
     expected_amountPerformance = round(
-        to_decimal(
-            npv(
-                tender["bids"][0]["value"]["contractDuration"]["years"],
-                tender["bids"][0]["value"]["contractDuration"]["days"],
-                tender["bids"][0]["value"]["yearlyPaymentsPercentage"],
-                tender["bids"][0]["value"]["annualCostsReduction"],
-                get_now(),
-                tender["NBUdiscountRate"],
+        float(
+            to_decimal(
+                npv(
+                    tender["bids"][0]["value"]["contractDuration"]["years"],
+                    tender["bids"][0]["value"]["contractDuration"]["days"],
+                    tender["bids"][0]["value"]["yearlyPaymentsPercentage"],
+                    tender["bids"][0]["value"]["annualCostsReduction"],
+                    get_now(),
+                    tender["NBUdiscountRate"],
+                )
             )
         ),
         2,
     )
 
     expected_amount = round(
-        to_decimal(
-            escp(
-                tender["bids"][0]["value"]["contractDuration"]["years"],
-                tender["bids"][0]["value"]["contractDuration"]["days"],
-                tender["bids"][0]["value"]["yearlyPaymentsPercentage"],
-                tender["bids"][0]["value"]["annualCostsReduction"],
-                get_now(),
+        float(
+            to_decimal(
+                escp(
+                    tender["bids"][0]["value"]["contractDuration"]["years"],
+                    tender["bids"][0]["value"]["contractDuration"]["days"],
+                    tender["bids"][0]["value"]["yearlyPaymentsPercentage"],
+                    tender["bids"][0]["value"]["annualCostsReduction"],
+                    get_now(),
+                )
             )
         ),
         2,
@@ -1033,27 +1048,31 @@ def post_tender_lot_auction_feature(self):
     )
 
     expected_amountPerformance = round(
-        to_decimal(
-            npv(
-                tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["years"],
-                tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["days"],
-                tender["bids"][0]["lotValues"][0]["value"]["yearlyPaymentsPercentage"],
-                tender["bids"][0]["lotValues"][0]["value"]["annualCostsReduction"],
-                get_now(),
-                tender["NBUdiscountRate"],
+        float(
+            to_decimal(
+                npv(
+                    tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["years"],
+                    tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["days"],
+                    tender["bids"][0]["lotValues"][0]["value"]["yearlyPaymentsPercentage"],
+                    tender["bids"][0]["lotValues"][0]["value"]["annualCostsReduction"],
+                    get_now(),
+                    tender["NBUdiscountRate"],
+                )
             )
         ),
         2,
     )
 
     expected_amount = round(
-        to_decimal(
-            escp(
-                tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["years"],
-                tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["days"],
-                tender["bids"][0]["lotValues"][0]["value"]["yearlyPaymentsPercentage"],
-                tender["bids"][0]["lotValues"][0]["value"]["annualCostsReduction"],
-                get_now(),
+        float(
+            to_decimal(
+                escp(
+                    tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["years"],
+                    tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["days"],
+                    tender["bids"][0]["lotValues"][0]["value"]["yearlyPaymentsPercentage"],
+                    tender["bids"][0]["lotValues"][0]["value"]["annualCostsReduction"],
+                    get_now(),
+                )
             )
         ),
         2,
@@ -1246,27 +1265,31 @@ def post_tender_lots_auction_feature(self):
     )
 
     expected_amountPerformance = round(
-        to_decimal(
-            npv(
-                tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["years"],
-                tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["days"],
-                tender["bids"][0]["lotValues"][0]["value"]["yearlyPaymentsPercentage"],
-                tender["bids"][0]["lotValues"][0]["value"]["annualCostsReduction"],
-                get_now(),
-                tender["NBUdiscountRate"],
+        float(
+            to_decimal(
+                npv(
+                    tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["years"],
+                    tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["days"],
+                    tender["bids"][0]["lotValues"][0]["value"]["yearlyPaymentsPercentage"],
+                    tender["bids"][0]["lotValues"][0]["value"]["annualCostsReduction"],
+                    get_now(),
+                    tender["NBUdiscountRate"],
+                )
             )
         ),
         2,
     )
 
     expected_amount = round(
-        to_decimal(
-            escp(
-                tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["years"],
-                tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["days"],
-                tender["bids"][0]["lotValues"][0]["value"]["yearlyPaymentsPercentage"],
-                tender["bids"][0]["lotValues"][0]["value"]["annualCostsReduction"],
-                get_now(),
+        float(
+            to_decimal(
+                escp(
+                    tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["years"],
+                    tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["days"],
+                    tender["bids"][0]["lotValues"][0]["value"]["yearlyPaymentsPercentage"],
+                    tender["bids"][0]["lotValues"][0]["value"]["annualCostsReduction"],
+                    get_now(),
+                )
             )
         ),
         2,

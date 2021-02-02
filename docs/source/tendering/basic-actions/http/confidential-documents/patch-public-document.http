@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/bids/ad3518204d0f4cdcaa3c0940fa21e417/documents/898bfdf6dbc145a2a92487db1af8849a?acc_token=dd8db01099664827aa1826260c296fa8 HTTP/1.0
+PATCH /api/2.5/tenders/bac835240efd4adea01560554d7bfdb4/bids/2191d9a2aadb44418238d8cf893ae395/documents/ccd5c0b5cc364863ac6db661d6b9aec8?acc_token=d4640e490c734ea5ae304b02ec4304d9 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 178
 Content-Type: application/json
@@ -6,8 +6,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "confidentialityRationale": "Lol, this document contains some secret data that shouldn't be public, I'm changing it's confidentiality", 
-    "confidentiality": "buyerOnly"
+    "confidentiality": "buyerOnly",
+    "confidentialityRationale": "Lol, this document contains some secret data that shouldn't be public, I'm changing it's confidentiality"
   }
 }
 
@@ -16,16 +16,16 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "hash": "md5:00000000000000000000000000000000", 
-    "confidentiality": "buyerOnly", 
-    "title": "public-to-private.doc", 
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7898ec9992af47ccbc9b8bf1b8539660/bids/ad3518204d0f4cdcaa3c0940fa21e417/documents/898bfdf6dbc145a2a92487db1af8849a?download=284617724bff4ff6bd1023f665da3b47", 
-    "confidentialityRationale": "Lol, this document contains some secret data that shouldn't be public, I'm changing it's confidentiality", 
-    "format": "application/msword", 
-    "documentOf": "tender", 
-    "datePublished": "2020-09-08T01:00:00+03:00", 
-    "id": "898bfdf6dbc145a2a92487db1af8849a", 
-    "dateModified": "2020-09-08T01:00:00+03:00"
+    "id": "ccd5c0b5cc364863ac6db661d6b9aec8",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "public-to-private.doc",
+    "format": "application/msword",
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bac835240efd4adea01560554d7bfdb4/bids/2191d9a2aadb44418238d8cf893ae395/documents/ccd5c0b5cc364863ac6db661d6b9aec8?download=47ac6dae16dd4b85b4557e53aa4e2e16",
+    "datePublished": "2020-09-08T01:00:00+03:00",
+    "dateModified": "2020-09-08T01:00:00+03:00",
+    "documentOf": "tender",
+    "confidentiality": "buyerOnly",
+    "confidentialityRationale": "Lol, this document contains some secret data that shouldn't be public, I'm changing it's confidentiality"
   }
 }
 

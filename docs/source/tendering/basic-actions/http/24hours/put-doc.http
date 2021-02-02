@@ -1,14 +1,14 @@
-PUT /api/2.5/tenders/28f1e5d8fcb146b68b6691df9238a223/bids/a3da078bfd8d41a3af29389fcea3a11d/documents/8b5410e324ad4fc1a74431231b212407?acc_token=696e0d5bfd7640a888fa8e6af1eebb3b HTTP/1.0
+PUT /api/2.5/tenders/34f1934c957041cfa43be9e7af23ca1d/bids/81aa0133d1744fb4b8e4f76610e835e7/documents/5bce5c577040439a935bf0a0cc95777e?acc_token=d20ebf77e96f4739bf59a52b48e651fc HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 345
+Content-Length: 337
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/75cf84bbb5ee4c09ab441d7fb1570020?KeyID=a8968c46&Signature=%2F5BA%2FIBr2U3nRGXb5T8t3PLYQnoqIBgQZxx%2BFQ%2F39flZD88fXTkNDtDZHHA2nQJXh%2BSWCvUcubedLv1oHX%2BHAA%3D%3D", 
-    "title": "укр.doc", 
-    "hash": "md5:00000000000000000000000000000000", 
+    "title": "укр.doc",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fddb39dd595c481e8b47b24009815ba5?Signature=%2FCpYzlbQvZBDyncvJpmvCwEqMyFYWTBbr2AEfSkkZYnopTRpcw6hsXZdxmpnaO4WBenGsfwbIfEM8fQ6tId%2FDA%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
     "format": "application/msword"
   }
 }
@@ -18,14 +18,14 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "hash": "md5:00000000000000000000000000000000", 
-    "title": "укр.doc", 
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/75cf84bbb5ee4c09ab441d7fb1570020?KeyID=a8968c46&Signature=KpKYMlvVWlQ%252BnPHxNl%2FZ%252B7j9LcBJywxcb%2FLkFEyu7ZW0PwLhqd0foHXPpj7e%252Bt%252BQ5HAmvj1nh%2FPpPO1vu0xcDg%253D%253D", 
-    "format": "application/msword", 
-    "documentOf": "tender", 
-    "datePublished": "2020-05-02T05:00:01+03:00", 
-    "id": "8b5410e324ad4fc1a74431231b212407", 
-    "dateModified": "2020-05-02T05:00:01+03:00"
+    "id": "5bce5c577040439a935bf0a0cc95777e",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "укр.doc",
+    "format": "application/msword",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fddb39dd595c481e8b47b24009815ba5?Signature=jrorAOTvpwDYRbU0V4b3GRhiHvL8Co1AHanO3si1lMIuGzyjTfBD1ZNDXZuVeoAGCRyvua1CZ5Mc16NXKfIsDg%3D%3D&KeyID=a8968c46",
+    "datePublished": "2020-05-02T05:00:01+03:00",
+    "dateModified": "2020-05-02T05:00:01+03:00",
+    "documentOf": "tender"
   }
 }
 

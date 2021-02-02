@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/086edc68f12d4a248ded4f9cea52e69c/bids HTTP/1.0
+POST /api/2.5/tenders/d59e1783dc5149518a3c20a016d652c6/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1001
 Content-Type: application/json
@@ -6,34 +6,34 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "selfQualified": true, 
-    "lotValues": [
-      {
-        "relatedLot": "5b9f7b2c302b40c780b44b39d95138a7", 
-        "subcontractingDetails": "ДКП «Орфей», Україна"
-      }
-    ], 
+    "selfQualified": true,
     "tenderers": [
       {
-        "contactPoint": {
-          "email": "soleksuk@gmail.com", 
-          "name": "Сергій Олексюк", 
-          "telephone": "+380 (432) 21-69-30"
-        }, 
-        "scale": "micro", 
-        "name": "ДКП «Школяр»", 
-        "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137256", 
-          "uri": "http://www.sc.gov.ua/"
-        }, 
         "address": {
-          "countryName": "Україна", 
-          "postalCode": "21100", 
-          "region": "Вінницька область", 
-          "streetAddress": "вул. Островського, 33", 
-          "locality": "м. Вінниця"
-        }
+          "countryName": "Україна",
+          "locality": "м. Вінниця",
+          "postalCode": "21100",
+          "region": "Вінницька область",
+          "streetAddress": "вул. Островського, 33"
+        },
+        "contactPoint": {
+          "email": "soleksuk@gmail.com",
+          "name": "Сергій Олексюк",
+          "telephone": "+380 (432) 21-69-30"
+        },
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "ДКП «Школяр»",
+        "scale": "micro"
+      }
+    ],
+    "lotValues": [
+      {
+        "subcontractingDetails": "ДКП «Орфей», Україна",
+        "relatedLot": "150e2750fa2942ce9315e80ddf78a62a"
       }
     ]
   }
@@ -41,49 +41,49 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/086edc68f12d4a248ded4f9cea52e69c/bids/ed0a8b00b0b240d0a1c40d0dfe9d343b
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d59e1783dc5149518a3c20a016d652c6/bids/5f0fc8a6e46049ed949f0d945c5da26a
 X-Content-Type-Options: nosniff
 {
-  "access": {
-    "transfer": "5b32e87f42ea440cbf41985fb8f42bcc", 
-    "token": "e1acbdb735954beda3c4b55d6dffc720"
-  }, 
   "data": {
-    "status": "pending", 
-    "lotValues": [
-      {
-        "relatedLot": "5b9f7b2c302b40c780b44b39d95138a7", 
-        "date": "2020-09-08T01:00:00+03:00", 
-        "status": "pending", 
-        "subcontractingDetails": "ДКП «Орфей», Україна"
-      }
-    ], 
-    "id": "ed0a8b00b0b240d0a1c40d0dfe9d343b", 
     "tenderers": [
       {
-        "contactPoint": {
-          "email": "soleksuk@gmail.com", 
-          "telephone": "+380 (432) 21-69-30", 
-          "name": "Сергій Олексюк"
-        }, 
-        "scale": "micro", 
-        "name": "ДКП «Школяр»", 
+        "name": "ДКП «Школяр»",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137256", 
+          "scheme": "UA-EDR",
+          "id": "00137256",
           "uri": "http://www.sc.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "21100", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 33", 
-          "region": "Вінницька область", 
-          "locality": "м. Вінниця"
-        }
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Сергій Олексюк",
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380 (432) 21-69-30"
+        },
+        "scale": "micro"
       }
-    ], 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "selfQualified": true
+    ],
+    "date": "2020-09-08T01:00:00+03:00",
+    "id": "5f0fc8a6e46049ed949f0d945c5da26a",
+    "selfQualified": true,
+    "status": "pending",
+    "lotValues": [
+      {
+        "relatedLot": "150e2750fa2942ce9315e80ddf78a62a",
+        "date": "2020-09-08T01:00:00+03:00",
+        "subcontractingDetails": "ДКП «Орфей», Україна",
+        "status": "pending"
+      }
+    ]
+  },
+  "access": {
+    "token": "b5604f3b514541e2b6a672c16b386e73",
+    "transfer": "c8415282d7994eaba8560801e197aea0"
   }
 }
 

@@ -78,7 +78,7 @@ class AuthenticationPolicy(BasicAuthAuthenticationPolicy):
         Returns ``None`` if the user doesn't exist or a sequence
         of principal identifiers (possibly empty) if the user does exist.
         """
-        user =  self.users.get(key)
+        user = self.users.get(key)
         if user:
             principals = ["g:%s" % user["group"]]
             for i in user["level"]:
@@ -174,7 +174,6 @@ def extract_http_credentials(request):
         return auth.split(':', 1)[0]
     except ValueError: # not enough values to unpack
         return None
-
 
 
 def extract_access_token(request):

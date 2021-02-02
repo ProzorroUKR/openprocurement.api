@@ -93,7 +93,7 @@ class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):
         self.app.authorization = ("Basic", ("bot", "bot"))
 
         response = self.app.post(
-            "/tenders/{}/documents".format(tender["id"]), upload_files=[("file", "name.doc", "content")]
+            "/tenders/{}/documents".format(tender["id"]), upload_files=[("file", "name.doc", b"content")]
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/6ccc95c340c94e32bcf0b8c2183e62f7/contracts/632f182366214a9aa18a7cbe72724559/documents HTTP/1.0
+GET /api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/contracts/8db9d406966041e9942b04693ffab781/documents HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -8,21 +8,21 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "hash": "md5:00000000000000000000000000000000", 
-      "title": "contract_second_document.doc", 
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/99561094e8ff41baa176155995a9e23c?KeyID=a8968c46&Signature=ecUmeR1kbP138C3RdAt76nq%2FPC6qYvVU9Kei5DuhrS72l%252BFJQh4GqCxMJAslC1VhN391Az%2FifrpGFIfPIgJmAQ%253D%253D", 
-      "format": "application/msword", 
-      "datePublished": "2020-09-08T01:00:00+03:00", 
-      "id": "998fff92db144cac939b4742b465f6f0", 
+      "id": "66c6a0f2471644e49cf1c7808f226c24",
+      "hash": "md5:00000000000000000000000000000000",
+      "title": "contract_first_document.doc",
+      "format": "application/msword",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/683441ad518644979bfdede8405df7c1?Signature=513e2wVWsZdU0BhdzyBYGpoTHxh6t7%2FgKVnNZUAe94PtHC%2B4%2F8OIKLX66EFlfUkoUlG5M3jmaIRlg2MaXiunCA%3D%3D&KeyID=a8968c46",
+      "datePublished": "2020-09-08T01:00:00+03:00",
       "dateModified": "2020-09-08T01:00:00+03:00"
-    }, 
+    },
     {
-      "hash": "md5:00000000000000000000000000000000", 
-      "title": "contract_first_document.doc", 
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0f746bb86abe44069b70422d6460b960?KeyID=a8968c46&Signature=pSYFHP3nW5EEk%2FIRb2QtEpFxYLsjj6qRelcysPR0of3o%2Fw7RiugEvP0mQ0%252BTwF%2FI9tUIUc6MDtRrLGReXyaRCw%253D%253D", 
-      "format": "application/msword", 
-      "datePublished": "2020-09-08T01:00:00+03:00", 
-      "id": "84aa2f02abd04aa1bc7d037a69bfcdec", 
+      "id": "a1317c7d25e6431fabfd127d9f68894f",
+      "hash": "md5:00000000000000000000000000000000",
+      "title": "contract_second_document.doc",
+      "format": "application/msword",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/524dba59516640b99c1c7f5195c7df77?Signature=tgAJvznHcEubX754JMDqKPitonexJEehSAbWFJjkEOnGW80CewSGiLLKPTJw%2FsyQCwwDaTbz23%2BAPC6xocapCQ%3D%3D&KeyID=a8968c46",
+      "datePublished": "2020-09-08T01:00:00+03:00",
       "dateModified": "2020-09-08T01:00:00+03:00"
     }
   ]

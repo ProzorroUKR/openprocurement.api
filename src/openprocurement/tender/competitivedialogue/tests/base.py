@@ -76,8 +76,8 @@ test_shortlistedFirms = [
 test_access_token_stage1 = uuid4().hex
 test_tender_stage2_data_eu["shortlistedFirms"] = test_shortlistedFirms
 test_tender_stage2_data_ua["shortlistedFirms"] = test_shortlistedFirms
-test_tender_stage2_data_eu["dialogue_token"] = sha512(test_access_token_stage1).hexdigest()
-test_tender_stage2_data_ua["dialogue_token"] = sha512(test_access_token_stage1).hexdigest()
+test_tender_stage2_data_eu["dialogue_token"] = sha512(test_access_token_stage1.encode()).hexdigest()
+test_tender_stage2_data_ua["dialogue_token"] = sha512(test_access_token_stage1.encode()).hexdigest()
 test_tender_stage2_data_ua["owner"] = "broker"
 test_tender_stage2_data_eu["owner"] = "broker"
 test_tender_stage2_data_ua["status"] = "draft"
@@ -251,7 +251,7 @@ class BaseCompetitiveDialogUAStage2ContentWebTest(BaseCompetitiveDialogUAWebTest
 
     def create_tenderers(self, count=1):
         tenderers = []
-        for i in xrange(count):
+        for i in range(count):
             tenderer = deepcopy(test_bids[0]["tenderers"])
             identifier = self.initial_data["shortlistedFirms"][i if i < 3 else 3]["identifier"]
             tenderer[0]["identifier"]["id"] = identifier["id"]

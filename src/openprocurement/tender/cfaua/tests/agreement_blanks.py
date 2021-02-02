@@ -348,7 +348,7 @@ def agreement_cancellation(self):
 def create_tender_agreement_document(self):
     response = self.app.post(
         "/tenders/{}/agreements/{}/documents?acc_token={}".format(self.tender_id, self.agreement_id, self.tender_token),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -386,7 +386,7 @@ def create_tender_agreement_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/msword")
     self.assertEqual(response.content_length, 7)
-    self.assertEqual(response.body, "content")
+    self.assertEqual(response.body, b"content")
 
     response = self.app.get("/tenders/{}/agreements/{}/documents/{}".format(self.tender_id, self.agreement_id, doc_id))
     self.assertEqual(response.status, "200 OK")
@@ -398,7 +398,7 @@ def create_tender_agreement_document(self):
 
     response = self.app.post(
         "/tenders/{}/agreements/{}/documents?acc_token={}".format(self.tender_id, self.agreement_id, self.tender_token),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -411,7 +411,7 @@ def create_tender_agreement_document(self):
 def put_tender_agreement_document(self):
     response = self.app.post(
         "/tenders/{}/agreements/{}/documents?acc_token={}".format(self.tender_id, self.agreement_id, self.tender_token),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -423,7 +423,7 @@ def put_tender_agreement_document(self):
             self.tender_id, self.agreement_id, doc_id, self.tender_token
         ),
         status=404,
-        upload_files=[("invalid_name", "name.doc", "content")],
+        upload_files=[("invalid_name", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -434,7 +434,7 @@ def put_tender_agreement_document(self):
         "/tenders/{}/agreements/{}/documents/{}?acc_token={}".format(
             self.tender_id, self.agreement_id, doc_id, self.tender_token
         ),
-        upload_files=[("file", "name.doc", "content2")],
+        upload_files=[("file", "name.doc", b"content2")],
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -447,7 +447,7 @@ def put_tender_agreement_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/msword")
     self.assertEqual(response.content_length, 8)
-    self.assertEqual(response.body, "content2")
+    self.assertEqual(response.body, b"content2")
 
     response = self.app.get("/tenders/{}/agreements/{}/documents/{}".format(self.tender_id, self.agreement_id, doc_id))
     self.assertEqual(response.status, "200 OK")
@@ -459,7 +459,7 @@ def put_tender_agreement_document(self):
         "/tenders/{}/agreements/{}/documents/{}?acc_token={}".format(
             self.tender_id, self.agreement_id, doc_id, self.tender_token
         ),
-        "content3",
+        b"content3",
         content_type="application/msword",
     )
     self.assertEqual(response.status, "200 OK")
@@ -473,7 +473,7 @@ def put_tender_agreement_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/msword")
     self.assertEqual(response.content_length, 8)
-    self.assertEqual(response.body, "content3")
+    self.assertEqual(response.body, b"content3")
 
     self.cancel_tender()
 
@@ -481,7 +481,7 @@ def put_tender_agreement_document(self):
         "/tenders/{}/agreements/{}/documents/{}?acc_token={}".format(
             self.tender_id, self.agreement_id, doc_id, self.tender_token
         ),
-        upload_files=[("file", "name.doc", "content3")],
+        upload_files=[("file", "name.doc", b"content3")],
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -494,7 +494,7 @@ def put_tender_agreement_document(self):
 def patch_tender_agreement_document(self):
     response = self.app.post(
         "/tenders/{}/agreements/{}/documents?acc_token={}".format(self.tender_id, self.agreement_id, self.tender_token),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -743,7 +743,7 @@ def not_found(self):
     response = self.app.post(
         "/tenders/some_id/agreements/some_id/documents?acc_token={}".format(self.tender_token),
         status=404,
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -755,7 +755,7 @@ def not_found(self):
     response = self.app.post(
         "/tenders/{}/agreements/some_id/documents?acc_token={}".format(self.tender_id, self.tender_token),
         status=404,
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -767,7 +767,7 @@ def not_found(self):
     response = self.app.post(
         "/tenders/{}/agreements/{}/documents?acc_token={}".format(self.tender_id, self.agreement_id, self.tender_token),
         status=404,
-        upload_files=[("invalid_value", "name.doc", "content")],
+        upload_files=[("invalid_value", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -819,7 +819,7 @@ def not_found(self):
     response = self.app.put(
         "/tenders/some_id/agreements/some_id/documents/some_id?acc_token={}".format(self.tender_token),
         status=404,
-        upload_files=[("file", "name.doc", "content2")],
+        upload_files=[("file", "name.doc", b"content2")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -831,7 +831,7 @@ def not_found(self):
     response = self.app.put(
         "/tenders/{}/agreements/some_id/documents/some_id?acc_token={}".format(self.tender_id, self.tender_token),
         status=404,
-        upload_files=[("file", "name.doc", "content2")],
+        upload_files=[("file", "name.doc", b"content2")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -845,7 +845,7 @@ def not_found(self):
             self.tender_id, self.agreement_id, self.tender_token
         ),
         status=404,
-        upload_files=[("file", "name.doc", "content2")],
+        upload_files=[("file", "name.doc", b"content2")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")

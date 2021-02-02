@@ -1,4 +1,4 @@
-PUT /api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/documents/fb440a17097641bfa632d1a7c90e4be5?acc_token=82d005b2183e43fe8edbb00cc6eb36c1 HTTP/1.0
+PUT /api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/documents/428e9ce6dfe44fdc8fabf3d3ec0ae851?acc_token=7cb87b2d0f3d446993a6da1f03746396 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 152
 Content-Type: multipart/form-data; boundary=---BOUNDARY
@@ -17,16 +17,16 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "hash": "md5:00000000000000000000000000000000", 
-    "author": "tender_owner", 
-    "language": "uk", 
-    "title": "AwardCriteria-2.pdf", 
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0ae8f40fd6614fd181de9ca16f12ddd4?KeyID=a8968c46&Signature=Jj56HfhnqwpvOuYv%252BLr54kVxIEHUfjMkB0B72BzIJHFarJghbs4pcEywpOWyR4fbMgXF4d6UKwLG%2FuGIYUmHDQ%253D%253D", 
-    "format": "application/pdf", 
-    "documentOf": "tender", 
-    "datePublished": "2020-09-08T01:00:00+03:00", 
-    "id": "fb440a17097641bfa632d1a7c90e4be5", 
-    "dateModified": "2020-09-08T01:00:00+03:00"
+    "id": "428e9ce6dfe44fdc8fabf3d3ec0ae851",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "AwardCriteria-2.pdf",
+    "format": "application/pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/59b8682ce22c4dda901d30922c81dfe0?Signature=AmOlZ9uaPEmMxQI2ndJRfTusL81pi8GrQw5t5Jn8Qlw%2F0wgstBfW%2F%2B%2BexByZqL0wbG6NnbUMy15W1e7yiLPlBQ%3D%3D&KeyID=a8968c46",
+    "datePublished": "2020-09-08T01:00:00+03:00",
+    "dateModified": "2020-09-08T01:00:00+03:00",
+    "author": "tender_owner",
+    "documentOf": "tender",
+    "language": "uk"
   }
 }
 

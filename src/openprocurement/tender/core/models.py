@@ -9,7 +9,7 @@ from schematics.exceptions import ValidationError
 from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
 from schematics.types import StringType, FloatType, URLType, BooleanType, BaseType, MD5Type, IntType
-from urlparse import urlparse, parse_qs
+from urllib.parse import urlparse, parse_qs
 from string import hexdigits
 from openprocurement.api.interfaces import IOPContent
 from openprocurement.api.auth import extract_access_token
@@ -1206,7 +1206,7 @@ class BidResponsesMixin(Model):
             if len(group_answered_requirement_ids) > 1:
                 raise ValidationError("Inside criteria must be answered only one requirement group")
 
-            rg_id = group_answered_requirement_ids.keys()[0]
+            rg_id = list(group_answered_requirement_ids.keys())[0]
             if set(criteria_ids[rg_id]).difference(set(group_answered_requirement_ids[rg_id])):
                 raise ValidationError("Inside requirement group must get answered all of requirements")
 
@@ -1645,7 +1645,7 @@ class QualificationMilestoneListMixin(Model):
         because there is a way to post milestone to different zones (couchdb masters)
         and concord will merge them, that shouldn't be the case
         """
-        if len(filter(lambda m: m.code == QualificationMilestone.CODE_24_HOURS, milestones)) > 1:
+        if len(list(filter(lambda m: m.code == QualificationMilestone.CODE_24_HOURS, milestones))) > 1:
             raise ValidationError(u"There can be only one '24h' milestone")
 
 

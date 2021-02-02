@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d?acc_token=ce9ee5fc97484fc3b51e3f4dcea722d4 HTTP/1.0
+PATCH /api/2.5/tenders/db4876add6b747dfafc1b99523c02097?acc_token=9234ea997d5a428fb67b1ae603020b64 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 68
 Content-Type: application/json
@@ -17,121 +17,121 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "draft.stage2", 
-    "procurementMethod": "selective", 
-    "awardCriteria": "lowestCost", 
-    "tenderPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00", 
-      "endDate": "2020-10-09T01:00:00+03:00"
-    }, 
-    "title": "футляри до державних нагород", 
-    "minimalStep": {
-      "currency": "UAH", 
-      "amount": 35.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "enquiryPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00", 
-      "clarificationsUntil": "2020-10-03T00:00:00+03:00", 
-      "endDate": "2020-09-29T01:00:00+03:00"
-    }, 
-    "complaintPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00", 
-      "endDate": "2020-10-05T00:00:00+03:00"
-    }, 
-    "procurementMethodType": "competitiveDialogueUA.stage2", 
+    "title": "футляри до державних нагород",
+    "date": "2020-09-08T01:00:00+03:00",
+    "dateModified": "2020-09-08T01:00:00+03:00",
+    "tenderID": "UA-2020-09-08-000001",
+    "owner": "broker",
+    "awardCriteria": "lowestCost",
+    "submissionMethod": "electronicAuction",
     "value": {
-      "currency": "UAH", 
-      "amount": 500.0, 
+      "amount": 500.0,
+      "currency": "UAH",
       "valueAddedTaxIncluded": true
-    }, 
-    "submissionMethod": "electronicAuction", 
+    },
+    "procuringEntity": {
+      "name": "ЗОСШ #10 м.Вінниці",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "21725150",
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+      },
+      "address": {
+        "streetAddress": "вул. Стахурського. 22",
+        "locality": "м. Вінниця",
+        "region": "Вінницька область",
+        "postalCode": "21027",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Куца Світлана Валентинівна",
+        "telephone": "+380 (432) 46-53-02",
+        "url": "http://sch10.edu.vn.ua/"
+      },
+      "kind": "special"
+    },
+    "minimalStep": {
+      "amount": 35.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "enquiryPeriod": {
+      "startDate": "2020-09-08T01:00:00+03:00",
+      "endDate": "2020-09-29T01:00:00+03:00",
+      "clarificationsUntil": "2020-10-03T00:00:00+03:00"
+    },
+    "procurementMethodType": "competitiveDialogueUA.stage2",
     "shortlistedFirms": [
       {
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137256", 
+          "scheme": "UA-EDR",
+          "id": "00137256",
           "uri": "http://www.sc.gov.ua/"
-        }, 
+        },
         "name": "ДКП «Школяр»"
-      }, 
+      },
       {
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137226", 
+          "scheme": "UA-EDR",
+          "id": "00137226",
           "uri": "http://www.sc.gov.ua/"
-        }, 
+        },
         "name": "ДКП «Книга»"
-      }, 
+      },
       {
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137228", 
+          "scheme": "UA-EDR",
+          "id": "00137228",
           "uri": "http://www.sc.gov.ua/"
-        }, 
+        },
         "name": "«Кенгуру»"
       }
-    ], 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "procuringEntity": {
-      "contactPoint": {
-        "url": "http://sch10.edu.vn.ua/", 
-        "name": "Куца Світлана Валентинівна", 
-        "telephone": "+380 (432) 46-53-02"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "id": "21725150", 
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
-      }, 
-      "name": "ЗОСШ #10 м.Вінниці", 
-      "kind": "special", 
-      "address": {
-        "postalCode": "21027", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Стахурського. 22", 
-        "region": "Вінницька область", 
-        "locality": "м. Вінниця"
-      }
-    }, 
+    ],
+    "tenderPeriod": {
+      "startDate": "2020-09-08T01:00:00+03:00",
+      "endDate": "2020-10-09T01:00:00+03:00"
+    },
+    "status": "draft.stage2",
     "items": [
       {
-        "description": "Послуги шкільних їдалень", 
-        "classification": {
-          "scheme": "ДК021", 
-          "description": "Послуги з харчування у школах", 
-          "id": "55523100-3"
-        }, 
+        "id": "a6565c9d85274cf48af6fa6924814d39",
+        "description": "Послуги шкільних їдалень",
         "additionalClassifications": [
           {
-            "scheme": "ДКПП", 
-            "id": "17.21.1", 
+            "scheme": "ДКПП",
+            "id": "17.21.1",
             "description": "Послуги шкільних їдалень"
           }
-        ], 
-        "deliveryAddress": {
-          "postalCode": "79000", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }, 
-        "deliveryDate": {
-          "startDate": "2020-09-28T00:00:00+02:00", 
-          "endDate": "2020-10-28T00:00:00+02:00"
-        }, 
-        "id": "7df527fef6e14060be203f7c7f881adc", 
+        ],
         "unit": {
-          "code": "44617100-9", 
-          "name": "item"
-        }, 
-        "quantity": 1.0
+          "name": "item",
+          "code": "44617100-9"
+        },
+        "quantity": 1.0,
+        "deliveryDate": {
+          "startDate": "2020-09-28T00:00:00+02:00",
+          "endDate": "2020-10-28T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "classification": {
+          "description": "Послуги з харчування у школах",
+          "scheme": "ДК021",
+          "id": "55523100-3"
+        }
       }
-    ], 
-    "owner": "broker", 
-    "dateModified": "2020-09-08T01:00:00+03:00", 
-    "id": "c4eafa4139e24f1d84c1ce5ccbb4560d", 
-    "tenderID": "UA-2020-09-08-000001"
+    ],
+    "procurementMethod": "selective",
+    "id": "db4876add6b747dfafc1b99523c02097",
+    "complaintPeriod": {
+      "startDate": "2020-09-08T01:00:00+03:00",
+      "endDate": "2020-10-05T00:00:00+03:00"
+    }
   }
 }
 

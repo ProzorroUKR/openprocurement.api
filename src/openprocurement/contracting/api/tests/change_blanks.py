@@ -159,8 +159,8 @@ def create_change_invalid(self):
     self.assertEqual(
         response.json["errors"],
         [
-            {"location": "body", "name": "rationaleTypes", "description": ["This field is required."]},
             {"location": "body", "name": "rationale", "description": ["This field is required."]},
+            {"location": "body", "name": "rationaleTypes", "description": ["This field is required."]},
         ],
     )
 
@@ -206,7 +206,7 @@ def create_change_invalid(self):
         {"data": {"changes": [{"rationale": "penguin", "rationaleTypes": ["volumeCuts"]}]}},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.body, "null")
+    self.assertEqual(response.body, b"null")
 
     response = self.app.get("/contracts/{}?acc_token={}".format(self.contract["id"], self.contract_token))
     self.assertEqual(response.status, "200 OK")
@@ -317,7 +317,7 @@ def patch_change(self):
         {"data": {"date": now}},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.body, "null")
+    self.assertEqual(response.body, b"null")
 
     response = self.app.patch_json(
         "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change["id"], self.contract_token),
@@ -395,7 +395,7 @@ def patch_change(self):
         {"data": {"id": "1234" * 8}},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.body, "null")
+    self.assertEqual(response.body, b"null")
 
     self.app.authorization = None
     response = self.app.patch_json(

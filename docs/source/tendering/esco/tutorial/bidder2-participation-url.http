@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/0aac695e27804293a2854dff7bed4be8/bids/5f2b03265fcc4d7daa1aabbdac969ec1?acc_token=a3322ea4c3e5495ebd9a1d928ea546d7 HTTP/1.0
+GET /api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/b30aecb69ea84f689ce58aa02327210b?acc_token=f951db70a1164f61a8e890d5f458a6c5 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,68 +7,68 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "active", 
-    "value": {
-      "yearlyPaymentsPercentage": 0.85, 
-      "valueAddedTaxIncluded": true, 
-      "currency": "UAH", 
-      "amount": 9700.25, 
-      "contractDuration": {
-        "days": 200, 
-        "years": 12
-      }, 
-      "amountPerformance": 789.95, 
-      "annualCostsReduction": [
-        400.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0, 
-        900.0
-      ]
-    }, 
-    "selfQualified": true, 
     "tenderers": [
       {
-        "contactPoint": {
-          "email": "aagt@gmail.com", 
-          "telephone": "+380 (322) 91-69-30", 
-          "name": "Андрій Олексюк"
-        }, 
-        "scale": "sme", 
-        "name": "ДКП «Книга»", 
+        "name": "ДКП «Книга»",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137226", 
+          "scheme": "UA-EDR",
+          "id": "00137226",
           "uri": "http://www.sc.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "79013", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 34", 
-          "region": "Львівська область", 
-          "locality": "м. Львів"
-        }
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Андрій Олексюк",
+          "email": "aagt@gmail.com",
+          "telephone": "+380 (322) 91-69-30"
+        },
+        "scale": "sme"
       }
-    ], 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "id": "5f2b03265fcc4d7daa1aabbdac969ec1", 
-    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/0aac695e27804293a2854dff7bed4be8?key_for_bid=5f2b03265fcc4d7daa1aabbdac969ec1"
+    ],
+    "date": "2020-09-08T01:00:00+03:00",
+    "id": "b30aecb69ea84f689ce58aa02327210b",
+    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/33f610abd0a54c8bb1da547c377a3324?key_for_bid=b30aecb69ea84f689ce58aa02327210b",
+    "status": "active",
+    "value": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amount": 9700.25,
+      "amountPerformance": 789.95,
+      "yearlyPaymentsPercentage": 0.85,
+      "annualCostsReduction": [
+        400.0,
+        900.0,
+        900.0,
+        900.0,
+        900.0,
+        900.0,
+        900.0,
+        900.0,
+        900.0,
+        900.0,
+        900.0,
+        900.0,
+        900.0,
+        900.0,
+        900.0,
+        900.0,
+        900.0,
+        900.0,
+        900.0,
+        900.0,
+        900.0
+      ],
+      "contractDuration": {
+        "years": 12,
+        "days": 200
+      }
+    },
+    "selfQualified": true
   }
 }
 

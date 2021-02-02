@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/086edc68f12d4a248ded4f9cea52e69c/qualifications?acc_token=2d40003375644e37bcda2c4fc8319cd8 HTTP/1.0
+GET /api/2.5/tenders/d59e1783dc5149518a3c20a016d652c6/qualifications?acc_token=08f1e8ef6e2a42278777917b90121d0d HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -8,31 +8,31 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "status": "pending", 
-      "lotID": "5b9f7b2c302b40c780b44b39d95138a7", 
-      "eligible": false, 
-      "qualified": false, 
-      "bidID": "ed0a8b00b0b240d0a1c40d0dfe9d343b", 
-      "date": "2020-09-08T01:00:00+03:00", 
-      "id": "173c2b5bb93248a78c84a3827af6cbaa"
-    }, 
+      "id": "91fea63461584bbfb51af91ff7d999ed",
+      "bidID": "5f0fc8a6e46049ed949f0d945c5da26a",
+      "lotID": "150e2750fa2942ce9315e80ddf78a62a",
+      "status": "pending",
+      "date": "2020-09-08T01:00:00+03:00",
+      "qualified": false,
+      "eligible": false
+    },
     {
-      "status": "pending", 
-      "lotID": "5b9f7b2c302b40c780b44b39d95138a7", 
-      "eligible": false, 
-      "qualified": false, 
-      "bidID": "a539801e33fe406cbe5502a0fb566044", 
-      "date": "2020-09-08T01:00:00+03:00", 
-      "id": "9894e7b3dee74b7f978607f213fb8d37"
-    }, 
+      "id": "073ef715e82d48c79e266d118dfab12b",
+      "bidID": "57cb8d6e793d474cab1b2e8aade29c7d",
+      "lotID": "150e2750fa2942ce9315e80ddf78a62a",
+      "status": "pending",
+      "date": "2020-09-08T01:00:00+03:00",
+      "qualified": false,
+      "eligible": false
+    },
     {
-      "status": "pending", 
-      "lotID": "5b9f7b2c302b40c780b44b39d95138a7", 
-      "eligible": false, 
-      "qualified": false, 
-      "bidID": "55ac58fe9d284cc6925bcd0fdc74b60c", 
-      "date": "2020-09-08T01:00:00+03:00", 
-      "id": "ced896f884304acd86eae26ec8efe5c8"
+      "id": "23909464124544bf8cc3423271906500",
+      "bidID": "c620d7172864477692204ed6f5d5de4b",
+      "lotID": "150e2750fa2942ce9315e80ddf78a62a",
+      "status": "pending",
+      "date": "2020-09-08T01:00:00+03:00",
+      "qualified": false,
+      "eligible": false
     }
   ]
 }

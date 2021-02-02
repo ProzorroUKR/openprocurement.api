@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/50c82523038349969f53f3e238932c46?acc_token=90e5c1d7c0414b99a392234aee8cd1dc HTTP/1.0
+PATCH /api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d?acc_token=3ba9d3fdf58a40ac8a19d43f43de9e28 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 81
 Content-Type: application/json
@@ -20,12 +20,12 @@ Response: 403 Forbidden
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
-  "status": "error", 
+  "status": "error",
   "errors": [
     {
-      "description": "tenderPeriod should be extended by 7 days", 
-      "location": "body", 
-      "name": "data"
+      "location": "body",
+      "name": "data",
+      "description": "tenderPeriod should be extended by 7 days"
     }
   ]
 }

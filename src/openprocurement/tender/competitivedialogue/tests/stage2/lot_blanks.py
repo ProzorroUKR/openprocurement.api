@@ -1440,7 +1440,7 @@ def one_lot_3bid_1del(self):
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 450}, "relatedLot": self.initial_lots[0]["id"]}]
-    for i in xrange(3):
+    for i in range(3):
         tenderer = deepcopy(bid_data["tenderers"])
         tenderer[0]["identifier"]["id"] = self.initial_data["shortlistedFirms"][i]["identifier"]["id"]
         tenderer[0]["identifier"]["scheme"] = self.initial_data["shortlistedFirms"][i]["identifier"]["scheme"]
@@ -1458,7 +1458,7 @@ def one_lot_3bid_1del(self):
         bids.append({response.json["data"]["id"]: response.json["access"]["token"]})
 
     response = self.app.delete(
-        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bids[2].keys()[0], bids[2].values()[0]), status=200
+        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, list(bids[2].keys())[0], list(bids[2].values())[0]), status=200
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.auction
@@ -1520,16 +1520,16 @@ def one_lot_3bid_1del(self):
     response = self.app.patch_json("/tenders/{}/auction/{}".format(self.tender_id, self.initial_lots[0]["id"]), data)
     # view bid participationUrl
     self.app.authorization = ("Basic", ("broker", ""))
-    bid_id = bids[0].keys()[0]
-    bid_token = bids[0].values()[0]
+    bid_id = list(bids[0].keys())[0]
+    bid_token = list(bids[0].values())[0]
     response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token))
     self.assertEqual(
         response.json["data"]["lotValues"][0]["participationUrl"],
         "https://tender.auction.url/for_bid/{}".format(bid_id),
     )
 
-    bid_id = bids[2].keys()[0]
-    bid_token = bids[2].values()[0]
+    bid_id = list(bids[2].keys())[0]
+    bid_token = list(bids[2].values())[0]
     response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token))
     self.assertEqual(response.json["data"]["status"], "deleted")
 
@@ -1587,7 +1587,7 @@ def one_lot_3bid_1un(self):
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 450}, "relatedLot": self.initial_lots[0]["id"]}]
     bid_data["requirementResponses"] = generate_responses(self)
-    for i in xrange(bid_count):
+    for i in range(bid_count):
         bid_data["tenderers"] = tenderers[i]
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
@@ -1603,7 +1603,7 @@ def one_lot_3bid_1un(self):
     self.assertEqual(response.content_type, "application/json")
     qualifications = response.json["data"]
     for qualification in qualifications:
-        if qualification["bidID"] == bids[2].keys()[0]:
+        if qualification["bidID"] == list(bids[2].keys())[0]:
             response = self.app.patch_json(
                 "/tenders/{}/qualifications/{}?acc_token={}".format(
                     self.tender_id, qualification["id"], self.tender_token
@@ -1664,16 +1664,16 @@ def one_lot_3bid_1un(self):
     response = self.app.patch_json("/tenders/{}/auction/{}".format(self.tender_id, self.initial_lots[0]["id"]), data)
     # view bid participationUrl
     self.app.authorization = ("Basic", ("broker", ""))
-    bid_id = bids[0].keys()[0]
-    bid_token = bids[0].values()[0]
+    bid_id = list(bids[0].keys())[0]
+    bid_token = list(bids[0].values())[0]
     response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token))
     self.assertEqual(
         response.json["data"]["lotValues"][0]["participationUrl"],
         "https://tender.auction.url/for_bid/{}".format(bid_id),
     )
 
-    bid_id = bids[2].keys()[0]
-    bid_token = bids[2].values()[0]
+    bid_id = list(bids[2].keys())[0]
+    bid_token = list(bids[2].values())[0]
     response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token))
     self.assertNotIn("lotValues", response.json["data"])
 
@@ -2264,7 +2264,7 @@ def one_lot_3bid_1un_ua(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.json["errors"][0]["description"], u"Can't update lot for tender stage2")
     # create second bid
-    for bid_id, bid_token in bids_data.items()[:-1]:
+    for bid_id, bid_token in list(bids_data.items())[:-1]:
 
         self.app.authorization = ("Basic", ("broker", ""))
         response = self.app.patch_json(

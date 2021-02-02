@@ -405,11 +405,12 @@ def test_fail_complete_manually(app, value):
             response = app.post_json("/plans", {"data": test_data}, status=403)
         assert response.status == "403 Forbidden"
         assert response.json["errors"] == [
-            {u'description': u'procuringEntity with general kind cannot publish this type of procedure.'
-                             u' Procurement method types allowed for this kind: centralizedProcurement, reporting,'
-                             u' negotiation, negotiation.quick, priceQuotation, belowThreshold, aboveThresholdUA, aboveThresholdEU,'
-                             u' competitiveDialogueUA, competitiveDialogueEU, esco, closeFrameworkAgreementUA.',
-             u'location': u'body', u'name': u'kind'
+            {
+                "description": "procuringEntity with general kind cannot publish this type of procedure. Procurement "
+                               "method types allowed for this kind: centralizedProcurement, belowThreshold, "
+                               "aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA, competitiveDialogueEU, esco,"
+                               " closeFrameworkAgreementUA, priceQuotation, reporting, negotiation, negotiation.quick.",
+                'location': 'body', 'name': 'kind'
              }
         ]
         test_data["procuringEntity"]["kind"] = "defense"

@@ -356,7 +356,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"No JSON object could be decoded", u"location": u"body", u"name": u"data"}],
+        [{u"description": u"Expecting value: line 1 column 1 (char 0)", u"location": u"body", u"name": u"data"}],
     )
 
     response = self.app.post_json(request_path, "data", status=422)
@@ -403,7 +403,7 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [u"Please use a mapping for this field or Value instance instead of unicode."],
+                u"description": [u"Please use a mapping for this field or Value instance instead of str."],
                 u"location": u"body",
                 u"name": u"value",
             }
@@ -674,17 +674,17 @@ def create_tender(self):
     response = self.app.post_json("/tenders?opt_jsonp=callback", {"data": self.initial_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/javascript")
-    self.assertIn('callback({"', response.body)
+    self.assertIn('callback({"', response.body.decode())
 
     response = self.app.post_json("/tenders?opt_pretty=1", {"data": self.initial_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertIn('{\n    "', response.body)
+    self.assertIn('{\n    "', response.body.decode())
 
     response = self.app.post_json("/tenders", {"data": self.initial_data, "options": {"pretty": True}})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertIn('{\n    "', response.body)
+    self.assertIn('{\n    "', response.body.decode())
 
     data = deepcopy(self.initial_data)
     del data["items"][0]["deliveryAddress"]["postalCode"]
@@ -849,7 +849,7 @@ def patch_tender(self):
 
     response = self.app.post(
         "/tenders/{}/contracts/{}/documents?acc_token={}".format(tender["id"], contract_id, owner_token),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
 

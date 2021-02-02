@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/db8f78603c144a8aac15730f9c763584/bids/9e1b65743abd434caadf35a08b87fd90?acc_token=1eefabf7d7e741df9f88509718bac900 HTTP/1.0
+PATCH /api/2.5/tenders/3999e118d0d4460a8852c363407a5252/bids/eab0708798ec433cb13cf7d269f77582?acc_token=acac5f3d503545ecb1652cbdf4ccd6d0 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 124
 Content-Type: application/json
@@ -6,15 +6,15 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "status": "pending", 
     "lotValues": [
       {
-        "relatedLot": "a49c398a1df943319dc21b99238de1f1", 
         "value": {
           "amount": 500
-        }
+        },
+        "relatedLot": "93256198e2e7429ab4d0300cc250244f"
       }
-    ]
+    ],
+    "status": "pending"
   }
 }
 
@@ -23,73 +23,73 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "pending", 
-    "lotValues": [
-      {
-        "relatedLot": "a49c398a1df943319dc21b99238de1f1", 
-        "date": "2020-09-08T01:00:00+03:00", 
-        "status": "pending", 
-        "value": {
-          "yearlyPaymentsPercentage": 0.9, 
-          "valueAddedTaxIncluded": true, 
-          "currency": "UAH", 
-          "amount": 10260.25, 
-          "contractDuration": {
-            "days": 0, 
-            "years": 7
-          }, 
-          "amountPerformance": 2076.73, 
-          "annualCostsReduction": [
-            700.0, 
-            1600.0, 
-            1600.0, 
-            1600.0, 
-            1600.0, 
-            1600.0, 
-            1600.0, 
-            1600.0, 
-            1600.0, 
-            1600.0, 
-            1600.0, 
-            1600.0, 
-            1600.0, 
-            1600.0, 
-            1600.0, 
-            1600.0, 
-            1600.0, 
-            1600.0, 
-            1600.0, 
-            1600.0, 
-            1600.0
-          ]
-        }
-      }
-    ], 
-    "id": "9e1b65743abd434caadf35a08b87fd90", 
     "tenderers": [
       {
-        "contactPoint": {
-          "email": "aagt@gmail.com", 
-          "telephone": "+380 (322) 91-69-30", 
-          "name": "Андрій Олексюк"
-        }, 
-        "scale": "sme", 
-        "name": "ДКП «Книга»", 
+        "name": "ДКП «Книга»",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137226", 
+          "scheme": "UA-EDR",
+          "id": "00137226",
           "uri": "http://www.sc.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "79013", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 34", 
-          "region": "Львівська область", 
-          "locality": "м. Львів"
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Андрій Олексюк",
+          "email": "aagt@gmail.com",
+          "telephone": "+380 (322) 91-69-30"
+        },
+        "scale": "sme"
+      }
+    ],
+    "date": "2020-09-08T01:00:00+03:00",
+    "id": "eab0708798ec433cb13cf7d269f77582",
+    "status": "pending",
+    "lotValues": [
+      {
+        "relatedLot": "93256198e2e7429ab4d0300cc250244f",
+        "date": "2020-09-08T01:00:00+03:00",
+        "status": "pending",
+        "value": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true,
+          "amount": 10260.25,
+          "amountPerformance": 2076.73,
+          "yearlyPaymentsPercentage": 0.9,
+          "annualCostsReduction": [
+            700.0,
+            1600.0,
+            1600.0,
+            1600.0,
+            1600.0,
+            1600.0,
+            1600.0,
+            1600.0,
+            1600.0,
+            1600.0,
+            1600.0,
+            1600.0,
+            1600.0,
+            1600.0,
+            1600.0,
+            1600.0,
+            1600.0,
+            1600.0,
+            1600.0,
+            1600.0,
+            1600.0
+          ],
+          "contractDuration": {
+            "years": 7,
+            "days": 0
+          }
         }
       }
-    ], 
-    "date": "2020-09-08T01:00:00+03:00", 
+    ],
     "selfQualified": true
   }
 }

@@ -33,28 +33,28 @@ class AgreementsResourceTest(BaseAgreementTest):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["data"], [])
-        self.assertNotIn('{\n    "', response.body)
-        self.assertNotIn("callback({", response.body)
+        self.assertNotIn('{\n    "', response.body.decode())
+        self.assertNotIn("callback({", response.body.decode())
         self.assertEqual(response.json["next_page"]["offset"], "")
         self.assertNotIn("prev_page", response.json)
 
         response = self.app.get("/agreements?opt_jsonp=callback")
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/javascript")
-        self.assertNotIn('{\n    "', response.body)
-        self.assertIn("callback({", response.body)
+        self.assertNotIn('{\n    "', response.body.decode())
+        self.assertIn("callback({", response.body.decode())
 
         response = self.app.get("/agreements?opt_pretty=1")
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
-        self.assertIn('{\n    "', response.body)
-        self.assertNotIn("callback({", response.body)
+        self.assertIn('{\n    "', response.body.decode())
+        self.assertNotIn("callback({", response.body.decode())
 
         response = self.app.get("/agreements?opt_jsonp=callback&opt_pretty=1")
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/javascript")
-        self.assertIn('{\n    "', response.body)
-        self.assertIn("callback({", response.body)
+        self.assertIn('{\n    "', response.body.decode())
+        self.assertIn("callback({", response.body.decode())
 
         response = self.app.get("/agreements?offset=2015-01-01T00:00:00+02:00&descending=1&limit=10")
         self.assertEqual(response.status, "200 OK")
@@ -130,7 +130,7 @@ class UtilsAgreementTest(BaseAgreementTest):
         mocked_decode_path_info.side_effect = [
             "/",
             "/url/test/agreements/{}".format(
-                data["agreementID"], KeyError("Missing 'PATH_INFO'"), UnicodeDecodeError("UTF-8", "obj", 1, 10, "Hm...")
+                data["agreementID"], KeyError("Missing 'PATH_INFO'"), UnicodeDecodeError("UTF-8", b"obj", 1, 10, "Hm...")
             ),
         ]
         res = extract_agreement(request)

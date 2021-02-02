@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/fb07ce223a754201a341023b86d832ef/criteria/7b9ccfe6992245678a8a621bb0ebe987/requirement_groups/0fa4344344a741028c886f211dd5d1d5/requirements/24d2f553c73941398f47ccfcfdf8ffbc/evidences HTTP/1.0
+GET /api/2.5/tenders/28620043ada5424cbbfbdc7f6246096f/criteria/1d3d0c833904401a9c378e7e171c68ba/requirement_groups/2d2d30613e824b4fb3651404df351f4b/requirements/d3a5444cc18b4a1b822b83397b2b7d5f/evidences HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -8,23 +8,23 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "title": "Документальне підтвердження", 
-      "type": "document", 
-      "description": "Довідка в довільній формі", 
-      "id": "2a4e1361ff9347859f3ce9e13e2c2a4c"
-    }, 
+      "id": "8d6ce4abf8d44164843866b82f99fb86",
+      "title": "Документальне підтвердження",
+      "description": "Довідка в довільній формі",
+      "type": "document"
+    },
     {
-      "title": "Документальне підтвердження", 
-      "type": "statement", 
-      "description": "Довідка в довільній формі", 
-      "id": "1dcab503d5bf418697a0c246c7e3091d"
-    }, 
+      "id": "a061896b7ba7490f830f64887ed13d8d",
+      "title": "Документальне підтвердження",
+      "description": "Довідка в довільній формі",
+      "type": "statement"
+    },
     {
-      "title_en": "Documented approve", 
-      "title": "Документальне підтвердження", 
-      "type": "document", 
-      "description": "Довідка в довільній формі", 
-      "id": "4d9f3d5a075d40d68c856f4a16d1b390"
+      "id": "6f4f67b2e5c14e3290d27a18ad91c9ac",
+      "title": "Документальне підтвердження",
+      "title_en": "Documented approve",
+      "description": "Довідка в довільній формі",
+      "type": "document"
     }
   ]
 }

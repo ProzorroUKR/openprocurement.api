@@ -289,7 +289,7 @@ class TenderAwardComplaintDocumentResourceTest(TenderContentWebTest, TenderAward
         self.assertEqual(response.status, "200 OK")
 
         # Create complaint for award
-        self.bid_token = self.initial_bids_tokens.values()[0]
+        self.bid_token = list(self.initial_bids_tokens.values())[0]
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, self.bid_token),
             {"data": test_draft_claim},
@@ -335,7 +335,7 @@ class Tender2LotAwardComplaintDocumentResourceTest(TenderContentWebTest):
 
 
         # Create complaint for award
-        bid_token = self.initial_bids_tokens.values()[0]
+        bid_token = list(self.initial_bids_tokens.values())[0]
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
             {"data": test_draft_claim},

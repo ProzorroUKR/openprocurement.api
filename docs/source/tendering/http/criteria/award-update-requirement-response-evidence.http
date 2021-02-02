@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/c5e325f0cd634594b24af3751466d2c5/awards/6b8f3a13e88f40748ef410c1e7bf452a/requirement_responses/56a16722c2fc4b9189311a66d1960f06/evidences/7fc2da769e224eaba6f5c2440cf5f532?acc_token=d7b20652ab64425db2ffa58663dd189d HTTP/1.0
+PATCH /api/2.5/tenders/2093f4e9bf3a4d7eb82c15d9c5321604/awards/0cf85a17ac284f7aac48ec7f6afe9a11/requirement_responses/15d63b2f54e14bca8ca2e2cd677b82b2/evidences/f52d3aad05b54958a44b17d7d52bd232?acc_token=9bfc00e9aaf843b5abd64a61388484b1 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 44
 Content-Type: application/json
@@ -15,13 +15,13 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "title": "Update evidence title", 
-    "type": "document", 
+    "id": "f52d3aad05b54958a44b17d7d52bd232",
+    "title": "Update evidence title",
+    "type": "document",
     "relatedDocument": {
-      "id": "acfc570579ef40e7a24f97ff842356df", 
+      "id": "e23439b470b24f90b7a4aa9ba1725a8b",
       "title": "name.doc"
-    }, 
-    "id": "7fc2da769e224eaba6f5c2440cf5f532"
+    }
   }
 }
 

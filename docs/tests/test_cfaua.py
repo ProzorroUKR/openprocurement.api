@@ -139,7 +139,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         with open(TARGET_DIR + 'upload-tender-notice.http', 'w') as self.app.file_obj:
             response = self.app.post('/tenders/{}/documents?acc_token={}'.format(self.tender_id, owner_token),
-                                     upload_files=[('file', u'Notice.pdf', 'content')])
+                                     upload_files=[('file', u'Notice.pdf', b'content')])
             self.assertEqual(response.status, '201 Created')
 
         doc_id = response.json["data"]["id"]
@@ -149,7 +149,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         with open(TARGET_DIR + 'upload-award-criteria.http', 'w') as self.app.file_obj:
             response = self.app.post('/tenders/{}/documents?acc_token={}'.format(self.tender_id, owner_token),
-                                     upload_files=[('file', u'AwardCriteria.pdf', 'content')])
+                                     upload_files=[('file', u'AwardCriteria.pdf', b'content')])
             self.assertEqual(response.status, '201 Created')
 
         doc_id = response.json["data"]["id"]
@@ -160,7 +160,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         with open(TARGET_DIR + 'update-award-criteria.http', 'w') as self.app.file_obj:
             response = self.app.put('/tenders/{}/documents/{}?acc_token={}'.format(self.tender_id, doc_id, owner_token),
-                                    upload_files=[('file', 'AwardCriteria-2.pdf', 'content2')])
+                                    upload_files=[('file', 'AwardCriteria-2.pdf', b'content2')])
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'tender-documents-3.http', 'w') as self.app.file_obj:
@@ -243,13 +243,13 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'upload-bid-proposal.http', 'w') as self.app.file_obj:
             response = self.app.post(
                 '/tenders/{}/bids/{}/documents?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
-                upload_files=[('file', 'Proposal.pdf', 'content')])
+                upload_files=[('file', 'Proposal.pdf', b'content')])
             self.assertEqual(response.status, '201 Created')
 
         with open(TARGET_DIR + 'upload-bid-private-proposal.http', 'w') as self.app.file_obj:
             response = self.app.post(
                 '/tenders/{}/bids/{}/documents?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
-                upload_files=[('file', 'Proposal_top_secrets.pdf', 'content')])
+                upload_files=[('file', 'Proposal_top_secrets.pdf', b'content')])
             self.assertEqual(response.status, '201 Created')
             priv_doc_id = response.json['data']['id']
 
@@ -272,13 +272,13 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.post(
                 '/tenders/{}/bids/{}/financial_documents?acc_token={}'.format(
                     self.tender_id, bid1_id, bids_access[bid1_id]),
-                upload_files=[('file', 'financial_doc.pdf', '1000$')])
+                upload_files=[('file', 'financial_doc.pdf', b'1000$')])
             self.assertEqual(response.status, '201 Created')
 
         response = self.app.post(
             '/tenders/{}/bids/{}/financial_documents?acc_token={}'.format(
                 self.tender_id, bid1_id, bids_access[bid1_id]),
-            upload_files=[('file', 'financial_doc2.pdf', '1000$')])
+            upload_files=[('file', 'financial_doc2.pdf', b'1000$')])
         self.assertEqual(response.status, '201 Created')
         # financial_doc_id = response.json['data']['id']
 
@@ -291,14 +291,14 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.post(
                 '/tenders/{}/bids/{}/eligibility_documents?acc_token={}'.format(
                     self.tender_id, bid1_id, bids_access[bid1_id]),
-                upload_files=[('file', 'eligibility_doc.pdf', 'content')])
+                upload_files=[('file', 'eligibility_doc.pdf', b'content')])
             self.assertEqual(response.status, '201 Created')
 
         with open(TARGET_DIR + 'upload-bid-qualification-document-proposal.http', 'w') as self.app.file_obj:
             response = self.app.post(
                 '/tenders/{}/bids/{}/qualification_documents?acc_token={}'.format(
                     self.tender_id, bid1_id, bids_access[bid1_id]),
-                upload_files=[('file', 'qualification_document.pdf', 'content')])
+                upload_files=[('file', 'qualification_document.pdf', b'content')])
             self.assertEqual(response.status, '201 Created')
             self.qualification_doc_id = response.json['data']['id']
         #  patch bid document by user
@@ -306,7 +306,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                   'w') as self.app.file_obj:
             response = self.app.put('/tenders/{}/bids/{}/qualification_documents/{}?acc_token={}'.format(
                 self.tender_id, bid1_id, self.qualification_doc_id, bids_access[bid1_id]),
-                upload_files=[('file', 'qualification_document2.pdf', 'content')])
+                upload_files=[('file', 'qualification_document2.pdf', b'content')])
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'bidder-view-financial-documents.http', 'w') as self.app.file_obj:
@@ -600,7 +600,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.post(
                 '/tenders/{}/bids/{}/financial_documents?acc_token={}'.format(
                     self.tender_id, bid1_id, bids_access[bid1_id]),
-                upload_files=[('file', 'prices.xlsx', '<raw_file_data>')])
+                upload_files=[('file', 'prices.xls', b'<raw_file_data>')])
 
         with open(TARGET_DIR + 'agreements-list.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}/agreements'.format(self.tender_id))
@@ -639,7 +639,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.post(
                 '/tenders/{}/agreements/{}/documents?acc_token={}'.format(
                     self.tender_id, agreement_id, owner_token),
-                upload_files=[('file', 'agreement_first_document.doc', 'content')]
+                upload_files=[('file', 'agreement_first_document.doc', b'content')]
             )
             self.assertEqual(response.status, '201 Created')
 
@@ -652,7 +652,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.post(
                 '/tenders/{}/agreements/{}/documents?acc_token={}'.format(
                     self.tender_id, agreement_id, owner_token),
-                upload_files=[('file', 'agreement_second_document.doc', 'content')])
+                upload_files=[('file', 'agreement_second_document.doc', b'content')])
             self.assertEqual(response.status, '201 Created')
             self.document_id = response.json['data']['id']
 
@@ -729,7 +729,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.post(
                 '/tenders/{}/cancellations/{}/documents?acc_token={}'.format(
                     self.tender_id, cancellation_id, owner_token),
-                upload_files=[('file', u'Notice.pdf', 'content')])
+                upload_files=[('file', u'Notice.pdf', b'content')])
             cancellation_doc_id = response.json['data']['id']
             self.assertEqual(response.status, '201 Created')
 
@@ -744,7 +744,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.put(
                 '/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(
                     self.tender_id, cancellation_id, cancellation_doc_id, owner_token),
-                upload_files=[('file', 'Notice-2.pdf', 'content2')])
+                upload_files=[('file', 'Notice-2.pdf', b'content2')])
             self.assertEqual(response.status, '200 OK')
 
         # Activating the request and cancelling tender

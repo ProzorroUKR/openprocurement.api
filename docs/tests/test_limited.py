@@ -57,7 +57,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         self.app.authorization = ('Basic', ('broker', ''))
 
-        with open(TARGET_DIR + 'tutorial/create-tender-procuringEntity.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/create-tender-procuringEntity.http', 'wt') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1',
                 {'data': test_tender_data})
@@ -66,13 +66,13 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin):
         tender = response.json['data']
         owner_token = response.json['access']['token']
 
-        with open(TARGET_DIR + 'tutorial/tender-listing-after-procuringEntity.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/tender-listing-after-procuringEntity.http', 'wt') as self.app.file_obj:
             response = self.app.get('/tenders?opt_pretty=1')
             self.assertEqual(response.status, '200 OK')
 
         #### Modifying tender
 
-        with open(TARGET_DIR + 'tutorial/patch-items-value-periods.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/patch-items-value-periods.http', 'wt') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
                 {'data':
@@ -87,7 +87,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 })
 
-        with open(TARGET_DIR + 'tutorial/tender-listing-after-patch.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/tender-listing-after-patch.http', 'wt') as self.app.file_obj:
             self.app.authorization = None
             response = self.app.get(request_path)
             self.assertEqual(response.status, '200 OK')
@@ -97,23 +97,23 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         #### Uploading documentation
 
-        with open(TARGET_DIR + 'tutorial/upload-tender-notice.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/upload-tender-notice.http', 'wt') as self.app.file_obj:
             response = self.app.post('/tenders/{}/documents?acc_token={}'.format(
                 self.tender_id, owner_token),
-                upload_files=[('file', u'Notice.pdf', 'content')])
+                upload_files=[('file', u'Notice.pdf', b'content')])
             self.assertEqual(response.status, '201 Created')
 
         doc_id = response.json["data"]["id"]
 
-        with open(TARGET_DIR + 'tutorial/update-tender-notice.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/update-tender-notice.http', 'wt') as self.app.file_obj:
             response = self.app.put('/tenders/{}/documents/{}?acc_token={}'.format(
                 self.tender_id, doc_id, owner_token),
-                upload_files=[('file', 'Notice-2.pdf', 'content2')])
+                upload_files=[('file', 'Notice-2.pdf', b'content2')])
             self.assertEqual(response.status, '200 OK')
 
         #### Adding supplier information
 
-        with open(TARGET_DIR + 'tutorial/tender-award.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/tender-award.http', 'wt') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token),
                 {'data': award})
@@ -125,7 +125,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'tutorial/tender-award-upload-document.http', 'w') as self.app.file_obj:
             response = self.app.post('/tenders/{}/awards/{}/documents?acc_token={}'.format(
                 self.tender_id, self.award_id, owner_token),
-                upload_files=[('file', 'award_first_document.doc', 'content')])
+                upload_files=[('file', 'award_first_document.doc', b'content')])
             self.assertEqual(response.status, '201 Created')
 
         with open(TARGET_DIR + 'tutorial/tender-award-get-documents.http', 'w') as self.app.file_obj:
@@ -136,7 +136,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'tutorial/tender-award-upload-second-document.http', 'w') as self.app.file_obj:
             response = self.app.post('/tenders/{}/awards/{}/documents?acc_token={}'.format(
                 self.tender_id, self.award_id, owner_token),
-                upload_files=[('file', 'award_second_document.doc', 'content')])
+                upload_files=[('file', 'award_second_document.doc', b'content')])
             self.assertEqual(response.status, '201 Created')
 
         with open(TARGET_DIR + 'tutorial/tender-award-get-documents-again.http', 'w') as self.app.file_obj:
@@ -205,7 +205,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'tutorial/tender-contract-upload-document.http', 'w') as self.app.file_obj:
             response = self.app.post('/tenders/{}/contracts/{}/documents?acc_token={}'.format(
                 self.tender_id, self.contract_id, owner_token),
-                upload_files=[('file', 'contract_first_document.doc', 'content')])
+                upload_files=[('file', 'contract_first_document.doc', b'content')])
             self.assertEqual(response.status, '201 Created')
 
         with open(TARGET_DIR + 'tutorial/tender-contract-get-documents.http', 'w') as self.app.file_obj:
@@ -216,7 +216,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'tutorial/tender-contract-upload-second-document.http', 'w') as self.app.file_obj:
             response = self.app.post('/tenders/{}/contracts/{}/documents?acc_token={}'.format(
                 self.tender_id, self.contract_id, owner_token),
-                upload_files=[('file', 'contract_second_document.doc', 'content')])
+                upload_files=[('file', 'contract_second_document.doc', b'content')])
             self.assertEqual(response.status, '201 Created')
 
         with open(TARGET_DIR + 'tutorial/tender-contract-get-documents-again.http', 'w') as self.app.file_obj:
@@ -337,7 +337,7 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
             with open(TARGET_DIR + 'tutorial/upload-cancellation-doc.http', 'w') as self.app.file_obj:
                 response = self.app.post('/tenders/{}/cancellations/{}/documents?acc_token={}'.format(
                     self.tender_id, cancellation_id, owner_token),
-                    upload_files=[('file', u'Notice.pdf', 'content')])
+                    upload_files=[('file', u'Notice.pdf', b'content')])
                 cancellation_doc_id = response.json['data']['id']
                 self.assertEqual(response.status, '201 Created')
 
@@ -351,7 +351,7 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
             with open(TARGET_DIR + 'tutorial/update-cancellation-doc.http', 'w') as self.app.file_obj:
                 response = self.app.put('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(
                     self.tender_id, cancellation_id, cancellation_doc_id, owner_token),
-                    upload_files=[('file', 'Notice-2.pdf', 'content2')])
+                    upload_files=[('file', 'Notice-2.pdf', b'content2')])
                 self.assertEqual(response.status, '200 OK')
 
             #### Activating the request and cancelling tender

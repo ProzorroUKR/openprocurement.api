@@ -1,4 +1,4 @@
-POST /api/2.5/agreements/eb35d61e7cde4a008003f5cd17ddb0c7/changes?acc_token=76b0c07026994e7089d5f9716acfc3e7 HTTP/1.0
+POST /api/2.5/agreements/6305e36dbee94cfd9dd0bab9039a9265/changes?acc_token=0853fab32963423980f0f96af024c1eb HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 244
 Content-Type: application/json
@@ -6,9 +6,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "rationaleType": "taxRate", 
-    "rationale_en": "Agreement change cause", 
-    "rationale": "Опис причини змін егріменту"
+    "rationale": "Опис причини змін егріменту",
+    "rationale_en": "Agreement change cause",
+    "rationaleType": "taxRate"
   }
 }
 
@@ -17,12 +17,12 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "pending", 
-    "rationaleType": "taxRate", 
-    "rationale_en": "Agreement change cause", 
-    "rationale": "Опис причини змін егріменту", 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "id": "3589aa88ba3f41be89b973cf88d9c9b8"
+    "id": "df47057385d947269587d47789743d9f",
+    "date": "2020-09-08T01:00:00+03:00",
+    "rationale": "Опис причини змін егріменту",
+    "rationale_en": "Agreement change cause",
+    "status": "pending",
+    "rationaleType": "taxRate"
   }
 }
 

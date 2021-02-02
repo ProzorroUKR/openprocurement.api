@@ -1,4 +1,4 @@
-GET /api/2.5/qualifications/c58e796114e34db69494ba28b7ba323d/documents HTTP/1.0
+GET /api/2.5/qualifications/46df298c7ea542c291830c9610a09781/documents HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -8,12 +8,12 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "hash": "md5:00000000000000000000000000000000", 
-      "title": "qualification.doc", 
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ccf69b1e25b849d4a0c5adc18feca851?KeyID=a8968c46&Signature=H3kP%2FIu4Bu7PdaZzeNbMggl9eByN%2FNHaLzmWDxpyZ4O8g7OaOjM2UEPNBht25jqJNNAOGyEkBegCbxoCUIYrDw%253D%253D", 
-      "format": "application/msword", 
-      "datePublished": "2020-09-24T01:00:00+03:00", 
-      "id": "922674be3794469a8936fbe029e652fa", 
+      "id": "35e63c5c0dc64ffba41d96f94c0aab7d",
+      "hash": "md5:00000000000000000000000000000000",
+      "title": "qualification.doc",
+      "format": "application/msword",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/53ecf67fd58e4933a19146b27596d3b6?Signature=Kbm9FS%2Fkui6%2BHgPXwujZGhr1HLVgFJMHrsg%2B8Q2C%2Fwnf2uq7EIuHY217fSkN7tQM0Z%2Bl1IuEgr7Xe8B9fseFAw%3D%3D&KeyID=a8968c46",
+      "datePublished": "2020-09-24T01:00:00+03:00",
       "dateModified": "2020-09-24T01:00:00+03:00"
     }
   ]

@@ -99,7 +99,7 @@ def create_tender_invalid_eu(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"No JSON object could be decoded", u"location": u"body", u"name": u"data"}],
+        [{u"description": u"Expecting value: line 1 column 1 (char 0)", u"location": u"body", u"name": u"data"}],
     )
 
     response = self.app.post_json(request_path, "data", status=422)
@@ -449,28 +449,28 @@ def empty_listing_ua(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"], [])
-    self.assertNotIn('{\n    "', response.body)
-    self.assertNotIn("callback({", response.body)
+    self.assertNotIn('{\n    "', response.body.decode())
+    self.assertNotIn("callback({", response.body.decode())
     self.assertEqual(response.json["next_page"]["offset"], "")
     self.assertNotIn("prev_page", response.json)
 
     response = self.app.get("/tenders?opt_jsonp=callback")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/javascript")
-    self.assertNotIn('{\n    "', response.body)
-    self.assertIn("callback({", response.body)
+    self.assertNotIn('{\n    "', response.body.decode())
+    self.assertIn("callback({", response.body.decode())
 
     response = self.app.get("/tenders?opt_pretty=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertIn('{\n    "', response.body)
-    self.assertNotIn("callback({", response.body)
+    self.assertIn('{\n    "', response.body.decode())
+    self.assertNotIn("callback({", response.body.decode())
 
     response = self.app.get("/tenders?opt_jsonp=callback&opt_pretty=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/javascript")
-    self.assertIn('{\n    "', response.body)
-    self.assertIn("callback({", response.body)
+    self.assertIn('{\n    "', response.body.decode())
+    self.assertIn("callback({", response.body.decode())
 
     response = self.app.get("/tenders?offset=2015-01-01T00:00:00+02:00&descending=1&limit=10")
     self.assertEqual(response.status, "200 OK")
@@ -531,7 +531,7 @@ def create_tender_invalid_ua(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"No JSON object could be decoded", u"location": u"body", u"name": u"data"}],
+        [{u"description": u"Expecting value: line 1 column 1 (char 0)", u"location": u"body", u"name": u"data"}],
     )
 
     response = self.app.post_json(request_path, "data", status=422)
@@ -1253,17 +1253,17 @@ def create_tender(self):
     response = self.app.post_json("/tenders?opt_jsonp=callback", {"data": self.initial_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/javascript")
-    self.assertIn('callback({"', response.body)
+    self.assertIn('callback({"', response.body.decode())
 
     response = self.app.post_json("/tenders?opt_pretty=1", {"data": self.initial_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertIn('{\n    "', response.body)
+    self.assertIn('{\n    "', response.body.decode())
 
     response = self.app.post_json("/tenders", {"data": self.initial_data, "options": {"pretty": True}})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertIn('{\n    "', response.body)
+    self.assertIn('{\n    "', response.body.decode())
 
     tender_data = deepcopy(self.initial_data)
     tender_data["guarantee"] = {"amount": 100500, "currency": "USD"}
@@ -1492,12 +1492,12 @@ def get_tender(self):
     response = self.app.get("/tenders/{}?opt_jsonp=callback".format(tender["id"]))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/javascript")
-    self.assertIn('callback({"data": {"', response.body)
+    self.assertIn('callback({"data": {"', response.body.decode())
 
     response = self.app.get("/tenders/{}?opt_pretty=1".format(tender["id"]))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertIn('{\n    "data": {\n        "', response.body)
+    self.assertIn('{\n    "data": {\n        "', response.body.decode())
 
 
 def tender_features(self):
@@ -1866,7 +1866,7 @@ def patch_not_author(self):
     self.app.authorization = ("Basic", ("bot", "bot"))
 
     response = self.app.post(
-        "/tenders/{}/documents".format(tender["id"]), upload_files=[("file", "name.doc", "content")]
+        "/tenders/{}/documents".format(tender["id"]), upload_files=[("file", "name.doc", b"content")]
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")

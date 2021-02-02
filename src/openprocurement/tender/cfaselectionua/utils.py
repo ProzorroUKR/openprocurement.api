@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 from barbecue import chef
 from logging import getLogger
-from zope.component import queryUtility
 from openprocurement.api.constants import TZ
 from openprocurement.api.models import Value
 from openprocurement.tender.belowthreshold.utils import add_contract
-from openprocurement.tender.cfaselectionua.interfaces import ICFASelectionUAChange
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.cfaselectionua.constants import (
     AGREEMENT_STATUS,
@@ -26,6 +24,8 @@ from openprocurement.tender.core.utils import (
 from functools import partial
 from cornice.resource import resource
 from openprocurement.api.utils import error_handler, context_unpack, get_now
+from schematics.exceptions import ValidationError
+
 
 LOGGER = getLogger("openprocurement.tender.cfaselectionua")
 
@@ -35,10 +35,6 @@ agreement_resource = partial(resource, error_handler=error_handler, factory=agre
 class CancelTenderLot(BaseCancelTenderLot):
     def add_next_award_method(request):
         return add_next_award(request)
-
-
-def get_change_class(instance, data):
-    return queryUtility(ICFASelectionUAChange, data["rationaleType"])
 
 
 def check_bids(request):

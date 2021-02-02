@@ -286,7 +286,7 @@ def create_submission_draft_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"No JSON object could be decoded", u"location": u"body", u"name": u"data"}],
+        [{u"description": u"Expecting value: line 1 column 1 (char 0)", u"location": u"body", u"name": u"data"}],
     )
 
     response = self.app.post_json(request_path, "data", status=422)
@@ -351,7 +351,7 @@ def create_submission_draft_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u'description': [u'Please use a mapping for this field or BusinessOrganization instance instead of unicode.'],
+        [{u'description': [u'Please use a mapping for this field or BusinessOrganization instance instead of str.'],
           u'location': u'body',
           u'name': u'tenderers'}],
     )
@@ -800,12 +800,12 @@ def get_submission(self):
     response = self.app.get("/submissions/{}?opt_jsonp=callback".format(submission["id"]))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/javascript")
-    self.assertIn('callback({"data": {"', response.body)
+    self.assertIn('callback({"data": {"', response.body.decode())
 
     response = self.app.get("/submissions/{}?opt_pretty=1".format(submission["id"]))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertIn('{\n    "data": {\n        "', response.body)
+    self.assertIn('{\n    "data": {\n        "', response.body.decode())
 
 
 def date_submission(self):
@@ -963,11 +963,16 @@ def submission_token_invalid(self):
     )
 
     response = self.app.patch_json(
-        "/submissions/{}?acc_token={}".format(submission_id, "токен з кирилицею"), {"data": {}}, status=403
+        "/submissions/{}?acc_token={}".format(submission_id, "токен з кирилицею"), {"data": {}}, status=422,
     )
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
-        response.json["errors"], [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}]
+        response.json["errors"], [
+            {
+                'location': 'body', 'name': 'UnicodeEncodeError',
+                'description': "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)"
+            }
+        ]
     )
 
 
@@ -992,7 +997,7 @@ def create_submission_document_forbidden(self):
     # without acc_token
     response = self.app.post(
         "/submissions/{}/documents".format(self.submission_id),
-        upload_files=[("file", u"укр.doc", "content")],
+        upload_files=[("file", u"укр.doc", b"content")],
         status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1004,7 +1009,7 @@ def create_submission_document_forbidden(self):
     with change_auth(self.app, ("Basic", ("broker1", ""))):
         response = self.app.post(
             "/submissions/{}/documents?acc_token={}".format(self.submission_id, self.submission_token),
-            upload_files=[("file", u"укр.doc", "content")],
+            upload_files=[("file", u"укр.doc", b"content")],
             status=403
         )
         self.assertEqual(response.status, "403 Forbidden")
@@ -1017,7 +1022,7 @@ def create_submission_document_forbidden(self):
 def create_submission_documents(self):
     response = self.app.post(
         "/submissions/{}/documents?acc_token={}".format(self.submission_id, self.submission_token),
-        upload_files=[("file", u"укр.doc", "content")],
+        upload_files=[("file", u"укр.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1025,7 +1030,7 @@ def create_submission_documents(self):
     with change_auth(self.app, ("Basic", ("token", ""))):
         response = self.app.post(
             "/submissions/{}/documents?acc_token={}".format(self.submission_id, self.submission_token),
-            upload_files=[("file", u"укр.doc", "content")],
+            upload_files=[("file", u"укр.doc", b"content")],
         )
         self.assertEqual(response.status, "201 Created")
 
@@ -1089,7 +1094,7 @@ def document_not_found(self):
     )
 
     response = self.app.post(
-        "/submissions/some_id/documents", status=404, upload_files=[("file", "name.doc", "content")]
+        "/submissions/some_id/documents", status=404, upload_files=[("file", "name.doc", b"content")]
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -1100,14 +1105,14 @@ def document_not_found(self):
     response = self.app.post(
         "/submissions/{}/documents?acc_token={}".format(self.submission_id, self.submission_token),
         status=404,
-        upload_files=[("invalid_name", "name.doc", "content")],
+        upload_files=[("invalid_name", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(response.json["errors"], [{u"description": u"Not Found", u"location": u"body", u"name": u"file"}])
     response = self.app.put(
-        "/submissions/some_id/documents/some_id", status=404, upload_files=[("file", "name.doc", "content2")]
+        "/submissions/some_id/documents/some_id", status=404, upload_files=[("file", "name.doc", b"content2")]
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -1119,7 +1124,7 @@ def document_not_found(self):
     response = self.app.put(
         "/submissions/{}/documents/some_id".format(self.submission_id),
         status=404,
-        upload_files=[("file", "name.doc", "content2")],
+        upload_files=[("file", "name.doc", b"content2")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -1146,40 +1151,10 @@ def document_not_found(self):
 
 
 def put_submission_document(self):
-    from six import BytesIO
-    from urllib import quote
-
-    body = u"""--BOUNDARY\nContent-Disposition: form-data; name="file"; filename={}\nContent-Type: application/msword\n\ncontent\n""".format(
-        u"\uff07"
+    response = self.app.post(
+        "/submissions/{}/documents?acc_token={}".format(self.submission_id, self.submission_token),
+        upload_files=[("file", "укр.doc", b"content")],
     )
-    environ = self.app._make_environ()
-    environ["CONTENT_TYPE"] = "multipart/form-data; boundary=BOUNDARY"
-    environ["REQUEST_METHOD"] = "POST"
-    req = self.app.RequestClass.blank(
-        self.app._remove_fragment("/submissions/{}/documents".format(self.submission_id)), environ
-    )
-    req.environ["wsgi.input"] = BytesIO(body.encode("utf8"))
-    req.content_length = len(body)
-    response = self.app.do_request(req, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "could not decode params")
-
-    body = u"""--BOUNDARY\nContent-Disposition: form-data; name="file"; filename*=utf-8''{}\nContent-Type: application/msword\n\ncontent\n""".format(
-        quote("укр.doc")
-    )
-    environ = self.app._make_environ()
-    environ["CONTENT_TYPE"] = "multipart/form-data; boundary=BOUNDARY"
-    environ["REQUEST_METHOD"] = "POST"
-    req = self.app.RequestClass.blank(
-        self.app._remove_fragment(
-            "/submissions/{}/documents?acc_token={}".format(self.submission_id, self.submission_token)
-        ),
-        environ,
-    )
-    req.environ["wsgi.input"] = BytesIO(body.encode(req.charset or "utf8"))
-    req.content_length = len(body)
-    response = self.app.do_request(req)
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(u"укр.doc", response.json["data"]["title"])
@@ -1189,7 +1164,7 @@ def put_submission_document(self):
 
     response = self.app.put(
         "/submissions/{}/documents/{}?acc_token={}".format(self.submission_id, doc_id, self.submission_token),
-        upload_files=[("file", "name name.doc", "content2")],
+        upload_files=[("file", "name name.doc", b"content2")],
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -1221,7 +1196,7 @@ def put_submission_document(self):
 
     response = self.app.post(
         "/submissions/{}/documents?acc_token={}".format(self.submission_id, self.submission_token),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1237,7 +1212,7 @@ def put_submission_document(self):
     response = self.app.put(
         "/submissions/{}/documents/{}?acc_token={}".format(self.submission_id, doc_id, self.submission_token),
         status=404,
-        upload_files=[("invalid_name", "name.doc", "content")],
+        upload_files=[("invalid_name", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")

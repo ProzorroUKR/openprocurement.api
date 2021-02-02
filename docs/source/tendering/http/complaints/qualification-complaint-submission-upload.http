@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/0ba5045de21b4930a220df9887be28ec/qualifications/de1fdfe83be64f45a3aa274d8f98a1e9/complaints/fb84721b8c944f59906bc84eb4a322f3/documents?acc_token=f417333f3a02407188551658e8d9dfc6 HTTP/1.0
+POST /api/2.5/tenders/b61b0e1aaa1f43adba91292fda2cfaf5/qualifications/e55187f774a4459b956756a96aac6406/complaints/d5df8a022c8d49eba3f98a83c686bc84/documents?acc_token=8e96ef8b93cf4518918e40f307812f64 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 156
 Content-Type: multipart/form-data; boundary=---BOUNDARY
@@ -14,20 +14,20 @@ content
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ba5045de21b4930a220df9887be28ec/qualifications/de1fdfe83be64f45a3aa274d8f98a1e9/complaints/fb84721b8c944f59906bc84eb4a322f3/documents/be4dab6812aa422594e8bf152f8193df
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b61b0e1aaa1f43adba91292fda2cfaf5/qualifications/e55187f774a4459b956756a96aac6406/complaints/d5df8a022c8d49eba3f98a83c686bc84/documents/7318ae98d60b47f7bd17daeb67873166
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "hash": "md5:00000000000000000000000000000000", 
-    "author": "complaint_owner", 
-    "language": "uk", 
-    "title": "Complaint_Attachment.pdf", 
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3a84aa48acfc43c29e90e99b3ee31f95?KeyID=a8968c46&Signature=LKp6OYhQn806LHDo8zYIGHiZBbKth6ScpmJ6Q344k%252Bw5niyFGqxkyO%252B96VSFZAXoGU5AtbFmIZt5cpcQZTT8Dg%253D%253D", 
-    "format": "application/pdf", 
-    "documentOf": "tender", 
-    "datePublished": "2020-09-08T01:00:01+03:00", 
-    "id": "be4dab6812aa422594e8bf152f8193df", 
-    "dateModified": "2020-09-08T01:00:01+03:00"
+    "id": "7318ae98d60b47f7bd17daeb67873166",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "Complaint_Attachment.pdf",
+    "format": "application/pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/86bd21a8049c4af5bc415fa792f301b7?Signature=35%2BrNjIm9LkA4K5jG2HEeb9et3K9nQikWJV9rOdYvgp5MWGQsPC3Ggva3whW3%2BBzQyhy7lFoD3cMRELVm4qWDQ%3D%3D&KeyID=a8968c46",
+    "datePublished": "2020-09-08T01:00:01+03:00",
+    "dateModified": "2020-09-08T01:00:01+03:00",
+    "author": "complaint_owner",
+    "documentOf": "tender",
+    "language": "uk"
   }
 }
 

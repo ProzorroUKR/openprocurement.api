@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e/cancellations/5318086493954250b6f44b317389a0b4?acc_token=151a30932ee245e989771be867bc8235 HTTP/1.0
+PATCH /api/2.5/tenders/e821f507458c4e99bdd9928981355ffa/cancellations/0ba60a6120604826bc9b170d0949cd4d?acc_token=c87b58b4160f425b8973621e89008a15 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -15,36 +15,36 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "active", 
+    "id": "0ba60a6120604826bc9b170d0949cd4d",
+    "reason": "cancellation reason",
+    "date": "2020-09-08T01:00:03+03:00",
+    "status": "active",
     "documents": [
       {
-        "hash": "md5:00000000000000000000000000000000", 
-        "description": "Changed description", 
-        "title": "Notice.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/aebc299ad870466a91ce3230275118b6?KeyID=a8968c46&Signature=0eUpqCYHHDqUNd2kPnfqyePCREF%2F3QeUd2%2FI1QM%252BkBW3HTNspZ%2FQz%2FcJ4diqGu729zqt8TQwJENttgIxrtOaCQ%253D%253D", 
-        "format": "application/pdf", 
-        "documentOf": "tender", 
-        "datePublished": "2020-09-08T01:00:03+03:00", 
-        "id": "4c1bef4477f84d37af6c5819ef38eb63", 
-        "dateModified": "2020-09-08T01:00:03+03:00"
-      }, 
+        "id": "205cc90c9da944499f541b2219b6ec36",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Notice.pdf",
+        "description": "Changed description",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/219ef1582e4b49b3b23087cafba5d07c?Signature=kJ55wI63AZMIr0sMJchkTVr%2FM9T5EODsWUsOOWq2eWXWui89t7ReNXawLKahDm4dyq%2BpCfQ7VeE1jSLrTZ20Bg%3D%3D&KeyID=a8968c46",
+        "datePublished": "2020-09-08T01:00:03+03:00",
+        "dateModified": "2020-09-08T01:00:03+03:00",
+        "documentOf": "tender"
+      },
       {
-        "hash": "md5:00000000000000000000000000000000", 
-        "description": "Changed description", 
-        "title": "Notice-2.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/63db88a0b4614dae9f611d03620daf1e?KeyID=a8968c46&Signature=0qyfbRdug5WQ32d0Ov%2F1Nqz0INT0%252B8QcUTRhRPX9Z1P%2F0GAZBRLGalDi1oZhrDaBwfGuOEUDSH7njA5uPDVaBQ%253D%253D", 
-        "format": "application/pdf", 
-        "documentOf": "tender", 
-        "datePublished": "2020-09-08T01:00:03+03:00", 
-        "id": "4c1bef4477f84d37af6c5819ef38eb63", 
-        "dateModified": "2020-09-08T01:00:03+03:00"
+        "id": "205cc90c9da944499f541b2219b6ec36",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Notice-2.pdf",
+        "description": "Changed description",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/da826e19829843aab44cb0acfa34523c?Signature=B0D4Oyy5MvzbxkGQzYoSoC7k%2BAukyd2sdrrh%2FtOc0jB6b4kNdvfe%2BrfPFDNHeA6JcPQHcJYkm3x%2BBbjKS2%2FhCg%3D%3D&KeyID=a8968c46",
+        "datePublished": "2020-09-08T01:00:03+03:00",
+        "dateModified": "2020-09-08T01:00:03+03:00",
+        "documentOf": "tender"
       }
-    ], 
-    "reason": "cancellation reason", 
-    "reasonType": "expensesCut", 
-    "date": "2020-09-08T01:00:03+03:00", 
-    "cancellationOf": "tender", 
-    "id": "5318086493954250b6f44b317389a0b4"
+    ],
+    "cancellationOf": "tender",
+    "reasonType": "expensesCut"
   }
 }
 

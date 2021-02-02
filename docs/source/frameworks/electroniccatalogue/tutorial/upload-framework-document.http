@@ -1,4 +1,4 @@
-POST /api/2.5/frameworks/40b48e4878534db1bf228d5928f8f1d9/documents?acc_token=7c6a46e300bb41438ef626232028950b HTTP/1.0
+POST /api/2.5/frameworks/3176109c7572429b99dbc5707a10617c/documents?acc_token=b9eeebd1ead246da9383d2c218518ab5 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 148
 Content-Type: multipart/form-data; boundary=---BOUNDARY
@@ -14,16 +14,16 @@ content
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/40b48e4878534db1bf228d5928f8f1d9/documents/d450e2d116714dbabf7aa673228fdfee
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/3176109c7572429b99dbc5707a10617c/documents/8018acd6888b4a3f97aa2b329871b5be
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "hash": "md5:00000000000000000000000000000000", 
-    "title": "framework.doc", 
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/56465da9bb7b4666b58ae8ceaf2f3627?KeyID=a8968c46&Signature=C0iAAQfOMROFVW5Ieb5Y9MMNQKsl4HWw1isTXrwUEN9yuNKYLqauTMIHOWdL%252BtsQfau00DHgTwqO%2F7UGM5%2FuBw%253D%253D", 
-    "format": "application/msword", 
-    "datePublished": "2020-09-08T01:00:00+03:00", 
-    "id": "d450e2d116714dbabf7aa673228fdfee", 
+    "id": "8018acd6888b4a3f97aa2b329871b5be",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "framework.doc",
+    "format": "application/msword",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5c8ae4df11c84a1c810c48955df872bf?Signature=CULkgfCFCkCgoLHurulqlOIpGCLjegnd0lq0JQA19LflB7CWylfuin8KqiCpQ3uht4nRqMn47Yr7sAu85Ep%2FDA%3D%3D&KeyID=a8968c46",
+    "datePublished": "2020-09-08T01:00:00+03:00",
     "dateModified": "2020-09-08T01:00:00+03:00"
   }
 }

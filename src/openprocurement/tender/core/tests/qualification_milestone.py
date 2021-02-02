@@ -203,14 +203,14 @@ class TenderQualificationMilestone24HMixin(object):
         response = self.app.post(
             "/tenders/{}/bids/{}/documents?acc_token={}".format(
                 self.tender_id, bid_id, bid_token),
-            upload_files=[("file", "name.doc", "content")],
+            upload_files=[("file", "name.doc", b"content")],
             status=201 if success else 403
         )
         if success:  #
             self.app.put(
                 "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(
                     self.tender_id, bid_id, response.json["data"]["id"], bid_token),
-                upload_files=[("file", "ham.jpeg", "content3")],
+                upload_files=[("file", "ham.jpeg", b"content3")],
             )
             self.app.patch_json(
                 "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(

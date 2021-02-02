@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/awards?acc_token=1e40f3cf3fd64b8ebca3076b70a86e71 HTTP/1.0
+GET /api/2.5/tenders/37cb590308a242a9836f51a9994c7492/awards?acc_token=fbb49b806b484733bc09390b0e01078d HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -8,109 +8,109 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "status": "pending", 
-      "lotID": "c7555f1bb878434d8815dea318304673", 
+      "id": "cf177cce81654d94ac97f50c01acdca9",
+      "status": "pending",
+      "date": "2020-09-08T01:00:00+03:00",
       "suppliers": [
         {
-          "contactPoint": {
-            "email": "fake@mail.com", 
-            "telephone": "+380 (322) 12-34-56", 
-            "name": "Іван Іваненко"
-          }, 
-          "scale": "mid", 
-          "name": "«Снігур»", 
+          "name": "«Снігур»",
           "identifier": {
-            "scheme": "UA-EDR", 
-            "id": "00137227", 
+            "scheme": "UA-EDR",
+            "id": "00137227",
             "uri": "http://www.sc.gov.ua/"
-          }, 
+          },
           "address": {
-            "postalCode": "79013", 
-            "countryName": "Україна", 
-            "streetAddress": "вул. Островського, 35", 
-            "region": "Львівська область", 
-            "locality": "м. Львів"
-          }
+            "streetAddress": "вул. Островського, 35",
+            "locality": "м. Львів",
+            "region": "Львівська область",
+            "postalCode": "79013",
+            "countryName": "Україна"
+          },
+          "contactPoint": {
+            "name": "Іван Іваненко",
+            "email": "fake@mail.com",
+            "telephone": "+380 (322) 12-34-56"
+          },
+          "scale": "mid"
         }
-      ], 
-      "bid_id": "f15395a4363049ad92d56f8b5ff97fac", 
+      ],
+      "bid_id": "98b3bff73c4a4879b603800966926a71",
+      "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
       "value": {
-        "currency": "UAH", 
-        "amount": 485, 
-        "valueAddedTaxIncluded": true
-      }, 
-      "date": "2020-09-08T01:00:00+03:00", 
-      "id": "e0c3972875d54e50b19bf7ae10ee3c34"
-    }, 
+        "currency": "UAH",
+        "valueAddedTaxIncluded": true,
+        "amount": 485
+      }
+    },
     {
-      "status": "pending", 
-      "lotID": "c7555f1bb878434d8815dea318304673", 
+      "id": "6b24c863636841bfb0bc326b13d42a62",
+      "status": "pending",
+      "date": "2020-09-08T01:00:00+03:00",
       "suppliers": [
         {
-          "contactPoint": {
-            "email": "aagt@gmail.com", 
-            "telephone": "+380 (322) 91-69-30", 
-            "name": "Андрій Олексюк"
-          }, 
-          "scale": "sme", 
-          "name": "ДКП «Книга»", 
+          "name": "ДКП «Книга»",
           "identifier": {
-            "scheme": "UA-EDR", 
-            "id": "00137226", 
+            "scheme": "UA-EDR",
+            "id": "00137226",
             "uri": "http://www.sc.gov.ua/"
-          }, 
+          },
           "address": {
-            "postalCode": "79013", 
-            "countryName": "Україна", 
-            "streetAddress": "вул. Островського, 34", 
-            "region": "Львівська область", 
-            "locality": "м. Львів"
-          }
+            "streetAddress": "вул. Островського, 34",
+            "locality": "м. Львів",
+            "region": "Львівська область",
+            "postalCode": "79013",
+            "countryName": "Україна"
+          },
+          "contactPoint": {
+            "name": "Андрій Олексюк",
+            "email": "aagt@gmail.com",
+            "telephone": "+380 (322) 91-69-30"
+          },
+          "scale": "sme"
         }
-      ], 
-      "bid_id": "7463b9ba00b849cb8e5a5421f550868e", 
+      ],
+      "bid_id": "c4cc8a18f70745389bffcab828a9cb83",
+      "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
       "value": {
-        "currency": "UAH", 
-        "amount": 499, 
-        "valueAddedTaxIncluded": true
-      }, 
-      "date": "2020-09-08T01:00:00+03:00", 
-      "id": "e964909f2da348cd873e2ec8f82472fe"
-    }, 
+        "currency": "UAH",
+        "valueAddedTaxIncluded": true,
+        "amount": 499
+      }
+    },
     {
-      "status": "pending", 
-      "lotID": "c7555f1bb878434d8815dea318304673", 
+      "id": "d009eb57cdbb4b7aaace84ab3b1f6ea4",
+      "status": "pending",
+      "date": "2020-09-08T01:00:00+03:00",
       "suppliers": [
         {
-          "contactPoint": {
-            "email": "soleksuk@gmail.com", 
-            "telephone": "+380 (432) 21-69-30", 
-            "name": "Сергій Олексюк"
-          }, 
-          "scale": "micro", 
-          "name": "ДКП «Школяр»", 
+          "name": "ДКП «Школяр»",
           "identifier": {
-            "scheme": "UA-EDR", 
-            "id": "00137256", 
+            "scheme": "UA-EDR",
+            "id": "00137256",
             "uri": "http://www.sc.gov.ua/"
-          }, 
+          },
           "address": {
-            "postalCode": "21100", 
-            "countryName": "Україна", 
-            "streetAddress": "вул. Островського, 33", 
-            "region": "Вінницька область", 
-            "locality": "м. Вінниця"
-          }
+            "streetAddress": "вул. Островського, 33",
+            "locality": "м. Вінниця",
+            "region": "Вінницька область",
+            "postalCode": "21100",
+            "countryName": "Україна"
+          },
+          "contactPoint": {
+            "name": "Сергій Олексюк",
+            "email": "soleksuk@gmail.com",
+            "telephone": "+380 (432) 21-69-30"
+          },
+          "scale": "micro"
         }
-      ], 
-      "bid_id": "544359015fd047a8b79fa81bda0889fc", 
+      ],
+      "bid_id": "9eee26d528d9490a9e52cf6b1f696c41",
+      "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
       "value": {
-        "currency": "UAH", 
-        "amount": 500.0, 
-        "valueAddedTaxIncluded": true
-      }, 
-      "date": "2020-09-08T01:00:00+03:00", 
-      "id": "5c98ac22db804396afc15fcff04fbe74"
+        "currency": "UAH",
+        "valueAddedTaxIncluded": true,
+        "amount": 500.0
+      }
     }
   ]
 }

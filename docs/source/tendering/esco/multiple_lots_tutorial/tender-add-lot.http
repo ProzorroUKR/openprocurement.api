@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/db8f78603c144a8aac15730f9c763584/lots?acc_token=cf69efce7aca41c2b952f04d86d7fb90 HTTP/1.0
+POST /api/2.5/tenders/3999e118d0d4460a8852c363407a5252/lots?acc_token=f99bcc9314684664a35ef7bb9975975d HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 175
 Content-Type: application/json
@@ -6,35 +6,35 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "fundingKind": "other", 
-    "description": "Опис Лот №1", 
-    "minimalStepPercentage": 0.006, 
-    "title": "Лот №1"
+    "title": "Лот №1",
+    "description": "Опис Лот №1",
+    "fundingKind": "other",
+    "minimalStepPercentage": 0.006
   }
 }
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db8f78603c144a8aac15730f9c763584/lots/a49c398a1df943319dc21b99238de1f1
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3999e118d0d4460a8852c363407a5252/lots/93256198e2e7429ab4d0300cc250244f
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "active", 
-    "description": "Опис Лот №1", 
-    "fundingKind": "other", 
-    "title": "Лот №1", 
+    "id": "93256198e2e7429ab4d0300cc250244f",
+    "title": "Лот №1",
+    "description": "Опис Лот №1",
+    "date": "2020-09-08T01:00:00+03:00",
+    "status": "active",
+    "minValue": {
+      "amount": 0.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "minimalStepPercentage": 0.006,
     "auctionPeriod": {
       "shouldStartAfter": "2020-11-13T00:00:00+02:00"
-    }, 
-    "minValue": {
-      "currency": "UAH", 
-      "amount": 0.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "minimalStepPercentage": 0.006, 
-    "yearlyPaymentsPercentageRange": 0.8, 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "id": "a49c398a1df943319dc21b99238de1f1"
+    },
+    "fundingKind": "other",
+    "yearlyPaymentsPercentageRange": 0.8
   }
 }
 

@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/6ccc95c340c94e32bcf0b8c2183e62f7/bids HTTP/1.0
+POST /api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1058
 Content-Type: application/json
@@ -6,45 +6,45 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "status": "draft", 
-    "lotValues": [
-      {
-        "relatedLot": "1b75c06ee58f4909a4201255b4ba5831", 
-        "value": {
-          "amount": 500
-        }
-      }
-    ], 
-    "parameters": [
-      {
-        "code": "OCDS-123454-AIR-INTAKE", 
-        "value": 0.1
-      }, 
-      {
-        "code": "OCDS-123454-YEARS", 
-        "value": 0.1
-      }
-    ], 
     "tenderers": [
       {
-        "contactPoint": {
-          "name": "Державне управління справами", 
-          "telephone": "0440000000"
-        }, 
-        "scale": "large", 
-        "name": "Державне управління справами", 
+        "name": "Державне управління справами",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00037256", 
+          "scheme": "UA-EDR",
+          "id": "00037256",
           "uri": "http://www.dus.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "01220", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова, 11, корпус 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "01220",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Державне управління справами",
+          "telephone": "0440000000"
+        },
+        "scale": "large"
+      }
+    ],
+    "status": "draft",
+    "lotValues": [
+      {
+        "value": {
+          "amount": 500
+        },
+        "relatedLot": "f2599a519a45416db792d9ee833a8e5a"
+      }
+    ],
+    "parameters": [
+      {
+        "code": "OCDS-123454-AIR-INTAKE",
+        "value": 0.1
+      },
+      {
+        "code": "OCDS-123454-YEARS",
+        "value": 0.1
       }
     ]
   }
@@ -52,60 +52,60 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6ccc95c340c94e32bcf0b8c2183e62f7/bids/532d5f3ad8d94691881ee10ff993d5e4
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/bids/515916567ff2444eac0a41b6b29d7fff
 X-Content-Type-Options: nosniff
 {
-  "access": {
-    "transfer": "65bb6d881aa348afa3de97420545b5a3", 
-    "token": "ebff7d432d3d4d0a8756f67f9bb07ef5"
-  }, 
   "data": {
-    "status": "draft", 
-    "parameters": [
-      {
-        "code": "OCDS-123454-AIR-INTAKE", 
-        "value": 0.1
-      }, 
-      {
-        "code": "OCDS-123454-YEARS", 
-        "value": 0.1
-      }
-    ], 
-    "lotValues": [
-      {
-        "relatedLot": "1b75c06ee58f4909a4201255b4ba5831", 
-        "date": "2020-09-08T01:00:00+03:00", 
-        "value": {
-          "currency": "UAH", 
-          "amount": 500.0, 
-          "valueAddedTaxIncluded": true
-        }
-      }
-    ], 
     "tenderers": [
       {
-        "contactPoint": {
-          "name": "Державне управління справами", 
-          "telephone": "0440000000"
-        }, 
-        "scale": "large", 
-        "name": "Державне управління справами", 
+        "name": "Державне управління справами",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00037256", 
+          "scheme": "UA-EDR",
+          "id": "00037256",
           "uri": "http://www.dus.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "01220", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова, 11, корпус 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "01220",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Державне управління справами",
+          "telephone": "0440000000"
+        },
+        "scale": "large"
       }
-    ], 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "id": "532d5f3ad8d94691881ee10ff993d5e4"
+    ],
+    "date": "2020-09-08T01:00:00+03:00",
+    "id": "515916567ff2444eac0a41b6b29d7fff",
+    "status": "draft",
+    "parameters": [
+      {
+        "code": "OCDS-123454-AIR-INTAKE",
+        "value": 0.1
+      },
+      {
+        "code": "OCDS-123454-YEARS",
+        "value": 0.1
+      }
+    ],
+    "lotValues": [
+      {
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "f2599a519a45416db792d9ee833a8e5a",
+        "date": "2020-09-08T01:00:00+03:00"
+      }
+    ]
+  },
+  "access": {
+    "token": "9181c18d1ffd4256a3fff40d32a4c2f6",
+    "transfer": "b52db299b839443ea9ffb1b7fe57dfba"
   }
 }
 

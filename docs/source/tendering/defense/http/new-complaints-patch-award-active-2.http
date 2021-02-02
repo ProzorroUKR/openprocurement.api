@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/d4e2f413caf6487cb85b87226ade82c6/awards/23dbb58f5dcd42148dd0b5cf36374231?acc_token=92b82a871148436c91c1a28f43913234 HTTP/1.0
+PATCH /api/2.5/tenders/4e26fc6d9ddf44cb997c219b4d7c25f7/awards/66505838cc2043f997727c366547ec7e?acc_token=ad9fe16460044cee848ba21b924cdc59 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 67
 Content-Type: application/json
@@ -6,8 +6,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "status": "active", 
-    "qualified": true, 
+    "status": "active",
+    "qualified": true,
     "eligible": true
   }
 }
@@ -17,44 +17,44 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "active", 
-    "eligible": true, 
+    "id": "66505838cc2043f997727c366547ec7e",
+    "status": "active",
+    "date": "2020-09-09T01:00:00+03:00",
+    "value": {
+      "amount": 489.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "suppliers": [
       {
-        "contactPoint": {
-          "name": "Державне управління справами", 
-          "telephone": "0440000000"
-        }, 
-        "scale": "micro", 
-        "name": "Державне управління справами", 
+        "name": "Державне управління справами",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "legalName": "Державне управління справами", 
-          "id": "00037256", 
+          "scheme": "UA-EDR",
+          "id": "00037256",
+          "legalName": "Державне управління справами",
           "uri": "http://www.dus.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "01220", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова, 11, корпус 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "01220",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Державне управління справами",
+          "telephone": "0440000000"
+        },
+        "scale": "micro"
       }
-    ], 
+    ],
+    "bid_id": "66fb798df64c4a628bb31534e474fc81",
     "complaintPeriod": {
-      "startDate": "2020-09-09T01:00:00+03:00", 
+      "startDate": "2020-09-09T01:00:00+03:00",
       "endDate": "2020-09-16T00:00:00+03:00"
-    }, 
-    "bid_id": "fa50a93b1beb4542bc83f9ebc53b958c", 
-    "value": {
-      "currency": "UAH", 
-      "amount": 489.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "qualified": true, 
-    "date": "2020-09-09T01:00:00+03:00", 
-    "id": "23dbb58f5dcd42148dd0b5cf36374231"
+    },
+    "qualified": true,
+    "eligible": true
   }
 }
 

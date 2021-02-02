@@ -598,6 +598,12 @@ class Tender(BaseTender):
     contracts = ListType(ModelType(Contract, required=True), default=list())
     complaints = ListType(ComplaintModelType(Complaint, required=True), default=list())
     procurementMethodType = StringType(default="aboveThresholdUA")
+    items = ListType(
+        ModelType(Item, required=True),
+        required=True,
+        min_size=1,
+        validators=[validate_cpv_group, validate_items_uniq, validate_classification_id],
+    )  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     lots = ListType(ModelType(Lot, required=True), default=list(), validators=[validate_lots_uniq])
     status = StringType(
         choices=[
@@ -612,12 +618,6 @@ class Tender(BaseTender):
         ],
         default="active.tendering",
     )
-    items = ListType(
-        ModelType(Item, required=True),
-        required=True,
-        min_size=1,
-        validators=[validate_cpv_group, validate_items_uniq, validate_classification_id],
-    )  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     cancellations = ListType(ModelType(Cancellation, required=True), default=list())
 
     create_accreditations = (ACCR_3, ACCR_5)

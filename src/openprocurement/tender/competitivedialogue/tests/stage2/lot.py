@@ -183,7 +183,7 @@ class TenderStage2EULotProcessTest(BaseCompetitiveDialogEUStage2WebTest):
     def create_tenderers(self, count=1):
         firm = self.initial_data["shortlistedFirms"]
         tenderers = []
-        for i in xrange(count):
+        for i in range(count):
             tenderer = deepcopy(test_bids[0]["tenderers"])
             tenderer[0]["identifier"]["id"] = firm[i if i < 3 else 3]["identifier"]["id"]
             tenderer[0]["identifier"]["scheme"] = firm[i if i < 3 else 3]["identifier"]["scheme"]
@@ -357,7 +357,7 @@ class TenderStage2UALotProcessTest(BaseCompetitiveDialogUAStage2ContentWebTest):
     def create_tenderers(self, count=1):
         firm = self.initial_data["shortlistedFirms"]
         tenderers = []
-        for i in xrange(count):
+        for i in range(count):
             tenderer = deepcopy(test_bids[0]["tenderers"])
             tenderer[0]["identifier"]["id"] = firm[i if i < 3 else 3]["identifier"]["id"]
             tenderer[0]["identifier"]["scheme"] = firm[i if i < 3 else 3]["identifier"]["scheme"]

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/6ccc95c340c94e32bcf0b8c2183e62f7/bids/c98ed7fb2b5d4aa898d31b26ab503049?acc_token=8c1be9249ea8445480b4c4e3ec6ee974 HTTP/1.0
+GET /api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/bids/46f454094e774fd1956800003b8160f6?acc_token=fcecc7b508824957a0052bbe66a485de HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,75 +7,75 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "active", 
-    "documents": [
-      {
-        "hash": "md5:00000000000000000000000000000000", 
-        "title": "Proposal_part1.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6ccc95c340c94e32bcf0b8c2183e62f7/bids/c98ed7fb2b5d4aa898d31b26ab503049/documents/3345b1240c3f462aa8b4f6b0d483b083?download=f4853348bbbc4a6faa08d0e2891ea2e8", 
-        "format": "application/pdf", 
-        "documentOf": "tender", 
-        "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "3345b1240c3f462aa8b4f6b0d483b083", 
-        "dateModified": "2020-09-08T01:00:00+03:00"
-      }, 
-      {
-        "hash": "md5:00000000000000000000000000000000", 
-        "title": "Proposal_part2.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6ccc95c340c94e32bcf0b8c2183e62f7/bids/c98ed7fb2b5d4aa898d31b26ab503049/documents/303c212031934bf8867453f80665b5e3?download=e8f2a6a130ba44bb8e93f4056a8dbab7", 
-        "format": "application/pdf", 
-        "documentOf": "tender", 
-        "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "303c212031934bf8867453f80665b5e3", 
-        "dateModified": "2020-09-08T01:00:00+03:00"
-      }
-    ], 
-    "parameters": [
-      {
-        "code": "OCDS-123454-AIR-INTAKE", 
-        "value": 0.1
-      }, 
-      {
-        "code": "OCDS-123454-YEARS", 
-        "value": 0.1
-      }
-    ], 
-    "lotValues": [
-      {
-        "relatedLot": "1b75c06ee58f4909a4201255b4ba5831", 
-        "date": "2020-09-08T01:00:00+03:00", 
-        "value": {
-          "currency": "UAH", 
-          "amount": 499.0, 
-          "valueAddedTaxIncluded": true
-        }, 
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/6ccc95c340c94e32bcf0b8c2183e62f7_1b75c06ee58f4909a4201255b4ba5831?key_for_bid=c98ed7fb2b5d4aa898d31b26ab503049"
-      }
-    ], 
     "tenderers": [
       {
-        "contactPoint": {
-          "name": "Державне управління справами", 
-          "telephone": "0440000000"
-        }, 
-        "scale": "micro", 
-        "name": "Державне управління справами", 
+        "name": "Державне управління справами",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00037257", 
+          "scheme": "UA-EDR",
+          "id": "00037257",
           "uri": "http://www.dus.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "01220", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова, 11, корпус 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "01220",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Державне управління справами",
+          "telephone": "0440000000"
+        },
+        "scale": "micro"
       }
-    ], 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "id": "c98ed7fb2b5d4aa898d31b26ab503049"
+    ],
+    "date": "2020-09-08T01:00:00+03:00",
+    "id": "46f454094e774fd1956800003b8160f6",
+    "status": "active",
+    "documents": [
+      {
+        "id": "6a30cedaec624980a9c5692e547cb0b1",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Proposal_part1.pdf",
+        "format": "application/pdf",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/bids/46f454094e774fd1956800003b8160f6/documents/6a30cedaec624980a9c5692e547cb0b1?download=6f95f83074884c4793b92674ecbf017d",
+        "datePublished": "2020-09-08T01:00:00+03:00",
+        "dateModified": "2020-09-08T01:00:00+03:00",
+        "documentOf": "tender"
+      },
+      {
+        "id": "8afd7b52afc546c38ffc2e364cc52355",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Proposal_part2.pdf",
+        "format": "application/pdf",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/bids/46f454094e774fd1956800003b8160f6/documents/8afd7b52afc546c38ffc2e364cc52355?download=634443ba221c4aec9e80218dce5d9898",
+        "datePublished": "2020-09-08T01:00:00+03:00",
+        "dateModified": "2020-09-08T01:00:00+03:00",
+        "documentOf": "tender"
+      }
+    ],
+    "parameters": [
+      {
+        "code": "OCDS-123454-AIR-INTAKE",
+        "value": 0.1
+      },
+      {
+        "code": "OCDS-123454-YEARS",
+        "value": 0.1
+      }
+    ],
+    "lotValues": [
+      {
+        "value": {
+          "amount": 499.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "f2599a519a45416db792d9ee833a8e5a",
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/e08a950b18594d05b7c7318066bae24a_f2599a519a45416db792d9ee833a8e5a?key_for_bid=46f454094e774fd1956800003b8160f6",
+        "date": "2020-09-08T01:00:00+03:00"
+      }
+    ]
   }
 }
 

@@ -681,7 +681,7 @@ tender_stage1 = {
 
 tender_stage2_multiple_lots = {
     "procurementMethod": "selective",
-    "dialogue_token": sha512('secret').hexdigest(),
+    "dialogue_token": sha512('secret'.encode()).hexdigest(),
     "title": "Послуги шкільних їдалень",
     "title_en": "Services in school canteens",
     "minimalStep": {

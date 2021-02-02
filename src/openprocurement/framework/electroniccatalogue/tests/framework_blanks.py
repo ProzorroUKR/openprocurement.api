@@ -345,7 +345,7 @@ def create_framework_draft_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"No JSON object could be decoded", u"location": u"body", u"name": u"data"}],
+        [{u"description": u"Expecting value: line 1 column 1 (char 0)", u"location": u"body", u"name": u"data"}],
     )
 
     response = self.app.post_json(request_path, "data", status=422)
@@ -398,7 +398,7 @@ def create_framework_draft_invalid(self):
         [
             {
                 u"description": [
-                    u"Please use a mapping for this field or CentralProcuringEntity instance instead of unicode."
+                    u"Please use a mapping for this field or CentralProcuringEntity instance instead of str."
                 ],
                 u"location": u"body",
                 u"name": u"procuringEntity",
@@ -859,12 +859,12 @@ def get_framework(self):
     response = self.app.get("/frameworks/{}?opt_jsonp=callback".format(framework["id"]))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/javascript")
-    self.assertIn('callback({"data": {"', response.body)
+    self.assertIn('callback({"data": {"', response.body.decode())
 
     response = self.app.get("/frameworks/{}?opt_pretty=1".format(framework["id"]))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertIn('{\n    "data": {\n        "', response.body)
+    self.assertIn('{\n    "data": {\n        "', response.body.decode())
 
 
 def periods_deletion(self):
@@ -1036,11 +1036,16 @@ def framework_token_invalid(self):
     )
 
     response = self.app.patch_json(
-        "/frameworks/{}?acc_token={}".format(framework_id, "токен з кирилицею"), {"data": {}}, status=403
+        "/frameworks/{}?acc_token={}".format(framework_id, "токен з кирилицею"), {"data": {}}, status=422,
     )
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
-        response.json["errors"], [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}]
+        response.json["errors"], [
+            {
+                'location': 'body', 'name': 'UnicodeEncodeError',
+                'description': "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)"
+            }
+        ]
     )
 
 

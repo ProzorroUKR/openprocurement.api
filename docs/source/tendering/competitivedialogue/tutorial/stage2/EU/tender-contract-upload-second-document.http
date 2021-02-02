@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/50c82523038349969f53f3e238932c46/contracts/b6a7995d82d24e2493ce3d45eeaaa00e/documents?acc_token=90e5c1d7c0414b99a392234aee8cd1dc HTTP/1.0
+POST /api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/contracts/e605f02b124a4f0ba1b73e911b8aaad0/documents?acc_token=3ba9d3fdf58a40ac8a19d43f43de9e28 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 163
 Content-Type: multipart/form-data; boundary=---BOUNDARY
@@ -14,19 +14,19 @@ content
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/50c82523038349969f53f3e238932c46/contracts/b6a7995d82d24e2493ce3d45eeaaa00e/documents/1e882e890bc84ae8b52f39207a89e21b
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/contracts/e605f02b124a4f0ba1b73e911b8aaad0/documents/f899f8460f4543179f814d530342e79a
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "hash": "md5:00000000000000000000000000000000", 
-    "language": "uk", 
-    "title": "contract_second_document.doc", 
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d885432c20be4689a55b94588f44049c?KeyID=a8968c46&Signature=1OmLgt00QIdPyDg%2FiMVEFBzK%2Fdzvz7MAKoIWxj%2FBxHfcN4H093%2Fg4VFtb12uSrqsTpYAYUEfi87uI8Kls5AFBA%253D%253D", 
-    "format": "application/msword", 
-    "documentOf": "tender", 
-    "datePublished": "2020-09-08T01:00:01+03:00", 
-    "id": "1e882e890bc84ae8b52f39207a89e21b", 
-    "dateModified": "2020-09-08T01:00:01+03:00"
+    "id": "f899f8460f4543179f814d530342e79a",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "contract_second_document.doc",
+    "format": "application/msword",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/68a05bf5d7ff4adca21345f2da492f74?Signature=0hoOVlDux%2FMqTFInz%2FZX%2BTb8tf8qeUfs77FYfO7EKdbxKCfNHSCTajAkRSiNjD9E2c0qqNZA1aqgUfcImn5RDQ%3D%3D&KeyID=a8968c46",
+    "datePublished": "2020-09-08T01:00:01+03:00",
+    "dateModified": "2020-09-08T01:00:01+03:00",
+    "documentOf": "tender",
+    "language": "uk"
   }
 }
 

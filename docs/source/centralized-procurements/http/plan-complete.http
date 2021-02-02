@@ -1,4 +1,4 @@
-GET /api/2.5/plans/77cf582ab7284fb1a0e748ea7fe9033f HTTP/1.0
+GET /api/2.5/plans/6cb30e0a8f2d4487946a40c0b043c761 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,134 +7,134 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "complete", 
-    "buyers": [
-      {
-        "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "111983", 
-          "legalName": "ДП Державне Управління Справами"
-        }, 
-        "name": "ДУС"
+    "procuringEntity": {
+      "name": "ЦЗО №1",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "111111",
+        "legalName": "ДП Центральний закупівельний орган №1"
       }
-    ], 
-    "milestones": [
-      {
-        "status": "met", 
-        "documents": [
-          {
-            "hash": "md5:00000000000000000000000000000000", 
-            "title": "Notice.pdf", 
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d890dc3d64cf4f178fb9db75ba5af9ba?KeyID=a8968c46&Signature=l9Wow2YLingYU5xYfD1kzPUP0kjqpX8Ly4roCF5sxfCs0HdBfUMon7%2FN%252BpsAIJEt%2FROpe%252B6w9Bt1rGK0dgCIAw%253D%253D", 
-            "format": "application/pdf", 
-            "datePublished": "2019-05-02T06:00:00+03:00", 
-            "id": "a745faa7353742e9bf2912a5c1f79f2e", 
-            "dateModified": "2019-05-02T06:00:00+03:00"
-          }
-        ], 
-        "description": "Доповнений опис відповіді", 
-        "author": {
-          "identifier": {
-            "scheme": "UA-EDR", 
-            "id": "111111", 
-            "legalName": "ДП Центральний закупівельний орган №1"
-          }, 
-          "name": "ЦЗО №1"
-        }, 
-        "dueDate": "2019-05-30T18:00:00+02:00", 
-        "title": "Підготовка до проведення процедури", 
-        "dateModified": "2019-05-02T06:00:00+03:00", 
-        "owner": "broker", 
-        "dateMet": "2019-05-02T06:00:00+03:00", 
-        "type": "approval", 
-        "id": "6d57fe301561480babf138054aa46d09"
-      }
-    ], 
-    "classification": {
-      "scheme": "ДК021", 
-      "description": "Seeds", 
-      "id": "03111000-2"
-    }, 
-    "items": [
-      {
-        "description": "Насіння гірчиці", 
-        "classification": {
-          "scheme": "ДК021", 
-          "description": "Mustard seeds", 
-          "id": "03111600-8"
-        }, 
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП", 
-            "id": "01.11.92", 
-            "description": "Насіння гірчиці"
-          }
-        ], 
-        "deliveryDate": {
-          "endDate": "2019-11-09T01:00:00+03:00"
-        }, 
-        "id": "74da637ff7004631829675899680caef", 
-        "unit": {
-          "code": "KGM", 
-          "name": "кг"
-        }, 
-        "quantity": 1000.0
-      }
-    ], 
-    "planID": "UA-P-2019-05-02-000001", 
-    "budget": {
-      "breakdown": [
-        {
-          "title": "other", 
-          "description": "Breakdown other description.", 
-          "value": {
-            "currency": "UAH", 
-            "amount": 1500.0
-          }, 
-          "id": "49dd127988894cbd9c6b2ca655db136f"
-        }
-      ], 
-      "amountNet": 12222.0, 
-      "description": "budget_description", 
-      "period": {
-        "startDate": "2020-01-01T00:00:00+02:00", 
-        "endDate": "2020-12-31T00:00:00+02:00"
-      }, 
-      "project": {
-        "id": "123", 
-        "name": "proj_name"
-      }, 
-      "currency": "UAH", 
-      "amount": 10000.0, 
-      "id": "12303111000-2"
-    }, 
-    "datePublished": "2019-05-02T04:00:00+03:00", 
+    },
     "tender": {
-      "procurementMethod": "open", 
-      "procurementMethodType": "belowThreshold", 
+      "procurementMethod": "open",
+      "procurementMethodType": "belowThreshold",
       "tenderPeriod": {
         "startDate": "2019-11-01T01:00:00+03:00"
       }
-    }, 
+    },
+    "budget": {
+      "id": "12303111000-2",
+      "description": "budget_description",
+      "amount": 10000.0,
+      "currency": "UAH",
+      "amountNet": 12222.0,
+      "project": {
+        "id": "123",
+        "name": "proj_name"
+      },
+      "period": {
+        "startDate": "2020-01-01T00:00:00+02:00",
+        "endDate": "2020-12-31T00:00:00+02:00"
+      },
+      "breakdown": [
+        {
+          "id": "1bf7d60f1ad24027a538784c5b6c9bc2",
+          "title": "other",
+          "description": "Breakdown other description.",
+          "value": {
+            "amount": 1500.0,
+            "currency": "UAH"
+          }
+        }
+      ]
+    },
+    "classification": {
+      "description": "Seeds",
+      "scheme": "ДК021",
+      "id": "03111000-2"
+    },
     "additionalClassifications": [
       {
-        "scheme": "КЕКВ", 
-        "id": "1", 
+        "scheme": "КЕКВ",
+        "id": "1",
         "description": "-"
       }
-    ], 
-    "procuringEntity": {
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "id": "111111", 
-        "legalName": "ДП Центральний закупівельний орган №1"
-      }, 
-      "name": "ЦЗО №1"
-    }, 
-    "owner": "broker", 
-    "dateModified": "2019-05-12T12:01:00+03:00", 
-    "id": "77cf582ab7284fb1a0e748ea7fe9033f", 
-    "tender_id": "a40454d58b7b4e1eb327f6aef0d0d21d"
+    ],
+    "tender_id": "2d3b9e1f38c34125b1d2f7a164f871ba",
+    "planID": "UA-P-2019-05-02-000001",
+    "items": [
+      {
+        "id": "17c0df4205d34d73b32c735a06a6b533",
+        "classification": {
+          "description": "Mustard seeds",
+          "scheme": "ДК021",
+          "id": "03111600-8"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "01.11.92",
+            "description": "Насіння гірчиці"
+          }
+        ],
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        },
+        "quantity": 1000.0,
+        "deliveryDate": {
+          "endDate": "2019-11-09T01:00:00+03:00"
+        },
+        "description": "Насіння гірчиці"
+      }
+    ],
+    "buyers": [
+      {
+        "name": "ДУС",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "111983",
+          "legalName": "ДП Державне Управління Справами"
+        }
+      }
+    ],
+    "status": "complete",
+    "milestones": [
+      {
+        "id": "bcd0fdcf5036434881da407a855782c1",
+        "title": "Підготовка до проведення процедури",
+        "description": "Доповнений опис відповіді",
+        "type": "approval",
+        "dueDate": "2019-05-30T18:00:00+02:00",
+        "status": "met",
+        "documents": [
+          {
+            "id": "e4ec0c0e29d74a5e868f8e53b79bd05c",
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "Notice.pdf",
+            "format": "application/pdf",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e02eb47c177f4e078fd10eb781a99616?Signature=rN9%2BwQqp%2FjcIsh194eH4myfxHp7SzO3wXo9uAwzsF8ktudixiljJfdi7VP8qVHaRw4IhD6zi%2BmVMWZpLDOO0AA%3D%3D&KeyID=a8968c46",
+            "datePublished": "2019-05-02T06:00:00+03:00",
+            "dateModified": "2019-05-02T06:00:00+03:00"
+          }
+        ],
+        "author": {
+          "name": "ЦЗО №1",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "111111",
+            "legalName": "ДП Центральний закупівельний орган №1"
+          }
+        },
+        "dateModified": "2019-05-02T06:00:00+03:00",
+        "dateMet": "2019-05-02T06:00:00+03:00",
+        "owner": "broker"
+      }
+    ],
+    "dateModified": "2019-05-12T12:01:00+03:00",
+    "datePublished": "2019-05-02T04:00:00+03:00",
+    "owner": "broker",
+    "id": "6cb30e0a8f2d4487946a40c0b043c761"
   }
 }
 

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/52f1b75138ab4b2c87feff205f2a06f4/bids/6bcf17fc2b2d438193158ce070beb475?acc_token=765f074dacb14d31b625118945f17413 HTTP/1.0
+PATCH /api/2.5/tenders/4f6f9f4965ae47e99cd03a167c41c1a0/bids/01342dd1e2b4444da922161ff3179fc3?acc_token=8e23eb6619e546c087164012cd16c438 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 124
 Content-Type: application/json
@@ -6,15 +6,15 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "status": "pending", 
     "lotValues": [
       {
-        "relatedLot": "090c95ac79ff405687b005d25de27fde", 
         "value": {
           "amount": 500
-        }
+        },
+        "relatedLot": "5563fbab2bd848b398a5de9cb3ac555b"
       }
-    ]
+    ],
+    "status": "pending"
   }
 }
 
@@ -23,45 +23,45 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "pending", 
-    "lotValues": [
-      {
-        "relatedLot": "090c95ac79ff405687b005d25de27fde", 
-        "date": "2020-09-08T01:00:00+03:00", 
-        "status": "pending", 
-        "value": {
-          "currency": "UAH", 
-          "amount": 500.0, 
-          "valueAddedTaxIncluded": true
-        }
-      }
-    ], 
-    "id": "6bcf17fc2b2d438193158ce070beb475", 
     "tenderers": [
       {
-        "contactPoint": {
-          "email": "aagt@gmail.com", 
-          "telephone": "+380 (322) 91-69-30", 
-          "name": "Андрій Олексюк"
-        }, 
-        "scale": "sme", 
-        "name": "ДКП «Книга»", 
+        "name": "ДКП «Книга»",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137226", 
+          "scheme": "UA-EDR",
+          "id": "00137226",
           "uri": "http://www.sc.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "79013", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 34", 
-          "region": "Львівська область", 
-          "locality": "м. Львів"
-        }
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Андрій Олексюк",
+          "email": "aagt@gmail.com",
+          "telephone": "+380 (322) 91-69-30"
+        },
+        "scale": "sme"
       }
-    ], 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "selfQualified": true
+    ],
+    "date": "2020-09-08T01:00:00+03:00",
+    "id": "01342dd1e2b4444da922161ff3179fc3",
+    "lotValues": [
+      {
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "5563fbab2bd848b398a5de9cb3ac555b",
+        "date": "2020-09-08T01:00:00+03:00",
+        "status": "pending"
+      }
+    ],
+    "selfQualified": true,
+    "status": "pending"
   }
 }
 

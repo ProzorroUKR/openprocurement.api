@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/086edc68f12d4a248ded4f9cea52e69c/bids/a539801e33fe406cbe5502a0fb566044?acc_token=ba937016906e447c8a960f506d237d20 HTTP/1.0
+PATCH /api/2.5/tenders/d59e1783dc5149518a3c20a016d652c6/bids/57cb8d6e793d474cab1b2e8aade29c7d?acc_token=9409f298442c431ab71ee7969e91f5a3 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 98
 Content-Type: application/json
@@ -6,12 +6,12 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "status": "pending", 
     "lotValues": [
       {
-        "relatedLot": "5b9f7b2c302b40c780b44b39d95138a7"
+        "relatedLot": "150e2750fa2942ce9315e80ddf78a62a"
       }
-    ]
+    ],
+    "status": "pending"
   }
 }
 
@@ -20,40 +20,40 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "pending", 
-    "lotValues": [
-      {
-        "relatedLot": "5b9f7b2c302b40c780b44b39d95138a7", 
-        "date": "2020-09-08T01:00:00+03:00", 
-        "status": "pending"
-      }
-    ], 
-    "id": "a539801e33fe406cbe5502a0fb566044", 
     "tenderers": [
       {
-        "contactPoint": {
-          "email": "aagt@gmail.com", 
-          "telephone": "+380 (322) 91-69-30", 
-          "name": "Андрій Олексюк"
-        }, 
-        "scale": "sme", 
-        "name": "ДКП «Книга»", 
+        "name": "ДКП «Книга»",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137226", 
+          "scheme": "UA-EDR",
+          "id": "00137226",
           "uri": "http://www.sc.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "79013", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 34", 
-          "region": "Львівська область", 
-          "locality": "м. Львів"
-        }
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Андрій Олексюк",
+          "email": "aagt@gmail.com",
+          "telephone": "+380 (322) 91-69-30"
+        },
+        "scale": "sme"
       }
-    ], 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "selfQualified": true
+    ],
+    "date": "2020-09-08T01:00:00+03:00",
+    "id": "57cb8d6e793d474cab1b2e8aade29c7d",
+    "selfQualified": true,
+    "status": "pending",
+    "lotValues": [
+      {
+        "relatedLot": "150e2750fa2942ce9315e80ddf78a62a",
+        "date": "2020-09-08T01:00:00+03:00",
+        "status": "pending"
+      }
+    ]
   }
 }
 

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/35f93e8dd5484abb8b90687952c82010/qualifications HTTP/1.0
+GET /api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb/qualifications HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -8,36 +8,36 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "status": "pending", 
-      "eligible": false, 
-      "qualified": false, 
-      "bidID": "3743ee6ffa2347c7978a588bff6cfa37", 
-      "date": "2020-09-08T01:00:00+03:00", 
-      "id": "688adb9bb70e4d4fbcaf4ba1025e7e1a"
-    }, 
+      "id": "aec3b0b4e9754b75a95e53b611bb9bb0",
+      "bidID": "f2b56144728a41cb898f709142a1cc38",
+      "status": "pending",
+      "date": "2020-09-08T01:00:00+03:00",
+      "qualified": false,
+      "eligible": false
+    },
     {
-      "status": "pending", 
-      "eligible": false, 
-      "qualified": false, 
-      "bidID": "bc5002792d8542b4ad496fdc27d87cec", 
-      "date": "2020-09-08T01:00:00+03:00", 
-      "id": "be53976fae27403594b3de9b7bdfba6a"
-    }, 
+      "id": "013668c1c6554de4b3c5d87fd5e1b8c6",
+      "bidID": "a3773f747f5148d58d27cfae4a38b754",
+      "status": "pending",
+      "date": "2020-09-08T01:00:00+03:00",
+      "qualified": false,
+      "eligible": false
+    },
     {
-      "status": "pending", 
-      "eligible": false, 
-      "qualified": false, 
-      "bidID": "215c2938873a430ab0ead01f3f7b16dc", 
-      "date": "2020-09-08T01:00:00+03:00", 
-      "id": "5ffc4b1c851848199fd66861aa118688"
-    }, 
+      "id": "685019c58271466dabb599125f990312",
+      "bidID": "d075f39915d34bb98a8f4abb50f7e3ff",
+      "status": "pending",
+      "date": "2020-09-08T01:00:00+03:00",
+      "qualified": false,
+      "eligible": false
+    },
     {
-      "status": "pending", 
-      "eligible": false, 
-      "qualified": false, 
-      "bidID": "a9dfbf475786442eb9724e7364d1b6e3", 
-      "date": "2020-09-08T01:00:00+03:00", 
-      "id": "21a68f5b2e664a23827a19a669007d33"
+      "id": "3c016fe78a014d44899287fe135be249",
+      "bidID": "ebac806fe83a4f0492193afac91b47bd",
+      "status": "pending",
+      "date": "2020-09-08T01:00:00+03:00",
+      "qualified": false,
+      "eligible": false
     }
   ]
 }

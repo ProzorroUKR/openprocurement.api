@@ -52,11 +52,11 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
         response = self.app.get("/tenders/{}/historical?opt_jsonp" "=callback".format(tender["id"]))
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/javascript")
-        self.assertIn('callback({"data": {"', response.body)
+        self.assertIn('callback({"data": {"', response.body.decode())
         response = self.app.get("/tenders/{}/historical?" "opt_pretty=1".format(tender["id"]))
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
-        self.assertIn('{\n    "data": {\n        "', response.body)
+        self.assertIn('{\n    "data": {\n        "', response.body.decode())
         self.assertIn(VERSION, response.headers)
         self.assertEqual(response.headers[VERSION], "1")
 

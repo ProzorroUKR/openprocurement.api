@@ -1,11 +1,10 @@
 from decimal import Decimal
 from schematics.exceptions import ValidationError
-from zope.component import queryUtility
 
 from openprocurement.api.utils import apply_data_patch, error_handler, raise_operation_error, update_logging_context
 
 from openprocurement.api.validation import validate_data, validate_json_data, OPERATIONS
-from openprocurement.agreement.cfaua.interfaces import IChange
+from openprocurement.api.utils import get_change_class
 
 
 def validate_agreement_patch(request, **kwargs):
@@ -47,9 +46,10 @@ def validate_document_operation_on_agreement_status(request, **kwargs):
 def validate_change_data(request, **kwargs):
     update_logging_context(request, {"change_id": "__new__"})
     data = validate_json_data(request)
+    _changes_models = request.agreement.__class__.changes.field
     if not "rationaleType" in data:
         raise_operation_error(request, "Can't add change without rationaleType")
-    model = queryUtility(IChange, data["rationaleType"])
+    model = get_change_class(_changes_models, data, _validation=True)
     if not model:
         raise_operation_error(
             request,

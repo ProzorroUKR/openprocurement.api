@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/awards/00fee4e7a05846f986b6caa3c9ec1d47?acc_token=1e40f3cf3fd64b8ebca3076b70a86e71 HTTP/1.0
+PATCH /api/2.5/tenders/37cb590308a242a9836f51a9994c7492/awards/54a4269c065e40998826dd96d399112b?acc_token=fbb49b806b484733bc09390b0e01078d HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 33
 Content-Type: application/json
@@ -15,42 +15,42 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "cancelled", 
-    "lotID": "c7555f1bb878434d8815dea318304673", 
-    "complaintPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00"
-    }, 
+    "id": "54a4269c065e40998826dd96d399112b",
+    "status": "cancelled",
+    "date": "2020-09-08T01:00:00+03:00",
     "suppliers": [
       {
-        "contactPoint": {
-          "email": "fake@mail.com", 
-          "telephone": "+380 (322) 12-34-56", 
-          "name": "Іван Іваненко"
-        }, 
-        "scale": "mid", 
-        "name": "«Снігур»", 
+        "name": "«Снігур»",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137227", 
+          "scheme": "UA-EDR",
+          "id": "00137227",
           "uri": "http://www.sc.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "79013", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 35", 
-          "region": "Львівська область", 
-          "locality": "м. Львів"
-        }
+          "streetAddress": "вул. Островського, 35",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Іван Іваненко",
+          "email": "fake@mail.com",
+          "telephone": "+380 (322) 12-34-56"
+        },
+        "scale": "mid"
       }
-    ], 
-    "bid_id": "f15395a4363049ad92d56f8b5ff97fac", 
+    ],
+    "bid_id": "98b3bff73c4a4879b603800966926a71",
+    "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
+    "complaintPeriod": {
+      "startDate": "2020-09-08T01:00:00+03:00"
+    },
     "value": {
-      "currency": "UAH", 
-      "amount": 485, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "id": "00fee4e7a05846f986b6caa3c9ec1d47"
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amount": 485
+    }
   }
 }
 

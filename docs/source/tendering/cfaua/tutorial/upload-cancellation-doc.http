@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/cancellations/239746d7afa3403f82b83f40879c4deb/documents?acc_token=1e40f3cf3fd64b8ebca3076b70a86e71 HTTP/1.0
+POST /api/2.5/tenders/37cb590308a242a9836f51a9994c7492/cancellations/137233c6e7a64b4f89e93ad12e8849af/documents?acc_token=fbb49b806b484733bc09390b0e01078d HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 142
 Content-Type: multipart/form-data; boundary=---BOUNDARY
@@ -14,19 +14,19 @@ content
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/cancellations/239746d7afa3403f82b83f40879c4deb/documents/4a9753deb7984446bb3ef182a8060a67
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/cancellations/137233c6e7a64b4f89e93ad12e8849af/documents/5b5ba8726eb54f31985972c63c422157
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "hash": "md5:00000000000000000000000000000000", 
-    "language": "uk", 
-    "title": "Notice.pdf", 
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/188d3e6c1a0e431abc2c94da8fd6728b?KeyID=a8968c46&Signature=NOHl%252B6uz61LqAR%252BxN1a6lDjKmYALK9tBs91vwZiG6w5ODgJBCbdIAhxsZDFkEeK%252BUJCEF8QMNJes%252B%2FlPnK2fBw%253D%253D", 
-    "format": "application/pdf", 
-    "documentOf": "tender", 
-    "datePublished": "2020-09-08T01:00:01+03:00", 
-    "id": "4a9753deb7984446bb3ef182a8060a67", 
-    "dateModified": "2020-09-08T01:00:01+03:00"
+    "id": "5b5ba8726eb54f31985972c63c422157",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "Notice.pdf",
+    "format": "application/pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1031ad3ee48f4abcb0bcdcbbf1255f1c?Signature=vsoJdTneGBprimWIoUVZq%2FKml2nH46pCZni7NX%2FhKfE%2FyjTFYZZVojwFsE8jkSZwnekVZlvAOByri3ZGLTsIAQ%3D%3D&KeyID=a8968c46",
+    "datePublished": "2020-09-08T01:00:01+03:00",
+    "dateModified": "2020-09-08T01:00:01+03:00",
+    "documentOf": "tender",
+    "language": "uk"
   }
 }
 

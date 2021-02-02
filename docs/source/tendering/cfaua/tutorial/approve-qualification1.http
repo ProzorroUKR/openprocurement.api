@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/e5172ebc4c4c411f84f376ce6ede43b8/qualifications/9eafb5e0a5ac4268a1f0821a11dae69d?acc_token=1e40f3cf3fd64b8ebca3076b70a86e71 HTTP/1.0
+PATCH /api/2.5/tenders/37cb590308a242a9836f51a9994c7492/qualifications/ef09cd8e035b42b0a1699961b9f7dd62?acc_token=fbb49b806b484733bc09390b0e01078d HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 67
 Content-Type: application/json
@@ -6,8 +6,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "status": "active", 
-    "qualified": true, 
+    "status": "active",
+    "qualified": true,
     "eligible": true
   }
 }
@@ -17,13 +17,13 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "active", 
-    "lotID": "c7555f1bb878434d8815dea318304673", 
-    "eligible": true, 
-    "qualified": true, 
-    "bidID": "544359015fd047a8b79fa81bda0889fc", 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "id": "9eafb5e0a5ac4268a1f0821a11dae69d"
+    "id": "ef09cd8e035b42b0a1699961b9f7dd62",
+    "bidID": "9eee26d528d9490a9e52cf6b1f696c41",
+    "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
+    "status": "active",
+    "date": "2020-09-08T01:00:00+03:00",
+    "qualified": true,
+    "eligible": true
   }
 }
 

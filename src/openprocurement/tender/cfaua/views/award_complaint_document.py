@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.interfaces import IContentConfigurator
 from openprocurement.api.utils import error_handler, raise_operation_error
 from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.openua.views.award_complaint_document import TenderUaAwardComplaintDocumentResource
-from zope.component import getAdapter
+from openprocurement.tender.openua.constants import STATUS4ROLE
 
 
 @optendersresource(
@@ -20,7 +19,6 @@ class TenderEUAwardComplaintDocumentResource(TenderUaAwardComplaintDocumentResou
         but validate_complaint_document function has different validators.
         For now, we have no way to use different validators on methods according to procedure type.
         """
-        configs = getAdapter(self.request.validated["tender"], IContentConfigurator)
         if operation == "update" and self.request.authenticated_role != self.context.author:
             self.request.errors.add("url", "role", "Can update document only author")
             self.request.errors.status = 403
@@ -44,7 +42,7 @@ class TenderEUAwardComplaintDocumentResource(TenderUaAwardComplaintDocumentResou
             raise_operation_error(self.request, "Can {} document only in active lot status".format(operation))
         if self.request.validated[
             "complaint"
-        ].status not in configs.allowed_statuses_for_complaint_operations_for_roles.get(
+        ].status not in STATUS4ROLE.get(
             self.request.authenticated_role, []
         ):
             raise_operation_error(

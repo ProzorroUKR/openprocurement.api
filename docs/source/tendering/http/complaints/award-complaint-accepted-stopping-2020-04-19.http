@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/56aa844d9b3a43e4a169b7d76f71041e/awards/140b7d05238849ca9d3d2153a1b2a8d5/complaints/524c12fb98334e5fa30a8452902d07aa?acc_token=4df72279c3a14609ac0b0e0fdd9c7e3c HTTP/1.0
+PATCH /api/2.5/tenders/9eb167a6c08a4130af77258c680e4ebf/awards/7c4e912c78ea46af96c33febe8b597a9/complaints/57862bd50abe415ab99f8c499dc613e3?acc_token=62bd41dd00494dd5a512787a97edafea HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 228
 Content-Type: application/json
@@ -6,8 +6,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "status": "stopping", 
-    "cancellationReason": "Тендер скасовується замовником"
+    "cancellationReason": "Тендер скасовується замовником",
+    "status": "stopping"
   }
 }
 
@@ -15,12 +15,12 @@ Response: 403 Forbidden
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
-  "status": "error", 
+  "status": "error",
   "errors": [
     {
-      "description": "Can't update complaint from accepted to stopping status", 
-      "location": "body", 
-      "name": "data"
+      "location": "body",
+      "name": "data",
+      "description": "Can't update complaint from accepted to stopping status"
     }
   ]
 }

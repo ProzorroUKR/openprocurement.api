@@ -1,4 +1,4 @@
-GET /api/2.5/transfers/5ef74c1aed79496cbfebb12f86bcae11 HTTP/1.0
+GET /api/2.5/transfers/d1ef34a0f35740e5961646fccef522e4 HTTP/1.0
 Authorization: Bearer broker3
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,9 +7,9 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "date": "2020-09-08T01:00:00+03:00", 
-    "id": "5ef74c1aed79496cbfebb12f86bcae11", 
-    "usedFor": "/contracts/223251091c99415eb820553413b6aa9e"
+    "date": "2020-09-08T01:00:00+03:00",
+    "usedFor": "/contracts/551eeb10d1af410a8548070ea9f06657",
+    "id": "d1ef34a0f35740e5961646fccef522e4"
   }
 }
 

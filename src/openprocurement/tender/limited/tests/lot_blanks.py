@@ -42,7 +42,7 @@ def create_tender_lot_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"No JSON object could be decoded", u"location": u"body", u"name": u"data"}],
+        [{u"description": u"Expecting value: line 1 column 1 (char 0)", u"location": u"body", u"name": u"data"}],
     )
 
     response = self.app.post_json(request_path, "data", status=422)
@@ -68,8 +68,8 @@ def create_tender_lot_invalid(self):
     self.assertEqual(
         response.json["errors"],
         [
-            {u"description": [u"This field is required."], u"location": u"body", u"name": u"value"},
             {u"description": [u"This field is required."], u"location": u"body", u"name": u"title"},
+            {u"description": [u"This field is required."], u"location": u"body", u"name": u"value"},
         ],
     )
 
@@ -89,7 +89,7 @@ def create_tender_lot_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [u"Please use a mapping for this field or Value instance instead of unicode."],
+                u"description": [u"Please use a mapping for this field or Value instance instead of str."],
                 u"location": u"body",
                 u"name": u"value",
             }
@@ -1148,7 +1148,7 @@ def patch_lot_with_cancellation(self):
             "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
                 self.tender_id, cancellation_id, self.tender_token
             ),
-            upload_files=[("file", "name.doc", "content")],
+            upload_files=[("file", "name.doc", b"content")],
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")

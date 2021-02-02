@@ -1,7 +1,5 @@
-from zope.component import getAdapter
 from pyramid.events import subscriber
 
-from openprocurement.api.interfaces import IContentConfigurator
 from openprocurement.tender.core.events import TenderInitializeEvent
 from openprocurement.tender.core.utils import (
     get_now,
@@ -9,15 +7,15 @@ from openprocurement.tender.core.utils import (
     calculate_clarif_business_date,
 )
 from openprocurement.tender.core.models import EnquiryPeriod
+from openprocurement.tender.cfaua.constants import QUESTIONS_STAND_STILL
 
 
 @subscriber(TenderInitializeEvent, procurementMethodType="closeFrameworkAgreementUA")
 def tender_init_handler(event):
     """ initialization handler for closeFrameworkAgreementUA tenders """
     tender = event.tender
-    config = getAdapter(tender, IContentConfigurator)
-    end_date = calculate_tender_business_date(tender.tenderPeriod.endDate, -config.questions_stand_still, tender)
-    clarifications_until = calculate_clarif_business_date(end_date, config.enquiry_stand_still, tender, True)
+    end_date = calculate_tender_business_date(tender.tenderPeriod.endDate, -QUESTIONS_STAND_STILL, tender)
+    clarifications_until = calculate_clarif_business_date(end_date, QUESTIONS_STAND_STILL, tender, True)
     tender.enquiryPeriod = EnquiryPeriod(
         dict(
             startDate=tender.tenderPeriod.startDate,

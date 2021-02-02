@@ -265,7 +265,7 @@ class TenderCompetitiveDialogEUQualificationComplaintPostResourceTest(
         complaint_data["author"] = self.author_data
         response = self.app.post_json(
             "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
-                self.tender_id, self.qualification_id, self.initial_bids_tokens.values()[0]
+                self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
             ),
             {"data": complaint_data},
         )
@@ -312,7 +312,7 @@ class TenderCancellationComplaintPostResourceTest(
             "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
                 self.tender_id, self.cancellation_id, self.tender_token
             ),
-            upload_files=[("file", "name.doc", "content")],
+            upload_files=[("file", "name.doc", b"content")],
         )
         self.app.patch_json(
             "/tenders/{}/cancellations/{}?acc_token={}".format(

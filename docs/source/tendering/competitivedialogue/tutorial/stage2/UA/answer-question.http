@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d/questions/71e5b7f5917546f8a4f8986a84cc4458?acc_token=ce9ee5fc97484fc3b51e3f4dcea722d4 HTTP/1.0
+PATCH /api/2.5/tenders/db4876add6b747dfafc1b99523c02097/questions/35d3c56dcdf843f6b9b4a3a978b862f9?acc_token=9234ea997d5a428fb67b1ae603020b64 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 162
 Content-Type: application/json
@@ -15,13 +15,13 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "description": "Просимо додати таблицю потрібної калорійності харчування", 
-    "dateAnswered": "2020-09-08T01:00:00+03:00", 
-    "title": "Калорійність", 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"", 
-    "id": "71e5b7f5917546f8a4f8986a84cc4458", 
-    "questionOf": "tender"
+    "id": "35d3c56dcdf843f6b9b4a3a978b862f9",
+    "title": "Калорійність",
+    "description": "Просимо додати таблицю потрібної калорійності харчування",
+    "date": "2020-09-08T01:00:00+03:00",
+    "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"",
+    "questionOf": "tender",
+    "dateAnswered": "2020-09-08T01:00:00+03:00"
   }
 }
 

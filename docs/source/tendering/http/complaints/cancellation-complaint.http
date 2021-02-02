@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/9de80116006a4e58b18ac56dda573693/cancellations/9eaff9bb04ef486c9efc3aff3a4d9015/complaints/c1f8273c987d4fc2b4eea78dfc846e55 HTTP/1.0
+GET /api/2.5/tenders/7d0a97df8f00490ca771758156599045/cancellations/7b3a09b033c7450d99c0d3e17b69039a/complaints/9d0ce1567b1a462eb0d9226f0c06add5 HTTP/1.0
 Host: lb-api-sandbox.prozorro.gov.ua
 
 Response: 200 OK
@@ -6,70 +6,70 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "resolved", 
-    "dateDecision": "2020-09-08T01:00:00+03:00", 
+    "id": "9d0ce1567b1a462eb0d9226f0c06add5",
+    "complaintID": "UA-2020-09-08-000001.1",
+    "date": "2020-09-08T01:00:00+03:00",
     "documents": [
       {
-        "hash": "md5:00000000000000000000000000000000", 
-        "author": "complaint_owner", 
-        "title": "Complaint_Attachment.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7fabc35900a94c93a75ca043b738d09a?KeyID=a8968c46&Signature=3MSjd2esmqORPn7QPsRwLvfIlBvRvELBOPloYd%2Ff4RQk36UQ24skgQrOPJ63KubwbyEz9RepI7Z%2F2%252B8SLRjvCw%253D%253D", 
-        "format": "application/pdf", 
-        "documentOf": "tender", 
-        "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "284ef6cc2c0b453bb49e190d25d381b6", 
-        "dateModified": "2020-09-08T01:00:00+03:00"
-      }, 
+        "id": "42dee2d864f84f9683dc37532d52971c",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Complaint_Attachment.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/61da24bf793c4d1bbf980393b10b66ee?Signature=Pj2LnNWlebcmRjKv3KBQuu3mHP1aiXgO4XDB92RGAqEic5fixeymqCqbDGVALU%2B2lKd2wnZt6SmGIq7eJ1LzAQ%3D%3D&KeyID=a8968c46",
+        "datePublished": "2020-09-08T01:00:00+03:00",
+        "dateModified": "2020-09-08T01:00:00+03:00",
+        "author": "complaint_owner",
+        "documentOf": "tender"
+      },
       {
-        "hash": "md5:00000000000000000000000000000000", 
-        "author": "aboveThresholdReviewers", 
-        "title": "ComplaintResolution.pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5660a8c69d1f4b9586da351e448fc9ef?KeyID=a8968c46&Signature=mFIbQQTjXCRH%252Bd6N679bfzu0CZg0HqZm8hgH50NEqy%2F%252BMeDXzcJp4ZY5T6JzG7O5GCj5saAC5qpK0h6d1282Aw%253D%253D", 
-        "format": "application/pdf", 
-        "documentOf": "tender", 
-        "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "78d4186d74b3415e8066a1c38e33e745", 
-        "dateModified": "2020-09-08T01:00:00+03:00"
+        "id": "ba4aecbcf90547e7b044994adefb7763",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "ComplaintResolution.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8cbfa48b9de4470c8a49f6757336f82c?Signature=9GJAyc1D26fHZr9fz4bw2Jy%2Fum2wPVrqbiyXHntlBKWFOcd7dz5627kvlOECy70lWyVKsYmYpWz04wnnOqL4Bw%3D%3D&KeyID=a8968c46",
+        "datePublished": "2020-09-08T01:00:00+03:00",
+        "dateModified": "2020-09-08T01:00:00+03:00",
+        "author": "aboveThresholdReviewers",
+        "documentOf": "tender"
       }
-    ], 
-    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.", 
-    "title": "Недостатньо інформації", 
-    "reviewDate": "2020-09-08T01:00:00+03:00", 
+    ],
     "author": {
-      "contactPoint": {
-        "email": "soleksuk@gmail.com", 
-        "telephone": "+380 (432) 21-69-30", 
-        "name": "Сергій Олексюк"
-      }, 
-      "identifier": {
-        "scheme": "UA-EDR", 
-        "legalName": "ДКП «Школяр»", 
-        "id": "00137256", 
-        "uri": "http://www.sc.gov.ua/"
-      }, 
-      "name": "ДКП «Школяр»", 
+      "name": "ДКП «Школяр»",
       "address": {
-        "postalCode": "21100", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Островського, 33", 
-        "region": "Вінницька область", 
-        "locality": "м. Вінниця"
+        "streetAddress": "вул. Островського, 33",
+        "locality": "м. Вінниця",
+        "region": "Вінницька область",
+        "postalCode": "21100",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Сергій Олексюк",
+        "email": "soleksuk@gmail.com",
+        "telephone": "+380 (432) 21-69-30"
+      },
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00137256",
+        "legalName": "ДКП «Школяр»",
+        "uri": "http://www.sc.gov.ua/"
       }
-    }, 
+    },
+    "title": "Недостатньо інформації",
+    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
+    "dateSubmitted": "2020-09-08T01:00:00+03:00",
+    "tendererAction": "Умови виправлено",
+    "tendererActionDate": "2020-09-08T01:00:00+03:00",
+    "dateDecision": "2020-09-08T01:00:00+03:00",
     "value": {
-      "currency": "UAH", 
-      "amount": 2000.0
-    }, 
-    "tendererAction": "Умови виправлено", 
-    "tendererActionDate": "2020-09-08T01:00:00+03:00", 
-    "dateSubmitted": "2020-09-08T01:00:00+03:00", 
-    "complaintID": "UA-2020-09-08-000001.1", 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "acceptance": true, 
-    "type": "complaint", 
-    "id": "c1f8273c987d4fc2b4eea78dfc846e55", 
-    "reviewPlace": "some", 
-    "dateAccepted": "2020-09-08T01:00:00+03:00"
+      "amount": 2000.0,
+      "currency": "UAH"
+    },
+    "acceptance": true,
+    "dateAccepted": "2020-09-08T01:00:00+03:00",
+    "reviewDate": "2020-09-08T01:00:00+03:00",
+    "reviewPlace": "some",
+    "status": "resolved",
+    "type": "complaint"
   }
 }
 

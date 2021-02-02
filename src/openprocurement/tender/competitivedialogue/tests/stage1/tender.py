@@ -8,7 +8,6 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     # CompetitiveDialogResourceTest
     guarantee,
     tender_milestones_required,
-    patch_tender_lots_none,
     create_tender_central,
     create_tender_central_invalid,
     tender_minimalstep_validation,
@@ -36,6 +35,7 @@ from openprocurement.tender.competitivedialogue.tests.stage1.tender_blanks impor
     simple_add_tender_eu,
     # CompetitiveDialogResourceTest
     patch_tender_eu_ua,
+    patch_tender_lots_none,
     path_complete_tender,
     tender_features_invalid,
     # CompetitiveDialogEUResourceTest

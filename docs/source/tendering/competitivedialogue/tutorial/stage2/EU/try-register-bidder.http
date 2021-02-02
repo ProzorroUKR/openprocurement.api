@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/50c82523038349969f53f3e238932c46/bids HTTP/1.0
+POST /api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 924
 Content-Type: application/json
@@ -6,36 +6,36 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "status": "draft", 
     "tenderers": [
       {
-        "contactPoint": {
-          "telephone": "+380 (452) 21-69-31", 
-          "name": "Вільям Поле", 
-          "email": "pole@gmail.com"
-        }, 
-        "scale": "mid", 
-        "name": "ТОВ \"Бур\"", 
-        "identifier": {
-          "scheme": "UA-EDR", 
-          "legalName": "ТОВ Бур", 
-          "id": "00137230", 
-          "uri": "http://pole.edu.vn.ua/"
-        }, 
         "address": {
-          "countryName": "Україна", 
-          "postalCode": "21100", 
-          "region": "Львівська область", 
-          "streetAddress": "вул. Поле, 33", 
-          "locality": "м. Львів"
-        }
+          "countryName": "Україна",
+          "locality": "м. Львів",
+          "postalCode": "21100",
+          "region": "Львівська область",
+          "streetAddress": "вул. Поле, 33"
+        },
+        "contactPoint": {
+          "email": "pole@gmail.com",
+          "name": "Вільям Поле",
+          "telephone": "+380 (452) 21-69-31"
+        },
+        "identifier": {
+          "id": "00137230",
+          "legalName": "ТОВ Бур",
+          "scheme": "UA-EDR",
+          "uri": "http://pole.edu.vn.ua/"
+        },
+        "name": "ТОВ \"Бур\"",
+        "scale": "mid"
       }
-    ], 
-    "selfQualified": true, 
+    ],
     "value": {
       "amount": 500
-    }, 
-    "subcontractingDetails": "ДКП «Орфей», Україна"
+    },
+    "status": "draft",
+    "subcontractingDetails": "ДКП «Орфей», Україна",
+    "selfQualified": true
   }
 }
 
@@ -43,12 +43,12 @@ Response: 403 Forbidden
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
-  "status": "error", 
+  "status": "error",
   "errors": [
     {
-      "description": "Firm can't create bid", 
-      "location": "body", 
-      "name": "data"
+      "location": "body",
+      "name": "data",
+      "description": "Firm can't create bid"
     }
   ]
 }

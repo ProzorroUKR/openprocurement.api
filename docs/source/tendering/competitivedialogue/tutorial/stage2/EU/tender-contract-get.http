@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/50c82523038349969f53f3e238932c46/contracts/b6a7995d82d24e2493ce3d45eeaaa00e?acc_token=90e5c1d7c0414b99a392234aee8cd1dc HTTP/1.0
+GET /api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/contracts/e605f02b124a4f0ba1b73e911b8aaad0?acc_token=3ba9d3fdf58a40ac8a19d43f43de9e28 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,107 +7,107 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "pending", 
-    "documents": [
-      {
-        "hash": "md5:00000000000000000000000000000000", 
-        "language": "uk", 
-        "title": "contract_first_document.doc", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d0ee6c4495cc4c6f990bc57866deafcd?KeyID=a8968c46&Signature=MqOcqJ%252BL2R93uaYQ%252BQOQ52oWZYqoFNjvBaWNaFoAk4vlHL6%252BtnzgWphwoT6p0Yd3VrVuhUQP%2FabAcGEcuCHjCw%253D%253D", 
-        "format": "application/msword", 
-        "documentOf": "tender", 
-        "datePublished": "2020-09-08T01:00:01+03:00", 
-        "id": "65dfc1eba4e34865ab3f4e09f062a190", 
-        "dateModified": "2020-09-08T01:00:01+03:00"
-      }, 
-      {
-        "hash": "md5:00000000000000000000000000000000", 
-        "language": "en", 
-        "title": "contract_second_document.doc", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d885432c20be4689a55b94588f44049c?KeyID=a8968c46&Signature=1OmLgt00QIdPyDg%2FiMVEFBzK%2Fdzvz7MAKoIWxj%2FBxHfcN4H093%2Fg4VFtb12uSrqsTpYAYUEfi87uI8Kls5AFBA%253D%253D", 
-        "format": "application/msword", 
-        "title_en": "Title of Document", 
-        "description_en": "Description of Document", 
-        "datePublished": "2020-09-08T01:00:01+03:00", 
-        "documentOf": "tender", 
-        "id": "1e882e890bc84ae8b52f39207a89e21b", 
-        "dateModified": "2020-09-08T01:00:01+03:00"
-      }
-    ], 
-    "items": [
-      {
-        "description": "Послуги шкільних їдалень", 
-        "classification": {
-          "scheme": "ДК021", 
-          "description": "Test", 
-          "id": "37810000-9"
-        }, 
-        "description_en": "Services in school canteens", 
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП", 
-            "id": "17.21.1", 
-            "description": "Послуги шкільних їдалень"
-          }
-        ], 
-        "deliveryAddress": {
-          "postalCode": "79000", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
-        }, 
-        "deliveryDate": {
-          "startDate": "2020-09-28T01:00:00+03:00", 
-          "endDate": "2020-10-09T01:00:00+03:00"
-        }, 
-        "id": "871de259ac2f410aa6214e71d22b8cc4", 
-        "unit": {
-          "code": "44617100-9", 
-          "name": "item"
-        }, 
-        "quantity": 1.0
-      }
-    ], 
+    "id": "e605f02b124a4f0ba1b73e911b8aaad0",
+    "contractID": "UA-2020-09-08-000001-1",
+    "contractNumber": "contract#1",
+    "status": "pending",
+    "period": {
+      "startDate": "2020-09-08T01:00:01+03:00",
+      "endDate": "2021-09-08T01:00:01+03:00"
+    },
+    "dateSigned": "2020-09-08T01:00:01+03:00",
     "suppliers": [
       {
-        "contactPoint": {
-          "email": "aagt@gmail.com", 
-          "telephone": "+380 (322) 91-69-30", 
-          "name": "Андрій Олексюк"
-        }, 
-        "scale": "sme", 
-        "name": "ДКП «Книга»", 
+        "name": "ДКП «Книга»",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137226", 
+          "scheme": "UA-EDR",
+          "id": "00137226",
           "uri": "http://www.sc.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "79013", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 34", 
-          "region": "Львівська область", 
-          "locality": "м. Львів"
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Андрій Олексюк",
+          "email": "aagt@gmail.com",
+          "telephone": "+380 (322) 91-69-30"
+        },
+        "scale": "sme"
+      }
+    ],
+    "date": "2020-09-08T01:00:00+03:00",
+    "value": {
+      "amount": 238.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amountNet": 230.0
+    },
+    "awardID": "c2e13260a5ab4b4bbb27486eab5d6d97",
+    "documents": [
+      {
+        "id": "64ed4bedb0044d06997a2771ddf5c20f",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract_first_document.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7dbc85b5ec8e40c7a06a13a28c247030?Signature=s5C3vPKr4OuIVcBHKASzvS531eZC5%2BdjdFp%2BAJkV6XlM3Ho9IreoZpzKRf6aJV9kgeHNJt%2BP6rXOls7Bw8JtAg%3D%3D&KeyID=a8968c46",
+        "datePublished": "2020-09-08T01:00:01+03:00",
+        "dateModified": "2020-09-08T01:00:01+03:00",
+        "documentOf": "tender",
+        "language": "uk"
+      },
+      {
+        "id": "f899f8460f4543179f814d530342e79a",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract_second_document.doc",
+        "title_en": "Title of Document",
+        "description_en": "Description of Document",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/68a05bf5d7ff4adca21345f2da492f74?Signature=0hoOVlDux%2FMqTFInz%2FZX%2BTb8tf8qeUfs77FYfO7EKdbxKCfNHSCTajAkRSiNjD9E2c0qqNZA1aqgUfcImn5RDQ%3D%3D&KeyID=a8968c46",
+        "datePublished": "2020-09-08T01:00:01+03:00",
+        "dateModified": "2020-09-08T01:00:01+03:00",
+        "documentOf": "tender",
+        "language": "en"
+      }
+    ],
+    "items": [
+      {
+        "id": "392b0b534d1144d6904082f978cfde5a",
+        "description": "Послуги шкільних їдалень",
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "unit": {
+          "name": "item",
+          "code": "44617100-9"
+        },
+        "quantity": 1.0,
+        "deliveryDate": {
+          "startDate": "2020-09-28T01:00:00+03:00",
+          "endDate": "2020-10-09T01:00:00+03:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "description_en": "Services in school canteens",
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
         }
       }
-    ], 
-    "contractNumber": "contract#1", 
-    "period": {
-      "startDate": "2020-09-08T01:00:01+03:00", 
-      "endDate": "2021-09-08T01:00:01+03:00"
-    }, 
-    "dateSigned": "2020-09-08T01:00:01+03:00", 
-    "value": {
-      "currency": "UAH", 
-      "amount": 238.0, 
-      "amountNet": 230.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "awardID": "569e493e88f6479e83d7cf7dc3b8182b", 
-    "id": "b6a7995d82d24e2493ce3d45eeaaa00e", 
-    "contractID": "UA-2020-09-08-000001-1"
+    ]
   }
 }
 

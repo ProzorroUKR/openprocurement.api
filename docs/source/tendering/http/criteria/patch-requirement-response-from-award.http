@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/c5e325f0cd634594b24af3751466d2c5/awards/6b8f3a13e88f40748ef410c1e7bf452a?acc_token=d7b20652ab64425db2ffa58663dd189d HTTP/1.0
+PATCH /api/2.5/tenders/2093f4e9bf3a4d7eb82c15d9c5321604/awards/0cf85a17ac284f7aac48ec7f6afe9a11?acc_token=9bfc00e9aaf843b5abd64a61388484b1 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 4255
 Content-Type: application/json
@@ -8,42 +8,42 @@ DATA:
   "data": {
     "requirementResponses": [
       {
+        "title": "Requirement response 1",
+        "description": "some description",
         "requirement": {
-          "id": "ed1ed109c0684be3b7c89192679d5526", 
+          "id": "411e25f3563845f589c2548988c2d8db",
           "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
-        }, 
+        },
         "evidences": [
           {
-            "type": "document", 
+            "title": "Requirement response",
             "relatedDocument": {
-              "id": "acfc570579ef40e7a24f97ff842356df", 
+              "id": "e23439b470b24f90b7a4aa9ba1725a8b",
               "title": "name.doc"
-            }, 
-            "title": "Requirement response"
+            },
+            "type": "document"
           }
-        ], 
-        "description": "some description", 
-        "value": "True", 
-        "title": "Requirement response 1"
-      }, 
+        ],
+        "value": "True"
+      },
       {
+        "title": "Requirement response 2",
+        "description": "some description",
         "requirement": {
-          "id": "5576d453efdf4efab61c2af803731b72", 
+          "id": "614790d1644244fb90e43164600fe4ee",
           "title": "Замовник має незаперечні докази того, що учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі"
-        }, 
+        },
         "evidences": [
           {
-            "type": "document", 
+            "title": "Requirement response",
             "relatedDocument": {
-              "id": "acfc570579ef40e7a24f97ff842356df", 
+              "id": "e23439b470b24f90b7a4aa9ba1725a8b",
               "title": "name.doc"
-            }, 
-            "title": "Requirement response"
+            },
+            "type": "document"
           }
-        ], 
-        "description": "some description", 
-        "value": "True", 
-        "title": "Requirement response 2"
+        ],
+        "value": "True"
       }
     ]
   }
@@ -54,96 +54,96 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "pending", 
-    "documents": [
-      {
-        "hash": "md5:00000000000000000000000000000000", 
-        "author": "tender_owner", 
-        "language": "uk", 
-        "title": "name.doc", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cd23aedc03514612897a049411ea8ed0?KeyID=a8968c46&Signature=hKjr2CH%252BRluKEw2g564nhjQqNqMB7CL6j52dT1%2FqCpInIkswX9fJl9nBR7Ux0sRD0xG7aeoDoPcQb0TEj6%2FcCA%253D%253D", 
-        "format": "application/msword", 
-        "documentOf": "tender", 
-        "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "acfc570579ef40e7a24f97ff842356df", 
-        "dateModified": "2020-09-08T01:00:00+03:00"
-      }
-    ], 
+    "id": "0cf85a17ac284f7aac48ec7f6afe9a11",
+    "status": "pending",
+    "date": "2020-09-08T01:00:00+03:00",
+    "value": {
+      "amount": 499.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "suppliers": [
       {
-        "contactPoint": {
-          "email": "aagt@gmail.com", 
-          "telephone": "+380 (322) 91-69-30", 
-          "name": "Андрій Олексюк"
-        }, 
-        "scale": "sme", 
-        "name": "ДКП «Книга»", 
+        "name": "ДКП «Книга»",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137226", 
+          "scheme": "UA-EDR",
+          "id": "00137226",
           "uri": "http://www.sc.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "79013", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 34", 
-          "region": "Львівська область", 
-          "locality": "м. Львів"
-        }
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Андрій Олексюк",
+          "email": "aagt@gmail.com",
+          "telephone": "+380 (322) 91-69-30"
+        },
+        "scale": "sme"
       }
-    ], 
-    "bid_id": "b3b33fdb3ecb497e9fd1238647a67110", 
-    "value": {
-      "currency": "UAH", 
-      "amount": 499.0, 
-      "valueAddedTaxIncluded": true
-    }, 
+    ],
     "requirementResponses": [
       {
+        "id": "9945e981b87c4c9fb2047e74e93a371f",
+        "title": "Requirement response 1",
+        "description": "some description",
         "requirement": {
-          "id": "ed1ed109c0684be3b7c89192679d5526", 
+          "id": "411e25f3563845f589c2548988c2d8db",
           "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
-        }, 
-        "description": "some description", 
-        "title": "Requirement response 1", 
-        "value": "True", 
+        },
         "evidences": [
           {
-            "title": "Requirement response", 
-            "type": "document", 
+            "id": "f76960ecd7a1427186771cbb9f1bff5a",
+            "title": "Requirement response",
+            "type": "document",
             "relatedDocument": {
-              "id": "acfc570579ef40e7a24f97ff842356df", 
+              "id": "e23439b470b24f90b7a4aa9ba1725a8b",
               "title": "name.doc"
-            }, 
-            "id": "5f9522170e7b4aeaaa0ab5313051b06b"
+            }
           }
-        ], 
-        "id": "5f4dbb113c064c1abadd9a2a49f82aaa"
-      }, 
+        ],
+        "value": "True"
+      },
       {
+        "id": "1e11461b381642cab025eaa6fdfcc82e",
+        "title": "Requirement response 2",
+        "description": "some description",
         "requirement": {
-          "id": "5576d453efdf4efab61c2af803731b72", 
+          "id": "614790d1644244fb90e43164600fe4ee",
           "title": "Замовник має незаперечні докази того, що учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі"
-        }, 
-        "description": "some description", 
-        "title": "Requirement response 2", 
-        "value": "True", 
+        },
         "evidences": [
           {
-            "title": "Requirement response", 
-            "type": "document", 
+            "id": "155b3976058849a7b17f918e3b34a5b0",
+            "title": "Requirement response",
+            "type": "document",
             "relatedDocument": {
-              "id": "acfc570579ef40e7a24f97ff842356df", 
+              "id": "e23439b470b24f90b7a4aa9ba1725a8b",
               "title": "name.doc"
-            }, 
-            "id": "9e4c939efb6d4b8c947123889dca0b16"
+            }
           }
-        ], 
-        "id": "3252c3c38a7c4a27bba04596c5b024c9"
+        ],
+        "value": "True"
       }
-    ], 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "id": "6b8f3a13e88f40748ef410c1e7bf452a"
+    ],
+    "bid_id": "5bbb26af6309465d850719083dda7db6",
+    "documents": [
+      {
+        "id": "e23439b470b24f90b7a4aa9ba1725a8b",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "name.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6e417dd0f6084ebb9739617419a03b7a?Signature=6JDmTrnPkfe1WUI6B6nzrKq9Wbvr%2BuV7qP2gu5098uBG8bbTB%2BEiqm84kICkODpWXOCDuTVqNvgz%2BQllADi6AA%3D%3D&KeyID=a8968c46",
+        "datePublished": "2020-09-08T01:00:00+03:00",
+        "dateModified": "2020-09-08T01:00:00+03:00",
+        "author": "tender_owner",
+        "documentOf": "tender",
+        "language": "uk"
+      }
+    ]
   }
 }
 

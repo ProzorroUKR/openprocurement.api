@@ -110,7 +110,7 @@ def _validate_requirement_responses(criterias, req_responses):
         if len(group_response) > 1:
             raise ValidationError(
                 u'Provided groups {} conflicting in criteria {}'.format(
-                    group_response.keys(), criteria_id
+                    list(group_response.keys()), criteria_id
                 ))
         criteria_groups = criterias[criteria_id]
         for group_id, requirements in criteria_groups.items():

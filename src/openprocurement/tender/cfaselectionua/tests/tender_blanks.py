@@ -369,7 +369,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"No JSON object could be decoded", u"location": u"body", u"name": u"data"}],
+        [{u"description": u"Expecting value: line 1 column 1 (char 0)", u"location": u"body", u"name": u"data"}],
     )
 
     response = self.app.post_json(request_path, "data", status=422)
@@ -429,7 +429,7 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [u"Please use a mapping for this field or Value instance instead of unicode."],
+                u"description": [u"Please use a mapping for this field or Value instance instead of str."],
                 u"location": u"body",
                 u"name": u"value",
             }
@@ -654,7 +654,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertIn(u"classification", response.json["errors"][0][u"description"][0])
     self.assertIn(u"id", response.json["errors"][0][u"description"][0][u"classification"])
-    self.assertIn("Value must be one of [u", response.json["errors"][0][u"description"][0][u"classification"][u"id"][0])
+    self.assertIn("Value must be one of [", response.json["errors"][0][u"description"][0][u"classification"][u"id"][0])
 
     cpv = self.initial_data["items"][0]["classification"]["id"]
     self.initial_data["items"][0]["classification"]["id"] = u"00000000-0"
@@ -665,7 +665,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertIn(u"classification", response.json["errors"][0][u"description"][0])
     self.assertIn(u"id", response.json["errors"][0][u"description"][0][u"classification"])
-    self.assertIn("Value must be one of [u", response.json["errors"][0][u"description"][0][u"classification"][u"id"][0])
+    self.assertIn("Value must be one of [", response.json["errors"][0][u"description"][0][u"classification"][u"id"][0])
     data = deepcopy(self.initial_data)
     data["items"] = [data["items"][0]]
     data["items"][0]["classification"]["id"] = u"33600000-6"
@@ -957,6 +957,43 @@ def create_tender_from_agreement_with_changes(self):
     create_tender_from_agreement_with_pending_changes(self)
 
 
+def create_tender_from_agreement_with_invalid_changes(self):
+    self.agreement = agreement = deepcopy(self.initial_agreement)
+    now = get_now().isoformat()
+    agreement["changes"] = [
+        {
+            "modifications": [{"itemId": agreement["items"][0]["id"], "addend": 0.9}],
+            "rationaleType": "InvalidRationalType",
+            "dateSigned": now,
+            "rationale": "text",
+            "date": now,
+            "id": uuid4().hex,
+        }
+    ]
+    agreement["id"] = self.agreement_id
+    create_tender_draft_pending(self)
+
+    self.app.authorization = ("Basic", (BOT_NAME, ""))
+
+    self.agreement["changes"][0]["status"] = "active"
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"agreements": [self.agreement], "status": "active.enquiries"}},
+        status=422
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        {
+            'location': 'body', 'name': 'agreements',
+            'description': {
+                'changes': ['Input for polymorphic field did not match any model']
+            }
+        },
+        response.json["errors"][0]
+    )
+
+
 def create_tender_from_agreement_with_active_changes(self):
     self.app.authorization = ("Basic", (BOT_NAME, ""))
 
@@ -1009,17 +1046,17 @@ def create_tender(self):
     response = self.app.post_json("/tenders?opt_jsonp=callback", {"data": self.initial_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/javascript")
-    self.assertIn('callback({"', response.body)
+    self.assertIn('callback({"', response.body.decode())
 
     response = self.app.post_json("/tenders?opt_pretty=1", {"data": self.initial_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertIn('{\n    "', response.body)
+    self.assertIn('{\n    "', response.body.decode())
 
     response = self.app.post_json("/tenders", {"data": self.initial_data, "options": {"pretty": True}})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertIn('{\n    "', response.body)
+    self.assertIn('{\n    "', response.body.decode())
 
     data = deepcopy(self.initial_data)
     data["minimalStep"] = {"amount": 35, "currency": "UAH"}
@@ -1186,12 +1223,12 @@ def get_tender(self):
     response = self.app.get("/tenders/{}?opt_jsonp=callback".format(tender["id"]))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/javascript")
-    self.assertIn('callback({"data": {"', response.body)
+    self.assertIn('callback({"data": {"', response.body.decode())
 
     response = self.app.get("/tenders/{}?opt_pretty=1".format(tender["id"]))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertIn('{\n    "data": {\n        "', response.body)
+    self.assertIn('{\n    "data": {\n        "', response.body.decode())
 
 
 def tender_features_invalid(self):
@@ -2130,7 +2167,7 @@ def patch_not_author(self):
     self.app.authorization = ("Basic", ("bot", "bot"))
 
     response = self.app.post(
-        "/tenders/{}/documents".format(tender["id"]), upload_files=[("file", "name.doc", "content")]
+        "/tenders/{}/documents".format(tender["id"]), upload_files=[("file", "name.doc", b"content")]
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -2426,7 +2463,7 @@ def first_bid_tender(self):
     # create tender contract document for test
     response = self.app.post(
         "/tenders/{}/contracts/{}/documents?acc_token={}".format(tender_id, contract_id, owner_token),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
         status=201,
     )
     self.assertEqual(response.status, "201 Created")
@@ -2452,7 +2489,7 @@ def first_bid_tender(self):
 
     response = self.app.post(
         "/tenders/{}/contracts/{}/documents?acc_token={}".format(tender_id, contract_id, owner_token),
-        upload_files=[("file", "name.doc", "content")],
+        upload_files=[("file", "name.doc", b"content")],
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -2474,7 +2511,7 @@ def first_bid_tender(self):
 
     response = self.app.put(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(tender_id, contract_id, doc_id, owner_token),
-        upload_files=[("file", "name.doc", "content3")],
+        upload_files=[("file", "name.doc", b"content3")],
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")

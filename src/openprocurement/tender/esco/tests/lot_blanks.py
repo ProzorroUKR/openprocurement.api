@@ -38,7 +38,7 @@ def create_tender_lot_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"No JSON object could be decoded", u"location": u"body", u"name": u"data"}],
+        [{u"description": u"Expecting value: line 1 column 1 (char 0)", u"location": u"body", u"name": u"data"}],
     )
 
     response = self.app.post_json(request_path, "data", status=422)
@@ -64,8 +64,8 @@ def create_tender_lot_invalid(self):
     self.assertEqual(
         response.json["errors"],
         [
-            {u"description": [u"This field is required."], u"location": u"body", u"name": u"minimalStepPercentage"},
             {u"description": [u"This field is required."], u"location": u"body", u"name": u"title"},
+            {u"description": [u"This field is required."], u"location": u"body", u"name": u"minimalStepPercentage"},
         ],
     )
 

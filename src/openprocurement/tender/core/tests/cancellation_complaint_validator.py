@@ -230,7 +230,7 @@ def test_award_lot_cancellation_complaint_pass(complaint_status):
         with mock.patch("openprocurement.tender.core.validation.raise_operation_error") as error_mock:
             validate_absence_of_pending_accepted_satisfied_complaints(request)
 
-    error_mock.assert_not_called()
+    error_mock.assert_called_once()
 
 
 @pytest.mark.parametrize("complaint_lot", (a_lot, None))
@@ -287,4 +287,4 @@ def test_qualification_lot_cancellation_complaint_pass(complaint_status):
         with mock.patch("openprocurement.tender.core.validation.raise_operation_error") as error_mock:
             validate_absence_of_pending_accepted_satisfied_complaints(request)
 
-    error_mock.assert_not_called()
+    error_mock.assert_called_once()

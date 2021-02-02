@@ -260,7 +260,7 @@ def set_ownership(item):
     access = {"token": item.owner_token}
     if isinstance(getattr(type(item), "transfer_token", None), StringType):
         transfer = generate_id()
-        item.transfer_token = sha512(transfer).hexdigest()
+        item.transfer_token = sha512(transfer.encode("utf-8")).hexdigest()
         access["transfer"] = transfer
     return access
 

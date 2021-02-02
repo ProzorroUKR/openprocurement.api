@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/fb07ce223a754201a341023b86d832ef/criteria/7b9ccfe6992245678a8a621bb0ebe987/requirement_groups/0fa4344344a741028c886f211dd5d1d5/requirements/24d2f553c73941398f47ccfcfdf8ffbc?acc_token=056f6edd10e84810b429550ae3a12f86 HTTP/1.0
+PATCH /api/2.5/tenders/28620043ada5424cbbfbdc7f6246096f/criteria/1d3d0c833904401a9c378e7e171c68ba/requirement_groups/2d2d30613e824b4fb3651404df351f4b/requirements/d3a5444cc18b4a1b822b83397b2b7d5f?acc_token=b00ba6728a854f2aa3959cc53ebab5d8 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 726
 Content-Type: application/json
@@ -8,14 +8,14 @@ DATA:
   "data": {
     "eligibleEvidences": [
       {
-        "type": "document", 
-        "description": "Довідка в довільній формі", 
-        "title": "Документальне підтвердження"
-      }, 
+        "title": "Документальне підтвердження",
+        "description": "Довідка в довільній формі",
+        "type": "document"
+      },
       {
-        "type": "statement", 
-        "description": "Довідка в довільній формі", 
-        "title": "Документальне підтвердження"
+        "title": "Документальне підтвердження",
+        "description": "Довідка в довільній формі",
+        "type": "statement"
       }
     ]
   }
@@ -26,26 +26,26 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "active", 
-    "title": "Updated title", 
-    "dataType": "boolean", 
-    "datePublished": "2020-09-08T01:00:00+03:00", 
-    "expectedValue": "true", 
-    "id": "24d2f553c73941398f47ccfcfdf8ffbc", 
+    "id": "d3a5444cc18b4a1b822b83397b2b7d5f",
+    "title": "Updated title",
+    "dataType": "boolean",
     "eligibleEvidences": [
       {
-        "title": "Документальне підтвердження", 
-        "type": "document", 
-        "description": "Довідка в довільній формі", 
-        "id": "2a4e1361ff9347859f3ce9e13e2c2a4c"
-      }, 
+        "id": "8d6ce4abf8d44164843866b82f99fb86",
+        "title": "Документальне підтвердження",
+        "description": "Довідка в довільній формі",
+        "type": "document"
+      },
       {
-        "title": "Документальне підтвердження", 
-        "type": "statement", 
-        "description": "Довідка в довільній формі", 
-        "id": "83bdd02af7fb49fe9d477fd96f2e12ab"
+        "id": "cc0ffe22dcc149eb8eeefc746c61d967",
+        "title": "Документальне підтвердження",
+        "description": "Довідка в довільній формі",
+        "type": "statement"
       }
-    ]
+    ],
+    "expectedValue": "true",
+    "status": "active",
+    "datePublished": "2020-09-08T01:00:00+03:00"
   }
 }
 

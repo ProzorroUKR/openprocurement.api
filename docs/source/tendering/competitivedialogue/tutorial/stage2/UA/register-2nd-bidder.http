@@ -1,44 +1,44 @@
-POST /api/2.5/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d/bids HTTP/1.0
+POST /api/2.5/tenders/db4876add6b747dfafc1b99523c02097/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1141
+Content-Length: 1147
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "documents": [
-      {
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6ce04e80464b4567830a30ffc7c1bb62?KeyID=a8968c46&Signature=pdjIfuseyC2eyZO%2FhbxhUqzXc4p4JuSiVqAiKSRsyFq%2B5DhMFQoZIIe4OE4eB5%2BRrSSJvQjkECo3WOwLbW8UAQ%3D%3D", 
-        "title": "Proposal_part1.pdf", 
-        "hash": "md5:00000000000000000000000000000000", 
-        "format": "application/pdf"
-      }
-    ], 
-    "selfQualified": true, 
-    "value": {
-      "amount": 499
-    }, 
     "tenderers": [
       {
-        "contactPoint": {
-          "email": "aagt@gmail.com", 
-          "name": "Андрій Олексюк", 
-          "telephone": "+380 (322) 91-69-30"
-        }, 
-        "scale": "sme", 
-        "name": "ДКП «Книга»", 
-        "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137226", 
-          "uri": "http://www.sc.gov.ua/"
-        }, 
         "address": {
-          "countryName": "Україна", 
-          "postalCode": "79013", 
-          "region": "Львівська область", 
-          "streetAddress": "вул. Островського, 34", 
-          "locality": "м. Львів"
-        }
+          "countryName": "Україна",
+          "locality": "м. Львів",
+          "postalCode": "79013",
+          "region": "Львівська область",
+          "streetAddress": "вул. Островського, 34"
+        },
+        "contactPoint": {
+          "email": "aagt@gmail.com",
+          "name": "Андрій Олексюк",
+          "telephone": "+380 (322) 91-69-30"
+        },
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137226",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "ДКП «Книга»",
+        "scale": "sme"
+      }
+    ],
+    "value": {
+      "amount": 499
+    },
+    "selfQualified": true,
+    "documents": [
+      {
+        "title": "Proposal_part1.pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c004bc1fa7cf4c3c826827be00857d15?Signature=uUtdJxYhkaHr9vgDGjR%2F0LJmZ8XGzXa%2FXhqNindYza%2BTh%2F69rmbd%2BjeKES4R5%2Ff3lUCnztSrN1LsI7ZokTKtBQ%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "application/pdf"
       }
     ]
   }
@@ -46,58 +46,58 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d/bids/e734fbdbe036455ab01ee76d17639fe8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db4876add6b747dfafc1b99523c02097/bids/7a54480af9574a7d958d7bd95701ec9e
 X-Content-Type-Options: nosniff
 {
-  "access": {
-    "transfer": "599945bbdf574a34816e226cf92a06fe", 
-    "token": "c631e154db144d01824af380c6d83247"
-  }, 
   "data": {
-    "status": "active", 
-    "documents": [
-      {
-        "hash": "md5:00000000000000000000000000000000", 
-        "title": "Proposal_part1.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c4eafa4139e24f1d84c1ce5ccbb4560d/bids/e734fbdbe036455ab01ee76d17639fe8/documents/30715e992ccb42c18885392f032413a1?download=6ce04e80464b4567830a30ffc7c1bb62", 
-        "format": "application/pdf", 
-        "documentOf": "tender", 
-        "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "30715e992ccb42c18885392f032413a1", 
-        "dateModified": "2020-09-08T01:00:00+03:00"
-      }
-    ], 
-    "value": {
-      "currency": "UAH", 
-      "amount": 499.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "selfQualified": true, 
     "tenderers": [
       {
-        "contactPoint": {
-          "email": "aagt@gmail.com", 
-          "telephone": "+380 (322) 91-69-30", 
-          "name": "Андрій Олексюк"
-        }, 
-        "scale": "sme", 
-        "name": "ДКП «Книга»", 
+        "name": "ДКП «Книга»",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137226", 
+          "scheme": "UA-EDR",
+          "id": "00137226",
           "uri": "http://www.sc.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "79013", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 34", 
-          "region": "Львівська область", 
-          "locality": "м. Львів"
-        }
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Андрій Олексюк",
+          "email": "aagt@gmail.com",
+          "telephone": "+380 (322) 91-69-30"
+        },
+        "scale": "sme"
       }
-    ], 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "id": "e734fbdbe036455ab01ee76d17639fe8"
+    ],
+    "date": "2020-09-08T01:00:00+03:00",
+    "id": "7a54480af9574a7d958d7bd95701ec9e",
+    "value": {
+      "amount": 499.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "status": "active",
+    "selfQualified": true,
+    "documents": [
+      {
+        "id": "4a233f3520e6441c97e66eed74ab00bf",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Proposal_part1.pdf",
+        "format": "application/pdf",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db4876add6b747dfafc1b99523c02097/bids/7a54480af9574a7d958d7bd95701ec9e/documents/4a233f3520e6441c97e66eed74ab00bf?download=c004bc1fa7cf4c3c826827be00857d15",
+        "datePublished": "2020-09-08T01:00:00+03:00",
+        "dateModified": "2020-09-08T01:00:00+03:00",
+        "documentOf": "tender"
+      }
+    ]
+  },
+  "access": {
+    "token": "a20c70d6abdc4e11a24e172dcd5a2aed",
+    "transfer": "f1edf79abcc54c62bc5796a1beb2d132"
   }
 }
 

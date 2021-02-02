@@ -223,7 +223,7 @@ class PlanOrganization(BaseOrganization):
 class PlanTender(Model):
     """Tender for planning model """
 
-    procurementMethod = StringType(choices=PROCEDURES.keys(), default="")
+    procurementMethod = StringType(choices=list(PROCEDURES.keys()), default="")
     procurementMethodType = StringType(choices=list(chain(*PROCEDURES.values())), default="")
     tenderPeriod = ModelType(Period, required=True)
 

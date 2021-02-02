@@ -10,12 +10,12 @@ Response: 422 Unprocessable Entity
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
-  "status": "error", 
+  "status": "error",
   "errors": [
     {
-      "description": "No JSON object could be decoded", 
-      "location": "body", 
-      "name": "data"
+      "location": "body",
+      "name": "data",
+      "description": "Expecting value: line 1 column 1 (char 0)"
     }
   ]
 }

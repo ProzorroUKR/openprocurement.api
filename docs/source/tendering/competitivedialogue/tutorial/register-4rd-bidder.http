@@ -1,52 +1,52 @@
-POST /api/2.5/tenders/35f93e8dd5484abb8b90687952c82010/bids HTTP/1.0
+POST /api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1591
+Content-Length: 1595
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "documents": [
-      {
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/19d7c62da8e144799eb146bcd5501b48?KeyID=a8968c46&Signature=s3TNC0Q8b7cxRiK4GvQwM2WwQxWYg9e%2Bo5PE1s416Ot%2FEcvKnkY%2Bi%2Bqq%2FBTbnh6tNirCVMVo4nUl654as0JaAA%3D%3D", 
-        "title": "Proposal_part1.pdf", 
-        "hash": "md5:00000000000000000000000000000000", 
-        "format": "application/pdf"
-      }, 
-      {
-        "hash": "md5:00000000000000000000000000000000", 
-        "confidentiality": "buyerOnly", 
-        "format": "application/pdf", 
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9256c48555a442f9991381bf30f8f2c2?KeyID=a8968c46&Signature=mvNhuSAUHm%2FwERkPz2dYsMGwRO0OEnmgybsyCxkpMvb9OPHc7yQQZmaHnKR1222cd98jvmooAvGaBkDvoeT1Aw%3D%3D", 
-        "confidentialityRationale": "Only our company sells badgers with pink hair.", 
-        "title": "Proposal_part2.pdf"
-      }
-    ], 
-    "selfQualified": true, 
-    "value": {
-      "amount": 5
-    }, 
     "tenderers": [
       {
-        "contactPoint": {
-          "email": "fake@mail.com", 
-          "name": "Іван Карпенко", 
-          "telephone": "+380 (322) 12-34-56"
-        }, 
-        "scale": "large", 
-        "name": "«Кенгуру»", 
-        "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137228", 
-          "uri": "http://www.sc.gov.ua/"
-        }, 
         "address": {
-          "countryName": "Україна", 
-          "postalCode": "79013", 
-          "region": "Запорізька область", 
-          "streetAddress": "вул. Коцюбинського, 15", 
-          "locality": "м. Запоріжя"
-        }
+          "countryName": "Україна",
+          "locality": "м. Запоріжя",
+          "postalCode": "79013",
+          "region": "Запорізька область",
+          "streetAddress": "вул. Коцюбинського, 15"
+        },
+        "contactPoint": {
+          "email": "fake@mail.com",
+          "name": "Іван Карпенко",
+          "telephone": "+380 (322) 12-34-56"
+        },
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137228",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "«Кенгуру»",
+        "scale": "large"
+      }
+    ],
+    "value": {
+      "amount": 5
+    },
+    "selfQualified": true,
+    "documents": [
+      {
+        "title": "Proposal_part1.pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/18236fa45edb456ca74c8320b4b0d2b8?Signature=9tVE6i4gw6ZVI70DEW4Y0Evhgl%2BRhLEVDHxzBX%2BAOAhVWmr4uJVXJlaSN1YbMr5VeOlsCOo8mnOq4g1pjEbXDA%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "application/pdf"
+      },
+      {
+        "title": "Proposal_part2.pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/aec550f71c1e47f4bb789564fdfa149c?Signature=qhTXOzPmmkUYK%2BNetKCt79%2FO0w3VCztL2P8TTtGqGGRgBKdzoFF87kb%2FpLOCYHRgKvmfGmn3n%2FSG7o%2F%2BV3rrBQ%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "application/pdf",
+        "confidentiality": "buyerOnly",
+        "confidentialityRationale": "Only our company sells badgers with pink hair."
       }
     ]
   }
@@ -54,69 +54,69 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/35f93e8dd5484abb8b90687952c82010/bids/a9dfbf475786442eb9724e7364d1b6e3
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb/bids/ebac806fe83a4f0492193afac91b47bd
 X-Content-Type-Options: nosniff
 {
-  "access": {
-    "transfer": "e1084e14db254a5eaacd772014cc79e0", 
-    "token": "aadc63be78604ee7b77daa03ed5d9558"
-  }, 
   "data": {
-    "status": "pending", 
-    "documents": [
-      {
-        "hash": "md5:00000000000000000000000000000000", 
-        "confidentiality": "public", 
-        "language": "uk", 
-        "title": "Proposal_part1.pdf", 
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/35f93e8dd5484abb8b90687952c82010/bids/a9dfbf475786442eb9724e7364d1b6e3/documents/1818cc760bd94aafa2c22f644635eb35?download=19d7c62da8e144799eb146bcd5501b48", 
-        "format": "application/pdf", 
-        "isDescriptionDecision": false, 
-        "documentOf": "tender", 
-        "datePublished": "2020-09-08T01:00:00+03:00", 
-        "id": "1818cc760bd94aafa2c22f644635eb35", 
-        "dateModified": "2020-09-08T01:00:00+03:00"
-      }, 
-      {
-        "hash": "md5:00000000000000000000000000000000", 
-        "confidentiality": "buyerOnly", 
-        "language": "uk", 
-        "title": "Proposal_part2.pdf", 
-        "confidentialityRationale": "Only our company sells badgers with pink hair.", 
-        "format": "application/pdf", 
-        "isDescriptionDecision": false, 
-        "documentOf": "tender", 
-        "datePublished": "2020-09-08T01:00:00+03:00", 
-        "dateModified": "2020-09-08T01:00:00+03:00", 
-        "id": "ca040c549c464c3bbd8afcb3d77704f3"
-      }
-    ], 
-    "selfQualified": true, 
     "tenderers": [
       {
-        "contactPoint": {
-          "email": "fake@mail.com", 
-          "telephone": "+380 (322) 12-34-56", 
-          "name": "Іван Карпенко"
-        }, 
-        "scale": "large", 
-        "name": "«Кенгуру»", 
+        "name": "«Кенгуру»",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137228", 
+          "scheme": "UA-EDR",
+          "id": "00137228",
           "uri": "http://www.sc.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "79013", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Коцюбинського, 15", 
-          "region": "Запорізька область", 
-          "locality": "м. Запоріжя"
-        }
+          "streetAddress": "вул. Коцюбинського, 15",
+          "locality": "м. Запоріжя",
+          "region": "Запорізька область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Іван Карпенко",
+          "email": "fake@mail.com",
+          "telephone": "+380 (322) 12-34-56"
+        },
+        "scale": "large"
       }
-    ], 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "id": "a9dfbf475786442eb9724e7364d1b6e3"
+    ],
+    "date": "2020-09-08T01:00:00+03:00",
+    "id": "ebac806fe83a4f0492193afac91b47bd",
+    "selfQualified": true,
+    "status": "pending",
+    "documents": [
+      {
+        "id": "e0e4cbc86f6e4fe8adc624ee62d3b656",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Proposal_part1.pdf",
+        "format": "application/pdf",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb/bids/ebac806fe83a4f0492193afac91b47bd/documents/e0e4cbc86f6e4fe8adc624ee62d3b656?download=18236fa45edb456ca74c8320b4b0d2b8",
+        "datePublished": "2020-09-08T01:00:00+03:00",
+        "dateModified": "2020-09-08T01:00:00+03:00",
+        "documentOf": "tender",
+        "confidentiality": "public",
+        "language": "uk",
+        "isDescriptionDecision": false
+      },
+      {
+        "id": "d098a5351cf3493192450f03a0750209",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Proposal_part2.pdf",
+        "format": "application/pdf",
+        "datePublished": "2020-09-08T01:00:00+03:00",
+        "dateModified": "2020-09-08T01:00:00+03:00",
+        "documentOf": "tender",
+        "confidentialityRationale": "Only our company sells badgers with pink hair.",
+        "confidentiality": "buyerOnly",
+        "language": "uk",
+        "isDescriptionDecision": false
+      }
+    ]
+  },
+  "access": {
+    "token": "569aa38633e3486b8f6e600c2304050a",
+    "transfer": "1f3b8ccede9e4530a2cf828e50fd51c2"
   }
 }
 

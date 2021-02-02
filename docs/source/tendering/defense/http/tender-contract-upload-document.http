@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/127bd59fdd464def8d1189b954eefcbb/contracts/815bd06a9ab34af69743fc32a8451cc6/documents?acc_token=78250e99c9974266933e656d51b30048 HTTP/1.0
+POST /api/2.5/tenders/f8aae737ac8f4d34a52254e2f3416505/contracts/f190bafc3826498f9de5daa525e5e68b/documents?acc_token=38dfa7b7e6ef4691b199e71e4247e9dc HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 156
 Content-Type: multipart/form-data; boundary=---BOUNDARY
@@ -14,18 +14,18 @@ content
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/127bd59fdd464def8d1189b954eefcbb/contracts/815bd06a9ab34af69743fc32a8451cc6/documents/20e9860c23674cc997300b091abfeb7f
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f8aae737ac8f4d34a52254e2f3416505/contracts/f190bafc3826498f9de5daa525e5e68b/documents/feed2076a94a48e1810496af9b9e403e
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "hash": "md5:00000000000000000000000000000000", 
-    "title": "contract_document.doc", 
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1ab14e7fb81b46cda90355f1dd9b035d?KeyID=a8968c46&Signature=VIIarzFX0PmI%2FVcUaQoqJYHlhQdWWonWdSWk5HAXmAc2IZ6R%252BxrCDuOoMzLxOCrAJkLOmxpDpzP%252B9rRlpijRDA%253D%253D", 
-    "format": "application/msword", 
-    "documentOf": "tender", 
-    "datePublished": "2020-09-08T01:00:03+03:00", 
-    "id": "20e9860c23674cc997300b091abfeb7f", 
-    "dateModified": "2020-09-08T01:00:03+03:00"
+    "id": "feed2076a94a48e1810496af9b9e403e",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "contract_document.doc",
+    "format": "application/msword",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8a968439bb234638b1981f50cddf8d1e?Signature=0w9B%2FeG%2FHzuWRPG6%2BF3P6%2BSk%2F67N0H4rGoVK%2FQrb7Xz30H%2BzHFPcMOjT7VeksJlGE30PJky1rOuiN5TGoihZCw%3D%3D&KeyID=a8968c46",
+    "datePublished": "2020-09-08T01:00:03+03:00",
+    "dateModified": "2020-09-08T01:00:03+03:00",
+    "documentOf": "tender"
   }
 }
 

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/bc3a9016b29d4fed894cc62d3ff59680/awards/898563864e114bff9ca304570bfc199e?acc_token=e6bb69a4c5474e4987130585951b6f3e HTTP/1.0
+PATCH /api/2.5/tenders/4826290bfb064165b70a94d71e93a63b/awards/876cc10a65a9469f9b82800b5148db3c?acc_token=e6b4c4ef7b894e8da225bae574bf7b61 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -15,42 +15,42 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "active", 
-    "complaintPeriod": {
-      "startDate": "2020-09-08T01:00:01+03:00", 
-      "endDate": "2020-09-10T01:00:01+03:00"
-    }, 
+    "id": "876cc10a65a9469f9b82800b5148db3c",
+    "status": "active",
+    "date": "2020-09-08T01:00:01+03:00",
+    "value": {
+      "amount": 499.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "suppliers": [
       {
-        "contactPoint": {
-          "email": "aagt@gmail.com", 
-          "telephone": "+380 (322) 91-69-30", 
-          "name": "Андрій Олексюк"
-        }, 
-        "scale": "sme", 
-        "name": "ДКП «Книга»", 
+        "name": "ДКП «Книга»",
         "identifier": {
-          "scheme": "UA-EDR", 
-          "id": "00137226", 
+          "scheme": "UA-EDR",
+          "id": "00137226",
           "uri": "http://www.sc.gov.ua/"
-        }, 
+        },
         "address": {
-          "postalCode": "79013", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Островського, 34", 
-          "region": "Львівська область", 
-          "locality": "м. Львів"
-        }
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Андрій Олексюк",
+          "email": "aagt@gmail.com",
+          "telephone": "+380 (322) 91-69-30"
+        },
+        "scale": "sme"
       }
-    ], 
-    "bid_id": "7a06b14aeefa4addb9a4277794eb7819", 
-    "value": {
-      "currency": "UAH", 
-      "amount": 499.0, 
-      "valueAddedTaxIncluded": true
-    }, 
-    "date": "2020-09-08T01:00:01+03:00", 
-    "id": "898563864e114bff9ca304570bfc199e"
+    ],
+    "bid_id": "3ab765b05e8746edb4fabf8c09d0c17b",
+    "complaintPeriod": {
+      "startDate": "2020-09-08T01:00:01+03:00",
+      "endDate": "2020-09-10T01:00:01+03:00"
+    }
   }
 }
 

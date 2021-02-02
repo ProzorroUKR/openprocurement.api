@@ -1,33 +1,33 @@
-POST /api/2.5/tenders/6ccc95c340c94e32bcf0b8c2183e62f7/awards/19ec6d107424404daa2b35ae7a2d2c17/documents?acc_token=794fefa6abd34c81a289161fadb1feb4 HTTP/1.0
+POST /api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/awards/c08bfb3430e14ad69602b3aac7937b85/documents?acc_token=1649f66a8e4c4492affe5b291314ebf9 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 327
+Content-Length: 325
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1addeea14e464014a69fc26373ed4ce7?KeyID=a8968c46&Signature=g3SinQzaISnyJ4e7X8K4Z%2FVqYvM4ZWY0FbYCDZEG2futZNssj%2BsGwtbiZkrrbJBpRZjugaWzQgQX2aBrnUt6Cw%3D%3D", 
-    "title": "explanation.pdf", 
-    "hash": "md5:00000000000000000000000000000000", 
+    "title": "explanation.pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b1e8586a6be54da58c857f242f7ae959?Signature=45zNM8SnLREoJz4B377Zh0LKjYl39jdxww9rPva6zrJHb6rbTMxaoWtWpbknVXKvoYQiINo1o%2FDUsTtcxqR7Cg%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
     "format": "application/pdf"
   }
 }
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6ccc95c340c94e32bcf0b8c2183e62f7/awards/19ec6d107424404daa2b35ae7a2d2c17/documents/770ac8ab0b7d47f69da9e5070fe8a369
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/awards/c08bfb3430e14ad69602b3aac7937b85/documents/565e2d8c19924b8183c7e0d50130c4c9
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "hash": "md5:00000000000000000000000000000000", 
-    "author": "tender_owner", 
-    "title": "explanation.pdf", 
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1addeea14e464014a69fc26373ed4ce7?KeyID=a8968c46&Signature=cFYAgXTGMi6MvJJXxnFQ89WDxivteFxIDAS16fb1M9b11BvxQuV32fIuXGGM8lm3JXP6xXMqSsV5FZvJ2PKtDQ%253D%253D", 
-    "format": "application/pdf", 
-    "documentOf": "tender", 
-    "datePublished": "2020-09-08T01:00:00+03:00", 
-    "id": "770ac8ab0b7d47f69da9e5070fe8a369", 
-    "dateModified": "2020-09-08T01:00:00+03:00"
+    "id": "565e2d8c19924b8183c7e0d50130c4c9",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "explanation.pdf",
+    "format": "application/pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b1e8586a6be54da58c857f242f7ae959?Signature=1AC4YaYiuKVq2IAVVH1MCwoid7QsbJItQbTYAbhYmG2ZvyW45WQRC4nDaHL2r301ySz4AHDHXixgCq4cBFSgAw%3D%3D&KeyID=a8968c46",
+    "datePublished": "2020-09-08T01:00:00+03:00",
+    "dateModified": "2020-09-08T01:00:00+03:00",
+    "author": "tender_owner",
+    "documentOf": "tender"
   }
 }
 

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/24660b6d159d42adb6aaba9d978575c7/bids/9e2ee09e73b94c1aab0be7ed1f2c9bd9?acc_token=f0760e708e124c8fb9f34e562dbf59cf HTTP/1.0
+PATCH /api/2.5/tenders/930000429dcc4a83a2879dcc45bc5d8a/bids/65928406b44b4f73ad7b8be9591d208f?acc_token=07e06cacd82447318b5e6202df60b523 HTTP/1.0
 Authorization: Bearer token
 Content-Length: 30
 Content-Type: application/json
@@ -14,14 +14,14 @@ Response: 422 Unprocessable Entity
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
-  "status": "error", 
+  "status": "error",
   "errors": [
     {
+      "location": "body",
+      "name": "requirementResponses",
       "description": [
         "Inside criteria must be answered only one requirement group"
-      ], 
-      "location": "body", 
-      "name": "requirementResponses"
+      ]
     }
   ]
 }

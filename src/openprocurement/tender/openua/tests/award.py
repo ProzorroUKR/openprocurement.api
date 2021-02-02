@@ -311,7 +311,7 @@ class TenderAwardRequirementResponsEvidenceResourceTest(
         response = self.app.post(
             "/tenders/{}/awards/{}/documents?acc_token={}".format(
                 self.tender_id, self.award_id, self.tender_token),
-            upload_files=[("file", "name.doc", "content")],
+            upload_files=[("file", "name.doc", b"content")],
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")

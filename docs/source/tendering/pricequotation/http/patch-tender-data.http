@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/db4fb6143a5f45b6953e8f010ed8064e?acc_token=151a30932ee245e989771be867bc8235 HTTP/1.0
+PATCH /api/2.5/tenders/e821f507458c4e99bdd9928981355ffa?acc_token=c87b58b4160f425b8973621e89008a15 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 68
 Content-Type: application/json
@@ -17,66 +17,66 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "status": "draft", 
-    "procurementMethod": "selective", 
-    "mainProcurementCategory": "goods", 
-    "tenderPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00", 
-      "endDate": "2020-09-23T01:00:11+03:00"
-    }, 
-    "title": "Комп’ютерне обладнання", 
+    "title": "Комп’ютерне обладнання",
+    "date": "2020-09-08T01:00:00+03:00",
+    "dateModified": "2020-09-08T01:00:01+03:00",
+    "tenderID": "UA-2020-09-08-000001",
+    "owner": "broker",
+    "mainProcurementCategory": "goods",
+    "awardCriteria": "lowestCost",
+    "submissionMethod": "electronicAuction",
+    "status": "draft",
     "items": [
       {
+        "id": "61a6737049384b08876fb0407eda182f",
+        "description": "Комп’ютерне обладнання",
+        "quantity": 1.0,
         "deliveryDate": {
-          "startDate": "2020-09-10T01:00:00+03:00", 
+          "startDate": "2020-09-10T01:00:00+03:00",
           "endDate": "2020-09-13T01:00:00+03:00"
-        }, 
-        "description": "Комп’ютерне обладнання", 
-        "quantity": 1.0, 
-        "id": "d581e0b6310f42a29db8b39d3940beb4", 
+        },
         "deliveryAddress": {
-          "postalCode": "79000", 
-          "countryName": "Україна", 
-          "streetAddress": "вул. Банкова 1", 
-          "region": "м. Київ", 
-          "locality": "м. Київ"
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
         }
       }
-    ], 
-    "procurementMethodType": "priceQuotation", 
+    ],
     "value": {
-      "currency": "UAH", 
-      "amount": 22000.0, 
+      "amount": 22000.0,
+      "currency": "UAH",
       "valueAddedTaxIncluded": true
-    }, 
-    "submissionMethod": "electronicAuction", 
-    "date": "2020-09-08T01:00:00+03:00", 
-    "profile": "655360-30230000-889652-40000777", 
+    },
+    "tenderPeriod": {
+      "startDate": "2020-09-08T01:00:00+03:00",
+      "endDate": "2020-09-23T01:00:11+03:00"
+    },
     "procuringEntity": {
-      "contactPoint": {
-        "name": "Державне управління справами", 
-        "telephone": "0440000000"
-      }, 
+      "name": "Державне управління справами",
       "identifier": {
-        "scheme": "UA-EDR", 
-        "id": "00037256", 
+        "scheme": "UA-EDR",
+        "id": "00037256",
         "uri": "http://www.dus.gov.ua/"
-      }, 
-      "name": "Державне управління справами", 
-      "kind": "general", 
+      },
       "address": {
-        "postalCode": "01220", 
-        "countryName": "Україна", 
-        "streetAddress": "вул. Банкова, 11, корпус 1", 
-        "region": "м. Київ", 
-        "locality": "м. Київ"
-      }
-    }, 
-    "awardCriteria": "lowestCost", 
-    "owner": "broker", 
-    "dateModified": "2020-09-08T01:00:01+03:00", 
-    "id": "db4fb6143a5f45b6953e8f010ed8064e", 
-    "tenderID": "UA-2020-09-08-000001"
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "0440000000"
+      },
+      "kind": "general"
+    },
+    "procurementMethod": "selective",
+    "procurementMethodType": "priceQuotation",
+    "profile": "655360-30230000-889652-40000777",
+    "id": "e821f507458c4e99bdd9928981355ffa"
   }
 }
 

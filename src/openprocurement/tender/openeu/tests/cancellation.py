@@ -59,7 +59,7 @@ from openprocurement.tender.openeu.tests.cancellation_blanks import (
 
 class TenderCancellationBidsAvailabilityUtils(object):
     def _mark_one_bid_deleted(self):
-        bid_id, bid_token = self.initial_bids_tokens.items()[0]
+        bid_id, bid_token = list(self.initial_bids_tokens.items())[0]
         response = self.app.delete("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token))
         self.assertEqual(response.status, "200 OK")
         self.valid_bids.remove(bid_id)
@@ -76,7 +76,7 @@ class TenderCancellationBidsAvailabilityUtils(object):
             ]:
                 response = self.app.post(
                     "/tenders/{}/bids/{}/{}?acc_token={}".format(self.tender_id, bid_id, doc_resource, bid_token),
-                    upload_files=[("file", "name_{}.doc".format(doc_resource[:-1]), "content")],
+                    upload_files=[("file", "name_{}.doc".format(doc_resource[:-1]), b"content")],
                 )
                 doc_id = response.json["data"]["id"]
 
@@ -271,7 +271,7 @@ class TenderCancellationBidsAvailabilityTest(
 
     def setUp(self):
         super(TenderCancellationBidsAvailabilityTest, self).setUp()
-        self.valid_bids = self.initial_bids_tokens.keys()
+        self.valid_bids = list(self.initial_bids_tokens.keys())
         self._prepare_bids_docs()
 
     test_bids_on_tender_cancellation_in_tendering = snitch(bids_on_tender_cancellation_in_tendering)

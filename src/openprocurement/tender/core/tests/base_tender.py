@@ -16,7 +16,7 @@ class TestTenderMilestones(unittest.TestCase):
         tender = BaseTender(self.initial_tender_data)
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
-        self.assertEqual(e.exception.message, {"milestones": ["Tender should contain at least one milestone"]})
+        self.assertEqual(e.exception.messages, {"milestones": ["Tender should contain at least one milestone"]})
 
     def test_regression_milestones(self):
         with patch("openprocurement.tender.core.models.MILESTONES_VALIDATION_FROM", get_now() + timedelta(days=1)):
@@ -31,7 +31,7 @@ class TestTenderMilestones(unittest.TestCase):
         tender = BaseTender(initial_data)
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
-        self.assertEqual(e.exception.message, {"milestones": ["Tender should contain at least one milestone"]})
+        self.assertEqual(e.exception.messages, {"milestones": ["Tender should contain at least one milestone"]})
 
     def test_validate_empty_object(self):
         initial_data = dict(self.initial_tender_data)
@@ -41,7 +41,7 @@ class TestTenderMilestones(unittest.TestCase):
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
         self.assertEqual(
-            e.exception.message,
+            e.exception.messages,
             {
                 "milestones": [
                     {
@@ -81,7 +81,7 @@ class TestTenderMilestones(unittest.TestCase):
         expected_codes = ["prepayment", "postpayment"]
         expected_types = ["financing"]
         self.assertEqual(
-            e.exception.message,
+            e.exception.messages,
             {
                 "milestones": [
                     {
@@ -115,7 +115,7 @@ class TestTenderMilestones(unittest.TestCase):
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
 
-        self.assertEqual(e.exception.message, {"milestones": [{"description": [u"This field is required."]}]})
+        self.assertEqual(e.exception.messages, {"milestones": [{"description": [u"This field is required."]}]})
 
     def test_title_other_description_empty_invalid(self):
         initial_data = dict(self.initial_tender_data)
@@ -137,7 +137,7 @@ class TestTenderMilestones(unittest.TestCase):
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
 
-        self.assertEqual(e.exception.message, {"milestones": [{"description": [u"This field is required."]}]})
+        self.assertEqual(e.exception.messages, {"milestones": [{"description": [u"This field is required."]}]})
 
     def test_validate_percentage_too_big(self):
         initial_data = dict(self.initial_tender_data)
@@ -159,7 +159,7 @@ class TestTenderMilestones(unittest.TestCase):
             tender.validate()
 
         self.assertEqual(
-            e.exception.message, {"milestones": [{"percentage": [u"Float value should be less than 100."]}]}
+            e.exception.messages, {"milestones": [{"percentage": [u"Float value should be less than 100."]}]}
         )
 
     def test_validate_percentage_sum(self):
@@ -190,7 +190,7 @@ class TestTenderMilestones(unittest.TestCase):
             tender.validate()
 
         self.assertEqual(
-            e.exception.message,
+            e.exception.messages,
             {"milestones": [u"Sum of the financial milestone percentages 100.001 is not equal 100."]},
         )
 
@@ -278,7 +278,7 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
             tender.validate()
 
         self.assertEqual(
-            e.exception.message, {"milestones": [{"relatedLot": [u"relatedLot should be one of the lots."]}]}
+            e.exception.messages, {"milestones": [{"relatedLot": [u"relatedLot should be one of the lots."]}]}
         )
 
     def test_validate_lot_sum_incorrect(self):
@@ -311,7 +311,7 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
             tender.validate()
 
         self.assertEqual(
-            e.exception.message,
+            e.exception.messages,
             {
                 "milestones": [
                     u"Sum of the financial milestone percentages 50.0 is not equal 100 for lot {}.".format("a" * 32)
@@ -404,7 +404,7 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
             tender.validate()
 
         self.assertEqual(
-            e.exception.message,
+            e.exception.messages,
             {
                 "milestones": [
                     u"Sum of the financial milestone percentages 99.999 is not equal 100 for lot {}.".format(u"b" * 32)

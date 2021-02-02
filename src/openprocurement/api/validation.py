@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from json import JSONDecodeError
 from schematics.exceptions import ValidationError, ModelValidationError
 from openprocurement.api.auth import check_user_accreditations, ACCR_TEST, ACCR_EXIT
 from openprocurement.api.constants import INN_SCHEME, CPV_PHARM_PRODUCTS, CPV_336_INN_FROM
@@ -19,8 +20,9 @@ OPERATIONS = {"POST": "add", "PATCH": "update", "PUT": "update", "DELETE": "dele
 def validate_json_data(request, allow_bulk=False):
     try:
         json = request.json
-    except ValueError as e:
+    except JSONDecodeError as e:
         request.errors.add("body", "data", str(e))
+        # request.errors.add("body", "data", "No JSON object could be decoded")  # Expecting value: line 1 column 1 (char 0)
         request.errors.status = 422
         raise error_handler(request)
     data = json.get("data") if isinstance(json, dict) else None

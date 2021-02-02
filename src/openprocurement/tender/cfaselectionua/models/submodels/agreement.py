@@ -16,7 +16,7 @@ from openprocurement.tender.cfaselectionua.models.submodels.change import (
     ChangePartyWithdrawal,
     ChangeThirdParty,
 )
-from openprocurement.tender.cfaselectionua.utils import get_change_class
+from openprocurement.api.utils import get_change_class
 
 
 class Agreement(Model):
