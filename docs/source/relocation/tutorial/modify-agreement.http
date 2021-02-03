@@ -1,4 +1,4 @@
-PATCH /api/2.5/agreements/0c6c916713f643eb91c4fa2ddea54cc7?acc_token=cece5928fe0f4a3ba06b1ecb8363d458 HTTP/1.0
+PATCH /api/2.5/agreements/5f2c362583984e0daed42cb21777cee3?acc_token=cece5928fe0f4a3ba06b1ecb8363d458 HTTP/1.0
 Authorization: Bearer broker3
 Content-Length: 71
 Content-Type: application/json
@@ -15,11 +15,11 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "0c6c916713f643eb91c4fa2ddea54cc7",
+    "id": "5f2c362583984e0daed42cb21777cee3",
     "agreementID": "UA-2018-07-30-000001-afe4b1ed046845bcae5d675b0b8ca5aa1",
     "status": "active",
     "dateModified": "2020-09-08T01:00:00+03:00",
-    "tender_id": "77ebf1a4c695488db75d27e8c0d32515",
+    "tender_id": "f394ae7a792e404c96103b00547a61d5",
     "owner": "broker3",
     "dateSigned": "2020-09-08T01:00:00+03:00",
     "contracts": [

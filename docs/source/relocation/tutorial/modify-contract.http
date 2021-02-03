@@ -1,4 +1,4 @@
-PATCH /api/2.5/contracts/551eeb10d1af410a8548070ea9f06657?acc_token=bdba313e349b45718d574fead77a65e1 HTTP/1.0
+PATCH /api/2.5/contracts/2b264b733b7546749561d03ffa5e7971?acc_token=bdba313e349b45718d574fead77a65e1 HTTP/1.0
 Authorization: Bearer broker3
 Content-Length: 64
 Content-Type: application/json
@@ -15,7 +15,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "551eeb10d1af410a8548070ea9f06657",
+    "id": "2b264b733b7546749561d03ffa5e7971",
     "awardID": "8481d7eb01694c25b18658036c236c5d",
     "contractID": "UA-2016-03-18-000001-1",
     "contractNumber": "contract #13111",
@@ -60,7 +60,7 @@ X-Content-Type-Options: nosniff
         ]
       }
     ],
-    "tender_id": "5255187530124a5eb56f61a52fc35071",
+    "tender_id": "232024f88849442aae6b031afd11a28b",
     "owner": "broker3",
     "status": "active",
     "suppliers": [
