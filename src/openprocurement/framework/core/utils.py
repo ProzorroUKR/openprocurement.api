@@ -256,6 +256,26 @@ def generate_agreementID(ctime, db, server_id=""):
     )
 
 
+def generate_agreementID(ctime, db, server_id=""):
+    key = ctime.date().isoformat()
+    prettyIDdoc = "agreementID_" + server_id if server_id else "agreementID"
+    while True:
+        try:
+            agreementID = db.get(prettyIDdoc, {"_id": prettyIDdoc})
+            index = agreementID.get(key, 1)
+            agreementID[key] = index + 1
+            db.save(agreementID)
+        except ResourceConflict:  # pragma: no cover
+            pass
+        except Exception:  # pragma: no cover
+            sleep(1)
+        else:
+            break
+    return "UA-{:04}-{:02}-{:02}-{:06}{}".format(
+        ctime.year, ctime.month, ctime.day, index, server_id and "-" + server_id
+    )
+
+
 def save_object(request, obj_name, with_test_mode=True):
     obj = request.validated[obj_name]
 
