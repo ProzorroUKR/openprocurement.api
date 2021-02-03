@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
-
 from openprocurement.api.tests.base import snitch
-
-from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
+from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin, TenderTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     # TenderProcessTest
     invalid_tender_conditions,
@@ -39,17 +37,13 @@ from openprocurement.tender.openeu.tests.tender_blanks import (
     patch_tender,
     invalid_bid_tender_features,
     invalid_bid_tender_lot,
-    # TenderTest
-    simple_add_tender,
 )
+from openprocurement.tender.openeu.models import Tender
 
 
-class TenderTest(BaseTenderWebTest):
-
-    initial_auth = ("Basic", ("broker", ""))
+class TenderTest(TenderTestMixin, BaseTenderWebTest):
+    tender_model = Tender
     initial_data = test_tender_data
-
-    test_simple_add_tender = snitch(simple_add_tender)
 
 
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin, TenderUAResourceTestMixin):

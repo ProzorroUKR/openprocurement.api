@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
-import os
 import unittest
 
 from copy import deepcopy
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import set_tender_lots
+from openprocurement.tender.belowthreshold.tests.tender import TenderTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     patch_tender_lots_none,
     tender_milestones_not_required,
     create_tender_central,
     create_tender_central_invalid,
 )
+from openprocurement.tender.cfaselectionua.models.tender import CFASelectionUATender
 from openprocurement.tender.cfaselectionua.tests.base import (
     test_lots,
     test_tender_data,
@@ -56,10 +57,7 @@ from openprocurement.tender.cfaselectionua.tests.tender_blanks import (
     create_tender_from_agreement_with_features_0_3,
     invalid_tender_conditions,
     lost_contract_for_active_award,
-    # TestCoordinatesRegExp
-    coordinates_reg_exp,
     # TenderTest
-    simple_add_tender,
     create_tender_with_available_language,
     edit_tender_in_active_enquiries,
 )
@@ -96,15 +94,9 @@ class TenderResourceTestMixin(object):
     test_create_tender_with_available_language = snitch(create_tender_with_available_language)
 
 
-class TenderTest(BaseApiWebTest):
+class CFASelectionTenderTest(TenderTestMixin, BaseApiWebTest):
+    tender_model = CFASelectionUATender
     initial_data = tender_data
-
-    test_simple_add_tender = snitch(simple_add_tender)
-
-
-class TestCoordinatesRegExp(unittest.TestCase):
-
-    test_coordinates_reg_exp = snitch(coordinates_reg_exp)
 
 
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):

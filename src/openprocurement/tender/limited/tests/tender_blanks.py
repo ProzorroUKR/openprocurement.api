@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
-
 import mock
 from datetime import timedelta
-
 from uuid import uuid4
-
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import (
     ROUTE_PREFIX,
@@ -16,8 +13,7 @@ from openprocurement.api.constants import (
 )
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_cancellation
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
-
-from openprocurement.tender.limited.models import NegotiationTender, NegotiationQuickTender, ReportingTender
+from openprocurement.tender.limited.models import NegotiationTender, NegotiationQuickTender
 
 
 def create_tender_accreditation(self):
@@ -43,72 +39,6 @@ def create_tender_accreditation(self):
     self.assertEqual(
         response.json["errors"][0]["description"], "Broker Accreditation level does not permit tender creation"
     )
-
-
-def simple_add_tender(self):
-    u = ReportingTender(self.initial_data)
-    u.tenderID = "UA-X"
-
-    assert u.id is None
-    assert u.rev is None
-
-    u.store(self.db)
-
-    assert u.id is not None
-    assert u.rev is not None
-
-    fromdb = self.db.get(u.id)
-
-    assert u.tenderID == fromdb["tenderID"]
-    assert u.doc_type == "Tender"
-    assert u.procurementMethodType == "reporting"
-    assert u.procurementMethodType == fromdb["procurementMethodType"]
-
-    u.delete_instance(self.db)
-
-
-def simple_add_tender_negotiation(self):
-    u = NegotiationTender(self.initial_data)
-    u.tenderID = "UA-X"
-
-    assert u.id is None
-    assert u.rev is None
-
-    u.store(self.db)
-
-    assert u.id is not None
-    assert u.rev is not None
-
-    fromdb = self.db.get(u.id)
-
-    assert u.tenderID == fromdb["tenderID"]
-    assert u.doc_type == "Tender"
-    assert u.procurementMethodType == "negotiation"
-    assert u.procurementMethodType == fromdb["procurementMethodType"]
-
-    u.delete_instance(self.db)
-
-
-def simple_add_tender_negotiation_quick(self):
-    u = NegotiationQuickTender(self.initial_data)
-    u.tenderID = "UA-X"
-
-    assert u.id is None
-    assert u.rev is None
-
-    u.store(self.db)
-
-    assert u.id is not None
-    assert u.rev is not None
-
-    fromdb = self.db.get(u.id)
-
-    assert u.tenderID == fromdb["tenderID"]
-    assert u.doc_type == "Tender"
-    assert u.procurementMethodType == "negotiation.quick"
-    assert u.procurementMethodType == fromdb["procurementMethodType"]
-
-    u.delete_instance(self.db)
 
 
 def listing(self):

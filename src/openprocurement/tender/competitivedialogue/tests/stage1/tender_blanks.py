@@ -2,60 +2,17 @@
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.constants import SANDBOX_MODE, CPV_ITEMS_CLASS_FROM, ROUTE_PREFIX
+from openprocurement.api.constants import CPV_ITEMS_CLASS_FROM
 from openprocurement.api.utils import get_now, parse_date
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization, set_tender_lots
 
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE, FEATURES_MAX_SUM
-from openprocurement.tender.competitivedialogue.models import CompetitiveDialogUA, CompetitiveDialogEU
 from openprocurement.tender.competitivedialogue.tests.base import test_bids
 
 
 # CompetitiveDialogTest
 from openprocurement.tender.core.utils import calculate_tender_business_date
-
-
-def simple_add_tender_ua(self):
-    u = CompetitiveDialogUA(self.test_tender_data_ua)
-    u.tenderID = "UA-X"
-
-    assert u.id is None
-    assert u.rev is None
-
-    u.store(self.db)
-
-    assert u.id is not None
-    assert u.rev is not None
-
-    fromdb = self.db.get(u.id)
-
-    assert u.tenderID == fromdb["tenderID"]
-    assert u.doc_type == "Tender"
-    assert u.procurementMethodType == CD_UA_TYPE
-
-    u.delete_instance(self.db)
-
-
-def simple_add_tender_eu(self):
-    u = CompetitiveDialogEU(self.test_tender_data_eu)
-    u.tenderID = "UA-X"
-
-    assert u.id is None
-    assert u.rev is None
-
-    u.store(self.db)
-
-    assert u.id is not None
-    assert u.rev is not None
-
-    fromdb = self.db.get(u.id)
-
-    assert u.tenderID == fromdb["tenderID"]
-    assert u.doc_type == "Tender"
-    assert u.procurementMethodType == CD_EU_TYPE
-
-    u.delete_instance(self.db)
 
 
 # CompetitiveDialogEUResourceTest

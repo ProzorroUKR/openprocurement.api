@@ -4,41 +4,13 @@ from copy import deepcopy
 
 from openprocurement.api.models import get_now
 from openprocurement.api.constants import (
-    SANDBOX_MODE,
     CPV_ITEMS_CLASS_FROM,
     NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
 )
 from openprocurement.api.utils import parse_date
 
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_lots, set_tender_lots
-from openprocurement.tender.openua.tests.base import test_bids
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_lots
 from openprocurement.tender.core.utils import calculate_tender_business_date
-
-from openprocurement.tender.openua.models import Tender
-
-# Tender UA Test
-
-
-def simple_add_tender(self):
-    u = Tender(self.initial_data)
-    u.tenderID = "UA-X"
-
-    assert u.id is None
-    assert u.rev is None
-
-    u.store(self.db)
-
-    assert u.id is not None
-    assert u.rev is not None
-
-    fromdb = self.db.get(u.id)
-
-    assert u.tenderID == fromdb["tenderID"]
-    assert u.doc_type == "Tender"
-    assert u.procurementMethodType == "aboveThresholdUA"
-
-    u.delete_instance(self.db)
-
 
 # TenderUAResourceTest
 

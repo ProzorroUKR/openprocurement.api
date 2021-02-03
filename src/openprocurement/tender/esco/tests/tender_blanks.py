@@ -5,35 +5,10 @@ from datetime import timedelta
 from openprocurement.api.constants import CPV_ITEMS_CLASS_FROM, NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM
 from openprocurement.api.utils import get_now, parse_date
 from openprocurement.tender.core.utils import calculate_tender_business_date
-from openprocurement.tender.esco.models import TenderESCO
 from openprocurement.tender.core.tests.criteria_utils import add_criteria, generate_responses
 
 
 # TenderESCOTest
-
-
-def simple_add_tender(self):
-    u = TenderESCO(self.initial_data)
-    u.tenderID = "UA-X"
-    u.noticePublicationDate = get_now().isoformat()
-
-    assert u.id is None
-    assert u.rev is None
-
-    u.store(self.db)
-
-    assert u.id is not None
-    assert u.rev is not None
-
-    fromdb = self.db.get(u.id)
-
-    assert u.tenderID == fromdb["tenderID"]
-    assert u.doc_type == "Tender"
-    assert u.procurementMethodType == "esco"
-    assert fromdb["procurementMethodType"] == "esco"
-
-    u.delete_instance(self.db)
-
 
 def tender_value(self):
     invalid_data = deepcopy(self.initial_data)

@@ -12,7 +12,6 @@ from openprocurement.api.constants import (
     SANDBOX_MODE,
     CPV_ITEMS_CLASS_FROM,
 )
-from openprocurement.tender.pricequotation.models import PriceQuotationTender as Tender
 from openprocurement.tender.pricequotation.tests.base import (
     test_organization,
     test_cancellation,
@@ -24,27 +23,6 @@ from openprocurement.tender.pricequotation.tests.data import test_milestones
 # TenderTest
 from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.pricequotation.constants import PMT, PQ_KINDS
-
-
-def simple_add_tender(self):
-
-    u = Tender(self.initial_data)
-    u.tenderID = "UA-X"
-
-    assert u.id is None
-    assert u.rev is None
-
-    u.store(self.db)
-
-    assert u.id is not None
-    assert u.rev is not None
-
-    fromdb = self.db.get(u.id)
-
-    assert u.tenderID == fromdb["tenderID"]
-    assert u.doc_type == "Tender"
-
-    u.delete_instance(self.db)
 
 
 def listing(self):

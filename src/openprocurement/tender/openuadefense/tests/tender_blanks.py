@@ -14,32 +14,9 @@ from openprocurement.api.constants import (
 from openprocurement.tender.core.models import get_now
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 
-from openprocurement.tender.openuadefense.models import Tender
-
 
 # TenderUATest
 from openprocurement.tender.openuadefense.utils import calculate_tender_business_date
-
-
-def simple_add_tender(self):
-    u = Tender(self.initial_data)
-    u.tenderID = "UA-X"
-
-    assert u.id is None
-    assert u.rev is None
-
-    u.store(self.db)
-
-    assert u.id is not None
-    assert u.rev is not None
-
-    fromdb = self.db.get(u.id)
-
-    assert u.tenderID == fromdb["tenderID"]
-    assert u.doc_type == "Tender"
-    assert u.procurementMethodType == "aboveThresholdUA.defense"
-
-    u.delete_instance(self.db)
 
 
 # TenderUAResourceTest

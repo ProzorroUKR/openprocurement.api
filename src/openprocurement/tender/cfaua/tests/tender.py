@@ -4,7 +4,7 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
+from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin, TenderTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     # TenderProcessTest
     invalid_tender_conditions,
@@ -21,6 +21,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
 )
 from openprocurement.tender.openua.tests.tender_blanks import empty_listing, tender_finance_milestones
 from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER
+from openprocurement.tender.cfaua.models.tender import CloseFrameworkAgreementUA
 from openprocurement.tender.cfaua.tests.base import (
     test_tender_w_lot_data,
     BaseTenderWebTest,
@@ -41,8 +42,7 @@ from openprocurement.tender.cfaua.tests.tender_blanks import (
     tender_contract_period,
     invalid_bid_tender_features,
     invalid_bid_tender_lot,
-    # TenderTest
-    simple_add_tender,
+
     patch_tender_active_qualification_2_active_qualification_stand_still,
     switch_tender_to_active_awarded,
     patch_max_awards,
@@ -57,13 +57,12 @@ from openprocurement.tender.cfaua.tests.tender_blanks import (
 )
 
 
-class TenderTest(BaseTenderWebTest):
-
+class CFAUATenderTest(TenderTestMixin, BaseTenderWebTest):
+    tender_model = CloseFrameworkAgreementUA
     initial_auth = ("Basic", ("broker", ""))
     initial_data = deepcopy(test_tender_w_lot_data)
     initial_lots = deepcopy(test_lots_w_ids)
 
-    test_simple_add_tender = snitch(simple_add_tender)
     test_agreement_duration_period = snitch(agreement_duration_period)
 
 

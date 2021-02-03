@@ -5,6 +5,7 @@ from copy import deepcopy
 
 from isodate import duration_isoformat
 from mock import patch
+from uuid import uuid4
 from openprocurement.api.constants import (
     CPV_ITEMS_CLASS_FROM,
     SANDBOX_MODE,
@@ -12,37 +13,11 @@ from openprocurement.api.constants import (
 )
 from openprocurement.api.utils import get_now, parse_date
 from openprocurement.tender.belowthreshold.tests.base import test_organization
-from uuid import uuid4
-
 from openprocurement.tender.cfaua.constants import MAX_AGREEMENT_PERIOD
-from openprocurement.tender.cfaua.models.tender import CloseFrameworkAgreementUA
-from openprocurement.tender.cfaua.utils import add_next_awards
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 
 # TenderTest
 from openprocurement.tender.core.utils import calculate_tender_business_date
-
-
-def simple_add_tender(self):
-    u = CloseFrameworkAgreementUA(self.initial_data)
-    u.tenderID = "UA-X"
-
-    assert u.id is None
-    assert u.rev is None
-
-    u.store(self.db)
-
-    assert u.id is not None
-    assert u.rev is not None
-
-    fromdb = self.db.get(u.id)
-
-    assert u.tenderID == fromdb["tenderID"]
-    assert u.doc_type == "Tender"
-    assert u.procurementMethodType == "closeFrameworkAgreementUA"
-    assert fromdb["procurementMethodType"] == "closeFrameworkAgreementUA"
-
-    u.delete_instance(self.db)
 
 
 # TenderResourceTest

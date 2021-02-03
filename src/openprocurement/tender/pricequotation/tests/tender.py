@@ -3,6 +3,8 @@ import os
 import unittest
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.tender.belowthreshold.tests.tender import TenderTestMixin
+from openprocurement.tender.pricequotation.models import PriceQuotationTender
 from openprocurement.tender.pricequotation.tests.base import (
     BaseTenderWebTest,
     TenderContentWebTest,
@@ -11,8 +13,6 @@ from openprocurement.tender.pricequotation.tests.base import (
 )
 
 from openprocurement.tender.pricequotation.tests.tender_blanks import (
-    simple_add_tender,
-
     listing,
     listing_draft,
     listing_changes,
@@ -42,7 +42,6 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     guarantee,
     create_tender_with_inn_before,
     tender_milestones_required,
-    coordinates_reg_exp,
     get_tender,
     tender_not_found,
     dateModified_tender,
@@ -74,15 +73,9 @@ class TenderResourceTestMixin(object):
     test_create_tender_in_not_draft_status = snitch(create_tender_in_not_draft_status)
 
 
-class TenderTest(BaseApiWebTest):
+class TenderTest(TenderTestMixin, BaseApiWebTest):
+    tender_model = PriceQuotationTender
     initial_data = test_tender_data
-
-    test_simple_add_tender = snitch(simple_add_tender)
-
-
-class TestCoordinatesRegExp(unittest.TestCase):
-
-    test_coordinates_reg_exp = snitch(coordinates_reg_exp)
 
 
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):

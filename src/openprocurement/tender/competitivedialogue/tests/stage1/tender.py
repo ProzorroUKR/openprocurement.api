@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 import unittest
-
 from openprocurement.api.tests.base import snitch
-
-from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
+from openprocurement.tender.competitivedialogue.models import CompetitiveDialogUA, CompetitiveDialogEU
+from openprocurement.tender.belowthreshold.tests.base import BaseApiWebTest
+from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin, TenderTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     # CompetitiveDialogResourceTest
     guarantee,
@@ -30,9 +30,6 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_bids,
 )
 from openprocurement.tender.competitivedialogue.tests.stage1.tender_blanks import (
-    # CompetitiveDialogTest
-    simple_add_tender_ua,
-    simple_add_tender_eu,
     # CompetitiveDialogResourceTest
     patch_tender_eu_ua,
     patch_tender_lots_none,
@@ -53,12 +50,14 @@ from openprocurement.tender.competitivedialogue.tests.stage1.tender_blanks impor
 )
 
 
-class CompetitiveDialogTest(BaseCompetitiveDialogWebTest):
-    test_tender_data_ua = test_tender_data_ua  # TODO: change attribute identifier
-    test_tender_data_eu = test_tender_data_eu  # TODO: change attribute identifier
+class TenderTestEU(TenderTestMixin, BaseApiWebTest):
+    tender_model = CompetitiveDialogEU
+    initial_data = test_tender_data_eu
 
-    test_simple_add_tender_ua = snitch(simple_add_tender_ua)
-    test_simple_add_tender_eu = snitch(simple_add_tender_eu)
+
+class TenderTestUA(TenderTestMixin, BaseApiWebTest):
+    tender_model = CompetitiveDialogUA
+    initial_data = test_tender_data_ua
 
 
 class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest, TenderResourceTestMixin):
@@ -114,7 +113,8 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest, TenderReso
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(CompetitiveDialogTest))
+    suite.addTest(unittest.makeSuite(TenderTestEU))
+    suite.addTest(unittest.makeSuite(TenderTestUA))
     suite.addTest(unittest.makeSuite(CompetitiveDialogEUResourceTest))
     suite.addTest(unittest.makeSuite(CompetitiveDialogUAResourceTest))
     return suite
