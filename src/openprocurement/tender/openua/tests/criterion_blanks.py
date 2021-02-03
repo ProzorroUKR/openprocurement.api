@@ -21,7 +21,7 @@ def create_tender_criteria_valid(self):
     self.assertEqual(response.content_type, "application/json")
 
     criteria = response.json["data"][0]
-    self.assertEqual(u"Вчинення злочинів, учинених з корисливих мотивів", criteria["title"])
+    self.assertEqual("Вчинення злочинів, учинених з корисливих мотивів", criteria["title"])
     self.assertEqual("tenderer", criteria["source"])
     self.assertIn("requirementGroups", criteria)
     for requirementGroup in criteria["requirementGroups"]:
@@ -66,9 +66,9 @@ def create_tender_criteria_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": {u"relatedItem": [u"This field is required."]},
-                u"location": u"body",
-                u"name": 0,
+                "description": {"relatedItem": ["This field is required."]},
+                "location": "body",
+                "name": 0,
             }
         ],
     )
@@ -82,9 +82,9 @@ def create_tender_criteria_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": {u"relatedItem": [u"relatedItem should be one of lots"]},
-                u"location": u"body",
-                u"name": 0,
+                "description": {"relatedItem": ["relatedItem should be one of lots"]},
+                "location": "body",
+                "name": 0,
             }
         ],
     )
@@ -98,9 +98,9 @@ def create_tender_criteria_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": {u"relatedItem": [u"relatedItem should be one of items"]},
-                u"location": u"body",
-                u"name": 0,
+                "description": {"relatedItem": ["relatedItem should be one of items"]},
+                "location": "body",
+                "name": 0,
             }
         ],
     )
@@ -119,20 +119,20 @@ def create_tender_criteria_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": {
-                    u'requirementGroups': [
+                "description": {
+                    'requirementGroups': [
                         {
-                            u'requirements': [
+                            'requirements': [
                                 {
-                                    u'expectedValue': [u'Must be either true or false.'],
-                                    u'relatedFeature': [u'relatedFeature should be one of features'],
+                                    'expectedValue': ['Must be either true or false.'],
+                                    'relatedFeature': ['relatedFeature should be one of features'],
                                 }
                             ],
                         }
                     ],
                 },
-                u"location": u"body",
-                u"name": 0,
+                "location": "body",
+                "name": 0,
             }
         ],
     )
@@ -149,13 +149,13 @@ def create_tender_criteria_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": {
-                    u'requirementGroups': [
-                        {u'requirements': [[u'expectedValue conflicts with ["minValue", "maxValue"]']]}
+                "description": {
+                    'requirementGroups': [
+                        {'requirements': [['expectedValue conflicts with ["minValue", "maxValue"]']]}
                     ]
                 },
-                u"location": u"body",
-                u"name": 0,
+                "location": "body",
+                "name": 0,
             }
         ],
     )
@@ -170,17 +170,17 @@ def create_tender_criteria_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": {
-                    u"requirementGroups": [
+                "description": {
+                    "requirementGroups": [
                         {
-                            u"requirements": [
-                                {u'expectedValue': [u"Value must be true"]}
+                            "requirements": [
+                                {'expectedValue': ["Value must be true"]}
                             ]
                         }
                     ]
                 },
-                u"location": u"body",
-                u"name": 0,
+                "location": "body",
+                "name": 0,
             }
         ],
     )
@@ -195,24 +195,24 @@ def create_tender_criteria_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": {
-                    u"requirementGroups": [
+                "description": {
+                    "requirementGroups": [
                         {
-                            u"requirements": [
+                            "requirements": [
                                 {
-                                    u"dataType": [
-                                        u"dataType must be boolean"
+                                    "dataType": [
+                                        "dataType must be boolean"
                                     ],
-                                    u"expectedValue": [
-                                        u"Value must be true"
+                                    "expectedValue": [
+                                        "Value must be true"
                                     ]
                                 }
                             ]
                         }
                     ]
                 },
-                u"location": u"body",
-                u"name": 0,
+                "location": "body",
+                "name": 0,
             }
         ],
     )
@@ -234,19 +234,19 @@ def create_tender_criteria_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": {
-                    u"requirementGroups": [
+                "description": {
+                    "requirementGroups": [
                         {
-                            u"requirements": [
-                                {u"eligibleEvidences": [
-                                    u"This field is forbidden for current criterion"
+                            "requirements": [
+                                {"eligibleEvidences": [
+                                    "This field is forbidden for current criterion"
                                 ]}
                             ]
                         }
                     ]
                 },
-                u"location": u"body",
-                u"name": 0,
+                "location": "body",
+                "name": 0,
             }
         ],
     )
@@ -268,10 +268,10 @@ def patch_tender_criteria_valid(self):
     request_path = "/tenders/{}/criteria/{}?acc_token={}".format(self.tender_id, criteria_id, self.tender_token)
 
     updated_data = {
-        "title": u"Оновлена назва",
-        "title_en": u"Updated title",
-        "title_ru": u"Обновлённое название",
-        "description": u"Оновлений опис",
+        "title": "Оновлена назва",
+        "title_en": "Updated title",
+        "title_ru": "Обновлённое название",
+        "description": "Оновлений опис",
         "requirementGroups": [
             {
                 "description": "Not added requirementGroup",
@@ -311,10 +311,10 @@ def patch_tender_criteria_invalid(self):
     request_path = "/tenders/{}/criteria/{}?acc_token={}".format(self.tender_id, criteria_id, self.tender_token)
 
     updated_data = {
-        "title": u"Оновлена назва",
-        "title_en": u"Updated title",
-        "title_ru": u"Обновлённое название",
-        "description": u"Оновлений опис",
+        "title": "Оновлена назва",
+        "title_en": "Updated title",
+        "title_ru": "Обновлённое название",
+        "description": "Оновлений опис",
         "relatesTo": "lot",
     }
 
@@ -330,9 +330,9 @@ def patch_tender_criteria_invalid(self):
     self.assertEqual(
         response.json["errors"],
         [{
-            u'description': u"Can't update exclusion ecriteria objects",
-            u'location': u'body',
-            u'name': u'data',
+            'description': "Can't update exclusion ecriteria objects",
+            'location': 'body',
+            'name': 'data',
         }]
     )
 
@@ -349,9 +349,9 @@ def patch_tender_criteria_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [u"This field is required."],
-                u"location": u"body",
-                u"name": u"relatedItem",
+                "description": ["This field is required."],
+                "location": "body",
+                "name": "relatedItem",
             }
         ],
     )
@@ -370,9 +370,9 @@ def patch_tender_criteria_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [u"relatedItem should be one of lots"],
-                u"location": u"body",
-                u"name": u"relatedItem",
+                "description": ["relatedItem should be one of lots"],
+                "location": "body",
+                "name": "relatedItem",
             }
         ],
     )
@@ -392,9 +392,9 @@ def patch_tender_criteria_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [u"relatedItem should be one of items"],
-                u"location": u"body",
-                u"name": u"relatedItem",
+                "description": ["relatedItem should be one of items"],
+                "location": "body",
+                "name": "relatedItem",
             }
         ],
     )
@@ -446,9 +446,9 @@ def activate_tender(self):
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{u'description': u'Tender must contain all 9 `EXCLUSION` criteria',
-          u'location': u'body',
-          u'name': u'data'}],
+        [{'description': 'Tender must contain all 9 `EXCLUSION` criteria',
+          'location': 'body',
+          'name': 'data'}],
     )
 
     response = self.app.post_json(
@@ -469,9 +469,9 @@ def activate_tender(self):
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{u'description': u'Tender must contain all 9 `EXCLUSION` criteria',
-          u'location': u'body',
-          u'name': u'data'}],
+        [{'description': 'Tender must contain all 9 `EXCLUSION` criteria',
+          'location': 'body',
+          'name': 'data'}],
     )
 
     response = self.app.post_json(
@@ -492,9 +492,9 @@ def activate_tender(self):
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{u'description': u'Tender must contain all 9 `EXCLUSION` criteria',
-          u'location': u'body',
-          u'name': u'data'}],
+        [{'description': 'Tender must contain all 9 `EXCLUSION` criteria',
+          'location': 'body',
+          'name': 'data'}],
     )
 
     response = self.app.post_json(
@@ -532,7 +532,7 @@ def create_criteria_rg(self):
 
     rg = response.json["data"]
 
-    self.assertEqual(u"Учасник фізична особа підтверджує, що", rg["description"])
+    self.assertEqual("Учасник фізична особа підтверджує, що", rg["description"])
     self.assertIn("requirements", rg)
     for requirement in rg["requirements"]:
         self.assertEqual("boolean", requirement["dataType"])
@@ -550,8 +550,8 @@ def patch_criteria_rg(self):
         self.tender_id, self.criteria_id, rg_id, self.tender_token)
 
     updated_fields = {
-        "description": u"Оновлений опис",
-        "description_en": u"Updated requirement description",
+        "description": "Оновлений опис",
+        "description_en": "Updated requirement description",
     }
 
     response = self.app.patch_json(
@@ -566,9 +566,9 @@ def patch_criteria_rg(self):
     self.assertEqual(
         response.json["errors"],
         [{
-            u'description': u"Can't update exclusion ecriteria objects",
-            u'location': u'body',
-            u'name': u'data',
+            'description': "Can't update exclusion ecriteria objects",
+            'location': 'body',
+            'name': 'data',
         }]
     )
 
@@ -639,9 +639,9 @@ def create_rg_requirement_valid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u'description': [u'Requirement id should be uniq for all requirements in tender'],
-          u'location': u'body',
-          u'name': u'criteria'}],
+        [{'description': ['Requirement id should be uniq for all requirements in tender'],
+          'location': 'body',
+          'name': 'criteria'}],
     )
 
 
@@ -664,9 +664,9 @@ def create_rg_requirement_invalid(self):
         self.assertEqual(
             response.json["errors"],
             [{
-                u'description': u"Can't update exclusion ecriteria objects",
-                u'location': u'body',
-                u'name': u'data',
+                'description': "Can't update exclusion ecriteria objects",
+                'location': 'body',
+                'name': 'data',
             }]
         )
 
@@ -679,9 +679,9 @@ def create_rg_requirement_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [u"minValue must be integer or number"],
-                u"location": u"body",
-                u"name": u"minValue",
+                "description": ["minValue must be integer or number"],
+                "location": "body",
+                "name": "minValue",
             }
         ],
     )
@@ -698,14 +698,14 @@ def create_rg_requirement_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [u"Value 'sdasas' is not int."],
-                u"location": u"body",
-                u"name": u"maxValue",
+                "description": ["Value 'sdasas' is not int."],
+                "location": "body",
+                "name": "maxValue",
             },
             {
-                u'description': [u"Value 'true' is not int."],
-                u'location': u'body',
-                u'name': u'expectedValue',
+                'description': ["Value 'true' is not int."],
+                'location': 'body',
+                'name': 'expectedValue',
             }
         ],
     )
@@ -721,9 +721,9 @@ def create_rg_requirement_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [u"Number 'some text' failed to convert to a decimal."],
-                u"location": u"body",
-                u"name": u"expectedValue",
+                "description": ["Number 'some text' failed to convert to a decimal."],
+                "location": "body",
+                "name": "expectedValue",
             }
         ],
     )
@@ -741,9 +741,9 @@ def create_rg_requirement_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [u"relatedFeature should be one of features"],
-                u"location": u"body",
-                u"name": u"relatedFeature",
+                "description": ["relatedFeature should be one of features"],
+                "location": "body",
+                "name": "relatedFeature",
             }
         ],
     )
@@ -765,8 +765,8 @@ def patch_rg_requirement(self):
         self.tender_id, self.criteria_id, self.rg_id, requirement_id,  self.tender_token)
 
     updated_fields = {
-        "title": u"Updated requirement title",
-        "description": u"Updated requirement description",
+        "title": "Updated requirement title",
+        "description": "Updated requirement description",
         "expectedValue": "False",
         "dataType": "boolean",
     }
@@ -785,11 +785,11 @@ def patch_rg_requirement(self):
 @mock.patch("openprocurement.tender.core.models.CRITERION_REQUIREMENT_STATUSES_FROM", get_now() - timedelta(days=1))
 def put_rg_requirement_valid(self):
     put_fields = {
-        u"title": u"Фізична особа",
-        u"expectedValue": u"false",
-        u"datePublished": u"2030-10-22T11:14:18.511585+03:00",
-        u"dateModified": u"2030-10-22T11:14:18.511585+03:00",
-        u"id": u"11111111111111111111111111111111",
+        "title": "Фізична особа",
+        "expectedValue": "false",
+        "datePublished": "2030-10-22T11:14:18.511585+03:00",
+        "dateModified": "2030-10-22T11:14:18.511585+03:00",
+        "id": "11111111111111111111111111111111",
     }
     put_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}"
     get_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements"
@@ -840,10 +840,10 @@ def put_rg_requirement_valid(self):
 
     put_data = {"eligibleEvidences": [
         {
-            u"description": u"Довідка в довільній формі",
-            u"type": u"document",
-            u"title": u"Документальне підтвердження",
-            u'id': u'32cd3841bf59486c85d7fbfa0b756872'
+            "description": "Довідка в довільній формі",
+            "type": "document",
+            "title": "Документальне підтвердження",
+            'id': '32cd3841bf59486c85d7fbfa0b756872'
         }
     ]}
     response = self.app.put_json(
@@ -867,16 +867,16 @@ def put_rg_requirement_valid(self):
 
     put_data = {"eligibleEvidences": [
         {
-            u"description": u"changed",
-            u"type": u"document",
-            u"title": u"changed",
-            u'id': u'32cd3841bf59486c85d7fbfa0b756872'
+            "description": "changed",
+            "type": "document",
+            "title": "changed",
+            'id': '32cd3841bf59486c85d7fbfa0b756872'
         },
         {
-            u"description": u"Довідка в довільній формі",
-            u"type": u"document",
-            u"title": u"Документальне підтвердження",
-            u'id': u'32cd3841bf59486c85d7fbfa0b756845'
+            "description": "Довідка в довільній формі",
+            "type": "document",
+            "title": "Документальне підтвердження",
+            'id': '32cd3841bf59486c85d7fbfa0b756845'
         }
     ]}
     response = self.app.put_json(
@@ -952,7 +952,7 @@ def put_rg_requirement_invalid(self):
         self.assertEqual(response.json["status"], "error")
         self.assertEqual(
             response.json["errors"],
-            [{u'description': u'Forbidden', u'location': u'body', u'name': u'data'}],
+            [{'description': 'Forbidden', 'location': 'body', 'name': 'data'}],
         )
 
     with mock.patch("openprocurement.tender.core.validation.CRITERION_REQUIREMENT_STATUSES_FROM",
@@ -1037,9 +1037,9 @@ def create_requirement_evidence_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [u"Value must be one of ['document', 'statement']."],
-                u"location": u"body",
-                u"name": u"type",
+                "description": ["Value must be one of ['document', 'statement']."],
+                "location": "body",
+                "name": "type",
             },
         ],
     )
@@ -1060,9 +1060,9 @@ def patch_requirement_evidence(self):
         self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, evidence_id, self.tender_token)
 
     updated_fields = {
-        "title": u"Updated requirement title",
-        "description": u"Updated requirement description",
-        "type": u"statement",
+        "title": "Updated requirement title",
+        "description": "Updated requirement description",
+        "type": "statement",
     }
 
     response = self.app.patch_json(request_path, {"data": updated_fields})
@@ -1131,7 +1131,7 @@ def create_patch_delete_evidences_from_requirement(self):
     self.assertEqual(response.content_type, "application/json")
     evidences = response.json["data"]["eligibleEvidences"]
     self.assertEqual(evidences[0]["title"], "Evidence 1")
-    self.assertEqual(evidences[1]["title"], u"Документальне підтвердження")
+    self.assertEqual(evidences[1]["title"], "Документальне підтвердження")
     self.assertEqual(evidences[2]["title"], "Evidence 3")
 
     # delete second
@@ -1201,10 +1201,10 @@ def delete_requirement_evidence(self):
         self.assertEqual(
             response.json["errors"],
             [{
-                u'description': u"Can't delete object if tender not in "
-                                u"['draft', 'draft.pending', 'draft.stage2'] statuses",
-                u'location': u'body',
-                u'name': u'data',
+                'description': "Can't delete object if tender not in "
+                                "['draft', 'draft.pending', 'draft.stage2'] statuses",
+                'location': 'body',
+                'name': 'data',
             }]
         )
 
@@ -1221,10 +1221,10 @@ def delete_requirement_evidence(self):
         self.assertEqual(
             response.json["errors"],
             [{
-                u'description': u"Can't delete object if tender not in "
-                                u"['draft', 'draft.pending', 'draft.stage2', 'active.tendering'] statuses",
-                u'location': u'body',
-                u'name': u'data',
+                'description': "Can't delete object if tender not in "
+                                "['draft', 'draft.pending', 'draft.stage2', 'active.tendering'] statuses",
+                'location': 'body',
+                'name': 'data',
             }]
         )
 
@@ -1240,10 +1240,10 @@ def delete_requirement_evidence(self):
         self.assertEqual(
             response.json["errors"],
             [{
-                u'description': u"Can't delete object if tender not in "
-                                u"['draft', 'draft.pending', 'draft.stage2'] statuses",
-                u'location': u'body',
-                u'name': u'data',
+                'description': "Can't delete object if tender not in "
+                                "['draft', 'draft.pending', 'draft.stage2'] statuses",
+                'location': 'body',
+                'name': 'data',
             }]
         )
 
@@ -1303,6 +1303,6 @@ def validate_requirement_evidence_document(self):
     )
     self.assertEqual(
         response.json["errors"],
-        [{u'description': [u'relatedDocument.id should be one of tender documents'],
-          u'location': u'body', u'name': u'relatedDocument'}],
+        [{'description': ['relatedDocument.id should be one of tender documents'],
+          'location': 'body', 'name': 'relatedDocument'}],
     )

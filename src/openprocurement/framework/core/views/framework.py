@@ -35,17 +35,17 @@ from openprocurement.framework.core.utils import (
 from openprocurement.framework.core.validation import validate_framework_data
 
 VIEW_MAP = {
-    u"": frameworks_real_by_dateModified_view,
-    u"test": frameworks_test_by_dateModified_view,
-    u"_all_": frameworks_by_dateModified_view,
+    "": frameworks_real_by_dateModified_view,
+    "test": frameworks_test_by_dateModified_view,
+    "_all_": frameworks_by_dateModified_view,
 
 }
 CHANGES_VIEW_MAP = {
-    u"": frameworks_real_by_local_seq_view,
-    u"test": frameworks_test_by_local_seq_view,
-    u"_all_": frameworks_by_local_seq_view,
+    "": frameworks_real_by_local_seq_view,
+    "test": frameworks_test_by_local_seq_view,
+    "_all_": frameworks_by_local_seq_view,
 }
-FEED = {u"dateModified": VIEW_MAP, u"changes": CHANGES_VIEW_MAP}
+FEED = {"dateModified": VIEW_MAP, "changes": CHANGES_VIEW_MAP}
 
 
 @frameworksresource(

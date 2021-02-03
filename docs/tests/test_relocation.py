@@ -129,10 +129,10 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
         test_tender_token = uuid4().hex
         data = deepcopy(test_contract_data)
         data.update({
-            u"dateSigned": get_now().isoformat(),
-            u"id": uuid4().hex,
-            u"tender_id": uuid4().hex,
-            u"tender_token": sha512(test_tender_token.encode()).hexdigest()
+            "dateSigned": get_now().isoformat(),
+            "id": uuid4().hex,
+            "tender_id": uuid4().hex,
+            "tender_token": sha512(test_tender_token.encode()).hexdigest()
         })
         tender_token = data['tender_token']
         self.app.authorization = ('Basic', ('contracting', ''))
@@ -322,10 +322,10 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
         test_tender_token = uuid4().hex
         data = deepcopy(test_agreement_data)
         data.update({
-            u"dateSigned": get_now().isoformat(),
-            u"id": uuid4().hex,
-            u"tender_id": uuid4().hex,
-            u"tender_token": sha512(test_tender_token.encode()).hexdigest()
+            "dateSigned": get_now().isoformat(),
+            "id": uuid4().hex,
+            "tender_id": uuid4().hex,
+            "tender_token": sha512(test_tender_token.encode()).hexdigest()
         })
         tender_token = data['tender_token']
         self.app.authorization = ('Basic', ('agreements', ''))

@@ -106,8 +106,8 @@ def test_post_cancellation(app, tender_data):
                 {"data": cancellation},
                 status=403
             )
-            assert response.json == {u'status': u'error', u'errors': [
-                {u'description': u'hello', u'location': u'body', u'name': u'data'}]}
+            assert response.json == {'status': 'error', 'errors': [
+                {'description': 'hello', 'location': 'body', 'name': 'data'}]}
 
 
 @pytest.mark.parametrize("tender_data", procedures)
@@ -147,8 +147,8 @@ def test_patch_cancellation(app, tender_data):
                 }},
                 status=403
             )
-            assert response.json == {u'status': u'error', u'errors': [
-                {u'description': u'hello', u'location': u'body', u'name': u'data'}]}
+            assert response.json == {'status': 'error', 'errors': [
+                {'description': 'hello', 'location': 'body', 'name': 'data'}]}
 
 
 def test_post_cancellation_openeu(app):
@@ -184,9 +184,9 @@ def test_post_cancellation_openeu(app):
                 {"data": cancellation},
                 status=403
             )
-        assert response.json == {u'status': u'error', u'errors': [
-            {u'description': u"Can't perform operation for there is an award complaint in pending status",
-             u'location': u'body', u'name': u'data'}]}
+        assert response.json == {'status': 'error', 'errors': [
+            {'description': "Can't perform operation for there is an award complaint in pending status",
+             'location': 'body', 'name': 'data'}]}
 
         # qualification complaints
         complaint = deepcopy(test_complaint)
@@ -211,9 +211,9 @@ def test_post_cancellation_openeu(app):
                 {"data": cancellation},
                 status=403
             )
-        assert response.json == {u'status': u'error', u'errors': [
-            {u'description': u"Can't perform operation for there is a qualification complaint in accepted status",
-             u'location': u'body', u'name': u'data'}]}
+        assert response.json == {'status': 'error', 'errors': [
+            {'description': "Can't perform operation for there is a qualification complaint in accepted status",
+             'location': 'body', 'name': 'data'}]}
 
         # tender complaint
         complaint = deepcopy(test_complaint)
@@ -233,6 +233,6 @@ def test_post_cancellation_openeu(app):
                 {"data": cancellation},
                 status=403
             )
-        assert response.json == {u'status': u'error', u'errors': [
-            {u'description': u"Can't perform operation for there is a tender complaint in satisfied status",
-             u'location': u'body', u'name': u'data'}]}
+        assert response.json == {'status': 'error', 'errors': [
+            {'description': "Can't perform operation for there is a tender complaint in satisfied status",
+             'location': 'body', 'name': 'data'}]}

@@ -351,7 +351,7 @@ def two_lot_1bid_0com_1can(self):
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))
-    self.assertEqual([i["status"] for i in response.json["data"]["lots"]], [u"cancelled", u"unsuccessful"])
+    self.assertEqual([i["status"] for i in response.json["data"]["lots"]], ["cancelled", "unsuccessful"])
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
 
@@ -632,7 +632,7 @@ def two_lot_1bid_1com_1win(self):
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))
-    self.assertEqual([i["status"] for i in response.json["data"]["lots"]], [u"complete", u"unsuccessful"])
+    self.assertEqual([i["status"] for i in response.json["data"]["lots"]], ["complete", "unsuccessful"])
     self.assertEqual(response.json["data"]["status"], "complete")
 
 

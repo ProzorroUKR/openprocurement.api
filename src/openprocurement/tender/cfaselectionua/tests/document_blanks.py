@@ -10,7 +10,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     response = self.app.post("/tenders/some_id/documents", status=404, upload_files=[("file", "name.doc", b"content")])
@@ -18,7 +18,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     response = self.app.post(
@@ -29,7 +29,7 @@ def not_found(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{u"description": u"Not Found", u"location": u"body", u"name": u"file"}])
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
 
     response = self.app.put(
         "/tenders/some_id/documents/some_id", status=404, upload_files=[("file", "name.doc", b"content2")]
@@ -38,7 +38,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     response = self.app.put(
@@ -50,7 +50,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"document_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "document_id"}]
     )
 
     response = self.app.get("/tenders/some_id/documents/some_id", status=404)
@@ -58,7 +58,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     response = self.app.get(
@@ -68,7 +68,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"document_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "document_id"}]
     )
 
 
@@ -80,13 +80,13 @@ def create_tender_document(self):
 
     response = self.app.post(
         "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
-        upload_files=[("file", u"укр.doc", b"content")],
+        upload_files=[("file", "укр.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
-    self.assertEqual(u"укр.doc", response.json["data"]["title"])
+    self.assertEqual("укр.doc", response.json["data"]["title"])
     if self.docservice:
         self.assertIn("Signature=", response.json["data"]["url"])
         self.assertIn("KeyID=", response.json["data"]["url"])
@@ -104,14 +104,14 @@ def create_tender_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"][0]["id"])
-    self.assertEqual(u"укр.doc", response.json["data"][0]["title"])
+    self.assertEqual("укр.doc", response.json["data"][0]["title"])
 
     response = self.app.get("/tenders/{}/documents/{}?download=some_id".format(self.tender_id, doc_id), status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"download"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "download"}]
     )
 
     if self.docservice:
@@ -132,15 +132,15 @@ def create_tender_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    self.assertEqual(u"укр.doc", response.json["data"]["title"])
+    self.assertEqual("укр.doc", response.json["data"]["title"])
 
     response = self.app.post(
         "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
-        upload_files=[("file", u"укр.doc", b"content")],
+        upload_files=[("file", "укр.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(u"укр.doc", response.json["data"]["title"])
+    self.assertEqual("укр.doc", response.json["data"]["title"])
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
     self.assertNotIn("acc_token", response.headers["Location"])
@@ -151,7 +151,7 @@ def create_document_active_tendering_status(self):
 
     response = self.app.post(
         "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
-        upload_files=[("file", u"укр.doc", b"content")],
+        upload_files=[("file", "укр.doc", b"content")],
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -166,7 +166,7 @@ def create_document_active_enquiries_status(self):
 
     response = self.app.post(
         "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
-        upload_files=[("file", u"укр.doc", b"content")],
+        upload_files=[("file", "укр.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -179,7 +179,7 @@ def put_tender_document(self):
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(u"укр.doc", response.json["data"]["title"])
+    self.assertEqual("укр.doc", response.json["data"]["title"])
     doc_id = response.json["data"]["id"]
     dateModified = response.json["data"]["dateModified"]
     datePublished = response.json["data"]["datePublished"]
@@ -259,7 +259,7 @@ def put_tender_document(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{u"description": u"Not Found", u"location": u"body", u"name": u"file"}])
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
 
     response = self.app.put(
         "/tenders/{}/documents/{}?acc_token={}".format(self.tender_id, doc_id, self.tender_token),
@@ -316,14 +316,14 @@ def put_tender_document(self):
 def patch_tender_document(self):
     response = self.app.post(
         "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
-        upload_files=[("file", str(Header(u"укр.doc", "utf-8")), b"content")],
+        upload_files=[("file", str(Header("укр.doc", "utf-8")), b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     doc_id = response.json["data"]["id"]
     # dateModified = response.json["data"]['dateModified']
     self.assertIn(doc_id, response.headers["Location"])
-    self.assertEqual(u"укр.doc", response.json["data"]["title"])
+    self.assertEqual("укр.doc", response.json["data"]["title"])
     self.assertNotIn("documentType", response.json["data"])
 
     response = self.app.patch_json(
@@ -336,7 +336,7 @@ def patch_tender_document(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"relatedItem should be one of items"], u"location": u"body", u"name": u"relatedItem"}],
+        [{"description": ["relatedItem should be one of items"], "location": "body", "name": "relatedItem"}],
     )
 
     response = self.app.patch_json(

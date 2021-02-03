@@ -15,7 +15,7 @@ def put_tender_document(self):
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(u"укр.doc", response.json["data"]["title"])
+    self.assertEqual("укр.doc", response.json["data"]["title"])
     doc_id = response.json["data"]["id"]
     dateModified = response.json["data"]["dateModified"]
     self.assertIn(doc_id, response.headers["Location"])
@@ -100,7 +100,7 @@ def put_tender_document(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{u"description": u"Not Found", u"location": u"body", u"name": u"file"}])
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
 
     # Update document
     response = self.app.put(
@@ -147,13 +147,13 @@ def patch_tender_document(self):
     # Create documents, check response fields and save doc_id
     response = self.app.post(
         "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
-        upload_files=[("file", str(Header(u"укр.doc", "utf-8")), b"content")],
+        upload_files=[("file", str(Header("укр.doc", "utf-8")), b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
-    self.assertEqual(u"укр.doc", response.json["data"]["title"])
+    self.assertEqual("укр.doc", response.json["data"]["title"])
 
     # Try connect document with lot, without description in params
     response = self.app.patch_json(
@@ -166,7 +166,7 @@ def patch_tender_document(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"This field is required."], u"location": u"body", u"name": u"relatedItem"}],
+        [{"description": ["This field is required."], "location": "body", "name": "relatedItem"}],
     )
 
     # Try connect document with lot, by bad relatedItem
@@ -180,7 +180,7 @@ def patch_tender_document(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"relatedItem should be one of lots"], u"location": u"body", u"name": u"relatedItem"}],
+        [{"description": ["relatedItem should be one of lots"], "location": "body", "name": "relatedItem"}],
     )
 
     # Try connect document with item, by bad relatedItem
@@ -194,7 +194,7 @@ def patch_tender_document(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"relatedItem should be one of items"], u"location": u"body", u"name": u"relatedItem"}],
+        [{"description": ["relatedItem should be one of items"], "location": "body", "name": "relatedItem"}],
     )
 
     # Update description in document

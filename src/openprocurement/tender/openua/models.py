@@ -118,7 +118,7 @@ class PeriodEndRequired(BasePeriodEndRequired):
         if tender_date < PERIOD_END_REQUIRED_FROM:
             return
         if value and data.get("endDate") and data.get("endDate") < value:
-            raise ValidationError(u"period should begin before its end")
+            raise ValidationError("period should begin before its end")
 
 
 class Item(BaseItem):
@@ -406,28 +406,28 @@ class Complaint(BaseComplaint):
 
     def validate_cancellationReason(self, data, cancellationReason):
         if not cancellationReason and data.get("status") in ["cancelled", "stopping"]:
-            raise ValidationError(u"This field is required.")
+            raise ValidationError("This field is required.")
 
     def validate_rejectReason(self, data, rejectReason):
         tender_date = get_first_revision_date(get_tender(data["__parent__"]), default=get_now())
         if tender_date < RELEASE_2020_04_19:
             return
         if not rejectReason and data.get("status") in ["invalid", "stopped"] and data.get("type") == "complaint":
-            raise ValidationError(u"This field is required.")
+            raise ValidationError("This field is required.")
 
     def validate_reviewDate(self, data, reviewDate):
         tender_date = get_first_revision_date(get_tender(data["__parent__"]), default=get_now())
         if tender_date < RELEASE_2020_04_19:
             return
         if not reviewDate and data.get("status") == "accepted":
-            raise ValidationError(u"This field is required.")
+            raise ValidationError("This field is required.")
 
     def validate_reviewPlace(self, data, reviewPlace):
         tender_date = get_first_revision_date(get_tender(data["__parent__"]), default=get_now())
         if tender_date < RELEASE_2020_04_19:
             return
         if not reviewPlace and data.get("status") == "accepted":
-            raise ValidationError(u"This field is required.")
+            raise ValidationError("This field is required.")
 
 
 class CancellationComplaint(Complaint):
@@ -531,11 +531,11 @@ class Award(BaseAward, QualificationMilestoneListMixin):
 
     def validate_qualified(self, data, qualified):
         if data["status"] == "active" and not qualified:
-            raise ValidationError(u"This field is required.")
+            raise ValidationError("This field is required.")
 
     def validate_eligible(self, data, eligible):
         if data["status"] == "active" and not eligible:
-            raise ValidationError(u"This field is required.")
+            raise ValidationError("This field is required.")
 
 
 @implementer(IAboveThresholdUATender)

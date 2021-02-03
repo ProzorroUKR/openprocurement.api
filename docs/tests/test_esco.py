@@ -169,7 +169,7 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin):
             response = self.app.post(
                 '/tenders/{}/documents?acc_token={}'.format(
                     self.tender_id, owner_token),
-                upload_files=[('file', u'Notice.pdf', b'content')])
+                upload_files=[('file', 'Notice.pdf', b'content')])
             self.assertEqual(response.status, '201 Created')
 
         doc_id = response.json["data"]["id"]
@@ -183,7 +183,7 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin):
             response = self.app.post(
                 '/tenders/{}/documents?acc_token={}'.format(
                     self.tender_id, owner_token),
-                upload_files=[('file', u'AwardCriteria.pdf', b'content')])
+                upload_files=[('file', 'AwardCriteria.pdf', b'content')])
             self.assertEqual(response.status, '201 Created')
 
         doc_id = response.json["data"]["id"]
@@ -255,7 +255,7 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin):
                 {'data': {
                     "minValue": {
                         "amount": 501,
-                        "currency": u"UAH"
+                        "currency": "UAH"
                     },
                     "tenderPeriod": {
                         "endDate": tender_period_end_date.isoformat()
@@ -477,15 +477,15 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin):
 
         self.set_status('active.auction')
         self.app.authorization = ('Basic', ('auction', ''))
-        auction_url = u'{}/tenders/{}'.format(self.auctions_url, self.tender_id)
+        auction_url = '{}/tenders/{}'.format(self.auctions_url, self.tender_id)
         patch_data = {
             'auctionUrl': auction_url,
             'bids': [{
                 "id": bid1_id,
-                "participationUrl": u'{}?key_for_bid={}'.format(auction_url, bid1_id)
+                "participationUrl": '{}?key_for_bid={}'.format(auction_url, bid1_id)
             }, {
                 "id": bid2_id,
-                "participationUrl": u'{}?key_for_bid={}'.format(auction_url, bid2_id)
+                "participationUrl": '{}?key_for_bid={}'.format(auction_url, bid2_id)
             }, {
                 "id": bid3_id
             }]
@@ -649,7 +649,7 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin):
             response = self.app.post(
                 '/tenders/{}/cancellations/{}/documents?acc_token={}'.format(
                     self.tender_id, cancellation_id, owner_token),
-                upload_files=[('file', u'Notice.pdf', b'content')])
+                upload_files=[('file', 'Notice.pdf', b'content')])
             cancellation_doc_id = response.json['data']['id']
             self.assertEqual(response.status, '201 Created')
 

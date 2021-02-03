@@ -16,7 +16,7 @@ def validate_qualification_period_duration(request, model):
                                                              timedelta(days=MIN_QUALIFICATION_DURATION), data)
     if qualification_period_end_date > qualificationPeriod.endDate:
         raise_operation_error(request,
-                              u"qualificationPeriod must be at least {min_duration} full calendar days long".format(
+                              "qualificationPeriod must be at least {min_duration} full calendar days long".format(
                                   min_duration=MIN_QUALIFICATION_DURATION))
     period = model(request.validated["data"]["period"])
     qualification_period_end_date = calculate_framework_date(period.startDate,
@@ -24,7 +24,7 @@ def validate_qualification_period_duration(request, model):
                                                              data, ceil=True)
     if qualification_period_end_date < qualificationPeriod.endDate:
         raise_operation_error(request,
-                              u"qualificationPeriod must be less than {max_duration} full calendar days long".format(
+                              "qualificationPeriod must be less than {max_duration} full calendar days long".format(
                                   max_duration=MAX_QUALIFICATION_DURATION))
 
 

@@ -102,7 +102,7 @@ def check_tender_award_complaint_period_dates_before_new(self):
         {
             "data": {
                 "suppliers": [test_organization],
-                "status": u"pending",
+                "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "value": {"amount": 500},
             }
@@ -159,7 +159,7 @@ def check_tender_award_complaint_period_dates_new(self):
         {
             "data": {
                 "suppliers": [test_organization],
-                "status": u"pending",
+                "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "value": {"amount": 500},
             }
@@ -219,7 +219,7 @@ def patch_tender_award_active(self):
         {
             "data": {
                 "suppliers": [test_organization],
-                "status": u"pending",
+                "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "value": {"amount": 500},
             }
@@ -367,7 +367,7 @@ def patch_tender_award_unsuccessful(self):
         {
             "data": {
                 "suppliers": [test_organization],
-                "status": u"pending",
+                "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "value": {"amount": 500},
             }
@@ -525,7 +525,7 @@ def patch_tender_lot_award_unsuccessful(self):
         {
             "data": {
                 "suppliers": [test_organization],
-                "status": u"pending",
+                "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "lotID": self.initial_lots[0]["id"],
                 "value": {"amount": 500},
@@ -721,9 +721,9 @@ def create_tender_award_claim_denied(self):
         response.json["errors"],
         [
             {
-                u"description": u"Can't add complaint of 'claim' type",
-                u"location": u"body",
-                u"name": u"data",
+                "description": "Can't add complaint of 'claim' type",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -753,7 +753,7 @@ def get_tender_award_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"complaint_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "complaint_id"}]
     )
 
     response = self.app.get("/tenders/some_id/awards/some_id/complaints/some_id", status=404)
@@ -761,7 +761,7 @@ def get_tender_award_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
 
@@ -785,7 +785,7 @@ def get_tender_award_complaints(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     tender = self.db.get(self.tender_id)
@@ -828,7 +828,7 @@ def get_tender_lot_award_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"complaint_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "complaint_id"}]
     )
 
     response = self.app.get("/tenders/some_id/awards/some_id/complaints/some_id", status=404)
@@ -836,7 +836,7 @@ def get_tender_lot_award_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
 
@@ -860,7 +860,7 @@ def get_tender_lot_award_complaints(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     tender = self.db.get(self.tender_id)

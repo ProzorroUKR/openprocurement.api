@@ -65,7 +65,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"agreement_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "agreement_id"}]
     )
 
     response = self.app.get("/agreements/{}/changes".format(self.agreement["id"]))
@@ -77,7 +77,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"change_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "change_id"}]
     )
 
     response = self.app.patch_json(
@@ -87,7 +87,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"change_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "change_id"}]
     )
 
 
@@ -141,9 +141,9 @@ def create_change_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": u"Content-Type header should be one of ['application/json']",
-                u"location": u"header",
-                u"name": u"Content-Type",
+                "description": "Content-Type header should be one of ['application/json']",
+                "location": "header",
+                "name": "Content-Type",
             }
         ],
     )
@@ -155,7 +155,7 @@ def create_change_invalid(self):
     )
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Can't add change without rationaleType", u"location": u"body", u"name": u"data"}],
+        [{"description": "Can't add change without rationaleType", "location": "body", "name": "data"}],
     )
 
     response = self.app.post_json(
@@ -167,9 +167,9 @@ def create_change_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": u"rationaleType should be one of ['taxRate', 'itemPriceVariation', 'thirdParty', 'partyWithdrawal']",
-                u"location": u"body",
-                u"name": u"data",
+                "description": "rationaleType should be one of ['taxRate', 'itemPriceVariation', 'thirdParty', 'partyWithdrawal']",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -212,9 +212,9 @@ def create_change_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": u"unitPrice:value:amount can't be equal or less than 0.",
-                u"location": u"body",
-                u"name": u"data",
+                "description": "unitPrice:value:amount can't be equal or less than 0.",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -230,9 +230,9 @@ def create_change_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [u"Item id should be uniq for all modifications and one of agreement:items"],
-                u"location": u"body",
-                u"name": u"modifications",
+                "description": ["Item id should be uniq for all modifications and one of agreement:items"],
+                "location": "body",
+                "name": "modifications",
             }
         ],
     )
@@ -248,9 +248,9 @@ def create_change_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [u"Contract id should be uniq for all modifications and one of agreement:contracts"],
-                u"location": u"body",
-                u"name": u"modifications",
+                "description": ["Contract id should be uniq for all modifications and one of agreement:contracts"],
+                "location": "body",
+                "name": "modifications",
             }
         ],
     )
@@ -266,9 +266,9 @@ def create_change_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [u"Change with taxRate rationaleType, can have only factor or only addend"],
-                u"location": u"body",
-                u"name": u"modifications",
+                "description": ["Change with taxRate rationaleType, can have only factor or only addend"],
+                "location": "body",
+                "name": "modifications",
             }
         ],
     )
@@ -352,7 +352,7 @@ def create_change(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Can't add change without rationaleType", u"location": u"body", u"name": u"data"}],
+        [{"description": "Can't add change without rationaleType", "location": "body", "name": "data"}],
     )
 
     data["rationaleType"] = "partyWithdrawal"
@@ -365,7 +365,7 @@ def create_change(self):
     change2 = response.json["data"]
     self.assertEqual(change2["status"], "pending")
     self.assertIn("warnings", response.json)
-    self.assertEqual(response.json["warnings"], [u"Min active contracts in FrameworkAgreement less than 3."])
+    self.assertEqual(response.json["warnings"], ["Min active contracts in FrameworkAgreement less than 3."])
 
     response = self.app.get("/agreements/{}/changes".format(self.agreement["id"]))
     self.assertEqual(response.status, "200 OK")
@@ -374,7 +374,7 @@ def create_change(self):
 
 def create_change_item_price_variation_modifications_boundaries(self):
     data = deepcopy(self.initial_change)
-    data.update({"rationaleType": u"itemPriceVariation"})
+    data.update({"rationaleType": "itemPriceVariation"})
 
     for x in (0.9, 0.91, 0.901, 0.9001, 0.89995, 1.1, 1.09, 1.009, 1.0009, 1.100005):
         data.update({"modifications": [{"factor": x, "itemId": self.agreement["items"][0]["id"]}]})
@@ -424,9 +424,9 @@ def create_change_item_price_variation_modifications_boundaries(self):
             response.json["errors"],
             [
                 {
-                    u"description": [u"Modification factor should be in range 0.9 - 1.1"],
-                    u"location": u"body",
-                    u"name": u"modifications",
+                    "description": ["Modification factor should be in range 0.9 - 1.1"],
+                    "location": "body",
+                    "name": "modifications",
                 }
             ],
         )
@@ -441,7 +441,7 @@ def patch_change(self):
     self.assertEqual(response.content_type, "application/json")
     change = response.json["data"]
     self.assertEqual(change["status"], "pending")
-    self.assertEqual(change["agreementNumber"], u"№ 146")
+    self.assertEqual(change["agreementNumber"], "№ 146")
     creation_date = change["date"]
 
     now = get_now().isoformat()
@@ -524,7 +524,7 @@ def patch_change(self):
 
     # testing changes validators
     data = deepcopy(self.initial_change)
-    data.update({"rationaleType": u"itemPriceVariation", "modifications": [{"itemId": "1" * 32, "addend": 0.01}]})
+    data.update({"rationaleType": "itemPriceVariation", "modifications": [{"itemId": "1" * 32, "addend": 0.01}]})
     response = self.app.post_json(
         "/agreements/{}/changes?acc_token={}".format(self.agreement["id"], self.agreement_token),
         {"data": data},
@@ -536,9 +536,9 @@ def patch_change(self):
         response.json["errors"],
         [
             {
-                u"description": [u"Only factor is allowed for itemPriceVariation type of change"],
-                u"location": u"body",
-                u"name": u"modifications",
+                "description": ["Only factor is allowed for itemPriceVariation type of change"],
+                "location": "body",
+                "name": "modifications",
             }
         ],
     )
@@ -555,15 +555,15 @@ def patch_change(self):
         response.json["errors"],
         [
             {
-                u"description": [u"Modification factor should be in range 0.9 - 1.1"],
-                u"location": u"body",
-                u"name": u"modifications",
+                "description": ["Modification factor should be in range 0.9 - 1.1"],
+                "location": "body",
+                "name": "modifications",
             }
         ],
     )
 
     data = deepcopy(self.initial_change)
-    data.update({"rationaleType": u"thirdParty", "modifications": [{"itemId": "1" * 32, "addend": 0.01}]})
+    data.update({"rationaleType": "thirdParty", "modifications": [{"itemId": "1" * 32, "addend": 0.01}]})
     response = self.app.post_json(
         "/agreements/{}/changes?acc_token={}".format(self.agreement["id"], self.agreement_token),
         {"data": data},
@@ -575,16 +575,16 @@ def patch_change(self):
         response.json["errors"],
         [
             {
-                u"description": [u"Only factor is allowed for thirdParty type of change"],
-                u"location": u"body",
-                u"name": u"modifications",
+                "description": ["Only factor is allowed for thirdParty type of change"],
+                "location": "body",
+                "name": "modifications",
             }
         ],
     )
 
     data = deepcopy(self.initial_change)
     data.update(
-        {"rationaleType": u"thirdParty", "modifications": [{"itemId": self.agreement["items"][0]["id"], "factor": 0.0}]}
+        {"rationaleType": "thirdParty", "modifications": [{"itemId": self.agreement["items"][0]["id"], "factor": 0.0}]}
     )
     response = self.app.post_json(
         "/agreements/{}/changes?acc_token={}".format(self.agreement["id"], self.agreement_token),
@@ -596,9 +596,9 @@ def patch_change(self):
         response.json["errors"],
         [
             {
-                u"description": u"unitPrice:value:amount can't be equal or less than 0.",
-                u"location": u"body",
-                u"name": u"data",
+                "description": "unitPrice:value:amount can't be equal or less than 0.",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -615,9 +615,9 @@ def patch_change(self):
         response.json["errors"],
         [
             {
-                u"description": [u"Item id should be uniq for all modifications and one of agreement:items"],
-                u"location": u"body",
-                u"name": u"modifications",
+                "description": ["Item id should be uniq for all modifications and one of agreement:items"],
+                "location": "body",
+                "name": "modifications",
             }
         ],
     )
@@ -632,7 +632,7 @@ def change_date_signed(self):
     self.assertEqual(response.content_type, "application/json")
     change = response.json["data"]
     self.assertEqual(change["status"], "pending")
-    self.assertEqual(change["agreementNumber"], u"№ 146")
+    self.assertEqual(change["agreementNumber"], "№ 146")
 
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.patch_json(
@@ -726,7 +726,7 @@ def change_date_signed(self):
             {
                 "location": "body",
                 "name": "dateSigned",
-                "description": [u"Agreement signature date can't be in the future"],
+                "description": ["Agreement signature date can't be in the future"],
             }
         ],
     )
@@ -817,7 +817,7 @@ def date_signed_on_change_creation(self):
         {"data": data},
         status=403,
     )
-    self.assertIn(u"can't be earlier than agreement dateSigned", response.json["errors"][0]["description"])
+    self.assertIn("can't be earlier than agreement dateSigned", response.json["errors"][0]["description"])
     one_day_in_future = (get_now() + timedelta(days=1)).isoformat()
     data["dateSigned"] = one_day_in_future
     response = self.app.post_json(
@@ -831,7 +831,7 @@ def date_signed_on_change_creation(self):
             {
                 "location": "body",
                 "name": "dateSigned",
-                "description": [u"Agreement signature date can't be in the future"],
+                "description": ["Agreement signature date can't be in the future"],
             }
         ],
     )
@@ -1136,9 +1136,9 @@ def multi_change(self):
         response.json["errors"],
         [
             {
-                u"description": u"Modifications are required for change activation.",
-                u"location": u"body",
-                u"name": u"data",
+                "description": "Modifications are required for change activation.",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -1200,11 +1200,11 @@ def activate_change_after_1_cancelled(self, mocked_model_get_now):
         response.json["errors"],
         [
             {
-                u"description": u"Change dateSigned ({}) can't be earlier than agreement dateSigned ({})".format(
+                "description": "Change dateSigned ({}) can't be earlier than agreement dateSigned ({})".format(
                     data["dateSigned"], self.agreement["dateSigned"]
                 ),
-                u"location": u"body",
-                u"name": u"data",
+                "location": "body",
+                "name": "data",
             }
         ],
     )

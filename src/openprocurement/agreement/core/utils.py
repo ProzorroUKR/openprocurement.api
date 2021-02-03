@@ -83,7 +83,7 @@ def save_agreement(request):
     """
     agreement = request.validated["agreement"]
 
-    if agreement.mode == u"test":
+    if agreement.mode == "test":
         set_modetest_titles(agreement)
 
     patch = get_revision_changes(agreement.serialize("plain"), request.validated["agreement_src"])

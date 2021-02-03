@@ -34,24 +34,24 @@ del test_tender_data["enquiryPeriod"]
 test_tender_data["tenderPeriod"] = {"endDate": (now + timedelta(days=16)).isoformat()}
 test_tender_data["items"] = [
     {
-        "description": u"футляри до державних нагород",
-        "description_en": u"Cases for state awards",
-        "classification": {"scheme": u"ДК021", "id": u"44617100-9", "description": u"Cartons"},
+        "description": "футляри до державних нагород",
+        "description_en": "Cases for state awards",
+        "classification": {"scheme": "ДК021", "id": "44617100-9", "description": "Cartons"},
         "additionalClassifications": [
-            {"scheme": u"ДКПП", "id": u"17.21.1", "description": u"папір і картон гофровані, паперова й картонна тара"}
+            {"scheme": "ДКПП", "id": "17.21.1", "description": "папір і картон гофровані, паперова й картонна тара"}
         ],
-        "unit": {"name": u"item", "code": u"44617100-9"},
+        "unit": {"name": "item", "code": "44617100-9"},
         "quantity": 5,
         "deliveryDate": {
             "startDate": (now + timedelta(days=2)).isoformat(),
             "endDate": (now + timedelta(days=5)).isoformat(),
         },
         "deliveryAddress": {
-            "countryName": u"Україна",
+            "countryName": "Україна",
             "postalCode": "79000",
-            "region": u"м. Київ",
-            "locality": u"м. Київ",
-            "streetAddress": u"вул. Банкова 1",
+            "region": "м. Київ",
+            "locality": "м. Київ",
+            "streetAddress": "вул. Банкова 1",
         },
     }
 ]

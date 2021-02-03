@@ -236,7 +236,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.post_json(
                 '/tenders/{}/documents?acc_token={}'.format(self.tender_id, owner_token),
                 {'data': {
-                    'title': u'Notice.pdf',
+                    'title': 'Notice.pdf',
                     'url': self.generate_docservice_url(),
                     'hash': 'md5:' + '0' * 32,
                     'format': 'application/pdf',
@@ -267,7 +267,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.post_json(
                 '/tenders/{}/documents?acc_token={}'.format(self.tender_id, owner_token),
                 {'data': {
-                    'title': u'AwardCriteria.pdf',
+                    'title': 'AwardCriteria.pdf',
                     'url': self.generate_docservice_url(),
                     'hash': 'md5:' + '0' * 32,
                     'format': 'application/pdf',
@@ -285,7 +285,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.put_json(
                 '/tenders/{}/documents/{}?acc_token={}'.format(self.tender_id, doc_id, owner_token),
                 {'data': {
-                    'title': u'AwardCriteria-2.pdf',
+                    'title': 'AwardCriteria-2.pdf',
                     'url': self.generate_docservice_url(),
                     'hash': 'md5:' + '0' * 32,
                     'format': 'application/pdf',
@@ -341,7 +341,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.post_json(
                 '/tenders/{}/bids/{}/documents?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
                 {'data': {
-                    'title': u'Proposal.pdf',
+                    'title': 'Proposal.pdf',
                     'url': self.generate_docservice_url(),
                     'hash': 'md5:' + '0' * 32,
                     'format': 'application/pdf',
@@ -383,20 +383,20 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         self.set_status('active.auction')
         self.app.authorization = ('Basic', ('auction', ''))
-        auction_url = u'{}/tenders/{}_{}'.format(self.auctions_url, self.tender_id, lot['id'])
+        auction_url = '{}/tenders/{}_{}'.format(self.auctions_url, self.tender_id, lot['id'])
         patch_data = {
             'lots': [{
                 'auctionUrl': auction_url,
             }],
             'bids': [{
                 "id": bid1_id,
-                "lotValues": [{"participationUrl": u'{}?key_for_bid={}'.format(auction_url, bid1_id)}]
+                "lotValues": [{"participationUrl": '{}?key_for_bid={}'.format(auction_url, bid1_id)}]
             }, {
                 "id": bid2_id,
-                "lotValues": [{"participationUrl": u'{}?key_for_bid={}'.format(auction_url, bid2_id)}]
+                "lotValues": [{"participationUrl": '{}?key_for_bid={}'.format(auction_url, bid2_id)}]
             }, {
                 "id": bid3_id,
-                "lotValues": [{"participationUrl": u'{}?key_for_bid={}'.format(auction_url, bid3_id)}]
+                "lotValues": [{"participationUrl": '{}?key_for_bid={}'.format(auction_url, bid3_id)}]
             }]
         }
         response = self.app.patch_json(
@@ -468,7 +468,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 '/tenders/{}/awards/{}/documents?acc_token={}'.format(
                     self.tender_id, award_id, owner_token),
                 {"data": {
-                    "title": u"explanation.pdf",
+                    "title": "explanation.pdf",
                     "url": self.generate_docservice_url(),
                     "hash": "md5:" + "0" * 32,
                     "format": "application/pdf",
@@ -527,7 +527,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.post_json(
                 '/tenders/{}/contracts/{}/documents?acc_token={}'.format(self.tender_id, self.contract_id, owner_token),
                 {'data': {
-                    'title': u'contract_first_document.doc',
+                    'title': 'contract_first_document.doc',
                     'url': self.generate_docservice_url(),
                     'hash': 'md5:' + '0' * 32,
                     'format': 'application/msword',
@@ -542,7 +542,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.post_json(
                 '/tenders/{}/contracts/{}/documents?acc_token={}'.format(self.tender_id, self.contract_id, owner_token),
                 {'data': {
-                    'title': u'contract_second_document.doc',
+                    'title': 'contract_second_document.doc',
                     'url': self.generate_docservice_url(),
                     'hash': 'md5:' + '0' * 32,
                     'format': 'application/msword',
@@ -592,7 +592,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 '/tenders/{}/cancellations/{}/documents?acc_token={}'.format(
                     self.tender_id, cancellation_id, owner_token),
                 {'data': {
-                    'title': u'Notice.pdf',
+                    'title': 'Notice.pdf',
                     'url': self.generate_docservice_url(),
                     'hash': 'md5:' + '0' * 32,
                     'format': 'application/pdf',
@@ -613,7 +613,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 '/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(
                     self.tender_id, cancellation_id, cancellation_doc_id, owner_token),
                 {'data': {
-                    'title': u'Notice-2.pdf',
+                    'title': 'Notice-2.pdf',
                     'url': self.generate_docservice_url(),
                     'hash': 'md5:' + '0' * 32,
                     'format': 'application/pdf',

@@ -54,12 +54,12 @@ class Agreement(Model):
                 and award.complaintPeriod.endDate >= value
             ):
                 raise ValidationError(
-                    u"Agreement signature date should be after award complaint period end date ({})".format(
+                    "Agreement signature date should be after award complaint period end date ({})".format(
                         award.complaintPeriod.endDate.isoformat()
                     )
                 )
             if value > get_now():
-                raise ValidationError(u"Agreement signature date can't be in the future")
+                raise ValidationError("Agreement signature date can't be in the future")
 
     def get_awards_id(self):
         return tuple(c.awardID for c in self.contracts)

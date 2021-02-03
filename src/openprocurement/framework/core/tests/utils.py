@@ -107,7 +107,7 @@ class UtilsFrameworkTest(BaseFrameworkTest):
     def test_save_framework(self):
         request = MagicMock()
         framework = MagicMock()
-        framework.mode = u"test"
+        framework.mode = "test"
         framework.revisions = []
         framework.dateModified = datetime.datetime(2018, 8, 2, 12, 9, 2, 440566)
         type(framework).revisions = MagicMock()

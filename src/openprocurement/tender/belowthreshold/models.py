@@ -373,7 +373,7 @@ class Tender(BaseTender):
             and items
             and len(set([i.classification.id[:4] for i in items])) != 1
         ):
-            raise ValidationError(u"CPV class of items should be identical")
+            raise ValidationError("CPV class of items should be identical")
         else:
             validate_cpv_group(items)
 
@@ -402,13 +402,13 @@ class Tender(BaseTender):
                 ]
             )
         ):
-            raise ValidationError(u"Sum of max value of all features for lot should be less then or equal to 30%")
+            raise ValidationError("Sum of max value of all features for lot should be less then or equal to 30%")
         elif features and not data["lots"] and round(vnmax(features), 15) > 0.3:
-            raise ValidationError(u"Sum of max value of all features should be less then or equal to 30%")
+            raise ValidationError("Sum of max value of all features should be less then or equal to 30%")
 
     def validate_auctionUrl(self, data, url):
         if url and data["lots"]:
-            raise ValidationError(u"url should be posted for each lot")
+            raise ValidationError("url should be posted for each lot")
 
     def validate_minimalStep(self, data, value):
         validate_minimalstep(data, value)
@@ -423,7 +423,7 @@ class Tender(BaseTender):
             and period.endDate
             and period.endDate < calculate_tender_business_date(period.startDate, timedelta(days=3), data, True)
         ):
-            raise ValidationError(u"the enquiryPeriod cannot end earlier than 3 business days after the start")
+            raise ValidationError("the enquiryPeriod cannot end earlier than 3 business days after the start")
 
     def validate_tenderPeriod(self, data, period):
         if (
@@ -433,7 +433,7 @@ class Tender(BaseTender):
             and data.get("enquiryPeriod").endDate
             and period.startDate < data.get("enquiryPeriod").endDate
         ):
-            raise ValidationError(u"period should begin after enquiryPeriod")
+            raise ValidationError("period should begin after enquiryPeriod")
 
         active_validation = get_first_revision_date(data, default=get_now()) > RELEASE_2020_04_19
         if (
@@ -452,7 +452,7 @@ class Tender(BaseTender):
             and data.get("auctionPeriod").endDate
             and period.startDate < data.get("auctionPeriod").endDate
         ):
-            raise ValidationError(u"period should begin after auctionPeriod")
+            raise ValidationError("period should begin after auctionPeriod")
         if (
             period
             and period.startDate
@@ -460,8 +460,8 @@ class Tender(BaseTender):
             and data.get("tenderPeriod").endDate
             and period.startDate < data.get("tenderPeriod").endDate
         ):
-            raise ValidationError(u"period should begin after tenderPeriod")
+            raise ValidationError("period should begin after tenderPeriod")
 
     def validate_lots(self, data, value):
         if len(set([lot.guarantee.currency for lot in value if lot.guarantee])) > 1:
-            raise ValidationError(u"lot guarantee currency should be identical to tender guarantee currency")
+            raise ValidationError("lot guarantee currency should be identical to tender guarantee currency")

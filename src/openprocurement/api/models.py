@@ -147,7 +147,7 @@ class DecimalType(BaseDecimalType):
 
 
 class IsoDateTimeType(BaseType):
-    MESSAGES = {"parse": u"Could not parse {0}. Should be ISO8601."}
+    MESSAGES = {"parse": "Could not parse {0}. Should be ISO8601."}
 
     def to_native(self, value, context=None):
         if isinstance(value, datetime):
@@ -179,7 +179,7 @@ class IsoDurationType(BaseType):
            examples:  'P5000Y72M8W10DT55H3000M5S'
     """
 
-    MESSAGES = {"parse": u"Could not parse {0}. Should be ISO8601 Durations."}
+    MESSAGES = {"parse": "Could not parse {0}. Should be ISO8601 Durations."}
 
     def to_native(self, value, context=None):
         if isinstance(value, Duration) or isinstance(value, timedelta):
@@ -337,7 +337,7 @@ class Model(SchematicsModel, metaclass=OpenprocurementCouchdbDocumentMeta):
 
 class Guarantee(Model):
     amount = FloatType(required=True, min_value=0)  # Amount as a number.
-    currency = StringType(required=True, default=u"UAH", max_length=3, min_length=3)  # 3-letter ISO 4217 format.
+    currency = StringType(required=True, default="UAH", max_length=3, min_length=3)  # 3-letter ISO 4217 format.
 
 
 class Value(Guarantee):
@@ -350,7 +350,7 @@ class Period(Model):
 
     def validate_startDate(self, data, value):
         if value and data.get("endDate") and data.get("endDate") < value:
-            raise ValidationError(u"period should begin before its end")
+            raise ValidationError("period should begin before its end")
 
 
 class PeriodEndRequired(Period):
@@ -367,21 +367,21 @@ class Classification(Model):
 
 
 class CPVClassification(Classification):
-    scheme = StringType(required=True, default=u"CPV", choices=[u"CPV", u"ДК021"])
+    scheme = StringType(required=True, default="CPV", choices=["CPV", "ДК021"])
     id = StringType(required=True)
 
     def validate_id(self, data, code):
-        if data.get("scheme") == u"CPV" and code not in CPV_CODES:
+        if data.get("scheme") == "CPV" and code not in CPV_CODES:
             raise ValidationError(BaseType.MESSAGES["choices"].format(CPV_CODES))
-        elif data.get("scheme") == u"ДК021" and code not in DK_CODES:
+        elif data.get("scheme") == "ДК021" and code not in DK_CODES:
             raise ValidationError(BaseType.MESSAGES["choices"].format(DK_CODES))
 
     def validate_scheme(self, data, scheme):
         schematics_document = get_schematics_document(data["__parent__"])
         if (
             schematics_document.get("revisions")[0].date if schematics_document.get("revisions") else get_now()
-        ) > CPV_BLOCK_FROM and scheme != u"ДК021":
-            raise ValidationError(BaseType.MESSAGES["choices"].format([u"ДК021"]))
+        ) > CPV_BLOCK_FROM and scheme != "ДК021":
+            raise ValidationError(BaseType.MESSAGES["choices"].format(["ДК021"]))
 
 
 class AdditionalClassification(Classification):
@@ -420,15 +420,15 @@ class Address(Model):
         apply_validation = get_first_revision_date(root, default=get_now()) >= VALIDATE_ADDRESS_FROM
         if self.doc_type_allowed(root) and self.validation_allowed(root) and apply_validation:
             if value not in COUNTRIES:
-                raise ValidationError(u"field address:countryName not exist in countries catalog")
+                raise ValidationError("field address:countryName not exist in countries catalog")
 
     def validate_region(self, data, value):
         root = get_root(data['__parent__'])
         apply_validation = get_first_revision_date(root, default=get_now()) >= VALIDATE_ADDRESS_FROM
         if self.doc_type_allowed(root) and self.validation_allowed(root) and apply_validation:
-            if data["countryName"] == u"Україна":
+            if data["countryName"] == "Україна":
                 if value and value not in UA_REGIONS:
-                    raise ValidationError(u"field address:region not exist in ua_regions catalog")
+                    raise ValidationError("field address:region not exist in ua_regions catalog")
 
     @staticmethod
     def doc_type_allowed(root):
@@ -631,7 +631,7 @@ class ContactPoint(Model):
 
     def validate_email(self, data, value):
         if not value and not data.get("telephone"):
-            raise ValidationError(u"telephone or email should be present")
+            raise ValidationError("telephone or email should be present")
 
 
 class Organization(Model):

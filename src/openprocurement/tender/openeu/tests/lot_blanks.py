@@ -219,7 +219,7 @@ def create_tender_bidder_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"This field is required."], u"location": u"body", u"name": u"lotValues"}],
+        [{"description": ["This field is required."], "location": "body", "name": "lotValues"}],
     )
 
     bid_data["lotValues"] = [{"value": {"amount": 500}}]
@@ -235,9 +235,9 @@ def create_tender_bidder_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"relatedLot": [u"This field is required."]}],
-                u"location": u"body",
-                u"name": u"lotValues",
+                "description": [{"relatedLot": ["This field is required."]}],
+                "location": "body",
+                "name": "lotValues",
             }
         ],
     )
@@ -255,9 +255,9 @@ def create_tender_bidder_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"relatedLot": [u"relatedLot should be one of lots"]}],
-                u"location": u"body",
-                u"name": u"lotValues",
+                "description": [{"relatedLot": ["relatedLot should be one of lots"]}],
+                "location": "body",
+                "name": "lotValues",
             }
         ],
     )
@@ -275,9 +275,9 @@ def create_tender_bidder_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"value": [u"value of bid should be less than value of lot"]}],
-                u"location": u"body",
-                u"name": u"lotValues",
+                "description": [{"value": ["value of bid should be less than value of lot"]}],
+                "location": "body",
+                "name": "lotValues",
             }
         ],
     )
@@ -295,15 +295,15 @@ def create_tender_bidder_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [
+                "description": [
                     {
-                        u"value": [
-                            u"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of lot"
+                        "value": [
+                            "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of lot"
                         ]
                     }
                 ],
-                u"location": u"body",
-                u"name": u"lotValues",
+                "location": "body",
+                "name": "lotValues",
             }
         ],
     )
@@ -321,9 +321,9 @@ def create_tender_bidder_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"value": [u"currency of bid should be identical to currency of value of lot"]}],
-                u"location": u"body",
-                u"name": u"lotValues",
+                "description": [{"value": ["currency of bid should be identical to currency of value of lot"]}],
+                "location": "body",
+                "name": "lotValues",
             }
         ],
     )
@@ -340,7 +340,7 @@ def create_tender_bidder_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"value should be posted for each lot of bid"], u"location": u"body", u"name": u"value"}],
+        [{"description": ["value should be posted for each lot of bid"], "location": "body", "name": "value"}],
     )
 
 
@@ -362,7 +362,7 @@ def patch_tender_bidder(self):
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bidder["id"], bid_token),
-        {"data": {"tenderers": [{"name": u"Державне управління управлінням справами"}]}},
+        {"data": {"tenderers": [{"name": "Державне управління управлінням справами"}]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -444,9 +444,9 @@ def create_tender_feature_bidder_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"relatedLot": [u"This field is required."]}],
-                u"location": u"body",
-                u"name": u"lotValues",
+                "description": [{"relatedLot": ["This field is required."]}],
+                "location": "body",
+                "name": "lotValues",
             }
         ],
     )
@@ -464,9 +464,9 @@ def create_tender_feature_bidder_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"relatedLot": [u"relatedLot should be one of lots"]}],
-                u"location": u"body",
-                u"name": u"lotValues",
+                "description": [{"relatedLot": ["relatedLot should be one of lots"]}],
+                "location": "body",
+                "name": "lotValues",
             }
         ],
     )
@@ -485,9 +485,9 @@ def create_tender_feature_bidder_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"value": [u"value of bid should be less than value of lot"]}],
-                u"location": u"body",
-                u"name": u"lotValues",
+                "description": [{"value": ["value of bid should be less than value of lot"]}],
+                "location": "body",
+                "name": "lotValues",
             }
         ],
     )
@@ -505,15 +505,15 @@ def create_tender_feature_bidder_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [
+                "description": [
                     {
-                        u"value": [
-                            u"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of lot"
+                        "value": [
+                            "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of lot"
                         ]
                     }
                 ],
-                u"location": u"body",
-                u"name": u"lotValues",
+                "location": "body",
+                "name": "lotValues",
             }
         ],
     )
@@ -531,9 +531,9 @@ def create_tender_feature_bidder_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"value": [u"currency of bid should be identical to currency of value of lot"]}],
-                u"location": u"body",
-                u"name": u"lotValues",
+                "description": [{"value": ["currency of bid should be identical to currency of value of lot"]}],
+                "location": "body",
+                "name": "lotValues",
             }
         ],
     )
@@ -558,7 +558,7 @@ def create_tender_feature_bidder_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"All features parameters is required."], u"location": u"body", u"name": u"parameters"}],
+        [{"description": ["All features parameters is required."], "location": "body", "name": "parameters"}],
     )
 
     bid_data["parameters"] = [{"code": "code_item", "value": 0.01}]
@@ -572,7 +572,7 @@ def create_tender_feature_bidder_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"All features parameters is required."], u"location": u"body", u"name": u"parameters"}],
+        [{"description": ["All features parameters is required."], "location": "body", "name": "parameters"}],
     )
 
     bid_data["parameters"] = [{"code": "code_invalid", "value": 0.01}]
@@ -588,9 +588,9 @@ def create_tender_feature_bidder_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"code": [u"code should be one of feature code."]}],
-                u"location": u"body",
-                u"name": u"parameters",
+                "description": [{"code": ["code should be one of feature code."]}],
+                "location": "body",
+                "name": "parameters",
             }
         ],
     )
@@ -612,9 +612,9 @@ def create_tender_feature_bidder_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"value": [u"value should be one of feature value."]}],
-                u"location": u"body",
-                u"name": u"parameters",
+                "description": [{"value": ["value should be one of feature value."]}],
+                "location": "body",
+                "name": "parameters",
             }
         ],
     )

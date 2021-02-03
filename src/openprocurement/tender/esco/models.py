@@ -356,10 +356,10 @@ class LotValue(BaseLotValue):
                 return
             lot = lots[0]
             if lot.get("minValue").currency != value.currency:
-                raise ValidationError(u"currency of bid should be identical to currency of minValue of lot")
+                raise ValidationError("currency of bid should be identical to currency of minValue of lot")
             if lot.get("minValue").valueAddedTaxIncluded != value.valueAddedTaxIncluded:
                 raise ValidationError(
-                    u"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of minValue of lot"
+                    "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of minValue of lot"
                 )
 
 
@@ -411,15 +411,15 @@ class Bid(BaseEUBid):
             tender = parent
             if tender.lots:
                 if value:
-                    raise ValidationError(u"value should be posted for each lot of bid")
+                    raise ValidationError("value should be posted for each lot of bid")
             else:
                 if not value:
-                    raise ValidationError(u"This field is required.")
+                    raise ValidationError("This field is required.")
                 if tender.get("minValue").currency != value.currency:
-                    raise ValidationError(u"currency of bid should be identical to currency of minValue of tender")
+                    raise ValidationError("currency of bid should be identical to currency of minValue of tender")
                 if tender.get("minValue").valueAddedTaxIncluded != value.valueAddedTaxIncluded:
                     raise ValidationError(
-                        u"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of minValue of tender"
+                        "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of minValue of tender"
                     )
 
     def validate_selfEligible(self, data, value):
@@ -869,7 +869,7 @@ class Tender(BaseTender):
             and items
             and len(set([i.classification.id[:4] for i in items])) != 1
         ):
-            raise ValidationError(u"CPV class of items should be identical")
+            raise ValidationError("CPV class of items should be identical")
         else:
             validate_cpv_group(items)
 
@@ -898,13 +898,13 @@ class Tender(BaseTender):
                 ]
             )
         ):
-            raise ValidationError(u"Sum of max value of all features for lot should be less then or equal to 25%")
+            raise ValidationError("Sum of max value of all features for lot should be less then or equal to 25%")
         elif features and not data["lots"] and round(vnmax(features), 15) > 0.25:
-            raise ValidationError(u"Sum of max value of all features should be less then or equal to 25%")
+            raise ValidationError("Sum of max value of all features should be less then or equal to 25%")
 
     def validate_auctionUrl(self, data, url):
         if url and data["lots"]:
-            raise ValidationError(u"url should be posted for each lot")
+            raise ValidationError("url should be posted for each lot")
 
     def validate_minimalStep(self, data, value):
         pass
@@ -923,7 +923,7 @@ class Tender(BaseTender):
             and data.get("auctionPeriod").endDate
             and period.startDate < data.get("auctionPeriod").endDate
         ):
-            raise ValidationError(u"period should begin after auctionPeriod")
+            raise ValidationError("period should begin after auctionPeriod")
         if (
             period
             and period.startDate
@@ -931,13 +931,13 @@ class Tender(BaseTender):
             and data.get("tenderPeriod").endDate
             and period.startDate < data.get("tenderPeriod").endDate
         ):
-            raise ValidationError(u"period should begin after tenderPeriod")
+            raise ValidationError("period should begin after tenderPeriod")
 
     def validate_lots(self, data, value):
         if len(set([lot.guarantee.currency for lot in value if lot.guarantee])) > 1:
-            raise ValidationError(u"lot guarantee currency should be identical to tender guarantee currency")
+            raise ValidationError("lot guarantee currency should be identical to tender guarantee currency")
         if len(set([lot.fundingKind for lot in value])) > 1:
-            raise ValidationError(u"lot funding kind should be identical to tender funding kind")
+            raise ValidationError("lot funding kind should be identical to tender funding kind")
 
     def validate_yearlyPaymentsPercentageRange(self, data, value):
         if data["fundingKind"] == "other" and value != Decimal("0.8"):

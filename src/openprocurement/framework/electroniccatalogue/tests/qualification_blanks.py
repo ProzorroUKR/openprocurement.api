@@ -51,7 +51,7 @@ def listing(self):
             break
 
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in qualifications]))
     self.assertEqual(
         set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in qualifications])
@@ -85,20 +85,20 @@ def listing(self):
     response = self.app.get("/qualifications", params=[("opt_fields", "status")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified", u"status"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "status"]))
     self.assertIn("opt_fields=status", response.json["next_page"]["uri"])
 
     response = self.app.get("/qualifications", params=[("opt_fields", "status,owner")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified", u"status"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "status"]))
     self.assertIn("opt_fields=status", response.json["next_page"]["uri"])
 
     response = self.app.get("/qualifications?descending=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in qualifications]))
     self.assertEqual(
         [i["dateModified"]
@@ -163,7 +163,7 @@ def listing_changes(self):
     self.assertEqual(",".join([i["id"] for i in response.json["data"]]), ids)
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in qualifications]))
     self.assertEqual(
         set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in qualifications])
@@ -190,20 +190,20 @@ def listing_changes(self):
     response = self.app.get("/qualifications?feed=changes", params=[("opt_fields", "status")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified", u"status"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "status"]))
     self.assertIn("opt_fields=status", response.json["next_page"]["uri"])
 
     response = self.app.get("/qualifications?feed=changes", params=[("opt_fields", "status,owner")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified", u"status"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "status"]))
     self.assertIn("opt_fields=status", response.json["next_page"]["uri"])
 
     response = self.app.get("/qualifications?feed=changes&descending=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in qualifications]))
     self.assertEqual(
         [i["dateModified"]
@@ -328,9 +328,9 @@ def patch_qualification_active(self):
     self.assertEqual(
         response.json["errors"],
         [{
-            u'description': u"Can't update qualification in current (active) status",
-            u'location': u'body',
-            u'name': u'data',
+            'description': "Can't update qualification in current (active) status",
+            'location': 'body',
+            'name': 'data',
         }]
     )
 
@@ -343,9 +343,9 @@ def patch_qualification_active(self):
     self.assertEqual(
         response.json["errors"],
         [{
-            u'description': u"Can't add document in current (active) qualification status",
-            u'location': u'body',
-            u'name': u'data'
+            'description': "Can't add document in current (active) qualification status",
+            'location': 'body',
+            'name': 'data'
         }]
     )
 
@@ -357,9 +357,9 @@ def patch_qualification_active(self):
     self.assertEqual(
         response.json["errors"],
         [{
-            u'description': u"Can't update document in current (active) qualification status",
-            u'location': u'body',
-            u'name': u'data'
+            'description': "Can't update document in current (active) qualification status",
+            'location': 'body',
+            'name': 'data'
         }]
     )
 
@@ -398,9 +398,9 @@ def patch_qualification_unsuccessful(self):
     self.assertEqual(
         response.json["errors"],
         [{
-            u'description': u"Can't update qualification in current (unsuccessful) status",
-            u'location': u'body',
-            u'name': u'data',
+            'description': "Can't update qualification in current (unsuccessful) status",
+            'location': 'body',
+            'name': 'data',
         }]
     )
 
@@ -413,9 +413,9 @@ def patch_qualification_unsuccessful(self):
     self.assertEqual(
         response.json["errors"],
         [{
-            u'description': u"Can't add document in current (unsuccessful) qualification status",
-            u'location': u'body',
-            u'name': u'data'
+            'description': "Can't add document in current (unsuccessful) qualification status",
+            'location': 'body',
+            'name': 'data'
         }]
     )
 
@@ -427,9 +427,9 @@ def patch_qualification_unsuccessful(self):
     self.assertEqual(
         response.json["errors"],
         [{
-            u'description': u"Can't update document in current (unsuccessful) qualification status",
-            u'location': u'body',
-            u'name': u'data'
+            'description': "Can't update document in current (unsuccessful) qualification status",
+            'location': 'body',
+            'name': 'data'
         }]
     )
 
@@ -479,13 +479,13 @@ def qualification_fields(self):
 
     fields = set(
             [
-                u"id",
-                u"dateModified",
-                u"date",
-                u"status",
-                u"qualificationType",
-                u"submissionID",
-                u"frameworkID",
+                "id",
+                "dateModified",
+                "date",
+                "status",
+                "qualificationType",
+                "submissionID",
+                "frameworkID",
             ]
         )
     self.assertEqual(set(qualification), fields)
@@ -616,7 +616,7 @@ def qualification_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"qualification_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "qualification_id"}]
     )
 
     response = self.app.patch_json("/qualifications/some_id", {"data": {}}, status=404)
@@ -624,7 +624,7 @@ def qualification_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"qualification_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "qualification_id"}]
     )
 
     # put custom document object into database to check frameworks construction on non-Submission data
@@ -653,7 +653,7 @@ def qualification_token_invalid(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
-        response.json["errors"], [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}]
+        response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}]
     )
 
     response = self.app.patch_json(
@@ -661,7 +661,7 @@ def qualification_token_invalid(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
-        response.json["errors"], [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}]
+        response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}]
     )
 
     response = self.app.patch_json(
@@ -708,32 +708,32 @@ def get_document_by_id(self):
 def create_qualification_document_forbidden(self):
     response = self.app.post(
         "/qualifications/{}/documents".format(self.qualification_id),
-        upload_files=[("file", u"укр.doc", b"content")],
+        upload_files=[("file", "укр.doc", b"content")],
         status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"],
-        [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}],
+        [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}],
     )
 
     with change_auth(self.app, ("Basic", ("broker1", ""))):
         response = self.app.post(
             "/qualifications/{}/documents".format(self.qualification_id),
-            upload_files=[("file", u"укр.doc", b"content")],
+            upload_files=[("file", "укр.doc", b"content")],
             status=403,
         )
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(
             response.json["errors"],
-            [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}],
+            [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}],
         )
 
 
 def create_qualification_document(self):
     response = self.app.post(
         "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
-        upload_files=[("file", u"укр.doc", b"content")],
+        upload_files=[("file", "укр.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -741,7 +741,7 @@ def create_qualification_document(self):
     with change_auth(self.app, ("Basic", ("token", ""))):
         response = self.app.post(
             "/qualifications/{}/documents".format(self.qualification_id),
-            upload_files=[("file", u"укр.doc", b"content")],
+            upload_files=[("file", "укр.doc", b"content")],
         )
         self.assertEqual(response.status, "201 Created")
 
@@ -801,7 +801,7 @@ def document_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"qualification_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "qualification_id"}]
     )
 
     response = self.app.post(
@@ -811,7 +811,7 @@ def document_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"qualification_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "qualification_id"}]
     )
     response = self.app.post(
         "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
@@ -821,7 +821,7 @@ def document_not_found(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{u"description": u"Not Found", u"location": u"body", u"name": u"file"}])
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
     response = self.app.put(
         "/qualifications/some_id/documents/some_id", status=404, upload_files=[("file", "name.doc", b"content2")]
     )
@@ -829,7 +829,7 @@ def document_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"qualification_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "qualification_id"}]
     )
 
     response = self.app.put(
@@ -841,7 +841,7 @@ def document_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"document_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "document_id"}]
     )
 
     response = self.app.get("/qualifications/some_id/documents/some_id", status=404)
@@ -849,7 +849,7 @@ def document_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"qualification_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "qualification_id"}]
     )
 
     response = self.app.get("/qualifications/{}/documents/some_id".format(self.qualification_id), status=404)
@@ -857,7 +857,7 @@ def document_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"document_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "document_id"}]
     )
 
 
@@ -868,7 +868,7 @@ def put_qualification_document(self):
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(u"укр.doc", response.json["data"]["title"])
+    self.assertEqual("укр.doc", response.json["data"]["title"])
     doc_id = response.json["data"]["id"]
     dateModified = response.json["data"]["dateModified"]
     self.assertIn(doc_id, response.headers["Location"])
@@ -928,7 +928,7 @@ def put_qualification_document(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{u"description": u"Not Found", u"location": u"body", u"name": u"file"}])
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
     response = self.app.put(
         "/qualifications/{}/documents/{}?acc_token={}".format(self.qualification_id, doc_id, self.framework_token),
         "content3",
@@ -981,9 +981,9 @@ def put_qualification_document(self):
         response.json["errors"],
         [
             {
-                u"description": u"Can't update document in current (active) qualification status",
-                u"location": u"body",
-                u"name": u"data",
+                "description": "Can't update document in current (active) qualification status",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -998,9 +998,9 @@ def put_qualification_document(self):
         response.json["errors"],
         [
             {
-                u"description": u"Can't update document in current (active) qualification status",
-                u"location": u"body",
-                u"name": u"data",
+                "description": "Can't update document in current (active) qualification status",
+                "location": "body",
+                "name": "data",
             }
         ],
     )

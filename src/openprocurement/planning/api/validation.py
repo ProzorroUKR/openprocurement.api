@@ -62,7 +62,7 @@ def _validate_tender_procurement_method_type(request):
         _procedures[""] = ("centralizedProcurement", )
     procurement_method_types = list(chain(*_procedures.values()))
     procurement_method_types_without_above_threshold_ua_defense = list(
-        filter(lambda x: x not in ('aboveThresholdUA.defense', 'simple.defense'), procurement_method_types)
+        [x for x in procurement_method_types if x not in ('aboveThresholdUA.defense', 'simple.defense')]
     )
     kind_allows_procurement_method_type_mapping = {
         "defense": procurement_method_types,
@@ -97,7 +97,7 @@ def validate_patch_plan_data(request, **kwargs):
 def validate_plan_has_not_tender(request, **kwargs):
     plan = request.validated["plan"]
     if plan.tender_id:
-        request.errors.add("body", "tender_id", u"This plan has already got a tender")
+        request.errors.add("body", "tender_id", "This plan has already got a tender")
         request.errors.status = 422
         raise error_handler(request)
 

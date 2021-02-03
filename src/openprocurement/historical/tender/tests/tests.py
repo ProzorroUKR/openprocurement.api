@@ -90,7 +90,7 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
             self.assertEqual(response.status, "404 Not Found")
             self.assertEqual(response.json["status"], "error")
             self.assertEqual(
-                response.json["errors"], [{u"description": u"Not Found", u"location": u"header", u"name": u"version"}]
+                response.json["errors"], [{"description": "Not Found", "location": "header", "name": "version"}]
             )
 
     def test_get_tender_versioned(self):
@@ -129,7 +129,7 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
         self.assertEqual(response.status, "404 Not Found")
         self.assertEqual(response.json["status"], "error")
         self.assertEqual(
-            response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+            response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
         )
 
     def test_get_doc_invalid_hash(self):
@@ -144,7 +144,7 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
         self.assertEqual(response.status, "404 Not Found")
         self.assertEqual(response.json["status"], "error")
         self.assertEqual(
-            response.json["errors"], [{u"description": u"Not Found", u"location": u"header", u"name": u"hash"}]
+            response.json["errors"], [{"description": "Not Found", "location": "header", "name": "hash"}]
         )
 
     def test_get_tender_equal_with_api(self):
@@ -173,7 +173,7 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
             response = self.app.get("/tenders/{}/historical".format(self.tender_id), status=404)
             self.assertEqual(response.status, "404 Not Found")
             self.assertEqual(
-                response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+                response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
             )
 
     def test_json_patch_error(self):
@@ -187,7 +187,7 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
         self.assertEqual(resp.status, "501 Not Implemented")
         self.assertEqual(resp.json["status"], "error")
         self.assertEqual(
-            resp.json["errors"], [{u"description": u"Not Implemented", u"location": u"body", u"name": u"revision"}]
+            resp.json["errors"], [{"description": "Not Implemented", "location": "body", "name": "revision"}]
         )
 
 
@@ -390,5 +390,5 @@ class TestGetHistoricalData(BaseTenderWebTest):
         self.assertEqual(response.status, "404 Not Found")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
-            response.json["errors"], [{u"description": u"Not Found", u"location": u"header", u"name": u"version"}]
+            response.json["errors"], [{"description": "Not Found", "location": "header", "name": "version"}]
         )

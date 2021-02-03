@@ -37,9 +37,9 @@ class Contract(BaseContract):
     def validate_awardID(self, data, awardID):
         parent = data["__parent__"]
         if awardID and isinstance(parent, Model) and awardID not in [i.id for i in parent.awards]:
-            raise ValidationError(u"awardID should be one of awards")
+            raise ValidationError("awardID should be one of awards")
 
     def validate_dateSigned(self, data, value):
         parent = data["__parent__"]
         if value and isinstance(parent, Model) and value > get_now():
-            raise ValidationError(u"Contract signature date can't be in the future")
+            raise ValidationError("Contract signature date can't be in the future")

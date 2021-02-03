@@ -157,7 +157,7 @@ class TenderStage2EULotQuestionResourceTest(BaseCompetitiveDialogEUStage2Content
         self.assertEqual(response.json["status"], "error")
         self.assertEqual(
             response.json["errors"],
-            [{u"description": u"Author can't create question", u"location": u"body", u"name": u"author"}],
+            [{"description": "Author can't create question", "location": "body", "name": "author"}],
         )
 
         # Create question on tender
@@ -288,7 +288,7 @@ class TenderStage2UALotQuestionResourceTest(BaseCompetitiveDialogUAStage2Content
         self.assertEqual(response.json["status"], "error")
         self.assertEqual(
             response.json["errors"],
-            [{u"description": u"Author can't create question", u"location": u"body", u"name": u"author"}],
+            [{"description": "Author can't create question", "location": "body", "name": "author"}],
         )
 
         # Create question on tender

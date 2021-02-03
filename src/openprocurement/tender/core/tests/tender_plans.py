@@ -26,9 +26,9 @@ test_tender_data["buyers"] = [
     dict(
         name="",
         name_en="",
-        identifier=dict(scheme=u"UA-EDR",
-                        id=u"111983",
-                        legalName=u"ДП Державне Управління Справами"),
+        identifier=dict(scheme="UA-EDR",
+                        id="111983",
+                        legalName="ДП Державне Управління Справами"),
     )
 ]
 
@@ -75,8 +75,8 @@ def test_post_tender_plan_data_empty(app, tender):
         {"data": {}},
         status=422
     )
-    assert response.json == {u'status': u'error', u'errors': [
-        {u'description': [u'This field is required.'], u'location': u'body', u'name': u'id'}]}
+    assert response.json == {'status': 'error', 'errors': [
+        {'description': ['This field is required.'], 'location': 'body', 'name': 'id'}]}
 
 
 def test_post_tender_plan_404(app, tender):
@@ -85,8 +85,8 @@ def test_post_tender_plan_404(app, tender):
         {"data": {"id": tender["data"]["id"]}},
         status=404
     )
-    assert response.json == {u'status': u'error', u'errors': [
-        {u'description': u'Not Found', u'location': u'url', u'name': u'plan_id'}]}
+    assert response.json == {'status': 'error', 'errors': [
+        {'description': 'Not Found', 'location': 'url', 'name': 'plan_id'}]}
 
 
 def test_post_tender_plan_success(app, tender, plan):
@@ -164,8 +164,8 @@ def test_fail_duplicate(app, tender, plan):
         {"data": {"id": plan["data"]["id"]}},
         status=422
     )
-    assert response.json == {u'status': u'error', u'errors': [
-        {u'description': u"Can't update plan in 'complete' status", u'location': u'body', u'name': u'status'}]}
+    assert response.json == {'status': 'error', 'errors': [
+        {'description': "Can't update plan in 'complete' status", 'location': 'body', 'name': 'status'}]}
 
     # what if plan hasn't been updated for an unknown reason
     plan_obj = app.app.registry.db.get(plan["data"]["id"])
@@ -178,8 +178,8 @@ def test_fail_duplicate(app, tender, plan):
         {"data": {"id": plan["data"]["id"]}},
         status=422
     )
-    assert response.json == {u'status': u'error', u'errors': [
-        {u'description': [u'The list should not contain duplicates'], u'location': u'body', u'name': u'plans'}]}
+    assert response.json == {'status': 'error', 'errors': [
+        {'description': ['The list should not contain duplicates'], 'location': 'body', 'name': 'plans'}]}
     # in this case the plan might be completed manually
 
 

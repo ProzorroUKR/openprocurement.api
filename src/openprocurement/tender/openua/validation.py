@@ -59,7 +59,7 @@ def _validate_tender_period_start_date(data, period, working_days=False, calenda
         calendar=calendar
     )
     if min_allowed_date >= period.startDate:
-        raise ValidationError(u"tenderPeriod.startDate should be in greater than current date")
+        raise ValidationError("tenderPeriod.startDate should be in greater than current date")
 
 
 def _validate_tender_period_duration(data, period, duration, working_days=False, calendar=WORKING_DAYS):
@@ -69,7 +69,7 @@ def _validate_tender_period_duration(data, period, duration, working_days=False,
         calendar=calendar
     )
     if tender_period_end_date > period.endDate:
-        raise ValidationError(u"tenderPeriod must be at least {duration.days} full {type} days long".format(
+        raise ValidationError("tenderPeriod must be at least {duration.days} full {type} days long".format(
             duration=duration,
             type="business" if working_days else "calendar"
         ))

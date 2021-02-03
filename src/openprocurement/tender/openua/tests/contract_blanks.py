@@ -73,7 +73,7 @@ def patch_tender_contract_datesigned(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "active")
-    self.assertIn(u"dateSigned", response.json["data"].keys())
+    self.assertIn("dateSigned", response.json["data"].keys())
 
 
 def patch_tender_contract(self):
@@ -112,13 +112,13 @@ def patch_tender_contract(self):
         response.json["errors"],
         [
             {
-                u"description": [
-                    u"Contract signature date should be after award complaint period end date ({})".format(
+                "description": [
+                    "Contract signature date should be after award complaint period end date ({})".format(
                         i["complaintPeriod"]["endDate"]
                     )
                 ],
-                u"location": u"body",
-                u"name": u"dateSigned",
+                "location": "body",
+                "name": "dateSigned",
             }
         ],
     )
@@ -134,9 +134,9 @@ def patch_tender_contract(self):
         response.json["errors"],
         [
             {
-                u"description": [u"Contract signature date can't be in the future"],
-                u"location": u"body",
-                u"name": u"dateSigned",
+                "description": ["Contract signature date can't be in the future"],
+                "location": "body",
+                "name": "dateSigned",
             }
         ],
     )
@@ -176,7 +176,7 @@ def patch_tender_contract(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"contract_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "contract_id"}]
     )
 
     response = self.app.patch_json("/tenders/some_id/contracts/some_id", {"data": {"status": "active"}}, status=404)
@@ -184,7 +184,7 @@ def patch_tender_contract(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, contract["id"]))

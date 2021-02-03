@@ -23,7 +23,7 @@ def create_tender_bidder_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"This field is required."], u"location": u"body", u"name": u"lotValues"}],
+        [{"description": ["This field is required."], "location": "body", "name": "lotValues"}],
     )
 
     bid_data["lotValues"] = [{"value": {"amount": 500}}]
@@ -39,9 +39,9 @@ def create_tender_bidder_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"relatedLot": [u"This field is required."]}],
-                u"location": u"body",
-                u"name": u"lotValues",
+                "description": [{"relatedLot": ["This field is required."]}],
+                "location": "body",
+                "name": "lotValues",
             }
         ],
     )
@@ -59,9 +59,9 @@ def create_tender_bidder_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"relatedLot": [u"relatedLot should be one of lots"]}],
-                u"location": u"body",
-                u"name": u"lotValues",
+                "description": [{"relatedLot": ["relatedLot should be one of lots"]}],
+                "location": "body",
+                "name": "lotValues",
             }
         ],
     )
@@ -122,7 +122,7 @@ def patch_tender_bidder(self):
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bidder["id"], bid_token),
-        {"data": {"tenderers": [{"name": u"Державне управління управлінням справами"}]}},
+        {"data": {"tenderers": [{"name": "Державне управління управлінням справами"}]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -200,9 +200,9 @@ def create_tender_with_features_bidder_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"relatedLot": [u"This field is required."]}],
-                u"location": u"body",
-                u"name": u"lotValues",
+                "description": [{"relatedLot": ["This field is required."]}],
+                "location": "body",
+                "name": "lotValues",
             }
         ],
     )
@@ -220,9 +220,9 @@ def create_tender_with_features_bidder_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"relatedLot": [u"relatedLot should be one of lots"]}],
-                u"location": u"body",
-                u"name": u"lotValues",
+                "description": [{"relatedLot": ["relatedLot should be one of lots"]}],
+                "location": "body",
+                "name": "lotValues",
             }
         ],
     )
@@ -316,18 +316,18 @@ def one_lot_2bid_1unqualified(self):
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": lot_id}]
     bidder_data = bid_data["tenderers"][0]
-    bidder_data["identifier"]["id"] = u"00037256"
+    bidder_data["identifier"]["id"] = "00037256"
     response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {"data": bid_data},
     )
 
-    bidder_data["identifier"]["id"] = u"00037257"
+    bidder_data["identifier"]["id"] = "00037257"
     response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {"data": bid_data},
     )
-    bidder_data["identifier"]["id"] = u"00037258"
+    bidder_data["identifier"]["id"] = "00037258"
     response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {"data": bid_data},
@@ -392,7 +392,7 @@ def one_lot_2bid(self):
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 450}, "relatedLot": lot_id}]
     bidder_data = bid_data["tenderers"][0]
-    bidder_data["identifier"]["id"] = u"00037256"
+    bidder_data["identifier"]["id"] = "00037256"
     response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {"data": bid_data},
@@ -402,14 +402,14 @@ def one_lot_2bid(self):
     # create second bid
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data["lotValues"] = [{"value": {"amount": 475}, "relatedLot": lot_id}]
-    bidder_data["identifier"]["id"] = u"00037257"
+    bidder_data["identifier"]["id"] = "00037257"
     response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {"data": bid_data },
     )
     # create third
     bid_data["lotValues"] = [{"value": {"amount": 470}, "relatedLot": lot_id}]
-    bidder_data["identifier"]["id"] = u"00037258"
+    bidder_data["identifier"]["id"] = "00037258"
     response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {"data": bid_data},
@@ -729,20 +729,20 @@ def two_lot_2bid_0com_1can(self):
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in lots]
     bidder_data = bid_data["tenderers"][0]
-    bidder_data["identifier"]["id"] = u"00037256"
+    bidder_data["identifier"]["id"] = "00037256"
     response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {"data": bid_data},
     )
 
     bid_data["lotValues"] = [{"value": {"amount": 499}, "relatedLot": lot_id} for lot_id in lots]
-    bidder_data["identifier"]["id"] = u"00037257"
+    bidder_data["identifier"]["id"] = "00037257"
     response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {"data": bid_data},
     )
 
-    bidder_data["identifier"]["id"] = u"00037258"
+    bidder_data["identifier"]["id"] = "00037258"
     response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {"data": bid_data},
@@ -823,20 +823,20 @@ def two_lot_2bid_2com_2win(self):
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in lots]
     bidder_data = bid_data["tenderers"][0]
-    bidder_data["identifier"]["id"] = u"00037256"
+    bidder_data["identifier"]["id"] = "00037256"
     self.app.authorization = ("Basic", ("broker", ""))
     self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {"data": bid_data},
     )
     # create second bid
-    bidder_data["identifier"]["id"] = u"00037257"
+    bidder_data["identifier"]["id"] = "00037257"
     self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {"data": bid_data},
     )
     # create third bid
-    bidder_data["identifier"]["id"] = u"00037258"
+    bidder_data["identifier"]["id"] = "00037258"
     self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {"data": bid_data},

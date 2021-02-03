@@ -94,21 +94,21 @@ def validate_update_agreement_change_status(request, **kwargs):
 def validate_values_uniq(values):
     codes = [i.value for i in values]
     if any([codes.count(i) > 1 for i in set(codes)]):
-        raise ValidationError(u"Feature value should be uniq for feature")
+        raise ValidationError("Feature value should be uniq for feature")
 
 
 def validate_features_uniq(features):
     if features:
         codes = [i.code for i in features]
         if any([codes.count(i) > 1 for i in set(codes)]):
-            raise ValidationError(u"Feature code should be uniq for all features")
+            raise ValidationError("Feature code should be uniq for all features")
 
 
 def validate_parameters_uniq(parameters):
     if parameters:
         codes = [i.code for i in parameters]
         if [i for i in set(codes) if codes.count(i) > 1]:
-            raise ValidationError(u"Parameter code should be uniq for all parameters")
+            raise ValidationError("Parameter code should be uniq for all parameters")
 
 
 # changes modifications validators
@@ -117,15 +117,15 @@ def validate_parameters_uniq(parameters):
 def validate_item_price_variation_modifications(modifications):
     for modification in modifications:
         if modification.addend:
-            raise ValidationError(u"Only factor is allowed for itemPriceVariation type of change")
+            raise ValidationError("Only factor is allowed for itemPriceVariation type of change")
         if not Decimal("0.9") <= modification.factor <= Decimal("1.1"):
-            raise ValidationError(u"Modification factor should be in range 0.9 - 1.1")
+            raise ValidationError("Modification factor should be in range 0.9 - 1.1")
 
 
 def validate_third_party_modifications(modifications):
     for modification in modifications:
         if modification.addend:
-            raise ValidationError(u"Only factor is allowed for thirdParty type of change")
+            raise ValidationError("Only factor is allowed for thirdParty type of change")
 
 
 def validate_modifications_items_uniq(modifications):
@@ -133,7 +133,7 @@ def validate_modifications_items_uniq(modifications):
         agreement_items_id = {i.id for i in modifications[0].__parent__.__parent__.items or []}
         item_ids = {m.itemId for m in modifications if m.itemId in agreement_items_id}
         if len(item_ids) != len(modifications):
-            raise ValidationError(u"Item id should be uniq for all modifications and one of agreement:items")
+            raise ValidationError("Item id should be uniq for all modifications and one of agreement:items")
 
 
 def validate_modifications_contracts_uniq(modifications):
@@ -141,11 +141,11 @@ def validate_modifications_contracts_uniq(modifications):
         agreement_contracts_id = {i.id for i in modifications[0].__parent__.__parent__.contracts}
         contracts_ids = {c.contractId for c in modifications if c.contractId in agreement_contracts_id}
         if len(contracts_ids) != len(modifications):
-            raise ValidationError(u"Contract id should be uniq for all modifications and one of agreement:contracts")
+            raise ValidationError("Contract id should be uniq for all modifications and one of agreement:contracts")
 
 
 def validate_only_addend_or_only_factor(modifications):
     if modifications:
         changes_with_addend_and_factor = [m for m in modifications if m.addend and m.factor]
         if changes_with_addend_and_factor:
-            raise ValidationError(u"Change with taxRate rationaleType, can have only factor or only addend")
+            raise ValidationError("Change with taxRate rationaleType, can have only factor or only addend")

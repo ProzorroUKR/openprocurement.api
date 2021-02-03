@@ -314,11 +314,11 @@ class TenderQualificationMilestoneALPMixin(object):
         self.assertEqual(
             response.json,
             {
-                u'status': u'error', u'errors': [{
-                    u'description': u"Can't change status to 'unsuccessful' until milestone.dueDate: {}".format(
+                'status': 'error', 'errors': [{
+                    'description': "Can't change status to 'unsuccessful' until milestone.dueDate: {}".format(
                         expected_due_date.isoformat()
                     ),
-                    u'location': u'body', u'name': u'data'
+                    'location': 'body', 'name': 'data'
                 }]
             }
         )
@@ -351,7 +351,7 @@ class TenderQualificationMilestoneALPMixin(object):
         self.assertGreater(len(response.json["data"]), 1)
         second_award = response.json["data"][1]
         self.assertEqual(len(second_award.get("milestones", [])), 1)
-        self.assertEqual(second_award["milestones"][0]["description"], u" / ".join(ALP_MILESTONE_REASONS))
+        self.assertEqual(second_award["milestones"][0]["description"], " / ".join(ALP_MILESTONE_REASONS))
 
         # proceed to the third award
         self.wait_until_award_milestone_due_date(award_index=1)

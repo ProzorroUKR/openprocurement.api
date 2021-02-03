@@ -131,7 +131,7 @@ class HistoricalResourceTestCase(unittest.TestCase):
         self.assertEqual(resp.status, "404 Not Found")
         self.assertEqual(resp.json["status"], "error")
         self.assertEqual(
-            resp.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"mock_id"}]
+            resp.json["errors"], [{"description": "Not Found", "location": "url", "name": "mock_id"}]
         )
 
     def test_base_view_called(self):
@@ -166,7 +166,7 @@ class HistoricalResourceTestCase(unittest.TestCase):
             self.assertEqual(resp.status, "404 Not Found")
             self.assertEqual(resp.json["status"], "error")
             self.assertEqual(
-                resp.json["errors"], [{u"description": u"Not Found", u"location": u"header", u"name": u"version"}]
+                resp.json["errors"], [{"description": "Not Found", "location": "header", "name": "version"}]
             )
 
     def test_route_not_found(self):
@@ -175,7 +175,7 @@ class HistoricalResourceTestCase(unittest.TestCase):
         response = self.app.get("/mock/{}/historical".format(mock_doc.id), status=404)
         self.assertEqual(response.status, "404 Not Found")
         self.assertEqual(
-            response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"mock_id"}]
+            response.json["errors"], [{"description": "Not Found", "location": "url", "name": "mock_id"}]
         )
 
     def test_responce_header_present(self):
@@ -203,7 +203,7 @@ class HistoricalResourceTestCase(unittest.TestCase):
         self.assertEqual(response.status, "501 Not Implemented")
         self.assertEqual(
             response.json["errors"],
-            [{u"description": u"Not Implemented", u"location": u"body", u"name": u"revision"}],
+            [{"description": "Not Implemented", "location": "body", "name": "revision"}],
         )
 
     def test_hash_not_found(self):
@@ -217,7 +217,7 @@ class HistoricalResourceTestCase(unittest.TestCase):
         )
         self.assertEqual(response.status, "404 Not Found")
         self.assertEqual(
-            response.json["errors"], [{u"description": u"Not Found", u"location": u"header", u"name": u"hash"}]
+            response.json["errors"], [{"description": "Not Found", "location": "header", "name": "hash"}]
         )
 
     def test_get_version_by_date(self):
@@ -230,7 +230,7 @@ class HistoricalResourceTestCase(unittest.TestCase):
         self.assertEqual(response.status, "404 Not Found")
         self.assertEqual(response.json["status"], "error")
         self.assertEqual(
-            response.json["errors"], [{u"description": u"Not Found", u"location": u"header", u"name": u"version"}]
+            response.json["errors"], [{"description": "Not Found", "location": "header", "name": "version"}]
         )
         # Date is less than the date of create the tender
         response = self.app.get(
@@ -241,7 +241,7 @@ class HistoricalResourceTestCase(unittest.TestCase):
         self.assertEqual(response.status, "404 Not Found")
         self.assertEqual(response.json["status"], "error")
         self.assertEqual(
-            response.json["errors"], [{u"description": u"Not Found", u"location": u"header", u"name": u"version"}]
+            response.json["errors"], [{"description": "Not Found", "location": "header", "name": "version"}]
         )
 
         # The correct date to search
@@ -288,7 +288,7 @@ class HistoricalResourceTestCase(unittest.TestCase):
 
         self.assertEqual(response.status, "404 Not Found")
         self.assertEqual(
-            response.json["errors"], [{u"description": u"Not Found", u"location": u"header", u"name": u"version"}]
+            response.json["errors"], [{"description": "Not Found", "location": "header", "name": "version"}]
         )
 
         response = self.app.get(
@@ -310,7 +310,7 @@ class HistoricalResourceTestCase(unittest.TestCase):
             status=404,
         )
         self.assertEqual(
-            response.json["errors"], [{u"description": u"Not Found", u"location": u"header", u"name": u"version"}]
+            response.json["errors"], [{"description": "Not Found", "location": "header", "name": "version"}]
         )
 
 

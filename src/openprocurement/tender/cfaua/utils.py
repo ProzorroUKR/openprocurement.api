@@ -393,7 +393,7 @@ def add_next_awards(request, reverse=False, awarding_criteria_key="amount", rege
                 selected_bids = selected_bids[:max_awards]
 
             active_award_bid_ids = {a.bid_id for a in lot_awards if a.status in ("active", "pending")}
-            selected_bids = list(filter(lambda b: b["id"] not in active_award_bid_ids, selected_bids))
+            selected_bids = list([b for b in selected_bids if b["id"] not in active_award_bid_ids])
             if selected_bids:
                 for bid in selected_bids:
                     tender.append_award(bid, all_bids, lot_id=lot.id)

@@ -128,7 +128,7 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
         test_tender_data["enquiryPeriod"]["endDate"] = (get_now() + timedelta(days=14)).isoformat()
         test_tender_data["tenderPeriod"]["endDate"] = (get_now() + timedelta(days=21)).isoformat()
         test_tender_data["procuringEntity"]["identifier"] = test_plan_data["procuringEntity"]["identifier"]
-        test_tender_data["title"] = u"Насіння"
+        test_tender_data["title"] = "Насіння"
         test_tender_data["status"] = "draft"
 
         with open(TARGET_DIR + 'tender-from-plan-breakdown.http', 'w') as self.app.file_obj:
@@ -158,11 +158,11 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
                 {'data': {
                     'procuringEntity': {
                         "identifier": {
-                            "scheme": u"UA-EDR",
-                            "id": u"111983",
-                            "legalName": u"ДП Державне Управління Справами"
+                            "scheme": "UA-EDR",
+                            "id": "111983",
+                            "legalName": "ДП Державне Управління Справами"
                         },
-                        "name": u"ДУС"
+                        "name": "ДУС"
                     }
                 }},
                 status=422

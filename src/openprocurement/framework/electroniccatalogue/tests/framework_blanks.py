@@ -69,7 +69,7 @@ def listing(self):
             break
 
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in frameworks]))
     self.assertEqual(
         set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in frameworks])
@@ -103,20 +103,20 @@ def listing(self):
     response = self.app.get("/frameworks", params=[("opt_fields", "status")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified", u"status"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "status"]))
     self.assertIn("opt_fields=status", response.json["next_page"]["uri"])
 
     response = self.app.get("/frameworks", params=[("opt_fields", "status,owner")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified", u"status"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "status"]))
     self.assertIn("opt_fields=status", response.json["next_page"]["uri"])
 
     response = self.app.get("/frameworks?descending=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in frameworks]))
     self.assertEqual(
         [i["dateModified"]
@@ -192,7 +192,7 @@ def listing_changes(self):
     self.assertEqual(",".join([i["id"] for i in response.json["data"]]), ids)
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in frameworks]))
     self.assertEqual(
         set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in frameworks])
@@ -219,20 +219,20 @@ def listing_changes(self):
     response = self.app.get("/frameworks?feed=changes", params=[("opt_fields", "status")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified", u"status"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "status"]))
     self.assertIn("opt_fields=status", response.json["next_page"]["uri"])
 
     response = self.app.get("/frameworks?feed=changes", params=[("opt_fields", "status,owner")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified", u"status"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "status"]))
     self.assertIn("opt_fields=status", response.json["next_page"]["uri"])
 
     response = self.app.get("/frameworks?feed=changes&descending=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in frameworks]))
     self.assertEqual(
         [i["dateModified"]
@@ -312,7 +312,7 @@ def listing_draft(self):
             break
 
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in frameworks]))
     self.assertEqual(
         set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in frameworks])
@@ -332,9 +332,9 @@ def create_framework_draft_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": u"Content-Type header should be one of ['application/json']",
-                u"location": u"header",
-                u"name": u"Content-Type",
+                "description": "Content-Type header should be one of ['application/json']",
+                "location": "header",
+                "name": "Content-Type",
             }
         ],
     )
@@ -345,7 +345,7 @@ def create_framework_draft_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Expecting value: line 1 column 1 (char 0)", u"location": u"body", u"name": u"data"}],
+        [{"description": "Expecting value: line 1 column 1 (char 0)", "location": "body", "name": "data"}],
     )
 
     response = self.app.post_json(request_path, "data", status=422)
@@ -353,7 +353,7 @@ def create_framework_draft_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Data not available", u"location": u"body", u"name": u"data"}]
+        response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
     response = self.app.post_json(request_path, {"not_data": {}}, status=422)
@@ -361,7 +361,7 @@ def create_framework_draft_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Data not available", u"location": u"body", u"name": u"data"}]
+        response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
     response = self.app.post_json(request_path, {"data": []}, status=422)
@@ -369,7 +369,7 @@ def create_framework_draft_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Data not available", u"location": u"body", u"name": u"data"}]
+        response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
     response = self.app.post_json(request_path, {"data": {"frameworkType": "invalid_value"}}, status=415)
@@ -378,7 +378,7 @@ def create_framework_draft_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Not implemented", u"location": u"body", u"name": u"frameworkType"}],
+        [{"description": "Not implemented", "location": "body", "name": "frameworkType"}],
     )
 
     response = self.app.post_json(request_path, {"data": {"invalid_field": "invalid_value"}}, status=422)
@@ -386,7 +386,7 @@ def create_framework_draft_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Rogue field", u"location": u"body", u"name": u"invalid_field"}]
+        response.json["errors"], [{"description": "Rogue field", "location": "body", "name": "invalid_field"}]
     )
 
     response = self.app.post_json(request_path, {"data": {"procuringEntity": "invalid_value"}}, status=422)
@@ -397,11 +397,11 @@ def create_framework_draft_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [
-                    u"Please use a mapping for this field or CentralProcuringEntity instance instead of str."
+                "description": [
+                    "Please use a mapping for this field or CentralProcuringEntity instance instead of str."
                 ],
-                u"location": u"body",
-                u"name": u"procuringEntity",
+                "location": "body",
+                "name": "procuringEntity",
             }
         ],
     )
@@ -411,19 +411,19 @@ def create_framework_draft_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertIn(
-        {u"description": [u"This field is required."], u"location": u"body", u"name": u"qualificationPeriod"},
+        {"description": ["This field is required."], "location": "body", "name": "qualificationPeriod"},
         response.json["errors"],
     )
     self.assertIn(
-        {u"description": [u"This field is required."], u"location": u"body", u"name": u"procuringEntity"},
+        {"description": ["This field is required."], "location": "body", "name": "procuringEntity"},
         response.json["errors"],
     )
     self.assertIn(
-        {u"description": [u"This field is required."], u"location": u"body", u"name": u"classification"},
+        {"description": ["This field is required."], "location": "body", "name": "classification"},
         response.json["errors"],
     )
     self.assertIn(
-        {u"description": [u"This field is required."], u"location": u"body", u"name": u"title"},
+        {"description": ["This field is required."], "location": "body", "name": "title"},
         response.json["errors"]
     )
 
@@ -437,9 +437,9 @@ def create_framework_draft_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": {u"endDate": [u"Could not parse invalid_value. Should be ISO8601."]},
-                u"location": u"body",
-                u"name": u"qualificationPeriod",
+                "description": {"endDate": ["Could not parse invalid_value. Should be ISO8601."]},
+                "location": "body",
+                "name": "qualificationPeriod",
             }
         ],
     )
@@ -452,32 +452,32 @@ def create_framework_draft_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": {
-            u"endDate": [u"date value out of range"]}, u"location": u"body", u"name": u"qualificationPeriod"
+        [{"description": {
+            "endDate": ["date value out of range"]}, "location": "body", "name": "qualificationPeriod"
         }],
     )
 
     data = deepcopy(self.initial_data)
-    data["classification"]["scheme"] = u"Не ДКПП"
-    data["classification"]["id"] = u"9999999919"
+    data["classification"]["scheme"] = "Не ДКПП"
+    data["classification"]["id"] = "9999999919"
     response = self.app.post_json(request_path, {"data": data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertTrue(
-        response.json["errors"][0]["description"]["scheme"][0].startswith(u"Value must be one of")
+        response.json["errors"][0]["description"]["scheme"][0].startswith("Value must be one of")
     )
-    data["classification"]["scheme"] = u"ДК021"
+    data["classification"]["scheme"] = "ДК021"
     response = self.app.post_json(request_path, {"data": data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertTrue(
-        response.json["errors"][0]["description"]["id"][0].startswith(u"Value must be one of")
+        response.json["errors"][0]["description"]["id"][0].startswith("Value must be one of")
     )
 
     data = deepcopy(self.initial_data)
-    data["procuringEntity"]["kind"] = u"Не central"
+    data["procuringEntity"]["kind"] = "Не central"
     response = self.app.post_json(request_path, {"data": data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -486,14 +486,14 @@ def create_framework_draft_invalid(self):
         response.json["errors"],
         [
             {
-                u'description': {u'kind': [u"Value must be one of ['central']."]},
-                u'location': u'body', u'name': u'procuringEntity'
+                'description': {'kind': ["Value must be one of ['central']."]},
+                'location': 'body', 'name': 'procuringEntity'
             }
         ],
     )
 
     data = deepcopy(self.initial_data)
-    data["procuringEntity"]["address"]["region"] = u"???"
+    data["procuringEntity"]["address"]["region"] = "???"
     response = self.app.post_json(request_path, {"data": data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -502,8 +502,8 @@ def create_framework_draft_invalid(self):
         response.json["errors"],
         [
             {
-                u'description': {u'address': {u'region': [u'field address:region not exist in ua_regions catalog']}},
-                u'location': u'body', u'name': u'procuringEntity'
+                'description': {'address': {'region': ['field address:region not exist in ua_regions catalog']}},
+                'location': 'body', 'name': 'procuringEntity'
             }
         ],
     )
@@ -519,13 +519,13 @@ def create_framework_draft_invalid(self):
         response.json["errors"],
         [
             {
-                u'description': {
-                    u'contactPoint': {
-                        u'email': [u'This field is required.'],
-                        u'telephone': [u'This field is required.']
+                'description': {
+                    'contactPoint': {
+                        'email': ['This field is required.'],
+                        'telephone': ['This field is required.']
                     }
                 },
-                u'location': u'body', u'name': u'procuringEntity'
+                'location': 'body', 'name': 'procuringEntity'
             }
         ],
     )
@@ -585,33 +585,33 @@ def patch_framework_draft(self):
     framework_patch_data = {
         "procuringEntity": {
             "contactPoint": {
-                "telephone": u"changed",
-                "name": u"changed",
-                "email": u"bb@bb.ua"
+                "telephone": "changed",
+                "name": "changed",
+                "email": "bb@bb.ua"
             },
             "identifier": {
-                "legalName": u"changed"
+                "legalName": "changed"
             },
             "address": {
-                "postalCode": u"changed",
-                "streetAddress": u"changed",
-                "locality": u"changed"
+                "postalCode": "changed",
+                "streetAddress": "changed",
+                "locality": "changed"
             },
-            "name": u"changed"
+            "name": "changed"
         },
         "additionalClassifications": [
             {
-                "scheme": u"changed",
-                "id": u"changed",
-                "description": u"changed"
+                "scheme": "changed",
+                "id": "changed",
+                "description": "changed"
             }
         ],
         "classification": {
-            "description": u"changed",
-            "id": u"44115810-0"
+            "description": "changed",
+            "id": "44115810-0"
         },
-        "title": u"changed",
-        "description": u"changed",
+        "title": "changed",
+        "description": "changed",
         "qualificationPeriod": {"endDate": qualification_endDate},
     }
     response = self.app.patch_json(
@@ -821,13 +821,13 @@ def framework_fields(self):
     token = response.json["access"]["token"]
     fields = set(
             [
-                u"id",
-                u"dateModified",
-                u"prettyID",
-                u"date",
-                u"status",
-                u"frameworkType",
-                u"owner",
+                "id",
+                "dateModified",
+                "prettyID",
+                "date",
+                "status",
+                "frameworkType",
+                "owner",
             ]
         )
     self.assertEqual(set(framework) - set(self.initial_data), fields)
@@ -885,9 +885,9 @@ def periods_deletion(self):
         response.json["errors"],
         [
             {
-                u"description": {u"endDate": [u"This field is required."]},
-                u"location": u"body",
-                u"name": u"qualificationPeriod",
+                "description": {"endDate": ["This field is required."]},
+                "location": "body",
+                "name": "qualificationPeriod",
             }
         ],
     )
@@ -1003,7 +1003,7 @@ def framework_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"framework_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "framework_id"}]
     )
 
     response = self.app.patch_json("/frameworks/some_id", {"data": {}}, status=404)
@@ -1011,7 +1011,7 @@ def framework_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"framework_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "framework_id"}]
     )
 
     # put custom document object into database to check frameworks construction on non-Framework data
@@ -1032,7 +1032,7 @@ def framework_token_invalid(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
-        response.json["errors"], [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}]
+        response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}]
     )
 
     response = self.app.patch_json(
@@ -1063,8 +1063,8 @@ def cpb_standard_status(self):
         response.json["errors"],
         [
             {
-                u'description': {u'identifier': [u"Can't create framework for inactive cpb"]},
-                u'location': u'body', u'name': u'procuringEntity'
+                'description': {'identifier': ["Can't create framework for inactive cpb"]},
+                'location': 'body', 'name': 'procuringEntity'
             }
         ],
     )
@@ -1077,8 +1077,8 @@ def accreditation_level(self):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
             response.json["errors"],
-            [{u"location": u"url", u"name": u"accreditation",
-              u"description": u"Broker Accreditation level does not permit framework creation"}],
+            [{"location": "url", "name": "accreditation",
+              "description": "Broker Accreditation level does not permit framework creation"}],
         )
 
 

@@ -63,7 +63,7 @@ def save_contract(request):
     """
     contract = request.validated["contract"]
 
-    if contract.mode == u"test":
+    if contract.mode == "test":
         set_modetest_titles(contract)
 
     patch = get_revision_changes(contract.serialize("plain"), request.validated["contract_src"])

@@ -76,11 +76,11 @@ def test_set_buyers(app, request_tender_data):
     test_data = deepcopy(request_tender_data)
     test_data["buyers"] = [
         {
-            "name": u"Державне управління справами",
+            "name": "Державне управління справами",
             "identifier": {
-                "scheme": u"UA-EDR",
-                "id": u"00037256",
-                "uri": u"http://www.dus.gov.ua/"
+                "scheme": "UA-EDR",
+                "id": "00037256",
+                "uri": "http://www.dus.gov.ua/"
             },
         }
     ]

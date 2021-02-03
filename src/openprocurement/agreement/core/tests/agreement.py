@@ -78,7 +78,7 @@ class AgreementsResourceTest(BaseAgreementTest):
         self.assertEqual(response.json["status"], "error")
         self.assertEqual(
             response.json["errors"],
-            [{u"description": u"Offset expired/invalid", u"location": u"url", u"name": u"offset"}],
+            [{"description": "Offset expired/invalid", "location": "url", "name": "offset"}],
         )
 
         response = self.app.get("/agreements?feed=changes&descending=1&limit=10")
@@ -152,7 +152,7 @@ class UtilsAgreementTest(BaseAgreementTest):
     def test_save_agreement(self):
         request = MagicMock()
         agreement = MagicMock()
-        agreement.mode = u"test"
+        agreement.mode = "test"
         agreement.revisions = []
         agreement.dateModified = datetime.datetime(2018, 8, 2, 12, 9, 2, 440566)
         type(agreement).revisions = MagicMock()

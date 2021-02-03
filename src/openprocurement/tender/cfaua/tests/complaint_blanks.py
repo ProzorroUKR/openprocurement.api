@@ -42,7 +42,7 @@ def create_tender_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"This field is required."], u"location": u"body", u"name": u"resolutionType"}],
+        [{"description": ["This field is required."], "location": "body", "name": "resolutionType"}],
     )
 
     response = self.app.patch_json(
@@ -110,7 +110,7 @@ def create_tender_lot_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"This field is required."], u"location": u"body", u"name": u"resolutionType"}],
+        [{"description": ["This field is required."], "location": "body", "name": "resolutionType"}],
     )
 
     response = self.app.patch_json(

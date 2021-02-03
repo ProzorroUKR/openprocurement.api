@@ -225,9 +225,9 @@ def patch_tender_qualifications_after_status_change(self):
         response.json["errors"],
         [
             {
-                "description": u"Can't update qualification in current (active.pre-qualification.stand-still) tender status",
-                u"location": u"body",
-                u"name": u"data",
+                "description": "Can't update qualification in current (active.pre-qualification.stand-still) tender status",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -320,9 +320,9 @@ def tender_qualification_cancelled(self):
         response.json["errors"],
         [
             {
-                "description": u"Can't update qualification in current cancelled qualification status",
-                u"location": u"body",
-                u"name": u"data",
+                "description": "Can't update qualification in current cancelled qualification status",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -346,7 +346,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     response = self.app.post(
@@ -358,7 +358,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"qualification_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "qualification_id"}]
     )
 
     response = self.app.post(
@@ -369,14 +369,14 @@ def not_found(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{u"description": u"Not Found", u"location": u"body", u"name": u"file"}])
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
 
     response = self.app.get("/tenders/some_id/qualifications/some_id/documents", status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     response = self.app.get("/tenders/{}/qualifications/some_id/documents".format(self.tender_id), status=404)
@@ -384,7 +384,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"qualification_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "qualification_id"}]
     )
 
     response = self.app.get(
@@ -394,7 +394,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     response = self.app.get(
@@ -404,7 +404,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"qualification_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "qualification_id"}]
     )
 
     response = self.app.get(
@@ -415,7 +415,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"document_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "document_id"}]
     )
 
     response = self.app.put(
@@ -427,7 +427,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     response = self.app.put(
@@ -439,7 +439,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"qualification_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "qualification_id"}]
     )
 
     response = self.app.put(
@@ -451,7 +451,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"document_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "document_id"}]
     )
 
     self.app.authorization = ("Basic", ("invalid", ""))
@@ -466,7 +466,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"document_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "document_id"}]
     )
 
 
@@ -540,7 +540,7 @@ def create_qualification_document(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"download"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "download"}]
     )
 
     response = self.app.get(
@@ -636,7 +636,7 @@ def put_qualification_document(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{u"description": u"Not Found", u"location": u"body", u"name": u"file"}])
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
 
     response = self.app.put(
         "/tenders/{}/qualifications/{}/documents/{}".format(self.tender_id, self.qualifications[0]["id"], doc_id),
@@ -748,9 +748,9 @@ def put_qualification_document(self):
         response.json["errors"],
         [
             {
-                u"description": u"Can't update document in current qualification status",
-                u"location": u"body",
-                u"name": u"data",
+                "description": "Can't update document in current qualification status",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -778,7 +778,7 @@ def patch_qualification_document(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"This field is required."], u"location": u"body", u"name": u"relatedItem"}],
+        [{"description": ["This field is required."], "location": "body", "name": "relatedItem"}],
     )
 
     response = self.app.patch_json(
@@ -791,7 +791,7 @@ def patch_qualification_document(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"relatedItem should be one of lots"], u"location": u"body", u"name": u"relatedItem"}],
+        [{"description": ["relatedItem should be one of lots"], "location": "body", "name": "relatedItem"}],
     )
 
     response = self.app.patch_json(
@@ -879,9 +879,9 @@ def create_qualification_document_after_status_change(self):
         response.json["errors"],
         [
             {
-                u"description": u"Can't add document in current qualification status",
-                u"location": u"body",
-                u"name": u"data",
+                "description": "Can't add document in current qualification status",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -905,9 +905,9 @@ def create_qualification_document_after_status_change(self):
         response.json["errors"],
         [
             {
-                u"description": u"Can't add document in current qualification status",
-                u"location": u"body",
-                u"name": u"data",
+                "description": "Can't add document in current qualification status",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -930,9 +930,9 @@ def create_qualification_document_after_status_change(self):
         response.json["errors"],
         [
             {
-                u"description": u"Can't add document in current qualification status",
-                u"location": u"body",
-                u"name": u"data",
+                "description": "Can't add document in current qualification status",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -969,9 +969,9 @@ def create_qualification_document_after_status_change(self):
         response.json["errors"],
         [
             {
-                "description": u"Can't add document in current (active.pre-qualification.stand-still) tender status",
-                u"location": u"body",
-                u"name": u"data",
+                "description": "Can't add document in current (active.pre-qualification.stand-still) tender status",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -1011,9 +1011,9 @@ def put_qualification_document_after_status_change(self):
         response.json["errors"],
         [
             {
-                "description": u"Can't update document in current (active.pre-qualification.stand-still) tender status",
-                u"location": u"body",
-                u"name": u"data",
+                "description": "Can't update document in current (active.pre-qualification.stand-still) tender status",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -1032,7 +1032,7 @@ def create_tender_qualification_complaint_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     request_path = "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
@@ -1047,9 +1047,9 @@ def create_tender_qualification_complaint_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": u"Content-Type header should be one of ['application/json']",
-                u"location": u"header",
-                u"name": u"Content-Type",
+                "description": "Content-Type header should be one of ['application/json']",
+                "location": "header",
+                "name": "Content-Type",
             }
         ],
     )
@@ -1060,7 +1060,7 @@ def create_tender_qualification_complaint_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Expecting value: line 1 column 1 (char 0)", u"location": u"body", u"name": u"data"}],
+        [{"description": "Expecting value: line 1 column 1 (char 0)", "location": "body", "name": "data"}],
     )
 
     response = self.app.post_json(request_path, "data", status=422)
@@ -1068,7 +1068,7 @@ def create_tender_qualification_complaint_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Data not available", u"location": u"body", u"name": u"data"}]
+        response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
     response = self.app.post_json(request_path, {"not_data": {}}, status=422)
@@ -1076,7 +1076,7 @@ def create_tender_qualification_complaint_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Data not available", u"location": u"body", u"name": u"data"}]
+        response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
     response = self.app.post_json(request_path, {"data": {}}, status=422)
@@ -1086,8 +1086,8 @@ def create_tender_qualification_complaint_invalid(self):
     self.assertEqual(
         response.json["errors"],
         [
-            {u"description": [u"This field is required."], u"location": u"body", u"name": u"author"},
-            {u"description": [u"This field is required."], u"location": u"body", u"name": u"title"},
+            {"description": ["This field is required."], "location": "body", "name": "author"},
+            {"description": ["This field is required."], "location": "body", "name": "title"},
         ],
     )
 
@@ -1096,7 +1096,7 @@ def create_tender_qualification_complaint_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Rogue field", u"location": u"body", u"name": u"invalid_field"}]
+        response.json["errors"], [{"description": "Rogue field", "location": "body", "name": "invalid_field"}]
     )
 
     response = self.app.post_json(request_path, {"data": {"author": {"identifier": "invalid_value"}}}, status=422)
@@ -1107,11 +1107,11 @@ def create_tender_qualification_complaint_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": {
-                    u"identifier": [u"Please use a mapping for this field or ComplaintIdentifier instance instead of str."]
+                "description": {
+                    "identifier": ["Please use a mapping for this field or ComplaintIdentifier instance instead of str."]
                 },
-                u"location": u"body",
-                u"name": u"author",
+                "location": "body",
+                "name": "author",
             }
         ],
     )
@@ -1275,7 +1275,7 @@ def patch_tender_qualification_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     response = self.app.patch_json(
@@ -1287,7 +1287,7 @@ def patch_tender_qualification_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"qualification_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "qualification_id"}]
     )
 
     response = self.app.patch_json(
@@ -1299,7 +1299,7 @@ def patch_tender_qualification_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"complaint_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "complaint_id"}]
     )
     #
 
@@ -1666,7 +1666,7 @@ def get_tender_qualification_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"complaint_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "complaint_id"}]
     )
 
     response = self.app.get("/tenders/some_id/qualifications/some_id/complaints/some_id", status=404)
@@ -1674,7 +1674,7 @@ def get_tender_qualification_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
 
@@ -1699,7 +1699,7 @@ def get_tender_qualification_complaints(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     tender = self.db.get(self.tender_id)
@@ -1811,9 +1811,9 @@ def change_status_to_standstill_with_complaint(self):
         response.json["errors"],
         [
             {
-                "description": u"Can't switch to 'active.pre-qualification.stand-still' before resolve all complaints",
-                u"location": u"body",
-                u"name": u"data",
+                "description": "Can't switch to 'active.pre-qualification.stand-still' before resolve all complaints",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -1928,7 +1928,7 @@ def patch_tender_lot_qualification_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     response = self.app.patch_json(
@@ -1940,7 +1940,7 @@ def patch_tender_lot_qualification_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"qualification_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "qualification_id"}]
     )
 
     response = self.app.patch_json(
@@ -1952,7 +1952,7 @@ def patch_tender_lot_qualification_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"complaint_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "complaint_id"}]
     )
 
     if RELEASE_2020_04_19 > get_now():
@@ -2055,7 +2055,7 @@ def get_tender_lot_qualification_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"complaint_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "complaint_id"}]
     )
 
     response = self.app.get("/tenders/some_id/qualifications/some_id/complaints/some_id", status=404)
@@ -2063,7 +2063,7 @@ def get_tender_lot_qualification_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
 
@@ -2088,7 +2088,7 @@ def get_tender_lot_qualification_complaints(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     tender = self.db.get(self.tender_id)
@@ -2168,7 +2168,7 @@ def create_tender_2lot_qualification_complaint(self):
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(
             response.json["errors"][0]["description"],
-            u"Cancellation can't be add when exists active complaint period"
+            "Cancellation can't be add when exists active complaint period"
         )
 
     else:
@@ -2210,9 +2210,9 @@ def create_tender_qualification_claim(self):
         response.json["errors"],
         [
             {
-                u"description": u"Can add claim only on unsuccessful qualification of your bid",
-                u"location": u"body",
-                u"name": u"data",
+                "description": "Can add claim only on unsuccessful qualification of your bid",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -2243,9 +2243,9 @@ def create_tender_qualification_claim(self):
         response.json["errors"],
         [
             {
-                u"description": u"Can add claim only on unsuccessful qualification of your bid",
-                u"location": u"body",
-                u"name": u"data",
+                "description": "Can add claim only on unsuccessful qualification of your bid",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -2264,7 +2264,7 @@ def complaint_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     response = self.app.post(
@@ -2276,7 +2276,7 @@ def complaint_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"qualification_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "qualification_id"}]
     )
 
     response = self.app.post(
@@ -2288,7 +2288,7 @@ def complaint_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"complaint_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "complaint_id"}]
     )
 
     response = self.app.post(
@@ -2301,14 +2301,14 @@ def complaint_not_found(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{u"description": u"Not Found", u"location": u"body", u"name": u"file"}])
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
 
     response = self.app.get("/tenders/some_id/qualifications/some_id/complaints/some_id/documents", status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     response = self.app.get(
@@ -2318,7 +2318,7 @@ def complaint_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"qualification_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "qualification_id"}]
     )
 
     response = self.app.get(
@@ -2329,7 +2329,7 @@ def complaint_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"complaint_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "complaint_id"}]
     )
 
     response = self.app.get("/tenders/some_id/qualifications/some_id/complaints/some_id/documents/some_id", status=404)
@@ -2337,7 +2337,7 @@ def complaint_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     response = self.app.get(
@@ -2347,7 +2347,7 @@ def complaint_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"qualification_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "qualification_id"}]
     )
 
     response = self.app.get(
@@ -2360,7 +2360,7 @@ def complaint_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"complaint_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "complaint_id"}]
     )
 
     response = self.app.get(
@@ -2373,7 +2373,7 @@ def complaint_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"document_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "document_id"}]
     )
 
     response = self.app.put(
@@ -2385,7 +2385,7 @@ def complaint_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     response = self.app.put(
@@ -2397,7 +2397,7 @@ def complaint_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"qualification_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "qualification_id"}]
     )
 
     response = self.app.put(
@@ -2411,7 +2411,7 @@ def complaint_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"complaint_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "complaint_id"}]
     )
 
     response = self.app.put(
@@ -2425,7 +2425,7 @@ def complaint_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"document_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "document_id"}]
     )
 
 
@@ -2486,7 +2486,7 @@ def create_tender_qualification_complaint_document(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"download"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "download"}]
     )
 
     response = self.app.get(
@@ -2547,7 +2547,7 @@ def put_tender_qualification_complaint_document(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{u"description": u"Not Found", u"location": u"body", u"name": u"file"}])
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
 
     response = self.app.put(
         "/tenders/{}/qualifications/{}/complaints/{}/documents/{}?acc_token={}".format(
@@ -2787,7 +2787,7 @@ def create_tender_2lot_qualification_complaint_document(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"download"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "download"}]
     )
 
     response = self.app.get(
@@ -2826,7 +2826,7 @@ def create_tender_2lot_qualification_complaint_document(self):
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(
             response.json["errors"][0]["description"],
-            u"Cancellation can't be add when exists active complaint period"
+            "Cancellation can't be add when exists active complaint period"
         )
     else:
         response = self.app.post_json(
@@ -2870,7 +2870,7 @@ def put_tender_2lot_qualification_complaint_document(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{u"description": u"Not Found", u"location": u"body", u"name": u"file"}])
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
 
     response = self.app.put(
         "/tenders/{}/qualifications/{}/complaints/{}/documents/{}?acc_token={}".format(
@@ -3005,7 +3005,7 @@ def put_tender_2lot_qualification_complaint_document(self):
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(
             response.json["errors"][0]["description"],
-            u"Cancellation can't be add when exists active complaint period"
+            "Cancellation can't be add when exists active complaint period"
         )
 
     else:
@@ -3164,7 +3164,7 @@ def create_qualification_requirement_response(self):
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}]
+        [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}]
     )
 
     response = self.app.post_json(
@@ -3178,7 +3178,7 @@ def create_qualification_requirement_response(self):
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}]
+        [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}]
     )
 
     response = self.app.post_json(
@@ -3192,9 +3192,9 @@ def create_qualification_requirement_response(self):
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{u'description': {u'requirement': [u'This field is required.'], u'value': [u'This field is required.']},
-          u'location': u'body',
-          u'name': 0}]
+        [{'description': {'requirement': ['This field is required.'], 'value': ['This field is required.']},
+          'location': 'body',
+          'name': 0}]
     )
 
     response = self.app.post_json(request_path, {"data": valid_data})
@@ -3252,7 +3252,7 @@ def patch_qualification_requirement_response(self):
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}]
+        [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}]
     )
 
     response = self.app.patch_json(
@@ -3266,7 +3266,7 @@ def patch_qualification_requirement_response(self):
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}]
+        [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}]
     )
 
     self.app.authorization = auth
@@ -3280,9 +3280,9 @@ def patch_qualification_requirement_response(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{u'description': [u'Must be either true or false.'],
-          u'location': u'body',
-          u'name': u'value'}]
+        [{'description': ['Must be either true or false.'],
+          'location': 'body',
+          'name': 'value'}]
     )
 
     updated_data["value"] = "True"
@@ -3370,7 +3370,7 @@ def create_qualification_requirement_response_evidence(self):
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}]
+        [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}]
     )
 
     response = self.app.post_json(
@@ -3384,7 +3384,7 @@ def create_qualification_requirement_response_evidence(self):
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}]
+        [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}]
     )
 
     self.app.authorization = auth
@@ -3402,9 +3402,9 @@ def create_qualification_requirement_response_evidence(self):
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{u'description': [u'type should be one of eligibleEvidences types'],
-          u'location': u'body',
-          u'name': u'type'}],
+        [{'description': ['type should be one of eligibleEvidences types'],
+          'location': 'body',
+          'name': 'type'}],
     )
 
     response = self.app.post_json(
@@ -3422,9 +3422,9 @@ def create_qualification_requirement_response_evidence(self):
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{u'description': [u'This field is required.'],
-          u'location': u'body',
-          u'name': u'relatedDocument'}]
+        [{'description': ['This field is required.'],
+          'location': 'body',
+          'name': 'relatedDocument'}]
     )
 
     response = self.app.post_json(
@@ -3446,9 +3446,9 @@ def create_qualification_requirement_response_evidence(self):
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{u'description': [u'relatedDocument.id should be one of qualification documents'],
-          u'location': u'body',
-          u'name': u'relatedDocument'}]
+        [{'description': ['relatedDocument.id should be one of qualification documents'],
+          'location': 'body',
+          'name': 'relatedDocument'}]
     )
 
     response = self.app.post_json(

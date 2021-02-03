@@ -20,17 +20,17 @@ from openprocurement.framework.core.validation import (
 )
 
 VIEW_MAP = {
-    u"": submissions_by_dateModified_view,
-    u"test": submissions_test_by_dateModified_view,
-    u"_all_": submissions_by_dateModified_view,
+    "": submissions_by_dateModified_view,
+    "test": submissions_test_by_dateModified_view,
+    "_all_": submissions_by_dateModified_view,
 
 }
 CHANGES_VIEW_MAP = {
-    u"": submissions_by_local_seq_view,
-    u"test": submissions_test_by_local_seq_view,
-    u"_all_": submissions_by_local_seq_view,
+    "": submissions_by_local_seq_view,
+    "test": submissions_test_by_local_seq_view,
+    "_all_": submissions_by_local_seq_view,
 }
-FEED = {u"dateModified": VIEW_MAP, u"changes": CHANGES_VIEW_MAP}
+FEED = {"dateModified": VIEW_MAP, "changes": CHANGES_VIEW_MAP}
 
 
 @submissionsresource(

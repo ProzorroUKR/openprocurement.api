@@ -39,10 +39,10 @@ def patch_tender_criteria_invalid(self):
     request_path = "/tenders/{}/criteria/{}?acc_token={}".format(self.tender_id, criteria_id, self.tender_token)
 
     updated_data = {
-        "title": u"Оновлена назва",
-        "title_en": u"Updated title",
-        "title_ru": u"Обновлённое название",
-        "description": u"Оновлений опис",
+        "title": "Оновлена назва",
+        "title_en": "Updated title",
+        "title_ru": "Обновлённое название",
+        "description": "Оновлений опис",
         "relatesTo": "lot",
     }
 
@@ -59,9 +59,9 @@ def patch_tender_criteria_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [u"This field is required."],
-                u"location": u"body",
-                u"name": u"relatedItem",
+                "description": ["This field is required."],
+                "location": "body",
+                "name": "relatedItem",
             }
         ],
     )
@@ -80,9 +80,9 @@ def patch_tender_criteria_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [u"relatedItem should be one of lots"],
-                u"location": u"body",
-                u"name": u"relatedItem",
+                "description": ["relatedItem should be one of lots"],
+                "location": "body",
+                "name": "relatedItem",
             }
         ],
     )
@@ -102,9 +102,9 @@ def patch_tender_criteria_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [u"relatedItem should be one of items"],
-                u"location": u"body",
-                u"name": u"relatedItem",
+                "description": ["relatedItem should be one of items"],
+                "location": "body",
+                "name": "relatedItem",
             }
         ],
     )
@@ -121,8 +121,8 @@ def patch_criteria_rg(self):
         self.tender_id, self.criteria_id, rg_id, self.tender_token)
 
     updated_fields = {
-        "description": u"Оновлений опис",
-        "description_en": u"Updated requirement description",
+        "description": "Оновлений опис",
+        "description_en": "Updated requirement description",
     }
 
     response = self.app.patch_json(request_path, {"data": updated_fields})
@@ -186,10 +186,10 @@ def delete_requirement_evidence(self):
         self.assertEqual(
             response.json["errors"],
             [{
-                u'description': u"Can't delete object if tender not in "
-                                u"['draft'] statuses",
-                u'location': u'body',
-                u'name': u'data',
+                'description': "Can't delete object if tender not in "
+                                "['draft'] statuses",
+                'location': 'body',
+                'name': 'data',
             }]
         )
 
@@ -206,10 +206,10 @@ def delete_requirement_evidence(self):
             self.assertEqual(
                 response.json["errors"],
                 [{
-                    u'description': u"Can't delete object if tender not in "
-                                    u"['draft', 'active.enquiries'] statuses",
-                    u'location': u'body',
-                    u'name': u'data',
+                    'description': "Can't delete object if tender not in "
+                                    "['draft', 'active.enquiries'] statuses",
+                    'location': 'body',
+                    'name': 'data',
                 }]
             )
             with mock.patch("openprocurement.tender.belowthreshold.validation.CRITERION_REQUIREMENT_STATUSES_FROM",
@@ -224,10 +224,10 @@ def delete_requirement_evidence(self):
                 self.assertEqual(
                     response.json["errors"],
                     [{
-                        u'description': u"Can't delete object if tender not in "
-                                        u"['draft'] statuses",
-                        u'location': u'body',
-                        u'name': u'data',
+                        'description': "Can't delete object if tender not in "
+                                        "['draft'] statuses",
+                        'location': 'body',
+                        'name': 'data',
                     }]
                 )
 
@@ -253,7 +253,7 @@ def put_rg_requirement_invalid(self):
         self.assertEqual(response.json["status"], "error")
         self.assertEqual(
             response.json["errors"],
-            [{u'description': u'Forbidden', u'location': u'body', u'name': u'data'}],
+            [{'description': 'Forbidden', 'location': 'body', 'name': 'data'}],
         )
 
     with mock.patch("openprocurement.tender.belowthreshold.validation.CRITERION_REQUIREMENT_STATUSES_FROM",
@@ -283,11 +283,11 @@ def put_rg_requirement_invalid(self):
 @mock.patch("openprocurement.tender.core.models.CRITERION_REQUIREMENT_STATUSES_FROM", get_now() - timedelta(days=1))
 def put_rg_requirement_valid(self):
     put_fields = {
-        u"title": u"Фізична особа",
-        u"expectedValue": u"false",
-        u"datePublished": u"2030-10-22T11:14:18.511585+03:00",
-        u"dateModified": u"2030-10-22T11:14:18.511585+03:00",
-        u"id": u"11111111111111111111111111111111",
+        "title": "Фізична особа",
+        "expectedValue": "false",
+        "datePublished": "2030-10-22T11:14:18.511585+03:00",
+        "dateModified": "2030-10-22T11:14:18.511585+03:00",
+        "id": "11111111111111111111111111111111",
     }
     put_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}"
     get_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements"
@@ -338,10 +338,10 @@ def put_rg_requirement_valid(self):
 
     put_data = {"eligibleEvidences": [
         {
-            u"description": u"Довідка в довільній формі",
-            u"type": u"document",
-            u"title": u"Документальне підтвердження",
-            u'id': u'32cd3841bf59486c85d7fbfa0b756872'
+            "description": "Довідка в довільній формі",
+            "type": "document",
+            "title": "Документальне підтвердження",
+            'id': '32cd3841bf59486c85d7fbfa0b756872'
         }
     ]}
     response = self.app.put_json(
@@ -365,16 +365,16 @@ def put_rg_requirement_valid(self):
 
     put_data = {"eligibleEvidences": [
         {
-            u"description": u"changed",
-            u"type": u"document",
-            u"title": u"changed",
-            u'id': u'32cd3841bf59486c85d7fbfa0b756872'
+            "description": "changed",
+            "type": "document",
+            "title": "changed",
+            'id': '32cd3841bf59486c85d7fbfa0b756872'
         },
         {
-            u"description": u"Довідка в довільній формі",
-            u"type": u"document",
-            u"title": u"Документальне підтвердження",
-            u'id': u'32cd3841bf59486c85d7fbfa0b756845'
+            "description": "Довідка в довільній формі",
+            "type": "document",
+            "title": "Документальне підтвердження",
+            'id': '32cd3841bf59486c85d7fbfa0b756845'
         }
     ]}
     response = self.app.put_json(

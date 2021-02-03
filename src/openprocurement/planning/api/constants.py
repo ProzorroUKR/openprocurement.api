@@ -27,6 +27,6 @@ BREAKDOWN_TITLES = ["state", "crimea", "local", "own", "fund", "loan", BREAKDOWN
 CENTRAL_PROCUREMENT_APPROVE_TIME = timedelta(days=20)
 PROCURING_ENTITY_STANDSTILL = timedelta(days=2)
 
-MILESTONE_APPROVAL_TITLE = u"Підготовка до проведення процедури"
-MILESTONE_APPROVAL_DESCRIPTION = u"Узагальнення та аналіз отриманної інформації щодо проведення закупівель "\
-                                 u"товарів, послуг (крім поточного ремонту) в інтересах замовників"
+MILESTONE_APPROVAL_TITLE = "Підготовка до проведення процедури"
+MILESTONE_APPROVAL_DESCRIPTION = "Узагальнення та аналіз отриманної інформації щодо проведення закупівель "\
+                                 "товарів, послуг (крім поточного ремонту) в інтересах замовників"

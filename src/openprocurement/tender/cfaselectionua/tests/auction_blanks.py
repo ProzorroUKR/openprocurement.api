@@ -13,7 +13,7 @@ def get_tender_auction_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     response = self.app.patch_json("/tenders/some_id/auction", {"data": {}}, status=404)
@@ -21,7 +21,7 @@ def get_tender_auction_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     response = self.app.post_json("/tenders/some_id/auction", {"data": {}}, status=404)
@@ -29,7 +29,7 @@ def get_tender_auction_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
 
@@ -110,7 +110,7 @@ def post_tender_auction(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": {u"invalid_field": u"Rogue field"}, u"location": u"body", u"name": u"bids"}],
+        [{"description": {"invalid_field": "Rogue field"}, "location": "body", "name": "bids"}],
     )
 
     patch_data = {
@@ -136,7 +136,7 @@ def post_tender_auction(self):
     response = self.app.post_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], {u"id": [u"Hash value is wrong length."]})
+    self.assertEqual(response.json["errors"][0]["description"], {"id": ["Hash value is wrong length."]})
 
     patch_data["bids"][1]["id"] = "00000000000000000000000000000000"
 
@@ -193,7 +193,7 @@ def patch_tender_auction(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": {u"invalid_field": u"Rogue field"}, u"location": u"body", u"name": u"bids"}],
+        [{"description": {"invalid_field": "Rogue field"}, "location": "body", "name": "bids"}],
     )
 
     tender = self.db.get(self.tender_id)
@@ -201,14 +201,14 @@ def patch_tender_auction(self):
 
     patch_data = {
         "lots": [
-            {"auctionUrl": u"http://auction-sandbox.openprocurement.org/tenders/{}_{}".format(self.tender_id, lot_id)}
+            {"auctionUrl": "http://auction-sandbox.openprocurement.org/tenders/{}_{}".format(self.tender_id, lot_id)}
         ],
         "bids": [
             {
                 "id": self.initial_bids[1]["id"],
                 "lotValues": [
                     {
-                        "participationUrl": u"http://auction-sandbox.openprocurement.org/tenders/{}_{}?key_for_bid={}".format(
+                        "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/{}_{}?key_for_bid={}".format(
                             self.tender_id, lot_id, self.initial_bids[1]["id"]
                         ),
                         "relatedLot": lot_id,
@@ -229,7 +229,7 @@ def patch_tender_auction(self):
         {
             "lotValues": [
                 {
-                    "participationUrl": u"http://auction-sandbox.openprocurement.org/tenders/{}_{}?key_for_bid={}".format(
+                    "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/{}_{}?key_for_bid={}".format(
                         self.tender_id, lot_id, self.initial_bids[0]["id"]
                     ),
                     "relatedLot": lot_id,
@@ -243,7 +243,7 @@ def patch_tender_auction(self):
     response = self.app.patch_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], {u"id": [u"Hash value is wrong length."]})
+    self.assertEqual(response.json["errors"][0]["description"], {"id": ["Hash value is wrong length."]})
 
     patch_data["bids"][1]["id"] = "00000000000000000000000000000000"
 
@@ -487,14 +487,14 @@ def patch_tender_lot_auction(self):
             bid["lotValues"].append(
                 {
                     "relatedLot": lot["id"],
-                    "participationUrl": u"http://auction-sandbox.openprocurement.org/tenders/{}_{}?key_for_bid={}".format(
+                    "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/{}_{}?key_for_bid={}".format(
                         self.tender_id, lot["id"], self.initial_bids[0]["id"]
                     ),
                 }
             )
         patch_data["lots"].append(
             {
-                "auctionUrl": u"http://auction-sandbox.openprocurement.org/tenders/{}_{}".format(
+                "auctionUrl": "http://auction-sandbox.openprocurement.org/tenders/{}_{}".format(
                     self.tender_id, lot["id"]
                 )
             }
@@ -667,7 +667,7 @@ def post_tender_lots_auction(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": {u"invalid_field": u"Rogue field"}, u"location": u"body", u"name": u"bids"}],
+        [{"description": {"invalid_field": "Rogue field"}, "location": "body", "name": "bids"}],
     )
 
     patch_data = {
@@ -695,7 +695,7 @@ def post_tender_lots_auction(self):
     response = self.app.post_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], {u"id": [u"Hash value is wrong length."]})
+    self.assertEqual(response.json["errors"][0]["description"], {"id": ["Hash value is wrong length."]})
 
     patch_data["bids"][1]["id"] = "00000000000000000000000000000000"
 
@@ -724,7 +724,7 @@ def post_tender_lots_auction(self):
     self.assertEqual(response.content_type, "application/json")
     # self.assertEqual(response.json['errors'][0]["description"], [{u'lotValues': [{u'relatedLot': [u'relatedLot should be one of lots of bid']}]}])
     self.assertEqual(
-        response.json["errors"][0]["description"], [{u"lotValues": [u"bids don't allow duplicated proposals"]}]
+        response.json["errors"][0]["description"], [{"lotValues": ["bids don't allow duplicated proposals"]}]
     )
 
     patch_data["bids"][0]["lotValues"][1]["relatedLot"] = self.initial_bids[0]["lotValues"][1]["relatedLot"]
@@ -785,15 +785,15 @@ def patch_tender_lots_auction(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": {u"invalid_field": u"Rogue field"}, u"location": u"body", u"name": u"bids"}],
+        [{"description": {"invalid_field": "Rogue field"}, "location": "body", "name": "bids"}],
     )
 
     patch_data = {
-        "auctionUrl": u"http://auction-sandbox.openprocurement.org/tenders/{}".format(self.tender_id),
+        "auctionUrl": "http://auction-sandbox.openprocurement.org/tenders/{}".format(self.tender_id),
         "bids": [
             {
                 "id": self.initial_bids[1]["id"],
-                "participationUrl": u"http://auction-sandbox.openprocurement.org/tenders/{}?key_for_bid={}".format(
+                "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/{}?key_for_bid={}".format(
                     self.tender_id, self.initial_bids[1]["id"]
                 ),
             }
@@ -807,9 +807,9 @@ def patch_tender_lots_auction(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"participationUrl": [u"url should be posted for each lot of bid"]}],
-                u"location": u"body",
-                u"name": u"bids",
+                "description": [{"participationUrl": ["url should be posted for each lot of bid"]}],
+                "location": "body",
+                "name": "bids",
             }
         ],
     )
@@ -817,7 +817,7 @@ def patch_tender_lots_auction(self):
     del patch_data["bids"][0]["participationUrl"]
     patch_data["bids"][0]["lotValues"] = [
         {
-            "participationUrl": u"http://auction-sandbox.openprocurement.org/tenders/{}?key_for_bid={}".format(
+            "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/{}?key_for_bid={}".format(
                 self.tender_id, self.initial_bids[0]["id"]
             )
         }
@@ -828,7 +828,7 @@ def patch_tender_lots_auction(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": ["url should be posted for each lot"], u"location": u"body", u"name": u"auctionUrl"}],
+        [{"description": ["url should be posted for each lot"], "location": "body", "name": "auctionUrl"}],
     )
 
     patch_data["lots"] = [{"auctionUrl": patch_data.pop("auctionUrl")}]
@@ -844,7 +844,7 @@ def patch_tender_lots_auction(self):
         {
             "lotValues": [
                 {
-                    "participationUrl": u"http://auction-sandbox.openprocurement.org/tenders/{}?key_for_bid={}".format(
+                    "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/{}?key_for_bid={}".format(
                         self.tender_id, self.initial_bids[0]["id"]
                     )
                 }
@@ -857,7 +857,7 @@ def patch_tender_lots_auction(self):
     response = self.app.patch_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], {u"id": [u"Hash value is wrong length."]})
+    self.assertEqual(response.json["errors"][0]["description"], {"id": ["Hash value is wrong length."]})
 
     patch_data["bids"][1]["id"] = "00000000000000000000000000000000"
 
@@ -872,7 +872,7 @@ def patch_tender_lots_auction(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], u"Number of lots did not match the number of tender lots"
+        response.json["errors"][0]["description"], "Number of lots did not match the number of tender lots"
     )
 
     patch_data["lots"] = [patch_data["lots"][0].copy() for i in self.initial_lots]
@@ -881,7 +881,7 @@ def patch_tender_lots_auction(self):
     response = self.app.patch_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], u"Auction lots should be identical to the tender lots")
+    self.assertEqual(response.json["errors"][0]["description"], "Auction lots should be identical to the tender lots")
 
     patch_data["lots"][1]["id"] = self.initial_lots[1]["id"]
 
@@ -903,7 +903,7 @@ def patch_tender_lots_auction(self):
     self.assertEqual(response.content_type, "application/json")
     # self.assertEqual(response.json['errors'][0]["description"], [{u'lotValues': [{u'relatedLot': [u'relatedLot should be one of lots of bid']}]}])
     self.assertEqual(
-        response.json["errors"][0]["description"], [{u"lotValues": [u"bids don't allow duplicated proposals"]}]
+        response.json["errors"][0]["description"], [{"lotValues": ["bids don't allow duplicated proposals"]}]
     )
 
     patch_data["bids"][0]["lotValues"][1]["relatedLot"] = self.initial_bids[0]["lotValues"][1]["relatedLot"]
@@ -1073,7 +1073,7 @@ def post_tender_auction_feature(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": {u"invalid_field": u"Rogue field"}, u"location": u"body", u"name": u"bids"}],
+        [{"description": {"invalid_field": "Rogue field"}, "location": "body", "name": "bids"}],
     )
 
     patch_data = {
@@ -1099,7 +1099,7 @@ def post_tender_auction_feature(self):
     response = self.app.post_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], {u"id": [u"Hash value is wrong length."]})
+    self.assertEqual(response.json["errors"][0]["description"], {"id": ["Hash value is wrong length."]})
 
     patch_data["bids"][1]["id"] = "00000000000000000000000000000000"
     response = self.app.post_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=422)

@@ -22,6 +22,6 @@ class Award(BaseAward):
         parent = data["__parent__"]
         if isinstance(parent, Model):
             if not lotID and parent.lots:
-                raise ValidationError(u"This field is required.")
+                raise ValidationError("This field is required.")
             if lotID and lotID not in [lot.id for lot in parent.lots if lot]:
-                raise ValidationError(u"lotID should be one of lots")
+                raise ValidationError("lotID should be one of lots")

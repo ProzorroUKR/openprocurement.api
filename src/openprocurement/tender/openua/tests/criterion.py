@@ -77,10 +77,10 @@ class TenderCriteriaRGRequirementTestMixin(object):
     test_get_rg_requirement = snitch(get_rg_requirement)
 
     test_requirement_data = {
-        u"title": u"Фізична особа, яка є учасником процедури закупівлі, ",
-        u"description": u"?",
-        u"dataType": u"boolean",
-        u"expectedValue": u"true",
+        "title": "Фізична особа, яка є учасником процедури закупівлі, ",
+        "description": "?",
+        "dataType": "boolean",
+        "expectedValue": "true",
     }
     allowed_put_statuses = ["active.tendering"]
 
@@ -112,9 +112,9 @@ class TenderCriteriaRGRequirementEvidenceTestMixin(object):
     test_create_patch_delete_evidences_from_requirement = snitch(create_patch_delete_evidences_from_requirement)
 
     test_evidence_data = {
-        "title": u"Документальне підтвердження",
-        "description": u"Довідка в довільній формі",
-        "type": u"document",
+        "title": "Документальне підтвердження",
+        "description": "Довідка в довільній формі",
+        "type": "document",
     }
 
     @patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))

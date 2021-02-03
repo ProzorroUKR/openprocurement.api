@@ -37,39 +37,39 @@ now = get_now()
 test_electronicCatalogue_data = {
     "procuringEntity": {
         "contactPoint": {
-            "telephone": u"0440000000",
-            "name": u"Назва організації(ЦЗО)",
-            "email": u"aa@aa.com"
+            "telephone": "0440000000",
+            "name": "Назва організації(ЦЗО)",
+            "email": "aa@aa.com"
         },
         "identifier": {
-            "scheme": u"UA-EDR",
+            "scheme": "UA-EDR",
             "id": active_cpb_id,
-            "legalName": u"Назва організації(ЦЗО)"
+            "legalName": "Назва організації(ЦЗО)"
         },
-        "kind": u"central",
+        "kind": "central",
         "address": {
-            "countryName": u"Україна",
-            "postalCode": u"01220",
-            "region": u"м. Київ",
-            "streetAddress": u"вул. Банкова, 11, корпус 1",
-            "locality": u"м. Київ"
+            "countryName": "Україна",
+            "postalCode": "01220",
+            "region": "м. Київ",
+            "streetAddress": "вул. Банкова, 11, корпус 1",
+            "locality": "м. Київ"
         },
-        "name": u"Повна назва юридичної організації."
+        "name": "Повна назва юридичної організації."
     },
     "additionalClassifications": [
         {
-            "scheme": u"ДК003",
-            "id": u"17.21.1",
-            "description": u"папір і картон гофровані, паперова й картонна тара"
+            "scheme": "ДК003",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
         }
     ],
     "classification": {
-        "scheme": u"ДК021",
-        "description": u"Mustard seeds",
-        "id": u"03111600-8"
+        "scheme": "ДК021",
+        "description": "Mustard seeds",
+        "id": "03111600-8"
     },
-    "title": u"Узагальнена назва закупівлі",
-    "description": u"Назва предмета закупівлі",
+    "title": "Узагальнена назва закупівлі",
+    "description": "Назва предмета закупівлі",
     "qualificationPeriod": {"endDate": (now + timedelta(days=60)).isoformat()}
 }
 

@@ -171,12 +171,12 @@ def validate_items_uniq(items, *args):
     if items:
         ids = [i.id for i in items]
         if [i for i in set(ids) if ids.count(i) > 1]:
-            raise ValidationError(u"Item id should be uniq for all items")
+            raise ValidationError("Item id should be uniq for all items")
 
 
 def validate_cpv_group(items, *args):
     if items and len(set([i.classification.id[:3] for i in items])) != 1:
-        raise ValidationError(u"CPV group of items be identical")
+        raise ValidationError("CPV group of items be identical")
 
 
 def validate_classification_id(items, *args):
@@ -186,14 +186,14 @@ def validate_classification_id(items, *args):
             schemes_inn_count = schemes.count(INN_SCHEME)
             if item.classification.id == CPV_PHARM_PRODUCTS and schemes_inn_count != 1:
                 raise ValidationError(
-                    u"Item with classification.id={} have to contain exactly one additionalClassifications "
-                    u"with scheme={}".format(CPV_PHARM_PRODUCTS, INN_SCHEME)
+                    "Item with classification.id={} have to contain exactly one additionalClassifications "
+                    "with scheme={}".format(CPV_PHARM_PRODUCTS, INN_SCHEME)
                 )
             if item.classification.id.startswith(CPV_PHARM_PRODUCTS[:3]) and schemes_inn_count > 1:
                 raise ValidationError(
-                    u"Item with classification.id that starts with {} and contains additionalClassification "
-                    u"objects have to contain no more than one additionalClassifications "
-                    u"with scheme={}".format(CPV_PHARM_PRODUCTS[:3], INN_SCHEME)
+                    "Item with classification.id that starts with {} and contains additionalClassification "
+                    "objects have to contain no more than one additionalClassifications "
+                    "with scheme={}".format(CPV_PHARM_PRODUCTS[:3], INN_SCHEME)
                 )
 
 

@@ -15,7 +15,7 @@ from datetime import timedelta
 def create_tender_complaint(self):
     complaint_data = deepcopy(test_draft_complaint)
     complaint_data["author"] = getattr(self, "test_author", test_author)
-    complaint_data["status"] = u"claim"
+    complaint_data["status"] = "claim"
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
         {
@@ -24,7 +24,7 @@ def create_tender_complaint(self):
     )
     self.assertEqual(response.status, "201 Created")
     complaint = response.json["data"]
-    self.assertEqual(complaint["status"], u"draft")
+    self.assertEqual(complaint["status"], "draft")
 
     claim_data = deepcopy(test_claim)
     claim_data["author"] = getattr(self, "test_author", test_author)
@@ -51,7 +51,7 @@ def create_tender_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"This field is required."], u"location": u"body", u"name": u"resolutionType"}],
+        [{"description": ["This field is required."], "location": "body", "name": "resolutionType"}],
     )
 
     response = self.app.patch_json(
@@ -270,7 +270,7 @@ def patch_tender_complaint(self):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["status"], "error")
         self.assertEqual(
-            response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"complaint_id"}]
+            response.json["errors"], [{"description": "Not Found", "location": "url", "name": "complaint_id"}]
         )
 
         response = self.app.patch_json(
@@ -282,7 +282,7 @@ def patch_tender_complaint(self):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["status"], "error")
         self.assertEqual(
-            response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+            response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
         )
 
     if get_now() < RELEASE_2020_04_19:
@@ -295,7 +295,7 @@ def patch_tender_complaint(self):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
             response.json["errors"],
-            [{u"description": [u"This field is required."], u"location": u"body", u"name": u"cancellationReason"}],
+            [{"description": ["This field is required."], "location": "body", "name": "cancellationReason"}],
         )
 
         response = self.app.patch_json(
@@ -779,7 +779,7 @@ def create_tender_lot_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"This field is required."], u"location": u"body", u"name": u"resolutionType"}],
+        [{"description": ["This field is required."], "location": "body", "name": "resolutionType"}],
     )
 
     response = self.app.patch_json(
@@ -848,7 +848,7 @@ def put_tender_complaint_document(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{u"description": u"Not Found", u"location": u"body", u"name": u"file"}])
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
 
     response = self.app.put(
         "/tenders/{}/complaints/{}/documents/{}?acc_token={}".format(

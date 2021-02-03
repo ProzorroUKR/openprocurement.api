@@ -23,7 +23,7 @@ def no_items_contract_change(self):
 
     response = self.app.post_json(
         "/contracts/{}/changes?acc_token={}".format(contract["id"], token),
-        {"data": {"rationale": u"причина зміни укр", "rationaleTypes": ["qualityImprovement"]}},
+        {"data": {"rationale": "причина зміни укр", "rationaleTypes": ["qualityImprovement"]}},
     )
     self.assertEqual(response.status, "201 Created")
     change = response.json["data"]
@@ -63,7 +63,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"contract_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "contract_id"}]
     )
 
     response = self.app.get("/contracts/{}/changes".format(self.contract["id"]))
@@ -75,7 +75,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"change_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "change_id"}]
     )
 
     response = self.app.patch_json(
@@ -85,7 +85,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"change_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "change_id"}]
     )
 
 
@@ -94,8 +94,8 @@ def get_change(self):
         "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
         {
             "data": {
-                "rationale": u"Принцеси не какають.",
-                "rationale_ru": u"ff",
+                "rationale": "Принцеси не какають.",
+                "rationale_ru": "ff",
                 "rationale_en": "asdf",
                 "contractNumber": 12,
                 "rationaleTypes": ["priceReduction"],
@@ -146,9 +146,9 @@ def create_change_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": u"Content-Type header should be one of ['application/json']",
-                u"location": u"header",
-                u"name": u"Content-Type",
+                "description": "Content-Type header should be one of ['application/json']",
+                "location": "header",
+                "name": "Content-Type",
             }
         ],
     )
@@ -218,7 +218,7 @@ def create_change(self):
         "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
         {
             "data": {
-                "rationale": u"причина зміни укр",
+                "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
                 "rationaleTypes": ["qualityImprovement"],
             }
@@ -236,7 +236,7 @@ def create_change(self):
 
     response = self.app.post_json(
         "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
-        {"data": {"rationale": u"трататата", "rationaleTypes": ["priceReduction"]}},
+        {"data": {"rationale": "трататата", "rationaleTypes": ["priceReduction"]}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -260,7 +260,7 @@ def create_change(self):
 
     response = self.app.post_json(
         "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
-        {"data": {"rationale": u"трататата", "rationaleTypes": ["non-existing-rationale"]}},
+        {"data": {"rationale": "трататата", "rationaleTypes": ["non-existing-rationale"]}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -281,7 +281,7 @@ def create_change(self):
 
     response = self.app.post_json(
         "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
-        {"data": {"rationale": u"трататата", "rationaleTypes": ["priceReduction"]}},
+        {"data": {"rationale": "трататата", "rationaleTypes": ["priceReduction"]}},
     )
     self.assertEqual(response.status, "201 Created")
     change2 = response.json["data"]
@@ -297,10 +297,10 @@ def patch_change(self):
         "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
         {
             "data": {
-                "rationale": u"причина зміни укр",
-                "rationale_en": u"change cause en",
+                "rationale": "причина зміни укр",
+                "rationale_en": "change cause en",
                 "rationaleTypes": ["priceReduction"],
-                "contractNumber": u"№ 146",
+                "contractNumber": "№ 146",
             }
         },
     )
@@ -308,7 +308,7 @@ def patch_change(self):
     self.assertEqual(response.content_type, "application/json")
     change = response.json["data"]
     self.assertEqual(change["status"], "pending")
-    self.assertEqual(change["contractNumber"], u"№ 146")
+    self.assertEqual(change["contractNumber"], "№ 146")
     creation_date = change["date"]
 
     now = get_now().isoformat()
@@ -435,10 +435,10 @@ def change_date_signed(self):
         "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
         {
             "data": {
-                "rationale": u"причина зміни укр",
-                "rationale_en": u"change cause en",
+                "rationale": "причина зміни укр",
+                "rationale_en": "change cause en",
                 "rationaleTypes": ["priceReduction"],
-                "contractNumber": u"№ 146",
+                "contractNumber": "№ 146",
             }
         },
     )
@@ -446,7 +446,7 @@ def change_date_signed(self):
     self.assertEqual(response.content_type, "application/json")
     change = response.json["data"]
     self.assertEqual(change["status"], "pending")
-    self.assertEqual(change["contractNumber"], u"№ 146")
+    self.assertEqual(change["contractNumber"], "№ 146")
 
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.patch_json(
@@ -523,10 +523,10 @@ def change_date_signed(self):
         "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
         {
             "data": {
-                "rationale": u"iнша причина зміни укр",
-                "rationale_en": u"another change cause en",
+                "rationale": "iнша причина зміни укр",
+                "rationale_en": "another change cause en",
                 "rationaleTypes": ["priceReduction"],
-                "contractNumber": u"№ 147",
+                "contractNumber": "№ 147",
             }
         },
     )
@@ -547,7 +547,7 @@ def change_date_signed(self):
             {
                 "location": "body",
                 "name": "dateSigned",
-                "description": [u"Contract signature date can't be in the future"],
+                "description": ["Contract signature date can't be in the future"],
             }
         ],
     )
@@ -594,10 +594,10 @@ def change_date_signed(self):
         "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
         {
             "data": {
-                "rationale": u"третя причина зміни укр",
-                "rationale_en": u"third change cause en",
+                "rationale": "третя причина зміни укр",
+                "rationale_en": "third change cause en",
                 "rationaleTypes": ["priceReduction"],
-                "contractNumber": u"№ 148",
+                "contractNumber": "№ 148",
             }
         },
     )
@@ -652,11 +652,11 @@ def date_signed_on_change_creation(self):
         "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
         {
             "data": {
-                "rationale": u"причина зміни укр",
-                "rationale_en": u"change cause en",
+                "rationale": "причина зміни укр",
+                "rationale_en": "change cause en",
                 "dateSigned": one_day_in_past,
                 "rationaleTypes": ["priceReduction"],
-                "contractNumber": u"№ 146",
+                "contractNumber": "№ 146",
             }
         },
         status=403,
@@ -668,11 +668,11 @@ def date_signed_on_change_creation(self):
         "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
         {
             "data": {
-                "rationale": u"причина зміни укр",
-                "rationale_en": u"change cause en",
+                "rationale": "причина зміни укр",
+                "rationale_en": "change cause en",
                 "dateSigned": one_day_in_future,
                 "rationaleTypes": ["priceReduction"],
-                "contractNumber": u"№ 146",
+                "contractNumber": "№ 146",
             }
         },
         status=422,
@@ -683,7 +683,7 @@ def date_signed_on_change_creation(self):
             {
                 "location": "body",
                 "name": "dateSigned",
-                "description": [u"Contract signature date can't be in the future"],
+                "description": ["Contract signature date can't be in the future"],
             }
         ],
     )
@@ -693,11 +693,11 @@ def date_signed_on_change_creation(self):
         "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
         {
             "data": {
-                "rationale": u"причина зміни укр",
-                "rationale_en": u"change cause en",
+                "rationale": "причина зміни укр",
+                "rationale_en": "change cause en",
                 "dateSigned": date,
                 "rationaleTypes": ["priceReduction"],
-                "contractNumber": u"№ 146",
+                "contractNumber": "№ 146",
             }
         },
     )
@@ -728,10 +728,10 @@ def change_date_signed_very_old_contracts_data(self):
         "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
         {
             "data": {
-                "rationale": u"причина зміни укр",
-                "rationale_en": u"change cause en",
+                "rationale": "причина зміни укр",
+                "rationale_en": "change cause en",
                 "rationaleTypes": ["priceReduction"],
-                "contractNumber": u"№ 146",
+                "contractNumber": "№ 146",
             }
         },
     )
@@ -769,10 +769,10 @@ def change_date_signed_very_old_contracts_data(self):
         "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
         {
             "data": {
-                "rationale": u"iнша причина зміни укр",
-                "rationale_en": u"another change cause en",
+                "rationale": "iнша причина зміни укр",
+                "rationale_en": "another change cause en",
                 "rationaleTypes": ["priceReduction"],
-                "contractNumber": u"№ 147",
+                "contractNumber": "№ 147",
             }
         },
     )
@@ -818,10 +818,10 @@ def change_date_signed_very_old_contracts_data(self):
         "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
         {
             "data": {
-                "rationale": u"третя причина зміни укр",
-                "rationale_en": u"third change cause en",
+                "rationale": "третя причина зміни укр",
+                "rationale_en": "third change cause en",
                 "rationaleTypes": ["priceReduction"],
-                "contractNumber": u"№ 148",
+                "contractNumber": "№ 148",
             }
         },
     )
@@ -866,10 +866,10 @@ def date_signed_on_change_creation_for_very_old_contracts_data(self):
         "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
         {
             "data": {
-                "rationale": u"причина зміни укр",
-                "rationale_en": u"change cause en",
+                "rationale": "причина зміни укр",
+                "rationale_en": "change cause en",
                 "rationaleTypes": ["priceReduction"],
-                "contractNumber": u"№ 146",
+                "contractNumber": "№ 146",
                 "dateSigned": one_day_in_past,
             }
         },
@@ -898,10 +898,10 @@ def date_signed_on_change_creation_for_very_old_contracts_data(self):
         "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
         {
             "data": {
-                "rationale": u"третя причина зміни укр",
-                "rationale_en": u"third change cause en",
+                "rationale": "третя причина зміни укр",
+                "rationale_en": "third change cause en",
                 "rationaleTypes": ["priceReduction"],
-                "contractNumber": u"№ 148",
+                "contractNumber": "№ 148",
                 "dateSigned": one_day_in_past,
             }
         },
@@ -919,10 +919,10 @@ def date_signed_on_change_creation_for_very_old_contracts_data(self):
         "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
         {
             "data": {
-                "rationale": u"третя причина зміни укр",
-                "rationale_en": u"third change cause en",
+                "rationale": "третя причина зміни укр",
+                "rationale_en": "third change cause en",
                 "rationaleTypes": ["priceReduction"],
-                "contractNumber": u"№ 148",
+                "contractNumber": "№ 148",
                 "dateSigned": valid_date,
             }
         },

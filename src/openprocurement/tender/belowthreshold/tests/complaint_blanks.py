@@ -20,7 +20,7 @@ def create_tender_complaint_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     request_path = "/tenders/{}/complaints".format(self.tender_id)
@@ -33,9 +33,9 @@ def create_tender_complaint_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": u"Content-Type header should be one of ['application/json']",
-                u"location": u"header",
-                u"name": u"Content-Type",
+                "description": "Content-Type header should be one of ['application/json']",
+                "location": "header",
+                "name": "Content-Type",
             }
         ],
     )
@@ -46,7 +46,7 @@ def create_tender_complaint_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Expecting value: line 1 column 1 (char 0)", u"location": u"body", u"name": u"data"}],
+        [{"description": "Expecting value: line 1 column 1 (char 0)", "location": "body", "name": "data"}],
     )
 
     response = self.app.post_json(request_path, "data", status=422)
@@ -54,7 +54,7 @@ def create_tender_complaint_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Data not available", u"location": u"body", u"name": u"data"}]
+        response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
     response = self.app.post_json(request_path, {"not_data": {}}, status=422)
@@ -62,7 +62,7 @@ def create_tender_complaint_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Data not available", u"location": u"body", u"name": u"data"}]
+        response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
     response = self.app.post_json(request_path, {"data": {}}, status=422)
@@ -72,8 +72,8 @@ def create_tender_complaint_invalid(self):
     self.assertEqual(
         response.json["errors"],
         [
-            {u"description": [u"This field is required."], u"location": u"body", u"name": u"author"},
-            {u"description": [u"This field is required."], u"location": u"body", u"name": u"title"},
+            {"description": ["This field is required."], "location": "body", "name": "author"},
+            {"description": ["This field is required."], "location": "body", "name": "title"},
         ],
     )
 
@@ -82,7 +82,7 @@ def create_tender_complaint_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Rogue field", u"location": u"body", u"name": u"invalid_field"}]
+        response.json["errors"], [{"description": "Rogue field", "location": "body", "name": "invalid_field"}]
     )
 
     response = self.app.post_json(request_path, {"data": {"author": {"identifier": "invalid_value"}}}, status=422)
@@ -93,11 +93,11 @@ def create_tender_complaint_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": {
-                    u"identifier": [u"Please use a mapping for this field or ComplaintIdentifier instance instead of str."]
+                "description": {
+                    "identifier": ["Please use a mapping for this field or ComplaintIdentifier instance instead of str."]
                 },
-                u"location": u"body",
-                u"name": u"author",
+                "location": "body",
+                "name": "author",
             }
         ],
     )
@@ -116,14 +116,14 @@ def create_tender_complaint_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": {
-                    u"contactPoint": [u"This field is required."],
-                    u"identifier": {u"scheme": [u"This field is required."], u"id": [u"This field is required."]},
-                    u"name": [u"This field is required."],
-                    u"address": [u"This field is required."],
+                "description": {
+                    "contactPoint": ["This field is required."],
+                    "identifier": {"scheme": ["This field is required."], "id": ["This field is required."]},
+                    "name": ["This field is required."],
+                    "address": ["This field is required."],
                 },
-                u"location": u"body",
-                u"name": u"author",
+                "location": "body",
+                "name": "author",
             }
         ],
     )
@@ -142,17 +142,17 @@ def create_tender_complaint_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": {
-                    u"contactPoint": [u"This field is required."],
-                    u"identifier": {
-                        u"scheme": [u"This field is required."],
-                        u"id": [u"This field is required."],
-                        u"uri": [u"Not a well formed URL."],
+                "description": {
+                    "contactPoint": ["This field is required."],
+                    "identifier": {
+                        "scheme": ["This field is required."],
+                        "id": ["This field is required."],
+                        "uri": ["Not a well formed URL."],
                     },
-                    u"address": [u"This field is required."],
+                    "address": ["This field is required."],
                 },
-                u"location": u"body",
-                u"name": u"author",
+                "location": "body",
+                "name": "author",
             }
         ],
     )
@@ -171,7 +171,7 @@ def create_tender_complaint_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"relatedLot should be one of lots"], u"location": u"body", u"name": u"relatedLot"}],
+        [{"description": ["relatedLot should be one of lots"], "location": "body", "name": "relatedLot"}],
     )
 
     claim_data = deepcopy(test_draft_claim)
@@ -186,9 +186,9 @@ def create_tender_complaint_invalid(self):
         )
         self.assertEqual(
             response.json,
-            {u'status': u'error',
-             u'errors': [{u'description': [u'This field is required'],
-                          u'location': u'body', u'name': u'type'}]}
+            {'status': 'error',
+             'errors': [{'description': ['This field is required'],
+                          'location': 'body', 'name': 'type'}]}
         )
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
@@ -203,9 +203,9 @@ def create_tender_complaint_invalid(self):
         )
         self.assertEqual(
             response.json,
-            {u'status': u'error',
-             u'errors': [{u'description': "Can't add complaint of 'complaint' type",
-                          u'location': u'body', u'name': u'data'}]}
+            {'status': 'error',
+             'errors': [{'description': "Can't add complaint of 'complaint' type",
+                          'location': 'body', 'name': 'data'}]}
         )
 
 
@@ -257,7 +257,7 @@ def create_tender_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"This field is required."], u"location": u"body", u"name": u"resolutionType"}],
+        [{"description": ["This field is required."], "location": "body", "name": "resolutionType"}],
     )
 
     response = self.app.patch_json(
@@ -385,7 +385,7 @@ def patch_tender_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"complaint_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "complaint_id"}]
     )
 
     response = self.app.patch_json(
@@ -397,7 +397,7 @@ def patch_tender_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     response = self.app.get("/tenders/{}/complaints/{}".format(self.tender_id, complaint["id"]))
@@ -489,7 +489,7 @@ def get_tender_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"complaint_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "complaint_id"}]
     )
 
     response = self.app.get("/tenders/some_id/complaints/some_id", status=404)
@@ -497,7 +497,7 @@ def get_tender_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
 
@@ -523,7 +523,7 @@ def get_tender_complaints(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
 
@@ -561,7 +561,7 @@ def lot_award_create_tender_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"This field is required."], u"location": u"body", u"name": u"resolutionType"}],
+        [{"description": ["This field is required."], "location": "body", "name": "resolutionType"}],
     )
 
     response = self.app.patch_json(
@@ -621,7 +621,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     response = self.app.post(
@@ -633,7 +633,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"complaint_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "complaint_id"}]
     )
 
     response = self.app.post(
@@ -646,14 +646,14 @@ def not_found(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{u"description": u"Not Found", u"location": u"body", u"name": u"file"}])
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
 
     response = self.app.get("/tenders/some_id/complaints/some_id/documents", status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     response = self.app.get("/tenders/{}/complaints/some_id/documents".format(self.tender_id), status=404)
@@ -661,7 +661,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"complaint_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "complaint_id"}]
     )
 
     response = self.app.get("/tenders/some_id/complaints/some_id/documents/some_id", status=404)
@@ -669,7 +669,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     response = self.app.get("/tenders/{}/complaints/some_id/documents/some_id".format(self.tender_id), status=404)
@@ -677,7 +677,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"complaint_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "complaint_id"}]
     )
 
     response = self.app.get(
@@ -687,7 +687,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"document_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "document_id"}]
     )
 
     response = self.app.put(
@@ -699,7 +699,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     response = self.app.put(
@@ -711,7 +711,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"complaint_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "complaint_id"}]
     )
 
     response = self.app.put(
@@ -723,7 +723,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"document_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "document_id"}]
     )
 
 
@@ -772,7 +772,7 @@ def create_tender_complaint_document(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"download"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "download"}]
     )
 
     response = self.app.get(
@@ -827,7 +827,7 @@ def put_tender_complaint_document(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{u"description": u"Not Found", u"location": u"body", u"name": u"file"}])
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
 
     response = self.app.put(
         "/tenders/{}/complaints/{}/documents/{}?acc_token={}".format(

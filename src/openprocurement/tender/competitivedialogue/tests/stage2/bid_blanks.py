@@ -21,7 +21,7 @@ def create_tender_bidder_firm(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{"location": u"body", "name": u"data", "description": u"Firm can't create bid"}]
+        response.json["errors"], [{"location": "body", "name": "data", "description": "Firm can't create bid"}]
     )
 
 
@@ -59,23 +59,23 @@ def delete_tender_bidder_eu(self):
         self.assertEqual(response.json["errors"][0]["description"], "Can't add document at 'deleted' bid status")
 
     revisions = self.db.get(self.tender_id).get("revisions")
-    self.assertTrue(any([i for i in revisions[-2][u"changes"] if i["op"] == u"remove" and i["path"] == u"/bids"]))
+    self.assertTrue(any([i for i in revisions[-2]["changes"] if i["op"] == "remove" and i["path"] == "/bids"]))
     self.assertTrue(
-        any([i for i in revisions[-1][u"changes"] if i["op"] == u"replace" and i["path"] == u"/bids/0/status"])
+        any([i for i in revisions[-1]["changes"] if i["op"] == "replace" and i["path"] == "/bids/0/status"])
     )
 
     response = self.app.delete("/tenders/{}/bids/some_id".format(self.tender_id), status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"bid_id"}])
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "bid_id"}])
 
     response = self.app.delete("/tenders/some_id/bids/some_id", status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     # create new bid
@@ -241,9 +241,9 @@ def bids_invalidation_on_tender_change_eu(self):
         response.json["errors"],
         [
             {
-                u"description": [u"value of bid should be less than value of tender"],
-                u"location": u"body",
-                u"name": u"value",
+                "description": ["value of bid should be less than value of tender"],
+                "location": "body",
+                "name": "value",
             }
         ],
     )
@@ -354,7 +354,7 @@ def ukrainian_author_id(self):
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data["value"] = {"amount": 500}
     multilingual_author = bid_data["tenderers"][0]
-    multilingual_author["identifier"]["id"] = u"Українська мова"
+    multilingual_author["identifier"]["id"] = "Українська мова"
     data = self.initial_data.copy()
     data["shortlistedFirms"][0] = {
         "identifier": {
@@ -411,18 +411,18 @@ def features_bidder_eu(self):
             "code": "OCDS-123454-AIR-INTAKE",
             "featureOf": "item",
             "relatedItem": "1",
-            "title": u"Потужність всмоктування",
-            "title_en": u"Air Intake",
-            "description": u"Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
-            "enum": [{"value": 0.05, "title": u"До 1000 Вт"}, {"value": 0.1, "title": u"Більше 1000 Вт"}],
+            "title": "Потужність всмоктування",
+            "title_en": "Air Intake",
+            "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
+            "enum": [{"value": 0.05, "title": "До 1000 Вт"}, {"value": 0.1, "title": "Більше 1000 Вт"}],
         },
         {
             "code": "OCDS-123454-POSTPONEMENT",
             "featureOf": "tenderer",
-            "title": u"Відстрочка платежу",
-            "title_en": u"Postponement of payment",
-            "description": u"Термін відстрочки платежу",
-            "enum": [{"value": 0.05, "title": u"До 90 днів"}, {"value": 0.1, "title": u"Більше 90 днів"}],
+            "title": "Відстрочка платежу",
+            "title_en": "Postponement of payment",
+            "description": "Термін відстрочки платежу",
+            "enum": [{"value": 0.05, "title": "До 90 днів"}, {"value": 0.1, "title": "Більше 90 днів"}],
         },
     ]
     self.create_tender(initial_data=data)
@@ -439,8 +439,8 @@ def features_bidder_eu(self):
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
         bid = response.json["data"]
-        bid.pop(u"date")
-        bid.pop(u"id")
+        bid.pop("date")
+        bid.pop("id")
         self.assertEqual(bid, i)
 
 
@@ -553,7 +553,7 @@ def create_tender_biddder_invalid_ua(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     request_path = "/tenders/{}/bids".format(self.tender_id)
@@ -565,9 +565,9 @@ def create_tender_biddder_invalid_ua(self):
         response.json["errors"],
         [
             {
-                u"description": u"Content-Type header should be one of ['application/json']",
-                u"location": u"header",
-                u"name": u"Content-Type",
+                "description": "Content-Type header should be one of ['application/json']",
+                "location": "header",
+                "name": "Content-Type",
             }
         ],
     )
@@ -578,7 +578,7 @@ def create_tender_biddder_invalid_ua(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Expecting value: line 1 column 1 (char 0)", u"location": u"body", u"name": u"data"}],
+        [{"description": "Expecting value: line 1 column 1 (char 0)", "location": "body", "name": "data"}],
     )
 
     response = self.app.post_json(request_path, "data", status=422)
@@ -586,7 +586,7 @@ def create_tender_biddder_invalid_ua(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Data not available", u"location": u"body", u"name": u"data"}]
+        response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
     response = self.app.post_json(request_path, {"not_data": {}}, status=422)
@@ -594,7 +594,7 @@ def create_tender_biddder_invalid_ua(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Data not available", u"location": u"body", u"name": u"data"}]
+        response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
     response = self.app.post_json(request_path, {"data": {"invalid_field": "invalid_value"}}, status=422)
@@ -602,7 +602,7 @@ def create_tender_biddder_invalid_ua(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Rogue field", u"location": u"body", u"name": u"invalid_field"}]
+        response.json["errors"], [{"description": "Rogue field", "location": "body", "name": "invalid_field"}]
     )
 
     response = self.app.post_json(
@@ -617,11 +617,11 @@ def create_tender_biddder_invalid_ua(self):
         response.json["errors"],
         [
             {
-                u"description": {
-                    u"identifier": [u"Please use a mapping for this field or Identifier instance instead of str."]
+                "description": {
+                    "identifier": ["Please use a mapping for this field or Identifier instance instead of str."]
                 },
-                u"location": u"body",
-                u"name": u"tenderers",
+                "location": "body",
+                "name": "tenderers",
             }
         ],
     )
@@ -638,16 +638,16 @@ def create_tender_biddder_invalid_ua(self):
         response.json["errors"],
         [
             {
-                u"description": [
+                "description": [
                     {
-                        u"contactPoint": [u"This field is required."],
-                        u"identifier": {u"scheme": [u"This field is required."], u"id": [u"This field is required."]},
-                        u"name": [u"This field is required."],
-                        u"address": [u"This field is required."],
+                        "contactPoint": ["This field is required."],
+                        "identifier": {"scheme": ["This field is required."], "id": ["This field is required."]},
+                        "name": ["This field is required."],
+                        "address": ["This field is required."],
                     }
                 ],
-                u"location": u"body",
-                u"name": u"tenderers",
+                "location": "body",
+                "name": "tenderers",
             }
         ],
     )
@@ -670,19 +670,19 @@ def create_tender_biddder_invalid_ua(self):
         response.json["errors"],
         [
             {
-                u"description": [
+                "description": [
                     {
-                        u"contactPoint": [u"This field is required."],
-                        u"identifier": {
-                            u"scheme": [u"This field is required."],
-                            u"id": [u"This field is required."],
-                            u"uri": [u"Not a well formed URL."],
+                        "contactPoint": ["This field is required."],
+                        "identifier": {
+                            "scheme": ["This field is required."],
+                            "id": ["This field is required."],
+                            "uri": ["Not a well formed URL."],
                         },
-                        u"address": [u"This field is required."],
+                        "address": ["This field is required."],
                     }
                 ],
-                u"location": u"body",
-                u"name": u"tenderers",
+                "location": "body",
+                "name": "tenderers",
             }
         ],
     )
@@ -699,7 +699,7 @@ def create_tender_biddder_invalid_ua(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"This field is required."], u"location": u"body", u"name": u"value"}],
+        [{"description": ["This field is required."], "location": "body", "name": "value"}],
     )
 
     bid_data["value"] = {"amount": 500, "valueAddedTaxIncluded": False}
@@ -715,11 +715,11 @@ def create_tender_biddder_invalid_ua(self):
         response.json["errors"],
         [
             {
-                u"description": [
-                    u"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of tender"
+                "description": [
+                    "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of tender"
                 ],
-                u"location": u"body",
-                u"name": u"value",
+                "location": "body",
+                "name": "value",
             }
         ],
     )
@@ -737,9 +737,9 @@ def create_tender_biddder_invalid_ua(self):
         response.json["errors"],
         [
             {
-                u"description": [u"currency of bid should be identical to currency of value of tender"],
-                u"location": u"body",
-                u"name": u"value",
+                "description": ["currency of bid should be identical to currency of value of tender"],
+                "location": "body",
+                "name": "value",
             }
         ],
     )
@@ -754,7 +754,7 @@ def create_tender_biddder_invalid_ua(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertIn(u"invalid literal for int() with base 10", response.json["errors"][0]["description"])
+    self.assertIn("invalid literal for int() with base 10", response.json["errors"][0]["description"])
 
     bid_data["tenderers"] = [test_organization]
     response = self.app.post_json(
@@ -766,7 +766,7 @@ def create_tender_biddder_invalid_ua(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{"location": u"body", "name": u"data", "description": u"Firm can't create bid"}]
+        response.json["errors"], [{"location": "body", "name": "data", "description": "Firm can't create bid"}]
     )
 
 
@@ -861,9 +861,9 @@ def bids_invalidation_on_tender_change_ua(self):
         response.json["errors"],
         [
             {
-                u"description": [u"value of bid should be less than value of tender"],
-                u"location": u"body",
-                u"name": u"value",
+                "description": ["value of bid should be less than value of tender"],
+                "location": "body",
+                "name": "value",
             }
         ],
     )
@@ -946,7 +946,7 @@ def bids_activation_on_tender_documents_ua(self):
 
     response = self.app.post(
         "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
-        upload_files=[("file", u"укр.doc", b"content")],
+        upload_files=[("file", "укр.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -970,18 +970,18 @@ def features_bidder_ua(self):
             "code": "OCDS-123454-AIR-INTAKE",
             "featureOf": "item",
             "relatedItem": "1",
-            "title": u"Потужність всмоктування",
-            "title_en": u"Air Intake",
-            "description": u"Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
-            "enum": [{"value": 0.05, "title": u"До 1000 Вт"}, {"value": 0.1, "title": u"Більше 1000 Вт"}],
+            "title": "Потужність всмоктування",
+            "title_en": "Air Intake",
+            "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
+            "enum": [{"value": 0.05, "title": "До 1000 Вт"}, {"value": 0.1, "title": "Більше 1000 Вт"}],
         },
         {
             "code": "OCDS-123454-POSTPONEMENT",
             "featureOf": "tenderer",
-            "title": u"Відстрочка платежу",
-            "title_en": u"Postponement of payment",
-            "description": u"Термін відстрочки платежу",
-            "enum": [{"value": 0.05, "title": u"До 90 днів"}, {"value": 0.1, "title": u"Більше 90 днів"}],
+            "title": "Відстрочка платежу",
+            "title_en": "Postponement of payment",
+            "description": "Термін відстрочки платежу",
+            "enum": [{"value": 0.05, "title": "До 90 днів"}, {"value": 0.1, "title": "Більше 90 днів"}],
         },
     ]
     self.create_tender(initial_data=data)
@@ -996,8 +996,8 @@ def features_bidder_ua(self):
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
         bid = response.json["data"]
-        bid.pop(u"date")
-        bid.pop(u"id")
+        bid.pop("date")
+        bid.pop("id")
         self.assertEqual(bid, i)
 
 
@@ -1022,7 +1022,7 @@ def put_tender_bidder_document_ua(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{u"description": u"Not Found", u"location": u"body", u"name": u"file"}])
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
 
     response = self.app.put(
         "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_id, self.bid_token),
@@ -1137,18 +1137,18 @@ def features_bidder_invalid(self):
             "code": "OCDS-123454-AIR-INTAKE",
             "featureOf": "item",
             "relatedItem": "1",
-            "title": u"Потужність всмоктування",
-            "title_en": u"Air Intake",
-            "description": u"Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
-            "enum": [{"value": 0.05, "title": u"До 1000 Вт"}, {"value": 0.1, "title": u"Більше 1000 Вт"}],
+            "title": "Потужність всмоктування",
+            "title_en": "Air Intake",
+            "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
+            "enum": [{"value": 0.05, "title": "До 1000 Вт"}, {"value": 0.1, "title": "Більше 1000 Вт"}],
         },
         {
             "code": "OCDS-123454-POSTPONEMENT",
             "featureOf": "tenderer",
-            "title": u"Відстрочка платежу",
-            "title_en": u"Postponement of payment",
-            "description": u"Термін відстрочки платежу",
-            "enum": [{"value": 0.05, "title": u"До 90 днів"}, {"value": 0.1, "title": u"Більше 90 днів"}],
+            "title": "Відстрочка платежу",
+            "title_en": "Postponement of payment",
+            "description": "Термін відстрочки платежу",
+            "enum": [{"value": 0.05, "title": "До 90 днів"}, {"value": 0.1, "title": "Більше 90 днів"}],
         },
     ]
     self.create_tender(initial_data=tender_data)
@@ -1159,7 +1159,7 @@ def features_bidder_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"This field is required."], u"location": u"body", u"name": u"parameters"}],
+        [{"description": ["This field is required."], "location": "body", "name": "parameters"}],
     )
     data["parameters"] = [{"code": tender_data["features"][0]["code"], "value": 0.05}]
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data}, status=422)
@@ -1168,7 +1168,7 @@ def features_bidder_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"All features parameters is required."], u"location": u"body", u"name": u"parameters"}],
+        [{"description": ["All features parameters is required."], "location": "body", "name": "parameters"}],
     )
     data["parameters"].append({"code": tender_data["features"][0]["code"], "value": 0.05})
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data}, status=422)
@@ -1179,9 +1179,9 @@ def features_bidder_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [u"Parameter code should be uniq for all parameters"],
-                u"location": u"body",
-                u"name": u"parameters",
+                "description": ["Parameter code should be uniq for all parameters"],
+                "location": "body",
+                "name": "parameters",
             }
         ],
     )
@@ -1195,9 +1195,9 @@ def features_bidder_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"value": [u"value should be one of feature value."]}],
-                u"location": u"body",
-                u"name": u"parameters",
+                "description": [{"value": ["value should be one of feature value."]}],
+                "location": "body",
+                "name": "parameters",
             }
         ],
     )

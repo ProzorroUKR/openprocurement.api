@@ -73,6 +73,6 @@ def test_milestone_data_cases(test_data, tender_status):
     if expected_reason_indexes:
         assert len(milestones) == 1
         assert milestones[0]["code"] == "alp"
-        assert milestones[0]["description"] == u" / ".join(ALP_MILESTONE_REASONS[i] for i in expected_reason_indexes)
+        assert milestones[0]["description"] == " / ".join(ALP_MILESTONE_REASONS[i] for i in expected_reason_indexes)
 
 

@@ -131,14 +131,14 @@ def agreement_patch_invalid(self):
                 {
                     "description": "description",
                     "additionalClassifications": [
-                        {"scheme": u"ДКПП", "id": "01.11.83-00.00", "description": u"Арахіс лущений"}
+                        {"scheme": "ДКПП", "id": "01.11.83-00.00", "description": "Арахіс лущений"}
                     ],
                     "deliveryAddress": {
                         "postalCode": "11223",
-                        "countryName": u"Україна",
-                        "streetAddress": u"ываыпып",
-                        "region": u"Київська область",
-                        "locality": u"м. Київ",
+                        "countryName": "Україна",
+                        "streetAddress": "ываыпып",
+                        "region": "Київська область",
+                        "locality": "м. Київ",
                     },
                     "deliveryDate": {"startDate": "2016-05-16T00:00:00+03:00", "endDate": "2016-06-29T00:00:00+03:00"},
                 }
@@ -150,9 +150,9 @@ def agreement_patch_invalid(self):
                 "identifier": {
                     "scheme": "UA-EDR",
                     "id": "111111111111111",
-                    "legalName": u"Демо организатор (государственные торги)",
+                    "legalName": "Демо организатор (государственные торги)",
                 },
-                "name": u"Демо организатор (государственные торги)",
+                "name": "Демо организатор (государственные торги)",
                 "kind": "other",
                 "address": {"postalCode": "21027", "countryName": "Україна"},
             }
@@ -183,9 +183,9 @@ def agreement_patch_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": u"Can't update agreement status with pending change.",
-                u"location": u"body",
-                u"name": u"data",
+                "description": "Can't update agreement status with pending change.",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -213,9 +213,9 @@ def agreement_patch_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": u"Can't generate credentials in current (terminated)" u" agreement status",
-                u"location": u"body",
-                u"name": u"data",
+                "description": "Can't generate credentials in current (terminated)" " agreement status",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -271,7 +271,7 @@ def empty_listing(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Offset expired/invalid", u"location": u"url", u"name": u"offset"}],
+        [{"description": "Offset expired/invalid", "location": "url", "name": "offset"}],
     )
 
     response = self.app.get("/agreements?feed=changes&descending=1&limit=10")
@@ -312,7 +312,7 @@ def listing(self):
 
     self.assertEqual(len(response.json["data"]), 3)
     self.assertEqual(",".join([i["id"] for i in response.json["data"]]), ids)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in agreements]))
     self.assertEqual(
         set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in agreements])
@@ -343,14 +343,14 @@ def listing(self):
     response = self.app.get("/agreements", params=[("opt_fields", "agreementID")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified", u"agreementID"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "agreementID"]))
     self.assertIn("opt_fields=agreementID", response.json["next_page"]["uri"])
 
     response = self.app.get("/agreements?descending=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in agreements]))
     self.assertEqual(
         [i["dateModified"] for i in response.json["data"]],
@@ -414,8 +414,8 @@ def agreement_preview(self):
         "/agreements/{}/changes?acc_token={}".format(self.agreement_id, self.agreement_token),
         {
             "data": {
-                "rationale": u"Принцеси .....",
-                "rationale_ru": u"ff",
+                "rationale": "Принцеси .....",
+                "rationale_ru": "ff",
                 "rationale_en": "asdf",
                 "agreementNumber": 12,
                 "rationaleType": "taxRate",
@@ -651,7 +651,7 @@ def agreement_change_party_withdrawal_preview(self):
     self.assertEqual(response.json["data"]["rationaleType"], "partyWithdrawal")
     self.assertEqual(response.json["data"]["modifications"], change_data["modifications"])
     self.assertIn("warnings", response.json)
-    self.assertEqual(response.json["warnings"], [u"Min active contracts in FrameworkAgreement less than 3."])
+    self.assertEqual(response.json["warnings"], ["Min active contracts in FrameworkAgreement less than 3."])
     change_id = response.json["data"]["id"]
 
     real_agreement = self.app.get("/agreements/{}".format(self.agreement_id)).json["data"]
@@ -664,7 +664,7 @@ def agreement_change_party_withdrawal_preview(self):
     response = self.app.get("/agreements/{}/preview".format(self.agreement_id))
     preview_agreement = response.json["data"]
     self.assertIn("warnings", response.json)
-    self.assertEqual(response.json["warnings"], [u"Min active contracts in FrameworkAgreement less than 3."])
+    self.assertEqual(response.json["warnings"], ["Min active contracts in FrameworkAgreement less than 3."])
     real_contracts = [contract["status"] == "active" for contract in real_agreement["contracts"]]
     preview_contracts = [contract["status"] == "active" for contract in preview_agreement["contracts"]]
     self.assertNotEqual(real_contracts, preview_contracts)
@@ -708,7 +708,7 @@ def agreement_change_party_withdrawal_cancelled_preview(self):
     self.assertEqual(response.json["data"]["rationaleType"], "partyWithdrawal")
     self.assertEqual(response.json["data"]["modifications"], change_data["modifications"])
     self.assertIn("warnings", response.json)
-    self.assertEqual(response.json["warnings"], [u"Min active contracts in FrameworkAgreement less than 3."])
+    self.assertEqual(response.json["warnings"], ["Min active contracts in FrameworkAgreement less than 3."])
     change_id = response.json["data"]["id"]
 
     real_agreement = self.app.get("/agreements/{}".format(self.agreement_id)).json["data"]
@@ -721,7 +721,7 @@ def agreement_change_party_withdrawal_cancelled_preview(self):
     response = self.app.get("/agreements/{}/preview".format(self.agreement_id))
     preview_agreement = response.json["data"]
     self.assertIn("warnings", response.json)
-    self.assertEqual(response.json["warnings"], [u"Min active contracts in FrameworkAgreement less than 3."])
+    self.assertEqual(response.json["warnings"], ["Min active contracts in FrameworkAgreement less than 3."])
     real_contracts = [contract["status"] == "active" for contract in real_agreement["contracts"]]
     preview_contracts = [contract["status"] == "active" for contract in preview_agreement["contracts"]]
     self.assertNotEqual(real_contracts, preview_contracts)
@@ -793,7 +793,7 @@ def agreement_token_invalid(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Forbidden", u"location": u"url", u"name": u"permission"}]
+        response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}]
     )
 
     response = self.app.patch_json(
@@ -816,7 +816,7 @@ def generate_credentials_invalid(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Forbidden", u"location": u"url", u"name": u"permission"}]
+        response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}]
     )
 
     response = self.app.patch_json(

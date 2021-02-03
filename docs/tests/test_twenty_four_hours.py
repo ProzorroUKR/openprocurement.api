@@ -89,7 +89,7 @@ class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
                         self.tender_id, bid_id, bid_token),
                     {
                         "data": {
-                            "title": u"укр.doc",
+                            "title": "укр.doc",
                             "url": self.generate_docservice_url(),
                             "hash": "md5:" + "0" * 32,
                             "format": "application/msword",
@@ -105,7 +105,7 @@ class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
                     ),
                     {
                         "data": {
-                            "title": u"укр.doc",
+                            "title": "укр.doc",
                             "url": self.generate_docservice_url(),
                             "hash": "md5:" + "0" * 32,
                             "format": "application/msword",

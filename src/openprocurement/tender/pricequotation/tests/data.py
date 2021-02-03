@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+
 from copy import deepcopy
 from datetime import timedelta
 from openprocurement.api.utils import get_now
@@ -133,16 +133,16 @@ test_requirement_response_valid = [
 ]
 
 test_organization = {
-    "name": u"Державне управління справами",
-    "identifier": {"scheme": u"UA-EDR", "id": u"00037256", "uri": u"http://www.dus.gov.ua/"},
+    "name": "Державне управління справами",
+    "identifier": {"scheme": "UA-EDR", "id": "00037256", "uri": "http://www.dus.gov.ua/"},
     "address": {
-        "countryName": u"Україна",
-        "postalCode": u"01220",
-        "region": u"м. Київ",
-        "locality": u"м. Київ",
-        "streetAddress": u"вул. Банкова, 11, корпус 1",
+        "countryName": "Україна",
+        "postalCode": "01220",
+        "region": "м. Київ",
+        "locality": "м. Київ",
+        "streetAddress": "вул. Банкова, 11, корпус 1",
     },
-    "contactPoint": {"name": u"Державне управління справами", "telephone": u"0440000000"},
+    "contactPoint": {"name": "Державне управління справами", "telephone": "0440000000"},
     "scale": "micro",
 }
 
@@ -174,10 +174,10 @@ test_procuringEntity = test_author.copy()
 test_procuringEntity["kind"] = "general"
 
 test_item = {
-    "description": u"Комп’ютерне обладнання",
-    "classification": {"scheme": u"ДК021", "id": u"44617100-9", "description": u"Cartons"},
+    "description": "Комп’ютерне обладнання",
+    "classification": {"scheme": "ДК021", "id": "44617100-9", "description": "Cartons"},
     "additionalClassifications": [
-        {"scheme": u"INN", "id": u"17.21.1", "description": u"папір і картон гофровані, паперова й картонна тара"}
+        {"scheme": "INN", "id": "17.21.1", "description": "папір і картон гофровані, паперова й картонна тара"}
     ],
     "quantity": 1,
     "deliveryDate": {
@@ -185,16 +185,16 @@ test_item = {
         "endDate": (now + timedelta(days=5)).isoformat(),
     },
     "deliveryAddress": {
-        "countryName": u"Україна",
+        "countryName": "Україна",
         "postalCode": "79000",
-        "region": u"м. Київ",
-        "locality": u"м. Київ",
-        "streetAddress": u"вул. Банкова 1",
+        "region": "м. Київ",
+        "locality": "м. Київ",
+        "streetAddress": "вул. Банкова 1",
     },
 }
 
 test_tender_data = {
-    "title": u"Комп’ютерне обладнання",
+    "title": "Комп’ютерне обладнання",
     "profile": "655360-30230000-889652-40000777",
     "mainProcurementCategory": "goods",
     "procuringEntity": test_procuringEntity,
@@ -214,14 +214,14 @@ test_bids = [
 bid_with_docs = deepcopy(test_bids[1])
 bid_with_docs["documents"] = [
     {
-        'title': u'Proposal_part1.pdf',
-        'url': u"http://broken1.ds",
+        'title': 'Proposal_part1.pdf',
+        'url': "http://broken1.ds",
         'hash': 'md5:' + '0' * 32,
         'format': 'application/pdf',
     },
     {
-        'title': u'Proposal_part2.pdf',
-        'url': u"http://broken2.ds",
+        'title': 'Proposal_part2.pdf',
+        'url': "http://broken2.ds",
         'hash': 'md5:' + '0' * 32,
         'format': 'application/pdf',
     }
@@ -237,47 +237,47 @@ test_cancellation = {
 test_shortlisted_firms = [
     {
         "address": {
-            "countryName": u"Україна",
-            "locality": u"м.Київ",
+            "countryName": "Україна",
+            "locality": "м.Київ",
             "postalCode": "01100",
-            "region": u"Київська область",
-            "streetAddress": u"бул.Дружби Народів, 8"
+            "region": "Київська область",
+            "streetAddress": "бул.Дружби Народів, 8"
         },
         "contactPoint": {
             "email": "contact@pixel.pix",
-            "name": u"Оксана Піксель",
+            "name": "Оксана Піксель",
             "telephone": "(067) 123-45-67"
         },
         "id": "UA-EDR-12345678",
         "identifier": {
             "id": "12345678",
-            "legalName": u"Товариство з обмеженою відповідальністю «Пікселі»",
+            "legalName": "Товариство з обмеженою відповідальністю «Пікселі»",
             "scheme": "UA-EDR"
         },
-        "name": u"Товариство з обмеженою відповідальністю «Пікселі»",
+        "name": "Товариство з обмеженою відповідальністю «Пікселі»",
         "scale": "large",
         "status": "active"
     },
     {
         "address": {
-            "countryName": u"Україна",
-            "locality": u"м.Тернопіль",
+            "countryName": "Україна",
+            "locality": "м.Тернопіль",
             "postalCode": "46000",
-            "region": u"Тернопільська область",
-            "streetAddress": u"вул. Кластерна, 777-К"
+            "region": "Тернопільська область",
+            "streetAddress": "вул. Кластерна, 777-К"
         },
         "contactPoint": {
             "email": "info@shteker.pek",
-            "name": u"Олег Штекер",
+            "name": "Олег Штекер",
             "telephone": "(095) 123-45-67"
         },
         "id": "UA-EDR-87654321",
         "identifier": {
             "id": "87654321",
-            "legalName": u"Товариство з обмеженою відповідальністю «Штекер-Пекер»",
+            "legalName": "Товариство з обмеженою відповідальністю «Штекер-Пекер»",
             "scheme": "UA-EDR"
         },
-        "name": u"Товариство з обмеженою відповідальністю «Штекер-Пекер»",
+        "name": "Товариство з обмеженою відповідальністю «Штекер-Пекер»",
         "scale": "large",
         "status": "active"
     }
@@ -285,83 +285,83 @@ test_shortlisted_firms = [
 
 test_short_profile = {
     "classification": {
-        "description": u"Комп’ютерне обладнанн",
+        "description": "Комп’ютерне обладнанн",
         "id": "30230000-0",
-        "scheme": u"ДК021"
+        "scheme": "ДК021"
     },
     "id": "655360-30230000-889652-40000777",
     "unit": {
         "code": "H87",
-        "name": u"штук"
+        "name": "штук"
     },
     "criteria": [
         {
-            "description": u"Діагональ екрану",
+            "description": "Діагональ екрану",
             "id": "655360-0001",
             "requirementGroups": [
                 {
-                    "description": u"Діагональ екрану, не менше 23.8 дюймів",
+                    "description": "Діагональ екрану, не менше 23.8 дюймів",
                     "id": "655360-0001-001",
                     "requirements": [
                         {
                             "dataType": "number",
                             "id": "655360-0001-001-01",
                             "minValue": "23.8",
-                            "title": u"Діагональ екрану",
+                            "title": "Діагональ екрану",
                             "unit": {
                                 "code": "INH",
-                                "name": u"дюйм"
+                                "name": "дюйм"
                             }
                         }
                     ]
                 }
             ],
-            "title": u"Діагональ екрану"
+            "title": "Діагональ екрану"
         },
         {
-            "description": u"Роздільна здатність",
+            "description": "Роздільна здатність",
             "id": "655360-0002",
             "requirementGroups": [
                 {
-                    "description": u"Роздільна здатність - 1920x1080",
+                    "description": "Роздільна здатність - 1920x1080",
                     "id": "655360-0002-001",
                     "requirements": [
                         {
                             "dataType": "string",
                             "expectedValue": "1920x1080",
                             "id": "655360-0002-001-01",
-                            "title": u"Роздільна здатність"
+                            "title": "Роздільна здатність"
                         }
                     ]
                 }
             ],
-            "title": u"Роздільна здатність"
+            "title": "Роздільна здатність"
         },
         {
-            "description": u"Співвідношення сторін",
+            "description": "Співвідношення сторін",
             "id": "655360-0003",
             "requirementGroups": [
                 {
-                    "description": u"Співвідношення сторін",
+                    "description": "Співвідношення сторін",
                     "id": "655360-0003-001",
                     "requirements": [
                         {
                             "dataType": "string",
                             "expectedValue": "16:9",
                             "id": "655360-0003-001-01",
-                            "title": u"Співвідношення сторін"
+                            "title": "Співвідношення сторін"
                         }
                     ]
                 }
             ],
-            "title": u"Співвідношення сторін"
+            "title": "Співвідношення сторін"
         },
         {
-            "description": u"Яскравість дисплея",
+            "description": "Яскравість дисплея",
             "id": "655360-0004",
             "requirementGroups": [
                 {
-                    "description": u"Яскравість дисплея, не менше 250 кд/м²",
+                    "description": "Яскравість дисплея, не менше 250 кд/м²",
                     "id": "655360-0004-001",
                     "requirements": [
                         {
@@ -371,132 +371,132 @@ test_short_profile = {
                             "title": "Яскравість дисплея",
                             "unit": {
                                 "code": "A24",
-                                "name": u"кд/м²"
+                                "name": "кд/м²"
                             }
                         }
                     ]
                 }
             ],
-            "title": u"Яскравість дисплея"
+            "title": "Яскравість дисплея"
         },
         {
-            "description": u"Контрастність (статична)",
+            "description": "Контрастність (статична)",
             "id": "655360-0005",
             "requirementGroups": [
                 {
-                    "description": u"Контрастність (статична) - 1000:1",
+                    "description": "Контрастність (статична) - 1000:1",
                     "id": "655360-0005-001",
                     "requirements": [
                         {
                             "dataType": "string",
                             "expectedValue": "1000:1",
                             "id": "655360-0005-001-01",
-                            "title": u"Контрастність (статична)"
+                            "title": "Контрастність (статична)"
                         }
                     ]
                 },
                 {
-                    "description": u"Контрастність (статична) - 3000:1",
+                    "description": "Контрастність (статична) - 3000:1",
                     "id": "655360-0005-002",
                     "requirements": [
                         {
                             "dataType": "string",
                             "expectedValue": "3000:1",
                             "id": "655360-0005-002-01",
-                            "title": u"Контрастність (статична)"
+                            "title": "Контрастність (статична)"
                         }
                     ]
                 }
             ],
-            "title": u"Контрастність (статична)"
+            "title": "Контрастність (статична)"
         },
         {
-            "description": u"Кількість портів HDMI",
+            "description": "Кількість портів HDMI",
             "id": "655360-0006",
             "requirementGroups": [
                 {
-                    "description": u"Кількість портів HDMI, не менше 1 шт.",
+                    "description": "Кількість портів HDMI, не менше 1 шт.",
                     "id": "655360-0006-001",
                     "requirements": [
                         {
                             "dataType": "integer",
                             "id": "655360-0006-001-01",
                             "minValue": 1,
-                            "title": u"Кількість портів HDMI",
+                            "title": "Кількість портів HDMI",
                             "unit": {
                                 "code": "H87",
-                                "name": u"штук"
+                                "name": "штук"
                             }
                         }
                     ]
                 }
             ],
-            "title": u"Кількість портів HDMI"
+            "title": "Кількість портів HDMI"
         },
         {
-            "description": u"Кількість портів D-sub",
+            "description": "Кількість портів D-sub",
             "id": "655360-0007",
             "requirementGroups": [
                 {
-                    "description": u"Кількість портів D-sub, не менше 1 шт.",
+                    "description": "Кількість портів D-sub, не менше 1 шт.",
                     "id": "655360-0007-001",
                     "requirements": [
                         {
                             "dataType": "integer",
                             "id": "655360-0007-001-01",
                             "minValue": 1,
-                            "title": u"Кількість портів D-sub",
+                            "title": "Кількість портів D-sub",
                             "unit": {
                                 "code": "H87",
-                                "name": u"штук"
+                                "name": "штук"
                             }
                         }
                     ]
                 }
             ],
-            "title": u"Кількість портів D-sub"
+            "title": "Кількість портів D-sub"
         },
         {
-            "description": u"Кабель для під’єднання",
+            "description": "Кабель для під’єднання",
             "id": "655360-0008",
             "requirementGroups": [
                 {
-                    "description": u"Кабель для під’єднання",
+                    "description": "Кабель для під’єднання",
                     "id": "655360-0008-001",
                     "requirements": [
                         {
                             "dataType": "string",
                             "expectedValue": "HDMI",
                             "id": "655360-0008-001-01",
-                            "title": u"Кабель для під’єднання"
+                            "title": "Кабель для під’єднання"
                         }
                     ]
                 }
             ],
-            "title": u"Кабель для під’єднання"
+            "title": "Кабель для під’єднання"
         },
         {
-            "description": u"Строк дії гарантії",
+            "description": "Строк дії гарантії",
             "id": "655360-0009",
             "requirementGroups": [
                 {
-                    "description": u"Гарантія, не менше 36 місяців",
+                    "description": "Гарантія, не менше 36 місяців",
                     "id": "655360-0009-001",
                     "requirements": [
                         {
                             "dataType": "integer",
                             "id": "655360-0009-001-01",
                             "minValue": 36,
-                            "title": u"Гарантія",
+                            "title": "Гарантія",
                             "unit": {
                                 "code": "MON",
-                                "name": u"місяців"
+                                "name": "місяців"
                             }
                         }
                     ]
                 }
             ],
-            "title": u"Гарантія"
+            "title": "Гарантія"
         }
     ],
     "value": {
@@ -509,37 +509,37 @@ test_short_profile = {
 
 test_criteria_1 = [
     {
-        "description": u"Форма випуску",
+        "description": "Форма випуску",
         "id": "400496-0001",
         "requirementGroups": [
             {
-                "description": u"Форма випуску",
+                "description": "Форма випуску",
                 "id": "400496-0001-001",
                 "requirements": [
                     {
                         "dataType": "string",
-                        "expectedValue": u"Розчин для інфузій",
+                        "expectedValue": "Розчин для інфузій",
                         "id": "400496-0001-001-01",
-                        "title": u"Форма випуску"
+                        "title": "Форма випуску"
                     }
                 ]
             }
         ],
-        "title": u"Форма випуску"
+        "title": "Форма випуску"
     },
     {
-        "description": u"Доза діючої речовини",
+        "description": "Доза діючої речовини",
         "id": "400496-0002",
         "requirementGroups": [
             {
-                "description": u"Доза діючої речовини",
+                "description": "Доза діючої речовини",
                 "id": "400496-0002-001",
                 "requirements": [
                     {
                         "dataType": "integer",
                         "minValue": 5,
                         "id": "400496-0002-001-01",
-                        "title": u"Доза діючої речовини",
+                        "title": "Доза діючої речовини",
                         "unit": {
                             "code": "GL",
                             "name": "г/л"
@@ -548,123 +548,123 @@ test_criteria_1 = [
                 ]
             }
         ],
-        "title": u"Доза діючої речовини"
+        "title": "Доза діючої речовини"
     }
 ]
 
 test_criteria_2 = [
     {
-        "description": u"Форма випуску",
+        "description": "Форма випуску",
         "id": "400496-0001",
         "requirementGroups": [
             {
-                "description": u"Форма випуску",
+                "description": "Форма випуску",
                 "id": "400496-0001-001",
                 "requirements": [
                     {
                         "dataType": "string",
-                        "expectedValue": u"Розчин",
+                        "expectedValue": "Розчин",
                         "id": "400496-0001-001-01",
-                        "title": u"Форма випуску"
+                        "title": "Форма випуску"
                     }
                 ]
             },
             {
-                "description": u"Форма випуску",
+                "description": "Форма випуску",
                 "id": "400496-0001-002",
                 "requirements": [
                     {
                         "dataType": "string",
-                        "expectedValue": u"Порошок",
+                        "expectedValue": "Порошок",
                         "id": "400496-0001-002-01",
-                        "title": u"Форма випуску"
+                        "title": "Форма випуску"
                     }
                 ]
             }
         ],
-        "title": u"Форма випуску"
+        "title": "Форма випуску"
     }
 ]
 
 
 test_criteria_3 = [
     {
-        "description": u"Форма випуску",
+        "description": "Форма випуску",
         "id": "400496-0001",
         "requirementGroups": [
             {
-                "description": u"Форма випуску",
+                "description": "Форма випуску",
                 "id": "400496-0001-001",
                 "requirements": [
                     {
                         "dataType": "string",
-                        "expectedValue": u"Розчин",
+                        "expectedValue": "Розчин",
                         "id": "400496-0001-001-01",
-                        "title": u"Форма випуску"
+                        "title": "Форма випуску"
                     },
                     {
                         "dataType": "integer",
                         "expectedValue": 500,
                         "id": "400496-0001-001-02",
-                        "title": u"Форма випуску",
+                        "title": "Форма випуску",
                         "unit": {
                             "code": "MLT",
-                            "name": u"мл"
+                            "name": "мл"
                         }
                     }
                 ]
             },
             {
-                "description": u"Форма випуску",
+                "description": "Форма випуску",
                 "id": "400496-0001-002",
                 "requirements": [
                     {
                         "dataType": "string",
-                        "expectedValue": u"Порошок",
+                        "expectedValue": "Порошок",
                         "id": "400496-0001-002-01",
-                        "title": u"Форма випуску"
+                        "title": "Форма випуску"
                     }
                 ]
             }
         ],
-        "title": u"Форма випуску"
+        "title": "Форма випуску"
     }]
 
 
 test_criteria_4 = [
     {
-        "description": u"Форма випуску",
-        "title": u"Форма випуску",
+        "description": "Форма випуску",
+        "title": "Форма випуску",
         "id": "400496-0001",
         "requirementGroups": [
             {
-                "description": u"Форма випуску",
+                "description": "Форма випуску",
                 "id": "400496-0001-001",
                 "requirements": [
                     {
                         "dataType": "string",
-                        "expectedValue": u"Розчин",
+                        "expectedValue": "Розчин",
                         "id": "400496-0001-001-01",
-                        "title": u"Форма випуску"
+                        "title": "Форма випуску"
                     },
                     {
                         "dataType": "integer",
                         "expectedValue": 500,
                         "id": "400496-0001-001-02",
-                        "title": u"Форма випуску",
+                        "title": "Форма випуску",
                         "unit": {
                             "code": "MLT",
-                            "name": u"мл"
+                            "name": "мл"
                         },
                     },
                     {
                         "dataType": "integer",
                         "expectedValue": 1,
                         "id": "400496-0001-001-03",
-                        "title": u"Форма випуску",
+                        "title": "Форма випуску",
                         "unit": {
                             "code": "H87",
-                            "name": u"ШТ"
+                            "name": "ШТ"
                         }
                     }
                 ]
@@ -679,7 +679,7 @@ test_response_1 = [
         "requirement": {
             "id": "400496-0001-001-01"
         },
-        "value": u"Розчин для інфузій"
+        "value": "Розчин для інфузій"
     },
     {
         "requirement": {
@@ -695,7 +695,7 @@ test_response_2_1 = [
         "requirement": {
             "id": "400496-0001-001-01"
         },
-        "value": u"Розчин"
+        "value": "Розчин"
     }
 ]
 
@@ -705,7 +705,7 @@ test_response_2_2 = [
         "requirement": {
             "id": "400496-0001-002-01"
         },
-        "value": u"Порошок"
+        "value": "Порошок"
     }
 ]
 
@@ -715,7 +715,7 @@ test_response_3_1 = [
         "requirement": {
             "id": "400496-0001-001-01"
         },
-        "value": u"Розчин"
+        "value": "Розчин"
     },
     {
         "requirement": {
@@ -731,7 +731,7 @@ test_response_3_2 = [
         "requirement": {
             "id": "400496-0001-002-01"
         },
-        "value": u"Порошок"
+        "value": "Порошок"
     }
 ]
 
@@ -741,7 +741,7 @@ test_response_4 = [
         "requirement": {
             "id": "400496-0001-001-01"
         },
-        "value": u"Порошок"
+        "value": "Порошок"
     },
     {
         "requirement": {

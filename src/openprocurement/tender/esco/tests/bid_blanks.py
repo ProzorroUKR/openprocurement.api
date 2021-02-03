@@ -20,7 +20,7 @@ def create_tender_bid_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     request_path = "/tenders/{}/bids".format(self.tender_id)
@@ -32,9 +32,9 @@ def create_tender_bid_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": u"Content-Type header should be one of ['application/json']",
-                u"location": u"header",
-                u"name": u"Content-Type",
+                "description": "Content-Type header should be one of ['application/json']",
+                "location": "header",
+                "name": "Content-Type",
             }
         ],
     )
@@ -45,7 +45,7 @@ def create_tender_bid_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Expecting value: line 1 column 1 (char 0)", u"location": u"body", u"name": u"data"}],
+        [{"description": "Expecting value: line 1 column 1 (char 0)", "location": "body", "name": "data"}],
     )
 
     response = self.app.post_json(request_path, "data", status=422)
@@ -53,7 +53,7 @@ def create_tender_bid_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Data not available", u"location": u"body", u"name": u"data"}]
+        response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
     response = self.app.post_json(request_path, {"not_data": {}}, status=422)
@@ -61,7 +61,7 @@ def create_tender_bid_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Data not available", u"location": u"body", u"name": u"data"}]
+        response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
     response = self.app.post_json(request_path, {"data": {"invalid_field": "invalid_value"}}, status=422)
@@ -69,7 +69,7 @@ def create_tender_bid_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Rogue field", u"location": u"body", u"name": u"invalid_field"}]
+        response.json["errors"], [{"description": "Rogue field", "location": "body", "name": "invalid_field"}]
     )
 
     response = self.app.post_json(request_path, {"data": {"tenderers": [{"identifier": "invalid_value"}]}}, status=422)
@@ -80,11 +80,11 @@ def create_tender_bid_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": {
-                    u"identifier": [u"Please use a mapping for this field or Identifier instance instead of str."]
+                "description": {
+                    "identifier": ["Please use a mapping for this field or Identifier instance instead of str."]
                 },
-                u"location": u"body",
-                u"name": u"tenderers",
+                "location": "body",
+                "name": "tenderers",
             }
         ],
     )
@@ -97,16 +97,16 @@ def create_tender_bid_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [
+                "description": [
                     {
-                        u"contactPoint": [u"This field is required."],
-                        u"identifier": {u"scheme": [u"This field is required."], u"id": [u"This field is required."]},
-                        u"name": [u"This field is required."],
-                        u"address": [u"This field is required."],
+                        "contactPoint": ["This field is required."],
+                        "identifier": {"scheme": ["This field is required."], "id": ["This field is required."]},
+                        "name": ["This field is required."],
+                        "address": ["This field is required."],
                     }
                 ],
-                u"location": u"body",
-                u"name": u"tenderers",
+                "location": "body",
+                "name": "tenderers",
             }
         ],
     )
@@ -123,19 +123,19 @@ def create_tender_bid_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [
+                "description": [
                     {
-                        u"contactPoint": [u"This field is required."],
-                        u"identifier": {
-                            u"scheme": [u"This field is required."],
-                            u"id": [u"This field is required."],
-                            u"uri": [u"Not a well formed URL."],
+                        "contactPoint": ["This field is required."],
+                        "identifier": {
+                            "scheme": ["This field is required."],
+                            "id": ["This field is required."],
+                            "uri": ["Not a well formed URL."],
                         },
-                        u"address": [u"This field is required."],
+                        "address": ["This field is required."],
                     }
                 ],
-                u"location": u"body",
-                u"name": u"tenderers",
+                "location": "body",
+                "name": "tenderers",
             }
         ],
     )
@@ -153,7 +153,7 @@ def create_tender_bid_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"This field is required."], u"location": u"body", u"name": u"value"}],
+        [{"description": ["This field is required."], "location": "body", "name": "value"}],
     )
 
     bid_data["value"] = {}
@@ -170,12 +170,12 @@ def create_tender_bid_invalid(self):
         response.json["errors"],
         [
             {
-                u"location": u"body",
-                u"name": u"value",
-                u"description": {
-                    u"contractDuration": [u"This field is required."],
-                    u"annualCostsReduction": [u"This field is required."],
-                    u"yearlyPaymentsPercentage": [u"This field is required."],
+                "location": "body",
+                "name": "value",
+                "description": {
+                    "contractDuration": ["This field is required."],
+                    "annualCostsReduction": ["This field is required."],
+                    "yearlyPaymentsPercentage": ["This field is required."],
                 },
             }
         ],
@@ -194,12 +194,12 @@ def create_tender_bid_invalid(self):
         response.json["errors"],
         [
             {
-                u"location": u"body",
-                u"name": u"value",
-                u"description": {
-                    u"contractDuration": [u"This field is required."],
-                    u"annualCostsReduction": [u"This field is required."],
-                    u"yearlyPaymentsPercentage": [u"This field is required."],
+                "location": "body",
+                "name": "value",
+                "description": {
+                    "contractDuration": ["This field is required."],
+                    "annualCostsReduction": ["This field is required."],
+                    "yearlyPaymentsPercentage": ["This field is required."],
                 },
             }
         ],
@@ -218,12 +218,12 @@ def create_tender_bid_invalid(self):
         response.json["errors"],
         [
             {
-                u"location": u"body",
-                u"name": u"value",
-                u"description": {
-                    u"annualCostsReduction": [u"This field is required."],
-                    u"yearlyPaymentsPercentage": [u"This field is required."],
-                    u"contractDuration": {u"years": [u"Int value should be less than 15."]},
+                "location": "body",
+                "name": "value",
+                "description": {
+                    "annualCostsReduction": ["This field is required."],
+                    "yearlyPaymentsPercentage": ["This field is required."],
+                    "contractDuration": {"years": ["Int value should be less than 15."]},
                 },
             }
         ],
@@ -243,12 +243,12 @@ def create_tender_bid_invalid(self):
         response.json["errors"],
         [
             {
-                u"location": u"body",
-                u"name": u"value",
-                u"description": {
-                    u"annualCostsReduction": [u"This field is required."],
-                    u"yearlyPaymentsPercentage": [u"This field is required."],
-                    u"contractDuration": {u"days": [u"max contract duration 15 years"]},
+                "location": "body",
+                "name": "value",
+                "description": {
+                    "annualCostsReduction": ["This field is required."],
+                    "yearlyPaymentsPercentage": ["This field is required."],
+                    "contractDuration": {"days": ["max contract duration 15 years"]},
                 },
             }
         ],
@@ -268,12 +268,12 @@ def create_tender_bid_invalid(self):
         response.json["errors"],
         [
             {
-                u"location": u"body",
-                u"name": u"value",
-                u"description": {
-                    u"annualCostsReduction": [u"This field is required."],
-                    u"yearlyPaymentsPercentage": [u"This field is required."],
-                    u"contractDuration": {u"days": [u"min contract duration 1 day"]},
+                "location": "body",
+                "name": "value",
+                "description": {
+                    "annualCostsReduction": ["This field is required."],
+                    "yearlyPaymentsPercentage": ["This field is required."],
+                    "contractDuration": {"days": ["min contract duration 1 day"]},
                 },
             }
         ],
@@ -297,11 +297,11 @@ def create_tender_bid_invalid(self):
         response.json["errors"],
         [
             {
-                u"location": u"body",
-                u"name": u"value",
-                u"description": {
-                    u"yearlyPaymentsPercentage": [
-                        u"yearlyPaymentsPercentage should be greater than 0.8 and less than 1"
+                "location": "body",
+                "name": "value",
+                "description": {
+                    "yearlyPaymentsPercentage": [
+                        "yearlyPaymentsPercentage should be greater than 0.8 and less than 1"
                     ]
                 },
             }
@@ -326,9 +326,9 @@ def create_tender_bid_invalid(self):
         response.json["errors"],
         [
             {
-                u"location": u"body",
-                u"name": u"value",
-                u"description": {u"annualCostsReduction": [u"annual costs reduction should be set for 21 period"]},
+                "location": "body",
+                "name": "value",
+                "description": {"annualCostsReduction": ["annual costs reduction should be set for 21 period"]},
             }
         ],
     )
@@ -353,9 +353,9 @@ def create_tender_bid_invalid(self):
         response.json["errors"],
         [
             {
-                u"location": u"body",
-                u"name": u"value",
-                u"description": [u"currency of bid should be identical to currency of minValue of tender"],
+                "location": "body",
+                "name": "value",
+                "description": ["currency of bid should be identical to currency of minValue of tender"],
             }
         ],
     )
@@ -379,10 +379,10 @@ def create_tender_bid_invalid(self):
         response.json["errors"],
         [
             {
-                u"location": u"body",
-                u"name": u"value",
-                u"description": [
-                    u"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of minValue of tender"
+                "location": "body",
+                "name": "value",
+                "description": [
+                    "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of minValue of tender"
                 ],
             }
         ],
@@ -439,11 +439,11 @@ def create_tender_bid_invalid_funding_kind_budget(self):
         response.json["errors"],
         [
             {
-                u"location": u"body",
-                u"name": u"value",
-                u"description": {
-                    u"yearlyPaymentsPercentage": [
-                        u"yearlyPaymentsPercentage should be greater than 0 and less than 0.5"
+                "location": "body",
+                "name": "value",
+                "description": {
+                    "yearlyPaymentsPercentage": [
+                        "yearlyPaymentsPercentage should be greater than 0 and less than 0.5"
                     ]
                 },
             }
@@ -608,9 +608,9 @@ def patch_tender_bid(self):
         response.json["errors"],
         [
             {
-                u"location": u"body",
-                u"name": u"value",
-                u"description": [u"currency of bid should be identical to currency of minValue of tender"],
+                "location": "body",
+                "name": "value",
+                "description": ["currency of bid should be identical to currency of minValue of tender"],
             }
         ],
     )
@@ -627,10 +627,10 @@ def patch_tender_bid(self):
         response.json["errors"],
         [
             {
-                u"location": u"body",
-                u"name": u"value",
-                u"description": [
-                    u"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of minValue of tender"
+                "location": "body",
+                "name": "value",
+                "description": [
+                    "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of minValue of tender"
                 ],
             }
         ],
@@ -638,7 +638,7 @@ def patch_tender_bid(self):
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
-        {"data": {"tenderers": [{"name": u"Державне управління управлінням справами"}]}},
+        {"data": {"tenderers": [{"name": "Державне управління управлінням справами"}]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -691,14 +691,14 @@ def patch_tender_bid(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"bid_id"}])
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "bid_id"}])
 
     response = self.app.patch_json("/tenders/some_id/bids/some_id", {"data": {"value": {"amount": 400}}}, status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     for status in ("invalid", "active", "unsuccessful", "deleted", "draft"):
@@ -772,23 +772,23 @@ def delete_tender_bidder(self):
         self.assertEqual(response.json["errors"][0]["description"], "Can't add document at 'deleted' bid status")
 
     revisions = self.db.get(self.tender_id).get("revisions")
-    self.assertTrue(any([i for i in revisions[-2][u"changes"] if i["op"] == u"remove" and i["path"] == u"/bids"]))
+    self.assertTrue(any([i for i in revisions[-2]["changes"] if i["op"] == "remove" and i["path"] == "/bids"]))
     self.assertTrue(
-        any([i for i in revisions[-1][u"changes"] if i["op"] == u"replace" and i["path"] == u"/bids/0/status"])
+        any([i for i in revisions[-1]["changes"] if i["op"] == "replace" and i["path"] == "/bids/0/status"])
     )
 
     response = self.app.delete("/tenders/{}/bids/some_id".format(self.tender_id), status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"bid_id"}])
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "bid_id"}])
 
     response = self.app.delete("/tenders/some_id/bids/some_id", status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     # create new bid
@@ -998,7 +998,7 @@ def bids_activation_on_tender_documents(self):
 
     response = self.app.post(
         "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
-        upload_files=[("file", u"укр.doc", b"content")],
+        upload_files=[("file", "укр.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1278,7 +1278,7 @@ def create_tender_bid_no_scale_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [{u"scale": [u"This field is required."]}], u"location": u"body", u"name": u"tenderers"}],
+        [{"description": [{"scale": ["This field is required."]}], "location": "body", "name": "tenderers"}],
     )
 
 
@@ -1331,7 +1331,7 @@ def features_bid_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"This field is required."], u"location": u"body", u"name": u"parameters"}],
+        [{"description": ["This field is required."], "location": "body", "name": "parameters"}],
     )
     data["parameters"] = [{"code": "OCDS-123454-AIR-INTAKE", "value": 0.03}]
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data}, status=422)
@@ -1340,7 +1340,7 @@ def features_bid_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"All features parameters is required."], u"location": u"body", u"name": u"parameters"}],
+        [{"description": ["All features parameters is required."], "location": "body", "name": "parameters"}],
     )
     data["parameters"].append({"code": "OCDS-123454-AIR-INTAKE", "value": 0.03})
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data}, status=422)
@@ -1351,9 +1351,9 @@ def features_bid_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [u"Parameter code should be uniq for all parameters"],
-                u"location": u"body",
-                u"name": u"parameters",
+                "description": ["Parameter code should be uniq for all parameters"],
+                "location": "body",
+                "name": "parameters",
             }
         ],
     )
@@ -1367,9 +1367,9 @@ def features_bid_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"value": [u"value should be one of feature value."]}],
-                u"location": u"body",
-                u"name": u"parameters",
+                "description": [{"value": ["value should be one of feature value."]}],
+                "location": "body",
+                "name": "parameters",
             }
         ],
     )
@@ -1384,8 +1384,8 @@ def features_bid(self):
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
         bid = response.json["data"]
-        bid.pop(u"date")
-        bid.pop(u"id")
+        bid.pop("date")
+        bid.pop("id")
         self.assertEqual(set(bid), set(i))
 
 

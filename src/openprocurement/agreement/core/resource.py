@@ -17,16 +17,16 @@ from openprocurement.agreement.core.utils import agreement_serialize
 
 agreements_resource = partial(cornice_resource, factory=factory, error_handler=error_handler)
 VIEW_MAP = {
-    u"": agreements_real_by_dateModified_view,
-    u"test": agreements_test_by_dateModified_view,
-    u"_all_": agreements_by_dateModified_view,
+    "": agreements_real_by_dateModified_view,
+    "test": agreements_test_by_dateModified_view,
+    "_all_": agreements_by_dateModified_view,
 }
 CHANGES_VIEW_MAP = {
-    u"": agreements_real_by_local_seq_view,
-    u"test": agreements_test_by_local_seq_view,
-    u"_all_": agreements_by_local_seq_view,
+    "": agreements_real_by_local_seq_view,
+    "test": agreements_test_by_local_seq_view,
+    "_all_": agreements_by_local_seq_view,
 }
-FEED = {u"dateModified": VIEW_MAP, u"changes": CHANGES_VIEW_MAP}
+FEED = {"dateModified": VIEW_MAP, "changes": CHANGES_VIEW_MAP}
 
 
 class IsAgreement(object):

@@ -92,7 +92,7 @@ class TransferResourceTest(BaseWebTest):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["status"], "error")
         self.assertEqual(
-            response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"transfer_id"}]
+            response.json["errors"], [{"description": "Not Found", "location": "url", "name": "transfer_id"}]
         )
 
         response = self.app.patch_json("/transfers/some_id", {"data": {}}, status=404)
@@ -100,7 +100,7 @@ class TransferResourceTest(BaseWebTest):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["status"], "error")
         self.assertEqual(
-            response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"transfer_id"}]
+            response.json["errors"], [{"description": "Not Found", "location": "url", "name": "transfer_id"}]
         )
 
     def test_create_transfer(self):
@@ -108,7 +108,7 @@ class TransferResourceTest(BaseWebTest):
         self.assertEqual(response.status, "422 Unprocessable Entity")
         self.assertEqual(
             response.json["errors"],
-            [{u"description": u"Expecting value: line 1 column 1 (char 0)", u"location": u"body", u"name": u"data"}],
+            [{"description": "Expecting value: line 1 column 1 (char 0)", "location": "body", "name": "data"}],
         )
 
         response = self.app.post_json("/transfers", {"data": {}})

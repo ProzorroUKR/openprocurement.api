@@ -25,7 +25,7 @@ def create_question_bad_author(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Author can't create question", u"location": u"body", u"name": u"author"}],
+        [{"description": "Author can't create question", "location": "body", "name": "author"}],
     )
     bad_author["identifier"]["id"] = good_id
     bad_author["identifier"]["scheme"] = "XI-IATI"
@@ -40,7 +40,7 @@ def create_question_bad_author(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Author can't create question", u"location": u"body", u"name": u"author"}],
+        [{"description": "Author can't create question", "location": "body", "name": "author"}],
     )
 
 
@@ -198,7 +198,7 @@ def create_question_on_lot_without_perm(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Author can't create question", u"location": u"body", u"name": u"author"}],
+        [{"description": "Author can't create question", "location": "body", "name": "author"}],
     )
 
 

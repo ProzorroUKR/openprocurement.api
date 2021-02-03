@@ -362,7 +362,7 @@ class CFASelectionUATender(BaseTender):
 
     def validate_auctionUrl(self, data, url):
         if url and data["lots"]:
-            raise ValidationError(u"url should be posted for each lot")
+            raise ValidationError("url should be posted for each lot")
 
     def validate_awardPeriod(self, data, period):
         if (
@@ -372,7 +372,7 @@ class CFASelectionUATender(BaseTender):
             and data.get("auctionPeriod").endDate
             and period.startDate < data.get("auctionPeriod").endDate
         ):
-            raise ValidationError(u"period should begin after auctionPeriod")
+            raise ValidationError("period should begin after auctionPeriod")
         if (
             period
             and period.startDate
@@ -380,7 +380,7 @@ class CFASelectionUATender(BaseTender):
             and data.get("tenderPeriod").endDate
             and period.startDate < data.get("tenderPeriod").endDate
         ):
-            raise ValidationError(u"period should begin after tenderPeriod")
+            raise ValidationError("period should begin after tenderPeriod")
 
     def validate_features(self, data, features):
         if (
@@ -407,20 +407,20 @@ class CFASelectionUATender(BaseTender):
                 ]
             )
         ):
-            raise ValidationError(u"Sum of max value of all features for lot should be less then or equal to 30%")
+            raise ValidationError("Sum of max value of all features for lot should be less then or equal to 30%")
         elif features and not data["lots"] and round(vnmax(features), 15) > Decimal("0.3"):
-            raise ValidationError(u"Sum of max value of all features should be less then or equal to 30%")
+            raise ValidationError("Sum of max value of all features should be less then or equal to 30%")
 
     def validate_items(self, data, items):
         cpv_336_group = items[0].classification.id[:3] == "336" if items else False
         if not cpv_336_group and items and len(set([i.classification.id[:4] for i in items])) != 1:
-            raise ValidationError(u"CPV class of items should be identical")
+            raise ValidationError("CPV class of items should be identical")
         else:
             validate_cpv_group(items)
 
     def validate_lots(self, data, lots):
         if len(set([lot.guarantee.currency for lot in lots if lot.guarantee])) > 1:
-            raise ValidationError(u"lot guarantee currency should be identical to tender guarantee currency")
+            raise ValidationError("lot guarantee currency should be identical to tender guarantee currency")
 
     def validate_minimalStep(self, data, value):
         validate_minimalstep(data, value)
@@ -433,7 +433,7 @@ class CFASelectionUATender(BaseTender):
             and data.get("enquiryPeriod").endDate
             and period.startDate < data.get("enquiryPeriod").endDate
         ):
-            raise ValidationError(u"period should begin after enquiryPeriod")
+            raise ValidationError("period should begin after enquiryPeriod")
         if (
             period
             and period.startDate

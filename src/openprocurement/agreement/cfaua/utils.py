@@ -27,12 +27,12 @@ def apply_modifications(request, agreement, save=False):
                 if modification.factor is not None:
                     unit_price.value.amount *= modification.factor
                 if unit_price.value.amount <= 0:
-                    raise_operation_error(request, u"unitPrice:value:amount can't be equal or less than 0.")
+                    raise_operation_error(request, "unitPrice:value:amount can't be equal or less than 0.")
         else:
             for contract in agreement.contracts:
                 if contract.id == modification.contractId:
                     contract.status = "unsuccessful"
                     break
     if agreement.get_active_contracts_count() < MIN_BIDS_NUMBER:
-        warnings.append(u"Min active contracts in FrameworkAgreement less than {}.".format(MIN_BIDS_NUMBER))
+        warnings.append("Min active contracts in FrameworkAgreement less than {}.".format(MIN_BIDS_NUMBER))
     return warnings

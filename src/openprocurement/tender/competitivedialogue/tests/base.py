@@ -51,7 +51,7 @@ test_shortlistedFirms = [
     {
         "identifier": {
             "scheme": test_organization["identifier"]["scheme"],
-            "id": u"00037257",
+            "id": "00037257",
             "uri": test_organization["identifier"]["uri"],
         },
         "name": "Test org name 1",
@@ -59,7 +59,7 @@ test_shortlistedFirms = [
     {
         "identifier": {
             "scheme": test_organization["identifier"]["scheme"],
-            "id": u"00037257",
+            "id": "00037257",
             "uri": test_organization["identifier"]["uri"],
         },
         "name": "Test org name 2",
@@ -67,7 +67,7 @@ test_shortlistedFirms = [
     {
         "identifier": {
             "scheme": test_organization["identifier"]["scheme"],
-            "id": u"00037257",
+            "id": "00037257",
             "uri": test_organization["identifier"]["uri"],
         },
         "name": "Test org name 3",

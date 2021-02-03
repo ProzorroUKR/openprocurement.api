@@ -334,9 +334,9 @@ class TestValidateUpdateContractValueAmount(unittest.TestCase):
 class TestTenderAdditionalClassificationUAROAD(unittest.TestCase):
 
     valid_ua_road = {
-        u"scheme": u"UA-ROAD",
-        u"id": u"M-06",
-        u"description": u"Київ - Чоп (на м. Будапешт через мм. Львів, Мукачево і Ужгород)",
+        "scheme": "UA-ROAD",
+        "id": "M-06",
+        "description": "Київ - Чоп (на м. Будапешт через мм. Львів, Мукачево і Ужгород)",
     }
 
     def setUp(self):
@@ -349,7 +349,7 @@ class TestTenderAdditionalClassificationUAROAD(unittest.TestCase):
             tender.validate()
         error_message = e.exception.messages["items"][0]["additionalClassifications"][0]
         self.assertIn(
-            u"Item shouldn't have additionalClassification with scheme UA-ROAD for cpv not starts with", error_message
+            "Item shouldn't have additionalClassification with scheme UA-ROAD for cpv not starts with", error_message
         )
 
     def test_valid(self):
@@ -362,9 +362,9 @@ class TestTenderAdditionalClassificationUAROAD(unittest.TestCase):
         self.test_tender["items"][0]["classification"]["id"] = "71322200-3"
         self.test_tender["items"][0]["additionalClassifications"].append(
             {
-                u"scheme": u"UA-ROAD",
-                u"id": u"some invalid id",
-                u"description": u"Київ - Чоп (на м. Будапешт через мм. Львів, Мукачево і Ужгород)",
+                "scheme": "UA-ROAD",
+                "id": "some invalid id",
+                "description": "Київ - Чоп (на м. Будапешт через мм. Львів, Мукачево і Ужгород)",
             }
         )
         tender = Tender(self.test_tender)
@@ -376,13 +376,13 @@ class TestTenderAdditionalClassificationUAROAD(unittest.TestCase):
     def test_invalid_description(self):
         self.test_tender["items"][0]["classification"]["id"] = "71322200-3"
         self.test_tender["items"][0]["additionalClassifications"].append(
-            {u"scheme": u"UA-ROAD", u"id": u"М-06", u"description": u"Some invalid description"}
+            {"scheme": "UA-ROAD", "id": "М-06", "description": "Some invalid description"}
         )
         tender = Tender(self.test_tender)
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
         error_message = e.exception.messages["items"][0]["additionalClassifications"][0]["description"][0]
-        self.assertEqual(u"UA-ROAD description invalid", error_message)
+        self.assertEqual("UA-ROAD description invalid", error_message)
 
     def test_more_than_one_ua_road(self):
         self.test_tender["items"][0]["classification"]["id"] = "71322200-3"
@@ -401,13 +401,13 @@ class TestTenderAdditionalClassificationUAROAD(unittest.TestCase):
             tender.validate()
         error_messages = e.exception.messages["items"][0]["additionalClassifications"][0]
         self.assertEqual(
-            error_messages, {"id": [u"This field is required."], "description": [u"This field is required."]}
+            error_messages, {"id": ["This field is required."], "description": ["This field is required."]}
         )
 
 
 class TestTenderAdditionalClassificationGMDN(unittest.TestCase):
 
-    valid_gmdn = {u"scheme": u"GMDN", u"id": u"10024", u"description": u"Адаптометр"}
+    valid_gmdn = {"scheme": "GMDN", "id": "10024", "description": "Адаптометр"}
 
     def setUp(self):
         self.test_tender = copy.deepcopy(test_tender_data)
@@ -419,7 +419,7 @@ class TestTenderAdditionalClassificationGMDN(unittest.TestCase):
             tender.validate()
         error_message = e.exception.messages["items"][0]["additionalClassifications"][0]
         self.assertIn(
-            u"Item shouldn't have additionalClassification with scheme GMDN for cpv not starts with", error_message
+            "Item shouldn't have additionalClassification with scheme GMDN for cpv not starts with", error_message
         )
 
     def test_valid(self):
@@ -431,7 +431,7 @@ class TestTenderAdditionalClassificationGMDN(unittest.TestCase):
     def test_invalid_id(self):
         self.test_tender["items"][0]["classification"]["id"] = "33928000-1"
         self.test_tender["items"][0]["additionalClassifications"] = [
-            {u"scheme": u"GMDN", u"id": u"some invalid id", u"description": u"Адаптометр"}
+            {"scheme": "GMDN", "id": "some invalid id", "description": "Адаптометр"}
         ]
         tender = Tender(self.test_tender)
         with self.assertRaises(ModelValidationError) as e:
@@ -442,7 +442,7 @@ class TestTenderAdditionalClassificationGMDN(unittest.TestCase):
     def test_invalid_description(self):
         self.test_tender["items"][0]["classification"]["id"] = "33928000-1"
         self.test_tender["items"][0]["additionalClassifications"] = [
-            {u"scheme": u"GMDN", u"id": u"10024", u"description": u"Адаптометр invalid"}
+            {"scheme": "GMDN", "id": "10024", "description": "Адаптометр invalid"}
         ]
         tender = Tender(self.test_tender)
         tender.validate()  # description isn't validated
@@ -461,14 +461,14 @@ class TestTenderAdditionalClassificationGMDN(unittest.TestCase):
         for scheme in ["INN", "ATC"]:
             self.test_tender["items"][0]["additionalClassifications"] = [
                 self.valid_gmdn,
-                {u"scheme": scheme, u"id": u"id", u"description": u"description"},
+                {"scheme": scheme, "id": "id", "description": "description"},
             ]
             tender = Tender(self.test_tender)
             with self.assertRaises(ModelValidationError) as e:
                 tender.validate()
             error_message = e.exception.messages["items"][0]["additionalClassifications"][0]
             self.assertIn(
-                u"Item shouldn't have additionalClassifications with both schemes INN/ATC and GMDN", error_message
+                "Item shouldn't have additionalClassifications with both schemes INN/ATC and GMDN", error_message
             )
 
     def test_required_id_description(self):
@@ -479,7 +479,7 @@ class TestTenderAdditionalClassificationGMDN(unittest.TestCase):
             tender.validate()
         error_messages = e.exception.messages["items"][0]["additionalClassifications"][0]
         self.assertEqual(
-            error_messages, {"id": [u"This field is required."], "description": [u"This field is required."]}
+            error_messages, {"id": ["This field is required."], "description": ["This field is required."]}
         )
 
 
@@ -497,7 +497,7 @@ class TestTenderMinimalStepLimitsValidation(unittest.TestCase):
             tender.validate()
         self.assertEqual(
             e.exception.messages,
-            {'minimalStep': [u'minimalstep must be between 0.5% and 3% of value (with 2 digits precision).']}
+            {'minimalStep': ['minimalstep must be between 0.5% and 3% of value (with 2 digits precision).']}
         )
 
     @mock.patch("openprocurement.tender.core.validation.MINIMAL_STEP_VALIDATION_FROM", get_now() + timedelta(days=1))

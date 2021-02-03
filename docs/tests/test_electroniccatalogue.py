@@ -70,7 +70,7 @@ class ElectronicCatalogueResourceTest(BaseElectronicCatalogueWebTest, MockWebTes
         with open(TARGET_DIR + 'upload-framework-document.http', 'w') as self.app.file_obj:
             response = self.app.post('/frameworks/{}/documents?acc_token={}'.format(
                 framework['id'], owner_token),
-                upload_files=[('file', u'framework.doc', b'content')])
+                upload_files=[('file', 'framework.doc', b'content')])
 
         with open(TARGET_DIR + 'framework-documents.http', 'w') as self.app.file_obj:
             response = self.app.get('/frameworks/{}/documents?acc_token={}'.format(
@@ -79,7 +79,7 @@ class ElectronicCatalogueResourceTest(BaseElectronicCatalogueWebTest, MockWebTes
         with open(TARGET_DIR + 'upload-framework-document-2.http', 'w') as self.app.file_obj:
             response = self.app.post('/frameworks/{}/documents?acc_token={}'.format(
                 framework['id'], owner_token),
-                upload_files=[('file', u'framework_additional_docs.doc', b'additional info')])
+                upload_files=[('file', 'framework_additional_docs.doc', b'additional info')])
 
         doc_id = response.json['data']['id']
 
@@ -116,7 +116,7 @@ class ElectronicCatalogueResourceTest(BaseElectronicCatalogueWebTest, MockWebTes
         with open(TARGET_DIR + 'upload-submission-document.http', 'w') as self.app.file_obj:
             response = self.app.post(
                 '/submissions/{}/documents?acc_token={}'.format(self.submission_id, self.submission_token),
-                upload_files=[('file', u'submission_docs.doc', b'additional info')]
+                upload_files=[('file', 'submission_docs.doc', b'additional info')]
             )
             self.assertEqual(response.status, '201 Created')
 
@@ -174,7 +174,7 @@ class ElectronicCatalogueResourceTest(BaseElectronicCatalogueWebTest, MockWebTes
         with open(TARGET_DIR + 'upload-qualification-document.http', 'w') as self.app.file_obj:
             response = self.app.post('/qualifications/{}/documents?acc_token={}'.format(
                 self.qualification_id, owner_token),
-                upload_files=[('file', u'qualification.doc', b'content')])
+                upload_files=[('file', 'qualification.doc', b'content')])
             self.assertEqual(response.status, '201 Created')
 
         with open(TARGET_DIR + 'qualification-documents.http', 'w') as self.app.file_obj:

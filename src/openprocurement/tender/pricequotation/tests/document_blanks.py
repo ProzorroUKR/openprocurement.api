@@ -14,7 +14,7 @@ def create_document_active_tendering_status(self):
 
     response = self.app.post(
         "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
-        upload_files=[("file", u"укр.doc", b"content")],
+        upload_files=[("file", "укр.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")

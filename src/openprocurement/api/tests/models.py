@@ -45,7 +45,7 @@ class TestBusinessOrganizationScale(unittest.TestCase):
         with self.assertRaises(ModelValidationError) as e:
             organization.validate()
         self.assertEqual(
-            e.exception.messages, {"scale": [u"Value must be one of ['micro', 'sme', 'mid', 'large', 'not specified']."]}
+            e.exception.messages, {"scale": ["Value must be one of ['micro', 'sme', 'mid', 'large', 'not specified']."]}
         )
 
     def test_validate_required(self):
@@ -53,7 +53,7 @@ class TestBusinessOrganizationScale(unittest.TestCase):
         organization.__parent__ = SchematicsDocument()
         with self.assertRaises(ModelValidationError) as e:
             organization.validate()
-        self.assertEqual(e.exception.messages, {"scale": [u"This field is required."]})
+        self.assertEqual(e.exception.messages, {"scale": ["This field is required."]})
 
     @mock.patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
     def test_validate_not_required(self):
@@ -73,7 +73,7 @@ class TestAddress(unittest.TestCase):
     def test_validate(self, mock_get_root, mock_get_first_revision_date):
 
         address = Address()
-        address.countryName = u"Украина"
+        address.countryName = "Украина"
         mock_get_root.return_value = None
 
         mock_get_first_revision_date.return_value = self.DATE_BEFORE
@@ -84,16 +84,16 @@ class TestAddress(unittest.TestCase):
         with self.assertRaises(ModelValidationError) as e:
             address.validate()
         self.assertEqual(
-            e.exception.messages, {'countryName': [u"field address:countryName not exist in countries catalog"]}
+            e.exception.messages, {'countryName': ["field address:countryName not exist in countries catalog"]}
         )
 
-        address.countryName = u"Україна"
+        address.countryName = "Україна"
         address.validate()
         self.assertIn(address.countryName, COUNTRIES)
 
         # region
-        address.countryName = u"Украина"
-        address.region = u"Киевская область"
+        address.countryName = "Украина"
+        address.region = "Киевская область"
         mock_get_root.return_value = None
 
         mock_get_first_revision_date.return_value = self.DATE_BEFORE
@@ -101,15 +101,15 @@ class TestAddress(unittest.TestCase):
         self.assertNotIn(address.region, COUNTRIES)
         self.assertNotIn(address.region, UA_REGIONS)
 
-        address.countryName = u"Україна"
+        address.countryName = "Україна"
         mock_get_first_revision_date.return_value = self.DATE_AFTER
         with self.assertRaises(ModelValidationError) as e:
             address.validate()
         self.assertEqual(
-            e.exception.messages, {"region": [u"field address:region not exist in ua_regions catalog"]}
+            e.exception.messages, {"region": ["field address:region not exist in ua_regions catalog"]}
         )
 
-        address.region = u"Київська область"
+        address.region = "Київська область"
         address.validate_region(address, address.region)
         self.assertIn(address.region, UA_REGIONS)
 

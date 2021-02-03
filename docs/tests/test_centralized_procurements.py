@@ -20,9 +20,9 @@ central_entity = {
     "identifier": {
         "scheme": "UA-EDR",
         "id": "111111",
-        "legalName": u"ДП Центральний закупівельний орган №1"
+        "legalName": "ДП Центральний закупівельний орган №1"
     },
-    "name": u"ЦЗО №1"
+    "name": "ЦЗО №1"
 }
 
 
@@ -104,7 +104,7 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
                     ),
                     {'data': {
                         "status": "met",
-                        "description": u"Доповнений опис відповіді",
+                        "description": "Доповнений опис відповіді",
                         "dueDate": "2019-05-30T18:00:00.000000+02:00",
                     }}
                 )
@@ -117,7 +117,7 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
                         plan["id"], milestone["id"], milestone_token
                     ),
                     {"data": {
-                        "title": u"Notice.pdf",
+                        "title": "Notice.pdf",
                         "url": self.generate_docservice_url(),
                         "hash": "md5:" + "0" * 32,
                         "format": "application/pdf",
@@ -128,7 +128,7 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
         # tender creation
         procuring_entity = deepcopy(test_plan_data["procuringEntity"])
         procuring_entity.update(
-            contactPoint=dict(name=u"Довідкова", telephone="0440000000"),
+            contactPoint=dict(name="Довідкова", telephone="0440000000"),
             address=test_tender_data["procuringEntity"]["address"],
             kind="central",
         )

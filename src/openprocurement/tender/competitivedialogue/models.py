@@ -82,9 +82,9 @@ class Document(EUConfidentialDocument):
     def validate_confidentialityRationale(self, data, val):
         if data["confidentiality"] != "public" and not data["isDescriptionDecision"]:
             if not val:
-                raise ValidationError(u"confidentialityRationale is required")
+                raise ValidationError("confidentialityRationale is required")
             elif len(val) < 30:
-                raise ValidationError(u"confidentialityRationale should contain at least 30 characters")
+                raise ValidationError("confidentialityRationale should contain at least 30 characters")
 
 
 class LotValue(BaseLotValueEU):
@@ -341,7 +341,7 @@ class LotId(Model):
     def validate_id(self, data, lot_id):
         parent = data["__parent__"]
         if lot_id and isinstance(parent, Model) and lot_id not in [lot.id for lot in get_tender(parent).lots if lot]:
-            raise ValidationError(u"id should be one of lots")
+            raise ValidationError("id should be one of lots")
 
 
 class Firms(Model):

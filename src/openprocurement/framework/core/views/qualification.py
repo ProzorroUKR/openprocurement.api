@@ -13,17 +13,17 @@ from openprocurement.framework.core.utils import (
 )
 
 VIEW_MAP = {
-    u"": qualifications_by_dateModified_view,
-    u"test": qualifications_test_by_dateModified_view,
-    u"_all_": qualifications_by_dateModified_view,
+    "": qualifications_by_dateModified_view,
+    "test": qualifications_test_by_dateModified_view,
+    "_all_": qualifications_by_dateModified_view,
 
 }
 CHANGES_VIEW_MAP = {
-    u"": qualifications_by_local_seq_view,
-    u"test": qualifications_test_by_local_seq_view,
-    u"_all_": qualifications_by_local_seq_view,
+    "": qualifications_by_local_seq_view,
+    "test": qualifications_test_by_local_seq_view,
+    "_all_": qualifications_by_local_seq_view,
 }
-FEED = {u"dateModified": VIEW_MAP, u"changes": CHANGES_VIEW_MAP}
+FEED = {"dateModified": VIEW_MAP, "changes": CHANGES_VIEW_MAP}
 
 
 @qualificationsresource(
