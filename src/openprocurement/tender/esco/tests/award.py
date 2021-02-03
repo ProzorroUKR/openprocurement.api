@@ -131,10 +131,10 @@ class TenderLotAwardCheckResourceTest(BaseESCOContentWebTest, TenderLotAwardChec
     initial_status = "active.tendering"
     initial_bids = deepcopy(test_bids)
     initial_bids.append(deepcopy(test_bids[0]))
-    initial_bids[1]["tenderers"][0]["name"] = u"Не зовсім Державне управління справами"
-    initial_bids[1]["tenderers"][0]["identifier"]["id"] = u"88837256"
-    initial_bids[2]["tenderers"][0]["name"] = u"Точно не Державне управління справами"
-    initial_bids[2]["tenderers"][0]["identifier"]["id"] = u"44437256"
+    initial_bids[1]["tenderers"][0]["name"] = "Не зовсім Державне управління справами"
+    initial_bids[1]["tenderers"][0]["identifier"]["id"] = "88837256"
+    initial_bids[2]["tenderers"][0]["name"] = "Точно не Державне управління справами"
+    initial_bids[2]["tenderers"][0]["identifier"]["id"] = "44437256"
     initial_bids[1]["value"] = {
         "yearlyPaymentsPercentage": 0.9,
         "annualCostsReduction": [100] * 21,

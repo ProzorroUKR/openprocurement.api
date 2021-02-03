@@ -122,7 +122,7 @@ def tender_serialize(request, tender_data, fields):
 def save_tender(request):
     tender = request.validated["tender"]
 
-    if tender.mode == u"test":
+    if tender.mode == "test":
         set_modetest_titles(tender)
 
     patch = get_revision_changes(tender.serialize("plain"), request.validated["tender_src"])
@@ -688,7 +688,7 @@ def prepare_bids_for_awarding(tender, bids, lot_id=None):
 def exclude_unsuccessful_awarded_bids(tender, bids, lot_id):
     lot_awards = [i for i in tender.awards if i.lotID == lot_id]  # all awards in case of non-lot tender
     ignore_bid_ids = [b.bid_id for b in lot_awards if b.status == "unsuccessful"]
-    bids = list(filter(lambda b: b["id"] not in ignore_bid_ids, bids))
+    bids = list([b for b in bids if b["id"] not in ignore_bid_ids])
     return bids
 
 
@@ -738,7 +738,7 @@ def prepare_award_milestones(tender, bid, all_bids, lot_id=None):
             milestones.append(
                 {
                     "code": "alp",
-                    "description": u" / ".join(reasons)
+                    "description": " / ".join(reasons)
                 }
             )
     return milestones

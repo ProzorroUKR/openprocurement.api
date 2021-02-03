@@ -44,7 +44,7 @@ def listing(self):
             break
 
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in submissions]))
     self.assertEqual(
         set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in submissions])
@@ -78,20 +78,20 @@ def listing(self):
     response = self.app.get("/submissions", params=[("opt_fields", "status")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified", u"status"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "status"]))
     self.assertIn("opt_fields=status", response.json["next_page"]["uri"])
 
     response = self.app.get("/submissions", params=[("opt_fields", "status,owner")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified", u"status"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "status"]))
     self.assertIn("opt_fields=status", response.json["next_page"]["uri"])
 
     response = self.app.get("/submissions?descending=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in submissions]))
     self.assertEqual(
         [i["dateModified"]
@@ -150,7 +150,7 @@ def listing_changes(self):
     self.assertEqual(",".join([i["id"] for i in response.json["data"]]), ids)
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in submissions]))
     self.assertEqual(
         set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in submissions])
@@ -177,20 +177,20 @@ def listing_changes(self):
     response = self.app.get("/submissions?feed=changes", params=[("opt_fields", "status")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified", u"status"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "status"]))
     self.assertIn("opt_fields=status", response.json["next_page"]["uri"])
 
     response = self.app.get("/submissions?feed=changes", params=[("opt_fields", "status,owner")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified", u"status"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "status"]))
     self.assertIn("opt_fields=status", response.json["next_page"]["uri"])
 
     response = self.app.get("/submissions?feed=changes&descending=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in submissions]))
     self.assertEqual(
         [i["dateModified"]
@@ -253,7 +253,7 @@ def listing_draft(self):
             break
 
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in submissions]))
     self.assertEqual(
         set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in submissions])
@@ -273,9 +273,9 @@ def create_submission_draft_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": u"Content-Type header should be one of ['application/json']",
-                u"location": u"header",
-                u"name": u"Content-Type",
+                "description": "Content-Type header should be one of ['application/json']",
+                "location": "header",
+                "name": "Content-Type",
             }
         ],
     )
@@ -286,7 +286,7 @@ def create_submission_draft_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Expecting value: line 1 column 1 (char 0)", u"location": u"body", u"name": u"data"}],
+        [{"description": "Expecting value: line 1 column 1 (char 0)", "location": "body", "name": "data"}],
     )
 
     response = self.app.post_json(request_path, "data", status=422)
@@ -294,7 +294,7 @@ def create_submission_draft_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Data not available", u"location": u"body", u"name": u"data"}]
+        response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
     response = self.app.post_json(request_path, {"not_data": {}}, status=422)
@@ -302,7 +302,7 @@ def create_submission_draft_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Data not available", u"location": u"body", u"name": u"data"}]
+        response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
     response = self.app.post_json(request_path, {"data": []}, status=422)
@@ -310,7 +310,7 @@ def create_submission_draft_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Data not available", u"location": u"body", u"name": u"data"}]
+        response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
     response = self.app.post_json(request_path, {"data": {"submissionType": "invalid_value"}}, status=415)
@@ -319,7 +319,7 @@ def create_submission_draft_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Not implemented", u"location": u"body", u"name": u"submissionType"}],
+        [{"description": "Not implemented", "location": "body", "name": "submissionType"}],
     )
 
     response = self.app.post_json(request_path, {"data": {"invalid_field": "invalid_value"}}, status=422)
@@ -327,7 +327,7 @@ def create_submission_draft_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Rogue field", u"location": u"body", u"name": u"invalid_field"}]
+        response.json["errors"], [{"description": "Rogue field", "location": "body", "name": "invalid_field"}]
     )
 
     response = self.app.post_json(request_path, {"data": {"qualificationID": "0" * 32}}, status=422)
@@ -335,25 +335,25 @@ def create_submission_draft_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertIn(
-        {u"description": [u"This field is required."], u"location": u"body", u"name": u"tenderers"},
+        {"description": ["This field is required."], "location": "body", "name": "tenderers"},
         response.json["errors"],
     )
     self.assertIn(
-        {u"description": [u"This field is required."], u"location": u"body", u"name": u"frameworkID"},
+        {"description": ["This field is required."], "location": "body", "name": "frameworkID"},
         response.json["errors"],
     )
 
     data = deepcopy(self.initial_submission_data)
-    data["tenderers"] = u"This is string"
+    data["tenderers"] = "This is string"
     response = self.app.post_json(request_path, {"data": data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u'description': [u'Please use a mapping for this field or BusinessOrganization instance instead of str.'],
-          u'location': u'body',
-          u'name': u'tenderers'}],
+        [{'description': ['Please use a mapping for this field or BusinessOrganization instance instead of str.'],
+          'location': 'body',
+          'name': 'tenderers'}],
     )
 
     data = deepcopy(self.initial_submission_data)
@@ -365,9 +365,9 @@ def create_submission_draft_invalid(self):
     self.assertEqual(
         response.json["errors"],
         [{
-            u'description': u'frameworkID must be one of exists frameworks',
-            u'location': u'body',
-            u'name': u'data',
+            'description': 'frameworkID must be one of exists frameworks',
+            'location': 'body',
+            'name': 'data',
         }],
     )
 
@@ -382,16 +382,16 @@ def create_submission_draft_invalid(self):
     self.assertEqual(
         response.json["errors"],
         [{
-            u'description':
+            'description':
                 [
                     {
-                        u'address': [u'This field is required.'],
-                        u'contactPoint': [u'This field is required.'],
-                        u'name': [u'This field is required.'],
+                        'address': ['This field is required.'],
+                        'contactPoint': ['This field is required.'],
+                        'name': ['This field is required.'],
                     }
                 ],
-            u'location': u'body',
-            u'name': u'tenderers',
+            'location': 'body',
+            'name': 'tenderers',
         }],
     )
 
@@ -447,32 +447,32 @@ def patch_submission_draft(self):
         self.assertNotEqual(submission.get(field, ""), submission_ignore_patch_data[field])
 
     submission_patch_data = {
-        u"tenderers": [{
-            u"name": u"Оновленна назва",
-            u"name_en": u"Updated name",
-            u"identifier": {
-                u"legalName_en": u"dus.gov.ua",
-                u"legalName": u"Оновлено",
-                u"scheme": u"UA-EDR",
-                u"id": u"00037260",
-                u"uri": u"http://www.dus.gov.ua/"
+        "tenderers": [{
+            "name": "Оновленна назва",
+            "name_en": "Updated name",
+            "identifier": {
+                "legalName_en": "dus.gov.ua",
+                "legalName": "Оновлено",
+                "scheme": "UA-EDR",
+                "id": "00037260",
+                "uri": "http://www.dus.gov.ua/"
             },
-            u"address": {
-                u"countryName": u"Україна",
-                u"postalCode": u"01229",
-                u"region": u"м. Київ",
-                u"locality": u"м. Київ",
-                u"streetAddress": u"вул. Андрія Малишка, 11, корпус 1"
+            "address": {
+                "countryName": "Україна",
+                "postalCode": "01229",
+                "region": "м. Київ",
+                "locality": "м. Київ",
+                "streetAddress": "вул. Андрія Малишка, 11, корпус 1"
             },
-            u"contactPoint": {
-                u"name": u"Оновлена назва",
-                u"name_en": u"State administration",
-                u"telephone": u"0440000001",
-                u"email": u"someemaill@test.com",
+            "contactPoint": {
+                "name": "Оновлена назва",
+                "name_en": "State administration",
+                "telephone": "0440000001",
+                "email": "someemaill@test.com",
             },
-            u"scale": u"micro"
+            "scale": "micro"
         }],
-        u"frameworkID": u"0"*32,
+        "frameworkID": "0"*32,
     }
     response = self.app.patch_json(
         "/submissions/{}?acc_token={}".format(submission["id"], token), {"data": submission_patch_data},
@@ -484,9 +484,9 @@ def patch_submission_draft(self):
     self.assertEqual(
         response.json["errors"],
         [{
-            u'description': u'frameworkID must be one of exists frameworks',
-            u'location': u'body',
-            u'name': u'data'
+            'description': 'frameworkID must be one of exists frameworks',
+            'location': 'body',
+            'name': 'data'
         }],
     )
 
@@ -580,9 +580,9 @@ def patch_submission_draft_to_active_invalid(self):
     self.assertEqual(
         response.json["errors"],
         [{
-            u'description': u'Tenderer already have active submission for framework %s' % self.framework_id,
-            u'location': u'body',
-            u'name': u'data',
+            'description': 'Tenderer already have active submission for framework %s' % self.framework_id,
+            'location': 'body',
+            'name': 'data',
         }]
     )
 
@@ -604,7 +604,7 @@ def patch_submission_active(self):
     submission = response.json["data"]
     self.assertEqual(submission["status"], "active")
 
-    data["tenderers"][0]["name"] = u"Updated name"
+    data["tenderers"][0]["name"] = "Updated name"
 
     response = self.app.patch_json(
         "/submissions/{}?acc_token={}".format(submission["id"], token), {"data": data},
@@ -615,9 +615,9 @@ def patch_submission_active(self):
     self.assertEqual(
         response.json["errors"],
         [{
-            u'description': u"Can't update submission in current (active) status",
-            u'location': u'body',
-            u'name': u'data',
+            'description': "Can't update submission in current (active) status",
+            'location': 'body',
+            'name': 'data',
         }]
     )
 
@@ -633,9 +633,9 @@ def patch_submission_active(self):
         self.assertEqual(
             response.json["errors"],
             [{
-                u'description': u"Can't update submission in current (active) status",
-                u'location': u'body',
-                u'name': u'data',
+                'description': "Can't update submission in current (active) status",
+                'location': 'body',
+                'name': 'data',
             }]
         )
 
@@ -675,7 +675,7 @@ def patch_submission_deleted(self):
     submission = response.json["data"]
     self.assertEqual(submission["status"], "deleted")
 
-    data["tenderers"][0]["name"] = u"Updated name"
+    data["tenderers"][0]["name"] = "Updated name"
 
     response = self.app.patch_json(
         "/submissions/{}?acc_token={}".format(submission["id"], token), {"data": data},
@@ -686,9 +686,9 @@ def patch_submission_deleted(self):
     self.assertEqual(
         response.json["errors"],
         [{
-            u'description': u"Can't update submission in current (deleted) status",
-            u'location': u'body',
-            u'name': u'data',
+            'description': "Can't update submission in current (deleted) status",
+            'location': 'body',
+            'name': 'data',
         }]
     )
 
@@ -704,9 +704,9 @@ def patch_submission_deleted(self):
         self.assertEqual(
             response.json["errors"],
             [{
-                u'description': u"Can't update submission in current (deleted) status",
-                u'location': u'body',
-                u'name': u'data',
+                'description': "Can't update submission in current (deleted) status",
+                'location': 'body',
+                'name': 'data',
             }]
         )
 
@@ -748,9 +748,9 @@ def patch_submission_complete(self):
         self.assertEqual(
             response.json["errors"],
             [{
-                u'description': u"Can't update submission in current (complete) status",
-                u'location': u'body',
-                u'name': u'data',
+                'description': "Can't update submission in current (complete) status",
+                'location': 'body',
+                'name': 'data',
             }]
         )
 
@@ -763,12 +763,12 @@ def submission_fields(self):
     token = response.json["access"]["token"]
     fields = set(
             [
-                u"id",
-                u"dateModified",
-                u"date",
-                u"status",
-                u"submissionType",
-                u"owner",
+                "id",
+                "dateModified",
+                "date",
+                "status",
+                "submissionType",
+                "owner",
             ]
         )
     self.assertEqual(set(submission) - set(self.initial_submission_data), fields)
@@ -930,7 +930,7 @@ def submission_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"submission_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "submission_id"}]
     )
 
     response = self.app.patch_json("/submissions/some_id", {"data": {}}, status=404)
@@ -938,7 +938,7 @@ def submission_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"submission_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "submission_id"}]
     )
 
     # put custom document object into database to check frameworks construction on non-Submission data
@@ -959,7 +959,7 @@ def submission_token_invalid(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
-        response.json["errors"], [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}]
+        response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}]
     )
 
     response = self.app.patch_json(
@@ -997,32 +997,32 @@ def create_submission_document_forbidden(self):
     # without acc_token
     response = self.app.post(
         "/submissions/{}/documents".format(self.submission_id),
-        upload_files=[("file", u"укр.doc", b"content")],
+        upload_files=[("file", "укр.doc", b"content")],
         status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"],
-        [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}],
+        [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}],
     )
 
     with change_auth(self.app, ("Basic", ("broker1", ""))):
         response = self.app.post(
             "/submissions/{}/documents?acc_token={}".format(self.submission_id, self.submission_token),
-            upload_files=[("file", u"укр.doc", b"content")],
+            upload_files=[("file", "укр.doc", b"content")],
             status=403
         )
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(
             response.json["errors"],
-            [{u'description': u'Forbidden', u'location': u'url', u'name': u'permission'}],
+            [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}],
         )
 
 
 def create_submission_documents(self):
     response = self.app.post(
         "/submissions/{}/documents?acc_token={}".format(self.submission_id, self.submission_token),
-        upload_files=[("file", u"укр.doc", b"content")],
+        upload_files=[("file", "укр.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1030,7 +1030,7 @@ def create_submission_documents(self):
     with change_auth(self.app, ("Basic", ("token", ""))):
         response = self.app.post(
             "/submissions/{}/documents?acc_token={}".format(self.submission_id, self.submission_token),
-            upload_files=[("file", u"укр.doc", b"content")],
+            upload_files=[("file", "укр.doc", b"content")],
         )
         self.assertEqual(response.status, "201 Created")
 
@@ -1090,7 +1090,7 @@ def document_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"submission_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "submission_id"}]
     )
 
     response = self.app.post(
@@ -1100,7 +1100,7 @@ def document_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"submission_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "submission_id"}]
     )
     response = self.app.post(
         "/submissions/{}/documents?acc_token={}".format(self.submission_id, self.submission_token),
@@ -1110,7 +1110,7 @@ def document_not_found(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{u"description": u"Not Found", u"location": u"body", u"name": u"file"}])
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
     response = self.app.put(
         "/submissions/some_id/documents/some_id", status=404, upload_files=[("file", "name.doc", b"content2")]
     )
@@ -1118,7 +1118,7 @@ def document_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"submission_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "submission_id"}]
     )
 
     response = self.app.put(
@@ -1130,7 +1130,7 @@ def document_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"document_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "document_id"}]
     )
 
     response = self.app.get("/submissions/some_id/documents/some_id", status=404)
@@ -1138,7 +1138,7 @@ def document_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"submission_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "submission_id"}]
     )
 
     response = self.app.get("/submissions/{}/documents/some_id".format(self.submission_id), status=404)
@@ -1146,7 +1146,7 @@ def document_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"document_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "document_id"}]
     )
 
 
@@ -1157,7 +1157,7 @@ def put_submission_document(self):
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(u"укр.doc", response.json["data"]["title"])
+    self.assertEqual("укр.doc", response.json["data"]["title"])
     doc_id = response.json["data"]["id"]
     dateModified = response.json["data"]["dateModified"]
     self.assertIn(doc_id, response.headers["Location"])
@@ -1217,7 +1217,7 @@ def put_submission_document(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{u"description": u"Not Found", u"location": u"body", u"name": u"file"}])
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
     response = self.app.put(
         "/submissions/{}/documents/{}?acc_token={}".format(self.submission_id, doc_id, self.submission_token),
         "content3",
@@ -1265,9 +1265,9 @@ def put_submission_document(self):
         response.json["errors"],
         [
             {
-                u"description": u"Can't update document in current (complete) submission status",
-                u"location": u"body",
-                u"name": u"data",
+                "description": "Can't update document in current (complete) submission status",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -1282,9 +1282,9 @@ def put_submission_document(self):
         response.json["errors"],
         [
             {
-                u"description": u"Can't update document in current (complete)" u" submission status",
-                u"location": u"body",
-                u"name": u"data",
+                "description": "Can't update document in current (complete)" " submission status",
+                "location": "body",
+                "name": "data",
             }
         ],
     )

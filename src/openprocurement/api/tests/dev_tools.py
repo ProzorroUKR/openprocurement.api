@@ -88,7 +88,7 @@ class IsoDurationTypeTest(BaseWebTest):
         self.assertEqual(context.exception.messages, ["Unrecognised ISO 8601 date format: '3Y6MW4D'"])
         with self.assertRaises(Exception) as context:
             result = type_duration.to_native(123123)
-        self.assertEqual(context.exception.messages, [u"Could not parse 123123. Should be ISO8601 Durations."])
+        self.assertEqual(context.exception.messages, ["Could not parse 123123. Should be ISO8601 Durations."])
         res_native1 = type_duration.to_native("P3Y6M4DT12H30M5S")
         res_native2 = type_duration.to_native("P2Y18M4DT12H30M5S")
         self.assertEqual(res_native1, res_native2)

@@ -146,7 +146,7 @@ class Framework(OpenprocurementSchematicsDocument, Model):
 
     def validate_frameworkDetails(self, *args, **kw):
         if self.mode and self.mode == "test" and self.frameworkDetails and self.frameworkDetails != "":
-            raise ValidationError(u"frameworkDetails should be used with mode test")
+            raise ValidationError("frameworkDetails should be used with mode test")
 
 
 class ISubmission(IOPContent):

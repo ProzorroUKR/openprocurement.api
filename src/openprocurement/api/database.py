@@ -10,7 +10,7 @@ from logging import getLogger
 
 LOGGER = getLogger("{}.init".format(__name__))
 
-SECURITY = {u"admins": {u"names": [], u"roles": ["_admin"]}, u"members": {u"names": [], u"roles": ["_admin"]}}
+SECURITY = {"admins": {"names": [], "roles": ["_admin"]}, "members": {"names": [], "roles": ["_admin"]}}
 VALIDATE_DOC_ID = "_design/_auth"
 VALIDATE_DOC_UPDATE = """function(newDoc, oldDoc, userCtx){
     if(newDoc._deleted && newDoc.tenderID) {
@@ -45,7 +45,7 @@ class Server(CouchdbServer):
 def set_api_security(settings):
     # CouchDB connection
     db_name = os.environ.get("DB_NAME", settings["couchdb.db_name"])
-    server = Server(settings.get("couchdb.url"), session=Session(retry_delays=range(10)))
+    server = Server(settings.get("couchdb.url"), session=Session(retry_delays=list(range(10))))
     if "couchdb.admin_url" not in settings and server.resource.credentials:
         try:
             server.version()
@@ -53,7 +53,7 @@ def set_api_security(settings):
             server = Server(extract_credentials(settings.get("couchdb.url"))[0])
 
     if "couchdb.admin_url" in settings and server.resource.credentials:
-        aserver = Server(settings.get("couchdb.admin_url"), session=Session(retry_delays=range(10)))
+        aserver = Server(settings.get("couchdb.admin_url"), session=Session(retry_delays=list(range(10))))
         users_db = aserver["_users"]
         if SECURITY != users_db.security:
             LOGGER.info("Updating users db security", extra={"MESSAGE_ID": "update_users_security"})
@@ -89,7 +89,7 @@ def set_api_security(settings):
         if db_name not in aserver:
             aserver.create(db_name)
         db = aserver[db_name]
-        SECURITY[u"members"][u"names"] = security_users
+        SECURITY["members"]["names"] = security_users
         if SECURITY != db.security:
             LOGGER.info("Updating api db security", extra={"MESSAGE_ID": "update_api_security"})
             db.security = SECURITY

@@ -96,7 +96,7 @@ def post_tender_auction_all_awards_pending(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        u"Can't switch to 'active.qualification.stand-still' while not all awards are qualified",
+        "Can't switch to 'active.qualification.stand-still' while not all awards are qualified",
     )
 
     for award in awards[1:]:
@@ -152,7 +152,7 @@ def tender_go_to_awarded_with_one_lot(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        u"Can't switch to 'active.qualification.stand-still' while not all awards are qualified",
+        "Can't switch to 'active.qualification.stand-still' while not all awards are qualified",
     )
     # qualified all awards
     for award in awards[1:]:
@@ -196,7 +196,7 @@ def post_tender_auction(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": {u"invalid_field": u"Rogue field"}, u"location": u"body", u"name": u"bids"}],
+        [{"description": {"invalid_field": "Rogue field"}, "location": "body", "name": "bids"}],
     )
 
     patch_data = {
@@ -222,7 +222,7 @@ def post_tender_auction(self):
     response = self.app.post_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], {u"id": [u"Hash value is wrong length."]})
+    self.assertEqual(response.json["errors"][0]["description"], {"id": ["Hash value is wrong length."]})
 
     patch_data["bids"][-1]["id"] = "00000000000000000000000000000000"
 
@@ -288,7 +288,7 @@ def post_tender_lot_auction(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": {u"invalid_field": u"Rogue field"}, u"location": u"body", u"name": u"bids"}],
+        [{"description": {"invalid_field": "Rogue field"}, "location": "body", "name": "bids"}],
     )
 
     patch_data = {
@@ -314,7 +314,7 @@ def post_tender_lot_auction(self):
     response = self.app.post_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], {u"id": [u"Hash value is wrong length."]})
+    self.assertEqual(response.json["errors"][0]["description"], {"id": ["Hash value is wrong length."]})
 
     patch_data["bids"][-1]["id"] = "00000000000000000000000000000000"
 

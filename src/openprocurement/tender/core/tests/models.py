@@ -25,7 +25,7 @@ class TestPeriodEndRequired(unittest.TestCase):
         model = PeriodEndRequired({"startDate": end_date.isoformat(), "endDate": start_date.isoformat()})
         with self.assertRaises(ModelValidationError) as e:
             model.validate()
-        self.assertEqual(e.exception.messages, {"startDate": [u"period should begin before its end"]})
+        self.assertEqual(e.exception.messages, {"startDate": ["period should begin before its end"]})
 
         revision = MagicMock()
         revision.date = datetime.now(TZ)
@@ -33,7 +33,7 @@ class TestPeriodEndRequired(unittest.TestCase):
         model = PeriodEndRequired({"endDate": end_date.isoformat()})
         with self.assertRaises(ModelValidationError) as e:
             model.validate()
-        self.assertEqual(e.exception.messages, {"startDate": [u"This field cannot be deleted"]})
+        self.assertEqual(e.exception.messages, {"startDate": ["This field cannot be deleted"]})
 
         model = PeriodEndRequired({"startDate": start_date.isoformat(), "endDate": end_date.isoformat()})
         model.validate()
@@ -170,14 +170,14 @@ class TestTenderMainProcurementCategory(unittest.TestCase):
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
         self.assertEqual(
-            e.exception.messages, {"mainProcurementCategory": [u"Value must be one of ['goods', 'services', 'works']."]}
+            e.exception.messages, {"mainProcurementCategory": ["Value must be one of ['goods', 'services', 'works']."]}
         )
 
     def test_validate_empty(self):
         with self.assertRaises(ModelValidationError) as e:
             tender = Tender({"title": "whatever", "milestones": [copy.deepcopy(self.milestones)]})
             tender.validate()
-        self.assertEqual(e.exception.messages, {"mainProcurementCategory": [u"This field is required."]})
+        self.assertEqual(e.exception.messages, {"mainProcurementCategory": ["This field is required."]})
 
 
 class TestTender(Tender):
@@ -213,10 +213,10 @@ def test_plans_and_kind_validation(test_data):
         {
             "title": "whatever",
             "procuringEntity": {
-                "name": u"Державне управління справами",
-                "identifier": {"scheme": u"UA-EDR", "id": u"00037256", "uri": u"http://www.dus.gov.ua/"},
-                "address": {"countryName": u"Україна"},
-                "contactPoint": {"name": u"Державне управління справами", "telephone": u"0440000000"},
+                "name": "Державне управління справами",
+                "identifier": {"scheme": "UA-EDR", "id": "00037256", "uri": "http://www.dus.gov.ua/"},
+                "address": {"countryName": "Україна"},
+                "contactPoint": {"name": "Державне управління справами", "telephone": "0440000000"},
                 "kind": kind,
             },
             "plans": plans,

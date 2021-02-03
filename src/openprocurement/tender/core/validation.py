@@ -187,8 +187,8 @@ def validate_tender_auction_data(request, **kwargs):
                             "bids",
                             [
                                 {
-                                    u"lotValues": [
-                                        u"Number of lots of auction results did not match the number of tender lots"
+                                    "lotValues": [
+                                        "Number of lots of auction results did not match the number of tender lots"
                                     ]
                                 }
                             ],
@@ -200,7 +200,7 @@ def validate_tender_auction_data(request, **kwargs):
                             request.errors.add(
                                 "body",
                                 "bids",
-                                [{u"lotValues": [{u"relatedLot": ["relatedLot should be one of lots of bid"]}]}],
+                                [{"lotValues": [{"relatedLot": ["relatedLot should be one of lots of bid"]}]}],
                             )
                             request.errors.status = 422
                             raise error_handler(request)
@@ -449,12 +449,12 @@ def validate_cancellation_status_with_complaints(request, **kwargs):
     }
 
     available_statuses = status_map.get(curr_status)
-    error_msg = u"Cancellation can't be updated from {} to {} status"
+    error_msg = "Cancellation can't be updated from {} to {} status"
 
     if not available_statuses:
         raise_operation_error(
             request,
-            u"Can't update cancellation in current ({}) status".format(curr_status)
+            "Can't update cancellation in current ({}) status".format(curr_status)
         )
 
     if new_status not in available_statuses:
@@ -474,7 +474,7 @@ def validate_cancellation_status_with_complaints(request, **kwargs):
     ):
         raise_operation_error(
             request,
-            u"Fields reason, cancellationOf and documents must be filled for switch cancellation to pending status",
+            "Fields reason, cancellationOf and documents must be filled for switch cancellation to pending status",
             status=422,
         )
 
@@ -504,13 +504,13 @@ def validate_cancellation_status_without_complaints(request, **kwargs):
     if not available_statuses:
         raise_operation_error(
             request,
-            u"Can't update cancellation in current ({}) status".format(curr_status)
+            "Can't update cancellation in current ({}) status".format(curr_status)
         )
 
     if new_status not in available_statuses:
         raise_operation_error(
             request,
-            u"Cancellation can't be updated from %s to %s status" % (curr_status, new_status),
+            "Cancellation can't be updated from %s to %s status" % (curr_status, new_status),
             status=422,
         )
 
@@ -524,7 +524,7 @@ def validate_cancellation_status_without_complaints(request, **kwargs):
     ):
         raise_operation_error(
             request,
-            u"Fields reason, cancellationOf and documents must be filled for switch cancellation to active status",
+            "Fields reason, cancellationOf and documents must be filled for switch cancellation to active status",
             status=422,
         )
 
@@ -585,7 +585,7 @@ def validate_cancellation_complaint_add_only_in_pending(request, **kwargs):
     if cancellation.status != "pending":
         raise_operation_error(
             request,
-            u"Complaint can be add only in pending status of cancellation",
+            "Complaint can be add only in pending status of cancellation",
             status=422,
         )
 
@@ -597,7 +597,7 @@ def validate_cancellation_complaint_add_only_in_pending(request, **kwargs):
     if cancellation.status == "pending" and not is_complaint_period:
         raise_operation_error(
             request,
-            u"Complaint can't be add after finish of complaint period",
+            "Complaint can't be add after finish of complaint period",
             status=422,
         )
 
@@ -611,7 +611,7 @@ def validate_cancellation_complaint_only_one(request, **kwargs):
     ):
         raise_operation_error(
             request,
-            u"Cancellation can have only one active complaint",
+            "Cancellation can have only one active complaint",
             status=422,
         )
 
@@ -622,7 +622,7 @@ def validate_cancellation_complaint_resolved(request, **kwargs):
     if complaint.get("tendererAction") and cancellation.status != "unsuccessful":
         raise_operation_error(
             request,
-            u"Complaint can't have tendererAction only if cancellation not in unsuccessful status",
+            "Complaint can't have tendererAction only if cancellation not in unsuccessful status",
             status=422,
         )
 
@@ -651,7 +651,7 @@ def validate_patch_lot_data(request, **kwargs):
 
 def validate_relatedlot(tender, relatedLot):
     if relatedLot not in [lot.id for lot in tender.lots if lot]:
-        raise ValidationError(u"relatedLot should be one of lots")
+        raise ValidationError("relatedLot should be one of lots")
 
 
 def validate_lotvalue_value(tender, relatedLot, value):
@@ -661,41 +661,41 @@ def validate_lotvalue_value(tender, relatedLot, value):
     if not lot:
         return
     if lot.value.amount < value.amount:
-        raise ValidationError(u"value of bid should be less than value of lot")
+        raise ValidationError("value of bid should be less than value of lot")
     if lot.get("value").currency != value.currency:
-        raise ValidationError(u"currency of bid should be identical to currency of value of lot")
+        raise ValidationError("currency of bid should be identical to currency of value of lot")
     if lot.get("value").valueAddedTaxIncluded != value.valueAddedTaxIncluded:
         raise ValidationError(
-            u"valueAddedTaxIncluded of bid should be identical " u"to valueAddedTaxIncluded of value of lot"
+            "valueAddedTaxIncluded of bid should be identical " "to valueAddedTaxIncluded of value of lot"
         )
 
 
 def validate_bid_value(tender, value):
     if tender.lots:
         if value:
-            raise ValidationError(u"value should be posted for each lot of bid")
+            raise ValidationError("value should be posted for each lot of bid")
     else:
         if not value:
-            raise ValidationError(u"This field is required.")
+            raise ValidationError("This field is required.")
         if tender.value.amount < value.amount:
-            raise ValidationError(u"value of bid should be less than value of tender")
+            raise ValidationError("value of bid should be less than value of tender")
         if tender.get("value").currency != value.currency:
-            raise ValidationError(u"currency of bid should be identical to currency of value of tender")
+            raise ValidationError("currency of bid should be identical to currency of value of tender")
         if tender.get("value").valueAddedTaxIncluded != value.valueAddedTaxIncluded:
             raise ValidationError(
-                u"valueAddedTaxIncluded of bid should be identical " u"to valueAddedTaxIncluded of value of tender"
+                "valueAddedTaxIncluded of bid should be identical " "to valueAddedTaxIncluded of value of tender"
             )
 
 
 def validate_minimalstep(data, value):
     if value and value.amount is not None and data.get("value"):
         if data.get("value").amount < value.amount:
-            raise ValidationError(u"value should be less than value of tender")
+            raise ValidationError("value should be less than value of tender")
         if data.get("value").currency != value.currency:
-            raise ValidationError(u"currency should be identical to currency of value of tender")
+            raise ValidationError("currency should be identical to currency of value of tender")
         if data.get("value").valueAddedTaxIncluded != value.valueAddedTaxIncluded:
             raise ValidationError(
-                u"valueAddedTaxIncluded should be identical " u"to valueAddedTaxIncluded of value of tender"
+                "valueAddedTaxIncluded should be identical " "to valueAddedTaxIncluded of value of tender"
             )
         if not data.get("lots"):
             validate_minimalstep_limits(data, value, is_tender=True)
@@ -715,7 +715,7 @@ def validate_minimalstep_limits(data, value, is_tender=False):
                                   / precision_multiplier)
             if higher_minimalstep < value.amount or value.amount < lower_minimalstep:
                 raise ValidationError(
-                    u"minimalstep must be between 0.5% and 3% of value (with 2 digits precision).")
+                    "minimalstep must be between 0.5% and 3% of value (with 2 digits precision).")
 
 
 # cancellation
@@ -1575,7 +1575,7 @@ def validate_contract_signing(request, **kwargs):
 
 def is_positive_float(value):
     if value <= 0:
-        raise ValidationError(u"Float value should be greater than 0.")
+        raise ValidationError("Float value should be greater than 0.")
 
 
 def validate_ua_road(classification_id, additional_classifications):
@@ -1583,12 +1583,12 @@ def validate_ua_road(classification_id, additional_classifications):
     if is_ua_road_classification(classification_id):
         if road_count > 1:
             raise ValidationError(
-                u"Item shouldn't have more than 1 additionalClassification with scheme {}".format(UA_ROAD_SCHEME)
+                "Item shouldn't have more than 1 additionalClassification with scheme {}".format(UA_ROAD_SCHEME)
             )
     elif road_count != 0:
         raise ValidationError(
-            u"Item shouldn't have additionalClassification with scheme {} "
-            u"for cpv not starts with {}".format(UA_ROAD_SCHEME, ", ".join(UA_ROAD_CPV_PREFIXES))
+            "Item shouldn't have additionalClassification with scheme {} "
+            "for cpv not starts with {}".format(UA_ROAD_SCHEME, ", ".join(UA_ROAD_CPV_PREFIXES))
         )
 
 
@@ -1598,18 +1598,18 @@ def validate_gmdn(classification_id, additional_classifications):
         inn_anc_count = sum([1 for i in additional_classifications if i["scheme"] in [INN_SCHEME, ATC_SCHEME]])
         if 0 not in [inn_anc_count, gmdn_count]:
             raise ValidationError(
-                u"Item shouldn't have additionalClassifications with both schemes {}/{} and {}".format(
+                "Item shouldn't have additionalClassifications with both schemes {}/{} and {}".format(
                     INN_SCHEME, ATC_SCHEME, GMDN_SCHEME
                 )
             )
         if gmdn_count > 1:
             raise ValidationError(
-                u"Item shouldn't have more than 1 additionalClassification with scheme {}".format(GMDN_SCHEME)
+                "Item shouldn't have more than 1 additionalClassification with scheme {}".format(GMDN_SCHEME)
             )
     elif gmdn_count != 0:
         raise ValidationError(
-            u"Item shouldn't have additionalClassification with scheme {} "
-            u"for cpv not starts with {}".format(GMDN_SCHEME, ", ".join(GMDN_CPV_PREFIXES))
+            "Item shouldn't have additionalClassification with scheme {} "
+            "for cpv not starts with {}".format(GMDN_SCHEME, ", ".join(GMDN_CPV_PREFIXES))
         )
 
 
@@ -1625,8 +1625,8 @@ def validate_milestones(value):
         for uid, sum_value in sums.items():
             if sum_value != Decimal("100"):
                 raise ValidationError(
-                    u"Sum of the financial milestone percentages {} is not equal 100{}.".format(
-                        sum_value, u" for lot {}".format(uid) if uid else ""
+                    "Sum of the financial milestone percentages {} is not equal 100{}.".format(
+                        sum_value, " for lot {}".format(uid) if uid else ""
                     )
                 )
 
@@ -1637,7 +1637,7 @@ def validate_procurement_type_of_first_stage(request, **kwargs):
         request.errors.add(
             "body",
             "procurementMethodType",
-            u"Should be one of the first stage values: {}".format(FIRST_STAGE_PROCUREMENT_TYPES),
+            "Should be one of the first stage values: {}".format(FIRST_STAGE_PROCUREMENT_TYPES),
         )
         request.errors.status = 422
         raise error_handler(request)
@@ -1653,7 +1653,7 @@ def validate_tender_matches_plan(request, **kwargs):
         request.errors.add(
             "body",
             "procuringEntity",
-            u"procuringEntity.identifier doesn't match: {} {} != {} {}".format(
+            "procuringEntity.identifier doesn't match: {} {} != {} {}".format(
                 plan_identifier.scheme, plan_identifier.id, tender_identifier.scheme, tender_identifier.id
             ),
         )
@@ -1665,7 +1665,7 @@ def validate_tender_matches_plan(request, **kwargs):
             request.errors.add(
                 "body",
                 "items[{}].classification.id".format(i),
-                u"Plan classification.id {} and item's {} should be of the same group {}".format(
+                "Plan classification.id {} and item's {} should be of the same group {}".format(
                     plan.classification.id, item.classification.id, pattern
                 ),
             )
@@ -1685,7 +1685,7 @@ def validate_tender_plan_procurement_method_type(request, **kwargs):
         request.errors.add(
             "body",
             "procurementMethodType",
-            u"procurementMethodType doesn't match: {} != {}".format(
+            "procurementMethodType doesn't match: {} != {}".format(
                 plan.tender.procurementMethodType, tender.procurementMethodType
             ),
         )
@@ -1697,20 +1697,20 @@ def validate_plan_budget_breakdown(request, **kwargs):
     plan = request.validated["plan"]
 
     if not plan.budget or not plan.budget.breakdown:
-        request.errors.add("body", "budget.breakdown", u"Plan should contain budget breakdown")
+        request.errors.add("body", "budget.breakdown", "Plan should contain budget breakdown")
         request.errors.status = 422
         raise error_handler(request)
 
 
 def validate_tender_in_draft(request, **kwargs):
     if request.validated["tender"].status != "draft":
-        raise raise_operation_error(request, u"Only allowed in draft tender status")
+        raise raise_operation_error(request, "Only allowed in draft tender status")
 
 
 def validate_procurement_kind_is_central(request, **kwargs):
     kind = "central"
     if request.validated["tender"].procuringEntity.kind != kind:
-        raise raise_operation_error(request, u"Only allowed for procurementEntity.kind = '{}'".format(kind))
+        raise raise_operation_error(request, "Only allowed for procurementEntity.kind = '{}'".format(kind))
 
 
 def validate_tender_plan_data(request, **kwargs):
@@ -1806,7 +1806,7 @@ def validate_value_type(value, datatype):
     type_ = TYPEMAP.get(datatype)
     if not type_:
         raise ValidationError(
-            u'Type mismatch: value {} does not confront type {}'.format(
+            'Type mismatch: value {} does not confront type {}'.format(
                 value, type_
             )
         )
@@ -1822,7 +1822,7 @@ def validate_requirement_values(requirement):
 
     if any((expected and min_value, expected and max_value)):
         raise ValidationError(
-            u'expectedValue conflicts with ["minValue", "maxValue"]'
+            'expectedValue conflicts with ["minValue", "maxValue"]'
         )
 
 
@@ -1832,7 +1832,7 @@ def validate_requirement(requirement):
     max_value = requirement.get('maxValue')
     if not any((expected, min_value, max_value)):
         raise ValidationError(
-            u'Value required for at least one field ["expectedValue", "minValue", "maxValue"]'
+            'Value required for at least one field ["expectedValue", "minValue", "maxValue"]'
         )
     validate_requirement_values(requirement)
 

@@ -39,7 +39,7 @@ def extract_tender_credentials(self):
     response = self.app.get("/tenders/{}/extract_credentials".format(tender_id), status=403)
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Forbidden", u"location": u"url", u"name": u"permission"}]
+        response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}]
     )
 
 
@@ -53,9 +53,9 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": u"Content-Type header should be one of ['application/json']",
-                u"location": u"header",
-                u"name": u"Content-Type",
+                "description": "Content-Type header should be one of ['application/json']",
+                "location": "header",
+                "name": "Content-Type",
             }
         ],
     )
@@ -66,7 +66,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Expecting value: line 1 column 1 (char 0)", u"location": u"body", u"name": u"data"}],
+        [{"description": "Expecting value: line 1 column 1 (char 0)", "location": "body", "name": "data"}],
     )
 
     response = self.app.post_json(request_path, "data", status=422)
@@ -74,7 +74,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Data not available", u"location": u"body", u"name": u"data"}]
+        response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
     response = self.app.post_json(request_path, {"not_data": {}}, status=422)
@@ -82,7 +82,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Data not available", u"location": u"body", u"name": u"data"}]
+        response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
     response = self.app.post_json(request_path, {"data": []}, status=422)
@@ -90,7 +90,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Data not available", u"location": u"body", u"name": u"data"}]
+        response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
     response = self.app.post_json(request_path, {"data": {"procurementMethodType": "invalid_value"}}, status=415)
@@ -99,7 +99,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Not implemented", u"location": u"body", u"name": u"procurementMethodType"}],
+        [{"description": "Not implemented", "location": "body", "name": "procurementMethodType"}],
     )
 
     response = self.app.post_json(
@@ -111,7 +111,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Rogue field", u"location": u"body", u"name": u"invalid_field"}]
+        response.json["errors"], [{"description": "Rogue field", "location": "body", "name": "invalid_field"}]
     )
 
     response = self.app.post_json(
@@ -126,9 +126,9 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [u"Please use a mapping for this field or Value instance instead of str."],
-                u"location": u"body",
-                u"name": u"value",
+                "description": ["Please use a mapping for this field or Value instance instead of str."],
+                "location": "body",
+                "name": "value",
             }
         ],
     )
@@ -144,31 +144,31 @@ def create_tender_invalid(self):
 
     self.assertIn(
         {
-            u"description": [u"Value must be one of ['open', 'selective', 'limited']."],
-            u"location": u"body",
-            u"name": u"procurementMethod",
+            "description": ["Value must be one of ['open', 'selective', 'limited']."],
+            "location": "body",
+            "name": "procurementMethod",
         },
         response.json["errors"],
     )
     self.assertIn(
-        {u"description": [u"This field is required."], u"location": u"body", u"name": u"tenderPeriod"},
+        {"description": ["This field is required."], "location": "body", "name": "tenderPeriod"},
         response.json["errors"],
     )
     self.assertIn(
-        {u"description": [u"This field is required."], u"location": u"body", u"name": u"minimalStep"},
+        {"description": ["This field is required."], "location": "body", "name": "minimalStep"},
         response.json["errors"],
     )
     self.assertIn(
-        {u"description": [u"This field is required."], u"location": u"body", u"name": u"items"}, response.json["errors"]
+        {"description": ["This field is required."], "location": "body", "name": "items"}, response.json["errors"]
     )
     self.assertIn(
-        {u"description": [u"This field is required."], u"location": u"body", u"name": u"value"}, response.json["errors"]
+        {"description": ["This field is required."], "location": "body", "name": "value"}, response.json["errors"]
     )
     self.assertIn(
-        {u"description": [u"This field is required."], u"location": u"body", u"name": u"items"}, response.json["errors"]
+        {"description": ["This field is required."], "location": "body", "name": "items"}, response.json["errors"]
     )
     self.assertIn(
-        {u"description": [u"This field is required."], u"location": u"body", u"name": u"maxAwardsCount"},
+        {"description": ["This field is required."], "location": "body", "name": "maxAwardsCount"},
         response.json["errors"],
     )
 
@@ -184,9 +184,9 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": {u"endDate": [u"Could not parse invalid_value. Should be ISO8601."]},
-                u"location": u"body",
-                u"name": u"enquiryPeriod",
+                "description": {"endDate": ["Could not parse invalid_value. Should be ISO8601."]},
+                "location": "body",
+                "name": "enquiryPeriod",
             }
         ],
     )
@@ -206,7 +206,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": {u"endDate": [u"date value out of range"]}, u"location": u"body", u"name": u"enquiryPeriod"}],
+        [{"description": {"endDate": ["date value out of range"]}, "location": "body", "name": "enquiryPeriod"}],
     )
 
     data = self.initial_data["tenderPeriod"]
@@ -220,9 +220,9 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": {u"startDate": [u"period should begin before its end"]},
-                u"location": u"body",
-                u"name": u"tenderPeriod",
+                "description": {"startDate": ["period should begin before its end"]},
+                "location": "body",
+                "name": "tenderPeriod",
             }
         ],
     )
@@ -237,9 +237,9 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [u"tenderPeriod.startDate should be in greater than current date"],
-                u"location": u"body",
-                u"name": u"tenderPeriod",
+                "description": ["tenderPeriod.startDate should be in greater than current date"],
+                "location": "body",
+                "name": "tenderPeriod",
             }
         ],
     )
@@ -253,7 +253,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"period should begin after tenderPeriod"], u"location": u"body", u"name": u"awardPeriod"}],
+        [{"description": ["period should begin after tenderPeriod"], "location": "body", "name": "awardPeriod"}],
     )
 
     self.initial_data["auctionPeriod"] = {
@@ -272,7 +272,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"period should begin after auctionPeriod"], u"location": u"body", u"name": u"awardPeriod"}],
+        [{"description": ["period should begin after auctionPeriod"], "location": "body", "name": "awardPeriod"}],
     )
 
     data = self.initial_data["minimalStep"]
@@ -286,9 +286,9 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [u"value should be less than value of tender"],
-                u"location": u"body",
-                u"name": u"minimalStep",
+                "description": ["value should be less than value of tender"],
+                "location": "body",
+                "name": "minimalStep",
             }
         ],
     )
@@ -304,11 +304,11 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [
-                    u"valueAddedTaxIncluded should be identical to valueAddedTaxIncluded of value of tender"
+                "description": [
+                    "valueAddedTaxIncluded should be identical to valueAddedTaxIncluded of value of tender"
                 ],
-                u"location": u"body",
-                u"name": u"minimalStep",
+                "location": "body",
+                "name": "minimalStep",
             }
         ],
     )
@@ -324,9 +324,9 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [u"currency should be identical to currency of value of tender"],
-                u"location": u"body",
-                u"name": u"minimalStep",
+                "description": ["currency should be identical to currency of value of tender"],
+                "location": "body",
+                "name": "minimalStep",
             }
         ],
     )
@@ -341,9 +341,9 @@ def create_tender_invalid(self):
         self.assertEqual(response.json["status"], "error")
         self.assertEqual(
             response.json["errors"],
-            [{u'description':
-                  [{u'minimalStep': [u'minimalstep must be between 0.5% and 3% of value (with 2 digits precision).']}],
-              u'location': u'body', u'name': u'lots'}
+            [{'description':
+                  [{'minimalStep': ['minimalstep must be between 0.5% and 3% of value (with 2 digits precision).']}],
+              'location': 'body', 'name': 'lots'}
              ]
         )
 
@@ -367,9 +367,9 @@ def create_tender_invalid(self):
             response.json["errors"],
             [
                 {
-                    u"description": [{u"additionalClassifications": [u"This field is required."]}],
-                    u"location": u"body",
-                    u"name": u"items",
+                    "description": [{"additionalClassifications": ["This field is required."]}],
+                    "location": "body",
+                    "name": "items",
                 }
             ],
         )
@@ -391,15 +391,15 @@ def create_tender_invalid(self):
             response.json["errors"],
             [
                 {
-                    u"description": [
+                    "description": [
                         {
-                            u"additionalClassifications": [
-                                u"One of additional classifications should be one of [ДК003, ДК015, ДК018, specialNorms]."
+                            "additionalClassifications": [
+                                "One of additional classifications should be one of [ДК003, ДК015, ДК018, specialNorms]."
                             ]
                         }
                     ],
-                    u"location": u"body",
-                    u"name": u"items",
+                    "location": "body",
+                    "name": "items",
                 }
             ],
         )
@@ -408,15 +408,15 @@ def create_tender_invalid(self):
             response.json["errors"],
             [
                 {
-                    u"description": [
+                    "description": [
                         {
-                            u"additionalClassifications": [
-                                u"One of additional classifications should be one of [ДКПП, NONE, ДК003, ДК015, ДК018]."
+                            "additionalClassifications": [
+                                "One of additional classifications should be one of [ДКПП, NONE, ДК003, ДК015, ДК018]."
                             ]
                         }
                     ],
-                    u"location": u"body",
-                    u"name": u"items",
+                    "location": "body",
+                    "name": "items",
                 }
             ],
         )
@@ -432,16 +432,16 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": {u"contactPoint": {u"email": [u"telephone or email should be present"]}},
-                u"location": u"body",
-                u"name": u"procuringEntity",
+                "description": {"contactPoint": {"email": ["telephone or email should be present"]}},
+                "location": "body",
+                "name": "procuringEntity",
             }
         ],
     )
 
     data = self.initial_data["items"][0].copy()
     classification = data["classification"].copy()
-    classification["id"] = u"19212310-1"
+    classification["id"] = "19212310-1"
     data["classification"] = classification
     self.initial_data["items"] = [self.initial_data["items"][0], data]
     response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
@@ -451,7 +451,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"CPV group of items be identical"], u"location": u"body", u"name": u"items"}],
+        [{"description": ["CPV group of items be identical"], "location": "body", "name": "items"}],
     )
 
     data = deepcopy(self.initial_data)
@@ -462,7 +462,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [{u"deliveryDate": [u"This field is required."]}], u"location": u"body", u"name": u"items"}],
+        [{"description": [{"deliveryDate": ["This field is required."]}], "location": "body", "name": "items"}],
     )
 
     data = deepcopy(self.initial_data)
@@ -475,9 +475,9 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [u"Maximal awards number can't be less then minimal bids number"],
-                u"location": u"body",
-                u"name": u"maxAwardsCount",
+                "description": ["Maximal awards number can't be less then minimal bids number"],
+                "location": "body",
+                "name": "maxAwardsCount",
             }
         ],
     )
@@ -497,31 +497,31 @@ def create_tender_generated(self):
         set(tender),
         set(
             [
-                u"procurementMethodType",
-                u"id",
-                u"dateModified",
-                u"tenderID",
-                u"status",
-                u"enquiryPeriod",
-                u"tenderPeriod",
-                u"complaintPeriod",
-                u"minimalStep",
-                u"items",
-                u"value",
-                u"owner",
-                u"procuringEntity",
-                u"next_check",
-                u"procurementMethod",
-                u"awardCriteria",
-                u"submissionMethod",
-                u"title",
-                u"title_en",
-                u"date",
-                u"maxAwardsCount",
-                u"agreementDuration",
-                u"lots",
-                u"mainProcurementCategory",
-                u"milestones",
+                "procurementMethodType",
+                "id",
+                "dateModified",
+                "tenderID",
+                "status",
+                "enquiryPeriod",
+                "tenderPeriod",
+                "complaintPeriod",
+                "minimalStep",
+                "items",
+                "value",
+                "owner",
+                "procuringEntity",
+                "next_check",
+                "procurementMethod",
+                "awardCriteria",
+                "submissionMethod",
+                "title",
+                "title_en",
+                "date",
+                "maxAwardsCount",
+                "agreementDuration",
+                "lots",
+                "mainProcurementCategory",
+                "milestones",
             ]
         ),
     )
@@ -530,7 +530,7 @@ def create_tender_generated(self):
     self.assertNotEqual(data["tenderID"], tender["tenderID"])
     self.assertEqual(
         set(tender["lots"][0]),
-        set([u"status", u"description", u"title", u"minimalStep", u"auctionPeriod", u"value", u"date", u"id"]),
+        set(["status", "description", "title", "minimalStep", "auctionPeriod", "value", "date", "id"]),
     )
 
 
@@ -583,8 +583,8 @@ def patch_tender(self):
         any(
             [
                 i
-                for i in revisions[-1][u"changes"]
-                if i["op"] == u"remove" and i["path"] == u"/procurementMethodRationale"
+                for i in revisions[-1]["changes"]
+                if i["op"] == "remove" and i["path"] == "/procurementMethodRationale"
             ]
         )
     )
@@ -696,7 +696,7 @@ def patch_tender(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"][0],
-        {u"description": {u"valueAddedTaxIncluded": u"Rogue field"}, u"location": u"body", u"name": u"guarantee"},
+        {"description": {"valueAddedTaxIncluded": "Rogue field"}, "location": "body", "name": "guarantee"},
     )
 
     response = self.app.patch_json(
@@ -747,9 +747,9 @@ def patch_tender(self):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
             response.json["errors"],
-            [{u'description':
-                  [{u'minimalStep': [u'minimalstep must be between 0.5% and 3% of value (with 2 digits precision).']}],
-              u'location': u'body', u'name': u'lots'}
+            [{'description':
+                  [{'minimalStep': ['minimalstep must be between 0.5% and 3% of value (with 2 digits precision).']}],
+              'location': 'body', 'name': 'lots'}
              ],
         )
 
@@ -853,23 +853,23 @@ def patch_unitprice_with_features(self):
         {
             "code": "OCDS-123454-POSTPONEMENT",
             "featureOf": "tenderer",
-            "title": u"Відстрочка платежу",
-            "description": u"Термін відстрочки платежу",
+            "title": "Відстрочка платежу",
+            "description": "Термін відстрочки платежу",
             "enum": [
-                {"value": 0.05, "title": u"До 90 днів"},
-                {"value": 0.01, "title": u"Більше 90 днів"},
-                {"value": 0, "title": u"Більше 90 днів"},
+                {"value": 0.05, "title": "До 90 днів"},
+                {"value": 0.01, "title": "Більше 90 днів"},
+                {"value": 0, "title": "Більше 90 днів"},
             ],
         },
         {
             "code": "OCDS-123454-POSTPONEMENN",
             "featureOf": "tenderer",
-            "title": u"Відстрочка платежу",
-            "description": u"Термін відстрочки платежу",
+            "title": "Відстрочка платежу",
+            "description": "Термін відстрочки платежу",
             "enum": [
-                {"value": 0.05, "title": u"До 90 днів"},
-                {"value": 0.01, "title": u"Більше 90 днів"},
-                {"value": 0, "title": u"Більше 90 днів"},
+                {"value": 0.05, "title": "До 90 днів"},
+                {"value": 0.01, "title": "Більше 90 днів"},
+                {"value": 0, "title": "Більше 90 днів"},
             ],
         },
     ]
@@ -925,9 +925,9 @@ def invalid_bid_tender_features(self):
         {
             "code": "OCDS-123454-POSTPONEMENT",
             "featureOf": "tenderer",
-            "title": u"Відстрочка платежу",
-            "description": u"Термін відстрочки платежу",
-            "enum": [{"value": 0.05, "title": u"До 90 днів"}, {"value": 0.1, "title": u"Більше 90 днів"}],
+            "title": "Відстрочка платежу",
+            "description": "Термін відстрочки платежу",
+            "enum": [{"value": 0.05, "title": "До 90 днів"}, {"value": 0.1, "title": "Більше 90 днів"}],
         }
     ]
     response = self.app.post_json("/tenders", {"data": data})
@@ -1024,11 +1024,11 @@ def invalid_bid_tender_lot(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"relatedLot": [u"relatedLot should be one of lots"]}],
-                u"location": u"body",
-                u"name": u"items",
+                "description": [{"relatedLot": ["relatedLot should be one of lots"]}],
+                "location": "body",
+                "name": "items",
             },
-            {u"description": [u"Please provide at least 1 item."], u"location": u"body", u"name": u"lots"},
+            {"description": ["Please provide at least 1 item."], "location": "body", "name": "lots"},
         ],
     )
 
@@ -1125,9 +1125,9 @@ def unsuccessful_after_prequalification_tender(self):
     response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
-    assert_data = {u"id", u"status", u"tenderers", u"selfQualified"}
+    assert_data = {"id", "status", "tenderers", "selfQualified"}
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
-        assert_data.add(u"selfEligible")
+        assert_data.add("selfEligible")
     for bid in response.json["data"]["bids"]:
         self.assertEqual(bid["status"], "unsuccessful")
         self.assertEqual(set(bid.keys()), assert_data)
@@ -1509,7 +1509,7 @@ def patch_tender_active_qualification_2_active_qualification_stand_still(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        u"Can't switch to 'active.qualification.stand-still' while not all awards are qualified",
+        "Can't switch to 'active.qualification.stand-still' while not all awards are qualified",
     )
 
     for award in awards[1:]:
@@ -1546,7 +1546,7 @@ def switch_tender_to_active_awarded(self):
     response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {}}, status=403)
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Forbidden", u"location": u"url", u"name": u"permission"}]
+        response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}]
     )
 
     # Try switch before awardPeriod complete
@@ -1590,9 +1590,9 @@ def patch_max_awards(self):
         response.json["errors"],
         [
             {
-                u"description": [u"Maximal awards number can't be less then minimal bids number"],
-                u"location": u"body",
-                u"name": u"maxAwardsCount",
+                "description": ["Maximal awards number can't be less then minimal bids number"],
+                "location": "body",
+                "name": "maxAwardsCount",
             }
         ],
     )
@@ -1694,7 +1694,7 @@ def active_qualification_to_act_pre_qualification_st(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Can't update tender status", u"location": u"body", u"name": u"data"}],
+        [{"description": "Can't update tender status", "location": "body", "name": "data"}],
     )
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
@@ -1705,7 +1705,7 @@ def active_qualification_to_act_pre_qualification_st(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Can't update tender status", u"location": u"body", u"name": u"data"}],
+        [{"description": "Can't update tender status", "location": "body", "name": "data"}],
     )
 
 
@@ -1720,7 +1720,7 @@ def active_pre_qualification_to_act_qualification_st(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Can't update tender status", u"location": u"body", u"name": u"data"}],
+        [{"description": "Can't update tender status", "location": "body", "name": "data"}],
     )
 
 
@@ -1734,11 +1734,11 @@ def agreement_duration_period(self):
         response.json["errors"],
         [
             {
-                u"description": [
-                    u"Agreement duration period is greater than {}".format(duration_isoformat(MAX_AGREEMENT_PERIOD))
+                "description": [
+                    "Agreement duration period is greater than {}".format(duration_isoformat(MAX_AGREEMENT_PERIOD))
                 ],
-                u"location": u"body",
-                u"name": u"agreementDuration",
+                "location": "body",
+                "name": "agreementDuration",
             }
         ],
     )
@@ -1750,11 +1750,11 @@ def agreement_duration_period(self):
         response.json["errors"],
         [
             {
-                u"description": [
-                    u"Agreement duration period is greater than {}".format(duration_isoformat(MAX_AGREEMENT_PERIOD))
+                "description": [
+                    "Agreement duration period is greater than {}".format(duration_isoformat(MAX_AGREEMENT_PERIOD))
                 ],
-                u"location": u"body",
-                u"name": u"agreementDuration",
+                "location": "body",
+                "name": "agreementDuration",
             }
         ],
     )
@@ -1766,11 +1766,11 @@ def agreement_duration_period(self):
         response.json["errors"],
         [
             {
-                u"description": [
-                    u"Agreement duration period is greater than {}".format(duration_isoformat(MAX_AGREEMENT_PERIOD))
+                "description": [
+                    "Agreement duration period is greater than {}".format(duration_isoformat(MAX_AGREEMENT_PERIOD))
                 ],
-                u"location": u"body",
-                u"name": u"agreementDuration",
+                "location": "body",
+                "name": "agreementDuration",
             }
         ],
     )
@@ -1791,15 +1791,15 @@ def tender_features_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"Item id should be uniq for all items"], u"location": u"body", u"name": u"items"}],
+        [{"description": ["Item id should be uniq for all items"], "location": "body", "name": "items"}],
     )
     data["items"][0]["id"] = "0"
     data["features"] = [
         {
             "code": "OCDS-123454-AIR-INTAKE",
             "featureOf": "lot",
-            "title": u"Потужність всмоктування",
-            "enum": [{"value": 0.1, "title": u"До 1000 Вт"}, {"value": 0.15, "title": u"Більше 1000 Вт"}],
+            "title": "Потужність всмоктування",
+            "enum": [{"value": 0.1, "title": "До 1000 Вт"}, {"value": 0.15, "title": "Більше 1000 Вт"}],
         }
     ]
     response = self.app.post_json("/tenders", {"data": data}, status=422)
@@ -1810,9 +1810,9 @@ def tender_features_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"relatedItem": [u"This field is required."]}],
-                u"location": u"body",
-                u"name": u"features",
+                "description": [{"relatedItem": ["This field is required."]}],
+                "location": "body",
+                "name": "features",
             }
         ],
     )
@@ -1825,9 +1825,9 @@ def tender_features_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"relatedItem": [u"relatedItem should be one of lots"]}],
-                u"location": u"body",
-                u"name": u"features",
+                "description": [{"relatedItem": ["relatedItem should be one of lots"]}],
+                "location": "body",
+                "name": "features",
             }
         ],
     )
@@ -1840,9 +1840,9 @@ def tender_features_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"relatedItem": [u"relatedItem should be one of items"]}],
-                u"location": u"body",
-                u"name": u"features",
+                "description": [{"relatedItem": ["relatedItem should be one of items"]}],
+                "location": "body",
+                "name": "features",
             }
         ],
     )
@@ -1856,9 +1856,9 @@ def tender_features_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"enum": [{u"value": [u"Value should be less than 0.3."]}]}],
-                u"location": u"body",
-                u"name": u"features",
+                "description": [{"enum": [{"value": ["Value should be less than 0.3."]}]}],
+                "location": "body",
+                "name": "features",
             }
         ],
     )
@@ -1871,9 +1871,9 @@ def tender_features_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"enum": [u"Feature value should be uniq for feature"]}],
-                u"location": u"body",
-                u"name": u"features",
+                "description": [{"enum": ["Feature value should be uniq for feature"]}],
+                "location": "body",
+                "name": "features",
             }
         ],
     )
@@ -1887,9 +1887,9 @@ def tender_features_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [u"Feature code should be uniq for all features"],
-                u"location": u"body",
-                u"name": u"features",
+                "description": ["Feature code should be uniq for all features"],
+                "location": "body",
+                "name": "features",
             }
         ],
     )

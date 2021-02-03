@@ -20,7 +20,7 @@ def create_tender_cancellation_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     request_path = "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token)
@@ -33,9 +33,9 @@ def create_tender_cancellation_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": u"Content-Type header should be one of ['application/json']",
-                u"location": u"header",
-                u"name": u"Content-Type",
+                "description": "Content-Type header should be one of ['application/json']",
+                "location": "header",
+                "name": "Content-Type",
             }
         ],
     )
@@ -46,7 +46,7 @@ def create_tender_cancellation_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Expecting value: line 1 column 1 (char 0)", u"location": u"body", u"name": u"data"}],
+        [{"description": "Expecting value: line 1 column 1 (char 0)", "location": "body", "name": "data"}],
     )
 
     response = self.app.post_json(request_path, "data", status=422)
@@ -54,7 +54,7 @@ def create_tender_cancellation_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Data not available", u"location": u"body", u"name": u"data"}]
+        response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
     response = self.app.post_json(request_path, {"not_data": {}}, status=422)
@@ -62,7 +62,7 @@ def create_tender_cancellation_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Data not available", u"location": u"body", u"name": u"data"}]
+        response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
     response = self.app.post_json(request_path, {"data": {}}, status=422)
@@ -71,7 +71,7 @@ def create_tender_cancellation_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"This field is required."], u"location": u"body", u"name": u"reason"}],
+        [{"description": ["This field is required."], "location": "body", "name": "reason"}],
     )
 
     response = self.app.post_json(request_path, {"data": {"invalid_field": "invalid_value"}}, status=422)
@@ -79,7 +79,7 @@ def create_tender_cancellation_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Rogue field", u"location": u"body", u"name": u"invalid_field"}]
+        response.json["errors"], [{"description": "Rogue field", "location": "body", "name": "invalid_field"}]
     )
 
 
@@ -209,13 +209,13 @@ def create_cancellation_on_lot(self):
         response.json["errors"],
         [
             {
-                u"location": u"body",
-                u"name": u"cancellationOf",
-                u"description": [
-                    u'Lot cancellation can not be submitted, since "multiple lots" option is not available for this type of tender.'
+                "location": "body",
+                "name": "cancellationOf",
+                "description": [
+                    'Lot cancellation can not be submitted, since "multiple lots" option is not available for this type of tender.'
                 ],
             },
-            {u"location": u"body", u"name": u"relatedLot", u"description": [u"relatedLot should be one of lots"]},
+            {"location": "body", "name": "relatedLot", "description": ["relatedLot should be one of lots"]},
         ],
     )
 
@@ -239,7 +239,7 @@ def negotiation_create_cancellation_on_lot(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"relatedLot should be one of lots"], u"location": u"body", u"name": u"relatedLot"}],
+        [{"description": ["relatedLot should be one of lots"], "location": "body", "name": "relatedLot"}],
     )
 
 
@@ -645,9 +645,9 @@ def patch_tender_cancellation_2020_04_19(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"], [{
-            u"description": u"Fields reason, cancellationOf and documents must be filled for switch cancellation to pending status",
-            u"location": u"body",
-            u"name": u"data",
+            "description": "Fields reason, cancellationOf and documents must be filled for switch cancellation to pending status",
+            "location": "body",
+            "name": "data",
         }]
     )
 
@@ -660,9 +660,9 @@ def patch_tender_cancellation_2020_04_19(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"], [{
-            u"description": u"Cancellation can't be updated from draft to active status",
-            u"location": u"body",
-            u"name": u"data",
+            "description": "Cancellation can't be updated from draft to active status",
+            "location": "body",
+            "name": "data",
         }]
     )
 
@@ -696,9 +696,9 @@ def patch_tender_cancellation_2020_04_19(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"], [{
-            u"description": u"Cancellation can't be updated from pending to draft status",
-            u"location": u"body",
-            u"name": u"data",
+            "description": "Cancellation can't be updated from pending to draft status",
+            "location": "body",
+            "name": "data",
         }]
     )
 
@@ -711,9 +711,9 @@ def patch_tender_cancellation_2020_04_19(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"], [{
-            u"description": u"Cancellation can't be updated from pending to active status",
-            u"location": u"body",
-            u"name": u"data",
+            "description": "Cancellation can't be updated from pending to active status",
+            "location": "body",
+            "name": "data",
         }]
     )
 
@@ -742,9 +742,9 @@ def patch_tender_cancellation_2020_04_19(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"], [{
-            u"description": u"Cancellation can't be updated from unsuccessful to pending status",
-            u"location": u"body",
-            u"name": u"data",
+            "description": "Cancellation can't be updated from unsuccessful to pending status",
+            "location": "body",
+            "name": "data",
         }]
     )
 
@@ -805,8 +805,8 @@ def patch_tender_cancellation_2020_04_19(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"], [{
-            u"description": u"Can't update tender in current (cancelled) status",
-            u"location": u"body",
-            u"name": u"data",
+            "description": "Can't update tender in current (cancelled) status",
+            "location": "body",
+            "name": "data",
         }]
     )

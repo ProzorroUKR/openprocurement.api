@@ -39,4 +39,4 @@ class Contract(Model):
     def validate_awardID(self, data, awardID):
         parent = data["__parent__"]
         if awardID and isinstance(parent, Model) and awardID not in [i.id for i in parent["__parent__"].awards]:
-            raise ValidationError(u"awardID should be one of awards")
+            raise ValidationError("awardID should be one of awards")

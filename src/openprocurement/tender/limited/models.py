@@ -103,7 +103,7 @@ class BaseItem(Item):
 class Item(BaseItem):
     def validate_relatedLot(self, data, relatedLot):
         if relatedLot and isinstance(data["__parent__"], Model):
-            raise ValidationError(u"This option is not available")
+            raise ValidationError("This option is not available")
 
 
 class Complaint(BaseComplaint):
@@ -121,7 +121,7 @@ class Contract(BaseContract):
 
     def validate_dateSigned(self, data, value):
         if value and value > get_now():
-            raise ValidationError(u"Contract signature date can't be in the future")
+            raise ValidationError("Contract signature date can't be in the future")
 
     def get_role(self):
         root = self.get_root()
@@ -178,13 +178,13 @@ class Cancellation(BaseCancellation):
 
     def validate_relatedLot(self, data, relatedLot):
         if not relatedLot and data.get("cancellationOf") == "lot":
-            raise ValidationError(u"This field is required.")
+            raise ValidationError("This field is required.")
         if (
             relatedLot
             and isinstance(data["__parent__"], Model)
             and relatedLot not in [i.id for i in data["__parent__"].get("lots", [])]
         ):
-            raise ValidationError(u"relatedLot should be one of lots")
+            raise ValidationError("relatedLot should be one of lots")
 
     def validate_cancellationOf(self, data, cancellationOf):
         if (
@@ -193,7 +193,7 @@ class Cancellation(BaseCancellation):
             and not hasattr(data["__parent__"], "lots")
         ):
             raise ValidationError(
-                u'Lot cancellation can not be submitted, since "multiple lots" option is not available for this type of tender.'
+                'Lot cancellation can not be submitted, since "multiple lots" option is not available for this type of tender.'
             )
 
 
@@ -342,9 +342,9 @@ class Award(ReportingAward):
     def validate_lotID(self, data, lotID):
         if isinstance(data["__parent__"], Model):
             if not lotID and data["__parent__"].lots:
-                raise ValidationError(u"This field is required.")
+                raise ValidationError("This field is required.")
             if lotID and lotID not in [lot.id for lot in data["__parent__"].lots if lot]:
-                raise ValidationError(u"lotID should be one of lots")
+                raise ValidationError("lotID should be one of lots")
 
     class Options:
         roles = {"create": award_create_role, "edit": award_edit_role}

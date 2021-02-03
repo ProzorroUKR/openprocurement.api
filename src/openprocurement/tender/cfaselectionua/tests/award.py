@@ -74,9 +74,9 @@ class TenderLotAwardCheckResourceTest(TenderContentWebTest, TenderLotAwardCheckR
     initial_lots = test_lots
     initial_bids = deepcopy(test_bids)
     initial_bids.append(deepcopy(test_bids[0]))
-    initial_bids[1]["tenderers"][0]["name"] = u"Не зовсім Державне управління справами"
+    initial_bids[1]["tenderers"][0]["name"] = "Не зовсім Державне управління справами"
     # initial_bids[1]['tenderers'][0]['identifier']['id'] = u'88837256'
-    initial_bids[2]["tenderers"][0]["name"] = u"Точно не Державне управління справами"
+    initial_bids[2]["tenderers"][0]["name"] = "Точно не Державне управління справами"
     # initial_bids[2]['tenderers'][0]['identifier']['id'] = u'44437256'
     reverse = TenderCfaSelectionUAConfigurator.reverse_awarding_criteria
     awarding_key = TenderCfaSelectionUAConfigurator.awarding_criteria_key

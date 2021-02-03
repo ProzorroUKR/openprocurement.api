@@ -10,9 +10,9 @@ here = os.path.dirname(os.path.abspath(__file__))
 srequest = SESSION.request
 
 test_framework_data = {
-    u"id": u"117e88a375404c3faf85cdef60f47902",
-    u"title": u"Узагальнена назва закупівлі",
-    u"description": u"Назва предмета закупівлі",
+    "id": "117e88a375404c3faf85cdef60f47902",
+    "title": "Узагальнена назва закупівлі",
+    "description": "Назва предмета закупівлі",
 }
 
 

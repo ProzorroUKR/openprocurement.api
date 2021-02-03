@@ -67,12 +67,12 @@ def test_fail_update_back_to_draft(app, initial_status):
         "/plans/{}?acc_token={}".format(plan_id, acc_token), {"data": {"status": "draft"}}, status=422
     )
     assert response.json == {
-        u"status": u"error",
-        u"errors": [
+        "status": "error",
+        "errors": [
             {
-                u"description": u"Plan status can not be changed back to 'draft'",
-                u"location": u"body",
-                u"name": u"status",
+                "description": "Plan status can not be changed back to 'draft'",
+                "location": "body",
+                "name": "status",
             }
         ],
     }
@@ -106,9 +106,9 @@ def test_update_status_invalid(app):
         "/plans/{}?acc_token={}".format(plan_id, acc_token), {"data": {"status": "cancelled"}}, status=422
     )
     assert response.json == {
-        u"status": u"error",
-        u"errors": [
-            {u"description": [u"An active cancellation object is required"], u"location": u"body", u"name": u"status"}
+        "status": "error",
+        "errors": [
+            {"description": ["An active cancellation object is required"], "location": "body", "name": "status"}
         ],
     }
 
@@ -269,7 +269,7 @@ def test_fail_update_complete_or_cancelled_plan(app, status):
     test_data = deepcopy(test_plan_data)
     test_data["documents"] = [
         {
-            "title": u"укр.doc",
+            "title": "укр.doc",
             "url": generate_docservice_url(app),
             "hash": "md5:" + "0" * 32,
             "format": "application/msword",
@@ -289,12 +289,12 @@ def test_fail_update_complete_or_cancelled_plan(app, status):
     # patch
     response = app.patch_json("/plans/{}?acc_token={}".format(plan_id, acc_token), {"data": {}}, status=422)
     assert response.json == {
-        u"status": u"error",
-        u"errors": [
+        "status": "error",
+        "errors": [
             {
-                u"description": u"Can't update plan in '{}' status".format(status),
-                u"location": u"body",
-                u"name": u"status",
+                "description": "Can't update plan in '{}' status".format(status),
+                "location": "body",
+                "name": "status",
             }
         ],
     }
@@ -304,7 +304,7 @@ def test_fail_update_complete_or_cancelled_plan(app, status):
         "/plans/{}/documents?acc_token={}".format(plan_id, acc_token),
         {
             "data": {
-                "title": u"укр.doc",
+                "title": "укр.doc",
                 "url": generate_docservice_url(app),
                 "hash": "md5:" + "0" * 32,
                 "format": "application/msword",
@@ -313,12 +313,12 @@ def test_fail_update_complete_or_cancelled_plan(app, status):
         status=422,
     )
     assert response.json == {
-        u"status": u"error",
-        u"errors": [
+        "status": "error",
+        "errors": [
             {
-                u"description": u"Can't update plan in '{}' status".format(status),
-                u"location": u"body",
-                u"name": u"status",
+                "description": "Can't update plan in '{}' status".format(status),
+                "location": "body",
+                "name": "status",
             }
         ],
     }
@@ -327,7 +327,7 @@ def test_fail_update_complete_or_cancelled_plan(app, status):
         "/plans/{}/documents/{}?acc_token={}".format(plan_id, doc_id, acc_token),
         {
             "data": {
-                "title": u"укр_2.doc",
+                "title": "укр_2.doc",
                 "url": generate_docservice_url(app),
                 "hash": "md5:" + "0" * 32,
                 "format": "application/msword",
@@ -336,28 +336,28 @@ def test_fail_update_complete_or_cancelled_plan(app, status):
         status=422,
     )
     assert response.json == {
-        u"status": u"error",
-        u"errors": [
+        "status": "error",
+        "errors": [
             {
-                u"description": u"Can't update plan in '{}' status".format(status),
-                u"location": u"body",
-                u"name": u"status",
+                "description": "Can't update plan in '{}' status".format(status),
+                "location": "body",
+                "name": "status",
             }
         ],
     }
 
     response = app.patch_json(
         "/plans/{}/documents/{}?acc_token={}".format(plan_id, doc_id, acc_token),
-        {"data": {"title": u"whatever.doc"}},
+        {"data": {"title": "whatever.doc"}},
         status=422,
     )
     assert response.json == {
-        u"status": u"error",
-        u"errors": [
+        "status": "error",
+        "errors": [
             {
-                u"description": u"Can't update plan in '{}' status".format(status),
-                u"location": u"body",
-                u"name": u"status",
+                "description": "Can't update plan in '{}' status".format(status),
+                "location": "body",
+                "name": "status",
             }
         ],
     }
@@ -365,12 +365,12 @@ def test_fail_update_complete_or_cancelled_plan(app, status):
     # tender creation
     response = app.post_json("/plans/{}/tenders".format(plan_id), {"data": {}}, status=422)
     assert response.json == {
-        u"status": u"error",
-        u"errors": [
+        "status": "error",
+        "errors": [
             {
-                u"description": u"Can't update plan in '{}' status".format(status),
-                u"location": u"body",
-                u"name": u"status",
+                "description": "Can't update plan in '{}' status".format(status),
+                "location": "body",
+                "name": "status",
             }
         ],
     }

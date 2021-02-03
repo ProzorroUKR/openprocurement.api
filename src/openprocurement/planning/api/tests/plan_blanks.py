@@ -124,7 +124,7 @@ def empty_listing(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Offset expired/invalid", u"location": u"url", u"name": u"offset"}],
+        [{"description": "Offset expired/invalid", "location": "url", "name": "offset"}],
     )
 
     response = self.app.get("/plans?feed=changes&descending=1&limit=10")
@@ -162,7 +162,7 @@ def listing(self):
 
     self.assertEqual(len(response.json["data"]), 3)
     self.assertEqual(",".join([i["id"] for i in response.json["data"]]), ids)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in plans]))
     self.assertEqual(set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in plans]))
     self.assertEqual([i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in plans]))
@@ -189,20 +189,20 @@ def listing(self):
     response = self.app.get("/plans", params=[("opt_fields", "budget")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
     self.assertNotIn("opt_fields=budget", response.json["next_page"]["uri"])
 
     response = self.app.get("/plans", params=[("opt_fields", "planID")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified", u"planID"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "planID"]))
     self.assertIn("opt_fields=planID", response.json["next_page"]["uri"])
 
     response = self.app.get("/plans?descending=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in plans]))
     self.assertEqual(
         [i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in plans], reverse=True)
@@ -265,7 +265,7 @@ def listing_changes(self):
 
     self.assertEqual(len(response.json["data"]), 3)
     self.assertEqual(",".join([i["id"] for i in response.json["data"]]), ids)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in plans]))
     self.assertEqual(set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in plans]))
     self.assertEqual([i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in plans]))
@@ -288,20 +288,20 @@ def listing_changes(self):
     response = self.app.get("/plans?feed=changes", params=[("opt_fields", "budget")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
     self.assertNotIn("opt_fields=budget", response.json["next_page"]["uri"])
 
     response = self.app.get("/plans?feed=changes", params=[("opt_fields", "planID")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified", u"planID"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "planID"]))
     self.assertIn("opt_fields=planID", response.json["next_page"]["uri"])
 
     response = self.app.get("/plans?feed=changes&descending=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in plans]))
     self.assertEqual(
         [i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in plans], reverse=True)
@@ -351,9 +351,9 @@ def create_plan_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": u"Content-Type header should be one of ['application/json']",
-                u"location": u"header",
-                u"name": u"Content-Type",
+                "description": "Content-Type header should be one of ['application/json']",
+                "location": "header",
+                "name": "Content-Type",
             }
         ],
     )
@@ -364,7 +364,7 @@ def create_plan_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Expecting value: line 1 column 1 (char 0)", u"location": u"body", u"name": u"data"}],
+        [{"description": "Expecting value: line 1 column 1 (char 0)", "location": "body", "name": "data"}],
     )
 
     response = self.app.post_json(request_path, "data", status=422)
@@ -372,7 +372,7 @@ def create_plan_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Data not available", u"location": u"body", u"name": u"data"}]
+        response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
     response = self.app.post_json(request_path, {"not_data": {}}, status=422)
@@ -380,7 +380,7 @@ def create_plan_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Data not available", u"location": u"body", u"name": u"data"}]
+        response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
     response = self.app.post_json(request_path, {"data": []}, status=422)
@@ -388,7 +388,7 @@ def create_plan_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Data not available", u"location": u"body", u"name": u"data"}]
+        response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
     response = self.app.post_json(request_path, {"data": {"invalid_field": "invalid_value"}}, status=422)
@@ -396,7 +396,7 @@ def create_plan_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Rogue field", u"location": u"body", u"name": u"invalid_field"}]
+        response.json["errors"], [{"description": "Rogue field", "location": "body", "name": "invalid_field"}]
     )
 
     response = self.app.post_json(request_path, {"data": {"budget": "invalid_value"}}, status=422)
@@ -407,9 +407,9 @@ def create_plan_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [u"Please use a mapping for this field or Budget instance instead of str."],
-                u"location": u"body",
-                u"name": u"budget",
+                "description": ["Please use a mapping for this field or Budget instance instead of str."],
+                "location": "body",
+                "name": "budget",
             }
         ],
     )
@@ -421,11 +421,11 @@ def create_plan_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertIn(
-        {u"description": [u"This field is required."], u"location": u"body", u"name": u"procuringEntity"},
+        {"description": ["This field is required."], "location": "body", "name": "procuringEntity"},
         response.json["errors"],
     )
     self.assertIn(
-        {u"description": [u"This field is required."], u"location": u"body", u"name": u"classification"},
+        {"description": ["This field is required."], "location": "body", "name": "classification"},
         response.json["errors"],
     )
 
@@ -443,9 +443,9 @@ def create_plan_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertIn(
         {
-            u"description": {u"procurementMethodType": [u"Value must be one of {!r}.".format(PROCEDURES["open"])]},
-            u"location": u"body",
-            u"name": u"tender",
+            "description": {"procurementMethodType": ["Value must be one of {!r}.".format(PROCEDURES["open"])]},
+            "location": "body",
+            "name": "tender",
         },
         response.json["errors"],
     )
@@ -463,9 +463,9 @@ def create_plan_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertIn(
         {
-            u"description": {u"procurementMethodType": [u"Value must be one of {!r}.".format(PROCEDURES["limited"])]},
-            u"location": u"body",
-            u"name": u"tender",
+            "description": {"procurementMethodType": ["Value must be one of {!r}.".format(PROCEDURES["limited"])]},
+            "location": "body",
+            "name": "tender",
         },
         response.json["errors"],
     )
@@ -480,11 +480,11 @@ def create_plan_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": {
-                    u"tenderPeriod": {u"startDate": [u"Could not parse invalid_value. Should be ISO8601."]}
+                "description": {
+                    "tenderPeriod": {"startDate": ["Could not parse invalid_value. Should be ISO8601."]}
                 },
-                u"location": u"body",
-                u"name": u"tender",
+                "location": "body",
+                "name": "tender",
             }
         ],
     )
@@ -499,9 +499,9 @@ def create_plan_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": {u"tenderPeriod": {u"startDate": [u"date value out of range"]}},
-                u"location": u"body",
-                u"name": u"tender",
+                "description": {"tenderPeriod": {"startDate": ["date value out of range"]}},
+                "location": "body",
+                "name": "tender",
             }
         ],
     )
@@ -523,13 +523,13 @@ def create_plan_invalid(self):
             response.json["errors"],
             [
                 {
-                    u"description": [
-                        {u"additionalClassifications": [u"This field is required."]},
-                        {u"additionalClassifications": [u"This field is required."]},
-                        {u"additionalClassifications": [u"This field is required."]},
+                    "description": [
+                        {"additionalClassifications": ["This field is required."]},
+                        {"additionalClassifications": ["This field is required."]},
+                        {"additionalClassifications": ["This field is required."]},
                     ],
-                    u"location": u"body",
-                    u"name": u"items",
+                    "location": "body",
+                    "name": "items",
                 }
             ],
         )
@@ -543,7 +543,7 @@ def create_plan_invalid(self):
 
     additionalClassifications = [i["additionalClassifications"][0]["scheme"] for i in initial_data["items"]]
     for index, _ in enumerate(additionalClassifications):
-        initial_data["items"][index]["additionalClassifications"][0]["scheme"] = u"Не ДКПП"
+        initial_data["items"][index]["additionalClassifications"][0]["scheme"] = "Не ДКПП"
     if get_now() > CPV_ITEMS_CLASS_FROM:
         cpv_code = initial_data["classification"]["id"]
         cpv_codes = [i["classification"]["id"] for i in initial_data["items"]]
@@ -565,16 +565,16 @@ def create_plan_invalid(self):
             response.json["errors"],
             [
                 {
-                    u"description": [
+                    "description": [
                         {
-                            u"additionalClassifications": [
-                                u"One of additional classifications should be one of [ДК003, ДК015, ДК018, specialNorms]."
+                            "additionalClassifications": [
+                                "One of additional classifications should be one of [ДК003, ДК015, ДК018, specialNorms]."
                             ]
                         }
                         for _ in additionalClassifications
                     ],
-                    u"location": u"body",
-                    u"name": u"items",
+                    "location": "body",
+                    "name": "items",
                 }
             ],
         )
@@ -583,16 +583,16 @@ def create_plan_invalid(self):
             response.json["errors"],
             [
                 {
-                    u"description": [
+                    "description": [
                         {
-                            u"additionalClassifications": [
-                                u"One of additional classifications should be one of [ДКПП, NONE, ДК003, ДК015, ДК018]."
+                            "additionalClassifications": [
+                                "One of additional classifications should be one of [ДКПП, NONE, ДК003, ДК015, ДК018]."
                             ]
                         }
                         for _ in additionalClassifications
                     ],
-                    u"location": u"body",
-                    u"name": u"items",
+                    "location": "body",
+                    "name": "items",
                 }
             ],
         )
@@ -606,7 +606,7 @@ def create_plan_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": {u"name": [u"This field is required."]}, u"location": u"body", u"name": u"procuringEntity"}],
+        [{"description": {"name": ["This field is required."]}, "location": "body", "name": "procuringEntity"}],
     )
 
     data = initial_data["budget"]
@@ -619,12 +619,12 @@ def create_plan_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"This field is required."], u"location": u"body", u"name": u"budget"}],
+        [{"description": ["This field is required."], "location": "body", "name": "budget"}],
     )
 
     data = initial_data["items"][0].copy()
     classification = data["classification"].copy()
-    classification["id"] = u"31519200-9"
+    classification["id"] = "31519200-9"
     data["classification"] = classification
     initial_data["items"] = [initial_data["items"][0], data]
     response = self.app.post_json(request_path, {"data": initial_data}, status=422)
@@ -637,9 +637,9 @@ def create_plan_invalid(self):
             response.json["errors"],
             [
                 {
-                    u"description": [{u"classification": [u"CPV class of items should be identical to root cpv"]}],
-                    u"location": u"body",
-                    u"name": u"items",
+                    "description": [{"classification": ["CPV class of items should be identical to root cpv"]}],
+                    "location": "body",
+                    "name": "items",
                 }
             ],
         )
@@ -648,15 +648,15 @@ def create_plan_invalid(self):
             response.json["errors"],
             [
                 {
-                    u"description": [{u"classification": [u"CPV group of items be identical to root cpv"]}],
-                    u"location": u"body",
-                    u"name": u"items",
+                    "description": [{"classification": ["CPV group of items be identical to root cpv"]}],
+                    "location": "body",
+                    "name": "items",
                 }
             ],
         )
 
     classification_id = initial_data["classification"]["id"]
-    initial_data["classification"]["id"] = u"33600000-6"
+    initial_data["classification"]["id"] = "33600000-6"
     response = self.app.post_json(request_path, {"data": initial_data}, status=422)
     initial_data["classification"]["id"] = classification_id
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -666,23 +666,23 @@ def create_plan_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"classification": [u"CPV group of items be identical to root cpv"]}],
-                u"location": u"body",
-                u"name": u"items",
+                "description": [{"classification": ["CPV group of items be identical to root cpv"]}],
+                "location": "body",
+                "name": "items",
             }
         ],
     )
 
     classification_id = initial_data["classification"]["id"]
-    initial_data["classification"]["id"] = u"33600000-6"
+    initial_data["classification"]["id"] = "33600000-6"
     item = initial_data["items"][0].copy()
     data = initial_data["items"][0].copy()
     classification = data["classification"].copy()
-    classification["id"] = u"33610000-9"
+    classification["id"] = "33610000-9"
     data["classification"] = classification
     data2 = initial_data["items"][0].copy()
     classification = data2["classification"].copy()
-    classification["id"] = u"33620000-2"
+    classification["id"] = "33620000-2"
     data2["classification"] = classification
     initial_data["items"] = [data, data2]
     response = self.app.post_json(request_path, {"data": initial_data})
@@ -720,11 +720,11 @@ def create_plan_invalid_procurement_method_type(self):
         response.json["errors"],
         [
             {
-                u"description": {
-                    u'procurementMethodType': [u"Value must be one of ('centralizedProcurement',)."]
+                "description": {
+                    'procurementMethodType': ["Value must be one of ('centralizedProcurement',)."]
                 },
-                u"location": u"body",
-                u"name": u"tender",
+                "location": "body",
+                "name": "tender",
             }
         ],
     )
@@ -740,11 +740,11 @@ def create_plan_invalid_procurement_method_type(self):
         response.json["errors"],
         [
             {
-                u"description": {
-                    u'procurementMethodType': [u"Value must be one of ('centralizedProcurement',)."]
+                "description": {
+                    'procurementMethodType': ["Value must be one of ('centralizedProcurement',)."]
                 },
-                u"location": u"body",
-                u"name": u"tender",
+                "location": "body",
+                "name": "tender",
             }
         ],
     )
@@ -778,7 +778,7 @@ def create_plan_invalid_procurement_method_type(self):
             )
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.content_type, "application/json")
-            self.assertEqual(response.json["data"]["tender"]["procurementMethodType"], u"")
+            self.assertEqual(response.json["data"]["tender"]["procurementMethodType"], "")
 
     response = self.app.patch_json(
         "/plans/{}?acc_token={}".format(plan["id"], acc_token),
@@ -793,7 +793,7 @@ def create_plan_invalid_procurement_method_type(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["tender"]["procurementMethodType"], u"aboveThresholdUA")
+    self.assertEqual(response.json["data"]["tender"]["procurementMethodType"], "aboveThresholdUA")
 
 
 def create_plan_invalid_procuring_entity(self):
@@ -811,9 +811,9 @@ def create_plan_invalid_procuring_entity(self):
         response.json["errors"],
         [
             {
-                u"description": {u'address': [u'This field is required.']},
-                u"location": u"body",
-                u"name": u"procuringEntity",
+                "description": {'address': ['This field is required.']},
+                "location": "body",
+                "name": "procuringEntity",
             }
         ],
     )
@@ -829,9 +829,9 @@ def create_plan_invalid_procuring_entity(self):
         response.json["errors"],
         [
             {
-                u"description": {u'address': {u'countryName': [u'This field is required.']}},
-                u"location": u"body",
-                u"name": u"procuringEntity",
+                "description": {'address': {'countryName': ['This field is required.']}},
+                "location": "body",
+                "name": "procuringEntity",
             }
         ],
     )
@@ -847,9 +847,9 @@ def create_plan_invalid_procuring_entity(self):
         response.json["errors"],
         [
             {
-                u"description": {u'address': {u'invalid_field': u'Rogue field'}},
-                u"location": u"body",
-                u"name": u"procuringEntity",
+                "description": {'address': {'invalid_field': 'Rogue field'}},
+                "location": "body",
+                "name": "procuringEntity",
             }
         ],
     )
@@ -865,9 +865,9 @@ def create_plan_invalid_procuring_entity(self):
         response.json["errors"],
         [
             {
-                u'description': {u'kind': [u'This field is required.']},
-                u"location": u"body",
-                u"name": u"procuringEntity",
+                'description': {'kind': ['This field is required.']},
+                "location": "body",
+                "name": "procuringEntity",
             }
         ],
     )
@@ -885,17 +885,17 @@ def create_plan_invalid_procuring_entity(self):
         response.json["errors"],
         [
             {
-                u"description": {u'kind': [
-                    u"Value must be one of ('authority', 'central', 'defense', 'general', 'other', 'social', 'special')."
+                "description": {'kind': [
+                    "Value must be one of ('authority', 'central', 'defense', 'general', 'other', 'social', 'special')."
                 ]},
-                u"location": u"body",
-                u"name": u"procuringEntity",
+                "location": "body",
+                "name": "procuringEntity",
             }
         ],
     )
-    initial_data["procuringEntity"]["kind"] = u"general"
-    initial_data["tender"]["procurementMethod"] = u"open"
-    initial_data["tender"]["procurementMethodType"] = u"aboveThresholdUA.defense"
+    initial_data["procuringEntity"]["kind"] = "general"
+    initial_data["tender"]["procurementMethod"] = "open"
+    initial_data["tender"]["procurementMethodType"] = "aboveThresholdUA.defense"
 
     with mock.patch("openprocurement.planning.api.validation.RELEASE_SIMPLE_DEFENSE_FROM", get_now() + timedelta(days=1)):
         response = self.app.post_json(request_path, {"data": initial_data}, status=403)
@@ -916,23 +916,23 @@ def create_plan_invalid_procuring_entity(self):
         ]
     )
 
-    initial_data["procuringEntity"]["kind"] = u"defense"
+    initial_data["procuringEntity"]["kind"] = "defense"
     with mock.patch("openprocurement.planning.api.validation.RELEASE_SIMPLE_DEFENSE_FROM", get_now() + timedelta(days=1)):
         response = self.app.post_json(request_path, {"data": initial_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
-    initial_data["procuringEntity"]["kind"] = u"authority"
-    initial_data["tender"]["procurementMethod"] = u"open"
-    initial_data["tender"]["procurementMethodType"] = u"competitiveDialogueUA"
+    initial_data["procuringEntity"]["kind"] = "authority"
+    initial_data["tender"]["procurementMethod"] = "open"
+    initial_data["tender"]["procurementMethodType"] = "competitiveDialogueUA"
 
     response = self.app.post_json(request_path, {"data": initial_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
-    initial_data["procuringEntity"]["kind"] = u"other"
-    initial_data["tender"]["procurementMethod"] = u""
-    initial_data["tender"]["procurementMethodType"] = u"centralizedProcurement"
+    initial_data["procuringEntity"]["kind"] = "other"
+    initial_data["tender"]["procurementMethod"] = ""
+    initial_data["tender"]["procurementMethodType"] = "centralizedProcurement"
 
     response = self.app.post_json(request_path, {"data": initial_data}, status=403)
     self.assertEqual(response.status, "403 Forbidden")
@@ -942,9 +942,9 @@ def create_plan_invalid_procuring_entity(self):
     self.assertEqual(
         response.json["errors"], [
             {
-                u'description': u'procuringEntity with other kind cannot publish this type of procedure. '
-                                u'Procurement method types allowed for this kind: belowThreshold, reporting.',
-                                u'location': u'body', u'name': u'kind'
+                'description': 'procuringEntity with other kind cannot publish this type of procedure. '
+                                'Procurement method types allowed for this kind: belowThreshold, reporting.',
+                                'location': 'body', 'name': 'kind'
             }
         ]
     )
@@ -991,8 +991,8 @@ def create_plan_invalid_procuring_entity(self):
             self.assertEqual(response.content_type, "application/json")
             self.assertEqual(
                 response.json['data']['procuringEntity'],
-                {"identifier": {"scheme": u"UA-EDR", "id": u"111983", "legalName": u"ДП Державне Управління Справами"},
-                 "name": u"new_name123"}
+                {"identifier": {"scheme": "UA-EDR", "id": "111983", "legalName": "ДП Державне Управління Справами"},
+                 "name": "new_name123"}
             )
 
             response = self.app.patch_json(
@@ -1008,16 +1008,16 @@ def create_plan_invalid_procuring_entity(self):
             self.assertEqual(response.content_type, "application/json")
             self.assertEqual(
                 response.json['data']['procuringEntity'],
-                {"identifier": {"scheme": u"UA-EDR", "id": u"111983", "legalName": u"ДП Державне Управління Справами"},
-                 "name": u"new_name123",
-                 "address": {"countryName": u"Ірландія"},
-                 "kind": u"defense"
+                {"identifier": {"scheme": "UA-EDR", "id": "111983", "legalName": "ДП Державне Управління Справами"},
+                 "name": "new_name123",
+                 "address": {"countryName": "Ірландія"},
+                 "kind": "defense"
                  }
             )
 
-    initial_data["procuringEntity"]["kind"] = u"other"
-    initial_data["tender"]["procurementMethod"] = u"limited"
-    initial_data["tender"]["procurementMethodType"] = u"reporting"
+    initial_data["procuringEntity"]["kind"] = "other"
+    initial_data["tender"]["procurementMethod"] = "limited"
+    initial_data["tender"]["procurementMethodType"] = "reporting"
 
     response = self.app.post_json(request_path, {"data": initial_data})
     self.assertEqual(response.status, "201 Created")
@@ -1042,9 +1042,9 @@ def create_plan_invalid_buyers(self):
         response.json["errors"],
         [
             {
-                u"description": [{u'address': [u'This field is required.']}],
-                u"location": u"body",
-                u"name": u"buyers",
+                "description": [{'address': ['This field is required.']}],
+                "location": "body",
+                "name": "buyers",
             }
         ],
     )
@@ -1060,9 +1060,9 @@ def create_plan_invalid_buyers(self):
         response.json["errors"],
         [
             {
-                u"description": [{u'address': {u'countryName': [u'This field is required.']}}],
-                u"location": u"body",
-                u"name": u"buyers",
+                "description": [{'address': {'countryName': ['This field is required.']}}],
+                "location": "body",
+                "name": "buyers",
             }
         ],
     )
@@ -1078,9 +1078,9 @@ def create_plan_invalid_buyers(self):
         response.json["errors"],
         [
             {
-                u"description": {u'address': {u'invalid_field': u'Rogue field'}},
-                u"location": u"body",
-                u"name": u"buyers",
+                "description": {'address': {'invalid_field': 'Rogue field'}},
+                "location": "body",
+                "name": "buyers",
             }
         ],
     )
@@ -1096,9 +1096,9 @@ def create_plan_invalid_buyers(self):
         response.json["errors"],
         [
             {
-                u'description': [{u'kind': [u'This field is required.']}],
-                u"location": u"body",
-                u"name": u"buyers",
+                'description': [{'kind': ['This field is required.']}],
+                "location": "body",
+                "name": "buyers",
             }
         ],
     )
@@ -1116,11 +1116,11 @@ def create_plan_invalid_buyers(self):
         response.json["errors"],
         [
             {
-                u"description": [{u'kind': [
-                    u"Value must be one of ('authority', 'central', 'defense', 'general', 'other', 'social', 'special')."
+                "description": [{'kind': [
+                    "Value must be one of ('authority', 'central', 'defense', 'general', 'other', 'social', 'special')."
                 ]}],
-                u"location": u"body",
-                u"name": u"buyers",
+                "location": "body",
+                "name": "buyers",
             }
         ],
     )
@@ -1164,8 +1164,8 @@ def create_plan_invalid_buyers(self):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
             response.json['data']['buyers'][0],
-            {"identifier": {"scheme": u"UA-EDR", "id": u"111983", "legalName": u"ДП Державне Управління Справами"},
-             "name": u"new_name123"}
+            {"identifier": {"scheme": "UA-EDR", "id": "111983", "legalName": "ДП Державне Управління Справами"},
+             "name": "new_name123"}
         )
 
         response = self.app.patch_json(
@@ -1181,10 +1181,10 @@ def create_plan_invalid_buyers(self):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
             response.json['data']['buyers'][0],
-            {"identifier": {"scheme": u"UA-EDR", "id": u"111983", "legalName": u"ДП Державне Управління Справами"},
-             "name": u"new_name123",
-             "address": {"countryName": u"Ірландія"},
-             "kind": u"defense"
+            {"identifier": {"scheme": "UA-EDR", "id": "111983", "legalName": "ДП Державне Управління Справами"},
+             "name": "new_name123",
+             "address": {"countryName": "Ірландія"},
+             "kind": "defense"
              }
         )
 
@@ -1205,19 +1205,19 @@ def create_plan_generated(self):
     self.assertEqual(
         set(plan),
         {
-            u"id",
-            u"dateModified",
-            u"datePublished",
-            u"planID",
-            u"budget",
-            u"tender",
-            u"buyers",
-            u"classification",
-            u"additionalClassifications",
-            u"items",
-            u"procuringEntity",
-            u"owner",
-            u"status",
+            "id",
+            "dateModified",
+            "datePublished",
+            "planID",
+            "budget",
+            "tender",
+            "buyers",
+            "classification",
+            "additionalClassifications",
+            "items",
+            "procuringEntity",
+            "owner",
+            "status",
         },
     )
     self.assertNotEqual(data["id"], plan["id"])
@@ -1235,7 +1235,7 @@ def create_plan(self):
     self.assertEqual(response.content_type, "application/json")
     plan = response.json["data"]
     self.assertEqual(
-        set(plan) - set(self.initial_data), {u"id", u"dateModified", u"datePublished", u"planID", u"owner", u"status"}
+        set(plan) - set(self.initial_data), {"id", "dateModified", "datePublished", "planID", "owner", "status"}
     )
     self.assertIn(plan["id"], response.headers["Location"])
 
@@ -1266,9 +1266,9 @@ def create_plan(self):
         response.json["errors"],
         [
             {
-                u"description": {u"year": [u"Can't use year field, use period field instead"]},
-                u"location": u"body",
-                u"name": u"budget",
+                "description": {"year": ["Can't use year field, use period field instead"]},
+                "location": "body",
+                "name": "budget",
             }
         ],
     )
@@ -1311,13 +1311,13 @@ def patch_plan(self):
     dateModified = plan.pop("dateModified")
 
     response = self.app.patch_json(
-        "/plans/{}?acc_token={}".format(plan["id"], acc_token), {"data": {"budget": {"id": u"12303111000-3"}}}
+        "/plans/{}?acc_token={}".format(plan["id"], acc_token), {"data": {"budget": {"id": "12303111000-3"}}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     new_plan = response.json["data"]
     new_dateModified = new_plan.pop("dateModified")
-    plan["budget"]["id"] = u"12303111000-3"
+    plan["budget"]["id"] = "12303111000-3"
     self.assertEqual(plan, new_plan)
     self.assertNotEqual(dateModified, new_dateModified)
 
@@ -1332,8 +1332,8 @@ def patch_plan(self):
     self.assertEqual(new_dateModified, new_dateModified2)
 
     revisions = self.db.get(plan["id"]).get("revisions")
-    self.assertEqual(revisions[-1][u"changes"][0]["op"], u"replace")
-    self.assertEqual(revisions[-1][u"changes"][0]["path"], u"/budget/id")
+    self.assertEqual(revisions[-1]["changes"][0]["op"], "replace")
+    self.assertEqual(revisions[-1]["changes"][0]["path"], "/budget/id")
 
     with change_auth(self.app, ("Basic", ("token", ""))):
         response = self.app.get("/plans/{}/revisions".format(plan["id"]))
@@ -1426,13 +1426,13 @@ def patch_plan(self):
         response.json["errors"],
         [
             {
-                u"description": {
-                    u"period": {
-                        u"endDate": [u"Period startDate and endDate must be within one year for belowThreshold."]
+                "description": {
+                    "period": {
+                        "endDate": ["Period startDate and endDate must be within one year for belowThreshold."]
                     }
                 },
-                u"location": u"body",
-                u"name": u"budget",
+                "location": "body",
+                "name": "budget",
             }
         ],
     )
@@ -1461,9 +1461,9 @@ def patch_plan_to_simpledefense(self):
     self.assertEqual(
         response.json["errors"],
         [{
-             u'description': u"Plan tender.procurementMethodType can not be changed from 'belowThreshold' to 'aboveThresholdUA.defense'",
-             u'location': u'body',
-             u'name': u'tender',
+             'description': "Plan tender.procurementMethodType can not be changed from 'belowThreshold' to 'aboveThresholdUA.defense'",
+             'location': 'body',
+             'name': 'tender',
         }]
     )
 
@@ -1493,9 +1493,9 @@ def patch_plan_to_openuadefense(self):
     self.assertEqual(
         response.json["errors"],
         [{
-            u'description': u"Plan tender.procurementMethodType can not be changed from 'belowThreshold' to 'simple.defense'",
-            u'location': u'body',
-            u'name': u'tender',
+            'description': "Plan tender.procurementMethodType can not be changed from 'belowThreshold' to 'simple.defense'",
+            'location': 'body',
+            'name': 'tender',
         }]
     )
 
@@ -1519,22 +1519,22 @@ def patch_plan_with_token(self):
     acc_token = response.json["access"]["token"]
     date_modified = plan.pop("dateModified")
 
-    self.app.patch_json("/plans/{}".format(plan["id"]), {"data": {"budget": {"id": u"12303111000-3"}}}, status=403)
+    self.app.patch_json("/plans/{}".format(plan["id"]), {"data": {"budget": {"id": "12303111000-3"}}}, status=403)
 
     self.app.patch_json(
         "/plans/{}?acc_token={}".format(plan["id"], uuid.uuid4().hex),
-        {"data": {"budget": {"id": u"12303111000-3"}}},
+        {"data": {"budget": {"id": "12303111000-3"}}},
         status=403,
     )
 
     response = self.app.patch_json(
-        "/plans/{}?acc_token={}".format(plan["id"], acc_token), {"data": {"budget": {"id": u"12303111000-3"}}}
+        "/plans/{}?acc_token={}".format(plan["id"], acc_token), {"data": {"budget": {"id": "12303111000-3"}}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     new_plan = response.json["data"]
     new_date_modified = new_plan.pop("dateModified")
-    plan["budget"]["id"] = u"12303111000-3"
+    plan["budget"]["id"] = "12303111000-3"
     self.assertEqual(plan, new_plan)
     self.assertNotEqual(date_modified, new_date_modified)
 
@@ -1565,7 +1565,7 @@ def plan_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"plan_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "plan_id"}]
     )
 
     response = self.app.patch_json("/plans/some_id", {"data": {}}, status=404)
@@ -1573,7 +1573,7 @@ def plan_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"plan_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "plan_id"}]
     )
 
 
@@ -1590,7 +1590,7 @@ def esco_plan(self):
     self.assertEqual(response.content_type, "application/json")
     plan = response.json["data"]
     self.assertEqual(
-        set(plan) - set(self.initial_data), {u"id", u"dateModified", u"datePublished", u"planID", u"owner", u"status"}
+        set(plan) - set(self.initial_data), {"id", "dateModified", "datePublished", "planID", "owner", "status"}
     )
     self.assertNotIn("budget", plan)
     self.assertIn(plan["id"], response.headers["Location"])
@@ -1601,7 +1601,7 @@ def esco_plan(self):
     self.assertEqual(response.content_type, "application/json")
     plan = response.json["data"]
     self.assertEqual(
-        set(plan) - set(self.initial_data), {u"id", u"dateModified", u"datePublished", u"planID", u"owner", u"status"}
+        set(plan) - set(self.initial_data), {"id", "dateModified", "datePublished", "planID", "owner", "status"}
     )
     self.assertIn("budget", plan)
     self.assertIn(plan["id"], response.headers["Location"])
@@ -1620,7 +1620,7 @@ def cfaua_plan(self):
     self.assertEqual(response.content_type, "application/json")
     plan = response.json["data"]
     self.assertEqual(
-        set(plan) - set(self.initial_data), {u"id", u"dateModified", u"datePublished", u"planID", u"owner", u"status"}
+        set(plan) - set(self.initial_data), {"id", "dateModified", "datePublished", "planID", "owner", "status"}
     )
     self.assertIn("budget", plan)
     period = plan["budget"]["period"]
@@ -1644,15 +1644,15 @@ def cfaua_plan(self):
         response.json["errors"],
         [
             {
-                u"description": {
-                    u"period": {
-                        u"endDate": [
-                            u"Period startDate and endDate must be within 5 budget years for closeFrameworkAgreementUA."
+                "description": {
+                    "period": {
+                        "endDate": [
+                            "Period startDate and endDate must be within 5 budget years for closeFrameworkAgreementUA."
                         ]
                     }
                 },
-                u"location": u"body",
-                u"name": u"budget",
+                "location": "body",
+                "name": "budget",
             }
         ],
     )
@@ -1669,9 +1669,9 @@ def create_plan_budget_year(self):
         response.json["errors"],
         [
             {
-                u"description": {u"period": [u"Can't use period field, use year field instead"]},
-                u"location": u"body",
-                u"name": u"budget",
+                "description": {"period": ["Can't use period field, use year field instead"]},
+                "location": "body",
+                "name": "budget",
             }
         ],
     )
@@ -1682,7 +1682,7 @@ def create_plan_budget_year(self):
     plan = response.json["data"]
     self.assertEqual(
         set(plan) - set(self.initial_data_with_year),
-        {u"id", u"dateModified", u"datePublished", u"planID", u"owner", u"status"},
+        {"id", "dateModified", "datePublished", "planID", "owner", "status"},
     )
     self.assertIn(plan["id"], response.headers["Location"])
     self.assertIn("year", plan["budget"])
@@ -1732,7 +1732,7 @@ def fail_create_plan_without_buyers(self):
             response.json,
             {
                 "status": "error",
-                "errors": [{"location": "body", "name": "buyers", "description": [u"Please provide at least 1 item."]}],
+                "errors": [{"location": "body", "name": "buyers", "description": ["Please provide at least 1 item."]}],
             },
         )
 
@@ -1742,8 +1742,8 @@ def fail_create_plan_without_buyers(self):
         self.assertEqual(
             response.json,
             {
-                u"status": u"error",
-                u"errors": [{u"description": [[u"This field is required."]], u"location": u"body", u"name": u"buyers"}],
+                "status": "error",
+                "errors": [{"description": [["This field is required."]], "location": "body", "name": "buyers"}],
             },
         )
 
@@ -1754,9 +1754,9 @@ def create_plan_with_buyers(self):
         dict(
             name="",
             name_en="",
-            identifier=dict(scheme=u"UA-EDR", id=u"111983", legalName=u"ДП Державне Управління Справами"),
-            address=dict(countryName=u"Україна", postalCode=u"01220", locality= u"м. Київ"),
-            kind=u"general"
+            identifier=dict(scheme="UA-EDR", id="111983", legalName="ДП Державне Управління Справами"),
+            address=dict(countryName="Україна", postalCode="01220", locality= "м. Київ"),
+            kind="general"
         )
     ]
     response = self.app.post_json("/plans", {"data": data})
@@ -1782,16 +1782,16 @@ def create_plan_with_two_buyers(self):
         dict(
             name="1",
             name_en="1",
-            identifier=dict(scheme=u"UA-EDR", id=u"111983", legalName=u"ДП Державне Управління Справами"),
-            address=dict(countryName=u"Україна", postalCode=u"01220", locality=u"м. Київ"),
-            kind=u"general"
+            identifier=dict(scheme="UA-EDR", id="111983", legalName="ДП Державне Управління Справами"),
+            address=dict(countryName="Україна", postalCode="01220", locality="м. Київ"),
+            kind="general"
         ),
         dict(
             name="2",
             name_en="2",
-            identifier=dict(scheme=u"UA-EDR", id=u"111983", legalName=u"ДП Державне Управління Справами"),
-            address=dict(countryName=u"Україна", postalCode=u"01220", locality=u"м. Київ"),
-            kind=u"other"
+            identifier=dict(scheme="UA-EDR", id="111983", legalName="ДП Державне Управління Справами"),
+            address=dict(countryName="Україна", postalCode="01220", locality="м. Київ"),
+            kind="other"
         ),
     ]
     response = self.app.post_json("/plans", {"data": data}, status=422)
@@ -1833,7 +1833,7 @@ def create_plan_with_breakdown_required(self):
 
     self.assertEqual(
         response.json["errors"],
-        [{u"description": {u"breakdown": [u"This field is required."]}, u"location": u"body", u"name": u"budget"}],
+        [{"description": {"breakdown": ["This field is required."]}, "location": "body", "name": "budget"}],
     )
 
 
@@ -1883,17 +1883,17 @@ def fail_create_plan_with_breakdown_invalid_title(self):
         response.json["errors"],
         [
             {
-                u"description": {
-                    u"breakdown": [
+                "description": {
+                    "breakdown": [
                         {
-                            u"title": [
-                                u"Value must be one of ['state', 'crimea', 'local', 'own', 'fund', 'loan', 'other']."
+                            "title": [
+                                "Value must be one of ['state', 'crimea', 'local', 'own', 'fund', 'loan', 'other']."
                             ]
                         }
                     ]
                 },
-                u"location": u"body",
-                u"name": u"budget",
+                "location": "body",
+                "name": "budget",
             }
         ],
     )
@@ -1928,9 +1928,9 @@ def fail_create_plan_with_breakdown_other_title(self):
         response.json["errors"],
         [
             {
-                u"description": {u"breakdown": [{u"description": [u"This field is required."]}]},
-                u"location": u"body",
-                u"name": u"budget",
+                "description": {"breakdown": [{"description": ["This field is required."]}]},
+                "location": "body",
+                "name": "budget",
             }
         ],
     )
@@ -1947,11 +1947,11 @@ def fail_create_plan_with_diff_breakdown_currencies(self):
 
     expected_errors = [
         {
-            u"description": {
-                u"breakdown": [u"Currency should be identical for all budget breakdown values and budget"]
+            "description": {
+                "breakdown": ["Currency should be identical for all budget breakdown values and budget"]
             },
-            u"location": u"body",
-            u"name": u"budget",
+            "location": "body",
+            "name": "budget",
         }
     ]
 
@@ -1990,11 +1990,11 @@ def fail_create_plan_with_amounts_sum_greater(self):
 
     expected_errors = [
         {
-            u"description": {
-                u"breakdown": [u"Sum of the breakdown values amounts can't be greater than budget amount"]
+            "description": {
+                "breakdown": ["Sum of the breakdown values amounts can't be greater than budget amount"]
             },
-            u"location": u"body",
-            u"name": u"budget",
+            "location": "body",
+            "name": "budget",
         }
     ]
 
@@ -2017,7 +2017,7 @@ def plan_token_invalid(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Forbidden", u"location": u"url", u"name": u"permission"}]
+        response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}]
     )
 
     response = self.app.patch_json(

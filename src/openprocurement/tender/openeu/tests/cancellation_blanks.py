@@ -148,20 +148,20 @@ def bids_on_tender_cancellation_in_auction(self):
 
 def bids_on_tender_cancellation_in_qualification(self):
     self.bid_visible_fields = [
-        u"status",
-        u"documents",
-        u"tenderers",
-        u"id",
-        u"selfQualified",
-        u"eligibilityDocuments",
-        u"value",
-        u"date",
-        u"financialDocuments",
-        u"participationUrl",
-        u"qualificationDocuments",
+        "status",
+        "documents",
+        "tenderers",
+        "id",
+        "selfQualified",
+        "eligibilityDocuments",
+        "value",
+        "date",
+        "financialDocuments",
+        "participationUrl",
+        "qualificationDocuments",
     ]
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
-        self.bid_visible_fields.append(u"selfEligible")
+        self.bid_visible_fields.append("selfEligible")
 
     deleted_bid_id = self._mark_one_bid_deleted()
 
@@ -183,15 +183,15 @@ def bids_on_tender_cancellation_in_qualification(self):
 
     self.app.authorization = ("Basic", ("broker", ""))
     visible_fields = {
-        u"documents",
-        u"eligibilityDocuments",
-        u"id",
-        u"status",
-        u"tenderers",
-        u"selfQualified",
+        "documents",
+        "eligibilityDocuments",
+        "id",
+        "status",
+        "tenderers",
+        "selfQualified",
     }
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
-        visible_fields.add(u"selfEligible")
+        visible_fields.add("selfEligible")
     for bid in tender["bids"]:
         if bid["id"] in self.valid_bids:
             self.assertEqual(bid["status"], "active")
@@ -243,21 +243,21 @@ def bids_on_tender_cancellation_in_qualification(self):
 
 def bids_on_tender_cancellation_in_awarded(self):
     self.bid_visible_fields = [
-        u"status",
-        u"documents",
-        u"tenderers",
-        u"id",
-        u"selfQualified",
-        u"eligibilityDocuments",
-        u"value",
-        u"date",
-        u"financialDocuments",
-        u"participationUrl",
-        u"qualificationDocuments",
+        "status",
+        "documents",
+        "tenderers",
+        "id",
+        "selfQualified",
+        "eligibilityDocuments",
+        "value",
+        "date",
+        "financialDocuments",
+        "participationUrl",
+        "qualificationDocuments",
     ]
 
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
-        self.bid_visible_fields.append(u"selfEligible")
+        self.bid_visible_fields.append("selfEligible")
     self._mark_one_bid_deleted()
 
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
@@ -797,8 +797,8 @@ def create_cancellation_in_qualification_complaint_period(self):
     self.assertEqual(
         response.json["errors"],
         [{
-            u"description": u"Cancellation can't be add when exists active complaint period",
-            u"location": u"body",
-            u"name": u"data"
+            "description": "Cancellation can't be add when exists active complaint period",
+            "location": "body",
+            "name": "data"
         }],
     )

@@ -66,7 +66,7 @@ DEFAULT_DESCENDING = False
 def validate_dkpp(items, *args):
     if items and not any([i.scheme in ADDITIONAL_CLASSIFICATIONS_SCHEMES for i in items]):
         raise ValidationError(
-            u"One of additional classifications should be one of [{0}].".format(
+            "One of additional classifications should be one of [{0}].".format(
                 ", ".join(ADDITIONAL_CLASSIFICATIONS_SCHEMES)
             )
         )
@@ -399,7 +399,7 @@ def prepare_patch(changes, orig, patch, basepath=""):
                 changes.append({"op": "add", "path": "{}/{}".format(basepath, i), "value": patch[i]})
     elif isinstance(patch, list):
         if len(patch) < len(orig):
-            for i in reversed(range(len(patch), len(orig))):
+            for i in reversed(list(range(len(patch), len(orig)))):
                 changes.append({"op": "remove", "path": "{}/{}".format(basepath, i)})
         for i, j in enumerate(patch):
             if len(orig) > i:
@@ -592,7 +592,7 @@ class APIResourceListing(APIResource):
                 view_offset = offset
             else:
                 view_offset = "9" if descending else ""
-        list_view = view_map.get(mode, view_map[u""])
+        list_view = view_map.get(mode, view_map[""])
         if self.update_after:
             view = partial(
                 list_view, self.db, limit=view_limit, startkey=view_offset, descending=descending, stale="update_after"
@@ -717,7 +717,7 @@ class APIResourcePaginatedListing(APIResource):
                 extra=context_unpack(self.request, {'MESSAGE_ID': "CUSTOM_LIST"}))
 
             results = [
-                self.serialize(self.request, i[u'doc'], opt_fields | self.default_fields)
+                self.serialize(self.request, i['doc'], opt_fields | self.default_fields)
                 for i in list_view(self.db, include_docs=True, **view_kwargs)
             ]
         else:
@@ -810,12 +810,12 @@ def decrypt(uuid, name, key):
 
 
 def set_modetest_titles(item):
-    if not item.title or u"[ТЕСТУВАННЯ]" not in item.title:
-        item.title = u"[ТЕСТУВАННЯ] {}".format(item.title or u"")
-    if not item.title_en or u"[TESTING]" not in item.title_en:
-        item.title_en = u"[TESTING] {}".format(item.title_en or u"")
-    if not item.title_ru or u"[ТЕСТИРОВАНИЕ]" not in item.title_ru:
-        item.title_ru = u"[ТЕСТИРОВАНИЕ] {}".format(item.title_ru or u"")
+    if not item.title or "[ТЕСТУВАННЯ]" not in item.title:
+        item.title = "[ТЕСТУВАННЯ] {}".format(item.title or "")
+    if not item.title_en or "[TESTING]" not in item.title_en:
+        item.title_en = "[TESTING] {}".format(item.title_en or "")
+    if not item.title_ru or "[ТЕСТИРОВАНИЕ]" not in item.title_ru:
+        item.title_ru = "[ТЕСТИРОВАНИЕ] {}".format(item.title_ru or "")
 
 
 class DecimalEncoder(json.JSONEncoder):
@@ -949,7 +949,7 @@ def get_uah_amount_from_value(request, value, logging_params):
         else:
             raise raise_operation_error(
                 request,
-                u"Couldn't find currency {} on bank.gov.ua".format(currency),
+                "Couldn't find currency {} on bank.gov.ua".format(currency),
                 status=422
             )
 

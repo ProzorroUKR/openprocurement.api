@@ -162,7 +162,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.post_json(
                 '/contracts/{}/changes?acc_token={}'.format(contract_id, contract_token),
                 {'data': {
-                    'rationale': u'Опис причини змін контракту',
+                    'rationale': 'Опис причини змін контракту',
                     'rationale_en': 'Contract change cause',
                     'rationaleTypes': ['volumeCuts', 'priceReduction']
                 }})
@@ -178,7 +178,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'patch-contract-change.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/contracts/{}/changes/{}?acc_token={}'.format(contract_id, change['id'], contract_token),
-                {'data': {'rationale': u'Друга і третя поставка має бути розфасована'}})
+                {'data': {'rationale': 'Друга і третя поставка має бути розфасована'}})
             self.assertEqual(response.status, '200 OK')
             self.assertEqual(response.content_type, 'application/json')
             change = response.json['data']
@@ -255,7 +255,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'upload-contract-document.http', 'w') as self.app.file_obj:
             response = self.app.post('/contracts/{}/documents?acc_token={}'.format(
                 contract_id, contract_token),
-                upload_files=[('file', u'contract.doc', b'content')])
+                upload_files=[('file', 'contract.doc', b'content')])
 
         with open(TARGET_DIR + 'contract-documents.http', 'w') as self.app.file_obj:
             response = self.app.get('/contracts/{}/documents?acc_token={}'.format(
@@ -264,7 +264,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'upload-contract-document-2.http', 'w') as self.app.file_obj:
             response = self.app.post('/contracts/{}/documents?acc_token={}'.format(
                 contract_id, contract_token),
-                upload_files=[('file', u'contract_additional_docs.doc', b'additional info')])
+                upload_files=[('file', 'contract_additional_docs.doc', b'additional info')])
 
         doc_id = response.json['data']['id']
 

@@ -18,7 +18,7 @@ class PeriodEndRequired(BasePeriodEndRequired):
     # TODO different validator compared with belowthreshold
     def validate_startDate(self, data, value):
         if value and data.get("endDate") and data.get("endDate") < value:
-            raise ValidationError(u"period should begin before its end")
+            raise ValidationError("period should begin before its end")
 
 
 class TenderAuctionPeriod(Period):

@@ -107,8 +107,8 @@ def test_fail_post_milestone_author(app, centralized_plan):
         {"data": data},
         status=422
     )
-    assert response.json == {u"status": u"error", u"errors": [
-        {u"description": u"Should match plan.procuringEntity", u"location": u"body", u"name": u"author"}]}
+    assert response.json == {"status": "error", "errors": [
+        {"description": "Should match plan.procuringEntity", "location": "body", "name": "author"}]}
 
 
 def test_post_milestone_author_validate_identifier(app, centralized_plan):
@@ -142,9 +142,9 @@ def test_fail_post_milestone_status(app, centralized_plan, test_status):
         {"data": data},
         status=422
     )
-    assert response.json == {u"status": u"error", u"errors": [
-        {u"description": u"Cannot create milestone with status: {}".format(test_status),
-         u"location": u"body", u"name": u"status"}]}
+    assert response.json == {"status": "error", "errors": [
+        {"description": "Cannot create milestone with status: {}".format(test_status),
+         "location": "body", "name": "status"}]}
 
 
 def test_post_milestone(app, centralized_plan):
@@ -213,9 +213,9 @@ def test_fail_post_another_milestone(app, centralized_milestone, test_status):
         {"data": test_milestone_data(app)},
         status=422
     )
-    assert response.json == {u'status': u'error', u'errors': [
-        {u'description': u'An active milestone already exists for this author',
-         u'location': u'body', u'name': u'author'}]}
+    assert response.json == {'status': 'error', 'errors': [
+        {'description': 'An active milestone already exists for this author',
+         'location': 'body', 'name': 'author'}]}
 
 
 @pytest.mark.parametrize("test_status", [Milestone.STATUS_NOT_MET, Milestone.STATUS_INVALID])
@@ -438,9 +438,9 @@ def test_fail_patch_milestone_status(app, centralized_milestone):
         {"data": {"status": Milestone.STATUS_INVALID}},
         status=403
     )
-    assert response.json == {u"status": u"error", u"errors": [
-        {u"description": u"Can't update milestone status from 'scheduled' to 'invalid'",
-         u"location": u"body", u"name": u"data"}]}
+    assert response.json == {"status": "error", "errors": [
+        {"description": "Can't update milestone status from 'scheduled' to 'invalid'",
+         "location": "body", "name": "data"}]}
 
 
 def test_forbidden_update_milestone_documents(app, centralized_milestone):
@@ -457,8 +457,8 @@ def test_forbidden_update_milestone_documents(app, centralized_milestone):
         {"data": {}},
         status=403
     )
-    assert response.json == {u"status": u"error", u"errors": [
-        {u"description": u"Forbidden", u"location": u"url", u"name": u"permission"}]}
+    assert response.json == {"status": "error", "errors": [
+        {"description": "Forbidden", "location": "url", "name": "permission"}]}
 
     # put
     document = milestone["documents"][0]
@@ -468,8 +468,8 @@ def test_forbidden_update_milestone_documents(app, centralized_milestone):
         {"data": {}},
         status=403
     )
-    assert response.json == {u"status": u"error", u"errors": [
-        {u"description": u"Forbidden", u"location": u"url", u"name": u"permission"}]}
+    assert response.json == {"status": "error", "errors": [
+        {"description": "Forbidden", "location": "url", "name": "permission"}]}
 
     # patch
     response = app.patch_json(
@@ -478,8 +478,8 @@ def test_forbidden_update_milestone_documents(app, centralized_milestone):
         {"data": {}},
         status=403
     )
-    assert response.json == {u"status": u"error", u"errors": [
-        {u"description": u"Forbidden", u"location": u"url", u"name": u"permission"}]}
+    assert response.json == {"status": "error", "errors": [
+        {"description": "Forbidden", "location": "url", "name": "permission"}]}
 
 
 def test_update_milestone_documents(app, centralized_milestone):
@@ -604,19 +604,19 @@ def test_success_patch_plan_procuring_entity_in_time(app, centralized_milestone,
 
     new_procuring_entity = {
         "identifier": {
-            "scheme": u"UA-EDR",
-            "id": u"222222",
-            "legalName": u"ЦЗО 2"
+            "scheme": "UA-EDR",
+            "id": "222222",
+            "legalName": "ЦЗО 2"
         },
-        "name": u"ЦЗО 2",
+        "name": "ЦЗО 2",
         "address": {
-            "countryName": u"Україна",
-            "postalCode": u"01220",
-            "region": u"м. Київ",
-            "locality": u"м. Київ",
-            "streetAddress": u"вул. Банкова, 11, корпус 1",
+            "countryName": "Україна",
+            "postalCode": "01220",
+            "region": "м. Київ",
+            "locality": "м. Київ",
+            "streetAddress": "вул. Банкова, 11, корпус 1",
         },
-        "kind": u"general",
+        "kind": "general",
     }
     response = app.patch_json(
         "/plans/{}?acc_token={}".format(plan["id"], plan_token),
@@ -676,26 +676,26 @@ def test_fail_patch_plan_procuring_entity_not_in_time(app, centralized_milestone
         {"data": {
             "procuringEntity": {
                 "identifier": {
-                    "scheme": u"UA-EDR",
-                    "id": u"222222",
-                    "legalName": u"ЦЗО 2"
+                    "scheme": "UA-EDR",
+                    "id": "222222",
+                    "legalName": "ЦЗО 2"
                 },
-                "name": u"ЦЗО 2",
+                "name": "ЦЗО 2",
                 "address": {
-                    "countryName": u"Україна",
-                    "postalCode": u"01220",
-                    "region": u"м. Київ",
-                    "locality": u"м. Київ",
-                    "streetAddress": u"вул. Банкова, 11, корпус 1",
+                    "countryName": "Україна",
+                    "postalCode": "01220",
+                    "region": "м. Київ",
+                    "locality": "м. Київ",
+                    "streetAddress": "вул. Банкова, 11, корпус 1",
                 },
-                "kind": u"general",
+                "kind": "general",
             }
         }},
         status=403
     )
-    assert response.json == {u'status': u'error', u'errors': [
-        {u'description': u"Can't update procuringEntity later than 2 business days before tenderPeriod.StartDate",
-         u'location': u'body', u'name': u'data'}]}
+    assert response.json == {'status': 'error', 'errors': [
+        {'description': "Can't update procuringEntity later than 2 business days before tenderPeriod.StartDate",
+         'location': 'body', 'name': 'data'}]}
 
 
 @pytest.mark.parametrize("test_status", [Milestone.STATUS_NOT_MET, Milestone.STATUS_INVALID])
@@ -716,19 +716,19 @@ def test_success_patch_plan_procuring_entity_not_in_time(app, centralized_milest
 
     request_entity = {
         "identifier": {
-            "scheme": u"UA-EDR",
-            "id": u"222222",
-            "legalName": u"ЦЗО 2"
+            "scheme": "UA-EDR",
+            "id": "222222",
+            "legalName": "ЦЗО 2"
         },
-        "name": u"ЦЗО 2",
+        "name": "ЦЗО 2",
         "address": {
-            "countryName": u"Україна",
-            "postalCode": u"01220",
-            "region": u"м. Київ",
-            "locality": u"м. Київ",
-            "streetAddress": u"вул. Банкова, 11, корпус 1",
+            "countryName": "Україна",
+            "postalCode": "01220",
+            "region": "м. Київ",
+            "locality": "м. Київ",
+            "streetAddress": "вул. Банкова, 11, корпус 1",
         },
-        "kind": u"general",
+        "kind": "general",
     }
     response = app.patch_json(
         "/plans/{}?acc_token={}".format(plan["id"], plan_token),

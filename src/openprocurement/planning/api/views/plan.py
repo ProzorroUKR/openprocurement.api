@@ -47,16 +47,16 @@ from dateorro import calc_working_datetime
 
 LOGGER = getLogger(__name__)
 VIEW_MAP = {
-    u"": plans_real_by_dateModified_view,
-    u"test": plans_test_by_dateModified_view,
-    u"_all_": plans_by_dateModified_view,
+    "": plans_real_by_dateModified_view,
+    "test": plans_test_by_dateModified_view,
+    "_all_": plans_by_dateModified_view,
 }
 CHANGES_VIEW_MAP = {
-    u"": plans_real_by_local_seq_view,
-    u"test": plans_test_by_local_seq_view,
-    u"_all_": plans_by_local_seq_view,
+    "": plans_real_by_local_seq_view,
+    "test": plans_test_by_local_seq_view,
+    "_all_": plans_by_local_seq_view,
 }
-FEED = {u"dateModified": VIEW_MAP, u"changes": CHANGES_VIEW_MAP}
+FEED = {"dateModified": VIEW_MAP, "changes": CHANGES_VIEW_MAP}
 
 
 @opresource(

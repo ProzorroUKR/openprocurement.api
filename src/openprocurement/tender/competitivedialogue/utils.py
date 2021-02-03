@@ -206,11 +206,11 @@ def validate_features_custom_weight(self, data, features, max_sum):
         )
     ):
         raise ValidationError(
-            u"Sum of max value of all features for lot should be less then or equal to {:.0f}%".format(max_sum * 100)
+            "Sum of max value of all features for lot should be less then or equal to {:.0f}%".format(max_sum * 100)
         )
     elif features and not data["lots"] and round(vnmax(features), 15) > max_sum:
         raise ValidationError(
-            u"Sum of max value of all features should be less then or equal to {:.0f}%".format(max_sum * 100)
+            "Sum of max value of all features should be less then or equal to {:.0f}%".format(max_sum * 100)
         )
 
 
@@ -271,11 +271,11 @@ def prepare_shortlistedFirms(shortlistedFirms):
     """
     all_keys = set()
     for firm in shortlistedFirms:
-        key = u"{firm_id}_{firm_scheme}".format(
+        key = "{firm_id}_{firm_scheme}".format(
             firm_id=firm["identifier"]["id"], firm_scheme=firm["identifier"]["scheme"]
         )
         if firm.get("lots"):
-            keys = set([u"{key}_{lot_id}".format(key=key, lot_id=lot["id"]) for lot in firm.get("lots")])
+            keys = set(["{key}_{lot_id}".format(key=key, lot_id=lot["id"]) for lot in firm.get("lots")])
         else:
             keys = set([key])
         all_keys |= keys
@@ -289,11 +289,11 @@ def prepare_author(obj):
         {author.identifier.id}_{author.identifier.scheme}_{lot.id}
         if obj has relatedItem and questionOf != tender or obj has relatedLot than
     """
-    base_key = u"{id}_{scheme}".format(
+    base_key = "{id}_{scheme}".format(
         scheme=obj["author"]["identifier"]["scheme"], id=obj["author"]["identifier"]["id"]
     )
     if obj.get("relatedLot") or (obj.get("relatedItem") and obj.get("questionOf") == "lot"):
-        base_key = u"{base_key}_{lotId}".format(
+        base_key = "{base_key}_{lotId}".format(
             base_key=base_key, lotId=obj.get("relatedLot") or obj.get("relatedItem")
         )
     return base_key
@@ -305,9 +305,9 @@ def prepare_bid_identifier(bid):
     """
     all_keys = set()
     for tenderer in bid["tenderers"]:
-        key = u"{id}_{scheme}".format(id=tenderer["identifier"]["id"], scheme=tenderer["identifier"]["scheme"])
+        key = "{id}_{scheme}".format(id=tenderer["identifier"]["id"], scheme=tenderer["identifier"]["scheme"])
         if bid.get("lotValues"):
-            keys = set([u"{key}_{lot_id}".format(key=key, lot_id=lot["relatedLot"]) for lot in bid.get("lotValues")])
+            keys = set(["{key}_{lot_id}".format(key=key, lot_id=lot["relatedLot"]) for lot in bid.get("lotValues")])
         else:
             keys = set([key])
         all_keys |= keys

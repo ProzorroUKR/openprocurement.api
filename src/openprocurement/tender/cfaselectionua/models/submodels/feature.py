@@ -34,10 +34,10 @@ class Feature(Model):
 
     def validate_relatedItem(self, data, relatedItem):
         if not relatedItem and data.get("featureOf") in ["item", "lot"]:
-            raise ValidationError(u"This field is required.")
+            raise ValidationError("This field is required.")
         parent = data["__parent__"]
         if isinstance(parent, Model):
             if data.get("featureOf") == "item" and relatedItem not in [i.id for i in parent.items if i]:
-                raise ValidationError(u"relatedItem should be one of items")
+                raise ValidationError("relatedItem should be one of items")
             if data.get("featureOf") == "lot" and relatedItem not in [i.id for i in parent.lots if i]:
-                raise ValidationError(u"relatedItem should be one of lots")
+                raise ValidationError("relatedItem should be one of lots")

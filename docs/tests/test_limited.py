@@ -100,7 +100,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'tutorial/upload-tender-notice.http', 'wt') as self.app.file_obj:
             response = self.app.post('/tenders/{}/documents?acc_token={}'.format(
                 self.tender_id, owner_token),
-                upload_files=[('file', u'Notice.pdf', b'content')])
+                upload_files=[('file', 'Notice.pdf', b'content')])
             self.assertEqual(response.status, '201 Created')
 
         doc_id = response.json["data"]["id"]
@@ -337,7 +337,7 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
             with open(TARGET_DIR + 'tutorial/upload-cancellation-doc.http', 'w') as self.app.file_obj:
                 response = self.app.post('/tenders/{}/cancellations/{}/documents?acc_token={}'.format(
                     self.tender_id, cancellation_id, owner_token),
-                    upload_files=[('file', u'Notice.pdf', b'content')])
+                    upload_files=[('file', 'Notice.pdf', b'content')])
                 cancellation_doc_id = response.json['data']['id']
                 self.assertEqual(response.status, '201 Created')
 

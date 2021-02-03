@@ -452,7 +452,7 @@ def get_tender_complaint_post_document_json(self):
     # create document by reviewer
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
         response = self.post_post_document({
-            "title": u"укр.doc",
+            "title": "укр.doc",
             "url": self.generate_docservice_url(),
             "hash": "md5:" + "0" * 32,
             "format": "application/msword",
@@ -462,7 +462,7 @@ def get_tender_complaint_post_document_json(self):
     self.assertEqual(response.content_type, "application/json")
     document = response.json["data"]
     self.assertIn(document["id"], response.headers["Location"])
-    self.assertEqual(u"укр.doc", document["title"])
+    self.assertEqual("укр.doc", document["title"])
     self.assertIn("Signature=", document["url"])
     self.assertIn("KeyID=", document["url"])
     self.assertNotIn("Expires=", document["url"])
@@ -482,19 +482,19 @@ def get_tender_complaint_post_document_json(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(document["id"], documents[-1]["id"])
-    self.assertEqual(u"укр.doc", documents[-1]["title"])
+    self.assertEqual("укр.doc", documents[-1]["title"])
 
     response = self.get_post_documents(params={"all": "true"})
     documents = response.json["data"]
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(document["id"], documents[-1]["id"])
-    self.assertEqual(u"укр.doc", documents[-1]["title"])
+    self.assertEqual("укр.doc", documents[-1]["title"])
 
     # put document by reviewer
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
         response = self.post_post_document({
-            "title": u"укр.doc",
+            "title": "укр.doc",
             "url": self.generate_docservice_url(),
             "hash": "md5:" + "0" * 32,
             "format": "application/msword",
@@ -503,7 +503,7 @@ def get_tender_complaint_post_document_json(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     document = response.json["data"]
-    self.assertEqual(u"укр.doc", document["title"])
+    self.assertEqual("укр.doc", document["title"])
     dateModified = document["dateModified"]
     datePublished = document["datePublished"]
     self.assertIn(document["id"], response.headers["Location"])
@@ -512,7 +512,7 @@ def get_tender_complaint_post_document_json(self):
 
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
         response = self.put_post_document({
-            "title": u"name.doc",
+            "title": "name.doc",
             "url": self.generate_docservice_url(),
             "hash": "md5:" + "0" * 32,
             "format": "application/msword",
@@ -540,7 +540,7 @@ def get_tender_complaint_post_document_json(self):
     self.assertEqual(response.content_type, "application/json")
     document = response.json["data"]
     self.assertEqual(self.document_id, document["id"])
-    self.assertEqual(u"name.doc", document["title"])
+    self.assertEqual("name.doc", document["title"])
     dateModified2 = document["dateModified"]
     self.assertTrue(dateModified < dateModified2)
     self.assertEqual(dateModified, document["previousVersions"][0]["dateModified"])
@@ -580,7 +580,7 @@ def create_tender_complaint_post_document_json(self):
     # create document by reviewer
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
         response = self.post_post_document({
-            "title": u"укр.doc",
+            "title": "укр.doc",
             "url": self.generate_docservice_url(),
             "hash": "md5:" + "0" * 32,
             "format": "application/msword",
@@ -592,7 +592,7 @@ def create_tender_complaint_post_document_json(self):
 
     # create document by complaint_owner
     response = self.post_post_document({
-        "title": u"укр.doc",
+        "title": "укр.doc",
         "url": self.generate_docservice_url(),
         "hash": "md5:" + "0" * 32,
         "format": "application/msword",
@@ -607,7 +607,7 @@ def create_tender_complaint_post_document_json(self):
 
     # create document by tender_owner
     response = self.post_post_document({
-        "title": u"укр.doc",
+        "title": "укр.doc",
         "url": self.generate_docservice_url(),
         "hash": "md5:" + "0" * 32,
         "format": "application/msword",
@@ -633,7 +633,7 @@ def create_tender_complaint_post_document_json(self):
     # create document by reviewer
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
         response = self.post_post_document({
-            "title": u"укр.doc",
+            "title": "укр.doc",
             "url": self.generate_docservice_url(),
             "hash": "md5:" + "0" * 32,
             "format": "application/msword",
@@ -659,7 +659,7 @@ def create_tender_complaint_post_document_json(self):
     # create post by reviewer
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
         response = self.post_post_document({
-            "title": u"укр.doc",
+            "title": "укр.doc",
             "url": self.generate_docservice_url(),
             "hash": "md5:" + "0" * 32,
             "format": "application/msword",
@@ -707,7 +707,7 @@ def create_tender_complaint_post_by_complaint_owner_document_json(self):
 
     # create document by complaint_owner
     response = self.post_post_document({
-        "title": u"укр.doc",
+        "title": "укр.doc",
         "url": self.generate_docservice_url(),
         "hash": "md5:" + "0" * 32,
         "format": "application/msword",
@@ -756,7 +756,7 @@ def create_tender_complaint_post_by_tender_owner_document_json(self):
 
     # create document by tender_owner
     response = self.post_post_document({
-        "title": u"укр.doc",
+        "title": "укр.doc",
         "url": self.generate_docservice_url(),
         "hash": "md5:" + "0" * 32,
         "format": "application/msword",
@@ -792,7 +792,7 @@ def put_tender_complaint_document_json(self):
     # put document by reviewer
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
         response = self.post_post_document({
-            "title": u"укр.doc",
+            "title": "укр.doc",
             "url": self.generate_docservice_url(),
             "hash": "md5:" + "0" * 32,
             "format": "application/msword",
@@ -807,7 +807,7 @@ def put_tender_complaint_document_json(self):
 
     # put document by complaint_owner
     response = self.put_post_document({
-        "title": u"name.doc",
+        "title": "name.doc",
         "url": self.generate_docservice_url(),
         "hash": "md5:" + "0" * 32,
         "format": "application/msword",
@@ -822,7 +822,7 @@ def put_tender_complaint_document_json(self):
 
     # put document by tender_owner
     response = self.put_post_document({
-        "title": u"name.doc",
+        "title": "name.doc",
         "url": self.generate_docservice_url(),
         "hash": "md5:" + "0" * 32,
         "format": "application/msword",
@@ -848,7 +848,7 @@ def put_tender_complaint_document_json(self):
     # put document by reviewer
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
         response = self.put_post_document({
-            "title": u"name.doc",
+            "title": "name.doc",
             "url": self.generate_docservice_url(),
             "hash": "md5:" + "0" * 32,
             "format": "application/msword",
@@ -874,7 +874,7 @@ def put_tender_complaint_document_json(self):
     # put document by reviewer
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
         response = self.put_post_document({
-            "title": u"name.doc",
+            "title": "name.doc",
             "url": self.generate_docservice_url(),
             "hash": "md5:" + "0" * 32,
             "format": "application/msword",

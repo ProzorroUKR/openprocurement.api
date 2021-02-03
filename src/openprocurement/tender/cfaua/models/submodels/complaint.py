@@ -130,28 +130,28 @@ class Complaint(BaseComplaint):
 
     def validate_cancellationReason(self, data, cancellationReason):
         if not cancellationReason and data.get("status") in ["cancelled", "stopping"]:
-            raise ValidationError(u"This field is required.")
+            raise ValidationError("This field is required.")
 
     def validate_rejectReason(self, data, rejectReason):
         tender_date = get_first_revision_date(get_tender(data["__parent__"]), default=get_now())
         if tender_date < RELEASE_2020_04_19:
             return
         if not rejectReason and data.get("status") in ["invalid", "stopped"] and data.get("type") == "complaint":
-            raise ValidationError(u"This field is required.")
+            raise ValidationError("This field is required.")
 
     def validate_reviewDate(self, data, reviewDate):
         tender_date = get_first_revision_date(get_tender(data["__parent__"]), default=get_now())
         if tender_date < RELEASE_2020_04_19:
             return
         if not reviewDate and data.get("status") == "accepted":
-            raise ValidationError(u"This field is required.")
+            raise ValidationError("This field is required.")
 
     def validate_reviewPlace(self, data, reviewPlace):
         tender_date = get_first_revision_date(get_tender(data["__parent__"]), default=get_now())
         if tender_date < RELEASE_2020_04_19:
             return
         if not reviewPlace and data.get("status") == "accepted":
-            raise ValidationError(u"This field is required.")
+            raise ValidationError("This field is required.")
 
     def serialize(self, role=None, context=None):
         if (

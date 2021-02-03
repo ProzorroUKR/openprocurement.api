@@ -32,8 +32,8 @@ def test_get_plan_tenders_405(app, plan):
     app.authorization = ("Basic", ("broker", "broker"))
     response = app.get("/plans/{}/tenders".format(plan["data"]["id"]), status=405)
     assert response.json == {
-        u"status": u"error",
-        u"errors": [{u"description": u"Method not allowed", u"location": u"url", u"name": u"method"}],
+        "status": "error",
+        "errors": [{"description": "Method not allowed", "location": "url", "name": "method"}],
     }
 
 
@@ -48,8 +48,8 @@ def test_plan_tenders_404(app):
     assert response.status == "404 Not Found"
     assert response.content_type == "application/json"
     assert response.json == {
-        u"status": u"error",
-        u"errors": [{u"description": u"Not Found", u"location": u"url", u"name": u"plan_id"}],
+        "status": "error",
+        "errors": [{"description": "Not Found", "location": "url", "name": "plan_id"}],
     }
 
 
@@ -143,7 +143,7 @@ def test_procurement_method_type_cpb(app):
 
 def test_success_classification_id(app):
     request_plan_data = deepcopy(test_plan_data)
-    request_plan_data["classification"] = {"scheme": u"ДК021", "description": "Antiperspirants", "id": "33711120-4"}
+    request_plan_data["classification"] = {"scheme": "ДК021", "description": "Antiperspirants", "id": "33711120-4"}
     del request_plan_data["items"]
 
     app.authorization = ("Basic", ("broker", "broker"))
@@ -152,7 +152,7 @@ def test_success_classification_id(app):
 
     request_tender_data = deepcopy(test_below_tender_data)
     request_tender_data["items"][0]["classification"] = {
-        "scheme": u"ДК021",
+        "scheme": "ДК021",
         "description": "Make-up preparations",
         "id": "33711200-9",
     }
@@ -163,7 +163,7 @@ def test_success_classification_id(app):
 def test_fail_classification_id(app):
     request_plan_data = deepcopy(test_plan_data)
     request_plan_data["classification"] = {
-        "scheme": u"ДК021",
+        "scheme": "ДК021",
         "description": "Personal care products",
         "id": "33700000-7",
     }
@@ -175,7 +175,7 @@ def test_fail_classification_id(app):
 
     request_tender_data = deepcopy(test_below_tender_data)
     request_tender_data["items"][0]["classification"] = {
-        "scheme": u"ДК021",
+        "scheme": "ДК021",
         "description": "Antiperspirants",
         "id": "33711120-4",
     }
@@ -192,7 +192,7 @@ def test_fail_classification_id(app):
 
 def test_success_classification_id_336(app):
     request_plan_data = deepcopy(test_plan_data)
-    request_plan_data["classification"] = {"scheme": u"ДК021", "description": "Insulin", "id": "33615100-5"}
+    request_plan_data["classification"] = {"scheme": "ДК021", "description": "Insulin", "id": "33615100-5"}
     del request_plan_data["items"]
 
     app.authorization = ("Basic", ("broker", "broker"))
@@ -202,7 +202,7 @@ def test_success_classification_id_336(app):
     request_tender_data = deepcopy(test_below_tender_data)
     request_tender_data["items"] = request_tender_data["items"][:1]
     request_tender_data["items"][0]["classification"] = {
-        "scheme": u"ДК021",
+        "scheme": "ДК021",
         "description": "Medicinal products for dermatology",
         "id": "33631000-2",
     }
@@ -213,7 +213,7 @@ def test_success_classification_id_336(app):
 def test_fail_classification_id_336(app):
     request_plan_data = deepcopy(test_plan_data)
     request_plan_data["classification"] = {
-        "scheme": u"ДК021",
+        "scheme": "ДК021",
         "description": "Pharmaceutical products",
         "id": "33600000-6",
     }
@@ -226,7 +226,7 @@ def test_fail_classification_id_336(app):
     request_tender_data = deepcopy(test_below_tender_data)
     request_tender_data["items"] = request_tender_data["items"][:1]
     request_tender_data["items"][0]["classification"] = {
-        "scheme": u"ДК021",
+        "scheme": "ДК021",
         "description": "Makeup kits",
         "id": "33711420-7",
     }
@@ -270,12 +270,12 @@ def test_fail_tender_creation(app):
 
     response = app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {"data": request_tender_data}, status=422)
     assert response.json == {
-        u"status": u"error",
-        u"errors": [
+        "status": "error",
+        "errors": [
             {
-                u"description": {u"startDate": [u"period should begin before its end"]},
-                u"location": u"body",
-                u"name": u"enquiryPeriod",
+                "description": {"startDate": ["period should begin before its end"]},
+                "location": "body",
+                "name": "enquiryPeriod",
             }
         ],
     }
@@ -353,8 +353,8 @@ def test_validations_before_and_after_tender(app):
 
     # changing procuringEntity
     pe_change = {
-        "identifier": {"scheme": u"UA-EDR", "id": u"111983", "legalName": u"ДП Державне Управління Справами"},
-        "name": u"ДУС",
+        "identifier": {"scheme": "UA-EDR", "id": "111983", "legalName": "ДП Державне Управління Справами"},
+        "name": "ДУС",
     }
     response = app.patch_json(
         "/plans/{}?acc_token={}".format(plan["data"]["id"], plan["access"]["token"]),
@@ -383,23 +383,23 @@ def test_validations_before_and_after_tender(app):
             "data": {
                 "procuringEntity": {
                     "identifier": {
-                        "scheme": u"UA-EDR",
-                        "id": u"111983",
-                        "legalName": u"ДП Державне Управління Справами",
+                        "scheme": "UA-EDR",
+                        "id": "111983",
+                        "legalName": "ДП Державне Управління Справами",
                     },
-                    "name": u"ДУС",
+                    "name": "ДУС",
                 }
             }
         },
         status=422,
     )
     assert response.json == {
-        u"status": u"error",
-        u"errors": [
+        "status": "error",
+        "errors": [
             {
-                u"description": u"Changing this field is not allowed after tender creation",
-                u"location": u"body",
-                u"name": u"procuringEntity",
+                "description": "Changing this field is not allowed after tender creation",
+                "location": "body",
+                "name": "procuringEntity",
             }
         ],
     }
@@ -411,12 +411,12 @@ def test_validations_before_and_after_tender(app):
         status=422,
     )
     assert response.json == {
-        u"status": u"error",
-        u"errors": [
+        "status": "error",
+        "errors": [
             {
-                u"description": u"Changing this field is not allowed after tender creation",
-                u"location": u"body",
-                u"name": u"budget.breakdown",
+                "description": "Changing this field is not allowed after tender creation",
+                "location": "body",
+                "name": "budget.breakdown",
             }
         ],
     }
@@ -428,9 +428,9 @@ def test_validations_before_and_after_tender(app):
             "data": {
                 "procurementMethodType": "whatever",
                 "items": [
-                    {"classification": {"scheme": u"ДК021", "description": "Antiperspirants", "id": "33711120-4"}}
+                    {"classification": {"scheme": "ДК021", "description": "Antiperspirants", "id": "33711120-4"}}
                 ],
-                "classification": {"scheme": u"ДК021", "description": "Antiperspirants", "id": "33711120-4"},
+                "classification": {"scheme": "ДК021", "description": "Antiperspirants", "id": "33711120-4"},
             }
         },
     )
@@ -513,7 +513,7 @@ def test_fail_cfa_second_stage_creation(app, plan):
     assert len(error_data) > 0
     error = error_data[0]
     assert error["name"] == "procurementMethodType"
-    assert error["description"].startswith(u"Should be one of the first stage values:")
+    assert error["description"].startswith("Should be one of the first stage values:")
 
 
 @pytest.mark.parametrize("request_tender_data", [cd_stage2_data_ua, cd_stage2_data_eu])
@@ -524,7 +524,7 @@ def test_fail_cd_second_stage_creation(app, plan, request_tender_data):
     assert len(error_data) > 0
     error = error_data[0]
     assert error["name"] == "accreditation"
-    assert u"Broker Accreditation level does not permit tender creation" == error["description"]
+    assert "Broker Accreditation level does not permit tender creation" == error["description"]
 
 
 def test_fail_tender_creation_without_budget_breakdown(app):

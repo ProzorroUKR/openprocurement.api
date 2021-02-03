@@ -46,7 +46,7 @@ class ContractOwnershipChangeTest(BaseContractOwnershipChangeTest):
         self.assertEqual(response.status, "422 Unprocessable Entity")
         self.assertEqual(
             response.json["errors"],
-            [{u"description": u"This field is required.", u"location": u"body", u"name": u"transfer"}],
+            [{"description": "This field is required.", "location": "body", "name": "transfer"}],
         )
 
     def test_change_ownership(self):
@@ -106,7 +106,7 @@ class ContractOwnershipChangeTest(BaseContractOwnershipChangeTest):
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(
             response.json["errors"],
-            [{u"description": u"Transfer already used", u"location": u"body", u"name": u"transfer"}],
+            [{"description": "Transfer already used", "location": "body", "name": "transfer"}],
         )
 
         # simulate half-applied transfer activation process (i.e. transfer
@@ -152,7 +152,7 @@ class ContractOwnershipChangeTest(BaseContractOwnershipChangeTest):
         )
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(
-            response.json["errors"], [{u"description": u"Invalid transfer", u"location": u"body", u"name": u"transfer"}]
+            response.json["errors"], [{"description": "Invalid transfer", "location": "body", "name": "transfer"}]
         )
 
         response = self.app.post_json(
@@ -162,7 +162,7 @@ class ContractOwnershipChangeTest(BaseContractOwnershipChangeTest):
         )
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(
-            response.json["errors"], [{u"description": u"Invalid transfer", u"location": u"body", u"name": u"transfer"}]
+            response.json["errors"], [{"description": "Invalid transfer", "location": "body", "name": "transfer"}]
         )
 
     def test_accreditation_level(self):
@@ -184,9 +184,9 @@ class ContractOwnershipChangeTest(BaseContractOwnershipChangeTest):
             response.json["errors"],
             [
                 {
-                    u"description": u"Broker Accreditation level does not permit ownership change",
-                    u"location": u"url",
-                    u"name": u"accreditation",
+                    "description": "Broker Accreditation level does not permit ownership change",
+                    "location": "url",
+                    "name": "accreditation",
                 }
             ],
         )
@@ -211,9 +211,9 @@ class ContractOwnershipChangeTest(BaseContractOwnershipChangeTest):
             response.json["errors"],
             [
                 {
-                    u"description": u"Broker Accreditation level does not permit ownership change",
-                    u"location": u"url",
-                    u"name": u"mode",
+                    "description": "Broker Accreditation level does not permit ownership change",
+                    "location": "url",
+                    "name": "mode",
                 }
             ],
         )
@@ -251,9 +251,9 @@ class ContractOwnershipChangeTest(BaseContractOwnershipChangeTest):
             response.json["errors"],
             [
                 {
-                    u"description": u"Broker Accreditation level does not permit ownership change",
-                    u"location": u"url",
-                    u"name": u"accreditation",
+                    "description": "Broker Accreditation level does not permit ownership change",
+                    "location": "url",
+                    "name": "accreditation",
                 }
             ],
         )
@@ -276,9 +276,9 @@ class ContractOwnershipChangeTest(BaseContractOwnershipChangeTest):
             response.json["errors"],
             [
                 {
-                    u"description": u"Can't update credentials in current (terminated) contract status",
-                    u"location": u"body",
-                    u"name": u"data",
+                    "description": "Can't update credentials in current (terminated) contract status",
+                    "location": "body",
+                    "name": "data",
                 }
             ],
         )
@@ -307,9 +307,9 @@ class ContractOwnerOwnershipChangeTest(BaseContractOwnershipChangeTest):
             response.json["errors"],
             [
                 {
-                    u"description": u"Owner Accreditation level does not permit ownership change",
-                    u"location": u"url",
-                    u"name": u"accreditation",
+                    "description": "Owner Accreditation level does not permit ownership change",
+                    "location": "url",
+                    "name": "accreditation",
                 }
             ],
         )

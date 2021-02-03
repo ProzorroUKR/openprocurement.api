@@ -81,7 +81,7 @@ def empty_listing(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Offset expired/invalid", u"location": u"url", u"name": u"offset"}],
+        [{"description": "Offset expired/invalid", "location": "url", "name": "offset"}],
     )
 
     response = self.app.get("/contracts?feed=changes&descending=1&limit=10")
@@ -122,7 +122,7 @@ def listing(self):
 
     self.assertEqual(len(response.json["data"]), 3)
     self.assertEqual(",".join([i["id"] for i in response.json["data"]]), ids)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in contracts]))
     self.assertEqual(
         set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in contracts])
@@ -151,14 +151,14 @@ def listing(self):
     response = self.app.get("/contracts", params=[("opt_fields", "contractID")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified", u"contractID"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "contractID"]))
     self.assertIn("opt_fields=contractID", response.json["next_page"]["uri"])
 
     response = self.app.get("/contracts?descending=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in contracts]))
     self.assertEqual(
         [i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in contracts], reverse=True)
@@ -230,7 +230,7 @@ def listing_changes(self):
 
     self.assertEqual(len(response.json["data"]), 3)
     self.assertEqual(",".join([i["id"] for i in response.json["data"]]), ids)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in contracts]))
     self.assertEqual(
         set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in contracts])
@@ -255,14 +255,14 @@ def listing_changes(self):
     response = self.app.get("/contracts?feed=changes", params=[("opt_fields", "contractID")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified", u"contractID"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "contractID"]))
     self.assertIn("opt_fields=contractID", response.json["next_page"]["uri"])
 
     response = self.app.get("/contracts?feed=changes&descending=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set([u"id", u"dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in contracts]))
     self.assertEqual(
         [i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in contracts], reverse=True)
@@ -377,7 +377,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"contract_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "contract_id"}]
     )
 
     response = self.app.patch_json("/contracts/some_id", {"data": {}}, status=404)
@@ -385,7 +385,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"contract_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "contract_id"}]
     )
 
 
@@ -399,9 +399,9 @@ def create_contract_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": u"Content-Type header should be one of ['application/json']",
-                u"location": u"header",
-                u"name": u"Content-Type",
+                "description": "Content-Type header should be one of ['application/json']",
+                "location": "header",
+                "name": "Content-Type",
             }
         ],
     )
@@ -412,7 +412,7 @@ def create_contract_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Expecting value: line 1 column 1 (char 0)", u"location": u"body", u"name": u"data"}],
+        [{"description": "Expecting value: line 1 column 1 (char 0)", "location": "body", "name": "data"}],
     )
 
     response = self.app.post_json(request_path, "data", status=422)
@@ -420,7 +420,7 @@ def create_contract_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Data not available", u"location": u"body", u"name": u"data"}]
+        response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
     response = self.app.post_json(request_path, {"not_data": {}}, status=422)
@@ -428,7 +428,7 @@ def create_contract_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Data not available", u"location": u"body", u"name": u"data"}]
+        response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
     response = self.app.post_json(request_path, {"data": []}, status=422)
@@ -436,7 +436,7 @@ def create_contract_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Data not available", u"location": u"body", u"name": u"data"}]
+        response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
     response = self.app.post_json(request_path, {"data": {"invalid_field": "invalid_value"}}, status=422)
@@ -444,7 +444,7 @@ def create_contract_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Rogue field", u"location": u"body", u"name": u"invalid_field"}]
+        response.json["errors"], [{"description": "Rogue field", "location": "body", "name": "invalid_field"}]
     )
 
 
@@ -459,20 +459,20 @@ def create_contract_generated(self):
         set(contract),
         set(
             [
-                u"id",
-                u"dateModified",
-                u"contractID",
-                u"status",
-                u"suppliers",
-                u"contractNumber",
-                u"period",
-                u"dateSigned",
-                u"value",
-                u"awardID",
-                u"items",
-                u"owner",
-                u"tender_id",
-                u"procuringEntity",
+                "id",
+                "dateModified",
+                "contractID",
+                "status",
+                "suppliers",
+                "contractNumber",
+                "period",
+                "dateSigned",
+                "value",
+                "awardID",
+                "items",
+                "owner",
+                "tender_id",
+                "procuringEntity",
             ]
         ),
     )
@@ -501,7 +501,7 @@ def create_contract(self):
     # test eu contract create
     data = deepcopy(self.initial_data)
     data["id"] = uuid4().hex
-    additionalContactPoint = {"name": u"Державне управління справами2", "telephone": u"0440000001"}
+    additionalContactPoint = {"name": "Державне управління справами2", "telephone": "0440000001"}
     data["procuringEntity"]["additionalContactPoints"] = [additionalContactPoint]
     data["procuringEntity"]["contactPoint"]["availableLanguage"] = "en"
     response = self.app.post_json("/contracts", {"data": data})
@@ -769,13 +769,13 @@ def put_transaction_to_contract(self):
         response.json["errors"],
         [
             {
-                u'description': [u'This field is required.'], u'location': u'body', u'name': u'payer'
+                'description': ['This field is required.'], 'location': 'body', 'name': 'payer'
             },
             {
-                u'description': [u'This field is required.'], u'location': u'body', u'name': u'payee'
+                'description': ['This field is required.'], 'location': 'body', 'name': 'payee'
             },
             {
-                u'description': [u'This field is required.'], u'location': u'body', u'name': u'status'
+                'description': ['This field is required.'], 'location': 'body', 'name': 'status'
             }
         ]
     )
@@ -807,10 +807,10 @@ def put_transaction_to_contract(self):
         response.json["errors"],
         [
             {
-                u'description': [
-                    u'Please use a mapping for this field or OrganizationReference instance instead of str.'
+                'description': [
+                    'Please use a mapping for this field or OrganizationReference instance instead of str.'
                 ],
-                u'location': u'body', u'name': u'payee'
+                'location': 'body', 'name': 'payee'
             }
         ]
     )
@@ -1003,9 +1003,9 @@ def contract_status_change(self):
         response.json["errors"],
         [
             {
-                u"description": u"Can't terminate contract while 'amountPaid' is not set",
-                u"location": u"body",
-                u"name": u"data",
+                "description": "Can't terminate contract while 'amountPaid' is not set",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -1054,7 +1054,7 @@ def contract_items_change(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["items"][0]["quantity"], 12)
-    self.assertEqual(response.json["data"]["items"][0]["description"], u"тапочки для тараканів")
+    self.assertEqual(response.json["data"]["items"][0]["description"], "тапочки для тараканів")
 
     # add one more item
     item = deepcopy(items[0])
@@ -1095,19 +1095,19 @@ def contract_items_change(self):
                 "items": [
                     {
                         "quantity": 0.005,
-                        "deliveryAddress": {u"postalCode": u"79011", u"streetAddress": u"вул. Літаючого Хом’яка"},
-                        "deliveryDate": {u"startDate": startDate, u"endDate": endDate},
+                        "deliveryAddress": {"postalCode": "79011", "streetAddress": "вул. Літаючого Хом’яка"},
+                        "deliveryDate": {"startDate": startDate, "endDate": endDate},
                     }
                 ]
             }
         },
     )
     self.assertEqual(response.json["data"]["items"][0]["quantity"], 0.005)
-    self.assertEqual(response.json["data"]["items"][0]["deliveryAddress"]["postalCode"], u"79011")
-    self.assertEqual(response.json["data"]["items"][0]["deliveryAddress"]["streetAddress"], u"вул. Літаючого Хом’яка")
-    self.assertEqual(response.json["data"]["items"][0]["deliveryAddress"]["region"], u"м. Київ")
-    self.assertEqual(response.json["data"]["items"][0]["deliveryAddress"]["locality"], u"м. Київ")
-    self.assertEqual(response.json["data"]["items"][0]["deliveryAddress"]["countryName"], u"Україна")
+    self.assertEqual(response.json["data"]["items"][0]["deliveryAddress"]["postalCode"], "79011")
+    self.assertEqual(response.json["data"]["items"][0]["deliveryAddress"]["streetAddress"], "вул. Літаючого Хом’яка")
+    self.assertEqual(response.json["data"]["items"][0]["deliveryAddress"]["region"], "м. Київ")
+    self.assertEqual(response.json["data"]["items"][0]["deliveryAddress"]["locality"], "м. Київ")
+    self.assertEqual(response.json["data"]["items"][0]["deliveryAddress"]["countryName"], "Україна")
     self.assertEqual(response.json["data"]["items"][0]["deliveryDate"]["startDate"], startDate)
     self.assertEqual(response.json["data"]["items"][0]["deliveryDate"]["endDate"], endDate)
 
@@ -1189,7 +1189,7 @@ def patch_tender_contract(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"contract_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "contract_id"}]
     )
 
     response = self.app.get("/contracts/{}".format(self.contract["id"]))
@@ -1492,7 +1492,7 @@ def patch_tender_contract_wo_amount_net(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": {u"amountNet": u"This field is required."}, u"location": u"body", u"name": u"value"}],
+        [{"description": {"amountNet": "This field is required."}, "location": "body", "name": "value"}],
     )
 
     response = self.app.patch_json(
@@ -1509,7 +1509,7 @@ def patch_tender_contract_wo_amount_net(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": {u"amountNet": u"This field is required."}, u"location": u"body", u"name": u"amountPaid"}],
+        [{"description": {"amountNet": "This field is required."}, "location": "body", "name": "amountPaid"}],
     )
 
 
@@ -1518,7 +1518,7 @@ def contract_administrator_change(self):
         "/contracts/{}".format(self.contract["id"]),
         {
             "data": {
-                "mode": u"test",
+                "mode": "test",
                 "suppliers": [{"contactPoint": {"email": "fff@gmail.com"}, "address": {"postalCode": "79014"}}],
                 "procuringEntity": {"identifier": {"id": "11111111"}, "contactPoint": {"telephone": "102"}},
             }
@@ -1526,7 +1526,7 @@ def contract_administrator_change(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["mode"], u"test")
+    self.assertEqual(response.json["data"]["mode"], "test")
     self.assertEqual(response.json["data"]["procuringEntity"]["identifier"]["id"], "11111111")
     self.assertEqual(response.json["data"]["procuringEntity"]["contactPoint"]["telephone"], "102")
     self.assertEqual(response.json["data"]["suppliers"][0]["contactPoint"]["email"], "fff@gmail.com")
@@ -1535,7 +1535,7 @@ def contract_administrator_change(self):
     )  # old field value left untouchable
     self.assertEqual(response.json["data"]["suppliers"][0]["address"]["postalCode"], "79014")
     self.assertEqual(
-        response.json["data"]["suppliers"][0]["address"]["countryName"], u"Україна"
+        response.json["data"]["suppliers"][0]["address"]["countryName"], "Україна"
     )  # old field value left untouchable
 
     # administrator has permissions to update only: mode, procuringEntity, suppliers
@@ -1617,9 +1617,9 @@ def generate_credentials(self):
         response.json["errors"],
         [
             {
-                u"description": u"Can't generate credentials in current (terminated) contract status",
-                u"location": u"body",
-                u"name": u"data",
+                "description": "Can't generate credentials in current (terminated) contract status",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -1688,9 +1688,9 @@ def contract_wo_items_status_change(self):
         response.json["errors"],
         [
             {
-                u"description": u"Can't terminate contract while 'amountPaid' is not set",
-                u"location": u"body",
-                u"name": u"data",
+                "description": "Can't terminate contract while 'amountPaid' is not set",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -1720,7 +1720,7 @@ def contract_token_invalid(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Forbidden", u"location": u"url", u"name": u"permission"}]
+        response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}]
     )
 
     response = self.app.patch_json(
@@ -1743,7 +1743,7 @@ def generate_credentials_invalid(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Forbidden", u"location": u"url", u"name": u"permission"}]
+        response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}]
     )
 
     response = self.app.patch_json(

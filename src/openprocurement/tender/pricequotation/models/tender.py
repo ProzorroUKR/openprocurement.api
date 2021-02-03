@@ -94,10 +94,10 @@ class Contract(BaseContract):
         parent = data["__parent__"]
         if value and isinstance(parent, Model):
             if value > get_now():
-                raise ValidationError(u"Contract signature date can't be in the future")
+                raise ValidationError("Contract signature date can't be in the future")
             active_award = [award for award in parent.awards if award.status == 'active']
             if active_award and value < active_award[0].date:
-                raise ValidationError(u"Contract signature date should be after award activation date ({})".format(
+                raise ValidationError("Contract signature date should be after award activation date ({})".format(
                                 active_award[0].date.isoformat()))
 
 
@@ -309,7 +309,7 @@ class PriceQuotationTender(Tender):
             and items
             and len(set([i.classification.id[:4] for i in items])) != 1
         ):
-            raise ValidationError(u"CPV class of items should be identical")
+            raise ValidationError("CPV class of items should be identical")
         else:
             validate_cpv_group(items)
         validate_classification_id(items)
@@ -322,7 +322,7 @@ class PriceQuotationTender(Tender):
             and data.get("tenderPeriod").endDate
             and period.startDate < data.get("tenderPeriod").endDate
         ):
-            raise ValidationError(u"period should begin after tenderPeriod")
+            raise ValidationError("period should begin after tenderPeriod")
 
     def validate_tenderPeriod(self, data, period):
         if period and period.startDate and period.endDate:
@@ -332,7 +332,7 @@ class PriceQuotationTender(Tender):
     def validate_profile(self, data, profile):
         result = PROFILE_PATTERN.findall(profile)
         if len(result) != 1:
-            raise ValidationError(u"The profile value doesn't match id pattern")
+            raise ValidationError("The profile value doesn't match id pattern")
 
     def __local_roles__(self):
         roles = dict([("{}_{}".format(self.owner, self.owner_token), "tender_owner")])

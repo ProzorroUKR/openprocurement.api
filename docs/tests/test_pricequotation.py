@@ -229,7 +229,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 '/tenders/{}/bids/{}/documents?acc_token={}'.format(
                     self.tender_id, bid1_id, bids_access[bid1_id]),
                 {'data': {
-                    'title': u'Proposal.pdf',
+                    'title': 'Proposal.pdf',
                     'url': self.generate_docservice_url(),
                     'hash': 'md5:' + '0' * 32,
                     'format': 'application/pdf',
@@ -338,7 +338,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 '/tenders/{}/contracts/{}/documents?acc_token={}'.format(
                     self.tender_id, self.contract_id, owner_token),
                 {'data': {
-                    'title': u'contract_first_document.doc',
+                    'title': 'contract_first_document.doc',
                     'url': self.generate_docservice_url(),
                     'hash': 'md5:' + '0' * 32,
                     'format': 'application/msword',
@@ -355,7 +355,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 '/tenders/{}/contracts/{}/documents?acc_token={}'.format(
                     self.tender_id, self.contract_id, owner_token),
                 {'data': {
-                    'title': u'contract_second_document.doc',
+                    'title': 'contract_second_document.doc',
                     'url': self.generate_docservice_url(),
                     'hash': 'md5:' + '0' * 32,
                     'format': 'application/msword',
@@ -415,7 +415,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 '/tenders/{}/cancellations/{}/documents?acc_token={}'.format(
                     self.tender_id, cancellation_id, owner_token),
                 {'data': {
-                    'title': u'Notice.pdf',
+                    'title': 'Notice.pdf',
                     'url': self.generate_docservice_url(),
                     'hash': 'md5:' + '0' * 32,
                     'format': 'application/pdf',
@@ -435,7 +435,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 '/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(
                     self.tender_id, cancellation_id, cancellation_doc_id, owner_token),
                 {'data': {
-                    'title': u'Notice-2.pdf',
+                    'title': 'Notice-2.pdf',
                     'url': self.generate_docservice_url(),
                     'hash': 'md5:' + '0' * 32,
                     'format': 'application/pdf',

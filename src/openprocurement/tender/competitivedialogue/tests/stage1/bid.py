@@ -94,20 +94,20 @@ class CompetitiveDialogEUBidDocumentResourceTest(BaseCompetitiveDialogEUContentW
         super(CompetitiveDialogEUBidDocumentResourceTest, self).setUp()
         # Create bid
         bidder_data = deepcopy(test_bids[0])
-        bidder_data["tenderers"][0]["identifier"]["id"] = u"00037256"
+        bidder_data["tenderers"][0]["identifier"]["id"] = "00037256"
         response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bidder_data})
         bid = response.json["data"]
         self.bid_id = bid["id"]
         self.bid_token = response.json["access"]["token"]
         # create second bid
         bidder_data = deepcopy(test_bids[1])
-        bidder_data["tenderers"][0]["identifier"]["id"] = u"00037257"
+        bidder_data["tenderers"][0]["identifier"]["id"] = "00037257"
         response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bidder_data})
         bid2 = response.json["data"]
         self.bid2_id = bid2["id"]
         self.bid2_token = response.json["access"]["token"]
         bidder_data = deepcopy(test_bids[1])
-        bidder_data["tenderers"][0]["identifier"]["id"] = u"00037258"
+        bidder_data["tenderers"][0]["identifier"]["id"] = "00037258"
         response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bidder_data})
         bid3 = response.json["data"]
         self.bid3_id = bid3["id"]

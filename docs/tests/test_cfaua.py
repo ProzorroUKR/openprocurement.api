@@ -139,7 +139,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         with open(TARGET_DIR + 'upload-tender-notice.http', 'w') as self.app.file_obj:
             response = self.app.post('/tenders/{}/documents?acc_token={}'.format(self.tender_id, owner_token),
-                                     upload_files=[('file', u'Notice.pdf', b'content')])
+                                     upload_files=[('file', 'Notice.pdf', b'content')])
             self.assertEqual(response.status, '201 Created')
 
         doc_id = response.json["data"]["id"]
@@ -149,7 +149,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         with open(TARGET_DIR + 'upload-award-criteria.http', 'w') as self.app.file_obj:
             response = self.app.post('/tenders/{}/documents?acc_token={}'.format(self.tender_id, owner_token),
-                                     upload_files=[('file', u'AwardCriteria.pdf', b'content')])
+                                     upload_files=[('file', 'AwardCriteria.pdf', b'content')])
             self.assertEqual(response.status, '201 Created')
 
         doc_id = response.json["data"]["id"]
@@ -211,7 +211,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 {'data': {
                     "value": {
                         "amount": 501,
-                        "currency": u"UAH"
+                        "currency": "UAH"
                     },
                     "tenderPeriod": {
                         "endDate": tender_period_end_date.isoformat()
@@ -457,22 +457,22 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         self.set_status('active.auction')
         self.app.authorization = ('Basic', ('auction', ''))
-        auction_url = u'{}/tenders/{}_{}'.format(self.auctions_url, self.tender_id, lot['id'])
+        auction_url = '{}/tenders/{}_{}'.format(self.auctions_url, self.tender_id, lot['id'])
         patch_data = {
             'lots': [{
                 'auctionUrl': auction_url,
             }],
             'bids': [{
                 "id": bid1_id,
-                "lotValues": [{"participationUrl": u'{}?key_for_bid={}'.format(auction_url, bid1_id)}]
+                "lotValues": [{"participationUrl": '{}?key_for_bid={}'.format(auction_url, bid1_id)}]
             }, {
                 "id": bid2_id,
-                "lotValues": [{"participationUrl": u'{}?key_for_bid={}'.format(auction_url, bid2_id)}]
+                "lotValues": [{"participationUrl": '{}?key_for_bid={}'.format(auction_url, bid2_id)}]
             }, {
                 "id": bid3_id,
             }, {
                 "id": bid4_id,
-                "lotValues": [{"participationUrl": u'{}?key_for_bid={}'.format(auction_url, bid4_id)}]
+                "lotValues": [{"participationUrl": '{}?key_for_bid={}'.format(auction_url, bid4_id)}]
             }]
         }
         response = self.app.patch_json(
@@ -729,7 +729,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.post(
                 '/tenders/{}/cancellations/{}/documents?acc_token={}'.format(
                     self.tender_id, cancellation_id, owner_token),
-                upload_files=[('file', u'Notice.pdf', b'content')])
+                upload_files=[('file', 'Notice.pdf', b'content')])
             cancellation_doc_id = response.json['data']['id']
             self.assertEqual(response.status, '201 Created')
 

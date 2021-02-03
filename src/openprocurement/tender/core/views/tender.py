@@ -17,16 +17,16 @@ from openprocurement.tender.core.utils import save_tender, tender_serialize, opt
 from openprocurement.tender.core.validation import validate_tender_data
 
 VIEW_MAP = {
-    u"": tenders_real_by_dateModified_view,
-    u"test": tenders_test_by_dateModified_view,
-    u"_all_": tenders_by_dateModified_view,
+    "": tenders_real_by_dateModified_view,
+    "test": tenders_test_by_dateModified_view,
+    "_all_": tenders_by_dateModified_view,
 }
 CHANGES_VIEW_MAP = {
-    u"": tenders_real_by_local_seq_view,
-    u"test": tenders_test_by_local_seq_view,
-    u"_all_": tenders_by_local_seq_view,
+    "": tenders_real_by_local_seq_view,
+    "test": tenders_test_by_local_seq_view,
+    "_all_": tenders_by_local_seq_view,
 }
-FEED = {u"dateModified": VIEW_MAP, u"changes": CHANGES_VIEW_MAP}
+FEED = {"dateModified": VIEW_MAP, "changes": CHANGES_VIEW_MAP}
 
 
 @optendersresource(

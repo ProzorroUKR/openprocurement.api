@@ -149,13 +149,13 @@ class AuthTest(unittest.TestCase):
     def assertPrincipals(self, request, acc_token):
         policy = self._makeOne(None)
         principals = policy.principals("chrisr", request)
-        self.assertIn(u"g:tests", principals)
-        self.assertIn(u"a:1", principals)
-        self.assertIn(u"a:2", principals)
-        self.assertIn(u"a:3", principals)
-        self.assertIn(u"a:4", principals)
-        self.assertIn(u"chrisr_{}".format(acc_token), principals)
-        self.assertIn(u"chrisr_{}".format(sha512(acc_token.encode("utf-8")).hexdigest()), principals)
+        self.assertIn("g:tests", principals)
+        self.assertIn("a:1", principals)
+        self.assertIn("a:2", principals)
+        self.assertIn("a:3", principals)
+        self.assertIn("a:4", principals)
+        self.assertIn("chrisr_{}".format(acc_token), principals)
+        self.assertIn("chrisr_{}".format(sha512(acc_token.encode("utf-8")).hexdigest()), principals)
 
 
 def suite():

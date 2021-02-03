@@ -121,7 +121,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 '/agreements/{}/changes?acc_token={}'.format(
                     agreement_id, agreement_token),
                 {'data': {
-                    'rationale': u'Опис причини змін егріменту',
+                    'rationale': 'Опис причини змін егріменту',
                     'rationale_en': 'Agreement change cause',
                     'rationaleType': 'taxRate'
                 }})
@@ -137,7 +137,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.patch_json(
                 '/agreements/{}/changes/{}?acc_token={}'.format(
                     agreement_id, change['id'], agreement_token),
-                {'data': {'rationale': u'Друга і третя поставка має бути розфасована'}})
+                {'data': {'rationale': 'Друга і третя поставка має бути розфасована'}})
             self.assertEqual(response.status, '200 OK')
             change = response.json['data']
 
@@ -145,7 +145,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'add-agreement-change-document.http', 'w') as self.app.file_obj:
             response = self.app.post('/agreements/{}/documents?acc_token={}'.format(
                 agreement_id, agreement_token),
-                upload_files=[('file', u'agreement_changes.doc', b'content')])
+                upload_files=[('file', 'agreement_changes.doc', b'content')])
             self.assertEqual(response.status, '201 Created')
             doc_id = response.json["data"]['id']
 
@@ -200,7 +200,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'upload-agreement-document.http', 'w') as self.app.file_obj:
             response = self.app.post('/agreements/{}/documents?acc_token={}'.format(
                 agreement_id, agreement_token),
-                upload_files=[('file', u'agreement.doc', b'content')])
+                upload_files=[('file', 'agreement.doc', b'content')])
 
         with open(TARGET_DIR + 'agreement-documents.http', 'w') as self.app.file_obj:
             response = self.app.get('/agreements/{}/documents?acc_token={}'.format(
@@ -209,7 +209,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'upload-agreement-document-2.http', 'w') as self.app.file_obj:
             response = self.app.post('/agreements/{}/documents?acc_token={}'.format(
                 agreement_id, agreement_token),
-                upload_files=[('file', u'agreement_additional_docs.doc', b'additional info')])
+                upload_files=[('file', 'agreement_additional_docs.doc', b'additional info')])
 
         doc_id = response.json['data']['id']
 

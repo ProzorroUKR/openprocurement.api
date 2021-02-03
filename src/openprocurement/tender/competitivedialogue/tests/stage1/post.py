@@ -81,7 +81,7 @@ class TenderCompetitiveDialogUAQualificationComplaintPostResourceTest(
         bid_data = deepcopy(test_bids[0])
         bid_data["value"] = {"amount": 500}
         bidder_data = bid_data["tenderers"][0]
-        bidder_data["identifier"]["id"] = u"00037256"
+        bidder_data["identifier"]["id"] = "00037256"
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
             {"data": bid_data},
@@ -91,14 +91,14 @@ class TenderCompetitiveDialogUAQualificationComplaintPostResourceTest(
 
         # Create bid
         bid_data["value"] = {"amount": 101}
-        bidder_data["identifier"]["id"] = u"00037257"
+        bidder_data["identifier"]["id"] = "00037257"
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
             {"data": bid_data},
         )
         # Create another bid
         bid_data["value"] = {"amount": 111}
-        bidder_data["identifier"]["id"] = u"00037258"
+        bidder_data["identifier"]["id"] = "00037258"
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
             {"data": bid_data},
@@ -175,7 +175,7 @@ class TenderCompetitiveDialogEUQualificationComplaintPostResourceTest(
         bid_data = deepcopy(self.initial_bids[0])
         bid_data["value"] = {"amount": 500}
         bidder_data = bid_data["tenderers"][0]
-        bidder_data["identifier"]["id"] = u"00037256"
+        bidder_data["identifier"]["id"] = "00037256"
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
             {"data": bid_data},
@@ -185,14 +185,14 @@ class TenderCompetitiveDialogEUQualificationComplaintPostResourceTest(
 
         # Create bid
         bid_data["value"] = {"amount": 101}
-        bidder_data["identifier"]["id"] = u"00037257"
+        bidder_data["identifier"]["id"] = "00037257"
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
             {"data": bid_data},
         )
         # Create another bid
         bid_data["value"] = {"amount": 111}
-        bidder_data["identifier"]["id"] = u"00037258"
+        bidder_data["identifier"]["id"] = "00037258"
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
             {"data": bid_data},

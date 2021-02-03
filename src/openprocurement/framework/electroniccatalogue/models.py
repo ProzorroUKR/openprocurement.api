@@ -32,7 +32,7 @@ from openprocurement.framework.electroniccatalogue.utils import (
 
 
 class DKClassification(BaseClassification):
-    scheme = StringType(required=True, choices=[u"ДК021"])
+    scheme = StringType(required=True, choices=["ДК021"])
     id = StringType(required=True)
 
     def validate_id(self, data, id):

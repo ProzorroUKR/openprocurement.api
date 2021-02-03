@@ -35,18 +35,18 @@ from openprocurement.contracting.api.design import (
 from openprocurement.tender.core.validation import validate_update_contract_value_net_required
 
 VIEW_MAP = {
-    u"": contracts_real_by_dateModified_view,
-    u"test": contracts_test_by_dateModified_view,
-    u"_all_": contracts_by_dateModified_view,
+    "": contracts_real_by_dateModified_view,
+    "test": contracts_test_by_dateModified_view,
+    "_all_": contracts_by_dateModified_view,
 }
 
 CHANGES_VIEW_MAP = {
-    u"": contracts_real_by_local_seq_view,
-    u"test": contracts_test_by_local_seq_view,
-    u"_all_": contracts_by_local_seq_view,
+    "": contracts_real_by_local_seq_view,
+    "test": contracts_test_by_local_seq_view,
+    "_all_": contracts_by_local_seq_view,
 }
 
-FEED = {u"dateModified": VIEW_MAP, u"changes": CHANGES_VIEW_MAP}
+FEED = {"dateModified": VIEW_MAP, "changes": CHANGES_VIEW_MAP}
 
 
 @contractingresource(name="Contracts", path="/contracts", description="Contracts")

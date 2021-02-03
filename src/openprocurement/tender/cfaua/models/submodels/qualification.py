@@ -54,16 +54,16 @@ class Qualification(QualificationMilestoneListMixin):
 
     def validate_qualified(self, data, qualified):
         if data["status"] == "active" and not qualified:
-            raise ValidationError(u"This field is required.")
+            raise ValidationError("This field is required.")
 
     def validate_eligible(self, data, eligible):
         if data["status"] == "active" and not eligible:
-            raise ValidationError(u"This field is required.")
+            raise ValidationError("This field is required.")
 
     def validate_lotID(self, data, lotID):
         parent = data["__parent__"]
         if isinstance(parent, Model):
             if not lotID and parent.lots:
-                raise ValidationError(u"This field is required.")
+                raise ValidationError("This field is required.")
             if lotID and lotID not in [lot.id for lot in parent.lots if lot]:
-                raise ValidationError(u"lotID should be one of lots")
+                raise ValidationError("lotID should be one of lots")

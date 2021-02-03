@@ -113,8 +113,8 @@ class TenderLotFeatureBidderResourceTest(BaseTenderContentWebTest):
                             "code": "code_item",
                             "featureOf": "item",
                             "relatedItem": "1",
-                            "title": u"item feature",
-                            "enum": [{"value": 0.01, "title": u"good"}, {"value": 0.02, "title": u"best"}],
+                            "title": "item feature",
+                            "enum": [{"value": 0.01, "title": "good"}, {"value": 0.02, "title": "best"}],
                         },
                         # {
                         #     "code": "code_lot",
@@ -135,8 +135,8 @@ class TenderLotFeatureBidderResourceTest(BaseTenderContentWebTest):
                         {
                             "code": "code_tenderer",
                             "featureOf": "tenderer",
-                            "title": u"tenderer feature",
-                            "enum": [{"value": 0.01, "title": u"good"}, {"value": 0.02, "title": u"best"}],
+                            "title": "tenderer feature",
+                            "enum": [{"value": 0.01, "title": "good"}, {"value": 0.02, "title": "best"}],
                         },
                     ],
                 }

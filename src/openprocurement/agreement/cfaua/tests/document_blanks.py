@@ -21,7 +21,7 @@ def get_document_by_id(self):
 
 def create_agreement_document_forbidden(self):
     response = self.app.post(
-        "/agreements/{}/documents".format(self.agreement_id), upload_files=[("file", u"укр.doc", b"content")], status=403
+        "/agreements/{}/documents".format(self.agreement_id), upload_files=[("file", "укр.doc", b"content")], status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
 
@@ -29,7 +29,7 @@ def create_agreement_document_forbidden(self):
 def create_agreement_documents(self):
     response = self.app.post(
         "/agreements/{}/documents?acc_token={}".format(self.agreement_id, self.agreement_token),
-        upload_files=[("file", u"укр.doc", b"content")],
+        upload_files=[("file", "укр.doc", b"content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -41,7 +41,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"agreement_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "agreement_id"}]
     )
 
     response = self.app.post(
@@ -51,7 +51,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"agreement_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "agreement_id"}]
     )
     response = self.app.post(
         "/agreements/{}/documents?acc_token={}".format(self.agreement_id, self.agreement_token),
@@ -61,7 +61,7 @@ def not_found(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{u"description": u"Not Found", u"location": u"body", u"name": u"file"}])
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
     response = self.app.put(
         "/agreements/some_id/documents/some_id", status=404, upload_files=[("file", "name.doc", b"content2")]
     )
@@ -69,7 +69,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"agreement_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "agreement_id"}]
     )
 
     response = self.app.put(
@@ -81,7 +81,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"document_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "document_id"}]
     )
 
     response = self.app.get("/agreements/some_id/documents/some_id", status=404)
@@ -89,7 +89,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"agreement_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "agreement_id"}]
     )
 
     response = self.app.get("/agreements/{}/documents/some_id".format(self.agreement_id), status=404)
@@ -97,7 +97,7 @@ def not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"document_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "document_id"}]
     )
 
 
@@ -108,7 +108,7 @@ def put_contract_document(self):
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(u"укр.doc", response.json["data"]["title"])
+    self.assertEqual("укр.doc", response.json["data"]["title"])
     doc_id = response.json["data"]["id"]
     dateModified = response.json["data"]["dateModified"]
     self.assertIn(doc_id, response.headers["Location"])
@@ -168,7 +168,7 @@ def put_contract_document(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{u"description": u"Not Found", u"location": u"body", u"name": u"file"}])
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
     response = self.app.put(
         "/agreements/{}/documents/{}?acc_token={}".format(self.agreement_id, doc_id, self.agreement_token),
         "content3",
@@ -222,9 +222,9 @@ def put_contract_document(self):
         response.json["errors"],
         [
             {
-                u"description": u"Can't update document in current (terminated) agreement status",
-                u"location": u"body",
-                u"name": u"data",
+                "description": "Can't update document in current (terminated) agreement status",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -239,9 +239,9 @@ def put_contract_document(self):
         response.json["errors"],
         [
             {
-                u"description": u"Can't update document in current (terminated) agreement status",
-                u"location": u"body",
-                u"name": u"data",
+                "description": "Can't update document in current (terminated) agreement status",
+                "location": "body",
+                "name": "data",
             }
         ],
     )

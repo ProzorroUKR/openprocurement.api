@@ -265,7 +265,7 @@ class TenderCancellationBidsAvailabilityTest(
 ):
     initial_auth = ("Basic", ("broker", ""))
     initial_bids = test_bids * 2
-    bid_visible_fields = [u"status", u"documents", u"tenderers", u"id", u"eligibilityDocuments"]
+    bid_visible_fields = ["status", "documents", "tenderers", "id", "eligibilityDocuments"]
     doc_id_by_type = {}
     valid_bids = []
 

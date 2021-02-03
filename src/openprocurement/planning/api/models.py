@@ -66,10 +66,10 @@ class BudgetPeriod(Period):
         method_type = plan.tender.procurementMethodType
         start_date = data.get("startDate")
         if method_type not in MULTI_YEAR_BUDGET_PROCEDURES and value.year != start_date.year:
-            raise ValidationError(u"Period startDate and endDate must be within one year for {}.".format(method_type))
+            raise ValidationError("Period startDate and endDate must be within one year for {}.".format(method_type))
         if method_type in MULTI_YEAR_BUDGET_PROCEDURES and value.year - start_date.year > MULTI_YEAR_BUDGET_MAX_YEARS:
             raise ValidationError(
-                u"Period startDate and endDate must be within {} budget years for {}.".format(
+                "Period startDate and endDate must be within {} budget years for {}.".format(
                     MULTI_YEAR_BUDGET_MAX_YEARS + 1, method_type
                 )
             )
@@ -97,7 +97,7 @@ class Budget(Model):
     description_ru = StringType()
     amount = FloatType(required=True)
     currency = StringType(
-        required=False, default=u"UAH", max_length=3, min_length=3
+        required=False, default="UAH", max_length=3, min_length=3
     )  # The currency in 3-letter ISO 4217 format.
     amountNet = FloatType()
     project = ModelType(Project)
@@ -109,12 +109,12 @@ class Budget(Model):
     def validate_period(self, data, value):
         if value:
             if get_now() < BUDGET_PERIOD_FROM:
-                raise ValidationError(u"Can't use period field, use year field instead")
+                raise ValidationError("Can't use period field, use year field instead")
             data["year"] = None
 
     def validate_year(self, data, value):
         if value and get_now() >= BUDGET_PERIOD_FROM:
-            raise ValidationError(u"Can't use year field, use period field instead")
+            raise ValidationError("Can't use year field, use period field instead")
 
     def validate_breakdown(self, data, values):
         plan = data["__parent__"]
@@ -129,11 +129,11 @@ class Budget(Model):
             if "currency" in data:
                 currencies.append(data["currency"])
             if len(set(currencies)) > 1:
-                raise ValidationError(u"Currency should be identical for all budget breakdown values and budget")
+                raise ValidationError("Currency should be identical for all budget breakdown values and budget")
             if isinstance(plan, Model) and plan.tender.procurementMethodType != "esco":
                 amounts = [to_decimal(i.value.amount) for i in values]
                 if sum(amounts) > to_decimal(data["amount"]):
-                    raise ValidationError(u"Sum of the breakdown values amounts can't be greater than budget amount")
+                    raise ValidationError("Sum of the breakdown values amounts can't be greater than budget amount")
 
 
 class PlanItem(Model):
@@ -159,9 +159,9 @@ class PlanItem(Model):
             plan.classification.id[:4] if not cpv_336_group and plan_from_2017 else plan.classification.id[:3]
         )
         if not cpv_336_group and plan_from_2017 and (base_cpv_code != classification.id[:4]):
-            raise ValidationError(u"CPV class of items should be identical to root cpv")
+            raise ValidationError("CPV class of items should be identical to root cpv")
         elif (cpv_336_group or not plan_from_2017) and (base_cpv_code != classification.id[:3]):
-            raise ValidationError(u"CPV group of items be identical to root cpv")
+            raise ValidationError("CPV group of items be identical to root cpv")
 
     def validate_additionalClassifications(self, data, items):
         plan = data["__parent__"]
@@ -173,7 +173,7 @@ class PlanItem(Model):
         if not items and (
             not plan_from_2017 or plan_from_2017 and not_cpv and plan_date < NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM
         ):
-            raise ValidationError(u"This field is required.")
+            raise ValidationError("This field is required.")
         elif (
             plan_from_2017
             and not_cpv
@@ -181,13 +181,13 @@ class PlanItem(Model):
             and not any([i.scheme in ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017 for i in items])
         ):
             raise ValidationError(
-                u"One of additional classifications should be one of [{0}].".format(
+                "One of additional classifications should be one of [{0}].".format(
                     ", ".join(ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017)
                 )
             )
         elif not plan_from_2017 and items and not any([i.scheme in ADDITIONAL_CLASSIFICATIONS_SCHEMES for i in items]):
             raise ValidationError(
-                u"One of additional classifications should be one of [{0}].".format(
+                "One of additional classifications should be one of [{0}].".format(
                     ", ".join(ADDITIONAL_CLASSIFICATIONS_SCHEMES)
                 )
             )
@@ -211,13 +211,13 @@ class PlanOrganization(BaseOrganization):
         _parent = data['__parent__']
         validation_date = get_first_revision_date(_parent, default=get_now())
         if validation_date >= PLAN_ADDRESS_KIND_REQUIRED_FROM and not value:
-            raise ValidationError(u"This field is required.")
+            raise ValidationError("This field is required.")
 
     def validate_kind(self, data, value):
         _parent = data['__parent__']
         validation_date = get_first_revision_date(_parent, default=get_now())
         if validation_date >= PLAN_ADDRESS_KIND_REQUIRED_FROM and not value:
-            raise ValidationError(u"This field is required.")
+            raise ValidationError("This field is required.")
 
 
 class PlanTender(Model):
@@ -235,7 +235,7 @@ class PlanTender(Model):
             _procedures[""] = ("centralizedProcurement", )
 
         if procurementMethodType not in _procedures[data.get("procurementMethod")]:
-            raise ValidationError(u"Value must be one of {!r}.".format(_procedures[data.get("procurementMethod")]))
+            raise ValidationError("Value must be one of {!r}.".format(_procedures[data.get("procurementMethod")]))
 
 
 class Document(BaseDocument):
@@ -415,12 +415,12 @@ class Plan(SchematicsDocument, Model):
         if status == "cancelled":
             cancellation = data.get("cancellation")
             if not isinstance(cancellation, Cancellation) or cancellation.status != "active":
-                raise ValidationError(u"An active cancellation object is required")
+                raise ValidationError("An active cancellation object is required")
         elif status == "complete":
             if not data.get("tender_id"):
                 method = data.get("tender").get("procurementMethodType")
                 if method not in ("belowThreshold", "reporting", ""):
-                    raise ValidationError(u"Can't complete plan with '{}' tender.procurementMethodType".format(method))
+                    raise ValidationError("Can't complete plan with '{}' tender.procurementMethodType".format(method))
 
     def validate_items(self, data, items):
         cpv_336_group = items[0].classification.id[:3] == "336" if items else False
@@ -430,13 +430,13 @@ class Plan(SchematicsDocument, Model):
             and items
             and len(set([i.classification.id[:4] for i in items])) != 1
         ):
-            raise ValidationError(u"CPV class of items should be identical")
+            raise ValidationError("CPV class of items should be identical")
         else:
             validate_cpv_group(items)
 
     def validate_budget(self, data, budget):
         if not budget and data["tender"]["procurementMethodType"] != "esco":
-            raise ValidationError(u"This field is required.")
+            raise ValidationError("This field is required.")
 
     def validate_buyers(self, data, value):
         validation_date = get_first_revision_date(data, default=get_now())

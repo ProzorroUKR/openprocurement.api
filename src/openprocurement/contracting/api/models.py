@@ -131,14 +131,14 @@ class Document(BaseDocument):
 
     def validate_relatedItem(self, data, relatedItem):
         if not relatedItem and data.get("documentOf") in ["item", "change"]:
-            raise ValidationError(u"This field is required.")
+            raise ValidationError("This field is required.")
         parent = data["__parent__"]
         if relatedItem and isinstance(parent, Model):
             contract = get_contract(parent)
             if data.get("documentOf") == "change" and relatedItem not in [i.id for i in contract.changes]:
-                raise ValidationError(u"relatedItem should be one of changes")
+                raise ValidationError("relatedItem should be one of changes")
             if data.get("documentOf") == "item" and relatedItem not in [i.id for i in contract.items]:
-                raise ValidationError(u"relatedItem should be one of items")
+                raise ValidationError("relatedItem should be one of items")
 
 
 class TransactionDocument(BaseDocument):
@@ -237,7 +237,7 @@ class Change(Model):
 
     def validate_dateSigned(self, data, value):
         if value and value > get_now():
-            raise ValidationError(u"Contract signature date can't be in the future")
+            raise ValidationError("Contract signature date can't be in the future")
 
 
 class OrganizationReference(Model):

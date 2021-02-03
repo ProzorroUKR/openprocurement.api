@@ -84,14 +84,14 @@ def _validate_kind_update(request, model):
 
 def _validate_bid_value(tender, value):
     if not value:
-        raise ValidationError(u"This field is required.")
+        raise ValidationError("This field is required.")
     if tender.value.amount < value.amount:
-        raise ValidationError(u"value of bid should be less than value of tender")
+        raise ValidationError("value of bid should be less than value of tender")
     if tender.get("value").currency != value.currency:
-        raise ValidationError(u"currency of bid should be identical to currency of value of tender")
+        raise ValidationError("currency of bid should be identical to currency of value of tender")
     if tender.get("value").valueAddedTaxIncluded != value.valueAddedTaxIncluded:
         raise ValidationError(
-            u"valueAddedTaxIncluded of bid should be identical " u"to valueAddedTaxIncluded of value of tender"
+            "valueAddedTaxIncluded of bid should be identical " "to valueAddedTaxIncluded of value of tender"
         )
 
 
@@ -101,7 +101,7 @@ def _validate_requirement_responses(criterias, req_responses):
     # top level criterias. all required
     diff = set(criterias).difference(responses)
     if diff:
-        raise ValidationError(u'Missing references for criterias: {}'.format(
+        raise ValidationError('Missing references for criterias: {}'.format(
             list(diff)
         ))
 
@@ -109,7 +109,7 @@ def _validate_requirement_responses(criterias, req_responses):
         # OR for requirementGroup
         if len(group_response) > 1:
             raise ValidationError(
-                u'Provided groups {} conflicting in criteria {}'.format(
+                'Provided groups {} conflicting in criteria {}'.format(
                     list(group_response.keys()), criteria_id
                 ))
         criteria_groups = criterias[criteria_id]
@@ -121,7 +121,7 @@ def _validate_requirement_responses(criterias, req_responses):
             diff = set(requirements).difference(responses)
             if diff:
                 raise ValidationError(
-                    u'Missing references for reqirements: {}'.format(
+                    'Missing references for reqirements: {}'.format(
                         list(diff)
                     ))
             for response_id, response in responses.items():
@@ -141,7 +141,7 @@ def _matches(criteria, response):
         expected = datatype.to_native(expected)
         if datatype.to_native(expected) != value:
             raise ValidationError(
-                u'Value "{}" does not match expected value "{}" in reqirement {}'.format(
+                'Value "{}" does not match expected value "{}" in reqirement {}'.format(
                     value, expected, criteria['id']
                 )
             )
@@ -150,7 +150,7 @@ def _matches(criteria, response):
         max_value = datatype.to_native(max_value)
         if value < min_value or value > max_value:
             raise ValidationError(
-                u'Value "{}" does not match range from "{}" to "{}" in reqirement {}'.format(
+                'Value "{}" does not match range from "{}" to "{}" in reqirement {}'.format(
                     value,
                     min_value,
                     max_value,
@@ -162,7 +162,7 @@ def _matches(criteria, response):
         min_value = datatype.to_native(min_value)
         if value < min_value:
             raise ValidationError(
-                u'Value {} is lower then minimal required {} in reqirement {}'.format(
+                'Value {} is lower then minimal required {} in reqirement {}'.format(
                     value,
                     min_value,
                     criteria['id']
@@ -171,7 +171,7 @@ def _matches(criteria, response):
     if not min_value and max_value:
         if value > datatype.to_native(max_value):
             raise ValidationError(
-                u'Value {} is higher then required {} in reqirement {}'.format(
+                'Value {} is higher then required {} in reqirement {}'.format(
                     value,
                     max_value,
                     criteria['id']

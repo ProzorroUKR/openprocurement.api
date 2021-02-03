@@ -56,8 +56,8 @@ UA_ROAD_CPV_PREFIXES = read_json("data/ua_road_cpv_prefixes.json")
 ATC_CODES = read_json("data/atc.json")
 INN_CODES = read_json("data/inn.json")
 
-ADDITIONAL_CLASSIFICATIONS_SCHEMES = [u"ДКПП", u"NONE", u"ДК003", u"ДК015", u"ДК018"]
-ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017 = [u"ДК003", u"ДК015", u"ДК018", u"specialNorms"]
+ADDITIONAL_CLASSIFICATIONS_SCHEMES = ["ДКПП", "NONE", "ДК003", "ДК015", "ДК018"]
+ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017 = ["ДК003", "ДК015", "ДК018", "specialNorms"]
 
 INN_SCHEME = "INN"
 ATC_SCHEME = "ATC"

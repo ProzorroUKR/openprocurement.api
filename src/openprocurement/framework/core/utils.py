@@ -197,7 +197,7 @@ def generate_framework_pretty_id(ctime, db, server_id=""):
 def save_object(request, obj_name, with_test_mode=True):
     obj = request.validated[obj_name]
 
-    if with_test_mode and obj.mode == u"test":
+    if with_test_mode and obj.mode == "test":
         set_modetest_titles(obj)
 
     patch = get_revision_changes(obj.serialize("plain"), request.validated["%s_src" % obj_name])

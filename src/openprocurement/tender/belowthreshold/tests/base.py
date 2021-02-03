@@ -16,23 +16,23 @@ from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
 
 now = get_now()
 test_identifier = {
-    "scheme": u"UA-EDR",
-    "id": u"00037256",
-    "uri": u"http://www.dus.gov.ua/",
-    "legalName": u"Державне управління справами",
+    "scheme": "UA-EDR",
+    "id": "00037256",
+    "uri": "http://www.dus.gov.ua/",
+    "legalName": "Державне управління справами",
 }
 
 test_organization = {
-    "name": u"Державне управління справами",
+    "name": "Державне управління справами",
     "identifier": test_identifier,
     "address": {
-        "countryName": u"Україна",
-        "postalCode": u"01220",
-        "region": u"м. Київ",
-        "locality": u"м. Київ",
-        "streetAddress": u"вул. Банкова, 11, корпус 1",
+        "countryName": "Україна",
+        "postalCode": "01220",
+        "region": "м. Київ",
+        "locality": "м. Київ",
+        "streetAddress": "вул. Банкова, 11, корпус 1",
     },
-    "contactPoint": {"name": u"Державне управління справами", "telephone": u"0440000000"},
+    "contactPoint": {"name": "Державне управління справами", "telephone": "0440000000"},
     "scale": "micro",
 }
 
@@ -62,32 +62,32 @@ test_milestones = [
 ]
 
 test_item = {
-    "description": u"футляри до державних нагород",
-    "classification": {"scheme": u"ДК021", "id": u"44617100-9", "description": u"Cartons"},
+    "description": "футляри до державних нагород",
+    "classification": {"scheme": "ДК021", "id": "44617100-9", "description": "Cartons"},
     "additionalClassifications": [
-        {"scheme": u"ДКПП", "id": u"17.21.1", "description": u"папір і картон гофровані, паперова й картонна тара"}
+        {"scheme": "ДКПП", "id": "17.21.1", "description": "папір і картон гофровані, паперова й картонна тара"}
     ],
-    "unit": {"name": u"item", "code": u"44617100-9"},
+    "unit": {"name": "item", "code": "44617100-9"},
     "quantity": 5,
     "deliveryDate": {
         "startDate": (now + timedelta(days=2)).isoformat(),
         "endDate": (now + timedelta(days=5)).isoformat(),
     },
     "deliveryAddress": {
-        "countryName": u"Україна",
+        "countryName": "Україна",
         "postalCode": "79000",
-        "region": u"м. Київ",
-        "locality": u"м. Київ",
-        "streetAddress": u"вул. Банкова 1",
+        "region": "м. Київ",
+        "locality": "м. Київ",
+        "streetAddress": "вул. Банкова 1",
     },
 }
 
 test_tender_data = {
-    "title": u"футляри до державних нагород",
+    "title": "футляри до державних нагород",
     "mainProcurementCategory": "goods",
     "procuringEntity": test_procuringEntity,
-    "value": {"amount": 500, "currency": u"UAH"},
-    "minimalStep": {"amount": 15, "currency": u"UAH"},
+    "value": {"amount": 500, "currency": "UAH"},
+    "minimalStep": {"amount": 15, "currency": "UAH"},
     "items": [deepcopy(test_item)],
     "enquiryPeriod": {"endDate": (now + timedelta(days=9)).isoformat()},
     "tenderPeriod": {"endDate": (now + timedelta(days=18)).isoformat()},
@@ -105,21 +105,21 @@ test_features_tender_data["features"] = [
         "code": "OCDS-123454-AIR-INTAKE",
         "featureOf": "item",
         "relatedItem": "1",
-        "title": u"Потужність всмоктування",
+        "title": "Потужність всмоктування",
         "title_en": "Air Intake",
-        "description": u"Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
-        "enum": [{"value": 0.1, "title": u"До 1000 Вт"}, {"value": 0.15, "title": u"Більше 1000 Вт"}],
+        "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
+        "enum": [{"value": 0.1, "title": "До 1000 Вт"}, {"value": 0.15, "title": "Більше 1000 Вт"}],
     },
     {
         "code": "OCDS-123454-YEARS",
         "featureOf": "tenderer",
-        "title": u"Років на ринку",
+        "title": "Років на ринку",
         "title_en": "Years trading",
-        "description": u"Кількість років, які організація учасник працює на ринку",
+        "description": "Кількість років, які організація учасник працює на ринку",
         "enum": [
-            {"value": 0.05, "title": u"До 3 років"},
-            {"value": 0.1, "title": u"Більше 3 років, менше 5 років"},
-            {"value": 0.15, "title": u"Більше 5 років"},
+            {"value": 0.05, "title": "До 3 років"},
+            {"value": 0.1, "title": "Більше 3 років, менше 5 років"},
+            {"value": 0.15, "title": "Більше 5 років"},
         ],
     },
 ]
@@ -140,14 +140,14 @@ test_features = [
         "code": "code_item",
         "featureOf": "item",
         "relatedItem": "1",
-        "title": u"item feature",
-        "enum": [{"value": 0.01, "title": u"good"}, {"value": 0.02, "title": u"best"}],
+        "title": "item feature",
+        "enum": [{"value": 0.01, "title": "good"}, {"value": 0.02, "title": "best"}],
     },
     {
         "code": "code_tenderer",
         "featureOf": "tenderer",
-        "title": u"tenderer feature",
-        "enum": [{"value": 0.01, "title": u"good"}, {"value": 0.02, "title": u"best"}],
+        "title": "tenderer feature",
+        "enum": [{"value": 0.01, "title": "good"}, {"value": 0.02, "title": "best"}],
     },
 ]
 test_cancellation = {

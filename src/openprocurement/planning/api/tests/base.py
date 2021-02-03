@@ -14,41 +14,41 @@ from nacl.encoding import HexEncoder
 now = datetime.now()
 test_plan_data = {
     "tender": {
-        "procurementMethod": u"open",
-        "procurementMethodType": u"belowThreshold",
+        "procurementMethod": "open",
+        "procurementMethodType": "belowThreshold",
         "tenderPeriod": {"startDate": (now + timedelta(days=7)).isoformat()},
     },
     "items": [
         {
             "deliveryDate": {"endDate": (now + timedelta(days=15)).isoformat()},
-            "additionalClassifications": [{"scheme": u"ДКПП", "id": u"01.11.92", "description": u"Насіння гірчиці"}],
-            "unit": {"code": u"KGM", "name": u"кг"},
-            "classification": {"scheme": u"ДК021", "description": u"Mustard seeds", "id": u"03111600-8"},
+            "additionalClassifications": [{"scheme": "ДКПП", "id": "01.11.92", "description": "Насіння гірчиці"}],
+            "unit": {"code": "KGM", "name": "кг"},
+            "classification": {"scheme": "ДК021", "description": "Mustard seeds", "id": "03111600-8"},
             "quantity": 1000,
-            "description": u"Насіння гірчиці",
+            "description": "Насіння гірчиці",
         },
         {
             "deliveryDate": {"endDate": (now + timedelta(days=16)).isoformat()},
-            "additionalClassifications": [{"scheme": u"ДКПП", "id": u"01.11.95", "description": u"Насіння соняшнику"}],
-            "unit": {"code": u"KGM", "name": u"кг"},
-            "classification": {"scheme": u"ДК021", "description": u"Sunflower seeds", "id": u"03111300-5"},
+            "additionalClassifications": [{"scheme": "ДКПП", "id": "01.11.95", "description": "Насіння соняшнику"}],
+            "unit": {"code": "KGM", "name": "кг"},
+            "classification": {"scheme": "ДК021", "description": "Sunflower seeds", "id": "03111300-5"},
             "quantity": 2000,
-            "description": u"Насіння соняшнику",
+            "description": "Насіння соняшнику",
         },
         {
             "deliveryDate": {"endDate": (now + timedelta(days=17)).isoformat()},
-            "additionalClassifications": [{"scheme": u"ДКПП", "id": u"01.11.84", "description": u"Насіння бавовнику"}],
-            "unit": {"code": u"KGM", "name": u"кг"},
-            "classification": {"scheme": u"ДК021", "description": u"Cotton seeds", "id": u"03111400-6"},
+            "additionalClassifications": [{"scheme": "ДКПП", "id": "01.11.84", "description": "Насіння бавовнику"}],
+            "unit": {"code": "KGM", "name": "кг"},
+            "classification": {"scheme": "ДК021", "description": "Cotton seeds", "id": "03111400-6"},
             "quantity": 3000,
-            "description": u"Насіння бавовнику",
+            "description": "Насіння бавовнику",
         },
     ],
-    "classification": {"scheme": u"ДК021", "description": u"Seeds", "id": u"03111000-2"},
-    "additionalClassifications": [{"scheme": u"КЕКВ", "id": u"1", "description": u"-"}],
+    "classification": {"scheme": "ДК021", "description": "Seeds", "id": "03111000-2"},
+    "additionalClassifications": [{"scheme": "КЕКВ", "id": "1", "description": "-"}],
     "procuringEntity": {
-        "identifier": {"scheme": u"UA-EDR", "id": u"111983", "legalName": u"ДП Державне Управління Справами"},
-        "name": u"ДУС",
+        "identifier": {"scheme": "UA-EDR", "id": "111983", "legalName": "ДП Державне Управління Справами"},
+        "name": "ДУС",
         "address": {
             "countryName": "Україна",
             "postalCode": "01220",
@@ -60,8 +60,8 @@ test_plan_data = {
     },
     "buyers": [
         {
-            "identifier": {"scheme": u"UA-EDR", "id": u"111983", "legalName": u"ДП Державне Управління Справами"},
-            "name": u"ДУС",
+            "identifier": {"scheme": "UA-EDR", "id": "111983", "legalName": "ДП Державне Управління Справами"},
+            "name": "ДУС",
             "address": {
                 "countryName": "Україна",
                 "postalCode": "01220",
@@ -73,21 +73,21 @@ test_plan_data = {
         }
     ],
     "budget": {
-        "project": {"name": u"proj_name", "id": u"123"},
+        "project": {"name": "proj_name", "id": "123"},
         "amount": 10000,
         "amountNet": 12222,
-        "currency": u"UAH",
-        "id": u"12303111000-2",
-        "description": u"budget_description",
+        "currency": "UAH",
+        "id": "12303111000-2",
+        "description": "budget_description",
         "period": {
             "startDate": datetime(year=now.year, month=1, day=1).isoformat(),
             "endDate": datetime(year=now.year, month=12, day=31).isoformat(),
         },
         "breakdown": [
             {
-                "title": u"other",
-                "description": u"Breakdown other description.",
-                "value": {"amount": 1500, "currency": u"UAH"},
+                "title": "other",
+                "description": "Breakdown other description.",
+                "value": {"amount": 1500, "currency": "UAH"},
             }
         ],
     },

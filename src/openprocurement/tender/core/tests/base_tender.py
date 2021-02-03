@@ -45,12 +45,12 @@ class TestTenderMilestones(unittest.TestCase):
             {
                 "milestones": [
                     {
-                        "title": [u"This field is required."],
-                        "code": [u"This field is required."],
-                        "duration": [u"This field is required."],
-                        "percentage": [u"This field is required."],
-                        "type": [u"This field is required."],
-                        "sequenceNumber": [u"This field is required."],
+                        "title": ["This field is required."],
+                        "code": ["This field is required."],
+                        "duration": ["This field is required."],
+                        "percentage": ["This field is required."],
+                        "type": ["This field is required."],
+                        "sequenceNumber": ["This field is required."],
                     }
                 ]
             },
@@ -85,12 +85,12 @@ class TestTenderMilestones(unittest.TestCase):
             {
                 "milestones": [
                     {
-                        "title": [u"Value must be one of {}.".format(expected_title_options)],
-                        "code": [u"Value must be one of {}.".format(expected_codes)],
-                        "type": [u"Value must be one of {}.".format(expected_types)],
-                        "duration": {"type": [u"This field is required."], "days": [u"This field is required."]},
-                        "percentage": [u"Float value should be greater than 0."],
-                        "sequenceNumber": [u"Int value should be greater than 0."],
+                        "title": ["Value must be one of {}.".format(expected_title_options)],
+                        "code": ["Value must be one of {}.".format(expected_codes)],
+                        "type": ["Value must be one of {}.".format(expected_types)],
+                        "duration": {"type": ["This field is required."], "days": ["This field is required."]},
+                        "percentage": ["Float value should be greater than 0."],
+                        "sequenceNumber": ["Int value should be greater than 0."],
                     }
                 ]
             },
@@ -115,7 +115,7 @@ class TestTenderMilestones(unittest.TestCase):
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
 
-        self.assertEqual(e.exception.messages, {"milestones": [{"description": [u"This field is required."]}]})
+        self.assertEqual(e.exception.messages, {"milestones": [{"description": ["This field is required."]}]})
 
     def test_title_other_description_empty_invalid(self):
         initial_data = dict(self.initial_tender_data)
@@ -123,7 +123,7 @@ class TestTenderMilestones(unittest.TestCase):
             milestones=[
                 {
                     "title": "anotherEvent",
-                    "description": u"",
+                    "description": "",
                     "code": "prepayment",
                     "type": "financing",
                     "duration": {"days": 2, "type": "banking"},
@@ -137,7 +137,7 @@ class TestTenderMilestones(unittest.TestCase):
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
 
-        self.assertEqual(e.exception.messages, {"milestones": [{"description": [u"This field is required."]}]})
+        self.assertEqual(e.exception.messages, {"milestones": [{"description": ["This field is required."]}]})
 
     def test_validate_percentage_too_big(self):
         initial_data = dict(self.initial_tender_data)
@@ -159,7 +159,7 @@ class TestTenderMilestones(unittest.TestCase):
             tender.validate()
 
         self.assertEqual(
-            e.exception.messages, {"milestones": [{"percentage": [u"Float value should be less than 100."]}]}
+            e.exception.messages, {"milestones": [{"percentage": ["Float value should be less than 100."]}]}
         )
 
     def test_validate_percentage_sum(self):
@@ -191,7 +191,7 @@ class TestTenderMilestones(unittest.TestCase):
 
         self.assertEqual(
             e.exception.messages,
-            {"milestones": [u"Sum of the financial milestone percentages 100.001 is not equal 100."]},
+            {"milestones": ["Sum of the financial milestone percentages 100.001 is not equal 100."]},
         )
 
     def test_validate_percentage_sum_float_point(self):
@@ -278,7 +278,7 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
             tender.validate()
 
         self.assertEqual(
-            e.exception.messages, {"milestones": [{"relatedLot": [u"relatedLot should be one of the lots."]}]}
+            e.exception.messages, {"milestones": [{"relatedLot": ["relatedLot should be one of the lots."]}]}
         )
 
     def test_validate_lot_sum_incorrect(self):
@@ -314,7 +314,7 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
             e.exception.messages,
             {
                 "milestones": [
-                    u"Sum of the financial milestone percentages 50.0 is not equal 100 for lot {}.".format("a" * 32)
+                    "Sum of the financial milestone percentages 50.0 is not equal 100 for lot {}.".format("a" * 32)
                 ]
             },
         )
@@ -407,7 +407,7 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
             e.exception.messages,
             {
                 "milestones": [
-                    u"Sum of the financial milestone percentages 99.999 is not equal 100 for lot {}.".format(u"b" * 32)
+                    "Sum of the financial milestone percentages 99.999 is not equal 100 for lot {}.".format("b" * 32)
                 ]
             },
         )

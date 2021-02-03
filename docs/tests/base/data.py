@@ -26,9 +26,9 @@ tenderer = {
         "telephone": "+380 (432) 21-69-30"
     },
     "identifier": {
-        "scheme": u"UA-EDR",
-        "id": u"00137256",
-        "uri": u"http://www.sc.gov.ua/"
+        "scheme": "UA-EDR",
+        "id": "00137256",
+        "uri": "http://www.sc.gov.ua/"
     },
     "name": "ДКП «Школяр»",
     "scale": "micro"
@@ -38,7 +38,7 @@ author = deepcopy(tenderer)
 del author['scale']
 
 complaint_author = deepcopy(author)
-complaint_author["identifier"]["legalName"] = u"ДКП «Школяр»"
+complaint_author["identifier"]["legalName"] = "ДКП «Школяр»"
 
 tenderer2 = {
     "address": {
@@ -54,9 +54,9 @@ tenderer2 = {
         "telephone": "+380 (322) 91-69-30"
     },
     "identifier": {
-        "scheme": u"UA-EDR",
-        "id": u"00137226",
-        "uri": u"http://www.sc.gov.ua/"
+        "scheme": "UA-EDR",
+        "id": "00137226",
+        "uri": "http://www.sc.gov.ua/"
     },
     "name": "ДКП «Книга»",
     "scale": "sme"
@@ -79,9 +79,9 @@ tenderer3 = {
         "telephone": "+380 (322) 12-34-56"
     },
     "identifier": {
-        "scheme": u"UA-EDR",
-        "id": u"00137227",
-        "uri": u"http://www.sc.gov.ua/"
+        "scheme": "UA-EDR",
+        "id": "00137227",
+        "uri": "http://www.sc.gov.ua/"
     },
     "name": "«Снігур»",
     "scale": "mid"
@@ -101,9 +101,9 @@ tenderer4 = {
         "telephone": "+380 (322) 12-34-56"
     },
     "identifier": {
-        "scheme": u"UA-EDR",
-        "id": u"00137228",
-        "uri": u"http://www.sc.gov.ua/"
+        "scheme": "UA-EDR",
+        "id": "00137228",
+        "uri": "http://www.sc.gov.ua/"
     },
     "name": "«Кенгуру»",
     "scale": "large"
@@ -136,36 +136,36 @@ bad_author = deepcopy(bad_participant)
 del bad_author['scale']
 
 bid_document = {
-    'title': u'Proposal_part1.pdf',
-    'url': u"http://broken1.ds",
+    'title': 'Proposal_part1.pdf',
+    'url': "http://broken1.ds",
     'hash': 'md5:' + '0' * 32,
     'format': 'application/pdf',
 }
 
 bid_document2 = {
-    'title': u'Proposal_part2.pdf',
-    'url': u"http://broken2.ds",
+    'title': 'Proposal_part2.pdf',
+    'url': "http://broken2.ds",
     'hash': 'md5:' + '0' * 32,
     'format': 'application/pdf',
 }
 
 bid_document3_eligibility = {
-    'title': u'eligibility_doc.pdf',
-    'url': u"http://broken3.ds",
+    'title': 'eligibility_doc.pdf',
+    'url': "http://broken3.ds",
     'hash': 'md5:' + '0' * 32,
     'format': 'application/pdf',
 }
 
 bid_document4_financialy = {
-    'title': u'financial_doc.pdf',
-    'url': u"http://broken4.ds",
+    'title': 'financial_doc.pdf',
+    'url': "http://broken4.ds",
     'hash': 'md5:' + '0' * 32,
     'format': 'application/pdf',
 }
 
 bid_document5_qualification = {
-    'title': u'qualification_document.pdf',
-    'url': u"http://broken5.ds",
+    'title': 'qualification_document.pdf',
+    'url': "http://broken5.ds",
     'hash': 'md5:' + '0' * 32,
     'format': 'application/pdf',
 }
@@ -262,38 +262,38 @@ features = [
         "code": "OCDS-123454-AIR-INTAKE",
         "featureOf": "item",
         "relatedItem": "f" * 32,
-        "title": u"Потужність всмоктування",
+        "title": "Потужність всмоктування",
         "title_en": "Air Intake",
-        "description": u"Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
+        "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
         "enum": [
             {
                 "value": 0.1,
-                "title": u"До 1000 Вт"
+                "title": "До 1000 Вт"
             },
             {
                 "value": 0.15,
-                "title": u"Більше 1000 Вт"
+                "title": "Більше 1000 Вт"
             }
         ]
     },
     {
         "code": "OCDS-123454-YEARS",
         "featureOf": "tenderer",
-        "title": u"Років на ринку",
+        "title": "Років на ринку",
         "title_en": "Years trading",
-        "description": u"Кількість років, які організація учасник працює на ринку",
+        "description": "Кількість років, які організація учасник працює на ринку",
         "enum": [
             {
                 "value": 0.05,
-                "title": u"До 3 років"
+                "title": "До 3 років"
             },
             {
                 "value": 0.1,
-                "title": u"Більше 3 років, менше 5 років"
+                "title": "Більше 3 років, менше 5 років"
             },
             {
                 "value": 0.15,
-                "title": u"Більше 5 років"
+                "title": "Більше 5 років"
             }
         ]
     }
@@ -361,24 +361,24 @@ lots = [
 items = [
     {
         "id": "f" * 32,
-        "description": u"футляри до державних нагород",
-        "description_en": u"Cases with state awards",
-        "description_ru": u"футляры к государственным наградам",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases with state awards",
+        "description_ru": "футляры к государственным наградам",
         "classification": {
-            "scheme": u"ДК021",
-            "id": u"44617100-9",
-            "description": u"Cartons"
+            "scheme": "ДК021",
+            "id": "44617100-9",
+            "description": "Cartons"
         },
         "additionalClassifications": [
             {
-                "scheme": u"ДКПП",
-                "id": u"17.21.1",
-                "description": u"папір і картон гофровані, паперова й картонна тара"
+                "scheme": "ДКПП",
+                "id": "17.21.1",
+                "description": "папір і картон гофровані, паперова й картонна тара"
             }
         ],
         "unit": {
-            "name": u"item",
-            "code": u"44617100-9"
+            "name": "item",
+            "code": "44617100-9"
         },
         "quantity": 5
     }
@@ -405,11 +405,11 @@ items_en = [
             "endDate": (parse(MOCK_DATETIME) + timedelta(days=50)).isoformat()
         },
         "deliveryAddress": {
-            "countryName": u"Україна",
+            "countryName": "Україна",
             "postalCode": "79000",
-            "region": u"м. Київ",
-            "locality": u"м. Київ",
-            "streetAddress": u"вул. Банкова 1"
+            "region": "м. Київ",
+            "locality": "м. Київ",
+            "streetAddress": "вул. Банкова 1"
         },
         "quantity": 1
     }, {
@@ -433,11 +433,11 @@ items_en = [
             "endDate": (parse(MOCK_DATETIME) + timedelta(days=50)).isoformat()
         },
         "deliveryAddress": {
-            "countryName": u"Україна",
+            "countryName": "Україна",
             "postalCode": "79000",
-            "region": u"м. Київ",
-            "locality": u"м. Київ",
-            "streetAddress": u"вул. Банкова 1"
+            "region": "м. Київ",
+            "locality": "м. Київ",
+            "streetAddress": "вул. Банкова 1"
         }
     }
 ]
@@ -471,11 +471,11 @@ items_ua = [
             "endDate": (parse(MOCK_DATETIME) + timedelta(days=50)).isoformat()
         },
         "deliveryAddress": {
-            "countryName": u"Україна",
+            "countryName": "Україна",
             "postalCode": "79000",
-            "region": u"м. Київ",
-            "locality": u"м. Київ",
-            "streetAddress": u"вул. Банкова 1"
+            "region": "м. Київ",
+            "locality": "м. Київ",
+            "streetAddress": "вул. Банкова 1"
         },
         "classification": {
             "description": "Послуги з харчування у школах",
@@ -495,22 +495,22 @@ items_ua_unit[0].update({
 })
 
 procuring_entity = {
-    "name": u"Державне управління справами",
+    "name": "Державне управління справами",
     "identifier": {
-        "scheme": u"UA-EDR",
-        "id": u"00037256",
-        "uri": u"http://www.dus.gov.ua/"
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/"
     },
     "address": {
-        "countryName": u"Україна",
-        "postalCode": u"01220",
-        "region": u"м. Київ",
-        "locality": u"м. Київ",
-        "streetAddress": u"вул. Банкова, 11, корпус 1"
+        "countryName": "Україна",
+        "postalCode": "01220",
+        "region": "м. Київ",
+        "locality": "м. Київ",
+        "streetAddress": "вул. Банкова, 11, корпус 1"
     },
     "contactPoint": {
-        "name": u"Державне управління справами",
-        "telephone": u"0440000000"
+        "name": "Державне управління справами",
+        "telephone": "0440000000"
     },
     'kind': 'general'
 }
@@ -528,7 +528,7 @@ procuring_entity_en = {
         "name": "Куца Світлана Валентинівна",
         "name_en": "Kutsa Svitlana V.",
         "telephone": "+380 (432) 46-53-02",
-        "availableLanguage": u"uk",
+        "availableLanguage": "uk",
         "url": "http://sch10.edu.vn.ua/"
     },
     "identifier": {
@@ -566,25 +566,25 @@ procuring_entity_ua = {
 shortlisted_firms = [
     {
         "identifier": {
-            "scheme": u"UA-EDR",
-            "id": u'00137256',
-            "uri": u'http://www.sc.gov.ua/'
+            "scheme": "UA-EDR",
+            "id": '00137256',
+            "uri": 'http://www.sc.gov.ua/'
         },
         "name": "ДКП «Школяр»"
     },
     {
         "identifier": {
-            "scheme": u"UA-EDR",
-            "id": u'00137226',
-            "uri": u'http://www.sc.gov.ua/'
+            "scheme": "UA-EDR",
+            "id": '00137226',
+            "uri": 'http://www.sc.gov.ua/'
         },
         "name": "ДКП «Книга»"
     },
     {
         "identifier": {
-            "scheme": u"UA-EDR",
-            "id": u'00137228',
-            "uri": u'http://www.sc.gov.ua/'
+            "scheme": "UA-EDR",
+            "id": '00137228',
+            "uri": 'http://www.sc.gov.ua/'
         },
         "name": "«Кенгуру»",
     },
@@ -601,17 +601,17 @@ award = {
 }
 
 tender_below_maximum = {
-    "title": u"футляри до державних нагород",
-    "title_en": u"Cases with state awards",
-    "title_ru": u"футляры к государственным наградам",
+    "title": "футляри до державних нагород",
+    "title_en": "Cases with state awards",
+    "title_ru": "футляры к государственным наградам",
     "procuringEntity": procuring_entity,
     "value": {
         "amount": 500,
-        "currency": u"UAH"
+        "currency": "UAH"
     },
     "minimalStep": {
         "amount": 35,
-        "currency": u"UAH"
+        "currency": "UAH"
     },
     "items": items,
     "enquiryPeriod": {
@@ -621,39 +621,39 @@ tender_below_maximum = {
         "endDate": (parse(MOCK_DATETIME) + timedelta(days=14)).isoformat()
     },
     "procurementMethodType": "belowThreshold",
-    "mode": u"test",
+    "mode": "test",
     "features": features,
     "milestones": test_milestones,
     "mainProcurementCategory": "services",
 }
 
 tender_cfaselectionua_maximum = {
-    "title": u"футляри до державних нагород",
-    "title_en": u"Cases with state awards",
-    "title_ru": u"футляры к государственным наградам",
+    "title": "футляри до державних нагород",
+    "title_en": "Cases with state awards",
+    "title_ru": "футляры к государственным наградам",
     "procuringEntity": {
-        "name": u"Державне управління справами",
+        "name": "Державне управління справами",
         "identifier": {
-            "scheme": u"UA-EDR",
-            "id": u"00037256",
-            "uri": u"http://www.dus.gov.ua/"
+            "scheme": "UA-EDR",
+            "id": "00037256",
+            "uri": "http://www.dus.gov.ua/"
         },
         "address": {
-            "countryName": u"Україна",
-            "postalCode": u"01220",
-            "region": u"м. Київ",
-            "locality": u"м. Київ",
-            "streetAddress": u"вул. Банкова, 11, корпус 1"
+            "countryName": "Україна",
+            "postalCode": "01220",
+            "region": "м. Київ",
+            "locality": "м. Київ",
+            "streetAddress": "вул. Банкова, 11, корпус 1"
         },
         "contactPoint": {
-            "name": u"Державне управління справами",
-            "telephone": u"0440000000"
+            "name": "Державне управління справами",
+            "telephone": "0440000000"
         },
         'kind': 'general'
     },
     "items": items,
     "procurementMethodType": "closeFrameworkAgreementSelectionUA",
-    "mode": u"test",
+    "mode": "test",
     "milestones": test_milestones,
     "mainProcurementCategory": "services",
 }
@@ -841,64 +841,64 @@ tender_defense = {
 
 plan = {
     "tender": {
-        "procurementMethod": u"open",
-        "procurementMethodType": u"belowThreshold",
+        "procurementMethod": "open",
+        "procurementMethodType": "belowThreshold",
         "tenderPeriod": {"startDate": (parse(MOCK_DATETIME) + timedelta(days=7)).isoformat()},
     },
     "items": [
         {
             "deliveryDate": {"endDate": (parse(MOCK_DATETIME) + timedelta(days=15)).isoformat()},
-            "additionalClassifications": [{"scheme": u"ДКПП", "id": u"01.11.92", "description": u"Насіння гірчиці"}],
-            "unit": {"code": u"KGM", "name": u"кг"},
-            "classification": {"scheme": u"ДК021", "description": u"Mustard seeds", "id": u"03111600-8"},
+            "additionalClassifications": [{"scheme": "ДКПП", "id": "01.11.92", "description": "Насіння гірчиці"}],
+            "unit": {"code": "KGM", "name": "кг"},
+            "classification": {"scheme": "ДК021", "description": "Mustard seeds", "id": "03111600-8"},
             "quantity": 1000,
-            "description": u"Насіння гірчиці",
+            "description": "Насіння гірчиці",
         },
         {
             "deliveryDate": {"endDate": (parse(MOCK_DATETIME) + timedelta(days=16)).isoformat()},
-            "additionalClassifications": [{"scheme": u"ДКПП", "id": u"01.11.95", "description": u"Насіння соняшнику"}],
-            "unit": {"code": u"KGM", "name": u"кг"},
-            "classification": {"scheme": u"ДК021", "description": u"Sunflower seeds", "id": u"03111300-5"},
+            "additionalClassifications": [{"scheme": "ДКПП", "id": "01.11.95", "description": "Насіння соняшнику"}],
+            "unit": {"code": "KGM", "name": "кг"},
+            "classification": {"scheme": "ДК021", "description": "Sunflower seeds", "id": "03111300-5"},
             "quantity": 2000,
-            "description": u"Насіння соняшнику",
+            "description": "Насіння соняшнику",
         },
         {
             "deliveryDate": {"endDate": (parse(MOCK_DATETIME) + timedelta(days=17)).isoformat()},
-            "additionalClassifications": [{"scheme": u"ДКПП", "id": u"01.11.84", "description": u"Насіння бавовнику"}],
-            "unit": {"code": u"KGM", "name": u"кг"},
-            "classification": {"scheme": u"ДК021", "description": u"Cotton seeds", "id": u"03111400-6"},
+            "additionalClassifications": [{"scheme": "ДКПП", "id": "01.11.84", "description": "Насіння бавовнику"}],
+            "unit": {"code": "KGM", "name": "кг"},
+            "classification": {"scheme": "ДК021", "description": "Cotton seeds", "id": "03111400-6"},
             "quantity": 3000,
-            "description": u"Насіння бавовнику",
+            "description": "Насіння бавовнику",
         },
     ],
-    "classification": {"scheme": u"ДК021", "description": u"Seeds", "id": u"03111000-2"},
-    "additionalClassifications": [{"scheme": u"КЕКВ", "id": u"1", "description": u"-"}],
+    "classification": {"scheme": "ДК021", "description": "Seeds", "id": "03111000-2"},
+    "additionalClassifications": [{"scheme": "КЕКВ", "id": "1", "description": "-"}],
     "procuringEntity": {
-        "identifier": {"scheme": u"UA-EDR", "id": u"111983", "legalName": u"ДП Державне Управління Справами"},
-        "name": u"ДУС",
+        "identifier": {"scheme": "UA-EDR", "id": "111983", "legalName": "ДП Державне Управління Справами"},
+        "name": "ДУС",
     },
     "buyers": [
         {
-            "identifier": {"scheme": u"UA-EDR", "id": u"111983", "legalName": u"ДП Державне Управління Справами"},
-            "name": u"ДУС",
+            "identifier": {"scheme": "UA-EDR", "id": "111983", "legalName": "ДП Державне Управління Справами"},
+            "name": "ДУС",
         }
     ],
     "budget": {
-        "project": {"name": u"proj_name", "id": u"123"},
+        "project": {"name": "proj_name", "id": "123"},
         "amount": 10000,
         "amountNet": 12222,
-        "currency": u"UAH",
-        "id": u"12303111000-2",
-        "description": u"budget_description",
+        "currency": "UAH",
+        "id": "12303111000-2",
+        "description": "budget_description",
         "period": {
             "startDate": datetime(year=parse(MOCK_DATETIME).year, month=1, day=1).isoformat(),
             "endDate": datetime(year=parse(MOCK_DATETIME).year, month=12, day=31).isoformat(),
         },
         "breakdown": [
             {
-                "title": u"other",
-                "description": u"Breakdown other description.",
-                "value": {"amount": 1500, "currency": u"UAH"},
+                "title": "other",
+                "description": "Breakdown other description.",
+                "value": {"amount": 1500, "currency": "UAH"},
             }
         ],
     },
@@ -906,9 +906,9 @@ plan = {
 
 
 test_eligible_evidence_data = {
-    "title": u"Документальне підтвердження",
-    "description": u"Довідка в довільній формі",
-    "type": u"document",
+    "title": "Документальне підтвердження",
+    "description": "Довідка в довільній формі",
+    "type": "document",
 }
 
 

@@ -17,7 +17,7 @@ class TenderPreQualificationMixin(object):
 
         for n, bid in enumerate(self.initial_bids):
             bid = deepcopy(bid)
-            bid["tenderers"][0]["identifier"]["id"] = u"0000{}".format(n)
+            bid["tenderers"][0]["identifier"]["id"] = "0000{}".format(n)
             self.app.post_json(
                 "/tenders/{}/bids".format(self.tender_id),
                 {"data": bid},

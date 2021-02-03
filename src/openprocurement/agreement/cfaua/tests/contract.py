@@ -17,7 +17,7 @@ class AgreementContractsResourceTest(BaseAgreementContentWebTest):
         response = self.app.get("/agreements/{}/contracts/{}".format(self.agreement_id, "some_id"), status=404)
         self.assertEqual(response.status, "404 Not Found")
         self.assertEqual(
-            response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"contract_id"}]
+            response.json["errors"], [{"description": "Not Found", "location": "url", "name": "contract_id"}]
         )
 
         while True:

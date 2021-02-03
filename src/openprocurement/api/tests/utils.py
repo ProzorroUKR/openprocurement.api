@@ -31,9 +31,9 @@ class ItemsListing(APIResourceListing):
         self.test_view_mock = Mock(return_value=results)
         self.changes_view_mock = Mock(return_value=results)
         self.test_changes_view_mock = Mock(return_value=results)
-        self.VIEW_MAP = {u"": self.view_mock, u"test": self.test_view_mock}
-        self.CHANGES_VIEW_MAP = {u"": self.changes_view_mock, u"test": self.test_changes_view_mock}
-        self.FEED = {u"dateModified": self.VIEW_MAP, u"changes": self.CHANGES_VIEW_MAP}
+        self.VIEW_MAP = {"": self.view_mock, "test": self.test_view_mock}
+        self.CHANGES_VIEW_MAP = {"": self.changes_view_mock, "test": self.test_changes_view_mock}
+        self.FEED = {"dateModified": self.VIEW_MAP, "changes": self.CHANGES_VIEW_MAP}
         self.FIELDS = ("id", "status", "title", "description")
 
         def item_serialize(_, data, fields):
@@ -236,14 +236,14 @@ class GetUAHAmountFromValueTestCase(unittest.TestCase):
             ],
             logging_context={}
         )
-        value = {"amount": 300, "currency": u"рупии"}
+        value = {"amount": 300, "currency": "рупии"}
 
         with self.assertRaises(MyExc):
             get_uah_amount_from_value(request, value, {})
 
         raise_operation_error_mock.assert_called_once_with(
             request,
-            u"Couldn't find currency {} on bank.gov.ua".format(value["currency"]),
+            "Couldn't find currency {} on bank.gov.ua".format(value["currency"]),
             status=422
         )
 

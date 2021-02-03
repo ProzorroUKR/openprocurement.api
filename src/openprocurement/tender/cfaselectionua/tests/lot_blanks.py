@@ -24,7 +24,7 @@ def create_tender_lot_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     request_path = "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token)
@@ -37,9 +37,9 @@ def create_tender_lot_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": u"Content-Type header should be one of ['application/json']",
-                u"location": u"header",
-                u"name": u"Content-Type",
+                "description": "Content-Type header should be one of ['application/json']",
+                "location": "header",
+                "name": "Content-Type",
             }
         ],
     )
@@ -50,7 +50,7 @@ def create_tender_lot_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": u"Expecting value: line 1 column 1 (char 0)", u"location": u"body", u"name": u"data"}],
+        [{"description": "Expecting value: line 1 column 1 (char 0)", "location": "body", "name": "data"}],
     )
 
     response = self.app.post_json(request_path, "data", status=422)
@@ -58,7 +58,7 @@ def create_tender_lot_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Data not available", u"location": u"body", u"name": u"data"}]
+        response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
     response = self.app.post_json(request_path, {"not_data": {}}, status=422)
@@ -66,7 +66,7 @@ def create_tender_lot_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Data not available", u"location": u"body", u"name": u"data"}]
+        response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
     response = self.app.post_json(request_path, {"data": {}}, status=422)
@@ -75,7 +75,7 @@ def create_tender_lot_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"This field is required."], u"location": u"body", u"name": u"title"}],
+        [{"description": ["This field is required."], "location": "body", "name": "title"}],
     )
 
     response = self.app.post_json(request_path, {"data": {"invalid_field": "invalid_value"}}, status=422)
@@ -83,7 +83,7 @@ def create_tender_lot_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Rogue field", u"location": u"body", u"name": u"invalid_field"}]
+        response.json["errors"], [{"description": "Rogue field", "location": "body", "name": "invalid_field"}]
     )
 
     response = self.app.post_json(request_path, {"data": {"value": "invalid_value"}}, status=422)
@@ -94,9 +94,9 @@ def create_tender_lot_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [u"Please use a mapping for this field or Value instance instead of str."],
-                u"location": u"body",
-                u"name": u"value",
+                "description": ["Please use a mapping for this field or Value instance instead of str."],
+                "location": "body",
+                "name": "value",
             }
         ],
     )
@@ -118,7 +118,7 @@ def create_tender_lot_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"value should be less than value of lot"], u"location": u"body", u"name": u"minimalStep"}],
+        [{"description": ["value should be less than value of lot"], "location": "body", "name": "minimalStep"}],
     )
 
     response = self.app.patch_json(
@@ -133,9 +133,9 @@ def create_tender_lot_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"relatedLot": [u"relatedLot should be one of lots"]}],
-                u"location": u"body",
-                u"name": u"items",
+                "description": [{"relatedLot": ["relatedLot should be one of lots"]}],
+                "location": "body",
+                "name": "items",
             }
         ],
     )
@@ -186,9 +186,9 @@ def create_tender_lot(self):
         response.json["errors"],
         [
             {
-                u"description": [u"lot guarantee currency should be identical to tender guarantee currency"],
-                u"location": u"body",
-                u"name": u"lots",
+                "description": ["lot guarantee currency should be identical to tender guarantee currency"],
+                "location": "body",
+                "name": "lots",
             }
         ],
     )
@@ -204,9 +204,9 @@ def create_tender_lot(self):
         response.json["errors"],
         [
             {
-                u"description": [u"lot guarantee currency should be identical to tender guarantee currency"],
-                u"location": u"body",
-                u"name": u"lots",
+                "description": ["lot guarantee currency should be identical to tender guarantee currency"],
+                "location": "body",
+                "name": "lots",
             }
         ],
     )
@@ -246,7 +246,7 @@ def create_tender_lot(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"Lot id should be uniq for all lots"], u"location": u"body", u"name": u"lots"}],
+        [{"description": ["Lot id should be uniq for all lots"], "location": "body", "name": "lots"}],
     )
 
     self.set_status("{}".format(self.forbidden_lot_actions_status))
@@ -318,7 +318,7 @@ def patch_tender_lot(self):
     )
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
 
-    lot_data = {u"value": {u"currency": u"UAH", u"amount": 200.0, u"valueAddedTaxIncluded": True}, u"id": lot["id"]}
+    lot_data = {"value": {"currency": "UAH", "amount": 200.0, "valueAddedTaxIncluded": True}, "id": lot["id"]}
 
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token), {"data": lot_data}
@@ -364,9 +364,9 @@ def patch_tender_lot(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"minimalStep": [u"value should be less than value of lot"]}],
-                u"location": u"body",
-                u"name": u"lots",
+                "description": [{"minimalStep": ["value should be less than value of lot"]}],
+                "location": "body",
+                "name": "lots",
             }
         ],
     )
@@ -404,7 +404,7 @@ def patch_tender_lot_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"value should be less than value of lot"], u"location": u"body", u"name": u"minimalStep"}],
+        [{"description": ["value should be less than value of lot"], "location": "body", "name": "minimalStep"}],
     )
 
     response = self.app.patch_json(
@@ -415,14 +415,14 @@ def patch_tender_lot_invalid(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"lot_id"}])
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "lot_id"}])
 
     response = self.app.patch_json("/tenders/some_id/lots/some_id", {"data": {"title": "other title"}}, status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     self.set_status("{}".format(self.forbidden_lot_actions_status))
@@ -459,9 +459,9 @@ def patch_tender_currency(self):
         response.json["errors"],
         [
             {
-                u"description": [u"currency should be identical to currency of value of tender"],
-                u"location": u"body",
-                u"name": u"minimalStep",
+                "description": ["currency should be identical to currency of value of tender"],
+                "location": "body",
+                "name": "minimalStep",
             }
         ],
     )
@@ -595,7 +595,7 @@ def get_tender_lot(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        set(response.json["data"]), {u"id", u"date", u"title", u"description", u"minimalStep", u"status", u"value"}
+        set(response.json["data"]), {"id", "date", "title", "description", "minimalStep", "status", "value"}
     )
 
     self.set_status("active.qualification")
@@ -611,14 +611,14 @@ def get_tender_lot(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"lot_id"}])
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "lot_id"}])
 
     response = self.app.get("/tenders/some_id/lots/some_id", status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
 
@@ -630,7 +630,7 @@ def get_tender_lots(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        set(response.json["data"][0]), {u"id", u"date", u"title", u"description", u"status", u"value", u"minimalStep"}
+        set(response.json["data"][0]), {"id", "date", "title", "description", "status", "value", "minimalStep"}
     )
 
     self.set_status("active.qualification")
@@ -647,7 +647,7 @@ def get_tender_lots(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
 
@@ -670,14 +670,14 @@ def delete_tender_lot(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"lot_id"}])
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "lot_id"}])
 
     response = self.app.delete("/tenders/some_id/lots/some_id", status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     response = self.app.post_json(
@@ -703,9 +703,9 @@ def delete_tender_lot(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"relatedLot": [u"relatedLot should be one of lots"]}],
-                u"location": u"body",
-                u"name": u"items",
+                "description": [{"relatedLot": ["relatedLot should be one of lots"]}],
+                "location": "body",
+                "name": "items",
             }
         ],
     )
@@ -783,9 +783,9 @@ def tender_lot_guarantee(self):
         response.json["errors"],
         [
             {
-                u"description": [u"lot guarantee currency should be identical to tender guarantee currency"],
-                u"location": u"body",
-                u"name": u"lots",
+                "description": ["lot guarantee currency should be identical to tender guarantee currency"],
+                "location": "body",
+                "name": "lots",
             }
         ],
     )
@@ -860,10 +860,10 @@ def tender_features_invalid(self):
         {
             "featureOf": "lot",
             "relatedItem": self.initial_lots[0]["id"],
-            "title": u"Потужність всмоктування",
+            "title": "Потужність всмоктування",
             "enum": [
-                {"value": self.invalid_feature_value, "title": u"До 1000 Вт"},
-                {"value": 0.15, "title": u"Більше 1000 Вт"},
+                {"value": self.invalid_feature_value, "title": "До 1000 Вт"},
+                {"value": 0.15, "title": "Більше 1000 Вт"},
             ],
         }
     ]
@@ -875,11 +875,11 @@ def tender_features_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [
-                    {u"enum": [{u"value": [u"Float value should be less than {}.".format(self.max_feature_value)]}]}
+                "description": [
+                    {"enum": [{"value": ["Float value should be less than {}.".format(self.max_feature_value)]}]}
                 ],
-                u"location": u"body",
-                u"name": u"features",
+                "location": "body",
+                "name": "features",
             }
         ],
     )
@@ -894,13 +894,13 @@ def tender_features_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [
-                    u"Sum of max value of all features for lot should be less then or equal to {0:.0%}".format(
+                "description": [
+                    "Sum of max value of all features for lot should be less then or equal to {0:.0%}".format(
                         self.sum_of_max_value_of_all_features
                     )
                 ],
-                u"location": u"body",
-                u"name": u"features",
+                "location": "body",
+                "name": "features",
             }
         ],
     )
@@ -915,14 +915,14 @@ def tender_features_invalid(self):
 def tender_lot_document(self):
     response = self.app.post(
         "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
-        upload_files=[("file", str(Header(u"укр.doc", "utf-8")), "content")],
+        upload_files=[("file", str(Header("укр.doc", "utf-8")), "content")],
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     doc_id = response.json["data"]["id"]
     # dateModified = response.json["data"]['dateModified']
     self.assertIn(doc_id, response.headers["Location"])
-    self.assertEqual(u"укр.doc", response.json["data"]["title"])
+    self.assertEqual("укр.doc", response.json["data"]["title"])
     self.assertNotIn("documentType", response.json["data"])
 
     response = self.app.patch_json(
@@ -935,7 +935,7 @@ def tender_lot_document(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"This field is required."], u"location": u"body", u"name": u"relatedItem"}],
+        [{"description": ["This field is required."], "location": "body", "name": "relatedItem"}],
     )
 
     response = self.app.patch_json(
@@ -948,7 +948,7 @@ def tender_lot_document(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"relatedItem should be one of lots"], u"location": u"body", u"name": u"relatedItem"}],
+        [{"description": ["relatedItem should be one of lots"], "location": "body", "name": "relatedItem"}],
     )
 
     # get tender for lot id
@@ -980,7 +980,7 @@ def create_tender_bid_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"This field is required."], u"location": u"body", u"name": u"lotValues"}],
+        [{"description": ["This field is required."], "location": "body", "name": "lotValues"}],
     )
 
     response = self.app.post_json(
@@ -995,9 +995,9 @@ def create_tender_bid_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"relatedLot": [u"This field is required."]}],
-                u"location": u"body",
-                u"name": u"lotValues",
+                "description": [{"relatedLot": ["This field is required."]}],
+                "location": "body",
+                "name": "lotValues",
             }
         ],
     )
@@ -1014,9 +1014,9 @@ def create_tender_bid_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"relatedLot": [u"relatedLot should be one of lots"]}],
-                u"location": u"body",
-                u"name": u"lotValues",
+                "description": [{"relatedLot": ["relatedLot should be one of lots"]}],
+                "location": "body",
+                "name": "lotValues",
             }
         ],
     )
@@ -1038,9 +1038,9 @@ def create_tender_bid_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"value": [u"value of bid should be less than value of lot"]}],
-                u"location": u"body",
-                u"name": u"lotValues",
+                "description": [{"value": ["value of bid should be less than value of lot"]}],
+                "location": "body",
+                "name": "lotValues",
             }
         ],
     )
@@ -1064,15 +1064,15 @@ def create_tender_bid_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [
+                "description": [
                     {
-                        u"value": [
-                            u"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of lot"
+                        "value": [
+                            "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of lot"
                         ]
                     }
                 ],
-                u"location": u"body",
-                u"name": u"lotValues",
+                "location": "body",
+                "name": "lotValues",
             }
         ],
     )
@@ -1094,9 +1094,9 @@ def create_tender_bid_invalid(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"value": [u"currency of bid should be identical to currency of value of lot"]}],
-                u"location": u"body",
-                u"name": u"lotValues",
+                "description": [{"value": ["currency of bid should be identical to currency of value of lot"]}],
+                "location": "body",
+                "name": "lotValues",
             }
         ],
     )
@@ -1117,7 +1117,7 @@ def create_tender_bid_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"value should be posted for each lot of bid"], u"location": u"body", u"name": u"value"}],
+        [{"description": ["value should be posted for each lot of bid"], "location": "body", "name": "value"}],
     )
 
     response = self.app.post_json(
@@ -1133,7 +1133,7 @@ def create_tender_bid_invalid(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertIn(u"invalid literal for int() with base 10", response.json["errors"][0]["description"])
+    self.assertIn("invalid literal for int() with base 10", response.json["errors"][0]["description"])
 
     response = self.app.post_json(
         request_path,
@@ -1153,7 +1153,7 @@ def create_tender_bid_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"bids don't allow duplicated proposals"], u"location": u"body", u"name": u"lotValues"}],
+        [{"description": ["bids don't allow duplicated proposals"], "location": "body", "name": "lotValues"}],
     )
 
 
@@ -1173,7 +1173,7 @@ def patch_tender_bid(self):
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
-        {"data": {"tenderers": [{"name": u"Державне управління управлінням справами"}]}},
+        {"data": {"tenderers": [{"name": "Державне управління управлінням справами"}]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -1211,8 +1211,8 @@ def create_tender_bid_invalid_feature(self):
     self.assertEqual(
         response.json["errors"],
         [
-            {u"description": [u"All features parameters is required."], u"location": u"body", u"name": u"parameters"},
-            {u"description": [u"This field is required."], u"location": u"body", u"name": u"lotValues"},
+            {"description": ["All features parameters is required."], "location": "body", "name": "parameters"},
+            {"description": ["This field is required."], "location": "body", "name": "lotValues"},
         ],
     )
 
@@ -1228,9 +1228,9 @@ def create_tender_bid_invalid_feature(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"relatedLot": [u"This field is required."]}],
-                u"location": u"body",
-                u"name": u"lotValues",
+                "description": [{"relatedLot": ["This field is required."]}],
+                "location": "body",
+                "name": "lotValues",
             }
         ],
     )
@@ -1247,9 +1247,9 @@ def create_tender_bid_invalid_feature(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"relatedLot": [u"relatedLot should be one of lots"]}],
-                u"location": u"body",
-                u"name": u"lotValues",
+                "description": [{"relatedLot": ["relatedLot should be one of lots"]}],
+                "location": "body",
+                "name": "lotValues",
             }
         ],
     )
@@ -1271,9 +1271,9 @@ def create_tender_bid_invalid_feature(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"value": [u"value of bid should be less than value of lot"]}],
-                u"location": u"body",
-                u"name": u"lotValues",
+                "description": [{"value": ["value of bid should be less than value of lot"]}],
+                "location": "body",
+                "name": "lotValues",
             }
         ],
     )
@@ -1295,15 +1295,15 @@ def create_tender_bid_invalid_feature(self):
         response.json["errors"],
         [
             {
-                u"description": [
+                "description": [
                     {
-                        u"value": [
-                            u"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of lot"
+                        "value": [
+                            "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of lot"
                         ]
                     }
                 ],
-                u"location": u"body",
-                u"name": u"lotValues",
+                "location": "body",
+                "name": "lotValues",
             }
         ],
     )
@@ -1325,9 +1325,9 @@ def create_tender_bid_invalid_feature(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"value": [u"currency of bid should be identical to currency of value of lot"]}],
-                u"location": u"body",
-                u"name": u"lotValues",
+                "description": [{"value": ["currency of bid should be identical to currency of value of lot"]}],
+                "location": "body",
+                "name": "lotValues",
             }
         ],
     )
@@ -1345,7 +1345,7 @@ def create_tender_bid_invalid_feature(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertIn(u"invalid literal for int() with base 10", response.json["errors"][0]["description"])
+    self.assertIn("invalid literal for int() with base 10", response.json["errors"][0]["description"])
 
     response = self.app.post_json(
         request_path,
@@ -1362,7 +1362,7 @@ def create_tender_bid_invalid_feature(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"All features parameters is required."], u"location": u"body", u"name": u"parameters"}],
+        [{"description": ["All features parameters is required."], "location": "body", "name": "parameters"}],
     )
 
     response = self.app.post_json(
@@ -1381,7 +1381,7 @@ def create_tender_bid_invalid_feature(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{u"description": [u"All features parameters is required."], u"location": u"body", u"name": u"parameters"}],
+        [{"description": ["All features parameters is required."], "location": "body", "name": "parameters"}],
     )
 
     response = self.app.post_json(
@@ -1402,9 +1402,9 @@ def create_tender_bid_invalid_feature(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"code": [u"code should be one of feature code."]}],
-                u"location": u"body",
-                u"name": u"parameters",
+                "description": [{"code": ["code should be one of feature code."]}],
+                "location": "body",
+                "name": "parameters",
             }
         ],
     )
@@ -1431,9 +1431,9 @@ def create_tender_bid_invalid_feature(self):
         response.json["errors"],
         [
             {
-                u"description": [{u"value": [u"value should be one of feature value."]}],
-                u"location": u"body",
-                u"name": u"parameters",
+                "description": [{"value": ["value should be one of feature value."]}],
+                "location": "body",
+                "name": "parameters",
             }
         ],
     )
@@ -1952,7 +1952,7 @@ def proc_2lot_2bid_0com_1can_before_auction(self):
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))
-    self.assertEqual([i["status"] for i in response.json["data"]["lots"]], [u"cancelled", u"unsuccessful"])
+    self.assertEqual([i["status"] for i in response.json["data"]["lots"]], ["cancelled", "unsuccessful"])
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
 
@@ -2051,7 +2051,7 @@ def proc_2lot_1bid_0com_1can(self):
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))
-    self.assertEqual([i["status"] for i in response.json["data"]["lots"]], [u"cancelled", u"unsuccessful"])
+    self.assertEqual([i["status"] for i in response.json["data"]["lots"]], ["cancelled", "unsuccessful"])
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
 
@@ -2337,7 +2337,7 @@ def proc_2lot_1bid_1com_1win(self):
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))
-    self.assertEqual([i["status"] for i in response.json["data"]["lots"]], [u"complete", u"unsuccessful"])
+    self.assertEqual([i["status"] for i in response.json["data"]["lots"]], ["complete", "unsuccessful"])
     self.assertEqual(response.json["data"]["status"], "complete")
 
 
@@ -2546,8 +2546,8 @@ def proc_2lot_1feature_2bid_2com_2win(self):
                         "code": "code_item",
                         "featureOf": "item",
                         "relatedItem": response.json["data"]["items"][0]["id"],
-                        "title": u"item feature",
-                        "enum": [{"value": 0.1, "title": u"good"}, {"value": 0.2, "title": u"best"}],
+                        "title": "item feature",
+                        "enum": [{"value": 0.1, "title": "good"}, {"value": 0.2, "title": "best"}],
                     }
                 ]
             }

@@ -126,7 +126,7 @@ def patch_tender_cancellation(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"cancellation_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "cancellation_id"}]
     )
 
     response = self.app.patch_json("/tenders/some_id/cancellations/some_id", {"data": {"status": "active"}}, status=404)
@@ -134,7 +134,7 @@ def patch_tender_cancellation(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
     response = self.app.get("/tenders/{}/cancellations/{}".format(self.tender_id, cancellation["id"]))
@@ -317,9 +317,9 @@ def create_tender_cancellation_before_19_04_2020(self):
         response.json["errors"],
         [
             {
-                u"description": [u"Value must be one of %s" % ["cancelled", "unsuccessful"]],
-                u"location": u"body",
-                u"name": u"reasonType",
+                "description": ["Value must be one of %s" % ["cancelled", "unsuccessful"]],
+                "location": "body",
+                "name": "reasonType",
             }
         ],
     )
@@ -411,9 +411,9 @@ def create_tender_cancellation_2020_04_19(self):
         response.json["errors"],
         [
             {
-                u"description": [u"This field is required"],
-                u"location": u"body",
-                u"name": u"reasonType",
+                "description": ["This field is required"],
+                "location": "body",
+                "name": "reasonType",
             }
         ],
     )
@@ -433,9 +433,9 @@ def create_tender_cancellation_2020_04_19(self):
         response.json["errors"],
         [
             {
-                u"description": [u"Value must be one of %s" % choices],
-                u"location": u"body",
-                u"name": u"reasonType",
+                "description": ["Value must be one of %s" % choices],
+                "location": "body",
+                "name": "reasonType",
             }
         ],
     )
@@ -687,9 +687,9 @@ def patch_tender_cancellation_2020_04_19(self):
         response.json["errors"],
         [
             {
-                u"description": [u"Value must be one of %s" % reasonType_choices],
-                u"location": u"body",
-                u"name": u"reasonType",
+                "description": ["Value must be one of %s" % reasonType_choices],
+                "location": "body",
+                "name": "reasonType",
             }
         ],
     )
@@ -703,9 +703,9 @@ def patch_tender_cancellation_2020_04_19(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"], [{
-            u"description": u"Fields reason, cancellationOf and documents must be filled for switch cancellation to pending status",
-            u"location": u"body",
-            u"name": u"data",
+            "description": "Fields reason, cancellationOf and documents must be filled for switch cancellation to pending status",
+            "location": "body",
+            "name": "data",
         }]
     )
 
@@ -718,9 +718,9 @@ def patch_tender_cancellation_2020_04_19(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"], [{
-            u"description": u"Cancellation can't be updated from draft to active status",
-            u"location": u"body",
-            u"name": u"data",
+            "description": "Cancellation can't be updated from draft to active status",
+            "location": "body",
+            "name": "data",
         }]
     )
 
@@ -755,9 +755,9 @@ def patch_tender_cancellation_2020_04_19(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"], [{
-            u"description": u"Cancellation can't be updated from pending to draft status",
-            u"location": u"body",
-            u"name": u"data",
+            "description": "Cancellation can't be updated from pending to draft status",
+            "location": "body",
+            "name": "data",
         }]
     )
 
@@ -770,9 +770,9 @@ def patch_tender_cancellation_2020_04_19(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"], [{
-            u"description": u"Cancellation can't be updated from pending to active status",
-            u"location": u"body",
-            u"name": u"data",
+            "description": "Cancellation can't be updated from pending to active status",
+            "location": "body",
+            "name": "data",
         }]
     )
 
@@ -785,9 +785,9 @@ def patch_tender_cancellation_2020_04_19(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"], [{
-            u"description": u"Cancellation can't be updated from pending to unsuccessful status",
-            u"location": u"body",
-            u"name": u"data",
+            "description": "Cancellation can't be updated from pending to unsuccessful status",
+            "location": "body",
+            "name": "data",
         }]
     )
 
@@ -872,9 +872,9 @@ def patch_tender_cancellation_2020_04_19(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"], [{
-            u"description": u"Can't update cancellation in current (unsuccessful) status",
-            u"location": u"body",
-            u"name": u"data",
+            "description": "Can't update cancellation in current (unsuccessful) status",
+            "location": "body",
+            "name": "data",
         }]
     )
 
@@ -934,9 +934,9 @@ def patch_tender_cancellation_2020_04_19(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"], [{
-            u"description": u"Can't update tender in current (cancelled) status",
-            u"location": u"body",
-            u"name": u"data",
+            "description": "Can't update tender in current (cancelled) status",
+            "location": "body",
+            "name": "data",
         }]
     )
 
@@ -1038,8 +1038,8 @@ def access_create_tender_cancellation_complaint(self):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         data = response.json["data"]
-        self.assertEqual(data["tendererAction"], u"Tenderer action")
-        self.assertEqual(data["status"], u"resolved")
+        self.assertEqual(data["tendererAction"], "Tenderer action")
+        self.assertEqual(data["status"], "resolved")
 
     self.set_status("active.qualification")
 
@@ -1105,9 +1105,9 @@ def access_create_tender_cancellation_complaint(self):
     self.assertEqual(
         response.json["errors"],
         [{
-            u"description": u"Forbidden",
-            u"location": u"url",
-            u"name": u"permission",
+            "description": "Forbidden",
+            "location": "url",
+            "name": "permission",
         }],
     )
     self.app.authorization = ("Basic", ("token", ""))
@@ -1413,9 +1413,9 @@ def create_tender_cancellation_complaint(self):
     self.assertEqual(
         response.json["errors"],
         [{
-            u"description": u"Complaint can be add only in pending status of cancellation",
-            u"location": u"body",
-            u"name": u"data"
+            "description": "Complaint can be add only in pending status of cancellation",
+            "location": "body",
+            "name": "data"
         }],
     )
 
@@ -1494,9 +1494,9 @@ def create_tender_cancellation_complaint(self):
         self.assertEqual(
             response.json["errors"],
             [{
-                u"description": u"Complaint can't be add after finish of complaint period",
-                u"location": u"body",
-                u"name": u"data"
+                "description": "Complaint can't be add after finish of complaint period",
+                "location": "body",
+                "name": "data"
             }],
         )
 
@@ -1615,9 +1615,9 @@ def patch_tender_cancellation_complaint(self):
     self.assertEqual(
         response.json["errors"],
         [{
-            u"description": u"Complaint can't have tendererAction only if cancellation not in unsuccessful status",
-            u"location": u"body",
-            u"name": u"data"
+            "description": "Complaint can't have tendererAction only if cancellation not in unsuccessful status",
+            "location": "body",
+            "name": "data"
         }],
     )
 
@@ -1632,9 +1632,9 @@ def patch_tender_cancellation_complaint(self):
     self.assertEqual(
         response.json["errors"],
         [{
-            u"description": u"Forbidden",
-            u"location": u"url",
-            u"name": u"role"
+            "description": "Forbidden",
+            "location": "url",
+            "name": "role"
         }],
     )
 
@@ -1658,8 +1658,8 @@ def patch_tender_cancellation_complaint(self):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         data = response.json["data"]
-        self.assertEqual(data["tendererAction"], u"Tenderer action")
-        self.assertEqual(data["status"], u"resolved")
+        self.assertEqual(data["tendererAction"], "Tenderer action")
+        self.assertEqual(data["status"], "resolved")
 
 
 @patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1))
@@ -1722,7 +1722,7 @@ def get_tender_cancellation_complaints(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{u"description": u"Not Found", u"location": u"url", u"name": u"tender_id"}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
 
@@ -1881,9 +1881,9 @@ def create_cancellation_in_award_complaint_period(self):
     self.assertEqual(
         response.json["errors"],
         [{
-            u"description": u"Cancellation can't be add when exists active complaint period",
-            u"location": u"body",
-            u"name": u"data"
+            "description": "Cancellation can't be add when exists active complaint period",
+            "location": "body",
+            "name": "data"
         }],
     )
 

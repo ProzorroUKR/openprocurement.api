@@ -14,21 +14,21 @@ def cancellation_active_qualification_j1427(self):
     bid["lotValues"] = bid["lotValues"][:1]
 
     # post three bids
-    bid["tenderers"][0]["identifier"]["id"] = u"00037256"
+    bid["tenderers"][0]["identifier"]["id"] = "00037256"
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid})
     self.assertEqual(response.status, "201 Created")
     self.initial_bids_tokens[response.json["data"]["id"]] = response.json["access"]["token"]
     self.initial_bids.append(response.json["data"])
     bid_ids = [response.json["data"]["id"]]
 
-    bid["tenderers"][0]["identifier"]["id"] = u"00037257"
+    bid["tenderers"][0]["identifier"]["id"] = "00037257"
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid})
     self.assertEqual(response.status, "201 Created")
     self.initial_bids_tokens[response.json["data"]["id"]] = response.json["access"]["token"]
     self.initial_bids.append(response.json["data"])
     bid_ids.append(response.json["data"]["id"])
 
-    bid["tenderers"][0]["identifier"]["id"] = u"00037259"
+    bid["tenderers"][0]["identifier"]["id"] = "00037259"
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid})
     self.assertEqual(response.status, "201 Created")
     self.initial_bids_tokens[response.json["data"]["id"]] = response.json["access"]["token"]
