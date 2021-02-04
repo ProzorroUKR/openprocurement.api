@@ -12,6 +12,10 @@ from openprocurement.tender.core.views.requirement_response import BaseRequireme
 
 class BaseBidRequirementResponseResource(BaseRequirementResponseResource):
 
+    def pre_save(self):
+        if self.request.validated["tender_status"] == "active.tendering":
+            self.request.validated["tender"].modified = False
+
     @json_view(
         content_type="application/json",
         validators=(
