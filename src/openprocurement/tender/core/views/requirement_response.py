@@ -5,13 +5,15 @@ from openprocurement.tender.core.utils import save_tender, apply_patch
 
 class BaseRequirementResponseResource(APIResource):
 
-    def collection_post(self):
+    def pre_save(self):
+        pass
 
+    def collection_post(self):
         requirement_responses = self.request.validated["requirementresponse_bulk"]
         self.request.context.requirementResponses.extend(requirement_responses)
-
         context_name = self.request.context.__class__.__name__.lower()
 
+        self.pre_save()
         if save_tender(self.request):
             for requirement_response in requirement_responses:
                 self.LOGGER.info(
@@ -38,6 +40,7 @@ class BaseRequirementResponseResource(APIResource):
         context_name = self.request.context["__parent__"].__class__.__name__.lower()
         apply_patch(self.request, save=False, src=requirement_response.serialize())
 
+        self.pre_save()
         if save_tender(self.request):
             self.LOGGER.info(
                 "Updated {} requirement response {}".format(context_name, requirement_response.id),
@@ -50,9 +53,9 @@ class BaseRequirementResponseResource(APIResource):
         rr = self.request.context
         context_name = rr["__parent__"].__class__.__name__.lower()
         res = rr.serialize("view")
-
         self.request.validated[context_name].requirementResponses.remove(rr)
-        self.request.validated["tender"].modified = False
+
+        self.pre_save()
         if save_tender(self.request):
             self.LOGGER.info(
                 "Deleted {} requirement response {}".format(context_name, self.request.context.id),
