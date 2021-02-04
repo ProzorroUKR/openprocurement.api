@@ -93,10 +93,10 @@ X-Content-Type-Options: nosniff
     },
     "enquiryPeriod": {
       "startDate": "2020-09-08T01:00:00+03:00",
-      "endDate": "2020-09-15T01:00:00+03:00"
+      "endDate": "2020-09-16T01:00:00+03:00"
     },
     "tenderPeriod": {
-      "startDate": "2020-09-15T01:00:00+03:00",
+      "startDate": "2020-09-16T01:00:00+03:00",
       "endDate": "2020-09-22T01:00:00+03:00"
     },
     "procuringEntity": {
@@ -127,7 +127,7 @@ X-Content-Type-Options: nosniff
     },
     "procurementMethodType": "belowThreshold",
     "id": "99b2cdff172144fea50cc5ac1ee1d29b",
-    "next_check": "2020-09-15T01:00:00+03:00",
+    "next_check": "2020-09-16T01:00:00+03:00",
     "numberOfBids": 0
   }
 }
