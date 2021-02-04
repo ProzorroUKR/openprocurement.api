@@ -209,6 +209,7 @@ class BaseSubmissionContentWebTest(ElectronicCatalogueContentWebTest):
         self.freezer.start()
 
     def tearDown(self):
+        super(BaseSubmissionContentWebTest, self).tearDown()
         self.freezer.stop()
 
 
