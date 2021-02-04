@@ -12,7 +12,7 @@ from decimal import Decimal
 
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.models import Period, ListType, SifterListType, IsoDurationType
-from openprocurement.api.utils import get_now, is_new_created
+from openprocurement.api.utils import get_now, is_new_created, get_first_revision_date
 from openprocurement.api.validation import validate_cpv_group, validate_items_uniq, validate_classification_id
 from openprocurement.tender.cfaua.validation import validate_max_awards_number, validate_max_agreement_duration_period
 from openprocurement.tender.cfaua.interfaces import ICloseFrameworkAgreementUA
@@ -458,10 +458,9 @@ class CloseFrameworkAgreementUA(Tender):
 
     def validate_items(self, data, items):
         cpv_336_group = items[0].classification.id[:3] == "336" if items else False
+        date = get_first_revision_date(data, default=get_now())
         if (
-                not cpv_336_group
-                and (data.get("revisions")[0].date if data.get("revisions") else get_now()) > CPV_ITEMS_CLASS_FROM
-                and items
+                not cpv_336_group and date > CPV_ITEMS_CLASS_FROM and items
                 and len(set([i.classification.id[:4] for i in items])) != 1
         ):
             raise ValidationError("CPV class of items should be identical")

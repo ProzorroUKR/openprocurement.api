@@ -116,7 +116,8 @@ class PeriodEndRequired(BasePeriodEndRequired):
         if period and data.get("endDate") and data.get("endDate") < period:
             raise ValidationError("period should begin before its end")
         tender = get_tender(data["__parent__"])
-        if tender.get("revisions") and tender["revisions"][0].date > CANT_DELETE_PERIOD_START_DATE_FROM and not period:
+        date = get_first_revision_date(tender, default=None)
+        if date and date > CANT_DELETE_PERIOD_START_DATE_FROM and not period:
             raise ValidationError(["This field cannot be deleted"])
 
 
@@ -457,7 +458,7 @@ class Item(BaseItem):
 
     def validate_additionalClassifications(self, data, items):
         tender = get_tender(data["__parent__"])
-        tender_date = tender.get("revisions")[0].date if tender.get("revisions") else get_now()
+        tender_date = get_first_revision_date(tender, default=get_now())
         tender_from_2017 = tender_date > CPV_ITEMS_CLASS_FROM
         classification_id = data["classification"]["id"]
         not_cpv = classification_id == "99999999-9"
@@ -1111,7 +1112,8 @@ class Bid(Model):
             tender = parent
             if tender.lots and not values:
                 raise ValidationError("This field is required.")
-            if tender.get("revisions") and tender["revisions"][0].date > BID_LOTVALUES_VALIDATION_FROM and values:
+            date = get_first_revision_date(tender, default=None)
+            if date and date > BID_LOTVALUES_VALIDATION_FROM and values:
                 lots = [i.relatedLot for i in values]
                 if len(lots) != len(set(lots)):
                     raise ValidationError("bids don't allow duplicated proposals")

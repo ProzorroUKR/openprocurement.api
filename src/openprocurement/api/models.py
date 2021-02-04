@@ -378,9 +378,8 @@ class CPVClassification(Classification):
 
     def validate_scheme(self, data, scheme):
         schematics_document = get_schematics_document(data["__parent__"])
-        if (
-            schematics_document.get("revisions")[0].date if schematics_document.get("revisions") else get_now()
-        ) > CPV_BLOCK_FROM and scheme != "ДК021":
+        date = get_first_revision_date(schematics_document, default=get_now())
+        if date > CPV_BLOCK_FROM and scheme != "ДК021":
             raise ValidationError(BaseType.MESSAGES["choices"].format(["ДК021"]))
 
 
