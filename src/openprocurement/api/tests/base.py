@@ -68,6 +68,22 @@ class BaseTestApp(webtest.TestApp):
         if db_name and db_name in self.app.registry.couchdb_server:
             self.app.registry.couchdb_server.delete(db_name)
 
+    def get_db(self):
+        if self.app.registry.db:
+            return self.app.registry.db
+
+    def clean_db(self):
+        if self.app.registry.db:
+            rows = self.app.registry.db.get("_all_docs", include_docs=True).get("rows", "")
+            docs = []
+            for row in rows:
+                if row['id'].startswith('_'):
+                    continue
+                doc = row['doc']
+                doc['_deleted'] = True
+                docs.append(doc)
+            self.app.registry.db.update(docs)
+
 
 class BaseWebTest(unittest.TestCase):
     """
@@ -85,16 +101,13 @@ class BaseWebTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.app = cls.AppClass(loadwsgiapp(cls.relative_uri, relative_to=cls.relative_to))
-        cls.couchdb_server = cls.app.app.registry.couchdb_server
-        cls.db = cls.app.app.registry.db
+        cls.db = cls.app.recreate_db()
 
     def setUp(self):
         self.app.authorization = self.initial_auth
-        self.db = self.app.recreate_db()
-        self.maxDiff = None
 
     def tearDown(self):
-        self.app.drop_db()
+        self.app.clean_db()
 
 
 @pytest.fixture(scope="session")

@@ -36,7 +36,7 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
     def test_get_tender(self):
         response = self.app.get("/tenders")
         self.assertEqual(response.status, "200 OK")
-        self.assertEqual(len(response.json["data"]), 0)
+        self.assertEqual(len(response.json["data"]), 1)
 
         response = self.app.post_json("/tenders", {"data": test_tender_data})
         self.assertEqual(response.status, "201 Created")
@@ -96,7 +96,7 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
     def test_get_tender_versioned(self):
         response = self.app.get("/tenders")
         self.assertEqual(response.status, "200 OK")
-        self.assertEqual(len(response.json["data"]), 0)
+        self.assertEqual(len(response.json["data"]), 1)
 
         response = self.app.post_json("/tenders", {"data": test_tender_data})
         self.assertEqual(response.status, "201 Created")
@@ -203,7 +203,7 @@ class TestGetHistoricalData(BaseTenderWebTest):
         response = self.app.get("/tenders")
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(len(response.json["data"]), 0)
+        self.assertEqual(len(response.json["data"]), 1)
 
         response = self.app.post_json("/tenders", {"data": test_tender_data})
         self.assertEqual(response.status, "201 Created")
