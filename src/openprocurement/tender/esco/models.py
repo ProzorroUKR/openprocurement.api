@@ -863,10 +863,9 @@ class Tender(BaseTender):
 
     def validate_items(self, data, items):
         cpv_336_group = items[0].classification.id[:3] == "336" if items else False
+        date = get_first_revision_date(data, default=get_now())
         if (
-            not cpv_336_group
-            and (data.get("revisions")[0].date if data.get("revisions") else get_now()) > CPV_ITEMS_CLASS_FROM
-            and items
+            not cpv_336_group and date > CPV_ITEMS_CLASS_FROM and items
             and len(set([i.classification.id[:4] for i in items])) != 1
         ):
             raise ValidationError("CPV class of items should be identical")
