@@ -110,7 +110,7 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
 
 class BaseTenderUAContentWebTest(BaseTenderUAWebTest):
     initial_data = test_tender_data
-    initial_status = None
+    initial_status = "active.tendering"
     initial_bids = None
     initial_lots = None
 

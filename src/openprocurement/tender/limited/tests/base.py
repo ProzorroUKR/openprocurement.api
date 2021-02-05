@@ -53,7 +53,7 @@ test_lots = [
 class BaseTenderWebTest(BaseBaseTenderWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = test_tender_data
-    initial_status = None
+    initial_status = "active"
     initial_bids = None
     initial_lots = None
     initial_auth = ("Basic", ("broker", ""))
@@ -79,7 +79,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
 
 class BaseTenderContentWebTest(BaseTenderWebTest):
     initial_data = test_tender_data
-    initial_status = None
+    initial_status = "active"
     initial_bids = None
     initial_lots = None
 

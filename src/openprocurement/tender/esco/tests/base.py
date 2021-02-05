@@ -70,6 +70,7 @@ class BaseESCOContentWebTest(BaseESCOWebTest):
     """ ESCO Content Test """
 
     initialize_initial_data = True
+    initial_status = "active.tendering"
     initial_data = test_tender_data
 
     def setUp(self):

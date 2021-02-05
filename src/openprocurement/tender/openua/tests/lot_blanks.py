@@ -982,6 +982,7 @@ def proc_1lot_1bid_patch(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
+    self.set_initial_status(response.json)
     # add lot
     response = self.app.post_json(
         "/tenders/{}/lots?acc_token={}".format(tender_id, owner_token), {"data": self.test_lots_data[0]}
@@ -998,6 +999,7 @@ def proc_1lot_1bid_patch(self):
 
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
+    bid_data["status"] = "draft"
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": lot_id}]
     response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
@@ -1005,6 +1007,7 @@ def proc_1lot_1bid_patch(self):
     )
     bid_id = response.json["data"]["id"]
     bid_token = response.json["access"]["token"]
+    self.set_responses(tender_id, response.json)
 
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(tender_id, lot_id, owner_token),
@@ -1704,6 +1707,7 @@ def lots_features_delete(self):
     tender = response.json["data"]
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
+    self.set_initial_status(response.json)
     self.assertEqual(tender["features"], self.test_features_tender_data["features"])
     # add lot
     lots = []
@@ -1747,6 +1751,7 @@ def lots_features_delete(self):
     bid_data = deepcopy(test_bids[0])
     del bid_data["value"]
     bid_data.update({
+        "status": "draft",
         "lotValues": [{"value": {"amount": 500}, "relatedLot": lots[1]}],
         "parameters": [{"code": "code_lot", "value": 0.01}, {"code": "code_tenderer", "value": 0.01}]
     })

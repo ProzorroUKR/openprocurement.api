@@ -331,7 +331,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
 
 class TenderContentWebTest(BaseTenderWebTest):
     initial_data = test_tender_data
-    initial_status = None
+    initial_status = "active.enquiries"
     initial_bids = None
     initial_lots = None
 
