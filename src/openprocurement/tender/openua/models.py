@@ -30,6 +30,7 @@ from openprocurement.tender.core.models import (
     get_tender,
     validate_lots_uniq,
     bids_validation_wrapper,
+    default_status,
     LotWithMinimalStepLimitsValidation as Lot,
     ComplaintModelType,
     Award as BaseAward,
@@ -616,7 +617,7 @@ class Tender(BaseTender):
             "cancelled",
             "unsuccessful",
         ],
-        default="active.tendering",
+        default=default_status(),
     )
     cancellations = ListType(ModelType(Cancellation, required=True), default=list())
 

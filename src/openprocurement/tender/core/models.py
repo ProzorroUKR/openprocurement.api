@@ -53,6 +53,7 @@ from openprocurement.api.constants import (
     CPV_ITEMS_CLASS_FROM,
     RELEASE_ECRITERIA_ARTICLE_17,
     CRITERION_REQUIREMENT_STATUSES_FROM,
+    TWO_PHASE_COMMIT_FROM,
 )
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
 
@@ -2104,6 +2105,12 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
         self.awards.append(award)
 
 
+def default_status(old_default_status="active.tendering", new_default_status="draft"):
+    def wrapper():
+        return new_default_status if get_now() > TWO_PHASE_COMMIT_FROM else old_default_status
+    return wrapper
+
+
 class Tender(BaseTender):
     """Data regarding tender process - publicly inviting prospective contractors to submit bids for evaluation and selecting a winner or winners."""
 
@@ -2137,7 +2144,7 @@ class Tender(BaseTender):
             "cancelled",
             "unsuccessful",
         ],
-        default="active.enquiries",
+        default=default_status("active.enquiries"),
     )
 
     criteria = ListType(

@@ -22,6 +22,7 @@ from openprocurement.api.models import (
 )
 from openprocurement.api.validation import validate_cpv_group, validate_items_uniq, validate_classification_id
 from openprocurement.tender.core.models import (
+    default_status,
     ITender,
     Bid as BaseBid,
     Contract as BaseContract,
@@ -645,9 +646,8 @@ class Tender(BaseTender):
             "cancelled",
             "unsuccessful",
         ],
-        default="active.tendering",
+        default=default_status(),
     )
-
     create_accreditations = (ACCR_3, ACCR_5)
     central_accreditations = (ACCR_5,)
     edit_accreditations = (ACCR_4,)

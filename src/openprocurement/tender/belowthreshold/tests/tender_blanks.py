@@ -72,6 +72,16 @@ def listing(self):
         response = self.app.post_json("/tenders", {"data": self.initial_data})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
+        tender = response.json["data"]
+        tender_token = response.json["access"]["token"]
+        add_criteria(self, tender_id=tender["id"], tender_token=tender_token)
+        response = self.app.patch_json(
+            f"/tenders/{tender['id']}?acc_token={tender_token}",
+            {"data": {"status": self.primary_tender_status}}
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["data"]["status"], "active.tendering")
         tenders.append(response.json["data"])
 
     ids = ",".join([i["id"] for i in tenders])
@@ -152,6 +162,13 @@ def listing(self):
     response = self.app.post_json("/tenders", {"data": test_tender_data2})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
+    tender_id = response.json["data"]["id"]
+    tender_token = response.json["access"]["token"]
+    add_criteria(self, tender_id, tender_token)
+    self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={tender_token}",
+        {"data": {"status": self.primary_tender_status}}
+    )
 
     while True:
         response = self.app.get("/tenders?mode=test")
@@ -176,6 +193,7 @@ def listing_changes(self):
         response = self.app.post_json("/tenders", {"data": self.initial_data})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
+        response = self.set_initial_status(response.json, self.primary_tender_status)
         tenders.append(response.json["data"])
 
     ids = ",".join([i["id"] for i in tenders])
@@ -251,6 +269,7 @@ def listing_changes(self):
     response = self.app.post_json("/tenders", {"data": test_tender_data2})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
+    response = self.set_initial_status(response.json, "active.tendering")
 
     while True:
         response = self.app.get("/tenders?feed=changes&mode=test")
@@ -277,6 +296,7 @@ def listing_draft(self):
         response = self.app.post_json("/tenders", {"data": self.initial_data})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
+        response = self.set_initial_status(response.json, "active.tendering")
         tenders.append(response.json["data"])
         response = self.app.post_json("/tenders", {"data": data})
         self.assertEqual(response.status, "201 Created")

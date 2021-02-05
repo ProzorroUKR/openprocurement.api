@@ -252,7 +252,7 @@ class BaseApiWebTest(BaseWebTest):
 class BaseTenderWebTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = test_tender_data
-    initial_status = None
+    initial_status = "active.enquiries"
     initial_bids = None
     initial_lots = None
     initial_criteria = None
