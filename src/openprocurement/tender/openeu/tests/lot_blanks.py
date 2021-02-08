@@ -666,6 +666,8 @@ def one_lot_1bid(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
+
+    self.set_initial_status(response.json)
     # add lot
     response = self.app.post_json(
         "/tenders/{}/lots?acc_token={}".format(tender_id, owner_token), {"data": self.test_lots_data[0]}
@@ -680,6 +682,7 @@ def one_lot_1bid(self):
     # create bid
 
     bid_data = deepcopy(self.test_bids_data[0])
+    bid_data["status"] = "draft"
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": self.test_bids_data[0]["value"], "relatedLot": lot_id}]
 
@@ -688,6 +691,7 @@ def one_lot_1bid(self):
         "/tenders/{}/bids".format(tender_id),
         {"data": bid_data},
     )
+    self.set_responses(tender_id, response.json, "pending")
     # switch to active.pre-qualification
     self.time_shift("active.pre-qualification")
     self.check_chronograph()
@@ -703,6 +707,8 @@ def one_lot_2bid_1unqualified(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
+
+    self.set_initial_status(response.json)
     # add lot
     response = self.app.post_json(
         "/tenders/{}/lots?acc_token={}".format(tender_id, owner_token), {"data": self.test_lots_data[0]}
@@ -719,7 +725,7 @@ def one_lot_2bid_1unqualified(self):
 
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
-
+    bid_data["status"] = "draft"
     for i in range(self.min_bids_number):
         bid_data["tenderers"] = self.test_bids_data[i]["tenderers"]
         bid_data["lotValues"] = [{"value": self.test_bids_data[i]["value"], "relatedLot": lot_id}]
@@ -727,6 +733,7 @@ def one_lot_2bid_1unqualified(self):
             "/tenders/{}/bids".format(tender_id),
             {"data": bid_data},
         )
+        self.set_responses(tender_id, response.json, "pending")
 
     # switch to active.pre-qualification
     self.time_shift("active.pre-qualification")
@@ -770,6 +777,8 @@ def one_lot_2bid(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
+
+    self.set_initial_status(response.json)
     # add lot
     response = self.app.post_json(
         "/tenders/{}/lots?acc_token={}".format(tender_id, owner_token), {"data": self.test_lots_data[0]}
@@ -786,11 +795,13 @@ def one_lot_2bid(self):
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
+    bid_data["status"] = "draft"
     bid_data["lotValues"] = [{"value": self.test_bids_data[0]["value"], "relatedLot": lot_id}]
     response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {"data": bid_data},
     )
+    self.set_responses(tender_id, response.json, "pending")
     bid_id = response.json["data"]["id"]
     bid_token = response.json["access"]["token"]
     # create second bid
@@ -801,6 +812,7 @@ def one_lot_2bid(self):
         "/tenders/{}/bids".format(tender_id),
         {"data": bid_data},
     )
+    self.set_responses(tender_id, response.json, "pending")
     # switch to active.auction
     self.time_shift("active.pre-qualification")
     self.check_chronograph()
@@ -985,6 +997,7 @@ def one_lot_3bid_1del(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
+    self.set_initial_status(response.json)
     # add lot
     response = self.app.post_json(
         "/tenders/{}/lots?acc_token={}".format(tender_id, owner_token), {"data": self.test_lots_data[0]}
@@ -1002,6 +1015,7 @@ def one_lot_3bid_1del(self):
     bids = []
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
+    bid_data["status"] = "draft"
     bid_data["lotValues"] = [{"value": self.test_bids_data[0]["value"], "relatedLot": lot_id}]
     for i in range(3):
         response = self.app.post_json(
@@ -1009,6 +1023,7 @@ def one_lot_3bid_1del(self):
             {"data": bid_data},
         )
         bids.append({response.json["data"]["id"]: response.json["access"]["token"]})
+        self.set_responses(tender_id, response.json, "pending")
 
     response = self.app.delete(
         "/tenders/{}/bids/{}?acc_token={}".format(tender_id, list(bids[2].keys())[0], list(bids[2].values())[0])
@@ -1134,6 +1149,7 @@ def one_lot_3bid_1un(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
+    self.set_initial_status(response.json)
     # add lot
     response = self.app.post_json(
         "/tenders/{}/lots?acc_token={}".format(tender_id, owner_token), {"data": self.test_lots_data[0]}
@@ -1151,6 +1167,7 @@ def one_lot_3bid_1un(self):
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": self.test_bids_data[0]["value"], "relatedLot": lot_id}]
+    bid_data["status"] = "draft"
     bids = []
     for i in range(3):
         response = self.app.post_json(
@@ -1158,6 +1175,7 @@ def one_lot_3bid_1un(self):
             {"data": bid_data},
         )
         bids.append({response.json["data"]["id"]: response.json["access"]["token"]})
+        self.set_responses(tender_id, response.json, "pending")
 
     # switch to active.auction
     self.time_shift("active.pre-qualification")
@@ -1373,6 +1391,7 @@ def two_lot_2bid_0com_1can(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
+    self.set_initial_status(response.json)
 
     lots = []
     for lot in 2 * self.test_lots_data:
@@ -1398,6 +1417,7 @@ def two_lot_2bid_0com_1can(self):
 
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
+    bid_data["status"] = "draft"
 
     for i in range(self.min_bids_number):
         bid_data.update({
@@ -1408,6 +1428,7 @@ def two_lot_2bid_0com_1can(self):
             "/tenders/{}/bids".format(tender_id),
             {"data": bid_data},
         )
+        self.set_responses(tender_id, response.json, "pending")
 
     set_complaint_period_end = getattr(self, "set_complaint_period_end", None)
     if RELEASE_2020_04_19 < get_now() and set_complaint_period_end:
@@ -1460,6 +1481,7 @@ def two_lot_2bid_2com_2win(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
+    self.set_initial_status(response.json)
     lots = []
     for lot in 2 * self.test_lots_data:
         # add lot
@@ -1485,12 +1507,14 @@ def two_lot_2bid_2com_2win(self):
 
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
+    bid_data["status"] = "draft"
     bid_data["lotValues"] = [{"value": self.test_bids_data[0]["value"], "relatedLot": lot_id} for lot_id in lots]
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {"data": bid_data},
     )
+    self.set_responses(tender_id, response.json, "pending")
     # create second bid
     bid_data["tenderers"] = self.test_bids_data[1]["tenderers"]
     bid_data["lotValues"] = [{"value": self.test_bids_data[1]["value"], "relatedLot": lot_id} for lot_id in lots]
@@ -1500,6 +1524,7 @@ def two_lot_2bid_2com_2win(self):
         "/tenders/{}/bids".format(tender_id),
         {"data": bid_data},
     )
+    self.set_responses(tender_id, response.json, "pending")
     # switch to active.pre-qualification
     self.time_shift("active.pre-qualification")
     self.check_chronograph()
@@ -1641,6 +1666,7 @@ def two_lot_3bid_1win_bug(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
+    self.set_initial_status(response.json)
     lots = []
     for lot in 2 * self.test_lots_data:
         # add lot
@@ -1666,12 +1692,14 @@ def two_lot_3bid_1win_bug(self):
 
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
+    bid_data["status"] = "draft"
     bid_data["lotValues"] = [{"value": self.test_bids_data[0]["value"], "relatedLot": lot_id} for lot_id in lots]
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {"data": bid_data},
     )
+    self.set_responses(tender_id, response.json, "pending")
     # create second bid
     bid_data["tenderers"] = self.test_bids_data[1]["tenderers"]
     bid_data["lotValues"] = [{"value": self.test_bids_data[1]["value"], "relatedLot": lot_id} for lot_id in lots]
@@ -1681,6 +1709,7 @@ def two_lot_3bid_1win_bug(self):
         "/tenders/{}/bids".format(tender_id),
         {"data": bid_data},
     )
+    self.set_responses(tender_id, response.json, "pending")
     # create third bid
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.post_json(
@@ -1688,6 +1717,7 @@ def two_lot_3bid_1win_bug(self):
         {"data": bid_data},
     )
     bid_id = response.json["data"]["id"]
+    self.set_responses(tender_id, response.json, "pending")
     # switch to active.pre-qualification
     self.time_shift("active.pre-qualification")
     self.check_chronograph()

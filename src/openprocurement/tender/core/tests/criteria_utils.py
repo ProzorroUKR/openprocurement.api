@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from openprocurement.tender.belowthreshold.tests.base import test_criteria, language_criterion
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.utils import get_now

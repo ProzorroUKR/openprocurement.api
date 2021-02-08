@@ -72,16 +72,7 @@ def listing(self):
         response = self.app.post_json("/tenders", {"data": self.initial_data})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
-        tender = response.json["data"]
-        tender_token = response.json["access"]["token"]
-        add_criteria(self, tender_id=tender["id"], tender_token=tender_token)
-        response = self.app.patch_json(
-            f"/tenders/{tender['id']}?acc_token={tender_token}",
-            {"data": {"status": self.primary_tender_status}}
-        )
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["data"]["status"], "active.tendering")
+        response = self.set_initial_status(response.json)
         tenders.append(response.json["data"])
 
     ids = ",".join([i["id"] for i in tenders])
@@ -1036,6 +1027,7 @@ def create_tender_generated(self):
     response = self.app.post_json("/tenders", {"data": data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
+    response = self.set_initial_status(response.json)
     tender = response.json["data"]
     if "procurementMethodDetails" in tender:
         tender.pop("procurementMethodDetails")
@@ -1049,6 +1041,7 @@ def create_tender_generated(self):
                 "dateModified",
                 "tenderID",
                 "status",
+                "criteria",
                 "enquiryPeriod",
                 "tenderPeriod",
                 "minimalStep",
@@ -1363,13 +1356,14 @@ def tender_fields(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    tender = response.json["data"]
+    tender = self.set_initial_status(response.json).json["data"]
     self.assertEqual(
         set(tender) - set(self.initial_data),
         set(
             [
                 "id",
                 "dateModified",
+                "criteria",
                 "tenderID",
                 "date",
                 "status",
@@ -1666,8 +1660,9 @@ def patch_tender(self):
 
     response = self.app.post_json("/tenders", {"data": data})
     self.assertEqual(response.status, "201 Created")
-    tender = response.json["data"]
     owner_token = response.json["access"]["token"]
+    response = self.set_initial_status(response.json)
+    tender = response.json["data"]
     dateModified = tender.pop("dateModified")
 
     response = self.app.patch_json(
@@ -2007,6 +2002,7 @@ def guarantee(self):
 def tender_Administrator_change(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     self.assertEqual(response.status, "201 Created")
+    response = self.set_initial_status(response.json)
     tender = response.json["data"]
 
     response = self.app.post_json(

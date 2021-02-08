@@ -490,6 +490,7 @@ def create_tender_generated(self):
     response = self.app.post_json("/tenders", {"data": data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
+    response = self.set_initial_status(response.json)
     tender = response.json["data"]
     if "procurementMethodDetails" in tender:
         tender.pop("procurementMethodDetails")
@@ -499,6 +500,7 @@ def create_tender_generated(self):
             [
                 "procurementMethodType",
                 "id",
+                "criteria",
                 "dateModified",
                 "tenderID",
                 "status",
@@ -542,9 +544,10 @@ def patch_tender(self):
     data = deepcopy(self.initial_data)
     response = self.app.post_json("/tenders", {"data": data})
     self.assertEqual(response.status, "201 Created")
+    owner_token = response.json["access"]["token"]
+    response = self.set_initial_status(response.json)
     tender = response.json["data"]
     self.tender_id = response.json["data"]["id"]
-    owner_token = response.json["access"]["token"]
     dateModified = tender.pop("dateModified")
     self.initial_lots = tender["lots"]
 
@@ -723,8 +726,7 @@ def patch_tender(self):
     initial_bids = deepcopy(self.initial_bids)
     self.convert_bids_for_tender_with_lots(initial_bids, self.initial_lots)
     for bid in initial_bids:
-        response = self.app.post_json("/tenders/{}/bids".format(tender["id"]), {"data": bid})
-
+        self.create_bid(tender["id"], bid, "pending")
     self.set_status("complete")
 
     response = self.app.patch_json(
@@ -808,9 +810,9 @@ def tender_contract_period(self):
     response = self.app.post_json("/tenders", {"data": data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["status"], "active.tendering")
     self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
+    response = self.set_initial_status(response.json)
 
     self.app.authorization = ("Basic", ("token", ""))
     # active.tendering
@@ -878,6 +880,7 @@ def patch_unitprice_with_features(self):
     self.assertEqual(response.content_type, "application/json")
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
+    self.set_initial_status(response.json)
 
     initial_bids = deepcopy(self.initial_bids)
     # create bid
@@ -887,10 +890,11 @@ def patch_unitprice_with_features(self):
             {"code": "OCDS-123454-POSTPONEMENT", "value": 0},
             {"code": "OCDS-123454-POSTPONEMENN", "value": 0.05},
         ]
-
+        bid_data["status"] = "draft"
         response = self.app.post_json("/tenders/{}/bids".format(tender_id), {"data": bid_data})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
+        self.set_responses(tender_id, response.json, "pending")
 
     self.set_status("active.qualification.stand-still", "end")
 
@@ -933,19 +937,18 @@ def invalid_bid_tender_features(self):
     response = self.app.post_json("/tenders", {"data": data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
+    owner_token = response.json["access"]["token"]
+    self.set_initial_status(response.json)
     tender = response.json["data"]
     tender_id = self.tender_id = response.json["data"]["id"]
-    owner_token = response.json["access"]["token"]
 
     initial_bids = deepcopy(self.initial_bids)
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = initial_bids[0]
     bid_data["parameters"] = [{"code": "OCDS-123454-POSTPONEMENT", "value": 0.1}]
-    response = self.app.post_json("/tenders/{}/bids".format(tender_id), {"data": bid_data})
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    bid_id = response.json["data"]["id"]
+    bid_response, token = self.create_bid(tender_id, bid_data, "pending")
+    bid_id = bid_response["id"]
     bid_token = response.json["access"]["token"]
 
     response = self.app.patch_json(
@@ -1004,17 +1007,20 @@ def invalid_bid_tender_lot(self):
     response = self.app.post_json("/tenders", {"data": data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
+    self.set_initial_status(response.json)
     tender = response.json["data"]
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
 
     initial_bids = deepcopy(self.initial_bids)
+    initial_bids[0]["status"] = "draft"
 
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.post_json("/tenders/{}/bids".format(tender_id), {"data": initial_bids[0]})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
+    self.set_responses(tender_id, response.json, "pending")
 
     response = self.app.delete(
         "/tenders/{}/lots/{}?acc_token={}".format(tender_id, self.initial_lots[0]["id"], owner_token), status=422
@@ -1054,12 +1060,15 @@ def one_bid_tender(self):
     # create tender
     response = self.app.post_json("/tenders", {"data": data})
     tender_id = self.tender_id = response.json["data"]["id"]
+    self.set_initial_status(response.json)
     # create bid
     bidder_data = deepcopy(test_organization)
     initial_bids = deepcopy(self.initial_bids)
     initial_bids[0]["tenderers"] = bidder_data
+    initial_bids[1]["status"] = "draft"
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.post_json("/tenders/{}/bids".format(tender_id), {"data": initial_bids[1]})
+    self.set_responses(tender_id, response.json, "pending")
     # switch to active.pre-qualification
     self.set_status("active.tendering", "end")
     self.app.authorization = ("Basic", ("chronograph", ""))
@@ -1080,6 +1089,7 @@ def unsuccessful_after_prequalification_tender(self):
     response = self.app.post_json("/tenders", {"data": data})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
+    self.set_initial_status(response.json)
 
     # create bid
     bidder_data = deepcopy(test_organization)
@@ -1088,7 +1098,7 @@ def unsuccessful_after_prequalification_tender(self):
     self.app.authorization = ("Basic", ("broker", ""))
     initial_bids[0]["tenderers"] = [bidder_data]
     for x in range(self.min_bids_number):
-        response = self.app.post_json("/tenders/{}/bids".format(tender_id), {"data": initial_bids[0]})
+       self.create_bid(tender_id, initial_bids[0], "pending")
 
     # switch to active.pre-qualification
     self.set_status("active.tendering", "end")
@@ -1128,6 +1138,8 @@ def unsuccessful_after_prequalification_tender(self):
     assert_data = {"id", "status", "tenderers", "selfQualified"}
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         assert_data.add("selfEligible")
+    else:
+        assert_data.add("requirementResponses")
     for bid in response.json["data"]["bids"]:
         self.assertEqual(bid["status"], "unsuccessful")
         self.assertEqual(set(bid.keys()), assert_data)
@@ -1143,6 +1155,7 @@ def one_qualificated_bid_tender(self):
     response = self.app.post_json("/tenders", {"data": data})
     tender_id = self.tender_id = response.json["data"]["id"]
     tender_owner_token = response.json["access"]["token"]
+    self.set_initial_status(response.json)
     self.initial_lots = response.json["data"]["lots"]
     # create bids
     bidder_data = deepcopy(test_organization)
@@ -1150,8 +1163,9 @@ def one_qualificated_bid_tender(self):
     self.app.authorization = ("Basic", ("broker", ""))
 
     initial_bids[0]["tenderers"] = [bidder_data]
+    initial_bids[0]["status"] = "draft"
     for i in range(self.min_bids_number):
-        response = self.app.post_json("/tenders/{}/bids".format(tender_id), {"data": initial_bids[0]})
+        response = self.create_bid(tender_id, initial_bids[0], "pending")
 
     # switch to active.pre-qualification
     self.set_status("active.tendering", "end")
@@ -1623,17 +1637,20 @@ def _awards_to_bids_number(self, max_awards_number, bids_number, expected_awards
     initial_data["maxAwardsCount"] = max_awards_number
 
     response = self.app.post_json("/tenders", {"data": initial_data})
+    self.tender_token = response.json["access"]["token"]
+    self.set_initial_status(response.json)
     self.assertEqual(response.status, "201 Created")
     self.tender_id = response.json["data"]["id"]
-    self.tender_token = response.json["access"]["token"]
     self.initial_lots = response.json["data"]["lots"]
     # create bids
     initial_bids = deepcopy(self.initial_bids)
     initial_bids[0]["tenderers"] = [test_organization]
+    initial_bids[0]["status"] = "draft"
     for _ in range(bids_number):
         response = self.app.post_json(
             "/tenders/{}/bids?acc_token={}".format(self.tender_id, self.tender_token), {"data": initial_bids[0]}
         )
+        self.set_responses(self.tender_id, response.json, "pending")
     # switch to active.pre-qualification
     self.set_status("active.tendering", "end")
     self.app.authorization = ("Basic", ("chronograph", ""))
@@ -1917,7 +1934,7 @@ def tender_with_main_procurement_category(self):
     response = self.app.post_json("/tenders", {"data": data})
     self.assertEqual(response.status, "201 Created")
     self.assertIn("mainProcurementCategory", response.json["data"])
-    self.assertEqual(response.json["data"]["status"], "active.tendering")
+    self.assertEqual(response.json["data"]["status"], "draft")
     self.assertEqual(response.json["data"]["mainProcurementCategory"], "services")
 
     tender = response.json["data"]

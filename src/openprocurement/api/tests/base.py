@@ -122,13 +122,20 @@ class BaseWebTest(unittest.TestCase):
         assert response.status == "200 OK"
         return response
 
-    def set_responses(self, tender_id, bid):
+    def create_bid(self, tender_id, bid_data, status="active"):
+        bid_data["status"] = "draft"
+        response = self.app.post_json("/tenders/{}/bids".format(tender_id), {"data": bid_data})
+        token = response.json["access"]["token"]
+        response = self.set_responses(tender_id, response.json, status=status)
+        return response.json, token
+
+    def set_responses(self, tender_id, bid, status="active"):
         from openprocurement.tender.core.tests.criteria_utils import generate_responses
 
         rrs = generate_responses(self, tender_id)
         response = self.app.patch_json(
             f"/tenders/{tender_id}/bids/{bid['data']['id']}?acc_token={bid['access']['token']}",
-            {"data": {"status": "active", "requirementResponses": rrs}},
+            {"data": {"status": status, "requirementResponses": rrs}},
         )
         assert response.status == "200 OK"
         return response
