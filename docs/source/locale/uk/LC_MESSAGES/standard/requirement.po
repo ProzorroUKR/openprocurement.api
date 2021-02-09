@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-30 20:48+0200\n"
+"POT-Creation-Date: 2021-02-09 11:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,7 +53,8 @@ msgstr ""
 msgid "`cancelled`"
 msgstr ""
 
-msgid "Requirement status (`active` by default)."
+#, fuzzy
+msgid "|ocdsDescription| Requirement status (`active` by default)."
 msgstr "Статус вимоги (`active` за замовчуванням)."
 
 msgid "description"
@@ -73,9 +74,6 @@ msgstr "рядок, обов'язковий"
 
 msgid "|ocdsDescription| Determines the type of response."
 msgstr "|ocdsDescription| Визначає тип відповіді."
-
-msgid "Possible values are:"
-msgstr "Можливі значення:"
 
 msgid "`string`"
 msgstr ""
@@ -102,9 +100,6 @@ msgid "The requirement response must be of type boolean"
 msgstr "Відповідь на вимогу має бути надана у булевуму форматі"
 
 msgid "minValue"
-msgstr ""
-
-msgid "string"
 msgstr ""
 
 msgid "|ocdsDescription| Used to state the lower bound of the requirement when the response must be within a certain range."
@@ -146,12 +141,14 @@ msgstr ""
 msgid "string, :ref:`date`"
 msgstr "рядок, :ref:`date`"
 
-msgid "The date on which the requirement version was published."
+#, fuzzy
+msgid "|ocdsDescription| The date on which the requirement version was published."
 msgstr "Дата публікації вимоги"
 
 msgid "dateModified"
 msgstr ""
 
-msgid "Date that the requirement version was cancelled"
+#, fuzzy
+msgid "|ocdsDescription| Date that the requirement version was cancelled"
 msgstr "Дата зміни статусу вимоги на `cancelled`."
 

@@ -26,6 +26,7 @@ Contents:
    performance
    cluster
    acceleration
+   constants
 
 
 Indices and tables
