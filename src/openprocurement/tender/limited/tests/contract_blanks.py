@@ -165,6 +165,7 @@ def patch_tender_contract(self):
     self.assertEqual(response.status, "201 Created")
     tender_id = response.json["data"]["id"]
     tender_token = response.json["access"]["token"]
+    self.set_initial_status(response.json)
 
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, tender_token),
@@ -454,6 +455,7 @@ def patch_tender_negotiation_contract(self):
     old_tender_token = self.tender_token
     tender_id = self.tender_id = response.json["data"]["id"]
     tender_token = self.tender_token = response.json["access"]["token"]
+    self.set_initial_status(response.json)
 
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, tender_token),

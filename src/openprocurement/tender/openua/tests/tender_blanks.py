@@ -496,35 +496,37 @@ def create_tender_generated(self):
     tender = response.json["data"]
     if "procurementMethodDetails" in tender:
         tender.pop("procurementMethodDetails")
+    assert_fields = set(
+        [
+            "procurementMethodType",
+            "id",
+            "dateModified",
+            "tenderID",
+            "status",
+            "enquiryPeriod",
+            "tenderPeriod",
+            "complaintPeriod",
+            "minimalStep",
+            "items",
+            "value",
+            "procuringEntity",
+            "next_check",
+            "procurementMethod",
+            "awardCriteria",
+            "submissionMethod",
+            "auctionPeriod",
+            "title",
+            "owner",
+            "date",
+            "mainProcurementCategory",
+            "milestones",
+        ]
+    )
+    if tender["procurementMethodType"] not in ("aboveThresholdUA.defense", "simple.defense"):
+        assert_fields.add("criteria")
     self.assertEqual(
         set(tender),
-        set(
-            [
-                "procurementMethodType",
-                "id",
-                "dateModified",
-                "tenderID",
-                "status",
-                "criteria",
-                "enquiryPeriod",
-                "tenderPeriod",
-                "complaintPeriod",
-                "minimalStep",
-                "items",
-                "value",
-                "procuringEntity",
-                "next_check",
-                "procurementMethod",
-                "awardCriteria",
-                "submissionMethod",
-                "auctionPeriod",
-                "title",
-                "owner",
-                "date",
-                "mainProcurementCategory",
-                "milestones",
-            ]
-        ),
+        assert_fields,
     )
     self.assertNotEqual(data["id"], tender["id"])
     self.assertNotEqual(data["doc_id"], tender["id"])

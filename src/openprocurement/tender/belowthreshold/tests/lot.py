@@ -81,6 +81,7 @@ class TenderLotResourceTest(TenderContentWebTest, TenderLotResourceTestMixin, Te
 
 
 class TenderLotFeatureResourceTest(TenderContentWebTest, TenderLotFeatureResourceTestMixin):
+    initial_status = None
     initial_lots = 2 * test_lots
     invalid_feature_value = 0.5
     max_feature_value = 0.3

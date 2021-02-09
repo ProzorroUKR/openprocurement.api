@@ -12,7 +12,7 @@ def switch_to_tendering_by_tenderPeriod_startDate(self):
     self.set_status("active.tendering", {"status": "active.enquiries", "tenderPeriod": {}})
     response = self.check_chronograph()
     self.assertNotEqual(response.json["data"]["status"], "active.tendering")
-    self.set_status("active.tendering", {"status": None, "enquiryPeriod": {}})
+    self.set_status("active.tendering", {"enquiryPeriod": {}})
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 

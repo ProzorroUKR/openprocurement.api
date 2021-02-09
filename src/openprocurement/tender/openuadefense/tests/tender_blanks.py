@@ -424,9 +424,10 @@ def patch_tender(self):
 
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     self.assertEqual(response.status, "201 Created")
-    tender = response.json["data"]
-    self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
+    self.tender_id = response.json["data"]["id"]
+    response = self.set_initial_status(response.json)
+    tender = response.json["data"]
     dateModified = tender.pop("dateModified")
 
     response = self.app.patch_json(
@@ -680,19 +681,16 @@ def one_invalid_bid_tender(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
+    self.set_initial_status(response.json)
     # create bid
+    bid_data = {
+        "tenderers": [test_organization],
+        "value": {"amount": 500},
+        "selfEligible": True,
+        "selfQualified": True,
+    }
     self.app.authorization = ("Basic", ("broker", ""))
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {
-            "data": {
-                "tenderers": [test_organization],
-                "value": {"amount": 500},
-                "selfEligible": True,
-                "selfQualified": True,
-            }
-        },
-    )
+    self.create_bid(tender_id, bid_data)
     # switch to active.qualification
     self.set_status("active.auction", {"auctionPeriod": {"startDate": None}, "status": "active.tendering"})
     self.app.authorization = ("Basic", ("chronograph", ""))

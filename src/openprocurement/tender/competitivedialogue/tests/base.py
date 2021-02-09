@@ -241,7 +241,7 @@ class BaseCompetitiveDialogEUStage2ContentWebTest(BaseCompetitiveDialogEUWebTest
 
 class BaseCompetitiveDialogUAStage2ContentWebTest(BaseCompetitiveDialogUAWebTest):
     initial_data = test_tender_stage2_data_ua
-    initial_status = None
+    initial_status = "active.tendering"
     initial_bids = None
     initial_lots = None
     initial_features = None

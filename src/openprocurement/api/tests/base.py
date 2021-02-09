@@ -111,13 +111,15 @@ class BaseWebTest(unittest.TestCase):
     def tearDown(self):
         self.app.clean_db()
 
-    def set_initial_status(self, tender):
+    def set_initial_status(self, tender, status=None):
+        if not status:
+            status = self.primary_tender_status
         from openprocurement.tender.core.tests.criteria_utils import add_criteria
         add_criteria(self, tender["data"]["id"], tender["access"]["token"])
 
         response = self.app.patch_json(
             f"/tenders/{tender['data']['id']}?acc_token={tender['access']['token']}",
-            {"data": {"status": self.primary_tender_status}},
+            {"data": {"status": status}},
         )
         assert response.status == "200 OK"
         return response
@@ -127,7 +129,7 @@ class BaseWebTest(unittest.TestCase):
         response = self.app.post_json("/tenders/{}/bids".format(tender_id), {"data": bid_data})
         token = response.json["access"]["token"]
         response = self.set_responses(tender_id, response.json, status=status)
-        return response.json, token
+        return response.json["data"], token
 
     def set_responses(self, tender_id, bid, status="active"):
         from openprocurement.tender.core.tests.criteria_utils import generate_responses

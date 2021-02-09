@@ -947,9 +947,8 @@ def invalid_bid_tender_features(self):
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = initial_bids[0]
     bid_data["parameters"] = [{"code": "OCDS-123454-POSTPONEMENT", "value": 0.1}]
-    bid_response, token = self.create_bid(tender_id, bid_data, "pending")
+    bid_response, bid_token = self.create_bid(tender_id, bid_data, "pending")
     bid_id = bid_response["id"]
-    bid_token = response.json["access"]["token"]
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),

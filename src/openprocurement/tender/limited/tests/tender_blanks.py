@@ -53,6 +53,7 @@ def listing(self):
         response = self.app.post_json("/tenders", {"data": self.initial_data})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
+        response = self.set_initial_status(response.json)
         tenders.append(response.json["data"])
 
     ids = ",".join([i["id"] for i in tenders])
@@ -133,6 +134,7 @@ def listing(self):
     response = self.app.post_json("/tenders", {"data": test_tender_data2})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
+    self.set_initial_status(response.json)
 
     while True:
         response = self.app.get("/tenders?mode=test")
@@ -177,6 +179,7 @@ def listing_changes(self):
         response = self.app.post_json("/tenders", {"data": self.initial_data})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
+        response = self.set_initial_status(response.json)
         tenders.append(response.json["data"])
 
     ids = ",".join([i["id"] for i in tenders])
@@ -250,6 +253,7 @@ def listing_changes(self):
     response = self.app.post_json("/tenders", {"data": test_tender_data2})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
+    self.set_initial_status(response.json)
 
     while True:
         response = self.app.get("/tenders?feed=changes&mode=test")
@@ -657,8 +661,9 @@ def patch_tender(self):
 
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     self.assertEqual(response.status, "201 Created")
-    tender = response.json["data"]
     owner_token = response.json["access"]["token"]
+    response = self.set_initial_status(response.json)
+    tender = response.json["data"]
     dateModified = tender.pop("dateModified")
 
     response = self.app.patch_json(
@@ -859,6 +864,7 @@ def changing_tender_after_award(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
+    self.set_initial_status(response.json)
 
     # create lot
     response = self.app.post_json(
@@ -939,6 +945,7 @@ def tender_status_change(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
+    self.set_initial_status(response.json)
 
     self.app.authorization = ("Basic", ("chronograph", ""))
     response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"status": "complete"}}, status=403)
@@ -968,6 +975,7 @@ def tender_negotiation_status_change(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
+    self.set_initial_status(response.json)
 
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"status": "complete"}}, status=403)
@@ -992,6 +1000,7 @@ def single_award_tender(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
+    self.set_initial_status(response.json)
 
     # get awards
     response = self.app.get("/tenders/{}/awards?acc_token={}".format(tender_id, owner_token))
@@ -1046,6 +1055,7 @@ def single_award_tender(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
+    self.set_initial_status(response.json)
 
     # create award
     response = self.app.post_json(
@@ -1107,6 +1117,7 @@ def multiple_awards_tender(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
+    self.set_initial_status(response.json)
 
     # get awards
     response = self.app.get("/tenders/{}/awards?acc_token={}".format(tender_id, owner_token))
@@ -1195,7 +1206,8 @@ def tender_cancellation(self):
     # create tender
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     tender_id = self.tender_id = response.json["data"]["id"]
-    owner_token = self.tender_token =  response.json["access"]["token"]
+    owner_token = self.tender_token = response.json["access"]["token"]
+    response = self.set_initial_status(response.json)
 
     # create cancellation
     cancellation = dict(**test_cancellation)
@@ -1221,6 +1233,7 @@ def tender_cancellation(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
+    response = self.set_initial_status(response.json)
 
     # create award
     response = self.app.post_json(
@@ -1257,6 +1270,7 @@ def tender_cancellation(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     tender_id = self.tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = self.tender_token = response.json["access"]["token"]
+    self.set_initial_status(response.json)
 
     # create award
     response = self.app.post_json(
@@ -1311,6 +1325,7 @@ def tender_cancellation(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     tender_id = self.tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = self.tender_token = response.json["access"]["token"]
+    response = self.set_initial_status(response.json)
 
     # create award
     response = self.app.post_json(
