@@ -6,7 +6,7 @@ from uuid import uuid4
 
 from datetime import timedelta
 
-from openprocurement.api.constants import SANDBOX_MODE, RELEASE_2020_04_19
+from openprocurement.api.constants import SANDBOX_MODE, RELEASE_2020_04_19, TWO_PHASE_COMMIT_FROM
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.models import Tender
@@ -311,6 +311,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
         if self.initial_bids:
             self.initial_bids_tokens = {}
             response = self.set_status("active.tendering")
+            self.app.patch_json(f"/tenders/{self.tender_id}?acc_token={self.tender_token}", {"data": {}})
             status = response.json["data"]["status"]
             bids = []
             rrs = set_bid_responses(criteria)

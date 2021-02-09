@@ -28,7 +28,7 @@ class TenderUABidResource(TenderBidResource):
     @json_view(
         content_type="application/json",
         permission="create_bid",
-        validators=(validate_bid_data, validate_bid_operation_not_in_tendering, validate_bid_operation_period),
+        validators=(validate_bid_operation_not_in_tendering, validate_bid_data, validate_bid_operation_period),
     )
     def collection_post(self):
         """Registration of new bid proposal
