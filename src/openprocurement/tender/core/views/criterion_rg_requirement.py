@@ -108,8 +108,13 @@ class BaseTenderCriteriaRGRequirementResource(APIResource):
             for attr_name in type(old_requirement)._fields:
                 if data.get(attr_name) is None:
                     data[attr_name] = getattr(old_requirement, attr_name)
-            requirement = model(data)
+            # To avoid new version creation if no changes and only id's were regenerated
+            if "eligibleEvidences" not in self.request.json.get("data", {}):
+                data["eligibleEvidences"] = [
+                    evidence.to_primitive(role="create") for evidence in getattr(old_requirement, "eligibleEvidences")
+                ]
 
+            requirement = model(data)
             if old_requirement.to_primitive() == requirement.to_primitive():
                 return {"data": old_requirement.serialize("view")}
 
