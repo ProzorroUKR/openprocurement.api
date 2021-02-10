@@ -1196,6 +1196,8 @@ class BidResponsesMixin(Model):
             group_answered_requirement_ids = {}
             for rg in criteria.requirementGroups:
                 req_ids = {i.id for i in rg.requirements}
+                if tender_created > CRITERION_REQUIREMENT_STATUSES_FROM:
+                    req_ids = {i.id for i in rg.requirements if i.status != "cancelled"}
                 answered_reqs = {i for i in all_answered_requirements if i in req_ids}
 
                 if answered_reqs:
