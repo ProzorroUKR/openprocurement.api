@@ -1001,13 +1001,8 @@ def proc_1lot_1bid_patch(self):
     del bid_data["value"]
     bid_data["status"] = "draft"
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": lot_id}]
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
-    bid_id = response.json["data"]["id"]
-    bid_token = response.json["access"]["token"]
-    self.set_responses(tender_id, response.json)
+    bid, bid_token = self.create_bid(tender_id, bid_data)
+    bid_id = bid["id"]
 
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(tender_id, lot_id, owner_token),

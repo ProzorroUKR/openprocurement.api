@@ -387,30 +387,17 @@ def one_lot_2bid(self):
     bid_data["status"] = "draft"
     bidder_data = bid_data["tenderers"][0]
     bidder_data["identifier"]["id"] = "00037256"
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
-    bid_id = response.json["data"]["id"]
-    bid_token = response.json["access"]["token"]
-    self.set_responses(tender_id, response.json, "pending")
+    bid, bid_token = self.create_bid(tender_id, bid_data, "pending")
+    bid_id = bid["id"]
     # create second bid
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data["lotValues"] = [{"value": {"amount": 475}, "relatedLot": lot_id}]
     bidder_data["identifier"]["id"] = "00037257"
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data },
-    )
-    self.set_responses(tender_id, response.json, "pending")
+    bid, bid_token = self.create_bid(tender_id, bid_data, "pending")
     # create third
     bid_data["lotValues"] = [{"value": {"amount": 470}, "relatedLot": lot_id}]
     bidder_data["identifier"]["id"] = "00037258"
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
-    self.set_responses(tender_id, response.json, "pending")
+    bid, bid_token = self.create_bid(tender_id, bid_data, "pending")
     # switch to active.pre-qualification
     self.time_shift("active.pre-qualification")
     self.check_chronograph()

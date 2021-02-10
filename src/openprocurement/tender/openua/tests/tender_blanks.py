@@ -870,15 +870,8 @@ def invalid_bid_tender_features(self):
     bid_data["parameters"] = [{"code": "OCDS-123454-POSTPONEMENT", "value": 0.1}]
     bid_data["value"] = {"amount": 500}
     bid_data["status"] = "draft"
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
-    self.set_responses(tender_id, response.json)
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    bid_id = response.json["data"]["id"]
-    bid_token = response.json["access"]["token"]
+    bid, bid_token = self.create_bid(tender_id, bid_data)
+    bid_id = bid["id"]
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
@@ -1027,11 +1020,7 @@ def invalid1_and_1draft_bids_tender(self):
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data["value"] = {"amount": 500}
     bid_data["status"] = "draft"
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
-    self.set_responses(tender_id, response.json)
+    bid, bid_token = self.create_bid(tender_id, bid_data)
 
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.post_json(
@@ -1061,14 +1050,9 @@ def activate_bid_after_adding_lot(self):
     response = self.set_initial_status(response.json)
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
+    bid, bid_token = self.create_bid(tender_id, bid_data)
+    bid_id = bid["id"]
 
-    bid_id = response.json["data"]["id"]
-    bid_token = response.json["access"]["token"]
-    response = self.set_responses(tender_id, response.json)
     response = self.app.post_json(
         "/tenders/{}/lots?acc_token={}".format(self.tender_id, owner_token), {"data": test_lots[0]}
     )
@@ -1261,18 +1245,10 @@ def lost_contract_for_active_award(self):
     response = self.set_initial_status(response.json)
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
-    self.set_responses(tender_id, response.json)
+    self.create_bid(tender_id, bid_data)
     # create bid #2
     self.app.authorization = ("Basic", ("broker", ""))
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
-    self.set_responses(tender_id, response.json)
+    self.create_bid(tender_id, bid_data)
     # switch to active.auction
     self.set_status("active.auction")
 

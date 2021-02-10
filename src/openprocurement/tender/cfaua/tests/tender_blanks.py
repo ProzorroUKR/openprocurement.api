@@ -890,11 +890,7 @@ def patch_unitprice_with_features(self):
             {"code": "OCDS-123454-POSTPONEMENT", "value": 0},
             {"code": "OCDS-123454-POSTPONEMENN", "value": 0.05},
         ]
-        bid_data["status"] = "draft"
-        response = self.app.post_json("/tenders/{}/bids".format(tender_id), {"data": bid_data})
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.content_type, "application/json")
-        self.set_responses(tender_id, response.json, "pending")
+        self.create_bid(tender_id, bid_data, "pending")
 
     self.set_status("active.qualification.stand-still", "end")
 
@@ -1016,10 +1012,7 @@ def invalid_bid_tender_lot(self):
 
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    response = self.app.post_json("/tenders/{}/bids".format(tender_id), {"data": initial_bids[0]})
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    self.set_responses(tender_id, response.json, "pending")
+    self.create_bid(tender_id, initial_bids[0], "pending")
 
     response = self.app.delete(
         "/tenders/{}/lots/{}?acc_token={}".format(tender_id, self.initial_lots[0]["id"], owner_token), status=422
@@ -1066,8 +1059,7 @@ def one_bid_tender(self):
     initial_bids[0]["tenderers"] = bidder_data
     initial_bids[1]["status"] = "draft"
     self.app.authorization = ("Basic", ("broker", ""))
-    response = self.app.post_json("/tenders/{}/bids".format(tender_id), {"data": initial_bids[1]})
-    self.set_responses(tender_id, response.json, "pending")
+    self.create_bid(tender_id, initial_bids[1], "pending")
     # switch to active.pre-qualification
     self.set_status("active.tendering", "end")
     self.app.authorization = ("Basic", ("chronograph", ""))
@@ -1646,10 +1638,7 @@ def _awards_to_bids_number(self, max_awards_number, bids_number, expected_awards
     initial_bids[0]["tenderers"] = [test_organization]
     initial_bids[0]["status"] = "draft"
     for _ in range(bids_number):
-        response = self.app.post_json(
-            "/tenders/{}/bids?acc_token={}".format(self.tender_id, self.tender_token), {"data": initial_bids[0]}
-        )
-        self.set_responses(self.tender_id, response.json, "pending")
+        self.create_bid(self.tender_id, initial_bids[0], "pending")
     # switch to active.pre-qualification
     self.set_status("active.tendering", "end")
     self.app.authorization = ("Basic", ("chronograph", ""))

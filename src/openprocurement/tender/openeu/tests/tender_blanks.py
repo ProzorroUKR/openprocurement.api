@@ -693,15 +693,8 @@ def invalid_bid_tender_features(self):
     bid_data["status"] = "draft"
     bid_data["parameters"] = [{"code": "OCDS-123454-POSTPONEMENT", "value": 0.1}]
 
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    bid_id = response.json["data"]["id"]
-    bid_token = response.json["access"]["token"]
-    self.set_responses(tender_id, response.json, "pending")
+    bid, bid_token = self.create_bid(tender_id, bid_data, "pending")
+    bid_id = bid["id"]
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
@@ -781,13 +774,7 @@ def invalid_bid_tender_lot(self):
         "lotValues": [{"value": self.test_bids_data[0]["value"], "relatedLot": i} for i in lots],
     })
 
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    self.set_responses(tender_id, response.json, "pending")
+    self.create_bid(tender_id, bid_data, "pending")
 
     response = self.app.delete("/tenders/{}/lots/{}?acc_token={}".format(tender_id, lots[0], owner_token))
     self.assertEqual(response.status, "200 OK")
@@ -821,11 +808,7 @@ def one_bid_tender(self):
     bid_data["tenderers"] = [bidder_data]
     bid_data["status"] = "draft"
 
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
-    self.set_responses(tender_id, response.json, "pending")
+    self.create_bid(tender_id, bid_data, "pending")
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": tender_id, "status": "active.tendering"})
     self.app.authorization = ("Basic", ("chronograph", ""))
@@ -854,21 +837,8 @@ def unsuccessful_after_prequalification_tender(self):
     bid_data["tenderers"] = [bidder_data]
     bid_data["status"] = "draft"
 
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
-    self.set_responses(tender_id, response.json, "pending")
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
-    self.set_responses(tender_id, response.json, "pending")
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
-    self.set_responses(tender_id, response.json, "pending")
+    for i in range(3):
+        self.create_bid(tender_id, bid_data, "pending")
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": tender_id, "status": "active.tendering"})
     self.app.authorization = ("Basic", ("chronograph", ""))
@@ -933,19 +903,10 @@ def one_qualificated_bid_tender(self):
     bid_data["tenderers"] = [bidder_data]
     bid_data["status"] = "draft"
 
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
-    self.set_responses(tender_id, response.json, "pending")
+    self.create_bid(tender_id, bid_data, "pending")
 
     bid_data["value"] = self.test_bids_data[1]["value"]
-
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
-    self.set_responses(tender_id, response.json, "pending")
+    self.create_bid(tender_id, bid_data, "pending")
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": tender_id, "status": "active.tendering"})
     self.app.authorization = ("Basic", ("chronograph", ""))
@@ -1037,19 +998,10 @@ def multiple_bidders_tender(self):
         "/tenders/{}/bids".format(tender_id),
         {"data": bid_data},
     )
-    self.set_responses(tender_id, response.json, "pending")
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
-    bid_id = response.json["data"]["id"]
-    bid_token = response.json["access"]["token"]
-    self.set_responses(tender_id, response.json, "pending")
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
-    self.set_responses(tender_id, response.json, "pending")
+    bid, bid_token = self.create_bid(tender_id, bid_data, "pending")
+    bid_id = bid["id"]
+
+    self.create_bid(tender_id, bid_data, "pending")
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": tender_id, "status": "active.tendering"})
     self.app.authorization = ("Basic", ("chronograph", ""))
@@ -1210,18 +1162,10 @@ def lost_contract_for_active_award(self):
     bid_data["status"] = "draft"
 
     self.app.authorization = ("Basic", ("broker", ""))
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
-    self.set_responses(tender_id, response.json, "pending")
+    self.create_bid(tender_id, bid_data, "pending")
     # create bid #2
     self.app.authorization = ("Basic", ("broker", ""))
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
-    self.set_responses(tender_id, response.json, "pending")
+    self.create_bid(tender_id, bid_data, "pending")
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": tender_id, "status": "active.tendering"})
     self.app.authorization = ("Basic", ("chronograph", ""))
