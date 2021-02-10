@@ -384,7 +384,6 @@ def one_lot_2bid(self):
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 450}, "relatedLot": lot_id}]
-    bid_data["status"] = "draft"
     bidder_data = bid_data["tenderers"][0]
     bidder_data["identifier"]["id"] = "00037256"
     bid, bid_token = self.create_bid(tender_id, bid_data, "pending")

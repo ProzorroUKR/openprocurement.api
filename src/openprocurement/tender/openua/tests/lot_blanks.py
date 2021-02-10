@@ -999,7 +999,6 @@ def proc_1lot_1bid_patch(self):
 
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
-    bid_data["status"] = "draft"
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": lot_id}]
     bid, bid_token = self.create_bid(tender_id, bid_data)
     bid_id = bid["id"]

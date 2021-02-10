@@ -690,7 +690,6 @@ def invalid_bid_tender_features(self):
 
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data["value"] = {"amount": 500}
-    bid_data["status"] = "draft"
     bid_data["parameters"] = [{"code": "OCDS-123454-POSTPONEMENT", "value": 0.1}]
 
     bid, bid_token = self.create_bid(tender_id, bid_data, "pending")
@@ -768,7 +767,6 @@ def invalid_bid_tender_lot(self):
 
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
-    bid_data["status"] = "draft"
     bid_data.update({
         "status": "draft",
         "lotValues": [{"value": self.test_bids_data[0]["value"], "relatedLot": i} for i in lots],
@@ -806,7 +804,6 @@ def one_bid_tender(self):
 
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data["tenderers"] = [bidder_data]
-    bid_data["status"] = "draft"
 
     self.create_bid(tender_id, bid_data, "pending")
     # switch to active.pre-qualification
@@ -835,7 +832,6 @@ def unsuccessful_after_prequalification_tender(self):
 
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data["tenderers"] = [bidder_data]
-    bid_data["status"] = "draft"
 
     for i in range(3):
         self.create_bid(tender_id, bid_data, "pending")
@@ -901,7 +897,6 @@ def one_qualificated_bid_tender(self):
 
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data["tenderers"] = [bidder_data]
-    bid_data["status"] = "draft"
 
     self.create_bid(tender_id, bid_data, "pending")
 
@@ -991,13 +986,10 @@ def multiple_bidders_tender(self):
 
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data["tenderers"] = [bidder_data]
-    bid_data["status"] = "draft"
 
     self.app.authorization = ("Basic", ("broker", ""))
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
+    self.create_bid(tender_id, bid_data, "pending")
+
     bid, bid_token = self.create_bid(tender_id, bid_data, "pending")
     bid_id = bid["id"]
 
@@ -1159,7 +1151,6 @@ def lost_contract_for_active_award(self):
     # create bid
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data["tenderers"] = [test_organization]
-    bid_data["status"] = "draft"
 
     self.app.authorization = ("Basic", ("broker", ""))
     self.create_bid(tender_id, bid_data, "pending")

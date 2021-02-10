@@ -682,7 +682,6 @@ def one_lot_1bid(self):
     # create bid
 
     bid_data = deepcopy(self.test_bids_data[0])
-    bid_data["status"] = "draft"
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": self.test_bids_data[0]["value"], "relatedLot": lot_id}]
 
@@ -721,7 +720,6 @@ def one_lot_2bid_1unqualified(self):
 
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
-    bid_data["status"] = "draft"
     for i in range(self.min_bids_number):
         bid_data["tenderers"] = self.test_bids_data[i]["tenderers"]
         bid_data["lotValues"] = [{"value": self.test_bids_data[i]["value"], "relatedLot": lot_id}]
@@ -787,7 +785,6 @@ def one_lot_2bid(self):
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
-    bid_data["status"] = "draft"
     bid_data["lotValues"] = [{"value": self.test_bids_data[0]["value"], "relatedLot": lot_id}]
     bid, bid_token = self.create_bid(tender_id, bid_data, "pending")
     bid_id = bid["id"]
@@ -998,7 +995,6 @@ def one_lot_3bid_1del(self):
     bids = []
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
-    bid_data["status"] = "draft"
     bid_data["lotValues"] = [{"value": self.test_bids_data[0]["value"], "relatedLot": lot_id}]
     for i in range(3):
         bid, bid_token = self.create_bid(tender_id, bid_data, "pending")
@@ -1146,7 +1142,6 @@ def one_lot_3bid_1un(self):
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": self.test_bids_data[0]["value"], "relatedLot": lot_id}]
-    bid_data["status"] = "draft"
     bids = []
     for i in range(3):
         bid, bid_token = self.create_bid(tender_id, bid_data, "pending")
@@ -1393,7 +1388,6 @@ def two_lot_2bid_0com_1can(self):
 
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
-    bid_data["status"] = "draft"
 
     for i in range(self.min_bids_number):
         bid_data.update({
@@ -1479,7 +1473,6 @@ def two_lot_2bid_2com_2win(self):
 
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
-    bid_data["status"] = "draft"
     bid_data["lotValues"] = [{"value": self.test_bids_data[0]["value"], "relatedLot": lot_id} for lot_id in lots]
 
     self.create_bid(tender_id, bid_data, "pending")
@@ -1656,7 +1649,6 @@ def two_lot_3bid_1win_bug(self):
 
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
-    bid_data["status"] = "draft"
     bid_data["lotValues"] = [{"value": self.test_bids_data[0]["value"], "relatedLot": lot_id} for lot_id in lots]
 
     self.create_bid(tender_id, bid_data, "pending")

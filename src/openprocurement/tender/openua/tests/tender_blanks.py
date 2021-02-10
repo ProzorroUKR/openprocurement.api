@@ -869,7 +869,6 @@ def invalid_bid_tender_features(self):
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data["parameters"] = [{"code": "OCDS-123454-POSTPONEMENT", "value": 0.1}]
     bid_data["value"] = {"amount": 500}
-    bid_data["status"] = "draft"
     bid, bid_token = self.create_bid(tender_id, bid_data)
     bid_id = bid["id"]
 
@@ -1019,7 +1018,6 @@ def invalid1_and_1draft_bids_tender(self):
 
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data["value"] = {"amount": 500}
-    bid_data["status"] = "draft"
     bid, bid_token = self.create_bid(tender_id, bid_data)
 
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1038,7 +1036,6 @@ def invalid1_and_1draft_bids_tender(self):
 def activate_bid_after_adding_lot(self):
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = deepcopy(self.test_bids_data[0])
-    bid_data["status"] = "draft"
     bid_data["value"] = {"amount": 500}
     # empty tenders listing
     response = self.app.get("/tenders")
@@ -1236,7 +1233,6 @@ def first_bid_tender(self):
 def lost_contract_for_active_award(self):
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data["value"] = {"amount": 450}
-    bid_data["status"] = "draft"
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
     response = self.app.post_json("/tenders", {"data": self.initial_data})
