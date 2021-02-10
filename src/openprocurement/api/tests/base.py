@@ -86,6 +86,17 @@ class BaseTestApp(webtest.TestApp):
                 docs.append(doc)
             self.app.registry.db.update(docs)
 
+    def set_initial_status(self, tender, status=None):
+        from openprocurement.tender.core.tests.criteria_utils import add_criteria
+        add_criteria(self, tender["data"]["id"], tender["access"]["token"])
+
+        response = self.patch_json(
+            f"/tenders/{tender['data']['id']}?acc_token={tender['access']['token']}",
+            {"data": {"status": status}},
+        )
+        assert response.status == "200 OK"
+        return response
+
 
 class BaseWebTest(unittest.TestCase):
     """
@@ -114,13 +125,8 @@ class BaseWebTest(unittest.TestCase):
     def set_initial_status(self, tender, status=None):
         if not status:
             status = self.primary_tender_status
-        from openprocurement.tender.core.tests.criteria_utils import add_criteria
-        add_criteria(self, tender["data"]["id"], tender["access"]["token"])
 
-        response = self.app.patch_json(
-            f"/tenders/{tender['data']['id']}?acc_token={tender['access']['token']}",
-            {"data": {"status": status}},
-        )
+        response = self.app.set_initial_status(tender, status)
         assert response.status == "200 OK"
         return response
 

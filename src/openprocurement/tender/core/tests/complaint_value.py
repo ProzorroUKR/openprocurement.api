@@ -24,6 +24,7 @@ def create_tender(app, tender_data):
     app.authorization = ("Basic", ("broker", "broker"))
     response = app.post_json("/tenders", dict(data=tender_data))
     assert response.status == "201 Created"
+    app.set_initial_status(response.json, "active.tendering")
     return response.json
 
 
