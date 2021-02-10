@@ -63,6 +63,6 @@ class QualificationResource(APIResource):
         self.request.validated["submission_src"] = submission.serialize("plain")
         submission.status = "complete"
         self.request.validated["submission"] = submission
-        apply_patch(self.request, src=self.request.validated["submission_src"], obj_name="submission")
+        apply_patch(self.request, src=self.request.validated["submission_src"], data=submission, obj_name="submission")
         self.LOGGER.info("Updated submission {}".format(submission.id),
                          extra=context_unpack(self.request, {"MESSAGE_ID": "submission_patch"}))
