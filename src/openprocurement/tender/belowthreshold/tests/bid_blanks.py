@@ -834,6 +834,7 @@ def create_tender_bid_document(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("name.doc", response.json["data"]["title"])
+
     self.set_status("active.awarded")
 
     response = self.app.post(
@@ -1294,11 +1295,73 @@ def create_tender_bid_document_with_award_json(self):
     criterion["classification"]["id"] = "CRITERION.OTHER.CONTRACT.GUARANTEE"
     criterion["source"] = "winner"
     self.set_status("draft")
-    self.app.post_json(
+    response = self.app.post_json(
         "/tenders/{}/criteria?acc_token=".format(self.tender_id, self.tender_token),
         {"data": [criterion]},
         status=201
     )
+    requirement_id = response.json["data"][0]["requirementGroups"][0]["requirements"][0]["id"]
+    requirement_title = response.json["data"][0]["requirementGroups"][0]["requirements"][0]["title"]
+    rr_data = [{
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+            "id": requirement_id,
+            "title": requirement_title,
+        },
+        "value": "True",
+    }]
+
+    response = self.app.post_json(
+        "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, self.bid_id, self.tender_token),
+        {"data": rr_data},
+        status=201,
+    )
+    response_id = response.json["data"][0]["id"]
+
+    self.set_status("active.tendering")
+    response = self.app.post_json(
+        "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+        {"data": {
+            "title": "test.doc",
+            "url": self.generate_docservice_url(),
+            "format": "application/msword",
+            "documentType": "biddingDocuments",
+            "hash": "md5:" + "0" * 32
+        }},
+        status=201
+    )
+    doc_id = response.json["data"]["id"]
+
+    response = self.app.post_json(
+        "/tenders/{}/bids/{}/requirement_responses/{}/evidences?acc_token={}".format(self.tender_id, self.bid_id,
+                                                                                     response_id,
+                                                                                     self.bid_token),
+        {"data": {
+            "title": "Документальне підтвердження",
+            "description": "Довідка в довільній формі",
+            "type": "document",
+            "relatedDocument": {
+                "id": doc_id,
+                "title": "test.doc"
+            },
+        }}, status=422
+    )
+
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(response.json["errors"], [
+        {
+            "location": "body",
+            "name": "bids",
+            "description": [{
+                "requirementResponses": [{
+                    "evidences": [
+                        "available only in 'active.awarded' status"
+                    ]
+                }]
+            }]
+        }
+    ])
 
     self.set_status("active.qualification")
     response = self.app.post_json(
@@ -1327,6 +1390,21 @@ def create_tender_bid_document_with_award_json(self):
         status=201
     )
     self.assertEqual(response.json["data"]["documentType"], "contractGuarantees")
+
+    doc_id = response.json["data"]["id"]
+    self.app.post_json(
+        "/tenders/{}/bids/{}/requirement_responses/{}/evidences?acc_token={}".format(self.tender_id, self.bid_id,
+                                                                                     response_id,
+                                                                                     self.bid_token),
+        {"data": {
+            "title": "Документальне підтвердження",
+            "description": "Довідка в довільній формі",
+            "type": "document",
+            "relatedDocument": {
+                "id": doc_id
+            }
+        }}, status=201
+    )
 
 
 def create_tender_bid_document_with_award_json_fail(self):

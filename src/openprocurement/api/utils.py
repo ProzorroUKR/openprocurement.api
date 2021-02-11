@@ -1006,3 +1006,12 @@ def get_change_class(poly_model, data, _validation=False):
 
     _change_class = [model_class for model_class in poly_model.model_classes if model_class.__name__ == _class_name][0]
     return _change_class
+
+
+def get_criterion_requirement(tender, requirement_id):
+    for criteria in tender.criteria:
+        for group in criteria.requirementGroups:
+            for req in group.requirements:
+                if req.id == requirement_id:
+                    return criteria
+    return None

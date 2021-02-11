@@ -39,6 +39,7 @@ from openprocurement.api.utils import (
     get_root,
     get_uah_amount_from_value,
     get_particular_parent,
+    get_criterion_requirement,
 )
 from openprocurement.api.constants import (
     SANDBOX_MODE,
@@ -999,6 +1000,41 @@ class RequirementResponse(Model):
                 raise ValidationError(u"relatedTenderer should be one of bid tenderers")
 
     @bids_response_validation_wrapper
+    def validate_evidences(self, data, evidences):
+        if not evidences:
+            return
+        parent = data["__parent__"]
+        tender = get_tender(parent)
+        guarantee_criterion = "CRITERION.OTHER.CONTRACT.GUARANTEE"
+        criterion = get_criterion_requirement(tender, data["requirement"].id)
+
+        if criterion and criterion.classification.id.startswith(guarantee_criterion) and isinstance(parent, Bid):
+            valid_status = "active.awarded"
+            if tender["status"] not in valid_status:
+                raise ValidationError("available only in '{}' status".format(valid_status))
+
+            bid_id = parent["id"]
+            active_award = None
+            for award in tender.awards:
+                if award.status == "active":
+                    active_award = award
+                    break
+
+            if active_award is None or active_award.bid_id != bid_id:
+                raise ValidationError(
+                    "available only with active award".format(guarantee_criterion)
+                )
+
+            contracts = tender.contracts
+            current_contract = None
+            for contract in contracts:
+                if contract.get("awardId") == active_award.id:
+                    current_contract = contract
+                    break
+            if current_contract and current_contract.status == "pending":
+                raise ValidationError("forbidden edit if contract not in status `pending`")
+
+    @bids_response_validation_wrapper
     def validate_requirement(self, data, requirement_ref):
         parent = data["__parent__"]
         requirement_ref_id = requirement_ref.get("id")
@@ -1012,35 +1048,13 @@ class RequirementResponse(Model):
         source_map = {
             "procuringEntity": (BaseAward, QualificationMilestoneListMixin),
             "tenderer": Bid,
-            "winner": BaseAward,
+            "winner": Bid,
         }
         available_parents = source_map.get(criterion.source)
         if available_parents and not isinstance(parent, available_parents):
             raise ValidationError("Requirement response in {} can't have requirement criteria with source: {}".format(
                 parent.__class__.__name__, criterion.source
             ))
-
-        if (
-                criterion.source == "winner"
-                and parent.status != "active"
-                and criterion.classification.id.startswith("CRITERION.OTHER.CONTRACT.GUARANTEE")
-        ):
-            raise ValidationError(u"Only award in status 'active' could have requirement response for criteria "
-                                  "with source: 'winner'")
-        elif (
-                criterion.source == "winner"
-                and parent.status == "active"
-                and criterion.classification.id.startswith("CRITERION.OTHER.CONTRACT.GUARANTEE")
-        ):
-            tender = get_tender(parent)
-            contracts = tender.contracts
-            current_contract = None
-            for contract in contracts:
-                if contract.get("awardId") == parent.id:
-                    current_contract = contract
-                    break
-            if current_contract and contract.status == "pending":
-                raise ValidationError(u"Forbidden edit requirementResponse if contract not in status `pending`")
 
         return requirement_ref
 
