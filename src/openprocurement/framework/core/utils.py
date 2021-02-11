@@ -265,7 +265,9 @@ def apply_patch(request, obj_name, data=None, save=True, src=None):
     data = request.validated["data"] if data is None else data
     patch = data and apply_data_patch(src or request.context.serialize(), data)
     if patch:
-        if isinstance(request.validated[obj_name], request.context.__class__):
+        if request.context.__class__.__name__.lower() in save_map:
+            request.validated[obj_name].import_data(patch)
+        else:
             request.context.import_data(patch)
         if save:
             save_func = save_map.get(obj_name)
