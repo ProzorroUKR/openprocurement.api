@@ -768,7 +768,7 @@ tender_openeu = {
     "title_en": "Services in school canteens",
     "minimalStep": {
         "currency": "UAH",
-        "amount": 35
+        "amount": 10
     },
     "procurementMethodType": "aboveThresholdEU",
     "value": {
