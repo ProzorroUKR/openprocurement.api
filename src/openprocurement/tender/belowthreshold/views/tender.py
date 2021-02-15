@@ -9,6 +9,7 @@ from openprocurement.tender.core.validation import (
     validate_patch_tender_data,
     validate_tender_not_in_terminated_status,
     validate_item_quantity,
+    validate_tender_guarantee,
 )
 
 
@@ -118,6 +119,7 @@ class TenderResource(APIResource):
             validate_patch_tender_data,
             validate_tender_not_in_terminated_status,
             validate_item_quantity,
+            validate_tender_guarantee,
         ),
         permission="edit_tender",
     )

@@ -1013,26 +1013,6 @@ class RequirementResponse(Model):
             if tender["status"] not in valid_status:
                 raise ValidationError("available only in '{}' status".format(valid_status))
 
-            bid_id = parent["id"]
-            active_award = None
-            for award in tender.awards:
-                if award.status == "active":
-                    active_award = award
-                    break
-
-            if active_award is None or active_award.bid_id != bid_id:
-                raise ValidationError(
-                    "available only with active award".format(guarantee_criterion)
-                )
-
-            contracts = tender.contracts
-            current_contract = None
-            for contract in contracts:
-                if contract.get("awardId") == active_award.id:
-                    current_contract = contract
-                    break
-            if current_contract and current_contract.status == "pending":
-                raise ValidationError("forbidden edit if contract not in status `pending`")
 
     @bids_response_validation_wrapper
     def validate_requirement(self, data, requirement_ref):

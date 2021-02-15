@@ -1345,21 +1345,15 @@ def create_tender_bid_document_with_award_json(self):
                 "id": doc_id,
                 "title": "test.doc"
             },
-        }}, status=422
+        }}, status=403
     )
 
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(response.json["errors"], [
         {
             "location": "body",
-            "name": "bids",
-            "description": [{
-                "requirementResponses": [{
-                    "evidences": [
-                        "available only in 'active.awarded' status"
-                    ]
-                }]
-            }]
+            "name": "data",
+            "description": "available only in 'active.awarded' status"
         }
     ])
 

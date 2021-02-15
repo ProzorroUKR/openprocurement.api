@@ -41,6 +41,7 @@ from openprocurement.api.utils import (
     handle_data_exceptions,
     get_first_revision_date,
     get_root,
+    get_criterion_requirement,
 )
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF, FIRST_STAGE_PROCUREMENT_TYPES
 from openprocurement.tender.core.utils import (
@@ -944,9 +945,9 @@ def validate_tender_activate_with_language_criteria(request, **kwargs):
 
 
 def validate_tender_guarantee(request, **kwargs):
-    tender = request.context
+    tender = request.validated["tender"]
     data = request.validated["data"]
-    tender_type = request.validated["tender"].procurementMethodType
+    tender_type = tender.procurementMethodType
     tender_created = get_first_revision_date(tender, default=get_now())
 
     if (
@@ -957,17 +958,25 @@ def validate_tender_guarantee(request, **kwargs):
     ):
         return
 
-    amount = data["guarantee"]["amount"] if data["guarantee"] else -1
+    amount = 1
+    if tender.get("lots"):
+        for lot in tender.lots:
+            guarantee = lot.get("guarantee", {})
+            if guarantee and guarantee.get("amount", 0) <= 0:
+                amount = -1
+                break
+    else:
+        amount = data["guarantee"]["amount"] if data.get("guarantee") else -1
     needed_criterion = "CRITERION.OTHER.BID.GUARANTEE"
     tender_criteria = [criterion.classification.id for criterion in tender.criteria if criterion.classification]
 
     if (
-            (amount == 0 and needed_criterion in tender_criteria)
-            or (amount >= 0 and needed_criterion not in tender_criteria)
+            (amount <= 0 and needed_criterion in tender_criteria)
+            or (amount > 0 and needed_criterion not in tender_criteria)
     ):
         raise_operation_error(
             request,
-            u"Should be specified {} and 'guarantee.amount' more than 0".format(needed_criterion)
+            "Should be specified {} and 'guarantee.amount' more than 0".format(needed_criterion)
         )
 
 
@@ -1911,8 +1920,38 @@ def validate_operation_ecriteria_objects(request, **kwargs):
 
 
 def validate_operation_ecriteria_objects_evidences(request, **kwargs):
-    valid_statuses = ["draft", "draft.pending", "draft.stage2", "active.tendering",
-                      "active.qualification", "active.awarded"]
+    valid_statuses = ["draft", "draft.pending", "draft.stage2", "active.tendering"]
+
+    tender = request.validated["tender"]
+    requirement_id = request.validated["requirement_response"]["requirement"]["id"]
+    criterion = get_criterion_requirement(tender, requirement_id)
+    guarantee_criterion = "CRITERION.OTHER.CONTRACT.GUARANTEE"
+
+    if criterion and criterion.classification.id.startswith(guarantee_criterion):
+        awarded_status = "active.awarded"
+        valid_statuses.append(awarded_status)
+        if tender["status"] not in awarded_status:
+            raise_operation_error(request, "available only in '{}' status".format(awarded_status))
+
+        bid_id = request.validated["bid"]["id"]
+        active_award = None
+        for award in tender.awards:
+            if award.status == "active":
+                active_award = award
+                break
+
+        if active_award is None or active_award.bid_id != bid_id:
+            raise_operation_error(request, "available only with active award".format(guarantee_criterion))
+
+        contracts = tender.contracts
+        current_contract = None
+        for contract in contracts:
+            if contract.get("awardId") == active_award.id:
+                current_contract = contract
+                break
+        if current_contract and current_contract.status == "pending":
+            raise_operation_error(request, "forbidden edit if contract not in status `pending`")
+
     base_validate_operation_ecriteria_objects(request, valid_statuses)
 
 
