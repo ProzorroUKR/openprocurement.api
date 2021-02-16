@@ -14,7 +14,7 @@ DATA:
     },
     "minimalStep": {
       "currency": "UAH",
-      "amount": 35
+      "amount": 10
     }
   }
 }
@@ -28,7 +28,7 @@ X-Content-Type-Options: nosniff
     "id": "150e2750fa2942ce9315e80ddf78a62a",
     "title": "Лот №1",
     "description": "Опис Лот №1",
-    "date": "2020-09-08T01:00:00+03:00",
+    "date": "2021-01-22T00:00:00+02:00",
     "status": "active",
     "value": {
       "amount": 500.0,
@@ -36,7 +36,7 @@ X-Content-Type-Options: nosniff
       "valueAddedTaxIncluded": true
     },
     "minimalStep": {
-      "amount": 35.0,
+      "amount": 10.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     }

@@ -10,18 +10,3 @@ DATA:
   }
 }
 
-Response: 200 OK
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-{
-  "data": {
-    "id": "a20a872aeacd4e4dac5482c2045a52eb",
-    "title": "Калорійність",
-    "description": "Просимо додати таблицю потрібної калорійності харчування",
-    "date": "2020-09-08T01:00:00+03:00",
-    "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"",
-    "questionOf": "tender",
-    "dateAnswered": "2020-09-08T01:00:00+03:00"
-  }
-}
-

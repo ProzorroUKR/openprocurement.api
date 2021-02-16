@@ -58,8 +58,8 @@ DATA:
         },
         "quantity": 5,
         "deliveryDate": {
-          "startDate": "2020-09-10T01:00:00+03:00",
-          "endDate": "2020-09-13T01:00:00+03:00"
+          "startDate": "2021-01-24T00:00:00+02:00",
+          "endDate": "2021-01-27T00:00:00+02:00"
         },
         "deliveryAddress": {
           "countryName": "Україна",
@@ -71,10 +71,10 @@ DATA:
       }
     ],
     "enquiryPeriod": {
-      "endDate": "2020-09-15T01:00:00+03:00"
+      "endDate": "2021-01-29T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "endDate": "2020-09-22T01:00:00+03:00"
+      "endDate": "2021-02-05T00:00:00+02:00"
     },
     "procurementMethodType": "belowThreshold",
     "milestones": [
@@ -111,9 +111,9 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "title": "футляри до державних нагород",
-    "date": "2020-09-08T01:00:00+03:00",
-    "dateModified": "2020-09-08T01:00:00+03:00",
-    "tenderID": "UA-2020-09-08-000001",
+    "date": "2021-01-22T00:00:00+02:00",
+    "dateModified": "2021-01-22T00:00:00+02:00",
+    "tenderID": "UA-2021-01-22-000001",
     "owner": "broker",
     "mainProcurementCategory": "goods",
     "milestones": [
@@ -145,7 +145,7 @@ X-Content-Type-Options: nosniff
     "procurementMethod": "open",
     "awardCriteria": "lowestCost",
     "submissionMethod": "electronicAuction",
-    "status": "active.enquiries",
+    "status": "draft",
     "items": [
       {
         "id": "60ffd7cbd43d4b8b93e58e914f4e5b19",
@@ -163,8 +163,8 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 5.0,
         "deliveryDate": {
-          "startDate": "2020-09-10T01:00:00+03:00",
-          "endDate": "2020-09-13T01:00:00+03:00"
+          "startDate": "2021-01-24T00:00:00+02:00",
+          "endDate": "2021-01-27T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -186,12 +186,12 @@ X-Content-Type-Options: nosniff
       "valueAddedTaxIncluded": true
     },
     "enquiryPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00",
-      "endDate": "2020-09-15T01:00:00+03:00"
+      "startDate": "2021-01-22T00:00:00+02:00",
+      "endDate": "2021-01-29T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "startDate": "2020-09-15T01:00:00+03:00",
-      "endDate": "2020-09-22T01:00:00+03:00"
+      "startDate": "2021-01-29T00:00:00+02:00",
+      "endDate": "2021-02-05T00:00:00+02:00"
     },
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -220,8 +220,7 @@ X-Content-Type-Options: nosniff
       "valueAddedTaxIncluded": true
     },
     "procurementMethodType": "belowThreshold",
-    "id": "cc1418f989634e5ebec00becb174f72d",
-    "next_check": "2020-09-15T01:00:00+03:00"
+    "id": "cc1418f989634e5ebec00becb174f72d"
   },
   "access": {
     "token": "e52663fc65a840e998dfd864e35d273c",

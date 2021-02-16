@@ -7,13 +7,13 @@ DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2020-10-09T01:00:00+03:00"
+      "endDate": "2021-02-22T00:00:00+02:00"
     },
     "title": "Послуги шкільних їдалень",
     "title_en": "Services in school canteens",
     "minimalStep": {
       "currency": "UAH",
-      "amount": 35
+      "amount": 10
     },
     "procurementMethodType": "competitiveDialogueEU",
     "value": {
@@ -62,8 +62,8 @@ DATA:
           "description": "Test"
         },
         "deliveryDate": {
-          "startDate": "2020-09-28T00:00:00+02:00",
-          "endDate": "2020-10-28T00:00:00+02:00"
+          "startDate": "2021-02-11T00:00:00+02:00",
+          "endDate": "2021-03-13T00:00:00+02:00"
         },
         "deliveryAddress": {
           "countryName": "Україна",
@@ -95,8 +95,8 @@ DATA:
         },
         "quantity": 1,
         "deliveryDate": {
-          "startDate": "2020-09-28T00:00:00+02:00",
-          "endDate": "2020-10-28T00:00:00+02:00"
+          "startDate": "2021-02-11T00:00:00+02:00",
+          "endDate": "2021-03-13T00:00:00+02:00"
         },
         "deliveryAddress": {
           "countryName": "Україна",
@@ -147,9 +147,9 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "title": "Послуги шкільних їдалень",
-    "date": "2020-09-08T01:00:00+03:00",
-    "dateModified": "2020-09-08T01:00:00+03:00",
-    "tenderID": "UA-2020-09-08-000001",
+    "date": "2021-01-22T00:00:00+02:00",
+    "dateModified": "2021-01-22T00:00:00+02:00",
+    "tenderID": "UA-2021-01-22-000001",
     "owner": "broker",
     "milestones": [
       {
@@ -186,19 +186,19 @@ X-Content-Type-Options: nosniff
       "valueAddedTaxIncluded": true
     },
     "minimalStep": {
-      "amount": 35.0,
+      "amount": 10.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
     "title_en": "Services in school canteens",
     "enquiryPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00",
-      "endDate": "2020-09-29T01:00:00+03:00",
-      "clarificationsUntil": "2020-10-03T00:00:00+03:00"
+      "startDate": "2021-01-22T00:00:00+02:00",
+      "endDate": "2021-02-12T00:00:00+02:00",
+      "clarificationsUntil": "2021-02-17T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00",
-      "endDate": "2020-10-09T01:00:00+03:00"
+      "startDate": "2021-01-22T00:00:00+02:00",
+      "endDate": "2021-02-22T00:00:00+02:00"
     },
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -226,7 +226,7 @@ X-Content-Type-Options: nosniff
       "kind": "general"
     },
     "procurementMethodType": "competitiveDialogueEU",
-    "status": "active.tendering",
+    "status": "draft",
     "items": [
       {
         "id": "e42036d668844a98a37eb8955f3d6a16",
@@ -249,8 +249,8 @@ X-Content-Type-Options: nosniff
           "id": "37810000-9"
         },
         "deliveryDate": {
-          "startDate": "2020-09-28T00:00:00+02:00",
-          "endDate": "2020-10-28T00:00:00+02:00"
+          "startDate": "2021-02-11T00:00:00+02:00",
+          "endDate": "2021-03-13T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -282,8 +282,8 @@ X-Content-Type-Options: nosniff
           "id": "37810000-9"
         },
         "deliveryDate": {
-          "startDate": "2020-09-28T00:00:00+02:00",
-          "endDate": "2020-10-28T00:00:00+02:00"
+          "startDate": "2021-02-11T00:00:00+02:00",
+          "endDate": "2021-03-13T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -297,10 +297,9 @@ X-Content-Type-Options: nosniff
     ],
     "mainProcurementCategory": "services",
     "id": "cce509cd3c324437829f34f6d4d074fb",
-    "next_check": "2020-10-09T01:00:00+03:00",
     "complaintPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00",
-      "endDate": "2020-10-05T00:00:00+03:00"
+      "startDate": "2021-01-22T00:00:00+02:00",
+      "endDate": "2021-02-18T00:00:00+02:00"
     }
   },
   "access": {

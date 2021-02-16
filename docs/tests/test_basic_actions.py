@@ -71,6 +71,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         tender = response.json['data']
         owner_token = response.json['access']['token']
         self.tender_id = tender['id']
+        self.set_status("active.tendering")
 
         with open(TARGET_DIR + 'complaints/claim-submission.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
@@ -424,6 +425,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         tender = response.json['data']
         owner_token = response.json['access']['token']
         self.tender_id = tender['id']
+        self.set_status("active.tendering")
 
         response = self.app.post_json(
             '/tenders/{}/bids'.format(self.tender_id),
@@ -868,6 +870,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         tender = response.json['data']
         owner_token = response.json['access']['token']
         self.tender_id = tender['id']
+        self.set_status("active.tendering")
 
         response = self.app.post_json(
             '/tenders/{}/bids'.format(self.tender_id),
@@ -1365,6 +1368,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         tender = response.json['data']
         owner_token = response.json['access']['token']
         self.tender_id = tender['id']
+        self.set_status("active.tendering")
 
         # Cancellation turn to complaint_period
         response = self.app.post_json(
@@ -1920,6 +1924,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         tender = response.json['data']
         owner_token = response.json['access']['token']
         self.tender_id = tender['id']
+        self.set_status("active.tendering")
 
         criteria_data = deepcopy(test_criteria[:2])
 
@@ -2158,6 +2163,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         tender = response.json['data']
         owner_token = response.json['access']['token']
         self.tender_id = tender['id']
+        self.set_status("active.tendering")
 
         criteria_data = deepcopy(test_criteria[6:8])
 
@@ -2399,6 +2405,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         tender = response.json['data']
         owner_token = response.json['access']['token']
         self.tender_id = tender['id']
+        self.set_status("active.tendering")
 
         criteria_data = deepcopy(test_criteria[6:8])
 
