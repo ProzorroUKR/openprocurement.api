@@ -983,11 +983,10 @@ def bids_invalidation_on_tender_change(self):
         response = self.app.post(
             "/tenders/{}/bids/{}/{}?acc_token={}".format(self.tender_id, bid_id, doc_resource, token),
             upload_files=[("file", "name_{}.doc".format(doc_resource[:-1]), b"content")],
-            status=403,
         )
-        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["errors"][0]["description"], "Can't add document at 'invalid' bid status")
+        # self.assertEqual(response.json["errors"][0]["description"], "Can't add document at 'invalid' bid status")
 
     # check that tender status change does not invalidate bids
     # submit one more bid. check for invalid value first
@@ -2787,21 +2786,17 @@ def patch_and_put_document_into_invalid_bid(self):
                     "confidentialityRationale": "Only our company sells badgers with pink hair.",
                 }
             },
-            status=403,
         )
-        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["errors"][0]["description"], "Can't update document at 'invalid' bid status")
         response = self.app.put(
             "/tenders/{}/bids/{}/{}/{}?acc_token={}".format(
                 self.tender_id, self.bid_id, doc_resource, doc_id, self.bid_token
             ),
             "updated",
             content_type="application/msword",
-            status=403,
         )
-        self.assertEqual(response.status, "403 Forbidden")
-        self.assertEqual(response.json["errors"][0]["description"], "Can't update document at 'invalid' bid status")
+        self.assertEqual(response.status, "200 OK")
 
 
 def download_tender_bidder_document(self):
