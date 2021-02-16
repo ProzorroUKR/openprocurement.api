@@ -1209,7 +1209,7 @@ class BidResponsesMixin(Model):
         all_answered_requirements = [i.requirement.id for i in requirementResponses]
 
         for criteria in tender.criteria:
-            if criteria.source != "tenderer":
+            if criteria.source != "tenderer" and criteria.classification.id != "CRITERION.OTHER.CONTRACT.GUARANTEE":
                 continue
             else:
                 if tender_created > CRITERION_REQUIREMENT_STATUSES_FROM:

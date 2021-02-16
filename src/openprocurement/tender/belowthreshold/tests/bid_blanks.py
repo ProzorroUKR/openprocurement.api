@@ -1039,7 +1039,7 @@ def patch_tender_bid_document(self):
 def create_tender_bid_document_nopending(self):
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_organization], "value": {"amount": 500}}},
+        {"data": {"requirementResponses": self.rr_data, "tenderers": [test_organization], "value": {"amount": 500}}},
     )
     bid = response.json["data"]
     token = response.json["access"]["token"]
@@ -1290,36 +1290,6 @@ def create_tender_bid_document_with_award_json(self):
         return
 
     self.app.authorization = ("Basic", ("token", ""))
-    criteria = deepcopy(test_criteria)
-    criterion = criteria[0]
-    criterion["classification"]["id"] = "CRITERION.OTHER.CONTRACT.GUARANTEE"
-    criterion["source"] = "winner"
-    self.set_status("draft")
-    response = self.app.post_json(
-        "/tenders/{}/criteria?acc_token=".format(self.tender_id, self.tender_token),
-        {"data": [criterion]},
-        status=201
-    )
-    requirement_id = response.json["data"][0]["requirementGroups"][0]["requirements"][0]["id"]
-    requirement_title = response.json["data"][0]["requirementGroups"][0]["requirements"][0]["title"]
-    rr_data = [{
-        "title": "Requirement response",
-        "description": "some description",
-        "requirement": {
-            "id": requirement_id,
-            "title": requirement_title,
-        },
-        "value": "True",
-    }]
-
-    response = self.app.post_json(
-        "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, self.bid_id, self.tender_token),
-        {"data": rr_data},
-        status=201,
-    )
-    response_id = response.json["data"][0]["id"]
-
-    self.set_status("active.tendering")
     response = self.app.post_json(
         "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
         {"data": {
@@ -1335,7 +1305,7 @@ def create_tender_bid_document_with_award_json(self):
 
     response = self.app.post_json(
         "/tenders/{}/bids/{}/requirement_responses/{}/evidences?acc_token={}".format(self.tender_id, self.bid_id,
-                                                                                     response_id,
+                                                                                     self.rr_guarantee_id,
                                                                                      self.bid_token),
         {"data": {
             "title": "Документальне підтвердження",
@@ -1388,7 +1358,7 @@ def create_tender_bid_document_with_award_json(self):
     doc_id = response.json["data"]["id"]
     self.app.post_json(
         "/tenders/{}/bids/{}/requirement_responses/{}/evidences?acc_token={}".format(self.tender_id, self.bid_id,
-                                                                                     response_id,
+                                                                                     self.rr_guarantee_id,
                                                                                      self.bid_token),
         {"data": {
             "title": "Документальне підтвердження",
@@ -1398,48 +1368,6 @@ def create_tender_bid_document_with_award_json(self):
                 "id": doc_id
             }
         }}, status=201
-    )
-
-
-def create_tender_bid_document_with_award_json_fail(self):
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    procurementMethodType = response.json["data"]["procurementMethodType"]
-    if procurementMethodType not in GUARANTEE_ALLOWED_TENDER_TYPES:
-        return
-
-    self.app.authorization = ("Basic", ("token", ""))
-    self.set_status("active.qualification")
-    response = self.app.post_json(
-        "/tenders/{}/awards".format(self.tender_id),
-        {"data": {
-            "suppliers": [test_organization],
-            "status": "pending",
-            "bid_id": self.bid_id,
-        }},
-    )
-    award = response.json["data"]
-    award_id = award["id"]
-    self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
-        {"data": {"status": "active"}}, status=200)
-
-    response = self.app.post_json(
-        "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
-        {"data": {
-            "title": "test.doc",
-            "url": self.generate_docservice_url(),
-            "format": "application/msword",
-            "documentType": "contractGuarantees",
-            "hash": "md5:" + "0" * 32
-        }},
-        status=403
-    )
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{u'description': u"Can't add document in current (active.awarded) tender status",
-          u'location': u'body',
-          u'name': u'data'}]
     )
 
 

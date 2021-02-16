@@ -283,6 +283,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
 
     periods = PERIODS
     tender_class = Tender
+    guarantee_criterion = None
     
     def create_tender(self):
         data = deepcopy(self.initial_data)
@@ -306,6 +307,18 @@ class BaseTenderWebTest(BaseCoreWebTest):
                 }
             )
             criteria = response.json["data"]
+        if self.guarantee_criterion:
+            criteria = deepcopy(test_criteria)
+            criterion = criteria[1]
+            criterion["classification"]["id"] = "CRITERION.OTHER.CONTRACT.GUARANTEE"
+            criterion["source"] = "winner"
+            self.app.post_json(
+                "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
+                {
+                    "data": [criterion]
+                },
+                status=201
+            )
 
         status = tender["status"]
         if self.initial_bids:
