@@ -53,7 +53,7 @@ def validate_view_bids_in_active_tendering(request, **kwargs):
 # bid documents
 def validate_bid_document_operation_in_bid_status(request, **kwargs):
     bid = request.validated["bid"]
-    if bid.status in ("invalid", "unsuccessful", "deleted"):
+    if bid.status in ("unsuccessful", "deleted"):
         raise_operation_error(
             request,
             "Can't {} document at '{}' bid status".format(
