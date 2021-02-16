@@ -303,7 +303,6 @@ def put_rg_requirement_valid(self):
     response = self.app.put_json(
         put_url.format(self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, self.tender_token),
         {"data": put_fields})
-    self.set_status("active.tendering")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 

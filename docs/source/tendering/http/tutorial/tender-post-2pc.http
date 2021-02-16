@@ -71,7 +71,7 @@ DATA:
       }
     ],
     "enquiryPeriod": {
-      "endDate": "2020-09-16T01:00:00+03:00"
+      "endDate": "2020-09-15T01:00:00+03:00"
     },
     "tenderPeriod": {
       "endDate": "2020-09-22T01:00:00+03:00"
@@ -189,10 +189,10 @@ X-Content-Type-Options: nosniff
     },
     "enquiryPeriod": {
       "startDate": "2020-09-08T01:00:00+03:00",
-      "endDate": "2020-09-16T01:00:00+03:00"
+      "endDate": "2020-09-15T01:00:00+03:00"
     },
     "tenderPeriod": {
-      "startDate": "2020-09-16T01:00:00+03:00",
+      "startDate": "2020-09-15T01:00:00+03:00",
       "endDate": "2020-09-22T01:00:00+03:00"
     },
     "procuringEntity": {
