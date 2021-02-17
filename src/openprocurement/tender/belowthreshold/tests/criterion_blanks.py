@@ -299,7 +299,6 @@ def put_rg_requirement_valid(self):
     self.assertEqual(response.content_type, "application/json")
     self.requirement_id = response.json["data"][0]["id"]
 
-    self.set_status("active.enquiries")
     response = self.app.put_json(
         put_url.format(self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, self.tender_token),
         {"data": put_fields})
