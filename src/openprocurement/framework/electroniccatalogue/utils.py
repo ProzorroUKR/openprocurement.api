@@ -15,6 +15,7 @@ from openprocurement.framework.core.utils import (
 )
 
 DAYS_TO_UNSUCCESSFUL_STATUS = 20
+CONTRACT_BAN_DURATION = 90
 AUTHORIZED_CPB = standards.load("organizations/authorized_cpb.json")
 
 
@@ -91,3 +92,18 @@ def check_status(request):
             )
             framework.status = "complete"
             return
+
+
+@acceleratable
+def calculate_milestone_dueDate(date_obj, framework=None):
+    date_obj = calc_normalized_datetime(date_obj, ceil=True)
+    return calc_datetime(date_obj, CONTRACT_BAN_DURATION)
+
+
+def create_milestone(milestone_type="activation", documents=[], framework=None):
+    milestone_data = {
+        "type": milestone_type,
+        "dueDate": None if milestone_type != "ban" else calculate_milestone_dueDate(framework=framework),
+        "documents": documents,
+    }
+    return milestone_data

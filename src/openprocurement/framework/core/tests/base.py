@@ -95,3 +95,8 @@ class BaseCoreWebTest(BaseWebTest):
 class BaseAgreementTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)
     docservice = False
+
+
+class BaseAgreementTest(BaseWebTest):
+    relative_to = os.path.dirname(__file__)
+    docservice = False

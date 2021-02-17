@@ -9,7 +9,7 @@ import standards
 from openprocurement.api.tests.base import BaseWebTest, change_auth
 from openprocurement.api.utils import get_now, apply_data_patch, parse_date
 from openprocurement.framework.core.tests.base import BaseCoreWebTest
-from openprocurement.framework.electroniccatalogue.models import ElectronicCatalogueFramework
+from openprocurement.framework.electroniccatalogue.models import Framework
 from openprocurement.framework.electroniccatalogue.tests.periods import PERIODS
 
 
@@ -138,7 +138,7 @@ class BaseApiWebTest(BaseWebTest):
 class BaseElectronicCatalogueWebTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = test_electronicCatalogue_data
-    framework_class = ElectronicCatalogueFramework
+    framework_class = Framework
     docservice = False
     periods = PERIODS
 

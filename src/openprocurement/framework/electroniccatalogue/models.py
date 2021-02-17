@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
+from uuid import uuid4
+
 from pyramid.security import Allow
 from schematics.exceptions import ValidationError
 from schematics.transforms import blacklist, whitelist
-from schematics.types import StringType, BaseType, EmailType, BooleanType
+from schematics.types import StringType, BaseType, EmailType, BooleanType, MD5Type
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 
@@ -18,12 +20,16 @@ from openprocurement.api.models import (
     ContactPoint as BaseContactPoint,
     schematics_embedded_role,
     schematics_default_role,
+    BusinessOrganization,
+    IsoDateTimeType,
 )
 from openprocurement.api.models import Model
+from openprocurement.api.utils import get_now
 from openprocurement.framework.core.models import (
-    Framework,
+    Framework as BaseFramework,
     Submission as BaseSubmission,
     Qualification as BaseQualification,
+    Agreement as BaseAgreement,
 )
 from openprocurement.framework.electroniccatalogue.utils import (
     AUTHORIZED_CPB,
@@ -80,9 +86,8 @@ class CentralProcuringEntity(Model):
             raise ValidationError("Can't create framework for inactive cpb")
 
 
-class ElectronicCatalogueFramework(Framework):
+class Framework(BaseFramework):
     class Options:
-        namespace = "Framework"
         _status_view_role = blacklist(
             "doc_type",
             "successful",
@@ -163,6 +168,7 @@ class ElectronicCatalogueFramework(Framework):
     classification = ModelType(DKClassification, required=True)
     additionalClassifications = ListType(ModelType(BaseClassification))
     documents = ListType(ModelType(Document, required=True), default=list())
+    agreementID = StringType()
 
     successful = BooleanType(required=True, default=False)
 
@@ -182,7 +188,7 @@ class ElectronicCatalogueFramework(Framework):
         return min(checks).isoformat() if checks else None
 
     def __acl__(self):
-        acl = super(ElectronicCatalogueFramework, self).__acl__()
+        acl = super(Framework, self).__acl__()
         acl.append((Allow, "{}_{}".format(self.owner, self.owner_token), "upload_framework_documents"))
         return acl
 
@@ -213,3 +219,57 @@ class Qualification(BaseQualification):
     )
 
     qualificationType = StringType(default="electronicCatalogue", required=True)
+
+
+class Milestone(Model):
+
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    type = StringType(required=True, choices=["activation", "ban", "disqualification"])
+    dueDate = IsoDateTimeType()
+    documents = ListType(ModelType(Document, required=True), default=list())
+    dateModified = IsoDateTimeType(default=get_now)
+
+
+class Contract(Model):
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    qualificationID = StringType()
+    status = StringType(choices=["active", "banned", "unsuccessful", "terminated"])
+    suppliers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1,)
+    milestones = ListType(ModelType(Milestone, required=True), required=True, min_size=1,)
+    date = IsoDateTimeType(default=get_now)
+
+
+class Agreement(BaseAgreement):
+    class Options:
+        roles = {
+            "view": blacklist("doc_type", "transfer_token", "owner_token", "revisions", "_id", "_rev", "__parent__",),
+            "plain": blacklist(  # is used for getting patches
+                "_attachments", "revisions", "dateModified", "_id", "_rev", "doc_type", "__parent__"
+            ),
+            "default": blacklist("doc_id", "__parent__"),  # obj.store() use default role
+        }
+
+    agreementType = StringType(default="electronicCatalogue")
+    frameworkID = StringType()
+    period = ModelType(BasePeriodEndRequired)
+    procuringEntity = ModelType(CentralProcuringEntity, required=True)
+    classification = ModelType(DKClassification, required=True)
+    additionalClassifications = ListType(ModelType(BaseClassification))
+    contracts = ListType(ModelType(Contract, required=True), default=list())
+
+    @serializable(serialized_name="id")
+    def doc_id(self):
+        """A property that is serialized by schematics exports."""
+        return self._id
+
+    @serializable(serialize_when_none=False)
+    def next_check(self):
+        checks = []
+        if self.status == "active":
+            milestone_dueDates = [
+                milestone.dueDate for contract in self.contracts for milestone in contract.milestones if milestone.dueDate
+            ]
+            if milestone_dueDates:
+                checks.append(min(milestone_dueDates))
+            checks.append(self.period.endDate)
+        return min(checks).isoformat() if checks else None

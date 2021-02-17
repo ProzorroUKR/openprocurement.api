@@ -11,6 +11,7 @@ class Root(object):
         (Allow, Everyone, "view_listing"),
         (Allow, Everyone, "view_framework"),
         (Allow, Everyone, "view_submission"),
+        (Allow, Everyone, "view_agreement"),
         (Allow, "g:brokers", "create_framework"),
         (Allow, "g:chronograph", "edit_framework"),
         (Allow, "g:framework_owner", "edit_framework"),
@@ -28,8 +29,6 @@ class Root(object):
         (Allow, "g:Administrator", "edit_qualification"),
         (Allow, "g:admins", ALL_PERMISSIONS),
         # Agreement permissions
-        (Allow, Everyone, "view_listing"),
-        (Allow, Everyone, "view_agreement"),
         (Allow, "g:agreements", "create_agreement"),
         (Allow, "g:Administrator", "edit_agreement"),
         (Allow, "g:admins", ALL_PERMISSIONS),

@@ -8,8 +8,9 @@ from openprocurement.api.validation import (
     validate_data,
     validate_doc_accreditation_level_mode,
 )
-from openprocurement.framework.core.utils import get_framework_by_id, get_submission_by_id
+from openprocurement.framework.core.utils import get_framework_by_id, get_submission_by_id, get_agreement_by_id
 from openprocurement.framework.core.design import submissions_active_by_framework_id_count_view
+from openprocurement.framework.electroniccatalogue.models import Framework, Agreement
 
 
 def validate_framework_accreditation_level_central(request, model):
@@ -28,7 +29,14 @@ def validate_framework_data(request, **kwargs):
 
 def validate_patch_framework_data(request, **kwargs):
     data = validate_json_data(request)
-    return validate_data(request, type(request.framework), True, data)
+    data = validate_data(request, type(request.framework), True, data)
+    framework = request.validated["framework"]
+    if framework.agreementID:
+        agreement = get_agreement_by_id(request.registry.db, framework.agreementID)
+        request.validated["agreement_src"] = agreement
+        request.validated["agreement"] = Agreement(agreement)
+        request.validated["agreement"].__parent__ = framework.__parent__
+    return data
 
 
 def validate_framework_patch_status(request, allowed_statuses=["draft"]):
@@ -166,6 +174,17 @@ def validate_qualification_data(request, **kwargs):
 
 def validate_patch_qualification_data(request, **kwargs):
     data = validate_json_data(request)
+    qualification = request.validated["qualification"]
+    framework_id = data.get("frameworkID", qualification["frameworkID"])
+    framework = get_framework_by_id(request.registry.db, framework_id)
+    if not framework:
+        raise_operation_error(
+            request,
+            "frameworkID must be one of existing frameworks",
+        )
+    request.validated["framework_src"] = framework
+    request.validated["framework"] = Framework(framework)
+    request.validated["framework"].__parent__ = qualification.__parent__
     return validate_data(request, type(request.qualification), True, data)
 
 

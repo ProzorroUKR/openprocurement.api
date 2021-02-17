@@ -17,6 +17,8 @@ from openprocurement.framework.electroniccatalogue.validation import (
     validate_qualification_period_duration
 )
 
+AGREEMENT_DEPENDENT_FIELDS = ("qualificationPeriod", "procuringEntity")
+
 
 @frameworksresource(
     name="electronicCatalogue:Frameworks",
@@ -220,7 +222,30 @@ class FrameworkResource(APIResource):
                 validate_qualification_period_duration(self.request, model)
 
             apply_patch(self.request, src=self.request.validated["framework_src"], obj_name="framework")
+
+            if (
+                    any([f in self.request.validated["json_data"] for f in AGREEMENT_DEPENDENT_FIELDS])
+                    and framework.agreementID
+            ):
+                self.update_agreement()
+
         self.LOGGER.info("Updated framework {}".format(framework.id),
                          extra=context_unpack(self.request, {"MESSAGE_ID": "framework_patch"}))
         # TODO: Change to chronograph_view for chronograph
         return {"data": framework.serialize(framework.status)}
+
+    def update_agreement(self):
+        framework = self.request.validated["framework"]
+
+        updated_agreement_data = {
+            "period": {
+                "startDate": self.request.validated["agreement_src"]["period"]["startDate"],
+                "endDate": framework.qualificationPeriod.endDate.isoformat()
+            },
+            "procuringEntity": framework.procuringEntity
+        }
+        apply_patch(
+            self.request, src=self.request.validated["agreement_src"], data=updated_agreement_data, obj_name="agreement"
+        )
+        self.LOGGER.info("Updated agreement {}".format(self.request.validated["agreement_src"]["id"]),
+                         extra=context_unpack(self.request, {"MESSAGE_ID": "framework_patch"}))
