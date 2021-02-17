@@ -26,6 +26,8 @@ from openprocurement.api.constants import (
     MINIMAL_STEP_VALIDATION_FROM,
     CRITERION_REQUIREMENT_STATUSES_FROM,
     RELEASE_SIMPLE_DEFENSE_FROM,
+    RELEASE_GUARANTEE_CRITERION_FROM,
+    GUARANTEE_ALLOWED_TENDER_TYPES,
 )
 from openprocurement.api.utils import (
     get_now,
@@ -39,6 +41,7 @@ from openprocurement.api.utils import (
     handle_data_exceptions,
     get_first_revision_date,
     get_root,
+    get_criterion_requirement,
 )
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF, FIRST_STAGE_PROCUREMENT_TYPES
 from openprocurement.tender.core.utils import (
@@ -941,6 +944,42 @@ def validate_tender_activate_with_language_criteria(request, **kwargs):
         raise_operation_error(request, "Tender must contain {} criterion".format(needed_criterion))
 
 
+def validate_tender_guarantee(request, **kwargs):
+    tender = request.validated["tender"]
+    data = request.validated["data"]
+    tender_type = tender.procurementMethodType
+    tender_created = get_first_revision_date(tender, default=get_now())
+
+    if (
+            tender_created < RELEASE_GUARANTEE_CRITERION_FROM
+            or tender_type not in GUARANTEE_ALLOWED_TENDER_TYPES
+            or request.validated["tender_src"]["status"] == data.get("status")
+            or data.get("status") not in ["active", "active.tendering"]
+    ):
+        return
+
+    amount = 1
+    if tender.get("lots"):
+        for lot in tender.lots:
+            guarantee = lot.get("guarantee", {})
+            if guarantee and guarantee.get("amount", 0) <= 0:
+                amount = -1
+                break
+    else:
+        amount = data["guarantee"]["amount"] if data.get("guarantee") else -1
+    needed_criterion = "CRITERION.OTHER.BID.GUARANTEE"
+    tender_criteria = [criterion.classification.id for criterion in tender.criteria if criterion.classification]
+
+    if (
+            (amount <= 0 and needed_criterion in tender_criteria)
+            or (amount > 0 and needed_criterion not in tender_criteria)
+    ):
+        raise_operation_error(
+            request,
+            "Should be specified {} and 'guarantee.amount' more than 0".format(needed_criterion)
+        )
+
+
 def validate_tender_status_update_not_in_pre_qualificaton(request, **kwargs):
     tender = request.context
     data = request.validated["data"]
@@ -1087,7 +1126,31 @@ def validate_view_bid_document(request, **kwargs):
 
 
 def validate_bid_document_operation_in_not_allowed_tender_status(request, **kwargs):
-    if request.validated["tender_status"] not in ["active.tendering", "active.qualification"]:
+    tender = request.validated["tender"]
+
+    if (
+            request.validated["tender_status"] == "active.awarded"
+            and tender.procurementMethodType in GUARANTEE_ALLOWED_TENDER_TYPES
+    ):
+        bid_id = request.validated["bid_id"]
+        criteria = tender["criteria"]
+        awards = tender["awards"]
+        data = request.validated.get("data", {})
+
+        bid_with_active_award = any([award.status == "active" and award.bid_id == bid_id for award in awards])
+        doc_type = data.get("documentType", "") == "contractGuarantees"
+        needed_criterion = any(
+            [criterion.classification.id == "CRITERION.OTHER.CONTRACT.GUARANTEE" for criterion in criteria]
+        )
+        if not all([doc_type, needed_criterion, bid_with_active_award]):
+            raise_operation_error(
+                request,
+                "Can't {} document in current ({}) tender status".format(
+                    OPERATIONS.get(request.method), request.validated["tender_status"]
+                ),
+            )
+
+    elif request.validated["tender_status"] not in ["active.tendering", "active.qualification"]:
         raise_operation_error(
             request,
             "Can't {} document in current ({}) tender status".format(
@@ -1856,6 +1919,42 @@ def validate_operation_ecriteria_objects(request, **kwargs):
     base_validate_operation_ecriteria_objects(request, valid_statuses)
 
 
+def validate_operation_ecriteria_objects_evidences(request, **kwargs):
+    valid_statuses = ["draft", "draft.pending", "draft.stage2", "active.tendering"]
+
+    tender = request.validated["tender"]
+    requirement_id = request.validated["requirement_response"]["requirement"]["id"]
+    criterion = get_criterion_requirement(tender, requirement_id)
+    guarantee_criterion = "CRITERION.OTHER.CONTRACT.GUARANTEE"
+
+    if criterion and criterion.classification.id.startswith(guarantee_criterion):
+        awarded_status = ["active.awarded", "active.qualification"]
+        valid_statuses.extend(awarded_status)
+        if tender["status"] not in awarded_status:
+            raise_operation_error(request, "available only in {} statuses".format(awarded_status))
+
+        bid_id = request.validated["bid"]["id"]
+        active_award = None
+        for award in tender.awards:
+            if award.status == "active":
+                active_award = award
+                break
+
+        if active_award is None or active_award.bid_id != bid_id:
+            raise_operation_error(request, "available only with active award".format(guarantee_criterion))
+
+        contracts = tender.contracts
+        current_contract = None
+        for contract in contracts:
+            if contract.get("awardId") == active_award.id:
+                current_contract = contract
+                break
+        if current_contract and current_contract.status == "pending":
+            raise_operation_error(request, "forbidden edit if contract not in status `pending`")
+
+    base_validate_operation_ecriteria_objects(request, valid_statuses)
+
+
 def validate_change_requirement_objects(request, **kwargs):
     valid_statuses = ["draft", "draft.pending", "draft.stage2"]
     tender = request.validated["tender"]
@@ -1900,8 +1999,8 @@ def validate_view_requirement_responses(request, **kwargs):
 def validate_operation_award_requirement_response(request, **kwargs):
     _validate_tender_first_revision_date(request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
     valid_tender_statuses = ["active.qualification"]
+
     base_validate_operation_ecriteria_objects(request, valid_tender_statuses)
-    base_validate_operation_ecriteria_objects(request, ["pending"], "award")
 
 
 def validate_operation_qualification_requirement_response(request, **kwargs):

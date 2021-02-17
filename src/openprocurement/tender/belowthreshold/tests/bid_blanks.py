@@ -4,7 +4,12 @@ import mock
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_organization, set_bid_lotvalues
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_organization,
+    set_bid_lotvalues,
+    test_criteria,
+    GUARANTEE_ALLOWED_TENDER_TYPES,
+)
 
 
 # TenderBidResourceTest
@@ -1034,7 +1039,7 @@ def patch_tender_bid_document(self):
 def create_tender_bid_document_nopending(self):
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_organization], "value": {"amount": 500}}},
+        {"data": {"requirementResponses": self.rr_data, "tenderers": [test_organization], "value": {"amount": 500}}},
     )
     bid = response.json["data"]
     token = response.json["access"]["token"]
@@ -1276,6 +1281,94 @@ def create_tender_bid_document_json_bulk(self):
     doc_2 = response.json["data"][1]
     assert_document(doc_1, "name1.doc")
     assert_document(doc_2, "name2.doc")
+
+
+def create_tender_bid_document_with_award_json(self):
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    procurementMethodType = response.json["data"]["procurementMethodType"]
+    if procurementMethodType not in GUARANTEE_ALLOWED_TENDER_TYPES:
+        return
+
+    self.app.authorization = ("Basic", ("token", ""))
+    response = self.app.post_json(
+        "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+        {"data": {
+            "title": "test.doc",
+            "url": self.generate_docservice_url(),
+            "format": "application/msword",
+            "documentType": "biddingDocuments",
+            "hash": "md5:" + "0" * 32
+        }},
+        status=201
+    )
+    doc_id = response.json["data"]["id"]
+
+    response = self.app.post_json(
+        "/tenders/{}/bids/{}/requirement_responses/{}/evidences?acc_token={}".format(self.tender_id, self.bid_id,
+                                                                                     self.rr_guarantee_id,
+                                                                                     self.bid_token),
+        {"data": {
+            "title": "Документальне підтвердження",
+            "description": "Довідка в довільній формі",
+            "type": "document",
+            "relatedDocument": {
+                "id": doc_id,
+                "title": "test.doc"
+            },
+        }}, status=403
+    )
+
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(response.json["errors"], [
+        {
+            "location": "body",
+            "name": "data",
+            "description": "available only in ['active.awarded', 'active.qualification'] statuses"
+        }
+    ])
+
+    self.set_status("active.qualification")
+    response = self.app.post_json(
+        "/tenders/{}/awards".format(self.tender_id),
+        {"data": {
+            "suppliers": [test_organization],
+            "status": "pending",
+            "bid_id": self.bid_id,
+        }},
+    )
+    award = response.json["data"]
+    award_id = award["id"]
+    self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
+        {"data": {"status": "active"}}, status=200)
+
+    response = self.app.post_json(
+        "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+        {"data": {
+            "title": "test.doc",
+            "url": self.generate_docservice_url(),
+            "format": "application/msword",
+            "documentType": "contractGuarantees",
+            "hash": "md5:" + "0" * 32
+        }},
+        status=201
+    )
+    self.assertEqual(response.json["data"]["documentType"], "contractGuarantees")
+
+    doc_id = response.json["data"]["id"]
+    self.app.post_json(
+        "/tenders/{}/bids/{}/requirement_responses/{}/evidences?acc_token={}".format(self.tender_id, self.bid_id,
+                                                                                     self.rr_guarantee_id,
+                                                                                     self.bid_token),
+        {"data": {
+            "title": "Документальне підтвердження",
+            "description": "Довідка в довільній формі",
+            "type": "document",
+            "relatedDocument": {
+                "id": doc_id
+            }
+        }}, status=201
+    )
 
 
 def put_tender_bid_document_json(self):

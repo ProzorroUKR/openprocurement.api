@@ -39,6 +39,7 @@ from openprocurement.api.utils import (
     get_root,
     get_uah_amount_from_value,
     get_particular_parent,
+    get_criterion_requirement,
 )
 from openprocurement.api.constants import (
     SANDBOX_MODE,
@@ -53,6 +54,8 @@ from openprocurement.api.constants import (
     CPV_ITEMS_CLASS_FROM,
     RELEASE_ECRITERIA_ARTICLE_17,
     CRITERION_REQUIREMENT_STATUSES_FROM,
+    RELEASE_GUARANTEE_CRITERION_FROM,
+    GUARANTEE_ALLOWED_TENDER_TYPES,
 )
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
 
@@ -867,6 +870,19 @@ class RequirementGroup(Model):
 class CriterionClassification(BaseClassification):
     description = StringType()
 
+    def validate_id(self, data, code):
+        parent = data["__parent__"]
+        tender = get_tender(parent)
+        tender_created = get_first_revision_date(tender, default=get_now())
+        criteria_to_check = ("CRITERION.OTHER.CONTRACT.GUARANTEE", "CRITERION.OTHER.BID.GUARANTEE")
+
+        if (
+                tender_created >= RELEASE_GUARANTEE_CRITERION_FROM
+                and code in criteria_to_check
+                and tender.procurementMethodType not in GUARANTEE_ALLOWED_TENDER_TYPES
+        ):
+            raise ValidationError(u"{} is available only in {}".format(code, GUARANTEE_ALLOWED_TENDER_TYPES))
+
 
 class Criterion(Model):
     class Options:
@@ -985,6 +1001,21 @@ class RequirementResponse(Model):
                 raise ValidationError("relatedTenderer should be one of bid tenderers")
 
     @bids_response_validation_wrapper
+    def validate_evidences(self, data, evidences):
+        if not evidences:
+            return
+        parent = data["__parent__"]
+        tender = get_tender(parent)
+        guarantee_criterion = "CRITERION.OTHER.CONTRACT.GUARANTEE"
+        criterion = get_criterion_requirement(tender, data["requirement"].id)
+
+        if criterion and criterion.classification.id.startswith(guarantee_criterion) and isinstance(parent, Bid):
+            valid_statuses = ["active.awarded", "active.qualification"]
+            if tender["status"] not in valid_statuses:
+                raise ValidationError("available only in {} status".format(valid_statuses))
+
+
+    @bids_response_validation_wrapper
     def validate_requirement(self, data, requirement_ref):
         parent = data["__parent__"]
         requirement_ref_id = requirement_ref.get("id")
@@ -998,6 +1029,7 @@ class RequirementResponse(Model):
         source_map = {
             "procuringEntity": (BaseAward, QualificationMilestoneListMixin),
             "tenderer": Bid,
+            "winner": Bid,
         }
         available_parents = source_map.get(criterion.source)
         if available_parents and not isinstance(parent, available_parents):

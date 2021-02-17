@@ -26,6 +26,9 @@ SANDBOX_MODE = os.environ.get("SANDBOX_MODE", False)
 DOCUMENT_BLACKLISTED_FIELDS = ("title", "format", "url", "dateModified", "hash")
 DOCUMENT_WHITELISTED_FIELDS = ("id", "datePublished", "author", "__parent__")
 
+# Tenders in which could be used criteria connected with guarantee
+GUARANTEE_ALLOWED_TENDER_TYPES = ("belowThreshold", "aboveThresholdUA", "aboveThresholdEU", "esco")
+
 WORKING_DAYS = {}
 HOLIDAYS = standards.load("calendars/workdays_off.json")
 for date_str in HOLIDAYS:
@@ -176,3 +179,6 @@ NEW_DEFENSE_COMPLAINTS_TO = get_constant(CONSTANTS_CONFIG, "NEW_DEFENSE_COMPLAIN
 
 # CS-8981 award claims restricted in openuadefense
 NO_DEFENSE_AWARD_CLAIMS_FROM = get_constant(CONSTANTS_CONFIG, "NO_DEFENSE_AWARD_CLAIMS_FROM")
+
+# CS-9327 guarantee support
+RELEASE_GUARANTEE_CRITERION_FROM = get_constant(CONSTANTS_CONFIG, "RELEASE_GUARANTEE_CRITERION_FROM")

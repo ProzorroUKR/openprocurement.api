@@ -3,7 +3,7 @@ from openprocurement.api.utils import json_view
 from openprocurement.tender.core.validation import (
     validate_evidence_data,
     validate_patch_evidence_data,
-    validate_operation_ecriteria_objects,
+    validate_operation_ecriteria_objects_evidences,
     validate_view_requirement_responses,
 )
 from openprocurement.tender.core.views.requirement_response_evidence import BaseRequirementResponseEvidenceResource
@@ -18,7 +18,7 @@ class BaseBidRequirementResponseEvidenceResource(BaseRequirementResponseEvidence
     @json_view(
         content_type="application/json",
         validators=(
-            validate_operation_ecriteria_objects,
+            validate_operation_ecriteria_objects_evidences,
             validate_evidence_data,
         ),
         permission="edit_bid",
@@ -37,7 +37,7 @@ class BaseBidRequirementResponseEvidenceResource(BaseRequirementResponseEvidence
     @json_view(
         content_type="application/json",
         validators=(
-            validate_operation_ecriteria_objects,
+            validate_operation_ecriteria_objects_evidences,
             validate_patch_evidence_data,
         ),
         permission="edit_bid",
@@ -47,7 +47,7 @@ class BaseBidRequirementResponseEvidenceResource(BaseRequirementResponseEvidence
 
     @json_view(
         validators=(
-            validate_operation_ecriteria_objects,
+            validate_operation_ecriteria_objects_evidences,
         ),
         permission="edit_bid",
     )

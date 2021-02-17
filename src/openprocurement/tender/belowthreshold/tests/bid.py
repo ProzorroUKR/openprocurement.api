@@ -34,6 +34,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_document_json,
     create_tender_bid_document_json_bulk,
     put_tender_bid_document_json,
+    create_tender_bid_document_with_award_json,
     # TenderBidBatchDocumentWithDSResourceTest
     create_tender_bid_with_document_invalid,
     create_tender_bid_with_document,
@@ -81,17 +82,40 @@ class TenderBidFeaturesResourceTest(TenderContentWebTest):
 
 class TenderBidDocumentResourceTest(TenderContentWebTest):
     initial_status = "active.tendering"
+    guarantee_criterion = True
 
     def setUp(self):
         super(TenderBidDocumentResourceTest, self).setUp()
         # Create bid
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
-            {"data": {"tenderers": [test_organization], "value": {"amount": 500}}},
+            {"data": {"status": "draft", "tenderers": [test_organization], "value": {"amount": 500}}},
         )
         bid = response.json["data"]
         self.bid_id = bid["id"]
         self.bid_token = response.json["access"]["token"]
+
+        requirement = self.app.get("/tenders/{}".format(self.tender_id)).json["data"]["criteria"][0]["requirementGroups"][0]["requirements"][0]
+
+        self.rr_data = [{
+            "title": "Requirement response",
+            "description": "some description",
+            "requirement": {
+                "id": requirement["id"],
+                "title": requirement["title"],
+            },
+            "value": "True",
+        }]
+
+        response = self.app.post_json(
+            "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+            {"data": self.rr_data},
+        )
+
+        self.rr_guarantee_id = response.json["data"][0]["id"]
+        self.app.patch_json("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+                            {"data": {"status": "active"}}
+                            )
 
     test_not_found = snitch(not_found)
     test_create_tender_bid_document = snitch(create_tender_bid_document)
@@ -106,6 +130,7 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
     test_create_tender_bid_document_json = snitch(create_tender_bid_document_json)
     test_create_tender_bid_document_json_bulk = snitch(create_tender_bid_document_json_bulk)
     test_put_tender_bid_document_json = snitch(put_tender_bid_document_json)
+    test_create_tender_bid_document_with_award_json = snitch(create_tender_bid_document_with_award_json)
 
 
 class TenderBidBatchDocumentWithDSResourceTest(TenderContentWebTest):
