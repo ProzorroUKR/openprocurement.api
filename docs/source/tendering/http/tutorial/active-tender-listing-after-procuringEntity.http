@@ -1,0 +1,21 @@
+GET /api/2.5/tenders?opt_pretty=1 HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+{
+  "data": [
+    {
+      "id": "4826290bfb064165b70a94d71e93a63b",
+      "dateModified": "2021-01-22T00:00:00+02:00"
+    }
+  ],
+  "next_page": {
+    "offset": "2021-01-22T00:00:00+02:00",
+    "path": "/api/2.5/tenders?offset=2021-01-22T00%3A00%3A00%2B02%3A00",
+    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders?offset=2021-01-22T00%3A00%3A00%2B02%3A00"
+  }
+}
+

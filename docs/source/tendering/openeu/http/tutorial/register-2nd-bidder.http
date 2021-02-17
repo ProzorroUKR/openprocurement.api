@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 802
+Content-Length: 821
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -32,7 +32,8 @@ DATA:
     "value": {
       "amount": 499
     },
-    "selfQualified": true
+    "selfQualified": true,
+    "status": "draft"
   }
 }
 
@@ -65,7 +66,7 @@ X-Content-Type-Options: nosniff
         "scale": "sme"
       }
     ],
-    "date": "2020-09-08T01:00:00+03:00",
+    "date": "2021-01-22T00:00:00+02:00",
     "id": "fc8e2476624d4425ac818176664ccdd0",
     "value": {
       "amount": 499.0,
@@ -73,7 +74,7 @@ X-Content-Type-Options: nosniff
       "valueAddedTaxIncluded": true
     },
     "selfQualified": true,
-    "status": "pending"
+    "status": "draft"
   },
   "access": {
     "token": "9b28879d9dd2400fbaa84969d33ba7b4",

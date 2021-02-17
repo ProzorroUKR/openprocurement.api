@@ -7,13 +7,13 @@ DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2020-10-09T00:00:00+02:00"
+      "endDate": "2021-02-22T00:00:00+02:00"
     },
     "title": "Послуги шкільних їдалень",
     "title_en": "Services in school canteens",
     "minimalStep": {
       "currency": "UAH",
-      "amount": 35
+      "amount": 10
     },
     "procurementMethodType": "aboveThresholdEU",
     "value": {
@@ -62,8 +62,8 @@ DATA:
           "description": "Test"
         },
         "deliveryDate": {
-          "startDate": "2020-09-28T00:00:00+02:00",
-          "endDate": "2020-10-28T00:00:00+02:00"
+          "startDate": "2021-02-11T00:00:00+02:00",
+          "endDate": "2021-03-13T00:00:00+02:00"
         },
         "deliveryAddress": {
           "countryName": "Україна",
@@ -91,8 +91,8 @@ DATA:
         },
         "quantity": 1,
         "deliveryDate": {
-          "startDate": "2020-09-28T00:00:00+02:00",
-          "endDate": "2020-10-28T00:00:00+02:00"
+          "startDate": "2021-02-11T00:00:00+02:00",
+          "endDate": "2021-03-13T00:00:00+02:00"
         },
         "deliveryAddress": {
           "countryName": "Україна",

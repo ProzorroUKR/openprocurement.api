@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 3974
+Content-Length: 3979
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -37,7 +37,7 @@ DATA:
     ],
     "owner": "broker",
     "procurementMethod": "limited",
-    "procurementMethodType": "negotiation",
+    "procurementMethodType": "negotiation.quick",
     "status": "active",
     "procuringEntity": {
       "kind": "special",
@@ -63,7 +63,7 @@ DATA:
     "value": {
       "amount": 500000,
       "currency": "UAH",
-      "valueAddedTaxIncluded": false
+      "valueAddedTaxIncluded": true
     },
     "title": "Послуги шкільних їдалень",
     "title_en": "Services in school canteens",
@@ -148,7 +148,7 @@ X-Content-Type-Options: nosniff
     "value": {
       "amount": 500000.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": false
+      "valueAddedTaxIncluded": true
     },
     "procurementMethod": "limited",
     "procuringEntity": {
@@ -203,11 +203,11 @@ X-Content-Type-Options: nosniff
         }
       }
     ],
-    "cause": "twiceUnsuccessful",
     "causeDescription": "оригінальний тендер не вдався двічі",
     "causeDescription_en": "original tender has failed twice",
     "causeDescription_ru": "оригинальный тендер не получился дважды",
-    "procurementMethodType": "negotiation",
+    "cause": "twiceUnsuccessful",
+    "procurementMethodType": "negotiation.quick",
     "id": "6fc7b4a587f847fcb61cdc861ce4d752"
   },
   "access": {

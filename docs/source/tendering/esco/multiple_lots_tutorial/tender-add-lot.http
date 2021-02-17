@@ -30,6 +30,9 @@ X-Content-Type-Options: nosniff
       "valueAddedTaxIncluded": true
     },
     "minimalStepPercentage": 0.006,
+    "auctionPeriod": {
+      "shouldStartAfter": "2021-03-29T00:00:00+02:00"
+    },
     "fundingKind": "other",
     "yearlyPaymentsPercentageRange": 0.8
   }

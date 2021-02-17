@@ -64,12 +64,16 @@ X-Content-Type-Options: nosniff
     },
     "enquiryPeriod": {
       "startDate": "2021-01-22T00:00:00+02:00",
-      "endDate": "2021-02-12T00:00:00+02:00",
-      "clarificationsUntil": "2021-02-16T00:00:00+02:00"
+      "endDate": "2021-02-03T00:00:00+02:00",
+      "clarificationsUntil": "2021-02-05T00:00:00+02:00",
+      "invalidationDate": "2021-01-22T00:00:00+02:00"
     },
     "tenderPeriod": {
       "startDate": "2021-01-22T00:00:00+02:00",
       "endDate": "2021-02-07T00:00:00+02:00"
+    },
+    "auctionPeriod": {
+      "shouldStartAfter": "2021-02-07T00:00:00+02:00"
     },
     "items": [
       {
@@ -101,7 +105,7 @@ X-Content-Type-Options: nosniff
         }
       }
     ],
-    "status": "draft",
+    "status": "active.tendering",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "identifier": {
@@ -125,6 +129,7 @@ X-Content-Type-Options: nosniff
     },
     "procurementMethodType": "aboveThresholdUA.defense",
     "id": "f8aae737ac8f4d34a52254e2f3416505",
+    "next_check": "2021-02-07T00:00:00+02:00",
     "complaintPeriod": {
       "startDate": "2021-01-22T00:00:00+02:00",
       "endDate": "2021-02-04T00:00:00+02:00"

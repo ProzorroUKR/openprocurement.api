@@ -30,7 +30,7 @@ X-Content-Type-Options: nosniff
     "value": {
       "amount": 500000.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": false
+      "valueAddedTaxIncluded": true
     }
   }
 }

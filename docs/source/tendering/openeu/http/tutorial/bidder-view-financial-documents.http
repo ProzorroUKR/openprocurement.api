@@ -30,13 +30,125 @@ X-Content-Type-Options: nosniff
         "scale": "micro"
       }
     ],
-    "date": "2020-09-08T01:00:00+03:00",
+    "date": "2021-01-22T00:00:00+02:00",
     "id": "c48ab04ff9f84430ad5a724b31b56f19",
     "value": {
       "amount": 500.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
+    "requirementResponses": [
+      {
+        "id": "5e5e3555dc0c45228dcd1dff388b45ff",
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+          "id": "453a0ea0ec004d82b812ea55f723be78",
+          "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
+        },
+        "value": "True"
+      },
+      {
+        "id": "7f38466bd97c4623ba7521a1de14ec90",
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+          "id": "2e23ea3e6c6745ae9c550b201790848f",
+          "title": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів"
+        },
+        "value": "True"
+      },
+      {
+        "id": "4762838c127e479aa162767bb74429b7",
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+          "id": "be1628db3f8546d4851a3e01a29363fd",
+          "title": "Відомості про юридичну особу, яка є учасником процедури закупівлі, не внесено до Єдиного державного реєстру осіб, які вчинили корупційні або пов'язані з корупцією правопорушення"
+        },
+        "value": "True"
+      },
+      {
+        "id": "bee9512268124d738eb250cdd4806254",
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+          "id": "21c176f46364481c8a4477d2fdebdf95",
+          "title": "Службову (посадову) особу учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, не було притягнуто згідно із законом до відповідальності за вчинення корупційного правопорушення або правопорушення, пов'язаного з корупцією"
+        },
+        "value": "True"
+      },
+      {
+        "id": "9905881d6661498e8bcb57b6ee8d6adb",
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+          "id": "291698c3901f4b22910a440d5ae96f6c",
+          "title": "Службова (посадова) особа учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, не було притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов'язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми"
+        },
+        "value": "True"
+      },
+      {
+        "id": "71e816211a3849b09a75a27552356ea2",
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+          "id": "3d7bfc86fcb34c399744c3bcd91037a2",
+          "title": "Він не має заборгованості зі сплати податків і зборів (обов'язкових платежів)"
+        },
+        "value": "True"
+      },
+      {
+        "id": "efc23946536949caab4e7877400d0ee8",
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+          "id": "5a18753a75bf4a23a74dfe4e7045ab83",
+          "title": "Учасник процедури закупівлі не визнаний у встановленому законом порядку банкрутом та стосовно нього не відкрита ліквідаційна процедура"
+        },
+        "value": "True"
+      },
+      {
+        "id": "8b6636f170f141eaa48333c3675dca96",
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+          "id": "4d4da113e25442998cb0377d7f420747",
+          "title": "У Єдиному державному реєстрі юридичних осіб, фізичних осіб - підприємців та громадських формувань присутня інформація, передбачена пунктом 9 частини другої статті 9 Закону України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\" (крім нерезидентів)"
+        },
+        "value": "True"
+      },
+      {
+        "id": "70d4a700426448a4be18084b02885197",
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+          "id": "5df568d1d5ff4d69ad66905dffbd5417",
+          "title": "Юридична особа, яка є учасником процедури закупівлі (крім нерезидентів), має антикорупційну програму чи уповноваженого з реалізації антикорупційної програми, якщо вартість закупівлі товару (товарів), послуги (послуг) або робіт дорівнює чи перевищує 20 мільйонів гривень (у тому числі за лотом)"
+        },
+        "value": "True"
+      },
+      {
+        "id": "5e69d3bf9fb84522aead3559961683ba",
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+          "id": "a1bcc23a25ee47d2a8d35b68d973a22f",
+          "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
+        },
+        "value": "True"
+      },
+      {
+        "id": "60ebd5cfbd8a40c598b28c3ab3c0533c",
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+          "id": "4528ae0fa936462899d6605c280bab48",
+          "title": "Мова тендерної пропозиції українська"
+        },
+        "value": "True"
+      }
+    ],
     "documents": [
       {
         "id": "8aeec06a85ee4e4298b8bd22dfb032d4",
@@ -44,8 +156,8 @@ X-Content-Type-Options: nosniff
         "title": "Proposal.pdf",
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids/c48ab04ff9f84430ad5a724b31b56f19/documents/8aeec06a85ee4e4298b8bd22dfb032d4?download=fff57b2a4a194ddbb66c81394bbbd5f8",
-        "datePublished": "2020-09-08T01:00:00+03:00",
-        "dateModified": "2020-09-08T01:00:00+03:00",
+        "datePublished": "2021-01-22T00:00:00+02:00",
+        "dateModified": "2021-01-22T00:00:00+02:00",
         "documentOf": "tender",
         "confidentiality": "public",
         "language": "uk"
@@ -56,8 +168,8 @@ X-Content-Type-Options: nosniff
         "title": "Proposal_top_secrets.pdf",
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids/c48ab04ff9f84430ad5a724b31b56f19/documents/2e070d09800142ddac13f14a5ae2f9ef?download=091b738f06344739a83e2505de522229",
-        "datePublished": "2020-09-08T01:00:00+03:00",
-        "dateModified": "2020-09-08T01:00:00+03:00",
+        "datePublished": "2021-01-22T00:00:00+02:00",
+        "dateModified": "2021-01-22T00:00:00+02:00",
         "documentOf": "tender",
         "confidentialityRationale": "Only our company sells badgers with pink hair.",
         "confidentiality": "buyerOnly",
@@ -71,8 +183,8 @@ X-Content-Type-Options: nosniff
         "title": "financial_doc.pdf",
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids/c48ab04ff9f84430ad5a724b31b56f19/financial_documents/5de4086b92ac4e669382e9352b868f44?download=ac26a1a415634d6e8fea21b25747ad8a",
-        "datePublished": "2020-09-08T01:00:00+03:00",
-        "dateModified": "2020-09-08T01:00:00+03:00",
+        "datePublished": "2021-01-22T00:00:00+02:00",
+        "dateModified": "2021-01-22T00:00:00+02:00",
         "documentOf": "tender",
         "confidentiality": "public",
         "language": "uk"
@@ -83,8 +195,8 @@ X-Content-Type-Options: nosniff
         "title": "financial_doc2.pdf",
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids/c48ab04ff9f84430ad5a724b31b56f19/financial_documents/10fb91d0129c472e87c06af53e18fe36?download=ed509ca442994709b3934d83c3e36707",
-        "datePublished": "2020-09-08T01:00:00+03:00",
-        "dateModified": "2020-09-08T01:00:00+03:00",
+        "datePublished": "2021-01-22T00:00:00+02:00",
+        "dateModified": "2021-01-22T00:00:00+02:00",
         "documentOf": "tender",
         "confidentiality": "public",
         "language": "uk"
@@ -97,8 +209,8 @@ X-Content-Type-Options: nosniff
         "title": "eligibility_doc.pdf",
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids/c48ab04ff9f84430ad5a724b31b56f19/eligibility_documents/edfba70779d040f39a994e1e8f81e90d?download=97c4aa75718c4dcd979ad5cf3522f9d6",
-        "datePublished": "2020-09-08T01:00:00+03:00",
-        "dateModified": "2020-09-08T01:00:00+03:00",
+        "datePublished": "2021-01-22T00:00:00+02:00",
+        "dateModified": "2021-01-22T00:00:00+02:00",
         "documentOf": "tender",
         "confidentiality": "public",
         "language": "uk"
@@ -111,8 +223,8 @@ X-Content-Type-Options: nosniff
         "title": "qualification_document.pdf",
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids/c48ab04ff9f84430ad5a724b31b56f19/qualification_documents/1bd2e3a224bb4d8cb35dfaba0e1ac674?download=fd1fe8b046814ddea6fd9de9d90551e3",
-        "datePublished": "2020-09-08T01:00:00+03:00",
-        "dateModified": "2020-09-08T01:00:00+03:00",
+        "datePublished": "2021-01-22T00:00:00+02:00",
+        "dateModified": "2021-01-22T00:00:00+02:00",
         "documentOf": "tender",
         "confidentiality": "public",
         "language": "uk"

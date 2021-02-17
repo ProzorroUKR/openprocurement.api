@@ -58,7 +58,7 @@ X-Content-Type-Options: nosniff
     "value": {
       "amount": 500000.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": false
+      "valueAddedTaxIncluded": true
     },
     "procurementMethod": "limited",
     "procuringEntity": {
@@ -82,7 +82,7 @@ X-Content-Type-Options: nosniff
       },
       "kind": "special"
     },
-    "status": "draft",
+    "status": "active",
     "items": [
       {
         "id": "0745cdf70d2545d4a8fe4c14cb23bf14",
@@ -114,11 +114,9 @@ X-Content-Type-Options: nosniff
         }
       }
     ],
-    "cause": "twiceUnsuccessful",
     "causeDescription": "оригінальний тендер не вдався двічі",
     "causeDescription_en": "original tender has failed twice",
     "causeDescription_ru": "оригинальный тендер не получился дважды",
-    "procurementMethodType": "negotiation",
     "lots": [
       {
         "id": "9c7ee9a761404c7cad1359f248e41f71",
@@ -129,10 +127,12 @@ X-Content-Type-Options: nosniff
         "value": {
           "amount": 500000.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": false
+          "valueAddedTaxIncluded": true
         }
       }
     ],
+    "cause": "twiceUnsuccessful",
+    "procurementMethodType": "negotiation.quick",
     "id": "6fc7b4a587f847fcb61cdc861ce4d752"
   }
 }

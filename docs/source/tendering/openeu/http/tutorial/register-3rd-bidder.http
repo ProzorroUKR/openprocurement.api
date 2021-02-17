@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 802
+Content-Length: 2544
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -32,7 +32,46 @@ DATA:
     "value": {
       "amount": 499
     },
-    "selfQualified": true
+    "documents": [
+      {
+        "title": "Proposal_part1.pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a3862b2b1ae843528accfedd051cdef2?Signature=kOfup3pB8MgawevnUdAkeOwJQglwNRxR8McQBrUPl4Yoo615JDO5%2BdzUDosq8s%2Bbl3hgUsYGyFhT%2FcgPEGHoBg%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "application/pdf"
+      },
+      {
+        "title": "Proposal_part2.pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9ff17557b8d74a169916ccc5653c0a2d?Signature=4YcSEz6Ym6q%2Fd9wGPdcD4%2Bviepfv68vZ0zHMxPBB%2FkJkN8mwJSGu4Jc1yklR0YsXWPjCUFgEUM%2BIv8pV%2FXVNAQ%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "application/pdf"
+      }
+    ],
+    "eligibilityDocuments": [
+      {
+        "title": "eligibility_doc.pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/07d313e6717642fcb43032920da39ac2?Signature=XyP5QmXNy4NE1Ag6%2FvxsxTlY5CGxa1nglhNDlt3GoRDO2e%2FjvgK2Qk0ch2BzjQpzr0KyM5GG3%2FGdSHnV%2BPJVCw%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "application/pdf"
+      }
+    ],
+    "financialDocuments": [
+      {
+        "title": "financial_doc.pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6a165adbf494490aa6eb016b0331685a?Signature=Lj9KmVznpxlFA7erpu2X0YRZ%2FKzl68%2FIeg8mRK0PX7dqazP4VbNuU%2BsjeGz2YQm8mtR8oTjkZWpo286CXLCLBA%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "application/pdf"
+      }
+    ],
+    "qualificationDocuments": [
+      {
+        "title": "qualification_document.pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/90d1707c32b34547bc5034dbe547c2a6?Signature=SK1BbItUzyxbymWxOoNOVB2p0N%2Br9g9818s1201LW9hU15XtKbOlUT0oRKuVDsr0H2nMMx12tHjJ4V2q7RUKAA%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "application/pdf"
+      }
+    ],
+    "selfQualified": true,
+    "status": "draft"
   }
 }
 
@@ -65,15 +104,83 @@ X-Content-Type-Options: nosniff
         "scale": "sme"
       }
     ],
-    "date": "2020-09-08T01:00:00+03:00",
+    "date": "2021-01-22T00:00:00+02:00",
     "id": "4daf8018ce2342168d597aec3f67c7cb",
     "value": {
       "amount": 499.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
+    "documents": [
+      {
+        "id": "054f1e3a68234b5b92a94c0a0dbf43bf",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Proposal_part1.pdf",
+        "format": "application/pdf",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids/4daf8018ce2342168d597aec3f67c7cb/documents/054f1e3a68234b5b92a94c0a0dbf43bf?download=a3862b2b1ae843528accfedd051cdef2",
+        "datePublished": "2021-01-22T00:00:00+02:00",
+        "dateModified": "2021-01-22T00:00:00+02:00",
+        "documentOf": "tender",
+        "confidentiality": "public",
+        "language": "uk"
+      },
+      {
+        "id": "567ad6fb72b649bead872039aa87e9c8",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Proposal_part2.pdf",
+        "format": "application/pdf",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids/4daf8018ce2342168d597aec3f67c7cb/documents/567ad6fb72b649bead872039aa87e9c8?download=9ff17557b8d74a169916ccc5653c0a2d",
+        "datePublished": "2021-01-22T00:00:00+02:00",
+        "dateModified": "2021-01-22T00:00:00+02:00",
+        "documentOf": "tender",
+        "confidentiality": "public",
+        "language": "uk"
+      }
+    ],
+    "financialDocuments": [
+      {
+        "id": "786999335f90415eb8d512aba1e77007",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "financial_doc.pdf",
+        "format": "application/pdf",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids/4daf8018ce2342168d597aec3f67c7cb/financial_documents/786999335f90415eb8d512aba1e77007?download=6a165adbf494490aa6eb016b0331685a",
+        "datePublished": "2021-01-22T00:00:00+02:00",
+        "dateModified": "2021-01-22T00:00:00+02:00",
+        "documentOf": "tender",
+        "confidentiality": "public",
+        "language": "uk"
+      }
+    ],
+    "eligibilityDocuments": [
+      {
+        "id": "8d66ecbe45424649a5dc945af7904bb7",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "eligibility_doc.pdf",
+        "format": "application/pdf",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids/4daf8018ce2342168d597aec3f67c7cb/eligibility_documents/8d66ecbe45424649a5dc945af7904bb7?download=07d313e6717642fcb43032920da39ac2",
+        "datePublished": "2021-01-22T00:00:00+02:00",
+        "dateModified": "2021-01-22T00:00:00+02:00",
+        "documentOf": "tender",
+        "confidentiality": "public",
+        "language": "uk"
+      }
+    ],
+    "qualificationDocuments": [
+      {
+        "id": "8fd7d103741940ed831abe63792a65d1",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "qualification_document.pdf",
+        "format": "application/pdf",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids/4daf8018ce2342168d597aec3f67c7cb/qualification_documents/8fd7d103741940ed831abe63792a65d1?download=90d1707c32b34547bc5034dbe547c2a6",
+        "datePublished": "2021-01-22T00:00:00+02:00",
+        "dateModified": "2021-01-22T00:00:00+02:00",
+        "documentOf": "tender",
+        "confidentiality": "public",
+        "language": "uk"
+      }
+    ],
     "selfQualified": true,
-    "status": "pending"
+    "status": "draft"
   },
   "access": {
     "token": "5dadcfe509e942a1a499fbe1647c178a",
