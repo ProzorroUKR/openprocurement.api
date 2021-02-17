@@ -1009,9 +1009,9 @@ class RequirementResponse(Model):
         criterion = get_criterion_requirement(tender, data["requirement"].id)
 
         if criterion and criterion.classification.id.startswith(guarantee_criterion) and isinstance(parent, Bid):
-            valid_status = "active.awarded"
-            if tender["status"] not in valid_status:
-                raise ValidationError("available only in '{}' status".format(valid_status))
+            valid_statuses = ["active.awarded", "active.qualification"]
+            if tender["status"] not in valid_statuses:
+                raise ValidationError("available only in {} status".format(valid_statuses))
 
 
     @bids_response_validation_wrapper
@@ -1209,7 +1209,7 @@ class BidResponsesMixin(Model):
         all_answered_requirements = [i.requirement.id for i in requirementResponses]
 
         for criteria in tender.criteria:
-            if criteria.source != "tenderer" and criteria.classification.id != "CRITERION.OTHER.CONTRACT.GUARANTEE":
+            if criteria.source != "tenderer":
                 continue
             else:
                 if tender_created > CRITERION_REQUIREMENT_STATUSES_FROM:

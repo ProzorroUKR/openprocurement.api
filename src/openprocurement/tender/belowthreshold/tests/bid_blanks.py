@@ -1323,7 +1323,7 @@ def create_tender_bid_document_with_award_json(self):
         {
             "location": "body",
             "name": "data",
-            "description": "available only in 'active.awarded' status"
+            "description": "available only in ['active.awarded', 'active.qualification'] statuses"
         }
     ])
 

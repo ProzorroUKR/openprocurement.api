@@ -1928,10 +1928,10 @@ def validate_operation_ecriteria_objects_evidences(request, **kwargs):
     guarantee_criterion = "CRITERION.OTHER.CONTRACT.GUARANTEE"
 
     if criterion and criterion.classification.id.startswith(guarantee_criterion):
-        awarded_status = "active.awarded"
-        valid_statuses.append(awarded_status)
+        awarded_status = ["active.awarded", "active.qualification"]
+        valid_statuses.extend(awarded_status)
         if tender["status"] not in awarded_status:
-            raise_operation_error(request, "available only in '{}' status".format(awarded_status))
+            raise_operation_error(request, "available only in {} statuses".format(awarded_status))
 
         bid_id = request.validated["bid"]["id"]
         active_award = None
