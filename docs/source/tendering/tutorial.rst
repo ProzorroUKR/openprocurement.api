@@ -44,7 +44,7 @@ body of response reveals the information about the created tender: its internal
 `id` (that matches the `Location` segment), its official `tenderID` and
 `dateModified` datestamp stating the moment in time when tender was last
 modified. Pay attention to the `procurementMethodType`. Note that tender is
-created with `active.enquiries` status.
+created with `draft` status.
 
 Let's access the URL of the created object (the `Location` header of the response):
 
@@ -60,7 +60,27 @@ Let's see what listing of tenders reveals us:
 .. include:: http/tutorial/initial-tender-listing.http
    :code:
 
+We don't see internal `id` of tender, because tender appears in the listing from `active.enquiries` status.
+
+
+Tender activating
+~~~~~~~~~~~~~~~~~
+
+For activating tender you should update status to ``active.enquiries``:
+
+.. include:: http/tutorial/tender-activating.http
+   :code:
+
+Let's see what listing of tenders reveals us:
+
+.. include:: http/tutorial/active-tender-listing-after-procuringEntity.http
+   :code:
+
 We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp.
+
+
+Creating second tender
+----------------------
 
 The previous tender contained only required fields. Let's try creating tender with more data
 (tender has status `created`):

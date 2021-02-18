@@ -138,6 +138,22 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             if feature['featureOf'] == 'item':
                 feature['relatedItem'] = tender_below_maximum['items'][0]['id']
 
+        # Tender activating
+
+        with open(TARGET_DIR + 'tender-activating.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
+                {'data': {"status": "active.enquiries"}})
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'active-tender-listing-no-auth.http', 'w') as self.app.file_obj:
+            self.app.authorization = None
+            response = self.app.get(request_path)
+            self.assertEqual(response.status, '200 OK')
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        # Create second tender
+
         with open(TARGET_DIR + 'tutorial/create-tender-procuringEntity.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1',
