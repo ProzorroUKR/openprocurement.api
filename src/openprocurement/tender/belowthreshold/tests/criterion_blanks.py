@@ -291,7 +291,7 @@ def put_rg_requirement_valid(self):
     }
     put_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}"
     get_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements"
-    self.set_status("active.tendering")
+    self.set_status("active.enquiries")
 
     # Test put non exclusion criteria
     response = self.app.get(get_url.format(self.tender_id, self.criteria_id, self.rg_id))

@@ -43,6 +43,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     patch_tender_with_bids_lots_none,
     create_tender_bid_document_invalid_pmr,
     update_tender_bid_document_invalid_pmr,
+    bid_activate_with_cancelled_tenderer_criterion,
 )
 from openprocurement.tender.openeu.tests.bid import CreateBidMixin
 from openprocurement.tender.openeu.tests.bid import (
@@ -163,6 +164,8 @@ class TenderBidRequirementResponseEvidenceResourceTest(
 ):
     test_bids_data = test_bids
     initial_status = "active.tendering"
+
+    test_bid_activate_with_cancelled_tenderer_criterion = snitch(bid_activate_with_cancelled_tenderer_criterion)
 
 
 def suite():
