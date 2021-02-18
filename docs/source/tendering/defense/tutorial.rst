@@ -67,14 +67,14 @@ We don't see internal `id` of tender, because tender appears in the listing from
 Tender activating
 -----------------
 
-After adding needed criteria we can activate our tender, so let's do that:
+For activating tender you should update status to `active.tendering`:
 
-.. include:: http/tutorial/tender-activating.http
+.. include:: http/tender-activating.http
    :code:
 
 Let's see what listing of tenders reveals us:
 
-.. include:: http/tutorial/active-tender-listing-no-auth.http
+.. include:: http/active-tender-listing-no-auth.http
    :code:
 
 Now We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp.

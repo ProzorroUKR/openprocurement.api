@@ -70,7 +70,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.get('/tenders?opt_pretty=1')
             self.assertEqual(response.status, '200 OK')
 
-        #### Tender activationg
+        #### Tender activating
 
         with open(TARGET_DIR + 'tutorial/tender-activating.http', 'wt') as self.app.file_obj:
             response = self.app.patch_json(

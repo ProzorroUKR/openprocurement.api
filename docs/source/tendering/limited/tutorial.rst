@@ -29,7 +29,7 @@ Let's check what tender registry contains:
 .. include:: http/tutorial/tender-listing-after-procuringEntity.http
    :code:
 
-We don't see internal `id` of tender, because tender appears in the listing from `active.tendering` status.
+We don't see internal `id` of tender, because tender appears in the listing from `active` status.
 
 
 Creating tender for negotiation procedure
@@ -53,7 +53,7 @@ To create tender for **negotiation.quick** procedure you should set ``negotiatio
 Tender activating
 ~~~~~~~~~~~~~~~~~
 
-For activating **reporting**, **negotiation**, **negotiation.quick** procedures you should update status to ``active.tendering``:
+For activating **reporting**, **negotiation**, **negotiation.quick** procedures you should update status to ``active``:
 
 .. include:: http/tutorial/tender-activating.http
    :code:

@@ -43,7 +43,7 @@ and `Location` response header reports the location of the created object.  The
 body of response reveals the information about the created tender: its internal
 `id` (that matches the `Location` segment), its official `tenderID` and
 `dateModified` datestamp stating the moment in time when tender was last
-modified.  Note that tender is created with `active.tendering` status.
+modified.  Note that tender is created with `draft` status.
 
 The peculiarity of the CompetitiveDialogue procedure is that ``procurementMethodType`` can be ``CompetitiveDialogueEU`` or ``CompetitiveDialogueUA``.
 

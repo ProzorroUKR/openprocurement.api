@@ -3,14 +3,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openua 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-05 17:18+0200\n"
+"POT-Creation-Date: 2021-02-18 10:59+0200\n"
 "PO-Revision-Date: 2016-07-04 16:44+0200\n"
 "Last-Translator: sorenabell <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 1.3\n"
+"Generated-By: Babel 2.9.0\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
@@ -42,8 +42,8 @@ msgstr "Створення закупівлі"
 msgid "Let's provide the data attribute in the submitted body :"
 msgstr "Введемо data атрибут у поданому тілі:"
 
-msgid "Success! Now we can see that new object was created. Response code is `201` and `Location` response header reports the location of the created object.  The body of response reveals the information about the created tender: its internal `id` (that matches the `Location` segment), its official `tenderID` and `dateModified` datestamp stating the moment in time when tender was last modified.  Note that tender is created with `active.tendering` status."
-msgstr "Успіх! Тепер ми бачимо, що новий об’єкт було створено. Код відповіді `201` та заголовок відповіді `Location` вказує місцерозташування створеного об’єкта. Тіло відповіді показує інформацію про створену закупівлю, її внутрішнє `id` (яке співпадає з сегментом `Location`), її офіційне `tenderID` та `dateModified` дату, що показує час, коли закупівля востаннє модифікувалась. Зверніть увагу, що закупівля створюється зі статусом `active.enquiries`."
+msgid "Success! Now we can see that new object was created. Response code is `201` and `Location` response header reports the location of the created object.  The body of response reveals the information about the created tender: its internal `id` (that matches the `Location` segment), its official `tenderID` and `dateModified` datestamp stating the moment in time when tender was last modified.  Note that tender is created with `draft` status."
+msgstr "Успіх! Тепер ми бачимо, що новий об’єкт було створено. Код відповіді `201` та заголовок відповіді `Location` вказує місцерозташування створеного об’єкта. Тіло відповіді показує інформацію про створену закупівлю, її внутрішнє `id` (яке співпадає з сегментом `Location`), її офіційне `tenderID` та `dateModified` дату, що показує час, коли закупівля востаннє модифікувалась. Зверніть увагу, що закупівля створюється зі статусом `draft`."
 
 msgid "The peculiarity of the Defense open tender is that ``procurementMethodType`` was changed from ``belowThreshold`` to ``aboveThresholdUA.defense``. Also there is no opportunity to set up ``enquiryPeriod``, it will be assigned automatically."
 msgstr "Особливість оборонних закупівель в тому, що ``procurementMethodType`` було змінено з ``belowThreshold`` на ``aboveThresholdUA.defense``. Також тут неможливо встановити ``enquiryPeriod``, бо він буде призначений автоматично."
@@ -57,7 +57,16 @@ msgstr "Ми бачимо ту ж відповідь, що і після ств�
 msgid "Let's see what listing of tenders reveals us:"
 msgstr "Подивимось, що показує список закупівель:"
 
-msgid "We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp."
+msgid "We don't see internal `id` of tender, because tender appears in the listing from `active.tendering` status."
+msgstr "Ми поки не бачимо внутрішнього `id` закупівлі, тому що у списку відображаються закупівлі лише після статусу `active.tendering`"
+
+msgid "Tender activating"
+msgstr "Активація закупівлі"
+
+msgid "For activating tender you should update status to `active.tendering`:"
+msgstr "Для активації процедури потрібно перевести її статус в `active.tendering`:"
+
+msgid "Now We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp."
 msgstr "Ми бачимо внутрішнє `id` закупівлі (що може бути використано для побудови повної URL-адреси, якщо додати `http://api-sandbox.openprocurement.org/api/0/tenders/`) та її `dateModified` дату."
 
 msgid "Modifying tender"

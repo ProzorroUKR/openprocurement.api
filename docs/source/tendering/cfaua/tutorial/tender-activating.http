@@ -1,5 +1,14 @@
-GET /api/2.5/tenders/37cb590308a242a9836f51a9994c7492 HTTP/1.0
+PATCH /api/2.5/tenders/37cb590308a242a9836f51a9994c7492?acc_token=fbb49b806b484733bc09390b0e01078d HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 40
+Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "status": "active.tendering"
+  }
+}
 
 Response: 200 OK
 Content-Type: application/json
@@ -593,9 +602,9 @@ X-Content-Type-Options: nosniff
       }
     ],
     "enquiryPeriod": {
-      "startDate": "2020-12-28T00:00:00+02:00",
-      "endDate": "2021-01-18T00:00:00+02:00",
-      "clarificationsUntil": "2021-01-21T00:00:00+02:00",
+      "startDate": "2021-01-22T00:00:00+02:00",
+      "endDate": "2021-02-12T00:00:00+02:00",
+      "clarificationsUntil": "2021-02-17T00:00:00+02:00",
       "invalidationDate": "2021-01-22T00:00:00+02:00"
     },
     "items": [
@@ -682,7 +691,7 @@ X-Content-Type-Options: nosniff
         "date": "2021-01-22T00:00:00+02:00",
         "status": "active",
         "auctionPeriod": {
-          "shouldStartAfter": "2021-03-04T00:00:00+02:00"
+          "shouldStartAfter": "2021-03-29T00:00:00+02:00"
         },
         "value": {
           "amount": 500.0,
@@ -723,8 +732,8 @@ X-Content-Type-Options: nosniff
     },
     "status": "active.tendering",
     "tenderPeriod": {
-      "startDate": "2020-12-28T00:00:00+02:00",
-      "endDate": "2021-01-28T00:00:00+02:00"
+      "startDate": "2021-01-22T00:00:00+02:00",
+      "endDate": "2021-02-22T00:00:00+02:00"
     },
     "title_en": "Cases for state awards",
     "value": {
@@ -736,10 +745,10 @@ X-Content-Type-Options: nosniff
     "mainProcurementCategory": "goods",
     "id": "37cb590308a242a9836f51a9994c7492",
     "complaintPeriod": {
-      "startDate": "2020-12-28T00:00:00+02:00",
-      "endDate": "2021-01-24T00:00:00+02:00"
+      "startDate": "2021-01-22T00:00:00+02:00",
+      "endDate": "2021-02-18T00:00:00+02:00"
     },
-    "next_check": "2021-01-28T00:00:00+02:00"
+    "next_check": "2021-02-22T00:00:00+02:00"
   }
 }
 

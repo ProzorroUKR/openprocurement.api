@@ -65,7 +65,7 @@ Let's see what listing of tenders reveals us:
 .. include:: tutorial/tender-listing-no-auth.http
    :code:
 
-We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp.
+We don't see internal `id` of tender, because tender appears in the listing from `active.tendering` status.
 
 Tender activating
 -----------------
