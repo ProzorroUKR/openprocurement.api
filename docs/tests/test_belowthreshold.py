@@ -158,6 +158,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 {'data': tender_below_maximum})
             self.assertEqual(response.status, '201 Created')
 
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(response.json["data"]["id"], response.json["access"]["token"]),
+            {'data': {"status": "active.enquiries"}})
+        self.assertEqual(response.status, '200 OK')
+
         test_tender_funders_data = deepcopy(test_tender_data)
         test_tender_funders_data['funders'] = [funder]
         with open(TARGET_DIR + 'tutorial/create-tender-funders.http', 'w') as self.app.file_obj:
@@ -170,6 +175,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             '/tenders?opt_pretty=1',
             {'data': test_tender_data})
         self.assertEqual(response.status, '201 Created')
+
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(response.json["data"]["id"], response.json["access"]["token"]),
+            {'data': {"status": "active.enquiries"}})
+        self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'tutorial/tender-listing-after-procuringEntity.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders')

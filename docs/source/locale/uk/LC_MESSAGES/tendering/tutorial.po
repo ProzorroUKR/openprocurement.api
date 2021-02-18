@@ -59,7 +59,7 @@ msgid "We don't see internal `id` of tender, because tender appears in the listi
 msgstr "Ми поки не бачимо внутрішнього `id` закупівлі, тому що у списку відображаються закупівлі лише після статусу `active.enquiries`"
 
 msgid "Tender activating"
-msgstr "Активація закупівлі""
+msgstr "Активація закупівлі"
 
 msgid "For activating tender you should update status to ``active.enquiries``:"
 msgstr "Для активації процедури потрібно перевести її статус в ``active.enquiries``:"
