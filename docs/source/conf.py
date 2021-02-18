@@ -31,7 +31,7 @@ import pkg_resources
 # ones.
 import cornice
 extensions = [
-    'cornice_sphinx',
+    'cornice.ext.sphinxext',
     'sphinx.ext.intersphinx',
     'sphinx.ext.graphviz',
     'sphinxcontrib.httpdomain',
