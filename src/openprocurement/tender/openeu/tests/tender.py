@@ -15,6 +15,9 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_central_invalid,
     tender_minimalstep_validation,
     patch_tender_minimalstep_validation,
+    tender_with_guarantee,
+    tender_with_guarantee_multilot,
+    activate_bid_guarantee_multilot,
 )
 
 from openprocurement.tender.openuadefense.tests.base import test_bids
@@ -112,11 +115,22 @@ class TenderProcessTest(BaseTenderWebTest):
     test_lost_contract_for_active_award = snitch(lost_contract_for_active_award)
 
 
+class TenderGuarantee(BaseTenderWebTest):
+    initial_status = "draft"
+    test_lots_data = test_lots
+    test_bids_data = test_bids
+
+    test_tender_with_guarantee = snitch(tender_with_guarantee)
+    test_tender_with_guarantee_multilot = snitch(tender_with_guarantee_multilot)
+    test_activate_bid_guarantee_multilot = snitch(activate_bid_guarantee_multilot)
+
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderProcessTest))
     suite.addTest(unittest.makeSuite(TenderResourceTest))
     suite.addTest(unittest.makeSuite(TenderTest))
+    suite.addTest(unittest.makeSuite(TenderGuarantee))
     return suite
 
 

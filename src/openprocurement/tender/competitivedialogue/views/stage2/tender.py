@@ -15,6 +15,7 @@ from openprocurement.tender.core.validation import (
     validate_tender_activate_with_language_criteria,
     validate_item_quantity,
     validate_tender_guarantee,
+    validate_tender_guarantee_multilot,
 )
 from openprocurement.tender.openua.views.tender import TenderUAResource
 from openprocurement.tender.openeu.views.tender import TenderEUResource
@@ -45,6 +46,7 @@ class TenderStage2UAResource(TenderUAResource):
             validate_tender_activate_with_language_criteria,
             validate_item_quantity,
             validate_tender_guarantee,
+            validate_tender_guarantee_multilot,
         ),
         permission="edit_tender",
     )
@@ -144,6 +146,7 @@ class TenderStage2UEResource(TenderEUResource):
             validate_tender_activate_with_language_criteria,
             validate_item_quantity,
             validate_tender_guarantee,
+            validate_tender_guarantee_multilot,
         ),
         permission="edit_tender",
     )
