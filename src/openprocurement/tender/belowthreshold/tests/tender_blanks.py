@@ -1939,6 +1939,14 @@ def guarantee(self):
     tender = response.json["data"]
     token = response.json["access"]["token"]
 
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": {"guarantee": {"amount": 55}}}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertIn("guarantee", response.json["data"])
+    self.assertEqual(response.json["data"]["guarantee"]["amount"], 55)
+    self.assertEqual(response.json["data"]["guarantee"]["currency"], "UAH")
+
     with mock.patch("openprocurement.tender.core.validation.CRITERION_REQUIREMENT_STATUSES_FROM",
                     get_now() - timedelta(days=1)):
         if data["procurementMethodType"] in GUARANTEE_ALLOWED_TENDER_TYPES:
@@ -1958,14 +1966,6 @@ def guarantee(self):
                 self.app.patch_json(
                     "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": {"status": "active.enquiries"}},
                 )
-
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": {"guarantee": {"amount": 55}}}
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertIn("guarantee", response.json["data"])
-    self.assertEqual(response.json["data"]["guarantee"]["amount"], 55)
-    self.assertEqual(response.json["data"]["guarantee"]["currency"], "UAH")
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": {"guarantee": {"currency": "USD"}}}
