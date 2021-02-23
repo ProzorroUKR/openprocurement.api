@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
+from datetime import timedelta
 from uuid import uuid4
 
 from pyramid.security import Allow
 from schematics.exceptions import ValidationError
 from schematics.transforms import blacklist, whitelist
 from schematics.types import StringType, BaseType, EmailType, BooleanType, MD5Type
-from schematics.types.compound import ModelType
+from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.auth import ACCR_5
@@ -20,7 +21,7 @@ from openprocurement.api.models import (
     ContactPoint as BaseContactPoint,
     schematics_embedded_role,
     schematics_default_role,
-    BusinessOrganization,
+    BusinessOrganization as BaseBusinessOrganization,
     IsoDateTimeType,
 )
 from openprocurement.api.models import Model
@@ -34,6 +35,8 @@ from openprocurement.framework.core.models import (
 from openprocurement.framework.electroniccatalogue.utils import (
     AUTHORIZED_CPB,
     get_framework_unsuccessful_status_check_date,
+    calculate_framework_date,
+    CONTRACT_BAN_DURATION,
 )
 
 
@@ -70,6 +73,7 @@ class CentralProcuringEntity(Model):
             "edit_draft": schematics_default_role,
             "edit_active": whitelist("contactPoint"),
         }
+
     name = StringType(required=True)
     name_en = StringType()
     name_ru = StringType()
@@ -194,7 +198,6 @@ class Framework(BaseFramework):
 
 
 class Submission(BaseSubmission):
-
     status = StringType(
         choices=[
             "draft",
@@ -208,7 +211,6 @@ class Submission(BaseSubmission):
 
 
 class Qualification(BaseQualification):
-
     status = StringType(
         choices=[
             "pending",
@@ -221,28 +223,70 @@ class Qualification(BaseQualification):
     qualificationType = StringType(default="electronicCatalogue", required=True)
 
 
+class BusinessOrganization(BaseBusinessOrganization):
+    class Options:
+        roles = {
+            "edit": whitelist("contactPoint", "address"),
+            "view": blacklist("doc_type", "_id", "_rev", "__parent__"),
+        }
+
+
 class Milestone(Model):
+    class Options:
+        roles = {
+            "create": whitelist("type", "documents"),
+            "view": blacklist("doc_type", "_id", "_rev", "__parent__"),
+        }
 
     id = MD5Type(required=True, default=lambda: uuid4().hex)
-    type = StringType(required=True, choices=["activation", "ban", "disqualification"])
+    type = StringType(required=True, choices=["activation", "ban", "disqualification", "termination"])
     dueDate = IsoDateTimeType()
     documents = ListType(ModelType(Document, required=True), default=list())
     dateModified = IsoDateTimeType(default=get_now)
 
+    @serializable(serialized_name="dueDate", serialize_when_none=False)
+    def milestone_dueDate(self):
+        if self.type == "ban" and not self.dueDate:
+            request = self.get_root().request
+            agreement = request.validated["agreement_src"]
+            dueDate = calculate_framework_date(get_now(), timedelta(days=CONTRACT_BAN_DURATION), agreement, ceil=True)
+            return dueDate.isoformat()
+        return self.dueDate.isoformat() if self.dueDate else None
+
 
 class Contract(Model):
+    class Options:
+        roles = {
+            "edit": whitelist("suppliers"),
+            "view": blacklist("doc_type", "_id", "_rev", "__parent__")
+        }
+
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     qualificationID = StringType()
     status = StringType(choices=["active", "banned", "unsuccessful", "terminated"])
-    suppliers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1,)
-    milestones = ListType(ModelType(Milestone, required=True), required=True, min_size=1,)
+    suppliers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1, )
+    milestones = ListType(ModelType(Milestone, required=True), required=True, min_size=1, )
     date = IsoDateTimeType(default=get_now)
+
+    def validate_suppliers(self, data, suppliers):
+        if len(suppliers) != 1:
+            raise ValidationError("Contract must have only one supplier")
 
 
 class Agreement(BaseAgreement):
     class Options:
+        _view_role = blacklist(
+            "doc_type",
+            "transfer_token",
+            "owner_token",
+            "revisions", "_id",
+            "_rev",
+            "__parent__",
+            "frameworkDetails",
+        )
         roles = {
-            "view": blacklist("doc_type", "transfer_token", "owner_token", "revisions", "_id", "_rev", "__parent__",),
+            "edit": whitelist("status"),
+            "view": _view_role,
             "plain": blacklist(  # is used for getting patches
                 "_attachments", "revisions", "dateModified", "_id", "_rev", "doc_type", "__parent__"
             ),
@@ -256,6 +300,9 @@ class Agreement(BaseAgreement):
     classification = ModelType(DKClassification, required=True)
     additionalClassifications = ListType(ModelType(BaseClassification))
     contracts = ListType(ModelType(Contract, required=True), default=list())
+    frameworkDetails = StringType()
+
+    _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
 
     @serializable(serialized_name="id")
     def doc_id(self):
@@ -267,9 +314,15 @@ class Agreement(BaseAgreement):
         checks = []
         if self.status == "active":
             milestone_dueDates = [
-                milestone.dueDate for contract in self.contracts for milestone in contract.milestones if milestone.dueDate
+                milestone.dueDate
+                for contract in self.contracts for milestone in contract.milestones if milestone.dueDate
             ]
             if milestone_dueDates:
                 checks.append(min(milestone_dueDates))
             checks.append(self.period.endDate)
         return min(checks).isoformat() if checks else None
+
+    def __acl__(self):
+        acl = super().__acl__()
+        acl.append((Allow, "{}_{}".format(self.owner, self.owner_token), "upload_milestone_documents"), )
+        return acl

@@ -1,10 +1,12 @@
 from datetime import timedelta
+from functools import partial
 
 import standards
+from cornice.resource import resource
 from dateorro import calc_normalized_datetime, calc_working_datetime, calc_datetime
 
 from openprocurement.api.constants import WORKING_DAYS
-from openprocurement.api.utils import get_now, context_unpack
+from openprocurement.api.utils import get_now, context_unpack, error_handler
 from openprocurement.framework.core.design import (
     submissions_by_framework_id_total_view,
 )
@@ -13,10 +15,14 @@ from openprocurement.framework.core.utils import (
     SUBMISSION_STAND_STILL_DURATION,
     acceleratable, LOGGER
 )
+from openprocurement.framework.electroniccatalogue.traversal import contract_factory
 
 DAYS_TO_UNSUCCESSFUL_STATUS = 20
 CONTRACT_BAN_DURATION = 90
 AUTHORIZED_CPB = standards.load("organizations/authorized_cpb.json")
+MILESTONE_CONTRACT_STATUSES = {"ban": "banned", "disqualification": "unsuccessful", "terminated": "terminated"}
+
+contractresource = partial(resource, factory=contract_factory, error_handler=error_handler)
 
 
 @acceleratable
@@ -94,16 +100,19 @@ def check_status(request):
             return
 
 
-@acceleratable
-def calculate_milestone_dueDate(date_obj, framework=None):
-    date_obj = calc_normalized_datetime(date_obj, ceil=True)
-    return calc_datetime(date_obj, CONTRACT_BAN_DURATION)
+def check_contract_statuses(request):
+    for contract in request.validated["agreement"].contracts:
+        if contract.status == "banned":
+            for milestone in contract.milestones[::-1]:
+                if milestone.type == "ban":
+                    if milestone.dueDate < get_now():
+                        contract.status = "active"
+                    break
 
 
-def create_milestone(milestone_type="activation", documents=[], framework=None):
-    milestone_data = {
-        "type": milestone_type,
-        "dueDate": None if milestone_type != "ban" else calculate_milestone_dueDate(framework=framework),
-        "documents": documents,
-    }
-    return milestone_data
+def check_agreement_status(request):
+    if request.validated["agreement"].period.endDate < get_now():
+        request.validated["agreement"].status = "terminated"
+        for contract in request.validated["agreement"].contracts:
+            contract.milestones.append({"type": "terminated"})
+            contract.status = "terminated"

@@ -239,3 +239,14 @@ def validate_agreement_data(request, **kwargs):
 def _validate_agreement_accreditation_level(request, model):
     levels = model.create_accreditations
     _validate_accreditation_level(request, levels, "agreement", "creation")
+
+
+def validate_patch_contract_data(request, **kwargs):
+    data = validate_json_data(request)
+    return validate_data(request, type(request.validated["contract"]), True, data)
+
+
+def validate_milestone_data(request, **kwargs):
+    update_logging_context(request, {"milestone_id": "__new__"})
+    model = type(request.validated["contract"]).milestones.model_class
+    return validate_data(request, model)

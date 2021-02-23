@@ -11,7 +11,7 @@ X-Content-Type-Options: nosniff
     "title": "updated in draft status",
     "description": "Назва предмета закупівлі",
     "date": "2020-09-08T01:00:00+03:00",
-    "dateModified": "2020-09-08T01:00:00+03:00",
+    "dateModified": "2020-09-24T01:00:00+03:00",
     "owner": "broker",
     "status": "active",
     "period": {
@@ -89,6 +89,7 @@ X-Content-Type-Options: nosniff
         "dateModified": "2020-09-08T01:00:00+03:00"
       }
     ],
+    "agreementID": "a2078c9d305147f1a9853de36933248a",
     "id": "3176109c7572429b99dbc5707a10617c",
     "next_check": "2020-10-07T00:00:00+03:00"
   }

@@ -15,7 +15,6 @@ from openprocurement.framework.core.validation import (
     validate_update_qualification_in_not_allowed_status,
 )
 from openprocurement.framework.electroniccatalogue.models import Submission, Agreement
-from openprocurement.framework.electroniccatalogue.utils import create_milestone
 
 
 @qualificationsresource(
@@ -97,11 +96,11 @@ class QualificationResource(APIResource):
                 "status": "active",
                 "period": {
                     "startDate": now,
-                    "endDate": framework_data["qualificationPeriod"]["endDate"]
+                    "endDate": framework_data.get("qualificationPeriod").get("endDate")
                 },
-                "procuringEntity": framework_data["procuringEntity"],
-                "classification": framework_data["classification"],
-                "additionalClassifications": framework_data["additionalClassifications"],
+                "procuringEntity": framework_data.get("procuringEntity"),
+                "classification": framework_data.get("classification"),
+                "additionalClassifications": framework_data.get("additionalClassifications"),
                 "contracts": [],
                 "owner": framework_data["owner"],
                 "owner_token": framework_data["owner_token"],
@@ -109,6 +108,7 @@ class QualificationResource(APIResource):
                 "dateModified": now,
                 "date": now,
                 "transfer_token": transfer_token,
+                "frameworkDetails": framework_data.get("frameworkDetails"),
             }
             agreement = Agreement(agreement_data)
 
@@ -139,17 +139,20 @@ class QualificationResource(APIResource):
         framework = self.request.validated["framework"]
         agreement_data = get_agreement_by_id(db, framework.agreementID)
         submission_data = get_submission_by_id(db, qualification.submissionID)
+        if agreement_data["status"] != "active":
+            return
 
         contract_id = generate_id()
-        first_milestone = create_milestone(
-            documents=qualification.documents, framework=self.request.validated["framework_src"]
-        )
+        first_milestone_data = {
+            "type": "activation",
+            "documents": qualification.documents
+        }
         contract_data = {
             "id": contract_id,
             "qualificationID": qualification.id,
             "status": "active",
             "suppliers": submission_data["tenderers"],
-            "milestones": [first_milestone],
+            "milestones": [first_milestone_data],
         }
         new_contracts = deepcopy(agreement_data.get("contracts", []))
         new_contracts.append(contract_data)

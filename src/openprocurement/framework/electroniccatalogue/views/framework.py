@@ -226,6 +226,7 @@ class FrameworkResource(APIResource):
             if (
                     any([f in self.request.validated["json_data"] for f in AGREEMENT_DEPENDENT_FIELDS])
                     and framework.agreementID
+                    and self.request.validated["agreement_src"]["status"] == "active"
             ):
                 self.update_agreement()
 

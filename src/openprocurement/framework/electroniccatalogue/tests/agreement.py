@@ -1,8 +1,29 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.framework.electroniccatalogue.tests.agreement_blanks import create_agreement, change_agreement
-from openprocurement.framework.electroniccatalogue.tests.base import test_electronicCatalogue_data, test_submission_data
+from openprocurement.framework.electroniccatalogue.tests.agreement_blanks import (
+    create_agreement,
+    change_agreement,
+    patch_contract_suppliers,
+    post_ban_milestone,
+    post_ban_milestone_with_documents,
+    post_disqualification_milestone,
+    post_disqualification_milestone_with_documents,
+    post_milestone_invalid,
+    get_documents_list,
+    get_document_by_id,
+    create_milestone_document_forbidden,
+    create_milestone_documents,
+    create_milestone_document_json_bulk,
+    put_milestone_document,
+)
+from openprocurement.framework.electroniccatalogue.tests.base import (
+    test_electronicCatalogue_data,
+    test_submission_data,
+    AgreementContentWebTest,
+    MilestoneContentWebTest,
+    ban_milestone_data_with_documents,
+)
 from openprocurement.framework.electroniccatalogue.tests.qualification import (
     QualificationContentWebTest as BaseQualificationContentWebTest,
 )
@@ -16,27 +37,6 @@ class QualificationContentWebTest(BaseQualificationContentWebTest):
             upload_files=[("file", "name  name.doc", b"content")]
         )
         self.assertEqual(response.status, "201 Created")
-
-
-class AgreementContentWebTest(QualificationContentWebTest):
-    def setUp(self):
-        super().setUp()
-        response = self.app.post(
-            "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
-            upload_files=[("file", "name  name.doc", b"content")]
-        )
-        self.assertEqual(response.status, "201 Created")
-
-        response = self.app.patch_json(
-            f"/qualifications/{self.qualification_id}?acc_token={self.framework_token}",
-            {"data": {"status": "active"}},
-        )
-        self.assertEqual(response.status, "200 OK")
-
-        response = self.app.get(f"/frameworks/{self.framework_id}")
-        self.assertEqual(response.status, "200 OK")
-
-        self.agreement_id = self.agreement_id = response.json["data"]["agreementID"]
 
 
 class TestAgreementCreation(QualificationContentWebTest):
@@ -54,12 +54,60 @@ class TestAgreementChanges(AgreementContentWebTest):
     initial_auth = ('Basic', ('broker', ''))
 
     test_change_agreement = snitch(change_agreement)
+    test_patch_contract_suppliers = snitch(patch_contract_suppliers)
+
+
+class TestAgreementMilestoneResource(AgreementContentWebTest):
+    initial_data = test_electronicCatalogue_data
+    initial_submission_data = test_submission_data
+    initial_auth = ('Basic', ('broker', ''))
+
+    test_post_milestone_invalid = snitch(post_milestone_invalid)
+    test_post_ban_milestone_with_documents = snitch(post_ban_milestone_with_documents)
+    test_post_ban_milestone = snitch(post_ban_milestone)
+    test_post_disqualification_milestone = snitch(post_disqualification_milestone)
+    test_post_disqualification_milestone_with_documents = snitch(post_disqualification_milestone_with_documents)
+
+
+class TestMilestoneDocumentGet(MilestoneContentWebTest):
+    initial_data = test_electronicCatalogue_data
+    initial_submission_data = test_submission_data
+    initial_milestone_data = ban_milestone_data_with_documents
+
+    test_get_documents_list = snitch(get_documents_list)
+    test_get_document_by_id = snitch(get_document_by_id)
+
+    def setUp(self):
+        for document in self.initial_milestone_data["documents"]:
+            document["url"] = self.generate_docservice_url()
+        super().setUp()
+
+
+class TestMilestoneCreate(MilestoneContentWebTest):
+    initial_data = test_electronicCatalogue_data
+    initial_submission_data = test_submission_data
+    initial_milestone_data = ban_milestone_data_with_documents
+    initial_auth = ('Basic', ('broker', ''))
+    docservice = True
+
+    test_create_milestone_document_forbidden = snitch(create_milestone_document_forbidden)
+    test_create_milestone_documents = snitch(create_milestone_documents)
+    test_create_milestone_document_json_bulk = snitch(create_milestone_document_json_bulk)
+    test_put_milestone_document = snitch(put_milestone_document)
+
+    def setUp(self):
+        for document in self.initial_milestone_data["documents"]:
+            document["url"] = self.generate_docservice_url()
+        super().setUp()
 
 
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(TestAgreementCreation)
     suite.addTest(TestAgreementChanges)
+    suite.addTest(TestAgreementMilestoneResource)
+    suite.addTest(TestMilestoneDocumentGet)
+    suite.addTest(TestMilestoneCreate)
 
 
 if __name__ == "__main__":

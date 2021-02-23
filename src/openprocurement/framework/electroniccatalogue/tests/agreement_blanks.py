@@ -4,7 +4,16 @@ from datetime import timedelta
 
 from ciso8601 import parse_datetime
 
-from openprocurement.framework.electroniccatalogue.tests.base import test_electronicCatalogue_data
+from openprocurement.api.tests.base import change_auth
+from openprocurement.api.utils import get_now
+from openprocurement.framework.electroniccatalogue.tests.base import (
+    test_electronicCatalogue_data,
+    ban_milestone_data,
+    disqualification_milestone_data,
+    ban_milestone_data_with_documents,
+    disqualification_milestone_data_with_documents,
+)
+from openprocurement.framework.electroniccatalogue.utils import CONTRACT_BAN_DURATION, MILESTONE_CONTRACT_STATUSES
 
 
 def create_agreement(self):
@@ -34,6 +43,7 @@ def create_agreement(self):
     self.assertEqual(agreement_data["additionalClassifications"], framework_data["additionalClassifications"])
     self.assertEqual(agreement_data["procuringEntity"], framework_data["procuringEntity"])
     self.assertEqual(agreement_data["period"]["endDate"], framework_data["qualificationPeriod"]["endDate"])
+    self.assertEqual(agreement_data.get("frameworkDetails"), framework_data.get("frameworkDetails"))
     self.assertEqual(agreement_data["status"], "active")
     self.assertAlmostEqual(
         parse_datetime(agreement_data["period"]["startDate"]),
@@ -92,3 +102,552 @@ def change_agreement(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["procuringEntity"], new_procuringEntity)
+
+
+def patch_contract_suppliers(self):
+    response = self.app.patch_json(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}?acc_token={'0' * 32}",
+        {"data": {}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "url", "name": "permission", "description": "Forbidden"}]
+    )
+
+    with change_auth(self.app, ("Basic", ("broker1", ""))):
+        response = self.app.patch_json(
+            f"/agreements/{self.agreement_id}/contracts/{self.contract_id}?acc_token={self.framework_token}",
+            {"data": {}},
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"],
+            [{"location": "url", "name": "permission", "description": "Forbidden"}]
+        )
+
+    response = self.app.patch_json(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}?acc_token={self.framework_token}",
+        {"data": {"suppliers": self.initial_submission_data["tenderers"] * 2}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "suppliers", "description": ["Contract must have only one supplier"]}]
+    )
+
+    contract_ignore_patch_fields = {
+        "id": f"{'0' * 32}",
+        "qualificationID": "",
+        "status": "unsuccessful",
+        "milestones": [{"type": "ban"}],
+        "date": "2020-03-10T01:00:20.514000+02:00",
+        "suppliers": [{
+            "scale": "large",
+            "name": "new_name",
+            "name_en": "new_name",
+            "name_ru": "new_name",
+            "identifier": {"scheme": "UA-EDR", "id": "00000001", "legalName": "new_legalName"},
+        }]
+    }
+    contract_data = self.app.get(f"/agreements/{self.agreement_id}/contracts/{self.contract_id}").json["data"]
+    response = self.app.patch_json(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}?acc_token={self.framework_token}",
+        {"data": contract_ignore_patch_fields},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    for field in contract_ignore_patch_fields:
+        self.assertEqual(response.json["data"].get(field), contract_data.get(field))
+
+    contract_patch_fields = {
+        "suppliers": [{
+            "address": {
+                "countryName": "Україна",
+                "postalCode": "01221",
+                "region": "Київська область",
+                "locality": "Київська область",
+                "streetAddress": "вул. Банкова, 11, корпус 2"
+            },
+            "contactPoint": {
+                "name": "Найновіше державне управління справами",
+                "name_en": "New state administration",
+                "telephone": "0440000001"
+            },
+        }]
+    }
+    response = self.app.patch_json(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}?acc_token={self.framework_token}",
+        {"data": contract_patch_fields},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertTrue(len(response.json["data"]["suppliers"]), 1)
+    for field in contract_patch_fields["suppliers"][0]:
+        self.assertEqual(response.json["data"]["suppliers"][0].get(field),
+                         contract_patch_fields["suppliers"][0].get(field))
+
+
+def post_milestone_invalid(self):
+    milestone_data = deepcopy(ban_milestone_data)
+    response = self.app.post_json(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones?acc_token={'0' * 32}",
+        {"data": milestone_data},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "url", "name": "permission", "description": "Forbidden"}]
+    )
+
+    with change_auth(self.app, ("Basic", ("broker1", ""))):
+        response = self.app.post_json(
+            f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones?acc_token={self.framework_token}",
+            {"data": milestone_data},
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"],
+            [{"location": "url", "name": "permission", "description": "Forbidden"}]
+        )
+
+    milestone_data = {"type": "other_type"}
+    response = self.app.post_json(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones?acc_token={self.framework_token}",
+        {"data": milestone_data},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "type",
+                "description": [
+                    "Value must be one of ['activation', 'ban', 'disqualification', 'termination']."
+                ]
+            }
+        ]
+    )
+    milestone_data = {"type": "activation"}
+    response = self.app.post_json(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones?acc_token={self.framework_token}",
+        {"data": milestone_data},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Can't add document for 'activation' milestone"
+            }
+        ]
+    )
+
+
+def post_ban_milestone(self):
+    milestone_data = deepcopy(ban_milestone_data)
+    milestone_data["dateModified"] = "2020-03-10T01:00:20.514000+02:00"
+    milestone_data["dueDate"] = "2020-03-10T01:00:20.514000+02:00"
+    response = self.app.post_json(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones?acc_token={self.framework_token}",
+        {"data": milestone_data}
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    milestone = response.json["data"]
+    self.assertEqual(milestone["type"], milestone_data["type"])
+    self.assertIsNotNone(milestone["dateModified"])
+    self.assertNotEqual(milestone["dateModified"], milestone_data["dateModified"])
+    self.assertIsNotNone(milestone["dueDate"])
+    self.assertNotEqual(milestone["dueDate"], milestone_data["dueDate"])
+    self.assertTrue(parse_datetime(milestone["dueDate"]) - get_now() >= timedelta(days=CONTRACT_BAN_DURATION))
+
+    contract = self.app.get(f"/agreements/{self.agreement_id}/contracts/{self.contract_id}").json["data"]
+    self.assertEqual(contract["status"], MILESTONE_CONTRACT_STATUSES[milestone["type"]])
+
+    milestone_data = deepcopy(ban_milestone_data)
+    response = self.app.post_json(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones?acc_token={self.framework_token}",
+        {"data": milestone_data},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "name": "data",
+            "location": "body",
+            "description": "Can't add ban milestone for contract in banned status",
+          }]
+
+    )
+
+
+def post_ban_milestone_with_documents(self):
+    milestone_data = deepcopy(ban_milestone_data_with_documents)
+    milestone_data["documents"][0]["url"] = self.generate_docservice_url()
+    milestone_data["dateModified"] = "2020-03-10T01:00:20.514000+02:00"
+    milestone_data["dueDate"] = "2020-03-10T01:00:20.514000+02:00"
+    response = self.app.post_json(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones?acc_token={self.framework_token}",
+        {"data": milestone_data}
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    milestone = response.json["data"]
+    self.assertEqual(milestone["type"], milestone_data["type"])
+    self.assertIsNotNone(milestone["dateModified"])
+    self.assertNotEqual(milestone["dateModified"], milestone_data["dateModified"])
+    self.assertIsNotNone(milestone["dueDate"])
+    self.assertNotEqual(milestone["dueDate"], milestone_data["dueDate"])
+    self.assertEqual(len(milestone["documents"]), len(milestone_data["documents"]))
+    self.assertTrue(parse_datetime(milestone["dueDate"]) - get_now() >= timedelta(days=CONTRACT_BAN_DURATION))
+
+    contract = self.app.get(f"/agreements/{self.agreement_id}/contracts/{self.contract_id}").json["data"]
+    self.assertEqual(contract["status"], MILESTONE_CONTRACT_STATUSES[milestone["type"]])
+
+
+def post_disqualification_milestone(self):
+    milestone_data = deepcopy(disqualification_milestone_data)
+    milestone_data["dateModified"] = "2020-03-10T01:00:20.514000+02:00"
+    milestone_data["dueDate"] = "2020-03-10T01:00:20.514000+02:00"
+    response = self.app.post_json(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones?acc_token={self.framework_token}",
+        {"data": milestone_data}
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    milestone = response.json["data"]
+    self.assertEqual(milestone["type"], milestone_data["type"])
+    self.assertIsNotNone(milestone["dateModified"])
+    self.assertNotEqual(milestone["dateModified"], milestone_data["dateModified"])
+    self.assertIsNone(milestone.get("dueDate"))
+    contract = self.app.get(f"/agreements/{self.agreement_id}/contracts/{self.contract_id}").json["data"]
+    self.assertEqual(contract["status"], MILESTONE_CONTRACT_STATUSES[milestone["type"]])
+
+
+def post_disqualification_milestone_with_documents(self):
+    milestone_data = deepcopy(disqualification_milestone_data_with_documents)
+    milestone_data["documents"][0]["url"] = self.generate_docservice_url()
+    milestone_data["dateModified"] = "2020-03-10T01:00:20.514000+02:00"
+    milestone_data["dueDate"] = "2020-03-10T01:00:20.514000+02:00"
+    response = self.app.post_json(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones?acc_token={self.framework_token}",
+        {"data": milestone_data}
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    milestone = response.json["data"]
+    self.assertEqual(milestone["type"], milestone_data["type"])
+    self.assertIsNotNone(milestone["dateModified"])
+    self.assertNotEqual(milestone["dateModified"], milestone_data["dateModified"])
+    self.assertIsNone(milestone.get("dueDate"))
+    self.assertEqual(len(milestone["documents"]), len(milestone_data["documents"]))
+    contract = self.app.get(f"/agreements/{self.agreement_id}/contracts/{self.contract_id}").json["data"]
+    self.assertEqual(contract["status"], MILESTONE_CONTRACT_STATUSES[milestone["type"]])
+
+
+def get_documents_list(self):
+    response = self.app.get(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}/documents"
+    )
+    documents = response.json["data"]
+    self.assertEqual(len(documents), len(self.initial_milestone_data["documents"]))
+
+
+def get_document_by_id(self):
+    documents = self.app.get(
+            f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
+        ).json["data"].get("documents")
+    for doc in documents:
+        response = self.app.get(
+            f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
+            f"/documents/{doc['id']}")
+        document = response.json["data"]
+        self.assertEqual(doc["id"], document["id"])
+        self.assertEqual(doc["title"], document["title"])
+        self.assertEqual(doc["format"], document["format"])
+        self.assertEqual(doc["datePublished"], document["datePublished"])
+
+
+def create_milestone_document_forbidden(self):
+    # without acc_token
+    response = self.app.post(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}/documents",
+        upload_files=[("file", "укр.doc", b"content")],
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [{"description": "Forbidden", "location": "url", "name": "permission"}],
+    )
+
+    with change_auth(self.app, ("Basic", ("broker1", ""))):
+        response = self.app.post(
+            f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
+            f"/documents?acc_token={self.framework_token}",
+            upload_files=[("file", "укр.doc", b"content")],
+            status=403
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(
+            response.json["errors"],
+            [{"description": "Forbidden", "location": "url", "name": "permission"}],
+        )
+
+
+def create_milestone_documents(self):
+    response = self.app.post(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
+        f"/documents?acc_token={self.framework_token}",
+        upload_files=[("file", "укр.doc", b"content")],
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+
+    with change_auth(self.app, ("Basic", ("token", ""))):
+        response = self.app.post(
+            f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
+            f"/documents?acc_token={self.framework_token}",
+            upload_files=[("file", "укр.doc", b"content")],
+        )
+        self.assertEqual(response.status, "201 Created")
+
+
+def create_milestone_document_json_bulk(self):
+    response = self.app.post_json(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
+        f"/documents?acc_token={self.framework_token}",
+        {
+            "data": [
+                {
+                    "title": "name1.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                },
+                {
+                    "title": "name2.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            ]
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    doc_1 = response.json["data"][0]
+    doc_2 = response.json["data"][1]
+
+    def assert_document(document, title):
+        self.assertEqual(title, document["title"])
+        self.assertIn("Signature=", document["url"])
+        self.assertIn("KeyID=", document["url"])
+        self.assertNotIn("Expires=", document["url"])
+
+    assert_document(doc_1, "name1.doc")
+    assert_document(doc_2, "name2.doc")
+
+    milestone = self.app.get(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
+    ).json["data"]
+    doc_1 = milestone["documents"][1]
+    doc_2 = milestone["documents"][2]
+    assert_document(doc_1, "name1.doc")
+    assert_document(doc_2, "name2.doc")
+
+    response = self.app.get(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}/documents"
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    doc_1 = response.json["data"][1]
+    doc_2 = response.json["data"][2]
+    assert_document(doc_1, "name1.doc")
+    assert_document(doc_2, "name2.doc")
+
+
+def put_milestone_document(self):
+    response = self.app.post(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
+        f"/documents?acc_token={self.framework_token}",
+        upload_files=[("file", "укр.doc", b"content")],
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual("укр.doc", response.json["data"]["title"])
+    doc_id = response.json["data"]["id"]
+    dateModified = response.json["data"]["dateModified"]
+    self.assertIn(doc_id, response.headers["Location"])
+    response = self.app.put(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
+        f"/documents/{doc_id}?acc_token={self.framework_token}",
+        upload_files=[("file", "name name.doc", b"content2")],
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(doc_id, response.json["data"]["id"])
+    if self.docservice:
+        self.assertIn("Signature=", response.json["data"]["url"])
+        self.assertIn("KeyID=", response.json["data"]["url"])
+        self.assertNotIn("Expires=", response.json["data"]["url"])
+        key = response.json["data"]["url"].split("/")[-1].split("?")[0]
+        milestone = self.app.get(
+            f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
+        ).json["data"]
+        self.assertIn(key, milestone["documents"][-1]["url"])
+        self.assertIn("Signature=", milestone["documents"][-1]["url"])
+        self.assertIn("KeyID=", milestone["documents"][-1]["url"])
+        self.assertNotIn("Expires=", milestone["documents"][-1]["url"])
+    response = self.app.get(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
+        f"/documents/{doc_id}",
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(doc_id, response.json["data"]["id"])
+    self.assertEqual("name name.doc", response.json["data"]["title"])
+    dateModified2 = response.json["data"]["dateModified"]
+    self.assertTrue(dateModified < dateModified2)
+    self.assertEqual(dateModified, response.json["data"]["previousVersions"][0]["dateModified"])
+
+    response = self.app.get(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
+        f"/documents?all=true",
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(dateModified, response.json["data"][1]["dateModified"])
+    self.assertEqual(dateModified2, response.json["data"][2]["dateModified"])
+
+    response = self.app.post(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
+        f"/documents?acc_token={self.framework_token}",
+        upload_files=[("file", "name.doc", b"content")],
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    doc_id = response.json["data"]["id"]
+    dateModified = response.json["data"]["dateModified"]
+    self.assertIn(doc_id, response.headers["Location"])
+
+    response = self.app.get(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}/documents",
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(dateModified2, response.json["data"][1]["dateModified"])
+    self.assertEqual(dateModified, response.json["data"][2]["dateModified"])
+    response = self.app.put(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
+        f"/documents/{doc_id}?acc_token={self.framework_token}",
+        status=404,
+        upload_files=[("invalid_name", "name.doc", b"content")],
+    )
+    self.assertEqual(response.status, "404 Not Found")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
+    response = self.app.put(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
+        f"/documents/{doc_id}?acc_token={self.framework_token}",
+        "content3",
+        content_type="application/msword",
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(doc_id, response.json["data"]["id"])
+    if self.docservice:
+        self.assertIn("Signature=", response.json["data"]["url"])
+        self.assertIn("KeyID=", response.json["data"]["url"])
+        self.assertNotIn("Expires=", response.json["data"]["url"])
+        key = response.json["data"]["url"].split("/")[-1].split("?")[0]
+        milestone = self.app.get(
+            f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
+        ).json["data"]
+        self.assertIn(key, milestone["documents"][-1]["url"])
+        self.assertIn("Signature=", milestone["documents"][-1]["url"])
+        self.assertIn("KeyID=", milestone["documents"][-1]["url"])
+        self.assertNotIn("Expires=", milestone["documents"][-1]["url"])
+    else:
+        key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
+    if self.docservice:
+        response = self.app.get(
+            f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
+            f"/documents/{doc_id}?download={key}"
+        )
+        self.assertEqual(response.status, "302 Moved Temporarily")
+        self.assertEqual(response.content_type, "application/json")
+
+    response = self.app.get(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}/documents"
+    )
+    self.assertEqual(response.status, "200 OK")
+    doc_id = response.json["data"][0]["id"]
+
+    response = self.app.patch_json(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
+        f"/documents/{doc_id}?acc_token={self.framework_token}",
+        {"data": {"documentType": None}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    self.set_contract_status("terminated")
+    response = self.app.put(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
+        f"/documents/{doc_id}?acc_token={self.framework_token}",
+        "contentX",
+        content_type="application/msword",
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": "Can't update document in current (terminated) contract status",
+                "location": "body",
+                "name": "data",
+            }
+        ],
+    )
+    #  document in current (complete) contract status
+    response = self.app.patch_json(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
+        f"/documents/{doc_id}?acc_token={self.framework_token}",
+        {"data": {"documentType": None}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": "Can't update document in current (terminated) contract status",
+                "location": "body",
+                "name": "data",
+            }
+        ],
+    )
+

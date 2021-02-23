@@ -30,6 +30,7 @@ class Root(object):
         (Allow, "g:admins", ALL_PERMISSIONS),
         # Agreement permissions
         (Allow, "g:agreements", "create_agreement"),
+        (Allow, "g:chronograph", "edit_agreement"),
         (Allow, "g:Administrator", "edit_agreement"),
         (Allow, "g:admins", ALL_PERMISSIONS),
     ]
