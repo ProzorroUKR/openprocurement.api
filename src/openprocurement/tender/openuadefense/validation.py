@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import get_now, raise_operation_error
+from openprocurement.api.utils import get_now, raise_operation_error, get_first_revision_date
 from openprocurement.api.constants import NO_DEFENSE_AWARD_CLAIMS_FROM
 
 from openprocurement.tender.openua.validation import (
@@ -35,8 +35,10 @@ def validate_submit_claim_time(request, **kwargs):
 
 
 def validate_only_complaint_allowed(request, **kwargs):
+    tender = request.validated["tender"]
+    tender_created = get_first_revision_date(tender, default=get_now())
     if (
-        get_now() > NO_DEFENSE_AWARD_CLAIMS_FROM
+        tender_created > NO_DEFENSE_AWARD_CLAIMS_FROM
         and request.validated["complaint"]["type"] != "complaint"
     ):
         raise_operation_error(
