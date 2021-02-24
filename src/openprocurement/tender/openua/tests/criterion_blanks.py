@@ -816,6 +816,23 @@ def put_rg_requirement_valid(self):
     self.assertEqual(response.json["data"][1]["title"], put_fields["title"])
     self.assertEqual(response.json["data"][1]["expectedValue"], put_fields["expectedValue"])
     self.assertIsNone(response.json["data"][1].get("dateModified"))
+    self.assertNotEqual(response.json["data"][0]["datePublished"], response.json["data"][1]["datePublished"])
+
+    put_non_exclusion_ignore_data = {
+        "id": f"{'0'*32}",
+        "datePublished": "2018-10-22T11:14:18.511585+03:00",
+        "dateModified": "2018-10-22T11:14:18.511585+03:00",
+    }
+    response = self.app.put_json(
+        put_url.format(self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, self.tender_token),
+        {"data": put_non_exclusion_ignore_data},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    response = self.app.get(get_url.format(self.tender_id, self.criteria_id, self.rg_id))
+    self.assertEqual(len(response.json["data"]), 2)
+    for field in put_non_exclusion_ignore_data:
+        self.assertNotEqual(put_non_exclusion_ignore_data.get(field), response.json["data"][1].get(field))
 
     # Test put exclusion criteria
     response = self.app.get(
@@ -927,8 +944,43 @@ def put_rg_requirement_valid(self):
     self.assertEqual(len(response.json["data"]), 5)
     self.assertEqual(response.json["data"][3]["status"], "cancelled")
     self.assertEqual(response.json["data"][4]["status"], "active")
+    self.assertNotEqual(response.json["data"][4]["datePublished"], response.json["data"][3]["datePublished"])
     self.assertIsNone(response.json["data"][4].get("dateModified"))
     self.assertIsNone(response.json["data"][4].get("eligibleEvidences"))
+
+    put_exclusion_ignore_data = {
+        "id": f"{'0'*32}",
+        "title": "111",
+        "title_en": "",
+        "title_ru": "",
+        "description": "",
+        "description_en": "",
+        "description_ru": "",
+        "dataType": "string",
+        "minValue": "",
+        "maxValue": "",
+        "period": {
+            "maxExtendDate": "2030-10-22T11:14:18.511585+03:00",
+            "durationInDays": 1,
+            "duration": "days"
+        },
+        "expectedValue": "",
+        "datePublished": "2020-10-22T11:14:18.511585+03:00",
+        "dateModified": "2020-10-22T11:14:18.511585+03:00",
+    }
+
+    response = self.app.put_json(
+        put_url.format(
+            self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id, exc_requirement_id, self.tender_token
+        ),
+        {"data": put_exclusion_ignore_data},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    response = self.app.get(get_url.format(self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id))
+    self.assertEqual(len(response.json["data"]), 5)
+    for field in put_exclusion_ignore_data:
+        self.assertNotEqual(put_exclusion_ignore_data.get(field), response.json["data"][4].get(field))
 
 
 def put_rg_requirement_invalid(self):
