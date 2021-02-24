@@ -236,7 +236,7 @@ def post_milestone_invalid(self):
                 "location": "body",
                 "name": "type",
                 "description": [
-                    "Value must be one of ['activation', 'ban', 'disqualification', 'termination']."
+                    "Value must be one of ['activation', 'ban', 'disqualification', 'terminated']."
                 ]
             }
         ]
