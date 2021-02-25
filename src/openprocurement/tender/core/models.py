@@ -752,7 +752,9 @@ class Requirement(Model):
     class Options:
         roles = {
             "create": blacklist("datePublished", "dateModified"),
-            "edit": blacklist("id", "datePublished", "dateModified"),
+            "edit": whitelist("title", "title_en", "title_ru", "description", "description_en", "description_ru",
+                              "dataType", "minValue", "maxValue", "period", "eligibleEvidences", "relatedFeature",
+                              "expectedValue", "status"),
             "edit_exclusion": whitelist("eligibleEvidences", "status"),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
