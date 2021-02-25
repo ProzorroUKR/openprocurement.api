@@ -27,6 +27,12 @@ class Root(object):
         (Allow, "g:framework_owner", "edit_qualification"),
         (Allow, "g:Administrator", "edit_qualification"),
         (Allow, "g:admins", ALL_PERMISSIONS),
+        # Agreement permissions
+        (Allow, Everyone, "view_listing"),
+        (Allow, Everyone, "view_agreement"),
+        (Allow, "g:agreements", "create_agreement"),
+        (Allow, "g:Administrator", "edit_agreement"),
+        (Allow, "g:admins", ALL_PERMISSIONS),
     ]
 
     def __init__(self, request):
@@ -72,3 +78,22 @@ def submission_factory(request):
 
 def qualification_factory(request):
     return base_factory(request, "qualification")
+
+
+def agreement_factory(request):
+    request.validated["agreement_src"] = {}
+    root = Root(request)
+    if not request.matchdict or not request.matchdict.get("agreement_id"):
+        return root
+    request.validated["agreement_id"] = request.matchdict["agreement_id"]
+    agreement = request.agreement
+    agreement.__parent__ = root
+    request.validated["agreement"] = request.validated["db_doc"] = agreement
+    if request.method != "GET":
+        request.validated["agreement_src"] = agreement.serialize("plain")
+    if request.matchdict.get("document_id"):
+        return get_item(agreement, "document", request)
+    if request.matchdict.get("contract_id"):
+        return get_item(agreement, "contract", request)
+    request.validated["id"] = request.matchdict["agreement_id"]
+    return agreement

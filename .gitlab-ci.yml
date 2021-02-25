@@ -450,49 +450,6 @@ test_api_ecriteria:
     - .test_before_ecriteria
     - .test_api
 
-.test_agreement_core:
-  variables:
-    TESTS_PATH: src/openprocurement/agreement/core/tests
-    COV_PATH: src/openprocurement/agreement/core
-    COV_FILE: .coveragerc
-
-test_agreement_core:
-  extends:
-    - .test
-    - .test_agreement_core
-
-test_agreement_core_before_2020_04_19:
-  extends:
-    - .test_before_2020_04_19
-    - .test_agreement_core
-
-test_agreement_core_ecriteria:
-  extends:
-    - .test_before_ecriteria
-    - .test_agreement_core
-
-.test_agreement_cfaua:
-  variables:
-    TESTS_PATH: src/openprocurement/agreement/cfaua/tests
-    COV_PATH: src/openprocurement/agreement/cfaua
-    COV_FILE: .coveragerc
-    KUBERNETES_CPU_REQUEST: 1500m
-
-test_agreement_cfaua:
-  extends:
-    - .test
-    - .test_agreement_cfaua
-
-test_agreement_cfaua_before_2020_04_19:
-  extends:
-    - .test_before_2020_04_19
-    - .test_agreement_cfaua
-
-test_agreement_cfaua_ecriteria:
-  extends:
-    - .test_before_ecriteria
-    - .test_agreement_cfaua
-
 .test_contracting_api:
   variables:
     TESTS_PATH: src/openprocurement/contracting/api/tests
@@ -611,6 +568,19 @@ test_framework_electroniccatalogue:
   extends:
     - .test
     - .test_framework_electroniccatalogue
+
+.test_framework_cfaua:
+  variables:
+    TESTS_PATH: src/openprocurement/framework/cfaua/tests
+    COV_PATH: src/openprocurement/framework/cfaua
+    COV_FILE: .coveragerc
+    KUBERNETES_MEMORY_REQUEST: 500Mi
+    KUBERNETES_CPU_REQUEST: 500m
+
+test_framework_cfaua:
+  extends:
+    - .test
+    - .test_framework_cfaua
 
 .test_tender_comp_stage1:
   variables:

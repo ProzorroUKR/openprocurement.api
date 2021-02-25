@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
+from uuid import uuid4
+
 from pyramid.security import Allow
 from schematics.exceptions import ValidationError
 from schematics.transforms import blacklist, whitelist
-from schematics.types import StringType, BaseType
+from schematics.types import StringType, BaseType, MD5Type
 from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
 from zope.interface import implementer
@@ -320,3 +322,58 @@ class Qualification(OpenprocurementSchematicsDocument, Model):
             (Allow, "{}_{}".format(self.framework_owner, self.framework_token), "edit_qualification"),
         ]
         return acl
+
+
+class IAgreement(IOPContent):
+    """ Base interface for agreement container """
+
+
+@implementer(IAgreement)
+class Agreement(OpenprocurementSchematicsDocument, Model):
+    """ Base agreement model """
+
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    agreementID = StringType()
+    agreementType = StringType(default="electronicCatalogue")
+    # maybe terminated ????
+    status = StringType(choices=["active", "terminated"], required=True)
+    date = IsoDateTimeType()
+    dateModified = IsoDateTimeType()
+    revisions = ListType(ModelType(Revision, required=True), default=list())
+    owner_token = StringType(default=lambda: uuid4().hex)
+    transfer_token = StringType(default=lambda: uuid4().hex)
+    owner = StringType()
+    mode = StringType(choices=["test"])
+
+    def import_data(self, raw_data, **kw):
+        """
+        Converts and imports the raw data into the instance of the model
+        according to the fields in the model.
+        :param raw_data:
+            The data to be imported.
+        """
+        data = self.convert(raw_data, **kw)
+        del_keys = [
+            k for k in data.keys() if data[k] == self.__class__.fields[k].default or data[k] == getattr(self, k)
+        ]
+        for k in del_keys:
+            del data[k]
+
+        self._data.update(data)
+        return self
+
+    def __local_roles__(self):
+        return dict(
+            [
+                ("{}_{}".format(self.owner, self.owner_token), "agreement_owner"),
+            ]
+        )
+
+    def __acl__(self):
+        acl = [
+            (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_agreement"),
+        ]
+        return acl
+
+    def __repr__(self):
+        return "<%s:%r@%r>" % (type(self).__name__, self.id, self.rev)

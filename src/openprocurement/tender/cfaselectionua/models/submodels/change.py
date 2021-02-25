@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.roles import RolesFromCsv
-from openprocurement.agreement.cfaua.models.change import (
+from openprocurement.framework.cfaua.models.agreement import (
     ChangeTaxRate as BaseChangeTaxRate,
     ChangeItemPriceVariation as BaseChangeItemPriceVariation,
     ChangeThirdParty as BaseChangeThirdParty,

@@ -14,6 +14,9 @@ from openprocurement.framework.core.utils import (
     framework_from_data,
     submission_from_data,
     qualification_from_data,
+    IsAgreement,
+    agreement_from_data,
+    register_agreement_agreementType,
 )
 
 LOGGER = getLogger("openprocurement.framework.core")
@@ -27,20 +30,25 @@ def includeme(config):
     config.add_request_method(extract_doc, "framework", reify=True)
     config.add_request_method(extract_doc, "submission", reify=True)
     config.add_request_method(extract_doc, "qualification", reify=True)
+    config.add_request_method(extract_doc, "agreement", reify=True)
 
     # framework frameworkType plugins support
     config.registry.framework_frameworkTypes = {}
     config.registry.submission_submissionTypes = {}
     config.registry.qualification_qualificationTypes = {}
+    config.registry.agreement_agreementTypes = {}
     config.add_route_predicate("frameworkType", isFramework)
     config.add_route_predicate("submissionType", isSubmission)
     config.add_route_predicate("qualificationType", isQualification)
+    config.add_route_predicate("agreementType", IsAgreement)
     config.add_request_method(framework_from_data)
     config.add_request_method(submission_from_data)
     config.add_request_method(qualification_from_data)
+    config.add_request_method(agreement_from_data)
     config.add_directive("add_framework_frameworkTypes", register_framework_frameworkType)
     config.add_directive("add_submission_submissionTypes", register_submission_submissionType)
     config.add_directive("add_qualification_qualificationTypes", register_qualification_qualificationType)
+    config.add_directive("add_agreement_agreementTypes", register_agreement_agreementType)
     config.scan("openprocurement.framework.core.views")
 
     # search for plugins

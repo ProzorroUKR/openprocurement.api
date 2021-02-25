@@ -150,8 +150,8 @@ def validate_activate_submission(request, **kwargs):
             "Tenderer already have active submission for framework {}".format(submission.frameworkID)
         )
 
-# Qualification validations
 
+# Qualification validations
 def validate_qualification_data(request, **kwargs):
     update_logging_context(request, {"qualification_id": "__new__"})
     data = validate_json_data(request)
@@ -199,3 +199,24 @@ def validate_document_operation_in_not_allowed_status(request, **kwargs):
                 OPERATIONS.get(request.method), qualification["status"],
             ),
         )
+
+
+def validate_agreement_data(request, **kwargs):
+    update_logging_context(request, {"agreement_id": "__new__"})
+    data = validate_json_data(request)
+    model = request.agreement_from_data(data, create=False)
+    _validate_agreement_accreditation_level(request, model)
+    if data.get("frameworkID"):
+        framework = get_framework_by_id(request.registry.db, data["frameworkID"])
+        if not framework:
+            raise_operation_error(
+                request,
+                "frameworkID must be one of exists frameworks",
+            )
+        request.validated["framework"] = framework
+    return validate_data(request, model, data=data)
+
+
+def _validate_agreement_accreditation_level(request, model):
+    levels = model.create_accreditations
+    _validate_accreditation_level(request, levels, "agreement", "creation")

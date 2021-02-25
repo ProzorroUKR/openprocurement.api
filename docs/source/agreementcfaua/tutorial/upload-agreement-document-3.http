@@ -1,4 +1,4 @@
-PUT /api/2.5/agreements/6305e36dbee94cfd9dd0bab9039a9265/documents/ded83b249f074a8f9e4e59f1c5f9a7c6?acc_token=0853fab32963423980f0f96af024c1eb HTTP/1.0
+PUT /api/2.5/agreements/6305e36dbee94cfd9dd0bab9039a9265/documents/a85a83f6c640400c9c8351479b86d65c?acc_token=9202afaa0bda4d5a8d604c4bac984417 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 181
 Content-Type: multipart/form-data; boundary=---BOUNDARY
@@ -17,11 +17,11 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "ded83b249f074a8f9e4e59f1c5f9a7c6",
+    "id": "a85a83f6c640400c9c8351479b86d65c",
     "hash": "md5:00000000000000000000000000000000",
     "title": "agreement_additional_docs.doc",
     "format": "application/msword",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c67abdccc9c9489e81b638306925ad57?Signature=CNvof5JztgfA%2BYbehRHMrolIfhVLXR2hmgpiVjTSciTTNtxjfOj87G3sOqSHVzLuFOCA5f5zqgVjtqlM96dQDw%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c7d8d9fcba46464dafd460c73945ddfc?Signature=QW3Xm4t6y64HqLl%2BVMhLFIy1jL0Kb5eJvYFq7aJIRVagziWkYyOTouCW9O5WqvNpPUDSbCJq%2Foa3HDMjEuAZCw%3D%3D&KeyID=a8968c46",
     "datePublished": "2020-09-08T01:00:00+03:00",
     "dateModified": "2020-09-08T01:00:00+03:00",
     "documentOf": "agreement"

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import json_view, APIResource, context_unpack
-from openprocurement.agreement.core.utils import save_agreement
-from openprocurement.agreement.core.resource import agreements_resource
+from openprocurement.framework.core.utils import save_agreement
+from openprocurement.framework.core.utils import agreementsresource
 from openprocurement.relocation.api.utils import (
     extract_transfer,
     update_ownership,
@@ -17,7 +17,7 @@ from openprocurement.relocation.api.validation import (
 )
 
 
-@agreements_resource(
+@agreementsresource(
     name="Agreement ownership", path="/agreements/{agreement_id}/ownership", description="Agreements Ownership"
 )
 class AgreementResource(APIResource):

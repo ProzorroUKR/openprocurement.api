@@ -1,4 +1,4 @@
-PATCH /api/2.5/agreements/6305e36dbee94cfd9dd0bab9039a9265/changes/df47057385d947269587d47789743d9f?acc_token=0853fab32963423980f0f96af024c1eb HTTP/1.0
+PATCH /api/2.5/agreements/6305e36dbee94cfd9dd0bab9039a9265/changes/42b702292a4947b6b3872286c6b12996?acc_token=9202afaa0bda4d5a8d604c4bac984417 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 255
 Content-Type: application/json
@@ -15,11 +15,11 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "df47057385d947269587d47789743d9f",
+    "id": "42b702292a4947b6b3872286c6b12996",
+    "status": "pending",
     "date": "2020-09-08T01:00:00+03:00",
     "rationale": "Друга і третя поставка має бути розфасована",
     "rationale_en": "Agreement change cause",
-    "status": "pending",
     "rationaleType": "taxRate"
   }
 }

@@ -5,7 +5,7 @@ from schematics.exceptions import ValidationError
 from schematics.types import StringType
 from schematics.types.compound import ModelType, ListType
 from openprocurement.api.models import Model, DecimalType
-from openprocurement.agreement.cfaua.validation import validate_values_uniq
+from openprocurement.framework.cfaua.validation import validate_values_uniq
 
 
 class FeatureValue(Model):

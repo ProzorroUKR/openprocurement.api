@@ -1,0 +1,185 @@
+    {
+        "agreementID": "UA-2018-07-30-000001-afe4b1ed046845bcae5d675b0b8ca5aa1",
+        "status": "active",
+        "contracts": [
+                   {
+                       "status": "active",
+                       "unitPrices": [
+                           {
+                               "value": {
+                                   "currency": "UAH",
+                                   "amount": 100,
+                                   "valueAddedTaxIncluded": true
+                               },
+                               "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc"
+                           }
+                       ],
+                       "suppliers": [
+                           {
+                               "contactPoint": {
+                                   "name": "Державне управління справами",
+                                   "telephone": "0440000000"
+                               },
+                               "identifier": {
+                                   "scheme": "UA-EDR",
+                                   "id": "00037256",
+                                   "uri": "http://www.dus.gov.ua/"
+                               },
+                               "name": "Державне управління справами",
+                               "address": {
+                                   "postalCode": "01220",
+                                   "countryName": "Україна",
+                                   "streetAddress": "вул. Банкова, 11, корпус 1",
+                                   "region": "м. Київ",
+                                   "locality": "м. Київ"
+                               }
+                           }
+                       ],
+                       "bidID": "0a292b6466274139ad3d973fd64830ff",
+                       "date": "2018-07-30T17:40:15.471158+03:00",
+                       "awardID": "d7406b07c05b4796bb168a7c47ee7d31",
+                       "id": "d6cd8c3188d74e1481a9cebb57fd9329"
+                   },
+                   {
+                       "status": "active",
+                       "unitPrices": [
+                           {
+                               "value": {
+                                   "currency": "UAH",
+                                   "amount": 100,
+                                   "valueAddedTaxIncluded": true
+                               },
+                               "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc"
+                           }
+                       ],
+                       "suppliers": [
+                           {
+                               "contactPoint": {
+                                   "name": "Державне управління справами",
+                                   "telephone": "0440000000"
+                               },
+                               "identifier": {
+                                   "scheme": "UA-EDR",
+                                   "id": "00037256",
+                                   "uri": "http://www.dus.gov.ua/"
+                               },
+                               "name": "Державне управління справами",
+                               "address": {
+                                   "postalCode": "01220",
+                                   "countryName": "Україна",
+                                   "streetAddress": "вул. Банкова, 11, корпус 1",
+                                   "region": "м. Київ",
+                                   "locality": "м. Київ"
+                               }
+                           }
+                       ],
+                       "bidID": "d85ef51272f14087abb2eed535340493",
+                       "date": "2018-07-30T17:40:15.471207+03:00",
+                       "awardID": "cdb6da320600480d8eaabd8eaa920872",
+                       "id": "c8ef8c0d1cb74528b13335a623225762"
+                   },
+                   {
+                       "status": "active",
+                       "unitPrices": [
+                           {
+                               "value": {
+                                   "currency": "UAH",
+                                   "amount": 100,
+                                   "valueAddedTaxIncluded": true
+                               },
+                               "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc"
+                           }
+                       ],
+                       "suppliers": [
+                           {
+                               "contactPoint": {
+                                   "name": "Державне управління справами",
+                                   "telephone": "0440000000"
+                               },
+                               "identifier": {
+                                   "scheme": "UA-EDR",
+                                   "id": "00037256",
+                                   "uri": "http://www.dus.gov.ua/"
+                               },
+                               "name": "Державне управління справами",
+                               "address": {
+                                   "postalCode": "01220",
+                                   "countryName": "Україна",
+                                   "streetAddress": "вул. Банкова, 11, корпус 1",
+                                   "region": "м. Київ",
+                                   "locality": "м. Київ"
+                               }
+                           }
+                       ],
+                       "bidID": "fc02090c338a477f8013156a4fa2da10",
+                       "date": "2018-07-30T17:40:15.471264+03:00",
+                       "awardID": "a915a07f7f0b4dafa583cce119bf1823",
+                       "id": "d925d6c6124447d581f2ae5f52ba710f"
+                   }
+               ],
+        "items": [
+                   {
+                       "description": "футляри до державних нагород",
+                       "classification": {
+                           "scheme": "ДК021",
+                           "description": "Cartons",
+                           "id": "44617100-9"
+                       },
+                       "description_en": "Cases for state awards",
+                       "additionalClassifications": [
+                           {
+                               "scheme": "ДКПП",
+                               "id": "17.21.1",
+                               "description": "папір і картон гофровані, паперова й картонна тара"
+                           }
+                       ],
+                       "deliveryAddress": {
+                           "postalCode": "79000",
+                           "countryName": "Україна",
+                           "streetAddress": "вул. Банкова 1",
+                           "region": "м. Київ",
+                           "locality": "м. Київ"
+                       },
+                       "deliveryDate": {
+                           "startDate": "2018-06-27T13:39:09.362837+03:00",
+                           "endDate": "2018-06-30T13:39:09.362837+03:00"
+                       },
+                       "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
+                       "unit": {
+                           "code": "44617100-9",
+                           "name": "item"
+                       },
+                       "quantity": 5
+                   }
+               ],
+        "date": "2018-07-30T17:40:15.786102+03:00",
+        "id": "56e1f38d80224a8ea245f6af546acadc",
+        "tender_id": "8481d7eb01694c25b18658036c236c5d",
+        "owner": "broker",
+        "tender_token": "c6c6e8ed4b1542e4bf13d3f98ec5ab59",
+        "procuringEntity":  {
+            "kind": "general",
+            "name": "Державне управління справами",
+            "address": {
+                "postalCode": "01220",
+                "countryName": "Україна",
+                "streetAddress": "вул. Банкова, 11, корпус 1",
+                "region": "м. Київ",
+                "locality": "м. Київ"
+            },
+            "contactPoint": {
+                "name_en": "State administration",
+                "name": "Державне управління справами",
+                "availableLanguage": "uk",
+                "telephone": "0440000000"
+            },
+            "identifier": {
+                "scheme": "UA-EDR",
+                "legalName_en": "dus.gov.ua",
+                "id": "00037256",
+                "uri": "http://www.dus.gov.ua/"
+            },
+            "name_en": "State administration"
+        },
+        "agreementType": "cfaua"
+    }

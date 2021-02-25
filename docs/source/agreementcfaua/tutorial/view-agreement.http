@@ -11,16 +11,15 @@ X-Content-Type-Options: nosniff
     "agreementID": "UA-2020-09-08-000001-f37dae8cfa4445f6aa54e7c7c747028f1",
     "status": "active",
     "dateModified": "2020-09-08T01:00:00+03:00",
-    "tender_id": "7fdaa184f29b435fad1d7bb372142d6e",
     "owner": "broker",
     "changes": [
       {
-        "id": "df47057385d947269587d47789743d9f",
+        "id": "42b702292a4947b6b3872286c6b12996",
+        "status": "active",
         "date": "2020-09-08T01:00:00+03:00",
         "rationale": "Друга і третя поставка має бути розфасована",
         "rationale_en": "Agreement change cause",
         "dateSigned": "2020-09-08T01:00:00+03:00",
-        "status": "active",
         "rationaleType": "taxRate",
         "modifications": [
           {
@@ -32,14 +31,14 @@ X-Content-Type-Options: nosniff
     ],
     "documents": [
       {
-        "id": "6f1b80da83904c2cb6bdc6e62d89519a",
+        "id": "0f0e62d22bfb487f862147c5e6574a9f",
         "hash": "md5:00000000000000000000000000000000",
         "title": "agreement_changes.doc",
         "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/23a6b64da382493aa12e212969c8fb0e?Signature=czloEVYiYdO9r3NjxCRivL1cQcvy5sdRC9MYfAH5iqE%2FVGaPKmMy1MRaHHKGitY5bL1egTSaqHEBuvowpWHABA%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/942027dcdf104710ae89a8b24ad17b2f?Signature=QeOTNEJAy61PDdhoPsFB05UN76DqJVhf3QNEEkUq0v3EhCCG9czKUpWuTjQWEHRe0ghB6zx8WGIW%2B9wviyqoDQ%3D%3D&KeyID=a8968c46",
         "datePublished": "2020-09-08T01:00:00+03:00",
         "dateModified": "2020-09-08T01:00:00+03:00",
-        "relatedItem": "df47057385d947269587d47789743d9f",
+        "relatedItem": "42b702292a4947b6b3872286c6b12996",
         "documentOf": "change"
       }
     ],
@@ -47,31 +46,6 @@ X-Content-Type-Options: nosniff
       {
         "id": "1c2e73a922054dd78e5b67e112a1ea96",
         "status": "active",
-        "suppliers": [
-          {
-            "name": "Державне управління справами",
-            "name_en": "State administration",
-            "identifier": {
-              "scheme": "UA-EDR",
-              "id": "00037256",
-              "legalName_en": "dus.gov.ua",
-              "uri": "http://www.dus.gov.ua/"
-            },
-            "address": {
-              "streetAddress": "вул. Банкова, 11, корпус 1",
-              "locality": "м. Київ",
-              "region": "м. Київ",
-              "postalCode": "01220",
-              "countryName": "Україна"
-            },
-            "contactPoint": {
-              "name": "Державне управління справами",
-              "name_en": "State administration",
-              "telephone": "0440000000"
-            },
-            "scale": "micro"
-          }
-        ],
         "unitPrices": [
           {
             "relatedItem": "a7cc533337f24b6cb447f0dc09bbacd4",
@@ -84,11 +58,7 @@ X-Content-Type-Options: nosniff
         ],
         "awardID": "e4d81f4d34aa4e00af3a9fbd22c872f0",
         "bidID": "6589a3c89ec14718b4f9fe14391112e9",
-        "date": "2020-09-08T01:00:00+03:00"
-      },
-      {
-        "id": "4af43d836c2240788d74d3d6d7d89f20",
-        "status": "active",
+        "date": "2020-09-08T01:00:00+03:00",
         "suppliers": [
           {
             "name": "Державне управління справами",
@@ -113,7 +83,11 @@ X-Content-Type-Options: nosniff
             },
             "scale": "micro"
           }
-        ],
+        ]
+      },
+      {
+        "id": "4af43d836c2240788d74d3d6d7d89f20",
+        "status": "active",
         "unitPrices": [
           {
             "relatedItem": "a7cc533337f24b6cb447f0dc09bbacd4",
@@ -126,11 +100,7 @@ X-Content-Type-Options: nosniff
         ],
         "awardID": "5a661ac88fc8473b908629ec59493459",
         "bidID": "0562c5b9accd48cabf0b89f3c89f65c7",
-        "date": "2020-09-08T01:00:00+03:00"
-      },
-      {
-        "id": "c8a433dd1798496e8f7be65622ea3215",
-        "status": "active",
+        "date": "2020-09-08T01:00:00+03:00",
         "suppliers": [
           {
             "name": "Державне управління справами",
@@ -155,7 +125,11 @@ X-Content-Type-Options: nosniff
             },
             "scale": "micro"
           }
-        ],
+        ]
+      },
+      {
+        "id": "c8a433dd1798496e8f7be65622ea3215",
+        "status": "active",
         "unitPrices": [
           {
             "relatedItem": "a7cc533337f24b6cb447f0dc09bbacd4",
@@ -168,7 +142,32 @@ X-Content-Type-Options: nosniff
         ],
         "awardID": "393acf447fd546438a38be2ab8ca0c76",
         "bidID": "f1301daefed749be8ed4010e7e78190a",
-        "date": "2020-09-08T01:00:00+03:00"
+        "date": "2020-09-08T01:00:00+03:00",
+        "suppliers": [
+          {
+            "name": "Державне управління справами",
+            "name_en": "State administration",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "00037256",
+              "legalName_en": "dus.gov.ua",
+              "uri": "http://www.dus.gov.ua/"
+            },
+            "address": {
+              "streetAddress": "вул. Банкова, 11, корпус 1",
+              "locality": "м. Київ",
+              "region": "м. Київ",
+              "postalCode": "01220",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "name": "Державне управління справами",
+              "name_en": "State administration",
+              "telephone": "0440000000"
+            },
+            "scale": "micro"
+          }
+        ]
       }
     ],
     "items": [
@@ -231,6 +230,7 @@ X-Content-Type-Options: nosniff
         "availableLanguage": "uk"
       }
     },
+    "tender_id": "7fdaa184f29b435fad1d7bb372142d6e",
     "numberOfContracts": 3
   }
 }

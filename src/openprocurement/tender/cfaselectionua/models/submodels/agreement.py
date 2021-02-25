@@ -5,8 +5,9 @@ from schematics.types.compound import ModelType, PolyModelType
 from openprocurement.api.roles import RolesFromCsv
 from openprocurement.api.models import IsoDateTimeType, ListType, Model, Period
 
-from openprocurement.agreement.cfaua.models.document import Document
-from openprocurement.agreement.cfaua.models.procuringentity import ProcuringEntity
+# TODO: move Document and ProcuringEntity to api plugin
+from openprocurement.framework.cfaua.models.agreement import Document
+from openprocurement.framework.cfaua.models.agreement import ProcuringEntity
 from openprocurement.tender.core.models import validate_features_uniq
 from openprocurement.tender.cfaselectionua.models.submodels.agreement_item import AgreementItem as Item
 from openprocurement.tender.cfaselectionua.models.submodels.agreement_contract import AgreementContract as Contract
