@@ -41,6 +41,16 @@ QUALIFICATION_FIELDS = [
 
 QUALIFICATION_CHANGES_FIELDS = QUALIFICATION_FIELDS + ["dateModified"]
 
+AGREEMENT_FIELDS = [
+    "id",
+    "agreementID",
+    "agreementType",
+    "status",
+    "tender_id",
+    "next_check",
+]
+AGREEMENT_CHANGES_FIELDS = AGREEMENT_FIELDS + ["dateModified"]
+
 
 def add_design():
     for i, j in globals().items():
@@ -442,4 +452,118 @@ qualifications_by_framework_id_total_view = ViewDefinition(
     qualifications_by_framework_id_view.name + "_total",
     qualifications_by_framework_id_view.map_fun,
     "_count"
+)
+
+# Agreements design
+
+agreements_by_dateModified_view = ViewDefinition(
+    "agreements",
+    "by_dateModified",
+    """function(doc) {
+    if(doc.doc_type == 'Agreement') {
+        var fields=%s, data={};
+        for (var i in fields) {
+            if (doc[fields[i]]) {
+                data[fields[i]] = doc[fields[i]]
+            }
+        }
+        emit(doc.dateModified, data);
+    }
+}"""
+    % AGREEMENT_FIELDS,
+)
+
+agreements_real_by_dateModified_view = ViewDefinition(
+    "agreements",
+    "real_by_dateModified",
+    """function(doc) {
+    if(doc.doc_type == 'Agreement' && !doc.mode) {
+        var fields=%s, data={};
+        for (var i in fields) {
+            if (doc[fields[i]]) {
+                data[fields[i]] = doc[fields[i]]
+            }
+        }
+        emit(doc.dateModified, data);
+    }
+}"""
+    % AGREEMENT_FIELDS,
+)
+
+agreements_test_by_dateModified_view = ViewDefinition(
+    "agreements",
+    "test_by_dateModified",
+    """function(doc) {
+    if(doc.doc_type == 'Agreement' && doc.mode == 'test') {
+        var fields=%s, data={};
+        for (var i in fields) {
+            if (doc[fields[i]]) {
+                data[fields[i]] = doc[fields[i]]
+            }
+        }
+        emit(doc.dateModified, data);
+    }
+}"""
+    % AGREEMENT_FIELDS,
+)
+
+agreements_by_local_seq_view = ViewDefinition(
+    "agreements",
+    "by_local_seq",
+    """function(doc) {
+    if(doc.doc_type == 'Agreement') {
+        var fields=%s, data={};
+        for (var i in fields) {
+            if (doc[fields[i]]) {
+                data[fields[i]] = doc[fields[i]]
+            }
+        }
+        emit(doc._local_seq, data);
+    }
+}"""
+    % AGREEMENT_CHANGES_FIELDS,
+)
+
+agreements_real_by_local_seq_view = ViewDefinition(
+    "agreements",
+    "real_by_local_seq",
+    """function(doc) {
+    if(doc.doc_type == 'Agreement' && !doc.mode) {
+        var fields=%s, data={};
+        for (var i in fields) {
+            if (doc[fields[i]]) {
+                data[fields[i]] = doc[fields[i]]
+            }
+        }
+        emit(doc._local_seq, data);
+    }
+}"""
+    % AGREEMENT_CHANGES_FIELDS,
+)
+
+agreements_test_by_local_seq_view = ViewDefinition(
+    "agreements",
+    "test_by_local_seq",
+    """function(doc) {
+    if(doc.doc_type == 'Agreement' && doc.mode == 'test') {
+        var fields=%s, data={};
+        for (var i in fields) {
+            if (doc[fields[i]]) {
+                data[fields[i]] = doc[fields[i]]
+            }
+        }
+        emit(doc._local_seq, data);
+    }
+}"""
+    % AGREEMENT_CHANGES_FIELDS,
+)
+
+conflicts_view = ViewDefinition(
+    "conflicts",
+    "all",
+    """function(doc) {
+    if (doc._conflicts) {
+        emit(doc._rev, [doc._rev].concat(doc._conflicts));
+    }
+}""",
 )

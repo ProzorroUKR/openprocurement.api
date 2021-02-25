@@ -1,11 +1,12 @@
 import unittest
 
-from openprocurement.framework.core.tests import framework
+from openprocurement.framework.core.tests import framework, agreement
 
 
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(framework.suite())
+    suite.addTest(agreement.suite())
     return suite
 
 

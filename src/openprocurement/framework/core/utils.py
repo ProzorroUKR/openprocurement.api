@@ -22,11 +22,14 @@ from openprocurement.api.utils import (
     append_revision,
     get_doc_by_id,
     ACCELERATOR_RE,
+    generate_id,
 )
+from openprocurement.framework.core.models import IAgreement
 from openprocurement.framework.core.traversal import (
     framework_factory,
     submission_factory,
     qualification_factory,
+    agreement_factory,
 )
 
 LOGGER = getLogger("openprocurement.framework.core")
@@ -36,6 +39,7 @@ SUBMISSION_STAND_STILL_DURATION = 30
 frameworksresource = partial(resource, error_handler=error_handler, factory=framework_factory)
 submissionsresource = partial(resource, error_handler=error_handler, factory=submission_factory)
 qualificationsresource = partial(resource, error_handler=error_handler, factory=qualification_factory)
+agreementsresource = partial(resource, error_handler=error_handler, factory=agreement_factory)
 
 
 class isFramework(object):
@@ -90,6 +94,23 @@ class isQualification(object):
         return False
 
 
+class IsAgreement(object):
+    """ Agreement route predicate. """
+
+    def __init__(self, val, config):
+        self.val = val
+
+    def text(self):
+        return "agreementType = %s" % (self.val,)
+
+    phash = text
+
+    def __call__(self, context, request):
+        if request.agreement is not None:
+            return getattr(request.agreement, "agreementType", None) == self.val
+        return False
+
+
 def register_framework_frameworkType(config, model):
     """Register a framework frameworkType.
     :param config:
@@ -108,6 +129,11 @@ def register_submission_submissionType(config, model):
 def register_qualification_qualificationType(config, model):
     qualification_type = model.qualificationType.default
     config.registry.qualification_qualificationTypes[qualification_type] = model
+
+
+def register_agreement_agreementType(config, model):
+    agreement_type = model.agreementType.default
+    config.registry.agreement_agreementTypes[agreement_type] = model
 
 
 def object_from_data(request, data, obj_name, raise_error=True, create=True):
@@ -142,12 +168,28 @@ def qualification_from_data(request, data, raise_error=True, create=True):
     return object_from_data(request, data, "qualification", raise_error=raise_error, create=create)
 
 
+def agreement_from_data(request, data, raise_error=True, create=True):
+    if request.authenticated_role == "agreements":
+        data["agreementType"] = "cfaua"
+    if not data.get("agreementType") and raise_error:
+        request.errors.add("data", "agreementType", "This field is required")
+        request.errors.status = 422
+        raise error_handler(request)
+
+    return object_from_data(request, data, "agreement", raise_error=raise_error, create=create)
+
+
 def extract_doc_adapter(request, doc_type, doc_id):
     doc = get_doc_by_id(request.registry.db, doc_type, doc_id)
     doc_type_lower = doc_type[0].lower() + doc_type[1:]
     if doc is None:
         request.errors.add("url", "%s_id" % doc_type_lower, "Not Found")
         request.errors.status = 404
+        raise error_handler(request)
+    # obsolete lowercase doc_type in agreements
+    if doc is not None and doc.get("doc_type") == "agreement":
+        request.errors.add("url", "agreement_id", "Archived")
+        request.errors.status = 410
         raise error_handler(request)
 
     method = getattr(request, "%s_from_data" % doc_type_lower)
@@ -166,7 +208,7 @@ def extract_doc(request):
     obj_id = ""
     # extract object id
     parts = path.split("/")
-    if len(parts) < 4 or parts[3] not in ("frameworks", "submissions", "qualifications"):
+    if len(parts) < 4 or parts[3] not in ("frameworks", "submissions", "qualifications", "agreements"):
         return
 
     obj_type = parts[3][0].upper() + parts[3][1:-1]
@@ -194,6 +236,26 @@ def generate_framework_pretty_id(ctime, db, server_id=""):
     )
 
 
+def generate_agreementID(ctime, db, server_id=""):
+    key = ctime.date().isoformat()
+    prettyIDdoc = "agreementID_" + server_id if server_id else "agreementID"
+    while True:
+        try:
+            agreementID = db.get(prettyIDdoc, {"_id": prettyIDdoc})
+            index = agreementID.get(key, 1)
+            agreementID[key] = index + 1
+            db.save(agreementID)
+        except ResourceConflict:  # pragma: no cover
+            pass
+        except Exception:  # pragma: no cover
+            sleep(1)
+        else:
+            break
+    return "UA-{:04}-{:02}-{:02}-{:06}{}".format(
+        ctime.year, ctime.month, ctime.day, index, server_id and "-" + server_id
+    )
+
+
 def save_object(request, obj_name, with_test_mode=True):
     obj = request.validated[obj_name]
 
@@ -203,7 +265,7 @@ def save_object(request, obj_name, with_test_mode=True):
     patch = get_revision_changes(obj.serialize("plain"), request.validated["%s_src" % obj_name])
     if patch:
         now = get_now()
-        append_framework_revision(request, obj, patch, now)
+        append_obj_revision(request, obj, patch, now)
 
         old_date_modified = obj.dateModified
         if getattr(obj, "modified", True):
@@ -235,6 +297,10 @@ def save_qualification(request):
     return save_object(request, "qualification", with_test_mode=False)
 
 
+def save_agreement(request):
+    return save_object(request, "agreement", with_test_mode=False)
+
+
 def get_framework_accelerator(context):
     if context and "frameworkDetails" in context and context["frameworkDetails"]:
         re_obj = ACCELERATOR_RE.search(context["frameworkDetails"])
@@ -260,6 +326,7 @@ def apply_patch(request, obj_name, data=None, save=True, src=None):
         "framework": save_framework,
         "submission": save_submission,
         "qualification": save_qualification,
+        "agreement": save_agreement,
     }
 
     data = request.validated["data"] if data is None else data
@@ -274,21 +341,24 @@ def apply_patch(request, obj_name, data=None, save=True, src=None):
             return save_func(request)
 
 
-def append_framework_revision(request, framework, patch, date):
+def append_obj_revision(request, obj, patch, date):
     status_changes = [p for p in patch if all([
         p["path"].endswith("/status"),
         p["op"] == "replace"
     ])]
+    changed_obj = obj
     for change in status_changes:
-        obj = resolve_pointer(framework, change["path"].replace("/status", ""))
-        if obj and hasattr(obj, "date"):
+        changed_obj = resolve_pointer(obj, change["path"].replace("/status", ""))
+        if changed_obj and hasattr(changed_obj, "date") and hasattr(changed_obj, "revisions"):
             date_path = change["path"].replace("/status", "/date")
-            if obj.date and not any([p for p in patch if date_path == p["path"]]):
-                patch.append({"op": "replace", "path": date_path, "value": obj.date.isoformat()})
-            elif not obj.date:
+            if changed_obj.date and not any([p for p in patch if date_path == p["path"]]):
+                patch.append({"op": "replace", "path": date_path, "value": changed_obj.date.isoformat()})
+            elif not changed_obj.date:
                 patch.append({"op": "remove", "path": date_path})
-            obj.date = date
-    return append_revision(request, framework, patch)
+            changed_obj.date = date
+        else:
+            changed_obj = obj
+    return append_revision(request, changed_obj, patch)
 
 
 def obj_serialize(request, framework_data, fields):
@@ -297,9 +367,25 @@ def obj_serialize(request, framework_data, fields):
     return dict([(i, j) for i, j in obj.serialize("view").items() if i in fields])
 
 
+def agreement_serialize(request, agreement_data, fields):
+    agreement = request.agreement_from_data(agreement_data, raise_error=False)
+    agreement.__parent__ = request.context
+    return {i: j for i, j in agreement.serialize("view").items() if i in fields}
+
+
 def get_submission_by_id(db, submission_id):
     return get_doc_by_id(db, "Submission", submission_id)
 
 
 def get_framework_by_id(db, framework_id):
     return get_doc_by_id(db, "Framework", framework_id)
+
+
+def set_agreement_ownership(item, request):
+    item.owner_token = generate_id()
+
+
+def get_agreement(model):
+    while not IAgreement.providedBy(model):
+        model = model.__parent__
+    return model

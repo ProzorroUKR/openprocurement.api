@@ -9,7 +9,7 @@ from hashlib import sha512
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.tender.belowthreshold.tests.base import test_tender_data
 from openprocurement.contracting.api.tests.base import test_contract_data
-from openprocurement.agreement.cfaua.tests.base import test_agreement_data
+from openprocurement.framework.cfaua.tests.base import test_agreement_data
 from openprocurement.planning.api.tests.base import test_plan_data
 from openprocurement.api.models import get_now
 

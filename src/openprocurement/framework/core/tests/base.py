@@ -90,3 +90,8 @@ class BaseCoreWebTest(BaseWebTest):
     def delete_framework(self):
         if self.framework_id:
             self.db.delete(self.db[self.framework_id])
+
+
+class BaseAgreementTest(BaseWebTest):
+    relative_to = os.path.dirname(__file__)
+    docservice = False

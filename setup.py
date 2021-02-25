@@ -30,7 +30,6 @@ entry_points = {
         "tender.core = openprocurement.tender.core.includeme:includeme",
         "planning.api = openprocurement.planning.api.includeme:includeme",
         "contracting.api = openprocurement.contracting.api.includeme:includeme",
-        "agreement.core = openprocurement.agreement.core.includeme:includeme",
         "historical.core = openprocurement.historical.core.includeme:includeme",
         "relocation.api = openprocurement.relocation.api.includeme:includeme",
         "framework.core = openprocurement.framework.core.includeme:includeme",
@@ -50,14 +49,12 @@ entry_points = {
         "tender.pricequotation = openprocurement.tender.pricequotation.includeme:includeme",
         "tender.simpledefense = openprocurement.tender.simpledefense.includeme:includeme",
     ],
-    "openprocurement.agreements.core.plugins": [
-        "agreement.cfaua = openprocurement.agreement.cfaua.includeme:includeme"
-    ],
     "openprocurement.historical.core.plugins": [
         "historical.tender = openprocurement.historical.tender.includeme:includeme",
     ],
     "openprocurement.framework.core.plugins": [
         "framework.electroniccatalogue = openprocurement.framework.electroniccatalogue.includeme:includeme",
+        "framework.cfaua = openprocurement.framework.cfaua.includeme:includeme",
     ],
     "openprocurement.api.migrations": [
         "tenders = openprocurement.api.migration:migrate_data",
