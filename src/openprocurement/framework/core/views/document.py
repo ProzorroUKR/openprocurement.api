@@ -53,17 +53,6 @@ class CoreAgreementDocumentResource(BaseDocumentResource):
         return apply_patch(request, self.context_short_name, **kwargs)
 
 
-class CoreAgreementDocumentResource(BaseDocumentResource):
-    container = "documents"
-    context_name = "agreement"
-
-    def save(self, request, **kwargs):
-        return save_agreement(request)
-
-    def apply(self, request, **kwargs):
-        return apply_patch(request, self.context_short_name, **kwargs)
-
-
 class CoreMilestoneDocumentResource(BaseDocumentResource):
     container = "documents"
     context_name = "milestone"

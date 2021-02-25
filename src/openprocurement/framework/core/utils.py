@@ -256,26 +256,6 @@ def generate_agreementID(ctime, db, server_id=""):
     )
 
 
-def generate_agreementID(ctime, db, server_id=""):
-    key = ctime.date().isoformat()
-    prettyIDdoc = "agreementID_" + server_id if server_id else "agreementID"
-    while True:
-        try:
-            agreementID = db.get(prettyIDdoc, {"_id": prettyIDdoc})
-            index = agreementID.get(key, 1)
-            agreementID[key] = index + 1
-            db.save(agreementID)
-        except ResourceConflict:  # pragma: no cover
-            pass
-        except Exception:  # pragma: no cover
-            sleep(1)
-        else:
-            break
-    return "UA-{:04}-{:02}-{:02}-{:06}{}".format(
-        ctime.year, ctime.month, ctime.day, index, server_id and "-" + server_id
-    )
-
-
 def save_object(request, obj_name, with_test_mode=True):
     obj = request.validated[obj_name]
 
@@ -404,16 +384,6 @@ def get_framework_by_id(db, framework_id):
 
 def get_agreement_by_id(db, agreement_id):
     return get_doc_by_id(db, "Agreement", agreement_id)
-
-
-def set_agreement_ownership(item, request):
-    item.owner_token = generate_id()
-
-
-def get_agreement(model):
-    while not IAgreement.providedBy(model):
-        model = model.__parent__
-    return model
 
 
 def set_agreement_ownership(item, request):
