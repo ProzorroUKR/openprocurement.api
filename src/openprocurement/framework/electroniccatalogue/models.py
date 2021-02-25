@@ -239,7 +239,7 @@ class Milestone(Model):
         }
 
     id = MD5Type(required=True, default=lambda: uuid4().hex)
-    type = StringType(required=True, choices=["activation", "ban", "disqualification", "termination"])
+    type = StringType(required=True, choices=["activation", "ban", "disqualification", "terminated"])
     dueDate = IsoDateTimeType()
     documents = ListType(ModelType(Document, required=True), default=list())
     dateModified = IsoDateTimeType(default=get_now)
