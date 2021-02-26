@@ -16,6 +16,9 @@ from openprocurement.framework.electroniccatalogue.tests.agreement_blanks import
     create_milestone_documents,
     create_milestone_document_json_bulk,
     put_milestone_document,
+    patch_agreement_terminated_status,
+    patch_contract_active_status,
+    patch_several_contracts_active_status,
 )
 from openprocurement.framework.electroniccatalogue.tests.base import (
     test_electronicCatalogue_data,
@@ -55,6 +58,17 @@ class TestAgreementChanges(AgreementContentWebTest):
 
     test_change_agreement = snitch(change_agreement)
     test_patch_contract_suppliers = snitch(patch_contract_suppliers)
+
+
+class TestAgreementResource(AgreementContentWebTest):
+    initial_data = test_electronicCatalogue_data
+    initial_submission_data = test_submission_data
+    initial_auth = ('Basic', ('broker', ''))
+
+    # Chronograph
+    test_patch_agreement_terminated_status = snitch(patch_agreement_terminated_status)
+    test_patch_contract_active_status = snitch(patch_contract_active_status)
+    test_patch_several_contracts_active_status = snitch(patch_several_contracts_active_status)
 
 
 class TestAgreementMilestoneResource(AgreementContentWebTest):

@@ -291,6 +291,7 @@ class Agreement(BaseAgreement):
                 "_attachments", "revisions", "dateModified", "_id", "_rev", "doc_type", "__parent__"
             ),
             "default": blacklist("doc_id", "__parent__"),  # obj.store() use default role
+            "chronograph": whitelist("next_check"),
         }
 
     agreementType = StringType(default="electronicCatalogue")

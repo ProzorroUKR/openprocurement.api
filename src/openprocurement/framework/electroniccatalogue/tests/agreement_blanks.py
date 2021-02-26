@@ -3,6 +3,7 @@ from copy import deepcopy
 from datetime import timedelta
 
 from ciso8601 import parse_datetime
+from freezegun import freeze_time
 
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
@@ -192,6 +193,131 @@ def patch_contract_suppliers(self):
     for field in contract_patch_fields["suppliers"][0]:
         self.assertEqual(response.json["data"]["suppliers"][0].get(field),
                          contract_patch_fields["suppliers"][0].get(field))
+
+
+def patch_agreement_terminated_status(self):
+    response = self.app.patch_json(
+        f"/frameworks/{self.framework_id}?acc_token={self.framework_token}",
+        {"data": {
+            "qualificationPeriod": {"endDate": (get_now() + timedelta(days=CONTRACT_BAN_DURATION-1)).isoformat()}
+        }}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    response = self.app.get(f"/agreements/{self.agreement_id}")
+    self.assertEqual(response.status, "200 OK")
+    next_check = response.json["data"]["next_check"]
+
+    with freeze_time((parse_datetime(next_check) + timedelta(hours=1)).isoformat()):
+        self.check_chronograph()
+    response = self.app.get(f"/agreements/{self.agreement_id}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "terminated")
+    self.assertIsNone(response.json["data"].get("next_check"))
+
+
+def patch_contract_active_status(self):
+    response = self.app.post_json(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones?acc_token={self.framework_token}",
+        {"data": {"type": "ban"}}
+    )
+    self.assertEqual(response.status, "201 Created")
+    response = self.app.get(f"/agreements/{self.agreement_id}/contracts/{self.contract_id}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "banned")
+
+    response = self.app.patch_json(
+        f"/frameworks/{self.framework_id}?acc_token={self.framework_token}",
+        {"data": {
+            "qualificationPeriod": {"endDate": (get_now() + timedelta(days=CONTRACT_BAN_DURATION+1)).isoformat()}
+        }}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    response = self.app.get(f"/agreements/{self.agreement_id}")
+    self.assertEqual(response.status, "200 OK")
+    next_check = response.json["data"]["next_check"]
+    self.assertEqual(response.json["data"]["contracts"][0]["status"], "banned")
+
+    with freeze_time((parse_datetime(next_check) + timedelta(hours=1)).isoformat()):
+        self.check_chronograph()
+    response = self.app.get(f"/agreements/{self.agreement_id}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "active")
+    self.assertEqual(response.json["data"]["contracts"][0]["status"], "active")
+
+
+def patch_several_contracts_active_status(self):
+    response = self.app.patch_json(
+        f"/frameworks/{self.framework_id}?acc_token={self.framework_token}",
+        {"data": {
+            "qualificationPeriod": {"endDate": (get_now() + timedelta(days=CONTRACT_BAN_DURATION+3)).isoformat()}
+        }}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    response = self.app.get(f"/agreements/{self.agreement_id}")
+    self.assertEqual(response.status, "200 OK")
+
+    for shift, milestone_type in [(0, "ban"), (24, "disqualification"), (36, "disqualification"), (48, "ban")]:
+        self.create_submission()
+        response = self.app.patch_json(
+            f"/submissions/{self.submission_id}?acc_token={self.submission_token}",
+            {"data": {"status": "active"}}
+        )
+        self.assertEqual(response.status, "200 OK")
+        qualification_id = response.json["data"]["qualificationID"]
+        response = self.app.patch_json(
+            f"/qualifications/{qualification_id}?acc_token={self.framework_token}",
+            {"data": {"status": "active"}}
+        )
+        self.assertEqual(response.status, "200 OK")
+        response = self.app.get(f"/agreements/{self.agreement_id}")
+        self.assertEqual(response.status, "200 OK")
+        contract_id = response.json["data"]["contracts"][-1]["id"]
+        with freeze_time((get_now() + timedelta(hours=shift)).isoformat()):
+            response = self.app.post_json(
+                f"/agreements/{self.agreement_id}/contracts/{contract_id}/milestones?acc_token={self.framework_token}",
+                {"data": {"type": milestone_type}}
+            )
+
+    response = self.app.get(f"/agreements/{self.agreement_id}")
+    self.assertEqual(response.status, "200 OK")
+    contract_statuses = [contract["status"] for contract in response.json["data"]["contracts"]]
+    self.assertEqual(contract_statuses, ["active", "banned", "unsuccessful", "unsuccessful", "banned"])
+
+    next_check = parse_datetime(response.json["data"]["next_check"])
+    with freeze_time((next_check + timedelta(hours=2)).isoformat()):
+        self.check_chronograph()
+        response = self.app.get(f"/agreements/{self.agreement_id}")
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json["data"]["status"], "active")
+        contract_statuses = [contract["status"] for contract in response.json["data"]["contracts"]]
+        self.assertEqual(contract_statuses, ["active", "active", "unsuccessful", "unsuccessful", "banned"])
+
+    with freeze_time((next_check + timedelta(hours=26)).isoformat()):
+        self.check_chronograph()
+        response = self.app.get(f"/agreements/{self.agreement_id}")
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json["data"]["status"], "active")
+        contract_statuses = [contract["status"] for contract in response.json["data"]["contracts"]]
+        self.assertEqual(contract_statuses, ["active", "active", "unsuccessful", "unsuccessful", "banned"])
+
+    with freeze_time((next_check + timedelta(hours=38)).isoformat()):
+        self.check_chronograph()
+        response = self.app.get(f"/agreements/{self.agreement_id}")
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json["data"]["status"], "active")
+        contract_statuses = [contract["status"] for contract in response.json["data"]["contracts"]]
+        self.assertEqual(contract_statuses, ["active", "active", "unsuccessful", "unsuccessful", "banned"])
+
+    with freeze_time((next_check + timedelta(hours=50)).isoformat()):
+        self.check_chronograph()
+        response = self.app.get(f"/agreements/{self.agreement_id}")
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json["data"]["status"], "terminated")
+        contract_statuses = [contract["status"] for contract in response.json["data"]["contracts"]]
+        self.assertEqual(contract_statuses, ["terminated", "terminated", "unsuccessful", "unsuccessful", "banned"])
 
 
 def post_milestone_invalid(self):

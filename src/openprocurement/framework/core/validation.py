@@ -236,9 +236,14 @@ def validate_agreement_data(request, **kwargs):
     return validate_data(request, model, data=data)
 
 
-def _validate_agreement_accreditation_level(request, model):
+def _validate_agreement_accreditation_level(request, model, **kwargs):
     levels = model.create_accreditations
     _validate_accreditation_level(request, levels, "agreement", "creation")
+
+
+def validate_patch_agreement_data(request, **kwargs):
+    data = validate_json_data(request)
+    return validate_data(request, type(request.agreement), True, data)
 
 
 def validate_patch_contract_data(request, **kwargs):

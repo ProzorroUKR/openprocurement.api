@@ -83,6 +83,7 @@ class QualificationResource(APIResource):
             agreement = get_agreement_by_id(db, agreementID)
             self.request.validated["agreement_src"] = agreement
             self.request.validated["agreement"] = Agreement(agreement)
+            self.request.validated["agreement"].__parent__ = self.request.validated["qualification"].__parent__
         else:
             agreement_id = generate_id()
             now = get_now()
@@ -125,7 +126,7 @@ class QualificationResource(APIResource):
                     ),
                 )
 
-                framework_data_updated = dict(framework_data, agreementID=agreement_id)
+                framework_data_updated = {"agreementID": agreement_id}
                 apply_patch(
                     self.request, data=framework_data_updated, src=self.request.validated["framework_src"],
                     obj_name="framework"

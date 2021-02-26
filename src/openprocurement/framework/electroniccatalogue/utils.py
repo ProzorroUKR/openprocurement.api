@@ -100,6 +100,22 @@ def check_status(request):
             return
 
 
+def create_milestone_terminated():
+    from openprocurement.framework.electroniccatalogue.models import Milestone
+    return Milestone({"type": "terminated"})
+
+
+def check_agreement_status(request):
+    if request.validated["agreement"].period.endDate < get_now():
+        request.validated["agreement"].status = "terminated"
+        for contract in request.validated["agreement"].contracts:
+            if contract.status == "active":
+                milestone = create_milestone_terminated()
+                contract.milestones.append(milestone)
+                contract.status = "terminated"
+        return True
+
+
 def check_contract_statuses(request):
     for contract in request.validated["agreement"].contracts:
         if contract.status == "banned":
@@ -108,11 +124,3 @@ def check_contract_statuses(request):
                     if milestone.dueDate < get_now():
                         contract.status = "active"
                     break
-
-
-def check_agreement_status(request):
-    if request.validated["agreement"].period.endDate < get_now():
-        request.validated["agreement"].status = "terminated"
-        for contract in request.validated["agreement"].contracts:
-            contract.milestones.append({"type": "terminated"})
-            contract.status = "terminated"

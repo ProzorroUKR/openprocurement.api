@@ -282,6 +282,15 @@ class BaseAgreementContentWebTest(SubmissionContentWebTest):
             self.assertEqual(response.content_type, "application/json")
         return response
 
+    def check_chronograph(self, data=None):
+        with change_auth(self.app, ("Basic", ("chronograph", ""))):
+            url = "/agreements/{}".format(self.agreement_id)
+            data = data or {"data": {"id": self.agreement_id}}
+            response = self.app.patch_json(url, data)
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.content_type, "application/json")
+        return response
+
     def set_contract_status(self, status):
         self.now = get_now()
         self.agreement_document = self.db.get(self.agreement_id)
