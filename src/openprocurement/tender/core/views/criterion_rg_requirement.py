@@ -122,8 +122,9 @@ class BaseTenderCriteriaRGRequirementResource(APIResource):
             requirement.dateModified = None
             self.request.validated["requirement_group"].requirements.append(requirement)
 
-        old_requirement.status = "cancelled"
-        old_requirement.dateModified = get_now()
+        if old_requirement.status == "active":
+            old_requirement.status = "cancelled"
+            old_requirement.dateModified = get_now()
 
         tender = self.request.validated["tender"]
         if (
