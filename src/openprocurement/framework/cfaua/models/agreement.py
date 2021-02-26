@@ -299,7 +299,6 @@ class Contract(Model):
     awardID = StringType()
     bidID = StringType()
     date = IsoDateTimeType()
-    suppliers = ListType(ModelType(BusinessOrganization, required=True))
     parameters = BaseListType(ModelType(Parameter, required=True), default=list(),
                               validators=[validate_parameters_uniq])
 
