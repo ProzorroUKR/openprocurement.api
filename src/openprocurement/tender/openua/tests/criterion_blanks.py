@@ -38,6 +38,22 @@ def create_tender_criteria_valid(self):
         [{"location": "body", "name": "data", "description": "Criteria are not unique"}]
     )
 
+    try:
+        lot_id = self.app.get("/tenders/{}".format(self.tender_id)).json["data"]["lots"][0]["id"]
+    except KeyError:
+        pass
+    else:
+        criterion["relatesTo"] = "lot"
+        criterion["relatedItem"] = lot_id
+        response2 = self.app.post_json(request_path, {"data": [criterion, criterion]}, status=403)
+        self.assertEqual(response2.status, "403 Forbidden")
+        self.assertEqual(response2.content_type, "application/json")
+        self.assertEqual(response2.json["status"], "error")
+        self.assertEqual(
+            response2.json["errors"],
+            [{"location": "body", "name": "data", "description": "Criteria are not unique"}]
+        )
+        self.app.post_json(request_path, {"data": [criterion]}, status=201)
 
     response2 = self.app.post_json(request_path, {"data": test_criteria}, status=403)
     self.assertEqual(response2.status, "403 Forbidden")

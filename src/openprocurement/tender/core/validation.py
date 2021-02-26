@@ -1918,12 +1918,19 @@ def validate_criterion_data(request, **kwargs):
 def validate_criterion_uniq(request, **kwargs):
     data = request.validated["data"]
     criteria = request.tender.criteria
-    new_criteria = set()
+    new_criteria = {}
 
     def check(new_criterion):
-        if new_criterion["classification"]["id"] in new_criteria:
-            raise_operation_error(request, "Criteria are not unique")
-        new_criteria.add(new_criterion["classification"]["id"])
+        class_id = new_criterion["classification"]["id"]
+        if class_id in new_criteria:
+            if new_criterion["relatesTo"] in ("lot", "item"):
+                if new_criterion["relatedItem"] in new_criteria[class_id]:
+                    raise_operation_error(request, "Criteria are not unique")
+                new_criteria[class_id].append(new_criterion["relatedItem"])
+        elif new_criterion["relatesTo"] in ("lot", "item"):
+            new_criteria[class_id] = [new_criterion["relatedItem"]]
+        else:
+            new_criteria[class_id] = []
 
         for existed_criterion in criteria:
             if (
