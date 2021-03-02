@@ -21,7 +21,7 @@ from openprocurement.api.models import (
     IsoDateTimeType,
     Address,
 )
-from openprocurement.api.constants import TZ, RELEASE_2020_04_19
+from openprocurement.api.constants import TZ, RELEASE_2020_04_19, RELEASE_METRICS_FROM
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.validation import validate_cpv_group, validate_items_uniq, validate_classification_id
 from openprocurement.tender.core.models import (
@@ -626,7 +626,7 @@ class Tender(BaseTender):
     targets = ListType(
         ModelType(Metric),
         default=list(),
-        validators=[validate_metric_ids_uniq,validate_observation_ids_uniq],
+        validators=[validate_metric_ids_uniq, validate_observation_ids_uniq],
     )
 
     create_accreditations = (ACCR_3, ACCR_5)
@@ -664,6 +664,11 @@ class Tender(BaseTender):
             if is_new_created(data):
                 _validate_tender_period_start_date(data, period)
             _validate_tender_period_duration(data, period, TENDERING_DURATION)
+
+    def validate_targets(self, data, value):
+        if get_first_revision_date(data, default=get_now()) > RELEASE_METRICS_FROM:
+            if value:
+                raise ValidationError("Rogue field.")
 
     @serializable(serialized_name="enquiryPeriod", type=ModelType(EnquiryPeriod))
     def tender_enquiryPeriod(self):
