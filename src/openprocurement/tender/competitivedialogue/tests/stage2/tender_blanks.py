@@ -919,7 +919,6 @@ def listing(self):
     # set status to active.tendering
     for tender in tenders:
         offset = get_now().isoformat()
-        add_criteria(self, tender["id"], tokens[tenders.index(tender)])
         response = self.set_tender_status(tender, tokens[tenders.index(tender)], "active.tendering")
         tenders[tenders.index(tender)] = response.json["data"]
 

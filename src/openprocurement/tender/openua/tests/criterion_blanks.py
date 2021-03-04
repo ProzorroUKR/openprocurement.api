@@ -15,10 +15,54 @@ from openprocurement.tender.belowthreshold.tests.base import (
 def create_tender_criteria_valid(self):
 
     request_path = "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token)
+    criteria = deepcopy(test_criteria)
+    criterion = deepcopy(test_criteria)[0]
+    criterion["classification"]["id"] = "CRITERION.NO.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
+    criteria.append(criterion)
 
-    response = self.app.post_json(request_path, {"data": test_criteria})
+    response = self.app.post_json(request_path, {"data": criteria})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
+    criterion_id = response.json["data"][-1]["id"]
+
+    response3 = self.app.patch_json(
+        "/tenders/{}/criteria/{}?acc_token={}".format(self.tender_id, criterion_id, self.tender_token),
+        {"data": {"classification": {"id": test_criteria[0]["classification"]["id"]}}},
+        status=403
+    )
+    self.assertEqual(response3.status, "403 Forbidden")
+    self.assertEqual(response3.content_type, "application/json")
+    self.assertEqual(response3.json["status"], "error")
+    self.assertEqual(
+        response3.json["errors"],
+        [{"location": "body", "name": "data", "description": "Criteria are not unique"}]
+    )
+
+    try:
+        lot_id = self.app.get("/tenders/{}".format(self.tender_id)).json["data"]["lots"][0]["id"]
+    except KeyError:
+        pass
+    else:
+        criterion["relatesTo"] = "lot"
+        criterion["relatedItem"] = lot_id
+        response2 = self.app.post_json(request_path, {"data": [criterion, criterion]}, status=403)
+        self.assertEqual(response2.status, "403 Forbidden")
+        self.assertEqual(response2.content_type, "application/json")
+        self.assertEqual(response2.json["status"], "error")
+        self.assertEqual(
+            response2.json["errors"],
+            [{"location": "body", "name": "data", "description": "Criteria are not unique"}]
+        )
+        self.app.post_json(request_path, {"data": [criterion]}, status=201)
+
+    response2 = self.app.post_json(request_path, {"data": test_criteria}, status=403)
+    self.assertEqual(response2.status, "403 Forbidden")
+    self.assertEqual(response2.content_type, "application/json")
+    self.assertEqual(response2.json["status"], "error")
+    self.assertEqual(
+        response2.json["errors"],
+        [{"location": "body", "name": "data", "description": "Criteria are not unique"}]
+    )
 
     criteria = response.json["data"][0]
     self.assertEqual("Вчинення злочинів, учинених з корисливих мотивів", criteria["title"])
@@ -293,6 +337,30 @@ def patch_tender_criteria_valid(self):
     for rg in criteria["requirementGroups"]:
         self.assertNotEqual(rg["description"], updated_data["requirementGroups"][0]["description"])
 
+    updated_data = {
+        "classification": {
+            "id": criteria_data[1]["classification"]["id"]
+        },
+    }
+
+    response = self.app.patch_json(
+        request_path,
+        {"data": updated_data},
+        status=403
+    )
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "data", "description": "Criteria are not unique"}]
+    )
+
+    updated_data["relatesTo"] = "tender"
+    self.app.patch_json(
+        request_path,
+        {"data": updated_data},
+        status=200
+    )
+
 
 def patch_tender_criteria_invalid(self):
     criteria_data = deepcopy(test_criteria)
@@ -477,9 +545,10 @@ def activate_tender(self):
     response = self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": test_criteria[:1]},
+        status=403,
     )
 
-    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
 
     response = self.app.patch_json(
@@ -519,7 +588,7 @@ def activate_tender(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "active.tendering")
-    self.assertEqual(len(response.json["data"]["criteria"]), 11)
+    self.assertEqual(len(response.json["data"]["criteria"]), 10)
 
 
 def create_criteria_rg(self):

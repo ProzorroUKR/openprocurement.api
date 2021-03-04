@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.core.views.criterion import BaseTenderCriteriaResource
-from openprocurement.tender.core.validation import validate_criterion_data, validate_patch_criterion_data
+from openprocurement.tender.core.validation import (
+    validate_criterion_data,
+    validate_patch_criterion_data,
+    validate_criterion_uniq,
+    validate_criterion_uniq_patch,
+)
 from openprocurement.tender.belowthreshold.validation import validate_operation_ecriteria_objects
 from openprocurement.api.utils import json_view
 
@@ -19,6 +24,7 @@ class TenderCriteriaResource(BaseTenderCriteriaResource):
         validators=(
             validate_operation_ecriteria_objects,
             validate_criterion_data,
+            validate_criterion_uniq,
         ),
         permission="edit_tender"
     )
@@ -30,6 +36,7 @@ class TenderCriteriaResource(BaseTenderCriteriaResource):
         validators=(
                 validate_operation_ecriteria_objects,
                 validate_patch_criterion_data,
+                validate_criterion_uniq_patch,
         ),
         permission="edit_tender"
     )

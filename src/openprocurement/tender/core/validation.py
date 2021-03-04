@@ -2014,6 +2014,66 @@ def validate_criterion_data(request, **kwargs):
     return validate_data(request, model, allow_bulk=True, force_bulk=True)
 
 
+def validate_criterion_uniq(request, **kwargs):
+    data = request.validated["data"]
+    criteria = request.tender.criteria
+    new_criteria = {}
+
+    def check(new_criterion):
+        class_id = new_criterion["classification"]["id"]
+        if class_id in new_criteria:
+            if new_criterion["relatesTo"] in ("lot", "item"):
+                if new_criterion["relatedItem"] in new_criteria[class_id]:
+                    raise_operation_error(request, "Criteria are not unique")
+                new_criteria[class_id].append(new_criterion["relatedItem"])
+        elif new_criterion["relatesTo"] in ("lot", "item"):
+            new_criteria[class_id] = [new_criterion["relatedItem"]]
+        else:
+            new_criteria[class_id] = []
+
+        for existed_criterion in criteria:
+            if (
+                    new_criterion.get("relatesTo") == existed_criterion.relatesTo
+                    and new_criterion.get("relatedItem") == existed_criterion.relatedItem
+            ):
+                if new_criterion["classification"]["id"] == existed_criterion.classification.id:
+                    if check_requirements_active(existed_criterion):
+                        raise_operation_error(request, "Criteria are not unique")
+
+    if isinstance(data, list):
+        for new_criterion in data:
+            check(new_criterion)
+    else:
+        check(data)
+
+
+def validate_criterion_uniq_patch(request, **kwargs):
+    data = request.validated["data"]
+    criteria = request.tender.criteria
+    criterion = request.validated["criterion"]
+    updated_criterion_classification = data.get("classification", {}).get("id")
+
+    if updated_criterion_classification == criterion.classification.id:
+        return
+
+    for existed_criterion in criteria:
+        if (
+                data.get("relatesTo") == existed_criterion.relatesTo
+                and data.get("relatedItem") == existed_criterion.relatedItem
+        ):
+            if updated_criterion_classification == existed_criterion.classification.id:
+                if check_requirements_active(existed_criterion):
+                    raise_operation_error(request, "Criteria are not unique")
+
+
+def check_requirements_active(criterion):
+    for rg in criterion.get("requirementGroups", []):
+        for requirement in rg.get("requirements", []):
+            if requirement.get("status", "") == "active":
+                return True
+    return False
+
+
 def validate_patch_criterion_data(request, **kwargs):
     model = type(request.tender).criteria.model_class
     return validate_data(request, model, True)

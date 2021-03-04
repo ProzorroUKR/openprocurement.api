@@ -7,6 +7,8 @@ from openprocurement.api.utils import (
 from openprocurement.tender.core.utils import save_tender, apply_patch
 from openprocurement.tender.core.validation import (
     validate_criterion_data,
+    validate_criterion_uniq,
+    validate_criterion_uniq_patch,
     validate_patch_criterion_data,
     validate_operation_ecriteria_objects,
     validate_patch_exclusion_ecriteria_objects,
@@ -20,6 +22,7 @@ class BaseTenderCriteriaResource(APIResource):
         validators=(
             validate_operation_ecriteria_objects,
             validate_criterion_data,
+            validate_criterion_uniq,
         ),
         permission="edit_tender"
     )
@@ -63,6 +66,7 @@ class BaseTenderCriteriaResource(APIResource):
             validate_operation_ecriteria_objects,
             validate_patch_exclusion_ecriteria_objects,
             validate_patch_criterion_data,
+            validate_criterion_uniq_patch,
         ),
         permission="edit_tender"
     )
