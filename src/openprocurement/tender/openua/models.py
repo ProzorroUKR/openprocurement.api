@@ -21,7 +21,7 @@ from openprocurement.api.models import (
     IsoDateTimeType,
     Address,
 )
-from openprocurement.api.constants import TZ, RELEASE_2020_04_19
+from openprocurement.api.constants import TZ, RELEASE_2020_04_19, RELEASE_METRICS_FROM
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.validation import validate_cpv_group, validate_items_uniq, validate_classification_id
 from openprocurement.tender.core.models import (
@@ -49,6 +49,9 @@ from openprocurement.tender.core.models import (
     Document,
     QualificationMilestoneListMixin,
     BidResponsesMixin,
+    Metric,
+    validate_metric_ids_uniq,
+    validate_observation_ids_uniq,
 )
 from openprocurement.tender.core.utils import (
     normalize_should_start_after,
@@ -550,15 +553,15 @@ class Tender(BaseTender):
         _parent_roles = BaseTender.Options.roles
 
         _edit_role = _parent_roles["edit"]
-        _above_fields = whitelist("complaintPeriod")
+        _above_fields = whitelist("complaintPeriod", "targets")
         _tendering_role = _parent_roles["active.tendering"] + _above_fields
         _view_role = _parent_roles["view"] + _above_fields
         _all_forbidden = whitelist()
         roles = {
-            "create": _parent_roles["create"],
-            "edit_draft": _edit_role + whitelist("status"),
+            "create": _parent_roles["create"] + whitelist("targets"),
+            "edit_draft": _edit_role + whitelist("status", "targets"),
             "edit": _edit_role,
-            "edit_active.tendering": _edit_role,
+            "edit_active.tendering": _edit_role + whitelist("targets"),
             "edit_active.auction": _all_forbidden,
             "edit_active.qualification": _all_forbidden,
             "edit_active.awarded": _all_forbidden,
@@ -620,6 +623,12 @@ class Tender(BaseTender):
     )
     cancellations = ListType(ModelType(Cancellation, required=True), default=list())
 
+    targets = ListType(
+        ModelType(Metric),
+        default=list(),
+        validators=[validate_metric_ids_uniq, validate_observation_ids_uniq],
+    )
+
     create_accreditations = (ACCR_3, ACCR_5)
     central_accreditations = (ACCR_5,)
     edit_accreditations = (ACCR_4,)
@@ -655,6 +664,11 @@ class Tender(BaseTender):
             if is_new_created(data):
                 _validate_tender_period_start_date(data, period)
             _validate_tender_period_duration(data, period, TENDERING_DURATION)
+
+    def validate_targets(self, data, value):
+        if get_first_revision_date(data, default=get_now()) > RELEASE_METRICS_FROM:
+            if value:
+                raise ValidationError("Rogue field.")
 
     @serializable(serialized_name="enquiryPeriod", type=ModelType(EnquiryPeriod))
     def tender_enquiryPeriod(self):
