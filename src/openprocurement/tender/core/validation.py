@@ -958,15 +958,7 @@ def validate_tender_guarantee(request, **kwargs):
     ):
         return
 
-    amount = 1
-    if tender.get("lots"):
-        for lot in tender.lots:
-            guarantee = lot.get("guarantee", {})
-            if guarantee and guarantee.get("amount", 0) <= 0:
-                amount = -1
-                break
-    else:
-        amount = data["guarantee"]["amount"] if data.get("guarantee") else -1
+    amount = data["guarantee"]["amount"] if data.get("guarantee") else 0
     needed_criterion = "CRITERION.OTHER.BID.GUARANTEE"
     tender_criteria = [criterion.classification.id for criterion in tender.criteria if criterion.classification]
 
@@ -2022,11 +2014,13 @@ def validate_criterion_uniq(request, **kwargs):
     def check(new_criterion):
         class_id = new_criterion["classification"]["id"]
         if class_id in new_criteria:
-            if new_criterion["relatesTo"] in ("lot", "item"):
+            if new_criterion.get("relatesTo") in ("lot", "item"):
                 if new_criterion["relatedItem"] in new_criteria[class_id]:
                     raise_operation_error(request, "Criteria are not unique")
                 new_criteria[class_id].append(new_criterion["relatedItem"])
-        elif new_criterion["relatesTo"] in ("lot", "item"):
+            else:
+                raise_operation_error(request, "Criteria are not unique")
+        elif new_criterion.get("relatesTo") in ("lot", "item"):
             new_criteria[class_id] = [new_criterion["relatedItem"]]
         else:
             new_criteria[class_id] = []
