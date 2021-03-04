@@ -18,12 +18,23 @@ def create_tender_criteria_valid(self):
     criteria = deepcopy(test_criteria)
     criterion = deepcopy(test_criteria)[0]
     criterion["classification"]["id"] = "CRITERION.NO.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
-    criteria.append(criterion)
 
     response = self.app.post_json(request_path, {"data": criteria})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    criterion_id = response.json["data"][-1]["id"]
+
+    response3 = self.app.post_json(request_path, {"data": [criterion, criterion]}, status=403)
+    self.assertEqual(response3.status, "403 Forbidden")
+    self.assertEqual(response3.content_type, "application/json")
+    self.assertEqual(response3.json["status"], "error")
+    self.assertEqual(
+        response3.json["errors"],
+        [{"location": "body", "name": "data", "description": "Criteria are not unique"}]
+    )
+    response3 = self.app.post_json(request_path, {"data": [criterion]})
+    self.assertEqual(response3.status, "201 Created")
+    self.assertEqual(response3.content_type, "application/json")
+    criterion_id = response3.json["data"][0]["id"]
 
     response3 = self.app.patch_json(
         "/tenders/{}/criteria/{}?acc_token={}".format(self.tender_id, criterion_id, self.tender_token),
