@@ -112,7 +112,9 @@ def _validate_requirement_responses(criterias, req_responses):
                 'Provided groups {} conflicting in criteria {}'.format(
                     list(group_response.keys()), criteria_id
                 ))
-        criteria_groups = criterias[criteria_id]
+        criteria_groups = criterias.get(criteria_id, {})
+        if not criteria_groups:
+            raise ValidationError('No such criteria with id {}'.format(criteria_id))
         for group_id, requirements in criteria_groups.items():
             if group_id not in group_response:
                 continue

@@ -396,6 +396,30 @@ def requirement_response_validation_multiple_groups(self):
         }]
     )
 
+    test_response[0]["requirement"]["id"] = "5" + test_response[0]["requirement"]["id"][1:]
+    response = self.app.post_json(
+        "/tenders/{}/bids".format(self.tender_id),
+        {"data": {
+            "tenderers": [test_organization],
+            "value": {"amount": 500},
+            "requirementResponses": test_response
+        }},
+        status=422
+    )
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, "application/json")
+    data = response.json
+    self.assertEqual(data['status'], "error")
+    self.assertEqual(
+        data['errors'], [{
+            'description': [
+                "No such criteria with id 500496-0001"
+            ],
+            'location': 'body',
+            'name': 'requirementResponses'
+        }]
+    )
+
 
 def requirement_response_validation_multiple_groups_multiple_requirements(self):
     response = self.app.post_json(
