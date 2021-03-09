@@ -970,6 +970,113 @@ def put_tender_bid_document(self):
     )
 
 
+def update_tender_bid_document_invalid_pmr(self):
+    
+    response = self.app.post_json(
+        "/tenders/{}/bids".format(self.tender_id),
+        {"data": {"tenderers": [test_organization], "value": {"amount": 500}}},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    bid = response.json["data"]
+    bid_token = response.json["access"]["token"]
+    bid_id = bid["id"]
+
+    response = self.app.post(
+        "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, bid_token),
+        upload_files=[("file", "name.doc", b"content")],
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    doc_id = response.json["data"]["id"]
+    self.assertIn(doc_id, response.headers["Location"])
+
+    # make tender procurementMethodRationale simple
+    doc = self.db.get(self.tender_id)
+    doc["procurementMethodRationale"] = "simple"
+    self.db.save(doc)
+
+    # make tender status active.qualification
+    self.set_status("active.qualification")
+
+    # add bid award in status pending
+    auth = self.app.authorization
+    self.app.authorization = ("Basic", ("token", ""))
+    response = self.app.post_json(
+        "/tenders/{}/awards".format(self.tender_id),
+        {
+            "data": {
+                "suppliers": [test_organization],
+                "status": "pending",
+                "bid_id": bid_id,
+                "value": {
+                    "amount": 500,
+
+                },
+            }
+        },
+    )
+    self.app.authorization = auth
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+
+    # negative put
+    response = self.app.put(
+        "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, bid_id, doc_id, bid_token),
+        upload_files=[("file", "name.doc", b"content3")],
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"][0]["description"], 
+        "Can't upload document with ('active.qualification',) tender status and procurementMethodRationale simple"
+    )
+
+    # positive put
+    doc = self.db.get(self.tender_id)
+    doc["procurementMethodRationale"] = "Open"
+    self.db.save(doc)
+
+    response = self.app.put(
+        "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, bid_id, doc_id, bid_token),
+        upload_files=[("file", "name.doc", b"content3")],
+        status=200,
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    # negative patch
+    doc = self.db.get(self.tender_id)
+    doc["procurementMethodRationale"] = "simple"
+    self.db.save(doc)
+
+    response = self.app.patch_json(
+        "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, bid_id, doc_id, bid_token),
+        {"data": {"description": "document description"}},
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Can't upload document with ('active.qualification',) tender status and procurementMethodRationale simple"
+    )
+
+    # positive patch
+    doc = self.db.get(self.tender_id)
+    doc["procurementMethodRationale"] = "Open"
+    self.db.save(doc)
+
+    response = self.app.patch_json(
+        "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, bid_id, doc_id, bid_token),
+        {"data": {"description": "document description123"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(doc_id, response.json["data"]["id"])
+    self.assertEqual("document description123", response.json["data"]["description"])
+    
+
 def patch_tender_bid_document(self):
     response = self.app.post(
         "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
@@ -1091,6 +1198,73 @@ def create_tender_bid_document_nopending(self):
     )
 
 
+def create_tender_bid_document_invalid_pmr(self):
+    response = self.app.post_json(
+        "/tenders/{}/bids".format(self.tender_id),
+        {"data": {"tenderers": [test_organization], "value": {"amount": 500}}},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    bid = response.json["data"]
+    token = response.json["access"]["token"]
+    bid_id = bid["id"]
+    
+
+    # make tender procurementMethodRationale simple
+    doc = self.db.get(self.tender_id)
+    doc["procurementMethodRationale"] = "simple"
+    self.db.save(doc)
+
+    # make tender status active.qualification
+    self.set_status("active.qualification")
+
+    # add bid award in status pending
+    auth = self.app.authorization
+    self.app.authorization = ("Basic", ("token", ""))
+    response = self.app.post_json(
+        "/tenders/{}/awards".format(self.tender_id),
+        {
+            "data": {
+                "suppliers": [test_organization],
+                "status": "pending",
+                "bid_id": bid_id,
+                "value": {
+                    "amount": 500,
+                    
+                },
+            }
+        },
+    )
+    self.app.authorization = auth
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+   
+    # negative
+    response = self.app.post(
+        "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, token),
+        upload_files=[("file", "name.doc", b"content")],
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"][0]["description"], 
+        "Can't upload document with ('active.qualification',) tender status and procurementMethodRationale simple"
+    )
+    
+    # positive
+    doc = self.db.get(self.tender_id)
+    doc["procurementMethodRationale"] = "Open"
+    self.db.save(doc)
+    
+    response = self.app.post(
+        "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, token),
+        upload_files=[("file", "name.doc", b"content")],
+        status=201,
+    )
+    self.assertEqual(response.status, "201 Created")
+    
+    
 # TenderBidDocumentWithDSResourceTest
 
 
