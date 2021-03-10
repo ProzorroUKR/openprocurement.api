@@ -192,7 +192,7 @@ def validate_change_requirement_objects(request, **kwargs):
 
 def validate_put_requirement_objects(request, **kwargs):
     _validate_tender_first_revision_date(request, validation_date=CRITERION_REQUIREMENT_STATUSES_FROM)
-    valid_statuses = ["active.enquiries", "active.tendering"]
+    valid_statuses = ["active.enquiries"]
     base_validate_operation_ecriteria_objects(request, valid_statuses)
 
 
