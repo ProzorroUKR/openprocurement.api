@@ -878,7 +878,7 @@ def create_tender_invalid_config(self):
     "openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19",
     get_now() - timedelta(days=1)
 )
-def validate_enquiryTender(self):
+def validate_enquiry_period(self):
     self.initial_data.pop("procurementMethodDetails", None)
 
     request_path = "/tenders"
@@ -965,7 +965,7 @@ def validate_enquiryTender(self):
     "openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19",
     get_now() - timedelta(days=1)
 )
-def validate_tenderPeriod(self):
+def validate_tender_period(self):
     now = get_now()
 
     enquiry_start_date = now + timedelta(days=7)

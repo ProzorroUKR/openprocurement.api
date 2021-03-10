@@ -337,3 +337,6 @@ NEW_CONTRACTING_FROM = get_constant(CONSTANTS_CONFIG, "NEW_CONTRACTING_FROM")
 # Related lot is required
 
 RELATED_LOT_REQUIRED_FROM = get_constant(CONSTANTS_CONFIG, "RELATED_LOT_REQUIRED_FROM")
+
+# DST (daylight saving time) aware periods from
+DST_AWARE_PERIODS_FROM = parse_date("2020-10-25T03:00:00+03:00")

@@ -7,6 +7,8 @@ from copy import deepcopy
 from datetime import datetime, timedelta
 from mock import patch, MagicMock, call
 from pyramid.exceptions import URLDecodeError
+
+from openprocurement.api.utils import parse_date
 from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
 )
@@ -75,15 +77,6 @@ class TestUtils(TestUtilsBase):
         )
         self.assertEqual(tid, tender_id)
 
-    def test_calculate_tender_business_date(self):
-        date_obj = datetime(2017, 10, 7)
-        delta_obj = timedelta(days=7)
-
-        # Test with accelerator = 1440
-        context = {"procurementMethodDetails": "quick, accelerator=1440", "procurementMethodType": "negotiation"}
-        business_date = calculate_tender_business_date(date_obj, delta_obj, tender=context, working_days=True)
-        self.assertEqual(business_date, datetime(2017, 10, 7, 0, 7))
-
     @patch("openprocurement.tender.core.procedure.utils.decode_path_info")
     @patch("openprocurement.tender.core.procedure.utils.error_handler")
     def test_extract_tender_id(self, mocked_error_handler, mocked_decode_path):
@@ -132,6 +125,80 @@ class TestUtils(TestUtilsBase):
         request.registry.mongodb.tenders.get.return_value = tender_data
         doc = extract_tender_doc(request)
         self.assertEqual(doc, tender_data)
+
+
+class TestCalculateTenderBusinessDate(TestUtilsBase):
+    def test_working_days(self):
+        date_obj = parse_date("2020-11-07T12:00:00+02:00")
+        delta_obj = timedelta(days=7)
+
+        business_date = calculate_tender_business_date(date_obj, delta_obj, tender={}, working_days=True)
+        self.assertEqual(business_date.isoformat(), "2020-11-18T00:00:00+02:00")
+
+    def test_working_days_backwards(self):
+        date_obj = parse_date("2020-11-19T12:00:00+02:00")
+        delta_obj = -timedelta(days=7)
+
+        business_date = calculate_tender_business_date(date_obj, delta_obj, tender={}, working_days=True)
+        self.assertEqual(business_date.isoformat(), "2020-11-10T00:00:00+02:00")
+
+    def test_calendar_days(self):
+        date_obj = parse_date("2020-11-07T12:00:00+02:00")
+        delta_obj = timedelta(days=7)
+
+        business_date = calculate_tender_business_date(date_obj, delta_obj, tender={}, working_days=False)
+        self.assertEqual(business_date.isoformat(), "2020-11-15T00:00:00+02:00")
+
+    def test_calendar_days_backwards(self):
+        date_obj = parse_date("2020-11-15T12:00:00+02:00")
+        delta_obj = -timedelta(days=7)
+
+        business_date = calculate_tender_business_date(date_obj, delta_obj, tender={}, working_days=False)
+        self.assertEqual(business_date.isoformat(), "2020-11-08T00:00:00+02:00")
+
+    def test_working_days_dst_transition(self):
+        date_obj = parse_date("2021-03-10T12:00:00+02:00")
+        delta_obj = timedelta(days=30)
+
+        business_date = calculate_tender_business_date(date_obj, delta_obj, tender={}, working_days=True)
+        self.assertEqual(business_date.isoformat(), "2021-04-22T00:00:00+03:00")
+
+    def test_working_days_dst_transition_backwards(self):
+        date_obj = parse_date("2021-04-21T12:00:00+03:00")
+        delta_obj = -timedelta(days=30)
+
+        business_date = calculate_tender_business_date(date_obj, delta_obj, tender={}, working_days=True)
+        self.assertEqual(business_date.isoformat(), "2021-03-10T00:00:00+02:00")
+
+    def test_calendar_dst_transition(self):
+        date_obj = parse_date("2021-03-10T12:00:00+02:00")
+        delta_obj = timedelta(days=30)
+
+        business_date = calculate_tender_business_date(date_obj, delta_obj, tender={}, working_days=False)
+        self.assertEqual(business_date.isoformat(), "2021-04-10T00:00:00+03:00")
+
+    def test_calendar_dst_transition_backwards(self):
+        date_obj = parse_date("2021-04-10T12:00:00+03:00")
+        delta_obj = -timedelta(days=30)
+
+        business_date = calculate_tender_business_date(date_obj, delta_obj, tender={}, working_days=False)
+        self.assertEqual(business_date.isoformat(), "2021-03-11T00:00:00+02:00")
+
+    def test_calendar_dst_transition_backwards_from_midnight(self):
+        date_obj = parse_date("2021-04-10T00:00:00+03:00")
+        delta_obj = -timedelta(days=30)
+
+        business_date = calculate_tender_business_date(date_obj, delta_obj, tender={}, working_days=False)
+        self.assertEqual(business_date.isoformat(), "2021-03-11T00:00:00+02:00")
+
+    def test_with_accelerator(self):
+        date_obj = datetime(2021, 10, 7)
+        delta_obj = timedelta(days=7)
+
+        # Test with accelerator = 1440
+        context = {"procurementMethodDetails": "quick, accelerator=1440", "procurementMethodType": "negotiation"}
+        business_date = calculate_tender_business_date(date_obj, delta_obj, tender=context, working_days=True)
+        self.assertEqual(business_date, datetime(2021, 10, 7, 0, 7))
 
 
 def suite():
