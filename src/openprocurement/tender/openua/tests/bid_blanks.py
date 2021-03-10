@@ -2083,7 +2083,7 @@ def bid_activate(self):
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{'description': ['Must be answered on all criteria with source `tenderer`'],
+        [{'description': ['Must be answered on all criteria with source `tenderer` and GUARANTEE if declared'],
           'location': 'body',
           'name': 'requirementResponses'}]
     )
@@ -2239,7 +2239,7 @@ def bid_activate_with_cancelled_tenderer_criterion(self):
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{'description': ['Must be answered on all criteria with source `tenderer`'],
+        [{'description': ['Must be answered on all criteria with source `tenderer` and GUARANTEE if declared'],
           'location': 'body',
           'name': 'requirementResponses'}]
     )

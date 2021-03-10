@@ -1279,18 +1279,23 @@ class BidResponsesMixin(Model):
         all_answered_requirements = [i.requirement.id for i in requirementResponses]
 
         for criteria in tender.criteria:
-            if criteria.source != "tenderer":
+            if criteria.classification.id.endswith("GUARANTEE") and criteria.relatesTo == "lot":
+                for lotVal in data["lotValues"]:
+                    if criteria.relatedItem == lotVal["relatedLot"]:
+                        break
+                else:
+                    continue
+            elif criteria.source != "tenderer":
                 continue
-            else:
-                if tender_created > CRITERION_REQUIREMENT_STATUSES_FROM:
-                    active_requirements = [
-                        requirement
-                        for rg in criteria.requirementGroups
-                        for requirement in rg.requirements
-                        if requirement.status == "active"
-                    ]
-                    if not active_requirements:
-                        continue
+            if tender_created > CRITERION_REQUIREMENT_STATUSES_FROM:
+                active_requirements = [
+                    requirement
+                    for rg in criteria.requirementGroups
+                    for requirement in rg.requirements
+                    if requirement.status == "active"
+                ]
+                if not active_requirements:
+                    continue
 
             criteria_ids = {}
             group_answered_requirement_ids = {}
@@ -1305,7 +1310,9 @@ class BidResponsesMixin(Model):
                 criteria_ids[rg.id] = req_ids
 
             if not group_answered_requirement_ids:
-                raise ValidationError("Must be answered on all criteria with source `tenderer`")
+                raise ValidationError(
+                    "Must be answered on all criteria with source `tenderer` and GUARANTEE if declared"
+                )
 
             if len(group_answered_requirement_ids) > 1:
                 raise ValidationError("Inside criteria must be answered only one requirement group")

@@ -17,7 +17,7 @@ Content-Type: application/json; charset=UTF-8
   "errors": [
     {
       "description": [
-        "Must be answered on all criteria with source `tenderer`"
+        "Must be answered on all criteria with source `tenderer` and GUARANTEE if declared"
       ], 
       "location": "body", 
       "name": "requirementResponses"

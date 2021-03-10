@@ -25,6 +25,9 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_claim,
     test_draft_claim,
     test_criteria,
+    set_bid_lotvalues,
+    language_criterion,
+    GUARANTEE_ALLOWED_TENDER_TYPES,
 )
 
 # TenderTest
@@ -1928,11 +1931,14 @@ def tender_not_found(self):
 
 
 def guarantee(self):
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    data = deepcopy(self.initial_data)
+    data["status"] = "draft"
+    response = self.app.post_json("/tenders", {"data": data})
     self.assertEqual(response.status, "201 Created")
     self.assertNotIn("guarantee", response.json["data"])
     tender = response.json["data"]
     token = response.json["access"]["token"]
+
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": {"guarantee": {"amount": 55}}}
     )
@@ -1940,6 +1946,26 @@ def guarantee(self):
     self.assertIn("guarantee", response.json["data"])
     self.assertEqual(response.json["data"]["guarantee"]["amount"], 55)
     self.assertEqual(response.json["data"]["guarantee"]["currency"], "UAH")
+
+    with mock.patch("openprocurement.tender.core.validation.CRITERION_REQUIREMENT_STATUSES_FROM",
+                    get_now() - timedelta(days=1)):
+        if data["procurementMethodType"] in GUARANTEE_ALLOWED_TENDER_TYPES:
+            criterion = deepcopy(test_criteria)[0]
+            criterion["classification"]["id"] = "CRITERION.OTHER.BID.GUARANTEE"
+            self.app.post_json(
+                "/tenders/{}/criteria?acc_token={}".format(tender["id"], token),
+                {"data": test_criteria + language_criterion + [criterion]},
+                status=201
+            )
+
+            try:
+                self.app.patch_json(
+                    "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": {"status": "active.tendering"}},
+                )
+            except Exception as e:
+                self.app.patch_json(
+                    "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": {"status": "active.enquiries"}},
+                )
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": {"guarantee": {"currency": "USD"}}}
@@ -1964,7 +1990,6 @@ def guarantee(self):
     self.assertEqual(response.json["data"]["guarantee"]["amount"], 100500)
     self.assertEqual(response.json["data"]["guarantee"]["currency"], "USD")
 
-    data = deepcopy(self.initial_data)
     data["guarantee"] = {"amount": 100, "currency": "USD"}
     response = self.app.post_json("/tenders", {"data": data})
     self.assertEqual(response.status, "201 Created")
@@ -2784,3 +2809,247 @@ def patch_item_with_zero_quantity(self):
         [{'description': "Can't set to 0 quantity of {} item while related criterion "
                           "has active requirements".format(item["id"]),
           'location': 'body', 'name': 'data'}])
+
+
+@mock.patch("openprocurement.tender.core.validation.RELEASE_GUARANTEE_CRITERION_FROM", get_now() - timedelta(days=1))
+def tender_with_guarantee(self):
+    data = deepcopy(self.initial_data)
+    data["status"] = "draft"
+    response = self.app.post_json("/tenders", {"data": data})
+    self.tender_id = response.json["data"]["id"]
+    self.tender_token = response.json["access"]["token"]
+    criterion = deepcopy(test_criteria)[0]
+    criterion["classification"]["id"] = "CRITERION.OTHER.BID.GUARANTEE"
+    self.app.post_json(
+        "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": test_criteria + language_criterion},
+        status=201
+    )
+
+    self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"guarantee": {"amount": 0, "currency": "UAH"}}},
+        status=200)
+
+    self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"guarantee": {"amount": 1}}},
+        status=200)
+
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"status": "active.tendering"}},
+        status=403)
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Should be specified CRITERION.OTHER.BID.GUARANTEE and 'guarantee.amount' more than 0"
+            }
+        ]
+    )
+
+    self.app.post_json(
+        "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": [criterion]},
+        status=201
+    )
+    self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"status": "active.tendering"}},
+        status=200)
+
+
+@mock.patch("openprocurement.tender.core.validation.RELEASE_GUARANTEE_CRITERION_FROM", get_now() - timedelta(days=1))
+def tender_with_guarantee_multilot(self):
+    data = deepcopy(self.initial_data)
+    data["status"] = "draft"
+    lots = deepcopy(self.test_lots_data)
+    lots.append({
+        "title": "invalid lot title",
+        "description": "invalid lot description",
+        "value": {"amount": 500},
+        "minimalStep": {"amount": 15},
+    })
+    set_tender_lots(data, lots)
+
+    response = self.app.post_json("/tenders", {"data": data})
+    self.tender_id = response.json["data"]["id"]
+    self.tender_token = response.json["access"]["token"]
+
+    criterion = deepcopy(test_criteria)[0]
+    criterion["classification"]["id"] = "CRITERION.OTHER.BID.GUARANTEE"
+    criterion["relatesTo"] = "lot"
+    criterion["relatedItem"] = response.json["data"]["lots"][0]["id"]
+    self.app.post_json(
+        "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": test_criteria + language_criterion + [criterion]},
+        status=201
+    )
+
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"status": "active.tendering"}},
+        status=403
+    )
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Should be specified 'guarantee.amount' more than 0 to lot"
+            }
+        ]
+    )
+
+    self.app.patch_json(
+        "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, criterion["relatedItem"], self.tender_token),
+        {"data": {"guarantee": {"amount": 1, "currency": "UAH"}}},
+        status=200
+    )
+    self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"status": "active.tendering"}},
+        status=200
+    )
+
+
+@mock.patch("openprocurement.tender.core.validation.RELEASE_GUARANTEE_CRITERION_FROM", get_now() - timedelta(days=1))
+def activate_bid_guarantee_multilot(self):
+    data = deepcopy(self.initial_data)
+    data["status"] = "draft"
+    lots = deepcopy(self.test_lots_data)
+    lots.append({
+        "title": "invalid lot title",
+        "description": "invalid lot description",
+        "value": {"amount": 500},
+        "minimalStep": {"amount": 15},
+        "guarantee": {"amount": 1, "currency": "UAH"}
+    })
+    set_tender_lots(data, lots)
+
+    response = self.app.post_json("/tenders", {"data": data})
+    self.tender_id = response.json["data"]["id"]
+    self.tender_token = response.json["access"]["token"]
+    lots = response.json["data"]["lots"]
+
+    criterion = deepcopy(test_criteria)[0]
+    criterion["classification"]["id"] = "CRITERION.OTHER.BID.GUARANTEE"
+    criterion["relatesTo"] = "lot"
+    criterion["relatedItem"] = response.json["data"]["lots"][1]["id"]
+
+    criterion2 = deepcopy(test_criteria)[0]
+    criterion2["classification"]["id"] = "CRITERION.OTHER.CONTRACT.GUARANTEE"
+    criterion2["relatesTo"] = "lot"
+    criterion2["relatedItem"] = response.json["data"]["lots"][1]["id"]
+    criterion2["source"] = "winner"
+    self.app.post_json(
+        "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": test_criteria + language_criterion + [criterion, criterion2]},
+        status=201
+    )
+    self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"status": "active.tendering"}},
+        status=200
+    )
+
+    bid = deepcopy(self.test_bids_data)[0]
+    set_bid_lotvalues(bid, lots)
+    bid["status"] = "draft"
+    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid})
+    bid_id = response.json["data"]["id"]
+    bid_token = response.json["access"]["token"]
+
+    response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
+    self.assertEqual(response.content_type, "application/json")
+    criteria = response.json["data"]
+
+    rrs = []
+    lot_req = None
+    winner_req = None
+    for criterion in criteria:
+        for req in criterion["requirementGroups"][0]["requirements"]:
+            if criterion["source"] == "tenderer" and criterion["relatesTo"] != "lot":
+                rrs.append(
+                    {
+                        "title": "Requirement response",
+                        "description": "some description",
+                        "requirement": {
+                            "id": req["id"],
+                            "title": req["title"],
+                        },
+                        "value": True,
+                    },
+                )
+            elif criterion["source"] == "tenderer" and criterion["relatesTo"] == "lot":
+                lot_req = req
+            elif criterion["source"] == "winner" and criterion["relatesTo"] == "lot":
+                winner_req = req
+    response = self.app.post_json(
+        "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, bid_id, bid_token),
+        {"data": rrs},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+
+    response = self.app.patch_json(
+        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token),
+        {"data": {"status": "pending"}},
+        status=422
+    )
+    self.assertIn("errors", response.json)
+    self.assertEqual(
+        response.json["errors"],
+        [{u'description': [u'Must be answered on all criteria with source `tenderer` and GUARANTEE if declared'],
+          u'location': u'body',
+          u'name': u'requirementResponses'}]
+    )
+
+    lot_rr = [{
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+            "id": lot_req["id"],
+            "title": lot_req["title"],
+        },
+        "value": True,
+    }]
+    self.app.post_json(
+        "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, bid_id, bid_token),
+        {"data": lot_rr},
+        status=201
+    )
+
+    self.app.patch_json(
+        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token),
+        {"data": {"status": "pending"}},
+        status=422
+    )
+    self.assertIn("errors", response.json)
+    self.assertEqual(
+        response.json["errors"],
+        [{u'description': [u'Must be answered on all criteria with source `tenderer` and GUARANTEE if declared'],
+          u'location': u'body',
+          u'name': u'requirementResponses'}]
+    )
+
+    lot_rr = [{
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+            "id": winner_req["id"],
+            "title": winner_req["title"],
+        },
+        "value": True,
+    }]
+    self.app.post_json(
+        "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, bid_id, bid_token),
+        {"data": lot_rr},
+        status=201
+    )
+    self.app.patch_json(
+        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token),
+        {"data": {"status": "pending"}},
+        status=200
+    )

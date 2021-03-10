@@ -20,7 +20,7 @@ X-Content-Type-Options: nosniff
       "location": "body",
       "name": "requirementResponses",
       "description": [
-        "Must be answered on all criteria with source `tenderer`"
+        "Must be answered on all criteria with source `tenderer` and GUARANTEE if declared"
       ]
     }
   ]

@@ -9,7 +9,7 @@ from openprocurement.api.constants import (
 )
 from openprocurement.api.utils import get_now, parse_date
 
-from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_criteria
 from openprocurement.tender.core.utils import calculate_tender_business_date
 
 
@@ -625,6 +625,16 @@ def patch_tender(self):
         response.json["errors"][0],
         {"description": {"valueAddedTaxIncluded": "Rogue field"}, "location": "body", "name": "guarantee"},
     )
+
+    self.set_status("draft")
+    criterion = deepcopy(test_criteria)[0]
+    criterion["classification"]["id"] = "CRITERION.OTHER.BID.GUARANTEE"
+    self.app.post_json(
+        "/tenders/{}/criteria?acc_token={}".format(self.tender_id, owner_token),
+        {"data": [criterion]},
+        status=201
+    )
+    self.set_status("active.tendering")
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"guarantee": {"amount": 12}}}

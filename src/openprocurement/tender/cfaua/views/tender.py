@@ -15,6 +15,7 @@ from openprocurement.tender.core.validation import (
     validate_tender_activate_with_language_criteria,
     validate_item_quantity,
     validate_tender_guarantee,
+    validate_tender_guarantee_multilot,
 )
 from openprocurement.tender.belowthreshold.views.tender import TenderResource
 from openprocurement.tender.cfaua.utils import check_status, all_bids_are_reviewed, all_awards_are_reviewed
@@ -48,6 +49,7 @@ class TenderEUResource(TenderResource):
             validate_tender_activate_with_language_criteria,
             validate_item_quantity,
             validate_tender_guarantee,
+            validate_tender_guarantee_multilot,
         ),
         permission="edit_tender",
     )

@@ -955,6 +955,7 @@ def validate_tender_guarantee(request, **kwargs):
             or tender_type not in GUARANTEE_ALLOWED_TENDER_TYPES
             or request.validated["tender_src"]["status"] == data.get("status")
             or data.get("status") not in ["active", "active.tendering"]
+            or tender.get("lots")
     ):
         return
 
@@ -970,6 +971,35 @@ def validate_tender_guarantee(request, **kwargs):
             request,
             "Should be specified {} and 'guarantee.amount' more than 0".format(needed_criterion)
         )
+
+
+def validate_tender_guarantee_multilot(request, **kwargs):
+    tender = request.validated["tender"]
+    data = request.validated["data"]
+    tender_type = tender.procurementMethodType
+    tender_created = get_first_revision_date(tender, default=get_now())
+
+    if (
+            tender_created < RELEASE_GUARANTEE_CRITERION_FROM
+            or tender_type not in GUARANTEE_ALLOWED_TENDER_TYPES
+            or request.validated["tender_src"]["status"] == data.get("status")
+            or data.get("status") not in ["active", "active.tendering"]
+            or not tender.get("lots")
+    ):
+        return
+
+    related_guarantee_lots = []
+    for criterion in tender.criteria:
+        if criterion.classification.id.endswith("GUARANTEE") and criterion.get("relatesTo") == "lot":
+            related_guarantee_lots.append(criterion.get("relatedItem"))
+
+    for lot in tender.lots:
+        if lot.id in related_guarantee_lots:
+            if not lot.get("guarantee") or lot["guarantee"]["amount"] <= 0:
+                raise_operation_error(
+                    request,
+                    "Should be specified 'guarantee.amount' more than 0 to lot"
+                )
 
 
 def validate_tender_status_update_not_in_pre_qualificaton(request, **kwargs):
