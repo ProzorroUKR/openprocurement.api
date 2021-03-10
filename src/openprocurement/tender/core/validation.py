@@ -2045,15 +2045,20 @@ def validate_criterion_uniq(request, **kwargs):
         class_id = new_criterion["classification"]["id"]
         if class_id in new_criteria:
             if new_criterion.get("relatesTo") in ("lot", "item"):
-                if new_criterion["relatedItem"] in new_criteria[class_id]:
+                if new_criterion["relatedItem"] in new_criteria[class_id].get("lots", []):
                     raise_operation_error(request, "Criteria are not unique")
-                new_criteria[class_id].append(new_criterion["relatedItem"])
+                elif not new_criteria[class_id].get("lots", []):
+                    new_criteria[class_id]["lots"] = [new_criterion["relatedItem"]]
+                else:
+                    new_criteria[class_id]["lots"].append(new_criterion["relatedItem"])
+            elif not new_criteria[class_id].get("tenderer", False):
+                new_criteria[class_id] = {"tenderer": True}
             else:
                 raise_operation_error(request, "Criteria are not unique")
         elif new_criterion.get("relatesTo") in ("lot", "item"):
-            new_criteria[class_id] = [new_criterion["relatedItem"]]
+            new_criteria[class_id] = {"lots": [new_criterion["relatedItem"]]}
         else:
-            new_criteria[class_id] = []
+            new_criteria[class_id] = {"tenderer": True}
 
         for existed_criterion in criteria:
             if (
