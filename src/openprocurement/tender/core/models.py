@@ -139,6 +139,21 @@ def get_tender(model):
     return model
 
 
+def get_requirement_obj(requirement_id=None, parent=None):
+    if requirement_id and isinstance(parent, Model):
+        tender = get_tender(parent)
+        tender_creation = get_first_revision_date(tender, default=get_now())
+        for criteria in tender.criteria:
+            for group in criteria.requirementGroups:
+                for req in group.requirements[::-1]:
+                    if req.id == requirement_id:
+                        if (tender_creation > CRITERION_REQUIREMENT_STATUSES_FROM
+                                and req.status
+                                and req.status != DEFAULT_REQUIREMENT_STATUS):
+                            continue
+                        return req
+
+
 class TenderAuctionPeriod(Period):
     """The auction period."""
 
@@ -730,19 +745,11 @@ class Evidence(EligibleEvidence):
     def validate_type(self, data, value):
         parent = data["__parent__"]
         requirement_reference = parent.requirement
-        if value and requirement_reference and isinstance(parent, Model):
-            tender = get_tender(parent)
-            requirement = None
-            for criteria in tender.criteria:
-                for group in criteria.requirementGroups:
-                    for req in group.requirements:
-                        if req.id == requirement_reference.id:
-                            requirement = req
-                            break
-            if requirement:
-                evidences_type = [i.type for i in requirement.eligibleEvidences]
-                if evidences_type and value not in evidences_type:
-                    raise ValidationError("type should be one of eligibleEvidences types")
+        requirement = get_requirement_obj(requirement_reference.id, parent)
+        if requirement:
+            evidences_type = [i.type for i in requirement.eligibleEvidences]
+            if evidences_type and value not in evidences_type:
+                raise ValidationError("type should be one of eligibleEvidences types")
 
 
 class ExtendPeriod(Period):
@@ -983,21 +990,6 @@ class RequirementResponse(Model):
             return "edit_view"
         return "edit"
 
-    @staticmethod
-    def get_requirement_obj(requirement_id=None, parent=None):
-        if requirement_id and isinstance(parent, Model):
-            tender = get_tender(parent)
-            tender_creation = get_first_revision_date(tender, default=get_now())
-            for criteria in tender.criteria:
-                for group in criteria.requirementGroups:
-                    for req in group.requirements[::-1]:
-                        if req.id == requirement_id:
-                            if (tender_creation > CRITERION_REQUIREMENT_STATUSES_FROM
-                                    and req.status
-                                    and req.status != DEFAULT_REQUIREMENT_STATUS):
-                                return
-                            return req
-
     @bids_response_validation_wrapper
     def validate_relatedItem(self, data, relatedItem):
         parent = data["__parent__"]
@@ -1035,7 +1027,7 @@ class RequirementResponse(Model):
     def validate_requirement(self, data, requirement_ref):
         parent = data["__parent__"]
         requirement_ref_id = requirement_ref.get("id")
-        requirement = self.get_requirement_obj(requirement_ref_id, parent)
+        requirement = get_requirement_obj(requirement_ref_id, parent)
 
         if not requirement:
             raise ValidationError("requirement should be one of criteria requirements")
@@ -1062,7 +1054,7 @@ class RequirementResponse(Model):
             return
 
         parent = data["__parent__"]
-        requirement = self.get_requirement_obj(requirement_ref.get("id"), parent)
+        requirement = get_requirement_obj(requirement_ref.get("id"), parent)
 
         if requirement:
             data_type = requirement.dataType
