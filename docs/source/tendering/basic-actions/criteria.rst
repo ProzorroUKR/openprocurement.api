@@ -243,6 +243,19 @@ But field `eligibleEvidences` is forbidden
 .. include:: ../http/criteria/update-language-criterion-with-not-listed-lang.http
    :code:
 
+Bid guarantee criterion (available for tenders: `belowThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`).
+If specified, should be also specified `guarantee` for tender if criterion
+`relatesTo` = `'tender'` or `guarantee` for lot if `relatesTo` = `'lot'`
+
+.. include:: ../http/criteria/create-bid-guarantee-criterion.http
+   :code:
+
+Contract guarantee criterion (available for tenders: `belowThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`).
+For current criterion could be set only `source` = `'winner'`.
+`eligibleEvidences` could be added according to :ref:`bidding`
+
+.. include:: ../http/criteria/create-contract-guarantee-criterion.http
+   :code:
 
 .. _criteria_workflow:
 
