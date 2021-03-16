@@ -9,7 +9,10 @@ from openprocurement.api.validation import (
     validate_doc_accreditation_level_mode,
 )
 from openprocurement.framework.core.utils import get_framework_by_id, get_submission_by_id, get_agreement_by_id
-from openprocurement.framework.core.design import submissions_active_by_framework_id_count_view
+from openprocurement.framework.core.design import (
+    submissions_active_by_framework_id_count_view,
+    agreements_with_active_banned_contracts_view,
+)
 from openprocurement.framework.electroniccatalogue.models import Framework, Agreement
 
 
@@ -73,6 +76,19 @@ def validate_patch_submission_data(request, **kwargs):
         )
     request.validated["framework"] = framework
     return data
+
+
+def validate_with_active_banned_contracts(request, **kwargs):
+    db = request.registry.db
+    submission = request.validated["data"]
+    key = [submission["frameworkID"], submission["tenderers"][0]["identifier"]["id"]]
+    res = agreements_with_active_banned_contracts_view(db, key=key)
+    if res:
+        raise_operation_error(
+            request,
+            "Tenderer can't post submission with active/banned contract in agreement for framework {}".format(
+                submission['frameworkID'])
+        )
 
 
 def validate_operation_submission_in_not_allowed_period(request, **kwargs):

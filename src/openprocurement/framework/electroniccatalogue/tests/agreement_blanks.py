@@ -246,6 +246,21 @@ def patch_contract_active_status(self):
     self.assertEqual(response.json["data"]["status"], "active")
     self.assertEqual(response.json["data"]["contracts"][0]["status"], "active")
 
+    response = self.app.post_json(
+        "/submissions",
+        {"data": self.initial_submission_data},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [{'description': "Tenderer can't post submission with active/banned contract "
+                         f'in agreement for framework {self.framework_id}',
+          'location': 'body',
+          'name': 'data'}]
+    )
+
 
 def patch_several_contracts_active_status(self):
     response = self.app.patch_json(

@@ -17,6 +17,7 @@ from openprocurement.framework.core.utils import submissionsresource, save_submi
 from openprocurement.framework.core.validation import (
     validate_submission_data,
     validate_operation_submission_in_not_allowed_period,
+    validate_with_active_banned_contracts,
 )
 
 VIEW_MAP = {
@@ -55,6 +56,7 @@ class SubmissionResource(APIResourceListing):
         validators=(
             validate_submission_data,
             validate_operation_submission_in_not_allowed_period,
+            validate_with_active_banned_contracts,
         )
     )
     def post(self):
