@@ -249,13 +249,22 @@ def patch_contract_active_status(self):
     response = self.app.post_json(
         "/submissions",
         {"data": self.initial_submission_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    submission_id = response.json["data"]["id"]
+    submission_token = response.json["access"]["token"]
+
+    response = self.app.patch_json(
+        f"/submissions/{submission_id}?acc_token={submission_token}",
+        {"data": {"status": "active"}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{'description': "Tenderer can't post submission with active/banned contract "
+        [{'description': "Tenderer can't activate submission with active/banned contract "
                          f'in agreement for framework {self.framework_id}',
           'location': 'body',
           'name': 'data'}]

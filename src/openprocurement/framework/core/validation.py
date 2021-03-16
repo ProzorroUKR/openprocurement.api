@@ -78,19 +78,6 @@ def validate_patch_submission_data(request, **kwargs):
     return data
 
 
-def validate_with_active_banned_contracts(request, **kwargs):
-    db = request.registry.db
-    submission = request.validated["data"]
-    key = [submission["frameworkID"], submission["tenderers"][0]["identifier"]["id"]]
-    res = agreements_with_active_banned_contracts_view(db, key=key)
-    if res:
-        raise_operation_error(
-            request,
-            "Tenderer can't post submission with active/banned contract in agreement for framework {}".format(
-                submission['frameworkID'])
-        )
-
-
 def validate_operation_submission_in_not_allowed_period(request, **kwargs):
     framework = request.validated["framework"]
     enquiryPeriod = framework.get("enquiryPeriod")
@@ -172,6 +159,13 @@ def validate_activate_submission(request, **kwargs):
         raise_operation_error(
             request,
             "Tenderer already have active submission for framework {}".format(submission.frameworkID)
+        )
+    res = agreements_with_active_banned_contracts_view(db, key=key)
+    if res:
+        raise_operation_error(
+            request,
+            "Tenderer can't activate submission with active/banned contract in agreement for framework {}".format(
+                submission['frameworkID'])
         )
 
 
