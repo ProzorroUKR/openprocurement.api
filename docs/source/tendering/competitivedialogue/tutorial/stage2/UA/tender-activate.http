@@ -20,7 +20,6 @@ X-Content-Type-Options: nosniff
     "dateModified": "2021-03-16T00:00:00+02:00",
     "tenderID": "UA-2021-03-16-000001",
     "owner": "broker",
-    "awardCriteria": "lowestCost",
     "submissionMethod": "electronicAuction",
     "value": {
       "amount": 500.0,
@@ -62,6 +61,7 @@ X-Content-Type-Options: nosniff
     "auctionPeriod": {
       "shouldStartAfter": "2021-04-16T00:00:00+02:00"
     },
+    "awardCriteria": "lowestCost",
     "procurementMethodType": "competitiveDialogueUA.stage2",
     "shortlistedFirms": [
       {

@@ -50,7 +50,6 @@ X-Content-Type-Options: nosniff
       }
     ],
     "procurementMethod": "open",
-    "awardCriteria": "lowestCost",
     "submissionMethod": "electronicAuction",
     "value": {
       "amount": 500.0,
@@ -102,6 +101,7 @@ X-Content-Type-Options: nosniff
       },
       "kind": "general"
     },
+    "awardCriteria": "lowestCost",
     "procurementMethodType": "competitiveDialogueEU",
     "status": "active.tendering",
     "items": [

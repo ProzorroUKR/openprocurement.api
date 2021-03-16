@@ -10,6 +10,7 @@ from openprocurement.api.constants import (
 from openprocurement.api.utils import parse_date
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_lots
+from openprocurement.tender.openua.tests.base import lcc_criteria
 from openprocurement.tender.core.utils import calculate_tender_business_date
 
 # TenderUAResourceTest
@@ -1394,3 +1395,114 @@ def tender_finance_milestones(self):
     self.assertEqual(len(milestones), 2)
     self.assertEqual(milestones[0]["title"], tender["milestones"][0]["title"])
     self.assertEqual(milestones[1]["title"], new_title)
+
+
+def create_tender_with_criteria_lcc(self):
+    # create not lcc tender
+    data = dict(**self.initial_data)
+    response = self.app.post_json("/tenders", {"data": data})
+    self.assertEqual(response.status, "201 Created")
+    tender = response.json["data"]
+    self.assertNotEqual(tender["awardCriteria"], "lifeCycleCost")
+
+    token = response.json["access"]["token"]
+    self.tender_id = tender["id"]
+
+    # can not patch awardCriteria
+    tender_request_path = "/tenders/{}?acc_token={}".format(
+        self.tender_id,
+        token,
+    )
+    response = self.app.patch_json(tender_request_path, {
+        "data": {
+            "awardCriteria": "lifeCycleCost"
+        }
+    })
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(tender["awardCriteria"], response.json["data"]["awardCriteria"])
+
+    # can not add lcc criteria in not lcc tender
+    criteria_request_path = "/tenders/{}/criteria?acc_token={}".format(
+        self.tender_id,
+        token,
+    )
+    test_lcc_criteria = deepcopy(lcc_criteria)
+    response = self.app.post_json(criteria_request_path, {"data": [test_lcc_criteria[0]]}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": 0,
+            "description": {
+                "classification": {
+                    "id": [
+                        "{} is available only with lifeCycleCost awardCriteria".format(
+                            test_lcc_criteria[0]["classification"]["id"]
+                        )
+                    ]
+                }
+            }
+        }]
+    )
+
+    # can not create lcc tender with features
+    data["awardCriteria"] = "lifeCycleCost"
+    test_feature = {
+        "code": "OCDS-123454-AIR-INTAKE",
+        "featureOf": "tenderer",
+        "title": "test title",
+        "description": "test description",
+        "enum": [{"value": 0.1, "title": "test enum title"}, {"value": 0.15, "title": "test enum title 2"}],
+    }
+    data["features"] = [test_feature]
+
+    response = self.app.post_json("/tenders", {"data": data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "awardCriteria",
+            "description": [
+                "Can`t add features with lifeCycleCost awardCriteria"
+            ]
+        }]
+    )
+
+    # create lcc tender
+    data = dict(**self.initial_data)
+    data["awardCriteria"] = "lifeCycleCost"
+    response = self.app.post_json("/tenders", {"data": data})
+    self.assertEqual(response.status, "201 Created")
+    tender = response.json["data"]
+    self.assertEqual(tender["awardCriteria"], "lifeCycleCost")
+
+    token = response.json["access"]["token"]
+    self.tender_id = tender["id"]
+
+    # can not add features to lcc tender
+    tender_request_path = "/tenders/{}?acc_token={}".format(
+        self.tender_id,
+        token,
+    )
+    response = self.app.patch_json(tender_request_path, {
+        "data": {"features": [test_feature]}
+    }, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "awardCriteria",
+            "description": [
+                "Can`t add features with lifeCycleCost awardCriteria"
+            ]
+        }]
+    )

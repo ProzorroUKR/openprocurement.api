@@ -20,7 +20,11 @@ from openprocurement.api.models import (
     Identifier as BaseIdentifier,
     ContactPoint as BaseContactPoint,
 )
-from openprocurement.api.validation import validate_cpv_group, validate_items_uniq, validate_classification_id
+from openprocurement.api.validation import (
+    validate_cpv_group,
+    validate_items_uniq,
+    validate_classification_id,
+)
 from openprocurement.tender.core.models import (
     ITender,
     Bid as BaseBid,
@@ -48,6 +52,8 @@ from openprocurement.tender.core.models import (
     QualificationMilestoneListMixin,
     RequirementResponse,
     BidResponsesMixin,
+    AWARD_CRITERIA_LOWEST_COST,
+    AWARD_CRITERIA_LIFE_CYCLE_COST,
 )
 from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
@@ -66,6 +72,7 @@ from openprocurement.tender.core.validation import (
     validate_lotvalue_value,
     validate_relatedlot,
 )
+from openprocurement.tender.core.constants import CRITERION_LIFE_CYCLE_COST_IDS
 from openprocurement.tender.openua.models import (
     Complaint as BaseComplaint,
     Award as BaseAward,
@@ -74,7 +81,10 @@ from openprocurement.tender.openua.models import (
     Cancellation as BaseCancellation,
     Parameter,
 )
-from openprocurement.tender.openua.constants import COMPLAINT_SUBMIT_TIME, ENQUIRY_STAND_STILL_TIME
+from openprocurement.tender.openua.constants import (
+    COMPLAINT_SUBMIT_TIME,
+    ENQUIRY_STAND_STILL_TIME,
+)
 from openprocurement.tender.openeu.constants import (
     TENDERING_DURATION,
     QUESTIONS_STAND_STILL,
@@ -566,7 +576,7 @@ class Tender(BaseTender):
 
         _all_forbidden = whitelist()
         roles = {
-            "create": _parent_roles["create"] - whitelist("enquiryPeriod"),
+            "create": _parent_roles["create"] - whitelist("enquiryPeriod") + whitelist("awardCriteria"),
             "edit": _edit_role,
             "edit_draft": _edit_role + whitelist("status"),
             "edit_active.tendering": _edit_role,
@@ -600,7 +610,13 @@ class Tender(BaseTender):
             "contracting": _parent_roles["contracting"],
             "listing": _parent_roles["listing"],
         }
-
+    awardCriteria = StringType(
+        choices=[
+            AWARD_CRITERIA_LOWEST_COST,
+            AWARD_CRITERIA_LIFE_CYCLE_COST
+        ],
+        default=AWARD_CRITERIA_LOWEST_COST
+    )
     procurementMethodType = StringType(default="aboveThresholdEU")
     title_en = StringType(required=True, min_length=1)
 
@@ -681,6 +697,11 @@ class Tender(BaseTender):
 
         self._acl_cancellation_complaint(acl)
         return acl
+
+    def validate_awardCriteria(self, data, value):
+        if value == AWARD_CRITERIA_LIFE_CYCLE_COST:
+            if data.get("features", []):
+                raise ValidationError("Can`t add features with {} awardCriteria".format(AWARD_CRITERIA_LIFE_CYCLE_COST))
 
     def validate_enquiryPeriod(self, data, period):
         # for deactivate validation to enquiryPeriod from parent class

@@ -11,3 +11,4 @@ from openprocurement.tender.core.utils import optendersresource
 )
 class TenderESCOResource(TenderEUResource):
     """ Resource handler for Tender ESCO """
+

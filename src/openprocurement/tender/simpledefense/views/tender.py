@@ -11,3 +11,4 @@ from openprocurement.tender.openuadefense.views.tender import TenderUAResource
 )
 class TenderSimpleDefResource(TenderUAResource):
     """ Resource handler for TenderUA """
+

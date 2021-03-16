@@ -89,7 +89,6 @@ X-Content-Type-Options: nosniff
       }
     ],
     "procurementMethod": "open",
-    "awardCriteria": "lowestCost",
     "submissionMethod": "electronicAuction",
     "value": {
       "amount": 501.0,
@@ -161,6 +160,7 @@ X-Content-Type-Options: nosniff
       }
     ],
     "status": "active.tendering",
+    "awardCriteria": "lowestCost",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "identifier": {

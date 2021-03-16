@@ -47,7 +47,6 @@ X-Content-Type-Options: nosniff
       }
     ],
     "procurementMethod": "open",
-    "awardCriteria": "lowestCost",
     "submissionMethod": "electronicAuction",
     "value": {
       "amount": 501.0,
@@ -186,6 +185,7 @@ X-Content-Type-Options: nosniff
       "startDate": "2021-03-16T00:00:00+02:00",
       "endDate": "2021-03-21T00:00:00+02:00"
     },
+    "awardCriteria": "lowestCost",
     "procurementMethodType": "competitiveDialogueEU",
     "status": "active.pre-qualification.stand-still",
     "bids": [

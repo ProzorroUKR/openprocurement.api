@@ -42,8 +42,10 @@ from openprocurement.api.utils import (
     get_first_revision_date,
     get_root,
     get_criterion_requirement,
+    get_particular_parent_by_namespace,
 )
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF, FIRST_STAGE_PROCUREMENT_TYPES
+from openprocurement.tender.core.constants import CRITERION_LIFE_CYCLE_COST_IDS
 from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
     requested_fields_changes,
@@ -1981,7 +1983,11 @@ def validate_change_requirement_objects(request, **kwargs):
     valid_statuses = ["draft", "draft.pending", "draft.stage2"]
     tender = request.validated["tender"]
     tender_creation_date = get_first_revision_date(tender, default=get_now())
-    if tender_creation_date < CRITERION_REQUIREMENT_STATUSES_FROM:
+    criterion = get_particular_parent_by_namespace(request.context.__parent__, "Criterion")
+    if (
+        tender_creation_date < CRITERION_REQUIREMENT_STATUSES_FROM
+        or criterion.classification.id in CRITERION_LIFE_CYCLE_COST_IDS
+    ):
         valid_statuses.append("active.tendering")
     base_validate_operation_ecriteria_objects(request, valid_statuses)
 

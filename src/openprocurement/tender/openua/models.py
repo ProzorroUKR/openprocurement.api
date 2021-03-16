@@ -23,7 +23,11 @@ from openprocurement.api.models import (
 )
 from openprocurement.api.constants import TZ, RELEASE_2020_04_19, RELEASE_METRICS_FROM
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
-from openprocurement.api.validation import validate_cpv_group, validate_items_uniq, validate_classification_id
+from openprocurement.api.validation import (
+    validate_cpv_group,
+    validate_items_uniq,
+    validate_classification_id,
+)
 from openprocurement.tender.core.models import (
     view_bid_role,
     Administrator_bid_role,
@@ -52,6 +56,8 @@ from openprocurement.tender.core.models import (
     Metric,
     validate_metric_ids_uniq,
     validate_observation_ids_uniq,
+    AWARD_CRITERIA_LOWEST_COST,
+    AWARD_CRITERIA_LIFE_CYCLE_COST,
 )
 from openprocurement.tender.core.utils import (
     normalize_should_start_after,
@@ -69,6 +75,7 @@ from openprocurement.tender.core.validation import (
     validate_lotvalue_value,
     validate_relatedlot,
 )
+from openprocurement.tender.core.constants import CRITERION_LIFE_CYCLE_COST_IDS
 from openprocurement.tender.belowthreshold.models import Tender as BaseTender
 from openprocurement.tender.openua.constants import (
     ENQUIRY_STAND_STILL_TIME,
@@ -558,7 +565,7 @@ class Tender(BaseTender):
         _view_role = _parent_roles["view"] + _above_fields
         _all_forbidden = whitelist()
         roles = {
-            "create": _parent_roles["create"] + whitelist("targets"),
+            "create": _parent_roles["create"] + whitelist("targets", "awardCriteria"),
             "edit_draft": _edit_role + whitelist("status", "targets"),
             "edit": _edit_role,
             "edit_active.tendering": _edit_role + whitelist("targets"),
@@ -591,6 +598,13 @@ class Tender(BaseTender):
 
     __name__ = ""
 
+    awardCriteria = StringType(
+        choices=[
+            AWARD_CRITERIA_LOWEST_COST,
+            AWARD_CRITERIA_LIFE_CYCLE_COST
+        ],
+        default=AWARD_CRITERIA_LOWEST_COST
+    )
     enquiryPeriod = ModelType(EnquiryPeriod, required=False)
     tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
     auctionPeriod = ModelType(TenderAuctionPeriod, default={})
@@ -654,6 +668,11 @@ class Tender(BaseTender):
 
         self._acl_cancellation_complaint(acl)
         return acl
+
+    def validate_awardCriteria(self, data, value):
+        if value == AWARD_CRITERIA_LIFE_CYCLE_COST:
+            if data.get("features", []):
+                raise ValidationError("Can`t add features with {} awardCriteria".format(AWARD_CRITERIA_LIFE_CYCLE_COST))
 
     def validate_enquiryPeriod(self, data, period):
         # for deactivate validation to enquiryPeriod from parent class
